@@ -68,7 +68,7 @@ struct LogLikelihood1
 
 	template<typename Type>
 	__hydra_host__ __hydra_device__ inline
-	GReal_t operator()(Type& x) const
+	GReal_t operator()(Type x) const
 	{
 		return ::log(fNorm*fFunctor( x ));
 	}
@@ -95,7 +95,7 @@ struct LogLikelihood2
 
 	template<typename Args, typename Weights>
    	__hydra_host__ __hydra_device__ inline
-   	GReal_t operator()(Args& x, Weights& w) const
+   	GReal_t operator()(Args x, Weights w) const
    	{
 
 		double weight = 1.0;

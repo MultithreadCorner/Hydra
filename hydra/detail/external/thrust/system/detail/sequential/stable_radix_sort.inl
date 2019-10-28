@@ -39,12 +39,12 @@ namespace radix_sort_detail
 
 
 template <typename T>
-struct RadixEncoder : public thrust::identity<T>
+struct RadixEncoder : public HYDRA_EXTERNAL_NS::thrust::identity<T>
 {};
 
 
 template <>
-struct RadixEncoder<char> : public thrust::unary_function<char, unsigned char>
+struct RadixEncoder<char> : public HYDRA_EXTERNAL_NS::thrust::unary_function<char, unsigned char>
 {
   __hydra_host__ __hydra_device__
   unsigned char operator()(char x) const
@@ -61,7 +61,7 @@ struct RadixEncoder<char> : public thrust::unary_function<char, unsigned char>
 };
 
 template <>
-struct RadixEncoder<signed char> : public thrust::unary_function<signed char, unsigned char>
+struct RadixEncoder<signed char> : public HYDRA_EXTERNAL_NS::thrust::unary_function<signed char, unsigned char>
 {
   __hydra_host__ __hydra_device__
   unsigned char operator()(signed char x) const
@@ -71,7 +71,7 @@ struct RadixEncoder<signed char> : public thrust::unary_function<signed char, un
 };
 
 template <>
-struct RadixEncoder<short> : public thrust::unary_function<short, unsigned short>
+struct RadixEncoder<short> : public HYDRA_EXTERNAL_NS::thrust::unary_function<short, unsigned short>
 {
   __hydra_host__ __hydra_device__
   unsigned short operator()(short x) const
@@ -81,7 +81,7 @@ struct RadixEncoder<short> : public thrust::unary_function<short, unsigned short
 };
 
 template <>
-struct RadixEncoder<int> : public thrust::unary_function<int, unsigned int>
+struct RadixEncoder<int> : public HYDRA_EXTERNAL_NS::thrust::unary_function<int, unsigned int>
 {
   __hydra_host__ __hydra_device__
   unsigned long operator()(long x) const
@@ -91,7 +91,7 @@ struct RadixEncoder<int> : public thrust::unary_function<int, unsigned int>
 };
 
 template <>
-struct RadixEncoder<long> : public thrust::unary_function<long, unsigned long>
+struct RadixEncoder<long> : public HYDRA_EXTERNAL_NS::thrust::unary_function<long, unsigned long>
 {
   __hydra_host__ __hydra_device__
   unsigned long operator()(long x) const
@@ -101,7 +101,7 @@ struct RadixEncoder<long> : public thrust::unary_function<long, unsigned long>
 };
 
 template <>
-struct RadixEncoder<long long> : public thrust::unary_function<long long, unsigned long long>
+struct RadixEncoder<long long> : public HYDRA_EXTERNAL_NS::thrust::unary_function<long long, unsigned long long>
 {
   __hydra_host__ __hydra_device__
   unsigned long long operator()(long long x) const
@@ -112,27 +112,27 @@ struct RadixEncoder<long long> : public thrust::unary_function<long long, unsign
 
 // ideally we'd use uint32 here and uint64 below
 template <>
-struct RadixEncoder<float> : public thrust::unary_function<float, thrust::detail::uint32_t>
+struct RadixEncoder<float> : public HYDRA_EXTERNAL_NS::thrust::unary_function<float, HYDRA_EXTERNAL_NS::thrust::detail::uint32_t>
 {
   __hydra_host__ __hydra_device__
-  thrust::detail::uint32_t operator()(float x) const
+  HYDRA_EXTERNAL_NS::thrust::detail::uint32_t operator()(float x) const
   {
-    union { float f; thrust::detail::uint32_t i; } u;
+    union { float f; HYDRA_EXTERNAL_NS::thrust::detail::uint32_t i; } u;
     u.f = x;
-    thrust::detail::uint32_t mask = -static_cast<thrust::detail::int32_t>(u.i >> 31) | (static_cast<thrust::detail::uint32_t>(1) << 31);
+    HYDRA_EXTERNAL_NS::thrust::detail::uint32_t mask = -static_cast<HYDRA_EXTERNAL_NS::thrust::detail::int32_t>(u.i >> 31) | (static_cast<HYDRA_EXTERNAL_NS::thrust::detail::uint32_t>(1) << 31);
     return u.i ^ mask;
   }
 };
 
 template <>
-struct RadixEncoder<double> : public thrust::unary_function<double, thrust::detail::uint64_t>
+struct RadixEncoder<double> : public HYDRA_EXTERNAL_NS::thrust::unary_function<double, HYDRA_EXTERNAL_NS::thrust::detail::uint64_t>
 {
   __hydra_host__ __hydra_device__
-  thrust::detail::uint64_t operator()(double x) const
+  HYDRA_EXTERNAL_NS::thrust::detail::uint64_t operator()(double x) const
   {
-    union { double f; thrust::detail::uint64_t i; } u;
+    union { double f; HYDRA_EXTERNAL_NS::thrust::detail::uint64_t i; } u;
     u.f = x;
-    thrust::detail::uint64_t mask = -static_cast<thrust::detail::int64_t>(u.i >> 63) | (static_cast<thrust::detail::uint64_t>(1) << 63);
+    HYDRA_EXTERNAL_NS::thrust::detail::uint64_t mask = -static_cast<HYDRA_EXTERNAL_NS::thrust::detail::int64_t>(u.i >> 63) | (static_cast<HYDRA_EXTERNAL_NS::thrust::detail::uint64_t>(1) << 63);
     return u.i ^ mask;
   }
 };
@@ -182,12 +182,12 @@ void radix_shuffle_n(sequential::execution_policy<DerivedPolicy> &exec,
                      Integer bit_shift,
                      size_t *histogram)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type KeyType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator1>::type KeyType;
 
   // note that we are going to mutate the histogram during this sequential scatter
-  thrust::scatter(exec,
+  HYDRA_EXTERNAL_NS::thrust::scatter(exec,
                   first, first + n,
-                  thrust::make_transform_iterator(first, bucket_functor<RadixBits,KeyType>(bit_shift, histogram)),
+                  HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(first, bucket_functor<RadixBits,KeyType>(bit_shift, histogram)),
                   result);
 }
 
@@ -209,14 +209,14 @@ void radix_shuffle_n(sequential::execution_policy<DerivedPolicy> &exec,
                      Integer bit_shift,
                      size_t *histogram)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type KeyType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator1>::type KeyType;
 
   // note that we are going to mutate the histogram during this sequential scatter
-  thrust::scatter(exec,
-                  thrust::make_zip_iterator(thrust::make_tuple(keys_first, values_first)),
-                  thrust::make_zip_iterator(thrust::make_tuple(keys_first + n, values_first + n)),
-                  thrust::make_transform_iterator(keys_first, bucket_functor<RadixBits,KeyType>(bit_shift, histogram)),
-                  thrust::make_zip_iterator(thrust::make_tuple(keys_result, values_result)));
+  HYDRA_EXTERNAL_NS::thrust::scatter(exec,
+                  HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(keys_first, values_first)),
+                  HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(keys_first + n, values_first + n)),
+                  HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(keys_first, bucket_functor<RadixBits,KeyType>(bit_shift, histogram)),
+                  HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(keys_result, values_result)));
 }
 
 
@@ -235,7 +235,7 @@ void radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
                 RandomAccessIterator4 vals2,
                 const size_t N)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type KeyType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator1>::type KeyType;
 
   typedef RadixEncoder<KeyType> Encoder;
   typedef typename Encoder::result_type EncodedType;
@@ -323,11 +323,11 @@ void radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
   // ensure final values are in (keys1,vals1)
   if(flip)
   {
-    thrust::copy(exec, keys2, keys2 + N, keys1);
+    HYDRA_EXTERNAL_NS::thrust::copy(exec, keys2, keys2 + N, keys1);
 
     if(HasValues)
     {
-      thrust::copy(exec, vals2, vals2 + N, vals1);
+      HYDRA_EXTERNAL_NS::thrust::copy(exec, vals2, vals2 + N, vals1);
     }
   }
 }
@@ -524,7 +524,7 @@ void radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
                 RandomAccessIterator2 keys2,
                 const size_t N)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type KeyType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator1>::type KeyType;
   radix_sort_dispatcher<sizeof(KeyType)>()(exec, keys1, keys2, N);
 }
 
@@ -542,7 +542,7 @@ void radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
                 RandomAccessIterator4 vals2,
                 const size_t N)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type KeyType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator1>::type KeyType;
   radix_sort_dispatcher<sizeof(KeyType)>()(exec, keys1, keys2, vals1, vals2, N);
 }
 
@@ -557,11 +557,11 @@ void stable_radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
                        RandomAccessIterator first,
                        RandomAccessIterator last)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator>::type KeyType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator>::type KeyType;
 
   size_t N = last - first;
   
-  thrust::detail::temporary_array<KeyType, DerivedPolicy> temp(exec, N);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<KeyType, DerivedPolicy> temp(exec, N);
   
   radix_sort_detail::radix_sort(exec, first, temp.begin(), N);
 }
@@ -576,13 +576,13 @@ void stable_radix_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
                               RandomAccessIterator1 last1,
                               RandomAccessIterator2 first2)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type KeyType;
-  typedef typename thrust::iterator_value<RandomAccessIterator2>::type ValueType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator1>::type KeyType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator2>::type ValueType;
 
   size_t N = last1 - first1;
   
-  thrust::detail::temporary_array<KeyType, DerivedPolicy>   temp1(exec, N);
-  thrust::detail::temporary_array<ValueType, DerivedPolicy> temp2(exec, N);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<KeyType, DerivedPolicy>   temp1(exec, N);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<ValueType, DerivedPolicy> temp2(exec, N);
 
   radix_sort_detail::radix_sort(exec, first1, temp1.begin(), first2, temp2.begin(), N);
 }
@@ -592,5 +592,4 @@ void stable_radix_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END

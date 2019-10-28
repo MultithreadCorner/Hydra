@@ -26,7 +26,7 @@ namespace detail
 
 template<typename System, typename Allocator, typename InputIterator, typename Pointer>
 __hydra_host__ __hydra_device__
-  Pointer copy_construct_range(thrust::execution_policy<System> &from_system,
+  Pointer copy_construct_range(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &from_system,
                                Allocator &a,
                                InputIterator first,
                                InputIterator last,
@@ -34,17 +34,14 @@ __hydra_host__ __hydra_device__
 
 template<typename System, typename Allocator, typename InputIterator, typename Size, typename Pointer>
 __hydra_host__ __hydra_device__
-  Pointer copy_construct_range_n(thrust::execution_policy<System> &from_system,
+  Pointer copy_construct_range_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<System> &from_system,
                                  Allocator &a,
                                  InputIterator first,
                                  Size n,
                                  Pointer result);
 
 } // end detail
-} // end thrust
-
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 HYDRA_EXTERNAL_NAMESPACE_END
-
-
 #include <hydra/detail/external/thrust/detail/allocator/copy_construct_range.inl>
 

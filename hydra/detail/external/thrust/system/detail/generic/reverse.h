@@ -32,7 +32,7 @@ namespace generic
 
 template<typename DerivedPolicy, typename BidirectionalIterator>
 __hydra_host__ __hydra_device__
-  void reverse(thrust::execution_policy<DerivedPolicy> &exec,
+  void reverse(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                BidirectionalIterator first,
                BidirectionalIterator last);
 
@@ -41,7 +41,7 @@ template<typename DerivedPolicy,
          typename BidirectionalIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator reverse_copy(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator reverse_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                               BidirectionalIterator first,
                               BidirectionalIterator last,
                               OutputIterator result);
@@ -51,8 +51,6 @@ __hydra_host__ __hydra_device__
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/reverse.inl>
 

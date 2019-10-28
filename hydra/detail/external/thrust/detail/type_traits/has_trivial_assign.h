@@ -50,6 +50,7 @@ template<typename T> struct has_trivial_assign
 
 } // end detail
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

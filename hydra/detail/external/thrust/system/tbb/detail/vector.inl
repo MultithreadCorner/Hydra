@@ -62,7 +62,7 @@ template<typename T, typename Allocator>
 template<typename T, typename Allocator>
   template<typename OtherT, typename OtherAllocator>
     vector<T,Allocator>
-      ::vector(const thrust::detail::vector_base<OtherT,OtherAllocator> &x)
+      ::vector(const HYDRA_EXTERNAL_NS::thrust::detail::vector_base<OtherT,OtherAllocator> &x)
         : super_t(x)
 {}
 
@@ -114,7 +114,7 @@ template<typename T, typename Allocator>
   template<typename OtherT, typename OtherAllocator>
     vector<T,Allocator> &
       vector<T,Allocator>
-        ::operator=(const thrust::detail::vector_base<OtherT,OtherAllocator> &x)
+        ::operator=(const HYDRA_EXTERNAL_NS::thrust::detail::vector_base<OtherT,OtherAllocator> &x)
 {
   super_t::operator=(x);
   return *this;
@@ -122,6 +122,6 @@ template<typename T, typename Allocator>
     
 } // end tbb
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

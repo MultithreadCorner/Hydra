@@ -16,30 +16,36 @@
 
 #pragma once
 
-#include <hydra/detail/external/thrust/detail/config.h>
-#include <hydra/detail/external/thrust/system/cuda/detail/execution_policy.h>
-#include <hydra/detail/external/thrust/detail/raw_pointer_cast.h>
 #include <hydra/detail/external/thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
-#include <hydra/detail/external/thrust/system/system_error.h>
-#include <hydra/detail/external/thrust/system/cuda/error.h>
-#include <hydra/detail/external/thrust/system/detail/bad_alloc.h>
-#include <hydra/detail/external/thrust/system/cuda/detail/throw_on_error.h>
-#include <hydra/detail/external/thrust/detail/malloc_and_free.h>
+
+#include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/detail/seq.h>
+#include <hydra/detail/external/thrust/memory.h>
+#include <hydra/detail/external/thrust/system/cuda/config.h>
+#ifdef HYDRA_THRUST_CACHING_DEVICE_MALLOC
+#include <hydra/detail/external/thrust/system/cuda/detail/cub/util_allocator.cuh>
+#endif
+#include <hydra/detail/external/thrust/system/cuda/detail/util.h>
+#include <hydra/detail/external/thrust/system/detail/bad_alloc.h>
 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN
+HYDRA_THRUST_BEGIN_NS
+namespace cuda_cub {
 
-HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+#ifdef HYDRA_THRUST_CACHING_DEVICE_MALLOC
+#define __CUB_CACHING_MALLOC
+#ifndef __CUDA_ARCH__
+inline cub::CachingDeviceAllocator &get_allocator()
 {
-namespace system
-{
-namespace cuda
-{
-namespace detail
-{
+  static cub::CachingDeviceAllocator g_allocator(true);
+  return g_allocator;
+}
+#endif
+#endif
 
 
 // note that malloc returns a raw pointer to avoid
-// depending on the heavyweight hydra/detail/external/thrust/system/cuda/memory.h header
+// depending on the heavyweight thrust/system/cuda/memory.h header
 template<typename DerivedPolicy>
 __hydra_host__ __hydra_device__
 void *malloc(execution_policy<DerivedPolicy> &, std::size_t n)
@@ -47,15 +53,20 @@ void *malloc(execution_policy<DerivedPolicy> &, std::size_t n)
   void *result = 0;
 
 #ifndef __CUDA_ARCH__
-  // XXX use cudaMalloc in __hydra_device__ code when it becomes available
-  cudaError_t error = cudaMalloc(reinterpret_cast<void**>(&result), n);
-
-  if(error)
-  {
-    throw thrust::system::detail::bad_alloc(thrust::cuda_category().message(error).c_str());
-  } // end if
+#ifdef __CUB_CACHING_MALLOC
+  cub::CachingDeviceAllocator &alloc = get_allocator();
+  cudaError_t status = alloc.DeviceAllocate(&result, n);
 #else
-  result = thrust::raw_pointer_cast(thrust::malloc(thrust::seq, n));
+  cudaError_t status = cudaMalloc(&result, n);
+#endif
+
+  if(status != cudaSuccess)
+  {
+  //  cuda_cub::throw_on_error(status, "device malloc failed");
+    HYDRA_EXTERNAL_NS::thrust::system::detail::bad_alloc(HYDRA_EXTERNAL_NS::thrust::cuda_category().message(status).c_str());
+  } 
+#else
+  result = HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(HYDRA_EXTERNAL_NS::thrust::malloc(HYDRA_EXTERNAL_NS::thrust::seq, n));
 #endif
 
   return result;
@@ -67,17 +78,18 @@ __hydra_host__ __hydra_device__
 void free(execution_policy<DerivedPolicy> &, Pointer ptr)
 {
 #ifndef __CUDA_ARCH__
-  // XXX use cudaFree in __hydra_device__ code when it becomes available
-  throw_on_error(cudaFree(thrust::raw_pointer_cast(ptr)), "cudaFree in free");
+#ifdef __CUB_CACHING_MALLOC
+  cub::CachingDeviceAllocator &alloc = get_allocator();
+  cudaError_t status = alloc.DeviceFree(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(ptr));
 #else
-  thrust::free(thrust::seq, ptr);
+  cudaError_t status = cudaFree(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(ptr));
+#endif
+  cuda_cub::throw_on_error(status, "device free failed");
+#else
+  HYDRA_EXTERNAL_NS::thrust::free(HYDRA_EXTERNAL_NS::thrust::seq, ptr);
 #endif
 } // end free()
 
-
-} // end detail
-} // end cuda
-} // end system
-} // end thrust
-
+}    // namespace cuda_cub
+HYDRA_THRUST_END_NS
 HYDRA_EXTERNAL_NAMESPACE_END

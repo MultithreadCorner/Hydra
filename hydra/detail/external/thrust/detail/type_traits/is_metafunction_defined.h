@@ -29,7 +29,7 @@ __HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(is_metafunction_defined, type)
 
 template<typename Metafunction>
   struct enable_if_defined
-    : thrust::detail::lazy_enable_if<
+    : HYDRA_EXTERNAL_NS::thrust::detail::lazy_enable_if<
         is_metafunction_defined<Metafunction>::value,
         Metafunction
       >
@@ -37,6 +37,7 @@ template<typename Metafunction>
 
 } // end detail
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

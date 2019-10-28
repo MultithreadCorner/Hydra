@@ -15,7 +15,7 @@
  */
 
 
-/*! \file copy.h
+/*! \file thrust/copy.h
  *  \brief Copies elements from one range to another
  */
 
@@ -63,7 +63,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \pre \p result may be equal to \p first, but \p result shall not be in the range <tt>[first, last)</tt> otherwise.
  *
  *  The following code snippet demonstrates how to use \p copy
- *  to copy from one range to another using the \p thrust::device parallelization policy:
+ *  to copy from one range to another using the \p HYDRA_EXTERNAL_NS::thrust::device parallelization policy:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/copy.h>
@@ -71,18 +71,18 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
  *
- *  thrust::device_vector<int> vec0(100);
- *  thrust::device_vector<int> vec1(100);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec0(100);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec1(100);
  *  ...
  *
- *  thrust::copy(thrust::device, vec0.begin(), vec0.end(), vec1.begin());
+ *  HYDRA_EXTERNAL_NS::thrust::copy(HYDRA_EXTERNAL_NS::thrust::device, vec0.begin(), vec0.end(), vec1.begin());
  *
  *  // vec1 is now a copy of vec0
  *  \endcode
  */
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       OutputIterator result);
@@ -114,7 +114,7 @@ __hydra_host__ __hydra_device__
  *  \pre \p result may be equal to \p first, but \p result shall not be in the range <tt>[first, first + n)</tt> otherwise.
  *
  *  The following code snippet demonstrates how to use \p copy
- *  to copy from one range to another using the \p thrust::device parallelization policy:
+ *  to copy from one range to another using the \p HYDRA_EXTERNAL_NS::thrust::device parallelization policy:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/copy.h>
@@ -122,20 +122,20 @@ __hydra_host__ __hydra_device__
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
  *  size_t n = 100;
- *  thrust::device_vector<int> vec0(n);
- *  thrust::device_vector<int> vec1(n);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec0(n);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec1(n);
  *  ...
- *  thrust::copy_n(thrust::device, vec0.begin(), n, vec1.begin());
+ *  HYDRA_EXTERNAL_NS::thrust::copy_n(HYDRA_EXTERNAL_NS::thrust::device, vec0.begin(), n, vec1.begin());
  *
  *  // vec1 is now a copy of vec0
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/copy_n.html
- *  \see thrust::copy
+ *  \see HYDRA_EXTERNAL_NS::thrust::copy
  */
 template<typename DerivedPolicy, typename InputIterator, typename Size, typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator copy_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator copy_n(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                         InputIterator first,
                         Size n,
                         OutputIterator result);
@@ -172,11 +172,11 @@ __hydra_host__ __hydra_device__
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
  *
- *  thrust::device_vector<int> vec0(100);
- *  thrust::device_vector<int> vec1(100);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec0(100);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec1(100);
  *  ...
  *
- *  thrust::copy(vec0.begin(), vec0.end(),
+ *  HYDRA_EXTERNAL_NS::thrust::copy(vec0.begin(), vec0.end(),
  *               vec1.begin());
  *
  *  // vec1 is now a copy of vec0
@@ -216,16 +216,16 @@ template<typename InputIterator, typename OutputIterator>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
  *  size_t n = 100;
- *  thrust::device_vector<int> vec0(n);
- *  thrust::device_vector<int> vec1(n);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec0(n);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec1(n);
  *  ...
- *  thrust::copy_n(vec0.begin(), n, vec1.begin());
+ *  HYDRA_EXTERNAL_NS::thrust::copy_n(vec0.begin(), n, vec1.begin());
  *
  *  // vec1 is now a copy of vec0
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/copy_n.html
- *  \see thrust::copy
+ *  \see HYDRA_EXTERNAL_NS::thrust::copy
  */
 template<typename InputIterator, typename Size, typename OutputIterator>
   OutputIterator copy_n(InputIterator first,
@@ -269,7 +269,7 @@ template<typename InputIterator, typename Size, typename OutputIterator>
  *  \pre The ranges <tt>[first, last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p copy_if to perform stream compaction
- *  to copy even numbers to an output range using the \p thrust::host parallelization policy:
+ *  to copy even numbers to an output range using the \p HYDRA_EXTERNAL_NS::thrust::host parallelization policy:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/copy.h>
@@ -288,7 +288,7 @@ template<typename InputIterator, typename Size, typename OutputIterator>
  *  int V[N] = {-2, 0, -1, 0, 1, 2};
  *  int result[4];
  *
- *  thrust::copy_if(thrust::host, V, V + N, result, is_even());
+ *  HYDRA_EXTERNAL_NS::thrust::copy_if(HYDRA_EXTERNAL_NS::thrust::host, V, V + N, result, is_even());
  *
  *  // V remains {-2, 0, -1, 0, 1, 2}
  *  // result is now {-2, 0, 0, 2}
@@ -298,7 +298,7 @@ template<typename InputIterator, typename Size, typename OutputIterator>
  */
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-  OutputIterator copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator copy_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator first,
                          InputIterator last,
                          OutputIterator result,
@@ -349,7 +349,7 @@ __hydra_host__ __hydra_device__
  *  int V[N] = {-2, 0, -1, 0, 1, 2};
  *  int result[4];
  *
- *  thrust::copy_if(V, V + N, result, is_even());
+ *  HYDRA_EXTERNAL_NS::thrust::copy_if(V, V + N, result, is_even());
  *
  *  // V remains {-2, 0, -1, 0, 1, 2}
  *  // result is now {-2, 0, 0, 2}
@@ -398,7 +398,7 @@ template<typename InputIterator,
  *  \pre The ranges <tt>[stencil, stencil + (last - first))</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p copy_if to perform stream compaction
- *  to copy numbers to an output range when corresponding stencil elements are even using the \p thrust::host execution policy:
+ *  to copy numbers to an output range when corresponding stencil elements are even using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/copy.h>
@@ -418,7 +418,7 @@ template<typename InputIterator,
  *  int stencil[N] = {-2, 0, -1, 0, 1, 2};
  *  int result[4];
  *
- *  thrust::copy_if(thrust::host, data, data + N, stencil, result, is_even());
+ *  HYDRA_EXTERNAL_NS::thrust::copy_if(HYDRA_EXTERNAL_NS::thrust::host, data, data + N, stencil, result, is_even());
  *
  *  // data remains    = { 0, 1,  2, 3, 4, 5};
  *  // stencil remains = {-2, 0, -1, 0, 1, 2};
@@ -429,7 +429,7 @@ template<typename InputIterator,
  */
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-  OutputIterator copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator copy_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator1 first,
                          InputIterator1 last,
                          InputIterator2 stencil,
@@ -484,7 +484,7 @@ __hydra_host__ __hydra_device__
  *  int stencil[N] = {-2, 0, -1, 0, 1, 2};
  *  int result[4];
  *
- *  thrust::copy_if(data, data + N, stencil, result, is_even());
+ *  HYDRA_EXTERNAL_NS::thrust::copy_if(data, data + N, stencil, result, is_even());
  *
  *  // data remains    = { 0, 1,  2, 3, 4, 5};
  *  // stencil remains = {-2, 0, -1, 0, 1, 2};

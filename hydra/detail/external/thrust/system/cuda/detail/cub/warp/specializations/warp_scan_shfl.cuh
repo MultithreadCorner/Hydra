@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -39,7 +39,7 @@
 #include "../../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  HYDRA_THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -97,7 +97,7 @@ struct WarpScanShfl
     //---------------------------------------------------------------------
 
     /// Constructor
-    __hydra_device__ __forceinline__ WarpScanShfl(
+    __device__ __forceinline__ WarpScanShfl(
         TempStorage &/*temp_storage*/)
     :
         lane_id(LaneId()),
@@ -113,7 +113,7 @@ struct WarpScanShfl
     //---------------------------------------------------------------------
 
     /// Inclusive prefix scan step (specialized for summation across int32 types)
-    __hydra_device__ __forceinline__ int InclusiveScanStep(
+    __device__ __forceinline__ int InclusiveScanStep(
         int             input,              ///< [in] Calling thread's input item.
         cub::Sum        /*scan_op*/,        ///< [in] Binary scan operator
         int             first_lane,         ///< [in] Index of first lane in segment
@@ -149,7 +149,7 @@ struct WarpScanShfl
     }
 
     /// Inclusive prefix scan step (specialized for summation across uint32 types)
-    __hydra_device__ __forceinline__ unsigned int InclusiveScanStep(
+    __device__ __forceinline__ unsigned int InclusiveScanStep(
         unsigned int    input,              ///< [in] Calling thread's input item.
         cub::Sum        /*scan_op*/,        ///< [in] Binary scan operator
         int             first_lane,         ///< [in] Index of first lane in segment
@@ -186,7 +186,7 @@ struct WarpScanShfl
 
 
     /// Inclusive prefix scan step (specialized for summation across fp32 types)
-    __hydra_device__ __forceinline__ float InclusiveScanStep(
+    __device__ __forceinline__ float InclusiveScanStep(
         float           input,              ///< [in] Calling thread's input item.
         cub::Sum        /*scan_op*/,        ///< [in] Binary scan operator
         int             first_lane,         ///< [in] Index of first lane in segment
@@ -223,7 +223,7 @@ struct WarpScanShfl
 
 
     /// Inclusive prefix scan step (specialized for summation across unsigned long long types)
-    __hydra_device__ __forceinline__ unsigned long long InclusiveScanStep(
+    __device__ __forceinline__ unsigned long long InclusiveScanStep(
         unsigned long long  input,              ///< [in] Calling thread's input item.
         cub::Sum            /*scan_op*/,        ///< [in] Binary scan operator
         int             first_lane,         ///< [in] Index of first lane in segment
@@ -270,7 +270,7 @@ struct WarpScanShfl
 
 
     /// Inclusive prefix scan step (specialized for summation across long long types)
-    __hydra_device__ __forceinline__ long long InclusiveScanStep(
+    __device__ __forceinline__ long long InclusiveScanStep(
         long long       input,              ///< [in] Calling thread's input item.
         cub::Sum        /*scan_op*/,        ///< [in] Binary scan operator
         int             first_lane,         ///< [in] Index of first lane in segment
@@ -317,7 +317,7 @@ struct WarpScanShfl
 
 
     /// Inclusive prefix scan step (specialized for summation across fp64 types)
-    __hydra_device__ __forceinline__ double InclusiveScanStep(
+    __device__ __forceinline__ double InclusiveScanStep(
         double          input,              ///< [in] Calling thread's input item.
         cub::Sum        /*scan_op*/,        ///< [in] Binary scan operator
         int             first_lane,         ///< [in] Index of first lane in segment
@@ -366,7 +366,7 @@ struct WarpScanShfl
 /*
     /// Inclusive prefix scan (specialized for ReduceBySegmentOp<cub::Sum> across KeyValuePair<OffsetT, Value> types)
     template <typename Value, typename OffsetT>
-    __hydra_device__ __forceinline__ KeyValuePair<OffsetT, Value>InclusiveScanStep(
+    __device__ __forceinline__ KeyValuePair<OffsetT, Value>InclusiveScanStep(
         KeyValuePair<OffsetT, Value>    input,              ///< [in] Calling thread's input item.
         ReduceBySegmentOp<cub::Sum>     scan_op,            ///< [in] Binary scan operator
         int                             first_lane,         ///< [in] Index of first lane in segment
@@ -386,7 +386,7 @@ struct WarpScanShfl
 
     /// Inclusive prefix scan step (generic)
     template <typename _T, typename ScanOpT>
-    __hydra_device__ __forceinline__ _T InclusiveScanStep(
+    __device__ __forceinline__ _T InclusiveScanStep(
         _T              input,              ///< [in] Calling thread's input item.
         ScanOpT          scan_op,            ///< [in] Binary scan operator
         int             first_lane,         ///< [in] Index of first lane in segment
@@ -405,7 +405,7 @@ struct WarpScanShfl
 
     /// Inclusive prefix scan step (specialized for small integers size 32b or less)
     template <typename _T, typename ScanOpT>
-    __hydra_device__ __forceinline__ _T InclusiveScanStep(
+    __device__ __forceinline__ _T InclusiveScanStep(
         _T              input,              ///< [in] Calling thread's input item.
         ScanOpT          scan_op,            ///< [in] Binary scan operator
         int             first_lane,         ///< [in] Index of first lane in segment
@@ -418,7 +418,7 @@ struct WarpScanShfl
 
     /// Inclusive prefix scan step (specialized for types other than small integers size 32b or less)
     template <typename _T, typename ScanOpT>
-    __hydra_device__ __forceinline__ _T InclusiveScanStep(
+    __device__ __forceinline__ _T InclusiveScanStep(
         _T              input,              ///< [in] Calling thread's input item.
         ScanOpT          scan_op,            ///< [in] Binary scan operator
         int             first_lane,         ///< [in] Index of first lane in segment
@@ -433,7 +433,7 @@ struct WarpScanShfl
     //---------------------------------------------------------------------
 
     template <typename _T, typename ScanOp, int STEP>
-    __hydra_device__ __forceinline__ void InclusiveScanStep(
+    __device__ __forceinline__ void InclusiveScanStep(
         _T&             input,              ///< [in] Calling thread's input item.
         ScanOp          scan_op,            ///< [in] Binary scan operator
         int             first_lane,         ///< [in] Index of first lane in segment
@@ -445,7 +445,7 @@ struct WarpScanShfl
     }
 
     template <typename _T, typename ScanOp>
-    __hydra_device__ __forceinline__ void InclusiveScanStep(
+    __device__ __forceinline__ void InclusiveScanStep(
         _T&             /*input*/,              ///< [in] Calling thread's input item.
         ScanOp          /*scan_op*/,            ///< [in] Binary scan operator
         int             /*first_lane*/,         ///< [in] Index of first lane in segment
@@ -462,7 +462,7 @@ struct WarpScanShfl
     //---------------------------------------------------------------------
 
     /// Broadcast
-    __hydra_device__ __forceinline__ T Broadcast(
+    __device__ __forceinline__ T Broadcast(
         T               input,              ///< [in] The value to broadcast
         int             src_lane)           ///< [in] Which warp lane is to do the broadcasting
     {
@@ -476,7 +476,7 @@ struct WarpScanShfl
 
     /// Inclusive scan
     template <typename _T, typename ScanOpT>
-    __hydra_device__ __forceinline__ void InclusiveScan(
+    __device__ __forceinline__ void InclusiveScan(
         _T              input,              ///< [in] Calling thread's input item.
         _T              &inclusive_output,  ///< [out] Calling thread's output item.  May be aliased with \p input.
         ScanOpT         scan_op)            ///< [in] Binary scan operator
@@ -505,7 +505,7 @@ struct WarpScanShfl
 
     /// Inclusive scan, specialized for reduce-value-by-key
     template <typename KeyT, typename ValueT, typename ReductionOpT>
-    __hydra_device__ __forceinline__ void InclusiveScan(
+    __device__ __forceinline__ void InclusiveScan(
         KeyValuePair<KeyT, ValueT>      input,              ///< [in] Calling thread's input item.
         KeyValuePair<KeyT, ValueT>      &inclusive_output,  ///< [out] Calling thread's output item.  May be aliased with \p input.
         ReduceByKeyOp<ReductionOpT >    scan_op)            ///< [in] Binary scan operator
@@ -541,7 +541,7 @@ struct WarpScanShfl
 
     /// Inclusive scan with aggregate
     template <typename ScanOpT>
-    __hydra_device__ __forceinline__ void InclusiveScan(
+    __device__ __forceinline__ void InclusiveScan(
         T               input,              ///< [in] Calling thread's input item.
         T               &inclusive_output,  ///< [out] Calling thread's output item.  May be aliased with \p input.
         ScanOpT         scan_op,            ///< [in] Binary scan operator
@@ -560,7 +560,7 @@ struct WarpScanShfl
 
     /// Update inclusive and exclusive using input and inclusive
     template <typename ScanOpT, typename IsIntegerT>
-    __hydra_device__ __forceinline__ void Update(
+    __device__ __forceinline__ void Update(
         T                       /*input*/,          ///< [in]
         T                       &inclusive,         ///< [in, out]
         T                       &exclusive,         ///< [out]
@@ -572,7 +572,7 @@ struct WarpScanShfl
     }
 
     /// Update inclusive and exclusive using input and inclusive (specialized for summation of integer types)
-    __hydra_device__ __forceinline__ void Update(
+    __device__ __forceinline__ void Update(
         T                       input,
         T                       &inclusive,
         T                       &exclusive,
@@ -585,7 +585,7 @@ struct WarpScanShfl
 
     /// Update inclusive and exclusive using initial value using input, inclusive, and initial value
     template <typename ScanOpT, typename IsIntegerT>
-    __hydra_device__ __forceinline__ void Update (
+    __device__ __forceinline__ void Update (
         T                       /*input*/,
         T                       &inclusive,
         T                       &exclusive,
@@ -605,7 +605,7 @@ struct WarpScanShfl
     }
 
     /// Update inclusive and exclusive using initial value using input and inclusive (specialized for summation of integer types)
-    __hydra_device__ __forceinline__ void Update (
+    __device__ __forceinline__ void Update (
         T                       input,
         T                       &inclusive,
         T                       &exclusive,
@@ -620,7 +620,7 @@ struct WarpScanShfl
 
     /// Update inclusive, exclusive, and warp aggregate using input and inclusive
     template <typename ScanOpT, typename IsIntegerT>
-    __hydra_device__ __forceinline__ void Update (
+    __device__ __forceinline__ void Update (
         T                       input,
         T                       &inclusive,
         T                       &exclusive,
@@ -634,7 +634,7 @@ struct WarpScanShfl
 
     /// Update inclusive, exclusive, and warp aggregate using input, inclusive, and initial value
     template <typename ScanOpT, typename IsIntegerT>
-    __hydra_device__ __forceinline__ void Update (
+    __device__ __forceinline__ void Update (
         T                       input,
         T                       &inclusive,
         T                       &exclusive,
@@ -653,4 +653,4 @@ struct WarpScanShfl
 
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+HYDRA_THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)

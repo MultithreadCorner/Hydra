@@ -126,6 +126,7 @@ numeric_distance(Number x, Number y)
 
 } // end detail
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

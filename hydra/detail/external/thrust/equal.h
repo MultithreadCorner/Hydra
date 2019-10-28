@@ -60,7 +60,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *          and \p InputIterator2's \c value_type can be compared for equality with \c InputIterator1's \c value_type.
  *
  *  The following code snippet demonstrates how to use \p equal to test
- *  two ranges for equality using the \p thrust::host execution policy:
+ *  two ranges for equality using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/equal.h>
@@ -69,7 +69,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  int A1[7] = {3, 1, 4, 1, 5, 9, 3};
  *  int A2[7] = {3, 1, 4, 2, 8, 5, 7};
  *  ...
- *  bool result = thrust::equal(thrust::host, A1, A1 + 7, A2);
+ *  bool result = HYDRA_EXTERNAL_NS::thrust::equal(HYDRA_EXTERNAL_NS::thrust::host, A1, A1 + 7, A2);
  *
  *  // result == false
  *  \endcode
@@ -78,7 +78,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2>
 __hydra_host__ __hydra_device__
-bool equal(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2);
+bool equal(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2);
 
 
 /*! \p equal returns \c true if the two ranges <tt>[first1, last1)</tt>
@@ -109,7 +109,7 @@ bool equal(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, Inp
  *  int A1[7] = {3, 1, 4, 1, 5, 9, 3};
  *  int A2[7] = {3, 1, 4, 2, 8, 5, 7};
  *  ...
- *  bool result = thrust::equal(A1, A1 + 7, A2);
+ *  bool result = HYDRA_EXTERNAL_NS::thrust::equal(A1, A1 + 7, A2);
  *
  *  // result == false
  *  \endcode
@@ -146,7 +146,7 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
  *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p equal to compare the
- *  elements in two ranges modulo 2 using the \p thrust::host execution policy.
+ *  elements in two ranges modulo 2 using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy.
  *
  *  \code
  *  #include <hydra/detail/external/thrust/equal.h>
@@ -165,7 +165,7 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
  *  int x[6] = {0, 2, 4, 6, 8, 10};
  *  int y[6] = {1, 3, 5, 7, 9, 11};
  *
- *  bool result = thrust::equal(x, x + 6, y, compare_modulo_two());
+ *  bool result = HYDRA_EXTERNAL_NS::thrust::equal(x, x + 6, y, compare_modulo_two());
  *
  *  // result is false
  *  \endcode
@@ -174,7 +174,7 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
  */
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-bool equal(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred);
+bool equal(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred);
 
 
 /*! \p equal returns \c true if the two ranges <tt>[first1, last1)</tt>
@@ -215,7 +215,7 @@ bool equal(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, Inp
  *  int x[6] = {0, 2, 4, 6, 8, 10};
  *  int y[6] = {1, 3, 5, 7, 9, 11};
  *
- *  bool result = thrust::equal(x, x + 5, y, compare_modulo_two());
+ *  bool result = HYDRA_EXTERNAL_NS::thrust::equal(x, x + 5, y, compare_modulo_two());
  *
  *  // result is true
  *  \endcode
@@ -235,6 +235,7 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/equal.inl>
 

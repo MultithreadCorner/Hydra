@@ -30,14 +30,16 @@ namespace detail
 template<typename BidirectionalIterator>
   struct reverse_iterator_base
 {
-  typedef thrust::iterator_adaptor<
-    thrust::reverse_iterator<BidirectionalIterator>,
+  typedef HYDRA_EXTERNAL_NS::thrust::iterator_adaptor<
+    HYDRA_EXTERNAL_NS::thrust::reverse_iterator<BidirectionalIterator>,
     BidirectionalIterator
   > type;
 }; // end reverse_iterator_base
 
 } // end detail
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

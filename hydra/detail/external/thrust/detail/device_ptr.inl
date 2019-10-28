@@ -28,12 +28,14 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
 template<typename T>
+  __hydra_host__ __hydra_device__
   device_ptr<T> device_pointer_cast(T *ptr)
 {
   return device_ptr<T>(ptr);
 } // end device_pointer_cast()
 
 template<typename T>
+  __hydra_host__ __hydra_device__
   device_ptr<T> device_pointer_cast(const device_ptr<T> &ptr)
 {
   return ptr;
@@ -44,7 +46,7 @@ namespace detail
 {
 
 template<typename T>
-  struct is_device_ptr< thrust::device_ptr<T> >
+  struct is_device_ptr< HYDRA_EXTERNAL_NS::thrust::device_ptr<T> >
     : public true_type
 {
 }; // end is_device_ptr
@@ -53,7 +55,7 @@ template<typename T>
 // XXX WAR MSVC 2005 problem with correctly implementing
 //     pointer_raw_pointer for device_ptr by specializing it here
 template<typename T>
-  struct pointer_raw_pointer< thrust::device_ptr<T> >
+  struct pointer_raw_pointer< HYDRA_EXTERNAL_NS::thrust::device_ptr<T> >
 {
   typedef typename device_ptr<T>::raw_pointer type;
 }; // end pointer_raw_pointer
@@ -62,5 +64,6 @@ template<typename T>
 
 } // end namespace detail
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

@@ -40,26 +40,26 @@ template<typename DerivedPolicy,
                     OutputType init,
                     BinaryFunction binary_op)
 {
-  typedef typename thrust::iterator_difference<InputIterator>::type difference_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<InputIterator>::type difference_type;
 
-  const difference_type n = thrust::distance(first,last);
+  const difference_type n = HYDRA_EXTERNAL_NS::thrust::distance(first,last);
 
   // determine first and second level decomposition
-  thrust::system::detail::internal::uniform_decomposition<difference_type> decomp1 = thrust::system::omp::detail::default_decomposition(n);
-  thrust::system::detail::internal::uniform_decomposition<difference_type> decomp2(decomp1.size() + 1, 1, 1);
+  HYDRA_EXTERNAL_NS::thrust::system::detail::internal::uniform_decomposition<difference_type> decomp1 = HYDRA_EXTERNAL_NS::thrust::system::omp::detail::default_decomposition(n);
+  HYDRA_EXTERNAL_NS::thrust::system::detail::internal::uniform_decomposition<difference_type> decomp2(decomp1.size() + 1, 1, 1);
 
   // allocate storage for the initializer and partial sums
   // XXX use select_system for Tag
-  thrust::detail::temporary_array<OutputType,DerivedPolicy> partial_sums(exec, decomp1.size() + 1);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<OutputType,DerivedPolicy> partial_sums(exec, decomp1.size() + 1);
   
   // set first element of temp array to init
   partial_sums[0] = init;
   
   // accumulate partial sums (first level reduction)
-  thrust::system::omp::detail::reduce_intervals(exec, first, partial_sums.begin() + 1, binary_op, decomp1);
+  HYDRA_EXTERNAL_NS::thrust::system::omp::detail::reduce_intervals(exec, first, partial_sums.begin() + 1, binary_op, decomp1);
 
   // reduce partial sums (second level reduction)
-  thrust::system::omp::detail::reduce_intervals(exec, partial_sums.begin(), partial_sums.begin(), binary_op, decomp2);
+  HYDRA_EXTERNAL_NS::thrust::system::omp::detail::reduce_intervals(exec, partial_sums.begin(), partial_sums.begin(), binary_op, decomp2);
 
   return partial_sums[0];
 } // end reduce()
@@ -68,6 +68,6 @@ template<typename DerivedPolicy,
 } // end detail
 } // end omp
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

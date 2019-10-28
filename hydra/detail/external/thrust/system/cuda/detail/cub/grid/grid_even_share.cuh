@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -39,7 +39,7 @@
 #include "grid_mapping.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  HYDRA_THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -143,7 +143,7 @@ public:
      * consecutive sequence of input tiles.
      */
     template <int TILE_ITEMS>
-    __hydra_device__ __forceinline__ void BlockInit(
+    __device__ __forceinline__ void BlockInit(
         int block_id,
         Int2Type<GRID_MAPPING_RAKE> /*strategy_tag*/)
     {
@@ -170,7 +170,7 @@ public:
      * of input tiles.
      */
     template <int TILE_ITEMS>
-    __hydra_device__ __forceinline__ void BlockInit(
+    __device__ __forceinline__ void BlockInit(
         int block_id,
         Int2Type<GRID_MAPPING_STRIP_MINE> /*strategy_tag*/)
     {
@@ -188,7 +188,7 @@ public:
     template <
         int TILE_ITEMS,
         GridMappingStrategy STRATEGY>
-    __hydra_device__ __forceinline__ void BlockInit()
+    __device__ __forceinline__ void BlockInit()
     {
         BlockInit<TILE_ITEMS>(blockIdx.x, Int2Type<STRATEGY>());
     }
@@ -200,7 +200,7 @@ public:
      * of input tiles.
      */
     template <int TILE_ITEMS>
-    __hydra_device__ __forceinline__ void BlockInit(
+    __device__ __forceinline__ void BlockInit(
         OffsetT block_offset,                       ///< [in] Threadblock begin offset (inclusive)
         OffsetT block_end)                          ///< [in] Threadblock end offset (exclusive)
     {
@@ -219,4 +219,4 @@ public:
 /** @} */       // end group GridModule
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+HYDRA_THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)

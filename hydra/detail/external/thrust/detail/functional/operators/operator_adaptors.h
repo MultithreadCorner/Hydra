@@ -34,10 +34,10 @@ template<template<typename> class UnaryOperator>
 {
   template<typename Env>
     struct argument
-      : thrust::detail::eval_if<
-          (thrust::tuple_size<Env>::value == 0),
-          thrust::detail::identity_<thrust::null_type>,
-          thrust::tuple_element<0,Env>
+      : HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+          (HYDRA_EXTERNAL_NS::thrust::tuple_size<Env>::value == 0),
+          HYDRA_EXTERNAL_NS::thrust::detail::identity_<HYDRA_EXTERNAL_NS::thrust::null_type>,
+          HYDRA_EXTERNAL_NS::thrust::tuple_element<0,Env>
         >
   {
   };
@@ -46,7 +46,7 @@ template<template<typename> class UnaryOperator>
     struct operator_type
   {
     typedef UnaryOperator<
-      typename thrust::detail::remove_reference<
+      typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
         typename argument<Env>::type
       >::type
     > type;
@@ -64,7 +64,7 @@ template<template<typename> class UnaryOperator>
   typename result<Env>::type eval(const Env &e) const
   {
     typename operator_type<Env>::type op;
-    return op(thrust::get<0>(e));
+    return op(HYDRA_EXTERNAL_NS::thrust::get<0>(e));
   } // end eval()
 }; // end unary_operator
 
@@ -75,10 +75,10 @@ template<template<typename> class BinaryOperator>
 {
   template<typename Env>
     struct first_argument
-      : thrust::detail::eval_if<
-          (thrust::tuple_size<Env>::value == 0),
-          thrust::detail::identity_<thrust::null_type>,
-          thrust::tuple_element<0,Env>
+      : HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+          (HYDRA_EXTERNAL_NS::thrust::tuple_size<Env>::value == 0),
+          HYDRA_EXTERNAL_NS::thrust::detail::identity_<HYDRA_EXTERNAL_NS::thrust::null_type>,
+          HYDRA_EXTERNAL_NS::thrust::tuple_element<0,Env>
         >
   {
   };
@@ -87,7 +87,7 @@ template<template<typename> class BinaryOperator>
     struct operator_type
   {
     typedef BinaryOperator<
-      typename thrust::detail::remove_reference<
+      typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
         typename first_argument<Env>::type
       >::type
     > type;
@@ -105,12 +105,14 @@ template<template<typename> class BinaryOperator>
   typename result<Env>::type eval(const Env &e) const
   {
     typename operator_type<Env>::type op;
-    return op(thrust::get<0>(e), thrust::get<1>(e));
+    return op(HYDRA_EXTERNAL_NS::thrust::get<0>(e), HYDRA_EXTERNAL_NS::thrust::get<1>(e));
   } // end eval()
 }; // end binary_operator
 
 } // end functional
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

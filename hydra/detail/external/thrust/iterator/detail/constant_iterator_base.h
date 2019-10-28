@@ -43,29 +43,31 @@ template<typename Value,
   typedef value_type         reference;
 
   // the incrementable type is int unless otherwise specified
-  typedef typename thrust::detail::ia_dflt_help<
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::ia_dflt_help<
     Incrementable,
-    thrust::detail::identity_<int>
+    HYDRA_EXTERNAL_NS::thrust::detail::identity_<HYDRA_EXTERNAL_NS::thrust::detail::intmax_t>
   >::type incrementable;
 
-  typedef typename thrust::counting_iterator<
+  typedef typename HYDRA_EXTERNAL_NS::thrust::counting_iterator<
     incrementable,
     System,
-    thrust::random_access_traversal_tag
+    HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag
   > base_iterator;
 
-  typedef typename thrust::iterator_adaptor<
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_adaptor<
     constant_iterator<Value, Incrementable, System>,
     base_iterator,
     value_type, // XXX we may need to pass const value_type here as boost counting_iterator does
-    typename thrust::iterator_system<base_iterator>::type,
-    typename thrust::iterator_traversal<base_iterator>::type,
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_system<base_iterator>::type,
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_traversal<base_iterator>::type,
     reference
   > type;
 }; // end constant_iterator_base
 
 } // end detail
   
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

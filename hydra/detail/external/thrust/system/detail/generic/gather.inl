@@ -36,17 +36,17 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator gather(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator gather(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                         InputIterator                            map_first,
                         InputIterator                            map_last,
                         RandomAccessIterator                     input_first,
                         OutputIterator                           result)
 {
-  return thrust::transform(exec,
-                           thrust::make_permutation_iterator(input_first, map_first),
-                           thrust::make_permutation_iterator(input_first, map_last),
+  return HYDRA_EXTERNAL_NS::thrust::transform(exec,
+                           HYDRA_EXTERNAL_NS::thrust::make_permutation_iterator(input_first, map_first),
+                           HYDRA_EXTERNAL_NS::thrust::make_permutation_iterator(input_first, map_last),
                            result,
-                           thrust::identity<typename thrust::iterator_value<RandomAccessIterator>::type>());
+                           HYDRA_EXTERNAL_NS::thrust::identity<typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator>::type>());
 } // end gather()
 
 
@@ -56,21 +56,21 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator gather_if(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator gather_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator1                           map_first,
                            InputIterator1                           map_last,
                            InputIterator2                           stencil,
                            RandomAccessIterator                     input_first,
                            OutputIterator                           result)
 {
-  typedef typename thrust::iterator_value<InputIterator2>::type StencilType;
-  return thrust::gather_if(exec,
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator2>::type StencilType;
+  return HYDRA_EXTERNAL_NS::thrust::gather_if(exec,
                            map_first,
                            map_last,
                            stencil,
                            input_first,
                            result,
-                           thrust::identity<StencilType>());
+                           HYDRA_EXTERNAL_NS::thrust::identity<StencilType>());
 } // end gather_if()
 
 
@@ -81,7 +81,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  OutputIterator gather_if(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator gather_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator1                           map_first,
                            InputIterator1                           map_last,
                            InputIterator2                           stencil,
@@ -89,13 +89,13 @@ __hydra_host__ __hydra_device__
                            OutputIterator                           result,
                            Predicate                                pred)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator>::type InputType;
-  return thrust::transform_if(exec,
-                              thrust::make_permutation_iterator(input_first, map_first),
-                              thrust::make_permutation_iterator(input_first, map_last),
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator>::type InputType;
+  return HYDRA_EXTERNAL_NS::thrust::transform_if(exec,
+                              HYDRA_EXTERNAL_NS::thrust::make_permutation_iterator(input_first, map_first),
+                              HYDRA_EXTERNAL_NS::thrust::make_permutation_iterator(input_first, map_last),
                               stencil,
                               result,
-                              thrust::identity<InputType>(),
+                              HYDRA_EXTERNAL_NS::thrust::identity<InputType>(),
                               pred);
 } // end gather_if()
 

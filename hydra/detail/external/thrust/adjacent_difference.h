@@ -61,7 +61,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *          useful for computing differences "in place".
  *
  *  The following code snippet demonstrates how to use \p adjacent_difference to compute
- *  the difference between adjacent elements of a range using the \p thrust::device execution policy:
+ *  the difference between adjacent elements of a range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/adjacent_difference.h>
@@ -69,10 +69,10 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
  *  int h_data[8] = {1, 2, 1, 2, 1, 2, 1, 2};
- *  thrust::device_vector<int> d_data(h_data, h_data + 8);
- *  thrust::device_vector<int> d_result(8);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_data(h_data, h_data + 8);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_result(8);
  *
- *  thrust::adjacent_difference(thrust::device, d_data.begin(), d_data.end(), d_result.begin());
+ *  HYDRA_EXTERNAL_NS::thrust::adjacent_difference(HYDRA_EXTERNAL_NS::thrust::device, d_data.begin(), d_data.end(), d_result.begin());
  *
  *  // d_result is now [1, 1, -1, 1, -1, 1, -1, 1]
  *  \endcode
@@ -82,7 +82,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator adjacent_difference(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last, 
                                    OutputIterator result);
 
@@ -115,7 +115,7 @@ OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<D
  *          useful for computing differences "in place".
  *
  *  The following code snippet demonstrates how to use \p adjacent_difference to compute
- *  the sum between adjacent elements of a range using the \p thrust::device execution policy:
+ *  the sum between adjacent elements of a range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/adjacent_difference.h>
@@ -124,10 +124,10 @@ OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<D
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
  *  int h_data[8] = {1, 2, 1, 2, 1, 2, 1, 2};
- *  thrust::device_vector<int> d_data(h_data, h_data + 8);
- *  thrust::device_vector<int> d_result(8);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_data(h_data, h_data + 8);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_result(8);
  *
- *  thrust::adjacent_difference(thrust::device, d_data.begin(), d_data.end(), d_result.begin(), thrust::plus<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::adjacent_difference(HYDRA_EXTERNAL_NS::thrust::device, d_data.begin(), d_data.end(), d_result.begin(), HYDRA_EXTERNAL_NS::thrust::plus<int>());
  *
  *  // d_result is now [1, 3, 3, 3, 3, 3, 3, 3]
  *  \endcode
@@ -137,7 +137,7 @@ OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<D
  */
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename BinaryFunction>
 __hydra_host__ __hydra_device__
-OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator adjacent_difference(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op);
@@ -173,10 +173,10 @@ OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<D
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
  *  int h_data[8] = {1, 2, 1, 2, 1, 2, 1, 2};
- *  thrust::device_vector<int> d_data(h_data, h_data + 8);
- *  thrust::device_vector<int> d_result(8);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_data(h_data, h_data + 8);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_result(8);
  *
- *  thrust::adjacent_difference(d_data.begin(), d_data.end(), d_result.begin());
+ *  HYDRA_EXTERNAL_NS::thrust::adjacent_difference(d_data.begin(), d_data.end(), d_result.begin());
  *
  *  // d_result is now [1, 1, -1, 1, -1, 1, -1, 1]
  *  \endcode
@@ -221,10 +221,10 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
  *  int h_data[8] = {1, 2, 1, 2, 1, 2, 1, 2};
- *  thrust::device_vector<int> d_data(h_data, h_data + 8);
- *  thrust::device_vector<int> d_result(8);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_data(h_data, h_data + 8);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_result(8);
  *
- *  thrust::adjacent_difference(d_data.begin(), d_data.end(), d_result.begin(), thrust::plus<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::adjacent_difference(d_data.begin(), d_data.end(), d_result.begin(), HYDRA_EXTERNAL_NS::thrust::plus<int>());
  *
  *  // d_result is now [1, 3, 3, 3, 3, 3, 3, 3]
  *  \endcode
@@ -240,7 +240,7 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
 /*! \}
  */
 
-} // end namespace thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

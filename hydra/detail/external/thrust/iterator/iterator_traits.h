@@ -15,7 +15,7 @@
  */
 
 
-/*! \file hydra/detail/external/thrust/iterator/iterator_traits.h
+/*! \file thrust/iterator/iterator_traits.h
  *  \brief Traits and metafunctions for reasoning about the traits of iterators
  */
 
@@ -31,16 +31,30 @@
 #pragma once
 
 #include <hydra/detail/external/thrust/detail/config.h>
+#include <hydra/detail/external/thrust/type_traits/void_t.h>
+
 #include <iterator>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
-/*! \p iterator_traits is a type trait class that provides a uniform
- *  interface for querying the properties of iterators at compile-time.
- */
-template<typename T>
-  struct iterator_traits
+namespace detail
+{
+
+template <typename T, typename = void>
+struct iterator_traits_impl {};
+
+template <typename T>
+struct iterator_traits_impl<
+  T
+, typename voider<
+    typename T::difference_type
+  , typename T::value_type
+  , typename T::pointer
+  , typename T::reference
+  , typename T::iterator_category
+  >::type 
+>
 {
   typedef typename T::difference_type difference_type;
   typedef typename T::value_type value_type;
@@ -48,6 +62,14 @@ template<typename T>
   typedef typename T::reference reference;
   typedef typename T::iterator_category iterator_category;
 };
+
+} // namespace detail
+
+/*! \p iterator_traits is a type trait class that provides a uniform
+ *  interface for querying the properties of iterators at compile-time.
+ */
+template <typename T>
+struct iterator_traits : detail::iterator_traits_impl<T> {};
 
 // traits are specialized for pointer types
 template<typename T>
@@ -82,17 +104,10 @@ template<typename Iterator> struct iterator_traversal;
 
 template<typename Iterator> struct iterator_system;
 
-// TODO remove this in Thrust v1.7.0
-template<typename Iterator>
-  struct HYDRA_THRUST_DEPRECATED iterator_space
-{
-  typedef HYDRA_THRUST_DEPRECATED typename iterator_system<Iterator>::type type;
-};
-
-
-} // end thrust
+} // HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/iterator/detail/iterator_traversal_tags.h>
 #include <hydra/detail/external/thrust/iterator/detail/host_system_tag.h>

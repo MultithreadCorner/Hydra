@@ -66,18 +66,18 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> vec1(4);
- *  thrust::device_vector<int> vec2(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec1(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec2(4);
  *
  *  vec1[0] = 0;  vec2[0] = 0; 
  *  vec1[1] = 5;  vec2[1] = 5;
  *  vec1[2] = 3;  vec2[2] = 8;
  *  vec1[3] = 7;  vec2[3] = 7;
  *
- *  typedef thrust::device_vector<int>::iterator Iterator;
- *  thrust::pair<Iterator,Iterator> result;
+ *  typedef HYDRA_EXTERNAL_NS::thrust::device_vector<int>::iterator Iterator;
+ *  HYDRA_EXTERNAL_NS::thrust::pair<Iterator,Iterator> result;
  *
- *  result = thrust::mismatch(thrust::device, vec1.begin(), vec1.end(), vec2.begin());
+ *  result = HYDRA_EXTERNAL_NS::thrust::mismatch(HYDRA_EXTERNAL_NS::thrust::device, vec1.begin(), vec1.end(), vec2.begin());
  *
  *  // result.first  is vec1.begin() + 2
  *  // result.second is vec2.begin() + 2
@@ -88,7 +88,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2>
 __hydra_host__ __hydra_device__
-thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<InputIterator1, InputIterator2> mismatch(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                                       InputIterator1 first1,
                                                       InputIterator1 last1,
                                                       InputIterator2 first2);
@@ -117,18 +117,18 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::exec
  *  #include <hydra/detail/external/thrust/mismatch.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> vec1(4);
- *  thrust::device_vector<int> vec2(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec1(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec2(4);
  *
  *  vec1[0] = 0;  vec2[0] = 0; 
  *  vec1[1] = 5;  vec2[1] = 5;
  *  vec1[2] = 3;  vec2[2] = 8;
  *  vec1[3] = 7;  vec2[3] = 7;
  *
- *  typedef thrust::device_vector<int>::iterator Iterator;
- *  thrust::pair<Iterator,Iterator> result;
+ *  typedef HYDRA_EXTERNAL_NS::thrust::device_vector<int>::iterator Iterator;
+ *  HYDRA_EXTERNAL_NS::thrust::pair<Iterator,Iterator> result;
  *
- *  result = thrust::mismatch(vec1.begin(), vec1.end(), vec2.begin());
+ *  result = HYDRA_EXTERNAL_NS::thrust::mismatch(vec1.begin(), vec1.end(), vec2.begin());
  *
  *  // result.first  is vec1.begin() + 2
  *  // result.second is vec2.begin() + 2
@@ -138,7 +138,7 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::exec
  *  \see find_if
  */
 template <typename InputIterator1, typename InputIterator2>
-thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
+HYDRA_EXTERNAL_NS::thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
                                                       InputIterator1 last1,
                                                       InputIterator2 first2);
 
@@ -172,18 +172,18 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> vec1(4);
- *  thrust::device_vector<int> vec2(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec1(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec2(4);
  *
  *  vec1[0] = 0;  vec2[0] = 0; 
  *  vec1[1] = 5;  vec2[1] = 5;
  *  vec1[2] = 3;  vec2[2] = 8;
  *  vec1[3] = 7;  vec2[3] = 7;
  *
- *  typedef thrust::device_vector<int>::iterator Iterator;
- *  thrust::pair<Iterator,Iterator> result;
+ *  typedef HYDRA_EXTERNAL_NS::thrust::device_vector<int>::iterator Iterator;
+ *  HYDRA_EXTERNAL_NS::thrust::pair<Iterator,Iterator> result;
  *
- *  result = thrust::mismatch(thrust::device, vec1.begin(), vec1.end(), vec2.begin(), thrust::equal_to<int>());
+ *  result = HYDRA_EXTERNAL_NS::thrust::mismatch(HYDRA_EXTERNAL_NS::thrust::device, vec1.begin(), vec1.end(), vec2.begin(), HYDRA_EXTERNAL_NS::thrust::equal_to<int>());
  *
  *  // result.first  is vec1.begin() + 2
  *  // result.second is vec2.begin() + 2
@@ -194,7 +194,7 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
  */
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<InputIterator1, InputIterator2> mismatch(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                                       InputIterator1 first1,
                                                       InputIterator1 last1,
                                                       InputIterator2 first2,
@@ -225,18 +225,18 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::exec
  *  #include <hydra/detail/external/thrust/mismatch.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> vec1(4);
- *  thrust::device_vector<int> vec2(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec1(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec2(4);
  *
  *  vec1[0] = 0;  vec2[0] = 0; 
  *  vec1[1] = 5;  vec2[1] = 5;
  *  vec1[2] = 3;  vec2[2] = 8;
  *  vec1[3] = 7;  vec2[3] = 7;
  *
- *  typedef thrust::device_vector<int>::iterator Iterator;
- *  thrust::pair<Iterator,Iterator> result;
+ *  typedef HYDRA_EXTERNAL_NS::thrust::device_vector<int>::iterator Iterator;
+ *  HYDRA_EXTERNAL_NS::thrust::pair<Iterator,Iterator> result;
  *
- *  result = thrust::mismatch(vec1.begin(), vec1.end(), vec2.begin(), thrust::equal_to<int>());
+ *  result = HYDRA_EXTERNAL_NS::thrust::mismatch(vec1.begin(), vec1.end(), vec2.begin(), HYDRA_EXTERNAL_NS::thrust::equal_to<int>());
  *
  *  // result.first  is vec1.begin() + 2
  *  // result.second is vec2.begin() + 2
@@ -246,7 +246,7 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::exec
  *  \see find_if
  */
 template <typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
-thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
+HYDRA_EXTERNAL_NS::thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
                                                       InputIterator1 last1,
                                                       InputIterator2 first2,
                                                       BinaryPredicate pred);
@@ -257,6 +257,7 @@ thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/mismatch.inl>
 

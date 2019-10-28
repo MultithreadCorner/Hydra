@@ -16,12 +16,12 @@
 
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/system/detail/sequential/copy.h>
-#include <hydra/detail/external/thrust/detail/dispatch/is_trivial_copy.h>
 #include <hydra/detail/external/thrust/detail/type_traits.h>
 #include <hydra/detail/external/thrust/system/detail/sequential/general_copy.h>
 #include <hydra/detail/external/thrust/system/detail/sequential/trivial_copy.h>
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/thrust/detail/type_traits/pointer_traits.h>
+#include <hydra/detail/external/thrust/type_traits/is_trivially_relocatable.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
@@ -38,10 +38,10 @@ namespace copy_detail
 // returns the raw pointer associated with a Pointer-like thing
 template<typename Pointer>
 __hydra_host__ __hydra_device__
-  typename thrust::detail::pointer_traits<Pointer>::raw_pointer
+  typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<Pointer>::raw_pointer
     get(Pointer ptr)
 {
-  return thrust::detail::pointer_traits<Pointer>::get(ptr);
+  return HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<Pointer>::get(ptr);
 }
 
 
@@ -52,12 +52,12 @@ __hydra_host__ __hydra_device__
   OutputIterator copy(InputIterator first,
                       InputIterator last,
                       OutputIterator result,
-                      thrust::detail::true_type)  // is_trivial_copy
+                      HYDRA_EXTERNAL_NS::thrust::detail::true_type)  // is_indirectly_trivially_relocatable_to
 {
-  typedef typename thrust::iterator_difference<InputIterator>::type Size;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<InputIterator>::type Size;
 
   const Size n = last - first;
-  thrust::system::detail::sequential::trivial_copy_n(get(&*first), n, get(&*result));
+  HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::trivial_copy_n(get(&*first), n, get(&*result));
   return result + n;
 } // end copy()
 
@@ -69,9 +69,9 @@ __hydra_host__ __hydra_device__
   OutputIterator copy(InputIterator first,
                       InputIterator last,
                       OutputIterator result,
-                      thrust::detail::false_type)  // is_trivial_copy
+                      HYDRA_EXTERNAL_NS::thrust::detail::false_type)  // is_indirectly_trivially_relocatable_to
 {
-  return thrust::system::detail::sequential::general_copy(first,last,result);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::general_copy(first,last,result);
 } // end copy()
 
 
@@ -83,13 +83,14 @@ __hydra_host__ __hydra_device__
   OutputIterator copy_n(InputIterator first,
                         Size n,
                         OutputIterator result,
-                        thrust::detail::true_type)  // is_trivial_copy
+                        HYDRA_EXTERNAL_NS::thrust::detail::true_type)  // is_indirectly_trivially_relocatable_to
 {
-  thrust::system::detail::sequential::trivial_copy_n(get(&*first), n, get(&*result));
+  HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::trivial_copy_n(get(&*first), n, get(&*result));
   return result + n;
 } // end copy_n()
 
 
+__thrust_exec_check_disable__
 template<typename InputIterator,
          typename Size,
          typename OutputIterator>
@@ -97,9 +98,9 @@ __hydra_host__ __hydra_device__
   OutputIterator copy_n(InputIterator first,
                         Size n,
                         OutputIterator result,
-                        thrust::detail::false_type)  // is_trivial_copy
+                        HYDRA_EXTERNAL_NS::thrust::detail::false_type)  // is_indirectly_trivially_relocatable_to
 {
-  return thrust::system::detail::sequential::general_copy_n(first,n,result);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::general_copy_n(first,n,result);
 } // end copy_n()
 
 
@@ -116,11 +117,12 @@ __hydra_host__ __hydra_device__
                       InputIterator last,
                       OutputIterator result)
 {
-  return thrust::system::detail::sequential::copy_detail::copy(first, last, result,
-    typename thrust::detail::dispatch::is_trivial_copy<InputIterator,OutputIterator>::type());
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::copy_detail::copy(first, last, result,
+    typename HYDRA_EXTERNAL_NS::thrust::is_indirectly_trivially_relocatable_to<InputIterator,OutputIterator>::type());
 } // end copy()
 
 
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
@@ -131,8 +133,8 @@ __hydra_host__ __hydra_device__
                         Size n,
                         OutputIterator result)
 {
-  return thrust::system::detail::sequential::copy_detail::copy_n(first, n, result,
-    typename thrust::detail::dispatch::is_trivial_copy<InputIterator,OutputIterator>::type());
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::copy_detail::copy_n(first, n, result,
+    typename HYDRA_EXTERNAL_NS::thrust::is_indirectly_trivially_relocatable_to<InputIterator,OutputIterator>::type());
 } // end copy_n()
 
 
@@ -140,5 +142,4 @@ __hydra_host__ __hydra_device__
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END

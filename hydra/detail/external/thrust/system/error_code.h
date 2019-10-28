@@ -43,17 +43,19 @@ class error_code;
 
 /*! A metafunction returning whether or not the parameter is an \p error_code enum.
  */
-template<typename T> struct is_error_code_enum : public thrust::detail::false_type {};
+template<typename T> struct is_error_code_enum : public HYDRA_EXTERNAL_NS::thrust::detail::false_type {};
 
 /*! A metafunction returning whether or not the parameter is an \p error_condition enum.
  */
-template<typename T> struct is_error_condition_enum : public thrust::detail::false_type {};
+template<typename T> struct is_error_condition_enum : public HYDRA_EXTERNAL_NS::thrust::detail::false_type {};
 
 
 // XXX N3092 prefers enum class errc { ... }
 namespace errc
 {
 
+/*! An enum containing common error codes.
+ */
 enum errc_t
 {
   address_family_not_supported       = detail::eafnosupport,
@@ -141,7 +143,7 @@ enum errc_t
 
 /*! Specialization of \p is_error_condition_enum for \p errc::errc_t
  */
-template<> struct is_error_condition_enum<errc::errc_t> : public thrust::detail::true_type {};
+template<> struct is_error_condition_enum<errc::errc_t> : public HYDRA_EXTERNAL_NS::thrust::detail::true_type {};
 
 
 // [19.5.1.1] class error_category
@@ -251,7 +253,7 @@ class error_code
       error_code(ErrorCodeEnum e
 // XXX WAR msvc's problem with enable_if
 #if HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
-        , typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value>::type * = 0
+        , typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value>::type * = 0
 #endif // HYDRA_THRUST_HOST_COMPILER_MSVC
         );
 
@@ -266,7 +268,7 @@ class error_code
     template <typename ErrorCodeEnum>
 // XXX WAR msvc's problem with enable_if
 #if HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
-      typename thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value, error_code>::type &
+      typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<is_error_code_enum<ErrorCodeEnum>::value, error_code>::type &
 #else
       error_code &
 #endif // HYDRA_THRUST_HOST_COMPILER_MSVC
@@ -367,7 +369,7 @@ class error_condition
       error_condition(ErrorConditionEnum e
 // XXX WAR msvc's problem with enable_if
 #if HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
-        , typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value>::type * = 0
+        , typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value>::type * = 0
 #endif // HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
                      );
 
@@ -390,7 +392,7 @@ class error_condition
     template<typename ErrorConditionEnum>
 // XXX WAR msvc's problem with enable_if
 #if HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
-      typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value, error_condition>::type &
+      typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value, error_condition>::type &
 #else
       error_condition &
 #endif // HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
@@ -498,7 +500,7 @@ inline bool operator!=(const error_condition &lhs, const error_condition &rhs);
 } // end system
 
 
-// import names into thrust::
+// import names into HYDRA_EXTERNAL_NS::thrust::
 using system::error_category;
 using system::error_code;
 using system::error_condition;
@@ -513,7 +515,7 @@ namespace errc = system::errc;
 using system::generic_category;
 using system::system_category;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

@@ -33,14 +33,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::bit_and>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::bit_and>,
     actor<T1>,
     typename as_actor<T2>::type
   >
 >
 operator&(const actor<T1> &_1, const T2 &_2)
 {
-  return compose(binary_operator<thrust::bit_and>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::bit_and>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator&()
@@ -49,14 +49,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::bit_and>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::bit_and>,
     typename as_actor<T1>::type,
     actor<T2>
   >
 >
 operator&(const T1 &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<thrust::bit_and>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::bit_and>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator&()
@@ -65,14 +65,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::bit_and>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::bit_and>,
     actor<T1>,
     actor<T2>
   >
 >
 operator&(const actor<T1> &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<thrust::bit_and>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::bit_and>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator&()
@@ -81,14 +81,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::bit_or>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::bit_or>,
     actor<T1>,
     typename as_actor<T2>::type
   >
 >
 operator|(const actor<T1> &_1, const T2 &_2)
 {
-  return compose(binary_operator<thrust::bit_or>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::bit_or>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator|()
@@ -97,14 +97,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::bit_or>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::bit_or>,
     typename as_actor<T1>::type,
     actor<T2>
   >
 >
 operator|(const T1 &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<thrust::bit_or>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::bit_or>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator|()
@@ -113,14 +113,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::bit_or>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::bit_or>,
     actor<T1>,
     actor<T2>
   >
 >
 operator|(const actor<T1> &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<thrust::bit_or>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::bit_or>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator|()
@@ -129,14 +129,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::bit_xor>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::bit_xor>,
     actor<T1>,
     typename as_actor<T2>::type
   >
 >
 operator^(const actor<T1> &_1, const T2 &_2)
 {
-  return compose(binary_operator<thrust::bit_xor>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::bit_xor>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator^()
@@ -145,14 +145,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::bit_xor>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::bit_xor>,
     typename as_actor<T1>::type,
     actor<T2>
   >
 >
 operator^(const T1 &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<thrust::bit_xor>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::bit_xor>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator^()
@@ -161,14 +161,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::bit_xor>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::bit_xor>,
     actor<T1>,
     actor<T2>
   >
 >
 operator^(const actor<T1> &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<thrust::bit_xor>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::bit_xor>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator^()
@@ -176,7 +176,7 @@ operator^(const actor<T1> &_1, const actor<T2> &_2)
 // there's no standard bit_not functional, so roll an ad hoc one here
 template<typename T>
   struct bit_not
-    : public thrust::unary_function<T,T>
+    : public HYDRA_EXTERNAL_NS::thrust::unary_function<T,T>
 {
   __hydra_host__ __hydra_device__ T operator()(const T &x) const {return ~x;}
 }; // end bit_not
@@ -198,7 +198,7 @@ operator~(const actor<Eval> &_1)
 // there's no standard bit_lshift functional, so roll an ad hoc one here
 template<typename T>
   struct bit_lshift
-    : public thrust::binary_function<T,T,T>
+    : public HYDRA_EXTERNAL_NS::thrust::binary_function<T,T,T>
 {
   __hydra_host__ __hydra_device__ T operator()(const T &lhs, const T &rhs) const {return lhs << rhs;}
 }; // end bit_lshift
@@ -254,7 +254,7 @@ operator<<(const actor<T1> &_1, const actor<T2> &_2)
 // there's no standard bit_rshift functional, so roll an ad hoc one here
 template<typename T>
   struct bit_rshift
-    : public thrust::binary_function<T,T,T>
+    : public HYDRA_EXTERNAL_NS::thrust::binary_function<T,T,T>
 {
   __hydra_host__ __hydra_device__ T operator()(const T &lhs, const T &rhs) const {return lhs >> rhs;}
 }; // end bit_rshift
@@ -309,6 +309,8 @@ operator>>(const actor<T1> &_1, const actor<T2> &_2)
 
 } // end functional
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

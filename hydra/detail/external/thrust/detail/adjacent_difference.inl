@@ -31,27 +31,27 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 __thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename InputIterator, typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator adjacent_difference(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last, 
                                    OutputIterator result)
 {
-  using thrust::system::detail::generic::adjacent_difference;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::adjacent_difference;
 
-  return adjacent_difference(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result);
+  return adjacent_difference(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, result);
 } // end adjacent_difference()
 
 
 __thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename BinaryFunction>
 __hydra_host__ __hydra_device__
-OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator adjacent_difference(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last, 
                                    OutputIterator result,
                                    BinaryFunction binary_op)
 {
-  using thrust::system::detail::generic::adjacent_difference;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::adjacent_difference;
 
-  return adjacent_difference(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result, binary_op);
+  return adjacent_difference(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, result, binary_op);
 } // end adjacent_difference()
 
 
@@ -59,15 +59,15 @@ template <typename InputIterator, typename OutputIterator>
 OutputIterator adjacent_difference(InputIterator first, InputIterator last, 
                                    OutputIterator result)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  System1;
-  typedef typename thrust::iterator_system<OutputIterator>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::adjacent_difference(select_system(system1, system2), first, last, result);
+  return HYDRA_EXTERNAL_NS::thrust::adjacent_difference(select_system(system1, system2), first, last, result);
 } // end adjacent_difference()
 
 
@@ -76,18 +76,20 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  System1;
-  typedef typename thrust::iterator_system<OutputIterator>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::adjacent_difference(select_system(system1, system2), first, last, result, binary_op);
+  return HYDRA_EXTERNAL_NS::thrust::adjacent_difference(select_system(system1, system2), first, last, result, binary_op);
 } // end adjacent_difference()
 
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+
 HYDRA_EXTERNAL_NAMESPACE_END
+

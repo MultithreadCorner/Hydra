@@ -35,7 +35,7 @@ template<typename ExecutionPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator set_difference(thrust::execution_policy<ExecutionPolicy> &exec,
+OutputIterator set_difference(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                               InputIterator1                             first1,
                               InputIterator1                             last1,
                               InputIterator2                             first2,
@@ -50,7 +50,7 @@ template<typename ExecutionPolicy,
          typename OutputIterator,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-OutputIterator set_difference(thrust::execution_policy<ExecutionPolicy> &exec,
+OutputIterator set_difference(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                               InputIterator1                             first1,
                               InputIterator1                             last1,
                               InputIterator2                             first2,
@@ -67,8 +67,8 @@ template<typename ExecutionPolicy,
          typename OutputIterator1,
          typename OutputIterator2>
 __hydra_host__ __hydra_device__
-thrust::pair<OutputIterator1,OutputIterator2>
-  set_difference_by_key(thrust::execution_policy<ExecutionPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  set_difference_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                         InputIterator1                             keys_first1,
                         InputIterator1                             keys_last1,
                         InputIterator2                             keys_first2,
@@ -88,8 +88,8 @@ template<typename ExecutionPolicy,
          typename OutputIterator2,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-thrust::pair<OutputIterator1,OutputIterator2>
-  set_difference_by_key(thrust::execution_policy<ExecutionPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  set_difference_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                         InputIterator1                             keys_first1,
                         InputIterator1                             keys_last1,
                         InputIterator2                             keys_first2,
@@ -106,7 +106,7 @@ template<typename ExecutionPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator set_intersection(thrust::execution_policy<ExecutionPolicy> &system,
+OutputIterator set_intersection(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &system,
                                 InputIterator1                             first1,
                                 InputIterator1                             last1,
                                 InputIterator2                             first2,
@@ -121,7 +121,7 @@ template<typename ExecutionPolicy,
          typename OutputIterator,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-OutputIterator set_intersection(thrust::execution_policy<StrictWeakOrdering> &system,
+OutputIterator set_intersection(HYDRA_EXTERNAL_NS::thrust::execution_policy<StrictWeakOrdering> &system,
                                 InputIterator1                                first1,
                                 InputIterator1                                last1,
                                 InputIterator2                                first2,
@@ -137,8 +137,8 @@ template<typename ExecutionPolicy,
          typename OutputIterator1,
          typename OutputIterator2>
 __hydra_host__ __hydra_device__
-thrust::pair<OutputIterator1,OutputIterator2>
-  set_intersection_by_key(thrust::execution_policy<ExecutionPolicy> &system,
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  set_intersection_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &system,
                           InputIterator1                             keys_first1,
                           InputIterator1                             keys_last1,
                           InputIterator2                             keys_first2,
@@ -156,8 +156,8 @@ template<typename ExecutionPolicy,
          typename OutputIterator2,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-thrust::pair<OutputIterator1,OutputIterator2>
-  set_intersection_by_key(thrust::execution_policy<ExecutionPolicy> &system,
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  set_intersection_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &system,
                           InputIterator1                             keys_first1,
                           InputIterator1                             keys_last1,
                           InputIterator2                             keys_first2,
@@ -173,7 +173,7 @@ template<typename ExecutionPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator set_symmetric_difference(thrust::execution_policy<ExecutionPolicy> &system,
+OutputIterator set_symmetric_difference(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &system,
                                         InputIterator1                             first1,
                                         InputIterator1                             last1,
                                         InputIterator2                             first2,
@@ -188,7 +188,7 @@ template<typename ExecutionPolicy,
          typename OutputIterator,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-OutputIterator set_symmetric_difference(thrust::execution_policy<ExecutionPolicy> &system,
+OutputIterator set_symmetric_difference(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &system,
                                         InputIterator1                             first1,
                                         InputIterator1                             last1,
                                         InputIterator2                             first2,
@@ -205,8 +205,8 @@ template<typename ExecutionPolicy,
          typename OutputIterator1,
          typename OutputIterator2>
 __hydra_host__ __hydra_device__
-thrust::pair<OutputIterator1,OutputIterator2>
-  set_symmetric_difference_by_key(thrust::execution_policy<ExecutionPolicy> &system,
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  set_symmetric_difference_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &system,
                                   InputIterator1                             keys_first1,
                                   InputIterator1                             keys_last1,
                                   InputIterator2                             keys_first2,
@@ -226,8 +226,8 @@ template<typename ExecutionPolicy,
          typename OutputIterator2,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-thrust::pair<OutputIterator1,OutputIterator2>
-  set_symmetric_difference_by_key(thrust::execution_policy<ExecutionPolicy> &system,
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  set_symmetric_difference_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &system,
                                   InputIterator1                             keys_first1,
                                   InputIterator1                             keys_last1,
                                   InputIterator2                             keys_first2,
@@ -244,7 +244,7 @@ template<typename ExecutionPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator set_union(thrust::execution_policy<ExecutionPolicy> &system,
+OutputIterator set_union(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &system,
                          InputIterator1                             first1,
                          InputIterator1                             last1,
                          InputIterator2                             first2,
@@ -259,7 +259,7 @@ template<typename ExecutionPolicy,
          typename OutputIterator,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-OutputIterator set_union(thrust::execution_policy<ExecutionPolicy> &system,
+OutputIterator set_union(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &system,
                          InputIterator1                             first1,
                          InputIterator1                             last1,
                          InputIterator2                             first2,
@@ -276,8 +276,8 @@ template<typename ExecutionPolicy,
          typename OutputIterator1,
          typename OutputIterator2>
 __hydra_host__ __hydra_device__
-thrust::pair<OutputIterator1,OutputIterator2>
-  set_union_by_key(thrust::execution_policy<ExecutionPolicy> &system,
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  set_union_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &system,
                    InputIterator1                             keys_first1,
                    InputIterator1                             keys_last1,
                    InputIterator2                             keys_first2,
@@ -297,8 +297,8 @@ template<typename ExecutionPolicy,
          typename OutputIterator2,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-thrust::pair<OutputIterator1,OutputIterator2>
-  set_union_by_key(thrust::execution_policy<ExecutionPolicy> &system,
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  set_union_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &system,
                    InputIterator1                             keys_first1,
                    InputIterator1                             keys_last1,
                    InputIterator2                             keys_first2,
@@ -314,8 +314,6 @@ thrust::pair<OutputIterator1,OutputIterator2>
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/set_operations.inl>
 

@@ -278,7 +278,7 @@ struct RndTrial{
 
 	template<typename Tuple>
 	__hydra_host__ __hydra_device__
-	inline T operator()(size_t index, Tuple& t)
+	inline T operator()(size_t index, Tuple t)
 	{
 		T* x[N];
 		detail::set_ptrs_to_tuple(t, &x[0]);

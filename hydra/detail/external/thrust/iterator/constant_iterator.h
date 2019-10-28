@@ -15,7 +15,7 @@
  */
 
 
-/*! \file hydra/detail/external/thrust/iterator/constant_iterator.h
+/*! \file thrust/iterator/constant_iterator.h
  *  \brief An iterator which returns a constant value when
  *         dereferenced
  */
@@ -49,7 +49,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \code
  *  #include <hydra/detail/external/thrust/iterator/constant_iterator.h>
  *
- *  thrust::constant_iterator<int> iter(10);
+ *  HYDRA_EXTERNAL_NS::thrust::constant_iterator<int> iter(10);
  *
  *  *iter;    // returns 10
  *  iter[0];  // returns 10
@@ -60,7 +60,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \endcode
  *
  *  This next example demonstrates how to use a \p constant_iterator with the
- *  \p thrust::transform function to increment all elements of a sequence by the
+ *  \p HYDRA_EXTERNAL_NS::thrust::transform function to increment all elements of a sequence by the
  *  same value. We will create a temporary \p constant_iterator with the function
  *  \p make_constant_iterator function in order to avoid explicitly specifying
  *  its type:
@@ -71,19 +71,19 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/functional.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *
- *  int main(void)
+ *  int main()
  *  {
- *    thrust::device_vector<int> data(4);
+ *    HYDRA_EXTERNAL_NS::thrust::device_vector<int> data(4);
  *    data[0] = 3;
  *    data[1] = 7;
  *    data[2] = 2;
  *    data[3] = 5;
  *    
  *    // add 10 to all values in data
- *    thrust::transform(data.begin(), data.end(),
- *                      thrust::make_constant_iterator(10),
+ *    HYDRA_EXTERNAL_NS::thrust::transform(data.begin(), data.end(),
+ *                      HYDRA_EXTERNAL_NS::thrust::make_constant_iterator(10),
  *                      data.begin(),
- *                      thrust::plus<int>());
+ *                      HYDRA_EXTERNAL_NS::thrust::plus<int>());
  *    
  *    // data is now [13, 17, 12, 15]
  *    
@@ -101,7 +101,7 @@ template<typename Value,
 {
     /*! \cond
      */
-    friend class thrust::iterator_core_access;
+    friend class HYDRA_EXTERNAL_NS::thrust::iterator_core_access;
     typedef typename detail::constant_iterator_base<Value, Incrementable, System>::type          super_t;
     typedef typename detail::constant_iterator_base<Value, Incrementable, System>::incrementable incrementable;
     typedef typename detail::constant_iterator_base<Value, Incrementable, System>::base_iterator base_iterator;
@@ -117,8 +117,8 @@ template<typename Value,
      *  null constructor.
      */
     __hydra_host__ __hydra_device__
-    constant_iterator(void)
-      : super_t(), m_value(){};
+    constant_iterator()
+      : super_t(), m_value() {}
 
     /*! Copy constructor copies the value of another \p constant_iterator into this
      *  \p constant_iterator.
@@ -137,9 +137,9 @@ template<typename Value,
     template<typename OtherSystem>
     __hydra_host__ __hydra_device__
     constant_iterator(constant_iterator<Value,Incrementable,OtherSystem> const &rhs,
-                      typename thrust::detail::enable_if_convertible<
-                        typename thrust::iterator_system<constant_iterator<Value,Incrementable,OtherSystem> >::type,
-                        typename thrust::iterator_system<super_t>::type
+                      typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_convertible<
+                        typename HYDRA_EXTERNAL_NS::thrust::iterator_system<constant_iterator<Value,Incrementable,OtherSystem> >::type,
+                        typename HYDRA_EXTERNAL_NS::thrust::iterator_system<super_t>::type
                       >::type * = 0)
       : super_t(rhs.base()), m_value(rhs.value()) {}
 
@@ -173,7 +173,7 @@ template<typename Value,
      *  \return A \c const reference to this \p constant_iterator's constant value.
      */
     __hydra_host__ __hydra_device__
-    Value const& value(void) const
+    Value const& value() const
     { return m_value; }
 
     /*! \cond
@@ -181,16 +181,16 @@ template<typename Value,
 
   protected:
     __hydra_host__ __hydra_device__
-    Value const& value_reference(void) const
+    Value const& value_reference() const
     { return m_value; }
 
     __hydra_host__ __hydra_device__
-    Value & value_reference(void)
+    Value & value_reference()
     { return m_value; }
   
   private: // Core iterator interface
     __hydra_host__ __hydra_device__
-    reference dereference(void) const
+    reference dereference() const
     {
       return m_value;
     }
@@ -249,4 +249,6 @@ constant_iterator<V> make_constant_iterator(V x)
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+
 HYDRA_EXTERNAL_NAMESPACE_END
+

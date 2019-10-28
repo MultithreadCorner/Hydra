@@ -33,21 +33,19 @@ namespace generic
 
 template<typename T, typename DerivedPolicy>
 __hydra_host__ __hydra_device__
-  thrust::pair<thrust::pointer<T,DerivedPolicy>, typename thrust::pointer<T,DerivedPolicy>::difference_type>
-    get_temporary_buffer(thrust::execution_policy<DerivedPolicy> &exec, typename thrust::pointer<T,DerivedPolicy>::difference_type n);
+  HYDRA_EXTERNAL_NS::thrust::pair<HYDRA_EXTERNAL_NS::thrust::pointer<T,DerivedPolicy>, typename HYDRA_EXTERNAL_NS::thrust::pointer<T,DerivedPolicy>::difference_type>
+    get_temporary_buffer(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, typename HYDRA_EXTERNAL_NS::thrust::pointer<T,DerivedPolicy>::difference_type n);
 
 
 template<typename DerivedPolicy, typename Pointer>
 __hydra_host__ __hydra_device__
-  void return_temporary_buffer(thrust::execution_policy<DerivedPolicy> &exec, Pointer p);
+  void return_temporary_buffer(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, Pointer p);
 
 
 } // end generic
 } // end detail
 } // end system
-} // end thrust
-
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/temporary_buffer.inl>
 

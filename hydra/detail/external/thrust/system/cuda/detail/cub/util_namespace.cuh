@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -34,13 +34,13 @@
 #pragma once
 
 // For example:
-//#define CUB_NS_PREFIX namespace thrust{ namespace detail {
-//#define CUB_NS_POSTFIX } }
+//#define HYDRA_EXTERNAL_NAMESPACE_BEGIN  HYDRA_THRUST_CUB_NS_PREFIX HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust{ namespace detail {
+//#define HYDRA_THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END } }
 
-#ifndef CUB_NS_PREFIX
-#define CUB_NS_PREFIX
+#ifndef HYDRA_THRUST_CUB_NS_PREFIX
+#define HYDRA_THRUST_CUB_NS_PREFIX
 #endif
 
-#ifndef CUB_NS_POSTFIX
-#define CUB_NS_POSTFIX
+#ifndef HYDRA_THRUST_CUB_NS_POSTFIX
+#define HYDRA_THRUST_CUB_NS_POSTFIX
 #endif

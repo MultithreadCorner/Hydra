@@ -59,18 +59,18 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> input(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(4);
  *
  *  input[0] = 0;
  *  input[1] = 5;
  *  input[2] = 3;
  *  input[3] = 7;
  *
- *  thrust::device_vector<int>::iterator iter;
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int>::iterator iter;
  *
- *  iter = thrust::find(thrust::device, input.begin(), input.end(), 3); // returns input.first() + 2
- *  iter = thrust::find(thrust::device, input.begin(), input.end(), 5); // returns input.first() + 1
- *  iter = thrust::find(thrust::device, input.begin(), input.end(), 9); // returns input.end()
+ *  iter = HYDRA_EXTERNAL_NS::thrust::find(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 3); // returns input.first() + 2
+ *  iter = HYDRA_EXTERNAL_NS::thrust::find(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 5); // returns input.first() + 1
+ *  iter = HYDRA_EXTERNAL_NS::thrust::find(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 9); // returns input.end()
  *  \endcode
  *
  *  \see find_if
@@ -78,7 +78,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename DerivedPolicy, typename InputIterator, typename T>
 __hydra_host__ __hydra_device__
-InputIterator find(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+InputIterator find(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator first,
                    InputIterator last,
                    const T& value);
@@ -101,18 +101,18 @@ InputIterator find(const thrust::detail::execution_policy_base<DerivedPolicy> &e
  *  #include <hydra/detail/external/thrust/find.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> input(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(4);
  *
  *  input[0] = 0;
  *  input[1] = 5;
  *  input[2] = 3;
  *  input[3] = 7;
  *
- *  thrust::device_vector<int>::iterator iter;
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int>::iterator iter;
  *
- *  iter = thrust::find(input.begin(), input.end(), 3); // returns input.first() + 2
- *  iter = thrust::find(input.begin(), input.end(), 5); // returns input.first() + 1
- *  iter = thrust::find(input.begin(), input.end(), 9); // returns input.end()
+ *  iter = HYDRA_EXTERNAL_NS::thrust::find(input.begin(), input.end(), 3); // returns input.first() + 2
+ *  iter = HYDRA_EXTERNAL_NS::thrust::find(input.begin(), input.end(), 5); // returns input.first() + 1
+ *  iter = HYDRA_EXTERNAL_NS::thrust::find(input.begin(), input.end(), 9); // returns input.end()
  *  \endcode
  *
  *  \see find_if
@@ -165,18 +165,18 @@ InputIterator find(InputIterator first,
  *  };
  *
  *  ...
- *  thrust::device_vector<int> input(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(4);
  *
  *  input[0] = 0;
  *  input[1] = 5;
  *  input[2] = 3;
  *  input[3] = 7;
  *
- *  thrust::device_vector<int>::iterator iter;
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int>::iterator iter;
  *
- *  iter = thrust::find_if(thrust::device, input.begin(), input.end(), greater_than_four()); // returns input.first() + 1
+ *  iter = HYDRA_EXTERNAL_NS::thrust::find_if(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), greater_than_four()); // returns input.first() + 1
  *
- *  iter = thrust::find_if(thrust::device, input.begin(), input.end(), greater_than_ten());  // returns input.end()
+ *  iter = HYDRA_EXTERNAL_NS::thrust::find_if(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), greater_than_ten());  // returns input.end()
  *  \endcode
  *
  *  \see find
@@ -185,7 +185,7 @@ InputIterator find(InputIterator first,
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-InputIterator find_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+InputIterator find_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred);
@@ -226,18 +226,18 @@ InputIterator find_if(const thrust::detail::execution_policy_base<DerivedPolicy>
  *  };
  *
  *  ...
- *  thrust::device_vector<int> input(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(4);
  *
  *  input[0] = 0;
  *  input[1] = 5;
  *  input[2] = 3;
  *  input[3] = 7;
  *
- *  thrust::device_vector<int>::iterator iter;
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int>::iterator iter;
  *
- *  iter = thrust::find_if(input.begin(), input.end(), greater_than_four()); // returns input.first() + 1
+ *  iter = HYDRA_EXTERNAL_NS::thrust::find_if(input.begin(), input.end(), greater_than_four()); // returns input.first() + 1
  *
- *  iter = thrust::find_if(input.begin(), input.end(), greater_than_ten());  // returns input.end()
+ *  iter = HYDRA_EXTERNAL_NS::thrust::find_if(input.begin(), input.end(), greater_than_ten());  // returns input.end()
  *  \endcode
  *
  *  \see find
@@ -291,18 +291,18 @@ InputIterator find_if(InputIterator first,
  *  };
  *
  *  ...
- *  thrust::device_vector<int> input(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(4);
  *
  *  input[0] = 0;
  *  input[1] = 5;
  *  input[2] = 3;
  *  input[3] = 7;
  *
- *  thrust::device_vector<int>::iterator iter;
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int>::iterator iter;
  *
- *  iter = thrust::find_if_not(thrust::device, input.begin(), input.end(), greater_than_four()); // returns input.first()
+ *  iter = HYDRA_EXTERNAL_NS::thrust::find_if_not(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), greater_than_four()); // returns input.first()
  *
- *  iter = thrust::find_if_not(thrust::device, input.begin(), input.end(), greater_than_ten());  // returns input.first()
+ *  iter = HYDRA_EXTERNAL_NS::thrust::find_if_not(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), greater_than_ten());  // returns input.first()
  *  \endcode
  *
  *  \see find
@@ -311,7 +311,7 @@ InputIterator find_if(InputIterator first,
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-InputIterator find_if_not(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+InputIterator find_if_not(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,
                           Predicate pred);
@@ -352,18 +352,18 @@ InputIterator find_if_not(const thrust::detail::execution_policy_base<DerivedPol
  *  };
  *
  *  ...
- *  thrust::device_vector<int> input(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(4);
  *
  *  input[0] = 0;
  *  input[1] = 5;
  *  input[2] = 3;
  *  input[3] = 7;
  *
- *  thrust::device_vector<int>::iterator iter;
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int>::iterator iter;
  *
- *  iter = thrust::find_if_not(input.begin(), input.end(), greater_than_four()); // returns input.first()
+ *  iter = HYDRA_EXTERNAL_NS::thrust::find_if_not(input.begin(), input.end(), greater_than_four()); // returns input.first()
  *
- *  iter = thrust::find_if_not(input.begin(), input.end(), greater_than_ten());  // returns input.first()
+ *  iter = HYDRA_EXTERNAL_NS::thrust::find_if_not(input.begin(), input.end(), greater_than_ten());  // returns input.first()
  *  \endcode
  *
  *  \see find
@@ -382,6 +382,7 @@ InputIterator find_if_not(InputIterator first,
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/find.inl>
 

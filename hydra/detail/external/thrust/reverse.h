@@ -48,7 +48,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *          \p BidirectionalIterator is mutable.
  *
  *  The following code snippet demonstrates how to use \p reverse to reverse a
- *  \p device_vector of integers using the \p thrust::device execution policy for
+ *  \p device_vector of integers using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for
  *  parallelization:
  *
  *  \code
@@ -57,8 +57,8 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  ...
  *  const int N = 6;
  *  int data[N] = {0, 1, 2, 3, 4, 5};
- *  thrust::device_vector<int> v(data, data + N);
- *  thrust::reverse(thrust::device, v.begin(), v.end());
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(data, data + N);
+ *  HYDRA_EXTERNAL_NS::thrust::reverse(HYDRA_EXTERNAL_NS::thrust::device, v.begin(), v.end());
  *  // v is now {5, 4, 3, 2, 1, 0}
  *  \endcode
  *  
@@ -68,7 +68,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename DerivedPolicy, typename BidirectionalIterator>
 __hydra_host__ __hydra_device__
-  void reverse(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void reverse(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                BidirectionalIterator first,
                BidirectionalIterator last);
 
@@ -91,8 +91,8 @@ __hydra_host__ __hydra_device__
  *  ...
  *  const int N = 6;
  *  int data[N] = {0, 1, 2, 3, 4, 5};
- *  thrust::device_vector<int> v(data, data + N);
- *  thrust::reverse(v.begin(), v.end());
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v(data, data + N);
+ *  HYDRA_EXTERNAL_NS::thrust::reverse(v.begin(), v.end());
  *  // v is now {5, 4, 3, 2, 1, 0}
  *  \endcode
  *  
@@ -105,7 +105,7 @@ template<typename BidirectionalIterator>
                BidirectionalIterator last);
 
 
-/*! \p reverse_copy differs from \ref reverse only in that the reversed range
+/*! \p reverse_copy differs from \p reverse only in that the reversed range
  *  is written to a different output range, rather than inplace.
  *
  *  \p reverse_copy copies elements from the range <tt>[first, last)</tt> to the
@@ -131,7 +131,7 @@ template<typename BidirectionalIterator>
  *  \pre The range <tt>[first, last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p reverse_copy to reverse
- *  an input \p device_vector of integers to an output \p device_vector using the \p thrust::device
+ *  an input \p device_vector of integers to an output \p device_vector using the \p HYDRA_EXTERNAL_NS::thrust::device
  *  execution policy for parallelization:
  *
  *  \code
@@ -140,9 +140,9 @@ template<typename BidirectionalIterator>
  *  ...
  *  const int N = 6;
  *  int data[N] = {0, 1, 2, 3, 4, 5};
- *  thrust::device_vector<int> input(data, data + N);
- *  thrust::device_vector<int> output(N);
- *  thrust::reverse_copy(thrust::device, v.begin(), v.end(), output.begin());
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(data, data + N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> output(N);
+ *  HYDRA_EXTERNAL_NS::thrust::reverse_copy(HYDRA_EXTERNAL_NS::thrust::device, v.begin(), v.end(), output.begin());
  *  // input is still {0, 1, 2, 3, 4, 5}
  *  // output is now  {5, 4, 3, 2, 1, 0}
  *  \endcode
@@ -153,13 +153,13 @@ template<typename BidirectionalIterator>
  */
 template<typename DerivedPolicy, typename BidirectionalIterator, typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator reverse_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator reverse_copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                               BidirectionalIterator first,
                               BidirectionalIterator last,
                               OutputIterator result);
 
 
-/*! \p reverse_copy differs from \ref reverse only in that the reversed range
+/*! \p reverse_copy differs from \p reverse only in that the reversed range
  *  is written to a different output range, rather than inplace.
  *
  *  \p reverse_copy copies elements from the range <tt>[first, last)</tt> to the
@@ -188,9 +188,9 @@ __hydra_host__ __hydra_device__
  *  ...
  *  const int N = 6;
  *  int data[N] = {0, 1, 2, 3, 4, 5};
- *  thrust::device_vector<int> input(data, data + N);
- *  thrust::device_vector<int> output(N);
- *  thrust::reverse_copy(v.begin(), v.end(), output.begin());
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(data, data + N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> output(N);
+ *  HYDRA_EXTERNAL_NS::thrust::reverse_copy(v.begin(), v.end(), output.begin());
  *  // input is still {0, 1, 2, 3, 4, 5}
  *  // output is now  {5, 4, 3, 2, 1, 0}
  *  \endcode
@@ -209,9 +209,10 @@ template<typename BidirectionalIterator, typename OutputIterator>
  */
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/reverse.inl>
 

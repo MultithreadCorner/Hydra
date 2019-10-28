@@ -53,7 +53,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust{
 namespace detail{
 namespace complex{
 
-using thrust::complex;
+using HYDRA_EXTERNAL_NS::thrust::complex;
 
 /* round down to 18 = 54/3 bits */
 __hydra_host__ __hydra_device__ inline
@@ -191,7 +191,7 @@ complex<double> clog(const complex<double>& z){
 template <typename ValueType>
 __hydra_host__ __hydra_device__
 inline complex<ValueType> log(const complex<ValueType>& z){
-  return complex<ValueType>(std::log(thrust::abs(z)),thrust::arg(z));
+  return complex<ValueType>(std::log(HYDRA_EXTERNAL_NS::thrust::abs(z)),HYDRA_EXTERNAL_NS::thrust::arg(z));
 }
 
 template <>
@@ -205,9 +205,11 @@ __hydra_host__ __hydra_device__
 inline complex<ValueType> log10(const complex<ValueType>& z){ 
   // Using the explicit literal prevents compile time warnings in
   // devices that don't support doubles 
-  return thrust::log(z)/ValueType(2.30258509299404568402);
+  return HYDRA_EXTERNAL_NS::thrust::log(z)/ValueType(2.30258509299404568402);
 }
 
 } // HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
     
+
 HYDRA_EXTERNAL_NAMESPACE_END
+

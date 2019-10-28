@@ -34,65 +34,66 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2>
 __hydra_host__ __hydra_device__
-thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<InputIterator1, InputIterator2> mismatch(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                                       InputIterator1 first1,
                                                       InputIterator1 last1,
                                                       InputIterator2 first2)
 {
-  using thrust::system::detail::generic::mismatch;
-  return mismatch(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::mismatch;
+  return mismatch(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2);
 } // end mismatch()
 
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-thrust::pair<InputIterator1, InputIterator2> mismatch(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<InputIterator1, InputIterator2> mismatch(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                                       InputIterator1 first1,
                                                       InputIterator1 last1,
                                                       InputIterator2 first2,
                                                       BinaryPredicate pred)
 {
-  using thrust::system::detail::generic::mismatch;
-  return mismatch(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::mismatch;
+  return mismatch(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, pred);
 } // end mismatch()
 
 
 template<typename InputIterator1, typename InputIterator2>
-thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
+HYDRA_EXTERNAL_NS::thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
                                                       InputIterator1 last1,
                                                       InputIterator2 first2)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::mismatch(select_system(system1,system2), first1, last1, first2);
+  return HYDRA_EXTERNAL_NS::thrust::mismatch(select_system(system1,system2), first1, last1, first2);
 } // end mismatch()
 
 
 template<typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
-thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
+HYDRA_EXTERNAL_NS::thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1,
                                                       InputIterator1 last1,
                                                       InputIterator2 first2,
                                                       BinaryPredicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::mismatch(select_system(system1,system2), first1, last1, first2, pred);
+  return HYDRA_EXTERNAL_NS::thrust::mismatch(select_system(system1,system2), first1, last1, first2, pred);
 } // end mismatch()
 
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

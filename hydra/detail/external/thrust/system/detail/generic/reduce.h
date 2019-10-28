@@ -33,13 +33,13 @@ namespace generic
 
 template<typename DerivedPolicy, typename InputIterator>
 __hydra_host__ __hydra_device__
-  typename thrust::iterator_traits<InputIterator>::value_type
-    reduce(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last);
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::value_type
+    reduce(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last);
 
 
 template<typename DerivedPolicy, typename InputIterator, typename T>
 __hydra_host__ __hydra_device__
-  T reduce(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, T init);
+  T reduce(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, T init);
 
 
 template<typename DerivedPolicy,
@@ -47,15 +47,13 @@ template<typename DerivedPolicy,
          typename T,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  T reduce(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, T init, BinaryFunction binary_op);
+  T reduce(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, T init, BinaryFunction binary_op);
 
 
 } // end namespace generic
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/reduce.inl>
 

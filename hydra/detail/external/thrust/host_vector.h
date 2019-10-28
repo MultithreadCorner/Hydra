@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <memory>
 #include <hydra/detail/external/thrust/detail/vector_base.h>
-#include <hydra/detail/external/thrust/system/cpp/memory.h>
 #include <vector>
 #include <utility>
 
@@ -71,6 +70,13 @@ template<typename T, typename Alloc = std::allocator<T> >
     host_vector(void)
       :Parent() {}
 
+    /*! This constructor creates an empty \p host_vector.
+     *  \param alloc The allocator to use by this host_vector.
+     */
+    __hydra_host__
+    host_vector(const Alloc &alloc)
+      :Parent(alloc) {}
+
     /*! The destructor erases the elements.
      */
     //  Define an empty destructor to explicitly specify
@@ -86,6 +92,15 @@ template<typename T, typename Alloc = std::allocator<T> >
     explicit host_vector(size_type n)
       :Parent(n) {}
 
+    /*! This constructor creates a \p host_vector with the given
+     *  size.
+     *  \param n The number of elements to initially create.
+     *  \param alloc The allocator to use by this host_vector.
+     */
+    __hydra_host__
+    explicit host_vector(size_type n, const Alloc &alloc)
+      :Parent(n,alloc) {}
+
     /*! This constructor creates a \p host_vector with copies
      *  of an exemplar element.
      *  \param n The number of elements to initially create.
@@ -95,12 +110,30 @@ template<typename T, typename Alloc = std::allocator<T> >
     explicit host_vector(size_type n, const value_type &value)
       :Parent(n,value) {}
 
+    /*! This constructor creates a \p host_vector with copies
+     *  of an exemplar element.
+     *  \param n The number of elements to initially create.
+     *  \param value An element to copy.
+     *  \param alloc The allocator to use by this host_vector.
+     */
+    __hydra_host__
+    explicit host_vector(size_type n, const value_type &value, const Alloc &alloc)
+      :Parent(n,value,alloc) {}
+
     /*! Copy constructor copies from an exemplar \p host_vector.
      *  \param v The \p host_vector to copy.
      */
     __hydra_host__
     host_vector(const host_vector &v)
       :Parent(v) {}
+
+    /*! Copy constructor copies from an exemplar \p host_vector.
+     *  \param v The \p host_vector to copy.
+     *  \param alloc The allocator to use by this host_vector.
+     */
+    __hydra_host__
+    host_vector(const host_vector &v, const Alloc &alloc)
+      :Parent(v,alloc) {}
 
   #if __cplusplus >= 201103L
     /*! Move constructor moves from another host_vector.
@@ -109,6 +142,14 @@ template<typename T, typename Alloc = std::allocator<T> >
      __hydra_host__
     host_vector(host_vector &&v)
       :Parent(std::move(v)) {}
+
+    /*! Move constructor moves from another host_vector.
+     *  \param v The host_vector to move.
+     *  \param alloc The allocator to use by this host_vector.
+     */
+     __hydra_host__
+    host_vector(host_vector &&v, const Alloc &alloc)
+      :Parent(std::move(v),alloc) {}
   #endif
 
   /*! Assign operator copies from an exemplar \p host_vector.
@@ -182,6 +223,16 @@ template<typename T, typename Alloc = std::allocator<T> >
     __hydra_host__
     host_vector(InputIterator first, InputIterator last)
       :Parent(first, last) {}
+
+    /*! This constructor builds a \p host_vector from a range.
+     *  \param first The beginning of the range.
+     *  \param last The end of the range.
+     *  \param alloc The allocator to use by this host_vector.
+     */
+    template<typename InputIterator>
+    __hydra_host__
+    host_vector(InputIterator first, InputIterator last, const Alloc &alloc)
+      :Parent(first, last, alloc) {}
 
 // declare these members for the purpose of Doxygenating them
 // they actually exist in a derived-from class
@@ -373,7 +424,7 @@ template<typename T, typename Alloc = std::allocator<T> >
      */
     void pop_back(void);
 
-    /*! This method swaps the contents of this vector_base with another vector.
+    /*! This method swaps the contents of this host_vector with another vector.
      *  \param v The vector with which to swap.
      */
     void swap(host_vector &v);
@@ -444,12 +495,23 @@ template<typename T, typename Alloc = std::allocator<T> >
 #endif // end doxygen-only members
 }; // end host_vector
 
+/*! Exchanges the values of two vectors.
+ *  \p x The first \p host_vector of interest.
+ *  \p y The second \p host_vector of interest.
+ */
+template<typename T, typename Alloc>
+  void swap(host_vector<T,Alloc> &a, host_vector<T,Alloc> &b)
+{
+  a.swap(b);
+} // end swap()
+
 /*! \}
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/host_vector.inl>
 

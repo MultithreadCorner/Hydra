@@ -42,13 +42,13 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  OutputIterator unique_copy(sequential::execution_policy<DerivedPolicy> &/*exec*/,
+  OutputIterator unique_copy(sequential::execution_policy<DerivedPolicy> &,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator output,
                              BinaryPredicate binary_pred)
 {
-  typedef typename thrust::iterator_traits<InputIterator>::value_type T;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::value_type T;
 
   if(first != last)
   {

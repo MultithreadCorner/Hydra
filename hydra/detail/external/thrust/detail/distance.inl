@@ -29,13 +29,14 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 template<typename InputIterator>
 inline __hydra_host__ __hydra_device__
-  typename thrust::iterator_traits<InputIterator>::difference_type
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last)
 {
-  return thrust::system::detail::generic::distance(first, last);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::distance(first, last);
 } // end distance()
 
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

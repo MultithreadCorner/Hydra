@@ -33,7 +33,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 
 
-/*! In \c thrust, the function \c thrust::device_new allocates memory for
+/*! In \c thrust, the function \c HYDRA_EXTERNAL_NS::thrust::device_new allocates memory for
  *  an object and then creates an object at that location by calling a constructor.
  *  Occasionally, however, it is useful to separate those two operations.
  *  If each iterator in the range <tt>[result, result + (last - first))</tt> points
@@ -60,7 +60,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \pre \p first may equal \p result, but the range <tt>[first, last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p uninitialized_copy to initialize
- *  a range of uninitialized memory using the \p thrust::device execution policy for
+ *  a range of uninitialized memory using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for
  *  parallelization:
  *
  *  \code
@@ -79,9 +79,9 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  const int N = 137;
  *
  *  Int val(46);
- *  thrust::device_vector<Int> input(N, val);
- *  thrust::device_ptr<Int> array = thrust::device_malloc<Int>(N);
- *  thrust::uninitialized_copy(thrust::device, input.begin(), input.end(), array);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<Int> input(N, val);
+ *  HYDRA_EXTERNAL_NS::thrust::device_ptr<Int> array = HYDRA_EXTERNAL_NS::thrust::device_malloc<Int>(N);
+ *  HYDRA_EXTERNAL_NS::thrust::uninitialized_copy(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), array);
  *
  *  // Int x = array[i];
  *  // x.val == 46 for all 0 <= i < N
@@ -95,13 +95,13 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename DerivedPolicy, typename InputIterator, typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  ForwardIterator uninitialized_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator uninitialized_copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                      InputIterator first,
                                      InputIterator last,
                                      ForwardIterator result);
 
 
-/*! In \c thrust, the function \c thrust::device_new allocates memory for
+/*! In \c thrust, the function \c HYDRA_EXTERNAL_NS::thrust::device_new allocates memory for
  *  an object and then creates an object at that location by calling a constructor.
  *  Occasionally, however, it is useful to separate those two operations.
  *  If each iterator in the range <tt>[result, result + (last - first))</tt> points
@@ -141,9 +141,9 @@ __hydra_host__ __hydra_device__
  *  const int N = 137;
  *
  *  Int val(46);
- *  thrust::device_vector<Int> input(N, val);
- *  thrust::device_ptr<Int> array = thrust::device_malloc<Int>(N);
- *  thrust::uninitialized_copy(input.begin(), input.end(), array);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<Int> input(N, val);
+ *  HYDRA_EXTERNAL_NS::thrust::device_ptr<Int> array = HYDRA_EXTERNAL_NS::thrust::device_malloc<Int>(N);
+ *  HYDRA_EXTERNAL_NS::thrust::uninitialized_copy(input.begin(), input.end(), array);
  *
  *  // Int x = array[i];
  *  // x.val == 46 for all 0 <= i < N
@@ -161,7 +161,7 @@ template<typename InputIterator, typename ForwardIterator>
                                      ForwardIterator result);
 
 
-/*! In \c thrust, the function \c thrust::device_new allocates memory for
+/*! In \c thrust, the function \c HYDRA_EXTERNAL_NS::thrust::device_new allocates memory for
  *  an object and then creates an object at that location by calling a constructor.
  *  Occasionally, however, it is useful to separate those two operations.
  *  If each iterator in the range <tt>[result, result + n)</tt> points
@@ -189,7 +189,7 @@ template<typename InputIterator, typename ForwardIterator>
  *  \pre \p first may equal \p result, but the range <tt>[first, first + n)</tt> and the range <tt>[result, result + n)</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p uninitialized_copy to initialize
- *  a range of uninitialized memory using the \p thrust::device execution policy for
+ *  a range of uninitialized memory using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for
  *  parallelization:
  *
  *  \code
@@ -208,9 +208,9 @@ template<typename InputIterator, typename ForwardIterator>
  *  const int N = 137;
  *
  *  Int val(46);
- *  thrust::device_vector<Int> input(N, val);
- *  thrust::device_ptr<Int> array = thrust::device_malloc<Int>(N);
- *  thrust::uninitialized_copy_n(thrust::device, input.begin(), N, array);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<Int> input(N, val);
+ *  HYDRA_EXTERNAL_NS::thrust::device_ptr<Int> array = HYDRA_EXTERNAL_NS::thrust::device_malloc<Int>(N);
+ *  HYDRA_EXTERNAL_NS::thrust::uninitialized_copy_n(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), N, array);
  *
  *  // Int x = array[i];
  *  // x.val == 46 for all 0 <= i < N
@@ -225,13 +225,13 @@ template<typename InputIterator, typename ForwardIterator>
  */
 template<typename DerivedPolicy, typename InputIterator, typename Size, typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  ForwardIterator uninitialized_copy_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator uninitialized_copy_n(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator first,
                                        Size n,
                                        ForwardIterator result);
 
 
-/*! In \c thrust, the function \c thrust::device_new allocates memory for
+/*! In \c thrust, the function \c HYDRA_EXTERNAL_NS::thrust::device_new allocates memory for
  *  an object and then creates an object at that location by calling a constructor.
  *  Occasionally, however, it is useful to separate those two operations.
  *  If each iterator in the range <tt>[result, result + n)</tt> points
@@ -272,9 +272,9 @@ __hydra_host__ __hydra_device__
  *  const int N = 137;
  *
  *  Int val(46);
- *  thrust::device_vector<Int> input(N, val);
- *  thrust::device_ptr<Int> array = thrust::device_malloc<Int>(N);
- *  thrust::uninitialized_copy_n(input.begin(), N, array);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<Int> input(N, val);
+ *  HYDRA_EXTERNAL_NS::thrust::device_ptr<Int> array = HYDRA_EXTERNAL_NS::thrust::device_malloc<Int>(N);
+ *  HYDRA_EXTERNAL_NS::thrust::uninitialized_copy_n(input.begin(), N, array);
  *
  *  // Int x = array[i];
  *  // x.val == 46 for all 0 <= i < N
@@ -297,7 +297,7 @@ template<typename InputIterator, typename Size, typename ForwardIterator>
  */
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

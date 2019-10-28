@@ -28,7 +28,7 @@
 
 #pragma once
 
-//  This is the only Thrust header that is guaranteed to 
+//  This is the only Thrust header that is guaranteed to
 //  change with every Thrust release.
 //
 //  HYDRA_THRUST_VERSION % 100 is the sub-minor version
@@ -47,7 +47,7 @@
  *         <tt>HYDRA_THRUST_VERSION / 100 % 1000</tt> is the minor version.
  *         <tt>HYDRA_THRUST_VERSION / 100000</tt> is the major version.
  */
-#define HYDRA_THRUST_VERSION 100803
+#define HYDRA_THRUST_VERSION 100906
 
 /*! \def HYDRA_THRUST_MAJOR_VERSION
  *  \brief The preprocessor macro \p HYDRA_THRUST_MAJOR_VERSION encodes the
@@ -71,17 +71,10 @@
  *  \brief The preprocessor macro \p HYDRA_THRUST_PATCH_NUMBER encodes the
  *         patch number of the Thrust library.
  */
-#define HYDRA_THRUST_PATCH_NUMBER 2
+#define HYDRA_THRUST_PATCH_NUMBER 0
 
 
 // Declare these namespaces here for the purpose of Doxygenating them
 
-/*! \HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
- *  \brief \p thrust is the top-level namespace which contains all Thrust
- *         functions and types.
- */
-HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-{
 
-}
-HYDRA_EXTERNAL_NAMESPACE_END
+

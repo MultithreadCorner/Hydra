@@ -37,6 +37,7 @@ template <typename UnaryFunction, typename OutputIterator>
     {
     }
 
+    __thrust_exec_check_disable__
     template <typename T>
     __hydra_host__ __hydra_device__
     transform_output_iterator_proxy operator=(const T& x)
@@ -54,13 +55,13 @@ template <typename UnaryFunction, typename OutputIterator>
 template <typename UnaryFunction, typename OutputIterator>
 struct transform_output_iterator_base
 {
-    typedef thrust::iterator_adaptor
+    typedef HYDRA_EXTERNAL_NS::thrust::iterator_adaptor
     <
         transform_output_iterator<UnaryFunction, OutputIterator>
       , OutputIterator
-      , thrust::use_default
-      , thrust::use_default
-      , thrust::use_default
+      , HYDRA_EXTERNAL_NS::thrust::use_default
+      , HYDRA_EXTERNAL_NS::thrust::use_default
+      , HYDRA_EXTERNAL_NS::thrust::use_default
       , transform_output_iterator_proxy<UnaryFunction, OutputIterator>
     > type;
 };
@@ -70,9 +71,11 @@ struct transform_output_iterator_base
 template <class OutputIterator, class UnaryFunction>
 struct is_proxy_reference<
     transform_output_iterator_proxy<OutputIterator, UnaryFunction> >
-    : public thrust::detail::true_type {};
+    : public HYDRA_EXTERNAL_NS::thrust::detail::true_type {};
 
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

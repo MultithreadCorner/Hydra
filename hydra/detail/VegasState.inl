@@ -294,8 +294,6 @@ VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::operator=(VegasState<N,hyd
 		fBackendXLow=other.GetBackendXLow();
 		//fBackendDistribution=other.GetBackendDistribution();
 
-		fOStream =other.GetOStream();
-
 		return *this;
 
 }

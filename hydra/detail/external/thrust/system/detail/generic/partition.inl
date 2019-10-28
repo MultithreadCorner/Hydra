@@ -43,24 +43,24 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator stable_partition(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator stable_partition(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    Predicate pred)
 {
-  typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<ForwardIterator>::value_type InputType;
 
   // copy input to temp buffer
-  thrust::detail::temporary_array<InputType,DerivedPolicy> temp(exec, first, last);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<InputType,DerivedPolicy> temp(exec, first, last);
 
   // count the size of the true partition
-  typename thrust::iterator_difference<ForwardIterator>::type num_true = thrust::count_if(exec, first,last,pred);
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<ForwardIterator>::type num_true = HYDRA_EXTERNAL_NS::thrust::count_if(exec, first,last,pred);
 
   // point to the beginning of the false partition
   ForwardIterator out_false = first;
-  thrust::advance(out_false, num_true);
+  HYDRA_EXTERNAL_NS::thrust::advance(out_false, num_true);
 
-  return thrust::stable_partition_copy(exec, temp.begin(), temp.end(), first, out_false, pred).first;
+  return HYDRA_EXTERNAL_NS::thrust::stable_partition_copy(exec, temp.begin(), temp.end(), first, out_false, pred).first;
 } // end stable_partition()
 
 
@@ -69,27 +69,27 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator stable_partition(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator stable_partition(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    InputIterator stencil,
                                    Predicate pred)
 {
-  typedef typename thrust::iterator_traits<ForwardIterator>::value_type InputType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<ForwardIterator>::value_type InputType;
 
   // copy input to temp buffer
-  thrust::detail::temporary_array<InputType,DerivedPolicy> temp(exec, first, last);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<InputType,DerivedPolicy> temp(exec, first, last);
 
   // count the size of the true partition
   InputIterator stencil_last = stencil;
-  thrust::advance(stencil_last, temp.size());
-  typename thrust::iterator_difference<InputIterator>::type num_true = thrust::count_if(exec, stencil, stencil_last, pred);
+  HYDRA_EXTERNAL_NS::thrust::advance(stencil_last, temp.size());
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<InputIterator>::type num_true = HYDRA_EXTERNAL_NS::thrust::count_if(exec, stencil, stencil_last, pred);
 
   // point to the beginning of the false partition
   ForwardIterator out_false = first;
-  thrust::advance(out_false, num_true);
+  HYDRA_EXTERNAL_NS::thrust::advance(out_false, num_true);
 
-  return thrust::stable_partition_copy(exec, temp.begin(), temp.end(), stencil, first, out_false, pred).first;
+  return HYDRA_EXTERNAL_NS::thrust::stable_partition_copy(exec, temp.begin(), temp.end(), stencil, first, out_false, pred).first;
 } // end stable_partition()
 
 
@@ -99,23 +99,23 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(thrust::execution_policy<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,
                           OutputIterator1 out_true,
                           OutputIterator2 out_false,
                           Predicate pred)
 {
-  thrust::detail::unary_negate<Predicate> not_pred(pred);
+  HYDRA_EXTERNAL_NS::thrust::detail::unary_negate<Predicate> not_pred(pred);
 
   // remove_copy_if the true partition to out_true
-  OutputIterator1 end_of_true_partition = thrust::remove_copy_if(exec, first, last, out_true, not_pred);
+  OutputIterator1 end_of_true_partition = HYDRA_EXTERNAL_NS::thrust::remove_copy_if(exec, first, last, out_true, not_pred);
 
   // remove_copy_if the false partition to out_false
-  OutputIterator2 end_of_false_partition = thrust::remove_copy_if(exec, first, last, out_false, pred);
+  OutputIterator2 end_of_false_partition = HYDRA_EXTERNAL_NS::thrust::remove_copy_if(exec, first, last, out_false, pred);
 
-  return thrust::make_pair(end_of_true_partition, end_of_false_partition);
+  return HYDRA_EXTERNAL_NS::thrust::make_pair(end_of_true_partition, end_of_false_partition);
 } // end stable_partition_copy()
 
 
@@ -126,8 +126,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(thrust::execution_policy<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                           InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,
@@ -135,15 +135,15 @@ __hydra_host__ __hydra_device__
                           OutputIterator2 out_false,
                           Predicate pred)
 {
-  thrust::detail::unary_negate<Predicate> not_pred(pred);
+  HYDRA_EXTERNAL_NS::thrust::detail::unary_negate<Predicate> not_pred(pred);
 
   // remove_copy_if the true partition to out_true
-  OutputIterator1 end_of_true_partition = thrust::remove_copy_if(exec, first, last, stencil, out_true, not_pred);
+  OutputIterator1 end_of_true_partition = HYDRA_EXTERNAL_NS::thrust::remove_copy_if(exec, first, last, stencil, out_true, not_pred);
 
   // remove_copy_if the false partition to out_false
-  OutputIterator2 end_of_false_partition = thrust::remove_copy_if(exec, first, last, stencil, out_false, pred);
+  OutputIterator2 end_of_false_partition = HYDRA_EXTERNAL_NS::thrust::remove_copy_if(exec, first, last, stencil, out_false, pred);
 
-  return thrust::make_pair(end_of_true_partition, end_of_false_partition);
+  return HYDRA_EXTERNAL_NS::thrust::make_pair(end_of_true_partition, end_of_false_partition);
 } // end stable_partition_copy()
 
 
@@ -151,12 +151,12 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator partition(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator partition(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred)
 {
-  return thrust::stable_partition(exec, first, last, pred);
+  return HYDRA_EXTERNAL_NS::thrust::stable_partition(exec, first, last, pred);
 } // end partition()
 
 
@@ -165,13 +165,13 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator partition(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator partition(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
                             Predicate pred)
 {
-  return thrust::stable_partition(exec, first, last, stencil, pred);
+  return HYDRA_EXTERNAL_NS::thrust::stable_partition(exec, first, last, stencil, pred);
 } // end partition()
 
 
@@ -181,15 +181,15 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(thrust::execution_policy<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                    InputIterator first,
                    InputIterator last,
                    OutputIterator1 out_true,
                    OutputIterator2 out_false,
                    Predicate pred)
 {
-  return thrust::stable_partition_copy(exec,first,last,out_true,out_false,pred);
+  return HYDRA_EXTERNAL_NS::thrust::stable_partition_copy(exec,first,last,out_true,out_false,pred);
 } // end partition_copy()
 
 
@@ -200,8 +200,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(thrust::execution_policy<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                    InputIterator1 first,
                    InputIterator1 last,
                    InputIterator2 stencil,
@@ -209,7 +209,7 @@ __hydra_host__ __hydra_device__
                    OutputIterator2 out_false,
                    Predicate pred)
 {
-  return thrust::stable_partition_copy(exec,first,last,stencil,out_true,out_false,pred);
+  return HYDRA_EXTERNAL_NS::thrust::stable_partition_copy(exec,first,last,stencil,out_true,out_false,pred);
 } // end partition_copy()
 
 
@@ -217,12 +217,12 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator partition_point(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator partition_point(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Predicate pred)
 {
-  return thrust::find_if_not(exec, first, last, pred);
+  return HYDRA_EXTERNAL_NS::thrust::find_if_not(exec, first, last, pred);
 } // end partition_point()
 
 
@@ -230,14 +230,14 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  bool is_partitioned(thrust::execution_policy<DerivedPolicy> &exec,
+  bool is_partitioned(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
-  return thrust::is_sorted(exec,
-                           thrust::make_transform_iterator(first, thrust::detail::not1(pred)),
-                           thrust::make_transform_iterator(last,  thrust::detail::not1(pred)));
+  return HYDRA_EXTERNAL_NS::thrust::is_sorted(exec,
+                           HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(first, HYDRA_EXTERNAL_NS::thrust::detail::not1(pred)),
+                           HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(last,  HYDRA_EXTERNAL_NS::thrust::detail::not1(pred)));
 } // end is_partitioned()
 
 

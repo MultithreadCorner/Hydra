@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -40,7 +40,7 @@
 #include "../../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  HYDRA_THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -122,7 +122,7 @@ struct WarpReduceShfl
     //---------------------------------------------------------------------
 
     /// Constructor
-    __hydra_device__ __forceinline__ WarpReduceShfl(
+    __device__ __forceinline__ WarpReduceShfl(
         TempStorage &/*temp_storage*/)
     :
         lane_id(LaneId()),
@@ -138,7 +138,7 @@ struct WarpReduceShfl
     //---------------------------------------------------------------------
 
     /// Reduction (specialized for summation across uint32 types)
-    __hydra_device__ __forceinline__ unsigned int ReduceStep(
+    __device__ __forceinline__ unsigned int ReduceStep(
         unsigned int    input,              ///< [in] Calling thread's input item.
         cub::Sum        /*reduction_op*/,   ///< [in] Binary reduction operator
         int             last_lane,          ///< [in] Index of last lane in segment
@@ -174,7 +174,7 @@ struct WarpReduceShfl
 
 
     /// Reduction (specialized for summation across fp32 types)
-    __hydra_device__ __forceinline__ float ReduceStep(
+    __device__ __forceinline__ float ReduceStep(
         float           input,              ///< [in] Calling thread's input item.
         cub::Sum        /*reduction_op*/,   ///< [in] Binary reduction operator
         int             last_lane,          ///< [in] Index of last lane in segment
@@ -210,7 +210,7 @@ struct WarpReduceShfl
 
 
     /// Reduction (specialized for summation across unsigned long long types)
-    __hydra_device__ __forceinline__ unsigned long long ReduceStep(
+    __device__ __forceinline__ unsigned long long ReduceStep(
         unsigned long long  input,              ///< [in] Calling thread's input item.
         cub::Sum            /*reduction_op*/,   ///< [in] Binary reduction operator
         int                 last_lane,          ///< [in] Index of last lane in segment
@@ -251,7 +251,7 @@ struct WarpReduceShfl
 
 
     /// Reduction (specialized for summation across long long types)
-    __hydra_device__ __forceinline__ long long ReduceStep(
+    __device__ __forceinline__ long long ReduceStep(
         long long           input,              ///< [in] Calling thread's input item.
         cub::Sum            /*reduction_op*/,   ///< [in] Binary reduction operator
         int                 last_lane,          ///< [in] Index of last lane in segment
@@ -293,7 +293,7 @@ struct WarpReduceShfl
 
 
     /// Reduction (specialized for summation across double types)
-    __hydra_device__ __forceinline__ double ReduceStep(
+    __device__ __forceinline__ double ReduceStep(
         double              input,              ///< [in] Calling thread's input item.
         cub::Sum            /*reduction_op*/,   ///< [in] Binary reduction operator
         int                 last_lane,          ///< [in] Index of last lane in segment
@@ -340,7 +340,7 @@ struct WarpReduceShfl
 
     /// Reduction (specialized for swizzled ReduceByKeyOp<cub::Sum> across KeyValuePair<KeyT, ValueT> types)
     template <typename ValueT, typename KeyT>
-    __hydra_device__ __forceinline__ KeyValuePair<KeyT, ValueT> ReduceStep(
+    __device__ __forceinline__ KeyValuePair<KeyT, ValueT> ReduceStep(
         KeyValuePair<KeyT, ValueT>                  input,              ///< [in] Calling thread's input item.
         SwizzleScanOp<ReduceByKeyOp<cub::Sum> >     /*reduction_op*/,       ///< [in] Binary reduction operator
         int                                         last_lane,          ///< [in] Index of last lane in segment
@@ -368,7 +368,7 @@ struct WarpReduceShfl
 
     /// Reduction (specialized for swizzled ReduceBySegmentOp<cub::Sum> across KeyValuePair<OffsetT, ValueT> types)
     template <typename ValueT, typename OffsetT>
-    __hydra_device__ __forceinline__ KeyValuePair<OffsetT, ValueT> ReduceStep(
+    __device__ __forceinline__ KeyValuePair<OffsetT, ValueT> ReduceStep(
         KeyValuePair<OffsetT, ValueT>                 input,              ///< [in] Calling thread's input item.
         SwizzleScanOp<ReduceBySegmentOp<cub::Sum> >   /*reduction_op*/,   ///< [in] Binary reduction operator
         int                                           last_lane,          ///< [in] Index of last lane in segment
@@ -388,7 +388,7 @@ struct WarpReduceShfl
 
     /// Reduction step (generic)
     template <typename _T, typename ReductionOp>
-    __hydra_device__ __forceinline__ _T ReduceStep(
+    __device__ __forceinline__ _T ReduceStep(
         _T                  input,              ///< [in] Calling thread's input item.
         ReductionOp         reduction_op,       ///< [in] Binary reduction operator
         int                 last_lane,          ///< [in] Index of last lane in segment
@@ -408,7 +408,7 @@ struct WarpReduceShfl
 
     /// Reduction step (specialized for small unsigned integers size 32b or less)
     template <typename _T, typename ReductionOp>
-    __hydra_device__ __forceinline__ _T ReduceStep(
+    __device__ __forceinline__ _T ReduceStep(
         _T              input,                  ///< [in] Calling thread's input item.
         ReductionOp     reduction_op,           ///< [in] Binary reduction operator
         int             last_lane,              ///< [in] Index of last lane in segment
@@ -421,7 +421,7 @@ struct WarpReduceShfl
 
     /// Reduction step (specialized for types other than small unsigned integers size 32b or less)
     template <typename _T, typename ReductionOp>
-    __hydra_device__ __forceinline__ _T ReduceStep(
+    __device__ __forceinline__ _T ReduceStep(
         _T              input,                  ///< [in] Calling thread's input item.
         ReductionOp     reduction_op,           ///< [in] Binary reduction operator
         int             last_lane,              ///< [in] Index of last lane in segment
@@ -437,7 +437,7 @@ struct WarpReduceShfl
     //---------------------------------------------------------------------
 
     template <typename ReductionOp, int STEP>
-    __hydra_device__ __forceinline__ void ReduceStep(
+    __device__ __forceinline__ void ReduceStep(
         T&              input,              ///< [in] Calling thread's input item.
         ReductionOp     reduction_op,       ///< [in] Binary reduction operator
         int             last_lane,          ///< [in] Index of last lane in segment
@@ -449,7 +449,7 @@ struct WarpReduceShfl
     }
 
     template <typename ReductionOp>
-    __hydra_device__ __forceinline__ void ReduceStep(
+    __device__ __forceinline__ void ReduceStep(
         T&              /*input*/,              ///< [in] Calling thread's input item.
         ReductionOp     /*reduction_op*/,       ///< [in] Binary reduction operator
         int             /*last_lane*/,          ///< [in] Index of last lane in segment
@@ -466,7 +466,7 @@ struct WarpReduceShfl
         bool            ALL_LANES_VALID,        ///< Whether all lanes in each warp are contributing a valid fold of items
         int             FOLDED_ITEMS_PER_LANE,  ///< Number of items folded into each lane
         typename        ReductionOp>
-    __hydra_device__ __forceinline__ T Reduce(
+    __device__ __forceinline__ T Reduce(
         T               input,                  ///< [in] Calling thread's input
         int             folded_items_per_warp,  ///< [in] Total number of valid items folded into each logical warp
         ReductionOp     reduction_op)           ///< [in] Binary reduction operator
@@ -481,7 +481,7 @@ struct WarpReduceShfl
         }
 
         // Common case is FOLDED_ITEMS_PER_LANE = 1 (or a multiple of 32)
-        int lanes_with_valid_data = (folded_items_per_warp - 1) / FOLDED_ITEMS_PER_LANE;
+        int lanes_with_valid_data = (folded_items_per_warp > 0 ? (folded_items_per_warp - 1) / FOLDED_ITEMS_PER_LANE : 0);
 
         // Get the last valid lane
         int last_lane = (ALL_LANES_VALID) ?
@@ -509,7 +509,7 @@ struct WarpReduceShfl
         bool            HEAD_SEGMENTED,     ///< Whether flags indicate a segment-head or a segment-tail
         typename        FlagT,
         typename        ReductionOp>
-    __hydra_device__ __forceinline__ T SegmentedReduce(
+    __device__ __forceinline__ T SegmentedReduce(
         T               input,              ///< [in] Calling thread's input
         FlagT           flag,               ///< [in] Whether or not the current lane is a segment head/tail
         ReductionOp     reduction_op)       ///< [in] Binary reduction operator
@@ -548,4 +548,4 @@ struct WarpReduceShfl
 
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+HYDRA_THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)

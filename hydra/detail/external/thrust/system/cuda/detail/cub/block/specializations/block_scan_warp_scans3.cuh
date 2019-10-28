@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -39,7 +39,7 @@
 #include "../../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  HYDRA_THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -118,7 +118,7 @@ struct BlockScanWarpScans
     //---------------------------------------------------------------------
 
     /// Constructor
-    __hydra_device__ __forceinline__ BlockScanWarpScans(
+    __device__ __forceinline__ BlockScanWarpScans(
         TempStorage &temp_storage)
     :
         temp_storage(temp_storage.Alias()),
@@ -134,7 +134,7 @@ struct BlockScanWarpScans
 
     /// Computes an exclusive thread block-wide prefix scan using the specified binary \p scan_op functor.  Each thread contributes one input element.  With no initial value, the output computed for <em>thread</em><sub>0</sub> is undefined.
     template <typename ScanOp>
-    __hydra_device__ __forceinline__ void ExclusiveScan(
+    __device__ __forceinline__ void ExclusiveScan(
         T               input,                          ///< [in] Calling thread's input item
         T               &exclusive_output,              ///< [out] Calling thread's output item (may be aliased to \p input)
         ScanOp          scan_op)                        ///< [in] Binary scan operator
@@ -147,7 +147,7 @@ struct BlockScanWarpScans
 
     /// Computes an exclusive thread block-wide prefix scan using the specified binary \p scan_op functor.  Each thread contributes one input element.
     template <typename ScanOp>
-    __hydra_device__ __forceinline__ void ExclusiveScan(
+    __device__ __forceinline__ void ExclusiveScan(
         T               input,              ///< [in] Calling thread's input items
         T               &exclusive_output,  ///< [out] Calling thread's output items (may be aliased to \p input)
         const T         &initial_value,     ///< [in] Initial value to seed the exclusive scan
@@ -160,7 +160,7 @@ struct BlockScanWarpScans
 
     /// Computes an exclusive thread block-wide prefix scan using the specified binary \p scan_op functor.  Each thread contributes one input element.  Also provides every thread with the block-wide \p block_aggregate of all inputs.  With no initial value, the output computed for <em>thread</em><sub>0</sub> is undefined.
     template <typename ScanOp>
-    __hydra_device__ __forceinline__ void ExclusiveScan(
+    __device__ __forceinline__ void ExclusiveScan(
         T               input,              ///< [in] Calling thread's input item
         T               &exclusive_output,  ///< [out] Calling thread's output item (may be aliased to \p input)
         ScanOp          scan_op,            ///< [in] Binary scan operator
@@ -207,7 +207,7 @@ struct BlockScanWarpScans
 
     /// Computes an exclusive thread block-wide prefix scan using the specified binary \p scan_op functor.  Each thread contributes one input element.  Also provides every thread with the block-wide \p block_aggregate of all inputs.
     template <typename ScanOp>
-    __hydra_device__ __forceinline__ void ExclusiveScan(
+    __device__ __forceinline__ void ExclusiveScan(
         T               input,              ///< [in] Calling thread's input items
         T               &exclusive_output,  ///< [out] Calling thread's output items (may be aliased to \p input)
         const T         &initial_value,     ///< [in] Initial value to seed the exclusive scan
@@ -256,7 +256,7 @@ struct BlockScanWarpScans
     template <
         typename ScanOp,
         typename BlockPrefixCallbackOp>
-    __hydra_device__ __forceinline__ void ExclusiveScan(
+    __device__ __forceinline__ void ExclusiveScan(
         T                       input,                          ///< [in] Calling thread's input item
         T                       &exclusive_output,              ///< [out] Calling thread's output item (may be aliased to \p input)
         ScanOp                  scan_op,                        ///< [in] Binary scan operator
@@ -309,7 +309,7 @@ struct BlockScanWarpScans
 
     /// Computes an inclusive thread block-wide prefix scan using the specified binary \p scan_op functor.  Each thread contributes one input element.
     template <typename ScanOp>
-    __hydra_device__ __forceinline__ void InclusiveScan(
+    __device__ __forceinline__ void InclusiveScan(
         T               input,                          ///< [in] Calling thread's input item
         T               &inclusive_output,              ///< [out] Calling thread's output item (may be aliased to \p input)
         ScanOp          scan_op)                        ///< [in] Binary scan operator
@@ -321,7 +321,7 @@ struct BlockScanWarpScans
 
     /// Computes an inclusive thread block-wide prefix scan using the specified binary \p scan_op functor.  Each thread contributes one input element.  Also provides every thread with the block-wide \p block_aggregate of all inputs.
     template <typename ScanOp>
-    __hydra_device__ __forceinline__ void InclusiveScan(
+    __device__ __forceinline__ void InclusiveScan(
         T               input,                          ///< [in] Calling thread's input item
         T               &inclusive_output,              ///< [out] Calling thread's output item (may be aliased to \p input)
         ScanOp          scan_op,                        ///< [in] Binary scan operator
@@ -367,7 +367,7 @@ struct BlockScanWarpScans
     template <
         typename ScanOp,
         typename BlockPrefixCallbackOp>
-    __hydra_device__ __forceinline__ void InclusiveScan(
+    __device__ __forceinline__ void InclusiveScan(
         T                       input,                          ///< [in] Calling thread's input item
         T                       &inclusive_output,              ///< [out] Calling thread's output item (may be aliased to \p input)
         ScanOp                  scan_op,                        ///< [in] Binary scan operator
@@ -414,5 +414,5 @@ struct BlockScanWarpScans
 
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+HYDRA_THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
 

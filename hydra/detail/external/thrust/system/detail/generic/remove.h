@@ -38,7 +38,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T>
 __hydra_host__ __hydra_device__
-  ForwardIterator remove(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator remove(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                          ForwardIterator first,
                          ForwardIterator last,
                          const T &value);
@@ -49,7 +49,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename T>
 __hydra_host__ __hydra_device__
-  OutputIterator remove_copy(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator remove_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator result,
@@ -60,7 +60,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator remove_if(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator remove_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred);
@@ -71,7 +71,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator remove_if(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator remove_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
@@ -83,7 +83,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  OutputIterator remove_copy_if(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator remove_copy_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
@@ -96,7 +96,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  OutputIterator remove_copy_if(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator remove_copy_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                 InputIterator1 first,
                                 InputIterator1 last,
                                 InputIterator2 stencil,
@@ -108,8 +108,6 @@ __hydra_host__ __hydra_device__
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/remove.inl>
 

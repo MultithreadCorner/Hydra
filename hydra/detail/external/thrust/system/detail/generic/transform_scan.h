@@ -36,7 +36,7 @@ template<typename ExecutionPolicy,
          typename UnaryFunction,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  OutputIterator transform_inclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
+  OutputIterator transform_inclusive_scan(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                           InputIterator first,
                                           InputIterator last,
                                           OutputIterator result,
@@ -50,7 +50,7 @@ template<typename ExecutionPolicy,
          typename T,
          typename AssociativeOperator>
 __hydra_host__ __hydra_device__
-  OutputIterator transform_exclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
+  OutputIterator transform_exclusive_scan(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                           InputIterator first,
                                           InputIterator last,
                                           OutputIterator result,
@@ -63,8 +63,7 @@ __hydra_host__ __hydra_device__
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END
-
+HYDRA_EXTERNAL_NAMESPACE_END
 #include <hydra/detail/external/thrust/system/detail/generic/transform_scan.inl>
 

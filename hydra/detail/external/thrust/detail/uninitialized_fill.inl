@@ -32,26 +32,26 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
 __hydra_host__ __hydra_device__
-  void uninitialized_fill(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void uninitialized_fill(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           ForwardIterator first,
                           ForwardIterator last,
                           const T &x)
 {
-  using thrust::system::detail::generic::uninitialized_fill;
-  return uninitialized_fill(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, x);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::uninitialized_fill;
+  return uninitialized_fill(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, x);
 } // end uninitialized_fill()
 
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename Size, typename T>
 __hydra_host__ __hydra_device__
-  ForwardIterator uninitialized_fill_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator uninitialized_fill_n(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        ForwardIterator first,
                                        Size n,
                                        const T &x)
 {
-  using thrust::system::detail::generic::uninitialized_fill_n;
-  return uninitialized_fill_n(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, n, x);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::uninitialized_fill_n;
+  return uninitialized_fill_n(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, n, x);
 } // end uninitialized_fill_n()
 
 
@@ -61,13 +61,13 @@ template<typename ForwardIterator,
                           ForwardIterator last,
                           const T &x)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
   System system;
 
-  thrust::uninitialized_fill(select_system(system), first, last, x);
+  HYDRA_EXTERNAL_NS::thrust::uninitialized_fill(select_system(system), first, last, x);
 } // end uninitialized_fill()
 
 
@@ -78,16 +78,18 @@ template<typename ForwardIterator,
                                        Size n,
                                        const T &x)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
   System system;
 
-  return thrust::uninitialized_fill_n(select_system(system), first, n, x);
+  return HYDRA_EXTERNAL_NS::thrust::uninitialized_fill_n(select_system(system), first, n, x);
 } // end uninitialized_fill_n()
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

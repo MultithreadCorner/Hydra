@@ -61,7 +61,7 @@ namespace random
  *  int main(void)
  *  {
  *    // create a minstd_rand object, which is an instance of linear_congruential_engine
- *    thrust::minstd_rand rng1;
+ *    HYDRA_EXTERNAL_NS::thrust::minstd_rand rng1;
  *
  *    // output some random values to cout
  *    std::cout << rng1() << std::endl;
@@ -69,7 +69,7 @@ namespace random
  *    // a random value is printed
  *
  *    // create a new minstd_rand from a seed
- *    thrust::minstd_rand rng2(13);
+ *    HYDRA_EXTERNAL_NS::thrust::minstd_rand rng2(13);
  *
  *    // discard some random values
  *    rng2.discard(13);
@@ -80,13 +80,13 @@ namespace random
  *    // rng2's current state is printed
  *
  *    // print the minimum and maximum values that minstd_rand can produce
- *    std::cout << thrust::minstd_rand::min << std::endl;
- *    std::cout << thrust::minstd_rand::max << std::endl;
+ *    std::cout << HYDRA_EXTERNAL_NS::thrust::minstd_rand::min << std::endl;
+ *    std::cout << HYDRA_EXTERNAL_NS::thrust::minstd_rand::max << std::endl;
  *
  *    // the range of minstd_rand is printed
  *
  *    // save the state of rng2 to a different object
- *    thrust::minstd_rand rng3 = rng2;
+ *    HYDRA_EXTERNAL_NS::thrust::minstd_rand rng3 = rng2;
  *
  *    // compare rng2 and rng3
  *    std::cout << (rng2 == rng3) << std::endl;
@@ -106,8 +106,8 @@ namespace random
  *
  *  \endcode
  *
- *  \see thrust::random::minstd_rand
- *  \see thrust::random::minstd_rand0
+ *  \see HYDRA_EXTERNAL_NS::thrust::random::minstd_rand
+ *  \see HYDRA_EXTERNAL_NS::thrust::random::minstd_rand0
  */
 template<typename UIntType, UIntType a, UIntType c, UIntType m>
   class linear_congruential_engine
@@ -188,9 +188,9 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
 
     static void transition(result_type &state);
 
-    friend struct thrust::random::detail::random_core_access;
+    friend struct HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access;
 
-    friend struct thrust::random::detail::linear_congruential_engine_discard;
+    friend struct HYDRA_EXTERNAL_NS::thrust::random::detail::linear_congruential_engine_discard;
 
     __hydra_host__ __hydra_device__
     bool equal(const linear_congruential_engine &rhs) const;
@@ -268,7 +268,7 @@ operator>>(std::basic_istream<CharT,Traits> &is,
  *  \note The 10000th consecutive invocation of a default-constructed object of type \p minstd_rand0
  *        shall produce the value \c 1043618065 .
  */
-typedef linear_congruential_engine<thrust::detail::uint32_t, 16807, 0, 2147483647> minstd_rand0;
+typedef linear_congruential_engine<HYDRA_EXTERNAL_NS::thrust::detail::uint32_t, 16807, 0, 2147483647> minstd_rand0;
 
 
 /*! \typedef minstd_rand
@@ -277,21 +277,22 @@ typedef linear_congruential_engine<thrust::detail::uint32_t, 16807, 0, 214748364
  *  \note The 10000th consecutive invocation of a default-constructed object of type \p minstd_rand
  *        shall produce the value \c 399268537 .
  */
-typedef linear_congruential_engine<thrust::detail::uint32_t, 48271, 0, 2147483647> minstd_rand;
+typedef linear_congruential_engine<HYDRA_EXTERNAL_NS::thrust::detail::uint32_t, 48271, 0, 2147483647> minstd_rand;
 
 /*! \} // predefined_random
  */
   
 } // end random
 
-// import names into thrust::
+// import names into HYDRA_EXTERNAL_NS::thrust::
 using random::linear_congruential_engine;
 using random::minstd_rand;
 using random::minstd_rand0;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/random/detail/linear_congruential_engine.inl>
 

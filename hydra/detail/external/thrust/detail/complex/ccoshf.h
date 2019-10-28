@@ -55,7 +55,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust{
 namespace detail{
 namespace complex{		      	
 
-using thrust::complex;
+using HYDRA_EXTERNAL_NS::thrust::complex;
       
 __hydra_host__ __hydra_device__ inline
 complex<float> ccoshf(const complex<float>& z){
@@ -86,7 +86,7 @@ complex<float> ccoshf(const complex<float>& z){
       return (complex<float>(h * cosf(y), copysignf(h, x) * sinf(y)));
     } else if (ix < 0x4340b1e7) {
       /* x < 192.7: scale to avoid overflow */
-      thrust::complex<float> z_;
+      HYDRA_EXTERNAL_NS::thrust::complex<float> z_;
       z_ = ldexp_cexpf(complex<float>(fabsf(x), y), -1);
       return (complex<float>(z_.real(), z_.imag() * copysignf(1.0f, x)));
     } else {
@@ -140,5 +140,5 @@ inline complex<float> cosh(const complex<float>& z){
   
 } // HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
-
 HYDRA_EXTERNAL_NAMESPACE_END
+

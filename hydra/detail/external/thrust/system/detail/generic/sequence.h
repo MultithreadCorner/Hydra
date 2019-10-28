@@ -33,14 +33,14 @@ namespace generic
 template<typename DerivedPolicy,
          typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  void sequence(thrust::execution_policy<DerivedPolicy> &exec,
+  void sequence(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last);
 
 
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
 __hydra_host__ __hydra_device__
-  void sequence(thrust::execution_policy<DerivedPolicy> &exec,
+  void sequence(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init);
@@ -48,7 +48,7 @@ __hydra_host__ __hydra_device__
 
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
 __hydra_host__ __hydra_device__
-  void sequence(thrust::execution_policy<DerivedPolicy> &exec,
+  void sequence(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init,
@@ -59,8 +59,6 @@ __hydra_host__ __hydra_device__
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/sequence.inl>
 

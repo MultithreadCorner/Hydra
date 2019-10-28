@@ -35,7 +35,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename UnaryOperation>
 __hydra_host__ __hydra_device__
-  void tabulate(thrust::execution_policy<DerivedPolicy> &exec,
+  void tabulate(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 UnaryOperation unary_op)
@@ -46,9 +46,9 @@ __hydra_host__ __hydra_device__
   // this causes problems when a zip_iterator is created in transform's implementation -- ForwardIterator is
   // incremented by a 64b difference_type and some compilers warn
   // to avoid this, specify the counting_iterator's difference_type to be the same as ForwardIterator's.
-  thrust::counting_iterator<difference_type, thrust::use_default, thrust::use_default, difference_type> iter(0);
+  HYDRA_EXTERNAL_NS::thrust::counting_iterator<difference_type, HYDRA_EXTERNAL_NS::thrust::use_default, HYDRA_EXTERNAL_NS::thrust::use_default, difference_type> iter(0);
 
-  thrust::transform(exec, iter, iter + thrust::distance(first, last), first, unary_op);
+  HYDRA_EXTERNAL_NS::thrust::transform(exec, iter, iter + HYDRA_EXTERNAL_NS::thrust::distance(first, last), first, unary_op);
 } // end tabulate()
 
 
@@ -56,5 +56,6 @@ __hydra_host__ __hydra_device__
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

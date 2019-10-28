@@ -186,7 +186,7 @@ struct EvalMother
 	}
 
 	__hydra_host__   __hydra_device__ inline
-	GReal_t process(const GInt_t evt, Vector4R (&daugters)[N])
+	GReal_t process(size_t evt, Vector4R (&daugters)[N])
 	{
 
 		GRND randEng( fSeed );//hash(evt,fSeed) );
@@ -301,9 +301,9 @@ struct EvalMother
 
 	}
 
-
+	template< typename I>
 	__hydra_host__   __hydra_device__
-	inline result_tuple_type operator()( size_t evt )
+	inline result_tuple_type operator()( I evt )
 	{
 		typedef typename hydra::detail::tuple_type<N,
 				Vector4R>::type Tuple_t;

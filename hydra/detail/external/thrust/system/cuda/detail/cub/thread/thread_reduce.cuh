@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -37,7 +37,7 @@
 #include "../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  HYDRA_THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -52,7 +52,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ReductionOp>
-__hydra_device__ __forceinline__ T ThreadReduce(
+__device__ __forceinline__ T ThreadReduce(
     T*                  input,                  ///< [in] Input array
     ReductionOp         reduction_op,           ///< [in] Binary reduction operator
     T                   prefix,                 ///< [in] Prefix to seed reduction with
@@ -79,7 +79,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ReductionOp>
-__hydra_device__ __forceinline__ T ThreadReduce(
+__device__ __forceinline__ T ThreadReduce(
     T*          input,                  ///< [in] Input array
     ReductionOp reduction_op,           ///< [in] Binary reduction operator
     T           prefix)                 ///< [in] Prefix to seed reduction with
@@ -99,7 +99,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ReductionOp>
-__hydra_device__ __forceinline__ T ThreadReduce(
+__device__ __forceinline__ T ThreadReduce(
     T*          input,                  ///< [in] Input array
     ReductionOp reduction_op)           ///< [in] Binary reduction operator
 {
@@ -119,7 +119,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ReductionOp>
-__hydra_device__ __forceinline__ T ThreadReduce(
+__device__ __forceinline__ T ThreadReduce(
     T           (&input)[LENGTH],       ///< [in] Input array
     ReductionOp reduction_op,           ///< [in] Binary reduction operator
     T           prefix)                 ///< [in] Prefix to seed reduction with
@@ -139,7 +139,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ReductionOp>
-__hydra_device__ __forceinline__ T ThreadReduce(
+__device__ __forceinline__ T ThreadReduce(
     T           (&input)[LENGTH],       ///< [in] Input array
     ReductionOp reduction_op)           ///< [in] Binary reduction operator
 {
@@ -149,4 +149,4 @@ __hydra_device__ __forceinline__ T ThreadReduce(
 
 }               // internal namespace
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+HYDRA_THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)

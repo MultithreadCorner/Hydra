@@ -42,8 +42,8 @@ struct swap_pair_elements
   void operator()(Tuple t)
   {
     // use unqualified swap to allow ADL to catch any user-defined swap
-    using thrust::swap;
-    swap(thrust::get<0>(t), thrust::get<1>(t));
+    using HYDRA_EXTERNAL_NS::thrust::swap;
+    swap(HYDRA_EXTERNAL_NS::thrust::get<0>(t), HYDRA_EXTERNAL_NS::thrust::get<1>(t));
   }
 }; // end swap_pair_elements
 
@@ -55,25 +55,25 @@ template<typename DerivedPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2>
 __hydra_host__ __hydra_device__
-  ForwardIterator2 swap_ranges(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator2 swap_ranges(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                ForwardIterator1 first1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2)
 {
-  typedef thrust::tuple<ForwardIterator1,ForwardIterator2> IteratorTuple;
-  typedef thrust::zip_iterator<IteratorTuple>              ZipIterator;
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<ForwardIterator1,ForwardIterator2> IteratorTuple;
+  typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<IteratorTuple>              ZipIterator;
 
-  ZipIterator result = thrust::for_each(exec,
-                                        thrust::make_zip_iterator(thrust::make_tuple(first1, first2)),
-                                        thrust::make_zip_iterator(thrust::make_tuple(last1,  first2)),
+  ZipIterator result = HYDRA_EXTERNAL_NS::thrust::for_each(exec,
+                                        HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(first1, first2)),
+                                        HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(last1,  first2)),
                                         detail::swap_pair_elements());
-  return thrust::get<1>(result.get_iterator_tuple());
+  return HYDRA_EXTERNAL_NS::thrust::get<1>(result.get_iterator_tuple());
 } // end swap_ranges()
 
 
 } // end generic
 } // end detail
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

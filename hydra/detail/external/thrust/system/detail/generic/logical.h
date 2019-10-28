@@ -34,31 +34,31 @@ namespace generic
 
 template<typename ExecutionPolicy, typename InputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-bool all_of(thrust::execution_policy<ExecutionPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
+bool all_of(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {
-  return thrust::find_if(exec, first, last, thrust::detail::not1(pred)) == last;
+  return HYDRA_EXTERNAL_NS::thrust::find_if(exec, first, last, HYDRA_EXTERNAL_NS::thrust::detail::not1(pred)) == last;
 }
 
 
 template<typename ExecutionPolicy, typename InputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-bool any_of(thrust::execution_policy<ExecutionPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
+bool any_of(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {
-  return thrust::find_if(exec, first, last, pred) != last;
+  return HYDRA_EXTERNAL_NS::thrust::find_if(exec, first, last, pred) != last;
 }
 
 
 template<typename ExecutionPolicy, typename InputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-bool none_of(thrust::execution_policy<ExecutionPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
+bool none_of(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {
-  return !thrust::any_of(exec, first, last, pred);
+  return !HYDRA_EXTERNAL_NS::thrust::any_of(exec, first, last, pred);
 }
 
 
 } // end generic
 } // end detail
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

@@ -27,7 +27,7 @@ namespace detail
 // a type which may be assigned any other type
 struct any_assign
 {
-  inline __hydra_host__ __hydra_device__ any_assign(void)
+  inline __hydra_host__ __hydra_device__ any_assign()
   {}
 
   template<typename T>
@@ -51,6 +51,8 @@ struct any_assign
 
 
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

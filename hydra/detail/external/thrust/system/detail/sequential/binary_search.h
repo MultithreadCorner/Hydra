@@ -49,21 +49,21 @@ ForwardIterator lower_bound(sequential::execution_policy<DerivedPolicy> &,
                             StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
 
-  typedef typename thrust::iterator_difference<ForwardIterator>::type difference_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<ForwardIterator>::type difference_type;
 
-  difference_type len = thrust::distance(first, last);
+  difference_type len = HYDRA_EXTERNAL_NS::thrust::distance(first, last);
 
   while(len > 0)
   {
     difference_type half = len >> 1;
     ForwardIterator middle = first;
 
-    thrust::advance(middle, half);
+    HYDRA_EXTERNAL_NS::thrust::advance(middle, half);
 
     if(wrapped_comp(*middle, val))
     {
@@ -94,21 +94,21 @@ ForwardIterator upper_bound(sequential::execution_policy<DerivedPolicy> &,
                             StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
 
-  typedef typename thrust::iterator_difference<ForwardIterator>::type difference_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<ForwardIterator>::type difference_type;
 
-  difference_type len = thrust::distance(first, last);
+  difference_type len = HYDRA_EXTERNAL_NS::thrust::distance(first, last);
 
   while(len > 0)
   {
     difference_type half = len >> 1;
     ForwardIterator middle = first;
 
-    thrust::advance(middle, half);
+    HYDRA_EXTERNAL_NS::thrust::advance(middle, half);
 
     if(wrapped_comp(val, *middle))
     {
@@ -141,7 +141,7 @@ bool binary_search(sequential::execution_policy<DerivedPolicy> &exec,
   ForwardIterator iter = sequential::lower_bound(exec, first, last, val, comp);
 
   // wrap comp
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -154,5 +154,4 @@ bool binary_search(sequential::execution_policy<DerivedPolicy> &exec,
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END

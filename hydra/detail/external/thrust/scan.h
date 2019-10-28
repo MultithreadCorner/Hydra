@@ -73,7 +73,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \pre \p first may equal \p result but the range <tt>[first, last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p inclusive_scan to compute an in-place
- *  prefix sum using the \p thrust::host execution policy for parallelization:
+ *  prefix sum using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/scan.h>
@@ -82,7 +82,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  
  *  int data[6] = {1, 0, 2, 2, 1, 3};
  *
- *  thrust::inclusive_scan(thrust::host, data, data + 6, data); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::inclusive_scan(HYDRA_EXTERNAL_NS::thrust::host, data, data + 6, data); // in-place scan
  *
  *  // data is now {1, 1, 3, 5, 6, 9}
  *  \endcode
@@ -94,7 +94,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator inclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator inclusive_scan(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result);
@@ -137,7 +137,7 @@ __hydra_host__ __hydra_device__
  *  
  *  int data[6] = {1, 0, 2, 2, 1, 3};
  *
- *  thrust::inclusive_scan(data, data + 6, data); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::inclusive_scan(data, data + 6, data); // in-place scan
  *
  *  // data is now {1, 1, 3, 5, 6, 9}
  *  \endcode
@@ -186,14 +186,14 @@ template<typename InputIterator,
  *  \pre \p first may equal \p result but the range <tt>[first, last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p inclusive_scan to compute an in-place
- *  prefix sum using the \p thrust::host execution policy for parallelization:
+ *  prefix sum using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  int data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};
  * 
- *  thrust::maximum<int> binary_op;
+ *  HYDRA_EXTERNAL_NS::thrust::maximum<int> binary_op;
  *
- *  thrust::inclusive_scan(thrust::host, data, data + 10, data, binary_op); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::inclusive_scan(HYDRA_EXTERNAL_NS::thrust::host, data, data + 10, data, binary_op); // in-place scan
  *
  *  // data is now {-5, 0, 2, 2, 2, 4, 4, 4, 4, 8}
  *  \endcode
@@ -205,7 +205,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename AssociativeOperator>
 __hydra_host__ __hydra_device__
-  OutputIterator inclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator inclusive_scan(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
@@ -246,9 +246,9 @@ __hydra_host__ __hydra_device__
  *  \code
  *  int data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};
  * 
- *  thrust::maximum<int> binary_op;
+ *  HYDRA_EXTERNAL_NS::thrust::maximum<int> binary_op;
  *
- *  thrust::inclusive_scan(data, data + 10, data, binary_op); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::inclusive_scan(data, data + 10, data, binary_op); // in-place scan
  *
  *  // data is now {-5, 0, 2, 2, 2, 4, 4, 4, 4, 8}
  *  \endcode
@@ -294,7 +294,7 @@ template<typename InputIterator,
  *  \pre \p first may equal \p result but the range <tt>[first, last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p exclusive_scan to compute an in-place
- *  prefix sum using the \p thrust::host execution policy for parallelization:
+ *  prefix sum using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/scan.h>
@@ -303,7 +303,7 @@ template<typename InputIterator,
  *  
  *  int data[6] = {1, 0, 2, 2, 1, 3};
  *
- *  thrust::exclusive_scan(thrust::host, data, data + 6, data); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::exclusive_scan(HYDRA_EXTERNAL_NS::thrust::host, data, data + 6, data); // in-place scan
  *
  *  // data is now {0, 1, 1, 3, 5, 6}
  *  \endcode
@@ -314,7 +314,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator exclusive_scan(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result);
@@ -352,7 +352,7 @@ __hydra_host__ __hydra_device__
  *  
  *  int data[6] = {1, 0, 2, 2, 1, 3};
  *
- *  thrust::exclusive_scan(data, data + 6, data); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::exclusive_scan(data, data + 6, data); // in-place scan
  *
  *  // data is now {0, 1, 1, 3, 5, 6}
  *  \endcode
@@ -396,7 +396,7 @@ template<typename InputIterator,
  *  \pre \p first may equal \p result but the range <tt>[first, last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p exclusive_scan to compute an in-place
- *  prefix sum using the \p thrust::host execution policy for parallelization:
+ *  prefix sum using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/scan.h>
@@ -404,7 +404,7 @@ template<typename InputIterator,
  *  
  *  int data[6] = {1, 0, 2, 2, 1, 3};
  *
- *  thrust::exclusive_scan(thrust::host, data, data + 6, data, 4); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::exclusive_scan(HYDRA_EXTERNAL_NS::thrust::host, data, data + 6, data, 4); // in-place scan
  *
  *  // data is now {4, 5, 5, 7, 9, 10}
  *  \endcode
@@ -416,7 +416,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename T>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator exclusive_scan(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
@@ -455,7 +455,7 @@ __hydra_host__ __hydra_device__
  *  
  *  int data[6] = {1, 0, 2, 2, 1, 3};
  *
- *  thrust::exclusive_scan(data, data + 6, data, 4); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::exclusive_scan(data, data + 6, data, 4); // in-place scan
  *
  *  // data is now {4, 5, 5, 7, 9, 10}
  *  \endcode
@@ -476,7 +476,7 @@ template<typename InputIterator,
  *  corresponding input operand in the partial sum.  More precisely,
  *  \p init is assigned to <tt>\*result</tt> and the value
  *  <tt>binary_op(init, \*first)</tt> is assigned to <tt>\*(result + 1)</tt>,
- *  and so on. This version of the function requires both and associative 
+ *  and so on. This version of the function requires both an associative 
  *  operator and an initial value \p init.  When the input and output
  *  sequences are the same, the scan is performed in-place.
  *
@@ -506,7 +506,7 @@ template<typename InputIterator,
  *  \pre \p first may equal \p result but the range <tt>[first, last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p exclusive_scan to compute an in-place
- *  prefix sum using the \p thrust::host execution policy for parallelization:
+ *  prefix sum using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/scan.h>
@@ -516,9 +516,9 @@ template<typename InputIterator,
  *  
  *  int data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};
  * 
- *  thrust::maximum<int> binary_op;
+ *  HYDRA_EXTERNAL_NS::thrust::maximum<int> binary_op;
  *
- *  thrust::exclusive_scan(thrust::host, data, data + 10, data, 1, binary_op); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::exclusive_scan(HYDRA_EXTERNAL_NS::thrust::host, data, data + 10, data, 1, binary_op); // in-place scan
  *
  *  // data is now {1, 1, 1, 2, 2, 2, 4, 4, 4, 4 }
  *  \endcode
@@ -531,7 +531,7 @@ template<typename DerivedPolicy,
          typename T,
          typename AssociativeOperator>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator exclusive_scan(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
@@ -544,7 +544,7 @@ __hydra_host__ __hydra_device__
  *  corresponding input operand in the partial sum.  More precisely,
  *  \p init is assigned to <tt>\*result</tt> and the value
  *  <tt>binary_op(init, \*first)</tt> is assigned to <tt>\*(result + 1)</tt>,
- *  and so on. This version of the function requires both and associative 
+ *  and so on. This version of the function requires both an associative 
  *  operator and an initial value \p init.  When the input and output
  *  sequences are the same, the scan is performed in-place.
  *    
@@ -577,9 +577,9 @@ __hydra_host__ __hydra_device__
  *  
  *  int data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};
  * 
- *  thrust::maximum<int> binary_op;
+ *  HYDRA_EXTERNAL_NS::thrust::maximum<int> binary_op;
  *
- *  thrust::exclusive_scan(data, data + 10, data, 1, binary_op); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::exclusive_scan(data, data + 10, data, 1, binary_op); // in-place scan
  *
  *  // data is now {1, 1, 1, 2, 2, 2, 4, 4, 4, 4 }
  *  \endcode
@@ -640,7 +640,7 @@ template<typename InputIterator,
  *  \pre \p first1 may equal \p result but the range <tt>[first1, last1)</tt> and the range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
  *  \pre \p first2 may equal \p result but the range <tt>[first2, first2 + (last1 - first1)</tt> and range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
  *
- *  The following code snippet demonstrates how to use \p inclusive_scan_by_key using the \p thrust::host
+ *  The following code snippet demonstrates how to use \p inclusive_scan_by_key using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -651,7 +651,7 @@ template<typename InputIterator,
  *  int data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
  *  int keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};
  *
- *  thrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, vals, vals); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::inclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::host, keys, keys + 10, data, data); // in-place scan
  *
  *  // data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};
  *  \endcode
@@ -665,7 +665,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator inclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator inclusive_scan_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -713,7 +713,7 @@ __hydra_host__ __hydra_device__
  *  int data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
  *  int keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};
  *
- *  thrust::inclusive_scan_by_key(keys, keys + 10, vals, vals); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::inclusive_scan_by_key(keys, keys + 10, data, data); // in-place scan
  *
  *  // data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};
  *  \endcode
@@ -770,7 +770,7 @@ template<typename InputIterator1,
  *  \pre \p first1 may equal \p result but the range <tt>[first1, last1)</tt> and the range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
  *  \pre \p first2 may equal \p result but the range <tt>[first2, first2 + (last1 - first1)</tt> and range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
  *
- *  The following code snippet demonstrates how to use \p inclusive_scan_by_key using the \p thrust::host
+ *  The following code snippet demonstrates how to use \p inclusive_scan_by_key using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -782,9 +782,9 @@ template<typename InputIterator1,
  *  int data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
  *  int keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};
  *
- *  thrust::equal_to<int> binary_pred;
+ *  HYDRA_EXTERNAL_NS::thrust::equal_to<int> binary_pred;
  *
- *  thrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, vals, vals, binary_pred); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::inclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::host, keys, keys + 10, data, data, binary_pred); // in-place scan
  *
  *  // data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};
  *  \endcode
@@ -799,7 +799,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  OutputIterator inclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator inclusive_scan_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -851,9 +851,9 @@ __hydra_host__ __hydra_device__
  *  int data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
  *  int keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};
  *
- *  thrust::equal_to<int> binary_pred;
+ *  HYDRA_EXTERNAL_NS::thrust::equal_to<int> binary_pred;
  *
- *  thrust::inclusive_scan_by_key(keys, keys + 10, vals, vals, binary_pred); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::inclusive_scan_by_key(keys, keys + 10, data, data, binary_pred); // in-place scan
  *
  *  // data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};
  *  \endcode
@@ -916,7 +916,7 @@ template<typename InputIterator1,
  *  \pre \p first1 may equal \p result but the range <tt>[first1, last1)</tt> and the range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
  *  \pre \p first2 may equal \p result but the range <tt>[first2, first2 + (last1 - first1)</tt> and range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
  *
- *  The following code snippet demonstrates how to use \p inclusive_scan_by_key using the \p thrust::host
+ *  The following code snippet demonstrates how to use \p inclusive_scan_by_key using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -928,10 +928,10 @@ template<typename InputIterator1,
  *  int data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
  *  int keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};
  *
- *  thrust::equal_to<int> binary_pred;
- *  thrust::plus<int>     binary_op;
+ *  HYDRA_EXTERNAL_NS::thrust::equal_to<int> binary_pred;
+ *  HYDRA_EXTERNAL_NS::thrust::plus<int>     binary_op;
  *
- *  thrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, vals, vals, binary_pred, binary_op); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::inclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::host, keys, keys + 10, data, data, binary_pred, binary_op); // in-place scan
  *
  *  // data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};
  *  \endcode
@@ -947,7 +947,7 @@ template<typename DerivedPolicy,
          typename BinaryPredicate,
          typename AssociativeOperator>
 __hydra_host__ __hydra_device__
-  OutputIterator inclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator inclusive_scan_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -1004,10 +1004,10 @@ __hydra_host__ __hydra_device__
  *  int data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
  *  int keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};
  *
- *  thrust::equal_to<int> binary_pred;
- *  thrust::plus<int>     binary_op;
+ *  HYDRA_EXTERNAL_NS::thrust::equal_to<int> binary_pred;
+ *  HYDRA_EXTERNAL_NS::thrust::plus<int>     binary_op;
  *
- *  thrust::inclusive_scan_by_key(keys, keys + 10, vals, vals, binary_pred, binary_op); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::inclusive_scan_by_key(keys, keys + 10, data, data, binary_pred, binary_op); // in-place scan
  *
  *  // data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};
  *  \endcode
@@ -1058,7 +1058,7 @@ template<typename InputIterator1,
  *  \pre \p first2 may equal \p result but the range <tt>[first2, first2 + (last1 - first1)</tt> and range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p exclusive_scan_by_key using the
- *  \p thrust::host execution policy for parallelization:
+ *  \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/scan.h>
@@ -1068,7 +1068,7 @@ template<typename InputIterator1,
  *  int keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};
  *  int vals[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
  *
- *  thrust::exclusive_scan_by_key(thrust::host, key, key + 10, vals, vals); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::exclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::host, key, key + 10, vals, vals); // in-place scan
  *
  *  // vals is now {0, 1, 2, 0, 1, 0, 0, 1, 2, 3};
  *  \endcode
@@ -1081,7 +1081,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator exclusive_scan_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -1121,7 +1121,7 @@ __hydra_host__ __hydra_device__
  *  int keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};
  *  int vals[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
  *
- *  thrust::exclusive_scan_by_key(key, key + 10, vals, vals); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::exclusive_scan_by_key(key, key + 10, vals, vals); // in-place scan
  *
  *  // vals is now {0, 1, 2, 0, 1, 0, 0, 1, 2, 3};
  *  \endcode
@@ -1162,7 +1162,7 @@ template<typename InputIterator1,
  *  \pre \p first2 may equal \p result but the range <tt>[first2, first2 + (last1 - first1)</tt> and range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p exclusive_scan_by_key using the \p
- *  thrust::host execution policy for parallelization:
+ *  HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/scan.h>
@@ -1175,7 +1175,7 @@ template<typename InputIterator1,
  *
  *  int init = 5;
  *
- *  thrust::exclusive_scan_by_key(thrust::host, key, key + 10, vals, vals, init); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::exclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::host, key, key + 10, vals, vals, init); // in-place scan
  *
  *  // vals is now {5, 6, 7, 5, 6, 5, 5, 6, 7, 8};
  *  \endcode
@@ -1190,7 +1190,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename T>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator exclusive_scan_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -1229,7 +1229,7 @@ __hydra_host__ __hydra_device__
  *
  *  int init = 5;
  *
- *  thrust::exclusive_scan_by_key(key, key + 10, vals, vals, init); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::exclusive_scan_by_key(key, key + 10, vals, vals, init); // in-place scan
  *
  *  // vals is now {5, 6, 7, 5, 6, 5, 5, 6, 7, 8};
  *  \endcode
@@ -1279,7 +1279,7 @@ template<typename InputIterator1,
  *  \pre \p first2 may equal \p result but the range <tt>[first2, first2 + (last1 - first1)</tt> and range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p exclusive_scan_by_key using the
- *  \p thrust::host execution policy for parallelization:
+ *  \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/scan.h>
@@ -1292,9 +1292,9 @@ template<typename InputIterator1,
  *
  *  int init = 5;
  *
- *  thrust::equal_to<int> binary_pred;
+ *  HYDRA_EXTERNAL_NS::thrust::equal_to<int> binary_pred;
  *
- *  thrust::exclusive_scan_by_key(thrust::host, key, key + 10, vals, vals, init, binary_pred); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::exclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::host, key, key + 10, vals, vals, init, binary_pred); // in-place scan
  *
  *  // vals is now {5, 6, 7, 5, 6, 5, 5, 6, 7, 8};
  *  \endcode
@@ -1310,7 +1310,7 @@ template<typename DerivedPolicy,
          typename T,
          typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator exclusive_scan_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -1356,9 +1356,9 @@ __hydra_host__ __hydra_device__
  *
  *  int init = 5;
  *
- *  thrust::equal_to<int> binary_pred;
+ *  HYDRA_EXTERNAL_NS::thrust::equal_to<int> binary_pred;
  *
- *  thrust::exclusive_scan_by_key(key, key + 10, vals, vals, init, binary_pred); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::exclusive_scan_by_key(key, key + 10, vals, vals, init, binary_pred); // in-place scan
  *
  *  // vals is now {5, 6, 7, 5, 6, 5, 5, 6, 7, 8};
  *  \endcode
@@ -1427,7 +1427,7 @@ template<typename InputIterator1,
  *  \pre \p first2 may equal \p result but the range <tt>[first2, first2 + (last1 - first1)</tt> and range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p exclusive_scan_by_key using the
- *  \p thrust::host execution policy for parallelization:
+ *  \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/scan.h>
@@ -1440,10 +1440,10 @@ template<typename InputIterator1,
  *
  *  int init = 5;
  *
- *  thrust::equal_to<int> binary_pred;
- *  thrust::plus<int>     binary_op;
+ *  HYDRA_EXTERNAL_NS::thrust::equal_to<int> binary_pred;
+ *  HYDRA_EXTERNAL_NS::thrust::plus<int>     binary_op;
  *
- *  thrust::exclusive_scan_by_key(thrust::host, key, key + 10, vals, vals, init, binary_pred, binary_op); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::exclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::host, key, key + 10, vals, vals, init, binary_pred, binary_op); // in-place scan
  *
  *  // vals is now {5, 6, 7, 5, 6, 5, 5, 6, 7, 8};
  *  \endcode
@@ -1460,7 +1460,7 @@ template<typename DerivedPolicy,
          typename BinaryPredicate,
          typename AssociativeOperator>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator exclusive_scan_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -1523,10 +1523,10 @@ __hydra_host__ __hydra_device__
  *
  *  int init = 5;
  *
- *  thrust::equal_to<int> binary_pred;
- *  thrust::plus<int>     binary_op;
+ *  HYDRA_EXTERNAL_NS::thrust::equal_to<int> binary_pred;
+ *  HYDRA_EXTERNAL_NS::thrust::plus<int>     binary_op;
  *
- *  thrust::exclusive_scan_by_key(key, key + 10, vals, vals, init, binary_pred, binary_op); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::exclusive_scan_by_key(key, key + 10, vals, vals, init, binary_pred, binary_op); // in-place scan
  *
  *  // vals is now {5, 6, 7, 5, 6, 5, 5, 6, 7, 8};
  *  \endcode
@@ -1561,6 +1561,7 @@ template<typename InputIterator1,
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/scan.inl>
 

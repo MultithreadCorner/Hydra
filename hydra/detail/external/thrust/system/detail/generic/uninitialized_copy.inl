@@ -41,8 +41,8 @@ template<typename InputType,
   __hydra_host__ __hydra_device__
   void operator()(Tuple t)
   {
-    const InputType &in = thrust::get<0>(t);
-    OutputType &out = thrust::get<1>(t);
+    const InputType &in = HYDRA_EXTERNAL_NS::thrust::get<0>(t);
+    OutputType &out = HYDRA_EXTERNAL_NS::thrust::get<1>(t);
 
     ::new(static_cast<void*>(&out)) OutputType(in);
   } // end operator()()
@@ -54,22 +54,22 @@ template<typename ExecutionPolicy,
          typename InputIterator,
          typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  ForwardIterator uninitialized_copy(thrust::execution_policy<ExecutionPolicy> &exec,
+  ForwardIterator uninitialized_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                      InputIterator first,
                                      InputIterator last,
                                      ForwardIterator result,
-                                     thrust::detail::false_type) // has_trivial_copy_constructor
+                                     HYDRA_EXTERNAL_NS::thrust::detail::false_type) // has_trivial_copy_constructor
 {
   // zip up the iterators
-  typedef thrust::tuple<InputIterator,ForwardIterator> IteratorTuple;
-  typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<InputIterator,ForwardIterator> IteratorTuple;
+  typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<IteratorTuple> ZipIterator;
 
-  ZipIterator begin = thrust::make_zip_iterator(thrust::make_tuple(first,result));
+  ZipIterator begin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(first,result));
   ZipIterator end = begin;
 
   // get a zip_iterator pointing to the end
-  const typename thrust::iterator_difference<InputIterator>::type n = thrust::distance(first,last);
-  thrust::advance(end, n);
+  const typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<InputIterator>::type n = HYDRA_EXTERNAL_NS::thrust::distance(first,last);
+  HYDRA_EXTERNAL_NS::thrust::advance(end, n);
 
   // create a functor
   typedef typename iterator_traits<InputIterator>::value_type InputType;
@@ -78,10 +78,10 @@ __hydra_host__ __hydra_device__
   detail::uninitialized_copy_functor<InputType, OutputType> f;
 
   // do the for_each
-  thrust::for_each(exec, begin, end, f);
+  HYDRA_EXTERNAL_NS::thrust::for_each(exec, begin, end, f);
 
   // return the end of the output range
-  return thrust::get<1>(end.get_iterator_tuple());
+  return HYDRA_EXTERNAL_NS::thrust::get<1>(end.get_iterator_tuple());
 } // end uninitialized_copy()
 
 
@@ -90,13 +90,13 @@ template<typename ExecutionPolicy,
          typename InputIterator,
          typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  ForwardIterator uninitialized_copy(thrust::execution_policy<ExecutionPolicy> &exec,
+  ForwardIterator uninitialized_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                      InputIterator first,
                                      InputIterator last,
                                      ForwardIterator result,
-                                     thrust::detail::true_type) // has_trivial_copy_constructor
+                                     HYDRA_EXTERNAL_NS::thrust::detail::true_type) // has_trivial_copy_constructor
 {
-  return thrust::copy(exec, first, last, result);
+  return HYDRA_EXTERNAL_NS::thrust::copy(exec, first, last, result);
 } // end uninitialized_copy()
 
 
@@ -106,17 +106,17 @@ template<typename ExecutionPolicy,
          typename Size,
          typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  ForwardIterator uninitialized_copy_n(thrust::execution_policy<ExecutionPolicy> &exec,
+  ForwardIterator uninitialized_copy_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                        InputIterator first,
                                        Size n,
                                        ForwardIterator result,
-                                       thrust::detail::false_type) // has_trivial_copy_constructor
+                                       HYDRA_EXTERNAL_NS::thrust::detail::false_type) // has_trivial_copy_constructor
 {
   // zip up the iterators
-  typedef thrust::tuple<InputIterator,ForwardIterator> IteratorTuple;
-  typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<InputIterator,ForwardIterator> IteratorTuple;
+  typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<IteratorTuple> ZipIterator;
 
-  ZipIterator zipped_first = thrust::make_zip_iterator(thrust::make_tuple(first,result));
+  ZipIterator zipped_first = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(first,result));
 
   // create a functor
   typedef typename iterator_traits<InputIterator>::value_type   InputType;
@@ -125,10 +125,10 @@ __hydra_host__ __hydra_device__
   detail::uninitialized_copy_functor<InputType, OutputType> f;
 
   // do the for_each_n
-  ZipIterator zipped_last = thrust::for_each_n(exec, zipped_first, n, f);
+  ZipIterator zipped_last = HYDRA_EXTERNAL_NS::thrust::for_each_n(exec, zipped_first, n, f);
 
   // return the end of the output range
-  return thrust::get<1>(zipped_last.get_iterator_tuple());
+  return HYDRA_EXTERNAL_NS::thrust::get<1>(zipped_last.get_iterator_tuple());
 } // end uninitialized_copy_n()
 
 
@@ -138,13 +138,13 @@ template<typename ExecutionPolicy,
          typename Size,
          typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  ForwardIterator uninitialized_copy_n(thrust::execution_policy<ExecutionPolicy> &exec,
+  ForwardIterator uninitialized_copy_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                        InputIterator first,
                                        Size n,
                                        ForwardIterator result,
-                                       thrust::detail::true_type) // has_trivial_copy_constructor
+                                       HYDRA_EXTERNAL_NS::thrust::detail::true_type) // has_trivial_copy_constructor
 {
-  return thrust::copy_n(exec, first, n, result);
+  return HYDRA_EXTERNAL_NS::thrust::copy_n(exec, first, n, result);
 } // end uninitialized_copy_n()
 
 
@@ -155,16 +155,16 @@ template<typename ExecutionPolicy,
          typename InputIterator,
          typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  ForwardIterator uninitialized_copy(thrust::execution_policy<ExecutionPolicy> &exec,
+  ForwardIterator uninitialized_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                      InputIterator first,
                                      InputIterator last,
                                      ForwardIterator result)
 {
   typedef typename iterator_traits<ForwardIterator>::value_type ResultType;
 
-  typedef typename thrust::detail::has_trivial_copy_constructor<ResultType>::type ResultTypeHasTrivialCopyConstructor;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::has_trivial_copy_constructor<ResultType>::type ResultTypeHasTrivialCopyConstructor;
 
-  return thrust::system::detail::generic::detail::uninitialized_copy(exec, first, last, result, ResultTypeHasTrivialCopyConstructor());
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::detail::uninitialized_copy(exec, first, last, result, ResultTypeHasTrivialCopyConstructor());
 } // end uninitialized_copy()
 
 
@@ -173,16 +173,16 @@ template<typename ExecutionPolicy,
          typename Size,
          typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  ForwardIterator uninitialized_copy_n(thrust::execution_policy<ExecutionPolicy> &exec,
+  ForwardIterator uninitialized_copy_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                        InputIterator first,
                                        Size n,
                                        ForwardIterator result)
 {
   typedef typename iterator_traits<ForwardIterator>::value_type ResultType;
 
-  typedef typename thrust::detail::has_trivial_copy_constructor<ResultType>::type ResultTypeHasTrivialCopyConstructor;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::has_trivial_copy_constructor<ResultType>::type ResultTypeHasTrivialCopyConstructor;
 
-  return thrust::system::detail::generic::detail::uninitialized_copy_n(exec, first, n, result, ResultTypeHasTrivialCopyConstructor());
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::detail::uninitialized_copy_n(exec, first, n, result, ResultTypeHasTrivialCopyConstructor());
 } // end uninitialized_copy_n()
 
 

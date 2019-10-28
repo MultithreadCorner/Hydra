@@ -45,7 +45,7 @@ struct body
   RandomAccessIterator first;
   OutputType sum;
   bool first_call;  // TBB can invoke operator() multiple times on the same body
-  thrust::detail::wrapped_function<BinaryFunction,OutputType> binary_op;
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<BinaryFunction,OutputType> binary_op;
 
   // note: we only initalize sum with init to avoid calling OutputType's default constructor
   body(RandomAccessIterator first, OutputType init, BinaryFunction binary_op)
@@ -66,7 +66,7 @@ struct body
 
     RandomAccessIterator iter = first + r.begin();
 
-    OutputType temp = thrust::raw_reference_cast(*iter);
+    OutputType temp = HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(*iter);
 
     ++iter;
 
@@ -100,15 +100,15 @@ template<typename DerivedPolicy,
          typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(execution_policy<DerivedPolicy> &/*exec*/,
+  OutputType reduce(execution_policy<DerivedPolicy> &exec,
                     InputIterator begin,
                     InputIterator end,
                     OutputType init,
                     BinaryFunction binary_op)
 {
-  typedef typename thrust::iterator_difference<InputIterator>::type Size; 
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<InputIterator>::type Size; 
 
-  Size n = thrust::distance(begin, end);
+  Size n = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
 
   if (n == 0)
   {

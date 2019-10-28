@@ -174,7 +174,7 @@ struct DecayMother
 	}
 
 	__hydra_host__   __hydra_device__ inline
-	GReal_t process(const GInt_t evt, Vector4R (&daugters)[N])
+	GReal_t process(size_t evt, Vector4R (&daugters)[N])
 	{
 
 		GRND randEng( fSeed );
@@ -289,8 +289,8 @@ struct DecayMother
 
 	}
 
-	template<typename Tuple>
-	__hydra_host__  __hydra_device__ inline GReal_t operator()(const GInt_t evt, Tuple &particles)
+	template< typename I,typename Tuple>
+	__hydra_host__  __hydra_device__ inline GReal_t operator()(I evt, Tuple particles)
 	{
 
 		constexpr size_t SIZE = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value;

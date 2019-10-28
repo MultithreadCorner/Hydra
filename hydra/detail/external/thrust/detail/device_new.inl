@@ -44,7 +44,7 @@ template<typename T>
   device_ptr<T> result(reinterpret_cast<T*>(p.get()));
 
   // run copy constructors at p here
-  thrust::uninitialized_fill(result, result + n, exemplar);
+  HYDRA_EXTERNAL_NS::thrust::uninitialized_fill(result, result + n, exemplar);
   
   return result;
 } // end device_new()
@@ -53,9 +53,10 @@ template<typename T>
   device_ptr<T> device_new(const size_t n)
 {
   // call placement new
-  return device_new<T>(thrust::device_malloc<T>(n));
+  return device_new<T>(HYDRA_EXTERNAL_NS::thrust::device_malloc<T>(n));
 } // end device_new()
 
 } // thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

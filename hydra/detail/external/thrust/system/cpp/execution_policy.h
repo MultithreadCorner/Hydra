@@ -16,7 +16,7 @@
 
 #pragma once
 
-/*! \file hydra/detail/external/thrust/system/cpp/execution_policy.h
+/*! \file thrust/system/cpp/execution_policy.h
  *  \brief Execution policies for Thrust's standard C++ system.
  */
 
@@ -89,36 +89,36 @@ namespace cpp
  */
 
 
-/*! \p thrust::system::cpp::execution_policy is the base class for all Thrust parallel execution
+/*! \p HYDRA_EXTERNAL_NS::thrust::system::cpp::execution_policy is the base class for all Thrust parallel execution
  *  policies which are derived from Thrust's standard C++ backend system.
  */
 template<typename DerivedPolicy>
-struct execution_policy : thrust::execution_policy<DerivedPolicy>
+struct execution_policy : HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy>
 {};
 
 
-/*! \p thrust::system::cpp::tag is a type representing Thrust's standard C++ backend system in C++'s type system.
+/*! \p HYDRA_EXTERNAL_NS::thrust::system::cpp::tag is a type representing Thrust's standard C++ backend system in C++'s type system.
  *  Iterators "tagged" with a type which is convertible to \p cpp::tag assert that they may be
  *  "dispatched" to algorithm implementations in the \p cpp system.
  */
-struct tag : thrust::system::cpp::execution_policy<tag> { unspecified };
+struct tag : HYDRA_EXTERNAL_NS::thrust::system::cpp::execution_policy<tag> { unspecified };
 
 
 /*! 
- *  \p thrust::system::cpp::par is the parallel execution policy associated with Thrust's standard
+ *  \p HYDRA_EXTERNAL_NS::thrust::system::cpp::par is the parallel execution policy associated with Thrust's standard
  *  C++ backend system.
  *
  *  Instead of relying on implicit algorithm dispatch through iterator system tags, users may
- *  directly target Thrust's C++ backend system by providing \p thrust::cpp::par as an algorithm
+ *  directly target Thrust's C++ backend system by providing \p HYDRA_EXTERNAL_NS::thrust::cpp::par as an algorithm
  *  parameter.
  *
  *  Explicit dispatch can be useful in avoiding the introduction of data copies into containers such
- *  as \p thrust::cpp::vector.
+ *  as \p HYDRA_EXTERNAL_NS::thrust::cpp::vector.
  *
- *  The type of \p thrust::cpp::par is implementation-defined.
+ *  The type of \p HYDRA_EXTERNAL_NS::thrust::cpp::par is implementation-defined.
  *
- *  The following code snippet demonstrates how to use \p thrust::cpp::par to explicitly dispatch an
- *  invocation of \p thrust::for_each to the standard C++ backend system:
+ *  The following code snippet demonstrates how to use \p HYDRA_EXTERNAL_NS::thrust::cpp::par to explicitly dispatch an
+ *  invocation of \p HYDRA_EXTERNAL_NS::thrust::for_each to the standard C++ backend system:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/for_each.h>
@@ -137,7 +137,7 @@ struct tag : thrust::system::cpp::execution_policy<tag> { unspecified };
  *  int vec[3];
  *  vec[0] = 0; vec[1] = 1; vec[2] = 2;
  *
- *  thrust::for_each(thrust::cpp::par, vec.begin(), vec.end(), printf_functor());
+ *  HYDRA_EXTERNAL_NS::thrust::for_each(HYDRA_EXTERNAL_NS::thrust::cpp::par, vec.begin(), vec.end(), printf_functor());
  *
  *  // 0 1 2 is printed to standard output in some unspecified order
  *  \endcode
@@ -151,9 +151,10 @@ static const unspecified par;
 
 } // end cpp
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #endif
 

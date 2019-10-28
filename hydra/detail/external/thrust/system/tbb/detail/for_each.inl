@@ -49,7 +49,7 @@ template<typename RandomAccessIterator,
   void operator()(const ::tbb::blocked_range<Size> &r) const
   {
     // we assume that blocked_range specifies a contiguous range of integers
-    thrust::for_each_n(thrust::system::detail::sequential::seq, m_first + r.begin(), r.size(), m_f);
+    HYDRA_EXTERNAL_NS::thrust::for_each_n(HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::seq, m_first + r.begin(), r.size(), m_f);
   } // end operator()()
 }; // end body
 
@@ -89,7 +89,7 @@ template<typename DerivedPolicy,
                                 RandomAccessIterator last,
                                 UnaryFunction f)
 {
-  return tbb::detail::for_each_n(s, first, thrust::distance(first,last), f);
+  return tbb::detail::for_each_n(s, first, HYDRA_EXTERNAL_NS::thrust::distance(first,last), f);
 } // end for_each()
 
 

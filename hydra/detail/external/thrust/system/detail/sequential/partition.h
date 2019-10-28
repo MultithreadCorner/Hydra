@@ -27,7 +27,7 @@
 #include <hydra/detail/external/thrust/detail/function.h>
 #include <hydra/detail/external/thrust/system/detail/sequential/execution_policy.h>
 
-HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace thrust
 {
 namespace detail
 {
@@ -53,10 +53,10 @@ template<typename ForwardIterator1,
 __hydra_host__ __hydra_device__
 void iter_swap(ForwardIterator1 iter1, ForwardIterator2 iter2)
 {
-  // XXX this isn't correct because it doesn't use thrust::swap
-  using   namespace thrust::detail;
+  // XXX this isn't correct because it doesn't use HYDRA_EXTERNAL_NS::thrust::swap
+  using namespace HYDRA_EXTERNAL_NS::thrust::detail;
 
-  typedef typename thrust::iterator_value<ForwardIterator1>::type T;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<ForwardIterator1>::type T;
 
   T temp = *iter1;
   *iter1 = *iter2;
@@ -78,7 +78,7 @@ __hydra_host__ __hydra_device__
     return first;
 
   // wrap pred
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -120,7 +120,7 @@ __hydra_host__ __hydra_device__
     return first;
 
   // wrap pred
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -165,14 +165,14 @@ __hydra_host__ __hydra_device__
                                    Predicate pred)
 {
   // wrap pred
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);
 
-  typedef typename thrust::iterator_value<ForwardIterator>::type T;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<ForwardIterator>::type T;
 
-  typedef thrust::detail::temporary_array<T,DerivedPolicy> TempRange;
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<T,DerivedPolicy> TempRange;
   typedef typename TempRange::iterator                     TempIterator;
 
   TempRange temp(exec, first, last);
@@ -214,14 +214,14 @@ __hydra_host__ __hydra_device__
                                    Predicate pred)
 {
   // wrap pred
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);
 
-  typedef typename thrust::iterator_value<ForwardIterator>::type T;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<ForwardIterator>::type T;
 
-  typedef thrust::detail::temporary_array<T,DerivedPolicy> TempRange;
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<T,DerivedPolicy> TempRange;
   typedef typename TempRange::iterator                     TempIterator;
 
   TempRange temp(exec, first, last);
@@ -259,7 +259,7 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(sequential::execution_policy<DerivedPolicy> &,
                           InputIterator first,
                           InputIterator last,
@@ -268,7 +268,7 @@ __hydra_host__ __hydra_device__
                           Predicate pred)
 {
   // wrap pred
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -287,7 +287,7 @@ __hydra_host__ __hydra_device__
     } // end else
   }
 
-  return thrust::make_pair(out_true, out_false);
+  return HYDRA_EXTERNAL_NS::thrust::make_pair(out_true, out_false);
 }
 
 
@@ -299,7 +299,7 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(sequential::execution_policy<DerivedPolicy> &,
                           InputIterator1 first,
                           InputIterator1 last,
@@ -309,7 +309,7 @@ __hydra_host__ __hydra_device__
                           Predicate pred)
 {
   // wrap pred
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -328,7 +328,7 @@ __hydra_host__ __hydra_device__
     } // end else
   }
 
-  return thrust::make_pair(out_true, out_false);
+  return HYDRA_EXTERNAL_NS::thrust::make_pair(out_true, out_false);
 }
 
 
@@ -336,5 +336,4 @@ __hydra_host__ __hydra_device__
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END

@@ -63,20 +63,20 @@ __hydra_host__ __hydra_device__
   // XXX upon c++0x, TemporaryType needs to be:
   // result_of_adaptable_function<BinaryFunction>::type
   
-  using   namespace thrust::detail;
+  using   namespace HYDRA_EXTERNAL_NS::thrust::detail ;
 
   typedef typename eval_if<
     has_result_type<BinaryFunction>::value,
     result_type<BinaryFunction>,
     eval_if<
       is_output_iterator<OutputIterator>::value,
-      thrust::iterator_value<InputIterator>,
-      thrust::iterator_value<OutputIterator>
+      HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator>,
+      HYDRA_EXTERNAL_NS::thrust::iterator_value<OutputIterator>
     >
   >::type ValueType;
 
   // wrap binary_op
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     BinaryFunction,
     ValueType
   > wrapped_binary_op(binary_op);
@@ -85,7 +85,7 @@ __hydra_host__ __hydra_device__
   {
     ValueType sum = *first;
 
-    *result = sum;
+    *result = *first;
 
     for(++first, ++result; first != last; ++first, ++result)
       *result = sum = wrapped_binary_op(sum,*first);
@@ -121,15 +121,15 @@ __hydra_host__ __hydra_device__
   // XXX upon c++0x, TemporaryType needs to be:
   // result_of_adaptable_function<BinaryFunction>::type
 
-  using   namespace thrust::detail;
+  using  namespace HYDRA_EXTERNAL_NS::thrust::detail ;
 
   typedef typename eval_if<
     has_result_type<BinaryFunction>::value,
     result_type<BinaryFunction>,
     eval_if<
       is_output_iterator<OutputIterator>::value,
-      thrust::iterator_value<InputIterator>,
-      thrust::iterator_value<OutputIterator>
+      HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator>,
+      HYDRA_EXTERNAL_NS::thrust::iterator_value<OutputIterator>
     >
   >::type ValueType;
 
@@ -156,6 +156,7 @@ __hydra_host__ __hydra_device__
 } // end namespace sequential
 } // end namespace detail
 } // end namespace system
+
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

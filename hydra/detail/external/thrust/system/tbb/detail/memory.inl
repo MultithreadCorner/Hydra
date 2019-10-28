@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -27,30 +27,6 @@ namespace system
 namespace tbb
 {
 
-
-template<typename T>
-  template<typename OtherT>
-    reference<T> &
-      reference<T>
-        ::operator=(const reference<OtherT> &other)
-{
-  return super_t::operator=(other);
-} // end reference::operator=()
-
-template<typename T>
-  reference<T> &
-    reference<T>
-      ::operator=(const value_type &x)
-{
-  return super_t::operator=(x);
-} // end reference::operator=()
-
-template<typename T>
-__hydra_host__ __hydra_device__
-void swap(reference<T> a, reference<T> b)
-{
-  a.swap(b);
-} // end swap()
 
 namespace detail
 {
@@ -82,7 +58,7 @@ inline pointer<void> malloc(std::size_t n)
   // XXX this is how we'd like to implement this function,
   //     if not for circular #inclusion problems:
   //
-  // return pointer<void>(thrust::system::cpp::malloc(n))
+  // return pointer<void>(HYDRA_EXTERNAL_NS::thrust::system::cpp::malloc(n))
   //
   return detail::malloc_workaround(cpp::tag(), n);
 } // end malloc()
@@ -90,7 +66,7 @@ inline pointer<void> malloc(std::size_t n)
 template<typename T>
 pointer<T> malloc(std::size_t n)
 {
-  pointer<void> raw_ptr = thrust::system::tbb::malloc(sizeof(T) * n);
+  pointer<void> raw_ptr = HYDRA_EXTERNAL_NS::thrust::system::tbb::malloc(sizeof(T) * n);
   return pointer<T>(reinterpret_cast<T*>(raw_ptr.get()));
 } // end malloc()
 
@@ -99,13 +75,13 @@ inline void free(pointer<void> ptr)
   // XXX this is how we'd like to implement this function,
   //     if not for circular #inclusion problems:
   //
-  // thrust::system::cpp::free(ptr)
+  // HYDRA_EXTERNAL_NS::thrust::system::cpp::free(ptr)
   //
   detail::free_workaround(cpp::tag(), ptr);
 } // end free()
 
 } // end tbb
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

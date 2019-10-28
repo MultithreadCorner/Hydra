@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file hydra/detail/external/thrust/system_error.h
+/*! \file thrust/system_error.h
  *  \brief System diagnostics
  */
 
@@ -25,12 +25,12 @@
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
-/*! \addtogroup system System Access
+/*! \addtogroup system
  *  \{
  */
 
-/*! \HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::system
- *  \brief \p thrust::system is the namespace which contains functionality for manipulating
+/*! \HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace HYDRA_EXTERNAL_NS::thrust::system
+ *  \brief \p HYDRA_EXTERNAL_NS::thrust::system is the namespace which contains functionality for manipulating
  *         memory specific to one of Thrust's backend systems. It also contains functionality
  *         for reporting error conditions originating from the operating system or other
  *         low-level application program interfaces such as the CUDA runtime.
@@ -44,7 +44,7 @@ namespace system
 /*! \} // end system
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

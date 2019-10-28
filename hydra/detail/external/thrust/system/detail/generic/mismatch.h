@@ -32,8 +32,8 @@ namespace generic
 
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2>
 __hydra_host__ __hydra_device__
-  thrust::pair<InputIterator1, InputIterator2>
-    mismatch(thrust::execution_policy<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<InputIterator1, InputIterator2>
+    mismatch(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
              InputIterator1 first1,
              InputIterator1 last1,
              InputIterator2 first2);
@@ -41,8 +41,8 @@ __hydra_host__ __hydra_device__
 
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<InputIterator1, InputIterator2>
-    mismatch(thrust::execution_policy<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<InputIterator1, InputIterator2>
+    mismatch(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
              InputIterator1 first1,
              InputIterator1 last1,
              InputIterator2 first2,
@@ -53,8 +53,6 @@ __hydra_host__ __hydra_device__
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/mismatch.inl>
 

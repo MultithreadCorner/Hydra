@@ -500,6 +500,38 @@ namespace hydra {
 		 tupleToArray<I + 1,FistType, OtherTypes... >( t, Array);
 	 }
 
+	 //---------------------------------------
+	 // set a generic array with tuple values
+	 namespace utils {
+
+			 template<typename TupleType, typename ArrayType, size_t I>
+			 __hydra_host__  __hydra_device__
+			 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I == HYDRA_EXTERNAL_NS::thrust::tuple_size<TupleType>::value, void >::type
+			_tuple_to_array(TupleType const& , ArrayType* ){ }
+
+			 template<typename TupleType, typename ArrayType, size_t I=0>
+			 __hydra_host__  __hydra_device__
+			 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<I < HYDRA_EXTERNAL_NS::thrust::tuple_size<TupleType>::value, void >::type
+			 _tuple_to_array(TupleType const & _tuple,  ArrayType* _array) {
+
+				 _array[I] = HYDRA_EXTERNAL_NS::thrust::get<I>( _tuple);
+				 _tuple_to_array< TupleType, ArrayType, I+1>( _tuple, _array);
+			 }
+
+	}  // namespace utils
+	 // entry point
+	 template<typename TupleType, typename ArrayType>
+	 __hydra_host__  __hydra_device__
+	 inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
+	 	(detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,TupleType>::value ||
+	 	 detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references, TupleType>::value),
+	 void>::type tupleToArray(TupleType const& _tuple,  ArrayType* _array){
+
+		 utils::_tuple_to_array(_tuple, _array);
+	 }
+
+
+
 
 
 	 //----------------------------------------------------------

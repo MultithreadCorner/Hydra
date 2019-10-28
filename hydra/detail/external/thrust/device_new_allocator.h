@@ -32,8 +32,7 @@
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
-/*! \addtogroup memory_management Memory Management
- *  \addtogroup memory_management_classes Memory Management Classes
+/*! \addtogroup memory_management_classes Memory Management Classes
  *  \ingroup memory_management
  *  \{
  */
@@ -168,6 +167,8 @@ template<typename T>
 /*! \}
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

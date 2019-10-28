@@ -77,7 +77,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \pre The resulting range shall not overlap with either input range.
  *
  *  The following code snippet demonstrates how to use \p set_difference to compute the
- *  set difference of two sets of integers sorted in ascending order using the \p thrust::host execution
+ *  set difference of two sets of integers sorted in ascending order using the \p HYDRA_EXTERNAL_NS::thrust::host execution
  *  policy for parallelization:
  *
  *  \code
@@ -89,7 +89,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *
  *  int result[3];
  *
- *  int *result_end = thrust::set_difference(thrust::host, A1, A1 + 6, A2, A2 + 5, result);
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::set_difference(HYDRA_EXTERNAL_NS::thrust::host, A1, A1 + 6, A2, A2 + 5, result);
  *  // result is now {0, 4, 6}
  *  \endcode
  *
@@ -106,7 +106,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator set_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator set_difference(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator1                                              first1,
                                 InputIterator1                                              last1,
                                 InputIterator2                                              first2,
@@ -162,7 +162,7 @@ __hydra_host__ __hydra_device__
  *
  *  int result[3];
  *
- *  int *result_end = thrust::set_difference(A1, A1 + 6, A2, A2 + 5, result);
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::set_difference(A1, A1 + 6, A2, A2 + 5, result);
  *  // result is now {0, 4, 6}
  *  \endcode
  *
@@ -224,7 +224,7 @@ template<typename InputIterator1,
  *  \pre The resulting range shall not overlap with either input range.
  *
  *  The following code snippet demonstrates how to use \p set_difference to compute the
- *  set difference of two sets of integers sorted in descending order using the \p thrust::host execution
+ *  set difference of two sets of integers sorted in descending order using the \p HYDRA_EXTERNAL_NS::thrust::host execution
  *  policy for parallelization:
  *
  *  \code
@@ -237,7 +237,7 @@ template<typename InputIterator1,
  *
  *  int result[3];
  *
- *  int *result_end = thrust::set_difference(thrust::host, A1, A1 + 6, A2, A2 + 5, result, thrust::greater<int>());
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::set_difference(HYDRA_EXTERNAL_NS::thrust::host, A1, A1 + 6, A2, A2 + 5, result, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // result is now {6, 4, 0}
  *  \endcode
  *
@@ -255,7 +255,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename StrictWeakCompare>
 __hydra_host__ __hydra_device__
-  OutputIterator set_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator set_difference(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator1                                              first1,
                                 InputIterator1                                              last1,
                                 InputIterator2                                              first2,
@@ -311,7 +311,7 @@ __hydra_host__ __hydra_device__
  *
  *  int result[3];
  *
- *  int *result_end = thrust::set_difference(A1, A1 + 6, A2, A2 + 5, result, thrust::greater<int>());
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::set_difference(A1, A1 + 6, A2, A2 + 5, result, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // result is now {6, 4, 0}
  *  \endcode
  *
@@ -384,7 +384,7 @@ template<typename InputIterator1,
  *  \pre The resulting range shall not overlap with either input range.
  *
  *  The following code snippet demonstrates how to use \p set_intersection to compute the
- *  set intersection of two sets of integers sorted in ascending order using the \p thrust::host execution
+ *  set intersection of two sets of integers sorted in ascending order using the \p HYDRA_EXTERNAL_NS::thrust::host execution
  *  policy for parallelization:
  *
  *  \code
@@ -396,7 +396,7 @@ template<typename InputIterator1,
  *
  *  int result[7];
  *
- *  int *result_end = thrust::set_intersection(thrust::host, A1, A1 + 6, A2, A2 + 7, result);
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::set_intersection(HYDRA_EXTERNAL_NS::thrust::host, A1, A1 + 6, A2, A2 + 7, result);
  *  // result is now {1, 3, 5}
  *  \endcode
  *
@@ -413,7 +413,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator set_intersection(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator set_intersection(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   InputIterator1                                              first1,
                                   InputIterator1                                              last1,
                                   InputIterator2                                              first2,
@@ -476,7 +476,7 @@ __hydra_host__ __hydra_device__
  *
  *  int result[7];
  *
- *  int *result_end = thrust::set_intersection(A1, A1 + 6, A2, A2 + 7, result);
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::set_intersection(A1, A1 + 6, A2, A2 + 7, result);
  *  // result is now {1, 3, 5}
  *  \endcode
  *
@@ -547,7 +547,7 @@ template<typename InputIterator1,
  *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *
  *  The following code snippet demonstrates how to use \p set_intersection to compute
- *  the set intersection of sets of integers sorted in descending order using the \p thrust::host execution
+ *  the set intersection of sets of integers sorted in descending order using the \p HYDRA_EXTERNAL_NS::thrust::host execution
  *  policy for parallelization:
  *
  *  \code
@@ -559,7 +559,7 @@ template<typename InputIterator1,
  *
  *  int result[3];
  *
- *  int *result_end = thrust::set_intersection(thrust::host, A1, A1 + 6, A2, A2 + 7, result, thrust::greater<int>());
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::set_intersection(HYDRA_EXTERNAL_NS::thrust::host, A1, A1 + 6, A2, A2 + 7, result, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // result is now {5, 3, 1}
  *  \endcode
  *
@@ -577,7 +577,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename StrictWeakCompare>
 __hydra_host__ __hydra_device__
-  OutputIterator set_intersection(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator set_intersection(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   InputIterator1                                              first1,
                                   InputIterator1                                              last1,
                                   InputIterator2                                              first2,
@@ -641,7 +641,7 @@ __hydra_host__ __hydra_device__
  *
  *  int result[3];
  *
- *  int *result_end = thrust::set_intersection(A1, A1 + 6, A2, A2 + 7, result, thrust::greater<int>());
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::set_intersection(A1, A1 + 6, A2, A2 + 7, result, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // result is now {5, 3, 1}
  *  \endcode
  *
@@ -710,7 +710,7 @@ template<typename InputIterator1,
  *  \pre The resulting range shall not overlap with either input range.
  *
  *  The following code snippet demonstrates how to use \p set_symmetric_difference to compute
- *  the symmetric difference of two sets of integers sorted in ascending order using the \p thrust::host
+ *  the symmetric difference of two sets of integers sorted in ascending order using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -722,7 +722,7 @@ template<typename InputIterator1,
  *
  *  int result[6];
  *
- *  int *result_end = thrust::set_symmetric_difference(thrust::host, A1, A1 + 6, A2, A2 + 5, result);
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::set_symmetric_difference(HYDRA_EXTERNAL_NS::thrust::host, A1, A1 + 6, A2, A2 + 5, result);
  *  // result = {0, 4, 5, 6, 7, 8}
  *  \endcode
  *
@@ -740,7 +740,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator set_symmetric_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator set_symmetric_difference(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                           InputIterator1                                              first1,
                                           InputIterator1                                              last1,
                                           InputIterator2                                              first2,
@@ -799,7 +799,7 @@ __hydra_host__ __hydra_device__
  *
  *  int result[6];
  *
- *  int *result_end = thrust::set_symmetric_difference(A1, A1 + 6, A2, A2 + 5, result);
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::set_symmetric_difference(A1, A1 + 6, A2, A2 + 5, result);
  *  // result = {0, 4, 5, 6, 7, 8}
  *  \endcode
  *
@@ -868,7 +868,7 @@ template<typename InputIterator1,
  *  \pre The resulting range shall not overlap with either input range.
  *
  *  The following code snippet demonstrates how to use \p set_symmetric_difference to compute
- *  the symmetric difference of two sets of integers sorted in descending order using the \p thrust::host
+ *  the symmetric difference of two sets of integers sorted in descending order using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -880,7 +880,7 @@ template<typename InputIterator1,
  *
  *  int result[6];
  *
- *  int *result_end = thrust::set_symmetric_difference(thrust::host, A1, A1 + 6, A2, A2 + 5, result);
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::set_symmetric_difference(HYDRA_EXTERNAL_NS::thrust::host, A1, A1 + 6, A2, A2 + 5, result);
  *  // result = {8, 7, 6, 5, 4, 0}
  *  \endcode
  *
@@ -899,7 +899,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename StrictWeakCompare>
 __hydra_host__ __hydra_device__
-  OutputIterator set_symmetric_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator set_symmetric_difference(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                           InputIterator1                                              first1,
                                           InputIterator1                                              last1,
                                           InputIterator2                                              first2,
@@ -960,7 +960,7 @@ __hydra_host__ __hydra_device__
  *
  *  int result[6];
  *
- *  int *result_end = thrust::set_symmetric_difference(A1, A1 + 6, A2, A2 + 5, result);
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::set_symmetric_difference(A1, A1 + 6, A2, A2 + 5, result);
  *  // result = {8, 7, 6, 5, 4, 0}
  *  \endcode
  *
@@ -1028,7 +1028,7 @@ template<typename InputIterator1,
  *  \pre The resulting range shall not overlap with either input range.
  *
  *  The following code snippet demonstrates how to use \p set_union to compute the union of
- *  two sets of integers sorted in ascending order using the \p thrust::host execution policy for
+ *  two sets of integers sorted in ascending order using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for
  *  parallelization:
  *
  *  \code
@@ -1040,7 +1040,7 @@ template<typename InputIterator1,
  *
  *  int result[11];
  *
- *  int *result_end = thrust::set_union(thrust::host, A1, A1 + 7, A2, A2 + 5, result);
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::set_union(HYDRA_EXTERNAL_NS::thrust::host, A1, A1 + 7, A2, A2 + 5, result);
  *  // result = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12}
  *  \endcode
  *
@@ -1058,7 +1058,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator set_union(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator set_union(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator1                                              first1,
                            InputIterator1                                              last1,
                            InputIterator2                                              first2,
@@ -1115,7 +1115,7 @@ __hydra_host__ __hydra_device__
  *
  *  int result[11];
  *
- *  int *result_end = thrust::set_union(A1, A1 + 7, A2, A2 + 5, result);
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::set_union(A1, A1 + 7, A2, A2 + 5, result);
  *  // result = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12}
  *  \endcode
  *
@@ -1179,7 +1179,7 @@ template<typename InputIterator1,
  *  \pre The resulting range shall not overlap with either input range.
  *
  *  The following code snippet demonstrates how to use \p set_union to compute the union of
- *  two sets of integers sorted in ascending order using the \p thrust::host execution policy for
+ *  two sets of integers sorted in ascending order using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for
  *  parallelization:
  *
  *  \code
@@ -1192,7 +1192,7 @@ template<typename InputIterator1,
  *
  *  int result[11];
  *
- *  int *result_end = thrust::set_union(thrust::host, A1, A1 + 7, A2, A2 + 5, result, thrust::greater<int>());
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::set_union(HYDRA_EXTERNAL_NS::thrust::host, A1, A1 + 7, A2, A2 + 5, result, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // result = {12, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0}
  *  \endcode
  *
@@ -1211,7 +1211,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename StrictWeakCompare>
 __hydra_host__ __hydra_device__
-  OutputIterator set_union(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator set_union(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator1                                              first1,
                            InputIterator1                                              last1,
                            InputIterator2                                              first2,
@@ -1268,7 +1268,7 @@ __hydra_host__ __hydra_device__
  *
  *  int result[11];
  *
- *  int *result_end = thrust::set_union(A1, A1 + 7, A2, A2 + 5, result, thrust::greater<int>());
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::set_union(A1, A1 + 7, A2, A2 + 5, result, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // result = {12, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0}
  *  \endcode
  *
@@ -1351,7 +1351,7 @@ template<typename InputIterator1,
  *  \pre The resulting ranges shall not overlap with any input range.
  *
  *  The following code snippet demonstrates how to use \p set_difference_by_key to compute the
- *  set difference of two sets of integers sorted in ascending order with their values using the \p thrust::host
+ *  set difference of two sets of integers sorted in ascending order with their values using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -1367,7 +1367,7 @@ template<typename InputIterator1,
  *  int keys_result[3];
  *  int vals_result[3];
  *
- *  thrust::pair<int*,int*> end = thrust::set_difference_by_key(thrust::host, A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end = HYDRA_EXTERNAL_NS::thrust::set_difference_by_key(HYDRA_EXTERNAL_NS::thrust::host, A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result);
  *  // keys_result is now {0, 4, 6}
  *  // vals_result is now {0, 0, 0}
  *  \endcode
@@ -1386,8 +1386,8 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    set_difference_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    set_difference_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator1                                              keys_first1,
                           InputIterator1                                              keys_last1,
                           InputIterator2                                              keys_first2,
@@ -1466,7 +1466,7 @@ __hydra_host__ __hydra_device__
  *  int keys_result[3];
  *  int vals_result[3];
  *
- *  thrust::pair<int*,int*> end = thrust::set_difference_by_key(A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end = HYDRA_EXTERNAL_NS::thrust::set_difference_by_key(A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result);
  *  // keys_result is now {0, 4, 6}
  *  // vals_result is now {0, 0, 0}
  *  \endcode
@@ -1483,7 +1483,7 @@ template<typename InputIterator1,
          typename InputIterator4,
          typename OutputIterator1,
          typename OutputIterator2>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     set_difference_by_key(InputIterator1                             keys_first1,
                           InputIterator1                             keys_last1,
                           InputIterator2                             keys_first2,
@@ -1554,7 +1554,7 @@ template<typename InputIterator1,
  *  \pre The resulting ranges shall not overlap with any input range.
  *
  *  The following code snippet demonstrates how to use \p set_difference_by_key to compute the
- *  set difference of two sets of integers sorted in descending order with their values using the \p thrust::host
+ *  set difference of two sets of integers sorted in descending order with their values using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -1571,7 +1571,7 @@ template<typename InputIterator1,
  *  int keys_result[3];
  *  int vals_result[3];
  *
- *  thrust::pair<int*,int*> end = thrust::set_difference_by_key(thrust::host, A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result, thrust::greater<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end = HYDRA_EXTERNAL_NS::thrust::set_difference_by_key(HYDRA_EXTERNAL_NS::thrust::host, A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // keys_result is now {0, 4, 6}
  *  // vals_result is now {0, 0, 0}
  *  \endcode
@@ -1591,8 +1591,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename StrictWeakCompare>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    set_difference_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    set_difference_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator1                                              keys_first1,
                           InputIterator1                                              keys_last1,
                           InputIterator2                                              keys_first2,
@@ -1675,7 +1675,7 @@ __hydra_host__ __hydra_device__
  *  int keys_result[3];
  *  int vals_result[3];
  *
- *  thrust::pair<int*,int*> end = thrust::set_difference_by_key(A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result, thrust::greater<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end = HYDRA_EXTERNAL_NS::thrust::set_difference_by_key(A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // keys_result is now {0, 4, 6}
  *  // vals_result is now {0, 0, 0}
  *  \endcode
@@ -1693,7 +1693,7 @@ template<typename InputIterator1,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakCompare>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     set_difference_by_key(InputIterator1                             keys_first1,
                           InputIterator1                             keys_last1,
                           InputIterator2                             keys_first2,
@@ -1764,7 +1764,7 @@ template<typename InputIterator1,
  *  \pre The resulting ranges shall not overlap with any input range.
  *
  *  The following code snippet demonstrates how to use \p set_intersection_by_key to compute the
- *  set intersection of two sets of integers sorted in ascending order with their values using the \p thrust::host
+ *  set intersection of two sets of integers sorted in ascending order with their values using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -1779,7 +1779,7 @@ template<typename InputIterator1,
  *  int keys_result[7];
  *  int vals_result[7];
  *
- *  thrust::pair<int*,int*> end = thrust::set_intersection_by_key(thrust::host, A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, keys_result, vals_result);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end = HYDRA_EXTERNAL_NS::thrust::set_intersection_by_key(HYDRA_EXTERNAL_NS::thrust::host, A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, keys_result, vals_result);
  *
  *  // keys_result is now {1, 3, 5}
  *  // vals_result is now {0, 0, 0}
@@ -1798,8 +1798,8 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    set_intersection_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    set_intersection_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             InputIterator1                                              keys_first1,
                             InputIterator1                                              keys_last1,
                             InputIterator2                                              keys_first2,
@@ -1877,7 +1877,7 @@ __hydra_host__ __hydra_device__
  *  int keys_result[7];
  *  int vals_result[7];
  *
- *  thrust::pair<int*,int*> end = thrust::set_intersection_by_key(A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, keys_result, vals_result);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end = HYDRA_EXTERNAL_NS::thrust::set_intersection_by_key(A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, keys_result, vals_result);
  *
  *  // keys_result is now {1, 3, 5}
  *  // vals_result is now {0, 0, 0}
@@ -1894,7 +1894,7 @@ template<typename InputIterator1,
          typename InputIterator3,
          typename OutputIterator1,
          typename OutputIterator2>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     set_intersection_by_key(InputIterator1                             keys_first1,
                             InputIterator1                             keys_last1,
                             InputIterator2                             keys_first2,
@@ -1966,7 +1966,7 @@ template<typename InputIterator1,
  *
  *  The following code snippet demonstrates how to use \p set_intersection_by_key to compute the
  *  set intersection of two sets of integers sorted in descending order with their values using the
- *  \p thrust::host execution policy for parallelization:
+ *  \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/set_operations.h>
@@ -1981,7 +1981,7 @@ template<typename InputIterator1,
  *  int keys_result[7];
  *  int vals_result[7];
  *
- *  thrust::pair<int*,int*> end = thrust::set_intersection_by_key(thrust::host, A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, keys_result, vals_result, thrust::greater<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end = HYDRA_EXTERNAL_NS::thrust::set_intersection_by_key(HYDRA_EXTERNAL_NS::thrust::host, A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, keys_result, vals_result, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *
  *  // keys_result is now {5, 3, 1}
  *  // vals_result is now {0, 0, 0}
@@ -2001,8 +2001,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename StrictWeakCompare>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    set_intersection_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    set_intersection_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             InputIterator1                                              keys_first1,
                             InputIterator1                                              keys_last1,
                             InputIterator2                                              keys_first2,
@@ -2084,7 +2084,7 @@ __hydra_host__ __hydra_device__
  *  int keys_result[7];
  *  int vals_result[7];
  *
- *  thrust::pair<int*,int*> end = thrust::set_intersection_by_key(A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, keys_result, vals_result, thrust::greater<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end = HYDRA_EXTERNAL_NS::thrust::set_intersection_by_key(A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, keys_result, vals_result, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *
  *  // keys_result is now {5, 3, 1}
  *  // vals_result is now {0, 0, 0}
@@ -2102,7 +2102,7 @@ template<typename InputIterator1,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakCompare>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     set_intersection_by_key(InputIterator1                             keys_first1,
                             InputIterator1                             keys_last1,
                             InputIterator2                             keys_first2,
@@ -2175,7 +2175,7 @@ template<typename InputIterator1,
  *
  *  The following code snippet demonstrates how to use \p set_symmetric_difference_by_key to compute the
  *  symmetric difference of two sets of integers sorted in ascending order with their values using the
- *  \p thrust::host execution policy for parallelization:
+ *  \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/set_operations.h>
@@ -2190,7 +2190,7 @@ template<typename InputIterator1,
  *  int keys_result[6];
  *  int vals_result[6];
  *
- *  thrust::pair<int*,int*> end = thrust::set_symmetric_difference_by_key(thrust::host, A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end = HYDRA_EXTERNAL_NS::thrust::set_symmetric_difference_by_key(HYDRA_EXTERNAL_NS::thrust::host, A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result);
  *  // keys_result is now {0, 4, 5, 6, 7, 8}
  *  // vals_result is now {0, 0, 1, 0, 0, 1}
  *  \endcode
@@ -2209,8 +2209,8 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    set_symmetric_difference_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    set_symmetric_difference_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                     InputIterator1                                              keys_first1,
                                     InputIterator1                                              keys_last1,
                                     InputIterator2                                              keys_first2,
@@ -2292,7 +2292,7 @@ __hydra_host__ __hydra_device__
  *  int keys_result[6];
  *  int vals_result[6];
  *
- *  thrust::pair<int*,int*> end = thrust::set_symmetric_difference_by_key(A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end = HYDRA_EXTERNAL_NS::thrust::set_symmetric_difference_by_key(A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result);
  *  // keys_result is now {0, 4, 5, 6, 7, 8}
  *  // vals_result is now {0, 0, 1, 0, 0, 1}
  *  \endcode
@@ -2309,7 +2309,7 @@ template<typename InputIterator1,
          typename InputIterator4,
          typename OutputIterator1,
          typename OutputIterator2>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     set_symmetric_difference_by_key(InputIterator1                             keys_first1,
                                     InputIterator1                             keys_last1,
                                     InputIterator2                             keys_first2,
@@ -2384,7 +2384,7 @@ template<typename InputIterator1,
  *
  *  The following code snippet demonstrates how to use \p set_symmetric_difference_by_key to compute the
  *  symmetric difference of two sets of integers sorted in descending order with their values using the
- *  \p thrust::host execution policy for parallelization:
+ *  \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/set_operations.h>
@@ -2400,7 +2400,7 @@ template<typename InputIterator1,
  *  int keys_result[6];
  *  int vals_result[6];
  *
- *  thrust::pair<int*,int*> end = thrust::set_symmetric_difference_by_key(thrust::host, A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end = HYDRA_EXTERNAL_NS::thrust::set_symmetric_difference_by_key(HYDRA_EXTERNAL_NS::thrust::host, A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result);
  *  // keys_result is now {8, 7, 6, 5, 4, 0}
  *  // vals_result is now {1, 0, 0, 1, 0, 0}
  *  \endcode
@@ -2420,8 +2420,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename StrictWeakCompare>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    set_symmetric_difference_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    set_symmetric_difference_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                     InputIterator1                                              keys_first1,
                                     InputIterator1                                              keys_last1,
                                     InputIterator2                                              keys_first2,
@@ -2507,7 +2507,7 @@ __hydra_host__ __hydra_device__
  *  int keys_result[6];
  *  int vals_result[6];
  *
- *  thrust::pair<int*,int*> end = thrust::set_symmetric_difference_by_key(A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end = HYDRA_EXTERNAL_NS::thrust::set_symmetric_difference_by_key(A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result);
  *  // keys_result is now {8, 7, 6, 5, 4, 0}
  *  // vals_result is now {1, 0, 0, 1, 0, 0}
  *  \endcode
@@ -2525,7 +2525,7 @@ template<typename InputIterator1,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakCompare>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     set_symmetric_difference_by_key(InputIterator1                             keys_first1,
                                     InputIterator1                             keys_last1,
                                     InputIterator2                             keys_first2,
@@ -2597,7 +2597,7 @@ template<typename InputIterator1,
  *
  *  The following code snippet demonstrates how to use \p set_symmetric_difference_by_key to compute the
  *  symmetric difference of two sets of integers sorted in ascending order with their values using the
- *  \p thrust::host execution policy for parallelization:
+ *  \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/set_operations.h>
@@ -2612,7 +2612,7 @@ template<typename InputIterator1,
  *  int keys_result[11];
  *  int vals_result[11];
  *
- *  thrust::pair<int*,int*> end = thrust::set_symmetric_difference_by_key(thrust::host, A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end = HYDRA_EXTERNAL_NS::thrust::set_symmetric_difference_by_key(HYDRA_EXTERNAL_NS::thrust::host, A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result);
  *  // keys_result is now {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12}
  *  // vals_result is now {0, 1, 0, 1, 0, 1, 0, 1, 0, 1,  0,  0}
  *  \endcode
@@ -2631,8 +2631,8 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    set_union_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    set_union_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                      InputIterator1                                              keys_first1,
                      InputIterator1                                              keys_last1,
                      InputIterator2                                              keys_first2,
@@ -2712,7 +2712,7 @@ __hydra_host__ __hydra_device__
  *  int keys_result[11];
  *  int vals_result[11];
  *
- *  thrust::pair<int*,int*> end = thrust::set_symmetric_difference_by_key(A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end = HYDRA_EXTERNAL_NS::thrust::set_symmetric_difference_by_key(A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result);
  *  // keys_result is now {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12}
  *  // vals_result is now {0, 1, 0, 1, 0, 1, 0, 1, 0, 1,  0,  0}
  *  \endcode
@@ -2729,7 +2729,7 @@ template<typename InputIterator1,
          typename InputIterator4,
          typename OutputIterator1,
          typename OutputIterator2>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     set_union_by_key(InputIterator1                             keys_first1,
                      InputIterator1                             keys_last1,
                      InputIterator2                             keys_first2,
@@ -2802,7 +2802,7 @@ template<typename InputIterator1,
  *
  *  The following code snippet demonstrates how to use \p set_symmetric_difference_by_key to compute the
  *  symmetric difference of two sets of integers sorted in descending order with their values using the
- *  \p thrust::host execution policy for parallelization:
+ *  \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/set_operations.h>
@@ -2818,7 +2818,7 @@ template<typename InputIterator1,
  *  int keys_result[11];
  *  int vals_result[11];
  *
- *  thrust::pair<int*,int*> end = thrust::set_symmetric_difference_by_key(thrust::host, A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result, thrust::greater<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end = HYDRA_EXTERNAL_NS::thrust::set_symmetric_difference_by_key(HYDRA_EXTERNAL_NS::thrust::host, A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // keys_result is now {12, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0}
  *  // vals_result is now { 0,  1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0}
  *  \endcode
@@ -2838,8 +2838,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename StrictWeakCompare>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    set_union_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    set_union_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                      InputIterator1                                              keys_first1,
                      InputIterator1                                              keys_last1,
                      InputIterator2                                              keys_first2,
@@ -2923,7 +2923,7 @@ __hydra_host__ __hydra_device__
  *  int keys_result[11];
  *  int vals_result[11];
  *
- *  thrust::pair<int*,int*> end = thrust::set_symmetric_difference_by_key(A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result, thrust::greater<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end = HYDRA_EXTERNAL_NS::thrust::set_symmetric_difference_by_key(A_keys, A_keys + 6, B_keys, B_keys + 5, A_vals, B_vals, keys_result, vals_result, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // keys_result is now {12, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0}
  *  // vals_result is now { 0,  1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0}
  *  \endcode
@@ -2941,7 +2941,7 @@ template<typename InputIterator1,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakCompare>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     set_union_by_key(InputIterator1                             keys_first1,
                      InputIterator1                             keys_last1,
                      InputIterator2                             keys_first2,
@@ -2957,9 +2957,10 @@ template<typename InputIterator1,
  */
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/set_operations.inl>
 

@@ -33,7 +33,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T>
 __hydra_host__ __hydra_device__
-  void uninitialized_fill(thrust::execution_policy<DerivedPolicy> &exec,
+  void uninitialized_fill(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                           ForwardIterator first,
                           ForwardIterator last,
                           const T &x);
@@ -43,7 +43,7 @@ template<typename DerivedPolicy,
          typename Size,
          typename T>
 __hydra_host__ __hydra_device__
-  ForwardIterator uninitialized_fill_n(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator uninitialized_fill_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                        ForwardIterator first,
                                        Size n,
                                        const T &x);
@@ -52,8 +52,6 @@ __hydra_host__ __hydra_device__
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/uninitialized_fill.inl>
 

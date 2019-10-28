@@ -34,22 +34,22 @@ namespace generic
 
 template<typename ExecutionPolicy, typename InputIterator>
 __hydra_host__ __hydra_device__
-  typename thrust::iterator_traits<InputIterator>::value_type
-    reduce(thrust::execution_policy<ExecutionPolicy> &exec, InputIterator first, InputIterator last)
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::value_type
+    reduce(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec, InputIterator first, InputIterator last)
 {
-  typedef typename thrust::iterator_value<InputIterator>::type InputType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator>::type InputType;
 
   // use InputType(0) as init by default
-  return thrust::reduce(exec, first, last, InputType(0));
+  return HYDRA_EXTERNAL_NS::thrust::reduce(exec, first, last, InputType(0));
 } // end reduce()
 
 
 template<typename ExecutionPolicy, typename InputIterator, typename T>
 __hydra_host__ __hydra_device__
-  T reduce(thrust::execution_policy<ExecutionPolicy> &exec, InputIterator first, InputIterator last, T init)
+  T reduce(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec, InputIterator first, InputIterator last, T init)
 {
   // use plus<T> by default
-  return thrust::reduce(exec, first, last, init, thrust::plus<T>());
+  return HYDRA_EXTERNAL_NS::thrust::reduce(exec, first, last, init, HYDRA_EXTERNAL_NS::thrust::plus<T>());
 } // end reduce()
 
 
@@ -58,14 +58,16 @@ template<typename ExecutionPolicy,
          typename OutputType,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  OutputType reduce(thrust::execution_policy<ExecutionPolicy> &/*exec*/,
-                    RandomAccessIterator /*first*/,
-                    RandomAccessIterator /*last*/,
-                    OutputType /*init*/,
-                    BinaryFunction /*binary_op*/)
+  OutputType reduce(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &,
+                    RandomAccessIterator,
+                    RandomAccessIterator,
+                    OutputType,
+                    BinaryFunction)
 {
-  // unimplemented
-  HYDRA_THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator, false>::value) );
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
+    (HYDRA_EXTERNAL_NS::thrust::detail::depend_on_instantiation<RandomAccessIterator, false>::value)
+  , "unimplemented for this system"
+  );
   return OutputType();
 } // end reduce()
 

@@ -40,13 +40,13 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator copy(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                       InputIterator                            first,
                       InputIterator                            last,
                       OutputIterator                           result)
 {
-  typedef typename thrust::iterator_value<InputIterator>::type T;
-  return thrust::transform(exec, first, last, result, thrust::identity<T>());
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator>::type T;
+  return HYDRA_EXTERNAL_NS::thrust::transform(exec, first, last, result, HYDRA_EXTERNAL_NS::thrust::identity<T>());
 } // end copy()
 
 
@@ -55,28 +55,28 @@ template<typename DerivedPolicy,
          typename Size,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator copy_n(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator copy_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                         InputIterator                            first,
                         Size                                     n,
                         OutputIterator                           result)
 {
-  typedef typename thrust::iterator_value<InputIterator>::type value_type;
-  typedef thrust::identity<value_type>                         xfrm_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator>::type value_type;
+  typedef HYDRA_EXTERNAL_NS::thrust::identity<value_type>                         xfrm_type;
 
-  typedef thrust::detail::unary_transform_functor<xfrm_type> functor_type;
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::unary_transform_functor<xfrm_type> functor_type;
 
-  typedef thrust::tuple<InputIterator,OutputIterator> iterator_tuple;
-  typedef thrust::zip_iterator<iterator_tuple>        zip_iter;
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<InputIterator,OutputIterator> iterator_tuple;
+  typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<iterator_tuple>        zip_iter;
 
-  zip_iter zipped = thrust::make_zip_iterator(thrust::make_tuple(first,result));
+  zip_iter zipped = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(first,result));
 
-  return thrust::get<1>(thrust::for_each_n(exec, zipped, n, functor_type(xfrm_type())).get_iterator_tuple());
+  return HYDRA_EXTERNAL_NS::thrust::get<1>(HYDRA_EXTERNAL_NS::thrust::for_each_n(exec, zipped, n, functor_type(xfrm_type())).get_iterator_tuple());
 } // end copy_n()
 
 
 } // end generic
 } // end detail
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

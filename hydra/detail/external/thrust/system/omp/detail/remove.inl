@@ -38,7 +38,7 @@ template<typename DerivedPolicy,
                             Predicate pred)
 {
   // omp prefers generic::remove_if to cpp::remove_if
-  return thrust::system::detail::generic::remove_if(exec, first, last, pred);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::remove_if(exec, first, last, pred);
 }
 
 
@@ -53,7 +53,7 @@ template<typename DerivedPolicy,
                             Predicate pred)
 {
   // omp prefers generic::remove_if to cpp::remove_if
-  return thrust::system::detail::generic::remove_if(exec, first, last, stencil, pred);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::remove_if(exec, first, last, stencil, pred);
 }
 
 
@@ -68,7 +68,7 @@ template<typename DerivedPolicy,
                                 Predicate pred)
 {
   // omp prefers generic::remove_copy_if to cpp::remove_copy_if
-  return thrust::system::detail::generic::remove_copy_if(exec, first, last, result, pred);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::remove_copy_if(exec, first, last, result, pred);
 }
 
 template<typename DerivedPolicy,
@@ -84,7 +84,7 @@ template<typename DerivedPolicy,
                                 Predicate pred)
 {
   // omp prefers generic::remove_copy_if to cpp::remove_copy_if
-  return thrust::system::detail::generic::remove_copy_if(exec, first, last, stencil, result, pred);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::remove_copy_if(exec, first, last, stencil, result, pred);
 }
 
 } // end namespace detail

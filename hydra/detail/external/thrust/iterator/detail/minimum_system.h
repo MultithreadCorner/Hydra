@@ -65,12 +65,12 @@ template<typename T1,
          typename T15 = minimum_type_detail::any_conversion,
          typename T16 = minimum_type_detail::any_conversion>
   struct minimum_system
-    : thrust::detail::eval_if<
+    : HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
         is_metafunction_defined<
           minimum_type<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16>
         >::value,
         minimum_type<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16>,
-        thrust::detail::identity_<
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<
           unrelated_systems<T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16>
         >
       >
@@ -78,6 +78,8 @@ template<typename T1,
 
 
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

@@ -1,7 +1,7 @@
 
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -42,7 +42,7 @@
 #include "../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  HYDRA_THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -62,8 +62,9 @@ namespace cub {
  * ordering of those keys.
  *
  * \par
- * DeviceSegmentedRadixSort can sort all of the built-in C++ numeric primitive types, e.g.:
- * <tt>unsigned char</tt>, \p int, \p double, etc.  Although the direct radix sorting
+ * DeviceSegmentedRadixSort can sort all of the built-in C++ numeric primitive types
+ * (<tt>unsigned char</tt>, \p int, \p double, etc.) as well as CUDA's \p __half
+ * half-precision floating-point type.  Although the direct radix sorting
  * method can only be applied to unsigned integral types, DeviceSegmentedRadixSort
  * is able to sort signed and floating-point types via simple bit-wise transformations
  * that ensure lexicographic key ordering.
@@ -870,6 +871,6 @@ struct DeviceSegmentedRadixSort
 };
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+HYDRA_THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
 
 

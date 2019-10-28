@@ -14,7 +14,7 @@
  */
 
 
-/*! \file for_each.h
+/*! \file thrust/for_each.h
  *  \brief Applies a function to each element in a range
  */
 
@@ -56,7 +56,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *          and \p UnaryFunction does not apply any non-constant operation through its argument.
  *
  *  The following code snippet demonstrates how to use \p for_each to print the elements
- *  of a \p std::device_vector using the \p thrust::device parallelization policy:
+ *  of a \p std::device_vector using the \p HYDRA_EXTERNAL_NS::thrust::device parallelization policy:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/for_each.h>
@@ -70,17 +70,17 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *    __hydra_host__ __hydra_device__
  *    void operator()(int x)
  *    {
- *      // note that using printf in a __hydra_device__ function requires
+ *      // note that using printf in a __device__ function requires
  *      // code compiled for a GPU with compute capability 2.0 or
  *      // higher (nvcc --arch=sm_20)
  *      printf("%d\n", x);
  *    }
  *  };
  *  ...
- *  thrust::device_vector<int> d_vec(3);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_vec(3);
  *  d_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;
  *
- *  thrust::for_each(thrust::device, d_vec.begin(), d_vec.end(), printf_functor());
+ *  HYDRA_EXTERNAL_NS::thrust::for_each(HYDRA_EXTERNAL_NS::thrust::device, d_vec.begin(), d_vec.end(), printf_functor());
  *
  *  // 0 1 2 is printed to standard output in some unspecified order
  *  \endcode
@@ -92,7 +92,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename UnaryFunction>
 __hydra_host__ __hydra_device__
-InputIterator for_each(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+InputIterator for_each(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator first,
                        InputIterator last,
                        UnaryFunction f);
@@ -120,7 +120,7 @@ InputIterator for_each(const thrust::detail::execution_policy_base<DerivedPolicy
  *          and \p UnaryFunction does not apply any non-constant operation through its argument.
  *
  *  The following code snippet demonstrates how to use \p for_each_n to print the elements
- *  of a \p device_vector using the \p thrust::device parallelization policy.
+ *  of a \p device_vector using the \p HYDRA_EXTERNAL_NS::thrust::device parallelization policy.
  *
  *  \code
  *  #include <hydra/detail/external/thrust/for_each.h>
@@ -133,17 +133,17 @@ InputIterator for_each(const thrust::detail::execution_policy_base<DerivedPolicy
  *    __hydra_host__ __hydra_device__
  *    void operator()(int x)
  *    {
- *      // note that using printf in a __hydra_device__ function requires
+ *      // note that using printf in a __device__ function requires
  *      // code compiled for a GPU with compute capability 2.0 or
  *      // higher (nvcc --arch=sm_20)
  *      printf("%d\n", x);
  *    }
  *  };
  *  ...
- *  thrust::device_vector<int> d_vec(3);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_vec(3);
  *  d_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;
  *
- *  thrust::for_each_n(thrust::device, d_vec.begin(), d_vec.size(), printf_functor());
+ *  HYDRA_EXTERNAL_NS::thrust::for_each_n(HYDRA_EXTERNAL_NS::thrust::device, d_vec.begin(), d_vec.size(), printf_functor());
  *
  *  // 0 1 2 is printed to standard output in some unspecified order
  *  \endcode
@@ -156,7 +156,7 @@ template<typename DerivedPolicy,
          typename Size,
          typename UnaryFunction>
 __hydra_host__ __hydra_device__
-InputIterator for_each_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+InputIterator for_each_n(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator first,
                          Size n,
                          UnaryFunction f);
@@ -191,17 +191,17 @@ InputIterator for_each_n(const thrust::detail::execution_policy_base<DerivedPoli
  *    __hydra_host__ __hydra_device__
  *    void operator()(int x)
  *    {
- *      // note that using printf in a __hydra_device__ function requires
+ *      // note that using printf in a __device__ function requires
  *      // code compiled for a GPU with compute capability 2.0 or
  *      // higher (nvcc --arch=sm_20)
  *      printf("%d\n", x);
  *    }
  *  };
  *  ...
- *  thrust::device_vector<int> d_vec(3);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_vec(3);
  *  d_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;
  *
- *  thrust::for_each(d_vec.begin(), d_vec.end(), printf_functor());
+ *  HYDRA_EXTERNAL_NS::thrust::for_each(d_vec.begin(), d_vec.end(), printf_functor());
  *
  *  // 0 1 2 is printed to standard output in some unspecified order
  *  \endcode
@@ -246,17 +246,17 @@ InputIterator for_each(InputIterator first,
  *    __hydra_host__ __hydra_device__
  *    void operator()(int x)
  *    {
- *      // note that using printf in a __hydra_device__ function requires
+ *      // note that using printf in a __device__ function requires
  *      // code compiled for a GPU with compute capability 2.0 or
  *      // higher (nvcc --arch=sm_20)
  *      printf("%d\n", x);
  *    }
  *  };
  *  ...
- *  thrust::device_vector<int> d_vec(3);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_vec(3);
  *  d_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;
  *
- *  thrust::for_each_n(d_vec.begin(), d_vec.size(), printf_functor());
+ *  HYDRA_EXTERNAL_NS::thrust::for_each_n(d_vec.begin(), d_vec.size(), printf_functor());
  *
  *  // 0 1 2 is printed to standard output in some unspecified order
  *  \endcode
@@ -277,6 +277,7 @@ InputIterator for_each_n(InputIterator first,
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/for_each.inl>
 

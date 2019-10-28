@@ -43,12 +43,12 @@ void inplace_merge(sequential::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator>::type value_type;
 
-  thrust::detail::temporary_array<value_type, DerivedPolicy> a(exec, first, middle);
-  thrust::detail::temporary_array<value_type, DerivedPolicy> b(exec, middle, last);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<value_type, DerivedPolicy> a(exec, first, middle);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<value_type, DerivedPolicy> b(exec, middle, last);
 
-  thrust::merge(exec, a.begin(), a.end(), b.begin(), b.end(), first, comp);
+  HYDRA_EXTERNAL_NS::thrust::merge(exec, a.begin(), a.end(), b.begin(), b.end(), first, comp);
 }
 
 
@@ -64,18 +64,18 @@ void inplace_merge_by_key(sequential::execution_policy<DerivedPolicy> &exec,
                           RandomAccessIterator2 first2,
                           StrictWeakOrdering comp)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
-  typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator1>::type value_type1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator2>::type value_type2;
 
   RandomAccessIterator2 middle2 = first2 + (middle1 - first1);
   RandomAccessIterator2 last2   = first2 + (last1   - first1);
 
-  thrust::detail::temporary_array<value_type1, DerivedPolicy> lhs1(exec, first1, middle1);
-  thrust::detail::temporary_array<value_type1, DerivedPolicy> rhs1(exec, middle1, last1);
-  thrust::detail::temporary_array<value_type2, DerivedPolicy> lhs2(exec, first2, middle2);
-  thrust::detail::temporary_array<value_type2, DerivedPolicy> rhs2(exec, middle2, last2);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<value_type1, DerivedPolicy> lhs1(exec, first1, middle1);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<value_type1, DerivedPolicy> rhs1(exec, middle1, last1);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<value_type2, DerivedPolicy> lhs2(exec, first2, middle2);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<value_type2, DerivedPolicy> rhs2(exec, middle2, last2);
 
-  thrust::merge_by_key(exec,
+  HYDRA_EXTERNAL_NS::thrust::merge_by_key(exec,
                        lhs1.begin(), lhs1.end(),
                        rhs1.begin(), rhs1.end(),
                        lhs2.begin(), rhs2.begin(),
@@ -97,9 +97,9 @@ void insertion_sort_each(RandomAccessIterator first,
   {
     for(; first < last; first += partition_size)
     {
-      RandomAccessIterator partition_last = thrust::min(last, first + partition_size);
+      RandomAccessIterator partition_last = HYDRA_EXTERNAL_NS::thrust::min(last, first + partition_size);
 
-      thrust::system::detail::sequential::insertion_sort(first, partition_last, comp);
+      HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::insertion_sort(first, partition_last, comp);
     } // end for
   } // end if
 } // end insertion_sort_each()
@@ -120,9 +120,9 @@ void insertion_sort_each_by_key(RandomAccessIterator1 keys_first,
   {
     for(; keys_first < keys_last; keys_first += partition_size, values_first += partition_size)
     {
-      RandomAccessIterator1 keys_partition_last = thrust::min(keys_last, keys_first + partition_size);
+      RandomAccessIterator1 keys_partition_last = HYDRA_EXTERNAL_NS::thrust::min(keys_last, keys_first + partition_size);
 
-      thrust::system::detail::sequential::insertion_sort_by_key(keys_first, keys_partition_last, values_first, comp);
+      HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::insertion_sort_by_key(keys_first, keys_partition_last, values_first, comp);
     } // end for
   } // end if
 } // end insertion_sort_each()
@@ -143,10 +143,10 @@ void merge_adjacent_partitions(sequential::execution_policy<DerivedPolicy> &exec
 {
   for(; first < last; first += 2 * partition_size, result += 2 * partition_size)
   {
-    RandomAccessIterator1 interval_middle = thrust::min(last, first + partition_size);
-    RandomAccessIterator1 interval_last   = thrust::min(last, interval_middle + partition_size);
+    RandomAccessIterator1 interval_middle = HYDRA_EXTERNAL_NS::thrust::min(last, first + partition_size);
+    RandomAccessIterator1 interval_last   = HYDRA_EXTERNAL_NS::thrust::min(last, interval_middle + partition_size);
 
-    thrust::merge(exec,
+    HYDRA_EXTERNAL_NS::thrust::merge(exec,
                   first, interval_middle,
                   interval_middle, interval_last,
                   result,
@@ -178,12 +178,12 @@ void merge_adjacent_partitions_by_key(sequential::execution_policy<DerivedPolicy
       keys_first < keys_last;
       keys_first += stride, values_first += stride, keys_result += stride, values_result += stride)
   {
-    RandomAccessIterator1 keys_interval_middle = thrust::min(keys_last, keys_first + partition_size);
-    RandomAccessIterator1 keys_interval_last   = thrust::min(keys_last, keys_interval_middle + partition_size);
+    RandomAccessIterator1 keys_interval_middle = HYDRA_EXTERNAL_NS::thrust::min(keys_last, keys_first + partition_size);
+    RandomAccessIterator1 keys_interval_last   = HYDRA_EXTERNAL_NS::thrust::min(keys_last, keys_interval_middle + partition_size);
 
     RandomAccessIterator2 values_first2 = values_first + (keys_interval_middle - keys_first);
 
-    thrust::merge_by_key(exec,
+    HYDRA_EXTERNAL_NS::thrust::merge_by_key(exec,
                          keys_first, keys_interval_middle,
                          keys_interval_middle, keys_interval_last,
                          values_first,
@@ -204,12 +204,12 @@ void iterative_stable_merge_sort(sequential::execution_policy<DerivedPolicy> &ex
                                  RandomAccessIterator last,
                                  StrictWeakOrdering comp)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
-  typedef typename thrust::iterator_difference<RandomAccessIterator>::type difference_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator>::type value_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<RandomAccessIterator>::type difference_type;
 
   difference_type n = last - first;
 
-  thrust::detail::temporary_array<value_type, DerivedPolicy> temp(exec, n);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<value_type, DerivedPolicy> temp(exec, n);
 
   // insertion sort each 32 element partition
   difference_type partition_size = 32;
@@ -235,7 +235,7 @@ void iterative_stable_merge_sort(sequential::execution_policy<DerivedPolicy> &ex
 
   if(!ping)
   {
-    thrust::copy(exec, temp.begin(), temp.end(), first);
+    HYDRA_EXTERNAL_NS::thrust::copy(exec, temp.begin(), temp.end(), first);
   } // end if
 } // end iterative_stable_merge_sort()
 
@@ -251,14 +251,14 @@ void iterative_stable_merge_sort_by_key(sequential::execution_policy<DerivedPoli
                                         RandomAccessIterator2 values_first,
                                         StrictWeakOrdering comp)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type      value_type1;
-  typedef typename thrust::iterator_value<RandomAccessIterator2>::type      value_type2;
-  typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator1>::type      value_type1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator2>::type      value_type2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<RandomAccessIterator1>::type difference_type;
 
   difference_type n = keys_last - keys_first;
 
-  thrust::detail::temporary_array<value_type1, DerivedPolicy> keys_temp(exec, n);
-  thrust::detail::temporary_array<value_type2, DerivedPolicy> values_temp(exec, n);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<value_type1, DerivedPolicy> keys_temp(exec, n);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<value_type2, DerivedPolicy> values_temp(exec, n);
 
   // insertion sort each 32 element partition
   difference_type partition_size = 32;
@@ -284,8 +284,8 @@ void iterative_stable_merge_sort_by_key(sequential::execution_policy<DerivedPoli
 
   if(!ping)
   {
-    thrust::copy(exec, keys_temp.begin(), keys_temp.end(), keys_first);
-    thrust::copy(exec, values_temp.begin(), values_temp.end(), values_first);
+    HYDRA_EXTERNAL_NS::thrust::copy(exec, keys_temp.begin(), keys_temp.end(), keys_first);
+    HYDRA_EXTERNAL_NS::thrust::copy(exec, values_temp.begin(), values_temp.end(), values_first);
   } // end if
 } // end iterative_stable_merge_sort()
 
@@ -301,7 +301,7 @@ void recursive_stable_merge_sort(sequential::execution_policy<DerivedPolicy> &ex
 {
   if(last - first <= 32)
   {
-    thrust::system::detail::sequential::insertion_sort(first, last, comp);
+    HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::insertion_sort(first, last, comp);
   } // end if
   else
   {
@@ -327,7 +327,7 @@ void recursive_stable_merge_sort_by_key(sequential::execution_policy<DerivedPoli
 {
   if(last1 - first1 <= 32)
   {
-    thrust::system::detail::sequential::insertion_sort_by_key(first1, last1, first2, comp);
+    HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::insertion_sort_by_key(first1, last1, first2, comp);
   } // end if
   else
   {

@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -41,7 +41,7 @@
 #include "util_arch.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  HYDRA_THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -102,6 +102,8 @@ __hydra_host__ __hydra_device__ __forceinline__ cudaError_t Debug(
     #define CubDebugExit(e) if (cub::Debug((cudaError_t) (e), __FILE__, __LINE__)) { exit(1); }
 #endif
 
+}               // CUB namespace
+HYDRA_THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
 
 /**
  * \brief Log macro for printf statements.
@@ -141,5 +143,3 @@ __hydra_host__ __hydra_device__ __forceinline__ cudaError_t Debug(
 
 /** @} */       // end group UtilMgmt
 
-}               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)

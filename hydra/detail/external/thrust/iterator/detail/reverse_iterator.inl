@@ -48,8 +48,8 @@ template<typename BidirectionalIterator>
       ::reverse_iterator(reverse_iterator<OtherBidirectionalIterator> const &r
 // XXX msvc screws this up
 #ifndef _MSC_VER
-                     , typename thrust::detail::enable_if<
-                         thrust::detail::is_convertible<
+                     , typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
+                         HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<
                            OtherBidirectionalIterator,
                            BidirectionalIterator
                          >::value
@@ -64,15 +64,15 @@ template<typename BidirectionalIterator>
   __hydra_host__ __hydra_device__
   typename reverse_iterator<BidirectionalIterator>::super_t::reference
     reverse_iterator<BidirectionalIterator>
-      ::dereference(void) const
+      ::dereference() const
 {
-  return *thrust::detail::prior(this->base());
+  return *HYDRA_EXTERNAL_NS::thrust::detail::prior(this->base());
 } // end reverse_iterator::increment()
 
 template<typename BidirectionalIterator>
   __hydra_host__ __hydra_device__
   void reverse_iterator<BidirectionalIterator>
-    ::increment(void)
+    ::increment()
 {
   --this->base_reference();
 } // end reverse_iterator::increment()
@@ -80,7 +80,7 @@ template<typename BidirectionalIterator>
 template<typename BidirectionalIterator>
   __hydra_host__ __hydra_device__
   void reverse_iterator<BidirectionalIterator>
-    ::decrement(void)
+    ::decrement()
 {
   ++this->base_reference();
 } // end reverse_iterator::decrement()
@@ -111,6 +111,8 @@ reverse_iterator<BidirectionalIterator> make_reverse_iterator(BidirectionalItera
 } // end make_reverse_iterator()
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

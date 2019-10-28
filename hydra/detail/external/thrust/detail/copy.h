@@ -26,7 +26,7 @@ template<typename System,
          typename InputIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator copy(const thrust::detail::execution_policy_base<System> &system,
+  OutputIterator copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<System> &system,
                       InputIterator first,
                       InputIterator last,
                       OutputIterator result);
@@ -36,7 +36,7 @@ template<typename System,
          typename Size,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator copy_n(const thrust::detail::execution_policy_base<System> &system,
+  OutputIterator copy_n(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<System> &system,
                         InputIterator first,
                         Size n,
                         OutputIterator result);
@@ -64,8 +64,8 @@ template<typename FromSystem,
          typename InputIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator two_system_copy(const thrust::execution_policy<FromSystem> &from_system,
-                                 const thrust::execution_policy<ToSystem>   &two_system,
+  OutputIterator two_system_copy(const HYDRA_EXTERNAL_NS::thrust::execution_policy<FromSystem> &from_system,
+                                 const HYDRA_EXTERNAL_NS::thrust::execution_policy<ToSystem>   &two_system,
                                  InputIterator first,
                                  InputIterator last,
                                  OutputIterator result);
@@ -77,17 +77,16 @@ template<typename FromSystem,
          typename Size,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator two_system_copy_n(const thrust::execution_policy<FromSystem> &from_system,
-                                   const thrust::execution_policy<ToSystem>   &two_system,
+  OutputIterator two_system_copy_n(const HYDRA_EXTERNAL_NS::thrust::execution_policy<FromSystem> &from_system,
+                                   const HYDRA_EXTERNAL_NS::thrust::execution_policy<ToSystem>   &two_system,
                                    InputIterator first,
                                    Size n,
                                    OutputIterator result);
 
 
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/detail/copy.inl>
 

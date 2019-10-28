@@ -47,7 +47,7 @@ template<typename ErrorConditionEnum>
     ::error_condition(ErrorConditionEnum e
 // XXX WAR msvc's problem with enable_if
 #if HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
-                      , typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value>::type *
+                      , typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value>::type *
 #endif // HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
                      )
 {
@@ -66,7 +66,7 @@ void error_condition
 template<typename ErrorConditionEnum>
 // XXX WAR msvc's problem with enable_if
 #if HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
-  typename thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value, error_condition>::type &
+  typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<is_error_condition_enum<ErrorConditionEnum>::value, error_condition>::type &
 #else
   error_condition &
 #endif // HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
@@ -129,6 +129,6 @@ bool operator<(const error_condition &lhs,
 
 } // end system
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

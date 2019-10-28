@@ -61,7 +61,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \pre The expression `result[*i]` shall be valid for all iterators in the range `[map,map + (last - first))`.
  *
  *  The following code snippet demonstrates how to use \p scatter to
- *  reorder a range using the \p thrust::device execution policy for parallelization:
+ *  reorder a range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/scatter.h>
@@ -70,28 +70,28 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  ...
  *  // mark even indices with a 1; odd indices with a 0
  *  int values[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
- *  thrust::device_vector<int> d_values(values, values + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_values(values, values + 10);
  *
  *  // scatter all even indices into the first half of the
  *  // range, and odd indices vice versa
  *  int map[10]   = {0, 5, 1, 6, 2, 7, 3, 8, 4, 9};
- *  thrust::device_vector<int> d_map(map, map + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_map(map, map + 10);
  *
- *  thrust::device_vector<int> d_output(10);
- *  thrust::scatter(thrust::device,
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_output(10);
+ *  HYDRA_EXTERNAL_NS::thrust::scatter(HYDRA_EXTERNAL_NS::thrust::device,
  *                  d_values.begin(), d_values.end(),
  *                  d_map.begin(), d_output.begin());
  *  // d_output is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}
  *  \endcode
  *
- *  \note \p scatter is the inverse of thrust::gather.
+ *  \note \p scatter is the inverse of HYDRA_EXTERNAL_NS::thrust::gather.
  */
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator>
 __hydra_host__ __hydra_device__
-  void scatter(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void scatter(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                InputIterator1 first,
                InputIterator1 last,
                InputIterator2 map,
@@ -129,20 +129,20 @@ __hydra_host__ __hydra_device__
  *  ...
  *  // mark even indices with a 1; odd indices with a 0
  *  int values[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
- *  thrust::device_vector<int> d_values(values, values + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_values(values, values + 10);
  *
  *  // scatter all even indices into the first half of the
  *  // range, and odd indices vice versa
  *  int map[10]   = {0, 5, 1, 6, 2, 7, 3, 8, 4, 9};
- *  thrust::device_vector<int> d_map(map, map + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_map(map, map + 10);
  *
- *  thrust::device_vector<int> d_output(10);
- *  thrust::scatter(d_values.begin(), d_values.end(),
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> d_output(10);
+ *  HYDRA_EXTERNAL_NS::thrust::scatter(d_values.begin(), d_values.end(),
  *                  d_map.begin(), d_output.begin());
  *  // d_output is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}
  *  \endcode
  *
- *  \note \p scatter is the inverse of thrust::gather.
+ *  \note \p scatter is the inverse of HYDRA_EXTERNAL_NS::thrust::gather.
  */
 template<typename InputIterator1,
          typename InputIterator2,
@@ -193,12 +193,12 @@ template<typename InputIterator1,
  *  int S[8] = {1, 0, 1, 0, 1, 0, 1, 0};
  *  int D[8] = {0, 0, 0, 0, 0, 0, 0, 0};
  * 
- *  thrust::scatter_if(thrust::host, V, V + 8, M, S, D);
+ *  HYDRA_EXTERNAL_NS::thrust::scatter_if(HYDRA_EXTERNAL_NS::thrust::host, V, V + 8, M, S, D);
  * 
  *  // D contains [10, 30, 50, 70, 0, 0, 0, 0];
  *  \endcode
  *
- *  \note \p scatter_if is the inverse of thrust::gather_if.
+ *  \note \p scatter_if is the inverse of HYDRA_EXTERNAL_NS::thrust::gather_if.
  */
 template<typename DerivedPolicy,
          typename InputIterator1,
@@ -206,7 +206,7 @@ template<typename DerivedPolicy,
          typename InputIterator3,
          typename RandomAccessIterator>
 __hydra_host__ __hydra_device__
-  void scatter_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void scatter_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                   InputIterator1 first,
                   InputIterator1 last,
                   InputIterator2 map,
@@ -249,12 +249,12 @@ __hydra_host__ __hydra_device__
  *  int S[8] = {1, 0, 1, 0, 1, 0, 1, 0};
  *  int D[8] = {0, 0, 0, 0, 0, 0, 0, 0};
  * 
- *  thrust::scatter_if(V, V + 8, M, S, D);
+ *  HYDRA_EXTERNAL_NS::thrust::scatter_if(V, V + 8, M, S, D);
  * 
  *  // D contains [10, 30, 50, 70, 0, 0, 0, 0];
  *  \endcode
  *
- *  \note \p scatter_if is the inverse of thrust::gather_if.
+ *  \note \p scatter_if is the inverse of HYDRA_EXTERNAL_NS::thrust::gather_if.
  */
 template<typename InputIterator1,
          typename InputIterator2,
@@ -321,12 +321,12 @@ template<typename InputIterator1,
  *  int D[8] = {0, 0, 0, 0, 0, 0, 0, 0};
  * 
  *  is_even pred;
- *  thrust::scatter_if(thrust::host, V, V + 8, M, S, D, pred);
+ *  HYDRA_EXTERNAL_NS::thrust::scatter_if(HYDRA_EXTERNAL_NS::thrust::host, V, V + 8, M, S, D, pred);
  * 
  *  // D contains [10, 30, 50, 70, 0, 0, 0, 0];
  *  \endcode
  *  
- *  \note \p scatter_if is the inverse of thrust::gather_if.
+ *  \note \p scatter_if is the inverse of HYDRA_EXTERNAL_NS::thrust::gather_if.
  */
 template<typename DerivedPolicy,
          typename InputIterator1,
@@ -335,7 +335,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  void scatter_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void scatter_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                   InputIterator1 first,
                   InputIterator1 last,
                   InputIterator2 map,
@@ -393,12 +393,12 @@ __hydra_host__ __hydra_device__
  *  int D[8] = {0, 0, 0, 0, 0, 0, 0, 0};
  * 
  *  is_even pred;
- *  thrust::scatter_if(V, V + 8, M, S, D, pred);
+ *  HYDRA_EXTERNAL_NS::thrust::scatter_if(V, V + 8, M, S, D, pred);
  * 
  *  // D contains [10, 30, 50, 70, 0, 0, 0, 0];
  *  \endcode
  *  
- *  \note \p scatter_if is the inverse of thrust::gather_if.
+ *  \note \p scatter_if is the inverse of HYDRA_EXTERNAL_NS::thrust::gather_if.
  */
 template<typename InputIterator1,
          typename InputIterator2,
@@ -420,6 +420,7 @@ template<typename InputIterator1,
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/scatter.inl>
 

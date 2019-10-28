@@ -60,7 +60,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *          and objects of type \p T can be compared for equality with objects of \p ForwardIterator's \c value_type.
  *
  *  The following code snippet demonstrates how to use \p remove to remove a number
- *  of interest from a range using the \p thrust::host execution policy for parallelization:
+ *  of interest from a range using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/remove.h>
@@ -68,7 +68,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  ...
  *  const int N = 6;
  *  int A[N] = {3, 1, 4, 1, 5, 9};
- *  int *new_end = thrust::remove(A, A + N, 1);
+ *  int *new_end = HYDRA_EXTERNAL_NS::thrust::remove(A, A + N, 1);
  *  // The first four values of A are now {3, 4, 5, 9}
  *  // Values beyond new_end are unspecified
  *  \endcode
@@ -96,7 +96,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T>
 __hydra_host__ __hydra_device__
-  ForwardIterator remove(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator remove(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          ForwardIterator first,
                          ForwardIterator last,
                          const T &value);
@@ -130,7 +130,7 @@ __hydra_host__ __hydra_device__
  *  ...
  *  const int N = 6;
  *  int A[N] = {3, 1, 4, 1, 5, 9};
- *  int *new_end = thrust::remove(A, A + N, 1);
+ *  int *new_end = HYDRA_EXTERNAL_NS::thrust::remove(A, A + N, 1);
  *  // The first four values of A are now {3, 4, 5, 9}
  *  // Values beyond new_end are unspecified
  *  \endcode
@@ -188,7 +188,7 @@ template<typename ForwardIterator,
  *  \pre The range <tt>[first, last)</tt> shall not overlap the range <tt>[result, result + (last - first))</tt>.
  *
  *  The following code snippet demonstrates how to use \p remove_copy to copy
- *  a sequence of numbers to an output range while omitting a value of interest using the \p thrust::host
+ *  a sequence of numbers to an output range while omitting a value of interest using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -198,7 +198,7 @@ template<typename ForwardIterator,
  *  const int N = 6;
  *  int V[N] = {-2, 0, -1, 0, 1, 2};
  *  int result[N-2];
- *  thrust::remove_copy(thrust::host, V, V + N, result, 0);
+ *  HYDRA_EXTERNAL_NS::thrust::remove_copy(HYDRA_EXTERNAL_NS::thrust::host, V, V + N, result, 0);
  *  // V remains {-2, 0, -1, 0, 1, 2}
  *  // result is now {-2, -1, 1, 2}
  *  \endcode
@@ -213,7 +213,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename T>
 __hydra_host__ __hydra_device__
-  OutputIterator remove_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator remove_copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator result,
@@ -251,7 +251,7 @@ __hydra_host__ __hydra_device__
  *  const int N = 6;
  *  int V[N] = {-2, 0, -1, 0, 1, 2};
  *  int result[N-2];
- *  thrust::remove_copy(V, V + N, result, 0);
+ *  HYDRA_EXTERNAL_NS::thrust::remove_copy(V, V + N, result, 0);
  *  // V remains {-2, 0, -1, 0, 1, 2}
  *  // result is now {-2, -1, 1, 2}
  *  \endcode
@@ -296,7 +296,7 @@ template<typename InputIterator,
  *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/Predicate.html">Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p remove_if to remove
- *  all even numbers from an array of integers using the \p thrust::host execution policy for
+ *  all even numbers from an array of integers using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for
  *  parallelization:
  *
  *  \code
@@ -314,7 +314,7 @@ template<typename InputIterator,
  *  ...
  *  const int N = 6;
  *  int A[N] = {1, 4, 2, 8, 5, 7};
- *  int *new_end = thrust::remove_if(thrust::host, A, A + N, is_even());
+ *  int *new_end = HYDRA_EXTERNAL_NS::thrust::remove_if(HYDRA_EXTERNAL_NS::thrust::host, A, A + N, is_even());
  *  // The first three values of A are now {1, 5, 7}
  *  // Values beyond new_end are unspecified
  *  \endcode
@@ -343,7 +343,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator remove_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator remove_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred);
@@ -387,7 +387,7 @@ __hydra_host__ __hydra_device__
  *  ...
  *  const int N = 6;
  *  int A[N] = {1, 4, 2, 8, 5, 7};
- *  int *new_end = thrust::remove_if(A, A + N, is_even());
+ *  int *new_end = HYDRA_EXTERNAL_NS::thrust::remove_if(A, A + N, is_even());
  *  // The first three values of A are now {1, 5, 7}
  *  // Values beyond new_end are unspecified
  *  \endcode
@@ -447,7 +447,7 @@ template<typename ForwardIterator,
  *  \pre The range <tt>[first, last)</tt> shall not overlap the range <tt>[result, result + (last - first))</tt>.
  *
  *  The following code snippet demonstrates how to use \p remove_copy_if to copy
- *  a sequence of numbers to an output range while omitting even numbers using the \p thrust::host
+ *  a sequence of numbers to an output range while omitting even numbers using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -466,7 +466,7 @@ template<typename ForwardIterator,
  *  const int N = 6;
  *  int V[N] = {-2, 0, -1, 0, 1, 2};
  *  int result[2];
- *  thrust::remove_copy_if(thrust::host, V, V + N, result, is_even());
+ *  HYDRA_EXTERNAL_NS::thrust::remove_copy_if(HYDRA_EXTERNAL_NS::thrust::host, V, V + N, result, is_even());
  *  // V remains {-2, 0, -1, 0, 1, 2}
  *  // result is now {-1, 1}
  *  \endcode
@@ -481,7 +481,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  OutputIterator remove_copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator remove_copy_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
@@ -529,7 +529,7 @@ __hydra_host__ __hydra_device__
  *  const int N = 6;
  *  int V[N] = {-2, 0, -1, 0, 1, 2};
  *  int result[2];
- *  thrust::remove_copy_if(V, V + N, result, is_even());
+ *  HYDRA_EXTERNAL_NS::thrust::remove_copy_if(V, V + N, result, is_even());
  *  // V remains {-2, 0, -1, 0, 1, 2}
  *  // result is now {-1, 1}
  *  \endcode
@@ -579,7 +579,7 @@ template<typename InputIterator,
  *  \pre The range <tt>[stencil, stencil + (last - first))</tt> shall not overlap the range <tt>[result, result + (last - first))</tt>.
  *
  *  The following code snippet demonstrates how to use \p remove_if to remove
- *  specific elements from an array of integers using the \p thrust::host execution policy for
+ *  specific elements from an array of integers using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for
  *  parallelization:
  *
  *  \code
@@ -590,7 +590,7 @@ template<typename InputIterator,
  *  int A[N] = {1, 4, 2, 8, 5, 7};
  *  int S[N] = {0, 1, 1, 1, 0, 0};
  *
- *  int *new_end = thrust::remove_if(thrust::host, A, A + N, S, thrust::identity<int>());
+ *  int *new_end = HYDRA_EXTERNAL_NS::thrust::remove_if(HYDRA_EXTERNAL_NS::thrust::host, A, A + N, S, HYDRA_EXTERNAL_NS::thrust::identity<int>());
  *  // The first three values of A are now {1, 5, 7}
  *  // Values beyond new_end are unspecified
  *  \endcode
@@ -607,7 +607,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator remove_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator remove_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
@@ -650,7 +650,7 @@ __hydra_host__ __hydra_device__
  *  int A[N] = {1, 4, 2, 8, 5, 7};
  *  int S[N] = {0, 1, 1, 1, 0, 0};
  *
- *  int *new_end = thrust::remove_if(A, A + N, S, thrust::identity<int>());
+ *  int *new_end = HYDRA_EXTERNAL_NS::thrust::remove_if(A, A + N, S, HYDRA_EXTERNAL_NS::thrust::identity<int>());
  *  // The first three values of A are now {1, 5, 7}
  *  // Values beyond new_end are unspecified
  *  \endcode
@@ -702,7 +702,7 @@ template<typename ForwardIterator,
  *  \pre The range <tt>[stencil, stencil + (last - first))</tt> shall not overlap the range <tt>[result, result + (last - first))</tt>.
  *
  *  The following code snippet demonstrates how to use \p remove_copy_if to copy
- *  a sequence of numbers to an output range while omitting specific elements using the \p thrust::host
+ *  a sequence of numbers to an output range while omitting specific elements using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization.
  *
  *  \code
@@ -713,7 +713,7 @@ template<typename ForwardIterator,
  *  int V[N] = {-2, 0, -1, 0, 1, 2};
  *  int S[N] = { 1, 1,  0, 1, 0, 1};
  *  int result[2];
- *  thrust::remove_copy_if(thrust::host, V, V + N, S, result, thrust::identity<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::remove_copy_if(HYDRA_EXTERNAL_NS::thrust::host, V, V + N, S, result, HYDRA_EXTERNAL_NS::thrust::identity<int>());
  *  // V remains {-2, 0, -1, 0, 1, 2}
  *  // result is now {-1, 1}
  *  \endcode
@@ -730,7 +730,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  OutputIterator remove_copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator remove_copy_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator1 first,
                                 InputIterator1 last,
                                 InputIterator2 stencil,
@@ -774,7 +774,7 @@ __hydra_host__ __hydra_device__
  *  int V[N] = {-2, 0, -1, 0, 1, 2};
  *  int S[N] = { 1, 1,  0, 1, 0, 1};
  *  int result[2];
- *  thrust::remove_copy_if(V, V + N, S, result, thrust::identity<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::remove_copy_if(V, V + N, S, result, HYDRA_EXTERNAL_NS::thrust::identity<int>());
  *  // V remains {-2, 0, -1, 0, 1, 2}
  *  // result is now {-1, 1}
  *  \endcode
@@ -800,9 +800,10 @@ template<typename InputIterator1,
  */
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/remove.inl>
 

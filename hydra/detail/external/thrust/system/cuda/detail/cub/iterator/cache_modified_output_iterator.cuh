@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -49,7 +49,7 @@
 
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  HYDRA_THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -119,7 +119,7 @@ private:
         __hydra_host__ __hydra_device__ __forceinline__ Reference(ValueType* ptr) : ptr(ptr) {}
 
         /// Assignment
-        __hydra_device__ __forceinline__ ValueType operator =(ValueType val)
+        __device__ __forceinline__ ValueType operator =(ValueType val)
         {
             ThreadStore<MODIFIER>(ptr, val);
             return val;
@@ -137,9 +137,9 @@ public:
 
 #if (HYDRA_THRUST_VERSION >= 100700)
     // Use Thrust's iterator categories so we can use these iterators in Thrust 1.7 (or newer) methods
-    typedef typename thrust::detail::iterator_facade_category<
-        thrust::device_system_tag,
-        thrust::random_access_traversal_tag,
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::iterator_facade_category<
+        HYDRA_EXTERNAL_NS::thrust::device_system_tag,
+        HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag,
         value_type,
         reference
       >::type iterator_category;                                        ///< The iterator category
@@ -251,4 +251,4 @@ public:
 /** @} */       // end group UtilIterator
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+HYDRA_THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)

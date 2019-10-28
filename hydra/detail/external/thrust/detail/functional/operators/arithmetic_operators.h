@@ -33,20 +33,20 @@ template<typename Eval>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    unary_operator<thrust::negate>,
+    unary_operator<HYDRA_EXTERNAL_NS::thrust::negate>,
     actor<Eval>
   >
 >
 __hydra_host__ __hydra_device__
 operator-(const actor<Eval> &_1)
 {
-  return compose(unary_operator<thrust::negate>(), _1);
+  return compose(unary_operator<HYDRA_EXTERNAL_NS::thrust::negate>(), _1);
 } // end operator-()
 
 // there's no standard unary_plus functional, so roll an ad hoc one here
 template<typename T>
   struct unary_plus
-    : public thrust::unary_function<T,T>
+    : public HYDRA_EXTERNAL_NS::thrust::unary_function<T,T>
 {
   __hydra_host__ __hydra_device__ T operator()(const T &x) const {return +x;}
 }; // end unary_plus
@@ -68,14 +68,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::plus>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::plus>,
     actor<T1>,
     typename as_actor<T2>::type
   >
 >
 operator+(const actor<T1> &_1, const T2 &_2)
 {
-  return compose(binary_operator<thrust::plus>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::plus>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator+()
@@ -84,14 +84,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::plus>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::plus>,
     typename as_actor<T1>::type,
     actor<T2>
   >
 >
 operator+(const T1 &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<thrust::plus>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::plus>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator+()
@@ -100,14 +100,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::plus>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::plus>,
     actor<T1>,
     actor<T2>
   >
 >
 operator+(const actor<T1> &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<thrust::plus>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::plus>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator+()
@@ -116,14 +116,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::minus>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::minus>,
     typename as_actor<T1>::type,
     actor<T2>
   >
 >
 operator-(const T1 &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<thrust::minus>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::minus>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator-()
@@ -132,14 +132,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::minus>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::minus>,
     actor<T1>,
     typename as_actor<T2>::type
   >
 >
 operator-(const actor<T1> &_1, const T2 &_2)
 {
-  return compose(binary_operator<thrust::minus>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::minus>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator-()
@@ -148,14 +148,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::minus>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::minus>,
     actor<T1>,
     actor<T2>
   >
 >
 operator-(const actor<T1> &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<thrust::minus>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::minus>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator-()
@@ -164,14 +164,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::multiplies>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::multiplies>,
     typename as_actor<T1>::type,
     actor<T2>
   >
 >
 operator*(const T1 &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<thrust::multiplies>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::multiplies>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator*()
@@ -180,14 +180,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::multiplies>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::multiplies>,
     actor<T1>,
     typename as_actor<T2>::type
   >
 >
 operator*(const actor<T1> &_1, const T2 &_2)
 {
-  return compose(binary_operator<thrust::multiplies>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::multiplies>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator*()
@@ -196,14 +196,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::multiplies>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::multiplies>,
     actor<T1>,
     actor<T2>
   >
 >
 operator*(const actor<T1> &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<thrust::multiplies>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::multiplies>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator*()
@@ -212,14 +212,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::divides>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::divides>,
     actor<T1>,
     typename as_actor<T2>::type
   >
 >
 operator/(const actor<T1> &_1, const T2 &_2)
 {
-  return compose(binary_operator<thrust::divides>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::divides>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator/()
@@ -228,14 +228,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::divides>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::divides>,
     typename as_actor<T1>::type,
     actor<T2>
   >
 >
 operator/(const T1 &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<thrust::divides>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::divides>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator/()
@@ -244,14 +244,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::divides>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::divides>,
     actor<T1>,
     actor<T2>
   >
 >
 operator/(const actor<T1> &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<thrust::divides>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::divides>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator/()
@@ -260,14 +260,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::modulus>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::modulus>,
     actor<T1>,
     typename as_actor<T2>::type
   >
 >
 operator%(const actor<T1> &_1, const T2 &_2)
 {
-  return compose(binary_operator<thrust::modulus>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::modulus>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator%()
@@ -276,14 +276,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::modulus>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::modulus>,
     typename as_actor<T1>::type,
     actor<T2>
   >
 >
 operator%(const T1 &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<thrust::modulus>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::modulus>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator%()
@@ -292,14 +292,14 @@ template<typename T1, typename T2>
 __hydra_host__ __hydra_device__
 actor<
   composite<
-    binary_operator<thrust::modulus>,
+    binary_operator<HYDRA_EXTERNAL_NS::thrust::modulus>,
     actor<T1>,
     actor<T2>
   >
 >
 operator%(const actor<T1> &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<thrust::modulus>(),
+  return compose(binary_operator<HYDRA_EXTERNAL_NS::thrust::modulus>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator%()
@@ -307,7 +307,7 @@ operator%(const actor<T1> &_1, const actor<T2> &_2)
 // there's no standard prefix_increment functional, so roll an ad hoc one here
 template<typename T>
   struct prefix_increment
-    : public thrust::unary_function<T&,T&>
+    : public HYDRA_EXTERNAL_NS::thrust::unary_function<T&,T&>
 {
   __hydra_host__ __hydra_device__ T& operator()(T &x) const { return ++x; }
 }; // end prefix_increment
@@ -328,7 +328,7 @@ operator++(const actor<Eval> &_1)
 // there's no standard suffix_increment functional, so roll an ad hoc one here
 template<typename T>
   struct suffix_increment
-    : public thrust::unary_function<T&,T>
+    : public HYDRA_EXTERNAL_NS::thrust::unary_function<T&,T>
 {
   __hydra_host__ __hydra_device__ T operator()(T &x) const { return x++; }
 }; // end suffix_increment
@@ -349,7 +349,7 @@ operator++(const actor<Eval> &_1, int)
 // there's no standard prefix_decrement functional, so roll an ad hoc one here
 template<typename T>
   struct prefix_decrement
-    : public thrust::unary_function<T&,T&>
+    : public HYDRA_EXTERNAL_NS::thrust::unary_function<T&,T&>
 {
   __hydra_host__ __hydra_device__ T& operator()(T &x) const { return --x; }
 }; // end prefix_decrement
@@ -370,7 +370,7 @@ operator--(const actor<Eval> &_1)
 // there's no standard suffix_decrement functional, so roll an ad hoc one here
 template<typename T>
   struct suffix_decrement
-    : public thrust::unary_function<T&,T>
+    : public HYDRA_EXTERNAL_NS::thrust::unary_function<T&,T>
 {
   __hydra_host__ __hydra_device__ T operator()(T &x) const { return x--; }
 }; // end suffix_decrement
@@ -390,6 +390,8 @@ operator--(const actor<Eval> &_1, int)
 
 } // end functional
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

@@ -28,18 +28,19 @@
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
-void device_free(thrust::device_ptr<void> ptr)
+void device_free(HYDRA_EXTERNAL_NS::thrust::device_ptr<void> ptr)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef thrust::iterator_system< thrust::device_ptr<void> >::type system;
+  typedef HYDRA_EXTERNAL_NS::thrust::iterator_system< HYDRA_EXTERNAL_NS::thrust::device_ptr<void> >::type system;
 
   // XXX lower to select_system(system) here
   system s;
 
-  thrust::free(s, ptr);
+  HYDRA_EXTERNAL_NS::thrust::free(s, ptr);
 } // end device_free()
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

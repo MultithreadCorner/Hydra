@@ -1,22 +1,214 @@
-/*
- *  Copyright 2008-2013 NVIDIA Corporation
+/******************************************************************************
+ * Copyright (c) 2016, NVIDIA CORPORATION.  All rights reserved.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the NVIDIA CORPORATION nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL NVIDIA CORPORATION BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
-
+ ******************************************************************************/
 #pragma once
 
-#include <hydra/detail/external/thrust/detail/config.h>
 
-// this system has no special version of this algorithm 
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
+#include <hydra/detail/external/thrust/system/cuda/detail/transform.h>
+#include <hydra/detail/external/thrust/detail/internal_functional.h>
 
+HYDRA_EXTERNAL_NAMESPACE_BEGIN
+
+HYDRA_THRUST_BEGIN_NS
+namespace cuda_cub {
+
+  namespace __replace
+  {
+    template<class T>
+    struct constant_f
+    {
+      T value;
+
+      HYDRA_THRUST_FUNCTION
+      constant_f(T const &x) : value(x) {}
+
+      template<class U>
+      HYDRA_THRUST_DEVICE_FUNCTION
+      T operator()(U const &)  const
+      {
+        return value;
+      }
+    }; // struct constant_f
+
+    template<class Predicate, class NewType, class OutputType>
+    struct new_value_if_f
+    {
+      Predicate pred;
+      NewType new_value;
+
+      HYDRA_THRUST_FUNCTION
+      new_value_if_f(Predicate pred_, NewType new_value_)
+          : pred(pred_), new_value(new_value_) {}
+
+      template<class T>
+      OutputType HYDRA_THRUST_DEVICE_FUNCTION
+      operator()(T const &x) const
+      {
+        return pred(x) ? new_value : x;
+      }
+
+      template<class T, class P>
+      OutputType HYDRA_THRUST_DEVICE_FUNCTION
+      operator()(T const &x, P const& y) const
+      {
+        return pred(y) ? new_value : x;
+      }
+    }; // struct new_value_if_f
+
+  } // namespace __replace
+
+template <class Derived,
+          class Iterator,
+          class T>
+void __hydra_host__ __hydra_device__
+replace(execution_policy<Derived> &policy,
+        Iterator                   first,
+        Iterator                   last,
+        T const &                  old_value,
+        T const &                  new_value)
+{
+  cuda_cub::transform_if(policy,
+                      first,
+                      last,
+                      first,
+                      __replace::constant_f<T>(new_value),
+                      HYDRA_EXTERNAL_NS::thrust::detail::equal_to_value<T>(old_value));
+}
+
+template <class Derived,
+          class Iterator,
+          class Predicate,
+          class T>
+void __hydra_host__ __hydra_device__
+replace_if(execution_policy<Derived> &policy,
+           Iterator                   first,
+           Iterator                   last,
+           Predicate                  pred,
+           T const &                  new_value)
+{
+  cuda_cub::transform_if(policy,
+                      first,
+                      last,
+                      first,
+                      __replace::constant_f<T>(new_value),
+                      pred);
+}
+
+template <class Derived,
+          class Iterator,
+          class StencilIt,
+          class Predicate,
+          class T>
+void __hydra_host__ __hydra_device__
+replace_if(execution_policy<Derived> &policy,
+           Iterator                   first,
+           Iterator                   last,
+           StencilIt                  stencil,
+           Predicate                  pred,
+           T const &                  new_value)
+{
+  cuda_cub::transform_if(policy,
+                      first,
+                      last,
+                      stencil,
+                      first,
+                      __replace::constant_f<T>(new_value),
+                      pred);
+}
+
+template <class Derived,
+          class InputIt,
+          class OutputIt,
+          class Predicate,
+          class T>
+OutputIt __hydra_host__ __hydra_device__
+replace_copy_if(execution_policy<Derived> &policy,
+                InputIt                    first,
+                InputIt                    last,
+                OutputIt                   result,
+                Predicate                  predicate,
+                T const &                  new_value)
+{
+  typedef typename iterator_traits<OutputIt>::value_type output_type;
+  typedef __replace::new_value_if_f<Predicate, T, output_type> new_value_if_t;
+  return cuda_cub::transform(policy,
+                             first,
+                             last,
+                             result,
+                             new_value_if_t(predicate, new_value));
+}
+
+template <class Derived,
+          class InputIt,
+          class StencilIt,
+          class OutputIt,
+          class Predicate,
+          class T>
+OutputIt __hydra_host__ __hydra_device__
+replace_copy_if(execution_policy<Derived> &policy,
+                InputIt                    first,
+                InputIt                    last,
+                StencilIt                  stencil,
+                OutputIt                   result,
+                Predicate                  predicate,
+                T const &                  new_value)
+{
+  typedef typename iterator_traits<OutputIt>::value_type output_type;
+  typedef __replace::new_value_if_f<Predicate, T, output_type> new_value_if_t;
+  return cuda_cub::transform(policy,
+                           first,
+                           last,
+                           stencil,
+                           result,
+                           new_value_if_t(predicate, new_value));
+}
+
+template <class Derived,
+          class InputIt,
+          class OutputIt,
+          class T>
+OutputIt __hydra_host__ __hydra_device__
+replace_copy(execution_policy<Derived> &policy,
+             InputIt                    first,
+             InputIt                    last,
+             OutputIt                   result,
+             T const &                  old_value,
+             T const &                  new_value)
+{
+  return cuda_cub::replace_copy_if(policy,
+                                   first,
+                                   last,
+                                   result,
+                                   HYDRA_EXTERNAL_NS::thrust::detail::equal_to_value<T>(old_value),
+                                   new_value);
+}
+
+}    // namespace cuda_cub
+HYDRA_THRUST_END_NS
+
+HYDRA_EXTERNAL_NAMESPACE_END
+#endif

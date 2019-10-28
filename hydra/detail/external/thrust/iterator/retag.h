@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file hydra/detail/external/thrust/iterator/retag.h
+/*! \file thrust/iterator/retag.h
  *  \brief Functionality for altering an iterator's associated system.
  */
 
@@ -47,8 +47,8 @@ __hydra_host__ __hydra_device__
 unspecified_iterator_type reinterpret_tag(Iterator iter);
 
 /*! \p retag returns a copy of an iterator and changes the type of the result's system tag.
- *  \tparam Tag \p Tag shall be convertible to <tt>thrust::iterator_system<Iterator>::type</tt>,
- *              or <tt>thrust::iterator_system<Iterator>::type</tt> is a base type of \p Tag.
+ *  \tparam Tag \p Tag shall be convertible to <tt>HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type</tt>,
+ *              or <tt>HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type</tt> is a base type of \p Tag.
  *  \tparam Iterator Any iterator type.
  *  \param iter The iterator of interest.
  *  \return An iterator of unspecified type whose system tag is \p Tag and whose behavior is
@@ -66,6 +66,8 @@ unspecified_iterator_type retag(Iterator iter);
  */
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

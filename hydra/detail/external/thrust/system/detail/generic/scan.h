@@ -34,7 +34,7 @@ template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator inclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
+  OutputIterator inclusive_scan(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result);
@@ -46,7 +46,7 @@ template<typename ExecutionPolicy,
          typename OutputIterator,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  OutputIterator inclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
+  OutputIterator inclusive_scan(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
@@ -57,7 +57,7 @@ template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
+  OutputIterator exclusive_scan(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result);
@@ -68,7 +68,7 @@ template<typename ExecutionPolicy,
          typename OutputIterator,
          typename T>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
+  OutputIterator exclusive_scan(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
@@ -82,7 +82,7 @@ template<typename ExecutionPolicy,
          typename T,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
+  OutputIterator exclusive_scan(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
@@ -94,8 +94,6 @@ __hydra_host__ __hydra_device__
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/scan.inl>
 

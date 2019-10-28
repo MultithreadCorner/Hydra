@@ -26,11 +26,12 @@
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
-typedef thrust::system::__HYDRA_THRUST_HOST_SYSTEM_NAMESPACE::tag host_system_tag;
+typedef HYDRA_EXTERNAL_NS::thrust::system::__HYDRA_THRUST_HOST_SYSTEM_NAMESPACE::tag host_system_tag;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 // TODO remove this in 1.8.0
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
@@ -38,6 +39,8 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 typedef HYDRA_THRUST_DEPRECATED host_system_tag host_space_tag;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
+

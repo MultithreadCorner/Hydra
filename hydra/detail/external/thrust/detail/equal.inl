@@ -32,20 +32,20 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 __thrust_exec_check_disable__
 template<typename System, typename InputIterator1, typename InputIterator2>
 __hydra_host__ __hydra_device__
-bool equal(const thrust::detail::execution_policy_base<System> &system, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
+bool equal(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<System> &system, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
 {
-  using thrust::system::detail::generic::equal;
-  return equal(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first1, last1, first2);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::equal;
+  return equal(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(system)), first1, last1, first2);
 } // end equal()
 
 
 __thrust_exec_check_disable__
 template<typename System, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-bool equal(const thrust::detail::execution_policy_base<System> &system, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred)
+bool equal(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<System> &system, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred)
 {
-  using thrust::system::detail::generic::equal;
-  return equal(thrust::detail::derived_cast(thrust::detail::strip_const(system)), first1, last1, first2, binary_pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::equal;
+  return equal(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(system)), first1, last1, first2, binary_pred);
 } // end equal()
 
 
@@ -53,15 +53,15 @@ template <typename InputIterator1, typename InputIterator2>
 bool equal(InputIterator1 first1, InputIterator1 last1,
            InputIterator2 first2)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::equal(select_system(system1,system2), first1, last1, first2);
+  return HYDRA_EXTERNAL_NS::thrust::equal(select_system(system1,system2), first1, last1, first2);
 }
 
 
@@ -70,18 +70,19 @@ template <typename InputIterator1, typename InputIterator2,
 bool equal(InputIterator1 first1, InputIterator1 last1,
            InputIterator2 first2, BinaryPredicate binary_pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::equal(select_system(system1,system2), first1, last1, first2, binary_pred);
+  return HYDRA_EXTERNAL_NS::thrust::equal(select_system(system1,system2), first1, last1, first2, binary_pred);
 }
 
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

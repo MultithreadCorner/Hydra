@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -49,7 +49,7 @@
 
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  HYDRA_THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -117,9 +117,9 @@ public:
 
 #if (HYDRA_THRUST_VERSION >= 100700)
     // Use Thrust's iterator categories so we can use these iterators in Thrust 1.7 (or newer) methods
-    typedef typename thrust::detail::iterator_facade_category<
-        thrust::device_system_tag,
-        thrust::random_access_traversal_tag,
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::iterator_facade_category<
+        HYDRA_EXTERNAL_NS::thrust::device_system_tag,
+        HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag,
         value_type,
         reference
       >::type iterator_category;                                        ///< The iterator category
@@ -157,7 +157,7 @@ public:
     }
 
     /// Indirection
-    __hydra_device__ __forceinline__ reference operator*() const
+    __device__ __forceinline__ reference operator*() const
     {
         return ThreadLoad<MODIFIER>(ptr);
     }
@@ -202,13 +202,13 @@ public:
 
     /// Array subscript
     template <typename Distance>
-    __hydra_device__ __forceinline__ reference operator[](Distance n) const
+    __device__ __forceinline__ reference operator[](Distance n) const
     {
         return ThreadLoad<MODIFIER>(ptr + n);
     }
 
     /// Structure dereference
-    __hydra_device__ __forceinline__ pointer operator->()
+    __device__ __forceinline__ pointer operator->()
     {
         return &ThreadLoad<MODIFIER>(ptr);
     }
@@ -237,4 +237,5 @@ public:
 /** @} */       // end group UtilIterator
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+HYDRA_THRUST_CUB_NS_POSTFIX
+HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)

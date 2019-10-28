@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -73,16 +73,16 @@ struct binary_negate
 
 template<typename Predicate>
 __hydra_host__ __hydra_device__
-thrust::detail::unary_negate<Predicate> not1(const Predicate &pred)
+HYDRA_EXTERNAL_NS::thrust::detail::unary_negate<Predicate> not1(const Predicate &pred)
 {
-  return thrust::detail::unary_negate<Predicate>(pred);
+  return HYDRA_EXTERNAL_NS::thrust::detail::unary_negate<Predicate>(pred);
 }
 
 template<typename Predicate>
 __hydra_host__ __hydra_device__
-thrust::detail::binary_negate<Predicate> not2(const Predicate &pred)
+HYDRA_EXTERNAL_NS::thrust::detail::binary_negate<Predicate> not2(const Predicate &pred)
 {
-  return thrust::detail::binary_negate<Predicate>(pred);
+  return HYDRA_EXTERNAL_NS::thrust::detail::binary_negate<Predicate>(pred);
 }
 
 
@@ -147,7 +147,7 @@ struct tuple_binary_predicate
   __hydra_host__ __hydra_device__
   bool operator()(const Tuple& t) const
   { 
-    return pred(thrust::get<0>(t), thrust::get<1>(t));
+    return pred(HYDRA_EXTERNAL_NS::thrust::get<0>(t), HYDRA_EXTERNAL_NS::thrust::get<1>(t));
   }
   
   mutable Predicate pred;
@@ -165,7 +165,7 @@ struct tuple_not_binary_predicate
   __hydra_host__ __hydra_device__
   bool operator()(const Tuple& t) const
   { 
-    return !pred(thrust::get<0>(t), thrust::get<1>(t));
+    return !pred(HYDRA_EXTERNAL_NS::thrust::get<0>(t), HYDRA_EXTERNAL_NS::thrust::get<1>(t));
   }
   
   mutable Predicate pred;
@@ -176,6 +176,7 @@ template<typename Generator>
 {
   typedef void result_type;
 
+  __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
   host_generate_functor(Generator g)
     : gen(g) {}
@@ -209,6 +210,7 @@ template<typename Generator>
 {
   typedef void result_type;
 
+  __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
   device_generate_functor(Generator g)
     : gen(g) {}
@@ -239,10 +241,10 @@ template<typename Generator>
 
 template<typename System, typename Generator>
   struct generate_functor
-    : thrust::detail::eval_if<
-        thrust::detail::is_convertible<System, thrust::host_system_tag>::value,
-        thrust::detail::identity_<host_generate_functor<Generator> >,
-        thrust::detail::identity_<device_generate_functor<Generator> >
+    : HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<System, HYDRA_EXTERNAL_NS::thrust::host_system_tag>::value,
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<host_generate_functor<Generator> >,
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<device_generate_functor<Generator> >
       >
 {};
 
@@ -260,7 +262,7 @@ template<typename ResultType, typename BinaryFunction>
   __hydra_host__ __hydra_device__
   inline result_type operator()(Tuple t)
   {
-    return m_binary_op(thrust::get<0>(t), thrust::get<1>(t));
+    return m_binary_op(HYDRA_EXTERNAL_NS::thrust::get<0>(t), HYDRA_EXTERNAL_NS::thrust::get<1>(t));
   }
 
   BinaryFunction m_binary_op;
@@ -269,33 +271,58 @@ template<typename ResultType, typename BinaryFunction>
 
 template<typename T>
   struct is_non_const_reference
-    : thrust::detail::and_<
-        thrust::detail::not_<thrust::detail::is_const<T> >,
-        thrust::detail::or_<thrust::detail::is_reference<T>,
-                            thrust::detail::is_proxy_reference<T> >
+    : HYDRA_EXTERNAL_NS::thrust::detail::and_<
+        HYDRA_EXTERNAL_NS::thrust::detail::not_<HYDRA_EXTERNAL_NS::thrust::detail::is_const<T> >,
+        HYDRA_EXTERNAL_NS::thrust::detail::or_<HYDRA_EXTERNAL_NS::thrust::detail::is_reference<T>,
+                            HYDRA_EXTERNAL_NS::thrust::detail::is_proxy_reference<T> >
       >
 {};
+#ifdef HYDRA_THRUST_VARIADIC_TUPLE
+    template<typename T> struct is_tuple_of_iterator_references : HYDRA_EXTERNAL_NS::thrust::detail::false_type {};
 
-template<typename T> struct is_tuple_of_iterator_references : thrust::detail::false_type {};
+    template<typename... Types>
+      struct is_tuple_of_iterator_references<
+      HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<
+          Types...
+        >
+      >
+        : thrust::detail::true_type
+    {};
 
-template<typename... Types>
+    // use this enable_if to avoid assigning to temporaries in the transform functors below
+    // XXX revisit this problem with c++11 perfect forwarding
+    template<typename T>
+      struct enable_if_non_const_reference_or_tuple_of_iterator_references
+        : HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
+            is_non_const_reference<T>::value || is_tuple_of_iterator_references<T>::value
+          >
+    {};
+
+#else
+
+template<typename T> struct is_tuple_of_iterator_references : HYDRA_EXTERNAL_NS::thrust::detail::false_type {};
+
+template<typename T1, typename T2, typename T3,
+         typename T4, typename T5, typename T6,
+         typename T7, typename T8, typename T9,
+         typename T10>
   struct is_tuple_of_iterator_references<
-    thrust::detail::tuple_of_iterator_references<
-      Types...
+    HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<
+      T1,T2,T3,T4,T5,T6,T7,T8,T9,T10
     >
   >
-    : thrust::detail::true_type
+    : HYDRA_EXTERNAL_NS::thrust::detail::true_type
 {};
 
 // use this enable_if to avoid assigning to temporaries in the transform functors below
 // XXX revisit this problem with c++11 perfect forwarding
 template<typename T>
   struct enable_if_non_const_reference_or_tuple_of_iterator_references
-    : thrust::detail::enable_if<
+    : HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
         is_non_const_reference<T>::value || is_tuple_of_iterator_references<T>::value
       >
 {};
-
+#endif
 
 template<typename UnaryFunction>
   struct unary_transform_functor
@@ -313,11 +340,11 @@ template<typename UnaryFunction>
   template<typename Tuple>
   inline __hydra_host__ __hydra_device__
   typename enable_if_non_const_reference_or_tuple_of_iterator_references<
-    typename thrust::tuple_element<1,Tuple>::type
+    typename HYDRA_EXTERNAL_NS::thrust::tuple_element<1,Tuple>::type
   >::type
     operator()(Tuple t)
   {
-    thrust::get<1>(t) = f(thrust::get<0>(t));
+    HYDRA_EXTERNAL_NS::thrust::get<1>(t) = f(HYDRA_EXTERNAL_NS::thrust::get<0>(t));
   }
 };
 
@@ -336,11 +363,11 @@ template<typename BinaryFunction>
   template<typename Tuple>
   inline __hydra_host__ __hydra_device__
   typename enable_if_non_const_reference_or_tuple_of_iterator_references<
-    typename thrust::tuple_element<2,Tuple>::type
+    typename HYDRA_EXTERNAL_NS::thrust::tuple_element<2,Tuple>::type
   >::type
     operator()(Tuple t)
   {
-    thrust::get<2>(t) = f(thrust::get<0>(t), thrust::get<1>(t));
+    HYDRA_EXTERNAL_NS::thrust::get<2>(t) = f(HYDRA_EXTERNAL_NS::thrust::get<0>(t), HYDRA_EXTERNAL_NS::thrust::get<1>(t));
   }
 };
 
@@ -360,13 +387,13 @@ struct unary_transform_if_functor
   template<typename Tuple>
   inline __hydra_host__ __hydra_device__
   typename enable_if_non_const_reference_or_tuple_of_iterator_references<
-    typename thrust::tuple_element<1,Tuple>::type
+    typename HYDRA_EXTERNAL_NS::thrust::tuple_element<1,Tuple>::type
   >::type
     operator()(Tuple t)
   {
-    if(pred(thrust::get<0>(t)))
+    if(pred(HYDRA_EXTERNAL_NS::thrust::get<0>(t)))
     {
-      thrust::get<1>(t) = unary_op(thrust::get<0>(t));
+      HYDRA_EXTERNAL_NS::thrust::get<1>(t) = unary_op(HYDRA_EXTERNAL_NS::thrust::get<0>(t));
     }
   }
 }; // end unary_transform_if_functor
@@ -387,12 +414,12 @@ struct unary_transform_if_with_stencil_functor
   template<typename Tuple>
   inline __hydra_host__ __hydra_device__
   typename enable_if_non_const_reference_or_tuple_of_iterator_references<
-    typename thrust::tuple_element<2,Tuple>::type
+    typename HYDRA_EXTERNAL_NS::thrust::tuple_element<2,Tuple>::type
   >::type
     operator()(Tuple t)
   {
-    if(pred(thrust::get<1>(t)))
-      thrust::get<2>(t) = unary_op(thrust::get<0>(t));
+    if(pred(HYDRA_EXTERNAL_NS::thrust::get<1>(t)))
+      HYDRA_EXTERNAL_NS::thrust::get<2>(t) = unary_op(HYDRA_EXTERNAL_NS::thrust::get<0>(t));
   }
 }; // end unary_transform_if_with_stencil_functor
 
@@ -411,12 +438,12 @@ struct binary_transform_if_functor
   template<typename Tuple>
   inline __hydra_host__ __hydra_device__
   typename enable_if_non_const_reference_or_tuple_of_iterator_references<
-    typename thrust::tuple_element<3,Tuple>::type
+    typename HYDRA_EXTERNAL_NS::thrust::tuple_element<3,Tuple>::type
   >::type
     operator()(Tuple t)
   {
-    if(pred(thrust::get<2>(t)))
-      thrust::get<3>(t) = binary_op(thrust::get<0>(t), thrust::get<1>(t));
+    if(pred(HYDRA_EXTERNAL_NS::thrust::get<2>(t)))
+      HYDRA_EXTERNAL_NS::thrust::get<3>(t) = binary_op(HYDRA_EXTERNAL_NS::thrust::get<0>(t), HYDRA_EXTERNAL_NS::thrust::get<1>(t));
   }
 }; // end binary_transform_if_functor
 
@@ -446,10 +473,10 @@ template<typename T>
 
 template<typename System, typename T>
   struct destroy_functor
-    : thrust::detail::eval_if<
-        thrust::detail::is_convertible<System, thrust::host_system_tag>::value,
-        thrust::detail::identity_<host_destroy_functor<T> >,
-        thrust::detail::identity_<device_destroy_functor<T> >
+    : HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<System, HYDRA_EXTERNAL_NS::thrust::host_system_tag>::value,
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<host_destroy_functor<T> >,
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<device_destroy_functor<T> >
       >
 {};
 
@@ -459,13 +486,24 @@ struct fill_functor
 {
   T exemplar;
 
+  __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
   fill_functor(const T& _exemplar) 
     : exemplar(_exemplar) {}
 
+  __thrust_exec_check_disable__
+  __hydra_host__ __hydra_device__
+  fill_functor(const fill_functor & other)
+    :exemplar(other.exemplar){}
+
+  __thrust_exec_check_disable__
+  __hydra_host__ __hydra_device__
+  ~fill_functor() {}
+
+  __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
   T operator()(void) const
-  { 
+  {
     return exemplar;
   }
 };
@@ -476,9 +514,20 @@ template<typename T>
 {
   T exemplar;
 
+  __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
-  uninitialized_fill_functor(T x):exemplar(x){}
+  uninitialized_fill_functor(const T & x):exemplar(x){}
 
+  __thrust_exec_check_disable__
+  __hydra_host__ __hydra_device__
+  uninitialized_fill_functor(const uninitialized_fill_functor & other)
+    :exemplar(other.exemplar){}
+
+  __thrust_exec_check_disable__
+  __hydra_host__ __hydra_device__
+  ~uninitialized_fill_functor() {}
+
+  __thrust_exec_check_disable__
   __hydra_host__ __hydra_device__
   void operator()(T &x)
   {
@@ -501,7 +550,7 @@ template<typename Compare>
   __hydra_host__ __hydra_device__
   bool operator()(T1 lhs, T2 rhs)
   {
-    return comp(thrust::get<0>(lhs), thrust::get<0>(rhs)) || (!comp(thrust::get<0>(rhs), thrust::get<0>(lhs)) && thrust::get<1>(lhs) < thrust::get<1>(rhs));
+    return comp(HYDRA_EXTERNAL_NS::thrust::get<0>(lhs), HYDRA_EXTERNAL_NS::thrust::get<0>(rhs)) || (!comp(HYDRA_EXTERNAL_NS::thrust::get<0>(rhs), HYDRA_EXTERNAL_NS::thrust::get<0>(lhs)) && HYDRA_EXTERNAL_NS::thrust::get<1>(lhs) < HYDRA_EXTERNAL_NS::thrust::get<1>(rhs));
   }
 
   Compare comp;
@@ -522,12 +571,13 @@ template<typename Compare>
   __hydra_host__ __hydra_device__
   bool operator()(const Tuple1 &x, const Tuple2 &y)
   {
-    return comp(thrust::raw_reference_cast(thrust::get<0>(x)), thrust::raw_reference_cast(thrust::get<0>(y)));
+    return comp(HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(HYDRA_EXTERNAL_NS::thrust::get<0>(x)), HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(HYDRA_EXTERNAL_NS::thrust::get<0>(y)));
   }
 }; // end compare_first
 
 
 } // end namespace detail
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

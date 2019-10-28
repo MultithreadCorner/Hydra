@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file hydra/detail/external/thrust/memory.h
+/*! \file thrust/memory.h
  *  \brief Abstractions for Thrust's memory model.
  */
 
@@ -31,13 +31,20 @@
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
+/*! \defgroup memory_management Memory Management
+ *
+ *  All Thrust functionalities related to memory allocation and deallocation.
+ *
+ */
 
-/*! \addtogroup memory_management Memory Management
- *  \addtogroup memory_management_classes Memory Management Classes
+/** \addtogroup memory_management_classes Memory Management Classes
  *  \ingroup memory_management
  *  \{
  */
 
+// define pointer for the purpose of Doxygenating it
+// it is actually defined elsewhere
+#if 0
 /*! \p pointer stores a pointer to an object allocated in memory. Like \p device_ptr, this
  *  type ensures type safety when dispatching standard algorithms on ranges resident in memory.
  *
@@ -68,10 +75,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \see reference
  *  \see raw_pointer_cast
  */
-// define pointer for the purpose of Doxygenating it
-// it is actually defined elsewhere
-#if 0
-template<typename Element, typename Tag, typename Reference = thrust::use_default, typename Derived = thrust::use_default>
+template<typename Element, typename Tag, typename Reference = HYDRA_EXTERNAL_NS::thrust::use_default, typename Derived = HYDRA_EXTERNAL_NS::thrust::use_default>
   class pointer
 {
   public:
@@ -103,7 +107,7 @@ template<typename Element, typename Tag, typename Reference = thrust::use_defaul
     template<typename OtherPointer>
     __hydra_host__ __hydra_device__
     pointer(const OtherPointer &other,
-            typename thrust::detail::enable_if_pointer_is_convertible<
+            typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_pointer_is_convertible<
               OtherPointer,
               pointer<Element,Tag,Reference,Derived>
             >::type * = 0);
@@ -118,7 +122,7 @@ template<typename Element, typename Tag, typename Reference = thrust::use_defaul
      */
     template<typename OtherPointer>
     __hydra_host__ __hydra_device__
-    typename thrust::detail::enable_if_pointer_is_convertible<
+    typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_pointer_is_convertible<
       OtherPointer,
       pointer,
       derived_type &
@@ -133,6 +137,9 @@ template<typename Element, typename Tag, typename Reference = thrust::use_defaul
 };
 #endif
 
+// define pointer for the purpose of Doxygenating it
+// it is actually defined elsewhere
+#if 0
 /*! \p reference is a wrapped reference to an object stored in memory. \p reference generalizes
  *  \p device_reference by relaxing the type of pointer associated with the object. \p reference
  *  is the type of the result of dereferencing a tagged pointer-like object such as \p pointer, and
@@ -144,10 +151,7 @@ template<typename Element, typename Tag, typename Reference = thrust::use_defaul
  *          a base class. This is useful to ensure that assignment to objects of the derived type return
  *          values of the derived type as a result. By default, this type is <tt>reference<Element,Pointer></tt>.
  */
-// define pointer for the purpose of Doxygenating it
-// it is actually defined elsewhere
-#if 0
-template<typename Element, typename Pointer, typename Derived = thrust::use_default>
+template<typename Element, typename Pointer, typename Derived = HYDRA_EXTERNAL_NS::thrust::use_default>
   class reference
 {
   public:
@@ -157,7 +161,7 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
 
     /*! The \p value_type of this \p reference.
      */
-    typedef typename thrust::detail::remove_const<Element>::type value_type;
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<Element>::type value_type;
 
     /*! This copy constructor initializes this \p reference
      *  to refer to an object pointed to by the given \p pointer. After
@@ -184,7 +188,7 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
     template<typename OtherElement, typename OtherPointer, typename OtherDerived>
     __hydra_host__ __hydra_device__
     reference(const reference<OtherElement,OtherPointer,OtherDerived> &other,
-              typename thrust::detail::enable_if_convertible<
+              typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_convertible<
                 typename reference<OtherElement,OtherPointer,OtherDerived>::pointer,
                 pointer
               >::type * = 0);
@@ -273,11 +277,11 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
  *  \param system The Thrust system with which to associate the storage.
  *  \param n The number of bytes of storage to allocate.
  *  \return If allocation succeeds, a pointer to the allocated storage; a null pointer otherwise.
- *          The pointer must be deallocated with \p thrust::free.
+ *          The pointer must be deallocated with \p HYDRA_EXTERNAL_NS::thrust::free.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
  *
- *  \pre \p DerivedPolicy must be publically derived from <code>thrust::execution_policy<DerivedPolicy></code>.
+ *  \pre \p DerivedPolicy must be publically derived from <code>HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy></code>.
  *
  *  The following code snippet demonstrates how to use \p malloc to allocate a range of memory
  *  associated with Thrust's device system.
@@ -285,16 +289,16 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
  *  \code
  *  #include <hydra/detail/external/thrust/memory.h>
  *  ...
- *  // allocate some memory with thrust::malloc
+ *  // allocate some memory with HYDRA_EXTERNAL_NS::thrust::malloc
  *  const int N = 100;
- *  thrust::device_system_tag device_sys;
- *  thrust::pointer<void,thrust::device_space_tag> void_ptr = thrust::malloc(device_sys, N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_system_tag device_sys;
+ *  HYDRA_EXTERNAL_NS::thrust::pointer<void,HYDRA_EXTERNAL_NS::thrust::device_space_tag> void_ptr = HYDRA_EXTERNAL_NS::thrust::malloc(device_sys, N);
  *
  *  // manipulate memory
  *  ...
  *
- *  // deallocate void_ptr with thrust::free
- *  thrust::free(device_sys, void_ptr);
+ *  // deallocate void_ptr with HYDRA_EXTERNAL_NS::thrust::free
+ *  HYDRA_EXTERNAL_NS::thrust::free(device_sys, void_ptr);
  *  \endcode
  *
  *  \see free
@@ -302,7 +306,7 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
  */
 template<typename DerivedPolicy>
 __hydra_host__ __hydra_device__
-pointer<void,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<DerivedPolicy> &system, std::size_t n);
+pointer<void,DerivedPolicy> malloc(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &system, std::size_t n);
 
 
 /*! This version of \p malloc allocates typed uninitialized storage associated with a given system.
@@ -311,11 +315,11 @@ pointer<void,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<D
  *  \param n The number of elements of type \c T which the storage should accomodate.
  *  \return If allocation succeeds, a pointer to an allocation large enough to accomodate \c n
  *          elements of type \c T; a null pointer otherwise.
- *          The pointer must be deallocated with \p thrust::free.
+ *          The pointer must be deallocated with \p HYDRA_EXTERNAL_NS::thrust::free.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
  *
- *  \pre \p DerivedPolicy must be publically derived from <code>thrust::execution_policy<DerivedPolicy></code>.
+ *  \pre \p DerivedPolicy must be publically derived from <code>HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy></code>.
  *
  *  The following code snippet demonstrates how to use \p malloc to allocate a range of memory
  *  to accomodate integers associated with Thrust's device system.
@@ -323,16 +327,16 @@ pointer<void,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<D
  *  \code
  *  #include <hydra/detail/external/thrust/memory.h>
  *  ...
- *  // allocate storage for 100 ints with thrust::malloc
+ *  // allocate storage for 100 ints with HYDRA_EXTERNAL_NS::thrust::malloc
  *  const int N = 100;
- *  thrust::device_system_tag device_sys;
- *  thrust::pointer<int,thrust::device_system_tag> ptr = thrust::malloc<int>(device_sys, N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_system_tag device_sys;
+ *  HYDRA_EXTERNAL_NS::thrust::pointer<int,HYDRA_EXTERNAL_NS::thrust::device_system_tag> ptr = HYDRA_EXTERNAL_NS::thrust::malloc<int>(device_sys, N);
  *
  *  // manipulate memory
  *  ...
  *
- *  // deallocate ptr with thrust::free
- *  thrust::free(device_sys, ptr);
+ *  // deallocate ptr with HYDRA_EXTERNAL_NS::thrust::free
+ *  HYDRA_EXTERNAL_NS::thrust::free(device_sys, ptr);
  *  \endcode
  *
  *  \see free
@@ -340,7 +344,7 @@ pointer<void,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<D
  */
 template<typename T, typename DerivedPolicy>
 __hydra_host__ __hydra_device__
-pointer<T,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<DerivedPolicy> &system, std::size_t n);
+pointer<T,DerivedPolicy> malloc(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &system, std::size_t n);
 
 
 /*! \p get_temporary_buffer returns a pointer to storage associated with a given Thrust system sufficient to store up to
@@ -359,7 +363,7 @@ pointer<T,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<Deri
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
  *
- *  \pre \p DerivedPolicy must be publically derived from <code>thrust::execution_policy<DerivedPolicy></code>.
+ *  \pre \p DerivedPolicy must be publically derived from <code>HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy></code>.
  *
  *  The following code snippet demonstrates how to use \p get_temporary_buffer to allocate a range of memory
  *  to accomodate integers associated with Thrust's device system.
@@ -367,16 +371,16 @@ pointer<T,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<Deri
  *  \code
  *  #include <hydra/detail/external/thrust/memory.h>
  *  ...
- *  // allocate storage for 100 ints with thrust::get_temporary_buffer
+ *  // allocate storage for 100 ints with HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer
  *  const int N = 100;
  *
- *  typedef thrust::pair<
- *    thrust::pointer<int,thrust::device_system_tag>,
+ *  typedef HYDRA_EXTERNAL_NS::thrust::pair<
+ *    HYDRA_EXTERNAL_NS::thrust::pointer<int,HYDRA_EXTERNAL_NS::thrust::device_system_tag>,
  *    std::ptrdiff_t
  *  > ptr_and_size_t;
  *
- *  thrust::device_system_tag device_sys;
- *  ptr_and_size_t ptr_and_size = thrust::get_temporary_buffer<int>(device_sys, N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_system_tag device_sys;
+ *  ptr_and_size_t ptr_and_size = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<int>(device_sys, N);
  *
  *  // manipulate up to 100 ints
  *  for(int i = 0; i < ptr_and_size.second; ++i)
@@ -384,8 +388,8 @@ pointer<T,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<Deri
  *    *ptr_and_size.first = i;
  *  }
  *
- *  // deallocate storage with thrust::return_temporary_buffer
- *  thrust::return_temporary_buffer(device_sys, ptr_and_size.first);
+ *  // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
+ *  HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(device_sys, ptr_and_size.first);
  *  \endcode
  *
  *  \see malloc
@@ -393,8 +397,8 @@ pointer<T,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<Deri
  */
 template<typename T, typename DerivedPolicy>
 __hydra_host__ __hydra_device__
-thrust::pair<thrust::pointer<T,DerivedPolicy>, typename thrust::pointer<T,DerivedPolicy>::difference_type>
-get_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &system, typename thrust::pointer<T,DerivedPolicy>::difference_type n);
+HYDRA_EXTERNAL_NS::thrust::pair<HYDRA_EXTERNAL_NS::thrust::pointer<T,DerivedPolicy>, typename HYDRA_EXTERNAL_NS::thrust::pointer<T,DerivedPolicy>::difference_type>
+get_temporary_buffer(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &system, typename HYDRA_EXTERNAL_NS::thrust::pointer<T,DerivedPolicy>::difference_type n);
 
 
 /*! \} allocation_functions
@@ -406,37 +410,37 @@ get_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> 
  */
 
 
-/*! \p free deallocates the storage previously allocated by \p thrust::malloc.
+/*! \p free deallocates the storage previously allocated by \p HYDRA_EXTERNAL_NS::thrust::malloc.
  *
  *  \param system The Thrust system with which the storage is associated.
- *  \param ptr A pointer previously returned by \p thrust::malloc. If \p ptr is null, \p free
+ *  \param ptr A pointer previously returned by \p HYDRA_EXTERNAL_NS::thrust::malloc. If \p ptr is null, \p free
  *         does nothing.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
  *
- *  \pre \p ptr shall have been returned by a previous call to <tt>thrust::malloc(system, n)</tt> or <tt>thrust::malloc<T>(system, n)</tt> for some type \c T.
+ *  \pre \p ptr shall have been returned by a previous call to <tt>HYDRA_EXTERNAL_NS::thrust::malloc(system, n)</tt> or <tt>HYDRA_EXTERNAL_NS::thrust::malloc<T>(system, n)</tt> for some type \c T.
  *
  *  The following code snippet demonstrates how to use \p free to deallocate a range of memory
- *  previously allocated with \p thrust::malloc.
+ *  previously allocated with \p HYDRA_EXTERNAL_NS::thrust::malloc.
  *
  *  \code
  *  #include <hydra/detail/external/thrust/memory.h>
  *  ...
- *  // allocate storage for 100 ints with thrust::malloc
+ *  // allocate storage for 100 ints with HYDRA_EXTERNAL_NS::thrust::malloc
  *  const int N = 100;
- *  thrust::device_system_tag device_sys;
- *  thrust::pointer<int,thrust::device_system_tag> ptr = thrust::malloc<int>(device_sys, N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_system_tag device_sys;
+ *  HYDRA_EXTERNAL_NS::thrust::pointer<int,HYDRA_EXTERNAL_NS::thrust::device_system_tag> ptr = HYDRA_EXTERNAL_NS::thrust::malloc<int>(device_sys, N);
  *
  *  // mainpulate memory
  *  ...
  *
- *  // deallocate ptr with thrust::free
- *  thrust::free(device_sys, ptr);
+ *  // deallocate ptr with HYDRA_EXTERNAL_NS::thrust::free
+ *  HYDRA_EXTERNAL_NS::thrust::free(device_sys, ptr);
  *  \endcode
  */
 template<typename DerivedPolicy, typename Pointer>
 __hydra_host__ __hydra_device__
-void free(const thrust::detail::execution_policy_base<DerivedPolicy> &system, Pointer ptr);
+void free(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &system, Pointer ptr);
 
 
 /*! \p return_temporary_buffer deallocates storage associated with a given Thrust system previously allocated by \p get_temporary_buffer.
@@ -444,11 +448,11 @@ void free(const thrust::detail::execution_policy_base<DerivedPolicy> &system, Po
  *  Thrust uses \p return_temporary_buffer internally when deallocating temporary storage required by algorithm implementations.
  *
  *  \param system The Thrust system with which the storage is associated.
- *  \param p A pointer previously returned by \p thrust::get_temporary_buffer. If \p ptr is null, \p return_temporary_buffer does nothing.
+ *  \param p A pointer previously returned by \p HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer. If \p ptr is null, \p return_temporary_buffer does nothing.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
  *
- *  \pre \p p shall have been previously allocated by \p thrust::get_temporary_buffer.
+ *  \pre \p p shall have been previously allocated by \p HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer.
  *
  *  The following code snippet demonstrates how to use \p return_temporary_buffer to deallocate a range of memory
  *  previously allocated by \p get_temporary_buffer.
@@ -456,16 +460,16 @@ void free(const thrust::detail::execution_policy_base<DerivedPolicy> &system, Po
  *  \code
  *  #include <hydra/detail/external/thrust/memory.h>
  *  ...
- *  // allocate storage for 100 ints with thrust::get_temporary_buffer
+ *  // allocate storage for 100 ints with HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer
  *  const int N = 100;
  *
- *  typedef thrust::pair<
- *    thrust::pointer<int,thrust::device_system_tag>,
+ *  typedef HYDRA_EXTERNAL_NS::thrust::pair<
+ *    HYDRA_EXTERNAL_NS::thrust::pointer<int,HYDRA_EXTERNAL_NS::thrust::device_system_tag>,
  *    std::ptrdiff_t
  *  > ptr_and_size_t;
  *
- *  thrust::device_system_tag device_sys;
- *  ptr_and_size_t ptr_and_size = thrust::get_temporary_buffer<int>(device_sys, N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_system_tag device_sys;
+ *  ptr_and_size_t ptr_and_size = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<int>(device_sys, N);
  *
  *  // manipulate up to 100 ints
  *  for(int i = 0; i < ptr_and_size.second; ++i)
@@ -473,8 +477,8 @@ void free(const thrust::detail::execution_policy_base<DerivedPolicy> &system, Po
  *    *ptr_and_size.first = i;
  *  }
  *
- *  // deallocate storage with thrust::return_temporary_buffer
- *  thrust::return_temporary_buffer(device_sys, ptr_and_size.first);
+ *  // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
+ *  HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(device_sys, ptr_and_size.first);
  *  \endcode
  *
  *  \see free
@@ -482,7 +486,7 @@ void free(const thrust::detail::execution_policy_base<DerivedPolicy> &system, Po
  */
 template<typename DerivedPolicy, typename Pointer>
 __hydra_host__ __hydra_device__
-void return_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &system, Pointer p);
+void return_temporary_buffer(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &system, Pointer p);
 
 
 /*! \} deallocation_functions
@@ -498,8 +502,8 @@ void return_temporary_buffer(const thrust::detail::execution_policy_base<Derived
  */
 template<typename Pointer>
 __hydra_host__ __hydra_device__
-inline typename thrust::detail::pointer_traits<Pointer>::raw_pointer
-  raw_pointer_cast(const Pointer &ptr);
+typename HYDRA_EXTERNAL_NS::thrust::detail::pointer_traits<Pointer>::raw_pointer
+  raw_pointer_cast(Pointer ptr);
 
 
 /*! \p raw_reference_cast creates a "raw" reference from a wrapped reference type,
@@ -508,14 +512,14 @@ inline typename thrust::detail::pointer_traits<Pointer>::raw_pointer
  *  If the argument is not a reference wrapper, the result is a reference to the argument.
  *
  *  \param ref The reference of interest.
- *  \return <tt>*thrust::raw_pointer_cast(&ref)</tt>.
+ *  \return <tt>*HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(&ref)</tt>.
  *  \note There are two versions of \p raw_reference_cast. One for <tt>const</tt> references,
  *        and one for non-<tt>const</tt>.
  *  \see raw_pointer_cast
  */
 template<typename T>
 __hydra_host__ __hydra_device__
-inline typename detail::raw_reference<T>::type
+typename detail::raw_reference<T>::type
   raw_reference_cast(T &ref);
 
 
@@ -525,20 +529,22 @@ inline typename detail::raw_reference<T>::type
  *  If the argument is not a reference wrapper, the result is a reference to the argument.
  *
  *  \param ref The reference of interest.
- *  \return <tt>*thrust::raw_pointer_cast(&ref)</tt>.
+ *  \return <tt>*HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(&ref)</tt>.
  *  \note There are two versions of \p raw_reference_cast. One for <tt>const</tt> references,
  *        and one for non-<tt>const</tt>.
  *  \see raw_pointer_cast
  */
 template<typename T>
 __hydra_host__ __hydra_device__
-inline typename detail::raw_reference<const T>::type
+typename detail::raw_reference<const T>::type
   raw_reference_cast(const T &ref);
 
 
 /*! \}
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

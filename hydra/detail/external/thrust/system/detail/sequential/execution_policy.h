@@ -44,7 +44,7 @@ template<typename> struct execution_policy;
 // specialize execution_policy for tag
 template<>
   struct execution_policy<tag>
-    : thrust::execution_policy<tag>
+    : HYDRA_EXTERNAL_NS::thrust::execution_policy<tag>
 {};
 
 // tag's definition comes before the generic definition of execution_policy
@@ -56,7 +56,7 @@ struct tag : execution_policy<tag>
 // allow conversion to tag when it is not a successor
 template<typename Derived>
   struct execution_policy
-    : thrust::execution_policy<Derived>
+    : HYDRA_EXTERNAL_NS::thrust::execution_policy<Derived>
 {
   // allow conversion to tag
   inline operator tag () const
@@ -67,7 +67,7 @@ template<typename Derived>
 
 
 #ifdef __CUDA_ARCH__
-static const __hydra_device__ tag seq;
+static const __device__ tag seq;
 #else
 static const tag seq;
 #endif
@@ -76,6 +76,6 @@ static const tag seq;
 } // end sequential
 } // end detail
 } // end system
-} // end thrust
-
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 HYDRA_EXTERNAL_NAMESPACE_END
+

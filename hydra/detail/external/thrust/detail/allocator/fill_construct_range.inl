@@ -43,7 +43,7 @@ template<typename Allocator, typename T, typename Arg1>
 // std::allocator::construct's only effect is to invoke placement new
 template<typename U, typename T, typename Arg1>
   struct has_effectful_member_construct2<std::allocator<U>,T,Arg1>
-    : thrust::detail::false_type
+    : HYDRA_EXTERNAL_NS::thrust::detail::false_type
 {};
 
 
@@ -78,7 +78,7 @@ __hydra_host__ __hydra_device__
   >::type
     fill_construct_range(Allocator &a, Pointer p, Size n, const T &value)
 {
-  thrust::for_each_n(allocator_system<Allocator>::get(a), p, n, construct2_via_allocator<Allocator,T>(a, value));
+  HYDRA_EXTERNAL_NS::thrust::for_each_n(allocator_system<Allocator>::get(a), p, n, construct2_via_allocator<Allocator,T>(a, value));
 }
 
 
@@ -93,7 +93,7 @@ __hydra_host__ __hydra_device__
   >::type
     fill_construct_range(Allocator &a, Pointer p, Size n, const T &value)
 {
-  thrust::uninitialized_fill_n(allocator_system<Allocator>::get(a), p, n, value);
+  HYDRA_EXTERNAL_NS::thrust::uninitialized_fill_n(allocator_system<Allocator>::get(a), p, n, value);
 }
 
 
@@ -109,6 +109,6 @@ __hydra_host__ __hydra_device__
 
 
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

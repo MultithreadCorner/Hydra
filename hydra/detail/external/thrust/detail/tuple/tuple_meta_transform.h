@@ -26,21 +26,21 @@ namespace detail
 
 template<typename Tuple,
          template<typename> class UnaryMetaFunction,
-         typename IndexSequence = thrust::__make_index_sequence<thrust::tuple_size<Tuple>::value>>
+         typename IndexSequence = HYDRA_EXTERNAL_NS::thrust::__make_index_sequence<HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value>>
   struct tuple_meta_transform;
 
 template<typename Tuple,
          template<typename> class UnaryMetaFunction,
          size_t... I>
-  struct tuple_meta_transform<Tuple, UnaryMetaFunction, thrust::__index_sequence<I...>>
+  struct tuple_meta_transform<Tuple, UnaryMetaFunction, HYDRA_EXTERNAL_NS::thrust::__index_sequence<I...>>
 {
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<I,Tuple>::type>::type...
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<
+    typename UnaryMetaFunction<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,Tuple>::type>::type...
   > type;
 };
 
 } // end detail
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

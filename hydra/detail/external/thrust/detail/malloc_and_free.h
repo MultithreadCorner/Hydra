@@ -29,12 +29,12 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 __thrust_exec_check_disable__
 template<typename DerivedPolicy>
 __hydra_host__ __hydra_device__
-pointer<void,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, std::size_t n)
+pointer<void,DerivedPolicy> malloc(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, std::size_t n)
 {
-  using thrust::system::detail::generic::malloc;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::malloc;
 
-  // XXX should use a hypothetical thrust::static_pointer_cast here
-  void *raw_ptr = static_cast<void*>(thrust::raw_pointer_cast(malloc(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), n)));
+  // XXX should use a hypothetical HYDRA_EXTERNAL_NS::thrust::static_pointer_cast here
+  void *raw_ptr = static_cast<void*>(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(malloc(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), n)));
 
   return pointer<void,DerivedPolicy>(raw_ptr);
 }
@@ -42,11 +42,11 @@ pointer<void,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<D
 __thrust_exec_check_disable__
 template<typename T, typename DerivedPolicy>
 __hydra_host__ __hydra_device__
-pointer<T,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, std::size_t n)
+pointer<T,DerivedPolicy> malloc(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, std::size_t n)
 {
-  using thrust::system::detail::generic::malloc;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::malloc;
 
-  T *raw_ptr = static_cast<T*>(thrust::raw_pointer_cast(malloc<T>(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), n)));
+  T *raw_ptr = static_cast<T*>(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(malloc<T>(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), n)));
 
   return pointer<T,DerivedPolicy>(raw_ptr);
 }
@@ -57,8 +57,8 @@ pointer<T,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<Deri
 #if CUDA_VERSION < 5000
 
 // cudafe generates unqualified calls to free(int *volatile)
-// which get confused with thrust::free
-// spoof a thrust::free which simply maps to ::free
+// which get confused with HYDRA_EXTERNAL_NS::thrust::free
+// spoof a HYDRA_EXTERNAL_NS::thrust::free which simply maps to ::free
 inline __hydra_host__ __hydra_device__
 void free(int *volatile ptr)
 {
@@ -71,11 +71,11 @@ void free(int *volatile ptr)
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename Pointer>
 __hydra_host__ __hydra_device__
-void free(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, Pointer ptr)
+void free(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, Pointer ptr)
 {
-  using thrust::system::detail::generic::free;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::free;
 
-  free(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), ptr);
+  free(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), ptr);
 }
 
 // XXX consider another form of free which does not take a system argument and

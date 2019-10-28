@@ -60,11 +60,11 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  ...
  *  bool A[3] = {true, true, false};
  *
- *  thrust::all_of(thrust::host, A, A + 2, thrust::identity<bool>()); // returns true
- *  thrust::all_of(thrust::host, A, A + 3, thrust::identity<bool>()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::all_of(HYDRA_EXTERNAL_NS::thrust::host, A, A + 2, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::all_of(HYDRA_EXTERNAL_NS::thrust::host, A, A + 3, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns false
  *
  *  // empty range
- *  thrust::all_of(thrust::host, A, A, thrust::identity<bool>()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::all_of(HYDRA_EXTERNAL_NS::thrust::host, A, A, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns false
  *  
  *  \endcode
  *
@@ -74,7 +74,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-bool all_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
+bool all_of(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
 
 /*! \p all_of determines whether all elements in a range satify a predicate.
@@ -96,11 +96,11 @@ bool all_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, In
  *  ...
  *  bool A[3] = {true, true, false};
  *
- *  thrust::all_of(A, A + 2, thrust::identity<bool>()); // returns true
- *  thrust::all_of(A, A + 3, thrust::identity<bool>()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::all_of(A, A + 2, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::all_of(A, A + 3, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns false
  *
  *  // empty range
- *  thrust::all_of(A, A, thrust::identity<bool>()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::all_of(A, A, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns false
  *  
  *  \endcode
  *
@@ -136,13 +136,13 @@ bool all_of(InputIterator first, InputIterator last, Predicate pred);
  *  ...
  *  bool A[3] = {true, true, false};
  *
- *  thrust::any_of(thrust::host, A, A + 2, thrust::identity<bool>()); // returns true
- *  thrust::any_of(thrust::host, A, A + 3, thrust::identity<bool>()); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::any_of(HYDRA_EXTERNAL_NS::thrust::host, A, A + 2, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::any_of(HYDRA_EXTERNAL_NS::thrust::host, A, A + 3, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns true
  *
- *  thrust::any_of(thrust::host, A + 2, A + 3, thrust::identity<bool>()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::any_of(HYDRA_EXTERNAL_NS::thrust::host, A + 2, A + 3, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns false
  *
  *  // empty range
- *  thrust::any_of(thrust::host, A, A, thrust::identity<bool>()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::any_of(HYDRA_EXTERNAL_NS::thrust::host, A, A, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns false
  *  \endcode
  *
  *  \see all_of
@@ -151,7 +151,7 @@ bool all_of(InputIterator first, InputIterator last, Predicate pred);
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-bool any_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
+bool any_of(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
    
 
 /*! \p any_of determines whether any element in a range satifies a predicate.
@@ -173,13 +173,13 @@ bool any_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, In
  *  ...
  *  bool A[3] = {true, true, false};
  *
- *  thrust::any_of(A, A + 2, thrust::identity<bool>()); // returns true
- *  thrust::any_of(A, A + 3, thrust::identity<bool>()); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::any_of(A, A + 2, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::any_of(A, A + 3, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns true
  *
- *  thrust::any_of(A + 2, A + 3, thrust::identity<bool>()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::any_of(A + 2, A + 3, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns false
  *
  *  // empty range
- *  thrust::any_of(A, A, thrust::identity<bool>()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::any_of(A, A, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns false
  *  \endcode
  *
  *  \see all_of
@@ -214,13 +214,13 @@ bool any_of(InputIterator first, InputIterator last, Predicate pred);
  *  ...
  *  bool A[3] = {true, true, false};
  *
- *  thrust::none_of(thrust::host, A, A + 2, thrust::identity<bool>()); // returns false
- *  thrust::none_of(thrust::host, A, A + 3, thrust::identity<bool>()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::none_of(HYDRA_EXTERNAL_NS::thrust::host, A, A + 2, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::none_of(HYDRA_EXTERNAL_NS::thrust::host, A, A + 3, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns false
  *
- *  thrust::none_of(thrust::host, A + 2, A + 3, thrust::identity<bool>()); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::none_of(HYDRA_EXTERNAL_NS::thrust::host, A + 2, A + 3, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns true
  *
  *  // empty range
- *  thrust::none_of(thrust::host, A, A, thrust::identity<bool>()); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::none_of(HYDRA_EXTERNAL_NS::thrust::host, A, A, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns true
  *  \endcode
  *
  *  \see all_of
@@ -229,7 +229,7 @@ bool any_of(InputIterator first, InputIterator last, Predicate pred);
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-bool none_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
+bool none_of(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
 
 /*! \p none_of determines whether no element in a range satifies a predicate.
@@ -251,13 +251,13 @@ bool none_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, I
  *  ...
  *  bool A[3] = {true, true, false};
  *
- *  thrust::none_of(A, A + 2, thrust::identity<bool>()); // returns false
- *  thrust::none_of(A, A + 3, thrust::identity<bool>()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::none_of(A, A + 2, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::none_of(A, A + 3, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns false
  *
- *  thrust::none_of(A + 2, A + 3, thrust::identity<bool>()); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::none_of(A + 2, A + 3, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns true
  *
  *  // empty range
- *  thrust::none_of(A, A, thrust::identity<bool>()); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::none_of(A, A, HYDRA_EXTERNAL_NS::thrust::identity<bool>()); // returns true
  *  \endcode
  *
  *  \see all_of
@@ -275,8 +275,8 @@ bool none_of(InputIterator first, InputIterator last, Predicate pred);
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
-
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/logical.inl>
 

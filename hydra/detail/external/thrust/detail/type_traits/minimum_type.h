@@ -56,8 +56,8 @@ struct primitive_minimum_type
   : minimum_type_detail::minimum_type_impl<
       T1,
       T2,
-      thrust::detail::is_convertible<T1,T2>::value,
-      thrust::detail::is_convertible<T2,T1>::value
+      ::HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<T1,T2>::value,
+      ::HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<T2,T1>::value
     >
 {
 }; // end primitive_minimum_type
@@ -158,6 +158,7 @@ template<typename T1,  typename T2,  typename T3,  typename T4,
 
 } // end detail
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

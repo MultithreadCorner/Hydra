@@ -22,19 +22,61 @@
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/advance.h>
 #include <hydra/detail/external/thrust/system/detail/generic/advance.h>
+#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/thrust/detail/type_traits.h>
+#include <hydra/detail/external/thrust/detail/type_traits/has_nested_type.h>
+#include <hydra/detail/external/thrust/detail/type_traits/pointer_traits.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
+__HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_difference_type, difference_type)
 
 template <typename InputIterator, typename Distance>
 __hydra_host__ __hydra_device__
 void advance(InputIterator& i, Distance n)
 {
-  thrust::system::detail::generic::advance(i, n);
-} // end advance()
+  HYDRA_EXTERNAL_NS::thrust::system::detail::generic::advance(i, n);
+}
 
+template <typename InputIterator>
+__hydra_host__ __hydra_device__
+InputIterator next(
+  InputIterator i
+, typename iterator_traits<InputIterator>::difference_type n = 1
+)
+{
+  HYDRA_EXTERNAL_NS::thrust::system::detail::generic::advance(i, n);
+  return i;
+}
 
-} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+template <typename BidirectionalIterator>
+__hydra_host__ __hydra_device__
+BidirectionalIterator prev(
+  BidirectionalIterator i
+, typename iterator_traits<BidirectionalIterator>::difference_type n = 1
+)
+{
+  HYDRA_EXTERNAL_NS::thrust::system::detail::generic::advance(i, -n);
+  return i;
+}
+
+template <typename BidirectionalIterator>
+__hydra_host__ __hydra_device__
+typename detail::disable_if<
+  has_difference_type<iterator_traits<BidirectionalIterator> >::value
+, BidirectionalIterator
+>::type prev(
+  BidirectionalIterator i
+, typename detail::pointer_traits<BidirectionalIterator>::difference_type n = 1
+)
+{
+  HYDRA_EXTERNAL_NS::thrust::system::detail::generic::advance(i, -n);
+  return i;
+}
+
+} // HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

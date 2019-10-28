@@ -82,7 +82,7 @@ int main(int argv, char** argc)
 
 	// calculate the length of a n-dimensional vector
 	auto length = hydra::wrap_lambda(
-			[] __hydra_dual__ ( unsigned  n, double* component){
+			[] __hydra_dual__ ( unsigned  n, const double* component){
 
 		double result =0;
 
@@ -94,7 +94,7 @@ int main(int argv, char** argc)
 
 	// flag according distance to origin
 	auto is_inside =  hydra::wrap_lambda(
-			[] __hydra_dual__ (  unsigned n, double* radi){
+			[] __hydra_dual__ (  unsigned n, const double* radi){
 
 		return radi[0]<1.0;
 	});

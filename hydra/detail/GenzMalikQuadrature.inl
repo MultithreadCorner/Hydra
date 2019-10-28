@@ -256,7 +256,7 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 			TempBoxList_d.end(), process_box);
 
 
-	auto result = CalculateIntegral(TempBoxList_d);
+	std::pair<GReal_t, GReal_t> result = CalculateIntegral(TempBoxList_d);
 
 	if( result.second/result.first < fRelativeError)
 
@@ -341,10 +341,10 @@ template<typename Vector>
 std::pair<GReal_t, GReal_t>
 hydra::GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND> >::CalculateIntegral( Vector const& BoxList){
 
-	auto result = HYDRA_EXTERNAL_NS::thrust::reduce(BoxList.begin(), BoxList.end(),
-			hydra::pair<double, double>(0,0) ,detail::AddResultGenzMalikBoxes() );
+	detail::GenzMalikBoxResult<double> result = HYDRA_EXTERNAL_NS::thrust::reduce(BoxList.begin(), BoxList.end(),
+			detail::GenzMalikBoxResult<double>(0.0,0.0) ,detail::AddResultGenzMalikBoxes() );
 
-	return std::pair<GReal_t, GReal_t>(result.first, ::sqrt(result.second));
+	return result.GetPair();
 }
 
 } // namespace hydra

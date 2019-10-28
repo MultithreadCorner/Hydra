@@ -32,11 +32,11 @@ namespace generic
 
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2>
 __hydra_host__ __hydra_device__
-bool equal(thrust::execution_policy<DerivedPolicy> &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
+bool equal(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
 {
-  typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator1>::value_type InputType1;
   
-  return thrust::equal(exec, first1, last1, first2, thrust::detail::equal_to<InputType1>());
+  return HYDRA_EXTERNAL_NS::thrust::equal(exec, first1, last1, first2, HYDRA_EXTERNAL_NS::thrust::detail::equal_to<InputType1>());
 }
 
 
@@ -45,15 +45,14 @@ bool equal(thrust::execution_policy<DerivedPolicy> &exec, InputIterator1 first1,
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-bool equal(thrust::execution_policy<DerivedPolicy> &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred)
+bool equal(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred)
 {
-  return thrust::mismatch(exec, first1, last1, first2, binary_pred).first == last1;
+  return HYDRA_EXTERNAL_NS::thrust::mismatch(exec, first1, last1, first2, binary_pred).first == last1;
 }
 
 
 } // end generic
 } // end detail
 } // end system
-} // end thrust
-
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 HYDRA_EXTERNAL_NAMESPACE_END

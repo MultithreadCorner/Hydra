@@ -57,7 +57,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust{
 namespace detail{
 namespace complex{		      	
 
-using thrust::complex;
+using HYDRA_EXTERNAL_NS::thrust::complex;
 
 __hydra_host__ __hydra_device__ inline
 complex<double> csqrt(const complex<double>& z){
@@ -140,7 +140,7 @@ complex<double> csqrt(const complex<double>& z){
 template <typename ValueType>
 __hydra_host__ __hydra_device__
 inline complex<ValueType> sqrt(const complex<ValueType>& z){
-  return thrust::polar(std::sqrt(thrust::abs(z)),thrust::arg(z)/ValueType(2));
+  return HYDRA_EXTERNAL_NS::thrust::polar(std::sqrt(HYDRA_EXTERNAL_NS::thrust::abs(z)),HYDRA_EXTERNAL_NS::thrust::arg(z)/ValueType(2));
 }
 
 template <>
@@ -152,3 +152,4 @@ inline complex<double> sqrt(const complex<double>& z){
 } // HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

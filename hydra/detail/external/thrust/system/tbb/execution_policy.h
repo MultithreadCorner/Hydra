@@ -16,7 +16,7 @@
 
 #pragma once
 
-/*! \file hydra/detail/external/thrust/system/tbb/execution_policy.h
+/*! \file thrust/system/tbb/execution_policy.h
  *  \brief Execution policies for Thrust's TBB system.
  */
 
@@ -89,11 +89,11 @@ namespace tbb
  */
 
 
-/*! \p thrust::tbb::execution_policy is the base class for all Thrust parallel execution
+/*! \p HYDRA_EXTERNAL_NS::thrust::tbb::execution_policy is the base class for all Thrust parallel execution
  *  policies which are derived from Thrust's TBB backend system.
  */
 template<typename DerivedPolicy>
-struct execution_policy : thrust::execution_policy<DerivedPolicy>
+struct execution_policy : HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy>
 {};
 
 
@@ -101,23 +101,23 @@ struct execution_policy : thrust::execution_policy<DerivedPolicy>
  *  Iterators "tagged" with a type which is convertible to \p tbb::tag assert that they may be
  *  "dispatched" to algorithm implementations in the \p tbb system.
  */
-struct tag : thrust::system::tbb::execution_policy<tag> { unspecified };
+struct tag : HYDRA_EXTERNAL_NS::thrust::system::tbb::execution_policy<tag> { unspecified };
 
 
-/*! \p thrust::tbb::par is the parallel execution policy associated with Thrust's TBB
+/*! \p HYDRA_EXTERNAL_NS::thrust::tbb::par is the parallel execution policy associated with Thrust's TBB
  *  backend system.
  *
  *  Instead of relying on implicit algorithm dispatch through iterator system tags, users may
- *  directly target Thrust's TBB backend system by providing \p thrust::tbb::par as an algorithm
+ *  directly target Thrust's TBB backend system by providing \p HYDRA_EXTERNAL_NS::thrust::tbb::par as an algorithm
  *  parameter.
  *
  *  Explicit dispatch can be useful in avoiding the introduction of data copies into containers such
- *  as \p thrust::tbb::vector.
+ *  as \p HYDRA_EXTERNAL_NS::thrust::tbb::vector.
  *
- *  The type of \p thrust::tbb::par is implementation-defined.
+ *  The type of \p HYDRA_EXTERNAL_NS::thrust::tbb::par is implementation-defined.
  *
- *  The following code snippet demonstrates how to use \p thrust::tbb::par to explicitly dispatch an
- *  invocation of \p thrust::for_each to the TBB backend system:
+ *  The following code snippet demonstrates how to use \p HYDRA_EXTERNAL_NS::thrust::tbb::par to explicitly dispatch an
+ *  invocation of \p HYDRA_EXTERNAL_NS::thrust::for_each to the TBB backend system:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/for_each.h>
@@ -136,7 +136,7 @@ struct tag : thrust::system::tbb::execution_policy<tag> { unspecified };
  *  int vec[3];
  *  vec[0] = 0; vec[1] = 1; vec[2] = 2;
  *
- *  thrust::for_each(thrust::tbb::par, vec.begin(), vec.end(), printf_functor());
+ *  HYDRA_EXTERNAL_NS::thrust::for_each(HYDRA_EXTERNAL_NS::thrust::tbb::par, vec.begin(), vec.end(), printf_functor());
  *
  *  // 0 1 2 is printed to standard output in some unspecified order
  *  \endcode
@@ -150,7 +150,7 @@ static const unspecified par;
 
 } // end tbb
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 #endif

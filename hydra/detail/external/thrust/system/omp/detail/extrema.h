@@ -36,7 +36,7 @@ ForwardIterator max_element(execution_policy<DerivedPolicy> &exec,
                             BinaryPredicate comp)
 {
   // omp prefers generic::max_element to cpp::max_element
-  return thrust::system::detail::generic::max_element(exec, first, last, comp);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::max_element(exec, first, last, comp);
 } // end max_element()
 
 template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
@@ -46,22 +46,23 @@ ForwardIterator min_element(execution_policy<DerivedPolicy> &exec,
                             BinaryPredicate comp)
 {
   // omp prefers generic::min_element to cpp::min_element
-  return thrust::system::detail::generic::min_element(exec, first, last, comp);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::min_element(exec, first, last, comp);
 } // end min_element()
 
 template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(execution_policy<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator,ForwardIterator> minmax_element(execution_policy<DerivedPolicy> &exec,
                                                              ForwardIterator first, 
                                                              ForwardIterator last,
                                                              BinaryPredicate comp)
 {
   // omp prefers generic::minmax_element to cpp::minmax_element
-  return thrust::system::detail::generic::minmax_element(exec, first, last, comp);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::minmax_element(exec, first, last, comp);
 } // end minmax_element()
 
 } // end detail
 } // end omp
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

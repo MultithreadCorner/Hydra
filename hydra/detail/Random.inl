@@ -429,7 +429,8 @@ Range<Iterator> Random<GRND>::Sample( hydra::detail::BackendPolicy<BACKEND> cons
 
 
 template<hydra::detail::Backend  BACKEND, typename Iterator1, typename Iterator2>
-Range<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator1 wbegin, Iterator1 wend , Iterator2 begin){
+typename std::enable_if< !hydra::detail::is_hydra_functor<Iterator2>::value, Range<Iterator2>>::type
+unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator1 wbegin, Iterator1 wend , Iterator2 begin){
 
 	typedef typename Iterator1::value_type value_type;
 
@@ -447,6 +448,17 @@ Range<Iterator2> unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, 
 
 	return  make_range(begin , r);
 }
+
+template<hydra::detail::Backend  BACKEND,  typename Iterable1,  typename Iterable2>
+typename std::enable_if<detail::is_iterable<Iterable1>::value && detail::is_iterable<Iterable2>::value,
+Range< decltype(std::declval<Iterable2>().begin())>>::type
+unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterable1 weights,  Iterable2 data){
+
+	return hydra::unweight(policy, std::forward<Iterable1>(weights).begin(), std::forward<Iterable1>(weights).end(),
+			std::forward<Iterable2>(data).begin());
+}
+
+
 
 template<hydra::detail::Backend  BACKEND, typename Functor, typename Iterator>
 typename std::enable_if< hydra::detail::is_hydra_functor<Functor>::value, Range<Iterator>>::type
@@ -478,6 +490,18 @@ unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, I
 	return  make_range(begin , r);
 
 }
+
+
+template<hydra::detail::Backend  BACKEND, typename Functor, typename Iterable>
+typename std::enable_if< detail::is_hydra_functor<Functor>::value &&
+                         detail::is_iterable<Iterable>::value , Range< decltype(std::declval<Iterable>().begin())>>::type
+unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterable&& iterable, Functor const& functor){
+
+	return hydra::unweight(policy, std::forward<Iterable>(iterable).begin(),
+			std::forward<Iterable>(iterable).end(), functor);
+
+}
+
 
 
 }//namespace hydra

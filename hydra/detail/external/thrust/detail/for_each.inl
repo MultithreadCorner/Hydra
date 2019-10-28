@@ -34,14 +34,14 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename UnaryFunction>
 __hydra_host__ __hydra_device__
-  InputIterator for_each(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  InputIterator for_each(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator first,
                          InputIterator last,
                          UnaryFunction f)
 {
-  using thrust::system::detail::generic::for_each;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::for_each;
 
-  return for_each(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, f);
+  return for_each(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, f);
 }
 
 
@@ -51,24 +51,24 @@ InputIterator for_each(InputIterator first,
                        InputIterator last,
                        UnaryFunction f)
 {
-  using thrust::system::detail::generic::select_system;
-  typedef typename thrust::iterator_system<InputIterator>::type System;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type System;
 
   System system;
-  return thrust::for_each(select_system(system), first, last, f);
+  return HYDRA_EXTERNAL_NS::thrust::for_each(select_system(system), first, last, f);
 } // end for_each()
 
 __thrust_exec_check_disable__ 
 template<typename DerivedPolicy, typename InputIterator, typename Size, typename UnaryFunction>
 __hydra_host__ __hydra_device__
-  InputIterator for_each_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  InputIterator for_each_n(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator first,
                            Size n,
                            UnaryFunction f)
 {
-  using thrust::system::detail::generic::for_each_n;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::for_each_n;
 
-  return for_each_n(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, n, f);
+  return for_each_n(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, n, f);
 } // end for_each_n()
 
 
@@ -79,15 +79,16 @@ InputIterator for_each_n(InputIterator first,
                          Size n,
                          UnaryFunction f)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type System;
 
   System system;
-  return thrust::for_each_n(select_system(system), first, n, f);
+  return HYDRA_EXTERNAL_NS::thrust::for_each_n(select_system(system), first, n, f);
 } // end for_each_n()
 
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

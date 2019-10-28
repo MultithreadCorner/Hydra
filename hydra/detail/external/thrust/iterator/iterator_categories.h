@@ -15,7 +15,7 @@
  */
 
 
-/*! \file hydra/detail/external/thrust/iterator/iterator_categories.h
+/*! \file thrust/iterator/iterator_categories.h
  *  \brief Types for reasoning about the categories of iterators
  */
 
@@ -62,10 +62,10 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  bidirectional_host_iterator_tag, random_access_host_iterator_tag
  */
 struct input_device_iterator_tag
-  : thrust::detail::iterator_category_with_system_and_traversal<
+  : HYDRA_EXTERNAL_NS::thrust::detail::iterator_category_with_system_and_traversal<
       std::input_iterator_tag,
-      thrust::device_system_tag,
-      thrust::single_pass_traversal_tag
+      HYDRA_EXTERNAL_NS::thrust::device_system_tag,
+      HYDRA_EXTERNAL_NS::thrust::single_pass_traversal_tag
     >
 {};
 
@@ -81,10 +81,10 @@ struct input_device_iterator_tag
  *  bidirectional_host_iterator_tag, random_access_host_iterator_tag
  */
 struct output_device_iterator_tag
-  : thrust::detail::iterator_category_with_system_and_traversal<
+  : HYDRA_EXTERNAL_NS::thrust::detail::iterator_category_with_system_and_traversal<
       std::output_iterator_tag,
-      thrust::device_system_tag,
-      thrust::single_pass_traversal_tag
+      HYDRA_EXTERNAL_NS::thrust::device_system_tag,
+      HYDRA_EXTERNAL_NS::thrust::single_pass_traversal_tag
     >
 {};
 
@@ -100,10 +100,10 @@ struct output_device_iterator_tag
  *  bidirectional_host_iterator_tag, random_access_host_iterator_tag
  */
 struct forward_device_iterator_tag
-  : thrust::detail::iterator_category_with_system_and_traversal<
+  : HYDRA_EXTERNAL_NS::thrust::detail::iterator_category_with_system_and_traversal<
       std::forward_iterator_tag,
-      thrust::device_system_tag,
-      thrust::forward_traversal_tag
+      HYDRA_EXTERNAL_NS::thrust::device_system_tag,
+      HYDRA_EXTERNAL_NS::thrust::forward_traversal_tag
     >
 {};
 
@@ -119,10 +119,10 @@ struct forward_device_iterator_tag
  *  bidirectional_host_iterator_tag, random_access_host_iterator_tag
  */
 struct bidirectional_device_iterator_tag
-  : thrust::detail::iterator_category_with_system_and_traversal<
+  : HYDRA_EXTERNAL_NS::thrust::detail::iterator_category_with_system_and_traversal<
       std::bidirectional_iterator_tag,
-      thrust::device_system_tag,
-      thrust::bidirectional_traversal_tag
+      HYDRA_EXTERNAL_NS::thrust::device_system_tag,
+      HYDRA_EXTERNAL_NS::thrust::bidirectional_traversal_tag
     >
 {};
 
@@ -138,10 +138,10 @@ struct bidirectional_device_iterator_tag
  *  bidirectional_host_iterator_tag, random_access_host_iterator_tag
  */
 struct random_access_device_iterator_tag
-  : thrust::detail::iterator_category_with_system_and_traversal<
+  : HYDRA_EXTERNAL_NS::thrust::detail::iterator_category_with_system_and_traversal<
       std::random_access_iterator_tag,
-      thrust::device_system_tag,
-      thrust::random_access_traversal_tag
+      HYDRA_EXTERNAL_NS::thrust::device_system_tag,
+      HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag
     >
 {};
 
@@ -221,6 +221,7 @@ typedef std::random_access_iterator_tag random_access_host_iterator_tag;
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/iterator/detail/universal_categories.h>
 

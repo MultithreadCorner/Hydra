@@ -55,11 +55,11 @@ namespace random
  *  int main(void)
  *  {
  *    // create a minstd_rand object to act as our source of randomness
- *    thrust::minstd_rand rng;
+ *    HYDRA_EXTERNAL_NS::thrust::minstd_rand rng;
  *
  *    // create a normal_distribution to produce floats from the Normal distribution
  *    // with mean 2.0 and standard deviation 3.5
- *    thrust::random::normal_distribution<float> dist(2.0f, 3.5f);
+ *    HYDRA_EXTERNAL_NS::thrust::random::normal_distribution<float> dist(2.0f, 3.5f);
  *
  *    // write a random number to standard output
  *    std::cout << dist(rng) << std::endl;
@@ -96,7 +96,7 @@ template<typename RealType = double>
     /*! \typedef param_type
      *  \brief The type of the object encapsulating this \p normal_distribution's parameters.
      */
-    typedef thrust::pair<RealType,RealType> param_type;
+    typedef HYDRA_EXTERNAL_NS::thrust::pair<RealType,RealType> param_type;
 
     // constructors and reset functions
     
@@ -200,7 +200,7 @@ template<typename RealType = double>
   private:
     param_type m_param;
 
-    friend struct thrust::random::detail::random_core_access;
+    friend struct HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access;
 
     __hydra_host__ __hydra_device__
     bool equal(const normal_distribution &rhs) const;
@@ -269,9 +269,10 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 
 using random::normal_distribution;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/random/detail/normal_distribution.inl>
 

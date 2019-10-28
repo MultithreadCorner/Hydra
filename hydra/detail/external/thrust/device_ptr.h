@@ -59,19 +59,19 @@ template<typename T> class device_reference;
  */
 template<typename T>
   class device_ptr
-    : public thrust::pointer<
+    : public HYDRA_EXTERNAL_NS::thrust::pointer<
                T,
-               thrust::device_system_tag,
-               thrust::device_reference<T>,
-               thrust::device_ptr<T>
+               HYDRA_EXTERNAL_NS::thrust::device_system_tag,
+               HYDRA_EXTERNAL_NS::thrust::device_reference<T>,
+               HYDRA_EXTERNAL_NS::thrust::device_ptr<T>
              >
 {
   private:
-    typedef thrust::pointer<
+    typedef HYDRA_EXTERNAL_NS::thrust::pointer<
       T,
-      thrust::device_system_tag,
-      thrust::device_reference<T>,
-      thrust::device_ptr<T>
+      HYDRA_EXTERNAL_NS::thrust::device_system_tag,
+      HYDRA_EXTERNAL_NS::thrust::device_reference<T>,
+      HYDRA_EXTERNAL_NS::thrust::device_ptr<T>
     > super_t;
 
   public:
@@ -79,6 +79,13 @@ template<typename T>
      */
     __hydra_host__ __hydra_device__
     device_ptr() : super_t() {}
+
+    #if HYDRA_THRUST_CPP_DIALECT >= 2011
+    // NOTE: This is needed so that Thrust smart pointers can be used in
+    // `std::unique_ptr`.
+    __hydra_host__ __hydra_device__
+    device_ptr(decltype(nullptr)) : super_t(nullptr) {}
+    #endif
 
     /*! \p device_ptr's copy constructor is templated to allow copying to a
      *  <tt>device_ptr<const T></tt> from a <tt>T *</tt>.
@@ -108,6 +115,17 @@ template<typename T>
       super_t::operator=(other);
       return *this;
     }
+
+    #if HYDRA_THRUST_CPP_DIALECT >= 2011
+    // NOTE: This is needed so that Thrust smart pointers can be used in
+    // `std::unique_ptr`.
+    __hydra_host__ __hydra_device__
+    device_ptr& operator=(decltype(nullptr))
+    {
+      super_t::operator=(nullptr);
+      return *this;
+    }
+    #endif
 
 // declare these members for the purpose of Doxygenating them
 // they actually exist in a derived-from class
@@ -167,9 +185,10 @@ inline device_ptr<T> device_pointer_cast(const device_ptr<T> &ptr);
 /*! \}
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/device_ptr.inl>
 #include <hydra/detail/external/thrust/detail/raw_pointer_cast.h>

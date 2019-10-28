@@ -46,7 +46,7 @@ __hydra_host__ __hydra_device__
                             Predicate pred)
 {
   // wrap pred
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -90,7 +90,7 @@ __hydra_host__ __hydra_device__
                             Predicate pred)
 {
   // wrap pred
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -139,7 +139,7 @@ __hydra_host__ __hydra_device__
                                 Predicate pred)
 {
   // wrap pred
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -174,7 +174,7 @@ __hydra_host__ __hydra_device__
                                 Predicate pred)
 {
   // wrap pred
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);
@@ -201,4 +201,3 @@ __hydra_host__ __hydra_device__
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
-

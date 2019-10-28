@@ -59,7 +59,7 @@ namespace random
  *  {
  *    // create an xor_combine_engine from minstd_rand and minstd_rand0
  *    // use a shift of 0 for each
- *    thrust::xor_combine_engine<thrust::minstd_rand,0,thrust::minstd_rand0,0> rng;
+ *    HYDRA_EXTERNAL_NS::thrust::xor_combine_engine<HYDRA_EXTERNAL_NS::thrust::minstd_rand,0,HYDRA_EXTERNAL_NS::thrust::minstd_rand0,0> rng;
  *
  *    // print a random number to standard output
  *    std::cout << rng() << std::endl;
@@ -88,10 +88,10 @@ template<typename Engine1, size_t s1,
     /*! \typedef result_type
      *  \brief The type of the unsigned integer produced by this \p xor_combine_engine.
      */
-    typedef typename thrust::detail::eval_if<
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
       (sizeof(typename base2_type::result_type) > sizeof(typename base1_type::result_type)),
-      thrust::detail::identity_<typename base2_type::result_type>,
-      thrust::detail::identity_<typename base1_type::result_type>
+      HYDRA_EXTERNAL_NS::thrust::detail::identity_<typename base2_type::result_type>,
+      HYDRA_EXTERNAL_NS::thrust::detail::identity_<typename base1_type::result_type>
     >::type result_type;
     
     /*! The size of the first shift used in the generation algorithm.
@@ -194,7 +194,7 @@ template<typename Engine1, size_t s1,
     base1_type m_b1;
     base2_type m_b2;
 
-    friend struct thrust::random::detail::random_core_access;
+    friend struct HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access;
 
     __hydra_host__ __hydra_device__
     bool equal(const xor_combine_engine &rhs) const;
@@ -262,12 +262,13 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 
 } // end random
 
-// import names into thrust::
+// import names into HYDRA_EXTERNAL_NS::thrust::
 using random::xor_combine_engine;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/random/detail/xor_combine_engine.inl>
 
