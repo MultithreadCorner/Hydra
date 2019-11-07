@@ -653,7 +653,7 @@ public:
 
 
 
-	DenseHistogram<T,1, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+	DenseHistogram<T,1, hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional>&
 	operator=(DenseHistogram<T, 1, hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional> const& other )
 	{
 		if(this==&other) return *this;
@@ -667,7 +667,7 @@ public:
 		return *this;
 	}
 
-	DenseHistogram<T,1, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>&
+	DenseHistogram<T,1, hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional>&
 	operator=(DenseHistogram<T, 1, hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional>&& other )
 	{
 		if(this==&other) return *this;
