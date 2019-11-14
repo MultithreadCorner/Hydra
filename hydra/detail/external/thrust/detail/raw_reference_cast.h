@@ -20,6 +20,8 @@
 #include <hydra/detail/external/thrust/detail/raw_pointer_cast.h>
 #include <hydra/detail/external/thrust/detail/type_traits/has_nested_type.h>
 #include <hydra/detail/external/thrust/detail/type_traits.h>
+// Augusto: comented out in favor of variadic tuple version
+//#include <hydra/detail/external/thrust/detail/tuple_transform.h>
 #include <hydra/detail/external/thrust/detail/tuple/tuple_transform.h>
 #include <hydra/detail/external/thrust/iterator/detail/tuple_of_iterator_references.h>
 
@@ -45,31 +47,83 @@ template<typename T>
     : is_wrapped_reference<T>
 {};
 
+#ifdef HYDRA_THRUST_VARIADIC_TUPLE
+    // specialize is_unwrappable
+    // a tuple is_unwrappable if any of its elements is_unwrappable
+    template<typename... Types>
+      struct is_unwrappable<
+        thrust::tuple<Types...>
+      >
+        : or_<
+            is_unwrappable<Types>...
+          >
+    {};
 
+
+    // specialize is_unwrappable
+    // a tuple_of_iterator_references is_unwrappable if any of its elements is_unwrappable
+    template<
+      typename... Types
+    >
+      struct is_unwrappable<
+        thrust::detail::tuple_of_iterator_references<Types...>
+      >
+        : or_<
+            is_unwrappable<Types>...
+          >
+    {};
+#else
 // specialize is_unwrappable
 // a tuple is_unwrappable if any of its elements is_unwrappable
-template<typename... Types>
+template<
+  typename T0, typename T1, typename T2,
+  typename T3, typename T4, typename T5,
+  typename T6, typename T7, typename T8,
+  typename T9
+>
   struct is_unwrappable<
-    thrust::tuple<Types...>
+    HYDRA_EXTERNAL_NS::thrust::tuple<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9>
   >
     : or_<
-        is_unwrappable<Types>...
+        is_unwrappable<T0>,
+        is_unwrappable<T1>,
+        is_unwrappable<T2>,
+        is_unwrappable<T3>,
+        is_unwrappable<T4>,
+        is_unwrappable<T5>,
+        is_unwrappable<T6>,
+        is_unwrappable<T7>,
+        is_unwrappable<T8>,
+        is_unwrappable<T9>
       >
 {};
-
 
 // specialize is_unwrappable
 // a tuple_of_iterator_references is_unwrappable if any of its elements is_unwrappable
 template<
-  typename... Types
+  typename T0, typename T1, typename T2,
+  typename T3, typename T4, typename T5,
+  typename T6, typename T7, typename T8,
+  typename T9
 >
   struct is_unwrappable<
-    thrust::detail::tuple_of_iterator_references<Types...>
+    HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9>
   >
     : or_<
-        is_unwrappable<Types>...
+        is_unwrappable<T0>,
+        is_unwrappable<T1>,
+        is_unwrappable<T2>,
+        is_unwrappable<T3>,
+        is_unwrappable<T4>,
+        is_unwrappable<T5>,
+        is_unwrappable<T6>,
+        is_unwrappable<T7>,
+        is_unwrappable<T8>,
+        is_unwrappable<T9>
       >
 {};
+#endif
+
 
 
 template<typename T, typename Result = void>
@@ -94,7 +148,7 @@ template<typename T, typename Enable = void>
 template<typename T>
   struct raw_reference_impl<
     T,
-    typename thrust::detail::enable_if<
+    typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
       is_wrapped_reference<
         typename remove_cv<T>::type
       >::value
@@ -144,37 +198,88 @@ template<typename T>
       >
 {};
 
+#ifdef HYDRA_THRUST_VARIADIC_TUPLE
+    // recurse on tuples
+    template <
+      typename... Types
+    >
+      struct raw_reference_tuple_helper<
+        thrust::tuple<Types...>
+      >
+    {
+      typedef thrust::tuple<
+        typename raw_reference_tuple_helper<Types>::type...
+      > type;
+    };
 
+
+    template <
+      typename... Types
+    >
+      struct raw_reference_tuple_helper<
+        thrust::detail::tuple_of_iterator_references<Types...>
+      >
+    {
+      typedef thrust::detail::tuple_of_iterator_references<
+        typename raw_reference_tuple_helper<Types>::type...
+      > type;
+    };
+
+#else
 // recurse on tuples
 template <
-  typename... Types
+  typename T0, typename T1, typename T2,
+  typename T3, typename T4, typename T5,
+  typename T6, typename T7, typename T8,
+  typename T9
 >
   struct raw_reference_tuple_helper<
-    thrust::tuple<Types...>
+    HYDRA_EXTERNAL_NS::thrust::tuple<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9>
   >
 {
-  typedef thrust::tuple<
-    typename raw_reference_tuple_helper<Types>::type...
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<
+    typename raw_reference_tuple_helper<T0>::type,
+    typename raw_reference_tuple_helper<T1>::type,
+    typename raw_reference_tuple_helper<T2>::type,
+    typename raw_reference_tuple_helper<T3>::type,
+    typename raw_reference_tuple_helper<T4>::type,
+    typename raw_reference_tuple_helper<T5>::type,
+    typename raw_reference_tuple_helper<T6>::type,
+    typename raw_reference_tuple_helper<T7>::type,
+    typename raw_reference_tuple_helper<T8>::type,
+    typename raw_reference_tuple_helper<T9>::type
   > type;
 };
 
 
 template <
-  typename... Types
+  typename T0, typename T1, typename T2,
+  typename T3, typename T4, typename T5,
+  typename T6, typename T7, typename T8,
+  typename T9
 >
   struct raw_reference_tuple_helper<
-    thrust::detail::tuple_of_iterator_references<Types...>
+    HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9>
   >
 {
-  typedef thrust::detail::tuple_of_iterator_references<
-    typename raw_reference_tuple_helper<Types>::type...
+  typedef HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<
+    typename raw_reference_tuple_helper<T0>::type,
+    typename raw_reference_tuple_helper<T1>::type,
+    typename raw_reference_tuple_helper<T2>::type,
+    typename raw_reference_tuple_helper<T3>::type,
+    typename raw_reference_tuple_helper<T4>::type,
+    typename raw_reference_tuple_helper<T5>::type,
+    typename raw_reference_tuple_helper<T6>::type,
+    typename raw_reference_tuple_helper<T7>::type,
+    typename raw_reference_tuple_helper<T8>::type,
+    typename raw_reference_tuple_helper<T9>::type
   > type;
 };
-
+#endif
 
 } // end raw_reference_detail
 
-
+#ifdef HYDRA_THRUST_VARIADIC_TUPLE
 // a couple of specializations of raw_reference for tuples follow
 
 
@@ -222,21 +327,76 @@ template <
 };
 
 
+#else
+// a couple of specializations of raw_reference for tuples follow
+
+
+// if a tuple "tuple_type" is_unwrappable,
+//   then the raw_reference of tuple_type is a tuple of its members' raw_references
+//   else the raw_reference of tuple_type is tuple_type &
+template <
+  typename T0, typename T1, typename T2,
+  typename T3, typename T4, typename T5,
+  typename T6, typename T7, typename T8,
+  typename T9
+>
+  struct raw_reference<
+    HYDRA_EXTERNAL_NS::thrust::tuple<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9>
+  >
+{
+  private:
+    typedef HYDRA_EXTERNAL_NS::thrust::tuple<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9> tuple_type;
+
+  public:
+    typedef typename eval_if<
+      is_unwrappable<tuple_type>::value,
+      raw_reference_detail::raw_reference_tuple_helper<tuple_type>,
+      add_reference<tuple_type>
+    >::type type;
+};
+
+
+template <
+  typename T0, typename T1, typename T2,
+  typename T3, typename T4, typename T5,
+  typename T6, typename T7, typename T8,
+  typename T9
+>
+  struct raw_reference<
+    HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9>
+  >
+{
+  private:
+    typedef detail::tuple_of_iterator_references<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9> tuple_type;
+
+  public:
+    typedef typename raw_reference_detail::raw_reference_tuple_helper<tuple_type>::type type;
+
+    // XXX figure out why is_unwrappable seems to be broken for tuple_of_iterator_references
+    //typedef typename eval_if<
+    //  is_unwrappable<tuple_type>::value,
+    //  raw_reference_detail::raw_reference_tuple_helper<tuple_type>,
+    //  add_reference<tuple_type>
+    //>::type type;
+};
+#endif
+
 } // end detail
 
 
 // provide declarations of raw_reference_cast's overloads for raw_reference_caster below
 template<typename T>
-inline __hydra_host__ __hydra_device__
+__hydra_host__ __hydra_device__
 typename detail::raw_reference<T>::type
   raw_reference_cast(T &ref);
 
 
 template<typename T>
-inline __hydra_host__ __hydra_device__
+__hydra_host__ __hydra_device__
 typename detail::raw_reference<const T>::type
   raw_reference_cast(const T &ref);
 
+#ifdef HYDRA_THRUST_VARIADIC_TUPLE
 
 template<
   typename... Types
@@ -251,6 +411,25 @@ typename detail::enable_if_unwrappable<
 raw_reference_cast(thrust::detail::tuple_of_iterator_references<Types...> t);
 
 
+#else
+
+template<
+  typename T0, typename T1, typename T2,
+  typename T3, typename T4, typename T5,
+  typename T6, typename T7, typename T8,
+  typename T9
+>
+__hydra_host__ __hydra_device__
+typename detail::enable_if_unwrappable<
+  HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9>,
+  typename detail::raw_reference<
+    HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9>
+  >::type
+>::type
+raw_reference_cast(HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9> t);
+
+#endif
+
 namespace detail
 {
 
@@ -261,15 +440,17 @@ struct raw_reference_caster
   __hydra_host__ __hydra_device__
   typename detail::raw_reference<T>::type operator()(T &ref)
   {
-    return thrust::raw_reference_cast(ref);
+    return HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(ref);
   }
 
   template<typename T>
   __hydra_host__ __hydra_device__
   typename detail::raw_reference<const T>::type operator()(const T &ref)
   {
-    return thrust::raw_reference_cast(ref);
+    return HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(ref);
   }
+
+#ifdef HYDRA_THRUST_VARIADIC_TUPLE
 
   template<
     typename... Types
@@ -285,6 +466,28 @@ struct raw_reference_caster
   {
     return thrust::raw_reference_cast(t);
   }
+
+#else
+
+  template<
+    typename T0, typename T1, typename T2,
+    typename T3, typename T4, typename T5,
+    typename T6, typename T7, typename T8,
+    typename T9
+  >
+  __hydra_host__ __hydra_device__
+  typename detail::raw_reference<
+    HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9>
+  >::type
+  operator()(HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9> t,
+             typename enable_if<
+               is_unwrappable<HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9> >::value
+             >::type * = 0)
+  {
+    return HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(t);
+  }
+#endif
+
 }; // end raw_reference_caster
 
 
@@ -292,22 +495,23 @@ struct raw_reference_caster
 
 
 template<typename T>
-inline __hydra_host__ __hydra_device__
+__hydra_host__ __hydra_device__
 typename detail::raw_reference<T>::type
   raw_reference_cast(T &ref)
 {
-  return *thrust::raw_pointer_cast(&ref);
+  return *HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(&ref);
 } // end raw_reference_cast
 
 
 template<typename T>
-inline __hydra_host__ __hydra_device__
+__hydra_host__ __hydra_device__
 typename detail::raw_reference<const T>::type
   raw_reference_cast(const T &ref)
 {
-  return *thrust::raw_pointer_cast(&ref);
+  return *HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(&ref);
 } // end raw_reference_cast
 
+#ifdef HYDRA_THRUST_VARIADIC_TUPLE
 
 template<
   typename... Types
@@ -328,7 +532,33 @@ raw_reference_cast(thrust::detail::tuple_of_iterator_references<Types...> t)
   return thrust::detail::tuple_host_device_transform<detail::raw_reference_detail::raw_reference_tuple_helper>(t, f);
 } // end raw_reference_cast
 
+#else
 
-} // end thrust
+template<
+  typename T0, typename T1, typename T2,
+  typename T3, typename T4, typename T5,
+  typename T6, typename T7, typename T8,
+  typename T9
+>
+__hydra_host__ __hydra_device__
+typename detail::enable_if_unwrappable<
+  HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9>,
+  typename detail::raw_reference<
+    HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9>
+  >::type
+>::type
+raw_reference_cast(HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9> t)
+{
+  HYDRA_EXTERNAL_NS::thrust::detail::raw_reference_caster f;
+
+  // note that we pass raw_reference_tuple_helper, not raw_reference as the unary metafunction
+  // the different way that raw_reference_tuple_helper unwraps tuples is important
+  return HYDRA_EXTERNAL_NS::thrust::detail::tuple_host_device_transform<detail::raw_reference_detail::raw_reference_tuple_helper>(t, f);
+} // end raw_reference_cast
+
+#endif
+
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

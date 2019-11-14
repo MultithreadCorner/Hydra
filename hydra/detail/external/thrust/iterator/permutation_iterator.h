@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file hydra/detail/external/thrust/iterator/permutation_iterator.h
+/*! \file thrust/iterator/permutation_iterator.h
  *  \brief An iterator which performs a gather or scatter operation when dereferenced
  */
 
@@ -75,7 +75,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/iterator/permutation_iterator.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<float> values(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<float> values(4);
  *  values[0] = 10.0f;
  *  values[1] = 20.0f;
  *  values[2] = 30.0f;
@@ -85,16 +85,16 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  values[6] = 70.0f;
  *  values[7] = 80.0f;
  *
- *  thrust::device_vector<int> indices(4);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> indices(4);
  *  indices[0] = 2;
  *  indices[1] = 6;
  *  indices[2] = 1;
  *  indices[3] = 3;
  *
- *  typedef thrust::device_vector<float>::iterator ElementIterator;
- *  typedef thrust::device_vector<int>::iterator   IndexIterator;
+ *  typedef HYDRA_EXTERNAL_NS::thrust::device_vector<float>::iterator ElementIterator;
+ *  typedef HYDRA_EXTERNAL_NS::thrust::device_vector<int>::iterator   IndexIterator;
  *
- *  thrust::permutation_iterator<ElementIterator,IndexIterator> iter(values.begin(), indices.begin());
+ *  HYDRA_EXTERNAL_NS::thrust::permutation_iterator<ElementIterator,IndexIterator> iter(values.begin(), indices.begin());
  *
  *  *iter;   // returns 30.0f;
  *  iter[0]; // returns 30.0f;
@@ -118,7 +118,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 template <typename ElementIterator,
           typename IndexIterator>
   class permutation_iterator
-    : public thrust::detail::permutation_iterator_base<
+    : public HYDRA_EXTERNAL_NS::thrust::detail::permutation_iterator_base<
         ElementIterator,
         IndexIterator
       >::type
@@ -128,7 +128,7 @@ template <typename ElementIterator,
   private:
     typedef typename detail::permutation_iterator_base<ElementIterator,IndexIterator>::type super_t;
 
-    friend class thrust::iterator_core_access;
+    friend class HYDRA_EXTERNAL_NS::thrust::iterator_core_access;
   /*! \endcond
    */
 
@@ -167,12 +167,19 @@ template <typename ElementIterator,
   /*! \cond
    */
   private:
+    // MSVC 2013 and 2015 incorrectly warning about returning a reference to
+    // a local/temporary here.
+    // See goo.gl/LELTNp
+    HYDRA_THRUST_DISABLE_MSVC_WARNING_BEGIN(4172)
+
     __thrust_exec_check_disable__
     __hydra_host__ __hydra_device__
     typename super_t::reference dereference() const
     {
       return *(m_element_iterator + *this->base());
     }
+
+    HYDRA_THRUST_DISABLE_MSVC_WARNING_END(4172)
 
     // make friends for the copy constructor
     template<typename,typename> friend class permutation_iterator;
@@ -206,6 +213,8 @@ permutation_iterator<ElementIterator,IndexIterator> make_permutation_iterator(El
 /*! \} // end iterators
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

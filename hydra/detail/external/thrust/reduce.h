@@ -15,7 +15,7 @@
  */
 
 
-/*! \file reduce.h
+/*! \file thrust/reduce.h
  *  \brief Functions for reducing a range to a single value
  */
 
@@ -46,7 +46,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *
  *  Note that \p reduce also assumes that the binary reduction operator (in this
  *  case operator+) is commutative.  If the reduction operator is not commutative
- *  then \p thrust::reduce should not be used.  Instead, one could use 
+ *  then \p HYDRA_EXTERNAL_NS::thrust::reduce should not be used.  Instead, one could use 
  *  \p inclusive_scan (which does not require commutativity) and select the
  *  last element of the output array.
  *
@@ -65,14 +65,14 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *          <tt>T(0)</tt> is defined.
  *
  *  The following code snippet demonstrates how to use \p reduce to compute
- *  the sum of a sequence of integers using the \p thrust::host execution policy for parallelization:
+ *  the sum of a sequence of integers using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/reduce.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
- *  int result = thrust::reduce(thrust::host, data, data + 6);
+ *  int result = HYDRA_EXTERNAL_NS::thrust::reduce(HYDRA_EXTERNAL_NS::thrust::host, data, data + 6);
  *
  *  // result == 9
  *  \endcode
@@ -81,8 +81,8 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename DerivedPolicy, typename InputIterator>
 __hydra_host__ __hydra_device__
-  typename thrust::iterator_traits<InputIterator>::value_type
-    reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last);
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::value_type
+    reduce(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last);
 
 
 /*! \p reduce is a generalization of summation: it computes the sum (or some
@@ -96,7 +96,7 @@ __hydra_host__ __hydra_device__
  *
  *  Note that \p reduce also assumes that the binary reduction operator (in this
  *  case operator+) is commutative.  If the reduction operator is not commutative
- *  then \p thrust::reduce should not be used.  Instead, one could use 
+ *  then \p HYDRA_EXTERNAL_NS::thrust::reduce should not be used.  Instead, one could use 
  *  \p inclusive_scan (which does not require commutativity) and select the
  *  last element of the output array.
  *
@@ -117,7 +117,7 @@ __hydra_host__ __hydra_device__
  *  #include <hydra/detail/external/thrust/reduce.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
- *  int result = thrust::reduce(data, data + 6);
+ *  int result = HYDRA_EXTERNAL_NS::thrust::reduce(data, data + 6);
  *
  *  // result == 9
  *  \endcode
@@ -125,7 +125,7 @@ __hydra_host__ __hydra_device__
  *  \see http://www.sgi.com/tech/stl/accumulate.html
  */
 template<typename InputIterator> typename
-  thrust::iterator_traits<InputIterator>::value_type reduce(InputIterator first, InputIterator last);
+  HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::value_type reduce(InputIterator first, InputIterator last);
 
 
 /*! \p reduce is a generalization of summation: it computes the sum (or some
@@ -139,7 +139,7 @@ template<typename InputIterator> typename
  *
  *  Note that \p reduce also assumes that the binary reduction operator (in this
  *  case operator+) is commutative.  If the reduction operator is not commutative
- *  then \p thrust::reduce should not be used.  Instead, one could use 
+ *  then \p HYDRA_EXTERNAL_NS::thrust::reduce should not be used.  Instead, one could use 
  *  \p inclusive_scan (which does not require commutativity) and select the
  *  last element of the output array.
  *
@@ -158,7 +158,7 @@ template<typename InputIterator> typename
  *  \tparam T is convertible to \p InputIterator's \c value_type.
  *
  *  The following code snippet demonstrates how to use \p reduce to compute
- *  the sum of a sequence of integers including an intialization value using the \p thrust::host
+ *  the sum of a sequence of integers including an intialization value using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -166,7 +166,7 @@ template<typename InputIterator> typename
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
- *  int result = thrust::reduce(thrust::host, data, data + 6, 1);
+ *  int result = HYDRA_EXTERNAL_NS::thrust::reduce(HYDRA_EXTERNAL_NS::thrust::host, data, data + 6, 1);
  *
  *  // result == 10
  *  \endcode
@@ -175,7 +175,7 @@ template<typename InputIterator> typename
  */
 template<typename DerivedPolicy, typename InputIterator, typename T>
 __hydra_host__ __hydra_device__
-  T reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  T reduce(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
            InputIterator first,
            InputIterator last,
            T init);
@@ -192,7 +192,7 @@ __hydra_host__ __hydra_device__
  *
  *  Note that \p reduce also assumes that the binary reduction operator (in this
  *  case operator+) is commutative.  If the reduction operator is not commutative
- *  then \p thrust::reduce should not be used.  Instead, one could use 
+ *  then \p HYDRA_EXTERNAL_NS::thrust::reduce should not be used.  Instead, one could use 
  *  \p inclusive_scan (which does not require commutativity) and select the
  *  last element of the output array.
  *
@@ -213,7 +213,7 @@ __hydra_host__ __hydra_device__
  *  #include <hydra/detail/external/thrust/reduce.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
- *  int result = thrust::reduce(data, data + 6, 1);
+ *  int result = HYDRA_EXTERNAL_NS::thrust::reduce(data, data + 6, 1);
  *
  *  // result == 10
  *  \endcode
@@ -237,7 +237,7 @@ template<typename InputIterator, typename T>
  *
  *  Note that \p reduce also assumes that the binary reduction operator (in this
  *  case \p binary_op) is commutative.  If the reduction operator is not commutative
- *  then \p thrust::reduce should not be used.  Instead, one could use 
+ *  then \p HYDRA_EXTERNAL_NS::thrust::reduce should not be used.  Instead, one could use 
  *  \p inclusive_scan (which does not require commutativity) and select the
  *  last element of the output array.
  *
@@ -259,7 +259,7 @@ template<typename InputIterator, typename T>
  *          and \p BinaryFunction's \c result_type is convertible to \p OutputType.
  *
  *  The following code snippet demonstrates how to use \p reduce to
- *  compute the maximum value of a sequence of integers using the \p thrust::host execution policy
+ *  compute the maximum value of a sequence of integers using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy
  *  for parallelization:
  *
  *  \code
@@ -268,10 +268,10 @@ template<typename InputIterator, typename T>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
- *  int result = thrust::reduce(thrust::host,
+ *  int result = HYDRA_EXTERNAL_NS::thrust::reduce(HYDRA_EXTERNAL_NS::thrust::host,
  *                              data, data + 6,
  *                              -1,
- *                              thrust::maximum<int>());
+ *                              HYDRA_EXTERNAL_NS::thrust::maximum<int>());
  *  // result == 3
  *  \endcode
  *
@@ -283,7 +283,7 @@ template<typename DerivedPolicy,
          typename T,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  T reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  T reduce(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
            InputIterator first,
            InputIterator last,
            T init,
@@ -301,7 +301,7 @@ __hydra_host__ __hydra_device__
  *
  *  Note that \p reduce also assumes that the binary reduction operator (in this
  *  case \p binary_op) is commutative.  If the reduction operator is not commutative
- *  then \p thrust::reduce should not be used.  Instead, one could use 
+ *  then \p HYDRA_EXTERNAL_NS::thrust::reduce should not be used.  Instead, one could use 
  *  \p inclusive_scan (which does not require commutativity) and select the
  *  last element of the output array.
  *
@@ -326,9 +326,9 @@ __hydra_host__ __hydra_device__
  *  #include <hydra/detail/external/thrust/functional.h>
  *  ...
  *  int data[6] = {1, 0, 2, 2, 1, 3};
- *  int result = thrust::reduce(data, data + 6,
+ *  int result = HYDRA_EXTERNAL_NS::thrust::reduce(data, data + 6,
  *                              -1,
- *                              thrust::maximum<int>());
+ *                              HYDRA_EXTERNAL_NS::thrust::maximum<int>());
  *  // result == 3
  *  \endcode
  *
@@ -374,7 +374,7 @@ template<typename InputIterator,
  *  \pre The input ranges shall not overlap either output range.
  *
  *  The following code snippet demonstrates how to use \p reduce_by_key to
- *  compact a sequence of key/value pairs and sum values with equal keys using the \p thrust::host
+ *  compact a sequence of key/value pairs and sum values with equal keys using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -387,8 +387,8 @@ template<typename InputIterator,
  *  int C[N];                         // output keys
  *  int D[N];                         // output values
  *
- *  thrust::pair<int*,int*> new_end;
- *  new_end = thrust::reduce_by_key(thrust::host, A, A + N, B, C, D);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> new_end;
+ *  new_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(HYDRA_EXTERNAL_NS::thrust::host, A, A + N, B, C, D);
  *
  *  // The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.
  *  // The first four values in D are now {9, 21, 9, 3} and new_end.second - D is 4.
@@ -405,8 +405,8 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-  reduce_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  reduce_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 InputIterator1 keys_first, 
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
@@ -451,8 +451,8 @@ __hydra_host__ __hydra_device__
  *  int C[N];                         // output keys
  *  int D[N];                         // output values
  *
- *  thrust::pair<int*,int*> new_end;
- *  new_end = thrust::reduce_by_key(A, A + N, B, C, D);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> new_end;
+ *  new_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(A, A + N, B, C, D);
  *
  *  // The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.
  *  // The first four values in D are now {9, 21, 9, 3} and new_end.second - D is 4.
@@ -467,7 +467,7 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(InputIterator1 keys_first, 
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
@@ -507,7 +507,7 @@ template<typename InputIterator1,
  *  \pre The input ranges shall not overlap either output range.
  *
  *  The following code snippet demonstrates how to use \p reduce_by_key to
- *  compact a sequence of key/value pairs and sum values with equal keys using the \p thrust::host
+ *  compact a sequence of key/value pairs and sum values with equal keys using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -520,9 +520,9 @@ template<typename InputIterator1,
  *  int C[N];                         // output keys
  *  int D[N];                         // output values
  *
- *  thrust::pair<int*,int*> new_end;
- *  thrust::equal_to<int> binary_pred;
- *  new_end = thrust::reduce_by_key(thrust::host, A, A + N, B, C, D, binary_pred);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> new_end;
+ *  HYDRA_EXTERNAL_NS::thrust::equal_to<int> binary_pred;
+ *  new_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(HYDRA_EXTERNAL_NS::thrust::host, A, A + N, B, C, D, binary_pred);
  *
  *  // The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.
  *  // The first four values in D are now {9, 21, 9, 3} and new_end.second - D is 4.
@@ -540,8 +540,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-  reduce_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  reduce_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 InputIterator1 keys_first, 
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
@@ -589,9 +589,9 @@ __hydra_host__ __hydra_device__
  *  int C[N];                         // output keys
  *  int D[N];                         // output values
  *
- *  thrust::pair<int*,int*> new_end;
- *  thrust::equal_to<int> binary_pred;
- *  new_end = thrust::reduce_by_key(A, A + N, B, C, D, binary_pred);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> new_end;
+ *  HYDRA_EXTERNAL_NS::thrust::equal_to<int> binary_pred;
+ *  new_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(A, A + N, B, C, D, binary_pred);
  *
  *  // The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.
  *  // The first four values in D are now {9, 21, 9, 3} and new_end.second - D is 4.
@@ -607,7 +607,7 @@ template<typename InputIterator1,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(InputIterator1 keys_first, 
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
@@ -654,7 +654,7 @@ template<typename InputIterator1,
  *  \pre The input ranges shall not overlap either output range.
  *
  *  The following code snippet demonstrates how to use \p reduce_by_key to
- *  compact a sequence of key/value pairs and sum values with equal keys using the \p thrust::host
+ *  compact a sequence of key/value pairs and sum values with equal keys using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -667,10 +667,10 @@ template<typename InputIterator1,
  *  int C[N];                         // output keys
  *  int D[N];                         // output values
  *
- *  thrust::pair<int*,int*> new_end;
- *  thrust::equal_to<int> binary_pred;
- *  thrust::plus<int> binary_op;
- *  new_end = thrust::reduce_by_key(thrust::host, A, A + N, B, C, D, binary_pred, binary_op);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> new_end;
+ *  HYDRA_EXTERNAL_NS::thrust::equal_to<int> binary_pred;
+ *  HYDRA_EXTERNAL_NS::thrust::plus<int> binary_op;
+ *  new_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(HYDRA_EXTERNAL_NS::thrust::host, A, A + N, B, C, D, binary_pred, binary_op);
  *
  *  // The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.
  *  // The first four values in D are now {9, 21, 9, 3} and new_end.second - D is 4.
@@ -689,8 +689,8 @@ template<typename DerivedPolicy,
          typename BinaryPredicate,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-  reduce_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  reduce_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 InputIterator1 keys_first, 
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
@@ -745,10 +745,10 @@ __hydra_host__ __hydra_device__
  *  int C[N];                         // output keys
  *  int D[N];                         // output values
  *
- *  thrust::pair<int*,int*> new_end;
- *  thrust::equal_to<int> binary_pred;
- *  thrust::plus<int> binary_op;
- *  new_end = thrust::reduce_by_key(A, A + N, B, C, D, binary_pred, binary_op);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> new_end;
+ *  HYDRA_EXTERNAL_NS::thrust::equal_to<int> binary_pred;
+ *  HYDRA_EXTERNAL_NS::thrust::plus<int> binary_op;
+ *  new_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(A, A + N, B, C, D, binary_pred, binary_op);
  *
  *  // The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.
  *  // The first four values in D are now {9, 21, 9, 3} and new_end.second - D is 4.
@@ -765,7 +765,7 @@ template<typename InputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate,
          typename BinaryFunction>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(InputIterator1 keys_first, 
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
@@ -782,6 +782,7 @@ template<typename InputIterator1,
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/reduce.inl>
 

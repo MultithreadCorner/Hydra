@@ -32,22 +32,20 @@ namespace generic
 
 template <typename DerivedPolicy, typename InputIterator, typename EqualityComparable>
 __hydra_host__ __hydra_device__
-typename thrust::iterator_traits<InputIterator>::difference_type
-count(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, const EqualityComparable& value);
+typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::difference_type
+count(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, const EqualityComparable& value);
 
 
 template <typename DerivedPolicy, typename InputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-typename thrust::iterator_traits<InputIterator>::difference_type
-count_if(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
+typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::difference_type
+count_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
 
 } // end namespace generic
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/count.inl>
 

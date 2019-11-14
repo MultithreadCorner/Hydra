@@ -33,12 +33,12 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename RandomAccessIterator>
 __hydra_host__ __hydra_device__
-  void sort(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void sort(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last)
 {
-  using thrust::system::detail::generic::sort;
-  return sort(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::sort;
+  return sort(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last);
 } // end sort()
 
 
@@ -47,25 +47,25 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-  void sort(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void sort(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last,
             StrictWeakOrdering comp)
 {
-  using thrust::system::detail::generic::sort;
-  return sort(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, comp);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::sort;
+  return sort(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, comp);
 } // end sort()
 
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename RandomAccessIterator>
 __hydra_host__ __hydra_device__
-  void stable_sort(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void stable_sort(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator last)
 {
-  using thrust::system::detail::generic::stable_sort;
-  return stable_sort(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::stable_sort;
+  return stable_sort(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last);
 } // end stable_sort()
 
 
@@ -74,13 +74,13 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-  void stable_sort(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void stable_sort(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp)
 {
-  using thrust::system::detail::generic::stable_sort;
-  return stable_sort(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, comp);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::stable_sort;
+  return stable_sort(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, comp);
 } // end stable_sort()
 
 
@@ -89,13 +89,13 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
 __hydra_host__ __hydra_device__
-  void sort_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void sort_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first)
 {
-  using thrust::system::detail::generic::sort_by_key;
-  return sort_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), keys_first, keys_last, values_first);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::sort_by_key;
+  return sort_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), keys_first, keys_last, values_first);
 } // end sort_by_key()
 
 
@@ -105,14 +105,14 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-  void sort_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void sort_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first,
                    StrictWeakOrdering comp)
 {
-  using thrust::system::detail::generic::sort_by_key;
-  return sort_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), keys_first, keys_last, values_first, comp);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::sort_by_key;
+  return sort_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), keys_first, keys_last, values_first, comp);
 } // end sort_by_key()
 
 
@@ -121,13 +121,13 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
 __hydra_host__ __hydra_device__
-  void stable_sort_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void stable_sort_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first)
 {
-  using thrust::system::detail::generic::stable_sort_by_key;
-  return stable_sort_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), keys_first, keys_last, values_first);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::stable_sort_by_key;
+  return stable_sort_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), keys_first, keys_last, values_first);
 } // end stable_sort_by_key()
 
 
@@ -137,64 +137,64 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-  void stable_sort_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void stable_sort_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first,
                           StrictWeakOrdering comp)
 {
-  using thrust::system::detail::generic::stable_sort_by_key;
-  return stable_sort_by_key(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), keys_first, keys_last, values_first, comp);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::stable_sort_by_key;
+  return stable_sort_by_key(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), keys_first, keys_last, values_first, comp);
 } // end stable_sort_by_key()
 
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  bool is_sorted(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  bool is_sorted(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last)
 {
-  using thrust::system::detail::generic::is_sorted;
-  return is_sorted(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::is_sorted;
+  return is_sorted(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last);
 } // end is_sorted()
 
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename Compare>
 __hydra_host__ __hydra_device__
-  bool is_sorted(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  bool is_sorted(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last,
                  Compare comp)
 {
-  using thrust::system::detail::generic::is_sorted;
-  return is_sorted(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, comp);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::is_sorted;
+  return is_sorted(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, comp);
 } // end is_sorted()
 
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  ForwardIterator is_sorted_until(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator is_sorted_until(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last)
 {
-  using thrust::system::detail::generic::is_sorted_until;
-  return is_sorted_until(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::is_sorted_until;
+  return is_sorted_until(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last);
 } // end is_sorted_until()
 
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename Compare>
 __hydra_host__ __hydra_device__
-  ForwardIterator is_sorted_until(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator is_sorted_until(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Compare comp)
 {
-  using thrust::system::detail::generic::is_sorted_until;
-  return is_sorted_until(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, comp);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::is_sorted_until;
+  return is_sorted_until(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, comp);
 } // end is_sorted_until()
 
 
@@ -206,29 +206,30 @@ template<typename RandomAccessIterator>
   void sort(RandomAccessIterator first,
             RandomAccessIterator last)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator>::type System;
 
   System system;
 
-  return thrust::sort(select_system(system), first, last);
+  return HYDRA_EXTERNAL_NS::thrust::sort(select_system(system), first, last);
 } // end sort()
 
 
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
+  __hydra_host__ __hydra_device__
   void sort(RandomAccessIterator first,
             RandomAccessIterator last,
             StrictWeakOrdering comp)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator>::type System;
 
   System system;
 
-  return thrust::sort(select_system(system), first, last, comp);
+  return HYDRA_EXTERNAL_NS::thrust::sort(select_system(system), first, last, comp);
 } // end sort()
 
 
@@ -236,13 +237,13 @@ template<typename RandomAccessIterator>
   void stable_sort(RandomAccessIterator first,
                    RandomAccessIterator last)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator>::type System;
 
   System system;
 
-  return thrust::stable_sort(select_system(system), first, last);
+  return HYDRA_EXTERNAL_NS::thrust::stable_sort(select_system(system), first, last);
 } // end stable_sort() 
 
 
@@ -252,13 +253,13 @@ template<typename RandomAccessIterator,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator>::type System;
 
   System system;
 
-  return thrust::stable_sort(select_system(system), first, last, comp);
+  return HYDRA_EXTERNAL_NS::thrust::stable_sort(select_system(system), first, last, comp);
 } // end stable_sort()
 
 
@@ -273,15 +274,15 @@ template<typename RandomAccessIterator1,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type System1;
-  typedef typename thrust::iterator_system<RandomAccessIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator2>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::sort_by_key(select_system(system1,system2), keys_first, keys_last, values_first);
+  return HYDRA_EXTERNAL_NS::thrust::sort_by_key(select_system(system1,system2), keys_first, keys_last, values_first);
 } // end sort_by_key()
 
 
@@ -293,15 +294,15 @@ template<typename RandomAccessIterator1,
                    RandomAccessIterator2 values_first,
                    StrictWeakOrdering comp)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type System1;
-  typedef typename thrust::iterator_system<RandomAccessIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator2>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::sort_by_key(select_system(system1,system2), keys_first, keys_last, values_first, comp);
+  return HYDRA_EXTERNAL_NS::thrust::sort_by_key(select_system(system1,system2), keys_first, keys_last, values_first, comp);
 } // end sort_by_key()
 
 
@@ -311,15 +312,15 @@ template<typename RandomAccessIterator1,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type System1;
-  typedef typename thrust::iterator_system<RandomAccessIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator2>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::stable_sort_by_key(select_system(system1,system2), keys_first, keys_last, values_first);
+  return HYDRA_EXTERNAL_NS::thrust::stable_sort_by_key(select_system(system1,system2), keys_first, keys_last, values_first);
 } // end stable_sort_by_key()
 
 
@@ -331,15 +332,15 @@ template<typename RandomAccessIterator1,
                           RandomAccessIterator2 values_first,
                           StrictWeakOrdering comp)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<RandomAccessIterator1>::type System1;
-  typedef typename thrust::iterator_system<RandomAccessIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<RandomAccessIterator2>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::stable_sort_by_key(select_system(system1,system2), keys_first, keys_last, values_first, comp);
+  return HYDRA_EXTERNAL_NS::thrust::stable_sort_by_key(select_system(system1,system2), keys_first, keys_last, values_first, comp);
 } // end stable_sort_by_key()
 
 
@@ -347,13 +348,13 @@ template<typename ForwardIterator>
   bool is_sorted(ForwardIterator first,
                  ForwardIterator last)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
   
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
   System system;
 
-  return thrust::is_sorted(select_system(system), first, last);
+  return HYDRA_EXTERNAL_NS::thrust::is_sorted(select_system(system), first, last);
 } // end is_sorted()
 
 
@@ -363,13 +364,13 @@ template<typename ForwardIterator,
                  ForwardIterator last,
                  Compare comp)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
   
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
   System system;
 
-  return thrust::is_sorted(select_system(system), first, last, comp);
+  return HYDRA_EXTERNAL_NS::thrust::is_sorted(select_system(system), first, last, comp);
 } // end is_sorted()
 
 
@@ -377,13 +378,13 @@ template<typename ForwardIterator>
   ForwardIterator is_sorted_until(ForwardIterator first,
                                   ForwardIterator last)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
   
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
   System system;
 
-  return thrust::is_sorted_until(select_system(system), first, last);
+  return HYDRA_EXTERNAL_NS::thrust::is_sorted_until(select_system(system), first, last);
 } // end is_sorted_until()
 
 
@@ -393,16 +394,17 @@ template<typename ForwardIterator,
                                   ForwardIterator last,
                                   Compare comp)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
   
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
   System system;
 
-  return thrust::is_sorted_until(select_system(system), first, last, comp);
+  return HYDRA_EXTERNAL_NS::thrust::is_sorted_until(select_system(system), first, last, comp);
 } // end is_sorted_until()
 
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

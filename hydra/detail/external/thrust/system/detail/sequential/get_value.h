@@ -32,16 +32,15 @@ namespace sequential
 
 template<typename DerivedPolicy, typename Pointer>
 __hydra_host__ __hydra_device__
-  typename thrust::iterator_value<Pointer>::type
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_value<Pointer>::type
     get_value(sequential::execution_policy<DerivedPolicy> &, Pointer ptr)
 {
-  return *thrust::raw_pointer_cast(ptr);
+  return *HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(ptr);
 } // end get_value()
 
 
 } // end sequential
 } // end detail
 } // end system
-} // end thrust
-
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 HYDRA_EXTERNAL_NAMESPACE_END

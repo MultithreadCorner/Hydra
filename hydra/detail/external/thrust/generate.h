@@ -51,7 +51,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *          and \p Generator's \c result_type is convertible to \p ForwardIterator's \c value_type.
  *
  *  The following code snippet demonstrates how to fill a \c host_vector with random numbers,
- *  using the standard C library function \c rand using the \p thrust::host execution policy for parallelization:
+ *  using the standard C library function \c rand using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/generate.h>
@@ -59,9 +59,9 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  #include <cstdlib>
  *  ...
- *  thrust::host_vector<int> v(10);
+ *  HYDRA_EXTERNAL_NS::thrust::host_vector<int> v(10);
  *  srand(13);
- *  thrust::generate(thrust::host, v.begin(), v.end(), rand);
+ *  HYDRA_EXTERNAL_NS::thrust::generate(HYDRA_EXTERNAL_NS::thrust::host, v.begin(), v.end(), rand);
  *
  *  // the elements of v are now pseudo-random numbers
  *  \endcode
@@ -73,7 +73,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Generator>
 __hydra_host__ __hydra_device__
-  void generate(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void generate(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 Generator gen);
@@ -101,9 +101,9 @@ __hydra_host__ __hydra_device__
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  #include <cstdlib>
  *  ...
- *  thrust::host_vector<int> v(10);
+ *  HYDRA_EXTERNAL_NS::thrust::host_vector<int> v(10);
  *  srand(13);
- *  thrust::generate(v.begin(), v.end(), rand);
+ *  HYDRA_EXTERNAL_NS::thrust::generate(v.begin(), v.end(), rand);
  *
  *  // the elements of v are now pseudo-random numbers
  *  \endcode
@@ -136,7 +136,7 @@ template<typename ForwardIterator,
  *          and \p Generator's \c result_type is convertible to a type in \p OutputIterator's set of \c value_types.
  *
  *  The following code snippet demonstrates how to fill a \c host_vector with random numbers,
- *  using the standard C library function \c rand using the \p thrust::host execution policy for parallelization:
+ *  using the standard C library function \c rand using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/generate.h>
@@ -144,9 +144,9 @@ template<typename ForwardIterator,
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  #include <cstdlib>
  *  ...
- *  thrust::host_vector<int> v(10);
+ *  HYDRA_EXTERNAL_NS::thrust::host_vector<int> v(10);
  *  srand(13);
- *  thrust::generate_n(thrust::host, v.begin(), 10, rand);
+ *  HYDRA_EXTERNAL_NS::thrust::generate_n(HYDRA_EXTERNAL_NS::thrust::host, v.begin(), 10, rand);
  *
  *  // the elements of v are now pseudo-random numbers
  *  \endcode
@@ -159,7 +159,7 @@ template<typename DerivedPolicy,
          typename Size,
          typename Generator>
 __hydra_host__ __hydra_device__
-  OutputIterator generate_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator generate_n(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             OutputIterator first,
                             Size n,
                             Generator gen);
@@ -186,9 +186,9 @@ __hydra_host__ __hydra_device__
  *  #include <hydra/detail/external/thrust/host_vector.h>
  *  #include <stdlib.h>
  *  ...
- *  thrust::host_vector<int> v(10);
+ *  HYDRA_EXTERNAL_NS::thrust::host_vector<int> v(10);
  *  srand(13);
- *  thrust::generate_n(v.begin(), 10, rand);
+ *  HYDRA_EXTERNAL_NS::thrust::generate_n(v.begin(), 10, rand);
  *
  *  // the elements of v are now pseudo-random numbers
  *  \endcode
@@ -210,6 +210,7 @@ template<typename OutputIterator,
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/generate.inl>
 

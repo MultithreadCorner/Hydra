@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,81 +17,122 @@
 #pragma once
 
 #include <hydra/detail/external/thrust/detail/config.h>
+
+#include <hydra/detail/external/thrust/detail/execute_with_allocator_fwd.h>
+#include <hydra/detail/external/thrust/pair.h>
 #include <hydra/detail/external/thrust/detail/raw_pointer_cast.h>
 #include <hydra/detail/external/thrust/detail/type_traits/pointer_traits.h>
 #include <hydra/detail/external/thrust/detail/allocator/allocator_traits.h>
-#include <hydra/detail/external/thrust/detail/util/blocking.h>
-#include <hydra/detail/external/thrust/pair.h>
+#include <hydra/detail/external/thrust/detail/integer_math.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 namespace detail
 {
 
-template<typename ToPointer, typename FromPointer>
-__hydra_host__ __hydra_device__
-ToPointer reinterpret_pointer_cast(FromPointer ptr)
+template <
+    typename T
+  , typename Allocator
+  , template <typename> class BaseSystem
+>
+__hydra_host__
+HYDRA_EXTERNAL_NS::thrust::pair<T*, std::ptrdiff_t>
+get_temporary_buffer(
+    HYDRA_EXTERNAL_NS::thrust::detail::execute_with_allocator<Allocator, BaseSystem>& system
+  , std::ptrdiff_t n
+    )
 {
-  typedef typename thrust::detail::pointer_element<ToPointer>::type to_element;
-  return ToPointer(reinterpret_cast<to_element*>(thrust::raw_pointer_cast(ptr)));
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<Allocator>::type naked_allocator;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::allocator_traits<naked_allocator> alloc_traits;
+  typedef typename alloc_traits::void_pointer                        void_pointer;
+  typedef typename alloc_traits::size_type                           size_type;
+  typedef typename alloc_traits::value_type                          value_type;
+
+  // How many elements of type value_type do we need to accommodate n elements
+  // of type T?
+  size_type num_elements = divide_ri(sizeof(T) * n, sizeof(value_type));
+
+  void_pointer ptr = alloc_traits::allocate(system.get_allocator(), num_elements);
+
+  // Return the pointer and the number of elements of type T allocated.
+  return HYDRA_EXTERNAL_NS::thrust::make_pair(HYDRA_EXTERNAL_NS::thrust::reinterpret_pointer_cast<T*>(ptr),n);
 }
 
-
-template<typename Allocator, template <typename> class BaseSystem>
-  struct execute_with_allocator
-    : BaseSystem<execute_with_allocator<Allocator, BaseSystem> >
+template <
+    typename Pointer
+  , typename Allocator
+  , template <typename> class BaseSystem
+>
+__hydra_host__
+void
+return_temporary_buffer(
+    HYDRA_EXTERNAL_NS::thrust::detail::execute_with_allocator<Allocator, BaseSystem>& system
+  , Pointer p
+    )
 {
-  typedef BaseSystem<
-    execute_with_allocator<Allocator, BaseSystem>
-  > super_t;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<Allocator>::type naked_allocator;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::allocator_traits<naked_allocator> alloc_traits;
+  typedef typename alloc_traits::pointer                             pointer;
 
-  Allocator &m_alloc;
+  pointer to_ptr = HYDRA_EXTERNAL_NS::thrust::reinterpret_pointer_cast<pointer>(p);
+  alloc_traits::deallocate(system.get_allocator(), to_ptr, 0);
+}
 
-  __hydra_host__ __hydra_device__
-  execute_with_allocator(const super_t &super, Allocator &alloc)
-    : super_t(super),
-      m_alloc(alloc)
-  {}
+#if __cplusplus >= 201103L
 
-  __hydra_host__ __hydra_device__
-  execute_with_allocator(Allocator &alloc)
-    : m_alloc(alloc)
-  {}
+template <
+    typename T,
+    template <typename> class BaseSystem,
+    typename Allocator,
+    typename ...Dependencies
+>
+__hydra_host__
+HYDRA_EXTERNAL_NS::thrust::pair<T*, std::ptrdiff_t>
+get_temporary_buffer(
+    HYDRA_EXTERNAL_NS::thrust::detail::execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>& system,
+    std::ptrdiff_t n
+    )
+{
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<Allocator>::type naked_allocator;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::allocator_traits<naked_allocator> alloc_traits;
+  typedef typename alloc_traits::void_pointer                        void_pointer;
+  typedef typename alloc_traits::size_type                           size_type;
+  typedef typename alloc_traits::value_type                          value_type;
 
-  template<typename T>
-  __hydra_host__ __hydra_device__
-    friend thrust::pair<T*,std::ptrdiff_t>
-      get_temporary_buffer(execute_with_allocator &system, std::ptrdiff_t n)
-  {
-    typedef typename thrust::detail::allocator_traits<Allocator> alloc_traits;
-    typedef typename alloc_traits::void_pointer                  void_pointer;
-    typedef typename alloc_traits::size_type                     size_type;
-    typedef typename alloc_traits::value_type                    value_type;
+  // How many elements of type value_type do we need to accommodate n elements
+  // of type T?
+  size_type num_elements = divide_ri(sizeof(T) * n, sizeof(value_type));
 
-    // how many elements of type value_type do we need to accomodate n elements of type T?
-    size_type num_elements = thrust::detail::util::divide_ri(sizeof(T) * n, sizeof(value_type));
+  void_pointer ptr = alloc_traits::allocate(system.get_allocator(), num_elements);
 
-    // allocate that many
-    void_pointer ptr = alloc_traits::allocate(system.m_alloc, num_elements);
+  // Return the pointer and the number of elements of type T allocated.
+  return HYDRA_EXTERNAL_NS::thrust::make_pair(HYDRA_EXTERNAL_NS::thrust::reinterpret_pointer_cast<T*>(ptr),n);
+}
 
-    // return the pointer and the number of elements of type T allocated
-    return thrust::make_pair(thrust::detail::reinterpret_pointer_cast<T*>(ptr),n);
-  }
+template <
+    typename Pointer,
+    template <typename> class BaseSystem,
+    typename Allocator,
+    typename ...Dependencies
+>
+__hydra_host__
+void
+return_temporary_buffer(
+    HYDRA_EXTERNAL_NS::thrust::detail::execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>& system,
+    Pointer p
+    )
+{
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<Allocator>::type naked_allocator;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::allocator_traits<naked_allocator> alloc_traits;
+  typedef typename alloc_traits::pointer                             pointer;
 
-  template<typename Pointer>
-    friend void return_temporary_buffer(execute_with_allocator &system, Pointer p)
-  {
-    typedef typename thrust::detail::allocator_traits<Allocator> alloc_traits;
-    typedef typename alloc_traits::pointer                       pointer;
+  pointer to_ptr = HYDRA_EXTERNAL_NS::thrust::reinterpret_pointer_cast<pointer>(p);
+  alloc_traits::deallocate(system.get_allocator(), to_ptr, 0);
+}
 
-    // return the pointer to the allocator
-    pointer to_ptr = thrust::detail::reinterpret_pointer_cast<pointer>(p);
-    alloc_traits::deallocate(system.m_alloc, to_ptr, 0);
-  }
-};
+#endif
 
+}} // HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace HYDRA_EXTERNAL_NS::thrust::detail
 
-} // end detail
-} // end thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

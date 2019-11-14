@@ -35,13 +35,13 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator partition(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred)
 {
-  using thrust::system::detail::generic::partition;
-  return partition(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::partition;
+  return partition(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, pred);
 } // end partition()
 
 
@@ -51,14 +51,14 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator partition(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
                             Predicate pred)
 {
-  using thrust::system::detail::generic::partition;
-  return partition(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, stencil, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::partition;
+  return partition(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, stencil, pred);
 } // end partition()
 
 
@@ -69,16 +69,16 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator first,
                    InputIterator last,
                    OutputIterator1 out_true,
                    OutputIterator2 out_false,
                    Predicate pred)
 {
-  using thrust::system::detail::generic::partition_copy;
-  return partition_copy(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, out_true, out_false, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::partition_copy;
+  return partition_copy(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, out_true, out_false, pred);
 } // end partition_copy()
 
 
@@ -90,8 +90,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator1 first,
                    InputIterator1 last,
                    InputIterator2 stencil,
@@ -99,8 +99,8 @@ __hydra_host__ __hydra_device__
                    OutputIterator2 out_false,
                    Predicate pred)
 {
-  using thrust::system::detail::generic::partition_copy;
-  return partition_copy(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, stencil, out_true, out_false, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::partition_copy;
+  return partition_copy(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, stencil, out_true, out_false, pred);
 } // end partition_copy()
 
 
@@ -109,13 +109,13 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator stable_partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator stable_partition(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    Predicate pred)
 {
-  using thrust::system::detail::generic::stable_partition;
-  return stable_partition(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::stable_partition;
+  return stable_partition(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, pred);
 } // end stable_partition()
 
 
@@ -125,14 +125,14 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator stable_partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator stable_partition(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    InputIterator stencil,
                                    Predicate pred)
 {
-  using thrust::system::detail::generic::stable_partition;
-  return stable_partition(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, stencil, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::stable_partition;
+  return stable_partition(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, stencil, pred);
 } // end stable_partition()
 
 
@@ -143,16 +143,16 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,
                           OutputIterator1 out_true,
                           OutputIterator2 out_false,
                           Predicate pred)
 {
-  using thrust::system::detail::generic::stable_partition_copy;
-  return stable_partition_copy(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, out_true, out_false, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::stable_partition_copy;
+  return stable_partition_copy(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, out_true, out_false, pred);
 } // end stable_partition_copy()
 
 
@@ -164,8 +164,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,
@@ -173,34 +173,34 @@ __hydra_host__ __hydra_device__
                           OutputIterator2 out_false,
                           Predicate pred)
 {
-  using thrust::system::detail::generic::stable_partition_copy;
-  return stable_partition_copy(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, stencil, out_true, out_false, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::stable_partition_copy;
+  return stable_partition_copy(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, stencil, out_true, out_false, pred);
 } // end stable_partition_copy()
 
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator partition_point(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator partition_point(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Predicate pred)
 {
-  using thrust::system::detail::generic::partition_point;
-  return partition_point(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::partition_point;
+  return partition_point(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, pred);
 } // end partition_point()
 
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-  bool is_partitioned(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  bool is_partitioned(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
-  using thrust::system::detail::generic::is_partitioned;
-  return is_partitioned(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::is_partitioned;
+  return is_partitioned(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, pred);
 } // end is_partitioned()
 
 
@@ -210,13 +210,13 @@ template<typename ForwardIterator,
                             ForwardIterator last,
                             Predicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
   System system;
 
-  return thrust::partition(select_system(system), first, last, pred);
+  return HYDRA_EXTERNAL_NS::thrust::partition(select_system(system), first, last, pred);
 } // end partition()
 
 
@@ -228,15 +228,15 @@ template<typename ForwardIterator,
                             InputIterator stencil,
                             Predicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type System1;
-  typedef typename thrust::iterator_system<InputIterator>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::partition(select_system(system1,system2), first, last, stencil, pred);
+  return HYDRA_EXTERNAL_NS::thrust::partition(select_system(system1,system2), first, last, stencil, pred);
 } // end partition()
 
 
@@ -246,13 +246,13 @@ template<typename ForwardIterator,
                                    ForwardIterator last,
                                    Predicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
   System system;
 
-  return thrust::stable_partition(select_system(system), first, last, pred);
+  return HYDRA_EXTERNAL_NS::thrust::stable_partition(select_system(system), first, last, pred);
 } // end stable_partition()
 
 
@@ -264,15 +264,15 @@ template<typename ForwardIterator,
                                    InputIterator stencil,
                                    Predicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type System1;
-  typedef typename thrust::iterator_system<InputIterator>::type   System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type   System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::stable_partition(select_system(system1,system2), first, last, stencil, pred);
+  return HYDRA_EXTERNAL_NS::thrust::stable_partition(select_system(system1,system2), first, last, stencil, pred);
 } // end stable_partition()
 
 
@@ -280,24 +280,24 @@ template<typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     partition_copy(InputIterator first,
                    InputIterator last,
                    OutputIterator1 out_true,
                    OutputIterator2 out_false,
                    Predicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type   System1;
-  typedef typename thrust::iterator_system<OutputIterator1>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator2>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type   System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator1>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator2>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::partition_copy(select_system(system1,system2,system3), first, last, out_true, out_false, pred);
+  return HYDRA_EXTERNAL_NS::thrust::partition_copy(select_system(system1,system2,system3), first, last, out_true, out_false, pred);
 } // end partition_copy()
 
 
@@ -306,7 +306,7 @@ template<typename InputIterator1,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     partition_copy(InputIterator1 first,
                    InputIterator1 last,
                    InputIterator2 stencil,
@@ -314,19 +314,19 @@ template<typename InputIterator1,
                    OutputIterator2 out_false,
                    Predicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type  System1;
-  typedef typename thrust::iterator_system<InputIterator1>::type  System2;
-  typedef typename thrust::iterator_system<OutputIterator1>::type System3;
-  typedef typename thrust::iterator_system<OutputIterator2>::type System4;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type  System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator1>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator2>::type System4;
 
   System1 system1;
   System2 system2;
   System3 system3;
   System4 system4;
 
-  return thrust::partition_copy(select_system(system1,system2,system3,system4), first, last, stencil, out_true, out_false, pred);
+  return HYDRA_EXTERNAL_NS::thrust::partition_copy(select_system(system1,system2,system3,system4), first, last, stencil, out_true, out_false, pred);
 } // end partition_copy()
 
 
@@ -334,24 +334,24 @@ template<typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(InputIterator first,
                           InputIterator last,
                           OutputIterator1 out_true,
                           OutputIterator2 out_false,
                           Predicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type   System1;
-  typedef typename thrust::iterator_system<OutputIterator1>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator2>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type   System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator1>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator2>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::stable_partition_copy(select_system(system1,system2,system3), first, last, out_true, out_false, pred);
+  return HYDRA_EXTERNAL_NS::thrust::stable_partition_copy(select_system(system1,system2,system3), first, last, out_true, out_false, pred);
 } // end stable_partition_copy()
 
 
@@ -360,7 +360,7 @@ template<typename InputIterator1,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,
@@ -368,19 +368,19 @@ template<typename InputIterator1,
                           OutputIterator2 out_false,
                           Predicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type   System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type   System2;
-  typedef typename thrust::iterator_system<OutputIterator1>::type  System3;
-  typedef typename thrust::iterator_system<OutputIterator2>::type  System4;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type   System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type   System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator1>::type  System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator2>::type  System4;
 
   System1 system1;
   System2 system2;
   System3 system3;
   System4 system4;
 
-  return thrust::stable_partition_copy(select_system(system1,system2,system3,system4), first, last, stencil, out_true, out_false, pred);
+  return HYDRA_EXTERNAL_NS::thrust::stable_partition_copy(select_system(system1,system2,system3,system4), first, last, stencil, out_true, out_false, pred);
 } // end stable_partition_copy()
 
 
@@ -389,13 +389,13 @@ template<typename ForwardIterator, typename Predicate>
                                   ForwardIterator last,
                                   Predicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator>::type System;
 
   System system;
 
-  return thrust::partition_point(select_system(system), first, last, pred);
+  return HYDRA_EXTERNAL_NS::thrust::partition_point(select_system(system), first, last, pred);
 } // end partition_point()
 
 
@@ -404,16 +404,16 @@ template<typename InputIterator, typename Predicate>
                       InputIterator last,
                       Predicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type System;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type System;
 
   System system;
 
-  return thrust::is_partitioned(select_system(system), first, last, pred);
+  return HYDRA_EXTERNAL_NS::thrust::is_partitioned(select_system(system), first, last, pred);
 } // end is_partitioned()
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

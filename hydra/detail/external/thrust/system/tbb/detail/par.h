@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@
 #pragma once
 
 #include <hydra/detail/external/thrust/detail/config.h>
+#include <hydra/detail/external/thrust/detail/allocator_aware_execution_policy.h>
 #include <hydra/detail/external/thrust/system/tbb/detail/execution_policy.h>
-#include <hydra/detail/external/thrust/detail/execute_with_allocator.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
@@ -30,16 +30,12 @@ namespace detail
 {
 
 
-struct par_t : thrust::system::tbb::detail::execution_policy<par_t>
+struct par_t : HYDRA_EXTERNAL_NS::thrust::system::tbb::detail::execution_policy<par_t>,
+  HYDRA_EXTERNAL_NS::thrust::detail::allocator_aware_execution_policy<
+    HYDRA_EXTERNAL_NS::thrust::system::tbb::detail::execution_policy>
 {
-  par_t() : thrust::system::tbb::detail::execution_policy<par_t>() {}
-
-  template<typename Allocator>
-    thrust::detail::execute_with_allocator<Allocator, thrust::system::tbb::detail::execution_policy>
-      operator()(Allocator &alloc) const
-  {
-    return thrust::detail::execute_with_allocator<Allocator, thrust::system::tbb::detail::execution_policy>(alloc);
-  }
+  __hydra_host__ __hydra_device__
+  par_t() : HYDRA_EXTERNAL_NS::thrust::system::tbb::detail::execution_policy<par_t>() {}
 };
 
 
@@ -58,10 +54,10 @@ namespace tbb
 {
 
 
-using thrust::system::tbb::par;
+using HYDRA_EXTERNAL_NS::thrust::system::tbb::par;
 
 
 } // end tbb
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

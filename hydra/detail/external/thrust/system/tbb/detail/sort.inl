@@ -66,17 +66,17 @@ struct merge_sort_closure
 template<typename DerivedPolicy, typename Iterator1, typename Iterator2, typename StrictWeakOrdering>
 void merge_sort(execution_policy<DerivedPolicy> &exec, Iterator1 first1, Iterator1 last1, Iterator2 first2, StrictWeakOrdering comp, bool inplace)
 {
-  typedef typename thrust::iterator_difference<Iterator1>::type difference_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<Iterator1>::type difference_type;
 
-  difference_type n = thrust::distance(first1, last1);
+  difference_type n = HYDRA_EXTERNAL_NS::thrust::distance(first1, last1);
 
   if (n < threshold)
   {
-    thrust::stable_sort(thrust::seq, first1, last1, comp);
+    HYDRA_EXTERNAL_NS::thrust::stable_sort(HYDRA_EXTERNAL_NS::thrust::seq, first1, last1, comp);
     
     if(!inplace)
     {
-      thrust::copy(thrust::seq, first1, last1, first2);
+      HYDRA_EXTERNAL_NS::thrust::copy(HYDRA_EXTERNAL_NS::thrust::seq, first1, last1, first2);
     }
 
     return;
@@ -93,8 +93,8 @@ void merge_sort(execution_policy<DerivedPolicy> &exec, Iterator1 first1, Iterato
 
   ::tbb::parallel_invoke(left, right);
 
-  if(inplace) thrust::merge(exec, first2, mid2, mid2, last2, first1, comp);
-  else	      thrust::merge(exec, first1, mid1, mid1, last1, first2, comp);
+  if(inplace) HYDRA_EXTERNAL_NS::thrust::merge(exec, first2, mid2, mid2, last2, first1, comp);
+  else	      HYDRA_EXTERNAL_NS::thrust::merge(exec, first1, mid1, mid1, last1, first2, comp);
 }
 
 
@@ -174,9 +174,9 @@ void merge_sort_by_key(execution_policy<DerivedPolicy> &exec,
                        StrictWeakOrdering comp,
                        bool inplace)
 {
-  typedef typename thrust::iterator_difference<Iterator1>::type difference_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<Iterator1>::type difference_type;
 
-  difference_type n = thrust::distance(first1, last1);
+  difference_type n = HYDRA_EXTERNAL_NS::thrust::distance(first1, last1);
   
   Iterator1 mid1  = first1 + (n / 2);
   Iterator2 mid2  = first2 + (n / 2);
@@ -187,12 +187,12 @@ void merge_sort_by_key(execution_policy<DerivedPolicy> &exec,
 
   if (n < threshold)
   {
-    thrust::stable_sort_by_key(thrust::seq, first1, last1, first2, comp);
+    HYDRA_EXTERNAL_NS::thrust::stable_sort_by_key(HYDRA_EXTERNAL_NS::thrust::seq, first1, last1, first2, comp);
     
     if(!inplace)
     {
-      thrust::copy(thrust::seq, first1, last1, first3);
-      thrust::copy(thrust::seq, first2, last2, first4);
+      HYDRA_EXTERNAL_NS::thrust::copy(HYDRA_EXTERNAL_NS::thrust::seq, first1, last1, first3);
+      HYDRA_EXTERNAL_NS::thrust::copy(HYDRA_EXTERNAL_NS::thrust::seq, first2, last2, first4);
     }
 
     return;
@@ -207,11 +207,11 @@ void merge_sort_by_key(execution_policy<DerivedPolicy> &exec,
 
   if(inplace)
   {
-    thrust::merge_by_key(exec, first3, mid3, mid3, last3, first4, mid4, first1, first2, comp);
+    HYDRA_EXTERNAL_NS::thrust::merge_by_key(exec, first3, mid3, mid3, last3, first4, mid4, first1, first2, comp);
   }
   else
   {
-    thrust::merge_by_key(exec, first1, mid1, mid1, last1, first2, mid2, first3, first4, comp);
+    HYDRA_EXTERNAL_NS::thrust::merge_by_key(exec, first1, mid1, mid1, last1, first2, mid2, first3, first4, comp);
   }
 }
 
@@ -227,9 +227,9 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
                  RandomAccessIterator last,
                  StrictWeakOrdering comp)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator>::type key_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator>::type key_type;
 
-  thrust::detail::temporary_array<key_type, DerivedPolicy> temp(exec, first, last);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<key_type, DerivedPolicy> temp(exec, first, last);
 
   sort_detail::merge_sort(exec, first, last, temp.begin(), comp, true);
 }
@@ -245,13 +245,13 @@ template<typename DerivedPolicy,
                           RandomAccessIterator2 first2,
                           StrictWeakOrdering comp)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type key_type;
-  typedef typename thrust::iterator_value<RandomAccessIterator2>::type val_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator1>::type key_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<RandomAccessIterator2>::type val_type;
 
-  RandomAccessIterator2 last2 = first2 + thrust::distance(first1, last1);
+  RandomAccessIterator2 last2 = first2 + HYDRA_EXTERNAL_NS::thrust::distance(first1, last1);
 
-  thrust::detail::temporary_array<key_type, DerivedPolicy> temp1(exec, first1, last1);
-  thrust::detail::temporary_array<val_type, DerivedPolicy> temp2(exec, first2, last2);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<key_type, DerivedPolicy> temp1(exec, first1, last1);
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<val_type, DerivedPolicy> temp2(exec, first2, last2);
 
   sort_by_key_detail::merge_sort_by_key(exec, first1, last1, first2, temp1.begin(), temp2.begin(), comp, true);
 }
@@ -261,5 +261,6 @@ template<typename DerivedPolicy,
 } // end namespace tbb
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

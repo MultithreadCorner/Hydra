@@ -44,8 +44,8 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 
 
-/*! \HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust::random
- *  \brief \p thrust::random is the namespace which contains random number engine class templates,
+/*! \HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace HYDRA_EXTERNAL_NS::thrust::random
+ *  \brief \p HYDRA_EXTERNAL_NS::thrust::random is the namespace which contains random number engine class templates,
  *  random number engine adaptor class templates, engines with predefined parameters,
  *  and random number distribution class templates. They are provided in a separate namespace
  *  for import convenience but are also aliased in the top-level \p thrust namespace for
@@ -85,11 +85,11 @@ typedef discard_block_engine<ranlux48_base, 389, 11> ranlux48;
  *        shall produce the value \c 3535848941 .
  */
 typedef xor_combine_engine<
-  linear_feedback_shift_engine<thrust::detail::uint32_t, 32u, 31u, 13u, 12u>,
+  linear_feedback_shift_engine<HYDRA_EXTERNAL_NS::thrust::detail::uint32_t, 32u, 31u, 13u, 12u>,
   0,
   xor_combine_engine<
-    linear_feedback_shift_engine<thrust::detail::uint32_t, 32u, 29u,  2u,  4u>, 0,
-    linear_feedback_shift_engine<thrust::detail::uint32_t, 32u, 28u,  3u, 17u>, 0
+    linear_feedback_shift_engine<HYDRA_EXTERNAL_NS::thrust::detail::uint32_t, 32u, 29u,  2u,  4u>, 0,
+    linear_feedback_shift_engine<HYDRA_EXTERNAL_NS::thrust::detail::uint32_t, 32u, 28u,  3u, 17u>, 0
   >,
   0
 > taus88;
@@ -110,12 +110,14 @@ typedef minstd_rand default_random_engine;
 /*! \} // end random
  */
 
-// import names into thrust::
+// import names into HYDRA_EXTERNAL_NS::thrust::
 using random::ranlux24;
 using random::ranlux48;
 using random::taus88;
 using random::default_random_engine;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

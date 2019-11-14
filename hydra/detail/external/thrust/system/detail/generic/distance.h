@@ -31,15 +31,13 @@ namespace generic
 
 template<typename InputIterator>
 inline __hydra_host__ __hydra_device__
-  typename thrust::iterator_traits<InputIterator>::difference_type
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last);
 
 } // end namespace generic
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/distance.inl>
 

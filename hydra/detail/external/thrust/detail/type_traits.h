@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,26 +24,12 @@
 
 #include <hydra/detail/external/thrust/detail/config.h>
 
-// XXX nvcc 2.2 closed beta can't compile type_traits
-//// find type_traits
-//
-//#ifdef __GNUC__
-//
-//#if __GNUC__ == 4 && __GNUC_MINOR__ == 2
-//#include <tr1/type_traits>
-//#elif __GNUC__ == 4 && __GNUC_MINOR__ > 2
-//#include <type_traits>
-//#endif // GCC version
-//
-//#endif // GCC
-//
-//#ifdef _MSC_VER
-//#include <type_traits>
-//#endif // MSVC
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+#include <type_traits>
+#endif
 
-
-HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-{
+HYDRA_EXTERNAL_NAMESPACE_BEGIN
+     namespace thrust {
 
 // forward declaration of device_reference
 template<typename T> class device_reference;
@@ -51,19 +37,40 @@ template<typename T> class device_reference;
 namespace detail
 {
  /// helper classes [4.3].
- template<typename _Tp, _Tp __v>
+ template<typename T, T v>
    struct integral_constant
    {
-     static const _Tp                      value = __v;
-     typedef _Tp                           value_type;
-     typedef integral_constant<_Tp, __v>   type;
+     HYDRA_THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT T value = v;
+
+     typedef T                       value_type;
+     typedef integral_constant<T, v> type;
+
+     // We don't want to switch to std::integral_constant, because we want access
+     // to the C++14 operator(), but we'd like standard traits to interoperate
+     // with our version when tag dispatching.
+     #if HYDRA_THRUST_CPP_DIALECT >= 2011
+     constexpr integral_constant() = default;
+
+     constexpr integral_constant(integral_constant const&) = default;
+
+     #if HYDRA_THRUST_CPP_DIALECT >= 2014
+     constexpr // In C++11, constexpr makes member functions const.
+     #endif
+     integral_constant& operator=(integral_constant const&) = default;
+
+     constexpr __hydra_host__ __hydra_device__
+     integral_constant(std::integral_constant<T, v>) {}
+     #endif
+
+     HYDRA_THRUST_CONSTEXPR __hydra_host__ __hydra_device__ operator value_type() const HYDRA_THRUST_NOEXCEPT { return value; }
+     HYDRA_THRUST_CONSTEXPR __hydra_host__ __hydra_device__ value_type operator()() const HYDRA_THRUST_NOEXCEPT { return value; }
    };
  
  /// typedef for true_type
- typedef integral_constant<bool, true>     true_type;
+ typedef integral_constant<bool, true>  true_type;
 
  /// typedef for true_type
- typedef integral_constant<bool, false>    false_type;
+ typedef integral_constant<bool, false> false_type;
 
 //template<typename T> struct is_integral : public std::tr1::is_integral<T> {};
 template<typename T> struct is_integral                           : public false_type {};
@@ -111,12 +118,11 @@ template<typename T> struct is_void             : public false_type {};
 template<>           struct is_void<void>       : public true_type {};
 template<>           struct is_void<const void> : public true_type {};
 
+template<typename T> struct is_non_bool_integral       : public is_integral<T> {};
+template<>           struct is_non_bool_integral<bool> : public false_type {};
 
-namespace tt_detail
-{
-
-
-} // end tt_detail
+template<typename T> struct is_non_bool_arithmetic       : public is_arithmetic<T> {};
+template<>           struct is_non_bool_arithmetic<bool> : public false_type {};
 
 template<typename T> struct is_pod
    : public integral_constant<
@@ -231,7 +237,7 @@ template<typename T> struct is_reference<T&> : public true_type {};
 template<typename T> struct is_proxy_reference  : public false_type {};
 
 template<typename T> struct is_device_reference                                : public false_type {};
-template<typename T> struct is_device_reference< thrust::device_reference<T> > : public true_type {};
+template<typename T> struct is_device_reference< HYDRA_EXTERNAL_NS::thrust::device_reference<T> > : public true_type {};
 
 
 // NB: Careful with reference to void.
@@ -295,6 +301,12 @@ template<typename T1, typename T2>
 {
 }; // end lazy_is_different
 
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+
+using std::is_convertible;
+
+#else
+
 namespace tt_detail
 {
 
@@ -309,9 +321,8 @@ template<typename T>
 }; // end is_int_or_cref
 
 
-__HYDRA_THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
-__HYDRA_THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_BEGIN
-
+HYDRA_THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
+HYDRA_THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_WARNING_BEGIN
 
 template<typename From, typename To>
   struct is_convertible_sfinae
@@ -329,8 +340,8 @@ template<typename From, typename To>
 }; // end is_convertible_sfinae
 
 
-__HYDRA_THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_END
-__HYDRA_THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
+HYDRA_THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_WARNING_END
+HYDRA_THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
 
 
 template<typename From, typename To>
@@ -371,55 +382,31 @@ template<typename From, typename To>
 {
 }; // end is_convertible
 
+#endif
 
 template<typename T1, typename T2>
   struct is_one_convertible_to_the_other
-    : public integral_constant<
-        bool,
-        is_convertible<T1,T2>::value || is_convertible<T2,T1>::value
-      >
+    : public integral_constant< bool, is_convertible<T1,T2>::value || is_convertible<T2,T1>::value>
 {};
 
 
 // mpl stuff
-template<typename... Conditions>
-  struct or_;
 
-template <>
-  struct or_<>
+template <typename Condition1,               typename Condition2,              typename Condition3 = false_type,
+          typename Condition4  = false_type, typename Condition5 = false_type, typename Condition6 = false_type,
+          typename Condition7  = false_type, typename Condition8 = false_type, typename Condition9 = false_type,
+          typename Condition10 = false_type>
+  struct or_
     : public integral_constant<
         bool,
-        false_type::value  // identity for or_
+        Condition1::value || Condition2::value || Condition3::value || Condition4::value || Condition5::value || Condition6::value || Condition7::value || Condition8::value || Condition9::value || Condition10::value
       >
 {
 }; // end or_
 
-template <typename Condition, typename... Conditions>
-  struct or_<Condition, Conditions...>
-    : public integral_constant<
-        bool,
-        Condition::value || or_<Conditions...>::value
-      >
-{
-}; // end or_
-
-template <typename... Conditions>
-  struct and_;
-
-template<>
-  struct and_<>
-    : public integral_constant<
-        bool,
-        true_type::value // identity for and_
-      >
-{
-}; // end and_
-
-template <typename Condition, typename... Conditions>
-  struct and_<Condition, Conditions...>
-    : public integral_constant<
-        bool,
-        Condition::value && and_<Conditions...>::value>
+template <typename Condition1, typename Condition2, typename Condition3 = true_type>
+  struct and_
+    : public integral_constant<bool, Condition1::value && Condition2::value && Condition3::value>
 {
 }; // end and_
 
@@ -428,6 +415,12 @@ template <typename Boolean>
     : public integral_constant<bool, !Boolean::value>
 {
 }; // end not_
+
+template<bool B, class T, class F>
+struct conditional { typedef T type; };
+ 
+template<class T, class F>
+struct conditional<false, T, F> { typedef F type; };
 
 template <bool, typename Then, typename Else>
   struct eval_if
@@ -448,7 +441,7 @@ template<typename Then, typename Else>
 
 template<typename T>
 //  struct identity
-//  XXX WAR nvcc's confusion with thrust::identity
+//  XXX WAR nvcc's confusion with HYDRA_EXTERNAL_NS::thrust::identity
   struct identity_
 {
   typedef T type;
@@ -504,7 +497,7 @@ namespace tt_detail
 template<typename T> struct make_unsigned_simple;
 
 template<> struct make_unsigned_simple<char>                   { typedef unsigned char          type; };
-template<> struct make_unsigned_simple<signed char>            { typedef signed   char          type; };
+template<> struct make_unsigned_simple<signed char>            { typedef unsigned char          type; };
 template<> struct make_unsigned_simple<unsigned char>          { typedef unsigned char          type; };
 template<> struct make_unsigned_simple<short>                  { typedef unsigned short         type; };
 template<> struct make_unsigned_simple<unsigned short>         { typedef unsigned short         type; };
@@ -568,13 +561,18 @@ struct largest_available_float
 // T1 wins if they are both the same size
 template<typename T1, typename T2>
   struct larger_type
-    : thrust::detail::eval_if<
+    : HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
         (sizeof(T2) > sizeof(T1)),
-        thrust::detail::identity_<T2>,
-        thrust::detail::identity_<T1>
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<T2>,
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<T1>
       >
 {};
 
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+
+using std::is_base_of;
+
+#else
 
 namespace is_base_of_ns
 {
@@ -608,6 +606,8 @@ template<typename Base, typename Derived>
         is_base_of_ns::impl<Base,Derived>::value
       >
 {};
+
+#endif
 
 template<typename Base, typename Derived, typename Result = void>
   struct enable_if_base_of
@@ -667,7 +667,7 @@ template<typename T1, typename T2>
   <typename is_floating_point<T1>::type,typename is_floating_point<T2>::type>
   ::value>::type>
   {
-  typedef larger_type<T1,T2> type;
+  typedef typename larger_type<T1,T2>::type type;
   };
 
 template<typename T1, typename T2> 
@@ -686,11 +686,32 @@ template<typename T1, typename T2>
   typedef T1 type;
   };
 
+template<typename T>
+  struct is_empty_helper : public T
+  {
+  };
+
+struct is_empty_helper_base
+{
+};
+
+template<typename T>
+  struct is_empty : integral_constant<bool,
+    sizeof(is_empty_helper_base) == sizeof(is_empty_helper<T>)
+  >
+  {
+  };
+
 } // end detail
 
-} // end thrust
+using detail::integral_constant;
+using detail::true_type;
+using detail::false_type;
+
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/type_traits/has_trivial_assign.h>
 

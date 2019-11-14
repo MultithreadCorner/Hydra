@@ -112,9 +112,9 @@ template<class T>
  *  #include <hydra/detail/external/thrust/tuple.h>
  *  #include <iostream>
  *  ...
- *  thrust::tuple<int, const char *> t(13, "thrust");
+ *  HYDRA_EXTERNAL_NS::thrust::tuple<int, const char *> t(13, "thrust");
  *
- *  std::cout << "The 1st value of t is " << thrust::get<0>(t) << std::endl;
+ *  std::cout << "The 1st value of t is " << HYDRA_EXTERNAL_NS::thrust::get<0>(t) << std::endl;
  *  \endcode
  *
  *  \see pair
@@ -143,9 +143,9 @@ get(detail::cons<HT, TT>& t);
  *  #include <hydra/detail/external/thrust/tuple.h>
  *  #include <iostream>
  *  ...
- *  thrust::tuple<int, const char *> t(13, "thrust");
+ *  HYDRA_EXTERNAL_NS::thrust::tuple<int, const char *> t(13, "thrust");
  *
- *  std::cout << "The 1st value of t is " << thrust::get<0>(t) << std::endl;
+ *  std::cout << "The 1st value of t is " << HYDRA_EXTERNAL_NS::thrust::get<0>(t) << std::endl;
  *  \endcode
  *
  *  \see pair
@@ -178,16 +178,16 @@ get(const detail::cons<HT, TT>& t);
  *  #include <iostream>
  *  ...
  *  // create a tuple containing an int, a float, and a string
- *  thrust::tuple<int, float, const char*> t(13, 0.1f, "thrust");
+ *  HYDRA_EXTERNAL_NS::thrust::tuple<int, float, const char*> t(13, 0.1f, "thrust");
  *
  *  // individual members are accessed with the free function get
- *  std::cout << "The first element's value is " << thrust::get<0>(t) << std::endl; 
+ *  std::cout << "The first element's value is " << HYDRA_EXTERNAL_NS::thrust::get<0>(t) << std::endl; 
  *
  *  // or the member function get
  *  std::cout << "The second element's value is " << t.get<1>() << std::endl;
  *
  *  // we can also modify elements with the same function
- *  thrust::get<0>(t) += 10;
+ *  HYDRA_EXTERNAL_NS::thrust::get<0>(t) += 10;
  *  \endcode
  *
  *  \see pair
@@ -381,7 +381,7 @@ template <class T0, class T1, class T2, class T3, class T4,
    */
   template <class U1, class U2>
   __hydra_host__ __hydra_device__ inline
-  tuple& operator=(const thrust::pair<U1, U2>& k) {
+  tuple& operator=(const HYDRA_EXTERNAL_NS::thrust::pair<U1, U2>& k) {
     //BOOST_STATIC_ASSERT(length<tuple>::value == 2);// check_length = 2
     this->head = k.first;
     this->tail.head = k.second;
@@ -584,7 +584,7 @@ bool operator>(const null_type&, const null_type&);
 /*! \} // utility
  */
     
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
@@ -619,7 +619,7 @@ tuple_cat_result<Tuples...>
 #else
 template<typename Tuple1, typename... Tuples>
 inline __hydra_host__ __hydra_device__
-typename thrust::detail::tuple_cat_enable_if<Tuple1,Tuples...>::type
+typename HYDRA_EXTERNAL_NS::thrust::detail::tuple_cat_enable_if<Tuple1,Tuples...>::type
   tuple_cat(const Tuple1 &t1, const Tuples&... ts);
 #endif
 
@@ -670,7 +670,7 @@ template<class CharType, class CharTrait>
 inline std::basic_istream<CharType, CharTrait>&
   operator>>(std::basic_istream<CharType, CharTrait>& i, const detail::tuple_detail::tuple_manipulator<CharType>& m);
 
-/*! Stream insertion operator<< overload for thrust::tuple
+/*! Stream insertion operator<< overload for HYDRA_EXTERNAL_NS::thrust::tuple
  *
  *  \param o The stream to insert \p t into.
  *  \param t The tuple object to insert into \p o.
@@ -679,9 +679,9 @@ inline std::basic_istream<CharType, CharTrait>&
 template<class CharType, class CharTrait, class... Types>
 inline std::basic_ostream<CharType, CharTrait>& 
   operator<<(std::basic_ostream<CharType, CharTrait>& o, 
-             const thrust::tuple<Types...>& t);
+             const HYDRA_EXTERNAL_NS::thrust::tuple<Types...>& t);
 
-/*! Stream extraction operator>> overload for thrust::tuple
+/*! Stream extraction operator>> overload for HYDRA_EXTERNAL_NS::thrust::tuple
  *
  *  \param is The stream to extract \p t from.
  *  \param t The tuple object to extract from \p i.
@@ -690,13 +690,13 @@ inline std::basic_ostream<CharType, CharTrait>&
 template<class CharType, class CharTrait, class... Types>
 inline std::basic_istream<CharType, CharTrait>& 
   operator>>(std::basic_istream<CharType, CharTrait>& i,
-             thrust::tuple<Types...>& t);
+             HYDRA_EXTERNAL_NS::thrust::tuple<Types...>& t);
 
 /*! \} // tuple
  */
 
 /*! \} // utility
  */
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

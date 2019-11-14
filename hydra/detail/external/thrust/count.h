@@ -60,7 +60,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \tparam EqualityComparable must be a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a> and can be compared for equality with \c InputIterator's \c value_type
  *
  *  The following code snippet demonstrates how to use \p count to 
- *  count the number of instances in a range of a value of interest using the \p thrust::device execution policy:
+ *  count the number of instances in a range of a value of interest using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/count.h>
@@ -68,13 +68,13 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
  *  // put 3 1s in a device_vector
- *  thrust::device_vector<int> vec(5,0);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec(5,0);
  *  vec[1] = 1;
  *  vec[3] = 1;
  *  vec[4] = 1;
  *  
  *  // count the 1s
- *  int result = thrust::count(thrust::device, vec.begin(), vec.end(), 1);
+ *  int result = HYDRA_EXTERNAL_NS::thrust::count(HYDRA_EXTERNAL_NS::thrust::device, vec.begin(), vec.end(), 1);
  *  // result == 3
  *  \endcode
  *
@@ -82,8 +82,8 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename DerivedPolicy, typename InputIterator, typename EqualityComparable>
 __hydra_host__ __hydra_device__
-  typename thrust::iterator_traits<InputIterator>::difference_type
-    count(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, const EqualityComparable& value);
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::difference_type
+    count(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, const EqualityComparable& value);
 
 
 
@@ -106,20 +106,20 @@ __hydra_host__ __hydra_device__
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
  *  // put 3 1s in a device_vector
- *  thrust::device_vector<int> vec(5,0);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec(5,0);
  *  vec[1] = 1;
  *  vec[3] = 1;
  *  vec[4] = 1;
  *  
  *  // count the 1s
- *  int result = thrust::count(vec.begin(), vec.end(), 1);
+ *  int result = HYDRA_EXTERNAL_NS::thrust::count(vec.begin(), vec.end(), 1);
  *  // result == 3
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/count.html
  */
 template <typename InputIterator, typename EqualityComparable>
-  typename thrust::iterator_traits<InputIterator>::difference_type
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::difference_type
     count(InputIterator first, InputIterator last, const EqualityComparable& value);
 
 
@@ -140,7 +140,7 @@ template <typename InputIterator, typename EqualityComparable>
  *  \tparam Predicate must be a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p count to
- *  count the number of odd numbers in a range using the \p thrust::device execution policy:
+ *  count the number of odd numbers in a range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/count.h>
@@ -157,7 +157,7 @@ template <typename InputIterator, typename EqualityComparable>
  *  };
  *  ...
  *  // fill a device_vector with even & odd numbers
- *  thrust::device_vector<int> vec(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec(5);
  *  vec[0] = 0;
  *  vec[1] = 1;
  *  vec[2] = 2;
@@ -165,7 +165,7 @@ template <typename InputIterator, typename EqualityComparable>
  *  vec[4] = 4;
  *
  *  // count the odd elements in vec
- *  int result = thrust::count_if(thrust::device, vec.begin(), vec.end(), is_odd());
+ *  int result = HYDRA_EXTERNAL_NS::thrust::count_if(HYDRA_EXTERNAL_NS::thrust::device, vec.begin(), vec.end(), is_odd());
  *  // result == 2
  *  \endcode
  *
@@ -173,8 +173,8 @@ template <typename InputIterator, typename EqualityComparable>
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
 __hydra_host__ __hydra_device__
-  typename thrust::iterator_traits<InputIterator>::difference_type
-    count_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::difference_type
+    count_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
 
 /*! \p count_if finds the number of elements in <tt>[first,last)</tt> for which 
@@ -205,7 +205,7 @@ __hydra_host__ __hydra_device__
  *  };
  *  ...
  *  // fill a device_vector with even & odd numbers
- *  thrust::device_vector<int> vec(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec(5);
  *  vec[0] = 0;
  *  vec[1] = 1;
  *  vec[2] = 2;
@@ -213,14 +213,14 @@ __hydra_host__ __hydra_device__
  *  vec[4] = 4;
  *
  *  // count the odd elements in vec
- *  int result = thrust::count_if(vec.begin(), vec.end(), is_odd());
+ *  int result = HYDRA_EXTERNAL_NS::thrust::count_if(vec.begin(), vec.end(), is_odd());
  *  // result == 2
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/count.html
  */
 template <typename InputIterator, typename Predicate>
-  typename thrust::iterator_traits<InputIterator>::difference_type
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::difference_type
     count_if(InputIterator first, InputIterator last, Predicate pred);
 
 
@@ -229,7 +229,7 @@ template <typename InputIterator, typename Predicate>
  */
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

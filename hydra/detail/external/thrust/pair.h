@@ -228,7 +228,7 @@ template <typename T1, typename T2>
  *  \tparam N This parameter selects the member of interest.
  *  \tparam T A \c pair type of interest.
  */
-template<size_t, class> struct tuple_element;
+template<long unsigned  N, typename T> struct tuple_element;
 
 
 /*! This convenience metafunction is included for compatibility with
@@ -277,9 +277,10 @@ template<typename Pair> struct tuple_size;
 /*! \} // utility
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/pair.inl>
 

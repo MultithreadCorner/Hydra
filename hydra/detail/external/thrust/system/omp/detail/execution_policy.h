@@ -47,7 +47,7 @@ template<typename> struct execution_policy;
 // specialize execution_policy for tag
 template<>
   struct execution_policy<tag>
-    : thrust::system::cpp::detail::execution_policy<tag>
+    : HYDRA_EXTERNAL_NS::thrust::system::cpp::detail::execution_policy<tag>
 {};
 
 // tag's definition comes before the
@@ -57,13 +57,10 @@ struct tag : execution_policy<tag> {};
 // allow conversion to tag when it is not a successor
 template<typename Derived>
   struct execution_policy
-    : thrust::system::cpp::detail::execution_policy<Derived>
+    : HYDRA_EXTERNAL_NS::thrust::system::cpp::detail::execution_policy<Derived>
 {
-  // allow conversion to tag
-  inline operator tag () const
-  {
-    return tag();
-  }
+  typedef tag tag_type; 
+  operator tag() const { return tag(); }
 };
 
 
@@ -75,25 +72,25 @@ template<typename Derived>
 
 template<typename System1, typename System2>
 inline __hydra_host__ __hydra_device__
-  System1 select_system(execution_policy<System1> s, thrust::system::tbb::detail::execution_policy<System2>)
+  System1 select_system(execution_policy<System1> s, HYDRA_EXTERNAL_NS::thrust::system::tbb::detail::execution_policy<System2>)
 {
-  return thrust::detail::derived_cast(s);
+  return HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(s);
 } // end select_system()
 
 
 template<typename System1, typename System2>
 inline __hydra_host__ __hydra_device__
-  System2 select_system(thrust::system::tbb::detail::execution_policy<System1>, execution_policy<System2> s)
+  System2 select_system(HYDRA_EXTERNAL_NS::thrust::system::tbb::detail::execution_policy<System1>, execution_policy<System2> s)
 {
-  return thrust::detail::derived_cast(s);
+  return HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(s);
 } // end select_system()
 
 
 } // end detail
 
 // alias execution_policy and tag here
-using thrust::system::omp::detail::execution_policy;
-using thrust::system::omp::detail::tag;
+using HYDRA_EXTERNAL_NS::thrust::system::omp::detail::execution_policy;
+using HYDRA_EXTERNAL_NS::thrust::system::omp::detail::tag;
 
 } // end omp
 } // end system
@@ -102,10 +99,10 @@ using thrust::system::omp::detail::tag;
 namespace omp
 {
 
-using thrust::system::omp::execution_policy;
-using thrust::system::omp::tag;
+using HYDRA_EXTERNAL_NS::thrust::system::omp::execution_policy;
+using HYDRA_EXTERNAL_NS::thrust::system::omp::tag;
 
 } // end omp
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

@@ -66,7 +66,6 @@ template<typename BaseAllocator>
 }; // end no_throw_allocator
 
 } // end detail
-} // end thrust
-
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

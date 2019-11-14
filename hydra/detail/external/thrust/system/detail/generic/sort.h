@@ -32,7 +32,7 @@ namespace generic
 template<typename DerivedPolicy,
          typename RandomAccessIterator>
 __hydra_host__ __hydra_device__
-  void sort(thrust::execution_policy<DerivedPolicy> &exec,
+  void sort(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last);
 
@@ -41,7 +41,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-  void sort(thrust::execution_policy<DerivedPolicy> &exec,
+  void sort(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last,
             StrictWeakOrdering comp);
@@ -51,7 +51,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
 __hydra_host__ __hydra_device__
-  void sort_by_key(thrust::execution_policy<DerivedPolicy> &exec,
+  void sort_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first);
@@ -62,7 +62,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-  void sort_by_key(thrust::execution_policy<DerivedPolicy> &exec,
+  void sort_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first,
@@ -72,7 +72,7 @@ __hydra_host__ __hydra_device__
 template<typename DerivedPolicy,
          typename RandomAccessIterator>
 __hydra_host__ __hydra_device__
-  void stable_sort(thrust::execution_policy<DerivedPolicy> &exec,
+  void stable_sort(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator last);
 
@@ -82,7 +82,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-  void stable_sort(thrust::execution_policy<DerivedPolicy> &exec,
+  void stable_sort(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp);
@@ -92,7 +92,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
 __hydra_host__ __hydra_device__
-  void stable_sort_by_key(thrust::execution_policy<DerivedPolicy> &exec,
+  void stable_sort_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first);
@@ -104,7 +104,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-  void stable_sort_by_key(thrust::execution_policy<DerivedPolicy> &exec,
+  void stable_sort_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first,
@@ -113,7 +113,7 @@ __hydra_host__ __hydra_device__
 
 template<typename DerivedPolicy, typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  bool is_sorted(thrust::execution_policy<DerivedPolicy> &exec,
+  bool is_sorted(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last);
 
@@ -122,7 +122,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Compare>
 __hydra_host__ __hydra_device__
-  bool is_sorted(thrust::execution_policy<DerivedPolicy> &exec,
+  bool is_sorted(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last,
                  Compare comp);
@@ -130,7 +130,7 @@ __hydra_host__ __hydra_device__
 
 template<typename DerivedPolicy, typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  ForwardIterator is_sorted_until(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator is_sorted_until(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last);
 
@@ -139,7 +139,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Compare>
 __hydra_host__ __hydra_device__
-  ForwardIterator is_sorted_until(thrust::execution_policy<DerivedPolicy> &exec,
+  ForwardIterator is_sorted_until(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Compare comp);
@@ -148,9 +148,7 @@ __hydra_host__ __hydra_device__
 } // end generic
 } // end detail
 } // end system
-} // end thrust
-
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/sort.inl>
 

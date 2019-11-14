@@ -24,6 +24,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 template<typename Element, typename Pointer, typename Derived = use_default> class reference;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

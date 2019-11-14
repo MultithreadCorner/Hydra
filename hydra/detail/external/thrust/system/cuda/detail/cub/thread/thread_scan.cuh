@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -37,7 +37,7 @@
 #include "../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  HYDRA_THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -60,7 +60,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ScanOp>
-__hydra_device__ __forceinline__ T ThreadScanExclusive(
+__device__ __forceinline__ T ThreadScanExclusive(
     T                   inclusive,
     T                   exclusive,
     T                   *input,                 ///< [in] Input array
@@ -92,7 +92,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ScanOp>
-__hydra_device__ __forceinline__ T ThreadScanExclusive(
+__device__ __forceinline__ T ThreadScanExclusive(
     T           *input,                 ///< [in] Input array
     T           *output,                ///< [out] Output array (may be aliased to \p input)
     ScanOp      scan_op,                ///< [in] Binary scan operator
@@ -122,7 +122,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ScanOp>
-__hydra_device__ __forceinline__ T ThreadScanExclusive(
+__device__ __forceinline__ T ThreadScanExclusive(
     T           (&input)[LENGTH],       ///< [in] Input array
     T           (&output)[LENGTH],      ///< [out] Output array (may be aliased to \p input)
     ScanOp      scan_op,                ///< [in] Binary scan operator
@@ -144,7 +144,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ScanOp>
-__hydra_device__ __forceinline__ T ThreadScanInclusive(
+__device__ __forceinline__ T ThreadScanInclusive(
     T                   inclusive,
     T                   *input,                 ///< [in] Input array
     T                   *output,                ///< [out] Output array (may be aliased to \p input)
@@ -173,7 +173,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ScanOp>
-__hydra_device__ __forceinline__ T ThreadScanInclusive(
+__device__ __forceinline__ T ThreadScanInclusive(
     T           *input,                 ///< [in] Input array
     T           *output,                ///< [out] Output array (may be aliased to \p input)
     ScanOp      scan_op)                ///< [in] Binary scan operator
@@ -197,7 +197,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ScanOp>
-__hydra_device__ __forceinline__ T ThreadScanInclusive(
+__device__ __forceinline__ T ThreadScanInclusive(
     T           (&input)[LENGTH],       ///< [in] Input array
     T           (&output)[LENGTH],      ///< [out] Output array (may be aliased to \p input)
     ScanOp      scan_op)                ///< [in] Binary scan operator
@@ -217,7 +217,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ScanOp>
-__hydra_device__ __forceinline__ T ThreadScanInclusive(
+__device__ __forceinline__ T ThreadScanInclusive(
     T           *input,                 ///< [in] Input array
     T           *output,                ///< [out] Output array (may be aliased to \p input)
     ScanOp      scan_op,                ///< [in] Binary scan operator
@@ -247,7 +247,7 @@ template <
     int         LENGTH,
     typename    T,
     typename    ScanOp>
-__hydra_device__ __forceinline__ T ThreadScanInclusive(
+__device__ __forceinline__ T ThreadScanInclusive(
     T           (&input)[LENGTH],       ///< [in] Input array
     T           (&output)[LENGTH],      ///< [out] Output array (may be aliased to \p input)
     ScanOp      scan_op,                ///< [in] Binary scan operator
@@ -265,4 +265,4 @@ __hydra_device__ __forceinline__ T ThreadScanInclusive(
 
 }               // internal namespace
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+HYDRA_THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)

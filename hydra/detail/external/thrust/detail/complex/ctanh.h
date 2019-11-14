@@ -95,7 +95,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust{
 namespace detail{
 namespace complex{		      	
 
-using thrust::complex;
+using HYDRA_EXTERNAL_NS::thrust::complex;
 
 __hydra_host__ __hydra_device__ inline
 complex<double> ctanh(const complex<double>& z){
@@ -181,8 +181,8 @@ template <typename ValueType>
 __hydra_host__ __hydra_device__
 inline complex<ValueType> tanh(const complex<ValueType>& z){
   // This implementation seems better than the simple sin/cos
-  return (thrust::exp(ValueType(2)*z)-ValueType(1))/
-    (thrust::exp(ValueType(2)*z)+ValueType(1));
+  return (HYDRA_EXTERNAL_NS::thrust::exp(ValueType(2)*z)-ValueType(1))/
+    (HYDRA_EXTERNAL_NS::thrust::exp(ValueType(2)*z)+ValueType(1));
 }
 
 template <>
@@ -200,3 +200,4 @@ inline complex<double> tanh(const complex<double>& z){
 } // HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

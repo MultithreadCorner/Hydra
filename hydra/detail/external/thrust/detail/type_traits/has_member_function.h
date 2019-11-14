@@ -37,7 +37,7 @@ class trait_name<T, Result(void)>                                               
    static yes deduce(...);                                                                                   \
 public:                                                                                                      \
    static const bool value = sizeof(yes) == sizeof(deduce(static_cast<base*>(0)));                           \
-   typedef thrust::detail::integral_constant<bool,value> type;                                               \
+   typedef HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<bool,value> type;                                               \
 };                                                                                                           \
                                                                                                              \
 template<typename T, typename Result, typename Arg>                                                          \
@@ -56,7 +56,7 @@ class trait_name<T, Result(Arg)>                                                
    static yes deduce(...);                                                                                   \
 public:                                                                                                      \
    static const bool value = sizeof(yes) == sizeof(deduce(static_cast<base*>(0)));                           \
-   typedef thrust::detail::integral_constant<bool,value> type;                                               \
+   typedef HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<bool,value> type;                                               \
 };                                                                                                           \
                                                                                                              \
 template<typename T, typename Result, typename Arg1, typename Arg2>                                          \
@@ -75,7 +75,7 @@ class trait_name<T, Result(Arg1,Arg2)>                                          
    static yes deduce(...);                                                                                   \
 public:                                                                                                      \
    static const bool value = sizeof(yes) == sizeof(deduce(static_cast<base*>(0)));                           \
-   typedef thrust::detail::integral_constant<bool,value> type;                                               \
+   typedef HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<bool,value> type;                                               \
 };                                                                                                           \
                                                                                                              \
 template<typename T, typename Result, typename Arg1, typename Arg2, typename Arg3>                           \
@@ -94,7 +94,7 @@ class trait_name<T, Result(Arg1,Arg2,Arg3)>                                     
    static yes deduce(...);                                                                                   \
 public:                                                                                                      \
    static const bool value = sizeof(yes) == sizeof(deduce(static_cast<base*>(0)));                           \
-   typedef thrust::detail::integral_constant<bool,value> type;                                               \
+   typedef HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<bool,value> type;                                               \
 };                                                                                                           \
                                                                                                              \
 template<typename T, typename Result, typename Arg1, typename Arg2, typename Arg3, typename Arg4>            \
@@ -113,6 +113,6 @@ class trait_name<T, Result(Arg1,Arg2,Arg3,Arg4)>                                
    static yes deduce(...);                                                                                   \
 public:                                                                                                      \
    static const bool value = sizeof(yes) == sizeof(deduce(static_cast<base*>(0)));                           \
-   typedef thrust::detail::integral_constant<bool,value> type;                                               \
+   typedef HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<bool,value> type;                                               \
 };                                                                                                           
 

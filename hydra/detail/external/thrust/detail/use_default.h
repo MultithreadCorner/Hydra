@@ -23,6 +23,8 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 struct use_default {};
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

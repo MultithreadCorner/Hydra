@@ -57,7 +57,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  ...
  *  int x = 1;
  *  int y = 2;
- *  thrust::swap(x,h);
+ *  HYDRA_EXTERNAL_NS::thrust::swap(x,h);
  *
  *  // x == 2, y == 1
  *  \endcode
@@ -102,7 +102,7 @@ inline void swap(Assignable1 &a, Assignable2 &b);
  *  \pre \p first1 may equal \p first2, but the range <tt>[first1, last1)</tt> shall not overlap the range <tt>[first2, first2 + (last1 - first1))</tt> otherwise.
  *
  *  The following code snippet demonstrates how to use \p swap_ranges to
- *  swap the contents of two \c thrust::device_vectors using the \p thrust::device execution
+ *  swap the contents of two \c HYDRA_EXTERNAL_NS::thrust::device_vectors using the \p HYDRA_EXTERNAL_NS::thrust::device execution
  *  policy for parallelization:
  *
  *  \code
@@ -110,13 +110,13 @@ inline void swap(Assignable1 &a, Assignable2 &b);
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> v1(2), v2(2);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v1(2), v2(2);
  *  v1[0] = 1;
  *  v1[1] = 2;
  *  v2[0] = 3;
  *  v2[1] = 4;
  *
- *  thrust::swap_ranges(thrust::device, v1.begin(), v1.end(), v2.begin());
+ *  HYDRA_EXTERNAL_NS::thrust::swap_ranges(HYDRA_EXTERNAL_NS::thrust::device, v1.begin(), v1.end(), v2.begin());
  *
  *  // v1[0] == 3, v1[1] == 4, v2[0] == 1, v2[1] == 2
  *  \endcode
@@ -128,7 +128,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2>
 __hydra_host__ __hydra_device__
-  ForwardIterator2 swap_ranges(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator2 swap_ranges(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                ForwardIterator1 first1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2);
@@ -154,19 +154,19 @@ __hydra_host__ __hydra_device__
  *  \pre \p first1 may equal \p first2, but the range <tt>[first1, last1)</tt> shall not overlap the range <tt>[first2, first2 + (last1 - first1))</tt> otherwise.
  *
  *  The following code snippet demonstrates how to use \p swap_ranges to
- *  swap the contents of two \c thrust::device_vectors.
+ *  swap the contents of two \c HYDRA_EXTERNAL_NS::thrust::device_vectors.
  *
  *  \code
  *  #include <hydra/detail/external/thrust/swap.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> v1(2), v2(2);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> v1(2), v2(2);
  *  v1[0] = 1;
  *  v1[1] = 2;
  *  v2[0] = 3;
  *  v2[1] = 4;
  *
- *  thrust::swap_ranges(v1.begin(), v1.end(), v2.begin());
+ *  HYDRA_EXTERNAL_NS::thrust::swap_ranges(v1.begin(), v1.end(), v2.begin());
  *
  *  // v1[0] == 3, v1[1] == 4, v2[0] == 1, v2[1] == 2
  *  \endcode
@@ -185,9 +185,10 @@ template<typename ForwardIterator1,
  */
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/swap.inl>
 

@@ -36,14 +36,14 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputType>
 __hydra_host__ __hydra_device__
-OutputType inner_product(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputType inner_product(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator1 first1,
                          InputIterator1 last1,
                          InputIterator2 first2,
                          OutputType init)
 {
-  using thrust::system::detail::generic::inner_product;
-  return inner_product(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, init);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::inner_product;
+  return inner_product(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, init);
 } // end inner_product()
 
 
@@ -55,7 +55,7 @@ template<typename DerivedPolicy,
          typename BinaryFunction1,
          typename BinaryFunction2>
 __hydra_host__ __hydra_device__
-OutputType inner_product(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputType inner_product(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator1 first1,
                          InputIterator1 last1,
                          InputIterator2 first2,
@@ -63,8 +63,8 @@ OutputType inner_product(const thrust::detail::execution_policy_base<DerivedPoli
                          BinaryFunction1 binary_op1,
                          BinaryFunction2 binary_op2)
 {
-  using thrust::system::detail::generic::inner_product;
-  return inner_product(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2, init, binary_op1, binary_op2);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::inner_product;
+  return inner_product(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2, init, binary_op1, binary_op2);
 } // end inner_product()
 
 
@@ -73,15 +73,15 @@ OutputType
 inner_product(InputIterator1 first1, InputIterator1 last1,
               InputIterator2 first2, OutputType init)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::inner_product(select_system(system1,system2), first1, last1, first2, init);
+  return HYDRA_EXTERNAL_NS::thrust::inner_product(select_system(system1,system2), first1, last1, first2, init);
 } // end inner_product()
 
 
@@ -92,18 +92,19 @@ inner_product(InputIterator1 first1, InputIterator1 last1,
               InputIterator2 first2, OutputType init, 
               BinaryFunction1 binary_op1, BinaryFunction2 binary_op2)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::inner_product(select_system(system1,system2), first1, last1, first2, init, binary_op1, binary_op2);
+  return HYDRA_EXTERNAL_NS::thrust::inner_product(select_system(system1,system2), first1, last1, first2, init, binary_op1, binary_op2);
 } // end inner_product()
 
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

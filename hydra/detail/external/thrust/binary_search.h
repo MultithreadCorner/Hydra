@@ -71,14 +71,14 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \tparam LessThanComparable is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThanComparable</a>. 
  *
  *  The following code snippet demonstrates how to use \p lower_bound
- *  to search for values in a ordered range using the \p thrust::device execution policy for parallelization:
+ *  to search for values in a ordered range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/binary_search.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -86,12 +86,12 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::lower_bound(thrust::device, input.begin(), input.end(), 0); // returns input.begin()
- *  thrust::lower_bound(thrust::device, input.begin(), input.end(), 1); // returns input.begin() + 1
- *  thrust::lower_bound(thrust::device, input.begin(), input.end(), 2); // returns input.begin() + 1
- *  thrust::lower_bound(thrust::device, input.begin(), input.end(), 3); // returns input.begin() + 2
- *  thrust::lower_bound(thrust::device, input.begin(), input.end(), 8); // returns input.begin() + 4
- *  thrust::lower_bound(thrust::device, input.begin(), input.end(), 9); // returns input.end()
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 0); // returns input.begin()
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 1); // returns input.begin() + 1
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 2); // returns input.begin() + 1
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 3); // returns input.begin() + 2
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 8); // returns input.begin() + 4
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 9); // returns input.end()
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/lower_bound.html
@@ -101,7 +101,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
 __hydra_host__ __hydra_device__
-ForwardIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+ForwardIterator lower_bound(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             const LessThanComparable &value);
@@ -130,7 +130,7 @@ ForwardIterator lower_bound(const thrust::detail::execution_policy_base<DerivedP
  *  #include <hydra/detail/external/thrust/binary_search.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -138,12 +138,12 @@ ForwardIterator lower_bound(const thrust::detail::execution_policy_base<DerivedP
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::lower_bound(input.begin(), input.end(), 0); // returns input.begin()
- *  thrust::lower_bound(input.begin(), input.end(), 1); // returns input.begin() + 1
- *  thrust::lower_bound(input.begin(), input.end(), 2); // returns input.begin() + 1
- *  thrust::lower_bound(input.begin(), input.end(), 3); // returns input.begin() + 2
- *  thrust::lower_bound(input.begin(), input.end(), 8); // returns input.begin() + 4
- *  thrust::lower_bound(input.begin(), input.end(), 9); // returns input.end()
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(), 0); // returns input.begin()
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(), 1); // returns input.begin() + 1
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(), 2); // returns input.begin() + 1
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(), 3); // returns input.begin() + 2
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(), 8); // returns input.begin() + 4
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(), 9); // returns input.end()
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/lower_bound.html
@@ -181,7 +181,7 @@ ForwardIterator lower_bound(ForwardIterator first,
  *  \tparam StrictWeakOrdering is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
  *
  *  The following code snippet demonstrates how to use \p lower_bound
- *  to search for values in a ordered range using the \p thrust::device execution policy for parallelization:
+ *  to search for values in a ordered range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/binary_search.h>
@@ -189,7 +189,7 @@ ForwardIterator lower_bound(ForwardIterator first,
  *  #include <hydra/detail/external/thrust/functional.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -197,12 +197,12 @@ ForwardIterator lower_bound(ForwardIterator first,
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::lower_bound(input.begin(), input.end(), 0, thrust::less<int>()); // returns input.begin()
- *  thrust::lower_bound(input.begin(), input.end(), 1, thrust::less<int>()); // returns input.begin() + 1
- *  thrust::lower_bound(input.begin(), input.end(), 2, thrust::less<int>()); // returns input.begin() + 1
- *  thrust::lower_bound(input.begin(), input.end(), 3, thrust::less<int>()); // returns input.begin() + 2
- *  thrust::lower_bound(input.begin(), input.end(), 8, thrust::less<int>()); // returns input.begin() + 4
- *  thrust::lower_bound(input.begin(), input.end(), 9, thrust::less<int>()); // returns input.end()
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(), 0, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.begin()
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(), 1, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.begin() + 1
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(), 2, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.begin() + 1
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(), 3, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.begin() + 2
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(), 8, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.begin() + 4
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(), 9, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.end()
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/lower_bound.html
@@ -212,7 +212,7 @@ ForwardIterator lower_bound(ForwardIterator first,
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-ForwardIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+ForwardIterator lower_bound(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             const T &value,
@@ -246,7 +246,7 @@ ForwardIterator lower_bound(const thrust::detail::execution_policy_base<DerivedP
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/functional.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -254,12 +254,12 @@ ForwardIterator lower_bound(const thrust::detail::execution_policy_base<DerivedP
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::lower_bound(input.begin(), input.end(), 0, thrust::less<int>()); // returns input.begin()
- *  thrust::lower_bound(input.begin(), input.end(), 1, thrust::less<int>()); // returns input.begin() + 1
- *  thrust::lower_bound(input.begin(), input.end(), 2, thrust::less<int>()); // returns input.begin() + 1
- *  thrust::lower_bound(input.begin(), input.end(), 3, thrust::less<int>()); // returns input.begin() + 2
- *  thrust::lower_bound(input.begin(), input.end(), 8, thrust::less<int>()); // returns input.begin() + 4
- *  thrust::lower_bound(input.begin(), input.end(), 9, thrust::less<int>()); // returns input.end()
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(), 0, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.begin()
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(), 1, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.begin() + 1
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(), 2, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.begin() + 1
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(), 3, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.begin() + 2
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(), 8, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.begin() + 4
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(), 9, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.end()
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/lower_bound.html
@@ -296,14 +296,14 @@ ForwardIterator lower_bound(ForwardIterator first,
  *  \tparam LessThanComparable is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThanComparable</a>. 
  *
  *  The following code snippet demonstrates how to use \p upper_bound
- *  to search for values in a ordered range using the \p thrust::device execution policy for parallelism:
+ *  to search for values in a ordered range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for parallelism:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/binary_search.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -311,12 +311,12 @@ ForwardIterator lower_bound(ForwardIterator first,
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::upper_bound(thrust::device, input.begin(), input.end(), 0); // returns input.begin() + 1
- *  thrust::upper_bound(thrust::device, input.begin(), input.end(), 1); // returns input.begin() + 1
- *  thrust::upper_bound(thrust::device, input.begin(), input.end(), 2); // returns input.begin() + 2
- *  thrust::upper_bound(thrust::device, input.begin(), input.end(), 3); // returns input.begin() + 2
- *  thrust::upper_bound(thrust::device, input.begin(), input.end(), 8); // returns input.end()
- *  thrust::upper_bound(thrust::device, input.begin(), input.end(), 9); // returns input.end()
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 0); // returns input.begin() + 1
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 1); // returns input.begin() + 1
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 2); // returns input.begin() + 2
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 3); // returns input.begin() + 2
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 8); // returns input.end()
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 9); // returns input.end()
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/upper_bound.html
@@ -326,7 +326,7 @@ ForwardIterator lower_bound(ForwardIterator first,
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
 __hydra_host__ __hydra_device__
-ForwardIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+ForwardIterator upper_bound(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             const LessThanComparable &value);
@@ -356,7 +356,7 @@ ForwardIterator upper_bound(const thrust::detail::execution_policy_base<DerivedP
  *  #include <hydra/detail/external/thrust/binary_search.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -364,12 +364,12 @@ ForwardIterator upper_bound(const thrust::detail::execution_policy_base<DerivedP
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::upper_bound(input.begin(), input.end(), 0); // returns input.begin() + 1
- *  thrust::upper_bound(input.begin(), input.end(), 1); // returns input.begin() + 1
- *  thrust::upper_bound(input.begin(), input.end(), 2); // returns input.begin() + 2
- *  thrust::upper_bound(input.begin(), input.end(), 3); // returns input.begin() + 2
- *  thrust::upper_bound(input.begin(), input.end(), 8); // returns input.end()
- *  thrust::upper_bound(input.begin(), input.end(), 9); // returns input.end()
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(input.begin(), input.end(), 0); // returns input.begin() + 1
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(input.begin(), input.end(), 1); // returns input.begin() + 1
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(input.begin(), input.end(), 2); // returns input.begin() + 2
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(input.begin(), input.end(), 3); // returns input.begin() + 2
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(input.begin(), input.end(), 8); // returns input.end()
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(input.begin(), input.end(), 9); // returns input.end()
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/upper_bound.html
@@ -407,7 +407,7 @@ ForwardIterator upper_bound(ForwardIterator first,
  *  \tparam StrictWeakOrdering is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
  *
  *  The following code snippet demonstrates how to use \p upper_bound
- *  to search for values in a ordered range using the \p thrust::device execution policy for parallelization:
+ *  to search for values in a ordered range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/binary_search.h>
@@ -415,7 +415,7 @@ ForwardIterator upper_bound(ForwardIterator first,
  *  #include <hydra/detail/external/thrust/functional.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -423,12 +423,12 @@ ForwardIterator upper_bound(ForwardIterator first,
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::upper_bound(thrust::device, input.begin(), input.end(), 0, thrust::less<int>()); // returns input.begin() + 1
- *  thrust::upper_bound(thrust::device, input.begin(), input.end(), 1, thrust::less<int>()); // returns input.begin() + 1
- *  thrust::upper_bound(thrust::device, input.begin(), input.end(), 2, thrust::less<int>()); // returns input.begin() + 2
- *  thrust::upper_bound(thrust::device, input.begin(), input.end(), 3, thrust::less<int>()); // returns input.begin() + 2
- *  thrust::upper_bound(thrust::device, input.begin(), input.end(), 8, thrust::less<int>()); // returns input.end()
- *  thrust::upper_bound(thrust::device, input.begin(), input.end(), 9, thrust::less<int>()); // returns input.end()
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 0, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.begin() + 1
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 1, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.begin() + 1
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 2, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.begin() + 2
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 3, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.begin() + 2
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 8, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.end()
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 9, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.end()
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/upper_bound.html
@@ -438,7 +438,7 @@ ForwardIterator upper_bound(ForwardIterator first,
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-ForwardIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+ForwardIterator upper_bound(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             const T &value,
@@ -471,7 +471,7 @@ ForwardIterator upper_bound(const thrust::detail::execution_policy_base<DerivedP
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/functional.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -479,12 +479,12 @@ ForwardIterator upper_bound(const thrust::detail::execution_policy_base<DerivedP
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::upper_bound(input.begin(), input.end(), 0, thrust::less<int>()); // returns input.begin() + 1
- *  thrust::upper_bound(input.begin(), input.end(), 1, thrust::less<int>()); // returns input.begin() + 1
- *  thrust::upper_bound(input.begin(), input.end(), 2, thrust::less<int>()); // returns input.begin() + 2
- *  thrust::upper_bound(input.begin(), input.end(), 3, thrust::less<int>()); // returns input.begin() + 2
- *  thrust::upper_bound(input.begin(), input.end(), 8, thrust::less<int>()); // returns input.end()
- *  thrust::upper_bound(input.begin(), input.end(), 9, thrust::less<int>()); // returns input.end()
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(input.begin(), input.end(), 0, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.begin() + 1
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(input.begin(), input.end(), 1, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.begin() + 1
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(input.begin(), input.end(), 2, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.begin() + 2
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(input.begin(), input.end(), 3, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.begin() + 2
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(input.begin(), input.end(), 8, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.end()
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(input.begin(), input.end(), 9, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns input.end()
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/upper_bound.html
@@ -520,14 +520,14 @@ ForwardIterator upper_bound(ForwardIterator first,
  *  \tparam LessThanComparable is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThanComparable</a>. 
  *
  *  The following code snippet demonstrates how to use \p binary_search
- *  to search for values in a ordered range using the \p thrust::device execution policy for parallelization:
+ *  to search for values in a ordered range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/binary_search.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -535,12 +535,12 @@ ForwardIterator upper_bound(ForwardIterator first,
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::binary_search(thrust::device, input.begin(), input.end(), 0); // returns true
- *  thrust::binary_search(thrust::device, input.begin(), input.end(), 1); // returns false
- *  thrust::binary_search(thrust::device, input.begin(), input.end(), 2); // returns true
- *  thrust::binary_search(thrust::device, input.begin(), input.end(), 3); // returns false
- *  thrust::binary_search(thrust::device, input.begin(), input.end(), 8); // returns true
- *  thrust::binary_search(thrust::device, input.begin(), input.end(), 9); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 0); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 1); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 2); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 3); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 8); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 9); // returns false
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/binary_search.html
@@ -550,7 +550,7 @@ ForwardIterator upper_bound(ForwardIterator first,
  */
 template <typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
 __hydra_host__ __hydra_device__
-bool binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+bool binary_search(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    ForwardIterator first, 
                    ForwardIterator last,
                    const LessThanComparable& value);
@@ -579,7 +579,7 @@ bool binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &e
  *  #include <hydra/detail/external/thrust/binary_search.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -587,12 +587,12 @@ bool binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &e
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::binary_search(input.begin(), input.end(), 0); // returns true
- *  thrust::binary_search(input.begin(), input.end(), 1); // returns false
- *  thrust::binary_search(input.begin(), input.end(), 2); // returns true
- *  thrust::binary_search(input.begin(), input.end(), 3); // returns false
- *  thrust::binary_search(input.begin(), input.end(), 8); // returns true
- *  thrust::binary_search(input.begin(), input.end(), 9); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(input.begin(), input.end(), 0); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(input.begin(), input.end(), 1); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(input.begin(), input.end(), 2); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(input.begin(), input.end(), 3); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(input.begin(), input.end(), 8); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(input.begin(), input.end(), 9); // returns false
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/binary_search.html
@@ -629,7 +629,7 @@ bool binary_search(ForwardIterator first,
  *  \tparam StrictWeakOrdering is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
  *
  *  The following code snippet demonstrates how to use \p binary_search
- *  to search for values in a ordered range using the \p thrust::device execution policy for parallelization:
+ *  to search for values in a ordered range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/binary_search.h>
@@ -637,7 +637,7 @@ bool binary_search(ForwardIterator first,
  *  #include <hydra/detail/external/thrust/functional.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -645,12 +645,12 @@ bool binary_search(ForwardIterator first,
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::binary_search(thrust::device, input.begin(), input.end(), 0, thrust::less<int>()); // returns true
- *  thrust::binary_search(thrust::device, input.begin(), input.end(), 1, thrust::less<int>()); // returns false
- *  thrust::binary_search(thrust::device, input.begin(), input.end(), 2, thrust::less<int>()); // returns true
- *  thrust::binary_search(thrust::device, input.begin(), input.end(), 3, thrust::less<int>()); // returns false
- *  thrust::binary_search(thrust::device, input.begin(), input.end(), 8, thrust::less<int>()); // returns true
- *  thrust::binary_search(thrust::device, input.begin(), input.end(), 9, thrust::less<int>()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 0, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 1, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 2, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 3, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 8, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 9, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns false
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/binary_search.html
@@ -660,7 +660,7 @@ bool binary_search(ForwardIterator first,
  */
 template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-bool binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+bool binary_search(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    ForwardIterator first,
                    ForwardIterator last,
                    const T& value, 
@@ -693,7 +693,7 @@ bool binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &e
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/functional.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -701,12 +701,12 @@ bool binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &e
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::binary_search(input.begin(), input.end(), 0, thrust::less<int>()); // returns true
- *  thrust::binary_search(input.begin(), input.end(), 1, thrust::less<int>()); // returns false
- *  thrust::binary_search(input.begin(), input.end(), 2, thrust::less<int>()); // returns true
- *  thrust::binary_search(input.begin(), input.end(), 3, thrust::less<int>()); // returns false
- *  thrust::binary_search(input.begin(), input.end(), 8, thrust::less<int>()); // returns true
- *  thrust::binary_search(input.begin(), input.end(), 9, thrust::less<int>()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(input.begin(), input.end(), 0, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(input.begin(), input.end(), 1, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(input.begin(), input.end(), 2, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(input.begin(), input.end(), 3, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns false
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(input.begin(), input.end(), 8, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns true
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(input.begin(), input.end(), 9, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns false
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/binary_search.html
@@ -755,14 +755,14 @@ bool binary_search(ForwardIterator first,
  *  \tparam LessThanComparable is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThanComparable</a>. 
  *
  *  The following code snippet demonstrates how to use \p equal_range
- *  to search for values in a ordered range using the \p thrust::device execution policy for parallelization:
+ *  to search for values in a ordered range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/binary_search.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -770,12 +770,12 @@ bool binary_search(ForwardIterator first,
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::equal_range(thrust::device, input.begin(), input.end(), 0); // returns [input.begin(), input.begin() + 1)
- *  thrust::equal_range(thrust::device, input.begin(), input.end(), 1); // returns [input.begin() + 1, input.begin() + 1)
- *  thrust::equal_range(thrust::device, input.begin(), input.end(), 2); // returns [input.begin() + 1, input.begin() + 2)
- *  thrust::equal_range(thrust::device, input.begin(), input.end(), 3); // returns [input.begin() + 2, input.begin() + 2)
- *  thrust::equal_range(thrust::device, input.begin(), input.end(), 8); // returns [input.begin() + 4, input.end)
- *  thrust::equal_range(thrust::device, input.begin(), input.end(), 9); // returns [input.end(), input.end)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 0); // returns [input.begin(), input.begin() + 1)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 1); // returns [input.begin() + 1, input.begin() + 1)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 2); // returns [input.begin() + 1, input.begin() + 2)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 3); // returns [input.begin() + 2, input.begin() + 2)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 8); // returns [input.begin() + 4, input.end)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 9); // returns [input.end(), input.end)
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/equal_range.html
@@ -785,8 +785,8 @@ bool binary_search(ForwardIterator first,
  */
 template <typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
 __hydra_host__ __hydra_device__
-thrust::pair<ForwardIterator, ForwardIterator>
-equal_range(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator, ForwardIterator>
+equal_range(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             ForwardIterator first,
             ForwardIterator last,
             const LessThanComparable& value);
@@ -828,7 +828,7 @@ equal_range(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
  *  #include <hydra/detail/external/thrust/binary_search.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -836,12 +836,12 @@ equal_range(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::equal_range(input.begin(), input.end(), 0); // returns [input.begin(), input.begin() + 1)
- *  thrust::equal_range(input.begin(), input.end(), 1); // returns [input.begin() + 1, input.begin() + 1)
- *  thrust::equal_range(input.begin(), input.end(), 2); // returns [input.begin() + 1, input.begin() + 2)
- *  thrust::equal_range(input.begin(), input.end(), 3); // returns [input.begin() + 2, input.begin() + 2)
- *  thrust::equal_range(input.begin(), input.end(), 8); // returns [input.begin() + 4, input.end)
- *  thrust::equal_range(input.begin(), input.end(), 9); // returns [input.end(), input.end)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(input.begin(), input.end(), 0); // returns [input.begin(), input.begin() + 1)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(input.begin(), input.end(), 1); // returns [input.begin() + 1, input.begin() + 1)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(input.begin(), input.end(), 2); // returns [input.begin() + 1, input.begin() + 2)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(input.begin(), input.end(), 3); // returns [input.begin() + 2, input.begin() + 2)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(input.begin(), input.end(), 8); // returns [input.begin() + 4, input.end)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(input.begin(), input.end(), 9); // returns [input.end(), input.end)
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/equal_range.html
@@ -850,7 +850,7 @@ equal_range(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
  *  \see \p binary_search
  */
 template <class ForwardIterator, class LessThanComparable>
-thrust::pair<ForwardIterator, ForwardIterator>
+HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator, ForwardIterator>
 equal_range(ForwardIterator first,
             ForwardIterator last,
             const LessThanComparable& value);
@@ -893,7 +893,7 @@ equal_range(ForwardIterator first,
  *  \tparam StrictWeakOrdering is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
  *
  *  The following code snippet demonstrates how to use \p equal_range
- *  to search for values in a ordered range using the \p thrust::device execution policy for parallelization:
+ *  to search for values in a ordered range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/binary_search.h>
@@ -901,7 +901,7 @@ equal_range(ForwardIterator first,
  *  #include <hydra/detail/external/thrust/functional.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -909,12 +909,12 @@ equal_range(ForwardIterator first,
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::equal_range(thrust::device, input.begin(), input.end(), 0, thrust::less<int>()); // returns [input.begin(), input.begin() + 1)
- *  thrust::equal_range(thrust::device, input.begin(), input.end(), 1, thrust::less<int>()); // returns [input.begin() + 1, input.begin() + 1)
- *  thrust::equal_range(thrust::device, input.begin(), input.end(), 2, thrust::less<int>()); // returns [input.begin() + 1, input.begin() + 2)
- *  thrust::equal_range(thrust::device, input.begin(), input.end(), 3, thrust::less<int>()); // returns [input.begin() + 2, input.begin() + 2)
- *  thrust::equal_range(thrust::device, input.begin(), input.end(), 8, thrust::less<int>()); // returns [input.begin() + 4, input.end)
- *  thrust::equal_range(thrust::device, input.begin(), input.end(), 9, thrust::less<int>()); // returns [input.end(), input.end)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 0, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns [input.begin(), input.begin() + 1)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 1, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns [input.begin() + 1, input.begin() + 1)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 2, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns [input.begin() + 1, input.begin() + 2)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 3, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns [input.begin() + 2, input.begin() + 2)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 8, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns [input.begin() + 4, input.end)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(HYDRA_EXTERNAL_NS::thrust::device, input.begin(), input.end(), 9, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns [input.end(), input.end)
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/equal_range.html
@@ -924,8 +924,8 @@ equal_range(ForwardIterator first,
  */
 template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-thrust::pair<ForwardIterator, ForwardIterator>
-equal_range(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator, ForwardIterator>
+equal_range(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             ForwardIterator first,
             ForwardIterator last,
             const T& value,
@@ -972,7 +972,7 @@ equal_range(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/functional.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -980,12 +980,12 @@ equal_range(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::equal_range(input.begin(), input.end(), 0, thrust::less<int>()); // returns [input.begin(), input.begin() + 1)
- *  thrust::equal_range(input.begin(), input.end(), 1, thrust::less<int>()); // returns [input.begin() + 1, input.begin() + 1)
- *  thrust::equal_range(input.begin(), input.end(), 2, thrust::less<int>()); // returns [input.begin() + 1, input.begin() + 2)
- *  thrust::equal_range(input.begin(), input.end(), 3, thrust::less<int>()); // returns [input.begin() + 2, input.begin() + 2)
- *  thrust::equal_range(input.begin(), input.end(), 8, thrust::less<int>()); // returns [input.begin() + 4, input.end)
- *  thrust::equal_range(input.begin(), input.end(), 9, thrust::less<int>()); // returns [input.end(), input.end)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(input.begin(), input.end(), 0, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns [input.begin(), input.begin() + 1)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(input.begin(), input.end(), 1, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns [input.begin() + 1, input.begin() + 1)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(input.begin(), input.end(), 2, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns [input.begin() + 1, input.begin() + 2)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(input.begin(), input.end(), 3, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns [input.begin() + 2, input.begin() + 2)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(input.begin(), input.end(), 8, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns [input.begin() + 4, input.end)
+ *  HYDRA_EXTERNAL_NS::thrust::equal_range(input.begin(), input.end(), 9, HYDRA_EXTERNAL_NS::thrust::less<int>()); // returns [input.end(), input.end)
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/equal_range.html
@@ -994,7 +994,7 @@ equal_range(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
  *  \see \p binary_search
  */
 template <class ForwardIterator, class T, class StrictWeakOrdering>
-thrust::pair<ForwardIterator, ForwardIterator>
+HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator, ForwardIterator>
 equal_range(ForwardIterator first,
             ForwardIterator last,
             const T& value,
@@ -1037,7 +1037,7 @@ equal_range(ForwardIterator first,
  *  \pre The ranges <tt>[first,last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p lower_bound
- *  to search for multiple values in a ordered range using the \p thrust::device execution policy for
+ *  to search for multiple values in a ordered range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for
  *  parallelization:
  *
  *  \code
@@ -1045,7 +1045,7 @@ equal_range(ForwardIterator first,
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -1053,7 +1053,7 @@ equal_range(ForwardIterator first,
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::device_vector<int> values(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> values(6);
  *  values[0] = 0; 
  *  values[1] = 1;
  *  values[2] = 2;
@@ -1061,9 +1061,9 @@ equal_range(ForwardIterator first,
  *  values[4] = 8;
  *  values[5] = 9;
  *
- *  thrust::device_vector<unsigned int> output(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<unsigned int> output(6);
  *
- *  thrust::lower_bound(thrust::device,
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(HYDRA_EXTERNAL_NS::thrust::device,
  *                      input.begin(), input.end(),
  *                      values.begin(), values.end(),
  *                      output.begin());
@@ -1078,7 +1078,7 @@ equal_range(ForwardIterator first,
  */
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator lower_bound(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            ForwardIterator first, 
                            ForwardIterator last,
                            InputIterator values_first, 
@@ -1113,7 +1113,7 @@ OutputIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPo
  *  #include <hydra/detail/external/thrust/binary_search.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -1121,7 +1121,7 @@ OutputIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPo
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::device_vector<int> values(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> values(6);
  *  values[0] = 0; 
  *  values[1] = 1;
  *  values[2] = 2;
@@ -1129,9 +1129,9 @@ OutputIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPo
  *  values[4] = 8;
  *  values[5] = 9;
  *
- *  thrust::device_vector<unsigned int> output(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<unsigned int> output(6);
  *
- *  thrust::lower_bound(input.begin(), input.end(),
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(),
  *                      values.begin(), values.end(),
  *                      output.begin());
  *
@@ -1187,7 +1187,7 @@ OutputIterator lower_bound(ForwardIterator first,
  *  #include <hydra/detail/external/thrust/functional.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -1195,7 +1195,7 @@ OutputIterator lower_bound(ForwardIterator first,
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::device_vector<int> values(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> values(6);
  *  values[0] = 0; 
  *  values[1] = 1;
  *  values[2] = 2;
@@ -1203,12 +1203,12 @@ OutputIterator lower_bound(ForwardIterator first,
  *  values[4] = 8;
  *  values[5] = 9;
  *
- *  thrust::device_vector<unsigned int> output(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<unsigned int> output(6);
  *
- *  thrust::lower_bound(input.begin(), input.end(),
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(),
  *                      values.begin(), values.end(), 
  *                      output.begin(),
- *                      thrust::less<int>());
+ *                      HYDRA_EXTERNAL_NS::thrust::less<int>());
  *
  *  // output is now [0, 1, 1, 2, 4, 5]
  *  \endcode
@@ -1220,7 +1220,7 @@ OutputIterator lower_bound(ForwardIterator first,
  */
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-OutputIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator lower_bound(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            ForwardIterator first, 
                            ForwardIterator last,
                            InputIterator values_first, 
@@ -1260,7 +1260,7 @@ OutputIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPo
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/functional.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -1268,7 +1268,7 @@ OutputIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPo
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::device_vector<int> values(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> values(6);
  *  values[0] = 0; 
  *  values[1] = 1;
  *  values[2] = 2;
@@ -1276,12 +1276,12 @@ OutputIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPo
  *  values[4] = 8;
  *  values[5] = 9;
  *
- *  thrust::device_vector<unsigned int> output(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<unsigned int> output(6);
  *
- *  thrust::lower_bound(input.begin(), input.end(),
+ *  HYDRA_EXTERNAL_NS::thrust::lower_bound(input.begin(), input.end(),
  *                      values.begin(), values.end(), 
  *                      output.begin(),
- *                      thrust::less<int>());
+ *                      HYDRA_EXTERNAL_NS::thrust::less<int>());
  *
  *  // output is now [0, 1, 1, 2, 4, 5]
  *  \endcode
@@ -1325,7 +1325,7 @@ OutputIterator lower_bound(ForwardIterator first,
  *  \pre The ranges <tt>[first,last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p upper_bound
- *  to search for multiple values in a ordered range using the \p thrust::device execution policy for
+ *  to search for multiple values in a ordered range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for
  *  parallelization:
  *
  *  \code
@@ -1333,7 +1333,7 @@ OutputIterator lower_bound(ForwardIterator first,
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -1341,7 +1341,7 @@ OutputIterator lower_bound(ForwardIterator first,
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::device_vector<int> values(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> values(6);
  *  values[0] = 0; 
  *  values[1] = 1;
  *  values[2] = 2;
@@ -1349,9 +1349,9 @@ OutputIterator lower_bound(ForwardIterator first,
  *  values[4] = 8;
  *  values[5] = 9;
  *
- *  thrust::device_vector<unsigned int> output(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<unsigned int> output(6);
  *
- *  thrust::upper_bound(thrust::device,
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(HYDRA_EXTERNAL_NS::thrust::device,
  *                      input.begin(), input.end(),
  *                      values.begin(), values.end(),
  *                      output.begin());
@@ -1366,7 +1366,7 @@ OutputIterator lower_bound(ForwardIterator first,
  */
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator upper_bound(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            ForwardIterator first, 
                            ForwardIterator last,
                            InputIterator values_first, 
@@ -1401,7 +1401,7 @@ OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPo
  *  #include <hydra/detail/external/thrust/binary_search.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -1409,7 +1409,7 @@ OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPo
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::device_vector<int> values(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> values(6);
  *  values[0] = 0; 
  *  values[1] = 1;
  *  values[2] = 2;
@@ -1417,9 +1417,9 @@ OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPo
  *  values[4] = 8;
  *  values[5] = 9;
  *
- *  thrust::device_vector<unsigned int> output(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<unsigned int> output(6);
  *
- *  thrust::upper_bound(input.begin(), input.end(),
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(input.begin(), input.end(),
  *                      values.begin(), values.end(),
  *                      output.begin());
  *
@@ -1467,7 +1467,7 @@ OutputIterator upper_bound(ForwardIterator first,
  *  \pre The ranges <tt>[first,last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p upper_bound
- *  to search for multiple values in a ordered range using the \p thrust::device execution policy for
+ *  to search for multiple values in a ordered range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for
  *  parallelization:
  *
  *  \code
@@ -1476,7 +1476,7 @@ OutputIterator upper_bound(ForwardIterator first,
  *  #include <hydra/detail/external/thrust/functional.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -1484,7 +1484,7 @@ OutputIterator upper_bound(ForwardIterator first,
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::device_vector<int> values(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> values(6);
  *  values[0] = 0; 
  *  values[1] = 1;
  *  values[2] = 2;
@@ -1492,13 +1492,13 @@ OutputIterator upper_bound(ForwardIterator first,
  *  values[4] = 8;
  *  values[5] = 9;
  *
- *  thrust::device_vector<unsigned int> output(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<unsigned int> output(6);
  *
- *  thrust::upper_bound(thrust::device,
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(HYDRA_EXTERNAL_NS::thrust::device,
  *                      input.begin(), input.end(),
  *                      values.begin(), values.end(), 
  *                      output.begin(),
- *                      thrust::less<int>());
+ *                      HYDRA_EXTERNAL_NS::thrust::less<int>());
  *
  *  // output is now [1, 1, 2, 2, 5, 5]
  *  \endcode
@@ -1510,7 +1510,7 @@ OutputIterator upper_bound(ForwardIterator first,
  */
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator upper_bound(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            ForwardIterator first, 
                            ForwardIterator last,
                            InputIterator values_first, 
@@ -1550,7 +1550,7 @@ OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPo
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/functional.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -1558,7 +1558,7 @@ OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPo
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::device_vector<int> values(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> values(6);
  *  values[0] = 0; 
  *  values[1] = 1;
  *  values[2] = 2;
@@ -1566,12 +1566,12 @@ OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPo
  *  values[4] = 8;
  *  values[5] = 9;
  *
- *  thrust::device_vector<unsigned int> output(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<unsigned int> output(6);
  *
- *  thrust::upper_bound(input.begin(), input.end(),
+ *  HYDRA_EXTERNAL_NS::thrust::upper_bound(input.begin(), input.end(),
  *                      values.begin(), values.end(), 
  *                      output.begin(),
- *                      thrust::less<int>());
+ *                      HYDRA_EXTERNAL_NS::thrust::less<int>());
  *
  *  // output is now [1, 1, 2, 2, 5, 5]
  *  \endcode
@@ -1616,7 +1616,7 @@ OutputIterator upper_bound(ForwardIterator first,
  *  \pre The ranges <tt>[first,last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p binary_search
- *  to search for multiple values in a ordered range using the \p thrust::device execution policy for
+ *  to search for multiple values in a ordered range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for
  *  parallelization:
  *
  *  \code
@@ -1624,7 +1624,7 @@ OutputIterator upper_bound(ForwardIterator first,
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -1632,7 +1632,7 @@ OutputIterator upper_bound(ForwardIterator first,
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::device_vector<int> values(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> values(6);
  *  values[0] = 0; 
  *  values[1] = 1;
  *  values[2] = 2;
@@ -1640,9 +1640,9 @@ OutputIterator upper_bound(ForwardIterator first,
  *  values[4] = 8;
  *  values[5] = 9;
  *
- *  thrust::device_vector<bool> output(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<bool> output(6);
  *
- *  thrust::binary_search(thrust::device,
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(HYDRA_EXTERNAL_NS::thrust::device,
  *                        input.begin(), input.end(),
  *                        values.begin(), values.end(),
  *                        output.begin());
@@ -1657,7 +1657,7 @@ OutputIterator upper_bound(ForwardIterator first,
  */
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator binary_search(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                              ForwardIterator first, 
                              ForwardIterator last,
                              InputIterator values_first, 
@@ -1693,7 +1693,7 @@ OutputIterator binary_search(const thrust::detail::execution_policy_base<Derived
  *  #include <hydra/detail/external/thrust/binary_search.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -1701,7 +1701,7 @@ OutputIterator binary_search(const thrust::detail::execution_policy_base<Derived
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::device_vector<int> values(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> values(6);
  *  values[0] = 0; 
  *  values[1] = 1;
  *  values[2] = 2;
@@ -1709,9 +1709,9 @@ OutputIterator binary_search(const thrust::detail::execution_policy_base<Derived
  *  values[4] = 8;
  *  values[5] = 9;
  *
- *  thrust::device_vector<bool> output(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<bool> output(6);
  *
- *  thrust::binary_search(input.begin(), input.end(),
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(input.begin(), input.end(),
  *                        values.begin(), values.end(),
  *                        output.begin());
  *
@@ -1760,7 +1760,7 @@ OutputIterator binary_search(ForwardIterator first,
  *  \pre The ranges <tt>[first,last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p binary_search
- *  to search for multiple values in a ordered range using the \p thrust::device execution policy for
+ *  to search for multiple values in a ordered range using the \p HYDRA_EXTERNAL_NS::thrust::device execution policy for
  *  parallelization:
  *
  *  \code
@@ -1769,7 +1769,7 @@ OutputIterator binary_search(ForwardIterator first,
  *  #include <hydra/detail/external/thrust/functional.h>
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -1777,7 +1777,7 @@ OutputIterator binary_search(ForwardIterator first,
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::device_vector<int> values(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> values(6);
  *  values[0] = 0; 
  *  values[1] = 1;
  *  values[2] = 2;
@@ -1785,13 +1785,13 @@ OutputIterator binary_search(ForwardIterator first,
  *  values[4] = 8;
  *  values[5] = 9;
  *
- *  thrust::device_vector<bool> output(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<bool> output(6);
  *
- *  thrust::binary_search(thrust::device,
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(HYDRA_EXTERNAL_NS::thrust::device,
  *                        input.begin(), input.end(),
  *                        values.begin(), values.end(),
  *                        output.begin(),
- *                        thrust::less<T>());
+ *                        HYDRA_EXTERNAL_NS::thrust::less<T>());
  *
  *  // output is now [true, false, true, false, true, false]
  *  \endcode
@@ -1803,7 +1803,7 @@ OutputIterator binary_search(ForwardIterator first,
  */
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
 __hydra_host__ __hydra_device__
-OutputIterator binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator binary_search(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                              ForwardIterator first, 
                              ForwardIterator last,
                              InputIterator values_first, 
@@ -1844,7 +1844,7 @@ OutputIterator binary_search(const thrust::detail::execution_policy_base<Derived
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *  #include <hydra/detail/external/thrust/functional.h>
  *  ...
- *  thrust::device_vector<int> input(5);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> input(5);
  *
  *  input[0] = 0;
  *  input[1] = 2;
@@ -1852,7 +1852,7 @@ OutputIterator binary_search(const thrust::detail::execution_policy_base<Derived
  *  input[3] = 7;
  *  input[4] = 8;
  *
- *  thrust::device_vector<int> values(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> values(6);
  *  values[0] = 0; 
  *  values[1] = 1;
  *  values[2] = 2;
@@ -1860,12 +1860,12 @@ OutputIterator binary_search(const thrust::detail::execution_policy_base<Derived
  *  values[4] = 8;
  *  values[5] = 9;
  *
- *  thrust::device_vector<bool> output(6);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<bool> output(6);
  *
- *  thrust::binary_search(input.begin(), input.end(),
+ *  HYDRA_EXTERNAL_NS::thrust::binary_search(input.begin(), input.end(),
  *                        values.begin(), values.end(),
  *                        output.begin(),
- *                        thrust::less<T>());
+ *                        HYDRA_EXTERNAL_NS::thrust::less<T>());
  *
  *  // output is now [true, false, true, false, true, false]
  *  \endcode

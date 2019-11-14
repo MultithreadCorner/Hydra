@@ -71,7 +71,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \pre The resulting range shall not overlap with either input range.
  *
  *  The following code snippet demonstrates how to use
- *  \p merge to compute the merger of two sorted sets of integers using the \p thrust::host execution policy for parallelization:
+ *  \p merge to compute the merger of two sorted sets of integers using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/merge.h>
@@ -83,7 +83,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  int result[13];
  *
  *  int *result_end =
- *    thrust::merge(thrust::host,
+ *    HYDRA_EXTERNAL_NS::thrust::merge(HYDRA_EXTERNAL_NS::thrust::host,
  *                  A1, A1 + 6,
  *                  A2, A2 + 7,
  *                  result);
@@ -100,7 +100,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator merge(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator merge(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
@@ -151,7 +151,7 @@ __hydra_host__ __hydra_device__
  *
  *  int result[13];
  *
- *  int *result_end = thrust::merge(A1, A1 + 6, A2, A2 + 7, result);
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::merge(A1, A1 + 6, A2, A2 + 7, result);
  *  // result = {1, 1, 1, 2, 3, 3, 5, 5, 7, 8, 9, 11, 13}
  *  \endcode
  *
@@ -206,7 +206,7 @@ template<typename InputIterator1,
  *
  *  The following code snippet demonstrates how to use
  *  \p merge to compute the merger of two sets of integers sorted in
- *  descending order using the \p thrust::host execution policy for parallelization:
+ *  descending order using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/merge.h>
@@ -218,11 +218,11 @@ template<typename InputIterator1,
  *
  *  int result[13];
  *
- *  int *result_end = thrust::merge(thrust::host,
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::merge(HYDRA_EXTERNAL_NS::thrust::host,
  *                                  A1, A1 + 6,
  *                                  A2, A2 + 7,
  *                                  result,
- *                                  thrust::greater<int>());
+ *                                  HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // result = {13, 11, 9, 8, 7, 5, 5, 3, 3, 2, 1, 1, 1}
  *  \endcode
  *
@@ -236,7 +236,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename StrictWeakCompare>
 __hydra_host__ __hydra_device__
-  OutputIterator merge(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator merge(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator1 first1,
                        InputIterator1 last1,
                        InputIterator2 first2,
@@ -288,7 +288,7 @@ __hydra_host__ __hydra_device__
  *
  *  int result[13];
  *
- *  int *result_end = thrust::merge(A1, A1 + 6, A2, A2 + 7, result, thrust::greater<int>());
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::merge(A1, A1 + 6, A2, A2 + 7, result, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *  // result = {13, 11, 9, 8, 7, 5, 5, 3, 3, 2, 1, 1, 1}
  *  \endcode
  *
@@ -362,7 +362,7 @@ template<typename InputIterator1,
  *
  *  The following code snippet demonstrates how to use
  *  \p merge_by_key to compute the merger of two sets of integers sorted in
- *  ascending order using the \p thrust::host execution policy for parallelization:
+ *  ascending order using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/merge.h>
@@ -378,8 +378,8 @@ template<typename InputIterator1,
  *  int keys_result[13];
  *  int vals_result[13];
  *
- *  thrust::pair<int*,int*> end =
- *    thrust::merge_by_key(thrust::host,
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end =
+ *    HYDRA_EXTERNAL_NS::thrust::merge_by_key(HYDRA_EXTERNAL_NS::thrust::host,
  *                         A_keys, A_keys + 6,
  *                         B_keys, B_keys + 7,
  *                         A_vals, B_vals,
@@ -395,8 +395,8 @@ template<typename InputIterator1,
  */
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    merge_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                  InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,
                  InputIterator3 values_first1, InputIterator4 values_first2,
@@ -469,7 +469,7 @@ __hydra_host__ __hydra_device__
  *  int keys_result[13];
  *  int vals_result[13];
  *
- *  thrust::pair<int*,int*> end = thrust::merge_by_key(A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, B_vals, keys_result, vals_result);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end = HYDRA_EXTERNAL_NS::thrust::merge_by_key(A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, B_vals, keys_result, vals_result);
  *
  *  // keys_result = {1, 1, 1, 2, 3, 3, 5, 5, 7, 8, 9, 11, 13}
  *  // vals_result = {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0,  0,  1}
@@ -480,7 +480,7 @@ __hydra_host__ __hydra_device__
  *  \see \p is_sorted
  */
 template<typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     merge_by_key(InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,
                  InputIterator3 values_first1, InputIterator4 values_first2,
@@ -542,7 +542,7 @@ template<typename InputIterator1, typename InputIterator2, typename InputIterato
  *
  *  The following code snippet demonstrates how to use
  *  \p merge_by_key to compute the merger of two sets of integers sorted in
- *  descending order using the \p thrust::host execution policy for parallelization:
+ *  descending order using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/merge.h>
@@ -558,13 +558,13 @@ template<typename InputIterator1, typename InputIterator2, typename InputIterato
  *  int keys_result[13];
  *  int vals_result[13];
  *
- *  thrust::pair<int*,int*> end =
- *    thrust::merge_by_key(thrust::host,
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end =
+ *    HYDRA_EXTERNAL_NS::thrust::merge_by_key(HYDRA_EXTERNAL_NS::thrust::host,
  *                         A_keys, A_keys + 6,
  *                         B_keys, B_keys + 7,
  *                         A_vals, B_vals,
  *                         keys_result, vals_result,
- *                         thrust::greater<int>());
+ *                         HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *
  *  // keys_result = {13, 11, 9, 8, 7, 5, 5, 3, 3, 2, 1, 1, 1}
  *  // vals_result = { 1,  0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1}
@@ -576,8 +576,8 @@ template<typename InputIterator1, typename InputIterator2, typename InputIterato
  */
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename Compare>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    merge_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    merge_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                  InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,
                  InputIterator3 values_first1, InputIterator4 values_first2,
@@ -651,7 +651,7 @@ __hydra_host__ __hydra_device__
  *  int keys_result[13];
  *  int vals_result[13];
  *
- *  thrust::pair<int*,int*> end = thrust::merge_by_key(A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, B_vals, keys_result, vals_result, thrust::greater<int>());
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> end = HYDRA_EXTERNAL_NS::thrust::merge_by_key(A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, B_vals, keys_result, vals_result, HYDRA_EXTERNAL_NS::thrust::greater<int>());
  *
  *  // keys_result = {13, 11, 9, 8, 7, 5, 5, 3, 3, 2, 1, 1, 1}
  *  // vals_result = { 1,  0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1}
@@ -662,7 +662,7 @@ __hydra_host__ __hydra_device__
  *  \see \p is_sorted
  */
 template<typename InputIterator1, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator1, typename OutputIterator2, typename StrictWeakCompare>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     merge_by_key(InputIterator1 keys_first1, InputIterator1 keys_last1,
                  InputIterator2 keys_first2, InputIterator2 keys_last2,
                  InputIterator3 values_first1, InputIterator4 values_first2,
@@ -674,10 +674,10 @@ template<typename InputIterator1, typename InputIterator2, typename InputIterato
 /*! \} // merging
  */
 
-} // end thrust
-
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/merge.inl>
 

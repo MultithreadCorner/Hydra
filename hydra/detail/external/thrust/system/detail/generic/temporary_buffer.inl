@@ -32,10 +32,10 @@ namespace generic
 
 template<typename T, typename DerivedPolicy>
 __hydra_host__ __hydra_device__
-  thrust::pair<thrust::pointer<T,DerivedPolicy>, typename thrust::pointer<T,DerivedPolicy>::difference_type>
-    get_temporary_buffer(thrust::execution_policy<DerivedPolicy> &exec, typename thrust::pointer<T,DerivedPolicy>::difference_type n)
+  HYDRA_EXTERNAL_NS::thrust::pair<HYDRA_EXTERNAL_NS::thrust::pointer<T,DerivedPolicy>, typename HYDRA_EXTERNAL_NS::thrust::pointer<T,DerivedPolicy>::difference_type>
+    get_temporary_buffer(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, typename HYDRA_EXTERNAL_NS::thrust::pointer<T,DerivedPolicy>::difference_type n)
 {
-  thrust::pointer<T,DerivedPolicy> ptr = thrust::malloc<T>(exec, n);
+  HYDRA_EXTERNAL_NS::thrust::pointer<T,DerivedPolicy> ptr = HYDRA_EXTERNAL_NS::thrust::malloc<T>(exec, n);
 
   // check for a failed malloc
   if(!ptr.get())
@@ -43,21 +43,21 @@ __hydra_host__ __hydra_device__
     n = 0;
   } // end if
 
-  return thrust::make_pair(ptr, n);
+  return HYDRA_EXTERNAL_NS::thrust::make_pair(ptr, n);
 } // end get_temporary_buffer()
 
 
 template<typename DerivedPolicy, typename Pointer>
 __hydra_host__ __hydra_device__
-  void return_temporary_buffer(thrust::execution_policy<DerivedPolicy> &exec, Pointer p)
+  void return_temporary_buffer(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec, Pointer p)
 {
-  thrust::free(exec, p);
+  HYDRA_EXTERNAL_NS::thrust::free(exec, p);
 } // end return_temporary_buffer()
 
 
 } // end generic
 } // end detail
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

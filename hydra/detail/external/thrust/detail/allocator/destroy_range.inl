@@ -43,13 +43,13 @@ template<typename Allocator, typename T>
 // std::allocator::destroy's only effect is to invoke its argument's destructor
 template<typename U, typename T>
   struct has_effectful_member_destroy<std::allocator<U>, T>
-    : thrust::detail::false_type
+    : HYDRA_EXTERNAL_NS::thrust::detail::false_type
 {};
 
 // case 1: Allocator has an effectful 1-argument member function "destroy"
 template<typename Allocator, typename Pointer>
   struct enable_if_destroy_range_case1
-    : thrust::detail::enable_if<
+    : HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
         has_effectful_member_destroy<
           Allocator,
           typename pointer_element<Pointer>::type
@@ -60,7 +60,7 @@ template<typename Allocator, typename Pointer>
 // case 2: Allocator has no member function "destroy", but T has a non-trivial destructor
 template<typename Allocator, typename Pointer>
   struct enable_if_destroy_range_case2
-    : thrust::detail::enable_if<
+    : HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
         !has_effectful_member_destroy<
           Allocator,
           typename pointer_element<Pointer>::type
@@ -74,7 +74,7 @@ template<typename Allocator, typename Pointer>
 // case 3: Allocator has no member function "destroy", and T has a trivial destructor
 template<typename Allocator, typename Pointer>
   struct enable_if_destroy_range_case3
-    : thrust::detail::enable_if<
+    : HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
         !has_effectful_member_destroy<
           Allocator,
           typename pointer_element<Pointer>::type
@@ -112,7 +112,7 @@ __hydra_host__ __hydra_device__
   typename enable_if_destroy_range_case1<Allocator,Pointer>::type
     destroy_range(Allocator &a, Pointer p, Size n)
 {
-  thrust::for_each_n(allocator_system<Allocator>::get(a), p, n, destroy_via_allocator<Allocator>(a));
+  HYDRA_EXTERNAL_NS::thrust::for_each_n(allocator_system<Allocator>::get(a), p, n, destroy_via_allocator<Allocator>(a));
 }
 
 
@@ -134,7 +134,7 @@ __hydra_host__ __hydra_device__
   typename enable_if_destroy_range_case2<Allocator,Pointer>::type
     destroy_range(Allocator &a, Pointer p, Size n)
 {
-  thrust::for_each_n(allocator_system<Allocator>::get(a), p, n, gozer());
+  HYDRA_EXTERNAL_NS::thrust::for_each_n(allocator_system<Allocator>::get(a), p, n, gozer());
 }
 
 
@@ -160,6 +160,6 @@ __hydra_host__ __hydra_device__
 
 
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

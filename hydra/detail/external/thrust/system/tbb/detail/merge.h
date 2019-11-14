@@ -49,7 +49,7 @@ template <typename ExecutionPolicy,
           typename OutputIterator1,
           typename OutputIterator2,
           typename StrictWeakOrdering>
-thrust::pair<OutputIterator1,OutputIterator2>
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
   merge_by_key(execution_policy<ExecutionPolicy> &exec,
                InputIterator1 keys_first1,
                InputIterator1 keys_last1,
@@ -64,9 +64,8 @@ thrust::pair<OutputIterator1,OutputIterator2>
 } // end detail
 } // end tbb
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/tbb/detail/merge.inl>
 

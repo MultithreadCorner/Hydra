@@ -38,7 +38,7 @@ template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator stable_partition(thrust::execution_policy<ExecutionPolicy> &exec,
+  ForwardIterator stable_partition(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    Predicate pred);
@@ -48,7 +48,7 @@ template<typename ExecutionPolicy,
          typename InputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator stable_partition(thrust::execution_policy<ExecutionPolicy> &exec,
+  ForwardIterator stable_partition(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    InputIterator stencil,
@@ -61,8 +61,8 @@ template<typename ExecutionPolicy,
          typename OutputIterator2,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(thrust::execution_policy<ExecutionPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                           InputIterator first,
                           InputIterator last,
                           OutputIterator1 out_true,
@@ -77,8 +77,8 @@ template<typename ExecutionPolicy,
          typename OutputIterator2,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    stable_partition_copy(thrust::execution_policy<ExecutionPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    stable_partition_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                           InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,
@@ -91,7 +91,7 @@ template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator partition(thrust::execution_policy<ExecutionPolicy> &exec,
+  ForwardIterator partition(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred);
@@ -102,7 +102,7 @@ template<typename ExecutionPolicy,
          typename InputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator partition(thrust::execution_policy<ExecutionPolicy> &exec,
+  ForwardIterator partition(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
@@ -115,8 +115,8 @@ template<typename ExecutionPolicy,
          typename OutputIterator2,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(thrust::execution_policy<ExecutionPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                    InputIterator first,
                    InputIterator last,
                    OutputIterator1 out_true,
@@ -131,8 +131,8 @@ template<typename ExecutionPolicy,
          typename OutputIterator2,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    partition_copy(thrust::execution_policy<ExecutionPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    partition_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                    InputIterator1 first,
                    InputIterator1 last,
                    InputIterator2 stencil,
@@ -145,7 +145,7 @@ template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  ForwardIterator partition_point(thrust::execution_policy<ExecutionPolicy> &exec,
+  ForwardIterator partition_point(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Predicate pred);
@@ -155,7 +155,7 @@ template<typename ExecutionPolicy,
          typename InputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  bool is_partitioned(thrust::execution_policy<ExecutionPolicy> &exec,
+  bool is_partitioned(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred);
@@ -165,8 +165,6 @@ __hydra_host__ __hydra_device__
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/partition.inl>
 

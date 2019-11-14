@@ -58,7 +58,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *          and \p ForwardIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
  *
  *  The following code snippet demonstrates how to use \p unique to
- *  compact a sequence of numbers to remove consecutive duplicates using the \p thrust::host execution policy
+ *  compact a sequence of numbers to remove consecutive duplicates using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy
  *  for parallelization:
  *
  *  \code
@@ -67,7 +67,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  ...
  *  const int N = 7;
  *  int A[N] = {1, 3, 3, 3, 2, 2, 1};
- *  int *new_end = thrust::unique(thrust::host, A, A + N);
+ *  int *new_end = HYDRA_EXTERNAL_NS::thrust::unique(HYDRA_EXTERNAL_NS::thrust::host, A, A + N);
  *  // The first four values of A are now {1, 3, 2, 1}
  *  // Values beyond new_end are unspecified.
  *  \endcode
@@ -78,7 +78,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 template<typename DerivedPolicy,
          typename ForwardIterator>
 __hydra_host__ __hydra_device__
-ForwardIterator unique(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+ForwardIterator unique(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        ForwardIterator first,
                        ForwardIterator last);
 
@@ -110,7 +110,7 @@ ForwardIterator unique(const thrust::detail::execution_policy_base<DerivedPolicy
  *  ...
  *  const int N = 7;
  *  int A[N] = {1, 3, 3, 3, 2, 2, 1};
- *  int *new_end = thrust::unique(A, A + N);
+ *  int *new_end = HYDRA_EXTERNAL_NS::thrust::unique(A, A + N);
  *  // The first four values of A are now {1, 3, 2, 1}
  *  // Values beyond new_end are unspecified.
  *  \endcode
@@ -150,7 +150,7 @@ ForwardIterator unique(ForwardIterator first,
  *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p unique to
- *  compact a sequence of numbers to remove consecutive duplicates using the \p thrust::host execution policy
+ *  compact a sequence of numbers to remove consecutive duplicates using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy
  *  for parallelization:
  *
  *  \code
@@ -159,7 +159,7 @@ ForwardIterator unique(ForwardIterator first,
  *  ...
  *  const int N = 7;
  *  int A[N] = {1, 3, 3, 3, 2, 2, 1};
- *  int *new_end = thrust::unique(thrust::host, A, A + N, thrust::equal_to<int>());
+ *  int *new_end = HYDRA_EXTERNAL_NS::thrust::unique(HYDRA_EXTERNAL_NS::thrust::host, A, A + N, HYDRA_EXTERNAL_NS::thrust::equal_to<int>());
  *  // The first four values of A are now {1, 3, 2, 1}
  *  // Values beyond new_end are unspecified.
  *  \endcode
@@ -171,7 +171,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-ForwardIterator unique(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+ForwardIterator unique(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        ForwardIterator first,
                        ForwardIterator last,
                        BinaryPredicate binary_pred);
@@ -207,7 +207,7 @@ ForwardIterator unique(const thrust::detail::execution_policy_base<DerivedPolicy
  *  ...
  *  const int N = 7;
  *  int A[N] = {1, 3, 3, 3, 2, 2, 1};
- *  int *new_end = thrust::unique(A, A + N, thrust::equal_to<int>());
+ *  int *new_end = HYDRA_EXTERNAL_NS::thrust::unique(A, A + N, HYDRA_EXTERNAL_NS::thrust::equal_to<int>());
  *  // The first four values of A are now {1, 3, 2, 1}
  *  // Values beyond new_end are unspecified.
  *  \endcode
@@ -256,7 +256,7 @@ ForwardIterator unique(ForwardIterator first,
  *  \pre The range <tt>[first,last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p unique_copy to
- *  compact a sequence of numbers to remove consecutive duplicates using the \p thrust::host execution
+ *  compact a sequence of numbers to remove consecutive duplicates using the \p HYDRA_EXTERNAL_NS::thrust::host execution
  *  policy for parallelization:
  *
  *  \code
@@ -266,7 +266,7 @@ ForwardIterator unique(ForwardIterator first,
  *  const int N = 7;
  *  int A[N] = {1, 3, 3, 3, 2, 2, 1};
  *  int B[N];
- *  int *result_end = thrust::unique_copy(thrust::host, A, A + N, B);
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::unique_copy(HYDRA_EXTERNAL_NS::thrust::host, A, A + N, B);
  *  // The first four values of B are now {1, 3, 2, 1} and (result_end - B) is 4
  *  // Values beyond result_end are unspecified
  *  \endcode
@@ -278,7 +278,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator unique_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator unique_copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator first,
                            InputIterator last,
                            OutputIterator result);
@@ -322,7 +322,7 @@ OutputIterator unique_copy(const thrust::detail::execution_policy_base<DerivedPo
  *  const int N = 7;
  *  int A[N] = {1, 3, 3, 3, 2, 2, 1};
  *  int B[N];
- *  int *result_end = thrust::unique_copy(A, A + N, B);
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::unique_copy(A, A + N, B);
  *  // The first four values of B are now {1, 3, 2, 1} and (result_end - B) is 4
  *  // Values beyond result_end are unspecified
  *  \endcode
@@ -364,7 +364,7 @@ OutputIterator unique_copy(InputIterator first,
  *  \pre The range <tt>[first,last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p unique_copy to
- *  compact a sequence of numbers to remove consecutive duplicates using the \p thrust::host execution
+ *  compact a sequence of numbers to remove consecutive duplicates using the \p HYDRA_EXTERNAL_NS::thrust::host execution
  *  policy for parallelization:
  *
  *  \code
@@ -374,7 +374,7 @@ OutputIterator unique_copy(InputIterator first,
  *  const int N = 7;
  *  int A[N] = {1, 3, 3, 3, 2, 2, 1};
  *  int B[N];
- *  int *result_end = thrust::unique_copy(thrust::host, A, A + N, B, thrust::equal_to<int>());
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::unique_copy(HYDRA_EXTERNAL_NS::thrust::host, A, A + N, B, HYDRA_EXTERNAL_NS::thrust::equal_to<int>());
  *  // The first four values of B are now {1, 3, 2, 1} and (result_end - B) is 4
  *  // Values beyond result_end are unspecified.
  *  \endcode
@@ -387,7 +387,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-OutputIterator unique_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+OutputIterator unique_copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator first,
                            InputIterator last,
                            OutputIterator result,
@@ -425,7 +425,7 @@ OutputIterator unique_copy(const thrust::detail::execution_policy_base<DerivedPo
  *  const int N = 7;
  *  int A[N] = {1, 3, 3, 3, 2, 2, 1};
  *  int B[N];
- *  int *result_end = thrust::unique_copy(A, A + N, B, thrust::equal_to<int>());
+ *  int *result_end = HYDRA_EXTERNAL_NS::thrust::unique_copy(A, A + N, B, HYDRA_EXTERNAL_NS::thrust::equal_to<int>());
  *  // The first four values of B are now {1, 3, 2, 1} and (result_end - B) is 4
  *  // Values beyond result_end are unspecified.
  *  \endcode
@@ -474,7 +474,7 @@ OutputIterator unique_copy(InputIterator first,
  *  \pre The range <tt>[keys_first, keys_last)</tt> and the range <tt>[values_first, values_first + (keys_last - keys_first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p unique_by_key to
- *  compact a sequence of key/value pairs to remove consecutive duplicates using the \p thrust::host
+ *  compact a sequence of key/value pairs to remove consecutive duplicates using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -485,8 +485,8 @@ OutputIterator unique_copy(InputIterator first,
  *  int A[N] = {1, 3, 3, 3, 2, 2, 1}; // keys
  *  int B[N] = {9, 8, 7, 6, 5, 4, 3}; // values
  *
- *  thrust::pair<int*,int*> new_end;
- *  new_end = thrust::unique_by_key(thrust::host, A, A + N, B);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> new_end;
+ *  new_end = HYDRA_EXTERNAL_NS::thrust::unique_by_key(HYDRA_EXTERNAL_NS::thrust::host, A, A + N, B);
  *
  *  // The first four keys in A are now {1, 3, 2, 1} and new_end.first - A is 4.
  *  // The first four values in B are now {9, 8, 5, 3} and new_end.second - B is 4.
@@ -500,8 +500,8 @@ template<typename DerivedPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2>
 __hydra_host__ __hydra_device__
-  thrust::pair<ForwardIterator1,ForwardIterator2>
-  unique_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator1,ForwardIterator2>
+  unique_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator1 keys_first, 
                 ForwardIterator1 keys_last,
                 ForwardIterator2 values_first);
@@ -544,8 +544,8 @@ __hydra_host__ __hydra_device__
  *  int A[N] = {1, 3, 3, 3, 2, 2, 1}; // keys
  *  int B[N] = {9, 8, 7, 6, 5, 4, 3}; // values
  *
- *  thrust::pair<int*,int*> new_end;
- *  new_end = thrust::unique_by_key(A, A + N, B);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> new_end;
+ *  new_end = HYDRA_EXTERNAL_NS::thrust::unique_by_key(A, A + N, B);
  *
  *  // The first four keys in A are now {1, 3, 2, 1} and new_end.first - A is 4.
  *  // The first four values in B are now {9, 8, 5, 3} and new_end.second - B is 4.
@@ -557,7 +557,7 @@ __hydra_host__ __hydra_device__
  */
 template<typename ForwardIterator1,
          typename ForwardIterator2>
-  thrust::pair<ForwardIterator1,ForwardIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator1,ForwardIterator2>
   unique_by_key(ForwardIterator1 keys_first, 
                 ForwardIterator1 keys_last,
                 ForwardIterator2 values_first);
@@ -593,7 +593,7 @@ template<typename ForwardIterator1,
  *  \pre The range <tt>[keys_first, keys_last)</tt> and the range <tt>[values_first, values_first + (keys_last - keys_first))</tt> shall not overlap.
  *
  *  The following code snippet demonstrates how to use \p unique_by_key to
- *  compact a sequence of key/value pairs to remove consecutive duplicates using the \p thrust::host
+ *  compact a sequence of key/value pairs to remove consecutive duplicates using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -604,9 +604,9 @@ template<typename ForwardIterator1,
  *  int A[N] = {1, 3, 3, 3, 2, 2, 1}; // keys
  *  int B[N] = {9, 8, 7, 6, 5, 4, 3}; // values
  *
- *  thrust::pair<int*,int*> new_end;
- *  thrust::equal_to<int> binary_pred;
- *  new_end = thrust::unique_by_key(thrust::host, keys, keys + N, values, binary_pred);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> new_end;
+ *  HYDRA_EXTERNAL_NS::thrust::equal_to<int> binary_pred;
+ *  new_end = HYDRA_EXTERNAL_NS::thrust::unique_by_key(HYDRA_EXTERNAL_NS::thrust::host, keys, keys + N, values, binary_pred);
  *
  *  // The first four keys in A are now {1, 3, 2, 1} and new_end.first - A is 4.
  *  // The first four values in B are now {9, 8, 5, 3} and new_end.second - B is 4.
@@ -621,8 +621,8 @@ template<typename DerivedPolicy,
          typename ForwardIterator2,
          typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<ForwardIterator1,ForwardIterator2>
-    unique_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator1,ForwardIterator2>
+    unique_by_key(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                   ForwardIterator1 keys_first, 
                   ForwardIterator1 keys_last,
                   ForwardIterator2 values_first,
@@ -664,9 +664,9 @@ __hydra_host__ __hydra_device__
  *  int A[N] = {1, 3, 3, 3, 2, 2, 1}; // keys
  *  int B[N] = {9, 8, 7, 6, 5, 4, 3}; // values
  *
- *  thrust::pair<int*,int*> new_end;
- *  thrust::equal_to<int> binary_pred;
- *  new_end = thrust::unique_by_key(keys, keys + N, values, binary_pred);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> new_end;
+ *  HYDRA_EXTERNAL_NS::thrust::equal_to<int> binary_pred;
+ *  new_end = HYDRA_EXTERNAL_NS::thrust::unique_by_key(keys, keys + N, values, binary_pred);
  *
  *  // The first four keys in A are now {1, 3, 2, 1} and new_end.first - A is 4.
  *  // The first four values in B are now {9, 8, 5, 3} and new_end.second - B is 4.
@@ -679,7 +679,7 @@ __hydra_host__ __hydra_device__
 template<typename ForwardIterator1,
          typename ForwardIterator2,
          typename BinaryPredicate>
-  thrust::pair<ForwardIterator1,ForwardIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator1,ForwardIterator2>
   unique_by_key(ForwardIterator1 keys_first, 
                 ForwardIterator1 keys_last,
                 ForwardIterator2 values_first,
@@ -717,7 +717,7 @@ template<typename ForwardIterator1,
  *  \pre The input ranges shall not overlap either output range.
  *
  *  The following code snippet demonstrates how to use \p unique_by_key_copy to
- *  compact a sequence of key/value pairs and with equal keys using the \p thrust::host execution policy
+ *  compact a sequence of key/value pairs and with equal keys using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy
  *  for parallelization:
  *
  *  \code
@@ -730,8 +730,8 @@ template<typename ForwardIterator1,
  *  int C[N];                         // output keys
  *  int D[N];                         // output values
  *
- *  thrust::pair<int*,int*> new_end;
- *  new_end = thrust::unique_by_key_copy(thrust::host, A, A + N, B, C, D);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> new_end;
+ *  new_end = HYDRA_EXTERNAL_NS::thrust::unique_by_key_copy(HYDRA_EXTERNAL_NS::thrust::host, A, A + N, B, C, D);
  *
  *  // The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.
  *  // The first four values in D are now {9, 8, 5, 3} and new_end.second - D is 4.
@@ -747,8 +747,8 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    unique_by_key_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    unique_by_key_copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator1 keys_first, 
                        InputIterator1 keys_last,
                        InputIterator2 values_first,
@@ -794,8 +794,8 @@ __hydra_host__ __hydra_device__
  *  int C[N];                         // output keys
  *  int D[N];                         // output values
  *
- *  thrust::pair<int*,int*> new_end;
- *  new_end = thrust::unique_by_key_copy(A, A + N, B, C, D);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> new_end;
+ *  new_end = HYDRA_EXTERNAL_NS::thrust::unique_by_key_copy(A, A + N, B, C, D);
  *
  *  // The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.
  *  // The first four values in D are now {9, 8, 5, 3} and new_end.second - D is 4.
@@ -809,7 +809,7 @@ template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
   unique_by_key_copy(InputIterator1 keys_first, 
                      InputIterator1 keys_last,
                      InputIterator2 values_first,
@@ -850,7 +850,7 @@ template<typename InputIterator1,
  *  \pre The input ranges shall not overlap either output range.
  *
  *  The following code snippet demonstrates how to use \p unique_by_key_copy to
- *  compact a sequence of key/value pairs and with equal keys using the \p thrust::host execution policy for
+ *  compact a sequence of key/value pairs and with equal keys using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for
  *  parallelization:
  *
  *  \code
@@ -863,9 +863,9 @@ template<typename InputIterator1,
  *  int C[N];                         // output keys
  *  int D[N];                         // output values
  *
- *  thrust::pair<int*,int*> new_end;
- *  thrust::equal_to<int> binary_pred;
- *  new_end = thrust::unique_by_key_copy(thrust::host, A, A + N, B, C, D, binary_pred);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> new_end;
+ *  HYDRA_EXTERNAL_NS::thrust::equal_to<int> binary_pred;
+ *  new_end = HYDRA_EXTERNAL_NS::thrust::unique_by_key_copy(HYDRA_EXTERNAL_NS::thrust::host, A, A + N, B, C, D, binary_pred);
  *
  *  // The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.
  *  // The first four values in D are now {9, 8, 5, 3} and new_end.second - D is 4.
@@ -882,8 +882,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<OutputIterator1,OutputIterator2>
-    unique_by_key_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+    unique_by_key_copy(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator1 keys_first, 
                        InputIterator1 keys_last,
                        InputIterator2 values_first,
@@ -932,9 +932,9 @@ __hydra_host__ __hydra_device__
  *  int C[N];                         // output keys
  *  int D[N];                         // output values
  *
- *  thrust::pair<int*,int*> new_end;
- *  thrust::equal_to<int> binary_pred;
- *  new_end = thrust::unique_by_key_copy(A, A + N, B, C, D, binary_pred);
+ *  HYDRA_EXTERNAL_NS::thrust::pair<int*,int*> new_end;
+ *  HYDRA_EXTERNAL_NS::thrust::equal_to<int> binary_pred;
+ *  new_end = HYDRA_EXTERNAL_NS::thrust::unique_by_key_copy(A, A + N, B, C, D, binary_pred);
  *
  *  // The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.
  *  // The first four values in D are now {9, 8, 5, 3} and new_end.second - D is 4.
@@ -949,7 +949,7 @@ template<typename InputIterator1,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
   unique_by_key_copy(InputIterator1 keys_first, 
                      InputIterator1 keys_last,
                      InputIterator2 values_first,

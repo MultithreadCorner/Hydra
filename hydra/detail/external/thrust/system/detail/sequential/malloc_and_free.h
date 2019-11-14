@@ -48,7 +48,7 @@ inline __hydra_host__ __hydra_device__
 void free(sequential::execution_policy<DerivedPolicy> &, Pointer ptr)
 {
 #if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ >= 200)
-  std::free(thrust::raw_pointer_cast(ptr));
+  std::free(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(ptr));
 #endif
 } // end mallc()
 
@@ -56,6 +56,6 @@ void free(sequential::execution_policy<DerivedPolicy> &, Pointer ptr)
 } // end sequential
 } // end detail
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

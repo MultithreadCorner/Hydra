@@ -33,12 +33,31 @@ template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Generator>
 __hydra_host__ __hydra_device__
-  void generate(thrust::execution_policy<ExecutionPolicy> &exec,
+  void generate(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 Generator gen)
 {
-  thrust::for_each(exec, first, last, typename thrust::detail::generate_functor<ExecutionPolicy,Generator>::type(gen));
+  // this static assert is necessary due to a workaround in generate_functor
+  // it takes a const reference to accept temporaries from proxy iterators
+  // and then const_casts the constness away
+  //
+  // this had the weird side effect of allowing generate (and fill, and whatever
+  // else is implemented in terms of generate) to fill through const iterators.
+  // this might become unnecessary once Thrust is C++11-and-above only, since the
+  // other solution is to take an rvalue reference in a second overload of
+  // operator() of the function object, but until we support pre-11, this is a
+  // nice solution that validates the const_cast and doesn't take away any
+  // functionality.
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
+    !HYDRA_EXTERNAL_NS::thrust::detail::is_const<
+      typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
+        typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<ForwardIterator>::reference
+      >::type
+    >::value
+  , "generating to `const` iterators is not allowed"
+  );
+  HYDRA_EXTERNAL_NS::thrust::for_each(exec, first, last, typename HYDRA_EXTERNAL_NS::thrust::detail::generate_functor<ExecutionPolicy,Generator>::type(gen));
 } // end generate()
 
 template<typename ExecutionPolicy,
@@ -46,12 +65,31 @@ template<typename ExecutionPolicy,
          typename Size,
          typename Generator>
 __hydra_host__ __hydra_device__
-  OutputIterator generate_n(thrust::execution_policy<ExecutionPolicy> &exec,
+  OutputIterator generate_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                             OutputIterator first,
                             Size n,
                             Generator gen)
 {
-  return thrust::for_each_n(exec, first, n, typename thrust::detail::generate_functor<ExecutionPolicy,Generator>::type(gen));
+  // this static assert is necessary due to a workaround in generate_functor
+  // it takes a const reference to accept temporaries from proxy iterators
+  // and then const_casts the constness away
+  //
+  // this had the weird side effect of allowing generate (and fill, and whatever
+  // else is implemented in terms of generate) to fill through const iterators.
+  // this might become unnecessary once Thrust is C++11-and-above only, since the
+  // other solution is to take an rvalue reference in a second overload of
+  // operator() of the function object, but until we support pre-11, this is a
+  // nice solution that validates the const_cast and doesn't take away any
+  // functionality.
+  HYDRA_THRUST_STATIC_ASSERT_MSG(
+    !HYDRA_EXTERNAL_NS::thrust::detail::is_const<
+      typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
+        typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<OutputIterator>::reference
+      >::type
+    >::value
+  , "generating to `const` iterators is not allowed"
+  );
+  return HYDRA_EXTERNAL_NS::thrust::for_each_n(exec, first, n, typename HYDRA_EXTERNAL_NS::thrust::detail::generate_functor<ExecutionPolicy,Generator>::type(gen));
 } // end generate()
 
 } // end namespace generic

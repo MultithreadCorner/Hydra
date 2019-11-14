@@ -43,13 +43,13 @@ template<typename DerivedPolicy,
                          Predicate pred)
 {
   // omp prefers generic::copy_if to cpp::copy_if
-  return thrust::system::detail::generic::copy_if(exec, first, last, stencil, result, pred);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::copy_if(exec, first, last, stencil, result, pred);
 } // end copy_if()
 
 
 } // end detail
 } // end omp
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

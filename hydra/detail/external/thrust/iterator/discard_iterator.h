@@ -15,7 +15,7 @@
  */
 
 
-/*! \file hydra/detail/external/thrust/iterator/discard_iterator.h
+/*! \file thrust/iterator/discard_iterator.h
  *  \brief An iterator which "discards" (ignores) values assigned to it upon dereference
  */
 
@@ -25,7 +25,7 @@
 #include <hydra/detail/external/thrust/iterator/detail/discard_iterator_base.h>
 #include <hydra/detail/external/thrust/iterator/iterator_facade.h>
 
-__HYDRA_THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
+HYDRA_THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
@@ -53,9 +53,9 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/reduce.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *
- *  int main(void)
+ *  int main()
  *  {
- *    thrust::device_vector<int> keys(7), values(7);
+ *    HYDRA_EXTERNAL_NS::thrust::device_vector<int> keys(7), values(7);
  *
  *    keys[0] = 1;
  *    keys[1] = 3;
@@ -73,13 +73,13 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *    values[5] = 4;
  *    values[6] = 3;
  *
- *    thrust::device_vector<int> result(4);
+ *    HYDRA_EXTERNAL_NS::thrust::device_vector<int> result(4);
  *
  *    // we are only interested in the reduced values
  *    // use discard_iterator to ignore the output keys
- *    thrust::reduce_by_key(keys.begin(), keys.end(),
+ *    HYDRA_EXTERNAL_NS::thrust::reduce_by_key(keys.begin(), keys.end(),
  *                          values.begin(),
- *                          thrust::make_discard_iterator(),
+ *                          HYDRA_EXTERNAL_NS::thrust::make_discard_iterator(),
  *                          result.begin());
  *    
  *    // result is now [9, 21, 9, 3]
@@ -96,7 +96,7 @@ template<typename System = use_default>
 {
     /*! \cond
      */
-    friend class thrust::iterator_core_access;
+    friend class HYDRA_EXTERNAL_NS::thrust::iterator_core_access;
     typedef typename detail::discard_iterator_base<System>::type          super_t;
     typedef typename detail::discard_iterator_base<System>::incrementable incrementable;
     typedef typename detail::discard_iterator_base<System>::base_iterator base_iterator;
@@ -132,7 +132,7 @@ template<typename System = use_default>
   
   private: // Core iterator interface
     __hydra_host__ __hydra_device__
-    reference dereference(void) const
+    reference dereference() const
     {
       return m_element;
     }
@@ -166,8 +166,9 @@ discard_iterator<> make_discard_iterator(discard_iterator<>::difference_type i =
  */
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-  
+
 HYDRA_EXTERNAL_NAMESPACE_END
 
-__HYDRA_THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
+
+HYDRA_THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
 

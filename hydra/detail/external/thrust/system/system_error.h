@@ -69,10 +69,10 @@ namespace system
  *  {
  *    try
  *    {
- *      thrust::device_vector<float> vec;
- *      thrust::sort(vec.begin(), vec.end());
+ *      HYDRA_EXTERNAL_NS::thrust::device_vector<float> vec;
+ *      HYDRA_EXTERNAL_NS::thrust::sort(vec.begin(), vec.end());
  *    }
- *    catch(thrust::system_error e)
+ *    catch(HYDRA_EXTERNAL_NS::thrust::system_error e)
  *    {
  *      std::cerr << "Error inside sort: " << e.what() << std::endl;
  *      terminate_gracefully();
@@ -170,10 +170,10 @@ class system_error
 /*! \} // end system_diagnostics
  */
 
-// import names into thrust::
+// import names into HYDRA_EXTERNAL_NS::thrust::
 using system::system_error;
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

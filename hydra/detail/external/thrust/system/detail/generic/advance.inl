@@ -32,7 +32,7 @@ namespace detail
 __thrust_exec_check_disable__
 template<typename InputIterator, typename Distance>
 __hydra_host__ __hydra_device__
-void advance(InputIterator& i, Distance n, thrust::incrementable_traversal_tag)
+void advance(InputIterator& i, Distance n, HYDRA_EXTERNAL_NS::thrust::incrementable_traversal_tag)
 {
   while(n)
   {
@@ -44,7 +44,7 @@ void advance(InputIterator& i, Distance n, thrust::incrementable_traversal_tag)
 __thrust_exec_check_disable__
 template<typename InputIterator, typename Distance>
 __hydra_host__ __hydra_device__
-void advance(InputIterator& i, Distance n, thrust::random_access_traversal_tag)
+void advance(InputIterator& i, Distance n, HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag)
 {
   i += n;
 } // end advance()
@@ -56,8 +56,8 @@ __hydra_host__ __hydra_device__
 void advance(InputIterator& i, Distance n)
 {
   // dispatch on iterator traversal
-  thrust::system::detail::generic::detail::advance(i, n,
-    typename thrust::iterator_traversal<InputIterator>::type());
+  HYDRA_EXTERNAL_NS::thrust::system::detail::generic::detail::advance(i, n,
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_traversal<InputIterator>::type());
 } // end advance()
 
 } // end namespace detail

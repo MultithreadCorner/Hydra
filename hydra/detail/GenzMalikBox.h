@@ -50,13 +50,40 @@ namespace detail {
 template<size_t N>
 class GenzMalikBox;
 
+template<typename Type>
+class GenzMalikBoxResult;
+
+template<typename Type>
+__hydra_host__ __hydra_device__
+GenzMalikBoxResult<Type> operator+( GenzMalikBoxResult<Type> left, GenzMalikBoxResult<Type> const& right){
+
+	left += right;
+	return left;
+}
+
+template<typename Type, size_t N>
+__hydra_host__ __hydra_device__
+GenzMalikBoxResult<Type> operator+( GenzMalikBoxResult<Type> left, GenzMalikBox<N> const& right){
+
+	left += right;
+	return left;
+}
+
 
 struct AddResultGenzMalikBoxes
 {
+	template<typename Type>
 	__hydra_host__ __hydra_device__
-	hydra::pair<double, double> operator()( hydra::pair<double, double> const& r1,  hydra::pair<double, double> const& r2 ){
-		return hydra::make_pair(r1.first + r2.first, r1.second + r2.second);
+	GenzMalikBoxResult<Type> operator()(GenzMalikBoxResult<Type>  const& left, GenzMalikBoxResult<Type> const& right  ){
+		return left+right;
 	}
+
+	template<typename Type, size_t N>
+	__hydra_host__ __hydra_device__
+	GenzMalikBoxResult<Type> operator()(GenzMalikBoxResult<Type>  const& left, GenzMalikBox<N> const& right  ){
+			return left+right;
+	}
+
 };
 
 
@@ -67,6 +94,128 @@ struct CompareGenzMalikBoxes
 	bool operator()( detail::GenzMalikBox<N> const& box1,  detail::GenzMalikBox<N> const& box2 ){
 		return box1.GetError() < box2.GetError();
 	}
+};
+
+template<typename Type>
+class GenzMalikBoxResult
+{
+
+public:
+	GenzMalikBoxResult()=default;
+
+	__hydra_host__ __hydra_device__
+	GenzMalikBoxResult(Type integral, Type error):
+		fIntegral(integral),
+		fError(error)
+	{}
+
+
+	__hydra_host__ __hydra_device__
+	GenzMalikBoxResult( GenzMalikBoxResult<Type> const& other):
+		fIntegral(other.GetIntegral()),
+		fError(other.GetError())
+	{}
+
+	template<size_t N>
+	__hydra_host__ __hydra_device__
+	GenzMalikBoxResult( GenzMalikBox<N>const&  other):
+	fIntegral(other.GetIntegral()),
+	fError(other.GetError())
+	{}
+
+	template<size_t N>
+	__hydra_host__ __hydra_device__
+	GenzMalikBoxResult( HYDRA_EXTERNAL_NS::thrust::device_reference<const hydra::detail::GenzMalikBox<N>> other):
+	fIntegral(HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(other).GetIntegral()),
+	fError(HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(other).GetError())
+	{}
+
+
+	__hydra_host__ __hydra_device__
+	GenzMalikBoxResult<Type>& operator=( GenzMalikBoxResult<Type> const& other){
+
+		if(this==&other) return *this;
+
+		fIntegral=other.GetIntegral();
+		fError=other.GetError();
+
+		return *this;
+	}
+
+	template< size_t N>
+	__hydra_host__ __hydra_device__
+	GenzMalikBoxResult<Type>& operator=( GenzMalikBox<N> const& other){
+
+
+		fIntegral=other.GetIntegral();
+		fError=other.GetError();
+
+		return *this;
+	}
+
+	template< size_t N>
+	__hydra_host__ __hydra_device__
+	GenzMalikBoxResult<Type>& operator=(  GenzMalikBox<N> other){
+
+
+			fIntegral=other.GetIntegral();
+			fError=other.GetError();
+
+			return *this;
+	}
+
+	__hydra_host__ __hydra_device__
+	GenzMalikBoxResult<Type>& operator+=( GenzMalikBoxResult<Type> const& other){
+
+		fIntegral+=other.GetIntegral();
+		fError+=other.GetError();
+
+		return *this;
+	}
+
+	template<size_t N>
+	__hydra_host__ __hydra_device__
+	GenzMalikBoxResult<Type>& operator+=( GenzMalikBox<N> const& other){
+
+		fIntegral+=other.GetIntegral();
+		fError+=other.GetError();
+
+		return *this;
+	}
+
+
+
+	__hydra_host__ __hydra_device__
+	Type GetError() const {
+		return fError;
+	}
+
+	__hydra_host__ __hydra_device__
+	void SetError(Type error) {
+		fError = error;
+	}
+
+	__hydra_host__ __hydra_device__
+	Type GetIntegral() const {
+		return fIntegral;
+	}
+
+	__hydra_host__ __hydra_device__
+	void SetIntegral(Type integral) {
+		fIntegral = integral;
+	}
+
+	 std::pair<Type,Type> GetPair() {
+			return std::make_pair(fIntegral, fError);
+	}
+
+
+
+private:
+
+	Type fIntegral;
+	Type fError;
+
 };
 
 template<size_t N>
@@ -176,9 +325,10 @@ public:
 
 			return *this;
 	}
+
 	__hydra_host__ __hydra_device__
-	operator hydra::pair<double, double>() const {
-		return hydra::make_pair(this->fIntegral, this->fErrorSq );
+	operator GenzMalikBoxResult<double>() const {
+		return GenzMalikBoxResult<double>(this->fIntegral, this->fErrorSq );
 	}
 
 
@@ -357,6 +507,8 @@ private:
 	GInt_t  fCutAxis;
 
 };
+
+
 
 }  // namespace detail
 

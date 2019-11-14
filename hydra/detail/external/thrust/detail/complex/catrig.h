@@ -57,7 +57,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust{
 namespace detail{
 namespace complex{		      	
 
-using thrust::complex;
+using HYDRA_EXTERNAL_NS::thrust::complex;
 
 __hydra_host__ __hydra_device__
 inline void raise_inexact(){
@@ -679,7 +679,7 @@ complex<double>catan(complex<double> z)
 template <typename ValueType>
 __hydra_host__ __hydra_device__
 inline complex<ValueType> acos(const complex<ValueType>& z){
-  const complex<ValueType> ret = thrust::asin(z);
+  const complex<ValueType> ret = HYDRA_EXTERNAL_NS::thrust::asin(z);
   const ValueType pi = ValueType(3.14159265358979323846);
   return complex<ValueType>(pi/2 - ret.real(),-ret.imag());
 }
@@ -696,21 +696,21 @@ template <typename ValueType>
 __hydra_host__ __hydra_device__
 inline complex<ValueType> atan(const complex<ValueType>& z){
   const complex<ValueType> i(0,1);
-  return -i*thrust::atanh(i*z);
+  return -i*HYDRA_EXTERNAL_NS::thrust::atanh(i*z);
 }
   
 
 template <typename ValueType>
 __hydra_host__ __hydra_device__
 inline complex<ValueType> acosh(const complex<ValueType>& z){
-  thrust::complex<ValueType> ret((z.real() - z.imag()) * (z.real() + z.imag()) - ValueType(1.0),
+  HYDRA_EXTERNAL_NS::thrust::complex<ValueType> ret((z.real() - z.imag()) * (z.real() + z.imag()) - ValueType(1.0),
 				 ValueType(2.0) * z.real() * z.imag());    
-  ret = thrust::sqrt(ret);
+  ret = HYDRA_EXTERNAL_NS::thrust::sqrt(ret);
   if (z.real() < ValueType(0.0)){
     ret = -ret;
   }
   ret += z;
-  ret = thrust::log(ret);
+  ret = HYDRA_EXTERNAL_NS::thrust::log(ret);
   if (ret.real() < ValueType(0.0)){
     ret = -ret;
   }
@@ -720,7 +720,7 @@ inline complex<ValueType> acosh(const complex<ValueType>& z){
 template <typename ValueType>
 __hydra_host__ __hydra_device__
 inline complex<ValueType> asinh(const complex<ValueType>& z){
-  return thrust::log(thrust::sqrt(z*z+ValueType(1))+z);
+  return HYDRA_EXTERNAL_NS::thrust::log(HYDRA_EXTERNAL_NS::thrust::sqrt(z*z+ValueType(1))+z);
 }
   
 template <typename ValueType>
@@ -784,3 +784,4 @@ inline complex<double> atanh(const complex<double>& z){
 } // HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

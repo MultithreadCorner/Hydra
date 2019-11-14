@@ -42,20 +42,20 @@ template<typename Category>
     // convertible to host iterator?
     : eval_if<
         or_<
-          is_convertible<Category, thrust::input_host_iterator_tag>,
-          is_convertible<Category, thrust::output_host_iterator_tag>
+          is_convertible<Category, HYDRA_EXTERNAL_NS::thrust::input_host_iterator_tag>,
+          is_convertible<Category, HYDRA_EXTERNAL_NS::thrust::output_host_iterator_tag>
         >::value,
 
-        detail::identity_<thrust::host_system_tag>,
+        detail::identity_<HYDRA_EXTERNAL_NS::thrust::host_system_tag>,
         
         // convertible to device iterator?
         eval_if<
           or_<
-            is_convertible<Category, thrust::input_device_iterator_tag>,
-            is_convertible<Category, thrust::output_device_iterator_tag>
+            is_convertible<Category, HYDRA_EXTERNAL_NS::thrust::input_device_iterator_tag>,
+            is_convertible<Category, HYDRA_EXTERNAL_NS::thrust::output_device_iterator_tag>
           >::value,
 
-          detail::identity_<thrust::device_system_tag>,
+          detail::identity_<HYDRA_EXTERNAL_NS::thrust::device_system_tag>,
 
           // unknown system
           detail::identity_<void>
@@ -76,6 +76,8 @@ template<typename CategoryOrTraversal>
 }; // end iterator_category_or_traversal_to_system
 
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

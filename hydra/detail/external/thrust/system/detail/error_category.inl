@@ -74,7 +74,7 @@ bool error_category
 bool error_category
   ::operator<(const error_category &rhs) const
 {
-  return thrust::less<const error_category*>()(this,&rhs);
+  return less<const error_category*>()(this,&rhs);
 } // end error_category::operator<()
 
 
@@ -99,7 +99,9 @@ class generic_error_category
 
       // XXX strerror is not thread-safe:
       //     prefer strerror_r (which is not provided on windows)
+      HYDRA_THRUST_DISABLE_MSVC_WARNING_BEGIN(4996)
       const char *c_str = std::strerror(ev);
+      HYDRA_THRUST_DISABLE_MSVC_WARNING_END(4996)
       return c_str ? std::string(c_str) : unknown_err;
     }
 }; // end generic_category_result
@@ -230,6 +232,6 @@ const error_category &system_category(void)
 
 } // end system
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

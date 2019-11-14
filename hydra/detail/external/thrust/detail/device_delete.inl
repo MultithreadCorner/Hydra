@@ -38,11 +38,12 @@ template<typename T>
                      const size_t n)
 {
   // we can use device_allocator to destroy the range
-  thrust::detail::device_delete_allocator a;
-  thrust::detail::destroy_range(a, ptr, n);
-  thrust::device_free(ptr);
+  HYDRA_EXTERNAL_NS::thrust::detail::device_delete_allocator a;
+  HYDRA_EXTERNAL_NS::thrust::detail::destroy_range(a, ptr, n);
+  HYDRA_EXTERNAL_NS::thrust::device_free(ptr);
 } // end device_delete()
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

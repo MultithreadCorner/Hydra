@@ -45,7 +45,7 @@ struct sequence_functor
   __hydra_host__ __hydra_device__
   T operator()(Index i) const
   {
-    return init + step * i;
+    return static_cast<T>(init + step * i);
   }
 };
 
@@ -55,37 +55,37 @@ struct sequence_functor
 
 template<typename DerivedPolicy, typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  void sequence(thrust::execution_policy<DerivedPolicy> &exec,
+  void sequence(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last)
 {
-  typedef typename thrust::iterator_traits<ForwardIterator>::value_type T;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<ForwardIterator>::value_type T;
 
-  thrust::sequence(exec, first, last, T(0));
+  HYDRA_EXTERNAL_NS::thrust::sequence(exec, first, last, T(0));
 } // end sequence()
 
 
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
 __hydra_host__ __hydra_device__
-  void sequence(thrust::execution_policy<DerivedPolicy> &exec,
+  void sequence(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init)
 {
-  thrust::sequence(exec, first, last, init, T(1));
+  HYDRA_EXTERNAL_NS::thrust::sequence(exec, first, last, init, T(1));
 } // end sequence()
 
 
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
 __hydra_host__ __hydra_device__
-  void sequence(thrust::execution_policy<DerivedPolicy> &exec,
+  void sequence(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init,
                 T step)
 {
   // XXX TODO use a placeholder expression here
-  thrust::tabulate(exec, first, last, sequence_detail::sequence_functor<T>(init, step));
+  HYDRA_EXTERNAL_NS::thrust::tabulate(exec, first, last, sequence_detail::sequence_functor<T>(init, step));
 } // end sequence()
 
 

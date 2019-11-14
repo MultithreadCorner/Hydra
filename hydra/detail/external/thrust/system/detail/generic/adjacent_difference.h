@@ -36,14 +36,14 @@ namespace generic
 
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator adjacent_difference(thrust::execution_policy<DerivedPolicy> &exec,
+OutputIterator adjacent_difference(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result);
 
 
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename BinaryFunction>
 __hydra_host__ __hydra_device__
-OutputIterator adjacent_difference(thrust::execution_policy<DerivedPolicy> &exec,
+OutputIterator adjacent_difference(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op);
@@ -53,8 +53,6 @@ OutputIterator adjacent_difference(thrust::execution_policy<DerivedPolicy> &exec
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/adjacent_difference.inl>
 

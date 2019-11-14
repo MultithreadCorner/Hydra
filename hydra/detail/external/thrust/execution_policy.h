@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file hydra/detail/external/thrust/execution_policy.h
+/*! \file thrust/execution_policy.h
  *  \brief Thrust execution policies.
  */
 
@@ -25,6 +25,8 @@
 #include <hydra/detail/external/thrust/detail/execute_with_allocator.h>
 #include <hydra/detail/external/thrust/detail/seq.h>
 
+//! \cond
+
 // #include the host system's execution_policy header
 #define __HYDRA_THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER <__HYDRA_THRUST_HOST_SYSTEM_ROOT/execution_policy.h>
 #include __HYDRA_THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER
@@ -34,6 +36,8 @@
 #define __HYDRA_THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER <__HYDRA_THRUST_DEVICE_SYSTEM_ROOT/execution_policy.h>
 #include __HYDRA_THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER
 #undef __HYDRA_THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER
+
+//! \endcond
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
@@ -47,10 +51,10 @@ namespace detail
 {
 
 
-typedef thrust::system::__HYDRA_THRUST_HOST_SYSTEM_NAMESPACE::detail::par_t host_t;
+typedef HYDRA_EXTERNAL_NS::thrust::system::__HYDRA_THRUST_HOST_SYSTEM_NAMESPACE::detail::par_t host_t;
 
 
-typedef thrust::system::__HYDRA_THRUST_DEVICE_SYSTEM_NAMESPACE::detail::par_t device_t;
+typedef HYDRA_EXTERNAL_NS::thrust::system::__HYDRA_THRUST_DEVICE_SYSTEM_NAMESPACE::detail::par_t device_t;
 
 
 } // end detail
@@ -69,20 +73,20 @@ typedef thrust::system::__HYDRA_THRUST_DEVICE_SYSTEM_NAMESPACE::detail::par_t de
 // it is actually defined elsewhere
 #if 0
 /*! \p execution_policy is the base class for all Thrust parallel execution policies
- *  like \p thrust::host, \p thrust::device, and each backend system's tag type.
+ *  like \p HYDRA_EXTERNAL_NS::thrust::host, \p HYDRA_EXTERNAL_NS::thrust::device, and each backend system's tag type.
  *
  *  Custom user-defined backends should derive a policy from this type in order to
  *  interoperate with Thrust algorithm dispatch.
  *
  *  The following code snippet demonstrates how to derive a standalone custom execution policy
- *  from \p thrust::execution_policy to implement a backend which only implements \p for_each:
+ *  from \p HYDRA_EXTERNAL_NS::thrust::execution_policy to implement a backend which only implements \p for_each:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  #include <iostream>
  *
- *  // define a type derived from thrust::execution_policy to distinguish our custom execution policy:
- *  struct my_policy : thrust::execution_policy<my_policy> {};
+ *  // define a type derived from HYDRA_EXTERNAL_NS::thrust::execution_policy to distinguish our custom execution policy:
+ *  struct my_policy : HYDRA_EXTERNAL_NS::thrust::execution_policy<my_policy> {};
  *
  *  // overload for_each on my_policy
  *  template<typename Iterator, typename Function>
@@ -107,12 +111,12 @@ typedef thrust::system::__HYDRA_THRUST_DEVICE_SYSTEM_NAMESPACE::detail::par_t de
  *  {
  *    int data[4];
  *
- *    // dispatch thrust::for_each using our custom policy:
+ *    // dispatch HYDRA_EXTERNAL_NS::thrust::for_each using our custom policy:
  *    my_policy exec;
- *    thrust::for_each(exec, data, data + 4, ignore_argument());
+ *    HYDRA_EXTERNAL_NS::thrust::for_each(exec, data, data + 4, ignore_argument());
  *
- *    // can't dispatch thrust::transform because no overload exists for my_policy:
- *    //thrust::transform(exec, data, data, + 4, data, thrust::identity<int>()); // error!
+ *    // can't dispatch HYDRA_EXTERNAL_NS::thrust::transform because no overload exists for my_policy:
+ *    //HYDRA_EXTERNAL_NS::thrust::transform(exec, data, data, + 4, data, HYDRA_EXTERNAL_NS::thrust::identity<int>()); // error!
  *
  *    return 0;
  *  }
@@ -122,7 +126,7 @@ typedef thrust::system::__HYDRA_THRUST_DEVICE_SYSTEM_NAMESPACE::detail::par_t de
  *  \see device_execution_policy
  */
 template<typename DerivedPolicy>
-struct execution_policy : thrust::detail::execution_policy_base<DerivedPolicy>
+struct execution_policy : HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy>
 {};
 #endif
 
@@ -135,15 +139,15 @@ struct execution_policy : thrust::detail::execution_policy_base<DerivedPolicy>
  *  should derive a policy from this type in order to interoperate with Thrust algorithm dispatch.
  *
  *  The following code snippet demonstrates how to derive a standalone custom execution policy from
- *  \p thrust::host_execution_policy to implement a backend which specializes \p for_each while inheriting
+ *  \p HYDRA_EXTERNAL_NS::thrust::host_execution_policy to implement a backend which specializes \p for_each while inheriting
  *  the behavior of every other algorithm from the host system:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  #include <iostream>
  *
- *  // define a type derived from thrust::host_execution_policy to distinguish our custom execution policy:
- *  struct my_policy : thrust::host_execution_policy<my_policy> {};
+ *  // define a type derived from HYDRA_EXTERNAL_NS::thrust::host_execution_policy to distinguish our custom execution policy:
+ *  struct my_policy : HYDRA_EXTERNAL_NS::thrust::host_execution_policy<my_policy> {};
  *
  *  // overload for_each on my_policy
  *  template<typename Iterator, typename Function>
@@ -168,12 +172,12 @@ struct execution_policy : thrust::detail::execution_policy_base<DerivedPolicy>
  *  {
  *    int data[4];
  *
- *    // dispatch thrust::for_each using our custom policy:
+ *    // dispatch HYDRA_EXTERNAL_NS::thrust::for_each using our custom policy:
  *    my_policy exec;
- *    thrust::for_each(exec, data, data + 4, ignore_argument());
+ *    HYDRA_EXTERNAL_NS::thrust::for_each(exec, data, data + 4, ignore_argument());
  *
- *    // dispatch thrust::transform whose behavior our policy inherits
- *    thrust::transform(exec, data, data, + 4, data, thrust::identity<int>());
+ *    // dispatch HYDRA_EXTERNAL_NS::thrust::transform whose behavior our policy inherits
+ *    HYDRA_EXTERNAL_NS::thrust::transform(exec, data, data, + 4, data, HYDRA_EXTERNAL_NS::thrust::identity<int>());
  *
  *    return 0;
  *  }
@@ -184,7 +188,7 @@ struct execution_policy : thrust::detail::execution_policy_base<DerivedPolicy>
  */
 template<typename DerivedPolicy>
   struct host_execution_policy
-    : thrust::system::__HYDRA_THRUST_HOST_SYSTEM_NAMESPACE::execution_policy<DerivedPolicy>
+    : HYDRA_EXTERNAL_NS::thrust::system::__HYDRA_THRUST_HOST_SYSTEM_NAMESPACE::execution_policy<DerivedPolicy>
 {};
 
 
@@ -196,15 +200,15 @@ template<typename DerivedPolicy>
  *  should derive a policy from this type in order to interoperate with Thrust algorithm dispatch.
  *
  *  The following code snippet demonstrates how to derive a standalone custom execution policy from
- *  \p thrust::device_execution_policy to implement a backend which specializes \p for_each while inheriting
+ *  \p HYDRA_EXTERNAL_NS::thrust::device_execution_policy to implement a backend which specializes \p for_each while inheriting
  *  the behavior of every other algorithm from the device system:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/execution_policy.h>
  *  #include <iostream>
  *
- *  // define a type derived from thrust::device_execution_policy to distinguish our custom execution policy:
- *  struct my_policy : thrust::device_execution_policy<my_policy> {};
+ *  // define a type derived from HYDRA_EXTERNAL_NS::thrust::device_execution_policy to distinguish our custom execution policy:
+ *  struct my_policy : HYDRA_EXTERNAL_NS::thrust::device_execution_policy<my_policy> {};
  *
  *  // overload for_each on my_policy
  *  template<typename Iterator, typename Function>
@@ -229,12 +233,12 @@ template<typename DerivedPolicy>
  *  {
  *    int data[4];
  *
- *    // dispatch thrust::for_each using our custom policy:
+ *    // dispatch HYDRA_EXTERNAL_NS::thrust::for_each using our custom policy:
  *    my_policy exec;
- *    thrust::for_each(exec, data, data + 4, ignore_argument());
+ *    HYDRA_EXTERNAL_NS::thrust::for_each(exec, data, data + 4, ignore_argument());
  *
- *    // dispatch thrust::transform whose behavior our policy inherits
- *    thrust::transform(exec, data, data, + 4, data, thrust::identity<int>());
+ *    // dispatch HYDRA_EXTERNAL_NS::thrust::transform whose behavior our policy inherits
+ *    HYDRA_EXTERNAL_NS::thrust::transform(exec, data, data, + 4, data, HYDRA_EXTERNAL_NS::thrust::identity<int>());
  *
  *    return 0;
  *  }
@@ -245,26 +249,26 @@ template<typename DerivedPolicy>
  */
 template<typename DerivedPolicy>
   struct device_execution_policy
-    : thrust::system::__HYDRA_THRUST_DEVICE_SYSTEM_NAMESPACE::execution_policy<DerivedPolicy>
+    : HYDRA_EXTERNAL_NS::thrust::system::__HYDRA_THRUST_DEVICE_SYSTEM_NAMESPACE::execution_policy<DerivedPolicy>
 {};
 
 
-/*! \p thrust::host is the default parallel execution policy associated with Thrust's host backend system
+/*! \p HYDRA_EXTERNAL_NS::thrust::host is the default parallel execution policy associated with Thrust's host backend system
  *  configured by the \p HYDRA_THRUST_HOST_SYSTEM macro.
  *
  *  Instead of relying on implicit algorithm dispatch through iterator system tags, users may directly target
- *  algorithm dispatch at Thrust's host system by providing \p thrust::host as an algorithm parameter.
+ *  algorithm dispatch at Thrust's host system by providing \p HYDRA_EXTERNAL_NS::thrust::host as an algorithm parameter.
  *
  *  Explicit dispatch can be useful in avoiding the introduction of data copies into containers such as
- *  \p thrust::host_vector.
+ *  \p HYDRA_EXTERNAL_NS::thrust::host_vector.
  *
- *  Note that even though \p thrust::host targets the host CPU, it is a parallel execution policy. That is,
+ *  Note that even though \p HYDRA_EXTERNAL_NS::thrust::host targets the host CPU, it is a parallel execution policy. That is,
  *  the order that an algorithm invokes functors or dereferences iterators is not defined.
  *
- *  The type of \p thrust::host is implementation-defined.
+ *  The type of \p HYDRA_EXTERNAL_NS::thrust::host is implementation-defined.
  *
- *  The following code snippet demonstrates how to use \p thrust::host to explicitly dispatch an invocation
- *  of \p thrust::for_each to the host backend system:
+ *  The following code snippet demonstrates how to use \p HYDRA_EXTERNAL_NS::thrust::host to explicitly dispatch an invocation
+ *  of \p HYDRA_EXTERNAL_NS::thrust::for_each to the host backend system:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/for_each.h>
@@ -283,36 +287,36 @@ template<typename DerivedPolicy>
  *  int vec(3);
  *  vec[0] = 0; vec[1] = 1; vec[2] = 2;
  *
- *  thrust::for_each(thrust::host, vec.begin(), vec.end(), printf_functor());
+ *  HYDRA_EXTERNAL_NS::thrust::for_each(HYDRA_EXTERNAL_NS::thrust::host, vec.begin(), vec.end(), printf_functor());
  *
  *  // 0 1 2 is printed to standard output in some unspecified order
  *  \endcode
  *
  *  \see host_execution_policy
- *  \see thrust::device
+ *  \see HYDRA_EXTERNAL_NS::thrust::device
  */
 static const detail::host_t host;
 
 
-/*! \p thrust::device is the default parallel execution policy associated with Thrust's device backend system
+/*! \p HYDRA_EXTERNAL_NS::thrust::device is the default parallel execution policy associated with Thrust's device backend system
  *  configured by the \p HYDRA_THRUST_DEVICE_SYSTEM macro.
  *
  *  Instead of relying on implicit algorithm dispatch through iterator system tags, users may directly target
- *  algorithm dispatch at Thrust's device system by providing \p thrust::device as an algorithm parameter.
+ *  algorithm dispatch at Thrust's device system by providing \p HYDRA_EXTERNAL_NS::thrust::device as an algorithm parameter.
  *
  *  Explicit dispatch can be useful in avoiding the introduction of data copies into containers such as
- *  \p thrust::device_vector or to avoid wrapping e.g. raw pointers allocated by the CUDA API with types
- *  such as \p thrust::device_ptr.
+ *  \p HYDRA_EXTERNAL_NS::thrust::device_vector or to avoid wrapping e.g. raw pointers allocated by the CUDA API with types
+ *  such as \p HYDRA_EXTERNAL_NS::thrust::device_ptr.
  *
  *  The user must take care to guarantee that the iterators provided to an algorithm are compatible with
  *  the device backend system. For example, raw pointers allocated by <tt>std::malloc</tt> typically
  *  cannot be dereferenced by a GPU. For this reason, raw pointers allocated by host APIs should not be mixed
- *  with a \p thrust::device algorithm invocation when the device backend is CUDA.
+ *  with a \p HYDRA_EXTERNAL_NS::thrust::device algorithm invocation when the device backend is CUDA.
  *
- *  The type of \p thrust::device is implementation-defined.
+ *  The type of \p HYDRA_EXTERNAL_NS::thrust::device is implementation-defined.
  *
- *  The following code snippet demonstrates how to use \p thrust::device to explicitly dispatch an invocation
- *  of \p thrust::for_each to the device backend system:
+ *  The following code snippet demonstrates how to use \p HYDRA_EXTERNAL_NS::thrust::device to explicitly dispatch an invocation
+ *  of \p HYDRA_EXTERNAL_NS::thrust::for_each to the device backend system:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/for_each.h>
@@ -329,19 +333,19 @@ static const detail::host_t host;
  *    }
  *  };
  *  ...
- *  thrust::device_vector<int> vec(3);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec(3);
  *  vec[0] = 0; vec[1] = 1; vec[2] = 2;
  *
- *  thrust::for_each(thrust::device, vec.begin(), vec.end(), printf_functor());
+ *  HYDRA_EXTERNAL_NS::thrust::for_each(HYDRA_EXTERNAL_NS::thrust::device, vec.begin(), vec.end(), printf_functor());
  *
  *  // 0 1 2 is printed to standard output in some unspecified order
  *  \endcode
  *
  *  \see host_execution_policy
- *  \see thrust::device
+ *  \see HYDRA_EXTERNAL_NS::thrust::device
  */
 #ifdef __CUDA_ARCH__
-static const __hydra_device__ detail::device_t device;
+static const __device__ detail::device_t device;
 #else
 static const detail::device_t device;
 #endif
@@ -350,13 +354,13 @@ static const detail::device_t device;
 // define seq for the purpose of Doxygenating it
 // it is actually defined elsewhere
 #if 0
-/*! \p thrust::seq is an execution policy which requires an algorithm invocation to execute sequentially
+/*! \p HYDRA_EXTERNAL_NS::thrust::seq is an execution policy which requires an algorithm invocation to execute sequentially
  *  in the current thread. It can not be configured by a compile-time macro.
  *
- *  The type of \p thrust::seq is implementation-defined.
+ *  The type of \p HYDRA_EXTERNAL_NS::thrust::seq is implementation-defined.
  *
- *  The following code snippet demonstrates how to use \p thrust::seq to explicitly execute an invocation
- *  of \p thrust::for_each sequentially:
+ *  The following code snippet demonstrates how to use \p HYDRA_EXTERNAL_NS::thrust::seq to explicitly execute an invocation
+ *  of \p HYDRA_EXTERNAL_NS::thrust::for_each sequentially:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/for_each.h>
@@ -376,13 +380,13 @@ static const detail::device_t device;
  *  std::vector<int> vec(3);
  *  vec[0] = 0; vec[1] = 1; vec[2] = 2;
  *
- *  thrust::for_each(thrust::seq, vec.begin(), vec.end(), printf_functor());
+ *  HYDRA_EXTERNAL_NS::thrust::for_each(HYDRA_EXTERNAL_NS::thrust::seq, vec.begin(), vec.end(), printf_functor());
  *
  *  // 0 1 2 is printed to standard output in sequential order
  *  \endcode
  *
- *  \see thrust::host
- *  \see thrust::device
+ *  \see HYDRA_EXTERNAL_NS::thrust::host
+ *  \see HYDRA_EXTERNAL_NS::thrust::device
  */
 static const detail::seq_t seq;
 #endif
@@ -392,6 +396,8 @@ static const detail::seq_t seq;
  */
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

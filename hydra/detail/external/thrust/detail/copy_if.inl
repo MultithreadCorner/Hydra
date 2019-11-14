@@ -31,14 +31,14 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  OutputIterator copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator copy_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator first,
                          InputIterator last,
                          OutputIterator result,
                          Predicate pred)
 {
-  using thrust::system::detail::generic::copy_if;
-  return copy_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::copy_if;
+  return copy_if(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, result, pred);
 } // end copy_if()
 
 
@@ -49,15 +49,15 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  OutputIterator copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator copy_if(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator1 first,
                          InputIterator1 last,
                          InputIterator2 stencil,
                          OutputIterator result,
                          Predicate pred)
 {
-  using thrust::system::detail::generic::copy_if;
-  return copy_if(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, stencil, result, pred);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::copy_if;
+  return copy_if(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first, last, stencil, result, pred);
 } // end copy_if()
 
 
@@ -69,15 +69,15 @@ template<typename InputIterator,
                          OutputIterator result,
                          Predicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type  System1;
-  typedef typename thrust::iterator_system<OutputIterator>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type  System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::copy_if(select_system(system1,system2), first, last, result, pred);
+  return HYDRA_EXTERNAL_NS::thrust::copy_if(select_system(system1,system2), first, last, result, pred);
 } // end copy_if()
 
 
@@ -91,20 +91,21 @@ template<typename InputIterator1,
                          OutputIterator result,
                          Predicate pred)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type System3;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<OutputIterator>::type System3;
 
   System1 system1;
   System2 system2;
   System3 system3;
 
-  return thrust::copy_if(select_system(system1,system2,system3), first, last, stencil, result, pred);
+  return HYDRA_EXTERNAL_NS::thrust::copy_if(select_system(system1,system2,system3), first, last, stencil, result, pred);
 } // end copy_if()
 
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

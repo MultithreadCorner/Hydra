@@ -17,50 +17,164 @@
 
 #include <hydra/detail/external/thrust/complex.h>
 
+#include <hydra/detail/external/thrust/type_traits/is_trivially_relocatable.h>
+
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
 
 /* --- Constructors --- */
 
+#if HYDRA_THRUST_CPP_DIALECT < 2011
 template <typename T>
-inline __hydra_host__ __hydra_device__  complex<T>
-::complex(const T & re, const T& im)
+__hydra_host__ __hydra_device__
+complex<T>::complex()
+{
+  real(T());
+  imag(T());
+}
+#endif
+
+template <typename T>
+__hydra_host__ __hydra_device__
+complex<T>::complex(const T& re)
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+  // Initialize the storage in the member initializer list using C++ unicorn
+  // initialization. This allows `complex<T const>` to work.
+  : data{re, T()}
+{}
+#else
+{
+  real(re);
+  imag(T());
+}
+#endif
+
+
+template <typename T>
+__hydra_host__ __hydra_device__
+complex<T>::complex(const T& re, const T& im)
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+  // Initialize the storage in the member initializer list using C++ unicorn
+  // initialization. This allows `complex<T const>` to work.
+  : data{re, im}
+{}
+#else
 {
   real(re);
   imag(im);
-} 
+}
+#endif
+
+#if HYDRA_THRUST_CPP_DIALECT < 2011
+template <typename T>
+__hydra_host__ __hydra_device__
+complex<T>::complex(const complex<T>& z)
+{
+  real(z.real());
+  imag(z.imag());
+}
+#endif
 
 template <typename T>
-template <typename X> 
-inline __hydra_host__ __hydra_device__ complex<T>
-::complex(const complex<X> & z)
+template <typename U>
+__hydra_host__ __hydra_device__
+complex<T>::complex(const complex<U>& z)
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+  // Initialize the storage in the member initializer list using C++ unicorn
+  // initialization. This allows `complex<T const>` to work.
+  // We do a functional-style cast here to suppress conversion warnings.
+  : data{T(z.real()), T(z.imag())}
+{}
+#else
 {
-  // The explicit T() is there no prevent Visual Studio from complaining
-  // about potential loss of precision
   real(T(z.real()));
   imag(T(z.imag()));
-}  
+}
+#endif
 
 template <typename T>
-template <typename X> 
-inline __hydra_host__ complex<T>
-::complex(const std::complex<X> & z)
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
+complex<T>::complex(const std::complex<T>& z)
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+  // Initialize the storage in the member initializer list using C++ unicorn
+  // initialization. This allows `complex<T const>` to work.
+  : data{HYDRA_THRUST_STD_COMPLEX_REAL(z), HYDRA_THRUST_STD_COMPLEX_IMAG(z)}
+{}
+#else
 {
-  // The explicit T() is there no prevent Visual Studio from complaining
-  // about potential loss of precision
+  real(HYDRA_THRUST_STD_COMPLEX_REAL(z));
+  imag(HYDRA_THRUST_STD_COMPLEX_IMAG(z));
+}
+#endif
+
+template <typename T>
+template <typename U>
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
+complex<T>::complex(const std::complex<U>& z)
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+  // Initialize the storage in the member initializer list using C++ unicorn
+  // initialization. This allows `complex<T const>` to work.
+  // We do a functional-style cast here to suppress conversion warnings.
+  : data{T(HYDRA_THRUST_STD_COMPLEX_REAL(z)), T(HYDRA_THRUST_STD_COMPLEX_IMAG(z))}
+{}
+#else
+{
+  real(T(HYDRA_THRUST_STD_COMPLEX_REAL(z)));
+  imag(T(HYDRA_THRUST_STD_COMPLEX_IMAG(z)));
+}
+#endif
+
+
+
+/* --- Assignment Operators --- */
+
+template <typename T>
+__hydra_host__ __hydra_device__
+complex<T>& complex<T>::operator=(const T& re)
+{
+  real(re);
+  imag(T());
+  return *this;
+}
+
+#if HYDRA_THRUST_CPP_DIALECT < 2011
+template <typename T>
+__hydra_host__ __hydra_device__
+complex<T>& complex<T>::operator=(const complex<T>& z)
+{
+  real(z.real());
+  imag(z.imag());
+  return *this;
+}
+#endif
+
+template <typename T>
+template <typename U>
+__hydra_host__ __hydra_device__
+complex<T>& complex<T>::operator=(const complex<U>& z)
+{
   real(T(z.real()));
   imag(T(z.imag()));
-}  
+  return *this;
+}
 
 template <typename T>
-template <typename X>
-inline __hydra_host__ complex<T>
-::complex(const X (&z)[2])
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
+complex<T>& complex<T>::operator=(const std::complex<T>& z)
 {
-  // The explicit T() is there no prevent Visual Studio from complaining
-  // about potential loss of precision
-  real(T(z[0]));
-  imag(T(z[1]));
+  real(HYDRA_THRUST_STD_COMPLEX_REAL(z));
+  imag(HYDRA_THRUST_STD_COMPLEX_IMAG(z));
+  return *this;
+}
+
+template <typename T>
+template <typename U>
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
+complex<T>& complex<T>::operator=(const std::complex<U>& z)
+{
+  real(T(HYDRA_THRUST_STD_COMPLEX_REAL(z)));
+  imag(T(HYDRA_THRUST_STD_COMPLEX_IMAG(z)));
+  return *this;
 }
 
 
@@ -68,34 +182,72 @@ inline __hydra_host__ complex<T>
 /* --- Compound Assignment Operators --- */
 
 template <typename T>
-__hydra_host__ __hydra_device__  inline 
-complex<T>& complex<T>::operator+=(const complex<T> z)
+template <typename U>
+__hydra_host__ __hydra_device__
+complex<T>& complex<T>::operator+=(const complex<U>& z)
 {
-  real(real()+z.real());
-  imag(imag()+z.imag());
+  *this = *this + z;
   return *this;
 }
 
 template <typename T>
+template <typename U>
 __hydra_host__ __hydra_device__
-inline complex<T>& complex<T>::operator-=(const complex<T> z)
+complex<T>& complex<T>::operator-=(const complex<U>& z)
 {
-  real(real()-z.real());
-  imag(imag()-z.imag());
+  *this = *this - z;
   return *this;
 }
 
 template <typename T>
+template <typename U>
 __hydra_host__ __hydra_device__
-inline complex<T>& complex<T>::operator*=(const complex<T> z)
+complex<T>& complex<T>::operator*=(const complex<U>& z)
 {
   *this = *this * z;
   return *this;
 }
 
 template <typename T>
+template <typename U>
 __hydra_host__ __hydra_device__
-inline complex<T>& complex<T>::operator/=(const complex<T> z)
+complex<T>& complex<T>::operator/=(const complex<U>& z)
+{
+  *this = *this / z;
+  return *this;
+}
+
+template <typename T>
+template <typename U>
+__hydra_host__ __hydra_device__
+complex<T>& complex<T>::operator+=(const U& z)
+{
+  *this = *this + z;
+  return *this;
+}
+
+template <typename T>
+template <typename U>
+__hydra_host__ __hydra_device__
+complex<T>& complex<T>::operator-=(const U& z)
+{
+  *this = *this - z;
+  return *this;
+}
+
+template <typename T>
+template <typename U>
+__hydra_host__ __hydra_device__
+complex<T>& complex<T>::operator*=(const U& z)
+{
+  *this = *this * z;
+  return *this;
+}
+
+template <typename T>
+template <typename U>
+__hydra_host__ __hydra_device__
+complex<T>& complex<T>::operator/=(const U& z)
 {
   *this = *this / z;
   return *this;
@@ -105,54 +257,83 @@ inline complex<T>& complex<T>::operator/=(const complex<T> z)
 
 /* --- Equality Operators --- */
 
-template <typename T> 
-  __hydra_host__ __hydra_device__
-  inline bool operator==(const complex<T>& lhs, const complex<T>& rhs){
-  if(lhs.real() == rhs.real() && lhs.imag() == rhs.imag()){
-    return true;
-  }
-  return false;
+template <typename T0, typename T1>
+__hydra_host__ __hydra_device__
+bool operator==(const complex<T0>& x, const complex<T1>& y)
+{
+  return x.real() == y.real() && x.imag() == y.imag();
 }
 
-template <typename T> 
-  __hydra_host__ __hydra_device__
-  inline bool operator==(const T & lhs, const complex<T>& rhs){
-  if(lhs == rhs.real() && rhs.imag() == 0){
-    return true;
-  }
-  return false;
+template <typename T0, typename T1>
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
+bool operator==(const complex<T0>& x, const std::complex<T1>& y)
+{
+  return x.real() == HYDRA_THRUST_STD_COMPLEX_REAL(y) && x.imag() == HYDRA_THRUST_STD_COMPLEX_IMAG(y);
 }
 
-template <typename T> 
-  __hydra_host__ __hydra_device__
-  inline bool operator==(const complex<T> & lhs, const T& rhs){
-  if(lhs.real() == rhs && lhs.imag() == 0){
-    return true;
-  }
-  return false;
+template <typename T0, typename T1>
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
+bool operator==(const std::complex<T0>& x, const complex<T1>& y)
+{
+  return HYDRA_THRUST_STD_COMPLEX_REAL(x) == y.real() && HYDRA_THRUST_STD_COMPLEX_IMAG(x) == y.imag();
 }
 
-template <typename T> 
-  __hydra_host__ __hydra_device__
-  inline bool operator!=(const complex<T>& lhs, const complex<T>& rhs){
-  return !(lhs == rhs);
+template <typename T0, typename T1>
+__hydra_host__ __hydra_device__
+bool operator==(const T0& x, const complex<T1>& y)
+{
+  return x == y.real() && y.imag() == T1();
 }
 
-template <typename T> 
-  __hydra_host__ __hydra_device__
-  inline bool operator!=(const T & lhs, const complex<T>& rhs){
-  return !(lhs == rhs);
+template <typename T0, typename T1>
+__hydra_host__ __hydra_device__
+bool operator==(const complex<T0>& x, const T1& y)
+{
+  return x.real() == y && x.imag() == T1();
 }
 
-template <typename T> 
-  __hydra_host__ __hydra_device__
-  inline bool operator!=(const complex<T> & lhs, const T& rhs){
-  return !(lhs == rhs);
+template <typename T0, typename T1>
+__hydra_host__ __hydra_device__
+bool operator!=(const complex<T0>& x, const complex<T1>& y)
+{
+  return !(x == y);
 }
 
-} 
+template <typename T0, typename T1>
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
+bool operator!=(const complex<T0>& x, const std::complex<T1>& y)
+{
+  return !(x == y);
+}
+
+template <typename T0, typename T1>
+__hydra_host__ HYDRA_THRUST_STD_COMPLEX_DEVICE
+bool operator!=(const std::complex<T0>& x, const complex<T1>& y)
+{
+  return !(x == y);
+}
+
+template <typename T0, typename T1>
+__hydra_host__ __hydra_device__
+bool operator!=(const T0& x, const complex<T1>& y)
+{
+  return !(x == y);
+}
+
+template <typename T0, typename T1>
+__hydra_host__ __hydra_device__
+bool operator!=(const complex<T0>& x, const T1& y)
+{
+  return !(x == y);
+}
+
+template <typename T>
+struct proclaim_trivially_relocatable<complex<T> > : HYDRA_EXTERNAL_NS::thrust::true_type {};
+
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/complex/arithmetic.h>
 #include <hydra/detail/external/thrust/detail/complex/cproj.h>
@@ -161,7 +342,6 @@ HYDRA_EXTERNAL_NAMESPACE_END
 #include <hydra/detail/external/thrust/detail/complex/clog.h>
 #include <hydra/detail/external/thrust/detail/complex/clogf.h>
 #include <hydra/detail/external/thrust/detail/complex/cpow.h>
-#include <hydra/detail/external/thrust/detail/complex/cpowf.h>
 #include <hydra/detail/external/thrust/detail/complex/ccosh.h>
 #include <hydra/detail/external/thrust/detail/complex/ccoshf.h>
 #include <hydra/detail/external/thrust/detail/complex/csinh.h>

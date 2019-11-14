@@ -73,10 +73,10 @@ template<typename IntType>
   //     values if the range of the RNG is smaller than the range of the distribution
   //     we should improve this implementation in a later version
 
-  typedef typename thrust::detail::largest_available_float::type float_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::largest_available_float::type float_type;
 
-  const float_type real_min(parm.first);
-  const float_type real_max(parm.second);
+  const float_type real_min(static_cast<float_type>(parm.first));
+  const float_type real_max(static_cast<float_type>(parm.second));
 
   // add one to the right end of the interval because it is half-open
   // XXX adding 1.0 to a potentially large floating point number seems like a bad idea
@@ -207,7 +207,7 @@ __hydra_host__ __hydra_device__
 bool operator==(const uniform_int_distribution<IntType> &lhs,
                 const uniform_int_distribution<IntType> &rhs)
 {
-  return thrust::random::detail::random_core_access::equal(lhs,rhs);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::equal(lhs,rhs);
 }
 
 
@@ -226,7 +226,7 @@ std::basic_ostream<CharT,Traits>&
 operator<<(std::basic_ostream<CharT,Traits> &os,
            const uniform_int_distribution<IntType> &d)
 {
-  return thrust::random::detail::random_core_access::stream_out(os,d);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::stream_out(os,d);
 }
 
 
@@ -236,12 +236,14 @@ std::basic_istream<CharT,Traits>&
 operator>>(std::basic_istream<CharT,Traits> &is,
            uniform_int_distribution<IntType> &d)
 {
-  return thrust::random::detail::random_core_access::stream_in(is,d);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::stream_in(is,d);
 }
 
 
 } // end random
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

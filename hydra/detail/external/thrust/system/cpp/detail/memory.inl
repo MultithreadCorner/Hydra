@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,73 +21,34 @@
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
-
-// XXX WAR an issue with MSVC 2005 (cl v14.00) incorrectly implementing
-//     pointer_raw_pointer for pointer by specializing it here
-#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
-namespace detail
-{
-
-template<typename T>
-  struct pointer_raw_pointer< thrust::cpp::pointer<T> >
-{
-  typedef typename thrust::cpp::pointer<T>::raw_pointer type;
-}; // end pointer_raw_pointer
-
-} // end detail
-#endif
-
 namespace system
 {
 namespace cpp
 {
 
-
-template<typename T>
-  template<typename OtherT>
-    reference<T> &
-      reference<T>
-        ::operator=(const reference<OtherT> &other)
-{
-  return super_t::operator=(other);
-} // end reference::operator=()
-
-template<typename T>
-  reference<T> &
-    reference<T>
-      ::operator=(const value_type &x)
-{
-  return super_t::operator=(x);
-} // end reference::operator=()
-
-template<typename T>
-__hydra_host__ __hydra_device__
-void swap(reference<T> a, reference<T> b)
-{
-  a.swap(b);
-} // end swap()
-
 pointer<void> malloc(std::size_t n)
 {
   tag t;
-  return pointer<void>(thrust::system::detail::sequential::malloc(t, n));
+  return pointer<void>(HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::malloc(t, n));
 } // end malloc()
 
 template<typename T>
 pointer<T> malloc(std::size_t n)
 {
-  pointer<void> raw_ptr = thrust::system::cpp::malloc(sizeof(T) * n);
+  pointer<void> raw_ptr = HYDRA_EXTERNAL_NS::thrust::system::cpp::malloc(sizeof(T) * n);
   return pointer<T>(reinterpret_cast<T*>(raw_ptr.get()));
 } // end malloc()
 
 void free(pointer<void> ptr)
 {
   tag t;
-  return thrust::system::detail::sequential::free(t, ptr);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::free(t, ptr);
 } // end free()
 
 } // end cpp
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

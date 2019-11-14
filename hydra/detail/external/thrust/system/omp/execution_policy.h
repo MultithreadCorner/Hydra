@@ -16,7 +16,7 @@
 
 #pragma once
 
-/*! \file hydra/detail/external/thrust/system/omp/execution_policy.h
+/*! \file thrust/system/omp/execution_policy.h
  *  \brief Execution policies for Thrust's OpenMP system.
  */
 
@@ -89,11 +89,11 @@ namespace omp
  */
 
 
-/*! \p thrust::omp::execution_policy is the base class for all Thrust parallel execution
+/*! \p HYDRA_EXTERNAL_NS::thrust::omp::execution_policy is the base class for all Thrust parallel execution
  *  policies which are derived from Thrust's OpenMP backend system.
  */
 template<typename DerivedPolicy>
-struct execution_policy : thrust::execution_policy<DerivedPolicy>
+struct execution_policy : HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy>
 {};
 
 
@@ -101,23 +101,23 @@ struct execution_policy : thrust::execution_policy<DerivedPolicy>
  *  Iterators "tagged" with a type which is convertible to \p omp::tag assert that they may be
  *  "dispatched" to algorithm implementations in the \p omp system.
  */
-struct tag : thrust::system::omp::execution_policy<tag> { unspecified };
+struct tag : HYDRA_EXTERNAL_NS::thrust::system::omp::execution_policy<tag> { unspecified };
 
 
-/*! \p thrust::omp::par is the parallel execution policy associated with Thrust's OpenMP
+/*! \p HYDRA_EXTERNAL_NS::thrust::omp::par is the parallel execution policy associated with Thrust's OpenMP
  *  backend system.
  *
  *  Instead of relying on implicit algorithm dispatch through iterator system tags, users may
- *  directly target Thrust's OpenMP backend system by providing \p thrust::omp::par as an algorithm
+ *  directly target Thrust's OpenMP backend system by providing \p HYDRA_EXTERNAL_NS::thrust::omp::par as an algorithm
  *  parameter.
  *
  *  Explicit dispatch can be useful in avoiding the introduction of data copies into containers such
- *  as \p thrust::omp::vector.
+ *  as \p HYDRA_EXTERNAL_NS::thrust::omp::vector.
  *
- *  The type of \p thrust::omp::par is implementation-defined.
+ *  The type of \p HYDRA_EXTERNAL_NS::thrust::omp::par is implementation-defined.
  *
- *  The following code snippet demonstrates how to use \p thrust::omp::par to explicitly dispatch an
- *  invocation of \p thrust::for_each to the OpenMP backend system:
+ *  The following code snippet demonstrates how to use \p HYDRA_EXTERNAL_NS::thrust::omp::par to explicitly dispatch an
+ *  invocation of \p HYDRA_EXTERNAL_NS::thrust::for_each to the OpenMP backend system:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/for_each.h>
@@ -136,7 +136,7 @@ struct tag : thrust::system::omp::execution_policy<tag> { unspecified };
  *  int vec[3];
  *  vec[0] = 0; vec[1] = 1; vec[2] = 2;
  *
- *  thrust::for_each(thrust::omp::par, vec.begin(), vec.end(), printf_functor());
+ *  HYDRA_EXTERNAL_NS::thrust::for_each(HYDRA_EXTERNAL_NS::thrust::omp::par, vec.begin(), vec.end(), printf_functor());
  *
  *  // 0 1 2 is printed to standard output in some unspecified order
  *  \endcode
@@ -150,10 +150,8 @@ static const unspecified par;
 
 } // end cpp
 } // end system
-} // end thrust
-
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #endif
 
 

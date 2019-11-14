@@ -41,7 +41,7 @@ template<typename ExecutionPolicy,
          typename UnaryFunction,
          typename BinaryFunction>
 __hydra_host__ __hydra_device__
-  OutputIterator transform_inclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
+  OutputIterator transform_inclusive_scan(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                           InputIterator first,
                                           InputIterator last,
                                           OutputIterator result,
@@ -60,20 +60,20 @@ __hydra_host__ __hydra_device__
   // XXX upon c++0x, TemporaryType needs to be:
   // result_of_adaptable_function<UnaryFunction>::type
 
-  typedef typename thrust::detail::eval_if<
-    thrust::detail::has_result_type<UnaryFunction>::value,
-    thrust::detail::result_type<UnaryFunction>,
-    thrust::detail::eval_if<
-      thrust::detail::is_output_iterator<OutputIterator>::value,
-      thrust::iterator_value<InputIterator>,
-      thrust::iterator_value<OutputIterator>
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+    HYDRA_EXTERNAL_NS::thrust::detail::has_result_type<UnaryFunction>::value,
+    HYDRA_EXTERNAL_NS::thrust::detail::result_type<UnaryFunction>,
+    HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+      HYDRA_EXTERNAL_NS::thrust::detail::is_output_iterator<OutputIterator>::value,
+      HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator>,
+      HYDRA_EXTERNAL_NS::thrust::iterator_value<OutputIterator>
     >
   >::type ValueType;
 
-  thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _first(first, unary_op);
-  thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _last(last, unary_op);
+  HYDRA_EXTERNAL_NS::thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _first(first, unary_op);
+  HYDRA_EXTERNAL_NS::thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _last(last, unary_op);
 
-  return thrust::inclusive_scan(exec, _first, _last, result, binary_op);
+  return HYDRA_EXTERNAL_NS::thrust::inclusive_scan(exec, _first, _last, result, binary_op);
 } // end transform_inclusive_scan()
 
 
@@ -84,7 +84,7 @@ template<typename ExecutionPolicy,
          typename T,
          typename AssociativeOperator>
 __hydra_host__ __hydra_device__
-  OutputIterator transform_exclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
+  OutputIterator transform_exclusive_scan(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                           InputIterator first,
                                           InputIterator last,
                                           OutputIterator result,
@@ -104,20 +104,20 @@ __hydra_host__ __hydra_device__
   // XXX upon c++0x, TemporaryType needs to be:
   // result_of_adaptable_function<UnaryFunction>::type
 
-  typedef typename thrust::detail::eval_if<
-    thrust::detail::has_result_type<UnaryFunction>::value,
-    thrust::detail::result_type<UnaryFunction>,
-    thrust::detail::eval_if<
-      thrust::detail::is_output_iterator<OutputIterator>::value,
-      thrust::iterator_value<InputIterator>,
-      thrust::iterator_value<OutputIterator>
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+    HYDRA_EXTERNAL_NS::thrust::detail::has_result_type<UnaryFunction>::value,
+    HYDRA_EXTERNAL_NS::thrust::detail::result_type<UnaryFunction>,
+    HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+      HYDRA_EXTERNAL_NS::thrust::detail::is_output_iterator<OutputIterator>::value,
+      HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator>,
+      HYDRA_EXTERNAL_NS::thrust::iterator_value<OutputIterator>
     >
   >::type ValueType;
 
-  thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _first(first, unary_op);
-  thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _last(last, unary_op);
+  HYDRA_EXTERNAL_NS::thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _first(first, unary_op);
+  HYDRA_EXTERNAL_NS::thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _last(last, unary_op);
 
-  return thrust::exclusive_scan(exec, _first, _last, result, init, binary_op);
+  return HYDRA_EXTERNAL_NS::thrust::exclusive_scan(exec, _first, _last, result, init, binary_op);
 } // end transform_exclusive_scan()
 
 

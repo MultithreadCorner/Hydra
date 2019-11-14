@@ -126,7 +126,7 @@ struct AverageMothers
 		}
 
 	__hydra_host__      __hydra_device__ GReal_t
-	process(const GInt_t evt, Vector4R (&particles)[N+1])
+	process(size_t evt, Vector4R (&particles)[N+1])
 	{
 
 		GRND randEng( hash(evt,fSeed) );
@@ -261,7 +261,7 @@ struct AverageMothers
 
 	template<typename Tuple>
 	__hydra_host__   __hydra_device__
-	StatsPHSP operator()(Tuple& particles)
+	StatsPHSP operator()(Tuple particles)
 	{
 		typedef typename hydra::detail::tuple_type<N+1,
 						Vector4R>::type Tuple_t;

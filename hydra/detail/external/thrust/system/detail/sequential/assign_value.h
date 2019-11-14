@@ -33,12 +33,12 @@ template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
 __hydra_host__ __hydra_device__
   void assign_value(sequential::execution_policy<DerivedPolicy> &, Pointer1 dst, Pointer2 src)
 {
-  *thrust::raw_pointer_cast(dst) = *thrust::raw_pointer_cast(src);
+  *HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(dst) = *HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(src);
 } // end assign_value()
 
 } // end sequential
 } // end detail
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

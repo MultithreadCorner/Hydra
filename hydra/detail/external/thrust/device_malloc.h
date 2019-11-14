@@ -49,19 +49,19 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  ...
  *  // allocate some memory with device_malloc
  *  const int N = 100;
- *  thrust::device_ptr<void> void_ptr = thrust::device_malloc(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_ptr<void> void_ptr = HYDRA_EXTERNAL_NS::thrust::device_malloc(N);
  *
  *  // manipulate memory
  *  ...
  *
  *  // deallocate with device_free
- *  thrust::device_free(void_ptr);
+ *  HYDRA_EXTERNAL_NS::thrust::device_free(void_ptr);
  *  \endcode
  *
  *  \see device_ptr
  *  \see device_free
  */
-inline thrust::device_ptr<void> device_malloc(const std::size_t n);
+inline HYDRA_EXTERNAL_NS::thrust::device_ptr<void> device_malloc(const std::size_t n);
 
 /*! This version of \p device_malloc allocates sequential device storage for
  *  new objects of the given type.
@@ -79,26 +79,27 @@ inline thrust::device_ptr<void> device_malloc(const std::size_t n);
  *  ...
  *  // allocate some integers with device_malloc
  *  const int N = 100;
- *  thrust::device_ptr<int> int_array = thrust::device_malloc<int>(N);
+ *  HYDRA_EXTERNAL_NS::thrust::device_ptr<int> int_array = HYDRA_EXTERNAL_NS::thrust::device_malloc<int>(N);
  *
  *  // manipulate integers
  *  ...
  *
  *  // deallocate with device_free
- *  thrust::device_free(int_array);
+ *  HYDRA_EXTERNAL_NS::thrust::device_free(int_array);
  *  \endcode
  *
  *  \see device_ptr
  *  \see device_free
  */
 template<typename T>
-  inline thrust::device_ptr<T> device_malloc(const std::size_t n);
+  inline HYDRA_EXTERNAL_NS::thrust::device_ptr<T> device_malloc(const std::size_t n);
 
 /*! \}
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 #include <hydra/detail/external/thrust/detail/device_malloc.inl>
 

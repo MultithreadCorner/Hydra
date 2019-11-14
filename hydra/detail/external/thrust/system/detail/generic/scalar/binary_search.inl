@@ -44,7 +44,7 @@ RandomAccessIterator lower_bound_n(RandomAccessIterator first,
                                    BinaryPredicate comp)
 {
   // wrap comp
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     BinaryPredicate,
     bool
   > wrapped_comp(comp);
@@ -74,7 +74,7 @@ RandomAccessIterator lower_bound(RandomAccessIterator first, RandomAccessIterato
                                  const T &val,
                                  BinaryPredicate comp)
 {
-  typename thrust::iterator_difference<RandomAccessIterator>::type n = last - first;
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<RandomAccessIterator>::type n = last - first;
   return lower_bound_n(first, n, val, comp);
 }
 
@@ -86,7 +86,7 @@ RandomAccessIterator upper_bound_n(RandomAccessIterator first,
                                    BinaryPredicate comp)
 {
   // wrap comp
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     BinaryPredicate,
     bool
   > wrapped_comp(comp);
@@ -114,7 +114,7 @@ RandomAccessIterator upper_bound(RandomAccessIterator first, RandomAccessIterato
                                  const T &val,
                                  BinaryPredicate comp)
 {
-  typename thrust::iterator_difference<RandomAccessIterator>::type n = last - first;
+  typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<RandomAccessIterator>::type n = last - first;
   return upper_bound_n(first, n, val, comp);
 }
 
@@ -125,8 +125,8 @@ __hydra_host__ __hydra_device__
                 const T &val,
                 BinaryPredicate comp)
 {
-  RandomAccessIterator lb = thrust::system::detail::generic::scalar::lower_bound(first, last, val, comp);
-  return thrust::make_pair(lb, thrust::system::detail::generic::scalar::upper_bound(lb, last, val, comp));
+  RandomAccessIterator lb = HYDRA_EXTERNAL_NS::thrust::system::detail::generic::scalar::lower_bound(first, last, val, comp);
+  return HYDRA_EXTERNAL_NS::thrust::make_pair(lb, HYDRA_EXTERNAL_NS::thrust::system::detail::generic::scalar::upper_bound(lb, last, val, comp));
 }
 
 
@@ -134,10 +134,10 @@ template<typename RandomAccessIterator, typename T, typename Compare>
 __hydra_host__ __hydra_device__
 bool binary_search(RandomAccessIterator first, RandomAccessIterator last, const T &value, Compare comp)
 {
-  RandomAccessIterator iter = thrust::system::detail::generic::scalar::lower_bound(first, last, value, comp);
+  RandomAccessIterator iter = HYDRA_EXTERNAL_NS::thrust::system::detail::generic::scalar::lower_bound(first, last, value, comp);
 
   // wrap comp
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     Compare,
     bool
   > wrapped_comp(comp);
@@ -153,9 +153,7 @@ bool binary_search(RandomAccessIterator first, RandomAccessIterator last, const 
 
 } // end system
 
-} // end thrust
-
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/scalar/binary_search.inl>
 

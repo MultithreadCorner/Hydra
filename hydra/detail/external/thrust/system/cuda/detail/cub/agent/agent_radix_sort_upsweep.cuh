@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -42,7 +42,7 @@
 #include "../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  HYDRA_THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -183,7 +183,7 @@ struct AgentRadixSortUpsweep
     struct Iterate
     {
         // BucketKeys
-        static __hydra_device__ __forceinline__ void BucketKeys(
+        static __device__ __forceinline__ void BucketKeys(
             AgentRadixSortUpsweep       &cta,
             UnsignedBits                keys[KEYS_PER_THREAD])
         {
@@ -199,7 +199,7 @@ struct AgentRadixSortUpsweep
     struct Iterate<MAX, MAX>
     {
         // BucketKeys
-        static __hydra_device__ __forceinline__ void BucketKeys(AgentRadixSortUpsweep &/*cta*/, UnsignedBits /*keys*/[KEYS_PER_THREAD]) {}
+        static __device__ __forceinline__ void BucketKeys(AgentRadixSortUpsweep &/*cta*/, UnsignedBits /*keys*/[KEYS_PER_THREAD]) {}
     };
 
 
@@ -210,7 +210,7 @@ struct AgentRadixSortUpsweep
     /**
      * Decode a key and increment corresponding smem digit counter
      */
-    __hydra_device__ __forceinline__ void Bucket(UnsignedBits key)
+    __device__ __forceinline__ void Bucket(UnsignedBits key)
     {
         // Perform transform op
         UnsignedBits converted_key = Traits<KeyT>::TwiddleIn(key);
@@ -232,7 +232,7 @@ struct AgentRadixSortUpsweep
     /**
      * Reset composite counters
      */
-    __hydra_device__ __forceinline__ void ResetDigitCounters()
+    __device__ __forceinline__ void ResetDigitCounters()
     {
         #pragma unroll
         for (int LANE = 0; LANE < COUNTER_LANES; LANE++)
@@ -245,7 +245,7 @@ struct AgentRadixSortUpsweep
     /**
      * Reset the unpacked counters in each thread
      */
-    __hydra_device__ __forceinline__ void ResetUnpackedCounters()
+    __device__ __forceinline__ void ResetUnpackedCounters()
     {
         #pragma unroll
         for (int LANE = 0; LANE < LANES_PER_WARP; LANE++)
@@ -263,7 +263,7 @@ struct AgentRadixSortUpsweep
      * Extracts and aggregates the digit counters for each counter lane
      * owned by this warp
      */
-    __hydra_device__ __forceinline__ void UnpackDigitCounts()
+    __device__ __forceinline__ void UnpackDigitCounts()
     {
         unsigned int warp_id = threadIdx.x >> LOG_WARP_THREADS;
         unsigned int warp_tid = LaneId();
@@ -292,7 +292,7 @@ struct AgentRadixSortUpsweep
     /**
      * Processes a single, full tile
      */
-    __hydra_device__ __forceinline__ void ProcessFullTile(OffsetT block_offset)
+    __device__ __forceinline__ void ProcessFullTile(OffsetT block_offset)
     {
         // Tile of keys
         UnsignedBits keys[KEYS_PER_THREAD];
@@ -310,7 +310,7 @@ struct AgentRadixSortUpsweep
     /**
      * Processes a single load (may have some threads masked off)
      */
-    __hydra_device__ __forceinline__ void ProcessPartialTile(
+    __device__ __forceinline__ void ProcessPartialTile(
         OffsetT block_offset,
         const OffsetT &block_end)
     {
@@ -333,7 +333,7 @@ struct AgentRadixSortUpsweep
     /**
      * Constructor
      */
-    __hydra_device__ __forceinline__ AgentRadixSortUpsweep(
+    __device__ __forceinline__ AgentRadixSortUpsweep(
         TempStorage &temp_storage,
         const KeyT  *d_keys_in,
         int         current_bit,
@@ -349,7 +349,7 @@ struct AgentRadixSortUpsweep
     /**
      * Compute radix digit histograms from a segment of input tiles.
      */
-    __hydra_device__ __forceinline__ void ProcessRegion(
+    __device__ __forceinline__ void ProcessRegion(
         OffsetT          block_offset,
         const OffsetT    &block_end)
     {
@@ -400,7 +400,7 @@ struct AgentRadixSortUpsweep
      * Extract counts (saving them to the external array)
      */
     template <bool IS_DESCENDING>
-    __hydra_device__ __forceinline__ void ExtractCounts(
+    __device__ __forceinline__ void ExtractCounts(
         OffsetT     *counters,
         int         bin_stride = 1,
         int         bin_offset = 0)
@@ -473,7 +473,7 @@ struct AgentRadixSortUpsweep
      * Extract counts
      */
     template <int BINS_TRACKED_PER_THREAD>
-    __hydra_device__ __forceinline__ void ExtractCounts(
+    __device__ __forceinline__ void ExtractCounts(
         OffsetT (&bin_count)[BINS_TRACKED_PER_THREAD])  ///< [out] The exclusive prefix sum for the digits [(threadIdx.x * BINS_TRACKED_PER_THREAD) ... (threadIdx.x * BINS_TRACKED_PER_THREAD) + BINS_TRACKED_PER_THREAD - 1]
     {
         unsigned int warp_id    = threadIdx.x >> LOG_WARP_THREADS;
@@ -522,5 +522,5 @@ struct AgentRadixSortUpsweep
 
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+HYDRA_THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
 

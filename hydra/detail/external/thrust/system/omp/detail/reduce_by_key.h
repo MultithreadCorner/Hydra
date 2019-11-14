@@ -41,7 +41,7 @@ template <typename DerivedPolicy,
           typename OutputIterator2,
           typename BinaryPredicate,
           typename BinaryFunction>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     reduce_by_key(execution_policy<DerivedPolicy> &exec,
                   InputIterator1 keys_first, 
                   InputIterator1 keys_last,
@@ -58,6 +58,5 @@ template <typename DerivedPolicy,
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/omp/detail/reduce_by_key.inl>
 

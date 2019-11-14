@@ -51,7 +51,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *          and if \c T is \p ForwardIterator's \c value_type, then <tt>T(0)</tt> is defined.
  *
  *  The following code snippet demonstrates how to use \p sequence to fill a range
- *  with a sequence of numbers using the \p thrust::host execution policy for parallelization:
+ *  with a sequence of numbers using the \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/sequence.h>
@@ -59,7 +59,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  ...
  *  const int N = 10;
  *  int A[N];
- *  thrust::sequence(thrust::host, A, A + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::sequence(HYDRA_EXTERNAL_NS::thrust::host, A, A + 10);
  *  // A is now {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
  *  \endcode
  *
@@ -70,7 +70,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  */
 template<typename DerivedPolicy, typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  void sequence(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void sequence(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last);
 
@@ -96,7 +96,7 @@ __hydra_host__ __hydra_device__
  *  ...
  *  const int N = 10;
  *  int A[N];
- *  thrust::sequence(A, A + 10);
+ *  HYDRA_EXTERNAL_NS::thrust::sequence(A, A + 10);
  *  // A is now {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
  *  \endcode
  *
@@ -131,7 +131,7 @@ template<typename ForwardIterator>
  *          and \p T is convertible to \p ForwardIterator's \c value_type.
  *
  *  The following code snippet demonstrates how to use \p sequence to fill a range
- *  with a sequence of numbers starting from the value 1 using the \p thrust::host execution
+ *  with a sequence of numbers starting from the value 1 using the \p HYDRA_EXTERNAL_NS::thrust::host execution
  *  policy for parallelization:
  *
  *  \code
@@ -140,7 +140,7 @@ template<typename ForwardIterator>
  *  ...
  *  const int N = 10;
  *  int A[N];
- *  thrust::sequence(thrust::host, A, A + 10, 1);
+ *  HYDRA_EXTERNAL_NS::thrust::sequence(HYDRA_EXTERNAL_NS::thrust::host, A, A + 10, 1);
  *  // A is now {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
  *  \endcode
  *
@@ -151,7 +151,7 @@ template<typename ForwardIterator>
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
 __hydra_host__ __hydra_device__
-  void sequence(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void sequence(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init);
@@ -181,7 +181,7 @@ __hydra_host__ __hydra_device__
  *  ...
  *  const int N = 10;
  *  int A[N];
- *  thrust::sequence(A, A + 10, 1);
+ *  HYDRA_EXTERNAL_NS::thrust::sequence(A, A + 10, 1);
  *  // A is now {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
  *  \endcode
  *
@@ -218,7 +218,7 @@ template<typename ForwardIterator, typename T>
  *          and \p T is convertible to \p ForwardIterator's \c value_type.
  *
  *  The following code snippet demonstrates how to use \p sequence to fill a range
- *  with a sequence of numbers starting from the value 1 with a step size of 3 using the \p thrust::host
+ *  with a sequence of numbers starting from the value 1 with a step size of 3 using the \p HYDRA_EXTERNAL_NS::thrust::host
  *  execution policy for parallelization:
  *
  *  \code
@@ -227,7 +227,7 @@ template<typename ForwardIterator, typename T>
  *  ...
  *  const int N = 10;
  *  int A[N];
- *  thrust::sequence(thrust::host, A, A + 10, 1, 3);
+ *  HYDRA_EXTERNAL_NS::thrust::sequence(HYDRA_EXTERNAL_NS::thrust::host, A, A + 10, 1, 3);
  *  // A is now {1, 4, 7, 10, 13, 16, 19, 22, 25, 28}
  *  \endcode
  *
@@ -238,7 +238,7 @@ template<typename ForwardIterator, typename T>
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
 __hydra_host__ __hydra_device__
-  void sequence(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  void sequence(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 T init,
@@ -270,7 +270,7 @@ __hydra_host__ __hydra_device__
  *  ...
  *  const int N = 10;
  *  int A[N];
- *  thrust::sequence(A, A + 10, 1, 3);
+ *  HYDRA_EXTERNAL_NS::thrust::sequence(A, A + 10, 1, 3);
  *  // A is now {1, 4, 7, 10, 13, 16, 19, 22, 25, 28}
  *  \endcode
  *
@@ -293,6 +293,7 @@ template<typename ForwardIterator, typename T>
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/sequence.inl>
 

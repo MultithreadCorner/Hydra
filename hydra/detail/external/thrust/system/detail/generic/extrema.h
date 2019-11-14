@@ -37,14 +37,14 @@ namespace generic
 
 template <typename DerivedPolicy, typename ForwardIterator>
 __hydra_host__ __hydra_device__
-ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
+ForwardIterator max_element(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last);
 
 
 template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
+ForwardIterator max_element(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             BinaryPredicate comp);
@@ -52,14 +52,14 @@ ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
 
 template <typename DerivedPolicy, typename ForwardIterator>
 __hydra_host__ __hydra_device__
-ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
+ForwardIterator min_element(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last);
 
 
 template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
+ForwardIterator min_element(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             BinaryPredicate comp);
@@ -67,14 +67,14 @@ ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
 
 template <typename DerivedPolicy, typename ForwardIterator>
 __hydra_host__ __hydra_device__
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_policy<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator,ForwardIterator> minmax_element(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                                              ForwardIterator first, 
                                                              ForwardIterator last);
 
 
 template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_policy<DerivedPolicy> &exec,
+HYDRA_EXTERNAL_NS::thrust::pair<ForwardIterator,ForwardIterator> minmax_element(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                                              ForwardIterator first, 
                                                              ForwardIterator last,
                                                              BinaryPredicate comp);
@@ -84,8 +84,6 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_p
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/extrema.inl>
 

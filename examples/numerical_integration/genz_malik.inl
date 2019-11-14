@@ -87,7 +87,7 @@ int main(int argv, char** argc)
 	}
 
 	//number of dimensions (user can change it)
-	constexpr size_t N = 7;
+	constexpr size_t N = 2;
 
 	//integration region limits
 	double  min[N];

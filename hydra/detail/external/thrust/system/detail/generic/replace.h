@@ -32,7 +32,7 @@ namespace generic
 
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename Predicate, typename T>
 __hydra_host__ __hydra_device__
-  OutputIterator replace_copy_if(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator replace_copy_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                  InputIterator first,
                                  InputIterator last,
                                  OutputIterator result,
@@ -42,7 +42,7 @@ __hydra_host__ __hydra_device__
 
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate, typename T>
 __hydra_host__ __hydra_device__
-  OutputIterator replace_copy_if(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator replace_copy_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                  InputIterator1 first,
                                  InputIterator1 last,
                                  InputIterator2 stencil,
@@ -53,7 +53,7 @@ __hydra_host__ __hydra_device__
 
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename T>
 __hydra_host__ __hydra_device__
-  OutputIterator replace_copy(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator replace_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
                               OutputIterator result,
@@ -63,7 +63,7 @@ __hydra_host__ __hydra_device__
 
 template<typename DerivedPolicy, typename ForwardIterator, typename Predicate, typename T>
 __hydra_host__ __hydra_device__
-  void replace_if(thrust::execution_policy<DerivedPolicy> &exec,
+  void replace_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                   ForwardIterator first,
                   ForwardIterator last,
                   Predicate pred,
@@ -72,7 +72,7 @@ __hydra_host__ __hydra_device__
 
 template<typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename Predicate, typename T>
 __hydra_host__ __hydra_device__
-  void replace_if(thrust::execution_policy<DerivedPolicy> &exec,
+  void replace_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                   ForwardIterator first,
                   ForwardIterator last,
                   InputIterator stencil,
@@ -82,7 +82,7 @@ __hydra_host__ __hydra_device__
 
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
 __hydra_host__ __hydra_device__
-  void replace(thrust::execution_policy<DerivedPolicy> &exec,
+  void replace(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                ForwardIterator first,
                ForwardIterator last,
                const T &old_value,
@@ -93,8 +93,6 @@ __hydra_host__ __hydra_device__
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/replace.inl>
 

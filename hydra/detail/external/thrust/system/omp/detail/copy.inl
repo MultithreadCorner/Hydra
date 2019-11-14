@@ -42,9 +42,9 @@ template<typename DerivedPolicy,
                       InputIterator first,
                       InputIterator last,
                       OutputIterator result,
-                      thrust::incrementable_traversal_tag)
+                      HYDRA_EXTERNAL_NS::thrust::incrementable_traversal_tag)
 {
-  return thrust::system::detail::sequential::copy(exec, first, last, result);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::copy(exec, first, last, result);
 } // end copy()
 
 
@@ -55,9 +55,9 @@ template<typename DerivedPolicy,
                       InputIterator first,
                       InputIterator last,
                       OutputIterator result,
-                      thrust::random_access_traversal_tag)
+                      HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag)
 {
-  return thrust::system::detail::generic::copy(exec, first, last, result);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::copy(exec, first, last, result);
 } // end copy()
 
 
@@ -69,9 +69,9 @@ template<typename DerivedPolicy,
                         InputIterator first,
                         Size n,
                         OutputIterator result,
-                        thrust::incrementable_traversal_tag)
+                        HYDRA_EXTERNAL_NS::thrust::incrementable_traversal_tag)
 {
-  return thrust::system::detail::sequential::copy_n(exec, first, n, result);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::sequential::copy_n(exec, first, n, result);
 } // end copy_n()
 
 
@@ -83,9 +83,9 @@ template<typename DerivedPolicy,
                         InputIterator first,
                         Size n,
                         OutputIterator result,
-                        thrust::random_access_traversal_tag)
+                        HYDRA_EXTERNAL_NS::thrust::random_access_traversal_tag)
 {
-  return thrust::system::detail::generic::copy_n(exec, first, n, result);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::copy_n(exec, first, n, result);
 } // end copy_n()
 
 
@@ -100,13 +100,13 @@ OutputIterator copy(execution_policy<DerivedPolicy> &exec,
                     InputIterator last,
                     OutputIterator result)
 {
-  typedef typename thrust::iterator_traversal<InputIterator>::type  traversal1;
-  typedef typename thrust::iterator_traversal<OutputIterator>::type traversal2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traversal<InputIterator>::type  traversal1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traversal<OutputIterator>::type traversal2;
   
-  typedef typename thrust::detail::minimum_type<traversal1,traversal2>::type traversal;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::minimum_type<traversal1,traversal2>::type traversal;
 
   // dispatch on minimum traversal
-  return thrust::system::omp::detail::dispatch::copy(exec, first, last, result, traversal());
+  return HYDRA_EXTERNAL_NS::thrust::system::omp::detail::dispatch::copy(exec, first, last, result, traversal());
 } // end copy()
 
 
@@ -120,13 +120,13 @@ OutputIterator copy_n(execution_policy<DerivedPolicy> &exec,
                       Size n,
                       OutputIterator result)
 {
-  typedef typename thrust::iterator_traversal<InputIterator>::type  traversal1;
-  typedef typename thrust::iterator_traversal<OutputIterator>::type traversal2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traversal<InputIterator>::type  traversal1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traversal<OutputIterator>::type traversal2;
   
-  typedef typename thrust::detail::minimum_type<traversal1,traversal2>::type traversal;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::detail::minimum_type<traversal1,traversal2>::type traversal;
 
   // dispatch on minimum traversal
-  return thrust::system::omp::detail::dispatch::copy_n(exec, first, n, result, traversal());
+  return HYDRA_EXTERNAL_NS::thrust::system::omp::detail::dispatch::copy_n(exec, first, n, result, traversal());
 } // end copy_n()
 
 

@@ -39,7 +39,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator inclusive_scan_by_key(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator inclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -52,7 +52,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  OutputIterator inclusive_scan_by_key(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator inclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -67,7 +67,7 @@ template<typename DerivedPolicy,
          typename BinaryPredicate,
          typename AssociativeOperator>
 __hydra_host__ __hydra_device__
-  OutputIterator inclusive_scan_by_key(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator inclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -81,7 +81,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan_by_key(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator exclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -94,7 +94,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename T>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan_by_key(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator exclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -109,7 +109,7 @@ template<typename DerivedPolicy,
          typename T,
          typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan_by_key(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator exclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,
@@ -126,7 +126,7 @@ template<typename DerivedPolicy,
          typename BinaryPredicate,
          typename AssociativeOperator>
 __hydra_host__ __hydra_device__
-  OutputIterator exclusive_scan_by_key(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator exclusive_scan_by_key(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
                                        InputIterator2 first2,

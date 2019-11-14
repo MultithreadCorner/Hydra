@@ -30,7 +30,7 @@ inline void fill_construct_range(Allocator &a, Pointer p, Size n, const T &value
 
 
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 HYDRA_EXTERNAL_NAMESPACE_END
 #include <hydra/detail/external/thrust/detail/allocator/fill_construct_range.inl>
 

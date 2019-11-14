@@ -34,13 +34,13 @@ template<typename DerivedPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2>
 __hydra_host__ __hydra_device__
-  ForwardIterator2 swap_ranges(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  ForwardIterator2 swap_ranges(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                ForwardIterator1 first1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2)
 {
-  using thrust::system::detail::generic::swap_ranges;
-  return swap_ranges(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first1, last1, first2);
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::swap_ranges;
+  return swap_ranges(HYDRA_EXTERNAL_NS::thrust::detail::derived_cast(HYDRA_EXTERNAL_NS::thrust::detail::strip_const(exec)), first1, last1, first2);
 } // end swap_ranges()
 
 
@@ -50,18 +50,19 @@ template<typename ForwardIterator1,
                                ForwardIterator1 last1,
                                ForwardIterator2 first2)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<ForwardIterator1>::type System1;
-  typedef typename thrust::iterator_system<ForwardIterator2>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator1>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ForwardIterator2>::type System2;
 
   System1 system1;
   System2 system2;
 
-  return thrust::swap_ranges(select_system(system1,system2), first1, last1, first2);
+  return HYDRA_EXTERNAL_NS::thrust::swap_ranges(select_system(system1,system2), first1, last1, first2);
 } // end swap_ranges()
 
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

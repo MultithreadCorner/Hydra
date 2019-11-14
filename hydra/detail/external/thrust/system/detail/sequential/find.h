@@ -46,7 +46,7 @@ InputIterator find_if(execution_policy<DerivedPolicy> &,
                       Predicate pred)
 {
   // wrap pred
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     Predicate,
     bool
   > wrapped_pred(pred);

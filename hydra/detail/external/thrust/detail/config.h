@@ -19,6 +19,7 @@
 
 #pragma once
 
+
 #ifndef HYDRA_EXTERNAL_NAMESPACE_BEGIN
 #define HYDRA_EXTERNAL_NAMESPACE_BEGIN namespace hydra { namespace detail { namespace external {
 #endif //HYDRA_EXTERNAL_NAMESPACE_BEGIN
@@ -32,7 +33,17 @@
 #endif //HYDRA_EXTERNAL_NS
 
 
+
+#ifndef HYDRA_THRUST_BEGIN_NS
+#define HYDRA_THRUST_BEGIN_NS namespace thrust {
+#endif
+
+#ifndef HYDRA_THRUST_END_NS
+#define HYDRA_THRUST_END_NS }
+#endif
+
 #include <hydra/detail/external/thrust/detail/config/config.h>
+
 
 #define __hydra_host__ __host__
 

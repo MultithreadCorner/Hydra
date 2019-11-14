@@ -55,7 +55,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust{
 namespace detail{
 namespace complex{		      	
 
-using thrust::complex;
+using HYDRA_EXTERNAL_NS::thrust::complex;
 
 __hydra_host__ __hydra_device__ inline
 complex<float> csinhf(const complex<float>& z){
@@ -142,3 +142,4 @@ inline complex<float> sinh(const complex<float>& z){
 } // HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

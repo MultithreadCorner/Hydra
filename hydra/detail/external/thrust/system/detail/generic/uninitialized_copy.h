@@ -33,7 +33,7 @@ template<typename ExecutionPolicy,
          typename InputIterator,
          typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  ForwardIterator uninitialized_copy(thrust::execution_policy<ExecutionPolicy> &exec,
+  ForwardIterator uninitialized_copy(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                      InputIterator first,
                                      InputIterator last,
                                      ForwardIterator result);
@@ -43,7 +43,7 @@ template<typename ExecutionPolicy,
          typename Size,
          typename ForwardIterator>
 __hydra_host__ __hydra_device__
-  ForwardIterator uninitialized_copy_n(thrust::execution_policy<ExecutionPolicy> &exec,
+  ForwardIterator uninitialized_copy_n(HYDRA_EXTERNAL_NS::thrust::execution_policy<ExecutionPolicy> &exec,
                                        InputIterator first,
                                        Size n,
                                        ForwardIterator result);
@@ -52,8 +52,6 @@ __hydra_host__ __hydra_device__
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/uninitialized_copy.inl>
 

@@ -34,21 +34,23 @@ template<typename ElementIterator,
          typename IndexIterator>
   struct permutation_iterator_base
 {
-  typedef typename thrust::iterator_system<ElementIterator>::type System1;
-  typedef typename thrust::iterator_system<IndexIterator>::type System2;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<ElementIterator>::type System1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<IndexIterator>::type System2;
 
-  typedef thrust::iterator_adaptor<
+  typedef HYDRA_EXTERNAL_NS::thrust::iterator_adaptor<
     permutation_iterator<ElementIterator,IndexIterator>,
     IndexIterator,
-    typename thrust::iterator_value<ElementIterator>::type,
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_value<ElementIterator>::type,
     typename detail::minimum_system<System1,System2>::type,
-    thrust::use_default,
-    typename thrust::iterator_reference<ElementIterator>::type
+    HYDRA_EXTERNAL_NS::thrust::use_default,
+    typename HYDRA_EXTERNAL_NS::thrust::iterator_reference<ElementIterator>::type
   > type;
 }; // end permutation_iterator_base
 
 } // end detail
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

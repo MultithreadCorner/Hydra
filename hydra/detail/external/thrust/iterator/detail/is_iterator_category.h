@@ -28,18 +28,18 @@ namespace detail
 
 template <typename T>
   struct is_host_iterator_category
-    : thrust::detail::or_<
-        thrust::detail::is_convertible<T, thrust::input_host_iterator_tag>,
-        thrust::detail::is_convertible<T, thrust::output_host_iterator_tag>
+    : HYDRA_EXTERNAL_NS::thrust::detail::or_<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<T, HYDRA_EXTERNAL_NS::thrust::input_host_iterator_tag>,
+        HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<T, HYDRA_EXTERNAL_NS::thrust::output_host_iterator_tag>
       >
 {
 }; // end is_host_iterator_category
 
 template <typename T>
   struct is_device_iterator_category
-    : thrust::detail::or_<
-        thrust::detail::is_convertible<T, thrust::input_device_iterator_tag>,
-        thrust::detail::is_convertible<T, thrust::output_device_iterator_tag>
+    : HYDRA_EXTERNAL_NS::thrust::detail::or_<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<T, HYDRA_EXTERNAL_NS::thrust::input_device_iterator_tag>,
+        HYDRA_EXTERNAL_NS::thrust::detail::is_convertible<T, HYDRA_EXTERNAL_NS::thrust::output_device_iterator_tag>
       >
 {
 }; // end is_device_iterator_category
@@ -47,7 +47,7 @@ template <typename T>
 
 template <typename T>
   struct is_iterator_category
-    : thrust::detail::or_<
+    : HYDRA_EXTERNAL_NS::thrust::detail::or_<
         is_host_iterator_category<T>,
         is_device_iterator_category<T>
       >
@@ -56,6 +56,8 @@ template <typename T>
 
 } // end detail
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

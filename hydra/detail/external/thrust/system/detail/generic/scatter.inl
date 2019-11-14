@@ -36,17 +36,17 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename RandomAccessIterator>
 __hydra_host__ __hydra_device__
-  void scatter(thrust::execution_policy<DerivedPolicy> &exec,
+  void scatter(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                InputIterator1 first,
                InputIterator1 last,
                InputIterator2 map,
                RandomAccessIterator output)
 {
-  thrust::transform(exec,
+  HYDRA_EXTERNAL_NS::thrust::transform(exec,
                     first,
                     last,
-                    thrust::make_permutation_iterator(output, map),
-                    thrust::identity<typename thrust::iterator_value<InputIterator1>::type>());
+                    HYDRA_EXTERNAL_NS::thrust::make_permutation_iterator(output, map),
+                    HYDRA_EXTERNAL_NS::thrust::identity<typename HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator1>::type>());
 } // end scatter()
 
 
@@ -56,7 +56,7 @@ template<typename DerivedPolicy,
          typename InputIterator3,
          typename RandomAccessIterator>
 __hydra_host__ __hydra_device__
-  void scatter_if(thrust::execution_policy<DerivedPolicy> &exec,
+  void scatter_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                   InputIterator1 first,
                   InputIterator1 last,
                   InputIterator2 map,
@@ -64,8 +64,8 @@ __hydra_host__ __hydra_device__
                   RandomAccessIterator output)
 {
   // default predicate is identity
-  typedef typename thrust::iterator_value<InputIterator3>::type StencilType;
-  thrust::scatter_if(exec, first, last, map, stencil, output, thrust::identity<StencilType>());
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator3>::type StencilType;
+  HYDRA_EXTERNAL_NS::thrust::scatter_if(exec, first, last, map, stencil, output, HYDRA_EXTERNAL_NS::thrust::identity<StencilType>());
 } // end scatter_if()
 
 
@@ -76,7 +76,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  void scatter_if(thrust::execution_policy<DerivedPolicy> &exec,
+  void scatter_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                   InputIterator1 first,
                   InputIterator1 last,
                   InputIterator2 map,
@@ -84,8 +84,8 @@ __hydra_host__ __hydra_device__
                   RandomAccessIterator output,
                   Predicate pred)
 {
-  typedef typename thrust::iterator_value<InputIterator1>::type InputType;
-  thrust::transform_if(exec, first, last, stencil, thrust::make_permutation_iterator(output, map), thrust::identity<InputType>(), pred);
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator1>::type InputType;
+  HYDRA_EXTERNAL_NS::thrust::transform_if(exec, first, last, stencil, HYDRA_EXTERNAL_NS::thrust::make_permutation_iterator(output, map), HYDRA_EXTERNAL_NS::thrust::identity<InputType>(), pred);
 } // end scatter_if()
 
 
@@ -93,5 +93,4 @@ __hydra_host__ __hydra_device__
 } // end namespace detail
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-
 HYDRA_EXTERNAL_NAMESPACE_END

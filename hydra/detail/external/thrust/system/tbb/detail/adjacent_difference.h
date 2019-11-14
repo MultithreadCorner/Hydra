@@ -40,12 +40,12 @@ template<typename DerivedPolicy,
                                      BinaryFunction binary_op)
 {
   // tbb prefers generic::adjacent_difference to cpp::adjacent_difference
-  return thrust::system::detail::generic::adjacent_difference(exec, first, last, result, binary_op);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::adjacent_difference(exec, first, last, result, binary_op);
 } // end adjacent_difference()
 
 } // end detail
 } // end tbb
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

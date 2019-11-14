@@ -32,30 +32,30 @@ struct tuple_traits
 {
   using tuple_type = T;
 
-  static const size_t size = thrust::tuple_size<tuple_type>::value; 
+  static const size_t size = HYDRA_EXTERNAL_NS::thrust::tuple_size<tuple_type>::value; 
 
   template<size_t i>
-  using element_type = typename thrust::tuple_element<i,tuple_type>::type;
+  using element_type = typename HYDRA_EXTERNAL_NS::thrust::tuple_element<i,tuple_type>::type;
 
   template<size_t i>
   __TUPLE_ANNOTATION
   static element_type<i>& get(tuple_type& t)
   {
-    return thrust::get<i>(t);
+    return HYDRA_EXTERNAL_NS::thrust::get<i>(t);
   }
 
   template<size_t i>
   __TUPLE_ANNOTATION
   static const element_type<i>& get(const tuple_type& t)
   {
-    return thrust::get<i>(t);
+    return HYDRA_EXTERNAL_NS::thrust::get<i>(t);
   }
 
   template<size_t i>
   __TUPLE_ANNOTATION
   static element_type<i>&& get(tuple_type&& t)
   {
-    return thrust::get<i>(std::move(t));
+    return HYDRA_EXTERNAL_NS::thrust::get<i>(std::move(t));
   }
 };
 
@@ -88,11 +88,11 @@ template<size_t I, class Tuple1, class... Tuples>
 struct __tuple_cat_get_result
 {
   using tuple1_type = typename std::decay<Tuple1>::type;
-  static const size_t size1 = thrust::tuple_size<typename std::decay<Tuple1>::type>::value;
+  static const size_t size1 = HYDRA_EXTERNAL_NS::thrust::tuple_size<typename std::decay<Tuple1>::type>::value;
 
   using type = typename __lazy_conditional<
     (I < size1),
-    thrust::tuple_element<I,tuple1_type>,
+    HYDRA_EXTERNAL_NS::thrust::tuple_element<I,tuple1_type>,
     __tuple_cat_get_result<I - size1, Tuples...>
   >::type;
 };
@@ -100,7 +100,7 @@ struct __tuple_cat_get_result
 
 template<size_t I, class Tuple1>
 struct __tuple_cat_get_result<I,Tuple1>
-  : thrust::tuple_element<I, typename std::decay<Tuple1>::type>
+  : HYDRA_EXTERNAL_NS::thrust::tuple_element<I, typename std::decay<Tuple1>::type>
 {};
 
 
@@ -124,7 +124,7 @@ __TUPLE_ANNOTATION
 typename __tuple_cat_get_result<I,Tuple1,Tuples...>::type
   __tuple_cat_get_impl(std::true_type, Tuple1&&, Tuples&&... ts)
 {
-  const size_t J = I - thrust::tuple_size<typename std::decay<Tuple1>::type>::value;
+  const size_t J = I - HYDRA_EXTERNAL_NS::thrust::tuple_size<typename std::decay<Tuple1>::type>::value;
   return __tuple_cat_get<J>(std::forward<Tuples>(ts)...);
 }
 
@@ -135,7 +135,7 @@ typename __tuple_cat_get_result<I,Tuple1,Tuples...>::type
   __tuple_cat_get(Tuple1&& t, Tuples&&... ts)
 {
   auto recurse = typename std::conditional<
-    I < thrust::tuple_size<typename std::decay<Tuple1>::type>::value,
+    I < HYDRA_EXTERNAL_NS::thrust::tuple_size<typename std::decay<Tuple1>::type>::value,
     std::false_type,
     std::true_type
   >::type();
@@ -175,7 +175,7 @@ auto tuple_cat_apply(Function f, Tuples&&... ts)
          __make_index_sequence<
            __sum<
              0u,
-             thrust::tuple_size<typename std::decay<Tuples>::type>::value...
+             HYDRA_EXTERNAL_NS::thrust::tuple_size<typename std::decay<Tuples>::type>::value...
            >::value
          >(),
          f,
@@ -183,7 +183,7 @@ auto tuple_cat_apply(Function f, Tuples&&... ts)
        )
      )
 {
-  const size_t N = __sum<0u, thrust::tuple_size<typename std::decay<Tuples>::type>::value...>::value;
+  const size_t N = __sum<0u, HYDRA_EXTERNAL_NS::thrust::tuple_size<typename std::decay<Tuples>::type>::value...>::value;
   return __tuple_cat_apply_impl(__make_index_sequence<N>(), f, std::forward<Tuples>(ts)...);
 }
 
@@ -227,7 +227,7 @@ struct tuple_cat_result_impl
   static const size_t result_size = __sum<0u, tuple_size<Tuples>::value...>::value;
 
   using type = typename tuple_cat_result_impl_impl<
-    thrust::__make_index_sequence<result_size>,
+    HYDRA_EXTERNAL_NS::thrust::__make_index_sequence<result_size>,
     Tuples...
   >::type;
 };
@@ -257,13 +257,11 @@ tuple_cat_result<Tuples...> tuple_cat(Tuples&&... tuples)
 {
   return tuple_cat_apply(tuple_maker<tuple_cat_result<Tuples...>>{}, std::forward<Tuples>(tuples)...);
 }
-
-}
+}// end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 
 #else // HYDRA_THRUST_VARIADIC_TUPLE
-
 #include <hydra/detail/external/thrust/detail/tuple/tuple_helpers.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
@@ -359,16 +357,16 @@ struct tuple_cat_result
 } // end tuple_detail
 
 
-template<typename Tuple1 = thrust::tuple<>,
-         typename Tuple2 = thrust::tuple<>,
-         typename Tuple3 = thrust::tuple<>,
-         typename Tuple4 = thrust::tuple<>,
-         typename Tuple5 = thrust::tuple<>,
-         typename Tuple6 = thrust::tuple<>,
-         typename Tuple7 = thrust::tuple<>,
-         typename Tuple8 = thrust::tuple<>,
-         typename Tuple9 = thrust::tuple<>,
-         typename Tuple10 = thrust::tuple<> >
+template<typename Tuple1 = HYDRA_EXTERNAL_NS::thrust::tuple<>,
+         typename Tuple2 = HYDRA_EXTERNAL_NS::thrust::tuple<>,
+         typename Tuple3 = HYDRA_EXTERNAL_NS::thrust::tuple<>,
+         typename Tuple4 = HYDRA_EXTERNAL_NS::thrust::tuple<>,
+         typename Tuple5 = HYDRA_EXTERNAL_NS::thrust::tuple<>,
+         typename Tuple6 = HYDRA_EXTERNAL_NS::thrust::tuple<>,
+         typename Tuple7 = HYDRA_EXTERNAL_NS::thrust::tuple<>,
+         typename Tuple8 = HYDRA_EXTERNAL_NS::thrust::tuple<>,
+         typename Tuple9 = HYDRA_EXTERNAL_NS::thrust::tuple<>,
+         typename Tuple10 = HYDRA_EXTERNAL_NS::thrust::tuple<> >
 struct tuple_cat_enable_if
   : enable_if<
       (tuple_size<Tuple1>::value +
@@ -394,7 +392,7 @@ struct tuple_cat_enable_if
 template<typename Tuple>
 inline __hydra_host__ __hydra_device__
 typename detail::tuple_cat_enable_if<Tuple>::type
-  tuple_cat(const Tuple& t, const thrust::tuple<> &)
+  tuple_cat(const Tuple& t, const HYDRA_EXTERNAL_NS::thrust::tuple<> &)
 {
   return t;
 }
@@ -405,12 +403,12 @@ inline __hydra_host__ __hydra_device__
 typename detail::tuple_cat_enable_if<Tuple1,Tuple2>::type
   tuple_cat(const Tuple1 &t1, const Tuple2 &t2)
 {
-  typedef typename thrust::tuple_element<0,Tuple2>::type head_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0,Tuple2>::type head_type;
 
   // recurse by appending the head of t2 to t1
   // and concatenating the result with the tail of t2
-  namespace ns = thrust::detail::tuple_detail;
-  return thrust::tuple_cat(ns::tuple_append<head_type>(t1, thrust::get<0>(t2)), ns::tuple_tail(t2));
+  namespace ns = HYDRA_EXTERNAL_NS::thrust::detail::tuple_detail;
+  return HYDRA_EXTERNAL_NS::thrust::tuple_cat(ns::tuple_append<head_type>(t1, HYDRA_EXTERNAL_NS::thrust::get<0>(t2)), ns::tuple_tail(t2));
 }
 
 template<typename Tuple1, typename... Tuples>
@@ -418,10 +416,10 @@ inline __hydra_host__ __hydra_device__
 typename detail::tuple_cat_enable_if<Tuple1, Tuples...>::type
   tuple_cat(const Tuple1& t1, const Tuples&... ts)
 {
-    return thrust::tuple_cat(t1, thrust::tuple_cat(ts...));
+    return HYDRA_EXTERNAL_NS::thrust::tuple_cat(t1, HYDRA_EXTERNAL_NS::thrust::tuple_cat(ts...));
 }
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

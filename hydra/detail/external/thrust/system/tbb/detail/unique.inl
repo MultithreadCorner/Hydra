@@ -40,7 +40,7 @@ template<typename DerivedPolicy,
                          BinaryPredicate binary_pred)
 {
   // tbb prefers generic::unique to cpp::unique
-  return thrust::system::detail::generic::unique(exec,first,last,binary_pred);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::unique(exec,first,last,binary_pred);
 } // end unique()
 
 
@@ -55,7 +55,7 @@ template<typename DerivedPolicy,
                              BinaryPredicate binary_pred)
 {
   // tbb prefers generic::unique_copy to cpp::unique_copy
-  return thrust::system::detail::generic::unique_copy(exec,first,last,output,binary_pred);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::unique_copy(exec,first,last,output,binary_pred);
 } // end unique_copy()
 
 
@@ -63,5 +63,6 @@ template<typename DerivedPolicy,
 } // end namespace tbb 
 } // end namespace system
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

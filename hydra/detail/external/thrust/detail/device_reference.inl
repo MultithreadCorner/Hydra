@@ -46,11 +46,12 @@ template<typename T>
 
 template<typename T>
 __hydra_host__ __hydra_device__
-void swap(device_reference<T> &a, device_reference<T> &b)
+void swap(device_reference<T> a, device_reference<T> b)
 {
   a.swap(b);
 } // end swap()
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

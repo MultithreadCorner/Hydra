@@ -16,51 +16,50 @@
 
 #pragma once
 
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/thrust/detail/config.h>
+#include <hydra/detail/external/thrust/system/cuda/config.h>
+
 #include <hydra/detail/external/thrust/detail/raw_pointer_cast.h>
+#include <hydra/detail/external/thrust/system/cuda/detail/execution_policy.h>
 #include <hydra/detail/external/thrust/swap.h>
 
-HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
-{
-namespace system
-{
-namespace cuda
-{
-namespace detail
-{
+HYDRA_EXTERNAL_NAMESPACE_BEGIN
+
+HYDRA_THRUST_BEGIN_NS
+namespace cuda_cub {
 
 
-template<typename Pointer1, typename Pointer2>
+template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
 inline __hydra_host__ __hydra_device__
-void iter_swap(tag, Pointer1 a, Pointer2 b)
+void iter_swap(HYDRA_EXTERNAL_NS::thrust::cuda::execution_policy<DerivedPolicy> &, Pointer1 a, Pointer2 b)
 {
   // XXX war nvbugs/881631
   struct war_nvbugs_881631
   {
     __hydra_host__ inline static void host_path(Pointer1 a, Pointer2 b)
     {
-      thrust::swap_ranges(a, a + 1, b);
+      HYDRA_EXTERNAL_NS::thrust::swap_ranges(a, a + 1, b);
     }
 
-    __hydra_device__ inline static void device_path(Pointer1 a, Pointer2 b)
+    __device__ inline static void device_path(Pointer1 a, Pointer2 b)
     {
-      using thrust::swap;
-      swap(*thrust::raw_pointer_cast(a),
-           *thrust::raw_pointer_cast(b));
+      using HYDRA_EXTERNAL_NS::thrust::swap;
+      swap(*HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(a),
+           *HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(b));
     }
   };
 
 #ifndef __CUDA_ARCH__
-  return war_nvbugs_881631::host_path(a,b);
+  return war_nvbugs_881631::host_path(a, b);
 #else
-  return war_nvbugs_881631::device_path(a,b);
+  return war_nvbugs_881631::device_path(a, b);
 #endif // __CUDA_ARCH__
 } // end iter_swap()
 
 
-} // end detail
-} // end cuda
-} // end system
-} // end thrust
+} // end cuda_cub
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END
+#endif

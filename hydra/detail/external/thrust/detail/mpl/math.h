@@ -172,4 +172,6 @@ template<typename result_type, result_type x>
 
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
+
 HYDRA_EXTERNAL_NAMESPACE_END
+

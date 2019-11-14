@@ -339,6 +339,22 @@ public:
 		HYDRA_EXTERNAL_NS::thrust::copy(first, last, this->begin());
 	}
 
+	template<typename Iterable, typename T=	typename  std::enable_if< detail::is_iterable<Iterable>::value>::type>
+	Decays( Iterable&& other )
+	{
+			size_t n = HYDRA_EXTERNAL_NS::thrust::distance(
+					std::forward<Iterable>(other).begin(),
+					std::forward<Iterable>(other).end() );
+
+
+			for( size_t i=0; i<N; i++)
+				fDecays[i].resize(n);
+			fWeights.resize(n);
+
+			HYDRA_EXTERNAL_NS::thrust::copy(std::forward<Iterable>(other).begin(),
+					std::forward<Iterable>(other).end(), this->begin());
+	}
+
 	/**
 	 * Assignment operator.
 	 * @param other
@@ -544,7 +560,8 @@ public:
 	 *
 	 * @return index of last unweighted event.
 	 */
-	size_t Unweight(GUInt_t scale=1.0, size_t seed=159753654);
+	hydra::Range<typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator>
+	Unweight(GUInt_t scale=1.0, size_t seed=154);
 
 	/**
 	 * Get a range pointing to a set of unweighted events.
@@ -605,7 +622,8 @@ public:
 	 * particles.
 	 */
 	template<typename FUNCTOR>
-	size_t Unweight( FUNCTOR  const& functor, GUInt_t scale, size_t seed=159753654);
+	hydra::Range<typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator>
+	Unweight( FUNCTOR  const& functor, GUInt_t scale, size_t seed=159753654);
 
 	/**
 	 * Recalculates the events weights according with @functor;
@@ -737,6 +755,15 @@ public:
 		__insert( _pos, _first, _last );
 
 	}
+
+	template<typename Iterable>
+	typename std::enable_if<detail::is_iterable<Iterable>::value, void>::type
+	insert(iterator position, Iterable range){
+
+		insert(position, range.begin(), range.end());
+	}
+
+
 
 	reference front(){	return this->begin()[0];}
 

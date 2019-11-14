@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -43,7 +43,7 @@
 #include "../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  HYDRA_THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -68,13 +68,13 @@ struct BlockScanRunningPrefixOp
     T           running_total;      ///< Running block-wide prefix
 
     /// Constructor
-    __hydra_device__ __forceinline__ BlockScanRunningPrefixOp(ScanOpT op)
+    __device__ __forceinline__ BlockScanRunningPrefixOp(ScanOpT op)
     :
         op(op)
     {}
 
     /// Constructor
-    __hydra_device__ __forceinline__ BlockScanRunningPrefixOp(
+    __device__ __forceinline__ BlockScanRunningPrefixOp(
         T starting_prefix,
         ScanOpT op)
     :
@@ -85,7 +85,7 @@ struct BlockScanRunningPrefixOp
     /**
      * Prefix callback operator.  Returns the block-wide running_total in thread-0.
      */
-    __hydra_device__ __forceinline__ T operator()(
+    __device__ __forceinline__ T operator()(
         const T &block_aggregate)              ///< The aggregate sum of the BlockScan inputs
     {
         T retval = running_total;
@@ -202,7 +202,7 @@ struct ScanTileState<T, true>
     /**
      * Initialize (from device)
      */
-    __hydra_device__ __forceinline__ void InitializeStatus(int num_tiles)
+    __device__ __forceinline__ void InitializeStatus(int num_tiles)
     {
         int tile_idx = (blockIdx.x * blockDim.x) + threadIdx.x;
 
@@ -228,7 +228,7 @@ struct ScanTileState<T, true>
     /**
      * Update the specified tile's inclusive value and corresponding status
      */
-    __hydra_device__ __forceinline__ void SetInclusive(int tile_idx, T tile_inclusive)
+    __device__ __forceinline__ void SetInclusive(int tile_idx, T tile_inclusive)
     {
         TileDescriptor tile_descriptor;
         tile_descriptor.status = SCAN_TILE_INCLUSIVE;
@@ -243,7 +243,7 @@ struct ScanTileState<T, true>
     /**
      * Update the specified tile's partial value and corresponding status
      */
-    __hydra_device__ __forceinline__ void SetPartial(int tile_idx, T tile_partial)
+    __device__ __forceinline__ void SetPartial(int tile_idx, T tile_partial)
     {
         TileDescriptor tile_descriptor;
         tile_descriptor.status = SCAN_TILE_PARTIAL;
@@ -257,7 +257,7 @@ struct ScanTileState<T, true>
     /**
      * Wait for the corresponding tile to become non-invalid
      */
-    __hydra_device__ __forceinline__ void WaitForValid(
+    __device__ __forceinline__ void WaitForValid(
         int             tile_idx,
         StatusWord      &status,
         T               &value)
@@ -320,7 +320,7 @@ struct ScanTileState<T, false>
         cudaError_t error = cudaSuccess;
         do
         {
-            void*   allocations[3];
+            void*   allocations[3] = { NULL, NULL, NULL };
             size_t  allocation_sizes[3];
 
             allocation_sizes[0] = (num_tiles + TILE_STATUS_PADDING) * sizeof(StatusWord);           // bytes needed for tile status descriptors
@@ -364,7 +364,7 @@ struct ScanTileState<T, false>
     /**
      * Initialize (from device)
      */
-    __hydra_device__ __forceinline__ void InitializeStatus(int num_tiles)
+    __device__ __forceinline__ void InitializeStatus(int num_tiles)
     {
         int tile_idx = (blockIdx.x * blockDim.x) + threadIdx.x;
         if (tile_idx < num_tiles)
@@ -384,7 +384,7 @@ struct ScanTileState<T, false>
     /**
      * Update the specified tile's inclusive value and corresponding status
      */
-    __hydra_device__ __forceinline__ void SetInclusive(int tile_idx, T tile_inclusive)
+    __device__ __forceinline__ void SetInclusive(int tile_idx, T tile_inclusive)
     {
         // Update tile inclusive value
         ThreadStore<STORE_CG>(d_tile_inclusive + TILE_STATUS_PADDING + tile_idx, tile_inclusive);
@@ -400,7 +400,7 @@ struct ScanTileState<T, false>
     /**
      * Update the specified tile's partial value and corresponding status
      */
-    __hydra_device__ __forceinline__ void SetPartial(int tile_idx, T tile_partial)
+    __device__ __forceinline__ void SetPartial(int tile_idx, T tile_partial)
     {
         // Update tile partial value
         ThreadStore<STORE_CG>(d_tile_partial + TILE_STATUS_PADDING + tile_idx, tile_partial);
@@ -415,7 +415,7 @@ struct ScanTileState<T, false>
     /**
      * Wait for the corresponding tile to become non-invalid
      */
-    __hydra_device__ __forceinline__ void WaitForValid(
+    __device__ __forceinline__ void WaitForValid(
         int             tile_idx,
         StatusWord      &status,
         T               &value)
@@ -569,7 +569,7 @@ struct ReduceByKeyScanTileState<ValueT, KeyT, true>
     /**
      * Initialize (from device)
      */
-    __hydra_device__ __forceinline__ void InitializeStatus(int num_tiles)
+    __device__ __forceinline__ void InitializeStatus(int num_tiles)
     {
         int             tile_idx    = (blockIdx.x * blockDim.x) + threadIdx.x;
         TxnWord         val         = TxnWord();
@@ -594,7 +594,7 @@ struct ReduceByKeyScanTileState<ValueT, KeyT, true>
     /**
      * Update the specified tile's inclusive value and corresponding status
      */
-    __hydra_device__ __forceinline__ void SetInclusive(int tile_idx, KeyValuePairT tile_inclusive)
+    __device__ __forceinline__ void SetInclusive(int tile_idx, KeyValuePairT tile_inclusive)
     {
         TileDescriptor tile_descriptor;
         tile_descriptor.status  = SCAN_TILE_INCLUSIVE;
@@ -610,7 +610,7 @@ struct ReduceByKeyScanTileState<ValueT, KeyT, true>
     /**
      * Update the specified tile's partial value and corresponding status
      */
-    __hydra_device__ __forceinline__ void SetPartial(int tile_idx, KeyValuePairT tile_partial)
+    __device__ __forceinline__ void SetPartial(int tile_idx, KeyValuePairT tile_partial)
     {
         TileDescriptor tile_descriptor;
         tile_descriptor.status  = SCAN_TILE_PARTIAL;
@@ -625,7 +625,7 @@ struct ReduceByKeyScanTileState<ValueT, KeyT, true>
     /**
      * Wait for the corresponding tile to become non-invalid
      */
-    __hydra_device__ __forceinline__ void WaitForValid(
+    __device__ __forceinline__ void WaitForValid(
         int                     tile_idx,
         StatusWord              &status,
         KeyValuePairT           &value)
@@ -706,7 +706,7 @@ struct TilePrefixCallbackOp
     T                           inclusive_prefix;   ///< Inclusive prefix for the tile
 
     // Constructor
-    __hydra_device__ __forceinline__
+    __device__ __forceinline__
     TilePrefixCallbackOp(
         ScanTileStateT       &tile_status,
         TempStorage         &temp_storage,
@@ -720,7 +720,7 @@ struct TilePrefixCallbackOp
 
 
     // Block until all predecessors within the warp-wide window have non-invalid status
-    __hydra_device__ __forceinline__
+    __device__ __forceinline__
     void ProcessWindow(
         int         predecessor_idx,        ///< Preceding tile index to inspect
         StatusWord  &predecessor_status,    ///< [out] Preceding tile status
@@ -741,7 +741,7 @@ struct TilePrefixCallbackOp
 
 
     // BlockScan prefix callback functor (called by the first warp)
-    __hydra_device__ __forceinline__
+    __device__ __forceinline__
     T operator()(T block_aggregate)
     {
 
@@ -787,21 +787,21 @@ struct TilePrefixCallbackOp
     }
 
     // Get the exclusive prefix stored in temporary storage
-    __hydra_device__ __forceinline__
+    __device__ __forceinline__
     T GetExclusivePrefix()
     {
         return temp_storage.exclusive_prefix;
     }
 
     // Get the inclusive prefix stored in temporary storage
-    __hydra_device__ __forceinline__
+    __device__ __forceinline__
     T GetInclusivePrefix()
     {
         return temp_storage.inclusive_prefix;
     }
 
     // Get the block aggregate stored in temporary storage
-    __hydra_device__ __forceinline__
+    __device__ __forceinline__
     T GetBlockAggregate()
     {
         return temp_storage.block_aggregate;
@@ -811,5 +811,5 @@ struct TilePrefixCallbackOp
 
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+HYDRA_THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
 

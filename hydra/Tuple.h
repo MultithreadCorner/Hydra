@@ -123,6 +123,22 @@ template<class T> using tuple_size = HYDRA_EXTERNAL_NS::thrust::tuple_size<T>;
  * ----------- function "alias"
  */
 
+template<int I, int N, typename T>
+__hydra_host__ __hydra_device__ inline
+T get( T(&array)[N]) {
+
+	return array[I];
+}
+
+template<int I,  typename T>
+__hydra_host__ __hydra_device__ inline
+T get( T* array) {
+
+	return array[I];
+}
+
+
+
 /*! The \p get function returns a reference to a \p tuple element of
  *  interest.
  *

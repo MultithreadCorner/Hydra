@@ -137,7 +137,7 @@ int main(int argv, char** argc)
     //fit model
 	// gaussian
 	// mean of gaussian
-	hydra::Parameter  mean_p  = hydra::Parameter::Create().Name("Mean").Value( 2.5) .Error(0.0001).Limits(0.0, 10.0);
+	hydra::Parameter  mean_p  = hydra::Parameter::Create().Name("Mean").Value(2.5).Error(0.0001).Limits(0.0, 10.0);
 	// sigma of gaussian
 	hydra::Parameter  sigma_p = hydra::Parameter::Create().Name("Sigma").Value(0.5).Error(0.0001).Limits(0.01, 1.5);
 

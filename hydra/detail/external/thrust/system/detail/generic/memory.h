@@ -28,7 +28,6 @@
 #include <hydra/detail/external/thrust/detail/type_traits.h>
 #include <hydra/detail/external/thrust/detail/pointer.h>
 #include <hydra/detail/external/thrust/pair.h>
-#include <hydra/detail/external/thrust/system/detail/generic/type_traits.h>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
@@ -41,15 +40,15 @@ namespace generic
 
 template<typename DerivedPolicy, typename Size>
 __hydra_host__ __hydra_device__
-void malloc(thrust::execution_policy<DerivedPolicy> &, Size);
+void malloc(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &, Size);
 
 template<typename T, typename DerivedPolicy>
 __hydra_host__ __hydra_device__
-thrust::pointer<T,DerivedPolicy> malloc(thrust::execution_policy<DerivedPolicy> &s, std::size_t n);
+HYDRA_EXTERNAL_NS::thrust::pointer<T,DerivedPolicy> malloc(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &s, std::size_t n);
 
 template<typename DerivedPolicy, typename Pointer>
 __hydra_host__ __hydra_device__
-void free(thrust::execution_policy<DerivedPolicy> &, Pointer);
+void free(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &, Pointer);
 
 template<typename Pointer1, typename Pointer2>
 __hydra_host__ __hydra_device__
@@ -57,18 +56,16 @@ void assign_value(tag, Pointer1, Pointer2);
 
 template<typename DerivedPolicy, typename Pointer>
 __hydra_host__ __hydra_device__
-void get_value(thrust::execution_policy<DerivedPolicy> &, Pointer);
+void get_value(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &, Pointer);
 
-template<typename Pointer1, typename Pointer2>
+template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
 __hydra_host__ __hydra_device__
-void iter_swap(tag, Pointer1, Pointer2);
+void iter_swap(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy>&, Pointer1, Pointer2);
 
 } // end generic
 } // end detail
 } // end system
-} // end thrust
-
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 HYDRA_EXTERNAL_NAMESPACE_END
-
 #include <hydra/detail/external/thrust/system/detail/generic/memory.inl>
 

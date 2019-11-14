@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -44,7 +44,7 @@
 #include "../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  HYDRA_THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -198,7 +198,7 @@ struct AgentScan
     /**
      * Exclusive scan specialization (first tile)
      */
-    __hydra_device__ __forceinline__
+    __device__ __forceinline__
     void ScanTile(
         OutputT             (&items)[ITEMS_PER_THREAD],
         OutputT             init_value,
@@ -214,7 +214,7 @@ struct AgentScan
     /**
      * Inclusive scan specialization (first tile)
      */
-    __hydra_device__ __forceinline__
+    __device__ __forceinline__
     void ScanTile(
         OutputT             (&items)[ITEMS_PER_THREAD],
         InitValueT          /*init_value*/,
@@ -230,7 +230,7 @@ struct AgentScan
      * Exclusive scan specialization (subsequent tiles)
      */
     template <typename PrefixCallback>
-    __hydra_device__ __forceinline__
+    __device__ __forceinline__
     void ScanTile(
         OutputT             (&items)[ITEMS_PER_THREAD],
         ScanOpT             scan_op,
@@ -245,7 +245,7 @@ struct AgentScan
      * Inclusive scan specialization (subsequent tiles)
      */
     template <typename PrefixCallback>
-    __hydra_device__ __forceinline__
+    __device__ __forceinline__
     void ScanTile(
         OutputT             (&items)[ITEMS_PER_THREAD],
         ScanOpT             scan_op,
@@ -261,7 +261,7 @@ struct AgentScan
     //---------------------------------------------------------------------
 
     // Constructor
-    __hydra_device__ __forceinline__
+    __device__ __forceinline__
     AgentScan(
         TempStorage&    temp_storage,       ///< Reference to temp_storage
         InputIteratorT  d_in,               ///< Input data
@@ -285,7 +285,7 @@ struct AgentScan
      * Process a tile of input (dynamic chained scan)
      */
     template <bool IS_LAST_TILE>                ///< Whether the current tile is the last tile
-    __hydra_device__ __forceinline__ void ConsumeTile(
+    __device__ __forceinline__ void ConsumeTile(
         OffsetT             num_remaining,      ///< Number of global input items remaining (including this tile)
         int                 tile_idx,           ///< Tile index
         OffsetT             tile_offset,        ///< Tile offset
@@ -330,7 +330,7 @@ struct AgentScan
     /**
      * Scan tiles of items as part of a dynamic chained scan
      */
-    __hydra_device__ __forceinline__ void ConsumeRange(
+    __device__ __forceinline__ void ConsumeRange(
         int                 num_items,          ///< Total number of input items
         ScanTileStateT&     tile_state,         ///< Global tile state descriptor
         int                 start_tile)         ///< The starting tile for the current grid
@@ -363,7 +363,7 @@ struct AgentScan
     template <
         bool                        IS_FIRST_TILE,
         bool                        IS_LAST_TILE>
-    __hydra_device__ __forceinline__ void ConsumeTile(
+    __device__ __forceinline__ void ConsumeTile(
         OffsetT                     tile_offset,                ///< Tile offset
         RunningPrefixCallbackOp&    prefix_op,                  ///< Running prefix operator
         int                         valid_items = TILE_ITEMS)   ///< Number of valid items in the tile
@@ -403,7 +403,7 @@ struct AgentScan
     /**
      * Scan a consecutive share of input tiles
      */
-    __hydra_device__ __forceinline__ void ConsumeRange(
+    __device__ __forceinline__ void ConsumeRange(
         OffsetT  range_offset,      ///< [in] Threadblock begin offset (inclusive)
         OffsetT  range_end)         ///< [in] Threadblock end offset (exclusive)
     {
@@ -441,7 +441,7 @@ struct AgentScan
     /**
      * Scan a consecutive share of input tiles, seeded with the specified prefix value
      */
-    __hydra_device__ __forceinline__ void ConsumeRange(
+    __device__ __forceinline__ void ConsumeRange(
         OffsetT range_offset,                       ///< [in] Threadblock begin offset (inclusive)
         OffsetT range_end,                          ///< [in] Threadblock end offset (exclusive)
         OutputT prefix)                             ///< [in] The prefix to apply to the scan segment
@@ -467,5 +467,5 @@ struct AgentScan
 
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+HYDRA_THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
 

@@ -18,13 +18,10 @@
 
 #include <hydra/detail/external/thrust/detail/config.h>
 #include <hydra/detail/external/thrust/system/cuda/vector.h>
-#include <utility>
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
-namespace system
-{
-namespace cuda
+namespace cuda_cub
 {
 
 template<typename T, typename Allocator>
@@ -51,18 +48,10 @@ template<typename T, typename Allocator>
       : super_t(x)
 {}
 
-#if __cplusplus >= 201103L
-  template<typename T, typename Allocator>
-    vector<T,Allocator>
-      ::vector(vector &&x)
-        : super_t(std::move(x))
-  {}
-#endif
-
 template<typename T, typename Allocator>
   template<typename OtherT, typename OtherAllocator>
     vector<T,Allocator>
-      ::vector(const thrust::detail::vector_base<OtherT,OtherAllocator> &x)
+      ::vector(const HYDRA_EXTERNAL_NS::thrust::detail::vector_base<OtherT,OtherAllocator> &x)
         : super_t(x)
 {}
 
@@ -81,26 +70,6 @@ template<typename T, typename Allocator>
 {}
 
 template<typename T, typename Allocator>
-  vector<T,Allocator> &
-    vector<T,Allocator>
-      ::operator=(const vector &x)
-{
-  super_t::operator=(x);
-  return *this;
-}
-
-#if __cplusplus >= 201103L
-  template<typename T, typename Allocator>
-    vector<T,Allocator> &
-      vector<T,Allocator>
-        ::operator=(vector &&x)
-  {
-    super_t::operator=(std::move(x));
-    return *this;
-  }
-#endif
-
-template<typename T, typename Allocator>
   template<typename OtherT, typename OtherAllocator>
     vector<T,Allocator> &
       vector<T,Allocator>
@@ -114,14 +83,15 @@ template<typename T, typename Allocator>
   template<typename OtherT, typename OtherAllocator>
     vector<T,Allocator> &
       vector<T,Allocator>
-        ::operator=(const thrust::detail::vector_base<OtherT,OtherAllocator> &x)
+        ::operator=(const HYDRA_EXTERNAL_NS::thrust::detail::vector_base<OtherT,OtherAllocator> &x)
 {
   super_t::operator=(x);
   return *this;
 }
       
-} // end cuda
-} // end system
-} // end thrust
+} // end cuda_cub
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

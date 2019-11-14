@@ -46,7 +46,7 @@ struct body
   InputIterator1 first;
   InputIterator2 stencil;
   OutputIterator result;
-  thrust::detail::wrapped_function<Predicate,bool> pred;
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<Predicate,bool> pred;
   Size sum;
 
   body(InputIterator1 first, InputIterator2 stencil, OutputIterator result, Predicate pred)
@@ -109,16 +109,16 @@ template<typename InputIterator1,
                          OutputIterator result,
                          Predicate pred)
 {
-  typedef typename thrust::iterator_difference<InputIterator1>::type Size; 
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_difference<InputIterator1>::type Size; 
   typedef typename copy_if_detail::body<InputIterator1,InputIterator2,OutputIterator,Predicate,Size> Body;
   
-  Size n = thrust::distance(first, last);
+  Size n = HYDRA_EXTERNAL_NS::thrust::distance(first, last);
 
   if (n != 0)
   {
     Body body(first, stencil, result, pred);
     ::tbb::parallel_scan(::tbb::blocked_range<Size>(0,n), body);
-    thrust::advance(result, body.sum);
+    HYDRA_EXTERNAL_NS::thrust::advance(result, body.sum);
   }
 
   return result;
@@ -127,6 +127,6 @@ template<typename InputIterator1,
 } // end detail
 } // end tbb
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

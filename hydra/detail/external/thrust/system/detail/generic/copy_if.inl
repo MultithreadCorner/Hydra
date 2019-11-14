@@ -51,40 +51,40 @@ template<typename IndexType,
          typename OutputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-OutputIterator copy_if(thrust::execution_policy<DerivedPolicy> &exec,
+OutputIterator copy_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                        InputIterator1 first,
                        InputIterator1 last,
                        InputIterator2 stencil,
                        OutputIterator result,
                        Predicate pred)
 {
-  __HYDRA_THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(IndexType n = thrust::distance(first, last));
+  HYDRA_THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(IndexType n = HYDRA_EXTERNAL_NS::thrust::distance(first, last));
   
   // compute {0,1} predicates
-  thrust::detail::temporary_array<IndexType, DerivedPolicy> predicates(exec, n);
-  thrust::transform(exec,
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<IndexType, DerivedPolicy> predicates(exec, n);
+  HYDRA_EXTERNAL_NS::thrust::transform(exec,
                     stencil,
                     stencil + n,
                     predicates.begin(),
-                    thrust::detail::predicate_to_integral<Predicate,IndexType>(pred));
+                    HYDRA_EXTERNAL_NS::thrust::detail::predicate_to_integral<Predicate,IndexType>(pred));
   
   // scan {0,1} predicates
-  thrust::detail::temporary_array<IndexType, DerivedPolicy> scatter_indices(exec, n);
-  thrust::exclusive_scan(exec,
+  HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<IndexType, DerivedPolicy> scatter_indices(exec, n);
+  HYDRA_EXTERNAL_NS::thrust::exclusive_scan(exec,
                          predicates.begin(),
                          predicates.end(),
                          scatter_indices.begin(),
                          static_cast<IndexType>(0),
-                         thrust::plus<IndexType>());
+                         HYDRA_EXTERNAL_NS::thrust::plus<IndexType>());
   
   // scatter the true elements
-  thrust::scatter_if(exec,
+  HYDRA_EXTERNAL_NS::thrust::scatter_if(exec,
                      first,
                      last,
                      scatter_indices.begin(),
                      predicates.begin(),
                      result,
-                     thrust::identity<IndexType>());
+                     HYDRA_EXTERNAL_NS::thrust::identity<IndexType>());
   
   // find the end of the new sequence
   IndexType output_size = scatter_indices[n - 1] + predicates[n - 1];
@@ -101,7 +101,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-  OutputIterator copy_if(thrust::execution_policy<DerivedPolicy> &exec,
+  OutputIterator copy_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                          InputIterator first,
                          InputIterator last,
                          OutputIterator result,
@@ -111,7 +111,7 @@ __hydra_host__ __hydra_device__
   //     we should probably specialize this case for POD
   //     since we can safely keep the input in a temporary instead
   //     of doing two loads
-  return thrust::copy_if(exec, first, last, first, result, pred);
+  return HYDRA_EXTERNAL_NS::thrust::copy_if(exec, first, last, first, result, pred);
 } // end copy_if()
 
 
@@ -121,27 +121,27 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename Predicate>
 __hydra_host__ __hydra_device__
-   OutputIterator copy_if(thrust::execution_policy<DerivedPolicy> &exec,
+   OutputIterator copy_if(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                           InputIterator1 first,
                           InputIterator1 last,
                           InputIterator2 stencil,
                           OutputIterator result,
                           Predicate pred)
 {
-  typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator1>::difference_type difference_type;
   
   // empty sequence
   if(first == last)
     return result;
   
-  difference_type n = thrust::distance(first, last);
+  difference_type n = HYDRA_EXTERNAL_NS::thrust::distance(first, last);
   
   // create an unsigned version of n (we know n is positive from the comparison above)
   // to avoid a warning in the compare below
-  typename thrust::detail::make_unsigned<difference_type>::type unsigned_n(n);
+  typename HYDRA_EXTERNAL_NS::thrust::detail::make_unsigned<difference_type>::type unsigned_n(n);
   
   // use 32-bit indices when possible (almost always)
-  if(sizeof(difference_type) > sizeof(unsigned int) && unsigned_n > thrust::detail::integer_traits<unsigned int>::const_max)
+  if(sizeof(difference_type) > sizeof(unsigned int) && unsigned_n > HYDRA_EXTERNAL_NS::thrust::detail::integer_traits<unsigned int>::const_max)
   {
     result = detail::copy_if<difference_type>(exec, first, last, stencil, result, pred);
   } // end if

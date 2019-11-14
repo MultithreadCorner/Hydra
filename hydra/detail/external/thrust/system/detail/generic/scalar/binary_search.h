@@ -79,7 +79,7 @@ bool binary_search(RandomAccessIterator first, RandomAccessIterator last, const 
 
 } // end system
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
 

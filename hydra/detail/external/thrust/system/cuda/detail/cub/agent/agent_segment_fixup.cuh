@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -45,7 +45,7 @@
 #include "../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  HYDRA_THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -197,7 +197,7 @@ struct AgentSegmentFixup
     //---------------------------------------------------------------------
 
     // Constructor
-    __hydra_device__ __forceinline__
+    __device__ __forceinline__
     AgentSegmentFixup(
         TempStorage&                temp_storage,       ///< Reference to temp_storage
         PairsInputIteratorT         d_pairs_in,          ///< Input keys
@@ -224,7 +224,7 @@ struct AgentSegmentFixup
      * Process input tile.  Specialized for atomic-fixup
      */
     template <bool IS_LAST_TILE>
-    __hydra_device__ __forceinline__ void ConsumeTile(
+    __device__ __forceinline__ void ConsumeTile(
         OffsetT             num_remaining,      ///< Number of global input items remaining (including this tile)
         int                 tile_idx,           ///< Tile index
         OffsetT             tile_offset,        ///< Tile offset
@@ -264,7 +264,7 @@ struct AgentSegmentFixup
      * Process input tile.  Specialized for reduce-by-key fixup
      */
     template <bool IS_LAST_TILE>
-    __hydra_device__ __forceinline__ void ConsumeTile(
+    __device__ __forceinline__ void ConsumeTile(
         OffsetT             num_remaining,      ///< Number of global input items remaining (including this tile)
         int                 tile_idx,           ///< Tile index
         OffsetT             tile_offset,        ///< Tile offset
@@ -345,7 +345,7 @@ struct AgentSegmentFixup
     /**
      * Scan tiles of items as part of a dynamic chained scan
      */
-    __hydra_device__ __forceinline__ void ConsumeRange(
+    __device__ __forceinline__ void ConsumeRange(
         int                 num_items,          ///< Total number of input items
         int                 num_tiles,          ///< Total number of input tiles
         ScanTileStateT&     tile_state)         ///< Global tile state descriptor
@@ -371,5 +371,5 @@ struct AgentSegmentFixup
 
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+HYDRA_THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
 

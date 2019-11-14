@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2016 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Vesion 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file hydra/detail/external/thrust/iterator/transform_output_iterator.h
+/*! \file thrust/iterator/transform_output_iterator.h
  *  \brief An output iterator which adapts another output iterator by applying a
  *         function to the result of its dereference before writing it.
  */
@@ -54,7 +54,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *
  * // note: functor inherits form unary function
  *  // note: functor inherits from unary_function
- *  struct square_root : public thrust::unary_function<float,float>
+ *  struct square_root : public HYDRA_EXTERNAL_NS::thrust::unary_function<float,float>
  *  {
  *    __hydra_host__ __hydra_device__
  *    float operator()(float x) const
@@ -63,12 +63,12 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *    }
  *  };
  *  
- *  int main(void)
+ *  int main()
  *  {
- *    thrust::device_vector<float> v(4);
+ *    HYDRA_EXTERNAL_NS::thrust::device_vector<float> v(4);
  *
- *    typedef thrust::device_vector<float>::iterator FloatIterator;
- *    thrust::transform_output_iterator<square_root, FloatIterator> iter(v.begin(), square_root());
+ *    typedef HYDRA_EXTERNAL_NS::thrust::device_vector<float>::iterator FloatIterator;
+ *    HYDRA_EXTERNAL_NS::thrust::transform_output_iterator<square_root, FloatIterator> iter(v.begin(), square_root());
  *
  *    iter[0] =  1.0f;    // stores sqrtf( 1.0f) 
  *    iter[1] =  4.0f;    // stores sqrtf( 4.0f)
@@ -101,7 +101,7 @@ template <typename UnaryFunction, typename OutputIterator>
     detail::transform_output_iterator_base<UnaryFunction, OutputIterator>::type
     super_t;
 
-    friend class thrust::iterator_core_access;
+    friend class HYDRA_EXTERNAL_NS::thrust::iterator_core_access;
   /*! \endcond
    */
 
@@ -125,7 +125,9 @@ template <typename UnaryFunction, typename OutputIterator>
     __hydra_host__ __hydra_device__
     typename super_t::reference dereference() const
     {
-        return detail::transform_output_iterator_proxy<UnaryFunction, OutputIterator>(this->base_reference(), fun);
+      return detail::transform_output_iterator_proxy<
+        UnaryFunction, OutputIterator
+      >(this->base_reference(), fun);
     }
 
     UnaryFunction fun;
@@ -134,16 +136,15 @@ template <typename UnaryFunction, typename OutputIterator>
      */
 }; // end transform_output_iterator
 
-/* \p make_transform_output_iterator creates a \p transform_output_iterator from
- * an \c OutputIterator and \c UnaryFunction.
+/*! \p make_transform_output_iterator creates a \p transform_output_iterator from
+ *  an \c OutputIterator and \c UnaryFunction.
  *
- * \param out The \c OutputIterator pointing to the output range of the newly
+ *  \param out The \c OutputIterator pointing to the output range of the newly
  *            created \p transform_output_iterator
- * \param fun The \c UnaryFunction transform the object before assigning it to
+ *  \param fun The \c UnaryFunction transform the object before assigning it to
  *            \c out by the newly created \p transform_output_iterator
- * \see transform_output_iterator
+ *  \see transform_output_iterator
  */
-
 template <typename UnaryFunction, typename OutputIterator>
 transform_output_iterator<UnaryFunction, OutputIterator>
 __hydra_host__ __hydra_device__
@@ -158,6 +159,8 @@ make_transform_output_iterator(OutputIterator out, UnaryFunction fun)
 /*! \} // end iterators
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
+

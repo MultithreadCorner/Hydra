@@ -44,7 +44,7 @@ template<typename DerivedPolicy,
                                    Predicate pred)
 {
   // omp prefers generic::stable_partition to cpp::stable_partition
-  return thrust::system::detail::generic::stable_partition(exec, first, last, pred);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::stable_partition(exec, first, last, pred);
 } // end stable_partition()
 
 
@@ -59,7 +59,7 @@ template<typename DerivedPolicy,
                                    Predicate pred)
 {
   // omp prefers generic::stable_partition to cpp::stable_partition
-  return thrust::system::detail::generic::stable_partition(exec, first, last, stencil, pred);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::stable_partition(exec, first, last, stencil, pred);
 } // end stable_partition()
 
 
@@ -68,7 +68,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(execution_policy<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,
@@ -77,7 +77,7 @@ template<typename DerivedPolicy,
                           Predicate pred)
 {
   // omp prefers generic::stable_partition_copy to cpp::stable_partition_copy
-  return thrust::system::detail::generic::stable_partition_copy(exec, first, last, out_true, out_false, pred);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::stable_partition_copy(exec, first, last, out_true, out_false, pred);
 } // end stable_partition_copy()
 
 
@@ -87,7 +87,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-  thrust::pair<OutputIterator1,OutputIterator2>
+  HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(execution_policy<DerivedPolicy> &exec,
                           InputIterator1 first,
                           InputIterator1 last,
@@ -97,7 +97,7 @@ template<typename DerivedPolicy,
                           Predicate pred)
 {
   // omp prefers generic::stable_partition_copy to cpp::stable_partition_copy
-  return thrust::system::detail::generic::stable_partition_copy(exec, first, last, stencil, out_true, out_false, pred);
+  return HYDRA_EXTERNAL_NS::thrust::system::detail::generic::stable_partition_copy(exec, first, last, stencil, out_true, out_false, pred);
 } // end stable_partition_copy()
 
 

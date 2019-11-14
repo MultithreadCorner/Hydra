@@ -15,7 +15,7 @@
  */
 
 
-/*! \file hydra/detail/external/thrust/iterator/counting_iterator.h
+/*! \file thrust/iterator/counting_iterator.h
  *  \brief An iterator which returns an increasing incrementable value
  *         when dereferenced
  */
@@ -63,24 +63,24 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/iterator/counting_iterator.h>
  *  ...
  *  // create iterators
- *  thrust::counting_iterator<int> first(10);
- *  thrust::counting_iterator<int> last = first + 3;
+ *  HYDRA_EXTERNAL_NS::thrust::counting_iterator<int> first(10);
+ *  HYDRA_EXTERNAL_NS::thrust::counting_iterator<int> last = first + 3;
  *   
  *  first[0]   // returns 10
  *  first[1]   // returns 11
  *  first[100] // returns 110
  *   
  *  // sum of [first, last)
- *  thrust::reduce(first, last);   // returns 33 (i.e. 10 + 11 + 12)
+ *  HYDRA_EXTERNAL_NS::thrust::reduce(first, last);   // returns 33 (i.e. 10 + 11 + 12)
  *   
  *  // initialize vector to [0,1,2,..]
- *  thrust::counting_iterator<int> iter(0);
- *  thrust::device_vector<int> vec(500);
- *  thrust::copy(iter, iter + vec.size(), vec.begin());
+ *  HYDRA_EXTERNAL_NS::thrust::counting_iterator<int> iter(0);
+ *  HYDRA_EXTERNAL_NS::thrust::device_vector<int> vec(500);
+ *  HYDRA_EXTERNAL_NS::thrust::copy(iter, iter + vec.size(), vec.begin());
  *  \endcode
  *
  *  This next example demonstrates how to use a \p counting_iterator with the
- *  \p thrust::copy_if function to compute the indices of the non-zero elements
+ *  \p HYDRA_EXTERNAL_NS::thrust::copy_if function to compute the indices of the non-zero elements
  *  of a \p device_vector. In this example, we use the \p make_counting_iterator
  *  function to avoid specifying the type of the \p counting_iterator.
  *
@@ -90,12 +90,12 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  #include <hydra/detail/external/thrust/functional.h>
  *  #include <hydra/detail/external/thrust/device_vector.h>
  *   
- *  int main(void)
+ *  int main()
  *  {
  *   // this example computes indices for all the nonzero values in a sequence
  *   
  *   // sequence of zero and nonzero values
- *   thrust::device_vector<int> stencil(8);
+ *   HYDRA_EXTERNAL_NS::thrust::device_vector<int> stencil(8);
  *   stencil[0] = 0;
  *   stencil[1] = 1;
  *   stencil[2] = 1;
@@ -106,17 +106,17 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *   stencil[7] = 1;
  *   
  *   // storage for the nonzero indices
- *   thrust::device_vector<int> indices(8);
+ *   HYDRA_EXTERNAL_NS::thrust::device_vector<int> indices(8);
  *   
  *   // compute indices of nonzero elements
- *   typedef thrust::device_vector<int>::iterator IndexIterator;
+ *   typedef HYDRA_EXTERNAL_NS::thrust::device_vector<int>::iterator IndexIterator;
  *   
  *   // use make_counting_iterator to define the sequence [0, 8)
- *   IndexIterator indices_end = thrust::copy_if(thrust::make_counting_iterator(0),
- *                                               thrust::make_counting_iterator(8),
+ *   IndexIterator indices_end = HYDRA_EXTERNAL_NS::thrust::copy_if(HYDRA_EXTERNAL_NS::thrust::make_counting_iterator(0),
+ *                                               HYDRA_EXTERNAL_NS::thrust::make_counting_iterator(8),
  *                                               stencil.begin(),
  *                                               indices.begin(),
- *                                               thrust::identity<int>());
+ *                                               HYDRA_EXTERNAL_NS::thrust::identity<int>());
  *   // indices now contains [1,2,5,7]
  *   
  *   return 0;
@@ -136,7 +136,7 @@ template<typename Incrementable,
      */
     typedef typename detail::counting_iterator_base<Incrementable, System, Traversal, Difference>::type super_t;
 
-    friend class thrust::iterator_core_access;
+    friend class HYDRA_EXTERNAL_NS::thrust::iterator_core_access;
 
   public:
     typedef typename super_t::reference       reference;
@@ -149,7 +149,7 @@ template<typename Incrementable,
      *  counter using its null constructor.
      */
     __hydra_host__ __hydra_device__
-    counting_iterator(void){};
+    counting_iterator() {}
 
     /*! Copy constructor copies the value of another \p counting_iterator into a
      *  new \p counting_iterator.
@@ -167,9 +167,9 @@ template<typename Incrementable,
     template<typename OtherSystem>
     __hydra_host__ __hydra_device__
     counting_iterator(counting_iterator<Incrementable, OtherSystem, Traversal, Difference> const &rhs,
-                      typename thrust::detail::enable_if_convertible<
-                        typename thrust::iterator_system<counting_iterator<Incrementable,OtherSystem,Traversal,Difference> >::type,
-                        typename thrust::iterator_system<super_t>::type
+                      typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if_convertible<
+                        typename HYDRA_EXTERNAL_NS::thrust::iterator_system<counting_iterator<Incrementable,OtherSystem,Traversal,Difference> >::type,
+                        typename HYDRA_EXTERNAL_NS::thrust::iterator_system<super_t>::type
                       >::type * = 0)
       : super_t(rhs.base()){}
 
@@ -186,7 +186,7 @@ template<typename Incrementable,
      */
   private:
     __hydra_host__ __hydra_device__
-    reference dereference(void) const
+    reference dereference() const
     {
       return this->base_reference();
     }
@@ -196,7 +196,7 @@ template<typename Incrementable,
     __hydra_host__ __hydra_device__
     bool equal(counting_iterator<OtherIncrementable, OtherSystem, OtherTraversal, OtherDifference> const& y) const
     {
-      typedef thrust::detail::counting_iterator_equal<difference_type,Incrementable,OtherIncrementable> e;
+      typedef HYDRA_EXTERNAL_NS::thrust::detail::counting_iterator_equal<difference_type,Incrementable,OtherIncrementable> e;
       return e::equal(this->base(), y.base());
     }
 
@@ -206,10 +206,10 @@ template<typename Incrementable,
     distance_to(counting_iterator<OtherIncrementable, System, Traversal, Difference> const& y) const
     {
       typedef typename
-      thrust::detail::eval_if<
-        thrust::detail::is_numeric<Incrementable>::value,
-        thrust::detail::identity_<thrust::detail::number_distance<difference_type, Incrementable, OtherIncrementable> >,
-        thrust::detail::identity_<thrust::detail::iterator_distance<difference_type, Incrementable, OtherIncrementable> >
+      HYDRA_EXTERNAL_NS::thrust::detail::eval_if<
+        HYDRA_EXTERNAL_NS::thrust::detail::is_numeric<Incrementable>::value,
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<HYDRA_EXTERNAL_NS::thrust::detail::number_distance<difference_type, Incrementable, OtherIncrementable> >,
+        HYDRA_EXTERNAL_NS::thrust::detail::identity_<HYDRA_EXTERNAL_NS::thrust::detail::iterator_distance<difference_type, Incrementable, OtherIncrementable> >
       >::type d;
 
       return d::distance(this->base(), y.base());
@@ -239,6 +239,8 @@ counting_iterator<Incrementable> make_counting_iterator(Incrementable x)
 /*! \} // end iterators
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

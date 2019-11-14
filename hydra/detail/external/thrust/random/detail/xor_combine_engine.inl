@@ -177,7 +177,7 @@ std::basic_ostream<CharT,Traits>&
 operator<<(std::basic_ostream<CharT,Traits> &os,
            const xor_combine_engine<Engine1,s1,Engine2,s2> &e)
 {
-  return thrust::random::detail::random_core_access::stream_out(os,e);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::stream_out(os,e);
 }
 
 
@@ -187,7 +187,7 @@ std::basic_istream<CharT,Traits>&
 operator>>(std::basic_istream<CharT,Traits> &is,
            xor_combine_engine<Engine1,s1,Engine2,s2> &e)
 {
-  return thrust::random::detail::random_core_access::stream_in(is,e);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::stream_in(is,e);
 }
 
 
@@ -196,7 +196,7 @@ __hydra_host__ __hydra_device__
 bool operator==(const xor_combine_engine<Engine1,s1,Engine2,s2> &lhs,
                 const xor_combine_engine<Engine1,s1,Engine2,s2> &rhs)
 {
-  return thrust::random::detail::random_core_access::equal(lhs,rhs);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::equal(lhs,rhs);
 }
 
 
@@ -211,6 +211,8 @@ bool operator!=(const xor_combine_engine<Engine1,s1,Engine2,s2> &lhs,
 
 } // end random
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

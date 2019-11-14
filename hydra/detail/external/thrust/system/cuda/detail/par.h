@@ -1,83 +1,177 @@
-/*
- *  Copyright 2008-2013 NVIDIA Corporation
+/******************************************************************************
+ * Copyright (c) 2016-2018, NVIDIA CORPORATION.  All rights reserved.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the NVIDIA CORPORATION nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL NVIDIA CORPORATION BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
-
+ ******************************************************************************/
 #pragma once
 
 #include <hydra/detail/external/thrust/detail/config.h>
+#include <hydra/detail/external/thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 #include <hydra/detail/external/thrust/system/cuda/detail/execution_policy.h>
-#include <hydra/detail/external/thrust/detail/execute_with_allocator.h>
-#include <hydra/detail/external/thrust/system/cuda/detail/execute_on_stream.h>
-#include <hydra/detail/external/thrust/detail/allocator/allocator_traits.h>
 
-HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+#include <hydra/detail/external/thrust/detail/allocator_aware_execution_policy.h>
+
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+#  include <hydra/detail/external/thrust/detail/dependencies_aware_execution_policy.h>
+#endif
+
+HYDRA_EXTERNAL_NAMESPACE_BEGIN
+
+HYDRA_THRUST_BEGIN_NS
+
+namespace cuda_cub {
+
+inline __hydra_host__ __hydra_device__
+cudaStream_t
+default_stream()
 {
-namespace system
+  return cudaStreamLegacy;
+}
+
+template <class Derived>
+__hydra_host__ __hydra_device__
+cudaStream_t
+get_stream(execution_policy<Derived> &)
 {
-namespace cuda
+  return default_stream();
+}
+
+__thrust_exec_check_disable__
+template <class Derived>
+__hydra_host__ __hydra_device__
+cudaError_t
+synchronize_stream(execution_policy<Derived> &)
 {
-namespace detail
-{
+  #if __HYDRA_THRUST_HAS_CUDART__
+    cudaDeviceSynchronize();
+    return cudaGetLastError();
+  #else
+    return cudaSuccess;
+  #endif
+}
 
 
-struct par_t : thrust::system::cuda::detail::execution_policy<par_t>
+template <class Derived>
+struct execute_on_stream_base : execution_policy<Derived>
 {
-  par_t() : thrust::system::cuda::detail::execution_policy<par_t>() {}
+private:
+  cudaStream_t stream;
 
-  template<typename Allocator>
+public:
   __hydra_host__ __hydra_device__
-  typename thrust::detail::enable_if<
-    thrust::detail::is_allocator<Allocator>::value,
-    thrust::detail::execute_with_allocator<Allocator, execute_on_stream_base>
-  >::type
-    operator()(Allocator &alloc) const
+  execute_on_stream_base(cudaStream_t stream_ = default_stream())
+      : stream(stream_) {}
+
+  HYDRA_THRUST_RUNTIME_FUNCTION
+  Derived
+  on(cudaStream_t const &s) const
   {
-    return thrust::detail::execute_with_allocator<Allocator, execute_on_stream_base>(alloc);
+    Derived result = derived_cast(*this);
+    result.stream  = s;
+    return result;
   }
 
+private:
+  friend __hydra_host__ __hydra_device__
+  cudaStream_t
+  get_stream(const execute_on_stream_base &exec)
+  {
+    return exec.stream;
+  }
+
+  friend __hydra_host__ __hydra_device__
+  cudaError_t
+  synchronize_stream(execute_on_stream_base &exec)
+  {
+    #if   !__CUDA_ARCH__
+      cudaStreamSynchronize(exec.stream);
+      return cudaGetLastError();
+    #elif __HYDRA_THRUST_HAS_CUDART__
+      HYDRA_THRUST_UNUSED_VAR(exec);
+      cudaDeviceSynchronize();
+      return cudaGetLastError();
+    #else
+      HYDRA_THRUST_UNUSED_VAR(exec);
+      return cudaSuccess;
+    #endif
+  }
+};
+
+struct execute_on_stream : execute_on_stream_base<execute_on_stream>
+{
+  typedef execute_on_stream_base<execute_on_stream> base_t;
+
   __hydra_host__ __hydra_device__
-  inline execute_on_stream on(const cudaStream_t &stream) const
+  execute_on_stream() : base_t(){};
+  __hydra_host__ __hydra_device__
+  execute_on_stream(cudaStream_t stream) : base_t(stream){};
+};
+
+
+struct par_t : execution_policy<par_t>,
+  HYDRA_EXTERNAL_NS::thrust::detail::allocator_aware_execution_policy<
+    execute_on_stream_base>
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+, HYDRA_EXTERNAL_NS::thrust::detail::dependencies_aware_execution_policy<
+    execute_on_stream_base>
+#endif
+{
+  typedef execution_policy<par_t> base_t;
+
+  __hydra_host__ __hydra_device__
+  par_t() : base_t() {}
+
+  typedef execute_on_stream stream_attachment_type;
+
+  HYDRA_THRUST_RUNTIME_FUNCTION
+  stream_attachment_type
+  on(cudaStream_t const &stream) const
   {
     return execute_on_stream(stream);
   }
 };
 
-
-} // end detail
-
-
 #ifdef __CUDA_ARCH__
-static const __hydra_device__ detail::par_t par;
+static const __device__ par_t par;
 #else
-static const detail::par_t par;
+static const par_t par;
 #endif
+}    // namespace cuda_
 
+namespace system {
+namespace cuda {
+  using HYDRA_EXTERNAL_NS::thrust::cuda_cub::par;
+  namespace detail {
+    using HYDRA_EXTERNAL_NS::thrust::cuda_cub::par_t;
+  }
+} // namesapce cuda
+} // namespace system
 
-} // end cuda
-} // end system
+namespace cuda {
+using HYDRA_EXTERNAL_NS::thrust::cuda_cub::par;
+} // namespace cuda
 
-
-// alias par here
-namespace cuda
-{
-
-
-using thrust::system::cuda::par;
-
-
-} // end cuda
-} // end thrust
+HYDRA_THRUST_END_NS
 
 HYDRA_EXTERNAL_NAMESPACE_END

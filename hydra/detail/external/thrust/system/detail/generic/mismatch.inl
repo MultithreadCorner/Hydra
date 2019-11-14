@@ -32,45 +32,45 @@ namespace generic
 
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2>
 __hydra_host__ __hydra_device__
-  thrust::pair<InputIterator1, InputIterator2>
-    mismatch(thrust::execution_policy<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<InputIterator1, InputIterator2>
+    mismatch(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
              InputIterator1 first1,
              InputIterator1 last1,
              InputIterator2 first2)
 {
-  typedef typename thrust::iterator_value<InputIterator1>::type InputType1;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_value<InputIterator1>::type InputType1;
   
   // XXX use a placeholder expression here
-  return thrust::mismatch(exec, first1, last1, first2, thrust::detail::equal_to<InputType1>());
+  return HYDRA_EXTERNAL_NS::thrust::mismatch(exec, first1, last1, first2, HYDRA_EXTERNAL_NS::thrust::detail::equal_to<InputType1>());
 } // end mismatch()
 
 
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
 __hydra_host__ __hydra_device__
-  thrust::pair<InputIterator1, InputIterator2>
-    mismatch(thrust::execution_policy<DerivedPolicy> &exec,
+  HYDRA_EXTERNAL_NS::thrust::pair<InputIterator1, InputIterator2>
+    mismatch(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
              InputIterator1 first1,
              InputIterator1 last1,
              InputIterator2 first2,
              BinaryPredicate pred)
 {
   // Contributed by Erich Elsen
-  typedef thrust::tuple<InputIterator1,InputIterator2> IteratorTuple;
-  typedef thrust::zip_iterator<IteratorTuple>          ZipIterator;
+  typedef HYDRA_EXTERNAL_NS::thrust::tuple<InputIterator1,InputIterator2> IteratorTuple;
+  typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<IteratorTuple>          ZipIterator;
   
-  ZipIterator zipped_first = thrust::make_zip_iterator(thrust::make_tuple(first1,first2));
-  ZipIterator zipped_last  = thrust::make_zip_iterator(thrust::make_tuple(last1, first2));
+  ZipIterator zipped_first = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(first1,first2));
+  ZipIterator zipped_last  = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(last1, first2));
   
-  ZipIterator result = thrust::find_if_not(exec, zipped_first, zipped_last, thrust::detail::tuple_binary_predicate<BinaryPredicate>(pred));
+  ZipIterator result = HYDRA_EXTERNAL_NS::thrust::find_if_not(exec, zipped_first, zipped_last, HYDRA_EXTERNAL_NS::thrust::detail::tuple_binary_predicate<BinaryPredicate>(pred));
   
-  return thrust::make_pair(thrust::get<0>(result.get_iterator_tuple()),
-                           thrust::get<1>(result.get_iterator_tuple()));
+  return HYDRA_EXTERNAL_NS::thrust::make_pair(HYDRA_EXTERNAL_NS::thrust::get<0>(result.get_iterator_tuple()),
+                           HYDRA_EXTERNAL_NS::thrust::get<1>(result.get_iterator_tuple()));
 } // end mismatch()
 
 
 } // end generic
 } // end detail
 } // end system
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

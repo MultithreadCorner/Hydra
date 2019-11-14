@@ -77,7 +77,7 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \pre \p first may equal \p result, but the range <tt>[first, last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p transform_inclusive_scan using the
- *  \p thrust::host execution policy for parallelization:
+ *  \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/transform_scan.h>
@@ -86,10 +86,10 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  
  *  int data[6] = {1, 0, 2, 2, 1, 3};
  *
- *  thrust::negate<int> unary_op;
- *  thrust::plus<int> binary_op;
+ *  HYDRA_EXTERNAL_NS::thrust::negate<int> unary_op;
+ *  HYDRA_EXTERNAL_NS::thrust::plus<int> binary_op;
  *
- *  thrust::transform_inclusive_scan(thrust::host, data, data + 6, data, unary_op, binary_op); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::transform_inclusive_scan(HYDRA_EXTERNAL_NS::thrust::host, data, data + 6, data, unary_op, binary_op); // in-place scan
  *
  *  // data is now {-1, -1, -3, -5, -6, -9}
  *  \endcode
@@ -104,7 +104,7 @@ template<typename DerivedPolicy,
          typename UnaryFunction,
          typename AssociativeOperator>
 __hydra_host__ __hydra_device__
-  OutputIterator transform_inclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator transform_inclusive_scan(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                           InputIterator first,
                                           InputIterator last,
                                           OutputIterator result,
@@ -149,10 +149,10 @@ __hydra_host__ __hydra_device__
  *  
  *  int data[6] = {1, 0, 2, 2, 1, 3};
  *
- *  thrust::negate<int> unary_op;
- *  thrust::plus<int> binary_op;
+ *  HYDRA_EXTERNAL_NS::thrust::negate<int> unary_op;
+ *  HYDRA_EXTERNAL_NS::thrust::plus<int> binary_op;
  *
- *  thrust::transform_inclusive_scan(data, data + 6, data, unary_op, binary_op); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::transform_inclusive_scan(data, data + 6, data, unary_op, binary_op); // in-place scan
  *
  *  // data is now {-1, -1, -3, -5, -6, -9}
  *  \endcode
@@ -209,7 +209,7 @@ template<typename InputIterator,
  *  \pre \p first may equal \p result, but the range <tt>[first, last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
  *
  *  The following code snippet demonstrates how to use \p transform_exclusive_scan using the
- *  \p thrust::host execution policy for parallelization:
+ *  \p HYDRA_EXTERNAL_NS::thrust::host execution policy for parallelization:
  *
  *  \code
  *  #include <hydra/detail/external/thrust/transform_scan.h>
@@ -218,10 +218,10 @@ template<typename InputIterator,
  *  
  *  int data[6] = {1, 0, 2, 2, 1, 3};
  *
- *  thrust::negate<int> unary_op;
- *  thrust::plus<int> binary_op;
+ *  HYDRA_EXTERNAL_NS::thrust::negate<int> unary_op;
+ *  HYDRA_EXTERNAL_NS::thrust::plus<int> binary_op;
  *
- *  thrust::transform_exclusive_scan(thrust::host, data, data + 6, data, unary_op, 4, binary_op); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::transform_exclusive_scan(HYDRA_EXTERNAL_NS::thrust::host, data, data + 6, data, unary_op, 4, binary_op); // in-place scan
  *
  *  // data is now {4, 3, 3, 1, -1, -2}
  *  \endcode
@@ -237,7 +237,7 @@ template<typename DerivedPolicy,
          typename T,
          typename AssociativeOperator>
 __hydra_host__ __hydra_device__
-  OutputIterator transform_exclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+  OutputIterator transform_exclusive_scan(const HYDRA_EXTERNAL_NS::thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                           InputIterator first,
                                           InputIterator last,
                                           OutputIterator result,
@@ -285,10 +285,10 @@ __hydra_host__ __hydra_device__
  *  
  *  int data[6] = {1, 0, 2, 2, 1, 3};
  *
- *  thrust::negate<int> unary_op;
- *  thrust::plus<int> binary_op;
+ *  HYDRA_EXTERNAL_NS::thrust::negate<int> unary_op;
+ *  HYDRA_EXTERNAL_NS::thrust::plus<int> binary_op;
  *
- *  thrust::transform_exclusive_scan(data, data + 6, data, unary_op, 4, binary_op); // in-place scan
+ *  HYDRA_EXTERNAL_NS::thrust::transform_exclusive_scan(data, data + 6, data, unary_op, 4, binary_op); // in-place scan
  *
  *  // data is now {4, 3, 3, 1, -1, -2}
  *  \endcode

@@ -35,9 +35,9 @@ struct transform_iterator_base
 {
  private:
     // By default, dereferencing the iterator yields the same as the function.
-    typedef typename thrust::detail::ia_dflt_help<
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::ia_dflt_help<
       Reference,
-      thrust::detail::result_of_adaptable_function<UnaryFunc(typename thrust::iterator_value<Iterator>::type)>
+      HYDRA_EXTERNAL_NS::thrust::detail::result_of_adaptable_function<UnaryFunc(typename HYDRA_EXTERNAL_NS::thrust::iterator_value<Iterator>::type)>
     >::type reference;
 
     // To get the default for Value: remove any reference on the
@@ -45,29 +45,31 @@ struct transform_iterator_base
     // non-writability.  Note that if we adopt Thomas' suggestion
     // to key non-writability *only* on the Reference argument,
     // we'd need to strip constness here as well.
-    typedef typename thrust::detail::ia_dflt_help<
+    typedef typename HYDRA_EXTERNAL_NS::thrust::detail::ia_dflt_help<
       Value,
-      thrust::detail::remove_reference<reference>
+      HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<reference>
     >::type cv_value_type;
 
  public:
-    typedef thrust::iterator_adaptor
+    typedef HYDRA_EXTERNAL_NS::thrust::iterator_adaptor
     <
         transform_iterator<UnaryFunc, Iterator, Reference, Value>
       , Iterator
       , cv_value_type
-      , thrust::use_default   // Leave the system alone
-        //, thrust::use_default   // Leave the traversal alone
+      , HYDRA_EXTERNAL_NS::thrust::use_default   // Leave the system alone
+        //, HYDRA_EXTERNAL_NS::thrust::use_default   // Leave the traversal alone
         // use the Iterator's category to let any system iterators remain random access even though
         // transform_iterator's reference type may not be a reference
         // XXX figure out why only iterators whose reference types are true references are random access
-        , typename thrust::iterator_traits<Iterator>::iterator_category
+        , typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::iterator_category
       , reference
     > type;
 };
 
 
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

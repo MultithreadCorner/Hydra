@@ -44,15 +44,16 @@ HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
  *  \see device_new
  */
 template<typename T>
-  inline void device_delete(thrust::device_ptr<T> ptr,
+  inline void device_delete(HYDRA_EXTERNAL_NS::thrust::device_ptr<T> ptr,
                             const size_t n = 1);
 
 /*! \}
  */
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END
+
 
 #include <hydra/detail/external/thrust/detail/device_delete.inl>
 

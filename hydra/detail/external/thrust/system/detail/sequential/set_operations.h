@@ -52,7 +52,7 @@ __hydra_host__ __hydra_device__
                                 StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -76,7 +76,7 @@ __hydra_host__ __hydra_device__
     } // end else
   } // end while
 
-  return thrust::copy(exec, first1, last1, result);
+  return HYDRA_EXTERNAL_NS::thrust::copy(exec, first1, last1, result);
 } // end set_difference()
 
 
@@ -96,7 +96,7 @@ __hydra_host__ __hydra_device__
                                   StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -140,7 +140,7 @@ __hydra_host__ __hydra_device__
                                           StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -166,7 +166,7 @@ __hydra_host__ __hydra_device__
     } // end else
   } // end while
 
-  return thrust::copy(exec, first2, last2, thrust::copy(exec, first1, last1, result));
+  return HYDRA_EXTERNAL_NS::thrust::copy(exec, first2, last2, HYDRA_EXTERNAL_NS::thrust::copy(exec, first1, last1, result));
 } // end set_symmetric_difference()
 
 
@@ -186,7 +186,7 @@ __hydra_host__ __hydra_device__
                            StrictWeakOrdering comp)
 {
   // wrap comp
-  thrust::detail::wrapped_function<
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > wrapped_comp(comp);
@@ -213,7 +213,7 @@ __hydra_host__ __hydra_device__
     ++result;
   } // end while
 
-  return thrust::copy(exec, first2, last2, thrust::copy(exec, first1, last1, result));
+  return HYDRA_EXTERNAL_NS::thrust::copy(exec, first2, last2, HYDRA_EXTERNAL_NS::thrust::copy(exec, first1, last1, result));
 } // end set_union()
 
 

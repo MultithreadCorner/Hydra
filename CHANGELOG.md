@@ -1,5 +1,12 @@
 ## CHANGE LOG
 
+### Hydra 2.4.1 (probably incomplete)
+
+1. The main change is this relase is the update of Thrust instance distributed with Hydra to the version 1.9.6, which enabled the support for CUDA 10.1 and hopefuly higher
+2. Range semantics implemented in `Decays::Unweight` methods
+3. Fix CLANG discovery on Apple platform (not ufficialy supported yet btw) 
+4. Many bug fixes across the tree...
+
 ### Hydra 2.3.1 
 
 1. Interfaces to FFTW and CuFFT for performing 1D real-real complex-real and real-complex FFT on CPU and GPU 

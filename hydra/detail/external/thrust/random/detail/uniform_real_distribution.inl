@@ -192,7 +192,7 @@ __hydra_host__ __hydra_device__
 bool operator==(const uniform_real_distribution<RealType> &lhs,
                 const uniform_real_distribution<RealType> &rhs)
 {
-  return thrust::random::detail::random_core_access::equal(lhs,rhs);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::equal(lhs,rhs);
 }
 
 
@@ -211,7 +211,7 @@ std::basic_ostream<CharT,Traits>&
 operator<<(std::basic_ostream<CharT,Traits> &os,
            const uniform_real_distribution<RealType> &d)
 {
-  return thrust::random::detail::random_core_access::stream_out(os,d);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::stream_out(os,d);
 }
 
 
@@ -221,12 +221,14 @@ std::basic_istream<CharT,Traits>&
 operator>>(std::basic_istream<CharT,Traits> &is,
            uniform_real_distribution<RealType> &d)
 {
-  return thrust::random::detail::random_core_access::stream_in(is,d);
+  return HYDRA_EXTERNAL_NS::thrust::random::detail::random_core_access::stream_in(is,d);
 }
 
 
 } // end random
 
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END
+

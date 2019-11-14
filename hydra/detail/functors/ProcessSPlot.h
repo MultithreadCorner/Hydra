@@ -112,7 +112,7 @@ struct CovMatrixUnary
 
 	template<typename Type>
 	__hydra_host__ __hydra_device__ inline
-	matrix_t operator()(Type& x)
+	matrix_t operator()(Type x)
 	{
 		auto fvalues  = detail::invoke_normalized(x, fFunctors);
 		auto wfvalues = detail::multiply_array_tuple(fCoeficients, fvalues);
@@ -171,7 +171,7 @@ struct SWeights
 
 	template<typename Type>
 	__hydra_host__ __hydra_device__ inline
-	tuple_t operator()(Type& x)
+	tuple_t operator()(Type x)
 	{
 		auto fvalues  = detail::invoke_normalized(x, fFunctors);
 		double values[nfunctors];

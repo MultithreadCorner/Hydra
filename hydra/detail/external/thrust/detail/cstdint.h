@@ -64,17 +64,18 @@ template<int word_size = sizeof(void*)> struct divine_intptr_t;
 template<int word_size = sizeof(void*)> struct divine_uintptr_t;
 
 // 32b platforms
-template<>  struct divine_intptr_t<4>  {  typedef thrust::detail::int32_t  type; };
-template<>  struct divine_uintptr_t<4> {  typedef thrust::detail::uint32_t type; };
+template<>  struct divine_intptr_t<4>  {  typedef HYDRA_EXTERNAL_NS::thrust::detail::int32_t  type; };
+template<>  struct divine_uintptr_t<4> {  typedef HYDRA_EXTERNAL_NS::thrust::detail::uint32_t type; };
 
 // 64b platforms
-template<>  struct divine_intptr_t<8>  { typedef thrust::detail::int64_t  type; };
-template<>  struct divine_uintptr_t<8> { typedef thrust::detail::uint64_t type; };
+template<>  struct divine_intptr_t<8>  { typedef HYDRA_EXTERNAL_NS::thrust::detail::int64_t  type; };
+template<>  struct divine_uintptr_t<8> { typedef HYDRA_EXTERNAL_NS::thrust::detail::uint64_t type; };
 
 typedef divine_intptr_t<>::type   intptr_t;
 typedef divine_uintptr_t<>::type  uintptr_t;
 
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

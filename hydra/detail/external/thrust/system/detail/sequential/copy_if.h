@@ -48,7 +48,7 @@ __hydra_host__ __hydra_device__
                          OutputIterator result,
                          Predicate pred)
 {
-  thrust::detail::wrapped_function<Predicate,bool> wrapped_pred(pred);
+  HYDRA_EXTERNAL_NS::thrust::detail::wrapped_function<Predicate,bool> wrapped_pred(pred);
 
   while(first != last)
   {

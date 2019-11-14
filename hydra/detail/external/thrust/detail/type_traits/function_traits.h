@@ -57,7 +57,7 @@ template<typename AdaptableBinaryFunction>
 
 template<typename T>
   struct is_adaptable_unary_function
-    : thrust::detail::and_<
+    : HYDRA_EXTERNAL_NS::thrust::detail::and_<
         has_result_type<T>,
         has_argument_type<T>
       >
@@ -66,9 +66,9 @@ template<typename T>
 
 template<typename T>
   struct is_adaptable_binary_function
-    : thrust::detail::and_<
+    : HYDRA_EXTERNAL_NS::thrust::detail::and_<
         has_result_type<T>,
-        thrust::detail::and_<
+        HYDRA_EXTERNAL_NS::thrust::detail::and_<
           has_first_argument_type<T>,
           has_second_argument_type<T>
         >
@@ -78,20 +78,21 @@ template<typename T>
 
 template<typename BinaryFunction>
   struct is_commutative
-    : public thrust::detail::false_type
+    : public HYDRA_EXTERNAL_NS::thrust::detail::false_type
 {};
 
-template<typename T> struct is_commutative< typename thrust::plus<T>        > : public thrust::detail::is_arithmetic<T> {};
-template<typename T> struct is_commutative< typename thrust::multiplies<T>  > : public thrust::detail::is_arithmetic<T> {};
-template<typename T> struct is_commutative< typename thrust::minimum<T>     > : public thrust::detail::is_arithmetic<T> {};
-template<typename T> struct is_commutative< typename thrust::maximum<T>     > : public thrust::detail::is_arithmetic<T> {};
-template<typename T> struct is_commutative< typename thrust::logical_or<T>  > : public thrust::detail::is_arithmetic<T> {};
-template<typename T> struct is_commutative< typename thrust::logical_and<T> > : public thrust::detail::is_arithmetic<T> {};
-template<typename T> struct is_commutative< typename thrust::bit_or<T>      > : public thrust::detail::is_arithmetic<T> {};
-template<typename T> struct is_commutative< typename thrust::bit_and<T>     > : public thrust::detail::is_arithmetic<T> {};
-template<typename T> struct is_commutative< typename thrust::bit_xor<T>     > : public thrust::detail::is_arithmetic<T> {};
+template<typename T> struct is_commutative< typename HYDRA_EXTERNAL_NS::thrust::plus<T>        > : public HYDRA_EXTERNAL_NS::thrust::detail::is_arithmetic<T> {};
+template<typename T> struct is_commutative< typename HYDRA_EXTERNAL_NS::thrust::multiplies<T>  > : public HYDRA_EXTERNAL_NS::thrust::detail::is_arithmetic<T> {};
+template<typename T> struct is_commutative< typename HYDRA_EXTERNAL_NS::thrust::minimum<T>     > : public HYDRA_EXTERNAL_NS::thrust::detail::is_arithmetic<T> {};
+template<typename T> struct is_commutative< typename HYDRA_EXTERNAL_NS::thrust::maximum<T>     > : public HYDRA_EXTERNAL_NS::thrust::detail::is_arithmetic<T> {};
+template<typename T> struct is_commutative< typename HYDRA_EXTERNAL_NS::thrust::logical_or<T>  > : public HYDRA_EXTERNAL_NS::thrust::detail::is_arithmetic<T> {};
+template<typename T> struct is_commutative< typename HYDRA_EXTERNAL_NS::thrust::logical_and<T> > : public HYDRA_EXTERNAL_NS::thrust::detail::is_arithmetic<T> {};
+template<typename T> struct is_commutative< typename HYDRA_EXTERNAL_NS::thrust::bit_or<T>      > : public HYDRA_EXTERNAL_NS::thrust::detail::is_arithmetic<T> {};
+template<typename T> struct is_commutative< typename HYDRA_EXTERNAL_NS::thrust::bit_and<T>     > : public HYDRA_EXTERNAL_NS::thrust::detail::is_arithmetic<T> {};
+template<typename T> struct is_commutative< typename HYDRA_EXTERNAL_NS::thrust::bit_xor<T>     > : public HYDRA_EXTERNAL_NS::thrust::detail::is_arithmetic<T> {};
 
 } // end namespace detail
 } // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
+
 
 HYDRA_EXTERNAL_NAMESPACE_END

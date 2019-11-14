@@ -32,16 +32,16 @@ template<typename T, typename System, typename Pointer>
     malloc_allocator<T,System,Pointer>
       ::allocate(typename malloc_allocator<T,System,Pointer>::size_type cnt)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
-  // XXX should use a hypothetical thrust::static_pointer_cast here
+  // XXX should use a hypothetical HYDRA_EXTERNAL_NS::thrust::static_pointer_cast here
   System system;
 
-  pointer result = thrust::malloc<T>(select_system(system), cnt);
+  pointer result = HYDRA_EXTERNAL_NS::thrust::malloc<T>(select_system(system), cnt);
 
   if(result.get() == 0)
   {
-    throw thrust::system::detail::bad_alloc("malloc_allocator::allocate: malloc failed");
+    throw HYDRA_EXTERNAL_NS::thrust::system::detail::bad_alloc("malloc_allocator::allocate: malloc failed");
   } // end if
 
   return result;
@@ -50,16 +50,16 @@ template<typename T, typename System, typename Pointer>
 
 template<typename T, typename System, typename Pointer>
   void malloc_allocator<T,System,Pointer>
-    ::deallocate(typename malloc_allocator<T,System,Pointer>::pointer p, typename malloc_allocator<T,System,Pointer>::size_type /*n*/)
+    ::deallocate(typename malloc_allocator<T,System,Pointer>::pointer p, typename malloc_allocator<T,System,Pointer>::size_type)
 {
-  using thrust::system::detail::generic::select_system;
+  using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
 
   System system;
-  thrust::free(select_system(system), p);
+  HYDRA_EXTERNAL_NS::thrust::free(select_system(system), p);
 } // end malloc_allocator
 
 
 } // end detail
-} // end thrust
+} // end HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 
 HYDRA_EXTERNAL_NAMESPACE_END

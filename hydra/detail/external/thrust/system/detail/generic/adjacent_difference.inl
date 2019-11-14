@@ -34,25 +34,25 @@ namespace generic
 
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
 __hydra_host__ __hydra_device__
-OutputIterator adjacent_difference(thrust::execution_policy<DerivedPolicy> &exec,
+OutputIterator adjacent_difference(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result)
 {
-  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-  thrust::minus<InputType> binary_op;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::value_type InputType;
+  HYDRA_EXTERNAL_NS::thrust::minus<InputType> binary_op;
 
-  return thrust::adjacent_difference(exec, first, last, result, binary_op);
+  return HYDRA_EXTERNAL_NS::thrust::adjacent_difference(exec, first, last, result, binary_op);
 } // end adjacent_difference()
 
 
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename BinaryFunction>
 __hydra_host__ __hydra_device__
-OutputIterator adjacent_difference(thrust::execution_policy<DerivedPolicy> &exec,
+OutputIterator adjacent_difference(HYDRA_EXTERNAL_NS::thrust::execution_policy<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op)
 {
-  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
+  typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<InputIterator>::value_type InputType;
 
   if(first == last)
   {
@@ -64,10 +64,10 @@ OutputIterator adjacent_difference(thrust::execution_policy<DerivedPolicy> &exec
     // an in-place operation is requested, copy the input and call the entry point
     // XXX a special-purpose kernel would be faster here since
     // only block boundaries need to be copied
-    thrust::detail::temporary_array<InputType, DerivedPolicy> input_copy(exec, first, last);
+    HYDRA_EXTERNAL_NS::thrust::detail::temporary_array<InputType, DerivedPolicy> input_copy(exec, first, last);
     
     *result = *first;
-    thrust::transform(exec, input_copy.begin() + 1, input_copy.end(), input_copy.begin(), result + 1, binary_op); 
+    HYDRA_EXTERNAL_NS::thrust::transform(exec, input_copy.begin() + 1, input_copy.end(), input_copy.begin(), result + 1, binary_op); 
   }
 
   return result + (last - first);

@@ -61,8 +61,8 @@ struct range
       result(r.result), comp(r.comp), grain_size(r.grain_size)
   {
     // we can assume n1 and n2 are not both 0
-    size_t n1 = thrust::distance(first1, last1);
-    size_t n2 = thrust::distance(first2, last2);
+    size_t n1 = HYDRA_EXTERNAL_NS::thrust::distance(first1, last1);
+    size_t n2 = HYDRA_EXTERNAL_NS::thrust::distance(first2, last2);
 
     InputIterator1 mid1 = first1;
     InputIterator2 mid2 = first2;
@@ -70,12 +70,12 @@ struct range
     if (n1 > n2)
     {
       mid1 += n1 / 2;
-      mid2 = thrust::lower_bound(thrust::seq, first2, last2, raw_reference_cast(*mid1), comp);
+      mid2 = HYDRA_EXTERNAL_NS::thrust::lower_bound(HYDRA_EXTERNAL_NS::thrust::seq, first2, last2, raw_reference_cast(*mid1), comp);
     }
     else
     {
       mid2 += n2 / 2;
-      mid1 = thrust::upper_bound(thrust::seq, first1, last1, raw_reference_cast(*mid2), comp);
+      mid1 = HYDRA_EXTERNAL_NS::thrust::upper_bound(HYDRA_EXTERNAL_NS::thrust::seq, first1, last1, raw_reference_cast(*mid2), comp);
     }
     
     // set first range to [first1, mid1), [first2, mid2), result
@@ -85,7 +85,7 @@ struct range
     // set second range to [mid1, last1), [mid2, last2), result + (mid1 - first1) + (mid2 - first2)
     first1 = mid1;
     first2 = mid2;
-    result += thrust::distance(r.first1, mid1) + thrust::distance(r.first2, mid2);
+    result += HYDRA_EXTERNAL_NS::thrust::distance(r.first1, mid1) + HYDRA_EXTERNAL_NS::thrust::distance(r.first2, mid2);
   }
 
   bool empty(void) const
@@ -95,7 +95,7 @@ struct range
 
   bool is_divisible(void) const
   {
-    return static_cast<size_t>(thrust::distance(first1, last1) + thrust::distance(first2, last2)) > grain_size;
+    return static_cast<size_t>(HYDRA_EXTERNAL_NS::thrust::distance(first1, last1) + HYDRA_EXTERNAL_NS::thrust::distance(first2, last2)) > grain_size;
   }
 };
 
@@ -104,7 +104,7 @@ struct body
   template <typename Range>
   void operator()(Range& r) const
   {
-    thrust::merge(thrust::seq,
+    HYDRA_EXTERNAL_NS::thrust::merge(HYDRA_EXTERNAL_NS::thrust::seq,
                   r.first1, r.last1,
                   r.first2, r.last2,
                   r.result,
@@ -160,8 +160,8 @@ struct range
       comp(r.comp), grain_size(r.grain_size)
   {
     // we can assume n1 and n2 are not both 0
-    size_t n1 = thrust::distance(keys_first1, keys_last1);
-    size_t n2 = thrust::distance(keys_first2, keys_last2);
+    size_t n1 = HYDRA_EXTERNAL_NS::thrust::distance(keys_first1, keys_last1);
+    size_t n2 = HYDRA_EXTERNAL_NS::thrust::distance(keys_first2, keys_last2);
 
     InputIterator1 mid1 = keys_first1;
     InputIterator2 mid2 = keys_first2;
@@ -169,12 +169,12 @@ struct range
     if (n1 > n2)
     {
       mid1 += n1 / 2;
-      mid2 = thrust::lower_bound(thrust::seq, keys_first2, keys_last2, raw_reference_cast(*mid1), comp);
+      mid2 = HYDRA_EXTERNAL_NS::thrust::lower_bound(HYDRA_EXTERNAL_NS::thrust::seq, keys_first2, keys_last2, raw_reference_cast(*mid1), comp);
     }
     else
     {
       mid2 += n2 / 2;
-      mid1 = thrust::upper_bound(thrust::seq, keys_first1, keys_last1, raw_reference_cast(*mid2), comp);
+      mid1 = HYDRA_EXTERNAL_NS::thrust::upper_bound(HYDRA_EXTERNAL_NS::thrust::seq, keys_first1, keys_last1, raw_reference_cast(*mid2), comp);
     }
     
     // set first range to [keys_first1, mid1), [keys_first2, mid2), keys_result, values_result
@@ -184,10 +184,10 @@ struct range
     // set second range to [mid1, keys_last1), [mid2, keys_last2), keys_result + (mid1 - keys_first1) + (mid2 - keys_first2), values_result + (mid1 - keys_first1) + (mid2 - keys_first2) 
     keys_first1 = mid1;
     keys_first2 = mid2;
-    values_first1 += thrust::distance(r.keys_first1, mid1);
-    values_first2 += thrust::distance(r.keys_first2, mid2);
-    keys_result += thrust::distance(r.keys_first1, mid1) + thrust::distance(r.keys_first2, mid2);
-    values_result += thrust::distance(r.keys_first1, mid1) + thrust::distance(r.keys_first2, mid2);
+    values_first1 += HYDRA_EXTERNAL_NS::thrust::distance(r.keys_first1, mid1);
+    values_first2 += HYDRA_EXTERNAL_NS::thrust::distance(r.keys_first2, mid2);
+    keys_result += HYDRA_EXTERNAL_NS::thrust::distance(r.keys_first1, mid1) + HYDRA_EXTERNAL_NS::thrust::distance(r.keys_first2, mid2);
+    values_result += HYDRA_EXTERNAL_NS::thrust::distance(r.keys_first1, mid1) + HYDRA_EXTERNAL_NS::thrust::distance(r.keys_first2, mid2);
   }
 
   bool empty(void) const
@@ -197,7 +197,7 @@ struct range
 
   bool is_divisible(void) const
   {
-    return static_cast<size_t>(thrust::distance(keys_first1, keys_last1) + thrust::distance(keys_first2, keys_last2)) > grain_size;
+    return static_cast<size_t>(HYDRA_EXTERNAL_NS::thrust::distance(keys_first1, keys_last1) + HYDRA_EXTERNAL_NS::thrust::distance(keys_first2, keys_last2)) > grain_size;
   }
 };
 
@@ -206,7 +206,7 @@ struct body
   template <typename Range>
   void operator()(Range& r) const
   {
-    thrust::merge_by_key(thrust::seq,
+    HYDRA_EXTERNAL_NS::thrust::merge_by_key(HYDRA_EXTERNAL_NS::thrust::seq,
                          r.keys_first1, r.keys_last1,
                          r.keys_first2, r.keys_last2,
                          r.values_first1,
@@ -225,7 +225,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-OutputIterator merge(execution_policy<DerivedPolicy> & /*exec*/,
+OutputIterator merge(execution_policy<DerivedPolicy> &exec,
                      InputIterator1 first1,
                      InputIterator1 last1,
                      InputIterator2 first2,
@@ -240,7 +240,7 @@ OutputIterator merge(execution_policy<DerivedPolicy> & /*exec*/,
 
   ::tbb::parallel_for(range, body);
 
-  thrust::advance(result, thrust::distance(first1, last1) + thrust::distance(first2, last2));
+  HYDRA_EXTERNAL_NS::thrust::advance(result, HYDRA_EXTERNAL_NS::thrust::distance(first1, last1) + HYDRA_EXTERNAL_NS::thrust::distance(first2, last2));
 
   return result;
 } // end merge()
@@ -253,8 +253,8 @@ template <typename DerivedPolicy,
           typename OutputIterator1,
           typename OutputIterator2,
           typename StrictWeakOrdering>
-thrust::pair<OutputIterator1,OutputIterator2>
-  merge_by_key(execution_policy<DerivedPolicy> &/*exec*/,
+HYDRA_EXTERNAL_NS::thrust::pair<OutputIterator1,OutputIterator2>
+  merge_by_key(execution_policy<DerivedPolicy> &exec,
                InputIterator1 keys_first1,
                InputIterator1 keys_last1,
                InputIterator2 keys_first2,
@@ -273,10 +273,10 @@ thrust::pair<OutputIterator1,OutputIterator2>
 
   ::tbb::parallel_for(range, body);
 
-  thrust::advance(keys_result,   thrust::distance(keys_first1, keys_last1) + thrust::distance(keys_first2, keys_last2));
-  thrust::advance(values_result, thrust::distance(keys_first1, keys_last1) + thrust::distance(keys_first2, keys_last2));
+  HYDRA_EXTERNAL_NS::thrust::advance(keys_result,   HYDRA_EXTERNAL_NS::thrust::distance(keys_first1, keys_last1) + HYDRA_EXTERNAL_NS::thrust::distance(keys_first2, keys_last2));
+  HYDRA_EXTERNAL_NS::thrust::advance(values_result, HYDRA_EXTERNAL_NS::thrust::distance(keys_first1, keys_last1) + HYDRA_EXTERNAL_NS::thrust::distance(keys_first2, keys_last2));
 
-  return thrust::make_pair(keys_result,values_result);
+  return HYDRA_EXTERNAL_NS::thrust::make_pair(keys_result,values_result);
 }
 
 } // end namespace detail

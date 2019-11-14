@@ -1,7 +1,7 @@
 
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -47,7 +47,7 @@
 #include "../../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+HYDRA_EXTERNAL_NAMESPACE_BEGIN  HYDRA_THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -108,14 +108,14 @@ template <
     typename                OutputIteratorT,            ///< Output iterator type for recording the reduced aggregate \iterator
     typename                OffsetT,                    ///< Signed integer type for global offsets
     typename                ReductionOpT,               ///< Binary reduction functor type having member <tt>T operator()(const T &a, const T &b)</tt>
-    typename                OuputT>                     ///< Data element type that is convertible to the \p value type of \p OutputIteratorT
+    typename                OutputT>                     ///< Data element type that is convertible to the \p value type of \p OutputIteratorT
 __launch_bounds__ (int(ChainedPolicyT::ActivePolicy::SingleTilePolicy::BLOCK_THREADS), 1)
 __global__ void DeviceReduceSingleTileKernel(
     InputIteratorT          d_in,                       ///< [in] Pointer to the input sequence of data items
     OutputIteratorT         d_out,                      ///< [out] Pointer to the output aggregate
     OffsetT                 num_items,                  ///< [in] Total number of input data items
     ReductionOpT            reduction_op,               ///< [in] Binary reduction functor
-    OuputT                  init)                       ///< [in] The initial value of the reduction
+    OutputT                  init)                       ///< [in] The initial value of the reduction
 {
     // Thread block type for reducing input tiles
     typedef AgentReduce<
@@ -138,7 +138,7 @@ __global__ void DeviceReduceSingleTileKernel(
     }
 
     // Consume input tiles
-    OuputT block_aggregate = AgentReduceT(temp_storage, d_in, reduction_op).ConsumeRange(
+    OutputT block_aggregate = AgentReduceT(temp_storage, d_in, reduction_op).ConsumeRange(
         OffsetT(0),
         num_items);
 
@@ -150,7 +150,7 @@ __global__ void DeviceReduceSingleTileKernel(
 
 /// Normalize input iterator to segment offset
 template <typename T, typename OffsetT, typename IteratorT>
-__hydra_device__ __forceinline__
+__device__ __forceinline__
 void NormalizeReductionOutput(
     T &/*val*/,
     OffsetT /*base_offset*/,
@@ -160,7 +160,7 @@ void NormalizeReductionOutput(
 
 /// Normalize input iterator to segment offset (specialized for arg-index)
 template <typename KeyValuePairT, typename OffsetT, typename WrappedIteratorT, typename OutputValueT>
-__hydra_device__ __forceinline__
+__device__ __forceinline__
 void NormalizeReductionOutput(
     KeyValuePairT &val,
     OffsetT base_offset,
@@ -234,7 +234,7 @@ __global__ void DeviceSegmentedReduceKernel(
  ******************************************************************************/
 
 template <
-    typename OuputT,            ///< Data type
+    typename OutputT,            ///< Data type
     typename OffsetT,           ///< Signed integer type for global offsets
     typename ReductionOpT>      ///< Binary reduction functor type having member <tt>T operator()(const T &a, const T &b)</tt> 
 struct DeviceReducePolicy
@@ -248,10 +248,10 @@ struct DeviceReducePolicy
     {
         // ReducePolicy
         typedef AgentReducePolicy<
-                CUB_NOMINAL_CONFIG(128, 8, OuputT), ///< Threads per block, items per thread
-                2,                                  ///< Number of items per vectorized load
-                BLOCK_REDUCE_RAKING,                ///< Cooperative block-wide reduction algorithm to use
-                LOAD_DEFAULT>                       ///< Cache load modifier
+                CUB_SCALED_GRANULARITIES(128, 8, OutputT), ///< Threads per block, items per thread
+                2,                                         ///< Number of items per vectorized load
+                BLOCK_REDUCE_RAKING,                       ///< Cooperative block-wide reduction algorithm to use
+                LOAD_DEFAULT>                              ///< Cache load modifier
             ReducePolicy;
 
         // SingleTilePolicy
@@ -267,10 +267,10 @@ struct DeviceReducePolicy
     {
         // ReducePolicy (GTX 580: 178.9 GB/s @ 48M 4B items, 158.1 GB/s @ 192M 1B items)
         typedef AgentReducePolicy<
-                CUB_NOMINAL_CONFIG(128, 8, OuputT),     ///< Threads per block, items per thread
-                4,                                      ///< Number of items per vectorized load
-                BLOCK_REDUCE_RAKING,                    ///< Cooperative block-wide reduction algorithm to use
-                LOAD_DEFAULT>                           ///< Cache load modifier
+                CUB_SCALED_GRANULARITIES(128, 8, OutputT), ///< Threads per block, items per thread
+                4,                                         ///< Number of items per vectorized load
+                BLOCK_REDUCE_RAKING,                       ///< Cooperative block-wide reduction algorithm to use
+                LOAD_DEFAULT>                              ///< Cache load modifier
             ReducePolicy;
 
         // SingleTilePolicy
@@ -286,10 +286,10 @@ struct DeviceReducePolicy
     {
         // ReducePolicy (GTX670: 154.0 @ 48M 4B items)
         typedef AgentReducePolicy<
-                CUB_NOMINAL_CONFIG(256, 20, OuputT),    ///< Threads per block, items per thread
-                2,                                      ///< Number of items per vectorized load
-                BLOCK_REDUCE_WARP_REDUCTIONS,           ///< Cooperative block-wide reduction algorithm to use
-                LOAD_DEFAULT>                           ///< Cache load modifier
+                CUB_SCALED_GRANULARITIES(256, 20, OutputT), ///< Threads per block, items per thread
+                2,                                          ///< Number of items per vectorized load
+                BLOCK_REDUCE_WARP_REDUCTIONS,               ///< Cooperative block-wide reduction algorithm to use
+                LOAD_DEFAULT>                               ///< Cache load modifier
             ReducePolicy;
 
         // SingleTilePolicy
@@ -305,10 +305,10 @@ struct DeviceReducePolicy
     {
         // ReducePolicy (GTX Titan: 255.1 GB/s @ 48M 4B items; 228.7 GB/s @ 192M 1B items)
         typedef AgentReducePolicy<
-                CUB_NOMINAL_CONFIG(256, 20, OuputT),    ///< Threads per block, items per thread
-                4,                                      ///< Number of items per vectorized load
-                BLOCK_REDUCE_WARP_REDUCTIONS,           ///< Cooperative block-wide reduction algorithm to use
-                LOAD_LDG>                               ///< Cache load modifier
+                CUB_SCALED_GRANULARITIES(256, 20, OutputT), ///< Threads per block, items per thread
+                4,                                          ///< Number of items per vectorized load
+                BLOCK_REDUCE_WARP_REDUCTIONS,               ///< Cooperative block-wide reduction algorithm to use
+                LOAD_LDG>                                   ///< Cache load modifier
             ReducePolicy;
 
         // SingleTilePolicy
@@ -323,10 +323,10 @@ struct DeviceReducePolicy
     {
         // ReducePolicy (P100: 591 GB/s @ 64M 4B items; 583 GB/s @ 256M 1B items)
         typedef AgentReducePolicy<
-                CUB_NOMINAL_CONFIG(256, 16, OuputT),    ///< Threads per block, items per thread
-                4,                                      ///< Number of items per vectorized load
-                BLOCK_REDUCE_WARP_REDUCTIONS,           ///< Cooperative block-wide reduction algorithm to use
-                LOAD_LDG>                               ///< Cache load modifier
+                CUB_SCALED_GRANULARITIES(256, 16, OutputT), ///< Threads per block, items per thread
+                4,                                          ///< Number of items per vectorized load
+                BLOCK_REDUCE_WARP_REDUCTIONS,               ///< Cooperative block-wide reduction algorithm to use
+                LOAD_LDG>                                   ///< Cache load modifier
             ReducePolicy;
 
         // SingleTilePolicy
@@ -355,25 +355,13 @@ template <
     typename InputIteratorT,    ///< Random-access input iterator type for reading input items \iterator
     typename OutputIteratorT,   ///< Output iterator type for recording the reduced aggregate \iterator
     typename OffsetT,           ///< Signed integer type for global offsets
-    typename ReductionOpT>      ///< Binary reduction functor type having member <tt>T operator()(const T &a, const T &b)</tt> 
-struct DispatchReduce :
-    DeviceReducePolicy<
+    typename ReductionOpT,      ///< Binary reduction functor type having member <tt>T operator()(const T &a, const T &b)</tt> 
+    typename OutputT =          ///< Data type of the output iterator
         typename If<(Equals<typename std::iterator_traits<OutputIteratorT>::value_type, void>::VALUE),  // OutputT =  (if output iterator's value type is void) ?
             typename std::iterator_traits<InputIteratorT>::value_type,                                  // ... then the input iterator's value type,
-            typename std::iterator_traits<OutputIteratorT>::value_type>::Type,                          // ... else the output iterator's value type
-        OffsetT,
-        ReductionOpT>
+            typename std::iterator_traits<OutputIteratorT>::value_type>::Type>                          // ... else the output iterator's value type
+struct DispatchReduce : DeviceReducePolicy<OutputT, OffsetT, ReductionOpT>
 {
-    //------------------------------------------------------------------------------
-    // Constants
-    //------------------------------------------------------------------------------
-
-    // Data type of output iterator
-    typedef typename If<(Equals<typename std::iterator_traits<OutputIteratorT>::value_type, void>::VALUE),  // OutputT =  (if output iterator's value type is void) ?
-        typename std::iterator_traits<InputIteratorT>::value_type,                                          // ... then the input iterator's value type,
-        typename std::iterator_traits<OutputIteratorT>::value_type>::Type OutputT;                          // ... else the output iterator's value type
-
-
     //------------------------------------------------------------------------------
     // Problem state
     //------------------------------------------------------------------------------
@@ -677,23 +665,17 @@ template <
     typename OutputIteratorT,   ///< Output iterator type for recording the reduced aggregate \iterator
     typename OffsetIteratorT,   ///< Random-access input iterator type for reading segment offsets \iterator
     typename OffsetT,           ///< Signed integer type for global offsets
-    typename ReductionOpT>      ///< Binary reduction functor type having member <tt>T operator()(const T &a, const T &b)</tt> 
+    typename ReductionOpT,      ///< Binary reduction functor type having member <tt>T operator()(const T &a, const T &b)</tt> 
+    typename OutputT =          ///< Data type of the output iterator
+        typename If<(Equals<typename std::iterator_traits<OutputIteratorT>::value_type, void>::VALUE),  // OutputT =  (if output iterator's value type is void) ?
+            typename std::iterator_traits<InputIteratorT>::value_type,                                  // ... then the input iterator's value type,
+            typename std::iterator_traits<OutputIteratorT>::value_type>::Type>                          // ... else the output iterator's value type
 struct DispatchSegmentedReduce :
     DeviceReducePolicy<
         typename std::iterator_traits<InputIteratorT>::value_type,
         OffsetT,
         ReductionOpT>
 {
-    //------------------------------------------------------------------------------
-    // Constants
-    //------------------------------------------------------------------------------
-
-    /// The output value type
-    typedef typename If<(Equals<typename std::iterator_traits<OutputIteratorT>::value_type, void>::VALUE),  // OutputT =  (if output iterator's value type is void) ?
-        typename std::iterator_traits<InputIteratorT>::value_type,                                          // ... then the input iterator's value type,
-        typename std::iterator_traits<OutputIteratorT>::value_type>::Type OutputT;                          // ... else the output iterator's value type
-
-
     //------------------------------------------------------------------------------
     // Problem state
     //------------------------------------------------------------------------------
@@ -877,6 +859,6 @@ struct DispatchSegmentedReduce :
 
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+HYDRA_THRUST_CUB_NS_POSTFIX HYDRA_EXTERNAL_NAMESPACE_END  // Optional outer namespace(s)
 
 
