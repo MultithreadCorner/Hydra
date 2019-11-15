@@ -119,62 +119,105 @@ int main(int argv, char** argc)
 														<< std::endl;
 	}
 
-	//-----------------
-    // some definitions
-    double min   =  0.0;
-    double max   =  10.0;
-
-    //======================================================
-    // Pseudo-experiment data sample generation
-    //======================================================
-	//
-    //generator
-	hydra::Random<> Generator( std::chrono::system_clock::now().time_since_epoch().count() );
-
-
+	/*
+     * Dataset layout: the data points are 2 dimensional. Each data point can be
+     * represented by hydra::tuple<double, double> object. The values in the dimension <0>
+     * represents the discriminant variable, which is distributed following a gaussian + argus.
+     * The dimension <1> is the observable, which is distributed following a non-relativistic breit-wigner + exponential
+     *
+     */
 
 	//======================================================
 	// Pseudo-experiment Model
 	//======================================================
 
-	// gaussian
+	//======================================================
+	// 1) Gaussian + Exponential model (dimension <0>)
+	// data range
+    double data_min   =  0.0;
+    double data_max   =  10.0;
 
-	// mean of gaussian
-	hydra::Parameter  mean_p  = hydra::Parameter::Create().Name("Mean").Value(2.5).Error(0.0001).Limits(0.0, 10.0);
-	// sigma of gaussian
-	hydra::Parameter  sigma_p = hydra::Parameter::Create().Name("Sigma").Value(0.5).Error(0.0001).Limits(0.01, 1.5);
+	//Gaussian
 
-    auto gaussian = hydra::Gaussian<0>(mean_p, sigma_p);
+	//parameters
+	hydra::Parameter  mean  = hydra::Parameter::Create().Name("Mean").Value( 5.28).Error(0.0001).Limits(5.25,5.29);
+	hydra::Parameter  sigma = hydra::Parameter::Create().Name("Sigma").Value(0.0026).Error(0.0001).Limits(0.0024,0.0028);
 
-    //--------------------------------------------
+	//gaussian function evaluating on the first argument
+	hydra::Gaussian<> signal(mean, sigma);
+	auto Gaussian_PDF = hydra::make_pdf( hydra::Gaussian<>(mean, sigma),
+			hydra::AnalyticalIntegral<hydra::Gaussian<>>(data_min, data_max));
 
-    //exponential
+	//-------------------------------------------
+	//Exponential
+    //parameters
+    auto  tau  = hydra::Parameter::Create().Name("Tau").Value(-0.1).Error(0.0001).Limits(-1.0, 0.0);
+
+    //Background PDF
+    auto Exponential_PDF = hydra::make_pdf(hydra::Exponential<>(tau),
+    		 hydra::AnalyticalIntegral<hydra::Exponential<>>(data_min, data_max));
+
+	//------------------
+
+	//yields
+	hydra::Parameter N_Exponential("N_Exponential", 500, 100, 100 , nentries) ;
+	hydra::Parameter N_Gaussian("N_Gaussian", 2000, 100, 100 , nentries) ;
+
+	//make model
+	auto discriminant_variable_model = hydra::add_pdfs( {N_Gaussian, N_Exponential}, N_Gaussian, N_Exponential);
+	discriminant_variable_model.SetExtended(1);
+
+	//======================================================
+	// 2) Breit-Wigner + Chebychev (dimension <1>)
+	//-----------------
+	// data range
+	double obs_min   =  0.0;
+	double obs_max   =  15.0;
+
+	//Breit-Wigner
+
+	//parameters
+	hydra::Parameter  mass  = hydra::Parameter::Create().Name("Mass" ).Value(6.0).Error(0.0001).Limits(5.0,7.0);
+	hydra::Parameter  width = hydra::Parameter::Create().Name("Width").Value(0.5).Error(0.0001).Limits(0.3,1.0);
+
+	//Breit-Wigner function evaluating on the first argument
+	auto BreitWigner_PDF = hydra::make_pdf( hydra::BreitWignerNR<>(mass, width ),
+			hydra::AnalyticalIntegral<hydra::BreitWignerNR<>>(obs_min, obs_max));
+
+    //-------------------------------------------
+
+	//Chebychev
 
     //parameters
-    // tau of the exponential
-    hydra::Parameter  tau_p  = hydra::Parameter::Create().Name("Tau").Value(0.0) .Error(0.0001).Limits(-10.0, 10.0);
+    auto  c0  = hydra::Parameter::Create("C_0").Value( 1.5).Error(0.0001).Limits( 1.0, 2.0);
+    auto  c1  = hydra::Parameter::Create("C_1").Value( 0.2).Error(0.0001).Limits( 0.1, 0.3);
+    auto  c2  = hydra::Parameter::Create("C_2").Value( 0.1).Error(0.0001).Limits( 0.01, 0.2);
+    auto  c3  = hydra::Parameter::Create("C_3").Value( 0.1).Error(0.0001).Limits( 0.01, 0.2);
 
-    auto exponential =  hydra::Exponential<0>(tau_p);
+    //Polynomial function evaluating on the first argument
+    auto Chebychev_PDF = hydra::make_pdf( hydra::Chebychev<3>(obs_min, obs_max, std::array<hydra::Parameter,4>{c0, c1, c2, c3}),
+    		hydra::AnalyticalIntegral< hydra::Chebychev<3>>(obs_min, obs_max));
 
     //------------------
     //yields
+	hydra::Parameter N_Signal("N_Signal"        ,500, 100, 100 , nentries) ;
+	hydra::Parameter N_Background("N_Background",2000, 100, 100 , nentries) ;
 
-    hydra::Parameter N_Gauss_p("N_Gauss" ,nentries, sqrt(nentries), nentries-nentries/2 , nentries+nentries/2) ;
-	hydra::Parameter N_Exp_p( "N_Exp",nentries, sqrt(nentries), nentries-nentries/2 , nentries+nentries/2) ;
+	//make model
+	auto model = hydra::add_pdfs( {N_Signal, N_Background}, Signal_PDF, Background_PDF);
+	model.SetExtended(1);
 
-    std::array<hydra::Parameter, 2>  yields{ N_Gauss_p, N_Exp_p };
+	//======================================================
+	// Pseudo-experiment data sample generation
+	//======================================================
+	//
+	//generator
+	hydra::Random<> Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
-    //------------------
-    //fit model
+	//dataset
+	hydra::multiarray<double,2,  hydra::device::sys_t> data_d(nentries);
 
-    //convert functors to pdfs
-    auto  Gauss_PDF = hydra::make_pdf(gaussian   , hydra::AnalyticalIntegral<hydra::Gaussian<>>(min, max) );
-    auto    Exp_PDF = hydra::make_pdf(exponential, hydra::AnalyticalIntegral<hydra::Exponential<>>(min, max) );
 
-    //add the pdfs
-    auto model = hydra::add_pdfs({ N_Gauss_p, N_Exp_p }, Gauss_PDF, Exp_PDF);
-
-    model.SetExtended(1);
 
 	//device
 	//------------------------
