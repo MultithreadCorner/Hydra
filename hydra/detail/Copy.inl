@@ -55,7 +55,7 @@ copy(Iterable_Source&& source, Iterable_Target&& destination)
 			std::forward<Iterable_Target>(destination).end());
 }
 
-/*
+
 template<typename InputIterator, typename OutputIterator>
 OutputIterator copy(InputIterator first, InputIterator last, OutputIterator result)
 {
@@ -68,7 +68,7 @@ OutputIterator copy(hydra::detail::BackendPolicy<Backend> const& policy, InputIt
 {
 	return HYDRA_EXTERNAL_NS::thrust::copy( policy, first, last, result);
 }
-*/
+
 
 }  // namespace hydra
 

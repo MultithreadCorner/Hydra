@@ -172,26 +172,27 @@ public:
  * @return
  */
 
-template<typename... Pdfs,  typename Iterator, typename ...Iterators>
-auto make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterator first, Iterator last, Iterators... weights )
--> LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, Iterator,Iterators... >
+template<typename... Pdfs,  typename Iterator1, typename Iterator2>
+auto make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterator1 first, Iterator1 last, Iterator2 weights )
+-> LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, Iterator1, Iterator2 >
 {
-	return LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, Iterator, Iterators...>( functor, first, last, weights...);
+	return LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, Iterator1, Iterator2>( functor, first, last, weights);
 }
 
 
 
-template<typename ...Pdfs, typename Iterable, typename ...Iterables, typename U  >
-inline typename std::enable_if<   (!hydra::detail::is_hydra_dense_histogram<Iterable>::value) &&
-		                          (!hydra::detail::is_hydra_sparse_histogram<Iterable>::value) &&
-								  hydra::detail::is_iterable<Iterable>::value &&
-								  U::value,
-LogLikelihoodFCN<  PDFSumExtendable<Pdfs...>,
-                     decltype(std::declval< const Iterable>().begin()),
-                     decltype(std::declval< const Iterables>().begin())... > >::type
-make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterable const& points, Iterables const&... weights ){
+template<typename ...Pdfs, typename Iterable1, typename Iterable2  >
+inline typename std::enable_if<   (!hydra::detail::is_hydra_dense_histogram<Iterable1>::value) &&
+		                          (!hydra::detail::is_hydra_sparse_histogram<Iterable1>::value) &&
+								  hydra::detail::is_iterable<Iterable1>::value &&
+								  hydra::detail::is_iterable<Iterable2>::value,
+LogLikelihoodFCN<  PDFSumExtendable<Pdfs...>, decltype(std::declval<Iterable1>().begin()),
+                     decltype(std::declval<Iterable2>().begin()) > >::type
+make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterable1&& points, Iterable2&& weights ){
 
-	return make_loglikehood_fcn( functor, points.begin(),points.end(), weights.begin()...);
+	return make_loglikehood_fcn( functor,
+			std::forward<Iterable1>(points).begin(), std::forward<Iterable1>(points).end(),
+			std::forward<Iterable2>(weights).begin());
 
 }
 
