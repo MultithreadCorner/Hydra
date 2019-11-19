@@ -97,6 +97,11 @@ public:
 
 	inline Iterator   end() const { return fEnd;}
 
+	inline Iterator cbegin() const { return fBegin;}
+
+	inline Iterator   cend() const { return fEnd;}
+
+
 	inline void resize(size_t size){	}
 
 	inline size_t size() { return HYDRA_EXTERNAL_NS::thrust::distance(fBegin, fEnd);}

@@ -382,8 +382,7 @@ int main(int argv, char** argc)
 
 		//
 		auto observable_fcn = hydra::make_loglikehood_fcn(observable_model,
-				hydra::columns(dataset_device, _1),
-				hydra::columns(sweigts_device, _0) );
+				hydra::columns(dataset_device, _1), hydra::columns(sweigts_device, _0) );
 
 
 	}

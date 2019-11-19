@@ -79,21 +79,25 @@ public:
 	}
 
 
-	inline iterator begin(){ return iterator(fBegin, fFunctor); };
+	inline iterator begin(){ return iterator(fBegin, fFunctor); }
 
-	inline iterator   end(){ return iterator(fEnd, fFunctor); };
+	inline iterator   end(){ return iterator(fEnd, fFunctor); }
 
-	inline iterator begin()const{ return iterator(fBegin, fFunctor); };
+	inline iterator begin()const{ return iterator(fBegin, fFunctor); }
 
-	inline iterator   end()const{ return iterator(fEnd, fFunctor); };
+	inline iterator   end()const{ return iterator(fEnd, fFunctor); }
 
-	inline void resize(size_t size){	}
+	inline iterator cbegin()const{ return iterator(fBegin, fFunctor); }
+
+		inline iterator   cend()const{ return iterator(fEnd, fFunctor); }
+
+inline void resize(size_t size){	}
 
 	inline 	size_t size() { return hydra::distance(fBegin, fEnd);}
 
-	inline Functor const& GetFunctor() const { return fFunctor;};
+	inline Functor const& GetFunctor() const { return fFunctor;}
 
-	inline Functor& GetFunctor(){ return fFunctor;};
+	inline Functor& GetFunctor(){ return fFunctor;}
 
 
 	inline Iterator GetBegin() const {
