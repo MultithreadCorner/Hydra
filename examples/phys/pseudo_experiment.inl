@@ -381,9 +381,9 @@ int main(int argv, char** argc)
 			          << std::endl;
 
 		//
-		//auto observable_fcn = hydra::make_loglikehood_fcn(observable_model,
-			//	hydra::columns(dataset_device, _1),
-				//hydra::columns(sweigts_device, _0) );
+		auto observable_fcn = hydra::make_loglikehood_fcn(observable_model,
+				hydra::columns(dataset_device, _1),
+				hydra::columns(sweigts_device, _0) );
 
 
 	}

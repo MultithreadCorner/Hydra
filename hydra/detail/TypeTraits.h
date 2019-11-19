@@ -44,6 +44,7 @@
 #include <hydra/detail/external/thrust/execution_policy.h>
 #include <hydra/detail/external/thrust/iterator/iterator_categories.h>
 #include <hydra/detail/external/thrust/iterator/detail/is_iterator_category.h>
+#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/thrust/device_reference.h>
 #include <hydra/detail/external/thrust/detail/raw_reference_cast.h>
 
@@ -69,6 +70,14 @@ namespace std {
 namespace hydra {
 
 	namespace detail {
+	//this type trait should be defined in thrust
+	//I will suggest if one day
+	template<typename T>
+	struct is_iterator:
+			HYDRA_EXTERNAL_NS::thrust::detail::is_iterator_category<
+			typename  HYDRA_EXTERNAL_NS::thrust::iterator_traits<T>::iterator_category>
+	{ };
+
 
 	//this type trait should be defined in thrust
 	//I will suggest if one day
