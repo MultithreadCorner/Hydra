@@ -89,10 +89,13 @@ auto make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterator first, It
  * @return
  */
 
-template<typename... Pdfs,  typename Iterator, typename ...Iterators>
-auto make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterator first, Iterator last, Iterators... weights )
--> LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, Iterator,Iterators... >;
-
+template<typename... Pdfs,  typename Iterator, typename ...Iterators,
+typename U =typename std::conditional<sizeof...(Iterators)==0,
+    std::true_type,
+	detail::all_true< detail::is_iterator<Iterators>::value...> >::type >
+inline typename std::enable_if< hydra::detail::is_iterator<Iterator>::value && U::value,
+LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, Iterator,Iterators...  >>::type
+make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterator first, Iterator last, Iterators... weights );
 
 
 /**
@@ -105,9 +108,14 @@ auto make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterator fir
  * @return
  */
 
-template<typename... Pdfs,  typename Iterator, typename ...Iterators>
-auto make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...>const& pdf, Iterator first, Iterator last, Iterators... weights)
--> LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator,Iterators...  >;
+template<typename... Pdfs,  typename Iterator, typename ...Iterators,
+			typename U =typename std::conditional<sizeof...(Iterators)==0,
+			    std::true_type,
+				detail::all_true< detail::is_iterator<Iterators>::value...> >::type >
+inline typename std::enable_if< hydra::detail::is_iterator<Iterator>::value && U::value,
+LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator,Iterators...  >>::type
+make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...>const& pdf, Iterator first, Iterator last, Iterators... weights);
+
 
 //----------------------------------------
 //interface to iterables

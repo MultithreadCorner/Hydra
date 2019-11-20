@@ -170,11 +170,9 @@ public:
  * @return
  */
 
-template<typename... Pdfs,  typename Iterator, typename ...Iterators>
-inline typename std::enable_if<
-detail::is_iterator<Iterator>::value&&
-( sizeof...(Iterators)==0? true : detail::all_true< detail::is_iterator<Iterators>::value...>::value ),
-LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, Iterator, Iterators... >>::type
+template<typename... Pdfs,  typename Iterator, typename ...Iterators, typename U >
+inline typename std::enable_if< hydra::detail::is_iterator<Iterator>::value  && U::value,
+LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, Iterator,Iterators...  >>::type
 make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterator first, Iterator last, Iterators... weights )
 {
 	return LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, Iterator, Iterators...>( functor, first, last, weights...);

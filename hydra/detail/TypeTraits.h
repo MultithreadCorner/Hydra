@@ -47,7 +47,7 @@
 #include <hydra/detail/external/thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/thrust/device_reference.h>
 #include <hydra/detail/external/thrust/detail/raw_reference_cast.h>
-
+#include <hydra/detail/external/thrust/type_traits/void_t.h>
 namespace std {
 
 		template<class T, class U>
@@ -72,12 +72,15 @@ namespace hydra {
 	namespace detail {
 	//this type trait should be defined in thrust
 	//I will suggest if one day
-	template<typename T>
-	struct is_iterator:
-			HYDRA_EXTERNAL_NS::thrust::detail::is_iterator_category<
-			typename  HYDRA_EXTERNAL_NS::thrust::iterator_traits<T>::iterator_category>
-	{ };
+	template <typename T, typename = void>
+	struct is_iterator : std::false_type { };
 
+	template <typename T>
+	struct is_iterator<T,
+	HYDRA_EXTERNAL_NS::thrust::void_t<decltype(++std::declval<T&>()),// incrementable,
+	           decltype(*std::declval<T&>()),                        // dereferencable,
+	           decltype(std::declval<T&>() == std::declval<T&>())>>  // comparable
+	    : std::true_type { };
 
 	//this type trait should be defined in thrust
 	//I will suggest if one day
