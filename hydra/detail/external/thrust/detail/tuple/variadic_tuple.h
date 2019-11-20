@@ -26,6 +26,7 @@
 
 #pragma once
 
+
 #include <stddef.h> // XXX instead of <cstddef> to WAR clang issue
 #include <type_traits>
 #include <utility>
@@ -42,10 +43,10 @@ struct std__is_constructible : std::is_constructible<T, Args...> { };
 // allow the user to define an annotation to apply to these functions
 // by default, it attempts to be constexpr
 #ifndef __TUPLE_ANNOTATION
-#  if __cplusplus <= 201103L
-#    define __TUPLE_ANNOTATION __device__ __hydra_host__
+#  if __cplusplus < 201402L
+#    define __TUPLE_ANNOTATION __hydra_device__ __hydra_host__
 #  else
-#    define __TUPLE_ANNOTATION /*constexpr*/ __device__ __hydra_host__
+#    define __TUPLE_ANNOTATION constexpr __hydra_device__ __hydra_host__
 #  endif
 #  define __TUPLE_ANNOTATION_NEEDS_UNDEF
 #endif
