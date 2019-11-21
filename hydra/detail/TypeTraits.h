@@ -77,9 +77,16 @@ namespace hydra {
 
 	template <typename T>
 	struct is_iterator<T,
-	HYDRA_EXTERNAL_NS::thrust::void_t<decltype(++std::declval<T&>()),// incrementable,
+	HYDRA_EXTERNAL_NS::thrust::void_t<
+	           typename  std::enable_if<std::is_default_constructible<T>::value, void>::type, //default constructible,
+	           typename  std::enable_if<std::is_copy_constructible<T>::value, void>::type,    //copy constructible,
+	           typename  std::enable_if<std::is_destructible<T>::value, void>::type,          //destructible,
+	           decltype(std::declval<T&>()[0]),                      // offset dereference operator ([]),
+	           decltype(std::declval<T&>()-std::declval<T&>()),      // Supports arithmetic operator -
+	           decltype(++std::declval<T&>()),                       // incrementable,
 	           decltype(*std::declval<T&>()),                        // dereferencable,
-	           decltype(std::declval<T&>() == std::declval<T&>())>>  // comparable
+	           decltype(std::declval<T&>() == std::declval<T&>()),  // comparable
+	           decltype(std::declval<T&>() != std::declval<T&>())>>  // comparable
 	    : std::true_type { };
 
 	//this type trait should be defined in thrust
