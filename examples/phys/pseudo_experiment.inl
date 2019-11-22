@@ -284,7 +284,8 @@ int main(int argv, char** argc)
 
 		}
 
-		std::cout <<  "Dataset: "<< ngen<< std::endl;
+		std::cout <<  "[Dataset]"
+				  <<  "size:  "<< ngen<< std::endl;
 		for(int i=0; i<10; i++)
 			std::cout << temp_dataset[i] << std::endl;
 	}
@@ -304,6 +305,7 @@ int main(int argv, char** argc)
 #endif //_ROOT_AVAILABLE_
 
 
+
 /* this scope will run a loop where:
  * 1- a new sample will be produced at same statistical level
  * 2- perform a splot to obtain a background free sample, which will contain negative weights
@@ -311,6 +313,10 @@ int main(int argv, char** argc)
  * 4- repeat the loop
  */
 	{
+
+		//====================================================================
+		// PSEUDO-SAMPLE PRODUCTION AND SPLOT
+		//====================================================================
 
 		//boost_strapped data (bs-data)
         auto bs_range = hydra::boost_strapped_range(
@@ -331,7 +337,7 @@ int main(int argv, char** argc)
         MnStrategy strategy(1);
 
 		// create Migrad minimizer
-		MnMigrad migrad(discriminanting_fcn, discriminanting_fcn.GetParameters().GetMnState()
+		MnMigrad migrad_sw(discriminanting_fcn, discriminanting_fcn.GetParameters().GetMnState()
 				, strategy);
 
 		std::cout<< discriminanting_fcn.GetParameters().GetMnState() << std::endl;
@@ -339,7 +345,7 @@ int main(int argv, char** argc)
 		// ... Minimize and profile the time
 
 		auto start = std::chrono::high_resolution_clock::now();
-		FunctionMinimum minimum =  FunctionMinimum(migrad(std::numeric_limits<unsigned int>::max(), 5));
+		FunctionMinimum minimum_sw =  FunctionMinimum(migrad_sw(std::numeric_limits<unsigned int>::max(), 5));
 		auto end = std::chrono::high_resolution_clock::now();
 
 		std::chrono::duration<double, std::milli> elapsed = end - start;
@@ -380,9 +386,35 @@ int main(int argv, char** argc)
 			          << sweigts_device[i] << std::endl
 			          << std::endl;
 
-		//
+
+		//====================================================================
+		// MAIN FIT AND OBSERVABLE ESTIMATION
+		//====================================================================
+
 		auto observable_fcn = hydra::make_loglikehood_fcn(observable_model,
 				hydra::columns(dataset_device, _1), hydra::columns(sweigts_device, _0) );
+
+		// create Migrad minimizer
+		MnMigrad migrad_obs(observable_fcn, observable_fcn.GetParameters().GetMnState()
+				, strategy);
+
+		std::cout<< observable_fcn.GetParameters().GetMnState() << std::endl;
+
+		// ... Minimize and profile the time
+
+		start = std::chrono::high_resolution_clock::now();
+		FunctionMinimum minimum_obs =  FunctionMinimum(migrad_obs(std::numeric_limits<unsigned int>::max(), 5));
+		end = std::chrono::high_resolution_clock::now();
+
+		std::chrono::duration<double, std::milli> elapsed = end - start;
+
+		// output
+		std::cout<<"Minimum: "<< minimum_obs << std::endl;
+
+		//time
+		std::cout << "-----------------------------------------"<<std::endl;
+		std::cout << "| [Fit Time] (ms) = " << elapsed.count() <<std::endl;
+		std::cout << "-----------------------------------------"<<std::endl;
 
 
 	}
