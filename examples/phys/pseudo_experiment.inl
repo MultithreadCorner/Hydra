@@ -54,44 +54,38 @@
 //this lib
 #include <hydra/device/System.h>
 #include <hydra/host/System.h>
+
 #include <hydra/Function.h>
 #include <hydra/Algorithm.h>
 #include <hydra/FunctionWrapper.h>
 #include <hydra/Random.h>
 #include <hydra/LogLikelihoodFCN.h>
 #include <hydra/Parameter.h>
-#include <hydra/UserParameters.h>
 #include <hydra/Pdf.h>
 #include <hydra/AddPdf.h>
 #include <hydra/Algorithm.h>
-#include <hydra/Filter.h>
-#include <hydra/GaussKronrodQuadrature.h>
 #include <hydra/SPlot.h>
-#include <hydra/DenseHistogram.h>
-#include <hydra/SparseHistogram.h>
 
 #include <hydra/functions/Gaussian.h>
 #include <hydra/functions/Exponential.h>
 #include <hydra/functions/BreitWignerNR.h>
-#include <hydra/functions/Exponential.h>
-#include <hydra/functions/Gaussian.h>
-#include <hydra/functions/Chebychev.h>
+#include <hydra/functions/ChiSquare.h>
 
 #include <hydra/Placeholders.h>
 
 //Minuit2
-#include "Minuit2/FunctionMinimum.h"
-#include "Minuit2/MnUserParameterState.h"
-#include "Minuit2/MnPrint.h"
-#include "Minuit2/MnMigrad.h"
-#include "Minuit2/MnMinimize.h"
-#include "Minuit2/MnMinos.h"
-#include "Minuit2/MnContours.h"
-#include "Minuit2/CombinedMinimizer.h"
-#include "Minuit2/MnPlot.h"
-#include "Minuit2/MinosError.h"
-#include "Minuit2/ContoursError.h"
-#include "Minuit2/VariableMetricMinimizer.h"
+#include <Minuit2/FunctionMinimum.h>
+#include <Minuit2/MnUserParameterState.h>
+#include <Minuit2/MnPrint.h>
+#include <Minuit2/MnMigrad.h>
+#include <Minuit2/MnMinimize.h>
+#include <Minuit2/MnMinos.h>
+#include <Minuit2/MnContours.h>
+#include <Minuit2/CombinedMinimizer.h>
+#include <Minuit2/MnPlot.h>
+#include <Minuit2/MinosError.h>
+#include <Minuit2/ContoursError.h>
+#include <Minuit2/VariableMetricMinimizer.h>
 
  // Include classes from ROOT
 #ifdef _ROOT_AVAILABLE_
@@ -197,30 +191,28 @@ int main(int argv, char** argc)
 
 	//Breit-Wigner function evaluating on the first argument
 	auto BreitWigner_PDF = hydra::make_pdf( hydra::BreitWignerNR<>(mass, width ),
-			hydra::AnalyticalIntegral<hydra::BreitWignerNR<>>(obs_min, obs_max));
+			                    hydra::AnalyticalIntegral<hydra::BreitWignerNR<>>(obs_min, obs_max));
 
 	//-------------------------------------------
 
-	//Chebychev
+	//ChiSquare
 
 	//parameters
-	auto  c0  = hydra::Parameter::Create("C_0").Value( 1.0).Error(0.0001).Limits( 0.5, 3.0);
-	auto  c1  = hydra::Parameter::Create("C_1").Value( 0.0).Error(0.0001).Limits( -1.0, 1.0);
-	auto  c2  = hydra::Parameter::Create("C_2").Value( 0.0).Error(0.0001).Limits( -1.0, 1.0);
-	auto  c3  = hydra::Parameter::Create("C_3").Value( 0.0).Error(0.0001).Limits( -1.0, 1.0);
+	auto  ndof  = hydra::Parameter::Create("ndof").Value( 4.0).Error(0.0001).Limits( 3.5, 4.5);
 
-	//Polynomial function evaluating on the first argument
-	auto Chebychev_PDF = hydra::make_pdf( hydra::Chebychev<3>(obs_min, obs_max, std::array<hydra::Parameter,4>{c0, c1, c2, c3}),
-			hydra::AnalyticalIntegral< hydra::Chebychev<3>>(obs_min, obs_max));
+
+	//ChiSquare function evaluating on the first argument
+	auto ChiSquare_PDF = hydra::make_pdf( hydra::ChiSquare<>(ndof ),
+			                 hydra::AnalyticalIntegral<hydra::ChiSquare<>>(obs_min, obs_max));
 
 	//------------------
 	//yields
-	hydra::Parameter N_BreitWigner("N_BreitWigner" ,  nentries/2,  100, 100 , nentries) ;
-	hydra::Parameter N_Chebychev("N_Chebychev"     ,  nentries/2, 100, 100 , nentries) ;
+	hydra::Parameter N_BreitWigner("N_BreitWigner" ,  nentries/2, 100, 100, nentries) ;
+	hydra::Parameter N_ChiSquare("N_ChiSquare"     ,  nentries/2, 100, 100, nentries) ;
 
 	//make model
-	auto full_model = hydra::add_pdfs( {N_BreitWigner, N_Chebychev},
-			BreitWigner_PDF, Chebychev_PDF);
+	auto full_model = hydra::add_pdfs( {N_BreitWigner, N_ChiSquare},
+			BreitWigner_PDF, ChiSquare_PDF);
 	full_model.SetExtended(1);
 
 	//======================================================
@@ -330,11 +322,11 @@ int main(int argv, char** argc)
 
 		//fill noise component in a separated thread
 		auto noise_handler = std::async(std::launch::async,
-				[obs_min, obs_max, nentries, &dataset]( ){
+				[obs_min, obs_max, ndof, nentries, &dataset]( ){
 
 			std::ranlux24 gen( 753 ); //Standard mersenne_twister_engine seeded with rd()
 
-			std::uniform_real_distribution<> dist(obs_min, obs_max);
+			std::chi_squared_distribution<> dist(ndof);
 
 			auto first = dataset.begin(_1) + int(nentries/2);
 			auto last  = dataset.end(_1);
@@ -344,9 +336,11 @@ int main(int argv, char** argc)
 			do
 			{
 				double x= dist(gen);
+				if((x > obs_min) &&  (x < obs_max) )
+								{
 				*it=x;
 				++it;
-
+								}
 
 			}while(it != last);
 
