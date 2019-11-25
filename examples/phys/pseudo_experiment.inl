@@ -193,14 +193,35 @@ int main(int argv, char** argc)
 
 	//parameters
 	hydra::Parameter  mass  = hydra::Parameter::Create().Name("mass" ).Value(6.0).Error(0.0001).Limits(5.0,7.0);
-	hydra::Parameter  width = hydra::Parameter::Create().Name("width").Value(1.0).Error(0.0001).Limits(0.5,1.5);
+	hydra::Parameter  width = hydra::Parameter::Create().Name("width").Value(0.5).Error(0.0001).Limits(0.05,1.5);
 
 	//Breit-Wigner function evaluating on the first argument
 	auto BreitWigner_PDF = hydra::make_pdf( hydra::BreitWignerNR<>(mass, width ),
 			hydra::AnalyticalIntegral<hydra::BreitWignerNR<>>(obs_min, obs_max));
 
-    //-------------------------------------------
+	//-------------------------------------------
 
+	//Chebychev
+
+	//parameters
+	auto  c0  = hydra::Parameter::Create("C_0").Value( 1.0).Error(0.0001).Limits( 0.5, 3.0);
+	auto  c1  = hydra::Parameter::Create("C_1").Value( 0.0).Error(0.0001).Limits( -1.0, 1.0);
+	auto  c2  = hydra::Parameter::Create("C_2").Value( 0.0).Error(0.0001).Limits( -1.0, 1.0);
+	auto  c3  = hydra::Parameter::Create("C_3").Value( 0.0).Error(0.0001).Limits( -1.0, 1.0);
+
+	//Polynomial function evaluating on the first argument
+	auto Chebychev_PDF = hydra::make_pdf( hydra::Chebychev<3>(obs_min, obs_max, std::array<hydra::Parameter,4>{c0, c1, c2, c3}),
+			hydra::AnalyticalIntegral< hydra::Chebychev<3>>(obs_min, obs_max));
+
+	//------------------
+	//yields
+	hydra::Parameter N_BreitWigner("N_BreitWigner" ,  nentries/2,  100, 100 , nentries) ;
+	hydra::Parameter N_Chebychev("N_Chebychev"     ,  nentries/2, 100, 100 , nentries) ;
+
+	//make model
+	auto full_model = hydra::add_pdfs( {N_BreitWigner, N_Chebychev},
+			BreitWigner_PDF, Chebychev_PDF);
+	full_model.SetExtended(1);
 
 	//======================================================
 	// Pseudo-experiment data sample generation
@@ -219,7 +240,7 @@ int main(int argv, char** argc)
 				[data_min, data_max, mean, sigma, nentries, &dataset]( ){
 
 			//Standard mersenne_twister_engine seeded with rd()
-			std::mt19937 gen( 258 );
+			std::ranlux24 gen( 258 );
 
 			std::normal_distribution<> dist(mean, sigma);
 
@@ -247,7 +268,7 @@ int main(int argv, char** argc)
 				[data_min, data_max, tau, nentries, &dataset]( ){
 
 			//Standard mersenne_twister_engine seeded with rd()
-			std::mt19937 gen( 456 );
+			std::ranlux24 gen( 456 );
 
 			std::exponential_distribution<> dist(-tau);
 
@@ -277,7 +298,7 @@ int main(int argv, char** argc)
 		auto breit_wigner_handler = std::async(std::launch::async,
 				[obs_min, obs_max, mass, width, nentries, &dataset]( ){
 
-			std::mt19937 gen( 159 ); //Standard mersenne_twister_engine seeded with rd()
+			std::ranlux24 gen( 159 ); //Standard mersenne_twister_engine seeded with rd()
 
 			std::uniform_real_distribution<> dist(0.0, 1.0);
 
@@ -311,7 +332,7 @@ int main(int argv, char** argc)
 		auto noise_handler = std::async(std::launch::async,
 				[obs_min, obs_max, nentries, &dataset]( ){
 
-			std::mt19937 gen( 753 ); //Standard mersenne_twister_engine seeded with rd()
+			std::ranlux24 gen( 753 ); //Standard mersenne_twister_engine seeded with rd()
 
 			std::uniform_real_distribution<> dist(obs_min, obs_max);
 
@@ -365,7 +386,10 @@ int main(int argv, char** argc)
 	TH1D hist_mass_error("mass_error", "mass error", 100, 1.0, 0.0 );
 	TH1D hist_width("width", "width", 100, 1.0, 0.0 );
 	TH1D hist_width_error("width_error", "width error", 100, 1.0, 0.0 );
-
+	TH1D hist_full_mass("mass_full", "mass (complete model)", 100, 1.0, 0.0 );
+	TH1D hist_full_mass_error("mass_error_full", "mass error (complete model)", 100, 1.0, 0.0 );
+	TH1D hist_full_width("width_full", "width (complete model)", 100, 1.0, 0.0 );
+	TH1D hist_full_width_error("width_error_full", "width error (complete model)", 100, 1.0, 0.0 );
 	for(auto x: dataset){
 		hist_data_sfit.Fill( hydra::get<0>(x) );
 		hist_data_observable.Fill( hydra::get<1>(x) );
@@ -381,7 +405,7 @@ int main(int argv, char** argc)
  * 3- perform a fit and store the results
  * 4- repeat the loop
  */
-	hydra::multiarray<double, 9, hydra::host::sys_t> variable_log{};
+	hydra::multiarray<double, 13, hydra::host::sys_t> variable_log{};
 
 	{
 
@@ -392,8 +416,7 @@ int main(int argv, char** argc)
 			//====================================================================
 
 			//boost_strapped data (bs-data)
-			auto bs_range = hydra::boost_strapped_range( dataset,
-					std::chrono::system_clock::now().time_since_epoch().count() + 10*study);
+			auto bs_range = hydra::boost_strapped_range( dataset, std::ranlux24(study)() );
 
 			//bring the bs-data to the device
 			hydra::multiarray<double,2, hydra::device::sys_t> dataset_device( bs_range.begin(),
@@ -420,7 +443,7 @@ int main(int argv, char** argc)
 
 			auto start = std::chrono::high_resolution_clock::now();
 
-			FunctionMinimum minimum_splot =  FunctionMinimum(migrad_splot(1000, 5));
+			FunctionMinimum minimum_splot =  FunctionMinimum(migrad_splot(1000, 1));
 
 			auto end = std::chrono::high_resolution_clock::now();
 
@@ -474,6 +497,7 @@ int main(int argv, char** argc)
 			// MAIN FIT AND OBSERVABLE ESTIMATION
 			//====================================================================
 
+			//fitting only the BreitWigner to the background subtracted sample
 			auto fcn = hydra::make_loglikehood_fcn(BreitWigner_PDF,//observable_model,
 					hydra::columns(dataset_device, _1),
 					hydra::columns(sweigts_device, _0) );
@@ -487,13 +511,13 @@ int main(int argv, char** argc)
 
 			start = std::chrono::high_resolution_clock::now();
 
-			FunctionMinimum minimum =  FunctionMinimum(migrad(1000, 5));
+			FunctionMinimum minimum =  FunctionMinimum(migrad(1000, 1));
 
 			end = std::chrono::high_resolution_clock::now();
 
 			elapsed = end - start;
 			// output
-			std::cout <<"Fit minimum: "
+			std::cout << std::endl <<"Fit background subtracted minimum: "
 					<< minimum
 					<< std::endl
 					<< std::endl;
@@ -501,6 +525,35 @@ int main(int argv, char** argc)
 			//time
 			std::cout << "-----------------------------------------"<<std::endl;
 			std::cout << "| Fit time (ms) = " << elapsed.count()  <<std::endl;
+			std::cout << "-----------------------------------------"<<std::endl;
+
+			//fitting only the full model sample
+			auto full_fcn = hydra::make_loglikehood_fcn( full_model,//observable_model,
+					hydra::columns(dataset_device, _1) );
+
+			// create Migrad minimizer
+			MnMigrad full_migrad(full_fcn, full_fcn.GetParameters().GetMnState(), strategy);
+
+			//std::cout << fcn.GetParameters().GetMnState() << std::endl;
+
+			// ... Minimize and profile the time
+
+			start = std::chrono::high_resolution_clock::now();
+
+			FunctionMinimum full_minimum =  FunctionMinimum(full_migrad(5000, 5));
+
+			end = std::chrono::high_resolution_clock::now();
+
+			elapsed = end - start;
+			// output
+			std::cout << std::endl <<"Full fit minimum: "
+					<< full_minimum
+					<< std::endl
+					<< std::endl;
+
+			//time
+			std::cout << "-----------------------------------------"<<std::endl;
+			std::cout << "| Full fit time (ms) = " << elapsed.count()  <<std::endl;
 			std::cout << "-----------------------------------------"<<std::endl;
 
 			//add results to log
@@ -515,15 +568,20 @@ int main(int argv, char** argc)
 			std::cout << "----------------------------------------"  << std::endl;
 			std::cout << "Logging result #" << study << " "                         << std::endl;
 			std::cout << "----------------------------------------"  << std::endl;
-			std::cout << "N_Gaussian ..... " << minimum_splot.UserParameters().Value("N_Gaussian") <<std::endl;
-			std::cout << "N_Exponential .. " << minimum_splot.UserParameters().Value("N_Exponential") <<std::endl;
-			std::cout << "mean ........... " << minimum_splot.UserParameters().Value("mean") <<std::endl;
-			std::cout << "sigma .......... " << minimum_splot.UserParameters().Value("sigma")<<std::endl ;
-			std::cout << "tau ............ " << minimum_splot.UserParameters().Value("tau") <<std::endl;
-			std::cout << "mass ........... " << minimum.UserParameters().Value("mass") <<std::endl;
-			std::cout << "mass error ..... " << minimum.UserParameters().Error("mass") <<std::endl;
-			std::cout << "width .......... " << minimum.UserParameters().Value("width") <<std::endl;
-			std::cout << "width error .... " << minimum.UserParameters().Error("width") <<std::endl;
+			std::cout << "N_Gaussian ........... " << minimum_splot.UserParameters().Value("N_Gaussian") <<std::endl;
+			std::cout << "N_Exponential ........ " << minimum_splot.UserParameters().Value("N_Exponential") <<std::endl;
+			std::cout << "mean ................. " << minimum_splot.UserParameters().Value("mean") <<std::endl;
+			std::cout << "sigma ................ " << minimum_splot.UserParameters().Value("sigma")<<std::endl ;
+			std::cout << "tau .................. " << minimum_splot.UserParameters().Value("tau") <<std::endl;
+			std::cout << "mass ................. " << minimum.UserParameters().Value("mass") <<std::endl;
+			std::cout << "mass error ........... " << minimum.UserParameters().Error("mass") <<std::endl;
+			std::cout << "width ................ " << minimum.UserParameters().Value("width") <<std::endl;
+			std::cout << "width error .......... " << minimum.UserParameters().Error("width") <<std::endl;
+			std::cout << "mass (full) .......... " << full_minimum.UserParameters().Value("mass") <<std::endl;
+			std::cout << "mass error (full) .... " << full_minimum.UserParameters().Error("mass") <<std::endl;
+			std::cout << "width (full) ......... " << full_minimum.UserParameters().Value("width") <<std::endl;
+			std::cout << "width error (full) ... " << full_minimum.UserParameters().Error("width") <<std::endl;
+
 			std::cout << "----------------------------------------"  << std::endl;
 
 			variable_log.push_back( hydra::make_tuple(
@@ -535,7 +593,11 @@ int main(int argv, char** argc)
 					minimum.UserParameters().Value("mass"),
 					minimum.UserParameters().Error("mass"),
 					minimum.UserParameters().Value("width"),
-					minimum.UserParameters().Error("width")
+					minimum.UserParameters().Error("width"),
+					full_minimum.UserParameters().Value("mass"),
+					full_minimum.UserParameters().Error("mass"),
+					full_minimum.UserParameters().Value("width"),
+					full_minimum.UserParameters().Error("width")
 					));
 
 		}
@@ -550,13 +612,20 @@ int main(int argv, char** argc)
 
 			hist_N_Gaussian.Fill(hydra::get<0>(x));
 			hist_N_Exponential.Fill(hydra::get<1>(x));
+
 			hist_mean.Fill(hydra::get<2>(x));
 			hist_sigma.Fill(hydra::get<3>(x));
 			hist_tau.Fill(hydra::get<4>(x));
+
 			hist_mass.Fill(hydra::get<5>(x));
 			hist_mass_error.Fill(hydra::get<6>(x));
 			hist_width.Fill(hydra::get<7>(x));
 			hist_width_error.Fill(hydra::get<8>(x));
+
+			hist_full_mass.Fill(hydra::get<9>(x));
+			hist_full_mass_error.Fill(hydra::get<10>(x));
+			hist_full_width.Fill(hydra::get<11>(x));
+			hist_full_width_error.Fill(hydra::get<12>(x));
 
 		}
 
@@ -580,57 +649,83 @@ int main(int argv, char** argc)
     TCanvas canvas_0("canvas_0" ,"", 500, 500);
 	hist_N_Gaussian.SetLineWidth(2);
 	hist_N_Gaussian.Draw("E");
-	hist_N_Gaussian.Fit("gaus");
+	hist_N_Gaussian.Fit("gaus","ML");
 	canvas_0.Update();
 
 	TCanvas canvas_1("canvas_1" ,"", 500, 500);
 	hist_N_Exponential.SetLineWidth(2);
 	hist_N_Exponential.Draw("E");
-	hist_N_Exponential.Fit("gaus");
+	hist_N_Exponential.Fit("gaus","ML");
 	canvas_1.Update();
 
 	TCanvas canvas_2("canvas_2" ,"", 500, 500);
 	hist_mean.SetLineWidth(2);
 	hist_mean.Draw("E");
-	hist_mean.Fit("gaus");
+	hist_mean.Fit("gaus","ML");
 	canvas_2.Update();
 
 	TCanvas canvas_3("canvas_3" ,"", 500, 500);
 	hist_sigma.SetLineWidth(2);
 	hist_sigma.Draw("E");
-	hist_sigma.Fit("gaus");
+	hist_sigma.Fit("gaus","ML");
 	canvas_3.Update();
 
 	TCanvas canvas_4("canvas_4" ,"", 500, 500);
 	hist_tau.SetLineWidth(2);
 	hist_tau.Draw("E");
-	hist_tau.Fit("gaus");
+	hist_tau.Fit("gaus","ML");
 	canvas_4.Update();
 
 	TCanvas canvas_5("canvas_5" ,"", 500, 500);
 	hist_mass.SetLineWidth(2);
 	hist_mass.Draw("E");
-	hist_mass.Fit("gaus");
+	hist_mass.Fit("gaus","ML");
 	canvas_5.Update();
 
 	TCanvas canvas_6("canvas_6" ,"", 500, 500);
 	hist_mass_error.SetLineWidth(2);
 	hist_mass_error.Draw("E");
-	hist_mass_error.Fit("gaus");
+	hist_mass_error.Fit("gaus","ML");
 	canvas_6.Update();
 
 	TCanvas canvas_7("canvas_7" ,"", 500, 500);
 	hist_width.SetLineWidth(2);
 	hist_width.Draw("E");
-	hist_width.Fit("gaus");
+	hist_width.Fit("gaus","ML");
 	canvas_7.Update();
 
 	TCanvas canvas_8("canvas_8" ,"", 500, 500);
 	hist_width_error.Draw("hist");
 	hist_width_error.SetLineWidth(2);
 	hist_width_error.Draw("E");
-	hist_width_error.Fit("gaus");
+	hist_width_error.Fit("gaus","ML");
 	canvas_8.Update();
+
+	TCanvas canvas_9("canvas_9" ,"", 500, 500);
+	hist_full_mass.SetLineWidth(2);
+	hist_full_mass.Draw("E");
+	hist_full_mass.Fit("gaus","ML");
+	canvas_9.Update();
+
+	TCanvas canvas_10("canvas_10" ,"", 500, 500);
+	hist_full_mass_error.SetLineWidth(2);
+	hist_full_mass_error.Draw("E");
+	hist_full_mass_error.Fit("gaus","ML");
+	canvas_10.Update();
+
+	TCanvas canvas_11("canvas_11" ,"", 500, 500);
+	hist_full_width.SetLineWidth(2);
+	hist_full_width.Draw("E");
+	hist_full_width.Fit("gaus","ML");
+	canvas_11.Update();
+
+	TCanvas canvas_12("canvas_12" ,"", 500, 500);
+	hist_full_width_error.Draw("hist");
+	hist_full_width_error.SetLineWidth(2);
+	hist_full_width_error.Draw("E");
+	hist_full_width_error.Fit("gaus","ML");
+	canvas_12.Update();
+
 
 	myapp->Run();
 
