@@ -42,7 +42,7 @@
 #include <hydra/Distance.h>
 #include <hydra/detail/AddPdfBase.h>
 #include <hydra/detail/external/thrust/tuple.h>
-#include <hydra/detail/external/Eigen/Dense>
+#include <Eigen/Dense>
 
 #include <initializer_list>
 #include <utility>
@@ -108,13 +108,13 @@ public:
 
 
 	template<typename InputIterator, typename OutputIterator>
-	inline HYDRA_EXTERNAL_NS::Eigen::Matrix<double, sizeof...(PDFs)+2, sizeof...(PDFs)+2>
+	inline Eigen::Matrix<double, sizeof...(PDFs)+2, sizeof...(PDFs)+2>
 	Generate(InputIterator input_begin, InputIterator input_end,	OutputIterator output_begin);
 
 	template<typename InputIterable, typename OutputIterable>
 	inline typename std::enable_if<	hydra::detail::is_iterable<InputIterable>::value &&
 		hydra::detail::is_iterable<OutputIterable>::value,
-	     HYDRA_EXTERNAL_NS::Eigen::Matrix<double, sizeof...(PDFs)+2, sizeof...(PDFs)+2>>::type
+	     Eigen::Matrix<double, sizeof...(PDFs)+2, sizeof...(PDFs)+2>>::type
 	Generate(InputIterable&& input, OutputIterable&& output);
 
 
@@ -125,13 +125,13 @@ private:
 
 	template<size_t I, typename ...T>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == sizeof...(T)),void >::type
-	SetCovMatrix( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const&, HYDRA_EXTERNAL_NS::Eigen::Matrix<double, npdfs, npdfs>&)
+	SetCovMatrix( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const&, Eigen::Matrix<double, npdfs, npdfs>&)
 	{ }
 
 	template<size_t I=0, typename ...T>
 	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(T)),void >::type
 	SetCovMatrix( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& tpl,
-			HYDRA_EXTERNAL_NS::Eigen::Matrix<double, npdfs, npdfs>& fCovMatrix  )
+			Eigen::Matrix<double, npdfs, npdfs>& fCovMatrix  )
 	{
 
 		fCovMatrix(index< npdfs, I>::x, index< npdfs, I>::y )=HYDRA_EXTERNAL_NS::thrust::get<I>(tpl);

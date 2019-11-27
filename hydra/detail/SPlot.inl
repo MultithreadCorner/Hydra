@@ -39,7 +39,7 @@ namespace hydra {
 
 template <typename PDF1, typename PDF2, typename ...PDFs>
 template<typename InputIterator, typename OutputIterator>
-inline HYDRA_EXTERNAL_NS::Eigen::Matrix<double, sizeof...(PDFs)+2, sizeof...(PDFs)+2>
+inline Eigen::Matrix<double, sizeof...(PDFs)+2, sizeof...(PDFs)+2>
 SPlot<PDF1,PDF2,PDFs...>::Generate(InputIterator in_begin, InputIterator in_end,
 		OutputIterator out_begin)	{
 
@@ -56,16 +56,18 @@ SPlot<PDF1,PDF2,PDFs...>::Generate(InputIterator in_begin, InputIterator in_end,
 			typename  PDFs::functor_type...>(fCoeficients, fFunctors ),
     		init, detail::CovMatrixBinary< matrix_t>());
 
-    HYDRA_EXTERNAL_NS::Eigen::Matrix<double, npdfs, npdfs> fCovMatrix;
+    Eigen::Matrix<double, npdfs, npdfs> fCovMatrix;
 
     SetCovMatrix(covmatrix, fCovMatrix);
 
     //_____________________________________
     // calculate the sweights
 
+    Eigen::Matrix<double, npdfs, npdfs> icov = fCovMatrix.inverse();
+
     HYDRA_EXTERNAL_NS::thrust::transform(system(), in_begin, in_end,
     		out_begin, detail::SWeights<typename PDF1::functor_type, typename  PDF2::functor_type,
-			typename  PDFs::functor_type...>(fCoeficients, fFunctors, fCovMatrix.inverse() ));
+			typename  PDFs::functor_type...>(fCoeficients, fFunctors, icov ));
 
     return  fCovMatrix;
 
@@ -75,17 +77,13 @@ template <typename PDF1, typename PDF2, typename ...PDFs>
 template<typename InputIterable, typename OutputIterable>
 inline typename std::enable_if<	hydra::detail::is_iterable<InputIterable>::value &&
 		hydra::detail::is_iterable<OutputIterable>::value,
-	     HYDRA_EXTERNAL_NS::Eigen::Matrix<double, sizeof...(PDFs)+2, sizeof...(PDFs)+2>>::type
+	     Eigen::Matrix<double, sizeof...(PDFs)+2, sizeof...(PDFs)+2>>::type
 SPlot<PDF1,PDF2,PDFs...>::Generate(InputIterable&& input, OutputIterable&& output)	{
 
 	return this->Generate(std::forward<InputIterable>(input).begin(),
 					std::forward<InputIterable>(input).end(),
 	           std::forward<OutputIterable>(output).begin() );
 }
-
-
-
-
 
 
 } // namespace hydra

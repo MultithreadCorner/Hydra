@@ -144,7 +144,7 @@ struct SWeights
 {
 	constexpr static size_t nfunctors = sizeof...(Fs)+2;
 	typedef hydra::tuple<F1, F2, Fs...> functors_tuple_type;
-	typedef HYDRA_EXTERNAL_NS::Eigen::Matrix<double, nfunctors, nfunctors> cmatrix_t;
+	typedef Eigen::Matrix<double, nfunctors, nfunctors> cmatrix_t;
 	typedef typename hydra::detail::tuple_type<nfunctors, double>::type tuple_t;
 
 
@@ -176,8 +176,8 @@ struct SWeights
 		auto fvalues  = detail::invoke_normalized(x, fFunctors);
 		double values[nfunctors];
 		detail::tupleToArray(fvalues, values);
-		HYDRA_EXTERNAL_NS::Eigen::Matrix<double, nfunctors,1> values_vector = HYDRA_EXTERNAL_NS::Eigen::Map<HYDRA_EXTERNAL_NS::Eigen::Matrix<double, nfunctors,1> >(values);
-		HYDRA_EXTERNAL_NS::Eigen::Matrix<double, nfunctors,1> sweights = fICovMatrix*values_vector;
+		Eigen::Matrix<double, nfunctors,1> values_vector(Eigen::Map<Eigen::Matrix<double, nfunctors,1> >(values).eval());
+		Eigen::Matrix<double, nfunctors,1> sweights(fICovMatrix*values_vector.eval());
 		auto wfvalues = detail::multiply_array_tuple(fCoeficients, fvalues);
 		GReal_t denominator   = 0;
 		detail::add_tuple_values(denominator, wfvalues);

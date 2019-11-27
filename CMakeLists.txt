@@ -68,14 +68,22 @@ endif()
 endif(ROOT_FOUND)
 
 #-----------------------
-# get GSL
+# get GSL for convolution examples
 find_package(GSL)
 if(GSL_FOUND)
 include_directories(${GSL_INCLUDE_DIRS})
 endif(GSL_FOUND)
 
 #-----------------------
-# get FFTW
+# get Eigen for convolution examples
+find_package( Eigen3 3.3.7 REQUIRED )
+include_directories( EIGEN3_INCLUDE_DIR )
+if(EIGEN3_FOUND)
+include_directories(${EIGEN3_INCLUDE_DIR})
+endif(EIGEN3_FOUND)
+
+#-----------------------
+# get FFTW for convolution examples
 find_package(FFTW)
 if(FFTW_FOUND)
 include_directories(${FFTW_INCLUDE_DIRS})
@@ -89,7 +97,7 @@ link_directories( ${CUDA_TOOLKIT_ROOT_DIR}/lib64/)
 
 #set cuda flags
 SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}  -ftemplate-backtrace-limit=0; --cudart;  static; -O4; --expt-relaxed-constexpr; -fmad=true; --expt-extended-lambda;--relocatable-device-code=false ;
--Xptxas -dlcm=ca; -Xptxas --opt-level=4 )
+-Xptxas -dlcm=ca;-lineinfo)#-Xptxas --opt-level=4 )
 
 SET(CUDA_PROPAGATE_HOST_FLAGS ON)
 SET(CUDA_SEPARABLE_COMPILATION OFF)
