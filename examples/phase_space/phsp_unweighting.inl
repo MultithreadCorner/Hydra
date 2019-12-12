@@ -204,7 +204,7 @@ int main(int argv, char** argc)
 
 #endif
 
-		auto unweighted_events = Events_d.Unweight(1.0);
+		auto unweighted_events = Events_d.Unweight(5.0);
 		size_t j=0, max=10;
 
 				for( auto x: unweighted_events) {

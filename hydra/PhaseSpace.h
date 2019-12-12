@@ -316,7 +316,6 @@ private:
 
 	size_t  fSeed;///< seed.
 	GReal_t fMasses[N];
-
 };
 
 

@@ -81,12 +81,12 @@ struct FlagDaugthers: public HYDRA_EXTERNAL_NS::thrust::unary_function<size_t,
 	}
 	__hydra_host__  __hydra_device__
 	bool operator()(size_t idx) {
-		HYDRA_EXTERNAL_NS::thrust::default_random_engine randEng(fSeed);
+		HYDRA_EXTERNAL_NS::thrust::minstd_rand randEng(fSeed);
 		randEng.discard(idx);
 		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(
-				0.0, fMax);
+				0.0, 1.0);
 
-		return fVals[idx] > uniDist(randEng);
+		return fVals[idx]/fMax >= uniDist(randEng);
 
 	}
 
