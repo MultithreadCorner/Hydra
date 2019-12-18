@@ -100,7 +100,9 @@ struct CovMatrixUnary
 	{
 
 		fcovmatrix(index<N, I>::I, index<N, I>::J ) =
-				hydra_thrust::get< index<N, I>::I >(ftuple)*hydra_thrust::get< index<N, I>::J >(ftuple)/denominator;
+				hydra_thrust::get<index<N, I>::I>(std::forward<T>(ftuple))*\
+				hydra_thrust::get<index<N, I>::J>(std::forward<T>(ftuple))\
+				/denominator;
 
 		set_matrix<T, N, I+1>(denominator, ftuple, fCovMatrix);
 	}
