@@ -33,7 +33,7 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 
-#include <hydra/detail/external/thrust/memory.h>
+#include <hydra/detail/external/hydra_thrust/memory.h>
 #include <memory>
 #include <type_traits>
 
@@ -47,7 +47,7 @@ template<typename T,detail::Backend BACKEND>
 class ScopedBuffer<T, detail::BackendPolicy<BACKEND> >
 {
 	typedef decltype(std::declval<detail::BackendPolicy<BACKEND>>().backend) system_type;
-	typedef HYDRA_EXTERNAL_NS::thrust::pointer<T, typename std::remove_const<system_type>::type >  pointer_type;
+	typedef hydra_thrust::pointer<T, typename std::remove_const<system_type>::type >  pointer_type;
 
 public:
 
@@ -57,7 +57,7 @@ public:
 		fSize(n)
 	{
 		auto policy = detail::BackendPolicy<BACKEND>{};
-		auto buffer = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<T>(policy, size);
+		auto buffer = hydra_thrust::get_temporary_buffer<T>(policy, size);
 		fPointer    = buffer.first;
 
 	}
@@ -90,7 +90,7 @@ public:
 
 	~ScopedBuffer(){
 
-		using HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer;
+		using hydra_thrust::return_temporary_buffer;
 
 		return_temporary_buffer(system_type(), fPointer);
 	}

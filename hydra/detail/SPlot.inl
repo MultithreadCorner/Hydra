@@ -31,7 +31,7 @@
 #include <hydra/multiarray.h>
 #include <hydra/Tuple.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
-#include <hydra/detail/external/thrust/transform_reduce.h>
+#include <hydra/detail/external/hydra_thrust/transform_reduce.h>
 #include <hydra/detail/functors/ProcessSPlot.h>
 
 
@@ -43,7 +43,7 @@ inline Eigen::Matrix<double, sizeof...(PDFs)+2, sizeof...(PDFs)+2>
 SPlot<PDF1,PDF2,PDFs...>::Generate(InputIterator in_begin, InputIterator in_end,
 		OutputIterator out_begin)	{
 
-	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<InputIterator>::type system;
+	typedef typename hydra_thrust::iterator_system<InputIterator>::type system;
 
 	auto bsize    = hydra::distance(in_begin, in_end);
 
@@ -51,10 +51,10 @@ SPlot<PDF1,PDF2,PDFs...>::Generate(InputIterator in_begin, InputIterator in_end,
     // covariance matrix calculation
 
     matrix_t init;
-    matrix_t covmatrix= HYDRA_EXTERNAL_NS::thrust::transform_reduce(system(), in_begin, in_end,
+    matrix_t covmatrix= hydra_thrust::transform_reduce(system(), in_begin, in_end,
     		detail::CovMatrixUnary<typename PDF1::functor_type, typename  PDF2::functor_type,
 			typename  PDFs::functor_type...>(fCoeficients, fFunctors ),
-    		init, detail::CovMatrixBinary< matrix_t>());
+    		init, detail::CovMatrixBinary());
 
     Eigen::Matrix<double, npdfs, npdfs> fCovMatrix;
 
@@ -65,7 +65,7 @@ SPlot<PDF1,PDF2,PDFs...>::Generate(InputIterator in_begin, InputIterator in_end,
 
     Eigen::Matrix<double, npdfs, npdfs> icov = fCovMatrix.inverse();
 
-    HYDRA_EXTERNAL_NS::thrust::transform(system(), in_begin, in_end,
+    hydra_thrust::transform(system(), in_begin, in_end,
     		out_begin, detail::SWeights<typename PDF1::functor_type, typename  PDF2::functor_type,
 			typename  PDFs::functor_type...>(fCoeficients, fFunctors, icov ));
 

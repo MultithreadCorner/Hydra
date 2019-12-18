@@ -44,8 +44,8 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 
 //thrust
-#include <hydra/detail/external/thrust/tuple.h>
-#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
 
 
 namespace hydra {
@@ -128,7 +128,7 @@ struct DecayMothers
 		GRND randEng( fSeed );//( hash(evt,fSeed) );
 		randEng.discard(evt+3*N);
 
-		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		GReal_t fTeCmTm = 0.0;
 
@@ -259,7 +259,7 @@ struct DecayMothers
 		__hydra_host__      __hydra_device__ GReal_t operator()(I evt, Tuple particles)
 			{
 
-		constexpr size_t SIZE = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple>::value;
+		constexpr size_t SIZE = hydra_thrust::tuple_size<Tuple>::value;
 		Vector4R Particles[SIZE];
 		hydra::detail::assignTupleToArray(particles,  Particles );
 		GReal_t weight = process(evt, Particles);

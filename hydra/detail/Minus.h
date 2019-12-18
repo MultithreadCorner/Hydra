@@ -105,7 +105,7 @@ operator-(T1 const& F1, T2 const& F2){return  Minus<T1, T2>(F1, F2);}
 
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
-		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
+		std::is_constructible<hydra_thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
 __hydra_host__  inline
 Minus<Constant<T1>, T2>
 operator-(T1 const cte, T2 const& F2){return  Constant<T1>(cte)- F2;}
@@ -113,7 +113,7 @@ operator-(T1 const cte, T2 const& F2){return  Constant<T1>(cte)- F2;}
 
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
-		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
+		std::is_constructible<hydra_thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
 __hydra_host__  inline
 Minus<T2,Constant<T1> >
 operator-(T2 const& F2, T1 const cte ){return  F2- Constant<T1>(cte);}

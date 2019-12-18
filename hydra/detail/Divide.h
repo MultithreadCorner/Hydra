@@ -81,7 +81,7 @@ public:
 	__hydra_host__ __hydra_device__ inline
 	return_type operator()(T1& t ) const
 	{
-		return HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(t)/HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(t);
+		return hydra_thrust::get<0>(this->GetFunctors())(t)/hydra_thrust::get<1>(this->GetFunctors())(t);
 	}
 
 	template<typename T1, typename T2>
@@ -89,7 +89,7 @@ public:
 	return_type operator()( T1& t, T2& cache) const
 	{
 		return this->IsCached() ? detail::extract<return_type,T2>( this->GetIndex(), std::forward<T2&>(cache)):\
-				HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors())(t,cache)/HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors())(t,cache);
+				hydra_thrust::get<0>(this->GetFunctors())(t,cache)/hydra_thrust::get<1>(this->GetFunctors())(t,cache);
 	}
 
 
@@ -106,7 +106,7 @@ operator/(T1 const& F1, T2 const& F2)
 
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
-		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
+		std::is_constructible<hydra_thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
 __hydra_host__  inline
 Divide<Constant<T1>, T2>
 operator/(T1 const cte, T2 const& F2){ return  Constant<T1>(cte)/F2; }
@@ -114,7 +114,7 @@ operator/(T1 const cte, T2 const& F2){ return  Constant<T1>(cte)/F2; }
 
 template <typename T1, typename T2,
 typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
-		std::is_constructible<HYDRA_EXTERNAL_NS::thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
+		std::is_constructible<hydra_thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
 __hydra_host__  inline
 Divide<T2,Constant<T1> >
 operator/(T2 const& F2, T1 const cte ){	return  F2/Constant<T1>(cte); }

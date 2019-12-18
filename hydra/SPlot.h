@@ -41,7 +41,7 @@
 #include <hydra/multiarray.h>
 #include <hydra/Distance.h>
 #include <hydra/detail/AddPdfBase.h>
-#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
 #include <Eigen/Dense>
 
 #include <initializer_list>
@@ -59,8 +59,8 @@ public:
 	//hydra::pdf, AddPdfBase::type will not be defined and compilation
 	//will fail
 	typedef typename detail::AddPdfBase<PDF1,PDF2,PDFs...>::type base_type;
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename PDF1::functor_type,
+	typedef hydra_thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;
+	typedef hydra_thrust::tuple<typename PDF1::functor_type,
 				typename  PDF2::functor_type,
 				typename  PDFs::functor_type...> functors_tuple_type;
 
@@ -124,17 +124,17 @@ public:
 private:
 
 	template<size_t I, typename ...T>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == sizeof...(T)),void >::type
-	SetCovMatrix( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const&, Eigen::Matrix<double, npdfs, npdfs>&)
+	inline typename hydra_thrust::detail::enable_if<(I == sizeof...(T)),void >::type
+	SetCovMatrix( hydra_thrust::tuple<T...> const&, Eigen::Matrix<double, npdfs, npdfs>&)
 	{ }
 
 	template<size_t I=0, typename ...T>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(T)),void >::type
-	SetCovMatrix( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& tpl,
+	inline typename hydra_thrust::detail::enable_if<(I < sizeof...(T)),void >::type
+	SetCovMatrix( hydra_thrust::tuple<T...> const& tpl,
 			Eigen::Matrix<double, npdfs, npdfs>& fCovMatrix  )
 	{
 
-		fCovMatrix(index< npdfs, I>::x, index< npdfs, I>::y )=HYDRA_EXTERNAL_NS::thrust::get<I>(tpl);
+		fCovMatrix(index< npdfs, I>::x, index< npdfs, I>::y )=hydra_thrust::get<I>(tpl);
 		SetCovMatrix<I+1, T...>(tpl, fCovMatrix);
 	}
 

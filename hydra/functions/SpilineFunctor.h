@@ -38,11 +38,11 @@
 #include <hydra/Spiline.h>
 #include <hydra/Placeholders.h>
 #include <hydra/detail/utility/CheckValue.h>
-#include <hydra/detail/external/thrust/copy.h>
-#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
-#include <hydra/detail/external/thrust/execution_policy.h>
-#include <hydra/detail/external/thrust/binary_search.h>
-#include <hydra/detail/external/thrust/extrema.h>
+#include <hydra/detail/external/hydra_thrust/copy.h>
+#include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/hydra_thrust/execution_policy.h>
+#include <hydra/detail/external/hydra_thrust/binary_search.h>
+#include <hydra/detail/external/hydra_thrust/extrema.h>
 #include <math.h>
 #include <algorithm>
 #include <memory>
@@ -69,10 +69,10 @@ Reference: M. Steffen, Astron. Astrophys. 239, 443—450 (1990).
 */
 template<typename Iterator1, typename Iterator2, unsigned int ArgIndex=0>
 class SpilineFunctor: public BaseFunctor<SpilineFunctor<Iterator1, Iterator2, ArgIndex>,
-typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator2>::value_type, 0>
+typename hydra_thrust::iterator_traits<Iterator2>::value_type, 0>
 {
 
-	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator2>::value_type return_type;
+	typedef typename hydra_thrust::iterator_traits<Iterator2>::value_type return_type;
 
 public:
 
@@ -80,7 +80,7 @@ public:
 
 	SpilineFunctor( Iterator1 first, Iterator1 last, Iterator2 output ):
 		BaseFunctor<SpilineFunctor<Iterator1, Iterator2, ArgIndex>, return_type, 0>(),
-		fSize(HYDRA_EXTERNAL_NS::thrust::distance(first, last)),
+		fSize(hydra_thrust::distance(first, last)),
 		fX(first),
 		fY(output)
 		{}

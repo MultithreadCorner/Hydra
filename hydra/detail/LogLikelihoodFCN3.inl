@@ -34,8 +34,8 @@
 #include <hydra/FCN.h>
 #include <hydra/PDFSumNonExtendable.h>
 #include <hydra/detail/functors/LogLikelihood1.h>
-#include <hydra/detail/external/thrust/transform_reduce.h>
-#include <hydra/detail/external/thrust/inner_product.h>
+#include <hydra/detail/external/hydra_thrust/transform_reduce.h>
+#include <hydra/detail/external/hydra_thrust/inner_product.h>
 
 #include <utility>
 
@@ -76,14 +76,14 @@ public:
 	inline typename std::enable_if<(M==0), double >::type
 	Eval( const std::vector<double>& parameters ) const{
 
-		using   HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
-		typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<IteratorD>::type System;
+		using   hydra_thrust::system::detail::generic::select_system;
+		typedef typename hydra_thrust::iterator_system<IteratorD>::type System;
 		typedef typename PDFSumNonExtendable<Pdfs...>::functor_type functor_type;
 		System system;
 
 		// create iterators
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + this->GetDataSize();
+		hydra_thrust::counting_iterator<size_t> first(0);
+		hydra_thrust::counting_iterator<size_t> last = first + this->GetDataSize();
 
 		GReal_t final;
 		GReal_t init=0;
@@ -101,8 +101,8 @@ public:
 
 		auto NLL = detail::LogLikelihood1<functor_type>(this->GetPDF().GetFunctor());
 
-		final = HYDRA_EXTERNAL_NS::thrust::transform_reduce(select_system(system), this->begin(), this->end(),
-				NLL, init, HYDRA_EXTERNAL_NS::thrust::plus<GReal_t>());
+		final = hydra_thrust::transform_reduce(select_system(system), this->begin(), this->end(),
+				NLL, init, hydra_thrust::plus<GReal_t>());
 
 		GReal_t  r = (GReal_t)this->GetDataSize()  - final;
 
@@ -116,14 +116,14 @@ public:
 	inline typename std::enable_if<(M>0), double >::type
 	Eval( const std::vector<double>& parameters ) const{
 
-		using   HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
-		typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<typename FCN<LogLikelihoodFCN<PDFSumNonExtendable<Pdfs...>, IteratorD, IteratorW...>>::iterator>::type System;
+		using   hydra_thrust::system::detail::generic::select_system;
+		typedef typename hydra_thrust::iterator_system<typename FCN<LogLikelihoodFCN<PDFSumNonExtendable<Pdfs...>, IteratorD, IteratorW...>>::iterator>::type System;
 		typedef typename PDFSumNonExtendable<Pdfs...>::functor_type functor_type;
 		System system;
 
 		// create iterators
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + this->GetDataSize();
+		hydra_thrust::counting_iterator<size_t> first(0);
+		hydra_thrust::counting_iterator<size_t> last = first + this->GetDataSize();
 
 		GReal_t final;
 		GReal_t init=0;
@@ -141,8 +141,8 @@ public:
 
 		auto NLL = detail::LogLikelihood2<functor_type>(this->GetPDF().GetFunctor());
 
-		final = HYDRA_EXTERNAL_NS::thrust::inner_product(select_system(system), this->begin(), this->end(),this->wbegin(),
-				init,HYDRA_EXTERNAL_NS::thrust::plus<GReal_t>(),NLL );
+		final = hydra_thrust::inner_product(select_system(system), this->begin(), this->end(),this->wbegin(),
+				init,hydra_thrust::plus<GReal_t>(),NLL );
 
 		GReal_t  r = (GReal_t)this->GetDataSize()  - final;
 

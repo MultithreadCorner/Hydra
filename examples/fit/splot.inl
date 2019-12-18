@@ -173,12 +173,10 @@ int main(int argv, char** argc)
 
 		//------------------
 	    //make model
-		//numerical integral to normalize the pdfs
-		hydra::GaussKronrodQuadrature<61,50, hydra::device::sys_t> GKQ61_d(min,  max);
 
 		//convert functors to pdfs
-		auto Gauss_PDF = hydra::make_pdf(gaussian  , GKQ61_d);
-		auto    Exp_PDF = hydra::make_pdf(exponential, GKQ61_d);
+		auto Gauss_PDF = hydra::make_pdf(gaussian  , hydra::AnalyticalIntegral<hydra::Gaussian<0>>(min,  max));
+		auto    Exp_PDF = hydra::make_pdf(exponential, hydra::AnalyticalIntegral<hydra::Exponential<0>>(min,  max));
 
 		auto model = hydra::add_pdfs({ N_Gauss_p, N_Exp_p }, Gauss_PDF, Exp_PDF);
 

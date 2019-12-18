@@ -30,7 +30,7 @@
 #define ITERATOR_INL_
 
 #include <utility>
-#include <hydra/detail/external/thrust/iterator/reverse_iterator.h>
+#include <hydra/detail/external/hydra_thrust/iterator/reverse_iterator.h>
 
 namespace hydra {
 
@@ -88,12 +88,12 @@ auto rend( const C& c ) -> decltype(c.rend()){
 
 template< class T, size_t N >
 T* rbegin( T (&array)[N] ){
-	return HYDRA_EXTERNAL_NS::thrust::reverse_iterator<T*>(&array[0]);
+	return hydra_thrust::reverse_iterator<T*>(&array[0]);
 }
 
 template< class T, size_t N >
 T* rend( T (&array)[N] ){
-	return HYDRA_EXTERNAL_NS::thrust::reverse_iterator<T*>(&array[N]);
+	return hydra_thrust::reverse_iterator<T*>(&array[N]);
 }
 
 }  // namespace hydra

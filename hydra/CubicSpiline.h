@@ -35,11 +35,11 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/detail/utility/CheckValue.h>
-#include <hydra/detail/external/thrust/copy.h>
-#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
-#include <hydra/detail/external/thrust/execution_policy.h>
-#include <hydra/detail/external/thrust/binary_search.h>
-#include <hydra/detail/external/thrust/extrema.h>
+#include <hydra/detail/external/hydra_thrust/copy.h>
+#include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/hydra_thrust/execution_policy.h>
+#include <hydra/detail/external/hydra_thrust/binary_search.h>
+#include <hydra/detail/external/hydra_thrust/extrema.h>
 #include <math.h>
 #include <algorithm>
 
@@ -80,8 +80,8 @@ public:
 	BaseFunctor<CubicSpiline<N, ArgIndex>, GReal_t , 0>()
 	{
 		//populates fH and fX
-		HYDRA_EXTERNAL_NS::thrust::copy( ybegin, ybegin+N,  fD );
-		HYDRA_EXTERNAL_NS::thrust::copy( xbegin, xbegin+N,  fX);
+		hydra_thrust::copy( ybegin, ybegin+N,  fD );
+		hydra_thrust::copy( xbegin, xbegin+N,  fX);
 
 	}
 
@@ -160,10 +160,10 @@ private:
 	__hydra_host__ __hydra_device__
 	inline double spiline( const double x) const
 	{
-		using HYDRA_EXTERNAL_NS::thrust::min;
+		using hydra_thrust::min;
 
-		const size_t i = HYDRA_EXTERNAL_NS::thrust::distance(fX,
-							HYDRA_EXTERNAL_NS::thrust::lower_bound(HYDRA_EXTERNAL_NS::thrust::seq, fX, fX +N, x));
+		const size_t i = hydra_thrust::distance(fX,
+							hydra_thrust::lower_bound(hydra_thrust::seq, fX, fX +N, x));
 		//--------------------
 
 		const double y_i = fD[i], y_ip = fD[i+1],y_ipp = fD[i+2], y_im = fD[i-1] ;

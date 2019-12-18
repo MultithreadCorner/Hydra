@@ -33,21 +33,21 @@ namespace hydra {
 
 template<size_t ...N, hydra::detail::Backend BACKEND>
 Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::Chains(size_t nevents):
-fStorage(HYDRA_EXTERNAL_NS::thrust::make_tuple(Decays<N,hydra::detail::BackendPolicy<BACKEND> >(nevents)...) ),
+fStorage(hydra_thrust::make_tuple(Decays<N,hydra::detail::BackendPolicy<BACKEND> >(nevents)...) ),
 fSize(nevents)
 {
 
 	fWeights.resize(fSize);
 	fFlags.resize(fSize);
 
-	fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.begin()),
+	fBegin = hydra_thrust::make_zip_iterator(hydra_thrust::tuple_cat(hydra_thrust::make_tuple(fWeights.begin()),
 			detail::begin_call_args(fStorage)) );
-	fEnd = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust::tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.end()),
+	fEnd = hydra_thrust::make_zip_iterator( hydra_thrust::tuple_cat(hydra_thrust::make_tuple(fWeights.end()),
 			detail::end_call_args(fStorage)) );
 
-	fConstBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.cbegin()),
+	fConstBegin = hydra_thrust::make_zip_iterator(hydra_thrust::tuple_cat(hydra_thrust::make_tuple(fWeights.cbegin()),
 			detail::cbegin_call_args(fStorage) ));
-	fConstEnd = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.cend()),
+	fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust::tuple_cat(hydra_thrust::make_tuple(fWeights.cend()),
 			detail::cend_call_args(fStorage) ) );
 
 }
@@ -61,14 +61,14 @@ fSize (other.GetNDecays())
 	fWeights = vector_real(fSize , 1.0);
 	fFlags = vector_bool( fSize, 1.0 );
 
-	fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.begin()),
+	fBegin = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.begin()),
 			detail::begin_call_args(fStorage)) );
-	fEnd = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.end()),
+	fEnd = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.end()),
 			detail::end_call_args(fStorage)) );
 
-	fConstBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.cbegin()),
+	fConstBegin = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.cbegin()),
 			detail::cbegin_call_args(fStorage) ));
-	fConstEnd = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.cend()),
+	fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.cend()),
 			detail::cend_call_args(fStorage) ) );
 
 }
@@ -83,14 +83,14 @@ fSize (other.GetNDecays())
 	fWeights = vector_real(fSize , 1.0);
 	fFlags = vector_bool( fSize, 1.0 );
 
-	fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.begin()),
+	fBegin = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.begin()),
 			detail::begin_call_args(fStorage)) );
-	fEnd = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.end()),
+	fEnd = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.end()),
 			detail::end_call_args(fStorage)) );
 
-	fConstBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.cbegin()),
+	fConstBegin = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.cbegin()),
 			detail::cbegin_call_args(fStorage) ));
-	fConstEnd = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.cend()),
+	fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.cend()),
 			detail::cend_call_args(fStorage) ) );
 
 }
@@ -105,14 +105,14 @@ other.resize(0);
 fWeights = vector_real(fSize , 1.0);
 fFlags = vector_bool( fSize, 1.0 );
 
-fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.begin()),
+fBegin = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.begin()),
 		detail::begin_call_args(fStorage)) );
-fEnd = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.end()),
+fEnd = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.end()),
 		detail::end_call_args(fStorage)) );
 
-fConstBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.cbegin()),
+fConstBegin = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.cbegin()),
 		detail::cbegin_call_args(fStorage) ));
-fConstEnd = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.cend()),
+fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.cend()),
 		detail::cend_call_args(fStorage) ) );
 }
 
@@ -127,14 +127,14 @@ Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::operator=(Chains<D
 	this->fWeights = vector_real(this->fSize , 1.0);
 	this->fFlags = vector_bool( this->fSize, 1.0 );
 
-	this->fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(this->fWeights.begin()),
+	this->fBegin = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.begin()),
 			detail::begin_call_args(this->fStorage)) );
-	this->fEnd = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(this->fWeights.end()),
+	this->fEnd = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.end()),
 			detail::end_call_args(this->fStorage)) );
 
-	this->fConstBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(this->fWeights.cbegin()),
+	this->fConstBegin = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.cbegin()),
 			detail::cbegin_call_args(this->fStorage) ));
-	this->fConstEnd = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(this->fWeights.cend()),
+	this->fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.cend()),
 			detail::cend_call_args(this->fStorage) ) );
 
 	return *this;
@@ -153,14 +153,14 @@ Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::operator=(Chains<D
 		this->fWeights = vector_real(this->fSize , 1.0);
 		this->fFlags = vector_bool( this->fSize, 1.0 );
 
-		this->fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(this->fWeights.begin()),
+		this->fBegin = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.begin()),
 				detail::begin_call_args(this->fStorage)) );
-		this->fEnd = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(this->fWeights.end()),
+		this->fEnd = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.end()),
 				detail::end_call_args(this->fStorage)) );
 
-		this->fConstBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(this->fWeights.cbegin()),
+		this->fConstBegin = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.cbegin()),
 				detail::cbegin_call_args(this->fStorage) ));
-		this->fConstEnd = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(this->fWeights.cend()),
+		this->fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.cend()),
 				detail::cend_call_args(this->fStorage) ) );
 
 		return *this;
@@ -179,14 +179,14 @@ Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::operator=(Chains<D
 		this->fWeights = vector_real(this->fSize , 1.0);
 		this->fFlags = vector_bool( this->fSize, 1.0 );
 
-		this->fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(this->fWeights.begin()),
+		this->fBegin = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.begin()),
 				detail::begin_call_args(this->fStorage)) );
-		this->fEnd = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(this->fWeights.end()),
+		this->fEnd = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.end()),
 				detail::end_call_args(this->fStorage)) );
 
-		this->fConstBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.cbegin()),
+		this->fConstBegin = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.cbegin()),
 				detail::cbegin_call_args(this->fStorage) ));
-		this->fConstEnd = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(this->fWeights.cend()),
+		this->fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.cend()),
 				detail::cend_call_args(this->fStorage) ) );
 
 		return *this;
@@ -195,20 +195,20 @@ Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::operator=(Chains<D
 template<size_t ...N, hydra::detail::Backend BACKEND>
 Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::Chains(Decays<N,hydra::detail::BackendPolicy<BACKEND> > const& ...events):
 		fSize ( CheckSizes({events.GetNDecays()...}) ),
-		fStorage( HYDRA_EXTERNAL_NS::thrust::make_tuple( events... ))
+		fStorage( hydra_thrust::make_tuple( events... ))
 	{
 
 		fWeights = vector_real(fSize , 1.0);
 		fFlags = vector_bool( fSize, 1.0 );
 
-		fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.begin()),
+		fBegin = hydra_thrust::make_zip_iterator(hydra_thrust::tuple_cat(hydra_thrust::make_tuple(fWeights.begin()),
 				detail::begin_call_args(fStorage)) );
-		fEnd = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust::tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.end()),
+		fEnd = hydra_thrust::make_zip_iterator( hydra_thrust::tuple_cat(hydra_thrust::make_tuple(fWeights.end()),
 				detail::end_call_args(fStorage)) );
 
-		fConstBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust::tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.cbegin()),
+		fConstBegin = hydra_thrust::make_zip_iterator( hydra_thrust::tuple_cat(hydra_thrust::make_tuple(fWeights.cbegin()),
 				detail::cbegin_call_args(fStorage) ));
-		fConstEnd = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.cend()),
+		fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust::tuple_cat(hydra_thrust::make_tuple(fWeights.cend()),
 				detail::cend_call_args(fStorage) ) );
 
 	}
@@ -221,14 +221,14 @@ void Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::resize(size_t
 	fFlags.resize(n);
 	detail::resize_call_args(fStorage, n);
 
-	fBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.begin()),
+	fBegin = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.begin()),
 			detail::begin_call_args(fStorage)) );
-	fEnd = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.end()),
+	fEnd = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.end()),
 			detail::end_call_args(fStorage)) );
 
-	fConstBegin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.cbegin()),
+	fConstBegin = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.cbegin()),
 			detail::cbegin_call_args(fStorage) ));
-	fConstEnd = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust:: tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.cend()),
+	fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.cend()),
 			detail::cend_call_args(fStorage) ) );
 
 }

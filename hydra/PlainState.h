@@ -33,8 +33,8 @@
 #include <limits>
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <hydra/detail/external/thrust/functional.h>
-#include <hydra/detail/external/thrust/extrema.h>
+#include <hydra/detail/external/hydra_thrust/functional.h>
+#include <hydra/detail/external/hydra_thrust/extrema.h>
 
 namespace hydra {
 

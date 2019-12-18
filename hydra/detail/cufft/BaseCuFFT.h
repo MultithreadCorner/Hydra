@@ -36,7 +36,7 @@
 #include <hydra/detail/Iterable_traits.h>
 #include <hydra/Range.h>
 #include <hydra/Tuple.h>
-#include <hydra/detail/external/thrust/memory.h>
+#include <hydra/detail/external/hydra_thrust/memory.h>
 #include <hydra/Complex.h>
 #include <cassert>
 #include <memory>
@@ -62,8 +62,8 @@ protected:
 	typedef typename PlannerType::plan_type plan_type;
 	typedef std::unique_ptr<InputType,  detail::cufft::_Deleter> input_ptr_type;
 	typedef std::unique_ptr<OutputType, detail::cufft::_Deleter> output_ptr_type;
-	typedef HYDRA_EXTERNAL_NS::thrust::pointer<InputType, HYDRA_EXTERNAL_NS::thrust::cuda::tag> input_tagged_ptr_type;
-	typedef HYDRA_EXTERNAL_NS::thrust::pointer<OutputType, HYDRA_EXTERNAL_NS::thrust::cuda::tag> output_tagged_ptr_type;
+	typedef hydra_thrust::pointer<InputType, hydra_thrust::cuda::tag> input_tagged_ptr_type;
+	typedef hydra_thrust::pointer<OutputType, hydra_thrust::cuda::tag> output_tagged_ptr_type;
 
 public:
 
@@ -125,7 +125,7 @@ public:
 	LoadInputData( Iterable&& container)
 	{
 
-		using HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast;
+		using hydra_thrust::raw_pointer_cast;
 
 		LoadInput(std::forward<Iterable>(container).size(),
 				reinterpret_cast<InputType*>(

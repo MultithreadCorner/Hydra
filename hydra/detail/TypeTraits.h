@@ -39,30 +39,30 @@
 #include <type_traits>
 #include <limits>
 
-#include <hydra/detail/external/thrust/complex.h>
-#include <hydra/detail/external/thrust/detail/type_traits.h>
-#include <hydra/detail/external/thrust/execution_policy.h>
-#include <hydra/detail/external/thrust/iterator/iterator_categories.h>
-#include <hydra/detail/external/thrust/iterator/detail/is_iterator_category.h>
-#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
-#include <hydra/detail/external/thrust/device_reference.h>
-#include <hydra/detail/external/thrust/detail/raw_reference_cast.h>
-#include <hydra/detail/external/thrust/type_traits/void_t.h>
+#include <hydra/detail/external/hydra_thrust/complex.h>
+#include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
+#include <hydra/detail/external/hydra_thrust/execution_policy.h>
+#include <hydra/detail/external/hydra_thrust/iterator/iterator_categories.h>
+#include <hydra/detail/external/hydra_thrust/iterator/detail/is_iterator_category.h>
+#include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/hydra_thrust/device_reference.h>
+#include <hydra/detail/external/hydra_thrust/detail/raw_reference_cast.h>
+#include <hydra/detail/external/hydra_thrust/type_traits/void_t.h>
 namespace std {
 
 		template<class T, class U>
-		struct common_type<HYDRA_EXTERNAL_NS::thrust::complex<T>, HYDRA_EXTERNAL_NS::thrust::complex<U> > {
-			typedef HYDRA_EXTERNAL_NS::thrust::complex<typename common_type<T, U>::type > type;
+		struct common_type<hydra_thrust::complex<T>, hydra_thrust::complex<U> > {
+			typedef hydra_thrust::complex<typename common_type<T, U>::type > type;
 		};
 
 		template<class T, class U>
-		struct common_type<T, HYDRA_EXTERNAL_NS::thrust::complex<U> > {
-			typedef HYDRA_EXTERNAL_NS::thrust::complex<typename common_type<T, U>::type> type;
+		struct common_type<T, hydra_thrust::complex<U> > {
+			typedef hydra_thrust::complex<typename common_type<T, U>::type> type;
 		};
 
 		template<class T, class U>
-		struct common_type<HYDRA_EXTERNAL_NS::thrust::complex<U>, T > {
-			typedef HYDRA_EXTERNAL_NS::thrust::complex<typename common_type<T, U>::type > type;
+		struct common_type<hydra_thrust::complex<U>, T > {
+			typedef hydra_thrust::complex<typename common_type<T, U>::type > type;
 		};
 }
 
@@ -77,7 +77,7 @@ namespace hydra {
 
 	template <typename T>
 	struct is_iterator<T,
-	HYDRA_EXTERNAL_NS::thrust::void_t<
+	hydra_thrust::void_t<
 	           typename  std::enable_if<std::is_default_constructible<T>::value, void>::type, //default constructible,
 	           typename  std::enable_if<std::is_copy_constructible<T>::value, void>::type,    //copy constructible,
 	           typename  std::enable_if<std::is_destructible<T>::value, void>::type,          //destructible,
@@ -98,7 +98,7 @@ namespace hydra {
 	};
 
 	template<typename T>
-	struct is_device_reference<HYDRA_EXTERNAL_NS::thrust::device_reference<T>>: std::true_type
+	struct is_device_reference<hydra_thrust::device_reference<T>>: std::true_type
 	{
 		typedef T type;
 	};
@@ -156,10 +156,10 @@ namespace hydra {
 	};
 
 	template<typename T>
-	struct TypeTraits<HYDRA_EXTERNAL_NS::thrust::complex<T>>
+	struct TypeTraits<hydra_thrust::complex<T>>
 	{
 
-		typedef HYDRA_EXTERNAL_NS::thrust::complex<T> type;
+		typedef hydra_thrust::complex<T> type;
 		__hydra_host__  __hydra_device__ inline static type zero(){ return type(0.0,0.0) ;}
 		__hydra_host__  __hydra_device__ inline static type one(){ return type(1.0, 0.0) ;}
 		__hydra_host__  __hydra_device__ inline static type invalid(){ return  std::numeric_limits<T>::quiet_NaN()  ;}
@@ -184,7 +184,7 @@ namespace hydra {
 				enum { argument_count = sizeof...(Args) };
 
 				typedef ReturnType return_type;
-				typedef HYDRA_EXTERNAL_NS::thrust::tuple<Args...> args_type;
+				typedef hydra_thrust::tuple<Args...> args_type;
 
 				template <size_t i>
 				struct arg
@@ -200,7 +200,7 @@ namespace hydra {
 				enum { argument_count = sizeof...(Args) };
 
 				typedef ReturnType return_type;
-				typedef HYDRA_EXTERNAL_NS::thrust::tuple<Args&...> args_type;
+				typedef hydra_thrust::tuple<Args&...> args_type;
 
 				template <size_t i>
 				struct arg

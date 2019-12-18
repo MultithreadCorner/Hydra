@@ -33,9 +33,9 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
-#include <hydra/detail/external/thrust/transform_reduce.h>
-#include <hydra/detail/external/thrust/transform_reduce.h>
-#include <hydra/detail/external/thrust/extrema.h>
+#include <hydra/detail/external/hydra_thrust/transform_reduce.h>
+#include <hydra/detail/external/hydra_thrust/transform_reduce.h>
+#include <hydra/detail/external/hydra_thrust/extrema.h>
 
 #include <math.h>
 #include <algorithm>
@@ -51,11 +51,11 @@ inline CubicSpiline<NBins> GaussianKDE<NBins, ArgIndex>::BuildKDE(double min, do
 
 		double init = 0;
 
-		double sum  = HYDRA_EXTERNAL_NS::thrust::transform_reduce(begin, end,
+		double sum  = hydra_thrust::transform_reduce(begin, end,
 				GaussianKDE<NBins, ArgIndex>::Kernel(h,x), 0.0,
-				HYDRA_EXTERNAL_NS::thrust::plus<double>() );
+				hydra_thrust::plus<double>() );
 
-		return  sum/(h*HYDRA_EXTERNAL_NS::thrust::distance(begin, end) ) ;
+		return  sum/(h*hydra_thrust::distance(begin, end) ) ;
 	};
 
 	double bin_width = (max-min)/(NBins);
@@ -65,13 +65,13 @@ inline CubicSpiline<NBins> GaussianKDE<NBins, ArgIndex>::BuildKDE(double min, do
 		return min + index*bin_width;
 	};
 
-	typedef HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> citerator;
+	typedef hydra_thrust::counting_iterator<size_t> citerator;
 	citerator counter(0);
 
-	typedef HYDRA_EXTERNAL_NS::thrust::transform_iterator<decltype(_X),   citerator> xiterator;
+	typedef hydra_thrust::transform_iterator<decltype(_X),   citerator> xiterator;
 	xiterator Xiterator(counter,  _X);
 
-	HYDRA_EXTERNAL_NS::thrust::transform_iterator<decltype(_KDE), xiterator> diterator(Xiterator,  _KDE);
+	hydra_thrust::transform_iterator<decltype(_KDE), xiterator> diterator(Xiterator,  _KDE);
 
 	return CubicSpiline<NBins>(Xiterator, diterator);
 

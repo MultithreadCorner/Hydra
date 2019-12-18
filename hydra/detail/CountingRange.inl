@@ -30,7 +30,7 @@
 #define COUNTINGRANGE_INL_
 
 #include <hydra/detail/Config.h>
-#include <hydra/detail/external/thrust/iterator/counting_iterator.h>
+#include <hydra/detail/external/hydra_thrust/iterator/counting_iterator.h>
 #include <type_traits>
 
 namespace hydra {
@@ -66,22 +66,22 @@ private:
 
 }  // namespace detail
 
-Range<HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>>
+Range<hydra_thrust::counting_iterator<long int>>
 range(long int first, long int last ){
 
-	return make_range( HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>(first),
-			HYDRA_EXTERNAL_NS::thrust::counting_iterator<long int>(last) );
+	return make_range( hydra_thrust::counting_iterator<long int>(first),
+			hydra_thrust::counting_iterator<long int>(last) );
 }
 
 template<typename T>
 inline typename std::enable_if< std::is_floating_point<T>::value,
-   Range<HYDRA_EXTERNAL_NS::thrust::counting_iterator<unsigned>, detail::range::Shift<T>> >::type
+   Range<hydra_thrust::counting_iterator<unsigned>, detail::range::Shift<T>> >::type
 range(T min, T max, unsigned nbins ){
 
 	T delta = (max-min)/nbins;
 
-	return make_range( HYDRA_EXTERNAL_NS::thrust::counting_iterator<unsigned>(0),
-			HYDRA_EXTERNAL_NS::thrust::counting_iterator<unsigned>(nbins),
+	return make_range( hydra_thrust::counting_iterator<unsigned>(0),
+			hydra_thrust::counting_iterator<unsigned>(nbins),
 			detail::range::Shift<T>(min, delta) );
 }
 

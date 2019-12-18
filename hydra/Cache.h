@@ -39,10 +39,10 @@
 #include <hydra/Tuple.h>
 
 //thrust
-#include <hydra/detail/external/thrust/distance.h>
-#include <hydra/detail/external/thrust/copy.h>
-#include <hydra/detail/external/thrust/transform.h>
-#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/distance.h>
+#include <hydra/detail/external/hydra_thrust/copy.h>
+#include <hydra/detail/external/hydra_thrust/transform.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
 //std
 #include <utility>
 
@@ -53,7 +53,7 @@ namespace detail {
 template< typename ...Functors>
 struct CacheEvaluator {
 
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> return_type;
+	typedef hydra_thrust::tuple<typename Functors::return_type ...> return_type;
 
 	 CacheEvaluator(Functors... functors):
 	   fFunctors(hydra::make_tuple(functors...))
@@ -92,7 +92,7 @@ class Cache;
 template< hydra::detail::Backend BACKEND, typename ...Functors>
 class Cache< hydra::detail::BackendPolicy<BACKEND>, Functors...>{
 
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple<typename Functors::return_type ...> tuple_type;
+	typedef hydra_thrust::tuple<typename Functors::return_type ...> tuple_type;
 
 public:
 
@@ -108,8 +108,8 @@ public:
 	{
 		SetCacheIndex(functors...);
 
-		fData.resize(HYDRA_EXTERNAL_NS::thrust::distance(first, last));
-		HYDRA_EXTERNAL_NS::thrust::transform( first, last,
+		fData.resize(hydra_thrust::distance(first, last));
+		hydra_thrust::transform( first, last,
 				fData.begin(), detail::CacheEvaluator<Functors...>(functors...) );
 	}
 
@@ -124,8 +124,8 @@ public:
 	template< hydra::detail::Backend BACKEND2>
 	Cache(Cache<hydra::detail::BackendPolicy<BACKEND2>,Functors...> const& other)
 	{
-		fData.resize(HYDRA_EXTERNAL_NS::thrust::distance(other.begin(), other.end()));
-		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), this->begin());
+		fData.resize(hydra_thrust::distance(other.begin(), other.end()));
+		hydra_thrust::copy(other.begin(), other.end(), this->begin());
 	}
 
 	Cache<hydra::detail::BackendPolicy<BACKEND>,Functors...>&
@@ -149,8 +149,8 @@ public:
 	operator=(Cache<hydra::detail::BackendPolicy<BACKEND2>,Functors...> const& other)
 	{
 		if(this==&other) return *this;
-		fData.resize(HYDRA_EXTERNAL_NS::thrust::distance(other.begin(), other.end()));
-		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), this->begin());
+		fData.resize(hydra_thrust::distance(other.begin(), other.end()));
+		hydra_thrust::copy(other.begin(), other.end(), this->begin());
 		return *this;
 	}
 
@@ -182,14 +182,14 @@ public:
 private:
 
 	template<size_t I>
-	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == sizeof...(Functors)), void>::type
-	SetCacheIndexHelper(HYDRA_EXTERNAL_NS::thrust::tuple<Functors&...>){ }
+	typename hydra_thrust::detail::enable_if<(I == sizeof...(Functors)), void>::type
+	SetCacheIndexHelper(hydra_thrust::tuple<Functors&...>){ }
 
 	template<size_t I=0>
-	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < sizeof...(Functors)), void>::type
-	SetCacheIndexHelper(HYDRA_EXTERNAL_NS::thrust::tuple<Functors&...> functors){
+	typename hydra_thrust::detail::enable_if<(I < sizeof...(Functors)), void>::type
+	SetCacheIndexHelper(hydra_thrust::tuple<Functors&...> functors){
 
-		HYDRA_EXTERNAL_NS::thrust::get<I>(functors).SetCacheIndex(I);
+		hydra_thrust::get<I>(functors).SetCacheIndex(I);
 
 		SetCacheIndexHelper<I+1>(functors);
 	}
@@ -197,7 +197,7 @@ private:
 
 	void SetCacheIndex(Functors& ...functors){
 
-		SetCacheIndexHelper(HYDRA_EXTERNAL_NS::thrust::tie(functors...));
+		SetCacheIndexHelper(hydra_thrust::tie(functors...));
 	}
 
 	const storage_type& GetData() const {

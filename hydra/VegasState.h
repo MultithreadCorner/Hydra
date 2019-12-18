@@ -39,7 +39,7 @@
 #include <hydra/Types.h>
 
 #include <vector>
-#include <hydra/detail/external/thrust/copy.h>
+#include <hydra/detail/external/hydra_thrust/copy.h>
 #include <chrono>
 
 
@@ -437,13 +437,13 @@ public:
 
 	inline void CopyStateToDevice()
 	{
-		HYDRA_EXTERNAL_NS::thrust::copy(fXi.begin(), fXi.end(), fBackendXi.begin());
-		//HYDRA_EXTERNAL_NS::thrust::copy( fDistribution.begin(), fDistribution.end(), fBackendDistribution.begin());
+		hydra_thrust::copy(fXi.begin(), fXi.end(), fBackendXi.begin());
+		//hydra_thrust::copy( fDistribution.begin(), fDistribution.end(), fBackendDistribution.begin());
 
 	}
 
 	inline void CopyStateToHost()
-	{/*	HYDRA_EXTERNAL_NS::thrust::copy(
+	{/*	hydra_thrust::copy(
 			fBackendDistribution.begin(),
 			fBackendDistribution.end(),
 			fDistribution.begin());*/
@@ -452,12 +452,12 @@ public:
 
 	inline void SendGridToBackend()
 	{
-		HYDRA_EXTERNAL_NS::thrust::copy(fDeltaX.begin(),
+		hydra_thrust::copy(fDeltaX.begin(),
 				fDeltaX.end(),
 				fBackendDeltaX.begin());
 
 		//checar
-		HYDRA_EXTERNAL_NS::thrust::copy(fXLow.begin(),
+		hydra_thrust::copy(fXLow.begin(),
 				fXLow.end(),
 				fBackendXLow.begin());
 	}

@@ -41,9 +41,9 @@
 #include <hydra/detail/functors/StatsPHSP.h>
 
 //thrust
-#include <hydra/detail/external/thrust/tuple.h>
-#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
-#include <hydra/detail/external/thrust/random.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/hydra_thrust/random.h>
 
 #include <type_traits>
 #include <utility>
@@ -179,7 +179,7 @@ struct AverageMother
 	{
 
 		GRND randEng( hash(evt,fSeed) );
-		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		GReal_t rno[N];
 		rno[0] = 0.0;

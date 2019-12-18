@@ -33,7 +33,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
-#include <hydra/detail/external/thrust/for_each.h>
+#include <hydra/detail/external/hydra_thrust/for_each.h>
 #include <utility>
 
 namespace hydra {
@@ -43,7 +43,7 @@ template<typename Iterable, typename Functor>
 	Range<decltype(std::declval<Iterable&>().begin())>>::type
 for_each(Iterable&& iterable, Functor const& functor)
 {
-	HYDRA_EXTERNAL_NS::thrust::for_each( std::forward<Iterable>(iterable).begin(),
+	hydra_thrust::for_each( std::forward<Iterable>(iterable).begin(),
 			std::forward<Iterable>(iterable).end(), functor);
 
 	return make_range( std::forward<Iterable>(iterable).begin(),

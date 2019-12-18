@@ -131,9 +131,9 @@ PhaseSpace<N,GRND>::AverageOn(hydra::detail::BackendPolicy<BACKEND>const& policy
 		detail::AverageMother<N,GRND,FUNCTOR>
 		reducer( mother,fMasses, fSeed,functor);
 
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> first(0);
+		hydra_thrust::counting_iterator<GLong_t> first(0);
 
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> last = first + n;
+		hydra_thrust::counting_iterator<GLong_t> last = first + n;
 
 		result = 	detail::launch_reducer(policy,	first, last, reducer );
 
@@ -430,7 +430,7 @@ template <size_t N, typename GRND>
 template<typename Iterator>
 inline bool PhaseSpace<N,GRND>::EnergyChecker(Iterator first, Iterator last) const {
 
-	return  HYDRA_EXTERNAL_NS::thrust::all_of( first,  last,  detail::CheckEnergy<N>(  fMasses) );
+	return  hydra_thrust::all_of( first,  last,  detail::CheckEnergy<N>(  fMasses) );
 
 }
 

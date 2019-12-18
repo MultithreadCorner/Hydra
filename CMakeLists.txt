@@ -37,9 +37,6 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
 
  MESSAGE(STATUS "Setting ICC flags")
  set(CMAKE_CXX_FLAGS " --std=c++11 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
-
-#elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
- #MESSAGE(STATUS "===> Compiling with MSVC")
 endif()
 
 #-----------------------
@@ -75,7 +72,7 @@ include_directories(${GSL_INCLUDE_DIRS})
 endif(GSL_FOUND)
 
 #-----------------------
-# get Eigen for convolution examples
+# get Eigen for sPlot examples
 find_package( Eigen3 3.3.7 REQUIRED )
 include_directories( EIGEN3_INCLUDE_DIR )
 if(EIGEN3_FOUND)
@@ -96,8 +93,8 @@ if(CUDA_FOUND)
 link_directories( ${CUDA_TOOLKIT_ROOT_DIR}/lib64/)
 
 #set cuda flags
-SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}  -ftemplate-backtrace-limit=0; --cudart;  static; -O4; --expt-relaxed-constexpr; -fmad=true; --expt-extended-lambda;--relocatable-device-code=false ;
--Xptxas -dlcm=ca;-lineinfo)#-Xptxas --opt-level=4 )
+SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}  -ftemplate-backtrace-limit=0; --cudart;   static;  --expt-relaxed-constexpr; -fmad=true; --expt-extended-lambda;--relocatable-device-code=false;
+-Xptxas -dlcm=ca;-G;-g;-lcudadevrt.a)#-Xptxas --opt-level=4 )
 
 SET(CUDA_PROPAGATE_HOST_FLAGS ON)
 SET(CUDA_SEPARABLE_COMPILATION OFF)

@@ -38,9 +38,9 @@
 #include <hydra/Range.h>
 #include <hydra/Spiline.h>
 #include <hydra/Convolution.h>
-#include <hydra/detail/external/thrust/transform_reduce.h>
+#include <hydra/detail/external/hydra_thrust/transform_reduce.h>
 #include <hydra/detail/FFTPolicy.h>
-#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <type_traits>
 
 
@@ -115,13 +115,13 @@ class ConvolutionFunctor<Functor, Kernel, detail::BackendPolicy<BACKEND>,
 	typedef typename std::remove_const<decltype( std::declval< host_system_type>().backend)>::type  raw_host_system_type;
 
 	//pointers
-	typedef HYDRA_EXTERNAL_NS::thrust::pointer<value_type, raw_host_system_type>      host_pointer_type;
-	typedef HYDRA_EXTERNAL_NS::thrust::pointer<value_type, raw_device_system_type>  device_pointer_type;
-	typedef HYDRA_EXTERNAL_NS::thrust::pointer<value_type, raw_fft_system_type>        fft_pointer_type;
+	typedef hydra_thrust::pointer<value_type, raw_host_system_type>      host_pointer_type;
+	typedef hydra_thrust::pointer<value_type, raw_device_system_type>  device_pointer_type;
+	typedef hydra_thrust::pointer<value_type, raw_fft_system_type>        fft_pointer_type;
 
 	//iterator
-	typedef HYDRA_EXTERNAL_NS::thrust::transform_iterator< detail::convolution::_delta<value_type>,
-	          HYDRA_EXTERNAL_NS::thrust::counting_iterator<unsigned> > abiscissae_type;
+	typedef hydra_thrust::transform_iterator< detail::convolution::_delta<value_type>,
+	          hydra_thrust::counting_iterator<unsigned> > abiscissae_type;
 
 
 public:
@@ -139,9 +139,9 @@ public:
 		fXMax(abiscissae_type{}),
 		fInterpolate(interpolate)
 	{
-		using HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer;
+		using hydra_thrust::get_temporary_buffer;
 
-		fXMin = abiscissae_type(HYDRA_EXTERNAL_NS::thrust::counting_iterator<unsigned>(0),
+		fXMin = abiscissae_type(hydra_thrust::counting_iterator<unsigned>(0),
 				        detail::convolution::_delta<value_type>(kmin, (kmax-kmin)/fNSamples) );
 		fXMax = fXMin + fNSamples;
 
@@ -216,12 +216,12 @@ public:
 		auto data = make_range(fFFTData, fFFTData + fNSamples );
 
 		hydra::convolute(fft_system_type(), fft_type(),
-				HYDRA_EXTERNAL_NS::thrust::get<0>(this->GetFunctors()),
-				HYDRA_EXTERNAL_NS::thrust::get<1>(this->GetFunctors()),
+				hydra_thrust::get<0>(this->GetFunctors()),
+				hydra_thrust::get<1>(this->GetFunctors()),
 				fMin, fMax, data, false);
 
-		HYDRA_EXTERNAL_NS::thrust::copy(fft_system_type(), fFFTData, fFFTData + fNSamples, fDeviceData );
-		HYDRA_EXTERNAL_NS::thrust::copy(fft_system_type(), fFFTData, fFFTData + fNSamples, fHostData );
+		hydra_thrust::copy(fft_system_type(), fFFTData, fFFTData + fNSamples, fDeviceData );
+		hydra_thrust::copy(fft_system_type(), fFFTData, fFFTData + fNSamples, fHostData );
 
 
 	}
@@ -238,7 +238,7 @@ public:
 	}
 
 	void Dispose(){
-		using HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer;
+		using hydra_thrust::return_temporary_buffer;
 
 		return_temporary_buffer(  device_system_type(), fDeviceData );
 		return_temporary_buffer(  host_system_type(),   fHostData );

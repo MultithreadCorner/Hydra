@@ -219,7 +219,7 @@ namespace std {
 #include <utility>
 
 #include <hydra/detail/Config.h>
-#include <hydra/detail/external/thrust/detail/type_traits.h>
+#include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 // MPark.Variant
 //
 // Copyright Michael Park, 2015-2017
@@ -388,7 +388,7 @@ namespace mpark {
       using remove_const_t = typename std::remove_const<T>::type;
 
       template <typename T>
-      using remove_reference_t = typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type;//std::remove_reference<T>::type;
+      using remove_reference_t = typename hydra_thrust::detail::remove_reference<T>::type;//std::remove_reference<T>::type;
 
       template <typename T>
       VARIANT_FUNCT_HOST_DEVICE inline constexpr   T &&forward(remove_reference_t<T> &t) noexcept {

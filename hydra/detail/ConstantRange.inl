@@ -30,16 +30,16 @@
 #define CONSTANTRANGE_INL_
 
 #include <hydra/detail/Config.h>
-#include <hydra/detail/external/thrust/iterator/constant_iterator.h>
+#include <hydra/detail/external/hydra_thrust/iterator/constant_iterator.h>
 
 namespace hydra {
 
 template<typename Value_Type>
-Range<HYDRA_EXTERNAL_NS::thrust::constant_iterator<Value_Type>>
+Range<hydra_thrust::constant_iterator<Value_Type>>
 constant_range(const Value_Type&  value){
 
-	return make_range( HYDRA_EXTERNAL_NS::thrust::constant_iterator<Value_Type>(value),
-			HYDRA_EXTERNAL_NS::thrust::constant_iterator<Value_Type>(value) );
+	return make_range( hydra_thrust::constant_iterator<Value_Type>(value),
+			hydra_thrust::constant_iterator<Value_Type>(value) );
 }
 
 }  // namespace hydra

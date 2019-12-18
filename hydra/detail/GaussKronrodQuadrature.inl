@@ -35,7 +35,7 @@
 #include <cmath>
 #include <tuple>
 #include <limits>
-#include <hydra/detail/external/thrust/transform_reduce.h>
+#include <hydra/detail/external/hydra_thrust/transform_reduce.h>
 
 namespace hydra {
 
@@ -49,7 +49,7 @@ GaussKronrodQuadrature<NRULE, NBIN, hydra::detail::BackendPolicy<BACKEND>>::Inte
 	init.fGaussCall =0;
 	init.fGaussKronrodCall =0;
 
-	GaussKronrodCall result = HYDRA_EXTERNAL_NS::thrust::transform_reduce(hydra::detail::BackendPolicy<BACKEND>{},
+	GaussKronrodCall result = hydra_thrust::transform_reduce(hydra::detail::BackendPolicy<BACKEND>{},
 			fCallTable.begin(), fCallTable.end(),
 			GaussKronrodUnary<FUNCTOR>(functor),   init, GaussKronrodBinary() );
 

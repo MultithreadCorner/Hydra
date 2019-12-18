@@ -37,7 +37,7 @@
 #include <hydra/detail/utility/Arithmetic_Tuple.h>
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/FunctorTraits.h>
-#include <hydra/detail/external/thrust/functional.h>
+#include <hydra/detail/external/hydra_thrust/functional.h>
 
 namespace hydra {
 
@@ -88,20 +88,20 @@ struct CovMatrixUnary
 
 	template<typename ...T, size_t ...I>
 	__hydra_host__ __hydra_device__ inline
-	matrix_t combiner_helper(GReal_t denominator,HYDRA_EXTERNAL_NS::thrust::tuple<T...>& tpl,
+	matrix_t combiner_helper(GReal_t denominator,hydra_thrust::tuple<T...>& tpl,
 			hydra::detail::index_sequence<I...>)
 	{
 		constexpr size_t N = sizeof ...(T);
-	    return HYDRA_EXTERNAL_NS::thrust::make_tuple(
-	    ( HYDRA_EXTERNAL_NS::thrust::get< index<N, I>::x >(tpl) *
-	    		HYDRA_EXTERNAL_NS::thrust::get< index<N, I>::y >(tpl) ) /
+	    return hydra_thrust::make_tuple(
+	    ( hydra_thrust::get< index<N, I>::x >(tpl) *
+	    		hydra_thrust::get< index<N, I>::y >(tpl) ) /
 	    		(denominator*denominator)
 	    		... );
 	}
 
 	template<typename ...T>
 	__hydra_host__ __hydra_device__ inline
-	matrix_t combiner(GReal_t denominator, HYDRA_EXTERNAL_NS::thrust::tuple<T...>& tpl)
+	matrix_t combiner(GReal_t denominator, hydra_thrust::tuple<T...>& tpl)
    {
 	    constexpr size_t N = sizeof ...(T);
 
@@ -128,14 +128,13 @@ struct CovMatrixUnary
 	functors_tuple_type fFunctors;
 };
 
-template<typename T>
 struct CovMatrixBinary
-		:public HYDRA_EXTERNAL_NS::thrust::binary_function< T const&, T const&, T >
 {
+	template<typename T>
 	__hydra_host__ __hydra_device__ inline
 	T operator()(T const& x, T const& y )
 	{
-		return x+y;
+		return detail::addTuples(x,y);
 	}
 };
 
@@ -179,7 +178,7 @@ struct SWeights
 		Eigen::Matrix<double, nfunctors,1> values_vector(Eigen::Map<Eigen::Matrix<double, nfunctors,1> >(values).eval());
 		Eigen::Matrix<double, nfunctors,1> sweights(fICovMatrix*values_vector.eval());
 		auto wfvalues = detail::multiply_array_tuple(fCoeficients, fvalues);
-		GReal_t denominator   = 0;
+		GReal_t denominator   = 1;
 		detail::add_tuple_values(denominator, wfvalues);
 		sweights /=denominator;
 

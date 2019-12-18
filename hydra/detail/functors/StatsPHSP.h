@@ -60,7 +60,7 @@ struct StatsPHSP
 
 
 struct AddStatsPHSP
-		:public HYDRA_EXTERNAL_NS::thrust::binary_function< StatsPHSP const&, StatsPHSP const&, StatsPHSP >
+		:public hydra_thrust::binary_function< StatsPHSP const&, StatsPHSP const&, StatsPHSP >
 {
 
 

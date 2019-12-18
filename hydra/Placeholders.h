@@ -29,7 +29,7 @@
 #ifndef PLACEHOLDERS_H_
 #define PLACEHOLDERS_H_
 
-#include <hydra/detail/external/thrust/detail/type_traits.h>
+#include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 
 
 namespace hydra {
@@ -50,12 +50,12 @@ typedef integral_constant<unsigned int, I> type;
 */
 template<typename T>
 struct is_placeholder:
-		public HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<int, -1>{};
+		public hydra_thrust::detail::integral_constant<int, -1>{};
 
 
 template<unsigned int I>
 struct is_placeholder< placeholder<I> >:
-		public HYDRA_EXTERNAL_NS::thrust::detail::integral_constant<unsigned int, I>{};
+		public hydra_thrust::detail::integral_constant<unsigned int, I>{};
 
 
 }  // namespace placeholders

@@ -33,8 +33,8 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/Tuple.h>
-#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
-#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
 #include <hydra/Range.h>
 
 
@@ -45,12 +45,12 @@ namespace hydra {
 
 template<typename ...Iterables>
 typename std::enable_if< detail::all_true< detail::is_iterable<Iterables>::value...>::value,
-Range< HYDRA_EXTERNAL_NS::thrust::zip_iterator<
-	decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(std::declval<Iterables&>().begin()...))>>>::type
+Range< hydra_thrust::zip_iterator<
+	decltype(hydra_thrust::make_tuple(std::declval<Iterables&>().begin()...))>>>::type
 zip(Iterables&&... iterables){
 
-	return make_range( HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(std::forward<Iterables>(iterables).begin()...)),
-			HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple(std::forward<Iterables>(iterables).end()...)) );
+	return make_range( hydra_thrust::make_zip_iterator(hydra_thrust::make_tuple(std::forward<Iterables>(iterables).begin()...)),
+			hydra_thrust::make_zip_iterator(hydra_thrust::make_tuple(std::forward<Iterables>(iterables).end()...)) );
 }
 
 

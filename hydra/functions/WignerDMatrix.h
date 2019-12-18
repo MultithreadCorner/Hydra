@@ -47,7 +47,7 @@
 #include <assert.h>
 #include <utility>
 #include <ratio>
-#include <hydra/detail/external/thrust/extrema.h>
+#include <hydra/detail/external/hydra_thrust/extrema.h>
 
 namespace hydra {
 

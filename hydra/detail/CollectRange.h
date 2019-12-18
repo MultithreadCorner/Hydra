@@ -38,12 +38,12 @@ template<typename Iterable_Index, typename Iterable_Values>
 auto collect( Iterable_Index& indexing_scheme, Iterable_Values& collected_values)
 -> typename std::enable_if<hydra::detail::is_iterable<Iterable_Index>::value
 					    && hydra::detail::is_iterable<Iterable_Values>::value,
-Range<HYDRA_EXTERNAL_NS::thrust::permutation_iterator<
+Range<hydra_thrust::permutation_iterator<
 		decltype(std::declval<Iterable_Values&>().begin()),
 		decltype(std::declval<Iterable_Index&>().begin())>
 >::type
 {
-	typedef HYDRA_EXTERNAL_NS::thrust::permutation_iterator<Iterable_Values,Iterable_Index> collect_iterator;
+	typedef hydra_thrust::permutation_iterator<Iterable_Values,Iterable_Index> collect_iterator;
 	return make_range(collect_iterator(begin(collected_values), begin(indexing_scheme) ),
 			collect_iterator(begin(collected_values), end(indexing_scheme)) );
 

@@ -43,8 +43,8 @@
 //#include <hydra/Point.h>
 //#include <hydra/PointVector.h>
 
-#include <hydra/detail/external/thrust/tuple.h>
-#include <hydra/detail/external/thrust/functional.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/functional.h>
 
 
 #if(0)
@@ -57,8 +57,8 @@ namespace detail{
 template<typename FUNCTOR, typename PointType, typename IteratorData, typename IteratorCache>
 struct LogLikelihood
 {
-	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<IteratorData>::value_type data_value_type;
-	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<IteratorCache>::value_type cache_value_type;
+	typedef typename hydra_thrust::iterator_traits<IteratorData>::value_type data_value_type;
+	typedef typename hydra_thrust::iterator_traits<IteratorCache>::value_type cache_value_type;
 
 	typedef PointType point_type;
 
@@ -86,7 +86,7 @@ struct LogLikelihood
 	  fSumW2(other.fSumW2)
 	{}
 
-	__hydra_exec_check_disable__
+	__hydra_thrust_exec_check_disable__
 	__hydra_host__ __hydra_device__
 	~LogLikelihood(){}
 

@@ -33,8 +33,8 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/detail/utility/Generic.h>
-#include <hydra/detail/external/thrust/tuple.h>
-#include <hydra/detail/external/thrust/iterator/detail/tuple_of_iterator_references.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
 #include <array>
 #include <initializer_list>
 #include <math.h>
@@ -125,9 +125,9 @@ public:
 
 	template<size_t N>
 	__hydra_host__ __hydra_device__
-	GenzMalikBoxResult( HYDRA_EXTERNAL_NS::thrust::device_reference<const hydra::detail::GenzMalikBox<N>> other):
-	fIntegral(HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(other).GetIntegral()),
-	fError(HYDRA_EXTERNAL_NS::thrust::raw_reference_cast(other).GetError())
+	GenzMalikBoxResult( hydra_thrust::device_reference<const hydra::detail::GenzMalikBox<N>> other):
+	fIntegral(hydra_thrust::raw_reference_cast(other).GetIntegral()),
+	fError(hydra_thrust::raw_reference_cast(other).GetError())
 	{}
 
 

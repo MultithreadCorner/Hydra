@@ -38,9 +38,9 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
-#include <hydra/detail/external/thrust/tuple.h>
-#include <hydra/detail/external/thrust/functional.h>
-#include <hydra/detail/external/thrust/random.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/functional.h>
+#include <hydra/detail/external/hydra_thrust/random.h>
 #include <hydra/VegasState.h>
 
 
@@ -59,7 +59,7 @@ struct ResultVegas
 
 
 struct ProcessBoxesVegas
-		:public HYDRA_EXTERNAL_NS::thrust::binary_function< ResultVegas const&, ResultVegas const& , ResultVegas >
+		:public hydra_thrust::binary_function< ResultVegas const&, ResultVegas const& , ResultVegas >
 {
 
 
@@ -88,7 +88,7 @@ struct ProcessBoxesVegas
 
 template<typename FUNCTOR, size_t NDimensions, typename  BACKEND,
 typename IteratorBackendReal, typename IteratorBackendUInt,
-typename GRND=HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>
+typename GRND=hydra_thrust::random::default_random_engine>
 struct ProcessCallsVegas;
 
 template<typename FUNCTOR, size_t NDimensions,  hydra::detail::Backend  BACKEND,
@@ -174,7 +174,7 @@ public :
 
 		GRND randEng( hash(fSeed,index) );
 		//randEng.discard(index);
-		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		for (size_t j = 0; j < NDimensions; j++)
 		{

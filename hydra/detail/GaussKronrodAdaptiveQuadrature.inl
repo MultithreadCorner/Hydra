@@ -34,9 +34,9 @@
 #include <cmath>
 #include <tuple>
 #include <limits>
-#include <hydra/detail/external/thrust/sort.h>
-#include <hydra/detail/external/thrust/execution_policy.h>
-#include <hydra/detail/external/thrust/functional.h>
+#include <hydra/detail/external/hydra_thrust/sort.h>
+#include <hydra/detail/external/hydra_thrust/execution_policy.h>
+#include <hydra/detail/external/hydra_thrust/functional.h>
 
 namespace hydra {
 
@@ -50,11 +50,11 @@ GaussKronrodAdaptiveQuadrature<NRULE,NBIN,hydra::detail::BackendPolicy<BACKEND>>
 
 			auto row = fCallTableHost[index];
 
-			size_t  bin        = HYDRA_EXTERNAL_NS::thrust::get<0>(row);
-			GReal_t bin_delta  = HYDRA_EXTERNAL_NS::thrust::get<1>(row)-HYDRA_EXTERNAL_NS::thrust::get<2>(row);
-			GReal_t bin_result = HYDRA_EXTERNAL_NS::thrust::get<2>(row);
-			HYDRA_EXTERNAL_NS::thrust::get<4>(fNodesTable[bin])   +=  bin_result;
-			HYDRA_EXTERNAL_NS::thrust::get<5>(fNodesTable[bin])   +=  bin_delta;
+			size_t  bin        = hydra_thrust::get<0>(row);
+			GReal_t bin_delta  = hydra_thrust::get<1>(row)-hydra_thrust::get<2>(row);
+			GReal_t bin_result = hydra_thrust::get<2>(row);
+			hydra_thrust::get<4>(fNodesTable[bin])   +=  bin_result;
+			hydra_thrust::get<5>(fNodesTable[bin])   +=  bin_delta;
 		}
 
 	GReal_t result=0;
@@ -65,15 +65,15 @@ GaussKronrodAdaptiveQuadrature<NRULE,NBIN,hydra::detail::BackendPolicy<BACKEND>>
 	for(size_t node=0; node<fNodesTable.size(); node++ )
 	{
 		//std::cout <<std::setprecision(10)<< fNodesTable[node]<< std::endl;
-		if(HYDRA_EXTERNAL_NS::thrust::get<0>(fNodesTable[node])==1 )
+		if(hydra_thrust::get<0>(fNodesTable[node])==1 )
 		{
-			HYDRA_EXTERNAL_NS::thrust::get<5>(fNodesTable[node])= GetError(HYDRA_EXTERNAL_NS::thrust::get<5>(fNodesTable[node]) );
-			HYDRA_EXTERNAL_NS::thrust::get<0>(fNodesTable[node])=0;
+			hydra_thrust::get<5>(fNodesTable[node])= GetError(hydra_thrust::get<5>(fNodesTable[node]) );
+			hydra_thrust::get<0>(fNodesTable[node])=0;
 			//std::cout << "====>"<< std::setprecision(10)<< fNodesTable[node]<< std::endl;
 		}
 
-		result     += HYDRA_EXTERNAL_NS::thrust::get<4>(fNodesTable[node]);
-		error2    += HYDRA_EXTERNAL_NS::thrust::get<5>(fNodesTable[node])*HYDRA_EXTERNAL_NS::thrust::get<5>(fNodesTable[node]);
+		result     += hydra_thrust::get<4>(fNodesTable[node]);
+		error2    += hydra_thrust::get<5>(fNodesTable[node])*hydra_thrust::get<5>(fNodesTable[node]);
 
 	}
 
@@ -105,16 +105,16 @@ GaussKronrodAdaptiveQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND>
 		fCallTableDevice.resize( fParametersTable.size());
 
 		//call function in parallel
-		HYDRA_EXTERNAL_NS::thrust::transform(system_t(),fParametersTable.begin(), fParametersTable.end(),
+		hydra_thrust::transform(system_t(),fParametersTable.begin(), fParametersTable.end(),
 				fCallTableDevice.begin(),
 				ProcessGaussKronrodAdaptiveQuadrature<FUNCTOR>(functor) );
 
 		//copy to evaluation result back to the host
-		HYDRA_EXTERNAL_NS::thrust::copy(fCallTableDevice.begin(),  fCallTableDevice.end(),
+		hydra_thrust::copy(fCallTableDevice.begin(),  fCallTableDevice.end(),
 				fCallTableHost.begin());
 
 		/**
-		 * \todo Re-implement Accumulate() using HYDRA_EXTERNAL_NS::thrust::sort + thust::reduce_by_key, maybe not faster but
+		 * \todo Re-implement Accumulate() using hydra_thrust::sort + thust::reduce_by_key, maybe not faster but
 		 * more scalable.
 		 */
 		result = Accumulate();
@@ -140,15 +140,15 @@ template<size_t NRULE, size_t NBIN, hydra::detail::Backend BACKEND>
 void GaussKronrodAdaptiveQuadrature<NRULE,NBIN,hydra::detail::BackendPolicy<BACKEND>>::UpdateNodes()
 {
 
-	HYDRA_EXTERNAL_NS::thrust::sort(HYDRA_EXTERNAL_NS::thrust::host,
+	hydra_thrust::sort(hydra_thrust::host,
 				fNodesTable.begin(),
 			    fNodesTable.end(),
-				hydra::detail::CompareTuples<5,	HYDRA_EXTERNAL_NS::thrust::greater >());
+				hydra::detail::CompareTuples<5,	hydra_thrust::greater >());
 
 	auto node = fNodesTable[0];
 
-	GReal_t lower_limits = HYDRA_EXTERNAL_NS::thrust::get<2>(node);
-	GReal_t upper_limits = HYDRA_EXTERNAL_NS::thrust::get<3>(node);
+	GReal_t lower_limits = hydra_thrust::get<2>(node);
+	GReal_t upper_limits = hydra_thrust::get<3>(node);
 	GReal_t delta = upper_limits-lower_limits;
 
 	GReal_t delta2 = delta/2.0;
@@ -159,15 +159,15 @@ void GaussKronrodAdaptiveQuadrature<NRULE,NBIN,hydra::detail::BackendPolicy<BACK
 	fNodesTable.push_back( new_node2);
 
 
-	HYDRA_EXTERNAL_NS::thrust::sort(HYDRA_EXTERNAL_NS::thrust::host,
+	hydra_thrust::sort(hydra_thrust::host,
 			fNodesTable.begin(),
 		    fNodesTable.end(),
-			hydra::detail::CompareTuples<2,	HYDRA_EXTERNAL_NS::thrust::less >());
+			hydra::detail::CompareTuples<2,	hydra_thrust::less >());
 
 
 	for(size_t  i = 0; i<fNodesTable.size(); i++)
 	{
-		HYDRA_EXTERNAL_NS::thrust::get<1>(fNodesTable[i])=i;
+		hydra_thrust::get<1>(fNodesTable[i])=i;
 	}
 
 	//for(auto row: fNodesTable) std::cout << row << std::endl;

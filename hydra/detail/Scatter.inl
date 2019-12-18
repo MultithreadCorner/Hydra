@@ -33,7 +33,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <utility>
-#include <hydra/detail/external/thrust/scatter.h>
+#include <hydra/detail/external/hydra_thrust/scatter.h>
 #include <hydra/Range.h>
 
 namespace hydra {
@@ -45,7 +45,7 @@ typename std::enable_if<hydra::detail::is_iterable<Iterable_Source>::value
 Range<decltype(std::declval<Iterable_Target&>().begin())>>::type
 scatter(Iterable_Source&& source, Iterable_Map&& map, Iterable_Target&& target){
 
-	HYDRA_EXTERNAL_NS::thrust::scatter(std::forward<Iterable_Source>(source).begin(),
+	hydra_thrust::scatter(std::forward<Iterable_Source>(source).begin(),
 			std::forward<Iterable_Source>(source).end(),
 			std::forward<Iterable_Map>(map).begin(),
 			std::forward<Iterable_Target>(target).begin() );
@@ -61,7 +61,7 @@ typename std::enable_if<hydra::detail::is_iterable<Iterable_Source>::value
 Range<decltype(std::declval<Iterable_Target&>().begin())>>::type
 scatter(Iterable_Source& source, Range<Iterator_Map>&& map, Iterable_Target& target){
 
-	HYDRA_EXTERNAL_NS::thrust::scatter( source.begin(), source.end(),
+	hydra_thrust::scatter( source.begin(), source.end(),
 			map.begin(), target.begin() );
 	return make_range(target.begin(), target.end() );
 }
@@ -72,7 +72,7 @@ typename std::enable_if<hydra::detail::is_iterable<Iterable_Target>::value,
 Range<decltype(std::declval<Iterable_Target&>().begin())>>::type
 scatter(Range<Iterator_Source>&& source, Range<Iterator_Map>&& map, Iterable_Target& target){
 
-	HYDRA_EXTERNAL_NS::thrust::scatter( source.begin(), source.end(),
+	hydra_thrust::scatter( source.begin(), source.end(),
 			map.begin(), target.begin() );
 	return make_range(target.begin(), target.end() );
 }

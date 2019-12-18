@@ -46,9 +46,9 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/FunctionWrapper.h>
 //thrust
-#include <hydra/detail/external/thrust/tuple.h>
-#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
-#include <hydra/detail/external/thrust/random.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/hydra_thrust/random.h>
 
 
 
@@ -69,7 +69,7 @@ struct ResultPHSP
 
 
 struct EvalOnDaughtersBinary
-		:public HYDRA_EXTERNAL_NS::thrust::binary_function< ResultPHSP const&, ResultPHSP const&, ResultPHSP >
+		:public hydra_thrust::binary_function< ResultPHSP const&, ResultPHSP const&, ResultPHSP >
 {
 
 
@@ -220,7 +220,7 @@ struct EvalOnDaughters
 
 		GRND randEng( fSeed );//hash(evt,fSeed) );
 		randEng.discard(evt+3*N);
-		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		GReal_t rno[N];
 		rno[0] = 0.0;
@@ -337,7 +337,7 @@ struct EvalOnDaughters
 		typedef typename hydra::detail::tuple_type<N,
 				Vector4R>::type Tuple_t;
 
-		constexpr size_t SIZE = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple_t>::value;
+		constexpr size_t SIZE = hydra_thrust::tuple_size<Tuple_t>::value;
 
 		Vector4R Particles[SIZE];
 

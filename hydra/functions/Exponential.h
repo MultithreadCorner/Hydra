@@ -57,6 +57,7 @@ class Exponential:public BaseFunctor<Exponential<ArgIndex>, double, 1>
 {
 	using BaseFunctor<Exponential<ArgIndex>, double, 1>::_par;
 
+
 public:
 
 	Exponential() = delete;

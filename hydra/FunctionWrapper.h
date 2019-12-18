@@ -116,8 +116,8 @@ public:
 	Evaluate(T... a)   const {
 
 		static_assert(
-				std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<unsigned int,  const hydra::Parameter*, T...>,
-				HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
+				std::is_convertible<hydra_thrust::tuple<unsigned int,  const hydra::Parameter*, T...>,
+				hydra_thrust::tuple<ArgType...>>::value ,
 										"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
 
 		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),a...);
@@ -128,8 +128,8 @@ public:
 	inline typename std::enable_if< (M>0)&& sizeof...(ArgType)==3, ReturnType >::type
 	Evaluate(T a)    const {
 
-		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<unsigned int,  const hydra::Parameter*, T>,
-				HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ,
+		static_assert( std::is_convertible<hydra_thrust::tuple<unsigned int,  const hydra::Parameter*, T>,
+				hydra_thrust::tuple<ArgType...>>::value ,
 										"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
 		return fLambda(this->GetNumberOfParameters(), this->GetParameters(), a);
 	}
@@ -139,10 +139,10 @@ public:
 	inline typename std::enable_if< (M==0) &&( (sizeof...(ArgType))>1), ReturnType >::type
 	Evaluate(T...a)   const {
 
-		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,
-				HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value||
-			       std::is_convertible<HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T...>,
-			    HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<ArgType...>>::value ,
+		static_assert( std::is_convertible<hydra_thrust::tuple<T...>,
+				hydra_thrust::tuple<ArgType...>>::value||
+			       std::is_convertible<hydra_thrust::detail::tuple_of_iterator_references<T...>,
+			    hydra_thrust::detail::tuple_of_iterator_references<ArgType...>>::value ,
 								"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
 		return fLambda( a...);
 	}
@@ -152,10 +152,10 @@ public:
 	inline typename std::enable_if< (M==0)&& sizeof...(ArgType)==1, ReturnType >::type
 	Evaluate(T...a)   const {
 
-		static_assert( std::is_convertible<HYDRA_EXTERNAL_NS::thrust::tuple<T...>,
-				HYDRA_EXTERNAL_NS::thrust::tuple<ArgType...>>::value ||
-				       std::is_convertible<HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T...>,
-				HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<ArgType...>>::value,
+		static_assert( std::is_convertible<hydra_thrust::tuple<T...>,
+				hydra_thrust::tuple<ArgType...>>::value ||
+				       std::is_convertible<hydra_thrust::detail::tuple_of_iterator_references<T...>,
+				hydra_thrust::detail::tuple_of_iterator_references<ArgType...>>::value,
 			"\n\n<<< HYDRA_COMPILE_ERROR: Lambda function can not be called with this arguments .>>>\n\n");
 		return fLambda( a...);
 	}
@@ -170,7 +170,7 @@ namespace detail {
 
 
 template<typename L, typename ReturnType, typename ...Args, size_t N>
-auto wrap_lambda_helper(L const& f, ReturnType, HYDRA_EXTERNAL_NS::thrust::tuple<Args...>const& ,
+auto wrap_lambda_helper(L const& f, ReturnType, hydra_thrust::tuple<Args...>const& ,
 		std::array<Parameter, N> const& parameters)
 -> LambdaWrapper<ReturnType(Args...), L, N>
 {
@@ -178,7 +178,7 @@ auto wrap_lambda_helper(L const& f, ReturnType, HYDRA_EXTERNAL_NS::thrust::tuple
 }
 
 template<typename L, typename ReturnType, typename ...Args>
-auto wrap_lambda_helper(L const& f, ReturnType&& , HYDRA_EXTERNAL_NS::thrust::tuple<Args...>&& )
+auto wrap_lambda_helper(L const& f, ReturnType&& , hydra_thrust::tuple<Args...>&& )
 -> LambdaWrapper<ReturnType(Args...), L, 0>
 {
 	return LambdaWrapper<ReturnType(Args...), L, 0>(f);

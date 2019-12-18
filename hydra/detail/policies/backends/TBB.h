@@ -31,8 +31,8 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
-#include <hydra/detail/external/thrust/system/tbb/detail/par.h>
-#include <hydra/detail/external/thrust/system/tbb/vector.h>
+#include <hydra/detail/external/hydra_thrust/system/tbb/detail/par.h>
+#include <hydra/detail/external/hydra_thrust/system/tbb/vector.h>
 
 namespace hydra {
 
@@ -40,20 +40,20 @@ namespace detail {
 
 namespace tbb {
 
-typedef HYDRA_EXTERNAL_NS::thrust::system::tbb::detail::par_t   tbb_t;
+typedef hydra_thrust::system::tbb::detail::par_t   tbb_t;
 static const tbb_t    _tbb_;
 
 
 }  // namespace tbb
 
 template<>
-struct BackendPolicy<Backend::Tbb>: HYDRA_EXTERNAL_NS::thrust::execution_policy<tbb::tbb_t>
+struct BackendPolicy<Backend::Tbb>: hydra_thrust::execution_policy<tbb::tbb_t>
 {
-	//typedef  HYDRA_EXTERNAL_NS::thrust::execution_policy<tbb::tbb_t> super_type;
+	//typedef  hydra_thrust::execution_policy<tbb::tbb_t> super_type;
 	const tbb::tbb_t backend= tbb::_tbb_;
 
 	template<typename T>
-	using   container = HYDRA_EXTERNAL_NS::thrust::tbb::vector<T> ;
+	using   container = hydra_thrust::tbb::vector<T> ;
 
 };
 

@@ -45,18 +45,18 @@
 #include <hydra/Range.h>
 #include <hydra/Placeholders.h>
 //thrust
-#include <hydra/detail/external/thrust/copy.h>
-#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
-#include <hydra/detail/external/thrust/iterator/reverse_iterator.h>
-#include <hydra/detail/external/thrust/iterator/constant_iterator.h>
-#include <hydra/detail/external/thrust/iterator/transform_iterator.h>
-#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
-#include <hydra/detail/external/thrust/partition.h>
-#include <hydra/detail/external/thrust/random.h>
-#include <hydra/detail/external/thrust/extrema.h>
-#include <hydra/detail/external/thrust/device_ptr.h>
-#include <hydra/detail/external/thrust/detail/type_traits.h>
-#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/copy.h>
+#include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/hydra_thrust/iterator/reverse_iterator.h>
+#include <hydra/detail/external/hydra_thrust/iterator/constant_iterator.h>
+#include <hydra/detail/external/hydra_thrust/iterator/transform_iterator.h>
+#include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/hydra_thrust/partition.h>
+#include <hydra/detail/external/hydra_thrust/random.h>
+#include <hydra/detail/external/hydra_thrust/extrema.h>
+#include <hydra/detail/external/hydra_thrust/device_ptr.h>
+#include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
 
 namespace hydra {
 /**
@@ -75,12 +75,12 @@ template<size_t N, hydra::detail::Backend BACKEND>
 class Decays<N, hydra::detail::BackendPolicy<BACKEND> > {
 
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple<GReal_t,GReal_t, GReal_t, GReal_t> tuple_t;
+	typedef hydra_thrust::tuple<GReal_t,GReal_t, GReal_t, GReal_t> tuple_t;
 
 	typedef multiarray<GReal_t,4,hydra::detail::BackendPolicy<BACKEND>> particles_type;
 	typedef std::array<particles_type, N>                               decays_type;
 	typedef typename system_t::template container<GReal_t>              weights_type;
-	typedef HYDRA_EXTERNAL_NS::thrust::constant_iterator<GReal_t>       unitary_iterator;
+	typedef hydra_thrust::constant_iterator<GReal_t>       unitary_iterator;
 
 
 
@@ -89,18 +89,18 @@ class Decays<N, hydra::detail::BackendPolicy<BACKEND> > {
 	//---------------------------------
     //non const
 	typedef typename  detail::tuple_cat_type<
-				HYDRA_EXTERNAL_NS::thrust::tuple<typename weights_type::iterator>,
+				hydra_thrust::tuple<typename weights_type::iterator>,
 				typename  detail::tuple_type<N,typename particles_type::iterator>::type
 			>::type iterator_tuple;
     //const
 	typedef typename  detail::tuple_cat_type<
-					HYDRA_EXTERNAL_NS::thrust::tuple<typename weights_type::const_iterator>,
+					hydra_thrust::tuple<typename weights_type::const_iterator>,
 					typename  detail::tuple_type<N,typename particles_type::const_iterator>::type
 				>::type const_iterator_tuple;
 
 	//accepted events
 	typedef typename  detail::tuple_cat_type<
-			HYDRA_EXTERNAL_NS::thrust::tuple< unitary_iterator>,
+			hydra_thrust::tuple< unitary_iterator>,
 			typename  detail::tuple_type<N,typename particles_type::iterator>::type
 			>::type accpeted_iterator_tuple;
 
@@ -110,18 +110,18 @@ class Decays<N, hydra::detail::BackendPolicy<BACKEND> > {
 	//---------------------------------
 	//non const
 	typedef typename  detail::tuple_cat_type<
-			HYDRA_EXTERNAL_NS::thrust::tuple<typename weights_type::reverse_iterator>,
+			hydra_thrust::tuple<typename weights_type::reverse_iterator>,
 			typename  detail::tuple_type<N,typename particles_type::reverse_iterator>::type
 			>::type reverse_iterator_tuple;
 	//const
 	typedef typename  detail::tuple_cat_type<
-			HYDRA_EXTERNAL_NS::thrust::tuple<typename weights_type::const_reverse_iterator>,
+			hydra_thrust::tuple<typename weights_type::const_reverse_iterator>,
 			typename  detail::tuple_type<N,typename particles_type::const_reverse_iterator>::type
 			>::type const_reverse_iterator_tuple;
 
 	//accepted events
 	typedef typename  detail::tuple_cat_type<
-			HYDRA_EXTERNAL_NS::thrust::tuple< unitary_iterator>,
+			hydra_thrust::tuple< unitary_iterator>,
 			typename  detail::tuple_type<N,typename particles_type::reverse_iterator>::type
 			>::type accpeted_reverse_iterator_tuple;
 
@@ -131,7 +131,7 @@ public:
 
 	typedef typename detail::tuple_type<N,Vector4R>::type particle_tuple;
 	typedef typename  detail::tuple_cat_type<
-			HYDRA_EXTERNAL_NS::thrust::tuple< double> , particle_tuple >::type decay_t;
+			hydra_thrust::tuple< double> , particle_tuple >::type decay_t;
 	typedef particle_tuple udecay_t;
 	//-----------------------------
 	//      stl-like typedefs
@@ -146,7 +146,7 @@ public:
 	typedef typename weights_type::value_type               weights_value_type;
 	typedef typename weights_type::pointer                  weights_pointer;
 	typedef typename weights_type::reference                weights_reference;
-	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<weights_iterator>::iterator_category    weights_iterator_category;
+	typedef typename hydra_thrust::iterator_traits<weights_iterator>::iterator_category    weights_iterator_category;
 
 	//particles
 	//each entry is [C1, C2, C3, C4 ], C_i has double type
@@ -157,37 +157,37 @@ public:
 	typedef typename particles_type::difference_type         particles_difference_type;
 	typedef typename particles_type::value_type              particles_value_type;
 	typedef typename particles_type::reference               particles_reference;
-	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<particles_iterator>::iterator_category    particles_iterator_category;
+	typedef typename hydra_thrust::iterator_traits<particles_iterator>::iterator_category    particles_iterator_category;
 
 	//decays
 	//each entry is [V1, V2, V3, ..., VN], where V_i has Vector4R type
 
-	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<
+	typedef hydra_thrust::zip_iterator<
 			typename  detail::tuple_type<N,typename particles_type::iterator>::type       >         decays_iterator;
-	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<
+	typedef hydra_thrust::zip_iterator<
 			typename  detail::tuple_type<N,typename particles_type::const_iterator>::type >         decays_const_iterator;
-	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<
+	typedef hydra_thrust::zip_iterator<
 			typename  detail::tuple_type<N,typename particles_type::reverse_iterator>::type >       decays_reverse_iterator;
-	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<
+	typedef hydra_thrust::zip_iterator<
 			typename  detail::tuple_type<N,typename particles_type::const_reverse_iterator>::type > decays_const_reverse_iterator;
 
 
 	// whole container
 	// each entry is [W1, V1, V2, V3, ..., VN ], where V_i has tuple<double, double, double, double> type and W1 is double
-	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<accpeted_iterator_tuple>      accpeted_iterator;
+	typedef hydra_thrust::zip_iterator<accpeted_iterator_tuple>      accpeted_iterator;
 	//direct
-	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<iterator_tuple>               iterator;
-	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<const_iterator_tuple>         const_iterator;
+	typedef hydra_thrust::zip_iterator<iterator_tuple>               iterator;
+	typedef hydra_thrust::zip_iterator<const_iterator_tuple>         const_iterator;
 	//reverse
-	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<reverse_iterator_tuple>       reverse_iterator;
-	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<const_reverse_iterator_tuple> const_reverse_iterator;
+	typedef hydra_thrust::zip_iterator<reverse_iterator_tuple>       reverse_iterator;
+	typedef hydra_thrust::zip_iterator<const_reverse_iterator_tuple> const_reverse_iterator;
 	//stl-like typedefs
-	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::difference_type    difference_type;
-	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::value_type         value_type;
-	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::pointer            pointer;
-	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::reference          reference;
-	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<const_iterator>::reference    const_reference;
-	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<iterator>::iterator_category  iterator_category;
+	typedef typename hydra_thrust::iterator_traits<iterator>::difference_type    difference_type;
+	typedef typename hydra_thrust::iterator_traits<iterator>::value_type         value_type;
+	typedef typename hydra_thrust::iterator_traits<iterator>::pointer            pointer;
+	typedef typename hydra_thrust::iterator_traits<iterator>::reference          reference;
+	typedef typename hydra_thrust::iterator_traits<const_iterator>::reference    const_reference;
+	typedef typename hydra_thrust::iterator_traits<iterator>::iterator_category  iterator_category;
 
 	struct __CastTupleToVector4
 	{
@@ -202,16 +202,16 @@ public:
 	{
 		template<unsigned int I>
 		__hydra_host__ __hydra_device__ inline
-		typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I==N+1), void >::type
+		typename hydra_thrust::detail::enable_if< (I==N+1), void >::type
 		__convert(value_type const& , decay_t&){ }
 
 		template<unsigned int I=0>
 		__hydra_host__ __hydra_device__ inline
-		typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I<N+1), void >::type
+		typename hydra_thrust::detail::enable_if< (I<N+1), void >::type
 		__convert(value_type const& v , decay_t& r)
 		{
-			HYDRA_EXTERNAL_NS::thrust::get<I>(r) =
-					HYDRA_EXTERNAL_NS::thrust::get<I>(v);
+			hydra_thrust::get<I>(r) =
+					hydra_thrust::get<I>(v);
 			__convert<I+1>(v, r );
 		}
 
@@ -228,15 +228,15 @@ public:
 	{
 		template<unsigned int I>
 		__hydra_host__ __hydra_device__ inline
-		typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I==N), void >::type
+		typename hydra_thrust::detail::enable_if< (I==N), void >::type
 		__convert_helper(value_type& , udecay_t& ){ }
 
 		template<unsigned int I=0>
 		__hydra_host__ __hydra_device__ inline
-		typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I<N), void >::type
+		typename hydra_thrust::detail::enable_if< (I<N), void >::type
 		__convert_helper(value_type& v , udecay_t& r)
 		{
-			HYDRA_EXTERNAL_NS::thrust::get<I>(r) = HYDRA_EXTERNAL_NS::thrust::get<I+1>(v);
+			hydra_thrust::get<I>(r) = hydra_thrust::get<I+1>(v);
 			__convert_helper<I+1>(v, r );
 		}
 		__hydra_host__ __hydra_device__ inline
@@ -256,7 +256,7 @@ public:
 
 	//cast iterator
 	template < typename Iterator, typename Arg, typename Functor>
-	using __caster_iterator = HYDRA_EXTERNAL_NS::thrust::transform_iterator<Functor,
+	using __caster_iterator = hydra_thrust::transform_iterator<Functor,
 			Iterator, typename std::result_of<Functor(Arg&)>::type >;
 
 	/**
@@ -304,8 +304,8 @@ public:
 	template< hydra::detail::Backend BACKEND2>
 	Decays(Decays<N,detail::BackendPolicy<BACKEND2>> const& other )
 	{
-		this->resize(HYDRA_EXTERNAL_NS::thrust::distance(other.begin(),  other.end()));
-		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(),  other.end(), this->begin() );
+		this->resize(hydra_thrust::distance(other.begin(),  other.end()));
+		hydra_thrust::copy(other.begin(),  other.end(), this->begin() );
 	}
 
 	/**
@@ -315,19 +315,19 @@ public:
 	template<typename Iterator>
 	Decays( Iterator first, Iterator  last )
 	{
-		size_t n = HYDRA_EXTERNAL_NS::thrust::distance(first, last);
+		size_t n = hydra_thrust::distance(first, last);
 
 		for( size_t i=0; i<N; i++)
 			fDecays[i].resize(n);
 		fWeights.resize(n);
 
-		HYDRA_EXTERNAL_NS::thrust::copy(first, last, this->begin());
+		hydra_thrust::copy(first, last, this->begin());
 	}
 
 	template<typename Iterable, typename T=	typename  std::enable_if< detail::is_iterable<Iterable>::value>::type>
 	Decays( Iterable&& other )
 	{
-			size_t n = HYDRA_EXTERNAL_NS::thrust::distance(
+			size_t n = hydra_thrust::distance(
 					std::forward<Iterable>(other).begin(),
 					std::forward<Iterable>(other).end() );
 
@@ -336,7 +336,7 @@ public:
 				fDecays[i].resize(n);
 			fWeights.resize(n);
 
-			HYDRA_EXTERNAL_NS::thrust::copy(std::forward<Iterable>(other).begin(),
+			hydra_thrust::copy(std::forward<Iterable>(other).begin(),
 					std::forward<Iterable>(other).end(), this->begin());
 	}
 
@@ -377,7 +377,7 @@ public:
 	Decays<N,detail::BackendPolicy<BACKEND> >&
 	operator=(Decays<N,detail::BackendPolicy<BACKEND2> > const& other )
 	{
-		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(),  other.end(), this->begin() );
+		hydra_thrust::copy(other.begin(),  other.end(), this->begin() );
 
 		return *this;
 	}
@@ -703,22 +703,22 @@ public:
 	bool empty() const{	return this->fWeights.empty(); }
 
 	iterator erase(iterator pos) {
-		size_t n = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), pos);
+		size_t n = hydra_thrust::distance(this->begin(), pos);
 		__erase( n );
 		return this->begin() + n;
 	}
 
 	iterator erase(iterator first, iterator last){
 
-		size_t _first = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), first);
-		size_t _last  = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), last);
+		size_t _first = hydra_thrust::distance(this->begin(), first);
+		size_t _last  = hydra_thrust::distance(this->begin(), last);
 
 		__erase(_first,  _last  );
 		return this->begin() + _first;
 	}
 
 	iterator insert(iterator position, const value_type &x){
-		size_t _pos = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), position);
+		size_t _pos = hydra_thrust::distance(this->begin(), position);
 		__insert(_pos, x);
 
 		return this->begin() + _pos;
@@ -726,7 +726,7 @@ public:
 
 	void insert(iterator position, size_type n, const value_type &x){
 
-		size_t _pos = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), position);
+		size_t _pos = hydra_thrust::distance(this->begin(), position);
 		__insert(_pos, n, x);
 
 	}
@@ -736,7 +736,7 @@ public:
 	void insert(iterator position, InputIterator first, InputIterator last){
 		auto _first = first.get_iterator_tuple();
 		auto _last  = last.get_iterator_tuple();
-		size_t _pos = HYDRA_EXTERNAL_NS::thrust::distance(this->begin(), position);
+		size_t _pos = hydra_thrust::distance(this->begin(), position);
 		__insert( _pos, _first, _last );
 
 	}
@@ -825,11 +825,11 @@ private:
 	//pop_back
 
 	template<size_t I>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
 	__pop_back_helper(){ }
 
 	template<size_t I = 0>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
 	__pop_back_helper()
 	{
 		std::get<I>(fDecays).pop_back();
@@ -842,11 +842,11 @@ private:
 	//resize
 
 	template<size_t I>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
 	__resize_helper( size_t ){ }
 
 	template<size_t I = 0>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
 	__resize_helper( size_t n)
 	{
 		std::get<I>(fDecays).resize(n);
@@ -859,11 +859,11 @@ private:
 	//clear
 
 	template<size_t I>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
 	__clear_helper(){ }
 
 	template<size_t I = 0>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
 	__clear_helper()
 	{
 		std::get<I>(fDecays).clear();
@@ -876,11 +876,11 @@ private:
 	//shrink_to_fit
 
 	template<size_t I>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
 	__shrink_to_fit_helper(){ }
 
 	template<size_t I = 0>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
 	__shrink_to_fit_helper()
 	{
 		std::get<I>(fDecays).shrink_to_fit();
@@ -893,11 +893,11 @@ private:
 	//reserve
 
 	template<size_t I>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
 	__reserve_helper( size_t ){ }
 
 	template<size_t I = 0>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
 	__reserve_helper( size_t n)
 	{
 		std::get<I>(fDecays).reserve(n);
@@ -909,86 +909,86 @@ private:
 	//_______________________________________________
 	//insert
 	template<size_t I>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
 	__insert_helper(size_type , size_type, value_type const& ){ }
 
 	template<size_t I = 0>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
 	__insert_helper(size_type i, size_type n, value_type const& x )
 	{
-		std::get<I>(fDecays).insert( HYDRA_EXTERNAL_NS::thrust::get<I>(fDecays).begin() + i, n,
-				HYDRA_EXTERNAL_NS::thrust::get<I+1>(x)  ); ;
+		std::get<I>(fDecays).insert( hydra_thrust::get<I>(fDecays).begin() + i, n,
+				hydra_thrust::get<I+1>(x)  ); ;
 
 		__insert_helper<I+1>(i, n, x);
 	}
 
 	void __insert( size_type i, size_type n, value_type const& x ) {
 
-		fWeights.insert( fWeights.begin()+i, n, HYDRA_EXTERNAL_NS::thrust::get<0>(x)  );
+		fWeights.insert( fWeights.begin()+i, n, hydra_thrust::get<0>(x)  );
 		__insert_helper(i, n, x);
 
 	}
 
 	//----
 	template<size_t I, typename ...Iterators >
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
-	__insert_helper( size_type , HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...>,
-			HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...>  ) {	}
+	inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
+	__insert_helper( size_type , hydra_thrust::tuple<Iterators...>,
+			hydra_thrust::tuple<Iterators...>  ) {	}
 
 	template< size_t I =0, typename ...Iterators >
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
-	__insert_helper( size_type pos, HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...> const& first,
-			HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...>const& last ) {
+	inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
+	__insert_helper( size_type pos, hydra_thrust::tuple<Iterators...> const& first,
+			hydra_thrust::tuple<Iterators...>const& last ) {
 
 		std::get<I>(fDecays).insert( std::get<I>(fDecays).begin()+pos,
-				HYDRA_EXTERNAL_NS::thrust::get<I+1>(first),
-				HYDRA_EXTERNAL_NS::thrust::get<I+1>(last));
+				hydra_thrust::get<I+1>(first),
+				hydra_thrust::get<I+1>(last));
 
 		__insert_helper<I+1>(pos, first, last);
 	}
 
 	template<typename ...Iterators>
-	void __insert( size_type pos, HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...> first,
-			HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...> last ) {
+	void __insert( size_type pos, hydra_thrust::tuple<Iterators...> first,
+			hydra_thrust::tuple<Iterators...> last ) {
 
-		fWeights.insert( fWeights.begin()+pos, HYDRA_EXTERNAL_NS::thrust::get<0>(first),
-				HYDRA_EXTERNAL_NS::thrust::get<0>(last));
+		fWeights.insert( fWeights.begin()+pos, hydra_thrust::get<0>(first),
+				hydra_thrust::get<0>(last));
 
 		__insert_helper(pos, first, last);
 	}
 
 	//----
 	template<size_t I>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
 	__insert_helper(size_type , value_type const& ){ }
 
 	template<size_t I = 0>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
 	__insert_helper(size_type pos, value_type const& x )
 	{
-		std::get<I>(fDecays).insert( HYDRA_EXTERNAL_NS::thrust::get<I>(fDecays).begin() + pos,
-				HYDRA_EXTERNAL_NS::thrust::get<I+1>(x)  ); ;
+		std::get<I>(fDecays).insert( hydra_thrust::get<I>(fDecays).begin() + pos,
+				hydra_thrust::get<I+1>(x)  ); ;
 
 		__insert_helper<I+1>(pos, x);
 	}
 
 	void __insert( size_type pos, value_type const& x ) {
 
-		fWeights.insert( fWeights.begin()+pos, HYDRA_EXTERNAL_NS::thrust::get<0>(x)  );
+		fWeights.insert( fWeights.begin()+pos, hydra_thrust::get<0>(x)  );
 		__insert_helper(pos, x);
 	}
 
 	//_______________________________________________
 	//erase
 	template<size_t I>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
 	__erase_helper(size_type){ }
 
 	template<size_t I = 0>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
 	__erase_helper(size_type pos )
 	{
-		std::get<I>(fDecays).erase( HYDRA_EXTERNAL_NS::thrust::get<I>(fDecays).begin() + pos);
+		std::get<I>(fDecays).erase( hydra_thrust::get<I>(fDecays).begin() + pos);
 
 		__erase_helper<I+1>(pos);
 	}
@@ -1002,11 +1002,11 @@ private:
 	//-----
 
 	template<size_t I>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
 	__erase_helper(size_type, size_type){ }
 
 	template<size_t I = 0>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
 	__erase_helper(size_type first, size_type last)
 	{
 		std::get<I>(fDecays).erase( std::get<I>(fDecays).begin() + first,
@@ -1025,24 +1025,24 @@ private:
 	//_______________________________________________
 	//push_back
 	template<size_t I>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
 	__push_back(const particle_tuple&){	}
 
 	template<size_t I = 0>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
 	__push_back( const particle_tuple& p )
 	{
-		fDecays[I].push_back( HYDRA_EXTERNAL_NS::thrust::get<I>(p) );
+		fDecays[I].push_back( hydra_thrust::get<I>(p) );
 		__push_back<I+1>(p );
 	}
 
 	//----
 	template<size_t I>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
 	__push_back(Vector4R const (&p)[N]){ (void)p; }
 
 	template<size_t I = 0>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
 	__push_back(Vector4R const (&p)[N])
 	{
 		fDecays[I].push_back( p[I] );
@@ -1051,11 +1051,11 @@ private:
 
 	//----
 	template<size_t I>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
 	__push_back(std::array<Vector4R, N> const& ){ 	}
 
 	template<size_t I = 0>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
 	__push_back(std::array<Vector4R, N> const& p)
 	{
 		fDecays[I].push_back( p[I] );
@@ -1064,20 +1064,20 @@ private:
 
 	//---
 	template<size_t I>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I == N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
 	__push_back_helper(value_type const& ){ 	}
 
 	template<size_t I = 0>
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(I < N), void >::type
+	inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
 	__push_back_helper(value_type const& p)
 	{
-		fDecays[I].push_back( HYDRA_EXTERNAL_NS::thrust::get<I>(p)  );
+		fDecays[I].push_back( hydra_thrust::get<I>(p)  );
 		__push_back_helper<I+1>(p);
 	}
 
 	void __push_back(value_type const& p) {
 
-		fWeights.push_back(  HYDRA_EXTERNAL_NS::thrust::get<0>(p)  );
+		fWeights.push_back(  hydra_thrust::get<0>(p)  );
 		__push_back_helper(p);
 	}
 
@@ -1115,8 +1115,8 @@ private:
 	template < size_t... I>
 	iterator __begin_helper(detail::index_sequence<I...>){
 
-		return  HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
-					HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.begin(),  std::get<I>(fDecays).begin() ...));
+		return  hydra_thrust::make_zip_iterator(
+					hydra_thrust::make_tuple(fWeights.begin(),  std::get<I>(fDecays).begin() ...));
 	}
 
 	iterator __begin(){	return __begin_helper( detail::make_index_sequence<N>{} );}
@@ -1126,8 +1126,8 @@ private:
 	template < size_t... I>
 	iterator __end_helper(detail::index_sequence<I...>){
 
-		return  HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
-				HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.end(), std::get<I>(fDecays).end()... ));
+		return  hydra_thrust::make_zip_iterator(
+				hydra_thrust::make_tuple(fWeights.end(), std::get<I>(fDecays).end()... ));
 	}
 
 	iterator __end(){	return __end_helper( detail::make_index_sequence<N>{} );}
@@ -1136,8 +1136,8 @@ private:
 	template < size_t... I>
 	reverse_iterator __rbegin_helper(detail::index_sequence<I...>){
 
-		return  HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
-				HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.rbegin(),  std::get<I>(fDecays).rbegin()... ));
+		return  hydra_thrust::make_zip_iterator(
+				hydra_thrust::make_tuple(fWeights.rbegin(),  std::get<I>(fDecays).rbegin()... ));
 	}
 
 	reverse_iterator __rbegin(){	return __rbegin_helper( detail::make_index_sequence<N>{} );}
@@ -1146,8 +1146,8 @@ private:
 	template < size_t... I>
 	reverse_iterator __rend_helper(detail::index_sequence<I...>){
 
-		return  HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
-				HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.rend(), std::get<I>(fDecays).rend() ...));
+		return  hydra_thrust::make_zip_iterator(
+				hydra_thrust::make_tuple(fWeights.rend(), std::get<I>(fDecays).rend() ...));
 	}
 
 	reverse_iterator __rend(){	return __rend_helper( detail::make_index_sequence<N>{} );}
@@ -1158,8 +1158,8 @@ private:
 	template < size_t... I>
 	const_iterator __begin_helper(detail::index_sequence<I...>) const {
 
-		return  HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
-				HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.begin(),  std::get<I>(fDecays).begin() ...));
+		return  hydra_thrust::make_zip_iterator(
+				hydra_thrust::make_tuple(fWeights.begin(),  std::get<I>(fDecays).begin() ...));
 	}
 
 	const_iterator __begin() const {	return __begin_helper( detail::make_index_sequence<N>{} );}
@@ -1169,8 +1169,8 @@ private:
 	template < size_t... I>
 	const_iterator __end_helper(detail::index_sequence<I...>) const {
 
-		return  HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
-				HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.end(), std::get<I>(fDecays).end() ...));
+		return  hydra_thrust::make_zip_iterator(
+				hydra_thrust::make_tuple(fWeights.end(), std::get<I>(fDecays).end() ...));
 	}
 
 	const_iterator __end() const {	return __end_helper( detail::make_index_sequence<N>{} );}
@@ -1179,8 +1179,8 @@ private:
 	template < size_t... I>
 	const_reverse_iterator __rbegin_helper(detail::index_sequence<I...>) const {
 
-		return  HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
-				HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.rbegin(),  std::get<I>(fDecays).rbegin() ...));
+		return  hydra_thrust::make_zip_iterator(
+				hydra_thrust::make_tuple(fWeights.rbegin(),  std::get<I>(fDecays).rbegin() ...));
 	}
 
 	const_reverse_iterator __rbegin() const {	return __rbegin_helper( detail::make_index_sequence<N>{} );}
@@ -1189,8 +1189,8 @@ private:
 	template < size_t... I>
 	const_reverse_iterator __rend_helper(detail::index_sequence<I...>) const {
 
-		return  HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
-				HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.rend(), std::get<I>(fDecays).rend() ...));
+		return  hydra_thrust::make_zip_iterator(
+				hydra_thrust::make_tuple(fWeights.rend(), std::get<I>(fDecays).rend() ...));
 	}
 
 	const_reverse_iterator __rend() const {	return __rend_helper( detail::make_index_sequence<N>{} );}
@@ -1200,8 +1200,8 @@ private:
 	template < size_t... I>
 	const_iterator __cbegin_helper(detail::index_sequence<I...>) const {
 
-		return  HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
-				HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.cbegin(),  std::get<I>(fDecays).cbegin() ...));
+		return  hydra_thrust::make_zip_iterator(
+				hydra_thrust::make_tuple(fWeights.cbegin(),  std::get<I>(fDecays).cbegin() ...));
 	}
 
 	const_iterator __cbegin() const {	return __cbegin_helper( detail::make_index_sequence<N>{} );}
@@ -1211,8 +1211,8 @@ private:
 	template < size_t... I>
 	const_iterator __cend_helper(detail::index_sequence<I...>) const {
 
-		return  HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
-				HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.cend(), std::get<I>(fDecays).cend() ...));
+		return  hydra_thrust::make_zip_iterator(
+				hydra_thrust::make_tuple(fWeights.cend(), std::get<I>(fDecays).cend() ...));
 	}
 
 	const_iterator __cend() const {	return __cend_helper( detail::make_index_sequence<N>{} );}
@@ -1222,8 +1222,8 @@ private:
 	template < size_t... I>
 	const_reverse_iterator __crbegin_helper(detail::index_sequence<I...>) const {
 
-		return  HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
-				HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.crbegin(),  std::get<I>(fDecays).crbegin()... ));
+		return  hydra_thrust::make_zip_iterator(
+				hydra_thrust::make_tuple(fWeights.crbegin(),  std::get<I>(fDecays).crbegin()... ));
 	}
 
 	const_reverse_iterator __crbegin() const {	return __crbegin_helper( detail::make_index_sequence<N>{} );}
@@ -1232,8 +1232,8 @@ private:
 	template < size_t... I>
 	const_reverse_iterator __crend_helper(detail::index_sequence<I...>) const {
 
-		return  HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(
-				HYDRA_EXTERNAL_NS::thrust::make_tuple(fWeights.crend(), std::get<I>(fDecays).crend() ...));
+		return  hydra_thrust::make_zip_iterator(
+				hydra_thrust::make_tuple(fWeights.crend(), std::get<I>(fDecays).crend() ...));
 	}
 
 	const_reverse_iterator __crend() const {	return __crend_helper( detail::make_index_sequence<N>{} );}
