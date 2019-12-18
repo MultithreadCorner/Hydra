@@ -43,12 +43,14 @@ namespace hydra {
 
 namespace detail {
 
+
+
 template<typename F1, typename F2, typename ...Fs >
 struct CovMatrixUnary
 {
 	typedef hydra::tuple<F1, F2, Fs...> functors_tuple_type;
 	constexpr static size_t nfunctors = sizeof...(Fs)+2;
-	typedef typename detail::tuple_type<nfunctors*nfunctors,double>::type matrix_t;
+	typedef typename detail::tuple_type<nfunctors*nfunctors, double>::type matrix_tuple;
 
 
 	CovMatrixUnary( Parameter(&coeficients)[nfunctors], functors_tuple_type const& functors ):
@@ -79,49 +81,46 @@ struct CovMatrixUnary
 
 
 	template<size_t N, size_t I>
-	struct index
-	{
-	 constexpr static size_t x= I/N;
-	 constexpr static size_t y= I%N;
+	struct index{
+
+	 constexpr static size_t I = I/N;
+	 constexpr static size_t J = I%N;
 	};
 
 
-	template<typename ...T, size_t ...I>
-	__hydra_host__ __hydra_device__ inline
-	matrix_t combiner_helper(GReal_t denominator,hydra_thrust::tuple<T...>& tpl,
-			hydra::detail::index_sequence<I...>)
+	template<typename T, size_t N =hydra_thrust::tuple_size<T>::value, size_t I>
+	__hydra_host__ __hydra_device__
+	inline typename hydra_thrust::detail::enable_if<(I == N),void >::type
+	set_matrix(double denominator, T&&, Eigen::Matrix<double, nfunctors, nfunctors>&){ }
+
+	template< typename T, size_t N =hydra_thrust::tuple_size<T>::value, size_t I=0>
+	__hydra_host__ __hydra_device__
+	inline typename hydra_thrust::detail::enable_if<(I < N),void >::type
+	set_matrix(double denominator, T&& ftuple, Eigen::Matrix<double, nfunctors, nfunctors>& fcovmatrix  )
 	{
-		constexpr size_t N = sizeof ...(T);
-	    return hydra_thrust::make_tuple(
-	    ( hydra_thrust::get< index<N, I>::x >(tpl) *
-	    		hydra_thrust::get< index<N, I>::y >(tpl) ) /
-	    		(denominator*denominator)
-	    		... );
+
+		fcovmatrix(index<N, I>::I, index<N, I>::J ) =
+				hydra_thrust::get< index<N, I>::I >(ftuple)*hydra_thrust::get< index<N, I>::J >(ftuple)/denominator;
+
+		set_matrix<T, N, I+1>(denominator, ftuple, fCovMatrix);
 	}
-
-	template<typename ...T>
-	__hydra_host__ __hydra_device__ inline
-	matrix_t combiner(GReal_t denominator, hydra_thrust::tuple<T...>& tpl)
-   {
-	    constexpr size_t N = sizeof ...(T);
-
-	    return combiner_helper( denominator, tpl, detail::make_index_sequence<N*N>{});
-	}
-
-
 
 	template<typename Type>
 	__hydra_host__ __hydra_device__ inline
-	matrix_t operator()(Type x)
+	Eigen::Matrix<double, nfunctors, nfunctors> operator()(Type x)
 	{
 		auto fvalues  = detail::invoke_normalized(x, fFunctors);
 		auto wfvalues = detail::multiply_array_tuple(fCoeficients, fvalues);
+
 		GReal_t denominator   = 0;
 		detail::add_tuple_values(denominator, wfvalues);
+		denominator *=denominator;
 
-        matrix_t result = combiner(denominator,  fvalues);
+		Eigen::Matrix<double, nfunctors, nfunctors> fCovMatrix{};
 
-      return result;
+        set_matrix(denominator,  fvalues, fCovMatrix);
+
+      return fCovMatrix;
 	}
 
 	GReal_t    fCoeficients[nfunctors];
@@ -130,11 +129,14 @@ struct CovMatrixUnary
 
 struct CovMatrixBinary
 {
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	T operator()(T const& x, T const& y )
+	template<size_t N>
+	__hydra_host__ __hydra_device__
+	inline Eigen::Matrix<double, N, N>
+	operator()( Eigen::Matrix<double, N, N>& x, Eigen::Matrix<double, N, N> y )
 	{
-		return detail::addTuples(x,y);
+		y += x;
+
+		return y;
 	}
 };
 
