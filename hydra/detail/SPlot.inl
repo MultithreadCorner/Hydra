@@ -50,26 +50,24 @@ SPlot<PDF1,PDF2,PDFs...>::Generate(InputIterator in_begin, InputIterator in_end,
     //_____________________________________
     // covariance matrix calculation
 
-    matrix_t init;
-    matrix_t covmatrix= hydra_thrust::transform_reduce(system(), in_begin, in_end,
+    Eigen::Matrix<double, npdfs, npdfs>  init;
+    init(0,0)=0.;init(0,1)=0.;init(1,0)=0.;init(1,1)=0.;
+
+    Eigen::Matrix<double, npdfs, npdfs> covmatrix= hydra_thrust::transform_reduce(system(), in_begin, in_end,
     		detail::CovMatrixUnary<typename PDF1::functor_type, typename  PDF2::functor_type,
 			typename  PDFs::functor_type...>(fCoeficients, fFunctors ),
     		init, detail::CovMatrixBinary());
 
-    Eigen::Matrix<double, npdfs, npdfs> fCovMatrix;
-
-    SetCovMatrix(covmatrix, fCovMatrix);
-
     //_____________________________________
     // calculate the sweights
 
-    Eigen::Matrix<double, npdfs, npdfs> icov = fCovMatrix.inverse();
+    Eigen::Matrix<double, npdfs, npdfs> icov = covmatrix.inverse();
 
     hydra_thrust::transform(system(), in_begin, in_end,
     		out_begin, detail::SWeights<typename PDF1::functor_type, typename  PDF2::functor_type,
 			typename  PDFs::functor_type...>(fCoeficients, fFunctors, icov ));
 
-    return  fCovMatrix;
+    return  covmatrix;
 
 }
 

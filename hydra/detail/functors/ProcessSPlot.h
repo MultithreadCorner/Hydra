@@ -80,31 +80,30 @@ struct CovMatrixUnary
 	}
 
 
-	template<size_t N, size_t I>
+	template<size_t N, size_t INDEX>
 	struct index{
 
-	 constexpr static size_t I = I/N;
-	 constexpr static size_t J = I%N;
+	 constexpr static const size_t I = INDEX/N;
+	 constexpr static const size_t J = INDEX%N;
 	};
 
 
-	template<typename T, size_t N =hydra_thrust::tuple_size<T>::value, size_t I>
+	template<typename T, int N, int I>
 	__hydra_host__ __hydra_device__
-	inline typename hydra_thrust::detail::enable_if<(I == N),void >::type
-	set_matrix(double denominator, T&&, Eigen::Matrix<double, nfunctors, nfunctors>&){ }
+	inline typename hydra_thrust::detail::enable_if<(I == N*N),void >::type
+	set_matrix(double denominator, T&&, Eigen::Matrix<double, N, N>&){ }
 
-	template< typename T, size_t N =hydra_thrust::tuple_size<T>::value, size_t I=0>
+	template<typename T, int N, int I=0>
 	__hydra_host__ __hydra_device__
-	inline typename hydra_thrust::detail::enable_if<(I < N),void >::type
-	set_matrix(double denominator, T&& ftuple, Eigen::Matrix<double, nfunctors, nfunctors>& fcovmatrix  )
+	inline typename hydra_thrust::detail::enable_if<(I < N*N),void >::type
+	set_matrix(double denominator, T&& ftuple, Eigen::Matrix<double, N, N>& fcovmatrix  )
 	{
-
-		fcovmatrix(index<N, I>::I, index<N, I>::J ) =
+		fcovmatrix(index<N, I>::I, index<N, I>::J ) = \
 				hydra_thrust::get<index<N, I>::I>(std::forward<T>(ftuple))*\
 				hydra_thrust::get<index<N, I>::J>(std::forward<T>(ftuple))\
 				/denominator;
 
-		set_matrix<T, N, I+1>(denominator, ftuple, fCovMatrix);
+		set_matrix<T, N, I+1>(denominator, ftuple, fcovmatrix);
 	}
 
 	template<typename Type>
@@ -118,7 +117,8 @@ struct CovMatrixUnary
 		detail::add_tuple_values(denominator, wfvalues);
 		denominator *=denominator;
 
-		Eigen::Matrix<double, nfunctors, nfunctors> fCovMatrix{};
+		Eigen::Matrix<double, nfunctors, nfunctors> fCovMatrix;
+
 
         set_matrix(denominator,  fvalues, fCovMatrix);
 
@@ -131,14 +131,14 @@ struct CovMatrixUnary
 
 struct CovMatrixBinary
 {
-	template<size_t N>
+	template<int N>
 	__hydra_host__ __hydra_device__
 	inline Eigen::Matrix<double, N, N>
-	operator()( Eigen::Matrix<double, N, N>& x, Eigen::Matrix<double, N, N> y )
+	operator()( Eigen::Matrix<double, N, N>const& x, Eigen::Matrix<double, N, N>const& y )
 	{
-		y += x;
+		Eigen::Matrix<double, N, N> z = y + x;
 
-		return y;
+		return z;
 	}
 };
 
