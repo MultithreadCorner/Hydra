@@ -458,20 +458,9 @@ int main(int argv, char** argc)
 			hydra::multiarray<double, 2, hydra::device::sys_t> sweigts_device( dataset_device.size() );
 
 			//create splot
-			auto splot  = hydra::make_splot( splot_fcn.GetPDF() );
+			auto sweigts  = hydra::make_splot( splot_fcn.GetPDF(),  hydra::columns(dataset_device, _0) );
 
-			start = std::chrono::high_resolution_clock::now();
-
-			auto covar = splot.Generate( hydra::columns(dataset_device, _0), sweigts_device);
-
-			end = std::chrono::high_resolution_clock::now();
-
-			elapsed = end - start;
-
-			//time
-			std::cout << "-----------------------------------------"<<std::endl;
-			std::cout << "| SFit time (ms) ="<< elapsed.count()  <<std::endl;
-			std::cout << "-----------------------------------------"<<std::endl;
+			auto covar = sweigts.GetCovMatrix();
 
 			std::cout << "SFit covariance matrix: "
 					<< std::endl
@@ -484,8 +473,8 @@ int main(int argv, char** argc)
 
 			for(size_t i = 0; i< 10; i++)
 				std::cout << i << ") :"
-				<< sweigts_device[i]
-				                  << std::endl;
+				<< sweigts[i]
+				<< std::endl;
 
 
 			//====================================================================

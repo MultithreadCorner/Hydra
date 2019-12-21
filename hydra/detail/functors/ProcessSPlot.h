@@ -39,6 +39,8 @@
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/external/hydra_thrust/functional.h>
 
+#include <Eigen/Dense>
+
 namespace hydra {
 
 namespace detail {
@@ -136,11 +138,21 @@ struct CovMatrixBinary
 	inline Eigen::Matrix<double, N, N>
 	operator()( Eigen::Matrix<double, N, N>const& x, Eigen::Matrix<double, N, N>const& y )
 	{
-		Eigen::Matrix<double, N, N> z = y + x;
-
-		return z;
+		return y + x;
 	}
 };
+
+template<int I>
+struct GetSWeight
+{
+	template<typename T>
+	__hydra_host__ __hydra_device__
+	double operator()( T sweights )	{
+
+		return hydra_thrust::get<I>(sweights);
+	}
+};
+
 
 template<typename F1, typename F2, typename ...Fs >
 struct SWeights
@@ -150,8 +162,9 @@ struct SWeights
 	typedef Eigen::Matrix<double, nfunctors, nfunctors> cmatrix_t;
 	typedef typename hydra::detail::tuple_type<nfunctors, double>::type tuple_t;
 
+	SWeights() = delete;
 
-	SWeights( Parameter(&coeficients)[nfunctors], functors_tuple_type const& functors,
+	explicit SWeights(const  Parameter(&coeficients)[nfunctors], functors_tuple_type const& functors,
 			cmatrix_t icmatrix ):
 				fFunctors(functors),
 				fICovMatrix( icmatrix )
@@ -160,6 +173,14 @@ struct SWeights
 		for(size_t i=0;i<nfunctors; i++)
 			fCoeficients[i] = coeficients[i].GetValue();
 	}
+
+	//dummy ctor just to bypass deleted default ctor
+	explicit SWeights(functors_tuple_type const& functors, cmatrix_t icmatrix ):
+				fFunctors(functors),
+				fICovMatrix( icmatrix )
+	{ }
+
+
 
 	__hydra_host__ __hydra_device__ inline
 	SWeights(SWeights<F1, F2, Fs...> const& other ):
