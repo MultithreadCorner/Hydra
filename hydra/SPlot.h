@@ -191,6 +191,27 @@ public:
 		return fEnd;
 	}
 
+	template<unsigned int I>
+	hydra::Range<siterator<I>>
+	operator()(placeholders::placeholder<I>  p){
+
+		return hydra::make_range( begin(p), end(p));
+	}
+
+	template<unsigned int I>
+	hydra::Range<iterator>
+	operator()(){
+
+		return hydra::make_range( begin(), end());
+	}
+
+	template<unsigned int I>
+	hydra::Range<iterator>
+	operator[]( placeholders::placeholder<I>  p){
+
+		return hydra::make_range( begin(p), end(p));
+	}
+
 	value_type operator[](size_t i){
 		return fBegin[i];
 	}

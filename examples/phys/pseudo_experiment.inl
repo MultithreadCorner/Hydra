@@ -65,6 +65,7 @@
 #include <hydra/AddPdf.h>
 #include <hydra/Algorithm.h>
 #include <hydra/SPlot.h>
+#include <hydra/multiarray.h>
 
 #include <hydra/functions/Gaussian.h>
 #include <hydra/functions/Exponential.h>
@@ -105,6 +106,7 @@ int main(int argv, char** argc)
 {
 	size_t nentries = 0;
 	size_t nstudies = 0;
+	bool   verbose  = false;
 
 	try {
 
@@ -116,12 +118,16 @@ int main(int argv, char** argc)
 		TCLAP::ValueArg<size_t> DArg("m", "number-of-studies","Number of MC studies", true, 1000, "size_t");
 		cmd.add(DArg);
 
+		TCLAP::SwitchArg VArg("v", "verbose","Print results of fits and covariance matrices");
+		cmd.add(VArg);
+
 		// Parse the argv array.
 		cmd.parse(argv, argc);
 
 		// Get the value parsed by each arg.
 		nentries = EArg.getValue();
 		nstudies = DArg.getValue();
+		verbose  = VArg.getValue();
 
 	}
 	catch (TCLAP::ArgException &e)  {
@@ -356,9 +362,12 @@ int main(int argv, char** argc)
 		//shake the coquetel well
 		std::random_shuffle(dataset.begin(), dataset.end());
 
-		std::cout <<  " Dataset " <<  " size:  " << dataset.size() << std::endl;
-		for(int i=0; i<100; i++){
-			std::cout << i << ") "<< dataset[i] << std::endl;
+		if(verbose){
+
+			std::cout <<  " Dataset " <<  " size:  " << dataset.size() << std::endl;
+			for(int i=0; i<100; i++){
+				std::cout << i << ") "<< dataset[i] << std::endl;
+			}
 		}
 	}
 
@@ -423,9 +432,14 @@ int main(int argv, char** argc)
 					hydra::columns(dataset_device, _0) );
 
 			//print level
-			ROOT::Minuit2::MnPrint::SetLevel(1);
-			hydra::Print::SetLevel(hydra::WARNING);
-
+			if(verbose){
+				ROOT::Minuit2::MnPrint::SetLevel(3);
+				hydra::Print::SetLevel(hydra::INFO);
+			}
+			else{
+				ROOT::Minuit2::MnPrint::SetLevel(-1);
+				hydra::Print::SetLevel(hydra::ERROR);
+			}
 			//minimization strategy
 			MnStrategy strategy(2);
 
@@ -438,19 +452,21 @@ int main(int argv, char** argc)
 
 			auto start = std::chrono::high_resolution_clock::now();
 
-			FunctionMinimum minimum_splot =  FunctionMinimum(migrad_splot(1000, 1));
+			FunctionMinimum minimum_splot =  FunctionMinimum(migrad_splot(5000, 1));
 
 			auto end = std::chrono::high_resolution_clock::now();
 
 			std::chrono::duration<double, std::milli> elapsed = end - start;
 
-			// output
-			std::cout<<"SFit minimum: "<< minimum_splot << std::endl;
+			if(verbose){
+				// output
+				std::cout<<"SFit minimum: "<< minimum_splot << std::endl;
 
-			//time
-			std::cout << "-----------------------------------------"<<std::endl;
-			std::cout << "| [Fit Time] (ms) = " << elapsed.count() <<std::endl;
-			std::cout << "-----------------------------------------"<<std::endl;
+				//time
+				std::cout << "-----------------------------------------"<<std::endl;
+				std::cout << "| [Fit Time] (ms) = " << elapsed.count() <<std::endl;
+				std::cout << "-----------------------------------------"<<std::endl;
+			}
 
 			//--------------------------------------------
 			//perform splot for two components
@@ -461,6 +477,8 @@ int main(int argv, char** argc)
 			auto sweigts  = hydra::make_splot( splot_fcn.GetPDF(),  hydra::columns(dataset_device, _0) );
 
 			auto covar = sweigts.GetCovMatrix();
+
+			if(verbose){
 
 			std::cout << "SFit covariance matrix: "
 					<< std::endl
@@ -475,7 +493,7 @@ int main(int argv, char** argc)
 				std::cout << i << ") :"
 				<< sweigts[i]
 				<< std::endl;
-
+			}
 
 			//====================================================================
 			// MAIN FIT AND OBSERVABLE ESTIMATION
@@ -483,8 +501,7 @@ int main(int argv, char** argc)
 
 			//fitting only the BreitWigner to the background subtracted sample
 			auto fcn = hydra::make_loglikehood_fcn(BreitWigner_PDF,//observable_model,
-					hydra::columns(dataset_device, _1),
-					hydra::columns(sweigts_device, _0) );
+					hydra::columns(dataset_device, _1), sweigts(_0) );
 
 			// create Migrad minimizer
 			MnMigrad migrad(fcn, fcn.GetParameters().GetMnState(), strategy);
@@ -495,22 +512,26 @@ int main(int argv, char** argc)
 
 			start = std::chrono::high_resolution_clock::now();
 
-			FunctionMinimum minimum =  FunctionMinimum(migrad(1000, 1));
+			FunctionMinimum minimum =  FunctionMinimum(migrad(1000, 5));
 
 			end = std::chrono::high_resolution_clock::now();
 
 			elapsed = end - start;
-			// output
-			std::cout << std::endl <<"Fit background subtracted minimum: "
-					<< minimum
-					<< std::endl
-					<< std::endl;
 
-			//time
-			std::cout << "-----------------------------------------"<<std::endl;
-			std::cout << "| Fit time (ms) = " << elapsed.count()  <<std::endl;
-			std::cout << "-----------------------------------------"<<std::endl;
+			if(verbose){
 
+				// output
+				std::cout << std::endl <<"Fit background subtracted minimum: "
+						<< minimum
+						<< std::endl
+						<< std::endl;
+
+				//time
+				std::cout << "-----------------------------------------"<<std::endl;
+				std::cout << "| Fit time (ms) = " << elapsed.count()  <<std::endl;
+				std::cout << "-----------------------------------------"<<std::endl;
+
+			}
 			//fitting only the full model sample
 			auto full_fcn = hydra::make_loglikehood_fcn( full_model,//observable_model,
 					hydra::columns(dataset_device, _1) );
@@ -524,49 +545,53 @@ int main(int argv, char** argc)
 
 			start = std::chrono::high_resolution_clock::now();
 
-			FunctionMinimum full_minimum =  FunctionMinimum(full_migrad(5000, 5));
+			FunctionMinimum full_minimum =  FunctionMinimum(full_migrad(5000, 1));
 
 			end = std::chrono::high_resolution_clock::now();
 
 			elapsed = end - start;
-			// output
-			std::cout << std::endl <<"Full fit minimum: "
-					<< full_minimum
-					<< std::endl
-					<< std::endl;
 
-			//time
-			std::cout << "-----------------------------------------"<<std::endl;
-			std::cout << "| Full fit time (ms) = " << elapsed.count()  <<std::endl;
-			std::cout << "-----------------------------------------"<<std::endl;
+			if(verbose){
 
-			//add results to log
-			// 0  | N_Gaussian
-			// 1  | N_Exponential
-			// 2  | mean
-			// 3  | sigma
-			// 4  | tau
-			// 5  | mass
-			// 6  | width
+				// output
+				std::cout << std::endl <<"Full fit minimum: "
+						<< full_minimum
+						<< std::endl
+						<< std::endl;
 
-			std::cout << "----------------------------------------"  << std::endl;
-			std::cout << "Logging result #" << study << " "                         << std::endl;
-			std::cout << "----------------------------------------"  << std::endl;
-			std::cout << "N_Gaussian ........... " << minimum_splot.UserParameters().Value("N_Gaussian") <<std::endl;
-			std::cout << "N_Exponential ........ " << minimum_splot.UserParameters().Value("N_Exponential") <<std::endl;
-			std::cout << "mean ................. " << minimum_splot.UserParameters().Value("mean") <<std::endl;
-			std::cout << "sigma ................ " << minimum_splot.UserParameters().Value("sigma")<<std::endl ;
-			std::cout << "tau .................. " << minimum_splot.UserParameters().Value("tau") <<std::endl;
-			std::cout << "mass ................. " << minimum.UserParameters().Value("mass") <<std::endl;
-			std::cout << "mass error ........... " << minimum.UserParameters().Error("mass") <<std::endl;
-			std::cout << "width ................ " << minimum.UserParameters().Value("width") <<std::endl;
-			std::cout << "width error .......... " << minimum.UserParameters().Error("width") <<std::endl;
-			std::cout << "mass (full) .......... " << full_minimum.UserParameters().Value("mass") <<std::endl;
-			std::cout << "mass error (full) .... " << full_minimum.UserParameters().Error("mass") <<std::endl;
-			std::cout << "width (full) ......... " << full_minimum.UserParameters().Value("width") <<std::endl;
-			std::cout << "width error (full) ... " << full_minimum.UserParameters().Error("width") <<std::endl;
+				//time
+				std::cout << "-----------------------------------------"<<std::endl;
+				std::cout << "| Full fit time (ms) = " << elapsed.count()  <<std::endl;
+				std::cout << "-----------------------------------------"<<std::endl;
 
-			std::cout << "----------------------------------------"  << std::endl;
+				//add results to log
+				// 0  | N_Gaussian
+				// 1  | N_Exponential
+				// 2  | mean
+				// 3  | sigma
+				// 4  | tau
+				// 5  | mass
+				// 6  | width
+
+				std::cout << "----------------------------------------"  << std::endl;
+				std::cout << "Logging result #" << study << " "                         << std::endl;
+				std::cout << "----------------------------------------"  << std::endl;
+				std::cout << "N_Gaussian ........... " << minimum_splot.UserParameters().Value("N_Gaussian") <<std::endl;
+				std::cout << "N_Exponential ........ " << minimum_splot.UserParameters().Value("N_Exponential") <<std::endl;
+				std::cout << "mean ................. " << minimum_splot.UserParameters().Value("mean") <<std::endl;
+				std::cout << "sigma ................ " << minimum_splot.UserParameters().Value("sigma")<<std::endl ;
+				std::cout << "tau .................. " << minimum_splot.UserParameters().Value("tau") <<std::endl;
+				std::cout << "mass ................. " << minimum.UserParameters().Value("mass") <<std::endl;
+				std::cout << "mass error ........... " << minimum.UserParameters().Error("mass") <<std::endl;
+				std::cout << "width ................ " << minimum.UserParameters().Value("width") <<std::endl;
+				std::cout << "width error .......... " << minimum.UserParameters().Error("width") <<std::endl;
+				std::cout << "mass (full) .......... " << full_minimum.UserParameters().Value("mass") <<std::endl;
+				std::cout << "mass error (full) .... " << full_minimum.UserParameters().Error("mass") <<std::endl;
+				std::cout << "width (full) ......... " << full_minimum.UserParameters().Value("width") <<std::endl;
+				std::cout << "width error (full) ... " << full_minimum.UserParameters().Error("width") <<std::endl;
+
+				std::cout << "----------------------------------------"  << std::endl;
+			}
 
 			variable_log.push_back( hydra::make_tuple(
 					minimum_splot.UserParameters().Value("N_Gaussian"),
@@ -585,14 +610,18 @@ int main(int argv, char** argc)
 					));
 
 		}
-		std::cout << std::endl << std::endl << std::endl;
-		std::cout << "----------------------------------------"  << std::endl;
-		std::cout << "Dumping logged studies: "  <<     variable_log.size()            << std::endl;
-		std::cout << "----------------------------------------"  << std::endl;
 
+		if(verbose){
+
+
+			std::cout << std::endl << std::endl << std::endl;
+			std::cout << "----------------------------------------"  << std::endl;
+			std::cout << "Dumping logged studies: "  <<     variable_log.size()            << std::endl;
+			std::cout << "----------------------------------------"  << std::endl;
+		}
 		for(auto x:variable_log)
 		{
-			std::cout << x << std::endl;
+			if(verbose) std::cout << x << std::endl;
 
 			hist_N_Gaussian.Fill(hydra::get<0>(x));
 			hist_N_Exponential.Fill(hydra::get<1>(x));
