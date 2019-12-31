@@ -48,7 +48,7 @@ class Parameters{
 public:
 	static const size_t parameter_count =N;
 
-	Parameters () = default;;
+	Parameters () = default;
 
 	Parameters(std::initializer_list<hydra::Parameter> init_parameters)
 	{
@@ -264,15 +264,12 @@ public:
 
 	Parameters() = default;
 
-	Parameters(std::initializer_list<Parameter>)
-	{ }
+	Parameters(std::initializer_list<Parameter>){ }
 
-	Parameters(std::array<Parameter,0> const& )
-	{	}
+	Parameters(std::array<Parameter,0> const& )	{	}
 
 	__hydra_host__ __hydra_device__
-	Parameters(Parameters<0> const& )
-	{	}
+	Parameters(Parameters<0> const& ){	}
 
 	__hydra_host__ __hydra_device__
 	Parameters<0>& operator=(Parameters<0> const& )

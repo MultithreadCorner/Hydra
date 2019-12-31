@@ -434,7 +434,7 @@ int main(int argv, char** argc)
 			//print level
 			if(verbose){
 				ROOT::Minuit2::MnPrint::SetLevel(3);
-				hydra::Print::SetLevel(hydra::INFO);
+				hydra::Print::SetLevel(hydra::WARNING);
 			}
 			else{
 				ROOT::Minuit2::MnPrint::SetLevel(-1);

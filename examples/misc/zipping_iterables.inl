@@ -45,6 +45,7 @@
 #include <hydra/Algorithm.h>
 #include <hydra/Zip.h>
 #include <hydra/Range.h>
+#include <hydra/detail/utility/LSB.h>
 
 //command line arguments
 #include <tclap/CmdLine.h>
@@ -113,6 +114,8 @@ int main(int argv, char** argc)
 
 	}//device
 
+
+	std::cout << hydra::detail::lsb((unsigned) 12)<<std::endl;//1100
 
 	return 0;
 }
