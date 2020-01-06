@@ -19,6 +19,18 @@
  *
  *---------------------------------------------------------------------------*/
 
+/* NOTE:
+ *
+ * The Hydra implementation of Sobol algorithm tries to follow as
+ * closely as possible the implementation found in the BOOST library
+ * at http://boost.org/libs/random.
+ *
+ * See:
+ *  - Boost Software License, Version 1.0 at http://www.boost.org/LICENSE-1.0
+ *  - Primary copyright information for Boost.Random at https://www.boost.org/doc/libs/1_72_0/doc/html/boost_random.html
+ *
+ */
+
 /*
  * SobolTable.h
  *
@@ -61,7 +73,7 @@ struct SobolTable
 
   typedef unsigned short value_type;
 
-  static value_type Polynomial(std::size_t n)
+  static value_type polynomial(std::size_t n)
   {
     // successive primitive binary-coefficient polynomials p(z)
     //   = a_0 + a_1 z + a_2 z^2 + ... a_31 z^31, where a_i is the
@@ -438,7 +450,7 @@ struct SobolTable
     return sobol_a[n];
   }
 
-  static value_type MInit(std::size_t dim, std::size_t degree)
+  static value_type minit(std::size_t dim, std::size_t degree)
   {
     // starting direction #'s m[i] = sobol_minit[i][j] for i=0..d of the
     // degree-d primitive polynomial sobol_a[j].

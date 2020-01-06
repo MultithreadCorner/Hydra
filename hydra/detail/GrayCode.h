@@ -19,6 +19,18 @@
  *
  *---------------------------------------------------------------------------*/
 
+/* NOTE:
+ *
+ * The Hydra implementation of Sobol algorithm tries to follow as
+ * closely as possible the implementation found in the BOOST library
+ * at http://boost.org/libs/random.
+ *
+ * See:
+ *  - Boost Software License, Version 1.0 at http://www.boost.org/LICENSE-1.0
+ *  - Primary copyright information for Boost.Random at https://www.boost.org/doc/libs/1_72_0/doc/html/boost_random.html
+ *
+ */
+
 /*
  * GrayCode.h
  *
@@ -31,12 +43,12 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/utility/LSB.h>
-//#include <boost/random/detail/GrayCodeBase.hpp>
+#include <hydra/detail/utility/IntegerMask.h>
+
+#include <hydra/detail/QuasiRandomBase.h>
 #include <functional> // bit_xor
 #include <type_traits>
 
-
-#include <boost/integer/integer_mask.hpp>
 
 //!\file
 //!Describes the gray-coded quasi-random number generator base class template.
@@ -46,7 +58,7 @@ namespace hydra {
 namespace detail {
 
 template<typename LatticeT>
-class GrayCode: public GrayCodeBase< GrayCode<LatticeT>, LatticeT, typename LatticeT::value_type>
+class GrayCode: public QuasiRandomBase< GrayCode<LatticeT>, LatticeT, typename LatticeT::value_type>
 {
 public:
   typedef typename LatticeT::value_type result_type;
@@ -54,11 +66,11 @@ public:
 
 private:
   typedef GrayCode<LatticeT> self_t;
-  typedef GrayCodeBase<self_t, LatticeT, size_type> base_t;
+  typedef QuasiRandomBase<self_t, LatticeT, size_type> base_t;
 
   // The base needs to access modifying member f-ns, and we
   // don't want these functions to be available for the public use
-  friend class GrayCodeBase<self_t, LatticeT, size_type>;
+  friend class QuasiRandomBase<self_t, LatticeT, size_type>;
 
   // Respect lattice bit_count here
   struct check_nothing {
@@ -127,7 +139,7 @@ public:
       // We don't want negative seeds.
       check_seed_sign(init);
 
-      size_type seq_code = boost::next(init);
+      size_type seq_code =  init+1;
       if(HYDRA_HOST_UNLIKELY(!(init < seq_code)))
     	  throw std::exception( std::range_error("GrayCode: seed") );
 
@@ -157,7 +169,7 @@ private:
     // the count is advanced.
     // Xor'ing with max() has the effect of flipping all the bits in seq,
     // except for the sign bit.
-    unsigned r = detail::lsb(seq ^ (self_t::Max)());
+    unsigned r = lsb(seq ^ (self_t::Max)());
     check_bit_range_t::bit_pos(r);
     update_quasi(r);
   }

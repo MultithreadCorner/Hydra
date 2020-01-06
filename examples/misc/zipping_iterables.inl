@@ -115,8 +115,6 @@ int main(int argv, char** argc)
 	}//device
 
 
-	std::cout << hydra::detail::lsb((unsigned) 12)<<std::endl;//1100
-
 	return 0;
 }
 

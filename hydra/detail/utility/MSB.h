@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -20,29 +20,29 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * LSB.h
+ * MSB.h
  *
- *  Created on: 31/12/2019
+ *  Created on: 05/01/2020
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef LSB_H_
-#define LSB_H_
+#ifndef MSB_H_
+#define MSB_H_
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/utility/Integer.h>
-#include<type_traits>
+#include <type_traits>
 #include<utility>
 
 namespace hydra {
 
 namespace detail {
 
-/* lsb - returns the position of the
- * less significant bit in a 32/64 bit word in 0-base indexing
+/* msb - returns the position of the
+ * more significant bit in a 32/64 bit word in 0-base indexing
  * it takes as parameters unsigned integers only.
  *
- * lsb runs on host and device, and she will try to use compile
+ * msbruns on host and device, and she will try to use compile
  * intrinsics for NVCC, GCC, CLANG, if not possible it will always
  * fall back into a generic code.
  *
@@ -53,9 +53,9 @@ __hydra_host__ __hydra_device__
 inline typename std::enable_if<
 		std::is_integral<Integer>::value  &&
     	!(std::is_signed<Integer>::value) &&
-    	(sizeof(Integer)==8)
+    	(std::numeric_limits<Integer>::digits==64)
     , unsigned>::type
-lsb( Integer x){
+msb( Integer  const& x){
 
 	if(!x) return 64;
 
@@ -65,42 +65,32 @@ lsb( Integer x){
 
 	#if defined(__GNUC__) && !defined(__clang__)
 
-		return __builtin_ffsl(x)-1;
+		return 63 - __builtin_clzl(x);
 
 	#elif  defined(__clang__) && !defined(__GNUC__)
 
-		return __builtin_ffsl(x)-1;
+		return 63 - __builtin_clzl(x);
 
 	#else
 
-		static const char table[256] = {
-	     #define LT(n) n, n, n, n, n, n, n, n, n, n, n, n, n, n, n, n
-				64, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3,
-				LT(4), LT(5), LT(5), LT(6), LT(6), LT(6), LT(6),
-				LT(7), LT(7), LT(7), LT(7), LT(7), LT(7), LT(7), LT(7)
-		};
+	   unsigned y;
+	   int n = 64;
 
-		x = (x & -x);
-		size_t p;
-		unsigned r;
+	   y = x >>32;  if (y != 0) {n = n -32;  x = y;}
+	   y = x >>16;  if (y != 0) {n = n -16;  x = y;}
+	   y = x >> 8;  if (y != 0) {n = n - 8;  x = y;}
+	   y = x >> 4;  if (y != 0) {n = n - 4;  x = y;}
+	   y = x >> 2;  if (y != 0) {n = n - 2;  x = y;}
+	   y = x >> 1;  if (y != 0) return n - 2;
 
-		if( (p = x >> 56) ) {  r = 56 + table[p]; }
-		else if( (p = x >> 48) ) {  r = 48 + table[p]; }
-		else if( (p = x >> 40) ) {  r = 40 + table[p]; }
-		else if( (p = x >> 32) ) {  r = 32 + table[p]; }
-		else if( (p = x >> 24) ) {  r = 24 + table[p]; }
-		else if( (p = x >> 16) ) {  r = 16 + table[p]; }
-		else if( (p = x >> 8)  ) {  r = 8  + table[p]; }
-		else {  r = table[x]; }
-
-		return r;
+	   return 63 - n - x;
 
 	#endif
 //device path will try to use
 //NVCC intrinsics, also available CLANG
 #else
 
-		return __ffsl(x);
+		return 63 -__clzl(x);
 
 #endif
 }
@@ -113,9 +103,9 @@ __hydra_host__ __hydra_device__
 inline typename std::enable_if<
 		std::is_integral<Integer>::value  &&
     	!(std::is_signed<Integer>::value) &&
-    	(sizeof(Integer)==4)
+    	(std::numeric_limits<Integer>::digits<=32)
     , unsigned>::type
-lsb( Integer x){
+msb( Integer const& x){
 
 	if(!x) return 32;
 
@@ -126,43 +116,82 @@ lsb( Integer x){
 
 	#if defined(__GNUC__) && !defined(__clang__)
 
-		return __builtin_ffs(x)-1;
+		return 31 - __builtin_clz(x);
 
 	#elif  defined(__clang__) && !defined(__GNUC__)
 
-		return __builtin_ffs(x)-1;
+		return 31 - __builtin_clz(x);
 
 	#else
 
-		static const char table[256] = {
-	#define LT(n) n, n, n, n, n, n, n, n, n, n, n, n, n, n, n, n
-				64, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3,
-				LT(4), LT(5), LT(5), LT(6), LT(6), LT(6), LT(6),
-				LT(7), LT(7), LT(7), LT(7), LT(7), LT(7), LT(7), LT(7)
-		};
+	   unsigned y;
+	   int n = 32;
+	   y = x >>16;  if (y != 0) {n = n -16;  x = y;}
+	   y = x >> 8;  if (y != 0) {n = n - 8;  x = y;}
+	   y = x >> 4;  if (y != 0) {n = n - 4;  x = y;}
+	   y = x >> 2;  if (y != 0) {n = n - 2;  x = y;}
+	   y = x >> 1;  if (y != 0) return n - 2;
+	   return 31 - n - x;
 
-		x = (x & -x);
-		size_t p;
-		unsigned r;
-
-
-		     if( (p = x >> 24) ) {  r = 24 + table[p]; }
-		else if( (p = x >> 16) ) {  r = 16 + table[p]; }
-		else if( (p = x >> 8)  ) {  r = 8  + table[p]; }
-		else {  r = table[x]; }
-
-		return r;
 	#endif
 #else
-		return __ffs(x)-1;
+		return 31 - __clz(x);
 
 #endif
 }
 
+/*
+ * 16 bit implementation
+ */
+/*
+template<typename Integer>
+__hydra_host__ __hydra_device__
+inline typename std::enable_if<
+		std::is_integral<Integer>::value  &&
+    	!(std::is_signed<Integer>::value) &&
+    	(std::numeric_limits<Integer>::digits==16)
+    , unsigned>::type
+msb( Integer const& x){
+
+	if(!x) return 16;
+
+//host path will try to use
+//GCC and CLANG intrisics
+//
+#ifndef __CUDA_ARCH__
+
+	#if defined(__GNUC__) && !defined(__clang__)
+
+		return 15 - __builtin_clz(x);
+
+	#elif  defined(__clang__) && !defined(__GNUC__)
+
+		return 15 - __builtin_clz(x);
+
+	#else
+
+	   unsigned y;
+	   int n = 16;
+
+	   y = x >> 8;  if (y != 0) {n = n - 8;  x = y;}
+	   y = x >> 4;  if (y != 0) {n = n - 4;  x = y;}
+	   y = x >> 2;  if (y != 0) {n = n - 2;  x = y;}
+	   y = x >> 1;  if (y != 0) return n - 2;
+	   return 15 - n - x;
+
+	#endif
+#else
+		return 15 - __clz(x);
+
+#endif
+}
+*/
 
 }  // namespace detail
 
 }  // namespace hydra
 
 
-#endif /* LSB_H_ */
+
+
+#endif /* MSB_H_ */
