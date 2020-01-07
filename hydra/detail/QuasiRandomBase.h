@@ -81,217 +81,228 @@ inline void check_seed_sign(const Integer& v)
 template<typename DerivedT, typename LatticeT, typename SizeT>
 class QuasiRandomBase
 {
+
 public:
-  typedef SizeT size_type;
-  typedef typename LatticeT::value_type result_type;
 
-  explicit QuasiRandomBase(std::size_t dimension)
-    // Guard against invalid dimensions before creating the lattice
-    : lattice(prevent_zero_dimension(dimension))
-    , quasi_state(dimension)
-  {
-    derived().seed();
-  }
+	typedef SizeT size_type;
+	typedef typename LatticeT::value_type result_type;
 
-  // default copy c-tor is fine
+	explicit QuasiRandomBase(/*std::size_t dimension*/)
+	// Guard against invalid dimensions before creating the lattice
+	: lattice(/*prevent_zero_dimension(dimension)*/)
+	, quasi_state()
+	{
+		derived().seed();
+	}
 
-  // default assignment operator is fine
+	// default copy c-tor is fine
 
-  //!Returns: The dimension of of the quasi-random domain.
-  //!
-  //!Throws: nothing.
-  std::size_t dimension() const { return quasi_state.size(); }
+	// default assignment operator is fine
 
-  //!Returns: Returns a successive element of an s-dimensional
-  //!(s = X::dimension()) vector at each invocation. When all elements are
-  //!exhausted, X::operator() begins anew with the starting element of a
-  //!subsequent s-dimensional vector.
-  //!
-  //!Throws: range_error.
-  result_type operator()()
-  {
-    return curr_elem != dimension() ? load_cached(): next_state();
-  }
+	//!Returns: The dimension of of the quasi-random domain.
+	//!
+	//!Throws: nothing.
+	constexpr unsigned dimension() const {
+		return LatticeT::lattice_dimension;
+	}
 
-  //!Fills a range with quasi-random values.
-  template<typename Iter> void generate(Iter first, Iter last)
-  {
-    for (; first != last; ++first)
-      *first = this->operator()();
-  }
+	//!Returns: Returns a successive element of an s-dimensional
+	//!(s = X::dimension()) vector at each invocation. When all elements are
+	//!exhausted, X::operator() begins anew with the starting element of a
+	//!subsequent s-dimensional vector.
+	//!
+	//!Throws: range_error.
+	inline result_type operator()()
+	{
+		return curr_elem != dimension() ? load_cached(): next_state();
+	}
 
-  //!Effects: Advances *this state as if z consecutive
-  //!X::operator() invocations were executed.
-  //!
-  //!Throws: range_error.
-  void discard(uintmax_t z)
-  {
-    const std::size_t dimension_value = dimension();
+	//!Fills a range with quasi-random values.
+	template<typename Iterator>
+	inline void generate(Iterator first, Iterator last){
+		for (; first != last; ++first)
+			*first = this->operator()();
+	}
 
-    // Compiler knows how to optimize subsequent x / y and x % y
-    // statements. In fact, gcc does this even at -O1, so don't
-    // be tempted to "optimize" % via subtraction and multiplication.
+	//!Effects: Advances *this state as if z consecutive
+	//!X::operator() invocations were executed.
+	//!
+	//!Throws: range_error.
+	inline void discard(uintmax_t z)
+	{
+		const std::size_t dimension_value = dimension();
 
-   uintmax_t vec_n = z / dimension_value;
-    std::size_t carry = curr_elem + (z % dimension_value);
+		// Compiler knows how to optimize subsequent x / y and x % y
+		// statements. In fact, gcc does this even at -O1, so don't
+		// be tempted to "optimize" % via subtraction and multiplication.
 
-    vec_n += carry / dimension_value;
-    carry  = carry % dimension_value;
+		uintmax_t vec_n = z / dimension_value;
+		std::size_t carry = curr_elem + (z % dimension_value);
 
-    // Avoid overdiscarding by branchlessly correcting the triple
-    // (D, S + 1, 0) to (D, S, D) (see equality operator)
-    const bool corr = (!carry) & static_cast<bool>(vec_n);
+		vec_n += carry / dimension_value;
+		carry  = carry % dimension_value;
 
-    // Discards vec_n (with correction) consecutive s-dimensional vectors
-    discard_vector(vec_n - static_cast<uintmax_t>(corr));
+		// Avoid overdiscarding by branchlessly correcting the triple
+		// (D, S + 1, 0) to (D, S, D) (see equality operator)
+		const bool corr = (!carry) & static_cast<bool>(vec_n);
 
-    // Sets up the proper position of the element-to-read
-    // curr_elem = carry + corr*dimension_value
-    curr_elem = carry ^ (-static_cast<std::size_t>(corr) & dimension_value);
+		// Discards vec_n (with correction) consecutive s-dimensional vectors
+		discard_vector(vec_n - static_cast<uintmax_t>(corr));
 
-  }
+		// Sets up the proper position of the element-to-read
+		// curr_elem = carry + corr*dimension_value
+		curr_elem = carry ^ (-static_cast<std::size_t>(corr) & dimension_value);
 
-  //!Writes the textual representation of the generator to a @c std::ostream.
-  template<class CharT, class Traits>
-  friend std::basic_ostream<CharT,Traits>&
-  operator<<(std::basic_ostream<CharT,Traits>& os, const QuasiRandomBase& s)
-  {
-    os << s.dimension() << " " << s.seq_count << " " << s.curr_elem;
-    return os;
-  }
+	}
 
-  //!Reads the textual representation of the generator from a @c std::istream.
-  template<class CharT, class Traits>
-  friend std::basic_istream<CharT,Traits>&
-  operator>>(std::basic_istream<CharT,Traits>& is, QuasiRandomBase& s)
-  {
-    std::size_t dim;
-    size_type seed;
-    uintmax_t z;
+	//!Writes the textual representation of the generator to a @c std::ostream.
+	template<class CharT, class Traits>
+	friend std::basic_ostream<CharT,Traits>&
+	operator<<(std::basic_ostream<CharT,Traits>& os, const QuasiRandomBase& s){
 
-    if (is >> dim >> std::ws >> seed >> std::ws >> z) // initialize iff success!
-    {
-      // Check seed sign before resizing the lattice and/or recomputing state
-      check_seed_sign(seed);
+		os << s.dimension()
+			<< " " << s.seq_count
+			<< " " << s.curr_elem;
+		return os;
+	}
 
-      if (s.dimension() != prevent_zero_dimension(dim))
-      {
-        s.lattice.resize(dim);
-        s.quasi_state.resize(dim);
-      }
-      // Fast-forward to the correct state
-      s.derived().seed(seed);
-      if (z != 0) s.discard(z);
-    }
-    return is;
-  }
+	/*
+	//!Reads the textual representation of the generator from a @c std::istream.
+	template<class CharT, class Traits>
+	friend std::basic_istream<CharT,Traits>&
+	operator>>(std::basic_istream<CharT,Traits>& is, QuasiRandomBase& s)
+	{
+		std::size_t dim;
+		size_type seed;
+		uintmax_t z;
 
-  //!Returns true if the two generators will produce identical sequences of outputs.
-  friend bool operator==(const QuasiRandomBase& x, const QuasiRandomBase& y)
-  {
-    const std::size_t dimension_value = x.dimension();
+		if (is >> dim >> std::ws >> seed >> std::ws >> z) // initialize iff success!
+		{
+			// Check seed sign before resizing the lattice and/or recomputing state
+			check_seed_sign(seed);
 
-    // Note that two generators with different seq_counts and curr_elems can
-    // produce the same sequence because the generator triple
-    // (D, S, D) is equivalent to (D, S + 1, 0), where D is dimension, S -- seq_count,
-    // and the last one is curr_elem.
+			if (s.dimension() != prevent_zero_dimension(dim))
+			{
+				s.lattice.resize(dim);
+				s.quasi_state.resize(dim);
+			}
+			// Fast-forward to the correct state
+			s.derived().seed(seed);
+			if (z != 0) s.discard(z);
+		}
+		return is;
+	}
+*/
+	//!Returns true if the two generators will produce identical sequences of outputs.
+	friend bool operator==(const QuasiRandomBase& x, const QuasiRandomBase& y)
+		  {
+		const std::size_t dimension_value = x.dimension();
 
-    return (dimension_value == y.dimension()) &&
-      // |x.seq_count - y.seq_count| <= 1
-      !((x.seq_count < y.seq_count ? y.seq_count - x.seq_count : x.seq_count - y.seq_count)
-          > static_cast<size_type>(1)) &&
-      // Potential overflows don't matter here, since we've already ascertained
-      // that sequence counts differ by no more than 1, so if they overflow, they
-      // can overflow together.
-      (x.seq_count + (x.curr_elem / dimension_value) == y.seq_count + (y.curr_elem / dimension_value)) &&
-      (x.curr_elem % dimension_value == y.curr_elem % dimension_value);
-  }
+		// Note that two generators with different seq_counts and curr_elems can
+		// produce the same sequence because the generator triple
+		// (D, S, D) is equivalent to (D, S + 1, 0), where D is dimension, S -- seq_count,
+		// and the last one is curr_elem.
 
-  //!Returns true if the two generators will produce different sequences of outputs.
-  friend bool operator!=(const QuasiRandomBase& lhs, const QuasiRandomBase& rhs)
-		  {  return !(lhs == rhs); }
+		return (dimension_value == y.dimension()) &&
+				// |x.seq_count - y.seq_count| <= 1
+				!((x.seq_count < y.seq_count ?
+						y.seq_count - x.seq_count :
+						x.seq_count - y.seq_count)> static_cast<size_type>(1)) &&
+						// Potential overflows don't matter here, since we've already ascertained
+						// that sequence counts differ by no more than 1, so if they overflow, they
+						// can overflow together.
+						(x.seq_count + (x.curr_elem / dimension_value) == y.seq_count + (y.curr_elem / dimension_value)) &&
+						(x.curr_elem % dimension_value == y.curr_elem % dimension_value);
+		  }
+
+	//!Returns true if the two generators will produce different sequences of outputs.
+	friend bool operator!=(const QuasiRandomBase& lhs, const QuasiRandomBase& rhs)
+				  {  return !(lhs == rhs); }
 
 protected:
 
-  typedef std::vector<result_type> state_type;
-  typedef typename state_type::iterator state_iterator;
+	//typedef std::vector<result_type> state_type;
+	typedef  result_type* state_iterator;
 
-  // Getters
-  size_type curr_seq() const { return seq_count; }
+	// Getters
+	inline size_type curr_seq() const { return seq_count; }
 
-  state_iterator state_begin() { return quasi_state.begin(); }
-  state_iterator state_end() { return quasi_state.end(); }
+	inline state_iterator state_begin() { return &(quasi_state[0]); }
+	inline state_iterator state_end() { return &(quasi_state[0]) + LatticeT::lattice_dimension; }
 
-  // Setters
-  void reset_seq(size_type seq)
-  {
-    seq_count = seq;
-    curr_elem = 0u;
-  }
+	// Setters
+	inline void reset_seq(size_type seq)
+	{
+		seq_count = seq;
+		curr_elem = 0u;
+	}
 
 private:
 
-  DerivedT& derived() throw()
-  {
-    return *static_cast<DerivedT * const>(this);
-  }
+	inline DerivedT& derived() throw()
+	{
+		return *static_cast<DerivedT * const>(this);
+	}
 
-  // Load the result from the saved state.
-  result_type load_cached()
-  {
-    return quasi_state[curr_elem++];
-  }
+	// Load the result from the saved state.
+	inline result_type load_cached()
+	{
+		return quasi_state[curr_elem++];
+	}
 
-  result_type next_state()
-  {
-    size_type new_seq = seq_count;
+	inline 	result_type next_state()
+	{
+		size_type new_seq = seq_count;
 
-    if (HYDRA_HOST_LIKELY(++new_seq > seq_count))
-    {
-      derived().compute_seq(new_seq);
-      reset_seq(new_seq);
-      return load_cached();
-    }
+		if (HYDRA_HOST_LIKELY(++new_seq > seq_count))
+		{
+			derived().compute_seq(new_seq);
+			reset_seq(new_seq);
+			return load_cached();
+		}
 
-    throw std::exception( std::range_error("QuasiRandomBase: next_state") );
-  }
+		throw std::exception( std::range_error("QuasiRandomBase: next_state") );
+	}
 
-  // Discards z consecutive s-dimensional vectors,
-  // and preserves the position of the element-to-read
-  void discard_vector(uintmax_t z)
-  {
-    const uintmax_t max_z = std::numeric_limits<size_type>::max() - seq_count;
+	// Discards z consecutive s-dimensional vectors,
+	// and preserves the position of the element-to-read
+	inline void discard_vector(uintmax_t z)
+	{
+		const uintmax_t max_z = std::numeric_limits<size_type>::max() - seq_count;
 
-    // Don't allow seq_count + z overflows here
-    if (max_z < z)
-      throw std::exception( std::range_error("QuasiRandomBase: discard_vector") );
+		// Don't allow seq_count + z overflows here
+		if (max_z < z)
+			throw std::exception( std::range_error("QuasiRandomBase: discard_vector") );
 
-    std::size_t tmp = curr_elem;
-    derived().seed(static_cast<size_type>(seq_count + z));
-    curr_elem = tmp;
-  }
+		std::size_t tmp = curr_elem;
+		derived().seed(static_cast<size_type>(seq_count + z));
+		curr_elem = tmp;
+	}
 
-  static std::size_t prevent_zero_dimension(std::size_t dimension)
-  {
-    if (dimension == 0)
-      throw std::exception( std::invalid_argument("QuasiRandomBase: zero dimension") );
-    return dimension;
-  }
+	/*
+	static std::size_t prevent_zero_dimension(std::size_t dimension)
+	{
+		if (dimension == 0)
+			throw std::exception( std::invalid_argument("QuasiRandomBase: zero dimension") );
+		return dimension;
+	}
+    */
 
-  // Member variables are so ordered with the intention
-  // that the typical memory access pattern would be
-  // incremental. Moreover, lattice is put before quasi_state
-  // because we want to construct lattice first. Lattices
-  // can do some kind of dimension sanity check (as in
-  // dimension_assert below), and if that fails then we don't
-  // need to do any more work.
+	// Member variables are so ordered with the intention
+	// that the typical memory access pattern would be
+	// incremental. Moreover, lattice is put before quasi_state
+	// because we want to construct lattice first. Lattices
+	// can do some kind of dimension sanity check (as in
+	// dimension_assert below), and if that fails then we don't
+	// need to do any more work.
 private:
-  std::size_t curr_elem;
-  size_type seq_count;
+	std::size_t curr_elem;
+	size_type seq_count;
 protected:
-  LatticeT lattice;
+	LatticeT lattice;
 private:
-  state_type quasi_state;
+	//state_type quasi_state;
+	result_type quasi_state[LatticeT::lattice_dimension];
 };
 
 inline void dimension_assert(const char* generator, std::size_t dim, std::size_t maxdim)

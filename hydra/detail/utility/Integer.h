@@ -55,9 +55,9 @@
 // And yet there is no other reasonable implementation, so we declare this a system header
 // to suppress these warnings.
 //
-#if defined(__GNUC__) && (__GNUC__ >= 4)
-#pragma GCC system_header
-#endif
+//#if defined(__GNUC__) && (__GNUC__ >= 4)
+//#pragma GCC system_header
+//#endif
 
 namespace hydra {
 

@@ -60,6 +60,7 @@ namespace detail {
 template<typename LatticeT>
 class GrayCode: public QuasiRandomBase< GrayCode<LatticeT>, LatticeT, typename LatticeT::value_type>
 {
+
 public:
   typedef typename LatticeT::value_type result_type;
   typedef result_type size_type;
@@ -117,8 +118,8 @@ public:
 	  return low_bits_mask_t<LatticeT::bit_count>::sig_bits;
   }
 
-  explicit GrayCode(std::size_t dimension)
-    : base_t(dimension)
+  explicit GrayCode(/*std::size_t dimension*/)
+    : base_t(/*dimension*/)
   {}
 
   // default copy c-tor is fine

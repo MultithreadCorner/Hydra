@@ -63,11 +63,36 @@ int main(int argv, char** argc)
 														<< std::endl;
 	}
 
-	hydra::sobol eng(1);
+	hydra::sobol<2> eng;
+	std::cout<< "According algorithm documentation, Sobol 2D output should be: \n"
+			"x, y\n"
+			"0.5, 0.5\n"
+			"0.75, 0.25\n"
+			"0.25, 0.75\n"
+			"0.375, 0.375\n\n"
+			<< std::endl;
 
+	std::cout<< "hydra::sobol<2> output (x, y) - (tx, ty) ns:" << std::endl;
 
-	auto x = eng();
-	std::cout << x << " min " << eng.Min() << " max" << eng.Max() << std::endl;
+	for(size_t i=0; i<nentries; ++i){
+
+		auto start_x = std::chrono::high_resolution_clock::now();
+		auto x = eng();
+		auto stop_x = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::nano> elapsed_x = stop_x - start_x;
+		auto start_y = std::chrono::high_resolution_clock::now();
+		auto y = eng();
+		auto stop_y = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::nano> elapsed_y = stop_y - start_y;
+
+		std::cout<<"<"<<i << "> - ("
+				<< (double)x/eng.Max()<< ", "
+				<< (double)y/eng.Max()<< ") -- ( "
+				<<  elapsed_x.count() << ", "
+				<<  elapsed_y.count()<< ")"
+				<< std::endl;
+	}
+
 
 
 return 0;

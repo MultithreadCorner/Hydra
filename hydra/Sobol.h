@@ -41,7 +41,7 @@
 #ifndef SOBOL_H_
 #define SOBOL_H_
 
-
+#include <algorithm>
 #include<hydra/detail/Config.h>
 #include<hydra/detail/SobolTable.h>
 #include<hydra/detail/GrayCode.h>
@@ -60,41 +60,50 @@ namespace detail {
 
 // http://doi.acm.org/10.1145/42288.214372
 
-template<typename UIntType, unsigned w, typename SobolTables>
+template<typename UIntType, unsigned D, unsigned W, typename SobolTables>
 struct sobol_lattice
 {
   typedef UIntType value_type;
 
- static_assert(w > 0u, "w > 0");
- static const unsigned bit_count = w;
+ static_assert(D > 0u, "[hydra::sobol_lattice] Problem: D < 0. (D) - dimension has to be greater than zero.");
+ static_assert(D <= SOBOL_MAX_DIMENSION, "[hydra::sobol_lattice] Problem: D > SOBOL_MAX_DIMENSION. (D) - dimension has to be greater than zero.");
+ static_assert(W > 0u, "[hydra::sobol_lattice] Problem: W < 0. (W) - bit count has to be greater than zero.");
 
-private:
-  typedef std::vector<value_type> container_type;
+ static const unsigned bit_count = W;
+ static const unsigned lattice_dimension= D;
+ static const unsigned storage_size=W*D;
+
+//private:
+
+//typedef std::vector<value_type> container_type;
 
 public:
-  explicit sobol_lattice(std::size_t dimension)
-  {
-    resize(dimension);
+
+  explicit sobol_lattice(){
+
+    resize();
   }
 
   // default copy c-tor is fine
 
-  void resize(std::size_t dimension)
+  void resize(/*std::size_t dimension*/)
   {
-    dimension_assert("Sobol", dimension, SobolTables::max_dimension);
+    //dimension_assert("Sobol", dimension, SobolTables::max_dimension);
 
     // Initialize the bit array
-    container_type cj(bit_count * dimension);
+    //container_type cj(bit_count * dimension);
+	  value_type  cj[storage_size];
 
     // Initialize direction table in dimension 0
     for (unsigned k = 0; k != bit_count; ++k)
-      cj[dimension*k] = static_cast<value_type>(1);
+      cj[lattice_dimension*k] = static_cast<value_type>(1);
 
     // Initialize in remaining dimensions.
-    for (std::size_t dim = 1; dim < dimension; ++dim)
+    for (std::size_t dim = 1; dim < lattice_dimension; ++dim)
     {
       const typename SobolTables::value_type poly = SobolTables::polynomial(dim-1);
-      if (poly > std::numeric_limits<value_type>::max()) {
+      if (poly > std::numeric_limits<value_type>::max())
+      {
          throw std::exception( std::range_error("sobol: polynomial value outside the given value type range") );
       }
 
@@ -103,20 +112,20 @@ public:
       std::cout << "degree "<< degree << " poly " << poly <<std::endl;
       // set initial values of m from table
       for (unsigned k = 0; k != degree; ++k)
-        cj[dimension*k + dim] = SobolTables::minit(dim-1, k);
+        cj[lattice_dimension*k + dim] = SobolTables::minit(dim-1, k);
 
       // Calculate remaining elements for this dimension,
       // as explained in Bratley+Fox, section 2.
       for (unsigned j = degree; j < bit_count; ++j)
       {
         typename SobolTables::value_type p_i = poly;
-        const std::size_t bit_offset = dimension*j + dim;
+        const std::size_t bit_offset = lattice_dimension*j + dim;
 
-        cj[bit_offset] = cj[dimension*(j-degree) + dim];
+        cj[bit_offset] = cj[lattice_dimension*(j-degree) + dim];
         for (unsigned k = 0; k != degree; ++k, p_i >>= 1)
         {
           int rem = degree - k;
-          cj[bit_offset] ^= ((p_i & 1) * cj[dimension*(j-rem) + dim]) << rem;
+          cj[bit_offset] ^= ((p_i & 1) * cj[lattice_dimension*(j-rem) + dim]) << rem;
         }
       }
     }
@@ -125,22 +134,27 @@ public:
     unsigned p = 1u;
     for (int j = bit_count-1-1; j >= 0; --j, ++p)
     {
-      const std::size_t bit_offset = dimension * j;
-      for (std::size_t dim = 0; dim != dimension; ++dim)
+      const std::size_t bit_offset = lattice_dimension * j;
+      for (std::size_t dim = 0; dim != lattice_dimension; ++dim)
         cj[bit_offset + dim] <<= p;
     }
 
-    bits.swap(cj);
+   // bits.swap(cj);
+    std::swap_ranges(cj, cj+storage_size, bits );
   }
 
-  typename container_type::const_iterator iter_at(std::size_t n) const
+  const  value_type* iter_at(std::size_t n) const
   {
-    assert(!(n > bits.size()));
-    return bits.begin() + n;
+    assert(!(n > storage_size-1 ));
+    return bits + n;
   }
+
 
 private:
-  container_type bits;
+
+  //container_type bits;
+  value_type bits[storage_size];
+
 };
 
 } // namespace qrng_detail
@@ -172,20 +186,20 @@ typedef detail::SobolTable default_sobol_table;
 //!
 //!Some member functions may throw exceptions of type @c std::range_error. This
 //!happens when the quasi-random domain is exhausted and the generator cannot produce
-//!any more values. The length of the low discrepancy sequence is given by \f$L=Dimension \times (2^{w} - 1)\f$.
-template<typename UIntType, unsigned w, typename SobolTables = default_sobol_table>
+//!any more values. The length of the low discrepancy sequence is given by \f$L=Dimension \times (2^{W} - 1)\f$.
+template<typename UIntType,  unsigned D, unsigned W, typename SobolTables = default_sobol_table>
 class sobol_engine
-		: public detail::GrayCode<detail::sobol_lattice<UIntType, w, SobolTables>>
+		: public detail::GrayCode<detail::sobol_lattice<UIntType, D, W, SobolTables>>
 {
-  typedef detail::sobol_lattice<UIntType, w, SobolTables> lattice_t;
+  typedef detail::sobol_lattice<UIntType, D, W, SobolTables> lattice_t;
   typedef detail::GrayCode<lattice_t> base_t;
 
 public:
   //!Effects: Constructs the default `s`-dimensional Sobol quasi-random number generator.
   //!
   //!Throws: bad_alloc, invalid_argument, range_error.
-  explicit sobol_engine(std::size_t s)
-    : base_t(s)
+  explicit sobol_engine()
+    : base_t()
   {}
 
   // default copy c-tor is fine
@@ -265,7 +279,8 @@ public:
  *
  * However, it is possible to provide your own table to \sobol_engine should the default one be insufficient.
  */
-typedef sobol_engine<uint_least64_t, 64u, default_sobol_table> sobol;
+template<unsigned D>
+using sobol= sobol_engine<uint_least64_t, D, 64u, default_sobol_table> ;
 
 }  // namespace hydra
 
