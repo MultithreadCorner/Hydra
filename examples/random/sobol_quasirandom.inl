@@ -72,7 +72,7 @@ int main(int argv, char** argc)
 			"0.375, 0.375\n\n"
 			<< std::endl;
 
-	std::cout<< "hydra::sobol<2> output (x, y) - (tx, ty) ns:" << std::endl;
+	std::cout<< "hydra::sobol<2> [default seed] output (x, y) - (tx, ty) ns:" << std::endl;
 
 	for(size_t i=0; i<nentries; ++i){
 
@@ -91,9 +91,31 @@ int main(int argv, char** argc)
 				<<  elapsed_x.count() << ", "
 				<<  elapsed_y.count()<< ")"
 				<< std::endl;
+
+
 	}
 
+	eng.seed(546);
+	std::cout << "hydra::sobol<2> [seed=546] output (x, y) - (tx, ty) ns:"
+			 << std::endl;
+	for(size_t i=0; i<nentries; ++i){
 
+		auto start_x = std::chrono::high_resolution_clock::now();
+		auto x = eng();
+		auto stop_x = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::nano> elapsed_x = stop_x - start_x;
+		auto start_y = std::chrono::high_resolution_clock::now();
+		auto y = eng();
+		auto stop_y = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::nano> elapsed_y = stop_y - start_y;
+
+		std::cout<<"<"<<i << "> - ("
+				<< (double)x/eng.Max()<< ", "
+				<< (double)y/eng.Max()<< ") -- ( "
+				<<  elapsed_x.count() << ", "
+				<<  elapsed_y.count()<< ")"
+				<< std::endl;
+	}
 
 return 0;
 }
