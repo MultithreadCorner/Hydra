@@ -126,5 +126,31 @@
 #define HYDRA_OS HYDRA_CERROR_LOG
 #endif
 
+//Branch prediction hints
+#if(\
+(HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG) ||\
+(HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC)\
+)
+	#define HYDRA_HOST_LIKELY(x) __builtin_expect(x, 1)
+	#define HYDRA_HOST_UNLIKELY(x) __builtin_expect(x, 0)
+#else
+	#define HYDRA_HOST_LIKELY(x) x
+	#define HYDRA_HOST_UNLIKELY(x) x
+#endif
+
+#if(\
+(HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG) ||\
+(HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC)\
+)
+	#define HYDRA_DEVICE_LIKELY(x) __builtin_expect(x, 1)
+	#define HYDRA_DEVICE_UNLIKELY(x) __builtin_expect(x, 0)
+#else
+    #define HYDRA_DEVICE_LIKELY(x) x
+    #define HYDRA_DEVICE_UNLIKELY(x) x
+#endif
+
+
+
+
 
 #endif /* CUDA_H_ */

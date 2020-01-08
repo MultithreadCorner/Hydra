@@ -38,10 +38,12 @@
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/PDFSumExtendable.h>
-#include <hydra/multiarray.h>
-#include <hydra/Distance.h>
 #include <hydra/detail/AddPdfBase.h>
+#include <hydra/Tuple.h>
 #include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/transform_reduce.h>
+#include <hydra/detail/functors/ProcessSPlot.h>
+
 #include <Eigen/Dense>
 
 #include <initializer_list>
@@ -49,113 +51,302 @@
 
 namespace hydra {
 
-template < typename PDF1,  typename PDF2, typename ...PDFs>
+/**
+ *  \ingroup fit
+ *  \class SPlot
+ *
+ *  Implementation of {s}_{Plot} technique for statistical unfolding of sample
+ *  containing events from different sources.
+ *  The sPlots are applicable in the context extended Likelihood fits, which are performed
+ *  on the data sample to determine the yields of the various sources.
+ *
+ *  This class requires Eigen (http://eigen.tuxfamily.org/index.php?title=Main_Page).
+ *
+ *  Reference:  Nucl.Instrum.Meth.A555:356-369,2005
+ */
+template <typename Iterator, typename PDF1,  typename PDF2, typename ...PDFs>
 class SPlot: public detail::AddPdfBase<PDF1,PDF2,PDFs...>
 {
-typedef typename detail::tuple_type<(sizeof...(PDFs)+2)*(sizeof...(PDFs)+2),double>::type matrix_t;
 
-public:
 	//this typedef is actually a check. If the AddPdf is not built with
 	//hydra::pdf, AddPdfBase::type will not be defined and compilation
 	//will fail
 	typedef typename detail::AddPdfBase<PDF1,PDF2,PDFs...>::type base_type;
+    typedef typename hydra_thrust::iterator_system<Iterator>::type system_type;
+
+public:
+
 	typedef hydra_thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;
-	typedef hydra_thrust::tuple<typename PDF1::functor_type,
-				typename  PDF2::functor_type,
-				typename  PDFs::functor_type...> functors_tuple_type;
+
+	typedef hydra_thrust::tuple<
+			    typename PDF1::functor_type,
+				typename PDF2::functor_type,
+				typename PDFs::functor_type...> functors_tuple_type;
+
+	typedef detail::SWeights<typename PDF1::functor_type,
+			                 typename PDF2::functor_type,
+			                 typename PDFs::functor_type...> transformer;
+
+	typedef hydra_thrust::transform_iterator<transformer, Iterator > iterator;
+	typedef typename  hydra_thrust::iterator_traits<iterator>::value_type value_type;
+
+	template<int I>
+	using siterator = hydra_thrust::transform_iterator< detail::GetSWeight<I>, iterator >;
 
 	constexpr static size_t npdfs = sizeof...(PDFs)+2;
 
-	template<size_t N, size_t I>
-	struct index
-	{
-		constexpr static size_t x= I/N;
-		constexpr static size_t y= I%N;
-	};
+	SPlot()=delete;
 
-	SPlot( PDFSumExtendable<PDF1, PDF2, PDFs...> const& pdf):
+    /**
+     * SPlot constructor.
+     *
+     * @param pdf PDFSumExtendable<PDF1, PDF2, PDFs...> object, already optimized.
+     * @param first Iterator pointing to the beginning of the data range used to optimize ```pdf```
+     * @param last  Iterator pointing to the end of the data range used to optimize ```pdf```.
+     */
+	SPlot( PDFSumExtendable<PDF1, PDF2, PDFs...> const& pdf, Iterator first, Iterator last):
 		fPDFs( pdf.GetPDFs() ),
-		fFunctors( pdf.GetFunctors())
+		fFunctors( pdf.GetFunctors()),
+	    fBegin( iterator( first, transformer(  pdf.GetFunctors(), Eigen::Matrix<double, npdfs, npdfs>{} ))),
+		fEnd (iterator( last , transformer(  pdf.GetFunctors(), Eigen::Matrix<double, npdfs, npdfs>{} )))
+
 	{
 		for(size_t i=0;i<npdfs; i++)
-			fCoeficients[i] = pdf.GetCoeficient( i);
+			fCoeficients[i] = pdf.GetCoeficient(i);
+
+		fCovMatrix << 0.0, 0.0, 0.0, 0.0;
+
+
+		Eigen::Matrix<double, npdfs, npdfs>  init;
+		init << 0.0, 0.0, 0.0, 0.0;
+
+		fCovMatrix = hydra_thrust::transform_reduce(system_type(), first, last,
+				detail::CovMatrixUnary<
+				 typename PDF1::functor_type,
+				 typename PDF2::functor_type,
+				 typename PDFs::functor_type...>(fCoeficients, fFunctors ),
+				 init, detail::CovMatrixBinary() );
+
+		Eigen::Matrix<double, npdfs, npdfs> inverseCovMatrix = fCovMatrix.inverse();
+
+		fBegin = iterator( first, transformer(fCoeficients, fFunctors, inverseCovMatrix ));
+		fEnd   = iterator( last , transformer(fCoeficients, fFunctors, inverseCovMatrix ));
+
+
 	}
 
-	SPlot(SPlot<PDF1, PDF2, PDFs...> const& other ):
+	/**
+	 * SPlot copy constructor.
+	 *
+	 * @param other
+	 */
+	SPlot(SPlot<Iterator, PDF1, PDF2, PDFs...> const& other ):
 		fPDFs(other.GetPDFs() ),
-		fFunctors(other.GetFunctors())
+		fFunctors(other.GetFunctors()),
+    	fBegin(other.begin()),
+	    fEnd(other.end()),
+	    fCovMatrix(other.GetCovMatrix() )
 	{
 		for( size_t i=0; i< npdfs; i++ ){
 			fCoeficients[i]=other.GetCoeficient(i);
 		}
 	}
 
+	/**
+	 * SPlot assignment operator.
+	 *
+	 * @param other
+	 */
+	SPlot<Iterator, PDF1, PDF2, PDFs...>
+	operator=(SPlot<Iterator, PDF1, PDF2, PDFs...> const& other ){
+
+		if(this==&other) return *this;
+
+		fPDFs=other.GetPDFs();
+		fFunctors=other.GetFunctors();
+		fBegin=other.begin();
+		fEnd=other.end();
+		fCovMatrix=other.GetCovMatrix();
+
+		for( size_t i=0; i< npdfs; i++ ){
+			fCoeficients[i]=other.GetCoeficient(i);
+		}
+
+		return *this;
+	}
+
+	/**
+	 * Get reference to constant of PDF objects.
+	 * @return hydra::tuple of the PDF objects
+	 */
 	inline const pdfs_tuple_type&
-	GetPDFs() const
-	{
+	GetPDFs() const {
 		return fPDFs;
 	}
 
-	inline const functors_tuple_type& GetFunctors() const
-	{
+	/**
+	 * Get reference to constant of normalized Functor objects.
+	 * @return hydra::tuple of the Functor objects
+	 */
+	inline const functors_tuple_type& GetFunctors() const {
 		return fFunctors;
 	}
 
-	inline	const Parameter& GetCoeficient(size_t i) const
-	{
+	/**
+	 * Get the yield corresponding to the PDF i.
+	 * @param i index of PDF
+	 * @return hydra::Parameter
+	 */
+	inline	const Parameter& GetCoeficient(size_t i) const {
 		return fCoeficients[i];
 	}
 
+	/**
+	 * Get the covariance matrix of between the yields of PDFs.
+	 * @return Eigen::Matrix<double, npdfs, npdfs>
+	 */
+	Eigen::Matrix<double, npdfs, npdfs>
+	GetCovMatrix() const {
 
-	template<typename InputIterator, typename OutputIterator>
-	inline Eigen::Matrix<double, sizeof...(PDFs)+2, sizeof...(PDFs)+2>
-	Generate(InputIterator input_begin, InputIterator input_end,	OutputIterator output_begin);
+		return fCovMatrix;
+	}
 
-	template<typename InputIterable, typename OutputIterable>
-	inline typename std::enable_if<	hydra::detail::is_iterable<InputIterable>::value &&
-		hydra::detail::is_iterable<OutputIterable>::value,
-	     Eigen::Matrix<double, sizeof...(PDFs)+2, sizeof...(PDFs)+2>>::type
-	Generate(InputIterable&& input, OutputIterable&& output);
+	/**
+	 * Get an iterator pointing to beginning of the range of the s-weights corresponding to the PDF i.
+	 * @param hydra placeholder (_0, _1, ..., _N)
+	 * @return iterator
+	 */
+	template<unsigned int I>
+	siterator<I> begin(placeholders::placeholder<I>) {
+
+		return siterator<I>(fBegin, detail::GetSWeight<I>());
+	}
+
+	/**
+	 * Get an iterator pointing to end of the range of the s-weights corresponding to the PDF i.
+	 * @param hydra placeholder (_0, _1, ..., _N)
+	 * @return iterator
+	 */
+	template<unsigned int I>
+	siterator<I> end(placeholders::placeholder<I>) {
+
+		return siterator<I>(fEnd, detail::GetSWeight<I>());
+	}
 
 
+	/**
+	 * Get an iterator pointing to end of the range of the s-weights.
+	 * @return iterator
+	 */
+	iterator begin() {
+		return fBegin;
+	}
 
+	/**
+	 * Get an iterator pointing to end of the range of the s-weights.
+	 * @return iterator
+	 */
+	iterator end() {
+		return fEnd;
+	}
 
+	iterator begin() const {
+		return fBegin;
+	}
+
+	iterator end() const {
+		return fEnd;
+	}
+
+	/**
+	 * Get a range with the s-weights  to the PDF i.
+	 * @param hydra placeholder (_0, _1, ..., _N)
+	 * @return Range<siterator<I>>
+	 */
+	template<unsigned int I>
+	hydra::Range<siterator<I>>
+	operator()(placeholders::placeholder<I>  p){
+
+		return hydra::make_range( begin(p), end(p));
+	}
+
+	/**
+	 * Get a range with the s-weights.
+	 * @return hydra::Range<iterator>
+	 */
+	template<unsigned int I>
+	hydra::Range<iterator>
+	operator()(){
+
+		return hydra::make_range( begin(), end());
+	}
+
+	/**
+	 * Subscript operator to get a range with the s-weights  to the PDF i.
+	 * @param hydra placeholder (_0, _1, ..., _N)
+	 * @return hydra::Range<iterator>
+	 */
+	template<unsigned int I>
+	hydra::Range<iterator>
+	operator[]( placeholders::placeholder<I>  p){
+
+		return hydra::make_range( begin(p), end(p));
+	}
+
+	/**
+	 * Subscript operator.
+	 * @param index i
+	 * @return value_type
+	 */
+	value_type operator[](size_t i){
+		return fBegin[i];
+	}
 
 private:
 
-	template<size_t I, typename ...T>
-	inline typename hydra_thrust::detail::enable_if<(I == sizeof...(T)),void >::type
-	SetCovMatrix( hydra_thrust::tuple<T...> const&, Eigen::Matrix<double, npdfs, npdfs>&)
-	{ }
-
-	template<size_t I=0, typename ...T>
-	inline typename hydra_thrust::detail::enable_if<(I < sizeof...(T)),void >::type
-	SetCovMatrix( hydra_thrust::tuple<T...> const& tpl,
-			Eigen::Matrix<double, npdfs, npdfs>& fCovMatrix  )
-	{
-
-		fCovMatrix(index< npdfs, I>::x, index< npdfs, I>::y )=hydra_thrust::get<I>(tpl);
-		SetCovMatrix<I+1, T...>(tpl, fCovMatrix);
-	}
-
-	Parameter    fCoeficients[npdfs];
-	pdfs_tuple_type fPDFs;
+	Parameter           fCoeficients[npdfs];
+	pdfs_tuple_type     fPDFs;
 	functors_tuple_type fFunctors;
-	//HYDRA_EXTERNAL_NS::Eigen::Matrix<double, npdfs, npdfs> fCovMatrix;
 
+	Eigen::Matrix<double, npdfs, npdfs> fCovMatrix;
+	iterator fBegin;
+	iterator fEnd;
 
 };
 
+/**
+ * Convenience function for instantiating SPlot objects using type deduction
+ *
+ * @param pdf PDFSumExtendable<PDF1, PDF2, PDFs...> optimized object
+ * @param first iterator pointing to beginning of the data range.
+ * @param last iterator pointing to end of the data  range.
+ * @return
+ */
+template <typename Iterator, typename PDF1,  typename PDF2, typename ...PDFs>
+typename std::enable_if< detail::is_iterator<Iterator>::value,
+                 SPlot<Iterator, PDF1, PDF2, PDFs...> >::type
+make_splot(PDFSumExtendable<PDF1, PDF2, PDFs...> const& pdf, Iterator first, Iterator last) {
 
-template < typename PDF1,  typename PDF2, typename ...PDFs>
-SPlot<PDF1, PDF2, PDFs...> make_splot(PDFSumExtendable<PDF1, PDF2, PDFs...> const& pdf)
-{
- return 	SPlot<PDF1, PDF2, PDFs...>(pdf);
+ return 	SPlot<Iterator, PDF1, PDF2, PDFs...>(pdf, first,last);
+}
+
+/**
+ * Convenience function for instantiating SPlot objects using type deduction
+ *
+ * @param pdf PDFSumExtendable<PDF1, PDF2, PDFs...> optimized object
+ * @param data iterable representing the data-range
+ * @return
+ */
+template <typename Iterable, typename PDF1,  typename PDF2, typename ...PDFs>
+typename std::enable_if< detail::is_iterable<Iterable>::value,
+                  SPlot< decltype(std::declval<Iterable>().begin()), PDF1, PDF2, PDFs...> >::type
+make_splot(PDFSumExtendable<PDF1, PDF2, PDFs...> const& pdf, Iterable&& data){
+
+ return 	SPlot< decltype(std::declval<Iterable>().begin()) ,
+		                 PDF1, PDF2, PDFs...>(pdf, std::forward<Iterable>(data).begin(),
+		  	  	  	  	  	  	  	  	  std::forward<Iterable>(data).end());
 }
 
 }  // namespace hydra
-
-
-#include <hydra/detail/SPlot.inl>
 
 #endif /* SPLOT_H_ */

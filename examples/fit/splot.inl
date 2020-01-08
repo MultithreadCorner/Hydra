@@ -64,12 +64,11 @@
 #include <hydra/AddPdf.h>
 #include <hydra/Algorithm.h>
 #include <hydra/Filter.h>
-#include <hydra/GaussKronrodQuadrature.h>
 #include <hydra/SPlot.h>
 #include <hydra/DenseHistogram.h>
-#include <hydra/SparseHistogram.h>
 #include <hydra/functions/Gaussian.h>
 #include <hydra/functions/Exponential.h>
+#include <hydra/multiarray.h>
 
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
@@ -101,6 +100,7 @@
 
 
 using namespace ROOT::Minuit2;
+using namespace hydra::placeholders;
 
 int main(int argv, char** argc)
 {
@@ -255,8 +255,11 @@ int main(int argv, char** argc)
 		// ... Minimize and profile the time
 
 		auto start_d = std::chrono::high_resolution_clock::now();
+
 		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(std::numeric_limits<unsigned int>::max(), 5));
+
 		auto end_d = std::chrono::high_resolution_clock::now();
+
 		std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
 
 		// output
@@ -268,31 +271,31 @@ int main(int argv, char** argc)
 		std::cout << "-----------------------------------------"<<std::endl;
 
 		//--------------------------------------------
-		//splot 2 components
-		//hold weights
-		hydra::multiarray<double,2,  hydra::device::sys_t> sweigts_d(range.size());
-
+		//splot
 		//create splot
-		auto splot  = hydra::make_splot(fcn.GetPDF() );
+		auto sweigts = hydra::make_splot(fcn.GetPDF(), range );
 
-		start_d = std::chrono::high_resolution_clock::now();
-		auto covar = splot.Generate( range.begin(), range.end(), sweigts_d.begin());
-		end_d = std::chrono::high_resolution_clock::now();
-		elapsed_d = end_d - start_d;
+		auto covar_matrix = sweigts.GetCovMatrix();
 
-		//time
-		std::cout << "-----------------------------------------"<<std::endl;
-		std::cout << "| [sPlot] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
-		std::cout << "-----------------------------------------"<<std::endl;
 
-		std::cout << "Covariance matrix "<< std::endl << covar<< std::endl << std::endl;
-		std::cout<< std::endl << "sWeights:" << std::endl;
+		std::cout << "Covariance matrix "
+				  << std::endl
+				  << covar_matrix
+				  << std::endl
+				  << std::endl;
+
+		std::cout << std::endl
+				  << "sWeights:"
+				  << std::endl;
+
 		for(size_t i = 0; i<10; i++)
-			std::cout<<  "[" << i << "] :" <<  sweigts_d[i] << std::endl;
-		std::cout<< std::endl << std::endl;
+			std::cout << "[" << i << "] :"
+			          << sweigts[i]
+			          << std::endl
+			          << std::endl;
 
 		//bring data to device
-		hydra::multiarray< double,2, hydra::device::sys_t> data2_d(range.size());
+		hydra::multiarray< double, 2, hydra::device::sys_t> data2_d(range.size());
 		hydra::copy( range ,  data2_d );
 
         //_______________________________
@@ -302,20 +305,26 @@ int main(int argv, char** argc)
         hydra::DenseHistogram< double, 1, hydra::device::sys_t> Hist_Data(nbins, min, max);
 
         start_d = std::chrono::high_resolution_clock::now();
+
         Hist_Data.Fill(data2_d.begin(0), data2_d.end(0));
+
         end_d = std::chrono::high_resolution_clock::now();
+
         elapsed_d = end_d - start_d;
 
         //time
-        std::cout << "-----------------------------------------"<<std::endl;
-        std::cout << "| [Histograming data] GPU Time (ms) ="<< elapsed_d.count() <<std::endl;
-        std::cout << "-----------------------------------------"<<std::endl;
+        std::cout << "-------------------------------------------"<<std::endl;
+        std::cout << "| [Histograming data] GPU Time (ms) = "   << elapsed_d.count() <<std::endl;
+        std::cout << "-------------------------------------------"<<std::endl;
 
         hydra::DenseHistogram<double, 1, hydra::device::sys_t> Hist_Control(nbins, min, max);
 
         start_d = std::chrono::high_resolution_clock::now();
+
         Hist_Control.Fill(data2_d.begin(1), data2_d.end(1));
+
         end_d = std::chrono::high_resolution_clock::now();
+
         elapsed_d = end_d - start_d;
 
         //time
@@ -326,8 +335,11 @@ int main(int argv, char** argc)
         hydra::DenseHistogram<double, 1, hydra::device::sys_t> Hist_Control_1(nbins, min, max);
 
         start_d = std::chrono::high_resolution_clock::now();
-        Hist_Control_1.Fill(data2_d.begin(1), data2_d.end(1), sweigts_d.begin(0) );
+
+        Hist_Control_1.Fill(data2_d.begin(1), data2_d.end(1), sweigts.begin(_0) );
+
         end_d = std::chrono::high_resolution_clock::now();
+
         elapsed_d = end_d - start_d;
 
         //time
@@ -338,7 +350,7 @@ int main(int argv, char** argc)
         hydra::DenseHistogram<double, 1, hydra::device::sys_t> Hist_Control_2(nbins, min, max);
 
         start_d = std::chrono::high_resolution_clock::now();
-        Hist_Control_2.Fill(data2_d.begin(1), data2_d.end(1), sweigts_d.begin(1) );
+        Hist_Control_2.Fill(data2_d.begin(1), data2_d.end(1), sweigts.begin(_1) );
         end_d = std::chrono::high_resolution_clock::now();
         elapsed_d = end_d - start_d;
 
