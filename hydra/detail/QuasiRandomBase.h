@@ -43,13 +43,9 @@
 #define QUASIRANDOMBASE_H_
 
 #include <hydra/detail/Config.h>
-#include <stdexcept>
-#include <vector>
-#include <limits>
+#include <hydra/detail/utility/Exception.h>
 
-#include <istream>
-#include <ostream>
-#include <sstream>
+#include <limits>
 #include <type_traits>
 #include <cstdint>
 
@@ -165,7 +161,7 @@ public:
 		// be tempted to "optimize" % via subtraction and multiplication.
 
 		uintmax_t vec_n = z / dimension_value;
-		const std::size_t carry = curr_elem + (z % dimension_value);
+		std::size_t carry = curr_elem + (z % dimension_value);
 
 		vec_n += carry / dimension_value;
 		carry  = carry % dimension_value;
@@ -263,9 +259,9 @@ protected:
 private:
 
 	 __hydra_host__ __hydra_device__
-	inline DerivedT& derived() throw()
-	{
-		return *static_cast<DerivedT * const>(this);
+	inline DerivedT& derived()
+	 {
+		return *(static_cast<DerivedT* const>(this));
 	}
 
 	// Load the result from the saved state.
@@ -287,7 +283,8 @@ private:
 			return load_cached();
 		}
 
-		throw std::exception( std::range_error("QuasiRandomBase: next_state") );
+		HYDRA_EXCEPTION("QuasiRandomBase: next_state overflow. Returning current state.")
+		return load_cached();
 	}
 
 	// Discards z consecutive s-dimensional vectors,
@@ -298,9 +295,10 @@ private:
 		const uintmax_t max_z = std::numeric_limits<size_type>::max() - seq_count;
 
 		// Don't allow seq_count + z overflows here
-		if (max_z < z)
-			throw std::exception( std::range_error("QuasiRandomBase: discard_vector") );
-
+		if (max_z < z){
+			HYDRA_EXCEPTION("QuasiRandomBase: discard_vector. Returning without doing nothing.")
+			return ;
+		}
 		std::size_t tmp = curr_elem;
 		derived().seed(static_cast<size_type>(seq_count + z));
 		curr_elem = tmp;

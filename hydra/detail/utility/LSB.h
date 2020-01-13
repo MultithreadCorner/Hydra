@@ -100,7 +100,7 @@ lsb( Integer x){
 //NVCC intrinsics, also available CLANG
 #else
 
-		return __ffsl(x);
+		return __ffsll(x)-1;
 
 #endif
 }

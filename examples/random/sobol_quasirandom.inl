@@ -39,6 +39,12 @@
 
 //this lib
 #include <hydra/Sobol.h>
+#include <hydra/Function.h>
+#include <hydra/FunctionWrapper.h>
+#include <hydra/Algorithm.h>
+#include <hydra/Range.h>
+#include <hydra/multiarray.h>
+#include <hydra/device/System.h>
 
 int main(int argv, char** argc)
 {
@@ -74,7 +80,7 @@ int main(int argv, char** argc)
 
 	std::cout<< "hydra::sobol<2> [default seed] output (x, y) - (tx, ty) ns:" << std::endl;
 
-	for(size_t i=0; i<nentries; ++i){
+	for(size_t i=0; i<10; ++i){
 
 		auto start_x = std::chrono::high_resolution_clock::now();
 		auto x = eng();
@@ -94,6 +100,37 @@ int main(int argv, char** argc)
 
 	}
 
+	//fill a hydra::multiarray with 2D sobol numbers
+	hydra::multiarray<double, 2, hydra::device::sys_t> sobol_numbers(nentries);
+
+	auto sobol_sampler =  hydra::wrap_lambda( []__hydra_dual__(unsigned n, long  int* N) {
+
+		hydra::sobol<2> eng;
+
+		eng.discard((*N)*2);
+		auto denominator=eng.Max();
+		auto x= eng();
+		auto y= eng();
+		return hydra::make_tuple( (double) x/denominator, (double)y/denominator) ;
+
+	});
+
+	auto sobol_range= hydra::range(0, nentries ) | sobol_sampler ;
+
+
+
+	auto start = std::chrono::high_resolution_clock::now();
+	hydra::copy(sobol_range, sobol_numbers );
+	auto stop = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> elapsed = stop - start;
+
+	std::cout << "[Generation time (ms)]: " <<  elapsed.count() << std::endl;
+
+	for(size_t i=0; i<10; ++i){
+		std::cout<<"<"<<i << "> - "
+				 << sobol_range[i]
+				 << std::endl;
+	}
 
 return 0;
 }

@@ -72,37 +72,46 @@ private:
   // The base needs to access modifying member f-ns, and we
   // don't want these functions to be available for the public use
   friend class QuasiRandomBase<self_t, LatticeT, size_type>;
-/*
+
   // Respect lattice bit_count here
   struct check_nothing {
+	__hydra_host__ __hydra_device__
     inline static void bit_pos(unsigned) {}
+
+	__hydra_host__ __hydra_device__
     inline static void code_size(size_type) {}
   };
   struct check_bit_range {
-    static void raise_bit_count() {
-      throw std::exception( std::range_error("GrayCode: bit_count") );
+
+	__hydra_host__ __hydra_device__
+	static void raise_bit_count() {
+    	HYDRA_EXCEPTION("GrayCode: bit_count" );
     }
+
+	__hydra_host__ __hydra_device__
     inline static void bit_pos(unsigned bit_pos) {
       if (bit_pos >= LatticeT::bit_count)
         raise_bit_count();
     }
+
+	__hydra_host__ __hydra_device__
     inline static void code_size(size_type code) {
       if (code > (self_t::max)())
         raise_bit_count();
     }
   };
-*/
+
   // We only want to check whether bit pos is outside the range if given bit_count
   // is narrower than the size_type, otherwise checks compile to nothing.
  static_assert(LatticeT::bit_count <= std::numeric_limits<size_type>::digits,
 		 "hydra::GrayCode : bit_count in LatticeT' > digits");
-/*
+
   typedef typename std::conditional<
 	 std::integral_constant<bool,((LatticeT::bit_count) < std::numeric_limits<size_type>::digits)>::value
     , check_bit_range
     , check_nothing
   >::type check_bit_range_t;
-*/
+
 
 public:
 
@@ -146,13 +155,15 @@ public:
      // check_seed_sign(init);
 
       size_type seq_code =  init+1;
-     // if(HYDRA_HOST_UNLIKELY(!(init < seq_code)))
-    	//  throw std::exception( std::range_error("GrayCode: seed") );
+     if(HYDRA_HOST_UNLIKELY(!(init < seq_code))){
+    	 HYDRA_EXCEPTION("GrayCode: seed overflow. Returning without set seed")
+         return ;
+     }
 
       seq_code ^= (seq_code >> 1);
       // Fail if we see that seq_code is outside bit range.
       // We do that before we even touch engine state.
-      //check_bit_range_t::code_size(seq_code); //<< uncoment for debug
+      check_bit_range_t::code_size(seq_code); //<< uncoment for debug
 
       set_zero_state();
       for (unsigned r = 0; seq_code != 0; ++r, seq_code >>= 1)
@@ -176,7 +187,7 @@ private:
     // Xor'ing with max() has the effect of flipping all the bits in seq,
     // except for the sign bit.
     unsigned r = lsb(seq ^ (self_t::Max)());
-   // check_bit_range_t::bit_pos(r); //<< uncoment for debug
+    check_bit_range_t::bit_pos(r); //<< uncoment for debug
     update_quasi(r);
   }
 

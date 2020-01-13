@@ -131,7 +131,6 @@ private:
 
 			const unsigned degree = msb(poly); // integer log2(poly)
 
-			std::cout << "degree "<< degree << " poly " << poly <<std::endl;
 			// set initial values of m from table
 			for (unsigned k = 0; k != degree; ++k)
 				bits[lattice_dimension*k + dim] = SobolTables::minit(dim-1, k);
