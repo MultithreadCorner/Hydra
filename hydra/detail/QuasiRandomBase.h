@@ -87,21 +87,46 @@ public:
 	typedef SizeT size_type;
 	typedef typename LatticeT::value_type result_type;
 
-	explicit QuasiRandomBase(/*std::size_t dimension*/)
-	// Guard against invalid dimensions before creating the lattice
-	: lattice(/*prevent_zero_dimension(dimension)*/)
-	, quasi_state()
+	 __hydra_host__ __hydra_device__
+	QuasiRandomBase():
+			lattice(),
+			quasi_state()
 	{
 		derived().seed();
 	}
 
-	// default copy c-tor is fine
+	 __hydra_host__ __hydra_device__
+	QuasiRandomBase(QuasiRandomBase<DerivedT,LatticeT, SizeT> const& other):
+		lattice(other.GetLattice()),
+		curr_elem(other.GetCurrElem()),
+		seq_count(other.GetSeqCount())
+	{
+#pragma unroll LatticeT::lattice_dimension
+		for(size_t i=0;i<LatticeT::lattice_dimension; ++i)
+			quasi_state[i] = other.GetQuasiState()[i];
+	}
 
-	// default assignment operator is fine
+	 __hydra_host__ __hydra_device__
+	QuasiRandomBase<DerivedT,LatticeT, SizeT>
+	operator=(QuasiRandomBase<DerivedT,LatticeT, SizeT> const& other){
+
+		 if(this==&other) return *this;
+
+		lattice = other.GetLattice();
+		curr_elem = other.GetCurrElem();
+		seq_count = other.GetSeqCount();
+
+#pragma unroll LatticeT::lattice_dimension
+		for(size_t i=0;i<LatticeT::lattice_dimension; ++i)
+			quasi_state[i] = other.GetQuasiState()[i];
+
+		return *this;
+	}
 
 	//!Returns: The dimension of of the quasi-random domain.
 	//!
 	//!Throws: nothing.
+	 __hydra_host__ __hydra_device__
 	constexpr unsigned dimension() const {
 		return LatticeT::lattice_dimension;
 	}
@@ -112,6 +137,7 @@ public:
 	//!subsequent s-dimensional vector.
 	//!
 	//!Throws: range_error.
+	 __hydra_host__ __hydra_device__
 	inline result_type operator()()
 	{
 		return curr_elem != dimension() ? load_cached(): next_state();
@@ -119,6 +145,7 @@ public:
 
 	//!Fills a range with quasi-random values.
 	template<typename Iterator>
+	 __hydra_host__ __hydra_device__
 	inline void generate(Iterator first, Iterator last){
 		for (; first != last; ++first)
 			*first = this->operator()();
@@ -128,16 +155,17 @@ public:
 	//!X::operator() invocations were executed.
 	//!
 	//!Throws: range_error.
+	 __hydra_host__ __hydra_device__
 	inline void discard(uintmax_t z)
 	{
-		const std::size_t dimension_value = dimension();
+		 const std::size_t dimension_value = dimension();
 
 		// Compiler knows how to optimize subsequent x / y and x % y
 		// statements. In fact, gcc does this even at -O1, so don't
 		// be tempted to "optimize" % via subtraction and multiplication.
 
 		uintmax_t vec_n = z / dimension_value;
-		std::size_t carry = curr_elem + (z % dimension_value);
+		const std::size_t carry = curr_elem + (z % dimension_value);
 
 		vec_n += carry / dimension_value;
 		carry  = carry % dimension_value;
@@ -155,45 +183,8 @@ public:
 
 	}
 
-	//!Writes the textual representation of the generator to a @c std::ostream.
-	template<class CharT, class Traits>
-	friend std::basic_ostream<CharT,Traits>&
-	operator<<(std::basic_ostream<CharT,Traits>& os, const QuasiRandomBase& s){
-
-		os << s.dimension()
-			<< " " << s.seq_count
-			<< " " << s.curr_elem;
-		return os;
-	}
-
-	/*
-	//!Reads the textual representation of the generator from a @c std::istream.
-	template<class CharT, class Traits>
-	friend std::basic_istream<CharT,Traits>&
-	operator>>(std::basic_istream<CharT,Traits>& is, QuasiRandomBase& s)
-	{
-		std::size_t dim;
-		size_type seed;
-		uintmax_t z;
-
-		if (is >> dim >> std::ws >> seed >> std::ws >> z) // initialize iff success!
-		{
-			// Check seed sign before resizing the lattice and/or recomputing state
-			check_seed_sign(seed);
-
-			if (s.dimension() != prevent_zero_dimension(dim))
-			{
-				s.lattice.resize(dim);
-				s.quasi_state.resize(dim);
-			}
-			// Fast-forward to the correct state
-			s.derived().seed(seed);
-			if (z != 0) s.discard(z);
-		}
-		return is;
-	}
-*/
 	//!Returns true if the two generators will produce identical sequences of outputs.
+	 __hydra_host__ __hydra_device__
 	friend bool operator==(const QuasiRandomBase& x, const QuasiRandomBase& y)
 		  {
 		const std::size_t dimension_value = x.dimension();
@@ -216,8 +207,29 @@ public:
 		  }
 
 	//!Returns true if the two generators will produce different sequences of outputs.
+	 __hydra_host__ __hydra_device__
 	friend bool operator!=(const QuasiRandomBase& lhs, const QuasiRandomBase& rhs)
 				  {  return !(lhs == rhs); }
+
+	 __hydra_host__ __hydra_device__
+	std::size_t GetCurrElem() const {
+		return curr_elem;
+	}
+
+	 __hydra_host__ __hydra_device__
+	LatticeT GetLattice() const {
+		return lattice;
+	}
+
+	 __hydra_host__ __hydra_device__
+	const result_type*& GetQuasiState() const {
+		return quasi_state;
+	}
+
+	 __hydra_host__ __hydra_device__
+	size_type GetSeqCount() const {
+		return seq_count;
+	}
 
 protected:
 
@@ -225,31 +237,45 @@ protected:
 	typedef  result_type* state_iterator;
 
 	// Getters
-	inline size_type curr_seq() const { return seq_count; }
+	 __hydra_host__ __hydra_device__
+	inline size_type curr_seq() const {
+		return seq_count;
+	}
 
-	inline state_iterator state_begin() { return &(quasi_state[0]); }
-	inline state_iterator state_end() { return &(quasi_state[0]) + LatticeT::lattice_dimension; }
+	 __hydra_host__ __hydra_device__
+	inline state_iterator state_begin() {
+		return &(quasi_state[0]);
+	}
+
+	 __hydra_host__ __hydra_device__
+	inline state_iterator state_end() {
+		return &(quasi_state[0]) + LatticeT::lattice_dimension;
+	}
 
 	// Setters
-	inline void reset_seq(size_type seq)
-	{
+	 __hydra_host__ __hydra_device__
+	inline void reset_seq(size_type seq){
+
 		seq_count = seq;
 		curr_elem = 0u;
 	}
 
 private:
 
+	 __hydra_host__ __hydra_device__
 	inline DerivedT& derived() throw()
 	{
 		return *static_cast<DerivedT * const>(this);
 	}
 
 	// Load the result from the saved state.
+	 __hydra_host__ __hydra_device__
 	inline result_type load_cached()
 	{
 		return quasi_state[curr_elem++];
 	}
 
+	 __hydra_host__ __hydra_device__
 	inline 	result_type next_state()
 	{
 		size_type new_seq = seq_count;
@@ -266,6 +292,7 @@ private:
 
 	// Discards z consecutive s-dimensional vectors,
 	// and preserves the position of the element-to-read
+	 __hydra_host__ __hydra_device__
 	inline void discard_vector(uintmax_t z)
 	{
 		const uintmax_t max_z = std::numeric_limits<size_type>::max() - seq_count;
@@ -279,14 +306,6 @@ private:
 		curr_elem = tmp;
 	}
 
-	/*
-	static std::size_t prevent_zero_dimension(std::size_t dimension)
-	{
-		if (dimension == 0)
-			throw std::exception( std::invalid_argument("QuasiRandomBase: zero dimension") );
-		return dimension;
-	}
-    */
 
 	// Member variables are so ordered with the intention
 	// that the typical memory access pattern would be
@@ -305,16 +324,6 @@ private:
 	result_type quasi_state[LatticeT::lattice_dimension];
 };
 
-inline void dimension_assert(const char* generator, std::size_t dim, std::size_t maxdim)
-{
-  if (!dim || dim > maxdim)
-  {
-    std::ostringstream os;
-    os << "The " << generator << " quasi-random number generator only supports dimensions in range [1; "
-      << maxdim << "], but dimension " << dim << " was supplied.";
-    throw std::exception( std::invalid_argument(os.str()) );
-  }
-}
 
 }  // namespace detail
 

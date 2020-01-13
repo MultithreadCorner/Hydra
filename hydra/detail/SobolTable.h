@@ -41,10 +41,10 @@
 #ifndef SOBOLTABLE_H_
 #define SOBOLTABLE_H_
 
-
+#include <hydra/detail/Config.h>
 
 // Maximum allowed space dimension
-#define SOBOL_MAX_DIMENSION 3667
+#define HYDRA_SOBOL_MAX_DIMENSION 3667
 
 // Data on the primitive binary polynomials (a) and the corresponding
 // starting values m, for Sobol sequences in up to 21201 dimensions,
@@ -65,7 +65,7 @@ namespace detail {
 
 struct SobolTable
 {
-  constexpr static const unsigned int max_dimension   = SOBOL_MAX_DIMENSION;
+  constexpr static const unsigned int max_dimension   = HYDRA_SOBOL_MAX_DIMENSION;
   constexpr static const unsigned int num_polynomials = max_dimension - 1;
 
   // log2(polynomial(num_polynomials - 1)), i.e., integer log2 of the last polynomial in the table
@@ -73,6 +73,8 @@ struct SobolTable
 
   typedef unsigned short value_type;
 
+
+  __hydra_host__ __hydra_device__
   static value_type polynomial(std::size_t n)
   {
     // successive primitive binary-coefficient polynomials p(z)
@@ -450,6 +452,7 @@ struct SobolTable
     return sobol_a[n];
   }
 
+  __hydra_host__ __hydra_device__
   static value_type minit(std::size_t dim, std::size_t degree)
   {
     // starting direction #'s m[i] = sobol_minit[i][j] for i=0..d of the

@@ -72,7 +72,7 @@ private:
   // The base needs to access modifying member f-ns, and we
   // don't want these functions to be available for the public use
   friend class QuasiRandomBase<self_t, LatticeT, size_type>;
-
+/*
   // Respect lattice bit_count here
   struct check_nothing {
     inline static void bit_pos(unsigned) {}
@@ -91,22 +91,32 @@ private:
         raise_bit_count();
     }
   };
-
+*/
   // We only want to check whether bit pos is outside the range if given bit_count
   // is narrower than the size_type, otherwise checks compile to nothing.
  static_assert(LatticeT::bit_count <= std::numeric_limits<size_type>::digits,
 		 "hydra::GrayCode : bit_count in LatticeT' > digits");
-
+/*
   typedef typename std::conditional<
 	 std::integral_constant<bool,((LatticeT::bit_count) < std::numeric_limits<size_type>::digits)>::value
     , check_bit_range
     , check_nothing
   >::type check_bit_range_t;
+*/
 
 public:
+
+ __hydra_host__ __hydra_device__
+  explicit GrayCode(): base_t() {}
+
+  // default copy c-tor is fine
+
+  // default assignment operator is fine
+
   //!Returns: Tight lower bound on the set of values returned by operator().
   //!
   //!Throws: nothing.
+ __hydra_host__ __hydra_device__
   constexpr static const result_type Min(){
 	  return 0;
   }
@@ -114,40 +124,35 @@ public:
   //!Returns: Tight upper bound on the set of values returned by operator().
   //!
   //!Throws: nothing.
+ __hydra_host__ __hydra_device__
   constexpr static const result_type Max(){
 	  return low_bits_mask_t<LatticeT::bit_count>::sig_bits;
   }
 
-  explicit GrayCode(/*std::size_t dimension*/)
-    : base_t(/*dimension*/)
-  {}
-
-  // default copy c-tor is fine
-
-  // default assignment operator is fine
-
-  void seed()
+ __hydra_host__ __hydra_device__
+ inline  void seed()
   {
     set_zero_state();
     update_quasi(0);
     base_t::reset_seq(0);
   }
 
-  void seed(const size_type init)
+ __hydra_host__ __hydra_device__
+  inline  void seed(const size_type init)
   {
     if (init != this->curr_seq())
     {
       // We don't want negative seeds.
-      check_seed_sign(init);
+     // check_seed_sign(init);
 
       size_type seq_code =  init+1;
-      if(HYDRA_HOST_UNLIKELY(!(init < seq_code)))
-    	  throw std::exception( std::range_error("GrayCode: seed") );
+     // if(HYDRA_HOST_UNLIKELY(!(init < seq_code)))
+    	//  throw std::exception( std::range_error("GrayCode: seed") );
 
       seq_code ^= (seq_code >> 1);
       // Fail if we see that seq_code is outside bit range.
       // We do that before we even touch engine state.
-      check_bit_range_t::code_size(seq_code);
+      //check_bit_range_t::code_size(seq_code); //<< uncoment for debug
 
       set_zero_state();
       for (unsigned r = 0; seq_code != 0; ++r, seq_code >>= 1)
@@ -162,8 +167,8 @@ public:
 
 private:
 
-
-  void compute_seq(size_type seq)
+ __hydra_host__ __hydra_device__
+  inline  void compute_seq(size_type seq)
   {
     // Find the position of the least-significant zero in sequence count.
     // This is the bit that changes in the Gray-code representation as
@@ -171,22 +176,34 @@ private:
     // Xor'ing with max() has the effect of flipping all the bits in seq,
     // except for the sign bit.
     unsigned r = lsb(seq ^ (self_t::Max)());
-    check_bit_range_t::bit_pos(r);
+   // check_bit_range_t::bit_pos(r); //<< uncoment for debug
     update_quasi(r);
   }
 
-  void update_quasi(unsigned r)
-  {
+ __hydra_host__ __hydra_device__
+  inline void update_quasi(unsigned r){
+
     // Calculate the next state.
-    std::transform(this->state_begin(), this->state_end(),
-      this->lattice.iter_at(r * this->dimension()), this->state_begin(),
-      std::bit_xor<result_type>());
+
+	result_type* i= this->state_begin();
+	const  result_type* j= this->lattice.iter_at(r * this->dimension());
+
+   #pragma unroll LatticeT::lattice_dimension
+   for(size_t s=0;s<LatticeT::lattice_dimension; ++s)
+	   i[s]=(i[s])^(j[s]);
+
   }
 
-  void set_zero_state()
-  {
-    std::fill(this->state_begin(), this->state_end(), result_type /*zero*/ ());
+ __hydra_host__ __hydra_device__
+  inline void set_zero_state(){
+
+   result_type* s= this->state_begin();
+
+   #pragma unroll LatticeT::lattice_dimension
+   for(size_t i=0;i<LatticeT::lattice_dimension; ++i)
+    	s[i]=result_type{};
   }
+
 };
 
 
