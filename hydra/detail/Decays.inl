@@ -81,7 +81,8 @@ struct FlagDaugthers: public hydra_thrust::unary_function<size_t,
 	}
 	__hydra_host__  __hydra_device__
 	bool operator()(size_t idx) {
-		hydra_thrust::default_random_engine randEng(fSeed);
+
+		hydra::default_random_engine randEng(fSeed);
 		randEng.discard(idx);
 		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(
 				0.0, fMax);

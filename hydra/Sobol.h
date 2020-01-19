@@ -199,17 +199,25 @@ typedef detail::SobolTable default_sobol_table;
 //!any more values. The length of the low discrepancy sequence is given by \f$L=Dimension \times (2^{W} - 1)\f$.
 template<typename UIntType,  unsigned D, unsigned W, typename SobolTables = default_sobol_table>
 class sobol_engine
-		: public detail::GrayCode<detail::sobol_lattice<UIntType, D, W, SobolTables>>
+		: public detail::gray_code<detail::sobol_lattice<UIntType, D, W, SobolTables>>
 {
   typedef detail::sobol_lattice<UIntType, D, W, SobolTables> lattice_t;
-  typedef detail::GrayCode<lattice_t> base_t;
+  typedef detail::gray_code<lattice_t> base_t;
 
 public:
+
+  static const  UIntType min=0;
+    static const  UIntType max=base_t::max;
   //!Effects: Constructs the default `s`-dimensional Sobol quasi-random number generator.
   //!
   //!Throws: bad_alloc, invalid_argument, range_error.
   __hydra_host__ __hydra_device__
   sobol_engine() : base_t() {}
+
+  __hydra_host__ __hydra_device__
+  sobol_engine( UIntType s) : base_t() {
+	  base_t::seed(s);
+  }
 
   // default copy c-tor is fine
 

@@ -149,8 +149,6 @@
     #define HYDRA_DEVICE_UNLIKELY(x) x
 #endif
 
-
-
-
+#define HYDRA_PREVENT_MACRO_SUBSTITUTION
 
 #endif /* CUDA_H_ */

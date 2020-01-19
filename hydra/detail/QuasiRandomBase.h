@@ -44,6 +44,7 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/utility/Exception.h>
+#include <hydra/Tuple.h>
 
 #include <limits>
 #include <type_traits>
@@ -75,7 +76,7 @@ inline void check_seed_sign(const Integer& v)
 
 
 template<typename DerivedT, typename LatticeT, typename SizeT>
-class QuasiRandomBase
+class quasi_random_base
 {
 
 public:
@@ -84,7 +85,7 @@ public:
 	typedef typename LatticeT::value_type result_type;
 
 	 __hydra_host__ __hydra_device__
-	QuasiRandomBase():
+	quasi_random_base():
 			lattice(),
 			quasi_state()
 	{
@@ -92,7 +93,7 @@ public:
 	}
 
 	 __hydra_host__ __hydra_device__
-	QuasiRandomBase(QuasiRandomBase<DerivedT,LatticeT, SizeT> const& other):
+	quasi_random_base(quasi_random_base<DerivedT,LatticeT, SizeT> const& other):
 		lattice(other.GetLattice()),
 		curr_elem(other.GetCurrElem()),
 		seq_count(other.GetSeqCount())
@@ -103,8 +104,8 @@ public:
 	}
 
 	 __hydra_host__ __hydra_device__
-	QuasiRandomBase<DerivedT,LatticeT, SizeT>
-	operator=(QuasiRandomBase<DerivedT,LatticeT, SizeT> const& other){
+	quasi_random_base<DerivedT,LatticeT, SizeT>
+	operator=(quasi_random_base<DerivedT,LatticeT, SizeT> const& other){
 
 		 if(this==&other) return *this;
 
@@ -119,20 +120,21 @@ public:
 		return *this;
 	}
 
-	//!Returns: The dimension of of the quasi-random domain.
-	//!
-	//!Throws: nothing.
+	/**
+	 *Returns: The dimension of of the quasi-random domain.
+	 */
 	 __hydra_host__ __hydra_device__
 	constexpr unsigned dimension() const {
 		return LatticeT::lattice_dimension;
 	}
 
-	//!Returns: Returns a successive element of an s-dimensional
-	//!(s = X::dimension()) vector at each invocation. When all elements are
-	//!exhausted, X::operator() begins anew with the starting element of a
-	//!subsequent s-dimensional vector.
-	//!
-	//!Throws: range_error.
+	 /**
+	  * Returns: Returns a successive element of an s-dimensional
+	  * (s = X::dimension()) vector at each invocation. When all elements are
+	  * exhausted, X::operator() begins anew with the starting element of a
+	  * subsequent s-dimensional vector.
+	  *
+	  */
 	 __hydra_host__ __hydra_device__
 	inline result_type operator()()
 	{
@@ -140,11 +142,12 @@ public:
 	}
 
 	//!Fills a range with quasi-random values.
-	template<typename Iterator>
+	template<typename ...T>
 	 __hydra_host__ __hydra_device__
-	inline void generate(Iterator first, Iterator last){
-		for (; first != last; ++first)
-			*first = this->operator()();
+	inline typename std::enable_if<
+	sizeof...(T)==LatticeT::lattice_dimension, void>::type
+	generate(hydra::tuple<T...>& data){
+		generate_helper(data);
 	}
 
 	//!Effects: Advances *this state as if z consecutive
@@ -181,7 +184,8 @@ public:
 
 	//!Returns true if the two generators will produce identical sequences of outputs.
 	 __hydra_host__ __hydra_device__
-	friend bool operator==(const QuasiRandomBase& x, const QuasiRandomBase& y)
+	friend bool operator==(const quasi_random_base& x,
+			const quasi_random_base& y)
 		  {
 		const std::size_t dimension_value = x.dimension();
 
@@ -204,7 +208,8 @@ public:
 
 	//!Returns true if the two generators will produce different sequences of outputs.
 	 __hydra_host__ __hydra_device__
-	friend bool operator!=(const QuasiRandomBase& lhs, const QuasiRandomBase& rhs)
+	friend bool operator!=(const quasi_random_base& lhs,
+			const quasi_random_base& rhs)
 				  {  return !(lhs == rhs); }
 
 	 __hydra_host__ __hydra_device__
@@ -258,10 +263,25 @@ protected:
 
 private:
 
+	 template<typename T, unsigned I>
+	 __hydra_host__ __hydra_device__
+	 inline typename std::enable_if< (I== LatticeT::lattice_dimension), void>::type
+	 generate_helper(T& ){ }
+
+	 template<typename T, unsigned I=0>
+	 __hydra_host__ __hydra_device__
+	 inline typename std::enable_if< (I< LatticeT::lattice_dimension), void>::type
+	 generate_helper(T& data){
+		 hydra::get<I>(data)=this->operator()();
+		 generate_helper<T,I+1>(data);
+	 }
+
+
+
 	 __hydra_host__ __hydra_device__
 	inline DerivedT& derived()
 	 {
-		return *(static_cast<DerivedT* const>(this));
+		return *const_cast< DerivedT*>( (static_cast<DerivedT* >(this)));
 	}
 
 	// Load the result from the saved state.
@@ -283,7 +303,7 @@ private:
 			return load_cached();
 		}
 
-		HYDRA_EXCEPTION("QuasiRandomBase: next_state overflow. Returning current state.")
+		HYDRA_EXCEPTION("hydra::quasi_random_base: next_state overflow. Returning current state.")
 		return load_cached();
 	}
 
@@ -296,7 +316,7 @@ private:
 
 		// Don't allow seq_count + z overflows here
 		if (max_z < z){
-			HYDRA_EXCEPTION("QuasiRandomBase: discard_vector. Returning without doing nothing.")
+			HYDRA_EXCEPTION("hydra::quasi_random_base: discard_vector. Returning without doing nothing.")
 			return ;
 		}
 		std::size_t tmp = curr_elem;

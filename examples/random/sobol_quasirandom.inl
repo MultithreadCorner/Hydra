@@ -92,8 +92,8 @@ int main(int argv, char** argc)
 		std::chrono::duration<double, std::nano> elapsed_y = stop_y - start_y;
 
 		std::cout<<"<"<<i << "> - ("
-				<< (double)x/eng.Max()<< ", "
-				<< (double)y/eng.Max()<< ") -- ( "
+				<< (double)x/eng.max<< ", "
+				<< (double)y/eng.max<< ") -- ( "
 				<<  elapsed_x.count() << ", "
 				<<  elapsed_y.count()<< ")"
 				<< std::endl;
@@ -108,7 +108,7 @@ int main(int argv, char** argc)
 		hydra::sobol<2> eng;
 
 		eng.discard((*N)*2);
-		auto denominator=eng.Max();
+		auto denominator=eng.max;
 		auto x= eng();
 		auto y= eng();
 		return hydra::make_tuple( (double) x/denominator, (double)y/denominator) ;

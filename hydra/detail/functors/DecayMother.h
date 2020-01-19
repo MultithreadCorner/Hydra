@@ -177,7 +177,7 @@ struct DecayMother
 	GReal_t process(size_t evt, Vector4R (&daugters)[N])
 	{
 
-		GRND randEng( fSeed );
+		GRND randEng;//(  );
 		randEng.discard(evt+3*N);
 		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
@@ -190,7 +190,9 @@ struct DecayMother
 //#pragma unroll N
 			for (GUInt_t n = 1; n < N - 1; n++)
 			{
+
 				rno[n] =  uniDist(randEng) ;
+				printf( "rno[n] %d %f\n", n , rno[n]);
 
 			}
 

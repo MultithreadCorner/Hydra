@@ -51,7 +51,7 @@
 #include <hydra/detail/functors/CheckEnergy.h>
 #include <hydra/Tuple.h>
 #include <hydra/detail/Hash.h>
-
+#include <hydra/Random.h>
 #include <hydra/Decays.h>
 
 #include <hydra/detail/launch_decayers.inl>
@@ -84,7 +84,7 @@ namespace hydra {
  *\tparam N is the number of particles in final state.
  *\tparam GRND underlying random number generator. See the options in hydra_thrust::random namespace.
  */
-template <size_t N, typename GRND=hydra_thrust::random::default_random_engine>
+template <size_t N, typename GRND=hydra::default_random_engine>
 class PhaseSpace {
 
 public:

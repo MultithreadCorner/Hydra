@@ -58,20 +58,24 @@ namespace hydra {
 namespace detail {
 
 template<typename LatticeT>
-class GrayCode: public QuasiRandomBase< GrayCode<LatticeT>, LatticeT, typename LatticeT::value_type>
+class gray_code: public quasi_random_base< gray_code<LatticeT>, LatticeT, typename LatticeT::value_type>
 {
 
 public:
   typedef typename LatticeT::value_type result_type;
   typedef result_type size_type;
 
+   static const result_type min=0;
+   static const result_type max=
+		  low_bits_mask_t<LatticeT::bit_count>::sig_bits;
+
 private:
-  typedef GrayCode<LatticeT> self_t;
-  typedef QuasiRandomBase<self_t, LatticeT, size_type> base_t;
+  typedef gray_code<LatticeT> self_t;
+  typedef quasi_random_base<self_t, LatticeT, size_type> base_t;
 
   // The base needs to access modifying member f-ns, and we
   // don't want these functions to be available for the public use
-  friend class QuasiRandomBase<self_t, LatticeT, size_type>;
+  friend class quasi_random_base<self_t, LatticeT, size_type>;
 
   // Respect lattice bit_count here
   struct check_nothing {
@@ -96,7 +100,7 @@ private:
 
 	__hydra_host__ __hydra_device__
     inline static void code_size(size_type code) {
-      if (code > (self_t::max)())
+      if (code > (self_t::max))
         raise_bit_count();
     }
   };
@@ -104,7 +108,7 @@ private:
   // We only want to check whether bit pos is outside the range if given bit_count
   // is narrower than the size_type, otherwise checks compile to nothing.
  static_assert(LatticeT::bit_count <= std::numeric_limits<size_type>::digits,
-		 "hydra::GrayCode : bit_count in LatticeT' > digits");
+		 "hydra::gray_code : bit_count in LatticeT' > digits");
 
   typedef typename std::conditional<
 	 std::integral_constant<bool,((LatticeT::bit_count) < std::numeric_limits<size_type>::digits)>::value
@@ -116,27 +120,11 @@ private:
 public:
 
  __hydra_host__ __hydra_device__
-  explicit GrayCode(): base_t() {}
+  explicit gray_code(): base_t() {}
 
   // default copy c-tor is fine
 
   // default assignment operator is fine
-
-  //!Returns: Tight lower bound on the set of values returned by operator().
-  //!
-  //!Throws: nothing.
- __hydra_host__ __hydra_device__
-  constexpr static const result_type Min(){
-	  return 0;
-  }
-
-  //!Returns: Tight upper bound on the set of values returned by operator().
-  //!
-  //!Throws: nothing.
- __hydra_host__ __hydra_device__
-  constexpr static const result_type Max(){
-	  return low_bits_mask_t<LatticeT::bit_count>::sig_bits;
-  }
 
  __hydra_host__ __hydra_device__
  inline  void seed()
@@ -156,7 +144,7 @@ public:
 
       size_type seq_code =  init+1;
      if(HYDRA_HOST_UNLIKELY(!(init < seq_code))){
-    	 HYDRA_EXCEPTION("GrayCode: seed overflow. Returning without set seed")
+    	 HYDRA_EXCEPTION("hydra::gray_code : seed overflow. Returning without set seed")
          return ;
      }
 
@@ -186,7 +174,7 @@ private:
     // the count is advanced.
     // Xor'ing with max() has the effect of flipping all the bits in seq,
     // except for the sign bit.
-    unsigned r = lsb(seq ^ (self_t::Max)());
+    unsigned r = lsb(seq ^ (self_t::max));
     check_bit_range_t::bit_pos(r); //<< uncoment for debug
     update_quasi(r);
   }
@@ -199,7 +187,7 @@ private:
 	result_type* i= this->state_begin();
 	const  result_type* j= this->lattice.iter_at(r * this->dimension());
 
-   #pragma unroll LatticeT::lattice_dimension
+#pragma unroll LatticeT::lattice_dimension
    for(size_t s=0;s<LatticeT::lattice_dimension; ++s)
 	   i[s]=(i[s])^(j[s]);
 
@@ -210,7 +198,7 @@ private:
 
    result_type* s= this->state_begin();
 
-   #pragma unroll LatticeT::lattice_dimension
+#pragma unroll LatticeT::lattice_dimension
    for(size_t i=0;i<LatticeT::lattice_dimension; ++i)
     	s[i]=result_type{};
   }
