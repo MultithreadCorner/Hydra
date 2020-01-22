@@ -39,42 +39,117 @@ namespace hydra {
 
 
 template <size_t N, typename GRND>
-PhaseSpace<N,GRND>::PhaseSpace( const GReal_t (&daughtersMasses)[N]):
-fSeed(1)
+PhaseSpace<N,GRND>::PhaseSpace(double motherMass, const GReal_t (&daughtersMasses)[N]):
+fSeed(1),
+fMotherMass(motherMass),
+fMaxWeight(0.)
 {
 
 	for(size_t i=0;i<N;i++)
 		fMasses[i]= daughtersMasses[i];
 
-	fSeed *= detail::hash_range(&fMasses[0], &fMasses[0]+N);
+	//should make a good enough seed
+	fSeed *= (1+ detail::hash_range(&fMasses[0], &fMasses[0]+N));
 
+	//compute maximum weight
+	double ecm = fMotherMass;
+
+	for (size_t n = 0; n < N; n++)
+	{
+		ecm -= fMasses[n];
+	}
+
+	double emmax = ecm + masses[0];
+	double emmin = 0.0;
+	double wtmax = 1.0;
+
+	for (size_t n = 1; n < N; n++)
+	{
+		emmin += fMasses[n - 1];
+		emmax += fMasses[n];
+		wtmax *= pdk(emmax, emmin, fMasses[n]);
+	}
+
+	fMaxWeight = 1.0 / wtmax;
 }
 
 template <size_t N, typename GRND>
-PhaseSpace<N,GRND>::PhaseSpace( const std::array<GReal_t,N>& daughtersMasses):
-fSeed(1)
+PhaseSpace<N,GRND>::PhaseSpace(double motherMass,  std::array<GReal_t,N>const& daughtersMasses):
+fSeed(1),
+fMotherMass(motherMass),
+fMaxWeight(0.)
 {
 
 	for(size_t i=0;i<N;i++)
 		fMasses[i]= daughtersMasses[i];
 
-	fSeed *= detail::hash_range(&fMasses[0], &fMasses[0]+N);
+	//should make a good enough seed
+	fSeed *= (1+ detail::hash_range(&fMasses[0], &fMasses[0]+N));
+
+	//compute maximum weight
+	double ecm = fMotherMass;
+
+	for (size_t n = 0; n < N; n++)
+	{
+		ecm -= fMasses[n];
+	}
+
+	double emmax = ecm + masses[0];
+	double emmin = 0.0;
+	double wtmax = 1.0;
+
+	for (size_t n = 1; n < N; n++)
+	{
+		emmin += fMasses[n - 1];
+		emmax += fMasses[n];
+		wtmax *= pdk(emmax, emmin, fMasses[n]);
+	}
+
+	fMaxWeight = 1.0 / wtmax;
 }
 
 template <size_t N, typename GRND>
-PhaseSpace<N,GRND>::PhaseSpace( const std::initializer_list<GReal_t>& daughtersMasses):
-fSeed(1)
+PhaseSpace<N,GRND>::PhaseSpace(double motherMass,  const std::initializer_list<GReal_t>& daughtersMasses):
+fSeed(1),
+fMotherMass(motherMass),
+fMaxWeight(0.)
 {
 
-	for(size_t i=0;i<N;i++)
-		fMasses[i]= daughtersMasses.begin()[i];
 
-	fSeed *= detail::hash_range(&fMasses[0], &fMasses[0]+N);
+
+	for(size_t i=0;i<N;i++)
+		fMasses[i]= daughtersMasses[i];
+
+	//should make a good enough seed
+	fSeed *= (1+ detail::hash_range(&fMasses[0], &fMasses[0]+N));
+
+	//compute maximum weight
+	double ecm = fMotherMass;
+
+	for (size_t n = 0; n < N; n++)
+	{
+		ecm -= fMasses[n];
+	}
+
+	double emmax = ecm + masses[0];
+	double emmin = 0.0;
+	double wtmax = 1.0;
+
+	for (size_t n = 1; n < N; n++)
+	{
+		emmin += fMasses[n - 1];
+		emmax += fMasses[n];
+		wtmax *= pdk(emmax, emmin, fMasses[n]);
+	}
+
+	fMaxWeight = 1.0 / wtmax;
 }
 
 template <size_t N, typename GRND>
 PhaseSpace<N,GRND>::PhaseSpace( PhaseSpace<N,GRND> const& other):
-fSeed(other.GetSeed())
+fSeed(other.GetSeed()),
+fMotherMass(other.GetMotherMass()),
+fMaxWeight(other.GetMaxWeight())
 {
 
 	for(size_t i=0;i<N;i++)
@@ -84,7 +159,9 @@ fSeed(other.GetSeed())
 template <size_t N, typename GRND>
 template <typename GRND2>
 PhaseSpace<N,GRND>::PhaseSpace( PhaseSpace<N,GRND2> const& other):
-fSeed(other.GetSeed())
+fSeed(other.GetSeed()),
+fMotherMass(other.GetMotherMass()),
+fMaxWeight(other.GetMaxWeight())
 {
 
 	for(size_t i=0;i<N;i++)
@@ -97,7 +174,11 @@ PhaseSpace<N,GRND> &
 PhaseSpace<N,GRND>::operator=( PhaseSpace<N,GRND> const& other)
 {
 	if(this==&other) return *this;
+
 	this->fSeed = other.GetSeed();
+	this->fMotherMass = other.other.GetMotherMass();
+	this->fMaxWeight = other.GetMaxWeight();
+
 	for(size_t i=0;i<N;i++)
 		this->ffMasses[i]= other.GetMasses()[i];
 
@@ -110,9 +191,13 @@ PhaseSpace<N,GRND> &
 PhaseSpace<N,GRND>::operator=( PhaseSpace<N,GRND2> const& other)
 {
 	if(this==&other) return *this;
-		this->fSeed = other.GetSeed();
-		for(size_t i=0;i<N;i++)
-			this->ffMasses[i]= other.GetMasses()[i];
+
+	this->fSeed = other.GetSeed();
+	this->fMotherMass = other.other.GetMotherMass();
+	this->fMaxWeight = other.GetMaxWeight();
+
+	for(size_t i=0;i<N;i++)
+		this->ffMasses[i]= other.GetMasses()[i];
 
 		return *this;
 }

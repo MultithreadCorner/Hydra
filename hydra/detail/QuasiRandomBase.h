@@ -55,24 +55,6 @@ namespace hydra {
 
 namespace detail {
 
-// If the seed is a signed integer type, then we need to
-// check that the value is positive:
-template <typename Integer>
-inline void check_seed_sign(const Integer& v, const std::true_type)
-{
-  if (v < 0)
-  {
-    throw std::exception( std::range_error("seed must be a positive integer") );
-  }
-}
-template <typename Integer>
-inline void check_seed_sign(const Integer&, const std::false_type) {}
-
-template <typename Integer>
-inline void check_seed_sign(const Integer& v)
-{
-  check_seed_sign(v, std::integral_constant<bool, std::numeric_limits<Integer>::is_signed>());
-}
 
 
 template<typename DerivedT, typename LatticeT, typename SizeT>
@@ -94,13 +76,13 @@ public:
 
 	 __hydra_host__ __hydra_device__
 	quasi_random_base(quasi_random_base<DerivedT,LatticeT, SizeT> const& other):
-		lattice(other.GetLattice()),
-		curr_elem(other.GetCurrElem()),
-		seq_count(other.GetSeqCount())
+		lattice(other.lattice),
+		curr_elem(other.curr_elem),
+		seq_count(other.seq_count)
 	{
 #pragma unroll LatticeT::lattice_dimension
 		for(size_t i=0;i<LatticeT::lattice_dimension; ++i)
-			quasi_state[i] = other.GetQuasiState()[i];
+			quasi_state[i] = other.quasi_state[i];
 	}
 
 	 __hydra_host__ __hydra_device__
@@ -109,13 +91,13 @@ public:
 
 		 if(this==&other) return *this;
 
-		lattice = other.GetLattice();
-		curr_elem = other.GetCurrElem();
-		seq_count = other.GetSeqCount();
+		lattice = other.lattice;
+		curr_elem = other.curr_elem;
+		seq_count = other.seq_count;
 
 #pragma unroll LatticeT::lattice_dimension
 		for(size_t i=0;i<LatticeT::lattice_dimension; ++i)
-			quasi_state[i] = other.GetQuasiState()[i];
+			quasi_state[i] = other.quasi_state[i];
 
 		return *this;
 	}
@@ -191,11 +173,11 @@ public:
 
 		// Note that two generators with different seq_counts and curr_elems can
 		// produce the same sequence because the generator triple
-		// (D, S, D) is equivalent to (D, S + 1, 0), where D is dimension, S -- seq_count,
+		// (D, S, D) is equivalent to (D, S + 1, 0), where D is dimension, S -- get_seq_count,
 		// and the last one is curr_elem.
 
 		return (dimension_value == y.dimension()) &&
-				// |x.seq_count - y.seq_count| <= 1
+				// |x.seq_count - y.get_seq_count| <= 1
 				!((x.seq_count < y.seq_count ?
 						y.seq_count - x.seq_count :
 						x.seq_count - y.seq_count)> static_cast<size_type>(1)) &&
@@ -212,32 +194,13 @@ public:
 			const quasi_random_base& rhs)
 				  {  return !(lhs == rhs); }
 
-	 __hydra_host__ __hydra_device__
-	std::size_t GetCurrElem() const {
-		return curr_elem;
-	}
-
-	 __hydra_host__ __hydra_device__
-	LatticeT GetLattice() const {
-		return lattice;
-	}
-
-	 __hydra_host__ __hydra_device__
-	const result_type*& GetQuasiState() const {
-		return quasi_state;
-	}
-
-	 __hydra_host__ __hydra_device__
-	size_type GetSeqCount() const {
-		return seq_count;
-	}
-
 protected:
 
 	//typedef std::vector<result_type> state_type;
 	typedef  result_type* state_iterator;
 
-	// Getters
+
+// Getters
 	 __hydra_host__ __hydra_device__
 	inline size_type curr_seq() const {
 		return seq_count;
