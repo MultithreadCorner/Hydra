@@ -37,7 +37,7 @@
 
 #ifdef HYDRA_THRUST_VARIADIC_TUPLE
 #  include <hydra/detail/external/thrust/detail/tuple/variadic_tuple.h>
-#else // HYDRA_THRUST_VARIADIC_TUPLE
+#else // HYDRA_THRUST_VARIADIC_TUPLEit
 
 HYDRA_EXTERNAL_NAMESPACE_BEGIN  namespace thrust
 {
