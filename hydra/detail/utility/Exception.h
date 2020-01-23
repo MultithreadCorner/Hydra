@@ -32,7 +32,12 @@
 #include<hydra/detail/Config.h>
 
 #define HYDRA_EXCEPTION(X)\
-	printf("\n\n[Hydra::Exception]\n --> Message: %s\n --> File: %s\n --> Function: %s\n --> Line: %d\n\n", X,\
-			__FILE__ ,__PRETTY_FUNCTION__ , __LINE__);
+	printf("\n\n[Hydra::Exception]\n"\
+           " --> Message: %s\n"\
+           " --> File: %s\n"\
+           " --> Function: %s\n"\
+           "--> Line: %d\n\n",\
+           X, __FILE__ ,__PRETTY_FUNCTION__ , __LINE__);
+
 
 #endif /* EXCEPTION_H_ */

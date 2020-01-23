@@ -59,10 +59,10 @@ template <size_t N,  typename GRND>
 struct DecayMother
 {
 
-	const GInt_t fSeed;
+	size_t fSeed;
 
-	GReal_t fTeCmTm;
-	GReal_t fWtMax;
+	GReal_t fECM;
+	GReal_t fMaxWeight;
 	GReal_t fBeta0;
 	GReal_t fBeta1;
 	GReal_t fBeta2;
@@ -72,23 +72,25 @@ struct DecayMother
 	GReal_t fMasses[N];
 
 	//constructor
-	DecayMother(Vector4R const& mother,
-			const GReal_t (&masses)[N],
-			const GInt_t _seed):
-			fSeed(_seed)
+	DecayMother(Vector4R const& mother,	const GReal_t (&masses)[N],
+			double maxweight, double ecm, size_t seed):
+				fMaxWeight(maxweight),
+				fECM(ecm),
+				fSeed(seed)
 
 	{
 
-		for(size_t i=0; i<N; i++) fMasses[i]=masses[i];
-
-		GReal_t _fTeCmTm = mother.mass(); // total energy in C.M. minus the sum of the masses
+		for(size_t i=0; i<N; i++)
+			fMasses[i]=masses[i];
+/*
+		GReal_t _fECM = mother.mass(); // total energy in C.M. minus the sum of the masses
 
 		for (size_t n = 0; n < N; n++)
 		{
-			_fTeCmTm -= masses[n];
+			_fECM -= masses[n];
 		}
 
-		GReal_t emmax = _fTeCmTm + masses[0];
+		GReal_t emmax = _fECM + masses[0];
 		GReal_t emmin = 0.0;
 		GReal_t wtmax = 1.0;
 		for (size_t n = 1; n < N; n++)
@@ -97,13 +99,14 @@ struct DecayMother
 			emmax += masses[n];
 			wtmax *= pdk(emmax, emmin, masses[n]);
 		}
-		GReal_t _fWtMax = 1.0 / wtmax;
+		GReal_t _fMaxWeight = 1.0 / wtmax;
+		*/
 
-		GReal_t _beta = mother.d3mag() / mother.get(0);
+		GReal_t beta = mother.d3mag() / mother.get(0);
 
-		if (_beta)
+		if (beta)
 		{
-			GReal_t w = _beta / mother.d3mag();
+			GReal_t w = beta / mother.d3mag();
 			fBeta0 = mother.get(0) * w;
 			fBeta1 = mother.get(1) * w;
 			fBeta2 = mother.get(2) * w;
@@ -111,21 +114,21 @@ struct DecayMother
 		else
 			fBeta0 = fBeta1 = fBeta2 = 0.0;
 
-		fTeCmTm = _fTeCmTm;
-		fWtMax = _fWtMax;
-
 
 	}
 
 	__hydra_host__ __hydra_device__
 	DecayMother( DecayMother<N, GRND> const& other ):
 	fSeed(other.fSeed ),
-	fTeCmTm(other.fTeCmTm ),
-	fWtMax(other.fWtMax ),
+	fECM(other.fECM ),
+	fMaxWeight(other.fMaxWeight ),
 	fBeta0(other.fBeta0 ),
 	fBeta1(other.fBeta1 ),
 	fBeta2(other.fBeta2 )
-	{ for(size_t i=0; i<N; i++) fMasses[i]=other.fMasses[i]; }
+	{
+		for(size_t i=0; i<N; i++)
+		fMasses[i]=other.fMasses[i];
+	}
 
 
 
@@ -192,7 +195,7 @@ struct DecayMother
 			{
 
 				rno[n] =  uniDist(randEng) ;
-				printf( "rno[n] %d %f\n", n , rno[n]);
+				//printf( "rno[n] %d %f\n", n , rno[n]);
 
 			}
 
@@ -208,14 +211,14 @@ struct DecayMother
 		{
 			//printf("%d mass=%f \n",n, fMasses[n]);
 			sum += fMasses[n];
-			invMas[n] = rno[n] * fTeCmTm + sum;
+			invMas[n] = rno[n] * fECM + sum;
 		}
 
 		//
 		//-----> compute the weight of the current event
 		//
 
-		GReal_t wt = fWtMax;
+		GReal_t wt = fMaxWeight;
 
 		GReal_t pd[N];
 

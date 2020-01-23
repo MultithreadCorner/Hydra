@@ -142,7 +142,7 @@ int main(int argv, char** argc)
 	double masses[3]{Jpsi_mass, K_mass, pi_mass };
 
 	// Create PhaseSpace object for B0-> K pi J/psi
-	hydra::PhaseSpace<3> phsp{Jpsi_mass, K_mass, pi_mass};
+	hydra::PhaseSpace<3> phsp{B0_mass, {Jpsi_mass, K_mass, pi_mass}};
 
 
 	auto dalitz_calculator = hydra::wrap_lambda(
@@ -209,11 +209,11 @@ int main(int argv, char** argc)
 				{100,100},
 				{pow(Jpsi_mass + pi_mass,2), pow(K_mass + pi_mass,2)},
 				{pow(B0_mass - K_mass,2)   , pow(B0_mass - Jpsi_mass,2)},
-				dalitz_variables);
+				dalitz_variables, 	dalitz_weights);
 
 		start = std::chrono::high_resolution_clock::now();
 
-		//Hist_Dalitz.Fill(dalitz_variables, 	dalitz_weights );
+		//Hist_Dalitz.Fill(dalitz_variables );
 
 		end = std::chrono::high_resolution_clock::now();
 

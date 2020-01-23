@@ -57,11 +57,15 @@ struct DecayMothers
 {
 
 	size_t fSeed;
+	GReal_t fECM;
+	GReal_t fMaxWeight;
 	GReal_t fMasses[N];
 
 	//constructor
-	DecayMothers(const GReal_t (&masses)[N], const GInt_t _seed ):
-			fSeed(_seed)
+	DecayMothers(const GReal_t (&masses)[N], double maxweight, double ecm, size_t _seed ):
+		fMaxWeight(maxweight),
+		fECM(ecm),
+		fSeed(_seed)
 	{
 		for(size_t i=0; i<N; i++)
 			fMasses[i] = masses[i];
@@ -69,9 +73,11 @@ struct DecayMothers
 
 	//copy
 	__hydra_host__      __hydra_device__
-	DecayMothers(DecayMothers<N, GRND> const& other)
+	DecayMothers(DecayMothers<N, GRND> const& other):
+	fSeed(other.fSeed ),
+	fECM(other.fECM ),
+	fMaxWeight(other.fMaxWeight )
 	{
-		fSeed = other.fSeed;
 		for(size_t i=0; i<N; i++)
 			fMasses[i] = other.fMasses[i];
 	}
@@ -129,18 +135,18 @@ struct DecayMothers
 		randEng.discard(evt+3*N);
 
 		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+/*
+		GReal_t fECM = 0.0;
 
-		GReal_t fTeCmTm = 0.0;
-
-		fTeCmTm = particles[0].mass();
+		fECM = particles[0].mass();
 
 //#pragma unroll N
 		for (size_t n = 0; n < N; n++)
 		{
-			fTeCmTm -= fMasses[n];
+			fECM -= fMasses[n];
 		}
 
-		GReal_t emmax = fTeCmTm + fMasses[0];
+		GReal_t emmax = fECM + fMasses[0];
 		GReal_t emmin = 0.0;
 		GReal_t wtmax = 1.0;
 
@@ -151,7 +157,7 @@ struct DecayMothers
 			emmax += fMasses[n];
 			wtmax *= pdk(emmax, emmin, fMasses[n]);
 		}
-
+*/
 		GReal_t rno[N];
 		rno[0] = 0.0;
 
@@ -173,13 +179,13 @@ struct DecayMothers
 		for (size_t n = 0; n < N; n++)
 		{
 			sum += fMasses[n];
-			invMas[n] = rno[n] * fTeCmTm + sum;
+			invMas[n] = rno[n] * fECM + sum;
 		}
 
 
 		//-----> compute the weight of the current event
 
-		GReal_t wt  = 1.0 / wtmax;
+		GReal_t wt  = fMaxWeight;
 
 		GReal_t pd[N];
 

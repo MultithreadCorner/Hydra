@@ -313,6 +313,14 @@ public:
 		fMotherMass = motherMass;
 	}
 
+	double GetECM() const {
+		return fECM;
+	}
+
+	void SetECM(double ecm) {
+		fECM = ecm;
+	}
+
 private:
 /**
 	 * @brief PDK function
@@ -329,6 +337,7 @@ private:
 	size_t  fSeed;///< seed.
 	double  fMotherMass;
 	double  fMaxWeight;
+	double  fECM;
 	GReal_t fMasses[N];
 
 
