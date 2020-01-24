@@ -516,6 +516,11 @@ DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional >::Fi
     return *this;
 }
 
+/*
+ * multidimensional specializations
+ */
+
+//iterator based
 template<typename Iterator, typename T, size_t N , hydra::detail::Backend BACKEND>
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 make_dense_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> grid,
@@ -528,6 +533,20 @@ make_dense_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> grid
 	return _Hist;
 }
 
+template<typename Iterator1,typename Iterator2, typename T, size_t N , hydra::detail::Backend BACKEND>
+DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
+make_dense_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> grid,
+		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
+		Iterator1 first, Iterator1 end, Iterator2 wfirst){
+
+	hydra::DenseHistogram< T, N, detail::BackendPolicy<BACKEND>> _Hist( grid, lowerlimits, upperlimits);
+	_Hist.Fill(first, end, wfirst);
+
+	return _Hist;
+}
+
+
+//iterable based
 template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable>
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
@@ -539,9 +558,28 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t,
 
 }
 
+template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable1,typename Iterable2 >
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value&&
+hydra::detail::is_iterable<Iterable2>::value,
+DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
+		std::array<T, N>lowerlimits,   std::array<T, N> upperlimits,
+		Iterable1&& data,
+		Iterable2&& weights){
 
+	return make_dense_histogram(backend,grid, lowerlimits, upperlimits,
+			std::forward<Iterable1>(data).begin(),
+			std::forward<Iterable1>(data).end(),
+			std::forward<Iterable2>(weights).begin());
+
+}
+
+/*
+ * unidimensional specializations
+ */
+//iterator based
 template<typename Iterator, typename T, hydra::detail::Backend BACKEND>
-DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
+DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
 make_dense_histogram( detail::BackendPolicy<BACKEND>, size_t grid, T lowerlimits,  T upperlimits,
 		Iterator first, Iterator end){
 
@@ -551,6 +589,49 @@ make_dense_histogram( detail::BackendPolicy<BACKEND>, size_t grid, T lowerlimits
 	return _Hist;
 
 }
+
+template<typename Iterator1, typename Iterator2, typename T, hydra::detail::Backend BACKEND>
+DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
+make_dense_histogram( detail::BackendPolicy<BACKEND>, size_t grid, T lowerlimits,  T upperlimits,
+		Iterator1 first, Iterator1 end, Iterator2 wfirst){
+
+	hydra::DenseHistogram< T, 1, detail::BackendPolicy<BACKEND>> _Hist( grid, lowerlimits, upperlimits);
+	_Hist.Fill(first, end, wfirst);
+
+	return _Hist;
+
+}
+
+//iterable based
+template< typename T, hydra::detail::Backend BACKEND, typename Iterable>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid,
+		T lowerlimits,  T upperlimits,	Iterable&& data){
+
+	return make_dense_histogram(backend,grid, lowerlimits, upperlimits,
+			std::forward<Iterable>(data).begin(), std::forward<Iterable>(data).end());
+
+}
+
+template< typename T, hydra::detail::Backend BACKEND, typename Iterable1,typename Iterable2 >
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value&&
+hydra::detail::is_iterable<Iterable2>::value,
+DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid,
+		T lowerlimits, T upperlimits,
+		Iterable1&& data,
+		Iterable2&& weights){
+
+	return make_dense_histogram(backend, grid, lowerlimits, upperlimits,
+			std::forward<Iterable1>(data).begin(),
+			std::forward<Iterable1>(data).end(),
+			std::forward<Iterable2>(weights).begin());
+
+}
+
+
+
 
 }  // namespace hydra
 

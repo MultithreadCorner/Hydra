@@ -37,9 +37,12 @@ inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 apply_filter(Iterable&& container, Functor&& filter)
 {
+
 	auto new_end = hydra_thrust::partition(std::forward<Iterable>(container).begin(),
-			std::forward<Iterable>(container).end(), std::forward<Functor>(filter));
-     return hydra::make_range(container.begin(), new_end);
+	                       std::forward<Iterable>(container).end(), filter);
+
+     return hydra::make_range(std::forward<Iterable>(container).begin(), new_end);
+
 }
 
 }  // namespace hydra

@@ -1,12 +1,15 @@
 ## CHANGE LOG
 
+
 ###Hydra 2.5.0
 
-1. **Eigen** is not being distributed with **Hydra** any more. **Eigen** remains an dependency.
+1. **Eigen** is not being distributed with **Hydra** anymore. **Eigen** will remain an dependency for foreseeable future.
 2. New facility to update **Thrust** and **CUB**. New namespaces ```hydra::hydra_thrust``` and ```hydra::hydra_cub``` defined.
 3. New lazy implementation of ```hydra::Splot```.
-4. Re-implementation of the impacted examples. 
-5. Many bug fixes across the tree...
+4. New ```hydra::PhaseSpace``` interface, with constructors taking the mass of the mother particle as well. Ctors also protected against inconsistent arguments via exception throwing. 
+5. New algorithm ```hydra::sobol``` support up to 3667 ( 2^2 + 2^4 + 2^6 +2^9 +2^10 + 2^11 -1) dimensions
+6. Re-implementation of the impacted examples. 
+7. Many bug fixes across the tree...
 
 ###Hydra 2.4.1 (probably incomplete)
 

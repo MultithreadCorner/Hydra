@@ -210,6 +210,7 @@ int main(int argv, char** argc)
 				{pow(Jpsi_mass + pi_mass,2), pow(K_mass + pi_mass,2)},
 				{pow(B0_mass - K_mass,2)   , pow(B0_mass - Jpsi_mass,2)},
 				dalitz_variables, 	dalitz_weights);
+				dalitz_variables, dalitz_weights);
 
 		start = std::chrono::high_resolution_clock::now();
 

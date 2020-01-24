@@ -340,7 +340,6 @@ private:
 	double  fECM;
 	GReal_t fMasses[N];
 
-
 };
 
 
