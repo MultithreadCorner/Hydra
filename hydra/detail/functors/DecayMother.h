@@ -195,7 +195,6 @@ struct DecayMother
 			{
 
 				rno[n] =  uniDist(randEng) ;
-				//printf( "rno[n] %d %f\n", n , rno[n]);
 
 			}
 

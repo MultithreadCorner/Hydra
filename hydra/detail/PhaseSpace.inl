@@ -260,15 +260,13 @@ PhaseSpace<N,GRND>::AverageOn(hydra::detail::BackendPolicy<BACKEND>const& policy
 
 	detail::StatsPHSP result;
 
-	detail::AverageMother<N,GRND,FUNCTOR>
-	reducer( mother, fMasses, fMaxWeight, fECM, fSeed,functor);
+	detail::AverageMother<N,GRND,FUNCTOR>reducer( mother, fMasses, fMaxWeight, fECM, fSeed,functor);
 
 	hydra_thrust::counting_iterator<GLong_t> first(0);
 
 	hydra_thrust::counting_iterator<GLong_t> last = first + n;
 
 	result = 	detail::launch_reducer(policy,	first, last, reducer );
-
 
 	return std::make_pair(result.fMean, ::sqrt(result.fM2)/result.fW );
 
@@ -293,7 +291,7 @@ template<typename Iterator, typename ...FUNCTOR>
 void PhaseSpace<N,GRND>::Evaluate(Vector4R const& mother,
 		Iterator begin, Iterator end, FUNCTOR const& ...functors) {
 
-		detail::EvalMother<N,GRND,FUNCTOR...> evaluator( mother, fMasses, fSeed, functors...);
+		detail::EvalMother<N,GRND,FUNCTOR...> evaluator( mother, fMasses, fMaxWeight, fECM, fSeed, functors...);
 
 		detail::launch_evaluator( begin, end, evaluator );
 
@@ -304,7 +302,7 @@ template<typename ...FUNCTOR, typename IteratorMother, typename Iterator>
 void PhaseSpace<N,GRND>::Evaluate( IteratorMother mbegin,
 		IteratorMother mend, Iterator begin, FUNCTOR const& ...functors) {
 
-	detail::EvalMothers<N,GRND,FUNCTOR...> evaluator(fMasses, fSeed,functors... );
+	detail::EvalMothers<N,GRND,FUNCTOR...> evaluator(fMasses,  fMaxWeight, fECM,fSeed,functors... );
 
 	detail::launch_evaluator( mbegin, mend, begin, evaluator );
 
@@ -320,7 +318,7 @@ hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 PhaseSpace<N,GRND>::Evaluate(Vector4R const& mother, Iterable&& result,
 		FUNCTOR const& ...functors) {
 
-	detail::EvalMother<N,GRND,FUNCTOR...> evaluator( mother, fMasses, fSeed, functors...);
+	detail::EvalMother<N,GRND,FUNCTOR...> evaluator( mother, fMasses, fMaxWeight, fECM, fSeed, functors...);
 
 	detail::launch_evaluator( std::forward<Iterable>(result).begin(),
 			std::forward<Iterable>(result).end(), evaluator );
@@ -338,7 +336,7 @@ inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value &&
 PhaseSpace<N,GRND>::Evaluate( IterableMother&& mothers, Iterable&& result, FUNCTOR const& ...functors) {
 
 
-	detail::EvalMothers<N,GRND,FUNCTOR...> evaluator(fMasses, fSeed,functors... );
+	detail::EvalMothers<N,GRND,FUNCTOR...> evaluator(fMasses,  fMaxWeight, fECM,fSeed,functors... );
 
 	detail::launch_evaluator( std::forward<IterableMother>(mothers).begin(),
 			std::forward<IterableMother>(mothers).end(),
@@ -358,7 +356,7 @@ void PhaseSpace<N,GRND>::Generate(Vector4R const& mother, Iterator begin, Iterat
 	 * in any system of reference. The daughters will be generated in this system.
 	 */
 
-	detail::DecayMother<N,GRND> decayer(mother,fMasses, fSeed);
+	detail::DecayMother<N,GRND> decayer(mother,fMasses, fMaxWeight, fECM, fSeed);
 	detail::launch_decayer(begin, end, decayer );
 
 }

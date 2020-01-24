@@ -150,7 +150,7 @@ int main(int argv, char** argc)
 	double masses[3]{Jpsi_mass, K_mass, pi_mass };
 
 	// Create PhaseSpace object for B0-> K pi J/psi
-	hydra::PhaseSpace<3> phsp(masses);
+	hydra::PhaseSpace<3> phsp(B0_mass, masses);
 
 	//device
 	{
@@ -204,7 +204,7 @@ int main(int argv, char** argc)
 
 #endif
 
-		auto unweighted_events = Events_d.Unweight(5.0);
+		auto unweighted_events = Events_d.Unweight(phsp.GetMaxWeight());
 		size_t j=0, max=10;
 
 				for( auto x: unweighted_events) {

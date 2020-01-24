@@ -74,6 +74,7 @@
 #include <hydra/Tuple.h>
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
+#include <hydra/functions/CosHelicityAngle.h>
 
 /*-------------------------------------
  * Include classes from ROOT to fill
@@ -137,19 +138,9 @@ int main(int argv, char** argc)
 		hydra::Vector4R p2 = fvectors[1];
 		hydra::Vector4R p3 = fvectors[2];
 
-		hydra::Vector4R p = p1 + p2 + p3;
-		hydra::Vector4R q = p2 + p3;
+		auto coshelang =hydra::CosHelicityAngle();
 
-		double pd = p * p2;
-		double pq = p * q;
-		double qd = q * p2;
-		double mp2 = p.mass2();
-		double mq2 = q.mass2();
-		double md2 = p2.mass2();
-
-		return (pd * mq2 - pq * qd)
-				/ sqrt((pq * pq - mq2 * mp2) * (qd * qd - mq2 * md2));
-		//return 1.0;
+		return coshelang(p1+p2+p3, p2+p3, p3);
 	};
 
 	auto cosTheta = hydra::wrap_lambda(COSHELANG);
@@ -158,7 +149,7 @@ int main(int argv, char** argc)
 	double masses[3]{Jpsi_mass, K_mass, pi_mass };
 
 	// Create PhaseSpace object for B0-> K pi J/psi
-	hydra::PhaseSpace<3> phsp(masses);
+	hydra::PhaseSpace<3> phsp(B0_mass, masses);
 
 	//device
 	{

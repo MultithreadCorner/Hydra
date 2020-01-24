@@ -561,7 +561,7 @@ public:
 	 * @return index of last unweighted event.
 	 */
 	hydra::Range<typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator>
-	Unweight(GUInt_t scale=1.0, size_t seed=154);
+	Unweight(double  scale=-1.0, size_t seed=0x180ec6d33cfd0aba);
 
 	/**
 	 * Get a range pointing to a set of unweighted events.
@@ -623,7 +623,7 @@ public:
 	 */
 	template<typename FUNCTOR>
 	hydra::Range<typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator>
-	Unweight( FUNCTOR  const& functor, GUInt_t scale, size_t seed=159753654);
+	Unweight( FUNCTOR  const& functor, double scale=-1.0, size_t seed=0x39abdc4529b1661c);
 
 	/**
 	 * Recalculates the events weights according with @functor;

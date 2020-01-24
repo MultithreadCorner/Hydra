@@ -158,12 +158,6 @@ int main(int argv, char** argc)
 		return hydra::make_tuple(M2_Jpsi_pi, M2_Kpi);
 	});
 
-	auto mother_mass = hydra::wrap_lambda(
-			[] __hydra_dual__ (  hydra::tuple<double,hydra::Vector4R,hydra::Vector4R,hydra::Vector4R> x){
-
-		return  (hydra::get<1>(x) + hydra::get<2>(x) + hydra::get<3>(x) ).mass() ;
-
-	});
 
 	//device
 	{
@@ -176,7 +170,7 @@ int main(int argv, char** argc)
 		auto start = std::chrono::high_resolution_clock::now();
 
 		//generate the final state particles
-		for (auto i : phsp.Generate(B0, Events_d) | mother_mass) std::cout << i << std::endl;
+        phsp.Generate(B0, Events_d) ;
 
 		auto end = std::chrono::high_resolution_clock::now();
 
@@ -210,7 +204,6 @@ int main(int argv, char** argc)
 				{pow(Jpsi_mass + pi_mass,2), pow(K_mass + pi_mass,2)},
 				{pow(B0_mass - K_mass,2)   , pow(B0_mass - Jpsi_mass,2)},
 				dalitz_variables, 	dalitz_weights);
-				dalitz_variables, dalitz_weights);
 
 		start = std::chrono::high_resolution_clock::now();
 
