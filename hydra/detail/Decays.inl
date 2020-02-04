@@ -158,11 +158,16 @@ Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(double max_weight, size_t s
 	using hydra_thrust::system::detail::generic::select_system;
 	typedef typename hydra_thrust::iterator_system<
 			typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator>::type system_t;
+	/*
+	 * NOTE: the implementation of this function is not the most efficient in terms
+	 * of memory usage. Due probably a bug on thust_stable partition implementation
+	 * connected with cuda and tbb, counting iterators can't be deployed as stencil.
+	 * So...
+	 */
 
 	//number of events to trial
 	size_t ntrials = this->size();
 
-	//printf(">>> ntrials %d \n", ntrials);
 
 	//create iterators
 	hydra_thrust::counting_iterator < size_t > first(0);
@@ -179,7 +184,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(double max_weight, size_t s
 
 	//re-sort the container to build up un-weighted sample
 	auto start = hydra_thrust::make_zip_iterator(hydra_thrust::make_tuple(sequence.first, this->begin()));
-	auto stop   = hydra_thrust::make_zip_iterator(hydra_thrust::make_tuple(sequence.first + sequence.second, this->end() ));
+	auto stop  = hydra_thrust::make_zip_iterator(hydra_thrust::make_tuple(sequence.first + sequence.second, this->end() ));
 
 	auto middle = hydra_thrust::stable_partition(start, stop, predicate);
 
@@ -199,6 +204,12 @@ hydra::Range<typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator>
 Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(FUNCTOR const& functor, double max_weight, size_t seed)
 {
 
+	/*
+	 * NOTE: the implementation of this function is not the most efficient in terms
+	 * of memory usage. Due probably a bug on thust_stable partition implementation
+	 * connected with cuda and tbb, counting iterators can't be deployed as stencil.
+	 * So...
+	 */
 	using hydra_thrust::system::detail::generic::select_system;
 	typedef typename hydra_thrust::iterator_system<
 			typename Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator>::type system_t;

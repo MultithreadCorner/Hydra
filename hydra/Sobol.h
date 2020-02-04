@@ -51,7 +51,6 @@
 namespace hydra {
 
 
-/** @cond */
 namespace detail {
 
 // sobol_lattice sets up the random-number generator to produce a Sobol
@@ -171,7 +170,6 @@ private:
 
 typedef detail::SobolTable default_sobol_table;
 
-/** @endcond */
 
 //!Instantiations of class template sobol.
 //!The sobol_engine uses the algorithm described in
@@ -190,13 +188,7 @@ typedef detail::SobolTable default_sobol_table;
 //!0.875, 0.875,
 //!...
 //!\endcode
-//!
-//!In the following documentation @c X denotes the concrete class of the template
-//!sobol_engine returning objects of type @c UIntType, u and v are the values of @c X.
-//!
-//!Some member functions may throw exceptions of type @c std::range_error. This
-//!happens when the quasi-random domain is exhausted and the generator cannot produce
-//!any more values. The length of the low discrepancy sequence is given by \f$L=Dimension \times (2^{W} - 1)\f$.
+
 template<typename UIntType,  unsigned D, unsigned W, typename SobolTables = default_sobol_table>
 class sobol_engine
 		: public detail::gray_code<detail::sobol_lattice<UIntType, D, W, SobolTables>>
@@ -207,10 +199,8 @@ class sobol_engine
 public:
 
   static const  UIntType min=0;
-    static const  UIntType max=base_t::max;
-  //!Effects: Constructs the default `s`-dimensional Sobol quasi-random number generator.
-  //!
-  //!Throws: bad_alloc, invalid_argument, range_error.
+  static const  UIntType max=base_t::max;
+
   __hydra_host__ __hydra_device__
   sobol_engine() : base_t() {}
 
@@ -222,8 +212,6 @@ public:
   // default copy c-tor is fine
 
   // default assignment  is fine
-
-
 
 };
 
