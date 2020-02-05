@@ -189,11 +189,14 @@ inline typename std::enable_if<  (!((detail::is_iterator<Iterable>::value)||
                                 (!hydra::detail::is_hydra_dense_histogram<Iterable>::value) &&
 								(!hydra::detail::is_hydra_sparse_histogram<Iterable>::value) &&
 								hydra::detail::is_iterable<Iterable>::value && detail::are_iterables<Iterables...>::value,
-LogLikelihoodFCN<  PDFSumNonExtendable<Pdfs...>, decltype(std::declval< Iterable>().begin()),
-                     decltype(std::declval< Iterables>().begin())... > >::type
-make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...> const& functor, Iterable && points, Iterables &&... weights )
+LogLikelihoodFCN<  PDFSumNonExtendable<Pdfs...>,
+                     decltype(std::declval<Iterable>().begin()),
+                     decltype(std::declval<Iterables>().begin())... > >::type
+make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...> const& functor, Iterable&& points, Iterables&&... weights )
 {
-	return make_loglikehood_fcn( functor, std::forward<Iterable>(points).begin(), std::forward<Iterable>(points).end(),
+	return make_loglikehood_fcn( functor,
+			std::forward<Iterable>(points).begin(),
+			std::forward<Iterable>(points).end(),
 			std::forward<Iterables>(weights).begin()...);
 }
 
@@ -210,7 +213,7 @@ LogLikelihoodFCN<  PDFSumNonExtendable<Pdfs...>,
                      decltype(std::declval<const DenseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>>().GetBinsCenters().begin()),
                      decltype(std::declval<const DenseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>&>().GetBinsContents().begin()) >
 make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...> const& functor,
-		DenseHistogram<T,N,detail::BackendPolicy<BACKEND>,D> const& points)
+		DenseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>const& points , size_t n )
 {
 
 	return make_loglikehood_fcn( functor, points.GetBinsCenters().begin(),
@@ -229,7 +232,7 @@ LogLikelihoodFCN<  PDFSumNonExtendable<Pdfs...>,
                      decltype(std::declval<const SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>>().GetBinsCenters().begin()),
                      decltype(std::declval<const SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>>().GetBinsContents().begin()) >
 make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...> const& functor,
-		SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>const & points)
+		SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>const& points, size_t n  )
 {
 	return make_loglikehood_fcn( functor, points.GetBinsCenters().begin(),
 			points.GetBinsCenters().end(),

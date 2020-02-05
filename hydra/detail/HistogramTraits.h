@@ -31,13 +31,14 @@
 
 #include <type_traits>
 #include <hydra/Types.h>
+#include <hydra/detail/Config.h>
 #include <hydra/DenseHistogram.h>
 #include <hydra/SparseHistogram.h>
 
 namespace hydra {
 
 namespace detail {
-
+/*
 //tags to identify hydra histograms
 template<class T, class R = void>
 struct histogram_type { typedef R type; };
@@ -55,6 +56,21 @@ struct is_hydra_sparse_histogram: std::false_type {};
 
 template<class T>
 struct is_hydra_sparse_histogram<T, typename tag_type< typename T::hydra_sparse_histogram_tag>::type>: std::true_type {};
+*/
+
+//dense histogram
+template<class T>
+struct is_hydra_dense_histogram: std::false_type {};
+
+template<class T, size_t N, detail::Backend BACKEND, typename D>
+struct is_hydra_dense_histogram< hydra::DenseHistogram<T,N, detail::BackendPolicy<BACKEND>,D> >: std::true_type {};
+
+//sparse histogram
+template<class T>
+struct is_hydra_sparse_histogram: std::false_type {};
+
+template<class T, size_t N, detail::Backend BACKEND, typename D>
+struct is_hydra_sparse_histogram< hydra::SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D> >: std::true_type {};
 
 
 }  // namespace detail

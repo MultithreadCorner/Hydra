@@ -37,17 +37,22 @@ namespace hydra {
 namespace detail {
 
 // Primary template
-template <typename T, typename U= int>
+template <typename T, typename =void>
 struct is_iterable : std::false_type { };
 
 // Specialization for U = int
 template <typename T>
-struct is_iterable<T, decltype (
+struct is_iterable<T, hydra_thrust::void_t <
+               decltype(std::declval<T>().begin() ),
+               decltype(std::declval<T>().end()   )>
+              >: std::true_type{};
+/*
+decltype (
         hydra::begin(std::declval<T&>()) != hydra::end(std::declval<T&>()),
         void(), //'operator ,' overload ?
         ++std::declval<decltype(hydra::begin(std::declval<T&>()))&>(),
         void(*hydra::begin(std::declval<T&>())),0)> : std::true_type { };
-
+*/
 
 // Primary template
 template <typename T, typename U= int>
@@ -55,12 +60,19 @@ struct is_reverse_iterable : std::false_type { };
 
 // Specialization for U = int
 template <typename T>
-struct is_reverse_iterable<T, decltype (
+		struct is_reverse_iterable<T,
+		hydra_thrust::void_t< decltype(std::declval<T>().rbegin()),
+		decltype(std::declval<T>().rend() )
+		>
+>: std::true_type{};
+
+/*
+decltype (
         hydra::rbegin(std::declval<T&>()) != hydra::rend(std::declval<T&>()),
         void(), //'operator ,' overload ?
         ++std::declval<decltype(hydra::rbegin(std::declval<T&>()))&>(),
         void(*hydra::rbegin(std::declval<T&>())),0)> : std::true_type { };
-
+*/
 }  // namespace detail
 
 }  // namespace hydra
