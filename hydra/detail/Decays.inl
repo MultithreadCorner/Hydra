@@ -36,6 +36,7 @@
  */
 
 #include<hydra/Sobol.h>
+#include<hydra/Random.h>
 
 namespace hydra {
 
@@ -236,7 +237,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(FUNCTOR const& functor, dou
 			hydra_thrust::make_transform_iterator(this->end(),predicate1),
 			values.first);
 
-	GReal_t max_value = max_weight>0. ? max_weight: *(hydra_thrust::max_element(values.first,
+	GReal_t max_value = max_weight>0.0 ? max_weight: *(hydra_thrust::max_element(values.first,
 			values.first + values.second));
 
 	//says if an event passed or not

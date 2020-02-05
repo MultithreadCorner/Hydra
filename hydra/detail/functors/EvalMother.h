@@ -69,10 +69,10 @@ struct EvalMother
 			result_tuple_type;
 
 
-	GInt_t  fSeed;
+	size_t  fSeed;
 
-	GReal_t fTeCmTm;
-	GReal_t fWtMax;
+	GReal_t fECM;
+	GReal_t fMaxWeight;
 	GReal_t fBeta0;
 	GReal_t fBeta1;
 	GReal_t fBeta2;
@@ -84,46 +84,28 @@ struct EvalMother
 	//constructor
 	EvalMother(Vector4R const& mother,
 			const GReal_t (&masses)[N],
-			const GInt_t _seed,
+			double maxweight, double ecm, size_t seed,
 			FUNCTOR const& functor, FUNCTORS const& ...functors ):
-			fSeed(_seed),
+			fMaxWeight(maxweight),
+			fECM(ecm),
+			fSeed(seed),
 			fFunctors( hydra_thrust::make_tuple(functor,functors...))
 	{
 
-		for(size_t i=0; i<N; i++) fMasses[i]=masses[i];
+		for(size_t i=0; i<N; i++)
+			fMasses[i]=masses[i];
 
-		GReal_t _fTeCmTm = mother.mass(); // total energy in C.M. minus the sum of the masses
+		GReal_t beta = mother.d3mag() / mother.get(0);
 
-		for (size_t n = 0; n < N; n++)
+		if (beta)
 		{
-			_fTeCmTm -= masses[n];
-		}
-
-		GReal_t emmax = _fTeCmTm + masses[0];
-		GReal_t emmin = 0.0;
-		GReal_t wtmax = 1.0;
-		for (size_t n = 1; n < N; n++)
-		{
-			emmin += masses[n - 1];
-			emmax += masses[n];
-			wtmax *= pdk(emmax, emmin, masses[n]);
-		}
-		GReal_t _fWtMax = 1.0 / wtmax;
-
-		GReal_t _beta = mother.d3mag() / mother.get(0);
-
-		if (_beta)
-		{
-			GReal_t w = _beta / mother.d3mag();
+			GReal_t w = beta / mother.d3mag();
 			fBeta0 = mother.get(0) * w;
 			fBeta1 = mother.get(1) * w;
 			fBeta2 = mother.get(2) * w;
 		}
 		else
 			fBeta0 = fBeta1 = fBeta2 = 0.0;
-
-		fTeCmTm = _fTeCmTm;
-		fWtMax = _fWtMax;
 
 
 	}
@@ -132,8 +114,8 @@ struct EvalMother
 	EvalMother( EvalMother<N, GRND, FUNCTOR,FUNCTORS...> const& other ):
 	fFunctors(other.fFunctors),
 	fSeed(other.fSeed ),
-	fTeCmTm(other.fTeCmTm ),
-	fWtMax(other.fWtMax ),
+	fECM(other.fECM ),
+	fMaxWeight(other.fMaxWeight ),
 	fBeta0(other.fBeta0 ),
 	fBeta1(other.fBeta1 ),
 	fBeta2(other.fBeta2 )
@@ -218,14 +200,14 @@ struct EvalMother
 		{
 			//printf("%d mass=%f \n",n, fMasses[n]);
 			sum += fMasses[n];
-			invMas[n] = rno[n] * fTeCmTm + sum;
+			invMas[n] = rno[n] * fECM + sum;
 		}
 
 		//
 		//-----> compute the weight of the current event
 		//
 
-		GReal_t wt = fWtMax;
+		GReal_t wt = fMaxWeight;
 
 		GReal_t pd[N];
 

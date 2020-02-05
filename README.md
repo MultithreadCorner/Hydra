@@ -51,6 +51,7 @@ Currently Hydra supports:
 * Object-based interface to FFTW and CuFFT for performing Fast Fourier Transform in CPU and GPU.
 * FFT based one-dimensional convolution for arbitrary signal and kernel shapes.
 * Booststrap and real cubic spiline for datasets on CPU and GPU.
+* Sobol low discrepance sequences up to 
 
 Hydra also provides a bunch of custom types, optimized containers and a number of algorithms and constructs to maximize performance, avoiding unnecessary usage of memory and without losing the flexibility and portability to compile and run the same code across different platforms and deployment scenarios.
 
@@ -68,9 +69,9 @@ Hydra and Thrust
 Hydra is implemented on top of the [Thrust library](https://thrust.github.io/) and relies strongly on Thrust's containers, algorithms and backend management systems.
 The official version of Thrust supports tuples with maximum ten elements. In order to overcome this limitation, Hydra uses the 
 [unofficial version, forked from the original, by Andrew Currigan and collaborators](https://github.com/andrewcorrigan/thrust-multi-permutation-iterator). 
-This version implements variadic tuples and related classes, as well as provides some additional functionalities, which are missing in the official Thrust.
+This version implements variadic tuples and related classes, as well as provides some additional functionality, which are missing in the official Thrust.   
 
-The version of Thrust distributed with Hydra is maintained by [MultithreadCorner](https://github.com/MultithreadCorner). It is basically a fork of Currigan's repository, which was merged with the latest official release available in GitHub (Thrust 1.8.3).
+The version of Thrust distributed with Hydra is maintained by [MultithreadCorner](https://github.com/MultithreadCorner). It is basically a fork of Currigan's repository, which was merged with the latest official release available in GitHub (Thrust 1.9.7).
 
 ***Hydra does not depend or conflict with the official Thrust library distributed with the CUDA-SDK.***
 

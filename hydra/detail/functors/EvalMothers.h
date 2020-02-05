@@ -65,14 +65,19 @@ struct EvalMothers
     typedef typename hydra::detail::tuple_cat_type<hydra_thrust::tuple<GReal_t> , return_tuple_type>::type
     		result_tuple_type;
 
-	GInt_t fSeed;
+	size_t fSeed;
+	GReal_t fECM;
+	GReal_t fMaxWeight;
 	GReal_t fMasses[N];
 	functors_tuple_type fFunctors ;
 
 	//constructor
-	EvalMothers(const GReal_t (&masses)[N], const GInt_t _seed,
+	EvalMothers(const GReal_t (&masses)[N],double maxweight, double ecm,
+			size_t seed,
 			FUNCTOR const& functor, FUNCTORS const& ...functors ):
-			fSeed(_seed),
+				fMaxWeight(maxweight),
+				fECM(ecm),
+				fSeed(seed),
 			fFunctors( hydra_thrust::make_tuple(functor,functors...))
 	{
 		for(size_t i=0; i<N; i++)
@@ -81,8 +86,10 @@ struct EvalMothers
 
 	//copy
 	EvalMothers(EvalMothers<N, GRND,FUNCTOR, FUNCTORS...> const& other):
-		fFunctors(other.fFunctors),
-			fSeed(other.fSeed)
+		fSeed(other.fSeed),
+		fECM(other.fECM ),
+		fMaxWeight(other.fMaxWeight ),
+		fFunctors(other.fFunctors)
 	{
 
 //#pragma unroll N

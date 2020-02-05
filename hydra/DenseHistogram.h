@@ -622,6 +622,7 @@ class DenseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>,   detail::uni
 	typedef typename storage_t::value_type value_type;
 
 public:
+	typedef   void hydra_dense_histogram_tag;
 
 	DenseHistogram()=delete;
 

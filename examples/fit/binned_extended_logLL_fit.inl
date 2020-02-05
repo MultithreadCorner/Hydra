@@ -120,7 +120,7 @@ int main(int argv, char** argc)
 	//===========================
     //fit model
 
-	hydra::Parameter  mean1_p  = hydra::Parameter::Create().Name("Mean_1").Value( 2.5) .Error(0.0001).Limits(0.0, 10.0);
+	hydra::Parameter  mean1_p  = hydra::Parameter::Create().Name("Mean_1").Value( 2.5) .Error(0.0001).Limits(1.0, 10.0);
 	hydra::Parameter  sigma1_p = hydra::Parameter::Create().Name("Sigma_1").Value(0.5).Error(0.0001).Limits(0.01, 1.5);
 
 	//gaussian function evaluating on the first argument
@@ -130,7 +130,7 @@ int main(int argv, char** argc)
     //-------------------------------------------
 
     //gaussian 2
-    hydra::Parameter  mean2_p  = hydra::Parameter::Create().Name("Mean_2").Value(5.0) .Error(0.0001).Limits(0.0, 10.0);
+    hydra::Parameter  mean2_p  = hydra::Parameter::Create().Name("Mean_2").Value(5.0) .Error(0.0001).Limits(1.0, 10.0);
     hydra::Parameter  sigma2_p = hydra::Parameter::Create().Name("Sigma_2").Value(0.5).Error(0.0001).Limits(0.01, 1.5);
 
     //gaussian function evaluating on the first argument
@@ -141,7 +141,7 @@ int main(int argv, char** argc)
 
     //exponential
     //parameters
-    hydra::Parameter  tau_p  = hydra::Parameter::Create().Name("Tau").Value(1.0) .Error(0.0001).Limits(-2.0, 2.0);
+    hydra::Parameter  tau_p  = hydra::Parameter::Create().Name("Tau").Value(-1.0) .Error(0.0001).Limits(-2.0, 2.0);
 
     //gaussian function evaluating on the first argument
     hydra::Exponential<0> exponential(tau_p);
@@ -184,7 +184,7 @@ int main(int argv, char** argc)
 		Generator.Gauss(mean2_p.GetValue()+0.5, sigma2_p.GetValue()+0.5, data_d.begin()+nentries, data_d.begin()+2*nentries);
 
 		// exponential
-		Generator.Exp(tau_p.GetValue()+0.5, data_d.begin() + 2*nentries,  data_d.end());
+		Generator.Exp(1.0, data_d.begin() + 2*nentries,  data_d.end());
 
 		std::cout<< std::endl<< "Generated data:"<< std::endl;
 		for(size_t i=0; i<10; i++)
@@ -211,7 +211,7 @@ int main(int argv, char** argc)
 		// ... Minimize and profile the time
 
 		auto start_d = std::chrono::high_resolution_clock::now();
-		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(std::numeric_limits<unsigned int>::max(), 5));
+		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(std::numeric_limits<unsigned int>::max(), 1));
 		auto end_d = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
 

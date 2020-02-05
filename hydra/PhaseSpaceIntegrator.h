@@ -62,14 +62,14 @@ public:
 
 
 	PhaseSpaceIntegrator(const GReal_t motherMass, const GReal_t (&daughtersMasses)[N], size_t n):
-		fGenerator( daughtersMasses),
+		fGenerator(motherMass,  daughtersMasses),
 		fMother(motherMass,0,0,0),
 		fNSamples(n)
 	{}
 
 
 	PhaseSpaceIntegrator(const GReal_t motherMass, std::array<GReal_t,N> const& daughtersMasses, size_t n):
-		fGenerator(daughtersMasses),
+		fGenerator(motherMass, daughtersMasses),
 		fMother(motherMass,0,0,0),
 		fNSamples(n)
 	{}
@@ -77,7 +77,7 @@ public:
 
 
 	PhaseSpaceIntegrator(const GReal_t motherMass, std::initializer_list<GReal_t> const& daughtersMasses, size_t n):
-		fGenerator(daughtersMasses),
+		fGenerator(motherMass, daughtersMasses),
 		fMother(motherMass,0,0,0),
 		fNSamples(n)
 	{}

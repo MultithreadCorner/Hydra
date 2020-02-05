@@ -426,7 +426,6 @@ int main(int argv, char** argc)
 			hydra::multiarray<double,2, hydra::device::sys_t> dataset_device( bs_range.begin(),
 					bs_range.begin() + dataset.size());
 
-
 			//create fcn for sfit
 			auto splot_fcn = hydra::make_loglikehood_fcn(splot_model,
 					hydra::columns(dataset_device, _0) );
