@@ -43,8 +43,10 @@ struct is_iterable : std::false_type { };
 // Specialization for U = int
 template <typename T>
 struct is_iterable<T, hydra_thrust::void_t <
-               decltype(std::declval<T>().begin() ),
-               decltype(std::declval<T>().end()   )>
+               decltype(   std::declval<T>().begin() ),
+               decltype(   std::declval<T>().end()   ),
+               decltype( ++std::declval<decltype(hydra::begin(std::declval<T>()))&>()),
+               decltype(*hydra::begin(std::declval<T>())) >
               >: std::true_type{};
 /*
 decltype (
@@ -60,12 +62,12 @@ struct is_reverse_iterable : std::false_type { };
 
 // Specialization for U = int
 template <typename T>
-		struct is_reverse_iterable<T,
-		hydra_thrust::void_t< decltype(std::declval<T>().rbegin()),
-		decltype(std::declval<T>().rend() )
-		>
->: std::true_type{};
-
+		struct is_reverse_iterable<T,hydra_thrust::void_t <
+        decltype(   std::declval<T>().rbegin() ),
+        decltype(   std::declval<T>().rend()   ),
+        decltype( ++std::declval<decltype(hydra::rbegin(std::declval<T>()))&>()),
+        decltype(*hydra::rbegin(std::declval<T>())) >
+       >: std::true_type{};
 /*
 decltype (
         hydra::rbegin(std::declval<T&>()) != hydra::rend(std::declval<T&>()),

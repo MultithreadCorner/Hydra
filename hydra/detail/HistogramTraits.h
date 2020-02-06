@@ -62,14 +62,14 @@ struct is_hydra_sparse_histogram<T, typename tag_type< typename T::hydra_sparse_
 template<class T>
 struct is_hydra_dense_histogram: std::false_type {};
 
-template<class T, size_t N, detail::Backend BACKEND, typename D>
+template<class T, typename D, size_t N, detail::Backend BACKEND>
 struct is_hydra_dense_histogram< hydra::DenseHistogram<T,N, detail::BackendPolicy<BACKEND>,D> >: std::true_type {};
 
 //sparse histogram
 template<class T>
 struct is_hydra_sparse_histogram: std::false_type {};
 
-template<class T, size_t N, detail::Backend BACKEND, typename D>
+template<class T, typename D, size_t N, detail::Backend BACKEND>
 struct is_hydra_sparse_histogram< hydra::SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D> >: std::true_type {};
 
 

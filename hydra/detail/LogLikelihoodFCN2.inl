@@ -78,7 +78,6 @@ public:
 	inline typename std::enable_if<(M==0), double >::type
 	Eval( const std::vector<double>& parameters ) const{
 
-		//static_assert((M==0), ">>>>>>> (M==0) <<<<<<<<");
 
 		using   hydra_thrust::system::detail::generic::select_system;
 		typedef typename hydra_thrust::iterator_system<IteratorD>::type System;
@@ -119,8 +118,6 @@ public:
 	inline typename std::enable_if<(M>0), double >::type
 	Eval( const std::vector<double>& parameters ) const{
 
-	//	static_assert((M>0), ">>>>>>> (M>0) <<<<<<<<");
-		std::cout << "Called3 <<<<<<" <<std::endl;
 		using   hydra_thrust::system::detail::generic::select_system;
 		typedef typename hydra_thrust::iterator_system<typename FCN<LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>>::iterator>::type System;
 		typedef typename PDFSumExtendable<Pdfs...>::functor_type functor_type;
@@ -186,10 +183,10 @@ make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterator first, I
  * @return
  */
 template<typename ...Pdfs, typename Iterable, typename ...Iterables >
-inline typename std::enable_if<   (!((detail::is_iterator<Iterable>::value)&& // is not an iterator
-                                     (sizeof...(Iterables)>0 && detail::are_iterators<Iterables...>::value)))&&
-                                  (!hydra::detail::is_hydra_dense_histogram<Iterable>::value) && //is not dense/sparse histogram
-		                          (!hydra::detail::is_hydra_sparse_histogram<Iterable>::value) &&
+inline typename std::enable_if<   (!detail::is_iterator<Iterable>::value) &&
+                                  ((sizeof...(Iterables)==0) || !detail::are_iterators<Iterables...>::value) &&
+                                  (!hydra::detail::is_hydra_dense_histogram< typename std::remove_reference<Iterable>::type>::value) && //is not dense/sparse histogram
+		                          (!hydra::detail::is_hydra_sparse_histogram<typename std::remove_reference<Iterable>::type>::value) &&
 								  detail::is_iterable<Iterable>::value && detail::are_iterables<Iterables...>::value  ,
 LogLikelihoodFCN< PDFSumExtendable<Pdfs...>,
                   decltype(std::declval<Iterable>().begin() ),
@@ -202,7 +199,21 @@ make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterable&& points
 			std::forward<Iterables>(weights).begin() ...);
 }
 
-
+template<typename ...Pdfs, typename Histogram>
+inline typename std::enable_if<detail::is_hydra_dense_histogram<Histogram>::value ||
+                               detail::is_hydra_sparse_histogram<Histogram>::value,
+ LogLikelihoodFCN< PDFSumExtendable<Pdfs...>,
+                     decltype(std::declval<const Histogram&>().GetBinsCenters().begin()),
+                     decltype(std::declval<const Histogram&>().GetBinsContents().begin()) >>::type
+make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Histogram const&  points)
+{
+	return LogLikelihoodFCN< PDFSumExtendable<Pdfs...>,
+            decltype(std::declval<const Histogram>().GetBinsCenters().begin()),
+            decltype(std::declval<const Histogram>().GetBinsContents().begin()) >( functor,
+			points.GetBinsCenters().begin(),
+			points.GetBinsCenters().end(),
+			points.GetBinsContents().begin() );
+}
 /**
  *  \ingroup fit
  *  \brief Convenience function to build up loglikehood fcns
@@ -211,12 +222,13 @@ make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterable&& points
  * @param points hydra::DenseHistogram<T,N,BACKEND,D> object
  * @return hydra::LogLikelihoodFCN object
  */
+/*
 template<typename ...Pdfs, typename T, size_t N, hydra::detail::Backend BACKEND,typename D>
 LogLikelihoodFCN<  PDFSumExtendable<Pdfs...>,
                      decltype(std::declval<const DenseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>>().GetBinsCenters().begin()),
                      decltype(std::declval<const DenseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>>().GetBinsContents().begin()) >
 make_loglikehood_fcn(PDFSumExtendable<Pdfs...>const& functor,
-		DenseHistogram<T,N,detail::BackendPolicy<BACKEND>,D> const& points, size_t n )
+		DenseHistogram<T,N,detail::BackendPolicy<BACKEND>,D> const& points )
 {
 
 	return make_loglikehood_fcn( functor,
@@ -224,7 +236,7 @@ make_loglikehood_fcn(PDFSumExtendable<Pdfs...>const& functor,
 			points.GetBinsCenters().end(),
 			points.GetBinsContents().begin() );
 }
-
+*/
 /**
  * \ingroup fit
  * \brief Convenience function to build up loglikehood fcns
@@ -233,18 +245,21 @@ make_loglikehood_fcn(PDFSumExtendable<Pdfs...>const& functor,
  * @param points SparseHistogram<T,N,BACKEND,D> object
  * @return hydra::LogLikelihoodFCN
  */
+/*
 template<typename ...Pdfs, typename T, size_t N, hydra::detail::Backend BACKEND,typename D>
 LogLikelihoodFCN<  PDFSumExtendable<Pdfs...>,
                      decltype(std::declval<const SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>>().GetBinsCenters().begin()),
                      decltype(std::declval<const SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>>().GetBinsContents().begin()) >
 make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor,
-		SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>const& points, size_t n )
+		SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>const& points )
 {
 
 	return make_loglikehood_fcn( functor, points.GetBinsCenters().begin(),
 			points.GetBinsCenters().end(),
 			points.GetBinsContents().begin());
 }
+*/
+
 
 }  // namespace hydra
 
