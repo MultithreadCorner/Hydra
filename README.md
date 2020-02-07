@@ -51,7 +51,7 @@ Currently Hydra supports:
 * Object-based interface to FFTW and CuFFT for performing Fast Fourier Transform in CPU and GPU.
 * FFT based one-dimensional convolution for arbitrary signal and kernel shapes.
 * Booststrap and real cubic spiline for datasets on CPU and GPU.
-* Sobol low discrepance sequences up to 
+* Sobol low discrepance sequences up to 3667 dimensions
 
 Hydra also provides a bunch of custom types, optimized containers and a number of algorithms and constructs to maximize performance, avoiding unnecessary usage of memory and without losing the flexibility and portability to compile and run the same code across different platforms and deployment scenarios.
 
