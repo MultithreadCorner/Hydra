@@ -142,27 +142,6 @@ struct AverageMothers
 
 		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
-		//GReal_t fECM = 0.0;
-
-		//fECM = particles[0].mass();
-
-//#pragma unroll N
-		//for (size_t n = 0; n < N; n++)
-		//{
-			//fECM -= fMasses[n];
-		//}
-
-	//	GReal_t emmax = fECM + fMasses[0];
-	//	GReal_t emmin = 0.0;
-	//	GReal_t wtmax = 1.0;
-
-//#pragma unroll N
-		/*for (size_t n = 1; n < N; n++)
-		{
-			emmin += fMasses[n - 1];
-			emmax += fMasses[n];
-			wtmax *= pdk(emmax, emmin, fMasses[n]);
-		}*/
 
 		GReal_t rno[N];
 		rno[0] = 0.0;

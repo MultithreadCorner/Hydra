@@ -7,7 +7,7 @@
 2. New facility to update **Thrust** and **CUB**. New namespaces ```hydra::hydra_thrust``` and ```hydra::hydra_cub``` defined.
 3. New lazy implementation of ```hydra::Splot```.
 4. New ```hydra::PhaseSpace``` interface, with constructors taking the mass of the mother particle as well. Ctors also protected against inconsistent arguments via exception throwing. 
-5. New algorithm ```hydra::sobol``` support up to 3667 ( 2^2 + 2^4 + 2^6 +2^9 +2^10 + 2^11 -1) dimensions
+5. New algorithm ```hydra::sobol``` support up to 3667 dimensions
 6. Re-implementation of the impacted examples. 
 7. Many bug fixes across the tree...
 
@@ -15,7 +15,7 @@
 
 1. The main change is this release is the update of Thrust instance distributed with Hydra to the version 1.9.6, which enabled the support for CUDA 10.1 and hopefuly higher
 2. Range semantics implemented in Decays::Unweight methods
-3. Fix CLANG discovery on Apple platform (not ufficialy supported yet btw)
+3. Fix CLANG discovery on Apple platform (not officially supported yet)
 4. Many bug fixes across the tree...
 
 ### Hydra 2.3.1  (probably incomplete)

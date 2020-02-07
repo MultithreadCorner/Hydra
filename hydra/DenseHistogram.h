@@ -75,9 +75,6 @@ class DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimens
 
 public:
 
-	//tag
-	typedef   void hydra_dense_histogram_tag;
-
 	DenseHistogram()=delete;
 
 
@@ -622,7 +619,6 @@ class DenseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>,   detail::uni
 	typedef typename storage_t::value_type value_type;
 
 public:
-	typedef   void hydra_dense_histogram_tag;
 
 	DenseHistogram()=delete;
 
@@ -852,7 +848,7 @@ private:
  */
 template<typename Iterator, typename T, size_t N , hydra::detail::Backend BACKEND>
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
-make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N>const&  grid,
 		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
 		Iterator first, Iterator end);
 
@@ -870,16 +866,27 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t,
 template<typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable >
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
-make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
-		std::array<T, N> lowerlimits,   std::array<T, N> upperlimits,	Iterable&& data);
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> const& grid,
+		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,	Iterable&& data);
 
-
+/**
+ * \ingroup histogram
+ * \brief Function to make a N-dimensional dense histogram.
+ *
+ * @param backend
+ * @param grid  std::array storing the bins per dimension.
+ * @param lowerlimits std::array storing the lower limits per dimension.
+ * @param upperlimits  std::array storing the upper limits per dimension.
+ * @param data Iterable storing the data to histogram.
+ * @param weight Iterable storing the data to histogram.
+ * @return
+ */
 template<typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable1, typename Iterable2 >
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value &&
                     hydra::detail::is_iterable<Iterable2>::value,
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
-make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
-		std::array<T, N> lowerlimits,   std::array<T, N> upperlimits,
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> const&  grid,
+		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
 		Iterable1&& data, Iterable2&& weight);
 
 
@@ -887,39 +894,73 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t,
 
 /**
  * \ingroup histogram
- * \brief Function to make a N-dimensional dense histogram.
+ * \brief Function to make a 1-dimensional dense histogram.
  *
  * @param backend
- * @param grid  std::array storing the bins per dimension.
- * @param lowerlimits std::array storing the lower limits per dimension.
- * @param upperlimits  std::array storing the upper limits per dimension.
+ * @param nbins number of bins.
+ * @param lowerlimit the lower limit.
+ * @param upperlimit the upper limit.
  * @param first Iterator pointing to the begin of the data range.
  * @param end Iterator pointing to the end of the data range.
  * @return
  */
 template<typename Iterator, typename T, hydra::detail::Backend BACKEND>
 DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
-make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid, T lowerlimits, T upperlimits,
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins, T lowerlimit, T upperlimit,
 		Iterator first, Iterator end);
 /**
  * \ingroup histogram
- * \brief Function to make a N-dimensional dense histogram.
+ * \brief Function to make a 1-dimensional dense histogram.
  *
  * @param backend
- * @param grid  std::array storing the bins per dimension.
- * @param lowerlimits std::array storing the lower limits per dimension.
- * @param upperlimits  std::array storing the upper limits per dimension.
- * @param first Iterator pointing to the begin of the data range.
- * @param end Iterator pointing to the end of the data range.
+ * @param nbins number of bins.
+ * @param lowerlimit the lower limit.
+ * @param upperlimit the upper limit.
+ * @param first iterator pointing to the begin of the data range.
+ * @param end iterator pointing to the end of the data range.
  * @param wfirst Iterator pointing to the begin of the weights range.
  * @return
  */
 template<typename Iterator1, typename Iterator2, typename T, hydra::detail::Backend BACKEND>
 DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
-make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid, T lowerlimits, T upperlimits,
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins, T lowerlimit, T upperlimit,
 		Iterator1 first, Iterator1 end, Iterator2 wfirst);
 
+/**
+ * \ingroup histogram
+ * \brief Function to make a N-dimensional dense histogram.
+ *
+ * @param backend
+ * @param nbins   number of bins.
+ * @param lowerlimit the lower limit.
+ * @param upperlimit the upper limit.
+ * @param data Iterable storing the data to histogram.
+ * @return
+ */
+template<typename T, hydra::detail::Backend BACKEND, typename Iterable>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins,
+		T lowerlimits,  T upperlimits,	Iterable&& data);
 
+/**
+ * \ingroup histogram
+ * \brief Function to make a N-dimensional dense histogram.
+ *
+ * @param backend
+ * @param nbins   number of bins.
+ * @param lowerlimit the lower limit.
+ * @param upperlimit the upper limit.
+ * @param data Iterable storing the data to histogram.
+ * @param weight Iterable storing the weights to data.
+ * @return
+ */
+template<typename T, hydra::detail::Backend BACKEND, typename Iterable1,  typename Iterable2>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value&&
+                                hydra::detail::is_iterable<Iterable2>::value,
+DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins,
+		T lowerlimits,  T upperlimits,	Iterable1&& data,	Iterable2&& weight);
 
 
 }  // namespace hydra

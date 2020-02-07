@@ -41,14 +41,6 @@
 
 namespace hydra {
 
-/**
- * \ingroup fit
- * \brief LogLikehood object for composed models represented by hydra::PDFSumNonExtendable<Pdfs...> objects
- * \tparam Functor
- * \tparam Integrator
- * \tparam IteratorD
- * \tparam IteratorW
- */
 template<typename ...Pdfs, typename IteratorD , typename ...IteratorW>
 class LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, IteratorD, IteratorW...>: public FCN<LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, IteratorD, IteratorW ...> >
 {
@@ -156,16 +148,6 @@ public:
 };
 
 
-/**
- * \ingroup fit
- * \brief Conveniency function to build up loglikehood fcns
- * @param pdf hydra::Pdf object
- * @param first iteraror pointing to begin of data range
- * @param last iteraror pointing to end of data range
- * @param weights iteraror pointing to begin of weights range
- * @return
- */
-
 template<typename... Pdfs,  typename Iterator, typename ...Iterators >
 inline typename std::enable_if< hydra::detail::is_iterator<Iterator>::value && detail::are_iterators<Iterators...>::value,
 LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator,Iterators...  >>::type
@@ -174,15 +156,6 @@ make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...>const& pdf, Iterator first, Ite
 	return LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator,Iterators... >(pdf,first,last,weights...);
 }
 
-/**
- * \ingroup fit
- * \brief Conveniency function to build up loglikehood fcns
- *
- * @param functor PDFSumNonExtendable object
- * @param points iterable (range) describing data
- * @param weights iterable (range) describing weights
- * @return LogLikelihoodFCN
- */
 template<typename ...Pdfs, typename Iterable, typename ...Iterables>
 inline typename std::enable_if< (!detail::is_iterator<Iterable>::value) &&
                                 ((sizeof...(Iterables)==0) || !detail::are_iterators<Iterables...>::value) &&
@@ -200,15 +173,6 @@ make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...> const& functor, Iterable&& poi
 			std::forward<Iterables>(weights).begin()...);
 }
 
-/**
- * \ingroup fit
- * \brief Conveniency function to build up loglikehood fcns
- *
- * @param functor PDFSumNonExtendable object
- * @param points DenseHistogram<T,N,BACKEND,D> binned data
- * @return LogLikelihoodFCN
- */
-
 template<typename ...Pdfs, typename Histogram>
 inline typename std::enable_if<detail::is_hydra_dense_histogram<Histogram>::value ||
                                detail::is_hydra_sparse_histogram<Histogram>::value,
@@ -225,39 +189,7 @@ make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...> const& functor, Histogram cons
 			points.GetBinsCenters().end(),
 			points.GetBinsContents().begin());
 }
-/*
-template<typename ...Pdfs, typename T, size_t N, hydra::detail::Backend BACKEND,typename D>
-LogLikelihoodFCN<  PDFSumNonExtendable<Pdfs...>,
-                     decltype(std::declval<const DenseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>>().GetBinsCenters().begin()),
-                     decltype(std::declval<const DenseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>&>().GetBinsContents().begin()) >
-make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...> const& functor,
-		DenseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>const& points  )
-{
 
-	return make_loglikehood_fcn( functor, points.GetBinsCenters().begin(),
-			points.GetBinsCenters().end(),
-			points.GetBinsContents().begin());
-}
-*/
-/**
- *
- * @param functor
- * @param points
- * @return
- */
-/*
-template<typename ...Pdfs, typename T, size_t N, hydra::detail::Backend BACKEND,typename D>
-LogLikelihoodFCN<  PDFSumNonExtendable<Pdfs...>,
-                     decltype(std::declval<const SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>>().GetBinsCenters().begin()),
-                     decltype(std::declval<const SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>>().GetBinsContents().begin()) >
-make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...> const& functor,
-		SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>const& points  )
-{
-	return make_loglikehood_fcn( functor, points.GetBinsCenters().begin(),
-			points.GetBinsCenters().end(),
-			points.GetBinsContents().begin());
-}
-*/
 }  // namespace hydra
 
 

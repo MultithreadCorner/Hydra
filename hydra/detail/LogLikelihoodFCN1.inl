@@ -40,14 +40,7 @@
 
 namespace hydra {
 
-/**
- * \ingroup fit
- * \brief LogLikehood object for not composed models represented by hydra::Pdf objects
- * \tparam Functor
- * \tparam Integrator
- * \tparam IteratorD
- * \tparam IteratorW
- */
+
 template<typename Functor, typename Integrator, typename IteratorD, typename ...IteratorW>
 class LogLikelihoodFCN< Pdf<Functor,Integrator> , IteratorD, IteratorW...>: public FCN<LogLikelihoodFCN< Pdf<Functor,Integrator>,IteratorD, IteratorW... > >{
 
@@ -151,15 +144,7 @@ public:
 
 };
 
-/**
- * \ingroup fit
- * \brief Conveniency function to build up loglikehood fcns
- * @param pdf hydra::Pdf object
- * @param first iteraror pointing to begin of data range
- * @param last iteraror pointing to end of data range
- * @param weights iteraror pointing to begin of weights range
- * @return
- */
+
 template< typename Functor, typename Integrator,  typename Iterator, typename ...Iterators>
 inline typename std::enable_if< detail::is_iterator<Iterator>::value && detail::are_iterators<Iterators...>::value,
      LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator , Iterators... > >::type
@@ -170,15 +155,7 @@ make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterator first, Iterato
 }
 
 
-/**
- * \ingroup fit
- * \brief Conveniency function to build up loglikehood fcns
- *
- * @param pdf hydra::Pdf object
- * @param points iterable (range) describing data
- * @param weights iterable (range) describing weights
- * @return LogLikelihoodFCN object
- */
+
 template< typename Functor, typename Integrator, typename Iterable, typename ...Iterables>
 inline typename std::enable_if< (!detail::is_iterator<Iterable>::value) &&
                                 ((sizeof...(Iterables)==0) || !detail::are_iterators<Iterables...>::value) &&
@@ -196,36 +173,8 @@ make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterable&& points, Iter
 			std::forward<Iterables>(weights).begin()...);
 }
 
-/**
- * \ingroup fit
- * \brief Conveniency function to build up loglikehood fcns
- *
- * @param pdf
- * @param histogram hydra::DenseHistogram object
- * @return LogLikelihoodFCN object
- */
-/*
-template< typename Functor, typename Integrator, typename T, size_t N, hydra::detail::Backend BACKEND,typename D>
-inline LogLikelihoodFCN< Pdf<Functor,Integrator>,
-				  decltype(std::declval<const DenseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>>().GetBinsCenters().begin()),
-                  decltype(std::declval<const DenseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>>().GetBinsContents().begin())>
-make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf,
-		DenseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>const& histogram  )
-{
 
-	return make_loglikehood_fcn(pdf, histogram.GetBinsCenters().begin(),
-			histogram.GetBinsCenters().end(), histogram.GetBinsContents().begin());
-}
-*/
 
-/**
- * \ingroup fit
- * \brief Conveniency function to build up loglikehood fcns
- *
- * @param pdf
- * @param points
- * @return LogLikelihoodFCN object
- */
 template< typename Functor, typename Integrator, typename Histogram>
 inline typename std::enable_if<detail::is_hydra_dense_histogram<Histogram>::value ||
                                detail::is_hydra_sparse_histogram<Histogram>::value,
@@ -239,20 +188,6 @@ make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Histogram const& points
               decltype( std::declval<const Histogram&>().GetBinsContents().begin())>(pdf, points.GetBinsCenters().begin(),
 			points.GetBinsCenters().end(), points.GetBinsContents().begin());
 }
-/*
-template< typename Functor, typename Integrator, typename T, size_t N, hydra::detail::Backend BACKEND,typename D>
-inline LogLikelihoodFCN< Pdf<Functor,Integrator>,
-				  decltype(std::declval<const SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>>().GetBinsCenters().begin()),
-                  decltype(std::declval<const SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>>().GetBinsContents().begin())>
-make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf,
-		SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D>const& histogram  )
-{
-	return make_loglikehood_fcn(pdf, histogram.GetBinsCenters().begin(),
-			histogram.GetBinsCenters().end(), histogram.GetBinsContents().begin());
-}
-*/
-
-
 
 
 }  // namespace hydra

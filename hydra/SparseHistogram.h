@@ -90,9 +90,6 @@ class SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimens
 
 public:
 
-	//tag
-	typedef   void hydra_sparse_histogram_tag;
-
 	SparseHistogram()=delete;
 
 	explicit SparseHistogram( std::array<size_t , N> const& grid,
@@ -824,7 +821,6 @@ SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional
 make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
 		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
 		Iterator first, Iterator end);
-
 /**
  * \ingroup histogram
  * \brief Function to make a N-dimensional sparse histogram.
@@ -835,13 +831,125 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t
  * @param upperlimits  std::array storing the upper limits per dimension.
  * @param first Iterator pointing to the begin of the data range.
  * @param end Iterator pointing to the end of the data range.
+ * @param wfirst Iterator pointing to the begin of the weights range.
+ * @return
+ */
+template<typename Iterator1,typename Iterator2, typename T, size_t N , hydra::detail::Backend BACKEND>
+SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
+make_sparse_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> grid,
+		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
+		Iterator1 first, Iterator1 end, Iterator2 wfirst);
+
+/**
+ * \ingroup histogram
+ * \brief Function to make a N-dimensional sparse histogram.
+ *
+ * @param backend
+ * @param grid  std::array storing the bins per dimension.
+ * @param lowerlimits std::array storing the lower limits per dimension.
+ * @param upperlimits  std::array storing the upper limits per dimension.
+ * @param data Iterable storing the data to histogram.
+ * @return
+ */
+template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
+make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N>const& grid,
+		std::array<T, N>const&lowerlimits,   std::array<T, N>const& upperlimits,	Iterable&& data);
+
+
+/**
+ * \ingroup histogram
+ * \brief Function to make a N-dimensional sparse histogram.
+ *
+ * @param backend
+ * @param grid  std::array storing the bins per dimension.
+ * @param lowerlimits std::array storing the lower limits per dimension.
+ * @param upperlimits  std::array storing the upper limits per dimension.
+ * @param data Iterable storing the data to histogram.
+ * @param weights Iterable storing the weights to data.
+ * @return
+ */
+template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable1,typename Iterable2 >
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value&&
+hydra::detail::is_iterable<Iterable2>::value,
+SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
+make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N>const& grid,
+		std::array<T, N>const&lowerlimits,   std::array<T, N>const& upperlimits,
+		Iterable1&& data, Iterable2&& weights);
+
+
+
+/**
+ * \ingroup histogram
+ * \brief Function to make a 1-dimensional sparse histogram.
+ *
+ * @param backend
+ * @param nbins the number of bins.
+ * @param lowerlimit the lower limit.
+ * @param upperlimit  the upper limits.
+ * @param first Iterator pointing to the begin of the data range.
+ * @param end Iterator pointing to the end of the data range.
  * @return
  */
 template<typename Iterator, typename T, hydra::detail::Backend BACKEND>
 SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
-make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid, T lowerlimits, T upperlimits,
+make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins, T lowerlimit, T upperlimit,
 		Iterator first, Iterator end);
 
+/**
+ * \ingroup histogram
+ * \brief Function to make a 1-dimensional sparse histogram.
+ *
+ * @param backend
+ * @param nbins number of bins.
+ * @param lowerlimit the lower limit.
+ * @param upperlimit the upper limit.
+ * @param first iterator pointing to the begin of the data range.
+ * @param end iterator pointing to the end of the data range.
+ * @param wfirst Iterator pointing to the begin of the weights range.
+ * @return
+ */
+template<typename Iterator1, typename Iterator2, typename T, hydra::detail::Backend BACKEND>
+SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
+make_sparse_histogram( detail::BackendPolicy<BACKEND>, size_t nbins, T lowerlimit,  T upperlimit,
+		Iterator1 first, Iterator1 end, Iterator2 wfirst);
+
+/**
+ * \ingroup histogram
+ * \brief Function to make a 1-dimensional sparse histogram.
+ *
+ * @param backend
+ * @param nbins   number of bins.
+ * @param lowerlimit the lower limit.
+ * @param upperlimit the upper limit.
+ * @param data Iterable storing the data to histogram.
+ * @return
+ */
+template< typename T, hydra::detail::Backend BACKEND, typename Iterable>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
+make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins,
+		T lowerlimit,  T upperlimit,	Iterable&& data);
+
+/**
+ * \ingroup histogram
+ * \brief Function to make a 1-dimensional sparse histogram.
+ *
+ * @param backend
+ * @param nbins   number of bins.
+ * @param lowerlimit the lower limit.
+ * @param upperlimit the upper limit.
+ * @param data Iterable storing the data to histogram.
+ * @param weight Iterable storing the weights to data.
+ * @return
+ */
+template< typename T, hydra::detail::Backend BACKEND, typename Iterable1,typename Iterable2 >
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value&&
+hydra::detail::is_iterable<Iterable2>::value,
+SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
+make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins,
+		T lowerlimit, T upperlimit,	Iterable1&& data, Iterable2&& weights);
 
 }  // namespace hydra
 
