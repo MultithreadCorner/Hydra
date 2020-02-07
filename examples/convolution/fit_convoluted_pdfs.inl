@@ -202,6 +202,16 @@ int main(int argv, char** argc)
 		hydra::DenseHistogram<double, 1, hydra::device::sys_t> Hist_Data(nbins, min, max);
 		Hist_Data.Fill( range.begin(), range.end() );
 
+		typedef decltype(Hist_Data) Iterable;
+
+		/*
+		static_assert( (!(
+				(hydra::detail::is_iterator<Iterable>::value)||
+			 ( (0>0) && hydra::detail::are_iterators<>::value))) &&
+             (!hydra::detail::is_hydra_dense_histogram<Iterable>::value) &&
+             (!hydra::detail::is_hydra_sparse_histogram<Iterable>::value) &&
+             hydra:: detail::is_iterable<Iterable>::value && hydra::detail::are_iterables<>::value ,"<<<<<<<<<<< " );
+*/
 		//make model and fcn
 		auto fcn   = hydra::make_loglikehood_fcn( model, Hist_Data);
 

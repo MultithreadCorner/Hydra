@@ -32,29 +32,29 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <utility>
-#include <hydra/detail/external/thrust/reduce.h>
-#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/hydra_thrust/reduce.h>
+#include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/Range.h>
 
 namespace hydra {
 
 template<typename Iterable>
 typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
-typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type >::type
+typename hydra_thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type >::type
 reduce(Iterable&& iterable){
 
-	return HYDRA_EXTERNAL_NS::thrust::reduce(std::forward<Iterable>(iterable).begin(),
+	return hydra_thrust::reduce(std::forward<Iterable>(iterable).begin(),
 			std::forward<Iterable>(iterable).end() );
 }
 
 template<typename Iterable, typename Functor,
- 	 	 typename T = typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<
+ 	 	 typename T = typename hydra_thrust::iterator_traits<
 		     decltype(std::declval<Iterable>().begin())>::value_type >
 typename std::enable_if<hydra::detail::is_iterable<Iterable>::value, T >::type
 reduce(Iterable&& iterable, T const& init, Functor const& binary_functor){
 
 
-	return HYDRA_EXTERNAL_NS::thrust::reduce(std::forward<Iterable>(iterable).begin(),
+	return hydra_thrust::reduce(std::forward<Iterable>(iterable).begin(),
 			std::forward<Iterable>(iterable).end(), init,
 			binary_functor);
 }

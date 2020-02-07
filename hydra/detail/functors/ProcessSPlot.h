@@ -37,18 +37,22 @@
 #include <hydra/detail/utility/Arithmetic_Tuple.h>
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/FunctorTraits.h>
-#include <hydra/detail/external/thrust/functional.h>
+#include <hydra/detail/external/hydra_thrust/functional.h>
+
+#include <Eigen/Dense>
 
 namespace hydra {
 
 namespace detail {
+
+
 
 template<typename F1, typename F2, typename ...Fs >
 struct CovMatrixUnary
 {
 	typedef hydra::tuple<F1, F2, Fs...> functors_tuple_type;
 	constexpr static size_t nfunctors = sizeof...(Fs)+2;
-	typedef typename detail::tuple_type<nfunctors*nfunctors,double>::type matrix_t;
+	typedef typename detail::tuple_type<nfunctors*nfunctors, double>::type matrix_tuple;
 
 
 	CovMatrixUnary( Parameter(&coeficients)[nfunctors], functors_tuple_type const& functors ):
@@ -78,77 +82,89 @@ struct CovMatrixUnary
 	}
 
 
-	template<size_t N, size_t I>
-	struct index
-	{
-	 constexpr static size_t x= I/N;
-	 constexpr static size_t y= I%N;
+	template<size_t N, size_t INDEX>
+	struct index{
+
+	 constexpr static const size_t I = INDEX/N;
+	 constexpr static const size_t J = INDEX%N;
 	};
 
 
-	template<typename ...T, size_t ...I>
-	__hydra_host__ __hydra_device__ inline
-	matrix_t combiner_helper(GReal_t denominator,HYDRA_EXTERNAL_NS::thrust::tuple<T...>& tpl,
-			hydra::detail::index_sequence<I...>)
+	template<typename T, int N, int I>
+	__hydra_host__ __hydra_device__
+	inline typename hydra_thrust::detail::enable_if<(I == N*N),void >::type
+	set_matrix(double denominator, T&&, Eigen::Matrix<double, N, N>&){ }
+
+	template<typename T, int N, int I=0>
+	__hydra_host__ __hydra_device__
+	inline typename hydra_thrust::detail::enable_if<(I < N*N),void >::type
+	set_matrix(double denominator, T&& ftuple, Eigen::Matrix<double, N, N>& fcovmatrix  )
 	{
-		constexpr size_t N = sizeof ...(T);
-	    return HYDRA_EXTERNAL_NS::thrust::make_tuple(
-	    ( HYDRA_EXTERNAL_NS::thrust::get< index<N, I>::x >(tpl) *
-	    		HYDRA_EXTERNAL_NS::thrust::get< index<N, I>::y >(tpl) ) /
-	    		(denominator*denominator)
-	    		... );
+		fcovmatrix(index<N, I>::I, index<N, I>::J ) = \
+				hydra_thrust::get<index<N, I>::I>(std::forward<T>(ftuple))*\
+				hydra_thrust::get<index<N, I>::J>(std::forward<T>(ftuple))\
+				/denominator;
+
+		set_matrix<T, N, I+1>(denominator, ftuple, fcovmatrix);
 	}
-
-	template<typename ...T>
-	__hydra_host__ __hydra_device__ inline
-	matrix_t combiner(GReal_t denominator, HYDRA_EXTERNAL_NS::thrust::tuple<T...>& tpl)
-   {
-	    constexpr size_t N = sizeof ...(T);
-
-	    return combiner_helper( denominator, tpl, detail::make_index_sequence<N*N>{});
-	}
-
-
 
 	template<typename Type>
 	__hydra_host__ __hydra_device__ inline
-	matrix_t operator()(Type x)
+	Eigen::Matrix<double, nfunctors, nfunctors> operator()(Type x)
 	{
 		auto fvalues  = detail::invoke_normalized(x, fFunctors);
 		auto wfvalues = detail::multiply_array_tuple(fCoeficients, fvalues);
+
 		GReal_t denominator   = 0;
 		detail::add_tuple_values(denominator, wfvalues);
+		denominator *=denominator;
 
-        matrix_t result = combiner(denominator,  fvalues);
+		Eigen::Matrix<double, nfunctors, nfunctors> fCovMatrix;
 
-      return result;
+
+        set_matrix(denominator,  fvalues, fCovMatrix);
+
+      return fCovMatrix;
 	}
 
 	GReal_t    fCoeficients[nfunctors];
 	functors_tuple_type fFunctors;
 };
 
-template<typename T>
 struct CovMatrixBinary
-		:public HYDRA_EXTERNAL_NS::thrust::binary_function< T const&, T const&, T >
 {
-	__hydra_host__ __hydra_device__ inline
-	T operator()(T const& x, T const& y )
+	template<int N>
+	__hydra_host__ __hydra_device__
+	inline Eigen::Matrix<double, N, N>
+	operator()( Eigen::Matrix<double, N, N>const& x, Eigen::Matrix<double, N, N>const& y )
 	{
-		return x+y;
+		return y + x;
 	}
 };
+
+template<int I>
+struct GetSWeight
+{
+	template<typename T>
+	__hydra_host__ __hydra_device__
+	double operator()( T sweights )	{
+
+		return hydra_thrust::get<I>(sweights);
+	}
+};
+
 
 template<typename F1, typename F2, typename ...Fs >
 struct SWeights
 {
 	constexpr static size_t nfunctors = sizeof...(Fs)+2;
 	typedef hydra::tuple<F1, F2, Fs...> functors_tuple_type;
-	typedef HYDRA_EXTERNAL_NS::Eigen::Matrix<double, nfunctors, nfunctors> cmatrix_t;
+	typedef Eigen::Matrix<double, nfunctors, nfunctors> cmatrix_t;
 	typedef typename hydra::detail::tuple_type<nfunctors, double>::type tuple_t;
 
+	SWeights() = delete;
 
-	SWeights( Parameter(&coeficients)[nfunctors], functors_tuple_type const& functors,
+	explicit SWeights(const  Parameter(&coeficients)[nfunctors], functors_tuple_type const& functors,
 			cmatrix_t icmatrix ):
 				fFunctors(functors),
 				fICovMatrix( icmatrix )
@@ -157,6 +173,14 @@ struct SWeights
 		for(size_t i=0;i<nfunctors; i++)
 			fCoeficients[i] = coeficients[i].GetValue();
 	}
+
+	//dummy ctor just to bypass deleted default ctor
+	explicit SWeights(functors_tuple_type const& functors, cmatrix_t icmatrix ):
+				fFunctors(functors),
+				fICovMatrix( icmatrix )
+	{ }
+
+
 
 	__hydra_host__ __hydra_device__ inline
 	SWeights(SWeights<F1, F2, Fs...> const& other ):
@@ -176,10 +200,10 @@ struct SWeights
 		auto fvalues  = detail::invoke_normalized(x, fFunctors);
 		double values[nfunctors];
 		detail::tupleToArray(fvalues, values);
-		HYDRA_EXTERNAL_NS::Eigen::Matrix<double, nfunctors,1> values_vector = HYDRA_EXTERNAL_NS::Eigen::Map<HYDRA_EXTERNAL_NS::Eigen::Matrix<double, nfunctors,1> >(values);
-		HYDRA_EXTERNAL_NS::Eigen::Matrix<double, nfunctors,1> sweights = fICovMatrix*values_vector;
+		Eigen::Matrix<double, nfunctors,1> values_vector(Eigen::Map<Eigen::Matrix<double, nfunctors,1> >(values).eval());
+		Eigen::Matrix<double, nfunctors,1> sweights(fICovMatrix*values_vector.eval());
 		auto wfvalues = detail::multiply_array_tuple(fCoeficients, fvalues);
-		GReal_t denominator   = 0;
+		GReal_t denominator   = 1;
 		detail::add_tuple_values(denominator, wfvalues);
 		sweights /=denominator;
 

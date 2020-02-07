@@ -30,9 +30,9 @@
 #define PHASESPACERANGE_INL_
 
 #include <hydra/detail/Config.h>
-#include <hydra/detail/external/thrust/tuple.h>
-#include <hydra/detail/external/thrust/iterator/counting_iterator.h>
-#include <hydra/detail/external/thrust/iterator/transform_iterator.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/iterator/counting_iterator.h>
+#include <hydra/detail/external/hydra_thrust/iterator/transform_iterator.h>
 #include <hydra/detail/functors/GenerateDecay.h>
 #include <hydra/Vector4R.h>
 #include <array>
@@ -43,30 +43,30 @@ namespace hydra {
 
 template <size_t N>
 Range<
-HYDRA_EXTERNAL_NS::thrust::transform_iterator<
-	detail::GenerateDecay<N,HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>,
-	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t>,
-	typename hydra::detail::tuple_cat_type< HYDRA_EXTERNAL_NS::thrust::tuple<double>,
+hydra_thrust::transform_iterator<
+	detail::GenerateDecay<N,hydra_thrust::random::default_random_engine>,
+	hydra_thrust::counting_iterator<size_t>,
+	typename hydra::detail::tuple_cat_type< hydra_thrust::tuple<double>,
 				 typename hydra::detail::tuple_type<N,Vector4R>::type>::type>>
 phase_space_range(Vector4R const& mother, std::array<double, N> masses, size_t nentries )
 {
 	typedef typename hydra::detail::tuple_cat_type<
-			 HYDRA_EXTERNAL_NS::thrust::tuple<double>,
+			 hydra_thrust::tuple<double>,
 			 typename hydra::detail::tuple_type<N,Vector4R>::type
 			>::type	 event_t;
 
 
-	typedef HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> index_iterator;
+	typedef hydra_thrust::counting_iterator<size_t> index_iterator;
 
-	typedef detail::GenerateDecay<N,HYDRA_EXTERNAL_NS::thrust::random::default_random_engine> decayer_t;
+	typedef detail::GenerateDecay<N,hydra_thrust::random::default_random_engine> decayer_t;
 
 	auto first_index = index_iterator(0);
 	auto  last_index = index_iterator(nentries);
 
 	auto decayer = decayer_t(mother, masses,456852);
 
-    auto first_event = HYDRA_EXTERNAL_NS::thrust::transform_iterator<decayer_t,index_iterator, event_t>(first_index, decayer);
-    auto  last_event = HYDRA_EXTERNAL_NS::thrust::transform_iterator<decayer_t,index_iterator, event_t>(last_index, decayer);
+    auto first_event = hydra_thrust::transform_iterator<decayer_t,index_iterator, event_t>(first_index, decayer);
+    auto  last_event = hydra_thrust::transform_iterator<decayer_t,index_iterator, event_t>(last_index, decayer);
 
 	return make_range( first_event, last_event );
 

@@ -40,9 +40,9 @@
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/multivector.h>
 //thrust
-#include <hydra/detail/external/thrust/tuple.h>
-#include <hydra/detail/external/thrust/detail/type_traits.h>
-#include <hydra/detail/external/thrust/iterator/detail/tuple_of_iterator_references.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
+#include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
 //std
 #include <type_traits>
 #include <array>
@@ -75,7 +75,7 @@ class GenzMalikRule<DIM, hydra::detail::BackendPolicy<BACKEND>>:
 
 
 	typedef typename hydra::detail::tuple_type<DIM+2,GChar_t >::type char_abscissa_t;
-	typedef HYDRA_EXTERNAL_NS::thrust::tuple<GReal_t,GReal_t, GReal_t> real_abscissa_t;
+	typedef hydra_thrust::tuple<GReal_t,GReal_t, GReal_t> real_abscissa_t;
 	typedef typename hydra::detail::tuple_cat_type<real_abscissa_t, char_abscissa_t>::type abscissa_t;
 
 	typedef  hydra::detail::BackendPolicy<BACKEND> system_t;
@@ -428,7 +428,7 @@ public:
 
 
 				auto abscissa_tuple =
-					HYDRA_EXTERNAL_NS::thrust::tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(rule5_weight,rule7_weight, lambda, four_difference_weight, index),
+					hydra_thrust::tuple_cat(hydra_thrust::make_tuple(rule5_weight,rule7_weight, lambda, four_difference_weight, index),
 						hydra::detail::arrayToTuple(abscissa_temp));
 
 				container.push_back(abscissa_tuple);
@@ -450,11 +450,11 @@ public:
 		  {
 
 			  abscissa_t x;
-			  HYDRA_EXTERNAL_NS::thrust::get<0>(x)= fRule5Weight1;
-			  HYDRA_EXTERNAL_NS::thrust::get<1>(x)= fRule7Weight1;
-			  HYDRA_EXTERNAL_NS::thrust::get<2>(x)= 1.0;
-			  HYDRA_EXTERNAL_NS::thrust::get<4>(x)= N;
-			  HYDRA_EXTERNAL_NS::thrust::get<3>(x)= 6;
+			  hydra_thrust::get<0>(x)= fRule5Weight1;
+			  hydra_thrust::get<1>(x)= fRule7Weight1;
+			  hydra_thrust::get<2>(x)= 1.0;
+			  hydra_thrust::get<4>(x)= N;
+			  hydra_thrust::get<3>(x)= 6;
 			  fAbscissas.push_back(x);
 			  break;
 		  }

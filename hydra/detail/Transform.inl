@@ -33,8 +33,8 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <utility>
-#include <hydra/detail/external/thrust/transform.h>
-#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/hydra_thrust/transform.h>
+#include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/Range.h>
 
 
@@ -46,7 +46,7 @@ typename std::enable_if<hydra::detail::is_iterable<Iterable_Output>::value,
 Range<decltype(std::declval<Iterable_Output&>().begin())>>::type
 transform(Iterable_Input&& iterable_input, Iterable_Output&& iterable_output,  Functor const& unary_functor){
 
-	HYDRA_EXTERNAL_NS::thrust::transform(std::forward<Iterable_Input>(iterable_input).begin(),
+	hydra_thrust::transform(std::forward<Iterable_Input>(iterable_input).begin(),
 			std::forward<Iterable_Input>(iterable_input).end(),
 			std::forward<Iterable_Output>(iterable_output).begin(),
 			unary_functor);

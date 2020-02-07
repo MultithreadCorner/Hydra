@@ -32,7 +32,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <utility>
-#include <hydra/detail/external/thrust/sort.h>
+#include <hydra/detail/external/hydra_thrust/sort.h>
 #include <hydra/Range.h>
 
 
@@ -43,7 +43,7 @@ typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable&>().begin())>>::type
 sort(Iterable& iterable){
 
-	HYDRA_EXTERNAL_NS::thrust::sort(iterable.begin(), iterable.end() );
+	hydra_thrust::sort(iterable.begin(), iterable.end() );
 
 	return make_range(iterable.begin(), iterable.end());
 }
@@ -54,7 +54,7 @@ typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable&>().begin())>>::type
 sort(Iterable& iterable, Functor const& comparator){
 
-	HYDRA_EXTERNAL_NS::thrust::sort(iterable.begin(), iterable.end(), comparator);
+	hydra_thrust::sort(iterable.begin(), iterable.end(), comparator);
 
 	return make_range(iterable.begin(), iterable.end());
 }
@@ -67,16 +67,16 @@ typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable&>().begin())>>::type
 sort_by_key(Iterable& iterable, Iterable_Key& keys){
 
-	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator_Key>::type system2_t;
+	using hydra_thrust::system::detail::generic::select_system;
+	typedef  typename hydra_thrust::iterator_system<Iterator>::type system1_t;
+	typedef  typename hydra_thrust::iterator_system<Iterator_Key>::type system2_t;
 	system1_t system1;
 	system2_t system2;
 
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
+	typedef  typename hydra_thrust::detail::remove_reference<
 			decltype(select_system(system1, system2 ))>::type common_system_t;
 
-	HYDRA_EXTERNAL_NS::thrust::sort_by_key(iterable.begin(), iterable.end(), keys.begin());
+	hydra_thrust::sort_by_key(iterable.begin(), iterable.end(), keys.begin());
 
 	return make_range(iterable.begin(), iterable.end());
 }
@@ -88,19 +88,19 @@ typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable&>().begin())>>::type
 sort_by_key(Iterable& iterable, Range<Iterator_Key,Functor>&& keys){
 
-	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator_Key>::type system2_t;
+	using hydra_thrust::system::detail::generic::select_system;
+	typedef  typename hydra_thrust::iterator_system<Iterator>::type system1_t;
+	typedef  typename hydra_thrust::iterator_system<Iterator_Key>::type system2_t;
 	system1_t system1;
 	system2_t system2;
 
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
+	typedef  typename hydra_thrust::detail::remove_reference<
 			decltype(select_system(system1, system2 ))>::type common_system_t;
 
-	auto key_buffer = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<Value_Key>(common_system_t(), iterable.size());
-	HYDRA_EXTERNAL_NS::thrust::copy(common_system_t(), keys.begin(), keys.end(), key_buffer.first);
-	HYDRA_EXTERNAL_NS::thrust::sort_by_key(iterable.begin(), iterable.end(), key_buffer.first);
-	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<Value_Key>(common_system_t(), iterable.size());
+	hydra_thrust::copy(common_system_t(), keys.begin(), keys.end(), key_buffer.first);
+	hydra_thrust::sort_by_key(iterable.begin(), iterable.end(), key_buffer.first);
+	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
 	return make_range(iterable.begin(), iterable.end());
 }

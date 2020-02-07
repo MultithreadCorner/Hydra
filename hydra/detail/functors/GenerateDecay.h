@@ -43,9 +43,9 @@
 #include <hydra/detail/functors/StatsPHSP.h>
 
 //thrust
-#include <hydra/detail/external/thrust/tuple.h>
-#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
-#include <hydra/detail/external/thrust/random.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/hydra_thrust/random.h>
 
 #include <type_traits>
 #include <utility>
@@ -60,7 +60,7 @@ template <size_t N, typename GRND>
 struct GenerateDecay
 {
 	typedef typename hydra::detail::tuple_cat_type<
-			 HYDRA_EXTERNAL_NS::thrust::tuple<double>,
+			 hydra_thrust::tuple<double>,
 			 typename hydra::detail::tuple_type<N,Vector4R>::type
 			>::type		result_type;
 
@@ -225,7 +225,7 @@ struct GenerateDecay
 
 		GRND randEng( fSeed );//hash(evt,fSeed) );
 		randEng.discard(evt+3*N);
-		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		GReal_t rno[N];
 		rno[0] = 0.0;
@@ -342,7 +342,7 @@ struct GenerateDecay
 		typedef typename hydra::detail::tuple_type<N,
 				Vector4R>::type Tuple_t;
 
-		constexpr size_t SIZE = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple_t>::value;
+		constexpr size_t SIZE = hydra_thrust::tuple_size<Tuple_t>::value;
 
 		Vector4R Particles[SIZE];
 
@@ -352,7 +352,7 @@ struct GenerateDecay
 
 		hydra::detail::assignArrayToTuple(particles, Particles   );
 
-		return HYDRA_EXTERNAL_NS::thrust::tuple_cat(HYDRA_EXTERNAL_NS::thrust::make_tuple(weight),  particles);
+		return hydra_thrust::tuple_cat(hydra_thrust::make_tuple(weight),  particles);
 
 	}
 

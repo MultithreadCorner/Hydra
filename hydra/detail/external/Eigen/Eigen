@@ -1,2 +1,0 @@
-#include "hydra/detail/external/Eigen/Dense"
-#include "hydra/detail/external/Eigen/Sparse"

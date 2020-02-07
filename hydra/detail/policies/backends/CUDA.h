@@ -31,8 +31,8 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
-#include <hydra/detail/external/thrust/system/cuda/detail/par.h>
-#include <hydra/detail/external/thrust/system/cuda/vector.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/par.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/vector.h>
 
 namespace hydra {
 
@@ -40,19 +40,19 @@ namespace detail {
 
 namespace cuda {
 
-typedef HYDRA_EXTERNAL_NS::thrust::system::cuda::detail::par_t   cuda_t;
+typedef hydra_thrust::system::cuda::detail::par_t   cuda_t;
 static const cuda_t    _cuda_;
 
 }  // namespace cuda
 
 template<>
-struct BackendPolicy<Backend::Cuda>: HYDRA_EXTERNAL_NS::thrust::execution_policy<cuda::cuda_t>
+struct BackendPolicy<Backend::Cuda>: hydra_thrust::execution_policy<cuda::cuda_t>
 {
-	//typedef HYDRA_EXTERNAL_NS::thrust::execution_policy<cuda::cuda_t> super_type;
+	//typedef hydra_thrust::execution_policy<cuda::cuda_t> super_type;
 	const cuda::cuda_t backend= cuda::_cuda_;
 
 	template<typename T>
-	using   container = HYDRA_EXTERNAL_NS::thrust::cuda::vector<T> ;
+	using   container = hydra_thrust::cuda::vector<T> ;
 
 };
 

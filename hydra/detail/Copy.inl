@@ -33,7 +33,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
-#include <hydra/detail/external/thrust/copy.h>
+#include <hydra/detail/external/hydra_thrust/copy.h>
 #include <hydra/Range.h>
 #include <utility>
 
@@ -47,7 +47,7 @@ typename std::enable_if<hydra::detail::is_iterable<Iterable_Source>::value
 Range<decltype(std::declval<Iterable_Target&>().begin())>>::type
 copy(Iterable_Source&& source, Iterable_Target&& destination)
 {
-	HYDRA_EXTERNAL_NS::thrust::copy(std::forward<Iterable_Source>(source).begin(),
+	hydra_thrust::copy(std::forward<Iterable_Source>(source).begin(),
 			std::forward<Iterable_Source>(source).end(),
 			std::forward<Iterable_Target>(destination).begin());
 
@@ -55,20 +55,20 @@ copy(Iterable_Source&& source, Iterable_Target&& destination)
 			std::forward<Iterable_Target>(destination).end());
 }
 
-/*
+
 template<typename InputIterator, typename OutputIterator>
 OutputIterator copy(InputIterator first, InputIterator last, OutputIterator result)
 {
-	return HYDRA_EXTERNAL_NS::thrust::copy(first, last, result);
+	return hydra_thrust::copy(first, last, result);
 }
 
 template<detail::Backend Backend, typename InputIterator, typename OutputIterator>
 OutputIterator copy(hydra::detail::BackendPolicy<Backend> const& policy, InputIterator first,
 		InputIterator last, OutputIterator result)
 {
-	return HYDRA_EXTERNAL_NS::thrust::copy( policy, first, last, result);
+	return hydra_thrust::copy( policy, first, last, result);
 }
-*/
+
 
 }  // namespace hydra
 

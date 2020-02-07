@@ -36,14 +36,14 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/detail/utility/CheckValue.h>
-#include <hydra/detail/external/thrust/copy.h>
-#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
-#include <hydra/detail/external/thrust/execution_policy.h>
-#include <hydra/detail/external/thrust/binary_search.h>
-#include <hydra/detail/external/thrust/extrema.h>
-#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
-#include <hydra/detail/external/thrust/functional.h>
-#include <hydra/detail/external/thrust/advance.h>
+#include <hydra/detail/external/hydra_thrust/copy.h>
+#include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/hydra_thrust/execution_policy.h>
+#include <hydra/detail/external/hydra_thrust/binary_search.h>
+#include <hydra/detail/external/hydra_thrust/extrema.h>
+#include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/hydra_thrust/functional.h>
+#include <hydra/detail/external/hydra_thrust/advance.h>
 #include <math.h>
 #include <algorithm>
 #include <type_traits>
@@ -60,13 +60,13 @@ namespace hydra {
 		Iterator lower_bound(Iterator first, Iterator last, const T& value)
 		{
 		    Iterator it=first;
-		    typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::difference_type count, step;
-		    count = HYDRA_EXTERNAL_NS::thrust::distance(first, last);
+		    typename hydra_thrust::iterator_traits<Iterator>::difference_type count, step;
+		    count = hydra_thrust::distance(first, last);
 
 		    while (count > 0) {
 		        it = first;
 		        step = count / 2;
-		        HYDRA_EXTERNAL_NS::thrust::advance(it, step);
+		        hydra_thrust::advance(it, step);
 		        if (*it < value) {
 		            first = ++it;
 		            count -= step + 1;
@@ -86,17 +86,17 @@ namespace hydra {
 
 template<typename Iterator1, typename Iterator2,typename Type>
 __hydra_host__ __hydra_device__
-inline typename std::enable_if< std::is_floating_point<typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator1>::value_type >::value &&
-                       std::is_floating_point<typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator2>::value_type >::value , Type>::type
+inline typename std::enable_if< std::is_floating_point<typename hydra_thrust::iterator_traits<Iterator1>::value_type >::value &&
+                       std::is_floating_point<typename hydra_thrust::iterator_traits<Iterator2>::value_type >::value , Type>::type
 spiline(Iterator1 first, Iterator1 last,  Iterator2 measurements, Type value) {
 
-		using HYDRA_EXTERNAL_NS::thrust::min;
+		using hydra_thrust::min;
 
 		auto iter = detail::spiline::lower_bound(first, last, value);
-		size_t dist_i = HYDRA_EXTERNAL_NS::thrust::distance(first, iter);
+		size_t dist_i = hydra_thrust::distance(first, iter);
 		size_t i = dist_i > 0 ? dist_i - 1: 0;
 
-		size_t N = HYDRA_EXTERNAL_NS::thrust::distance(first, last);
+		size_t N = hydra_thrust::distance(first, last);
 
 		//--------------------
 

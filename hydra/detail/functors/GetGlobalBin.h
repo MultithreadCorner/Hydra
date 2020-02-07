@@ -29,7 +29,7 @@
 #ifndef GETGLOBALBIN_H_
 #define GETGLOBALBIN_H_
 
-#include <hydra/detail/external/thrust/functional.h>
+#include <hydra/detail/external/hydra_thrust/functional.h>
 #include <hydra/Tuple.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 
@@ -39,7 +39,7 @@ namespace detail {
 
 
 template<size_t N, typename T>
-struct GetGlobalBin: public HYDRA_EXTERNAL_NS::thrust::unary_function<typename tuple_type<N,T>::type ,size_t>
+struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T>::type ,size_t>
 {
 	typedef typename tuple_type<N,T>::type ArgType;
 
@@ -85,12 +85,12 @@ struct GetGlobalBin: public HYDRA_EXTERNAL_NS::thrust::unary_function<typename t
 
 	template<size_t I>
 	__hydra_host__ __hydra_device__
-	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< I== N, void>::type
+	typename hydra_thrust::detail::enable_if< I== N, void>::type
 	get_global_bin(const size_t (&)[N], size_t& ){ }
 
 	template<size_t I=0>
 	__hydra_host__ __hydra_device__
-	typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if< (I< N), void>::type
+	typename hydra_thrust::detail::enable_if< (I< N), void>::type
 	get_global_bin(const size_t (&indexes)[N], size_t& index)
 	{
 	    size_t prod =1;
@@ -151,7 +151,7 @@ struct GetGlobalBin: public HYDRA_EXTERNAL_NS::thrust::unary_function<typename t
 //---------------
 
 template<typename T>
-struct GetGlobalBin<1,T>: public HYDRA_EXTERNAL_NS::thrust::unary_function<T,size_t>
+struct GetGlobalBin<1,T>: public hydra_thrust::unary_function<T,size_t>
 {
 
 	GetGlobalBin( size_t grid, T lowerlimits, T upperlimits):

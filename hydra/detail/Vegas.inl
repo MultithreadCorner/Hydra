@@ -44,8 +44,8 @@
 #include <utility>
 
 //thrust
-#include <hydra/detail/external/thrust/transform_reduce.h>
-#include <hydra/detail/external/thrust/sort.h>
+#include <hydra/detail/external/hydra_thrust/transform_reduce.h>
+#include <hydra/detail/external/hydra_thrust/sort.h>
 
 
 #define USE_ORIGINAL_CHISQ_FORMULA 0
@@ -608,37 +608,37 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::ProcessFuncionCalls(
 	size_t nkeys  = N*fState.GetCalls(training);
 
 	// create iterators
-	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
-	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + ncalls;
+	hydra_thrust::counting_iterator<size_t> first(0);
+	hydra_thrust::counting_iterator<size_t> last = first + ncalls;
 
 
 	fState.CopyStateToDevice();
 
 
 	detail::ResultVegas init = detail::ResultVegas();
-	detail::ResultVegas result = HYDRA_EXTERNAL_NS::thrust::transform_reduce(system_t(), first, last,
+	detail::ResultVegas result = hydra_thrust::transform_reduce(system_t(), first, last,
 			detail::ProcessCallsVegas<FUNCTOR,N,system_t ,rvector_iterator,
 			uvector_iterator , GRND>(ncalls, fState, fGlobalBinInput.begin(),fFValInput.begin(), fFunctor)
 	, init,	detail::ProcessBoxesVegas());
 
 
 	/*
-	for(size_t i=0; i< HYDRA_EXTERNAL_NS::thrust::distance( fGlobalBinInput.begin(),fGlobalBinInput.end() ); i++)
+	for(size_t i=0; i< hydra_thrust::distance( fGlobalBinInput.begin(),fGlobalBinInput.end() ); i++)
 			std::cout <<"<< " << i << " " << fGlobalBinInput[i] << " " << fFValInput[i] << std::endl;
 	 */
 
-	HYDRA_EXTERNAL_NS::thrust::sort_by_key(system_t(),fGlobalBinInput.begin(),fGlobalBinInput.end(), fFValInput.begin());
+	hydra_thrust::sort_by_key(system_t(),fGlobalBinInput.begin(),fGlobalBinInput.end(), fFValInput.begin());
 	/*
-	for(size_t i=0; i< HYDRA_EXTERNAL_NS::thrust::distance( fGlobalBin.begin(),fGlobalBin.end() ); i++)
+	for(size_t i=0; i< hydra_thrust::distance( fGlobalBin.begin(),fGlobalBin.end() ); i++)
 		std::cout <<"<< " << i << " " << fGlobalBin[i] << " " << fFVal[i] << std::endl;
 	 */
 
-	auto end_iterators = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(system_t(),fGlobalBinInput.begin(),fGlobalBinInput.end(),fFValInput.begin(),
+	auto end_iterators = hydra_thrust::reduce_by_key(system_t(),fGlobalBinInput.begin(),fGlobalBinInput.end(),fFValInput.begin(),
 			fGlobalBinOutput.begin(),  fFValOutput.begin());
 
 
 
-	HYDRA_EXTERNAL_NS::thrust::copy( fFValOutput.begin(), end_iterators.second, fState.GetDistribution().begin());
+	hydra_thrust::copy( fFValOutput.begin(), end_iterators.second, fState.GetDistribution().begin());
 	integral=result.fMean*result.fN  ;
 	tss=sqrt( result.fM2 );
 

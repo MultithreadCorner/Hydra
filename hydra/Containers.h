@@ -47,7 +47,7 @@
 #include <hydra/Vector3R.h>
 #include <hydra/Vector4R.h>
 
-#include <hydra/detail/external/thrust/complex.h>
+#include <hydra/detail/external/hydra_thrust/complex.h>
 
 #include <hydra/detail/Containers.inl>
 
@@ -57,7 +57,7 @@ namespace hydra
 
 //-----------------------------------------------------------------------
 //complex number container
-typedef HYDRA_EXTERNAL_NS::thrust::complex<GReal_t> GComplex_t; /*! Typedef for complex number.*/
+typedef hydra_thrust::complex<GReal_t> GComplex_t; /*! Typedef for complex number.*/
 
 //-----------------------------------------------------------------------
 

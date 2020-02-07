@@ -33,7 +33,7 @@
 #ifndef BACKENDPOLICY_H_
 #define BACKENDPOLICY_H_
 
-#include <hydra/detail/external/thrust/execution_policy.h>
+#include <hydra/detail/external/hydra_thrust/execution_policy.h>
 
 namespace hydra {
 

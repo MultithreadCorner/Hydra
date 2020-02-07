@@ -30,8 +30,8 @@
 #define ITERATORTRAITS_H_
 
 #include <utility>
-#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
-#include <hydra/detail/external/thrust/system/detail/generic/select_system.h>
+#include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/hydra_thrust/system/detail/generic/select_system.h>
 
 namespace hydra {
 
@@ -40,15 +40,15 @@ namespace detail {
 template<typename Iterator>
 struct IteratorTraits
 {
-	static const bool is_host_iterator = HYDRA_EXTERNAL_NS::thrust::detail::is_host_iterator_category<
-	typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator>::iterator_category>::value;
+	static const bool is_host_iterator = hydra_thrust::detail::is_host_iterator_category<
+	typename hydra_thrust::iterator_traits<Iterator>::iterator_category>::value;
 
-	typedef typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system_t;
+	typedef typename hydra_thrust::iterator_system<Iterator>::type system_t;
 
 
 	static system_t& GetTag()
 	{
-		using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
+		using hydra_thrust::system::detail::generic::select_system;
 		system_t sys;
 
 		return  select_system(sys);

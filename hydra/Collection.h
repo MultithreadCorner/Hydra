@@ -29,8 +29,8 @@
 #ifndef COLLECTION_H_
 #define COLLECTION_H_
 
-#include <hydra/detail/external/thrust/tuple.h>
-#include <hydra/detail/external/thrust/iterator/detail/tuple_of_iterator_references.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
 
 namespace hydra {
 
@@ -39,28 +39,28 @@ namespace hydra {
  */
 #define _DeclareStorable(class_name,...) \
 public: \
-typedef decltype( HYDRA_EXTERNAL_NS::thrust::make_tuple(__VA_ARGS__)) args_type; \
+typedef decltype( hydra_thrust::make_tuple(__VA_ARGS__)) args_type; \
 typedef void hydra_convertible_to_tuple_tag; \
 template<typename ...T> \
 __hydra_host__ __hydra_device__ \
-class_name( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& t) \
-{ HYDRA_EXTERNAL_NS::thrust::tie(__VA_ARGS__) = t; } \
+class_name( hydra_thrust::tuple<T...> const& t) \
+{ hydra_thrust::tie(__VA_ARGS__) = t; } \
 template<typename ...T> \
 __hydra_host__ __hydra_device__ \
-class_name& operator= ( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& t ) \
-{HYDRA_EXTERNAL_NS::thrust::tie(__VA_ARGS__) = t;\
+class_name& operator= ( hydra_thrust::tuple<T...> const& t ) \
+{hydra_thrust::tie(__VA_ARGS__) = t;\
 return *this; } \
 template<typename ...T> \
 __hydra_host__ __hydra_device__ \
-class_name& operator= (HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references<T&...> const&  t ) \
-{HYDRA_EXTERNAL_NS::thrust::tie(__VA_ARGS__) = t; \
+class_name& operator= (hydra_thrust::detail::tuple_of_iterator_references<T&...> const&  t ) \
+{hydra_thrust::tie(__VA_ARGS__) = t; \
 return *this; } \
 template<typename ...T> \
 __hydra_host__ __hydra_device__ \
-operator HYDRA_EXTERNAL_NS::thrust::tuple<T...> () { return HYDRA_EXTERNAL_NS::thrust::make_tuple(__VA_ARGS__); } \
+operator hydra_thrust::tuple<T...> () { return hydra_thrust::make_tuple(__VA_ARGS__); } \
 template<typename ...T> \
 __hydra_host__ __hydra_device__ \
- operator HYDRA_EXTERNAL_NS::thrust::tuple<T...> () const { return HYDRA_EXTERNAL_NS::thrust::make_tuple(__VA_ARGS__); } \
+ operator hydra_thrust::tuple<T...> () const { return hydra_thrust::make_tuple(__VA_ARGS__); } \
 
 
 }  // namespace hydra

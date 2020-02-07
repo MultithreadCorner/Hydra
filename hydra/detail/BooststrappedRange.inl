@@ -31,19 +31,19 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/functors/RandomUtils.h>
-#include <hydra/detail/external/thrust/iterator/permutation_iterator.h>
+#include <hydra/detail/external/hydra_thrust/iterator/permutation_iterator.h>
 #include <utility>
 namespace hydra {
 
 
 template<typename Iterable>
 typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
-   Range< HYDRA_EXTERNAL_NS::thrust::permutation_iterator<decltype(std::declval<Iterable&>().begin()),
-		 HYDRA_EXTERNAL_NS::thrust::transform_iterator< detail::RndUniform<size_t, HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>
- ,HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t>,size_t > > >>::type
+   Range< hydra_thrust::permutation_iterator<decltype(std::declval<Iterable&>().begin()),
+		 hydra_thrust::transform_iterator< detail::RndUniform<size_t, hydra_thrust::random::default_random_engine>
+ ,hydra_thrust::counting_iterator<size_t>,size_t > > >>::type
 boost_strapped_range(Iterable&& iterable, size_t seed){
 
-	using HYDRA_EXTERNAL_NS::thrust::make_permutation_iterator;
+	using hydra_thrust::make_permutation_iterator;
 
 	auto permutations = random_uniform_range(size_t(0), std::forward<Iterable>(iterable).size()-1, seed );
 

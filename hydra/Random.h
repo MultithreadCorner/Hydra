@@ -41,14 +41,14 @@
 #include <hydra/Range.h>
 
 //
-#include <hydra/detail/external/thrust/copy.h>
-#include <hydra/detail/external/thrust/random.h>
-#include <hydra/detail/external/thrust/distance.h>
-#include <hydra/detail/external/thrust/extrema.h>
-#include <hydra/detail/external/thrust/functional.h>
-#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
-#include <hydra/detail/external/thrust/system/detail/generic/select_system.h>
-#include <hydra/detail/external/thrust/partition.h>
+#include <hydra/detail/external/hydra_thrust/copy.h>
+#include <hydra/detail/external/hydra_thrust/random.h>
+#include <hydra/detail/external/hydra_thrust/distance.h>
+#include <hydra/detail/external/hydra_thrust/extrema.h>
+#include <hydra/detail/external/hydra_thrust/functional.h>
+#include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/hydra_thrust/system/detail/generic/select_system.h>
+#include <hydra/detail/external/hydra_thrust/partition.h>
 
 #include <array>
 #include <utility>
@@ -61,7 +61,7 @@ namespace hydra{
  *  \note \p default_random_engine is currently an alias for \p minstd_rand, and may change
  *        in a future version.
  */
-typedef HYDRA_EXTERNAL_NS::thrust::random::default_random_engine default_random_engine;
+typedef hydra_thrust::random::default_random_engine default_random_engine;
 
 
 /*! \typedef minstd_rand0
@@ -70,7 +70,7 @@ typedef HYDRA_EXTERNAL_NS::thrust::random::default_random_engine default_random_
  *  \note The 10000th consecutive invocation of a default-constructed object of type \p minstd_rand0
  *        shall produce the value \c 1043618065 .
  */
-typedef HYDRA_EXTERNAL_NS::thrust::random::minstd_rand0 minstd_rand0;
+typedef hydra_thrust::random::minstd_rand0 minstd_rand0;
 
 /*! \typedef minstd_rand
  *  \brief A random number engine with predefined parameters which implements a version of
@@ -78,7 +78,7 @@ typedef HYDRA_EXTERNAL_NS::thrust::random::minstd_rand0 minstd_rand0;
  *  \note The 10000th consecutive invocation of a default-constructed object of type \p minstd_rand
  *        shall produce the value \c 399268537 .
  */
-typedef HYDRA_EXTERNAL_NS::thrust::random::minstd_rand minstd_rand;
+typedef hydra_thrust::random::minstd_rand minstd_rand;
 
 
 /*! \typedef ranlux24
@@ -87,7 +87,7 @@ typedef HYDRA_EXTERNAL_NS::thrust::random::minstd_rand minstd_rand;
  *  \note The 10000th consecutive invocation of a default-constructed object of type \p ranlux24
  *        shall produce the value \c 9901578 .
  */
-typedef HYDRA_EXTERNAL_NS::thrust::random::ranlux24	ranlux24;
+typedef hydra_thrust::random::ranlux24	ranlux24;
 
 /*! \typedef ranlux48
  *  \brief A random number engine with predefined parameters which implements the
@@ -95,7 +95,7 @@ typedef HYDRA_EXTERNAL_NS::thrust::random::ranlux24	ranlux24;
  *  \note The 10000th consecutive invocation of a default-constructed object of type \p ranlux48
  *        shall produce the value \c 88229545517833 .
  */
-typedef HYDRA_EXTERNAL_NS::thrust::random::ranlux48	ranlux48;
+typedef hydra_thrust::random::ranlux48	ranlux48;
 
 /*! \typedef taus88
  *  \brief A random number engine with predefined parameters which implements
@@ -104,7 +104,7 @@ typedef HYDRA_EXTERNAL_NS::thrust::random::ranlux48	ranlux48;
  *  \note The 10000th consecutive invocation of a default-constructed object of type \p taus88
  *        shall produce the value \c 3535848941 .
  */
-typedef HYDRA_EXTERNAL_NS::thrust::random::taus88 	taus88;
+typedef hydra_thrust::random::taus88 	taus88;
 
 /**
  * @ingroup random
@@ -116,7 +116,7 @@ typedef HYDRA_EXTERNAL_NS::thrust::random::taus88 	taus88;
  * @tparam GRND underlying random number generator.
  *
  */
-template<typename GRND=HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>
+template<typename GRND=hydra_thrust::random::default_random_engine>
 class Random{
 
 public:
@@ -143,11 +143,11 @@ public:
 	}
 
 	/**
-	 * \warning{ the implementation of HYDRA_EXTERNAL_NS::thrust::random::normal_distribution
+	 * \warning{ the implementation of hydra_thrust::random::normal_distribution
 	 * is different between nvcc and gcc. Do not expect the same
 	 * numbers event by event.
 	 * Possible: implement myself ? (que inferno! :0)
-	 * Refs: see in hydra/detail/external/thrust/random/detail/normal_distribution_base.h
+	 * Refs: see in hydra/detail/external/hydra_thrust/random/detail/normal_distribution_base.h
 	 * ```
 	 * template<typename RealType>
 	 * struct normal_distribution_base

@@ -38,10 +38,10 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/PlainState.h>
-#include <hydra/detail/external/thrust/functional.h>
-#include <hydra/detail/external/thrust/extrema.h>
+#include <hydra/detail/external/hydra_thrust/functional.h>
+#include <hydra/detail/external/hydra_thrust/extrema.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
-#include <hydra/detail/external/thrust/random.h>
+#include <hydra/detail/external/hydra_thrust/random.h>
 
 namespace hydra {
 
@@ -49,7 +49,7 @@ namespace detail {
 
 // ProcessCallsPlainUnary is a functor that takes in a value x and
 // returns a PlainState whose mean value is initialized to f(x).
-template <typename FUNCTOR, size_t N, typename GRND=HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>
+template <typename FUNCTOR, size_t N, typename GRND=hydra_thrust::random::default_random_engine>
 struct ProcessCallsPlainUnary
 {
 
@@ -85,7 +85,7 @@ struct ProcessCallsPlainUnary
 
 		GRND randEng(fSeed);
 		randEng.discard(index);
-		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		GReal_t x[N];
 
@@ -119,7 +119,7 @@ struct ProcessCallsPlainUnary
 // approximation to the summary_stats for
 // all values that have been agregated so far
 struct ProcessCallsPlainBinary
-    : public HYDRA_EXTERNAL_NS::thrust::binary_function<PlainState const&,
+    : public hydra_thrust::binary_function<PlainState const&,
                                      PlainState const&,
                                      PlainState >
 {
@@ -136,8 +136,8 @@ struct ProcessCallsPlainBinary
 
         //Basic number of samples (n), min, and max
         result.fN   = n;
-        result.fMin = HYDRA_EXTERNAL_NS::thrust::min(x.fMin, y.fMin);
-        result.fMax = HYDRA_EXTERNAL_NS::thrust::max(x.fMax, y.fMax);
+        result.fMin = hydra_thrust::min(x.fMin, y.fMin);
+        result.fMax = hydra_thrust::max(x.fMax, y.fMax);
 
         result.fMean = (x.fMean* x.fN +  y.fMean* y.fN) / n;
 

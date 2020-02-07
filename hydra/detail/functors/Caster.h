@@ -38,7 +38,7 @@ namespace hydra {
 namespace detail {
 
 template<typename TypeIn, typename TypeOut >
-struct Caster:public HYDRA_EXTERNAL_NS::thrust::unary_function<TypeIn,TypeOut>{
+struct Caster:public hydra_thrust::unary_function<TypeIn,TypeOut>{
 
 	__hydra_host__ __hydra_device__
 	inline TypeOut operator()( TypeIn & value){

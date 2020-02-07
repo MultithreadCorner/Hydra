@@ -41,9 +41,9 @@
 #include <hydra/detail/functors/StatsPHSP.h>
 
 //thrust
-#include <hydra/detail/external/thrust/tuple.h>
-#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
-#include <hydra/detail/external/thrust/random.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/hydra_thrust/random.h>
 
 #include <type_traits>
 #include <utility>
@@ -57,23 +57,31 @@ struct AverageMothers
 {
 
 
-	GInt_t fSeed;
+	size_t fSeed;
+	GReal_t fECM;
+	GReal_t fMaxWeight;
 	GReal_t fMasses[N];
 	FUNCTOR fFunctor ;
 
 	//constructor
-	AverageMothers(const GReal_t (&masses)[N], const GInt_t _seed, FUNCTOR const& functor):
-			fSeed(_seed),
-			fFunctor(functor)
+	AverageMothers(const GReal_t (&masses)[N], double maxweight, double ecm,
+			size_t seed, FUNCTOR const& functor):
+		fMaxWeight(maxweight),
+		fECM(ecm),
+		fSeed(seed),
+		fFunctor(functor)
 	{
 		for(size_t i=0; i<N; i++)
 			fMasses[i] = masses[i];
 	}
 
 	//copy
+	__hydra_host__      __hydra_device__ inline
 	AverageMothers(AverageMothers<N, GRND,FUNCTOR> const& other):
-	fFunctor(other.fFunctor),
-	fSeed(other.fSeed)
+	fSeed(other.fSeed),
+	fECM(other.fECM ),
+	fMaxWeight(other.fMaxWeight ),
+	fFunctor(other.fFunctor)
 	{
 
 //#pragma unroll N
@@ -129,31 +137,11 @@ struct AverageMothers
 	process(size_t evt, Vector4R (&particles)[N+1])
 	{
 
-		GRND randEng( hash(evt,fSeed) );
+		GRND randEng( fSeed );
+		randEng.discard(evt+3*N);
 
-		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
-		GReal_t fTeCmTm = 0.0;
-
-		fTeCmTm = particles[0].mass();
-
-//#pragma unroll N
-		for (size_t n = 0; n < N; n++)
-		{
-			fTeCmTm -= fMasses[n];
-		}
-
-		GReal_t emmax = fTeCmTm + fMasses[0];
-		GReal_t emmin = 0.0;
-		GReal_t wtmax = 1.0;
-
-//#pragma unroll N
-		for (size_t n = 1; n < N; n++)
-		{
-			emmin += fMasses[n - 1];
-			emmax += fMasses[n];
-			wtmax *= pdk(emmax, emmin, fMasses[n]);
-		}
 
 		GReal_t rno[N];
 		rno[0] = 0.0;
@@ -176,13 +164,13 @@ struct AverageMothers
 		for (size_t n = 0; n < N; n++)
 		{
 			sum += fMasses[n];
-			invMas[n] = rno[n] * fTeCmTm + sum;
+			invMas[n] = rno[n] * fECM + sum;
 		}
 
 
 		//-----> compute the weight of the current event
 
-		GReal_t wt  = 1.0 / wtmax;
+		GReal_t wt  = fMaxWeight;
 
 		GReal_t pd[N];
 
@@ -266,12 +254,12 @@ struct AverageMothers
 		typedef typename hydra::detail::tuple_type<N+1,
 						Vector4R>::type Tuple_t;
 
-		constexpr size_t SIZE = HYDRA_EXTERNAL_NS::thrust::tuple_size<Tuple_t>::value;
+		constexpr size_t SIZE = hydra_thrust::tuple_size<Tuple_t>::value;
 
 		Vector4R Particles[SIZE];
 
-		Particles[0]= HYDRA_EXTERNAL_NS::thrust::get<1>(particles);
-		size_t evt  = HYDRA_EXTERNAL_NS::thrust::get<0>(particles);
+		Particles[0]= hydra_thrust::get<1>(particles);
+		size_t evt  = hydra_thrust::get<0>(particles);
 		GReal_t weight = process(evt, Particles);
 
 		Tuple_t particles1{};

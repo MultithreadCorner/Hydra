@@ -40,10 +40,10 @@
 #include <hydra/detail/ParametersCompositeFunctor.h>
 //#include <hydra/UserParameters.h>
 
-#include <hydra/detail/external/thrust/iterator/detail/tuple_of_iterator_references.h>
-#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
-#include <hydra/detail/external/thrust/tuple.h>
-#include <hydra/detail/external/thrust/detail/type_traits.h>
+#include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
+#include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <array>
 #include <initializer_list>
 #include <memory>
@@ -165,51 +165,49 @@ private:
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
-	! ( detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
-			typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-				typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference< T>::type
+	inline typename hydra_thrust::detail::enable_if<
+	! ( detail::is_instantiation_of<hydra_thrust::tuple,
+			typename hydra_thrust::detail::remove_const<
+				typename hydra_thrust::detail::remove_reference< T>::type
 			>::type >::value ||
-	    detail::is_instantiation_of< HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references,
-	        typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-	        	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
+	    detail::is_instantiation_of< hydra_thrust::detail::tuple_of_iterator_references,
+	        typename hydra_thrust::detail::remove_const<
+	        	typename hydra_thrust::detail::remove_reference<T>::type
 	        >::type >::value ) , return_type>::type
 	interface(T&& x)  const
 	{
-		//fNArgs=1;
-		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type >::type _x;
 
-		_x=x;
-		return static_cast<const Composite*>(this)->Evaluate(1, &_x);
+		return static_cast<const Composite*>(this)->Evaluate(1,
+				&hydra_thrust::raw_reference_cast(std::forward<T>(x)));
 	}
 
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<(
-			  detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
-			  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-			  	  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
+	inline typename hydra_thrust::detail::enable_if<(
+			  detail::is_instantiation_of<hydra_thrust::tuple,
+			  typename hydra_thrust::detail::remove_const<
+			  	  typename hydra_thrust::detail::remove_reference<T>::type
 			  >::type >::value ||
-			  detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::detail::tuple_of_iterator_references,
-			  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-			  	  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
+			  detail::is_instantiation_of<hydra_thrust::detail::tuple_of_iterator_references,
+			  typename hydra_thrust::detail::remove_const<
+			  	  typename hydra_thrust::detail::remove_reference<T>::type
 			   >::type >::value ) &&
 	        detail::is_homogeneous<
-	        	typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0,
-	        		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-	        			typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
+	        	typename hydra_thrust::tuple_element<0,
+	        		typename hydra_thrust::detail::remove_const<
+	        			typename hydra_thrust::detail::remove_reference<T>::type
 	        		>::type
 	        	>::type,
-	        	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-	        		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
+	        	typename hydra_thrust::detail::remove_const<
+	        		typename hydra_thrust::detail::remove_reference<T>::type
 	        	>::type
 	        >::value, return_type>::type
 	interface(T&& x)  const
 	{
-		typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type>::type Tprime;
-		typedef typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<typename HYDRA_EXTERNAL_NS::thrust::tuple_element<0, Tprime>::type>::type first_type;
-		constexpr size_t N = HYDRA_EXTERNAL_NS::thrust::tuple_size< Tprime >::value;
+		typedef  typename hydra_thrust::detail::remove_const<typename hydra_thrust::detail::remove_reference<T>::type>::type Tprime;
+		typedef typename hydra_thrust::detail::remove_reference<typename hydra_thrust::tuple_element<0, Tprime>::type>::type first_type;
+		constexpr size_t N = hydra_thrust::tuple_size< Tprime >::value;
 
 		first_type Array[ N ];
 
@@ -222,17 +220,17 @@ private:
 
 	template<typename T >
 	__hydra_host__ __hydra_device__
-	inline typename HYDRA_EXTERNAL_NS::thrust::detail::enable_if<
-	detail::is_instantiation_of<HYDRA_EXTERNAL_NS::thrust::tuple,
+	inline typename hydra_thrust::detail::enable_if<
+	detail::is_instantiation_of<hydra_thrust::tuple,
 		typename std::remove_reference<T>::type >::value &&
 	!(detail::is_homogeneous<
-	    typename HYDRA_EXTERNAL_NS::thrust::tuple_element< 0,
-	    	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-	    		typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
+	    typename hydra_thrust::tuple_element< 0,
+	    	typename hydra_thrust::detail::remove_const<
+	    		typename hydra_thrust::detail::remove_reference<T>::type
 	    	>::type
 	    >::type,
-	    typename HYDRA_EXTERNAL_NS::thrust::detail::remove_const<
-	    	typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<T>::type
+	    typename hydra_thrust::detail::remove_const<
+	    	typename hydra_thrust::detail::remove_reference<T>::type
 		>::type>::value), return_type>::type
 	interface(T&& x)  const
 	{

@@ -29,14 +29,14 @@
 #ifndef TUPLES_H_
 #define TUPLES_H_
 #include <utility>
-#include <hydra/detail/external/thrust/tuple.h>
-#include <hydra/detail/external/thrust/detail/tuple/tuple.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/detail/tuple/tuple.h>
 #include <hydra/detail/utility/Generic.h>
 
 namespace hydra {
 //---- type alias -----------------------
 
-/*! \p tuple template is an alias to the variadic version of HYDRA_EXTERNAL_NS::thrust::tuple
+/*! \p tuple template is an alias to the variadic version of hydra_thrust::tuple
  *  and that can be instantiated with a indefinite number of arguments.
  *  Each template argument specifies the type of element in the \p tuple.
  *  Consequently, tuples are heterogeneous, fixed-size collections of values. An
@@ -66,9 +66,9 @@ namespace hydra {
  *  hydra::get<0>(t) += 10;
  *  \endcode
  */
-template<typename... T> using tuple = HYDRA_EXTERNAL_NS::thrust::tuple<T...>;
+template<typename... T> using tuple = hydra_thrust::tuple<T...>;
 
-/*! \p pair  template is an alias to the HYDRA_EXTERNAL_NS::thrust::pair structure.
+/*! \p pair  template is an alias to the hydra_thrust::pair structure.
  *
  *  \tparam T1 The type of \p pair's first object type.  There are no
  *          requirements on the type of \p T1. <tt>T1</tt>'s type is
@@ -78,7 +78,7 @@ template<typename... T> using tuple = HYDRA_EXTERNAL_NS::thrust::tuple<T...>;
  *          requirements on the type of \p T2. <tt>T2</tt>'s type is
  *          provided by <tt>pair::second_type</tt>.
  */
-template<typename T1,typename T2> using pair  = HYDRA_EXTERNAL_NS::thrust::pair<T1,T2>;
+template<typename T1,typename T2> using pair  = hydra_thrust::pair<T1,T2>;
 
 /*! The \p get function returns a \c const reference to a \p tuple element of
  *  interest.
@@ -108,7 +108,7 @@ template<typename T1,typename T2> using pair  = HYDRA_EXTERNAL_NS::thrust::pair<
  *  \tparam T A \c tuple type of interest.
  *
  */
-template<int N, class T> using tuple_element = HYDRA_EXTERNAL_NS::thrust::tuple_element<N,T>;
+template<int N, class T> using tuple_element = hydra_thrust::tuple_element<N,T>;
 
 /*! This metafunction returns the number of elements
  *  of a \p tuple type of interest.
@@ -116,7 +116,7 @@ template<int N, class T> using tuple_element = HYDRA_EXTERNAL_NS::thrust::tuple_
  *  \tparam T A \c tuple type of interest.
  *
  */
-template<class T> using tuple_size = HYDRA_EXTERNAL_NS::thrust::tuple_size<T>;
+template<class T> using tuple_size = hydra_thrust::tuple_size<T>;
 
 
 /*
@@ -163,35 +163,35 @@ T get( T* array) {
 
 template<int N, typename ...T>
 __hydra_host__ __hydra_device__ inline
-typename HYDRA_EXTERNAL_NS::thrust::tuple_element<N,HYDRA_EXTERNAL_NS::thrust::tuple<T...>>::type
-get( HYDRA_EXTERNAL_NS::thrust::tuple<T...> const& t)
+typename hydra_thrust::tuple_element<N,hydra_thrust::tuple<T...>>::type
+get( hydra_thrust::tuple<T...> const& t)
 {
-	return HYDRA_EXTERNAL_NS::thrust::get<N>(t);
+	return hydra_thrust::get<N>(t);
 }
 
 
 template<int N, typename ...T>
 __hydra_host__ __hydra_device__ inline
-typename HYDRA_EXTERNAL_NS::thrust::tuple_element<N,HYDRA_EXTERNAL_NS::thrust::tuple<T...>>::type
-get( HYDRA_EXTERNAL_NS::thrust::tuple<T...>& t)
+typename hydra_thrust::tuple_element<N,hydra_thrust::tuple<T...>>::type
+get( hydra_thrust::tuple<T...>& t)
 {
-	return HYDRA_EXTERNAL_NS::thrust::get<N>(t);
+	return hydra_thrust::get<N>(t);
 }
 
 template<int N, typename ...T>
 __hydra_host__ __hydra_device__ inline
-typename HYDRA_EXTERNAL_NS::thrust::tuple_element<N,HYDRA_EXTERNAL_NS::thrust::tuple<T...>>::type
-get( HYDRA_EXTERNAL_NS::thrust::tuple<T...>&& t)
+typename hydra_thrust::tuple_element<N,hydra_thrust::tuple<T...>>::type
+get( hydra_thrust::tuple<T...>&& t)
 {
-	return HYDRA_EXTERNAL_NS::thrust::get<N>(std::forward<HYDRA_EXTERNAL_NS::thrust::tuple<T...>>(t));
+	return hydra_thrust::get<N>(std::forward<hydra_thrust::tuple<T...>>(t));
 }
 
 template<int N, typename T1,  typename T2>
 __hydra_host__ __hydra_device__ inline
-typename HYDRA_EXTERNAL_NS::thrust::tuple_element<N,HYDRA_EXTERNAL_NS::thrust::pair<T1,T2>>::type
-get( HYDRA_EXTERNAL_NS::thrust::pair<T1,T2> && t)
+typename hydra_thrust::tuple_element<N,hydra_thrust::pair<T1,T2>>::type
+get( hydra_thrust::pair<T1,T2> && t)
 {
-	return HYDRA_EXTERNAL_NS::thrust::get<N>(std::forward<HYDRA_EXTERNAL_NS::thrust::pair<T1,T2>>(t));
+	return hydra_thrust::get<N>(std::forward<hydra_thrust::pair<T1,T2>>(t));
 }
 
 /*! This version of \p make_tuple creates a new \c tuple object from a list of
@@ -204,9 +204,9 @@ get( HYDRA_EXTERNAL_NS::thrust::pair<T1,T2> && t)
 template<class ...T>
 __hydra_host__ __hydra_device__ inline
 auto make_tuple(T const&... t)
--> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(t...))
+-> decltype(hydra_thrust::make_tuple(t...))
 {
-	return HYDRA_EXTERNAL_NS::thrust::make_tuple(t...);
+	return hydra_thrust::make_tuple(t...);
 }
 
 /*! This version of \p make_tuple creates a new \c tuple object from a list of
@@ -219,9 +219,9 @@ auto make_tuple(T const&... t)
 template<class ...T>
 __hydra_host__ __hydra_device__ inline
 auto make_tuple(T&&... t)
--> decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple( std::forward<T>(t)...))
+-> decltype(hydra_thrust::make_tuple( std::forward<T>(t)...))
 {
-	return HYDRA_EXTERNAL_NS::thrust::make_tuple(std::forward<T>(t)...);
+	return hydra_thrust::make_tuple(std::forward<T>(t)...);
 }
 
 /*! This version of \p make_pair creates a new \c pair object from a list of
@@ -235,9 +235,9 @@ auto make_tuple(T&&... t)
 template<class T1, class T2 >
 __hydra_host__ __hydra_device__ inline
 auto make_pair( T1&& t1, T2&& t2 )
--> decltype(HYDRA_EXTERNAL_NS::thrust::make_pair( std::forward<T1>(t1),std::forward<T2>(t2) ))
+-> decltype(hydra_thrust::make_pair( std::forward<T1>(t1),std::forward<T2>(t2) ))
 {
-	return HYDRA_EXTERNAL_NS::thrust::make_pair(std::forward<T1>(t1),std::forward<T2>(t2));
+	return hydra_thrust::make_pair(std::forward<T1>(t1),std::forward<T2>(t2));
 }
 
 
@@ -250,9 +250,9 @@ auto make_pair( T1&& t1, T2&& t2 )
 template<class ...T>
 __hydra_host__ __hydra_device__ inline
 auto tie(T&& ...t)
--> decltype(HYDRA_EXTERNAL_NS::thrust::tie(std::forward<T>(t)...))
+-> decltype(hydra_thrust::tie(std::forward<T>(t)...))
 {
-	return HYDRA_EXTERNAL_NS::thrust::tie(std::forward<T>(t)...);
+	return hydra_thrust::tie(std::forward<T>(t)...);
 }
 
 

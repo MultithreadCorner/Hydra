@@ -38,7 +38,7 @@
 #include <utility>
 
 //thrust
-#include <hydra/detail/external/thrust/partition.h>
+#include <hydra/detail/external/hydra_thrust/partition.h>
 
 //std
 

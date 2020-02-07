@@ -35,12 +35,12 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/detail/utility/CheckValue.h>
-#include <hydra/detail/external/thrust/copy.h>
-#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
-#include <hydra/detail/external/thrust/execution_policy.h>
-#include <hydra/detail/external/thrust/binary_search.h>
-#include <hydra/detail/external/thrust/extrema.h>
-#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/hydra_thrust/copy.h>
+#include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/hydra_thrust/execution_policy.h>
+#include <hydra/detail/external/hydra_thrust/binary_search.h>
+#include <hydra/detail/external/hydra_thrust/extrema.h>
+#include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/Iterable_traits.h>
 
 #include <math.h>
@@ -50,11 +50,11 @@
 namespace hydra {
 
 template<typename Iterator1, typename Iterator2,
-    typename Type=typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator2>::value_type>
+    typename Type=typename hydra_thrust::iterator_traits<Iterator2>::value_type>
 __hydra_host__ __hydra_device__
 inline typename  std::enable_if<
-                    std::is_floating_point<typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator1>::value_type >::value &&
-                    std::is_floating_point<typename HYDRA_EXTERNAL_NS::thrust::iterator_traits<Iterator2>::value_type >::value,
+                    std::is_floating_point<typename hydra_thrust::iterator_traits<Iterator1>::value_type >::value &&
+                    std::is_floating_point<typename hydra_thrust::iterator_traits<Iterator2>::value_type >::value,
                     Type >::type
 spiline(Iterator1 first, Iterator1 last,  Iterator2 measurements, Type value);
 

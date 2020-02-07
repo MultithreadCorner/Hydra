@@ -51,18 +51,18 @@
 #include <hydra/detail/functors/CheckEnergy.h>
 #include <hydra/Tuple.h>
 #include <hydra/detail/Hash.h>
-
+#include <hydra/Random.h>
 #include <hydra/Decays.h>
 
 #include <hydra/detail/launch_decayers.inl>
 
-#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
-#include <hydra/detail/external/thrust/iterator/counting_iterator.h>
-#include <hydra/detail/external/thrust/tuple.h>
-#include <hydra/detail/external/thrust/extrema.h>
-#include <hydra/detail/external/thrust/random.h>
-#include <hydra/detail/external/thrust/distance.h>
-#include <hydra/detail/external/thrust/equal.h>
+#include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/hydra_thrust/iterator/counting_iterator.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/extrema.h>
+#include <hydra/detail/external/hydra_thrust/random.h>
+#include <hydra/detail/external/hydra_thrust/distance.h>
+#include <hydra/detail/external/hydra_thrust/equal.h>
 
 #include <array>
 #include <vector>
@@ -82,9 +82,9 @@ namespace hydra {
  * Note that Momentum, Energy units are @f$GeV/C@f$ , @f$GeV/C^2@f$ .
  *
  *\tparam N is the number of particles in final state.
- *\tparam GRND underlying random number generator. See the options in HYDRA_EXTERNAL_NS::thrust::random namespace.
+ *\tparam GRND underlying random number generator. See the options in hydra_thrust::random namespace.
  */
-template <size_t N, typename GRND=HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>
+template <size_t N, typename GRND=hydra::default_random_engine>
 class PhaseSpace {
 
 public:
@@ -94,21 +94,21 @@ public:
 	 * @param motherMass mass of the mother particle in Gev/c*c;
 	 * @param daughtersMasses array with the masses of the daughter particles in Gev/c*c;
 	 */
-	PhaseSpace(const GReal_t (&daughtersMasses)[N]);
+	PhaseSpace(double motherMass, const double (&daughtersMasses)[N]);
 
 	/**
 	 * @brief PhaseSpace ctor. Constructor of the phase-space generator takes as input parameters:
 	 * @param motherMass mass of the mother particle in Gev/c*c;
 	 * @param daughtersMasses array with the masses of the daughter particles in Gev/c*c;
 	 */
-	PhaseSpace( std::array<GReal_t,N> const& daughtersMasses);
+	PhaseSpace(double motherMass,  std::array<GReal_t,N> const& daughtersMasses);
 
 	/**
 	 * @brief PhaseSpace ctor. Constructor of the phase-space generator takes as input parameters:
 	 * @param motherMass mass of the mother particle in Gev/c*c;
 	 * @param daughtersMasses list with the masses of the daughter particles in Gev/c*c;
 	 */
-	PhaseSpace(std::initializer_list<GReal_t> const& daughtersMasses);
+	PhaseSpace(double motherMass, std::initializer_list<GReal_t> const& daughtersMasses);
 
 	/**
 	 * @brief Copy constructor.
@@ -125,19 +125,19 @@ public:
 
 
 	/**
-		 * @brief Copy constructor.
+		 * @brief Assignment operator.
 		 * @param other
 		 */
 	PhaseSpace<N,GRND>&
 	operator=( PhaseSpace<N,GRND>const& other);
 
-		/**
-		 * @brief Copy constructor.
-		 * @param other
-		 */
-		template<typename GRND2>
-		PhaseSpace<N,GRND>&
-		operator=( PhaseSpace<N,GRND2>const& other);
+	/**
+	 * @brief Assignment operator.
+	 * @param other
+	 */
+	template<typename GRND2>
+	PhaseSpace<N,GRND>&
+	operator=( PhaseSpace<N,GRND2>const& other);
 
 
 
@@ -297,9 +297,29 @@ public:
 		return fMasses;
 	}
 
+	double GetMaxWeight() const {
+		return fMaxWeight;
+	}
 
+	void SetMaxWeight(double maxWeight) {
+		fMaxWeight = maxWeight;
+	}
 
+	double GetMotherMass() const {
+		return fMotherMass;
+	}
 
+	void SetMotherMass(double motherMass) {
+		fMotherMass = motherMass;
+	}
+
+	double GetECM() const {
+		return fECM;
+	}
+
+	void SetECM(double ecm) {
+		fECM = ecm;
+	}
 
 private:
 /**
@@ -315,7 +335,11 @@ private:
 
 
 	size_t  fSeed;///< seed.
+	double  fMotherMass;
+	double  fMaxWeight;
+	double  fECM;
 	GReal_t fMasses[N];
+
 };
 
 

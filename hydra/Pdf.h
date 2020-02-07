@@ -37,9 +37,9 @@
 #include <hydra/detail/FunctorTraits.h>
 
 
-#include <hydra/detail/external/thrust/iterator/detail/tuple_of_iterator_references.h>
-#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
-#include <hydra/detail/external/thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
+#include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
 #include <array>
 #include <utility>
 #include <initializer_list>

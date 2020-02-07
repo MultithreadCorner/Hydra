@@ -40,14 +40,14 @@ Plain<N,hydra::detail::BackendPolicy<BACKEND>,GRND>::Integrate(FUNCTOR const& fF
 {
 
 	// create iterators
-	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> first(0);
-	HYDRA_EXTERNAL_NS::thrust::counting_iterator<size_t> last = first + fNCalls;
+	hydra_thrust::counting_iterator<size_t> first(0);
+	hydra_thrust::counting_iterator<size_t> last = first + fNCalls;
 
 
 	// compute summary statistics
-	PlainState result = HYDRA_EXTERNAL_NS::thrust::transform_reduce(system_t(), first, last,
-			detail::ProcessCallsPlainUnary<FUNCTOR,N,GRND>(const_cast<GReal_t*>(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(fXLow.data())),
-					const_cast<GReal_t*>(HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(fDeltaX.data())), fSeed,fFunctor),
+	PlainState result = hydra_thrust::transform_reduce(system_t(), first, last,
+			detail::ProcessCallsPlainUnary<FUNCTOR,N,GRND>(const_cast<GReal_t*>(hydra_thrust::raw_pointer_cast(fXLow.data())),
+					const_cast<GReal_t*>(hydra_thrust::raw_pointer_cast(fDeltaX.data())), fSeed,fFunctor),
 			PlainState(), detail::ProcessCallsPlainBinary() );
 
 	fResult   = fVolume*result.fMean;

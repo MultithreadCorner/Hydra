@@ -32,11 +32,11 @@
 
 
 #include <hydra/detail/Config.h>
-#include <hydra/detail/external/thrust/sort.h>
-#include <hydra/detail/external/thrust/memory.h>
-#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
-#include <hydra/detail/external/thrust/swap.h>
-#include <hydra/detail/external/thrust/reverse.h>
+#include <hydra/detail/external/hydra_thrust/sort.h>
+#include <hydra/detail/external/hydra_thrust/memory.h>
+#include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/hydra_thrust/swap.h>
+#include <hydra/detail/external/hydra_thrust/reverse.h>
 
 namespace hydra {
 
@@ -45,7 +45,7 @@ namespace detail {
 template <class Iterator>
 __hydra_host__ __hydra_device__
 void iter_swap(Iterator first, Iterator second)
-{	HYDRA_EXTERNAL_NS::thrust::swap(*HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(first), *HYDRA_EXTERNAL_NS::thrust::raw_pointer_cast(second)); }
+{	hydra_thrust::swap(*hydra_thrust::raw_pointer_cast(first), *hydra_thrust::raw_pointer_cast(second)); }
 
 template <class Iterator>
 __hydra_host__ __hydra_device__
@@ -81,7 +81,7 @@ typename std::enable_if<std::is_integral<Integer>::value, void>::type
 __hydra_host__ __hydra_device__
 nth_permutation(Iterator begin, Iterator end, Integer n, Comparator comp)
 {
-	HYDRA_EXTERNAL_NS::thrust::sort(begin, end, comp);
+	hydra_thrust::sort(begin, end, comp);
 
 	const Integer k(end - begin);
 
@@ -122,11 +122,11 @@ bool next_permutation(BidirIt first, BidirIt last)
 			while (!(*i < *--i2))
 				;
 			hydra::iter_swap(i, i2);
-			HYDRA_EXTERNAL_NS::thrust::reverse(i1, last);
+			hydra_thrust::reverse(i1, last);
 			return true;
 		}
 		if (i == first) {
-			HYDRA_EXTERNAL_NS::thrust::reverse(first, last);
+			hydra_thrust::reverse(first, last);
 			return false;
 		}
 	}

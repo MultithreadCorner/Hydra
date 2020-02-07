@@ -40,10 +40,10 @@
 #include <hydra/detail/Print.h>
 #include <hydra/UserParameters.h>
 
-#include <hydra/detail/external/thrust/distance.h>
-#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
-#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
-#include <hydra/detail/external/thrust/transform_reduce.h>
+#include <hydra/detail/external/hydra_thrust/distance.h>
+#include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/hydra_thrust/transform_reduce.h>
 
 #include <Minuit2/FCNBase.h>
 #include <unordered_map>
@@ -58,7 +58,7 @@ namespace hydra {
 namespace detail {
 
 template<typename ArgType>
-struct FCNWeightsReducerUnary: public HYDRA_EXTERNAL_NS::thrust::unary_function<ArgType, double>
+struct FCNWeightsReducerUnary: public hydra_thrust::unary_function<ArgType, double>
 {
 
 
@@ -95,8 +95,8 @@ class FCN<Estimator<PDF,Iterator,Iterators...>>: public ROOT::Minuit2::FCNBase
 
 public:
 
-	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<HYDRA_EXTERNAL_NS::thrust::tuple<Iterators...>> witerator;
-	typedef HYDRA_EXTERNAL_NS::thrust::zip_iterator<HYDRA_EXTERNAL_NS::thrust::tuple<Iterator,Iterators...>> iterator;
+	typedef hydra_thrust::zip_iterator<hydra_thrust::tuple<Iterators...>> witerator;
+	typedef hydra_thrust::zip_iterator<hydra_thrust::tuple<Iterator,Iterators...>> iterator;
 
 
 	FCN(PDF const& pdf, Iterator begin, Iterator end, Iterators ...begins):
@@ -104,8 +104,8 @@ public:
 	fErrorDef(0.5),
 	fBegin(begin),
 	fEnd(end),
-	fWBegin(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust::make_tuple(begins...))),
-	fWEnd(HYDRA_EXTERNAL_NS::thrust::make_zip_iterator(HYDRA_EXTERNAL_NS::thrust::make_tuple((begins + HYDRA_EXTERNAL_NS::thrust::distance(begin, end))...))),
+	fWBegin(hydra_thrust::make_zip_iterator( hydra_thrust::make_tuple(begins...))),
+	fWEnd(hydra_thrust::make_zip_iterator(hydra_thrust::make_tuple((begins + hydra_thrust::distance(begin, end))...))),
 	fFCNCache(std::unordered_map<size_t, GReal_t>()),
 	fFCNMaxValue(std::numeric_limits<GReal_t>::min())
 	{
@@ -113,12 +113,12 @@ public:
 
 
 
-		auto weights_begin = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust::make_tuple( begins...));
-		auto weights_end   = HYDRA_EXTERNAL_NS::thrust::make_zip_iterator( HYDRA_EXTERNAL_NS::thrust::make_tuple( (begins + HYDRA_EXTERNAL_NS::thrust::distance(begin, end))...));
+		auto weights_begin = hydra_thrust::make_zip_iterator( hydra_thrust::make_tuple( begins...));
+		auto weights_end   = hydra_thrust::make_zip_iterator( hydra_thrust::make_tuple( (begins + hydra_thrust::distance(begin, end))...));
 
-		typedef typename  HYDRA_EXTERNAL_NS::thrust::iterator_traits<decltype(weights_begin)>::value_type arg_type;
+		typedef typename  hydra_thrust::iterator_traits<decltype(weights_begin)>::value_type arg_type;
 
-		fDataSize = HYDRA_EXTERNAL_NS::thrust::transform_reduce(weights_begin, weights_end, detail::FCNWeightsReducerUnary<arg_type>() , 0.0, HYDRA_EXTERNAL_NS::thrust::plus<double>());
+		fDataSize = hydra_thrust::transform_reduce(weights_begin, weights_end, detail::FCNWeightsReducerUnary<arg_type>() , 0.0, hydra_thrust::plus<double>());
 
 		LoadFCNParameters();
 	}
@@ -388,7 +388,7 @@ public:
 	fFCNCache(std::unordered_map<size_t, GReal_t>()),
 	fFCNMaxValue(std::numeric_limits<GReal_t>::min())
 	{
-		fDataSize = HYDRA_EXTERNAL_NS::thrust::distance(fBegin, fEnd);
+		fDataSize = hydra_thrust::distance(fBegin, fEnd);
 		LoadFCNParameters();
 	}
 

@@ -160,6 +160,7 @@ int main(int argv, char** argc)
 		for(size_t i=0; i<10; i++)
 			std::cout << "[" << i << "] :" << range[i] << std::endl;
 
+		//static_assert(hydra::detail::is_iterable<decltype(range)>::value, "<<<<<<<<<<<<<<");
 		auto fcn   = hydra::make_loglikehood_fcn(model, range);
 
 		//-------------------------------------------------------

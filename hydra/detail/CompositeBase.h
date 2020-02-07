@@ -50,14 +50,14 @@ class  CompositeBase
 
 public:
 
-	typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<F0, F1, Fs...> functors_type;
+	typedef typename hydra_thrust::tuple<F0, F1, Fs...> functors_type;
 
 	CompositeBase()=delete;
 
 	CompositeBase(F0 const& f0, F1 const& f1,  Fs const& ...fs):
 		fIndex(-1),
 		fCached(0),
-		fFtorTuple(HYDRA_EXTERNAL_NS::thrust::make_tuple(f0, f1, fs...)),
+		fFtorTuple(hydra_thrust::make_tuple(f0, f1, fs...)),
 		fNorm(1.0)
 	{ }
 
@@ -223,9 +223,9 @@ public:
 	const functors_type& GetFunctors() const {return fFtorTuple;}
 
 	template<unsigned int I>
-	inline typename HYDRA_EXTERNAL_NS::thrust::tuple_element<I,functors_type>::type&
+	inline typename hydra_thrust::tuple_element<I,functors_type>::type&
 	GetFunctor(hydra::placeholders::placeholder<I> const& )
-	{return HYDRA_EXTERNAL_NS::thrust::get<I>(fFtorTuple);}
+	{return hydra_thrust::get<I>(fFtorTuple);}
 
 
 

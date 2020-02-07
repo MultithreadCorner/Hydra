@@ -390,7 +390,7 @@ int main(int argv, char** argc)
 	//generator
 	hydra::Vector4R B0(D_MASS, 0.0, 0.0, 0.0);
 	// Create PhaseSpace object for B0-> K pi J/psi
-	hydra::PhaseSpace<3> phsp{K_MASS, PI_MASS, PI_MASS};
+	hydra::PhaseSpace<3> phsp{D_MASS ,{K_MASS, PI_MASS, PI_MASS}};
 
 	// functor to calculate the 2-body masses
 	auto dalitz_calculator = hydra::wrap_lambda(
@@ -1111,7 +1111,7 @@ size_t generate_dataset(Backend const& system, Model const& model, std::array<do
 	hydra::Vector4R D(D_MASS, 0.0, 0.0, 0.0);
 
 	// Create PhaseSpace object for B0-> K pi pi
-	hydra::PhaseSpace<3> phsp{K_MASS, PI_MASS, PI_MASS};
+	hydra::PhaseSpace<3> phsp{D_MASS, {K_MASS, PI_MASS, PI_MASS}};
 
 	//allocate memory to hold the final states particles
 	hydra::Decays<3, Backend > _data(bunch_size);
@@ -1124,7 +1124,7 @@ size_t generate_dataset(Backend const& system, Model const& model, std::array<do
 		//generate the final state particles
 		phsp.Generate(D, _data.begin(), _data.end());
 
-		auto sample = _data.Unweight(model, 1.0);
+		auto sample = _data.Unweight(model);
 
 		decays.insert(decays.end(), sample);
 
@@ -1150,7 +1150,7 @@ double fit_fraction( Amplitude const& amp, Model const& model, std::array<double
 	hydra::Vector4R D(D_MASS, 0.0, 0.0, 0.0);
 
 	// Create PhaseSpace object for B0-> K pi pi
-	hydra::PhaseSpace<3> phsp{K_MASS, PI_MASS, PI_MASS};
+	hydra::PhaseSpace<3> phsp{D_MASS,{K_MASS, PI_MASS, PI_MASS}};
 
 	//norm lambda
 	auto Norm = hydra::wrap_lambda( [] __hydra_dual__ (unsigned int n, hydra::complex<double>* x){
@@ -1190,7 +1190,7 @@ TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& mas
 	//generator
 	hydra::Vector4R D(D_MASS, 0.0, 0.0, 0.0);
 	// Create PhaseSpace object for B0-> K pi pi
-	hydra::PhaseSpace<3> phsp{K_MASS, PI_MASS, PI_MASS};
+	hydra::PhaseSpace<3> phsp{D_MASS, {K_MASS, PI_MASS, PI_MASS}};
 
 	// functor to calculate the 2-body masses
 	auto dalitz_calculator = hydra::wrap_lambda(

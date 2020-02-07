@@ -90,15 +90,22 @@
 
 
 
-#include <hydra/detail/external/thrust/detail/config.h>
-#include <hydra/detail/external/thrust/detail/config/host_device.h>
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+#include <hydra/detail/external/hydra_thrust/detail/config/host_device.h>
 
-
-
+#ifndef HYDRA_THRUST_VARIADIC_TUPLE
 #define HYDRA_THRUST_VARIADIC_TUPLE
+#endif
 
-#define __hydra_exec_check_disable__  __thrust_exec_check_disable__
+#define __hydra_host__ __host__
 
+#define __hydra_device__ __device__
+
+#define __hydra_dual__ __host__ __device__
+
+#ifndef HYDRA_EXTERNAL_NS
+#define HYDRA_EXTERNAL_NS
+#endif //HYDRA_EXTERNAL_NS
 
 #if defined(__CUDACC__)
 #define __hydra_align__(n) __align__(n)
@@ -119,5 +126,29 @@
 #define HYDRA_OS HYDRA_CERROR_LOG
 #endif
 
+//Branch prediction hints
+#if(\
+(HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG) ||\
+(HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC)\
+)
+	#define HYDRA_HOST_LIKELY(x) __builtin_expect(x, 1)
+	#define HYDRA_HOST_UNLIKELY(x) __builtin_expect(x, 0)
+#else
+	#define HYDRA_HOST_LIKELY(x) x
+	#define HYDRA_HOST_UNLIKELY(x) x
+#endif
+
+#if(\
+(HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG) ||\
+(HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC)\
+)
+	#define HYDRA_DEVICE_LIKELY(x) __builtin_expect(x, 1)
+	#define HYDRA_DEVICE_UNLIKELY(x) __builtin_expect(x, 0)
+#else
+    #define HYDRA_DEVICE_LIKELY(x) x
+    #define HYDRA_DEVICE_UNLIKELY(x) x
+#endif
+
+#define HYDRA_PREVENT_MACRO_SUBSTITUTION
 
 #endif /* CUDA_H_ */

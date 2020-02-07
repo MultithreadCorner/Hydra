@@ -204,10 +204,10 @@ int main(int argv, char** argc)
 	double masses2[2]{mu_mass , mu_mass};
 
 	// Create PhaseSpace object for B0 -> K pi J/psi
-	hydra::PhaseSpace<3> phsp1( masses1);
+	hydra::PhaseSpace<3> phsp1(B0_mass, masses1);
 
 	// Create PhaseSpace object for J/psi -> mu+ mu-
-	hydra::PhaseSpace<2> phsp2( masses2);
+	hydra::PhaseSpace<2> phsp2(Jpsi_mass, masses2);
 
 	//device
 	{

@@ -179,7 +179,7 @@ int main(int argv, char** argc)
 	hydra::Vector4R B0(B0_mass, 0.0, 0.0, 0.0);
 
 	// Create PhaseSpace object for B0-> K pi J/psi
-	hydra::PhaseSpace<3> phsp({Jpsi_mass, K_mass, pi_mass });
+	hydra::PhaseSpace<3> phsp(B0_mass,{Jpsi_mass, K_mass, pi_mass });
 
 	// functor to calculate the 2-body masses
 	auto dalitz_calculator = hydra::wrap_lambda(

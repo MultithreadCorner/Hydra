@@ -36,18 +36,18 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
-#include <hydra/detail/external/thrust/device_vector.h>
-#include <hydra/detail/external/thrust/transform_reduce.h>
+#include <hydra/detail/external/hydra_thrust/device_vector.h>
+#include <hydra/detail/external/hydra_thrust/transform_reduce.h>
 #include <hydra/PlainState.h>
 #include <hydra/detail/functors/ProcessCallsPlain.h>
 #include <utility>
 #include <vector>
 
-#include <hydra/detail/external/thrust/random.h>
+#include <hydra/detail/external/hydra_thrust/random.h>
 
 namespace hydra {
 
-template<size_t N, typename BACKEND, typename GRND=HYDRA_EXTERNAL_NS::thrust::random::default_random_engine>
+template<size_t N, typename BACKEND, typename GRND=hydra_thrust::random::default_random_engine>
 struct Plain;
 
 
@@ -221,7 +221,7 @@ public:
 
 	/**
 	 * @brief Get a vector with the width of the integration region in each direction.
-	 * @return HYDRA_EXTERNAL_NS::thrust::[backend]::vector<double>.
+	 * @return hydra_thrust::[backend]::vector<double>.
 	 */
 	inline const vector_t& GetDeltaX() const {
 		return fDeltaX;

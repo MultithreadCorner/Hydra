@@ -29,17 +29,17 @@
 //#ifndef DENSEHISTOGRAM_INL_
 //#define DENSEHISTOGRAM_INL_
 
-#include <hydra/detail/external/thrust/memory.h>
-#include <hydra/detail/external/thrust/reduce.h>
-#include <hydra/detail/external/thrust/gather.h>
-#include <hydra/detail/external/thrust/scatter.h>
+#include <hydra/detail/external/hydra_thrust/memory.h>
+#include <hydra/detail/external/hydra_thrust/reduce.h>
+#include <hydra/detail/external/hydra_thrust/gather.h>
+#include <hydra/detail/external/hydra_thrust/scatter.h>
 #include <hydra/detail/functors/GetGlobalBin.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/Distance.h>
-#include <hydra/detail/external/thrust/iterator/constant_iterator.h>
-#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
-#include <hydra/detail/external/thrust/system/detail/generic/select_system.h>
-#include <hydra/detail/external/thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/hydra_thrust/iterator/constant_iterator.h>
+#include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/hydra_thrust/system/detail/generic/select_system.h>
+#include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 
 namespace hydra {
 
@@ -48,58 +48,58 @@ template<typename Iterator1, typename Iterator2>
 DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin )
 {
-	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator1>::type system1_t;
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator2>::type system2_t;
+	using hydra_thrust::system::detail::generic::select_system;
+	typedef  typename hydra_thrust::iterator_system<Iterator1>::type system1_t;
+	typedef  typename hydra_thrust::iterator_system<Iterator2>::type system2_t;
 	system1_t system1;
 	system2_t system2;
 
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
+	typedef  typename hydra_thrust::detail::remove_reference<
 			decltype(select_system(fSystem, system1, system2 ))>::type common_system_t;
 
 
     //----------------
 
-	size_t data_size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
+	size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<N,T>(fGrid, fLowerLimits, fUpperLimits);
 
 	//work on local copy of weights
 
-	auto weights  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	HYDRA_EXTERNAL_NS::thrust::copy(wbegin, wbegin+data_size, weights.first);
+	auto weights  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
+	hydra_thrust::copy(wbegin, wbegin+data_size, weights.first);
 
-	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
-	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
+	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
 
-	HYDRA_EXTERNAL_NS::thrust::copy( keys_begin, keys_end, key_buffer.first);
+	hydra_thrust::copy( keys_begin, keys_end, key_buffer.first);
 
-	HYDRA_EXTERNAL_NS::thrust::sort_by_key(key_buffer.first, key_buffer.first + key_buffer.second, weights.first );
+	hydra_thrust::sort_by_key(key_buffer.first, key_buffer.first + key_buffer.second, weights.first );
 
 
 	//bins content
-	auto bin_contents    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
-	auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto bin_contents    = hydra_thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
+	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
 
-	HYDRA_EXTERNAL_NS::thrust::fill(bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
+	hydra_thrust::fill(bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
 
-	auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(common_system_t(), key_buffer.first,
+	auto reduced_end = hydra_thrust::reduce_by_key(common_system_t(), key_buffer.first,
 			key_buffer.first + key_buffer.second, weights.first, reduced_keys.first, reduced_values.first);
 
-	HYDRA_EXTERNAL_NS::thrust::scatter( common_system_t(),  reduced_values.first, reduced_end.second,
+	hydra_thrust::scatter( common_system_t(),  reduced_values.first, reduced_end.second,
 			reduced_keys.first,bin_contents.first );
 
-	HYDRA_EXTERNAL_NS::thrust::copy(bin_contents.first ,
+	hydra_thrust::copy(bin_contents.first ,
 			bin_contents.first+ bin_contents.second,  fContents.begin());
 
-    // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
-	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), weights.first  );
+    // deallocate storage with hydra_thrust::return_temporary_buffer
+	hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
+    hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+    hydra_thrust::return_temporary_buffer(common_system_t(), weights.first  );
 
     return *this;
 }
@@ -111,58 +111,58 @@ DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
 		Iterator1 begin, Iterator1 end, Iterator2 wbegin )
 {
-	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator1>::type system1_t;
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator2>::type system2_t;
+	using hydra_thrust::system::detail::generic::select_system;
+	typedef  typename hydra_thrust::iterator_system<Iterator1>::type system1_t;
+	typedef  typename hydra_thrust::iterator_system<Iterator2>::type system2_t;
 	system1_t system1;
 	system2_t system2;
 
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
+	typedef  typename hydra_thrust::detail::remove_reference<
 			decltype(select_system(exec_policy,fSystem, system1, system2 ))>::type common_system_t;
 
 
     //----------------
 
-	size_t data_size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
+	size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<N,T>(fGrid, fLowerLimits, fUpperLimits);
 
 	//work on local copy of weights
 
-	auto weights  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	HYDRA_EXTERNAL_NS::thrust::copy(wbegin, wbegin+data_size, weights.first);
+	auto weights  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
+	hydra_thrust::copy(wbegin, wbegin+data_size, weights.first);
 
-	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
-	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
+	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
 
-	HYDRA_EXTERNAL_NS::thrust::copy( keys_begin, keys_end, key_buffer.first);
+	hydra_thrust::copy( keys_begin, keys_end, key_buffer.first);
 
-	HYDRA_EXTERNAL_NS::thrust::sort_by_key(key_buffer.first, key_buffer.first + key_buffer.second, weights.first );
+	hydra_thrust::sort_by_key(key_buffer.first, key_buffer.first + key_buffer.second, weights.first );
 
 
 	//bins content
-	auto bin_contents    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
-	auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto bin_contents    = hydra_thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
+	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
 
-	HYDRA_EXTERNAL_NS::thrust::fill(bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
+	hydra_thrust::fill(bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
 
-	auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(common_system_t(), keys_begin, keys_end, weights.first,
+	auto reduced_end = hydra_thrust::reduce_by_key(common_system_t(), keys_begin, keys_end, weights.first,
     		reduced_keys.first, reduced_values.first);
 
-	HYDRA_EXTERNAL_NS::thrust::scatter( common_system_t(),  reduced_values.first, reduced_end.second,
+	hydra_thrust::scatter( common_system_t(),  reduced_values.first, reduced_end.second,
 			reduced_keys.first,bin_contents.first );
 
-	HYDRA_EXTERNAL_NS::thrust::copy(bin_contents.first ,
+	hydra_thrust::copy(bin_contents.first ,
 			bin_contents.first+ bin_contents.second,  fContents.begin());
 
-    // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
-	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), weights.first  );
+    // deallocate storage with hydra_thrust::return_temporary_buffer
+	hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
+    hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+    hydra_thrust::return_temporary_buffer(common_system_t(), weights.first  );
 
     return *this;
 }
@@ -173,55 +173,55 @@ template<typename Iterator>
 DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(Iterator begin, Iterator end )
 {
-	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
+	using hydra_thrust::system::detail::generic::select_system;
+	typedef  typename hydra_thrust::iterator_system<Iterator>::type system1_t;
 	system1_t system1;
 
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
+	typedef  typename hydra_thrust::detail::remove_reference<
 			decltype(select_system(fSystem, system1 ))>::type common_system_t;
 
 
-		typedef HYDRA_EXTERNAL_NS::thrust::pointer<T, common_system_t> buffer_t;
+		typedef hydra_thrust::pointer<T, common_system_t> buffer_t;
 
-		size_t data_size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
+		size_t data_size = hydra_thrust::distance(begin, end);
 
 		auto key_functor = detail::GetGlobalBin<N,T>(fGrid, fLowerLimits, fUpperLimits);
 
-		auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
-		auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
-		auto key_buffer = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+		auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
+		auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
+		auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
 
 
-		HYDRA_EXTERNAL_NS::thrust::copy( keys_begin, keys_end, key_buffer.first);
-		HYDRA_EXTERNAL_NS::thrust::sort(key_buffer.first, key_buffer.first+data_size);
+		hydra_thrust::copy( keys_begin, keys_end, key_buffer.first);
+		hydra_thrust::sort(key_buffer.first, key_buffer.first+data_size);
 
 
 		//bins content
-		auto bin_contents    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
-		auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-		auto reduced_keys    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
-		auto weights         = HYDRA_EXTERNAL_NS::thrust::constant_iterator<double>(1.0);
+		auto bin_contents    = hydra_thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
+		auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
+		auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+		auto weights         = hydra_thrust::constant_iterator<double>(1.0);
 
-		auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(common_system_t(),
+		auto reduced_end = hydra_thrust::reduce_by_key(common_system_t(),
 				key_buffer.first, key_buffer.first+data_size,
 				weights, reduced_keys.first, reduced_values.first);
 
-		HYDRA_EXTERNAL_NS::thrust::fill(bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
+		hydra_thrust::fill(bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
 
-		HYDRA_EXTERNAL_NS::thrust::scatter( common_system_t(),  reduced_values.first, reduced_end.second,
+		hydra_thrust::scatter( common_system_t(),  reduced_values.first, reduced_end.second,
 			  reduced_keys.first, bin_contents.first );
 
 		std::cout<< "TEST => contents "
-				<<  HYDRA_EXTERNAL_NS::thrust::distance(reduced_values.first, reduced_end.second )
+				<<  hydra_thrust::distance(reduced_values.first, reduced_end.second )
 		        << " =? " <<  fContents.size() << std::endl;
-		HYDRA_EXTERNAL_NS::thrust::copy(bin_contents.first ,
+		hydra_thrust::copy(bin_contents.first ,
 				bin_contents.first+ bin_contents.second,  fContents.begin());
 
-	    // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
-		HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
-		HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
-	    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-	    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
+	    // deallocate storage with hydra_thrust::return_temporary_buffer
+		hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+		hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
+	    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
+	    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
 
 	    return *this;
 }
@@ -231,53 +231,53 @@ template<hydra::detail::Backend BACKEND2, typename Iterator>
 DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator begin, Iterator end )
 {
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
+	typedef  typename hydra_thrust::iterator_system<Iterator>::type system1_t;
 		system1_t system1;
 
-		typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
+		typedef  typename hydra_thrust::detail::remove_reference<
 					decltype(select_system(exec_policy,fSystem, system1))>::type common_system_t;
 
-		typedef HYDRA_EXTERNAL_NS::thrust::pointer<T, common_system_t> buffer_t;
+		typedef hydra_thrust::pointer<T, common_system_t> buffer_t;
 
-		size_t data_size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
+		size_t data_size = hydra_thrust::distance(begin, end);
 
 		auto key_functor = detail::GetGlobalBin<N,T>(fGrid, fLowerLimits, fUpperLimits);
 
-		auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
-		auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
-		auto key_buffer = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+		auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
+		auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
+		auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
 
 
-		HYDRA_EXTERNAL_NS::thrust::copy( keys_begin, keys_end, key_buffer.first);
-		HYDRA_EXTERNAL_NS::thrust::sort(key_buffer.first, key_buffer.first+data_size);
+		hydra_thrust::copy( keys_begin, keys_end, key_buffer.first);
+		hydra_thrust::sort(key_buffer.first, key_buffer.first+data_size);
 
 
 		//bins content
-		auto bin_contents    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
-		auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-		auto reduced_keys    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
-		auto weights         = HYDRA_EXTERNAL_NS::thrust::constant_iterator<double>(1.0);
+		auto bin_contents    = hydra_thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
+		auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
+		auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+		auto weights         = hydra_thrust::constant_iterator<double>(1.0);
 
-		auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(common_system_t(),
+		auto reduced_end = hydra_thrust::reduce_by_key(common_system_t(),
 				key_buffer.first, key_buffer.first+data_size,
 				weights, reduced_keys.first, reduced_values.first);
 
-		HYDRA_EXTERNAL_NS::thrust::fill(bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
+		hydra_thrust::fill(bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
 
-		HYDRA_EXTERNAL_NS::thrust::scatter( common_system_t(),  reduced_values.first, reduced_end.second,
+		hydra_thrust::scatter( common_system_t(),  reduced_values.first, reduced_end.second,
 			  reduced_keys.first, bin_contents.first );
 
 		std::cout<< "TEST => contents "
-				<<  HYDRA_EXTERNAL_NS::thrust::distance(reduced_values.first, reduced_end.second )
+				<<  hydra_thrust::distance(reduced_values.first, reduced_end.second )
 		        << " =? " <<  fContents.size() << std::endl;
-		HYDRA_EXTERNAL_NS::thrust::copy(bin_contents.first ,
+		hydra_thrust::copy(bin_contents.first ,
 				bin_contents.first+ bin_contents.second,  fContents.begin());
 
-	    // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
-		HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
-		HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
-	    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-	    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
+	    // deallocate storage with hydra_thrust::return_temporary_buffer
+		hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+		hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
+	    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
+	    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
 
 	    return *this;
 }
@@ -288,51 +288,51 @@ template<typename Iterator>
 DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>&
 DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fill(Iterator begin, Iterator end )
 {
-	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
+	using hydra_thrust::system::detail::generic::select_system;
+	typedef  typename hydra_thrust::iterator_system<Iterator>::type system1_t;
 	system1_t system1;
 
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
+	typedef  typename hydra_thrust::detail::remove_reference<
 			decltype(select_system(fSystem, system1 ))>::type common_system_t;
 
-	size_t data_size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
+	size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<1,T>(fGrid, fLowerLimits, fUpperLimits);
 
 	//work on local copy of data
 
-	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
-	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
+	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
 
-	HYDRA_EXTERNAL_NS::thrust::copy( keys_begin, keys_end, key_buffer.first);
-	HYDRA_EXTERNAL_NS::thrust::sort(key_buffer.first, key_buffer.first+data_size );
+	hydra_thrust::copy( keys_begin, keys_end, key_buffer.first);
+	hydra_thrust::sort(key_buffer.first, key_buffer.first+data_size );
 
 
 	//bins content
-	auto bin_contents    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
-	auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
-	auto  weights    = HYDRA_EXTERNAL_NS::thrust::constant_iterator<size_t>(1.0);
+	auto bin_contents    = hydra_thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
+	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto  weights    = hydra_thrust::constant_iterator<size_t>(1.0);
 
-	auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(common_system_t(),
+	auto reduced_end = hydra_thrust::reduce_by_key(common_system_t(),
 			key_buffer.first, key_buffer.first+data_size,
 			weights, reduced_keys.first, reduced_values.first);
 
-	HYDRA_EXTERNAL_NS::thrust::fill(bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
+	hydra_thrust::fill(bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
 
-	HYDRA_EXTERNAL_NS::thrust::scatter( common_system_t(), reduced_values.first, reduced_end.second,
+	hydra_thrust::scatter( common_system_t(), reduced_values.first, reduced_end.second,
 		  reduced_keys.first, bin_contents.first);
 
-	HYDRA_EXTERNAL_NS::thrust::copy(bin_contents.first ,
+	hydra_thrust::copy(bin_contents.first ,
 			bin_contents.first+ bin_contents.second,  fContents.begin());
 
 
-    // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
-	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+    // deallocate storage with hydra_thrust::return_temporary_buffer
+	hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
+    hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
     return *this;
 }
@@ -346,50 +346,50 @@ DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>&
 DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
 		Iterator begin, Iterator end )
 {
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator>::type system1_t;
+	typedef  typename hydra_thrust::iterator_system<Iterator>::type system1_t;
 	system1_t system1;
 
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
+	typedef  typename hydra_thrust::detail::remove_reference<
 			decltype(select_system(exec_policy, fSystem,system1))>::type common_system_t;
 
-	size_t data_size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
+	size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<1,T>(fGrid, fLowerLimits, fUpperLimits);
 
 	//work on local copy of data
 
-	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
-	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
+	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
 
-	HYDRA_EXTERNAL_NS::thrust::copy( keys_begin, keys_end, key_buffer.first);
-	HYDRA_EXTERNAL_NS::thrust::sort(key_buffer.first, key_buffer.first+data_size );
+	hydra_thrust::copy( keys_begin, keys_end, key_buffer.first);
+	hydra_thrust::sort(key_buffer.first, key_buffer.first+data_size );
 
 
 	//bins content
-	auto bin_contents    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
-	auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
-	auto  weights    = HYDRA_EXTERNAL_NS::thrust::constant_iterator<size_t>(1.0);
+	auto bin_contents    = hydra_thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
+	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto  weights    = hydra_thrust::constant_iterator<size_t>(1.0);
 
-	auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(common_system_t(),
+	auto reduced_end = hydra_thrust::reduce_by_key(common_system_t(),
 			key_buffer.first, key_buffer.first+data_size,
 			weights, reduced_keys.first, reduced_values.first);
 
-	HYDRA_EXTERNAL_NS::thrust::fill(bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
+	hydra_thrust::fill(bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
 
-	HYDRA_EXTERNAL_NS::thrust::scatter( common_system_t(), reduced_values.first, reduced_end.second,
+	hydra_thrust::scatter( common_system_t(), reduced_values.first, reduced_end.second,
 		  reduced_keys.first, bin_contents.first);
 
-	HYDRA_EXTERNAL_NS::thrust::copy(bin_contents.first ,
+	hydra_thrust::copy(bin_contents.first ,
 			bin_contents.first+ bin_contents.second,  fContents.begin());
 
 
-    // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
-	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+    // deallocate storage with hydra_thrust::return_temporary_buffer
+	hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
+    hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
     return *this;
 }
@@ -401,55 +401,55 @@ template<typename Iterator1, typename Iterator2>
 DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>&
 DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin )
 {
-	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator1>::type system1_t;
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator2>::type system2_t;
+	using hydra_thrust::system::detail::generic::select_system;
+	typedef  typename hydra_thrust::iterator_system<Iterator1>::type system1_t;
+	typedef  typename hydra_thrust::iterator_system<Iterator2>::type system2_t;
 	system1_t system1;
 	system2_t system2;
 
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
+	typedef  typename hydra_thrust::detail::remove_reference<
 			decltype(select_system(fSystem,system1, system2 ))>::type common_system_t;
 
-	size_t data_size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
+	size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<1,T>(fGrid, fLowerLimits, fUpperLimits);
 
 	//work on local copy of data
-	auto weights  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	HYDRA_EXTERNAL_NS::thrust::copy(wbegin, wbegin+data_size, weights.first);
+	auto weights  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
+	hydra_thrust::copy(wbegin, wbegin+data_size, weights.first);
 
-	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
-	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
+	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
 
-	HYDRA_EXTERNAL_NS::thrust::copy(common_system_t(),  keys_begin, keys_end, key_buffer.first);
-	HYDRA_EXTERNAL_NS::thrust::sort_by_key(common_system_t(), key_buffer.first, key_buffer.first+data_size, weights.first);
+	hydra_thrust::copy(common_system_t(),  keys_begin, keys_end, key_buffer.first);
+	hydra_thrust::sort_by_key(common_system_t(), key_buffer.first, key_buffer.first+data_size, weights.first);
 
 	//bins content
-	auto bin_contents    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
-	auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto bin_contents    = hydra_thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
+	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
 
 
-	auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(common_system_t(),
+	auto reduced_end = hydra_thrust::reduce_by_key(common_system_t(),
 			key_buffer.first, key_buffer.first+data_size,
 			weights.first, reduced_keys.first, reduced_values.first);
 
-	HYDRA_EXTERNAL_NS::thrust::fill( common_system_t(), bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
+	hydra_thrust::fill( common_system_t(), bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
 
-	HYDRA_EXTERNAL_NS::thrust::scatter( common_system_t(), reduced_values.first, reduced_end.second,
+	hydra_thrust::scatter( common_system_t(), reduced_values.first, reduced_end.second,
 		  reduced_keys.first, bin_contents.first);
 
-	HYDRA_EXTERNAL_NS::thrust::copy( bin_contents.first ,
+	hydra_thrust::copy( bin_contents.first ,
 			bin_contents.first+ bin_contents.second,  fContents.begin());
 
 
-    // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
-	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
-	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), weights.first  );
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+    // deallocate storage with hydra_thrust::return_temporary_buffer
+	hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
+	hydra_thrust::return_temporary_buffer(common_system_t(), weights.first  );
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
+    hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
     return *this;
 }
@@ -463,55 +463,55 @@ DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional >&
 DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional >::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
 		Iterator1 begin, Iterator1 end, Iterator2 wbegin )
 {
-	using HYDRA_EXTERNAL_NS::thrust::system::detail::generic::select_system;
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator1>::type system1_t;
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::iterator_system<Iterator2>::type system2_t;
+	using hydra_thrust::system::detail::generic::select_system;
+	typedef  typename hydra_thrust::iterator_system<Iterator1>::type system1_t;
+	typedef  typename hydra_thrust::iterator_system<Iterator2>::type system2_t;
 	system1_t system1;
 	system2_t system2;
 
-	typedef  typename HYDRA_EXTERNAL_NS::thrust::detail::remove_reference<
+	typedef  typename hydra_thrust::detail::remove_reference<
 			decltype(select_system(exec_policy, fSystem,system1, system2 ))>::type common_system_t;
 
-	size_t data_size = HYDRA_EXTERNAL_NS::thrust::distance(begin, end);
+	size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<1,T>(fGrid, fLowerLimits, fUpperLimits);
 
 	//work on local copy of data
-	auto weights  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	HYDRA_EXTERNAL_NS::thrust::copy(wbegin, wbegin+data_size, weights.first);
+	auto weights  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
+	hydra_thrust::copy(wbegin, wbegin+data_size, weights.first);
 
-	auto keys_begin = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(begin, key_functor );
-	auto keys_end   = HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
+	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
 
-	HYDRA_EXTERNAL_NS::thrust::copy(common_system_t(),  keys_begin, keys_end, key_buffer.first);
-	HYDRA_EXTERNAL_NS::thrust::sort_by_key(common_system_t(), key_buffer.first, key_buffer.first+data_size, weights.first);
+	hydra_thrust::copy(common_system_t(),  keys_begin, keys_end, key_buffer.first);
+	hydra_thrust::sort_by_key(common_system_t(), key_buffer.first, key_buffer.first+data_size, weights.first);
 
 	//bins content
-	auto bin_contents    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
-	auto reduced_values  = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = HYDRA_EXTERNAL_NS::thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto bin_contents    = hydra_thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
+	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
 
 
-	auto reduced_end = HYDRA_EXTERNAL_NS::thrust::reduce_by_key(common_system_t(),
+	auto reduced_end = hydra_thrust::reduce_by_key(common_system_t(),
 			key_buffer.first, key_buffer.first+data_size,
 			weights.first, reduced_keys.first, reduced_values.first);
 
-	HYDRA_EXTERNAL_NS::thrust::fill( common_system_t(), bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
+	hydra_thrust::fill( common_system_t(), bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
 
-	HYDRA_EXTERNAL_NS::thrust::scatter( common_system_t(), reduced_values.first, reduced_end.second,
+	hydra_thrust::scatter( common_system_t(), reduced_values.first, reduced_end.second,
 		  reduced_keys.first, bin_contents.first);
 
-	HYDRA_EXTERNAL_NS::thrust::copy( common_system_t(), bin_contents.first ,
+	hydra_thrust::copy( common_system_t(), bin_contents.first ,
 			bin_contents.first+ bin_contents.second,  fContents.begin());
 
 
-    // deallocate storage with HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer
-	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
-	HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), weights.first  );
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
-    HYDRA_EXTERNAL_NS::thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+    // deallocate storage with hydra_thrust::return_temporary_buffer
+	hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
+	hydra_thrust::return_temporary_buffer(common_system_t(), weights.first  );
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
+    hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
     return *this;
 }
@@ -535,7 +535,7 @@ make_dense_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> grid
 
 template<typename Iterator1,typename Iterator2, typename T, size_t N , hydra::detail::Backend BACKEND>
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
-make_dense_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> grid,
+make_dense_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> const& grid,
 		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
 		Iterator1 first, Iterator1 end, Iterator2 wfirst){
 
@@ -550,8 +550,8 @@ make_dense_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> grid
 template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable>
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
-make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
-		std::array<T, N>lowerlimits,   std::array<T, N> upperlimits,	Iterable&& data){
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> const& grid,
+		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,	Iterable&& data){
 
 	return make_dense_histogram(backend,grid, lowerlimits, upperlimits,
 			std::forward<Iterable>(data).begin(), std::forward<Iterable>(data).end());
@@ -560,10 +560,10 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t,
 
 template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable1,typename Iterable2 >
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value&&
-hydra::detail::is_iterable<Iterable2>::value,
+                                hydra::detail::is_iterable<Iterable2>::value,
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
-make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
-		std::array<T, N>lowerlimits,   std::array<T, N> upperlimits,
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N>const&  grid,
+		std::array<T, N>const& lowerlimits,   std::array<T, N>const&  upperlimits,
 		Iterable1&& data,
 		Iterable2&& weights){
 

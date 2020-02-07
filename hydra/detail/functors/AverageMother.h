@@ -41,9 +41,9 @@
 #include <hydra/detail/functors/StatsPHSP.h>
 
 //thrust
-#include <hydra/detail/external/thrust/tuple.h>
-#include <hydra/detail/external/thrust/iterator/zip_iterator.h>
-#include <hydra/detail/external/thrust/random.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
+#include <hydra/detail/external/hydra_thrust/random.h>
 
 #include <type_traits>
 #include <utility>
@@ -58,10 +58,10 @@ template <size_t N, typename GRND, typename FUNCTOR>
 struct AverageMother
 {
 
-	GInt_t  fSeed;
+	size_t  fSeed;
 
-	GReal_t fTeCmTm;
-	GReal_t fWtMax;
+	GReal_t fECM;
+	GReal_t fMaxWeight;
 	GReal_t fBeta0;
 	GReal_t fBeta1;
 	GReal_t fBeta2;
@@ -71,39 +71,22 @@ struct AverageMother
 	FUNCTOR fFunctor ;
 
 	//constructor
-	AverageMother(Vector4R const& mother,
-			const GReal_t (&masses)[N],
-			const GInt_t _seed,
-			FUNCTOR const& functor):
-			fSeed(_seed),
+	AverageMother(Vector4R const& mother, const GReal_t (&masses)[N],
+			double maxweight, double ecm, size_t seed, FUNCTOR const& functor):
+			fMaxWeight(maxweight),
+			fECM(ecm),
+			fSeed(seed),
 			fFunctor(functor)
 	{
 
-		for(size_t i=0; i<N; i++) fMasses[i]=masses[i];
+		for(size_t i=0; i<N; i++)
+			fMasses[i]=masses[i];
 
-		GReal_t _fTeCmTm = mother.mass(); // total energy in C.M. minus the sum of the masses
+		GReal_t beta = mother.d3mag() / mother.get(0);
 
-		for (size_t n = 0; n < N; n++)
+		if (beta)
 		{
-			_fTeCmTm -= masses[n];
-		}
-
-		GReal_t emmax = _fTeCmTm + masses[0];
-		GReal_t emmin = 0.0;
-		GReal_t wtmax = 1.0;
-		for (size_t n = 1; n < N; n++)
-		{
-			emmin += masses[n - 1];
-			emmax += masses[n];
-			wtmax *= pdk(emmax, emmin, masses[n]);
-		}
-		GReal_t _fWtMax = 1.0 / wtmax;
-
-		GReal_t _beta = mother.d3mag() / mother.get(0);
-
-		if (_beta)
-		{
-			GReal_t w = _beta / mother.d3mag();
+			GReal_t w = beta / mother.d3mag();
 			fBeta0 = mother.get(0) * w;
 			fBeta1 = mother.get(1) * w;
 			fBeta2 = mother.get(2) * w;
@@ -111,18 +94,14 @@ struct AverageMother
 		else
 			fBeta0 = fBeta1 = fBeta2 = 0.0;
 
-		fTeCmTm = _fTeCmTm;
-		fWtMax = _fWtMax;
-
-
 	}
 
 	__hydra_host__ __hydra_device__
 	AverageMother( AverageMother<N, GRND, FUNCTOR> const& other ):
 	fFunctor(other.fFunctor),
 	fSeed(other.fSeed ),
-	fTeCmTm(other.fTeCmTm ),
-	fWtMax(other.fWtMax ),
+	fECM(other.fECM ),
+	fMaxWeight(other.fMaxWeight ),
 	fBeta0(other.fBeta0 ),
 	fBeta1(other.fBeta1 ),
 	fBeta2(other.fBeta2 )
@@ -178,8 +157,10 @@ struct AverageMother
 	GReal_t process(size_t evt, Vector4R (&daugters)[N])
 	{
 
-		GRND randEng( hash(evt,fSeed) );
-		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+		GRND randEng(fSeed);
+		randEng.discard(evt+3*N);
+
+		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		GReal_t rno[N];
 		rno[0] = 0.0;
@@ -206,14 +187,14 @@ struct AverageMother
 		{
 			//printf("%d mass=%f \n",n, fMasses[n]);
 			sum += fMasses[n];
-			invMas[n] = rno[n] * fTeCmTm + sum;
+			invMas[n] = rno[n] * fECM + sum;
 		}
 
 		//
 		//-----> compute the weight of the current event
 		//
 
-		GReal_t wt = fWtMax;
+		GReal_t wt = fMaxWeight;
 
 		GReal_t pd[N];
 

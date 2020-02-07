@@ -34,47 +34,168 @@
 #ifndef _PHASESPACE_INL_
 #define _PHASESPACE_INL_
 
+#include <hydra/detail/utility/Exception.h>
 
 namespace hydra {
 
 
 template <size_t N, typename GRND>
-PhaseSpace<N,GRND>::PhaseSpace( const GReal_t (&daughtersMasses)[N]):
-fSeed(1)
+PhaseSpace<N,GRND>::PhaseSpace(double motherMass, const GReal_t (&daughtersMasses)[N]):
+fSeed(1),
+fMotherMass(motherMass),
+fMaxWeight(0.),
+fECM(0.)
 {
+	if(fMotherMass<=0.0){
+		throw std::invalid_argument("[hydra::PhaseSpace]: Mass of mother particle is negative or zero. (fMotherMass <=0)");
+	}
 
-	for(size_t i=0;i<N;i++)
+	for(size_t i=0;i<N;i++){
+
 		fMasses[i]= daughtersMasses[i];
 
-	fSeed *= detail::hash_range(&fMasses[0], &fMasses[0]+N);
+		if(fMasses[i]<=0.0){
+			throw std::invalid_argument("[hydra::PhaseSpace]: Mass of daughter particle is negative or zero. (fMass[] <=0)");
+		}
 
+	}
+
+	//should make a good enough seed
+	fSeed *= (1+ detail::hash_range(&fMasses[0], &fMasses[0]+N));
+
+	//compute maximum weight
+	fECM = fMotherMass;
+
+	for (size_t n = 0; n < N; n++)
+	{
+		fECM -= fMasses[n];
+	}
+
+	if(fECM<=0.0){
+		throw std::runtime_error("[hydra::PhaseSpace]: Not enough energy to generate this decay. ( fECM <=0.") ;
+	}
+
+	double emmax = fECM + fMasses[0];
+	double emmin = 0.0;
+	double wtmax = 1.0;
+
+	for (size_t n = 1; n < N; n++)
+	{
+		emmin += fMasses[n - 1];
+		emmax += fMasses[n];
+		wtmax *= PDK(emmax, emmin, fMasses[n]);
+	}
+
+	fMaxWeight = 1.0 / wtmax;
 }
 
 template <size_t N, typename GRND>
-PhaseSpace<N,GRND>::PhaseSpace( const std::array<GReal_t,N>& daughtersMasses):
-fSeed(1)
+PhaseSpace<N,GRND>::PhaseSpace(double motherMass,  std::array<GReal_t,N>const& daughtersMasses):
+fSeed(1),
+fMotherMass(motherMass),
+fMaxWeight(0.),
+fECM(0.)
 {
+	if(fMotherMass<=0.0){
+		throw std::invalid_argument("[hydra::PhaseSpace]: Mass of mother particle is negative or zero. (fMotherMass <=0)");
+	}
 
-	for(size_t i=0;i<N;i++)
+	for(size_t i=0;i<N;i++){
+
+
 		fMasses[i]= daughtersMasses[i];
 
-	fSeed *= detail::hash_range(&fMasses[0], &fMasses[0]+N);
+		if(fMasses[i]<=0.0){
+			throw std::invalid_argument("[hydra::PhaseSpace]: Mass of daughter particle is negative or zero. (fMass[] <=0)");
+		}
+
+	}
+
+	//should make a good enough seed
+	fSeed *= (1+ detail::hash_range(&fMasses[0], &fMasses[0]+N));
+
+	//compute maximum weight
+	fECM = fMotherMass;
+
+	for (size_t n = 0; n < N; n++)
+	{
+		fECM -= fMasses[n];
+	}
+
+	if(fECM<=0.0){
+		throw std::runtime_error("[hydra::PhaseSpace]: Not enough energy to generate this decay. ( fECM <=0.") ;
+	}
+
+	double emmax = fECM + fMasses[0];
+	double emmin = 0.0;
+	double wtmax = 1.0;
+
+	for (size_t n = 1; n < N; n++)
+	{
+		emmin += fMasses[n - 1];
+		emmax += fMasses[n];
+		wtmax *= PDK(emmax, emmin, fMasses[n]);
+	}
+
+	fMaxWeight = 1.0 / wtmax;
 }
 
 template <size_t N, typename GRND>
-PhaseSpace<N,GRND>::PhaseSpace( const std::initializer_list<GReal_t>& daughtersMasses):
-fSeed(1)
+PhaseSpace<N,GRND>::PhaseSpace(double motherMass,  const std::initializer_list<GReal_t>& daughtersMasses):
+fSeed(1),
+fMotherMass(motherMass),
+fMaxWeight(0.),
+fECM(0.)
 {
+	if(fMotherMass<=0.0){
+		throw std::invalid_argument("[hydra::PhaseSpace]: Mass of mother particle is negative or zero. (fMotherMass <=0)");
+	}
 
-	for(size_t i=0;i<N;i++)
-		fMasses[i]= daughtersMasses.begin()[i];
+	for(size_t i=0;i<N;i++){
 
-	fSeed *= detail::hash_range(&fMasses[0], &fMasses[0]+N);
+
+		fMasses[i]= *(daughtersMasses.begin()+i);
+
+		if(fMasses[i]<=0.0){
+			throw std::invalid_argument("[hydra::PhaseSpace]: Mass of daughter particle is negative or zero. (fMass[] <=0)");
+		}
+	}
+
+	//should make a good enough seed
+	fSeed *= (1+ detail::hash_range(&fMasses[0], &fMasses[0]+N));
+
+	//compute maximum weight
+	fECM = fMotherMass;
+
+	for (size_t n = 0; n < N; n++)
+	{
+		fECM -= fMasses[n];
+	}
+
+	if(fECM<=0.0){
+		throw std::runtime_error("[hydra::PhaseSpace]: Not enough energy to generate this decay. ( fECM <=0.") ;
+	}
+
+	double emmax = fECM + fMasses[0];
+	double emmin = 0.0;
+	double wtmax = 1.0;
+
+	for (size_t n = 1; n < N; n++)
+	{
+		emmin += fMasses[n - 1];
+		emmax += fMasses[n];
+		wtmax *= PDK(emmax, emmin, fMasses[n]);
+	}
+
+	fMaxWeight = 1.0 / wtmax;
 }
 
 template <size_t N, typename GRND>
 PhaseSpace<N,GRND>::PhaseSpace( PhaseSpace<N,GRND> const& other):
-fSeed(other.GetSeed())
+fSeed(other.GetSeed()),
+fMotherMass(other.GetMotherMass()),
+fMaxWeight(other.GetMaxWeight()),
+fECM(other.GetECM())
 {
 
 	for(size_t i=0;i<N;i++)
@@ -84,7 +205,10 @@ fSeed(other.GetSeed())
 template <size_t N, typename GRND>
 template <typename GRND2>
 PhaseSpace<N,GRND>::PhaseSpace( PhaseSpace<N,GRND2> const& other):
-fSeed(other.GetSeed())
+fSeed(other.GetSeed()),
+fMotherMass(other.GetMotherMass()),
+fMaxWeight(other.GetMaxWeight()),
+fECM(other.GetECM())
 {
 
 	for(size_t i=0;i<N;i++)
@@ -97,7 +221,12 @@ PhaseSpace<N,GRND> &
 PhaseSpace<N,GRND>::operator=( PhaseSpace<N,GRND> const& other)
 {
 	if(this==&other) return *this;
+
 	this->fSeed = other.GetSeed();
+	this->fMotherMass = other.other.GetMotherMass();
+	this->fMaxWeight = other.GetMaxWeight();
+	this->fECM = other.GetECM();
+
 	for(size_t i=0;i<N;i++)
 		this->ffMasses[i]= other.GetMasses()[i];
 
@@ -110,9 +239,14 @@ PhaseSpace<N,GRND> &
 PhaseSpace<N,GRND>::operator=( PhaseSpace<N,GRND2> const& other)
 {
 	if(this==&other) return *this;
-		this->fSeed = other.GetSeed();
-		for(size_t i=0;i<N;i++)
-			this->ffMasses[i]= other.GetMasses()[i];
+
+	this->fSeed = other.GetSeed();
+	this->fMotherMass = other.other.GetMotherMass();
+	this->fMaxWeight = other.GetMaxWeight();
+	this->fECM = other.GetECM();
+
+	for(size_t i=0;i<N;i++)
+		this->ffMasses[i]= other.GetMasses()[i];
 
 		return *this;
 }
@@ -126,21 +260,13 @@ PhaseSpace<N,GRND>::AverageOn(hydra::detail::BackendPolicy<BACKEND>const& policy
 
 	detail::StatsPHSP result;
 
-	if (EnergyChecker( mother )){
+	detail::AverageMother<N,GRND,FUNCTOR>reducer( mother, fMasses, fMaxWeight, fECM, fSeed,functor);
 
-		detail::AverageMother<N,GRND,FUNCTOR>
-		reducer( mother,fMasses, fSeed,functor);
+	hydra_thrust::counting_iterator<GLong_t> first(0);
 
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> first(0);
+	hydra_thrust::counting_iterator<GLong_t> last = first + n;
 
-		HYDRA_EXTERNAL_NS::thrust::counting_iterator<GLong_t> last = first + n;
-
-		result = 	detail::launch_reducer(policy,	first, last, reducer );
-
-	}
-	else {
-		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the mass of the mother particle")
-	}
+	result = 	detail::launch_reducer(policy,	first, last, reducer );
 
 	return std::make_pair(result.fMean, ::sqrt(result.fM2)/result.fW );
 
@@ -153,36 +279,21 @@ PhaseSpace<N,GRND>::AverageOn(Iterator begin, Iterator end, FUNCTOR const& funct
 
 	detail::StatsPHSP result ;
 
-	if (EnergyChecker( begin, end)){
+	detail::AverageMothers<N,GRND,FUNCTOR>	reducer( fMasses,  fMaxWeight, fECM, fSeed, functor);
 
-		detail::AverageMothers<N,GRND,FUNCTOR>	reducer( fMasses, fSeed,functor);
-
-		result =	detail::launch_reducer(begin, end, reducer );
-
-	}
-	else {
-		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the masses of the mother particles")
-	}
+	result =	detail::launch_reducer(begin, end, reducer );
 
 	return std::make_pair(result.fMean, ::sqrt(result.fM2)/ result.fW);
 }
 
 template <size_t N, typename GRND>
 template<typename Iterator, typename ...FUNCTOR>
-void PhaseSpace<N,GRND>::Evaluate(Vector4R const& mother, Iterator begin, Iterator end,
-		 FUNCTOR const& ...functors) {
+void PhaseSpace<N,GRND>::Evaluate(Vector4R const& mother,
+		Iterator begin, Iterator end, FUNCTOR const& ...functors) {
 
-	if (EnergyChecker( mother )){
-
-		detail::EvalMother<N,GRND,FUNCTOR...> evaluator( mother, fMasses, fSeed, functors...);
+		detail::EvalMother<N,GRND,FUNCTOR...> evaluator( mother, fMasses, fMaxWeight, fECM, fSeed, functors...);
 
 		detail::launch_evaluator( begin, end, evaluator );
-
-
-	}
-	else {
-		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the mass of the mother particle")
-	}
 
 }
 
@@ -191,17 +302,9 @@ template<typename ...FUNCTOR, typename IteratorMother, typename Iterator>
 void PhaseSpace<N,GRND>::Evaluate( IteratorMother mbegin,
 		IteratorMother mend, Iterator begin, FUNCTOR const& ...functors) {
 
-if (EnergyChecker( mbegin, mend)){
-
-
-	detail::EvalMothers<N,GRND,FUNCTOR...> evaluator(fMasses, fSeed,functors... );
+	detail::EvalMothers<N,GRND,FUNCTOR...> evaluator( fMotherMass,fMasses,  fMaxWeight, fECM,fSeed,functors... );
 
 	detail::launch_evaluator( mbegin, mend, begin, evaluator );
-
-	}
-	else {
-		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the masses of the mother particles")
-	}
 
 }
 
@@ -211,22 +314,14 @@ if (EnergyChecker( mbegin, mend)){
 template <size_t N, typename GRND>
 template<typename ...FUNCTOR, typename Iterable>
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
-			 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 PhaseSpace<N,GRND>::Evaluate(Vector4R const& mother, Iterable&& result,
 		FUNCTOR const& ...functors) {
 
-	if (EnergyChecker( mother )){
+	detail::EvalMother<N,GRND,FUNCTOR...> evaluator( mother, fMasses, fMaxWeight, fECM, fSeed, functors...);
 
-		detail::EvalMother<N,GRND,FUNCTOR...> evaluator( mother, fMasses, fSeed, functors...);
-
-		detail::launch_evaluator( std::forward<Iterable>(result).begin(),
-				std::forward<Iterable>(result).end(), evaluator );
-
-
-	}
-	else {
-		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the mass of the mother particle")
-	}
+	detail::launch_evaluator( std::forward<Iterable>(result).begin(),
+			std::forward<Iterable>(result).end(), evaluator );
 
 	return make_range( std::forward<Iterable>(result).begin(),
 			std::forward<Iterable>(result).end() );
@@ -240,20 +335,13 @@ inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value &&
 				 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 PhaseSpace<N,GRND>::Evaluate( IterableMother&& mothers, Iterable&& result, FUNCTOR const& ...functors) {
 
-if (EnergyChecker( std::forward<IterableMother>(mothers).begin(),
-		std::forward<IterableMother>(mothers).end())){
 
-
-	detail::EvalMothers<N,GRND,FUNCTOR...> evaluator(fMasses, fSeed,functors... );
+	detail::EvalMothers<N,GRND,FUNCTOR...> evaluator(fMasses,  fMaxWeight, fECM,fSeed,functors... );
 
 	detail::launch_evaluator( std::forward<IterableMother>(mothers).begin(),
 			std::forward<IterableMother>(mothers).end(),
-			std::forward<Iterable>(result).begin(), evaluator );
-
-	}
-	else {
-		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the masses of the mother particles")
-	}
+			std::forward<Iterable>(result).begin(),
+			evaluator );
 
 return make_range( std::forward<Iterable>(result).begin(),
 			std::forward<Iterable>(result).end() );
@@ -268,15 +356,9 @@ void PhaseSpace<N,GRND>::Generate(Vector4R const& mother, Iterator begin, Iterat
 	 * in any system of reference. The daughters will be generated in this system.
 	 */
 
-	if (EnergyChecker( mother )){
-
-	detail::DecayMother<N,GRND> decayer(mother,fMasses, fSeed);
+	detail::DecayMother<N,GRND> decayer(mother,fMasses, fMaxWeight, fECM, fSeed);
 	detail::launch_decayer(begin, end, decayer );
 
-	}
-	else {
-		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the mass of the mother particle")
-	}
 }
 
 template <size_t N, typename GRND>
@@ -286,16 +368,9 @@ void PhaseSpace<N,GRND>::Generate( Iterator1 begin, Iterator1 end, Iterator2 dau
 	 * Run the generator and calculate the maximum weight. It takes as input the device vector with the four-vectors of the mother particle
 	 * in any system of reference. The daughters will be generated in this system.
 	 */
-	if (EnergyChecker( begin, end)){
 
-	detail::DecayMothers<N,GRND> decayer(fMasses, fSeed);
+	detail::DecayMothers<N,GRND> decayer(fMasses, fMaxWeight, fECM, fSeed);
 	detail::launch_decayer(begin, end, daughters_begin, decayer );
-
-	}
-	else {
-		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the masses of the mother particles")
-	}
-
 
 }
 
@@ -309,16 +384,10 @@ PhaseSpace<N,GRND>::Generate(Vector4R const& mother, Iterable&& events){
 	 * in any system of reference. The daughters will be generated in this system.
 	 */
 
-	if (EnergyChecker( mother )){
+	detail::DecayMother<N,GRND> decayer(mother,fMasses,  fMaxWeight, fECM,fSeed);
 
-	detail::DecayMother<N,GRND> decayer(mother,fMasses, fSeed);
 	detail::launch_decayer(std::forward<Iterable>(events).begin(),
 			std::forward<Iterable>(events).end(), decayer );
-
-	}
-	else {
-		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the mass of the mother particle")
-	}
 
 	return make_range( std::forward<Iterable>(events).begin(),
 			std::forward<Iterable>(events).end() );
@@ -334,19 +403,12 @@ PhaseSpace<N,GRND>::Generate( IterableMothers&& mothers, Iterable&& daughters){
 	 * Run the generator and calculate the maximum weight. It takes as input the device vector with the four-vectors of the mother particle
 	 * in any system of reference. The daughters will be generated in this system.
 	 */
-	if (EnergyChecker( std::forward<IterableMothers>(mothers).begin(),
-			std::forward<IterableMothers>(mothers).end()))
-	{
 
-	detail::DecayMothers<N,GRND> decayer(fMasses, fSeed);
+	detail::DecayMothers<N,GRND> decayer(fMasses,  fMaxWeight, fECM,fSeed);
+
 	detail::launch_decayer(std::forward<IterableMothers>(mothers).begin(),
 			std::forward<IterableMothers>(mothers).end(),
 			std::forward<Iterable>(daughters).begin(), decayer );
-
-	}
-	else {
-		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the masses of the mother particles")
-	}
 
 	return make_range( std::forward<Iterable>(daughters).begin(),
 				std::forward<Iterable>(daughters).end() );
@@ -361,20 +423,10 @@ void PhaseSpace<N,GRND>::Generate(hydra::detail::BackendPolicy<BACKEND> const& e
 	 * Run the generator and calculate the maximum weight. It takes as input the fourvector of the mother particle
 	 * in any system of reference. The daughters will be generated in this system.
 	 */
-/*
-#if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
-	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
-#endif
-*/
-	if (EnergyChecker( mother )){
 
-	detail::DecayMother<N,GRND> decayer(mother,fMasses, fSeed);
+	detail::DecayMother<N,GRND> decayer(mother,fMasses,  fMaxWeight, fECM, fSeed);
 	detail::launch_decayer(exec_policy ,begin, end, decayer );
 
-	}
-	else {
-		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the mass of the mother particle")
-	}
 }
 
 template <size_t N, typename GRND>
@@ -384,21 +436,10 @@ void PhaseSpace<N,GRND>::Generate(hydra::detail::BackendPolicy<BACKEND> const& e
 	 * Run the generator and calculate the maximum weight. It takes as input the device vector with the four-vectors of the mother particle
 	 * in any system of reference. The daughters will be generated in this system.
 	 */
-/*
-#if(THRUST_DEVICE_SYSTEM==THRUST_DEVICE_BACKEND_CUDA && (BACKEND==device))
-	cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
-#endif
-*/
-	if (EnergyChecker( begin, end)){
 
-	detail::DecayMothers<N,GRND> decayer(fMasses, fSeed);
+
+	detail::DecayMothers<N,GRND> decayer(fMasses,  fMaxWeight, fECM,  fSeed);
 	detail::launch_decayer(exec_policy ,begin, end, daughters_begin, decayer );
-
-	}
-	else {
-		HYDRA_LOG(WARNING, "Not enough energy to generate all decays.Check the masses of the mother particles")
-	}
-
 
 }
 
@@ -424,30 +465,6 @@ inline GReal_t PhaseSpace<N,GRND>::PDK(const GReal_t a, const GReal_t b, const G
 	x = ::sqrt(x) / (2 * a);
 	return x;
 }
-
-
-template <size_t N, typename GRND>
-template<typename Iterator>
-inline bool PhaseSpace<N,GRND>::EnergyChecker(Iterator first, Iterator last) const {
-
-	return  HYDRA_EXTERNAL_NS::thrust::all_of( first,  last,  detail::CheckEnergy<N>(  fMasses) );
-
-}
-
-template <size_t N, typename GRND>
-inline bool PhaseSpace<N,GRND>::EnergyChecker( Vector4R const& mother) const {
-
-	GReal_t fTeCmTm =  mother.mass();
-
-	#pragma unroll N
-			for (size_t n = 0; n < N; n++)
-			{
-				fTeCmTm -= fMasses[n];
-			}
-
-			return (bool) fTeCmTm > 0.0;
-}
-
 
 
 }//namespace hydra

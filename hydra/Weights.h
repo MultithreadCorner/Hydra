@@ -34,9 +34,9 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 //thrust
-#include <hydra/detail/external/thrust/copy.h>
-#include <hydra/detail/external/thrust/reduce.h>
-#include <hydra/detail/external/thrust/iterator/transform_iterator.h>
+#include <hydra/detail/external/hydra_thrust/copy.h>
+#include <hydra/detail/external/hydra_thrust/reduce.h>
+#include <hydra/detail/external/hydra_thrust/iterator/transform_iterator.h>
 
 namespace hydra {
 
@@ -80,8 +80,8 @@ public:
 		fSumW(0),
 		fSumW2(0)
 	{
-		fData.resize(HYDRA_EXTERNAL_NS::thrust::distance( first, last ));
-		HYDRA_EXTERNAL_NS::thrust::copy(first, last, this->begin());
+		fData.resize(hydra_thrust::distance( first, last ));
+		hydra_thrust::copy(first, last, this->begin());
 		fSumW  =  MakeSumW();
 		fSumW2 =  MakeSumW2();
 	}
@@ -103,8 +103,8 @@ public:
 	fSumW(other.GetSumW()),
 	fSumW2(other.GetSumW2())
 	{
-		fData.resize(HYDRA_EXTERNAL_NS::thrust::distance(other.begin(), other.end()));
-		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), this->begin());
+		fData.resize(hydra_thrust::distance(other.begin(), other.end()));
+		hydra_thrust::copy(other.begin(), other.end(), this->begin());
 	}
 
 	Weights<hydra::detail::BackendPolicy<BACKEND>>&
@@ -134,8 +134,8 @@ public:
 		if(this==&other)return *this;
 		fSumW  = other.GetSumW();
 		fSumW2 = other.GetSumW2();
-		fData.resize(HYDRA_EXTERNAL_NS::thrust::distance(other.begin(), other.end()));
-		HYDRA_EXTERNAL_NS::thrust::copy(other.begin(), other.end(), this->begin());
+		fData.resize(hydra_thrust::distance(other.begin(), other.end()));
+		hydra_thrust::copy(other.begin(), other.end(), this->begin());
 		return *this;
 	}
 
@@ -176,7 +176,7 @@ private:
 	
 	GReal_t MakeSumW()
 	{
-		return HYDRA_EXTERNAL_NS::thrust::reduce(fData.begin(), fData.end(), 0.0);
+		return hydra_thrust::reduce(fData.begin(), fData.end(), 0.0);
 	}
 
 	GReal_t MakeSumW2()
@@ -186,8 +186,8 @@ private:
 			return x*x;
 		};
 
-		return HYDRA_EXTERNAL_NS::thrust::reduce(HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(fData.begin(), sq),
-				              HYDRA_EXTERNAL_NS::thrust::make_transform_iterator(fData.end()  , sq), 0.0);
+		return hydra_thrust::reduce(hydra_thrust::make_transform_iterator(fData.begin(), sq),
+				              hydra_thrust::make_transform_iterator(fData.end()  , sq), 0.0);
 	}
 
 	const storage_type& GetData() const {

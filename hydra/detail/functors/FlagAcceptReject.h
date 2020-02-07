@@ -40,7 +40,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 
-#include <hydra/detail/external/thrust/random.h>
+#include <hydra/detail/external/hydra_thrust/random.h>
 
 namespace hydra
 {
@@ -86,8 +86,8 @@ struct FlagAcceptReject
 	__hydra_host__ __hydra_device__ GBool_t operator ()(size_t idx, GReal_t weight)
 	{
 
-		HYDRA_EXTERNAL_NS::thrust::default_random_engine randEng(hash(fSeed, idx));
-		HYDRA_EXTERNAL_NS::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, fWmax);
+		hydra_thrust::default_random_engine randEng(hash(fSeed, idx));
+		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, fWmax);
 
 
 		GBool_t flag = (uniDist(randEng) < weight) ? 1 : 0;

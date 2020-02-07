@@ -51,7 +51,7 @@ public:
 	    //tag
 	    typedef void hydra_functor_tag;
 	    typedef typename F0::return_type  return_type;
-		typedef typename HYDRA_EXTERNAL_NS::thrust::tuple<typename F1::return_type, typename Fs::return_type...> argument_type;
+		typedef typename hydra_thrust::tuple<typename F1::return_type, typename Fs::return_type...> argument_type;
 
 
 
