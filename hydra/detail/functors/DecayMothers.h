@@ -2,7 +2,7 @@
 
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2019 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2020 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
