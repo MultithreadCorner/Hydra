@@ -48,7 +48,7 @@
  *         <tt>HYDRA_VERSION / 100 % 1000</tt> is the feature version.
  *         <tt>HYDRA_VERSION / 100000</tt> is the major version.
  */
-#define HYDRA_VERSION 200400
+#define HYDRA_VERSION 200500
 
 /*! \def HYDRA_MAJOR_VERSION
  *  \brief The preprocessor macro \p HYDRA_MAJOR_VERSION encodes the
