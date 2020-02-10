@@ -252,7 +252,18 @@ public:
 
 private:
 
+	template<typename T, size_t ...I>
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if<
+	detail::is_instantiation_of<
+	hydra_thrust::detail::tuple_of_iterator_references,
+	typename std::remove_cv<T>::type
+	>::value, return_type>::type
+	call(T x, detail::index_sequence<I> )
+	{
 
+		return static_cast<const Functor*>(this)->Evaluate();
+	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
