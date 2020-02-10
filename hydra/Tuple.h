@@ -28,10 +28,12 @@
 
 #ifndef TUPLES_H_
 #define TUPLES_H_
-#include <utility>
+
+#include <hydra/detail/Config.h>
 #include <hydra/detail/external/hydra_thrust/tuple.h>
 #include <hydra/detail/external/hydra_thrust/detail/tuple/tuple.h>
 #include <hydra/detail/utility/Generic.h>
+#include <utility>
 
 namespace hydra {
 //---- type alias -----------------------
@@ -124,15 +126,15 @@ template<class T> using tuple_size = hydra_thrust::tuple_size<T>;
  */
 
 template<int I, int N, typename T>
-__hydra_host__ __hydra_device__ inline
-T get( T(&array)[N]) {
+__hydra_host__ __hydra_device__
+inline T get( T(&array)[N]) {
 
 	return array[I];
 }
 
 template<int I,  typename T>
-__hydra_host__ __hydra_device__ inline
-T get( T* array) {
+__hydra_host__ __hydra_device__
+inline T get( T* array) {
 
 	return array[I];
 }
@@ -161,53 +163,91 @@ T get( T* array) {
  *
  */
 
+//=====================================
+//const hydra_thrust::tuple<T...>&
+
+template<typename Type, typename ...T>
+__hydra_host__ __hydra_device__
+inline Type& get( hydra_thrust::tuple<T...> const& t)
+{
+	return hydra_thrust::get<Type>(t);
+}
+
 template<int N, typename ...T>
-__hydra_host__ __hydra_device__ inline
-typename hydra_thrust::tuple_element<N,hydra_thrust::tuple<T...>>::type
+__hydra_host__ __hydra_device__
+inline const typename hydra_thrust::tuple_element<N,hydra_thrust::tuple<T...>>::type &
 get( hydra_thrust::tuple<T...> const& t)
 {
 	return hydra_thrust::get<N>(t);
 }
 
+//=====================================
+//hydra_thrust::tuple<T...>&
+
+template<typename Type, typename ...T>
+__hydra_host__ __hydra_device__
+inline Type&  get( hydra_thrust::tuple<T...>& t)
+{
+	return hydra_thrust::get<Type>(t);
+}
 
 template<int N, typename ...T>
-__hydra_host__ __hydra_device__ inline
-typename hydra_thrust::tuple_element<N,hydra_thrust::tuple<T...>>::type
+__hydra_host__ __hydra_device__
+inline typename hydra_thrust::tuple_element<N,hydra_thrust::tuple<T...>>::type &
 get( hydra_thrust::tuple<T...>& t)
 {
 	return hydra_thrust::get<N>(t);
 }
 
+//=====================================
+//hydra_thrust::tuple<T...>&&
+
+template<typename Type, typename ...T>
+__hydra_host__ __hydra_device__
+inline Type&& get( hydra_thrust::tuple<T...>&& t)
+{
+	return hydra_thrust::get<Type>(std::forward<hydra_thrust::tuple<T...>>(t));
+}
+
 template<int N, typename ...T>
-__hydra_host__ __hydra_device__ inline
-typename hydra_thrust::tuple_element<N,hydra_thrust::tuple<T...>>::type
+__hydra_host__ __hydra_device__
+inline typename hydra_thrust::tuple_element<N,hydra_thrust::tuple<T...>>::type &&
 get( hydra_thrust::tuple<T...>&& t)
 {
 	return hydra_thrust::get<N>(std::forward<hydra_thrust::tuple<T...>>(t));
 }
 
+
+
+//=====================================
+// hydra_thrust::pair<T1,T2>
+
 template<int N, typename T1,  typename T2>
-__hydra_host__ __hydra_device__ inline
-typename hydra_thrust::tuple_element<N,hydra_thrust::pair<T1,T2>>::type
+__hydra_host__ __hydra_device__
+inline typename hydra_thrust::tuple_element<N,hydra_thrust::pair<T1,T2>>::type &
+get( hydra_thrust::pair<T1,T2>& t)
+{
+	return hydra_thrust::get<N>(t);
+}
+
+template<int N, typename T1,  typename T2>
+__hydra_host__ __hydra_device__
+inline const typename hydra_thrust::tuple_element<N,hydra_thrust::pair<T1,T2>>::type &
+get( hydra_thrust::pair<T1,T2> const& t)
+{
+	return hydra_thrust::get<N>(t);
+}
+
+
+template<int N, typename T1,  typename T2>
+__hydra_host__ __hydra_device__
+inline typename hydra_thrust::tuple_element<N,hydra_thrust::pair<T1,T2>>::type &&
 get( hydra_thrust::pair<T1,T2> && t)
 {
 	return hydra_thrust::get<N>(std::forward<hydra_thrust::pair<T1,T2>>(t));
 }
 
-/*! This version of \p make_tuple creates a new \c tuple object from a list of
- *  objects.
- *
- *  \param T The first object to copy from.
- *  \return A \p tuple object with members which are copies of \p t.
- *
- */
-template<class ...T>
-__hydra_host__ __hydra_device__ inline
-auto make_tuple(T const&... t)
--> decltype(hydra_thrust::make_tuple(t...))
-{
-	return hydra_thrust::make_tuple(t...);
-}
+//=============================================================
 
 /*! This version of \p make_tuple creates a new \c tuple object from a list of
  *  objects.
@@ -217,13 +257,14 @@ auto make_tuple(T const&... t)
  *
  */
 template<class ...T>
-__hydra_host__ __hydra_device__ inline
-auto make_tuple(T&&... t)
+__hydra_host__ __hydra_device__
+inline auto make_tuple(T&&... t)
 -> decltype(hydra_thrust::make_tuple( std::forward<T>(t)...))
 {
 	return hydra_thrust::make_tuple(std::forward<T>(t)...);
 }
 
+//======================================================
 /*! This version of \p make_pair creates a new \c pair object from a list of
  *  objects.
  *
@@ -232,27 +273,43 @@ auto make_tuple(T&&... t)
  *  \return A \p pair object with members which are copies of \p t.
  *
  */
+
 template<class T1, class T2 >
-__hydra_host__ __hydra_device__ inline
-auto make_pair( T1&& t1, T2&& t2 )
--> decltype(hydra_thrust::make_pair( std::forward<T1>(t1),std::forward<T2>(t2) ))
+__hydra_host__ __hydra_device__
+inline auto make_pair( T1&& t1, T2&& t2 )
+-> decltype(hydra_thrust::make_pair( std::forward<T1>(t1), std::forward<T2>(t2) ))
 {
-	return hydra_thrust::make_pair(std::forward<T1>(t1),std::forward<T2>(t2));
+	return hydra_thrust::make_pair(std::forward<T1>(t1), std::forward<T2>(t2));
 }
 
-
+//======================================================
 /*! This version of \p tie creates a new \c tuple whose elements are
  *  references which refers to this function's arguments.
  *
  *  \param t The objects to reference.
  *  \return A \p tuple object with members which are references to \p t.
  */
+
 template<class ...T>
-__hydra_host__ __hydra_device__ inline
-auto tie(T&& ...t)
--> decltype(hydra_thrust::tie(std::forward<T>(t)...))
+__hydra_host__ __hydra_device__
+inline auto tie(T& ...t)
+-> decltype(hydra_thrust::tie(t...))
 {
-	return hydra_thrust::tie(std::forward<T>(t)...);
+	return hydra_thrust::tie(t...);
+}
+
+//======================================================
+/*!Constructs a tuple of references to the arguments in args suitable
+ * for forwarding as an argument to a function.
+ * The tuple has rvalue reference data members when rvalues
+ * are used as arguments, and otherwise has lvalue reference data members.
+ */
+template<class ...T>
+__hydra_host__ __hydra_device__
+inline auto forward_as_tuple(T&& ...t)
+-> decltype(hydra_thrust::forward_as_tuple(std::forward<T>(t)...))
+{
+	return hydra_thrust::forward_as_tuple(std::forward<T>(t)...);
 }
 
 

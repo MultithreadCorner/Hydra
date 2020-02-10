@@ -33,10 +33,12 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
+#include <hydra/detail/utility/StaticAssert.h>
 #include <hydra/detail/Print.h>
 #include <hydra/Integrator.h>
 #include <hydra/Parameter.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
+#include <hydra/detail/TagTraits.h>
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/Parameters.h>
 //#include <hydra/UserParameters.h>
@@ -62,16 +64,17 @@ namespace hydra
  * @tparam ReturnType type returned by the functor' operator(). Same type returned by the "bare" c++ functor Evaluate() method.
  * @tparam NPARAM number of parameters of the functor.
  */
-template<typename Functor, typename ReturnType, size_t NPARAM>
+template<typename Functor, size_t NPARAM>
 class  BaseFunctor : public detail::Parameters<NPARAM>
 {
 
 public:
 
-	//tag
-    typedef   void hydra_functor_tag;
-	typedef   ReturnType return_type;
-	typedef   std::true_type is_functor;
+	typedef   typename detail::functor_traits<Functor>::return_type return_type;
+	typedef   typename detail::functor_traits<Functor>::argument_type argument_type;
+	typedef   typename detail::functor_traits<Functor>::argument_rvalue_type argument_rvalue_type;
+
+	enum {arity=detail::functor_traits<Functor>::arity};
 
 	/**
 	 * Default constructor
@@ -196,30 +199,73 @@ public:
 		fNorm = norm;
 	}
 
-	template<typename T>
+	/*
+	 * Function call operator { Functor::operator(...) } specializations.
+	 */
+	template<typename ...T>
 	__hydra_host__  __hydra_device__
-	inline return_type operator()(unsigned int n, T* x)  const
+	inline typename std::enable_if<
+	   (!std::is_convertible<std::tuple<T...>, argument_rvalue_type>::value) &&
+	   (!(sizeof...(T)==1 && detail::is_instantiation_of<
+			   hydra_thrust::detail::tuple_of_iterator_references,
+			   typename std::remove_cv<T>::type>::value)) &&
+	   (!(sizeof...(T)==1 && detail::is_instantiation_of<
+			   hydra_thrust::tuple,
+			   typename std::remove_cv<T>::type>::value)),
+	return_type>::type
+	operator()(T...x)  const
 	{
-		return static_cast<const Functor*>(this)->Evaluate(n,x);
+		HYDRA_STATIC_ASSERT(sizeof...(Args)==-1,
+					"Functor can not be called with these arguments." )
+
+		return return_type{};
+	}
+
+	/**
+	 * \brief Function call operator with the.
+	 */
+	template<typename ...T>
+	__hydra_host__  __hydra_device__
+	inline typename std::enable_if<
+	    std::is_convertible<std::tuple<T...>,
+	      argument_rvalue_type>::value, return_type>::type
+	operator()(T...x)  const
+	{
+		return static_cast<const Functor*>(this)->Evaluate(x...);
 	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline return_type operator()( T&&  x )  const
+	inline typename std::enable_if<
+	detail::is_instantiation_of<
+	   hydra_thrust::detail::tuple_of_iterator_references,
+	   typename std::remove_cv<T>::type
+	>::value, return_type>::type
+	operator()( T x )  const
 	{
-		return  interface( std::forward<T>(x));
+		return  call(x);
 	}
 
-	template<typename T1, typename T2>
-	__hydra_host__ __hydra_device__
-	inline return_type operator()( T1&& x, T2&& cache)  const
-	{
-		return fCached ? detail::extract<return_type, T2 >(fCacheIndex, std::forward<T2>(cache)):
-						operator()<T1>( std::forward<T1>(x) );
-	}
+
+
+
 
 private:
 
+
+
+	template<typename T>
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if<
+	detail::is_instantiation_of<
+	hydra_thrust::detail::tuple_of_iterator_references,
+	typename std::remove_cv<T>::type
+	>::value, return_type>::type
+	call(T x)
+	{
+
+		return call_helper(x, detail::make_index_sequence<arity>{});
+	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__

@@ -22,113 +22,53 @@
 /*
  * FunctorTraits.h
  *
- *  Created on: 25/08/2016
+ *  Created on: 09/02/2020
  *      Author: Antonio Augusto Alves Junior
  */
-
-/**
- * \file
- * \ingroup functor
- */
-
 
 #ifndef FUNCTORTRAITS_H_
 #define FUNCTORTRAITS_H_
 
-
-#include <type_traits>
-#include <hydra/Types.h>
-
+#include<hydra/detail/utility/StaticAssert.h>
+#include<type_traits>
 
 namespace hydra {
 
 namespace detail {
 
-//tags to identify hydra pdf and functors
+template <typename T>
+struct functor_traits:
+		public functor_traits<decltype(&T::Evaluate)>{};
 
-template<class T, class R = void>
-struct tag_type { typedef R type; };
+template <typename T>
+struct lambda_traits:
+		public functor_traits<decltype(&T::operator())>{};
 
-
-//sum of pdfs
-template<class T, class Enable = void>
-struct is_hydra_sum_pdf: std::false_type {};
-
-template<class T>
-struct is_hydra_sum_pdf<T, typename tag_type< typename T::hydra_sum_pdf_tag>::type>: std::true_type {};
-
-//pdf
-template<class T, class Enable = void>
-struct is_hydra_pdf: std::false_type {};
-
-template<class T>
-struct is_hydra_pdf<T, typename tag_type< typename T::hydra_pdf_tag>::type>: std::true_type {};
-
-//functor
-template<class T, class Enable = void>
-struct is_hydra_functor: std::false_type {};
-
-template<class T>
-struct is_hydra_functor<T, typename tag_type< typename T::hydra_functor_tag>::type>: std::true_type {};
-
-//integrator
-template<class T, class Enable = void>
-struct is_hydra_integrator: std::false_type {};
-
-template<class T>
-struct is_hydra_integrator<T, typename tag_type< typename T::hydra_integrator_tag>::type>: std::true_type {};
-
-//storable
-template<class T, class Enable = void>
-struct is_hydra_convertible_to_tuple: std::false_type {};
-
-template<class T>
-struct is_hydra_convertible_to_tuple<T, typename tag_type< typename T::hydra_convertible_to_tuple_tag>::type>: std::true_type {};
-
-
-
-// hint from http://stackoverflow.com/a/16824239/6147498
-
-// Primary template with a static assertion
-// for a meaningful error message
-// if it ever gets instantiated.
-// We could leave it undefined if we didn't care.
-
-template<typename, typename T>
-struct has_analytical_integral {
-	static_assert(
-			std::integral_constant<T, false>::value,
-			"Second template parameter needs to be of function type.");
+template <typename ClassType, typename ReturnType, typename... Args>
+struct functor_traits<ReturnType(ClassType::*)(Args...) >
+{
+	HYDRA_STATIC_ASSERT(sizeof...(Args)==-1,
+			"Non-const T::operator() or T::Evaluate() not allowed." )
 };
 
-// specialization that does the checking
+template <typename ClassType, typename ReturnType, typename... Args>
+struct functor_traits<ReturnType(ClassType::*)(Args...) const>
+{
+	enum { arity = sizeof...(Args) };
 
-template<typename C, typename Ret, typename... Args>
-struct has_analytical_integral<C, Ret(Args...)> {
-private:
-	template<typename T>
-	static constexpr auto check(T*)
-	-> typename
-	std::is_same<
-	decltype( std::declval<T>().AnalyticalIntegral( std::declval<Args>()... ) ),
-	Ret     // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	>::type;// attempt to call it and see if the return type is correct
+	typedef ReturnType return_type;
 
-	template<typename>
-	static constexpr std::false_type check(...);
+	typedef hydra_thrust::tuple<Args...> argument_type;
 
-	typedef decltype(check<C>(0)) type;
+	typedef hydra_thrust::tuple<
+			typename std::decay<Args>::type...> argument_rvalue_type;
 
-public:
-	static constexpr bool value = type::value;
 };
 
-template<typename Functor>
-bool HasAnalyticalIntegral( Functor&){
-	return has_analytical_integral<Functor, GReal_t(const GReal_t*,  const GReal_t*)>::value;
-}
 
 }  // namespace detail
-}// namespace hydra
+
+}  // namespace hydra
+
 
 #endif /* FUNCTORTRAITS_H_ */

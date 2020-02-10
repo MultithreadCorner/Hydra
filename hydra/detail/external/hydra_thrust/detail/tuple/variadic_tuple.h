@@ -45,7 +45,7 @@ struct std__is_constructible : std::is_constructible<T, Args...> { };
 #  if __cplusplus <= 201103L
 #    define __TUPLE_ANNOTATION __host__ __device__
 #  else
-#    define __TUPLE_ANNOTATION /*constexpr*/ __host__ __device__
+#    define __TUPLE_ANNOTATION  __host__ __device__ constexpr
 #  endif
 #  define __TUPLE_ANNOTATION_NEEDS_UNDEF
 #endif
