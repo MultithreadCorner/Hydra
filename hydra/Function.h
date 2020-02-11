@@ -68,11 +68,12 @@ template<typename Functor, size_t NPARAM>
 class  BaseFunctor : public detail::Parameters<NPARAM>
 {
 
+	typedef   typename detail::functor_traits<Functor>::argument_rvalue_type argument_rvalue_type;
+
 public:
 
 	typedef   typename detail::functor_traits<Functor>::return_type return_type;
 	typedef   typename detail::functor_traits<Functor>::argument_type argument_type;
-	typedef   typename detail::functor_traits<Functor>::argument_rvalue_type argument_rvalue_type;
 
 	enum {arity=detail::functor_traits<Functor>::arity};
 
@@ -208,15 +209,15 @@ public:
 	   (!std::is_convertible<std::tuple<T...>, argument_rvalue_type>::value) &&
 	   (!(sizeof...(T)==1 && detail::is_instantiation_of<
 			   hydra_thrust::detail::tuple_of_iterator_references,
-			   typename std::remove_cv<T>::type>::value)) &&
+			   typename std::decay<T>::type>::value)) &&
 	   (!(sizeof...(T)==1 && detail::is_instantiation_of<
 			   hydra_thrust::tuple,
-			   typename std::remove_cv<T>::type>::value)),
+			   typename std::decay<T>::type>::value)),
 	return_type>::type
 	operator()(T...x)  const
 	{
 		HYDRA_STATIC_ASSERT(sizeof...(Args)==-1,
-					"Functor can not be called with these arguments." )
+					"This Hydra functor can not be called with these arguments." )
 
 		return return_type{};
 	}
@@ -237,14 +238,14 @@ public:
 	template<typename T>
 	__hydra_host__ __hydra_device__
 	inline typename std::enable_if<
-	detail::is_instantiation_of<
+	((sizeof...(T)==1 && detail::is_instantiation_of<
 	   hydra_thrust::detail::tuple_of_iterator_references,
-	   typename std::remove_cv<T>::type
-	>::value, return_type>::type
-	operator()( T x )  const
-	{
-		return  call(x);
-	}
+	   typename std::decay<T>::type>::value)) ||
+	((sizeof...(T)==1 && detail::is_instantiation_of<
+	   	hydra_thrust::tuple,
+	   	typename std::decay<T>::type>::value)),
+	return_type>::type
+	operator()( T x )  const { return  call(x); }
 
 
 
@@ -254,108 +255,18 @@ private:
 
 	template<typename T, size_t ...I>
 	__hydra_host__ __hydra_device__
-	inline typename std::enable_if<
-	detail::is_instantiation_of<
-	hydra_thrust::detail::tuple_of_iterator_references,
-	typename std::remove_cv<T>::type
-	>::value, return_type>::type
-	call(T x, detail::index_sequence<I> )
+	inline  return_type call_helper(T x, detail::index_sequence<I> )
 	{
 
-		return static_cast<const Functor*>(this)->Evaluate();
+		return static_cast<const Functor*>(this)->Evaluate(
+				detail::get_tuple_element<typename std::tuple_element<I,argument_rvalue_type>::type >(x)...);
 	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline typename std::enable_if<
-	detail::is_instantiation_of<
-	hydra_thrust::detail::tuple_of_iterator_references,
-	typename std::remove_cv<T>::type
-	>::value, return_type>::type
-	call(T x)
-	{
-
+	inline return_type call(T x)
+    {
 		return call_helper(x, detail::make_index_sequence<arity>{});
-	}
-
-	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline typename hydra_thrust::detail::enable_if<
-	! ( detail::is_instantiation_of<hydra_thrust::tuple,
-			typename hydra_thrust::detail::remove_const<
-				typename hydra_thrust::detail::remove_reference< T>::type
-			>::type >::value ||
-	    detail::is_instantiation_of< hydra_thrust::detail::tuple_of_iterator_references,
-	        typename hydra_thrust::detail::remove_const<
-	        	typename hydra_thrust::detail::remove_reference<T>::type
-	        >::type >::value ) , return_type>::type
-	interface(T&& x)  const
-	{
-
-		return static_cast<const Functor*>(this)->Evaluate((unsigned int)1,
-				&hydra_thrust::raw_reference_cast(std::forward<T>(x)));
-	}
-
-
-	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline typename hydra_thrust::detail::enable_if<(
-			  detail::is_instantiation_of<hydra_thrust::tuple,
-			  typename hydra_thrust::detail::remove_const<
-			  	  typename hydra_thrust::detail::remove_reference<T>::type
-			  >::type >::value ||
-			  detail::is_instantiation_of<hydra_thrust::detail::tuple_of_iterator_references,
-			  typename hydra_thrust::detail::remove_const<
-			  	  typename hydra_thrust::detail::remove_reference<T>::type
-			   >::type >::value ) &&
-	        detail::is_homogeneous<
-	        	typename hydra_thrust::tuple_element<0,
-	        		typename hydra_thrust::detail::remove_const<
-	        			typename hydra_thrust::detail::remove_reference<T>::type
-	        		>::type
-	        	>::type,
-	        	typename hydra_thrust::detail::remove_const<
-	        		typename hydra_thrust::detail::remove_reference<T>::type
-	        	>::type
-	        >::value, return_type>::type
-	interface(T&& x)  const
-	{
-		typedef  typename hydra_thrust::detail::remove_const<typename hydra_thrust::detail::remove_reference<T>::type>::type Tprime;
-
-		typedef typename hydra_thrust::detail::remove_reference<typename hydra_thrust::tuple_element<0, Tprime>::type>::type first_type;
-
-		constexpr size_t N = hydra_thrust::tuple_size< Tprime >::value;
-
-		typename	detail::is_device_reference<first_type>::type Array[ N ];
-
-		detail::tupleToArray(x, &Array[0] );
-		//fNArgs=N;
-		return static_cast<const Functor*>(this)->Evaluate((unsigned int)N, &Array[0]);
-
-
-	}
-
-	template<typename T >
-	__hydra_host__ __hydra_device__
-	inline typename hydra_thrust::detail::enable_if<
-	(detail::is_instantiation_of<hydra_thrust::tuple,
-		typename std::remove_reference<T>::type >::value ||
-	 detail::is_instantiation_of<hydra_thrust::detail::tuple_of_iterator_references,
-	    typename hydra_thrust::detail::remove_const<
-		 	  typename hydra_thrust::detail::remove_reference<T>::type>::type >::value	) &&
-	!(detail::is_homogeneous<
-	    typename hydra_thrust::tuple_element< 0,
-	    	typename hydra_thrust::detail::remove_const<
-	    		typename hydra_thrust::detail::remove_reference<T>::type
-	    	>::type
-	    >::type,
-	    typename hydra_thrust::detail::remove_const<
-	    	typename hydra_thrust::detail::remove_reference<T>::type
-		>::type>::value), return_type>::type
-	interface(T&& x)  const
-	{
-		//fNArgs=0;
-		return static_cast<const Functor*>(this)->Evaluate(std::forward<T>(x));
 	}
 
 
