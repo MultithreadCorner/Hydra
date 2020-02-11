@@ -255,16 +255,16 @@ private:
 
 	template<typename T, size_t ...I>
 	__hydra_host__ __hydra_device__
-	inline  return_type call_helper(T x, detail::index_sequence<I> )
+	inline  return_type call_helper(T x, detail::index_sequence<I> ) const
 	{
 
 		return static_cast<const Functor*>(this)->Evaluate(
-				detail::get_tuple_element<typename std::tuple_element<I,argument_rvalue_type>::type >(x)...);
+				detail::get_tuple_element<typename hydra_thrust::tuple_element<I,argument_rvalue_type>::type >(x)...);
 	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline return_type call(T x)
+	inline return_type call(T x) const
     {
 		return call_helper(x, detail::make_index_sequence<arity>{});
 	}
