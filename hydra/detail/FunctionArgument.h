@@ -197,25 +197,103 @@ struct FunctionArgument
 
 }  // namespace detail
 
+
 //arithmetic operators
-#define
 
-    template<typename Derived1, typename Type1,
-             typename Derived2, typename Type2,
-             typename ReturnType=decltype(std::declval<Type1>() + std::declval<Type2>())>
-    __hydra_host__ __hydra_device__
-    ReturnType  operator+(FunctionArgument<Derived1, Type1> const & a,
-    		              FunctionArgument<Derived2, Type2> const & b )
-	{
-		return ReturnType(static_cast<Type1>(a) + static_cast<Type2>(b) );
-	}
+#define HYDRA_DEFINE_ARGUMENT_OPERATOR(symbol)\
+    template<typename Derived1, typename Type1,\
+             typename Derived2, typename Type2,\
+             typename ReturnType=decltype(std::declval<Type1>() symbol std::declval<Type2>())> \
+    __hydra_host__ __hydra_device__\
+    ReturnType operator symbol(FunctionArgument<Derived1, Type1> const & a,\
+    		                   FunctionArgument<Derived2, Type2> const & b)\
+	{\
+		return ReturnType(static_cast<Type1>(a) symbol static_cast<Type2>(b) );\
+	}\
+	\
+    template< typename Type1, typename Derived2, typename Type2,\
+             typename ReturnType=decltype(std::declval<Type1>() symbol std::declval<Type2>())> \
+    __hydra_host__ __hydra_device__\
+    ReturnType operator symbol( Type1 a, FunctionArgument<Derived2, Type2> const & b)\
+	{\
+		return ReturnType(a symbol static_cast<Type2>(b) );\
+	}\
+	\
+	template< typename Type1, typename Derived2, typename Type2,\
+			 typename ReturnType=decltype(std::declval<Type1>() symbol std::declval<Type2>())> \
+	__hydra_host__ __hydra_device__\
+	ReturnType operator symbol(  FunctionArgument<Derived2, Type2> const & b, Type1 a)\
+	{\
+		return ReturnType(a symbol static_cast<Type2>(b) );\
+	}\
 
 
+HYDRA_DEFINE_ARGUMENT_OPERATOR(+)
+HYDRA_DEFINE_ARGUMENT_OPERATOR(-)
+HYDRA_DEFINE_ARGUMENT_OPERATOR(*)
+HYDRA_DEFINE_ARGUMENT_OPERATOR(/)
+HYDRA_DEFINE_ARGUMENT_OPERATOR(%)
 
-
+#ifdef HYDRA_DEFINE_ARGUMENT_OPERATOR
+#undef HYDRA_DEFINE_ARGUMENT_OPERATOR
+#endif //HYDRA_DEFINE_ARGUMENT_OPERATOR
 
 }  // namespace hydra
 
+#define declarg(NAME, TYPE )                                           \
+namespace hydra {													   \
+																	   \
+struct NAME : detail::FunctionArgument<NAME, TYPE>                     \
+{                                                                      \
+ typedef  detail::FunctionArgument<NAME, TYPE>  super_type;            \
+                                                                       \
+  NAME()=default;                                                      \
+                                                                       \
+  NAME( TYPE x):                                                       \
+     super_type(x)                                                     \
+     {}                                                                \
+                                                                       \
+  NAME( NAME const& other):                                            \
+    super_type(other)                                                  \
+    {}                                                                 \
+                                                                       \
+  template<typename T,                                                 \
+       typename = typename std::enable_if<                             \
+        std::is_base_of< detail::FunctionArgument<T, TYPE>, T>::value, \
+        void >::type >                                                 \
+  NAME( T const& other):                                               \
+    super_type(other)                                                  \
+    {}                                                                 \
+                                                                       \
+  NAME& operator=(NAME const& other)                                   \
+  {                                                                    \
+        if(this==&other)                                               \
+         return *this;                                                 \
+                                                                       \
+        super_type::operator=(other);                                  \
+                                                                       \
+        return *this;                                                  \
+  }                                                                    \
+                                                                       \
+  template<typename T>                                                 \
+  typename std::enable_if<                                             \
+        std::is_base_of< detail::FunctionArgument<T, TYPE>, T>::value, \
+        NAME& >::type                                                  \
+  operator=(T const& other)                                            \
+  {                                                                    \
+        if(this==&other)                                               \
+         return *this;                                                 \
+                                                                       \
+        super_type::operator=(other);                                  \
+                                                                       \
+        return *this;                                                  \
+  }                                                                    \
+                                                                       \
+};                                                                     \
+                                                                       \
+}/*namespace hydra*/                                                   \
 
+
+declarg(angle, double)
 
 #endif /* FUNCTIONARGUMENT_H_ */

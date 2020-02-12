@@ -57,45 +57,37 @@ namespace hydra {
 \f[ g(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{ -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2 }. \f]
  *
  */
-template<unsigned int ArgIndex=0>
-class Gaussian: public BaseFunctor<Gaussian<ArgIndex>, double, 2>
+template<typename ArgType>
+class Gaussian: public BaseFunctor<Gaussian<ArgType>, 2>
 {
-	using BaseFunctor<Gaussian<ArgIndex>, double, 2>::_par;
+	using BaseFunctor<Gaussian<ArgType>, 2>::_par;
 
 public:
 
 	Gaussian()=delete;
 
 	Gaussian(Parameter const& mean, Parameter const& sigma ):
-		BaseFunctor<Gaussian<ArgIndex>, double, 2>({mean, sigma})
+		BaseFunctor<Gaussian<ArgType>, 2>({mean, sigma})
 		{}
 
 	__hydra_host__ __hydra_device__
-	Gaussian(Gaussian<ArgIndex> const& other ):
-		BaseFunctor<Gaussian<ArgIndex>, double,2>(other)
+	Gaussian(Gaussian<ArgType> const& other ):
+		BaseFunctor<Gaussian<ArgType>, 2>(other)
 		{}
 
 	__hydra_host__ __hydra_device__
-	Gaussian<ArgIndex>&
-	operator=(Gaussian<ArgIndex> const& other ){
+	Gaussian<ArgType>& operator=(Gaussian<ArgType> const& other )
+	{
 		if(this==&other) return  *this;
-		BaseFunctor<Gaussian<ArgIndex>,double, 2>::operator=(other);
+		BaseFunctor<Gaussian<ArgType>, 2>::operator=(other);
 		return  *this;
 	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int, T*x)  const	{
-		double m2 = (x[ArgIndex] - _par[0])*(x[ArgIndex] - _par[0] );
-		double s2 = _par[1]*_par[1];
-		return  CHECK_VALUE(::exp(-m2/(2.0 * s2 )), "par[0]=%f, par[1]=%f", _par[0], _par[1]);
-
-	}
-
-	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline double Evaluate(T const& x)  const {
-		double m2 = ( get<ArgIndex>(x) - _par[0])*(get<ArgIndex>(x) - _par[0] );
+	inline double Evaluate(ArgType x)  const
+	{
+		double m2 = ( x - _par[0])*(x - _par[0] );
 		double s2 = _par[1]*_par[1];
 		return CHECK_VALUE( ::exp(-m2/(2.0 * s2 )), "par[0]=%f, par[1]=%f", _par[0], _par[1]);
 
@@ -103,14 +95,14 @@ public:
 
 };
 
-template<unsigned int ArgIndex>
-class IntegrationFormula< Gaussian<ArgIndex>, 1>
+template<typename ArgType>
+class IntegrationFormula< Gaussian<ArgType>, 1>
 {
 
 protected:
 
-	inline std::pair<GReal_t, GReal_t>
-	EvalFormula(Gaussian<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	inline std::pair<double, double>
+	EvalFormula(Gaussian<ArgType>const& functor, double LowerLimit, double UpperLimit )const
 	{
 		double fraction = cumulative(functor[0], functor[1], UpperLimit)
 							- cumulative(functor[0], functor[1], LowerLimit);

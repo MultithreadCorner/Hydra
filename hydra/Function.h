@@ -41,7 +41,8 @@
 #include <hydra/detail/TagTraits.h>
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/Parameters.h>
-//#include <hydra/UserParameters.h>
+#include <hydra/detail/FunctionArgument.h>
+#include <hydra/detail/GetTupleElement.h>
 
 #include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
 #include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
@@ -61,7 +62,6 @@ namespace hydra
  * @ingroup functor
  * @brief Base class for all functors in hydra.
  * @tparam Functor is "bare" c++ functor implementing the template<typename T> Evaluate(T x) method.
- * @tparam ReturnType type returned by the functor' operator(). Same type returned by the "bare" c++ functor Evaluate() method.
  * @tparam NPARAM number of parameters of the functor.
  */
 template<typename Functor, size_t NPARAM>
