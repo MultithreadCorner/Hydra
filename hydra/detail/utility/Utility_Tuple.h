@@ -33,7 +33,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/detail/utility/Generic.h>
-#include <hydra/detail/TypeTraits.h>
+#include <hydra/detail/TagTraits.h>
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/Parameter.h>
 

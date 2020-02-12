@@ -48,15 +48,15 @@
 //this lib
 #include <hydra/device/System.h>
 #include <hydra/Function.h>
-#include <hydra/FunctionWrapper.h>
 #include <hydra/Random.h>
 #include <hydra/LogLikelihoodFCN.h>
 #include <hydra/Parameter.h>
 #include <hydra/UserParameters.h>
 #include <hydra/Pdf.h>
-#include <hydra/Filter.h>
 #include <hydra/functions/Gaussian.h>
 #include <hydra/DenseHistogram.h>
+#include <hydra/multivector.h>
+
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
 #include "Minuit2/MnUserParameterState.h"
@@ -81,6 +81,10 @@
 using namespace ROOT::Minuit2;
 
 
+declarg(xvar, double)
+declarg(yvar, double)
+
+
 int main(int argv, char** argc)
 {
 	size_t nentries = 0;
@@ -100,68 +104,68 @@ int main(int argv, char** argc)
 
 	}
 	catch (TCLAP::ArgException &e)  {
-		std::cerr << "error: " << e.error() << " for arg " << e.argId()
-														<< std::endl;
+		std::cerr << " error: "  << e.error()
+				  << " for arg " << e.argId()
+				  << std::endl;
 	}
 
 	//-----------------
 	// some definitions
-	double min   = -5.0;
-	double max   =  5.0;
-	double mean  =  0.0;
-	double sigma =  1.0;
+	double min   = -6.0;
+	double max   =  6.0;
 
-	//generator
-	hydra::Random<> Generator( std::chrono::system_clock::now().time_since_epoch().count() );
+	//Parameters for X direction
+	auto xmean  = hydra::Parameter::Create("X-mean" ).Value(0.0).Error(0.0001).Limits(-1.0, 1.0);
+	auto xsigma = hydra::Parameter::Create("X-sigma").Value(1.0).Error(0.0001).Limits(0.01, 1.5);
+    //Gaussian distribution for X direction
+	auto xgauss = hydra::Gaussian<xvar>(xmean, xsigma);
+	//Model for X direction
+	auto xmodel = hydra::make_pdf(xgauss, hydra::AnalyticalIntegral< hydra::Gaussian<xvar> >(min, max) );
 
-	//parameters
-	hydra::Parameter  mean_p  = hydra::Parameter::Create().Name("Mean").Value(0.5).Error(0.0001).Limits(-1.0, 1.0);
-	hydra::Parameter  sigma_p = hydra::Parameter::Create().Name("Sigma").Value(0.5).Error(0.0001).Limits(0.01, 1.5);
 
-
-	//gaussian function evaluating on argument zero
-	hydra::Gaussian<> gaussian(mean_p,sigma_p);
-
-	//make model (pdf with analytical integral)
-	auto model = hydra::make_pdf(gaussian, hydra::AnalyticalIntegral<hydra::Gaussian<>>(min, max) );
+	//Parameters for Y direction
+	auto  ymean  = hydra::Parameter::Create("Y-mean" ).Value(0.0).Error(0.0001).Limits(-1.0, 1.0);
+	auto  ysigma = hydra::Parameter::Create("Y-sigma").Value(1.0).Error(0.0001).Limits(0.01, 1.5);
+	//Gaussian distribution for Y direction
+	auto ygauss  = hydra::Gaussian<yvar>(ymean, ysigma);
+	//Model for Y direction
+	auto ymodel = hydra::make_pdf(ygauss, hydra::AnalyticalIntegral< hydra::Gaussian<yvar> >(min, max) );
 
 
 	//------------------------
 #ifdef _ROOT_AVAILABLE_
 
-	TH1D hist_gaussian_d("gaussian_d", "Gaussian",    100, min, max);
-	TH1D hist_fitted_gaussian_d("fitted_gaussian_d", "Gaussian",    100, min, max);
+	TH1D hist_xvar("hist_xvar", "X-axis", 100, min, max);
+	TH1D hist_yvar("hist_yvar", "Y-axis", 100, min, max);
+
+	TH1D hist_fit_xvar("hist_fit_xvar", "X-axis", 100, min, max);
+	TH1D hist_fit_yvar("hist_fit_yvar", "Y-axis", 100, min, max);
 
 #endif //_ROOT_AVAILABLE_
 
 	//begin raii scope
 	{
 
-		//1D device buffer
-		hydra::device::vector<double>  data_d(nentries);
 
+		//1D device buffer
+		hydra::multivector<hydra::tuple<xvar, yvar>,
+		            hydra::device::sys_t> dataset(nentries);
 		//-------------------------------------------------------
-		//gaussian
-		Generator.Gauss(mean, sigma, data_d);
+
+		//gaussian range
+		auto gauss_2D_range = hydra::zip(hydra::random_gauss_range(xmean.Value(), xsigma.Value(), 159753),
+		                hydra::random_gauss_range(ymean.Value(), ysigma.Value(), 258456));
+
+		hydra::copy(gauss_2D_range.begin(), gauss_2D_range.begin()+nentries,
+				dataset.begin());
 
 		std::cout<< std::endl<< "Generated data:"<< std::endl;
 		for(size_t i=0; i<10; i++)
-			std::cout << "[" << i << "] :" << data_d[i] << std::endl;
+			std::cout << "[" << i << "] :" << dataset[i] << std::endl;
 
-		//filtering
-		auto filter = hydra::wrap_lambda(
-				[=] __hydra_dual__ (unsigned int n, const double* x){
-				return (x[0] > min) && (x[0] < max );
-		});
+		auto xfcn   = hydra::make_loglikehood_fcn(xmodel, dataset);
 
-		auto range  = hydra::apply_filter(data_d,  filter);
-
-		std::cout<< std::endl<< "Filtered data:"<< std::endl;
-		for(size_t i=0; i<10; i++)
-			std::cout << "[" << i << "] :" << range[i] << std::endl;
-
-		//static_assert(hydra::detail::is_iterable<decltype(range)>::value, "<<<<<<<<<<<<<<");
-		auto fcn   = hydra::make_loglikehood_fcn(model, range);
+		auto yfcn   = hydra::make_loglikehood_fcn(ymodel, dataset);
 
 		//-------------------------------------------------------
 		//fit
@@ -173,30 +177,32 @@ int main(int argv, char** argc)
 		MnStrategy strategy(2);
 
 		//create Migrad minimizer
-		MnMigrad migrad_d(fcn, fcn.GetParameters().GetMnState() ,  strategy);
+		MnMigrad xmigrad(xfcn, fcn.GetParameters().GetMnState() ,  strategy);
 
 		//print parameters before fitting
-		std::cout<<fcn.GetParameters().GetMnState()<<std::endl;
+		std::cout << xfcn.GetParameters().GetMnState() << std::endl;
 
 		//Minimize and profile the time
-		auto start_d = std::chrono::high_resolution_clock::now();
+		auto start = std::chrono::high_resolution_clock::now();
 
-		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(std::numeric_limits<unsigned int>::max(), 5));
+		FunctionMinimum xminimum = FunctionMinimum( xmigrad(std::numeric_limits<unsigned int>::max(), 5));
 
-		auto end_d = std::chrono::high_resolution_clock::now();
+		auto stop  = std::chrono::high_resolution_clock::now();
 
-		std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
+		std::chrono::duration<double, std::milli> elapsed = stop - start;
 
 		//print minuit result
-		std::cout<<"minimum: "<<minimum_d<<std::endl;
+		std::cout << " minimum: " << xminimum << std::endl;
 
 		//time
 		std::cout << "-----------------------------------------"<<std::endl;
-		std::cout << "| GPU Time (ms) ="<< elapsed_d.count()    <<std::endl;
+		std::cout << "| Time (ms) ="<< elapsed.count()    <<std::endl;
 		std::cout << "-----------------------------------------"<<std::endl;
+/*
+		hydra::DenseHistogram<double, 2,
+		     hydra::device::sys_t>Hist_Data({ 100, 100}, { min, min}, { max, max} );
 
-		hydra::DenseHistogram<double,1,  hydra::device::sys_t> Hist_Data(100, min, max);
-		Hist_Data.Fill( range.begin(), range.end() );
+		Hist_Data.Fill( dataset.begin(), dataset.end() );
 
 
 #ifdef _ROOT_AVAILABLE_
@@ -230,7 +236,7 @@ int main(int argv, char** argc)
 	myapp->Run();
 
 #endif //_ROOT_AVAILABLE_
-
+*/
 	return 0;
 }
 #endif /* BASIC_FIT_INL_ */

@@ -205,8 +205,8 @@ struct FunctionArgument
              typename Derived2, typename Type2,\
              typename ReturnType=decltype(std::declval<Type1>() symbol std::declval<Type2>())> \
     __hydra_host__ __hydra_device__\
-    ReturnType operator symbol(FunctionArgument<Derived1, Type1> const & a,\
-    		                   FunctionArgument<Derived2, Type2> const & b)\
+    ReturnType operator symbol(detail::FunctionArgument<Derived1, Type1> const & a,\
+    		                   detail::FunctionArgument<Derived2, Type2> const & b)\
 	{\
 		return ReturnType(static_cast<Type1>(a) symbol static_cast<Type2>(b) );\
 	}\
@@ -214,7 +214,7 @@ struct FunctionArgument
     template< typename Type1, typename Derived2, typename Type2,\
              typename ReturnType=decltype(std::declval<Type1>() symbol std::declval<Type2>())> \
     __hydra_host__ __hydra_device__\
-    ReturnType operator symbol( Type1 a, FunctionArgument<Derived2, Type2> const & b)\
+    ReturnType operator symbol( Type1 a, detail::FunctionArgument<Derived2, Type2> const & b)\
 	{\
 		return ReturnType(a symbol static_cast<Type2>(b) );\
 	}\
@@ -222,7 +222,7 @@ struct FunctionArgument
 	template< typename Type1, typename Derived2, typename Type2,\
 			 typename ReturnType=decltype(std::declval<Type1>() symbol std::declval<Type2>())> \
 	__hydra_host__ __hydra_device__\
-	ReturnType operator symbol(  FunctionArgument<Derived2, Type2> const & b, Type1 a)\
+	ReturnType operator symbol( detail::FunctionArgument<Derived2, Type2> const & b, Type1 a)\
 	{\
 		return ReturnType(a symbol static_cast<Type2>(b) );\
 	}\

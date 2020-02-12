@@ -42,8 +42,8 @@ namespace hydra {
 template<typename Value_Type>
 Range<hydra_thrust::transform_iterator<
 detail::RndGauss<Value_Type, hydra_thrust::random::default_random_engine> ,
-hydra_thrust::counting_iterator<size_t>, double>>
-random_gauss_range(const Value_Type&  mean, const Value_Type&  width, size_t seed ){
+hydra_thrust::counting_iterator<size_t>, Value_Type>>
+random_gauss_range(Value_Type  mean, Value_Type  width, size_t seed ){
 
 	// create iterators
 	typedef hydra_thrust::counting_iterator<size_t> index_t;
@@ -53,8 +53,8 @@ random_gauss_range(const Value_Type&  mean, const Value_Type&  width, size_t see
 	index_t last(std::numeric_limits<size_t>::max());
 
 	return make_range(
-			hydra_thrust::transform_iterator<gauss_t, index_t, double>(first, gauss_t(seed, mean, width )),
-	        hydra_thrust::transform_iterator<gauss_t, index_t, double>( last, gauss_t(seed, mean, width )));
+			hydra_thrust::transform_iterator<gauss_t, index_t, Value_Type>(first, gauss_t(seed, mean, width )),
+	        hydra_thrust::transform_iterator<gauss_t, index_t, Value_Type>( last, gauss_t(seed, mean, width )));
 }
 
 template<typename Value_Type>

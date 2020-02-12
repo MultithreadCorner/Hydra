@@ -119,7 +119,7 @@ public:
 	 * @brief Copy constructor
 	 */
 	__hydra_host__ __hydra_device__
-	BaseFunctor(BaseFunctor<Functor,ReturnType, NPARAM> const& other):
+	BaseFunctor(BaseFunctor<Functor, NPARAM> const& other):
 	detail::Parameters<NPARAM>( other),
 	fCacheIndex( other.GetCacheIndex() ),
 	fCached( other.IsCached() ),
@@ -131,8 +131,8 @@ public:
 	 * @brief Assignment operator
 	 */
 	__hydra_host__ __hydra_device__
-	inline BaseFunctor<Functor,ReturnType, NPARAM>&
-	operator=(BaseFunctor<Functor, ReturnType, NPARAM> const & other )
+	inline BaseFunctor<Functor, NPARAM>&
+	operator=(BaseFunctor<Functor, NPARAM> const & other )
 	{
 		if(this != &other)
 		{
@@ -206,17 +206,11 @@ public:
 	template<typename ...T>
 	__hydra_host__  __hydra_device__
 	inline typename std::enable_if<
-	   (!std::is_convertible<std::tuple<T...>, argument_rvalue_type>::value) &&
-	   (!(sizeof...(T)==1 && detail::is_instantiation_of<
-			   hydra_thrust::detail::tuple_of_iterator_references,
-			   typename std::decay<T>::type>::value)) &&
-	   (!(sizeof...(T)==1 && detail::is_instantiation_of<
-			   hydra_thrust::tuple,
-			   typename std::decay<T>::type>::value)),
+	   (!std::is_convertible<std::tuple<T...>, argument_rvalue_type>::value),
 	return_type>::type
 	operator()(T...x)  const
 	{
-		HYDRA_STATIC_ASSERT(sizeof...(Args)==-1,
+		HYDRA_STATIC_ASSERT(sizeof...(T)==-1,
 					"This Hydra functor can not be called with these arguments." )
 
 		return return_type{};
@@ -238,10 +232,10 @@ public:
 	template<typename T>
 	__hydra_host__ __hydra_device__
 	inline typename std::enable_if<
-	((sizeof...(T)==1 && detail::is_instantiation_of<
+	(( detail::is_instantiation_of<
 	   hydra_thrust::detail::tuple_of_iterator_references,
 	   typename std::decay<T>::type>::value)) ||
-	((sizeof...(T)==1 && detail::is_instantiation_of<
+	(( detail::is_instantiation_of<
 	   	hydra_thrust::tuple,
 	   	typename std::decay<T>::type>::value)),
 	return_type>::type
@@ -255,7 +249,7 @@ private:
 
 	template<typename T, size_t ...I>
 	__hydra_host__ __hydra_device__
-	inline  return_type call_helper(T x, detail::index_sequence<I> ) const
+	inline  return_type call_helper(T x, detail::index_sequence<I...> ) const
 	{
 
 		return static_cast<const Functor*>(this)->Evaluate(
@@ -276,7 +270,7 @@ private:
 
 protected:
 
-    BaseFunctor<Functor, ReturnType, NPARAM>& _par;
+    BaseFunctor<Functor,  NPARAM>& _par;
 
 };
 

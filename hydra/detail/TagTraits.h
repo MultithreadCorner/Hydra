@@ -32,8 +32,8 @@
  */
 
 
-#ifndef FUNCTORTRAITS_H_
-#define FUNCTORTRAITS_H_
+#ifndef TAGTRAITS_H_
+#define TAGTRAITS_H_
 
 
 #include <type_traits>
@@ -90,4 +90,4 @@ struct is_hydra_convertible_to_tuple<T, typename tag_type< typename T::hydra_con
 }  // namespace detail
 }// namespace hydra
 
-#endif /* FUNCTORTRAITS_H_ */
+#endif /* TAGTRAITS_H_ */
