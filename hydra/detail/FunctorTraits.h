@@ -29,7 +29,9 @@
 #ifndef FUNCTORTRAITS_H_
 #define FUNCTORTRAITS_H_
 
+#include <hydra/detail/Config.h>
 #include<hydra/detail/utility/StaticAssert.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
 #include<type_traits>
 
 namespace hydra {

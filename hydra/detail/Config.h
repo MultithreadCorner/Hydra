@@ -151,4 +151,7 @@
 
 #define HYDRA_PREVENT_MACRO_SUBSTITUTION
 
+namespace hydra{ namespace arguments {} }
+
+
 #endif /* CUDA_H_ */

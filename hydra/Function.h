@@ -35,17 +35,14 @@
 #include <hydra/Types.h>
 #include <hydra/detail/utility/StaticAssert.h>
 #include <hydra/detail/Print.h>
-#include <hydra/Integrator.h>
 #include <hydra/Parameter.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
-#include <hydra/detail/TagTraits.h>
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/Parameters.h>
 #include <hydra/detail/FunctionArgument.h>
 #include <hydra/detail/GetTupleElement.h>
 
 #include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
-#include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
 #include <hydra/detail/external/hydra_thrust/tuple.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/device_reference.h>

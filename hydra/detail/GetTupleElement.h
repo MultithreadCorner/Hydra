@@ -32,12 +32,15 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/FindUniqueType.h>
 #include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
+
 #include <type_traits>
 
 namespace hydra {
 
 namespace detail {
 
+//for tuples
 template<typename T, typename... Types>
 __hydra_host__ __hydra_device__
 T& get_tuple_element(hydra_thrust::tuple<Types...>& t)
@@ -66,6 +69,43 @@ T&& get_tuple_element(hydra_thrust::tuple<Types...>&& t)
 		  find_unique_type<typename std::decay<T>::type,
 		  typename std::decay<Types>::type...>::value>(std::move(t));
 }
+
+//hydra_thrust::detail::for tuple_of_iterator_references
+template<typename T, typename... Types>
+__hydra_host__ __hydra_device__
+hydra_thrust::device_reference<T>
+get_tuple_element(hydra_thrust::detail::tuple_of_iterator_references<
+		hydra_thrust::device_reference<Types>...>& t)
+{
+  return hydra_thrust::get<
+		  find_unique_type<typename std::decay<T>::type,
+		  typename std::decay<Types>::type...>::value>(t);
+}
+
+
+template<class T, class... Types>
+__hydra_host__ __hydra_device__
+const hydra_thrust::device_reference<T>
+get_tuple_element(const hydra_thrust::detail::tuple_of_iterator_references<
+		hydra_thrust::device_reference<Types>...>& t)
+{
+  return hydra_thrust::get<
+		  find_unique_type<typename std::decay<T>::type,
+		  typename std::decay<Types>::type...>::value>(t);
+}
+
+
+template<class T, class... Types>
+__hydra_host__ __hydra_device__
+hydra_thrust::device_reference<T>
+get_tuple_element(hydra_thrust::detail::tuple_of_iterator_references<
+		hydra_thrust::device_reference<Types>...>&& t)
+{
+  return hydra_thrust::get<
+		  find_unique_type<typename std::decay<T>::type,
+		  typename std::decay<Types>::type...>::value>(std::move(t));
+}
+
 
 }  // namespace detail
 

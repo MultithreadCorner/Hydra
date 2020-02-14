@@ -241,7 +241,7 @@ HYDRA_DEFINE_ARGUMENT_OPERATOR(%)
 }  // namespace hydra
 
 #define declarg(NAME, TYPE )                                           \
-namespace hydra {													   \
+namespace hydra {	namespace arguments  { 							   \
 																	   \
 struct NAME : detail::FunctionArgument<NAME, TYPE>                     \
 {                                                                      \
@@ -291,7 +291,7 @@ struct NAME : detail::FunctionArgument<NAME, TYPE>                     \
                                                                        \
 };                                                                     \
                                                                        \
-}/*namespace hydra*/                                                   \
+} /*namespace arguments*/ }/*namespace hydra*/                         \
 
 
 declarg(angle, double)

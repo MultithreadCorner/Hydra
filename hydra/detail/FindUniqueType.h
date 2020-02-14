@@ -30,6 +30,7 @@
 #define FINDUNIQUETYPE_H_
 
 #include <type_traits>
+#include <hydra/detail/utility/StaticAssert.h>
 
 namespace hydra {
 
@@ -47,8 +48,8 @@ struct find_unique_type_impl<I,T,U,Types...> : find_unique_type_impl<I+1, T, Typ
 template<size_t I, class T, class... Types>
 struct find_unique_type_impl<I,T,T,Types...> : std::integral_constant<size_t, I>
 {
-  static_assert(find_unique_type_impl<I,T,Types...>::value == -1,
-		  "Type can only occur once in type list");
+  HYDRA_STATIC_ASSERT((find_unique_type_impl<I,T,Types...>::value==-1),
+		  "Type not unique in type list")
 };
 
 
@@ -59,7 +60,7 @@ struct find_unique_type_impl<I,T>: std::integral_constant<int, -1> {};
 template<class T, class... Types>
 struct find_unique_type : find_unique_type_impl<0,T,Types...>
 {
-  static_assert( find_unique_type::value != -1,
+	 HYDRA_STATIC_ASSERT((find_unique_type::value != -1),
 		  "Type not found in type list");
 };
 

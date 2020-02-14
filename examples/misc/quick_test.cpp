@@ -20,22 +20,11 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * StaticAssert.h
+ * quick_test.cpp
  *
- *  Created on: 09/02/2020
+ *  Created on: 13/02/2020
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef STATICASSERT_H_
-#define STATICASSERT_H_
 
-#define HYDRA_STATIC_ASSERT(condition, message)\
-static_assert(condition,\
-"\n\n"\
-"|++++++++++++++< HYDRA STATIC ASSERTION FAILED >++++++++++++++|\n"\
-"| Error : " message"\n"\
-"|+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|\n"\
-"\n\n" );
-
-
-#endif /* STATICASSERT_H_ */
+#include<examples/misc/quick_test.inl>
