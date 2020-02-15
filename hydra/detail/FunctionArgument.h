@@ -58,7 +58,7 @@ struct FunctionArgument
     operator=(FunctionArgument<Derived, Type>const& other)
     {
         if(this==&other) return *this;
-        value = other;
+        value = other();
         return *this;
     }
 
@@ -67,7 +67,7 @@ struct FunctionArgument
      , FunctionArgument<Derived, Type>& >::type>
     __hydra_host__ __hydra_device__
     FunctionArgument(FunctionArgument<Derived2, Type2>const& other):
-     value(other)
+     value(other())
      {}
 
     template<typename Derived2, typename Type2>
@@ -77,12 +77,12 @@ struct FunctionArgument
     operator=(FunctionArgument<Derived2, Type2>const& other)
     {
         if(this==&other) return *this;
-        value = other;
+        value = other();
         return *this;
     }
 
-    __hydra_host__ __hydra_device__
-    constexpr operator Type() const { return value; }
+      __hydra_host__ __hydra_device__
+      explicit constexpr operator Type() const { return value; }
 
     __hydra_host__ __hydra_device__
     constexpr Type operator()(void) const { return value; }
@@ -145,7 +145,7 @@ struct FunctionArgument
     FunctionArgument<Derived, Type>&>::type
     operator+=( FunctionArgument<Derived2, Type2> const & other)
 	{
-        value+=other;
+        value+=other();
 		return *this;
 	}
 
@@ -155,7 +155,7 @@ struct FunctionArgument
     FunctionArgument<Derived, Type>&>::type
     operator-=( FunctionArgument<Derived2, Type2> const & other)
 	{
-        value-=other;
+        value-=other();
 		return *this;
 	}
 
@@ -165,7 +165,7 @@ struct FunctionArgument
     FunctionArgument<Derived, Type>&>::type
     operator*=( FunctionArgument<Derived2, Type2> const & other)
 	{
-        value*=other;
+        value*=other();
 		return *this;
 	}
 
@@ -175,7 +175,7 @@ struct FunctionArgument
     FunctionArgument<Derived, Type>&>::type
     operator/=( FunctionArgument<Derived2, Type2> const & other)
 	{
-        value/=other;
+        value/=other();
 		return *this;
 	}
 
@@ -186,7 +186,7 @@ struct FunctionArgument
     FunctionArgument<Derived, Type>&>::type
     operator%=( FunctionArgument<Derived2, Type2> const & other)
 	{
-        value%=other;
+        value%=other();
 		return *this;
 	}
 
@@ -293,7 +293,5 @@ struct NAME : detail::FunctionArgument<NAME, TYPE>                     \
                                                                        \
 } /*namespace arguments*/ }/*namespace hydra*/                         \
 
-
-declarg(angle, double)
 
 #endif /* FUNCTIONARGUMENT_H_ */

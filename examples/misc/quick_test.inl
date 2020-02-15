@@ -42,14 +42,13 @@
 #include <hydra/device/System.h>
 #include <hydra/Lambda.h>
 #include <hydra/multivector.h>
+#include <hydra/Parameter.h>
 
 using namespace hydra::arguments;
 
 declarg(xvar, double)
 declarg(yvar, double)
 declarg(zvar, double)
-
-
 
 int main(int argv, char** argc)
 {
@@ -58,16 +57,12 @@ int main(int argv, char** argc)
 	try {
 
 		TCLAP::CmdLine cmd("Command line arguments for ", '=');
-
 		TCLAP::ValueArg<size_t> EArg("n", "number-of-events","Number of events", true, 10e6, "size_t");
 		cmd.add(EArg);
-
 		// Parse the argv array.
 		cmd.parse(argv, argc);
-
 		// Get the value parsed by each arg.
 		nentries = EArg.getValue();
-
 	}
 	catch (TCLAP::ArgException &e)  {
 		std::cerr << " error: "  << e.error()
@@ -75,19 +70,31 @@ int main(int argv, char** argc)
 				  << std::endl;
 	}
 
-	auto lambda = [] __hydra_dual__ ( xvar x, yvar y )
+	auto lambda = []__hydra_dual__(xvar x, yvar y)
 			{
 
-			printf(" X = %f Y = %f\n", double(x), double(y));
+			printf(" X = %f Y = %f\n", x(), y());
 
 			return;
 		   };
 
-	auto wlambda = hydra::Lambda<decltype(lambda)>(lambda);
+	auto plambda = []__hydra_dual__(size_t n, hydra::Parameter* pars, xvar x, yvar y)
+				{
 
-	hydra::multivector<hydra::tuple<xvar, yvar, zvar>,
+				printf(" X = %f Y = %f\n", x(), y());
+
+				return;
+			   };
+
+
+	auto wlambda = hydra::wrap_lambda(lambda);
+
+	hydra::multivector<hydra::tuple<xvar,yvar, zvar>,
 			            hydra::device::sys_t> dataset(nentries, hydra::make_tuple(1.0, 2.0, 3.0));
 
+	std::cout << " : " <<  std::is_convertible<hydra::tuple<double>,
+			hydra::tuple<hydra::detail::FunctionArgument<xvar, typename xvar::value_type>>>::value<< std::endl;
+	wlambda(1.0, 2.0);
     for(auto x:dataset)
     	wlambda(x);
 
