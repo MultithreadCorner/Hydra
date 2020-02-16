@@ -31,10 +31,14 @@
 
 #include <hydra/detail/Config.h>
 #include<hydra/detail/utility/StaticAssert.h>
+#include <hydra/detail/FunctionArgument.h>
+#include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/external/hydra_thrust/tuple.h>
 #include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
-#include<type_traits>
+#include <type_traits>
+
+//this->GetNumberOfParameters(), this->GetParameters(),
 
 namespace hydra {
 
@@ -55,7 +59,58 @@ template<typename... ArgTypes>
 struct is_tuple_type<hydra_thrust::tuple<ArgTypes...>>:
     std::true_type {};
 
+namespace f_a_impl {
 
+template<typename T>
+struct void_tupe{ typedef void type; };
+
+template<typename T, typename U=void>
+struct has_value_type: std::false_type{};
+
+template<typename T>
+struct has_value_type<T,
+    typename void_tupe< typename T::value_type>::type>:
+std::true_type{};
+
+
+}  // namespace function_argument_impl
+
+
+template<typename Arg, bool B=f_a_impl::has_value_type<Arg>::value>
+struct is_function_argument;
+
+template<typename Arg>
+struct is_function_argument<Arg, false>:std::false_type{} ;
+
+
+template<typename Arg>
+struct is_function_argument<Arg, true>:
+std::is_base_of<detail::FunctionArgument<Arg, typename Arg::value_type>, Arg>{} ;
+
+//----------------
+
+template<typename... ArgTypes>
+struct is_function_argument_pack:
+		detail::all_true<is_function_argument<ArgTypes>::value...>{};
+
+//----------------
+
+template<typename ArgType>
+struct is_tuple_of_function_arguments: std::false_type {};
+
+template<typename... ArgTypes>
+struct is_tuple_of_function_arguments<hydra_thrust::detail::tuple_of_iterator_references<ArgTypes...> >:
+is_function_argument_pack<ArgTypes...>{} ;
+
+template<typename... ArgTypes>
+struct is_tuple_of_function_arguments<
+hydra_thrust::detail::tuple_of_iterator_references<hydra_thrust::device_reference<ArgTypes>...> >:
+is_function_argument_pack<ArgTypes...>{} ;
+
+
+template<typename... ArgTypes>
+struct is_tuple_of_function_arguments<hydra_thrust::tuple<ArgTypes...>>:
+is_function_argument_pack<ArgTypes...> {};
 
 }  // namespace detail
 

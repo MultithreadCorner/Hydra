@@ -47,7 +47,9 @@
 using namespace hydra::arguments;
 
 declarg(xvar, double)
+
 declarg(yvar, double)
+
 declarg(zvar, double)
 
 int main(int argv, char** argc)
@@ -73,9 +75,9 @@ int main(int argv, char** argc)
 	auto lambda = []__hydra_dual__(xvar x, yvar y)
 			{
 
-			printf(" X = %f Y = %f\n", x(), y());
+			printf("arguments are:  X = %f Y = %f\n", x(), y());
 
-			return;
+			return x+y;
 		   };
 
 	auto plambda = []__hydra_dual__(size_t n, hydra::Parameter* pars, xvar x, yvar y)
@@ -89,11 +91,10 @@ int main(int argv, char** argc)
 
 	auto wlambda = hydra::wrap_lambda(lambda);
 
-	hydra::multivector<hydra::tuple<xvar,yvar, zvar>,
-			            hydra::device::sys_t> dataset(nentries, hydra::make_tuple(1.0, 2.0, 3.0));
+	hydra::multivector<hydra::tuple<double,double>,
+			            hydra::device::sys_t> dataset(nentries, hydra::make_tuple(1.0, 2.0));
 
-	std::cout << " : " <<  std::is_convertible<hydra::tuple<double>,
-			hydra::tuple<hydra::detail::FunctionArgument<xvar, typename xvar::value_type>>>::value<< std::endl;
+	std::cout << " : " <<  hydra::detail::is_tuple_of_function_arguments<hydra::tuple<double,yvar, zvar>>::value << std::endl;
 	wlambda(1.0, 2.0);
     for(auto x:dataset)
     	wlambda(x);

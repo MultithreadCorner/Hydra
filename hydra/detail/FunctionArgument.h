@@ -82,59 +82,11 @@ struct FunctionArgument
     }
 
       __hydra_host__ __hydra_device__
-      explicit constexpr operator Type() const { return value; }
+    constexpr operator Type() const { return value; }
 
     __hydra_host__ __hydra_device__
     constexpr Type operator()(void) const { return value; }
-    /*
-    //=============================================================
-    //Arithmetic operators
-    //=============================================================
 
-    template<typename Derived2, typename Type2,
-      typename ReturnType=decltype(std::declval<Type>() + std::declval<Type2>())>
-    __hydra_host__ __hydra_device__
-    ReturnType  operator+( FunctionArgument<Derived2, Type2> const & other) const
-	{
-		return ReturnType(value + Type2(other) );
-	}
-
-    template<typename Derived2, typename Type2,
-        typename ReturnType=decltype(std::declval<Type>() - std::declval<Type2>())>
-    __hydra_host__ __hydra_device__
-    typename std::enable_if<std::is_convertible<Type, Type2>::value, ReturnType >::type
-    operator-( FunctionArgument<Derived2, Type2> const & other) const
-	{
-        return ReturnType(value -  Type2(other) );
-	}
-
-    template<typename Derived2, typename Type2,
-        typename ReturnType=decltype(std::declval<Type>() * std::declval<Type2>())>
-    __hydra_host__ __hydra_device__
-    typename std::enable_if<std::is_convertible<Type, Type2>::value, ReturnType >::type
-    operator*( FunctionArgument<Derived2, Type2> const & other) const
-	{
-        return ReturnType(value *  Type2(other) );
-	}
-
-    template<typename Derived2, typename Type2,
-    typename ReturnType=decltype(std::declval<Type>() / std::declval<Type2>())>
-    __hydra_host__ __hydra_device__
-    typename std::enable_if<std::is_convertible<Type, Type2>::value, ReturnType >::type
-    operator/( FunctionArgument<Derived2, Type2> const & other) const
-	{
-        return ReturnType(value /  Type2(other) );
-	}
-
-    template<typename Derived2, typename Type2,
-    typename ReturnType=decltype(std::declval<Type>() % std::declval<Type2>())>
-    __hydra_host__ __hydra_device__
-    typename std::enable_if<std::is_convertible<Type, Type2>::value, ReturnType >::type
-    operator%( FunctionArgument<Derived2, Type2> const & other) const
-	{
-        return ReturnType(value %  Type2(other) );
-	}
-    */
     //=============================================================
     //Compound assignment operators
     //=============================================================
@@ -197,46 +149,6 @@ struct FunctionArgument
 
 }  // namespace detail
 
-
-//arithmetic operators
-
-#define HYDRA_DEFINE_ARGUMENT_OPERATOR(symbol)\
-    template<typename Derived1, typename Type1,\
-             typename Derived2, typename Type2,\
-             typename ReturnType=decltype(std::declval<Type1>() symbol std::declval<Type2>())> \
-    __hydra_host__ __hydra_device__\
-    ReturnType operator symbol(detail::FunctionArgument<Derived1, Type1> const & a,\
-    		                   detail::FunctionArgument<Derived2, Type2> const & b)\
-	{\
-		return ReturnType(static_cast<Type1>(a) symbol static_cast<Type2>(b) );\
-	}\
-	\
-    template< typename Type1, typename Derived2, typename Type2,\
-             typename ReturnType=decltype(std::declval<Type1>() symbol std::declval<Type2>())> \
-    __hydra_host__ __hydra_device__\
-    ReturnType operator symbol( Type1 a, detail::FunctionArgument<Derived2, Type2> const & b)\
-	{\
-		return ReturnType(a symbol static_cast<Type2>(b) );\
-	}\
-	\
-	template< typename Type1, typename Derived2, typename Type2,\
-			 typename ReturnType=decltype(std::declval<Type1>() symbol std::declval<Type2>())> \
-	__hydra_host__ __hydra_device__\
-	ReturnType operator symbol( detail::FunctionArgument<Derived2, Type2> const & b, Type1 a)\
-	{\
-		return ReturnType(a symbol static_cast<Type2>(b) );\
-	}\
-
-
-HYDRA_DEFINE_ARGUMENT_OPERATOR(+)
-HYDRA_DEFINE_ARGUMENT_OPERATOR(-)
-HYDRA_DEFINE_ARGUMENT_OPERATOR(*)
-HYDRA_DEFINE_ARGUMENT_OPERATOR(/)
-HYDRA_DEFINE_ARGUMENT_OPERATOR(%)
-
-#ifdef HYDRA_DEFINE_ARGUMENT_OPERATOR
-#undef HYDRA_DEFINE_ARGUMENT_OPERATOR
-#endif //HYDRA_DEFINE_ARGUMENT_OPERATOR
 
 }  // namespace hydra
 
