@@ -72,7 +72,7 @@ int main(int argv, char** argc)
 				  << std::endl;
 	}
 
-	auto lambda = []__hydra_dual__(xvar x, yvar y)
+	auto lambda = []__hydra_dual__ (xvar x, yvar y)
 			{
 
 			printf("arguments are:  X = %f Y = %f\n", x(), y());
@@ -80,7 +80,7 @@ int main(int argv, char** argc)
 			return x+y;
 		   };
 
-	auto plambda = []__hydra_dual__(size_t n, hydra::Parameter* pars, xvar x, yvar y)
+	auto plambda = [] __hydra_dual__ (size_t n, hydra::Parameter* pars, xvar x, yvar y)
 				{
 
 				printf(" X = %f Y = %f\n", x(), y());
@@ -90,6 +90,11 @@ int main(int argv, char** argc)
 
 
 	auto wlambda = hydra::wrap_lambda(lambda);
+
+	auto P1= hydra::Parameter::Create("P1").Value(1.0);
+	auto P2= hydra::Parameter::Create("P2").Value(2.0);
+
+	auto wplambda = hydra::wrap_lambda(plambda, P1, P2);
 
 	hydra::multivector<hydra::tuple<double,double>,
 			            hydra::device::sys_t> dataset(nentries, hydra::make_tuple(1.0, 2.0));

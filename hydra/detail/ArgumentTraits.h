@@ -48,6 +48,8 @@ template<typename TypePack, typename ...T>
 struct is_valid_type_pack:
 		std::is_convertible< TypePack,hydra_thrust::tuple<T...>> {};
 
+
+
 template<typename ArgType>
 struct is_tuple_type: std::false_type {};
 
@@ -98,19 +100,21 @@ struct is_function_argument_pack:
 template<typename ArgType>
 struct is_tuple_of_function_arguments: std::false_type {};
 
+
+
 template<typename... ArgTypes>
-struct is_tuple_of_function_arguments<hydra_thrust::detail::tuple_of_iterator_references<ArgTypes...> >:
-is_function_argument_pack<ArgTypes...>{} ;
+struct is_tuple_of_function_arguments<hydra_thrust::detail::tuple_of_iterator_references<ArgTypes&...> >:
+is_function_argument_pack<typename std::decay<ArgTypes>::type...>{} ;
 
 template<typename... ArgTypes>
 struct is_tuple_of_function_arguments<
 hydra_thrust::detail::tuple_of_iterator_references<hydra_thrust::device_reference<ArgTypes>...> >:
-is_function_argument_pack<ArgTypes...>{} ;
+is_function_argument_pack<typename std::decay<ArgTypes>::type...>{} ;
 
 
 template<typename... ArgTypes>
 struct is_tuple_of_function_arguments<hydra_thrust::tuple<ArgTypes...>>:
-is_function_argument_pack<ArgTypes...> {};
+is_function_argument_pack<typename std::decay<ArgTypes>::type...> {};
 
 }  // namespace detail
 

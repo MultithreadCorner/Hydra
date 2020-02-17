@@ -161,10 +161,12 @@ struct NAME : detail::FunctionArgument<NAME, TYPE>                     \
                                                                        \
   NAME()=default;                                                      \
                                                                        \
+  __hydra_host__ __hydra_device__	                                   \
   NAME( TYPE x):                                                       \
      super_type(x)                                                     \
      {}                                                                \
-                                                                       \
+     	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	   \
+  __hydra_host__ __hydra_device__                                      \
   NAME( NAME const& other):                                            \
     super_type(other)                                                  \
     {}                                                                 \
@@ -172,11 +174,13 @@ struct NAME : detail::FunctionArgument<NAME, TYPE>                     \
   template<typename T,                                                 \
        typename = typename std::enable_if<                             \
         std::is_base_of< detail::FunctionArgument<T, TYPE>, T>::value, \
-        void >::type >                                                 \
+        void >::type >  											   \
+__hydra_host__ __hydra_device__										   \
   NAME( T const& other):                                               \
     super_type(other)                                                  \
     {}                                                                 \
                                                                        \
+    __hydra_host__ __hydra_device__	                                   \
   NAME& operator=(NAME const& other)                                   \
   {                                                                    \
         if(this==&other)                                               \
@@ -191,6 +195,7 @@ struct NAME : detail::FunctionArgument<NAME, TYPE>                     \
   typename std::enable_if<                                             \
         std::is_base_of< detail::FunctionArgument<T, TYPE>, T>::value, \
         NAME& >::type                                                  \
+  __hydra_host__ __hydra_device__                                      \
   operator=(T const& other)                                            \
   {                                                                    \
         if(this==&other)                                               \

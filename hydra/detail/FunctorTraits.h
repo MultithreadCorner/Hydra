@@ -49,7 +49,7 @@ struct lambda_traits:
 template <typename ClassType, typename ReturnType, typename... Args>
 struct functor_traits<ReturnType(ClassType::*)(Args...) >
 {
-	HYDRA_STATIC_ASSERT(sizeof...(Args)==-1,
+	HYDRA_STATIC_ASSERT(int(sizeof...(Args))==-1,
 			"Non-const T::operator() or T::Evaluate() not allowed." )
 };
 

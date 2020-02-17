@@ -60,8 +60,8 @@ struct find_unique_type_impl<I,T>: std::integral_constant<int, -1> {};
 template<class T, class... Types>
 struct find_unique_type : find_unique_type_impl<0,T,Types...>
 {
-	 HYDRA_STATIC_ASSERT((find_unique_type::value != -1),
-		  "Type not found in type list");
+	 HYDRA_STATIC_ASSERT((int(find_unique_type::value) != -1),
+		  "Type not found in type list")
 };
 
 

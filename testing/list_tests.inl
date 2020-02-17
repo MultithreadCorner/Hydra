@@ -30,6 +30,7 @@
 #define LIST_TESTS_INL_
 
 #include <testing/multivector.inl>
+#include <testing/lambda.inl>
 //#include <testing/multiarray.inl>
 
 #endif /* LIST_TESTS_INL_ */

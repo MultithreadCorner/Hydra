@@ -835,7 +835,7 @@ struct __find_exactly_one_impl<I,T,U,Types...> : __find_exactly_one_impl<I+1, T,
 template<size_t I, class T, class... Types>
 struct __find_exactly_one_impl<I,T,T,Types...> : std::integral_constant<size_t, I>
 {
-  static_assert(__find_exactly_one_impl<I,T,Types...>::value == -1, "type can only occur once in type list");
+  static_assert(int(__find_exactly_one_impl<I,T,Types...>::value) == -1, "type can only occur once in type list");
 };
 
 
@@ -846,7 +846,7 @@ struct __find_exactly_one_impl<I,T> : std::integral_constant<int, -1> {};
 template<class T, class... Types>
 struct __find_exactly_one : __find_exactly_one_impl<0,T,Types...>
 {
-  static_assert(__find_exactly_one::value != -1, "type not found in type list");
+  static_assert(int(__find_exactly_one::value) != -1, "type not found in type list");
 };
 
 
