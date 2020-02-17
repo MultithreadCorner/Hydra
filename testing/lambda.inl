@@ -48,15 +48,24 @@ declarg(X_arg, double)
 declarg(Y_arg, double)
 declarg(Z_arg, double)
 
+
 TEST_CASE( "lambda host","hydra::Lambda<Type,0>" )
 {
 
-	typedef hydra::tuple<X_arg, Y_arg, Z_arg>               right_tuple;
-	typedef hydra::tuple<U_arg, V_arg,  X_arg, Y_arg, Z_arg> wrong_tuple;
+	typedef hydra::tuple<X_arg, Y_arg, Z_arg>                     right_tuple;
+	typedef hydra::tuple<U_arg, V_arg,  X_arg, Y_arg, Z_arg>      wrong_tuple;
+	typedef hydra::tuple<U_arg, V_arg, X_arg>                 x_partial_tuple;
+	typedef hydra::tuple<Y_arg, Z_arg>                       yz_partial_tuple;
 
-	typedef hydra::multivector<	right_tuple, hydra::host::sys_t> right_table_d;
-	typedef hydra::multivector<	wrong_tuple, hydra::host::sys_t> wrong_table_d;
+	typedef hydra::host::vector<V_arg>                       v_vector;
+	typedef hydra::host::vector<X_arg>                       x_vector;
+	typedef hydra::host::vector<Y_arg>                       y_vector;
+	typedef hydra::host::vector<Z_arg>                       z_vector;
 
+	typedef hydra::multivector<	right_tuple, hydra::host::sys_t> right_table;
+	typedef hydra::multivector<	wrong_tuple, hydra::host::sys_t> wrong_table;
+	typedef hydra::multivector< x_partial_tuple,  hydra::host::sys_t>  x_partial_table;
+	typedef hydra::multivector< yz_partial_tuple, hydra::host::sys_t> yz_partial_table;
 
 		SECTION( "Call lambda: native signature" )
 		{
@@ -118,7 +127,7 @@ TEST_CASE( "lambda host","hydra::Lambda<Type,0>" )
 				return right_tuple(a*a,  b*b, c*c);
 			});
 
-			right_table_d table(10,  hydra::make_tuple(2.0, 4.0, 8.0));
+			right_table table(10,  hydra::make_tuple(2.0, 4.0, 8.0));
 
 			for( auto entry: table)
 			{
@@ -155,7 +164,7 @@ TEST_CASE( "lambda host","hydra::Lambda<Type,0>" )
 				return right_tuple(a*a,  b*b, c*c);
 			});
 
-			wrong_table_d table(10,  hydra::make_tuple(1.0, 1.0, 2.0, 4.0, 8.0));
+			wrong_table table(10,  hydra::make_tuple(1.0, 1.0, 2.0, 4.0, 8.0));
 
 			for( auto entry: table)
 			{
@@ -169,17 +178,168 @@ TEST_CASE( "lambda host","hydra::Lambda<Type,0>" )
 
 		}
 
+		SECTION( "Call lambda: two complementary containers with lambda arguments" )
+		{
+			auto lambda = hydra::wrap_lambda( []__hydra_dual__(X_arg a, Y_arg b, Z_arg c){
+
+				return right_tuple(a*a,  b*b, c*c);
+			});
+
+			x_partial_table   x_partial(10, hydra::make_tuple(1.0, 1.0, 2.0));
+			yz_partial_table yz_partial(10, hydra::make_tuple(4.0, 8.0));
+
+
+			for(size_t i=0; i<10;i++)
+			{
+				auto result = lambda( x_partial[i],  yz_partial[i]);
+
+				REQUIRE( hydra::get<0>(result) == Approx( 4.0  ) );
+				REQUIRE( hydra::get<1>(result) == Approx( 16.0 ) );
+				REQUIRE( hydra::get<2>(result) == Approx( 64.0 ) );
+			}
+		}
+
+
+		SECTION( "Call lambda: two complementary tuples with lambda arguments" )
+		{
+			auto lambda = hydra::wrap_lambda( []__hydra_dual__(X_arg a, Y_arg b, Z_arg c){
+
+				return right_tuple(a*a,  b*b, c*c);
+			});
+
+
+			auto result = lambda( x_partial_tuple(1.0, 1.0, 2.0),  yz_partial_tuple(4.0, 8.0));
+
+			REQUIRE( hydra::get<0>(result) == Approx( 4.0  ) );
+			REQUIRE( hydra::get<1>(result) == Approx( 16.0 ) );
+			REQUIRE( hydra::get<2>(result) == Approx( 64.0 ) );
+
+		}
+
+
+
+		SECTION( "Call lambda: one variable and one tuple containing lambda arguments" )
+		{
+			auto lambda = hydra::wrap_lambda( []__hydra_dual__(X_arg a, Y_arg b, Z_arg c){
+
+				return right_tuple(a*a,  b*b, c*c);
+			});
+
+
+			auto result = lambda( X_arg(2.0),  yz_partial_tuple(4.0, 8.0));
+
+			REQUIRE( hydra::get<0>(result) == Approx( 4.0  ) );
+			REQUIRE( hydra::get<1>(result) == Approx( 16.0 ) );
+			REQUIRE( hydra::get<2>(result) == Approx( 64.0 ) );
+
+		}
+
+		SECTION( "Call lambda: one variable and one tuple containing lambda arguments(inverse order)" )
+		{
+			auto lambda = hydra::wrap_lambda( []__hydra_dual__(X_arg a, Y_arg b, Z_arg c){
+
+				return right_tuple(a*a,  b*b, c*c);
+			});
+
+
+			auto result = lambda(yz_partial_tuple(4.0, 8.0) , X_arg(2.0));
+
+			REQUIRE( hydra::get<0>(result) == Approx( 4.0  ) );
+			REQUIRE( hydra::get<1>(result) == Approx( 16.0 ) );
+			REQUIRE( hydra::get<2>(result) == Approx( 64.0 ) );
+
+		}
+
+
+		SECTION( "Call lambda:  two complementary containers with lambda arguments" )
+		{
+			auto lambda = hydra::wrap_lambda( []__hydra_dual__(X_arg a, Y_arg b, Z_arg c){
+
+				return right_tuple(a*a,  b*b, c*c);
+			});
+
+			x_vector           x_vector(10, 2.0);
+			yz_partial_table yz_partial(10, hydra::make_tuple(4.0, 8.0));
+
+
+			for(size_t i=0; i<10;i++)
+			{
+				auto result = lambda( x_vector[i],  yz_partial[i]);
+
+				REQUIRE( hydra::get<0>(result) == Approx( 4.0  ) );
+				REQUIRE( hydra::get<1>(result) == Approx( 16.0 ) );
+				REQUIRE( hydra::get<2>(result) == Approx( 64.0 ) );
+			}
+		}
+
+		SECTION( "Call lambda:  two complementary containers with lambda arguments" )
+		{
+			auto lambda = hydra::wrap_lambda( []__hydra_dual__(X_arg a, Y_arg b, Z_arg c){
+
+				return right_tuple(a*a,  b*b, c*c);
+			});
+
+			x_vector           x_vector(10, 2.0);
+			yz_partial_table yz_partial(10, hydra::make_tuple(4.0, 8.0));
+
+
+			for(size_t i=0; i<10;i++)
+			{
+				auto result = lambda( yz_partial[i], x_vector[i]);
+
+				REQUIRE( hydra::get<0>(result) == Approx( 4.0  ) );
+				REQUIRE( hydra::get<1>(result) == Approx( 16.0 ) );
+				REQUIRE( hydra::get<2>(result) == Approx( 64.0 ) );
+			}
+		}
+
+/*
+ * FIXME: activate this test when finish implementation
+ *
+		SECTION( "Call lambda:  two complementary containers with lambda arguments" )
+		{
+			auto lambda = hydra::wrap_lambda( []__hydra_dual__(X_arg a, Y_arg b, Z_arg c){
+
+				return right_tuple(a*a,  b*b, c*c);
+			});
+
+			x_vector           x_vector(10, 2.0);
+			y_vector           y_vector(10, 4.0);
+			z_vector           z_vector(10, 8.0);
+			v_vector           v_vector(10, 1.0);
+
+            auto table = hydra::zip(x_vector, v_vector, z_vector, y_vector);
+
+			for(auto entry: table)
+			{
+				auto result = lambda(entry );
+
+				REQUIRE( hydra::get<0>(result) == Approx( 4.0  ) );
+				REQUIRE( hydra::get<1>(result) == Approx( 16.0 ) );
+				REQUIRE( hydra::get<2>(result) == Approx( 64.0 ) );
+			}
+		}
+*/
 }
+
 
 TEST_CASE( "lambda device","hydra::Lambda<Type,0>" )
 {
 
-	typedef hydra::tuple<X_arg, Y_arg, Z_arg>               right_tuple;
-	typedef hydra::tuple<U_arg, V_arg,  X_arg, Y_arg, Z_arg> wrong_tuple;
+	typedef hydra::tuple<X_arg, Y_arg, Z_arg>                     right_tuple;
+	typedef hydra::tuple<U_arg, V_arg,  X_arg, Y_arg, Z_arg>      wrong_tuple;
+	typedef hydra::tuple<U_arg, V_arg, X_arg>                 x_partial_tuple;
+	typedef hydra::tuple<Y_arg, Z_arg>                       yz_partial_tuple;
 
-	typedef hydra::multivector<	right_tuple, hydra::device::sys_t> right_table_d;
-	typedef hydra::multivector<	wrong_tuple, hydra::device::sys_t> wrong_table_d;
+	typedef hydra::device::vector<V_arg>                       v_vector;
+	typedef hydra::device::vector<X_arg>                       x_vector;
+	typedef hydra::device::vector<Y_arg>                       y_vector;
+	typedef hydra::device::vector<Z_arg>                       z_vector;
 
+	typedef hydra::multivector<	right_tuple, hydra::device::sys_t> right_table;
+	typedef hydra::multivector<	wrong_tuple, hydra::device::sys_t> wrong_table;
+	typedef hydra::multivector< x_partial_tuple,  hydra::device::sys_t>  x_partial_table;
+	typedef hydra::multivector< yz_partial_tuple, hydra::device::sys_t> yz_partial_table;
 
 		SECTION( "Call lambda: native signature" )
 		{
@@ -241,7 +401,7 @@ TEST_CASE( "lambda device","hydra::Lambda<Type,0>" )
 				return right_tuple(a*a,  b*b, c*c);
 			});
 
-			right_table_d table(10,  hydra::make_tuple(2.0, 4.0, 8.0));
+			right_table table(10,  hydra::make_tuple(2.0, 4.0, 8.0));
 
 			for( auto entry: table)
 			{
@@ -278,7 +438,7 @@ TEST_CASE( "lambda device","hydra::Lambda<Type,0>" )
 				return right_tuple(a*a,  b*b, c*c);
 			});
 
-			wrong_table_d table(10,  hydra::make_tuple(1.0, 1.0, 2.0, 4.0, 8.0));
+			wrong_table table(10,  hydra::make_tuple(1.0, 1.0, 2.0, 4.0, 8.0));
 
 			for( auto entry: table)
 			{
@@ -292,5 +452,148 @@ TEST_CASE( "lambda device","hydra::Lambda<Type,0>" )
 
 		}
 
+
+		SECTION( "Call lambda: two complementary containers with lambda arguments" )
+		{
+			auto lambda = hydra::wrap_lambda( []__hydra_dual__(X_arg a, Y_arg b, Z_arg c){
+
+				return right_tuple(a*a,  b*b, c*c);
+			});
+
+			x_partial_table   x_partial(10, hydra::make_tuple(1.0, 1.0, 2.0));
+			yz_partial_table yz_partial(10, hydra::make_tuple(4.0, 8.0));
+
+
+			for(size_t i=0; i<10;i++)
+			{
+				auto result = lambda( x_partial[i],  yz_partial[i]);
+
+				REQUIRE( hydra::get<0>(result) == Approx( 4.0  ) );
+				REQUIRE( hydra::get<1>(result) == Approx( 16.0 ) );
+				REQUIRE( hydra::get<2>(result) == Approx( 64.0 ) );
+			}
+		}
+
+
+		SECTION( "Call lambda: two complementary tuples with lambda arguments" )
+		{
+			auto lambda = hydra::wrap_lambda( []__hydra_dual__(X_arg a, Y_arg b, Z_arg c){
+
+				return right_tuple(a*a,  b*b, c*c);
+			});
+
+
+			auto result = lambda( x_partial_tuple(1.0, 1.0, 2.0),  yz_partial_tuple(4.0, 8.0));
+
+			REQUIRE( hydra::get<0>(result) == Approx( 4.0  ) );
+			REQUIRE( hydra::get<1>(result) == Approx( 16.0 ) );
+			REQUIRE( hydra::get<2>(result) == Approx( 64.0 ) );
+
+		}
+
+
+
+		SECTION( "Call lambda: one variable and one tuple containing lambda arguments" )
+		{
+			auto lambda = hydra::wrap_lambda( []__hydra_dual__(X_arg a, Y_arg b, Z_arg c){
+
+				return right_tuple(a*a,  b*b, c*c);
+			});
+
+
+			auto result = lambda( X_arg(2.0),  yz_partial_tuple(4.0, 8.0));
+
+			REQUIRE( hydra::get<0>(result) == Approx( 4.0  ) );
+			REQUIRE( hydra::get<1>(result) == Approx( 16.0 ) );
+			REQUIRE( hydra::get<2>(result) == Approx( 64.0 ) );
+
+		}
+
+		SECTION( "Call lambda: one variable and one tuple containing lambda arguments(inverse order)" )
+		{
+			auto lambda = hydra::wrap_lambda( []__hydra_dual__(X_arg a, Y_arg b, Z_arg c){
+
+				return right_tuple(a*a,  b*b, c*c);
+			});
+
+
+			auto result = lambda(yz_partial_tuple(4.0, 8.0) , X_arg(2.0));
+
+			REQUIRE( hydra::get<0>(result) == Approx( 4.0  ) );
+			REQUIRE( hydra::get<1>(result) == Approx( 16.0 ) );
+			REQUIRE( hydra::get<2>(result) == Approx( 64.0 ) );
+
+		}
+
+
+		SECTION( "Call lambda:  two complementary containers with lambda arguments" )
+		{
+			auto lambda = hydra::wrap_lambda( []__hydra_dual__(X_arg a, Y_arg b, Z_arg c){
+
+				return right_tuple(a*a,  b*b, c*c);
+			});
+
+			x_vector           x_vector(10, 2.0);
+			yz_partial_table yz_partial(10, hydra::make_tuple(4.0, 8.0));
+
+
+			for(size_t i=0; i<10;i++)
+			{
+				auto result = lambda( x_vector[i],  yz_partial[i]);
+
+				REQUIRE( hydra::get<0>(result) == Approx( 4.0  ) );
+				REQUIRE( hydra::get<1>(result) == Approx( 16.0 ) );
+				REQUIRE( hydra::get<2>(result) == Approx( 64.0 ) );
+			}
+		}
+
+		SECTION( "Call lambda:  two complementary containers with lambda arguments" )
+		{
+			auto lambda = hydra::wrap_lambda( []__hydra_dual__(X_arg a, Y_arg b, Z_arg c){
+
+				return right_tuple(a*a,  b*b, c*c);
+			});
+
+			x_vector           x_vector(10, 2.0);
+			yz_partial_table yz_partial(10, hydra::make_tuple(4.0, 8.0));
+
+
+			for(size_t i=0; i<10;i++)
+			{
+				auto result = lambda( yz_partial[i], x_vector[i]);
+
+				REQUIRE( hydra::get<0>(result) == Approx( 4.0  ) );
+				REQUIRE( hydra::get<1>(result) == Approx( 16.0 ) );
+				REQUIRE( hydra::get<2>(result) == Approx( 64.0 ) );
+			}
+		}
+
+/*
+ * FIXME: activate this test when finish implementation
+ *
+		SECTION( "Call lambda:  two complementary containers with lambda arguments" )
+		{
+			auto lambda = hydra::wrap_lambda( []__hydra_dual__(X_arg a, Y_arg b, Z_arg c){
+
+				return right_tuple(a*a,  b*b, c*c);
+			});
+
+			x_vector           x_vector(10, 2.0);
+			y_vector           y_vector(10, 4.0);
+			z_vector           z_vector(10, 8.0);
+			v_vector           v_vector(10, 1.0);
+
+            auto table = hydra::zip(x_vector, v_vector, z_vector, y_vector);
+
+			for(auto entry: table)
+			{
+				auto result = lambda(entry );
+
+				REQUIRE( hydra::get<0>(result) == Approx( 4.0  ) );
+				REQUIRE( hydra::get<1>(result) == Approx( 16.0 ) );
+				REQUIRE( hydra::get<2>(result) == Approx( 64.0 ) );
+			}
+		}
+*/
 }
 #endif /* LAMBDA_TEST_INL_ */

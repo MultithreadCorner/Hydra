@@ -61,7 +61,7 @@ template<typename... ArgTypes>
 struct is_tuple_type<hydra_thrust::tuple<ArgTypes...>>:
     std::true_type {};
 
-namespace f_a_impl {
+namespace fa_impl {
 
 template<typename T>
 struct void_tupe{ typedef void type; };
@@ -78,7 +78,7 @@ std::true_type{};
 }  // namespace function_argument_impl
 
 
-template<typename Arg, bool B=f_a_impl::has_value_type<Arg>::value>
+template<typename Arg, bool B=fa_impl::has_value_type<Arg>::value>
 struct is_function_argument;
 
 template<typename Arg>
@@ -87,6 +87,11 @@ struct is_function_argument<Arg, false>:std::false_type{} ;
 
 template<typename Arg>
 struct is_function_argument<Arg, true>:
+std::is_base_of<detail::FunctionArgument<Arg, typename Arg::value_type>, Arg>{} ;
+
+
+template<typename Arg>
+struct is_function_argument<hydra_thrust::device_reference<Arg>, true>:
 std::is_base_of<detail::FunctionArgument<Arg, typename Arg::value_type>, Arg>{} ;
 
 //----------------

@@ -203,6 +203,7 @@ public:
 	operator()( T1 x, T2 y )  const
 	{
 		auto z = hydra_thrust::tuple_cat(x, y);
+
 		return  call(z);
 	}
 

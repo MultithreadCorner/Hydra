@@ -71,11 +71,20 @@ namespace hydra {
 	struct tuple_cat_type;
 
 
-	template<template<typename ...>class Tuple, typename ...T1,typename ...T2>
-	struct tuple_cat_type<Tuple<T1...>, Tuple<T2...> >
+	template<typename ...T1,typename ...T2>
+	struct tuple_cat_type<hydra_thrust::tuple<T1...>, hydra_thrust::tuple<T2...> >
 	{
-		typedef Tuple<T1..., T2...> type;
+		typedef hydra_thrust::tuple<T1..., T2...> type;
 	};
+
+	template<typename ...T1,typename ...T2>
+	struct tuple_cat_type<hydra_thrust::detail::tuple_of_iterator_references<T1...>,
+	hydra_thrust::detail::tuple_of_iterator_references<T2...> >
+	{
+		typedef hydra_thrust::detail::tuple_of_iterator_references<T1..., T2...> type;
+	};
+
+
 
 	//-----------------
 	template <size_t N,template<typename> class COM>

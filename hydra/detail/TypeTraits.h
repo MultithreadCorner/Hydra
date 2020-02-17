@@ -94,14 +94,26 @@ namespace hydra {
 	template<typename T>
 	struct is_device_reference: std::false_type
 	{
-		typedef T type;
+	//	typedef T type;
 	};
 
 	template<typename T>
 	struct is_device_reference<hydra_thrust::device_reference<T>>: std::true_type
 	{
-		typedef T type;
+	//	typedef T type;
 	};
+
+    template<typename T>
+    struct remove_device_reference
+    {
+    		typedef T type;
+    };
+
+    template<typename T>
+    struct remove_device_reference<hydra_thrust::device_reference<T>>
+    {
+    	typedef T type;
+    };
 
 
 

@@ -36,7 +36,6 @@ namespace hydra {
 
 namespace detail {
 
-
 template<size_t I, class T, class... Types>
 struct find_unique_type_impl;
 
