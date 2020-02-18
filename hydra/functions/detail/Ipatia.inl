@@ -24,6 +24,10 @@
  *
  *  Created on: 21/07/2018
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef IPATIA_INL_
@@ -31,9 +35,9 @@
 
 namespace hydra {
 
-template<unsigned int ArgIndex>
+template<typename ArgType>
 __hydra_host__ __hydra_device__
- inline  double Ipatia<ArgIndex>::ipatia(const double x, const double mu,const double sigma,
+ inline  double Ipatia<ArgType>::ipatia(const double x, const double mu,const double sigma,
          const double A1, const double N1, const double A2, const double N2,
          const double l, const double beta) const {
 
@@ -51,9 +55,9 @@ __hydra_host__ __hydra_device__
 
  }
 
-template<unsigned int ArgIndex>
+template<typename ArgType>
 __hydra_host__ __hydra_device__
- inline  double Ipatia<ArgIndex>::left(const double d, const double sigma,
+ inline  double Ipatia<ArgType>::left(const double d, const double sigma,
 	 const double A1, const double N1, const double l,  const double beta) const {
 
 	 const double  asigma = A1*sigma;
@@ -88,9 +92,9 @@ __hydra_host__ __hydra_device__
 
  }
 
-template<unsigned int ArgIndex>
+template<typename ArgType>
 __hydra_host__ __hydra_device__
- inline  double Ipatia<ArgIndex>::right(const double d,const double sigma,
+ inline  double Ipatia<ArgType>::right(const double d,const double sigma,
 		const double A2, const double N2, const double l,  const double beta) const{
 
 	 const  double asigma = A2*sigma;
@@ -127,9 +131,9 @@ __hydra_host__ __hydra_device__
 
  }
 
-template<unsigned int ArgIndex>
+template<typename ArgType>
 __hydra_host__ __hydra_device__
- inline  double Ipatia<ArgIndex>::center(const double d,const double sigma,
+ inline  double Ipatia<ArgType>::center(const double d,const double sigma,
 		 const double l, const double beta ) const {
 
 
