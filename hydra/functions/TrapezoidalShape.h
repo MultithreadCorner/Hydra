@@ -24,6 +24,10 @@
  *
  *  Created on: 04/09/2018
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef TRAPEZOIDALSHAPE_H_
@@ -64,44 +68,39 @@ namespace hydra {
  * * c ( b < c ≤ d ) - level end
  * * d ( c ≤ d )- upper bound
  */
-template<unsigned int ArgIndex=0>
-class TrapezoidalShape:public BaseFunctor<TrapezoidalShape<ArgIndex>, double, 4>
+template<typename ArgType>
+class TrapezoidalShape:public BaseFunctor<TrapezoidalShape<ArgType>, 4>
 {
-	using BaseFunctor<TrapezoidalShape<ArgIndex>, double, 4>::_par;
+	using BaseFunctor<TrapezoidalShape<ArgType>,  4>::_par;
 
 public:
 
 	TrapezoidalShape() = delete;
 
 	TrapezoidalShape(Parameter const& A, Parameter const& B, Parameter const& C , Parameter const& D ):
-		BaseFunctor<TrapezoidalShape<ArgIndex>, double, 4>({A,B,C,D}) {}
+		BaseFunctor<TrapezoidalShape<ArgType>,  4>({A,B,C,D}) {}
 
 	__hydra_host__ __hydra_device__
-	TrapezoidalShape(TrapezoidalShape<ArgIndex> const& other):
-		BaseFunctor<TrapezoidalShape<ArgIndex>, double, 4>(other) {}
+	TrapezoidalShape(TrapezoidalShape<ArgType> const& other):
+		BaseFunctor<TrapezoidalShape<ArgType>,  4>(other) {}
 
 	__hydra_host__ __hydra_device__
-	inline TrapezoidalShape<ArgIndex>&
-	operator=( TrapezoidalShape<ArgIndex> const& other)
+	inline TrapezoidalShape<ArgType>&
+	operator=( TrapezoidalShape<ArgType> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<TrapezoidalShape<ArgIndex>,double,4>::operator=(other);
+		BaseFunctor<TrapezoidalShape<ArgType>, 4>::operator=(other);
 		return *this;
 	}
 
-	template<typename T>
+
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int, T* x)  const	{
+	inline double Evaluate(ArgType x)  const	{
 
-		return  CHECK_VALUE( trapezoid(x[ ArgIndex], _par[0], _par[1], _par[2], _par[3] ),"par[0]=%f par[1]=%f par[2]=%f par[3]=%f", _par[0] , _par[1] , _par[2], _par[3] ) ;
+		return  CHECK_VALUE( trapezoid(x, _par[0], _par[1], _par[2], _par[3] ),"par[0]=%f par[1]=%f par[2]=%f par[3]=%f", _par[0] , _par[1] , _par[2], _par[3] ) ;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T x)  const	{
 
-		return  CHECK_VALUE( trapezoid(x[ ArgIndex], _par[0], _par[1], _par[2], _par[3] ),"par[0]=%f par[1]=%f par[2]=%f par[3]=%f", _par[0] , _par[1] , _par[2], _par[3] ) ;
-	}
 private:
 
 	__hydra_host__ __hydra_device__
@@ -115,14 +114,14 @@ private:
 	}
 };
 
-template<unsigned int ArgIndex>
-class IntegrationFormula< TrapezoidalShape<ArgIndex>, 1>
+template<typename ArgType>
+class IntegrationFormula< TrapezoidalShape<ArgType>, 1>
 {
 
 protected:
 
 	inline std::pair<GReal_t, GReal_t>
-	EvalFormula( TrapezoidalShape<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	EvalFormula( TrapezoidalShape<ArgType>const& functor, double LowerLimit, double UpperLimit )const
 	{
 
 		double a = functor[0];
