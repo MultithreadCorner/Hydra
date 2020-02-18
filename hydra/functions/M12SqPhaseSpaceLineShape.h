@@ -57,15 +57,15 @@ namespace hydra {
  *
  */
 
-template<unsigned int ArgIndex=0>
-class M12SqPhaseSpaceLineShape: public BaseFunctor<M12SqPhaseSpaceLineShape<ArgIndex>, double, 0>{
+template<typename ArgType>
+class M12SqPhaseSpaceLineShape: public BaseFunctor<M12SqPhaseSpaceLineShape<ArgType>, 0>{
 
 public:
 	M12SqPhaseSpaceLineShape()=delete;
 
 		M12SqPhaseSpaceLineShape(double mother_mass, double daugther1_mass,
 				double daugther2_mass, double daugther3_mass):
-			BaseFunctor<M12SqPhaseSpaceLineShape<ArgIndex>, double, 0>{},
+			BaseFunctor<M12SqPhaseSpaceLineShape<ArgType>, 0>{},
 			fDaughter1Mass(daugther1_mass),
 			fDaughter2Mass(daugther2_mass),
 			fDaughter3Mass(daugther3_mass),
@@ -73,8 +73,8 @@ public:
 			{}
 
 		__hydra_host__  __hydra_device__
-		M12SqPhaseSpaceLineShape(M12SqPhaseSpaceLineShape<ArgIndex>  const& other):
-			BaseFunctor<M12SqPhaseSpaceLineShape<ArgIndex>, double, 0>(other),
+		M12SqPhaseSpaceLineShape(M12SqPhaseSpaceLineShape<ArgType>  const& other):
+			BaseFunctor<M12SqPhaseSpaceLineShape<ArgType>, 0>(other),
 			fDaughter1Mass(other.GetDaughter1Mass()),
 			fDaughter2Mass(other.GetDaughter2Mass()),
 			fDaughter3Mass(other.GetDaughter3Mass()),
@@ -82,13 +82,12 @@ public:
 			{}
 
 		__hydra_host__  __hydra_device__
-		M12SqPhaseSpaceLineShape<ArgIndex>&
-		operator=(M12SqPhaseSpaceLineShape<ArgIndex>  const& other)
+		M12SqPhaseSpaceLineShape<ArgType>&
+		operator=(M12SqPhaseSpaceLineShape<ArgType>  const& other)
 		{
 			if(this==&other) return  *this;
 
-			BaseFunctor<M12SqPhaseSpaceLineShape<ArgIndex>,
-				double, 0>::operator=(other);
+			BaseFunctor<M12SqPhaseSpaceLineShape<ArgType>, 0>::operator=(other);
 
 			fDaughter1Mass= other.GetDaughter1Mass();
 			fDaughter2Mass= other.GetDaughter2Mass();
@@ -139,21 +138,10 @@ public:
 		}
 
 
-		template<typename T>
 		__hydra_host__ __hydra_device__ inline
-		double Evaluate(unsigned int , T*x)  const	{
+		double Evaluate(ArgType x)  const {
 
-			const double m2 = x[ArgIndex] ;
-
-			return  m2 > pow<double, 2>(fDaughter1Mass+fDaughter2Mass) && m2< pow<double, 2>(fMotherMass-fDaughter3Mass)?LineShape(m2):0.0;
-
-		}
-
-		template<typename T>
-		__hydra_host__ __hydra_device__ inline
-		double Evaluate(T x)  const {
-
-			double m2 =  get<ArgIndex>(x);
+			double m2 =  x;
 
 			return  m2 > pow<double, 2>(fDaughter1Mass+fDaughter2Mass) && m2< pow<double, 2>(fMotherMass-fDaughter3Mass)?LineShape(m2):0.0;
 

@@ -29,6 +29,12 @@
  *  Updated on: Oct 30 2018
  *      Author: Antonio Augusto Alves Junior
  *         Log: Adding new analytical integration interface
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Antonio Augusto Alves Junior
+ *         Log: Implementing new call interface
+ *
+ *
  */
 
 #ifndef LOGNORMAL_H_
@@ -58,62 +64,52 @@ namespace hydra {
  * In probability theory, a log-normal (or lognormal) distribution is a continuous probability distribution of a random
  * variable whose logarithm is normally distributed. Thus, if the random variable X is log-normally distributed, then Y = ln(X) has a normal distribution.
  */
-template<unsigned int ArgIndex=0>
-class LogNormal: public BaseFunctor<LogNormal<ArgIndex>, double, 2>
+template<typename ArgType>
+class LogNormal: public BaseFunctor<LogNormal<ArgType>, 2>
 {
-	using BaseFunctor<LogNormal<ArgIndex>, double, 2>::_par;
+	using BaseFunctor<LogNormal<ArgType>, 2>::_par;
 
 public:
 
 	LogNormal() = delete;
 
 	LogNormal(Parameter const& mean, Parameter const& sigma ):
-		BaseFunctor<LogNormal<ArgIndex>, double, 2>({mean, sigma})
+		BaseFunctor<LogNormal<ArgType>, 2>({mean, sigma})
 		{}
 
 	__hydra_host__ __hydra_device__
-	LogNormal(LogNormal<ArgIndex> const& other ):
-		BaseFunctor<LogNormal<ArgIndex>, double,2>(other)
+	LogNormal(LogNormal<ArgType> const& other ):
+		BaseFunctor<LogNormal<ArgType>, 2>(other)
 		{}
 
 	__hydra_host__ __hydra_device__
-	LogNormal<ArgIndex>&
-	operator=(LogNormal<ArgIndex> const& other ){
+	LogNormal<ArgType>&
+	operator=(LogNormal<ArgType> const& other ){
 		if(this==&other) return  *this;
-		BaseFunctor<LogNormal<ArgIndex>,double, 2>::operator=(other);
+		BaseFunctor<LogNormal<ArgType>, 2>::operator=(other);
 		return  *this;
 	}
 
-	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int, T*x)  const
+	inline double Evaluate(ArgType x)  const
 	{
-		double m2  = (::log(x[ArgIndex]) - _par[0])*(::log(x[ArgIndex]) - _par[0] );
+		double m2  = (::log(x) - _par[0])*(::log(x) - _par[0] );
 		double s2  = _par[1]*_par[1];
-		double val = (::exp(-m2/(2.0 * s2 ))) / x[ArgIndex];
-		return  CHECK_VALUE( (x[ArgIndex]>0 ? val : 0) , "par[0]=%f, par[1]=%f", _par[0], _par[1]);
+		double val = (::exp(-m2/(2.0 * s2 ))) / x;
+		return  CHECK_VALUE( (x>0 ? val : 0) , "par[0]=%f, par[1]=%f", _par[0], _par[1]);
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline double Evaluate(T x)  const
-	{
-		double m2  = ( ::log(get<ArgIndex>(x)) - _par[0])*( ::log(get<ArgIndex>(x)) - _par[0] );
-		double s2  = _par[1]*_par[1];
-		double val = (::exp(-m2/(2.0 * s2 ))) / get<ArgIndex>(x);
-		return CHECK_VALUE( (get<ArgIndex>(x)>0 ? val : 0) , "par[0]=%f, par[1]=%f", _par[0], _par[1]);
-	}
 
 };
 
-template<unsigned int ArgIndex>
-class IntegrationFormula< LogNormal<ArgIndex>, 1>
+template<typename ArgType>
+class IntegrationFormula< LogNormal<ArgType>, 1>
 {
 
 protected:
 
 	inline std::pair<GReal_t, GReal_t>
-	EvalFormula( LogNormal<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	EvalFormula( LogNormal<ArgType>const& functor, double LowerLimit, double UpperLimit )const
 	{
 
 
