@@ -60,68 +60,57 @@ namespace hydra {
  *  is one of the most widely used probability distributions in inferential statistics,
  *   notably in hypothesis testing or in construction of confidence intervals.
  */
-template< unsigned int ArgIndex=0 >
-class ChiSquare: public BaseFunctor< ChiSquare<ArgIndex>, double, 1>
+template< typename ArgType >
+class ChiSquare: public BaseFunctor< ChiSquare<ArgType>, 1>
 {
-	using BaseFunctor<ChiSquare<ArgIndex>, double, 1>::_par;
+	using BaseFunctor<ChiSquare<ArgType>,  1>::_par;
 
 	public:
 
 		ChiSquare()=delete;
 
 		ChiSquare(Parameter const& ndof ):
-			BaseFunctor<ChiSquare<ArgIndex>, double, 1>({ndof})
+			BaseFunctor<ChiSquare<ArgType>,  1>({ndof})
 			{}
 
 		__hydra_host__ __hydra_device__
-		ChiSquare(ChiSquare<ArgIndex> const& other ):
-			BaseFunctor<ChiSquare<ArgIndex>, double,1>(other)
+		ChiSquare(ChiSquare<ArgType> const& other ):
+			BaseFunctor<ChiSquare<ArgType>, 1>(other)
 			{}
 
 		__hydra_host__ __hydra_device__
-		inline ChiSquare<ArgIndex>&
-		operator=(ChiSquare<ArgIndex> const& other ){
+		inline ChiSquare<ArgType>&
+		operator=(ChiSquare<ArgType> const& other ){
 			if(this==&other) return  *this;
-			BaseFunctor<ChiSquare<ArgIndex>,double, 1>::operator=(other);
+			BaseFunctor<ChiSquare<ArgType>, 1>::operator=(other);
 			return  *this;
 		}
 
-		template<typename T>
+
 		__hydra_host__ __hydra_device__
-		inline double Evaluate(unsigned int, T*m)  const
+		inline double Evaluate(ArgType m)  const
 		{
 			double ndof  = _par[0];
-			double x     = m[ArgIndex];
 
-			double r = (x > 0)?::pow(x,(ndof/2.0)-1.0) * ::exp(-x/2.0) / (::tgamma(ndof/2.0)*::pow(2.0,ndof/2.0)):0.0;
+			double r = (m > 0)?::pow(m,(ndof/2.0)-1.0) * ::exp(-m/2.0) / (::tgamma(ndof/2.0)*::pow(2.0,ndof/2.0)):0.0;
 
 
 			return CHECK_VALUE(r, "par[0]=%f", _par[0]) ;
 		}
 
-		template<typename T>
-		__hydra_host__ __hydra_device__
-		inline double Evaluate(T m)  const
-		{
-			double ndof  = _par[0];
-			double x     = 	get<ArgIndex>(m);
-			double r = (x > 0)?::pow(x,(ndof/2.0)-1.0) * ::exp(-x/2.0) / (::tgamma(ndof/2.0)*::pow(2.0,ndof/2.0)):0.0;
 
-
-			return  CHECK_VALUE(r, "par[0]=%f", _par[0]) ;
-		}
 
 
 };
 
-template<unsigned int ArgIndex>
-class IntegrationFormula< ChiSquare<ArgIndex>, 1>
+template<typename ArgType>
+class IntegrationFormula< ChiSquare<ArgType>, 1>
 {
 
 protected:
 
 	inline std::pair<GReal_t, GReal_t>
-	EvalFormula( ChiSquare<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	EvalFormula( ChiSquare<ArgType>const& functor, double LowerLimit, double UpperLimit )const
 	{
 
 		double r = cumulative(functor[0], UpperLimit)
