@@ -24,6 +24,10 @@
  *
  *  Created on: 29/12/2017
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef ZEMACHFUNCTIONS_H_
@@ -60,8 +64,8 @@ namespace hydra {
  * 	makes Zemach's formalism fully compatible with Helicity amplitudes for 3-body decays of spinless particle into spinless final
  *  states inside Hydra.
  */
-template<Wave L, unsigned int ArgIndex=0>
-class ZemachFunction: public BaseFunctor<ZemachFunction<L,ArgIndex>, double, 0>{
+template<Wave L, typename ArgType>
+class ZemachFunction: public BaseFunctor<ZemachFunction<L, ArgType>,  0>{
 
 public:
 
@@ -69,30 +73,22 @@ public:
 	ZemachFunction(){};
 
 	__hydra_host__  __hydra_device__ inline
-	ZemachFunction<L, ArgIndex>&
-	operator=(ZemachFunction<L, ArgIndex>  const& other){
+	ZemachFunction<L, ArgType>&
+	operator=(ZemachFunction<L, ArgType>  const& other){
 		if(this==&other) return  *this;
-		BaseFunctor<ZemachFunction<L, ArgIndex>,
-		double, 0>::operator=(other);
+		BaseFunctor<ZemachFunction<L, ArgType>, 0>::operator=(other);
 		return  *this;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(unsigned int , T*x)  const	{
 
-		return  legendre(L, -x[ArgIndex] );
+	__hydra_host__ __hydra_device__ inline
+	double Evaluate(ArgType x)  const	{
+
+		return  legendre(L, -x);
 
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T x)  const {
 
-		const double theta =  get<ArgIndex>(x);
-
-		return  legendre(L, -theta );
-	}
 
 };
 
