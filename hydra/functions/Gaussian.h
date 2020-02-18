@@ -83,7 +83,6 @@ public:
 		return  *this;
 	}
 
-	template<typename T>
 	__hydra_host__ __hydra_device__
 	inline double Evaluate(ArgType x)  const
 	{

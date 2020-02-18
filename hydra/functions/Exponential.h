@@ -52,10 +52,10 @@ namespace hydra {
  * https://en.wikipedia.org/wiki/Exponential_function
  *
  */
-template<unsigned int ArgIndex=0>
-class Exponential:public BaseFunctor<Exponential<ArgIndex>, double, 1>
+template<typename ArgType>
+class Exponential:public BaseFunctor<Exponential<ArgType>, 1>
 {
-	using BaseFunctor<Exponential<ArgIndex>, double, 1>::_par;
+	using BaseFunctor<Exponential<ArgType>, 1>::_par;
 
 
 public:
@@ -63,45 +63,39 @@ public:
 	Exponential() = delete;
 
 	Exponential(Parameter const& tau):
-		BaseFunctor<Exponential<ArgIndex>, double, 1>({tau}) {}
+		BaseFunctor<Exponential<ArgType>, 1>({tau}) {}
 
 	__hydra_host__ __hydra_device__
-	Exponential(Exponential<ArgIndex> const& other):
-		BaseFunctor<Exponential<ArgIndex>, double, 1>(other) {}
+	Exponential(Exponential<ArgType> const& other):
+		BaseFunctor<Exponential<ArgType>, 1>(other) {}
 
 	__hydra_host__ __hydra_device__
-	inline Exponential<ArgIndex>&
-	operator=( Exponential<ArgIndex> const& other)
+	inline Exponential<ArgType>&
+	operator=( Exponential<ArgType> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<Exponential<ArgIndex>,double,1>::operator=(other);
+		BaseFunctor<Exponential<ArgType>,1>::operator=(other);
 		return *this;
 	}
 
-	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int, T* x)  const	{
+	inline double Evaluate(ArgType x)  const	{
 
-		return  CHECK_VALUE(::exp(x[ ArgIndex]*_par[0] ),"par[0]=%f ", _par[0] ) ;
+		return  CHECK_VALUE(::exp(x*_par[0] ),"par[0]=%f ", _par[0] ) ;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T x)  const	{
 
-		return CHECK_VALUE(::exp(get<ArgIndex>(x)*_par[0] ),"par[0]=%f ", _par[0] );
-	}
 
 };
 
-template<unsigned int ArgIndex>
-class IntegrationFormula< Exponential<ArgIndex>, 1>
+template<typename ArgType>
+class IntegrationFormula< Exponential<ArgType>, 1>
 {
 
 protected:
 
 	inline std::pair<GReal_t, GReal_t>
-	EvalFormula( Exponential<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	EvalFormula( Exponential<ArgType>const& functor, double LowerLimit, double UpperLimit )const
 	{
 		double tau = functor[0];
 		double r   =  (::exp(UpperLimit*tau) - ::exp(LowerLimit*tau))/tau ;
