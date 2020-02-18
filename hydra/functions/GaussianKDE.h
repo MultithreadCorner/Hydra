@@ -25,6 +25,10 @@
  *
  *  Created on: Apr 12, 2018
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef GAUSSIANKDE_H_

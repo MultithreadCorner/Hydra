@@ -24,6 +24,10 @@
  *
  *  Created on: 18/12/2017
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef ARGUSSHAPE_H_

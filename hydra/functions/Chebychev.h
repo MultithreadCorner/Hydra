@@ -24,6 +24,10 @@
  *
  *  Created on: 09/04/2018
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef CHEBYCHEV_POLY_H_

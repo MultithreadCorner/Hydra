@@ -24,6 +24,10 @@
  *
  *  Created on: 15/08/2018
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef GENERALIZEDGAMMA_H_
