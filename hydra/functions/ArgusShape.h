@@ -54,12 +54,11 @@ namespace hydra {
  *
  * Implementation describing the ARGUS background shape.
  *
- * \tparam ArgIndex : index of the argument when evaluating on multidimensional data. Default is 0.
  */
-template<unsigned int ArgIndex=0>
-class ArgusShape: public BaseFunctor<ArgusShape<ArgIndex>, double, 3>
+template<typename ArgType>
+class ArgusShape: public BaseFunctor<ArgusShape<ArgType>, 3>
 {
-	using BaseFunctor<ArgusShape<ArgIndex>, double, 3>::_par;
+	using BaseFunctor<ArgusShape<ArgType>,  3>::_par;
 
 public:
 
@@ -73,7 +72,7 @@ public:
 	 * @param power : power
 	 */
 	ArgusShape(Parameter const& m0,	Parameter const& slope, Parameter const& power):
-		BaseFunctor<ArgusShape<ArgIndex>, double, 3>({m0,slope, power})
+		BaseFunctor<ArgusShape<ArgType>,  3>({m0,slope, power})
 		{}
 
 	/**
@@ -82,8 +81,8 @@ public:
 	 * @param other
 	 */
 	__hydra_host__ __hydra_device__
-	ArgusShape(ArgusShape<ArgIndex> const& other ):
-		BaseFunctor<ArgusShape<ArgIndex>, double,3>(other)
+	ArgusShape(ArgusShape<ArgType> const& other ):
+		BaseFunctor<ArgusShape<ArgType>, 3>(other)
 		{}
 
 	/**
@@ -93,18 +92,16 @@ public:
 	 * @return
 	 */
 	__hydra_host__ __hydra_device__
-	ArgusShape<ArgIndex>&
-	operator=(ArgusShape<ArgIndex> const& other ){
+	ArgusShape<ArgType>&
+	operator=(ArgusShape<ArgType> const& other ){
 		if(this==&other) return  *this;
-		BaseFunctor<ArgusShape<ArgIndex>,double, 3>::operator=(other);
+		BaseFunctor<ArgusShape<ArgType>, 3>::operator=(other);
 		return  *this;
 	}
 
-	template<typename T>
 	__hydra_host__ __hydra_device__ inline
-	double Evaluate(unsigned int, T*x)  const {
+	double Evaluate(ArgType m)  const {
 
-		double m  = x[ArgIndex]; //mass
 		double m0 = _par[0]; //resonance mass
 		double c  = _par[1]; //slope
 		double p  = _par[2]; //power
@@ -114,18 +111,6 @@ public:
 				"par[0]=%f, par[1]=%f, _par[2]=%f", _par[0], _par[1], _par[2]) ;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T x)  const {
-		double m  = hydra::get<ArgIndex>(x); //mass
-		double m0 = _par[0]; //resonance mass
-		double c  = _par[1]; //slope
-		double p  = _par[2]; //power
-
-		return  CHECK_VALUE( (m/m0)>=1.0 ? 0: m*pow((1 - (m/m0)*(m/m0)) ,p)*exp(c*(1 - (m/m0)*(m/m0))),\
-				"par[0]=%f, par[1]=%f, _par[2]=%f", _par[0], _par[1], _par[2]) ;
-
-	}
 
 };
 
@@ -134,14 +119,14 @@ public:
  * Implementation of analytical integral for the ARGUS background shape with power = 0.5.
  */
 
-template<unsigned int ArgIndex>
-class IntegrationFormula< ArgusShape<ArgIndex>, 1>
+template<typename ArgType>
+class IntegrationFormula< ArgusShape<ArgType>, 1>
 {
 
 protected:
 
 	inline std::pair<GReal_t, GReal_t>
-	EvalFormula(ArgusShape<ArgIndex>const& functor, double LowerLimit, double UpperLimit ) const {
+	EvalFormula(ArgusShape<ArgType>const& functor, double LowerLimit, double UpperLimit ) const {
 
 		if(functor[2]<0.5 || functor[2] > 0.5 ) {
 
