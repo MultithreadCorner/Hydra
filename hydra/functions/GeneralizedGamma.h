@@ -69,37 +69,36 @@ Gamma distribution but a third parameter c has been added (c = 1 for the ordinar
 distribution). This new parameter may in principle take any real value but normally we
 consider the case where c > 0 or even c ≥ 1.
  */
-template<unsigned int ArgIndex=0>
-class GeneralizedGamma: public BaseFunctor<GeneralizedGamma<ArgIndex>, double, 4>
+template<typename ArgType>
+class GeneralizedGamma: public BaseFunctor<GeneralizedGamma<ArgType>, 4>
 {
-	using BaseFunctor<GeneralizedGamma<ArgIndex>, double, 4>::_par;
+	using BaseFunctor<GeneralizedGamma<ArgType>,  4>::_par;
 
 public:
 
 	GeneralizedGamma()=delete;
 
 	GeneralizedGamma(Parameter const& X0, Parameter const& A , Parameter const& B, Parameter const& C  ):
-		BaseFunctor<GeneralizedGamma<ArgIndex>, double, 4>({X0,A , B,C})
+		BaseFunctor<GeneralizedGamma<ArgType>, 4>({X0,A , B,C})
 		{}
 
 	__hydra_host__ __hydra_device__
-	GeneralizedGamma(GeneralizedGamma<ArgIndex> const& other ):
-		BaseFunctor<GeneralizedGamma<ArgIndex>, double,4>(other)
+	GeneralizedGamma(GeneralizedGamma<ArgType> const& other ):
+		BaseFunctor<GeneralizedGamma<ArgType>, 4>(other)
 		{}
 
 	__hydra_host__ __hydra_device__
-	GeneralizedGamma<ArgIndex>&
-	operator=(GeneralizedGamma<ArgIndex> const& other ){
+	GeneralizedGamma<ArgType>&
+	operator=(GeneralizedGamma<ArgType> const& other ){
 		if(this==&other) return  *this;
-		BaseFunctor<GeneralizedGamma<ArgIndex>,double, 4>::operator=(other);
+		BaseFunctor<GeneralizedGamma<ArgType>, 4>::operator=(other);
 		return  *this;
 	}
 
-	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int, T*x)  const	{
+	inline double Evaluate(ArgType x)  const	{
 
-		const double X = x[ArgIndex] - _par[0];
+		const double X = x - _par[0];
 
 		const double A = _par[1];
 		const double B = _par[2];
@@ -112,35 +111,18 @@ public:
 
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline double Evaluate(T x)  const {
-
-		const double X = x[ArgIndex] - _par[0];
-
-		const double A = _par[1];
-		const double B = _par[2];
-		const double C = _par[3];
-
-		const double r = detail::SafeGreaterThan(X, 0.0, detail::machine_eps_f64() ) ?
-						A*::fabs(C)*::pow(A*X, B*C-1.0)*::exp(-::pow(A*X, C))/::tgamma(B): 0.0;
-
-		return  CHECK_VALUE( r, "par[0]=%f, par[1]=%f par[2]=%f, par[3]=%f", _par[0], _par[1], _par[2], _par[3]);
-
-
-	}
 
 };
 
 
-template<unsigned int ArgIndex>
-class IntegrationFormula< GeneralizedGamma<ArgIndex>, 1>
+template<typename ArgType>
+class IntegrationFormula< GeneralizedGamma<ArgType>, 1>
 {
 
 protected:
 
 	inline std::pair<GReal_t, GReal_t>
-	EvalFormula( GeneralizedGamma<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	EvalFormula( GeneralizedGamma<ArgType>const& functor, double LowerLimit, double UpperLimit )const
 	{
 
 		double min = LowerLimit > functor[0] ? LowerLimit : functor[0];
