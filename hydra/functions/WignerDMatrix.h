@@ -24,6 +24,10 @@
  *
  *  Created on: 23/10/2018
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef WIGNERDMATRIX_H_
@@ -63,8 +67,8 @@ namespace hydra {
  *  Quantum Theory of Angular Momentum, World Scientific, Singapore 1988.
  */
 
-template<unsigned int ArgIndex=0>
-class WignerDMatrix: public BaseFunctor<WignerDMatrix<ArgIndex>, double, 0>
+template<typename ArgType>
+class WignerDMatrix: public BaseFunctor<WignerDMatrix<ArgType>, 0>
 {
 
 public:
@@ -85,8 +89,8 @@ public:
 	}
 
 	__hydra_dual__
-	WignerDMatrix( WignerDMatrix<ArgIndex> const& other):
-	BaseFunctor<WignerDMatrix<ArgIndex>, double, 0>(other),
+	WignerDMatrix( WignerDMatrix<ArgType> const& other):
+	BaseFunctor<WignerDMatrix<ArgType>,  0>(other),
 	fJ(other.GetJ()),
 	fM(other.GetM()),
 	fN(other.GetN()),
@@ -98,10 +102,10 @@ public:
 	{}
 
 	__hydra_dual__
-	WignerDMatrix<ArgIndex>& operator=( WignerDMatrix<ArgIndex> const& other){
+	WignerDMatrix<ArgType>& operator=( WignerDMatrix<ArgType> const& other){
 
 		if(this == &other) return *this;
-		BaseFunctor<WignerDMatrix<ArgIndex>, double, 0>::operator=(other);
+		BaseFunctor<WignerDMatrix<ArgType>,  0>::operator=(other);
 		fJ = other.GetJ();
 		fM = other.GetM();
 		fN = other.GetN();
@@ -172,27 +176,18 @@ public:
 		return fXi;
 	}
 
-	template<typename T>
-	__hydra_dual__ inline
-	double Evaluate(unsigned int, T*x)  const	{
 
-		double beta = x[ArgIndex] ;
+	__hydra_dual__ inline
+	double Evaluate(ArgType x)  const	{
+
+		double beta = x ;
 		double r = wignerd(beta);
 
 		return  CHECK_VALUE(r, "beta=%f r=%f", beta, r);
 
 	}
 
-	template<typename T>
-	__hydra_dual__ inline
-	double Evaluate(T x)  const {
 
-		double beta =  get<ArgIndex>(x);
-		double r = wignerd(beta);
-
-		return  CHECK_VALUE(r, "beta=%f r=%f", beta, r);
-
-	}
 
 private:
 
