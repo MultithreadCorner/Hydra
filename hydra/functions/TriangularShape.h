@@ -24,6 +24,10 @@
  *
  *  Created on: 04/09/2018
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef TRIANGULARSHAPE_H_
@@ -59,44 +63,39 @@ namespace hydra {
  * For these reasons, the triangle distribution has been called a "lack of knowledge" distribution.
  *
  */
-template<unsigned int ArgIndex=0>
-class TriangularShape:public BaseFunctor<TriangularShape<ArgIndex>, double, 3>
+template<typename ArgType>
+class TriangularShape:public BaseFunctor<TriangularShape<ArgType>,  3>
 {
-	using BaseFunctor<TriangularShape<ArgIndex>, double, 3>::_par;
+	using BaseFunctor<TriangularShape<ArgType>,  3>::_par;
 
 public:
 
 	TriangularShape() = delete;
 
 	TriangularShape(Parameter const& A, Parameter const& B, Parameter const& C ):
-		BaseFunctor<TriangularShape<ArgIndex>, double, 3>({A,B,C}) {}
+		BaseFunctor<TriangularShape<ArgType>, 3>({A,B,C}) {}
 
 	__hydra_host__ __hydra_device__
-	TriangularShape(TriangularShape<ArgIndex> const& other):
-		BaseFunctor<TriangularShape<ArgIndex>, double, 3>(other) {}
+	TriangularShape(TriangularShape<ArgType> const& other):
+		BaseFunctor<TriangularShape<ArgType>, 3>(other) {}
 
 	__hydra_host__ __hydra_device__
-	inline TriangularShape<ArgIndex>&
-	operator=( TriangularShape<ArgIndex> const& other)
+	inline TriangularShape<ArgType>&
+	operator=( TriangularShape<ArgType> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<TriangularShape<ArgIndex>,double,3>::operator=(other);
+		BaseFunctor<TriangularShape<ArgType>, 3>::operator=(other);
 		return *this;
 	}
 
-	template<typename T>
+
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int, T* x)  const	{
+	inline double Evaluate(ArgType x)  const	{
 
-		return  CHECK_VALUE( triangle(x[ ArgIndex], _par[0], _par[1],  _par[2] ),"par[0]=%f par[1]=%f par[2]=%f ", _par[0] , _par[1] , _par[2] ) ;
+		return  CHECK_VALUE( triangle(x, _par[0], _par[1],  _par[2] ),"par[0]=%f par[1]=%f par[2]=%f ", _par[0] , _par[1] , _par[2] ) ;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T x)  const	{
 
-		return CHECK_VALUE( triangle(get<ArgIndex>(x), _par[0], _par[1],  _par[2] ),"par[0]=%f par[1]=%f par[2]=%f ", _par[0] , _par[1] , _par[2]  );
-	}
 private:
 
 	__hydra_host__ __hydra_device__
@@ -111,14 +110,14 @@ private:
 };
 
 
-template<unsigned int ArgIndex>
-class IntegrationFormula< TriangularShape<ArgIndex>, 1>
+template<typename ArgType>
+class IntegrationFormula< TriangularShape<ArgType>, 1>
 {
 
 protected:
 
 	inline std::pair<GReal_t, GReal_t>
-	EvalFormula( TriangularShape<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	EvalFormula( TriangularShape<ArgType>const& functor, double LowerLimit, double UpperLimit )const
 	{
 		double a = functor[0];
 		double b = functor[1];
