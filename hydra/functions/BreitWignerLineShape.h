@@ -24,6 +24,10 @@
  *
  *  Created on: 26/12/2017
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef BREITWIGNERLINESHAPE_H_
@@ -74,10 +78,10 @@ namespace hydra {
  *@tparam ResonanceWave hydra::Wave resonance decay vertex wave
  *@tparam MotherWave hydra::Wave mother particle decay vertex wave
  */
-template<Wave ResonanceWave, Wave MotherWave=SWave, unsigned int ArgIndex=0>
-class BreitWignerLineShape : public BaseFunctor<BreitWignerLineShape< ResonanceWave,MotherWave,ArgIndex>, hydra::complex<double>, 2>
+template<Wave ResonanceWave, Wave MotherWave=SWave, typename ArgType>
+class BreitWignerLineShape : public BaseFunctor<BreitWignerLineShape< ResonanceWave,MotherWave,ArgType>, 2>
 {
-	using BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgIndex>, hydra::complex<double>, 2>::_par;
+	using BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgType>, 2>::_par;
 
 public:
 
@@ -97,7 +101,7 @@ public:
 			double mother_mass,
 			double daugther1_mass, double daugther2_mass, double bachelor_mass,
 			double radi):
-		BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgIndex>, hydra::complex<double>, 2>{mass,width},
+		BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgType>,  2>{mass,width},
 		fDaughter1Mass(daugther1_mass),
 		fDaughter2Mass(daugther2_mass),
 		fBachelorMass(bachelor_mass),
@@ -106,8 +110,8 @@ public:
 	{}
 
 	__hydra_host__  __hydra_device__
-	BreitWignerLineShape(BreitWignerLineShape<ResonanceWave,MotherWave,ArgIndex>  const& other):
-		BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgIndex>, hydra::complex<double>, 2>(other),
+	BreitWignerLineShape(BreitWignerLineShape<ResonanceWave,MotherWave,ArgType>  const& other):
+		BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgType>,  2>(other),
 		fDaughter1Mass(other.GetDaughter1Mass()),
 		fDaughter2Mass(other.GetDaughter2Mass()),
 		fBachelorMass(other.GetBachelorMass()),
@@ -116,13 +120,12 @@ public:
 		{}
 
 	__hydra_host__  __hydra_device__
-	BreitWignerLineShape<ResonanceWave,MotherWave,ArgIndex>&
-	operator=(BreitWignerLineShape<ResonanceWave,MotherWave,ArgIndex>  const& other)
+	BreitWignerLineShape<ResonanceWave,MotherWave,ArgType>&
+	operator=(BreitWignerLineShape<ResonanceWave,MotherWave,ArgType>  const& other)
 	{
 		if(this==&other) return  *this;
 
-		BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgIndex>,
-			hydra::complex<double>, 2>::operator=(other);
+		BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgType>, 2>::operator=(other);
 
 		fDaughter1Mass= other.GetDaughter1Mass();
 		fDaughter2Mass= other.GetDaughter2Mass();
@@ -183,11 +186,9 @@ public:
 		fRadi = radi;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	hydra::complex<double> Evaluate(unsigned int, const T*x)  const	{
 
-		const double m = x[ArgIndex] ;
+	__hydra_host__ __hydra_device__ inline
+	hydra::complex<double> Evaluate(ArgType m)  const	{
 
 		const double resonance_mass  = _par[0];
 		const double resonance_width = _par[1];
@@ -197,18 +198,6 @@ public:
 
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	hydra::complex<double> Evaluate(T& x)  const {
-
-		double m =  get<ArgIndex>(x);
-
-		const double resonance_mass  = _par[0];
-		const double resonance_width = _par[1];
-
-		return  m > (fDaughter1Mass+fDaughter2Mass) && m<(fMotherMass-fBachelorMass) ?
-				LineShape(m,resonance_mass, resonance_width): hydra::complex<double>(0.0, 0.0) ;
-	}
 
 
 
