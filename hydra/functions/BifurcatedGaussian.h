@@ -24,6 +24,10 @@
  *
  *  Created on: 11/04/2018
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef BIFURCATEDGAUSSIAN_H_
@@ -53,74 +57,58 @@ namespace hydra {
  *
  *
  */
-template<unsigned int ArgIndex=0>
-class BifurcatedGaussian: public BaseFunctor<BifurcatedGaussian<ArgIndex>, double, 3>
+template<typename ArgType>
+class BifurcatedGaussian: public BaseFunctor<BifurcatedGaussian<ArgType>, 3>
 {
-	using BaseFunctor<BifurcatedGaussian<ArgIndex>, double, 3>::_par;
+	using BaseFunctor<BifurcatedGaussian<ArgType>, 3>::_par;
 
 public:
 
 	BifurcatedGaussian()=delete;
 
 	BifurcatedGaussian(Parameter const& mean, Parameter const& sigma_left , Parameter const& sigma_right ):
-		BaseFunctor<BifurcatedGaussian<ArgIndex>, double, 3>({mean, sigma_left, sigma_right})
+		BaseFunctor<BifurcatedGaussian<ArgType>, 3>({mean, sigma_left, sigma_right})
 		{}
 
 	__hydra_host__ __hydra_device__
-	BifurcatedGaussian(BifurcatedGaussian<ArgIndex> const& other ):
-		BaseFunctor<BifurcatedGaussian<ArgIndex>, double,3>(other)
+	BifurcatedGaussian(BifurcatedGaussian<ArgType> const& other ):
+		BaseFunctor<BifurcatedGaussian<ArgType>, 3>(other)
 		{}
 
 	__hydra_host__ __hydra_device__
-	BifurcatedGaussian<ArgIndex>&
-	operator=(BifurcatedGaussian<ArgIndex> const& other ){
+	BifurcatedGaussian<ArgType>&
+	operator=(BifurcatedGaussian<ArgType> const& other ){
 		if(this==&other) return  *this;
-		BaseFunctor<BifurcatedGaussian<ArgIndex>,double, 3>::operator=(other);
+		BaseFunctor<BifurcatedGaussian<ArgType>, 3>::operator=(other);
 		return  *this;
 	}
 
-	template<typename T>
 	__hydra_host__ __hydra_device__ inline
-	double Evaluate(unsigned int, T*x)  const	{
+	double Evaluate(ArgType x)  const	{
 
-		double m2 = (x[ArgIndex] - _par[0])*(x[ArgIndex] - _par[0] );
+		double m2 = (x - _par[0])*(x - _par[0] );
 		double sigmaL = _par[1];
 		double sigmaR = _par[2];
 
-		double coef = ( (x[ArgIndex] - _par[0]) <= 0.0)*(::fabs(sigmaL) > 1e-30)*( -0.5/(sigmaL*sigmaL))
-		            + ( (x[ArgIndex] - _par[0])  > 0.0)*(::fabs(sigmaR) > 1e-30)*( -0.5/(sigmaR*sigmaR)) ;
+		double coef = ( (x - _par[0]) <= 0.0)*(::fabs(sigmaL) > 1e-30)*( -0.5/(sigmaL*sigmaL))
+		            + ( (x - _par[0])  > 0.0)*(::fabs(sigmaR) > 1e-30)*( -0.5/(sigmaR*sigmaR)) ;
 
 		return  CHECK_VALUE(exp(coef*m2), "par[0]=%f, par[1]=%f, par[2]=%f", _par[0], _par[1], _par[2]);
 
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T x)  const {
-
-		double m2 = ( get<ArgIndex>(x) - _par[0])*(get<ArgIndex>(x) - _par[0] );
-
-		double sigmaL = _par[1];
-		double sigmaR = _par[2];
-
-		double coef = ( (x[ArgIndex] - _par[0]) <= 0.0)*(::fabs(sigmaL) > 1e-30)*( -0.5/(sigmaL*sigmaL))
-				    + ( (x[ArgIndex] - _par[0])  > 0.0)*(::fabs(sigmaR) > 1e-30)*( -0.5/(sigmaR*sigmaR)) ;
-
-		return  CHECK_VALUE(exp(coef*m2), "par[0]=%f, par[1]=%f, par[2]=%f", _par[0], _par[1], _par[2]);
-
-	}
 
 };
 
 
-template<unsigned int ArgIndex>
-class IntegrationFormula< BifurcatedGaussian<ArgIndex>, 1>
+template<typename ArgType>
+class IntegrationFormula< BifurcatedGaussian<ArgType>, 1>
 {
 
 protected:
 
 	inline std::pair<GReal_t, GReal_t>
-	EvalFormula( BifurcatedGaussian<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	EvalFormula( BifurcatedGaussian<ArgType>const& functor, double LowerLimit, double UpperLimit )const
 	{
 		double fraction = cumulative(functor[0], functor[1], functor[2] );
 
