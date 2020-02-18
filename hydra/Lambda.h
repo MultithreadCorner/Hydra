@@ -37,6 +37,14 @@
 #include <hydra/detail/FunctionArgument.h>
 #include <hydra/detail/GetTupleElement.h>
 
+#include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
+#include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
+
+#include <array>
+#include <initializer_list>
+#include <type_traits>
+
 namespace hydra {
 
 
@@ -131,7 +139,8 @@ public:
 				"2) One tuple containing the arguments in the lambda's signature.\n"
 				"3) Two tuples that concatenated contain the arguments in the lambda's signature.\n"
 				"4) One argument and one tuple that concatenated contain the arguments in the lambda's signature.\n"
-		        "5) One tuple that is convertible to a tuple of the arguments in the lambda's signature."
+		        "5) One tuple that is convertible to a tuple of the arguments in the lambda's signature.\n\n"
+				"Please inspect the error messages issued above to find the line generating the error."
 				)
 
 				return return_type(0);
@@ -383,7 +392,9 @@ public:
 				"2) One tuple containing the arguments in the lambda's signature.\n"
 				"3) Two tuples that concatenated contain the arguments in the lambda's signature.\n"
 				"4) One argument and one tuple that concatenated contain the arguments in the lambda's signature.\n"
-				"5) One tuple that is convertible to a tuple of the arguments in the lambda's signature.")
+				"5) One tuple that is convertible to a tuple of the arguments in the lambda's signature.\n\n"
+				"Please inspect the error messages issued above to find the line generating the error."	)
+
 
 				return return_type(0);
 	}
@@ -409,7 +420,7 @@ public:
 			         hydra::tuple<size_t, const Parameter*>,
 			         typename std::decay<T>::type
 			    >::type,
-			argument_type
+			argument_rvalue_type
 			>::value ),
 	return_type >::type
 	operator()( T x )  const
@@ -468,6 +479,7 @@ public:
 		auto z = hydra_thrust::tuple_cat(hydra_thrust::make_tuple(x), y);
 		return  call(z);
 	}
+
 private:
 
 	template<typename T, size_t ...I>
@@ -477,14 +489,14 @@ private:
 
 		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),
 			detail::get_tuple_element<
-			typename hydra_thrust::tuple_element<I,argument_rvalue_type>::type >(x)...);
+			typename hydra_thrust::tuple_element<I+2,argument_rvalue_type>::type >(x)...);
 	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
 	inline return_type call(T x) const
 	{
-		return call_helper(x, detail::make_index_sequence<arity>{});
+		return call_helper(x, detail::make_index_sequence<arity-2>{});
 	}
 
 	template<typename T, size_t ...I>
@@ -492,7 +504,7 @@ private:
 	inline  return_type raw_call_helper(T x, detail::index_sequence<I...> ) const
 	{
 		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),
-				static_cast<typename hydra_thrust::tuple_element<I,argument_rvalue_type>::type>(
+				static_cast<typename hydra_thrust::tuple_element<I+2,argument_rvalue_type>::type>(
 				hydra_thrust::get<I>(x))...);
 	}
 
@@ -500,7 +512,7 @@ private:
 	__hydra_host__ __hydra_device__
 	inline return_type raw_call(T x) const
 	{
-		return raw_call_helper(x, detail::make_index_sequence<arity>{});
+		return raw_call_helper(x, detail::make_index_sequence<arity-2>{});
 	}
 
 
