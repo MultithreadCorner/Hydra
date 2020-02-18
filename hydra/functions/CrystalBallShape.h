@@ -52,12 +52,11 @@ namespace hydra {
  * @class CrystalBallShape
  * Implementation the Crystal Ball line shape.
  *
- * @tparam ArgIndex : index of the argument when evaluating on multidimensional data. Default is 0.
  */
-template<unsigned int ArgIndex=0>
-class CrystalBallShape: public BaseFunctor<CrystalBallShape<ArgIndex>, double, 4>
+template<typename ArgType>
+class CrystalBallShape: public BaseFunctor<CrystalBallShape<ArgType>, 4>
 {
-	using BaseFunctor<CrystalBallShape<ArgIndex>, double, 4>::_par;
+	using BaseFunctor<CrystalBallShape<ArgType>, 4>::_par;
 
 public:
 
@@ -65,27 +64,26 @@ public:
 
 	CrystalBallShape(Parameter const& mean, Parameter const& sigma
 			, Parameter const& alpha, Parameter const& n):
-		BaseFunctor<CrystalBallShape<ArgIndex>, double, 4>({mean, sigma, alpha, n})
+		BaseFunctor<CrystalBallShape<ArgType>, 4>({mean, sigma, alpha, n})
 		{}
 
 	__hydra_host__ __hydra_device__
-	CrystalBallShape(CrystalBallShape<ArgIndex> const& other ):
-		BaseFunctor<CrystalBallShape<ArgIndex>, double,4>(other)
+	CrystalBallShape(CrystalBallShape<ArgType> const& other ):
+		BaseFunctor<CrystalBallShape<ArgType>, 4>(other)
 		{}
 
 	__hydra_host__ __hydra_device__
-	CrystalBallShape<ArgIndex>&
-	operator=(CrystalBallShape<ArgIndex> const& other ){
+	CrystalBallShape<ArgType>&
+	operator=(CrystalBallShape<ArgType> const& other ){
 		if(this==&other) return  *this;
-		BaseFunctor<CrystalBallShape<ArgIndex>,double, 4>::operator=(other);
+		BaseFunctor<CrystalBallShape<ArgType>, 4>::operator=(other);
 		return  *this;
 	}
 
-	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int , T*x)  const
+	inline double Evaluate(ArgType x)  const
 	{
-		double m     = x[ArgIndex]; //mass
+		double m     = x; //mass
 		double mean  = _par[0];
 		double sigma = _par[1];
 		double alpha = _par[2];
@@ -101,35 +99,17 @@ public:
 		return CHECK_VALUE(r, "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f", _par[0], _par[1], _par[2], _par[3]  );
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline	double Evaluate(T x)  const
-	{
-		double m     = hydra::get<ArgIndex>(x); //mass
-		double mean  = _par[0];
-		double sigma = _par[1];
-		double alpha = _par[2];
-		double N     = _par[3];
-
-		double t = (alpha < 0.0) ? (m-mean)/sigma:(mean-m)/sigma;
-		double abs_alpha = fabs(alpha);
-
-		double r = (t >= -abs_alpha) ? exp(-0.5*t*t):
-				pow(N/abs_alpha,N)*exp(-0.5*abs_alpha*abs_alpha)/pow(N/abs_alpha - abs_alpha- t, N);
-
-		return CHECK_VALUE(r, "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f", _par[0], _par[1], _par[2], _par[3]  );
-	}
 
 };
 
-template<unsigned int ArgIndex>
-class IntegrationFormula< CrystalBallShape<ArgIndex>, 1>
+template<typename ArgType>
+class IntegrationFormula< CrystalBallShape<ArgType>, 1>
 {
 
 protected:
 
 	inline std::pair<GReal_t, GReal_t>
-	EvalFormula( CrystalBallShape<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	EvalFormula( CrystalBallShape<ArgType>const& functor, double LowerLimit, double UpperLimit )const
 	{
 		double r = integral(functor[0], functor[1], functor[2], functor[3], LowerLimit, UpperLimit  );
 
