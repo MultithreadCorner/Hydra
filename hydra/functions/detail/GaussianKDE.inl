@@ -24,6 +24,10 @@
  *
  *  Created on: 15/04/2018
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef GAUSSIANKDE_INL_
@@ -42,17 +46,17 @@
 
 namespace hydra {
 
-template< size_t NBins, size_t ArgIndex>
+template< size_t NBins, typename ArgType>
 template<typename Iterator>
 __hydra_host__ __hydra_device__
-inline CubicSpiline<NBins> GaussianKDE<NBins, ArgIndex>::BuildKDE(double min, double max, double h, Iterator begin, Iterator end) {
+inline CubicSpiline<NBins> GaussianKDE<NBins, ArgType>::BuildKDE(double min, double max, double h, Iterator begin, Iterator end) {
 
 	auto _KDE = [=](double x){
 
 		double init = 0;
 
 		double sum  = hydra_thrust::transform_reduce(begin, end,
-				GaussianKDE<NBins, ArgIndex>::Kernel(h,x), 0.0,
+				GaussianKDE<NBins, ArgType>::Kernel(h,x), 0.0,
 				hydra_thrust::plus<double>() );
 
 		return  sum/(h*hydra_thrust::distance(begin, end) ) ;
