@@ -25,6 +25,10 @@
  *
  *  Created on: Jul 19, 2018
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef IPATIA_H_
@@ -64,10 +68,10 @@ namespace hydra {
  * in CUDA platform.
  */
 
-template<unsigned int ArgIndex=0>
-class Ipatia : public BaseFunctor<  Ipatia<ArgIndex>, double, 8>
+template<typename ArgType>
+class Ipatia : public BaseFunctor<Ipatia<ArgType>, 8>
 {
-	using BaseFunctor<Ipatia<ArgIndex>, double, 8>::_par;
+	using BaseFunctor<Ipatia<ArgType>, 8>::_par;
 
 public:
 
@@ -77,7 +81,7 @@ public:
 		 Parameter const& A1, Parameter const& N1,
 		 Parameter const& A2, Parameter const& N2,
 		 Parameter const& l,  Parameter const& beta	):
-		BaseFunctor<Ipatia<ArgIndex>, double, 8>({ mu, sigma, A1, N1, A2, N2, l, beta})
+		BaseFunctor<Ipatia<ArgType>, 8>({ mu, sigma, A1, N1, A2, N2, l, beta})
 		{
 	    if(this->GetParameter(6).GetValue() > 0.0 || this->GetParameter(6).GetUpperLim() > 0.0 || this->GetParameter(6).GetLowerLim() > 0.0 ){
 	    	HYDRA_LOG(ERROR, "hydra::Ipatia's #6 is positive. This parameter needs be always negative. Exiting..." )
@@ -87,25 +91,23 @@ public:
 		}
 
   __hydra_host__ __hydra_device__
-  Ipatia( Ipatia<ArgIndex> const& other):
-    BaseFunctor< Ipatia<ArgIndex>, double, 8>(other)
+  Ipatia( Ipatia<ArgType> const& other):
+    BaseFunctor< Ipatia<ArgType>, 8>(other)
   		{}
 
 
   __hydra_host__ __hydra_device__
-  Ipatia<ArgIndex>& operator=( Ipatia<ArgIndex> const& other)
+  Ipatia<ArgType>& operator=( Ipatia<ArgType> const& other)
    {
 	  if(this ==&other) return *this;
 
-	  BaseFunctor< Ipatia<ArgIndex>, double, 8>::operator=(other);
+	  BaseFunctor< Ipatia<ArgType>, 8>::operator=(other);
 	  return *this;
     }
 
-  template<typename T>
-  __hydra_host__ __hydra_device__
-  inline double Evaluate(unsigned int, T*x)  const	{
 
-	  double X     = x[ArgIndex] ;
+  __hydra_host__ __hydra_device__
+  inline double Evaluate(ArgType x)  const	{
 
 	  double mu    = _par[0];
 	  double sigma = _par[1];
@@ -116,30 +118,11 @@ public:
 	  double l     = _par[6];
 	  double beta  = _par[7];
 
-	  return  CHECK_VALUE(ipatia(X, mu, sigma, A1, N1, A2, N2, l, beta), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f , par[4]=%f, par[5]=%f,par[6]=%f,par[7]=%f\n",\
+	  return  CHECK_VALUE(ipatia(x, mu, sigma, A1, N1, A2, N2, l, beta), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f , par[4]=%f, par[5]=%f,par[6]=%f,par[7]=%f\n",\
 			  _par[0], _par[1],_par[2], _par[3], _par[4], _par[5],_par[6],_par[7]);
 
   }
 
-  template<typename T>
-  __hydra_host__ __hydra_device__
-  inline double Evaluate(T x)  const {
-
-	  double X =  get<ArgIndex>(x);
-
-	  double mu    = _par[0];
-	  double sigma = _par[1];
-	  double A1    = _par[2];
-	  double N1    = _par[3];
-	  double A2    = _par[4];
-	  double N2    = _par[5];
-	  double l     = _par[6];
-	  double beta  = _par[7];
-
-	  return  CHECK_VALUE(ipatia(X, mu, sigma, A1, N1, A2, N2, l, beta), "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f , par[4]=%f, par[5]=%f,par[6]=%f,par[7]=%f\n",\
-				  _par[0], _par[1],_par[2], _par[3], _par[4], _par[5],_par[6],_par[7]);
-
-  }
 
 
 private:
@@ -164,14 +147,14 @@ private:
 
 };
 
-template<unsigned int ArgIndex>
-class IntegrationFormula< Ipatia<ArgIndex>, 1>
+template<typename ArgType>
+class IntegrationFormula< Ipatia<ArgType>, 1>
 {
 
 protected:
 
 	inline std::pair<GReal_t, GReal_t>
-	EvalFormula( Ipatia<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	EvalFormula( Ipatia<ArgType>const& functor, double LowerLimit, double UpperLimit )const
 	{
 
 		double output = integral(LowerLimit-functor[0], UpperLimit-functor[0],

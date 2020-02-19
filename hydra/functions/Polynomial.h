@@ -24,6 +24,10 @@
  *
  *  Created on: 12/12/2017
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef POLYNOMIAL_H_
@@ -72,53 +76,43 @@ This can be expressed more concisely by using summation notation:
 \f$ \sum_{k=0}^n a_k x^k \f$.
  *
  */
-template< unsigned int Order, unsigned int ArgIndex=0>
-class  Polynomial:public BaseFunctor<Polynomial<Order, ArgIndex>, double, Order+1>
+template< unsigned int Order, typename ArgType>
+class  Polynomial:public BaseFunctor<Polynomial<Order, ArgType>,  Order+1>
 {
-	using BaseFunctor<Polynomial<Order, ArgIndex>, double, Order+1>::_par;
+	using BaseFunctor<Polynomial<Order, ArgType>,  Order+1>::_par;
 
 public:
 	Polynomial() = delete;
 
 	Polynomial(std::array<Parameter,Order+1> const& coeficients):
-		BaseFunctor<Polynomial<Order, ArgIndex>, double, Order+1>( coeficients) {}
+		BaseFunctor<Polynomial<Order, ArgType>, Order+1>( coeficients) {}
 
 	__hydra_host__ __hydra_device__
-	Polynomial(Polynomial<Order, ArgIndex> const& other):
-		BaseFunctor<Polynomial<Order, ArgIndex>, double, Order+1>(other) {}
+	Polynomial(Polynomial<Order, ArgType> const& other):
+		BaseFunctor<Polynomial<Order, ArgType>, Order+1>(other) {}
 
 	__hydra_host__ __hydra_device__
-	inline Polynomial<Order, ArgIndex>&
-	operator=( Polynomial<ArgIndex, Order> const& other)
+	inline Polynomial<Order, ArgType>&
+	operator=( Polynomial<ArgType, Order> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<Polynomial< Order, ArgIndex>,double, Order+1>::operator=(other);
+		BaseFunctor<Polynomial< Order, ArgType>, Order+1>::operator=(other);
 		return *this;
 	}
 
-	template<typename T>
+
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int , T* x)  const
+	inline double Evaluate(ArgType x)  const
 	{
 		double coefs[Order+1]{};
 		for(unsigned int i =0; i<Order+1; i++)
 			coefs[i]=CHECK_VALUE(_par[i], "par[%d]=%f", i, _par[i]) ;
 
-		double r = polynomial(coefs, x[ArgIndex]);
+		double r = polynomial(coefs, x);
 		return  CHECK_VALUE(r, "result =%f", r) ;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline double Evaluate(T x)  const
-	{
-		double coefs[Order+1]{};
-		for(unsigned int i =0; i<Order+1; i++)
-			coefs[i]=CHECK_VALUE(_par[i], "par[%d]=%f", i, _par[i]) ;
 
-		double r = polynomial(coefs, hydra::get<ArgIndex>(x));
-		return  CHECK_VALUE(r, "result =%f", r) ;
-	}
 
 private:
 
@@ -156,14 +150,14 @@ private:
 
 };
 
-template<unsigned int Order, unsigned int ArgIndex>
-class IntegrationFormula< Polynomial<Order, ArgIndex>, 1>
+template<unsigned int Order, typename ArgType>
+class IntegrationFormula< Polynomial<Order, ArgType>, 1>
 {
 
 protected:
 
 	inline std::pair<GReal_t, GReal_t>
-	EvalFormula( Polynomial< Order, ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	EvalFormula( Polynomial< Order, ArgType>const& functor, double LowerLimit, double UpperLimit )const
 	{
 		double coefs[Order+1]{};
 

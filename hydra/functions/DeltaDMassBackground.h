@@ -25,6 +25,10 @@
  *
  *  Created on: Jul 31, 2018
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef DELTADMASSBACKGROUND_H_
@@ -56,38 +60,37 @@ namespace hydra {
  * \ingroup common_functions
  * \class DeltaDMassBackground
  */
-template<unsigned int ArgIndex=0>
-class DeltaDMassBackground: public BaseFunctor<DeltaDMassBackground<ArgIndex>, double, 4>
+template<typename ArgType>
+class DeltaDMassBackground: public BaseFunctor<DeltaDMassBackground<ArgType>, 4>
 {
-	using BaseFunctor<DeltaDMassBackground<ArgIndex>, double, 4>::_par;
+	using BaseFunctor<DeltaDMassBackground<ArgType>, 4>::_par;
 
 public:
 
 	DeltaDMassBackground() = delete;
 
 	DeltaDMassBackground(Parameter const& threshold, Parameter const& A, Parameter const& B, Parameter const& C):
-		BaseFunctor<DeltaDMassBackground<ArgIndex>, double, 4>({threshold, A, B, C})
+		BaseFunctor<DeltaDMassBackground<ArgType>, 4>({threshold, A, B, C})
 		{}
 
 	__hydra_host__ __hydra_device__
-	DeltaDMassBackground(DeltaDMassBackground<ArgIndex> const& other ):
-	BaseFunctor<DeltaDMassBackground<ArgIndex>, double,4>(other)
+	DeltaDMassBackground(DeltaDMassBackground<ArgType> const& other ):
+	BaseFunctor<DeltaDMassBackground<ArgType>, 4>(other)
 	{}
 
 	__hydra_host__ __hydra_device__
-	DeltaDMassBackground<ArgIndex>&
-	operator=(DeltaDMassBackground<ArgIndex> const& other ){
+	DeltaDMassBackground<ArgType>&
+	operator=(DeltaDMassBackground<ArgType> const& other ){
 		if(this==&other) return  *this;
-		BaseFunctor<DeltaDMassBackground<ArgIndex>,double, 4>::operator=(other);
+		BaseFunctor<DeltaDMassBackground<ArgType>, 4>::operator=(other);
 		return  *this;
 	}
 
-	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int, T* x)  const	{
+	inline double Evaluate(ArgType x)  const	{
 
-		double delta   = (x[ArgIndex] - _par[0]);
-		double ratio   = (x[ArgIndex] / _par[0]);
+		double delta   = (x - _par[0]);
+		double ratio   = (x / _par[0]);
 
 		// (1.0- exp(-x/c)))*pow(x/m, a) + b*(x/m-1.0)
 		double val   = delta > 0.0 ? (1.0- ::exp(-delta/_par[3]))*::pow(ratio, _par[1]) + _par[2]*(ratio-1.0) : 0.0;
@@ -98,34 +101,17 @@ public:
 
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline double Evaluate(T x)  const {
-
-		double arg   = get<ArgIndex>(x) - _par[0];
-
-		double delta   = (get<ArgIndex>(x) - _par[0]);
-		double ratio   = (get<ArgIndex>(x) / _par[0]);
-
-		// (1.0- exp(-x/c)))*pow(x/m, a) + b*(x/m-1.0)
-		double val   = delta >0 ? (1.0- ::exp(-delta/_par[3]))*::pow(ratio, _par[1]) + _par[2]*(ratio-1.0) : 0.0;
-
-		double r = val > 0.0 ? val : 0.0;
-
-		return  CHECK_VALUE( r, "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f ", _par[0], _par[1], _par[2], _par[3]);
-
-	}
 
 };
 
-template<unsigned int ArgIndex>
-class IntegrationFormula<  DeltaDMassBackground<ArgIndex>, 1>
+template<typename ArgType>
+class IntegrationFormula<  DeltaDMassBackground<ArgType>, 1>
 {
 
 protected:
 
 	inline std::pair<GReal_t, GReal_t>
-	EvalFormula(  DeltaDMassBackground<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	EvalFormula(  DeltaDMassBackground<ArgType>const& functor, double LowerLimit, double UpperLimit )const
 	{
 		const double value_at_max =  functor(UpperLimit);
 		const double ratio = functor[0]/functor[3];

@@ -24,6 +24,10 @@
  *
  *  Created on: 09/04/2018
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef CHEBYCHEV_POLY_H_
@@ -59,47 +63,46 @@ namespace hydra {
  *  are polynomials with the largest possible leading coefficient,
  *   but subject to the condition that their absolute value on the interval [−1,1] is bounded by 1
  */
-template< unsigned int Order, unsigned int ArgIndex=0>
-class  Chebychev:public BaseFunctor<Chebychev<Order, ArgIndex>, double, Order+1>
+template< unsigned int Order, typename ArgType>
+class  Chebychev:public BaseFunctor<Chebychev<Order, ArgType>,  Order+1>
 {
-	using BaseFunctor<Chebychev<Order, ArgIndex>, double, Order+1>::_par;
+	using BaseFunctor<Chebychev<Order, ArgType>,  Order+1>::_par;
 
 public:
 	Chebychev() = delete;
 
 	Chebychev(double min, double max, std::array<Parameter,Order+1> const& coeficients):
-		BaseFunctor<Chebychev<Order, ArgIndex>, double, Order+1>( coeficients),
+		BaseFunctor<Chebychev<Order, ArgType>,  Order+1>( coeficients),
 		fMinimum(min),
 		fMaximum(max)
 	{}
 
 	__hydra_host__ __hydra_device__
-	Chebychev(Chebychev<Order, ArgIndex> const& other):
-		BaseFunctor<Chebychev<Order, ArgIndex>, double, Order+1>(other),
+	Chebychev(Chebychev<Order, ArgType> const& other):
+		BaseFunctor<Chebychev<Order, ArgType>, Order+1>(other),
 		fMinimum(other.GetMinimum()),
 		fMaximum(other.GetMaximum())
 	{}
 
 	__hydra_host__ __hydra_device__
-	inline Chebychev<Order, ArgIndex>&
-	operator=( Chebychev<ArgIndex, Order> const& other)
+	inline Chebychev<Order, ArgType>&
+	operator=( Chebychev<Order, ArgType> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<Chebychev<ArgIndex, Order>,double, Order+1>::operator=(other);
+		BaseFunctor<Chebychev<Order, ArgType>, Order+1>::operator=(other);
 		fMinimum = other.GetMinimum();
 		fMaximum = other.GetMaximum();
 		return *this;
 	}
 
-	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int , T* x)  const
+	inline double Evaluate(ArgType x)  const
 	{
 		double coefs[Order+1]{};
 		for(unsigned int i =0; i<Order+1; i++)
 			coefs[i]=CHECK_VALUE(_par[i], "par[%d]=%f", i, _par[i]) ;
 
-		double y = -1.0 + 2.0*(x[ArgIndex] - fMinimum)/( fMaximum- fMinimum);
+		double y = -1.0 + 2.0*(x - fMinimum)/( fMaximum- fMinimum);
 
 		double r = polynomial(coefs, y);
 		return  CHECK_VALUE(r, "result =%f", r) ;
@@ -124,19 +127,6 @@ public:
 		fMinimum = minimum;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline double Evaluate(T x)  const
-	{
-		double coefs[Order+1]{};
-		for(unsigned int i =0; i<Order+1; i++)
-			coefs[i]=CHECK_VALUE(_par[i], "par[%d]=%f", i, _par[i]) ;
-
-		double y = -1.0 + 2.0*(hydra::get<ArgIndex>(x) - fMinimum)/( fMaximum- fMinimum);
-
-		double r = polynomial(coefs, y);
-		return  CHECK_VALUE(r, "result =%f", r) ;
-	}
 
 private:
 
@@ -167,14 +157,14 @@ private:
 
 };
 
-template< unsigned int Order,unsigned int ArgIndex>
-class IntegrationFormula< Chebychev<Order, ArgIndex>, 1>
+template< unsigned int Order, typename ArgType>
+class IntegrationFormula< Chebychev<Order, ArgType>, 1>
 {
 
 protected:
 
 	inline std::pair<GReal_t, GReal_t>
-	EvalFormula( Chebychev<Order, ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	EvalFormula( Chebychev<Order, ArgType>const& functor, double LowerLimit, double UpperLimit )const
 	{
 		double coefs[Order+1]{};
 			for(unsigned int i =0; i<Order+1; i++)

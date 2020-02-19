@@ -25,6 +25,10 @@
  *
  *  Created on: Dec 13, 2017
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef BREITWIGNERNR_H_
@@ -53,39 +57,38 @@
 
 namespace hydra {
 
-template<unsigned int ArgIndex=0>
-class BreitWignerNR: public BaseFunctor<BreitWignerNR<ArgIndex>, double, 2>
+template<typename ArgType>
+class BreitWignerNR: public BaseFunctor<BreitWignerNR<ArgType>, 2>
 {
-	using BaseFunctor<BreitWignerNR<ArgIndex>, double, 2>::_par;
+	using BaseFunctor<BreitWignerNR<ArgType>, 2>::_par;
 
 public:
 
 	BreitWignerNR()=delete;
 
 	BreitWignerNR(Parameter const& mean, Parameter const& lambda ):
-		BaseFunctor<BreitWignerNR<ArgIndex>, double, 2>({mean, lambda})
+		BaseFunctor<BreitWignerNR<ArgType>, 2>({mean, lambda})
 		{}
 
 	__hydra_host__ __hydra_device__
-	BreitWignerNR(BreitWignerNR<ArgIndex> const& other ):
-		BaseFunctor<BreitWignerNR<ArgIndex>, double,2>(other)
+	BreitWignerNR(BreitWignerNR<ArgType> const& other ):
+		BaseFunctor<BreitWignerNR<ArgType>, 2>(other)
 		{}
 
 	__hydra_host__ __hydra_device__ inline
-	BreitWignerNR<ArgIndex>&
-	operator=(BreitWignerNR<ArgIndex> const& other ){
+	BreitWignerNR<ArgType>&
+	operator=(BreitWignerNR<ArgType> const& other ){
 		if(this==&other) return  *this;
-		BaseFunctor<BreitWignerNR<ArgIndex>,double, 2>::operator=(other);
+		BaseFunctor<BreitWignerNR<ArgType>, 2>::operator=(other);
 		return  *this;
 	}
 
-	template<typename T>
+
 	__hydra_host__ __hydra_device__ inline
-	double Evaluate(unsigned int, T*x)  const
+	double Evaluate(ArgType m)  const
 	{
 		double mean  = _par[0];
 		double width = _par[1];
-		double m     = x[ArgIndex];
 
 		double m2 = (m - mean)*(m - mean);
 		double w2 = width*width;
@@ -93,30 +96,17 @@ public:
 		return CHECK_VALUE(1.0/(m2 + 0.25*w2), "par[0]=%f, par[1]=%f", _par[0], _par[1]) ;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T x)  const
-	{
-		double mean  = _par[0];
-		double width = _par[1];
-		double m     = x[ArgIndex];
-
-		double m2 = (m - mean)*(m - mean);
-		double w2 = width*width;
-
-		return  CHECK_VALUE(1.0/(m2 + 0.25*w2), "par[0]=%f, par[1]=%f", _par[0], _par[1]) ;
-	}
 
 };
 
-template<unsigned int ArgIndex>
-class IntegrationFormula< BreitWignerNR<ArgIndex>, 1>
+template<typename ArgType>
+class IntegrationFormula< BreitWignerNR<ArgType>, 1>
 {
 
 protected:
 
 	inline std::pair<GReal_t, GReal_t>
-	EvalFormula( BreitWignerNR<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	EvalFormula( BreitWignerNR<ArgType>const& functor, double LowerLimit, double UpperLimit )const
 	{
 
 		double r = cumulative(functor[0], functor[1], UpperLimit)

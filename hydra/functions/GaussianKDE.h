@@ -25,6 +25,10 @@
  *
  *  Created on: Apr 12, 2018
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef GAUSSIANKDE_H_
@@ -52,10 +56,10 @@ namespace hydra {
  *  \ingroup common_functions
  *  \class GaussianKDE
  */
-template< size_t NBins, size_t ArgIndex=0>
-class GaussianKDE: public BaseFunctor<GaussianKDE<NBins, ArgIndex>, double, 0>
+template< size_t NBins, typename ArgType>
+class GaussianKDE: public BaseFunctor<GaussianKDE<NBins, ArgType>, 0>
 {
-	using BaseFunctor<GaussianKDE<NBins, ArgIndex>, double, 0>::_par;
+	using BaseFunctor<GaussianKDE<NBins, ArgType>, 0>::_par;
 
 public:
 
@@ -104,54 +108,41 @@ public:
 
 	template<typename Iterator>
 	GaussianKDE(double min, double max, double h, Iterator begin, Iterator end):
-	BaseFunctor<GaussianKDE<NBins, ArgIndex>, double, 0>()
+	BaseFunctor<GaussianKDE<NBins, ArgType>, 0>()
 	{
 		fSpiline=BuildKDE(min, max, h, begin, end);
 	}
 
 
 	__hydra_host__ __hydra_device__
-	GaussianKDE(GaussianKDE<NBins, ArgIndex> const& other):
-	BaseFunctor<GaussianKDE<NBins, ArgIndex>, double, 0>(other),
+	GaussianKDE(GaussianKDE<NBins, ArgType> const& other):
+	BaseFunctor<GaussianKDE<NBins, ArgType>,  0>(other),
 	fSpiline(other.GetSpiline())
 	{}
 
 	__hydra_host__ __hydra_device__
-	inline 	GaussianKDE<NBins, ArgIndex>&
-	operator=(GaussianKDE<NBins, ArgIndex> const& other)
+	inline 	GaussianKDE<NBins, ArgType>&
+	operator=(GaussianKDE<NBins, ArgType> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<GaussianKDE<NBins, ArgIndex>, double, 0>::operator=(other);
+		BaseFunctor<GaussianKDE<NBins, ArgType>,  0>::operator=(other);
 		fSpiline=other.GetSpiline();
 		return *this;
 	}
 
 	__hydra_host__ __hydra_device__
-	inline 	const CubicSpiline<NBins, ArgIndex>& GetSpiline() const {
+	inline 	const CubicSpiline<NBins, ArgType>& GetSpiline() const {
 		return fSpiline;
 	}
 
-	template<typename T>
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int n, T*x)  const {
+	inline double Evaluate(unsigned int n, ArgType x)  const {
 
-		GReal_t X  = x[ArgIndex];
-
-		GReal_t r = fSpiline( X);
+		GReal_t r = fSpiline(x);
 
 		return  CHECK_VALUE( r, "r=%f",r) ;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline double Evaluate(T x)  const {
-
-		GReal_t X  = hydra::get<ArgIndex>(x); //mass
-
-		GReal_t r = fSpiline( X);
-
-		return  CHECK_VALUE( r, "r=%f",r) ;
-	}
 
 private:
 

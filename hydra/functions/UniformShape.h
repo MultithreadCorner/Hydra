@@ -24,6 +24,10 @@
  *
  *  Created on: 15/09/2018
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Davide Brundu
+ *         Log: Update call interface
  */
 
 #ifndef UNIFORMSHAPE_H_
@@ -60,44 +64,39 @@ namespace hydra {
  * The distribution is often abbreviated U(a,b).
  *
  */
-template<unsigned int ArgIndex=0>
-class UniformShape:public BaseFunctor<UniformShape<ArgIndex>, double, 2>
+template<typename ArgType>
+class UniformShape:public BaseFunctor<UniformShape<ArgType>,  2>
 {
-	using BaseFunctor<UniformShape<ArgIndex>, double, 2>::_par;
+	using BaseFunctor<UniformShape<ArgType>,  2>::_par;
 
 public:
 
 	UniformShape() = delete;
 
 	UniformShape(Parameter const& A, Parameter const& B ):
-		BaseFunctor<UniformShape<ArgIndex>, double, 2>({A,B}) {}
+		BaseFunctor<UniformShape<ArgType>, 2>({A,B}) {}
 
 	__hydra_host__ __hydra_device__
-	UniformShape(UniformShape<ArgIndex> const& other):
-		BaseFunctor<UniformShape<ArgIndex>, double, 2>(other) {}
+	UniformShape(UniformShape<ArgType> const& other):
+		BaseFunctor<UniformShape<ArgType>, 2>(other) {}
 
 	__hydra_host__ __hydra_device__
-	inline UniformShape<ArgIndex>&
-	operator=( UniformShape<ArgIndex> const& other)
+	inline UniformShape<ArgType>&
+	operator=( UniformShape<ArgType> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<UniformShape<ArgIndex>,double,2>::operator=(other);
+		BaseFunctor<UniformShape<ArgType>, 2>::operator=(other);
 		return *this;
 	}
 
-	template<typename T>
+
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int, T* x)  const	{
+	inline double Evaluate(ArgType x)  const	{
 
-		return  CHECK_VALUE( uniform(x[ ArgIndex], _par[0], _par[1] ),"par[0]=%f par[1]=%f ", _par[0] , _par[1] ) ;
+		return  CHECK_VALUE( uniform(x, _par[0], _par[1] ),"par[0]=%f par[1]=%f ", _par[0] , _par[1] ) ;
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T x)  const	{
 
-		return CHECK_VALUE( uniform(get<ArgIndex>(x), _par[0], _par[1] ),"par[0]=%f par[1]=%f ", _par[0] , _par[1] );
-	}
 private:
 
 	__hydra_host__ __hydra_device__
@@ -111,14 +110,14 @@ private:
 	}
 };
 
-template<unsigned int ArgIndex>
-class IntegrationFormula< UniformShape<ArgIndex>, 1>
+template<typename ArgType>
+class IntegrationFormula< UniformShape<ArgType>, 1>
 {
 
 protected:
 
 	inline std::pair<GReal_t, GReal_t>
-	EvalFormula( UniformShape<ArgIndex>const& functor, double LowerLimit, double UpperLimit )const
+	EvalFormula( UniformShape<ArgType>const& functor, double LowerLimit, double UpperLimit )const
 	{
 		double a = functor[0];
 		double b = functor[1];
