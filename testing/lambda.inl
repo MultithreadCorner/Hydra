@@ -58,7 +58,7 @@ TEST_CASE( "lambda host","hydra::Lambda<Type,0>" )
 {
 
 	typedef hydra::tuple<X_arg, Y_arg, Z_arg>                     right_tuple;
-	typedef hydra::tuple<U_arg, V_arg,  X_arg, Y_arg, Z_arg>      wrong_tuple;
+	typedef hydra::tuple<U_arg, V_arg, X_arg, Y_arg, Z_arg>       wrong_tuple;
 	typedef hydra::tuple<U_arg, V_arg, X_arg>                 x_partial_tuple;
 	typedef hydra::tuple<Y_arg, Z_arg>                       yz_partial_tuple;
 
@@ -360,7 +360,9 @@ TEST_CASE( "lambda device","hydra::Lambda<Type,0>" )
 
 			X_arg x = 2.0;
 			Y_arg y = 4.0;
-			Z_arg z = 8.0;
+			Z_arg z = 8.0;ydra::multivector<hydra::tuple<double,double>,
+            hydra::device::sys_t> dataset(nentries, hydra::make_tuple(1.0, 2.0));
+
 
 			auto result = lambda(x, y, z);
 

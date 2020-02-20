@@ -30,14 +30,13 @@
 #define DISTRIBUTION_H_
 
 #include <hydra/detail/Config.h>
-#include <hydra/Random.h>
 
 namespace hydra {
 
-template<typename Functor, typename Engine>
+template<typename Functor>
 class RngFormula;
 
-template<typename Functor, typename Engine>
+template<typename Functor>
 class Distribution;
 
 }  // namespace hydra

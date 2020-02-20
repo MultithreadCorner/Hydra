@@ -43,14 +43,22 @@
 #include <hydra/Lambda.h>
 #include <hydra/multivector.h>
 #include <hydra/Parameter.h>
+#include <hydra/functions/Gaussian.h>
+#include <hydra/detail/external/hydra_thrust/random.h>
+
+#ifdef _ROOT_AVAILABLE_
+
+#include <TROOT.h>
+#include <TH1D.h>
+#include <TApplication.h>
+#include <TCanvas.h>
+
+#endif //_ROOT_AVAILABLE_
+
 
 using namespace hydra::arguments;
 
 declarg(xvar, double)
-
-declarg(yvar, double)
-
-declarg(zvar, double)
 
 int main(int argv, char** argc)
 {
@@ -72,37 +80,38 @@ int main(int argv, char** argc)
 				  << std::endl;
 	}
 
-	auto lambda = []__hydra_dual__ (xvar x, yvar y)
-			{
+	//Parameters
+	auto mean  = hydra::Parameter::Create("mean" ).Value(1.0);
+	auto sigma = hydra::Parameter::Create("sigma").Value(2.0);
+    //Gaussian distribution
+	auto gauss = hydra::Gaussian<xvar>(mean, sigma);
 
-			printf("arguments are:  X = %f Y = %f\n", x(), y());
-
-			return x+y;
-		   };
-
-	auto plambda = [] __hydra_dual__ (size_t n, hydra::Parameter* pars, xvar x, yvar y)
-				{
-
-				printf(" X = %f Y = %f\n", x(), y());
-
-				return;
-			   };
+	hydra_thrust::default_random_engine engine;
 
 
-	auto wlambda = hydra::wrap_lambda(lambda);
 
-	auto P1= hydra::Parameter::Create("P1").Value(1.0);
-	auto P2= hydra::Parameter::Create("P2").Value(2.0);
+#ifdef _ROOT_AVAILABLE_
 
-	auto wplambda = hydra::wrap_lambda(plambda, P1, P2);
+	TH1D hist_xvar("hist_xvar", "X", 100, -6.0, 6.0);
 
-	hydra::multivector<hydra::tuple<double,double>,
-			            hydra::device::sys_t> dataset(nentries, hydra::make_tuple(1.0, 2.0));
+	for(size_t i=0; i<nentries; i++)
+	{
+		auto dist = hydra::Distribution<hydra::Gaussian<xvar>>{};
+		auto x= dist(gauss, engine);
+		hist_xvar.Fill(x);
+	}
 
-	std::cout << " : " <<  hydra::detail::is_tuple_of_function_arguments<hydra::tuple<double,yvar, zvar>>::value << std::endl;
-	wlambda(1.0, 2.0);
-    for(auto x:dataset)
-    	wlambda(x);
+	TApplication *myapp=new TApplication("myapp",0,0);
+
+	//draw histograms
+	TCanvas canvas("canvas_d" ,"Distributions - Device", 500, 500);
+	hist_xvar.Draw("hist");
+	myapp->Run();
+
+#endif //_ROOT_AVAILABLE_
+
+
+
 
 	return 0;
 }

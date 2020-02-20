@@ -29,39 +29,54 @@
 #ifndef DISTRIBUTION_INL_
 #define DISTRIBUTION_INL_
 
+#include <hydra/detail/external/hydra_thrust/random.h>
+
 namespace hydra {
 
-/*
- * auto dist = Distribution<Functor>(FunctorObj);
- * auto x = dist(RngEngine);
- *
- */
 
 template<typename Functor>
-struct  Distribution: protected GenerationFormula<Functor>
+struct  Distribution: protected RngFormula<Functor>
 {
-  typedef GenerationFormula<Functor> formula_type;
-  typedef typename formula_type::return_type  return_type;
+	typedef typename RngFormula<Functor>::value_type  value_type;
+
+
+	template<typename Engine>
+	__hydra_host__ __hydra_device__
+	value_type operator()(Functor const& functor, Engine& rng) const
+	{
+		return static_cast<const RngFormula<Functor>& >(*this).Generate(functor,rng);
+	}
+
+
+};
+
+
+template<typename Functor>
+class  RngBase
+{
 
 protected:
+	typedef typename Functor::value_type  value_type;
 
-  typedef hydra_thrust::uniform_real_distribution<return_type> uniform_type;
+	//most of the known distributions can be sampled using normal and uniform rngs.
 
-public:
+	typedef hydra_thrust::uniform_real_distribution<double> uniform_rng_type;
+	typedef hydra_thrust::normal_distribution<double>       normal_rng_type;
 
- template<typename Engine>
- __hydra_host__ __hydra_device__
- return_type operator()(Engine& rng)
- {
-	 return static_cast<const formula_type& >(*this).Generate(rng);
- }
+	template<typename Engine>
+	__hydra_host__ __hydra_device__
+	value_type uniform(Engine& rng) const
+	{
+		return uniform_rng_type(rng, {0.0, 1.0});
+	}
 
- template<typename Engine>
- __hydra_host__ __hydra_device__
- return_type uniform(Engine& rng)
- {
-	 return uniform_type(rng, {0.0, 1.0});
- }
+	template<typename Engine>
+	__hydra_host__ __hydra_device__
+	value_type normal(Engine& rng) const
+	{
+		auto dist = normal_rng_type(0.0, 1.0);
+		return dist(rng);
+	}
 
 };
 

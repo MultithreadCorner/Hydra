@@ -36,6 +36,7 @@
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
 #include <hydra/Integrator.h>
+#include <hydra/Distribution.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -58,28 +59,30 @@ namespace hydra {
  *
  */
 template<typename ArgType>
-class Gaussian: public BaseFunctor<Gaussian<ArgType>, 2>
+class Gaussian: public BaseFunctor<Gaussian<ArgType>, double(ArgType), 2>
 {
-	using BaseFunctor<Gaussian<ArgType>, 2>::_par;
+	using BaseFunctor<Gaussian<ArgType>, double(ArgType), 2>::_par;
 
 public:
+
+	typedef ArgType value_type;
 
 	Gaussian()=delete;
 
 	Gaussian(Parameter const& mean, Parameter const& sigma ):
-		BaseFunctor<Gaussian<ArgType>, 2>({mean, sigma})
+		BaseFunctor<Gaussian<ArgType>, double(ArgType), 2>({mean, sigma})
 		{}
 
 	__hydra_host__ __hydra_device__
 	Gaussian(Gaussian<ArgType> const& other ):
-		BaseFunctor<Gaussian<ArgType>, 2>(other)
+		BaseFunctor<Gaussian<ArgType>, double(ArgType), 2>(other)
 		{}
 
 	__hydra_host__ __hydra_device__
 	Gaussian<ArgType>& operator=(Gaussian<ArgType> const& other )
 	{
 		if(this==&other) return  *this;
-		BaseFunctor<Gaussian<ArgType>, 2>::operator=(other);
+		BaseFunctor<Gaussian<ArgType>, double(ArgType), 2>::operator=(other);
 		return  *this;
 	}
 
@@ -122,6 +125,29 @@ private:
 	}
 };
 
+
+template<typename ArgType>
+struct RngFormula< Gaussian<ArgType> >: RngBase< Gaussian<ArgType> >
+{
+
+	typedef typename  Gaussian<ArgType>::value_type value_type;
+
+	template<typename Engine>
+	__hydra_host__ __hydra_device__
+	value_type Generate(Gaussian<ArgType>const& functor, Engine& rng) const
+	{
+		double mean  = functor[0];
+		double sigma = functor[1];
+
+		//delegate the generation of primary normal distributed variable to thrust
+		//cpu and gpu could implement it differently
+
+		double x = mean + sigma*this->normal(rng);
+
+		return static_cast<value_type>(x);
+	}
+
+};
 
 }  // namespace hydra
 
