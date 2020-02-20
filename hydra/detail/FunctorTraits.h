@@ -39,10 +39,10 @@ namespace hydra {
 namespace detail {
 
 template<typename S>
-struct signature;
+struct signature_traits;
 
 template<typename R, typename...Args>
-struct signature<R(Args...)>
+struct signature_traits<R(Args...)>
 {
 typedef typename std::decay<R>::type return_type;
 typedef std::tuple<typename std::decay<Args>::type...> argument_type;

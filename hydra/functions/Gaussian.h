@@ -65,8 +65,6 @@ class Gaussian: public BaseFunctor<Gaussian<ArgType>, double(ArgType), 2>
 
 public:
 
-	typedef ArgType value_type;
-
 	Gaussian()=delete;
 
 	Gaussian(Parameter const& mean, Parameter const& sigma ):
@@ -127,10 +125,10 @@ private:
 
 
 template<typename ArgType>
-struct RngFormula< Gaussian<ArgType> >: RngBase< Gaussian<ArgType> >
+struct RngFormula< Gaussian<ArgType> >
 {
 
-	typedef typename  Gaussian<ArgType>::value_type value_type;
+	typedef ArgType value_type;
 
 	template<typename Engine>
 	__hydra_host__ __hydra_device__
@@ -139,10 +137,7 @@ struct RngFormula< Gaussian<ArgType> >: RngBase< Gaussian<ArgType> >
 		double mean  = functor[0];
 		double sigma = functor[1];
 
-		//delegate the generation of primary normal distributed variable to thrust
-		//cpu and gpu could implement it differently
-
-		double x = mean + sigma*this->normal(rng);
+		double x = mean + sigma*RngBase::normal(rng);
 
 		return static_cast<value_type>(x);
 	}

@@ -50,29 +50,25 @@ struct  Distribution: protected RngFormula<Functor>
 
 };
 
-
-template<typename Functor>
-class  RngBase
+struct  RngBase
 {
-
-protected:
-	typedef typename Functor::value_type  value_type;
 
 	//most of the known distributions can be sampled using normal and uniform rngs.
 
 	typedef hydra_thrust::uniform_real_distribution<double> uniform_rng_type;
-	typedef hydra_thrust::normal_distribution<double>       normal_rng_type;
+	typedef hydra_thrust::normal_distribution<double>        normal_rng_type;
 
 	template<typename Engine>
 	__hydra_host__ __hydra_device__
-	value_type uniform(Engine& rng) const
+   static double uniform(Engine& rng)
 	{
-		return uniform_rng_type(rng, {0.0, 1.0});
+		auto dist = uniform_rng_type(0.0, 1.0);
+		return dist(rng);
 	}
 
 	template<typename Engine>
 	__hydra_host__ __hydra_device__
-	value_type normal(Engine& rng) const
+	static double normal(Engine& rng)
 	{
 		auto dist = normal_rng_type(0.0, 1.0);
 		return dist(rng);

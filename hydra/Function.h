@@ -63,13 +63,12 @@ template<typename Functor, typename Signature, size_t NPARAM>
 class  BaseFunctor : public detail::Parameters<NPARAM>
 {
 
-	//typedef   typename /*detail::functor_traits<Functor>*/Functor::argument_rvalue_type argument_rvalue_type;
-
 public:
 
-	typedef typename detail::signature<Signature>::return_type return_type;
-	typedef typename detail::signature<Signature>::argument_type argument_type;
-	enum {arity=detail::signature<Signature>::arity};
+	typedef typename detail::signature_traits<Signature>::return_type     return_type;
+	typedef typename detail::signature_traits<Signature>::argument_type argument_type;
+
+	enum { arity=detail::signature_traits<Signature>::arity };
 
 	/**
 	 * Default constructor

@@ -81,8 +81,8 @@ int main(int argv, char** argc)
 	}
 
 	//Parameters
-	auto mean  = hydra::Parameter::Create("mean" ).Value(1.0);
-	auto sigma = hydra::Parameter::Create("sigma").Value(2.0);
+	auto mean  = hydra::Parameter::Create("mean" ).Value(0.0);
+	auto sigma = hydra::Parameter::Create("sigma").Value(2.5);
     //Gaussian distribution
 	auto gauss = hydra::Gaussian<xvar>(mean, sigma);
 
@@ -92,7 +92,7 @@ int main(int argv, char** argc)
 
 #ifdef _ROOT_AVAILABLE_
 
-	TH1D hist_xvar("hist_xvar", "X", 100, -6.0, 6.0);
+	TH1D hist_xvar("hist_xvar", "X", 100, -8.0, 8.0);
 
 	for(size_t i=0; i<nentries; i++)
 	{
