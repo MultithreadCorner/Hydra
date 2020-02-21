@@ -25,7 +25,7 @@
  *  Created on: 12/12/2017
  *      Author: Antonio Augusto Alves Junior
  *
- *  Updated on: Feb 18 2020
+ *  Updated on: Feb 21 2020
  *      Author: Davide Brundu
  *         Log: Update call interface
  */
@@ -76,27 +76,27 @@ This can be expressed more concisely by using summation notation:
 \f$ \sum_{k=0}^n a_k x^k \f$.
  *
  */
-template< unsigned int Order, typename ArgType>
-class  Polynomial:public BaseFunctor<Polynomial<Order, ArgType>,  Order+1>
+template< unsigned int Order, typename ArgType, typename Signature=double(ArgType)>
+class  Polynomial:public BaseFunctor<Polynomial<Order, ArgType>, Signature, Order+1>
 {
-	using BaseFunctor<Polynomial<Order, ArgType>,  Order+1>::_par;
+	using BaseFunctor<Polynomial<Order, ArgType>, Signature, Order+1>::_par;
 
 public:
 	Polynomial() = delete;
 
 	Polynomial(std::array<Parameter,Order+1> const& coeficients):
-		BaseFunctor<Polynomial<Order, ArgType>, Order+1>( coeficients) {}
+		BaseFunctor<Polynomial<Order, ArgType>, Signature, Order+1>( coeficients) {}
 
 	__hydra_host__ __hydra_device__
 	Polynomial(Polynomial<Order, ArgType> const& other):
-		BaseFunctor<Polynomial<Order, ArgType>, Order+1>(other) {}
+		BaseFunctor<Polynomial<Order, ArgType>, Signature, Order+1>(other) {}
 
 	__hydra_host__ __hydra_device__
 	inline Polynomial<Order, ArgType>&
 	operator=( Polynomial<ArgType, Order> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<Polynomial< Order, ArgType>, Order+1>::operator=(other);
+		BaseFunctor<Polynomial< Order, ArgType>, Signature, Order+1>::operator=(other);
 		return *this;
 	}
 
