@@ -26,7 +26,7 @@
  *  Created on: Jul 19, 2018
  *      Author: Antonio Augusto Alves Junior
  *
- *  Updated on: Feb 18 2020
+ *  Updated on: Feb 21 2020
  *      Author: Davide Brundu
  *         Log: Update call interface
  */
@@ -68,10 +68,10 @@ namespace hydra {
  * in CUDA platform.
  */
 
-template<typename ArgType>
-class Ipatia : public BaseFunctor<Ipatia<ArgType>, 8>
+template<typename ArgType, typename Signature=double(ArgType)>
+class Ipatia : public BaseFunctor<Ipatia<ArgType>, Signature, 8>
 {
-	using BaseFunctor<Ipatia<ArgType>, 8>::_par;
+	using BaseFunctor<Ipatia<ArgType>, Signature, 8>::_par;
 
 public:
 
@@ -81,7 +81,7 @@ public:
 		 Parameter const& A1, Parameter const& N1,
 		 Parameter const& A2, Parameter const& N2,
 		 Parameter const& l,  Parameter const& beta	):
-		BaseFunctor<Ipatia<ArgType>, 8>({ mu, sigma, A1, N1, A2, N2, l, beta})
+		BaseFunctor<Ipatia<ArgType>, Signature, 8>({ mu, sigma, A1, N1, A2, N2, l, beta})
 		{
 	    if(this->GetParameter(6).GetValue() > 0.0 || this->GetParameter(6).GetUpperLim() > 0.0 || this->GetParameter(6).GetLowerLim() > 0.0 ){
 	    	HYDRA_LOG(ERROR, "hydra::Ipatia's #6 is positive. This parameter needs be always negative. Exiting..." )
@@ -92,7 +92,7 @@ public:
 
   __hydra_host__ __hydra_device__
   Ipatia( Ipatia<ArgType> const& other):
-    BaseFunctor< Ipatia<ArgType>, 8>(other)
+    BaseFunctor< Ipatia<ArgType>, Signature, 8>(other)
   		{}
 
 
@@ -101,7 +101,7 @@ public:
    {
 	  if(this ==&other) return *this;
 
-	  BaseFunctor< Ipatia<ArgType>, 8>::operator=(other);
+	  BaseFunctor< Ipatia<ArgType>, Signature, 8>::operator=(other);
 	  return *this;
     }
 
