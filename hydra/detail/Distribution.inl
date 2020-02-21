@@ -30,6 +30,7 @@
 #define DISTRIBUTION_INL_
 
 #include <hydra/detail/external/hydra_thrust/random.h>
+#include <initializer_list>
 
 namespace hydra {
 
@@ -42,9 +43,16 @@ struct  Distribution: protected RngFormula<Functor>
 
 	template<typename Engine>
 	__hydra_host__ __hydra_device__
-	value_type operator()(Functor const& functor, Engine& rng) const
+	value_type operator()(Engine& rng, Functor const& functor) const
 	{
-		return static_cast<const RngFormula<Functor>& >(*this).Generate(functor,rng);
+		return static_cast<const RngFormula<Functor>& >(*this).Generate(rng ,functor);
+	}
+
+	template<typename Engine, typename T=double>
+	__hydra_host__ __hydra_device__
+	value_type operator()(Engine& rng, std::initializer_list<T> pars ) const
+	{
+		return static_cast<const RngFormula<Functor>& >(*this).Generate(rng , pars);
 	}
 
 

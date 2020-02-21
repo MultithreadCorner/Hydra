@@ -57,29 +57,29 @@ namespace hydra {
  *
  *
  */
-template<typename ArgType>
-class BifurcatedGaussian: public BaseFunctor<BifurcatedGaussian<ArgType>, 3>
+template<typename ArgType, typename Signature=double(ArgType) >
+class BifurcatedGaussian: public BaseFunctor<BifurcatedGaussian<ArgType>, Signature, 3>
 {
-	using BaseFunctor<BifurcatedGaussian<ArgType>, 3>::_par;
+	using BaseFunctor<BifurcatedGaussian<ArgType>, Signature, 3>::_par;
 
 public:
 
 	BifurcatedGaussian()=delete;
 
 	BifurcatedGaussian(Parameter const& mean, Parameter const& sigma_left , Parameter const& sigma_right ):
-		BaseFunctor<BifurcatedGaussian<ArgType>, 3>({mean, sigma_left, sigma_right})
+		BaseFunctor<BifurcatedGaussian<ArgType>, Signature, 3>({mean, sigma_left, sigma_right})
 		{}
 
 	__hydra_host__ __hydra_device__
 	BifurcatedGaussian(BifurcatedGaussian<ArgType> const& other ):
-		BaseFunctor<BifurcatedGaussian<ArgType>, 3>(other)
+		BaseFunctor<BifurcatedGaussian<ArgType>, Signature, 3>(other)
 		{}
 
 	__hydra_host__ __hydra_device__
 	BifurcatedGaussian<ArgType>&
 	operator=(BifurcatedGaussian<ArgType> const& other ){
 		if(this==&other) return  *this;
-		BaseFunctor<BifurcatedGaussian<ArgType>, 3>::operator=(other);
+		BaseFunctor<BifurcatedGaussian<ArgType>, Signature, 3>::operator=(other);
 		return  *this;
 	}
 
@@ -110,7 +110,7 @@ protected:
 	inline std::pair<GReal_t, GReal_t>
 	EvalFormula( BifurcatedGaussian<ArgType>const& functor, double LowerLimit, double UpperLimit )const
 	{
-		double fraction = cumulative(functor[0], functor[1], functor[2] );
+		double fraction = cumulative(functor[0], functor[1], functor[2],  LowerLimit,  UpperLimit  );
 
 		return std::make_pair(	CHECK_VALUE(fraction," par[0] = %f par[1] = %f par[2] = %f LowerLimit = %f UpperLimit = %f",
 				functor[0], functor[1], functor[2], LowerLimit,UpperLimit ) ,0.0);
@@ -119,7 +119,8 @@ protected:
 
 private:
 
-	inline double cumulative(const double mean, const double sigma_left, const double sigma_right) const
+	inline double cumulative(const double mean, const double sigma_left, const double sigma_right,
+			double LowerLimit, double UpperLimit ) const
 	{
 		static const double sqrt_pi_over_two = 1.2533141373155002512079;
 		static const double sqrt_two         = 1.4142135623730950488017;
@@ -147,9 +148,54 @@ private:
 
 	}
 
-
 };
 
+
+	template<typename ArgType>
+	struct RngFormula< BifurcatedGaussian<ArgType> >
+	{
+
+		typedef ArgType value_type;
+
+		template<typename Engine>
+		__hydra_host__ __hydra_device__
+		value_type Generate(Engine& rng, BifurcatedGaussian<ArgType>const& functor) const
+		{
+			double mean  = functor[0];
+			double sigma_left  = functor[1];
+			double sigma_right = functor[2];
+
+            double forking_point = sigma_left/(sigma_left+sigma_right);
+
+            double x = RngBase::normal(rng);
+            if( RngBase::uniform(rng) < forking_point)
+            	x = -fabs(mean + sigma_left*x);
+            else
+            	x = fabs(mean + sigma_right*x);
+
+			return static_cast<value_type>(x);
+		}
+
+		template<typename Engine, typename T>
+		__hydra_host__ __hydra_device__
+		value_type Generate(Engine& rng, std::initializer_list<T> pars) const
+		{
+			double mean        = pars.begin()[0];
+			double sigma_left  = pars.begin()[1];
+			double sigma_right = pars.begin()[2];
+
+			double forking_point = sigma_left/(sigma_left+sigma_right);
+
+			double x = RngBase::normal(rng);
+			if( RngBase::uniform(rng) < forking_point)
+				x = -fabs(mean + sigma_left*x);
+			else
+				x = fabs(mean + sigma_right*x);
+
+			return static_cast<value_type>(x);
+		}
+
+	};
 
 }  // namespace hydra
 

@@ -64,8 +64,8 @@ namespace hydra {
  *  is one of the most widely used probability distributions in inferential statistics,
  *   notably in hypothesis testing or in construction of confidence intervals.
  */
-template< typename ArgType >
-class ChiSquare: public BaseFunctor< ChiSquare<ArgType>, 1>
+template< typename ArgType , typename Signature=double(ArgType) >
+class ChiSquare: public BaseFunctor< ChiSquare<ArgType>, Signature, 1>
 {
 	using BaseFunctor<ChiSquare<ArgType>,  1>::_par;
 
@@ -74,19 +74,19 @@ class ChiSquare: public BaseFunctor< ChiSquare<ArgType>, 1>
 		ChiSquare()=delete;
 
 		ChiSquare(Parameter const& ndof ):
-			BaseFunctor<ChiSquare<ArgType>,  1>({ndof})
+			BaseFunctor<ChiSquare<ArgType>, Signature,  1>({ndof})
 			{}
 
 		__hydra_host__ __hydra_device__
 		ChiSquare(ChiSquare<ArgType> const& other ):
-			BaseFunctor<ChiSquare<ArgType>, 1>(other)
+			BaseFunctor<ChiSquare<ArgType>, Signature, 1>(other)
 			{}
 
 		__hydra_host__ __hydra_device__
 		inline ChiSquare<ArgType>&
 		operator=(ChiSquare<ArgType> const& other ){
 			if(this==&other) return  *this;
-			BaseFunctor<ChiSquare<ArgType>, 1>::operator=(other);
+			BaseFunctor<ChiSquare<ArgType>, Signature, 1>::operator=(other);
 			return  *this;
 		}
 
@@ -269,6 +269,74 @@ private:
 	static constexpr  double kBiginv = 2.22044604925031308085e-16;
 };
 
+
+
+template<typename ArgType>
+struct RngFormula< ChiSquare<ArgType> >
+{
+
+	typedef ArgType value_type;
+
+	template<typename Engine>
+	__hydra_host__ __hydra_device__
+	value_type Generate( Engine& rng, ChiSquare<ArgType>const& functor) const
+	{
+		long ndof  = ::lrint(functor[0]);
+
+	    double x = 1.0;
+	if(ndof%2 == 0)
+	{
+		for(long i =0; i<ndof; ++i)
+		x *= RngBase::uniform(rng);
+
+		return static_cast<value_type>(-2.0*::log(x));
+	}
+	else{
+
+		for(long i =0; i<ndof-1; ++i)
+		    x *= RngBase::uniform(rng);
+
+		double y = ::cos(2.0*PI*RngBase::uniform(rng));
+
+		return static_cast<value_type>(-2.0*::log(x) - 2.0*::log(RngBase::uniform(rng))*y*y);
+	}
+
+	}
+
+
+	template<typename Engine, typename T>
+	__hydra_host__ __hydra_device__
+	value_type Generate( Engine& rng,  std::initializer_list<T> pars) const
+	{
+		double ndof  = pars.begin()[0];
+
+
+
+		double x = 1.0;
+
+		if(ndof%2 == 0)
+		{
+			for(long i =0; i<ndof; ++i)
+			x *= RngBase::uniform(rng);
+
+			return static_cast<value_type>(-2.0*::log(x));
+		}
+		else{
+
+			for(long i =0; i<ndof-1; ++i)
+			    x *= RngBase::uniform(rng);
+
+			double y = ::cos(2.0*PI*RngBase::uniform(rng));
+
+			return static_cast<value_type>(-2.0*::log(x) - 2.0*::log(RngBase::uniform(rng))*y*y);
+		}
+
+
+	}
+
+
+
+};
 
 }  // namespace hydra
 
