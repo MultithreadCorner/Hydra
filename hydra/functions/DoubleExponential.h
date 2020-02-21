@@ -99,18 +99,18 @@ protected:
 	{
 		double tau  = functor[0];
 		double mean = functor[1];
-		
+
 		double cumulative_up    =  (UpperLimit<mean)?
 		                           ( 0.5*::exp( (UpperLimit-mean)*tau) : 1 - 0.5*::exp((UpperLimit-mean)*tau)) ;
 		double cumulative_low   =  (LowerLimit<mean)?
 		                           ( 0.5*::exp( (LowerLimit-mean)*tau) : 1 - 0.5*::exp((LowerLimit-mean)*tau)) ;
-        
-        double r = cumulative_up - cumulative_dw;
-		                          
+
+        double r = cumulative_up - cumulative_low;
+
 		return std::make_pair( CHECK_VALUE(r, "par[0]=%f, par[1]=%f", tau, mean ) , 0.0);
 
 	}
-	
+
 
 };
 
