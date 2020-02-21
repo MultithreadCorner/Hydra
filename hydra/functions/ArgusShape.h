@@ -25,7 +25,7 @@
  *  Created on: 18/12/2017
  *      Author: Antonio Augusto Alves Junior
  *
- *  Updated on: Feb 18 2020
+ *  Updated on: Feb 21 2020
  *      Author: Davide Brundu
  *         Log: Update call interface
  */
@@ -59,10 +59,10 @@ namespace hydra {
  * Implementation describing the ARGUS background shape.
  *
  */
-template<typename ArgType>
-class ArgusShape: public BaseFunctor<ArgusShape<ArgType>, 3>
+template<typename ArgType, typename Signature=double(ArgType)>
+class ArgusShape: public BaseFunctor<ArgusShape<ArgType>, Signature, 3>
 {
-	using BaseFunctor<ArgusShape<ArgType>,  3>::_par;
+	using BaseFunctor<ArgusShape<ArgType>, Signature, 3>::_par;
 
 public:
 
@@ -76,7 +76,7 @@ public:
 	 * @param power : power
 	 */
 	ArgusShape(Parameter const& m0,	Parameter const& slope, Parameter const& power):
-		BaseFunctor<ArgusShape<ArgType>,  3>({m0,slope, power})
+		BaseFunctor<ArgusShape<ArgType>, Signature, 3>({m0,slope, power})
 		{}
 
 	/**
@@ -86,7 +86,7 @@ public:
 	 */
 	__hydra_host__ __hydra_device__
 	ArgusShape(ArgusShape<ArgType> const& other ):
-		BaseFunctor<ArgusShape<ArgType>, 3>(other)
+		BaseFunctor<ArgusShape<ArgType>, Signature, 3>(other)
 		{}
 
 	/**
@@ -99,7 +99,7 @@ public:
 	ArgusShape<ArgType>&
 	operator=(ArgusShape<ArgType> const& other ){
 		if(this==&other) return  *this;
-		BaseFunctor<ArgusShape<ArgType>, 3>::operator=(other);
+		BaseFunctor<ArgusShape<ArgType>, Signature, 3>::operator=(other);
 		return  *this;
 	}
 
