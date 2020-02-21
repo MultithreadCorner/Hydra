@@ -67,7 +67,7 @@ namespace hydra {
 template< typename ArgType , typename Signature=double(ArgType) >
 class ChiSquare: public BaseFunctor< ChiSquare<ArgType>, Signature, 1>
 {
-	using BaseFunctor<ChiSquare<ArgType>,  1>::_par;
+	using BaseFunctor<ChiSquare<ArgType>, Signature,  1>::_par;
 
 	public:
 
@@ -281,10 +281,10 @@ struct RngFormula< ChiSquare<ArgType> >
 	__hydra_host__ __hydra_device__
 	value_type Generate( Engine& rng, ChiSquare<ArgType>const& functor) const
 	{
-		long ndof  = ::lrint(functor[0]);
+		long int ndof  = ::lrint(functor[0]);
 
 	    double x = 1.0;
-	if(ndof%2 == 0)
+	if(ndof%2u == 0)
 	{
 		for(long i =0; i<ndof; ++i)
 		x *= RngBase::uniform(rng);
@@ -308,13 +308,13 @@ struct RngFormula< ChiSquare<ArgType> >
 	__hydra_host__ __hydra_device__
 	value_type Generate( Engine& rng,  std::initializer_list<T> pars) const
 	{
-		double ndof  = pars.begin()[0];
+		long int ndof  = pars.begin()[0];
 
 
 
 		double x = 1.0;
 
-		if(ndof%2 == 0)
+		if(ndof%2u == 0)
 		{
 			for(long i =0; i<ndof; ++i)
 			x *= RngBase::uniform(rng);
@@ -328,9 +328,9 @@ struct RngFormula< ChiSquare<ArgType> >
 
 			double y = ::cos(2.0*PI*RngBase::uniform(rng));
 
-			return static_cast<value_type>(-2.0*::log(x) - 2.0*::log(RngBase::uniform(rng))*y*y);
+			return static_cast<value_type>(-2.0*::log(x)
+			                  - 2.0*::log(RngBase::uniform(rng))*y*y);
 		}
-
 
 	}
 
