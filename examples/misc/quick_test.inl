@@ -50,6 +50,7 @@
 #include <hydra/functions/ChiSquare.h>
 #include <hydra/functions/Chebychev.h>
 #include <hydra/functions/JohnsonSUShape.h>
+#include <hydra/functions/LogNormal.h>
 
 #include <hydra/detail/external/hydra_thrust/random.h>
 
@@ -91,9 +92,11 @@ int main(int argv, char** argc)
     //Gaussian distribution
 	//Parameters
 	auto mean  = hydra::Parameter::Create("mean" ).Value(0.0);
-	auto sigma = hydra::Parameter::Create("sigma").Value(2.0);
+	auto sigma = hydra::Parameter::Create("sigma").Value(0.25);
 
-	auto gauss = hydra::Gaussian<xvar>(mean, sigma);
+	auto gauss     = hydra::Gaussian<xvar>(mean, sigma);
+	auto lognormal = hydra::LogNormal<xvar>(mean, sigma);
+
 
     //BifurcatedGaussian distribution
 	//Parameters
@@ -129,7 +132,8 @@ int main(int argv, char** argc)
 #ifdef _ROOT_AVAILABLE_
 
 	TH1D hist_gauss("hist_gauss", "hydra::Gaussian<xvar>"   , 100,-8.0, 8.0);
-	TH1D hist_bigauss("hist_bigauss", "hydra::BifurcatedGaussian<xvar>"   , 100,-8.0, 8.0);
+	TH1D hist_lognormal("hist_lognormal", "hydra::LogNormal<xvar>"   , 100,0.0, 2.5);
+    TH1D hist_bigauss("hist_bigauss", "hydra::BifurcatedGaussian<xvar>"   , 100,-8.0, 8.0);
 	TH1D   hist_exp("hist_exp" , "hydra::Exponential<xvar>", 100, 0.0, 10.0);
 	TH1D    hist_bw("hist_bw"  , "hydra::BreitWignerNR<xvar>", 100, 0.0, 10.0);
 	TH1D   hist_chi("hist_chi" , "hydra::ChiSquare<xvar>", 100, 0.0, 10.0);
@@ -139,6 +143,7 @@ int main(int argv, char** argc)
 	for(size_t i=0; i<nentries; i++)
 	{
 		auto gauss_dist   = hydra::Distribution<hydra::Gaussian<xvar>>();
+		auto lognormal_dist = hydra::Distribution<hydra::LogNormal<xvar>>();
 		auto bigauss_dist = hydra::Distribution<hydra::BifurcatedGaussian<xvar>>();
 		auto   exp_dist   = hydra::Distribution<hydra::Exponential<xvar>>();
 		auto   bw_dist    = hydra::Distribution<hydra::BreitWignerNR<xvar>>();
@@ -146,6 +151,7 @@ int main(int argv, char** argc)
 		auto johnson_su_dist = hydra::Distribution<hydra::JohnsonSU<xvar>>();
 
 		hist_gauss.Fill( gauss_dist(engine, {0.0, 1.5} ));
+		hist_lognormal.Fill( lognormal_dist(engine, lognormal ));
 		hist_bigauss.Fill( bigauss_dist(engine, bigauss));
 		hist_exp.Fill( exp_dist(engine, exp));
 		hist_bw.Fill( bw_dist(engine, bw));
@@ -159,6 +165,9 @@ int main(int argv, char** argc)
 	//draw histograms
 	TCanvas canvas_gauss("canvas_gauss" ,"hydra::Gaussian", 500, 500);
 	hist_gauss.Draw("hist");
+
+	TCanvas canvas_lognormal("canvas_lognormal" ,"hydra::LogNormal", 500, 500);
+	hist_lognormal.Draw("hist");
 
 	TCanvas canvas_bigauss("canvas_bigauss" ,"hydra::BifurcatedGaussian", 500, 500);
 	hist_bigauss.Draw("hist");

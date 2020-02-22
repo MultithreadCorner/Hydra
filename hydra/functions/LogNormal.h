@@ -46,6 +46,7 @@
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
 #include <hydra/Integrator.h>
+#include <hydra/functions/detail/inverse_erf.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -64,29 +65,29 @@ namespace hydra {
  * In probability theory, a log-normal (or lognormal) distribution is a continuous probability distribution of a random
  * variable whose logarithm is normally distributed. Thus, if the random variable X is log-normally distributed, then Y = ln(X) has a normal distribution.
  */
-template<typename ArgType>
-class LogNormal: public BaseFunctor<LogNormal<ArgType>, 2>
+template<typename ArgType, typename Signature=double(ArgType) >
+class LogNormal: public BaseFunctor<LogNormal<ArgType>, Signature, 2>
 {
-	using BaseFunctor<LogNormal<ArgType>, 2>::_par;
+	using BaseFunctor<LogNormal<ArgType>, Signature, 2>::_par;
 
 public:
 
 	LogNormal() = delete;
 
 	LogNormal(Parameter const& mean, Parameter const& sigma ):
-		BaseFunctor<LogNormal<ArgType>, 2>({mean, sigma})
+		BaseFunctor<LogNormal<ArgType>, Signature, 2>({mean, sigma})
 		{}
 
 	__hydra_host__ __hydra_device__
 	LogNormal(LogNormal<ArgType> const& other ):
-		BaseFunctor<LogNormal<ArgType>, 2>(other)
+		BaseFunctor<LogNormal<ArgType>, Signature, 2>(other)
 		{}
 
 	__hydra_host__ __hydra_device__
 	LogNormal<ArgType>&
 	operator=(LogNormal<ArgType> const& other ){
 		if(this==&other) return  *this;
-		BaseFunctor<LogNormal<ArgType>, 2>::operator=(other);
+		BaseFunctor<LogNormal<ArgType>, Signature, 2>::operator=(other);
 		return  *this;
 	}
 
@@ -132,9 +133,43 @@ private:
 		return sigma*sqrt_pi_over_two*( ::erf( (::log(x)-mean)/( sigma*sqrt_two ) ) );
 	}
 
-
 };
 
+template<typename ArgType>
+struct RngFormula< LogNormal<ArgType> >
+{
+
+	typedef ArgType value_type;
+
+	template<typename Engine>
+	__hydra_host__ __hydra_device__
+	value_type Generate(Engine& rng, LogNormal<ArgType>const& functor) const
+	{
+		static const double sqrt_two  = 1.4142135623730950488017;
+		double mean  = functor[0];
+		double sigma = functor[1];
+
+		double x = ::exp(mean +sqrt_two* sigma* hydra::erfinv((2.0*RngBase::uniform(rng) -1)));
+
+		return static_cast<value_type>(x);
+	}
+
+	template<typename Engine, typename T>
+	__hydra_host__ __hydra_device__
+	value_type Generate(Engine& rng, std::initializer_list<T> pars) const
+	{
+		static const double sqrt_two  = 1.4142135623730950488017;
+		double mean  = pars.begin()[0];
+		double sigma = pars.begin()[1];
+
+		double x = ::exp(mean +sqrt_two* sigma* hydra::erfinv((2.0*RngBase::uniform(rng) -1)));
+
+		return static_cast<value_type>(x);
+	}
+
+
+
+};
 
 }  // namespace hydra
 
