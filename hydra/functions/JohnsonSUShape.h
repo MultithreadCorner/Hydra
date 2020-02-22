@@ -46,6 +46,7 @@
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
 #include <hydra/Integrator.h>
+#include <hydra/functions/detail/inverse_erf.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -68,30 +69,30 @@ namespace hydra {
  *
  * @tparam ArgIndex : index of the argument when evaluating on multidimensional data. Default is 0.
  */
-template<typename ArgType>
-class JohnsonSUShape: public BaseFunctor<JohnsonSUShape<ArgType>, 4>
+template<typename ArgType, typename Signature=double(ArgType)>
+class JohnsonSU: public BaseFunctor<JohnsonSU<ArgType>, Signature, 4>
 {
-	using BaseFunctor<JohnsonSUShape<ArgType>, 4>::_par;
+	using BaseFunctor<JohnsonSU<ArgType>, Signature, 4>::_par;
 
 public:
 
-	JohnsonSUShape()=delete;
+	JohnsonSU()=delete;
 
-	JohnsonSUShape(Parameter const& gamma, Parameter const& delta
+	JohnsonSU(Parameter const& gamma, Parameter const& delta
 			, Parameter const& xi, Parameter const& lambda):
-			BaseFunctor<JohnsonSUShape<ArgType>, 4>({gamma, delta, xi, lambda})
+			BaseFunctor<JohnsonSU<ArgType>, Signature, 4>({gamma, delta, xi, lambda})
 			{}
 
 	__hydra_host__ __hydra_device__
-	JohnsonSUShape(JohnsonSUShape<ArgType> const& other ):
-			BaseFunctor<JohnsonSUShape<ArgType>, 4>(other)
+	JohnsonSU(JohnsonSU<ArgType> const& other ):
+			BaseFunctor<JohnsonSU<ArgType>, Signature, 4>(other)
 			{}
 
 	__hydra_host__ __hydra_device__
-	JohnsonSUShape<ArgType>&
-	operator=(JohnsonSUShape<ArgType> const& other ){
+	JohnsonSU<ArgType>&
+	operator=(JohnsonSU<ArgType> const& other ){
 		if(this==&other) return  *this;
-		BaseFunctor<JohnsonSUShape<ArgType>, 4>::operator=(other);
+		BaseFunctor<JohnsonSU<ArgType>, Signature, 4>::operator=(other);
 		return  *this;
 	}
 
@@ -127,14 +128,14 @@ public:
 
 };
 
-template<unsigned int ArgIndex>
-class IntegrationFormula< JohnsonSUShape<ArgType>, 1>
+template<typename ArgType>
+class IntegrationFormula< JohnsonSU<ArgType>, 1>
 {
 
 protected:
 
 	inline std::pair<GReal_t, GReal_t>
-	EvalFormula( JohnsonSUShape<ArgType>const& functor, double LowerLimit, double UpperLimit )const
+	EvalFormula( JohnsonSU<ArgType>const& functor, double LowerLimit, double UpperLimit )const
 	{
 		double r = cumulative(functor[0], functor[1], functor[2], functor[3], UpperLimit)
 				 - cumulative(functor[0], functor[1], functor[2], functor[3], LowerLimit);
@@ -161,6 +162,47 @@ private:
 		return 0.5*(1.0 + ::erf(C*hydra::math_constants::inverse_sqrt2));
 	}
 
+
+};
+
+template<typename ArgType>
+struct RngFormula< JohnsonSU<ArgType> >
+{
+
+	typedef ArgType value_type;
+
+	template<typename Engine>
+	__hydra_host__ __hydra_device__
+	value_type Generate(Engine& rng, JohnsonSU<ArgType>const& functor) const
+	{
+		double gamma  = functor[0];
+		double delta  = functor[1];
+		double xi     = functor[2];
+		double lambda = functor[3];
+
+		return static_cast<value_type>(::sinh((nci(RngBase::uniform(rng)) -gamma)/delta )*lambda + xi);
+	}
+
+	template<typename Engine, typename T>
+	__hydra_host__ __hydra_device__
+	value_type Generate(Engine& rng, std::initializer_list<T> pars) const
+	{
+		double gamma  = pars[0];
+		double delta  = pars[1];
+		double xi     = pars[2];
+		double lambda = pars[3];
+
+		return static_cast<value_type>(::sinh((nci(RngBase::uniform(rng)) -gamma)/delta )*lambda + xi);
+
+	}
+private:
+
+	inline double nci(double x) const
+		{
+			static const double sqrt_two         = 1.4142135623730950488017;
+
+			return sqrt_two *(hydra::erfinv(2*x-1));
+		}
 
 };
 

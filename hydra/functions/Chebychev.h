@@ -63,23 +63,23 @@ namespace hydra {
  *  are polynomials with the largest possible leading coefficient,
  *   but subject to the condition that their absolute value on the interval [−1,1] is bounded by 1
  */
-template< unsigned int Order, typename ArgType>
-class  Chebychev:public BaseFunctor<Chebychev<Order, ArgType>,  Order+1>
+template< unsigned int Order, typename ArgType, typename Signature=double(ArgType)>
+class  Chebychev:public BaseFunctor<Chebychev<Order, ArgType>, Signature, Order+1>
 {
-	using BaseFunctor<Chebychev<Order, ArgType>,  Order+1>::_par;
+	using BaseFunctor<Chebychev<Order, ArgType>, Signature,  Order+1>::_par;
 
 public:
 	Chebychev() = delete;
 
 	Chebychev(double min, double max, std::array<Parameter,Order+1> const& coeficients):
-		BaseFunctor<Chebychev<Order, ArgType>,  Order+1>( coeficients),
+		BaseFunctor<Chebychev<Order, ArgType>,  Signature, Order+1>( coeficients),
 		fMinimum(min),
 		fMaximum(max)
 	{}
 
 	__hydra_host__ __hydra_device__
 	Chebychev(Chebychev<Order, ArgType> const& other):
-		BaseFunctor<Chebychev<Order, ArgType>, Order+1>(other),
+		BaseFunctor<Chebychev<Order, ArgType>,  Signature,Order+1>(other),
 		fMinimum(other.GetMinimum()),
 		fMaximum(other.GetMaximum())
 	{}
@@ -89,7 +89,7 @@ public:
 	operator=( Chebychev<Order, ArgType> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<Chebychev<Order, ArgType>, Order+1>::operator=(other);
+		BaseFunctor<Chebychev<Order, ArgType>,  Signature, Order+1>::operator=(other);
 		fMinimum = other.GetMinimum();
 		fMaximum = other.GetMaximum();
 		return *this;

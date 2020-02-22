@@ -33,7 +33,8 @@
 static_assert(condition,\
 "\n\n"\
 "|++++++++++++++< HYDRA STATIC ASSERTION FAILED >++++++++++++++|\n"\
-"| Error : " message"\n"\
+"> Error : " message"\n\n"\
+"> Please inspect the error messages issued above to find the line generating the error.\n"\
 "|+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|\n"\
 "\n\n" );
 

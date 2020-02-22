@@ -103,7 +103,7 @@ void fit_johnson(size_t nentries=500000 )
 
 
 	//johnson function evaluating on argument one
-	hydra::JohnsonSUShape<> johnson(mean_p, width_p, nu_p, tau_p);
+	hydra::JohnsonSU<> johnson(mean_p, width_p, nu_p, tau_p);
 
 	//make model (pdf with analytical integral)
 	auto model = hydra::make_pdf(johnson, hydra::JohnsonSUShapeAnalyticalIntegral(min, max) );

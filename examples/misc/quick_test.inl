@@ -48,6 +48,8 @@
 #include <hydra/functions/BifurcatedGaussian.h>
 #include <hydra/functions/BreitWignerNR.h>
 #include <hydra/functions/ChiSquare.h>
+#include <hydra/functions/Chebychev.h>
+#include <hydra/functions/JohnsonSUShape.h>
 
 #include <hydra/detail/external/hydra_thrust/random.h>
 
@@ -105,13 +107,21 @@ int main(int argv, char** argc)
 	auto exp  = hydra::Exponential<xvar>(tau);
 
 	//Breit-Wigner
-	hydra::Parameter  mass  = hydra::Parameter::Create().Name("mass" ).Value(5.0);
-	hydra::Parameter  width = hydra::Parameter::Create().Name("width").Value(0.5);
+	auto mass  = hydra::Parameter::Create().Name("mass" ).Value(5.0);
+	auto width = hydra::Parameter::Create().Name("width").Value(0.5);
 	auto bw = hydra::BreitWignerNR<xvar>(mass, width );
 
-	//Breit-Wigner
-	hydra::Parameter  ndof  = hydra::Parameter::Create().Name("ndof" ).Value(2.0);
+	//ChiSquare
+	auto ndof  = hydra::Parameter::Create().Name("ndof" ).Value(2.0);
 	auto chi2 = hydra::ChiSquare<xvar>(ndof);
+
+	//JohnsonSU
+	auto delta  = hydra::Parameter::Create().Name("delta" ).Value(2.0);
+	auto lambda = hydra::Parameter::Create().Name("lambda").Value(1.5);
+	auto gamma  = hydra::Parameter::Create().Name("gamma" ).Value(3.0);
+	auto xi     = hydra::Parameter::Create().Name("xi").Value(1.1);
+
+	auto johnson_su = hydra::JohnsonSU<xvar>(gamma, delta, xi, lambda);
 
 
 	hydra_thrust::default_random_engine engine;
@@ -122,7 +132,8 @@ int main(int argv, char** argc)
 	TH1D hist_bigauss("hist_bigauss", "hydra::BifurcatedGaussian<xvar>"   , 100,-8.0, 8.0);
 	TH1D   hist_exp("hist_exp" , "hydra::Exponential<xvar>", 100, 0.0, 10.0);
 	TH1D    hist_bw("hist_bw"  , "hydra::BreitWignerNR<xvar>", 100, 0.0, 10.0);
-	TH1D   hist_chi("hist_chi"  , "hydra::ChiSquare<xvar>", 100, 0.0, 10.0);
+	TH1D   hist_chi("hist_chi" , "hydra::ChiSquare<xvar>", 100, 0.0, 10.0);
+	TH1D   hist_johnson_su("hist_su"  , "hydra::JohnsonSU<xvar>", 100, -5.0, 1.0);
 
 
 	for(size_t i=0; i<nentries; i++)
@@ -131,13 +142,15 @@ int main(int argv, char** argc)
 		auto bigauss_dist = hydra::Distribution<hydra::BifurcatedGaussian<xvar>>();
 		auto   exp_dist   = hydra::Distribution<hydra::Exponential<xvar>>();
 		auto   bw_dist    = hydra::Distribution<hydra::BreitWignerNR<xvar>>();
-		auto   chi2_dist   = hydra::Distribution<hydra::ChiSquare<xvar>>();
+		auto   chi2_dist  = hydra::Distribution<hydra::ChiSquare<xvar>>();
+		auto johnson_su_dist = hydra::Distribution<hydra::JohnsonSU<xvar>>();
 
 		hist_gauss.Fill( gauss_dist(engine, {0.0, 1.5} ));
 		hist_bigauss.Fill( bigauss_dist(engine, bigauss));
 		hist_exp.Fill( exp_dist(engine, exp));
 		hist_bw.Fill( bw_dist(engine, bw));
 		hist_chi.Fill( chi2_dist(engine, chi2));
+		hist_johnson_su.Fill( johnson_su_dist(engine, johnson_su ));
 
 	}
 
@@ -158,6 +171,9 @@ int main(int argv, char** argc)
 
 	TCanvas canvas_chi("canvas_chi" ,"hydra::ChiSquare", 500, 500);
 	hist_chi.Draw("hist");
+
+	TCanvas canvas_johnson_su("canvas_chi" ,"hydra::JohnsonSU", 500, 500);
+	hist_johnson_su.Draw("hist");
 
 
 

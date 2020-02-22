@@ -20,26 +20,42 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Distribution.h
+ * FormulaTraits.h
  *
- *  Created on: Feb 19, 2020
+ *  Created on: 22/02/2020
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef DISTRIBUTION_H_
-#define DISTRIBUTION_H_
+#ifndef FORMULATRAITS_H_
+#define FORMULATRAITS_H_
 
-#include <hydra/detail/Config.h>
-#include <hydra/detail/FormulaTraits.h>
-#include <hydra/detail/RngFormula.h>
+#include<hydra/detail/RngFormula.h>
+#include<hydra/detail/external/hydra_thrust/type_traits/void_t.h>
+#include<type_traits>
+#include<utility>
 
 namespace hydra {
 
-template<typename Functor, bool Implemented=detail::has_rng_formula<Functor>::value>
-class Distribution;
+namespace detail {
+
+template<typename Formula>
+struct is_rng_formula: std::false_type{};
+
+template<typename Formula>
+struct is_rng_formula<hydra::RngFormula<Formula>>: std::true_type{};
+
+template<typename Functor, typename T= hydra_thrust::void_t<> >
+struct has_rng_formula: std::false_type{};
+
+template<typename Functor>
+struct has_rng_formula<Functor,
+          hydra_thrust::void_t< typename hydra::RngFormula<Functor>::value_type > >: std::true_type{};
+
+
+
+}  // namespace detail
 
 }  // namespace hydra
 
-#include <hydra/detail/Distribution.inl>
 
-#endif /* DISTRIBUTION_H_ */
+#endif /* FORMULATRAITS_H_ */

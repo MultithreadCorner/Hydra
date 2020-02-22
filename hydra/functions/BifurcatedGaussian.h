@@ -151,51 +151,51 @@ private:
 };
 
 
-	template<typename ArgType>
-	struct RngFormula< BifurcatedGaussian<ArgType> >
+template<typename ArgType>
+struct RngFormula< BifurcatedGaussian<ArgType> >
+{
+
+	typedef ArgType value_type;
+
+	template<typename Engine>
+	__hydra_host__ __hydra_device__
+	value_type Generate(Engine& rng, BifurcatedGaussian<ArgType>const& functor) const
 	{
+		double mean  = functor[0];
+		double sigma_left  = functor[1];
+		double sigma_right = functor[2];
 
-		typedef ArgType value_type;
+		double forking_point = sigma_left/(sigma_left+sigma_right);
 
-		template<typename Engine>
-		__hydra_host__ __hydra_device__
-		value_type Generate(Engine& rng, BifurcatedGaussian<ArgType>const& functor) const
-		{
-			double mean  = functor[0];
-			double sigma_left  = functor[1];
-			double sigma_right = functor[2];
+		double x = RngBase::normal(rng);
+		if( RngBase::uniform(rng) < forking_point)
+			x = -fabs(mean + sigma_left*x);
+		else
+			x = fabs(mean + sigma_right*x);
 
-            double forking_point = sigma_left/(sigma_left+sigma_right);
+		return static_cast<value_type>(x);
+	}
 
-            double x = RngBase::normal(rng);
-            if( RngBase::uniform(rng) < forking_point)
-            	x = -fabs(mean + sigma_left*x);
-            else
-            	x = fabs(mean + sigma_right*x);
+	template<typename Engine, typename T>
+	__hydra_host__ __hydra_device__
+	value_type Generate(Engine& rng, std::initializer_list<T> pars) const
+	{
+		double mean        = pars.begin()[0];
+		double sigma_left  = pars.begin()[1];
+		double sigma_right = pars.begin()[2];
 
-			return static_cast<value_type>(x);
-		}
+		double forking_point = sigma_left/(sigma_left+sigma_right);
 
-		template<typename Engine, typename T>
-		__hydra_host__ __hydra_device__
-		value_type Generate(Engine& rng, std::initializer_list<T> pars) const
-		{
-			double mean        = pars.begin()[0];
-			double sigma_left  = pars.begin()[1];
-			double sigma_right = pars.begin()[2];
+		double x = RngBase::normal(rng);
+		if( RngBase::uniform(rng) < forking_point)
+			x = -fabs(mean + sigma_left*x);
+		else
+			x = fabs(mean + sigma_right*x);
 
-			double forking_point = sigma_left/(sigma_left+sigma_right);
+		return static_cast<value_type>(x);
+	}
 
-			double x = RngBase::normal(rng);
-			if( RngBase::uniform(rng) < forking_point)
-				x = -fabs(mean + sigma_left*x);
-			else
-				x = fabs(mean + sigma_right*x);
-
-			return static_cast<value_type>(x);
-		}
-
-	};
+};
 
 }  // namespace hydra
 

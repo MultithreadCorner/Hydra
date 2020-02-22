@@ -20,26 +20,24 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Distribution.h
+ * RngFormula.h
  *
- *  Created on: Feb 19, 2020
+ *  Created on: 22/02/2020
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef DISTRIBUTION_H_
-#define DISTRIBUTION_H_
+#ifndef RNGFORMULA_H_
+#define RNGFORMULA_H_
 
 #include <hydra/detail/Config.h>
-#include <hydra/detail/FormulaTraits.h>
-#include <hydra/detail/RngFormula.h>
 
 namespace hydra {
 
-template<typename Functor, bool Implemented=detail::has_rng_formula<Functor>::value>
-class Distribution;
+template<typename Functor>
+class RngFormula;
+
 
 }  // namespace hydra
 
-#include <hydra/detail/Distribution.inl>
 
-#endif /* DISTRIBUTION_H_ */
+#endif /* RNGFORMULA_H_ */
