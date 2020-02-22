@@ -25,7 +25,7 @@
  *  Created on: 29/12/2017
  *      Author: Antonio Augusto Alves Junior
  *
- *  Updated on: Feb 18 2020
+ *  Updated on: Feb 21 2020
  *      Author: Davide Brundu
  *         Log: Update call interface
  */
@@ -64,8 +64,8 @@ namespace hydra {
  * 	makes Zemach's formalism fully compatible with Helicity amplitudes for 3-body decays of spinless particle into spinless final
  *  states inside Hydra.
  */
-template<Wave L, typename ArgType>
-class ZemachFunction: public BaseFunctor<ZemachFunction<L, ArgType>,  0>{
+template<Wave L, typename ArgType, typename Signature=double(ArgType)>
+class ZemachFunction: public BaseFunctor<ZemachFunction<L, ArgType>, Signature, 0>{
 
 public:
 
@@ -76,7 +76,7 @@ public:
 	ZemachFunction<L, ArgType>&
 	operator=(ZemachFunction<L, ArgType>  const& other){
 		if(this==&other) return  *this;
-		BaseFunctor<ZemachFunction<L, ArgType>, 0>::operator=(other);
+		BaseFunctor<ZemachFunction<L, ArgType>, Signature, 0>::operator=(other);
 		return  *this;
 	}
 

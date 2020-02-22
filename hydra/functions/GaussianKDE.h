@@ -26,7 +26,7 @@
  *  Created on: Apr 12, 2018
  *      Author: Antonio Augusto Alves Junior
  *
- *  Updated on: Feb 18 2020
+ *  Updated on: Feb 21 2020
  *      Author: Davide Brundu
  *         Log: Update call interface
  */
@@ -56,10 +56,10 @@ namespace hydra {
  *  \ingroup common_functions
  *  \class GaussianKDE
  */
-template< size_t NBins, typename ArgType>
-class GaussianKDE: public BaseFunctor<GaussianKDE<NBins, ArgType>, 0>
+template< size_t NBins, typename ArgType, typename Signature=double(ArgType)>
+class GaussianKDE: public BaseFunctor<GaussianKDE<NBins, ArgType>, Signature, 0>
 {
-	using BaseFunctor<GaussianKDE<NBins, ArgType>, 0>::_par;
+	using BaseFunctor<GaussianKDE<NBins, ArgType>, Signature, 0>::_par;
 
 public:
 
@@ -108,7 +108,7 @@ public:
 
 	template<typename Iterator>
 	GaussianKDE(double min, double max, double h, Iterator begin, Iterator end):
-	BaseFunctor<GaussianKDE<NBins, ArgType>, 0>()
+	BaseFunctor<GaussianKDE<NBins, ArgType>, Signature, 0>()
 	{
 		fSpiline=BuildKDE(min, max, h, begin, end);
 	}
@@ -116,7 +116,7 @@ public:
 
 	__hydra_host__ __hydra_device__
 	GaussianKDE(GaussianKDE<NBins, ArgType> const& other):
-	BaseFunctor<GaussianKDE<NBins, ArgType>,  0>(other),
+	BaseFunctor<GaussianKDE<NBins, ArgType>,  Signature, 0>(other),
 	fSpiline(other.GetSpiline())
 	{}
 
@@ -125,7 +125,7 @@ public:
 	operator=(GaussianKDE<NBins, ArgType> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<GaussianKDE<NBins, ArgType>,  0>::operator=(other);
+		BaseFunctor<GaussianKDE<NBins, ArgType>,  Signature, 0>::operator=(other);
 		fSpiline=other.GetSpiline();
 		return *this;
 	}

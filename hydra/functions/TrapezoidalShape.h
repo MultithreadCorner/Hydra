@@ -25,7 +25,7 @@
  *  Created on: 04/09/2018
  *      Author: Antonio Augusto Alves Junior
  *
- *  Updated on: Feb 18 2020
+ *  Updated on: Feb 21 2020
  *      Author: Davide Brundu
  *         Log: Update call interface
  */
@@ -68,28 +68,28 @@ namespace hydra {
  * * c ( b < c ≤ d ) - level end
  * * d ( c ≤ d )- upper bound
  */
-template<typename ArgType>
-class TrapezoidalShape:public BaseFunctor<TrapezoidalShape<ArgType>, 4>
+template<typename ArgType, typename Signature=double(ArgType)>
+class TrapezoidalShape:public BaseFunctor<TrapezoidalShape<ArgType>, Signature, 4>
 {
-	using BaseFunctor<TrapezoidalShape<ArgType>,  4>::_par;
+	using BaseFunctor<TrapezoidalShape<ArgType>,  Signature, 4>::_par;
 
 public:
 
 	TrapezoidalShape() = delete;
 
 	TrapezoidalShape(Parameter const& A, Parameter const& B, Parameter const& C , Parameter const& D ):
-		BaseFunctor<TrapezoidalShape<ArgType>,  4>({A,B,C,D}) {}
+		BaseFunctor<TrapezoidalShape<ArgType>, Signature, 4>({A,B,C,D}) {}
 
 	__hydra_host__ __hydra_device__
 	TrapezoidalShape(TrapezoidalShape<ArgType> const& other):
-		BaseFunctor<TrapezoidalShape<ArgType>,  4>(other) {}
+		BaseFunctor<TrapezoidalShape<ArgType>, Signature, 4>(other) {}
 
 	__hydra_host__ __hydra_device__
 	inline TrapezoidalShape<ArgType>&
 	operator=( TrapezoidalShape<ArgType> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<TrapezoidalShape<ArgType>, 4>::operator=(other);
+		BaseFunctor<TrapezoidalShape<ArgType>, Signature, 4>::operator=(other);
 		return *this;
 	}
 

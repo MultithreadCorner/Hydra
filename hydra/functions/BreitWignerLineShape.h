@@ -25,7 +25,7 @@
  *  Created on: 26/12/2017
  *      Author: Antonio Augusto Alves Junior
  *
- *  Updated on: Feb 18 2020
+ *  Updated on: Feb 21 2020
  *      Author: Davide Brundu
  *         Log: Update call interface
  */
@@ -78,10 +78,10 @@ namespace hydra {
  *@tparam ResonanceWave hydra::Wave resonance decay vertex wave
  *@tparam MotherWave hydra::Wave mother particle decay vertex wave
  */
-template<Wave ResonanceWave, Wave MotherWave=SWave, typename ArgType>
-class BreitWignerLineShape : public BaseFunctor<BreitWignerLineShape< ResonanceWave,MotherWave,ArgType>, 2>
+template<Wave ResonanceWave, Wave MotherWave=SWave, typename ArgType, typename Signature = hydra::complex<double>(ArgType) >
+class BreitWignerLineShape : public BaseFunctor<BreitWignerLineShape< ResonanceWave,MotherWave,ArgType>, Signature, 2>
 {
-	using BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgType>, 2>::_par;
+	using BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgType>, Signature, 2>::_par;
 
 public:
 
@@ -101,7 +101,7 @@ public:
 			double mother_mass,
 			double daugther1_mass, double daugther2_mass, double bachelor_mass,
 			double radi):
-		BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgType>,  2>{mass,width},
+		BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgType>, Signature, 2>{mass,width},
 		fDaughter1Mass(daugther1_mass),
 		fDaughter2Mass(daugther2_mass),
 		fBachelorMass(bachelor_mass),
@@ -111,7 +111,7 @@ public:
 
 	__hydra_host__  __hydra_device__
 	BreitWignerLineShape(BreitWignerLineShape<ResonanceWave,MotherWave,ArgType>  const& other):
-		BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgType>,  2>(other),
+		BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgType>, Signature, 2>(other),
 		fDaughter1Mass(other.GetDaughter1Mass()),
 		fDaughter2Mass(other.GetDaughter2Mass()),
 		fBachelorMass(other.GetBachelorMass()),
@@ -125,7 +125,7 @@ public:
 	{
 		if(this==&other) return  *this;
 
-		BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgType>, 2>::operator=(other);
+		BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgType>, Signature, 2>::operator=(other);
 
 		fDaughter1Mass= other.GetDaughter1Mass();
 		fDaughter2Mass= other.GetDaughter2Mass();

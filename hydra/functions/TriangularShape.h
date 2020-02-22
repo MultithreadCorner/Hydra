@@ -25,7 +25,7 @@
  *  Created on: 04/09/2018
  *      Author: Antonio Augusto Alves Junior
  *
- *  Updated on: Feb 18 2020
+ *  Updated on: Feb 21 2020
  *      Author: Davide Brundu
  *         Log: Update call interface
  */
@@ -63,28 +63,28 @@ namespace hydra {
  * For these reasons, the triangle distribution has been called a "lack of knowledge" distribution.
  *
  */
-template<typename ArgType>
-class TriangularShape:public BaseFunctor<TriangularShape<ArgType>,  3>
+template<typename ArgType, typename Signature=double(ArgType)>
+class TriangularShape:public BaseFunctor<TriangularShape<ArgType>, Signature, 3>
 {
-	using BaseFunctor<TriangularShape<ArgType>,  3>::_par;
+	using BaseFunctor<TriangularShape<ArgType>, Signature,  3>::_par;
 
 public:
 
 	TriangularShape() = delete;
 
 	TriangularShape(Parameter const& A, Parameter const& B, Parameter const& C ):
-		BaseFunctor<TriangularShape<ArgType>, 3>({A,B,C}) {}
+		BaseFunctor<TriangularShape<ArgType>, Signature, 3>({A,B,C}) {}
 
 	__hydra_host__ __hydra_device__
 	TriangularShape(TriangularShape<ArgType> const& other):
-		BaseFunctor<TriangularShape<ArgType>, 3>(other) {}
+		BaseFunctor<TriangularShape<ArgType>, Signature, 3>(other) {}
 
 	__hydra_host__ __hydra_device__
 	inline TriangularShape<ArgType>&
 	operator=( TriangularShape<ArgType> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<TriangularShape<ArgType>, 3>::operator=(other);
+		BaseFunctor<TriangularShape<ArgType>, Signature, 3>::operator=(other);
 		return *this;
 	}
 
