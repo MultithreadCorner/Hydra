@@ -25,7 +25,7 @@
  *  Created on: 01/08/2018
  *      Author: Antonio Augusto Alves Junior
  *
- *  Updated on: Feb 18 2020
+ *  Updated on: Feb 21 2020
  *      Author: Davide Brundu
  *         Log: Update call interface
  */
@@ -54,29 +54,29 @@ namespace hydra {
  * \class ThreeBodyMassThresholdBackground
  *
  */
-template<typename ArgType>
-class ThreeBodyMassThresholdBackground: public BaseFunctor<ThreeBodyMassThresholdBackground<ArgType>,  4>
+template<typename ArgType, typename Signature=double(ArgType)>
+class ThreeBodyMassThresholdBackground: public BaseFunctor<ThreeBodyMassThresholdBackground<ArgType>, Signature, 4>
 {
-	using BaseFunctor<ThreeBodyMassThresholdBackground<ArgType>,  4>::_par;
+	using BaseFunctor<ThreeBodyMassThresholdBackground<ArgType>, Signature, 4>::_par;
 
 public:
 
 	ThreeBodyMassThresholdBackground() = delete;
 
 	ThreeBodyMassThresholdBackground(Parameter const& threshold, Parameter const& A, Parameter const& B, Parameter const& C):
-		BaseFunctor<ThreeBodyMassThresholdBackground<ArgType>,  4>({threshold, A, B, C})
+		BaseFunctor<ThreeBodyMassThresholdBackground<ArgType>, Signature, 4>({threshold, A, B, C})
 		{}
 
 	__hydra_host__ __hydra_device__
 	ThreeBodyMassThresholdBackground(ThreeBodyMassThresholdBackground<ArgType> const& other ):
-	BaseFunctor<ThreeBodyMassThresholdBackground<ArgType>, 4>(other)
+	BaseFunctor<ThreeBodyMassThresholdBackground<ArgType>, Signature, 4>(other)
 	{}
 
 	__hydra_host__ __hydra_device__
 	ThreeBodyMassThresholdBackground<ArgType>&
 	operator=(ThreeBodyMassThresholdBackground<ArgType> const& other ){
 		if(this==&other) return  *this;
-		BaseFunctor<ThreeBodyMassThresholdBackground<ArgType>, 4>::operator=(other);
+		BaseFunctor<ThreeBodyMassThresholdBackground<ArgType>, Signature, 4>::operator=(other);
 		return  *this;
 	}
 

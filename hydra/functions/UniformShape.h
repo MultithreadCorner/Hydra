@@ -25,7 +25,7 @@
  *  Created on: 15/09/2018
  *      Author: Antonio Augusto Alves Junior
  *
- *  Updated on: Feb 18 2020
+ *  Updated on: Feb 21 2020
  *      Author: Davide Brundu
  *         Log: Update call interface
  */
@@ -64,28 +64,28 @@ namespace hydra {
  * The distribution is often abbreviated U(a,b).
  *
  */
-template<typename ArgType>
-class UniformShape:public BaseFunctor<UniformShape<ArgType>,  2>
+template<typename ArgType, typename Signature=double(ArgType)>
+class UniformShape:public BaseFunctor<UniformShape<ArgType>, Signature, 2>
 {
-	using BaseFunctor<UniformShape<ArgType>,  2>::_par;
+	using BaseFunctor<UniformShape<ArgType>, Signature, 2>::_par;
 
 public:
 
 	UniformShape() = delete;
 
 	UniformShape(Parameter const& A, Parameter const& B ):
-		BaseFunctor<UniformShape<ArgType>, 2>({A,B}) {}
+		BaseFunctor<UniformShape<ArgType>, Signature, 2>({A,B}) {}
 
 	__hydra_host__ __hydra_device__
 	UniformShape(UniformShape<ArgType> const& other):
-		BaseFunctor<UniformShape<ArgType>, 2>(other) {}
+		BaseFunctor<UniformShape<ArgType>, Signature, 2>(other) {}
 
 	__hydra_host__ __hydra_device__
 	inline UniformShape<ArgType>&
 	operator=( UniformShape<ArgType> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<UniformShape<ArgType>, 2>::operator=(other);
+		BaseFunctor<UniformShape<ArgType>, Signature, 2>::operator=(other);
 		return *this;
 	}
 

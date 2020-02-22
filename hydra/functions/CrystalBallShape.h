@@ -25,7 +25,7 @@
  *  Created on: 19/12/2017
  *      Author: Antonio Augusto Alves Junior
  *
- *  Updated on: Feb 18 2020
+ *  Updated on: Feb 21 2020
  *      Author: Davide Brundu
  *         Log: Update call interface
  */
@@ -57,10 +57,10 @@ namespace hydra {
  * Implementation the Crystal Ball line shape.
  *
  */
-template<typename ArgType>
-class CrystalBallShape: public BaseFunctor<CrystalBallShape<ArgType>, 4>
+template<typename ArgType, typename Signature=double(ArgType)>
+class CrystalBallShape: public BaseFunctor<CrystalBallShape<ArgType>, Signature, 4>
 {
-	using BaseFunctor<CrystalBallShape<ArgType>, 4>::_par;
+	using BaseFunctor<CrystalBallShape<ArgType>, Signature, 4>::_par;
 
 public:
 
@@ -68,19 +68,19 @@ public:
 
 	CrystalBallShape(Parameter const& mean, Parameter const& sigma
 			, Parameter const& alpha, Parameter const& n):
-		BaseFunctor<CrystalBallShape<ArgType>, 4>({mean, sigma, alpha, n})
+		BaseFunctor<CrystalBallShape<ArgType>, Signature, 4>({mean, sigma, alpha, n})
 		{}
 
 	__hydra_host__ __hydra_device__
 	CrystalBallShape(CrystalBallShape<ArgType> const& other ):
-		BaseFunctor<CrystalBallShape<ArgType>, 4>(other)
+		BaseFunctor<CrystalBallShape<ArgType>, Signature, 4>(other)
 		{}
 
 	__hydra_host__ __hydra_device__
 	CrystalBallShape<ArgType>&
 	operator=(CrystalBallShape<ArgType> const& other ){
 		if(this==&other) return  *this;
-		BaseFunctor<CrystalBallShape<ArgType>, 4>::operator=(other);
+		BaseFunctor<CrystalBallShape<ArgType>, Signature, 4>::operator=(other);
 		return  *this;
 	}
 

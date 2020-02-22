@@ -25,7 +25,7 @@
  *  Created on: 09/04/2018
  *      Author: Antonio Augusto Alves Junior
  *
- *  Updated on: Feb 18 2020
+ *  Updated on: Feb 21 2020
  *      Author: Davide Brundu
  *         Log: Update call interface
  */
@@ -68,18 +68,19 @@ class  Chebychev:public BaseFunctor<Chebychev<Order, ArgType>, Signature, Order+
 {
 	using BaseFunctor<Chebychev<Order, ArgType>, Signature,  Order+1>::_par;
 
+
 public:
 	Chebychev() = delete;
 
 	Chebychev(double min, double max, std::array<Parameter,Order+1> const& coeficients):
-		BaseFunctor<Chebychev<Order, ArgType>,  Signature, Order+1>( coeficients),
+		BaseFunctor<Chebychev<Order, ArgType>, Signature, Order+1>( coeficients),
 		fMinimum(min),
 		fMaximum(max)
 	{}
 
 	__hydra_host__ __hydra_device__
 	Chebychev(Chebychev<Order, ArgType> const& other):
-		BaseFunctor<Chebychev<Order, ArgType>,  Signature,Order+1>(other),
+		BaseFunctor<Chebychev<Order, ArgType>, Signature, Order+1>(other),
 		fMinimum(other.GetMinimum()),
 		fMaximum(other.GetMaximum())
 	{}
@@ -89,7 +90,8 @@ public:
 	operator=( Chebychev<Order, ArgType> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<Chebychev<Order, ArgType>,  Signature, Order+1>::operator=(other);
+
+		BaseFunctor<Chebychev<Order, ArgType>, Signature, Order+1>::operator=(other);
 		fMinimum = other.GetMinimum();
 		fMaximum = other.GetMaximum();
 		return *this;

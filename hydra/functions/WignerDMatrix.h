@@ -25,7 +25,7 @@
  *  Created on: 23/10/2018
  *      Author: Antonio Augusto Alves Junior
  *
- *  Updated on: Feb 18 2020
+ *  Updated on: Feb 21 2020
  *      Author: Davide Brundu
  *         Log: Update call interface
  */
@@ -67,8 +67,8 @@ namespace hydra {
  *  Quantum Theory of Angular Momentum, World Scientific, Singapore 1988.
  */
 
-template<typename ArgType>
-class WignerDMatrix: public BaseFunctor<WignerDMatrix<ArgType>, 0>
+template<typename ArgType, typename Signature=double(ArgType)>
+class WignerDMatrix: public BaseFunctor<WignerDMatrix<ArgType>, Signature, 0>
 {
 
 public:
@@ -90,7 +90,7 @@ public:
 
 	__hydra_dual__
 	WignerDMatrix( WignerDMatrix<ArgType> const& other):
-	BaseFunctor<WignerDMatrix<ArgType>,  0>(other),
+	BaseFunctor<WignerDMatrix<ArgType>,  Signature, 0>(other),
 	fJ(other.GetJ()),
 	fM(other.GetM()),
 	fN(other.GetN()),
@@ -105,7 +105,7 @@ public:
 	WignerDMatrix<ArgType>& operator=( WignerDMatrix<ArgType> const& other){
 
 		if(this == &other) return *this;
-		BaseFunctor<WignerDMatrix<ArgType>,  0>::operator=(other);
+		BaseFunctor<WignerDMatrix<ArgType>, Signature,  0>::operator=(other);
 		fJ = other.GetJ();
 		fM = other.GetM();
 		fN = other.GetN();

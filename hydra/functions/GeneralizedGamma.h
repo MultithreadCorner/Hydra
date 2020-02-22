@@ -25,7 +25,7 @@
  *  Created on: 15/08/2018
  *      Author: Antonio Augusto Alves Junior
  *
- *  Updated on: Feb 18 2020
+ *  Updated on: Feb 21 2020
  *      Author: Davide Brundu
  *         Log: Update call interface
  */
@@ -73,29 +73,29 @@ Gamma distribution but a third parameter c has been added (c = 1 for the ordinar
 distribution). This new parameter may in principle take any real value but normally we
 consider the case where c > 0 or even c ≥ 1.
  */
-template<typename ArgType>
-class GeneralizedGamma: public BaseFunctor<GeneralizedGamma<ArgType>, 4>
+template<typename ArgType, typename Signature=double(ArgType)>
+class GeneralizedGamma: public BaseFunctor<GeneralizedGamma<ArgType>, Signature, 4>
 {
-	using BaseFunctor<GeneralizedGamma<ArgType>,  4>::_par;
+	using BaseFunctor<GeneralizedGamma<ArgType>, Signature, 4>::_par;
 
 public:
 
 	GeneralizedGamma()=delete;
 
 	GeneralizedGamma(Parameter const& X0, Parameter const& A , Parameter const& B, Parameter const& C  ):
-		BaseFunctor<GeneralizedGamma<ArgType>, 4>({X0,A , B,C})
+		BaseFunctor<GeneralizedGamma<ArgType>, Signature, 4>({X0,A , B,C})
 		{}
 
 	__hydra_host__ __hydra_device__
 	GeneralizedGamma(GeneralizedGamma<ArgType> const& other ):
-		BaseFunctor<GeneralizedGamma<ArgType>, 4>(other)
+		BaseFunctor<GeneralizedGamma<ArgType>, Signature, 4>(other)
 		{}
 
 	__hydra_host__ __hydra_device__
 	GeneralizedGamma<ArgType>&
 	operator=(GeneralizedGamma<ArgType> const& other ){
 		if(this==&other) return  *this;
-		BaseFunctor<GeneralizedGamma<ArgType>, 4>::operator=(other);
+		BaseFunctor<GeneralizedGamma<ArgType>, Signature, 4>::operator=(other);
 		return  *this;
 	}
 
