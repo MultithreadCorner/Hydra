@@ -42,6 +42,7 @@
 #include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
+#include <hydra/Distribution.h>
 #include <hydra/Tuple.h>
 #include <tuple>
 #include <limits>

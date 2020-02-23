@@ -43,6 +43,7 @@
 #include <hydra/Lambda.h>
 #include <hydra/multivector.h>
 #include <hydra/Parameter.h>
+
 #include <hydra/functions/Gaussian.h>
 #include <hydra/functions/Exponential.h>
 #include <hydra/functions/BifurcatedGaussian.h>
@@ -51,6 +52,9 @@
 #include <hydra/functions/Chebychev.h>
 #include <hydra/functions/JohnsonSUShape.h>
 #include <hydra/functions/LogNormal.h>
+#include <hydra/functions/UniformShape.h>
+#include <hydra/functions/TriangularShape.h>
+#include <hydra/functions/TrapezoidalShape.h>
 
 #include <hydra/detail/external/hydra_thrust/random.h>
 
@@ -107,15 +111,18 @@ int main(int argv, char** argc)
 
 	//Exponential distribution
 	auto tau  = hydra::Parameter::Create("mean" ).Value(1.0);
+
 	auto exp  = hydra::Exponential<xvar>(tau);
 
 	//Breit-Wigner
 	auto mass  = hydra::Parameter::Create().Name("mass" ).Value(5.0);
 	auto width = hydra::Parameter::Create().Name("width").Value(0.5);
+
 	auto bw = hydra::BreitWignerNR<xvar>(mass, width );
 
 	//ChiSquare
 	auto ndof  = hydra::Parameter::Create().Name("ndof" ).Value(2.0);
+
 	auto chi2 = hydra::ChiSquare<xvar>(ndof);
 
 	//JohnsonSU
@@ -126,6 +133,15 @@ int main(int argv, char** argc)
 
 	auto johnson_su = hydra::JohnsonSU<xvar>(gamma, delta, xi, lambda);
 
+	//Uniform
+	auto A = hydra::Parameter::Create().Name("A").Value(-5.0);
+	auto B = hydra::Parameter::Create().Name("B").Value(-1.5);
+	auto C = hydra::Parameter::Create().Name("C").Value( 1.5);
+	auto D = hydra::Parameter::Create().Name("D").Value( 5.0);
+
+	auto uniform   = hydra::UniformShape<xvar>(A,D);
+	auto triangle  = hydra::TriangularShape<xvar>(A,B,D);
+	auto trapezoid = hydra::TrapezoidalShape<xvar>(A,B,C,D);
 
 	hydra_thrust::default_random_engine engine;
 
@@ -134,21 +150,28 @@ int main(int argv, char** argc)
 	TH1D hist_gauss("hist_gauss", "hydra::Gaussian<xvar>"   , 100,-8.0, 8.0);
 	TH1D hist_lognormal("hist_lognormal", "hydra::LogNormal<xvar>"   , 100,0.0, 2.5);
     TH1D hist_bigauss("hist_bigauss", "hydra::BifurcatedGaussian<xvar>"   , 100,-8.0, 8.0);
-	TH1D   hist_exp("hist_exp" , "hydra::Exponential<xvar>", 100, 0.0, 10.0);
-	TH1D    hist_bw("hist_bw"  , "hydra::BreitWignerNR<xvar>", 100, 0.0, 10.0);
-	TH1D   hist_chi("hist_chi" , "hydra::ChiSquare<xvar>", 100, 0.0, 10.0);
-	TH1D   hist_johnson_su("hist_su"  , "hydra::JohnsonSU<xvar>", 100, -5.0, 1.0);
+	TH1D hist_exp("hist_exp" , "hydra::Exponential<xvar>", 100, 0.0, 10.0);
+	TH1D hist_bw("hist_bw"  , "hydra::BreitWignerNR<xvar>", 100, 0.0, 10.0);
+	TH1D hist_chi("hist_chi" , "hydra::ChiSquare<xvar>", 100, 0.0, 10.0);
+	TH1D hist_johnson_su("hist_su"  , "hydra::JohnsonSU<xvar>", 100, -5.0, 1.0);
+	TH1D hist_uniform("hist_uniform"  , "hydra::UniformShape<xvar>", 100, -6.0, 6.0);
+	hist_uniform.SetMinimum(0.0);
+	TH1D hist_triangle("hist_triangle"  , "hydra::TriangularShape<xvar>", 100, -6.0, 6.0);
+	TH1D hist_trapezoid("hist_trapezoid"  , "hydra::TrapezoidalShape<xvar>", 100, -6.0, 6.0);
 
 
 	for(size_t i=0; i<nentries; i++)
 	{
-		auto gauss_dist   = hydra::Distribution<hydra::Gaussian<xvar>>();
-		auto lognormal_dist = hydra::Distribution<hydra::LogNormal<xvar>>();
-		auto bigauss_dist = hydra::Distribution<hydra::BifurcatedGaussian<xvar>>();
-		auto   exp_dist   = hydra::Distribution<hydra::Exponential<xvar>>();
-		auto   bw_dist    = hydra::Distribution<hydra::BreitWignerNR<xvar>>();
-		auto   chi2_dist  = hydra::Distribution<hydra::ChiSquare<xvar>>();
+		auto gauss_dist      = hydra::Distribution<hydra::Gaussian<xvar>>();
+		auto lognormal_dist  = hydra::Distribution<hydra::LogNormal<xvar>>();
+		auto bigauss_dist    = hydra::Distribution<hydra::BifurcatedGaussian<xvar>>();
+		auto   exp_dist      = hydra::Distribution<hydra::Exponential<xvar>>();
+		auto   bw_dist       = hydra::Distribution<hydra::BreitWignerNR<xvar>>();
+		auto   chi2_dist     = hydra::Distribution<hydra::ChiSquare<xvar>>();
 		auto johnson_su_dist = hydra::Distribution<hydra::JohnsonSU<xvar>>();
+		auto uniform_dist    = hydra::Distribution<hydra::UniformShape<xvar>>();
+		auto triangle_dist   = hydra::Distribution<hydra::TriangularShape<xvar>>();
+		auto trapezoid_dist  = hydra::Distribution<hydra::TrapezoidalShape<xvar>>();
 
 		hist_gauss.Fill( gauss_dist(engine, {0.0, 1.5} ));
 		hist_lognormal.Fill( lognormal_dist(engine, lognormal ));
@@ -157,6 +180,9 @@ int main(int argv, char** argc)
 		hist_bw.Fill( bw_dist(engine, bw));
 		hist_chi.Fill( chi2_dist(engine, chi2));
 		hist_johnson_su.Fill( johnson_su_dist(engine, johnson_su ));
+		hist_uniform.Fill( uniform_dist(engine,  uniform));
+		hist_triangle.Fill(triangle_dist(engine,triangle));
+		hist_trapezoid.Fill(trapezoid_dist(engine,trapezoid));
 
 	}
 
@@ -183,6 +209,15 @@ int main(int argv, char** argc)
 
 	TCanvas canvas_johnson_su("canvas_chi" ,"hydra::JohnsonSU", 500, 500);
 	hist_johnson_su.Draw("hist");
+
+	TCanvas canvas_uniform("canvas_uniform" ,"hydra::UniformShape", 500, 500);
+	hist_uniform.Draw("hist");
+
+	TCanvas canvas_triangle("canvas_triangle" ,"hydra::TriangularShape", 500, 500);
+	hist_triangle.Draw("hist");
+
+	TCanvas canvas_trapezoid("canvas_trapezoid" ,"hydra::TrapezoidalShape", 500, 500);
+	hist_trapezoid.Draw("hist");
 
 
 

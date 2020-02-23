@@ -44,6 +44,7 @@
 #include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
+#include <hydra/Distribution.h>
 #include <hydra/Tuple.h>
 #include <tuple>
 #include <limits>
@@ -143,6 +144,40 @@ private:
 
 		return 0.0;
 	}
+};
+
+template<typename ArgType>
+struct RngFormula< UniformShape<ArgType> >
+{
+
+	typedef ArgType value_type;
+
+	template<typename Engine>
+	__hydra_host__ __hydra_device__
+	value_type Generate(Engine& rng, UniformShape<ArgType>const& functor) const
+	{
+		double HYDRA_PREVENT_MACRO_SUBSTITUTION min = functor[0];
+		double HYDRA_PREVENT_MACRO_SUBSTITUTION max = functor[1];
+
+		double x= RngBase::uniform(rng)*(max - min) + min;
+
+		return static_cast<value_type>(x);
+	}
+
+	template<typename Engine, typename T>
+	__hydra_host__ __hydra_device__
+	value_type Generate(Engine& rng, std::initializer_list<T> pars) const
+	{
+		double HYDRA_PREVENT_MACRO_SUBSTITUTION min = pars.begin()[0];
+		double HYDRA_PREVENT_MACRO_SUBSTITUTION max = pars.begin()[1];
+
+		double x=   RngBase::uniform(rng)*(max - min) + min;
+
+		return static_cast<value_type>(x);
+	}
+
+
+
 };
 
 

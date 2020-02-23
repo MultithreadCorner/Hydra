@@ -49,6 +49,7 @@
 #include <hydra/functions/detail/inverse_erf.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
+#include <hydra/Distribution.h>
 #include <hydra/Tuple.h>
 #include <tuple>
 #include <limits>
@@ -149,7 +150,7 @@ struct RngFormula< LogNormal<ArgType> >
 		double mean  = functor[0];
 		double sigma = functor[1];
 
-		double x = ::exp(mean +sqrt_two* sigma* hydra::erfinv((2.0*RngBase::uniform(rng) -1)));
+		double x = ::exp(RngBase::normal(rng));
 
 		return static_cast<value_type>(x);
 	}
@@ -162,7 +163,7 @@ struct RngFormula< LogNormal<ArgType> >
 		double mean  = pars.begin()[0];
 		double sigma = pars.begin()[1];
 
-		double x = ::exp(mean +sqrt_two* sigma* hydra::erfinv((2.0*RngBase::uniform(rng) -1)));
+		double x = ::exp(RngBase::normal(rng));
 
 		return static_cast<value_type>(x);
 	}
