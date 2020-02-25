@@ -29,7 +29,42 @@
 #ifndef DECAYS_H_
 #define DECAYS_H_
 
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
+#include <hydra/Vector3R.h>
+#include <hydra/Vector4R.h>
+#include <hydra/multivector.h>
+#include <hydra/Tuple.h>
 
+namespace hydra {
+
+/**
+* \ingroup phsp
+*/
+template<typename Particles,  typename Backend>
+class Decays;
+
+/**
+ * \ingroup phsp
+ * \brief This class provides storage for N-particle states. Data is stored using SoA layout.
+ * \tparam Particles list of particles in the final state
+ * \tparam Backend memory space to allocate storage for the particles.
+ */
+template<typename ...Particles,   hydra::detail::Backend Backend>
+class Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>
+{
+	typedef hydra::detail::BackendPolicy<Backend>  system_type;
+	typedef hydra_thrust::tuple<Particles...>               tuple_type;
+	typedef multivector<tuple_type, system_type>    storage_type;
+
+
+
+
+
+};
+
+
+}  // namespace hydra
 
 
 
