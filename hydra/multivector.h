@@ -68,58 +68,62 @@ class multivector< hydra_thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKE
 
 	//Useful aliases
 	template<typename Type>
-	using vector = typename system_t::template container<Type>;
+	using _vector = typename system_t::template container<Type>;
 
 	template<typename Type>
-	using pointer_v    = typename system_t::template container<Type>::pointer;
+	using _pointer = typename system_t::template container<Type>::pointer;
 
 	template<typename Type>
-	using iterator_v   = typename system_t::template container<Type>::iterator;
+	using _iterator	= typename system_t::template container<Type>::iterator;
 
 	template<typename Type>
-	using const_iterator_v   = typename system_t::template container<Type>::const_iterator;
+	using _const_iterator = typename system_t::template container<Type>::const_iterator;
 
 	template<typename Type>
-	using reverse_iterator_v   = typename system_t::template container<Type>::reverse_iterator;
+	using _reverse_iterator = typename system_t::template container<Type>::reverse_iterator;
 
 	template<typename Type>
-	using const_reverse_iterator_v   = typename system_t::template container<Type>::const_reverse_iterator;
+	using _const_reverse_iterator = typename system_t::template container<Type>::const_reverse_iterator;
 
 	template<typename Type>
-	using reference_v = typename system_t::template container<Type>::reference;
+	using _reference = typename system_t::template container<Type>::reference;
 
 	template<typename Type>
-	using const_reference_v = typename system_t::template container<Type>::const_reference;
+	using _const_reference = typename system_t::template container<Type>::const_reference;
 
 	template<typename Type>
-	using value_type_v = typename system_t::template container<Type>::value_type;
+	using _value_type = typename system_t::template container<Type>::value_type;
 
 	typedef hydra_thrust::tuple<T...> tuple_type;
 
 public:
 
-	typedef hydra_thrust::tuple< vector<T>...	  	 > 	storage_t;
-	typedef hydra_thrust::tuple< pointer_v<T>... 	 > 	pointer_t;
-	typedef hydra_thrust::tuple< value_type_v<T>... > 	value_type_t;
-	typedef hydra_thrust::tuple< iterator_v<T>...   >  iterator_t;
-	typedef hydra_thrust::tuple< const_iterator_v<T>...  > 	const_iterator_t;
-	typedef hydra_thrust::tuple< reverse_iterator_v<T>...> 	reverse_iterator_t;
-	typedef hydra_thrust::tuple< const_reverse_iterator_v<T>... > 	const_reverse_iterator_t;
+	//tuples...
+	typedef hydra_thrust::tuple< _vector<T>...    >	   storage_tuple;
+	typedef hydra_thrust::tuple< _pointer<T>...   >	   pointer_tuple;
+	typedef hydra_thrust::tuple< _value_type<T>...>	value_type_tuple;
 
-	typedef hydra_thrust::tuple< reference_v<T>...		 > 	reference_t;
-	typedef hydra_thrust::tuple< const_reference_v<T>...> 	const_reference_t;
+	typedef hydra_thrust::tuple< _iterator<T>...  >              iterator_tuple;
+	typedef hydra_thrust::tuple< _const_iterator<T>...   > const_iterator_tuple;
+
+	typedef hydra_thrust::tuple< _reverse_iterator<T>... >            reverse_iterator_tuple;
+	typedef hydra_thrust::tuple< _const_reverse_iterator<T>...>	const_reverse_iterator_tuple;
+
+	typedef hydra_thrust::tuple< _reference<T>...		 > 	      reference_tuple;
+	typedef hydra_thrust::tuple< _const_reference<T>...  > 	const_reference_tuple;
 
 	//zip iterator
-	typedef hydra_thrust::zip_iterator<iterator_t>		     		 iterator;
-	typedef hydra_thrust::zip_iterator<const_iterator_t>	 		 const_iterator;
-	typedef hydra_thrust::zip_iterator<reverse_iterator_t>	 		 reverse_iterator;
-	typedef hydra_thrust::zip_iterator<const_reverse_iterator_t>	 const_reverse_iterator;
+	typedef hydra_thrust::zip_iterator<iterator_tuple>		     		 iterator;
+	typedef hydra_thrust::zip_iterator<const_iterator_tuple>	 		 const_iterator;
+	typedef hydra_thrust::zip_iterator<reverse_iterator_tuple>	 		 reverse_iterator;
+	typedef hydra_thrust::zip_iterator<const_reverse_iterator_tuple>	 const_reverse_iterator;
 
 	 //stl-like typedefs
 	 typedef size_t size_type;
-	 typedef typename hydra_thrust::iterator_traits<iterator>::reference reference;
+	 typedef typename hydra_thrust::iterator_traits<iterator>::reference             reference;
 	 typedef typename hydra_thrust::iterator_traits<const_iterator>::reference const_reference;
-	 typedef typename hydra_thrust::iterator_traits<iterator>::value_type value_type;
+
+	 typedef typename hydra_thrust::iterator_traits<iterator>::value_type               value_type;
 	 typedef typename hydra_thrust::iterator_traits<iterator>::iterator_category iterator_category;
 
 	 template<typename Functor>
@@ -558,56 +562,56 @@ public:
 
 	//non-constant access
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< iterator_t, I1, I2,IN...>
+	inline columns_iterator< iterator_tuple, I1, I2,IN...>
 	begin(placeholders::placeholder<I1> c1,	placeholders::placeholder<I2> c2,  placeholders::placeholder<IN> ...cn)
 	{
 		return __begin(c1, c2, cn...);
 	}
 
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< iterator_t, I1, I2,IN...>
+	inline columns_iterator< iterator_tuple, I1, I2,IN...>
 	end(placeholders::placeholder<I1> c1,	placeholders::placeholder<I2> c2,  placeholders::placeholder<IN> ...cn)
 	{
 		return __end(c1, c2, cn...);
 	}
 
 	template<unsigned int I>
-	 inline typename hydra_thrust::tuple_element<I, iterator_t>::type
+	 inline typename hydra_thrust::tuple_element<I, iterator_tuple>::type
 	begin(placeholders::placeholder<I> )
 	{
 		return hydra_thrust::get<I>(fData).begin();
 	}
 
 	template<unsigned int I>
-	 inline typename hydra_thrust::tuple_element<I, iterator_t>::type
+	 inline typename hydra_thrust::tuple_element<I, iterator_tuple>::type
 	end(placeholders::placeholder<I>  )
 	{
 		return hydra_thrust::get<I>(fData).end();
 	}
 
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< reverse_iterator_t, I1, I2,IN...>
+	inline columns_iterator< reverse_iterator_tuple, I1, I2,IN...>
 	rbegin(placeholders::placeholder<I1> c1,	placeholders::placeholder<I2> c2,  placeholders::placeholder<IN> ...cn)
 	{
 		return __rbegin(c1, c2, cn...);
 	}
 
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< reverse_iterator_t, I1, I2,IN...>
+	inline columns_iterator< reverse_iterator_tuple, I1, I2,IN...>
 	rend(placeholders::placeholder<I1> c1,	placeholders::placeholder<I2> c2,  placeholders::placeholder<IN> ...cn)
 	{
 		return __rend(c1, c2, cn...);
 	}
 
 	template<unsigned int I>
-	 inline typename hydra_thrust::tuple_element<I, reverse_iterator_t>::type
+	 inline typename hydra_thrust::tuple_element<I, reverse_iterator_tuple>::type
 	rbegin(placeholders::placeholder<I>  )
 	{
 		return hydra_thrust::get<I>(fData).rbegin();
 	}
 
 	template<unsigned int I>
-	 inline typename hydra_thrust::tuple_element<I, reverse_iterator_t>::type
+	 inline typename hydra_thrust::tuple_element<I, reverse_iterator_tuple>::type
 	rend(placeholders::placeholder<I>  )
 	{
 		return hydra_thrust::get<I>(fData).rend();
@@ -615,119 +619,119 @@ public:
 
 	//constant access
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< const_iterator_t, I1, I2,IN...>
+	inline columns_iterator< const_iterator_tuple, I1, I2,IN...>
 	begin(placeholders::placeholder<I1> c1,	placeholders::placeholder<I2> c2,  placeholders::placeholder<IN> ...cn) const
 	{
 		return __begin(c1, c2, cn...);
 	}
 
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< const_iterator_t, I1, I2,IN...>
+	inline columns_iterator< const_iterator_tuple, I1, I2,IN...>
 	end(placeholders::placeholder<I1> c1,	placeholders::placeholder<I2> c2,  placeholders::placeholder<IN> ...cn) const
 	{
 		return __end(c1, c2, cn...);
 	}
 
 	template<unsigned int I>
-	 inline	typename hydra_thrust::tuple_element<I, const_iterator_t>::type
+	 inline	typename hydra_thrust::tuple_element<I, const_iterator_tuple>::type
 	begin(placeholders::placeholder<I> ) const
 	{
 		return hydra_thrust::get<I>(fData).cbegin();
 	}
 
 	template<unsigned int I>
-	 inline	typename hydra_thrust::tuple_element<I, const_iterator_t>::type
+	 inline	typename hydra_thrust::tuple_element<I, const_iterator_tuple>::type
 	end(placeholders::placeholder<I> ) const
 	{
 		return hydra_thrust::get<I>(fData).cend();
 	}
 
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< const_iterator_t, I1, I2,IN...>
+	inline columns_iterator< const_iterator_tuple, I1, I2,IN...>
 	cbegin(placeholders::placeholder<I1> c1,	placeholders::placeholder<I2> c2,  placeholders::placeholder<IN> ...cn) const
 	{
 		return __cbegin(c1, c2, cn...);
 	}
 
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< const_iterator_t, I1, I2,IN...>
+	inline columns_iterator< const_iterator_tuple, I1, I2,IN...>
 	cend(placeholders::placeholder<I1> c1,	placeholders::placeholder<I2> c2,  placeholders::placeholder<IN> ...cn) const
 	{
 		return __cend(c1, c2, cn...);
 	}
 
 	template<unsigned int I>
-	inline typename hydra_thrust::tuple_element<I, const_iterator_t>::type
+	inline typename hydra_thrust::tuple_element<I, const_iterator_tuple>::type
 	cbegin(placeholders::placeholder<I> )  const
 	{
 		return hydra_thrust::get<I>(fData).cbegin();
 	}
 
 	template<unsigned int I>
-	 	inline typename hydra_thrust::tuple_element<I, const_iterator_t>::type
+	 	inline typename hydra_thrust::tuple_element<I, const_iterator_tuple>::type
 	cend(placeholders::placeholder<I>  ) const
 	{
 		return hydra_thrust::get<I>(fData).cend();
 	}
 
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator<  const_reverse_iterator_t, I1, I2,IN...>
+	inline columns_iterator<  const_reverse_iterator_tuple, I1, I2,IN...>
 	rbegin(placeholders::placeholder<I1> c1,	placeholders::placeholder<I2> c2,  placeholders::placeholder<IN> ...cn) const
 	{
 		return __rbegin(c1, c2, cn...);
 	}
 
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< const_reverse_iterator_t, I1, I2,IN...>
+	inline columns_iterator< const_reverse_iterator_tuple, I1, I2,IN...>
 	rend(placeholders::placeholder<I1> c1,	placeholders::placeholder<I2> c2,  placeholders::placeholder<IN> ...cn) const
 	{
 		return __rend(c1, c2, cn...);
 	}
 
 	template<unsigned int I>
-	 inline typename hydra_thrust::tuple_element<I, const_reverse_iterator_t>::type
+	 inline typename hydra_thrust::tuple_element<I, const_reverse_iterator_tuple>::type
 	rbegin(placeholders::placeholder<I>  ) const
 	{
 		return hydra_thrust::get<I>(fData).crbegin();
 	}
 
 	template<unsigned int I>
-	 inline typename hydra_thrust::tuple_element<I, const_reverse_iterator_t>::type
+	 inline typename hydra_thrust::tuple_element<I, const_reverse_iterator_tuple>::type
 	rend(placeholders::placeholder<I>  ) const
 	{
 		return hydra_thrust::get<I>(fData).crend();
 	}
 
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< const_reverse_iterator_t, I1, I2,IN...>
+	inline columns_iterator< const_reverse_iterator_tuple, I1, I2,IN...>
 	crbegin(placeholders::placeholder<I1> c1,	placeholders::placeholder<I2> c2,  placeholders::placeholder<IN> ...cn) const
 	{
 		return __crbegin(c1, c2, cn...);
 	}
 
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< const_reverse_iterator_t, I1, I2,IN...>
+	inline columns_iterator< const_reverse_iterator_tuple, I1, I2,IN...>
 	crend(placeholders::placeholder<I1> c1,	placeholders::placeholder<I2> c2,  placeholders::placeholder<IN> ...cn) const
 	{
 		return __crend(c1, c2, cn...);
 	}
 
 	template<unsigned int I>
-	 inline typename hydra_thrust::tuple_element<I, const_reverse_iterator_t>::type
+	 inline typename hydra_thrust::tuple_element<I, const_reverse_iterator_tuple>::type
 	crbegin(placeholders::placeholder<I>  ) const
 	{
 		return hydra_thrust::get<I>(fData).crbegin();
 	}
 
 	template<unsigned int I>
-	 inline typename hydra_thrust::tuple_element<I, const_reverse_iterator_t>::type
+	 inline typename hydra_thrust::tuple_element<I, const_reverse_iterator_tuple>::type
 	crend(placeholders::placeholder<I>  ) const
 	{
 		return hydra_thrust::get<I>(fData).crend();
 	}
 
 	template<unsigned int I>
-	 inline const typename hydra_thrust::tuple_element<I, storage_t>::type&
+	 inline const typename hydra_thrust::tuple_element<I, storage_tuple>::type&
 	column(placeholders::placeholder<I>   ) const
 	{
 		return hydra_thrust::get<I>(fData);
@@ -740,12 +744,12 @@ public:
 
 	//
 	template<unsigned int I>
-	inline	typename hydra_thrust::tuple_element<I, iterator_t>::type
+	inline	typename hydra_thrust::tuple_element<I, iterator_tuple>::type
 	operator[](placeholders::placeholder<I>  index)
 	{	return begin(index) ;	}
 
 	template<unsigned int I>
-	inline typename hydra_thrust::tuple_element<I, const_iterator_t>::type
+	inline typename hydra_thrust::tuple_element<I, const_iterator_tuple>::type
 	operator[](placeholders::placeholder<I> index) const
 	{	return cbegin(index); }
 
@@ -1029,7 +1033,7 @@ private:
 	// _____________ Begin ______________
 	//begin
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< iterator_t, I1, I2,IN...>
+	inline columns_iterator< iterator_tuple, I1, I2,IN...>
 	__begin(placeholders::placeholder<I1> , placeholders::placeholder<I2>,
 			placeholders::placeholder<IN>...) {
 		return hydra_thrust::make_zip_iterator(
@@ -1053,7 +1057,7 @@ private:
 
 	//const begin
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< const_iterator_t, I1, I2,IN...>
+	inline columns_iterator< const_iterator_tuple, I1, I2,IN...>
 	__begin(placeholders::placeholder<I1> , placeholders::placeholder<I2> ,
 			placeholders::placeholder<IN>...) const {
 		return hydra_thrust::make_zip_iterator(
@@ -1077,7 +1081,7 @@ private:
 
 	//const begin
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< const_iterator_t, I1, I2,IN...>
+	inline columns_iterator< const_iterator_tuple, I1, I2,IN...>
 	__cbegin(placeholders::placeholder<I1>, placeholders::placeholder<I2> ,
 			placeholders::placeholder<IN>...) const {
 		return hydra_thrust::make_zip_iterator(
@@ -1101,7 +1105,7 @@ private:
 	// _____________ End ______________
 	//end
 	 template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	 inline columns_iterator< iterator_t, I1, I2,IN...>
+	 inline columns_iterator< iterator_tuple, I1, I2,IN...>
 	 __end(placeholders::placeholder<I1> , placeholders::placeholder<I2> ,
 			 placeholders::placeholder<IN>...) {
 		 return hydra_thrust::make_zip_iterator(
@@ -1125,7 +1129,7 @@ private:
 
 	//const end
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< const_iterator_t, I1, I2,IN...>
+	inline columns_iterator< const_iterator_tuple, I1, I2,IN...>
 	__end(placeholders::placeholder<I1> , placeholders::placeholder<I2> ,
 			placeholders::placeholder<IN>...) const {
 		return hydra_thrust::make_zip_iterator(
@@ -1149,7 +1153,7 @@ private:
 
 	//const end
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-		inline columns_iterator< const_iterator_t, I1, I2,IN...>
+		inline columns_iterator< const_iterator_tuple, I1, I2,IN...>
 		__cend(placeholders::placeholder<I1> , placeholders::placeholder<I2> ,
 				placeholders::placeholder<IN>...) const {
 			return hydra_thrust::make_zip_iterator(
@@ -1173,7 +1177,7 @@ private:
 	// _____________ Reverse Begin ______________
 	//rbegin
 	 template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	 inline columns_iterator< reverse_iterator_t, I1, I2,IN...>
+	 inline columns_iterator< reverse_iterator_tuple, I1, I2,IN...>
 	 __rbegin(placeholders::placeholder<I1> , placeholders::placeholder<I2>,
 			 placeholders::placeholder<IN>...) {
 		 return hydra_thrust::make_zip_iterator(
@@ -1197,7 +1201,7 @@ private:
 
 	//const rbegin
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< const_reverse_iterator_t, I1, I2,IN...>
+	inline columns_iterator< const_reverse_iterator_tuple, I1, I2,IN...>
 	__rbegin(placeholders::placeholder<I1> , placeholders::placeholder<I2> ,
 			placeholders::placeholder<IN>...) const {
 		return hydra_thrust::make_zip_iterator(
@@ -1221,7 +1225,7 @@ private:
 
 	//crbegin
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< const_reverse_iterator_t, I1, I2,IN...>
+	inline columns_iterator< const_reverse_iterator_tuple, I1, I2,IN...>
 	__crbegin(placeholders::placeholder<I1> , placeholders::placeholder<I2> ,
 			placeholders::placeholder<IN>...) const {
 		return hydra_thrust::make_zip_iterator(
@@ -1245,7 +1249,7 @@ private:
 	// _____________ Reverse End ______________
 	//rend
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< reverse_iterator_t, I1, I2,IN...>
+	inline columns_iterator< reverse_iterator_tuple, I1, I2,IN...>
 	__rend(placeholders::placeholder<I1> , placeholders::placeholder<I2> ,
 			placeholders::placeholder<IN>...) {
 		return hydra_thrust::make_zip_iterator(
@@ -1269,7 +1273,7 @@ private:
 
 	//const rend
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< const_reverse_iterator_t, I1, I2,IN...>
+	inline columns_iterator< const_reverse_iterator_tuple, I1, I2,IN...>
 	__rend(placeholders::placeholder<I1> , placeholders::placeholder<I2> ,
 			placeholders::placeholder<IN>...) const {
 		return hydra_thrust::make_zip_iterator(
@@ -1293,7 +1297,7 @@ private:
 
 	//crend
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
-	inline columns_iterator< const_reverse_iterator_t, I1, I2,IN...>
+	inline columns_iterator< const_reverse_iterator_tuple, I1, I2,IN...>
 	__crend(placeholders::placeholder<I1> , placeholders::placeholder<I2> ,
 			placeholders::placeholder<IN>...) const {
 		return hydra_thrust::make_zip_iterator(
@@ -1316,12 +1320,12 @@ private:
 
 
 
-	 inline storage_t  __move()
+	 inline storage_tuple  __move()
 	{
 		return std::move(fData);
 	}
 
-	storage_t fData;
+	storage_tuple fData;
 
 
 };
