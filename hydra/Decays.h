@@ -142,23 +142,39 @@ public :
 	//----------------------------------------
 	//  stl compliant interface
 	//----------------------------------------
-	inline void pop_back() { fDecays.pop_back(); }
+	inline void pop_back() {
+		fDecays.pop_back();
+	}
 
-	inline void push_back(const value_type& particles){ fDecays.push_back( particles ); }
+	inline void push_back(const value_type& particles){
+		fDecays.push_back( particles );
+	}
 
-	void resize(size_t size){ fDecays.resize(size); }
+	void resize(size_t size){
+		fDecays.resize(size);
+	}
 
 	void clear(){ fDecays.clear(); }
 
-	void shrink_to_fit() { fDecays.shrink_to_fit(); }
+	void shrink_to_fit() {
+		fDecays.shrink_to_fit();
+	}
 
-	void reserve(size_t size) { fDecays.reserve(size); }
+	void reserve(size_t size) {
+		fDecays.reserve(size);
+	}
 
-	size_t size() const{return fDecays.size(); }
+	size_t size() const{
+		return fDecays.size();
+	}
 
-	size_t capacity() const{return fDecays.capacity();}
+	size_t capacity() const{
+		return fDecays.capacity();
+	}
 
-	bool empty() const{	return fDecays.empty(); }
+	bool empty() const{
+		return fDecays.empty();
+	}
 
 	iterator erase(iterator pos) {
 		return fDecays.erase(pos);
@@ -315,7 +331,6 @@ protected:
 	{
 		return std::move(fDecays);
 	}
-
 
 
 private:
