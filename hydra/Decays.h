@@ -54,17 +54,17 @@ template<typename ...Particles,   hydra::detail::Backend Backend>
 class Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>
 {
 	typedef hydra::detail::BackendPolicy<Backend>  system_type;
-	typedef hydra_thrust::tuple<Particles...>       tuple_type;
-	typedef multivector<tuple_type, system_type>  storage_type;
+	typedef hydra_thrust::tuple<Particles...>               tuple_type;
+	typedef multivector<tuple_type, system_type>    storage_type;
 
 public :
 
-	typedef typename storage_type::value_type                          value_type;
-	typedef typename storage_type::reference_type                       reference;
-	typedef typename storage_type::const_reference_type           const_reference;
-	typedef typename storage_type::iterator                              iterator;
-	typedef typename storage_type::const_iterator                  const_iterator;
-	typedef typename storage_type::reverse_iterator              reverse_iterator;
+	typedef typename storage_type::value_type                                   value_type;
+	typedef typename storage_type::reference_type                                reference;
+	typedef typename storage_type::const_reference_type             const_reference;
+	typedef typename storage_type::iterator                                               iterator;
+	typedef typename storage_type::const_iterator                           const_iterator;
+	typedef typename storage_type::reverse_iterator                     reverse_iterator;
 	typedef typename storage_type::const_reverse_iterator  const_reverse_iterator;
 
 
@@ -142,128 +142,204 @@ public :
 	//----------------------------------------
 	//  stl compliant interface
 	//----------------------------------------
-	inline void pop_back() {
+	inline void pop_back()
+	{
 		fDecays.pop_back();
 	}
 
-	inline void push_back(const value_type& particles){
+	inline void push_back(const value_type& particles)
+	{
 		fDecays.push_back( particles );
 	}
 
-	void resize(size_t size){
+	void resize(size_t size)
+	{
 		fDecays.resize(size);
 	}
 
-	void clear(){ fDecays.clear(); }
+	void clear()
+	{
+		fDecays.clear();
+	}
 
-	void shrink_to_fit() {
+	void shrink_to_fit()
+	{
 		fDecays.shrink_to_fit();
 	}
 
-	void reserve(size_t size) {
+	void reserve(size_t size)
+	{
 		fDecays.reserve(size);
 	}
 
-	size_t size() const{
+	size_t size() const
+	{
 		return fDecays.size();
 	}
 
-	size_t capacity() const{
+	size_t capacity() const
+	{
 		return fDecays.capacity();
 	}
 
-	bool empty() const{
+	bool empty() const
+	{
 		return fDecays.empty();
 	}
 
-	iterator erase(iterator pos) {
+	iterator erase(iterator pos)
+	{
 		return fDecays.erase(pos);
 	}
 
-	iterator erase(iterator first, iterator last){
+	iterator erase(iterator first, iterator last)
+	{
 		return fDecays.erase( first, last);
 	}
 
-	iterator insert(iterator position, const value_type &x){
+	iterator insert(iterator position, const value_type &x)
+	{
 		return fDecays.insert(position, x);
 	}
 
-	void insert(iterator position, size_type n, const value_type &x){
+	void insert(iterator position, size_type n, const value_type &x)
+	{
 		fDecays.insert(position,n,x );
 	}
 
-
 	template<typename InputIterator>
-	void insert(iterator position, InputIterator first, InputIterator last){
+	void insert(iterator position, InputIterator first, InputIterator last)
+	{
 		fDecays.insert(position, first, last );
 	}
 
 	template<typename Iterable>
 	typename std::enable_if<detail::is_iterable<Iterable>::value, void>::type
-	insert(iterator position, Iterable range){
+	insert(iterator position, Iterable range)
+	{
 		fDecays.insert( position, range);
 	}
 
-	reference front(){	return this->begin()[0];}
+	reference front()
+	{
+		return *(fDecays.begin());
+	}
 
-	const_reference front() const  {return this->cbegin()[0];}
+	const_reference front() const
+	{
+		return *(fDecays.cbegin());
+	}
 
-	reference back(){return  this->begin()[this->size() - 1];}
+	reference back()
+	{
+		return   fDecays.back();
+	}
 
-	const_reference back() const{return  this->cbegin()[this->size() - 1]; }
+	const_reference back() const
+	{
+		return   fDecays .back();
+	}
 
 	//converting access
 	template<typename Functor>
-	__caster_iterator<iterator, value_type, Functor>
-	begin( Functor const& caster )
-	{ return __begin(caster);}
+	auto begin( Functor const& caster )
+	-> decltype(fDecays .begin(caster))
+	{
+		return fDecays .begin(caster);
+	}
 
 	template<typename Functor>
-	__caster_iterator<iterator, value_type, Functor>
-	end( Functor const& caster )
-	{ return __end(caster);}
+	auto end( Functor const& caster )
+	-> decltype(fDecays.end(caster))
+	{
+		return fDecays.end(caster);
+	}
 
 	template<typename Functor>
-	__caster_iterator<reverse_iterator, value_type, Functor>
-	rbegin( Functor const& caster )
-	{ return __rbegin(caster);}
+	auto rbegin( Functor const& caster )
+	->decltype(fDecays.rbegin(caster))
+	{
+		return  fDecays.rbegin(caster);
+	}
 
 	template<typename Functor>
-	__caster_iterator<reverse_iterator, value_type, Functor>
-	rend( Functor const& caster )
-	{ return __rend(caster);}
+	auto rend( Functor const& caster )
+	-> decltype(fDecays.rend(caster))
+	{
+		return rend(caster);
+	}
 
 	//non-constant access
-	iterator begin(){ return __begin(); }
+	iterator begin()
+	{
+		return  fDecays.begin();
+	}
 
-	iterator end(){ return __end(); }
+	iterator end()
+	{
+		return 	fDecays.end();
+	}
 
-	reverse_iterator rbegin(){ return __rbegin(); }
+	reverse_iterator rbegin()
+	{
+		return 	fDecays.rbegin();
+	}
 
-	reverse_iterator rend(){ return __rend(); }
+	reverse_iterator rend()
+	{
+		return 	fDecays.rend();
+	}
 
 	//constant access
-	const_iterator begin() const {return __begin();}
+	const_iterator begin() const
+	{
+		return fDecays.begin();
+	}
 
-	const_iterator end() const { return __end(); }
+	const_iterator end() const
+	{
+		return fDecays.end();
+	}
 
-	const_reverse_iterator rbegin() const { return __rbegin();}
+	const_reverse_iterator rbegin() const
+	{
+		return fDecays.rbegin();
+	}
 
-	const_reverse_iterator rend() const { return __rend();}
+	const_reverse_iterator rend() const
+	{
+		return  fDecays.rend();
+	}
 
-	const_iterator cbegin() const { return __cbegin(); }
+	const_iterator cbegin() const
+	{
+		return fDecays.cbegin();
+	}
 
-	const_iterator cend() const { return __cend(); }
+	const_iterator cend() const
+	{
+		return fDecays.cend();
+	}
 
-	const_reverse_iterator crbegin() const { return __crbegin(); }
+	const_reverse_iterator crbegin() const
+	{
+		return fDecays.crbegin();
+	}
 
-	const_reverse_iterator crend() const { return  __crend();}
+	const_reverse_iterator crend() const
+	{
+		return   fDecays.crend();
+	}
 
 	inline	reference operator[](size_t n)
-	{	return begin()[n] ;	}
+	{
+		return fDecays.begin()[n] ;
+	}
 
 	inline const_reference operator[](size_t n) const
-	{	return cbegin()[n]; }
+	{
+		return  fDecays.cbegin()[n];
+	}
 
 
 
