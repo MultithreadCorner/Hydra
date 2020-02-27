@@ -61,11 +61,11 @@ public :
 
 	typedef typename storage_type::value_type                                   value_type;
 	typedef typename storage_type::reference_type                                reference;
-	typedef typename storage_type::const_reference_type             const_reference;
-	typedef typename storage_type::iterator                                               iterator;
+	typedef typename storage_type::const_reference_type                    const_reference;
+	typedef typename storage_type::iterator                                       iterator;
 	typedef typename storage_type::const_iterator                           const_iterator;
-	typedef typename storage_type::reverse_iterator                     reverse_iterator;
-	typedef typename storage_type::const_reverse_iterator  const_reverse_iterator;
+	typedef typename storage_type::reverse_iterator                       reverse_iterator;
+	typedef typename storage_type::const_reverse_iterator           const_reverse_iterator;
 
 
 
@@ -123,6 +123,10 @@ public :
 		hydra_thrust::copy(first, last, this->begin());
 	}
 
+	//----------------------------------------
+	//  physics compliant interface
+	//----------------------------------------
+
 	/**
 	 * Add a decay to the container, increasing
 	 * its size by one element.
@@ -134,10 +138,12 @@ public :
 	}
 
 
-	reference_type GetEntry( size_t i )
+	reference GetEntry( size_t i )
 	{
 		return fDecays[i];
 	}
+
+
 
 	//----------------------------------------
 	//  stl compliant interface

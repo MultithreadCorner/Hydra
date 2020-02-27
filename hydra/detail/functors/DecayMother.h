@@ -82,25 +82,7 @@ struct DecayMother
 
 		for(size_t i=0; i<N; i++)
 			fMasses[i]=masses[i];
-/*
-		GReal_t _fECM = mother.mass(); // total energy in C.M. minus the sum of the masses
 
-		for (size_t n = 0; n < N; n++)
-		{
-			_fECM -= masses[n];
-		}
-
-		GReal_t emmax = _fECM + masses[0];
-		GReal_t emmin = 0.0;
-		GReal_t wtmax = 1.0;
-		for (size_t n = 1; n < N; n++)
-		{
-			emmin += masses[n - 1];
-			emmax += masses[n];
-			wtmax *= pdk(emmax, emmin, masses[n]);
-		}
-		GReal_t _fMaxWeight = 1.0 / wtmax;
-		*/
 
 		GReal_t beta = mother.d3mag() / mother.get(0);
 
