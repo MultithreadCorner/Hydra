@@ -243,30 +243,30 @@ public :
 	//converting access
 	template<typename Functor>
 	auto begin( Functor const& caster )
-	-> decltype(fDecays .begin(caster))
+	-> decltype( std::declval<storage_type>() .begin(caster))
 	{
 		return fDecays .begin(caster);
 	}
 
 	template<typename Functor>
 	auto end( Functor const& caster )
-	-> decltype(fDecays.end(caster))
+	-> decltype( std::declval<storage_type>().end(caster))
 	{
 		return fDecays.end(caster);
 	}
 
 	template<typename Functor>
 	auto rbegin( Functor const& caster )
-	->decltype(fDecays.rbegin(caster))
+	->decltype( std::declval<storage_type>().rbegin(caster))
 	{
 		return  fDecays.rbegin(caster);
 	}
 
 	template<typename Functor>
 	auto rend( Functor const& caster )
-	-> decltype(fDecays.rend(caster))
+	-> decltype( std::declval<storage_type>().rend(caster))
 	{
-		return rend(caster);
+		return fDecays.rend(caster);
 	}
 
 	//non-constant access
@@ -290,7 +290,36 @@ public :
 		return 	fDecays.rend();
 	}
 
+	template<unsigned int I1, unsigned int ...IN >
+	inline  auto begin(placeholders::placeholder<I1> c1, placeholders::placeholder<IN> ...cn)
+	-> decltype( std::declval<storage_type>().begin(c1,  cn...) )
+	{
+		return 	fDecays.begin(c1,  cn...);
+	}
+
+	template<unsigned int I1,unsigned int ...IN >
+	inline auto	end(placeholders::placeholder<I1> c1,  placeholders::placeholder<IN> ...cn)
+	->  decltype( std::declval<storage_type>().end(c1, cn...) )
+	{
+		return fDecays.end(c1, cn...);
+	}
+
+	template<unsigned int I1, unsigned int ...IN >
+	inline  auto rbegin(placeholders::placeholder<I1> c1, placeholders::placeholder<IN> ...cn)
+	-> decltype( std::declval<storage_type>().rbegin(c1,  cn...) )
+	{
+		return 	fDecays.rbegin(c1,  cn...);
+	}
+
+	template<unsigned int I1,unsigned int ...IN >
+	inline auto	rend(placeholders::placeholder<I1> c1,  placeholders::placeholder<IN> ...cn)
+	->  decltype( std::declval<storage_type>().rend(c1, cn...) )
+	{
+		return fDecays.rend(c1, cn...);
+	}
+
 	//constant access
+
 	const_iterator begin() const
 	{
 		return fDecays.begin();
@@ -331,6 +360,37 @@ public :
 		return   fDecays.crend();
 	}
 
+
+	template<unsigned int I1, unsigned int ...IN >
+	inline  auto cbegin(placeholders::placeholder<I1> c1, placeholders::placeholder<IN> ...cn) const
+	-> decltype( std::declval<storage_type>().cbegin(c1,  cn...) )
+	{
+		return 	fDecays.cbegin(c1,  cn...);
+	}
+
+	template<unsigned int I1,unsigned int ...IN >
+	inline auto	cend(placeholders::placeholder<I1> c1,  placeholders::placeholder<IN> ...cn) const
+	->  decltype( std::declval<storage_type>().cend(c1, cn...) )
+	{
+		return fDecays.cend(c1, cn...);
+	}
+
+	template<unsigned int I1, unsigned int ...IN >
+	inline  auto crbegin(placeholders::placeholder<I1> c1, placeholders::placeholder<IN> ...cn) const
+	-> decltype( std::declval<storage_type>().crbegin(c1,  cn...) )
+	{
+		return 	fDecays.crbegin(c1,  cn...);
+	}
+
+	template<unsigned int I1,unsigned int ...IN >
+	inline auto	crend(placeholders::placeholder<I1> c1,  placeholders::placeholder<IN> ...cn) const
+	->  decltype( std::declval<storage_type>().crend(c1, cn...) )
+	{
+		return fDecays.crend(c1, cn...);
+	}
+
+	//sub-script operators
+
 	inline	reference operator[](size_t n)
 	{
 		return fDecays.begin()[n] ;
@@ -340,11 +400,6 @@ public :
 	{
 		return  fDecays.cbegin()[n];
 	}
-
-
-
-
-
 
 	/**
 	 * Assignment operator.
