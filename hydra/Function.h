@@ -59,18 +59,16 @@ namespace hydra
  * @tparam Functor is "bare" c++ functor implementing the template<typename T> Evaluate(T x) method.
  * @tparam NPARAM number of parameters of the functor.
  */
-template<typename Functor, size_t NPARAM>
+template<typename Functor, typename Signature, size_t NPARAM>
 class  BaseFunctor : public detail::Parameters<NPARAM>
 {
 
-	typedef   typename detail::functor_traits<Functor>::argument_rvalue_type argument_rvalue_type;
-
 public:
 
-	typedef   typename detail::functor_traits<Functor>::return_type return_type;
-	typedef   typename detail::functor_traits<Functor>::argument_type argument_type;
+	typedef typename detail::signature_traits<Signature>::return_type     return_type;
+	typedef typename detail::signature_traits<Signature>::argument_type argument_type;
 
-	enum {arity=detail::functor_traits<Functor>::arity};
+	enum { arity=detail::signature_traits<Signature>::arity };
 
 	/**
 	 * Default constructor
@@ -108,7 +106,7 @@ public:
 	 * @brief Copy constructor
 	 */
 	__hydra_host__ __hydra_device__
-	BaseFunctor(BaseFunctor<Functor, NPARAM> const& other):
+	BaseFunctor(BaseFunctor<Functor, Signature, NPARAM> const& other):
 	detail::Parameters<NPARAM>( other),
 	fNorm(other.GetNorm()),
 	_par(*this)
@@ -118,8 +116,8 @@ public:
 	 * @brief Assignment operator
 	 */
 	__hydra_host__ __hydra_device__
-	inline BaseFunctor<Functor, NPARAM>&
-	operator=(BaseFunctor<Functor, NPARAM> const & other )
+	inline BaseFunctor<Functor, Signature, NPARAM>&
+	operator=(BaseFunctor<Functor, Signature, NPARAM> const & other )
 	{
 		if(this != &other)
 		{
@@ -167,7 +165,7 @@ public:
 	template<typename ...T>
 	__hydra_host__  __hydra_device__
 	inline typename std::enable_if<
-	(!detail::is_valid_type_pack<argument_rvalue_type, T...>::value),
+	(!detail::is_valid_type_pack< argument_type, T...>::value),
 	return_type>::type
 	operator()(T...x)  const
 	{
@@ -182,7 +180,7 @@ public:
 				"Please inspect the error messages issued above to find the line generating the error."
 				)
 
-				return return_type(0);
+				return typename Functor::return_type(0);
 	}
 
 
@@ -194,8 +192,8 @@ public:
 	template<typename ...T>
 	__hydra_host__  __hydra_device__
 	inline typename std::enable_if<
-	detail::is_valid_type_pack<argument_rvalue_type, T...>::value,
-	 return_type>::type
+	detail::is_valid_type_pack< argument_type, T...>::value,
+	return_type>::type
 	operator()(T...x)  const
 	{
 		return static_cast<const Functor*>(this)->Evaluate(x...);
@@ -211,7 +209,7 @@ public:
 	inline typename std::enable_if<
 	( detail::is_tuple_type< typename std::decay<T>::type >::value )                 &&
 	(!detail::is_tuple_of_function_arguments< typename std::decay<T>::type >::value) &&
-	( std::is_convertible< typename std::decay<T>::type, argument_rvalue_type >::value ),
+	( std::is_convertible< typename std::decay<T>::type,  argument_type >::value ),
 	return_type >::type
 	operator()( T x )  const
 	{
@@ -304,14 +302,14 @@ private:
 
 		return static_cast<const Functor*>(this)->Evaluate(
 				detail::get_tuple_element<
-				typename hydra_thrust::tuple_element<I,argument_rvalue_type>::type >(x)...);
+				typename hydra_thrust::tuple_element<I, argument_type>::type >(x)...);
 	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
 	inline return_type call(T x) const
     {
-		return call_helper(x, detail::make_index_sequence<arity>{});
+		return call_helper(x, detail::make_index_sequence<Functor::arity>{});
 	}
 
 
@@ -321,7 +319,7 @@ private:
 	inline  return_type raw_call_helper(T x, detail::index_sequence<I...> ) const
 	{
 		return static_cast<const Functor*>(this)->Evaluate(
-				static_cast<typename hydra_thrust::tuple_element<I,argument_rvalue_type>::type>(
+				static_cast<typename hydra_thrust::tuple_element<I, argument_type>::type>(
 				hydra_thrust::get<I>(x))...);
 	}
 
@@ -329,14 +327,14 @@ private:
 	__hydra_host__ __hydra_device__
 	inline return_type raw_call(T x) const
 	{
-		return raw_call_helper(x, detail::make_index_sequence<arity>{});
+		return raw_call_helper(x, detail::make_index_sequence<Functor::arity>{});
 	}
 
     GReal_t fNorm;
 
 protected:
 
-    BaseFunctor<Functor,  NPARAM>& _par;
+    BaseFunctor<Functor, Signature,  NPARAM>& _par;
 
 };
 

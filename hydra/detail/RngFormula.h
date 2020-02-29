@@ -20,23 +20,24 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * StaticAssert.h
+ * RngFormula.h
  *
- *  Created on: 09/02/2020
+ *  Created on: 22/02/2020
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef STATICASSERT_H_
-#define STATICASSERT_H_
+#ifndef RNGFORMULA_H_
+#define RNGFORMULA_H_
 
-#define HYDRA_STATIC_ASSERT(condition, message)\
-static_assert(condition,\
-"\n\n"\
-"|++++++++++++++< HYDRA STATIC ASSERTION FAILED >++++++++++++++|\n"\
-"> Error : " message"\n\n"\
-"> Please inspect the error messages issued above to find the line generating the error.\n"\
-"|+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|\n"\
-"\n\n" );
+#include <hydra/detail/Config.h>
+
+namespace hydra {
+
+template<typename Functor>
+class RngFormula;
 
 
-#endif /* STATICASSERT_H_ */
+}  // namespace hydra
+
+
+#endif /* RNGFORMULA_H_ */

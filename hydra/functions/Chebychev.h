@@ -66,7 +66,8 @@ namespace hydra {
 template< unsigned int Order, typename ArgType, typename Signature=double(ArgType)>
 class  Chebychev:public BaseFunctor<Chebychev<Order, ArgType>, Signature, Order+1>
 {
-	using BaseFunctor<Chebychev<Order, ArgType>, Signature, Order+1>::_par;
+	using BaseFunctor<Chebychev<Order, ArgType>, Signature,  Order+1>::_par;
+
 
 public:
 	Chebychev() = delete;
@@ -89,6 +90,7 @@ public:
 	operator=( Chebychev<Order, ArgType> const& other)
 	{
 		if(this == &other) return *this;
+
 		BaseFunctor<Chebychev<Order, ArgType>, Signature, Order+1>::operator=(other);
 		fMinimum = other.GetMinimum();
 		fMaximum = other.GetMaximum();

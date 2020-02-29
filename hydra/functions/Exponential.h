@@ -39,6 +39,7 @@
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
+#include <hydra/Distribution.h>
 #include <tuple>
 #include <limits>
 #include <stdexcept>
@@ -52,10 +53,10 @@ namespace hydra {
  * https://en.wikipedia.org/wiki/Exponential_function
  *
  */
-template<typename ArgType>
-class Exponential:public BaseFunctor<Exponential<ArgType>, 1>
+template<typename ArgType, typename Signature=double(ArgType) >
+class Exponential:public BaseFunctor<Exponential<ArgType>, Signature, 1>
 {
-	using BaseFunctor<Exponential<ArgType>, 1>::_par;
+	using BaseFunctor<Exponential<ArgType>, Signature, 1>::_par;
 
 
 public:
@@ -63,18 +64,18 @@ public:
 	Exponential() = delete;
 
 	Exponential(Parameter const& tau):
-		BaseFunctor<Exponential<ArgType>, 1>({tau}) {}
+		BaseFunctor<Exponential<ArgType>, Signature, 1>({tau}) {}
 
 	__hydra_host__ __hydra_device__
 	Exponential(Exponential<ArgType> const& other):
-		BaseFunctor<Exponential<ArgType>, 1>(other) {}
+		BaseFunctor<Exponential<ArgType>, Signature, 1>(other) {}
 
 	__hydra_host__ __hydra_device__
 	inline Exponential<ArgType>&
 	operator=( Exponential<ArgType> const& other)
 	{
 		if(this == &other) return *this;
-		BaseFunctor<Exponential<ArgType>,1>::operator=(other);
+		BaseFunctor<Exponential<ArgType>, Signature,1>::operator=(other);
 		return *this;
 	}
 
@@ -105,7 +106,31 @@ protected:
 
 };
 
+template<typename ArgType>
+struct RngFormula< Exponential<ArgType> >
+{
 
+	typedef ArgType value_type;
+
+	template<typename Engine>
+	__hydra_host__ __hydra_device__
+	value_type Generate(Engine& rng, Exponential<ArgType>const& functor) const
+	{
+		double tau  = functor[0];
+
+		return static_cast<value_type>(-tau*log(RngBase::uniform(rng)));
+	}
+
+	template<typename Engine, typename T>
+	__hydra_host__ __hydra_device__
+	value_type Generate(Engine& rng,  std::initializer_list<T> pars) const
+	{
+		double tau  = pars.begin()[0];
+
+		return static_cast<value_type>(-tau*log(RngBase::uniform(rng)));
+	}
+
+};
 
 }  // namespace hydra
 

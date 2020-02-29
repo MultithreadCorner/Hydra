@@ -36,18 +36,13 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
-#include <hydra/Types.h>
 #include <hydra/Function.h>
-#include <hydra/Pdf.h>
 #include <hydra/Integrator.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
+#include <hydra/Distribution.h>
 #include <hydra/Tuple.h>
-#include <tuple>
-#include <limits>
-#include <stdexcept>
-#include <cassert>
-#include <utility>
+
 
 /**
  * \ingroup common_functions
@@ -57,29 +52,29 @@
 
 namespace hydra {
 
-template<typename ArgType>
-class BreitWignerNR: public BaseFunctor<BreitWignerNR<ArgType>, 2>
+template<typename ArgType, typename Signature=double(ArgType) >
+class BreitWignerNR: public BaseFunctor<BreitWignerNR<ArgType>, Signature, 2>
 {
-	using BaseFunctor<BreitWignerNR<ArgType>, 2>::_par;
+	using BaseFunctor<BreitWignerNR<ArgType>, Signature, 2>::_par;
 
 public:
 
 	BreitWignerNR()=delete;
 
 	BreitWignerNR(Parameter const& mean, Parameter const& lambda ):
-		BaseFunctor<BreitWignerNR<ArgType>, 2>({mean, lambda})
+		BaseFunctor<BreitWignerNR<ArgType>, Signature, 2>({mean, lambda})
 		{}
 
 	__hydra_host__ __hydra_device__
 	BreitWignerNR(BreitWignerNR<ArgType> const& other ):
-		BaseFunctor<BreitWignerNR<ArgType>, 2>(other)
+		BaseFunctor<BreitWignerNR<ArgType>, Signature, 2>(other)
 		{}
 
 	__hydra_host__ __hydra_device__ inline
 	BreitWignerNR<ArgType>&
 	operator=(BreitWignerNR<ArgType> const& other ){
 		if(this==&other) return  *this;
-		BaseFunctor<BreitWignerNR<ArgType>, 2>::operator=(other);
+		BaseFunctor<BreitWignerNR<ArgType>, Signature, 2>::operator=(other);
 		return  *this;
 	}
 
@@ -126,6 +121,40 @@ private:
 
 
 };
+
+template<typename ArgType>
+struct RngFormula< BreitWignerNR<ArgType> >
+{
+
+	typedef ArgType value_type;
+
+	template<typename Engine>
+	__hydra_host__ __hydra_device__
+	value_type Generate( Engine& rng, BreitWignerNR<ArgType>const& functor) const
+	{
+		double mean  = functor[0];
+		double width = functor[1];
+	    double x = mean + 0.5 * width * ::tan(PI*(RngBase::uniform(rng) -0.5));
+
+		return static_cast<value_type>(x);
+	}
+
+
+	template<typename Engine, typename T>
+	__hydra_host__ __hydra_device__
+	value_type Generate( Engine& rng,  std::initializer_list<T> pars) const
+	{
+		double mean  = pars.begin()[0];
+		double width = pars.begin()[1];
+	    double x = mean + 0.5 * width * ::tan(PI*(RngBase::uniform(rng) -0.5));
+
+		return static_cast<value_type>(x);
+	}
+
+
+
+};
+
 
 }  // namespace hydra
 

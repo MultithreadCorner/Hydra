@@ -20,23 +20,26 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * StaticAssert.h
+ * Distribution.h
  *
- *  Created on: 09/02/2020
+ *  Created on: Feb 19, 2020
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef STATICASSERT_H_
-#define STATICASSERT_H_
+#ifndef DISTRIBUTION_H_
+#define DISTRIBUTION_H_
 
-#define HYDRA_STATIC_ASSERT(condition, message)\
-static_assert(condition,\
-"\n\n"\
-"|++++++++++++++< HYDRA STATIC ASSERTION FAILED >++++++++++++++|\n"\
-"> Error : " message"\n\n"\
-"> Please inspect the error messages issued above to find the line generating the error.\n"\
-"|+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|\n"\
-"\n\n" );
+#include <hydra/detail/Config.h>
+#include <hydra/detail/FormulaTraits.h>
+#include <hydra/detail/RngFormula.h>
 
+namespace hydra {
 
-#endif /* STATICASSERT_H_ */
+template<typename Functor, bool Implemented=detail::has_rng_formula<Functor>::value>
+class Distribution;
+
+}  // namespace hydra
+
+#include <hydra/detail/Distribution.inl>
+
+#endif /* DISTRIBUTION_H_ */

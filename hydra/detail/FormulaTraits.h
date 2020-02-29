@@ -20,23 +20,42 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * StaticAssert.h
+ * FormulaTraits.h
  *
- *  Created on: 09/02/2020
+ *  Created on: 22/02/2020
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef STATICASSERT_H_
-#define STATICASSERT_H_
+#ifndef FORMULATRAITS_H_
+#define FORMULATRAITS_H_
 
-#define HYDRA_STATIC_ASSERT(condition, message)\
-static_assert(condition,\
-"\n\n"\
-"|++++++++++++++< HYDRA STATIC ASSERTION FAILED >++++++++++++++|\n"\
-"> Error : " message"\n\n"\
-"> Please inspect the error messages issued above to find the line generating the error.\n"\
-"|+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|\n"\
-"\n\n" );
+#include<hydra/detail/RngFormula.h>
+#include<hydra/detail/external/hydra_thrust/type_traits/void_t.h>
+#include<type_traits>
+#include<utility>
+
+namespace hydra {
+
+namespace detail {
+
+template<typename Formula>
+struct is_rng_formula: std::false_type{};
+
+template<typename Formula>
+struct is_rng_formula<hydra::RngFormula<Formula>>: std::true_type{};
+
+template<typename Functor, typename T= hydra_thrust::void_t<> >
+struct has_rng_formula: std::false_type{};
+
+template<typename Functor>
+struct has_rng_formula<Functor,
+          hydra_thrust::void_t< typename hydra::RngFormula<Functor>::value_type > >: std::true_type{};
 
 
-#endif /* STATICASSERT_H_ */
+
+}  // namespace detail
+
+}  // namespace hydra
+
+
+#endif /* FORMULATRAITS_H_ */

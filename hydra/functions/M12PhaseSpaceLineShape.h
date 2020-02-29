@@ -24,6 +24,10 @@
  *
  *  Created on: 27/12/2017
  *      Author: Antonio Augusto Alves Junior
+ *
+ *  Updated on: Feb 18 2020
+ *      Author: Antonio Augusto Alves Junior
+ *         Log: Implementing new call interface
  */
 
 #ifndef M12PhaseSpaceLineShape_H_
@@ -57,124 +61,113 @@ namespace hydra {
  *
  */
 
-template<unsigned int ArgIndex=0>
-class M12PhaseSpaceLineShape: public BaseFunctor<M12PhaseSpaceLineShape<ArgIndex>, double, 0>{
+template<typename ArgType>
+class M12PhaseSpaceLineShape: public BaseFunctor<M12PhaseSpaceLineShape<ArgType>, 0>{
 
 public:
+
 	M12PhaseSpaceLineShape()=delete;
 
-		M12PhaseSpaceLineShape(double mother_mass, double daugther1_mass,
-				double daugther2_mass, double daugther3_mass):
-			BaseFunctor<M12PhaseSpaceLineShape<ArgIndex>, double, 0>{},
-			fDaughter1Mass(daugther1_mass),
-			fDaughter2Mass(daugther2_mass),
-			fDaughter3Mass(daugther3_mass),
-			fMotherMass(mother_mass)
-			{}
+	M12PhaseSpaceLineShape(double mother_mass, double daugther1_mass,
+			double daugther2_mass, double daugther3_mass):
+				BaseFunctor<M12PhaseSpaceLineShape<ArgType>, 0>{},
+				fDaughter1Mass(daugther1_mass),
+				fDaughter2Mass(daugther2_mass),
+				fDaughter3Mass(daugther3_mass),
+				fMotherMass(mother_mass)
+				{}
 
-		__hydra_host__  __hydra_device__
-		M12PhaseSpaceLineShape(M12PhaseSpaceLineShape<ArgIndex>  const& other):
-			BaseFunctor<M12PhaseSpaceLineShape<ArgIndex>, double, 0>(other),
-			fDaughter1Mass(other.GetDaughter1Mass()),
-			fDaughter2Mass(other.GetDaughter2Mass()),
-			fDaughter3Mass(other.GetDaughter3Mass()),
-			fMotherMass(other.GetMotherMass())
-			{}
+				__hydra_host__  __hydra_device__
+				M12PhaseSpaceLineShape(M12PhaseSpaceLineShape<ArgType>  const& other):
+				BaseFunctor<M12PhaseSpaceLineShape<ArgType>, 0>(other),
+				fDaughter1Mass(other.GetDaughter1Mass()),
+				fDaughter2Mass(other.GetDaughter2Mass()),
+				fDaughter3Mass(other.GetDaughter3Mass()),
+				fMotherMass(other.GetMotherMass())
+				{}
 
-		__hydra_host__  __hydra_device__
-		M12PhaseSpaceLineShape<ArgIndex>&
-		operator=(M12PhaseSpaceLineShape<ArgIndex>  const& other)
-		{
-			if(this==&other) return  *this;
+				__hydra_host__  __hydra_device__
+				M12PhaseSpaceLineShape<ArgType>&
+				operator=(M12PhaseSpaceLineShape<ArgType>  const& other)
+				{
+					if(this==&other) return  *this;
 
-			BaseFunctor<M12PhaseSpaceLineShape<ArgIndex>,
-				double, 0>::operator=(other);
+					BaseFunctor<M12PhaseSpaceLineShape<ArgType>, 0>::operator=(other);
 
-			fDaughter1Mass= other.GetDaughter1Mass();
-			fDaughter2Mass= other.GetDaughter2Mass();
-			fDaughter3Mass= other.GetDaughter3Mass();
-			fMotherMass= other.GetMotherMass();
+					fDaughter1Mass= other.GetDaughter1Mass();
+					fDaughter2Mass= other.GetDaughter2Mass();
+					fDaughter3Mass= other.GetDaughter3Mass();
+					fMotherMass= other.GetMotherMass();
 
-			 return  *this;
-		}
+					return  *this;
+				}
 
-		__hydra_host__  __hydra_device__ inline
-		double GetDaughter1Mass() const {
-			return fDaughter1Mass;
-		}
+				__hydra_host__  __hydra_device__ inline
+				double GetDaughter1Mass() const {
+					return fDaughter1Mass;
+				}
 
-		__hydra_host__  __hydra_device__ inline
-		void SetDaughter1Mass(double daughter1Mass) {
-			fDaughter1Mass = daughter1Mass;
-		}
+				__hydra_host__  __hydra_device__ inline
+				void SetDaughter1Mass(double daughter1Mass) {
+					fDaughter1Mass = daughter1Mass;
+				}
 
-		__hydra_host__  __hydra_device__ inline
-		double GetDaughter2Mass() const {
-			return fDaughter2Mass;
-		}
+				__hydra_host__  __hydra_device__ inline
+				double GetDaughter2Mass() const {
+					return fDaughter2Mass;
+				}
 
-		__hydra_host__  __hydra_device__ inline
-		void SetDaughter2Mass(double daughter2Mass) {
-			fDaughter2Mass = daughter2Mass;
-		}
+				__hydra_host__  __hydra_device__ inline
+				void SetDaughter2Mass(double daughter2Mass) {
+					fDaughter2Mass = daughter2Mass;
+				}
 
-		__hydra_host__  __hydra_device__ inline
-		double GetDaughter3Mass() const {
-			return fDaughter3Mass;
-		}
+				__hydra_host__  __hydra_device__ inline
+				double GetDaughter3Mass() const {
+					return fDaughter3Mass;
+				}
 
-		__hydra_host__  __hydra_device__ inline
-		void SetDaughter3Mass(double daughter3Mass) {
-			fDaughter3Mass = daughter3Mass;
-		}
+				__hydra_host__  __hydra_device__ inline
+				void SetDaughter3Mass(double daughter3Mass) {
+					fDaughter3Mass = daughter3Mass;
+				}
 
-		__hydra_host__  __hydra_device__ inline
-		double GetMotherMass() const {
-			return fMotherMass;
-		}
+				__hydra_host__  __hydra_device__ inline
+				double GetMotherMass() const {
+					return fMotherMass;
+				}
 
-		__hydra_host__  __hydra_device__ inline
-		void SetMotherMass(double motherMass) {
-			fMotherMass = motherMass;
-		}
+				__hydra_host__  __hydra_device__ inline
+				void SetMotherMass(double motherMass) {
+					fMotherMass = motherMass;
+				}
 
+				__hydra_host__ __hydra_device__ inline
+				double Evaluate(ArgType x)  const	{
 
-		template<typename T>
-		__hydra_host__ __hydra_device__ inline
-		double Evaluate(unsigned int, T*x)  const	{
+					const double m = x ;
 
-			const double m = x[ArgIndex] ;
+					return  m > (fDaughter1Mass+fDaughter2Mass) && m<(fMotherMass-fDaughter3Mass)?LineShape(m):0.0;
 
-			return  m > (fDaughter1Mass+fDaughter2Mass) && m<(fMotherMass-fDaughter3Mass)?LineShape(m):0.0;
-
-		}
-
-		template<typename T>
-		__hydra_host__ __hydra_device__ inline
-		double Evaluate(T x)  const {
-
-			double m =  get<ArgIndex>(x);
-
-			return   m > (fDaughter1Mass+fDaughter2Mass) && m<(fMotherMass-fDaughter3Mass)?LineShape(m):0.0;
-		}
+				}
 
 private:
 
 
-		__hydra_host__ __hydra_device__   inline
-		double LineShape(const double m ) const {
+				__hydra_host__ __hydra_device__   inline
+				double LineShape(const double m ) const {
 
-			double p = pmf( fMotherMass, m, fDaughter3Mass);
-			double q = pmf( m, fDaughter1Mass, fDaughter2Mass);
+					double p = pmf( fMotherMass, m, fDaughter3Mass);
+					double q = pmf( m, fDaughter1Mass, fDaughter2Mass);
 
-			return (p*q);
+					return (p*q);
 
-		}
+				}
 
-		double fDaughter1Mass;
-		double fDaughter2Mass;
-		double fDaughter3Mass;
-		double fMotherMass;
+				double fDaughter1Mass;
+				double fDaughter2Mass;
+				double fDaughter3Mass;
+				double fMotherMass;
 };
 
 }  // namespace hydra

@@ -44,10 +44,7 @@
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
-#include <tuple>
 #include <limits>
-#include <stdexcept>
-#include <cassert>
 #include <utility>
 
 namespace hydra {
@@ -149,6 +146,48 @@ private:
 
 		return 0.0;
 	}
+
+
+};
+
+template<typename ArgType>
+struct RngFormula< TriangularShape<ArgType> >
+{
+
+	typedef ArgType value_type;
+
+	template<typename Engine>
+	__hydra_host__ __hydra_device__
+	value_type Generate(Engine& rng, TriangularShape<ArgType>const& functor) const
+	{
+		double a = functor[0];
+		double b = functor[1];
+		double c = functor[2];
+		double forking_point = (c-a)/(b-a);
+
+
+		double x= RngBase::uniform(rng);
+        x = x < forking_point ? a + ::sqrt(x*(b-a)*(c-a)) : b - ::sqrt((1-x)*(b-a)*(b-c));
+
+		return static_cast<value_type>(x);
+	}
+
+	template<typename Engine, typename T>
+	__hydra_host__ __hydra_device__
+	value_type Generate(Engine& rng, std::initializer_list<T> pars) const
+	{
+		double a = pars[0];
+		double b = pars[1];
+		double c = pars[2];
+		double forking_point = (c-a)/(b-a);
+
+
+		double x= RngBase::uniform(rng);
+		x = x < forking_point ? a + ::sqrt(x*(b-a)*(c-a)) : b - ::sqrt((1-x)*(b-a)*(b-c));
+
+		return static_cast<value_type>(x);
+	}
+
 
 
 };

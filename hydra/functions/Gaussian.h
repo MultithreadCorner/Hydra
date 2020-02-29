@@ -36,6 +36,7 @@
 #include <hydra/Function.h>
 #include <hydra/Pdf.h>
 #include <hydra/Integrator.h>
+#include <hydra/Distribution.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -57,29 +58,29 @@ namespace hydra {
 \f[ g(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{ -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2 }. \f]
  *
  */
-template<typename ArgType>
-class Gaussian: public BaseFunctor<Gaussian<ArgType>, 2>
+template<typename ArgType, typename Signature=double(ArgType) >
+class Gaussian: public BaseFunctor<Gaussian<ArgType>, Signature, 2>
 {
-	using BaseFunctor<Gaussian<ArgType>, 2>::_par;
+	using BaseFunctor<Gaussian<ArgType>, Signature, 2>::_par;
 
 public:
 
 	Gaussian()=delete;
 
 	Gaussian(Parameter const& mean, Parameter const& sigma ):
-		BaseFunctor<Gaussian<ArgType>, 2>({mean, sigma})
+		BaseFunctor<Gaussian<ArgType>, Signature, 2>({mean, sigma})
 		{}
 
 	__hydra_host__ __hydra_device__
 	Gaussian(Gaussian<ArgType> const& other ):
-		BaseFunctor<Gaussian<ArgType>, 2>(other)
+		BaseFunctor<Gaussian<ArgType>, Signature, 2>(other)
 		{}
 
 	__hydra_host__ __hydra_device__
 	Gaussian<ArgType>& operator=(Gaussian<ArgType> const& other )
 	{
 		if(this==&other) return  *this;
-		BaseFunctor<Gaussian<ArgType>, 2>::operator=(other);
+		BaseFunctor<Gaussian<ArgType>, Signature, 2>::operator=(other);
 		return  *this;
 	}
 
@@ -122,6 +123,40 @@ private:
 	}
 };
 
+
+template<typename ArgType>
+struct RngFormula< Gaussian<ArgType> >
+{
+
+	typedef ArgType value_type;
+
+	template<typename Engine>
+	__hydra_host__ __hydra_device__
+	value_type Generate(Engine& rng, Gaussian<ArgType>const& functor) const
+	{
+		double mean  = functor[0];
+		double sigma = functor[1];
+
+		double x = mean + sigma*RngBase::normal(rng);
+
+		return static_cast<value_type>(x);
+	}
+
+	template<typename Engine, typename T>
+	__hydra_host__ __hydra_device__
+	value_type Generate(Engine& rng, std::initializer_list<T> pars) const
+	{
+		double mean  = pars.begin()[0];
+		double sigma = pars.begin()[1];
+
+		double x = mean + sigma*RngBase::normal(rng);
+
+		return static_cast<value_type>(x);
+	}
+
+
+
+};
 
 }  // namespace hydra
 

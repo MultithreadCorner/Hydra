@@ -87,6 +87,9 @@ struct FunctionArgument
     __hydra_host__ __hydra_device__
     constexpr Type operator()(void) const { return value; }
 
+    __hydra_host__ __hydra_device__
+     constexpr Type Value(void) const { return value; }
+
     //=============================================================
     //Compound assignment operators
     //=============================================================

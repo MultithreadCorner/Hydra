@@ -169,88 +169,57 @@ private:
 
 };
 
-
-
-class TrapezoidalShapeAnalyticalIntegral:public Integral<TrapezoidalShapeAnalyticalIntegral>
+template<typename ArgType>
+struct RngFormula< TrapezoidalShape<ArgType> >
 {
 
-public:
+	typedef ArgType value_type;
 
-	TrapezoidalShapeAnalyticalIntegral(double min, double max):
-	fLowerLimit(min),
-	fUpperLimit(max)
-	{}
-
-	inline TrapezoidalShapeAnalyticalIntegral(TrapezoidalShapeAnalyticalIntegral const& other):
-	fLowerLimit(other.GetLowerLimit()),
-	fUpperLimit(other.GetUpperLimit())
-	{}
-
-	inline TrapezoidalShapeAnalyticalIntegral&
-	operator=( TrapezoidalShapeAnalyticalIntegral const& other)
+	template<typename Engine>
+	__hydra_host__ __hydra_device__
+	value_type Generate(Engine& rng, TrapezoidalShape<ArgType>const& functor) const
 	{
-		if(this == &other) return *this;
-		this->fLowerLimit = other.GetLowerLimit();
-		this->fUpperLimit = other.GetUpperLimit();
-		return *this;
-	}
-
-	double GetLowerLimit() const {
-		return fLowerLimit;
-	}
-
-	void SetLowerLimit(double lowerLimit) {
-		fLowerLimit = lowerLimit;
-	}
-
-	double GetUpperLimit() const {
-		return fUpperLimit;
-	}
-
-	void SetUpperLimit(double upperLimit) {
-		fUpperLimit = upperLimit;
-	}
-
-	template<typename FUNCTOR>
-	inline std::pair<double, double> Integrate(FUNCTOR const& functor) const {
-
 		double a = functor[0];
 		double b = functor[1];
 		double c = functor[2];
 		double d = functor[3];
 
-		double r  =  (cdf(a, b, c, d, fUpperLimit) - cdf(a, b, c, d, fLowerLimit)) ;
-		return std::make_pair( CHECK_VALUE(r, "par[0]=%f par[1]=%f par[2]=%f par[2]=%f", a, b, c, d ) , 0.0);
+		double denominator = (d+c-a-b);
+		double f1 = (b-a)/denominator;
+		double f2 = (2*c-b-a)/denominator;
+
+		double x= RngBase::uniform(rng);
+
+        if( x<=f1 ) x = sqrt(denominator*(b-a)*x)+a;
+        else if (  x>f1 && x <=f2) x = 0.5*(denominator*x + a + b);
+        else x = d - sqrt((1-x)*denominator*(d-c));
+
+		return static_cast<value_type>(x);
 	}
 
-private:
+	template<typename Engine, typename T>
+	__hydra_host__ __hydra_device__
+	value_type Generate(Engine& rng, std::initializer_list<T> pars) const
+	{
+		double a = pars[0];
+		double b = pars[1];
+		double c = pars[2];
+		double d = pars[3];
 
-	double cdf( const double a, const double b, const double c,const double d, const double x ) const {
+		double denominator = (d+c-a-b);
+		double f1 = (b-a)/denominator;
+		double f2 = (2*c-b-a)/denominator;
 
-		if(x < a) return 0.0;
-		else if(x >d ) return 1.0;
-		else if((x >= a)&&(x<b)) {
+		double x= RngBase::uniform(rng);
 
-			double delta = ( x - a);
+		if( x<=f1 ) x = sqrt(denominator*(b-a)*x)+a;
+		else if (  x>f1 && x <=f2) x = 0.5*(denominator*x + a + b);
+		else x = d - sqrt((1-x)*denominator*(d-c));
 
-			return delta*delta/((b-a)*(d+c-a-b));
-		}
-		else if((x >= b)&&(x<c)) {
-
-			return (2.0*x -a -b)/(d+c-a-b);
-		}
-		else if((x >= c)&&(x<=d)) {
-
-			double delta = (d-x);
-
-			return 1.0 - delta*delta/((d+c-a-b)*(b-c));
-		}
-
-		return 0.0;
+		return static_cast<value_type>(x);
 	}
 
-	double fLowerLimit;
-	double fUpperLimit;
+
 
 };
 
