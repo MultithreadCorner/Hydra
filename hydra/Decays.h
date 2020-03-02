@@ -67,30 +67,22 @@ public :
 	typedef typename storage_type::reverse_iterator                       reverse_iterator;
 	typedef typename storage_type::const_reverse_iterator           const_reverse_iterator;
 
-
-
 	/**
 	 * Default contstuctor
 	 */
-	Decays():
-		fDecays()
-	{}
+	Decays(): fDecays()	{}
 
 	/**
 	 * Constructor with n decays.
 	 * @param n number of entries.
 	 */
-	Decays(size_t n):
-		fDecays(n)
-	{}
+	Decays(size_t n): fDecays(n) {}
 
 	/**
 	 * Copy constructor.
 	 * @param other
 	 */
-	Decays(Decays<tuple_type, system_type> const& other ):
-		fDecays(other)
-	{}
+	Decays(Decays<tuple_type, system_type> const& other ): fDecays(other) {}
 
 	/**
 	 * Move constructor.
