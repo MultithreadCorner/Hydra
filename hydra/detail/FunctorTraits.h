@@ -38,6 +38,18 @@ namespace hydra {
 
 namespace detail {
 
+template<typename T>
+struct signature_type_impl
+{
+	typedef T type;
+};
+
+template<typename R, typename ...A>
+struct signature_type
+{
+ typedef typename signature_type_impl<R(A...)>::type type;
+};
+
 template<typename S>
 struct signature_traits;
 
