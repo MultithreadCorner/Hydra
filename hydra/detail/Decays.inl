@@ -22,143 +22,326 @@
 /*
  * Decays.inl
  *
- *  Created on: 05/08/2017
+ *  Created on: 29/02/2020
  *      Author: Antonio Augusto Alves Junior
  */
 
 #ifndef DECAYS_INL_
 #define DECAYS_INL_
 
-/*
- template<size_t N, detail::Backend BACKEND>
- Decays<N, detail::BackendPolicy<BACKEND> >::
-
- */
-
-#include<hydra/Sobol.h>
-#include<hydra/Random.h>
+#include <hydra/detail/Config.h>
+#include <hydra/detail/BackendPolicy.h>
+#include <hydra/Vector4R.h>
+#include <hydra/Tuple.h>
+#include <hydra/Function.h>
 
 namespace hydra {
 
 namespace detail {
 
-template<size_t N, typename Functor, typename ArgType>
-struct EvalOnDaugthers: public hydra_thrust::unary_function<
-		ArgType, GReal_t> {
-	EvalOnDaugthers(Functor const& functor) :
-			fFunctor(functor) {	}
+
+template<typename Functor>
+class FlagDaugthers
+{
+public:
+
+	FlagDaugthers(Functor const& functor, double maxWeight, size_t seed=0xd5a61266f0c9392c) :
+		fMaxWeight(max),
+		fSeed(seed),
+		fFunctor(functor)
+{}
 
 	__hydra_host__  __hydra_device__
-	EvalOnDaugthers(EvalOnDaugthers<N, Functor, ArgType> const&other) :
-			fFunctor(other.fFunctor) {
-	}
+	FlagDaugthers(FlagDaugthers<Functor> const&other) :
+	fMaxWeight(other.GetMaxWeight()),
+	fSeed(other.GetSeed()),
+	fFunctor(other.GetFunctor())
+	{}
 
-	//template<typename T>
 	__hydra_host__  __hydra_device__
-	GReal_t operator()(ArgType& value) {
+	FlagDaugthers<Functor>&
+	operator=(FlagDaugthers<Functor> const&other)
+	{
+		if(this==&other) return *this;
 
-		typename detail::tuple_type<N,Vector4R>::type particles= detail::dropFirst(value);
-		return hydra_thrust::get<0>(value)
-				* (fFunctor( particles));
-
+		fMaxWeight = other.GetMaxWeight();
+		fSeed      = other.GetSeed();
+		fFunctor   = other.GetFunctor();
+		return *this;
 	}
 
+	template<typename T>
+	__hydra_host__  __hydra_device__
+	bool operator()(T x) {
+
+		size_t index  = hydra_thrust::get<0>(x);
+		double weight = fFunctor( hydra_thrust::get<1>(x) );
+
+		hydra::default_random_engine randEng(fSeed);
+		randEng.discard(index);
+
+		hydra_thrust::uniform_real_distribution<double> uniDist(0.0, fMax);
+
+		return ( weight > uniDist(randEng)) ;
+	}
+
+	Functor GetFunctor() const {
+		return fFunctor;
+	}
+
+	double GetMaxWeight() const {
+		return fMaxWeight;
+	}
+
+	size_t GetSeed() const {
+		return fSeed;
+	}
+
+private:
+	size_t  fSeed;
+	double  fMaxWeight;
 	Functor fFunctor;
 };
 
-struct FlagDaugthers1
-{
-
-	FlagDaugthers1(GReal_t max) :
-		 fMax(max),
-		 fSeed(0xd5a61266f0c9392c)
-	{}
-
-	FlagDaugthers1(GReal_t max,  size_t seed) :
-		fMax(max),
-		fSeed(seed)
-	{}
-
-	__hydra_host__  __hydra_device__
-	FlagDaugthers1(FlagDaugthers1 const&other) :
-		fMax(other.fMax),
-		fSeed(other.fSeed)
-	{}
-
-	template<typename T>
-	__hydra_host__  __hydra_device__
-	bool operator()(T x) {
-
-		size_t index  = hydra_thrust::get<0>(x);
-		double weight = hydra_thrust::get<0>(hydra_thrust::get<1>(x));
-
-		hydra::default_random_engine randEng(fSeed);
-
-		randEng.discard(index);
-
-		hydra_thrust::uniform_real_distribution<double> uniDist(0.0, fMax);
-
-		return ( weight> uniDist(randEng)) ;
-
-	}
-
-	GReal_t fMax;
-	size_t fSeed;
-};
-
-struct FlagDaugthers2
-{
-
-	FlagDaugthers2(GReal_t max) :
-		 fMax(max),
-		 fSeed(0xd5a61266f0c9392c)
-	{}
-	
-	FlagDaugthers2(GReal_t max,  size_t seed) :
-		fMax(max),
-		fSeed(seed)
-	{}
-
-	__hydra_host__  __hydra_device__
-	FlagDaugthers2(FlagDaugthers2 const&other) :
-		fMax(other.fMax),
-		fSeed(other.fSeed)
-	{}
-
-	template<typename T>
-	__hydra_host__  __hydra_device__
-	bool operator()(T x) {
-
-		size_t index  = hydra_thrust::get<0>(x);
-		double weight = hydra_thrust::get<1>(x);
-
-		hydra::default_random_engine randEng(fSeed);
-
-		randEng.discard(index);
-
-		hydra_thrust::uniform_real_distribution<double> uniDist(0.0, fMax);
-
-		return ( weight> uniDist(randEng)) ;
-
-	}
-
-	GReal_t fMax;
-	size_t fSeed;
-};
-
-
 }  // namespace detail
 
-
-
-
-template<size_t N, detail::Backend BACKEND>
-hydra::Range<typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator>
-Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(double max_weight, size_t seed)
+template <typename ...ParticleTypes>
+class PhaseSpaceWeight: public BaseFunctor< PhaseSpaceWeight<ParticleTypes...>, double(ParticleTypes...), 0>
 {
-	using hydra_thrust::system::detail::generic::select_system;
-	typedef typename hydra_thrust::iterator_system<
-			typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator>::type system_t;
+	typedef typename detail::signature_type<double,ParticleTypes...>::type  Signature;
+
+	typedef BaseFunctor< PhaseSpaceWeight<ParticleTypes...>, Signature, 0> base_type;
+
+	using base_type::_par;
+
+public:
+
+	PhaseSpaceWeight()=delete;
+
+	PhaseSpaceWeight(double motherMass,  const double (&daughtersMasses)[base_type::arity]):
+		base_type(),
+		fMaxWeight(0.)
+	{
+		for(size_t i=0;i<N;i++)
+			fMasses[i] = daughtersMasses[i];
+
+		//compute maximum weight
+		double  ECM = motherMass;
+
+		for (size_t n = 0; n < N; n++)
+		{
+			ECM -= fMasses[n];
+		}
+
+		double emmax = ECM + fMasses[0];
+		double emmin = 0.0;
+		double wtmax = 1.0;
+
+		for (size_t n = 1; n < N; n++)
+		{
+			emmin  += fMasses[n - 1];
+			emmax += fMasses[n];
+			wtmax *= PDK(emmax, emmin, fMasses[n]);
+		}
+
+		fMaxWeight = 1.0 / wtmax;
+	}
+
+	__hydra_host__ __hydra_device__
+	PhaseSpaceWeight(PhaseSpaceWeight<ParticleTypes...> const& other ):
+	base_type(other),
+	fMaxWeight(other.GetMaxWeight())
+	{
+		for(size_t i=0;i<N;i++)
+				fMasses[i]= other.GetMasses()[i];
+	}
+
+
+	__hydra_host__ __hydra_device__
+	PhaseSpaceWeight<ParticleTypes...> &
+	operator=(PhaseSpaceWeight<ParticleTypes...> const& other ){
+
+		if(this==&other) return  *this;
+
+		base_type::operator=(other);
+		fMaxWeight=other.GetMaxWeight();
+
+		for(size_t i=0;i<N;i++)
+			fMasses[i]= other.GetMasses()[i];
+
+		return  *this;
+	}
+
+
+	__hydra_host__ __hydra_device__
+	inline double Evaluate(ParticleTypes... p )
+	{
+
+		hydra::Vector4R particles[base_type::arity]{p...};
+
+	    hydra::Vector4R R = particles[0];
+	    double w = fMaxWeight;
+
+	    for(size_t i = 1; i < base_type::arity ; ++i )
+	    {
+	    	w *= pdk( (R + particles[i]).mass(),  fMasses[i].mass() , R.mass());
+	    	R += particles[i];
+	    }
+
+	        return w;
+	}
+
+	const double* GetMasses() const {
+		return fMasses;
+	}
+
+	double GetMaxWeight() const {
+		return fMaxWeight;
+	}
+
+private:
+
+	__hydra_host__ __hydra_device__
+	inline double pdk(const double a, const double b, const double c)
+	{
+		//the PDK function
+		return ::sqrt( (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c) ) / (2 * a);;
+	}
+
+	double  fMaxWeight;
+	double  fMasses[N];
+
+};
+
+
+
+template <typename Functor, typename ...ParticleTypes>
+class PhaseSpaceReweight: public BaseFunctor< PhaseSpaceReweight<Functor,ParticleTypes...>, double(ParticleTypes...), 0>
+{
+	typedef typename detail::signature_type<double,ParticleTypes...>::type  Signature;
+
+	typedef BaseFunctor< PhaseSpaceReweight<Functor,ParticleTypes...>, Signature, 0> base_type;
+
+	using base_type::_par;
+
+public:
+
+	PhaseSpaceReweight()=delete;
+
+	PhaseSpaceReweight(Functor const& functor, double motherMass,  const double (&daughtersMasses)[base_type::arity]):
+		base_type(),
+		fFunctor(functor),
+		fMaxWeight(0.)
+	{
+		for(size_t i=0;i<N;i++)
+			fMasses[i] = daughtersMasses[i];
+
+		//compute maximum weight
+		double  ECM = motherMass;
+
+		for (size_t n = 0; n < N; n++)
+		{
+			ECM -= fMasses[n];
+		}
+
+		double emmax = ECM + fMasses[0];
+		double emmin = 0.0;
+		double wtmax = 1.0;
+
+		for (size_t n = 1; n < N; n++)
+		{
+			emmin  += fMasses[n - 1];
+			emmax += fMasses[n];
+			wtmax *= PDK(emmax, emmin, fMasses[n]);
+		}
+
+		fMaxWeight = 1.0 / wtmax;
+	}
+
+	__hydra_host__ __hydra_device__
+	PhaseSpaceReweight(PhaseSpaceReweight<Functor, ParticleTypes...> const& other ):
+	base_type(other),
+	fFunctor(other.GetFunctor()),
+	fMaxWeight(other.GetMaxWeight())
+	{
+		for(size_t i=0;i<N;i++)
+				fMasses[i]= other.GetMasses()[i];
+	}
+
+
+	__hydra_host__ __hydra_device__
+	PhaseSpaceReweight<Functor, ParticleTypes...> &
+	operator=(PhaseSpaceReweight<Functor, ParticleTypes...> const& other ){
+
+		if(this==&other) return  *this;
+
+		base_type::operator=(other);
+		fMaxWeight=other.GetMaxWeight();
+		fFunctor     =other.GetFunctor();
+		for(size_t i=0;i<N;i++)
+			fMasses[i]= other.GetMasses()[i];
+
+		return  *this;
+	}
+
+
+	__hydra_host__ __hydra_device__
+	inline double Evaluate(ParticleTypes... p )
+	{
+
+		hydra::Vector4R particles[base_type::arity]{p...};
+
+	    hydra::Vector4R R = particles[0];
+	    double w = fMaxWeight;
+
+	    for(size_t i = 1; i < base_type::arity ; ++i )
+	    {
+	    	w *= pdk( (R + particles[i]).mass(),  fMasses[i].mass() , R.mass());
+	    	R += particles[i];
+	    }
+
+	        return w*fFunctor(p...);
+	}
+
+	const double* GetMasses() const {
+		return fMasses;
+	}
+
+	double GetMaxWeight() const {
+		return fMaxWeight;
+	}
+
+	Functor& GetFunctor() const {
+		return fFunctor;
+	}
+
+	Functor& Functor()  {
+			return fFunctor;
+	}
+
+
+private:
+
+	__hydra_host__ __hydra_device__
+	inline double pdk(const double a, const double b, const double c)
+	{
+		//the PDK function
+		return ::sqrt( (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c) ) / (2 * a);;
+	}
+
+	Functor fFunctor;
+	double  fMaxWeight;
+	double  fMasses[N];
+
+
+};
+
+
+
+template<typename ...Particles,   hydra::detail::Backend Backend>
+hydra::Range<Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::iterator>
+Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::Unweight(size_t seed)
+{
 	/*
 	 * NOTE: the implementation of this function is not the most efficient in terms
 	 * of memory usage. Due probably a bug on thust_stable partition implementation
@@ -166,54 +349,52 @@ Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(double max_weight, size_t s
 	 * So...
 	 */
 
+	typedef detail::FlagDaugthers< PhaseSpaceWeight<Particles...> > tagger_type;
 	//number of events to trial
-	size_t ntrials = this->size();
-
+	size_t ntrials = fDecays.size();
 
 	//create iterators
 	hydra_thrust::counting_iterator < size_t > first(0);
 	hydra_thrust::counting_iterator < size_t > last(ntrials);
 
-	auto sequence  = hydra_thrust::get_temporary_buffer<size_t>(system_t(), ntrials);
+	auto sequence = hydra_thrust::get_temporary_buffer<size_t>(system_type(), ntrials);
 	hydra_thrust::copy(first, last, sequence.first);
 
-	//get the maximum value
-	GReal_t max_value = max_weight>0. ? max_weight:*(hydra_thrust::max_element(fWeights.begin(), fWeights.end()));
-
-	//says if an event passed or not
-	detail::FlagDaugthers1 predicate( max_value, seed);
-
 	//re-sort the container to build up un-weighted sample
-	auto start = hydra_thrust::make_zip_iterator(hydra_thrust::make_tuple(sequence.first, this->begin()));
-	auto stop  = hydra_thrust::make_zip_iterator(hydra_thrust::make_tuple(sequence.first + sequence.second, this->end() ));
+	auto start = hydra_thrust::make_zip_iterator(
+			hydra_thrust::make_tuple(sequence.first, fDecays.begin()));
 
-	auto middle = hydra_thrust::stable_partition(start, stop, predicate);
+	auto stop = hydra_thrust::make_zip_iterator(
+			hydra_thrust::make_tuple(sequence.first + sequence.second, fDecays.end()));
+
+	auto middle = hydra_thrust::stable_partition(start, stop,
+			tagger_type(this->GetEventWeightFunctor(), fMaxWeight, seed));
 
 	auto end_of_range = hydra_thrust::distance(start, middle);
 
-	hydra_thrust::return_temporary_buffer(system_t(), sequence.first  );
+	hydra_thrust::return_temporary_buffer(system_type(), sequence.first  );
 
 	//done!
 	//return (size_t) hydra_thrust::distance(begin(), middle);
-	return hydra::make_range(begin(), begin() + end_of_range );
+	return hydra::make_range(fDecays.begin(), fDecays.begin() + end_of_range );
+
 }
 
-
-template<size_t N, detail::Backend BACKEND>
-template<typename FUNCTOR>
-hydra::Range<typename Decays<N, detail::BackendPolicy<BACKEND> >::iterator>
-Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(FUNCTOR const& functor, double max_weight, size_t seed)
+template<typename ...Particles,   hydra::detail::Backend Backend>
+template<typename  Functor>
+hydra::Range<Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::iterator>
+Decays<hydra::tuple<Particles...>,
+hydra::detail::BackendPolicy<Backend>>::Unweight( Functor  const& functor, double max_weight, size_t seed)
 {
-
-	/*
+/*
 	 * NOTE: the implementation of this function is not the most efficient in terms
 	 * of memory usage. Due probably a bug on thust_stable partition implementation
 	 * connected with cuda and tbb, counting iterators can't be deployed as stencil.
 	 * So...
 	 */
-	using hydra_thrust::system::detail::generic::select_system;
-	typedef typename hydra_thrust::iterator_system<
-			typename Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator>::type system_t;
+typedef PhaseSpaceReweight<Functor, Particles...> reweight_functor;
+typedef hydra_thrust::transform_iterator<reweight_functor,iterator> reweight_iterator;
+typedef detail::FlagDaugthers< reweight_functor> tagger_type;
 
 	//number of events to trial
 	size_t ntrials = this->size();
@@ -222,40 +403,29 @@ Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(FUNCTOR const& functor, dou
 	hydra_thrust::counting_iterator < size_t > first(0);
 	hydra_thrust::counting_iterator < size_t > last(ntrials);
 
-	auto sequence  = hydra_thrust::get_temporary_buffer<size_t>(system_t(), ntrials);
+	auto sequence  = hydra_thrust::get_temporary_buffer<size_t>(system_type(), ntrials);
 	hydra_thrust::copy(first, last, sequence.first);
 
 	//--------------------
-	auto values = hydra_thrust::get_temporary_buffer <GReal_t> (system_t(), ntrials);
 
-
-	detail::EvalOnDaugthers<N, FUNCTOR,
-		typename Decays<N, detail::BackendPolicy<BACKEND> >::value_type> predicate1(functor);
-
-	hydra_thrust::copy(system_t(),
-			hydra_thrust::make_transform_iterator(this->begin(), predicate1),
-			hydra_thrust::make_transform_iterator(this->end(),predicate1),
-			values.first);
-
-	GReal_t max_value = max_weight>0.0 ? max_weight: *(hydra_thrust::max_element(values.first,
-			values.first + values.second));
-
-	//says if an event passed or not
-	detail::FlagDaugthers2 predicate2( max_value, seed);
+	double max_value = max_weight>0.0 ? max_weight: *(hydra_thrust::max_element(
+			reweight_iterator(fDecays.begin(),this->GetEventWeightFunctor(functor) ),
+			reweight_iterator(fDecays.end()  ,this->GetEventWeightFunctor(functor) )));
 
 
 	//re-sort the container to build up un-weighted sample
-	auto start  = hydra_thrust::make_zip_iterator(hydra_thrust::make_tuple(sequence.first,
-			values.first,this->begin()));
-	auto stop   = hydra_thrust::make_zip_iterator(hydra_thrust::make_tuple(sequence.first + sequence.second,
-			values.first + values.second, this->end() ));
+	auto start  = hydra_thrust::make_zip_iterator(
+			hydra_thrust::make_tuple(sequence.first,fDecays.begin()));
 
-	auto middle = hydra_thrust::stable_partition(start, stop, predicate2);
+	auto stop   = hydra_thrust::make_zip_iterator(
+			hydra_thrust::make_tuple(sequence.first + sequence.second,fDecays.end() ));
+
+	auto middle = hydra_thrust::stable_partition(start, stop,
+			tagger_type(this->GetEventWeightFunctor(), fMaxWeight, seed));
 
 	auto end_of_range = hydra_thrust::distance(start, middle);
 
 	hydra_thrust::return_temporary_buffer(system_t(), sequence.first  );
-	hydra_thrust::return_temporary_buffer(system_t(), values.first);
 
 	//done!
 
@@ -263,89 +433,7 @@ Decays<N, detail::BackendPolicy<BACKEND> >::Unweight(FUNCTOR const& functor, dou
 
 }
 
-template<size_t N, detail::Backend BACKEND>
-template<typename FUNCTOR>
-void Decays<N, detail::BackendPolicy<BACKEND> >::Reweight(FUNCTOR const& functor)
-{
 
-	using hydra_thrust::system::detail::generic::select_system;
-	typedef typename hydra_thrust::iterator_system<
-			typename Decays<N, detail::BackendPolicy<BACKEND> >::const_iterator>::type system_t;
-
-	detail::EvalOnDaugthers<N, FUNCTOR,
-			typename Decays<N, detail::BackendPolicy<BACKEND> >::value_type> predicate1(
-			functor);
-
-	hydra_thrust::copy(system_t(),
-			hydra_thrust::make_transform_iterator(this->begin(),
-					predicate1),
-			hydra_thrust::make_transform_iterator(this->end(),
-					predicate1), fWeights.begin());
-
-	return;
-
-}
-
-//=======================
-
-template<size_t N1, hydra::detail::Backend BACKEND1, size_t N2,
-		hydra::detail::Backend BACKEND2>
-bool operator==(const Decays<N1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
-		const Decays<N2, hydra::detail::BackendPolicy<BACKEND2> >& rhs) {
-
-	bool is_same_type = (N1 == N2)
-			&& hydra_thrust::detail::is_same<
-					hydra::detail::BackendPolicy<BACKEND1>,
-					hydra::detail::BackendPolicy<BACKEND2> >::value
-			&& lhs.size() == rhs.size();
-	bool result = 1;
-
-	auto comp = []__hydra_host__ __hydra_device__(hydra_thrust::tuple<
-			typename Decays<N1, hydra::detail::BackendPolicy<BACKEND1>>::value_type,
-			typename Decays<N2, hydra::detail::BackendPolicy<BACKEND2>>::value_type> const& values) {
-		return hydra_thrust::get<0>(values)== hydra_thrust::get<1>(values);
-
-	};
-
-	if (is_same_type) {
-		result = hydra_thrust::all_of(
-				hydra_thrust::make_zip_iterator(lhs.begin(),
-						rhs.begin()),
-				hydra_thrust::make_zip_iterator(lhs.end(),
-						rhs.end()), comp);
-	}
-	return result && is_same_type;
-
-}
-
-template<size_t N1, hydra::detail::Backend BACKEND1, size_t N2,
-		hydra::detail::Backend BACKEND2>
-bool operator!=(const Decays<N1, hydra::detail::BackendPolicy<BACKEND1> >& lhs,
-		const Decays<N2, hydra::detail::BackendPolicy<BACKEND2> >& rhs) {
-
-	bool is_same_type = (N1 == N2)
-			&& hydra_thrust::detail::is_same<
-					hydra::detail::BackendPolicy<BACKEND1>,
-					hydra::detail::BackendPolicy<BACKEND2> >::value
-			&& lhs.size() == rhs.size();
-	bool result = 1;
-
-	auto comp = []__hydra_host__ __hydra_device__(hydra_thrust::tuple<
-			typename Decays<N1, hydra::detail::BackendPolicy<BACKEND1>>::value_type,
-			typename Decays<N2, hydra::detail::BackendPolicy<BACKEND2>>::value_type> const& values) {
-		return (hydra_thrust::get<0>(values) == hydra_thrust::get<1>(values));
-
-	};
-
-	if (is_same_type) {
-		result = hydra_thrust::all_of(
-				hydra_thrust::make_zip_iterator(lhs.begin(),
-						rhs.begin()),
-				hydra_thrust::make_zip_iterator(lhs.end(),
-						rhs.end()), comp);
-	}
-	return (!result) && is_same_type;
-}
 
 }  // namespace hydra
 

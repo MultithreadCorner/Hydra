@@ -35,8 +35,18 @@
 #include <hydra/Vector4R.h>
 #include <hydra/multivector.h>
 #include <hydra/Tuple.h>
+#include <hydra/Function.h>
 
 namespace hydra {
+
+//forward decl
+template <typename ...ParticleTypes>
+class PhaseSpaceWeight;
+
+//forward decl.
+template <typename Functor, typename ...ParticleTypes>
+class PhaseSpaceReweight;
+
 
 /**
 * \ingroup phsp
@@ -54,8 +64,10 @@ template<typename ...Particles,   hydra::detail::Backend Backend>
 class Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>
 {
 	typedef hydra::detail::BackendPolicy<Backend>  system_type;
-	typedef hydra_thrust::tuple<Particles...>               tuple_type;
+	typedef hydra_thrust::tuple<Particles...>       tuple_type;
 	typedef multivector<tuple_type, system_type>    storage_type;
+
+	enum { nparticles = sizeof...(Particles) };
 
 public :
 
@@ -70,27 +82,64 @@ public :
 	/**
 	 * Default contstuctor
 	 */
-	Decays(): fDecays()	{}
 
-	/**
-	 * Constructor with n decays.
-	 * @param n number of entries.
-	 */
-	Decays(size_t n): fDecays(n) {}
+	Decays( double motherMass,  std::array<double, nparticles> const& daughtersMasses, size_t nentries=0 ):
+		fDecays(n),
+		fMaxWeight(0.),
+	    fMotherMass(motherMass)
+	{
+		for(size_t i=0;i<N;i++)
+			fMasses[i] = daughtersMasses[i];
+
+		//compute maximum weight
+		double  ECM = fMotherMass;
+
+		for (size_t n = 0; n < N; n++)
+		{
+			ECM -= fMasses[n];
+		}
+
+		double emmax = ECM + fMasses[0];
+		double emmin = 0.0;
+		double wtmax = 1.0;
+
+		for (size_t n = 1; n < N; n++)
+		{
+			emmin  += fMasses[n - 1];
+			emmax += fMasses[n];
+			wtmax *= PDK(emmax, emmin, fMasses[n]);
+		}
+
+		fMaxWeight = 1.0 / wtmax;
+	}
+
 
 	/**
 	 * Copy constructor.
 	 * @param other
 	 */
-	Decays(Decays<tuple_type, system_type> const& other ): fDecays(other) {}
+	Decays(Decays<tuple_type, system_type> const& other ):
+	fDecays(other.GetStorage()),
+	fMaxWeight(other.GetMaxWeight()),
+    fMotherMass(other.GetMotherMass())
+	{
+		for(size_t i=0;i<N;i++)
+			fMasses[i]= other.GetMasses()[i];
 
+	}
 	/**
 	 * Move constructor.
 	 * @param other
 	 */
 	Decays(Decays<tuple_type, system_type>&& other ):
-		fDecays( std::move(other) )
-	{}
+		fDecays( other.MoveStorage() ),
+		fMaxWeight(other.GetMaxWeight()),
+	    fMotherMass(other.GetMotherMass())
+	{
+		for(size_t i=0;i<N;i++)
+				fMasses[i]= other.GetMasses()[i];
+
+	}
 
 	/**
 	 * Copy constructor trans-backend
@@ -98,26 +147,73 @@ public :
 	 */
 	template< hydra::detail::Backend BACKEND2>
 	Decays(Decays<tuple_type, detail::BackendPolicy<BACKEND2>> const& other ):
-	fDecays(other)
-	{}
+	fDecays(other.GetStorage()),
+	fMaxWeight(other.GetMaxWeight()),
+    fMotherMass(other.GetMotherMass())
+	{
+		for(size_t i=0;i<N;i++)
+						fMasses[i]= other.GetMasses()[i];
+	}
 
 	/**
 	 * Copy constructor iterator interface
 	 * @param other
 	 */
 	template<typename Iterator>
-	Decays( Iterator first, Iterator  last )
+	Decays( double motherMass,  std::array<double, nparticles> const& daughtersMasses, Iterator first, Iterator  last ):
+	fMaxWeight(0.),
+    fMotherMass(motherMass)
 	{
+
+		for(size_t i=0;i<N;i++)
+			fMasses[i] = daughtersMasses[i];
+
+		//compute maximum weight
+		double  ECM = fMotherMass;
+
+		for (size_t n = 0; n < N; n++)
+		{
+			ECM -= fMasses[n];
+		}
+
+		double emmax = ECM + fMasses[0];
+		double emmin  = 0.0;
+		double wtmax  = 1.0;
+
+		for (size_t n = 1; n < N; n++)
+		{
+			emmin  += fMasses[n - 1];
+			emmax += fMasses[n];
+			wtmax *= PDK(emmax, emmin, fMasses[n]);
+		}
+
+		fMaxWeight = 1.0 / wtmax;
+
 		size_t n = hydra_thrust::distance(first, last);
-
 		fDecays.resize(n);
-
-		hydra_thrust::copy(first, last, this->begin());
+		hydra_thrust::copy(first, last, fDecays.begin());
 	}
 
-	//----------------------------------------
-	//  physics compliant interface
-	//----------------------------------------
+
+	 PhaseSpaceWeight<Particles...>
+	 GetEventWeightFunctor() const
+	 {
+		 return  PhaseSpaceWeight<Particles...>(fMotherMass, fMasses );
+	 }
+
+	 template<typename Functor>
+	 PhaseSpaceReweight<Functor, Particles...>
+	 GetEventWeightFunctor(Functor functor) const
+	 {
+		 return  PhaseSpaceReweight<Particles...>(functor ,fMotherMass, fMasses );
+	 }
+
+	 hydra::Range<iterator>
+	 Unweight(size_t seed=0x180ec6d33cfd0aba);
+
+	 template<typename FUNCTOR>
+	 hydra::Range<iterator>
+	 Unweight( FUNCTOR  const& functor, double weight=-1.0, size_t seed=0x39abdc4529b1661c);
 
 	/**
 	 * Add a decay to the container, increasing
@@ -134,7 +230,6 @@ public :
 	{
 		return fDecays[i];
 	}
-
 
 
 	//----------------------------------------
@@ -404,11 +499,11 @@ public :
 	 * @param other
 	 */
 	Decays<tuple_type, system_type>&
-	operator=(Decays<N,detail::BackendPolicy<BACKEND>> const& other )
+	operator=(Decays<tuple_type, system_type> const& other )
 	{
 		if(this==&other) return *this;
 
-		fDecays  = other.GetDecays();
+		fDecays  = other.GetStoragee();
 
 		return *this;
 	}
@@ -423,11 +518,25 @@ public :
 	{
 		if(this==&other) return *this;
 
-		this->fDecays  = other.MoveDecays();
+		this->fDecays  = other.MoveStorage();
 
 		return *this;
 	}
 
+const std::array<double,nparticles>* GetMasses() const
+{
+    return fMasses;
+}
+
+double GetMaxWeight() const
+{
+    return fMaxWeight;
+}
+
+double GetMotherMass() const
+{
+    return fMotherMass;
+}
 
 	/**
 	 * Assignment operator.
@@ -435,8 +544,8 @@ public :
 	 * @return
 	 */
 	template< hydra::detail::Backend BACKEND2>
-	Decays<N,detail::BackendPolicy<BACKEND> >&
-	operator=(Decays<N,detail::BackendPolicy<BACKEND2> > const& other )
+	Decays<tuple_type, detail::BackendPolicy<BACKEND> >&
+	operator=(Decays<tuple_type,detail::BackendPolicy<BACKEND2> > const& other )
 	{
 		size_t n = hydra_thrust::distance(first, last);
 
@@ -448,15 +557,14 @@ public :
 	}
 
 
-
 protected:
 
-	const storage_type& GetDecays() const
+	const storage_type& GetStorage() const
 	{
 		return fDecays;
 	}
 
-	storage_type&& MoveDecays() const
+	storage_type&& MoveStorage() const
 	{
 		return std::move(fDecays);
 	}
@@ -464,13 +572,18 @@ protected:
 
 private:
 
-  storage_type  fDecays;
+	storage_type  fDecays;
+
+	double  fMotherMass;
+	double  fMaxWeight;
+	std::array<double, nparticles>  fMasses[N];
+
 
 };
 
 
 }  // namespace hydra
 
-
+#include <hydra/detail/Decays.inl>
 
 #endif /* DECAYS_H_ */
