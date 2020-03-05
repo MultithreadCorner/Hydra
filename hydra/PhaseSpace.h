@@ -139,13 +139,6 @@ public:
 	PhaseSpace<N,GRND>&
 	operator=( PhaseSpace<N,GRND2>const& other);
 
-	template<typename FUNCTOR, hydra::detail::Backend BACKEND>
-	double ProbeMaximumValue(hydra::detail::BackendPolicy<BACKEND>const& policy,
-			Vector4R const& mother, FUNCTOR const& functor, size_t n) ;
-
-	template<typename FUNCTOR,  typename Iterator>
-	double ProbeMaximumValue(Iterator begin, Iterator end, FUNCTOR const& functor);
-
 	/**
 	 * @brief Calculate the mean and the \f$ \sqrt(variance)\f$  of a functor over the phase-space with n-samples.
 	 * @param policy  Back-end;
