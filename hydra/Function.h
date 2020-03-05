@@ -38,6 +38,7 @@
 #include <hydra/Parameter.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/FunctorTraits.h>
+#include <hydra/detail/ArgumentTraits.h>
 #include <hydra/detail/Parameters.h>
 #include <hydra/detail/FunctionArgument.h>
 #include <hydra/detail/GetTupleElement.h>

@@ -139,13 +139,13 @@ namespace detail {
 		hydra_thrust::counting_iterator<size_t> first(0);
 		hydra_thrust::counting_iterator<size_t> last = first + nevents;
 
-		auto begin_weights = hydra_thrust::get<0>(begin.get_iterator_tuple());
+		//auto begin_weights = hydra_thrust::get<0>(begin.get_iterator_tuple());
 
-		auto begin_temp = hydra::detail::dropFirst( begin.get_iterator_tuple() );
+		//auto begin_temp = hydra::detail::dropFirst( begin.get_iterator_tuple() );
 
-		auto begin_particles = hydra_thrust::make_zip_iterator(begin_temp);
+		//auto begin_particles = hydra_thrust::make_zip_iterator(begin_temp);
 
-		hydra_thrust::transform(first, last, begin_particles, begin_weights, decayer);
+		hydra_thrust::transform(first, last, begin/*_particles, begin_weights*/, decayer);
 
 		return;
 	}
@@ -158,13 +158,13 @@ namespace detail {
 		hydra_thrust::counting_iterator<size_t> first(0);
 		hydra_thrust::counting_iterator<size_t> last = first + nevents;
 
-		auto begin_weights = hydra_thrust::get<0>(begin.get_iterator_tuple());
+		//auto begin_weights = hydra_thrust::get<0>(begin.get_iterator_tuple());
 
-		auto begin_temp = hydra::detail::dropFirst( begin.get_iterator_tuple() );
+		//auto begin_temp = hydra::detail::dropFirst( begin.get_iterator_tuple() );
 
-		auto begin_particles = hydra_thrust::make_zip_iterator(begin_temp);
+		//auto begin_particles = hydra_thrust::make_zip_iterator(begin_temp);
 
-		hydra_thrust::transform(exec_policy ,first, last, begin_particles, begin_weights, decayer);
+		hydra_thrust::transform(exec_policy ,first, last, begin/*_particles, begin_weights*/, decayer);
 
 		return;
 	}

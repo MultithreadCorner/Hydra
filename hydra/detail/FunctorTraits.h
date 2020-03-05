@@ -38,6 +38,18 @@ namespace hydra {
 
 namespace detail {
 
+template<typename T>
+struct signature_type_impl
+{
+	typedef T type;
+};
+
+template<typename R, typename ...A>
+struct signature_type
+{
+ typedef typename signature_type_impl<R(A...)>::type type;
+};
+
 template<typename S>
 struct signature_traits;
 
@@ -45,7 +57,7 @@ template<typename R, typename...Args>
 struct signature_traits<R(Args...)>
 {
 typedef typename std::decay<R>::type return_type;
-typedef std::tuple<typename std::decay<Args>::type...> argument_type;
+typedef hydra_thrust::tuple<typename std::decay<Args>::type...> argument_type;
 enum {arity=sizeof...(Args)};
 };
 

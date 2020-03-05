@@ -139,9 +139,6 @@ public:
 	PhaseSpace<N,GRND>&
 	operator=( PhaseSpace<N,GRND2>const& other);
 
-
-
-
 	/**
 	 * @brief Calculate the mean and the \f$ \sqrt(variance)\f$  of a functor over the phase-space with n-samples.
 	 * @param policy  Back-end;
@@ -164,6 +161,7 @@ public:
 	 */
 	template<typename FUNCTOR,  typename Iterator>
 	std::pair<GReal_t, GReal_t> AverageOn(Iterator begin, Iterator end, FUNCTOR const& functor);
+
 
 
 	/**

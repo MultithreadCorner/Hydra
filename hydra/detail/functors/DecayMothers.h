@@ -267,7 +267,7 @@ struct DecayMothers
 
 		constexpr size_t SIZE = hydra_thrust::tuple_size<Tuple>::value;
 		Vector4R Particles[SIZE];
-		hydra::detail::assignTupleToArray(particles,  Particles );
+		//hydra::detail::assignTupleToArray(particles,  Particles );
 		GReal_t weight = process(evt, Particles);
 		hydra::detail::assignArrayToTuple(particles,  Particles );
 
