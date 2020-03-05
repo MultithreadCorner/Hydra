@@ -395,6 +395,7 @@ public:
 
 	FCN(FCN<Estimator<PDF,Iterator>> const& other):
 	ROOT::Minuit2::FCNBase(other),
+	fDataSize(other.GetDataSize()),
 	fPDF(other.GetPDF()),
 	fBegin(other.GetBegin()),
 	fEnd(other.GetEnd()),
@@ -412,6 +413,7 @@ public:
 		if( this==&other ) return this;
 
 		ROOT::Minuit2::FCNBase::operator=(other);
+		fDataSize = other.GetDataSize();
 		fPDF   = other.GetPDF();
 		fBegin = other.GetBegin();
 		fEnd   = other.GetEnd();
