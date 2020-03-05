@@ -73,17 +73,16 @@ public :
 
 	typedef typename storage_type::value_type                                   value_type;
 	typedef typename storage_type::reference_type                                reference;
-	typedef typename storage_type::const_reference_type             const_reference;
-	typedef typename storage_type::iterator                                               iterator;
+	typedef typename storage_type::const_reference_type                    const_reference;
+	typedef typename storage_type::iterator                                       iterator;
 	typedef typename storage_type::const_iterator                           const_iterator;
-	typedef typename storage_type::reverse_iterator                     reverse_iterator;
-	typedef typename storage_type::const_reverse_iterator  const_reverse_iterator;
-
-
+	typedef typename storage_type::reverse_iterator                       reverse_iterator;
+	typedef typename storage_type::const_reverse_iterator           const_reverse_iterator;
 
 	/**
 	 * Default contstuctor
 	 */
+
 	Decays( double motherMass,  std::array<double, nparticles> const& daughtersMasses, size_t nentries=0 ):
 		fDecays(n),
 		fMaxWeight(0.),
@@ -128,7 +127,6 @@ public :
 			fMasses[i]= other.GetMasses()[i];
 
 	}
-
 	/**
 	 * Move constructor.
 	 * @param other
@@ -216,7 +214,6 @@ public :
 	 template<typename FUNCTOR>
 	 hydra::Range<iterator>
 	 Unweight( FUNCTOR  const& functor, double weight=-1.0, size_t seed=0x39abdc4529b1661c);
-
 
 	/**
 	 * Add a decay to the container, increasing

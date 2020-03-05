@@ -46,7 +46,7 @@ namespace detail {
 
 template<typename TypePack, typename ...T>
 struct is_valid_type_pack:
-		std::is_convertible< TypePack,hydra_thrust::tuple<T...>> {};
+		std::is_convertible< TypePack, hydra_thrust::tuple<T...>> {};
 
 
 
