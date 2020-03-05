@@ -118,7 +118,8 @@ public:
 
 		typedef typename  hydra_thrust::iterator_traits<decltype(weights_begin)>::value_type arg_type;
 
-		fDataSize = hydra_thrust::transform_reduce(weights_begin, weights_end, detail::FCNWeightsReducerUnary<arg_type>() , 0.0, hydra_thrust::plus<double>());
+		fDataSize = hydra_thrust::transform_reduce(weights_begin, weights_end,
+				detail::FCNWeightsReducerUnary<arg_type>() , 0.0, hydra_thrust::plus<double>());
 
 		LoadFCNParameters();
 	}
@@ -395,6 +396,7 @@ public:
 
 	FCN(FCN<Estimator<PDF,Iterator>> const& other):
 	ROOT::Minuit2::FCNBase(other),
+	fDataSize(other.GetDataSize()),
 	fPDF(other.GetPDF()),
 	fBegin(other.GetBegin()),
 	fEnd(other.GetEnd()),
@@ -412,6 +414,7 @@ public:
 		if( this==&other ) return this;
 
 		ROOT::Minuit2::FCNBase::operator=(other);
+		fDataSize = other.GetDataSize();
 		fPDF   = other.GetPDF();
 		fBegin = other.GetBegin();
 		fEnd   = other.GetEnd();
