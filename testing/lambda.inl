@@ -360,8 +360,9 @@ TEST_CASE( "lambda device","hydra::Lambda<Type,0>" )
 
 			X_arg x = 2.0;
 			Y_arg y = 4.0;
-			Z_arg z = 8.0;ydra::multivector<hydra::tuple<double,double>,
-            hydra::device::sys_t> dataset(nentries, hydra::make_tuple(1.0, 2.0));
+			Z_arg z = 8.0;
+
+			hydra::multivector<hydra::tuple<double,double>,hydra::device::sys_t> dataset(10, hydra::make_tuple(1.0, 2.0));
 
 
 			auto result = lambda(x, y, z);
