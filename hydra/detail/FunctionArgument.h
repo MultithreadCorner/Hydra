@@ -49,6 +49,12 @@ struct FunctionArgument
      {}
 
     __hydra_host__ __hydra_device__
+    FunctionArgument(hydra_thrust::device_reference<value_type> x) :
+     value(x)
+     {}
+
+
+    __hydra_host__ __hydra_device__
     FunctionArgument(FunctionArgument<Derived, Type>const& other):
      value(other)
      {}
@@ -168,7 +174,12 @@ struct NAME : detail::FunctionArgument<NAME, TYPE>                     \
   NAME( TYPE x):                                                       \
      super_type(x)                                                     \
      {}                                                                \
-     	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	   \
+                                                                       \
+  __hydra_host__ __hydra_device__	                                   \
+      NAME( hydra_thrust::device_reference<TYPE> x):                   \
+         super_type(x)                                                 \
+         {}                                                            \
+         	 	 	 	 	 	 	 	 	 	 	 	 	 	 	   \
   __hydra_host__ __hydra_device__                                      \
   NAME( NAME const& other):                                            \
     super_type(other)                                                  \

@@ -144,7 +144,7 @@ inline long double erfinv(long double x) {
     return num / den;
   }
 #else
-  return ::erfinv( double  y )
+  return ::erfinv(  y );
 #endif
 }
 }  // namespace hydra
