@@ -79,7 +79,7 @@ public:
 //this typedef is actually a check. If the Pdf is not built with
 	//hydra::functor, PdfBase::type will not be defined and compilation
 	//will fail
-	typedef typename detail::PdfBase<FUNCTOR, INTEGRATOR>::type base_type;
+	//typedef typename detail::PdfBase<FUNCTOR, INTEGRATOR>::type base_type;
 
 	typedef FUNCTOR functor_type;
 	//tag
