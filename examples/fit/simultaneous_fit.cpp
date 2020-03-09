@@ -20,54 +20,12 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * FunctorTraits.h
+ * simultaneous_fit.cpp
  *
- *  Created on: 25/08/2016
- *      Author: Antonio Augusto Alves Junior
- */
-
-/**
- * \file
- * \ingroup functor
+ *  Created on: 05/02/2020
+ *      Author: Davide Brundu
  */
 
 
-#ifndef TAGTRAITS_H_
-#define TAGTRAITS_H_
 
-
-#include <type_traits>
-#include <hydra/Types.h>
-
-
-namespace hydra {
-
-namespace detail {
-
-//tags to identify hydra pdf and functors
-
-template<class T, class R = void>
-struct tag_type { typedef R type; };
-
-
-//sum of pdfs
-template<class T, class Enable = void>
-struct is_hydra_sum_pdf: std::false_type {};
-
-template<class T>
-struct is_hydra_sum_pdf<T, typename tag_type< typename T::hydra_sum_pdf_tag>::type>: std::true_type {};
-
-
-//storable
-template<class T, class Enable = void>
-struct is_hydra_convertible_to_tuple: std::false_type {};
-
-template<class T>
-struct is_hydra_convertible_to_tuple<T, typename tag_type< typename T::hydra_convertible_to_tuple_tag>::type>: std::true_type {};
-
-
-
-}  // namespace detail
-}// namespace hydra
-
-#endif /* TAGTRAITS_H_ */
+#include <examples/fit/simultaneous_fit.inl>

@@ -66,6 +66,7 @@ class  BaseFunctor : public detail::Parameters<NPARAM>
 
 public:
 
+	typedef void hydra_functor_type;
 	typedef typename detail::signature_traits<Signature>::return_type     return_type;
 	typedef typename detail::signature_traits<Signature>::argument_type argument_type;
 
@@ -170,6 +171,7 @@ public:
 	return_type>::type
 	operator()(T...x)  const
 	{
+		typename hydra::tuple<T...>::dummy a;
 		HYDRA_STATIC_ASSERT(int(sizeof...(T))==-1,
 				"This Hydra lambda can not be called with these arguments.\n"
 				"Possible functions arguments are:\n\n"

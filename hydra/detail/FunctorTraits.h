@@ -30,9 +30,11 @@
 #define FUNCTORTRAITS_H_
 
 #include <hydra/detail/Config.h>
-#include<hydra/detail/utility/StaticAssert.h>
+#include <hydra/detail/utility/StaticAssert.h>
 #include <hydra/detail/external/hydra_thrust/tuple.h>
-#include<type_traits>
+#include <hydra/detail/external/hydra_thrust/type_traits/void_t.h>
+#include <utility>
+#include <type_traits>
 
 namespace hydra {
 
@@ -91,7 +93,24 @@ struct functor_traits<ReturnType(ClassType::*)(Args...) const>
 
 };
 
+template<typename Functor, typename T= hydra_thrust::void_t<> >
+struct is_hydra_functor:std::false_type{};
 
+template<typename Functor>
+struct is_hydra_functor<Functor,
+   hydra_thrust::void_t<typename Functor::hydra_functor_type,
+                        typename Functor::argument_type ,
+                        typename Functor::return_type > >: std::true_type{};
+
+
+template<typename Functor, typename T= hydra_thrust::void_t<> >
+struct is_hydra_lambda:std::false_type{};
+
+template<typename Functor>
+struct is_hydra_lambda<Functor,
+   hydra_thrust::void_t<typename Functor::hydra_lambda_type,
+                        typename Functor::argument_type ,
+                        typename Functor::return_type > >: std::true_type{};
 }  // namespace detail
 
 }  // namespace hydra

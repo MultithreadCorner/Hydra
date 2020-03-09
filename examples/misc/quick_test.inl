@@ -93,6 +93,8 @@ int main(int argv, char** argc)
 	}
 
 
+auto data = hydra::device::vector< double>(10, .0);
+
     //Gaussian distribution
 	//Parameters
 	auto mean  = hydra::Parameter::Create("mean" ).Value(0.0);
@@ -100,7 +102,10 @@ int main(int argv, char** argc)
 
 	auto gauss     = hydra::Gaussian<xvar>(mean, sigma);
 
-	 //Lognormal distribution
+    for(auto x: data)
+    	std::cout << gauss(x) << std::endl;
+
+	//LogNormal distribution
 	auto lognormal = hydra::LogNormal<xvar>(mean, sigma);
 
 

@@ -29,6 +29,7 @@
 #ifndef FORMULATRAITS_H_
 #define FORMULATRAITS_H_
 
+#include<hydra/detail/Config.h>
 #include<hydra/detail/RngFormula.h>
 #include<hydra/detail/external/hydra_thrust/type_traits/void_t.h>
 #include<type_traits>

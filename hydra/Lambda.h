@@ -58,9 +58,10 @@ class  Lambda<LambdaType, 0>
 
 	typedef typename detail::lambda_traits<LambdaType>::argument_rvalue_type argument_rvalue_type;
 
-	struct is_valid;
 
 public:
+
+	typedef void hydra_lambda_type;
 
 	typedef typename detail::lambda_traits<LambdaType>::return_type   return_type;
 	typedef typename detail::lambda_traits<LambdaType>::argument_type argument_type;

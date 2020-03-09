@@ -19,42 +19,13 @@
  *
  *---------------------------------------------------------------------------*/
 
-/*
- * AddPdfBase.h
- *
- *  Created on: 09/10/2017
- *      Author: Antonio Augusto Alves Junior
- */
-
-#ifndef ADDPDFBASE_H_
-#define ADDPDFBASE_H_
-
-#include <hydra/detail/Config.h>
-#include <hydra/Types.h>
-#include <hydra/detail/utility/Utility_Tuple.h>
-#include <hydra/detail/utility/Generic.h>
-#include <hydra/detail/FunctorTraits.h>
-#include <hydra/detail/PdfTraits.h>
-#include <utility>
-
-namespace hydra {
-
-namespace detail {
+ /*
+  * simultaneous_fit.cu
+  *
+  *  Created on: 05/02/2020
+  *      Author: Davide Brundu
+  */
 
 
-template<typename PDF1, typename PDF2, typename ...PDFs>
-class AddPdfChecker:  public all_true<
-detail::is_hydra_pdf<PDF1>::value,
-detail::is_hydra_pdf<PDF2>::value,
-detail::is_hydra_pdf<PDFs>::value...>{} ;
 
-template<typename PDF1, typename PDF2, typename ...PDFs>
-class AddPdfBase: public std::enable_if<AddPdfChecker<PDF1,PDF2,PDFs...>::value>
-{};
-
-}  // namespace detail
-
-}  // namespace hydra
-
-
-#endif /* ADDPDFBASE_H_ */
+ #include <examples/fit/simultaneous_fit.inl>

@@ -49,7 +49,7 @@ namespace hydra {
 
 
 __hydra_host__ __hydra_device__
-inline long double erfinv(long double x) {
+inline long double erfinv( double x) {
 
 #ifndef __CUDA_ARCH__
   if (x < -1.0 || x > 1.0) {
@@ -144,7 +144,7 @@ inline long double erfinv(long double x) {
     return num / den;
   }
 #else
-  return ::erfinv( double  y )
+  return ::erfinv( x );
 #endif
 }
 }  // namespace hydra

@@ -37,6 +37,7 @@
 #include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <type_traits>
+#include <tuple>
 
 //this->GetNumberOfParameters(), this->GetParameters(),
 
@@ -44,10 +45,18 @@ namespace hydra {
 
 namespace detail {
 
-template<typename TypePack, typename ...T>
-struct is_valid_type_pack:
-		std::is_convertible< TypePack, hydra_thrust::tuple<T...>> {};
 
+
+template<typename RefT, typename ...T>
+struct is_valid_type_pack;
+
+template<typename ...RefT, typename ...T>
+struct is_valid_type_pack<hydra_thrust::tuple<RefT...>, T... >:
+std::is_convertible<std::tuple<T...>, std::tuple<RefT...> > {};
+
+template<typename ...RefT, typename ...T>
+struct is_valid_type_pack<hydra_thrust::tuple<RefT...>, hydra_thrust::device_reference<T>...>:
+       std::is_convertible<std::tuple<hydra_thrust::device_reference<T>...>,  std::tuple<RefT...> > {};
 
 
 template<typename ArgType>

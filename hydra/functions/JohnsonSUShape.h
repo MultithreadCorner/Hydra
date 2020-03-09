@@ -197,7 +197,7 @@ struct RngFormula< JohnsonSU<ArgType> >
 
 	}
 private:
-
+	__hydra_host__ __hydra_device__
 	inline double nci(double x) const
 		{
 			static const double sqrt_two         = 1.4142135623730950488017;
