@@ -35,13 +35,29 @@ namespace hydra {
 template<typename Iterable, typename Functor>
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
-apply_filter(Iterable&& container, Functor&& filter)
+filter(Iterable&& container, Functor&& filter)
 {
 
 	auto new_end = hydra_thrust::partition(std::forward<Iterable>(container).begin(),
 	                       std::forward<Iterable>(container).end(), filter);
 
      return hydra::make_range(std::forward<Iterable>(container).begin(), new_end);
+
+}
+
+template<typename Iterable, typename Functor>
+inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+std::pair<hydra::Range<decltype(std::declval<Iterable>().begin())>,
+          hydra::Range<decltype(std::declval<Iterable>().begin())>>>::type
+segregate(Iterable&& container, Functor&& filter)
+{
+
+	auto new_end = hydra_thrust::partition(std::forward<Iterable>(container).begin(),
+	                       std::forward<Iterable>(container).end(), filter);
+
+     return std::make_pair(
+    		 hydra::make_range(std::forward<Iterable>(container).begin(), new_end),
+    		 hydra::make_range(new_end, std::forward<Iterable>(container).end()) );
 
 }
 

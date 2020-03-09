@@ -43,20 +43,21 @@ class LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>: pub
 
 public:
 
+	typedef void likelihood_estimator_type;
 
 	LogLikelihoodFCN(PDFSumExtendable<Pdfs...> const& functor, IteratorD begin, IteratorD end, IteratorW ...wbegin):
-		FCN<LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>>(functor,begin, end, wbegin...)
+		FCN<LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>, true>(functor,begin, end, wbegin...)
 		{}
 
 	LogLikelihoodFCN(LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>const& other):
-		FCN<LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>>(other)
+		FCN<LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>, true>(other)
 		{}
 
 	LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>&
 	operator=(LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>const& other)
 	{
 		if(this==&other) return  *this;
-		FCN<LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>>::operator=(other);
+		FCN<LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>, true>::operator=(other);
 		return  *this;
 	}
 
@@ -105,7 +106,7 @@ public:
 	Eval( const std::vector<double>& parameters ) const{
 
 		using   hydra_thrust::system::detail::generic::select_system;
-		typedef typename hydra_thrust::iterator_system<typename FCN<LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>>::iterator>::type System;
+		typedef typename hydra_thrust::iterator_system<typename FCN<LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>, true>::iterator>::type System;
 		typedef typename PDFSumExtendable<Pdfs...>::functor_type functor_type;
 		System system;
 

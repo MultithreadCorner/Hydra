@@ -20,54 +20,36 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * FunctorTraits.h
+ * EstimatorTraits.h
  *
- *  Created on: 25/08/2016
+ *  Created on: 08/03/2020
  *      Author: Antonio Augusto Alves Junior
  */
 
-/**
- * \file
- * \ingroup functor
- */
+#ifndef ESTIMATORTRAITS_H_
+#define ESTIMATORTRAITS_H_
 
-
-#ifndef TAGTRAITS_H_
-#define TAGTRAITS_H_
-
-
+#include <hydra/detail/Config.h>
+#include <hydra/detail/external/hydra_thrust/type_traits/void_t.h>
 #include <type_traits>
-#include <hydra/Types.h>
-
 
 namespace hydra {
 
 namespace detail {
 
-//tags to identify hydra pdf and functors
-
-template<class T, class R = void>
-struct tag_type { typedef R type; };
-
-
-//sum of pdfs
-template<class T, class Enable = void>
-struct is_hydra_sum_pdf: std::false_type {};
+template<class Estimator, typename T= hydra_thrust::void_t<>  >
+struct is_hydra_estimator: std::false_type {};
 
 template<class T>
-struct is_hydra_sum_pdf<T, typename tag_type< typename T::hydra_sum_pdf_tag>::type>: std::true_type {};
-
-
-//storable
-template<class T, class Enable = void>
-struct is_hydra_convertible_to_tuple: std::false_type {};
-
-template<class T>
-struct is_hydra_convertible_to_tuple<T, typename tag_type< typename T::hydra_convertible_to_tuple_tag>::type>: std::true_type {};
-
-
+struct is_hydra_estimator<T,
+        hydra_thrust::void_t<typename T::likelihood_estimator_type> >: std::true_type {};
 
 }  // namespace detail
-}// namespace hydra
 
-#endif /* TAGTRAITS_H_ */
+}  // namespace hydra
+
+
+
+
+
+#endif /* ESTIMATORTRAITS_H_ */
