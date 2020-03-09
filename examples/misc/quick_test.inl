@@ -99,6 +99,8 @@ int main(int argv, char** argc)
 	auto sigma = hydra::Parameter::Create("sigma").Value(0.25);
 
 	auto gauss     = hydra::Gaussian<xvar>(mean, sigma);
+
+	 //Lognormal distribution
 	auto lognormal = hydra::LogNormal<xvar>(mean, sigma);
 
 
