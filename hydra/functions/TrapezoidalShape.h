@@ -175,9 +175,19 @@ struct RngFormula< TrapezoidalShape<ArgType> >
 
 	typedef ArgType value_type;
 
+	unsigned NCalls( TrapezoidalShape<ArgType>const&) const
+	{
+		return 1;
+	}
+
+	unsigned NCalls( std::initializer_list<T>) const
+	{
+		return 1;
+	}
+
 	template<typename Engine>
 	__hydra_host__ __hydra_device__
-	value_type Generate(Engine& rng, TrapezoidalShape<ArgType>const& functor) const
+	inline value_type Generate(Engine& rng, TrapezoidalShape<ArgType>const& functor) const
 	{
 		double a = functor[0];
 		double b = functor[1];
@@ -199,7 +209,7 @@ struct RngFormula< TrapezoidalShape<ArgType> >
 
 	template<typename Engine, typename T>
 	__hydra_host__ __hydra_device__
-	value_type Generate(Engine& rng, std::initializer_list<T> pars) const
+	inline value_type Generate(Engine& rng, std::initializer_list<T> pars) const
 	{
 		double a = pars[0];
 		double b = pars[1];
