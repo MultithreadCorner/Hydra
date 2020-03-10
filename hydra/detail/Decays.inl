@@ -49,7 +49,7 @@ public:
 		fMaxWeight(max),
 		fSeed(seed),
 		fFunctor(functor)
-{}
+        {}
 
 	__hydra_host__  __hydra_device__
 	FlagDaugthers(FlagDaugthers<Functor> const&other) :

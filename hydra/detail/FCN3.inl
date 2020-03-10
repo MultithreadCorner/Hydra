@@ -157,7 +157,9 @@ private:
 	{
 		tasks.push_back(std::async(
 				std::launch::async,
-				[this](std::vector<double> const& p) {return hydra_thrust::get<I>(fFCNS)(p); },
+				[this](std::vector<double> const& p) {
+		        	return hydra_thrust::get<I>(fFCNS)(p);
+		        },
 				parameters ) );
 
 		add_tasks<I+1>(parameters, tasks );

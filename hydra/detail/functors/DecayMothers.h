@@ -262,8 +262,8 @@ struct DecayMothers
 
 	}
 	template< typename I,typename Tuple>
-		__hydra_host__      __hydra_device__ GReal_t operator()(I evt, Tuple particles)
-			{
+	__hydra_host__      __hydra_device__ GReal_t operator()(I evt, Tuple particles)
+	{
 
 		constexpr size_t SIZE = hydra_thrust::tuple_size<Tuple>::value;
 		Vector4R Particles[SIZE];
@@ -273,7 +273,7 @@ struct DecayMothers
 
 		return weight;
 
-			}
+	}
 
 
 

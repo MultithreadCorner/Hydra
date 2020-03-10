@@ -52,6 +52,7 @@
 #include <hydra/detail/external/hydra_thrust/iterator/counting_iterator.h>
 #include <hydra/detail/external/hydra_thrust/sequence.h>
 #include <hydra/detail/external/hydra_thrust/tuple.h>
+#include <hydra/detail/external/hydra_thrust/tabulate.h>
 #include <hydra/detail/external/hydra_thrust/transform.h>
 #include <hydra/detail/external/hydra_thrust/transform_reduce.h>
 
@@ -135,9 +136,9 @@ namespace detail {
     inline void launch_decayer(Iterator begin, Iterator end, DecayMother<N, GRND> const& decayer)
 	{
 
-		size_t nevents = hydra_thrust::distance(begin, end);
-		hydra_thrust::counting_iterator<size_t> first(0);
-		hydra_thrust::counting_iterator<size_t> last = first + nevents;
+		//size_t nevents = hydra_thrust::distance(begin, end);
+		//hydra_thrust::counting_iterator<size_t> first(0);
+		//hydra_thrust::counting_iterator<size_t> last = first + nevents;
 
 		//auto begin_weights = hydra_thrust::get<0>(begin.get_iterator_tuple());
 
@@ -145,7 +146,7 @@ namespace detail {
 
 		//auto begin_particles = hydra_thrust::make_zip_iterator(begin_temp);
 
-		hydra_thrust::transform(first, last, begin/*_particles, begin_weights*/, decayer);
+		hydra_thrust::tabulate(first, last, begin/*_particles, begin_weights*/, decayer);
 
 		return;
 	}
@@ -154,9 +155,9 @@ namespace detail {
 	inline void launch_decayer( hydra::detail::BackendPolicy<BACKEND> const& exec_policy ,Iterator begin, Iterator end, DecayMother<N, GRND> const& decayer)
 	{
 
-		size_t nevents = hydra_thrust::distance(begin, end);
-		hydra_thrust::counting_iterator<size_t> first(0);
-		hydra_thrust::counting_iterator<size_t> last = first + nevents;
+		//size_t nevents = hydra_thrust::distance(begin, end);
+		//hydra_thrust::counting_iterator<size_t> first(0);
+		//hydra_thrust::counting_iterator<size_t> last = first + nevents;
 
 		//auto begin_weights = hydra_thrust::get<0>(begin.get_iterator_tuple());
 
@@ -164,7 +165,7 @@ namespace detail {
 
 		//auto begin_particles = hydra_thrust::make_zip_iterator(begin_temp);
 
-		hydra_thrust::transform(exec_policy ,first, last, begin/*_particles, begin_weights*/, decayer);
+		hydra_thrust::tabulate(exec_policy ,first, last, begin/*_particles, begin_weights*/, decayer);
 
 		return;
 	}

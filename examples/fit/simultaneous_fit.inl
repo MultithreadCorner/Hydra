@@ -90,9 +90,8 @@ int main(int argv, char** argc) {
 
 		TCLAP::CmdLine cmd("Command line arguments for ", '=');
 
-		TCLAP::ValueArg < size_t
-		> EArg("n", "number-of-events", "Number of events", true, 10e6,
-				"size_t");
+		TCLAP::ValueArg < size_t > EArg("n", "number-of-events",
+				"Number of events", true, 10e6, "size_t");
 		cmd.add(EArg);
 
 		// Parse the argv array.
@@ -134,7 +133,7 @@ int main(int argv, char** argc) {
 
 	{ //device scope
 
-		auto filter_entries = [min, max]__hydra_dual__(double x){
+		auto filter_entries = [min, max] __hydra_dual__ (double x){
 			return bool (x >= min) && (x< max);
 		};
 
@@ -142,13 +141,13 @@ int main(int argv, char** argc) {
 		// x in omp memory space
 		auto gauss_x_range = hydra::random_gauss_range(mean.GetValue()+0.1, xsigma.GetValue()+0.1, 0xd73ad43c3);
 
-		auto xdata= hydra::omp::vector<double>(nentries);
+		auto xdata = hydra::omp::vector<double>(nentries);
 
         hydra::copy(gauss_x_range.begin(), gauss_x_range.begin()+ xdata.size(), xdata.begin());
 
         auto xrange = hydra::filter(xdata, filter_entries);
 
-        // y in tbb memory space
+        // y in host memory space
         auto gauss_y_range = hydra::random_gauss_range(mean.GetValue()+0.1, ysigma.GetValue()+0.1, 0xff4e48b27);
 
         auto ydata= hydra::tbb::vector<double>(nentries);
@@ -158,7 +157,7 @@ int main(int argv, char** argc) {
         auto yrange = hydra::filter(ydata, filter_entries);
 
 
-        // y in tbb memory space
+        // y in device memory space
         auto gauss_z_range = hydra::random_gauss_range(mean.GetValue()+0.1, zsigma.GetValue()+0.1, 0xff4e48c31 );
 
         auto zdata= hydra::device::vector<double>(nentries);
@@ -169,11 +168,13 @@ int main(int argv, char** argc) {
 
 
         //make the single fcns
-		auto xfcn    = hydra::make_loglikehood_fcn(xmodel, xrange);
-		auto yfcn    = hydra::make_loglikehood_fcn(ymodel, yrange);
-		auto zfcn    = hydra::make_loglikehood_fcn(zmodel, zrange);
+		auto xfcn    = hydra::make_loglikehood_fcn(xmodel, xrange);//omp
+		auto yfcn    = hydra::make_loglikehood_fcn(ymodel, yrange);//tbb
+		auto zfcn    = hydra::make_loglikehood_fcn(zmodel, zrange);//device
 
-		auto sim_fcn = hydra::make_simultaneous_fcn(xfcn, yfcn, zfcn);
+		auto sim_fcn1 = hydra::make_simultaneous_fcn(xfcn, yfcn, zfcn);
+		auto sim_fcn2 = hydra::make_simultaneous_fcn(xfcn, yfcn, zfcn);
+		auto sim_fcn  = hydra::make_simultaneous_fcn(sim_fcn1, sim_fcn2);
 
 
 		//-------------------------------------------------------
@@ -186,7 +187,7 @@ int main(int argv, char** argc) {
 		MnStrategy strategy(2);
 
 		//create Migrad minimizer
-		MnMigrad migrad(sim_fcn, sim_fcn.GetParameters().GetMnState() , strategy);
+		MnMigrad migrad(sim_fcn, sim_fcn.GetParameters().GetMnState(), strategy);
 
 		//print parameters before fitting
 		std::cout << sim_fcn.GetParameters().GetMnState() << std::endl;
@@ -194,7 +195,7 @@ int main(int argv, char** argc) {
 		//Minimize and profile the time
 		auto start = std::chrono::high_resolution_clock::now();
 
-		FunctionMinimum minimum = FunctionMinimum( migrad(std::numeric_limits<unsigned int>::max(), 5));
+		FunctionMinimum minimum = FunctionMinimum( migrad(500, 1));
 
 		auto stop  = std::chrono::high_resolution_clock::now();
 
