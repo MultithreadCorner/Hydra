@@ -112,9 +112,19 @@ struct RngFormula< Exponential<ArgType> >
 
 	typedef ArgType value_type;
 
+	inline unsigned NCalls( Exponential<ArgType>const&) const
+	{
+		return 1;
+	}
+
+	inline unsigned NCalls( std::initializer_list<T>) const
+	{
+		return 1;
+	}
+
 	template<typename Engine>
 	__hydra_host__ __hydra_device__
-	value_type Generate(Engine& rng, Exponential<ArgType>const& functor) const
+	inline value_type Generate(Engine& rng, Exponential<ArgType>const& functor) const
 	{
 		double tau  = functor[0];
 
@@ -123,7 +133,7 @@ struct RngFormula< Exponential<ArgType> >
 
 	template<typename Engine, typename T>
 	__hydra_host__ __hydra_device__
-	value_type Generate(Engine& rng,  std::initializer_list<T> pars) const
+	inline value_type Generate(Engine& rng,  std::initializer_list<T> pars) const
 	{
 		double tau  = pars.begin()[0];
 

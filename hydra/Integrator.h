@@ -37,6 +37,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <utility>
+#include <hydra/detail/IntegratorTraits.h>
 
 namespace hydra {
 

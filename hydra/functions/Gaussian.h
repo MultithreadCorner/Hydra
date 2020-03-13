@@ -130,9 +130,20 @@ struct RngFormula< Gaussian<ArgType> >
 
 	typedef ArgType value_type;
 
+	inline unsigned NCalls( Gaussian<ArgType>const&) const
+	{
+		return 1;
+	}
+
+	template< typename T>
+	inline unsigned NCalls( std::initializer_list<T>) const
+	{
+		return 1;
+	}
+
 	template<typename Engine>
 	__hydra_host__ __hydra_device__
-	value_type Generate(Engine& rng, Gaussian<ArgType>const& functor) const
+	inline value_type Generate(Engine& rng, Gaussian<ArgType>const& functor) const
 	{
 		double mean  = functor[0];
 		double sigma = functor[1];
@@ -144,7 +155,7 @@ struct RngFormula< Gaussian<ArgType> >
 
 	template<typename Engine, typename T>
 	__hydra_host__ __hydra_device__
-	value_type Generate(Engine& rng, std::initializer_list<T> pars) const
+	inline value_type Generate(Engine& rng, std::initializer_list<T> pars) const
 	{
 		double mean  = pars.begin()[0];
 		double sigma = pars.begin()[1];

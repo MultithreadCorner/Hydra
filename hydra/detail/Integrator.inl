@@ -35,7 +35,7 @@ namespace hydra {
 template<typename Algorithm, size_t N>
 struct Integral{
 
-	typedef void hydra_integrator_tag;
+	typedef void hydra_integrator_type;
 
 	template<typename Functor>
 	inline std::pair<GReal_t, GReal_t> operator()( Functor  const & functor)
@@ -62,7 +62,7 @@ struct Integral{
 template<typename Algorithm>
 struct Integral<Algorithm,1>{
 
-	typedef void hydra_integrator_tag;
+	typedef void hydra_integrator_type;
 
 	template<typename Functor>
 	inline std::pair<GReal_t, GReal_t> operator()( Functor  const & functor)

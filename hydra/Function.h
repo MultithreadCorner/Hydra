@@ -66,6 +66,7 @@ class  BaseFunctor : public detail::Parameters<NPARAM>
 
 public:
 
+	typedef void hydra_functor_type;
 	typedef typename detail::signature_traits<Signature>::return_type     return_type;
 	typedef typename detail::signature_traits<Signature>::argument_type argument_type;
 

@@ -172,9 +172,20 @@ struct RngFormula< JohnsonSU<ArgType> >
 
 	typedef ArgType value_type;
 
+	inline unsigned NCalls( Gaussian<ArgType>const&) const
+	{
+		return 1;
+	}
+
+	inline unsigned NCalls( std::initializer_list<T>) const
+	{
+		return 1;
+	}
+
+
 	template<typename Engine>
 	__hydra_host__ __hydra_device__
-	value_type Generate(Engine& rng, JohnsonSU<ArgType>const& functor) const
+	inline value_type Generate(Engine& rng, JohnsonSU<ArgType>const& functor) const
 	{
 		double gamma  = functor[0];
 		double delta  = functor[1];
@@ -186,7 +197,7 @@ struct RngFormula< JohnsonSU<ArgType> >
 
 	template<typename Engine, typename T>
 	__hydra_host__ __hydra_device__
-	value_type Generate(Engine& rng, std::initializer_list<T> pars) const
+	inline 	value_type Generate(Engine& rng, std::initializer_list<T> pars) const
 	{
 		double gamma  = pars[0];
 		double delta  = pars[1];
@@ -197,7 +208,7 @@ struct RngFormula< JohnsonSU<ArgType> >
 
 	}
 private:
-
+	__hydra_host__ __hydra_device__
 	inline double nci(double x) const
 		{
 			static const double sqrt_two         = 1.4142135623730950488017;

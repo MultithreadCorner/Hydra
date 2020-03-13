@@ -34,6 +34,7 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/FunctorTraits.h>
+#include <hydra/detail/PdfTraits.h>
 #include <utility>
 
 namespace hydra {

@@ -158,9 +158,19 @@ struct RngFormula< BifurcatedGaussian<ArgType> >
 
 	typedef ArgType value_type;
 
+	inline unsigned NCalls( BifurcatedGaussian<ArgType>const&) const
+	{
+		return 2;
+	}
+
+	inline unsigned NCalls( std::initializer_list<T>) const
+	{
+		return 2;
+	}
+
 	template<typename Engine>
 	__hydra_host__ __hydra_device__
-	value_type Generate(Engine& rng, BifurcatedGaussian<ArgType>const& functor) const
+	inline value_type Generate(Engine& rng, BifurcatedGaussian<ArgType>const& functor) const
 	{
 		double mean  = functor[0];
 		double sigma_left  = functor[1];
@@ -179,7 +189,7 @@ struct RngFormula< BifurcatedGaussian<ArgType> >
 
 	template<typename Engine, typename T>
 	__hydra_host__ __hydra_device__
-	value_type Generate(Engine& rng, std::initializer_list<T> pars) const
+	inline value_type Generate(Engine& rng, std::initializer_list<T> pars) const
 	{
 		double mean        = pars.begin()[0];
 		double sigma_left  = pars.begin()[1];

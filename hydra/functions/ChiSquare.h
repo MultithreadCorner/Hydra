@@ -275,9 +275,38 @@ struct RngFormula< ChiSquare<ArgType> >
 
 	typedef ArgType value_type;
 
+	inline unsigned NCalls( ChiSquare<ArgType>const& functor) const
+	{
+		long int ndof  = ::lrint(functor[0]);
+
+		if(ndof%2u == 0)
+		{
+			return  ndof;
+		}
+		else
+		{
+			return  ndof+1;
+		}
+
+	}
+
+	inline unsigned NCalls( std::initializer_list<T> pars) const
+	{
+		long int ndof  = ::lrint(pars.begin()[0]);
+
+		if(ndof%2u == 0)
+		{
+			return  ndof;
+		}
+		else
+		{
+			return  ndof+1;
+		}
+	}
+
 	template<typename Engine>
 	__hydra_host__ __hydra_device__
-	value_type Generate( Engine& rng, ChiSquare<ArgType>const& functor) const
+	inline 	value_type Generate( Engine& rng, ChiSquare<ArgType>const& functor) const
 	{
 		long int ndof  = ::lrint(functor[0]);
 
@@ -304,7 +333,7 @@ struct RngFormula< ChiSquare<ArgType> >
 
 	template<typename Engine, typename T>
 	__hydra_host__ __hydra_device__
-	value_type Generate( Engine& rng,  std::initializer_list<T> pars) const
+	inline value_type Generate( Engine& rng,  std::initializer_list<T> pars) const
 	{
 		long int ndof  = pars.begin()[0];
 

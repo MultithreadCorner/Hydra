@@ -127,7 +127,7 @@ protected:
 
 private:
 
-	double cdf( const double a, const double b, const double c, const double x ) const {
+	inline double cdf( const double a, const double b, const double c, const double x ) const {
 
 		if(x < a) return 0.0;
 		else if(x >b ) return 1.0;
@@ -156,9 +156,19 @@ struct RngFormula< TriangularShape<ArgType> >
 
 	typedef ArgType value_type;
 
+	inline unsigned NCalls( TriangularShape<ArgType>const&) const
+	{
+		return 1;
+	}
+
+	inline unsigned NCalls( std::initializer_list<T>) const
+	{
+		return 1;
+	}
+
 	template<typename Engine>
 	__hydra_host__ __hydra_device__
-	value_type Generate(Engine& rng, TriangularShape<ArgType>const& functor) const
+	inline value_type Generate(Engine& rng, TriangularShape<ArgType>const& functor) const
 	{
 		double a = functor[0];
 		double b = functor[1];
@@ -174,7 +184,7 @@ struct RngFormula< TriangularShape<ArgType> >
 
 	template<typename Engine, typename T>
 	__hydra_host__ __hydra_device__
-	value_type Generate(Engine& rng, std::initializer_list<T> pars) const
+	inline value_type Generate(Engine& rng, std::initializer_list<T> pars) const
 	{
 		double a = pars[0];
 		double b = pars[1];

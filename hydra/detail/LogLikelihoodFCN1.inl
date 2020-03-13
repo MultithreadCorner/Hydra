@@ -42,10 +42,11 @@ namespace hydra {
 
 
 template<typename Functor, typename Integrator, typename IteratorD, typename ...IteratorW>
-class LogLikelihoodFCN< Pdf<Functor,Integrator> , IteratorD, IteratorW...>: public FCN<LogLikelihoodFCN< Pdf<Functor,Integrator>,IteratorD, IteratorW... > >{
+class LogLikelihoodFCN< Pdf<Functor,Integrator> , IteratorD, IteratorW...>: public FCN<LogLikelihoodFCN< Pdf<Functor,Integrator>,IteratorD, IteratorW... >, true >{
 
 public:
 
+	typedef void likelihood_estimator_type;
 
 	/**
 	 * @brief LogLikelihoodFCN constructor for non-cached models.
@@ -55,18 +56,18 @@ public:
 	 * @param end   IteratorD pointing to the end of the dataset.
 	 */
 	LogLikelihoodFCN(Pdf<Functor,Integrator> const& functor, IteratorD begin, IteratorD end, IteratorW ...wbegin):
-		FCN<LogLikelihoodFCN< Pdf<Functor,Integrator>, IteratorD, IteratorW...>>(functor,begin, end, wbegin...)
+		FCN<LogLikelihoodFCN< Pdf<Functor,Integrator>, IteratorD, IteratorW...>, true>(functor,begin, end, wbegin...)
 		{}
 
 	LogLikelihoodFCN(LogLikelihoodFCN< Pdf<Functor,Integrator>, IteratorD, IteratorW...>const& other):
-		FCN<LogLikelihoodFCN< Pdf<Functor,Integrator>, IteratorD, IteratorW...>>(other)
+		FCN<LogLikelihoodFCN< Pdf<Functor,Integrator>, IteratorD, IteratorW...>, true>(other)
 		{}
 
 	LogLikelihoodFCN< Pdf<Functor,Integrator>, IteratorD>&
 	operator=(LogLikelihoodFCN< Pdf<Functor,Integrator>, IteratorD, IteratorW...>const& other)
 	{
 		if(this==&other) return  *this;
-		FCN<LogLikelihoodFCN< Pdf<Functor,Integrator>, IteratorD, IteratorW...>>::operator=(other);
+		FCN<LogLikelihoodFCN< Pdf<Functor,Integrator>, IteratorD, IteratorW...>, true>::operator=(other);
 
 		return  *this;
 	}

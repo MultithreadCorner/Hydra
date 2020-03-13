@@ -22,8 +22,9 @@
 /*
  * simultaneous_fit.inl
  *
- *  Created on: 05/02/2020
+ *  Created on: 05/03/2020
  *      Author: Davide Brundu
+ *      Note: updated by A.A.A.Jr in 07/03/2020.
  */
 
 #ifndef SIMULTANEOUS_FIT_INL_
@@ -50,34 +51,28 @@
 //this lib
 #include <hydra/device/System.h>
 #include <hydra/host/System.h>
-#include <hydra/detail/ArgumentTraits.h>
+#include <hydra/omp/System.h>
+#include <hydra/tbb/System.h>
+
 #include <hydra/Function.h>
-#include <hydra/FunctionWrapper.h>
-#include <hydra/Random.h>
+#include <hydra/Filter.h>
 #include <hydra/Algorithm.h>
 #include <hydra/Tuple.h>
+#include <hydra/Range.h>
 #include <hydra/Distance.h>
 #include <hydra/LogLikelihoodFCN.h>
-#include <hydra/SimultaneousFCN.h>
 #include <hydra/Parameter.h>
 #include <hydra/UserParameters.h>
 #include <hydra/Pdf.h>
 #include <hydra/functions/Gaussian.h>
 
 //Minuit2
+//Minuit2
 #include "Minuit2/FunctionMinimum.h"
 #include "Minuit2/MnUserParameterState.h"
 #include "Minuit2/MnPrint.h"
 #include "Minuit2/MnMigrad.h"
 #include "Minuit2/MnMinimize.h"
-#include "Minuit2/MnMinos.h"
-#include "Minuit2/MnContours.h"
-#include "Minuit2/CombinedMinimizer.h"
-#include "Minuit2/MnPlot.h"
-#include "Minuit2/MinosError.h"
-#include "Minuit2/ContoursError.h"
-#include "Minuit2/VariableMetricMinimizer.h"
-
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -89,15 +84,14 @@ using namespace ROOT::Minuit2;
 
 int main(int argv, char** argc) {
 	size_t nentries = 0;
-  hydra::Print::SetLevel(hydra::WARNING);
+	hydra::Print::SetLevel(hydra::WARNING);
 
 	try {
 
 		TCLAP::CmdLine cmd("Command line arguments for ", '=');
 
-		TCLAP::ValueArg < size_t
-				> EArg("n", "number-of-events", "Number of events", true, 10e6,
-						"size_t");
+		TCLAP::ValueArg < size_t > EArg("n", "number-of-events",
+				"Number of events", true, 10e6, "size_t");
 		cmd.add(EArg);
 
 		// Parse the argv array.
@@ -108,96 +102,114 @@ int main(int argv, char** argc) {
 
 	} catch (TCLAP::ArgException &e) {
 		std::cerr << "error: " << e.error() << " for arg " << e.argId()
-				<< std::endl;
+						<< std::endl;
 	}
-//-----------------
-  size_t x_nentries = nentries;
-	size_t y_nentries = nentries/2;
-	size_t z_nentries = nentries/2;
+	//-----------------
 
-	double min = -30.0;
-	double max =  30.0;
+	double min = -6.0;
+	double max =  6.0;
 
-	//Parameters for X direction
-	auto commonmean  = hydra::Parameter::Create("commonmean" ).Value(0.0).Error(0.0001).Limits(-1.0, 1.0);
-	auto xsigma      = hydra::Parameter::Create("SigmaX").Value(1.0).Error(0.0001).Limits(0.01, 1.5);
-	auto ysigma      = hydra::Parameter::Create("SigmaY").Value(2.0).Error(0.0001).Limits(0.01, 3.5);
-	auto zsigma      = hydra::Parameter::Create("SigmaZ").Value(3.0).Error(0.0001).Limits(0.01, 5.5);
+	//Parameters
+	auto mean   = hydra::Parameter::Create("mean" ).Value(0.0).Error(0.0001).Limits(-1.0, 1.0);
 
+	//Gaussian distribution for X direction
+	auto xsigma = hydra::Parameter::Create("sigma-x").Value(1.0).Error(0.0001).Limits(0.01, 1.5);
 
-		//Gaussian distribution for X direction
-  hydra::Gaussian<double> xgauss(commonmean, xsigma);
-	auto xmodel  = hydra::make_pdf(xgauss, hydra::AnalyticalIntegral< hydra::Gaussian<double> >(min, max) );
+	auto xmodel  = hydra::make_pdf(hydra::Gaussian<double>(mean, xsigma),
+			hydra::AnalyticalIntegral< hydra::Gaussian<double> >(min, max) );
 
-	hydra::Gaussian<double> ygauss(commonmean, ysigma);
-	auto ymodel  = hydra::make_pdf(ygauss, hydra::AnalyticalIntegral< hydra::Gaussian<double> >(min, max) );
+	//Gaussian distribution for  Y direction
+	auto ysigma = hydra::Parameter::Create("sigma-y").Value(2.0).Error(0.0001).Limits(0.01, 3.5);
 
-	hydra::Gaussian<double> zgauss(commonmean, zsigma);
-	auto zmodel  = hydra::make_pdf(zgauss, hydra::AnalyticalIntegral< hydra::Gaussian<double> >(min, max) );
-
- { //device scope
-
-	 //1D device buffer
-	 hydra::device::vector<double> xdataset(x_nentries);
-	 hydra::device::vector<double> ydataset(y_nentries);
-	 hydra::device::vector<double> zdataset(z_nentries);
-
-	 //gaussian ranges
-	 auto gauss_x_range = hydra::random_gauss_range(commonmean.GetValue()+0.1, xsigma.GetValue()+0.1, 159753);
-	 auto gauss_y_range = hydra::random_gauss_range(commonmean.GetValue()+0.1, ysigma.GetValue()-0.2, 159754);
-	 auto gauss_z_range = hydra::random_gauss_range(commonmean.GetValue()+0.1, zsigma.GetValue()+0.5, 159755);
-
-	 std::cout << "ACTUAL PARAMETERS" << std::endl;
-	 	std::cout << "SigmaX : " << xsigma.GetValue()+0.1 << std::endl;
-		std::cout << "Mean : "   << commonmean.GetValue()+0.1 << std::endl;
-	 	std::cout << "SigmaY : " << ysigma.GetValue()-0.2 << std::endl;
-	 	std::cout << "SigmaZ : " << zsigma.GetValue()+0.5 << std::endl;
-
-	 hydra::copy(gauss_x_range.begin(), gauss_x_range.begin()+x_nentries, xdataset.begin());
-	 hydra::copy(gauss_y_range.begin(), gauss_y_range.begin()+y_nentries, ydataset.begin());
-	 hydra::copy(gauss_z_range.begin(), gauss_z_range.begin()+z_nentries, zdataset.begin());
+	auto ymodel  = hydra::make_pdf(hydra::Gaussian<double>(mean, ysigma),
+			hydra::AnalyticalIntegral< hydra::Gaussian<double> >(min, max) );
 
 
-	 auto xfcn    = hydra::make_loglikehood_fcn(xmodel, xdataset);
-	 auto yfcn    = hydra::make_loglikehood_fcn(ymodel, ydataset);
-	 auto zfcn    = hydra::make_loglikehood_fcn(zmodel, zdataset);
+	//Gaussian distribution  Z direction
+	auto zsigma = hydra::Parameter::Create("sigma-z").Value(3.0).Error(0.0001).Limits(0.01, 5.5);
 
-	 auto sim_fcn = hydra::make_simultaneous_fcn(xfcn, yfcn, zfcn);
+	auto zmodel  = hydra::make_pdf(hydra::Gaussian<double>(mean, zsigma),
+			hydra::AnalyticalIntegral< hydra::Gaussian<double> >(min, max) );
+
+	{ //device scope
+
+		auto filter_entries = [min, max] __hydra_dual__ (double x){
+			return bool (x >= min) && (x< max);
+		};
+
+		//make datasets
+		// x in omp memory space
+		auto gauss_x_range = hydra::random_gauss_range(mean.GetValue()+0.1, xsigma.GetValue()+0.1, 0xd73ad43c3);
+
+		auto xdata = hydra::omp::vector<double>(nentries);
+
+        hydra::copy(gauss_x_range.begin(), gauss_x_range.begin()+ xdata.size(), xdata.begin());
+
+        auto xrange = hydra::filter(xdata, filter_entries);
+
+        // y in host memory space
+        auto gauss_y_range = hydra::random_gauss_range(mean.GetValue()+0.1, ysigma.GetValue()+0.1, 0xff4e48b27);
+
+        auto ydata= hydra::tbb::vector<double>(nentries);
+
+        hydra::copy(gauss_y_range.begin(), gauss_y_range.begin()+ ydata.size(), ydata.begin());
+
+        auto yrange = hydra::filter(ydata, filter_entries);
 
 
-	 //-------------------------------------------------------
-	 //fit
+        // y in device memory space
+        auto gauss_z_range = hydra::random_gauss_range(mean.GetValue()+0.1, zsigma.GetValue()+0.1, 0xff4e48c31 );
 
-	 ROOT::Minuit2::MnPrint::SetLevel(3);
-	 hydra::Print::SetLevel(hydra::WARNING);
+        auto zdata= hydra::device::vector<double>(nentries);
 
-	 //minimization strategy
-	 MnStrategy strategy(2);
+        hydra::copy(gauss_z_range.begin(), gauss_z_range.begin()+ zdata.size(), zdata.begin());
 
-	 //create Migrad minimizer
-	 MnMigrad migrad(sim_fcn, sim_fcn.GetParameters().GetMnState() , strategy);
+        auto zrange = hydra::filter(zdata, filter_entries);
 
-	 //print parameters before fitting
-	 std::cout << sim_fcn.GetParameters().GetMnState() << std::endl;
 
-	 //Minimize and profile the time
-	 auto start = std::chrono::high_resolution_clock::now();
+        //make the single fcns
+		auto xfcn    = hydra::make_loglikehood_fcn(xmodel, xrange);//omp
+		auto yfcn    = hydra::make_loglikehood_fcn(ymodel, yrange);//tbb
+		auto zfcn    = hydra::make_loglikehood_fcn(zmodel, zrange);//device
 
-	 FunctionMinimum minimum = FunctionMinimum( migrad(std::numeric_limits<unsigned int>::max(), 5));
+		auto sim_fcn1 = hydra::make_simultaneous_fcn(xfcn, yfcn, zfcn);
+		auto sim_fcn2 = hydra::make_simultaneous_fcn(xfcn, yfcn, zfcn);
+		auto sim_fcn  = hydra::make_simultaneous_fcn(sim_fcn1, sim_fcn2);
 
-	 auto stop  = std::chrono::high_resolution_clock::now();
 
-	 std::chrono::duration<double, std::milli> elapsed = stop - start;
+		//-------------------------------------------------------
+		//fit
 
-	 //print minuit result
-	 std::cout << " minimum: " << minimum << std::endl;
+		ROOT::Minuit2::MnPrint::SetLevel(3);
+		hydra::Print::SetLevel(hydra::WARNING);
 
-	 //time
-	 std::cout << "-----------------------------------------"<<std::endl;
-	 std::cout << "| Time (ms) ="<< elapsed.count()    <<std::endl;
-	 std::cout << "-----------------------------------------"<<std::endl;
+		//minimization strategy
+		MnStrategy strategy(2);
 
- } //end device scope
+		//create Migrad minimizer
+		MnMigrad migrad(sim_fcn, sim_fcn.GetParameters().GetMnState(), strategy);
+
+		//print parameters before fitting
+		std::cout << sim_fcn.GetParameters().GetMnState() << std::endl;
+
+		//Minimize and profile the time
+		auto start = std::chrono::high_resolution_clock::now();
+
+		FunctionMinimum minimum = FunctionMinimum( migrad(500, 1));
+
+		auto stop  = std::chrono::high_resolution_clock::now();
+
+		std::chrono::duration<double, std::milli> elapsed = stop - start;
+
+		//print minuit result
+		std::cout << " minimum: " << minimum << std::endl;
+
+		//time
+		std::cout << "-----------------------------------------"<<std::endl;
+		std::cout << "| Time (ms) ="<< elapsed.count()    <<std::endl;
+		std::cout << "-----------------------------------------"<<std::endl;
+
+	} //end device scope
 
 	return 0;
 
