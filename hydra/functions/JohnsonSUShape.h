@@ -122,7 +122,7 @@ public:
 		double result = A*B*::exp(-0.5*C);
 
 		return CHECK_VALUE(result, "par[0]=%f, par[1]=%f, par[2]=%f, par[3]=%f", _par[0], _par[1], _par[2], _par[3]  );
-		
+
 
 	}
 
@@ -177,6 +177,7 @@ struct RngFormula< JohnsonSU<ArgType> >
 		return 1;
 	}
 
+	template< typename T>
 	inline unsigned NCalls( std::initializer_list<T>) const
 	{
 		return 1;

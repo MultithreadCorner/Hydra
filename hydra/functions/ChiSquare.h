@@ -290,6 +290,7 @@ struct RngFormula< ChiSquare<ArgType> >
 
 	}
 
+	template< typename T>
 	inline unsigned NCalls( std::initializer_list<T> pars) const
 	{
 		long int ndof  = ::lrint(pars.begin()[0]);
