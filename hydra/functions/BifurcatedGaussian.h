@@ -163,6 +163,7 @@ struct RngFormula< BifurcatedGaussian<ArgType> >
 		return 2;
 	}
 
+	template< typename T>
 	inline unsigned NCalls( std::initializer_list<T>) const
 	{
 		return 2;

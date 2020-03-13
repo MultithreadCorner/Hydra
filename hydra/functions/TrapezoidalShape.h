@@ -180,6 +180,7 @@ struct RngFormula< TrapezoidalShape<ArgType> >
 		return 1;
 	}
 
+	template< typename T>
 	unsigned NCalls( std::initializer_list<T>) const
 	{
 		return 1;

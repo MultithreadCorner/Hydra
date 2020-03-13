@@ -161,6 +161,7 @@ struct RngFormula< TriangularShape<ArgType> >
 		return 1;
 	}
 
+	template< typename T>
 	inline unsigned NCalls( std::initializer_list<T>) const
 	{
 		return 1;
