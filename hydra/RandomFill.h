@@ -54,6 +54,38 @@
 
 namespace hydra{
 
+
+/**
+ * @brief Fill a range with numbers distributed according a user defined distribution using a RNG analytical formula
+ * @param policy backend to perform the calculation.
+ * @param begin beginning of the range storing the generated values
+ * @param end ending of the range storing the generated values
+ * @param functor distribution to be sampled
+ */
+template< typename Engine = hydra_thrust::default_random_engine,  hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
+typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::is_convertible<
+decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
+typename hydra_thrust::iterator_traits<Iterator>::value_type
+>::value, void>::type
+fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+            Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=159);
+
+
+
+/**
+ * @brief Fill a range with numbers distributed according a user defined distribution using the accept-reject method.
+ * @param policy backend to perform the calculation.
+ * @param begin beginning of the range storing the generated values
+ * @param end ending of the range storing the generated values
+ * @param functor distribution to be sampled
+ */
+template< typename Engine = hydra_thrust::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
+typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
+fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+            Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=159);
+
+
+
 /**
  * @brief Fill a range with numbers distributed according a user defined distribution using a RNG analytical formula
  * @param begin beginning of the range storing the generated values
@@ -82,33 +114,15 @@ fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=15
 
 
 /**
- * @brief Fill a range with numbers distributed according a user defined distribution using a RNG analytical formula
+ * @brief Fill a range with numbers distributed according a user defined distribution.
  * @param policy backend to perform the calculation.
- * @param begin beginning of the range storing the generated values
- * @param end ending of the range storing the generated values
+ * @param iterable range storing the generated values
  * @param functor distribution to be sampled
  */
-template< typename Engine = hydra_thrust::default_random_engine,  hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
-typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::is_convertible<
-decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-typename hydra_thrust::iterator_traits<Iterator>::value_type
->::value, void>::type
+template< typename Engine = hydra_thrust::default_random_engine, hydra::detail::Backend BACKEND, typename Iterable, typename FUNCTOR >
+typename std::enable_if< hydra::detail::is_iterable<Iterable>::value, void>::type
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=159);
-
-
-
-/**
- * @brief Fill a range with numbers distributed according a user defined distribution using the accept-reject method.
- * @param policy backend to perform the calculation.
- * @param begin beginning of the range storing the generated values
- * @param end ending of the range storing the generated values
- * @param functor distribution to be sampled
- */
-template< typename Engine = hydra_thrust::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
-typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
-fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-            Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=159);
+            Iterable&& iterable, FUNCTOR const& functor, size_t seed=159);
 
 
 
@@ -120,19 +134,6 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
 template< typename Engine = hydra_thrust::default_random_engine, typename Iterable, typename FUNCTOR >
 typename std::enable_if< hydra::detail::is_iterable<Iterable>::value, void>::type
 fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=159);
-
-
-
-/**
- * @brief Fill a range with numbers distributed according a user defined distribution.
- * @param policy backend to perform the calculation.
- * @param iterable range storing the generated values
- * @param functor distribution to be sampled
- */
-template< typename Engine = hydra_thrust::default_random_engine, hydra::detail::Backend BACKEND, typename Iterable, typename FUNCTOR >
-typename std::enable_if< hydra::detail::is_iterable<Iterable>::value, void>::type
-fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-Iterable&& iterable, FUNCTOR const& functor, size_t seed=159);
 
 
 
