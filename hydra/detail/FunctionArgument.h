@@ -30,6 +30,7 @@
 #define FUNCTIONARGUMENT_H_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/ArgumentTraits.h>
 
 namespace hydra {
 
@@ -58,6 +59,13 @@ struct FunctionArgument
     FunctionArgument(FunctionArgument<Derived, Type>const& other):
      value(other)
      {}
+
+    __hydra_host__ __hydra_device__
+    explicit   FunctionArgument(hydra_thrust::device_reference<name_type>const& other)
+     {
+    	name_type a=other;
+value = a.Value();
+     }
 
     __hydra_host__ __hydra_device__
     FunctionArgument<Derived, Type>&
@@ -156,7 +164,9 @@ struct FunctionArgument
     value_type value;
 };
 
+
 }  // namespace detail
+
 
 
 }  // namespace hydra
@@ -176,7 +186,7 @@ struct NAME : detail::FunctionArgument<NAME, TYPE>                     \
      {}                                                                \
                                                                        \
   __hydra_host__ __hydra_device__	                                   \
-      NAME( hydra_thrust::device_reference<TYPE> x):                   \
+  explicit  NAME( hydra_thrust::device_reference<TYPE> x):             \
          super_type(x)                                                 \
          {}                                                            \
          	 	 	 	 	 	 	 	 	 	 	 	 	 	 	   \
@@ -184,6 +194,11 @@ struct NAME : detail::FunctionArgument<NAME, TYPE>                     \
   NAME( NAME const& other):                                            \
     super_type(other)                                                  \
     {}                                                                 \
+                                                                       \
+  __hydra_host__ __hydra_device__                                      \
+  explicit NAME( hydra_thrust::device_reference<NAME> const& other):   \
+       super_type(other)                                               \
+       {}                                                              \
                                                                        \
   template<typename T,                                                 \
        typename = typename std::enable_if<                             \
@@ -224,5 +239,78 @@ __hydra_host__ __hydra_device__										   \
                                                                        \
 } /*namespace arguments*/ }/*namespace hydra*/                         \
 
+namespace hydra {
+
+namespace arguments  {
+
+
+template<typename Arg1, typename Arg2>
+__hydra_host__ __hydra_device__
+typename std::enable_if<detail::is_function_argument_pack<Arg1, Arg2>::value,
+decltype(std::declval<typename  Arg1::value_type>()+
+		 std::declval<typename  Arg2::value_type>() )>::type
+operator+( Arg1 const& a1, Arg2 const& a2) {
+
+	typedef decltype(std::declval<typename  Arg1::value_type>()+
+			 std::declval<typename  Arg2::value_type>() ) return_type;
+
+	return return_type(a1) + return_type(a2);
+}
+
+template<typename Arg1, typename Arg2>
+__hydra_host__ __hydra_device__
+typename std::enable_if<detail::is_function_argument_pack<Arg1, Arg2>::value,
+decltype(std::declval<typename  Arg1::value_type>()-
+		 std::declval<typename  Arg2::value_type>() )>::type
+operator-( Arg1 const& a1, Arg2 const& a2) {
+
+	typedef decltype(std::declval<typename  Arg1::value_type>()-
+			 std::declval<typename  Arg2::value_type>() ) return_type;
+
+	return return_type(a1) - return_type(a2);
+}
+
+template<typename Arg1, typename Arg2>
+__hydra_host__ __hydra_device__
+typename std::enable_if<detail::is_function_argument_pack<Arg1, Arg2>::value,
+decltype(std::declval<typename  Arg1::value_type>()*
+		 std::declval<typename  Arg2::value_type>() )>::type
+operator*( Arg1 const& a1, Arg2 const& a2) {
+
+	typedef decltype(std::declval<typename  Arg1::value_type>()*
+			 std::declval<typename  Arg2::value_type>() ) return_type;
+
+	return return_type(a1) * return_type(a2);
+}
+
+template<typename Arg1, typename Arg2>
+__hydra_host__ __hydra_device__
+typename std::enable_if<detail::is_function_argument_pack<Arg1, Arg2>::value,
+decltype(std::declval<typename  Arg1::value_type>()/
+		 std::declval<typename  Arg2::value_type>() )>::type
+operator/( Arg1 const& a1, Arg2 const& a2) {
+
+	typedef decltype(std::declval<typename  Arg1::value_type>()/
+			 std::declval<typename  Arg2::value_type>() ) return_type;
+
+	return return_type(a1) / return_type(a2);
+}
+
+template<typename Arg>
+inline typename std::enable_if<detail::is_function_argument<Arg>::value, ostream&>::type
+operator<<(ostream& s, const hydra_thrust::device_reference<Arg>& a){
+	s <<  typename Arg::name_type(a).Value();
+	return s;
+}
+
+template<typename Arg>
+inline typename std::enable_if<detail::is_function_argument<Arg>::value, ostream&>::type
+operator<<(ostream& s, const Arg& a){
+	s <<  a.Value();
+	return s;
+}
+
+} //namespace arguments
+}//namespace hydra
 
 #endif /* FUNCTIONARGUMENT_H_ */

@@ -46,7 +46,7 @@ class FlagDaugthers
 public:
 
 	FlagDaugthers(Functor const& functor, double maxWeight, size_t seed=0xd5a61266f0c9392c) :
-		fMaxWeight(max),
+		fMaxWeight(maxWeight),
 		fSeed(seed),
 		fFunctor(functor)
         {}
@@ -80,19 +80,22 @@ public:
 		hydra::default_random_engine randEng(fSeed);
 		randEng.discard(index);
 
-		hydra_thrust::uniform_real_distribution<double> uniDist(0.0, fMax);
+		hydra_thrust::uniform_real_distribution<double> uniDist(0.0, fMaxWeight);
 
 		return ( weight > uniDist(randEng)) ;
 	}
 
+	__hydra_host__ __hydra_device__
 	Functor GetFunctor() const {
 		return fFunctor;
 	}
 
+	__hydra_host__ __hydra_device__
 	double GetMaxWeight() const {
 		return fMaxWeight;
 	}
 
+	__hydra_host__ __hydra_device__
 	size_t GetSeed() const {
 		return fSeed;
 	}
@@ -114,21 +117,25 @@ class PhaseSpaceWeight: public BaseFunctor< PhaseSpaceWeight<ParticleTypes...>, 
 
 	using base_type::_par;
 
+
+
 public:
 
 	PhaseSpaceWeight()=delete;
 
-	PhaseSpaceWeight(double motherMass,  const double (&daughtersMasses)[base_type::arity]):
+	PhaseSpaceWeight(double motherMass,  std::array<double,base_type::arity > const& daughtersMasses):
 		base_type(),
 		fMaxWeight(0.)
 	{
-		for(size_t i=0;i<N;i++)
+		//using  PhaseSpace<base_type::arity>::PDK;
+
+		for(size_t i=0;i<base_type::arity;i++)
 			fMasses[i] = daughtersMasses[i];
 
 		//compute maximum weight
 		double  ECM = motherMass;
 
-		for (size_t n = 0; n < N; n++)
+		for (size_t n = 0; n < base_type::arity; n++)
 		{
 			ECM -= fMasses[n];
 		}
@@ -137,11 +144,40 @@ public:
 		double emmin = 0.0;
 		double wtmax = 1.0;
 
-		for (size_t n = 1; n < N; n++)
+		for (size_t n = 1; n < base_type::arity; n++)
 		{
 			emmin  += fMasses[n - 1];
 			emmax += fMasses[n];
-			wtmax *= PDK(emmax, emmin, fMasses[n]);
+			wtmax *= pdk(emmax, emmin, fMasses[n]);
+		}
+
+		fMaxWeight = 1.0 / wtmax;
+	}
+
+	PhaseSpaceWeight(double motherMass,  const double (&daughtersMasses)[base_type::arity]):
+		base_type(),
+		fMaxWeight(0.)
+	{
+		for(size_t i=0;i<base_type::arity;i++)
+			fMasses[i] = daughtersMasses[i];
+
+		//compute maximum weight
+		double  ECM = motherMass;
+
+		for (size_t n = 0; n < base_type::arity; n++)
+		{
+			ECM -= fMasses[n];
+		}
+
+		double emmax = ECM + fMasses[0];
+		double emmin = 0.0;
+		double wtmax = 1.0;
+
+		for (size_t n = 1; n < base_type::arity; n++)
+		{
+			emmin  += fMasses[n - 1];
+			emmax += fMasses[n];
+			wtmax *= pdk(emmax, emmin, fMasses[n]);
 		}
 
 		fMaxWeight = 1.0 / wtmax;
@@ -152,7 +188,7 @@ public:
 	base_type(other),
 	fMaxWeight(other.GetMaxWeight())
 	{
-		for(size_t i=0;i<N;i++)
+		for(size_t i=0;i<base_type::arity;i++)
 				fMasses[i]= other.GetMasses()[i];
 	}
 
@@ -166,7 +202,7 @@ public:
 		base_type::operator=(other);
 		fMaxWeight=other.GetMaxWeight();
 
-		for(size_t i=0;i<N;i++)
+		for(size_t i=0;i<base_type::arity;i++)
 			fMasses[i]= other.GetMasses()[i];
 
 		return  *this;
@@ -174,7 +210,7 @@ public:
 
 
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(ParticleTypes... p )
+	inline double Evaluate(ParticleTypes... p ) const
 	{
 
 		hydra::Vector4R particles[base_type::arity]{p...};
@@ -184,17 +220,18 @@ public:
 
 	    for(size_t i = 1; i < base_type::arity ; ++i )
 	    {
-	    	w *= pdk( (R + particles[i]).mass(),  fMasses[i].mass() , R.mass());
+	    	w *= pdk( (R + particles[i]).mass(),  fMasses[i] , R.mass());
 	    	R += particles[i];
 	    }
 
 	        return w;
 	}
 
+	__hydra_host__ __hydra_device__
 	const double* GetMasses() const {
 		return fMasses;
 	}
-
+	__hydra_host__ __hydra_device__
 	double GetMaxWeight() const {
 		return fMaxWeight;
 	}
@@ -202,14 +239,14 @@ public:
 private:
 
 	__hydra_host__ __hydra_device__
-	inline double pdk(const double a, const double b, const double c)
+	inline double pdk( double a, double b, double c) const
 	{
 		//the PDK function
 		return ::sqrt( (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c) ) / (2 * a);;
 	}
 
 	double  fMaxWeight;
-	double  fMasses[N];
+	double  fMasses[base_type::arity];
 
 };
 
@@ -233,13 +270,13 @@ public:
 		fFunctor(functor),
 		fMaxWeight(0.)
 	{
-		for(size_t i=0;i<N;i++)
+		for(size_t i=0;i<base_type::arity;i++)
 			fMasses[i] = daughtersMasses[i];
 
 		//compute maximum weight
 		double  ECM = motherMass;
 
-		for (size_t n = 0; n < N; n++)
+		for (size_t n = 0; n < base_type::arity; n++)
 		{
 			ECM -= fMasses[n];
 		}
@@ -248,7 +285,7 @@ public:
 		double emmin = 0.0;
 		double wtmax = 1.0;
 
-		for (size_t n = 1; n < N; n++)
+		for (size_t n = 1; n < base_type::arity; n++)
 		{
 			emmin  += fMasses[n - 1];
 			emmax += fMasses[n];
@@ -264,7 +301,7 @@ public:
 	fFunctor(other.GetFunctor()),
 	fMaxWeight(other.GetMaxWeight())
 	{
-		for(size_t i=0;i<N;i++)
+		for(size_t i=0;i<base_type::arity;i++)
 				fMasses[i]= other.GetMasses()[i];
 	}
 
@@ -278,7 +315,8 @@ public:
 		base_type::operator=(other);
 		fMaxWeight=other.GetMaxWeight();
 		fFunctor     =other.GetFunctor();
-		for(size_t i=0;i<N;i++)
+
+		for(size_t i=0;i<base_type::arity;i++)
 			fMasses[i]= other.GetMasses()[i];
 
 		return  *this;
@@ -286,7 +324,7 @@ public:
 
 
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(ParticleTypes... p )
+	inline double Evaluate(ParticleTypes... p ) const
 	{
 
 		hydra::Vector4R particles[base_type::arity]{p...};
@@ -296,7 +334,7 @@ public:
 
 	    for(size_t i = 1; i < base_type::arity ; ++i )
 	    {
-	    	w *= pdk( (R + particles[i]).mass(),  fMasses[i].mass() , R.mass());
+	    	w *= pdk( (R + particles[i]).mass(),  fMasses[i] , R.mass());
 	    	R += particles[i];
 	    }
 
@@ -311,11 +349,11 @@ public:
 		return fMaxWeight;
 	}
 
-	Functor& GetFunctor() const {
+	 const Functor& GetFunctor() const {
 		return fFunctor;
 	}
 
-	Functor& Functor()  {
+	Functor& GetFunctor()  {
 			return fFunctor;
 	}
 
@@ -323,7 +361,7 @@ public:
 private:
 
 	__hydra_host__ __hydra_device__
-	inline double pdk(const double a, const double b, const double c)
+	inline double pdk(double a, double b, double c) const
 	{
 		//the PDK function
 		return ::sqrt( (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c) ) / (2 * a);;
@@ -331,7 +369,7 @@ private:
 
 	Functor fFunctor;
 	double  fMaxWeight;
-	double  fMasses[N];
+	double  fMasses[base_type::arity];
 
 
 };
@@ -339,7 +377,7 @@ private:
 
 
 template<typename ...Particles,   hydra::detail::Backend Backend>
-hydra::Range<Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::iterator>
+hydra::Range<typename Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::iterator>
 Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::Unweight(size_t seed)
 {
 	/*
@@ -382,7 +420,7 @@ Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::Unwei
 
 template<typename ...Particles,   hydra::detail::Backend Backend>
 template<typename  Functor>
-hydra::Range<Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::iterator>
+hydra::Range<typename  Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::iterator>
 Decays<hydra::tuple<Particles...>,
 hydra::detail::BackendPolicy<Backend>>::Unweight( Functor  const& functor, double max_weight, size_t seed)
 {
@@ -425,7 +463,7 @@ typedef detail::FlagDaugthers< reweight_functor> tagger_type;
 
 	auto end_of_range = hydra_thrust::distance(start, middle);
 
-	hydra_thrust::return_temporary_buffer(system_t(), sequence.first  );
+	hydra_thrust::return_temporary_buffer(system_type(), sequence.first  );
 
 	//done!
 

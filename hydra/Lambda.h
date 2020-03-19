@@ -303,6 +303,8 @@ class  Lambda : public detail::Parameters<NPARAM>
 
 public:
 
+	typedef void hydra_lambda_type;
+
 	typedef typename detail::lambda_traits<LambdaType>::return_type   return_type;
 	typedef typename detail::lambda_traits<LambdaType>::argument_type argument_type;
 

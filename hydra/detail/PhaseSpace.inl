@@ -455,16 +455,7 @@ inline void PhaseSpace<N,GRND>::SetSeed(GInt_t _seed) 	{
 }
 
 
-/**
- * PDK function
- */
-template <size_t N, typename GRND>
-inline GReal_t PhaseSpace<N,GRND>::PDK(const GReal_t a, const GReal_t b, const GReal_t c) const {
-	//the PDK function
-	GReal_t x = (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c);
-	x = ::sqrt(x) / (2 * a);
-	return x;
-}
+
 
 
 }//namespace hydra

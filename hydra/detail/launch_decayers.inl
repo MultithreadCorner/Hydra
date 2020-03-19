@@ -67,11 +67,7 @@ namespace detail {
 	inline void launch_evaluator(Iterator begin, Iterator end,
 			detail::EvalMother<N, GRND,FUNCTOR, FUNCTORS...> const& evaluator) {
 
-		size_t nevents = hydra_thrust::distance(begin, end);
-				hydra_thrust::counting_iterator<size_t> first(0);
-				hydra_thrust::counting_iterator<size_t> last = first + nevents;
-
-		hydra_thrust::transform( first, last, begin, evaluator);
+		hydra_thrust::tabulate(begin, end, evaluator);
 
 	}
 
@@ -85,8 +81,10 @@ namespace detail {
 		hydra_thrust::counting_iterator<size_t> first(0);
 		hydra_thrust::counting_iterator<size_t> last = first + nevents;
 
-		hydra_thrust::transform( hydra_thrust::make_zip_iterator(first, mbegin),
-				hydra_thrust::make_zip_iterator(last, mend), begin, evaluator );
+		hydra_thrust::transform(
+				hydra_thrust::make_zip_iterator(first, mbegin),
+				hydra_thrust::make_zip_iterator(last, mend),
+				begin, evaluator );
 
 	}
 
@@ -136,79 +134,62 @@ namespace detail {
     inline void launch_decayer(Iterator begin, Iterator end, DecayMother<N, GRND> const& decayer)
 	{
 
-		//size_t nevents = hydra_thrust::distance(begin, end);
-		//hydra_thrust::counting_iterator<size_t> first(0);
-		//hydra_thrust::counting_iterator<size_t> last = first + nevents;
+		hydra_thrust::tabulate(begin, end, decayer);
 
-		//auto begin_weights = hydra_thrust::get<0>(begin.get_iterator_tuple());
-
-		//auto begin_temp = hydra::detail::dropFirst( begin.get_iterator_tuple() );
-
-		//auto begin_particles = hydra_thrust::make_zip_iterator(begin_temp);
-
-		hydra_thrust::tabulate(first, last, begin/*_particles, begin_weights*/, decayer);
-
-		return;
 	}
 
 	template<size_t N, typename GRND, typename Iterator, hydra::detail::Backend BACKEND>
-	inline void launch_decayer( hydra::detail::BackendPolicy<BACKEND> const& exec_policy ,Iterator begin, Iterator end, DecayMother<N, GRND> const& decayer)
+	inline void launch_decayer( hydra::detail::BackendPolicy<BACKEND> const& exec_policy ,
+			Iterator begin, Iterator end, DecayMother<N, GRND> const& decayer)
 	{
 
-		//size_t nevents = hydra_thrust::distance(begin, end);
-		//hydra_thrust::counting_iterator<size_t> first(0);
-		//hydra_thrust::counting_iterator<size_t> last = first + nevents;
+		hydra_thrust::tabulate(exec_policy , begin, end, decayer);
 
-		//auto begin_weights = hydra_thrust::get<0>(begin.get_iterator_tuple());
-
-		//auto begin_temp = hydra::detail::dropFirst( begin.get_iterator_tuple() );
-
-		//auto begin_particles = hydra_thrust::make_zip_iterator(begin_temp);
-
-		hydra_thrust::tabulate(exec_policy ,first, last, begin/*_particles, begin_weights*/, decayer);
-
-		return;
 	}
 
 	//-------------------------------
 
 	template<size_t N, typename GRND,	typename IteratorMother, typename IteratorDaughter>
-	inline	void launch_decayer(IteratorMother begin, IteratorMother end
+	inline	void launch_decayer(IteratorMother begin_mothers, IteratorMother end_mothers
 			, IteratorDaughter begin_daugters, DecayMothers<N, GRND> const& decayer)
 	{
 
-		size_t nevents = hydra_thrust::distance(begin, end);
-		hydra_thrust::counting_iterator<size_t> first(0);
-		hydra_thrust::counting_iterator<size_t> last = first + nevents;
+		size_t nevents    = hydra_thrust::distance(begin_mothers, end_mothers);
 
-		auto begin_weights = hydra_thrust::get<0>(begin_daugters.get_iterator_tuple());
+		auto end_daugters = begin_daugters + nevents;
 
-		auto begin_temp = hydra::detail::changeFirst(  begin, begin_daugters.get_iterator_tuple() );
+		hydra_thrust::tuple_cat( hydra_thrust::make_tuple(begin_mothers),
+				begin_daugters.get_iterator_tuple());
 
-		auto begin_particles = hydra_thrust::make_zip_iterator(begin_temp);
+		hydra_thrust::tabulate(
+				hydra_thrust::make_zip_iterator(
+						hydra_thrust::tuple_cat(
+								hydra_thrust::make_tuple(begin_mothers), begin_daugters.get_iterator_tuple()) ),
+				hydra_thrust::make_zip_iterator(
+						hydra_thrust::tuple_cat(
+								hydra_thrust::make_tuple(end_mothers), end_daugters.get_iterator_tuple() ) ),
+				decayer);
 
-		hydra_thrust::transform(first, last, begin_particles, begin_weights, decayer);
-
-		return;
 	}
 
 
 	template<size_t N, typename GRND,	typename IteratorMother, typename IteratorDaughter, hydra::detail::Backend BACKEND>
-	inline	void launch_decayer( hydra::detail::BackendPolicy<BACKEND> const& exec_policy , IteratorMother begin, IteratorMother end
-			, IteratorDaughter begin_daugters, DecayMothers<N, GRND> const& decayer)
+	inline	void launch_decayer( hydra::detail::BackendPolicy<BACKEND> const& exec_policy,
+			  IteratorMother begin_mothers, IteratorMother end_mothers,
+			  IteratorDaughter begin_daugters, DecayMothers<N, GRND> const& decayer)
 	{
+		size_t nevents    = hydra_thrust::distance(begin_mothers, end_mothers);
 
-		size_t nevents = hydra_thrust::distance(begin, end);
-		hydra_thrust::counting_iterator<size_t> first(0);
-		hydra_thrust::counting_iterator<size_t> last = first + nevents;
+		auto end_daugters = begin_daugters + nevents;
 
-		auto begin_weights = hydra_thrust::get<0>(begin_daugters.get_iterator_tuple());
-
-		auto begin_temp = hydra::detail::changeFirst(  begin, begin_daugters.get_iterator_tuple() );
-
-		auto begin_particles = hydra_thrust::make_zip_iterator(begin_temp);
-
-		hydra_thrust::transform(exec_policy , first, last, begin_particles, begin_weights, decayer);
+		hydra_thrust::tabulate(exec_policy ,
+				hydra_thrust::make_zip_iterator(
+									hydra_thrust::tuple_cat(
+											hydra_thrust::make_tuple(begin_mothers), begin_daugters.get_iterator_tuple()) ),
+							hydra_thrust::make_zip_iterator(
+									hydra_thrust::tuple_cat(
+											hydra_thrust::make_tuple(end_mothers), end_daugters.get_iterator_tuple() ) ),
+							decayer);
 
 		return;
 	}

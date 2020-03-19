@@ -43,17 +43,19 @@ class Range<Iterator,Functor>{
 
 public:
 
-	typedef hydra_thrust::transform_iterator<Functor, Iterator, typename Functor::return_type> iterator;
+	typedef hydra_thrust::transform_iterator<Functor, Iterator,typename Functor::return_type> iterator;
+
+	typedef typename hydra_thrust::iterator_traits<iterator>::reference  reference;
 
 	Range()=delete;
 
-	Range(Iterator begin, Iterator end, Functor functor):
+	Range(Iterator begin, Iterator end, Functor const& functor):
 		fBegin( begin),
 		fEnd( end ),
 		fFunctor(functor)
 		{}
 
-	Range(Iterator begin,  size_t last, Functor functor):
+	Range(Iterator begin,  size_t last, Functor  const& functor):
 			fBegin( begin),
 			fEnd( begin + last ),
 			fFunctor(functor)
@@ -89,9 +91,9 @@ public:
 
 	inline iterator cbegin()const{ return iterator(fBegin, fFunctor); }
 
-		inline iterator   cend()const{ return iterator(fEnd, fFunctor); }
+	inline iterator   cend()const{ return iterator(fEnd, fFunctor); }
 
-inline void resize(size_t size){	}
+    inline void resize(size_t size){}
 
 	inline 	size_t size() { return hydra::distance(fBegin, fEnd);}
 
@@ -116,9 +118,10 @@ inline void resize(size_t size){	}
 		fEnd = end;
 	}
 
-	inline typename  iterator::reference operator[](size_t i)
+	inline reference operator[](size_t i)
 	{
-	 return begin()[i];
+
+	 return *(begin() +i);
 	}
 
 
@@ -204,7 +207,8 @@ make_reverse_range(Iterable&& iterable,Functor const& functor ){
 template<typename Iterable, typename Functor>
 typename hydra_thrust::detail::enable_if<
     detail::is_iterable<Iterable>::value &&
-    detail::is_hydra_functor<Functor>::value ,
+    ( detail::is_hydra_functor<Functor>::value ||
+      detail::is_hydra_lambda<Functor>::value ) ,
     Range<decltype(std::declval< const Iterable>().begin()), Functor> >::type
 operator|(Iterable const& iterable, Functor const& functor){
 
@@ -217,7 +221,8 @@ operator|(Iterable const& iterable, Functor const& functor){
 template<typename Iterable, typename Functor>
 typename hydra_thrust::detail::enable_if<
     detail::is_iterable<Iterable>::value &&
-    detail::is_hydra_functor<Functor>::value ,
+    (detail::is_hydra_functor<Functor>::value ||
+     detail::is_hydra_lambda<Functor>::value ),
     Range<decltype(std::declval<Iterable>().begin()), Functor> >::type
 operator|(Iterable&& iterable, Functor const& functor){
 
