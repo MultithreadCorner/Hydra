@@ -523,7 +523,7 @@ DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional >::Fi
 //iterator based
 template<typename Iterator, typename T, size_t N , hydra::detail::Backend BACKEND>
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
-make_dense_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> grid,
+make_dense_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> const& grid,
 		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
 		Iterator first, Iterator end){
 

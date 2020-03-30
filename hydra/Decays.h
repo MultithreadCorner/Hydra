@@ -232,18 +232,22 @@ public :
 	 }
 
 	 template<typename Functor>
-	 PhaseSpaceReweight<Functor, Particles...>
-	 GetEventWeightFunctor(Functor functor) const
+	 typename std::enable_if<
+	 	 detail::is_hydra_functor<Functor>::value || detail::is_hydra_lambda<Functor>::value,
+	 	 PhaseSpaceReweight<Functor, Particles...> >::type
+	 GetEventWeightFunctor(Functor const& functor) const
 	 {
-		 return  PhaseSpaceReweight<Particles...>(functor ,fMotherMass, fMasses );
+		 return  PhaseSpaceReweight<Functor, Particles...>(functor ,fMotherMass, fMasses );
 	 }
 
 	 hydra::Range<iterator>
 	 Unweight(size_t seed=0x180ec6d33cfd0aba);
 
-	 template<typename FUNCTOR>
-	 hydra::Range<iterator>
-	 Unweight( FUNCTOR  const& functor, double weight=-1.0, size_t seed=0x39abdc4529b1661c);
+	 template<typename Functor>
+	 typename std::enable_if<
+ 	 detail::is_hydra_functor<Functor>::value || detail::is_hydra_lambda<Functor>::value,
+	 hydra::Range<iterator>>::type
+	 Unweight( Functor  const& functor, double weight=-1.0, size_t seed=0x39abdc4529b1661c);
 
 	/**
 	 * Add a decay to the container, increasing

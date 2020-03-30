@@ -295,6 +295,37 @@ public:
 		fMaxWeight = 1.0 / wtmax;
 	}
 
+
+	PhaseSpaceReweight(Functor const& functor, double motherMass,  std::array<double,base_type::arity > const& daughtersMasses):
+		base_type(),
+		fFunctor(functor),
+		fMaxWeight(0.)
+	{
+		for(size_t i=0;i<base_type::arity;i++)
+			fMasses[i] = daughtersMasses[i];
+
+		//compute maximum weight
+		double  ECM = motherMass;
+
+		for (size_t n = 0; n < base_type::arity; n++)
+		{
+			ECM -= fMasses[n];
+		}
+
+		double emmax = ECM + fMasses[0];
+		double emmin = 0.0;
+		double wtmax = 1.0;
+
+		for (size_t n = 1; n < base_type::arity; n++)
+		{
+			emmin  += fMasses[n - 1];
+			emmax += fMasses[n];
+			wtmax *= pdk(emmax, emmin, fMasses[n]);
+		}
+
+		fMaxWeight = 1.0 / wtmax;
+	}
+
 	__hydra_host__ __hydra_device__
 	PhaseSpaceReweight(PhaseSpaceReweight<Functor, ParticleTypes...> const& other ):
 	base_type(other),
@@ -338,21 +369,25 @@ public:
 	    	R += particles[i];
 	    }
 
-	        return w*fFunctor(p...);
+	        return w*fFunctor(hydra::tie(p...));
 	}
 
+	__hydra_host__ __hydra_device__
 	const double* GetMasses() const {
 		return fMasses;
 	}
 
+	__hydra_host__ __hydra_device__
 	double GetMaxWeight() const {
 		return fMaxWeight;
 	}
 
+	__hydra_host__ __hydra_device__
 	 const Functor& GetFunctor() const {
 		return fFunctor;
 	}
 
+	__hydra_host__ __hydra_device__
 	Functor& GetFunctor()  {
 			return fFunctor;
 	}
@@ -420,9 +455,10 @@ Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::Unwei
 
 template<typename ...Particles,   hydra::detail::Backend Backend>
 template<typename  Functor>
-hydra::Range<typename  Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::iterator>
-Decays<hydra::tuple<Particles...>,
-hydra::detail::BackendPolicy<Backend>>::Unweight( Functor  const& functor, double max_weight, size_t seed)
+typename std::enable_if<
+ 	detail::is_hydra_functor<Functor>::value || detail::is_hydra_lambda<Functor>::value,
+	hydra::Range<typename  Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::iterator>>::type
+Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::Unweight( Functor  const& functor, double max_weight, size_t seed)
 {
 /*
 	 * NOTE: the implementation of this function is not the most efficient in terms

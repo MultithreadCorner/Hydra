@@ -29,14 +29,17 @@
 #ifndef STATICASSERT_H_
 #define STATICASSERT_H_
 
+
 #define HYDRA_STATIC_ASSERT(condition, message)\
 static_assert(condition,\
+"\033[1;34m"\
 "\n\n"\
-"|++++++++++++++< HYDRA STATIC ASSERTION FAILED >++++++++++++++|\n"\
+"|~~~~~~~~~~~~~~< HYDRA STATIC ASSERTION FAILED >~~~~~~~~~~~~~~|\n"\
 "> Error : " message"\n\n"\
 "> Please inspect the error messages issued above to find the line generating the error.\n"\
-"|+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++|\n"\
-"\n\n" );
+"|~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^~~~~~~~~~~~~~~|\n"\
+"\n\n"\
+"\033[0m");
 
 
 #endif /* STATICASSERT_H_ */

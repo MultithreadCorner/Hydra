@@ -63,7 +63,6 @@
 #include <hydra/Types.h>
 #include <hydra/Vector4R.h>
 #include <hydra/PhaseSpace.h>
-#include <hydra/Evaluate.h>
 #include <hydra/Function.h>
 #include <hydra/Lambda.h>
 #include <hydra/Algorithm.h>
@@ -85,7 +84,6 @@
 #include <TH1D.h>
 #include <TF1.h>
 #include <TH2D.h>
-#include <TH3D.h>
 #include <TApplication.h>
 #include <TCanvas.h>
 #include <TColor.h>
@@ -140,7 +138,10 @@ int main(int argv, char** argc)
 
 #ifdef 	_ROOT_AVAILABLE_
 	//
-	TH2D Dalitz_d("Dalitz_d", "Device;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
+	TH2D Dalitz_d("Dalitz_d",
+			"3-body phase-space;"
+			"M^{2}(A B) [GeV^{2}/c^{4}];"
+			"M^{2}(B C) [GeV^{2}/c^{4}]",
 			100, pow(A_mass + B_mass,2), pow(P_mass - C_mass,2),
 			100, pow(B_mass + C_mass,2), pow(P_mass - A_mass,2));
 
@@ -150,7 +151,7 @@ int main(int argv, char** argc)
 
 	double masses[3]{A_mass, B_mass, C_mass };
 
-	// Create PhaseSpace object for B0-> K pi J/psi
+	// Create PhaseSpace object for P-> A B C
 	hydra::PhaseSpace<3> phsp{P_mass, masses};
 
 
@@ -205,11 +206,10 @@ int main(int argv, char** argc)
 
         start = std::chrono::high_resolution_clock::now();
 
-        auto Hist_Dalitz = hydra::make_dense_histogram<double,2>(
-				hydra::device::sys,
+        auto Hist_Dalitz = hydra::make_dense_histogram<double,2>( hydra::device::sys,
 				{100,100},
 				{pow(A_mass + B_mass,2), pow(B_mass + C_mass,2)},
-				{pow(P_mass - C_mass,2)   , pow(P_mass - A_mass,2)},
+				{pow(P_mass - C_mass,2), pow(P_mass - A_mass,2)},
 				dalitz_variables, 	dalitz_weights);
 
 
