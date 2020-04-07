@@ -55,17 +55,17 @@
 #include <hydra/Types.h>
 #include <hydra/Vector4R.h>
 #include <hydra/PhaseSpace.h>
-#include <hydra/Evaluate.h>
 #include <hydra/Function.h>
-#include <hydra/FunctorArithmetic.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 #include <hydra/Algorithm.h>
 #include <hydra/Tuple.h>
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
 #include <hydra/Decays.h>
-#include <hydra/Random.h>
+#include <hydra/DenseHistogram.h>
 #include <hydra/Range.h>
+#include <hydra/functions/Exponential.h>
+#include <hydra/Placeholders.h>
 
 /*-------------------------------------
  * Include classes from ROOT to fill
@@ -76,29 +76,38 @@
 
 #include <TROOT.h>
 #include <TH1D.h>
-#include <TF1.h>
 #include <TH2D.h>
-#include <TH3D.h>
 #include <TApplication.h>
 #include <TCanvas.h>
 #include <TColor.h>
 #include <TString.h>
 #include <TStyle.h>
-#include <TProfile2D.h>
 
 #endif //_ROOT_AVAILABLE_
 
+// Daughter particles
 
+declarg(A, hydra::Vector4R)
+declarg(B, hydra::Vector4R)
+declarg(C, hydra::Vector4R)
+declarg(DecayTime, double)
+
+
+//---------------------------
+using namespace hydra::arguments;
+using namespace hydra::placeholders;
 
 int main(int argv, char** argc)
 {
 
 
 	size_t  nentries   = 0; // number of events to generate, to be get from command line
-	double B0_mass    = 5.27955;   // B0 mass
-	double Jpsi_mass  = 3.0969;    // J/psi mass
-	double K_mass     = 0.493677;  // K+ mass
-	double pi_mass    = 0.13957061;// pi mass
+
+	double P_mass = 5.27955;
+	double A_mass = 3.0969;
+	double B_mass = 0.493677;
+	double C_mass = 0.13957061;
+	double tau    = 1.0;
 
 
 	try {
@@ -125,39 +134,56 @@ int main(int argv, char** argc)
 
 #ifdef 	_ROOT_AVAILABLE_
 	//
-	TH2D Dalitz_d1("Dalitz_d", "Weighted Sample [Device];M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
-			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
-			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
+	TH2D Dalitz_W("Dalitz_W",
+			"Weighted Sample;"
+			"M^{2}(A B) [GeV^{2}/c^{4}];"
+			"M^{2}(B C) [GeV^{2}/c^{4}]",
+			100, pow(A_mass + B_mass,2), pow(P_mass - C_mass,2),
+			100, pow(B_mass + C_mass,2), pow(P_mass - A_mass,2));
 
 
 	//
-	TH2D Dalitz_d2("Dalitz_d2", "Unweighted Sample [Device];M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
-				100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
-				100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
+	TH1D DecayTime_W("DecayTime_W",	"Weighted Sample;#tau;Events", 100, 0.0 , 10.0);
 
-	//
-	TProfile2D Weights_Profile("Weights_Profile", "Phase-Space Weights Profile",
-			    100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
-				100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
 #endif
 
-	hydra::Vector4R B0(B0_mass, 0.0, 0.0, 0.0);
-	double masses[3]{Jpsi_mass, K_mass, pi_mass };
+	hydra::Vector4R Parent(P_mass, 0.0, 0.0, 0.0);
+
+	double masses[3]{A_mass, B_mass, C_mass };
 
 	// Create PhaseSpace object for B0-> K pi J/psi
-	hydra::PhaseSpace<3> phsp(B0_mass, masses);
+	hydra::PhaseSpace<3> phsp{P_mass, masses};
+
+
+	auto decay_time =   hydra::wrap_lambda(
+			[tau] __hydra_dual__ (size_t i) {
+
+		auto   exp_dist = hydra::Distribution<hydra::Exponential<DecayTime>>();
+
+		hydra_thrust::default_random_engine engine;
+
+		exp_dist.SetState(engine, {tau}, i );
+
+		return  DecayTime( exp_dist(engine, {tau})	);
+	});
+
+	auto dalitz_calculator = hydra::wrap_lambda(
+			[] __hydra_dual__ (A a, B b, C c, DecayTime dt) {
+
+		return hydra::make_tuple( (a + b).mass2(), (b + c).mass2(), dt);
+
+	});
 
 	//device
 	{
 		//allocate memory to hold the final states particles
-		//hydra::Events<3, hydra::device::sys_t > Events_d(nentries);
 
-		hydra::Decays<3, hydra::device::sys_t > Events_d(nentries);
+		hydra::Decays<hydra::tuple<A,B,C>, hydra::device::sys_t > Events(P_mass, masses, nentries);
 
 		auto start = std::chrono::high_resolution_clock::now();
 
 		//generate the final state particles
-		phsp.Generate(B0, Events_d.begin(), Events_d.end());
+		phsp.Generate(Parent, Events);
 
 		auto end = std::chrono::high_resolution_clock::now();
 
@@ -167,76 +193,48 @@ int main(int argv, char** argc)
 		std::cout << std::endl;
 		std::cout << std::endl;
 		std::cout << "----------------- Device ----------------"<< std::endl;
-		std::cout << "| B0 -> J/psi K pi"                       << std::endl;
+		std::cout << "| P -> A B C"                             << std::endl;
 		std::cout << "| Number of events :"<< nentries          << std::endl;
 		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
 		std::cout << "-----------------------------------------"<< std::endl;
 
-#ifdef 	_ROOT_AVAILABLE_
+		//Making a pseudo-dataset with
 
-		//bring events to CPU memory space
-		//hydra::Events<3, hydra::host::sys_t > Events_h(Events_d);
 
-		hydra::Decays<3, hydra::host::sys_t > Events_h( Events_d);
+		auto phase_space_weights = Events | Events.GetEventWeightFunctor();
 
-		std::cout << "<======= Flat [Weighted] =======>"<< std::endl;
-		for( size_t i=0; i<10; i++ )
-			std::cout << Events_h[i] << std::endl;
+		auto dalitz_variables    = Events.Meld( hydra::range(0, Events.size()) | decay_time ) | dalitz_calculator ;
 
-		for( auto event : Events_h ){
+		hydra::multivector<hydra::tuple<double, double, double>,  hydra::device::sys_t > dataset( Events.size() );
 
-			double weight        = hydra::get<0>(event);
-			hydra::Vector4R Jpsi = hydra::get<1>(event);
-			hydra::Vector4R K    = hydra::get<2>(event);
-			hydra::Vector4R pi   = hydra::get<3>(event);
+		hydra::copy(dalitz_variables, dataset);
 
-			double M2_Jpsi_pi = (Jpsi + pi).mass2();
-			double M2_Kpi     = (K + pi).mass2();
+		auto Hist_Dalitz_W = hydra::make_dense_histogram<double,2>( hydra::device::sys,
+				{100,100},
+				{pow(A_mass + B_mass,2), pow(B_mass + C_mass,2)},
+				{pow(P_mass - C_mass,2), pow(P_mass - A_mass,2)},
+				dataset.column(_0, _1), phase_space_weights);
 
-			Dalitz_d1.Fill( M2_Jpsi_pi, M2_Kpi, weight);
+		auto Hist_DecayTime_W = hydra::make_dense_histogram<double>( hydra::device::sys,
+						100,0.0,10.0,dataset.column(_2), phase_space_weights);
 
-		}
 
-#endif
-
-		//get uweighted events
-		auto unweighted_events = Events_d.Unweight();
-		//copy the events to a new decay container
-		hydra::Decays<3, hydra::device::sys_t > Events(unweighted_events);
-		//overwrite the weights with a flat distribution between 0 and 5
-		auto  time = hydra::Random<>(456258).Uniform(0.0, 10.0, Events.GetWeights());
-        //re-unweight events according with the probability
-		// p = exp(-t)/sqrt(1+mass)
-		auto  functor = hydra::wrap_lambda([]__hydra_dual__( hydra::tuple<double, hydra::Vector4R, hydra::Vector4R, hydra::Vector4R> x){
-
-			auto mass12 = (hydra::get<1>(x) + hydra::get<2>(x)).mass2();
-			auto mass23 = (hydra::get<2>(x) + hydra::get<3>(x)).mass2();
-
-			return exp(-hydra::get<0>(x)*mass12*mass23);
-		});
-
-		auto sample = hydra::unweight(hydra::device::sys, Events,functor);
 
 #ifdef 	_ROOT_AVAILABLE_
 
 		//bring events to CPU memory space
 		//hydra::Events<3, hydra::host::sys_t > Events_h(Events_d);
 
-		hydra::Decays<3, hydra::host::sys_t > Events_h1(sample );
+		for(size_t i=0; i< 100; i++){
+
+			DecayTime_W.SetBinContent(i+1, Hist_DecayTime_W.GetBinContent(i) );
+
+			for(size_t j=0; j< 100; j++){
+
+				Dalitz_W.SetBinContent(i+1, j+1, Hist_Dalitz_W.GetBinContent({i,j}) );
 
 
-		for( auto event : Events_h1 ){
-
-			double weight        = hydra::get<0>(event);
-			hydra::Vector4R Jpsi = hydra::get<1>(event);
-			hydra::Vector4R K    = hydra::get<2>(event);
-			hydra::Vector4R pi   = hydra::get<3>(event);
-
-			double M2_Jpsi_pi = (Jpsi + pi).mass2();
-			double M2_Kpi     = (K + pi).mass2();
-
-			Dalitz_d2.Fill( M2_Jpsi_pi, M2_Kpi, 1.0);
-			Weights_Profile.Fill( M2_Jpsi_pi, M2_Kpi, weight);
+			}
 		}
 
 #endif
@@ -244,18 +242,16 @@ int main(int argv, char** argc)
 	}
 
 
+
 #ifdef 	_ROOT_AVAILABLE_
 
 	TApplication *m_app=new TApplication("myapp",0,0);
 
 	TCanvas canvas_d1("canvas_d1", "Phase-space weigted sample", 500, 500);
-	Dalitz_d1.Draw("colz");
+	Dalitz_W.Draw("colz");
 
 	TCanvas canvas_d2("canvas_d2", "Phase-space unweigted sample", 500, 500);
-	Dalitz_d2.Draw("colz");
-
-	TCanvas canvas_d3("canvas_d3", "Phase-space weights profile", 500, 500);
-	Weights_Profile.Draw("colz");
+	DecayTime_W.Draw("hist");
 
 	m_app->Run();
 

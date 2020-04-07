@@ -265,6 +265,14 @@ public :
 		return fDecays[i];
 	}
 
+	template<typename ...Iterables>
+	auto Meld( Iterables&&... iterable)
+	-> typename std::enable_if< detail::all_true<detail::is_iterable<Iterables>::value...>::value,
+	   decltype(std::declval<storage_type>().meld( std::forward<Iterables>(iterable) ...)) >::type
+	{
+		return fDecays.meld( std::forward<Iterables>(iterable)... );
+
+	}
 
 	//----------------------------------------
 	//  stl compliant interface

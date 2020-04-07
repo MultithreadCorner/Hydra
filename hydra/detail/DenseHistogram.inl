@@ -619,9 +619,7 @@ inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value&&
 hydra::detail::is_iterable<Iterable2>::value,
 DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
 make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid,
-		T lowerlimits, T upperlimits,
-		Iterable1&& data,
-		Iterable2&& weights){
+		T lowerlimits, T upperlimits, Iterable1&& data, Iterable2&& weights){
 
 	return make_dense_histogram(backend, grid, lowerlimits, upperlimits,
 			std::forward<Iterable1>(data).begin(),

@@ -83,22 +83,23 @@ public:
 	fNorm(other.GetNorm())
 	{ }
 
-	__hydra_host__ __hydra_device__
-	inline Lambda<Lambda, 0>&
-	operator=(Lambda<LambdaType, 0> const & other )
-	{
-		if(this != &other)
-		{
-			fLambda     = other.GetLambda();
-			this->fNorm = other.GetNorm();
 
-		}
+   template<typename T= LambdaType>
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if< std::is_copy_assignable<T>::value,
+	Lambda<T, 0> &>::type
+	operator=(Lambda<T, 0> const & other )
+	{
+		if(this == &other) return *this;
+
+		fLambda  = other.GetLambda();
+        fNorm = other.GetNorm();
 
 		return *this;
 	}
 
 	__hydra_host__ __hydra_device__
-	inline LambdaType const& GetLambda() const
+	inline const LambdaType& GetLambda() const
 	{
 		return fLambda;
 	}
@@ -334,7 +335,7 @@ public:
 	{ }
 
 	__hydra_host__ __hydra_device__
-	inline Lambda<Lambda, NPARAM>&
+	inline Lambda<LambdaType, NPARAM>&
 	operator=(Lambda<LambdaType, NPARAM> const & other )
 	{
 		if(this != &other)

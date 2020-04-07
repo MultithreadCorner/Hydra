@@ -82,9 +82,7 @@
 
 #include <TROOT.h>
 #include <TH1D.h>
-#include <TF1.h>
 #include <TH2D.h>
-#include <TH3D.h>
 #include <TApplication.h>
 #include <TCanvas.h>
 #include <TColor.h>

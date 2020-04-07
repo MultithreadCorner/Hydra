@@ -82,12 +82,10 @@
 
 #include <TROOT.h>
 #include <TH1D.h>
-#include <TF1.h>
 #include <TH2D.h>
 #include <TApplication.h>
 #include <TCanvas.h>
-#include <TColor.h>
-#include <TString.h>
+
 #include <TStyle.h>
 #endif //_ROOT_AVAILABLE_
 
