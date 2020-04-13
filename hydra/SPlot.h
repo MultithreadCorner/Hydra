@@ -107,6 +107,7 @@ public:
 	SPlot( PDFSumExtendable<PDF1, PDF2, PDFs...> const& pdf, Iterator first, Iterator last):
 		fPDFs( pdf.GetPDFs() ),
 		fFunctors( pdf.GetFunctors()),
+		fCovMatrix( Eigen::Matrix<double, npdfs, npdfs>{} ),
 	    fBegin( iterator( first, transformer(  pdf.GetFunctors(), Eigen::Matrix<double, npdfs, npdfs>{} ))),
 		fEnd (iterator( last , transformer(  pdf.GetFunctors(), Eigen::Matrix<double, npdfs, npdfs>{} )))
 
@@ -114,11 +115,11 @@ public:
 		for(size_t i=0;i<npdfs; i++)
 			fCoeficients[i] = pdf.GetCoeficient(i);
 
-		fCovMatrix << 0.0, 0.0, 0.0, 0.0;
+		//fCovMatrix << 0.0, 0.0, 0.0, 0.0;
 
 
-		Eigen::Matrix<double, npdfs, npdfs>  init;
-		init << 0.0, 0.0, 0.0, 0.0;
+		Eigen::Matrix<double, npdfs, npdfs>  init{};
+		//init << 0.0, 0.0, 0.0, 0.0;
 
 		fCovMatrix = hydra_thrust::transform_reduce(system_type(), first, last,
 				detail::CovMatrixUnary<
