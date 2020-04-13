@@ -39,7 +39,6 @@
 #include <hydra/Vector3R.h>
 #include <hydra/Vector4R.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
-#include <hydra/FunctionWrapper.h>
 #include <hydra/detail/functors/StatsPHSP.h>
 
 //thrust

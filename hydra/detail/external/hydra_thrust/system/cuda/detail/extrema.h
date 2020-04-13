@@ -393,13 +393,13 @@ namespace __extrema {
     typedef tuple<ItemsIt, counting_iterator_t<IndexType> > iterator_tuple;
     typedef zip_iterator<iterator_tuple> zip_iterator;
 
-    iterator_tuple iter_tuple = make_tuple(first, counting_iterator_t<IndexType>(0));
+  //  iterator_tuple iter_tuple = make_tuple(first, counting_iterator_t<IndexType>(0));
 
 
     typedef ArgFunctor<InputType, IndexType, BinaryPred> arg_min_t;
     typedef tuple<InputType, IndexType> T;
 
-    zip_iterator begin = make_zip_iterator(iter_tuple);
+    zip_iterator begin = make_zip_iterator(first, counting_iterator_t<IndexType>(0));//(iter_tuple);
 
     T result = extrema(policy,
                        begin,

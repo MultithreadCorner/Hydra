@@ -36,6 +36,7 @@
 #include <hydra/multivector.h>
 #include <hydra/Tuple.h>
 #include <hydra/Function.h>
+#include <hydra/PhaseSpace.h>
 
 namespace hydra {
 
@@ -72,8 +73,8 @@ class Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>
 public :
 
 	typedef typename storage_type::value_type                                   value_type;
-	typedef typename storage_type::reference_type                                reference;
-	typedef typename storage_type::const_reference_type                    const_reference;
+	typedef typename storage_type::reference                                     reference;
+	typedef typename storage_type::const_reference                         const_reference;
 	typedef typename storage_type::iterator                                       iterator;
 	typedef typename storage_type::const_iterator                           const_iterator;
 	typedef typename storage_type::reverse_iterator                       reverse_iterator;
@@ -84,17 +85,17 @@ public :
 	 */
 
 	Decays( double motherMass,  std::array<double, nparticles> const& daughtersMasses, size_t nentries=0 ):
-		fDecays(n),
+		fDecays(nentries),
 		fMaxWeight(0.),
 	    fMotherMass(motherMass)
 	{
-		for(size_t i=0;i<N;i++)
+		for(size_t i=0;i<nparticles;i++)
 			fMasses[i] = daughtersMasses[i];
 
 		//compute maximum weight
 		double  ECM = fMotherMass;
 
-		for (size_t n = 0; n < N; n++)
+		for (size_t n = 0; n < nparticles; n++)
 		{
 			ECM -= fMasses[n];
 		}
@@ -103,7 +104,7 @@ public :
 		double emmin = 0.0;
 		double wtmax = 1.0;
 
-		for (size_t n = 1; n < N; n++)
+		for (size_t n = 1; n < nparticles; n++)
 		{
 			emmin  += fMasses[n - 1];
 			emmax += fMasses[n];
@@ -113,6 +114,35 @@ public :
 		fMaxWeight = 1.0 / wtmax;
 	}
 
+	Decays( double motherMass, const double (&daughtersMasses)[nparticles], size_t nentries=0 ):
+		fDecays(nentries),
+		fMaxWeight(0.),
+	    fMotherMass(motherMass)
+	{
+		for(size_t i=0;i<nparticles;i++)
+			fMasses[i] = daughtersMasses[i];
+
+		//compute maximum weight
+		double  ECM = fMotherMass;
+
+		for (size_t n = 0; n < nparticles; n++)
+		{
+			ECM -= fMasses[n];
+		}
+
+		double emmax = ECM + fMasses[0];
+		double emmin = 0.0;
+		double wtmax = 1.0;
+
+		for (size_t n = 1; n < nparticles; n++)
+		{
+			emmin  += fMasses[n - 1];
+			emmax += fMasses[n];
+			wtmax *= PDK(emmax, emmin, fMasses[n]);
+		}
+
+		fMaxWeight = 1.0 / wtmax;
+	}
 
 	/**
 	 * Copy constructor.
@@ -123,7 +153,7 @@ public :
 	fMaxWeight(other.GetMaxWeight()),
     fMotherMass(other.GetMotherMass())
 	{
-		for(size_t i=0;i<N;i++)
+		for(size_t i=0;i<nparticles;i++)
 			fMasses[i]= other.GetMasses()[i];
 
 	}
@@ -136,7 +166,7 @@ public :
 		fMaxWeight(other.GetMaxWeight()),
 	    fMotherMass(other.GetMotherMass())
 	{
-		for(size_t i=0;i<N;i++)
+		for(size_t i=0;i<nparticles;i++)
 				fMasses[i]= other.GetMasses()[i];
 
 	}
@@ -151,7 +181,7 @@ public :
 	fMaxWeight(other.GetMaxWeight()),
     fMotherMass(other.GetMotherMass())
 	{
-		for(size_t i=0;i<N;i++)
+		for(size_t i=0;i<nparticles;i++)
 						fMasses[i]= other.GetMasses()[i];
 	}
 
@@ -165,13 +195,13 @@ public :
     fMotherMass(motherMass)
 	{
 
-		for(size_t i=0;i<N;i++)
+		for(size_t i=0;i<nparticles;i++)
 			fMasses[i] = daughtersMasses[i];
 
 		//compute maximum weight
 		double  ECM = fMotherMass;
 
-		for (size_t n = 0; n < N; n++)
+		for (size_t n = 0; n < nparticles; n++)
 		{
 			ECM -= fMasses[n];
 		}
@@ -180,7 +210,7 @@ public :
 		double emmin  = 0.0;
 		double wtmax  = 1.0;
 
-		for (size_t n = 1; n < N; n++)
+		for (size_t n = 1; n < nparticles; n++)
 		{
 			emmin  += fMasses[n - 1];
 			emmax += fMasses[n];
@@ -202,18 +232,22 @@ public :
 	 }
 
 	 template<typename Functor>
-	 PhaseSpaceReweight<Functor, Particles...>
-	 GetEventWeightFunctor(Functor functor) const
+	 typename std::enable_if<
+	 	 detail::is_hydra_functor<Functor>::value || detail::is_hydra_lambda<Functor>::value,
+	 	 PhaseSpaceReweight<Functor, Particles...> >::type
+	 GetEventWeightFunctor(Functor const& functor) const
 	 {
-		 return  PhaseSpaceReweight<Particles...>(functor ,fMotherMass, fMasses );
+		 return  PhaseSpaceReweight<Functor, Particles...>(functor ,fMotherMass, fMasses );
 	 }
 
 	 hydra::Range<iterator>
 	 Unweight(size_t seed=0x180ec6d33cfd0aba);
 
-	 template<typename FUNCTOR>
-	 hydra::Range<iterator>
-	 Unweight( FUNCTOR  const& functor, double weight=-1.0, size_t seed=0x39abdc4529b1661c);
+	 template<typename Functor>
+	 typename std::enable_if<
+ 	 detail::is_hydra_functor<Functor>::value || detail::is_hydra_lambda<Functor>::value,
+	 hydra::Range<iterator>>::type
+	 Unweight( Functor  const& functor, double weight=-1.0, size_t seed=0x39abdc4529b1661c);
 
 	/**
 	 * Add a decay to the container, increasing
@@ -222,7 +256,7 @@ public :
 	 */
 	void AddEntry( tuple_type const& p )
 	{
-		fDecays.push_back( decay );
+		fDecays.push_back( p );
 	}
 
 
@@ -231,6 +265,14 @@ public :
 		return fDecays[i];
 	}
 
+	template<typename ...Iterables>
+	auto Meld( Iterables&&... iterable)
+	-> typename std::enable_if< detail::all_true<detail::is_iterable<Iterables>::value...>::value,
+	   decltype(std::declval<storage_type>().meld( std::forward<Iterables>(iterable) ...)) >::type
+	{
+		return fDecays.meld( std::forward<Iterables>(iterable)... );
+
+	}
 
 	//----------------------------------------
 	//  stl compliant interface
@@ -295,7 +337,7 @@ public :
 		return fDecays.insert(position, x);
 	}
 
-	void insert(iterator position, size_type n, const value_type &x)
+	void insert(iterator position, size_t n, const value_type &x)
 	{
 		fDecays.insert(position,n,x );
 	}
@@ -544,12 +586,11 @@ double GetMotherMass() const
 	 * @return
 	 */
 	template< hydra::detail::Backend BACKEND2>
-	Decays<tuple_type, detail::BackendPolicy<BACKEND> >&
+	Decays<tuple_type, system_type>&
 	operator=(Decays<tuple_type,detail::BackendPolicy<BACKEND2> > const& other )
 	{
-		size_t n = hydra_thrust::distance(first, last);
 
-		fDecays.resize(n);
+		fDecays.resize( other.size() );
 
 		hydra_thrust::copy(other.begin(),  other.end(), this->begin() );
 
@@ -572,11 +613,18 @@ protected:
 
 private:
 
+	double PDK(const double a, const double b, const double c) const {
+		//the PDK function
+		GReal_t x = (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c);
+		x = ::sqrt(x) / (2 * a);
+		return x;
+	}
+
 	storage_type  fDecays;
 
 	double  fMotherMass;
 	double  fMaxWeight;
-	std::array<double, nparticles>  fMasses[N];
+	std::array<double, nparticles>  fMasses;
 
 
 };

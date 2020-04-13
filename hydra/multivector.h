@@ -35,7 +35,9 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/functors/Caster.h>
 #include <hydra/Tuple.h>
+#include <hydra/Range.h>
 #include <hydra/Placeholders.h>
+#include <hydra/Range.h>
 #include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/hydra_thrust/tuple.h>
@@ -617,6 +619,20 @@ public:
 		return hydra_thrust::get<I>(fData).rend();
 	}
 
+	template<unsigned int I>
+	inline typename hydra_thrust::tuple_element<I, storage_tuple>::type&
+	column(placeholders::placeholder<I>   )
+	{
+		return hydra_thrust::get<I>(fData);
+	}
+
+	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
+	inline hydra::Range<columns_iterator< iterator_tuple, I1, I2,IN...>>
+	column(placeholders::placeholder<I1> c1, placeholders::placeholder<I2> c2, placeholders::placeholder<IN> ...cn)
+	{
+		return hydra::make_range( this->begin(c1,c2, cn...), this->end(c1, c2, cn...) );
+	}
+
 	//constant access
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
 	inline columns_iterator< const_iterator_tuple, I1, I2,IN...>
@@ -737,6 +753,34 @@ public:
 		return hydra_thrust::get<I>(fData);
 	}
 
+
+	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
+	inline hydra::Range<columns_iterator< const_iterator_tuple, I1, I2,IN...>>
+	column(placeholders::placeholder<I1> c1, placeholders::placeholder<I2> c2, placeholders::placeholder<IN> ...cn) const
+	{
+		return hydra::make_range( this->cbegin(c1,c2, cn...), this->cend(c1, c2, cn...) );
+	}
+
+
+	template<typename ...Iterables>
+	typename std::enable_if<detail::all_true<detail::is_iterable<Iterables>::value...>::value,
+	hydra::Range<hydra_thrust::zip_iterator<
+	typename detail::tuple_cat_type<iterator_tuple,
+	       hydra_thrust::tuple<decltype(std::declval<Iterables>().begin())...>>::type > > >::type
+	meld( Iterables&& ...iterable)
+	{
+
+			auto first = hydra_thrust::make_zip_iterator( hydra_thrust::tuple_cat(
+					this->begin().get_iterator_tuple(),
+					hydra_thrust::make_tuple(std::forward<Iterables>(iterable).begin()...) ) );
+
+			auto  last = hydra_thrust::make_zip_iterator( hydra_thrust::tuple_cat(
+					this->end().get_iterator_tuple(),
+					hydra_thrust::make_tuple(std::forward<Iterables>(iterable).end()...) ) );
+
+			return hydra::make_range(first, last);
+
+	}
 
 	template<typename Functor>
 	 inline caster_iterator<Functor> operator[](Functor const& caster)
@@ -1405,6 +1449,29 @@ rend(multivector<hydra_thrust::tuple<T...>, detail::BackendPolicy<BACKEND>>& oth
 {
 	return other.rend(placeholders::placeholder<I>{});
 }
+
+template<hydra::detail::Backend BACKEND, typename ...T, typename ...U>
+inline hydra::Range<     hydra_thrust::zip_iterator< typename detail::tuple_cat_type<
+typename multivector<hydra_thrust::tuple<T...>, detail::BackendPolicy<BACKEND>>::iterator_tuple,
+typename multivector<hydra_thrust::tuple<U...>, detail::BackendPolicy<BACKEND>>::iterator_tuple>::type> >
+meld( multivector<hydra_thrust::tuple<T...>, detail::BackendPolicy<BACKEND>>& left,
+	  multivector<hydra_thrust::tuple<U...>, detail::BackendPolicy<BACKEND>>& right)
+{
+	if( left.size() != right.size() ){
+	     throw std::invalid_argument("[ hydra::join ]: containers have different size.");
+	}
+
+	auto first = hydra_thrust::make_zip_iterator( hydra_thrust::tuple_cat(
+			left.begin().get_iterator_tuple(), right.begin().get_iterator_tuple()) );
+
+	auto  last = hydra_thrust::make_zip_iterator( hydra_thrust::tuple_cat(
+			left.end().get_iterator_tuple(), right.end().get_iterator_tuple()) );
+
+	return hydra::make_range(first, last);
+
+}
+
+
 
 template<typename ...T, hydra::detail::Backend BACKEND1, hydra::detail::Backend BACKEND2>
 bool operator==(const multivector<hydra_thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND1>>& lhs,

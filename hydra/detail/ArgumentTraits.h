@@ -31,7 +31,6 @@
 
 #include <hydra/detail/Config.h>
 #include<hydra/detail/utility/StaticAssert.h>
-#include <hydra/detail/FunctionArgument.h>
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/external/hydra_thrust/tuple.h>
 #include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
@@ -45,7 +44,8 @@ namespace hydra {
 
 namespace detail {
 
-
+template<typename Derived, typename Type>
+struct FunctionArgument;
 
 template<typename RefT, typename ...T>
 struct is_valid_type_pack;

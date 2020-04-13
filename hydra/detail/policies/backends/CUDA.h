@@ -48,7 +48,8 @@ static const cuda_t    _cuda_;
 template<>
 struct BackendPolicy<Backend::Cuda>: hydra_thrust::execution_policy<cuda::cuda_t>
 {
-	//typedef hydra_thrust::execution_policy<cuda::cuda_t> super_type;
+	typedef hydra_thrust::execution_policy<cuda::cuda_t> execution_policy_type;
+
 	const cuda::cuda_t backend= cuda::_cuda_;
 
 	template<typename T>

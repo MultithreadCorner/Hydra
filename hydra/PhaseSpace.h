@@ -319,11 +319,17 @@ public:
 		fECM = ecm;
 	}
 
+	static double PDK(double a, double b, double c){
+		//the PDK function
+		double x = (a - b - c) * (a + b + c) * (a - b + c) * (a + b - c);
+		x = ::sqrt(x) / (2 * a);
+		return x;
+	}
+
 private:
 /**
 	 * @brief PDK function
 	 */
-	inline GReal_t PDK(const GReal_t a, const GReal_t b, const GReal_t c) const ;
 
 	template<typename Iterator>
 	inline bool EnergyChecker(Iterator first, Iterator last) const;

@@ -36,6 +36,8 @@
 #include <hydra/Types.h>
 #include <hydra/detail/functors/RandomUtils.h>
 #include <hydra/detail/TypeTraits.h>
+#include <hydra/detail/Iterable_traits.h>
+#include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/Containers.h>
 #include <hydra/Range.h>
@@ -106,279 +108,44 @@ typedef hydra_thrust::random::ranlux48	ranlux48;
  */
 typedef hydra_thrust::random::taus88 	taus88;
 
-/**
- * @ingroup random
- * @brief This class implements functionalities associated to random number generation and pdf sampling.
- *
- * hydra::Random instances can sample multidimensional hydra::Pdf and fill ranges with data corresponding to
- * gaussian, exponential, uniform and Breit-Wigner distributions.
- *
- * @tparam GRND underlying random number generator.
- *
- */
-template<typename GRND=hydra_thrust::random::default_random_engine>
-class Random{
 
-public:
-	Random():
-			fSeed(7895123)
-	{}
+namespace detail {
 
-	Random(GUInt_t seed):
-		fSeed(seed)
-{}
+namespace random {
 
-	Random( Random const& other):
-		fSeed(other.fSeed)
-	{}
+template<typename T>
+struct is_iterator: std::conditional<
+        !hydra::detail::is_hydra_functor<T>::value &&
+        !hydra::detail::is_hydra_lambda<T>::value  &&
+        !hydra::detail::is_iterable<T>::value &&
+         hydra::detail::is_iterator<T>::value,
+         std::true_type,
+         std::false_type >::type {};
 
-	~Random(){};
+template<typename T>
+struct is_iterable: std::conditional<
+        !hydra::detail::is_hydra_functor<T>::value &&
+        !hydra::detail::is_hydra_lambda<T>::value  &&
+         hydra::detail::is_iterable<T>::value &&
+        !hydra::detail::is_iterator<T>::value,
+         std::true_type,
+         std::false_type >::type {};
 
-	GUInt_t GetSeed() const {
-		return fSeed;
-	}
+template<typename T>
+struct is_callable: std::conditional<
+        (hydra::detail::is_hydra_functor<T>::value ||
+         hydra::detail::is_hydra_lambda<T>::value ) &&
+        !hydra::detail::is_iterable<T>::value &&
+        !hydra::detail::is_iterator<T>::value,
+         std::true_type,
+         std::false_type >::type {};
 
-	void SetSeed(GUInt_t seed) {
-		fSeed = seed;
-	}
+}  // namespace random
 
-	/**
-	 * \warning{ the implementation of hydra_thrust::random::normal_distribution
-	 * is different between nvcc and gcc. Do not expect the same
-	 * numbers event by event.
-	 * Possible: implement myself ? (que inferno! :0)
-	 * Refs: see in hydra/detail/external/hydra_thrust/random/detail/normal_distribution_base.h
-	 * ```
-	 * template<typename RealType>
-	 * struct normal_distribution_base
-	 * {
-	 *	#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-	 *  typedef normal_distribution_nvcc<RealType> type;
-	 *	#else
-	 *  typedef normal_distribution_portable<RealType> type;
-	 *  #endif
-	 * };
-	 *	```
-	 *}
-	 */
-
-    /**
-     * @brief Fill the range [begin, end] with numbers distributed according a Gaussian distribution.
-     * @param mean \f$\mu\f$ of the Gaussian distribution.
-     * @param sigma \f$\sigma\f$ of the Gaussian distribution.
-     * @param begin Iterator pointing to the begin of the range.
-     * @param end Iterator pointing to the end of the range.
-     */
-	template<typename Iterator>
-	void Gauss(double mean,double sigma,Iterator begin, Iterator end ) ;
-
-	 /**
-	     * @brief Fill the range [begin, end] with numbers distributed according a Gaussian distribution.
-	     * @param mean \f$\mu\f$ of the Gaussian distribution.
-	     * @param sigma \f$\sigma\f$ of the Gaussian distribution.
-	     * @param begin Iterator pointing to the begin of the range.
-	     * @param end Iterator pointing to the end of the range.
-	     */
-	template<hydra::detail::Backend  BACKEND, typename Iterator>
-	void Gauss( hydra::detail::BackendPolicy<BACKEND> const& policy,
-			double mean,double sigma, Iterator begin, Iterator end );
-
-    /**
-     * @brief Fill the range [begin, end] with numbers distributed according a Gaussian distribution.
-     * @param mean \f$\mu\f$ of the Gaussian distribution.
-     * @param sigma \f$\sigma\f$ of the Gaussian distribution.
-     * @param output range to store the generated values.
-     */
-	template<typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
-					 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
-	Gauss(double mean, double sigma,Iterable&& output) ;
-
-	/**
-	 * @brief Fill the range [begin, end] with numbers distributed according a Exponential distribution.
-	 * @param tau \f$\tau\f$ of the Exponential distribution
-	 * @param begin Iterator pointing to the begin of the range.
-	 * @param end Iterator pointing to the end of the range.
-	 */
-	template<typename Iterator>
-	void Exp(double tau, Iterator begin, Iterator end)  ;
-
-	/**
-	 * @brief Fill the range [begin, end] with numbers distributed according a Exponential distribution.
-	 * @param tau \f$\tau\f$ of the Exponential distribution
-	 * @param begin Iterator pointing to the begin of the range.
-	 * @param end Iterator pointing to the end of the range.
-	 */
-	template<hydra::detail::Backend  BACKEND, typename Iterator>
-	void Exp(hydra::detail::BackendPolicy<BACKEND> const& policy, double tau, Iterator begin, Iterator end)  ;
-
-	/**
-	 * @brief Fill the range [begin, end] with numbers distributed according a Exponential distribution.
-	 * @param tau \f$\tau\f$ of the Exponential distribution
-	 * @param output range to store the generated values.
-	 */
-	template<typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
-						 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
-	Exp(double tau, Iterable&& output );
-
-	/**
-	 * @brief Fill the range [begin, end] with numbers distributed according a Breit-Wigner distribution.
-	 * @param mean \f$\mu\f$ of the Breit-Wigner distribution.
-	 * @param gamma \f$\\Gamma\f$ of the Breit-Wigner distribution.
-	 * @param begin Iterator pointing to the begin of the range.
-	 * @param end Iterator pointing to the end of the range.
-	 */
-	template<typename Iterator>
-	void BreitWigner(double mean,double gamma, Iterator begin, Iterator end)  ;//-> decltype(*begin);
-
-	/**
-	 * @brief Fill the range [begin, end] with numbers distributed according a Breit-Wigner distribution.
-	 * @param mean \f$\mu\f$ of the Breit-Wigner distribution.
-	 * @param gamma \f$\\Gamma\f$ of the Breit-Wigner distribution.
-	 * @param begin Iterator pointing to the begin of the range.
-	 * @param end Iterator pointing to the end of the range.
-	 */
-	template<hydra::detail::Backend  BACKEND, typename Iterator>
-	void BreitWigner(hydra::detail::BackendPolicy<BACKEND> const& policy,
-			double mean, double gamma, Iterator begin, Iterator end)  ;//-> decltype(*begin);
-
-	/**
-	 * @brief Fill the range [begin, end] with numbers distributed according a Breit-Wigner distribution.
-	 * @param mean \f$\mu\f$ of the Breit-Wigner distribution.
-	 * @param gamma \f$\\Gamma\f$ of the Breit-Wigner distribution.
-	 * @param output range to store the generated values.
-	 */
-	template<typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
-							 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
-	BreitWigner(double mean, double gamma, Iterable&& output)  ;
-
-	/**
-	 * @brief Fill the range [begin, end] with numbers distributed according a Uniform distribution.
-	 * @param min minimum
-	 * @param max maximum
-	 * @param begin Iterator pointing to the begin of the range.
-	 * @param end Iterator pointing to the end of the range.
-	 */
-	template<typename Iterator>
-	void Uniform(double min, double max, Iterator begin, Iterator end) ;
-
-	/**
-	 * @brief Fill the range [begin, end] with numbers distributed according a Uniform distribution.
-	 * @param min minimum
-	 * @param max maximum
-	 * @param begin Iterator pointing to the begin of the range.
-	 * @param end Iterator pointing to the end of the range.
-	 */
-	template<hydra::detail::Backend  BACKEND, typename Iterator>
-	void Uniform(hydra::detail::BackendPolicy<BACKEND> const& policy,
-			double min, double max, Iterator begin, Iterator end) ;
-
-	/**
-	 * @brief Fill the range [begin, end] with numbers distributed according a Uniform distribution.
-	 * @param min minimum
-	 * @param max maximum
-	 * @param output range to store the generated values.
-	 */
-	template<typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
-	hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
-	Uniform(double min,	double max, Iterable&& output) ;
+}  // namespace detail
 
 
-	/**
-	 * @brief Fill a range with numbers distributed according a user defined distribution.
-	 * @param begin beginning of the range storing the generated values
-	 * @param end ending of the range storing the generated values
-	 * @param min lower limit of sampling region
-	 * @param max upper limit of sampling region.
-	 * @param functor distribution to be sampled
-	 * @return range with the generated values
-	 */
-	template<typename Iterator, typename FUNCTOR>
-	Range<Iterator> Sample(Iterator begin, Iterator end , double min, double max, FUNCTOR const& functor);
 
-	/**
-	 * @brief Fill a range with numbers distributed according a user defined distribution.
-	 * @param policy backend to perform the calculation.
-	 * @param begin beginning of the range storing the generated values
-	 * @param end ending of the range storing the generated values
-	 * @param min lower limit of sampling region
-	 * @param max upper limit of sampling region.
-	 * @param functor distribution to be sampled
-	 * @return range with the generated values
-	 */
-	template<hydra::detail::Backend  BACKEND, typename Iterator, typename FUNCTOR>
-	Range<Iterator> Sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
-			Iterator begin, Iterator end ,	double min, double max, FUNCTOR const& functor);
-
-
-	/**
-	 * @brief Fill a range with numbers distributed according a user defined distribution.
-	 * @param output range storing the generated values
-	 * @param min lower limit of sampling region
-	 * @param max upper limit of sampling region.
-	 * @param functor distribution to be sampled
-	 * @return range with the generated values
-	 */
-	template< typename Iterable, typename FUNCTOR>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
-		hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
-	Sample(Iterable&& output, double min, double max, FUNCTOR const& functor);
-
-	/**
-	 * @brief Fill a range with numbers distributed according a user defined distribution.
-	 * @param begin beginning of the range storing the generated values
-	 * @param end ending of the range storing the generated values
-	 * @param min array of lower limits of sampling region
-	 * @param max array of upper limits of sampling region.
-	 * @param functor distribution to be sampled
-	 * @return range with the generated values
-	 */
-	template<typename Iterator, typename FUNCTOR, size_t N >
-	Range<Iterator> Sample(Iterator begin, Iterator end ,
-			std::array<double,N>const& min,
-			std::array<double,N>const& max,
-			FUNCTOR const& functor);
-
-
-	/**
-	 * @brief Fill a range with numbers distributed according a user defined distribution.
-	 * @param policy backend to perform the calculation.
-	 * @param begin beginning of the range storing the generated values
-	 * @param end ending of the range storing the generated values
-	 * @param min array of lower limits of sampling region
-	 * @param max array of upper limits of sampling region.
-	 * @param functor distribution to be sampled
-	 */
-	template<hydra::detail::Backend  BACKEND, typename Iterator, typename FUNCTOR, size_t N >
-	Range<Iterator> Sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
-			Iterator begin, Iterator end ,
-			std::array<double,N>const& min,
-			std::array<double,N>const& max,
-			FUNCTOR const& functor);
-
-
-	/**
-	 * @brief Fill a range with numbers distributed according a user defined distribution.
-	 * @param output range storing the generated values
-	 * @param min array of lower limits of sampling region
-	 * @param max array of upper limits of sampling region.
-	 * @param functor distribution to be sampled
-	 * @return output range with the generated values
-	 */
-	template<typename Iterable, typename FUNCTOR, size_t N >
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
-			hydra::Range<decltype(std::declval<Iterable>().begin())>>::type Sample(Iterable&& output ,
-			std::array<double,N>const& min,
-			std::array<double,N>const& max,
-			FUNCTOR const& functor);
-
-private:
-	GUInt_t fSeed;
-
-};
 
 /**
  * \ingroup random
@@ -388,14 +155,35 @@ private:
  * the dataset size.
  *
  * @param policy parallel backend to perform the unweighting
- * @param wbegin iterator pointing to the begin of the range of weights
- * @param wend  iterator pointing to the begin of the range of weights
- * @param begin iterator pointing to the begin of the range of data
+ * @param data_begin iterator pointing to the begin of the range of weights
+ * @param data_end iterator pointing to the begin of the range of weights
+ * @param weights_begin iterator pointing to the begin of the range of data
  * @return
  */
-template<hydra::detail::Backend  BACKEND, typename Iterator1, typename Iterator2>
-typename std::enable_if< !hydra::detail::is_hydra_functor<Iterator2>::value, Range<Iterator2>>::type
-unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator1 wbegin, Iterator1 wend , Iterator2 begin);
+template<typename RNG=default_random_engine, typename IteratorData, typename IteratorWeight, hydra::detail::Backend  BACKEND>
+typename std::enable_if<
+detail::random::is_iterator<IteratorData>::value && detail::random::is_iterator<IteratorWeight>::value,
+Range<IteratorData> >::type
+unweight( detail::BackendPolicy<BACKEND> const& policy, IteratorData data_begin, IteratorData data_end, IteratorWeight weights_begin);
+
+/**
+ * \ingroup random
+ *
+ * This functions reorder a dataset to produce a unweighted sample according to the weights
+ * [wbegin, wend]. The length of the range [wbegin, wend] should be equal or greater than
+ * the dataset size.
+ *
+ * @param data_begin iterator pointing to the begin of the range of weights
+ * @param data_end iterator pointing to the begin of the range of weights
+ * @param weights_begin iterator pointing to the begin of the range of data
+ * @return
+ */
+template<typename RNG=default_random_engine, typename IteratorData, typename IteratorWeight>
+typename std::enable_if<
+	detail::random::is_iterator<IteratorData>::value && detail::random::is_iterator<IteratorWeight>::value,
+	Range<IteratorData>
+>::type
+unweight(IteratorData data_begin, IteratorData data_end , IteratorData weights_begin);
 
 /**
  * \ingroup random
@@ -409,17 +197,35 @@ unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator1 wbegin,
  * @param data the range corresponding dataset
  * @return
  */
-template<hydra::detail::Backend  BACKEND,  typename Iterable1,  typename Iterable2>
-typename std::enable_if<detail::is_iterable<Iterable1>::value && detail::is_iterable<Iterable2>::value,
-Range< decltype(std::declval<Iterable2>().begin())>>::type
-unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterable1 weights,  Iterable2 data);
+template<typename RNG=default_random_engine, typename IterableData, typename IterableWeight, hydra::detail::Backend BACKEND>
+typename std::enable_if<
+detail::random::is_iterable<IterableData>::value && detail::random::is_iterable<IterableWeight>::value,
+Range< decltype(std::declval<IterableData>().begin())> >::type
+unweight( hydra::detail::BackendPolicy<BACKEND> const& policy,  IterableData&& data, IterableWeight&& weights);
 
+/**
+ * \ingroup random
+ *
+ * This functions reorder a dataset to produce an unweighted sample according to a weights.
+ * The length of the range @param weights should be equal or greater than
+ * the  @param data size.
+ *
+ * @param weights the range of weights
+ * @param data the range corresponding dataset
+ * @return
+ */
+template<typename RNG=default_random_engine, typename IterableData, typename IterableWeight>
+typename std::enable_if<
+	detail::random::is_iterable<IterableData>::value && detail::random::is_iterable<IterableWeight>::value,
+	Range< decltype(std::declval<IterableData>().begin())>
+>::type
+unweight( IterableData data, IterableWeight weights);
 
 
 /**
  * \ingroup random
  *
- * This functions reorder a dataset to produce a unweighted sample according to @param functor .
+ * This functions reorder a dataset to produce an unweighted sample according to @param functor .
  *
  * @param policy
  * @param begin
@@ -427,25 +233,194 @@ unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterable1 weights
  * @param functor
  * @return the index of the last entry of the unweighted event.
  */
-template<hydra::detail::Backend  BACKEND, typename Functor, typename Iterator>
-typename std::enable_if< hydra::detail::is_hydra_functor<Functor>::value, Range<Iterator>>::type
+template<typename RNG=default_random_engine, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND>
+typename std::enable_if<
+	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
+	Range<Iterator>
+>::type
 unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor);
 
 /**
  * \ingroup random
  *
- * This functions reorder a dataset to produce a unweighted sample according to @param functor .
+ * This functions reorder a dataset to produce an unweighted sample according to @param functor .
  *
- * @param policy
+ * @param begin
+ * @param end
+ * @param functor
+ * @return the index of the last entry of the unweighted event.
+ */
+template<typename RNG=default_random_engine, typename Functor, typename Iterator>
+typename std::enable_if<
+	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
+	Range<Iterator>
+>::type
+unweight( Iterator begin, Iterator end, Functor const& functor);
+
+/**
+ * \ingroup random
+ *
+ * This functions reorder a dataset to produce an unweighted sample according to @param functor .
+ *
  * @param iterable
  * @param functor
  * @return hydra::Range object pointing unweighted sample.
  */
-template<hydra::detail::Backend  BACKEND, typename Functor, typename Iterable>
-typename std::enable_if< detail::is_hydra_functor<Functor>::value &&
-                         detail::is_iterable<Iterable>::value , Range< decltype(std::declval<Iterable>().begin())>>::type
+template<typename RNG=default_random_engine, typename Functor, typename Iterable, hydra::detail::Backend  BACKEND>
+typename std::enable_if<
+	detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
+	Range< decltype(std::declval<Iterable>().begin())>
+>::type
 unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterable&& iterable, Functor const& functor);
 
+/**
+ * \ingroup random
+ *
+ * This functions reorder a dataset to produce an unweighted sample according to @param functor .
+ *
+ * @param iterable
+ * @param functor
+ * @return hydra::Range object pointing unweighted sample.
+ */
+template<typename RNG=default_random_engine, typename Functor, typename Iterable>
+typename std::enable_if<
+detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
+Range< decltype(std::declval<Iterable>().begin())>>::type
+unweight( Iterable&& iterable, Functor const& functor);
+
+
+
+
+/**
+ * @brief Fill a range with numbers distributed according a user defined distribution.
+ * @param begin beginning of the range storing the generated values
+ * @param end ending of the range storing the generated values
+ * @param min lower limit of sampling region
+ * @param max upper limit of sampling region.
+ * @param functor distribution to be sampled
+ * @return range with the generated values
+ */
+template<typename RNG=default_random_engine, typename Functor, typename Iterator>
+typename std::enable_if<
+detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
+Range<Iterator> >::type
+sample(Iterator begin, Iterator end , double min, double max,
+		Functor const& functor, size_t seed=0xb56c4feeef1b);
+
+/**
+ * @brief Fill a range with numbers distributed according a user defined distribution.
+ * @param policy backend to perform the calculation.
+ * @param begin beginning of the range storing the generated values
+ * @param end ending of the range storing the generated values
+ * @param min lower limit of sampling region
+ * @param max upper limit of sampling region.
+ * @param functor distribution to be sampled
+ * @return range with the generated values
+ */
+template<typename RNG=default_random_engine, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND>
+typename std::enable_if<
+detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
+Range<Iterator> >::type
+sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
+		Iterator begin, Iterator end, double min, double max,
+		Functor const& functor, size_t seed=0xb56c4feeef1b);
+
+/**
+ * @brief Fill a range with numbers distributed according a user defined distribution.
+ * @param policy backend to perform the calculation.
+ * @param begin beginning of the range storing the generated values
+ * @param end ending of the range storing the generated values
+ * @param min lower limit of sampling region
+ * @param max upper limit of sampling region.
+ * @param functor distribution to be sampled
+ * @return range with the generated values
+ */
+template<typename RNG=default_random_engine, typename DerivedPolicy, typename Functor, typename Iterator>
+typename std::enable_if<
+detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
+Range<Iterator> >::type
+sample(hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& policy,
+		Iterator begin, Iterator end, double min, double max,
+		Functor const& functor, size_t seed=0xb56c4feeef1b);
+
+/**
+ * @brief Fill a range with numbers distributed according a user defined distribution.
+ * @param output range storing the generated values
+ * @param min lower limit of sampling region
+ * @param max upper limit of sampling region.
+ * @param functor distribution to be sampled
+ * @return range with the generated values
+ */
+template<typename RNG=default_random_engine, typename Functor, typename Iterable>
+typename std::enable_if<
+detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
+Range< decltype(std::declval<Iterable>().begin())>>::type
+sample(Iterable&& output, double min, double max,
+		Functor const& functor, size_t seed=0xb56c4feeef1b);
+
+/**
+ * @brief Fill a range with numbers distributed according a user defined distribution.
+ * @param begin beginning of the range storing the generated values
+ * @param end ending of the range storing the generated values
+ * @param min array of lower limits of sampling region
+ * @param max array of upper limits of sampling region.
+ * @param functor distribution to be sampled
+ * @return range with the generated values
+ */
+template<typename RNG=default_random_engine, typename Functor, typename Iterator, size_t N >
+typename std::enable_if<
+detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
+Range<Iterator> >::type
+sample(Iterator begin, Iterator end , std::array<double,N>const& min, std::array<double,N>const& max,
+		Functor const& functor, size_t seed=0xb56c4feeef1b);
+
+/**
+ * @brief Fill a range with numbers distributed according a user defined distribution.
+ * @param policy backend to perform the calculation.
+ * @param begin beginning of the range storing the generated values
+ * @param end ending of the range storing the generated values
+ * @param min array of lower limits of sampling region
+ * @param max array of upper limits of sampling region.
+ * @param functor distribution to be sampled
+ */
+template<typename RNG=default_random_engine, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND, size_t N >
+typename std::enable_if<
+detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
+Range<Iterator> >::type
+sample(hydra::detail::BackendPolicy<BACKEND> const& policy,	Iterator begin, Iterator end ,
+		std::array<double,N>const& min,	std::array<double,N>const& max,
+		Functor const& functor, size_t seed=0xb56c4feeef1b);
+/**
+ * @brief Fill a range with numbers distributed according a user defined distribution.
+ * @param policy backend to perform the calculation.
+ * @param begin beginning of the range storing the generated values
+ * @param end ending of the range storing the generated values
+ * @param min array of lower limits of sampling region
+ * @param max array of upper limits of sampling region.
+ * @param functor distribution to be sampled
+ */
+template<typename RNG=default_random_engine, typename DerivedPolicy, typename Functor, typename Iterator, size_t N >
+typename std::enable_if<
+detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
+Range<Iterator> >::type
+sample(hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& policy,	Iterator begin, Iterator end ,
+		std::array<double,N>const& min,	std::array<double,N>const& max,
+		Functor const& functor, size_t seed=0xb56c4feeef1b);
+
+/**
+ * @brief Fill a range with numbers distributed according a user defined distribution.
+ * @param output range storing the generated values
+ * @param min array of lower limits of sampling region
+ * @param max array of upper limits of sampling region.
+ * @param functor distribution to be sampled
+ * @return output range with the generated values
+ */
+template<typename RNG=default_random_engine, typename Functor, typename Iterable, size_t N >
+typename std::enable_if<
+detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
+Range< decltype(std::declval<Iterable>().begin())>>::type
+sample(Iterable&& output , std::array<double,N>const& min, std::array<double,N>const& max,
+		Functor const& functor, size_t seed=0xb56c4feeef1b);
 
 
 

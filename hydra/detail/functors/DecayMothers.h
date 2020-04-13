@@ -55,6 +55,7 @@ namespace detail {
 template <size_t N, typename GRND>
 struct DecayMothers
 {
+	typedef tuple_type<N+1, hydra::Vector4R> particles_tuple_type;
 
 	size_t fSeed;
 	GReal_t fECM;
@@ -135,29 +136,7 @@ struct DecayMothers
 		randEng.discard(evt+3*N);
 
 		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
-/*
-		GReal_t fECM = 0.0;
 
-		fECM = particles[0].mass();
-
-//#pragma unroll N
-		for (size_t n = 0; n < N; n++)
-		{
-			fECM -= fMasses[n];
-		}
-
-		GReal_t emmax = fECM + fMasses[0];
-		GReal_t emmin = 0.0;
-		GReal_t wtmax = 1.0;
-
-//#pragma unroll N
-		for (size_t n = 1; n < N; n++)
-		{
-			emmin += fMasses[n - 1];
-			emmax += fMasses[n];
-			wtmax *= pdk(emmax, emmin, fMasses[n]);
-		}
-*/
 		GReal_t rno[N];
 		rno[0] = 0.0;
 
@@ -261,17 +240,21 @@ struct DecayMothers
 
 
 	}
-	template< typename I,typename Tuple>
-	__hydra_host__      __hydra_device__ GReal_t operator()(I evt, Tuple particles)
+
+
+	__hydra_host__      __hydra_device__
+	inline particles_tuple_type operator()(size_t evt)
 	{
 
-		constexpr size_t SIZE = hydra_thrust::tuple_size<Tuple>::value;
-		Vector4R Particles[SIZE];
-		//hydra::detail::assignTupleToArray(particles,  Particles );
-		GReal_t weight = process(evt, Particles);
+		Vector4R Particles[N+1];
+
+		process(evt, Particles);
+
+		particles_tuple_type particles{};
+
 		hydra::detail::assignArrayToTuple(particles,  Particles );
 
-		return weight;
+		return particles;
 
 	}
 

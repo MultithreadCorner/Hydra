@@ -66,36 +66,26 @@
 #include <hydra/Types.h>
 #include <hydra/Vector4R.h>
 #include <hydra/PhaseSpace.h>
-#include <hydra/Evaluate.h>
 #include <hydra/Function.h>
-#include <hydra/FunctorArithmetic.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 #include <hydra/Algorithm.h>
 #include <hydra/Tuple.h>
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
+#include <hydra/Decays.h>
+#include <hydra/DenseHistogram.h>
+#include <hydra/Range.h>
 #include <hydra/functions/CosHelicityAngle.h>
 
-/*-------------------------------------
- * Include classes from ROOT to fill
- * and draw histograms and plots.
- *-------------------------------------
- */
-#ifdef _ROOT_AVAILABLE_
 
-#include <TROOT.h>
-#include <TH1D.h>
-#include <TF1.h>
-#include <TH2D.h>
-#include <TH3D.h>
-#include <TApplication.h>
-#include <TCanvas.h>
-#include <TColor.h>
-#include <TString.h>
-#include <TStyle.h>
+// Daughter particles
 
-#endif //_ROOT_AVAILABLE_
+declarg(A, hydra::Vector4R)
+declarg(B, hydra::Vector4R)
+declarg(C, hydra::Vector4R)
 
+//---------------------------
+using namespace hydra::arguments;
 
 
 int main(int argv, char** argc)
@@ -103,10 +93,11 @@ int main(int argv, char** argc)
 
 
 	size_t  nentries   = 0; // number of events to generate, to be get from command line
-	double B0_mass    = 5.27955;   // B0 mass
-	double Jpsi_mass  = 3.0969;    // J/psi mass
-	double K_mass     = 0.493677;  // K+ mass
-	double pi_mass    = 0.13957061;// pi mass
+
+	double P_mass = 5.27955;
+	double A_mass = 3.0969;
+	double B_mass = 0.493677;
+	double C_mass = 0.13957061;
 
 
 	try {
@@ -131,31 +122,25 @@ int main(int argv, char** argc)
 																<< std::endl;
 	}
 
-	//C++11 lambda for cosine of helicity angle Kpi
-	auto COSHELANG = [] __hydra_dual__ (unsigned int n,  hydra::Vector4R *fvectors )
-	{
-		hydra::Vector4R p1 = fvectors[0];
-		hydra::Vector4R p2 = fvectors[1];
-		hydra::Vector4R p3 = fvectors[2];
 
-		auto coshelang =hydra::CosHelicityAngle();
+	auto cosTheta = hydra::wrap_lambda(  [] __hydra_dual__ ( A a, B b, C c) {
+		auto coshelang = hydra::CosHelicityAngle();
 
-		return coshelang(p1+p2+p3, p2+p3, p3);
-	};
+		return coshelang(a+b+c, b+c, c);
+	});
 
-	auto cosTheta = hydra::wrap_lambda(COSHELANG);
+	hydra::Vector4R Parent(P_mass, 0.0, 0.0, 0.0);
 
-	hydra::Vector4R B0(B0_mass, 0.0, 0.0, 0.0);
-	double masses[3]{Jpsi_mass, K_mass, pi_mass };
+	double masses[3]{A_mass, B_mass, C_mass };
 
 	// Create PhaseSpace object for B0-> K pi J/psi
-	hydra::PhaseSpace<3> phsp(B0_mass, masses);
+	hydra::PhaseSpace<3> phsp{P_mass, masses};
 
 	//device
 	{
 	auto start = std::chrono::high_resolution_clock::now();
 
-	auto device_result = phsp.AverageOn(hydra::device::sys, B0 , cosTheta, nentries) ;
+	auto device_result = phsp.AverageOn(hydra::device::sys, Parent, cosTheta, nentries) ;
 
 	auto end = std::chrono::high_resolution_clock::now();
 

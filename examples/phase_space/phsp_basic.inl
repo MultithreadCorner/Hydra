@@ -63,18 +63,16 @@
 #include <hydra/Types.h>
 #include <hydra/Vector4R.h>
 #include <hydra/PhaseSpace.h>
-//#include <hydra/Events.h>
-//#include <hydra/Chain.h>
-#include <hydra/Evaluate.h>
 #include <hydra/Function.h>
-#include <hydra/FunctorArithmetic.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 #include <hydra/Algorithm.h>
 #include <hydra/Tuple.h>
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
 #include <hydra/Decays.h>
 #include <hydra/DenseHistogram.h>
+#include <hydra/Range.h>
+
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -86,7 +84,6 @@
 #include <TH1D.h>
 #include <TF1.h>
 #include <TH2D.h>
-#include <TH3D.h>
 #include <TApplication.h>
 #include <TCanvas.h>
 #include <TColor.h>
@@ -95,17 +92,26 @@
 
 #endif //_ROOT_AVAILABLE_
 
+//---------------------------
+// Daughter particles
 
+declarg(A, hydra::Vector4R)
+declarg(B, hydra::Vector4R)
+declarg(C, hydra::Vector4R)
+
+//---------------------------
+using namespace hydra::arguments;
 
 int main(int argv, char** argc)
 {
 
 
 	size_t  nentries   = 0; // number of events to generate, to be get from command line
-	double B0_mass    = 0.493677;  //5.27955;   // B0 mass
-	double Jpsi_mass  = 0.13957061;//3.0969;    // J/psi mass
-	double K_mass     = 0.13957061;//0.493677;  // K+ mass
-	double pi_mass    = 0.13957061;// pi mass
+
+	double P_mass = 0.493677;  //5.27955;
+	double A_mass = 0.13957061;//3.0969;
+	double B_mass = 0.13957061;//0.493677;
+	double C_mass = 0.13957061;// pi mass
 
 
 	try {
@@ -132,45 +138,39 @@ int main(int argv, char** argc)
 
 #ifdef 	_ROOT_AVAILABLE_
 	//
-	TH2D Dalitz_d("Dalitz_d", "Device;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
-			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
-			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
+	TH2D Dalitz_d("Dalitz_d",
+			"3-body phase-space;"
+			"M^{2}(A B) [GeV^{2}/c^{4}];"
+			"M^{2}(B C) [GeV^{2}/c^{4}]",
+			100, pow(A_mass + B_mass,2), pow(P_mass - C_mass,2),
+			100, pow(B_mass + C_mass,2), pow(P_mass - A_mass,2));
 
 #endif
 
-	hydra::Vector4R B0(B0_mass, 0.0, 0.0, 0.0);
-	double masses[3]{Jpsi_mass, K_mass, pi_mass };
+	hydra::Vector4R Parent(P_mass, 0.0, 0.0, 0.0);
 
-	// Create PhaseSpace object for B0-> K pi J/psi
-	hydra::PhaseSpace<3> phsp{B0_mass, {Jpsi_mass, K_mass, pi_mass}};
+	double masses[3]{A_mass, B_mass, C_mass };
+
+	// Create PhaseSpace object for P-> A B C
+	hydra::PhaseSpace<3> phsp{P_mass, masses};
 
 
 	auto dalitz_calculator = hydra::wrap_lambda(
-			[] __hydra_dual__ ( unsigned int np, hydra::Vector4R* particles){
+			[] __hydra_dual__ (A a, B b, C c) {
 
-		hydra::Vector4R Jpsi = particles[0];
-		hydra::Vector4R K    = particles[1];
-		hydra::Vector4R pi   = particles[2];
-
-		double M2_Jpsi_pi = (Jpsi + pi).mass2();
-		double M2_Kpi     = (K + pi).mass2();
-
-		return hydra::make_tuple(M2_Jpsi_pi, M2_Kpi);
+		return hydra::make_tuple( (a + b).mass2(), (b + c).mass2());
 	});
 
 
 	//device
 	{
-		//allocate memory to hold the final states particles
-		//hydra::Events<3, hydra::device::sys_t > Events_d(nentries);
-
-		hydra::Decays<3, hydra::device::sys_t > Events_d(nentries);
+		hydra::Decays<hydra::tuple<A,B,C>, hydra::device::sys_t > Events(P_mass, masses, nentries);
 
 
 		auto start = std::chrono::high_resolution_clock::now();
 
 		//generate the final state particles
-        phsp.Generate(B0, Events_d) ;
+        phsp.Generate(Parent, Events) ;
 
 		auto end = std::chrono::high_resolution_clock::now();
 
@@ -180,34 +180,38 @@ int main(int argv, char** argc)
 		std::cout << std::endl;
 		std::cout << std::endl;
 		std::cout << "----------------- Device ----------------"<< std::endl;
-		std::cout << "| B0 -> J/psi K pi"                       << std::endl;
+		std::cout << "| P -> A B C"                             << std::endl;
 		std::cout << "| Number of events :"<< nentries          << std::endl;
 		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
 		std::cout << "-----------------------------------------"<< std::endl;
 
 		//print
+		std::cout << "\n\n|~~~~> Events (Vector4R, Vector4R, Vector4R):\n " << std::endl;
 		for( size_t i=0; i<10; i++ )
-			std::cout << Events_d.GetDecay(i) << std::endl;
+			std::cout << Events[i] << std::endl;
 
-		auto dalitz_variables = Events_d.GetUnweightedDecays() | dalitz_calculator ;
 
-		auto dalitz_weights   = Events_d.GetWeights();
+		//the power of lazyness
+		auto dalitz_variables = Events | dalitz_calculator ;
 
-		/*
-		hydra::DenseHistogram<double, 2, hydra::device::sys_t> Hist_Dalitz(	{100,100},
-				{pow(Jpsi_mass + pi_mass,2), pow(K_mass + pi_mass,2)},
-				{pow(B0_mass - K_mass,2)   , pow(B0_mass - Jpsi_mass,2)});*/
+		auto dalitz_weights   = Events | Events.GetEventWeightFunctor();
 
-		auto Hist_Dalitz = hydra::make_dense_histogram<double,2>(
-				hydra::device::sys,
+		std::cout << "\n\n|~~~~> Dalitz plot {weight, (m^sq_ab, m^sq_bc)}:\n" << std::endl;
+		for( size_t i=0; i<10; i++ )
+			std::cout << "{ "
+			          << dalitz_weights[i] << ", "
+			          << dalitz_variables[i] << " }"<< std::endl;
+
+
+
+        start = std::chrono::high_resolution_clock::now();
+
+        auto Hist_Dalitz = hydra::make_dense_histogram<double,2>( hydra::device::sys,
 				{100,100},
-				{pow(Jpsi_mass + pi_mass,2), pow(K_mass + pi_mass,2)},
-				{pow(B0_mass - K_mass,2)   , pow(B0_mass - Jpsi_mass,2)},
+				{pow(A_mass + B_mass,2), pow(B_mass + C_mass,2)},
+				{pow(P_mass - C_mass,2), pow(P_mass - A_mass,2)},
 				dalitz_variables, 	dalitz_weights);
 
-		start = std::chrono::high_resolution_clock::now();
-
-		//Hist_Dalitz.Fill(dalitz_variables );
 
 		end = std::chrono::high_resolution_clock::now();
 

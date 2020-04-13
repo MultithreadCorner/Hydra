@@ -58,6 +58,7 @@ namespace detail {
 template <size_t N,  typename GRND>
 struct DecayMother
 {
+	typedef typename tuple_type<N, hydra::Vector4R>::type particles_tuple_type;
 
 	size_t fSeed;
 
@@ -275,17 +276,19 @@ struct DecayMother
 
 	}
 
-	template< typename I,typename Tuple>
-	__hydra_host__  __hydra_device__ inline GReal_t operator()(I evt, Tuple particles)
+	__hydra_host__  __hydra_device__
+	inline particles_tuple_type operator()(size_t evt)
 	{
 
-		constexpr size_t SIZE = hydra_thrust::tuple_size<Tuple>::value;
-		Vector4R Particles[SIZE];
-		//hydra::detail::assignTupleToArray(particles,  Particles );
-		GReal_t weight = process(evt, Particles);
-		hydra::detail::assignArrayToTuple(particles,  Particles );
+		Vector4R Particles[N];
 
-		return weight;
+	    GReal_t weight = process(evt, Particles);
+
+	    particles_tuple_type particles{};
+
+		assignArrayToTuple(particles,  Particles );
+
+		return particles;
 	}
 
 

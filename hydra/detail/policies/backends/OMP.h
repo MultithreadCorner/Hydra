@@ -48,7 +48,8 @@ static const omp_t    _omp_;
 template<>
 struct BackendPolicy<Backend::Omp>: hydra_thrust::execution_policy<omp::omp_t>
 {
-	//typedef  hydra_thrust::execution_policy<omp::omp_t> super_type;
+	typedef  hydra_thrust::execution_policy<omp::omp_t> execution_policy_type;
+
 	const omp::omp_t backend= omp::_omp_;
 
 	template<typename T>
