@@ -47,13 +47,14 @@
 #include <hydra/device/System.h>
 #include <hydra/host/System.h>
 #include <hydra/Function.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/Random.h>
 #include <hydra/Algorithm.h>
 #include <hydra/Tuple.h>
 #include <hydra/Distance.h>
 #include <hydra/multiarray.h>
+#include <hydra/DenseHistogram.h>
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -68,10 +69,6 @@
 
 #endif //_ROOT_AVAILABLE_
 
-double function(unsigned int n, double* p, double* x)
-{
-	return x[0]*x[1];
-}
 
 int main(int argv, char** argc)
 {
@@ -98,116 +95,73 @@ int main(int argv, char** argc)
 
 
 	//Gaussian 1
-	double mean1   = -2.0;
-	double sigma1  =  1.0;
+	double mean    =  0.0;
+	double sigmax  =  1.0;
+	double sigmay  =  2.0;
+	double sigmaz  =  3.0;
 
-	auto GAUSSIAN1D =  [=] __hydra_host__ __hydra_device__ (unsigned int n,double* x ){
+	auto Gauss3D =  hydra::wrap_lambda(
+			[ mean, sigmax, sigmay, sigmaz] __hydra_dual__ (double x, double y, double z ) {
 
-		double g = 0.0;
+		    double g = 0.0;
 
-			double m2 = (x[0] - mean1 )*(x[0] - mean1 );
-			double s2 = sigma1*sigma1;
-			g = exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
+			double mx_sq = (x - mean); mx_sq *=mx_sq;
+			double sx_sq = sigmax*sigmax;
+			double x_sq  = - 0.5*mx_sq/sx_sq;
 
-		return g;
-	};
+			double my_sq = (y - mean); my_sq *=my_sq;
+			double sy_sq = sigmay*sigmay;
+			double y_sq  = - 0.5*my_sq/sy_sq;
 
-	auto gaussian1D = hydra::wrap_lambda( GAUSSIAN1D );
+			double mz_sq = (z - mean); mz_sq *=mz_sq;
+			double sz_sq = sigmaz*sigmaz;
+			double z_sq  = - 0.5*mz_sq/sz_sq;
 
-	//==================
-
-	auto GAUSSIAN1 =  [=] __hydra_host__ __hydra_device__ (unsigned int n,double* x ){
-
-		double g = 1.0;
-
-		for(size_t i=0; i<3; i++){
-
-			double m2 = (x[i] - mean1 )*(x[i] - mean1 );
-			double s2 = sigma1*sigma1;
-			g *= exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
-		}
+			g = exp(x_sq + y_sq + z_sq);
 
 		return g;
-	};
-
-	auto gaussian1 = hydra::wrap_lambda( GAUSSIAN1 );
-
-	//Gaussian 2
-	double mean2   =  2.0;
-	double sigma2  =  1.0;
-	auto GAUSSIAN2 =  [=] __hydra_host__ __hydra_device__ (unsigned int n, double* x ){
-
-		double g = 1.0;
-
-		for(size_t i=0; i<3; i++){
-
-			double m2 = (x[i] - mean2 )*(x[i] - mean2 );
-			double s2 = sigma2*sigma2;
-			g *= exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
-		}
-
-		return g;
-	};
-
-	auto gaussian2 = hydra::wrap_lambda( GAUSSIAN2 );
-
-	//sum of gaussians
-	auto gaussians = gaussian1 + gaussian2;
+	});
 
 	//---------
 
-	//---------
-	//generator
-	hydra::Random<>
-	Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
-	std::array<double, 3>max{6.0, 6.0, 6.0};
-	std::array<double, 3>min{-6.0, -6.0, -6.0};
+	std::array<double, 3> max{6.0, 6.0, 6.0};
+	std::array<double, 3> min{-6.0, -6.0, -6.0};
 
 	//------------------------
 #ifdef _ROOT_AVAILABLE_
 
-	TH3D hist_d("hist_d",   "3D Double Gaussian - Device",
-			50, -6.0, 6.0,
-			50, -6.0, 6.0,
-			50, -6.0, 6.0 );
+	TH3D histogram("histogram", "3D Gaussian",
+		/*x */ 100,-6.0, 6.0, /*y */ 100,-6.0, 6.0, /*z */ 100,-6.0, 6.0 );
 
 #endif //_ROOT_AVAILABLE_
 
 
-	typedef hydra::multiarray<double,3,  hydra::device::sys_t> dataset_d;
-	typedef hydra::multiarray<double,3,  hydra::host::sys_t> dataset_h;
+
 
 	//device
 	{
-		dataset_h data_h;
-		{
 
-			//we copy the accepted events and let
-			//the data_d container go out scope
-			//data_d will be destroyed, freeing
-			//the allocated memory in the device ;)
+		hydra::multiarray<double,3,  hydra::device::sys_t> buffer(nentries);
 
-			dataset_d data_d(nentries);
+		auto range = hydra::sample( hydra::device::sys, buffer.begin(),  buffer.end(), min, max, Gauss3D);
 
-			auto range = Generator.Sample(data_d.begin(),  data_d.end(), min, max, gaussians);
-
-
-			data_h.resize( range.size() );
-			hydra::copy( range, data_h);
-
-		}
-
-		std::cout <<std::endl;
-		std::cout <<std::endl;
-		for(size_t i=0; i<10; i++)
-			std::cout << "< Random::Sample > [" << i << "] :" << data_h[i] << std::endl;
+		auto Hist = hydra::make_dense_histogram<double,3>( hydra::device::sys,
+						{100,100,100}, {-6.0, -6.0, -6.0}, {6.0, 6.0, 6.0},
+						range);
 
 #ifdef _ROOT_AVAILABLE_
-		for(auto value : data_h)
-			hist_d.Fill( hydra::get<0>(value),
-					hydra::get<1>(value),
-					hydra::get<2>(value) );
+		for(size_t i=0; i< 100; i++)
+		{
+			for(size_t j=0; j< 100; j++)
+			{
+				for(size_t k=0; k< 100; k++)
+				{
+					histogram.SetBinContent(i+1, j+1, k+1, Hist.GetBinContent({i,j,k}) );
+				}
+			}
+		}
+
 #endif //_ROOT_AVAILABLE_
 
 	}
@@ -218,9 +172,9 @@ int main(int argv, char** argc)
 	TApplication *myapp=new TApplication("myapp",0,0);
 
 	//draw histograms
-	TCanvas canvas_d("canvas_d" ,"Distributions - Device", 1000, 1000);
-	hist_d.Draw("iso");
-	hist_d.SetFillColor(9);
+	TCanvas canvas("canvas" ,"", 1000, 1000);
+	histogram.Draw("iso");
+	histogram.SetFillColor(9);
 
 
 	myapp->Run();

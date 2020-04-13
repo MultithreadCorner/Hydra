@@ -90,6 +90,7 @@
 declarg(A, hydra::Vector4R)
 declarg(B, hydra::Vector4R)
 declarg(C, hydra::Vector4R)
+
 declarg(DecayTime, double)
 
 
@@ -155,22 +156,19 @@ int main(int argv, char** argc)
 	hydra::PhaseSpace<3> phsp{P_mass, masses};
 
 
-	auto decay_time =   hydra::wrap_lambda(
-			[tau] __hydra_dual__ (size_t i) {
+
+	auto dalitz_calculator = hydra::wrap_lambda(
+			[tau] __hydra_dual__ (A a, B b, C c, size_t n) {
 
 		auto   exp_dist = hydra::Distribution<hydra::Exponential<DecayTime>>();
 
-		hydra_thrust::default_random_engine engine;
+			hydra_thrust::default_random_engine engine;
 
-		exp_dist.SetState(engine, {tau}, i );
+			exp_dist.SetState(engine, {tau}, n );
 
-		return  DecayTime( exp_dist(engine, {tau})	);
-	});
+		double decay_time = exp_dist(engine, {tau});
 
-	auto dalitz_calculator = hydra::wrap_lambda(
-			[] __hydra_dual__ (A a, B b, C c, DecayTime dt) {
-
-		return hydra::make_tuple( (a + b).mass2(), (b + c).mass2(), dt);
+		return hydra::make_tuple( (a + b).mass2(), (b + c).mass2(), decay_time);
 
 	});
 
@@ -203,7 +201,7 @@ int main(int argv, char** argc)
 
 		auto phase_space_weights = Events | Events.GetEventWeightFunctor();
 
-		auto dalitz_variables    = Events.Meld( hydra::range(0, Events.size()) | decay_time ) | dalitz_calculator ;
+		auto dalitz_variables    = Events.Meld( hydra::range(0, Events.size()) ) | dalitz_calculator ;
 
 		hydra::multivector<hydra::tuple<double, double, double>,  hydra::device::sys_t > dataset( Events.size() );
 
@@ -216,7 +214,7 @@ int main(int argv, char** argc)
 				dataset.column(_0, _1), phase_space_weights);
 
 		auto Hist_DecayTime_W = hydra::make_dense_histogram<double>( hydra::device::sys,
-						100,0.0,10.0,dataset.column(_2), phase_space_weights);
+						100,0.0,10.0, dataset.column(_2), phase_space_weights);
 
 
 

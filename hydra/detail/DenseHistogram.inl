@@ -211,9 +211,6 @@ DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimens
 		hydra_thrust::scatter( common_system_t(),  reduced_values.first, reduced_end.second,
 			  reduced_keys.first, bin_contents.first );
 
-		std::cout<< "TEST => contents "
-				<<  hydra_thrust::distance(reduced_values.first, reduced_end.second )
-		        << " =? " <<  fContents.size() << std::endl;
 		hydra_thrust::copy(bin_contents.first ,
 				bin_contents.first+ bin_contents.second,  fContents.begin());
 
@@ -267,9 +264,7 @@ DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimens
 		hydra_thrust::scatter( common_system_t(),  reduced_values.first, reduced_end.second,
 			  reduced_keys.first, bin_contents.first );
 
-		std::cout<< "TEST => contents "
-				<<  hydra_thrust::distance(reduced_values.first, reduced_end.second )
-		        << " =? " <<  fContents.size() << std::endl;
+
 		hydra_thrust::copy(bin_contents.first ,
 				bin_contents.first+ bin_contents.second,  fContents.begin());
 

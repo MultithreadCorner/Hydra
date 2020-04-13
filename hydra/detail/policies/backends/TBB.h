@@ -49,7 +49,8 @@ static const tbb_t    _tbb_;
 template<>
 struct BackendPolicy<Backend::Tbb>: hydra_thrust::execution_policy<tbb::tbb_t>
 {
-	//typedef  hydra_thrust::execution_policy<tbb::tbb_t> super_type;
+	typedef  hydra_thrust::execution_policy<tbb::tbb_t> execution_policy_type;
+
 	const tbb::tbb_t backend= tbb::_tbb_;
 
 	template<typename T>

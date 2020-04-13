@@ -205,8 +205,8 @@ int main(int argv, char** argc)
 
 		auto dalitz_weights    = Events | Events.GetEventWeightFunctor();
 
-		auto dalitz_unweighted = Events.Unweight(breit_wigner) | dalitz_calculator ;
-
+		//auto dalitz_unweighted = Events.Unweight(breit_wigner) | dalitz_calculator ;
+		auto dalitz_unweighted = hydra::unweight(hydra::device::sys, Events, Events.GetEventWeightFunctor(breit_wigner)) | dalitz_calculator ;
 
         auto Hist_Dalitz_W = hydra::make_dense_histogram<double,2>( hydra::device::sys,
 				{100,100},

@@ -50,56 +50,34 @@ namespace hydra {
  * \class CosTheta
  *
  *  This functor calculates the cosine of the helicity angle of the particle with four-vector D,
- *  daughther of the particle with four-vector Q and grand daugther of particle  four-vector P .
+ *  which is daughter of the particle with four-vector Q and grand daughter of particle four-vector P .
  */
-class CosHelicityAngle:public BaseFunctor<CosHelicityAngle, double, 0>
+class CosHelicityAngle:public BaseFunctor<CosHelicityAngle, double(Vector4R, Vector4R, Vector4R), 0>
 {
 
 public:
 
-	__hydra_host__  __hydra_device__
-	CosHelicityAngle(){};
+	CosHelicityAngle()=default;
 
 	__hydra_host__  __hydra_device__
 	CosHelicityAngle( CosHelicityAngle const& other):
-	BaseFunctor<CosHelicityAngle,double, 0>(other)
+	BaseFunctor<CosHelicityAngle,  double(Vector4R, Vector4R, Vector4R), 0>(other)
 	{ }
 
 	__hydra_host__  __hydra_device__ inline
 	CosHelicityAngle&		operator=( CosHelicityAngle const& other){
 			if(this==&other) return  *this;
-			BaseFunctor<CosHelicityAngle,double, 0>::operator=(other);
+			BaseFunctor<CosHelicityAngle,double(Vector4R, Vector4R, Vector4R), 0>::operator=(other);
 			return  *this;
 		}
 
 	__hydra_host__ __hydra_device__ inline
-	double Evaluate(unsigned int , hydra::Vector4R* p)  const {
-
-		hydra::Vector4R P = p[0];
-		hydra::Vector4R Q = p[1];
-		hydra::Vector4R D = p[2];
-
+	double Evaluate(Vector4R const& P, Vector4R const& Q, Vector4R const& D)  const
+	{
 		return cos_decay_angle( P, Q, D);
 
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T p)  const {
-
-		hydra::Vector4R P = get<0>(p);
-		hydra::Vector4R Q = get<1>(p);
-		hydra::Vector4R D = get<2>(p);
-
-		return cos_decay_angle( P, Q, D);
-	}
-
-	__hydra_host__ __hydra_device__ inline
-	double operator()(Vector4R const& p, Vector4R const& q, Vector4R const& d) const {
-
-		return cos_decay_angle( p, q, d);
-
-	}
 
 private:
 
