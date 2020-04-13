@@ -3,7 +3,7 @@
 
 # Known NVIDIA GPU achitectures Torch can be compiled for.
 # This list will be used for CUDA_ARCH_NAME = All option
-SET(KNOWN_GPU_ARCHITECTURES "2.0 2.1(2.0) 3.0 3.5 5.0 5.2 6.0 6.1 6.2")
+SET(KNOWN_GPU_ARCHITECTURES "3.0 3.2 3.5 3.7 5.0 5.2 5.3 6.0 6.1 6.2 7.0 7.5")
 
 ################################################################################################
 # Removes duplicates from LIST(s)
@@ -47,7 +47,7 @@ FUNCTION(DETECT_INSTALLED_GPUS OUT_VARIABLE)
                     WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/CMakeFiles/"
                     RESULT_VARIABLE __nvcc_res OUTPUT_VARIABLE __nvcc_out
                     ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
-                    
+
      # try_run(__nvcc_res compile_result ${PROJECT_BINARY_DIR} ${__cufile}
       #      CMAKE_FLAGS "-DINCLUDE_DIRECTORIES=${CUDA_INCLUDE_DIRS}"
        #     LINK_LIBRARIES ${CUDA_LIBRARIES}
@@ -74,7 +74,7 @@ ENDFUNCTION()
 #   SELECT_NVCC_ARCH_FLAGS(out_variable)
 FUNCTION(SELECT_NVCC_ARCH_FLAGS out_variable)
   # List of arch names
-  SET(__archs_names "Fermi" "Kepler" "Maxwell" "Pascal" "All" "Manual")
+  SET(__archs_names "Kepler" "Maxwell" "Pascal" "Turim" "All" "Manual")
   SET(__archs_name_default "All")
   IF(NOT CMAKE_CROSSCOMPILING)
     LIST(APPEND __archs_names "Auto")
@@ -115,7 +115,7 @@ FUNCTION(SELECT_NVCC_ARCH_FLAGS out_variable)
   elseIF(${CUDA_ARCH_NAME} STREQUAL "Maxwell")
     SET(__cuda_arch_bin "5.0 5.2")
     elseIF(${CUDA_ARCH_NAME} STREQUAL "Pascal")
-    SET(__cuda_arch_bin "6.0 6.1 6.2") 
+    SET(__cuda_arch_bin "6.0 6.1 6.2")
   elseIF(${CUDA_ARCH_NAME} STREQUAL "All")
     SET(__cuda_arch_bin ${KNOWN_GPU_ARCHITECTURES})
   elseIF(${CUDA_ARCH_NAME} STREQUAL "Auto")
