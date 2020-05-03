@@ -203,7 +203,7 @@ struct SWeights
 		Eigen::Matrix<double, nfunctors,1> values_vector(Eigen::Map<Eigen::Matrix<double, nfunctors,1> >(values).eval());
 		Eigen::Matrix<double, nfunctors,1> sweights(fICovMatrix*values_vector.eval());
 		auto wfvalues = detail::multiply_array_tuple(fCoeficients, fvalues);
-		GReal_t denominator   = 1;
+		GReal_t denominator   = 0.0;
 		detail::add_tuple_values(denominator, wfvalues);
 		sweights /=denominator;
 
