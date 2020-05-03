@@ -118,7 +118,7 @@ public:
 		//fCovMatrix << 0.0, 0.0, 0.0, 0.0;
 
 
-		Eigen::Matrix<double, npdfs, npdfs>  init{};
+		Eigen::Matrix<double, npdfs, npdfs>  init = Eigen::Matrix<double, npdfs, npdfs>::Zero();
 		//init << 0.0, 0.0, 0.0, 0.0;
 
 		fCovMatrix = hydra_thrust::transform_reduce(system_type(), first, last,
