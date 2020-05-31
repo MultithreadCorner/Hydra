@@ -381,7 +381,7 @@ namespace hydra {
 
 	//---------------------------------------
 	// set a generic array with tuple values
-	template<size_t I = 0,  typename ArrayType, typename FistType, typename ...OtherTypes>
+	template<size_t I,  typename ArrayType, typename FistType, typename ...OtherTypes>
 	__hydra_host__  __hydra_device__ inline
 	typename hydra_thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
 	 is_hydra_convertible_to_tuple<ArrayType>::value &&
@@ -399,6 +399,28 @@ namespace hydra {
 		hydra_thrust::get<I>(t) = (typename ArrayType::args_type) Array[I];
 		assignArrayToTuple<I + 1,ArrayType,FistType, OtherTypes... >( t, Array);
 	}
+
+	//---------------------------------------
+	// set a generic array with tuple values
+	template<size_t I,  typename ArrayType, typename FistType, typename ...OtherTypes>
+	__hydra_host__  __hydra_device__ inline
+	typename hydra_thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
+	std::is_convertible<ArrayType, FistType>::value &&
+	are_all_same<FistType,OtherTypes...>::value, void>::type
+	assignArrayToTuple2(hydra_thrust::tuple<FistType, OtherTypes...> &,  ArrayType* )
+	{}
+
+	template<size_t I = 0, typename ArrayType, typename FistType, typename ...OtherTypes>
+	__hydra_host__  __hydra_device__
+	inline typename hydra_thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
+	std::is_convertible<ArrayType, FistType>::value &&
+	are_all_same<FistType,OtherTypes...>::value, void >::type
+	assignArrayToTuple2(hydra_thrust::tuple<FistType, OtherTypes...> & t, ArrayType* Array )
+	{
+		hydra_thrust::get<I>(t) = (typename ArrayType::args_type) Array[I];
+		assignArrayToTuple2<I + 1,ArrayType,FistType, OtherTypes... >( t, Array);
+	}
+
 
 	//---------------------------------------
 	// set a std::array with tuple values

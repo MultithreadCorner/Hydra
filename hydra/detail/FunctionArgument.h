@@ -108,6 +108,50 @@ value = a.Value();
     //Compound assignment operators
     //=============================================================
 
+     __hydra_host__ __hydra_device__
+    FunctionArgument<Derived, Type>&
+    operator+=( Type other)
+	{
+        value+=other;
+		return *this;
+	}
+
+    __hydra_host__ __hydra_device__
+    FunctionArgument<Derived, Type>&
+    operator-=( Type other)
+	{
+        value-=other;
+		return *this;
+	}
+
+    __hydra_host__ __hydra_device__
+    FunctionArgument<Derived, Type>&
+    operator*=( Type other)
+	{
+        value*=other;
+		return *this;
+	}
+
+    __hydra_host__ __hydra_device__
+    FunctionArgument<Derived, Type>&
+    operator/=( Type other)
+	{
+        value/=other;
+		return *this;
+	}
+
+    __hydra_host__ __hydra_device__
+    FunctionArgument<Derived, Type>&
+    operator%=( Type other)
+	{
+        value%=other;
+		return *this;
+	}
+
+    //=============================================================
+    //Compound assignment operators
+    //=============================================================
+
     template<typename Derived2, typename Type2>
     __hydra_host__ __hydra_device__
     typename std::enable_if<std::is_convertible<Type, Type2>::value,

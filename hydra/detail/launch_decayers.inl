@@ -135,7 +135,7 @@ namespace detail {
 	{
 
 		hydra_thrust::tabulate(begin, end, decayer);
-
+		return;
 	}
 
 	template<size_t N, typename GRND, typename Iterator, hydra::detail::Backend BACKEND>
@@ -144,6 +144,7 @@ namespace detail {
 	{
 
 		hydra_thrust::tabulate(exec_policy , begin, end, decayer);
+		return;
 
 	}
 
@@ -156,20 +157,12 @@ namespace detail {
 
 		size_t nevents    = hydra_thrust::distance(begin_mothers, end_mothers);
 
-		auto end_daugters = begin_daugters + nevents;
+		hydra_thrust::counting_iterator<size_t> first(0);
+		hydra_thrust::counting_iterator<size_t> last = first + nevents;
 
-		hydra_thrust::tuple_cat( hydra_thrust::make_tuple(begin_mothers),
-				begin_daugters.get_iterator_tuple());
+		hydra_thrust::transform(first, last, begin_mothers,	begin_daugters, decayer);
 
-		hydra_thrust::tabulate(
-				hydra_thrust::make_zip_iterator(
-						hydra_thrust::tuple_cat(
-								hydra_thrust::make_tuple(begin_mothers), begin_daugters.get_iterator_tuple()) ),
-				hydra_thrust::make_zip_iterator(
-						hydra_thrust::tuple_cat(
-								hydra_thrust::make_tuple(end_mothers), end_daugters.get_iterator_tuple() ) ),
-				decayer);
-
+		return;
 	}
 
 
@@ -180,16 +173,10 @@ namespace detail {
 	{
 		size_t nevents    = hydra_thrust::distance(begin_mothers, end_mothers);
 
-		auto end_daugters = begin_daugters + nevents;
+		hydra_thrust::counting_iterator<size_t> first(0);
+		hydra_thrust::counting_iterator<size_t> last = first + nevents;
 
-		hydra_thrust::tabulate(exec_policy ,
-				hydra_thrust::make_zip_iterator(
-									hydra_thrust::tuple_cat(
-											hydra_thrust::make_tuple(begin_mothers), begin_daugters.get_iterator_tuple()) ),
-							hydra_thrust::make_zip_iterator(
-									hydra_thrust::tuple_cat(
-											hydra_thrust::make_tuple(end_mothers), end_daugters.get_iterator_tuple() ) ),
-							decayer);
+		hydra_thrust::transform(exec_policy, first, last, begin_mothers, begin_daugters, decayer);
 
 		return;
 	}
