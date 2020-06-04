@@ -153,8 +153,9 @@ public :
 	fMaxWeight(other.GetMaxWeight()),
     fMotherMass(other.GetMotherMass())
 	{
+		auto other_masses = other.GetMasses();
 		for(size_t i=0;i<nparticles;i++)
-			fMasses[i]= other.GetMasses()[i];
+			fMasses[i]= other_masses[i];
 
 	}
 	/**
@@ -166,8 +167,9 @@ public :
 		fMaxWeight(other.GetMaxWeight()),
 	    fMotherMass(other.GetMotherMass())
 	{
+		auto other_masses = other.GetMasses();
 		for(size_t i=0;i<nparticles;i++)
-				fMasses[i]= other.GetMasses()[i];
+				fMasses[i] = other_masses[i];
 
 	}
 
@@ -181,8 +183,9 @@ public :
 	fMaxWeight(other.GetMaxWeight()),
     fMotherMass(other.GetMotherMass())
 	{
+		auto other_masses = other.GetMasses();
 		for(size_t i=0;i<nparticles;i++)
-						fMasses[i]= other.GetMasses()[i];
+						fMasses[i]= other_masses[i];
 	}
 
 	/**
@@ -265,12 +268,19 @@ public :
 		return fDecays[i];
 	}
 
+	template<unsigned int I>
+	inline auto	GetDaugtherRange(placeholders::placeholder<I> c)
+	-> hydra::Range< decltype ( std::declval< storage_type >().begin(c)) >
+	{
+		return 	hydra::make_range( fDecays.begin(c), fDecays.end(c) );
+	}
+
 	template<typename ...Iterables>
 	auto Meld( Iterables&&... iterable)
 	-> typename std::enable_if< detail::all_true<detail::is_iterable<Iterables>::value...>::value,
 	   decltype(std::declval<storage_type>().meld( std::forward<Iterables>(iterable) ...)) >::type
 	{
-		return fDecays.meld( std::forward<Iterables>(iterable)... );
+		return fDecays.meld(std::forward<Iterables>(iterable)... );
 
 	}
 
@@ -439,6 +449,10 @@ public :
 		return fDecays.end(c1, cn...);
 	}
 
+
+
+
+
 	template<unsigned int I1, unsigned int ...IN >
 	inline  auto rbegin(placeholders::placeholder<I1> c1, placeholders::placeholder<IN> ...cn)
 	-> decltype( std::declval<storage_type>().rbegin(c1,  cn...) )
@@ -565,7 +579,7 @@ public :
 		return *this;
 	}
 
-const std::array<double,nparticles>* GetMasses() const
+const std::array<double,nparticles> GetMasses() const
 {
     return fMasses;
 }
@@ -605,7 +619,7 @@ protected:
 		return fDecays;
 	}
 
-	storage_type&& MoveStorage() const
+	storage_type&& MoveStorage()
 	{
 		return std::move(fDecays);
 	}

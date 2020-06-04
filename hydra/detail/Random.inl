@@ -40,7 +40,7 @@
 namespace hydra{
 
 
-template<typename RNG=default_random_engine, typename IteratorData, typename IteratorWeight, hydra::detail::Backend BACKEND>
+template<typename RNG, typename IteratorData, typename IteratorWeight, hydra::detail::Backend BACKEND>
 typename std::enable_if<
 	detail::random::is_iterator<IteratorData>::value && detail::random::is_iterator<IteratorWeight>::value,
 	Range<IteratorData>

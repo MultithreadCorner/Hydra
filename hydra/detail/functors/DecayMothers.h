@@ -55,7 +55,7 @@ namespace detail {
 template <size_t N, typename GRND>
 struct DecayMothers
 {
-	typedef tuple_type<N+1, hydra::Vector4R> particles_tuple_type;
+	typedef typename tuple_type<N, hydra::Vector4R>::type  particles_tuple_type;
 
 	size_t fSeed;
 	GReal_t fECM;
@@ -243,16 +243,17 @@ struct DecayMothers
 
 
 	__hydra_host__      __hydra_device__
-	inline particles_tuple_type operator()(size_t evt)
+	inline particles_tuple_type operator()(size_t evt, Vector4R const& mother )
 	{
 
 		Vector4R Particles[N+1];
+		Particles[0] = mother;
 
 		process(evt, Particles);
 
 		particles_tuple_type particles{};
 
-		hydra::detail::assignArrayToTuple(particles,  Particles );
+		hydra::detail::assignArrayToTuple2(particles,  &Particles[1] );
 
 		return particles;
 

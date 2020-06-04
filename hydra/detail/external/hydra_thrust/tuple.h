@@ -613,13 +613,13 @@ namespace hydra_thrust
  *  \param ts The other objects to concatenate.
  *  \return A \p tuple object which is a concatenation of \p t0 and \p ts... .
  */
-#ifdef HYDRA_THRUST_VARIADIC_TUPLE
+#ifndef HYDRA_THRUST_VARIADIC_TUPLE
 
-template<typename... Tuples>
-inline __host__ __device__
-tuple_cat_result<Tuples...>
-  tuple_cat(const Tuples&... ts);
-#else
+//template<typename... Tuples>
+//inline __host__ __device__
+//tuple_cat_result<Tuples...>
+//  tuple_cat(const Tuples&... ts);
+//#else
 
 template<typename Tuple1, typename... Tuples>
 inline __host__ __device__

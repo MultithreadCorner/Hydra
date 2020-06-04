@@ -38,6 +38,7 @@
 #include <hydra/Range.h>
 #include <hydra/Placeholders.h>
 #include <hydra/Range.h>
+#include <hydra/detail/ZipIteratorUtility.h>
 #include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/hydra_thrust/tuple.h>
@@ -763,24 +764,16 @@ public:
 
 
 	template<typename ...Iterables>
-	typename std::enable_if<detail::all_true<detail::is_iterable<Iterables>::value...>::value,
-	hydra::Range<hydra_thrust::zip_iterator<
-	typename detail::tuple_cat_type<iterator_tuple,
-	       hydra_thrust::tuple<decltype(std::declval<Iterables>().begin())...>>::type > > >::type
-	meld( Iterables&& ...iterable)
+	auto meld( Iterables&& ...iterables)
+	-> typename std::enable_if<detail::all_true<detail::is_iterable<Iterables>::value...>::value,
+	hydra::Range<decltype(detail::meld_iterators(begin(), std::forward<Iterables>(iterables).begin()... ))>>::type
 	{
-
-			auto first = hydra_thrust::make_zip_iterator( hydra_thrust::tuple_cat(
-					this->begin().get_iterator_tuple(),
-					hydra_thrust::make_tuple(std::forward<Iterables>(iterable).begin()...) ) );
-
-			auto  last = hydra_thrust::make_zip_iterator( hydra_thrust::tuple_cat(
-					this->end().get_iterator_tuple(),
-					hydra_thrust::make_tuple(std::forward<Iterables>(iterable).end()...) ) );
+			auto first = detail::meld_iterators(begin(), std::forward<Iterables>(iterables).begin()... );
+			auto last  = detail::meld_iterators(end(), std::forward<Iterables>(iterables).end()... );
 
 			return hydra::make_range(first, last);
-
 	}
+
 
 	template<typename Functor>
 	 inline caster_iterator<Functor> operator[](Functor const& caster)
