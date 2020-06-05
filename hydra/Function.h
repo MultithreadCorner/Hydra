@@ -212,7 +212,7 @@ public:
 	inline typename std::enable_if<
 	( detail::is_tuple_type< typename std::decay<T>::type >::value )                 &&
 	(!detail::is_tuple_of_function_arguments< typename std::decay<T>::type >::value) &&
-	( std::is_convertible< typename std::decay<T>::type,  argument_type >::value ),
+	( hydra_thrust::detail::is_convertible< typename std::decay<T>::type,  argument_type >::value ),
 	return_type >::type
 	operator()( T x )  const
 	{

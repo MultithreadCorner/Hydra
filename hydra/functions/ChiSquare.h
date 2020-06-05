@@ -274,7 +274,7 @@ struct RngFormula< ChiSquare<ArgType> >
 {
 
 	typedef ArgType value_type;
-
+	__hydra_host__ __hydra_device__
 	inline unsigned NCalls( ChiSquare<ArgType>const& functor) const
 	{
 		long int ndof  = ::lrint(functor[0]);
@@ -291,6 +291,7 @@ struct RngFormula< ChiSquare<ArgType> >
 	}
 
 	template< typename T>
+	__hydra_host__ __hydra_device__
 	inline unsigned NCalls( std::initializer_list<T> pars) const
 	{
 		long int ndof  = ::lrint(pars.begin()[0]);
