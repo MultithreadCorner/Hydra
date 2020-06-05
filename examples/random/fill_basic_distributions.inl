@@ -75,11 +75,9 @@
 #endif //_ROOT_AVAILABLE_
 
 
-using namespace hydra::arguments;
-
 declarg(xvar, double)
 
-
+using namespace hydra::arguments;
 
 int main(int argv, char** argc)
 {
@@ -102,7 +100,7 @@ int main(int argv, char** argc)
     }
 
 
-    auto data = hydra::host::vector<xvar>(nentries, .0);
+    auto data = hydra::device::vector<double>(nentries);
 
 
 
@@ -186,7 +184,7 @@ int main(int argv, char** argc)
 
     for(auto x : data) hist_gauss.Fill( x );
     
-    
+    /*
     hydra::fill_random(data , lognormal);
     for(auto x : data) hist_lognormal.Fill( x );
     
@@ -213,7 +211,7 @@ int main(int argv, char** argc)
     
     hydra::fill_random(data , trapezoid);
     for(auto x : data) hist_trapezoid.Fill( x );
-    
+    */
     
 
     TApplication *myapp=new TApplication("myapp",0,0);

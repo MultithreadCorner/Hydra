@@ -35,6 +35,7 @@
 #include <hydra/detail/external/hydra_thrust/tuple.h>
 #include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
+#include<hydra/detail/external/hydra_thrust/type_traits/void_t.h>
 #include <type_traits>
 #include <tuple>
 
@@ -52,11 +53,11 @@ struct is_valid_type_pack;
 
 template<typename ...RefT, typename ...T>
 struct is_valid_type_pack<hydra_thrust::tuple<RefT...>, T... >:
-std::is_convertible<std::tuple<T...>, std::tuple<RefT...> > {};
+hydra_thrust::detail::is_convertible<hydra_thrust::tuple<T...>,  hydra_thrust::tuple<RefT...> > {};
 
 template<typename ...RefT, typename ...T>
 struct is_valid_type_pack<hydra_thrust::tuple<RefT...>, hydra_thrust::device_reference<T>...>:
-       std::is_convertible<std::tuple<T...>,  std::tuple<RefT...> > {};
+       hydra_thrust::detail::is_convertible<hydra_thrust::tuple<T...>,  hydra_thrust::tuple<RefT...> > {};
 
 
 template<typename ArgType>
@@ -72,27 +73,22 @@ struct is_tuple_type<hydra_thrust::tuple<ArgTypes...>>:
 
 namespace fa_impl {
 
-template<typename T>
-struct void_tupe{ typedef void type; };
-
-template<typename T, typename U=void>
-struct has_value_type: std::false_type{};
+template<typename T, typename U= hydra_thrust::void_t<>>
+struct _is_function_argument: std::false_type{};
 
 template<typename T>
-struct has_value_type<T,
-    typename void_tupe< typename T::value_type>::type>:
+struct _is_function_argument<T,hydra_thrust::void_t< typename T::function_argument_type>>:
 std::true_type{};
 
 
 }  // namespace function_argument_impl
 
 
-template<typename Arg, bool B=fa_impl::has_value_type<Arg>::value>
+template<typename Arg, bool B=fa_impl::_is_function_argument<Arg>::value>
 struct is_function_argument;
 
 template<typename Arg>
 struct is_function_argument<Arg, false>:std::false_type{} ;
-
 
 template<typename Arg>
 struct is_function_argument<Arg, true>:
@@ -102,6 +98,8 @@ std::is_base_of<detail::FunctionArgument<Arg, typename Arg::value_type>, Arg>{} 
 template<typename Arg>
 struct is_function_argument<hydra_thrust::device_reference<Arg>, true>:
 std::is_base_of<detail::FunctionArgument<Arg, typename Arg::value_type>, Arg>{} ;
+
+
 
 //----------------
 

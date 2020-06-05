@@ -41,6 +41,7 @@ struct FunctionArgument
 {
     typedef Type   value_type;
     typedef Derived name_type;
+    typedef void function_argument_type ;
 
     FunctionArgument() = default;
 
@@ -64,7 +65,7 @@ struct FunctionArgument
     explicit   FunctionArgument(hydra_thrust::device_reference<name_type>const& other)
      {
     	name_type a=other;
-value = a.Value();
+        value = a.Value();
      }
 
     __hydra_host__ __hydra_device__
@@ -363,6 +364,7 @@ operator<<(ostream& s, const Arg& a){
 	s <<  a.Value();
 	return s;
 }
+
 
 } //namespace arguments
 }//namespace hydra

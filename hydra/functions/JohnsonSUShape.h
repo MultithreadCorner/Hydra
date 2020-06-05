@@ -171,13 +171,14 @@ struct RngFormula< JohnsonSU<ArgType> >
 {
 
 	typedef ArgType value_type;
-
-	inline unsigned NCalls( Gaussian<ArgType>const&) const
+	__hydra_host__ __hydra_device__
+	inline unsigned NCalls( JohnsonSU<ArgType>const&) const
 	{
 		return 1;
 	}
 
 	template< typename T>
+	__hydra_host__ __hydra_device__
 	inline unsigned NCalls( std::initializer_list<T>) const
 	{
 		return 1;
