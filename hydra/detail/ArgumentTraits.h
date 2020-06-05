@@ -56,7 +56,7 @@ std::is_convertible<std::tuple<T...>, std::tuple<RefT...> > {};
 
 template<typename ...RefT, typename ...T>
 struct is_valid_type_pack<hydra_thrust::tuple<RefT...>, hydra_thrust::device_reference<T>...>:
-       std::is_convertible<std::tuple<T...>,  std::tuple<RefT...> > {};
+       hydra_thrust::detail::is_convertible<hydra_thrust::tuple<T...>,  hydra_thrust::tuple<RefT...> > {};
 
 
 template<typename ArgType>
