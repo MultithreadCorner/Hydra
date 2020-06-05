@@ -50,7 +50,7 @@
 //this lib
 #include <hydra/Function.h>
 #include <hydra/GaussKronrodAdaptiveQuadrature.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
 
@@ -89,9 +89,9 @@ int main(int argv, char** argc)
 
 
 	// create functor using C++11 lambda
-	auto GAUSSIAN = [=] __hydra_dual__ (unsigned int n, double* x ){
+	auto GAUSSIAN = [=] __hydra_dual__ (double x ){
 
-		double m2 = (x[0] - mean )*(x[0] - mean );
+		double m2 = (x - mean )*(x - mean );
 		double s2 = sigma*sigma;
 		double f = exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
 

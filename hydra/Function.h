@@ -171,7 +171,7 @@ public:
 	return_type>::type
 	operator()(T...x)  const
 	{
-		typename hydra::tuple<T...>::dummy a;
+		//typename hydra::tuple<T...>::dummy a;
 		HYDRA_STATIC_ASSERT(int(sizeof...(T))==-1,
 				"This Hydra lambda can not be called with these arguments.\n"
 				"Possible functions arguments are:\n\n"

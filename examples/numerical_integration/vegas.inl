@@ -56,7 +56,7 @@
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/VegasState.h>
 #include <hydra/Vegas.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
 
@@ -115,14 +115,16 @@ int main(int argv, char** argc)
 	}
 
 	// create functor using C++11 lambda
-	auto GAUSSIAN = [=] __hydra_dual__ (unsigned int n, double* x ){
+	auto GAUSSIAN = [=] __hydra_dual__ (double x, double y, double z, double w, double v  ){
 
 		double g = 1.0;
 		double f = 0.0;
 
+		double X[5]{x,y,z,w,v};
+
 		for(size_t i=0; i<N; i++){
 
-			double m2 = (x[i] - mean )*(x[i] - mean );
+			double m2 = (X[i] - mean )*(X[i] - mean );
 			double s2 = sigma*sigma;
 			f = exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
 			g *= f;

@@ -37,7 +37,7 @@
 #include <hydra/device/System.h>
 #include <hydra/host/System.h>
 #include <hydra/Function.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 #include <hydra/Tuple.h>
 #include <hydra/multiarray.h>
 #include <hydra/Placeholders.h>

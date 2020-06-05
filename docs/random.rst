@@ -65,7 +65,7 @@ The code below shows how to sample a three-dimensional PDF
 	
 	#include <hydra/device/System.h>
 	#include <hydra/Random.h>
-	#include <hydra/FunctionWrapper.h>
+	#include <hydra/Lambda.h>
 
 	...
 	

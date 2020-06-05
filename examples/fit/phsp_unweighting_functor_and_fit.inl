@@ -70,7 +70,7 @@
 #include <hydra/PhaseSpaceIntegrator.h>
 #include <hydra/Function.h>
 #include <hydra/FunctorArithmetic.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 #include <hydra/Tuple.h>
 #include <hydra/Range.h>
 #include <hydra/Random.h>

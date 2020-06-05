@@ -31,7 +31,7 @@ The snippet below shows how wrap a parametric lambda representing a Gaussian and
 	:name: pdf-gauss
 		
 	#include <hydra/device/System.h>
-	#include <hydra/FunctionWrapper.h>
+	#include <hydra/Lambda.h>
 	#include <hydra/Pdf.h>
 	#include <hydra/Parameter.h>
 	#include <hydra/GaussKronrodQuadrature.h>
