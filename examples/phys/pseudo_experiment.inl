@@ -57,7 +57,7 @@
 
 #include <hydra/Function.h>
 #include <hydra/Algorithm.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 #include <hydra/Random.h>
 #include <hydra/LogLikelihoodFCN.h>
 #include <hydra/Parameter.h>

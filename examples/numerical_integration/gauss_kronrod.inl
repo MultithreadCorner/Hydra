@@ -49,7 +49,7 @@
 //this lib
 #include <hydra/Function.h>
 #include <hydra/GaussKronrodQuadrature.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
 #include <hydra/functions/Gaussian.h>
@@ -70,9 +70,9 @@ int main(int argv, char** argc)
 
 
 	// create functor using C++11 lambda
-	auto GAUSSIAN = [=] __hydra_dual__ (unsigned int n, double* x ){
+	auto GAUSSIAN = [=] __hydra_dual__ ( double x ){
 
-		double m2 = (x[0] - mean )*(x[0] - mean );
+		double m2 = (x - mean )*(x - mean );
 		double s2 = sigma*sigma;
 		double f = exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
 
@@ -82,7 +82,7 @@ int main(int argv, char** argc)
 	//wrap the lambda
     auto gaussian = hydra::wrap_lambda(GAUSSIAN);
 
-    auto gauss_anaint = hydra::AnalyticalIntegral<hydra::Gaussian<>>(-6.0, 6.0);
+    auto gauss_anaint = hydra::AnalyticalIntegral<hydra::Gaussian<double>>(-6.0, 6.0);
 
 
     //device
@@ -98,7 +98,7 @@ int main(int argv, char** argc)
 
     	std::chrono::duration<double, std::milli> elapsed = end - start;
 
-    	auto result2 = gauss_anaint(hydra::Gaussian<>(0.0, 1.0),0.0, 10 );
+    	auto result2 = gauss_anaint(hydra::Gaussian<double>(0.0, 1.0),0.0, 10 );
 
     	std::cout << ">>>l [ Gauss-Kronrod 61 ]"<< std::endl;
     	std::cout << "Result: " << result.first << "  +-  " << result.second <<std::endl;

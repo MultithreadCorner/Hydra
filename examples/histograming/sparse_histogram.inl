@@ -48,7 +48,7 @@
 #include <hydra/device/System.h>
 #include <hydra/host/System.h>
 #include <hydra/Function.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/Random.h>
 #include <hydra/Algorithm.h>

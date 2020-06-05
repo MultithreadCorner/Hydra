@@ -40,7 +40,7 @@
 //this lib
 #include <hydra/Sobol.h>
 #include <hydra/Function.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 #include <hydra/Algorithm.h>
 #include <hydra/Range.h>
 #include <hydra/multiarray.h>
@@ -103,11 +103,11 @@ int main(int argv, char** argc)
 	//fill a hydra::multiarray with 2D sobol numbers
 	hydra::multiarray<double, 2, hydra::device::sys_t> sobol_numbers(nentries);
 
-	auto sobol_sampler =  hydra::wrap_lambda( []__hydra_dual__(unsigned n, long  int* N) {
+	auto sobol_sampler =  hydra::wrap_lambda( []__hydra_dual__(long  int N) {
 
 		hydra::sobol<2> eng;
 
-		eng.discard((*N)*2);
+		eng.discard((N)*2);
 		auto denominator=eng.max;
 		auto x= eng();
 		auto y= eng();

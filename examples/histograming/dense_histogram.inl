@@ -46,16 +46,15 @@
 //this lib
 #include <hydra/device/System.h>
 #include <hydra/Function.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/Random.h>
 #include <hydra/Algorithm.h>
 #include <hydra/Tuple.h>
 #include <hydra/Distance.h>
-#include <hydra/multiarray.h>
 #include <hydra/DenseHistogram.h>
 #include <hydra/Range.h>
-#include <hydra/functions/Gaussian.h>
+#include <hydra/multivector.h>
 
 /*-------------------------------------
  * Include classes from ROOT to fill
@@ -71,7 +70,11 @@
 
 #endif //_ROOT_AVAILABLE_
 
+declarg(AxisX, double)
+declarg(AxisY, double)
+declarg(AxisZ, double)
 
+using namespace hydra::arguments;
 
 int main(int argv, char** argc)
 {
@@ -97,69 +100,61 @@ int main(int argv, char** argc)
 	}
 
 
-	//Gaussian 1
-	double mean1   = -2.0;
-	double sigma1  =  1.0;
-
-	auto GAUSSIAN1D =  [=] __hydra_dual__ (unsigned int n,double* x ){
-
-		double g = 0.0;
-
-			double m2 = (x[0] - mean1 )*(x[0] - mean1 );
-			double s2 = sigma1*sigma1;
-			g = exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
-
-		return g;
-	};
-
-	auto gaussian1D = hydra::wrap_lambda( GAUSSIAN1D );
-
 	//==================
 
-	auto GAUSSIAN1 =  [=] __hydra_dual__ (unsigned int n,double* x ){
+	//Gaussian 1
+	double mean1   =  1.0;
+	double sigma1  =  1.0;
+
+	auto Gaussian1 = hydra::wrap_lambda( [mean1, sigma1] __hydra_dual__ ( AxisX x, AxisY y, AxisZ z )
+	{
 
 		double g = 1.0;
 
-		for(size_t i=0; i<3; i++){
+		double X[3]{x,y,z};
 
-			double m2 = (x[i] - mean1 )*(x[i] - mean1 );
+		for(size_t i=0; i<3; i++)
+		{
+
+			double m2 = (X[i] - mean1 );
+			m2=m2*m2;
 			double s2 = sigma1*sigma1;
 			g *= exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
 		}
 
 		return g;
-	};
+	});
 
-	auto gaussian1 = hydra::wrap_lambda( GAUSSIAN1 );
 
 	//Gaussian 2
 	double mean2   =  2.0;
 	double sigma2  =  1.0;
-	auto GAUSSIAN2 =  [=] __hydra_dual__ (unsigned int n, double* x ){
+	auto Gaussian2 = hydra::wrap_lambda( [mean2, sigma2] __hydra_dual__ ( AxisX x, AxisY y, AxisZ z )
+		{
 
-		double g = 1.0;
+			double g = 1.0;
 
-		for(size_t i=0; i<3; i++){
+			double X[3]{x,y,z};
 
-			double m2 = (x[i] - mean2 )*(x[i] - mean2 );
-			double s2 = sigma2*sigma2;
-			g *= exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
-		}
+			for(size_t i=0; i<3; i++)
+			{
 
-		return g;
-	};
+				double m2 = (X[i] - mean2 );
+				m2=m2*m2;
+				double s2 = sigma2*sigma2;
+				g *= exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
+			}
 
-	auto gaussian2 = hydra::wrap_lambda( GAUSSIAN2 );
+			return g;
+		});
 
 	//sum of gaussians
-	auto gaussians = gaussian1+gaussian2;
+	auto Gaussians = Gaussian1 + Gaussian2;
 
 	//---------
 
 	//---------
 	//generator
-	hydra::Random<>
-	Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
 	std::array<double, 3>max{6.0, 6.0, 6.0};
 	std::array<double, 3>min{-6.0, -6.0, -6.0};
@@ -175,8 +170,8 @@ int main(int argv, char** argc)
 #endif //_ROOT_AVAILABLE_
 
 
+hydra::multivector<hydra::tuple<AxisX, AxisY, AxisZ>, hydra::device::sys_t > dataset(nentries);
 
-	typedef hydra::multiarray<double,3, hydra::device::sys_t> dataset_d;
 
 	//device
 	{
@@ -184,7 +179,7 @@ int main(int argv, char** argc)
 		dataset_d data_d(nentries);
 
 		auto start_d = std::chrono::high_resolution_clock::now();
-		auto range = Generator.Sample(data_d.begin(),  data_d.end(), min, max, gaussians);
+		auto range = hydra::sample(dataset, min, max, gaussians);
 		auto end_d = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
 

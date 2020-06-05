@@ -65,10 +65,9 @@
 #include <hydra/Types.h>
 #include <hydra/Vector4R.h>
 #include <hydra/PhaseSpace.h>
-#include <hydra/Evaluate.h>
 #include <hydra/Function.h>
 #include <hydra/FunctorArithmetic.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 #include <hydra/multiarray.h>
 #include <hydra/Algorithm.h>
 #include <hydra/Tuple.h>
@@ -96,21 +95,30 @@
 
 #endif //_ROOT_AVAILABLE_
 
-__hydra_host__ __hydra_device__ inline
-double lambda( const double x,const double y, const double z)
-{
+// B0 -> J/psi K+ pi-
+//         |-> mu+ mu-
 
-	return (x - pow( sqrt(y) + sqrt(z), 2))*(x - pow( sqrt(y) - sqrt(z), 2));
-}
+declarg(Jpsi, hydra::Vector4R)
+declarg(Kaon, hydra::Vector4R)
+declarg(Pion, hydra::Vector4R)
+declarg(MuonP, hydra::Vector4R)
+declarg(MuonM, hydra::Vector4R)
+
+//phase-space variables
+declarg(Weight, double)
+declarg(M13Sq, double)
+declarg(M23Sq, double)
+declarg(CosTheta, double)
 
 
-
+using namespace hydra::placeholders;
+using namespace hydra::arguments;
 
 int main(int argv, char** argc)
 {
 
 
-	size_t  nentries   = 0; // number of events to generate, to be get from command line
+	size_t  nentries  = 0; // number of events to generate, to be get from command line
 	double B0_mass    = 5.27955;   // B0 mass
 	double Jpsi_mass  = 3.0969;    // J/psi mass
 	double K_mass     = 0.493677;  // K+ mass
@@ -138,68 +146,71 @@ int main(int argv, char** argc)
 		std::cerr << "error: " << e.error() << " for arg " << e.argId()	<< std::endl;
 	}
 
-	//C++11 lambda for invariant mass
-	auto M12Sq = [] __hydra_dual__ (unsigned int , hydra::Vector4R	* p )
-	{ return  ( p[0] + p[2]).mass2(); };
+	//invariant masses
+	auto M13_Sq =  hydra::wrap_lambda(
+			[] __hydra_dual__ (Jpsi jpsi, Kaon kaon, Pion pion  ){
+
+		     return  ( jpsi + pion ).mass2();
+		}
+	);
+
+	auto M23_Sq = hydra::wrap_lambda(
+			[] __hydra_dual__ (  Jpsi jpsi, Kaon kaon, Pion pion ){
+
+		     return  ( kaon + pion ).mass2();
+	   }
+	);
 
 
-	//C++11 lambda for invariant mass
-	auto M23Sq = [] __hydra_dual__ (unsigned int , hydra::Vector4R* p )
-	{ return  ( p[1] + p[2]).mass2(); };
-
-
-	//C++11 lambda for cosine of helicity angle Kpi
-	auto COSHELANG = [] __hydra_dual__ (unsigned int , hydra::Vector4R* P )
+	//cosine of helicity angle Kpi
+	auto cosTheta =  hydra::wrap_lambda(
+			[] __hydra_dual__ ( Jpsi jpsi, Kaon kaon, Pion pion )
 	{
-		hydra::Vector4R p = P[1] + P[2] + P[0];
-		hydra::Vector4R q = P[2] + P[1];
+		hydra::Vector4R p =  jpsi+kaon+pion;
+		hydra::Vector4R q = kaon+pion;
 
-		double pd = p * P[2];
+		double pd = p * kaon;
 		double pq = p * q;
-		double qd = q * P[2];
+		double qd = q * kaon;
 		double mp2 = p.mass2();
 		double mq2 = q.mass2();
-		double md2 = P[2].mass2();
+		double md2 = kaon().mass2();
 
 		return (pd * mq2 - pq * qd)
 				/ sqrt((pq * pq - mq2 * mp2) * (qd * qd - mq2 * md2));
-	};
+	    }
+	);
 
 
-	//wrap functors
-	auto cosTheta = hydra::wrap_lambda(COSHELANG);
-	auto m12Sq    = hydra::wrap_lambda(M12Sq);
-	auto m23Sq    = hydra::wrap_lambda(M23Sq);
 
 #ifdef 	_ROOT_AVAILABLE_
 
-	TH2D Dalitz_d("Dalitz_d", "Device;M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
+	TH2D DalitzHist("Dalitz", ";M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
 			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
 			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
 
-	TH1D CosTheta_d("CosTheta_d", "Device; cos(#theta_{K*}), Events", 100, -1.0, 1.0);
+	TH1D CosThetaHist("CosTheta", "; cos(#theta_{K*}); Events", 100, -1.0, 1.0);
 
 #endif
 
 	hydra::Vector4R B0(B0_mass, 0.0, 0.0, 0.0);
-	double masses[3]{Jpsi_mass, K_mass, pi_mass };
 
 	// Create PhaseSpace object for B0-> K pi J/psi
-	hydra::PhaseSpace<3> phsp(B0_mass,  masses);
-
-	typedef hydra::multiarray<double,4,   hydra::host::sys_t>  dataset_h;
-	typedef hydra::multiarray< double,4,  hydra::device::sys_t>  dataset_d;
+	hydra::PhaseSpace<3> phsp{B0_mass, {Jpsi_mass, K_mass, pi_mass } };
 
 	//device
 	{
 		//allocate memory to hold the final dataset in
 		//optimal memory layout using a hydra::multivector
-		dataset_d data_d(nentries);
+		hydra::multivector<hydra::tuple<Weight, M13Sq, M23Sq, CosTheta>, hydra::device::sys_t> dataset(nentries);
 
 		auto start = std::chrono::high_resolution_clock::now();
+
 		//generate the final state particles
-		phsp.Evaluate(B0, data_d,  m12Sq, m23Sq, cosTheta);
+		phsp.Evaluate(B0, dataset,  M13_Sq, M23_Sq, cosTheta);
+
 		auto end = std::chrono::high_resolution_clock::now();
+
 		std::chrono::duration<double, std::milli> elapsed = end - start;
 
 		//output
@@ -213,22 +224,22 @@ int main(int argv, char** argc)
 
 		//print
 		for( size_t i=0; i<10; i++ )
-			std::cout << "<"<< i <<">: " << data_d[i] << std::endl;
+			std::cout << "<"<< i <<">: " << dataset[i] << std::endl;
 
 #ifdef 	_ROOT_AVAILABLE_
 
 		//bring events to CPU memory space
-		dataset_h data_h(data_d);
+		hydra::multivector<hydra::tuple<Weight,M13Sq, M23Sq, CosTheta>, hydra::host::sys_t> data(dataset);
 
-		for( auto event : data_h ){
+		for( auto event : data ){
 
-			double weight        = hydra::get<0>(event);
-			double m12Sq         = hydra::get<1>(event);
-			double m23Sq         = hydra::get<2>(event);
-			double cosTheta      = hydra::get<3>(event);
+			double weight        = hydra::get<Weight&>(event);
+			double m13Sq         = hydra::get<M13Sq&>(event);
+			double m23Sq         = hydra::get<M23Sq&>(event);
+			double cos_theta     = hydra::get<CosTheta&>(event);
 
-			Dalitz_d.Fill(m12Sq , m23Sq, weight);
-			CosTheta_d.Fill(cosTheta , weight);
+			DalitzHist.Fill(m13Sq , m23Sq, weight);
+			CosThetaHist.Fill(cos_theta , weight);
 		}
 
 #endif
@@ -244,13 +255,11 @@ int main(int argv, char** argc)
 	//----------------------------
 
 	TCanvas canvas_d("canvas_d", "Phase-space Device", 500, 500);
-	Dalitz_d.Draw("colz");
-	canvas_d.Print("plots/phsp_evaluating_d.png");
+	DalitzHist.Draw("colz");
 
 	TCanvas canvas2_d("canvas2_d", "Phase-space Device", 500, 500);
-	CosTheta_d.Draw("hist");
-	CosTheta_d.SetMinimum(0.0);
-	canvas2_d.Print("plots/phsp_evaluating_d2.png");
+	CosThetaHist.Draw("hist");
+	CosThetaHist.SetMinimum(0.0);
 
 
 	m_app->Run();

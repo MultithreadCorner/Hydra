@@ -60,7 +60,7 @@
 #include <hydra/Vector4R.h>
 #include <hydra/Tuple.h>
 #include <hydra/Function.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 #include <hydra/DenseHistogram.h>
 
 /*-------------------------------------

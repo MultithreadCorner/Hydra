@@ -44,7 +44,7 @@
 #include <hydra/functions/CosHelicityAngle.h>
 #include <hydra/functions/ZemachFunctions.h>
 #include <hydra/Function.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/Parameter.h>
 //command line

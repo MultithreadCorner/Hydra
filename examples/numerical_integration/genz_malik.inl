@@ -57,7 +57,7 @@
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/Plain.h>
 #include <hydra/GenzMalikQuadrature.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
 

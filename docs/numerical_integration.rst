@@ -22,7 +22,7 @@ The code snippet below show how to use this quadrature to calculate the integral
 
 
 	#include <hydra/GaussKronrodQuadrature.h>
-	#include <hydra/FunctionWrapper.h>
+	#include <hydra/Lambda.h>
 	#include <hydra/device/System.h>
 
 	...
@@ -73,7 +73,7 @@ The class ``hydra::GaussKronrodAdaptiveQuadrature<NRULE, NBIN, Backend>`` implem
 
 
 	#include <hydra/GaussKronrodAdaptiveQuadrature.h>
-	#include <hydra/FunctionWrapper.h>
+	#include <hydra/Lambda.h>
 	#include <hydra/device/System.h>
 
 	...
@@ -131,7 +131,7 @@ dimension is divided in 10 segments, resulting in :math:`10^5` sub-regions.
 .. code-block:: cpp
 	
 	#include <hydra/GaussKronrodAdaptiveQuadrature.h>
-	#include <hydra/FunctionWrapper.h>
+	#include <hydra/Lambda.h>
 	#include <hydra/device/System.h>
 
 	...
@@ -206,7 +206,7 @@ class to integrate a five-dimensional Gaussian distribution performing 100
 
 .. code-block:: cpp
 	
-	#include <hydra/FunctionWrapper.h>
+	#include <hydra/Lambda.h>
 	#include <hydra/device/System.h>
 	#include <hydra/Plain.h>
 
@@ -290,7 +290,7 @@ The implementation of VEGAS in Hydra parallelizes the Monte Carlo generation, th
  .. code-block:: cpp
 
 	#include <hydra/Vegas.h>
-	#include <hydra/FunctionWrapper.h>
+	#include <hydra/Lambda.h>
 	#include <hydra/device/System.h>
 	 
 	...

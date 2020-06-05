@@ -78,7 +78,7 @@ namespace hydra {
  *@tparam ResonanceWave hydra::Wave resonance decay vertex wave
  *@tparam MotherWave hydra::Wave mother particle decay vertex wave
  */
-template<Wave ResonanceWave, Wave MotherWave=SWave, typename ArgType, typename Signature = hydra::complex<double>(ArgType) >
+template<Wave ResonanceWave, Wave MotherWave, typename ArgType, typename Signature = hydra::complex<double>(ArgType) >
 class BreitWignerLineShape : public BaseFunctor<BreitWignerLineShape< ResonanceWave,MotherWave,ArgType>, Signature, 2>
 {
 	using BaseFunctor<BreitWignerLineShape<ResonanceWave,MotherWave,ArgType>, Signature, 2>::_par;
@@ -233,7 +233,7 @@ private:
 				 BarrierFactor<ResonanceWave>(fRadi, q0, q)*\
 				 pow<double,ResonanceWave>(q/q0) , 0);
 
-		 hydra::complex<double> denominator(m*m - resonance_mass*resonance_mass,  -resonance_mass*width);
+		 hydra::complex<double> denominator( resonance_mass*resonance_mass-m*m ,  -resonance_mass*width);
 
 		 return hydra::complex<double>(numerator/denominator) ;
 

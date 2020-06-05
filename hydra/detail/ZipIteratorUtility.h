@@ -217,7 +217,7 @@ namespace meld_iterators_ns {
 
 template<typename T>
 auto convert_to_tuple(T&& iterator)
--> typename std::enable_if< detail::is_zip_iterator<T>::value &&
+-> typename std::enable_if< detail::is_iterator<T>::value &&
                             detail::is_zip_iterator<T>::value,
     decltype( std::declval<T>().get_iterator_tuple() ) >::type
 {
@@ -227,8 +227,8 @@ auto convert_to_tuple(T&& iterator)
 template<typename T>
 auto convert_to_tuple(T&& iterator)
 -> typename std::enable_if< detail::is_iterator<T>::value &&
-                          !(detail::is_zip_iterator<T>::value),
-decltype(std::declval<T>().get_iterator_tuple()) >::type
+                          (!detail::is_zip_iterator<T>::value),
+hydra_thrust::tuple<T> >::type
 {
 	return hydra_thrust::make_tuple(std::forward<T>(iterator));
 }

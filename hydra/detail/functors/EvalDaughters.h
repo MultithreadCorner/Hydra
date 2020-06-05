@@ -44,7 +44,7 @@
 #include <hydra/Vector3R.h>
 #include <hydra/Vector4R.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
-#include <hydra/FunctionWrapper.h>
+#include <hydra/Lambda.h>
 //thrust
 #include <hydra/detail/external/hydra_thrust/tuple.h>
 #include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
