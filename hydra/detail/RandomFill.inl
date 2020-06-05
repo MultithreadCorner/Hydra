@@ -86,38 +86,20 @@ namespace hydra{
     {
         using hydra_thrust::system::detail::generic::select_system;
         typedef typename hydra_thrust::iterator_system<Iterator>::type system_t;
+        typedef typename hydra::detail::BackendPolicy<BACKEND>::execution_policy_type policy_t;
         system_t system;
-        /*
-         * >> Check if policy is compatible with derived system from iterators
-         */
+        policy_t _policy;
 
-        hydra_thrust::tabulate( policy, begin, end, detail::Sampler<Engine, FUNCTOR>(functor, seed) );
+        typedef  typename hydra_thrust::detail::remove_reference<
+                    decltype(select_system( system, _policy ))>::type common_system_type;
+ 
+        hydra_thrust::tabulate( common_system_type(), begin, end, detail::Sampler<Engine, FUNCTOR>(functor, seed) );
 
     }
 
 
 
-    /**
-     * @brief Fill a range with numbers distributed according a user defined distribution using the accept-reject method.
-     * @param policy backend to perform the calculation.
-     * @param begin beginning of the range storing the generated values
-     * @param end ending of the range storing the generated values
-     * @param functor distribution to be sampled
-     */
-    template< typename Engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
-    typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
-    fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-                Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed)
-    {
-        using hydra_thrust::system::detail::generic::select_system;
-        typedef typename hydra_thrust::iterator_system<Iterator>::type system_t;
-        system_t system;
-        /*
-         * >> Check if policy is compatible with derived system from iterators
-         * >> Accept-Reject here <<
-         */
 
-    }
 
 
 
@@ -143,25 +125,7 @@ namespace hydra{
 
 
 
-    /**
-     * @brief Fill a range with numbers distributed according a user defined distribution using the accept-reject method.
-     * @param begin beginning of the range storing the generated values
-     * @param end ending of the range storing the generated values
-     * @param functor distribution to be sampled
-     */
-    template< typename Engine, typename Iterator, typename FUNCTOR >
-    typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
-    fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed)
-    {
-        using hydra_thrust::system::detail::generic::select_system;
-        typedef typename hydra_thrust::iterator_system<Iterator>::type system_t;
-        system_t system;
 
-        /*
-         * >> Accept-Reject here <<
-         */
-
-    }
 
 
 
@@ -172,7 +136,9 @@ namespace hydra{
      * @param functor distribution to be sampled
      */
     template< typename Engine, hydra::detail::Backend BACKEND, typename Iterable, typename FUNCTOR >
-    typename std::enable_if< hydra::detail::is_iterable<Iterable>::value, void>::type
+    typename std::enable_if< hydra::detail::is_iterable<Iterable>::value && std::is_convertible<
+    decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
+    >::value, void>::type
     fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
                 Iterable&& iterable, FUNCTOR const& functor, size_t seed){
 
@@ -190,7 +156,9 @@ namespace hydra{
      * @param functor distribution to be sampled
      */
     template< typename Engine, typename Iterable, typename FUNCTOR >
-    typename std::enable_if< hydra::detail::is_iterable<Iterable>::value, void>::type
+    typename std::enable_if< hydra::detail::is_iterable<Iterable>::value && std::is_convertible<
+    decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
+    >::value, void>::type
     fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed){
 
         fill_random(std::forward<Iterable>(iterable).begin(),
@@ -201,20 +169,42 @@ namespace hydra{
 
 
 
+
     /**
-     * @brief Fall back function if RngFormula::Generate() return value is not convertible to functor return value
+     * @brief Fall back function if RngFormula is not implemented for the requested functor
+     */
+    template< typename Engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
+    typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
+    fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+                Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed)
+    {
+
+        HYDRA_STATIC_ASSERT( int(std::is_class<Engine>::value) ==-1 ,
+                " The functor passed to hydra::fill_random() function has no \n "
+                " rng analytical formula implemented. Please use hydra::sample \n"
+                " which will deploy different strategy \n.")
+
+    }
+    
+
+
+    /**
+     * @brief Fall back function if RngFormula is not implemented for the requested functor
      */
     template< typename Engine, typename Iterator, typename FUNCTOR >
-    typename std::enable_if< !std::is_convertible<
-    decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-    typename std::iterator_traits<Iterator>::value_type
-    >::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
-    fill_random(Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed)
+    typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
+    fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed)
     {
-        static_assert( int(std::is_class<Engine>::value) =-1, " Generated objects can't be stored in this container " );
+
+        HYDRA_STATIC_ASSERT( int(std::is_class<Engine>::value) ==-1 ,
+                " The functor passed to hydra::fill_random() function has no \n "
+                " rng analytical formula implemented. Please use hydra::sample \n"
+                " which will deploy different strategy ")
+
     }
-
-
+    
+    
+    
 
     /**
      * @brief Fall back function if RngFormula::Generate() return value is not convertible to functor return value
@@ -227,7 +217,60 @@ namespace hydra{
     fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
                 Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed)
     {
-        static_assert( int(std::is_class<Engine>::value) =-1, " Generated objects can't be stored in this container " );
+        HYDRA_STATIC_ASSERT( int(std::is_class<Engine>::value) ==-1 ,
+                " Generated objects can't be stored in this container. " )
+    }
+
+
+    /**
+     * @brief Fall back function if RngFormula::Generate() return value is not convertible to functor return value
+     */
+    template< typename Engine, typename Iterator, typename FUNCTOR >
+    typename std::enable_if< !std::is_convertible<
+    decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
+    typename std::iterator_traits<Iterator>::value_type
+    >::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
+    fill_random(Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed)
+    {
+        HYDRA_STATIC_ASSERT( int(std::is_class<Engine>::value) ==-1 ,
+                " Generated objects can't be stored in this container. " )
+    }
+
+
+
+
+    
+    /**
+     * @brief Fall back function if the argument is not an Iterable or if it is not convertible to the Functor return value
+     */
+    template< typename Engine, hydra::detail::Backend BACKEND, typename Iterable, typename FUNCTOR >
+    typename std::enable_if< !hydra::detail::is_iterable<Iterable>::value || !std::is_convertible<
+    decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
+    >::value, void>::type
+    fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+                Iterable&& iterable, FUNCTOR const& functor, size_t seed)
+    {
+        HYDRA_STATIC_ASSERT( int(std::is_class<Engine>::value) ==-1 ,
+                " Generated objects can't be stored in this container. \n"
+                " The container is not iterable, or it is not convertible \n"
+                " from/to the functor return value. " )
+    }
+
+
+
+    /**
+     * @brief Fall back function if the argument is not an Iterable or if it is not convertible to the Functor return value
+     */
+    template< typename Engine, typename Iterable, typename FUNCTOR >
+    typename std::enable_if< !hydra::detail::is_iterable<Iterable>::value || !std::is_convertible<
+    decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
+    >::value, void>::type
+    fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed)
+    {
+        HYDRA_STATIC_ASSERT( int(std::is_class<Engine>::value) ==-1 ,
+                " Generated objects can't be stored in this container. \n"
+                " The container is not iterable, or it is not convertible \n"
+                " from/to the functor return value. " )
     }
 
 

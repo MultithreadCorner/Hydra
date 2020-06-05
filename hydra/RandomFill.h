@@ -68,21 +68,9 @@ decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(), 
 typename hydra_thrust::iterator_traits<Iterator>::value_type
 >::value, void>::type
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-            Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=159);
+            Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
 
 
-
-/**
- * @brief Fill a range with numbers distributed according a user defined distribution using the accept-reject method.
- * @param policy backend to perform the calculation.
- * @param begin beginning of the range storing the generated values
- * @param end ending of the range storing the generated values
- * @param functor distribution to be sampled
- */
-template< typename Engine = hydra_thrust::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
-typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
-fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-            Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=159);
 
 
 
@@ -97,19 +85,9 @@ typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::
 decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
 typename hydra_thrust::iterator_traits<Iterator>::value_type
 >::value, void>::type
-fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=159);
+fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
 
 
-
-/**
- * @brief Fill a range with numbers distributed according a user defined distribution using the accept-reject method.
- * @param begin beginning of the range storing the generated values
- * @param end ending of the range storing the generated values
- * @param functor distribution to be sampled
- */
-template< typename Engine = hydra_thrust::default_random_engine, typename Iterator, typename FUNCTOR >
-typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
-fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=159);
 
 
 
@@ -120,9 +98,13 @@ fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=15
  * @param functor distribution to be sampled
  */
 template< typename Engine = hydra_thrust::default_random_engine, hydra::detail::Backend BACKEND, typename Iterable, typename FUNCTOR >
-typename std::enable_if< hydra::detail::is_iterable<Iterable>::value, void>::type
+typename std::enable_if< hydra::detail::is_iterable<Iterable>::value && std::is_convertible<
+decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
+>::value, void>::type
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-            Iterable&& iterable, FUNCTOR const& functor, size_t seed=159);
+            Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+
+
 
 
 
@@ -132,23 +114,41 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param functor distribution to be sampled
  */
 template< typename Engine = hydra_thrust::default_random_engine, typename Iterable, typename FUNCTOR >
-typename std::enable_if< hydra::detail::is_iterable<Iterable>::value, void>::type
-fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=159);
+typename std::enable_if< hydra::detail::is_iterable<Iterable>::value && std::is_convertible<
+decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
+>::value, void>::type
+fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+
+
 
 
 
 /**
- * @brief Fall back function if RngFormula::Generate() return value is not convertible to functor return value
+ * @brief Fall back function if RngFormula is not implemented for the requested functor
+ * @param policy backend to perform the calculation.
+ * @param begin beginning of the range storing the generated values
+ * @param end ending of the range storing the generated values
+ * @param functor distribution to be sampled
+ */
+template< typename Engine = hydra_thrust::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
+typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
+fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+            Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+
+
+
+
+/**
+ * @brief Fall back function if RngFormula is not implemented for the requested functor
  * @param begin beginning of the range storing the generated values
  * @param end ending of the range storing the generated values
  * @param functor distribution to be sampled
  */
 template< typename Engine = hydra_thrust::default_random_engine, typename Iterator, typename FUNCTOR >
-typename std::enable_if< !std::is_convertible<
-decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-typename std::iterator_traits<Iterator>::value_type
->::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
-fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=159);
+typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
+fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+
+
 
 
 /**
@@ -164,7 +164,54 @@ decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(), 
 typename std::iterator_traits<Iterator>::value_type
 >::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-            Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed=159);
+            Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed=0x254a0afcf7da74a2);
+
+
+
+
+/**
+ * @brief Fall back function if RngFormula::Generate() return value is not convertible to functor return value
+ * @param begin beginning of the range storing the generated values
+ * @param end ending of the range storing the generated values
+ * @param functor distribution to be sampled
+ */
+template< typename Engine = hydra_thrust::default_random_engine, typename Iterator, typename FUNCTOR >
+typename std::enable_if< !std::is_convertible<
+decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
+typename std::iterator_traits<Iterator>::value_type
+>::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
+fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+
+
+
+
+
+/**
+ * @brief Fall back function if the argument is not an Iterable or if itis not convertible to the Functor return value
+ * @param policy backend to perform the calculation.
+ * @param iterable range storing the generated values
+ * @param functor distribution to be sampled
+ */
+template< typename Engine = hydra_thrust::default_random_engine, hydra::detail::Backend BACKEND, typename Iterable, typename FUNCTOR >
+typename std::enable_if< !hydra::detail::is_iterable<Iterable>::value || !std::is_convertible<
+decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
+>::value, void>::type
+fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+            Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+
+
+
+
+/**
+ * @brief Fall back function if the argument is not an Iterable or if itis not convertible to the Functor return value
+ * @param iterable range storing the generated values
+ * @param functor distribution to be sampled
+ */
+template< typename Engine = hydra_thrust::default_random_engine, typename Iterable, typename FUNCTOR >
+typename std::enable_if< !hydra::detail::is_iterable<Iterable>::value || !std::is_convertible<
+decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
+>::value, void>::type
+fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
 
 
 
