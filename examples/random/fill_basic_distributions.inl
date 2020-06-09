@@ -45,9 +45,10 @@
 //hydra
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
-#include <hydra/Lambda.h>
 #include <hydra/Parameter.h>
 #include <hydra/RandomFill.h>
+#include <hydra/detail/Copy.inl>
+
 
 //hydra functions
 #include <hydra/functions/Gaussian.h>
@@ -100,7 +101,7 @@ int main(int argv, char** argc)
     }
 
 
-    auto data = hydra::device::vector<double>(nentries);
+    auto data_d = hydra::device::vector<double>(nentries);
 
 
 
@@ -161,10 +162,11 @@ int main(int argv, char** argc)
     
     
     
-    hydra::fill_random(data , gauss);
+    hydra::fill_random(data_d , gauss);
     
-    for(size_t i=0; i<10; ++i) std::cout << data[i] << std::endl;
-    
+    std::cout << std::endl<< "Generated data:"<< std::endl;
+    for(size_t i=0; i<10; ++i) 
+        std::cout << "[" << i << "] :" << data_d[i] << std::endl;
 
 
 #ifdef _ROOT_AVAILABLE_
@@ -182,36 +184,56 @@ int main(int argv, char** argc)
     hist_uniform.SetMinimum(0.0);
 
 
-    for(auto x : data) hist_gauss.Fill( x );
+    // copying the values in the host and fill the ROOT histogram
     
-    /*
-    hydra::fill_random(data , lognormal);
-    for(auto x : data) hist_lognormal.Fill( x );
+    auto data_h = hydra::host::vector<double>(nentries);
     
-    hydra::fill_random(data , bigauss);
-    for(auto x : data) hist_bigauss.Fill( x );
+    hydra::copy(data_d , data_h);
     
-    hydra::fill_random(data , exp);
-    for(auto x : data) hist_exp.Fill( x );
+    for(auto x : data_h) hist_gauss.Fill( x );
     
-    hydra::fill_random(data , bw);
-    for(auto x : data) hist_bw.Fill( x );
     
-    hydra::fill_random(data , chi2);
-    for(auto x : data) hist_chi.Fill( x );
     
-    hydra::fill_random(data , johnson_su);
-    for(auto x : data) hist_johnson_su.Fill( x );
+    // filling the container in the device
+    // and copy back to the host also for the 
+    // other functors
+
+    hydra::fill_random(data_d , lognormal);
+    hydra::copy(data_d , data_h);
+    for(auto x : data_h) hist_lognormal.Fill( x );
     
-    hydra::fill_random(data , uniform);
-    for(auto x : data) hist_uniform.Fill( x );
+    hydra::fill_random(data_d , bigauss);
+    hydra::copy(data_d , data_h);
+    for(auto x : data_h) hist_bigauss.Fill( x );
     
-    hydra::fill_random(data , triangle);
-    for(auto x : data) hist_triangle.Fill( x );
+    hydra::fill_random(data_d , exp);
+    hydra::copy(data_d , data_h);
+    for(auto x : data_h) hist_exp.Fill( x );
     
-    hydra::fill_random(data , trapezoid);
-    for(auto x : data) hist_trapezoid.Fill( x );
-    */
+    hydra::fill_random(data_d , bw);
+    hydra::copy(data_d , data_h);
+    for(auto x : data_h) hist_bw.Fill( x );
+    
+    hydra::fill_random(data_d , chi2);
+    hydra::copy(data_d , data_h);
+    for(auto x : data_h) hist_chi.Fill( x );
+    
+    hydra::fill_random(data_d , johnson_su);
+    hydra::copy(data_d , data_h);
+    for(auto x : data_h) hist_johnson_su.Fill( x );
+    
+    hydra::fill_random(data_d , uniform);
+    hydra::copy(data_d , data_h);
+    for(auto x : data_h) hist_uniform.Fill( x );
+    
+    hydra::fill_random(data_d , triangle);
+    hydra::copy(data_d , data_h);
+    for(auto x : data_h) hist_triangle.Fill( x );
+    
+    hydra::fill_random(data_d , trapezoid);
+    hydra::copy(data_d , data_h);
+    for(auto x : data_h) hist_trapezoid.Fill( x );
+    
     
 
     TApplication *myapp=new TApplication("myapp",0,0);
