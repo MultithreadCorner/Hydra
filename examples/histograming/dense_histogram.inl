@@ -55,6 +55,7 @@
 #include <hydra/DenseHistogram.h>
 #include <hydra/Range.h>
 #include <hydra/multivector.h>
+#include <hydra/detail/CompositeTraits.h>
 
 /*-------------------------------------
  * Include classes from ROOT to fill
@@ -127,7 +128,7 @@ int main(int argv, char** argc)
 
 
 	//Gaussian 2
-	double mean2   =  2.0;
+	double mean2   =  3.0;
 	double sigma2  =  1.0;
 	auto Gaussian2 = hydra::wrap_lambda( [mean2, sigma2] __hydra_dual__ ( AxisX x, AxisY y, AxisZ z )
 		{
@@ -151,8 +152,8 @@ int main(int argv, char** argc)
 	//sum of gaussians
 	auto Gaussians = Gaussian1 + Gaussian2;
 
+	std::cout <<  hydra::detail::is_hydra_composite_functor<decltype(Gaussians)>::value << std::endl;
 	//---------
-
 	//---------
 	//generator
 
@@ -170,17 +171,22 @@ int main(int argv, char** argc)
 #endif //_ROOT_AVAILABLE_
 
 
-hydra::multivector<hydra::tuple<AxisX, AxisY, AxisZ>, hydra::device::sys_t > dataset(nentries);
 
 
 	//device
 	{
 
-		dataset_d data_d(nentries);
+		hydra::multivector<
+		      hydra::tuple<AxisX, AxisY, AxisZ>,
+		      hydra::device::sys_t > dataset(nentries);
+
 
 		auto start_d = std::chrono::high_resolution_clock::now();
-		auto range = hydra::sample(dataset, min, max, gaussians);
+
+		auto range = hydra::sample(dataset, min, max, Gaussians);
+
 		auto end_d = std::chrono::high_resolution_clock::now();
+
 		std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
 
 		//time

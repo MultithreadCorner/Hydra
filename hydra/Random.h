@@ -38,6 +38,7 @@
 #include <hydra/detail/TypeTraits.h>
 #include <hydra/detail/Iterable_traits.h>
 #include <hydra/detail/FunctorTraits.h>
+#include <hydra/detail/CompositeTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/Containers.h>
 #include <hydra/Range.h>
@@ -133,7 +134,9 @@ struct is_iterable: std::conditional<
 
 template<typename T>
 struct is_callable: std::conditional<
-        (hydra::detail::is_hydra_functor<T>::value ||
+
+        (hydra::detail::is_hydra_composite_functor<T>::value ||
+         hydra::detail::is_hydra_functor<T>::value ||
          hydra::detail::is_hydra_lambda<T>::value ) &&
         !hydra::detail::is_iterable<T>::value &&
         !hydra::detail::is_iterator<T>::value,
@@ -387,7 +390,8 @@ template<typename RNG=default_random_engine, typename Functor, typename Iterator
 typename std::enable_if<
 detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 Range<Iterator> >::type
-sample(hydra::detail::BackendPolicy<BACKEND> const& policy,	Iterator begin, Iterator end ,
+sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
+		Iterator begin, Iterator end ,
 		std::array<double,N>const& min,	std::array<double,N>const& max,
 		Functor const& functor, size_t seed=0xb56c4feeef1b);
 /**
@@ -403,7 +407,8 @@ template<typename RNG=default_random_engine, typename DerivedPolicy, typename Fu
 typename std::enable_if<
 detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 Range<Iterator> >::type
-sample(hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& policy,	Iterator begin, Iterator end ,
+sample(hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& policy,
+		Iterator begin, Iterator end ,
 		std::array<double,N>const& min,	std::array<double,N>const& max,
 		Functor const& functor, size_t seed=0xb56c4feeef1b);
 
@@ -419,7 +424,8 @@ template<typename RNG=default_random_engine, typename Functor, typename Iterable
 typename std::enable_if<
 detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
 Range< decltype(std::declval<Iterable>().begin())>>::type
-sample(Iterable&& output , std::array<double,N>const& min, std::array<double,N>const& max,
+sample( Iterable&& output ,
+		std::array<double,N>const& min, std::array<double,N>const& max,
 		Functor const& functor, size_t seed=0xb56c4feeef1b);
 
 

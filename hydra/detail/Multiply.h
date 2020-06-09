@@ -60,10 +60,12 @@ template<typename F1, typename F2, typename ...Fs>
 class Multiply: public detail::CompositeBase< F1,F2, Fs...>
 {
 	public:
-	//tag
-	typedef void hydra_functor_tag;
-	typedef   std::true_type is_functor;
-	typedef typename detail::multiply_result<typename F1::return_type ,typename  F2::return_type,typename  Fs::return_type...>::type  return_type;
+
+
+	typedef typename detail::multiply_result<
+			typename F1::return_type,
+			typename F2::return_type,
+			typename Fs::return_type...>::type  return_type;
 
 	Multiply()=delete;
 
@@ -94,52 +96,73 @@ class Multiply: public detail::CompositeBase< F1,F2, Fs...>
 
   	}
 
-  	template<typename T1, typename T2>
-  	__hydra_host__ __hydra_device__  inline
-  	return_type operator()( T1& t, T2& cache) const
-  	{
-
-  		return this->IsCached() ? detail::extract<return_type,T2>(this->GetIndex(), std::forward<T2&>(cache)):\
-  				detail::product2<return_type,T1,T2,F1,F2,Fs...>(t,cache,this->fFtorTuple );
-  	}
-
 
 };
 
 // multiplication: * operator two functors
-template <typename T1, typename T2,
-typename=typename std::enable_if< T1::is_functor::value && T2::is_functor::value>::type >
-__hydra_host__  inline
-Multiply<T1,T2>
-operator*(T1 const& F1, T2 const& F2){return  Multiply<T1, T2>(F1, F2); }
-
-template <typename T1, typename T2,
-typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
-		std::is_constructible<hydra_thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
-__hydra_host__  inline
-Multiply<Constant<T1>, T2>
-operator*(T1 const cte, T2 const& F2){
-	return Multiply< Constant<T1>, T2>(Constant<T1>(cte),F2);
+template<typename T1, typename T2>
+inline typename std::enable_if<
+(detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value) &&
+(detail::is_hydra_functor<T2>::value || detail::is_hydra_lambda<T2>::value),
+Multiply<T1, T2> >::type
+operator*(T1 const& F1, T2 const& F2)
+{
+	return  Multiply<T1,T2>(F1, F2);
 }
 
+template <typename T, typename U>
+inline typename std::enable_if<
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value) &&
+(std::is_arithmetic<U>::value),
+Multiply< Constant<U>, T> >::type
+operator*(U const cte, T const& F)
+{
+	return  Constant<U>(cte)*F;
+}
 
-template <typename T1, typename T2,
-typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
-		std::is_constructible<hydra_thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
-__hydra_host__  inline
-Multiply<Constant<T1>, T2>
-operator*(T2 const& F2, T1 const cte ){	return  Constant<T1>(cte)*F2; }
+template <typename T, typename U>
+inline typename std::enable_if<
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value) &&
+(std::is_arithmetic<U>::value),
+Multiply< Constant<U>, T> >::type
+operator*( T const& F, U cte)
+{
+	return  Constant<U>(cte)*F;
+}
 
+template <typename T, typename U>
+inline typename std::enable_if<
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value) &&
+(std::is_arithmetic<U>::value),
+Multiply< Constant<hydra::complex<U>>, T> >::type
+operator*(hydra::complex<U> const& cte, T const& F)
+{
+	return  Constant<hydra::complex<U> >(cte)*F;
+}
+
+template <typename T, typename U>
+inline typename std::enable_if<
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value) &&
+(std::is_arithmetic<U>::value),
+Multiply< Constant<U>, T> >::type
+operator*( T const& F, hydra::complex<U> const& cte)
+{
+	return  Constant<hydra::complex<U> >(cte)*F;
+}
 
 // Convenience function
+// Convenience function
 template <typename F1, typename F2, typename ...Fs>
-__hydra_host__  inline
-Multiply<F1,F2,Fs...>
+inline typename std::enable_if<
+(detail::is_hydra_functor<F1>::value || detail::is_hydra_lambda<F1>::value) &&
+(detail::is_hydra_functor<F2>::value || detail::is_hydra_lambda<F2>::value) &&
+detail::all_true<(detail::is_hydra_functor<Fs>::value || detail::is_hydra_lambda<Fs>::value)...>::value,
+Multiply<F1, F2,Fs...>>::type
 multiply(F1 const& f1, F2 const& f2, Fs const&... functors )
-{ return  Multiply<F1,F2,Fs...>(f1,f2, functors ... ); }
-
-
+{
+	return  Multiply<F1, F2,Fs... >(f1,f2, functors ... );
 }
 
+}//namespace hydra
 
 #endif /* MULTIPLY_H_ */

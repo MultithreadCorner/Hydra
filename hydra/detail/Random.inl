@@ -273,7 +273,8 @@ typename std::enable_if<
 	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 	Range<Iterator>
 >::type
-sample( hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& policy, Iterator begin, Iterator end ,
+sample( hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& policy,
+		Iterator begin, Iterator end ,
 		std::array<double,N> const& min, std::array<double,N> const& max,
 		Functor const& functor, size_t seed)
 {
@@ -315,7 +316,8 @@ template<typename RNG, typename Functor, typename Iterator, hydra::detail::Backe
 typename std::enable_if<
 detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 Range<Iterator> >::type
-sample(hydra::detail::BackendPolicy<BACKEND> const& policy,	Iterator begin, Iterator end ,
+sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
+		Iterator begin, Iterator end ,
 		std::array<double,N>const& min,	std::array<double,N>const& max,
 		Functor const& functor, size_t seed)
 {
