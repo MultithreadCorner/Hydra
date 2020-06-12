@@ -98,7 +98,7 @@ private:
 
 	GReal_t v[3];
 
-	_DeclareStorable(Vector3R, v[0], v[1] , v[2])
+	//_DeclareStorable(Vector3R, v[0], v[1] , v[2])
 };
 
 __hydra_host__ __hydra_device__

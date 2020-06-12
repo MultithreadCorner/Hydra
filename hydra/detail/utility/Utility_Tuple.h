@@ -400,7 +400,7 @@ namespace hydra {
 	void >::type
 	assignArrayToTuple(hydra_thrust::tuple<FistType, OtherTypes...>& t, ArrayType const* Array )
 	{
-		hydra_thrust::get<I>(t) = (typename ArrayType::args_type) Array[I];
+		hydra_thrust::get<I>(t) =  Array[I];
 		assignArrayToTuple<I + 1, ArrayType, FistType, OtherTypes... >( t, Array);
 	}
 

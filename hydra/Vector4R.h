@@ -134,7 +134,7 @@ private:
 	}
 
 
-	_DeclareStorable(Vector4R, v[0], v[1] , v[2], v[3])
+	//_DeclareStorable(Vector4R, v[0], v[1] , v[2], v[3])
 };
 
 __hydra_host__ __hydra_device__

@@ -82,6 +82,7 @@ class  Polynomial:public BaseFunctor<Polynomial<Order, ArgType>, Signature, Orde
 	using BaseFunctor<Polynomial<Order, ArgType>, Signature, Order+1>::_par;
 
 public:
+
 	Polynomial() = delete;
 
 	Polynomial(std::array<Parameter,Order+1> const& coeficients):
