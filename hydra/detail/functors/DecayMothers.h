@@ -253,7 +253,7 @@ struct DecayMothers
 
 		particles_tuple_type particles{};
 
-		hydra::detail::assignArrayToTuple2(particles,  &Particles[1] );
+		assignArrayToTuple(particles,  &Particles[1] );
 
 		return particles;
 

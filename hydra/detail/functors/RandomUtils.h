@@ -292,7 +292,7 @@ struct RndTrial{
 			x[j] = dist(randEng);
 		}
 
-		assignArrayToTuple2(t, x);
+		assignArrayToTuple(t, x);
 
 		return  fFunctor(t);
 	}

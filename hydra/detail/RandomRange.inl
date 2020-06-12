@@ -61,14 +61,14 @@ template<typename Value_Type>
 Range<hydra_thrust::transform_iterator<
 detail::RndUniform<Value_Type, hydra_thrust::random::default_random_engine> ,
 hydra_thrust::counting_iterator<size_t>, Value_Type>>
-random_uniform_range(const Value_Type& min, const Value_Type& max, size_t seed ){
+random_uniform_range(const Value_Type& min, const Value_Type& max, size_t seed, size_t length=0 ){
 
 	// create iterators
 	typedef hydra_thrust::counting_iterator<size_t> index_t;
 	typedef detail::RndUniform<Value_Type, hydra_thrust::random::default_random_engine> uniform_t;
 
 	index_t first(0);
-	index_t last(std::numeric_limits<size_t>::max());
+	index_t last( length==0 ? std::numeric_limits<size_t>::max() : length);
 
 	return make_range(
 			hydra_thrust::transform_iterator<uniform_t, index_t, Value_Type>(first, uniform_t(seed, min, max )),

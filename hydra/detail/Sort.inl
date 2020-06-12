@@ -86,7 +86,7 @@ typename Iterator=decltype(std::declval<Iterable>().begin()),
 typename Value_Key=decltype(*std::declval<Range<Iterator_Key,Functor>>().begin()) >
 typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable&>().begin())>>::type
-sort_by_key(Iterable& iterable, Range<Iterator_Key,Functor>&& keys){
+sort_by_key(Iterable& iterable, Range<Iterator_Key,Functor> keys){
 
 	using hydra_thrust::system::detail::generic::select_system;
 	typedef  typename hydra_thrust::iterator_system<Iterator>::type system1_t;
@@ -98,8 +98,12 @@ sort_by_key(Iterable& iterable, Range<Iterator_Key,Functor>&& keys){
 			decltype(select_system(system1, system2 ))>::type common_system_t;
 
 	auto key_buffer = hydra_thrust::get_temporary_buffer<Value_Key>(common_system_t(), iterable.size());
+
 	hydra_thrust::copy(common_system_t(), keys.begin(), keys.end(), key_buffer.first);
-	hydra_thrust::sort_by_key(iterable.begin(), iterable.end(), key_buffer.first);
+
+	hydra_thrust::stable_sort_by_key(key_buffer.first, key_buffer.first +key_buffer.second, iterable.begin() );
+
+
 	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
 	return make_range(iterable.begin(), iterable.end());

@@ -44,6 +44,8 @@
 #include <tclap/CmdLine.h>
 
 //this lib
+
+#include <hydra/host/System.h>
 #include <hydra/device/System.h>
 #include <hydra/Function.h>
 #include <hydra/Lambda.h>
@@ -55,7 +57,6 @@
 #include <hydra/DenseHistogram.h>
 #include <hydra/Range.h>
 #include <hydra/multivector.h>
-#include <hydra/detail/CompositeTraits.h>
 
 /*-------------------------------------
  * Include classes from ROOT to fill
@@ -152,7 +153,6 @@ int main(int argv, char** argc)
 	//sum of gaussians
 	auto Gaussians = Gaussian1 + Gaussian2;
 
-	std::cout <<  hydra::detail::is_hydra_composite_functor<decltype(Gaussians)>::value << std::endl;
 	//---------
 	//---------
 	//generator
@@ -217,6 +217,9 @@ int main(int argv, char** argc)
 		std::cout << "-----------------------------------------"<<std::endl;
 
 #ifdef _ROOT_AVAILABLE_
+		{
+		hydra::DenseHistogram<double,3, hydra::host::sys_t> _temp_hist = Hist_Data;
+
 		for(size_t i=0;  i<50; i++){
 					for(size_t j=0;  j<50; j++){
 						for(size_t k=0;  k<50; k++){
@@ -224,10 +227,11 @@ int main(int argv, char** argc)
 							size_t bin[3]={i,j,k};
 
 				          	hist_d.SetBinContent(i+1,j+1,k+1,
-				          			Hist_Data.GetBinContent(bin )  );
+				          			_temp_hist.GetBinContent(bin )  );
 						}
 					}
 				}
+		}
 #endif //_ROOT_AVAILABLE_
 
 	}
@@ -252,9 +256,5 @@ int main(int argv, char** argc)
 
 
 }
-
-
-
-
 
 #endif /* DENSE_HISTOGRAM_INL_ */

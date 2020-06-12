@@ -141,11 +141,11 @@ operator-( T const& F, hydra::complex<U> const& cte)
 }
 
 // Convenience function
-template <typename F1, typename F2, typename ...Fs>
+template <typename F1, typename F2>
 inline typename std::enable_if<
 (detail::is_hydra_functor<F1>::value || detail::is_hydra_lambda<F1>::value) &&
 (detail::is_hydra_functor<F2>::value || detail::is_hydra_lambda<F2>::value),
-Minus<F1, F2,Fs...>>::type
+Minus<F1, F2>>::type
 minus(F1 const& f1, F2 const& f2)
 {
 	return  Minus<F1, F2>(f1,f2);

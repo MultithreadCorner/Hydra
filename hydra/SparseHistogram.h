@@ -293,7 +293,7 @@ public:
 
 	template<typename Int,
 				typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-	inline double GetBinContent( Int  bins[N]){
+	inline double GetBinContent( Int  (&bins)[N]){
 
 		size_t bin=0;
 

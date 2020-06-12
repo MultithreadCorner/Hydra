@@ -38,6 +38,8 @@
 #include <hydra/Range.h>
 #include <hydra/Placeholders.h>
 #include <hydra/Range.h>
+#include <hydra/detail/Iterable_traits.h>
+#include <hydra/detail/IteratorTraits.h>
 #include <hydra/detail/ZipIteratorUtility.h>
 #include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
@@ -221,7 +223,22 @@ public:
 		hydra_thrust::copy(first, last, begin());
 
 	}
+	template< typename Iterable,
+	          typename = typename std::enable_if<
+	           (detail::is_iterable<Iterable>::value) &&
+	          !(detail::is_iterator<Iterable>::value) &&
+	           (std::is_convertible<decltype(*std::declval<Iterable>().begin()), value_type>::value)
+	          >::type >
+	multivector(Iterable&& other )
+	{
+		__resize( hydra_thrust::distance(
+				std::forward<Iterable>(other).begin(),
+				std::forward<Iterable>(other).end() ) );
 
+		hydra_thrust::copy(std::forward<Iterable>(other).begin(),
+				           std::forward<Iterable>(other).end(),
+				           begin());
+	}
 	/**
 	 * Assignment operator
 	 * @param other
@@ -1501,6 +1518,25 @@ bool operator!=(const multivector<hydra_thrust::tuple<T...>, hydra::detail::Back
 	, comparison));
 }
 
+template<hydra::detail::Backend BACKEND, typename ...T, unsigned int...I>
+auto columns( multivector<hydra_thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND>>const& other, placeholders::placeholder<I>...cls)
+-> Range<decltype(std::declval<multivector<hydra_thrust::tuple<T...>,
+		hydra::detail::BackendPolicy<BACKEND>> const&>().begin(placeholders::placeholder<I>{}...))>
+{
+
+	typedef decltype( other.begin(cls...)) iterator_type;
+	return Range<iterator_type>( other.begin(cls...), other.end(cls...));
+}
+
+template<hydra::detail::Backend BACKEND, typename ...T, unsigned int...I>
+auto columns( multivector<hydra_thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND>>& other, placeholders::placeholder<I>...cls)
+-> Range<decltype(std::declval<multivector<hydra_thrust::tuple<T...>,
+		hydra::detail::BackendPolicy<BACKEND>>&>().begin(placeholders::placeholder<I>{}...))>
+{
+
+	typedef decltype( other.begin(cls...)) iterator_type;
+	return Range<iterator_type>( other.begin(cls...), other.end(cls...));
+}
 
 
 
