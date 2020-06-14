@@ -35,9 +35,9 @@
 
 namespace hydra {
 
-template<typename ArgType>
+template<typename ArgType,typename Signature>
 __hydra_host__ __hydra_device__
- inline  double Ipatia<ArgType>::ipatia(const double x, const double mu,const double sigma,
+ inline  double Ipatia<ArgType, Signature>::ipatia(const double x, const double mu,const double sigma,
          const double A1, const double N1, const double A2, const double N2,
          const double l, const double beta) const {
 
@@ -55,9 +55,9 @@ __hydra_host__ __hydra_device__
 
  }
 
-template<typename ArgType>
+template<typename ArgType,typename Signature>
 __hydra_host__ __hydra_device__
- inline  double Ipatia<ArgType>::left(const double d, const double sigma,
+ inline  double Ipatia<ArgType, Signature>::left(const double d, const double sigma,
 	 const double A1, const double N1, const double l,  const double beta) const {
 
 	 const double  asigma = A1*sigma;
@@ -92,9 +92,9 @@ __hydra_host__ __hydra_device__
 
  }
 
-template<typename ArgType>
+template<typename ArgType,typename Signature>
 __hydra_host__ __hydra_device__
- inline  double Ipatia<ArgType>::right(const double d,const double sigma,
+ inline  double Ipatia<ArgType, Signature>::right(const double d,const double sigma,
 		const double A2, const double N2, const double l,  const double beta) const{
 
 	 const  double asigma = A2*sigma;
@@ -131,9 +131,9 @@ __hydra_host__ __hydra_device__
 
  }
 
-template<typename ArgType>
+template<typename ArgType,typename Signature>
 __hydra_host__ __hydra_device__
- inline  double Ipatia<ArgType>::center(const double d,const double sigma,
+ inline  double Ipatia<ArgType, Signature>::center(const double d,const double sigma,
 		 const double l, const double beta ) const {
 
 
