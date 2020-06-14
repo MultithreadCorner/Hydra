@@ -43,11 +43,17 @@
 #include <hydra/Zip.h>
 #include <hydra/Complex.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
+#include <hydra/functions/UniformShape.h>
 
+#include <hydra/RandomFill.h>
 //command line
 #include <tclap/CmdLine.h>
 
 
+
+declarg(xvar, double)
+
+using namespace hydra::arguments;
 
 typedef double FloatType;
 
@@ -80,10 +86,13 @@ int main(int argv, char** argc)
 	 */
 	hydra::device::vector<FloatType> x( nentries);
 
-	//generate random
-	hydra::Random<> Generator{};
-	Generator.Uniform(-1.0, 1.0, x);
+	//Uniform
+	auto A = hydra::Parameter::Create().Name("A").Value(-5.0);
+	auto B = hydra::Parameter::Create().Name("B").Value( 5.0);
 
+	auto uniform   = hydra::UniformShape<xvar>(A,B);
+
+	hydra::fill_random(x , uniform);
 
    auto fft_r2c = hydra::RealToComplexFFTW<FloatType>( nentries );
    fft_r2c.LoadInputData(x);

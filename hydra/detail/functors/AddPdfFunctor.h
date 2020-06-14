@@ -61,6 +61,8 @@ inline auto get_functor_tuple(Tup& pdfs)
 template<typename PDF1, typename PDF2, typename ...PDFs>
 struct AddPdfFunctor
 {
+	typedef void hydra_composed_functor_type;
+
 
 	typedef hydra_thrust::tuple<
 			typename PDF1::functor_type,

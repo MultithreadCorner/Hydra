@@ -124,7 +124,6 @@ class ConvolutionFunctor< Functor, Kernel, detail::BackendPolicy<BACKEND>,
 	//typedef
 	typedef typename detail::convolution::_traits<hydra_thrust::tuple<Functor, Kernel>, ArgType>::value_type   value_type;
 
-	typedef typename detail::convolution::_traits<hydra_thrust::tuple<Functor, Kernel>, ArgType>::return_type return_type;
 
 	typedef ConvolutionFunctor< Functor, Kernel, detail::BackendPolicy<BACKEND>,
         	 detail::FFTPolicy< typename std::common_type<
@@ -140,6 +139,8 @@ class ConvolutionFunctor< Functor, Kernel, detail::BackendPolicy<BACKEND>,
             	 ArgType>, hydra_thrust::tuple<Functor, Kernel>,
             	 typename  detail::convolution::_traits<hydra_thrust::tuple<Functor, Kernel>, ArgType>::signature
            > super_type;
+
+
 
 	typedef hydra::detail::FFTPolicy<value_type, FFT>    fft_type;
 
@@ -165,6 +166,8 @@ class ConvolutionFunctor< Functor, Kernel, detail::BackendPolicy<BACKEND>,
 
 public:
 
+typedef typename detail::convolution::_traits<hydra_thrust::tuple<Functor, Kernel>, ArgType>::return_type return_t;
+
 	ConvolutionFunctor() = delete;
 
 	ConvolutionFunctor( Functor const& functor, Kernel const& kernel,
@@ -188,7 +191,9 @@ public:
 
 		fFFTData   = get_temporary_buffer<value_type>(raw_fft_system_type(), fNSamples).first;
 		fHostData  = get_temporary_buffer<value_type>(raw_host_system_type(), fNSamples).first;
+
 		fDeviceData= get_temporary_buffer<value_type>(raw_device_system_type(), fNSamples).first;
+
 
 		Update();
 		//std::cout << "<<ConvolutionFunctor()"<<std::endl;
@@ -268,8 +273,7 @@ public:
 				hydra_thrust::get<1>(this->GetFunctors()),
 				fMin, fMax, data, false);
 
-		hydra_thrust::copy(/*fft_system_type(),*/ fFFTData, fFFTData + fNSamples, fDeviceData );
-		hydra_thrust::copy(/*fft_system_type(),*/ fFFTData, fFFTData + fNSamples, fHostData );
+		sync_data<FFT>();
 
 		//std::cout << "<< Update()"<<std::endl;
 
@@ -296,7 +300,7 @@ public:
 	}
 
      __hydra_host__ __hydra_device__
-	inline return_type Evaluate(ArgType X) const	{
+	inline return_t Evaluate(ArgType X) const	{
 
 
 #ifdef __CUDA_ARCH__
@@ -346,6 +350,21 @@ public:
 private:
 
 
+	template<detail::FFTCalculator FFTC=FFT>
+	inline typename std::enable_if<FFTC ==detail::CuFFT>::type
+	sync_data()
+	{
+		hydra_thrust::copy_n( fFFTData, fNSamples, fDeviceData );
+		hydra_thrust::copy_n( fFFTData, fNSamples, fHostData );
+	}
+
+	template<detail::FFTCalculator FFTC=FFT>
+	inline typename std::enable_if<FFTC !=detail::CuFFT>::type
+	sync_data()
+	{
+		hydra_thrust::copy_n(device_system_type(), fFFTData, fNSamples, fDeviceData );
+		hydra_thrust::copy_n(device_system_type(), fFFTData, fNSamples, fHostData );
+	}
 
 	size_t          fNSamples;
 	abiscissae_type fXMin;

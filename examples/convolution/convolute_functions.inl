@@ -44,7 +44,7 @@
 #include <hydra/functions/Ipatia.h>
 #include <hydra/device/System.h>
 #include <hydra/functions/ConvolutionFunctor.h>
-
+#include <hydra/Random.h>
 //hydra
 #if HYDRA_DEVICE_SYSTEM == CUDA
 #include <hydra/CuFFT.h>
@@ -175,6 +175,7 @@ int main(int argv, char** argc)
 	 */
     auto convoluton = hydra::make_convolution<double>(  hydra::device::sys,  fft_backend, signal, gaussian_kernel, min, max,  conv_result.size() );
 
+    std::cout << hydra::detail::random::is_callable<decltype(convoluton)>::value << std::endl;
 	//------------------------
 	//------------------------
 #ifdef _ROOT_AVAILABLE_

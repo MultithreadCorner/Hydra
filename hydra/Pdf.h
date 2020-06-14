@@ -66,7 +66,8 @@ class Pdf
 {
 
 	HYDRA_STATIC_ASSERT( (detail::is_hydra_functor<FUNCTOR>::value ||
-			              detail::is_hydra_lambda<FUNCTOR>::value)  &&
+			              detail::is_hydra_lambda<FUNCTOR>::value  ||
+			              detail::is_hydra_composite_functor<FUNCTOR>::value)  &&
 			              detail::is_hydra_integrator<INTEGRATOR>::value ,
 			"Instantiation of hydra::Pdf<FUNCTOR, INTEGRATOR> class, as the naming suggests,\n "
 			" requires a compliant functor or lambda as first template parameter\n"

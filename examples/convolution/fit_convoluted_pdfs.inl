@@ -85,6 +85,10 @@
 #endif //_ROOT_AVAILABLE_
 
 
+
+declarg(xvar, double)
+
+using namespace hydra::arguments;
 using namespace hydra::placeholders;
 using namespace ROOT::Minuit2;
 
@@ -117,9 +121,6 @@ int main(int argv, char** argc)
     double max   =  11.0;
     unsigned nbins = 250;
 
-	//generator
-	hydra::Random<> Generator( std::chrono::system_clock::now().time_since_epoch().count() );
-
 	//===========================
     //fit model
 
@@ -127,13 +128,13 @@ int main(int argv, char** argc)
 	hydra::Parameter  mean  = hydra::Parameter::Create().Name("Mean_Kernel").Value( 0.0).Fixed();
 	hydra::Parameter  sigma = hydra::Parameter::Create().Name("Sigma_Kernel").Value(0.5).Fixed();
 
-	hydra::Gaussian<0> gaussian_kernel(mean, sigma);
+	hydra::Gaussian<xvar> gaussian_kernel(mean, sigma);
 
 	//Breit-Wigner
 	hydra::Parameter  mass  = hydra::Parameter::Create().Name("Mass" ).Value(5.0).Error(0.0001).Limits(4.0,6.0);
 	hydra::Parameter  width = hydra::Parameter::Create().Name("Width").Value(0.05).Error(0.0001).Limits(0.01,0.1);
 
-	hydra::BreitWignerNR<0> bw_signal(mass, width );
+	hydra::BreitWignerNR<xvar> bw_signal(mass, width );
 
 	//convolution, using storage in device side
 #if HYDRA_DEVICE_SYSTEM==CUDA
@@ -144,7 +145,7 @@ int main(int argv, char** argc)
 	auto fft_backend = hydra::fft::fftw_f64;
 #endif
 
-	auto convolution_signal = hydra::make_convolution<0>( hydra::device::sys, fft_backend, bw_signal, gaussian_kernel, min, max,10112);
+	auto convolution_signal = hydra::make_convolution<xvar>( hydra::device::sys, fft_backend, bw_signal, gaussian_kernel, min, max,10112);
 
 	auto Signal_PDF = hydra::make_pdf( convolution_signal, hydra::GaussKronrodQuadrature<61, 100, hydra::device::sys_t>(min,  max));
 
@@ -155,9 +156,9 @@ int main(int argv, char** argc)
     hydra::Parameter  tau  = hydra::Parameter::Create().Name("Tau").Value(-0.1) .Error(0.0001).Limits(-0.5, 0.5);
 
     //gaussian function evaluating on the first argument
-    hydra::Exponential<0> exponential(tau);
+    hydra::Exponential<xvar> exponential(tau);
 
-    auto Background_PDF = hydra::make_pdf(exponential, hydra::AnalyticalIntegral<hydra::Exponential<0>>(min, max));
+    auto Background_PDF = hydra::make_pdf(exponential, hydra::AnalyticalIntegral<hydra::Exponential<xvar>>(min, max));
 
     //------------------
     //yields
@@ -189,7 +190,10 @@ int main(int argv, char** argc)
 		// Generate data
 
 		// signal
-		auto range = Generator.Sample(data.begin(),  data.end(), min, max, model.GetFunctor());
+		static_assert( hydra::detail::random::is_callable<decltype(model.GetFunctor())>::value, "<<<");
+		static_assert( hydra::detail::random::is_iterable<decltype(data)>::value, "<<<");
+
+		auto range = hydra::sample(data, min, max, model.GetFunctor());
 
 		// exponential
 		//Generator.Exp(tau.GetValue(), data.begin() + nentries,  data.end());
@@ -202,16 +206,8 @@ int main(int argv, char** argc)
 		hydra::DenseHistogram<double, 1, hydra::device::sys_t> Hist_Data(nbins, min, max);
 		Hist_Data.Fill( range.begin(), range.end() );
 
-		typedef decltype(Hist_Data) Iterable;
 
-		/*
-		static_assert( (!(
-				(hydra::detail::is_iterator<Iterable>::value)||
-			 ( (0>0) && hydra::detail::are_iterators<>::value))) &&
-             (!hydra::detail::is_hydra_dense_histogram<Iterable>::value) &&
-             (!hydra::detail::is_hydra_sparse_histogram<Iterable>::value) &&
-             hydra:: detail::is_iterable<Iterable>::value && hydra::detail::are_iterables<>::value ,"<<<<<<<<<<< " );
-*/
+
 		//make model and fcn
 		auto fcn   = hydra::make_loglikehood_fcn( model, Hist_Data);
 
