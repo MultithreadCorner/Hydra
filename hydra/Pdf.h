@@ -37,6 +37,7 @@
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/IntegratorTraits.h>
 #include <hydra/detail/FunctorTraits.h>
+#include <hydra/detail/CompositeTraits.h>
 
 #include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
 #include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>

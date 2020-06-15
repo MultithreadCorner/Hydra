@@ -39,7 +39,7 @@
 #include <hydra/Zip.h>
 #include <hydra/Complex.h>
 #include <hydra/detail/Convolution.inl>
-
+#include <hydra/detail/ArgumentTraits.h>
 #include <hydra/detail/external/hydra_thrust/transform.h>
 #include <hydra/detail/external/hydra_thrust/iterator/transform_iterator.h>
 #include <hydra/detail/external/hydra_thrust/memory.h>
@@ -51,7 +51,7 @@
 namespace hydra {
 
 template<detail::Backend BACKEND, detail::FFTCalculator FFTBackend,  typename Functor, typename Kernel, typename Iterable,
-     typename T    = typename hydra_thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type,
+     typename T = typename detail::stripped_type<typename hydra_thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type>::type,
      typename USING_CUDA_BACKEND = typename std::conditional< std::is_convertible<detail::BackendPolicy<BACKEND>,hydra_thrust::system::cuda::tag >::value, std::integral_constant<int, 1>,std::integral_constant<int, 0>>::type,
      typename USING_CUFFT = typename std::conditional< FFTBackend==detail::CuFFT, std::integral_constant<int, 1>,std::integral_constant<int, 0>>::type,
      typename GPU_DATA = typename std::conditional< std::is_convertible<typename hydra_thrust::iterator_system< decltype(std::declval<Iterable>().begin())>::type,

@@ -61,7 +61,7 @@ namespace detail {
 	    		  	  typename Kernel::return_type
 	    		  >::type return_type;
 
-	      typedef ArgType value_type;
+	      typedef typename detail::stripped_type<ArgType>::type value_type;
 
 	      using signature = return_type(ArgType) ;
 
@@ -212,14 +212,11 @@ typedef typename detail::convolution::_traits<hydra_thrust::tuple<Functor, Kerne
 	fDeviceData(other.GetDeviceData()),
 	fHostData(other.GetHostData()),
 	fFFTData(other.GetFFTData())
-	{
-		//std::cout << "ConvolutionFunctor(other)"<<std::endl;
-
-	}
+	{}
 
 	__hydra_host__ __hydra_device__
 	this_type& operator=(this_type const& other){
-		std::cout << ">>operator="<<std::endl;
+
 		if(this == &other) return *this;
 
 		super_type::operator=(other);
@@ -233,7 +230,7 @@ typedef typename detail::convolution::_traits<hydra_thrust::tuple<Functor, Kerne
 		fDeviceData  = other.GetDeviceData();
 		fHostData    = other.GetHostData();
 		fFFTData     = other.GetFFTData();
-		std::cout << "<<operator="<<std::endl;
+
 		return *this;
 	}
 
@@ -290,14 +287,7 @@ typedef typename detail::convolution::_traits<hydra_thrust::tuple<Functor, Kerne
 		fInterpolate = interpolate;
 	}
 
-	void Dispose(){
-		using hydra_thrust::return_temporary_buffer;
 
-		return_temporary_buffer(  device_system_type(), fDeviceData );
-		return_temporary_buffer(  host_system_type(),   fHostData );
-		return_temporary_buffer(  fft_system_type()  , fFFTData );
-
-	}
 
      __hydra_host__ __hydra_device__
 	inline return_t Evaluate(ArgType X) const	{
@@ -321,11 +311,16 @@ typedef typename detail::convolution::_traits<hydra_thrust::tuple<Functor, Kerne
 
 	}
 
+void Dispose(){
+		using hydra_thrust::return_temporary_buffer;
 
+		return_temporary_buffer(  device_system_type(), fDeviceData );
+		return_temporary_buffer(  host_system_type(),   fHostData );
+		return_temporary_buffer(  fft_system_type()  , fFFTData );
 
-	virtual ~ConvolutionFunctor(){
-		Dispose();
 	}
+
+	virtual ~ConvolutionFunctor()=default;
 
 	__hydra_host__ __hydra_device__
 	size_t GetNSamples() const
@@ -380,7 +375,7 @@ private:
 };
 
 template<typename ArgType,  typename Functor, typename Kernel, detail::Backend BACKEND, detail::FFTCalculator FFT,
-               typename T=typename std::common_type<typename Functor::return_type, typename Kernel::return_type>::type>
+               typename T=typename detail::stripped_type<typename std::common_type<typename Functor::return_type, typename Kernel::return_type>::type>::type>
 inline typename std::enable_if< std::is_floating_point<T>::value, ConvolutionFunctor<Functor, Kernel,
                  detail::BackendPolicy<BACKEND>, detail::FFTPolicy<T, FFT>, ArgType>>::type
 make_convolution( detail::BackendPolicy<BACKEND> const&, detail::FFTPolicy<T, FFT> const&, Functor const& functor, Kernel const& kernel,

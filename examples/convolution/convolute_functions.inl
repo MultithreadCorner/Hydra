@@ -175,7 +175,6 @@ int main(int argv, char** argc)
 	 */
     auto convoluton = hydra::make_convolution<double>(  hydra::device::sys,  fft_backend, signal, gaussian_kernel, min, max,  conv_result.size() );
 
-    std::cout << hydra::detail::random::is_callable<decltype(convoluton)>::value << std::endl;
 	//------------------------
 	//------------------------
 #ifdef _ROOT_AVAILABLE_
@@ -248,7 +247,7 @@ int main(int argv, char** argc)
 	myapp->Run();
 
 #endif //_ROOT_AVAILABLE_
-
+convoluton.Dispose();
 	return 0;
 
 }
