@@ -175,12 +175,14 @@ struct RngFormula< TrapezoidalShape<ArgType> >
 
 	typedef ArgType value_type;
 
+	__hydra_host__ __hydra_device__
 	unsigned NCalls( TrapezoidalShape<ArgType>const&) const
 	{
 		return 1;
 	}
 
 	template< typename T>
+	__hydra_host__ __hydra_device__
 	unsigned NCalls( std::initializer_list<T>) const
 	{
 		return 1;

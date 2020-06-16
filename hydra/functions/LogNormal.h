@@ -142,12 +142,14 @@ struct RngFormula< LogNormal<ArgType> >
 
 	typedef ArgType value_type;
 
+	__hydra_host__ __hydra_device__
 	inline unsigned NCalls( LogNormal<ArgType>const&) const
 	{
 		return 1;
 	}
 
 	template< typename T>
+	__hydra_host__ __hydra_device__
 	inline unsigned NCalls( std::initializer_list<T>) const
 	{
 		return 1;

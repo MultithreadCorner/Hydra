@@ -99,6 +99,11 @@
 #include <TStyle.h>
 #endif //_ROOT_AVAILABLE_
 
+
+declarg(XVar, double)
+declarg(YVar, double)
+
+using namespace hydra::arguments;
 using namespace hydra::placeholders;
 using namespace ROOT::Minuit2;
 
@@ -148,7 +153,7 @@ int main(int argv, char** argc)
 	//======================================================
 
 	//======================================================
-	// 1) Gaussian + Exponential model (dimension <0>)
+	// 1) Gaussian + Exponential model (dimension <0>) XVar
 	// data range
     double data_min   =  0.0;
     double data_max   =  10.0;
@@ -161,7 +166,7 @@ int main(int argv, char** argc)
 
 	//gaussian function evaluating on the first argument
 	auto Gaussian_PDF = hydra::make_pdf( hydra::Gaussian<>(mean, sigma),
-			hydra::AnalyticalIntegral<hydra::Gaussian<>>(data_min, data_max));
+			hydra::AnalyticalIntegral<hydra::Gaussian<XVar>>(data_min, data_max));
 
 	//-------------------------------------------
 	//Exponential
@@ -169,7 +174,7 @@ int main(int argv, char** argc)
     auto  tau  = hydra::Parameter::Create().Name("tau").Value(-0.2).Error(0.0001).Limits(-0.3, -0.1);
 
     //Background PDF
-    auto Exponential_PDF = hydra::make_pdf(hydra::Exponential<>(tau),
+    auto Exponential_PDF = hydra::make_pdf(hydra::Exponential<XVar>(tau),
     		 hydra::AnalyticalIntegral<hydra::Exponential<>>(data_min, data_max));
 
 	//------------------
@@ -183,7 +188,7 @@ int main(int argv, char** argc)
 	splot_model.SetExtended(1);
 
 	//======================================================
-	// 2) Breit-Wigner  (dimension <1>)
+	// 2) Breit-Wigner  (dimension <1>) YVar
 	//-----------------
 	// data range
 	double obs_min   =  0.0;
@@ -196,7 +201,7 @@ int main(int argv, char** argc)
 	hydra::Parameter  width = hydra::Parameter::Create().Name("width").Value(0.5).Error(0.0001).Limits(0.05,1.5);
 
 	//Breit-Wigner function evaluating on the first argument
-	auto BreitWigner_PDF = hydra::make_pdf( hydra::BreitWignerNR<>(mass, width ),
+	auto BreitWigner_PDF = hydra::make_pdf( hydra::BreitWignerNR<YVar>(mass, width ),
 			                    hydra::AnalyticalIntegral<hydra::BreitWignerNR<>>(obs_min, obs_max));
 
 	//-------------------------------------------
@@ -208,7 +213,7 @@ int main(int argv, char** argc)
 
 
 	//ChiSquare function evaluating on the first argument
-	auto ChiSquare_PDF = hydra::make_pdf( hydra::ChiSquare<>(ndof ),
+	auto ChiSquare_PDF = hydra::make_pdf( hydra::ChiSquare<YVar>(ndof ),
 			                 hydra::AnalyticalIntegral<hydra::ChiSquare<>>(obs_min, obs_max));
 
 	//------------------
@@ -227,7 +232,7 @@ int main(int argv, char** argc)
 	//
 
 	//dataset
-	hydra::multiarray<double,2, hydra::host::sys_t> dataset(nentries);
+	hydra::multivector<hydra::tuple<XVar,YVar>, hydra::host::sys_t> dataset(nentries);
 
 	//generate the primary dataset using std random device and multithread facility
 	{

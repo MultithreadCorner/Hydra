@@ -42,7 +42,6 @@
 #include <hydra/Random.h>
 #include <hydra/Zip.h>
 #include <hydra/Complex.h>
-#include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/functions/UniformShape.h>
 
 #include <hydra/RandomFill.h>

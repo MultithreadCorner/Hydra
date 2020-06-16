@@ -158,12 +158,14 @@ struct RngFormula< BifurcatedGaussian<ArgType> >
 
 	typedef ArgType value_type;
 
+	__hydra_host__ __hydra_device__
 	inline unsigned NCalls( BifurcatedGaussian<ArgType>const&) const
 	{
 		return 2;
 	}
 
 	template< typename T>
+	__hydra_host__ __hydra_device__
 	inline unsigned NCalls( std::initializer_list<T>) const
 	{
 		return 2;
