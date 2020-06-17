@@ -41,6 +41,7 @@
 #include <hydra/detail/Iterable_traits.h>
 #include <hydra/detail/IteratorTraits.h>
 #include <hydra/detail/ZipIteratorUtility.h>
+#include <hydra/detail/TupleTraits.h>
 #include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/hydra_thrust/tuple.h>
@@ -609,6 +610,26 @@ public:
 		return hydra_thrust::get<I>(fData).end();
 	}
 
+
+	template<typename Type>
+	inline typename hydra_thrust::tuple_element<
+		detail::index_in_tuple<Type, tuple_type>::value ,
+		iterator_tuple >::type 	begin()
+	{
+		return hydra_thrust::get< detail::index_in_tuple<Type, tuple_type>::value >(fData).begin();
+	}
+
+
+	template<typename Type>
+	inline typename hydra_thrust::tuple_element<
+		detail::index_in_tuple<Type, tuple_type>::value ,
+		iterator_tuple >::type	end()
+	{
+
+		return hydra_thrust::get< detail::index_in_tuple<Type, tuple_type>::value >(fData).end();
+	}
+
+
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
 	inline columns_iterator< reverse_iterator_tuple, I1, I2,IN...>
 	rbegin(placeholders::placeholder<I1> c1,	placeholders::placeholder<I2> c2,  placeholders::placeholder<IN> ...cn)
@@ -635,6 +656,34 @@ public:
 	rend(placeholders::placeholder<I>  )
 	{
 		return hydra_thrust::get<I>(fData).rend();
+	}
+
+
+	template<typename Type>
+	inline typename hydra_thrust::tuple_element<
+	detail::index_in_tuple<Type, tuple_type>::value ,
+	reverse_iterator_tuple>::type
+	rbegin()
+	{
+		return hydra_thrust::get< detail::index_in_tuple<Type, tuple_type>::value >(fData).rbegin();
+	}
+
+
+	template<typename Type>
+	inline typename hydra_thrust::tuple_element<
+	detail::index_in_tuple<Type, tuple_type>::value ,
+	reverse_iterator_tuple >::type
+	rend()
+	{
+		return hydra_thrust::get< detail::index_in_tuple<Type, tuple_type>::value >(fData).rend();
+	}
+
+	template<typename Type>
+	inline typename hydra_thrust::tuple_element<detail::index_in_tuple<Type, tuple_type>::value ,
+	storage_tuple>::type&
+	column()
+	{
+		return hydra_thrust::get<detail::index_in_tuple<Type, tuple_type>::value>(fData);
 	}
 
 	template<unsigned int I>

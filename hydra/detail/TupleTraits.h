@@ -33,6 +33,7 @@
 #include <hydra/detail/Config.h>
 
 #include <hydra/Tuple.h>
+#include <hydra/detail/FindUniqueType.h>
 #include <hydra/detail/external/hydra_thrust/tuple.h>
 #include <hydra/detail/external/hydra_thrust/type_traits/void_t.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
@@ -123,6 +124,13 @@ struct selected_indices_tuple<Selector, hydra::tuple<Head,Tail...>, I>
             >::type type;
 };
 
+template<typename Type, typename Tuple>
+struct index_in_tuple;
+
+
+template<typename Type, typename Head, typename ...Tail>
+struct index_in_tuple<Type, hydra_thrust::tuple<Head, Tail...> >
+: find_unique_type<Type, Head, Tail...>{};
 
 }  // namespace detail
 

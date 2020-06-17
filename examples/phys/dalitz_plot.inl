@@ -101,9 +101,14 @@
 
 #endif //_ROOT_AVAILABLE_
 
+declarg(Dplus, hydra::Vector4R)
+declarg(PionA, hydra::Vector4R)
+declarg(PionB, hydra::Vector4R)
+declarg(Kaon , hydra::Vector4R)
 
 using namespace ROOT::Minuit2;
 using namespace hydra::placeholders;
+using namespace hydra::arguments;
 
 //compute the Wave parity in compile time
 template<hydra::Wave L, bool Flag=(L%2)>
@@ -120,7 +125,7 @@ struct parity<L, true>:  std::integral_constant<int,-1>{};
 //in the channels 1 [ D+ ->  K- pi+ pi+ ] and 3 [ D+ ->  K- pi+ pi+ ]
 //                           ^--^                        ^------^
 //Obs.: GPUs have a formal parameter space of maximum 4kB
-template<hydra::Wave L>
+template<hydra::Wave L, typename Signature=hydra::complex<double>(hydra::Vector4R)>
 class Resonance: public hydra::BaseFunctor<Resonance<L>, hydra::complex<double>, 4>
 {
 	using hydra::BaseFunctor<Resonance<L>, hydra::complex<double>, 4>::_par;
