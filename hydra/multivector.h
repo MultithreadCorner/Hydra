@@ -435,12 +435,9 @@ public:
      */
 	template< typename InputIterator>
 	inline 	typename hydra_thrust::detail::enable_if<
-	detail::is_instantiation_of<hydra_thrust::tuple,
-		typename hydra_thrust::detail::remove_const<
-			typename hydra_thrust::detail::remove_reference< InputIterator >::type >::type >::value ||
-	detail::is_instantiation_of<hydra_thrust::detail::tuple_of_iterator_references,
-		typename hydra_thrust::detail::remove_const<
-			typename hydra_thrust::detail::remove_reference< InputIterator >::type>::type >::value, void>::type
+	detail::is_zip_iterator<InputIterator>::value &&
+	std::is_convertible<typename hydra_thrust::iterator_traits<InputIterator>::value_type,
+	value_type>::value, void>::type
 	insert(iterator pos, InputIterator first, InputIterator last)
 	{
 		size_type position = hydra_thrust::distance(begin(), pos);
@@ -1102,8 +1099,8 @@ private:
 	__insert(size_type position, InputIterator first, InputIterator last  )
 	{
 		hydra_thrust::get<I>(fData).insert(hydra_thrust::get<I>(fData).begin() + position,
-				hydra_thrust::get<I>(first),
-				hydra_thrust::get<I>(last) );
+				hydra_thrust::get<I>(first.get_iterator_tuple()),
+				hydra_thrust::get<I>(last.get_iterator_tuple()) );
 
 		__insert<I + 1>( position,  first, last );
 	}

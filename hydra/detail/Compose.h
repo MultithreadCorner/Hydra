@@ -80,7 +80,7 @@ public:
 
 	  	template<typename T1>
 	  	__hydra_host__ __hydra_device__
-	  	inline return_type operator()(T1& x ) const
+	  	inline return_type operator()(T1&& x ) const
 	  	{
 
 	  		//evaluating f(g_1(x), g_2(x), ..., g_n(x))
@@ -91,7 +91,7 @@ public:
 
 	  		typedef decltype(g) G_tuple ;
 
-	  		return f(detail::invoke<G_tuple, T1>(x,g ));
+	  		return f(detail::invoke<G_tuple, T1>(std::forward<T1>(x),g ));
 	  	}
 
 

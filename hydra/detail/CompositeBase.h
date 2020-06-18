@@ -69,10 +69,17 @@ public:
 	{}
 
 	__hydra_host__ __hydra_device__
-	inline CompositeBase<F0,F1,Fs...>& operator=(CompositeBase<F0,F1,Fs...> const& other)
+	inline typename std::enable_if<
+	std::is_copy_constructible<F0>::value &&
+	std::is_copy_constructible<F1>::value &&
+	detail::all_true<std::is_copy_constructible<Fs>::value...>::value,
+		 CompositeBase<F0,F1,Fs...>&>::type
+    operator=(CompositeBase<F0,F1,Fs...> const& other)
 	{
-		this->fFtorTuple = other.GetFunctors();
-		this->fNorm      = other.GetNorm();
+		if(this==&other)return *this;
+
+		fFtorTuple = other.GetFunctors();
+		fNorm      = other.GetNorm();
 		return *this;
 	}
 
@@ -216,8 +223,11 @@ public:
 			}
 	}
 
-	__hydra_host__ __hydra_device__ inline
-	const functors_type& GetFunctors() const {return fFtorTuple;}
+	__hydra_host__ __hydra_device__
+	inline const functors_type& GetFunctors() const
+	{
+		return fFtorTuple;
+	}
 
 	template<unsigned int I>
 	inline typename hydra_thrust::tuple_element<I,functors_type>::type&

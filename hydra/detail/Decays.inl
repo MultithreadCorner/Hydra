@@ -45,6 +45,8 @@ class FlagDaugthers
 {
 public:
 
+	FlagDaugthers()=delete;
+
 	FlagDaugthers(Functor const& functor, double maxWeight, size_t seed=0xd5a61266f0c9392c) :
 		fMaxWeight(maxWeight),
 		fSeed(seed),
@@ -80,13 +82,13 @@ public:
 		hydra::default_random_engine randEng(fSeed);
 		randEng.discard(index);
 
-		hydra_thrust::uniform_real_distribution<double> uniDist(0.0, fMaxWeight);
+		hydra_thrust::uniform_real_distribution<double> uniDist(0.0, 1.0);
 
-		return ( weight > uniDist(randEng)) ;
+		return (  weight/fMaxWeight> uniDist(randEng)) ;
 	}
 
 	__hydra_host__ __hydra_device__
-	Functor GetFunctor() const {
+	const Functor& GetFunctor() const {
 		return fFunctor;
 	}
 
@@ -369,7 +371,8 @@ public:
 	    	R += particles[i];
 	    }
 
-	        return w*fFunctor(hydra::tie(p...));
+
+	        return w*fFunctor(hydra_thrust::make_tuple(p...));
 	}
 
 	__hydra_host__ __hydra_device__
@@ -385,11 +388,6 @@ public:
 	__hydra_host__ __hydra_device__
 	 const Functor& GetFunctor() const {
 		return fFunctor;
-	}
-
-	__hydra_host__ __hydra_device__
-	Functor& GetFunctor()  {
-			return fFunctor;
 	}
 
 
@@ -456,7 +454,9 @@ Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::Unwei
 template<typename ...Particles,   hydra::detail::Backend Backend>
 template<typename  Functor>
 typename std::enable_if<
- 	detail::is_hydra_functor<Functor>::value || detail::is_hydra_lambda<Functor>::value,
+ 	detail::is_hydra_functor<Functor>::value ||
+ 	detail::is_hydra_lambda<Functor>::value  ||
+ 	detail::is_hydra_composite_functor<Functor>::value,
 	hydra::Range<typename  Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::iterator>>::type
 Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::Unweight( Functor  const& functor, double max_weight, size_t seed)
 {
@@ -494,8 +494,8 @@ typedef detail::FlagDaugthers< reweight_functor> tagger_type;
 	auto stop   = hydra_thrust::make_zip_iterator(
 			hydra_thrust::make_tuple(sequence.first + sequence.second,fDecays.end() ));
 
-	auto middle = hydra_thrust::stable_partition(start, stop,
-			tagger_type(this->GetEventWeightFunctor(), fMaxWeight, seed));
+	auto middle = hydra_thrust::partition(start, stop,
+			tagger_type(this->GetEventWeightFunctor(functor), max_value, seed));
 
 	auto end_of_range = hydra_thrust::distance(start, middle);
 

@@ -125,10 +125,13 @@ struct parity<L, true>:  std::integral_constant<int,-1>{};
 //in the channels 1 [ D+ ->  K- pi+ pi+ ] and 3 [ D+ ->  K- pi+ pi+ ]
 //                           ^--^                        ^------^
 //Obs.: GPUs have a formal parameter space of maximum 4kB
-template<hydra::Wave L, typename Signature=hydra::complex<double>(hydra::Vector4R)>
-class Resonance: public hydra::BaseFunctor<Resonance<L>, hydra::complex<double>, 4>
+
+template<hydra::Wave L, typename Signature=hydra::complex<double>(Kaon,PionA,PionB)>
+class Resonance: public hydra::BaseFunctor<Resonance<L>, Signature, 4>
 {
-	using hydra::BaseFunctor<Resonance<L>, hydra::complex<double>, 4>::_par;
+	typedef hydra::BaseFunctor<Resonance<L>, Signature, 4> super_type;
+
+	using super_type::_par;
 
 public:
 
@@ -137,45 +140,47 @@ public:
 	Resonance(hydra::Parameter const& c_re, hydra::Parameter const& c_im,
 			  hydra::Parameter const& mass, hydra::Parameter const& width,
 			  double mother_mass, double daugther1_mass, double daugther2_mass, double daugther3_mass, double radi):
-			hydra::BaseFunctor<Resonance<L>, hydra::complex<double>, 4>{c_re, c_im, mass, width},
+		    super_type({c_re, c_im, mass, width}),
 			fLineShape(mass, width, mother_mass, daugther1_mass, daugther2_mass, daugther3_mass, radi)
 	{}
 
 
     __hydra_dual__
 	Resonance( Resonance<L> const& other):
-	hydra::BaseFunctor<Resonance<L>, hydra::complex<double>, 4>(other),
+	super_type(other),
 	fLineShape(other.GetLineShape())
 	{}
 
-    __hydra_dual__  inline
-	Resonance<L>&
+    __hydra_dual__
+    inline Resonance<L>&
 	operator=( Resonance<L> const& other)
 	{
 		if(this==&other) return *this;
 
-		hydra::BaseFunctor<Resonance<L>, hydra::complex<double>, 4>::operator=(other);
+		super_type::operator=(other);
 		fLineShape=other.GetLineShape();
 
 		return *this;
 	}
 
-    __hydra_dual__  inline
-	hydra::BreitWignerLineShape<L> const& GetLineShape() const {	return fLineShape; }
+    __hydra_dual__
+    inline hydra::BreitWignerLineShape<L,L,double> const&
+    GetLineShape() const {	return fLineShape; }
 
-    __hydra_dual__  inline
-	hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
+    __hydra_dual__
+    inline hydra::complex<double>
+    Evaluate(Kaon kaon, PionA pion1, PionB pion2)  const {
 
 
-		hydra::Vector4R p1 = p[0];
-		hydra::Vector4R p2 = p[1];
-		hydra::Vector4R p3 = p[2];
+		hydra::Vector4R mother = kaon + pion1 + pion2;
+		hydra::Vector4R Kpi1   = kaon + pion1;
+		hydra::Vector4R Kpi2   = kaon + pion2;
 
 		fLineShape.SetParameter(0, _par[2]);
 		fLineShape.SetParameter(1, _par[3]);
 
-		hydra::complex<double> contrib_12 = fLineShape((p1+p2).mass())*fAngularDist(fCosDecayAngle((p1+p2+p3), (p1+p2), p1));
-		hydra::complex<double> contrib_13 = fLineShape((p1+p3).mass())*fAngularDist(fCosDecayAngle((p1+p2+p3), (p1+p3), p3));
+		hydra::complex<double> contrib_12 = fLineShape((Kpi1).mass())*fAngularDist(fCosDecayAngle(mother, Kpi1, pion1));
+		hydra::complex<double> contrib_13 = fLineShape((Kpi2).mass())*fAngularDist(fCosDecayAngle(mother, Kpi2, pion2));
 
 		auto r = hydra::complex<double>(_par[0], _par[1])*(contrib_12 + double(parity<L>::value)*contrib_13 ) ;
 
@@ -185,31 +190,32 @@ public:
 
 private:
 
-	mutable hydra::BreitWignerLineShape<L,L> fLineShape;
+	mutable hydra::BreitWignerLineShape<L,L,double> fLineShape;
 	hydra::CosHelicityAngle fCosDecayAngle;
-	hydra::ZemachFunction<L> fAngularDist;
+	hydra::ZemachFunction<L,double> fAngularDist;
 
 
 };
 
 
-class NonResonant: public hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>
+class NonResonant: public hydra::BaseFunctor<NonResonant, hydra::complex<double>(Kaon,PionA,PionB), 2>
 {
+	typedef hydra::BaseFunctor<NonResonant, hydra::complex<double>(Kaon,PionA,PionB), 2> super_type;
 
-	using hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>::_par;
+	using super_type::_par;
 
 public:
 
 	NonResonant() = delete;
 
 	NonResonant(hydra::Parameter const& c_re, hydra::Parameter const& c_im):
-			hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>{c_re, c_im}
+		 super_type({c_re, c_im})
 	{}
 
 
 	 __hydra_dual__
 	NonResonant( NonResonant const& other):
-	hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>(other)
+	super_type(other)
 	{}
 
 	 __hydra_dual__
@@ -217,18 +223,48 @@ public:
 	{
 		if(this==&other) return *this;
 
-		hydra::BaseFunctor<NonResonant, hydra::complex<double>, 2>::operator=(other);
+		super_type::operator=(other);
 
 		return *this;
 	}
 
 	 __hydra_dual__  inline
-	hydra::complex<double> Evaluate(unsigned int n, hydra::Vector4R* p)  const {
+	hydra::complex<double> Evaluate(Kaon , PionA , PionB )  const {
 
 		return hydra::complex<double>(_par[0], _par[1]);
 	}
 
 };
+
+template<typename T, typename Signature=double(T,T,T,T,T,T)>
+class Norm: public hydra::BaseFunctor<Norm<T>, Signature,0>
+{
+	typedef hydra::BaseFunctor<Norm<T>, Signature,0> super_type;
+public:
+	Norm()=default;
+
+	 __hydra_dual__
+	Norm( Norm<T> const& other):
+		super_type(other)
+	{}
+
+	 __hydra_dual__
+	Norm<T>& operator=( Norm<T> const& other)
+	{
+		if(this==&other) return *this;
+		super_type::operator=(other);
+		 return *this;
+	}
+
+	__hydra_dual__
+	inline	double Evaluate( T A1, T A2, T A3, T A4, T A5, T A6 ) const
+	{
+
+				return hydra::norm( A1 + A2 + A3 + A4 + A5 + A6);
+	 };
+
+};
+
 
 template<typename Amplitude>
 TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& masses, const char* name, size_t nentries);
@@ -371,24 +407,15 @@ int main(int argv, char** argc)
 	//======================================================
 	//Total: Model |N.R + \sum{ Resonaces }|^2
 
-	//parametric lambda
-	auto Norm = hydra::wrap_lambda( [] __hydra_dual__ ( unsigned int n, hydra::complex<double>* x){
-
-				hydra::complex<double> r(0,0);
-
-				for(unsigned int i=0; i< n;i++)	r += x[i];
-
-				return hydra::norm(r);
-	});
-
 	//model-functor
-	auto Model = hydra::compose(Norm,
-		    K800_Resonance,
-			KST_892_Resonance,
-			KST0_1430_Resonance,
-			KST2_1430_Resonance,
-			KST_1680_Resonance,
-			NR );
+	auto Model = hydra::compose(Norm<hydra::complex<double>>(),
+		    K800_Resonance,//.......A1
+			KST_892_Resonance,//....A2
+			KST0_1430_Resonance,//..A3
+			KST2_1430_Resonance,//..A4
+			KST_1680_Resonance,//...A5
+			NR//....................A6
+			);
 
 
 	//--------------------
@@ -399,11 +426,12 @@ int main(int argv, char** argc)
 
 	// functor to calculate the 2-body masses
 	auto dalitz_calculator = hydra::wrap_lambda(
-			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
+			[] __hydra_dual__ ( Kaon kaon, PionA pion1, PionB pion2)
+			{
 
-		double   M2_12 = (p[0]+p[1]).mass2();
-		double   M2_13 = (p[0]+p[2]).mass2();
-		double   M2_23 = (p[1]+p[2]).mass2();
+		double   M2_12 = (kaon + pion1).mass2();
+		double   M2_13 = (kaon + pion2).mass2();
+		double   M2_23 = (pion1+ pion2).mass2();
 
 		return hydra::make_tuple(M2_12, M2_13, M2_23);
 	});
@@ -455,7 +483,7 @@ int main(int argv, char** argc)
 
 #endif
 
-	hydra::Decays<3, hydra::host::sys_t > toy_data;
+	hydra::Decays<hydra::tuple<Kaon,PionA,PionB>, hydra::host::sys_t > toy_data(D_MASS, {K_MASS, PI_MASS, PI_MASS});
 
 	//toy data production on device
 	{
@@ -498,10 +526,9 @@ int main(int argv, char** argc)
 		std::cout << "======================================" << std::endl;
 		std::cout <<  std::endl << std::endl;
 
-		hydra::Decays<3, hydra::device::sys_t > toy_data_temp(toy_data);
+		hydra::Decays<hydra::tuple<Kaon,PionA,PionB>, hydra::device::sys_t > toy_data_temp(toy_data);
 
-		auto particles        = toy_data_temp.GetUnweightedDecays();
-		auto dalitz_variables = hydra::make_range( particles.begin(), particles.end(), dalitz_calculator);
+		auto dalitz_variables = toy_data_temp | dalitz_calculator;
 
 		std::cout << "<======= [Daliz variables] { ( MSq_12, MSq_13, MSq_23) } =======>"<< std::endl;
 
@@ -517,7 +544,7 @@ int main(int argv, char** argc)
 
 		auto start = std::chrono::high_resolution_clock::now();
 
-		Hist_Dalitz.Fill( dalitz_variables.begin(), dalitz_variables.end() );
+		Hist_Dalitz.Fill( dalitz_variables );
 
 		auto end = std::chrono::high_resolution_clock::now();
 
@@ -536,7 +563,7 @@ int main(int argv, char** argc)
 
 #ifdef 	_ROOT_AVAILABLE_
 
-#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+#if HYDRA_DEVICE_SYSTEM==CUDA
 
 		//if device is cuda, bring the histogram data to the host
 		//to fill the ROOT histogram faster
@@ -573,7 +600,8 @@ int main(int argv, char** argc)
 	}
 
 
-	// fit
+	//fit on device
+
 	{
 		std::cout << std::endl;
 		std::cout << std::endl;
@@ -589,8 +617,7 @@ int main(int argv, char** argc)
 		std::cout <<"| Initial PDF Norm: "<< Model_PDF.GetNorm() << "̣ +/- " <<   Model_PDF.GetNormError() << std::endl;
 		std::cout << "-----------------------------------------"<<std::endl;
 
-		hydra::Decays<3, hydra::device::sys_t > toy_data_temp(toy_data);
-		auto particles        = toy_data_temp.GetUnweightedDecays();
+		hydra::Decays<hydra::tuple<Kaon,PionA,PionB>, hydra::device::sys_t > particles(toy_data);
 
 		auto fcn = hydra::make_loglikehood_fcn(Model_PDF, particles.begin(),
 				particles.end());
@@ -627,14 +654,15 @@ int main(int argv, char** argc)
 
 		nentries = 2000000;
 		//----------
-		//plot fit
+		//plotting fit results
 		//allocate memory to hold the final states particles
-		hydra::Decays<3, hydra::device::sys_t > fit_data(nentries);
+
+		hydra::Decays<hydra::tuple<Kaon,PionA,PionB>, hydra::device::sys_t > fit_data(D_MASS, {K_MASS, PI_MASS, PI_MASS},nentries);
 
 		auto start = std::chrono::high_resolution_clock::now();
 
 		//generate the final state particles
-		phsp.Generate(B0, fit_data.begin(), fit_data.end());
+		phsp.Generate(B0, fit_data);
 
 		auto end = std::chrono::high_resolution_clock::now();
 
@@ -650,11 +678,8 @@ int main(int argv, char** argc)
 		std::cout << "-----------------------------------------"<< std::endl;
 
 
-		fit_data.Reweight(fcn.GetPDF().GetFunctor());
-
-		auto particles_fit        = fit_data.GetUnweightedDecays();
-		auto dalitz_variables_fit = hydra::make_range( particles_fit.begin(), particles_fit.end(), dalitz_calculator);
-		auto dalitz_weights_fit   = fit_data.GetWeights();
+		auto dalitz_variables_fit = fit_data | dalitz_calculator;
+		auto dalitz_weights_fit   = fit_data | fit_data.GetEventWeightFunctor(fcn.GetPDF().GetFunctor());
 
 		std::cout << std::endl;
 		std::cout << std::endl;
@@ -673,8 +698,7 @@ int main(int argv, char** argc)
 
 		start = std::chrono::high_resolution_clock::now();
 
-		Hist_Dalitz.Fill( dalitz_variables_fit.begin(),
-				dalitz_variables_fit.end(), dalitz_weights_fit.begin()  );
+		Hist_Dalitz.Fill( dalitz_variables_fit, dalitz_weights_fit);
 
 		end = std::chrono::high_resolution_clock::now();
 
@@ -1119,19 +1143,18 @@ size_t generate_dataset(Backend const& system, Model const& model, std::array<do
 	hydra::PhaseSpace<3> phsp{D_MASS, {K_MASS, PI_MASS, PI_MASS}};
 
 	//allocate memory to hold the final states particles
-	hydra::Decays<3, Backend > _data(bunch_size);
+	hydra::Decays<hydra::tuple<Kaon,PionA,PionB>, Backend > _data(D_MASS, {K_MASS, PI_MASS, PI_MASS}, bunch_size);
 
-	std::srand(753159);
 
 	do {
 		phsp.SetSeed(std::rand());
 
 		//generate the final state particles
-		phsp.Generate(D, _data.begin(), _data.end());
+		phsp.Generate(D, _data );
 
 		auto sample = _data.Unweight(model);
 
-		decays.insert(decays.end(), sample);
+		decays.insert(decays.end(), sample.begin(), sample.end());
 
 	} while(decays.size()<nevents );
 
@@ -1158,9 +1181,9 @@ double fit_fraction( Amplitude const& amp, Model const& model, std::array<double
 	hydra::PhaseSpace<3> phsp{D_MASS,{K_MASS, PI_MASS, PI_MASS}};
 
 	//norm lambda
-	auto Norm = hydra::wrap_lambda( [] __hydra_dual__ (unsigned int n, hydra::complex<double>* x){
+	auto Norm = hydra::wrap_lambda( [] __hydra_dual__ ( hydra::complex<double> x){
 
-		return hydra::norm(x[0]);
+		return hydra::norm(x);
 	});
 
 	//functor
@@ -1199,34 +1222,34 @@ TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& mas
 
 	// functor to calculate the 2-body masses
 	auto dalitz_calculator = hydra::wrap_lambda(
-			[] __hydra_dual__ (unsigned int n, hydra::Vector4R* p ){
+				[] __hydra_dual__ ( Kaon kaon, PionA pion1, PionB pion2)
+				{
 
-		double   M2_12 = (p[0]+p[1]).mass2();
-		double   M2_13 = (p[0]+p[2]).mass2();
-		double   M2_23 = (p[1]+p[2]).mass2();
+			double   M2_12 = (kaon + pion1).mass2();
+			double   M2_13 = (kaon + pion2).mass2();
+			double   M2_23 = (pion1+ pion2).mass2();
 
-		return hydra::make_tuple(M2_12, M2_13, M2_23);
-	});
+			return hydra::make_tuple(M2_12, M2_13, M2_23);
+		});
 
 	//norm lambda
 	auto Norm = hydra::wrap_lambda(
-			[] __hydra_dual__ (unsigned int n, hydra::complex<double>* x){
+			[] __hydra_dual__ ( hydra::complex<double> x){
 
-		return hydra::norm(x[0]);
+		return hydra::norm(x);
 	});
 
 	//functor
 	auto functor = hydra::compose(Norm, amp);
 
-	hydra::Decays<3, hydra::device::sys_t > events(nentries);
+	hydra::Decays<hydra::tuple<Kaon,PionA,PionB>,
+	         hydra::device::sys_t > events(D_MASS, {K_MASS, PI_MASS, PI_MASS}, nentries);
 
-	phsp.Generate(D, events.begin(), events.end());
+	phsp.Generate(D, events);
 
-	events.Reweight(functor);
+	auto dalitz_variables = events | dalitz_calculator;
+	auto dalitz_weights   = events | events.GetEventWeightFunctor(functor);
 
-	auto particles        = events.GetUnweightedDecays();
-	auto dalitz_variables = hydra::make_range( particles.begin(), particles.end(), dalitz_calculator);
-	auto dalitz_weights   = events.GetWeights();
 
 	//model dalitz histogram
 	hydra::SparseHistogram<double, 3,  hydra::device::sys_t> Hist_Component{
@@ -1235,8 +1258,7 @@ TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& mas
 		{pow(D_MASS - PI_MASS,2), pow(D_MASS - PI_MASS ,2), pow(D_MASS - K_MASS,2)}
 	};
 
-	Hist_Component.Fill( dalitz_variables.begin(),
-					dalitz_variables.end(), dalitz_weights.begin()  );
+	Hist_Component.Fill( dalitz_variables, dalitz_weights );
 
 	for(auto entry : Hist_Component){
 

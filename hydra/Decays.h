@@ -37,6 +37,9 @@
 #include <hydra/Tuple.h>
 #include <hydra/Function.h>
 #include <hydra/PhaseSpace.h>
+#include <hydra/detail/FunctorTraits.h>
+#include <hydra/detail/CompositeTraits.h>
+
 
 namespace hydra {
 
@@ -83,6 +86,7 @@ public :
 	/**
 	 * Default contstuctor
 	 */
+	Decays()=delete;
 
 	Decays( double motherMass,  std::array<double, nparticles> const& daughtersMasses, size_t nentries=0 ):
 		fDecays(nentries),
@@ -236,7 +240,9 @@ public :
 
 	 template<typename Functor>
 	 typename std::enable_if<
-	 	 detail::is_hydra_functor<Functor>::value || detail::is_hydra_lambda<Functor>::value,
+	 	 detail::is_hydra_functor<Functor>::value ||
+	 	 detail::is_hydra_lambda<Functor>::value  ||
+	 	 detail::is_hydra_composite_functor<Functor>::value,
 	 	 PhaseSpaceReweight<Functor, Particles...> >::type
 	 GetEventWeightFunctor(Functor const& functor) const
 	 {
@@ -248,7 +254,9 @@ public :
 
 	 template<typename Functor>
 	 typename std::enable_if<
- 	 detail::is_hydra_functor<Functor>::value || detail::is_hydra_lambda<Functor>::value,
+ 	 detail::is_hydra_functor<Functor>::value ||
+ 	 detail::is_hydra_lambda<Functor>::value  ||
+ 	 detail::is_hydra_composite_functor<Functor>::value ,
 	 hydra::Range<iterator>>::type
 	 Unweight( Functor  const& functor, double weight=-1.0, size_t seed=0x39abdc4529b1661c);
 
@@ -612,7 +620,6 @@ double GetMotherMass() const
 	}
 
 
-protected:
 
 	const storage_type& GetStorage() const
 	{
