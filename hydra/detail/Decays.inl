@@ -80,11 +80,12 @@ public:
 		double weight = fFunctor( hydra_thrust::get<1>(x) );
 
 		hydra::default_random_engine randEng(fSeed);
+
 		randEng.discard(index);
 
-		hydra_thrust::uniform_real_distribution<double> uniDist(0.0, 1.0);
+		hydra_thrust::uniform_real_distribution<double> uniDist(0.0, fMaxWeight);
 
-		return (  weight/fMaxWeight> uniDist(randEng)) ;
+		return (  weight > uniDist(randEng)) ;
 	}
 
 	__hydra_host__ __hydra_device__

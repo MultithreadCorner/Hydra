@@ -240,6 +240,7 @@ template<typename T, typename Signature=double(T,T,T,T,T,T)>
 class Norm: public hydra::BaseFunctor<Norm<T>, Signature,0>
 {
 	typedef hydra::BaseFunctor<Norm<T>, Signature,0> super_type;
+
 public:
 	Norm()=default;
 
@@ -262,6 +263,21 @@ public:
 
 				return hydra::norm( A1 + A2 + A3 + A4 + A5 + A6);
 	 };
+
+};
+
+struct Seeder{
+
+
+	 uint64_t x;
+
+	uint64_t operator()(){
+
+		uint64_t z = (x += 0x9e3779b97f4a7c15);
+		z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;
+		z = (z ^ (z >> 27)) * 0x94d049bb133111eb;
+		return z ^ (z >> 31);
+	}
 
 };
 
@@ -652,6 +668,10 @@ int main(int argv, char** argc)
 		//print parameters after fitting
 		std::cout<<"minimum: "<<minimum_d<<std::endl;
 
+		fcn.GetParameters().UpdateParameters(minimum_d);
+
+		fcn.GetParameters().PrintParameters();
+
 		nentries = 2000000;
 		//----------
 		//plotting fit results
@@ -717,7 +737,9 @@ int main(int argv, char** argc)
 		//==================================
 		// Optimized components
 		//==================================
+		//fcn.GetParameters().UpdateParameters(minimum_d);
 		auto Opt_Model = fcn.GetPDF().GetFunctor();
+
 
 		auto KST800  = fcn.GetPDF().GetFunctor().GetFunctor(_1);
 
@@ -1145,14 +1167,16 @@ size_t generate_dataset(Backend const& system, Model const& model, std::array<do
 	//allocate memory to hold the final states particles
 	hydra::Decays<hydra::tuple<Kaon,PionA,PionB>, Backend > _data(D_MASS, {K_MASS, PI_MASS, PI_MASS}, bunch_size);
 
+	Seeder S{};
+
 
 	do {
-		phsp.SetSeed(std::rand());
+		phsp.SetSeed(S());
 
 		//generate the final state particles
 		phsp.Generate(D, _data );
 
-		auto sample = _data.Unweight(model);
+		auto sample = _data.Unweight(model, -1, S());
 
 		decays.insert(decays.end(), sample.begin(), sample.end());
 
