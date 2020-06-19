@@ -110,22 +110,41 @@ using namespace ROOT::Minuit2;
 using namespace hydra::placeholders;
 using namespace hydra::arguments;
 
+
+
+
+
+
+
+/* GPUs have a formal parameter space of maximum 4kB
+ * So, to save stack-size when dispatching to GPUs
+ * each resonant contribution will be evaluated
+ * in the channels 1 [ D+ ->  K- pi+ pi+ ] and 3 [ D+ ->  K- pi+ pi+ ]
+ * at same time.              ^--^                        ^------^
+ * The model in this example tries to mimic one of the models
+ * in the reference
+ * https://arxiv.org/pdf/0802.4214.pdf
+ *
+ */
+
 //compute the Wave parity in compile time
 template<hydra::Wave L, bool Flag=(L%2)>
 struct parity;
+
 //positive
 template<hydra::Wave L>
+
 struct parity<L, false>: std::integral_constant<int,1>{};
+
 //negative
 template<hydra::Wave L>
 struct parity<L, true>:  std::integral_constant<int,-1>{};
 
-//To save stack-size when dispatching to GPUs
-//each resonance contribution will be evaluated
-//in the channels 1 [ D+ ->  K- pi+ pi+ ] and 3 [ D+ ->  K- pi+ pi+ ]
-//                           ^--^                        ^------^
-//Obs.: GPUs have a formal parameter space of maximum 4kB
-
+/*
+ * Class Resonance represents a resonant contribution in the
+ * isobar model. The line-shape is represented as a relativistic Breit-Wigner
+ * angular distribution is represented using Zemach formalism.
+ */
 template<hydra::Wave L, typename Signature=hydra::complex<double>(Kaon,PionA,PionB)>
 class Resonance: public hydra::BaseFunctor<Resonance<L>, Signature, 4>
 {
@@ -179,7 +198,7 @@ public:
 		fLineShape.SetParameter(0, _par[2]);
 		fLineShape.SetParameter(1, _par[3]);
 
-		hydra::complex<double> contrib_12 = fLineShape((Kpi1).mass())*fAngularDist(fCosDecayAngle(mother, Kpi1, pion1));
+		hydra::complex<double> contrib_12 = fLineShape((Kpi1).mass())*fAngularDist(fCosDecayAngle(mother, Kpi1, kaon));
 		hydra::complex<double> contrib_13 = fLineShape((Kpi2).mass())*fAngularDist(fCosDecayAngle(mother, Kpi2, pion2));
 
 		auto r = hydra::complex<double>(_par[0], _par[1])*(contrib_12 + double(parity<L>::value)*contrib_13 ) ;
@@ -197,7 +216,10 @@ private:
 
 };
 
-
+/*
+ * Non-resonant contribution is a contstant over the phase-space,
+ * carrying only magnitude and phase.
+ */
 class NonResonant: public hydra::BaseFunctor<NonResonant, hydra::complex<double>(Kaon,PionA,PionB), 2>
 {
 	typedef hydra::BaseFunctor<NonResonant, hydra::complex<double>(Kaon,PionA,PionB), 2> super_type;
@@ -236,21 +258,27 @@ public:
 
 };
 
-template<typename T, typename Signature=double(T,T,T,T,T,T)>
-class Norm: public hydra::BaseFunctor<Norm<T>, Signature,0>
+/*
+ *Class Norm: sum up the resonances and
+ *then calculates the norm of the result
+ *
+ */
+template<typename ...T>
+class Norm: public hydra::BaseFunctor<Norm<T...>, double(T...),0>
 {
-	typedef hydra::BaseFunctor<Norm<T>, Signature,0> super_type;
+	typedef hydra::BaseFunctor<Norm<T...>, double(T...),0> super_type;
 
 public:
+
 	Norm()=default;
 
 	 __hydra_dual__
-	Norm( Norm<T> const& other):
+	Norm( Norm<T...> const& other):
 		super_type(other)
 	{}
 
 	 __hydra_dual__
-	Norm<T>& operator=( Norm<T> const& other)
+	Norm<T...>& operator=( Norm<T...> const& other)
 	{
 		if(this==&other) return *this;
 		super_type::operator=(other);
@@ -258,20 +286,35 @@ public:
 	}
 
 	__hydra_dual__
-	inline	double Evaluate( T A1, T A2, T A3, T A4, T A5, T A6 ) const
-	{
+	inline	double Evaluate( T... A ) const {
 
-				return hydra::norm( A1 + A2 + A3 + A4 + A5 + A6);
+		auto r=add({A...});
+		return hydra::norm( r );
 	 };
+
+private:
+
+	template<typename C>
+	__hydra_dual__
+	inline	C add( std::initializer_list<C> list   ) const
+	{
+        C r{};
+        for( auto x: list)
+        	r+=x;
+
+		return r;
+	}
 
 };
 
+
+
 struct Seeder{
 
+	uint64_t x;
 
-	 uint64_t x;
-
-	uint64_t operator()(){
+	uint64_t operator()()
+	{
 
 		uint64_t z = (x += 0x9e3779b97f4a7c15);
 		z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;
@@ -281,6 +324,13 @@ struct Seeder{
 
 };
 
+template<typename ...Amplitudes>
+auto make_model( Amplitudes const& ... amplitudes)
+-> decltype(hydra::compose( std::declval<Norm<typename Amplitudes::return_type...>>(), amplitudes... ))
+{
+	auto model = hydra::compose(Norm<typename Amplitudes::return_type...>()  , amplitudes...);
+	return model;
+}
 
 template<typename Amplitude>
 TH3D histogram_component( Amplitude const& amp, std::array<double, 3> const& masses, const char* name, size_t nentries);
@@ -318,14 +368,14 @@ int main(int argv, char** argc)
     //magnitudes and phases from Cleo-c model
     //https://arxiv.org/pdf/0802.4214.pdf
 
-	double NR_MAG         = 4.8;
+	double NR_MAG         = 7.4;
 	double NR_PHI         = (-18.4+180.0)*0.01745329;
 	double NR_CRe		  = NR_MAG*cos(NR_PHI);
 	double NR_CIm		  = NR_MAG*sin(NR_PHI);
 
 	double K800_MASS  	  = 0.809 ;
 	double K800_WIDTH     = 0.470;
-	double K800_MAG       = 2.25;
+	double K800_MAG       = 5.01;
 	double K800_PHI       = (-163.7+180.0)*0.01745329;
 	double K800_CRe		  = K800_MAG*cos(K800_PHI);
 	double K800_CIm		  = K800_MAG*sin(K800_PHI);
@@ -339,22 +389,22 @@ int main(int argv, char** argc)
 
 	double KST0_1430_MASS  = 1.425;
 	double KST0_1430_WIDTH = 0.270;
-	double KST0_1430_MAG   = 1.50;
-	double KST0_1430_PHI   = (45.7-180.0)*0.01745329;
+	double KST0_1430_MAG   = 3.5;
+	double KST0_1430_PHI   = (49.7-180.0)*0.01745329;
 	double KST0_1430_CRe   = KST0_1430_MAG*cos(KST0_1430_PHI);
 	double KST0_1430_CIm   = KST0_1430_MAG*sin(KST0_1430_PHI);
 
 	double KST2_1430_MASS  = 1.4324;
 	double KST2_1430_WIDTH = 0.109;
 	double KST2_1430_MAG   = 0.962;
-	double KST2_1430_PHI   = (-33.9+180.0)*0.01745329;
+	double KST2_1430_PHI   = (-29.9+180.0)*0.01745329;
 	double KST2_1430_CRe   = KST2_1430_MAG*cos(KST2_1430_PHI);
 	double KST2_1430_CIm   = KST2_1430_MAG*sin(KST2_1430_PHI);
 
 	double KST_1680_MASS  = 1.718;
 	double KST_1680_WIDTH = 0.322;
-	double KST_1680_MAG   = 2.5;
-	double KST_1680_PHI   = (26.0)*0.01745329;
+	double KST_1680_MAG   = 6.5;
+	double KST_1680_PHI   = (29.0)*0.01745329;
 	double KST_1680_CRe	  = KST_1680_MAG*cos(KST_1680_PHI);
 	double KST_1680_CIm	  = KST_1680_MAG*sin(KST_1680_PHI);
 
@@ -422,17 +472,29 @@ int main(int argv, char** argc)
 	auto NR = NonResonant(coef_re, coef_im);
 	//======================================================
 	//Total: Model |N.R + \sum{ Resonaces }|^2
+/*
+	auto norm = Norm<
+			         hydra::complex<double>
+	                ,hydra::complex<double>
+			        ,hydra::complex<double>
+	                ,hydra::complex<double>
+	                ,hydra::complex<double>
+	                ,hydra::complex<double>
+	              >();
 
 	//model-functor
-	auto Model = hydra::compose(Norm<hydra::complex<double>>(),
+	auto Model = hydra::compose(
+			norm ,
 		    K800_Resonance,//.......A1
 			KST_892_Resonance,//....A2
 			KST0_1430_Resonance,//..A3
 			KST2_1430_Resonance,//..A4
 			KST_1680_Resonance,//...A5
 			NR//....................A6
-			);
-
+			);*/
+	auto Model = make_model( K800_Resonance, KST_892_Resonance,
+			KST0_1430_Resonance, KST2_1430_Resonance,
+			KST_1680_Resonance, NR );
 
 	//--------------------
 	//generator
@@ -454,17 +516,7 @@ int main(int argv, char** argc)
 
 
 #ifdef 	_ROOT_AVAILABLE_
-	//
-	/*
-	TH3D Dalitz_Flat("Dalitz_Flat",
-			"Flat Dalitz;"
-			"M^{2}(K^{-} #pi_{1}^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(K^{-} #pi_{2}^{+}) [GeV^{2}/c^{4}];"
-			"M^{2}(#pi_{1}^{+} #pi_{2}^{+}) [GeV^{2}/c^{4}]",
-			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
-			100, pow(K_MASS  + PI_MASS,2), pow(D_MASS - PI_MASS,2),
-			100, pow(PI_MASS + PI_MASS,2), pow(D_MASS -  K_MASS,2));
-*/
+
 	TH3D Dalitz_Resonances("Dalitz_Resonances",
 			"Dalitz - Toy Data -;"
 			"M^{2}(K^{-} #pi_{1}^{+}) [GeV^{2}/c^{4}];"
@@ -670,7 +722,7 @@ int main(int argv, char** argc)
 
 		fcn.GetParameters().UpdateParameters(minimum_d);
 
-		fcn.GetParameters().PrintParameters();
+		fcn.GetPDF().GetFunctor().PrintRegisteredParameters();
 
 		nentries = 2000000;
 		//----------

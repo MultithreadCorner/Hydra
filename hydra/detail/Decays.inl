@@ -83,9 +83,9 @@ public:
 
 		randEng.discard(index);
 
-		hydra_thrust::uniform_real_distribution<double> uniDist(0.0, fMaxWeight);
+		hydra_thrust::uniform_real_distribution<double> uniDist(0.0,1.0);
 
-		return (  weight > uniDist(randEng)) ;
+		return (  weight/fMaxWeight >= uniDist(randEng)) ;
 	}
 
 	__hydra_host__ __hydra_device__
@@ -495,7 +495,7 @@ typedef detail::FlagDaugthers< reweight_functor> tagger_type;
 	auto stop   = hydra_thrust::make_zip_iterator(
 			hydra_thrust::make_tuple(sequence.first + sequence.second,fDecays.end() ));
 
-	auto middle = hydra_thrust::partition(start, stop,
+	auto middle = hydra_thrust::stable_partition(start, stop,
 			tagger_type(this->GetEventWeightFunctor(functor), max_value, seed));
 
 	auto end_of_range = hydra_thrust::distance(start, middle);

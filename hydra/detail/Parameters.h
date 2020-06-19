@@ -264,11 +264,12 @@ public:
 
 	Parameters() = default;
 
+	__hydra_host__ __hydra_device__
 	Parameters(std::initializer_list<Parameter>) {};
 
+	__hydra_host__ __hydra_device__
 	Parameters(std::array<Parameter,0> const& )	{};
 
-	__hydra_host__ __hydra_device__
 	Parameters(Parameters<0> const& ) = default;
 
 	__hydra_host__ __hydra_device__

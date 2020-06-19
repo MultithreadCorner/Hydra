@@ -84,7 +84,7 @@ public:
 	__hydra_host__ __hydra_device__ inline
 	double Evaluate(ArgType x)  const	{
 
-		return  legendre(L, -x);
+		return  legendre(L, x);
 
 	}
 
