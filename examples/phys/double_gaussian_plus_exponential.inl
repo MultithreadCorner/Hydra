@@ -86,6 +86,9 @@
 
 using namespace ROOT::Minuit2;
 using namespace hydra::placeholders;
+using namespace hydra::arguments;
+
+declarg( _X, double)
 
 int main(int argv, char** argc)
 {
@@ -116,8 +119,6 @@ int main(int argv, char** argc)
     double max   =  10.0;
     char const* model_name = "Gaussian (core) + Gaussian (tail) + Exponential";
 
-	//generator
-	hydra::Random<> Generator(154);
 
 	//===============================================================================================
     //fit model two gaussians with shared mean + an exponential background
@@ -128,9 +129,9 @@ int main(int argv, char** argc)
 	auto  sigma_tail = hydra::Parameter::Create().Name("Sigma_Tail").Value(1.5).Error(0.0001).Limits(1.0, 2.0);
 
 	//Signal PDF
-	auto Core_PDF = hydra::make_pdf( hydra::Gaussian<>(mean, sigma_core), hydra::AnalyticalIntegral<hydra::Gaussian<>>(min, max));
+	auto Core_PDF = hydra::make_pdf( hydra::Gaussian<_X>(mean, sigma_core), hydra::AnalyticalIntegral<hydra::Gaussian<_X>>(min, max));
 
-	auto Tail_PDF = hydra::make_pdf( hydra::Gaussian<>(mean, sigma_tail), hydra::AnalyticalIntegral<hydra::Gaussian<>>(min, max));
+	auto Tail_PDF = hydra::make_pdf( hydra::Gaussian<_X>(mean, sigma_tail), hydra::AnalyticalIntegral<hydra::Gaussian<_X>>(min, max));
 
 	auto fraction = hydra::Parameter("Core_Fraction" , 0.5, 0.001, 0.2 , 0.7) ;
 	auto Signal_PDF = hydra::add_pdfs( std::array<hydra::Parameter, 1>{fraction}, Core_PDF, Tail_PDF);
@@ -141,7 +142,7 @@ int main(int argv, char** argc)
     auto  tau  = hydra::Parameter::Create().Name("Tau").Value(-0.1).Error(0.0001).Limits(-1.0, 0.0);
 
     //Background PDF
-    auto Background_PDF = hydra::make_pdf(hydra::Exponential<>(tau) , hydra::AnalyticalIntegral<hydra::Exponential<>>(min, max));
+    auto Background_PDF = hydra::make_pdf(hydra::Exponential<_X>(tau) , hydra::AnalyticalIntegral<hydra::Exponential<_X>>(min, max));
 
     //------------------
     //yields
@@ -173,14 +174,14 @@ int main(int argv, char** argc)
 
 		//-------------------------------------------------------
 		// Generate data
-		auto range = Generator.Sample(data.begin(),  data.end(), min, max, model.GetFunctor());
+		auto range = hydra::sample(data, min, max, model.GetFunctor());
 
 		std::cout<< std::endl<< "Generated data:"<< std::endl;
 		for(size_t i=0; i< 10; i++)
 			std::cout << "[" << i << "] :" << range[i] << std::endl;
 
 		//make model and fcn
-		auto fcn = hydra::make_loglikehood_fcn( model, range.begin(), range.end() );
+		auto fcn = hydra::make_loglikehood_fcn( model, range );
 
 		//-------------------------------------------------------
 		//fit

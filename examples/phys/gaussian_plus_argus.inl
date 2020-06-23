@@ -87,6 +87,9 @@
 
 using namespace ROOT::Minuit2;
 using namespace hydra::placeholders;
+using namespace hydra::arguments;
+
+declarg( _X, double)
 
 int main(int argv, char** argc)
 {
@@ -116,8 +119,6 @@ int main(int argv, char** argc)
     double min   =  5.20;
     double max   =  5.30;
 
-	//generator
-	hydra::Random<> Generator(1504);
 
 	//===========================
     //fit model gaussian + argus
@@ -127,9 +128,8 @@ int main(int argv, char** argc)
 	hydra::Parameter  sigma = hydra::Parameter::Create().Name("Sigma").Value(0.0026).Error(0.0001).Limits(0.0024,0.0028);
 
 	//gaussian function evaluating on the first argument
-	hydra::Gaussian<> signal(mean, sigma);
-	auto Signal_PDF = hydra::make_pdf( hydra::Gaussian<>(mean, sigma),
-			hydra::AnalyticalIntegral<hydra::Gaussian<>>(min, max));
+	auto Signal_PDF = hydra::make_pdf( hydra::Gaussian<_X>(mean, sigma),
+			hydra::AnalyticalIntegral<hydra::Gaussian<_X>>(min, max));
 
     //-------------------------------------------
 	//Argus
@@ -139,8 +139,8 @@ int main(int argv, char** argc)
     auto  power  = hydra::Parameter::Create().Name("Power").Value(0.5).Fixed();
 
     //gaussian function evaluating on the first argument
-    auto Background_PDF = hydra::make_pdf( hydra::ArgusShape<>(m0, slope, power),
-    		hydra::AnalyticalIntegral<hydra::ArgusShape<>>(min, max));
+    auto Background_PDF = hydra::make_pdf( hydra::ArgusShape<_X>(m0, slope, power),
+    		hydra::AnalyticalIntegral<hydra::ArgusShape<_X>>(min, max));
 
     //------------------
     //yields
@@ -178,7 +178,7 @@ int main(int argv, char** argc)
 
 		//-------------------------------------------------------
 		// Generate data
-		auto range = Generator.Sample(data.begin(),  data.end(), min, max, model.GetFunctor());
+		auto range = hydra::sample(data, min, max, model.GetFunctor());
 
 		std::cout<< std::endl<< "Generated data:"<< std::endl;
 		for(size_t i=0; i< 10; i++)
@@ -187,7 +187,7 @@ int main(int argv, char** argc)
 		std::cout<< std::endl<< "data size :"<< range.size() << std::endl;
 
 		//make model and fcn
-		auto fcn = hydra::make_loglikehood_fcn( model, range.begin(), range.end() );
+		auto fcn = hydra::make_loglikehood_fcn( model, range );
 
 		//-------------------------------------------------------
 		//fit

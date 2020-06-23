@@ -46,64 +46,65 @@ struct FunctionArgument
     FunctionArgument() = default;
 
     __hydra_host__ __hydra_device__
-    FunctionArgument(value_type x) :
+    explicit FunctionArgument(value_type x) :
      value(x)
      {}
 
     __hydra_host__ __hydra_device__
-    FunctionArgument(hydra_thrust::device_reference<value_type> x) :
+    explicit FunctionArgument(hydra_thrust::device_reference<value_type> x) :
      value(x)
      {}
 
 
     __hydra_host__ __hydra_device__
-    FunctionArgument(FunctionArgument<Derived, Type>const& other):
-     value(other)
+    explicit  FunctionArgument(FunctionArgument<name_type, value_type>const& other):
+     value(other.Value())
      {}
 
     __hydra_host__ __hydra_device__
-    explicit   FunctionArgument(hydra_thrust::device_reference<name_type>const& other)
+    explicit  FunctionArgument(hydra_thrust::device_reference<name_type>const& other)
      {
     	name_type a=other;
         value = a.Value();
      }
 
     __hydra_host__ __hydra_device__
-    FunctionArgument<Derived, Type>&
-    operator=(FunctionArgument<Derived, Type>const& other)
+    FunctionArgument<name_type, value_type>&
+    operator=(FunctionArgument<name_type, value_type>const& other)
     {
         if(this==&other) return *this;
         value = other();
         return *this;
     }
 
-    template<typename Derived2, typename Type2,
-     typename = typename std::enable_if<std::is_convertible<Type, Type2>::type
-     , FunctionArgument<Derived, Type>& >::type>
+    template<typename Derived2>
     __hydra_host__ __hydra_device__
-    FunctionArgument(FunctionArgument<Derived2, Type2>const& other):
+    FunctionArgument(FunctionArgument<Derived2, value_type>const& other):
      value(other())
      {}
 
-    template<typename Derived2, typename Type2>
+
+    template<typename Derived2>
     __hydra_host__ __hydra_device__
-    typename std::enable_if<std::is_convertible<Type, Type2>::value
-     , FunctionArgument<Derived, Type>& >::type
-    operator=(FunctionArgument<Derived2, Type2>const& other)
+    FunctionArgument<name_type, value_type>&
+    operator=(FunctionArgument<Derived2, value_type>const& other)
     {
-        if(this==&other) return *this;
+
         value = other();
         return *this;
     }
 
       __hydra_host__ __hydra_device__
-    constexpr operator Type() const { return value; }
+      constexpr  operator value_type() const { return value; }
+
+      __hydra_host__ __hydra_device__
+      constexpr operator  value_type&()  { return value; }
 
     __hydra_host__ __hydra_device__
-    constexpr Type operator()(void) const { return value; }
+    constexpr value_type operator()(void) const { return value; }
 
     __hydra_host__ __hydra_device__
-     constexpr Type Value(void) const { return value; }
+     constexpr value_type Value(void) const { return value; }
 
     //=============================================================
     //Compound assignment operators
@@ -282,8 +283,6 @@ __hydra_host__ __hydra_device__										   \
   __hydra_host__ __hydra_device__                                      \
   operator=(T const& other)                                            \
   {                                                                    \
-        if(this==&other)                                               \
-         return *this;                                                 \
                                                                        \
         super_type::operator=(other);                                  \
                                                                        \
@@ -298,6 +297,30 @@ namespace hydra {
 
 namespace arguments  {
 
+template<typename Arg1, typename Arg2>
+__hydra_host__ __hydra_device__
+typename std::enable_if<detail::is_function_argument<Arg1>::value && !detail::is_function_argument<Arg2>::value,
+decltype(std::declval<typename  Arg1::value_type>()+  std::declval<Arg2>() )>::type
+operator+( Arg1 const& a1, Arg2 const& a2) {
+
+	typedef decltype(std::declval<typename  Arg1::value_type>()+
+			 std::declval<Arg2>() ) return_type;
+
+	return a1.Value() + a2;
+}
+
+template<typename Arg1, typename Arg2>
+__hydra_host__ __hydra_device__
+typename std::enable_if<detail::is_function_argument<Arg1>::value && !detail::is_function_argument<Arg2>::value,
+decltype(std::declval<typename  Arg1::value_type>()+  std::declval<Arg2>() )>::type
+operator+(Arg2 const& a2, Arg1 const& a1 ) {
+
+	typedef decltype(std::declval<typename  Arg1::value_type>()+
+			 std::declval<Arg2>() ) return_type;
+
+	return a1.Value() + a2;
+}
+
 
 template<typename Arg1, typename Arg2>
 __hydra_host__ __hydra_device__
@@ -309,7 +332,33 @@ operator+( Arg1 const& a1, Arg2 const& a2) {
 	typedef decltype(std::declval<typename  Arg1::value_type>()+
 			 std::declval<typename  Arg2::value_type>() ) return_type;
 
-	return return_type(a1) + return_type(a2);
+	return a1.Value() + a2.Value();
+}
+
+//---------------
+
+template<typename Arg1, typename Arg2>
+__hydra_host__ __hydra_device__
+typename std::enable_if<detail::is_function_argument<Arg1>::value && !detail::is_function_argument<Arg2>::value,
+decltype(std::declval<typename  Arg1::value_type>()- std::declval<Arg2>() )>::type
+operator-( Arg1 const& a1, Arg2 const& a2) {
+
+	typedef decltype(std::declval<typename  Arg1::value_type>()-
+			 std::declval<Arg2>() ) return_type;
+
+	return a1.Value() - a2;
+}
+
+template<typename Arg1, typename Arg2>
+__hydra_host__ __hydra_device__
+typename std::enable_if<detail::is_function_argument<Arg1>::value && !detail::is_function_argument<Arg2>::value,
+decltype(std::declval<typename  Arg1::value_type>()-  std::declval<Arg2>() )>::type
+operator-(Arg2 const& a2, Arg1 const& a1 ) {
+
+	typedef decltype(std::declval<typename  Arg1::value_type>()-
+			 std::declval<Arg2>() ) return_type;
+
+	return a1.Value() - a2;
 }
 
 template<typename Arg1, typename Arg2>
@@ -322,7 +371,34 @@ operator-( Arg1 const& a1, Arg2 const& a2) {
 	typedef decltype(std::declval<typename  Arg1::value_type>()-
 			 std::declval<typename  Arg2::value_type>() ) return_type;
 
-	return return_type(a1) - return_type(a2);
+	return a1.Value() - a2.Value();
+}
+
+
+//----------------
+
+template<typename Arg1, typename Arg2>
+__hydra_host__ __hydra_device__
+typename std::enable_if<detail::is_function_argument<Arg1>::value && !detail::is_function_argument<Arg2>::value,
+decltype(std::declval<typename  Arg1::value_type>()* std::declval<Arg2>() )>::type
+operator*( Arg1 const& a1, Arg2 const& a2) {
+
+	typedef decltype(std::declval<typename  Arg1::value_type>()-
+			 std::declval<Arg2>() ) return_type;
+
+	return a1.Value() * a2;
+}
+
+template<typename Arg1, typename Arg2>
+__hydra_host__ __hydra_device__
+typename std::enable_if<detail::is_function_argument<Arg1>::value && !detail::is_function_argument<Arg2>::value,
+decltype(std::declval<typename  Arg1::value_type>()*  std::declval<Arg2>() )>::type
+operator*(Arg2 const& a2, Arg1 const& a1 ) {
+
+	typedef decltype(std::declval<typename  Arg1::value_type>()-
+			 std::declval<Arg2>() ) return_type;
+
+	return a1.Value() * a2;
 }
 
 template<typename Arg1, typename Arg2>
@@ -335,7 +411,33 @@ operator*( Arg1 const& a1, Arg2 const& a2) {
 	typedef decltype(std::declval<typename  Arg1::value_type>()*
 			 std::declval<typename  Arg2::value_type>() ) return_type;
 
-	return return_type(a1) * return_type(a2);
+	return a1.Value() * a2.Value();
+}
+
+//----------------
+
+template<typename Arg1, typename Arg2>
+__hydra_host__ __hydra_device__
+typename std::enable_if<detail::is_function_argument<Arg1>::value && !detail::is_function_argument<Arg2>::value,
+decltype(std::declval<typename  Arg1::value_type>() / std::declval<Arg2>() )>::type
+operator/( Arg1 const& a1, Arg2 const& a2) {
+
+	typedef decltype(std::declval<typename  Arg1::value_type>()-
+			 std::declval<Arg2>() ) return_type;
+
+	return a1.Value() / a2;
+}
+
+template<typename Arg1, typename Arg2>
+__hydra_host__ __hydra_device__
+typename std::enable_if<detail::is_function_argument<Arg1>::value && !detail::is_function_argument<Arg2>::value,
+decltype(std::declval<typename  Arg1::value_type>() / std::declval<Arg2>() )>::type
+operator/(Arg2 const& a2, Arg1 const& a1 ) {
+
+	typedef decltype(std::declval<typename  Arg1::value_type>()-
+			 std::declval<Arg2>() ) return_type;
+
+	return a1.Value() / a2;
 }
 
 template<typename Arg1, typename Arg2>
@@ -348,8 +450,10 @@ operator/( Arg1 const& a1, Arg2 const& a2) {
 	typedef decltype(std::declval<typename  Arg1::value_type>()/
 			 std::declval<typename  Arg2::value_type>() ) return_type;
 
-	return return_type(a1) / return_type(a2);
+	return a1.Value() / a2.Value();
 }
+
+
 
 template<typename Arg>
 inline typename std::enable_if<detail::is_function_argument<Arg>::value, ostream&>::type

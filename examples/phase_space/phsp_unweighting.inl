@@ -90,14 +90,15 @@
 #endif //_ROOT_AVAILABLE_
 
 //---------------------------
+using namespace hydra::arguments;
+//---------------------------
 // Daughter particles
 
 declarg(A, hydra::Vector4R)
 declarg(B, hydra::Vector4R)
 declarg(C, hydra::Vector4R)
 
-//---------------------------
-using namespace hydra::arguments;
+
 
 
 int main(int argv, char** argc)

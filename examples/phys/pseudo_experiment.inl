@@ -101,12 +101,14 @@
 #endif //_ROOT_AVAILABLE_
 
 
-declarg(XVar, double)
-declarg(YVar, double)
-
 using namespace hydra::arguments;
 using namespace hydra::placeholders;
 using namespace ROOT::Minuit2;
+
+
+declarg(XVar, double)
+declarg(YVar, double)
+
 
 int main(int argv, char** argc)
 {

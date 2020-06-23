@@ -62,6 +62,8 @@
 #include <hydra/DenseHistogram.h>
 #include <hydra/functions/Gaussian.h>
 #include <hydra/functions/Exponential.h>
+#include <hydra/RandomFill.h>
+
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
 #include "Minuit2/MnUserParameterState.h"
@@ -85,6 +87,11 @@
 
 
 using namespace ROOT::Minuit2;
+using namespace hydra::arguments;
+
+
+declarg(_X, double)
+
 
 int main(int argv, char** argc)
 {
@@ -114,38 +121,34 @@ int main(int argv, char** argc)
     double min   =  0.0;
     double max   =  10.0;
 
-	//generator
-	hydra::Random<> Generator( std::chrono::system_clock::now().time_since_epoch().count() );
-
 	//===========================
     //fit model
-
-	hydra::Parameter  mean1_p  = hydra::Parameter::Create().Name("Mean_1").Value( 2.5) .Error(0.0001).Limits(1.0, 10.0);
+	hydra::Parameter  mean1_p  = hydra::Parameter::Create().Name("Mean_1").Value( 2.5) .Error(0.0001).Limits(0.0, 10.0);
 	hydra::Parameter  sigma1_p = hydra::Parameter::Create().Name("Sigma_1").Value(0.5).Error(0.0001).Limits(0.01, 1.5);
 
 	//gaussian function evaluating on the first argument
-	hydra::Gaussian<0> gaussian1(mean1_p, sigma1_p);
-	auto Gauss1_PDF = hydra::make_pdf(gaussian1, hydra::AnalyticalIntegral<hydra::Gaussian<0>>(min, max));
+	auto Gauss1_PDF = hydra::make_pdf( hydra::Gaussian<_X>(mean1_p, sigma1_p),
+			hydra::AnalyticalIntegral<hydra::Gaussian<_X>>(min, max));
 
     //-------------------------------------------
 
     //gaussian 2
-    hydra::Parameter  mean2_p  = hydra::Parameter::Create().Name("Mean_2").Value(5.0) .Error(0.0001).Limits(1.0, 10.0);
+    hydra::Parameter  mean2_p  = hydra::Parameter::Create().Name("Mean_2").Value(5.0) .Error(0.0001).Limits(0.0, 10.0);
     hydra::Parameter  sigma2_p = hydra::Parameter::Create().Name("Sigma_2").Value(0.5).Error(0.0001).Limits(0.01, 1.5);
 
     //gaussian function evaluating on the first argument
-    hydra::Gaussian<0> gaussian2(mean2_p, sigma2_p);
-    auto Gauss2_PDF = hydra::make_pdf(gaussian2, hydra::AnalyticalIntegral<hydra::Gaussian<0>>(min, max));
+    auto Gauss2_PDF = hydra::make_pdf(hydra::Gaussian<_X>(mean2_p, sigma2_p),
+    		hydra::AnalyticalIntegral<hydra::Gaussian<_X>>(min, max));
 
     //--------------------------------------------
 
     //exponential
     //parameters
-    hydra::Parameter  tau_p  = hydra::Parameter::Create().Name("Tau").Value(-1.0) .Error(0.0001).Limits(-2.0, 2.0);
+    hydra::Parameter  tau_p  = hydra::Parameter::Create().Name("Tau").Value(1.0).Error(0.0001).Limits(-2.0, 2.0);
 
     //gaussian function evaluating on the first argument
-    hydra::Exponential<0> exponential(tau_p);
-    auto Exp_PDF = hydra::make_pdf(exponential, hydra::AnalyticalIntegral<hydra::Exponential<0>>(min, max));
+    auto Exp_PDF = hydra::make_pdf( hydra::Exponential<_X>(tau_p),
+    		hydra::AnalyticalIntegral<hydra::Exponential<_X>>(min, max));
 
 
     //------------------
@@ -178,13 +181,18 @@ int main(int argv, char** argc)
 		// Generate data
 
 		// gaussian1
-		Generator.Gauss(mean1_p.GetValue()+0.5, sigma1_p.GetValue()+0.5, data_d.begin(), data_d.begin()+nentries);
+		hydra::fill_random(data_d.begin(), data_d.begin() + nentries,
+				hydra::Gaussian<_X>(mean1_p, sigma1_p) );
 
-		// gaussian1
-		Generator.Gauss(mean2_p.GetValue()+0.5, sigma2_p.GetValue()+0.5, data_d.begin()+nentries, data_d.begin()+2*nentries);
+		// gaussian2
+		hydra::fill_random(data_d.begin()+ nentries, data_d.begin() + 2*nentries,
+						hydra::Gaussian<_X>(mean2_p, sigma2_p) );
+
 
 		// exponential
-		Generator.Exp(1.0, data_d.begin() + 2*nentries,  data_d.end());
+		hydra::fill_random(data_d.begin()+ 2*nentries, data_d.end(),
+							hydra::Exponential<_X>(tau_p) );
+
 
 		std::cout<< std::endl<< "Generated data:"<< std::endl;
 		for(size_t i=0; i<10; i++)

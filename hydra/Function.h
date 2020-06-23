@@ -183,7 +183,7 @@ public:
 				"Please inspect the error messages issued above to find the line generating the error."
 				)
 
-				return typename Functor::return_type(0);
+				return typename Functor::return_type{};
 	}
 
 

@@ -80,6 +80,12 @@ template<typename T>
 struct _is_function_argument<T,hydra_thrust::void_t< typename T::function_argument_type>>:
 std::true_type{};
 
+template<typename T>
+struct _is_function_argument<hydra_thrust::device_reference<T>,hydra_thrust::void_t< typename T::function_argument_type>>:
+std::true_type{};
+
+
+
 
 }  // namespace function_argument_impl
 

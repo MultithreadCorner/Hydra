@@ -1373,6 +1373,8 @@ TEST_CASE(  "parameterized lambda device","hydra::Lambda<Type,2>" )
 
 			for(size_t i=0; i<10;i++)
 			{
+				//decltype(x_vector[i])::dummy a;
+
 				auto result = lambda( yz_partial[i], x_vector[i]);
 
 				REQUIRE( hydra::get<0>(result) == Approx(  5.0 ) );

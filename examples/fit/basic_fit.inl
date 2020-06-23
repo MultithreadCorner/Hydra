@@ -55,6 +55,7 @@
 #include <hydra/functions/Gaussian.h>
 #include <hydra/DenseHistogram.h>
 #include <hydra/multivector.h>
+#include <hydra/Zip.h>
 
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
@@ -78,11 +79,10 @@
 #endif //_ROOT_AVAILABLE_
 
 using namespace ROOT::Minuit2;
+using namespace hydra::arguments;
 
 
 declarg(xvar, double)
-declarg(yvar, double)
-
 
 int main(int argv, char** argc)
 {
@@ -122,23 +122,12 @@ int main(int argv, char** argc)
 	auto xmodel = hydra::make_pdf(xgauss, hydra::AnalyticalIntegral< hydra::Gaussian<xvar> >(min, max) );
 
 
-	//Parameters for Y direction
-	auto  ymean  = hydra::Parameter::Create("Y-mean" ).Value(0.0).Error(0.0001).Limits(-1.0, 1.0);
-	auto  ysigma = hydra::Parameter::Create("Y-sigma").Value(1.0).Error(0.0001).Limits(0.01, 1.5);
-	//Gaussian distribution for Y direction
-	auto ygauss  = hydra::Gaussian<yvar>(ymean, ysigma);
-	//Model for Y direction
-	auto ymodel = hydra::make_pdf(ygauss, hydra::AnalyticalIntegral< hydra::Gaussian<yvar> >(min, max) );
-
-
 	//------------------------
 #ifdef _ROOT_AVAILABLE_
 
 	TH1D hist_xvar("hist_xvar", "X-axis", 100, min, max);
-	TH1D hist_yvar("hist_yvar", "Y-axis", 100, min, max);
 
 	TH1D hist_fit_xvar("hist_fit_xvar", "X-axis", 100, min, max);
-	TH1D hist_fit_yvar("hist_fit_yvar", "Y-axis", 100, min, max);
 
 #endif //_ROOT_AVAILABLE_
 
@@ -147,24 +136,18 @@ int main(int argv, char** argc)
 
 
 		//1D device buffer
-		hydra::multivector<hydra::tuple<xvar, yvar>,
-		            hydra::device::sys_t> dataset(nentries);
+		hydra::device::vector<xvar> dataset(nentries);
 		//-------------------------------------------------------
 
 		//gaussian range
-		auto gauss_2D_range = hydra::zip(hydra::random_gauss_range(xmean.Value(), xsigma.Value(), 159753),
-		                hydra::random_gauss_range(ymean.Value(), ysigma.Value(), 258456));
 
-		hydra::copy(gauss_2D_range.begin(), gauss_2D_range.begin()+nentries,
-				dataset.begin());
+		hydra::copy(hydra::random_gauss_range(xmean.GetValue(), xsigma.GetValue(), 159753,nentries ), dataset);
 
 		std::cout<< std::endl<< "Generated data:"<< std::endl;
 		for(size_t i=0; i<10; i++)
 			std::cout << "[" << i << "] :" << dataset[i] << std::endl;
 
 		auto xfcn   = hydra::make_loglikehood_fcn(xmodel, dataset);
-
-		auto yfcn   = hydra::make_loglikehood_fcn(ymodel, dataset);
 
 		//-------------------------------------------------------
 		//fit
@@ -176,7 +159,7 @@ int main(int argv, char** argc)
 		MnStrategy strategy(2);
 
 		//create Migrad minimizer
-		MnMigrad xmigrad(xfcn, fcn.GetParameters().GetMnState() ,  strategy);
+		MnMigrad xmigrad(xfcn, xfcn.GetParameters().GetMnState() ,  strategy);
 
 		//print parameters before fitting
 		std::cout << xfcn.GetParameters().GetMnState() << std::endl;
@@ -197,27 +180,26 @@ int main(int argv, char** argc)
 		std::cout << "-----------------------------------------"<<std::endl;
 		std::cout << "| Time (ms) ="<< elapsed.count()    <<std::endl;
 		std::cout << "-----------------------------------------"<<std::endl;
-/*
-		hydra::DenseHistogram<double, 2,
-		     hydra::device::sys_t>Hist_Data({ 100, 100}, { min, min}, { max, max} );
 
-		Hist_Data.Fill( dataset.begin(), dataset.end() );
+		hydra::DenseHistogram<double, 1, hydra::device::sys_t>Hist_Data(100, min, max );
+
+		Hist_Data.Fill( dataset );
 
 
 #ifdef _ROOT_AVAILABLE_
 		//draw data
 		for(size_t i=0;  i<100; i++){
-			hist_gaussian_d.SetBinContent(i+1, Hist_Data.GetBinContent(i)  );
+			hist_xvar.SetBinContent(i+1, Hist_Data.GetBinContent(i)  );
 		}
 
 		//draw fitted function
-		hist_fitted_gaussian_d.Sumw2();
+		hist_fit_xvar.Sumw2();
 		for (size_t i=0 ; i<=100 ; i++) {
-			double x = hist_fitted_gaussian_d.GetBinCenter(i);
-	        hist_fitted_gaussian_d.SetBinContent(i, fcn.GetPDF()(x) );
+			double x = hist_fit_xvar.GetBinCenter(i);
+	         hist_fit_xvar.SetBinContent(i, xfcn.GetPDF()(x) );
 		}
 
-		hist_fitted_gaussian_d.Scale(hist_gaussian_d.Integral()/hist_fitted_gaussian_d.Integral() );
+		hist_fit_xvar.Scale(hist_xvar.Integral()/hist_fit_xvar.Integral() );
 #endif //_ROOT_AVAILABLE_
 
 	}//end raii scope
@@ -227,15 +209,15 @@ int main(int argv, char** argc)
 	TApplication *myapp=new TApplication("myapp",0,0);
 
 	//draw histograms
-	TCanvas canvas_d("canvas_d" ,"Distributions - Device", 500, 500);
-	hist_gaussian_d.Draw("hist");
-	hist_fitted_gaussian_d.Draw("histsameC");
-	hist_fitted_gaussian_d.SetLineColor(2);
+	TCanvas canvas("canvas_d" ,"Distributions - Device", 500, 500);
+	hist_xvar.Draw("hist");
+	hist_fit_xvar.Draw("histsameC");
+	hist_fit_xvar.SetLineColor(2);
 
 	myapp->Run();
 
 #endif //_ROOT_AVAILABLE_
-*/
+
 	return 0;
 }
 #endif /* BASIC_FIT_INL_ */

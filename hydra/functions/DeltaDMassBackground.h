@@ -60,29 +60,29 @@ namespace hydra {
  * \ingroup common_functions
  * \class DeltaDMassBackground
  */
-template<typename ArgType>
-class DeltaDMassBackground: public BaseFunctor<DeltaDMassBackground<ArgType>, 4>
+template<typename ArgType, typename Signature=double(ArgType)>
+class DeltaDMassBackground: public BaseFunctor<DeltaDMassBackground<ArgType>, Signature, 4>
 {
-	using BaseFunctor<DeltaDMassBackground<ArgType>, 4>::_par;
+	using BaseFunctor<DeltaDMassBackground<ArgType>, Signature, 4>::_par;
 
 public:
 
 	DeltaDMassBackground() = delete;
 
 	DeltaDMassBackground(Parameter const& threshold, Parameter const& A, Parameter const& B, Parameter const& C):
-		BaseFunctor<DeltaDMassBackground<ArgType>, 4>({threshold, A, B, C})
+		BaseFunctor<DeltaDMassBackground<ArgType>, Signature, 4>({threshold, A, B, C})
 		{}
 
 	__hydra_host__ __hydra_device__
 	DeltaDMassBackground(DeltaDMassBackground<ArgType> const& other ):
-	BaseFunctor<DeltaDMassBackground<ArgType>, 4>(other)
+	BaseFunctor<DeltaDMassBackground<ArgType>, Signature, 4>(other)
 	{}
 
 	__hydra_host__ __hydra_device__
 	DeltaDMassBackground<ArgType>&
 	operator=(DeltaDMassBackground<ArgType> const& other ){
 		if(this==&other) return  *this;
-		BaseFunctor<DeltaDMassBackground<ArgType>, 4>::operator=(other);
+		BaseFunctor<DeltaDMassBackground<ArgType>, Signature, 4>::operator=(other);
 		return  *this;
 	}
 

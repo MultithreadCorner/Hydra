@@ -58,6 +58,8 @@
 #include <hydra/Filter.h>
 #include <hydra/functions/Gaussian.h>
 #include <hydra/DenseHistogram.h>
+#include <hydra/RandomFill.h>
+
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
 #include "Minuit2/MnUserParameterState.h"
@@ -80,6 +82,9 @@
 #endif //_ROOT_AVAILABLE_
 
 using namespace ROOT::Minuit2;
+using namespace hydra::arguments;
+
+declarg( _X, double)
 
 
 int main(int argv, char** argc)
@@ -112,19 +117,16 @@ int main(int argv, char** argc)
 	double mean  =  0.0;
 	double sigma =  1.0;
 
-	//generator
-	hydra::Random<> Generator( std::chrono::system_clock::now().time_since_epoch().count() );
-
 	//parameters
 	hydra::Parameter  mean_p  = hydra::Parameter::Create().Name("Mean").Value(0.5).Error(0.0001).Limits(-1.0, 1.0);
 	hydra::Parameter  sigma_p = hydra::Parameter::Create().Name("Sigma").Value(0.5).Error(0.0001).Limits(0.01, 1.5);
 
 
 	//gaussian function evaluating on argument zero
-	hydra::Gaussian<> gaussian(mean_p,sigma_p);
+	hydra::Gaussian< _X> gaussian(mean_p,sigma_p);
 
 	//make model (pdf with analytical integral)
-	auto model = hydra::make_pdf(gaussian, hydra::AnalyticalIntegral<hydra::Gaussian<>>(min, max) );
+	auto model = hydra::make_pdf(gaussian, hydra::AnalyticalIntegral<hydra::Gaussian< _X>>(min, max) );
 
 
 	//------------------------
@@ -140,23 +142,23 @@ int main(int argv, char** argc)
 	{
 
 		//1D device buffer
-		hydra::device::vector<double>  data_d(nentries);
+		hydra::device::vector<double>  data(nentries);
 
 		//-------------------------------------------------------
 		//gaussian
-		Generator.Gauss(mean, sigma, data_d.begin(), data_d.end());
+		hydra::fill_random(data, gaussian);
 
 		std::cout<< std::endl<< "Generated data:"<< std::endl;
 		for(size_t i=0; i<10; i++)
-			std::cout << "[" << i << "] :" << data_d[i] << std::endl;
+			std::cout << "[" << i << "] :" << data[i] << std::endl;
 
 		//filtering
 		auto filter = hydra::wrap_lambda(
-				[=] __hydra_dual__ (unsigned int n, const double* x){
-				return (x[0] > min) && (x[0] < max );
+				[=] __hydra_dual__ (_X x){
+				return (x > min) && (x < max );
 		});
 
-		auto range  = hydra::apply_filter(data_d,  filter);
+		auto range  = hydra::filter(data,  filter);
 
 		std::cout<< std::endl<< "Filtered data:"<< std::endl;
 		for(size_t i=0; i<10; i++)

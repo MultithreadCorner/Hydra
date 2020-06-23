@@ -94,7 +94,7 @@ public:
 
 	__hydra_host__ __hydra_device__
 	inline Polynomial<Order, ArgType>&
-	operator=( Polynomial<ArgType, Order> const& other)
+	operator=( Polynomial<Order, ArgType> const& other)
 	{
 		if(this == &other) return *this;
 		BaseFunctor<Polynomial< Order, ArgType>, Signature, Order+1>::operator=(other);

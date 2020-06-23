@@ -339,10 +339,12 @@ public:
 				fMasses[i]= other.GetMasses()[i];
 	}
 
-
+    template<typename T=Functor>
 	__hydra_host__ __hydra_device__
-	PhaseSpaceReweight<Functor, ParticleTypes...> &
-	operator=(PhaseSpaceReweight<Functor, ParticleTypes...> const& other ){
+	typename std::enable_if<std::is_copy_assignable<T>::value,
+	PhaseSpaceReweight<T, ParticleTypes...> &>::type
+	operator=(PhaseSpaceReweight<T, ParticleTypes...> const& other )
+	{
 
 		if(this==&other) return  *this;
 

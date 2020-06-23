@@ -86,6 +86,9 @@
 
 using namespace ROOT::Minuit2;
 using namespace hydra::placeholders;
+using namespace hydra::arguments;
+
+declarg( _X, double)
 
 int main(int argv, char** argc)
 {
@@ -116,10 +119,7 @@ int main(int argv, char** argc)
     double max   =  20.0;
     char const* model_name = "Crystal Ball + Exponential";
 
-	//generator
-	hydra::Random<> Generator(154);
-
-	//===============================================================================================
+    //===============================================================================================
     //fit model Crystal Ball + Exponential
 
 	//Crystal Ball
@@ -131,8 +131,8 @@ int main(int argv, char** argc)
 	auto  n     = hydra::Parameter::Create().Name("N").Value(2.5).Error(0.0001).Limits(0.0, 5.0).Fixed();
 
 	//Signal PDF
-	auto Signal_PDF = hydra::make_pdf(hydra::CrystalBallShape<>(mean, sigma, alpha, n),
-			hydra::AnalyticalIntegral<hydra::CrystalBallShape<>>(min, max) );
+	auto Signal_PDF = hydra::make_pdf(hydra::CrystalBallShape<_X>(mean, sigma, alpha, n),
+			hydra::AnalyticalIntegral<hydra::CrystalBallShape<_X>>(min, max) );
 
     //-------------------------------------------
 
@@ -141,8 +141,8 @@ int main(int argv, char** argc)
     auto  tau  = hydra::Parameter::Create().Name("Tau").Value(-0.1).Error(0.0001).Limits(-1.0, 0.0);
 
     //Background
-    auto Background_PDF = hydra::make_pdf(hydra::Exponential<>(tau),
-    		hydra::AnalyticalIntegral<hydra::Exponential<>>(min, max));
+    auto Background_PDF = hydra::make_pdf(hydra::Exponential<_X>(tau),
+    		hydra::AnalyticalIntegral<hydra::Exponential<_X>>(min, max));
 
     //------------------
     //yields
@@ -174,14 +174,14 @@ int main(int argv, char** argc)
 
 		//-------------------------------------------------------
 		// Generate data
-		auto range = Generator.Sample(data.begin(),  data.end(), min, max, model.GetFunctor());
+		auto range = hydra::sample(data, min, max, model.GetFunctor());
 
 		std::cout<< std::endl<< "Generated data:"<< std::endl;
 		for(size_t i=0; i< 10; i++)
 			std::cout << "[" << i << "] :" << range[i] << std::endl;
 
 		//make model and fcn
-		auto fcn = hydra::make_loglikehood_fcn( model, range.begin(), range.end() );
+		auto fcn = hydra::make_loglikehood_fcn( model, range );
 
 		//-------------------------------------------------------
 		//fit

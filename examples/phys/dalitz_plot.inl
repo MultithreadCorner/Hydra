@@ -111,11 +111,6 @@ using namespace hydra::placeholders;
 using namespace hydra::arguments;
 
 
-
-
-
-
-
 /* GPUs have a formal parameter space of maximum 4kB
  * So, to save stack-size when dispatching to GPUs
  * each resonant contribution will be evaluated
