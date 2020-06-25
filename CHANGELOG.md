@@ -86,7 +86,7 @@ See how it works:
     };
     ```
     
-   c) Lambdas: Support for lambdas is updated for the new interface. The new interface is implemented in `hydra/Lambda.h
+   c) Lambdas: Support for lambdas was updated to adhere the new interface. The new interface is implemented in `hydra/Lambda.h
     
     ```cpp    
     ...
@@ -112,8 +112,32 @@ See how it works:
 
         for(auto entry: data) printer(entry);           
     }
+    
     ```
+    
+#### Random number generation
 
+1. Support for analytical random number generation added for many functors added via `hydra::Distribution<FunctorType> specializations (see example `example/random/basic_distributions.inl`).
+2. Parallel filling of containers with random numbers (see example `example/random/fill_basic_distributions.inl`). 
+
+#### Phase-space generation
+
+1. Updated `hydra::Decays` container for supporting named variable idiom.
+2. Changes in `hydra::PhaseSpace`and `hydra::Decays`.
+3. hydra::Chain not supported any more.
+4. New `Meld(...)` method in `hydra::Decays` for building mixed datasets and decay chains. 
+5. Re-implemented logics for generation of events and associated weights.
+
+#### Data fitting
+
+1. Adding support to simultaneous fit.
+2. Fitting of convoluted PDFs.
+
+#### General
+
+1. Many bug fixes across the tree...
+
+-------------------------
 
 ### Hydra 2.5.0
 
