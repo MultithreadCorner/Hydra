@@ -456,15 +456,15 @@ operator/( Arg1 const& a1, Arg2 const& a2) {
 
 
 template<typename Arg>
-inline typename std::enable_if<detail::is_function_argument<Arg>::value, ostream&>::type
-operator<<(ostream& s, const hydra_thrust::device_reference<Arg>& a){
+inline typename std::enable_if<detail::is_function_argument<Arg>::value, std::ostream&>::type
+operator<<(std::ostream& s, const hydra_thrust::device_reference<Arg>& a){
 	s <<  typename Arg::name_type(a).Value();
 	return s;
 }
 
 template<typename Arg>
-inline typename std::enable_if<detail::is_function_argument<Arg>::value, ostream&>::type
-operator<<(ostream& s, const Arg& a){
+inline typename std::enable_if<detail::is_function_argument<Arg>::value, std::ostream&>::type
+operator<<(std::ostream& s, const Arg& a){
 	s <<  a.Value();
 	return s;
 }

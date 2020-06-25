@@ -56,6 +56,8 @@ namespace hydra{
 
 
 /**
+ * \ingroup random
+ *
  * @brief Fill a range with numbers distributed according a user defined distribution using a RNG analytical formula
  * @param policy backend to perform the calculation.
  * @param begin beginning of the range storing the generated values
@@ -75,6 +77,8 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
 
 
 /**
+ * \ingroup random
+ *
  * @brief Fill a range with numbers distributed according a user defined distribution using a RNG analytical formula
  * @param begin beginning of the range storing the generated values
  * @param end ending of the range storing the generated values
@@ -92,6 +96,8 @@ fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x
 
 
 /**
+ * \ingroup random
+ *
  * @brief Fill a range with numbers distributed according a user defined distribution.
  * @param policy backend to perform the calculation.
  * @param iterable range storing the generated values
@@ -109,6 +115,8 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
 
 
 /**
+ * \ingroup random
+ *
  * @brief Fill a range with numbers distributed according a user defined distribution.
  * @param iterable range storing the generated values
  * @param functor distribution to be sampled
@@ -124,6 +132,8 @@ fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf
 
 
 /**
+ * \ingroup random
+ *
  * @brief Fall back function if RngFormula is not implemented for the requested functor
  * @param policy backend to perform the calculation.
  * @param begin beginning of the range storing the generated values
@@ -139,6 +149,8 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
 
 
 /**
+ * \ingroup random
+ *
  * @brief Fall back function if RngFormula is not implemented for the requested functor
  * @param begin beginning of the range storing the generated values
  * @param end ending of the range storing the generated values
@@ -152,6 +164,8 @@ fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x
 
 
 /**
+ * \ingroup random
+ *
  * @brief Fall back function if RngFormula::Generate() return value is not convertible to functor return value
  * @param policy backend to perform the calculation.
  * @param begin beginning of the range storing the generated values
@@ -170,6 +184,8 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
 
 
 /**
+ * \ingroup random
+ *
  * @brief Fall back function if RngFormula::Generate() return value is not convertible to functor return value
  * @param begin beginning of the range storing the generated values
  * @param end ending of the range storing the generated values
@@ -187,6 +203,8 @@ fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x
 
 
 /**
+ * \ingroup random
+ *
  * @brief Fall back function if the argument is not an Iterable or if itis not convertible to the Functor return value
  * @param policy backend to perform the calculation.
  * @param iterable range storing the generated values
@@ -203,6 +221,8 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
 
 
 /**
+ * \ingroup random
+ *
  * @brief Fall back function if the argument is not an Iterable or if itis not convertible to the Functor return value
  * @param iterable range storing the generated values
  * @param functor distribution to be sampled

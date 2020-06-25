@@ -45,6 +45,9 @@ public:
 
 	typedef void likelihood_estimator_type;
 
+	LogLikelihoodFCN()=delete;
+
+
 	LogLikelihoodFCN(PDFSumExtendable<Pdfs...> const& functor, IteratorD begin, IteratorD end, IteratorW ...wbegin):
 		FCN<LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>, true>(functor,begin, end, wbegin...)
 		{}

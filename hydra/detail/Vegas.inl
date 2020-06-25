@@ -31,7 +31,7 @@
 //#define VEGAS_INL_
 
 #include <hydra/detail/Config.h>
-#include <hydra/Containers.h>
+
 #include <hydra/Types.h>
 #include <hydra/VegasState.h>
 #include <hydra/detail/utility/StreamSTL.h>

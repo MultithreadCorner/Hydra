@@ -1551,9 +1551,10 @@ template<typename ...T, hydra::detail::Backend BACKEND1, hydra::detail::Backend 
 bool operator!=(const multivector<hydra_thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND1>>& lhs,
                 const multivector<hydra_thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND2>>& rhs){
 
-	auto comparison = []__hydra_host__ __hydra_device__(
-			hydra_thrust::tuple< hydra_thrust::tuple<T...>,
-			hydra_thrust::tuple<T...>	> const& values){
+	auto comparison = []__hydra_host__ __hydra_device__( hydra_thrust::tuple< hydra_thrust::tuple<T...>,
+			hydra_thrust::tuple<T...>	> const& values)
+	{
+
 		return hydra_thrust::get<0>(values)== hydra_thrust::get<1>(values);
 
 	};
@@ -1582,6 +1583,21 @@ auto columns( multivector<hydra_thrust::tuple<T...>, hydra::detail::BackendPolic
 
 	typedef decltype( other.begin(cls...)) iterator_type;
 	return Range<iterator_type>( other.begin(cls...), other.end(cls...));
+}
+
+template<typename Type, hydra::detail::Backend BACKEND, typename ...T>
+auto columns( multivector<hydra_thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND>>& other)
+-> Range<decltype(
+std::declval<multivector<hydra_thrust::tuple<T...>,
+hydra::detail::BackendPolicy<BACKEND>>&>().begin(
+		placeholders::placeholder<detail::index_in_tuple<Type, hydra_thrust::tuple<T...> >::value>{})) >
+{
+
+	constexpr size_t I = detail::index_in_tuple<Type, hydra_thrust::tuple<T...> >::value;
+
+	typedef decltype( other.begin( placeholders::placeholder<I>{} )) iterator_type;
+	return Range<iterator_type>( other.begin( placeholders::placeholder<I>{}),
+			other.end( placeholders::placeholder<I>{} ));
 }
 
 

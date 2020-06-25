@@ -33,7 +33,8 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/detail/external/hydra_thrust/execution_policy.h>
-#include <hydra/Containers.h>
+#include <hydra/detail/external/hydra_thrust/device_vector.h>
+
 
 namespace hydra {
 
@@ -54,7 +55,7 @@ struct BackendPolicy<Backend::Device>: hydra_thrust::device_execution_policy<dev
 	const device::device_t backend= device::_device_;
 
 	template<typename T>
-	using   container = hydra::mc_device_vector<T>;
+	using   container = hydra_thrust::device_vector<T>;
 
 };
 

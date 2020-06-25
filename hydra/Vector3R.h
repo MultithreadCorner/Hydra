@@ -37,6 +37,7 @@
 #include <iosfwd>
 #include <iostream>
 #include <math.h>
+#include <cmath>
 #include <hydra/Collection.h>
 
 using std::ostream;
@@ -49,7 +50,9 @@ namespace hydra {
  * This class is inspired on the corresponding EvtGen classes.
  *
  */
-class Vector3R
+
+
+class __hydra_align__(16) Vector3R
 {
 
 	__hydra_host__      __hydra_device__      friend Vector3R rotateEuler(const Vector3R& v,
@@ -98,7 +101,6 @@ private:
 
 	GReal_t v[3];
 
-	//_DeclareStorable(Vector3R, v[0], v[1] , v[2])
 };
 
 __hydra_host__ __hydra_device__

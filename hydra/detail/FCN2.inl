@@ -32,7 +32,12 @@
 #include <hydra/detail/EstimatorTraits.h>
 
 namespace hydra {
-
+/**
+ * \ingroup fit
+ * \tparam Estimator estimator base class
+ * \tparam Iterator iterator pointing to the data
+ * \tparam Iterators more iterators pointing to weights, cache etc.
+ */
 template< template<typename ...> class Estimator, typename PDF, typename Iterator>
 class FCN<Estimator<PDF,Iterator>, true>: public ROOT::Minuit2::FCNBase
 {
@@ -42,6 +47,8 @@ class FCN<Estimator<PDF,Iterator>, true>: public ROOT::Minuit2::FCNBase
 public:
 
 	typedef Iterator iterator;
+
+	FCN() = delete;
 
 	FCN(PDF const& pdf, Iterator begin, Iterator end):
 	fPDF(pdf),
@@ -87,6 +94,8 @@ public:
 		LoadFCNParameters();
 		return this;
 	}
+
+	virtual ~FCN()=default;
 
     // from Minuit2
 	double ErrorDef() const{

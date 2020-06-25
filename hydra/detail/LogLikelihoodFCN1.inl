@@ -48,6 +48,9 @@ public:
 
 	typedef void likelihood_estimator_type;
 
+	LogLikelihoodFCN()=delete;
+
+
 	/**
 	 * @brief LogLikelihoodFCN constructor for non-cached models.
 	 *
