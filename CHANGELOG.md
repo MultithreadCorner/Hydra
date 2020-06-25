@@ -32,95 +32,87 @@ See how it works:
     ...
     }
     ```  
- in the previous code snippet, wherever the object `gauss` is called, if the argument consists of one or tuples, which are the entry type of all multidimensional dataset classes in Hydra, the ``Angle``type identifier will be searched among the elements, if not found, code will not compile. If the argument is a non-tuple type, conversion will be tried. 
- Multidimensional datasets can be defined using named parameters like in the snippet below:
+ in the previous code snippet, wherever the object `gauss` is called, if the argument consists of one or tuples, which are the entry type of all multidimensional dataset classes in Hydra, the `Angle`type identifier will be searched among the elements, if not found, code will not compile. If the argument is a non-tuple type, conversion will be tried.  Multidimensional datasets can be defined using named parameters like in the snippet below:
  
- ```cpp
- 
+    ```cpp
     ...
     #include <hydra/multivector.h>
     ...
-      
+
     declvar(X, double)
     declvar(Y, double)
     declvar(Z, double)
-    
+
     int main(int argv, char** argc)
     {
         //3D device buffer
         hydra::multivector< hydra::tuple<X,Y,Z>,  hydra::device::sys_t> data(nentries);
- 
+
         ...
-        
+
         for(auto x: hydra::column<X>(data)
         {
-        
+
         std::cout << x << std::endl;
-        
+
         }
     }
- 
- ```       
+    ```       
     
-    b) Functors: as usual, it should derive from ``hydra::BaseFunctor``, defined in ``hydra/Function.h``, but now the must inform their argument type, signature and number of parameters (``hydra::Parameter``) at template instantiation time. It is also necessary to implement the ``ResultType Evaluate(ArgType...)`` method. Default constructors should be deleted, non-default and copy constructors, as well as assignments operators should be implemented as well. See how this works for ``hydra::Gaussian``:
+    b) Functors: as usual, it should derive from ``hydra::BaseFunctor``, defined in ``hydra/Function.h``, but now the must inform their argument type, signature and number of parameters (``hydra::Parameter``) at template instantiation time. It is also necessary to implement the ``ResultType Evaluate(ArgType...)`` method. Default constructors should be deleted, non-default and copy constructors, as well as assignments operators should be implemented as well. See how this works for `hydra::Gaussian`:
     
     ```cpp
     
     //implementations omited, for complete details
     //see: hydra/functions/Gaussian.h
-    
+
     template<typename ArgType, typename Signature=double(ArgType) >
     class Gaussian: public BaseFunctor<Gaussian<ArgType>, Signature, 2>
     {
-    	
+
     public:
-    
-    	Gaussian()=delete;
-    
-    	Gaussian(Parameter const& mean, Parameter const& sigma );
-    
-    	__hydra_host__ __hydra_device__
-    	Gaussian(Gaussian<ArgType> const& other );
-    
-    	__hydra_host__ __hydra_device__
-    	Gaussian<ArgType>& operator=(Gaussian<ArgType> const& other );
-    
-    	__hydra_host__ __hydra_device__
-    	inline double Evaluate(ArgType x)  const;
-    	    
+
+        Gaussian()=delete;
+
+        Gaussian(Parameter const& mean, Parameter const& sigma );
+
+        __hydra_host__ __hydra_device__
+        Gaussian(Gaussian<ArgType> const& other );
+
+        __hydra_host__ __hydra_device__
+        Gaussian<ArgType>& operator=(Gaussian<ArgType> const& other );
+
+        __hydra_host__ __hydra_device__
+        inline double Evaluate(ArgType x)  const;
+
     };
-
     ```       
-
-    c) Lambdas: Support for lambdas is updated for the new interface. The new interface is implemented 
-    in ``hydra/Lambda.h``
+    c) Lambdas: Support for lambdas is updated for the new interface. The new interface is implemented in `hydra/Lambda.h
     
-    ```cpp
-    
+    ```cpp    
     ...
     #include <hydra/multivector.h>
     #include <hydra/Lambda.h>
     ...
-      
+
     declvar(X, double)
     declvar(Y, double)
     declvar(Z, double)
-    
+
     int main(int argv, char** argc)
     {
         //3D device buffer
         hydra::multivector< hydra::tuple<X,Y,Z>,  hydra::device::sys_t> data(nentries);
- 
+
         //Lambda
         auto printer = hydra::wrap_lambda( []__hydra_dual__(X x, Y y){
-        
+
            print("x = %f y = %f", x(), y());
-        
+
         } );
-                
+
         for(auto entry: data) printer(entry);           
     }
-
     ```
 
 
