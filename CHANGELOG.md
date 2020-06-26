@@ -6,6 +6,17 @@ It is the first release of the longly  waited 3 series. Overall, this release is
 or at least to have similar performance to the previous releases. 
 There are many bug fixes and other changes across. The most significant are summarized below:
 
+#### C++14 compiliant release
+
+This release is the first C++14 compatible release. So, move the versions of NVCC, GCC, CLANG and so on, acordinaly.
+Also, set the "--std" compiler flags to "--std=c++14" for both CUDA and host compilers. 
+The first the minimal **CUDA** version has now been moved to **9.2**. 
+The support for extended C++ lambdas in CUDA is not complete. The restrictions are discussed in the page:
+
+https://docs.nvidia.com/cuda/archive/10.2/cuda-c-programming-guide/index.html#extended-lambda
+
+Hydra3 can not wrap generic lambdas in host code. If this feature is necessary, use host-only uwrapped lambdas.
+
 #### Function call interface
 
 This is probably the most impacting change in this release, making **Hydra3** series backward incompatible with the previous series.
@@ -31,98 +42,122 @@ See how it works:
     auto gauss = hydra::Gaussian<Angle>(mean, signa);
     ...
     }
-    ```  
- in the previous code snippet, wherever the object `gauss` is called, if the argument consists of one or tuples, which are the entry type of all multidimensional dataset classes in Hydra, the ``Angle``type identifier will be searched among the elements, if not found, code will not compile. If the argument is a non-tuple type, conversion will be tried. 
- Multidimensional datasets can be defined using named parameters like in the snippet below:
- 
- ```cpp
- 
+    ```
+    
+   in the previous code snippet, wherever the object `gauss` is called, if the argument consists of one or tuples, which are the entry type of all             multidimensional dataset classes in Hydra, the `Angle`type identifier will be searched among the elements, if not found, code will not compile. If the argument is a non-tuple type, conversion will be tried.  Multidimensional datasets can be defined using named parameters like in the snippet below:
+
+    ```cpp
+    
     ...
     #include <hydra/multivector.h>
     ...
-      
+     
     declvar(X, double)
     declvar(Y, double)
     declvar(Z, double)
     
     int main(int argv, char** argc)
     {
-        //3D device buffer
-        hydra::multivector< hydra::tuple<X,Y,Z>,  hydra::device::sys_t> data(nentries);
- 
-        ...
-        
-        for(auto x: hydra::column<X>(data)
-        {
-        
-        std::cout << x << std::endl;
-        
-        }
-    }
- 
- ```       
+    //3D device buffer
+    hydra::multivector< hydra::tuple<X,Y,Z>,  hydra::device::sys_t> data(nentries);
     
-    b) Functors: as usual, it should derive from ``hydra::BaseFunctor``, defined in ``hydra/Function.h``, but now the must inform their argument type, signature and number of parameters (``hydra::Parameter``) at template instantiation time. It is also necessary to implement the ``ResultType Evaluate(ArgType...)`` method. Default constructors should be deleted, non-default and copy constructors, as well as assignments operators should be implemented as well. See how this works for ``hydra::Gaussian``:
+    ...
+    
+    for(auto x: hydra::column<X>(data)
+        std::cout << x << std::endl;
+    }
+    ```       
+    
+   b) Functors: as usual, it should derive from ``hydra::BaseFunctor``, defined in ``hydra/Function.h``, but now the must inform their argument type, signature and number of parameters (``hydra::Parameter``) at template instantiation time. It is also necessary to implement the ``ResultType Evaluate(ArgType...)`` method. Default constructors should be deleted, non-default and copy constructors, as well as assignments operators should be implemented as well. See how this works for `hydra::Gaussian`:
     
     ```cpp
     
     //implementations omited, for complete details
     //see: hydra/functions/Gaussian.h
-    
+
     template<typename ArgType, typename Signature=double(ArgType) >
     class Gaussian: public BaseFunctor<Gaussian<ArgType>, Signature, 2>
     {
-    	
+    
     public:
+
+        Gaussian()=delete;
+
+        Gaussian(Parameter const& mean, Parameter const& sigma );
+
+        __hydra_host__ __hydra_device__
+        Gaussian(Gaussian<ArgType> const& other );
+
+        __hydra_host__ __hydra_device__
+        Gaussian<ArgType>& operator=(Gaussian<ArgType> const& other );
+
+        __hydra_host__ __hydra_device__
+        inline double Evaluate(ArgType x)  const;
     
-    	Gaussian()=delete;
-    
-    	Gaussian(Parameter const& mean, Parameter const& sigma );
-    
-    	__hydra_host__ __hydra_device__
-    	Gaussian(Gaussian<ArgType> const& other );
-    
-    	__hydra_host__ __hydra_device__
-    	Gaussian<ArgType>& operator=(Gaussian<ArgType> const& other );
-    
-    	__hydra_host__ __hydra_device__
-    	inline double Evaluate(ArgType x)  const;
-    	    
     };
-
-    ```       
-
-    c) Lambdas: Support for lambdas is updated for the new interface. The new interface is implemented 
-    in ``hydra/Lambda.h``
+    ```
     
-    ```cpp
+   c) Lambdas: Support for lambdas was updated to adhere the new interface. The new interface is implemented in `hydra/Lambda.h
     
+    ```cpp    
     ...
     #include <hydra/multivector.h>
     #include <hydra/Lambda.h>
     ...
-      
+
     declvar(X, double)
     declvar(Y, double)
     declvar(Z, double)
-    
+
     int main(int argv, char** argc)
     {
         //3D device buffer
         hydra::multivector< hydra::tuple<X,Y,Z>,  hydra::device::sys_t> data(nentries);
- 
+
         //Lambda
         auto printer = hydra::wrap_lambda( []__hydra_dual__(X x, Y y){
-        
+
            print("x = %f y = %f", x(), y());
-        
+
         } );
-                
+
         for(auto entry: data) printer(entry);           
     }
-
+    
     ```
+    
+#### Random number generation
 
+1. Support for analytical random number generation added for many functors added via `hydra::Distribution<FunctorType> specializations (see example `example/random/basic_distributions.inl`).
+2. Parallel filling of containers with random numbers (see example `example/random/fill_basic_distributions.inl`). 
+
+#### Phase-space generation
+
+1. Updated `hydra::Decays` container for supporting named variable idiom.
+2. Changes in `hydra::PhaseSpace`and `hydra::Decays`.
+3. hydra::Chain not supported any more.
+4. New `Meld(...)` method in `hydra::Decays` for building mixed datasets and decay chains. 
+5. Re-implemented logics for generation of events and associated weights.
+
+#### Data fitting
+
+1. Adding support to simultaneous fit.
+2. Fitting of convoluted PDFs.
+
+#### General
+Many issues solved and bugs fixed across the tree:
+
+    1. https://github.com/MultithreadCorner/Hydra/issues/91#issue-631032116
+    2. https://github.com/MultithreadCorner/Hydra/issues/90
+    3. https://github.com/MultithreadCorner/Hydra/pull/89
+    4. https://github.com/MultithreadCorner/Hydra/issues/87
+    5. https://github.com/MultithreadCorner/Hydra/issues/86
+    6. https://github.com/MultithreadCorner/Hydra/issues/82
+    7. https://github.com/MultithreadCorner/Hydra/issues/77
+   
+ and many others. 
+ 
+-------------------------
 
 ### Hydra 2.5.0
 

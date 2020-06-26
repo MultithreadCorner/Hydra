@@ -31,7 +31,7 @@ Table of Contents
 What is it?
 -----------
 
-Hydra is a C++11 compliant and header only framework designed to perform common data analysis tasks on massively parallel platforms. Hydra provides a collection of containers and algorithms commonly used in HEP data analysis, which can deploy  transparently OpenMP, CUDA and TBB enabled devices, allowing the user to re-use the same code across a large range of available multi-core CPU and accelerators. The framework design is focused on performance and precision.
+Hydra is a C++14 compliant and header only framework designed to perform common data analysis tasks on massively parallel platforms. Hydra provides a collection of containers and algorithms commonly used in HEP data analysis, which can deploy  transparently OpenMP, CUDA and TBB enabled devices, allowing the user to re-use the same code across a large range of available multi-core CPU and accelerators. The framework design is focused on performance and precision.
 
 The core algorithms follow as close as possible the implementations widely used in frameworks like ROOT and libraries
 like GSL.
@@ -44,6 +44,7 @@ Currently Hydra supports:
 * Generation of phase-space Monte Carlo samples with any number of particles in the final states. Sequential decays, calculation of integrals of models over the corresponding phase-space and production of weighted and unweighted samples, which can be flat or distributed following a model provided by the user.  
 * Sampling of multidimensional pdfs.
 * Multidimensional maximum likelihood fits using binned and unbinned data sets.
+* Multi-layered simultaneous fit of different models, over different datasets, deploying different parallelization strategies for each model.
 * Calculation of S-Plots, a popular technique for statistical unfolding of populations contributing to a sample.   
 * Evaluation of multidimensional functions over heterogeneous data sets.
 * Numerical integration of multidimensional functions using self-adaptive Monte Carlo and quadrature methods.
@@ -51,15 +52,15 @@ Currently Hydra supports:
 * Object-based interface to FFTW and CuFFT for performing Fast Fourier Transform in CPU and GPU.
 * FFT based one-dimensional convolution for arbitrary signal and kernel shapes.
 * Booststrap and real cubic spiline for datasets on CPU and GPU.
-* Sobol low discrepance sequences up to 3667 dimensions
+* Sobol low discrepance sequences up to 3667 dimensions.
 
 Hydra also provides a bunch of custom types, optimized containers and a number of algorithms and constructs to maximize performance, avoiding unnecessary usage of memory and without losing the flexibility and portability to compile and run the same code across different platforms and deployment scenarios.
 
 
-For example, just changing .cu to .cpp in any source code written only using the Hydra and standard C++11 is enough
+For example, just changing .cu to .cpp in any source code written only using the Hydra and standard C++14 is enough
 to compile your application for OpenMP or TBB compatible devices using GCC or other compiler in a machine without a NVIDIA GPU installed.
 
-In summary, by using Hydra the user can transparently typical bottle-neck calculations to a suitable parallel device and get speed-up factors ranging from dozens to hundreds.  
+In summary, by using Hydra the user can transparently implement and dispatch typical bottle-neck calculations to a suitable parallel device and get speed-up factors ranging from dozens to hundreds.  
 
 
 
@@ -67,13 +68,14 @@ Hydra and Thrust
 ----------------
 
 Hydra is implemented on top of the [Thrust library](https://thrust.github.io/) and relies strongly on Thrust's containers, algorithms and backend management systems.
-The official version of Thrust supports tuples with maximum ten elements. In order to overcome this limitation, Hydra uses the 
+The official version of Thrust supports tuples with maximum ten elements. In order to overcome this limitation, Hydra uses an
 [unofficial version, forked from the original, by Andrew Currigan and collaborators](https://github.com/andrewcorrigan/thrust-multi-permutation-iterator). 
 This version implements variadic tuples and related classes, as well as provides some additional functionality, which are missing in the official Thrust.   
+In order to keep Hydra uptodated with the latest bug-fixes and architetural improvements in Thrust, at each Hydra release, the official [Thrust library](https://thrust.github.io/) is patched with the Currigan's variadic tuple implementation. 
 
-The version of Thrust distributed with Hydra is maintained by [MultithreadCorner](https://github.com/MultithreadCorner). It is basically a fork of Currigan's repository, which was merged with the latest official release available in GitHub (Thrust 1.9.7).
+So, version of Thrust distributed with Hydra is maintained by [MultithreadCorner](https://github.com/MultithreadCorner). It is basically a fork of Currigan's repository, which was merged with the latest official release available in GitHub (Thrust 1.9.7).
 
-***Hydra does not depend or conflict with the official Thrust library distributed with the CUDA-SDK.***
+***Hydra does not depend or conflict with the official Thrust library distributed with the CUDA-SDK.*** 
 
 
 Supported Parallel Backends
@@ -97,7 +99,7 @@ nvcc  -I/path/to/Hydra -Xcompiler -fopenmp -DHYDRA_HOST_SYSTEM=OMP -DHYDRA_DEVIC
 The available "host" and "device" backends can be freely combined. 
 Two important features related to Hydra's design and the backend configuration:
 
-* If CUDA backend is not used, [NVCC and the CUDA runtime](https://developer.nvidia.com/cuda-toolkit) are not necessary. The programs can be compiled with GCC, Clang or other host compiler compatible with C++11 directly.
+* If CUDA backend is not used, [NVCC and the CUDA runtime](https://developer.nvidia.com/cuda-toolkit) are not necessary. The programs can be compiled with GCC, Clang or other host compiler compatible with C++14 support directly.
 * Programs written using only Hydra, Thrust, STL and standard c++ constructs, it means programs without any raw CUDA code or calls to the CUDA runtime API, can be compiled with NVCC, to run on CUDA backends, or a suitable host compiler to run on OpenMP , TBB and CPP backends. **Just change the source file extension from .cu to .cpp, or something else the host compiler understands.**        
 
 
@@ -134,11 +136,12 @@ Installation and requirements
 
 Hydra is a header only library, so no build process is necessary to install it. 
 Just place the `hydra` folder and its contents where your system can find it.
-The library run on Linux systems and requires at least a host compiler supporting C++11. To use NVidia's GPUs, CUDA 8 or higher is required.  
-A suite of examples demonstrating the basic features of the library are included in the `examples` folder.
+The framework runs on Linux systems and requires at least a host compiler supporting C++14. To use NVidia's GPUs, CUDA 9.2 or higher is required.  
+A suite of examples demonstrating the basic features of the framework is included in the `examples` folder.
 All the examples are organized in .inl files, which implements the `main()` function. These files are included by .cpp and .cu
 files, which are compiled according with the availability of backends. TBB and CUDA backends requires the installation of the corresponding libraries and runtimes.
 These code samples uses, but does not requires [ROOT](https://root.cern.ch/) for graphics, and [TCLAP](http://tclap.sourceforge.net/) library for process command line arguments. 
+Some functionality in Hydra requires Eigen, GSL, CuFFT and FFTW.
 
 Examples
 --------
@@ -162,10 +165,12 @@ The examples are listed below:
 4. __misc__ : multiarray_container, multivector_container, variant_types
 5. __numerical_integration__ : adaptive_gauss_kronrod, gauss_kronrod, plain_mc, vegas
 6. __phase_space__ : phsp_averaging_functor, phsp_evaluating_functor, phsp_reweighting, phsp_basic, phsp_unweighting, phsp_chain, phsp_unweighting_functor
-7. __random__ :  basic_distributions, sample_distribution
-8. __root_macros__ :  macros to run examples in ROOT
+7. __phys__ : breit_wigner_plus_chebychev,  breit_wigner_plus_polynomial, crystal_ball_plus_exponential, dalitz_plot, double_gaussian_plus_exponential, gaussian_plus_argus,
+ipatia_plus_argus, particle_mass, pseudo_experiment
+8. __random__ :  basic_distributions, sample_distribution
+9. __root_macros__ :  macros to run examples in ROOT
 
-Each compiled example executable will have an postfix (ex.: _cuda, _omp, _tbb) to indicate the deployed device backend.  
+Each compiled example executable will have an postfix (ex.:_cpp, _cuda, _omp, _tbb) to indicate the deployed device backend.  
 All examples use CPP as host backend. 
 
 
@@ -208,7 +213,7 @@ Here’s what you should do if you need help or would like to contribute:
 
 1. If you need help or would like to ask a general question, subscribe and use https://groups.google.com/forum/#!forum/hydra-library-users.
 2. If you found a bug, use GitHub issues.
-3. If you have an idea, suggestion of whatever, use GitHub issues.
+3. If you have an idea, suggestion or whatever, use GitHub issues.
 4. If you want to contribute, submit a pull request https://github.com/MultithreadCorner/Hydra.
 
 Author
@@ -219,7 +224,7 @@ Hydra was created and is maintained by [Antonio Augusto Alves Jr](https://github
 Acknowledgement
 ---------------
 
-Hydra's development has been supported by the [National Science Foundation](http://nsf.gov/index.jsp) 
+Initial Hydra's development was supported by the [National Science Foundation](http://nsf.gov/index.jsp) 
 under the grant number [PHY-1414736](http://nsf.gov/awardsearch/showAward?AWD_ID=1414736). 
 Any opinions, findings, and conclusions or recommendations expressed in this material are those of 
 the developers and do not necessarily reflect the views of the National Science Foundation.
