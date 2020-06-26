@@ -31,7 +31,7 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <hydra/Collection.h>
+
 
 namespace hydra {
 

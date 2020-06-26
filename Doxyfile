@@ -1,7 +1,6 @@
 #PROJECT_NAME          = "Hydra_examples_and_documentation"
 PROJECT_NUMBER         =  3.0.0
 
-
 STRIP_FROM_PATH        = /home/augalves/Development/Release/Hydra
  
 INPUT                  = /home/augalves/Development/Release/Hydra/hydra /home/augalves/Development/Release/Hydra/doxydefs /home/augalves/Development/Release/Hydra/examples /home/augalves/Development/Release/Hydra/README.md
