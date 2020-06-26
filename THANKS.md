@@ -11,3 +11,11 @@
 * Andrea Contu for moral support, extensive testing and bug report whn using hydra in his own projetcs. 
 * Marcos Romero for a number of contributions, from new functors to bug reports and corrections.,
 * Scott Stevenson for nicely reviewing the spelling of Readme.md. 
+
+## Hydra 3.0.0
+
+* Davide Brundu for a number of contributions, from new functionality to bug reports and corrections.
+* Andrea Contu always for the moral support, extensive testing and bug report whn using hydra in his own projetcs. 
+* Angelo di Canto, for the support, testing and skype based bug report.
+
+
