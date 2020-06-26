@@ -165,7 +165,7 @@ The filling functions can be called also with a specific backend policy and with
 
 #### Data fitting
 
-1. Added support to simultaneous fit. A new specialization of the FCN class has been developed in order to load information from a generic number of already existing instances of `Estimators` (for example `loglikelihoodFCN` instances) and dispatch, in parallel, the evaluation of each pdfs over their corresponding datasets. Thus, to perform the simultaneous fit, no categorization of the dataset is needed, but just to set up preliminarly the different FCNs, and subsequentally build up the simultaneous FCN object. The latter procedure can be done in a generic and simple way by calling the convenience function `hydra::make_simultaneous_fcn(...)`, as shown in the following snippet. Moreover, the generic interface allows to build up a simultaneous FCN object by composing usual FCNs and simultaneous FCNs. An example of such new method can be found in `examples/fit/simultaneous_fit.inl`.
+1. Added support to multi-layered simultaneous fit of different models, over different datasets, deploying different parallelization strategies for each model. No categorization of the dataset is needed, but just to set up preliminarly the different component FCNs, that can be optimized in isolation or in the context of the simultaneous FCN. Simultaneous FCNs can be created via direct instantiation or using the convenience function `hydra::make_simultaneous_fcn(...)`, as shown in the following snippet.
 
     ```cpp
     ...
@@ -186,6 +186,7 @@ The filling functions can be called also with a specific backend policy and with
     ...
     }
     ```
+ Moreover, the generic interface allows to build up a simultaneous FCN object by composing usual FCNs and simultaneous FCNs. An example of such new method can be found in `examples/fit/simultaneous_fit.inl`.
 
 2. Fitting of convoluted PDFs.
 
