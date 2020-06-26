@@ -128,8 +128,32 @@ See how it works:
     
 #### Random number generation
 
-1. Support for analytical random number generation added for many functors added via `hydra::Distribution<FunctorType> specializations (see example `example/random/basic_distributions.inl`).
-2. Parallel filling of containers with random numbers (see example `example/random/fill_basic_distributions.inl`). 
+1. Support for analytical pseudo-random number generation (APRNG) added for many functors added via `hydra::Distribution<FunctorType>` specializations (see example `example/random/basic_distributions.inl`).
+2. Parallel filling of containers with random numbers (see example `example/random/fill_basic_distributions.inl`). In particular, there are some convenience functions in order to deploy in a generic and simple way the parallel filling of containers transparently, independently of the back-end. For a given instance of the functor of interest, the framework is informed of the presence of the APRNG method in compile time. If the APRNG 
+is not found a compile error is emitted, informing and suggesting the user to use the `hydra::sample` interface, which implements a different filling strategy. The facility is decoupled from the underlying PRNG engine, in order to be compatible with the current pseudo-random engines already imlemented in Hydra, and future algorithms that will be made available over the time. If the user needs to use a specific PRNG engine, its type can be passed as template parameter to the convenience function, otherwise the `hydra_thrust::default_random_engine` is used. As an example of filling of containers with random numbers see the snippet below:
+
+    ```cpp
+    ...
+    #include <hydra/functions/Gaussian.h>
+    ...
+    
+    declvar(Xvar, double)
+    
+    int main(int argv, char** argc)
+    {
+    ...
+    
+    auto gauss  = hydra::Gaussian<Xvar>(mean, signa);
+    
+    auto data_d = hydra::device::vector<Xvar>(nentries);
+
+    hydra::fill_random(data_d , gauss);
+
+    ...
+    }
+    ```
+The filling functions can be called also with a specific backend policy and with iterators instead of the whole container. The seed used by the PRNG engine can be also passed to the function as last parameter. The collection of all the convenience functions can be found in `hydra/RandomFill.h`.
+
 
 #### Phase-space generation
 
