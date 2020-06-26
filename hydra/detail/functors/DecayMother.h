@@ -37,7 +37,7 @@
 //hydra
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <hydra/Containers.h>
+
 #include <hydra/Vector3R.h>
 #include <hydra/Vector4R.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
@@ -163,7 +163,7 @@ struct DecayMother
 	GReal_t process(size_t evt, Vector4R (&daugters)[N])
 	{
 
-		GRND randEng;//(  );
+		GRND randEng(fSeed);
 		randEng.discard(evt+3*N);
 		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 

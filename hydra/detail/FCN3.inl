@@ -41,7 +41,10 @@
 
 namespace hydra {
 
-
+/**
+ * \ingroup fit
+ * \tparam Estimators estimator base classes
+ */
 template<typename ...ESTIMATORS>
 class FCN< hydra_thrust::tuple<FCN<ESTIMATORS>...>, false >:public ROOT::Minuit2::FCNBase
 {
@@ -52,6 +55,7 @@ public:
 
 	enum { nfcns = hydra_thrust::tuple_size<hydra_thrust::tuple<FCN<ESTIMATORS>...>>::value};
 
+	FCN() = delete;
 
 	FCN( FCN<ESTIMATORS>const&... fcns):
 		fErrorDef(0.5),
@@ -73,6 +77,7 @@ public:
 		LoadFCNParameters();
 	}
 
+    virtual ~FCN()=default;
 
 	FCN<hydra_thrust::tuple<FCN<ESTIMATORS>...>, false >&
 	operator=(FCN<hydra_thrust::tuple<FCN<ESTIMATORS>...>, false > const& other)

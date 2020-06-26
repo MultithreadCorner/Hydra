@@ -60,7 +60,7 @@
 
 /*---------------------------------
  * Include hydra classes and
- * algorithms for
+ * algorithms for/Containers.h
  *--------------------------------
  */
 #include <hydra/Types.h>

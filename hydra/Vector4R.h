@@ -55,7 +55,8 @@ namespace hydra {
  * This class is inspired on the corresponding EvtGen classes.
  *
  */
-class Vector4R
+
+class __hydra_align__(16) Vector4R
 {
 
 	__hydra_host__      __hydra_device__      inline friend Vector4R operator*(GReal_t d,
@@ -134,7 +135,6 @@ private:
 	}
 
 
-	_DeclareStorable(Vector4R, v[0], v[1] , v[2], v[3])
 };
 
 __hydra_host__ __hydra_device__

@@ -45,15 +45,28 @@
 #include <hydra/Function.h>
 #include <hydra/Lambda.h>
 #include <hydra/Tuple.h>
-#include <hydra/multiarray.h>
+#include <hydra/multivector.h>
 #include <hydra/Placeholders.h>
 #include <hydra/Random.h>
 #include <hydra/Algorithm.h>
 #include <hydra/DenseHistogram.h>
+#include <hydra/Zip.h>
 
 //command line arguments
 #include <tclap/CmdLine.h>
 
+
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
+
+declarg(AxisX, double)
+declarg(AxisY, double)
+declarg(AxisZ, double)
+declarg(Rho  , double)
+
+
+using namespace hydra::arguments;
 using namespace hydra::placeholders;
 
 int main(int argv, char** argc)
@@ -81,22 +94,16 @@ int main(int argv, char** argc)
 
 
 	// calculate the length of a n-dimensional vector
-	auto length = hydra::wrap_lambda(
-			[] __hydra_dual__ ( unsigned  n, const double* component){
+	auto length = hydra::wrap_lambda([] __hydra_dual__ (AxisX x, AxisY y) {
 
-		double result =0;
-
-		for(unsigned i=0; i<n; i++)
-			result += component[i]* component[i];
-
-		return ::sqrt(result);
+		return Rho(::sqrt( x*x + y*y));
 	});
 
 	// flag according distance to origin
 	auto is_inside =  hydra::wrap_lambda(
-			[] __hydra_dual__ (  unsigned n, const double* radi){
+			[] __hydra_dual__ (Rho r){
 
-		return radi[0]<1.0;
+		return   r > 1.0 ;
 	});
 
 	//device
@@ -106,45 +113,57 @@ int main(int argv, char** argc)
 		std::cout << "=========================================="<<std::endl;
 
 
-		hydra::multiarray<double, 3, hydra::device::sys_t> positions(nentries);
+		hydra::multivector<hydra::tuple<AxisX, AxisY, AxisZ>, hydra::device::sys_t> positions(
+				hydra::zip(
+				hydra::random_uniform_range(-1.5, 1.5, 753, nentries),
+				hydra::random_uniform_range(-1.5, 1.5, 123, nentries),
+				hydra::random_uniform_range(-1.5, 1.5, 789, nentries))
+		 );
+		std::cout  << std::endl<< std::endl<< std::endl;
+		std::cout  << std::endl<<"hydra::sort_by_key" <<std::endl<< std::endl;
+		for(auto i : positions) {
+			if(is_inside(length(i))) std::cout << "\033[1;31m" << i << ", ";
+			else  std::cout << "\033[1;33m" << i << ", ";
+		}  std::cout <<"\033[0m\n";
 
-		hydra::Random<> Generator{};
+		auto sorted_range = hydra::sort_by_key(positions, hydra::columns(positions, _0,_1 ) | length | is_inside )  ;
 
-		//generate random positions in a box
-		for(size_t i=0; i<3; i++ ){
+		std::cout  << std::endl<< std::endl<< std::endl;
 
-			Generator.SetSeed(i);
-			Generator.Uniform(-1.5, 1.5, positions.begin(i), positions.end(i));
+		for(auto i : positions) {
+			if( is_inside(length(i)) ) std::cout << "\033[1;31m" << i << ", ";
+			else  std::cout << "\033[1;33m" << i << ", ";
+		}  std::cout <<"\033[0m\n";
 
-		}
+		std::cout  << std::endl<< std::endl<< std::endl;
+		std::cout  << std::endl<<"hydra::for_each" <<std::endl<< std::endl;
+		hydra::for_each(positions, hydra::wrap_lambda(
+				[ is_inside, length ] __hydra_dual__ (AxisX x, AxisY y, AxisZ z ){
 
-		auto sorted_range = hydra::sort_by_key(positions, hydra::columns(positions, _0,_1 ) | length ) | is_inside;
+			if( !is_inside(length(x, y)) ){
+				printf(ANSI_COLOR_RED "Inside: %f %f %f\n " ANSI_COLOR_RESET, x(), y(), z());
+			}
+			else {
+				printf(ANSI_COLOR_GREEN "Outside %f %f %f\n " ANSI_COLOR_RESET, x(), y(), z());
+			}
 
-		//hydra::for_each(positions, [] __hydra_dual__ ( hydra::tuple<double&, double&, double&> a){ a= hydra::tuple<double, double, double>{1,2,3}; } );
+		}));
 
-		for(auto i:sorted_range) std::cout << i << std::endl;
-
-		hydra::for_each(positions, [] __hydra_dual__ ( hydra::tuple<double, double, double> a){
-
-			printf("%f %f %f\n", hydra::get<0>(a),hydra::get<1>(a), hydra::get<2>(a));
-
-		});
 
 		std::array<double, 3> masses{0.13957061, 0.13957061,0.13957061};
 
-		auto events =  hydra::phase_space_range(hydra::Vector4R(0.493677, 0.0, 0.0, 0.0),masses, 100000);
+		auto events =  hydra::phase_space_range(hydra::Vector4R(0.493677, 0.0, 0.0, 0.0), masses, 321,nentries );
 
 		auto invariant_mass = hydra::wrap_lambda(
-				[]__hydra_dual__( hydra::tuple<double, hydra::Vector4R, hydra::Vector4R, hydra::Vector4R> event ){
+				[]__hydra_dual__( double Weights, hydra::Vector4R A, hydra::Vector4R B, hydra::Vector4R C){
 
-			return (hydra::get<1>(event) + hydra::get<2>(event)).mass();
+			return (A + B).mass();
 		});
 
-		hydra::DenseHistogram<double,1, hydra::device::sys_t> Hist_Mass(100, masses[0]+masses[1], 0.493677 - masses[0]);
+		hydra::DenseHistogram<double,1, hydra::device::sys_t> Hist_Mass(10, masses[0]+masses[1], 0.493677 - masses[0]);
 
-		hydra::for_each( Hist_Mass.Fill( events|invariant_mass ), [] __hydra_dual__ ( double a){
-					printf("%f\n", a);
-				});
+		hydra::for_each( Hist_Mass.Fill( events | invariant_mass ),
+				 hydra::wrap_lambda( [] __hydra_dual__ ( double a){ printf("%f, ", a); } ) );
 
 
 	}//device

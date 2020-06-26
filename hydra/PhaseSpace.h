@@ -35,7 +35,6 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/detail/IteratorTraits.h>
 #include <hydra/Types.h>
-#include <hydra/Containers.h>
 #include <hydra/detail/functors/FlagAcceptReject.h>
 #include <hydra/detail/functors/IsAccepted.h>
 #include <hydra/detail/utility/Generic.h>

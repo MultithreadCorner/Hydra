@@ -42,8 +42,7 @@ template<class PDF, typename T= hydra_thrust::void_t<>  >
 struct is_hydra_pdf: std::false_type {};
 
 template<class T>
-struct is_hydra_pdf<T, hydra_thrust::void_t<
-         typename T::hydra_pdf_type> >: std::true_type {};
+struct is_hydra_pdf<T, hydra_thrust::void_t<typename T::hydra_pdf_type> > : std::true_type {};
 
 }  // namespace detail
 

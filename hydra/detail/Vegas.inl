@@ -31,7 +31,7 @@
 //#define VEGAS_INL_
 
 #include <hydra/detail/Config.h>
-#include <hydra/Containers.h>
+
 #include <hydra/Types.h>
 #include <hydra/VegasState.h>
 #include <hydra/detail/utility/StreamSTL.h>
@@ -105,7 +105,7 @@ Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::IntegIterator(FUNCTOR con
 		if (fState.GetMode() != MODE_IMPORTANCE_ONLY) {
 			/* shooting for 2 calls/box */
 
-			boxes = floor( pow(fState.GetCalls(training )/2.0, 1.0 / N ));
+			boxes = floor( ::pow(fState.GetCalls(training )/2.0, 1.0 / N ));
 		//	if(boxes==1) boxes++;
 		//	std::cout << "boxes  " << boxes << " bins " <<fState.GetNBinsMax()<< std::endl;
 
@@ -114,13 +114,13 @@ Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::IntegIterator(FUNCTOR con
 		}
 
 
-		/*size_t*/GReal_t tot_boxes = pow( (GReal_t)boxes,  N);
+		/*size_t*/GReal_t tot_boxes = ::pow( (GReal_t)boxes,  N);
 		fState.SetCallsPerBox(std::max(  GInt_t(fState.GetCalls(training ) / tot_boxes), 2) );
 		fState.SetCalls( training , fState.GetCallsPerBox() * tot_boxes);
 		//std::cout << "fState.GetCalls "<< fState.GetCalls()<< std::endl;
 
 		/* total volume of x-space/(avg num of calls/bin) */
-		fState.SetJacobian( fState.GetVolume() * pow((GReal_t) bins, (GReal_t)N)/ fState.GetCalls(training) );
+		fState.SetJacobian( fState.GetVolume() * ::pow((GReal_t) bins, (GReal_t)N)/ fState.GetCalls(training) );
 
 		//std::cout << "fState.GetVolume() " << fState.GetVolume() << std::endl;
 
@@ -204,7 +204,7 @@ Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::IntegIterator(FUNCTOR con
 
 			intgrl_sq = intgrl * intgrl;
 
-			sig = sqrt(var);
+			sig = ::sqrt(var);
 
 
 			if (wgt > 0.0) {
@@ -220,7 +220,7 @@ Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::IntegIterator(FUNCTOR con
 				fState.SetChiSum(fState.GetChiSum()  + intgrl_sq * wgt );
 
 				cum_int = fState.GetWeightedIntSum() / fState.GetSumOfWeights();
-				cum_sig = sqrt(1.0/fState.GetSumOfWeights() );
+				cum_sig = ::sqrt(1.0/fState.GetSumOfWeights() );
 
 #if USE_ORIGINAL_CHISQ_FORMULA
 
@@ -558,7 +558,7 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::RefineGrid() {
 				{
 					oldg = grid_tot_j / GetDistributionValue( i, j);
 					/* damped change */
-					fState.SetWeight(i,pow (((oldg - 1) / oldg / log (oldg)), fState.GetAlpha() ));
+					fState.SetWeight(i,::pow (((oldg - 1) / oldg / ::log (oldg)), fState.GetAlpha() ));
 				}
 
 				tot_weight += fState.GetWeight()[i];
@@ -640,7 +640,7 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::ProcessFuncionCalls(
 
 	hydra_thrust::copy( fFValOutput.begin(), end_iterators.second, fState.GetDistribution().begin());
 	integral=result.fMean*result.fN  ;
-	tss=sqrt( result.fM2 );
+	tss=::sqrt( result.fM2 );
 
 
 }

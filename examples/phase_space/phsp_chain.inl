@@ -74,6 +74,7 @@
 #include <hydra/device/System.h>
 #include <hydra/DenseHistogram.h>
 #include <hydra/Placeholders.h>
+#include <hydra/multivector.h>
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -109,7 +110,7 @@ declarg(M13Sq, double)
 declarg(M23Sq, double)
 declarg(CosTheta, double)
 declarg(DeltaPhi, double)
-
+declarg(Weight, double)
 
 using namespace hydra::placeholders;
 using namespace hydra::arguments;
@@ -256,15 +257,26 @@ int main(int argv, char** argc)
 		for( size_t i=0; i<10; i++ )
 			std::cout <<"Weight {"<< weights[i]  << "} | Event { " << chain[i]<< " }" << std::endl;
 
+
+
 #ifdef 	_ROOT_AVAILABLE_
-		for( size_t i=0; i<nentries; i++ )
+		//bring the data to host memory to fill the histograms faster
+		hydra::multivector< hydra::tuple<M13Sq, M23Sq, CosTheta, DeltaPhi>, hydra::host::sys_t> variables(chain.size());
+		hydra::copy( chain, variables);
+
+		hydra::host::vector<Weight> Weights(chain.size());
+		hydra::copy(weights, Weights );
+
+		auto dataset = variables.meld(Weights);
+
+
+		for( auto entry: dataset )
 		{
-			double weight = weights[i];
-			auto   event  = chain[i];
-			M13Sq M2_13   = hydra::get<M13Sq>(event);
-			M23Sq M2_23   = hydra::get<M23Sq>(event);
-			CosTheta cosTheta = hydra::get<CosTheta>(event);
-			DeltaPhi deltaPhi = hydra::get<DeltaPhi>(event);
+			M13Sq M2_13       = hydra::get<M13Sq&>(entry);
+			M23Sq M2_23       = hydra::get<M23Sq&>(entry);
+			CosTheta cosTheta = hydra::get<CosTheta&>(entry);
+			DeltaPhi deltaPhi = hydra::get<DeltaPhi&>(entry);
+            Weight weight     = hydra::get<Weight&>(entry);
 
 			DalitzHist.Fill(M2_13, M2_23, weight );
 			CosThetaHist.Fill(cosTheta, weight );

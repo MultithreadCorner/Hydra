@@ -69,6 +69,8 @@
 #include <hydra/functions/Gaussian.h>
 #include <hydra/functions/Exponential.h>
 #include <hydra/multiarray.h>
+#include <hydra/multivector.h>
+#include <hydra/RandomFill.h>
 
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
@@ -100,7 +102,11 @@
 
 
 using namespace ROOT::Minuit2;
-using namespace hydra::placeholders;
+using namespace hydra::placeholders;using namespace hydra::arguments;
+
+
+declarg(_X, double)
+declarg(_Y, double)
 
 int main(int argv, char** argc)
 {
@@ -130,8 +136,6 @@ int main(int argv, char** argc)
     double min   =  0.0;
     double max   =  10.0;
 
-	//generator
-	hydra::Random<> Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
 	//----------------------
     //fit model
@@ -141,15 +145,15 @@ int main(int argv, char** argc)
 	// sigma of gaussian
 	hydra::Parameter  sigma_p = hydra::Parameter::Create().Name("Sigma").Value(0.5).Error(0.0001).Limits(0.01, 1.5);
 
-    auto gaussian = hydra::Gaussian<0>(mean_p, sigma_p);
+    auto gaussian = hydra::Gaussian<_X>(mean_p, sigma_p);
 
     //--------------------------------------------
     //exponential
     //parameters
     // tau of the exponential
-    hydra::Parameter  tau_p  = hydra::Parameter::Create().Name("Tau").Value(0.0) .Error(0.0001).Limits(-10.0, 10.0);
+    hydra::Parameter  tau_p  = hydra::Parameter::Create().Name("Tau").Value(0.005) .Error(0.0001).Limits(-10.0, 10.0);
 
-    auto exponential =  hydra::Exponential<0>(tau_p);
+    auto exponential =  hydra::Exponential<_X>(tau_p);
 
     //------------------
     //yields
@@ -175,42 +179,63 @@ int main(int argv, char** argc)
 	    //make model
 
 		//convert functors to pdfs
-		auto Gauss_PDF = hydra::make_pdf(gaussian  , hydra::AnalyticalIntegral<hydra::Gaussian<0>>(min,  max));
-		auto    Exp_PDF = hydra::make_pdf(exponential, hydra::AnalyticalIntegral<hydra::Exponential<0>>(min,  max));
+		auto Gauss_PDF = hydra::make_pdf(gaussian  , hydra::AnalyticalIntegral<hydra::Gaussian<_X>>(min,  max));
+		auto   Exp_PDF = hydra::make_pdf(exponential, hydra::AnalyticalIntegral<hydra::Exponential<_X>>(min,  max));
 
 		auto model = hydra::add_pdfs({ N_Gauss_p, N_Exp_p }, Gauss_PDF, Exp_PDF);
 
 		model.SetExtended(1);
 
 		//1D data containers
-		hydra::multiarray<double,2,  hydra::device::sys_t> data_d(2*nentries);
-		hydra::multiarray<double,2,  hydra::host::sys_t>   data_h(2*nentries);
+		hydra::multivector<hydra::tuple<_X, _Y>,  hydra::device::sys_t> data_d(2*nentries);
+		hydra::multivector<hydra::tuple<_X, _Y>,  hydra::host::sys_t>   data_h(2*nentries);
 
 		//-------------------------------------------------------
 		// Generate toy data
 
-		//first component: [Gaussian] x [Exponential]
+		//------------------------------------------------------------------
+		//first component-> [_X:Gaussian]  x [_Y:Exponential]
 		// gaussian
-		Generator.Gauss(mean_p.GetValue()+2.5, sigma_p.GetValue()+0.5, data_d.begin(0), data_d.begin(0)+nentries);
+
+		gaussian.SetParameter( "Mean", 2.5);
+		gaussian.SetParameter( "Sigma", 0.5);
+
+		hydra::fill_random(data_d.begin<_X>(), data_d.begin<_X>()+nentries, gaussian);
 
 		// exponential
 
-		Generator.Exp(tau_p.GetValue()+1.0, data_d.begin(1),  data_d.begin(1)+nentries);
+		exponential.SetParameter("Tau",  3.0);
 
-		//second component: [Exponential] -> [Gaussian]
-		// gaussian
-		Generator.Gauss(mean_p.GetValue()-1.0, 0.5, data_d.begin(1) + nentries, data_d.begin(1) + nentries + nentries/2);
-		Generator.Gauss(mean_p.GetValue()+4.5, 0.5, data_d.begin(1) + nentries + nentries/2, data_d.end(1));
+		hydra::fill_random(data_d.begin<_Y>(), data_d.begin<_Y>()+nentries, exponential,6541);
+
+		//------------------------------------------------------------------
+		//second component: [_X:Exponential] X [_Y:Gaussian] + [_Y:Gaussian]
+
+		// gaussian + gaussian
+		gaussian.SetParameter( "Mean", 3.5 );
+		gaussian.SetParameter( "Sigma", 0.5 );
+
+		hydra::fill_random(data_d.begin<_Y>() + nentries, data_d.begin<_Y>() + 3*nentries/2, gaussian,159);
+
+		gaussian.SetParameter( "Mean", 6.5 );
+		gaussian.SetParameter( "Sigma", 0.5 );
+
+		hydra::fill_random(data_d.begin<_Y>() + 3*nentries/2, data_d.begin<_Y>() + 2*nentries, gaussian,753);
 
 		// exponential
-		Generator.Exp(tau_p.GetValue()+5.0, data_d.begin(0)+nentries,  data_d.end(0));
+		exponential.SetParameter("Tau", exponential.Parameter("Tau").Value(5.0) );
+
+		hydra::fill_random(data_d.begin<_X>()+nentries, data_d.end<_X>(), exponential);
+
+		//=========================================================
 
 		std::cout<< std::endl<< "Generated data:"<< std::endl;
 		for(size_t i=0; i<10; i++)
-			std::cout << "[" << i << "] :" << data_d[i] << std::endl;
+			std::cout << "["  << i << "] :"
+			          << data_d[i] << std::endl;
 
 		//-------------------------------------------------------
-		// Bring data to host and suffle it to avoid biases
+		// Bring data to host, suffle and send back to device
 
 		hydra::copy(data_d,   data_h);
 
@@ -225,12 +250,12 @@ int main(int argv, char** argc)
 			std::cout << "[" << i << "] :" << data_d[i] << std::endl;
 
 		//filtering
-		auto FILTER = [=] __hydra_dual__ (unsigned int n, double* x){
-			return (x[0] > min) && (x[0] < max );
+		auto FILTER = [min, max] __hydra_dual__ (_X x){
+			return (x > min) && (x < max );
 		};
 
 		auto filter = hydra::wrap_lambda(FILTER);
-		auto range  = hydra::apply_filter(data_d,  filter);
+		auto range  = hydra::filter(data_d,  filter);
 
 		std::cout<< std::endl<< "Filtered data:"<< std::endl;
 		for(size_t i=0; i<10; i++)
@@ -238,7 +263,7 @@ int main(int argv, char** argc)
 
 
 		//make model and fcn
-		auto fcn   = hydra::make_loglikehood_fcn(model, range.begin(), range.end() );
+		auto fcn   = hydra::make_loglikehood_fcn(model, range );
 
 		//-------------------------------------------------------
 		//fit

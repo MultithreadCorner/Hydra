@@ -119,6 +119,13 @@
 #endif //_ROOT_AVAILABLE_
 
 using namespace ROOT::Minuit2;
+using namespace hydra::arguments;
+//---------------------------
+// Daughter particles
+
+declarg(P1, hydra::Vector4R)
+declarg(P2, hydra::Vector4R)
+declarg(P3, hydra::Vector4R)
 
 int main(int argv, char** argc)
 {
@@ -157,24 +164,35 @@ int main(int argv, char** argc)
     //__________________________________________________
 	//device
 
-	TH3D Dalitz_FLAT("Dalitz_Flat", "Flat Dalitz;M^{2}(J/psi K) [GeV^{2}/c^{4}];M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
+	TH3D Dalitz_FLAT("Dalitz_Flat",
+			"Flat Dalitz;"
+			"M^{2}(J/psi K) [GeV^{2}/c^{4}];"
+			"M^{2}(J/psi #pi) [GeV^{2}/c^{4}];"
+			"M^{2}(K #pi) [GeV^{2}/c^{4}]",
 			100, pow(Jpsi_mass + K_mass,2) , pow(B0_mass - pi_mass,2),
 			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
 			100, pow(K_mass + pi_mass,2)   , pow(B0_mass - Jpsi_mass,2));
 
-	TH3D Dalitz_BW("Dalitz_BW", "Breit-Wigner Dalitz;M^{2}(J/psi K) [GeV^{2}/c^{4}];M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
+	TH3D Dalitz_BW("Dalitz_BW",
+			"Breit-Wigner Dalitz;"
+			"M^{2}(J/psi K) [GeV^{2}/c^{4}];"
+			"M^{2}(J/psi #pi) [GeV^{2}/c^{4}];"
+			" M^{2}(K #pi) [GeV^{2}/c^{4}]",
 			100, pow(Jpsi_mass + K_mass,2) , pow(B0_mass - pi_mass,2),
 			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
 			100, pow(K_mass + pi_mass,2)   , pow(B0_mass - Jpsi_mass,2));
 
-	TH3D Dalitz_FIT("Dalitz_FIT", "Fit result;M^{2}(J/psi K) [GeV^{2}/c^{4}];M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
+	TH3D Dalitz_FIT("Dalitz_FIT",
+			"Fit result;"
+			"M^{2}(J/psi K) [GeV^{2}/c^{4}];"
+			"M^{2}(J/psi #pi) [GeV^{2}/c^{4}];"
+			"M^{2}(K #pi) [GeV^{2}/c^{4}]",
 			100, pow(Jpsi_mass + K_mass,2) , pow(B0_mass - pi_mass,2),
 			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
 			100, pow(K_mass + pi_mass,2)   , pow(B0_mass - Jpsi_mass,2));
 
 #endif
 
-	typedef hydra::tuple<double, hydra::Vector4R, hydra::Vector4R, hydra::Vector4R> event_type;
 
 	hydra::Vector4R B0(B0_mass, 0.0, 0.0, 0.0);
 
@@ -182,12 +200,7 @@ int main(int argv, char** argc)
 	hydra::PhaseSpace<3> phsp(B0_mass,{Jpsi_mass, K_mass, pi_mass });
 
 	// functor to calculate the 2-body masses
-	auto dalitz_calculator = hydra::wrap_lambda(
-			[] __hydra_dual__ ( unsigned int n, hydra::Vector4R* particles ){
-
-            auto p1 = hydra::get<0>(particles);
-            auto p2 = hydra::get<1>(particles);
-            auto p3 = hydra::get<2>(particles);
+	auto dalitz_calculator = hydra::wrap_lambda( [] __hydra_dual__ ( P1 p1, P2 p2, P3 p3){
 
 			double   MSq_12 = (p1+p2).mass2();
 			double   MSq_13 = (p1+p3).mass2();
@@ -207,15 +220,10 @@ int main(int argv, char** argc)
 
 	// fit functor (breit-wigner)
 	auto breit_wigner = hydra::wrap_lambda(
-			[] __hydra_dual__ (unsigned int npar, const hydra::Parameter* params,
-					unsigned int n, hydra::Vector4R* particles ){
+			[] __hydra_dual__ (unsigned int npar, const hydra::Parameter* params, P1 p1, P2 p2, P3 p3 ){
 
 		double mass  = params[0];
 		double width = params[1];
-
-		auto p1 = hydra::get<0>(particles);
-		auto p2 = hydra::get<1>(particles);
-		auto p3 = hydra::get<2>(particles);
 
 		auto   m = (p2+p3).mass();
 
@@ -229,18 +237,18 @@ int main(int argv, char** argc)
 
 
 	auto model = hydra::make_pdf( breit_wigner,
-			hydra::PhaseSpaceIntegrator<3, hydra::device::sys_t>(B0_mass, {Jpsi_mass, K_mass, pi_mass }, 1000000));
+			hydra::PhaseSpaceIntegrator<3, hydra::device::sys_t>(B0_mass, {Jpsi_mass, K_mass, pi_mass }, 100000));
 
 	//scoped calculations to save memory
 	{
 
 		//allocate memory to hold the final states particles
-		hydra::Decays<3, hydra::device::sys_t > Events_d(nentries);
+		hydra::Decays<hydra::tuple<P1, P2, P3>, hydra::device::sys_t > Events(B0_mass, {Jpsi_mass, K_mass, pi_mass },nentries);
 
 		//generate events
 		auto start = std::chrono::high_resolution_clock::now();
 		//generate the final state particles
-		phsp.Generate(B0, Events_d.begin(), Events_d.end());
+		phsp.Generate(B0, Events.begin(), Events.end());
 
 		auto end = std::chrono::high_resolution_clock::now();
 
@@ -258,11 +266,11 @@ int main(int argv, char** argc)
 
 		std::cout << "<======= Flat [Weighted sample] =======>"<< std::endl;
 		for( size_t i=0; i<10; i++ )
-			std::cout << Events_d[i] << std::endl;
+			std::cout << Events[i] << std::endl;
 
 
-		auto dalitz_variables = Events_d.GetUnweightedDecays() | dalitz_calculator ;
-		auto dalitz_weights   = Events_d.GetWeights();
+		auto dalitz_variables = Events | dalitz_calculator ;
+		auto dalitz_weights   = Events | Events.GetEventWeightFunctor();
 
 		std::cout << std::endl<< std::endl;
 
@@ -296,10 +304,11 @@ int main(int argv, char** argc)
 
 						for(auto entry : Hist_Temp)
 						{
-							size_t bin     = hydra::get<0>(entry);
 							double content = hydra::get<1>(entry);
 							unsigned int bins[3];
-							Hist_Temp.GetIndexes(bin, bins);
+
+							Hist_Temp.GetIndexes(  hydra::get<0>(entry), bins);
+
 							Dalitz_FLAT.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
 
 						}
@@ -309,10 +318,10 @@ int main(int argv, char** argc)
 
 					for(auto entry : Hist_Flat_Dalitz)
 					{
-						size_t bin     = hydra::get<0>(entry);
 						double content = hydra::get<1>(entry);
 						unsigned int bins[3];
-						Hist_Flat_Dalitz.GetIndexes(bin, bins);
+
+						Hist_Flat_Dalitz.GetIndexes(hydra::get<0>(entry) , bins);
 						Dalitz_FLAT.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
 
 					}
@@ -326,10 +335,7 @@ int main(int argv, char** argc)
 		breit_wigner.SetParameter(1, 0.04730 );
 
 		//reorder the container match the shape breit-wigner shape
-		auto sample_size         = Events_d.Unweight( breit_wigner, 1.0).size();
-		Events_d.erase(Events_d.begin() + sample_size, Events_d.end());
-
-		auto breit_wigner_sample = Events_d.GetUnweightedDecays()  ;
+		auto breit_wigner_sample   = Events.Unweight( breit_wigner, -1.0, 159753);
 
 		std::cout << std::endl<< std::endl;
 
@@ -359,10 +365,10 @@ int main(int argv, char** argc)
 
 						for(auto entry : Hist_Temp)
 						{
-							size_t bin     = hydra::get<0>(entry);
 							double content = hydra::get<1>(entry);
 							unsigned int bins[3];
-							Hist_Temp.GetIndexes(bin, bins);
+
+							Hist_Temp.GetIndexes(hydra::get<0>(entry), bins);
 							Dalitz_BW.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
 
 						}
@@ -372,10 +378,10 @@ int main(int argv, char** argc)
 
 					for(auto entry : Hist_BW_Dalitz)
 					{
-						size_t bin     = hydra::get<0>(entry);
 						double content = hydra::get<1>(entry);
 						unsigned int bins[3];
-						Hist_BW_Dalitz.GetIndexes(bin, bins);
+
+						Hist_BW_Dalitz.GetIndexes(hydra::get<0>(entry) , bins);
 						Dalitz_BW.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
 
 					}
@@ -414,15 +420,16 @@ int main(int argv, char** argc)
 		//print parameters after fitting
 		std::cout<<"minimum: "<<minimum_d<<std::endl;
 
-		//generate an idependent sample for plotting
+		//generate an independent sample for plotting
 		//allocate memory to hold the final states particles
-		hydra::Decays<3, hydra::device::sys_t > DisplayEvents(nentries);
-		phsp.SetSeed( std::chrono::system_clock::now().time_since_epoch().count() );
-		phsp.Generate(B0, DisplayEvents.begin(), DisplayEvents.end());
-		DisplayEvents.Reweight( fcn.GetPDF().GetFunctor() );
+		hydra::Decays<hydra::tuple<P1, P2, P3>, hydra::device::sys_t > DisplayEvents(B0_mass, {Jpsi_mass, K_mass, pi_mass },nentries);
 
-		auto fitted_dalitz_variables = DisplayEvents.GetUnweightedDecays() | dalitz_calculator;
-		auto fitted_dalitz_weights   = DisplayEvents.GetWeights();
+		phsp.SetSeed( std::chrono::system_clock::now().time_since_epoch().count() );
+
+		phsp.Generate(B0, DisplayEvents);
+
+		auto fitted_dalitz_variables = DisplayEvents | dalitz_calculator;
+		auto fitted_dalitz_weights   = DisplayEvents | DisplayEvents.GetEventWeightFunctor( fcn.GetPDF().GetFunctor() );
 
 		//fitted dalitz histogram
 		hydra::SparseHistogram<double, 3,  hydra::device::sys_t> Hist_Fit_Dalitz{
@@ -445,10 +452,11 @@ int main(int argv, char** argc)
 
 						for(auto entry : Hist_Temp)
 						{
-							size_t bin     = hydra::get<0>(entry);
+
 							double content = hydra::get<1>(entry);
 							unsigned int bins[3];
-							Hist_Temp.GetIndexes(bin, bins);
+
+							Hist_Temp.GetIndexes( hydra::get<0>(entry) , bins);
 							Dalitz_FIT.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
 
 						}
@@ -458,10 +466,10 @@ int main(int argv, char** argc)
 
 					for(auto entry : Hist_Fit_Dalitz)
 					{
-						size_t bin     = hydra::get<0>(entry);
 						double content = hydra::get<1>(entry);
 						unsigned int bins[3];
-						Hist_Fit_Dalitz.GetIndexes(bin, bins);
+
+						Hist_Fit_Dalitz.GetIndexes( hydra::get<0>(entry), bins);
 						Dalitz_FIT.SetBinContent(bins[0]+1, bins[1]+1, bins[2]+1, content);
 
 					}

@@ -48,12 +48,12 @@
 namespace hydra {
 
 
-template<typename LambdaType, size_t NPARAM=0>
+template<typename LambdaType, size_t NPARAM>
 class  Lambda;
 
 
 template<typename LambdaType>
-class  Lambda<LambdaType, 0>
+class  Lambda<LambdaType, 0>:public detail::Parameters<0>
 {
 
 	typedef typename detail::lambda_traits<LambdaType>::argument_rvalue_type argument_rvalue_type;
@@ -72,6 +72,7 @@ public:
 	explicit Lambda()=delete;
 
 	Lambda(LambdaType const& lambda):
+		detail::Parameters<0>(),
 		fLambda(lambda),
 		fNorm(1.0)
 		{}
@@ -79,6 +80,7 @@ public:
 
 	__hydra_host__ __hydra_device__
 	Lambda(Lambda<LambdaType, 0> const& other):
+	detail::Parameters<0>(other),
 	fLambda(other.GetLambda()),
 	fNorm(other.GetNorm())
 	{ }
@@ -91,7 +93,7 @@ public:
 	operator=(Lambda<T, 0> const & other )
 	{
 		if(this == &other) return *this;
-
+		detail::Parameters<0>::operator=(other);
 		fLambda  = other.GetLambda();
         fNorm = other.GetNorm();
 
@@ -145,7 +147,7 @@ public:
 				"Please inspect the error messages issued above to find the line generating the error."
 				)
 
-				return return_type(0);
+				return return_type{};
 	}
 
 
@@ -334,9 +336,13 @@ public:
 	fNorm(other.GetNorm())
 	{ }
 
+	/*
+	 * when, if ever, c++20 get cuda support...
+	 */
+	template<typename T=LambdaType>
 	__hydra_host__ __hydra_device__
-	inline Lambda<LambdaType, NPARAM>&
-	operator=(Lambda<LambdaType, NPARAM> const & other )
+	inline typename std::enable_if<std::is_copy_assignable<T>::value, Lambda<T, NPARAM>&>::type
+	operator=(Lambda<T, NPARAM> const & other )
 	{
 		if(this != &other)
 		{
@@ -347,6 +353,7 @@ public:
 
 		return *this;
 	}
+
 
 	__hydra_host__ __hydra_device__
 	inline LambdaType const& GetLambda() const
@@ -400,7 +407,7 @@ public:
 				"Please inspect the error messages issued above to find the line generating the error."	)
 
 
-				return return_type(0);
+				return return_type{};
 	}
 
 	template<typename ...T>

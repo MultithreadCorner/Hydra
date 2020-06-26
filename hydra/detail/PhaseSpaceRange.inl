@@ -48,7 +48,7 @@ hydra_thrust::transform_iterator<
 	hydra_thrust::counting_iterator<size_t>,
 	typename hydra::detail::tuple_cat_type< hydra_thrust::tuple<double>,
 				 typename hydra::detail::tuple_type<N,Vector4R>::type>::type>>
-phase_space_range(Vector4R const& mother, std::array<double, N> masses, size_t nentries )
+phase_space_range(Vector4R const& mother, std::array<double, N> masses, size_t seed, size_t length=0 )
 {
 	typedef typename hydra::detail::tuple_cat_type<
 			 hydra_thrust::tuple<double>,
@@ -61,9 +61,9 @@ phase_space_range(Vector4R const& mother, std::array<double, N> masses, size_t n
 	typedef detail::GenerateDecay<N,hydra_thrust::random::default_random_engine> decayer_t;
 
 	auto first_index = index_iterator(0);
-	auto  last_index = index_iterator(nentries);
+	auto  last_index = index_iterator( length==0 ? std::numeric_limits<size_t>::max(): length);
 
-	auto decayer = decayer_t(mother, masses,456852);
+	auto decayer = decayer_t(mother, masses, seed);
 
     auto first_event = hydra_thrust::transform_iterator<decayer_t,index_iterator, event_t>(first_index, decayer);
     auto  last_event = hydra_thrust::transform_iterator<decayer_t,index_iterator, event_t>(last_index, decayer);

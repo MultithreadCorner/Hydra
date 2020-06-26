@@ -38,12 +38,15 @@
 namespace hydra {
 
 template<typename ...Pdfs, typename IteratorD , typename ...IteratorW>
-class LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>: public FCN<LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, IteratorD, IteratorW ...> >
+class LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>: public FCN<LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, IteratorD, IteratorW ...>, true >
 {
 
 public:
 
 	typedef void likelihood_estimator_type;
+
+	LogLikelihoodFCN()=delete;
+
 
 	LogLikelihoodFCN(PDFSumExtendable<Pdfs...> const& functor, IteratorD begin, IteratorD end, IteratorW ...wbegin):
 		FCN<LogLikelihoodFCN<PDFSumExtendable<Pdfs...>, IteratorD, IteratorW...>, true>(functor,begin, end, wbegin...)

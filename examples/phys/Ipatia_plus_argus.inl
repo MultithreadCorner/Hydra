@@ -77,6 +77,9 @@
 
 using namespace ROOT::Minuit2;
 using namespace hydra::placeholders;
+using namespace hydra::arguments;
+
+declarg( _X, double)
 
 int main(int argv, char** argc)
 {
@@ -106,8 +109,6 @@ int main(int argv, char** argc)
     double min   =  5.20;
     double max   =  5.30;
 
-	//generator
-	hydra::Random<> Generator(1504);
 
 	//===========================
     //fit model gaussian + argus
@@ -128,8 +129,8 @@ int main(int argv, char** argc)
 
 
 	//ipatia function evaluating on the first argument
-	auto Signal_PDF = hydra::make_pdf(hydra::Ipatia<>(mu, sigma,L1,N1,L2,N2,alfa,beta),
-			hydra::AnalyticalIntegral<hydra::Ipatia<>>(min,  max));
+	auto Signal_PDF = hydra::make_pdf(hydra::Ipatia<_X>(mu, sigma,L1,N1,L2,N2,alfa,beta),
+			hydra::AnalyticalIntegral<hydra::Ipatia<_X>>(min,  max));
 
     //-------------------------------------------
 	//Argus
@@ -139,8 +140,8 @@ int main(int argv, char** argc)
     auto  power  = hydra::Parameter::Create("Power").Value(0.5).Fixed();
 
     //argus function evaluating on the first argument
-    auto Background_PDF = hydra::make_pdf( hydra::ArgusShape<>(m0, slope, power),
-    		hydra::AnalyticalIntegral<hydra::ArgusShape<>>(min, max));
+    auto Background_PDF = hydra::make_pdf( hydra::ArgusShape<_X>(m0, slope, power),
+    		hydra::AnalyticalIntegral<hydra::ArgusShape<_X>>(min, max));
 
     //------------------
     //yields
@@ -168,7 +169,7 @@ int main(int argv, char** argc)
 
 		//-------------------------------------------------------
 		// Generate data
-		auto range = Generator.Sample(data.begin(),  data.end(), min, max, model.GetFunctor());
+		auto range = hydra::sample(data, min, max, model.GetFunctor());
 
 		std::cout<< std::endl<< "Generated data (10 first elements):"<< std::endl;
 		for(size_t i=0; i< 10; i++)

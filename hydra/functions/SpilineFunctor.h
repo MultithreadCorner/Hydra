@@ -67,39 +67,37 @@ correspond to a second-order polynomial.
 
 Reference: M. Steffen, Astron. Astrophys. 239, 443—450 (1990).
 */
-template<typename Iterator1, typename Iterator2, unsigned int ArgIndex=0>
-class SpilineFunctor: public BaseFunctor<SpilineFunctor<Iterator1, Iterator2, ArgIndex>,
-typename hydra_thrust::iterator_traits<Iterator2>::value_type, 0>
+template<typename Iterator1, typename Iterator2,typename ArgType, typename Signature=double(ArgType)>
+class SpilineFunctor: public BaseFunctor<SpilineFunctor<Iterator1, Iterator2, ArgType>, Signature, 0>
 {
 
-	typedef typename hydra_thrust::iterator_traits<Iterator2>::value_type return_type;
 
 public:
 
 	SpilineFunctor() = delete;
 
 	SpilineFunctor( Iterator1 first, Iterator1 last, Iterator2 output ):
-		BaseFunctor<SpilineFunctor<Iterator1, Iterator2, ArgIndex>, return_type, 0>(),
+		BaseFunctor<SpilineFunctor<Iterator1, Iterator2, ArgType>, Signature, 0>(),
 		fSize(hydra_thrust::distance(first, last)),
 		fX(first),
 		fY(output)
 		{}
 
 	__hydra_host__ __hydra_device__
-	SpilineFunctor(SpilineFunctor<Iterator1, Iterator2, ArgIndex> const& other ):
-	BaseFunctor<SpilineFunctor<Iterator1, Iterator2, ArgIndex>, return_type, 0>(other),
+	SpilineFunctor(SpilineFunctor<Iterator1, Iterator2, ArgType> const& other ):
+	BaseFunctor<SpilineFunctor<Iterator1, Iterator2, ArgType>, Signature, 0>(other),
 	fSize(other.GetSize()),
 	fX(other.GetX()),
 	fY(other.GetY())
 	{ }
 
 	__hydra_host__ __hydra_device__ inline
-	SpilineFunctor<Iterator1, Iterator2, ArgIndex>&
-	operator=(SpilineFunctor<Iterator1, Iterator2, ArgIndex> const& other )
+	SpilineFunctor<Iterator1, Iterator2, ArgType>&
+	operator=(SpilineFunctor<Iterator1, Iterator2, ArgType> const& other )
 	{
 		if(this == &other) return *this;
 
-		BaseFunctor<SpilineFunctor<Iterator1, Iterator2, ArgIndex>, return_type, 0>::operator=(other);
+		BaseFunctor<SpilineFunctor<Iterator1, Iterator2,  ArgType>, Signature, 0>::operator=(other);
 
 		fSize=other.GetSize();
 		fX=other.GetX();
@@ -126,29 +124,18 @@ public:
 		return fY;
 	}
 
-	template<typename Type>
-	__hydra_host__ __hydra_device__
-	inline double Evaluate(unsigned int n, Type*x)  const {
 
-		GReal_t X  = x[ArgIndex];
+	__hydra_host__ __hydra_device__
+	inline double Evaluate(ArgType X)  const {
+
 
 		Iterator1 fXN = fX + fSize;
 
-		GReal_t r = spiline(fX,  fXN, fY,  X);
+		double r = spiline(fX,  fXN, fY,  X);
 
 		return  CHECK_VALUE( r, "r=%f",r) ;
 	}
 
-	template<typename Type>
-	__hydra_host__ __hydra_device__
-	inline double Evaluate(Type x)  const {
-
-		GReal_t X  = hydra::get<ArgIndex>(x); //mass
-
-		GReal_t r = spiline(fX, fX + fSize,	fY,  X);
-
-		return  CHECK_VALUE( r, "r=%f",r) ;
-	}
 
 
 private:
@@ -160,25 +147,30 @@ private:
 };
 
 
-template<typename Iterator1, typename Iterator2, unsigned int I=0>
-inline SpilineFunctor<Iterator1, Iterator2, I>
-make_spiline(Iterator1 first, Iterator1 last, Iterator2 output,
-		placeholders::placeholder<I> arg_index = placeholders::_0  ){
+template<typename ArgType, typename Iterator1, typename Iterator2>
+inline SpilineFunctor<Iterator1, Iterator2, ArgType>
+make_spiline(Iterator1 firstX, Iterator1 lastX, Iterator2 firstY )
+{
 
-	return SpilineFunctor<Iterator1, Iterator2, I>( first, last, output);
+	return SpilineFunctor<Iterator1, Iterator2, ArgType>( firstX, lastX, firstY);
 }
 
-template<typename Iterable1, typename Iterable2, unsigned int I=0,
-         typename Iterator1=decltype(std::declval<Iterable1>().begin()),
-         typename Iterator2=decltype(std::declval<Iterable2>().begin())>
+template<typename ArgType, typename Iterable1, typename Iterable2 >
 inline typename std::enable_if<
           hydra::detail::is_iterable<Iterable1>::value &&
           hydra::detail::is_iterable<Iterable2>::value,
-          SpilineFunctor<Iterator1, Iterator2, I> >::type
-make_spiline(Iterable1&& x, Iterable2&& y,	placeholders::placeholder<I> arg_index = placeholders::_0  ){
+          SpilineFunctor< decltype(std::declval<Iterable1>().begin()),
+                          decltype(std::declval<Iterable2>().begin()), ArgType> >::type
+make_spiline(Iterable1&& x, Iterable2&& y)
+{
 
-	return SpilineFunctor<Iterator1, Iterator2, I>( std::forward<Iterable1>(x).begin(),
-			std::forward<Iterable1>(x).end(), std::forward<Iterable2>(y).begin());
+typedef  decltype(std::declval<Iterable1>().begin()) Iterator1;
+typedef  decltype(std::declval<Iterable2>().begin()) Iterator2;
+
+	return SpilineFunctor<Iterator1, Iterator2, ArgType>(
+			std::forward<Iterable1>(x).begin(),
+			std::forward<Iterable1>(x).end(),
+			std::forward<Iterable2>(y).begin());
 }
 
 

@@ -52,6 +52,7 @@ public:
 	typedef hydra_thrust::zip_iterator<hydra_thrust::tuple<Iterators...>> witerator;
 	typedef hydra_thrust::zip_iterator<hydra_thrust::tuple<Iterator,Iterators...>> iterator;
 
+    FCN() = delete;
 
 	FCN(PDF const& pdf, Iterator begin, Iterator end, Iterators ...begins):
 		fPDF(pdf),
@@ -110,6 +111,8 @@ public:
 
 		return this;
 	}
+
+	virtual ~FCN()=default;
 
 	// from Minuit2
 	double ErrorDef() const{

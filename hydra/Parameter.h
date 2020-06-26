@@ -35,6 +35,7 @@
 #include <hydra/detail/TypeTraits.h>
 #include <string>
 #include <ostream>
+#include <vector>
 
 
 namespace hydra {

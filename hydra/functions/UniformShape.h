@@ -151,12 +151,14 @@ struct RngFormula< UniformShape<ArgType> >
 {
 
 	typedef ArgType value_type;
+	__hydra_host__ __hydra_device__
 	inline unsigned NCalls( UniformShape<ArgType>const&) const
 	{
 		return 1;
 	}
 
 	template< typename T>
+	__hydra_host__ __hydra_device__
 	inline unsigned NCalls( std::initializer_list<T>) const
 	{
 		return 1;

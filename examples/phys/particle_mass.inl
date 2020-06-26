@@ -79,6 +79,10 @@
 
 using namespace ROOT::Minuit2;
 using namespace hydra::placeholders;
+using namespace hydra::arguments;
+
+declarg( _X, double)
+
 
 int main(int argv, char** argc)
 {
@@ -108,8 +112,6 @@ int main(int argv, char** argc)
     double min   =  418.71;
     double max   =  550.0 ;
 
-	//generator
-	hydra::Random<> Generator(154);
 
 	//===========================
     //fit model gaussian + argus
@@ -130,8 +132,8 @@ int main(int argv, char** argc)
 
 
 	//ipatia function evaluating on the first argument
-	auto Signal_PDF = hydra::make_pdf(hydra::Ipatia<>(mu, sigma,L1,N1,L2,N2,alfa,beta),
-		hydra::AnalyticalIntegral<hydra::Ipatia<>>(min,  max));
+	auto Signal_PDF = hydra::make_pdf(hydra::Ipatia<_X>(mu, sigma,L1,N1,L2,N2,alfa,beta),
+		hydra::AnalyticalIntegral<hydra::Ipatia<_X>>(min,  max));
 
     //-------------------------------------------
 	//Background
@@ -144,16 +146,16 @@ int main(int argv, char** argc)
     auto  B1 = hydra::Parameter::Create("B1").Value( 0.067).Error(0.0001).Limits(  0.002,  0.1);
     auto  C1 = hydra::Parameter::Create("C1").Value( 15.50).Error(0.0001).Limits( 10.0, 20.0);
 
-    auto Combinatorial_Background_PDF = hydra::make_pdf( hydra::DeltaDMassBackground<>(M0, A1, B1, C1),
-    		hydra::AnalyticalIntegral<hydra::DeltaDMassBackground<>>(min,  max));
+    auto Combinatorial_Background_PDF = hydra::make_pdf( hydra::DeltaDMassBackground<_X>(M0, A1, B1, C1),
+    		hydra::AnalyticalIntegral<hydra::DeltaDMassBackground<_X>>(min,  max));
 
     //partial reconstructed -1.5, -10. , 15.
     auto  A2 = hydra::Parameter::Create("A2").Value(0.4).Error(0.0001).Limits( 0.3, 0.5);
     auto  B2 = hydra::Parameter::Create("B2").Value(3.8).Error(0.0001).Limits( 1.0, 5.0);
     auto  C2 = hydra::Parameter::Create("C2").Value(0.85).Error(0.0001).Limits(0.5 , 1.0);
 
-    auto PartialRec_Background_PDF = hydra::make_pdf( hydra::GeneralizedGamma<>(M0, A2, B2, C2),
-    		hydra::AnalyticalIntegral<hydra::GeneralizedGamma<>>(min,  max));
+    auto PartialRec_Background_PDF = hydra::make_pdf( hydra::GeneralizedGamma<_X>(M0, A2, B2, C2),
+    		hydra::AnalyticalIntegral<hydra::GeneralizedGamma<_X>>(min,  max));
 
     //------------------
     //yields
@@ -185,7 +187,7 @@ int main(int argv, char** argc)
 
 		//-------------------------------------------------------
 		// Generate data
-		auto range = Generator.Sample(data.begin(),  data.end(), min, max, model.GetFunctor());
+		auto range = hydra::sample(data, min, max, model.GetFunctor());
 
 		std::cout<< std::endl<< "Generated data (10 first elements):"<< std::endl;
 		for(size_t i=0; i< 10; i++)

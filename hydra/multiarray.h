@@ -34,6 +34,8 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/functors/Caster.h>
+#include <hydra/detail/Iterable_traits.h>
+#include <hydra/detail/IteratorTraits.h>
 #include <hydra/Tuple.h>
 #include <hydra/Placeholders.h>
 #include <hydra/Iterator.h>
@@ -137,18 +139,18 @@ public:
 	}
 
 
-	multiarray(multiarray<T,N,detail::BackendPolicy<BACKEND>> const& other )
+	explicit multiarray(multiarray<T,N,detail::BackendPolicy<BACKEND>> const& other )
 	{
 		__resize( other.size() );
 		hydra_thrust::copy(other.begin(), other.end(), begin());
 	}
 
-	multiarray(multiarray<T,N,detail::BackendPolicy<BACKEND>>&& other ):
+	explicit multiarray(multiarray<T,N,detail::BackendPolicy<BACKEND>>&& other ):
 	fData(other.__move())
 	{}
 
 	template< hydra::detail::Backend BACKEND2>
-	multiarray(multiarray<T,N,detail::BackendPolicy<BACKEND2>> const& other )
+	explicit multiarray(multiarray<T,N,detail::BackendPolicy<BACKEND2>> const& other )
 	{
 		__resize(other.size());
 		hydra_thrust::copy(other.begin(), other.end(), begin());
@@ -160,6 +162,25 @@ public:
 		__resize( hydra_thrust::distance(first, last) );
 		hydra_thrust::copy(first, last, begin());
 	}
+
+	template< typename Iterable,
+	          typename = typename std::enable_if<
+	           (detail::is_iterable<Iterable>::value) &&
+	          !(detail::is_iterator<Iterable>::value) &&
+	           (std::is_convertible<decltype(*std::declval<Iterable>().begin()), value_type>::value)
+	          >::type >
+	multiarray(Iterable&& other )
+	{
+		__resize( hydra_thrust::distance(
+				std::forward<Iterable>(other).begin(),
+				std::forward<Iterable>(other).end() ) );
+
+		hydra_thrust::copy(std::forward<Iterable>(other).begin(),
+				           std::forward<Iterable>(other).end(),
+				           begin());
+	}
+
+
 
 	// assignment
 

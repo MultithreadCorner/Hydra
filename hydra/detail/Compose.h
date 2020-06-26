@@ -49,9 +49,12 @@ class Compose: public detail::CompositeBase<F0, F1, Fs...>
 {
 public:
 	    //tag
-	    typedef void hydra_functor_tag;
+
 	    typedef typename F0::return_type  return_type;
-		typedef typename hydra_thrust::tuple<typename F1::return_type, typename Fs::return_type...> argument_type;
+
+		typedef typename hydra_thrust::tuple<
+				     typename F1::return_type,
+				     typename Fs::return_type...> argument_type;
 
 
 
@@ -77,7 +80,7 @@ public:
 
 	  	template<typename T1>
 	  	__hydra_host__ __hydra_device__
-	  	inline return_type operator()(T1& x ) const
+	  	inline return_type operator()(T1&& x ) const
 	  	{
 
 	  		//evaluating f(g_1(x), g_2(x), ..., g_n(x))
@@ -88,37 +91,20 @@ public:
 
 	  		typedef decltype(g) G_tuple ;
 
-	  		return f(detail::invoke<G_tuple, T1>(x,g ));
+	  		return f(detail::invoke<G_tuple, T1>(std::forward<T1>(x),g ));
 	  	}
 
-
-	  	template<typename T1, typename T2>
-	  	__hydra_host__ __hydra_device__
-	  	inline 	return_type operator()( T1& x, T2& cache) const
-	  	{
-	  		//evaluating f(g_1(x), g_2(x), ..., g_n(x))
-
-	  		auto& g = detail::dropFirst(this->fFtorTuple);
-
-	  		auto& f =  hydra::get<0>(this->fFtorTuple);
-
-	  		typedef decltype(g) G_tuple ;
-
-	  		return this->IsCached() ?
-	  				detail::extract<return_type,T2>(this->GetIndex(), std::forward<T2&>(cache)):
-	  				f(detail::invoke< G_tuple, T1, T2>(std::forward<T1&>(x), std::forward<T2&>(cache), g));
-	  	}
 
 };
 
 
 // Conveniency function
-template < typename T0, typename T1, typename ...Ts,
-typename=typename std::enable_if<T0::is_functor::value &&
-								 T1::is_functor::value &&
-								 detail::all_true<Ts::is_functor::value...>::value >::type >
-
-inline Compose<T0,T1,Ts...>
+template < typename T0, typename T1, typename ...Ts >
+inline typename std::enable_if<
+(detail::is_hydra_functor<T0>::value || detail::is_hydra_lambda<T0>::value) &&
+(detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value) &&
+detail::all_true<(detail::is_hydra_functor<Ts>::value || detail::is_hydra_lambda<Ts>::value)...>::value,
+Compose<T0,T1,Ts...>>::type
 compose(T0 const& F0, T1 const& F1, Ts const&...Fs){
 
 	return  Compose<T0,T1,Ts...>(F0, F1, Fs...);

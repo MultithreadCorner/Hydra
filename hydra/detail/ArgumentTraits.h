@@ -80,6 +80,12 @@ template<typename T>
 struct _is_function_argument<T,hydra_thrust::void_t< typename T::function_argument_type>>:
 std::true_type{};
 
+template<typename T>
+struct _is_function_argument<hydra_thrust::device_reference<T>,hydra_thrust::void_t< typename T::function_argument_type>>:
+std::true_type{};
+
+
+
 
 }  // namespace function_argument_impl
 
@@ -99,8 +105,20 @@ template<typename Arg>
 struct is_function_argument<hydra_thrust::device_reference<Arg>, true>:
 std::is_base_of<detail::FunctionArgument<Arg, typename Arg::value_type>, Arg>{} ;
 
+template<typename Arg, bool T=is_function_argument<Arg>::value>
+struct stripped_type;
 
+template<typename Arg>
+struct stripped_type<Arg,true>
+{
+	typedef typename Arg::value_type type;
+};
 
+template<typename Arg>
+struct stripped_type<Arg,false>
+{
+	typedef Arg type;
+};
 //----------------
 
 template<typename... ArgTypes>

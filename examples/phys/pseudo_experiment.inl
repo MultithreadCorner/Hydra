@@ -66,6 +66,7 @@
 #include <hydra/Algorithm.h>
 #include <hydra/SPlot.h>
 #include <hydra/multiarray.h>
+#include <hydra/multivector.h>
 
 #include <hydra/functions/Gaussian.h>
 #include <hydra/functions/Exponential.h>
@@ -99,8 +100,15 @@
 #include <TStyle.h>
 #endif //_ROOT_AVAILABLE_
 
+
+using namespace hydra::arguments;
 using namespace hydra::placeholders;
 using namespace ROOT::Minuit2;
+
+
+declarg(XVar, double)
+declarg(YVar, double)
+
 
 int main(int argv, char** argc)
 {
@@ -148,7 +156,7 @@ int main(int argv, char** argc)
 	//======================================================
 
 	//======================================================
-	// 1) Gaussian + Exponential model (dimension <0>)
+	// 1) Gaussian + Exponential model (dimension <0>) XVar
 	// data range
     double data_min   =  0.0;
     double data_max   =  10.0;
@@ -160,8 +168,8 @@ int main(int argv, char** argc)
 	hydra::Parameter  sigma = hydra::Parameter::Create().Name("sigma").Value(0.5).Error(0.0001).Limits(0.4, 0.6);
 
 	//gaussian function evaluating on the first argument
-	auto Gaussian_PDF = hydra::make_pdf( hydra::Gaussian<>(mean, sigma),
-			hydra::AnalyticalIntegral<hydra::Gaussian<>>(data_min, data_max));
+	auto Gaussian_PDF = hydra::make_pdf( hydra::Gaussian<XVar>(mean, sigma),
+			hydra::AnalyticalIntegral<hydra::Gaussian<XVar>>(data_min, data_max));
 
 	//-------------------------------------------
 	//Exponential
@@ -169,8 +177,8 @@ int main(int argv, char** argc)
     auto  tau  = hydra::Parameter::Create().Name("tau").Value(-0.2).Error(0.0001).Limits(-0.3, -0.1);
 
     //Background PDF
-    auto Exponential_PDF = hydra::make_pdf(hydra::Exponential<>(tau),
-    		 hydra::AnalyticalIntegral<hydra::Exponential<>>(data_min, data_max));
+    auto Exponential_PDF = hydra::make_pdf(hydra::Exponential<XVar>(tau),
+    		 hydra::AnalyticalIntegral<hydra::Exponential<XVar>>(data_min, data_max));
 
 	//------------------
 
@@ -183,7 +191,7 @@ int main(int argv, char** argc)
 	splot_model.SetExtended(1);
 
 	//======================================================
-	// 2) Breit-Wigner  (dimension <1>)
+	// 2) Breit-Wigner  (dimension <1>) YVar
 	//-----------------
 	// data range
 	double obs_min   =  0.0;
@@ -196,8 +204,8 @@ int main(int argv, char** argc)
 	hydra::Parameter  width = hydra::Parameter::Create().Name("width").Value(0.5).Error(0.0001).Limits(0.05,1.5);
 
 	//Breit-Wigner function evaluating on the first argument
-	auto BreitWigner_PDF = hydra::make_pdf( hydra::BreitWignerNR<>(mass, width ),
-			                    hydra::AnalyticalIntegral<hydra::BreitWignerNR<>>(obs_min, obs_max));
+	auto BreitWigner_PDF = hydra::make_pdf( hydra::BreitWignerNR<YVar>(mass, width ),
+			                    hydra::AnalyticalIntegral<hydra::BreitWignerNR<YVar>>(obs_min, obs_max));
 
 	//-------------------------------------------
 
@@ -208,8 +216,8 @@ int main(int argv, char** argc)
 
 
 	//ChiSquare function evaluating on the first argument
-	auto ChiSquare_PDF = hydra::make_pdf( hydra::ChiSquare<>(ndof ),
-			                 hydra::AnalyticalIntegral<hydra::ChiSquare<>>(obs_min, obs_max));
+	auto ChiSquare_PDF = hydra::make_pdf( hydra::ChiSquare<YVar>(ndof ),
+			                 hydra::AnalyticalIntegral<hydra::ChiSquare<YVar>>(obs_min, obs_max));
 
 	//------------------
 	//yields
@@ -227,7 +235,7 @@ int main(int argv, char** argc)
 	//
 
 	//dataset
-	hydra::multiarray<double,2, hydra::host::sys_t> dataset(nentries);
+	hydra::multivector<hydra::tuple<XVar,YVar>, hydra::host::sys_t> dataset(nentries);
 
 	//generate the primary dataset using std random device and multithread facility
 	{
@@ -242,10 +250,11 @@ int main(int argv, char** argc)
 
 			std::normal_distribution<> dist(mean, sigma);
 
-			auto first = dataset.begin(_0);
-			auto last  = dataset.begin(_0) + int(nentries/2);
+			auto first = dataset.begin<XVar>();
+			auto last  = dataset.begin<XVar>() + int(nentries/2);
 
 			auto it = first;
+
 			do
 			{
 				double x= dist(gen);
@@ -270,14 +279,14 @@ int main(int argv, char** argc)
 
 			std::exponential_distribution<> dist(-tau);
 
-			auto first = dataset.begin(_0) + int(nentries/2);
-			auto last  = dataset.end(_0);
+			auto first = dataset.begin<XVar>() + int(nentries/2);
+			auto last  = dataset.end<XVar>();
 
 			auto it = first;
 
 			do
 			{
-				double x= dist(gen);//*( data_max - data_min) + data_min;
+				double x= dist(gen);
 
 				if((x > data_min) &&  (x < data_max) )
 				{
@@ -300,8 +309,8 @@ int main(int argv, char** argc)
 
 			std::uniform_real_distribution<> dist(0.0, 1.0);
 
-			auto first = dataset.begin(_1) ;
-			auto last  = dataset.begin(_1) + int(nentries/2);
+			auto first = dataset.begin<YVar>() ;
+			auto last  = dataset.begin<YVar>() + int(nentries/2);
 
 			auto breit_wigner_dist = [](double mean, double width, double rnd){
 
@@ -334,8 +343,8 @@ int main(int argv, char** argc)
 
 			std::chi_squared_distribution<> dist(ndof);
 
-			auto first = dataset.begin(_1) + int(nentries/2);
-			auto last  = dataset.end(_1);
+			auto first = dataset.begin<YVar>() + int(nentries/2);
+			auto last  = dataset.end<YVar>();
 
 			auto it = first;
 
@@ -359,7 +368,7 @@ int main(int argv, char** argc)
 		breit_wigner_handler.wait();
 		noise_handler.wait();
 
-		//shake the coquetel well
+		//shake the cocktail well
 		std::random_shuffle(dataset.begin(), dataset.end());
 
 		if(verbose){
@@ -463,7 +472,7 @@ int main(int argv, char** argc)
 
 				//time
 				std::cout << "-----------------------------------------"<<std::endl;
-				std::cout << "| [Fit Time] (ms) = " << elapsed.count() <<std::endl;
+				std::cout << "| [Fit Time] (ms) = " << elapsed.count()  <<std::endl;
 				std::cout << "-----------------------------------------"<<std::endl;
 			}
 

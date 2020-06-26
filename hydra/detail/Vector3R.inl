@@ -161,12 +161,12 @@ inline void Vector3R::applyRotateEuler(GReal_t phi, GReal_t theta, GReal_t ksi)
 	GReal_t temp[3];
 	GReal_t sp, st, sk, cp, ct, ck;
 
-	sp = sin(phi);
-	st = sin(theta);
-	sk = sin(ksi);
-	cp = cos(phi);
-	ct = cos(theta);
-	ck = cos(ksi);
+	sp = ::sin(phi);
+	st = ::sin(theta);
+	sk = ::sin(ksi);
+	cp = ::cos(phi);
+	ct = ::cos(theta);
+	ck = ::cos(ksi);
 
 	temp[0] = (ck * ct * cp - sk * sp) * v[0] + (-sk * ct * cp - ck * sp) * v[1]
 			+ st * cp * v[2];
@@ -187,7 +187,7 @@ inline GReal_t Vector3R::d3mag() const
 	GReal_t temp;
 
 	temp = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
-	temp = sqrt(temp);
+	temp = ::sqrt(temp);
 
 	return temp;
 }

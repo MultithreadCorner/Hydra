@@ -54,9 +54,8 @@ class Divide: public detail::CompositeBase<F1, F2>
 public:
 
 	//tag
-	typedef void hydra_functor_tag;
-	typedef   std::true_type is_functor;
-	typedef typename detail::divide_result<typename F1::return_type, typename F2::return_type>::type  return_type;
+	typedef typename detail::divide_result<typename F1::return_type,
+			                               typename F2::return_type >::type  return_type;
 
 	Divide() = delete;
 
@@ -79,58 +78,80 @@ public:
 
 	template<typename T1>
 	__hydra_host__ __hydra_device__ inline
-	return_type operator()(T1& t ) const
+	return_type operator()(T1&& t ) const
 	{
 		return hydra_thrust::get<0>(this->GetFunctors())(t)/hydra_thrust::get<1>(this->GetFunctors())(t);
-	}
-
-	template<typename T1, typename T2>
-	__hydra_host__ __hydra_device__  inline
-	return_type operator()( T1& t, T2& cache) const
-	{
-		return this->IsCached() ? detail::extract<return_type,T2>( this->GetIndex(), std::forward<T2&>(cache)):\
-				hydra_thrust::get<0>(this->GetFunctors())(t,cache)/hydra_thrust::get<1>(this->GetFunctors())(t,cache);
 	}
 
 
 };
 
-// devide: / operator two functors
-template <typename T1, typename T2, typename=typename std::enable_if< T1::is_functor::value && T2::is_functor::value> >
-__hydra_host__  inline
-Divide<T1,T2>
+// divide: / operator two functors
+template<typename T1, typename T2>
+inline typename std::enable_if<
+(detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value) &&
+(detail::is_hydra_functor<T2>::value || detail::is_hydra_lambda<T2>::value),
+Divide<T1, T2> >::type
 operator/(T1 const& F1, T2 const& F2)
 {
-	return  Divide<T1, T2>(F1, F2);
+	return Divide<T1,T2>(F1, F2);
 }
 
-template <typename T1, typename T2,
-typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
-		std::is_constructible<hydra_thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
-__hydra_host__  inline
-Divide<Constant<T1>, T2>
-operator/(T1 const cte, T2 const& F2){ return  Constant<T1>(cte)/F2; }
+template <typename T, typename U>
+inline typename std::enable_if<
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value) &&
+(std::is_arithmetic<U>::value),
+Divide< Constant<U>, T> >::type
+operator/(U const cte, T const& F)
+{
+	return Constant<U>(cte)/F;
+}
 
+template <typename T, typename U>
+inline typename std::enable_if<
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value) &&
+(std::is_arithmetic<U>::value),
+Divide< Constant<U>, T> >::type
+operator/( T const& F, U cte)
+{
+	return F/Constant<U>(cte);
+}
 
-template <typename T1, typename T2,
-typename=typename std::enable_if< (std::is_convertible<T1, double>::value ||\
-		std::is_constructible<hydra_thrust::complex<double>,T1>::value) && T2::is_functor::value>::type >
-__hydra_host__  inline
-Divide<T2,Constant<T1> >
-operator/(T2 const& F2, T1 const cte ){	return  F2/Constant<T1>(cte); }
+template <typename T, typename U>
+inline typename std::enable_if<
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value) &&
+(std::is_arithmetic<U>::value),
+Divide< Constant<hydra::complex<U>>, T> >::type
+operator/(hydra::complex<U> const& cte, T const& F)
+{
+	return  Constant<hydra::complex<U> >(cte)/F;
+}
+
+template <typename T, typename U>
+inline typename std::enable_if<
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value) &&
+(std::is_arithmetic<U>::value),
+Divide< Constant<hydra::complex<U>>, T> >::type
+operator/( T const& F, hydra::complex<U> const& cte)
+{
+	return  F/Constant<hydra::complex<U> >(cte);
+}
 
 
 // Convenience function
-template < typename T1, typename T2, typename=typename std::enable_if< T1::is_functor::value && T2::is_functor::value>::type >
-__hydra_host__ inline
-Divide<T1,T2>
-divide(T1 const& F1, T1 const& F2)
+template <typename F1, typename F2, typename ...Fs>
+inline typename std::enable_if<
+(detail::is_hydra_functor<F1>::value || detail::is_hydra_lambda<F1>::value) &&
+(detail::is_hydra_functor<F2>::value || detail::is_hydra_lambda<F2>::value),
+Divide<F1, F2>>::type
+divide(F1 const& f1, F2 const& f2)
 {
-	return  Divide<T1,T2>(F1, F2);
+	return  Divide<F1, F2>(f1,f2);
 }
 
 
-}
+
+}//namespace hydra
 
 
 #endif /* DIVIDE_H_ */

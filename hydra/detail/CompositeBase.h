@@ -52,11 +52,12 @@ public:
 
 	typedef typename hydra_thrust::tuple<F0, F1, Fs...> functors_type;
 
+	//tag
+	typedef void hydra_composed_functor_type;
+
 	CompositeBase()=delete;
 
 	CompositeBase(F0 const& f0, F1 const& f1,  Fs const& ...fs):
-		fIndex(-1),
-		fCached(0),
 		fFtorTuple(hydra_thrust::make_tuple(f0, f1, fs...)),
 		fNorm(1.0)
 	{ }
@@ -64,18 +65,21 @@ public:
 	__hydra_host__ __hydra_device__
 	inline CompositeBase(CompositeBase<F0,F1,Fs...> const& other):
 	fFtorTuple( other.GetFunctors() ),
-	fIndex( other.GetIndex() ),
-	fCached( other.IsCached() ),
 	fNorm(other.GetNorm())
 	{}
 
 	__hydra_host__ __hydra_device__
-	inline CompositeBase<F0,F1,Fs...>& operator=(CompositeBase<F0,F1,Fs...> const& other)
+	inline typename std::enable_if<
+	std::is_copy_constructible<F0>::value &&
+	std::is_copy_constructible<F1>::value &&
+	detail::all_true<std::is_copy_constructible<Fs>::value...>::value,
+		 CompositeBase<F0,F1,Fs...>&>::type
+    operator=(CompositeBase<F0,F1,Fs...> const& other)
 	{
-		this->fFtorTuple = other.GetFunctors() ;
-		this->fIndex = other.GetIndex() ;
-		this->fCached = other.IsCached() ;
-		this->fNorm = other.GetNorm();
+		if(this==&other)return *this;
+
+		fFtorTuple = other.GetFunctors();
+		fNorm      = other.GetNorm();
 		return *this;
 	}
 
@@ -219,8 +223,11 @@ public:
 			}
 	}
 
-	__hydra_host__ __hydra_device__ inline
-	const functors_type& GetFunctors() const {return fFtorTuple;}
+	__hydra_host__ __hydra_device__
+	inline const functors_type& GetFunctors() const
+	{
+		return fFtorTuple;
+	}
 
 	template<unsigned int I>
 	inline typename hydra_thrust::tuple_element<I,functors_type>::type&
@@ -239,19 +246,6 @@ public:
 		fNorm = norm;
 	}
 
-	__hydra_host__ __hydra_device__ inline
-	int GetIndex() const { return this->fIndex; }
-
-	__hydra_host__ __hydra_device__ inline
-	void SetIndex(int index) {this->fIndex = index;}
-
-	__hydra_host__ __hydra_device__ inline
-	bool IsCached() const
-	{ return this->fCached;}
-
-	__hydra_host__ __hydra_device__ inline
-	void SetCached(bool cached=true)
-	{ this->fCached = cached; }
 
 protected:
 
@@ -259,9 +253,6 @@ protected:
 
 private:
 
-
-	int  fIndex;
-	bool fCached;
 	GReal_t fNorm;
 };
 

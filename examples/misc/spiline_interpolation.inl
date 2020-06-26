@@ -89,22 +89,22 @@ int main(int argv, char** argc)
 
 
 	//gaussian function evaluating on argument zero
-	hydra::Gaussian<> gaussian(mean, sigma);
+	hydra::Gaussian<double> gaussian(mean, sigma);
 
 	auto abscissae = hydra::device::vector<double>(21);
 	hydra::copy( hydra::range(-10, 10), abscissae );
 
 	auto ordinate  = abscissae | gaussian;
 
-	auto spiline = hydra::make_spiline(abscissae, ordinate );
+	auto spiline = hydra::make_spiline<double>(abscissae, ordinate );
 
     hydra::device::vector<double> args(50, 1.0);
 
 
-    std::cout <<  "Size = " <<  hydra::random_uniform_range(-10.0, 10.0, 15753).size() << std::endl;
+   // std::cout <<  "Size = " <<  hydra::random_uniform_range(-10.0, 10.0, 15753, 10).size() << std::endl;
 
-    hydra::for_each(args , [ spiline]__hydra_dual__(double arg){
-    	printf("arg %f spiline %f\n", arg, spiline(arg));
+    hydra::for_each( hydra::random_uniform_range(-10.0, 10.0, 15753, 10) , [ spiline, gaussian]__hydra_dual__(double arg){
+    	printf("arg %f spiline %f gaussian %f\n", arg, spiline(arg), gaussian(arg));
     } );
 
 

@@ -44,6 +44,8 @@
 #include <tclap/CmdLine.h>
 
 //this lib
+
+#include <hydra/host/System.h>
 #include <hydra/device/System.h>
 #include <hydra/Function.h>
 #include <hydra/Lambda.h>
@@ -127,7 +129,7 @@ int main(int argv, char** argc)
 
 
 	//Gaussian 2
-	double mean2   =  2.0;
+	double mean2   =  3.0;
 	double sigma2  =  1.0;
 	auto Gaussian2 = hydra::wrap_lambda( [mean2, sigma2] __hydra_dual__ ( AxisX x, AxisY y, AxisZ z )
 		{
@@ -152,7 +154,6 @@ int main(int argv, char** argc)
 	auto Gaussians = Gaussian1 + Gaussian2;
 
 	//---------
-
 	//---------
 	//generator
 
@@ -170,17 +171,22 @@ int main(int argv, char** argc)
 #endif //_ROOT_AVAILABLE_
 
 
-hydra::multivector<hydra::tuple<AxisX, AxisY, AxisZ>, hydra::device::sys_t > dataset(nentries);
 
 
 	//device
 	{
 
-		dataset_d data_d(nentries);
+		hydra::multivector<
+		      hydra::tuple<AxisX, AxisY, AxisZ>,
+		      hydra::device::sys_t > dataset(nentries);
+
 
 		auto start_d = std::chrono::high_resolution_clock::now();
-		auto range = hydra::sample(dataset, min, max, gaussians);
+
+		auto range = hydra::sample(dataset, min, max, Gaussians);
+
 		auto end_d = std::chrono::high_resolution_clock::now();
+
 		std::chrono::duration<double, std::milli> elapsed_d = end_d - start_d;
 
 		//time
@@ -211,6 +217,9 @@ hydra::multivector<hydra::tuple<AxisX, AxisY, AxisZ>, hydra::device::sys_t > dat
 		std::cout << "-----------------------------------------"<<std::endl;
 
 #ifdef _ROOT_AVAILABLE_
+		{
+		hydra::DenseHistogram<double,3, hydra::host::sys_t> _temp_hist = Hist_Data;
+
 		for(size_t i=0;  i<50; i++){
 					for(size_t j=0;  j<50; j++){
 						for(size_t k=0;  k<50; k++){
@@ -218,10 +227,11 @@ hydra::multivector<hydra::tuple<AxisX, AxisY, AxisZ>, hydra::device::sys_t > dat
 							size_t bin[3]={i,j,k};
 
 				          	hist_d.SetBinContent(i+1,j+1,k+1,
-				          			Hist_Data.GetBinContent(bin )  );
+				          			_temp_hist.GetBinContent(bin )  );
 						}
 					}
 				}
+		}
 #endif //_ROOT_AVAILABLE_
 
 	}
@@ -246,9 +256,5 @@ hydra::multivector<hydra::tuple<AxisX, AxisY, AxisZ>, hydra::device::sys_t > dat
 
 
 }
-
-
-
-
 
 #endif /* DENSE_HISTOGRAM_INL_ */

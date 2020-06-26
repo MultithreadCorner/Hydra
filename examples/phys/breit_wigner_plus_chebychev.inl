@@ -83,6 +83,9 @@
 
 using namespace ROOT::Minuit2;
 using namespace hydra::placeholders;
+using namespace hydra::arguments;
+
+declarg( _X, double)
 
 int main(int argv, char** argc)
 {
@@ -112,8 +115,6 @@ int main(int argv, char** argc)
     double min   =  0.0;
     double max   =  15.0;
     char const* model_name = "Breit-Wigner + Polynomial order 2";
-	//generator
-	hydra::Random<> Generator(154);
 
 	//===========================
     //fit model Breit-Wigner + Polynomial
@@ -123,8 +124,8 @@ int main(int argv, char** argc)
 	hydra::Parameter  width = hydra::Parameter::Create().Name("Width").Value(0.5).Error(0.0001).Limits(0.3,1.0);
 
 	//Breit-Wigner function evaluating on the first argument
-	auto Signal_PDF = hydra::make_pdf( hydra::BreitWignerNR<>(mean, width ),
-			hydra::AnalyticalIntegral<hydra::BreitWignerNR<>>(min, max));
+	auto Signal_PDF = hydra::make_pdf( hydra::BreitWignerNR<_X>(mean, width ),
+			hydra::AnalyticalIntegral<hydra::BreitWignerNR<_X>>(min, max));
 
     //-------------------------------------------
 	//Polynomial
@@ -135,8 +136,8 @@ int main(int argv, char** argc)
     auto  c3  = hydra::Parameter::Create("C_3").Value( 0.1).Error(0.0001).Limits( 0.01, 0.2);
 
     //Polynomial function evaluating on the first argument
-    auto Background_PDF = hydra::make_pdf( hydra::Chebychev<3>(min, max, std::array<hydra::Parameter,4>{c0, c1, c2, c3}),
-    		hydra::AnalyticalIntegral< hydra::Chebychev<3>>(min, max));
+    auto Background_PDF = hydra::make_pdf( hydra::Chebychev<3,_X>(min, max, std::array<hydra::Parameter,4>{c0, c1, c2, c3}),
+    		hydra::AnalyticalIntegral< hydra::Chebychev<3,_X>>(min, max));
 
     //------------------
     //yields
@@ -167,7 +168,7 @@ int main(int argv, char** argc)
 
 		//-------------------------------------------------------
 		// Generate data
-		auto range = Generator.Sample(data.begin(),  data.end(), min, max, model.GetFunctor());
+		auto range = hydra::sample(data.begin(),  data.end(), min, max, model.GetFunctor());
 
 		std::cout<< std::endl<< "Generated data:"<< std::endl;
 		for(size_t i=0; i< 10; i++)

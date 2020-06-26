@@ -38,7 +38,10 @@
 #include <hydra/Range.h>
 #include <hydra/Placeholders.h>
 #include <hydra/Range.h>
+#include <hydra/detail/Iterable_traits.h>
+#include <hydra/detail/IteratorTraits.h>
 #include <hydra/detail/ZipIteratorUtility.h>
+#include <hydra/detail/TupleTraits.h>
 #include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/hydra_thrust/tuple.h>
@@ -221,7 +224,22 @@ public:
 		hydra_thrust::copy(first, last, begin());
 
 	}
+	template< typename Iterable,
+	          typename = typename std::enable_if<
+	           (detail::is_iterable<Iterable>::value) &&
+	          !(detail::is_iterator<Iterable>::value) &&
+	           (std::is_convertible<decltype(*std::declval<Iterable>().begin()), value_type>::value)
+	          >::type >
+	multivector(Iterable&& other )
+	{
+		__resize( hydra_thrust::distance(
+				std::forward<Iterable>(other).begin(),
+				std::forward<Iterable>(other).end() ) );
 
+		hydra_thrust::copy(std::forward<Iterable>(other).begin(),
+				           std::forward<Iterable>(other).end(),
+				           begin());
+	}
 	/**
 	 * Assignment operator
 	 * @param other
@@ -417,12 +435,9 @@ public:
      */
 	template< typename InputIterator>
 	inline 	typename hydra_thrust::detail::enable_if<
-	detail::is_instantiation_of<hydra_thrust::tuple,
-		typename hydra_thrust::detail::remove_const<
-			typename hydra_thrust::detail::remove_reference< InputIterator >::type >::type >::value ||
-	detail::is_instantiation_of<hydra_thrust::detail::tuple_of_iterator_references,
-		typename hydra_thrust::detail::remove_const<
-			typename hydra_thrust::detail::remove_reference< InputIterator >::type>::type >::value, void>::type
+	detail::is_zip_iterator<InputIterator>::value &&
+	std::is_convertible<typename hydra_thrust::iterator_traits<InputIterator>::value_type,
+	value_type>::value, void>::type
 	insert(iterator pos, InputIterator first, InputIterator last)
 	{
 		size_type position = hydra_thrust::distance(begin(), pos);
@@ -592,6 +607,26 @@ public:
 		return hydra_thrust::get<I>(fData).end();
 	}
 
+
+	template<typename Type>
+	inline typename hydra_thrust::tuple_element<
+		detail::index_in_tuple<Type, tuple_type>::value ,
+		iterator_tuple >::type 	begin()
+	{
+		return hydra_thrust::get< detail::index_in_tuple<Type, tuple_type>::value >(fData).begin();
+	}
+
+
+	template<typename Type>
+	inline typename hydra_thrust::tuple_element<
+		detail::index_in_tuple<Type, tuple_type>::value ,
+		iterator_tuple >::type	end()
+	{
+
+		return hydra_thrust::get< detail::index_in_tuple<Type, tuple_type>::value >(fData).end();
+	}
+
+
 	template<unsigned int I1, unsigned int I2,unsigned int ...IN >
 	inline columns_iterator< reverse_iterator_tuple, I1, I2,IN...>
 	rbegin(placeholders::placeholder<I1> c1,	placeholders::placeholder<I2> c2,  placeholders::placeholder<IN> ...cn)
@@ -618,6 +653,34 @@ public:
 	rend(placeholders::placeholder<I>  )
 	{
 		return hydra_thrust::get<I>(fData).rend();
+	}
+
+
+	template<typename Type>
+	inline typename hydra_thrust::tuple_element<
+	detail::index_in_tuple<Type, tuple_type>::value ,
+	reverse_iterator_tuple>::type
+	rbegin()
+	{
+		return hydra_thrust::get< detail::index_in_tuple<Type, tuple_type>::value >(fData).rbegin();
+	}
+
+
+	template<typename Type>
+	inline typename hydra_thrust::tuple_element<
+	detail::index_in_tuple<Type, tuple_type>::value ,
+	reverse_iterator_tuple >::type
+	rend()
+	{
+		return hydra_thrust::get< detail::index_in_tuple<Type, tuple_type>::value >(fData).rend();
+	}
+
+	template<typename Type>
+	inline typename hydra_thrust::tuple_element<detail::index_in_tuple<Type, tuple_type>::value ,
+	storage_tuple>::type&
+	column()
+	{
+		return hydra_thrust::get<detail::index_in_tuple<Type, tuple_type>::value>(fData);
 	}
 
 	template<unsigned int I>
@@ -1036,8 +1099,8 @@ private:
 	__insert(size_type position, InputIterator first, InputIterator last  )
 	{
 		hydra_thrust::get<I>(fData).insert(hydra_thrust::get<I>(fData).begin() + position,
-				hydra_thrust::get<I>(first),
-				hydra_thrust::get<I>(last) );
+				hydra_thrust::get<I>(first.get_iterator_tuple()),
+				hydra_thrust::get<I>(last.get_iterator_tuple()) );
 
 		__insert<I + 1>( position,  first, last );
 	}
@@ -1488,9 +1551,10 @@ template<typename ...T, hydra::detail::Backend BACKEND1, hydra::detail::Backend 
 bool operator!=(const multivector<hydra_thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND1>>& lhs,
                 const multivector<hydra_thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND2>>& rhs){
 
-	auto comparison = []__hydra_host__ __hydra_device__(
-			hydra_thrust::tuple< hydra_thrust::tuple<T...>,
-			hydra_thrust::tuple<T...>	> const& values){
+	auto comparison = []__hydra_host__ __hydra_device__( hydra_thrust::tuple< hydra_thrust::tuple<T...>,
+			hydra_thrust::tuple<T...>	> const& values)
+	{
+
 		return hydra_thrust::get<0>(values)== hydra_thrust::get<1>(values);
 
 	};
@@ -1501,6 +1565,40 @@ bool operator!=(const multivector<hydra_thrust::tuple<T...>, hydra::detail::Back
 	, comparison));
 }
 
+template<hydra::detail::Backend BACKEND, typename ...T, unsigned int...I>
+auto columns( multivector<hydra_thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND>>const& other, placeholders::placeholder<I>...cls)
+-> Range<decltype(std::declval<multivector<hydra_thrust::tuple<T...>,
+		hydra::detail::BackendPolicy<BACKEND>> const&>().begin(placeholders::placeholder<I>{}...))>
+{
+
+	typedef decltype( other.begin(cls...)) iterator_type;
+	return Range<iterator_type>( other.begin(cls...), other.end(cls...));
+}
+
+template<hydra::detail::Backend BACKEND, typename ...T, unsigned int...I>
+auto columns( multivector<hydra_thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND>>& other, placeholders::placeholder<I>...cls)
+-> Range<decltype(std::declval<multivector<hydra_thrust::tuple<T...>,
+		hydra::detail::BackendPolicy<BACKEND>>&>().begin(placeholders::placeholder<I>{}...))>
+{
+
+	typedef decltype( other.begin(cls...)) iterator_type;
+	return Range<iterator_type>( other.begin(cls...), other.end(cls...));
+}
+
+template<typename Type, hydra::detail::Backend BACKEND, typename ...T>
+auto columns( multivector<hydra_thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND>>& other)
+-> Range<decltype(
+std::declval<multivector<hydra_thrust::tuple<T...>,
+hydra::detail::BackendPolicy<BACKEND>>&>().begin(
+		placeholders::placeholder<detail::index_in_tuple<Type, hydra_thrust::tuple<T...> >::value>{})) >
+{
+
+	constexpr size_t I = detail::index_in_tuple<Type, hydra_thrust::tuple<T...> >::value;
+
+	typedef decltype( other.begin( placeholders::placeholder<I>{} )) iterator_type;
+	return Range<iterator_type>( other.begin( placeholders::placeholder<I>{}),
+			other.end( placeholders::placeholder<I>{} ));
+}
 
 
 

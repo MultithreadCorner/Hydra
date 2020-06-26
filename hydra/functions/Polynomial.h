@@ -82,6 +82,7 @@ class  Polynomial:public BaseFunctor<Polynomial<Order, ArgType>, Signature, Orde
 	using BaseFunctor<Polynomial<Order, ArgType>, Signature, Order+1>::_par;
 
 public:
+
 	Polynomial() = delete;
 
 	Polynomial(std::array<Parameter,Order+1> const& coeficients):
@@ -93,7 +94,7 @@ public:
 
 	__hydra_host__ __hydra_device__
 	inline Polynomial<Order, ArgType>&
-	operator=( Polynomial<ArgType, Order> const& other)
+	operator=( Polynomial<Order, ArgType> const& other)
 	{
 		if(this == &other) return *this;
 		BaseFunctor<Polynomial< Order, ArgType>, Signature, Order+1>::operator=(other);

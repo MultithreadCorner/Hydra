@@ -44,7 +44,7 @@
 #include <hydra/functions/Ipatia.h>
 #include <hydra/device/System.h>
 #include <hydra/functions/ConvolutionFunctor.h>
-
+#include <hydra/Random.h>
 //hydra
 #if HYDRA_DEVICE_SYSTEM == CUDA
 #include <hydra/CuFFT.h>
@@ -111,7 +111,7 @@ int main(int argv, char** argc)
 	auto mean   = hydra::Parameter::Create( "mean").Value(0.0).Error(0.0001);
 	auto sigma  = hydra::Parameter::Create("sigma").Value(3.5).Error(0.0001);
 
-	hydra::Gaussian<> gaussian_kernel(mean,  sigma);
+	hydra::Gaussian<double> gaussian_kernel(mean,  sigma);
 
 	//===========================
 	// signals
@@ -134,7 +134,7 @@ int main(int argv, char** argc)
 
 
 	//ipatia function evaluating on the first argument
-	auto signal = hydra::Ipatia<>(mu, gamma,L1,N1,L2,N2,alfa,beta);
+	auto signal = hydra::Ipatia<double>(mu, gamma,L1,N1,L2,N2,alfa,beta);
 
 	//hydra::Gaussian<>  signal(mu, gamma);
 	//===========================
@@ -173,7 +173,7 @@ int main(int argv, char** argc)
 	/*
 	 * using the hydra::ConvolutionFunctor
 	 */
-    auto convoluton = hydra::make_convolution<0>(  hydra::device::sys, fft_backend, signal, gaussian_kernel, min, max,  conv_result.size() );
+    auto convoluton = hydra::make_convolution<double>(  hydra::device::sys,  fft_backend, signal, gaussian_kernel, min, max,  conv_result.size() );
 
 	//------------------------
 	//------------------------
@@ -247,8 +247,7 @@ int main(int argv, char** argc)
 	myapp->Run();
 
 #endif //_ROOT_AVAILABLE_
-
-	convoluton.Dispose();
+convoluton.Dispose();
 	return 0;
 
 }

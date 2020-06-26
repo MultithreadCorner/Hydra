@@ -200,7 +200,7 @@ inline GReal_t Vector4R::mass() const
 
 	if (m2 > 0.0)
 	{
-		return sqrt(m2);
+		return ::sqrt(m2);
 	}
 	else
 	{
@@ -213,12 +213,12 @@ __hydra_host__ __hydra_device__
 inline void Vector4R::applyRotateEuler(GReal_t phi, GReal_t theta, GReal_t ksi)
 {
 
-	GReal_t sp = sin(phi);
-	GReal_t st = sin(theta);
-	GReal_t sk = sin(ksi);
-	GReal_t cp = cos(phi);
-	GReal_t ct = cos(theta);
-	GReal_t ck = cos(ksi);
+	GReal_t sp = ::sin(phi);
+	GReal_t st = ::sin(theta);
+	GReal_t sk = ::sin(ksi);
+	GReal_t cp = ::cos(phi);
+	GReal_t ct = ::cos(theta);
+	GReal_t ck = ::cos(ksi);
 
 	GReal_t x = (ck * ct * cp - sk * sp) * v[1]
 			+ (-sk * ct * cp - ck * sp) * v[2] + st * cp * v[3];
@@ -265,7 +265,7 @@ inline void Vector4R::applyBoostTo(const Vector3R& boost, bool inverse)
 	if (b2 > 0.0 && b2 < 1.0)
 	{
 
-		gamma = 1.0 / sqrt(1.0 - b2);
+		gamma = 1.0 / ::sqrt(1.0 - b2);
 
 		GReal_t gb2 = (gamma - 1.0) / b2;
 
@@ -324,7 +324,7 @@ inline void Vector4R::applyBoostTo(const GReal_t bx, const GReal_t by,
 	if (b2 > 0.0 && b2 < 1.0)
 	{
 
-		gamma = 1.0 / sqrt(1.0 - b2);
+		gamma = 1.0 / ::sqrt(1.0 - b2);
 
 		GReal_t gb2 = (gamma - 1.0) / b2;
 
@@ -404,7 +404,7 @@ inline GReal_t Vector4R::p() const
 
 	temp = v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
 
-	temp = sqrt(temp);
+	temp = ::sqrt(temp);
 
 	return temp;
 } //
@@ -431,7 +431,7 @@ inline GReal_t Vector4R::d3mag() const
 
 	temp = v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
 
-	temp = sqrt(temp);
+	temp = ::sqrt(temp);
 
 	return temp;
 } // r3mag
@@ -488,7 +488,7 @@ inline GReal_t Vector4R::mag2r3(const Vector4R& p1) const
 __hydra_host__ __hydra_device__
 inline GReal_t Vector4R::magr3(const Vector4R& p1) const
 {
-	return sqrt(mag2r3(p1));
+	return ::sqrt(mag2r3(p1));
 }
 
 

@@ -30,11 +30,10 @@
 #define SPARSE_HISTOGRAMING_INL_
 
 /**
- * \example sparse_histogram.inl
+ * \example dense_histogram.inl
  *
  * This example shows the basic usage of the hydra::DenseHistogram class.
  */
-
 
 #include <iostream>
 #include <assert.h>
@@ -45,8 +44,8 @@
 #include <tclap/CmdLine.h>
 
 //this lib
-#include <hydra/device/System.h>
 #include <hydra/host/System.h>
+#include <hydra/device/System.h>
 #include <hydra/Function.h>
 #include <hydra/Lambda.h>
 #include <hydra/FunctorArithmetic.h>
@@ -54,9 +53,10 @@
 #include <hydra/Algorithm.h>
 #include <hydra/Tuple.h>
 #include <hydra/Distance.h>
-#include <hydra/multiarray.h>
 #include <hydra/SparseHistogram.h>
 #include <hydra/Range.h>
+#include <hydra/multivector.h>
+
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -71,6 +71,11 @@
 
 #endif //_ROOT_AVAILABLE_
 
+declarg(AxisX, double)
+declarg(AxisY, double)
+declarg(AxisZ, double)
+
+using namespace hydra::arguments;
 
 int main(int argv, char** argc)
 {
@@ -96,83 +101,64 @@ int main(int argv, char** argc)
 	}
 
 
+	//==================
+
 	//Gaussian 1
-	double mean1   = -2.0;
+	double mean1   =  1.0;
 	double sigma1  =  1.0;
 
-	double _max    =  6.0;
-	double _min    = -6.0;
-	size_t _nbins  =  50;
-
-	constexpr size_t N=3;
-
-	/*
-	 * In 10 dimensions, a dense histogram with 100 bins per dimension
-	 * would allocates an array with 10^20 doubles, one for store the
-	 * counting of each bin.
-	 * Given each double has 16 bytes, 1.6 x 10^21 bytes or 1.6 x10^9 Terabytes!!!
-	 * On the other hand, each entry has 10 doubles, to populate each bin with
-	 * 10 doubles requires the storage or generation of 10^22 doubles.
-	 * Sparse histograms will only store bins that are not empty.
-	 */
-
-
-	auto GAUSSIAN1 =  [=] __hydra_dual__ (unsigned int n,double* x ){
+	auto Gaussian1 = hydra::wrap_lambda( [mean1, sigma1] __hydra_dual__ ( AxisX x, AxisY y, AxisZ z )
+	{
 
 		double g = 1.0;
 
-		for(size_t i=0; i<N; i++){
+		double X[3]{x,y,z};
 
-			double m2 = (x[i] - mean1 )*(x[i] - mean1 );
+		for(size_t i=0; i<3; i++)
+		{
+
+			double m2 = (X[i] - mean1 );
+			m2=m2*m2;
 			double s2 = sigma1*sigma1;
 			g *= exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
 		}
 
 		return g;
-	};
+	});
 
-	auto gaussian1 = hydra::wrap_lambda( GAUSSIAN1 );
 
 	//Gaussian 2
-	double mean2   =  2.0;
+	double mean2   =  3.0;
 	double sigma2  =  1.0;
-	auto GAUSSIAN2 =  [=] __hydra_dual__ (unsigned int n, double* x ){
+	auto Gaussian2 = hydra::wrap_lambda( [mean2, sigma2] __hydra_dual__ ( AxisX x, AxisY y, AxisZ z )
+		{
 
-		double g = 1.0;
+			double g = 1.0;
 
-		for(size_t i=0; i<N; i++){
+			double X[3]{x,y,z};
 
-			double m2 = (x[i] - mean2 )*(x[i] - mean2 );
-			double s2 = sigma2*sigma2;
-			g *= exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
-		}
+			for(size_t i=0; i<3; i++)
+			{
 
-		return g;
-	};
+				double m2 = (X[i] - mean2 );
+				m2=m2*m2;
+				double s2 = sigma2*sigma2;
+				g *= exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
+			}
 
-	auto gaussian2 = hydra::wrap_lambda( GAUSSIAN2 );
+			return g;
+		});
 
 	//sum of gaussians
-	auto gaussians = gaussian1 + gaussian2;
+	auto Gaussians = Gaussian1 + Gaussian2;
 
 	//---------
-
 	//---------
 	//generator
-	hydra::Random<>
-	Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
-	std::array<double, N>max;
-	std::array<double, N>min;
-    std::array<int, N> nbins;
+	std::array<double, 3>max{6.0, 6.0, 6.0};
+	std::array<double, 3>min{-6.0, -6.0, -6.0};
 
-	for(size_t i=0;i<N;i++){
-		max[i]=_max;
-		min[i]=_min;
-		nbins[i] =_nbins;
-	}
-
-	//------------------------
 	//------------------------
 #ifdef _ROOT_AVAILABLE_
 
@@ -185,16 +171,18 @@ int main(int argv, char** argc)
 
 
 
-	typedef hydra::multiarray<double,N, hydra::device::sys_t> dataset_d;
 
 	//device
 	{
 
-		dataset_d data_d(nentries);
+		hydra::multivector<
+		      hydra::tuple<AxisX, AxisY, AxisZ>,
+		      hydra::device::sys_t > dataset(nentries);
+
 
 		auto start_d = std::chrono::high_resolution_clock::now();
 
-		auto range = Generator.Sample(data_d.begin(),  data_d.end(), min, max, gaussians);
+		auto range = hydra::sample(dataset, min, max, Gaussians);
 
 		auto end_d = std::chrono::high_resolution_clock::now();
 
@@ -210,17 +198,17 @@ int main(int argv, char** argc)
 		for(size_t i=0; i<10; i++)
 			std::cout << "< Random::Sample > [" << i << "] :" << range.begin()[i] << std::endl;
 
+		std::array<size_t, 3> nbins{50, 50, 50};
 
-
-		hydra::SparseHistogram< double,3, hydra::device::sys_t> Hist_Data(nbins, min, max);
+		hydra::SparseHistogram<double,3, hydra::device::sys_t> Hist_Data(nbins, min, max);
 
 		start_d = std::chrono::high_resolution_clock::now();
 
 		Hist_Data.Fill(range.begin(), range.end());
 
 		end_d = std::chrono::high_resolution_clock::now();
-
 		elapsed_d = end_d - start_d;
+
 
 		//time
 		std::cout << "-----------------------------------------"<<std::endl;
@@ -228,15 +216,21 @@ int main(int argv, char** argc)
 		std::cout << "-----------------------------------------"<<std::endl;
 
 #ifdef _ROOT_AVAILABLE_
-		for(auto bin : Hist_Data){
 
-			size_t index   = hydra::get<0>(bin);
-			double content = hydra::get<1>(bin);
+		{
+			hydra::SparseHistogram<double,3, hydra::host::sys_t> _temp_hist=Hist_Data;
 
-			int indexes[N];
-			Hist_Data.GetIndexes(index, indexes );
+		for(size_t i=0;  i<50; i++){
+					for(size_t j=0;  j<50; j++){
+						for(size_t k=0;  k<50; k++){
 
-			hist_d.SetBinContent(indexes[0]+1, indexes[1]+1, indexes[2]+1, content  );
+							size_t bin[3]={i,j,k};
+
+				          	hist_d.SetBinContent(i+1,j+1,k+1,
+				          			 _temp_hist.GetBinContent(bin )  );
+						}
+					}
+				}
 
 		}
 #endif //_ROOT_AVAILABLE_
@@ -250,7 +244,7 @@ int main(int argv, char** argc)
 
 	//draw histograms
 	TCanvas canvas_d("canvas_d" ,"Distributions - Device", 1000, 1000);
-	hist_d.Draw("iso");
+	hist_d.Draw("");
 	hist_d.SetFillColor(9);
 
 
@@ -263,8 +257,5 @@ int main(int argv, char** argc)
 
 
 }
-
-
-
 
 #endif /* SPARSE_HISTOGRAMING_INL_ */

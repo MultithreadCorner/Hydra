@@ -20,61 +20,33 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * DEVICE.h
+ * CompositeTraits.h
  *
- *  Created on: 16/05/2017
+ *  Created on: 09/06/2020
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef DEVICE_H_
-#define DEVICE_H_
-
+#ifndef COMPOSITETRAITS_H_
+#define COMPOSITETRAITS_H_
 
 #include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/detail/external/hydra_thrust/execution_policy.h>
-#include <hydra/detail/external/hydra_thrust/device_vector.h>
-
+#include <hydra/detail/external/hydra_thrust/type_traits/void_t.h>
+#include <type_traits>
 
 namespace hydra {
 
 namespace detail {
 
-namespace device {
 
-typedef hydra_thrust::detail::device_t	            device_t;
-static const device_t   _device_;
+template<class Integrator, typename T= hydra_thrust::void_t<> >
+struct is_hydra_composite_functor: std::false_type {};
 
-}  // namespace device
-
-template<>
-struct BackendPolicy<Backend::Device>: hydra_thrust::device_execution_policy<device::device_t>
-{
-	typedef hydra_thrust::device_execution_policy<device::device_t> execution_policy_type;
-
-	const device::device_t backend= device::_device_;
-
-	template<typename T>
-	using   container = hydra_thrust::device_vector<T>;
-
-};
-
+template<class T>
+struct is_hydra_composite_functor<T,
+             hydra_thrust::void_t< typename T::hydra_composed_functor_type> > : std::true_type {};
 
 }  // namespace detail
 
-namespace device {
+}//namespace hydra
 
-typedef hydra::detail::BackendPolicy<hydra::detail::Backend::Device> sys_t;
-
-template<typename T>
-using   vector = hydra::detail::BackendPolicy<hydra::detail::Backend::Device>::container<T>;
-
-static const sys_t sys=sys_t();
-
-}  // namespace device
-
-}  // namespace hydra
-
-
-
-#endif /* DEVICE_H_ */
+#endif /* COMPOSITETRAITS_H_ */

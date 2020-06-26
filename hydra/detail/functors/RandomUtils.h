@@ -280,8 +280,8 @@ struct RndTrial{
 	__hydra_host__ __hydra_device__
 	inline T operator()(size_t index, Tuple t)
 	{
-		T* x[N];
-		detail::set_ptrs_to_tuple(t, &x[0]);
+		T x[N];
+		//detail::set_ptrs_to_tuple(t, &x[0]);
 
 		GRND randEng(fSeed);
 		randEng.discard(index);
@@ -289,8 +289,10 @@ struct RndTrial{
 		for (size_t j = 0; j < N; j++)
 		{
 			hydra_thrust::uniform_real_distribution<T>  dist(fMin[j], fMax[j]);
-			*(x[j]) = dist(randEng);
+			x[j] = dist(randEng);
 		}
+
+		assignArrayToTuple(t, x);
 
 		return  fFunctor(t);
 	}

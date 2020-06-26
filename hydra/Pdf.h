@@ -37,6 +37,7 @@
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/IntegratorTraits.h>
 #include <hydra/detail/FunctorTraits.h>
+#include <hydra/detail/CompositeTraits.h>
 
 #include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
 #include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
@@ -66,7 +67,8 @@ class Pdf
 {
 
 	HYDRA_STATIC_ASSERT( (detail::is_hydra_functor<FUNCTOR>::value ||
-			              detail::is_hydra_lambda<FUNCTOR>::value)  &&
+			              detail::is_hydra_lambda<FUNCTOR>::value  ||
+			              detail::is_hydra_composite_functor<FUNCTOR>::value)  &&
 			              detail::is_hydra_integrator<INTEGRATOR>::value ,
 			"Instantiation of hydra::Pdf<FUNCTOR, INTEGRATOR> class, as the naming suggests,\n "
 			" requires a compliant functor or lambda as first template parameter\n"

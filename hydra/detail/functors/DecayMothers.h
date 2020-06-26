@@ -38,7 +38,7 @@
 //hydra
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <hydra/Containers.h>
+
 #include <hydra/Vector3R.h>
 #include <hydra/Vector4R.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
@@ -253,7 +253,7 @@ struct DecayMothers
 
 		particles_tuple_type particles{};
 
-		hydra::detail::assignArrayToTuple2(particles,  &Particles[1] );
+		assignArrayToTuple(particles,  &Particles[1] );
 
 		return particles;
 
