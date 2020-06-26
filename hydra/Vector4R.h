@@ -43,7 +43,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/Vector3R.h>
-#include <hydra/Collection.h>
+
 
 using std::ostream;
 

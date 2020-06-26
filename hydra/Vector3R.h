@@ -38,7 +38,7 @@
 #include <iostream>
 #include <math.h>
 #include <cmath>
-#include <hydra/Collection.h>
+
 
 using std::ostream;
 
