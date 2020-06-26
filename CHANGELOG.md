@@ -174,19 +174,28 @@ The filling functions can be called also with a specific backend policy and with
     
     int main(int argv, char** argc)
     {
-    ...
-    auto xfcn    = hydra::make_loglikehood_fcn(xmodel, xrange);
-    auto yfcn    = hydra::make_loglikehood_fcn(ymodel, yrange);
-    auto zfcn    = hydra::make_loglikehood_fcn(zmodel, zrange);
+     ...
+     //=====================================================================================
+     //                                                           +----> [ fcn(model-x) ]
+     //                           +----> [ simultaneous fcn 1] ---|
+     //                           |                               +----> [ fcn(model-y) ] 
+     // [ simultaneous fcn ]  ----+
+     //                           |                               +----> [ fcn(model-w) ]
+     //                           +----> [ simultaneous fcn 2] ---|
+     //                                                           +----> [ fcn(model-z) ]
+     //=====================================================================================        
+     auto fcnX    = hydra::make_loglikehood_fcn(modelX, dataX);
+     auto fcnY    = hydra::make_loglikehood_fcn(modelY, dataY);
+     auto fcnW    = hydra::make_loglikehood_fcn(modelY, dataY);
+     auto fcnZ    = hydra::make_loglikehood_fcn(modelZ, dataZ);    
 
-    auto sim_fcn1 = hydra::make_simultaneous_fcn(xfcn, yfcn);
-    auto sim_fcn2 = hydra::make_simultaneous_fcn(xfcn, yfcn, zfcn);
-    auto sim_fcn  = hydra::make_simultaneous_fcn(sim_fcn1, sim_fcn2);
-
-    ...
+     auto sim_fcn1 = hydra::make_simultaneous_fcn(fcnx, fcny);
+     auto sim_fcn2 = hydra::make_simultaneous_fcn(fcnw, fcnz);
+     auto sim_fcn  = hydra::make_simultaneous_fcn(sim_fcn1, sim_fcn2);
+     ...
     }
     ```
- Moreover, the generic interface allows to build up a simultaneous FCN object by composing usual FCNs and simultaneous FCNs. An example of such new method can be found in `examples/fit/simultaneous_fit.inl`.
+    Moreover, the generic interface allows to build up a simultaneous FCN object by composing usual FCNs and simultaneous FCNs. An example of such new method can be found in `examples/fit/simultaneous_fit.inl`.
 
 2. Fitting of convoluted PDFs.
 
