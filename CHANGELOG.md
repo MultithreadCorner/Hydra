@@ -159,6 +159,12 @@ Many issues solved and bugs fixed across the tree:
  
 -------------------------
 
+### Hydra 2.6.0
+
+This is the last release from series 2.x.x.
+
+-------------------------
+
 ### Hydra 2.5.0
 
 1. **Eigen** is not being distributed with **Hydra** anymore. **Eigen** will remain an dependency for foreseeable future.
