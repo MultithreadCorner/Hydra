@@ -6,6 +6,17 @@ It is the first release of the longly  waited 3 series. Overall, this release is
 or at least to have similar performance to the previous releases. 
 There are many bug fixes and other changes across. The most significant are summarized below:
 
+#### C++14 compiliant release
+
+This release is the first C++14 compatible release. So, move the versions of NVCC, GCC, CLANG and so on, acordinaly.
+Also, set the "--std" compiler flags to "--std=c++14" for both CUDA and host compilers. 
+The first the minimal **CUDA** version has now been moved to **9.2**. 
+The support for extended C++ lambdas in CUDA is not complete. The restrictions are discussed in the page:
+
+https://docs.nvidia.com/cuda/archive/10.2/cuda-c-programming-guide/index.html#extended-lambda
+
+Hydra3 can not wrap generic lambdas in host code. If this feature is necessary, use host-only uwrapped lambdas.
+
 #### Function call interface
 
 This is probably the most impacting change in this release, making **Hydra3** series backward incompatible with the previous series.
@@ -134,9 +145,18 @@ See how it works:
 2. Fitting of convoluted PDFs.
 
 #### General
+Many issues solved and bugs fixed across the tree:
 
-1. Many bug fixes across the tree...
-
+    1. https://github.com/MultithreadCorner/Hydra/issues/91#issue-631032116
+    2. https://github.com/MultithreadCorner/Hydra/issues/90
+    3. https://github.com/MultithreadCorner/Hydra/pull/89
+    4. https://github.com/MultithreadCorner/Hydra/issues/87
+    5. https://github.com/MultithreadCorner/Hydra/issues/86
+    6. https://github.com/MultithreadCorner/Hydra/issues/82
+    7. https://github.com/MultithreadCorner/Hydra/issues/77
+   
+ and many others. 
+ 
 -------------------------
 
 ### Hydra 2.5.0
