@@ -163,7 +163,7 @@ struct DecayMother
 	GReal_t process(size_t evt, Vector4R (&daugters)[N])
 	{
 
-		GRND randEng;//(  );
+		GRND randEng(fSeed);
 		randEng.discard(evt+3*N);
 		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 

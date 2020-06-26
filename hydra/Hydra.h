@@ -50,6 +50,7 @@
  */
 #define HYDRA_VERSION 300000
 
+
 /*! \def HYDRA_MAJOR_VERSION
  *  \brief The preprocessor macro \p HYDRA_MAJOR_VERSION encodes the
  *         major version number of Hydra.
