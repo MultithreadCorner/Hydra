@@ -176,22 +176,24 @@ The filling functions can be called also with a specific backend policy and with
     {
      ...
      //=====================================================================================
-     //                                                           +----> [ fcn(model-x) ]
-     //                           +----> [ simultaneous fcn 1] ---|
-     //                           |                               +----> [ fcn(model-y) ] 
-     // [ simultaneous fcn ]  ----+
-     //                           |                               +----> [ fcn(model-w) ]
-     //                           +----> [ simultaneous fcn 2] ---|
-     //                                                           +----> [ fcn(model-z) ]
+     //                                                           +----< fcn(model-x) 
+     //                           +----< simultaneous fcn 1 ----- |
+     //                           |                               +----< fcn(model-y)  
+     //   simultaneous fcn   <----+
+     //                           |                               +----< fcn(model-w)
+     //                           +----< simultaneous fcn 2 ------|
+     //                           |                               +----< fcn(model-z) 
+     //                           +----< fcn(model-v)
      //=====================================================================================        
      auto fcnX    = hydra::make_loglikehood_fcn(modelX, dataX);
      auto fcnY    = hydra::make_loglikehood_fcn(modelY, dataY);
      auto fcnW    = hydra::make_loglikehood_fcn(modelY, dataY);
      auto fcnZ    = hydra::make_loglikehood_fcn(modelZ, dataZ);    
-
+     auto fcnV    = hydra::make_loglikehood_fcn(modelv, datav);
+     
      auto sim_fcn1 = hydra::make_simultaneous_fcn(fcnx, fcny);
      auto sim_fcn2 = hydra::make_simultaneous_fcn(fcnw, fcnz);
-     auto sim_fcn  = hydra::make_simultaneous_fcn(sim_fcn1, sim_fcn2);
+     auto sim_fcn  = hydra::make_simultaneous_fcn(sim_fcn1, sim_fcn2, fcnV);
      ...
     }
     ```
