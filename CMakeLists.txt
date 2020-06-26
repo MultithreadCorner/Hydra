@@ -15,11 +15,11 @@ SET(Hydra_CMAKE_DIR "${PROJECT_SOURCE_DIR}/cmake")
 SET(CMAKE_MODULE_PATH "${Hydra_CMAKE_DIR}" ${CMAKE_MODULE_PATH})
 SET(CMAKE_VERBOSE_MAKEFILE  ON)
 
-#check if compiler is C++11 compliant
+#check if compiler is C++14 compliant
 include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("--std=c++11" COMPILER_SUPPORTS_CXX11)
+CHECK_CXX_COMPILER_FLAG("--std=c++14" COMPILER_SUPPORTS_CXX14)
 if(NOT COMPILER_SUPPORTS_CXX11)
- message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+ message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++14 support. Please use a different C++ compiler.")
 endif()
 
 #compiler flags
@@ -88,7 +88,7 @@ endif(FFTW_FOUND)
 
 #-----------------------
 #get CUDA
-find_package(CUDA 8.0)
+find_package(CUDA 9.2)
 if(CUDA_FOUND)
 link_directories( ${CUDA_TOOLKIT_ROOT_DIR}/lib64/)
 
@@ -100,12 +100,9 @@ SET(CUDA_PROPAGATE_HOST_FLAGS ON)
 SET(CUDA_SEPARABLE_COMPILATION OFF)
 SET(CUDA_VERBOSE_BUILD OFF)
 
-if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.8)
-  # LIST(APPEND CUDA_NVCC_FLAGS " -Xcompiler -D_MWAITXINTRIN_H_INCLUDED ")
-endif()
 
 if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.4)
-    LIST(APPEND CUDA_NVCC_FLAGS " -Xcompiler -D__CORRECT_ISO_CPP11_MATH_H_PROTO ")
+ #   LIST(APPEND CUDA_NVCC_FLAGS " -Xcompiler -D__CORRECT_ISO_CPP11_MATH_H_PROTO ")
 endif()
 # Detect CUDA architecture and get best NVCC flags
 
