@@ -31,6 +31,9 @@
 #define CONVOLUTE_FUNCTIONS_INL_
 
 
+/**
+ * \example convolute_functions.inl
+ */
 
 #include <iostream>
 #include <assert.h>

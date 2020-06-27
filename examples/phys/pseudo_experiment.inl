@@ -65,6 +65,7 @@
 #include <hydra/AddPdf.h>
 #include <hydra/Algorithm.h>
 #include <hydra/SPlot.h>
+#include <hydra/SeedRNG.h>
 #include <hydra/multiarray.h>
 #include <hydra/multivector.h>
 
@@ -239,14 +240,16 @@ int main(int argv, char** argc)
 
 	//generate the primary dataset using std random device and multithread facility
 	{
-		//generator
+		//seeder
+		hydra::SeedRNG seeder;
+		auto seed = seeder();
 
 		//fill Gaussian component in a separated thread
 		auto gaussian_handler = std::async(std::launch::async,
-				[data_min, data_max, mean, sigma, nentries, &dataset]( ){
+				[seed,data_min, data_max, mean, sigma, nentries, &dataset]( ){
 
 			//Standard mersenne_twister_engine seeded with rd()
-			std::ranlux24 gen( 258 );
+			std::ranlux24 gen( seed );
 
 			std::normal_distribution<> dist(mean, sigma);
 
@@ -271,11 +274,12 @@ int main(int argv, char** argc)
 
 
 		//fill Expontial component in a separated thread
+		seed = seeder();
 		auto exp_handler = std::async(std::launch::async,
-				[data_min, data_max, tau, nentries, &dataset]( ){
+				[seed, data_min, data_max, tau, nentries, &dataset]( ){
 
 			//Standard mersenne_twister_engine seeded with rd()
-			std::ranlux24 gen( 456 );
+			std::ranlux24 gen( seed );
 
 			std::exponential_distribution<> dist(-tau);
 
@@ -302,10 +306,11 @@ int main(int argv, char** argc)
 
 
 		//fill Breit-Wigner component in a separated thread
+		seed = seeder();
 		auto breit_wigner_handler = std::async(std::launch::async,
-				[obs_min, obs_max, mass, width, nentries, &dataset]( ){
+				[seed, obs_min, obs_max, mass, width, nentries, &dataset]( ){
 
-			std::ranlux24 gen( 159 ); //Standard mersenne_twister_engine seeded with rd()
+			std::ranlux24 gen( seed ); //Standard mersenne_twister_engine seeded with rd()
 
 			std::uniform_real_distribution<> dist(0.0, 1.0);
 
@@ -336,10 +341,11 @@ int main(int argv, char** argc)
 
 
 		//fill noise component in a separated thread
+		seed = seeder();
 		auto noise_handler = std::async(std::launch::async,
-				[obs_min, obs_max, ndof, nentries, &dataset]( ){
+				[seed, obs_min, obs_max, ndof, nentries, &dataset]( ){
 
-			std::ranlux24 gen( 753 ); //Standard mersenne_twister_engine seeded with rd()
+			std::ranlux24 gen( seed ); //Standard mersenne_twister_engine seeded with rd()
 
 			std::chi_squared_distribution<> dist(ndof);
 

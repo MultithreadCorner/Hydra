@@ -74,6 +74,7 @@
 #include <hydra/functions/BreitWignerLineShape.h>
 #include <hydra/functions/CosHelicityAngle.h>
 #include <hydra/functions/ZemachFunctions.h>
+#include <hydra/SeedRNG.h>
 
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
@@ -302,22 +303,6 @@ private:
 };
 
 
-
-struct Seeder{
-
-	uint64_t x;
-
-	uint64_t operator()()
-	{
-
-		uint64_t z = (x += 0x9e3779b97f4a7c15);
-		z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;
-		z = (z ^ (z >> 27)) * 0x94d049bb133111eb;
-		return z ^ (z >> 31);
-	}
-
-};
-
 template<typename ...Amplitudes>
 auto make_model( Amplitudes const& ... amplitudes)
 -> decltype(hydra::compose( std::declval<Norm<typename Amplitudes::return_type...>>(), amplitudes... ))
@@ -466,26 +451,7 @@ int main(int argv, char** argc)
 	auto NR = NonResonant(coef_re, coef_im);
 	//======================================================
 	//Total: Model |N.R + \sum{ Resonaces }|^2
-/*
-	auto norm = Norm<
-			         hydra::complex<double>
-	                ,hydra::complex<double>
-			        ,hydra::complex<double>
-	                ,hydra::complex<double>
-	                ,hydra::complex<double>
-	                ,hydra::complex<double>
-	              >();
 
-	//model-functor
-	auto Model = hydra::compose(
-			norm ,
-		    K800_Resonance,//.......A1
-			KST_892_Resonance,//....A2
-			KST0_1430_Resonance,//..A3
-			KST2_1430_Resonance,//..A4
-			KST_1680_Resonance,//...A5
-			NR//....................A6
-			);*/
 	auto Model = make_model( K800_Resonance, KST_892_Resonance,
 			KST0_1430_Resonance, KST2_1430_Resonance,
 			KST_1680_Resonance, NR );
@@ -1213,7 +1179,7 @@ size_t generate_dataset(Backend const& system, Model const& model, std::array<do
 	//allocate memory to hold the final states particles
 	hydra::Decays<hydra::tuple<Kaon,PionA,PionB>, Backend > _data(D_MASS, {K_MASS, PI_MASS, PI_MASS}, bunch_size);
 
-	Seeder S{};
+	hydra::SeedRNG S{};
 
 
 	do {

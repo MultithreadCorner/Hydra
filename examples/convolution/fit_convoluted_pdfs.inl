@@ -29,6 +29,9 @@
 #ifndef FIT_CONVOLUTED_PDFS_INL_
 #define FIT_CONVOLUTED_PDFS_INL_
 
+/**
+ * \example fit_convoluted_pdfs.inl
+ */
 
 #include <iostream>
 #include <assert.h>

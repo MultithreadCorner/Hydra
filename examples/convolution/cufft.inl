@@ -30,6 +30,9 @@
 #ifndef CUFFT_INL_
 #define CUFFT_INL_
 
+/**
+ * \example cufft.inl
+ */
 
 #include <iostream>
 #include <assert.h>

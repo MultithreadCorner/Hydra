@@ -29,6 +29,11 @@
 #ifndef FFT_INL_
 #define FFT_INL_
 
+
+/**
+ * \example fft.inl
+ */
+
 #include <iostream>
 #include <assert.h>
 #include <time.h>

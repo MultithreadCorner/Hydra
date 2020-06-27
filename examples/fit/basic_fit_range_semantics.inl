@@ -34,7 +34,7 @@
  * \example basic_fit_range_semantics.inl
  *
  * This example shows how to generate a normal distributed dataset
- * and fit a hydra::Gaussian distribution.
+ * and fit a hydra::Gaussian distribution using hydra's range semantics.
  *
  */
 
