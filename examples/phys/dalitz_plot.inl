@@ -35,7 +35,6 @@
  */
 
 
-
 #include <iostream>
 #include <assert.h>
 #include <time.h>
@@ -701,7 +700,7 @@ int main(int argv, char** argc)
 		//Minimize and profile the time
 		auto start_d = std::chrono::high_resolution_clock::now();
 
-		FunctionMinimum minimum_d =  FunctionMinimum( migrad_d(5000,500) );
+		FunctionMinimum minimum_d =  FunctionMinimum( migrad_d(5000,250) );
 
 		auto end_d = std::chrono::high_resolution_clock::now();
 
