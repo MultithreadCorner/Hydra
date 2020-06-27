@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -95,7 +96,8 @@ $(document).ready(function(){initNavTree('double__gaussian__plus__exponential_8i
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">double_gaussian_plus_exponential.inl File Reference</div>  </div>
 </div><!--header-->
@@ -109,7 +111,7 @@ $(document).ready(function(){initNavTree('double__gaussian__plus__exponential_8i
 <code>#include &lt;tclap/CmdLine.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/device/System.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Function.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/FunctionWrapper.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Lambda.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Random.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/LogLikelihoodFCN.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Parameter.h</a>&gt;</code><br />
@@ -128,12 +130,14 @@ $(document).ready(function(){initNavTree('double__gaussian__plus__exponential_8i
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for double_gaussian_plus_exponential.inl:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="double__gaussian__plus__exponential_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="double__gaussian__plus__exponential_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="double__gaussian__plus__exponential_8inl__dep__incl.svg" width="336" height="142"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="double__gaussian__plus__exponential_8inl__dep__incl.svg" width="336" height="142"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -145,8 +149,67 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a1c03069360f1f90a556eb537e0ff8a72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#a1c03069360f1f90a556eb537e0ff8a72">main</a> (<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv, char **argc)</td></tr>
-<tr class="separator:a1c03069360f1f90a556eb537e0ff8a72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58e43a6eee990d884b2008760c6505c2"><td class="memItemLeft" align="right" valign="top">cmd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#a58e43a6eee990d884b2008760c6505c2">add</a> (<a class="el" href="basic__distributions_8inl.html#a32ea8a498b202f85a8d77adaac39ca1b">EArg</a>)</td></tr>
+<tr class="separator:a58e43a6eee990d884b2008760c6505c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a847ebf0b5067895a9c74f81825c76a00"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#a847ebf0b5067895a9c74f81825c76a00">catch</a> (TCLAP::ArgException &amp;e)</td></tr>
+<tr class="separator:a847ebf0b5067895a9c74f81825c76a00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dc0cdce190fb7c7f4b9ca73cf09ee6b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#a7dc0cdce190fb7c7f4b9ca73cf09ee6b">declarg</a> (_X, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>) <a class="el" href="namespace_3globalScope_4.html#classint">int</a> <a class="el" href="sobol__quasirandom_8inl.html#a1c03069360f1f90a556eb537e0ff8a72">main</a>(<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv</td></tr>
+<tr class="separator:a7dc0cdce190fb7c7f4b9ca73cf09ee6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32ea8a498b202f85a8d77adaac39ca1b"><td class="memItemLeft" align="right" valign="top">TCLAP::ValueArg&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#a32ea8a498b202f85a8d77adaac39ca1b">EArg</a> (&quot;n&quot;, &quot;number-of-events&quot;,&quot;Number of events&quot;, true, 10e6, &quot;size_t&quot;)</td></tr>
+<tr class="separator:a32ea8a498b202f85a8d77adaac39ca1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad368805327f3ea0a471914a7b57f8759"><td class="memItemLeft" align="right" valign="top"><a class="el" href="particle__mass_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">Hist_Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#ad368805327f3ea0a471914a7b57f8759">Fill</a> (range.begin(), <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">range.end</a>())</td></tr>
+<tr class="separator:ad368805327f3ea0a471914a7b57f8759"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0a6a937bc6ca2cb3f0ae61d6b6809bc"><td class="memItemLeft" align="right" valign="top">std::cout&lt;&lt; &quot;Minimum: &quot;&lt;&lt; minimum_d&lt;&lt; std::endl;std::cout&lt;&lt; &quot;-----------------------------------------&quot;&lt;&lt; std::endl;std::cout&lt;&lt; &quot;| [Fit] GPU Time (ms) =&quot;&lt;&lt; elapsed_d.count()&lt;&lt; std::endl;std::cout&lt;&lt; &quot;-----------------------------------------&quot;&lt;&lt; std::endl;<a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">hydra::DenseHistogram</a>&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, 1, <a class="el" href="namespacehydra_1_1device.html#a643f8c450c0d3d1e4fa3a45a7e6afe1d">hydra::device::sys_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">Hist_Data</a> (100, <a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>)</td></tr>
+<tr class="separator:aa0a6a937bc6ca2cb3f0ae61d6b6809bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c06c263c31271c073a8f0735b1e4a16"><td class="memItemLeft" align="right" valign="top">cmd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#a1c06c263c31271c073a8f0735b1e4a16">parse</a> (argv, <a class="el" href="basic__distributions_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a>)</td></tr>
+<tr class="separator:a1c06c263c31271c073a8f0735b1e4a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab33c4f5d33ac3a305332487f429789c6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="particle__mass_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#ab33c4f5d33ac3a305332487f429789c6">SetExtended</a> (1)</td></tr>
+<tr class="separator:ab33c4f5d33ac3a305332487f429789c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a27fb769f88c3c17ca3490b75f7758431"><td class="memItemLeft" align="right" valign="top">char **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a></td></tr>
+<tr class="separator:a27fb769f88c3c17ca3490b75f7758431"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae87cf30f58a40cae21dd7d985b83570c"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#ae87cf30f58a40cae21dd7d985b83570c">Background_PDF</a> = <a class="el" href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a>(<a class="el" href="group__common__functions.html#classhydra_1_1Exponential">hydra::Exponential</a>&lt;_X&gt;(<a class="el" href="basic__distributions_8inl.html#af09d0683face1f506ef2f42ab173b495">tau</a>) , <a class="el" href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a>&lt;<a class="el" href="group__common__functions.html#classhydra_1_1Exponential">hydra::Exponential</a>&lt;_X&gt;&gt;(<a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>))</td></tr>
+<tr class="separator:ae87cf30f58a40cae21dd7d985b83570c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed349245f10b40c68818a98d6c787b2d"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#aed349245f10b40c68818a98d6c787b2d">Core_PDF</a> = <a class="el" href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a>( <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian</a>&lt;_X&gt;(<a class="el" href="basic__distributions_8inl.html#af5f88b70b94c2ada29011f672e3e88a4">mean</a>, <a class="el" href="double__gaussian__plus__exponential_8inl.html#a4d234169a02a1ee4ad857defaa392133">sigma_core</a>), <a class="el" href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a>&lt;<a class="el" href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian</a>&lt;_X&gt;&gt;(<a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>))</td></tr>
+<tr class="separator:aed349245f10b40c68818a98d6c787b2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8382ae2b90c3888089645b9a1e48ffae"><td class="memItemLeft" align="right" valign="top">std::cout&lt;&lt; std::endl&lt;&lt; &quot;Generated data:&quot;&lt;&lt; std::endl;for(size_t i=0;i&lt; 10;i++) std::cout&lt;&lt; &quot;[&quot;&lt;&lt; i&lt;&lt; &quot;] :&quot;&lt;&lt; <a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a>[i]&lt;&lt; std::endl;auto <a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a>=<a class="el" href="group__fit.html#ga7cb37dfdb2198202b4cb3f0b79f94080">hydra::make_loglikehood_fcn</a>(<a class="el" href="particle__mass_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a>, <a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a>);ROOT::Minuit2::MnPrint::SetLevel(3);<a class="el" href="classhydra_1_1Print.html#af480c3aae8aa72e3c10f1a4d64930dc6">hydra::Print::SetLevel</a>(<a class="el" href="namespacehydra.html#ad87c68ca6adb981f4c31ae73ef97de3ba1bf857a06d5b8463494a6fcac6f4ea26">hydra::WARNING</a>);MnStrategy <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>(2);MnMigrad <a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a>(<a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a>, fcn.GetParameters().GetMnState(), <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>);std::cout&lt;&lt; fcn.GetParameters().GetMnState()&lt;&lt; std::endl;auto start_d=std::chrono::high_resolution_clock::now();FunctionMinimum minimum_d=FunctionMinimum(<a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a>(5000, 5));auto end_d=std::chrono::high_resolution_clock::now();std::chrono::duration&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, std::milli &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#a8382ae2b90c3888089645b9a1e48ffae">elapsed_d</a> = end_d - start_d</td></tr>
+<tr class="separator:a8382ae2b90c3888089645b9a1e48ffae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a168796f90b5045c3e96808bb77155098"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#a168796f90b5045c3e96808bb77155098">fraction</a> = <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>(&quot;Core_Fraction&quot; , 0.5, 0.001, 0.2 , 0.7)</td></tr>
+<tr class="separator:a168796f90b5045c3e96808bb77155098"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b0ede69e8156eb97acc579b88e883de"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a> = 10.0</td></tr>
+<tr class="separator:a0b0ede69e8156eb97acc579b88e883de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5f88b70b94c2ada29011f672e3e88a4"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#af5f88b70b94c2ada29011f672e3e88a4">mean</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>().Name(&quot;Mean&quot;).Value(0.0).Error(0.0001).Limits(-1.5, 1.5)</td></tr>
+<tr class="separator:af5f88b70b94c2ada29011f672e3e88a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad36546e8175d2922bee165fe028fedc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a> = -10.0</td></tr>
+<tr class="separator:aad36546e8175d2922bee165fe028fedc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4494b924b71b8932dedd0783a4e7061f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a> = <a class="el" href="group__fit.html#ga7e7cc3bb04eac1d1350bb41b254fc92b">hydra::add_pdfs</a>( {<a class="el" href="particle__mass_8inl.html#ab5fbe1a36c89d40e74fea5868bb99473">N_Signal</a>, <a class="el" href="Ipatia__plus__argus_8inl.html#a1e7b3dc6ec234b82390324c1d98f2874">N_Background</a>}, <a class="el" href="particle__mass_8inl.html#a06cec1bc75de861ff47a64af92566e57">Signal_PDF</a>, <a class="el" href="Ipatia__plus__argus_8inl.html#ae87cf30f58a40cae21dd7d985b83570c">Background_PDF</a>)</td></tr>
+<tr class="separator:a4494b924b71b8932dedd0783a4e7061f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23b5b17c4667d01ec62aa77273f3ce96"><td class="memItemLeft" align="right" valign="top">char const  *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#a23b5b17c4667d01ec62aa77273f3ce96">model_name</a> = &quot;Gaussian (core) + Gaussian (tail) + Exponential&quot;</td></tr>
+<tr class="separator:a23b5b17c4667d01ec62aa77273f3ce96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f54b691e46d546789081c719933be2e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#a0f54b691e46d546789081c719933be2e">N_Background</a> (&quot;N_Background&quot;, 2000, 1, 100, nentries)</td></tr>
+<tr class="separator:a0f54b691e46d546789081c719933be2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2a396b472b4d22a6afba8289425db43"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#ae2a396b472b4d22a6afba8289425db43">N_Signal</a> (&quot;N_Signal&quot;, 2000, 1, 100, nentries)</td></tr>
+<tr class="separator:ae2a396b472b4d22a6afba8289425db43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8b0f365ee5d5b76a62688733e5016a1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a> = EArg.getValue()</td></tr>
+<tr class="separator:af8b0f365ee5d5b76a62688733e5016a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41c36559284ec68ca0e13c56558b5f09"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a> = <a class="el" href="namespacehydra.html#aed01ab7e551c3ca33d6b8df7b27c4a31">hydra::sample</a>(<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>, <a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>, model.GetFunctor())</td></tr>
+<tr class="separator:a41c36559284ec68ca0e13c56558b5f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9717e7bbecb906637e86cef6da3d83c2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#a9717e7bbecb906637e86cef6da3d83c2">return</a></td></tr>
+<tr class="separator:a9717e7bbecb906637e86cef6da3d83c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d234169a02a1ee4ad857defaa392133"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#a4d234169a02a1ee4ad857defaa392133">sigma_core</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>().Name(&quot;Sigma_Core&quot;).Value(0.5).Error(0.0001).Limits(0.1, 1.0)</td></tr>
+<tr class="separator:a4d234169a02a1ee4ad857defaa392133"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2dab1250325e08f7b7fab19e56ac01f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#ab2dab1250325e08f7b7fab19e56ac01f">sigma_tail</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>().Name(&quot;Sigma_Tail&quot;).Value(1.5).Error(0.0001).Limits(1.0, 2.0)</td></tr>
+<tr class="separator:ab2dab1250325e08f7b7fab19e56ac01f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06cec1bc75de861ff47a64af92566e57"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#a06cec1bc75de861ff47a64af92566e57">Signal_PDF</a> = <a class="el" href="group__fit.html#ga7e7cc3bb04eac1d1350bb41b254fc92b">hydra::add_pdfs</a>( std::array&lt;<a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>, 1&gt;{<a class="el" href="double__gaussian__plus__exponential_8inl.html#a168796f90b5045c3e96808bb77155098">fraction</a>}, <a class="el" href="double__gaussian__plus__exponential_8inl.html#aed349245f10b40c68818a98d6c787b2d">Core_PDF</a>, <a class="el" href="double__gaussian__plus__exponential_8inl.html#acfc0ce924074e38d0c41347fab071385">Tail_PDF</a>)</td></tr>
+<tr class="separator:a06cec1bc75de861ff47a64af92566e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfc0ce924074e38d0c41347fab071385"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#acfc0ce924074e38d0c41347fab071385">Tail_PDF</a> = <a class="el" href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a>( <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian</a>&lt;_X&gt;(<a class="el" href="basic__distributions_8inl.html#af5f88b70b94c2ada29011f672e3e88a4">mean</a>, <a class="el" href="double__gaussian__plus__exponential_8inl.html#ab2dab1250325e08f7b7fab19e56ac01f">sigma_tail</a>), <a class="el" href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a>&lt;<a class="el" href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian</a>&lt;_X&gt;&gt;(<a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>))</td></tr>
+<tr class="separator:acfc0ce924074e38d0c41347fab071385"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af09d0683face1f506ef2f42ab173b495"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#af09d0683face1f506ef2f42ab173b495">tau</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>().Name(&quot;Tau&quot;).Value(-0.1).Error(0.0001).Limits(-1.0, 0.0)</td></tr>
+<tr class="separator:af09d0683face1f506ef2f42ab173b495"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe4cc9788f52e49485473dc699537388"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="double__gaussian__plus__exponential_8inl.html#abe4cc9788f52e49485473dc699537388">try</a></td></tr>
+<tr class="separator:abe4cc9788f52e49485473dc699537388"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ab401d9981e53a56c0a1bed254ed890c6"></a>
@@ -164,23 +227,59 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a1c03069360f1f90a556eb537e0ff8a72"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c03069360f1f90a556eb537e0ff8a72">&#9670;&nbsp;</a></span>main()</h2>
+<a id="a58e43a6eee990d884b2008760c6505c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58e43a6eee990d884b2008760c6505c2">&#9670;&nbsp;</a></span>add()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classint">int</a> main </td>
+          <td class="memname">cmd add </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td>
-          <td class="paramname"><em>argv</em>, </td>
+          <td class="paramtype"><a class="el" href="basic__distributions_8inl.html#a32ea8a498b202f85a8d77adaac39ca1b">EArg</a>&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a847ebf0b5067895a9c74f81825c76a00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a847ebf0b5067895a9c74f81825c76a00">&#9670;&nbsp;</a></span>catch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">catch </td>
+          <td>(</td>
+          <td class="paramtype">TCLAP::ArgException &amp;&#160;</td>
+          <td class="paramname"><em>e</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7dc0cdce190fb7c7f4b9ca73cf09ee6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7dc0cdce190fb7c7f4b9ca73cf09ee6b">&#9670;&nbsp;</a></span>declarg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">declarg </td>
+          <td>(</td>
+          <td class="paramtype">_X&#160;</td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">char **&#160;</td>
-          <td class="paramname"><em>argc</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
+          <td class="paramname">&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -193,13 +292,490 @@ Functions</h2></td></tr>
 </dl>
 </div>
 </div>
+<a id="a32ea8a498b202f85a8d77adaac39ca1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32ea8a498b202f85a8d77adaac39ca1b">&#9670;&nbsp;</a></span>EArg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TCLAP::ValueArg&lt;size_t&gt; EArg </td>
+          <td>(</td>
+          <td class="paramtype">&quot;n&quot;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;number-of-events&quot;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;Number of events&quot;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">true&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">10e6&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;size_t&quot;&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a4">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="ad368805327f3ea0a471914a7b57f8759"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad368805327f3ea0a471914a7b57f8759">&#9670;&nbsp;</a></span>Fill()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="particle__mass_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">Hist_Data</a> Fill </td>
+          <td>(</td>
+          <td class="paramtype">range.&#160;</td>
+          <td class="paramname"><em>begin</em>(), </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">range.&#160;</td>
+          <td class="paramname"><em>end</em>()&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa0a6a937bc6ca2cb3f0ae61d6b6809bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">&#9670;&nbsp;</a></span>Hist_Data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::cout&lt;&lt; &quot;Minimum: &quot; &lt;&lt; minimum_d &lt;&lt; std::endl; std::cout &lt;&lt; &quot;-----------------------------------------&quot;&lt;&lt;std::endl; std::cout &lt;&lt; &quot;| [Fit] GPU Time (ms) =&quot;&lt;&lt; elapsed_d.count() &lt;&lt;std::endl; std::cout &lt;&lt; &quot;-----------------------------------------&quot;&lt;&lt;std::endl; <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">hydra::DenseHistogram</a>&lt;<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, 1, <a class="el" href="namespacehydra_1_1device.html#a643f8c450c0d3d1e4fa3a45a7e6afe1d">hydra::device::sys_t</a>&gt; Hist_Data </td>
+          <td>(</td>
+          <td class="paramtype">100&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a42">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a1c06c263c31271c073a8f0735b1e4a16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c06c263c31271c073a8f0735b1e4a16">&#9670;&nbsp;</a></span>parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cmd parse </td>
+          <td>(</td>
+          <td class="paramtype">argv&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="basic__distributions_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a>&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab33c4f5d33ac3a305332487f429789c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab33c4f5d33ac3a305332487f429789c6">&#9670;&nbsp;</a></span>SetExtended()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="particle__mass_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a> SetExtended </td>
+          <td>(</td>
+          <td class="paramtype">1&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a27fb769f88c3c17ca3490b75f7758431"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27fb769f88c3c17ca3490b75f7758431">&#9670;&nbsp;</a></span>argc</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char** argc</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line">    <span class="keywordtype">size_t</span> <a class="code" href="double__gaussian__plus__exponential_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a> = 0</div><div class="ttc" id="double__gaussian__plus__exponential_8inl_html_af8b0f365ee5d5b76a62688733e5016a1"><div class="ttname"><a href="double__gaussian__plus__exponential_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a></div><div class="ttdeci">nentries</div><div class="ttdef"><b>Definition:</b> double_gaussian_plus_exponential.inl:108</div></div>
+</div><!-- fragment --><dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a2">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="ae87cf30f58a40cae21dd7d985b83570c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae87cf30f58a40cae21dd7d985b83570c">&#9670;&nbsp;</a></span>Background_PDF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto Background_PDF = <a class="el" href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a>(<a class="el" href="group__common__functions.html#classhydra_1_1Exponential">hydra::Exponential</a>&lt;_X&gt;(<a class="el" href="basic__distributions_8inl.html#af09d0683face1f506ef2f42ab173b495">tau</a>) , <a class="el" href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a>&lt;<a class="el" href="group__common__functions.html#classhydra_1_1Exponential">hydra::Exponential</a>&lt;_X&gt;&gt;(<a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a26">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="aed349245f10b40c68818a98d6c787b2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed349245f10b40c68818a98d6c787b2d">&#9670;&nbsp;</a></span>Core_PDF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto Core_PDF = <a class="el" href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a>( <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian</a>&lt;_X&gt;(<a class="el" href="basic__distributions_8inl.html#af5f88b70b94c2ada29011f672e3e88a4">mean</a>, <a class="el" href="double__gaussian__plus__exponential_8inl.html#a4d234169a02a1ee4ad857defaa392133">sigma_core</a>), <a class="el" href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a>&lt;<a class="el" href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian</a>&lt;_X&gt;&gt;(<a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a16">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a8382ae2b90c3888089645b9a1e48ffae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8382ae2b90c3888089645b9a1e48ffae">&#9670;&nbsp;</a></span>elapsed_d</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::cout&lt;&lt; std::endl&lt;&lt; &quot;Generated data:&quot;&lt;&lt; std::endl; for(size_t i=0; i&lt; 10; i++) std::cout &lt;&lt; &quot;[&quot; &lt;&lt; i &lt;&lt; &quot;] :&quot; &lt;&lt; <a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a>[i] &lt;&lt; std::endl; auto <a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a> = <a class="el" href="group__fit.html#ga7cb37dfdb2198202b4cb3f0b79f94080">hydra::make_loglikehood_fcn</a>( <a class="el" href="particle__mass_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a>, <a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a> ); ROOT::Minuit2::MnPrint::SetLevel(3); <a class="el" href="classhydra_1_1Print.html#af480c3aae8aa72e3c10f1a4d64930dc6">hydra::Print::SetLevel</a>(<a class="el" href="namespacehydra.html#ad87c68ca6adb981f4c31ae73ef97de3ba1bf857a06d5b8463494a6fcac6f4ea26">hydra::WARNING</a>); MnStrategy <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>(2); MnMigrad <a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a>(<a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a>, fcn.GetParameters().GetMnState() , <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>); std::cout&lt;&lt;fcn.GetParameters().GetMnState()&lt;&lt;std::endl; auto start_d = std::chrono::high_resolution_clock::now(); FunctionMinimum minimum_d = FunctionMinimum(<a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a>(5000, 5)); auto end_d = std::chrono::high_resolution_clock::now(); std::chrono::duration&lt;<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, std::milli&gt; elapsed_d = end_d - start_d</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a40">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a168796f90b5045c3e96808bb77155098"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a168796f90b5045c3e96808bb77155098">&#9670;&nbsp;</a></span>fraction</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto fraction = <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>(&quot;Core_Fraction&quot; , 0.5, 0.001, 0.2 , 0.7)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a21">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a0b0ede69e8156eb97acc579b88e883de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b0ede69e8156eb97acc579b88e883de">&#9670;&nbsp;</a></span>max</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> max = 10.0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a6">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="af5f88b70b94c2ada29011f672e3e88a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5f88b70b94c2ada29011f672e3e88a4">&#9670;&nbsp;</a></span>mean</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto mean = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>().Name(&quot;Mean&quot;).Value(0.0).Error(0.0001).Limits(-1.5, 1.5)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a8">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="aad36546e8175d2922bee165fe028fedc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad36546e8175d2922bee165fe028fedc">&#9670;&nbsp;</a></span>min</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> min = -10.0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a5">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a4494b924b71b8932dedd0783a4e7061f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4494b924b71b8932dedd0783a4e7061f">&#9670;&nbsp;</a></span>model</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto model = <a class="el" href="group__fit.html#ga7e7cc3bb04eac1d1350bb41b254fc92b">hydra::add_pdfs</a>( {<a class="el" href="particle__mass_8inl.html#ab5fbe1a36c89d40e74fea5868bb99473">N_Signal</a>, <a class="el" href="Ipatia__plus__argus_8inl.html#a1e7b3dc6ec234b82390324c1d98f2874">N_Background</a>}, <a class="el" href="particle__mass_8inl.html#a06cec1bc75de861ff47a64af92566e57">Signal_PDF</a>, <a class="el" href="Ipatia__plus__argus_8inl.html#ae87cf30f58a40cae21dd7d985b83570c">Background_PDF</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a30">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a23b5b17c4667d01ec62aa77273f3ce96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23b5b17c4667d01ec62aa77273f3ce96">&#9670;&nbsp;</a></span>model_name</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char const* model_name = &quot;Gaussian (core) + Gaussian (tail) + Exponential&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a7">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a0f54b691e46d546789081c719933be2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f54b691e46d546789081c719933be2e">&#9670;&nbsp;</a></span>N_Background</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> N_Background(&quot;N_Background&quot;, 2000, 1, 100, nentries)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a29">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="ae2a396b472b4d22a6afba8289425db43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2a396b472b4d22a6afba8289425db43">&#9670;&nbsp;</a></span>N_Signal</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> N_Signal(&quot;N_Signal&quot;,2000, 1, 100, nentries)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a28">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="af8b0f365ee5d5b76a62688733e5016a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8b0f365ee5d5b76a62688733e5016a1">&#9670;&nbsp;</a></span>nentries</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">nentries = EArg.getValue()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a3">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a41c36559284ec68ca0e13c56558b5f09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41c36559284ec68ca0e13c56558b5f09">&#9670;&nbsp;</a></span>range</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto range = <a class="el" href="namespacehydra.html#aed01ab7e551c3ca33d6b8df7b27c4a31">hydra::sample</a>(<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>, <a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>, model.GetFunctor())</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a32">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a9717e7bbecb906637e86cef6da3d83c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9717e7bbecb906637e86cef6da3d83c2">&#9670;&nbsp;</a></span>return</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">return</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4d234169a02a1ee4ad857defaa392133"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d234169a02a1ee4ad857defaa392133">&#9670;&nbsp;</a></span>sigma_core</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto sigma_core = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>().Name(&quot;Sigma_Core&quot;).Value(0.5).Error(0.0001).Limits(0.1, 1.0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a14">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="ab2dab1250325e08f7b7fab19e56ac01f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2dab1250325e08f7b7fab19e56ac01f">&#9670;&nbsp;</a></span>sigma_tail</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto sigma_tail = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>().Name(&quot;Sigma_Tail&quot;).Value(1.5).Error(0.0001).Limits(1.0, 2.0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a15">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a06cec1bc75de861ff47a64af92566e57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06cec1bc75de861ff47a64af92566e57">&#9670;&nbsp;</a></span>Signal_PDF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto Signal_PDF = <a class="el" href="group__fit.html#ga7e7cc3bb04eac1d1350bb41b254fc92b">hydra::add_pdfs</a>( std::array&lt;<a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>, 1&gt;{<a class="el" href="double__gaussian__plus__exponential_8inl.html#a168796f90b5045c3e96808bb77155098">fraction</a>}, <a class="el" href="double__gaussian__plus__exponential_8inl.html#aed349245f10b40c68818a98d6c787b2d">Core_PDF</a>, <a class="el" href="double__gaussian__plus__exponential_8inl.html#acfc0ce924074e38d0c41347fab071385">Tail_PDF</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a23">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="acfc0ce924074e38d0c41347fab071385"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfc0ce924074e38d0c41347fab071385">&#9670;&nbsp;</a></span>Tail_PDF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto Tail_PDF = <a class="el" href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a>( <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian</a>&lt;_X&gt;(<a class="el" href="basic__distributions_8inl.html#af5f88b70b94c2ada29011f672e3e88a4">mean</a>, <a class="el" href="double__gaussian__plus__exponential_8inl.html#ab2dab1250325e08f7b7fab19e56ac01f">sigma_tail</a>), <a class="el" href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a>&lt;<a class="el" href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian</a>&lt;_X&gt;&gt;(<a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a20">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="af09d0683face1f506ef2f42ab173b495"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af09d0683face1f506ef2f42ab173b495">&#9670;&nbsp;</a></span>tau</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto tau = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>().Name(&quot;Tau&quot;).Value(-0.1).Error(0.0001).Limits(-1.0, 0.0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a25">double_gaussian_plus_exponential.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="abe4cc9788f52e49485473dc699537388"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe4cc9788f52e49485473dc699537388">&#9670;&nbsp;</a></span>try</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">try</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line"></div><div class="line">        TCLAP::CmdLine cmd(<span class="stringliteral">&quot;Command line arguments for &quot;</span>, <span class="charliteral">&#39;=&#39;</span>)</div></div><!-- fragment -->
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_b3c69fde212a60de3f50954f66fa65c1.html">examples</a></li><li class="navelem"><a class="el" href="dir_6e157aa34d06ae01b63aa7ec9c965b66.html">phys</a></li><li class="navelem"><a class="el" href="double__gaussian__plus__exponential_8inl.html">double_gaussian_plus_exponential.inl</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

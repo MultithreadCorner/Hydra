@@ -1,12 +1,9 @@
 <map id="GenzMalikRule.h" name="GenzMalikRule.h">
-<area shape="rect" id="node2" href="$GenzMalikQuadrature_8inl.html" title="GenzMalikQuadrature.inl" alt="" coords="129,80,294,107"/>
-<area shape="rect" id="node3" href="$GenzMalikQuadrature_8h.html" title="GenzMalikQuadrature.h" alt="" coords="235,155,393,181"/>
+<area shape="rect" id="node2" href="$GenzMalikQuadrature_8inl.html" title="GenzMalikQuadrature.inl" alt="" coords="115,80,281,107"/>
+<area shape="rect" id="node3" href="$GenzMalikQuadrature_8h.html" title="GenzMalikQuadrature.h" alt="" coords="193,155,352,181"/>
 <area shape="rect" id="node4" href="$ProcessGenzMalikQuadrature_8h.html" title="ProcessGenzMalikQuadrature.h" alt="" coords="5,229,212,256"/>
-<area shape="rect" id="node5" href="$multidimensional__fit_8inl.html" title="multidimensional_fit.inl" alt="" coords="237,229,391,256"/>
-<area shape="rect" id="node8" href="$genz__malik_8inl.html" title="genz_malik.inl" alt="" coords="417,229,523,256"/>
-<area shape="rect" id="node11" href="$fit__3d__gaussian_8C.html" title="fit_3d_gaussian.C" alt="" coords="547,229,673,256"/>
-<area shape="rect" id="node6" href="$multidimensional__fit_8cpp.html" title="multidimensional_fit.cpp" alt="" coords="49,304,211,331"/>
-<area shape="rect" id="node7" href="$multidimensional__fit_8cu.html" title="multidimensional_fit.cu" alt="" coords="235,304,390,331"/>
-<area shape="rect" id="node9" href="$genz__malik_8cpp.html" title="genz_malik.cpp" alt="" coords="415,304,528,331"/>
-<area shape="rect" id="node10" href="$genz__malik_8cu.html" title="genz_malik.cu" alt="" coords="553,304,659,331"/>
+<area shape="rect" id="node5" href="$genz__malik_8inl.html" title="genz_malik.inl" alt="" coords="236,229,341,256"/>
+<area shape="rect" id="node8" href="$fit__3d__gaussian_8C.html" title="fit_3d_gaussian.C" alt="" coords="365,229,492,256"/>
+<area shape="rect" id="node6" href="$genz__malik_8cpp.html" title="genz_malik.cpp" alt="" coords="164,304,277,331"/>
+<area shape="rect" id="node7" href="$genz__malik_8cu.html" title="genz_malik.cu" alt="" coords="302,304,409,331"/>
 </map>

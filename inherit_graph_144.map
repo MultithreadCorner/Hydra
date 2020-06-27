@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structhydra_1_1detail_1_1RndCDF.html" title="hydra::detail::RndCDF\l\&lt; GRND, FUNCTOR \&gt;" alt="" coords="5,5,159,47"/>
+<area shape="rect" id="node1" href="$structhydra_1_1detail_1_1impl_1_1exact__unsigned__base__helper.html" title="hydra::detail::impl\l::exact_unsigned_base\l_helper\&lt; Bits \&gt;" alt="" coords="5,5,161,61"/>
+<area shape="rect" id="node2" href="$structhydra_1_1detail_1_1uint__t.html" title="hydra::detail::uint\l_t\&lt; Bits \&gt;" alt="" coords="209,13,332,54"/>
 </map>

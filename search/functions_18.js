@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['_7econvolution',['~Convolution',['../classhydra_1_1Convolution.html#a5b3de30191777b1f361a27cbf886d3fa',1,'hydra::Convolution']]],
-  ['_7eparameterscompositefunctor',['~ParametersCompositeFunctor',['../classhydra_1_1detail_1_1ParametersCompositeFunctor.html#a3e37134a1668a01d2eb0df15f06076e9',1,'hydra::detail::ParametersCompositeFunctor']]],
-  ['_7epdf',['~Pdf',['../group__fit.html#a76acfa97331d3ff48528ab4f492e4f9d',1,'hydra::Pdf']]],
-  ['_7eprocesscallsvegas',['~ProcessCallsVegas',['../structhydra_1_1detail_1_1ProcessCallsVegas.html#aac72be199d7bcdd9e6e7ce41a5856ec0',1,'hydra::detail::ProcessCallsVegas']]],
-  ['_7erandom',['~Random',['../group__random.html#abd8e96c690c86807455b92f641b1ad0e',1,'hydra::Random']]]
+  ['zemachfunction',['ZemachFunction',['../group__common__functions.html#abfd6a06e315ded0ea91963dddabc49b8',1,'hydra::ZemachFunction']]],
+  ['zero',['zero',['../structhydra_1_1detail_1_1TypeTraits.html#a48b760ca532b57b2e09145dcd4406362',1,'hydra::detail::TypeTraits::zero()'],['../structhydra_1_1detail_1_1TypeTraits_3_01hydra__thrust_1_1complex_3_01T_01_4_01_4.html#ab01ba1948be5163fbaaf02f878d4f21f',1,'hydra::detail::TypeTraits&lt; hydra_thrust::complex&lt; T &gt; &gt;::zero()']]],
+  ['zip',['zip',['../namespacehydra.html#ae1c8be57a887f2bb9d01ba075a5de0f2',1,'hydra']]],
+  ['zip_5fiterator_5fcat',['zip_iterator_cat',['../namespacehydra_1_1detail.html#a6d803c1c594f979fb4a8f4beae580766',1,'hydra::detail']]]
 ];

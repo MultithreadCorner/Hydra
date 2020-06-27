@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -95,7 +96,8 @@ $(document).ready(function(){initNavTree('phsp__unweighting_8inl.html','');});
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">phsp_unweighting.inl File Reference</div>  </div>
 </div><!--header-->
@@ -110,24 +112,26 @@ $(document).ready(function(){initNavTree('phsp__unweighting_8inl.html','');});
 <code>#include &lt;<a class="el" href="">hydra/Types.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Vector4R.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/PhaseSpace.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/Evaluate.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Function.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/FunctorArithmetic.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/FunctionWrapper.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Lambda.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Algorithm.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Tuple.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/host/System.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/device/System.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Decays.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/DenseHistogram.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Range.h</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for phsp_unweighting.inl:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phsp__unweighting_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phsp__unweighting_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phsp__unweighting_8inl__dep__incl.svg" width="328" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phsp__unweighting_8inl__dep__incl.svg" width="331" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -139,8 +143,51 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a1c03069360f1f90a556eb537e0ff8a72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#a1c03069360f1f90a556eb537e0ff8a72">main</a> (<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv, char **argc)</td></tr>
-<tr class="separator:a1c03069360f1f90a556eb537e0ff8a72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa427f0da145adedcd46ca1068cd8d7f1"><td class="memItemLeft" align="right" valign="top">cmd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#aa427f0da145adedcd46ca1068cd8d7f1">add</a> (<a class="el" href="phsp__unweighting_8inl.html#a6f9dd541a87fe356658d4b90731d2e3f">NArg</a>)</td></tr>
+<tr class="separator:aa427f0da145adedcd46ca1068cd8d7f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a847ebf0b5067895a9c74f81825c76a00"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#a847ebf0b5067895a9c74f81825c76a00">catch</a> (TCLAP::ArgException &amp;e)</td></tr>
+<tr class="separator:a847ebf0b5067895a9c74f81825c76a00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a360010ac145f9a19e570323679bb07da"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#a360010ac145f9a19e570323679bb07da">declarg</a> (<a class="el" href="basic__distributions_8inl.html#a107bc7301b1b250d34c25693b90096c8">A</a>, hydra::Vector4R) declarg(<a class="el" href="basic__distributions_8inl.html#a4b77ca8e9b2aaa14302e909ffc455c46">B</a></td></tr>
+<tr class="separator:a360010ac145f9a19e570323679bb07da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cb68232aab117f681a3a7afbf658bc1"><td class="memItemLeft" align="right" valign="top">hydra::Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#a4cb68232aab117f681a3a7afbf658bc1">declarg</a> (<a class="el" href="basic__distributions_8inl.html#a4900ef306eb9271438791f1a98b8ccba">C</a>, hydra::Vector4R) <a class="el" href="namespace_3globalScope_4.html#classint">int</a> <a class="el" href="sobol__quasirandom_8inl.html#a1c03069360f1f90a556eb537e0ff8a72">main</a>(<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv</td></tr>
+<tr class="separator:a4cb68232aab117f681a3a7afbf658bc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae0754269ece74173f4afd72643b7e3e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="phsp__unweighting_8inl.html#ab384b0624c68bc3bae6bc49654c9f478">phsp</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#aae0754269ece74173f4afd72643b7e3e">Generate</a> (<a class="el" href="phsp__unweighting_8inl.html#a8e72d9f95cadd3375922a96ec1e0cc9d">Parent</a>, Events)</td></tr>
+<tr class="separator:aae0754269ece74173f4afd72643b7e3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f9dd541a87fe356658d4b90731d2e3f"><td class="memItemLeft" align="right" valign="top">TCLAP::ValueArg&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#a6f9dd541a87fe356658d4b90731d2e3f">NArg</a> (&quot;n&quot;, &quot;nevents&quot;, &quot;Number of events to generate. Default is [ 10e6 ].&quot;, true, 10e6, &quot;unsigned long&quot;)</td></tr>
+<tr class="separator:a6f9dd541a87fe356658d4b90731d2e3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e72d9f95cadd3375922a96ec1e0cc9d"><td class="memItemLeft" align="right" valign="top">hydra::Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#a8e72d9f95cadd3375922a96ec1e0cc9d">Parent</a> (<a class="el" href="phsp__unweighting_8inl.html#a9a003092fe4c4d0a5de200f579f83aae">P_mass</a>, 0.0, 0.0, 0.0)</td></tr>
+<tr class="separator:a8e72d9f95cadd3375922a96ec1e0cc9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c06c263c31271c073a8f0735b1e4a16"><td class="memItemLeft" align="right" valign="top">cmd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#a1c06c263c31271c073a8f0735b1e4a16">parse</a> (argv, <a class="el" href="basic__distributions_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a>)</td></tr>
+<tr class="separator:a1c06c263c31271c073a8f0735b1e4a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:afed506122a21c7a438b10b0feeb997ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#afed506122a21c7a438b10b0feeb997ef">A_mass</a> = 0.13957061</td></tr>
+<tr class="separator:afed506122a21c7a438b10b0feeb997ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75382457d398a726b2461cf55a40b8c6"><td class="memItemLeft" align="right" valign="top">hydra::Vector4R char **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#a75382457d398a726b2461cf55a40b8c6">argc</a></td></tr>
+<tr class="separator:a75382457d398a726b2461cf55a40b8c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48c5caeaa7b45368c8fb37002bc141a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#a48c5caeaa7b45368c8fb37002bc141a9">B_mass</a> = 0.13957061</td></tr>
+<tr class="separator:a48c5caeaa7b45368c8fb37002bc141a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57b2c1595e7b74382a7c8a90974db54c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#a57b2c1595e7b74382a7c8a90974db54c">C_mass</a> = 0.13957061</td></tr>
+<tr class="separator:a57b2c1595e7b74382a7c8a90974db54c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6f5e94612d6b780788d65ee98888798"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#ac6f5e94612d6b780788d65ee98888798">dalitz_calculator</a></td></tr>
+<tr class="separator:ac6f5e94612d6b780788d65ee98888798"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78f40e8aeaafd131054b0c2070ccddc1"><td class="memItemLeft" align="right" valign="top">std::chrono::duration&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, std::milli &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#a78f40e8aeaafd131054b0c2070ccddc1">elapsed</a> = <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">end</a> - <a class="el" href="phsp__unweighting_8inl.html#a7f02a749754f40365411f74cf75d08fa">start</a></td></tr>
+<tr class="separator:a78f40e8aeaafd131054b0c2070ccddc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6be7d98960df33edf9f3998a9e8b2407"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">end</a> = std::chrono::high_resolution_clock::now()</td></tr>
+<tr class="separator:a6be7d98960df33edf9f3998a9e8b2407"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad507bdbe1cd7219fead6e9dcd287d908"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#ad507bdbe1cd7219fead6e9dcd287d908">masses</a> [3] {<a class="el" href="phsp__unweighting_8inl.html#afed506122a21c7a438b10b0feeb997ef">A_mass</a>, <a class="el" href="phsp__unweighting_8inl.html#a48c5caeaa7b45368c8fb37002bc141a9">B_mass</a>, <a class="el" href="phsp__unweighting_8inl.html#a57b2c1595e7b74382a7c8a90974db54c">C_mass</a> }</td></tr>
+<tr class="separator:ad507bdbe1cd7219fead6e9dcd287d908"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8b0f365ee5d5b76a62688733e5016a1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a> = NArg.getValue()</td></tr>
+<tr class="separator:af8b0f365ee5d5b76a62688733e5016a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a003092fe4c4d0a5de200f579f83aae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#a9a003092fe4c4d0a5de200f579f83aae">P_mass</a> = 0.493677</td></tr>
+<tr class="separator:a9a003092fe4c4d0a5de200f579f83aae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab384b0624c68bc3bae6bc49654c9f478"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__phsp.html#classhydra_1_1PhaseSpace">hydra::PhaseSpace</a>&lt; 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#ab384b0624c68bc3bae6bc49654c9f478">phsp</a> {<a class="el" href="phsp__unweighting_8inl.html#a9a003092fe4c4d0a5de200f579f83aae">P_mass</a>, <a class="el" href="phsp__unweighting_8inl.html#ad507bdbe1cd7219fead6e9dcd287d908">masses</a>}</td></tr>
+<tr class="separator:ab384b0624c68bc3bae6bc49654c9f478"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f02a749754f40365411f74cf75d08fa"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#a7f02a749754f40365411f74cf75d08fa">start</a> = std::chrono::high_resolution_clock::now()</td></tr>
+<tr class="separator:a7f02a749754f40365411f74cf75d08fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe4cc9788f52e49485473dc699537388"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting_8inl.html#abe4cc9788f52e49485473dc699537388">try</a></td></tr>
+<tr class="separator:abe4cc9788f52e49485473dc699537388"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="abc373456c1a697b3d6ab00d117d9e387"></a>
@@ -158,23 +205,59 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a1c03069360f1f90a556eb537e0ff8a72"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c03069360f1f90a556eb537e0ff8a72">&#9670;&nbsp;</a></span>main()</h2>
+<a id="aa427f0da145adedcd46ca1068cd8d7f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa427f0da145adedcd46ca1068cd8d7f1">&#9670;&nbsp;</a></span>add()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classint">int</a> main </td>
+          <td class="memname">cmd add </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td>
-          <td class="paramname"><em>argv</em>, </td>
+          <td class="paramtype"><a class="el" href="phsp__unweighting_8inl.html#a6f9dd541a87fe356658d4b90731d2e3f">NArg</a>&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a847ebf0b5067895a9c74f81825c76a00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a847ebf0b5067895a9c74f81825c76a00">&#9670;&nbsp;</a></span>catch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">catch </td>
+          <td>(</td>
+          <td class="paramtype">TCLAP::ArgException &amp;&#160;</td>
+          <td class="paramname"><em>e</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a360010ac145f9a19e570323679bb07da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a360010ac145f9a19e570323679bb07da">&#9670;&nbsp;</a></span>declarg() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">declarg </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="basic__distributions_8inl.html#a107bc7301b1b250d34c25693b90096c8">A</a>&#160;</td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">char **&#160;</td>
-          <td class="paramname"><em>argc</em>&#160;</td>
+          <td class="paramtype">hydra::Vector4R&#160;</td>
+          <td class="paramname">&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -187,13 +270,392 @@ Functions</h2></td></tr>
 </dl>
 </div>
 </div>
+<a id="a4cb68232aab117f681a3a7afbf658bc1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cb68232aab117f681a3a7afbf658bc1">&#9670;&nbsp;</a></span>declarg() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">hydra::Vector4R declarg </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="basic__distributions_8inl.html#a4900ef306eb9271438791f1a98b8ccba">C</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">hydra::Vector4R&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aae0754269ece74173f4afd72643b7e3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae0754269ece74173f4afd72643b7e3e">&#9670;&nbsp;</a></span>Generate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="phsp__unweighting_8inl.html#ab384b0624c68bc3bae6bc49654c9f478">phsp</a> Generate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="phsp__unweighting_8inl.html#a8e72d9f95cadd3375922a96ec1e0cc9d">Parent</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Events&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6f9dd541a87fe356658d4b90731d2e3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f9dd541a87fe356658d4b90731d2e3f">&#9670;&nbsp;</a></span>NArg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TCLAP::ValueArg&lt;size_t&gt; NArg </td>
+          <td>(</td>
+          <td class="paramtype">&quot;n&quot;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;nevents&quot;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;Number of events to generate. Default is .&quot;&#160;</td>
+          <td class="paramname">[10e6], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">true&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">10e6&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;unsigned long&quot;&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_unweighting_8inl-example.html#a11">phsp_unweighting.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a8e72d9f95cadd3375922a96ec1e0cc9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e72d9f95cadd3375922a96ec1e0cc9d">&#9670;&nbsp;</a></span>Parent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">hydra::Vector4R Parent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="phsp__unweighting_8inl.html#a9a003092fe4c4d0a5de200f579f83aae">P_mass</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">0.&#160;</td>
+          <td class="paramname"><em>0</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">0.&#160;</td>
+          <td class="paramname"><em>0</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">0.&#160;</td>
+          <td class="paramname"><em>0</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_averaging_functor_8inl-example.html#a15">phsp_averaging_functor.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#a13">phsp_basic.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#a13">phsp_reweighting.inl</a>, <a class="el" href="phsp_unweighting_8inl-example.html#a13">phsp_unweighting.inl</a>, and <a class="el" href="phsp_unweighting_functor_8inl-example.html#a13">phsp_unweighting_functor.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a1c06c263c31271c073a8f0735b1e4a16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c06c263c31271c073a8f0735b1e4a16">&#9670;&nbsp;</a></span>parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cmd parse </td>
+          <td>(</td>
+          <td class="paramtype">argv&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="basic__distributions_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a>&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="afed506122a21c7a438b10b0feeb997ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afed506122a21c7a438b10b0feeb997ef">&#9670;&nbsp;</a></span>A_mass</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> A_mass = 0.13957061</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_averaging_functor_8inl-example.html#a8">phsp_averaging_functor.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#a8">phsp_basic.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#a8">phsp_reweighting.inl</a>, <a class="el" href="phsp_unweighting_8inl-example.html#a8">phsp_unweighting.inl</a>, and <a class="el" href="phsp_unweighting_functor_8inl-example.html#a8">phsp_unweighting_functor.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a75382457d398a726b2461cf55a40b8c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75382457d398a726b2461cf55a40b8c6">&#9670;&nbsp;</a></span>argc</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">hydra::Vector4R char** argc</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keywordtype">size_t</span>  <a class="code" href="phsp__unweighting_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>   = 0</div><div class="ttc" id="phsp__unweighting_8inl_html_af8b0f365ee5d5b76a62688733e5016a1"><div class="ttname"><a href="phsp__unweighting_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a></div><div class="ttdeci">nentries</div><div class="ttdef"><b>Definition:</b> phsp_unweighting.inl:130</div></div>
+</div><!-- fragment --><dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_unweighting_8inl-example.html#a5">phsp_unweighting.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a48c5caeaa7b45368c8fb37002bc141a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48c5caeaa7b45368c8fb37002bc141a9">&#9670;&nbsp;</a></span>B_mass</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> B_mass = 0.13957061</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_averaging_functor_8inl-example.html#a9">phsp_averaging_functor.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#a9">phsp_basic.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#a9">phsp_reweighting.inl</a>, <a class="el" href="phsp_unweighting_8inl-example.html#a9">phsp_unweighting.inl</a>, and <a class="el" href="phsp_unweighting_functor_8inl-example.html#a9">phsp_unweighting_functor.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a57b2c1595e7b74382a7c8a90974db54c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57b2c1595e7b74382a7c8a90974db54c">&#9670;&nbsp;</a></span>C_mass</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> C_mass = 0.13957061</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_averaging_functor_8inl-example.html#a10">phsp_averaging_functor.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#a10">phsp_basic.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#a10">phsp_reweighting.inl</a>, <a class="el" href="phsp_unweighting_8inl-example.html#a10">phsp_unweighting.inl</a>, and <a class="el" href="phsp_unweighting_functor_8inl-example.html#a10">phsp_unweighting_functor.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="ac6f5e94612d6b780788d65ee98888798"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6f5e94612d6b780788d65ee98888798">&#9670;&nbsp;</a></span>dalitz_calculator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto dalitz_calculator</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="namespacehydra.html#a094f4a025290ae35ad9eb8c553c7fc61">hydra::wrap_lambda</a>(</div><div class="line">            [] <a class="code" href="Config_8h.html#a12fed978a9eb30299d0dc151384dcf3b">__hydra_dual__</a> (<a class="code" href="quick__test_8inl.html#a107bc7301b1b250d34c25693b90096c8">A</a> a, <a class="code" href="quick__test_8inl.html#a4b77ca8e9b2aaa14302e909ffc455c46">B</a> b, <a class="code" href="quick__test_8inl.html#a4900ef306eb9271438791f1a98b8ccba">C</a> c) {</div><div class="line"></div><div class="line">        <span class="keywordflow">return</span> <a class="code" href="namespacehydra.html#a1db1d8c170d119e8a99389cf5eb0b5d5">hydra::make_tuple</a>( (a + b).mass2(), (b + c).mass2());</div><div class="line">    })</div><div class="ttc" id="quick__test_8inl_html_a107bc7301b1b250d34c25693b90096c8"><div class="ttname"><a href="quick__test_8inl.html#a107bc7301b1b250d34c25693b90096c8">A</a></div><div class="ttdeci">auto A</div><div class="ttdef"><b>Definition:</b> quick_test.inl:144</div></div>
+<div class="ttc" id="quick__test_8inl_html_a4900ef306eb9271438791f1a98b8ccba"><div class="ttname"><a href="quick__test_8inl.html#a4900ef306eb9271438791f1a98b8ccba">C</a></div><div class="ttdeci">auto C</div><div class="ttdef"><b>Definition:</b> quick_test.inl:146</div></div>
+<div class="ttc" id="quick__test_8inl_html_a4b77ca8e9b2aaa14302e909ffc455c46"><div class="ttname"><a href="quick__test_8inl.html#a4b77ca8e9b2aaa14302e909ffc455c46">B</a></div><div class="ttdeci">auto B</div><div class="ttdef"><b>Definition:</b> quick_test.inl:145</div></div>
+<div class="ttc" id="namespacehydra_html_a1db1d8c170d119e8a99389cf5eb0b5d5"><div class="ttname"><a href="namespacehydra.html#a1db1d8c170d119e8a99389cf5eb0b5d5">hydra::make_tuple</a></div><div class="ttdeci">__hydra_host__ __hydra_device__ auto make_tuple(T &amp;&amp;... t) -&gt; decltype(hydra_thrust::make_tuple(std::forward&lt; T &gt;(t)...))</div><div class="ttdoc">This version of make_tuple creates a new tuple object from a list of objects. </div><div class="ttdef"><b>Definition:</b> Tuple.h:261</div></div>
+<div class="ttc" id="Config_8h_html_a12fed978a9eb30299d0dc151384dcf3b"><div class="ttname"><a href="Config_8h.html#a12fed978a9eb30299d0dc151384dcf3b">__hydra_dual__</a></div><div class="ttdeci">#define __hydra_dual__</div><div class="ttdef"><b>Definition:</b> Config.h:104</div></div>
+<div class="ttc" id="namespacehydra_html_a094f4a025290ae35ad9eb8c553c7fc61"><div class="ttname"><a href="namespacehydra.html#a094f4a025290ae35ad9eb8c553c7fc61">hydra::wrap_lambda</a></div><div class="ttdeci">hydra::Lambda&lt; LambdaType, 0 &gt; wrap_lambda(LambdaType const &amp;lambda)</div><div class="ttdef"><b>Definition:</b> Lambda.h:536</div></div>
+</div><!-- fragment --><dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_unweighting_8inl-example.html#a17">phsp_unweighting.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a78f40e8aeaafd131054b0c2070ccddc1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78f40e8aeaafd131054b0c2070ccddc1">&#9670;&nbsp;</a></span>elapsed</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::duration&lt;<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, std::milli&gt; elapsed = <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">end</a> - <a class="el" href="phsp__unweighting_8inl.html#a7f02a749754f40365411f74cf75d08fa">start</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_unweighting_8inl-example.html#a25">phsp_unweighting.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a6be7d98960df33edf9f3998a9e8b2407"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6be7d98960df33edf9f3998a9e8b2407">&#9670;&nbsp;</a></span>end</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto end = std::chrono::high_resolution_clock::now()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad507bdbe1cd7219fead6e9dcd287d908"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad507bdbe1cd7219fead6e9dcd287d908">&#9670;&nbsp;</a></span>masses</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> masses[3] {<a class="el" href="phsp__unweighting_8inl.html#afed506122a21c7a438b10b0feeb997ef">A_mass</a>, <a class="el" href="phsp__unweighting_8inl.html#a48c5caeaa7b45368c8fb37002bc141a9">B_mass</a>, <a class="el" href="phsp__unweighting_8inl.html#a57b2c1595e7b74382a7c8a90974db54c">C_mass</a> }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8C-example.html#a16">dalitz_plot.C</a>, <a class="el" href="dalitz_plot_8inl-example.html#a23">dalitz_plot.inl</a>, <a class="el" href="phsp_averaging_functor_8inl-example.html#a16">phsp_averaging_functor.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#a14">phsp_basic.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#a14">phsp_reweighting.inl</a>, <a class="el" href="phsp_unweighting_8inl-example.html#a14">phsp_unweighting.inl</a>, <a class="el" href="phsp_unweighting_functor_8inl-example.html#a14">phsp_unweighting_functor.inl</a>, and <a class="el" href="range_semantics_8inl-example.html#a20">range_semantics.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="af8b0f365ee5d5b76a62688733e5016a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8b0f365ee5d5b76a62688733e5016a1">&#9670;&nbsp;</a></span>nentries</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">nentries = NArg.getValue()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_unweighting_8inl-example.html#a6">phsp_unweighting.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a9a003092fe4c4d0a5de200f579f83aae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a003092fe4c4d0a5de200f579f83aae">&#9670;&nbsp;</a></span>P_mass</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> P_mass = 0.493677</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_averaging_functor_8inl-example.html#a7">phsp_averaging_functor.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#a7">phsp_basic.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#a7">phsp_reweighting.inl</a>, <a class="el" href="phsp_unweighting_8inl-example.html#a7">phsp_unweighting.inl</a>, and <a class="el" href="phsp_unweighting_functor_8inl-example.html#a7">phsp_unweighting_functor.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="ab384b0624c68bc3bae6bc49654c9f478"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab384b0624c68bc3bae6bc49654c9f478">&#9670;&nbsp;</a></span>phsp</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1PhaseSpace">hydra::PhaseSpace</a>&lt;3&gt; phsp {<a class="el" href="phsp__unweighting_8inl.html#a9a003092fe4c4d0a5de200f579f83aae">P_mass</a>, <a class="el" href="phsp__unweighting_8inl.html#ad507bdbe1cd7219fead6e9dcd287d908">masses</a>}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_unweighting_8inl-example.html#a16">phsp_unweighting.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a7f02a749754f40365411f74cf75d08fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f02a749754f40365411f74cf75d08fa">&#9670;&nbsp;</a></span>start</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto start = std::chrono::high_resolution_clock::now()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_unweighting_8inl-example.html#a23">phsp_unweighting.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="abe4cc9788f52e49485473dc699537388"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe4cc9788f52e49485473dc699537388">&#9670;&nbsp;</a></span>try</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">try</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line"></div><div class="line">        TCLAP::CmdLine cmd(<span class="stringliteral">&quot;Command line arguments for PHSP B0 -&gt; J/psi K pi&quot;</span>, <span class="charliteral">&#39;=&#39;</span>)</div></div><!-- fragment -->
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_b3c69fde212a60de3f50954f66fa65c1.html">examples</a></li><li class="navelem"><a class="el" href="dir_4b3c3c870991bb8ad671d5780b5e0415.html">phase_space</a></li><li class="navelem"><a class="el" href="phsp__unweighting_8inl.html">phsp_unweighting.inl</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

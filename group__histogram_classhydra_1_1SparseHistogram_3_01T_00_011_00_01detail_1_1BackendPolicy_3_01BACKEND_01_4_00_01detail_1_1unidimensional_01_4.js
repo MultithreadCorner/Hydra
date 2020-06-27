@@ -17,7 +17,7 @@ var group__histogram_classhydra_1_1SparseHistogram_3_01T_00_011_00_01detail_1_1B
     [ "Fill", "group__histogram.html#ae6b0808a922614b72f0ec984cbedbd29", null ],
     [ "GetBinContent", "group__histogram.html#acf17c611705820631b352c720612849f", null ],
     [ "GetBins", "group__histogram.html#a49d3fe3b4c892c2197f08d12446fc4e6", null ],
-    [ "GetBinsCenters", "group__histogram.html#aff854e300c1ad4c45f7672e8783af80c", null ],
+    [ "GetBinsCenters", "group__histogram.html#a971204bce0affb7bbb4319b0dc5bb4bd", null ],
     [ "GetBinsContents", "group__histogram.html#ad95db5299a925247b48c4e0577d80348", null ],
     [ "GetContents", "group__histogram.html#a802073aef5c40d187b1dd8f3682f3a60", null ],
     [ "GetGrid", "group__histogram.html#ad630aa61c323dff58b8ae7b5082ba7d2", null ],

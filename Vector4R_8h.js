@@ -1,5 +1,6 @@
 var Vector4R_8h =
 [
+    [ "__hydra_align__", "Vector4R_8h.html#ga315c1e042b983e5b623b5046074b7c56", null ],
     [ "boostTo", "Vector4R_8h.html#a39ca77c714b3e8b913c37d323cfd5640", null ],
     [ "boostTo", "Vector4R_8h.html#a1c1de9e4fabdb747b9e3352ef6298476", null ],
     [ "operator*", "Vector4R_8h.html#ae5bae5caa4d9b5c0190220e55f650859", null ],

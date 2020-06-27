@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -104,23 +105,26 @@ $(document).ready(function(){initNavTree('Sum_8h.html','');});
 <div class="textblock"><code>#include &lt;<a class="el" href="">hydra/detail/Config.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Types.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Function.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/FunctorTraits.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/utility/Utility_Tuple.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/base_functor.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/Constant.h</a>&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/tuple.h&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Complex.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Parameter.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/detail/CompositeBase.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Tuple.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/CompositeBase.h</a>&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Sum.h:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Sum_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Sum_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Sum_8h__dep__incl.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Sum_8h__dep__incl.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -138,18 +142,24 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a81ab71f63c56b41e970fee5c7fa48915"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 , typename  = typename std::enable_if&lt; T1::is_functor::value &amp;&amp; T2::is_functor::value&gt;&gt; </td></tr>
-<tr class="memitem:a81ab71f63c56b41e970fee5c7fa48915"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ Sum&lt; T1, T2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a81ab71f63c56b41e970fee5c7fa48915">hydra::operator+</a> (T1 const &amp;F1, T2 const &amp;F2)</td></tr>
-<tr class="separator:a81ab71f63c56b41e970fee5c7fa48915"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58bc87dddca38c44ed5276eedb78a176"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 , typename  = typename std::enable_if&lt; (std::is_convertible&lt;T1, double&gt;::value ||		std::is_constructible&lt;HYDRA_EXTERNAL_NS::thrust::complex&lt;double&gt;,T1&gt;::value) &amp;&amp; T2::is_functor::value&gt;::type&gt; </td></tr>
-<tr class="memitem:a58bc87dddca38c44ed5276eedb78a176"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ Sum&lt; Constant&lt; T1 &gt;, T2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a58bc87dddca38c44ed5276eedb78a176">hydra::operator+</a> (T1 const cte, T2 const &amp;F2)</td></tr>
-<tr class="separator:a58bc87dddca38c44ed5276eedb78a176"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd8f4a42269c2f7b4316a413efe5190e"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 , typename  = typename std::enable_if&lt; (std::is_convertible&lt;T1, double&gt;::value ||		std::is_constructible&lt;HYDRA_EXTERNAL_NS::thrust::complex&lt;double&gt;,T1&gt;::value) &amp;&amp; T2::is_functor::value&gt;::type&gt; </td></tr>
-<tr class="memitem:acd8f4a42269c2f7b4316a413efe5190e"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ Sum&lt; Constant&lt; T1 &gt;, T2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#acd8f4a42269c2f7b4316a413efe5190e">hydra::operator+</a> (T2 const &amp;F2, T1 const cte)</td></tr>
-<tr class="separator:acd8f4a42269c2f7b4316a413efe5190e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae69d22c1daecb87a2e29aae2703bac16"><td class="memTemplParams" colspan="2">template&lt;typename F1 , typename F2 , typename ... Fs&gt; </td></tr>
-<tr class="memitem:ae69d22c1daecb87a2e29aae2703bac16"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ Sum&lt; F1, F2, Fs... &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ae69d22c1daecb87a2e29aae2703bac16">hydra::sum</a> (F1 const &amp;f1, F2 const &amp;f2, Fs const &amp;... functors)</td></tr>
-<tr class="separator:ae69d22c1daecb87a2e29aae2703bac16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fafa9d71a3cc46ef785a70374501c78"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 &gt; </td></tr>
+<tr class="memitem:a7fafa9d71a3cc46ef785a70374501c78"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T1 &gt;::value||detail::is_hydra_lambda&lt; T1 &gt;::value) &amp;&amp;(detail::is_hydra_functor&lt; T2 &gt;::value||detail::is_hydra_lambda&lt; T2 &gt;::value), Sum&lt; T1, T2 &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a7fafa9d71a3cc46ef785a70374501c78">hydra::operator+</a> (T1 const &amp;F1, T2 const &amp;F2)</td></tr>
+<tr class="separator:a7fafa9d71a3cc46ef785a70374501c78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4060305f83c9118349c59ab1b5331866"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:a4060305f83c9118349c59ab1b5331866"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T &gt;::value||detail::is_hydra_lambda&lt; T &gt;::value) &amp;&amp;(std::is_arithmetic&lt; U &gt;::value), Sum&lt; Constant&lt; U &gt;, T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a4060305f83c9118349c59ab1b5331866">hydra::operator+</a> (U const cte, T const &amp;F)</td></tr>
+<tr class="separator:a4060305f83c9118349c59ab1b5331866"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a2b546f3d37d1310cd805b5768be9cc"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:a3a2b546f3d37d1310cd805b5768be9cc"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T &gt;::value||detail::is_hydra_lambda&lt; T &gt;::value) &amp;&amp;(std::is_arithmetic&lt; U &gt;::value), Sum&lt; Constant&lt; U &gt;, T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a3a2b546f3d37d1310cd805b5768be9cc">hydra::operator+</a> (T const &amp;F, U cte)</td></tr>
+<tr class="separator:a3a2b546f3d37d1310cd805b5768be9cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5257853509f5e7d4ca8b4d68b96b2d6"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:ab5257853509f5e7d4ca8b4d68b96b2d6"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T &gt;::value||detail::is_hydra_lambda&lt; T &gt;::value) &amp;&amp;(std::is_arithmetic&lt; U &gt;::value), Sum&lt; Constant&lt; <a class="el" href="namespacehydra.html#a9be56668c1da1edd25b29c366adf5df9">hydra::complex</a>&lt; U &gt; &gt;, T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ab5257853509f5e7d4ca8b4d68b96b2d6">hydra::operator+</a> (<a class="el" href="namespacehydra.html#a9be56668c1da1edd25b29c366adf5df9">hydra::complex</a>&lt; U &gt; const &amp;cte, T const &amp;F)</td></tr>
+<tr class="separator:ab5257853509f5e7d4ca8b4d68b96b2d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07ce25e2c0bd0be95076f18159a925d2"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:a07ce25e2c0bd0be95076f18159a925d2"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T &gt;::value||detail::is_hydra_lambda&lt; T &gt;::value) &amp;&amp;(std::is_arithmetic&lt; U &gt;::value), Sum&lt; Constant&lt; U &gt;, T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a07ce25e2c0bd0be95076f18159a925d2">hydra::operator+</a> (T const &amp;F, <a class="el" href="namespacehydra.html#a9be56668c1da1edd25b29c366adf5df9">hydra::complex</a>&lt; U &gt; const &amp;cte)</td></tr>
+<tr class="separator:a07ce25e2c0bd0be95076f18159a925d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a939ad741ed8f9f39a61680c9f7f442ae"><td class="memTemplParams" colspan="2">template&lt;typename F1 , typename F2 , typename ... Fs&gt; </td></tr>
+<tr class="memitem:a939ad741ed8f9f39a61680c9f7f442ae"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; F1 &gt;::value||detail::is_hydra_lambda&lt; F1 &gt;::value) &amp;&amp;(detail::is_hydra_functor&lt; F2 &gt;::value||detail::is_hydra_lambda&lt; F2 &gt;::value) &amp;&amp;detail::all_true&lt;(detail::is_hydra_functor&lt; Fs &gt;::value||detail::is_hydra_lambda&lt; Fs &gt;::value)... &gt;::value, Sum&lt; F1, F2, Fs... &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a939ad741ed8f9f39a61680c9f7f442ae">hydra::sum</a> (F1 const &amp;f1, F2 const &amp;f2, Fs const &amp;... functors)</td></tr>
+<tr class="separator:a939ad741ed8f9f39a61680c9f7f442ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -157,7 +167,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="Sum_8h.html">Sum.h</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

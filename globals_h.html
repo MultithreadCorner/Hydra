@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -96,6 +97,21 @@ $(document).ready(function(){initNavTree('globals_h.html','');});
 <div class="textblock">Here is a list of all functions, variables, defines, enums, and typedefs with links to the files they belong to:</div>
 
 <h3><a id="index_h"></a>- h -</h3><ul>
+<li>Hist_Data()
+: <a class="el" href="basic__fit_8inl.html#a1de6d4c6af02ff26aa10bc7ee7a507ab">basic_fit.inl</a>
+, <a class="el" href="basic__fit__range__semantics_8inl.html#a07c849018f71b92fffba87b3c41b1856">basic_fit_range_semantics.inl</a>
+, <a class="el" href="extended__logLL__fit_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">extended_logLL_fit.inl</a>
+, <a class="el" href="breit__wigner__plus__polynomial_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">breit_wigner_plus_polynomial.inl</a>
+, <a class="el" href="crystal__ball__plus__exponential_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">crystal_ball_plus_exponential.inl</a>
+, <a class="el" href="fractional__logLL__fit_8inl.html#a4980f434d674d298a607140e917e3bdd">fractional_logLL_fit.inl</a>
+, <a class="el" href="double__gaussian__plus__exponential_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">double_gaussian_plus_exponential.inl</a>
+, <a class="el" href="gaussian__plus__argus_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">gaussian_plus_argus.inl</a>
+, <a class="el" href="binned__extended__logLL__fit_8inl.html#ab5d550cbd7cefc08c5af74390ae26629">binned_extended_logLL_fit.inl</a>
+, <a class="el" href="multidimensional__fit_8inl.html#ab6f17bba9c67c6fe9878d971da731623">multidimensional_fit.inl</a>
+, <a class="el" href="Ipatia__plus__argus_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">Ipatia_plus_argus.inl</a>
+, <a class="el" href="particle__mass_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">particle_mass.inl</a>
+, <a class="el" href="breit__wigner__plus__chebychev_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">breit_wigner_plus_chebychev.inl</a>
+</li>
 <li>histogram_component()
 : <a class="el" href="dalitz__plot_8inl.html#a2bdb6a5a65d1bbaf33f08dd544a478cf">dalitz_plot.inl</a>
 , <a class="el" href="dalitz__plot_8C.html#a0acce8bce3ff6bd026c73ea35cfb84cc">dalitz_plot.C</a>
@@ -103,29 +119,54 @@ $(document).ready(function(){initNavTree('globals_h.html','');});
 <li>HYDRA_CALLER
 : <a class="el" href="Print_8h.html#adce7e06d35dfc3cbe321824b650d7d7c">Print.h</a>
 </li>
+<li>HYDRA_DEVICE_LIKELY
+: <a class="el" href="Config_8h.html#aff902bd56178dcc4c125d871639fc067">Config.h</a>
+</li>
 <li>HYDRA_DEVICE_SYSTEM
-: <a class="el" href="dalitz__plot_8C.html#a6a448b251f0dc280b7dc192c072b3ed9">dalitz_plot.C</a>
-, <a class="el" href="generate__4body__decay__chain_8C.html#a6a448b251f0dc280b7dc192c072b3ed9">generate_4body_decay_chain.C</a>
-, <a class="el" href="generate__decay__chain_8C.html#a6a448b251f0dc280b7dc192c072b3ed9">generate_decay_chain.C</a>
+: <a class="el" href="apply__filter__issue_8C.html#a6a448b251f0dc280b7dc192c072b3ed9">apply_filter_issue.C</a>
+, <a class="el" href="dalitz__plot_8C.html#a6a448b251f0dc280b7dc192c072b3ed9">dalitz_plot.C</a>
+, <a class="el" href="filter__test_8C.html#a6a448b251f0dc280b7dc192c072b3ed9">filter_test.C</a>
 , <a class="el" href="fit__3d__gaussian_8C.html#a6a448b251f0dc280b7dc192c072b3ed9">fit_3d_gaussian.C</a>
-, <a class="el" href="three__body__phsp_8C.html#a6a448b251f0dc280b7dc192c072b3ed9">three_body_phsp.C</a>
 , <a class="el" href="fit__gaussian_8C.html#a6a448b251f0dc280b7dc192c072b3ed9">fit_gaussian.C</a>
 , <a class="el" href="fit__johnson_8C.html#a6a448b251f0dc280b7dc192c072b3ed9">fit_johnson.C</a>
+, <a class="el" href="generate__4body__decay__chain_8C.html#a6a448b251f0dc280b7dc192c072b3ed9">generate_4body_decay_chain.C</a>
+, <a class="el" href="generate__decay__chain_8C.html#a6a448b251f0dc280b7dc192c072b3ed9">generate_decay_chain.C</a>
+, <a class="el" href="three__body__phsp_8C.html#a6a448b251f0dc280b7dc192c072b3ed9">three_body_phsp.C</a>
+</li>
+<li>HYDRA_DEVICE_UNLIKELY
+: <a class="el" href="Config_8h.html#a933a03e77cfd96454095248fcc3ebb30">Config.h</a>
 </li>
 <li>HYDRA_ENDL
 : <a class="el" href="Print_8h.html#a91c614cede5ff154b5c29a405d23c0c4">Print.h</a>
 </li>
+<li>HYDRA_EXCEPTION
+: <a class="el" href="Exception_8h.html#abc4bca66251b19de18dd262fbec7b277">Exception.h</a>
+</li>
+<li>HYDRA_EXTERNAL_NS
+: <a class="el" href="Config_8h.html#a2d1021712b57b5a63681271e3fea97e4">Config.h</a>
+</li>
+<li>HYDRA_HOST_LIKELY
+: <a class="el" href="Config_8h.html#aa91cb87d83b0622d10096c9b153b596e">Config.h</a>
+</li>
 <li>HYDRA_HOST_SYSTEM
-: <a class="el" href="generate__4body__decay__chain_8C.html#a497c1dc94399cd9b4a6feca026f751d9">generate_4body_decay_chain.C</a>
+: <a class="el" href="fit__3d__gaussian_8C.html#a497c1dc94399cd9b4a6feca026f751d9">fit_3d_gaussian.C</a>
+, <a class="el" href="apply__filter__issue_8C.html#a497c1dc94399cd9b4a6feca026f751d9">apply_filter_issue.C</a>
+, <a class="el" href="dalitz__plot_8C.html#a497c1dc94399cd9b4a6feca026f751d9">dalitz_plot.C</a>
+, <a class="el" href="filter__test_8C.html#a497c1dc94399cd9b4a6feca026f751d9">filter_test.C</a>
+, <a class="el" href="fit__gaussian_8C.html#a497c1dc94399cd9b4a6feca026f751d9">fit_gaussian.C</a>
+, <a class="el" href="fit__johnson_8C.html#a497c1dc94399cd9b4a6feca026f751d9">fit_johnson.C</a>
+, <a class="el" href="generate__4body__decay__chain_8C.html#a497c1dc94399cd9b4a6feca026f751d9">generate_4body_decay_chain.C</a>
 , <a class="el" href="generate__decay__chain_8C.html#a497c1dc94399cd9b4a6feca026f751d9">generate_decay_chain.C</a>
 , <a class="el" href="three__body__phsp_8C.html#a497c1dc94399cd9b4a6feca026f751d9">three_body_phsp.C</a>
-, <a class="el" href="dalitz__plot_8C.html#a497c1dc94399cd9b4a6feca026f751d9">dalitz_plot.C</a>
-, <a class="el" href="fit__johnson_8C.html#a497c1dc94399cd9b4a6feca026f751d9">fit_johnson.C</a>
-, <a class="el" href="fit__3d__gaussian_8C.html#a497c1dc94399cd9b4a6feca026f751d9">fit_3d_gaussian.C</a>
-, <a class="el" href="fit__gaussian_8C.html#a497c1dc94399cd9b4a6feca026f751d9">fit_gaussian.C</a>
+</li>
+<li>HYDRA_HOST_UNLIKELY
+: <a class="el" href="Config_8h.html#a33cd7c019a4f68ca3a653a007b4c8b29">Config.h</a>
 </li>
 <li>HYDRA_LOG
 : <a class="el" href="Print_8h.html#a1036315778d5f77a9bc3f8febf449568">Print.h</a>
+</li>
+<li>HYDRA_LOW_BITS_MASK_SPECIALIZE
+: <a class="el" href="IntegerMask_8h.html#ab05da9132e4741c13130454b405b12db">IntegerMask.h</a>
 </li>
 <li>HYDRA_MAJOR_VERSION
 : <a class="el" href="Hydra_8h.html#a6d227f8432b572ce0d3fccf91d99f77a">Hydra.h</a>
@@ -142,8 +183,17 @@ $(document).ready(function(){initNavTree('globals_h.html','');});
 <li>HYDRA_PATCH_NUMBER
 : <a class="el" href="Hydra_8h.html#a6e48823623968cae1821f08aaa7220a9">Hydra.h</a>
 </li>
+<li>HYDRA_PREVENT_MACRO_SUBSTITUTION
+: <a class="el" href="Config_8h.html#aa33a979af909289129856f57a4a32a10">Config.h</a>
+</li>
+<li>HYDRA_SOBOL_MAX_DIMENSION
+: <a class="el" href="SobolTable_8h.html#a5fede0cb905fc41b0ce424df4f4c6d5b">SobolTable.h</a>
+</li>
 <li>HYDRA_SPACED_MSG
 : <a class="el" href="Print_8h.html#ab7f373065b4d8ffecf649d95bbd4837a">Print.h</a>
+</li>
+<li>HYDRA_STATIC_ASSERT
+: <a class="el" href="StaticAssert_8h.html#a306125cc07e1ae0ba8b2dc7fb0ca6195">StaticAssert.h</a>
 </li>
 <li>HYDRA_THRUST_DEVICE_SYSTEM
 : <a class="el" href="Config_8h.html#afefb8276a9d6168148822d3b9a5f44f5">Config.h</a>
@@ -163,7 +213,7 @@ $(document).ready(function(){initNavTree('globals_h.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:03 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

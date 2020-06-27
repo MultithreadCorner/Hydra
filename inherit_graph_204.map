@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classhydra_1_1IntegrationFormula_3_01CrystalBallShape_3_01ArgIndex_01_4_00_011_01_4.html" title="hydra::IntegrationFormula\l\&lt; CrystalBallShape\&lt; ArgIndex \&gt;, 1 \&gt;" alt="" coords="5,5,243,47"/>
+<area shape="rect" id="node1" href="$classhydra_1_1detail_1_1quasi__random__base.html" title="hydra::detail::quasi\l_random_base\&lt; gray_code\l\&lt; LatticeT \&gt;, LatticeT,\l LatticeT::value_type \&gt;" alt="" coords="5,5,184,76"/>
+<area shape="rect" id="node2" href="$classhydra_1_1detail_1_1gray__code.html" title="hydra::detail::gray\l_code\&lt; LatticeT \&gt;" alt="" coords="232,20,360,61"/>
 </map>

@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['sample_5fdistribution_5finl_5f',['SAMPLE_DISTRIBUTION_INL_',['../sample__distribution_8inl.html#a1dd89f589ac26f08852f9af1253cfe6f',1,'sample_distribution.inl']]],
-  ['scatter_5finl_5f',['SCATTER_INL_',['../Scatter_8inl.html#a1a388844968e3f26c1618078acb92b03',1,'Scatter.inl']]],
-  ['sort_5finl_5f',['SORT_INL_',['../Sort_8inl.html#acf7917483920e6daf2461cecec7e2346',1,'Sort.inl']]],
-  ['sparse_5fhistograming_5finl_5f',['SPARSE_HISTOGRAMING_INL_',['../sparse__histogram_8inl.html#a784cf4ae2f55eee67288711a5a440c6a',1,'sparse_histogram.inl']]],
-  ['sparsehistogram_5finl_5f',['SPARSEHISTOGRAM_INL_',['../SparseHistogram_8inl.html#a3b894ab76a64d40f1be88938b92aeda9',1,'SparseHistogram.inl']]],
-  ['splot_5finl_5f',['SPLOT_INL_',['../splot_8inl.html#aae21aee92343842e5456d820cae4a4eb',1,'splot.inl']]]
+  ['random_5finl_5f',['RANDOM_INL_',['../Random_8inl.html#ab3f7af5e5472e2302ffbd877b2dffd9c',1,'Random.inl']]],
+  ['randomfill_5finl_5f',['RANDOMFILL_INL_',['../RandomFill_8inl.html#ac05b45532b8748733dc35097ec29a2e3',1,'RandomFill.inl']]],
+  ['randonrange_5finl_5f',['RANDONRANGE_INL_',['../RandomRange_8inl.html#ad8a8cac36a6c2440b29c925d31ce3ce2',1,'RandomRange.inl']]],
+  ['range1_5finl_5f',['RANGE1_INL_',['../Range1_8inl.html#a579da83e1a402f01eba95c1485e216df',1,'Range1.inl']]],
+  ['range2_5finl_5f',['RANGE2_INL_',['../Range2_8inl.html#ad82892d09eac30b51cabdb565fde5f54',1,'Range2.inl']]],
+  ['range_5fsemantics_5finl_5f',['RANGE_SEMANTICS_INL_',['../range__semantics_8inl.html#aedcd1f26cd6c5838bc84210ab3bb467c',1,'range_semantics.inl']]],
+  ['reduce_5finl_5f',['REDUCE_INL_',['../Reduce_8inl.html#a596cb32a394656ed1297ae6819619b0a',1,'Reduce.inl']]]
 ];

@@ -1,4 +1,0 @@
-var structstd_1_1common__type_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1complex_3_01T_01_4_00_01HYDRA__EX2b76386747226f7737885e2d05401eb5 =
-[
-    [ "type", "structstd_1_1common__type_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1complex_3_01T_01_4_00_01HYDRA__EX2b76386747226f7737885e2d05401eb5.html#a66deaa7947e06b6073805d9cf17da302", null ]
-];

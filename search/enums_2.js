@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['wave',['Wave',['../group__common__functions.html#ga0dc858c0fb14ade1e8abc19cdd0959e2',1,'hydra']]]
+  ['fftcalculator',['FFTCalculator',['../namespacehydra_1_1detail.html#aa817d51dec8ff2c9ad9eeaf1f91bc6e4',1,'hydra::detail']]]
 ];

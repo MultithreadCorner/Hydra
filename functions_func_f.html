@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -97,31 +98,35 @@ $(document).ready(function(){initNavTree('functions_func_f.html','');});
 
 <h3><a id="index_f"></a>- f -</h3><ul>
 <li>fBachelorMass()
-: <a class="el" href="group__common__functions.html#a254d5025c7e52a0638f6d219c4552ef4">hydra::BreitWignerLineShape&lt; ResonanceWave, MotherWave, ArgIndex &gt;</a>
+: <a class="el" href="group__common__functions.html#aad73063945eed0b51029cb794b96cacb">hydra::BreitWignerLineShape&lt; ResonanceWave, MotherWave, ArgType, Signature &gt;</a>
 </li>
 <li>FCN()
-: <a class="el" href="classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4.html#ac6856283151dabdf433bdcd5b4894c22">hydra::FCN&lt; Estimator&lt; PDF, Iterator &gt; &gt;</a>
-, <a class="el" href="group__fit.html#a840fd9002ca0f135affe5f2bccf5a77e">hydra::FCN&lt; Estimator&lt; PDF, Iterator, Iterators... &gt; &gt;</a>
+: <a class="el" href="group__fit.html#a435fbf4d53c7243b45eb078633f4af30">hydra::FCN&lt; Estimator&lt; PDF, Iterator &gt;, true &gt;</a>
+, <a class="el" href="group__fit.html#a6684100959384d44e3912f4f2dc55c4d">hydra::FCN&lt; Estimator&lt; PDF, Iterator, Iterators... &gt;, true &gt;</a>
+, <a class="el" href="group__fit.html#a13eb5b3d38e370443d35041c91761a86">hydra::FCN&lt; hydra_thrust::tuple&lt; FCN&lt; ESTIMATORS &gt;... &gt;, false &gt;</a>
+</li>
+<li>FCNS()
+: <a class="el" href="group__fit.html#ab3592f3a4c0cfa9fad764cc152c263e1">hydra::FCN&lt; hydra_thrust::tuple&lt; FCN&lt; ESTIMATORS &gt;... &gt;, false &gt;</a>
 </li>
 <li>fDaughter1Mass()
-: <a class="el" href="group__common__functions.html#affd948ac46affa41aa5fc0372dc8300e">hydra::BreitWignerLineShape&lt; ResonanceWave, MotherWave, ArgIndex &gt;</a>
-, <a class="el" href="group__common__functions.html#a9773ead8bee190ddfc09e331950f0eb6">hydra::M12PhaseSpaceLineShape&lt; ArgIndex &gt;</a>
-, <a class="el" href="group__common__functions.html#aacb9ee92e3d7de42939bc1a7a68e82f7">hydra::M12SqPhaseSpaceLineShape&lt; ArgIndex &gt;</a>
+: <a class="el" href="group__common__functions.html#a20c97331afbb25453e774c4c98e580b1">hydra::BreitWignerLineShape&lt; ResonanceWave, MotherWave, ArgType, Signature &gt;</a>
+, <a class="el" href="group__common__functions.html#a368d5b21566de7ea43236b35a54cc7c5">hydra::M12PhaseSpaceLineShape&lt; ArgType &gt;</a>
+, <a class="el" href="group__common__functions.html#a3b741044904bc1ee74e572afde8a39ef">hydra::M12SqPhaseSpaceLineShape&lt; ArgType &gt;</a>
 </li>
 <li>fDaughter2Mass()
-: <a class="el" href="group__common__functions.html#a4a14213611e8d8cd0f143169c98c4d4a">hydra::BreitWignerLineShape&lt; ResonanceWave, MotherWave, ArgIndex &gt;</a>
-, <a class="el" href="group__common__functions.html#a14a46dae5b1f1b5b7babcdc203f17742">hydra::M12PhaseSpaceLineShape&lt; ArgIndex &gt;</a>
-, <a class="el" href="group__common__functions.html#a1ecfb74884346389316949d4bd4d7273">hydra::M12SqPhaseSpaceLineShape&lt; ArgIndex &gt;</a>
+: <a class="el" href="group__common__functions.html#a51c4bb81b83f00a55df6070ad5b1002d">hydra::BreitWignerLineShape&lt; ResonanceWave, MotherWave, ArgType, Signature &gt;</a>
+, <a class="el" href="group__common__functions.html#aa888cdbe9e84a751d4280aa6d8829d0c">hydra::M12PhaseSpaceLineShape&lt; ArgType &gt;</a>
+, <a class="el" href="group__common__functions.html#acb1c1f50777df68d00388294b68801e8">hydra::M12SqPhaseSpaceLineShape&lt; ArgType &gt;</a>
 </li>
 <li>fDaughter3Mass()
-: <a class="el" href="group__common__functions.html#a14e944239d6fec5a19dee09ffe469084">hydra::M12PhaseSpaceLineShape&lt; ArgIndex &gt;</a>
-, <a class="el" href="group__common__functions.html#a7bc1c9de15b0eaeefcfbf594eef9fda5">hydra::M12SqPhaseSpaceLineShape&lt; ArgIndex &gt;</a>
+: <a class="el" href="group__common__functions.html#ad0cdad8fa3bc44f5894654a041316ff7">hydra::M12PhaseSpaceLineShape&lt; ArgType &gt;</a>
+, <a class="el" href="group__common__functions.html#ad7e744545ad17e818f540d0eafa784b1">hydra::M12SqPhaseSpaceLineShape&lt; ArgType &gt;</a>
 </li>
 <li>Fill()
 : <a class="el" href="group__histogram.html#a2de80b9cf5566d2f6b18429993064e66">hydra::DenseHistogram&lt; T, 1, hydra::detail::BackendPolicy&lt; BACKEND &gt;, detail::unidimensional &gt;</a>
-, <a class="el" href="group__histogram.html#abed20cf6e00985120e26c1f7131c7310">hydra::DenseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;</a>
-, <a class="el" href="group__histogram.html#ac84ca6cca101495504a570827796192e">hydra::SparseHistogram&lt; T, 1, detail::BackendPolicy&lt; BACKEND &gt;, detail::unidimensional &gt;</a>
-, <a class="el" href="group__histogram.html#a23a471a6675c78e88c20864ec5e64352">hydra::SparseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;</a>
+, <a class="el" href="group__histogram.html#a281d0bfd3facd991143ab20be8588d0b">hydra::DenseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;</a>
+, <a class="el" href="group__histogram.html#acb9da3cdfa8f0e057a26061617ff4d16">hydra::SparseHistogram&lt; T, 1, detail::BackendPolicy&lt; BACKEND &gt;, detail::unidimensional &gt;</a>
+, <a class="el" href="group__histogram.html#a2a593acdc066ddc8c34624fd579dbce4">hydra::SparseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;</a>
 </li>
 <li>Fixed()
 : <a class="el" href="group__fit.html#a9e217727a2c65f70ccf173398e69ee35">hydra::Parameter</a>
@@ -130,23 +135,35 @@ $(document).ready(function(){initNavTree('functions_func_f.html','');});
 : <a class="el" href="structhydra_1_1detail_1_1FlagAcceptReject.html#a7cd41c298d584877364b4d7f3eaf4a7b">hydra::detail::FlagAcceptReject</a>
 </li>
 <li>FlagDaugthers()
-: <a class="el" href="structhydra_1_1detail_1_1FlagDaugthers.html#a37325c23b598a38d154d5c9251f5e4dc">hydra::detail::FlagDaugthers&lt; N &gt;</a>
+: <a class="el" href="classhydra_1_1detail_1_1FlagDaugthers.html#a191828f996fa0e352320c486cea692b3">hydra::detail::FlagDaugthers&lt; Functor &gt;</a>
+</li>
+<li>FlagDaugthers1()
+: <a class="el" href="structhydra_1_1detail_1_1FlagDaugthers1.html#a48f362186ce6ef3ed0e89045e3916994">hydra::detail::FlagDaugthers1</a>
+</li>
+<li>FlagDaugthers2()
+: <a class="el" href="structhydra_1_1detail_1_1FlagDaugthers2.html#abd4e52f3877fcbf36478c08971bbd19c">hydra::detail::FlagDaugthers2</a>
 </li>
 <li>fLineShape()
-: <a class="el" href="classResonance.html#a40f4ee4d911205c324ff37682350076b">Resonance&lt; CHANNEL, L &gt;</a>
+: <a class="el" href="classResonance.html#a9bc711e79cfaad98abbe39ea25996c34">Resonance&lt; L, Signature &gt;</a>
 </li>
 <li>fMotherMass()
-: <a class="el" href="group__common__functions.html#adf3c79ce0ada20500463d56ce371b40e">hydra::BreitWignerLineShape&lt; ResonanceWave, MotherWave, ArgIndex &gt;</a>
-, <a class="el" href="group__common__functions.html#ad40d1d663600716f6c34b7e69ca03ee5">hydra::M12PhaseSpaceLineShape&lt; ArgIndex &gt;</a>
-, <a class="el" href="group__common__functions.html#afca1310b97d8d692113c7a8d721ccd1a">hydra::M12SqPhaseSpaceLineShape&lt; ArgIndex &gt;</a>
+: <a class="el" href="group__common__functions.html#a3fb6d3571aeba71c1d14b5d8453054c3">hydra::BreitWignerLineShape&lt; ResonanceWave, MotherWave, ArgType, Signature &gt;</a>
+, <a class="el" href="group__common__functions.html#af3b6553176140a749deec67ae0d8ea49">hydra::M12PhaseSpaceLineShape&lt; ArgType &gt;</a>
+, <a class="el" href="group__common__functions.html#a2a1c0be49be14f1c080af8f26fc1706d">hydra::M12SqPhaseSpaceLineShape&lt; ArgType &gt;</a>
 </li>
 <li>fRadi()
-: <a class="el" href="group__common__functions.html#a29918756c81d179ef1daefbf08e2f6eb">hydra::BreitWignerLineShape&lt; ResonanceWave, MotherWave, ArgIndex &gt;</a>
+: <a class="el" href="group__common__functions.html#ae0adecb84f1e4ba69cbd3ec75e068707">hydra::BreitWignerLineShape&lt; ResonanceWave, MotherWave, ArgType, Signature &gt;</a>
 </li>
 <li>front()
-: <a class="el" href="group__phsp.html#af4d2af7a15f72551eb01515fbb714598">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-, <a class="el" href="classhydra_1_1multiarray_3_01T_00_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#aa270d1ebad44332652503e0023de2931">hydra::multiarray&lt; T, N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-, <a class="el" href="classhydra_1_1multivector_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1tuple_3_01T_8_8_8_01_4_00_01hydra3da03b988538add1b3f476b1ea399ad2.html#a0aa3c66e1856f152d51223b294b2d765">hydra::multivector&lt; HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt;, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+: <a class="el" href="group__phsp.html#a26c8845d24c3cb1d34fe76babc8719bd">hydra::Decays&lt; hydra::tuple&lt; Particles... &gt;, hydra::detail::BackendPolicy&lt; Backend &gt; &gt;</a>
+, <a class="el" href="classhydra_1_1multiarray_3_01T_00_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#a9f0de48b473de0222f6b61d7286f672c">hydra::multiarray&lt; T, N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+, <a class="el" href="classhydra_1_1multivector_3_01hydra__thrust_1_1tuple_3_01T_8_8_8_01_4_00_01hydra_1_1detail_1_1Baaf5bb9c490efe1cc04683c31129e6041.html#a783fe47977740366fed001ce519c906a">hydra::multivector&lt; hydra_thrust::tuple&lt; T... &gt;, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+</li>
+<li>FunctionArgument()
+: <a class="el" href="structhydra_1_1detail_1_1FunctionArgument.html#a83f2684d936f05da2c03e55dcd029d61">hydra::detail::FunctionArgument&lt; Derived, Type &gt;</a>
+</li>
+<li>FunctorSampler()
+: <a class="el" href="structhydra_1_1detail_1_1convolution_1_1FunctorSampler.html#a4e3e23aecebf295034464d15ebb6847b">hydra::detail::convolution::FunctorSampler&lt; Functor &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -154,7 +171,7 @@ $(document).ready(function(){initNavTree('functions_func_f.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:03 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

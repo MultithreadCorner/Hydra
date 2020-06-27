@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -96,25 +97,38 @@ $(document).ready(function(){initNavTree('Decays_8inl.html','');});
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
 <div class="title">Decays.inl File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><div class="dynheader">
+<div class="textblock"><code>#include &lt;<a class="el" href="">hydra/detail/Config.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/BackendPolicy.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Vector4R.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Tuple.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Function.h</a>&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for Decays.inl:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Decays_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+</div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Decays_8inl__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Decays_8inl__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalOnDaugthers.html">hydra::detail::EvalOnDaugthers&lt; N, Functor, ArgType &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1FlagDaugthers.html">hydra::detail::FlagDaugthers&lt; Functor &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1FlagDaugthers.html">hydra::detail::FlagDaugthers&lt; N &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1PhaseSpaceReweight.html">hydra::PhaseSpaceReweight&lt; Functor, ParticleTypes &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1PhaseSpaceWeight.html">hydra::PhaseSpaceWeight&lt; ParticleTypes &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -129,15 +143,6 @@ Namespaces</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:abe2521d6fe1418a65de794a5231cf605"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Decays_8inl.html#abe2521d6fe1418a65de794a5231cf605">DECAYS_INL_</a></td></tr>
 <tr class="separator:abe2521d6fe1418a65de794a5231cf605"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a74f09f60eaa232f756f2e5ee0ccb5326"><td class="memTemplParams" colspan="2">template&lt;size_t N1, hydra::detail::Backend BACKEND1, size_t N2, hydra::detail::Backend BACKEND2&gt; </td></tr>
-<tr class="memitem:a74f09f60eaa232f756f2e5ee0ccb5326"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classbool">bool</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a74f09f60eaa232f756f2e5ee0ccb5326">hydra::operator!=</a> (const Decays&lt; N1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND1 &gt; &gt; &amp;lhs, const Decays&lt; N2, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND2 &gt; &gt; &amp;rhs)</td></tr>
-<tr class="separator:a74f09f60eaa232f756f2e5ee0ccb5326"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebc9da09d22eae43ed970a123baa27f1"><td class="memTemplParams" colspan="2">template&lt;size_t N1, hydra::detail::Backend BACKEND1, size_t N2, hydra::detail::Backend BACKEND2&gt; </td></tr>
-<tr class="memitem:aebc9da09d22eae43ed970a123baa27f1"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classbool">bool</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#aebc9da09d22eae43ed970a123baa27f1">hydra::operator==</a> (const Decays&lt; N1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND1 &gt; &gt; &amp;lhs, const Decays&lt; N2, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND2 &gt; &gt; &amp;rhs)</td></tr>
-<tr class="separator:aebc9da09d22eae43ed970a123baa27f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="abe2521d6fe1418a65de794a5231cf605"></a>
@@ -160,7 +165,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="Decays_8inl.html">Decays.inl</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

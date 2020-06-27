@@ -1,20 +1,15 @@
 <map id="DenseHistogram.inl" name="DenseHistogram.inl">
-<area shape="rect" id="node6" href="$GetGlobalBin_8h.html" title="hydra/detail/functors\l/GetGlobalBin.h" alt="" coords="975,87,1115,129"/>
-<area shape="rect" id="node15" href="$Utility__Tuple_8h.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="1042,184,1166,225"/>
-<area shape="rect" id="node46" href="$Distance_8h.html" title="hydra/Distance.h" alt="" coords="2265,273,2386,300"/>
-<area shape="rect" id="node8" href="$Tuple_8h.html" title="hydra/Tuple.h" alt="" coords="171,273,272,300"/>
-<area shape="rect" id="node12" href="$Generic_8h.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="483,355,607,397"/>
-<area shape="rect" id="node16" href="$Config_8h.html" title="hydra/detail/Config.h" alt="" coords="1846,735,1989,761"/>
-<area shape="rect" id="node19" href="$Types_8h.html" title="Common and useful typedefs. " alt="" coords="955,735,1061,761"/>
-<area shape="rect" id="node20" href="$TypeTraits_8h.html" title="hydra/detail/TypeTraits.h" alt="" coords="1361,363,1527,389"/>
-<area shape="rect" id="node42" href="$FunctorTraits_8h.html" title="hydra/detail/FunctorTraits.h" alt="" coords="733,363,915,389"/>
-<area shape="rect" id="node43" href="$Parameter_8h.html" title="hydra/Parameter.h" alt="" coords="1039,273,1169,300"/>
-<area shape="rect" id="node21" href="$Containers_8h.html" title="Typedefs for useful container classes used in MCBooster. " alt="" coords="1041,467,1173,493"/>
-<area shape="rect" id="node23" href="$Vector3R_8h.html" title="hydra/Vector3R.h" alt="" coords="417,645,541,672"/>
-<area shape="rect" id="node30" href="$Vector4R_8h.html" title="hydra/Vector4R.h" alt="" coords="687,556,811,583"/>
-<area shape="rect" id="node33" href="$Containers_8inl.html" title="hydra/detail/Containers.inl" alt="" coords="1336,556,1509,583"/>
-<area shape="rect" id="node27" href="$Collection_8h.html" title="hydra/Collection.h" alt="" coords="805,735,931,761"/>
-<area shape="rect" id="node29" href="$Vector3R_8inl.html" title="hydra/detail/Vector3R.inl" alt="" coords="519,735,684,761"/>
-<area shape="rect" id="node31" href="$Vector4R_8inl.html" title="hydra/detail/Vector4R.inl" alt="" coords="667,645,832,672"/>
-<area shape="rect" id="node47" href="$BackendPolicy_8h.html" title="hydra/detail/BackendPolicy.h" alt="" coords="1947,363,2138,389"/>
+<area shape="rect" id="node6" href="$GetGlobalBin_8h.html" title="hydra/detail/functors\l/GetGlobalBin.h" alt="" coords="1167,95,1307,136"/>
+<area shape="rect" id="node18" href="$Utility__Tuple_8h.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="999,199,1123,240"/>
+<area shape="rect" id="node39" href="$Distance_8h.html" title="hydra/Distance.h" alt="" coords="1807,310,1929,337"/>
+<area shape="rect" id="node8" href="$Tuple_8h.html" title="hydra/Tuple.h" alt="" coords="380,310,481,337"/>
+<area shape="rect" id="node9" href="$Config_8h.html" title="hydra/detail/Config.h" alt="" coords="777,525,919,552"/>
+<area shape="rect" id="node14" href="$Generic_8h.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="23,414,147,455"/>
+<area shape="rect" id="node19" href="$Types_8h.html" title="Common and useful typedefs. " alt="" coords="1081,421,1185,448"/>
+<area shape="rect" id="node20" href="$TagTraits_8h.html" title="hydra/detail/TagTraits.h" alt="" coords="807,310,966,337"/>
+<area shape="rect" id="node21" href="$FunctorTraits_8h.html" title="hydra/detail/FunctorTraits.h" alt="" coords="601,310,783,337"/>
+<area shape="rect" id="node24" href="$Parameter_8h.html" title="hydra/Parameter.h" alt="" coords="1271,310,1399,337"/>
+<area shape="rect" id="node22" href="$StaticAssert_8h.html" title="hydra/detail/utility\l/StaticAssert.h" alt="" coords="730,414,854,455"/>
+<area shape="rect" id="node25" href="$TypeTraits_8h.html" title="hydra/detail/TypeTraits.h" alt="" coords="1567,421,1732,448"/>
+<area shape="rect" id="node40" href="$BackendPolicy_8h.html" title="hydra/detail/BackendPolicy.h" alt="" coords="1807,421,1996,448"/>
 </map>

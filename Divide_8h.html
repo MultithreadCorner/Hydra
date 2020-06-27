@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -113,12 +114,14 @@ $(document).ready(function(){initNavTree('Divide_8h.html','');});
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Divide.h:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Divide_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Divide_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Divide_8h__dep__incl.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Divide_8h__dep__incl.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -136,18 +139,24 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:afd869e5bd355b1c4646e2c5e1f4ed332"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 , typename  = typename std::enable_if&lt; T1::is_functor::value &amp;&amp; T2::is_functor::value&gt;::type&gt; </td></tr>
-<tr class="memitem:afd869e5bd355b1c4646e2c5e1f4ed332"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ Divide&lt; T1, T2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#afd869e5bd355b1c4646e2c5e1f4ed332">hydra::divide</a> (T1 const &amp;F1, T1 const &amp;F2)</td></tr>
-<tr class="separator:afd869e5bd355b1c4646e2c5e1f4ed332"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0fa3a711732edb66303a415b0053ab30"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 , typename  = typename std::enable_if&lt; T1::is_functor::value &amp;&amp; T2::is_functor::value&gt;&gt; </td></tr>
-<tr class="memitem:a0fa3a711732edb66303a415b0053ab30"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ Divide&lt; T1, T2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a0fa3a711732edb66303a415b0053ab30">hydra::operator/</a> (T1 const &amp;F1, T2 const &amp;F2)</td></tr>
-<tr class="separator:a0fa3a711732edb66303a415b0053ab30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51adfe83d6139c094696c576cac08eb9"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 , typename  = typename std::enable_if&lt; (std::is_convertible&lt;T1, double&gt;::value ||		std::is_constructible&lt;HYDRA_EXTERNAL_NS::thrust::complex&lt;double&gt;,T1&gt;::value) &amp;&amp; T2::is_functor::value&gt;::type&gt; </td></tr>
-<tr class="memitem:a51adfe83d6139c094696c576cac08eb9"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ Divide&lt; Constant&lt; T1 &gt;, T2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a51adfe83d6139c094696c576cac08eb9">hydra::operator/</a> (T1 const cte, T2 const &amp;F2)</td></tr>
-<tr class="separator:a51adfe83d6139c094696c576cac08eb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73f958068c4dcdbb79b40925e2da4b24"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 , typename  = typename std::enable_if&lt; (std::is_convertible&lt;T1, double&gt;::value ||		std::is_constructible&lt;HYDRA_EXTERNAL_NS::thrust::complex&lt;double&gt;,T1&gt;::value) &amp;&amp; T2::is_functor::value&gt;::type&gt; </td></tr>
-<tr class="memitem:a73f958068c4dcdbb79b40925e2da4b24"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ Divide&lt; T2, Constant&lt; T1 &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a73f958068c4dcdbb79b40925e2da4b24">hydra::operator/</a> (T2 const &amp;F2, T1 const cte)</td></tr>
-<tr class="separator:a73f958068c4dcdbb79b40925e2da4b24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fec57c554e6c86f34145e7aa8845506"><td class="memTemplParams" colspan="2">template&lt;typename F1 , typename F2 , typename ... Fs&gt; </td></tr>
+<tr class="memitem:a4fec57c554e6c86f34145e7aa8845506"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; F1 &gt;::value||detail::is_hydra_lambda&lt; F1 &gt;::value) &amp;&amp;(detail::is_hydra_functor&lt; F2 &gt;::value||detail::is_hydra_lambda&lt; F2 &gt;::value), Divide&lt; F1, F2 &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a4fec57c554e6c86f34145e7aa8845506">hydra::divide</a> (F1 const &amp;f1, F2 const &amp;f2)</td></tr>
+<tr class="separator:a4fec57c554e6c86f34145e7aa8845506"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3b16aaa8206238e19f573a8b0f07730"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 &gt; </td></tr>
+<tr class="memitem:aa3b16aaa8206238e19f573a8b0f07730"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T1 &gt;::value||detail::is_hydra_lambda&lt; T1 &gt;::value) &amp;&amp;(detail::is_hydra_functor&lt; T2 &gt;::value||detail::is_hydra_lambda&lt; T2 &gt;::value), Divide&lt; T1, T2 &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#aa3b16aaa8206238e19f573a8b0f07730">hydra::operator/</a> (T1 const &amp;F1, T2 const &amp;F2)</td></tr>
+<tr class="separator:aa3b16aaa8206238e19f573a8b0f07730"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab01044c5657e79152458266153d361e3"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:ab01044c5657e79152458266153d361e3"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T &gt;::value||detail::is_hydra_lambda&lt; T &gt;::value) &amp;&amp;(std::is_arithmetic&lt; U &gt;::value), Divide&lt; Constant&lt; U &gt;, T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ab01044c5657e79152458266153d361e3">hydra::operator/</a> (U const cte, T const &amp;F)</td></tr>
+<tr class="separator:ab01044c5657e79152458266153d361e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a975b2511acddbdf4f7c4442f266440c0"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:a975b2511acddbdf4f7c4442f266440c0"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T &gt;::value||detail::is_hydra_lambda&lt; T &gt;::value) &amp;&amp;(std::is_arithmetic&lt; U &gt;::value), Divide&lt; Constant&lt; U &gt;, T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a975b2511acddbdf4f7c4442f266440c0">hydra::operator/</a> (T const &amp;F, U cte)</td></tr>
+<tr class="separator:a975b2511acddbdf4f7c4442f266440c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae608d7550080817bb9932341d1c10b1f"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:ae608d7550080817bb9932341d1c10b1f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T &gt;::value||detail::is_hydra_lambda&lt; T &gt;::value) &amp;&amp;(std::is_arithmetic&lt; U &gt;::value), Divide&lt; Constant&lt; <a class="el" href="namespacehydra.html#a9be56668c1da1edd25b29c366adf5df9">hydra::complex</a>&lt; U &gt; &gt;, T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ae608d7550080817bb9932341d1c10b1f">hydra::operator/</a> (<a class="el" href="namespacehydra.html#a9be56668c1da1edd25b29c366adf5df9">hydra::complex</a>&lt; U &gt; const &amp;cte, T const &amp;F)</td></tr>
+<tr class="separator:ae608d7550080817bb9932341d1c10b1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f776567931eb9c539a7de28fe03a4c3"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:a2f776567931eb9c539a7de28fe03a4c3"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T &gt;::value||detail::is_hydra_lambda&lt; T &gt;::value) &amp;&amp;(std::is_arithmetic&lt; U &gt;::value), Divide&lt; Constant&lt; <a class="el" href="namespacehydra.html#a9be56668c1da1edd25b29c366adf5df9">hydra::complex</a>&lt; U &gt; &gt;, T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a2f776567931eb9c539a7de28fe03a4c3">hydra::operator/</a> (T const &amp;F, <a class="el" href="namespacehydra.html#a9be56668c1da1edd25b29c366adf5df9">hydra::complex</a>&lt; U &gt; const &amp;cte)</td></tr>
+<tr class="separator:a2f776567931eb9c539a7de28fe03a4c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -155,7 +164,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="Divide_8h.html">Divide.h</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

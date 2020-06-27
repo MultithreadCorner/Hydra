@@ -1,3 +1,10 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structhydra_1_1detail_1_1CheckEnergy.html" title="hydra::detail::CheckEnergy\&lt; N \&gt;" alt="" coords="5,5,217,32"/>
+<area shape="rect" id="node2" href="$structhydra_1_1detail_1_1Caster.html" title="hydra::detail::Caster\l\&lt; TypeIn, TypeOut \&gt;" alt="" coords="191,5,333,47"/>
+<area shape="rect" id="node3" href="$structhydra_1_1detail_1_1EvalOnDaugthers.html" title="hydra::detail::EvalOnDaugthers\l\&lt; N, Functor, ArgType \&gt;" alt="" coords="160,71,364,112"/>
+<area shape="rect" id="node4" href="$structhydra_1_1detail_1_1FCNWeightsReducerUnary.html" title="hydra::detail::FCNWeights\lReducerUnary\&lt; ArgType \&gt;" alt="" coords="173,136,351,177"/>
+<area shape="rect" id="node5" href="$structhydra_1_1detail_1_1GetBinCenter.html" title="hydra::detail::GetBinCenter\l\&lt; T, N \&gt;" alt="" coords="172,201,352,243"/>
+<area shape="rect" id="node6" href="$structhydra_1_1detail_1_1GetBinCenter_3_01T_00_011_01_4.html" title="hydra::detail::GetBinCenter\l\&lt; T, 1 \&gt;" alt="" coords="172,267,352,308"/>
+<area shape="rect" id="node7" href="$structhydra_1_1detail_1_1GetGlobalBin.html" title="hydra::detail::GetGlobal\lBin\&lt; N, T \&gt;" alt="" coords="183,332,341,373"/>
+<area shape="rect" id="node8" href="$structhydra_1_1detail_1_1GetGlobalBin_3_011_00_01T_01_4.html" title="hydra::detail::GetGlobal\lBin\&lt; 1, T \&gt;" alt="" coords="183,397,341,439"/>
+<area shape="rect" id="node9" href="$structhydra_1_1detail_1_1Sampler.html" title="hydra::detail::Sampler\l\&lt; Engine, FUNCTOR \&gt;" alt="" coords="182,463,342,504"/>
 </map>

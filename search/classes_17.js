@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['zemachfunction',['ZemachFunction',['../group__common__functions.html#classhydra_1_1ZemachFunction',1,'hydra']]],
-  ['zemachfunction_3c_20l_20_3e',['ZemachFunction&lt; L &gt;',['../group__common__functions.html',1,'hydra']]]
+  ['wignerdmatrix',['WignerDMatrix',['../group__common__functions.html#classhydra_1_1WignerDMatrix',1,'hydra']]]
 ];

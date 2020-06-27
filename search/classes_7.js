@@ -26,6 +26,7 @@ var searchData=
   ['gausskronrodunary',['GaussKronrodUnary',['../structhydra_1_1GaussKronrodUnary.html',1,'hydra']]],
   ['generatedecay',['GenerateDecay',['../structhydra_1_1detail_1_1GenerateDecay.html',1,'hydra::detail']]],
   ['genzmalikbox',['GenzMalikBox',['../classhydra_1_1detail_1_1GenzMalikBox.html',1,'hydra::detail']]],
+  ['genzmalikboxresult',['GenzMalikBoxResult',['../classhydra_1_1detail_1_1GenzMalikBoxResult.html',1,'hydra::detail']]],
   ['genzmalikquadrature',['GenzMalikQuadrature',['../namespacehydra.html#classhydra_1_1GenzMalikQuadrature',1,'hydra']]],
   ['genzmalikquadrature_3c_20n_2c_20hydra_3a_3adetail_3a_3abackendpolicy_3c_20backend_20_3e_20_3e',['GenzMalikQuadrature&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;',['../group__numerical__integration.html#classhydra_1_1GenzMalikQuadrature_3_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4',1,'hydra']]],
   ['genzmalikrule',['GenzMalikRule',['../namespacehydra.html#classhydra_1_1GenzMalikRule',1,'hydra']]],
@@ -35,5 +36,8 @@ var searchData=
   ['getbincenter',['GetBinCenter',['../structhydra_1_1detail_1_1GetBinCenter.html',1,'hydra::detail']]],
   ['getbincenter_3c_20t_2c_201_20_3e',['GetBinCenter&lt; T, 1 &gt;',['../structhydra_1_1detail_1_1GetBinCenter_3_01T_00_011_01_4.html',1,'hydra::detail']]],
   ['getglobalbin',['GetGlobalBin',['../structhydra_1_1detail_1_1GetGlobalBin.html',1,'hydra::detail']]],
-  ['getglobalbin_3c_201_2c_20t_20_3e',['GetGlobalBin&lt; 1, T &gt;',['../structhydra_1_1detail_1_1GetGlobalBin_3_011_00_01T_01_4.html',1,'hydra::detail']]]
+  ['getglobalbin_3c_201_2c_20t_20_3e',['GetGlobalBin&lt; 1, T &gt;',['../structhydra_1_1detail_1_1GetGlobalBin_3_011_00_01T_01_4.html',1,'hydra::detail']]],
+  ['getsweight',['GetSWeight',['../structhydra_1_1detail_1_1GetSWeight.html',1,'hydra::detail']]],
+  ['gray_5fcode',['gray_code',['../classhydra_1_1detail_1_1gray__code.html',1,'hydra::detail']]],
+  ['gray_5fcode_3c_20detail_3a_3asobol_5flattice_3c_20uinttype_2c_20d_2c_20w_2c_20soboltables_20_3e_20_3e',['gray_code&lt; detail::sobol_lattice&lt; UIntType, D, W, SobolTables &gt; &gt;',['../classhydra_1_1detail_1_1gray__code.html',1,'hydra::detail']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
   ['jacobi',['jacobi',['../namespacehydra.html#ae56f5771a38cd48141f2e02712ac025f',1,'hydra']]],
-  ['johnsonsushape',['JohnsonSUShape',['../group__common__functions.html#a30ab0385a1287cb6065198c9ef0bb986',1,'hydra::JohnsonSUShape::JohnsonSUShape()=delete'],['../group__common__functions.html#a08e266078f63b2d12aa9bc6ad9dc4174',1,'hydra::JohnsonSUShape::JohnsonSUShape(Parameter const &amp;gamma, Parameter const &amp;delta, Parameter const &amp;xi, Parameter const &amp;lambda)'],['../group__common__functions.html#a8879cea9fe38f194d8451cfc259e4921',1,'hydra::JohnsonSUShape::JohnsonSUShape(JohnsonSUShape&lt; ArgIndex &gt; const &amp;other)']]]
+  ['johnsonsu',['JohnsonSU',['../classhydra_1_1JohnsonSU.html#a2e7f4e1e94a3103570bfb04d8641871d',1,'hydra::JohnsonSU::JohnsonSU()=delete'],['../classhydra_1_1JohnsonSU.html#ae479ec7d24816381e26154d41968c546',1,'hydra::JohnsonSU::JohnsonSU(Parameter const &amp;gamma, Parameter const &amp;delta, Parameter const &amp;xi, Parameter const &amp;lambda)'],['../classhydra_1_1JohnsonSU.html#abd1a781309ce1ffdf03808e3dcdccc4a',1,'hydra::JohnsonSU::JohnsonSU(JohnsonSU&lt; ArgType &gt; const &amp;other)']]]
 ];

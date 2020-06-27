@@ -1,15 +1,21 @@
 <map id="Math.h" name="Math.h">
-<area shape="rect" id="node2" href="$Chebychev_8h.html" title="Chebychev.h" alt="" coords="397,80,495,107"/>
-<area shape="rect" id="node6" href="$WignerDMatrix_8h.html" title="WignerDMatrix.h" alt="" coords="561,80,680,107"/>
-<area shape="rect" id="node7" href="$ZemachFunctions_8h.html" title="ZemachFunctions.h" alt="" coords="725,80,863,107"/>
-<area shape="rect" id="node3" href="$breit__wigner__plus__chebychev_8inl.html" title="breit_wigner_plus_chebychev.inl" alt="" coords="248,155,457,181"/>
-<area shape="rect" id="node4" href="$breit__wigner__plus__chebychev_8cpp.html" title="breit_wigner_plus_chebychev.cpp" alt="" coords="5,229,223,256"/>
-<area shape="rect" id="node5" href="$breit__wigner__plus__chebychev_8cu.html" title="breit_wigner_plus_chebychev.cu" alt="" coords="247,229,458,256"/>
-<area shape="rect" id="node8" href="$caching__functors_8inl.html" title="caching_functors.inl" alt="" coords="653,155,791,181"/>
-<area shape="rect" id="node11" href="$dalitz__plot_8inl.html" title="dalitz_plot.inl" alt="" coords="817,155,915,181"/>
-<area shape="rect" id="node14" href="$dalitz__plot_8C.html" title="dalitz_plot.C" alt="" coords="940,155,1035,181"/>
-<area shape="rect" id="node9" href="$caching__functors_8cpp.html" title="caching_functors.cpp" alt="" coords="482,229,629,256"/>
-<area shape="rect" id="node10" href="$caching__functors_8cu.html" title="caching_functors.cu" alt="" coords="653,229,791,256"/>
-<area shape="rect" id="node12" href="$dalitz__plot_8cpp.html" title="dalitz_plot.cpp" alt="" coords="815,229,922,256"/>
-<area shape="rect" id="node13" href="$dalitz__plot_8cu.html" title="dalitz_plot.cu" alt="" coords="946,229,1045,256"/>
+<area shape="rect" id="node2" href="$Chebychev_8h.html" title="Chebychev.h" alt="" coords="853,80,950,107"/>
+<area shape="rect" id="node15" href="$WignerDMatrix_8h.html" title="WignerDMatrix.h" alt="" coords="1191,80,1311,107"/>
+<area shape="rect" id="node16" href="$ZemachFunctions_8h.html" title="ZemachFunctions.h" alt="" coords="1463,80,1601,107"/>
+<area shape="rect" id="node3" href="$quick__test_8inl.html" title="quick_test.inl" alt="" coords="137,155,236,181"/>
+<area shape="rect" id="node6" href="$breit__wigner__plus__chebychev_8inl.html" title="breit_wigner_plus_chebychev.inl" alt="" coords="503,155,711,181"/>
+<area shape="rect" id="node9" href="$basic__distributions_8inl.html" title="basic_distributions.inl" alt="" coords="828,155,975,181"/>
+<area shape="rect" id="node12" href="$fill__basic__distributions_8inl.html" title="fill_basic_distributions.inl" alt="" coords="1091,155,1258,181"/>
+<area shape="rect" id="node4" href="$quick__test_8cpp.html" title="quick_test.cpp" alt="" coords="5,229,112,256"/>
+<area shape="rect" id="node5" href="$quick__test_8cu.html" title="quick_test.cu" alt="" coords="137,229,237,256"/>
+<area shape="rect" id="node7" href="$breit__wigner__plus__chebychev_8cpp.html" title="breit_wigner_plus_chebychev.cpp" alt="" coords="261,229,477,256"/>
+<area shape="rect" id="node8" href="$breit__wigner__plus__chebychev_8cu.html" title="breit_wigner_plus_chebychev.cu" alt="" coords="502,229,711,256"/>
+<area shape="rect" id="node10" href="$basic__distributions_8cpp.html" title="basic_distributions.cpp" alt="" coords="736,229,891,256"/>
+<area shape="rect" id="node11" href="$basic__distributions_8cu.html" title="basic_distributions.cu" alt="" coords="915,229,1063,256"/>
+<area shape="rect" id="node13" href="$fill__basic__distributions_8cpp.html" title="fill_basic_distributions.cpp" alt="" coords="1087,229,1262,256"/>
+<area shape="rect" id="node14" href="$fill__basic__distributions_8cu.html" title="fill_basic_distributions.cu" alt="" coords="1287,229,1455,256"/>
+<area shape="rect" id="node17" href="$dalitz__plot_8inl.html" title="dalitz_plot.inl" alt="" coords="1483,155,1581,181"/>
+<area shape="rect" id="node20" href="$dalitz__plot_8C.html" title="dalitz_plot.C" alt="" coords="1606,155,1701,181"/>
+<area shape="rect" id="node18" href="$dalitz__plot_8cpp.html" title="dalitz_plot.cpp" alt="" coords="1479,229,1585,256"/>
+<area shape="rect" id="node19" href="$dalitz__plot_8cu.html" title="dalitz_plot.cu" alt="" coords="1609,229,1708,256"/>
 </map>

@@ -1,7 +1,9 @@
 <map id="ProcessSPlot.h" name="ProcessSPlot.h">
-<area shape="rect" id="node2" href="$SPlot_8inl.html" title="SPlot.inl" alt="" coords="55,80,126,107"/>
-<area shape="rect" id="node3" href="$SPlot_8h.html" title="SPlot.h" alt="" coords="58,155,123,181"/>
-<area shape="rect" id="node4" href="$splot_8inl.html" title="splot.inl" alt="" coords="57,229,124,256"/>
-<area shape="rect" id="node5" href="$splot_8cpp.html" title="splot.cpp" alt="" coords="5,304,80,331"/>
-<area shape="rect" id="node6" href="$splot_8cu.html" title="splot.cu" alt="" coords="105,304,173,331"/>
+<area shape="rect" id="node2" href="$SPlot_8h.html" title="SPlot.h" alt="" coords="175,80,241,107"/>
+<area shape="rect" id="node3" href="$splot_8inl.html" title="splot.inl" alt="" coords="105,155,172,181"/>
+<area shape="rect" id="node6" href="$pseudo__experiment_8inl.html" title="pseudo_experiment.inl" alt="" coords="201,155,353,181"/>
+<area shape="rect" id="node4" href="$splot_8cpp.html" title="splot.cpp" alt="" coords="5,229,80,256"/>
+<area shape="rect" id="node5" href="$splot_8cu.html" title="splot.cu" alt="" coords="105,229,173,256"/>
+<area shape="rect" id="node7" href="$pseudo__experiment_8cpp.html" title="pseudo_experiment.cpp" alt="" coords="197,229,357,256"/>
+<area shape="rect" id="node8" href="$pseudo__experiment_8cu.html" title="pseudo_experiment.cu" alt="" coords="382,229,535,256"/>
 </map>

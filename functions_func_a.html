@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -96,14 +97,14 @@ $(document).ready(function(){initNavTree('functions_func_a.html','');});
 &#160;
 
 <h3><a id="index_a"></a>- a -</h3><ul>
-<li>AddDecay()
-: <a class="el" href="group__phsp.html#a7b0da4fdde2e8a0bb0b0e6130dd0d6b1">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+<li>AddEntry()
+: <a class="el" href="group__phsp.html#aa70b512b60b90d9986308de7b831b42b">hydra::Decays&lt; hydra::tuple&lt; Particles... &gt;, hydra::detail::BackendPolicy&lt; Backend &gt; &gt;</a>
 </li>
 <li>AddParameter()
 : <a class="el" href="group__fit.html#a18017e1aa021f2d16ba4cdcbe8b17f53">hydra::UserParameters</a>
 </li>
 <li>AddPdfFunctor()
-: <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a8646006bb03508aa9e91a7f816fed546">hydra::detail::AddPdfFunctor&lt; PDF1, PDF2, PDFs &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a8104f399af1ec69bbc24286ad54ca36f">hydra::detail::AddPdfFunctor&lt; PDF1, PDF2, PDFs &gt;</a>
 </li>
 <li>AddUserParameters()
 : <a class="el" href="structhydra_1_1Constant.html#a3cae64740bfda02c9debe5e4c24e9fb3">hydra::Constant&lt; ReturnType &gt;</a>
@@ -111,7 +112,6 @@ $(document).ready(function(){initNavTree('functions_func_a.html','');});
 , <a class="el" href="classhydra_1_1detail_1_1Parameters.html#a430a9beed183eeaf73b5a7ff9dc9c09d">hydra::detail::Parameters&lt; N &gt;</a>
 , <a class="el" href="classhydra_1_1detail_1_1Parameters_3_010_01_4.html#a278d168550cf77b4a89713b342797fb8">hydra::detail::Parameters&lt; 0 &gt;</a>
 , <a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#aac80386f446a0e4ca8ef3fa3bc2d7e63">hydra::detail::ParametersCompositeFunctor&lt; F0, F1, Fs &gt;</a>
-, <a class="el" href="group__fit.html#a8ef1cb8d9b26f7199ab540ab3c8b3c28">hydra::Pdf&lt; FUNCTOR, INTEGRATOR &gt;</a>
 , <a class="el" href="group__fit.html#ab4566d027fe4a340e3f2b6a038472ff4">hydra::PDFSumExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
 , <a class="el" href="group__fit.html#ae9b264f4f08660b3eb2de1a2091b0efd">hydra::PDFSumNonExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
 </li>
@@ -119,24 +119,17 @@ $(document).ready(function(){initNavTree('functions_func_a.html','');});
 : <a class="el" href="classhydra_1_1AnalyticalIntegral.html#a5ffe0bba49ae2ea23ca52cb917fc0447">hydra::AnalyticalIntegral&lt; Functor, N &gt;</a>
 , <a class="el" href="classhydra_1_1AnalyticalIntegral_3_01Functor_00_011_01_4.html#a6341b21ccd21f755933e37d07d0b8594">hydra::AnalyticalIntegral&lt; Functor, 1 &gt;</a>
 </li>
-<li>applyBoostTo()
-: <a class="el" href="group__phsp.html#aefca9c3c24fa3a072589c732f5c24c98">hydra::Vector4R</a>
-</li>
-<li>applyRotateEuler()
-: <a class="el" href="group__phsp.html#aeda854183055c0fad8ed75fcca9ebaf2">hydra::Vector3R</a>
-, <a class="el" href="group__phsp.html#ac23cd6563a9c1d562af40dbddebf7f1e">hydra::Vector4R</a>
-</li>
 <li>Argument()
 : <a class="el" href="structhydra_1_1Argument.html#a0974f408c1f692e70d12da19555927c7">hydra::Argument&lt; ReturnType &gt;</a>
 </li>
 <li>ArgusShape()
-: <a class="el" href="group__common__functions.html#ac1c03840534231288d6b6ab066962865">hydra::ArgusShape&lt; ArgIndex &gt;</a>
+: <a class="el" href="group__common__functions.html#a9a947f554d0792aa07ebc501634c8f90">hydra::ArgusShape&lt; ArgType, Signature &gt;</a>
 </li>
 <li>AverageMother()
-: <a class="el" href="structhydra_1_1detail_1_1AverageMother.html#a39f3bdf11a653492b994613dc67f9013">hydra::detail::AverageMother&lt; N, GRND, FUNCTOR &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1AverageMother.html#a9d967048e76d8fe97674d5d66e4fb1ba">hydra::detail::AverageMother&lt; N, GRND, FUNCTOR &gt;</a>
 </li>
 <li>AverageMothers()
-: <a class="el" href="structhydra_1_1detail_1_1AverageMothers.html#a62932ed86edd399dec70bbde2e29f04f">hydra::detail::AverageMothers&lt; N, GRND, FUNCTOR &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1AverageMothers.html#a2108977181e9fc3cd986e8b205def573">hydra::detail::AverageMothers&lt; N, GRND, FUNCTOR &gt;</a>
 </li>
 <li>AverageOn()
 : <a class="el" href="group__phsp.html#a84cf55e24af9ba83224d7f3d3e4e0a6f">hydra::PhaseSpace&lt; N, GRND &gt;</a>
@@ -147,7 +140,7 @@ $(document).ready(function(){initNavTree('functions_func_a.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:03 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

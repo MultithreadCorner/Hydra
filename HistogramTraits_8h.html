@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -102,32 +103,33 @@ $(document).ready(function(){initNavTree('HistogramTraits_8h.html','');});
 <div class="contents">
 <div class="textblock"><code>#include &lt;type_traits&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Types.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/Config.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/DenseHistogram.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/SparseHistogram.h</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for HistogramTraits.h:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="HistogramTraits_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="HistogramTraits_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="HistogramTraits_8h__dep__incl.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="HistogramTraits_8h__dep__incl.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:structhydra_1_1detail_1_1histogram__type"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1histogram__type">hydra::detail::histogram_type&lt; T, R &gt;</a></td></tr>
-<tr class="separator:structhydra_1_1detail_1_1histogram__type"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__dense__histogram.html">hydra::detail::is_hydra_dense_histogram&lt; T, Enable &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__dense__histogram.html">hydra::detail::is_hydra_dense_histogram&lt; T &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__dense__histogram_3_01T_00_01typename_01tag__type_3_01typenam9203dd81b1b062754e6c1a7cce499e1d.html">hydra::detail::is_hydra_dense_histogram&lt; T, typename tag_type&lt; typename T::hydra_dense_histogram_tag &gt;::type &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__dense__histogram_3_01hydra_1_1DenseHistogram_3_01T_00_01N_00fc4864555721ec45e62403c36aadd8e3.html">hydra::detail::is_hydra_dense_histogram&lt; hydra::DenseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, D &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__sparse__histogram.html">hydra::detail::is_hydra_sparse_histogram&lt; T, Enable &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__sparse__histogram.html">hydra::detail::is_hydra_sparse_histogram&lt; T &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__sparse__histogram_3_01T_00_01typename_01tag__type_3_01typena4f2b029bee40b92d4fe623abc1e7a292.html">hydra::detail::is_hydra_sparse_histogram&lt; T, typename tag_type&lt; typename T::hydra_sparse_histogram_tag &gt;::type &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__sparse__histogram_3_01hydra_1_1SparseHistogram_3_01T_00_01N_f0e8aca59eda1633a4e7f9f8573f0524.html">hydra::detail::is_hydra_sparse_histogram&lt; hydra::SparseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, D &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -138,46 +140,13 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespacehydra_1_1detail"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html">hydra::detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/><h2 class="groupheader">Data Structure Documentation</h2>
-<a name="structhydra_1_1detail_1_1histogram__type" id="structhydra_1_1detail_1_1histogram__type"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structhydra_1_1detail_1_1histogram__type">&#9670;&nbsp;</a></span>hydra::detail::histogram_type</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct hydra::detail::histogram_type</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="textblock"><h3>template&lt;class T, class R = void&gt;<br />
-struct hydra::detail::histogram_type&lt; T, R &gt;</h3>
-
-</div><div class="dynheader">
-Collaboration diagram for hydra::detail::histogram_type&lt; T, R &gt;:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1histogram__type__coll__graph.svg" width="170" height="103"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
-</div>
-<table class="fieldtable">
-<tr><th colspan="3">Data Fields</th></tr>
-<tr><td class="fieldtype">
-<a id="a7fd2cd229fb26f5eec8658e06dc901d9"></a>typedef R</td>
-<td class="fieldname">
-type</td>
-<td class="fielddoc">
-</td></tr>
-</table>
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="HistogramTraits_8h.html">HistogramTraits.h</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

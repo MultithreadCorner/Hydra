@@ -1,0 +1,19 @@
+var namespacehydra_1_1detail_1_1impl =
+[
+    [ "exact_signed_base_helper", "structhydra_1_1detail_1_1impl_1_1exact__signed__base__helper.html", null ],
+    [ "exact_signed_base_helper< sizeof(signed char) *CHAR_BIT >", "namespacehydra_1_1detail_1_1impl.html#structhydra_1_1detail_1_1impl_1_1exact__signed__base__helper_3_01sizeof_07signed_01char_08_01_5CHAR__BIT_01_4", "namespacehydra_1_1detail_1_1impl_structhydra_1_1detail_1_1impl_1_1exact__signed__base__helper_3_01sizeof_07signed_01char_08_01_5CHAR__BIT_01_4_dup" ],
+    [ "exact_unsigned_base_helper", "structhydra_1_1detail_1_1impl_1_1exact__unsigned__base__helper.html", null ],
+    [ "exact_unsigned_base_helper< sizeof(unsigned char) *CHAR_BIT >", "namespacehydra_1_1detail_1_1impl.html#structhydra_1_1detail_1_1impl_1_1exact__unsigned__base__helper_3_01sizeof_07unsigned_01char_08_01_5CHAR__BIT_01_4", "namespacehydra_1_1detail_1_1impl_structhydra_1_1detail_1_1impl_1_1exact__unsigned__base__helper_3_01sizeof_07unsigned_01char_08_01_5CHAR__BIT_01_4_dup" ],
+    [ "int_least_helper", "namespacehydra_1_1detail_1_1impl.html#structhydra_1_1detail_1_1impl_1_1int__least__helper", null ],
+    [ "int_least_helper< 1 >", "namespacehydra_1_1detail_1_1impl.html#structhydra_1_1detail_1_1impl_1_1int__least__helper_3_011_01_4", "namespacehydra_1_1detail_1_1impl_structhydra_1_1detail_1_1impl_1_1int__least__helper_3_011_01_4_dup" ],
+    [ "int_least_helper< 2 >", "namespacehydra_1_1detail_1_1impl.html#structhydra_1_1detail_1_1impl_1_1int__least__helper_3_012_01_4", "namespacehydra_1_1detail_1_1impl_structhydra_1_1detail_1_1impl_1_1int__least__helper_3_012_01_4_dup" ],
+    [ "int_least_helper< 3 >", "namespacehydra_1_1detail_1_1impl.html#structhydra_1_1detail_1_1impl_1_1int__least__helper_3_013_01_4", "namespacehydra_1_1detail_1_1impl_structhydra_1_1detail_1_1impl_1_1int__least__helper_3_013_01_4_dup" ],
+    [ "int_least_helper< 4 >", "namespacehydra_1_1detail_1_1impl.html#structhydra_1_1detail_1_1impl_1_1int__least__helper_3_014_01_4", "namespacehydra_1_1detail_1_1impl_structhydra_1_1detail_1_1impl_1_1int__least__helper_3_014_01_4_dup" ],
+    [ "int_least_helper< 5 >", "namespacehydra_1_1detail_1_1impl.html#structhydra_1_1detail_1_1impl_1_1int__least__helper_3_015_01_4", "namespacehydra_1_1detail_1_1impl_structhydra_1_1detail_1_1impl_1_1int__least__helper_3_015_01_4_dup" ],
+    [ "uint_least_helper", "namespacehydra_1_1detail_1_1impl.html#structhydra_1_1detail_1_1impl_1_1uint__least__helper", null ],
+    [ "uint_least_helper< 1 >", "namespacehydra_1_1detail_1_1impl.html#structhydra_1_1detail_1_1impl_1_1uint__least__helper_3_011_01_4", "namespacehydra_1_1detail_1_1impl_structhydra_1_1detail_1_1impl_1_1uint__least__helper_3_011_01_4_dup" ],
+    [ "uint_least_helper< 2 >", "namespacehydra_1_1detail_1_1impl.html#structhydra_1_1detail_1_1impl_1_1uint__least__helper_3_012_01_4", "namespacehydra_1_1detail_1_1impl_structhydra_1_1detail_1_1impl_1_1uint__least__helper_3_012_01_4_dup" ],
+    [ "uint_least_helper< 3 >", "namespacehydra_1_1detail_1_1impl.html#structhydra_1_1detail_1_1impl_1_1uint__least__helper_3_013_01_4", "namespacehydra_1_1detail_1_1impl_structhydra_1_1detail_1_1impl_1_1uint__least__helper_3_013_01_4_dup" ],
+    [ "uint_least_helper< 4 >", "namespacehydra_1_1detail_1_1impl.html#structhydra_1_1detail_1_1impl_1_1uint__least__helper_3_014_01_4", "namespacehydra_1_1detail_1_1impl_structhydra_1_1detail_1_1impl_1_1uint__least__helper_3_014_01_4_dup" ],
+    [ "uint_least_helper< 5 >", "namespacehydra_1_1detail_1_1impl.html#structhydra_1_1detail_1_1impl_1_1uint__least__helper_3_015_01_4", "namespacehydra_1_1detail_1_1impl_structhydra_1_1detail_1_1impl_1_1uint__least__helper_3_015_01_4_dup" ]
+];

@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -95,8 +96,8 @@ $(document).ready(function(){initNavTree('group__random.html','');});
 <div class="header">
   <div class="summary">
 <a href="#files">Files</a> &#124;
-<a href="#nested-classes">Data Structures</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">Random number generation</div>  </div>
 </div><!--header-->
@@ -112,1390 +113,77 @@ Files</h2></td></tr>
 <tr class="memitem:RandomUtils_8h"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RandomUtils_8h.html">RandomUtils.h</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Data Structures</h2></td></tr>
-<tr class="memitem:classhydra_1_1Random"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random&lt; GRND &gt;</a></td></tr>
-<tr class="memdesc:classhydra_1_1Random"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class implements functionalities associated to random number generation and pdf sampling.  <a href="group__random.html#classhydra_1_1Random">More...</a><br /></td></tr>
-<tr class="separator:classhydra_1_1Random"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gab81f5dd96aa2b2ad0373dafa102eaada"><td class="memTemplParams" colspan="2">template&lt;hydra::detail::Backend BACKEND, typename Iterator1 , typename Iterator2 &gt; </td></tr>
-<tr class="memitem:gab81f5dd96aa2b2ad0373dafa102eaada"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; Iterator2 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#gab81f5dd96aa2b2ad0373dafa102eaada">hydra::unweight</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const  &amp;policy, Iterator1 wbegin, Iterator1 wend, Iterator2 <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>)</td></tr>
-<tr class="memdesc:gab81f5dd96aa2b2ad0373dafa102eaada"><td class="mdescLeft">&#160;</td><td class="mdescRight">This functions reorder a dataset to put produce a unweighted sample according to the weights [wbegin, wend].  <a href="group__random.html#gab81f5dd96aa2b2ad0373dafa102eaada">More...</a><br /></td></tr>
-<tr class="separator:gab81f5dd96aa2b2ad0373dafa102eaada"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2d220371c79722ad3f1a551a4d1c48f7"><td class="memTemplParams" colspan="2">template&lt;hydra::detail::Backend BACKEND, typename Functor , typename Iterator &gt; </td></tr>
-<tr class="memitem:ga2d220371c79722ad3f1a551a4d1c48f7"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__hydra__functor.html">hydra::detail::is_hydra_functor</a>&lt; Functor &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; Iterator &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#ga2d220371c79722ad3f1a551a4d1c48f7">hydra::unweight</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const  &amp;policy, Iterator <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>, Functor const  &amp;functor)</td></tr>
-<tr class="memdesc:ga2d220371c79722ad3f1a551a4d1c48f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This functions reorder a dataset to put produce a unweighted sample according to.  <a href="group__random.html#ga2d220371c79722ad3f1a551a4d1c48f7">More...</a><br /></td></tr>
-<tr class="separator:ga2d220371c79722ad3f1a551a4d1c48f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1cc4cdb2d1cef66ec9cd64977d917725"><td class="memTemplParams" colspan="2">template&lt;typename Engine , hydra::detail::Backend BACKEND, typename Iterable , typename FUNCTOR &gt; </td></tr>
+<tr class="memitem:ga1cc4cdb2d1cef66ec9cd64977d917725"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value &amp;&amp;std::is_convertible&lt; decltype(*std::declval&lt; Iterable &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>()), typename FUNCTOR::return_type &gt;::value, void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#ga1cc4cdb2d1cef66ec9cd64977d917725">hydra::fill_random</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;policy, Iterable &amp;&amp;iterable, FUNCTOR const &amp;functor, size_t seed)</td></tr>
+<tr class="memdesc:ga1cc4cdb2d1cef66ec9cd64977d917725"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill a range with numbers distributed according a user defined distribution.  <a href="group__random.html#ga1cc4cdb2d1cef66ec9cd64977d917725">More...</a><br /></td></tr>
+<tr class="separator:ga1cc4cdb2d1cef66ec9cd64977d917725"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaeece1c5ccb29403fd0a8322a37e851d7"><td class="memTemplParams" colspan="2">template&lt;typename Engine , typename Iterable , typename FUNCTOR &gt; </td></tr>
+<tr class="memitem:gaeece1c5ccb29403fd0a8322a37e851d7"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value &amp;&amp;std::is_convertible&lt; decltype(*std::declval&lt; Iterable &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>()), typename FUNCTOR::return_type &gt;::value, void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#gaeece1c5ccb29403fd0a8322a37e851d7">hydra::fill_random</a> (Iterable &amp;&amp;iterable, FUNCTOR const &amp;functor, size_t seed)</td></tr>
+<tr class="memdesc:gaeece1c5ccb29403fd0a8322a37e851d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill a range with numbers distributed according a user defined distribution.  <a href="group__random.html#gaeece1c5ccb29403fd0a8322a37e851d7">More...</a><br /></td></tr>
+<tr class="separator:gaeece1c5ccb29403fd0a8322a37e851d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab04906caf93945fb2c86780c1cea2286"><td class="memTemplParams" colspan="2">template&lt;typename Engine , hydra::detail::Backend BACKEND, typename Iterator , typename FUNCTOR &gt; </td></tr>
+<tr class="memitem:gab04906caf93945fb2c86780c1cea2286"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; !<a class="el" href="structhydra_1_1detail_1_1has__rng__formula.html">hydra::detail::has_rng_formula</a>&lt; FUNCTOR &gt;::value, void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#gab04906caf93945fb2c86780c1cea2286">hydra::fill_random</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;policy, Iterator <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>, FUNCTOR const &amp;functor, size_t seed)</td></tr>
+<tr class="memdesc:gab04906caf93945fb2c86780c1cea2286"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fall back function if <a class="el" href="classhydra_1_1RngFormula.html">RngFormula</a> is not implemented for the requested functor.  <a href="group__random.html#gab04906caf93945fb2c86780c1cea2286">More...</a><br /></td></tr>
+<tr class="separator:gab04906caf93945fb2c86780c1cea2286"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6c8bad583601746518bdf2e8cd07394d"><td class="memTemplParams" colspan="2">template&lt;typename Engine , typename Iterator , typename FUNCTOR &gt; </td></tr>
+<tr class="memitem:ga6c8bad583601746518bdf2e8cd07394d"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; !<a class="el" href="structhydra_1_1detail_1_1has__rng__formula.html">hydra::detail::has_rng_formula</a>&lt; FUNCTOR &gt;::value, void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#ga6c8bad583601746518bdf2e8cd07394d">hydra::fill_random</a> (Iterator <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>, FUNCTOR const &amp;functor, size_t seed)</td></tr>
+<tr class="memdesc:ga6c8bad583601746518bdf2e8cd07394d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fall back function if <a class="el" href="classhydra_1_1RngFormula.html">RngFormula</a> is not implemented for the requested functor.  <a href="group__random.html#ga6c8bad583601746518bdf2e8cd07394d">More...</a><br /></td></tr>
+<tr class="separator:ga6c8bad583601746518bdf2e8cd07394d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga407c06a1f6a242e5f98150e95d733baf"><td class="memTemplParams" colspan="2">template&lt;typename RNG , typename IterableData , typename IterableWeight , hydra::detail::Backend BACKEND&gt; </td></tr>
+<tr class="memitem:ga407c06a1f6a242e5f98150e95d733baf"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterable.html">detail::random::is_iterable</a>&lt; IterableData &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterable.html">detail::random::is_iterable</a>&lt; IterableWeight &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; decltype(std::declval&lt; IterableData &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#ga407c06a1f6a242e5f98150e95d733baf">hydra::unweight</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const  &amp;policy, IterableData &amp;&amp;<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>, IterableWeight &amp;&amp;weights)</td></tr>
+<tr class="memdesc:ga407c06a1f6a242e5f98150e95d733baf"><td class="mdescLeft">&#160;</td><td class="mdescRight">This functions reorder a dataset to produce a unweighted sample according to a weights.  <a href="group__random.html#ga407c06a1f6a242e5f98150e95d733baf">More...</a><br /></td></tr>
+<tr class="separator:ga407c06a1f6a242e5f98150e95d733baf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadb651e93b792358b563e8ac20fddd028"><td class="memTemplParams" colspan="2">template&lt;typename RNG , typename Functor , typename Iterator , hydra::detail::Backend BACKEND&gt; </td></tr>
+<tr class="memitem:gadb651e93b792358b563e8ac20fddd028"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__callable.html">detail::random::is_callable</a>&lt; Functor &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterator.html">detail::random::is_iterator</a>&lt; Iterator &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; Iterator &gt;&gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#gadb651e93b792358b563e8ac20fddd028">hydra::unweight</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const  &amp;policy, Iterator <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>, Functor const  &amp;functor)</td></tr>
+<tr class="memdesc:gadb651e93b792358b563e8ac20fddd028"><td class="mdescLeft">&#160;</td><td class="mdescRight">This functions reorder a dataset to produce an unweighted sample according to.  <a href="group__random.html#gadb651e93b792358b563e8ac20fddd028">More...</a><br /></td></tr>
+<tr class="separator:gadb651e93b792358b563e8ac20fddd028"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9a7d4b333528d673d75fe20cfb86f03e"><td class="memTemplParams" colspan="2">template&lt;typename RNG , typename Functor , typename Iterator &gt; </td></tr>
+<tr class="memitem:ga9a7d4b333528d673d75fe20cfb86f03e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__callable.html">detail::random::is_callable</a>&lt; Functor &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterator.html">detail::random::is_iterator</a>&lt; Iterator &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; Iterator &gt;&gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#ga9a7d4b333528d673d75fe20cfb86f03e">hydra::unweight</a> (Iterator <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>, Functor const  &amp;functor)</td></tr>
+<tr class="memdesc:ga9a7d4b333528d673d75fe20cfb86f03e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This functions reorder a dataset to produce an unweighted sample according to.  <a href="group__random.html#ga9a7d4b333528d673d75fe20cfb86f03e">More...</a><br /></td></tr>
+<tr class="separator:ga9a7d4b333528d673d75fe20cfb86f03e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf3cd03f6c91a7dea855ed430a12618f2"><td class="memTemplParams" colspan="2">template&lt;typename RNG  = default_random_engine, typename IteratorData , typename IteratorWeight , hydra::detail::Backend BACKEND&gt; </td></tr>
+<tr class="memitem:gaf3cd03f6c91a7dea855ed430a12618f2"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterator.html">detail::random::is_iterator</a>&lt; IteratorData &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterator.html">detail::random::is_iterator</a>&lt; IteratorWeight &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; IteratorData &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#gaf3cd03f6c91a7dea855ed430a12618f2">hydra::unweight</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;policy, IteratorData data_begin, IteratorData data_end, IteratorWeight weights_begin)</td></tr>
+<tr class="memdesc:gaf3cd03f6c91a7dea855ed430a12618f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This functions reorder a dataset to produce a unweighted sample according to the weights [wbegin, wend].  <a href="group__random.html#gaf3cd03f6c91a7dea855ed430a12618f2">More...</a><br /></td></tr>
+<tr class="separator:gaf3cd03f6c91a7dea855ed430a12618f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3b91ce799b5efa01c16593d023b9b355"><td class="memTemplParams" colspan="2">template&lt;typename RNG , typename Functor , typename Iterable , hydra::detail::Backend BACKEND&gt; </td></tr>
+<tr class="memitem:ga3b91ce799b5efa01c16593d023b9b355"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__callable.html">detail::random::is_callable</a>&lt; Functor &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterable.html">detail::random::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; decltype(std::declval&lt; Iterable &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt;&gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#ga3b91ce799b5efa01c16593d023b9b355">hydra::unweight</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const  &amp;policy, Iterable &amp;&amp;iterable, Functor const  &amp;functor)</td></tr>
+<tr class="memdesc:ga3b91ce799b5efa01c16593d023b9b355"><td class="mdescLeft">&#160;</td><td class="mdescRight">This functions reorder a dataset to produce an unweighted sample according to.  <a href="group__random.html#ga3b91ce799b5efa01c16593d023b9b355">More...</a><br /></td></tr>
+<tr class="separator:ga3b91ce799b5efa01c16593d023b9b355"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaae678e8eaa0ad279c9f5ce8f5714166a"><td class="memTemplParams" colspan="2">template&lt;typename RNG  = default_random_engine, typename IteratorData , typename IteratorWeight &gt; </td></tr>
+<tr class="memitem:gaae678e8eaa0ad279c9f5ce8f5714166a"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterator.html">detail::random::is_iterator</a>&lt; IteratorData &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterator.html">detail::random::is_iterator</a>&lt; IteratorWeight &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; IteratorData &gt;&gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#gaae678e8eaa0ad279c9f5ce8f5714166a">hydra::unweight</a> (IteratorData data_begin, IteratorData data_end, IteratorData weights_begin)</td></tr>
+<tr class="memdesc:gaae678e8eaa0ad279c9f5ce8f5714166a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This functions reorder a dataset to produce a unweighted sample according to the weights [wbegin, wend].  <a href="group__random.html#gaae678e8eaa0ad279c9f5ce8f5714166a">More...</a><br /></td></tr>
+<tr class="separator:gaae678e8eaa0ad279c9f5ce8f5714166a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad7a85d3fb6639d4e9414d2fbd65c76e9"><td class="memTemplParams" colspan="2">template&lt;typename RNG  = default_random_engine, typename IterableData , typename IterableWeight &gt; </td></tr>
+<tr class="memitem:gad7a85d3fb6639d4e9414d2fbd65c76e9"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterable.html">detail::random::is_iterable</a>&lt; IterableData &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterable.html">detail::random::is_iterable</a>&lt; IterableWeight &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; decltype(std::declval&lt; IterableData &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt;&gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#gad7a85d3fb6639d4e9414d2fbd65c76e9">hydra::unweight</a> (IterableData <a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>, IterableWeight weights)</td></tr>
+<tr class="memdesc:gad7a85d3fb6639d4e9414d2fbd65c76e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This functions reorder a dataset to produce an unweighted sample according to a weights.  <a href="group__random.html#gad7a85d3fb6639d4e9414d2fbd65c76e9">More...</a><br /></td></tr>
+<tr class="separator:gad7a85d3fb6639d4e9414d2fbd65c76e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaef41f0eac7bce40769634467f2ae3347"><td class="memTemplParams" colspan="2">template&lt;typename RNG  = default_random_engine, typename Functor , typename Iterable &gt; </td></tr>
+<tr class="memitem:gaef41f0eac7bce40769634467f2ae3347"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__callable.html">detail::random::is_callable</a>&lt; Functor &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterable.html">detail::random::is_iterable</a>&lt; Iterable &gt;::value,<a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; decltype(std::declval&lt; Iterable &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#gaef41f0eac7bce40769634467f2ae3347">hydra::unweight</a> (Iterable &amp;&amp;iterable, Functor const &amp;functor)</td></tr>
+<tr class="memdesc:gaef41f0eac7bce40769634467f2ae3347"><td class="mdescLeft">&#160;</td><td class="mdescRight">This functions reorder a dataset to produce an unweighted sample according to.  <a href="group__random.html#gaef41f0eac7bce40769634467f2ae3347">More...</a><br /></td></tr>
+<tr class="separator:gaef41f0eac7bce40769634467f2ae3347"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:gab8c80dcd76b312f12b98bc04918e4b20"><td class="memTemplParams" colspan="2">template&lt;typename Engine  = hydra_thrust::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator , typename FUNCTOR &gt; </td></tr>
+<tr class="memitem:gab8c80dcd76b312f12b98bc04918e4b20"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1has__rng__formula.html">hydra::detail::has_rng_formula</a>&lt; FUNCTOR &gt;::value &amp;&amp;std::is_convertible&lt; decltype(std::declval&lt; <a class="el" href="classhydra_1_1RngFormula.html">RngFormula</a>&lt; FUNCTOR &gt; &gt;).<a class="el" href="phsp__unweighting_8inl.html#aae0754269ece74173f4afd72643b7e3e">Generate</a>(std::declval&lt; Engine &amp; &gt;), std::declval&lt; FUNCTOR const  &amp; &gt;))), typename hydra_thrust::iterator_traits&lt; Iterator &gt;::value_type &gt;::value, void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#gab8c80dcd76b312f12b98bc04918e4b20">hydra::fill_random</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;policy, Iterator <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>, FUNCTOR const &amp;functor, size_t seed=0x254a0afcf7da74a2)</td></tr>
+<tr class="memdesc:gab8c80dcd76b312f12b98bc04918e4b20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill a range with numbers distributed according a user defined distribution using a RNG analytical formula.  <a href="group__random.html#gab8c80dcd76b312f12b98bc04918e4b20">More...</a><br /></td></tr>
+<tr class="separator:gab8c80dcd76b312f12b98bc04918e4b20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Random mumber generation and pdf sampling functionalities. </p>
-<hr/><h2 class="groupheader">Data Structure Documentation</h2>
-<a name="classhydra_1_1Random" id="classhydra_1_1Random"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#classhydra_1_1Random">&#9670;&nbsp;</a></span>hydra::Random</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">class hydra::Random</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="textblock"><h3>template&lt;typename GRND = HYDRA_EXTERNAL_NS::thrust::random::default_random_engine&gt;<br />
-class hydra::Random&lt; GRND &gt;</h3>
-
-<p>This class implements functionalities associated to random number generation and pdf sampling. </p>
-<p><a class="el" href="group__random.html#classhydra_1_1Random" title="This class implements functionalities associated to random number generation and pdf sampling...">hydra::Random</a> instances can sample multidimensional <a class="el" href="group__fit.html#classhydra_1_1Pdf" title="Class representing probability density functions. ">hydra::Pdf</a> and fill ranges with data corresponding to gaussian, exponential, uniform and Breit-Wigner distributions.</p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">GRND</td><td>underlying random number generator. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="basic_distributions_8inl-example.html#_a1">basic_distributions.inl</a>, <a class="el" href="basic_fit_8inl-example.html#_a2">basic_fit.inl</a>, <a class="el" href="basic_fit_range_semantics_8inl-example.html#_a2">basic_fit_range_semantics.inl</a>, <a class="el" href="binned_extended_logLL_fit_8inl-example.html#_a2">binned_extended_logLL_fit.inl</a>, <a class="el" href="breit_wigner_plus_polynomial_8inl-example.html#_a2">breit_wigner_plus_polynomial.inl</a>, <a class="el" href="crystal_ball_plus_exponential_8inl-example.html#_a2">crystal_ball_plus_exponential.inl</a>, <a class="el" href="dense_histogram_8inl-example.html#_a5">dense_histogram.inl</a>, <a class="el" href="double_gaussian_plus_exponential_8inl-example.html#_a2">double_gaussian_plus_exponential.inl</a>, <a class="el" href="extended_logLL_fit_8inl-example.html#_a2">extended_logLL_fit.inl</a>, <a class="el" href="fit_gaussian_8C-example.html#_a2">fit_gaussian.C</a>, <a class="el" href="fit_johnson_8C-example.html#_a2">fit_johnson.C</a>, <a class="el" href="fractional_logLL_fit_8inl-example.html#_a2">fractional_logLL_fit.inl</a>, <a class="el" href="gaussian_plus_argus_8inl-example.html#_a2">gaussian_plus_argus.inl</a>, <a class="el" href="multidimensional_fit_8inl-example.html#_a2">multidimensional_fit.inl</a>, <a class="el" href="range_semantics_8inl-example.html#_a4">range_semantics.inl</a>, <a class="el" href="sample_distribution_8inl-example.html#_a5">sample_distribution.inl</a>, <a class="el" href="sparse_histogram_8inl-example.html#_a5">sparse_histogram.inl</a>, and <a class="el" href="splot_8inl-example.html#_a2">splot.inl</a>.</dd>
-</dl></div><div class="dynheader">
-Collaboration diagram for hydra::Random&lt; GRND &gt;:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classhydra_1_1Random__coll__graph.svg" width="182" height="235"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<table class="memberdecls">
-<tr><td colspan="2"><h3>Public Member Functions</h3></td></tr>
-<tr class="memitem:af19a6b619893d0d182fd3eb13de58737"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__random.html#af19a6b619893d0d182fd3eb13de58737">Random</a> ()</td></tr>
-<tr class="separator:af19a6b619893d0d182fd3eb13de58737"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15c8e7b83092354d3e9e5e4bea7b5d01"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__random.html#a15c8e7b83092354d3e9e5e4bea7b5d01">Random</a> (<a class="el" href="namespacehydra.html#a251a7b1f515ac1ed9409afd67252a32b">GUInt_t</a> seed)</td></tr>
-<tr class="separator:a15c8e7b83092354d3e9e5e4bea7b5d01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a036724d7827e97caf7963e5daffde5fd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__random.html#a036724d7827e97caf7963e5daffde5fd">Random</a> (<a class="el" href="group__random.html#classhydra_1_1Random">Random</a> const &amp;other)</td></tr>
-<tr class="separator:a036724d7827e97caf7963e5daffde5fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd8e96c690c86807455b92f641b1ad0e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__random.html#abd8e96c690c86807455b92f641b1ad0e">~Random</a> ()</td></tr>
-<tr class="separator:abd8e96c690c86807455b92f641b1ad0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4b2ce29052c5802686ce4f90b6e8712"><td class="memTemplParams" colspan="2">template&lt;typename Iterator &gt; </td></tr>
-<tr class="memitem:aa4b2ce29052c5802686ce4f90b6e8712"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#aa4b2ce29052c5802686ce4f90b6e8712">BreitWigner</a> (<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> mean, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> gamma, Iterator <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>)</td></tr>
-<tr class="memdesc:aa4b2ce29052c5802686ce4f90b6e8712"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the range [begin, end] with numbers distributed according a Breit-Wigner distribution.  <a href="#aa4b2ce29052c5802686ce4f90b6e8712">More...</a><br /></td></tr>
-<tr class="separator:aa4b2ce29052c5802686ce4f90b6e8712"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2626bdf9be5ec91be352b9917bb44173"><td class="memTemplParams" colspan="2">template&lt;hydra::detail::Backend BACKEND, typename Iterator &gt; </td></tr>
-<tr class="memitem:a2626bdf9be5ec91be352b9917bb44173"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#a2626bdf9be5ec91be352b9917bb44173">BreitWigner</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;policy, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> mean, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> gamma, Iterator <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>)</td></tr>
-<tr class="memdesc:a2626bdf9be5ec91be352b9917bb44173"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the range [begin, end] with numbers distributed according a Breit-Wigner distribution.  <a href="#a2626bdf9be5ec91be352b9917bb44173">More...</a><br /></td></tr>
-<tr class="separator:a2626bdf9be5ec91be352b9917bb44173"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ed549f69ff52a857ee5d5565d1db99c"><td class="memTemplParams" colspan="2">template&lt;typename Iterable &gt; </td></tr>
-<tr class="memitem:a6ed549f69ff52a857ee5d5565d1db99c"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; decltype(std::declval&lt; Iterable &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#a6ed549f69ff52a857ee5d5565d1db99c">BreitWigner</a> (<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> mean, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> gamma, Iterable &amp;&amp;output)</td></tr>
-<tr class="memdesc:a6ed549f69ff52a857ee5d5565d1db99c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the range [begin, end] with numbers distributed according a Breit-Wigner distribution.  <a href="#a6ed549f69ff52a857ee5d5565d1db99c">More...</a><br /></td></tr>
-<tr class="separator:a6ed549f69ff52a857ee5d5565d1db99c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad13cdb1fc8076997e9cd989641529419"><td class="memTemplParams" colspan="2">template&lt;typename Iterator &gt; </td></tr>
-<tr class="memitem:ad13cdb1fc8076997e9cd989641529419"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#ad13cdb1fc8076997e9cd989641529419">Exp</a> (<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> tau, Iterator <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>)</td></tr>
-<tr class="memdesc:ad13cdb1fc8076997e9cd989641529419"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the range [begin, end] with numbers distributed according a <a class="el" href="group__common__functions.html#classhydra_1_1Exponential" title="https://en.wikipedia.org/wiki/Exponential_function ">Exponential</a> distribution.  <a href="#ad13cdb1fc8076997e9cd989641529419">More...</a><br /></td></tr>
-<tr class="separator:ad13cdb1fc8076997e9cd989641529419"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade128a34f591d5edd3fbec4d21370c04"><td class="memTemplParams" colspan="2">template&lt;hydra::detail::Backend BACKEND, typename Iterator &gt; </td></tr>
-<tr class="memitem:ade128a34f591d5edd3fbec4d21370c04"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#ade128a34f591d5edd3fbec4d21370c04">Exp</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;policy, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> tau, Iterator <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>)</td></tr>
-<tr class="memdesc:ade128a34f591d5edd3fbec4d21370c04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the range [begin, end] with numbers distributed according a <a class="el" href="group__common__functions.html#classhydra_1_1Exponential" title="https://en.wikipedia.org/wiki/Exponential_function ">Exponential</a> distribution.  <a href="#ade128a34f591d5edd3fbec4d21370c04">More...</a><br /></td></tr>
-<tr class="separator:ade128a34f591d5edd3fbec4d21370c04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab43ffb9570d154dd2ec93f15d8d29f3f"><td class="memTemplParams" colspan="2">template&lt;typename Iterable &gt; </td></tr>
-<tr class="memitem:ab43ffb9570d154dd2ec93f15d8d29f3f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; decltype(std::declval&lt; Iterable &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#ab43ffb9570d154dd2ec93f15d8d29f3f">Exp</a> (<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> tau, Iterable &amp;&amp;output)</td></tr>
-<tr class="memdesc:ab43ffb9570d154dd2ec93f15d8d29f3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the range [begin, end] with numbers distributed according a <a class="el" href="group__common__functions.html#classhydra_1_1Exponential" title="https://en.wikipedia.org/wiki/Exponential_function ">Exponential</a> distribution.  <a href="#ab43ffb9570d154dd2ec93f15d8d29f3f">More...</a><br /></td></tr>
-<tr class="separator:ab43ffb9570d154dd2ec93f15d8d29f3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afde3701ccc69442bc6b9c68a66dc32d6"><td class="memTemplParams" colspan="2">template&lt;typename Iterator &gt; </td></tr>
-<tr class="memitem:afde3701ccc69442bc6b9c68a66dc32d6"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#afde3701ccc69442bc6b9c68a66dc32d6">Gauss</a> (<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> mean, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> sigma, Iterator <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>)</td></tr>
-<tr class="memdesc:afde3701ccc69442bc6b9c68a66dc32d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the range [begin, end] with numbers distributed according a <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian" title="   Gaussian functions are often used to represent the probability density function of a normally dist...">Gaussian</a> distribution.  <a href="#afde3701ccc69442bc6b9c68a66dc32d6">More...</a><br /></td></tr>
-<tr class="separator:afde3701ccc69442bc6b9c68a66dc32d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90ed7d7cc46c23d0c7ecab555a8c1da7"><td class="memTemplParams" colspan="2">template&lt;hydra::detail::Backend BACKEND, typename Iterator &gt; </td></tr>
-<tr class="memitem:a90ed7d7cc46c23d0c7ecab555a8c1da7"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#a90ed7d7cc46c23d0c7ecab555a8c1da7">Gauss</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;policy, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> mean, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> sigma, Iterator <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>)</td></tr>
-<tr class="memdesc:a90ed7d7cc46c23d0c7ecab555a8c1da7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the range [begin, end] with numbers distributed according a <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian" title="   Gaussian functions are often used to represent the probability density function of a normally dist...">Gaussian</a> distribution.  <a href="#a90ed7d7cc46c23d0c7ecab555a8c1da7">More...</a><br /></td></tr>
-<tr class="separator:a90ed7d7cc46c23d0c7ecab555a8c1da7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a699aea569ddc411f1d30113c2a0c2ffe"><td class="memTemplParams" colspan="2">template&lt;typename Iterable &gt; </td></tr>
-<tr class="memitem:a699aea569ddc411f1d30113c2a0c2ffe"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; decltype(std::declval&lt; Iterable &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#a699aea569ddc411f1d30113c2a0c2ffe">Gauss</a> (<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> mean, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> sigma, Iterable &amp;&amp;output)</td></tr>
-<tr class="memdesc:a699aea569ddc411f1d30113c2a0c2ffe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the range [begin, end] with numbers distributed according a <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian" title="   Gaussian functions are often used to represent the probability density function of a normally dist...">Gaussian</a> distribution.  <a href="#a699aea569ddc411f1d30113c2a0c2ffe">More...</a><br /></td></tr>
-<tr class="separator:a699aea569ddc411f1d30113c2a0c2ffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaad3512337fb3e94be7e65f546f5ed92"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#a251a7b1f515ac1ed9409afd67252a32b">GUInt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__random.html#aaad3512337fb3e94be7e65f546f5ed92">GetSeed</a> () const</td></tr>
-<tr class="separator:aaad3512337fb3e94be7e65f546f5ed92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9082043f9a447665b9b1cb7507f8efa1"><td class="memTemplParams" colspan="2">template&lt;typename Iterator , typename FUNCTOR &gt; </td></tr>
-<tr class="memitem:a9082043f9a447665b9b1cb7507f8efa1"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; Iterator &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#a9082043f9a447665b9b1cb7507f8efa1">Sample</a> (Iterator <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> min, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> max, FUNCTOR const &amp;functor)</td></tr>
-<tr class="memdesc:a9082043f9a447665b9b1cb7507f8efa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill a range with numbers distributed according a user defined distribution.  <a href="#a9082043f9a447665b9b1cb7507f8efa1">More...</a><br /></td></tr>
-<tr class="separator:a9082043f9a447665b9b1cb7507f8efa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67516e337e73d9cbc8002887ddb67876"><td class="memTemplParams" colspan="2">template&lt;hydra::detail::Backend BACKEND, typename Iterator , typename FUNCTOR &gt; </td></tr>
-<tr class="memitem:a67516e337e73d9cbc8002887ddb67876"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; Iterator &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#a67516e337e73d9cbc8002887ddb67876">Sample</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;policy, Iterator <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> min, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> max, FUNCTOR const &amp;functor)</td></tr>
-<tr class="memdesc:a67516e337e73d9cbc8002887ddb67876"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill a range with numbers distributed according a user defined distribution.  <a href="#a67516e337e73d9cbc8002887ddb67876">More...</a><br /></td></tr>
-<tr class="separator:a67516e337e73d9cbc8002887ddb67876"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c2550c64a18367a614faaa4f1fe127b"><td class="memTemplParams" colspan="2">template&lt;typename Iterable , typename FUNCTOR &gt; </td></tr>
-<tr class="memitem:a1c2550c64a18367a614faaa4f1fe127b"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; decltype(std::declval&lt; Iterable &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#a1c2550c64a18367a614faaa4f1fe127b">Sample</a> (Iterable &amp;&amp;output, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> min, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> max, FUNCTOR const &amp;functor)</td></tr>
-<tr class="memdesc:a1c2550c64a18367a614faaa4f1fe127b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill a range with numbers distributed according a user defined distribution.  <a href="#a1c2550c64a18367a614faaa4f1fe127b">More...</a><br /></td></tr>
-<tr class="separator:a1c2550c64a18367a614faaa4f1fe127b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a44391c9d7efaeb2c84943ad7cc305f"><td class="memTemplParams" colspan="2">template&lt;typename Iterator , typename FUNCTOR , size_t N&gt; </td></tr>
-<tr class="memitem:a9a44391c9d7efaeb2c84943ad7cc305f"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; Iterator &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#a9a44391c9d7efaeb2c84943ad7cc305f">Sample</a> (Iterator <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;min, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;max, FUNCTOR const &amp;functor)</td></tr>
-<tr class="memdesc:a9a44391c9d7efaeb2c84943ad7cc305f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill a range with numbers distributed according a user defined distribution.  <a href="#a9a44391c9d7efaeb2c84943ad7cc305f">More...</a><br /></td></tr>
-<tr class="separator:a9a44391c9d7efaeb2c84943ad7cc305f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4522f19791ce77473ccfe7ceb19827d"><td class="memTemplParams" colspan="2">template&lt;hydra::detail::Backend BACKEND, typename Iterator , typename FUNCTOR , size_t N&gt; </td></tr>
-<tr class="memitem:ac4522f19791ce77473ccfe7ceb19827d"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; Iterator &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#ac4522f19791ce77473ccfe7ceb19827d">Sample</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;policy, Iterator <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;min, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;max, FUNCTOR const &amp;functor)</td></tr>
-<tr class="memdesc:ac4522f19791ce77473ccfe7ceb19827d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill a range with numbers distributed according a user defined distribution.  <a href="#ac4522f19791ce77473ccfe7ceb19827d">More...</a><br /></td></tr>
-<tr class="separator:ac4522f19791ce77473ccfe7ceb19827d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53dc348fa82c8483be6d50b854d77d6e"><td class="memTemplParams" colspan="2">template&lt;typename Iterable , typename FUNCTOR , size_t N&gt; </td></tr>
-<tr class="memitem:a53dc348fa82c8483be6d50b854d77d6e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; decltype(std::declval&lt; Iterable &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#a53dc348fa82c8483be6d50b854d77d6e">Sample</a> (Iterable &amp;&amp;output, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;min, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;max, FUNCTOR const &amp;functor)</td></tr>
-<tr class="memdesc:a53dc348fa82c8483be6d50b854d77d6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill a range with numbers distributed according a user defined distribution.  <a href="#a53dc348fa82c8483be6d50b854d77d6e">More...</a><br /></td></tr>
-<tr class="separator:a53dc348fa82c8483be6d50b854d77d6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade43b0c4c234c35cd10b5b984a6a555e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__random.html#ade43b0c4c234c35cd10b5b984a6a555e">SetSeed</a> (<a class="el" href="namespacehydra.html#a251a7b1f515ac1ed9409afd67252a32b">GUInt_t</a> seed)</td></tr>
-<tr class="separator:ade43b0c4c234c35cd10b5b984a6a555e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf88fbb8097ddb060809719d6d26f789"><td class="memTemplParams" colspan="2">template&lt;typename Iterator &gt; </td></tr>
-<tr class="memitem:aaf88fbb8097ddb060809719d6d26f789"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#aaf88fbb8097ddb060809719d6d26f789">Uniform</a> (<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> min, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> max, Iterator <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>)</td></tr>
-<tr class="memdesc:aaf88fbb8097ddb060809719d6d26f789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the range [begin, end] with numbers distributed according a Uniform distribution.  <a href="#aaf88fbb8097ddb060809719d6d26f789">More...</a><br /></td></tr>
-<tr class="separator:aaf88fbb8097ddb060809719d6d26f789"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a115dd7006bca220aae28248f218b01ea"><td class="memTemplParams" colspan="2">template&lt;hydra::detail::Backend BACKEND, typename Iterator &gt; </td></tr>
-<tr class="memitem:a115dd7006bca220aae28248f218b01ea"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#a115dd7006bca220aae28248f218b01ea">Uniform</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;policy, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> min, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> max, Iterator <a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>)</td></tr>
-<tr class="memdesc:a115dd7006bca220aae28248f218b01ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the range [begin, end] with numbers distributed according a Uniform distribution.  <a href="#a115dd7006bca220aae28248f218b01ea">More...</a><br /></td></tr>
-<tr class="separator:a115dd7006bca220aae28248f218b01ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadf4004eb1f90b248f0b3836870d28f9"><td class="memTemplParams" colspan="2">template&lt;typename Iterable &gt; </td></tr>
-<tr class="memitem:aadf4004eb1f90b248f0b3836870d28f9"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; decltype(std::declval&lt; Iterable &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#aadf4004eb1f90b248f0b3836870d28f9">Uniform</a> (<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> min, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> max, Iterable &amp;&amp;output)</td></tr>
-<tr class="memdesc:aadf4004eb1f90b248f0b3836870d28f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the range [begin, end] with numbers distributed according a Uniform distribution.  <a href="#aadf4004eb1f90b248f0b3836870d28f9">More...</a><br /></td></tr>
-<tr class="separator:aadf4004eb1f90b248f0b3836870d28f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h4 class="groupheader">Constructor &amp; Destructor Documentation</h4>
-<a id="af19a6b619893d0d182fd3eb13de58737"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af19a6b619893d0d182fd3eb13de58737">&#9670;&nbsp;</a></span>Random() <span class="overload">[1/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND = HYDRA_EXTERNAL_NS::thrust::random::default_random_engine&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::<a class="el" href="group__random.html#classhydra_1_1Random">Random</a> </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a15c8e7b83092354d3e9e5e4bea7b5d01"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15c8e7b83092354d3e9e5e4bea7b5d01">&#9670;&nbsp;</a></span>Random() <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND = HYDRA_EXTERNAL_NS::thrust::random::default_random_engine&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::<a class="el" href="group__random.html#classhydra_1_1Random">Random</a> </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehydra.html#a251a7b1f515ac1ed9409afd67252a32b">GUInt_t</a>&#160;</td>
-          <td class="paramname"><em>seed</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a036724d7827e97caf7963e5daffde5fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a036724d7827e97caf7963e5daffde5fd">&#9670;&nbsp;</a></span>Random() <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND = HYDRA_EXTERNAL_NS::thrust::random::default_random_engine&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::<a class="el" href="group__random.html#classhydra_1_1Random">Random</a> </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__random.html#classhydra_1_1Random">Random</a>&lt; GRND &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>other</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abd8e96c690c86807455b92f641b1ad0e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd8e96c690c86807455b92f641b1ad0e">&#9670;&nbsp;</a></span>~Random()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND = HYDRA_EXTERNAL_NS::thrust::random::default_random_engine&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::~<a class="el" href="group__random.html#classhydra_1_1Random">Random</a> </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h4 class="groupheader">Member Function Documentation</h4>
-<a id="aa4b2ce29052c5802686ce4f90b6e8712"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa4b2ce29052c5802686ce4f90b6e8712">&#9670;&nbsp;</a></span>BreitWigner() <span class="overload">[1/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND &gt; </div>
-<div class="memtemplate">
-template&lt;typename Iterator &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::BreitWigner </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>mean</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>gamma</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>begin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>end</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fill the range [begin, end] with numbers distributed according a Breit-Wigner distribution. </p>
-<p>Fill the range (begin, end) with an exponential distribution.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">mean</td><td>\(\mu\) of the Breit-Wigner distribution. </td></tr>
-    <tr><td class="paramname">gamma</td><td>\(\\Gamma\) of the Breit-Wigner distribution. </td></tr>
-    <tr><td class="paramname">begin</td><td>Iterator pointing to the begin of the range. </td></tr>
-    <tr><td class="paramname">end</td><td>Iterator pointing to the end of the range. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a2626bdf9be5ec91be352b9917bb44173"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2626bdf9be5ec91be352b9917bb44173">&#9670;&nbsp;</a></span>BreitWigner() <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND &gt; </div>
-<div class="memtemplate">
-template&lt;hydra::detail::Backend BACKEND, typename Iterator &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::BreitWigner </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>policy</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>mean</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>gamma</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>begin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>end</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fill the range [begin, end] with numbers distributed according a Breit-Wigner distribution. </p>
-<p>Fill the range (begin, end) with an exponential distribution.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">mean</td><td>\(\mu\) of the Breit-Wigner distribution. </td></tr>
-    <tr><td class="paramname">gamma</td><td>\(\\Gamma\) of the Breit-Wigner distribution. </td></tr>
-    <tr><td class="paramname">begin</td><td>Iterator pointing to the begin of the range. </td></tr>
-    <tr><td class="paramname">end</td><td>Iterator pointing to the end of the range. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a6ed549f69ff52a857ee5d5565d1db99c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ed549f69ff52a857ee5d5565d1db99c">&#9670;&nbsp;</a></span>BreitWigner() <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND &gt; </div>
-<div class="memtemplate">
-template&lt;typename Iterable&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; decltype(std::declval&lt; Iterable &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt; &gt;::type <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::BreitWigner </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>mean</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>gamma</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterable &amp;&amp;&#160;</td>
-          <td class="paramname"><em>output</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Fill the range [begin, end] with numbers distributed according a Breit-Wigner distribution. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">mean</td><td>\(\mu\) of the Breit-Wigner distribution. </td></tr>
-    <tr><td class="paramname">gamma</td><td>\(\\Gamma\) of the Breit-Wigner distribution. </td></tr>
-    <tr><td class="paramname">output</td><td>range to store the generated values. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ad13cdb1fc8076997e9cd989641529419"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad13cdb1fc8076997e9cd989641529419">&#9670;&nbsp;</a></span>Exp() <span class="overload">[1/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND &gt; </div>
-<div class="memtemplate">
-template&lt;typename Iterator &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::Exp </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>tau</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>begin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>end</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fill the range [begin, end] with numbers distributed according a <a class="el" href="group__common__functions.html#classhydra_1_1Exponential" title="https://en.wikipedia.org/wiki/Exponential_function ">Exponential</a> distribution. </p>
-<p>Fill the range (begin, end) with an exponential distribution.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">tau</td><td>\(\tau\) of the <a class="el" href="group__common__functions.html#classhydra_1_1Exponential" title="https://en.wikipedia.org/wiki/Exponential_function ">Exponential</a> distribution </td></tr>
-    <tr><td class="paramname">begin</td><td>Iterator pointing to the begin of the range. </td></tr>
-    <tr><td class="paramname">end</td><td>Iterator pointing to the end of the range. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ade128a34f591d5edd3fbec4d21370c04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade128a34f591d5edd3fbec4d21370c04">&#9670;&nbsp;</a></span>Exp() <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND &gt; </div>
-<div class="memtemplate">
-template&lt;hydra::detail::Backend BACKEND, typename Iterator &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::Exp </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>policy</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>tau</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>begin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>end</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fill the range [begin, end] with numbers distributed according a <a class="el" href="group__common__functions.html#classhydra_1_1Exponential" title="https://en.wikipedia.org/wiki/Exponential_function ">Exponential</a> distribution. </p>
-<p>Fill the range (begin, end) with an exponential distribution.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">tau</td><td>\(\tau\) of the <a class="el" href="group__common__functions.html#classhydra_1_1Exponential" title="https://en.wikipedia.org/wiki/Exponential_function ">Exponential</a> distribution </td></tr>
-    <tr><td class="paramname">begin</td><td>Iterator pointing to the begin of the range. </td></tr>
-    <tr><td class="paramname">end</td><td>Iterator pointing to the end of the range. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ab43ffb9570d154dd2ec93f15d8d29f3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab43ffb9570d154dd2ec93f15d8d29f3f">&#9670;&nbsp;</a></span>Exp() <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND &gt; </div>
-<div class="memtemplate">
-template&lt;typename Iterable&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; decltype(std::declval&lt; Iterable &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt; &gt;::type <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::Exp </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>tau</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterable &amp;&amp;&#160;</td>
-          <td class="paramname"><em>output</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Fill the range [begin, end] with numbers distributed according a <a class="el" href="group__common__functions.html#classhydra_1_1Exponential" title="https://en.wikipedia.org/wiki/Exponential_function ">Exponential</a> distribution. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">tau</td><td>\(\tau\) of the <a class="el" href="group__common__functions.html#classhydra_1_1Exponential" title="https://en.wikipedia.org/wiki/Exponential_function ">Exponential</a> distribution </td></tr>
-    <tr><td class="paramname">output</td><td>range to store the generated values. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="afde3701ccc69442bc6b9c68a66dc32d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afde3701ccc69442bc6b9c68a66dc32d6">&#9670;&nbsp;</a></span>Gauss() <span class="overload">[1/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND &gt; </div>
-<div class="memtemplate">
-template&lt;typename Iterator &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::Gauss </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>mean</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>sigma</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>begin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>end</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fill the range [begin, end] with numbers distributed according a <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian" title="   Gaussian functions are often used to represent the probability density function of a normally dist...">Gaussian</a> distribution. </p>
-<dl class="section warning"><dt>Warning</dt><dd>{ the implementation of HYDRA_EXTERNAL_NS::thrust::random::normal_distribution is different between nvcc and gcc. Do not expect the same numbers event by event. Possible: implement myself ? (que inferno! :0) Refs: see in hydra/detail/external/thrust/random/detail/normal_distribution_base.h <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> RealType&gt;</div><div class="line"><span class="keyword">struct </span>normal_distribution_base</div><div class="line">{</div><div class="line"><span class="preprocessor">   #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC</span></div><div class="line"> <span class="keyword">typedef</span> normal_distribution_nvcc&lt;RealType&gt; type;</div><div class="line"><span class="preprocessor">   #else</span></div><div class="line"> <span class="keyword">typedef</span> normal_distribution_portable&lt;RealType&gt; type;</div><div class="line"><span class="preprocessor"> #endif</span></div><div class="line"><span class="preprocessor">};</span></div></div><!-- fragment --> } </dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">mean</td><td>\(\mu\) of the <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian" title="   Gaussian functions are often used to represent the probability density function of a normally dist...">Gaussian</a> distribution. </td></tr>
-    <tr><td class="paramname">sigma</td><td>\(\sigma\) of the <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian" title="   Gaussian functions are often used to represent the probability density function of a normally dist...">Gaussian</a> distribution. </td></tr>
-    <tr><td class="paramname">begin</td><td>Iterator pointing to the begin of the range. </td></tr>
-    <tr><td class="paramname">end</td><td>Iterator pointing to the end of the range. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a90ed7d7cc46c23d0c7ecab555a8c1da7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a90ed7d7cc46c23d0c7ecab555a8c1da7">&#9670;&nbsp;</a></span>Gauss() <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND &gt; </div>
-<div class="memtemplate">
-template&lt;hydra::detail::Backend BACKEND, typename Iterator &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::Gauss </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>policy</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>mean</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>sigma</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>begin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>end</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fill the range [begin, end] with numbers distributed according a <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian" title="   Gaussian functions are often used to represent the probability density function of a normally dist...">Gaussian</a> distribution. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">mean</td><td>\(\mu\) of the <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian" title="   Gaussian functions are often used to represent the probability density function of a normally dist...">Gaussian</a> distribution. </td></tr>
-    <tr><td class="paramname">sigma</td><td>\(\sigma\) of the <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian" title="   Gaussian functions are often used to represent the probability density function of a normally dist...">Gaussian</a> distribution. </td></tr>
-    <tr><td class="paramname">begin</td><td>Iterator pointing to the begin of the range. </td></tr>
-    <tr><td class="paramname">end</td><td>Iterator pointing to the end of the range. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a699aea569ddc411f1d30113c2a0c2ffe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a699aea569ddc411f1d30113c2a0c2ffe">&#9670;&nbsp;</a></span>Gauss() <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND &gt; </div>
-<div class="memtemplate">
-template&lt;typename Iterable&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; decltype(std::declval&lt; Iterable &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt; &gt;::type <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::Gauss </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>mean</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>sigma</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterable &amp;&amp;&#160;</td>
-          <td class="paramname"><em>output</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Fill the range [begin, end] with numbers distributed according a <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian" title="   Gaussian functions are often used to represent the probability density function of a normally dist...">Gaussian</a> distribution. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">mean</td><td>\(\mu\) of the <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian" title="   Gaussian functions are often used to represent the probability density function of a normally dist...">Gaussian</a> distribution. </td></tr>
-    <tr><td class="paramname">sigma</td><td>\(\sigma\) of the <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian" title="   Gaussian functions are often used to represent the probability density function of a normally dist...">Gaussian</a> distribution. </td></tr>
-    <tr><td class="paramname">output</td><td>range to store the generated values. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="aaad3512337fb3e94be7e65f546f5ed92"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaad3512337fb3e94be7e65f546f5ed92">&#9670;&nbsp;</a></span>GetSeed()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND = HYDRA_EXTERNAL_NS::thrust::random::default_random_engine&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#a251a7b1f515ac1ed9409afd67252a32b">GUInt_t</a> <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::GetSeed </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a9082043f9a447665b9b1cb7507f8efa1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9082043f9a447665b9b1cb7507f8efa1">&#9670;&nbsp;</a></span>Sample() <span class="overload">[1/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND &gt; </div>
-<div class="memtemplate">
-template&lt;typename Iterator , typename FUNCTOR &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; Iterator &gt; <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::Sample </td>
-          <td>(</td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>begin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>end</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>min</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>max</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">FUNCTOR const &amp;&#160;</td>
-          <td class="paramname"><em>functor</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fill a range with numbers distributed according a user defined distribution. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">begin</td><td>beginning of the range storing the generated values </td></tr>
-    <tr><td class="paramname">end</td><td>ending of the range storing the generated values </td></tr>
-    <tr><td class="paramname">min</td><td>lower limit of sampling region </td></tr>
-    <tr><td class="paramname">max</td><td>upper limit of sampling region. </td></tr>
-    <tr><td class="paramname">functor</td><td>distribution to be sampled </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>range with the generated values </dd></dl>
-
-</div>
-</div>
-<a id="a67516e337e73d9cbc8002887ddb67876"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a67516e337e73d9cbc8002887ddb67876">&#9670;&nbsp;</a></span>Sample() <span class="overload">[2/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND &gt; </div>
-<div class="memtemplate">
-template&lt;hydra::detail::Backend BACKEND, typename Iterator , typename FUNCTOR &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; Iterator &gt; <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::Sample </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>policy</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>begin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>end</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>min</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>max</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">FUNCTOR const &amp;&#160;</td>
-          <td class="paramname"><em>functor</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fill a range with numbers distributed according a user defined distribution. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">policy</td><td>backend to perform the calculation. </td></tr>
-    <tr><td class="paramname">begin</td><td>beginning of the range storing the generated values </td></tr>
-    <tr><td class="paramname">end</td><td>ending of the range storing the generated values </td></tr>
-    <tr><td class="paramname">min</td><td>lower limit of sampling region </td></tr>
-    <tr><td class="paramname">max</td><td>upper limit of sampling region. </td></tr>
-    <tr><td class="paramname">functor</td><td>distribution to be sampled </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>range with the generated values </dd></dl>
-
-</div>
-</div>
-<a id="a1c2550c64a18367a614faaa4f1fe127b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c2550c64a18367a614faaa4f1fe127b">&#9670;&nbsp;</a></span>Sample() <span class="overload">[3/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND &gt; </div>
-<div class="memtemplate">
-template&lt;typename Iterable, typename FUNCTOR &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; decltype(std::declval&lt; Iterable &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt; &gt;::type <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::Sample </td>
-          <td>(</td>
-          <td class="paramtype">Iterable &amp;&amp;&#160;</td>
-          <td class="paramname"><em>output</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>min</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>max</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">FUNCTOR const &amp;&#160;</td>
-          <td class="paramname"><em>functor</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Fill a range with numbers distributed according a user defined distribution. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">output</td><td>range storing the generated values </td></tr>
-    <tr><td class="paramname">min</td><td>lower limit of sampling region </td></tr>
-    <tr><td class="paramname">max</td><td>upper limit of sampling region. </td></tr>
-    <tr><td class="paramname">functor</td><td>distribution to be sampled </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>range with the generated values </dd></dl>
-
-</div>
-</div>
-<a id="a9a44391c9d7efaeb2c84943ad7cc305f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9a44391c9d7efaeb2c84943ad7cc305f">&#9670;&nbsp;</a></span>Sample() <span class="overload">[4/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND &gt; </div>
-<div class="memtemplate">
-template&lt;typename Iterator, typename FUNCTOR , size_t N&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; Iterator &gt; <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::Sample </td>
-          <td>(</td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>begin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>end</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;&#160;</td>
-          <td class="paramname"><em>min</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;&#160;</td>
-          <td class="paramname"><em>max</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">FUNCTOR const &amp;&#160;</td>
-          <td class="paramname"><em>functor</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fill a range with numbers distributed according a user defined distribution. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">begin</td><td>beginning of the range storing the generated values </td></tr>
-    <tr><td class="paramname">end</td><td>ending of the range storing the generated values </td></tr>
-    <tr><td class="paramname">min</td><td>array of lower limits of sampling region </td></tr>
-    <tr><td class="paramname">max</td><td>array of upper limits of sampling region. </td></tr>
-    <tr><td class="paramname">functor</td><td>distribution to be sampled </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>range with the generated values </dd></dl>
-
-</div>
-</div>
-<a id="ac4522f19791ce77473ccfe7ceb19827d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac4522f19791ce77473ccfe7ceb19827d">&#9670;&nbsp;</a></span>Sample() <span class="overload">[5/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND &gt; </div>
-<div class="memtemplate">
-template&lt;hydra::detail::Backend BACKEND, typename Iterator , typename FUNCTOR, size_t N&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; Iterator &gt; <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::Sample </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>policy</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>begin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>end</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;&#160;</td>
-          <td class="paramname"><em>min</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;&#160;</td>
-          <td class="paramname"><em>max</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">FUNCTOR const &amp;&#160;</td>
-          <td class="paramname"><em>functor</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fill a range with numbers distributed according a user defined distribution. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">policy</td><td>backend to perform the calculation. </td></tr>
-    <tr><td class="paramname">begin</td><td>beginning of the range storing the generated values </td></tr>
-    <tr><td class="paramname">end</td><td>ending of the range storing the generated values </td></tr>
-    <tr><td class="paramname">min</td><td>array of lower limits of sampling region </td></tr>
-    <tr><td class="paramname">max</td><td>array of upper limits of sampling region. </td></tr>
-    <tr><td class="paramname">functor</td><td>distribution to be sampled </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a53dc348fa82c8483be6d50b854d77d6e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a53dc348fa82c8483be6d50b854d77d6e">&#9670;&nbsp;</a></span>Sample() <span class="overload">[6/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND &gt; </div>
-<div class="memtemplate">
-template&lt;typename Iterable, typename FUNCTOR , size_t N&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; decltype(std::declval&lt; Iterable &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt; &gt;::type <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::Sample </td>
-          <td>(</td>
-          <td class="paramtype">Iterable &amp;&amp;&#160;</td>
-          <td class="paramname"><em>output</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;&#160;</td>
-          <td class="paramname"><em>min</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;&#160;</td>
-          <td class="paramname"><em>max</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">FUNCTOR const &amp;&#160;</td>
-          <td class="paramname"><em>functor</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Fill a range with numbers distributed according a user defined distribution. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">output</td><td>range storing the generated values </td></tr>
-    <tr><td class="paramname">min</td><td>array of lower limits of sampling region </td></tr>
-    <tr><td class="paramname">max</td><td>array of upper limits of sampling region. </td></tr>
-    <tr><td class="paramname">functor</td><td>distribution to be sampled </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>output range with the generated values </dd></dl>
-
-</div>
-</div>
-<a id="ade43b0c4c234c35cd10b5b984a6a555e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade43b0c4c234c35cd10b5b984a6a555e">&#9670;&nbsp;</a></span>SetSeed()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND = HYDRA_EXTERNAL_NS::thrust::random::default_random_engine&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::SetSeed </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehydra.html#a251a7b1f515ac1ed9409afd67252a32b">GUInt_t</a>&#160;</td>
-          <td class="paramname"><em>seed</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="range_semantics_8inl-example.html#a5">range_semantics.inl</a>.</dd>
-</dl>
-</div>
-</div>
-<a id="aaf88fbb8097ddb060809719d6d26f789"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf88fbb8097ddb060809719d6d26f789">&#9670;&nbsp;</a></span>Uniform() <span class="overload">[1/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND &gt; </div>
-<div class="memtemplate">
-template&lt;typename Iterator &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::Uniform </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>min</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>max</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>begin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>end</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fill the range [begin, end] with numbers distributed according a Uniform distribution. </p>
-<p>Fill the range (begin, end) with a uniform distribution between [min, max].</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">min</td><td>minimum </td></tr>
-    <tr><td class="paramname">max</td><td>maximum </td></tr>
-    <tr><td class="paramname">begin</td><td>Iterator pointing to the begin of the range. </td></tr>
-    <tr><td class="paramname">end</td><td>Iterator pointing to the end of the range. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a115dd7006bca220aae28248f218b01ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a115dd7006bca220aae28248f218b01ea">&#9670;&nbsp;</a></span>Uniform() <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND &gt; </div>
-<div class="memtemplate">
-template&lt;hydra::detail::Backend BACKEND, typename Iterator &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::Uniform </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>policy</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>min</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>max</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>begin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterator&#160;</td>
-          <td class="paramname"><em>end</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fill the range [begin, end] with numbers distributed according a Uniform distribution. </p>
-<p>Fill the range (begin, end) with a uniform distribution between [min, max].</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">min</td><td>minimum </td></tr>
-    <tr><td class="paramname">max</td><td>maximum </td></tr>
-    <tr><td class="paramname">begin</td><td>Iterator pointing to the begin of the range. </td></tr>
-    <tr><td class="paramname">end</td><td>Iterator pointing to the end of the range. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="aadf4004eb1f90b248f0b3836870d28f9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadf4004eb1f90b248f0b3836870d28f9">&#9670;&nbsp;</a></span>Uniform() <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename GRND &gt; </div>
-<div class="memtemplate">
-template&lt;typename Iterable&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; decltype(std::declval&lt; Iterable &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt; &gt;::type <a class="el" href="group__random.html#classhydra_1_1Random">hydra::Random</a>&lt; GRND &gt;::Uniform </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>min</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
-          <td class="paramname"><em>max</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Iterable &amp;&amp;&#160;</td>
-          <td class="paramname"><em>output</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Fill the range [begin, end] with numbers distributed according a Uniform distribution. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">min</td><td>minimum </td></tr>
-    <tr><td class="paramname">max</td><td>maximum </td></tr>
-    <tr><td class="paramname">output</td><td>range to store the generated values. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-
-</div>
-</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="gab81f5dd96aa2b2ad0373dafa102eaada"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab81f5dd96aa2b2ad0373dafa102eaada">&#9670;&nbsp;</a></span>unweight() <span class="overload">[1/2]</span></h2>
+<a id="ga1cc4cdb2d1cef66ec9cd64977d917725"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1cc4cdb2d1cef66ec9cd64977d917725">&#9670;&nbsp;</a></span>fill_random() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;hydra::detail::Backend BACKEND, typename Iterator1 , typename Iterator2 &gt; </div>
+template&lt;typename Engine , hydra::detail::Backend BACKEND, typename Iterable , typename FUNCTOR &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; Iterator2 &gt; hydra::unweight </td>
+          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value &amp;&amp;std::is_convertible&lt; decltype(*std::declval&lt; Iterable &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>()), typename FUNCTOR::return_type &gt;::value, void &gt;::type hydra::fill_random </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;&#160;</td>
           <td class="paramname"><em>policy</em>, </td>
@@ -1503,20 +191,230 @@ template&lt;hydra::detail::Backend BACKEND, typename Iterator1 , typename Iterat
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Iterator1&#160;</td>
-          <td class="paramname"><em>wbegin</em>, </td>
+          <td class="paramtype">Iterable &amp;&amp;&#160;</td>
+          <td class="paramname"><em>iterable</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Iterator1&#160;</td>
-          <td class="paramname"><em>wend</em>, </td>
+          <td class="paramtype">FUNCTOR const &amp;&#160;</td>
+          <td class="paramname"><em>functor</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Iterator2&#160;</td>
-          <td class="paramname"><em>begin</em>&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>seed</em> = <code>0x254a0afcf7da74a2</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="RandomFill_8inl.html">RandomFill.inl</a>&gt;</code></p>
+
+<p>Fill a range with numbers distributed according a user defined distribution. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">policy</td><td>backend to perform the calculation. </td></tr>
+    <tr><td class="paramname">iterable</td><td>range storing the generated values </td></tr>
+    <tr><td class="paramname">functor</td><td>distribution to be sampled </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gaeece1c5ccb29403fd0a8322a37e851d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaeece1c5ccb29403fd0a8322a37e851d7">&#9670;&nbsp;</a></span>fill_random() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Engine , typename Iterable , typename FUNCTOR &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value &amp;&amp;std::is_convertible&lt; decltype(*std::declval&lt; Iterable &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>()), typename FUNCTOR::return_type &gt;::value, void &gt;::type hydra::fill_random </td>
+          <td>(</td>
+          <td class="paramtype">Iterable &amp;&amp;&#160;</td>
+          <td class="paramname"><em>iterable</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FUNCTOR const &amp;&#160;</td>
+          <td class="paramname"><em>functor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>seed</em> = <code>0x254a0afcf7da74a2</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="RandomFill_8inl.html">RandomFill.inl</a>&gt;</code></p>
+
+<p>Fill a range with numbers distributed according a user defined distribution. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">iterable</td><td>range storing the generated values </td></tr>
+    <tr><td class="paramname">functor</td><td>distribution to be sampled </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gab04906caf93945fb2c86780c1cea2286"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab04906caf93945fb2c86780c1cea2286">&#9670;&nbsp;</a></span>fill_random() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Engine , hydra::detail::Backend BACKEND, typename Iterator , typename FUNCTOR &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; !<a class="el" href="structhydra_1_1detail_1_1has__rng__formula.html">hydra::detail::has_rng_formula</a>&lt; FUNCTOR &gt;::value, void &gt;::type hydra::fill_random </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>policy</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Iterator&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Iterator&#160;</td>
+          <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FUNCTOR const &amp;&#160;</td>
+          <td class="paramname"><em>functor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>seed</em> = <code>0x254a0afcf7da74a2</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="RandomFill_8inl.html">RandomFill.inl</a>&gt;</code></p>
+
+<p>Fall back function if <a class="el" href="classhydra_1_1RngFormula.html">RngFormula</a> is not implemented for the requested functor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">policy</td><td>backend to perform the calculation. </td></tr>
+    <tr><td class="paramname">begin</td><td>beginning of the range storing the generated values </td></tr>
+    <tr><td class="paramname">end</td><td>ending of the range storing the generated values </td></tr>
+    <tr><td class="paramname">functor</td><td>distribution to be sampled </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga6c8bad583601746518bdf2e8cd07394d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6c8bad583601746518bdf2e8cd07394d">&#9670;&nbsp;</a></span>fill_random() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Engine , typename Iterator , typename FUNCTOR &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; !<a class="el" href="structhydra_1_1detail_1_1has__rng__formula.html">hydra::detail::has_rng_formula</a>&lt; FUNCTOR &gt;::value, void &gt;::type hydra::fill_random </td>
+          <td>(</td>
+          <td class="paramtype">Iterator&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Iterator&#160;</td>
+          <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FUNCTOR const &amp;&#160;</td>
+          <td class="paramname"><em>functor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>seed</em> = <code>0x254a0afcf7da74a2</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="RandomFill_8inl.html">RandomFill.inl</a>&gt;</code></p>
+
+<p>Fall back function if <a class="el" href="classhydra_1_1RngFormula.html">RngFormula</a> is not implemented for the requested functor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">begin</td><td>beginning of the range storing the generated values </td></tr>
+    <tr><td class="paramname">end</td><td>ending of the range storing the generated values </td></tr>
+    <tr><td class="paramname">functor</td><td>distribution to be sampled </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga407c06a1f6a242e5f98150e95d733baf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga407c06a1f6a242e5f98150e95d733baf">&#9670;&nbsp;</a></span>unweight() <span class="overload">[1/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RNG , typename IterableData , typename IterableWeight , hydra::detail::Backend BACKEND&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterable.html">detail::random::is_iterable</a>&lt; IterableData &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterable.html">detail::random::is_iterable</a>&lt; IterableWeight &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; decltype(std::declval&lt; IterableData &gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt; &gt;::type hydra::unweight </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>policy</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IterableData &amp;&amp;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IterableWeight &amp;&amp;&#160;</td>
+          <td class="paramname"><em>weights</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1528,14 +426,14 @@ template&lt;hydra::detail::Backend BACKEND, typename Iterator1 , typename Iterat
 
 <p><code>#include &lt;<a class="el" href="Random_8inl.html">Random.inl</a>&gt;</code></p>
 
-<p>This functions reorder a dataset to put produce a unweighted sample according to the weights [wbegin, wend]. </p>
-<p>The length of the range [wbegin, wend] should be equal or greater than the dataset size.</p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>This functions reorder a dataset to produce a unweighted sample according to a weights. </p>
+<p>The length of the range</p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">weights</td><td>should be equal or greater than the</td></tr>
+    <tr><td class="paramname">data</td><td>size.</td></tr>
     <tr><td class="paramname">policy</td><td>parallel backend to perform the unweighting </td></tr>
-    <tr><td class="paramname">wbegin</td><td>iterator pointing to the begin of the range of weights </td></tr>
-    <tr><td class="paramname">wend</td><td>iterator pointing to the begin of the range of weights </td></tr>
-    <tr><td class="paramname">begin</td><td>iterator pointing to the begin of the range of data </td></tr>
+    <tr><td class="paramname">weights</td><td>the range of weights </td></tr>
+    <tr><td class="paramname">data</td><td>the range corresponding dataset </td></tr>
   </table>
   </dd>
 </dl>
@@ -1543,16 +441,16 @@ template&lt;hydra::detail::Backend BACKEND, typename Iterator1 , typename Iterat
 
 </div>
 </div>
-<a id="ga2d220371c79722ad3f1a551a4d1c48f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga2d220371c79722ad3f1a551a4d1c48f7">&#9670;&nbsp;</a></span>unweight() <span class="overload">[2/2]</span></h2>
+<a id="gadb651e93b792358b563e8ac20fddd028"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadb651e93b792358b563e8ac20fddd028">&#9670;&nbsp;</a></span>unweight() <span class="overload">[2/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;hydra::detail::Backend BACKEND, typename Functor , typename Iterator &gt; </div>
+template&lt;typename RNG , typename Functor , typename Iterator , hydra::detail::Backend BACKEND&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__hydra__functor.html">hydra::detail::is_hydra_functor</a>&lt; Functor &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; Iterator &gt; &gt;::type hydra::unweight </td>
+          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__callable.html">detail::random::is_callable</a>&lt;Functor&gt;::value &amp;&amp; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterator.html">detail::random::is_iterator</a>&lt;Iterator&gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt;Iterator&gt;&gt;::type hydra::unweight </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;&#160;</td>
           <td class="paramname"><em>policy</em>, </td>
@@ -1585,7 +483,7 @@ template&lt;hydra::detail::Backend BACKEND, typename Functor , typename Iterator
 
 <p><code>#include &lt;<a class="el" href="Random_8inl.html">Random.inl</a>&gt;</code></p>
 
-<p>This functions reorder a dataset to put produce a unweighted sample according to. </p>
+<p>This functions reorder a dataset to produce an unweighted sample according to. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">functor</td><td>.</td></tr>
@@ -1600,12 +498,382 @@ template&lt;hydra::detail::Backend BACKEND, typename Functor , typename Iterator
 
 </div>
 </div>
+<a id="ga9a7d4b333528d673d75fe20cfb86f03e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9a7d4b333528d673d75fe20cfb86f03e">&#9670;&nbsp;</a></span>unweight() <span class="overload">[3/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RNG , typename Functor , typename Iterator &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__callable.html">detail::random::is_callable</a>&lt;Functor&gt;::value &amp;&amp; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterator.html">detail::random::is_iterator</a>&lt;Iterator&gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt;Iterator&gt;&gt;::type hydra::unweight </td>
+          <td>(</td>
+          <td class="paramtype">Iterator&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Iterator&#160;</td>
+          <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Functor const &amp;&#160;</td>
+          <td class="paramname"><em>functor</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="Random_8inl.html">Random.inl</a>&gt;</code></p>
+
+<p>This functions reorder a dataset to produce an unweighted sample according to. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">functor</td><td>.</td></tr>
+    <tr><td class="paramname">begin</td><td></td></tr>
+    <tr><td class="paramname">end</td><td></td></tr>
+    <tr><td class="paramname">functor</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the index of the last entry of the unweighted event. </dd></dl>
+
+</div>
+</div>
+<a id="gaf3cd03f6c91a7dea855ed430a12618f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf3cd03f6c91a7dea855ed430a12618f2">&#9670;&nbsp;</a></span>unweight() <span class="overload">[4/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RNG  = default_random_engine, typename IteratorData , typename IteratorWeight , hydra::detail::Backend BACKEND&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt;<a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterator.html">detail::random::is_iterator</a>&lt;IteratorData&gt;::value &amp;&amp; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterator.html">detail::random::is_iterator</a>&lt;IteratorWeight&gt;::value,<a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt;IteratorData&gt; &gt;::type hydra::unweight </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>policy</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IteratorData&#160;</td>
+          <td class="paramname"><em>data_begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IteratorData&#160;</td>
+          <td class="paramname"><em>data_end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IteratorWeight&#160;</td>
+          <td class="paramname"><em>weights_begin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="Random_8h.html">Random.h</a>&gt;</code></p>
+
+<p>This functions reorder a dataset to produce a unweighted sample according to the weights [wbegin, wend]. </p>
+<p>The length of the range [wbegin, wend] should be equal or greater than the dataset size.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">policy</td><td>parallel backend to perform the unweighting </td></tr>
+    <tr><td class="paramname">data_begin</td><td>iterator pointing to the begin of the range of weights </td></tr>
+    <tr><td class="paramname">data_end</td><td>iterator pointing to the begin of the range of weights </td></tr>
+    <tr><td class="paramname">weights_begin</td><td>iterator pointing to the begin of the range of data </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="ga3b91ce799b5efa01c16593d023b9b355"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3b91ce799b5efa01c16593d023b9b355">&#9670;&nbsp;</a></span>unweight() <span class="overload">[5/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RNG , typename Functor , typename Iterable , hydra::detail::Backend BACKEND&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__callable.html">detail::random::is_callable</a>&lt;Functor&gt;::value &amp;&amp; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterable.html">detail::random::is_iterable</a>&lt;Iterable&gt;::value , <a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; decltype(std::declval&lt;Iterable&gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt;&gt;::type hydra::unweight </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>policy</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Iterable &amp;&amp;&#160;</td>
+          <td class="paramname"><em>iterable</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Functor const &amp;&#160;</td>
+          <td class="paramname"><em>functor</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="Random_8inl.html">Random.inl</a>&gt;</code></p>
+
+<p>This functions reorder a dataset to produce an unweighted sample according to. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">functor</td><td>.</td></tr>
+    <tr><td class="paramname">iterable</td><td></td></tr>
+    <tr><td class="paramname">functor</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a> object pointing unweighted sample. </dd></dl>
+
+</div>
+</div>
+<a id="gaae678e8eaa0ad279c9f5ce8f5714166a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaae678e8eaa0ad279c9f5ce8f5714166a">&#9670;&nbsp;</a></span>unweight() <span class="overload">[6/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RNG  = default_random_engine, typename IteratorData , typename IteratorWeight &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterator.html">detail::random::is_iterator</a>&lt;IteratorData&gt;::value &amp;&amp; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterator.html">detail::random::is_iterator</a>&lt;IteratorWeight&gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt;IteratorData&gt;&gt;::type hydra::unweight </td>
+          <td>(</td>
+          <td class="paramtype">IteratorData&#160;</td>
+          <td class="paramname"><em>data_begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IteratorData&#160;</td>
+          <td class="paramname"><em>data_end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IteratorData&#160;</td>
+          <td class="paramname"><em>weights_begin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="Random_8h.html">Random.h</a>&gt;</code></p>
+
+<p>This functions reorder a dataset to produce a unweighted sample according to the weights [wbegin, wend]. </p>
+<p>The length of the range [wbegin, wend] should be equal or greater than the dataset size.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data_begin</td><td>iterator pointing to the begin of the range of weights </td></tr>
+    <tr><td class="paramname">data_end</td><td>iterator pointing to the begin of the range of weights </td></tr>
+    <tr><td class="paramname">weights_begin</td><td>iterator pointing to the begin of the range of data </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="gad7a85d3fb6639d4e9414d2fbd65c76e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad7a85d3fb6639d4e9414d2fbd65c76e9">&#9670;&nbsp;</a></span>unweight() <span class="overload">[7/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RNG  = default_random_engine, typename IterableData , typename IterableWeight &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterable.html">detail::random::is_iterable</a>&lt;IterableData&gt;::value &amp;&amp; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterable.html">detail::random::is_iterable</a>&lt;IterableWeight&gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; decltype(std::declval&lt;IterableData&gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt;&gt;::type hydra::unweight </td>
+          <td>(</td>
+          <td class="paramtype">IterableData&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IterableWeight&#160;</td>
+          <td class="paramname"><em>weights</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="Random_8h.html">Random.h</a>&gt;</code></p>
+
+<p>This functions reorder a dataset to produce an unweighted sample according to a weights. </p>
+<p>The length of the range</p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">weights</td><td>should be equal or greater than the</td></tr>
+    <tr><td class="paramname">data</td><td>size.</td></tr>
+    <tr><td class="paramname">weights</td><td>the range of weights </td></tr>
+    <tr><td class="paramname">data</td><td>the range corresponding dataset </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="gaef41f0eac7bce40769634467f2ae3347"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaef41f0eac7bce40769634467f2ae3347">&#9670;&nbsp;</a></span>unweight() <span class="overload">[8/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename RNG  = default_random_engine, typename Functor , typename Iterable &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt;<a class="el" href="structhydra_1_1detail_1_1random_1_1is__callable.html">detail::random::is_callable</a>&lt;Functor&gt;::value &amp;&amp; <a class="el" href="structhydra_1_1detail_1_1random_1_1is__iterable.html">detail::random::is_iterable</a>&lt;Iterable&gt;::value ,<a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; decltype(std::declval&lt;Iterable&gt;).<a class="el" href="namespacehydra.html#ab9d562f964ef193664077363da8859e2">begin</a>())&gt; &gt;::type hydra::unweight </td>
+          <td>(</td>
+          <td class="paramtype">Iterable &amp;&amp;&#160;</td>
+          <td class="paramname"><em>iterable</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Functor const &amp;&#160;</td>
+          <td class="paramname"><em>functor</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="Random_8h.html">Random.h</a>&gt;</code></p>
+
+<p>This functions reorder a dataset to produce an unweighted sample according to. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">functor</td><td>.</td></tr>
+    <tr><td class="paramname">iterable</td><td></td></tr>
+    <tr><td class="paramname">functor</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a> object pointing unweighted sample. </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="gab8c80dcd76b312f12b98bc04918e4b20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab8c80dcd76b312f12b98bc04918e4b20">&#9670;&nbsp;</a></span>fill_random</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Engine  = hydra_thrust::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator , typename FUNCTOR &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">hydra::fill_random </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>policy</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Iterator&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Iterator&#160;</td>
+          <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FUNCTOR const &amp;&#160;</td>
+          <td class="paramname"><em>functor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>seed</em> = <code>0x254a0afcf7da74a2</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="RandomFill_8h.html">RandomFill.h</a>&gt;</code></p>
+<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line"></div><div class="line">        </div><div class="line">        <a class="code" href="namespacehydra_1_1device.html#a60f62986fe1feb5d13ab4ac3b07a843b">hydra::device::vector&lt;double&gt;</a>  <a class="code" href="quick__test_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>(<a class="code" href="basic__fit_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>)</div><div class="ttc" id="basic__fit_8inl_html_af8b0f365ee5d5b76a62688733e5016a1"><div class="ttname"><a href="basic__fit_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a></div><div class="ttdeci">nentries</div><div class="ttdef"><b>Definition:</b> basic_fit.inl:102</div></div>
+<div class="ttc" id="namespacehydra_1_1device_html_a60f62986fe1feb5d13ab4ac3b07a843b"><div class="ttname"><a href="namespacehydra_1_1device.html#a60f62986fe1feb5d13ab4ac3b07a843b">hydra::device::vector</a></div><div class="ttdeci">hydra::detail::BackendPolicy&lt; hydra::detail::Backend::Device &gt;::container&lt; T &gt; vector</div><div class="ttdef"><b>Definition:</b> DEVICE.h:70</div></div>
+<div class="ttc" id="quick__test_8inl_html_a248ea98483ce90baaf65a7682438d72d"><div class="ttname"><a href="quick__test_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a></div><div class="ttdeci">auto data</div><div class="ttdef"><b>Definition:</b> quick_test.inl:96</div></div>
+</div><!-- fragment -->
+<p>Fill a range with numbers distributed according a user defined distribution using a RNG analytical formula. </p>
+<p>Fall back function if the argument is not an Iterable or if itis not convertible to the Functor return value.</p>
+<p>Fall back function if RngFormula::Generate() return value is not convertible to functor return value.</p>
+<p>Fill a range with numbers distributed according a user defined distribution.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">policy</td><td>backend to perform the calculation. </td></tr>
+    <tr><td class="paramname">begin</td><td>beginning of the range storing the generated values </td></tr>
+    <tr><td class="paramname">end</td><td>ending of the range storing the generated values </td></tr>
+    <tr><td class="paramname">functor</td><td>distribution to be sampled</td></tr>
+    <tr><td class="paramname">begin</td><td>beginning of the range storing the generated values </td></tr>
+    <tr><td class="paramname">end</td><td>ending of the range storing the generated values </td></tr>
+    <tr><td class="paramname">functor</td><td>distribution to be sampled</td></tr>
+    <tr><td class="paramname">policy</td><td>backend to perform the calculation. </td></tr>
+    <tr><td class="paramname">iterable</td><td>range storing the generated values </td></tr>
+    <tr><td class="paramname">functor</td><td>distribution to be sampled</td></tr>
+    <tr><td class="paramname">iterable</td><td>range storing the generated values </td></tr>
+    <tr><td class="paramname">functor</td><td>distribution to be sampled </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="basic_fit_range_semantics_8inl-example.html#a23">basic_fit_range_semantics.inl</a>, <a class="el" href="binned_extended_logLL_fit_8inl-example.html#a31">binned_extended_logLL_fit.inl</a>, <a class="el" href="cufft_8inl-example.html#a13">cufft.inl</a>, <a class="el" href="extended_logLL_fit_8inl-example.html#a31">extended_logLL_fit.inl</a>, <a class="el" href="fft_8inl-example.html#a13">fft.inl</a>, <a class="el" href="fill_basic_distributions_8inl-example.html#a46">fill_basic_distributions.inl</a>, <a class="el" href="fractional_logLL_fit_8inl-example.html#a29">fractional_logLL_fit.inl</a>, <a class="el" href="multidimensional_fit_8inl-example.html#a41">multidimensional_fit.inl</a>, and <a class="el" href="splot_8inl-example.html#a28">splot.inl</a>.</dd>
+</dl>
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

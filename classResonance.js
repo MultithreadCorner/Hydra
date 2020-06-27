@@ -1,17 +1,16 @@
 var classResonance =
 [
-    [ "Resonance", "classResonance.html#a72c4fa4201f7ad1dd671ed5907acc422", null ],
-    [ "Resonance", "classResonance.html#a0fcab53df5ecaf4b23f64088859efd78", null ],
-    [ "Resonance", "classResonance.html#a2b67dfff6c77270f5b86453933403c58", null ],
-    [ "Resonance", "classResonance.html#a72c4fa4201f7ad1dd671ed5907acc422", null ],
-    [ "Resonance", "classResonance.html#a0fcab53df5ecaf4b23f64088859efd78", null ],
-    [ "Resonance", "classResonance.html#a2b67dfff6c77270f5b86453933403c58", null ],
-    [ "Evaluate", "classResonance.html#ae3626f7cdf29b5d438c767278195e3f3", null ],
-    [ "Evaluate", "classResonance.html#ae3626f7cdf29b5d438c767278195e3f3", null ],
-    [ "fLineShape", "classResonance.html#a40f4ee4d911205c324ff37682350076b", null ],
-    [ "fLineShape", "classResonance.html#a40f4ee4d911205c324ff37682350076b", null ],
-    [ "GetLineShape", "classResonance.html#af7b090d1a1ab80908aada16b1a8164e4", null ],
-    [ "GetLineShape", "classResonance.html#af7b090d1a1ab80908aada16b1a8164e4", null ],
-    [ "operator=", "classResonance.html#ad96584f9bd9c9beb24c9e4fed99296ca", null ],
-    [ "operator=", "classResonance.html#ad96584f9bd9c9beb24c9e4fed99296ca", null ]
+    [ "Resonance", "classResonance.html#a4531e2d5eafc7aa33d53c3138fedfde8", null ],
+    [ "Resonance", "classResonance.html#a0f381f753a9ae77fcffab8b20df39cf3", null ],
+    [ "Resonance", "classResonance.html#a526ce9767139499b106057c51024c3a5", null ],
+    [ "Resonance", "classResonance.html#a4531e2d5eafc7aa33d53c3138fedfde8", null ],
+    [ "Resonance", "classResonance.html#a0f381f753a9ae77fcffab8b20df39cf3", null ],
+    [ "Resonance", "classResonance.html#a89305af4b7a2835f5061d39d718c5335", null ],
+    [ "Evaluate", "classResonance.html#a63f409c3a8e05ffacc838a0aa47a2869", null ],
+    [ "Evaluate", "classResonance.html#a07982ac3f6eac9e456726632067dd7f7", null ],
+    [ "fLineShape", "classResonance.html#a9bc711e79cfaad98abbe39ea25996c34", null ],
+    [ "GetLineShape", "classResonance.html#a53edec30a2fd5a210cb0011646d710bf", null ],
+    [ "GetLineShape", "classResonance.html#a2edc9006b706606846d5f14259931561", null ],
+    [ "operator=", "classResonance.html#a571a3772effacf07e052924c92793139", null ],
+    [ "operator=", "classResonance.html#a250be29f5079de3df18afef5af8e0ce8", null ]
 ];

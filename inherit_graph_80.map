@@ -1,5 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classhydra_1_1detail_1_1CompositeBase.html" title="hydra::detail::Composite\lBase\&lt; F1, F2 \&gt;" alt="" coords="5,23,168,65"/>
-<area shape="rect" id="node2" href="$classhydra_1_1Divide.html" title="hydra::Divide\&lt; F1, F2 \&gt;" alt="" coords="216,5,376,32"/>
-<area shape="rect" id="node3" href="$classhydra_1_1Minus.html" title="hydra::Minus\&lt; F1, F2 \&gt;" alt="" coords="217,56,375,83"/>
+<area shape="rect" id="node1" href="$classhydra_1_1detail_1_1CompositeBase.html" title="hydra::detail::Composite\lBase\&lt; F0, F1, Fs... \&gt;" alt="" coords="5,5,169,47"/>
+<area shape="rect" id="node2" href="$classhydra_1_1Compose.html" title="hydra::Compose\&lt; F0,\l F1, Fs \&gt;" alt="" coords="217,5,367,47"/>
 </map>

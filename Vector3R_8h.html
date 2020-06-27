@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -94,7 +95,6 @@ $(document).ready(function(){initNavTree('Vector3R_8h.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
@@ -106,27 +106,23 @@ $(document).ready(function(){initNavTree('Vector3R_8h.html','');});
 <code>#include &lt;iosfwd&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;math.h&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/Collection.h</a>&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/Vector3R.inl</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Vector3R.h:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Vector3R_8h__incl.svg" width="100%" height="462"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Vector3R_8h__incl.svg" width="100%" height="462"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Vector3R_8h__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Vector3R_8h__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Data Structures</h2></td></tr>
-<tr class="memitem:classhydra_1_1Vector3R"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__phsp.html#classhydra_1_1Vector3R">hydra::Vector3R</a></td></tr>
-<tr class="memdesc:classhydra_1_1Vector3R"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents three-dimensional Euclidian vectors and implements common operation performed on it.  <a href="group__phsp.html#classhydra_1_1Vector3R">More...</a><br /></td></tr>
-<tr class="separator:classhydra_1_1Vector3R"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacehydra"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html">hydra</a></td></tr>
@@ -135,25 +131,28 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a6d55d71b4eca1da2fac83a615ea4b990"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ Vector3R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a6d55d71b4eca1da2fac83a615ea4b990">hydra::cross</a> (const Vector3R &amp;p1, const Vector3R &amp;p2)</td></tr>
+<tr class="memitem:ga315c1e042b983e5b623b5046074b7c56"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__phsp.html#ga315c1e042b983e5b623b5046074b7c56">hydra::__hydra_align__</a> (16) Vector3R</td></tr>
+<tr class="memdesc:ga315c1e042b983e5b623b5046074b7c56"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class represents three-dimensional Euclidian vectors and implements common operation performed on it.  <a href="group__phsp.html#ga315c1e042b983e5b623b5046074b7c56">More...</a><br /></td></tr>
+<tr class="separator:ga315c1e042b983e5b623b5046074b7c56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d55d71b4eca1da2fac83a615ea4b990"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> Vector3R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a6d55d71b4eca1da2fac83a615ea4b990">hydra::cross</a> (const Vector3R &amp;p1, const Vector3R &amp;p2)</td></tr>
 <tr class="separator:a6d55d71b4eca1da2fac83a615ea4b990"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad01febd59c4dfebc87b5d363955d65db"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ Vector3R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ad01febd59c4dfebc87b5d363955d65db">hydra::operator*</a> (GReal_t c, const Vector3R &amp;v2)</td></tr>
+<tr class="memitem:ad01febd59c4dfebc87b5d363955d65db"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> Vector3R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ad01febd59c4dfebc87b5d363955d65db">hydra::operator*</a> (GReal_t c, const Vector3R &amp;v2)</td></tr>
 <tr class="separator:ad01febd59c4dfebc87b5d363955d65db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0dce6130507b07eaac142c1815ade3f2"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ Vector3R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a0dce6130507b07eaac142c1815ade3f2">hydra::operator*</a> (const Vector3R &amp;v1, GReal_t c)</td></tr>
+<tr class="memitem:a0dce6130507b07eaac142c1815ade3f2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> Vector3R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a0dce6130507b07eaac142c1815ade3f2">hydra::operator*</a> (const Vector3R &amp;v1, GReal_t c)</td></tr>
 <tr class="separator:a0dce6130507b07eaac142c1815ade3f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd42c2a636a5bfb4e605ddd9f1ea069a"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ GReal_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#afd42c2a636a5bfb4e605ddd9f1ea069a">hydra::operator*</a> (const Vector3R &amp;v1, const Vector3R &amp;v2)</td></tr>
+<tr class="memitem:afd42c2a636a5bfb4e605ddd9f1ea069a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> GReal_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#afd42c2a636a5bfb4e605ddd9f1ea069a">hydra::operator*</a> (const Vector3R &amp;v1, const Vector3R &amp;v2)</td></tr>
 <tr class="separator:afd42c2a636a5bfb4e605ddd9f1ea069a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c1fc13eb2a4a440f72991b4347a472c"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ Vector3R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a1c1fc13eb2a4a440f72991b4347a472c">hydra::operator+</a> (const Vector3R &amp;v1, const Vector3R &amp;v2)</td></tr>
+<tr class="memitem:a1c1fc13eb2a4a440f72991b4347a472c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> Vector3R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a1c1fc13eb2a4a440f72991b4347a472c">hydra::operator+</a> (const Vector3R &amp;v1, const Vector3R &amp;v2)</td></tr>
 <tr class="separator:a1c1fc13eb2a4a440f72991b4347a472c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1113b35a5588af8a55453fbd5e1b2651"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ Vector3R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a1113b35a5588af8a55453fbd5e1b2651">hydra::operator-</a> (const Vector3R &amp;v1, const Vector3R &amp;v2)</td></tr>
+<tr class="memitem:a1113b35a5588af8a55453fbd5e1b2651"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> Vector3R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a1113b35a5588af8a55453fbd5e1b2651">hydra::operator-</a> (const Vector3R &amp;v1, const Vector3R &amp;v2)</td></tr>
 <tr class="separator:a1113b35a5588af8a55453fbd5e1b2651"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94cb4a79113148abd78aa8e4d6f7e41d"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ Vector3R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a94cb4a79113148abd78aa8e4d6f7e41d">hydra::operator/</a> (const Vector3R &amp;v1, GReal_t c)</td></tr>
+<tr class="memitem:a94cb4a79113148abd78aa8e4d6f7e41d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> Vector3R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a94cb4a79113148abd78aa8e4d6f7e41d">hydra::operator/</a> (const Vector3R &amp;v1, GReal_t c)</td></tr>
 <tr class="separator:a94cb4a79113148abd78aa8e4d6f7e41d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3fa8037907332bf633dfc1bc3b40865c"><td class="memItemLeft" align="right" valign="top">ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a3fa8037907332bf633dfc1bc3b40865c">hydra::operator&lt;&lt;</a> (ostream &amp;s, const Vector3R &amp;v)</td></tr>
 <tr class="separator:a3fa8037907332bf633dfc1bc3b40865c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9637ed446b2f89c3514f57bac1fd1be"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ Vector3R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ab9637ed446b2f89c3514f57bac1fd1be">hydra::rotateEuler</a> (const Vector3R &amp;v, GReal_t phi, GReal_t theta, GReal_t ksi)</td></tr>
+<tr class="memitem:ab9637ed446b2f89c3514f57bac1fd1be"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> Vector3R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ab9637ed446b2f89c3514f57bac1fd1be">hydra::rotateEuler</a> (const Vector3R &amp;v, GReal_t phi, GReal_t theta, GReal_t ksi)</td></tr>
 <tr class="separator:ab9637ed446b2f89c3514f57bac1fd1be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7d619f99868f45f5e06b9040bcc68b7"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#aa7d619f99868f45f5e06b9040bcc68b7">hydra::swap</a> (Vector3R &amp;v1, Vector3R &amp;v2)</td></tr>
+<tr class="memitem:aa7d619f99868f45f5e06b9040bcc68b7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#aa7d619f99868f45f5e06b9040bcc68b7">hydra::swap</a> (Vector3R &amp;v1, Vector3R &amp;v2)</td></tr>
 <tr class="separator:aa7d619f99868f45f5e06b9040bcc68b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
@@ -162,7 +161,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="Vector3R_8h.html">Vector3R.h</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

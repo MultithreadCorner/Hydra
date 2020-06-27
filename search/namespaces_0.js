@@ -1,15 +1,30 @@
 var searchData=
 [
+  ['arguments',['arguments',['../namespacehydra_1_1arguments.html',1,'hydra']]],
+  ['convolution',['convolution',['../namespacehydra_1_1detail_1_1convolution.html',1,'hydra::detail']]],
   ['cpp',['cpp',['../namespacehydra_1_1cpp.html',1,'hydra::cpp'],['../namespacehydra_1_1detail_1_1cpp.html',1,'hydra::detail::cpp']]],
   ['cuda',['cuda',['../namespacehydra_1_1cuda.html',1,'hydra::cuda'],['../namespacehydra_1_1detail_1_1cuda.html',1,'hydra::detail::cuda']]],
+  ['cufft',['cufft',['../namespacehydra_1_1detail_1_1cufft.html',1,'hydra::detail']]],
   ['detail',['detail',['../namespacehydra_1_1detail.html',1,'hydra']]],
   ['device',['device',['../namespacehydra_1_1detail_1_1device.html',1,'hydra::detail::device'],['../namespacehydra_1_1device.html',1,'hydra::device']]],
   ['experimental',['experimental',['../namespacehydra_1_1experimental.html',1,'hydra']]],
+  ['fa_5fimpl',['fa_impl',['../namespacehydra_1_1detail_1_1fa__impl.html',1,'hydra::detail']]],
+  ['fft',['fft',['../namespacehydra_1_1fft.html',1,'hydra']]],
+  ['fftw',['fftw',['../namespacehydra_1_1detail_1_1fftw.html',1,'hydra::detail']]],
   ['host',['host',['../namespacehydra_1_1detail_1_1host.html',1,'hydra::detail::host'],['../namespacehydra_1_1host.html',1,'hydra::host']]],
   ['hydra',['hydra',['../namespacehydra.html',1,'']]],
+  ['impl',['impl',['../namespacehydra_1_1detail_1_1impl.html',1,'hydra::detail']]],
   ['jacobi',['jacobi',['../namespacehydra_1_1detail_1_1jacobi.html',1,'hydra::detail']]],
   ['math_5fconstants',['math_constants',['../namespacehydra_1_1math__constants.html',1,'hydra']]],
+  ['meld_5fiterators_5fns',['meld_iterators_ns',['../namespacehydra_1_1detail_1_1meld__iterators__ns.html',1,'hydra::detail']]],
   ['omp',['omp',['../namespacehydra_1_1detail_1_1omp.html',1,'hydra::detail::omp'],['../namespacehydra_1_1omp.html',1,'hydra::omp']]],
   ['placeholders',['placeholders',['../namespacehydra_1_1placeholders.html',1,'hydra']]],
-  ['tbb',['tbb',['../namespacehydra_1_1detail_1_1tbb.html',1,'hydra::detail::tbb'],['../namespacehydra_1_1tbb.html',1,'hydra::tbb']]]
+  ['random',['random',['../namespacehydra_1_1detail_1_1random.html',1,'hydra::detail']]],
+  ['range',['range',['../namespacehydra_1_1detail_1_1range.html',1,'hydra::detail']]],
+  ['shared_5fpointer',['shared_pointer',['../namespacehydra_1_1detail_1_1shared__pointer.html',1,'hydra::detail']]],
+  ['spiline',['spiline',['../namespacehydra_1_1detail_1_1spiline.html',1,'hydra::detail']]],
+  ['tbb',['tbb',['../namespacehydra_1_1detail_1_1tbb.html',1,'hydra::detail::tbb'],['../namespacehydra_1_1tbb.html',1,'hydra::tbb']]],
+  ['tuple',['tuple',['../namespacehydra_1_1detail_1_1tuple.html',1,'hydra::detail']]],
+  ['tuple_5futility',['tuple_utility',['../namespacehydra_1_1detail_1_1tuple__utility.html',1,'hydra::detail']]],
+  ['utils',['utils',['../namespacehydra_1_1detail_1_1utils.html',1,'hydra::detail']]]
 ];

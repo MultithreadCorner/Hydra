@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -96,27 +97,26 @@ $(document).ready(function(){initNavTree('functions_u.html','');});
 <div class="textblock">Here is a list of all struct and union fields with links to the structures/unions they belong to:</div>
 
 <h3><a id="index_u"></a>- u -</h3><ul>
-<li>udecay_t
-: <a class="el" href="group__phsp.html#a2a65dec64569c6eeb2fc365003a3f876">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+<li>uniform()
+: <a class="el" href="structhydra_1_1RngBase.html#ae84f2b78260efa34a79fa98e836bbc61">hydra::RngBase</a>
 </li>
-<li>Uniform()
-: <a class="el" href="group__random.html#aaf88fbb8097ddb060809719d6d26f789">hydra::Random&lt; GRND &gt;</a>
+<li>uniform_rng_type
+: <a class="el" href="structhydra_1_1RngBase.html#aa5b6d49c5e2e9e6a3bb42970c6c87688">hydra::RngBase</a>
 </li>
 <li>UniformShape()
-: <a class="el" href="group__common__functions.html#a6bdb72e604938bca7ecb81d23e01d729">hydra::UniformShape&lt; ArgIndex &gt;</a>
-</li>
-<li>unit()
-: <a class="el" href="group__phsp.html#a925e5422f74a24b7244f5c82d4cdeb21">hydra::Vector3R</a>
+: <a class="el" href="group__common__functions.html#a5af19a93318c76b4d7403aaff09bb793">hydra::UniformShape&lt; ArgType, Signature &gt;</a>
 </li>
 <li>Unweight()
-: <a class="el" href="group__phsp.html#a54164f167881594364c6d2bc9e854b85">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+: <a class="el" href="group__phsp.html#a776b156095dc24b9b8b95759c6b45d92">hydra::Decays&lt; hydra::tuple&lt; Particles... &gt;, hydra::detail::BackendPolicy&lt; Backend &gt; &gt;</a>
 </li>
 <li>Up()
-: <a class="el" href="classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4.html#ac4beea586a92ae3fd518180e8bf70219">hydra::FCN&lt; Estimator&lt; PDF, Iterator &gt; &gt;</a>
-, <a class="el" href="group__fit.html#a3d897d23d79248d2b5df2ea229aca693">hydra::FCN&lt; Estimator&lt; PDF, Iterator, Iterators... &gt; &gt;</a>
+: <a class="el" href="group__fit.html#aeaaa75c8f1544a3988685ff20295a2cb">hydra::FCN&lt; Estimator&lt; PDF, Iterator &gt;, true &gt;</a>
+, <a class="el" href="group__fit.html#adba1f8a685dd94cfa70eb60b5c0ad88c">hydra::FCN&lt; Estimator&lt; PDF, Iterator, Iterators... &gt;, true &gt;</a>
+, <a class="el" href="group__fit.html#a4478fabdff37facbe925adac5ac3791e">hydra::FCN&lt; hydra_thrust::tuple&lt; FCN&lt; ESTIMATORS &gt;... &gt;, false &gt;</a>
 </li>
 <li>Update()
-: <a class="el" href="classhydra_1_1Convolution.html#af5f21235915588e105e5ecde428c195b">hydra::Convolution&lt; Functor, Kernel, ArgIndex &gt;</a>
+: <a class="el" href="classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#a61a32de6bbf6e5e9178be68a0ce1c6b5">hydra::ConvolutionFunctor&lt; Functor, Kernel, detail::BackendPolicy&lt; BACKEND &gt;, detail::FFTPolicy&lt; typename std::common_type&lt; typename Functor::return_type, typename Kernel::return_type &gt;::type, FFT &gt;, ArgType &gt;</a>
+, <a class="el" href="classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1FFTPolicy_3_01typename_03c6b7363172ee2275ee995c834cc1e03.html#a42844cbf2fb6a857ba1e1f00b5c291b9">hydra::ConvolutionFunctor&lt; Functor, Kernel, detail::FFTPolicy&lt; typename std::common_type&lt; typename Functor::return_type, typename Kernel::return_type &gt;::type, FFT &gt;, ArgIndex &gt;</a>
 , <a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#aee13beca1cccde78714c4364a2b67c68">hydra::detail::ParametersCompositeFunctor&lt; F0, F1, Fs &gt;</a>
 </li>
 <li>UpdateParameterLimits()
@@ -126,7 +126,7 @@ $(document).ready(function(){initNavTree('functions_u.html','');});
 : <a class="el" href="group__fit.html#a71455f390ac736ed22332ae528be687b">hydra::UserParameters</a>
 </li>
 <li>UserParameters()
-: <a class="el" href="group__fit.html#ad801fc9e5287c209b3d8bd1c55fa43a0">hydra::UserParameters</a>
+: <a class="el" href="group__fit.html#ab5c5fd6bdeb6f4daba3a3bf49d1cf7f5">hydra::UserParameters</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -134,7 +134,7 @@ $(document).ready(function(){initNavTree('functions_u.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:03 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

@@ -24,8 +24,6 @@ for the JavaScript code in this file
 var NAVTREE =
 [
   [ "Hydra", "index.html", [
-    [ "Table of Contents", "index.html", null ],
-    [ "README", "md__home_augalves_Development_Release_Hydra_README.html", null ],
     [ "Todo List", "todo.html", null ],
     [ "Modules", "modules.html", "modules" ],
     [ "Namespaces", "namespaces.html", [
@@ -57,7 +55,8 @@ var NAVTREE =
       [ "File List", "files.html", "files_dup" ],
       [ "Globals", "globals.html", [
         [ "All", "globals.html", "globals_dup" ],
-        [ "Functions", "globals_func.html", null ],
+        [ "Functions", "globals_func.html", "globals_func" ],
+        [ "Variables", "globals_vars.html", "globals_vars" ],
         [ "Typedefs", "globals_type.html", null ],
         [ "Macros", "globals_defs.html", null ]
       ] ]
@@ -70,22 +69,28 @@ var NAVTREEINDEX =
 [
 ".html",
 ".html",
-"ConstantRange_8inl.html#ab52f376acf56fca42cc13e010498c668",
-"OMP_8h.html#a0c17145a6e58e371e583927e28cb150f",
-"Sum_8h.html",
-"basic__fit__range__semantics_8cpp.html",
-"classhydra_1_1IntegrationFormula_3_01BreitWignerNR_3_01ArgIndex_01_4_00_011_01_4.html",
-"classhydra_1_1detail_1_1ParametersCompositeFunctor.html#aa78d6af3da59ebcc39d7f81cd68b1478",
-"dalitz__plot_8C.html#a7557de3188af6904d9807280b50220ea",
-"group__common__functions.html#a569b9b8a140b2a48b9ae2997bbb92a4e",
-"group__fit.html#a61e26aaedc57b14a65937ce8d02f5811",
-"group__histogram.html#a40332322516414ecbabb22be648bbc78",
-"group__numerical__integration.html#a7120ec991f822b6cdc85f953d0325922",
-"group__phsp.html#a49acf4770e83bcf241f9e75f29916cd8",
-"launch__decayers_8inl.html#a272aed700c4b40bbd2639a84507da00d",
-"phsp__unweighting_8cu.html",
-"structhydra_1_1detail_1_1DecayMothers.html#ac2dae93a1acfe05cfcd4e03a0aedd4d4",
-"structhydra_1_1detail_1_1RndTrial.html#ac3cbfe46a801e9f36354e15cd041e1d9"
+"CheckValue_8h.html#a8d0b0043e152438bb39b918a1f98c65f",
+"Generic_8h.html#af73aa95bb4dce5810569f682bb39de27",
+"Placeholders_8inl.html#a1af56d278ef1ea5fad983528b9fabad9",
+"Spiline_8inl.html#a07384af6cc1465c4f9896cffb21a3396",
+"Vector4R_8inl.html",
+"chebychev_8h.html",
+"classhydra_1_1GaussKronrodAdaptiveQuadrature_3_01NRULE_00_01NBIN_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#ab960e45d40783520dfa4bb9824cf8201",
+"classhydra_1_1Sum.html#ad34cabe27f76b3c2a013004b2090d6a6",
+"classhydra_1_1multiarray_3_01T_00_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#aabaeb6de6b126d8816403ede7b9ffb6c",
+"double__gaussian__plus__exponential_8inl.html#a41c36559284ec68ca0e13c56558b5f09",
+"generate__4body__decay__chain_8C.html#a497c1dc94399cd9b4a6feca026f751d9",
+"group__common__functions.html#classBreitWignerNR",
+"group__fit.html#acf3cf7d7c72e21d2c1f3d88cf9504d7d",
+"group__histogram.html#afec5e3593d8dd844c3de14cfecad815a",
+"group__numerical__integration.html#ad2b671bc70e30aec920232b50d54cba7",
+"multiarray_8h.html#a2658beb74af1f617373f6f640e2949e4",
+"namespacehydra_1_1detail_1_1impl.html#structhydra_1_1detail_1_1impl_1_1int__least__helper",
+"pseudo__experiment_8inl.html",
+"structhydra_1_1detail_1_1AddPdfFunctor.html#a8199e6692dcbe7a00dd0dffde5595f8e",
+"structhydra_1_1detail_1_1GetBinCenter.html#aa2da3be368d7a454c189e3f0f137f15d",
+"structhydra_1_1detail_1_1convolution_1_1KernelSampler.html#aceb2b5b7d22caaab3f3bdf92a944e0bc",
+"timedependent__phsp__basic_8inl.html#a53db35bcb62ff9ae8ff6ff03c830413c"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

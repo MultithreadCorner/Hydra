@@ -1,6 +1,5 @@
 var group__generic =
 [
-    [ "Containers.h", "Containers_8h.html", null ],
     [ "Hash.h", "Hash_8h.html", null ],
     [ "Types.h", "Types_8h.html", null ],
     [ "TypeTraits.h", "TypeTraits_8h.html", null ],
@@ -55,9 +54,8 @@ var group__generic =
       [ "SetValue", "group__fit.html#a0d106900bb8608e832dc35f6418285df", null ],
       [ "Value", "group__fit.html#ab9d71d53dc79d1839971ec8cdced636a", null ]
     ] ],
-    [ "_DeclareStorable", "group__generic.html#ga6b12256271b9685f4a97446347a9ddea", null ],
     [ "eval", "group__generic.html#gadea4fcd2b0a13095c4408fbee01c2c72", null ],
-    [ "eval", "group__generic.html#gaf3d2db3d23126c08839d5304f84401a2", null ],
+    [ "eval", "group__generic.html#gad3ea8aefb6b4ea0d33078e76114d4446", null ],
     [ "eval", "group__generic.html#ga8564abe3d04aa014ba0a6a40e6c5d599", null ],
-    [ "eval", "group__generic.html#ga3b93fd9a039de79768e3c72de1db6842", null ]
+    [ "eval", "group__generic.html#ga6edb3602e25dac1a2653e2ce33450232", null ]
 ];

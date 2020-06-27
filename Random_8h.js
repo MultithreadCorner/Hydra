@@ -1,11 +1,28 @@
 var Random_8h =
 [
+    [ "is_callable", "structhydra_1_1detail_1_1random_1_1is__callable.html", null ],
+    [ "is_iterable", "structhydra_1_1detail_1_1random_1_1is__iterable.html", null ],
+    [ "is_iterator", "structhydra_1_1detail_1_1random_1_1is__iterator.html", null ],
     [ "default_random_engine", "Random_8h.html#a1e747e9ec41024e3efe0349f8ac10062", null ],
     [ "minstd_rand", "Random_8h.html#aeccdd58e3a4c27246dadd0930e3fb569", null ],
     [ "minstd_rand0", "Random_8h.html#ab7c3603cf7a6c467176d8be9dd2c82fd", null ],
     [ "ranlux24", "Random_8h.html#a943a0571fdadbbb4bc9b17ba7ae4b59b", null ],
     [ "ranlux48", "Random_8h.html#a6950c5abef4e2015f833501684940b5d", null ],
     [ "taus88", "Random_8h.html#a2633cfe1492c02cfb2aef6a79804f191", null ],
-    [ "unweight", "Random_8h.html#gab81f5dd96aa2b2ad0373dafa102eaada", null ],
-    [ "unweight", "Random_8h.html#ga2d220371c79722ad3f1a551a4d1c48f7", null ]
+    [ "sample", "Random_8h.html#aed01ab7e551c3ca33d6b8df7b27c4a31", null ],
+    [ "sample", "Random_8h.html#a9ea037fa085eae26a9ff4b14d6473736", null ],
+    [ "sample", "Random_8h.html#a5e43c56c2acb0bc981adac7200f381d1", null ],
+    [ "sample", "Random_8h.html#ac7a368f4ced51cbe178fe13bfc65b776", null ],
+    [ "sample", "Random_8h.html#a8c226857e56377b95a3c80af185cd710", null ],
+    [ "sample", "Random_8h.html#a296616d9209f3b941819c71fd15fe490", null ],
+    [ "sample", "Random_8h.html#a5c55b6942a31d70e1a7a598ba29ad703", null ],
+    [ "sample", "Random_8h.html#a13157ce8d4078e8b5bd17dbd9705a3ea", null ],
+    [ "unweight", "Random_8h.html#ga407c06a1f6a242e5f98150e95d733baf", null ],
+    [ "unweight", "Random_8h.html#gadb651e93b792358b563e8ac20fddd028", null ],
+    [ "unweight", "Random_8h.html#ga9a7d4b333528d673d75fe20cfb86f03e", null ],
+    [ "unweight", "Random_8h.html#gaf3cd03f6c91a7dea855ed430a12618f2", null ],
+    [ "unweight", "Random_8h.html#ga3b91ce799b5efa01c16593d023b9b355", null ],
+    [ "unweight", "Random_8h.html#gaae678e8eaa0ad279c9f5ce8f5714166a", null ],
+    [ "unweight", "Random_8h.html#gad7a85d3fb6639d4e9414d2fbd65c76e9", null ],
+    [ "unweight", "Random_8h.html#gaef41f0eac7bce40769634467f2ae3347", null ]
 ];

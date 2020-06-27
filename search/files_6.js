@@ -29,5 +29,7 @@ var searchData=
   ['genzmalikquadrature_2einl',['GenzMalikQuadrature.inl',['../GenzMalikQuadrature_8inl.html',1,'']]],
   ['genzmalikrule_2eh',['GenzMalikRule.h',['../GenzMalikRule_8h.html',1,'']]],
   ['getbincenter_2eh',['GetBinCenter.h',['../GetBinCenter_8h.html',1,'']]],
-  ['getglobalbin_2eh',['GetGlobalBin.h',['../GetGlobalBin_8h.html',1,'']]]
+  ['getglobalbin_2eh',['GetGlobalBin.h',['../GetGlobalBin_8h.html',1,'']]],
+  ['gettupleelement_2eh',['GetTupleElement.h',['../GetTupleElement_8h.html',1,'']]],
+  ['graycode_2eh',['GrayCode.h',['../GrayCode_8h.html',1,'']]]
 ];

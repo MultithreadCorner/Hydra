@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -106,46 +107,49 @@ $(document).ready(function(){initNavTree('structhydra_1_1detail_1_1AddPdfFunctor
 <div class="dynheader">
 Collaboration diagram for hydra::detail::AddPdfFunctor&lt; PDF1, PDF2, PDFs &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1AddPdfFunctor__coll__graph.svg" width="210" height="434"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1AddPdfFunctor__coll__graph.svg" width="210" height="434"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:aaaaf41ba9d547fead4f140465c984346"><td class="memItemLeft" align="right" valign="top">typedef HYDRA_EXTERNAL_NS::thrust::tuple&lt; typename PDF1::functor_type, typename PDF2::functor_type, typename PDFs::functor_type... &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#aaaaf41ba9d547fead4f140465c984346">functors_tuple_type</a></td></tr>
-<tr class="separator:aaaaf41ba9d547fead4f140465c984346"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2264d73ef9bbd1f3eef83afbab98e146"><td class="memItemLeft" align="right" valign="top">typedef hydra_thrust::tuple&lt; typename PDF1::functor_type, typename PDF2::functor_type, typename PDFs::functor_type... &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a2264d73ef9bbd1f3eef83afbab98e146">functors_tuple_type</a></td></tr>
+<tr class="separator:a2264d73ef9bbd1f3eef83afbab98e146"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04a94e4ff0f8761411c14315ef56916d"><td class="memItemLeft" align="right" valign="top">typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a04a94e4ff0f8761411c14315ef56916d">hydra_composed_functor_type</a></td></tr>
+<tr class="separator:a04a94e4ff0f8761411c14315ef56916d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a1b9d22d4964d205db5b911a3519b8093"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a1b9d22d4964d205db5b911a3519b8093">AddPdfFunctor</a> ()=delete</td></tr>
 <tr class="separator:a1b9d22d4964d205db5b911a3519b8093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6deab44a76b70d61d0d0e06cd9d9f655"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a6deab44a76b70d61d0d0e06cd9d9f655">AddPdfFunctor</a> (HYDRA_EXTERNAL_NS::thrust::tuple&lt; typename PDF1::functor_type, typename PDF2::functor_type, typename PDFs::functor_type... &gt; const &amp;functors, const <a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a>(&amp;coeficients)[sizeof...(PDFs)+2], <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> coef_sum)</td></tr>
-<tr class="separator:a6deab44a76b70d61d0d0e06cd9d9f655"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8646006bb03508aa9e91a7f816fed546"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a8646006bb03508aa9e91a7f816fed546">AddPdfFunctor</a> (<a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs... &gt; const &amp;other)</td></tr>
+<tr class="memitem:a8104f399af1ec69bbc24286ad54ca36f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a8104f399af1ec69bbc24286ad54ca36f">AddPdfFunctor</a> (hydra_thrust::tuple&lt; typename PDF1::functor_type, typename PDF2::functor_type, typename PDFs::functor_type... &gt; const &amp;functors, const <a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a>(&amp;coeficients)[sizeof...(PDFs)+2], <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> coef_sum)</td></tr>
+<tr class="separator:a8104f399af1ec69bbc24286ad54ca36f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8646006bb03508aa9e91a7f816fed546"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a8646006bb03508aa9e91a7f816fed546">AddPdfFunctor</a> (<a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs... &gt; const &amp;other)</td></tr>
 <tr class="separator:a8646006bb03508aa9e91a7f816fed546"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2654a679c0f96e837da412df8dbe8cef"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ const <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a2654a679c0f96e837da412df8dbe8cef">GetCoeficients</a> () const</td></tr>
+<tr class="memitem:a2654a679c0f96e837da412df8dbe8cef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> const <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a2654a679c0f96e837da412df8dbe8cef">GetCoeficients</a> () const</td></tr>
 <tr class="separator:a2654a679c0f96e837da412df8dbe8cef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2bb4d706c515dc3957f68c31f53c88bd"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a2bb4d706c515dc3957f68c31f53c88bd">GetCoefSum</a> () const</td></tr>
+<tr class="memitem:a2bb4d706c515dc3957f68c31f53c88bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a2bb4d706c515dc3957f68c31f53c88bd">GetCoefSum</a> () const</td></tr>
 <tr class="separator:a2bb4d706c515dc3957f68c31f53c88bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac34288fbbbbcb1092b13bc592248fcbe"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ const <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#aaaaf41ba9d547fead4f140465c984346">functors_tuple_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#ac34288fbbbbcb1092b13bc592248fcbe">GetFunctors</a> () const</td></tr>
+<tr class="memitem:ac34288fbbbbcb1092b13bc592248fcbe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> const <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a2264d73ef9bbd1f3eef83afbab98e146">functors_tuple_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#ac34288fbbbbcb1092b13bc592248fcbe">GetFunctors</a> () const</td></tr>
 <tr class="separator:ac34288fbbbbcb1092b13bc592248fcbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05442de351a133a973cef78326586a62"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a05442de351a133a973cef78326586a62">GetNorm</a> () const</td></tr>
+<tr class="memitem:a05442de351a133a973cef78326586a62"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a05442de351a133a973cef78326586a62">GetNorm</a> () const</td></tr>
 <tr class="separator:a05442de351a133a973cef78326586a62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5873e543e677b4f5dfb9c230a1c21aa5"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a5873e543e677b4f5dfb9c230a1c21aa5"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a5873e543e677b4f5dfb9c230a1c21aa5">operator()</a> (T &amp;&amp;t) const</td></tr>
+<tr class="memitem:a5873e543e677b4f5dfb9c230a1c21aa5"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a5873e543e677b4f5dfb9c230a1c21aa5">operator()</a> (T &amp;&amp;t) const</td></tr>
 <tr class="separator:a5873e543e677b4f5dfb9c230a1c21aa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8199e6692dcbe7a00dd0dffde5595f8e"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 &gt; </td></tr>
-<tr class="memitem:a8199e6692dcbe7a00dd0dffde5595f8e"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a8199e6692dcbe7a00dd0dffde5595f8e">operator()</a> (T1 &amp;&amp;x, T2 &amp;&amp;cache) const</td></tr>
+<tr class="memitem:a8199e6692dcbe7a00dd0dffde5595f8e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a8199e6692dcbe7a00dd0dffde5595f8e">operator()</a> (T1 &amp;&amp;x, T2 &amp;&amp;cache) const</td></tr>
 <tr class="separator:a8199e6692dcbe7a00dd0dffde5595f8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c4b96342dd33662f15be845810bde8a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a2c4b96342dd33662f15be845810bde8a"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a2c4b96342dd33662f15be845810bde8a">operator()</a> (<a class="el" href="namespacehydra.html#a251a7b1f515ac1ed9409afd67252a32b">GUInt_t</a>, T *x)</td></tr>
+<tr class="memitem:a2c4b96342dd33662f15be845810bde8a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a2c4b96342dd33662f15be845810bde8a">operator()</a> (<a class="el" href="namespacehydra.html#a251a7b1f515ac1ed9409afd67252a32b">GUInt_t</a>, T *x)</td></tr>
 <tr class="separator:a2c4b96342dd33662f15be845810bde8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f6c7dc0d626326df4573ec99b40277b"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs... &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a0f6c7dc0d626326df4573ec99b40277b">operator=</a> (<a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs... &gt; const &amp;other)</td></tr>
+<tr class="memitem:a0f6c7dc0d626326df4573ec99b40277b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs... &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a0f6c7dc0d626326df4573ec99b40277b">operator=</a> (<a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs... &gt; const &amp;other)</td></tr>
 <tr class="separator:a0f6c7dc0d626326df4573ec99b40277b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b7893a16eac6e8b3b1e263e71abebc8"><td class="memItemLeft" align="right" valign="top">__hydra_host__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a7b7893a16eac6e8b3b1e263e71abebc8">PrintRegisteredParameters</a> ()</td></tr>
+<tr class="memitem:a7b7893a16eac6e8b3b1e263e71abebc8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a7b7893a16eac6e8b3b1e263e71abebc8">PrintRegisteredParameters</a> ()</td></tr>
 <tr class="separator:a7b7893a16eac6e8b3b1e263e71abebc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48000916df955a08af51d36273da047f"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a48000916df955a08af51d36273da047f">SetCoefSum</a> (<a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> coefSum)</td></tr>
+<tr class="memitem:a48000916df955a08af51d36273da047f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a48000916df955a08af51d36273da047f">SetCoefSum</a> (<a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> coefSum)</td></tr>
 <tr class="separator:a48000916df955a08af51d36273da047f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad483c29233a217ed86325da3d96f55d"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#aad483c29233a217ed86325da3d96f55d">SetFunctors</a> (<a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#aaaaf41ba9d547fead4f140465c984346">functors_tuple_type</a> functors)</td></tr>
+<tr class="memitem:aad483c29233a217ed86325da3d96f55d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#aad483c29233a217ed86325da3d96f55d">SetFunctors</a> (<a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a2264d73ef9bbd1f3eef83afbab98e146">functors_tuple_type</a> functors)</td></tr>
 <tr class="separator:aad483c29233a217ed86325da3d96f55d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
@@ -158,8 +162,8 @@ Static Public Attributes</h2></td></tr>
 struct hydra::detail::AddPdfFunctor&lt; PDF1, PDF2, PDFs &gt;</h3>
 
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="aaaaf41ba9d547fead4f140465c984346"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaaaf41ba9d547fead4f140465c984346">&#9670;&nbsp;</a></span>functors_tuple_type</h2>
+<a id="a2264d73ef9bbd1f3eef83afbab98e146"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2264d73ef9bbd1f3eef83afbab98e146">&#9670;&nbsp;</a></span>functors_tuple_type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -167,7 +171,23 @@ struct hydra::detail::AddPdfFunctor&lt; PDF1, PDF2, PDFs &gt;</h3>
 template&lt;typename PDF1 , typename PDF2 , typename ... PDFs&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef HYDRA_EXTERNAL_NS::thrust::tuple&lt; typename PDF1::functor_type, typename PDF2::functor_type, typename PDFs::functor_type...&gt; <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::<a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#aaaaf41ba9d547fead4f140465c984346">functors_tuple_type</a></td>
+          <td class="memname">typedef hydra_thrust::tuple&lt; typename PDF1::functor_type, typename PDF2::functor_type, typename PDFs::functor_type...&gt; <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::<a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a2264d73ef9bbd1f3eef83afbab98e146">functors_tuple_type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a04a94e4ff0f8761411c14315ef56916d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04a94e4ff0f8761411c14315ef56916d">&#9670;&nbsp;</a></span>hydra_composed_functor_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename PDF1 , typename PDF2 , typename ... PDFs&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef void <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::<a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a04a94e4ff0f8761411c14315ef56916d">hydra_composed_functor_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -202,8 +222,8 @@ template&lt;typename PDF1 , typename PDF2 , typename ... PDFs&gt; </div>
 
 </div>
 </div>
-<a id="a6deab44a76b70d61d0d0e06cd9d9f655"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6deab44a76b70d61d0d0e06cd9d9f655">&#9670;&nbsp;</a></span>AddPdfFunctor() <span class="overload">[2/3]</span></h2>
+<a id="a8104f399af1ec69bbc24286ad54ca36f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8104f399af1ec69bbc24286ad54ca36f">&#9670;&nbsp;</a></span>AddPdfFunctor() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -216,7 +236,7 @@ template&lt;typename PDF1 , typename PDF2 , typename ... PDFs&gt; </div>
         <tr>
           <td class="memname"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::<a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">AddPdfFunctor</a> </td>
           <td>(</td>
-          <td class="paramtype">HYDRA_EXTERNAL_NS::thrust::tuple&lt; typename PDF1::functor_type, typename PDF2::functor_type, typename PDFs::functor_type... &gt; const &amp;&#160;</td>
+          <td class="paramtype">hydra_thrust::tuple&lt; typename PDF1::functor_type, typename PDF2::functor_type, typename PDFs::functor_type... &gt; const &amp;&#160;</td>
           <td class="paramname"><em>functors</em>, </td>
         </tr>
         <tr>
@@ -258,7 +278,7 @@ template&lt;typename PDF1 , typename PDF2 , typename ... PDFs&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::<a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">AddPdfFunctor</a> </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::<a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">AddPdfFunctor</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs... &gt; const &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
@@ -287,7 +307,7 @@ template&lt;typename PDF1 , typename PDF2 , typename ... PDFs&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ const <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>* <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::GetCoeficients </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> const <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>* <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::GetCoeficients </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -314,7 +334,7 @@ template&lt;typename PDF1 , typename PDF2 , typename ... PDFs&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::GetCoefSum </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::GetCoefSum </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -341,7 +361,7 @@ template&lt;typename PDF1 , typename PDF2 , typename ... PDFs&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ const <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#aaaaf41ba9d547fead4f140465c984346">functors_tuple_type</a>&amp; <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::GetFunctors </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> const <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a2264d73ef9bbd1f3eef83afbab98e146">functors_tuple_type</a>&amp; <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::GetFunctors </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -368,7 +388,7 @@ template&lt;typename PDF1 , typename PDF2 , typename ... PDFs&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::GetNorm </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::GetNorm </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -397,7 +417,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::operator() </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">T &amp;&amp;&#160;</td>
           <td class="paramname"><em>t</em></td><td>)</td>
@@ -427,7 +447,7 @@ template&lt;typename T1 , typename T2 &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::operator() </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">T1 &amp;&amp;&#160;</td>
           <td class="paramname"><em>x</em>, </td>
@@ -467,7 +487,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::operator() </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacehydra.html#a251a7b1f515ac1ed9409afd67252a32b">GUInt_t</a>&#160;</td>
           <td class="paramname">, </td>
@@ -505,7 +525,7 @@ template&lt;typename PDF1 , typename PDF2 , typename ... PDFs&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs...&gt;&amp; <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::operator= </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs...&gt;&amp; <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::operator= </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs... &gt; const &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
@@ -533,7 +553,7 @@ template&lt;typename PDF1 , typename PDF2 , typename ... PDFs&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ void <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::PrintRegisteredParameters </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> void <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::PrintRegisteredParameters </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -560,7 +580,7 @@ template&lt;typename PDF1 , typename PDF2 , typename ... PDFs&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ void <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::SetCoefSum </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> void <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::SetCoefSum </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
           <td class="paramname"><em>coefSum</em></td><td>)</td>
@@ -588,9 +608,9 @@ template&lt;typename PDF1 , typename PDF2 , typename ... PDFs&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ void <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::SetFunctors </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> void <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">hydra::detail::AddPdfFunctor</a>&lt; PDF1, PDF2, PDFs &gt;::SetFunctors </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#aaaaf41ba9d547fead4f140465c984346">functors_tuple_type</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a2264d73ef9bbd1f3eef83afbab98e146">functors_tuple_type</a>&#160;</td>
           <td class="paramname"><em>functors</em></td><td>)</td>
           <td></td>
         </tr>
@@ -638,7 +658,7 @@ template&lt;typename PDF1 , typename PDF2 , typename ... PDFs&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacehydra.html">hydra</a></li><li class="navelem"><a class="el" href="namespacehydra_1_1detail.html">detail</a></li><li class="navelem"><a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html">AddPdfFunctor</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

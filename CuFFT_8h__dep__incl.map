@@ -1,0 +1,11 @@
+<map id="CuFFT.h" name="CuFFT.h">
+<area shape="rect" id="node2" href="$convolute__functions_8inl.html" title="convolute_functions.inl" alt="" coords="193,80,348,107"/>
+<area shape="rect" id="node5" href="$cufft_8inl.html" title="cufft.inl" alt="" coords="423,80,489,107"/>
+<area shape="rect" id="node8" href="$fit__convoluted__pdfs_8inl.html" title="fit_convoluted_pdfs.inl" alt="" coords="565,80,717,107"/>
+<area shape="rect" id="node3" href="$convolute__functions_8cpp.html" title="convolute_functions.cpp" alt="" coords="5,155,168,181"/>
+<area shape="rect" id="node4" href="$convolute__functions_8cu.html" title="convolute_functions.cu" alt="" coords="193,155,349,181"/>
+<area shape="rect" id="node6" href="$cufft_8cpp.html" title="cufft.cpp" alt="" coords="373,155,446,181"/>
+<area shape="rect" id="node7" href="$cufft_8cu.html" title="cufft.cu" alt="" coords="471,155,537,181"/>
+<area shape="rect" id="node9" href="$fit__convoluted__pdfs_8cpp.html" title="fit_convoluted_pdfs.cpp" alt="" coords="561,155,721,181"/>
+<area shape="rect" id="node10" href="$fit__convoluted__pdfs_8cu.html" title="fit_convoluted_pdfs.cu" alt="" coords="746,155,899,181"/>
+</map>

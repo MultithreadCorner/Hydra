@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -101,19 +102,22 @@ $(document).ready(function(){initNavTree('Tuple_8h.html','');});
 <div class="title">Tuple.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;utility&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/tuple.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/detail/tuple/tuple.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="">hydra/detail/Config.h</a>&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/tuple.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/detail/tuple/tuple.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/utility/Generic.h</a>&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Tuple.h:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="Tuple_8h__incl.svg" width="547" height="216"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Tuple_8h__incl.svg" width="100%" height="484"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Tuple_8h__dep__incl.svg" width="100%" height="563"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Tuple_8h__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -126,51 +130,75 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:acf5241d6a56b2040e9cc9ea860b4cbff"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 &gt; </td></tr>
-<tr class="memitem:acf5241d6a56b2040e9cc9ea860b4cbff"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#acf5241d6a56b2040e9cc9ea860b4cbff">hydra::pair</a> = HYDRA_EXTERNAL_NS::thrust::pair&lt; T1, T2 &gt;</td></tr>
-<tr class="memdesc:acf5241d6a56b2040e9cc9ea860b4cbff"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>pair</code> template is an alias to the HYDRA_EXTERNAL_NS::thrust::pair structure.  <a href="namespacehydra.html#acf5241d6a56b2040e9cc9ea860b4cbff">More...</a><br /></td></tr>
-<tr class="separator:acf5241d6a56b2040e9cc9ea860b4cbff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e59cc0127adfac6b799c5fd6785431b"><td class="memTemplParams" colspan="2">template&lt;typename... T&gt; </td></tr>
-<tr class="memitem:a5e59cc0127adfac6b799c5fd6785431b"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a5e59cc0127adfac6b799c5fd6785431b">hydra::tuple</a> = HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt;</td></tr>
-<tr class="memdesc:a5e59cc0127adfac6b799c5fd6785431b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>tuple</code> template is an alias to the variadic version of HYDRA_EXTERNAL_NS::thrust::tuple and that can be instantiated with a indefinite number of arguments.  <a href="namespacehydra.html#a5e59cc0127adfac6b799c5fd6785431b">More...</a><br /></td></tr>
-<tr class="separator:a5e59cc0127adfac6b799c5fd6785431b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ecb38ba9198aee2de36f374d07638de"><td class="memTemplParams" colspan="2">template&lt;int N, class T &gt; </td></tr>
-<tr class="memitem:a3ecb38ba9198aee2de36f374d07638de"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a3ecb38ba9198aee2de36f374d07638de">hydra::tuple_element</a> = HYDRA_EXTERNAL_NS::thrust::tuple_element&lt; N, T &gt;</td></tr>
-<tr class="memdesc:a3ecb38ba9198aee2de36f374d07638de"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>get</code> function returns a <code>const</code> reference to a <code>tuple</code> element of interest.  <a href="namespacehydra.html#a3ecb38ba9198aee2de36f374d07638de">More...</a><br /></td></tr>
-<tr class="separator:a3ecb38ba9198aee2de36f374d07638de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab06a4451f99b94119ead1dcadf2b8e31"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
-<tr class="memitem:ab06a4451f99b94119ead1dcadf2b8e31"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ab06a4451f99b94119ead1dcadf2b8e31">hydra::tuple_size</a> = HYDRA_EXTERNAL_NS::thrust::tuple_size&lt; T &gt;</td></tr>
-<tr class="memdesc:ab06a4451f99b94119ead1dcadf2b8e31"><td class="mdescLeft">&#160;</td><td class="mdescRight">This metafunction returns the number of elements of a <code>tuple</code> type of interest.  <a href="namespacehydra.html#ab06a4451f99b94119ead1dcadf2b8e31">More...</a><br /></td></tr>
-<tr class="separator:ab06a4451f99b94119ead1dcadf2b8e31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a412c01a2247e7a463fc693a43310d00e"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 &gt; </td></tr>
+<tr class="memitem:a412c01a2247e7a463fc693a43310d00e"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a412c01a2247e7a463fc693a43310d00e">hydra::pair</a> = hydra_thrust::pair&lt; T1, T2 &gt;</td></tr>
+<tr class="memdesc:a412c01a2247e7a463fc693a43310d00e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>pair</code> template is an alias to the hydra_thrust::pair structure.  <a href="namespacehydra.html#a412c01a2247e7a463fc693a43310d00e">More...</a><br /></td></tr>
+<tr class="separator:a412c01a2247e7a463fc693a43310d00e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a717fc4e6b10453164099beade13d0226"><td class="memTemplParams" colspan="2">template&lt;typename... T&gt; </td></tr>
+<tr class="memitem:a717fc4e6b10453164099beade13d0226"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a> = hydra_thrust::tuple&lt; T... &gt;</td></tr>
+<tr class="memdesc:a717fc4e6b10453164099beade13d0226"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>tuple</code> template is an alias to the variadic version of hydra_thrust::tuple and that can be instantiated with a indefinite number of arguments.  <a href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">More...</a><br /></td></tr>
+<tr class="separator:a717fc4e6b10453164099beade13d0226"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fb67e052a2a37c16a026792014cc585"><td class="memTemplParams" colspan="2">template&lt;int N, class T &gt; </td></tr>
+<tr class="memitem:a2fb67e052a2a37c16a026792014cc585"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a2fb67e052a2a37c16a026792014cc585">hydra::tuple_element</a> = hydra_thrust::tuple_element&lt; N, T &gt;</td></tr>
+<tr class="memdesc:a2fb67e052a2a37c16a026792014cc585"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>get</code> function returns a <code>const</code> reference to a <code>tuple</code> element of interest.  <a href="namespacehydra.html#a2fb67e052a2a37c16a026792014cc585">More...</a><br /></td></tr>
+<tr class="separator:a2fb67e052a2a37c16a026792014cc585"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea1e8b0aafd04f1005a05ae93a72bf9b"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:aea1e8b0aafd04f1005a05ae93a72bf9b"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#aea1e8b0aafd04f1005a05ae93a72bf9b">hydra::tuple_size</a> = hydra_thrust::tuple_size&lt; T &gt;</td></tr>
+<tr class="memdesc:aea1e8b0aafd04f1005a05ae93a72bf9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This metafunction returns the number of elements of a <code>tuple</code> type of interest.  <a href="namespacehydra.html#aea1e8b0aafd04f1005a05ae93a72bf9b">More...</a><br /></td></tr>
+<tr class="separator:aea1e8b0aafd04f1005a05ae93a72bf9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a878a4b407da6caf1173b3939f3943d33"><td class="memTemplParams" colspan="2">template&lt;int N, typename ... T&gt; </td></tr>
-<tr class="memitem:a878a4b407da6caf1173b3939f3943d33"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ HYDRA_EXTERNAL_NS::thrust::tuple_element&lt; N, HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a878a4b407da6caf1173b3939f3943d33">hydra::get</a> (HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt; const &amp;t)</td></tr>
-<tr class="memdesc:a878a4b407da6caf1173b3939f3943d33"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>get</code> function returns a reference to a <code>tuple</code> element of interest.  <a href="namespacehydra.html#a878a4b407da6caf1173b3939f3943d33">More...</a><br /></td></tr>
-<tr class="separator:a878a4b407da6caf1173b3939f3943d33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c5d06da4c888dd9915f5b9b68ff324d"><td class="memTemplParams" colspan="2">template&lt;int N, typename ... T&gt; </td></tr>
-<tr class="memitem:a7c5d06da4c888dd9915f5b9b68ff324d"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ HYDRA_EXTERNAL_NS::thrust::tuple_element&lt; N, HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a7c5d06da4c888dd9915f5b9b68ff324d">hydra::get</a> (HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt; &amp;t)</td></tr>
-<tr class="separator:a7c5d06da4c888dd9915f5b9b68ff324d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b44fb8fa5030736b4603699cf172253"><td class="memTemplParams" colspan="2">template&lt;int N, typename T1 , typename T2 &gt; </td></tr>
-<tr class="memitem:a7b44fb8fa5030736b4603699cf172253"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ HYDRA_EXTERNAL_NS::thrust::tuple_element&lt; N, HYDRA_EXTERNAL_NS::thrust::pair&lt; T1, T2 &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a7b44fb8fa5030736b4603699cf172253">hydra::get</a> (HYDRA_EXTERNAL_NS::thrust::pair&lt; T1, T2 &gt; &amp;&amp;t)</td></tr>
-<tr class="separator:a7b44fb8fa5030736b4603699cf172253"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8b9fd25a44634ab41c7c102a97e42cb"><td class="memTemplParams" colspan="2">template&lt;class T1 , class T2 &gt; </td></tr>
-<tr class="memitem:ab8b9fd25a44634ab41c7c102a97e42cb"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ab8b9fd25a44634ab41c7c102a97e42cb">hydra::make_pair</a> (T1 &amp;&amp;t1, T2 &amp;&amp;t2) -&gt; decltype(HYDRA_EXTERNAL_NS::thrust::make_pair(std::forward&lt; T1 &gt;(t1), std::forward&lt; T2 &gt;(t2)))</td></tr>
-<tr class="memdesc:ab8b9fd25a44634ab41c7c102a97e42cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">This version of <code>make_pair</code> creates a new <code>pair</code> object from a list of objects.  <a href="namespacehydra.html#ab8b9fd25a44634ab41c7c102a97e42cb">More...</a><br /></td></tr>
-<tr class="separator:ab8b9fd25a44634ab41c7c102a97e42cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac70a2baeff9ebf89f64ebd08ebaab2d7"><td class="memTemplParams" colspan="2">template&lt;class ... T&gt; </td></tr>
-<tr class="memitem:ac70a2baeff9ebf89f64ebd08ebaab2d7"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ac70a2baeff9ebf89f64ebd08ebaab2d7">hydra::make_tuple</a> (T const &amp;... t) -&gt; decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(t...))</td></tr>
-<tr class="memdesc:ac70a2baeff9ebf89f64ebd08ebaab2d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This version of <code>make_tuple</code> creates a new <code>tuple</code> object from a list of objects.  <a href="namespacehydra.html#ac70a2baeff9ebf89f64ebd08ebaab2d7">More...</a><br /></td></tr>
-<tr class="separator:ac70a2baeff9ebf89f64ebd08ebaab2d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16ca94258b9800a2b2fe700f7012f545"><td class="memTemplParams" colspan="2">template&lt;class ... T&gt; </td></tr>
-<tr class="memitem:a16ca94258b9800a2b2fe700f7012f545"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a16ca94258b9800a2b2fe700f7012f545">hydra::make_tuple</a> (T &amp;&amp;... t) -&gt; decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(std::forward&lt; T &gt;(t)...))</td></tr>
-<tr class="memdesc:a16ca94258b9800a2b2fe700f7012f545"><td class="mdescLeft">&#160;</td><td class="mdescRight">This version of <code>make_tuple</code> creates a new <code>tuple</code> object from a list of objects.  <a href="namespacehydra.html#a16ca94258b9800a2b2fe700f7012f545">More...</a><br /></td></tr>
-<tr class="separator:a16ca94258b9800a2b2fe700f7012f545"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e16e05c122a0b3b48937b89de17b621"><td class="memTemplParams" colspan="2">template&lt;class ... T&gt; </td></tr>
-<tr class="memitem:a0e16e05c122a0b3b48937b89de17b621"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a0e16e05c122a0b3b48937b89de17b621">hydra::tie</a> (T &amp;&amp;...t) -&gt; decltype(HYDRA_EXTERNAL_NS::thrust::tie(std::forward&lt; T &gt;(t)...))</td></tr>
-<tr class="memdesc:a0e16e05c122a0b3b48937b89de17b621"><td class="mdescLeft">&#160;</td><td class="mdescRight">This version of <code>tie</code> creates a new <code>tuple</code> whose elements are references which refers to this function's arguments.  <a href="namespacehydra.html#a0e16e05c122a0b3b48937b89de17b621">More...</a><br /></td></tr>
-<tr class="separator:a0e16e05c122a0b3b48937b89de17b621"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f07a165f21dcc1cbbe1b48fdb609398"><td class="memTemplParams" colspan="2">template&lt;class ... T&gt; </td></tr>
+<tr class="memitem:a6f07a165f21dcc1cbbe1b48fdb609398"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a6f07a165f21dcc1cbbe1b48fdb609398">hydra::forward_as_tuple</a> (T &amp;&amp;...t) -&gt; decltype(hydra_thrust::forward_as_tuple(std::forward&lt; T &gt;(t)...))</td></tr>
+<tr class="memdesc:a6f07a165f21dcc1cbbe1b48fdb609398"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a tuple of references to the arguments in args suitable for forwarding as an argument to a function.  <a href="namespacehydra.html#a6f07a165f21dcc1cbbe1b48fdb609398">More...</a><br /></td></tr>
+<tr class="separator:a6f07a165f21dcc1cbbe1b48fdb609398"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac71b87e64d6dbb15c41c8f77e95a8072"><td class="memTemplParams" colspan="2">template&lt;int I, int N, typename T &gt; </td></tr>
+<tr class="memitem:ac71b87e64d6dbb15c41c8f77e95a8072"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ac71b87e64d6dbb15c41c8f77e95a8072">hydra::get</a> (T(&amp;array)[N])</td></tr>
+<tr class="separator:ac71b87e64d6dbb15c41c8f77e95a8072"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a048ae1166f9c2988a3d1933b0a3843d7"><td class="memTemplParams" colspan="2">template&lt;int I, typename T &gt; </td></tr>
+<tr class="memitem:a048ae1166f9c2988a3d1933b0a3843d7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a048ae1166f9c2988a3d1933b0a3843d7">hydra::get</a> (T *array)</td></tr>
+<tr class="separator:a048ae1166f9c2988a3d1933b0a3843d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60f5ccfd225166dc9b3d89c0eff5a413"><td class="memTemplParams" colspan="2">template&lt;typename Type , typename ... T&gt; </td></tr>
+<tr class="memitem:a60f5ccfd225166dc9b3d89c0eff5a413"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> Type &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a60f5ccfd225166dc9b3d89c0eff5a413">hydra::get</a> (hydra_thrust::tuple&lt; T... &gt; const &amp;t)</td></tr>
+<tr class="memdesc:a60f5ccfd225166dc9b3d89c0eff5a413"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>get</code> function returns a reference to a <code>tuple</code> element of interest.  <a href="namespacehydra.html#a60f5ccfd225166dc9b3d89c0eff5a413">More...</a><br /></td></tr>
+<tr class="separator:a60f5ccfd225166dc9b3d89c0eff5a413"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32d44a759daba901b4cd71a76ca9d86b"><td class="memTemplParams" colspan="2">template&lt;int N, typename ... T&gt; </td></tr>
+<tr class="memitem:a32d44a759daba901b4cd71a76ca9d86b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> const hydra_thrust::tuple_element&lt; N, hydra_thrust::tuple&lt; T... &gt; &gt;::type &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a32d44a759daba901b4cd71a76ca9d86b">hydra::get</a> (hydra_thrust::tuple&lt; T... &gt; const &amp;t)</td></tr>
+<tr class="separator:a32d44a759daba901b4cd71a76ca9d86b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ab8f1851e2270ea973292200068d80c"><td class="memTemplParams" colspan="2">template&lt;typename Type , typename ... T&gt; </td></tr>
+<tr class="memitem:a0ab8f1851e2270ea973292200068d80c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> Type &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a0ab8f1851e2270ea973292200068d80c">hydra::get</a> (hydra_thrust::tuple&lt; T... &gt; &amp;t)</td></tr>
+<tr class="separator:a0ab8f1851e2270ea973292200068d80c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba82a044ff758f7eefe8627efc3a10a2"><td class="memTemplParams" colspan="2">template&lt;int N, typename ... T&gt; </td></tr>
+<tr class="memitem:aba82a044ff758f7eefe8627efc3a10a2"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> hydra_thrust::tuple_element&lt; N, hydra_thrust::tuple&lt; T... &gt; &gt;::type &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#aba82a044ff758f7eefe8627efc3a10a2">hydra::get</a> (hydra_thrust::tuple&lt; T... &gt; &amp;t)</td></tr>
+<tr class="separator:aba82a044ff758f7eefe8627efc3a10a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a267c8e70bcec4d44eb523c0dac39ad"><td class="memTemplParams" colspan="2">template&lt;typename Type , typename ... T&gt; </td></tr>
+<tr class="memitem:a4a267c8e70bcec4d44eb523c0dac39ad"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> Type &amp;&amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a4a267c8e70bcec4d44eb523c0dac39ad">hydra::get</a> (hydra_thrust::tuple&lt; T... &gt; &amp;&amp;t)</td></tr>
+<tr class="separator:a4a267c8e70bcec4d44eb523c0dac39ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a247c447c60ebd2007261398741a274ba"><td class="memTemplParams" colspan="2">template&lt;int N, typename ... T&gt; </td></tr>
+<tr class="memitem:a247c447c60ebd2007261398741a274ba"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> hydra_thrust::tuple_element&lt; N, hydra_thrust::tuple&lt; T... &gt; &gt;::type &amp;&amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a247c447c60ebd2007261398741a274ba">hydra::get</a> (hydra_thrust::tuple&lt; T... &gt; &amp;&amp;t)</td></tr>
+<tr class="separator:a247c447c60ebd2007261398741a274ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49b811128ade29a492e778eb1a829ba3"><td class="memTemplParams" colspan="2">template&lt;int N, typename T1 , typename T2 &gt; </td></tr>
+<tr class="memitem:a49b811128ade29a492e778eb1a829ba3"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> hydra_thrust::tuple_element&lt; N, hydra_thrust::pair&lt; T1, T2 &gt; &gt;::type &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a49b811128ade29a492e778eb1a829ba3">hydra::get</a> (hydra_thrust::pair&lt; T1, T2 &gt; &amp;t)</td></tr>
+<tr class="separator:a49b811128ade29a492e778eb1a829ba3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8aefcb814b129eee45f1ec95fdf907a"><td class="memTemplParams" colspan="2">template&lt;int N, typename T1 , typename T2 &gt; </td></tr>
+<tr class="memitem:ad8aefcb814b129eee45f1ec95fdf907a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> const hydra_thrust::tuple_element&lt; N, hydra_thrust::pair&lt; T1, T2 &gt; &gt;::type &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ad8aefcb814b129eee45f1ec95fdf907a">hydra::get</a> (hydra_thrust::pair&lt; T1, T2 &gt; const &amp;t)</td></tr>
+<tr class="separator:ad8aefcb814b129eee45f1ec95fdf907a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b0f0cce7a103359def82b175c766f9d"><td class="memTemplParams" colspan="2">template&lt;int N, typename T1 , typename T2 &gt; </td></tr>
+<tr class="memitem:a5b0f0cce7a103359def82b175c766f9d"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> hydra_thrust::tuple_element&lt; N, hydra_thrust::pair&lt; T1, T2 &gt; &gt;::type &amp;&amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a5b0f0cce7a103359def82b175c766f9d">hydra::get</a> (hydra_thrust::pair&lt; T1, T2 &gt; &amp;&amp;t)</td></tr>
+<tr class="separator:a5b0f0cce7a103359def82b175c766f9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc64c5495b930568c11a5c29bd553e4d"><td class="memTemplParams" colspan="2">template&lt;class T1 , class T2 &gt; </td></tr>
+<tr class="memitem:acc64c5495b930568c11a5c29bd553e4d"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#acc64c5495b930568c11a5c29bd553e4d">hydra::make_pair</a> (T1 &amp;&amp;t1, T2 &amp;&amp;t2) -&gt; decltype(hydra_thrust::make_pair(std::forward&lt; T1 &gt;(t1), std::forward&lt; T2 &gt;(t2)))</td></tr>
+<tr class="memdesc:acc64c5495b930568c11a5c29bd553e4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This version of <code>make_pair</code> creates a new <code>pair</code> object from a list of objects.  <a href="namespacehydra.html#acc64c5495b930568c11a5c29bd553e4d">More...</a><br /></td></tr>
+<tr class="separator:acc64c5495b930568c11a5c29bd553e4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1db1d8c170d119e8a99389cf5eb0b5d5"><td class="memTemplParams" colspan="2">template&lt;class ... T&gt; </td></tr>
+<tr class="memitem:a1db1d8c170d119e8a99389cf5eb0b5d5"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a1db1d8c170d119e8a99389cf5eb0b5d5">hydra::make_tuple</a> (T &amp;&amp;... t) -&gt; decltype(hydra_thrust::make_tuple(std::forward&lt; T &gt;(t)...))</td></tr>
+<tr class="memdesc:a1db1d8c170d119e8a99389cf5eb0b5d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This version of <code>make_tuple</code> creates a new <code>tuple</code> object from a list of objects.  <a href="namespacehydra.html#a1db1d8c170d119e8a99389cf5eb0b5d5">More...</a><br /></td></tr>
+<tr class="separator:a1db1d8c170d119e8a99389cf5eb0b5d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1dba4dcfb81c7ad5404533f6d3b4bd7"><td class="memTemplParams" colspan="2">template&lt;class ... T&gt; </td></tr>
+<tr class="memitem:aa1dba4dcfb81c7ad5404533f6d3b4bd7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#aa1dba4dcfb81c7ad5404533f6d3b4bd7">hydra::tie</a> (T &amp;...t) -&gt; decltype(hydra_thrust::tie(t...))</td></tr>
+<tr class="memdesc:aa1dba4dcfb81c7ad5404533f6d3b4bd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This version of <code>tie</code> creates a new <code>tuple</code> whose elements are references which refers to this function's arguments.  <a href="namespacehydra.html#aa1dba4dcfb81c7ad5404533f6d3b4bd7">More...</a><br /></td></tr>
+<tr class="separator:aa1dba4dcfb81c7ad5404533f6d3b4bd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -178,7 +206,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="Tuple_8h.html">Tuple.h</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

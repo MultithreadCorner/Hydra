@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -99,28 +100,64 @@ $(document).ready(function(){initNavTree('functions_l.html','');});
 <li>Label()
 : <a class="el" href="classhydra_1_1Print.html#a92abedcb3fd91bc7f6ac01b0ea420fd9">hydra::Print</a>
 </li>
-<li>LambdaWrapper()
-: <a class="el" href="group__functor.html#a9b2418b681b3f0afda78568f53860da9">hydra::LambdaWrapper&lt; ReturnType(ArgType...), L, N &gt;</a>
+<li>Lambda()
+: <a class="el" href="classhydra_1_1Lambda.html#a7d6c348dff8389e9d9f21aab48e99faf">hydra::Lambda&lt; LambdaType, NPARAM &gt;</a>
+, <a class="el" href="classhydra_1_1Lambda_3_01LambdaType_00_010_01_4.html#ae3d26f2687d8cc874e901f36ca59bec8">hydra::Lambda&lt; LambdaType, 0 &gt;</a>
+</li>
+<li>lattice
+: <a class="el" href="classhydra_1_1detail_1_1quasi__random__base.html#a986dbde459533185b13952b90c4b15b5">hydra::detail::quasi_random_base&lt; DerivedT, LatticeT, SizeT &gt;</a>
+</li>
+<li>lattice_dimension
+: <a class="el" href="structhydra_1_1detail_1_1sobol__lattice.html#ae378853e1ff9528f62d3649ee0b84102">hydra::detail::sobol_lattice&lt; UIntType, D, W, SobolTables &gt;</a>
+</li>
+<li>least
+: <a class="el" href="structhydra_1_1detail_1_1high__bit__mask__t.html#ac6f9c80f6f78088eef2f237fbc7e12a3">hydra::detail::high_bit_mask_t&lt; Bit &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail_1_1impl.html#aafa8c7570fa41c49f5bca01525dbe117">hydra::detail::impl::int_least_helper&lt; 1 &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail_1_1impl.html#a917984dc72ed69ebc342270a52d5c4d6">hydra::detail::impl::int_least_helper&lt; 2 &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail_1_1impl.html#ab5cb2a23322f32468ba24f91a51c5c2d">hydra::detail::impl::int_least_helper&lt; 3 &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail_1_1impl.html#aee0c8aeba6ce15b2f6990b4efd4f6daf">hydra::detail::impl::int_least_helper&lt; 4 &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail_1_1impl.html#a35d1fdb40084eeccc76d2e70565c38fa">hydra::detail::impl::int_least_helper&lt; 5 &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail_1_1impl.html#aa2971ce9698dc2b30973c0942535d96c">hydra::detail::impl::uint_least_helper&lt; 1 &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail_1_1impl.html#a617812541c13ffd03479548aaac67f70">hydra::detail::impl::uint_least_helper&lt; 2 &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail_1_1impl.html#ad818c752a09d341b73aadc804ab0695d">hydra::detail::impl::uint_least_helper&lt; 3 &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail_1_1impl.html#a530f47e292204ebb38e443018b72b659">hydra::detail::impl::uint_least_helper&lt; 4 &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail_1_1impl.html#a50fd7d0bc9a9db7fd9a41fd87f2f83d7">hydra::detail::impl::uint_least_helper&lt; 5 &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1int__t.html#a0aacf097606b709693ce7ec6ea283497">hydra::detail::int_t&lt; Bits &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1low__bits__mask__t.html#a244776a801eb797768a7d2ffe0bf4fb5">hydra::detail::low_bits_mask_t&lt; Bits &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1low__bits__mask__t_3_01std_1_1numeric__limits_3_01unsigned_01char_01_4_1_1digits_01_4.html#ad904d2d1df2b4463a9a9e6e90906a6a0">hydra::detail::low_bits_mask_t&lt; std::numeric_limits&lt; unsigned char &gt;::digits &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1uint__t.html#a06e1ff7cae9852c2b6d1a948af60f028">hydra::detail::uint_t&lt; Bits &gt;</a>
 </li>
 <li>Level()
 : <a class="el" href="classhydra_1_1Print.html#a8420ebe5433589b26123013d567a887a">hydra::Print</a>
 </li>
+<li>likelihood_estimator_type
+: <a class="el" href="classhydra_1_1LogLikelihoodFCN_3_01Pdf_3_01Functor_00_01Integrator_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4.html#a03c421d9302e17fe837851489c17f985">hydra::LogLikelihoodFCN&lt; Pdf&lt; Functor, Integrator &gt;, IteratorD, IteratorW... &gt;</a>
+, <a class="el" href="classhydra_1_1LogLikelihoodFCN_3_01PDFSumExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4.html#a74e660cf76146d77e37249e01b1f5c7c">hydra::LogLikelihoodFCN&lt; PDFSumExtendable&lt; Pdfs... &gt;, IteratorD, IteratorW... &gt;</a>
+, <a class="el" href="classhydra_1_1LogLikelihoodFCN_3_01PDFSumNonExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4.html#a1068a1189323126257d928eca792a369">hydra::LogLikelihoodFCN&lt; PDFSumNonExtendable&lt; Pdfs... &gt;, IteratorD, IteratorW... &gt;</a>
+</li>
 <li>Limits()
 : <a class="el" href="group__fit.html#affd113cf96daed021e40e90ecd44286e">hydra::Parameter</a>
+</li>
+<li>limits_type
+: <a class="el" href="structhydra_1_1detail_1_1low__bits__mask__t_3_01std_1_1numeric__limits_3_01unsigned_01char_01_4_1_1digits_01_4.html#aa57064ce7f97c95337b882f9cce11871">hydra::detail::low_bits_mask_t&lt; std::numeric_limits&lt; unsigned char &gt;::digits &gt;</a>
+</li>
+<li>LoadInputData()
+: <a class="el" href="classhydra_1_1BaseCuFFT.html#a07ae0278e390b0f695e58a21ddfc08a0">hydra::BaseCuFFT&lt; InputType, OutputType, PlannerType &gt;</a>
+, <a class="el" href="classhydra_1_1BaseFFTW.html#a18a18a0f62876cebdfef09fea3496013">hydra::BaseFFTW&lt; InputType, OutputType, PlannerType &gt;</a>
 </li>
 <li>LogLikelihood1()
 : <a class="el" href="structhydra_1_1detail_1_1LogLikelihood1.html#a1642eac76567128df1d1b4ee28df97db">hydra::detail::LogLikelihood1&lt; FUNCTOR &gt;</a>
 </li>
 <li>LogLikelihood2()
-: <a class="el" href="structhydra_1_1detail_1_1LogLikelihood2.html#a4cb6edffb9e222a91e766cdf944c100b">hydra::detail::LogLikelihood2&lt; FUNCTOR &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1LogLikelihood2.html#a11c066d3e0d8c5c15ff20a361248f4e8">hydra::detail::LogLikelihood2&lt; FUNCTOR &gt;</a>
 </li>
 <li>LogLikelihoodFCN()
-: <a class="el" href="group__fit.html#afeb1e4a1c769b24307ece88dbbe00ba0">hydra::LogLikelihoodFCN&lt; Pdf&lt; Functor, Integrator &gt;, IteratorD, IteratorW... &gt;</a>
-, <a class="el" href="group__fit.html#aecc159cf7554ee1537b10ca543328048">hydra::LogLikelihoodFCN&lt; PDFSumExtendable&lt; Pdfs... &gt;, IteratorD, IteratorW... &gt;</a>
-, <a class="el" href="group__fit.html#aaf30d9a774fab6f2f57d66aeb566a891">hydra::LogLikelihoodFCN&lt; PDFSumNonExtendable&lt; Pdfs... &gt;, IteratorD, IteratorW... &gt;</a>
+: <a class="el" href="classhydra_1_1LogLikelihoodFCN_3_01Pdf_3_01Functor_00_01Integrator_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4.html#afeb1e4a1c769b24307ece88dbbe00ba0">hydra::LogLikelihoodFCN&lt; Pdf&lt; Functor, Integrator &gt;, IteratorD, IteratorW... &gt;</a>
+, <a class="el" href="classhydra_1_1LogLikelihoodFCN_3_01PDFSumExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4.html#aec257800ad1c11d64500c89f38206d86">hydra::LogLikelihoodFCN&lt; PDFSumExtendable&lt; Pdfs... &gt;, IteratorD, IteratorW... &gt;</a>
+, <a class="el" href="classhydra_1_1LogLikelihoodFCN_3_01PDFSumNonExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4.html#a11cefedc82ddd1894e5f786ce7b9eca3">hydra::LogLikelihoodFCN&lt; PDFSumNonExtendable&lt; Pdfs... &gt;, IteratorD, IteratorW... &gt;</a>
 </li>
 <li>LogNormal()
-: <a class="el" href="group__common__functions.html#a2d23cdf6cb886eefdfef10b46ff6d3d8">hydra::LogNormal&lt; ArgIndex &gt;</a>
+: <a class="el" href="group__common__functions.html#a8eca830aeebe5d8923fdc27ceb899990">hydra::LogNormal&lt; ArgType, Signature &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -128,7 +165,7 @@ $(document).ready(function(){initNavTree('functions_l.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:03 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

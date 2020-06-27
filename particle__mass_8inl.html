@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -95,7 +96,8 @@ $(document).ready(function(){initNavTree('particle__mass_8inl.html','');});
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">particle_mass.inl File Reference</div>  </div>
 </div><!--header-->
@@ -109,7 +111,7 @@ $(document).ready(function(){initNavTree('particle__mass_8inl.html','');});
 <code>#include &lt;tclap/CmdLine.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/device/System.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Function.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/FunctionWrapper.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Lambda.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/FunctorArithmetic.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Random.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/LogLikelihoodFCN.h</a>&gt;</code><br />
@@ -132,12 +134,14 @@ $(document).ready(function(){initNavTree('particle__mass_8inl.html','');});
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for particle_mass.inl:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="particle__mass_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="particle__mass_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="particle__mass_8inl__dep__incl.svg" width="286" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="particle__mass_8inl__dep__incl.svg" width="286" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -149,8 +153,85 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a1c03069360f1f90a556eb537e0ff8a72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a1c03069360f1f90a556eb537e0ff8a72">main</a> (<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv, char **argc)</td></tr>
-<tr class="separator:a1c03069360f1f90a556eb537e0ff8a72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58e43a6eee990d884b2008760c6505c2"><td class="memItemLeft" align="right" valign="top">cmd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a58e43a6eee990d884b2008760c6505c2">add</a> (<a class="el" href="basic__distributions_8inl.html#a32ea8a498b202f85a8d77adaac39ca1b">EArg</a>)</td></tr>
+<tr class="separator:a58e43a6eee990d884b2008760c6505c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a847ebf0b5067895a9c74f81825c76a00"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a847ebf0b5067895a9c74f81825c76a00">catch</a> (TCLAP::ArgException &amp;e)</td></tr>
+<tr class="separator:a847ebf0b5067895a9c74f81825c76a00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dc0cdce190fb7c7f4b9ca73cf09ee6b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a7dc0cdce190fb7c7f4b9ca73cf09ee6b">declarg</a> (_X, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>) <a class="el" href="namespace_3globalScope_4.html#classint">int</a> <a class="el" href="sobol__quasirandom_8inl.html#a1c03069360f1f90a556eb537e0ff8a72">main</a>(<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv</td></tr>
+<tr class="separator:a7dc0cdce190fb7c7f4b9ca73cf09ee6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32ea8a498b202f85a8d77adaac39ca1b"><td class="memItemLeft" align="right" valign="top">TCLAP::ValueArg&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a32ea8a498b202f85a8d77adaac39ca1b">EArg</a> (&quot;n&quot;, &quot;number-of-events&quot;,&quot;Number of events&quot;, true, 10e6, &quot;size_t&quot;)</td></tr>
+<tr class="separator:a32ea8a498b202f85a8d77adaac39ca1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbe8b4eb6eb5ffea7f7359f9e530bb74"><td class="memItemLeft" align="right" valign="top"><a class="el" href="particle__mass_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">Hist_Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#abbe8b4eb6eb5ffea7f7359f9e530bb74">Fill</a> (<a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a>)</td></tr>
+<tr class="separator:abbe8b4eb6eb5ffea7f7359f9e530bb74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0a6a937bc6ca2cb3f0ae61d6b6809bc"><td class="memItemLeft" align="right" valign="top">std::cout&lt;&lt; &quot;Minimum: &quot;&lt;&lt; minimum_d&lt;&lt; std::endl;std::cout&lt;&lt; &quot;-----------------------------------------&quot;&lt;&lt; std::endl;std::cout&lt;&lt; &quot;| [Fit] GPU Time (ms) =&quot;&lt;&lt; elapsed_d.count()&lt;&lt; std::endl;std::cout&lt;&lt; &quot;-----------------------------------------&quot;&lt;&lt; std::endl;<a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">hydra::DenseHistogram</a>&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, 1, <a class="el" href="namespacehydra_1_1device.html#a643f8c450c0d3d1e4fa3a45a7e6afe1d">hydra::device::sys_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">Hist_Data</a> (100, <a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>)</td></tr>
+<tr class="separator:aa0a6a937bc6ca2cb3f0ae61d6b6809bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c06c263c31271c073a8f0735b1e4a16"><td class="memItemLeft" align="right" valign="top">cmd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a1c06c263c31271c073a8f0735b1e4a16">parse</a> (argv, <a class="el" href="basic__distributions_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a>)</td></tr>
+<tr class="separator:a1c06c263c31271c073a8f0735b1e4a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00aec0877f3c9df3a8e89050fd878e95"><td class="memItemLeft" align="right" valign="top"><a class="el" href="particle__mass_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a00aec0877f3c9df3a8e89050fd878e95">SetExtended</a> (true)</td></tr>
+<tr class="separator:a00aec0877f3c9df3a8e89050fd878e95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a593790abac5822a10f210f05b506e2a1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a593790abac5822a10f210f05b506e2a1">A1</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;A1&quot;).Value( 0.55).Error(0.0001).Limits( 0.4, 0.6)</td></tr>
+<tr class="separator:a593790abac5822a10f210f05b506e2a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0f4a920ad3dfd3423a737aecfef85a7"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#af0f4a920ad3dfd3423a737aecfef85a7">A2</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;A2&quot;).Value(0.4).Error(0.0001).Limits( 0.3, 0.5)</td></tr>
+<tr class="separator:af0f4a920ad3dfd3423a737aecfef85a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6a460a43fcb33ab77324370f16cb9b6"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#aa6a460a43fcb33ab77324370f16cb9b6">alfa</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;alfa&quot;).Value(-1.1).Error(0.0001).Limits(-1.5, -0.5)</td></tr>
+<tr class="separator:aa6a460a43fcb33ab77324370f16cb9b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27fb769f88c3c17ca3490b75f7758431"><td class="memItemLeft" align="right" valign="top">char **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a></td></tr>
+<tr class="separator:a27fb769f88c3c17ca3490b75f7758431"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affcdfcda25ce60d1a5b639a8e985c4c1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#affcdfcda25ce60d1a5b639a8e985c4c1">B1</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;B1&quot;).Value( 0.067).Error(0.0001).Limits( 0.002, 0.1)</td></tr>
+<tr class="separator:affcdfcda25ce60d1a5b639a8e985c4c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a786bc436ebd421657aa6c09db33715b1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a786bc436ebd421657aa6c09db33715b1">B2</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;B2&quot;).Value(3.8).Error(0.0001).Limits( 1.0, 5.0)</td></tr>
+<tr class="separator:a786bc436ebd421657aa6c09db33715b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7033d85826bd54896b58da524b818474"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a7033d85826bd54896b58da524b818474">beta</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;beta&quot;).Value(0.1).Error(0.0001).Limits(0.05, 0.5).Fixed()</td></tr>
+<tr class="separator:a7033d85826bd54896b58da524b818474"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b4197e4bd205f5ad3086c5f4790bdd3"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a6b4197e4bd205f5ad3086c5f4790bdd3">C1</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;C1&quot;).Value( 15.50).Error(0.0001).Limits( 10.0, 20.0)</td></tr>
+<tr class="separator:a6b4197e4bd205f5ad3086c5f4790bdd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac827988b2b36c93881834d915b6dbdc0"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#ac827988b2b36c93881834d915b6dbdc0">C2</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;C2&quot;).Value(0.85).Error(0.0001).Limits(0.5 , 1.0)</td></tr>
+<tr class="separator:ac827988b2b36c93881834d915b6dbdc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12f363a29a512b62cfdc364839323e4a"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a12f363a29a512b62cfdc364839323e4a">Combinatorial_Background_PDF</a></td></tr>
+<tr class="separator:a12f363a29a512b62cfdc364839323e4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab728cfda4f43090a8a5e3548763b8bd9"><td class="memItemLeft" align="right" valign="top">std::cout&lt;&lt; std::endl&lt;&lt; &quot;Generated <a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a> (10 first elements):&quot;&lt;&lt; std::endl;for(size_t i=0;i&lt; 10;i++) std::cout&lt;&lt; &quot;[&quot;&lt;&lt; i&lt;&lt; &quot;] :&quot;&lt;&lt; <a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a>[i]&lt;&lt; std::endl;std::cout&lt;&lt; std::endl&lt;&lt; &quot;Total dataset size :&quot;&lt;&lt; range.size()&lt;&lt; std::endl;auto <a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a>=<a class="el" href="group__fit.html#ga7cb37dfdb2198202b4cb3f0b79f94080">hydra::make_loglikehood_fcn</a>(<a class="el" href="particle__mass_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a>, <a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a>);ROOT::Minuit2::MnPrint::SetLevel(3);MnStrategy <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>(1);MnMigrad <a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a>(<a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a>, fcn.GetParameters().GetMnState(), <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>);std::cout&lt;&lt; fcn.GetParameters().GetMnState()&lt;&lt; std::endl;auto start_d=std::chrono::high_resolution_clock::now();FunctionMinimum minimum_d=FunctionMinimum(<a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a>(5000, 50));auto end_d=std::chrono::high_resolution_clock::now();std::chrono::duration&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, std::milli &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#ab728cfda4f43090a8a5e3548763b8bd9">elapsed_d</a> = end_d - start_d</td></tr>
+<tr class="separator:ab728cfda4f43090a8a5e3548763b8bd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8296c67db1defe92a2c472eb11bcaa5"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#ac8296c67db1defe92a2c472eb11bcaa5">L1</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;L1&quot;).Value(1.7).Error(0.0001).Limits(0.5, 2.6)</td></tr>
+<tr class="separator:ac8296c67db1defe92a2c472eb11bcaa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbaf3310296b190020fcf181accb99f1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#acbaf3310296b190020fcf181accb99f1">L2</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;L2&quot;).Value(2.6).Error(0.0001).Limits(1.0, 3.5)</td></tr>
+<tr class="separator:acbaf3310296b190020fcf181accb99f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef98cffd3bebf7159cbf535675620ad8"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#aef98cffd3bebf7159cbf535675620ad8">M0</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;M0&quot;).Value(418.71).Error(0.0001).Limits(415.0, 421.0).Fixed()</td></tr>
+<tr class="separator:aef98cffd3bebf7159cbf535675620ad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b0ede69e8156eb97acc579b88e883de"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a> = 550.0</td></tr>
+<tr class="separator:a0b0ede69e8156eb97acc579b88e883de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad36546e8175d2922bee165fe028fedc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a> = 418.71</td></tr>
+<tr class="separator:aad36546e8175d2922bee165fe028fedc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4494b924b71b8932dedd0783a4e7061f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a></td></tr>
+<tr class="separator:a4494b924b71b8932dedd0783a4e7061f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbd32940ff93dc8808473284ddb43fc1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#acbd32940ff93dc8808473284ddb43fc1">mu</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;mu&quot;).Value(493.677).Error(0.0001).Limits(493.5, 493.7)</td></tr>
+<tr class="separator:acbd32940ff93dc8808473284ddb43fc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8106f09b6a7c8282d6f237364a30e5e4"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a8106f09b6a7c8282d6f237364a30e5e4">N1</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;N1&quot;).Value(1.45).Error(0.0001).Limits(0.25, 2.7)</td></tr>
+<tr class="separator:a8106f09b6a7c8282d6f237364a30e5e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ec56f622b3760c006a55312a610fd3f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a5ec56f622b3760c006a55312a610fd3f">N2</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;N2&quot;).Value(2.35).Error(0.0001).Limits(1.0, 3.5)</td></tr>
+<tr class="separator:a5ec56f622b3760c006a55312a610fd3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a174f023f33575676780c55ad5469cce1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a174f023f33575676780c55ad5469cce1">N_Combinatorial</a> (&quot;N_Combinatorial&quot;, 6000, 100, 100, nentries)</td></tr>
+<tr class="separator:a174f023f33575676780c55ad5469cce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9e61d45e886d456773a1fc33f771611"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#ae9e61d45e886d456773a1fc33f771611">N_PartialRec</a> (&quot;N_PartialRec&quot;, 2000, 100, 100, nentries)</td></tr>
+<tr class="separator:ae9e61d45e886d456773a1fc33f771611"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5fbe1a36c89d40e74fea5868bb99473"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#ab5fbe1a36c89d40e74fea5868bb99473">N_Signal</a> (&quot;N_Signal&quot;, 5000, 100, 100, nentries)</td></tr>
+<tr class="separator:ab5fbe1a36c89d40e74fea5868bb99473"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8b0f365ee5d5b76a62688733e5016a1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a> = EArg.getValue()</td></tr>
+<tr class="separator:af8b0f365ee5d5b76a62688733e5016a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48252073e005dcb4af5537b40d6d0cbe"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a48252073e005dcb4af5537b40d6d0cbe">PartialRec_Background_PDF</a></td></tr>
+<tr class="separator:a48252073e005dcb4af5537b40d6d0cbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41c36559284ec68ca0e13c56558b5f09"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a> = <a class="el" href="namespacehydra.html#aed01ab7e551c3ca33d6b8df7b27c4a31">hydra::sample</a>(<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>, <a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>, model.GetFunctor())</td></tr>
+<tr class="separator:a41c36559284ec68ca0e13c56558b5f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9717e7bbecb906637e86cef6da3d83c2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a9717e7bbecb906637e86cef6da3d83c2">return</a></td></tr>
+<tr class="separator:a9717e7bbecb906637e86cef6da3d83c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3f390b39c64799bb4571d8b850b1d7f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#ae3f390b39c64799bb4571d8b850b1d7f">sigma</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;sigma&quot;).Value(3.5).Error(0.0001).Limits(2.0,5.0)</td></tr>
+<tr class="separator:ae3f390b39c64799bb4571d8b850b1d7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06cec1bc75de861ff47a64af92566e57"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#a06cec1bc75de861ff47a64af92566e57">Signal_PDF</a></td></tr>
+<tr class="separator:a06cec1bc75de861ff47a64af92566e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe4cc9788f52e49485473dc699537388"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="particle__mass_8inl.html#abe4cc9788f52e49485473dc699537388">try</a></td></tr>
+<tr class="separator:abe4cc9788f52e49485473dc699537388"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a52ea0bd985b98e395b87ab23f7e44cd5"></a>
@@ -168,23 +249,59 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a1c03069360f1f90a556eb537e0ff8a72"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c03069360f1f90a556eb537e0ff8a72">&#9670;&nbsp;</a></span>main()</h2>
+<a id="a58e43a6eee990d884b2008760c6505c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58e43a6eee990d884b2008760c6505c2">&#9670;&nbsp;</a></span>add()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classint">int</a> main </td>
+          <td class="memname">cmd add </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td>
-          <td class="paramname"><em>argv</em>, </td>
+          <td class="paramtype"><a class="el" href="basic__distributions_8inl.html#a32ea8a498b202f85a8d77adaac39ca1b">EArg</a>&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a847ebf0b5067895a9c74f81825c76a00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a847ebf0b5067895a9c74f81825c76a00">&#9670;&nbsp;</a></span>catch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">catch </td>
+          <td>(</td>
+          <td class="paramtype">TCLAP::ArgException &amp;&#160;</td>
+          <td class="paramname"><em>e</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7dc0cdce190fb7c7f4b9ca73cf09ee6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7dc0cdce190fb7c7f4b9ca73cf09ee6b">&#9670;&nbsp;</a></span>declarg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">declarg </td>
+          <td>(</td>
+          <td class="paramtype">_X&#160;</td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">char **&#160;</td>
-          <td class="paramname"><em>argc</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
+          <td class="paramname">&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -196,13 +313,622 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a32ea8a498b202f85a8d77adaac39ca1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32ea8a498b202f85a8d77adaac39ca1b">&#9670;&nbsp;</a></span>EArg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TCLAP::ValueArg&lt;size_t&gt; EArg </td>
+          <td>(</td>
+          <td class="paramtype">&quot;n&quot;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;number-of-events&quot;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;Number of events&quot;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">true&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">10e6&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;size_t&quot;&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abbe8b4eb6eb5ffea7f7359f9e530bb74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbe8b4eb6eb5ffea7f7359f9e530bb74">&#9670;&nbsp;</a></span>Fill()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="particle__mass_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">Hist_Data</a> Fill </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a>&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa0a6a937bc6ca2cb3f0ae61d6b6809bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">&#9670;&nbsp;</a></span>Hist_Data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::cout&lt;&lt; &quot;Minimum: &quot; &lt;&lt; minimum_d &lt;&lt; std::endl; std::cout &lt;&lt; &quot;-----------------------------------------&quot;&lt;&lt;std::endl; std::cout &lt;&lt; &quot;| [Fit] GPU Time (ms) =&quot;&lt;&lt; elapsed_d.count() &lt;&lt;std::endl; std::cout &lt;&lt; &quot;-----------------------------------------&quot;&lt;&lt;std::endl; <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">hydra::DenseHistogram</a>&lt;<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, 1, <a class="el" href="namespacehydra_1_1device.html#a643f8c450c0d3d1e4fa3a45a7e6afe1d">hydra::device::sys_t</a>&gt; Hist_Data </td>
+          <td>(</td>
+          <td class="paramtype">100&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1c06c263c31271c073a8f0735b1e4a16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c06c263c31271c073a8f0735b1e4a16">&#9670;&nbsp;</a></span>parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cmd parse </td>
+          <td>(</td>
+          <td class="paramtype">argv&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="basic__distributions_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a>&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a00aec0877f3c9df3a8e89050fd878e95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00aec0877f3c9df3a8e89050fd878e95">&#9670;&nbsp;</a></span>SetExtended()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="particle__mass_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a> SetExtended </td>
+          <td>(</td>
+          <td class="paramtype">true&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a593790abac5822a10f210f05b506e2a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a593790abac5822a10f210f05b506e2a1">&#9670;&nbsp;</a></span>A1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto A1 = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;A1&quot;).Value( 0.55).Error(0.0001).Limits( 0.4, 0.6)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af0f4a920ad3dfd3423a737aecfef85a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0f4a920ad3dfd3423a737aecfef85a7">&#9670;&nbsp;</a></span>A2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto A2 = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;A2&quot;).Value(0.4).Error(0.0001).Limits( 0.3, 0.5)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa6a460a43fcb33ab77324370f16cb9b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6a460a43fcb33ab77324370f16cb9b6">&#9670;&nbsp;</a></span>alfa</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto alfa = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;alfa&quot;).Value(-1.1).Error(0.0001).Limits(-1.5, -0.5)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a27fb769f88c3c17ca3490b75f7758431"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27fb769f88c3c17ca3490b75f7758431">&#9670;&nbsp;</a></span>argc</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char** argc</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line">    <span class="keywordtype">size_t</span> <a class="code" href="particle__mass_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a> = 0</div><div class="ttc" id="particle__mass_8inl_html_af8b0f365ee5d5b76a62688733e5016a1"><div class="ttname"><a href="particle__mass_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a></div><div class="ttdeci">nentries</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:102</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="affcdfcda25ce60d1a5b639a8e985c4c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affcdfcda25ce60d1a5b639a8e985c4c1">&#9670;&nbsp;</a></span>B1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto B1 = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;B1&quot;).Value( 0.067).Error(0.0001).Limits( 0.002, 0.1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a786bc436ebd421657aa6c09db33715b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a786bc436ebd421657aa6c09db33715b1">&#9670;&nbsp;</a></span>B2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto B2 = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;B2&quot;).Value(3.8).Error(0.0001).Limits( 1.0, 5.0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7033d85826bd54896b58da524b818474"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7033d85826bd54896b58da524b818474">&#9670;&nbsp;</a></span>beta</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto beta = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;beta&quot;).Value(0.1).Error(0.0001).Limits(0.05, 0.5).Fixed()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6b4197e4bd205f5ad3086c5f4790bdd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b4197e4bd205f5ad3086c5f4790bdd3">&#9670;&nbsp;</a></span>C1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto C1 = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;C1&quot;).Value( 15.50).Error(0.0001).Limits( 10.0, 20.0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac827988b2b36c93881834d915b6dbdc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac827988b2b36c93881834d915b6dbdc0">&#9670;&nbsp;</a></span>C2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto C2 = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;C2&quot;).Value(0.85).Error(0.0001).Limits(0.5 , 1.0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a12f363a29a512b62cfdc364839323e4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12f363a29a512b62cfdc364839323e4a">&#9670;&nbsp;</a></span>Combinatorial_Background_PDF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto Combinatorial_Background_PDF</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a>( <a class="code" href="group__common__functions.html#classhydra_1_1DeltaDMassBackground">hydra::DeltaDMassBackground&lt;_X&gt;</a>(<a class="code" href="particle__mass_8inl.html#aef98cffd3bebf7159cbf535675620ad8">M0</a>, <a class="code" href="particle__mass_8inl.html#a593790abac5822a10f210f05b506e2a1">A1</a>, <a class="code" href="particle__mass_8inl.html#affcdfcda25ce60d1a5b639a8e985c4c1">B1</a>, <a class="code" href="particle__mass_8inl.html#a6b4197e4bd205f5ad3086c5f4790bdd3">C1</a>),</div><div class="line">            <a class="code" href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a>&lt;<a class="code" href="group__common__functions.html#classhydra_1_1DeltaDMassBackground">hydra::DeltaDMassBackground&lt;_X&gt;</a>&gt;(<a class="code" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>,  <a class="code" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>))</div><div class="ttc" id="group__fit_html_ga2d468a0d98a74f41479f8ccb95f5533e"><div class="ttname"><a href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a></div><div class="ttdeci">Pdf&lt; FUNCTOR, INTEGRATOR &gt; make_pdf(FUNCTOR const &amp;functor, INTEGRATOR integrator)</div><div class="ttdoc">Build a hydra::Pdf given a shape described by a functor and a integrator (algorithm or functor)...</div><div class="ttdef"><b>Definition:</b> Pdf.h:299</div></div>
+<div class="ttc" id="particle__mass_8inl_html_a0b0ede69e8156eb97acc579b88e883de"><div class="ttname"><a href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a></div><div class="ttdeci">double max</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:113</div></div>
+<div class="ttc" id="particle__mass_8inl_html_aef98cffd3bebf7159cbf535675620ad8"><div class="ttname"><a href="particle__mass_8inl.html#aef98cffd3bebf7159cbf535675620ad8">M0</a></div><div class="ttdeci">auto M0</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:142</div></div>
+<div class="ttc" id="group__common__functions_html_classhydra_1_1DeltaDMassBackground"><div class="ttname"><a href="group__common__functions.html#classhydra_1_1DeltaDMassBackground">hydra::DeltaDMassBackground</a></div><div class="ttdef"><b>Definition:</b> DeltaDMassBackground.h:64</div></div>
+<div class="ttc" id="particle__mass_8inl_html_a6b4197e4bd205f5ad3086c5f4790bdd3"><div class="ttname"><a href="particle__mass_8inl.html#a6b4197e4bd205f5ad3086c5f4790bdd3">C1</a></div><div class="ttdeci">auto C1</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:147</div></div>
+<div class="ttc" id="particle__mass_8inl_html_aad36546e8175d2922bee165fe028fedc"><div class="ttname"><a href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a></div><div class="ttdeci">double min</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:112</div></div>
+<div class="ttc" id="particle__mass_8inl_html_a593790abac5822a10f210f05b506e2a1"><div class="ttname"><a href="particle__mass_8inl.html#a593790abac5822a10f210f05b506e2a1">A1</a></div><div class="ttdeci">auto A1</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:145</div></div>
+<div class="ttc" id="classhydra_1_1AnalyticalIntegral_html"><div class="ttname"><a href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a></div><div class="ttdef"><b>Definition:</b> AnalyticalIntegral.inl:39</div></div>
+<div class="ttc" id="particle__mass_8inl_html_affcdfcda25ce60d1a5b639a8e985c4c1"><div class="ttname"><a href="particle__mass_8inl.html#affcdfcda25ce60d1a5b639a8e985c4c1">B1</a></div><div class="ttdeci">auto B1</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:146</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ab728cfda4f43090a8a5e3548763b8bd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab728cfda4f43090a8a5e3548763b8bd9">&#9670;&nbsp;</a></span>elapsed_d</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::cout&lt;&lt; std::endl&lt;&lt; &quot;Generated <a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a> (10 first elements):&quot;&lt;&lt; std::endl; for(size_t i=0; i&lt; 10; i++) std::cout &lt;&lt; &quot;[&quot; &lt;&lt; i &lt;&lt; &quot;] :&quot; &lt;&lt; <a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a>[i] &lt;&lt; std::endl; std::cout&lt;&lt; std::endl&lt;&lt; &quot;Total dataset size :&quot;&lt;&lt; range.size() &lt;&lt; std::endl; auto <a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a> = <a class="el" href="group__fit.html#ga7cb37dfdb2198202b4cb3f0b79f94080">hydra::make_loglikehood_fcn</a>( <a class="el" href="particle__mass_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a>, <a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a> ); ROOT::Minuit2::MnPrint::SetLevel(3); MnStrategy <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>(1); MnMigrad <a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a>(<a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a>, fcn.GetParameters().GetMnState() , <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>); std::cout&lt;&lt;fcn.GetParameters().GetMnState()&lt;&lt;std::endl; auto start_d = std::chrono::high_resolution_clock::now(); FunctionMinimum minimum_d = FunctionMinimum(<a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a>(5000, 50)); auto end_d = std::chrono::high_resolution_clock::now(); std::chrono::duration&lt;<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, std::milli&gt; elapsed_d = end_d - start_d</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac8296c67db1defe92a2c472eb11bcaa5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8296c67db1defe92a2c472eb11bcaa5">&#9670;&nbsp;</a></span>L1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto L1 = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;L1&quot;).Value(1.7).Error(0.0001).Limits(0.5, 2.6)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acbaf3310296b190020fcf181accb99f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbaf3310296b190020fcf181accb99f1">&#9670;&nbsp;</a></span>L2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto L2 = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;L2&quot;).Value(2.6).Error(0.0001).Limits(1.0, 3.5)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aef98cffd3bebf7159cbf535675620ad8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef98cffd3bebf7159cbf535675620ad8">&#9670;&nbsp;</a></span>M0</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto M0 = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;M0&quot;).Value(418.71).Error(0.0001).Limits(415.0, 421.0).Fixed()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0b0ede69e8156eb97acc579b88e883de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b0ede69e8156eb97acc579b88e883de">&#9670;&nbsp;</a></span>max</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> max = 550.0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aad36546e8175d2922bee165fe028fedc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad36546e8175d2922bee165fe028fedc">&#9670;&nbsp;</a></span>min</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> min = 418.71</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4494b924b71b8932dedd0783a4e7061f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4494b924b71b8932dedd0783a4e7061f">&#9670;&nbsp;</a></span>model</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto model</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="group__fit.html#ga7e7cc3bb04eac1d1350bb41b254fc92b">hydra::add_pdfs</a>( {<a class="code" href="particle__mass_8inl.html#ab5fbe1a36c89d40e74fea5868bb99473">N_Signal</a>, <a class="code" href="particle__mass_8inl.html#a174f023f33575676780c55ad5469cce1">N_Combinatorial</a>, <a class="code" href="particle__mass_8inl.html#ae9e61d45e886d456773a1fc33f771611">N_PartialRec</a>},</div><div class="line">            <a class="code" href="particle__mass_8inl.html#a06cec1bc75de861ff47a64af92566e57">Signal_PDF</a>, <a class="code" href="particle__mass_8inl.html#a12f363a29a512b62cfdc364839323e4a">Combinatorial_Background_PDF</a>, <a class="code" href="particle__mass_8inl.html#a48252073e005dcb4af5537b40d6d0cbe">PartialRec_Background_PDF</a>)</div><div class="ttc" id="particle__mass_8inl_html_ae9e61d45e886d456773a1fc33f771611"><div class="ttname"><a href="particle__mass_8inl.html#ae9e61d45e886d456773a1fc33f771611">N_PartialRec</a></div><div class="ttdeci">hydra::Parameter N_PartialRec(&quot;N_PartialRec&quot;, 2000, 100, 100, nentries)</div></div>
+<div class="ttc" id="particle__mass_8inl_html_a06cec1bc75de861ff47a64af92566e57"><div class="ttname"><a href="particle__mass_8inl.html#a06cec1bc75de861ff47a64af92566e57">Signal_PDF</a></div><div class="ttdeci">auto Signal_PDF</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:135</div></div>
+<div class="ttc" id="particle__mass_8inl_html_a174f023f33575676780c55ad5469cce1"><div class="ttname"><a href="particle__mass_8inl.html#a174f023f33575676780c55ad5469cce1">N_Combinatorial</a></div><div class="ttdeci">hydra::Parameter N_Combinatorial(&quot;N_Combinatorial&quot;, 6000, 100, 100, nentries)</div></div>
+<div class="ttc" id="particle__mass_8inl_html_a12f363a29a512b62cfdc364839323e4a"><div class="ttname"><a href="particle__mass_8inl.html#a12f363a29a512b62cfdc364839323e4a">Combinatorial_Background_PDF</a></div><div class="ttdeci">auto Combinatorial_Background_PDF</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:149</div></div>
+<div class="ttc" id="group__fit_html_ga7e7cc3bb04eac1d1350bb41b254fc92b"><div class="ttname"><a href="group__fit.html#ga7e7cc3bb04eac1d1350bb41b254fc92b">hydra::add_pdfs</a></div><div class="ttdeci">PDFSumExtendable&lt; PDF1, PDF2, PDFs... &gt; add_pdfs(std::array&lt; Parameter, sizeof...(PDFs)+2 &gt;const &amp;var_list, PDF1 const &amp;pdf1, PDF2 const &amp;pdf2, PDFs const &amp;...pdfs)</div><div class="ttdoc">Function to build up extendable pdfs models. </div><div class="ttdef"><b>Definition:</b> PDFSumExtendable.h:360</div></div>
+<div class="ttc" id="particle__mass_8inl_html_ab5fbe1a36c89d40e74fea5868bb99473"><div class="ttname"><a href="particle__mass_8inl.html#ab5fbe1a36c89d40e74fea5868bb99473">N_Signal</a></div><div class="ttdeci">hydra::Parameter N_Signal(&quot;N_Signal&quot;, 5000, 100, 100, nentries)</div></div>
+<div class="ttc" id="particle__mass_8inl_html_a48252073e005dcb4af5537b40d6d0cbe"><div class="ttname"><a href="particle__mass_8inl.html#a48252073e005dcb4af5537b40d6d0cbe">PartialRec_Background_PDF</a></div><div class="ttdeci">auto PartialRec_Background_PDF</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:157</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="acbd32940ff93dc8808473284ddb43fc1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbd32940ff93dc8808473284ddb43fc1">&#9670;&nbsp;</a></span>mu</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto mu = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;mu&quot;).Value(493.677).Error(0.0001).Limits(493.5, 493.7)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8106f09b6a7c8282d6f237364a30e5e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8106f09b6a7c8282d6f237364a30e5e4">&#9670;&nbsp;</a></span>N1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto N1 = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;N1&quot;).Value(1.45).Error(0.0001).Limits(0.25, 2.7)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5ec56f622b3760c006a55312a610fd3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ec56f622b3760c006a55312a610fd3f">&#9670;&nbsp;</a></span>N2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto N2 = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;N2&quot;).Value(2.35).Error(0.0001).Limits(1.0, 3.5)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a174f023f33575676780c55ad5469cce1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a174f023f33575676780c55ad5469cce1">&#9670;&nbsp;</a></span>N_Combinatorial</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> N_Combinatorial(&quot;N_Combinatorial&quot;,6000, 100, 100, nentries)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae9e61d45e886d456773a1fc33f771611"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9e61d45e886d456773a1fc33f771611">&#9670;&nbsp;</a></span>N_PartialRec</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> N_PartialRec(&quot;N_PartialRec&quot;,2000, 100, 100, nentries)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab5fbe1a36c89d40e74fea5868bb99473"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5fbe1a36c89d40e74fea5868bb99473">&#9670;&nbsp;</a></span>N_Signal</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> N_Signal(&quot;N_Signal&quot;,5000, 100, 100, nentries)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af8b0f365ee5d5b76a62688733e5016a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8b0f365ee5d5b76a62688733e5016a1">&#9670;&nbsp;</a></span>nentries</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">nentries = EArg.getValue()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a48252073e005dcb4af5537b40d6d0cbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48252073e005dcb4af5537b40d6d0cbe">&#9670;&nbsp;</a></span>PartialRec_Background_PDF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto PartialRec_Background_PDF</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a>( hydra::GeneralizedGamma&lt;_X&gt;(<a class="code" href="particle__mass_8inl.html#aef98cffd3bebf7159cbf535675620ad8">M0</a>, <a class="code" href="particle__mass_8inl.html#af0f4a920ad3dfd3423a737aecfef85a7">A2</a>, <a class="code" href="particle__mass_8inl.html#a786bc436ebd421657aa6c09db33715b1">B2</a>, <a class="code" href="particle__mass_8inl.html#ac827988b2b36c93881834d915b6dbdc0">C2</a>),</div><div class="line">            <a class="code" href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a>&lt;hydra::GeneralizedGamma&lt;_X&gt;&gt;(<a class="code" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>,  <a class="code" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>))</div><div class="ttc" id="group__fit_html_ga2d468a0d98a74f41479f8ccb95f5533e"><div class="ttname"><a href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a></div><div class="ttdeci">Pdf&lt; FUNCTOR, INTEGRATOR &gt; make_pdf(FUNCTOR const &amp;functor, INTEGRATOR integrator)</div><div class="ttdoc">Build a hydra::Pdf given a shape described by a functor and a integrator (algorithm or functor)...</div><div class="ttdef"><b>Definition:</b> Pdf.h:299</div></div>
+<div class="ttc" id="particle__mass_8inl_html_a0b0ede69e8156eb97acc579b88e883de"><div class="ttname"><a href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a></div><div class="ttdeci">double max</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:113</div></div>
+<div class="ttc" id="particle__mass_8inl_html_aef98cffd3bebf7159cbf535675620ad8"><div class="ttname"><a href="particle__mass_8inl.html#aef98cffd3bebf7159cbf535675620ad8">M0</a></div><div class="ttdeci">auto M0</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:142</div></div>
+<div class="ttc" id="particle__mass_8inl_html_aad36546e8175d2922bee165fe028fedc"><div class="ttname"><a href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a></div><div class="ttdeci">double min</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:112</div></div>
+<div class="ttc" id="particle__mass_8inl_html_a786bc436ebd421657aa6c09db33715b1"><div class="ttname"><a href="particle__mass_8inl.html#a786bc436ebd421657aa6c09db33715b1">B2</a></div><div class="ttdeci">auto B2</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:154</div></div>
+<div class="ttc" id="particle__mass_8inl_html_ac827988b2b36c93881834d915b6dbdc0"><div class="ttname"><a href="particle__mass_8inl.html#ac827988b2b36c93881834d915b6dbdc0">C2</a></div><div class="ttdeci">auto C2</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:155</div></div>
+<div class="ttc" id="classhydra_1_1AnalyticalIntegral_html"><div class="ttname"><a href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a></div><div class="ttdef"><b>Definition:</b> AnalyticalIntegral.inl:39</div></div>
+<div class="ttc" id="particle__mass_8inl_html_af0f4a920ad3dfd3423a737aecfef85a7"><div class="ttname"><a href="particle__mass_8inl.html#af0f4a920ad3dfd3423a737aecfef85a7">A2</a></div><div class="ttdeci">auto A2</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:153</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a41c36559284ec68ca0e13c56558b5f09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41c36559284ec68ca0e13c56558b5f09">&#9670;&nbsp;</a></span>range</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto range = <a class="el" href="namespacehydra.html#aed01ab7e551c3ca33d6b8df7b27c4a31">hydra::sample</a>(<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>, <a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>, model.GetFunctor())</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9717e7bbecb906637e86cef6da3d83c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9717e7bbecb906637e86cef6da3d83c2">&#9670;&nbsp;</a></span>return</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">return</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae3f390b39c64799bb4571d8b850b1d7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3f390b39c64799bb4571d8b850b1d7f">&#9670;&nbsp;</a></span>sigma</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto sigma = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;sigma&quot;).Value(3.5).Error(0.0001).Limits(2.0,5.0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a06cec1bc75de861ff47a64af92566e57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06cec1bc75de861ff47a64af92566e57">&#9670;&nbsp;</a></span>Signal_PDF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto Signal_PDF</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a>(<a class="code" href="group__common__functions.html#classhydra_1_1Ipatia">hydra::Ipatia&lt;_X&gt;</a>(<a class="code" href="particle__mass_8inl.html#acbd32940ff93dc8808473284ddb43fc1">mu</a>, <a class="code" href="particle__mass_8inl.html#ae3f390b39c64799bb4571d8b850b1d7f">sigma</a>,<a class="code" href="particle__mass_8inl.html#ac8296c67db1defe92a2c472eb11bcaa5">L1</a>,<a class="code" href="particle__mass_8inl.html#a8106f09b6a7c8282d6f237364a30e5e4">N1</a>,<a class="code" href="particle__mass_8inl.html#acbaf3310296b190020fcf181accb99f1">L2</a>,<a class="code" href="particle__mass_8inl.html#a5ec56f622b3760c006a55312a610fd3f">N2</a>,<a class="code" href="particle__mass_8inl.html#aa6a460a43fcb33ab77324370f16cb9b6">alfa</a>,<a class="code" href="particle__mass_8inl.html#a7033d85826bd54896b58da524b818474">beta</a>),</div><div class="line">        <a class="code" href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a>&lt;<a class="code" href="group__common__functions.html#classhydra_1_1Ipatia">hydra::Ipatia&lt;_X&gt;</a>&gt;(<a class="code" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>,  <a class="code" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>))</div><div class="ttc" id="particle__mass_8inl_html_a7033d85826bd54896b58da524b818474"><div class="ttname"><a href="particle__mass_8inl.html#a7033d85826bd54896b58da524b818474">beta</a></div><div class="ttdeci">auto beta</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:131</div></div>
+<div class="ttc" id="particle__mass_8inl_html_ac8296c67db1defe92a2c472eb11bcaa5"><div class="ttname"><a href="particle__mass_8inl.html#ac8296c67db1defe92a2c472eb11bcaa5">L1</a></div><div class="ttdeci">auto L1</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:124</div></div>
+<div class="ttc" id="group__common__functions_html_classhydra_1_1Ipatia"><div class="ttname"><a href="group__common__functions.html#classhydra_1_1Ipatia">hydra::Ipatia</a></div><div class="ttdoc">version of the Ipatia distribution as described in the reference https://doi.org/10.1016/j.nima.2014.06.081. </div><div class="ttdef"><b>Definition:</b> Ipatia.h:72</div></div>
+<div class="ttc" id="group__fit_html_ga2d468a0d98a74f41479f8ccb95f5533e"><div class="ttname"><a href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a></div><div class="ttdeci">Pdf&lt; FUNCTOR, INTEGRATOR &gt; make_pdf(FUNCTOR const &amp;functor, INTEGRATOR integrator)</div><div class="ttdoc">Build a hydra::Pdf given a shape described by a functor and a integrator (algorithm or functor)...</div><div class="ttdef"><b>Definition:</b> Pdf.h:299</div></div>
+<div class="ttc" id="particle__mass_8inl_html_a0b0ede69e8156eb97acc579b88e883de"><div class="ttname"><a href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a></div><div class="ttdeci">double max</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:113</div></div>
+<div class="ttc" id="particle__mass_8inl_html_aad36546e8175d2922bee165fe028fedc"><div class="ttname"><a href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a></div><div class="ttdeci">double min</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:112</div></div>
+<div class="ttc" id="particle__mass_8inl_html_ae3f390b39c64799bb4571d8b850b1d7f"><div class="ttname"><a href="particle__mass_8inl.html#ae3f390b39c64799bb4571d8b850b1d7f">sigma</a></div><div class="ttdeci">auto sigma</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:122</div></div>
+<div class="ttc" id="particle__mass_8inl_html_acbaf3310296b190020fcf181accb99f1"><div class="ttname"><a href="particle__mass_8inl.html#acbaf3310296b190020fcf181accb99f1">L2</a></div><div class="ttdeci">auto L2</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:127</div></div>
+<div class="ttc" id="particle__mass_8inl_html_a8106f09b6a7c8282d6f237364a30e5e4"><div class="ttname"><a href="particle__mass_8inl.html#a8106f09b6a7c8282d6f237364a30e5e4">N1</a></div><div class="ttdeci">auto N1</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:125</div></div>
+<div class="ttc" id="classhydra_1_1AnalyticalIntegral_html"><div class="ttname"><a href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a></div><div class="ttdef"><b>Definition:</b> AnalyticalIntegral.inl:39</div></div>
+<div class="ttc" id="particle__mass_8inl_html_acbd32940ff93dc8808473284ddb43fc1"><div class="ttname"><a href="particle__mass_8inl.html#acbd32940ff93dc8808473284ddb43fc1">mu</a></div><div class="ttdeci">auto mu</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:121</div></div>
+<div class="ttc" id="particle__mass_8inl_html_aa6a460a43fcb33ab77324370f16cb9b6"><div class="ttname"><a href="particle__mass_8inl.html#aa6a460a43fcb33ab77324370f16cb9b6">alfa</a></div><div class="ttdeci">auto alfa</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:130</div></div>
+<div class="ttc" id="particle__mass_8inl_html_a5ec56f622b3760c006a55312a610fd3f"><div class="ttname"><a href="particle__mass_8inl.html#a5ec56f622b3760c006a55312a610fd3f">N2</a></div><div class="ttdeci">auto N2</div><div class="ttdef"><b>Definition:</b> particle_mass.inl:128</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="abe4cc9788f52e49485473dc699537388"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe4cc9788f52e49485473dc699537388">&#9670;&nbsp;</a></span>try</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">try</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line"></div><div class="line">        TCLAP::CmdLine cmd(<span class="stringliteral">&quot;Command line arguments for &quot;</span>, <span class="charliteral">&#39;=&#39;</span>)</div></div><!-- fragment -->
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_b3c69fde212a60de3f50954f66fa65c1.html">examples</a></li><li class="navelem"><a class="el" href="dir_6e157aa34d06ae01b63aa7ec9c965b66.html">phys</a></li><li class="navelem"><a class="el" href="particle__mass_8inl.html">particle_mass.inl</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$group__numerical__integration.html" title="hydra::GaussKronrodRule\l\&lt; 51 \&gt;" alt="" coords="5,5,176,47"/>
+<area shape="rect" id="node1" href="$namespacehydra_1_1detail.html" title="hydra::detail::merged\l_tuple\&lt; do_tuple\&lt; T \&gt;\l::type... \&gt;" alt="" coords="5,5,156,61"/>
+<area shape="rect" id="node2" href="$structhydra_1_1detail_1_1tuple__utility_1_1flat__tuple.html" title="hydra::detail::tuple\l_utility::flat_tuple\&lt; T \&gt;" alt="" coords="204,13,357,54"/>
 </map>

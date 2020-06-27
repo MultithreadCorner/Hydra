@@ -1,6 +1,5 @@
 var group__histogram_classhydra_1_1DenseHistogram_3_01T_00_01N_00_01detail_1_1BackendPolicy_3_01BACKEND_01_4_00_01detail_1_1multidimensional_01_4 =
 [
-    [ "hydra_dense_histogram_tag", "group__histogram.html#a008966844a2b24e543a8615f14a92383", null ],
     [ "DenseHistogram", "group__histogram.html#a9ba5534a5107755bfb65927516cdf8b1", null ],
     [ "DenseHistogram", "group__histogram.html#a04b59974c9b28c0476ae0c489c661b87", null ],
     [ "DenseHistogram", "group__histogram.html#a3e07c5cbfefa9e26aee56d6181921d7d", null ],
@@ -31,7 +30,7 @@ var group__histogram_classhydra_1_1DenseHistogram_3_01T_00_01N_00_01detail_1_1Ba
     [ "GetBinContent", "group__histogram.html#a8ad68bb3589070bbf97b643b374bc069", null ],
     [ "GetBinContent", "group__histogram.html#a79bfbe56b1c2052ba03356ac2b9fd4e9", null ],
     [ "GetBinContent", "group__histogram.html#adee5cd8bf4013f1f8bb7eec500245d92", null ],
-    [ "GetBinsCenters", "group__histogram.html#ac54671966beb4c43b4617b9f9bb46882", null ],
+    [ "GetBinsCenters", "group__histogram.html#a4b199e9b4eb644c62de5565524150911", null ],
     [ "GetBinsContents", "group__histogram.html#a15caf3bd9a1d9994d605cae3a49d3109", null ],
     [ "GetBinsContents", "group__histogram.html#aa76ee551b5da216e5d8a8284f9b6a378", null ],
     [ "GetContents", "group__histogram.html#a09955dc5b4136061d6c3ce0512160997", null ],

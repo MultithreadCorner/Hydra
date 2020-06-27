@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -95,55 +96,58 @@ $(document).ready(function(){initNavTree('FunctorTraits_8h.html','');});
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#namespaces">Namespaces</a>  </div>
   <div class="headertitle">
-<div class="title">FunctorTraits.h File Reference<div class="ingroups"><a class="el" href="group__functor.html">Functor Arithmetic</a></div></div>  </div>
+<div class="title">FunctorTraits.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;type_traits&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/Types.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="">hydra/detail/Config.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/utility/StaticAssert.h</a>&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/tuple.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/type_traits/void_t.h&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for FunctorTraits.h:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="FunctorTraits_8h__incl.svg" width="224" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="FunctorTraits_8h__incl.svg" width="100%" height="484"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="FunctorTraits_8h__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="FunctorTraits_8h__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:structhydra_1_1detail_1_1has__analytical__integral"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1has__analytical__integral">hydra::detail::has_analytical_integral&lt; typename, T &gt;</a></td></tr>
-<tr class="separator:structhydra_1_1detail_1_1has__analytical__integral"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1has__analytical__integral_3_01C_00_01Ret_07Args_8_8_8_08_4.html">hydra::detail::has_analytical_integral&lt; C, Ret(Args...)&gt;</a></td></tr>
+<tr class="memitem:structhydra_1_1detail_1_1functor__traits"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1functor__traits">hydra::detail::functor_traits&lt; T &gt;</a></td></tr>
+<tr class="separator:structhydra_1_1detail_1_1functor__traits"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01_4"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01_4">hydra::detail::functor_traits&lt; ReturnType(ClassType::*)(Args...) &gt;</a></td></tr>
+<tr class="separator:structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01_4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html">hydra::detail::functor_traits&lt; ReturnType(ClassType::*)(Args...) const &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__convertible__to__tuple.html">hydra::detail::is_hydra_convertible_to_tuple&lt; T, Enable &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__functor.html">hydra::detail::is_hydra_functor&lt; Functor, T &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__convertible__to__tuple_3_01T_00_01typename_01tag__type_3_01ta964df32a5ab9b829e612ce2772ce8f5.html">hydra::detail::is_hydra_convertible_to_tuple&lt; T, typename tag_type&lt; typename T::hydra_convertible_to_tuple_tag &gt;::type &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__functor_3_01Functor_00_01hydra__thrust_1_1void__t_3_01typenafbfefa5d76b2127163526825f05d98e1.html">hydra::detail::is_hydra_functor&lt; Functor, hydra_thrust::void_t&lt; typename Functor::hydra_functor_type, typename Functor::argument_type, typename Functor::return_type &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__functor.html">hydra::detail::is_hydra_functor&lt; T, Enable &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__lambda.html">hydra::detail::is_hydra_lambda&lt; Functor, T &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__functor_3_01T_00_01typename_01tag__type_3_01typename_01T_1_1e055cd5a743a62bbab9859fc270746e2.html">hydra::detail::is_hydra_functor&lt; T, typename tag_type&lt; typename T::hydra_functor_tag &gt;::type &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__lambda_3_01Functor_00_01hydra__thrust_1_1void__t_3_01typenam8750428a194d261b5eb6c32cc8b2c44f.html">hydra::detail::is_hydra_lambda&lt; Functor, hydra_thrust::void_t&lt; typename Functor::hydra_lambda_type, typename Functor::argument_type, typename Functor::return_type &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__integrator.html">hydra::detail::is_hydra_integrator&lt; T, Enable &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1lambda__traits.html">hydra::detail::lambda_traits&lt; T &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__integrator_3_01T_00_01typename_01tag__type_3_01typename_01T_ee7a9dff6ae46c6dee1b3e989434722b.html">hydra::detail::is_hydra_integrator&lt; T, typename tag_type&lt; typename T::hydra_integrator_tag &gt;::type &gt;</a></td></tr>
+<tr class="memitem:structhydra_1_1detail_1_1signature__traits"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1signature__traits">hydra::detail::signature_traits&lt; S &gt;</a></td></tr>
+<tr class="separator:structhydra_1_1detail_1_1signature__traits"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1signature__traits_3_01R_07Args_8_8_8_08_4.html">hydra::detail::signature_traits&lt; R(Args...)&gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__pdf.html">hydra::detail::is_hydra_pdf&lt; T, Enable &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__pdf_3_01T_00_01typename_01tag__type_3_01typename_01T_1_1hydra__pdf__tag_01_4_1_1type_01_4.html">hydra::detail::is_hydra_pdf&lt; T, typename tag_type&lt; typename T::hydra_pdf_tag &gt;::type &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__sum__pdf.html">hydra::detail::is_hydra_sum_pdf&lt; T, Enable &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__hydra__sum__pdf_3_01T_00_01typename_01tag__type_3_01typename_01T_1_cd81614c45a8283de0a328bd93194fef.html">hydra::detail::is_hydra_sum_pdf&lt; T, typename tag_type&lt; typename T::hydra_sum_pdf_tag &gt;::type &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:structhydra_1_1detail_1_1tag__type"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tag__type">hydra::detail::tag_type&lt; T, R &gt;</a></td></tr>
-<tr class="separator:structhydra_1_1detail_1_1tag__type"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structhydra_1_1detail_1_1signature__type"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1signature__type">hydra::detail::signature_type&lt; R, A &gt;</a></td></tr>
+<tr class="separator:structhydra_1_1detail_1_1signature__type"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structhydra_1_1detail_1_1signature__type__impl"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1signature__type__impl">hydra::detail::signature_type_impl&lt; T &gt;</a></td></tr>
+<tr class="separator:structhydra_1_1detail_1_1signature__type__impl"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -152,61 +156,139 @@ Namespaces</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacehydra_1_1detail"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html">hydra::detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a61c0e2d68c6b5f15b5b519229d4d1643"><td class="memTemplParams" colspan="2">template&lt;typename Functor &gt; </td></tr>
-<tr class="memitem:a61c0e2d68c6b5f15b5b519229d4d1643"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classbool">bool</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a61c0e2d68c6b5f15b5b519229d4d1643">hydra::detail::HasAnalyticalIntegral</a> (Functor &amp;)</td></tr>
-<tr class="separator:a61c0e2d68c6b5f15b5b519229d4d1643"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Data Structure Documentation</h2>
-<a name="structhydra_1_1detail_1_1has__analytical__integral" id="structhydra_1_1detail_1_1has__analytical__integral"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structhydra_1_1detail_1_1has__analytical__integral">&#9670;&nbsp;</a></span>hydra::detail::has_analytical_integral</h2>
+<a name="structhydra_1_1detail_1_1functor__traits" id="structhydra_1_1detail_1_1functor__traits"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structhydra_1_1detail_1_1functor__traits">&#9670;&nbsp;</a></span>hydra::detail::functor_traits</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct hydra::detail::has_analytical_integral</td>
+          <td class="memname">struct hydra::detail::functor_traits</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="textblock"><h3>template&lt;typename, typename T&gt;<br />
-struct hydra::detail::has_analytical_integral&lt; typename, T &gt;</h3>
+<div class="textblock"><h3>template&lt;typename T&gt;<br />
+struct hydra::detail::functor_traits&lt; T &gt;</h3>
 
 </div><div class="dynheader">
-Collaboration diagram for hydra::detail::has_analytical_integral&lt; typename, T &gt;:</div>
+Inheritance diagram for hydra::detail::functor_traits&lt; T &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1has__analytical__integral__coll__graph.svg" width="144" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1functor__traits__inherit__graph.svg" width="244" height="414"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+<div class="dynheader">
+Collaboration diagram for hydra::detail::functor_traits&lt; T &gt;:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1functor__traits__coll__graph.svg" width="152" height="103"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
 </div>
 </div>
-<a name="structhydra_1_1detail_1_1tag__type" id="structhydra_1_1detail_1_1tag__type"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structhydra_1_1detail_1_1tag__type">&#9670;&nbsp;</a></span>hydra::detail::tag_type</h2>
+<a name="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01_4" id="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01_4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01_4">&#9670;&nbsp;</a></span>hydra::detail::functor_traits&lt; ReturnType(ClassType::*)(Args...) &gt;</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct hydra::detail::tag_type</td>
+          <td class="memname">struct hydra::detail::functor_traits&lt; ReturnType(ClassType::*)(Args...) &gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="textblock"><h3>template&lt;class T, class R = void&gt;<br />
-struct hydra::detail::tag_type&lt; T, R &gt;</h3>
+<div class="textblock"><h3>template&lt;typename ClassType, typename ReturnType, typename... Args&gt;<br />
+struct hydra::detail::functor_traits&lt; ReturnType(ClassType::*)(Args...) &gt;</h3>
 
 </div><div class="dynheader">
-Collaboration diagram for hydra::detail::tag_type&lt; T, R &gt;:</div>
+Collaboration diagram for hydra::detail::functor_traits&lt; ReturnType(ClassType::*)(Args...) &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1tag__type__coll__graph.svg" width="130" height="103"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01_4__coll__graph.svg" width="214" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
+<a name="structhydra_1_1detail_1_1signature__traits" id="structhydra_1_1detail_1_1signature__traits"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structhydra_1_1detail_1_1signature__traits">&#9670;&nbsp;</a></span>hydra::detail::signature_traits</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct hydra::detail::signature_traits</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><h3>template&lt;typename S&gt;<br />
+struct hydra::detail::signature_traits&lt; S &gt;</h3>
+
+</div><div class="dynheader">
+Collaboration diagram for hydra::detail::signature_traits&lt; S &gt;:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1signature__traits__coll__graph.svg" width="166" height="103"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
+<a name="structhydra_1_1detail_1_1signature__type" id="structhydra_1_1detail_1_1signature__type"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structhydra_1_1detail_1_1signature__type">&#9670;&nbsp;</a></span>hydra::detail::signature_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct hydra::detail::signature_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><h3>template&lt;typename R, typename ... A&gt;<br />
+struct hydra::detail::signature_type&lt; R, A &gt;</h3>
+
+</div><div class="dynheader">
+Collaboration diagram for hydra::detail::signature_type&lt; R, A &gt;:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1signature__type__coll__graph.svg" width="166" height="103"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <table class="fieldtable">
 <tr><th colspan="3">Data Fields</th></tr>
 <tr><td class="fieldtype">
-<a id="a559de10d2ff5e2db2754adf86b3840ec"></a>typedef R</td>
+<a id="ac3018bd6f66064373ef1765d808e847c"></a></td>
+<td class="fieldname">
+type</td>
+<td class="fielddoc">
+</td></tr>
+</table>
+
+</div>
+</div>
+<a name="structhydra_1_1detail_1_1signature__type__impl" id="structhydra_1_1detail_1_1signature__type__impl"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structhydra_1_1detail_1_1signature__type__impl">&#9670;&nbsp;</a></span>hydra::detail::signature_type_impl</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct hydra::detail::signature_type_impl</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><h3>template&lt;typename T&gt;<br />
+struct hydra::detail::signature_type_impl&lt; T &gt;</h3>
+
+</div><div class="dynheader">
+Collaboration diagram for hydra::detail::signature_type_impl&lt; T &gt;:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1signature__type__impl__coll__graph.svg" width="166" height="103"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+<table class="fieldtable">
+<tr><th colspan="3">Data Fields</th></tr>
+<tr><td class="fieldtype">
+<a id="a5f6aacb86130478ef997463d0aeb58c3"></a>typedef T</td>
 <td class="fieldname">
 type</td>
 <td class="fielddoc">
@@ -221,7 +303,7 @@ type</td>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="FunctorTraits_8h.html">FunctorTraits.h</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

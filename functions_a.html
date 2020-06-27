@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -106,17 +107,14 @@ $(document).ready(function(){initNavTree('functions_a.html','');});
 <li>AbscissaCategory_t
 : <a class="el" href="group__numerical__integration.html#addafaf39db42bda517c61fde68965b37">hydra::GenzMalikRule&lt; DIM, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 </li>
-<li>accpeted_iterator
-: <a class="el" href="group__phsp.html#a78978a0a6a20a7df7b5b18ad9ee3dffa">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-</li>
-<li>AddDecay()
-: <a class="el" href="group__phsp.html#a57b4f0f49adffe7da7d10e0a7293f3b9">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+<li>AddEntry()
+: <a class="el" href="group__phsp.html#aa70b512b60b90d9986308de7b831b42b">hydra::Decays&lt; hydra::tuple&lt; Particles... &gt;, hydra::detail::BackendPolicy&lt; Backend &gt; &gt;</a>
 </li>
 <li>AddParameter()
 : <a class="el" href="group__fit.html#a18017e1aa021f2d16ba4cdcbe8b17f53">hydra::UserParameters</a>
 </li>
 <li>AddPdfFunctor()
-: <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a1b9d22d4964d205db5b911a3519b8093">hydra::detail::AddPdfFunctor&lt; PDF1, PDF2, PDFs &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a8104f399af1ec69bbc24286ad54ca36f">hydra::detail::AddPdfFunctor&lt; PDF1, PDF2, PDFs &gt;</a>
 </li>
 <li>AddUserParameters()
 : <a class="el" href="structhydra_1_1Constant.html#a3cae64740bfda02c9debe5e4c24e9fb3">hydra::Constant&lt; ReturnType &gt;</a>
@@ -124,24 +122,16 @@ $(document).ready(function(){initNavTree('functions_a.html','');});
 , <a class="el" href="classhydra_1_1detail_1_1Parameters.html#a430a9beed183eeaf73b5a7ff9dc9c09d">hydra::detail::Parameters&lt; N &gt;</a>
 , <a class="el" href="classhydra_1_1detail_1_1Parameters_3_010_01_4.html#a278d168550cf77b4a89713b342797fb8">hydra::detail::Parameters&lt; 0 &gt;</a>
 , <a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#aac80386f446a0e4ca8ef3fa3bc2d7e63">hydra::detail::ParametersCompositeFunctor&lt; F0, F1, Fs &gt;</a>
-, <a class="el" href="group__fit.html#a8ef1cb8d9b26f7199ab540ab3c8b3c28">hydra::Pdf&lt; FUNCTOR, INTEGRATOR &gt;</a>
 , <a class="el" href="group__fit.html#ab4566d027fe4a340e3f2b6a038472ff4">hydra::PDFSumExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
 , <a class="el" href="group__fit.html#ae9b264f4f08660b3eb2de1a2091b0efd">hydra::PDFSumNonExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
 </li>
 <li>AnalyticalIntegral()
 : <a class="el" href="classhydra_1_1AnalyticalIntegral.html#a5ffe0bba49ae2ea23ca52cb917fc0447">hydra::AnalyticalIntegral&lt; Functor, N &gt;</a>
-, <a class="el" href="classhydra_1_1AnalyticalIntegral_3_01Functor_00_011_01_4.html#afff4d31d39e0a3423c48a2c5fa45309d">hydra::AnalyticalIntegral&lt; Functor, 1 &gt;</a>
-</li>
-<li>applyBoostTo()
-: <a class="el" href="group__phsp.html#aefca9c3c24fa3a072589c732f5c24c98">hydra::Vector4R</a>
-</li>
-<li>applyRotateEuler()
-: <a class="el" href="group__phsp.html#aeda854183055c0fad8ed75fcca9ebaf2">hydra::Vector3R</a>
-, <a class="el" href="group__phsp.html#ac23cd6563a9c1d562af40dbddebf7f1e">hydra::Vector4R</a>
+, <a class="el" href="classhydra_1_1AnalyticalIntegral_3_01Functor_00_011_01_4.html#a6341b21ccd21f755933e37d07d0b8594">hydra::AnalyticalIntegral&lt; Functor, 1 &gt;</a>
 </li>
 <li>args_type
-: <a class="el" href="structhydra_1_1detail_1_1function__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_01_6_8_8_8_08_4.html#a9c43679eb4af5d70e240c046ea9a96f1">hydra::detail::function_traits&lt; ReturnType(ClassType::*)(Args &amp;...)&gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1function__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#a773d7a9863cef906366daa64833e63e6">hydra::detail::function_traits&lt; ReturnType(ClassType::*)(Args...) const &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1function__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_01_6_8_8_8_08_4.html#a857f0277c10ef607db3320dcdfd0c3d4">hydra::detail::function_traits&lt; ReturnType(ClassType::*)(Args &amp;...)&gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1function__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#a7006a6df4dfb02aca708222b691fe7ec">hydra::detail::function_traits&lt; ReturnType(ClassType::*)(Args...) const &gt;</a>
 </li>
 <li>ArgType
 : <a class="el" href="structhydra_1_1detail_1_1GetGlobalBin.html#a6b9826cceeb2629103f39484e484916e">hydra::detail::GetGlobalBin&lt; N, T &gt;</a>
@@ -150,20 +140,37 @@ $(document).ready(function(){initNavTree('functions_a.html','');});
 : <a class="el" href="structhydra_1_1Argument.html#a0974f408c1f692e70d12da19555927c7">hydra::Argument&lt; ReturnType &gt;</a>
 </li>
 <li>argument_count
-: <a class="el" href="structhydra_1_1detail_1_1function__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_01_6_8_8_8_08_4.html#af940d9adaabc8b71e1e15b48442431c1a75b10428d924dfcb5bab0855eec85b48">hydra::detail::function_traits&lt; ReturnType(ClassType::*)(Args &amp;...)&gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1function__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#abc43265421d0078ccb1d06457895c93ea5954e4a94d71107287820d07e2be035a">hydra::detail::function_traits&lt; ReturnType(ClassType::*)(Args...) const &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1function__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_01_6_8_8_8_08_4.html#a30888423972c117e154dc41ce79dceb8a75b10428d924dfcb5bab0855eec85b48">hydra::detail::function_traits&lt; ReturnType(ClassType::*)(Args &amp;...)&gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1function__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#ab600e30d20958314bf46f177e3f540d1a5954e4a94d71107287820d07e2be035a">hydra::detail::function_traits&lt; ReturnType(ClassType::*)(Args...) const &gt;</a>
+</li>
+<li>argument_rvalue_type
+: <a class="el" href="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#a4fb035201a7347d340f5a73f498de1c9">hydra::detail::functor_traits&lt; ReturnType(ClassType::*)(Args...) const &gt;</a>
 </li>
 <li>argument_type
-: <a class="el" href="classhydra_1_1Compose.html#a254209bf5ad018a6c06586212f9c6804">hydra::Compose&lt; F0, F1, Fs &gt;</a>
+: <a class="el" href="classhydra_1_1BaseCompositeFunctor_3_01Composite_00_01hydra__thrust_1_1tuple_3_01F1_00_01F2_00_0863f00b43bfdf79cb6cf50e96bab02ba.html#a7373f785ecf208bd8c06caa0a49248d8">hydra::BaseCompositeFunctor&lt; Composite, hydra_thrust::tuple&lt; F1, F2, Fs... &gt;, Signature &gt;</a>
+, <a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">hydra::BaseFunctor&lt; Functor, Signature, NPARAM &gt;</a>
+, <a class="el" href="classhydra_1_1Compose.html#a0762cbc685943ed8576659b415b5a366">hydra::Compose&lt; F0, F1, Fs &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#ae7e6bde9890e0e8eacc43416a965f56a">hydra::detail::functor_traits&lt; ReturnType(ClassType::*)(Args...) const &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1signature__traits_3_01R_07Args_8_8_8_08_4.html#a66bd3d53853235f5af79a4631dd406cd">hydra::detail::signature_traits&lt; R(Args...)&gt;</a>
+, <a class="el" href="classhydra_1_1Lambda.html#a2843cb229fa1feaacd8beaf36f00a603">hydra::Lambda&lt; LambdaType, NPARAM &gt;</a>
+, <a class="el" href="classhydra_1_1Lambda_3_01LambdaType_00_010_01_4.html#a612693ffca495f3f52ef89e8c3468be5">hydra::Lambda&lt; LambdaType, 0 &gt;</a>
 </li>
 <li>ArgusShape()
-: <a class="el" href="group__common__functions.html#af9d85d2f797cc7c77f19018c1b77aaf9">hydra::ArgusShape&lt; ArgIndex &gt;</a>
+: <a class="el" href="group__common__functions.html#a0c7bcd03e2f2ed549c6b3c45aa9f06e0">hydra::ArgusShape&lt; ArgType, Signature &gt;</a>
+</li>
+<li>arity
+: <a class="el" href="classhydra_1_1BaseCompositeFunctor_3_01Composite_00_01hydra__thrust_1_1tuple_3_01F1_00_01F2_00_0863f00b43bfdf79cb6cf50e96bab02ba.html#a68af04f89cf90fb40ceaf42790ac7782a799d9190def5a0e10752028a143267bb">hydra::BaseCompositeFunctor&lt; Composite, hydra_thrust::tuple&lt; F1, F2, Fs... &gt;, Signature &gt;</a>
+, <a class="el" href="group__functor.html#a6a34bb711a43691a1fc28c3d207338ceaa2b35e786c4e15b7f62b506cff3eb3ea">hydra::BaseFunctor&lt; Functor, Signature, NPARAM &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#a891b653f48a7c3f662978c494a84e907ac2f9d79313705643423fdf41c6a11784">hydra::detail::functor_traits&lt; ReturnType(ClassType::*)(Args...) const &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1signature__traits_3_01R_07Args_8_8_8_08_4.html#a78ce7944bc04f79663be34216ba7d52dab20e232ccd63c761b1ce2bc83aa933b4">hydra::detail::signature_traits&lt; R(Args...)&gt;</a>
+, <a class="el" href="classhydra_1_1Lambda.html#a0b1da09ee89d3140a98886bf9fb92af4aa9b465fc8c4094c5ac2bd724cc0bd333">hydra::Lambda&lt; LambdaType, NPARAM &gt;</a>
+, <a class="el" href="classhydra_1_1Lambda_3_01LambdaType_00_010_01_4.html#a4fecd1ce019235b8abe18821a0dfa3c0aa93a749bae481ced7a77c8754e2bffcc">hydra::Lambda&lt; LambdaType, 0 &gt;</a>
 </li>
 <li>AverageMother()
-: <a class="el" href="structhydra_1_1detail_1_1AverageMother.html#a121c25e55d430de465fb152882f00199">hydra::detail::AverageMother&lt; N, GRND, FUNCTOR &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1AverageMother.html#a9d967048e76d8fe97674d5d66e4fb1ba">hydra::detail::AverageMother&lt; N, GRND, FUNCTOR &gt;</a>
 </li>
 <li>AverageMothers()
-: <a class="el" href="structhydra_1_1detail_1_1AverageMothers.html#a71f66ad9a8f8fec72d496423bdafe8a5">hydra::detail::AverageMothers&lt; N, GRND, FUNCTOR &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1AverageMothers.html#a2108977181e9fc3cd986e8b205def573">hydra::detail::AverageMothers&lt; N, GRND, FUNCTOR &gt;</a>
 </li>
 <li>AverageOn()
 : <a class="el" href="group__phsp.html#a84cf55e24af9ba83224d7f3d3e4e0a6f">hydra::PhaseSpace&lt; N, GRND &gt;</a>
@@ -174,7 +181,7 @@ $(document).ready(function(){initNavTree('functions_a.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:03 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

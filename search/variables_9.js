@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['nfunctors',['nfunctors',['../structhydra_1_1detail_1_1CovMatrixUnary.html#a126b3cbaeb8c685bcf47cce7883b7583',1,'hydra::detail::CovMatrixUnary::nfunctors()'],['../structhydra_1_1detail_1_1SWeights.html#a83dd4ae7904e4a657c0c6b1c01f6e2a9',1,'hydra::detail::SWeights::nfunctors()']]],
-  ['npdfs',['npdfs',['../structhydra_1_1detail_1_1AddPdfFunctor.html#a7d1de5d62d4b0eab8ff198391723e168',1,'hydra::detail::AddPdfFunctor::npdfs()'],['../group__fit.html#a19678b5d43cd6f93dc8e790b1018dc8e',1,'hydra::PDFSumExtendable::npdfs()'],['../group__fit.html#a32280b9960487e1b223b433f6ed5348b',1,'hydra::PDFSumNonExtendable::npdfs()'],['../classhydra_1_1SPlot.html#a0661f1e49edd8ea93e2a5ba33c76ce09',1,'hydra::SPlot::npdfs()']]]
+  ['i',['I',['../structhydra_1_1detail_1_1CovMatrixUnary_1_1index.html#a2f389fba649e349b03bfbd869fe427f6',1,'hydra::detail::CovMatrixUnary::index']]],
+  ['integrator',['Integrator',['../multidimensional__fit_8inl.html#a6bdffffea16f0dcaa4e4c96eb2c8838f',1,'multidimensional_fit.inl']]],
+  ['inverse_5fsqrt2',['inverse_sqrt2',['../namespacehydra_1_1math__constants.html#a2ddd7c1e2030ec37fdd597983b2df479',1,'hydra::math_constants']]],
+  ['inverse_5fsqrt2pi',['inverse_sqrt2Pi',['../namespacehydra_1_1math__constants.html#ad9321ecdbe4311bea321731feb43036e',1,'hydra::math_constants']]],
+  ['is_5fhost_5fiterator',['is_host_iterator',['../structhydra_1_1detail_1_1IteratorTraits.html#a4840172eed9a423f072e713c099edb35',1,'hydra::detail::IteratorTraits']]],
+  ['iterator_5ftype',['iterator_type',['../namespacehydra.html#a89686ff2116120de2d9e2ad6889a47de',1,'hydra']]]
 ];

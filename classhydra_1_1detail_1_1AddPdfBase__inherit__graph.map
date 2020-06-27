@@ -1,6 +1,6 @@
 <map id="hydra::detail::AddPdfBase&lt; PDF1, PDF2, PDFs &gt;" name="hydra::detail::AddPdfBase&lt; PDF1, PDF2, PDFs &gt;">
-<area shape="rect" id="node3" href="$classhydra_1_1detail_1_1AddPdfBase.html" title="{hydra::detail::AddPdfBase\l\&lt; PDF1, PDF2, PDFs... \&gt;\n||}" alt="" coords="224,316,399,408"/>
-<area shape="rect" id="node4" href="$group__fit.html#classhydra_1_1PDFSumExtendable" title="Class representing a pdf object built summing up other pdfs. " alt="" coords="5,457,185,696"/>
-<area shape="rect" id="node5" href="$group__fit.html#classhydra_1_1PDFSumNonExtendable" title="Class representing a pdf object built summing a pdf adding other pdfs. " alt="" coords="210,457,413,696"/>
-<area shape="rect" id="node6" href="$classhydra_1_1SPlot.html" title="{hydra::SPlot\&lt; PDF1,\l PDF2, PDFs \&gt;\n|+ npdfs\l|+ SPlot()\l+ SPlot()\l+ Generate()\l+ Generate()\l+ GetCoeficient()\l+ GetFunctors()\l+ GetPDFs()\l}" alt="" coords="437,487,580,667"/>
+<area shape="rect" id="node3" href="$classhydra_1_1detail_1_1AddPdfBase.html" title="{hydra::detail::AddPdfBase\l\&lt; PDF1, PDF2, PDFs... \&gt;\n||}" alt="" coords="225,316,401,408"/>
+<area shape="rect" id="node4" href="$group__fit.html#classhydra_1_1PDFSumExtendable" title="Class representing a pdf object built summing up other pdfs. " alt="" coords="5,457,187,696"/>
+<area shape="rect" id="node5" href="$group__fit.html#classhydra_1_1PDFSumNonExtendable" title="Class representing a pdf object built summing a pdf adding other pdfs. " alt="" coords="211,457,416,696"/>
+<area shape="rect" id="node6" href="$group__fit.html#classhydra_1_1SPlot" title="Implementation of {s}_{Plot} technique for statistical unfolding of sample containing events from dif..." alt="" coords="441,457,597,696"/>
 </map>

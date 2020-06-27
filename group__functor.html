@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -95,8 +96,7 @@ $(document).ready(function(){initNavTree('group__functor.html','');});
 <div class="header">
   <div class="summary">
 <a href="#files">Files</a> &#124;
-<a href="#nested-classes">Data Structures</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#nested-classes">Data Structures</a>  </div>
   <div class="headertitle">
 <div class="title">Functor Arithmetic</div>  </div>
 </div><!--header-->
@@ -118,34 +118,20 @@ Files</h2></td></tr>
 <tr class="memitem:FunctorArithmetic_8h"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FunctorArithmetic_8h.html">FunctorArithmetic.h</a></td></tr>
 <tr class="memdesc:FunctorArithmetic_8h"><td class="mdescLeft">&#160;</td><td class="mdescRight">This file should be included in order to enable functor aritmethic in hydra. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:FunctorTraits_8h"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FunctorTraits_8h.html">FunctorTraits.h</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:Minus_8h"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Minus_8h.html">Minus.h</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:Multiply_8h"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Multiply_8h.html">Multiply.h</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:Sum_8h"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Sum_8h.html">Sum.h</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:TagTraits_8h"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="TagTraits_8h.html">TagTraits.h</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:classhydra_1_1BaseFunctor"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt;</a></td></tr>
+<tr class="memitem:classhydra_1_1BaseFunctor"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor&lt; Functor, Signature, NPARAM &gt;</a></td></tr>
 <tr class="memdesc:classhydra_1_1BaseFunctor"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class for all functors in hydra.  <a href="group__functor.html#classhydra_1_1BaseFunctor">More...</a><br /></td></tr>
 <tr class="separator:classhydra_1_1BaseFunctor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:classhydra_1_1LambdaWrapper_3_01ReturnType_07ArgType_8_8_8_08_00_01L_00_01N_01_4"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#classhydra_1_1LambdaWrapper_3_01ReturnType_07ArgType_8_8_8_08_00_01L_00_01N_01_4">hydra::LambdaWrapper&lt; ReturnType(ArgType...), L, N &gt;</a></td></tr>
-<tr class="memdesc:classhydra_1_1LambdaWrapper_3_01ReturnType_07ArgType_8_8_8_08_00_01L_00_01N_01_4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper for lambda functions.  <a href="group__functor.html#classhydra_1_1LambdaWrapper_3_01ReturnType_07ArgType_8_8_8_08_00_01L_00_01N_01_4">More...</a><br /></td></tr>
-<tr class="separator:classhydra_1_1LambdaWrapper_3_01ReturnType_07ArgType_8_8_8_08_00_01L_00_01N_01_4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ga1ed4b0fb2957a3933162b9fc3f386203"><td class="memTemplParams" colspan="2">template&lt;typename L , typename ... T&gt; </td></tr>
-<tr class="memitem:ga1ed4b0fb2957a3933162b9fc3f386203"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#ga1ed4b0fb2957a3933162b9fc3f386203">hydra::wrap_lambda</a> (L const &amp;f, T const &amp;...pars) -&gt; decltype(<a class="el" href="namespacehydra_1_1detail.html#a34f5637c265f0432130b335c2590345b">detail::wrap_lambda_helper</a>(std::declval&lt; L &gt;(), std::declval&lt; typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt; L &gt;::return_type &gt;(), std::declval&lt; typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt; L &gt;::args_type &gt;(), std::declval&lt; std::array&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a>, sizeof...(T)&gt;&gt;()))</td></tr>
-<tr class="memdesc:ga1ed4b0fb2957a3933162b9fc3f386203"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function template for wrap a C++11 lambda into a hydra lambda with a certain number of parameters.  <a href="group__functor.html#ga1ed4b0fb2957a3933162b9fc3f386203">More...</a><br /></td></tr>
-<tr class="separator:ga1ed4b0fb2957a3933162b9fc3f386203"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaaa81f25675f16b161be78aa2b0cfb307"><td class="memTemplParams" colspan="2">template&lt;typename L &gt; </td></tr>
-<tr class="memitem:gaaa81f25675f16b161be78aa2b0cfb307"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#gaaa81f25675f16b161be78aa2b0cfb307">hydra::wrap_lambda</a> (L const &amp;f) -&gt; decltype(<a class="el" href="namespacehydra_1_1detail.html#a34f5637c265f0432130b335c2590345b">detail::wrap_lambda_helper</a>(std::declval&lt; L &gt;(), std::declval&lt; typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt; L &gt;::return_type &gt;(), std::declval&lt; typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt; L &gt;::args_type &gt;()))</td></tr>
-<tr class="memdesc:gaaa81f25675f16b161be78aa2b0cfb307"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function template for wrap a C++11 lambda into a hydra lambda.  <a href="group__functor.html#gaaa81f25675f16b161be78aa2b0cfb307">More...</a><br /></td></tr>
-<tr class="separator:gaaa81f25675f16b161be78aa2b0cfb307"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Functor base types and arithmetic operations. </p>
@@ -161,127 +147,141 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="textblock"><h3>template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt;<br />
-class hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt;</h3>
+<div class="textblock"><h3>template&lt;typename Functor, typename Signature, size_t NPARAM&gt;<br />
+class hydra::BaseFunctor&lt; Functor, Signature, NPARAM &gt;</h3>
 
 <p>Base class for all functors in hydra. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Functor</td><td>is "bare" c++ functor implementing the template&lt;typename T&gt; Evaluate(T x) method. </td></tr>
-    <tr><td class="paramname">ReturnType</td><td>type returned by the functor' operator(). Same type returned by the "bare" c++ functor Evaluate() method. </td></tr>
     <tr><td class="paramname">NPARAM</td><td>number of parameters of the functor. </td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8C-example.html#_a1">dalitz_plot.C</a>, and <a class="el" href="dalitz_plot_8inl-example.html#_a1">dalitz_plot.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8C-example.html#_a1">dalitz_plot.C</a>, and <a class="el" href="dalitz_plot_8inl-example.html#_a3">dalitz_plot.inl</a>.</dd>
 </dl></div><div class="dynheader">
-Inheritance diagram for hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt;:</div>
+Inheritance diagram for hydra::BaseFunctor&lt; Functor, Signature, NPARAM &gt;:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classhydra_1_1BaseFunctor__inherit__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classhydra_1_1BaseFunctor__inherit__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 <div class="dynheader">
-Collaboration diagram for hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt;:</div>
+Collaboration diagram for hydra::BaseFunctor&lt; Functor, Signature, NPARAM &gt;:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classhydra_1_1BaseFunctor__coll__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classhydra_1_1BaseFunctor__coll__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 <table class="memberdecls">
 <tr><td colspan="2"><h3>Public Types</h3></td></tr>
-<tr class="memitem:a9eb43b40102a67bf3d838f3cd13b5b29"><td class="memItemLeft" align="right" valign="top">typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a9eb43b40102a67bf3d838f3cd13b5b29">hydra_functor_tag</a></td></tr>
-<tr class="separator:a9eb43b40102a67bf3d838f3cd13b5b29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2425580530e0d2e7a0f3687cf47c511d"><td class="memItemLeft" align="right" valign="top">typedef std::true_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a2425580530e0d2e7a0f3687cf47c511d">is_functor</a></td></tr>
-<tr class="separator:a2425580530e0d2e7a0f3687cf47c511d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f086a61951fecd03bb12a7588efc5e9"><td class="memItemLeft" align="right" valign="top">typedef ReturnType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a></td></tr>
-<tr class="separator:a6f086a61951fecd03bb12a7588efc5e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a34bb711a43691a1fc28c3d207338ce"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="group__functor.html#a6a34bb711a43691a1fc28c3d207338ceaa2b35e786c4e15b7f62b506cff3eb3ea">arity</a> =detail::signature_traits&lt;Signature&gt;::arity
+ }</td></tr>
+<tr class="separator:a6a34bb711a43691a1fc28c3d207338ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67f7b7f688daec813e47baeb914f43f5"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1signature__traits">detail::signature_traits</a>&lt; Signature &gt;::<a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">argument_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">argument_type</a></td></tr>
+<tr class="separator:a67f7b7f688daec813e47baeb914f43f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fc5343391019b258e92dce56a5a7cd6"><td class="memItemLeft" align="right" valign="top">typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a7fc5343391019b258e92dce56a5a7cd6">hydra_functor_type</a></td></tr>
+<tr class="separator:a7fc5343391019b258e92dce56a5a7cd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8aec84edf4cd7554001258a28bd4821"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1signature__traits">detail::signature_traits</a>&lt; Signature &gt;::<a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a></td></tr>
+<tr class="separator:aa8aec84edf4cd7554001258a28bd4821"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><h3>Public Member Functions</h3></td></tr>
-<tr class="memitem:a29b9c022926d89831bf2faba0487bbae"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a29b9c022926d89831bf2faba0487bbae">BaseFunctor</a> ()</td></tr>
-<tr class="memdesc:a29b9c022926d89831bf2faba0487bbae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a29b9c022926d89831bf2faba0487bbae">More...</a><br /></td></tr>
-<tr class="separator:a29b9c022926d89831bf2faba0487bbae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab25fdc9d775f3c89c1822cd060574c12"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#ab25fdc9d775f3c89c1822cd060574c12">BaseFunctor</a> (std::initializer_list&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a> &gt; init_parameters)</td></tr>
-<tr class="memdesc:ab25fdc9d775f3c89c1822cd060574c12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor taking a list of parameters.  <a href="#ab25fdc9d775f3c89c1822cd060574c12">More...</a><br /></td></tr>
-<tr class="separator:ab25fdc9d775f3c89c1822cd060574c12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a528b09a4609cabb2246f3a2bda26a53a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a528b09a4609cabb2246f3a2bda26a53a">BaseFunctor</a> (std::array&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a>, NPARAM &gt; const &amp;init_parameters)</td></tr>
-<tr class="memdesc:a528b09a4609cabb2246f3a2bda26a53a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor taking std::array of parameters.  <a href="#a528b09a4609cabb2246f3a2bda26a53a">More...</a><br /></td></tr>
-<tr class="separator:a528b09a4609cabb2246f3a2bda26a53a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5da21102b905204b04e64856c3e0ac58"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a5da21102b905204b04e64856c3e0ac58">BaseFunctor</a> (<a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt; const &amp;other)</td></tr>
-<tr class="memdesc:a5da21102b905204b04e64856c3e0ac58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <a href="#a5da21102b905204b04e64856c3e0ac58">More...</a><br /></td></tr>
-<tr class="separator:a5da21102b905204b04e64856c3e0ac58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a525031bdc69d3177b52e0654f3ca453f"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a525031bdc69d3177b52e0654f3ca453f">GetCacheIndex</a> () const</td></tr>
-<tr class="separator:a525031bdc69d3177b52e0654f3ca453f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ab4082ff43fc2ff2dc575d3684c8791"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ Functor &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a3ab4082ff43fc2ff2dc575d3684c8791">GetFunctor</a> ()</td></tr>
-<tr class="separator:a3ab4082ff43fc2ff2dc575d3684c8791"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acdccdd48f4471564c7bb207133f550a4"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#acdccdd48f4471564c7bb207133f550a4">GetNorm</a> () const</td></tr>
-<tr class="separator:acdccdd48f4471564c7bb207133f550a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23a24709b6bd23c23408297257652e87"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespace_3globalScope_4.html#classbool">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a23a24709b6bd23c23408297257652e87">IsCached</a> () const</td></tr>
-<tr class="separator:a23a24709b6bd23c23408297257652e87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45b039126e994cc3d16c5691f6a0c9aa"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a45b039126e994cc3d16c5691f6a0c9aa"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#a45b039126e994cc3d16c5691f6a0c9aa">operator()</a> (unsigned <a class="el" href="namespace_3globalScope_4.html#classint">int</a> n, T *x) const</td></tr>
-<tr class="separator:a45b039126e994cc3d16c5691f6a0c9aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6cdfdb599fc07d557a2641069655e07"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:af6cdfdb599fc07d557a2641069655e07"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#af6cdfdb599fc07d557a2641069655e07">operator()</a> (T &amp;&amp;x) const</td></tr>
-<tr class="separator:af6cdfdb599fc07d557a2641069655e07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a662ce4648deb789bc9ef1123b3c5e5c0"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 &gt; </td></tr>
-<tr class="memitem:a662ce4648deb789bc9ef1123b3c5e5c0"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#a662ce4648deb789bc9ef1123b3c5e5c0">operator()</a> (T1 &amp;&amp;x, T2 &amp;&amp;cache) const</td></tr>
-<tr class="separator:a662ce4648deb789bc9ef1123b3c5e5c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48d0d17a8b3aaaec26769e4ebec35517"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a48d0d17a8b3aaaec26769e4ebec35517">operator=</a> (<a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt; const &amp;other)</td></tr>
-<tr class="memdesc:a48d0d17a8b3aaaec26769e4ebec35517"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assignment operator.  <a href="#a48d0d17a8b3aaaec26769e4ebec35517">More...</a><br /></td></tr>
-<tr class="separator:a48d0d17a8b3aaaec26769e4ebec35517"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85cbce733ead7b16656ef2cd0c4ae22c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a85cbce733ead7b16656ef2cd0c4ae22c">PrintRegisteredParameters</a> ()</td></tr>
-<tr class="memdesc:a85cbce733ead7b16656ef2cd0c4ae22c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classhydra_1_1Print.html">Print</a> registered parameters.  <a href="#a85cbce733ead7b16656ef2cd0c4ae22c">More...</a><br /></td></tr>
-<tr class="separator:a85cbce733ead7b16656ef2cd0c4ae22c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:affde9040f5e3c7c8955013d36764409e"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#affde9040f5e3c7c8955013d36764409e">SetCached</a> (<a class="el" href="namespace_3globalScope_4.html#classbool">bool</a> cached=true)</td></tr>
-<tr class="separator:affde9040f5e3c7c8955013d36764409e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3340e30914d03cd2a6630633c13c9a3c"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a3340e30914d03cd2a6630633c13c9a3c">SetCacheIndex</a> (<a class="el" href="namespace_3globalScope_4.html#classint">int</a> index)</td></tr>
-<tr class="separator:a3340e30914d03cd2a6630633c13c9a3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73b2ff73483cb4969c1b6b9c168b75a9"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a73b2ff73483cb4969c1b6b9c168b75a9">SetNorm</a> (<a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="namespacehydra.html#ab5fd2d8f62c3075ccdd36241e8dc6881">norm</a>)</td></tr>
-<tr class="separator:a73b2ff73483cb4969c1b6b9c168b75a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d8d052bebbbc6f85e69902fe20a1af5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a5d8d052bebbbc6f85e69902fe20a1af5">BaseFunctor</a> ()</td></tr>
+<tr class="memdesc:a5d8d052bebbbc6f85e69902fe20a1af5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a5d8d052bebbbc6f85e69902fe20a1af5">More...</a><br /></td></tr>
+<tr class="separator:a5d8d052bebbbc6f85e69902fe20a1af5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c1b2d7ede9b480ecde96566bcd8de5a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a6c1b2d7ede9b480ecde96566bcd8de5a">BaseFunctor</a> (std::initializer_list&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a> &gt; init_parameters)</td></tr>
+<tr class="memdesc:a6c1b2d7ede9b480ecde96566bcd8de5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor taking a list of parameters.  <a href="#a6c1b2d7ede9b480ecde96566bcd8de5a">More...</a><br /></td></tr>
+<tr class="separator:a6c1b2d7ede9b480ecde96566bcd8de5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed36ff3a393fd22fe41da72ef90924fb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#aed36ff3a393fd22fe41da72ef90924fb">BaseFunctor</a> (std::array&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a>, NPARAM &gt; const &amp;init_parameters)</td></tr>
+<tr class="memdesc:aed36ff3a393fd22fe41da72ef90924fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor taking std::array of parameters.  <a href="#aed36ff3a393fd22fe41da72ef90924fb">More...</a><br /></td></tr>
+<tr class="separator:aed36ff3a393fd22fe41da72ef90924fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaba97e7fefcd63b5969d72c8c55f745"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#aeaba97e7fefcd63b5969d72c8c55f745">BaseFunctor</a> (<a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt; const &amp;other)</td></tr>
+<tr class="memdesc:aeaba97e7fefcd63b5969d72c8c55f745"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <a href="#aeaba97e7fefcd63b5969d72c8c55f745">More...</a><br /></td></tr>
+<tr class="separator:aeaba97e7fefcd63b5969d72c8c55f745"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7e370a4b6705ce4f10ef9f3ea0d29cd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> Functor &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#ad7e370a4b6705ce4f10ef9f3ea0d29cd">GetFunctor</a> ()</td></tr>
+<tr class="separator:ad7e370a4b6705ce4f10ef9f3ea0d29cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33c0e7b9ab0d5a53e0f3f3a415e001e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a33c0e7b9ab0d5a53e0f3f3a415e001e5">GetNorm</a> () const</td></tr>
+<tr class="separator:a33c0e7b9ab0d5a53e0f3f3a415e001e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0074164f8a77ebfcd36751683bed97f2"><td class="memTemplParams" colspan="2">template&lt;typename ... T&gt; </td></tr>
+<tr class="memitem:a0074164f8a77ebfcd36751683bed97f2"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt;(!<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1is__valid__type__pack">detail::is_valid_type_pack</a>&lt; <a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">argument_type</a>, T... &gt;::value), <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#a0074164f8a77ebfcd36751683bed97f2">operator()</a> (T...x) const</td></tr>
+<tr class="separator:a0074164f8a77ebfcd36751683bed97f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1817c5d41b04aaf05cbd64b9767c046b"><td class="memTemplParams" colspan="2">template&lt;typename ... T&gt; </td></tr>
+<tr class="memitem:a1817c5d41b04aaf05cbd64b9767c046b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt; <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1is__valid__type__pack">detail::is_valid_type_pack</a>&lt; <a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">argument_type</a>, T... &gt;::value, <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#a1817c5d41b04aaf05cbd64b9767c046b">operator()</a> (T...x) const</td></tr>
+<tr class="memdesc:a1817c5d41b04aaf05cbd64b9767c046b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function call operator overload taking a pack of parameters convertible to the lambda signature.  <a href="#a1817c5d41b04aaf05cbd64b9767c046b">More...</a><br /></td></tr>
+<tr class="separator:a1817c5d41b04aaf05cbd64b9767c046b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88ddc1aea0b84f1a98504d3f6a2462bd"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a88ddc1aea0b84f1a98504d3f6a2462bd"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt; T &gt;::type &gt;::value) &amp;&amp;(!<a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt; T &gt;::type &gt;::value) &amp;&amp;(hydra_thrust::detail::is_convertible&lt; typename std::decay&lt; T &gt;::type, <a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">argument_type</a> &gt;::value), <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#a88ddc1aea0b84f1a98504d3f6a2462bd">operator()</a> (T x) const</td></tr>
+<tr class="memdesc:a88ddc1aea0b84f1a98504d3f6a2462bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unary function call operator overload taking a tuple containing the lambda arguments in any other.  <a href="#a88ddc1aea0b84f1a98504d3f6a2462bd">More...</a><br /></td></tr>
+<tr class="separator:a88ddc1aea0b84f1a98504d3f6a2462bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae652efce8b4549bf546a09f1b130b426"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ae652efce8b4549bf546a09f1b130b426"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt; T &gt;::type &gt;::value) &amp;&amp;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt; T &gt;::type &gt;::value), <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#ae652efce8b4549bf546a09f1b130b426">operator()</a> (T x) const</td></tr>
+<tr class="memdesc:ae652efce8b4549bf546a09f1b130b426"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unary function call operator overload taking a tuple containing the lambda arguments in any other.  <a href="#ae652efce8b4549bf546a09f1b130b426">More...</a><br /></td></tr>
+<tr class="separator:ae652efce8b4549bf546a09f1b130b426"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8a4d9d377bdd9c5176cfd4afcfcaf1e"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 &gt; </td></tr>
+<tr class="memitem:af8a4d9d377bdd9c5176cfd4afcfcaf1e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt; T1 &gt;::type &gt;::value) &amp;&amp;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt; T1 &gt;::type &gt;::value) &amp;&amp;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt; T2 &gt;::type &gt;::value) &amp;&amp;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt; T2 &gt;::type &gt;::value), <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#af8a4d9d377bdd9c5176cfd4afcfcaf1e">operator()</a> (T1 x, T2 y) const</td></tr>
+<tr class="memdesc:af8a4d9d377bdd9c5176cfd4afcfcaf1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary function call operator overload taking two tuples containing the lambda arguments in any other.  <a href="#af8a4d9d377bdd9c5176cfd4afcfcaf1e">More...</a><br /></td></tr>
+<tr class="separator:af8a4d9d377bdd9c5176cfd4afcfcaf1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa308ee9c94be12afd21d128f7f2f36e3"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 &gt; </td></tr>
+<tr class="memitem:aa308ee9c94be12afd21d128f7f2f36e3"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt;(!<a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt; T1 &gt;::type &gt;::value) &amp;&amp;(<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1is__function__argument">detail::is_function_argument</a>&lt; typename std::decay&lt; T1 &gt;::type &gt;::value) &amp;&amp;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt; T2 &gt;::type &gt;::value) &amp;&amp;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt; T2 &gt;::type &gt;::value), <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#aa308ee9c94be12afd21d128f7f2f36e3">operator()</a> (T1 x, T2 y) const</td></tr>
+<tr class="memdesc:aa308ee9c94be12afd21d128f7f2f36e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary function call operator overload taking one tuple and a non-tuple, that containing put together would contain the lambda arguments in any other.  <a href="#aa308ee9c94be12afd21d128f7f2f36e3">More...</a><br /></td></tr>
+<tr class="separator:aa308ee9c94be12afd21d128f7f2f36e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af31293793c219b01a1d8b23ab558474b"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 &gt; </td></tr>
+<tr class="memitem:af31293793c219b01a1d8b23ab558474b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt;(!<a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt; T1 &gt;::type &gt;::value) &amp;&amp;(<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1is__function__argument">detail::is_function_argument</a>&lt; typename std::decay&lt; T1 &gt;::type &gt;::value) &amp;&amp;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt; T2 &gt;::type &gt;::value) &amp;&amp;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt; T2 &gt;::type &gt;::value), <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#af31293793c219b01a1d8b23ab558474b">operator()</a> (T2 y, T1 x) const</td></tr>
+<tr class="memdesc:af31293793c219b01a1d8b23ab558474b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary function call operator overload taking one tuple and a non-tuple, that containing put together would contain the lambda arguments in any other.  <a href="#af31293793c219b01a1d8b23ab558474b">More...</a><br /></td></tr>
+<tr class="separator:af31293793c219b01a1d8b23ab558474b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa94acf67b46da9f243e71444def7de30"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#aa94acf67b46da9f243e71444def7de30">operator=</a> (<a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt; const &amp;other)</td></tr>
+<tr class="memdesc:aa94acf67b46da9f243e71444def7de30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assignment operator.  <a href="#aa94acf67b46da9f243e71444def7de30">More...</a><br /></td></tr>
+<tr class="separator:aa94acf67b46da9f243e71444def7de30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f798de34bb4a524adfe258f27b0945f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a0f798de34bb4a524adfe258f27b0945f">PrintRegisteredParameters</a> ()</td></tr>
+<tr class="memdesc:a0f798de34bb4a524adfe258f27b0945f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classhydra_1_1Print.html">Print</a> registered parameters.  <a href="#a0f798de34bb4a524adfe258f27b0945f">More...</a><br /></td></tr>
+<tr class="separator:a0f798de34bb4a524adfe258f27b0945f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27c0a1e3484c7b9b0503d0ae99bb91f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a27c0a1e3484c7b9b0503d0ae99bb91f9">SetNorm</a> (<a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="namespacehydra.html#ab5fd2d8f62c3075ccdd36241e8dc6881">norm</a>)</td></tr>
+<tr class="separator:a27c0a1e3484c7b9b0503d0ae99bb91f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classhydra_1_1detail_1_1Parameters"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classhydra_1_1detail_1_1Parameters')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classhydra_1_1detail_1_1Parameters.html">hydra::detail::Parameters&lt; NPARAM &gt;</a></td></tr>
-<tr class="memitem:ad3b55758cd2e4e57c38abc64cea5b078 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#ad3b55758cd2e4e57c38abc64cea5b078">Parameters</a> ()=delete</td></tr>
-<tr class="separator:ad3b55758cd2e4e57c38abc64cea5b078 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12938917a752ff6d286cc15646ba6461 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a12938917a752ff6d286cc15646ba6461">Parameters</a> ()=default</td></tr>
+<tr class="separator:a12938917a752ff6d286cc15646ba6461 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d49eab37b17ba71f957d03288299e4b inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a6d49eab37b17ba71f957d03288299e4b">Parameters</a> (std::initializer_list&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> &gt; init_parameters)</td></tr>
 <tr class="separator:a6d49eab37b17ba71f957d03288299e4b inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abea4c9f7051f49a36513c024a6b1f5c8 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#abea4c9f7051f49a36513c024a6b1f5c8">Parameters</a> (std::array&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>, N &gt; const &amp;init_parameters)</td></tr>
 <tr class="separator:abea4c9f7051f49a36513c024a6b1f5c8 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32145942a4df1ca225203b0bf6df3dc4 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a32145942a4df1ca225203b0bf6df3dc4">Parameters</a> (<a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>(&amp;init_parameters)[N])</td></tr>
-<tr class="separator:a32145942a4df1ca225203b0bf6df3dc4 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44e3858485c4d25855cfdbbd07599ba8 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a44e3858485c4d25855cfdbbd07599ba8">Parameters</a> (<a class="el" href="classhydra_1_1detail_1_1Parameters.html">Parameters</a>&lt; N &gt; const &amp;other)</td></tr>
+<tr class="memitem:ae7b83b83f9611d11f61c4fd9d2749219 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#ae7b83b83f9611d11f61c4fd9d2749219">Parameters</a> (<a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>(&amp;init_parameters)[N])</td></tr>
+<tr class="separator:ae7b83b83f9611d11f61c4fd9d2749219 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44e3858485c4d25855cfdbbd07599ba8 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a44e3858485c4d25855cfdbbd07599ba8">Parameters</a> (<a class="el" href="classhydra_1_1detail_1_1Parameters.html">Parameters</a>&lt; N &gt; const &amp;other)</td></tr>
 <tr class="separator:a44e3858485c4d25855cfdbbd07599ba8 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a430a9beed183eeaf73b5a7ff9dc9c09d inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a430a9beed183eeaf73b5a7ff9dc9c09d">AddUserParameters</a> (std::vector&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> * &gt; &amp;user_parameters)</td></tr>
 <tr class="separator:a430a9beed183eeaf73b5a7ff9dc9c09d inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7cc3ec88077d14cfa7ce67d2860c7211 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a7cc3ec88077d14cfa7ce67d2860c7211">GetNumberOfParameters</a> () const</td></tr>
+<tr class="memitem:a7cc3ec88077d14cfa7ce67d2860c7211 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a7cc3ec88077d14cfa7ce67d2860c7211">GetNumberOfParameters</a> () const</td></tr>
 <tr class="separator:a7cc3ec88077d14cfa7ce67d2860c7211 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a309d8498195ad1a255966e3e349f1613 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ const <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a309d8498195ad1a255966e3e349f1613">GetParameter</a> (Int i) const</td></tr>
+<tr class="memitem:a309d8498195ad1a255966e3e349f1613 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> const <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a309d8498195ad1a255966e3e349f1613">GetParameter</a> (Int i) const</td></tr>
 <tr class="separator:a309d8498195ad1a255966e3e349f1613 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4399699be941b5991ba69c10bd7eaa09 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ const <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a4399699be941b5991ba69c10bd7eaa09">GetParameter</a> (const char *name) const</td></tr>
+<tr class="memitem:a4399699be941b5991ba69c10bd7eaa09 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> const <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a4399699be941b5991ba69c10bd7eaa09">GetParameter</a> (const char *name) const</td></tr>
 <tr class="separator:a4399699be941b5991ba69c10bd7eaa09 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2de5e1751a48b11ebce31a054e2f7e92 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ const <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a2de5e1751a48b11ebce31a054e2f7e92">GetParameters</a> () const</td></tr>
+<tr class="memitem:a2de5e1751a48b11ebce31a054e2f7e92 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> const <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a2de5e1751a48b11ebce31a054e2f7e92">GetParameters</a> () const</td></tr>
 <tr class="separator:a2de5e1751a48b11ebce31a054e2f7e92 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abef3018e08e5bcb754005d7cf668f8f9 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#abef3018e08e5bcb754005d7cf668f8f9">GetParametersKey</a> ()</td></tr>
 <tr class="separator:abef3018e08e5bcb754005d7cf668f8f9 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85476170ba7619e1fcfa5dcd106b01f2 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="classhydra_1_1detail_1_1Parameters.html">Parameters</a>&lt; N &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a85476170ba7619e1fcfa5dcd106b01f2">operator=</a> (<a class="el" href="classhydra_1_1detail_1_1Parameters.html">Parameters</a>&lt; N &gt; const &amp;other)</td></tr>
+<tr class="memitem:a85476170ba7619e1fcfa5dcd106b01f2 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="classhydra_1_1detail_1_1Parameters.html">Parameters</a>&lt; N &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a85476170ba7619e1fcfa5dcd106b01f2">operator=</a> (<a class="el" href="classhydra_1_1detail_1_1Parameters.html">Parameters</a>&lt; N &gt; const &amp;other)</td></tr>
 <tr class="separator:a85476170ba7619e1fcfa5dcd106b01f2 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a071323f430f90bd926919fbd9e01169d inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a071323f430f90bd926919fbd9e01169d">operator[]</a> (Int i) const</td></tr>
+<tr class="memitem:a071323f430f90bd926919fbd9e01169d inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a071323f430f90bd926919fbd9e01169d">operator[]</a> (Int i) const</td></tr>
 <tr class="separator:a071323f430f90bd926919fbd9e01169d inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e41a37607990dc97567d58d7c0c5c67 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a6e41a37607990dc97567d58d7c0c5c67">Parameter</a> (Int i)</td></tr>
+<tr class="memitem:a6e41a37607990dc97567d58d7c0c5c67 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a6e41a37607990dc97567d58d7c0c5c67">Parameter</a> (Int i)</td></tr>
 <tr class="separator:a6e41a37607990dc97567d58d7c0c5c67 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe373a6d5d5df78b5bb7478301d0d923 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#afe373a6d5d5df78b5bb7478301d0d923">Parameter</a> (const char *name)</td></tr>
+<tr class="memitem:afe373a6d5d5df78b5bb7478301d0d923 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#afe373a6d5d5df78b5bb7478301d0d923">Parameter</a> (const char *name)</td></tr>
 <tr class="separator:afe373a6d5d5df78b5bb7478301d0d923 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afef2923c8d305a6d52aaa5a1243b81d7 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#afef2923c8d305a6d52aaa5a1243b81d7">PrintParameters</a> ()</td></tr>
 <tr class="memdesc:afef2923c8d305a6d52aaa5a1243b81d7 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print registered parameters.  <a href="classhydra_1_1detail_1_1Parameters.html#afef2923c8d305a6d52aaa5a1243b81d7">More...</a><br /></td></tr>
 <tr class="separator:afef2923c8d305a6d52aaa5a1243b81d7 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc8dfeab9029bae35e0c00da71d4d0fa inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#abc8dfeab9029bae35e0c00da71d4d0fa">SetParameter</a> (Int i, <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> const &amp;value)</td></tr>
+<tr class="memitem:abc8dfeab9029bae35e0c00da71d4d0fa inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#abc8dfeab9029bae35e0c00da71d4d0fa">SetParameter</a> (Int i, <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> const &amp;value)</td></tr>
 <tr class="separator:abc8dfeab9029bae35e0c00da71d4d0fa inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7a3e9dd3dea8f977b60d32b8a690133 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#aa7a3e9dd3dea8f977b60d32b8a690133">SetParameter</a> (Int i, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> value)</td></tr>
+<tr class="memitem:aa7a3e9dd3dea8f977b60d32b8a690133 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#aa7a3e9dd3dea8f977b60d32b8a690133">SetParameter</a> (Int i, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> value)</td></tr>
 <tr class="separator:aa7a3e9dd3dea8f977b60d32b8a690133 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a713b56a061950fc18741da1c90577dd4 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a713b56a061950fc18741da1c90577dd4">SetParameter</a> (const char *name, <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> const &amp;value)</td></tr>
+<tr class="memitem:a713b56a061950fc18741da1c90577dd4 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a713b56a061950fc18741da1c90577dd4">SetParameter</a> (const char *name, <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> const &amp;value)</td></tr>
 <tr class="separator:a713b56a061950fc18741da1c90577dd4 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90dfd95a11de3a8b718bb06de15cc8bc inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a90dfd95a11de3a8b718bb06de15cc8bc">SetParameter</a> (const char *name, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> value)</td></tr>
+<tr class="memitem:a90dfd95a11de3a8b718bb06de15cc8bc inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a90dfd95a11de3a8b718bb06de15cc8bc">SetParameter</a> (const char *name, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> value)</td></tr>
 <tr class="separator:a90dfd95a11de3a8b718bb06de15cc8bc inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12fa435d67cfda236b2d93ab992462af inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a12fa435d67cfda236b2d93ab992462af">SetParameters</a> (const std::vector&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> &gt; &amp;parameters)</td></tr>
+<tr class="memitem:a12fa435d67cfda236b2d93ab992462af inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a12fa435d67cfda236b2d93ab992462af">SetParameters</a> (const std::vector&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> &gt; &amp;parameters)</td></tr>
 <tr class="memdesc:a12fa435d67cfda236b2d93ab992462af inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set parameters.  <a href="classhydra_1_1detail_1_1Parameters.html#a12fa435d67cfda236b2d93ab992462af">More...</a><br /></td></tr>
 <tr class="separator:a12fa435d67cfda236b2d93ab992462af inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><h3>Protected Attributes</h3></td></tr>
-<tr class="memitem:ad31115b1f80ed672ee94ef61ed918455"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#ad31115b1f80ed672ee94ef61ed918455">_par</a></td></tr>
-<tr class="separator:ad31115b1f80ed672ee94ef61ed918455"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f5e356b1fbc0fc434cb48eb5662db6c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a9f5e356b1fbc0fc434cb48eb5662db6c">_par</a></td></tr>
+<tr class="separator:a9f5e356b1fbc0fc434cb48eb5662db6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -290,68 +290,88 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:aaae5c9de6c61f3797eeabb3b26c2a07e inherit pub_static_attribs_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h4 class="groupheader">Member Typedef Documentation</h4>
-<a id="a9eb43b40102a67bf3d838f3cd13b5b29"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9eb43b40102a67bf3d838f3cd13b5b29">&#9670;&nbsp;</a></span>hydra_functor_tag</h2>
+<a id="a67f7b7f688daec813e47baeb914f43f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67f7b7f688daec813e47baeb914f43f5">&#9670;&nbsp;</a></span>argument_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef void <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::<a class="el" href="group__functor.html#a9eb43b40102a67bf3d838f3cd13b5b29">hydra_functor_tag</a></td>
+          <td class="memname">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1signature__traits">detail::signature_traits</a>&lt;Signature&gt;::<a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">argument_type</a> <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::<a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">argument_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a2425580530e0d2e7a0f3687cf47c511d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2425580530e0d2e7a0f3687cf47c511d">&#9670;&nbsp;</a></span>is_functor</h2>
+<a id="a7fc5343391019b258e92dce56a5a7cd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fc5343391019b258e92dce56a5a7cd6">&#9670;&nbsp;</a></span>hydra_functor_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::true_type <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::<a class="el" href="group__functor.html#a2425580530e0d2e7a0f3687cf47c511d">is_functor</a></td>
+          <td class="memname">typedef void <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::<a class="el" href="group__functor.html#a7fc5343391019b258e92dce56a5a7cd6">hydra_functor_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a6f086a61951fecd03bb12a7588efc5e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f086a61951fecd03bb12a7588efc5e9">&#9670;&nbsp;</a></span>return_type</h2>
+<a id="aa8aec84edf4cd7554001258a28bd4821"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8aec84edf4cd7554001258a28bd4821">&#9670;&nbsp;</a></span>return_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef ReturnType <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::<a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a></td>
+          <td class="memname">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1signature__traits">detail::signature_traits</a>&lt;Signature&gt;::<a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a> <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::<a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<h4 class="groupheader">Member Enumeration Documentation</h4>
+<a id="a6a34bb711a43691a1fc28c3d207338ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a34bb711a43691a1fc28c3d207338ce">&#9670;&nbsp;</a></span>anonymous enum</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a6a34bb711a43691a1fc28c3d207338ceaa2b35e786c4e15b7f62b506cff3eb3ea"></a>arity&#160;</td><td class="fielddoc"></td></tr>
+</table>
 
 </div>
 </div>
 <h4 class="groupheader">Constructor &amp; Destructor Documentation</h4>
-<a id="a29b9c022926d89831bf2faba0487bbae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29b9c022926d89831bf2faba0487bbae">&#9670;&nbsp;</a></span>BaseFunctor() <span class="overload">[1/4]</span></h2>
+<a id="a5d8d052bebbbc6f85e69902fe20a1af5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d8d052bebbbc6f85e69902fe20a1af5">&#9670;&nbsp;</a></span>BaseFunctor() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::<a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a> </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::<a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -368,19 +388,19 @@ template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
 
 </div>
 </div>
-<a id="ab25fdc9d775f3c89c1822cd060574c12"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab25fdc9d775f3c89c1822cd060574c12">&#9670;&nbsp;</a></span>BaseFunctor() <span class="overload">[2/4]</span></h2>
+<a id="a6c1b2d7ede9b480ecde96566bcd8de5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c1b2d7ede9b480ecde96566bcd8de5a">&#9670;&nbsp;</a></span>BaseFunctor() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::<a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a> </td>
+          <td class="memname"><a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::<a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a> </td>
           <td>(</td>
           <td class="paramtype">std::initializer_list&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a> &gt;&#160;</td>
           <td class="paramname"><em>init_parameters</em></td><td>)</td>
@@ -404,19 +424,19 @@ template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
 
 </div>
 </div>
-<a id="a528b09a4609cabb2246f3a2bda26a53a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a528b09a4609cabb2246f3a2bda26a53a">&#9670;&nbsp;</a></span>BaseFunctor() <span class="overload">[3/4]</span></h2>
+<a id="aed36ff3a393fd22fe41da72ef90924fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed36ff3a393fd22fe41da72ef90924fb">&#9670;&nbsp;</a></span>BaseFunctor() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::<a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a> </td>
+          <td class="memname"><a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::<a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a> </td>
           <td>(</td>
           <td class="paramtype">std::array&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a>, NPARAM &gt; const &amp;&#160;</td>
           <td class="paramname"><em>init_parameters</em></td><td>)</td>
@@ -440,21 +460,21 @@ template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
 
 </div>
 </div>
-<a id="a5da21102b905204b04e64856c3e0ac58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5da21102b905204b04e64856c3e0ac58">&#9670;&nbsp;</a></span>BaseFunctor() <span class="overload">[4/4]</span></h2>
+<a id="aeaba97e7fefcd63b5969d72c8c55f745"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeaba97e7fefcd63b5969d72c8c55f745">&#9670;&nbsp;</a></span>BaseFunctor() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::<a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a> </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::<a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt; const &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt; const &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
@@ -471,46 +491,19 @@ template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
 </div>
 </div>
 <h4 class="groupheader">Member Function Documentation</h4>
-<a id="a525031bdc69d3177b52e0654f3ca453f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a525031bdc69d3177b52e0654f3ca453f">&#9670;&nbsp;</a></span>GetCacheIndex()</h2>
+<a id="ad7e370a4b6705ce4f10ef9f3ea0d29cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7e370a4b6705ce4f10ef9f3ea0d29cd">&#9670;&nbsp;</a></span>GetFunctor()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="namespace_3globalScope_4.html#classint">int</a> <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::GetCacheIndex </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a3ab4082ff43fc2ff2dc575d3684c8791"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ab4082ff43fc2ff2dc575d3684c8791">&#9670;&nbsp;</a></span>GetFunctor()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ Functor&amp; <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::GetFunctor </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> Functor&amp; <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::GetFunctor </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -525,19 +518,19 @@ template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
 
 </div>
 </div>
-<a id="acdccdd48f4471564c7bb207133f550a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acdccdd48f4471564c7bb207133f550a4">&#9670;&nbsp;</a></span>GetNorm()</h2>
+<a id="a33c0e7b9ab0d5a53e0f3f3a415e001e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33c0e7b9ab0d5a53e0f3f3a415e001e5">&#9670;&nbsp;</a></span>GetNorm()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::GetNorm </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::GetNorm </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -552,21 +545,24 @@ template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
 
 </div>
 </div>
-<a id="a23a24709b6bd23c23408297257652e87"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23a24709b6bd23c23408297257652e87">&#9670;&nbsp;</a></span>IsCached()</h2>
+<a id="a0074164f8a77ebfcd36751683bed97f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0074164f8a77ebfcd36751683bed97f2">&#9670;&nbsp;</a></span>operator()() <span class="overload">[1/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
+<div class="memtemplate">
+template&lt;typename ... T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="namespace_3globalScope_4.html#classbool">bool</a> <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::IsCached </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt; (!<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1is__valid__type__pack">detail::is_valid_type_pack</a>&lt; <a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">argument_type</a>, T...&gt;::value), <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a>&gt;::type <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::operator() </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">T...&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -579,13 +575,45 @@ template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
 
 </div>
 </div>
-<a id="a45b039126e994cc3d16c5691f6a0c9aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a45b039126e994cc3d16c5691f6a0c9aa">&#9670;&nbsp;</a></span>operator()() <span class="overload">[1/3]</span></h2>
+<a id="a1817c5d41b04aaf05cbd64b9767c046b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1817c5d41b04aaf05cbd64b9767c046b">&#9670;&nbsp;</a></span>operator()() <span class="overload">[2/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
+<div class="memtemplate">
+template&lt;typename ... T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt; <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1is__valid__type__pack">detail::is_valid_type_pack</a>&lt; <a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">argument_type</a>, T...&gt;::value, <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a>&gt;::type <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">T...&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Function call operator overload taking a pack of parameters convertible to the lambda signature. </p>
+
+</div>
+</div>
+<a id="a88ddc1aea0b84f1a98504d3f6a2462bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88ddc1aea0b84f1a98504d3f6a2462bd">&#9670;&nbsp;</a></span>operator()() <span class="overload">[3/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
 <div class="memtemplate">
 template&lt;typename T &gt; </div>
 <table class="mlabels">
@@ -593,15 +621,163 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a> <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::operator() </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt; ( <a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt;T&gt;::type &gt;::value ) &amp;&amp; (!<a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt;T&gt;::type &gt;::value) &amp;&amp; ( hydra_thrust::detail::is_convertible&lt; typename std::decay&lt;T&gt;::type, <a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">argument_type</a> &gt;::value ), <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a> &gt;::type <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::operator() </td>
           <td>(</td>
-          <td class="paramtype">unsigned <a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td>
-          <td class="paramname"><em>n</em>, </td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Unary function call operator overload taking a tuple containing the lambda arguments in any other. </p>
+
+</div>
+</div>
+<a id="ae652efce8b4549bf546a09f1b130b426"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae652efce8b4549bf546a09f1b130b426">&#9670;&nbsp;</a></span>operator()() <span class="overload">[4/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt; ( <a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt;typename std::decay&lt;T&gt;::type&gt;::value ) &amp;&amp; ( <a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt;T&gt;::type &gt;::value), <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a>&gt;::type <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Unary function call operator overload taking a tuple containing the lambda arguments in any other. </p>
+
+</div>
+</div>
+<a id="af8a4d9d377bdd9c5176cfd4afcfcaf1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8a4d9d377bdd9c5176cfd4afcfcaf1e">&#9670;&nbsp;</a></span>operator()() <span class="overload">[5/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
+<div class="memtemplate">
+template&lt;typename T1 , typename T2 &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt; ( <a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt;typename std::decay&lt;T1&gt;::type&gt;::value ) &amp;&amp; ( <a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt;T1&gt;::type &gt;::value ) &amp;&amp; ( <a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt;typename std::decay&lt;T2&gt;::type&gt;::value ) &amp;&amp; ( <a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt;T2&gt;::type &gt;::value ) , <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a>&gt;::type <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">T1&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T *&#160;</td>
+          <td class="paramtype">T2&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Binary function call operator overload taking two tuples containing the lambda arguments in any other. </p>
+
+</div>
+</div>
+<a id="aa308ee9c94be12afd21d128f7f2f36e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa308ee9c94be12afd21d128f7f2f36e3">&#9670;&nbsp;</a></span>operator()() <span class="overload">[6/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
+<div class="memtemplate">
+template&lt;typename T1 , typename T2 &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt; (!<a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt;T1&gt;::type&gt;::value ) &amp;&amp; ( <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1is__function__argument">detail::is_function_argument</a>&lt; typename std::decay&lt;T1&gt;::type &gt;::value ) &amp;&amp; ( <a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt;T2&gt;::type&gt;::value ) &amp;&amp; ( <a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt;T2&gt;::type &gt;::value ), <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a>&gt;::type <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">T1&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T2&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Binary function call operator overload taking one tuple and a non-tuple, that containing put together would contain the lambda arguments in any other. </p>
+
+</div>
+</div>
+<a id="af31293793c219b01a1d8b23ab558474b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af31293793c219b01a1d8b23ab558474b">&#9670;&nbsp;</a></span>operator()() <span class="overload">[7/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
+<div class="memtemplate">
+template&lt;typename T1 , typename T2 &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt; (!<a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt;T1&gt;::type&gt;::value ) &amp;&amp; ( <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1is__function__argument">detail::is_function_argument</a>&lt; typename std::decay&lt;T1&gt;::type &gt;::value ) &amp;&amp; ( <a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt;T2&gt;::type&gt;::value ) &amp;&amp; ( <a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt;T2&gt;::type &gt;::value ), <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a>&gt;::type <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">T2&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T1&#160;</td>
           <td class="paramname"><em>x</em>&#160;</td>
         </tr>
         <tr>
@@ -617,93 +793,25 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Binary function call operator overload taking one tuple and a non-tuple, that containing put together would contain the lambda arguments in any other. </p>
+
 </div>
 </div>
-<a id="af6cdfdb599fc07d557a2641069655e07"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6cdfdb599fc07d557a2641069655e07">&#9670;&nbsp;</a></span>operator()() <span class="overload">[2/3]</span></h2>
+<a id="aa94acf67b46da9f243e71444def7de30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa94acf67b46da9f243e71444def7de30">&#9670;&nbsp;</a></span>operator=()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a> <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::operator() </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt;Functor, Signature, NPARAM&gt;&amp; <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::operator= </td>
           <td>(</td>
-          <td class="paramtype">T &amp;&amp;&#160;</td>
-          <td class="paramname"><em>x</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a662ce4648deb789bc9ef1123b3c5e5c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a662ce4648deb789bc9ef1123b3c5e5c0">&#9670;&nbsp;</a></span>operator()() <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
-<div class="memtemplate">
-template&lt;typename T1 , typename T2 &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a> <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::operator() </td>
-          <td>(</td>
-          <td class="paramtype">T1 &amp;&amp;&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">T2 &amp;&amp;&#160;</td>
-          <td class="paramname"><em>cache</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a48d0d17a8b3aaaec26769e4ebec35517"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48d0d17a8b3aaaec26769e4ebec35517">&#9670;&nbsp;</a></span>operator=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt;Functor,ReturnType, NPARAM&gt;&amp; <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::operator= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt; const &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt; const &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
@@ -719,19 +827,19 @@ template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
 
 </div>
 </div>
-<a id="a85cbce733ead7b16656ef2cd0c4ae22c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a85cbce733ead7b16656ef2cd0c4ae22c">&#9670;&nbsp;</a></span>PrintRegisteredParameters()</h2>
+<a id="a0f798de34bb4a524adfe258f27b0945f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f798de34bb4a524adfe258f27b0945f">&#9670;&nbsp;</a></span>PrintRegisteredParameters()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::PrintRegisteredParameters </td>
+          <td class="memname">void <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::PrintRegisteredParameters </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -748,75 +856,19 @@ template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
 
 </div>
 </div>
-<a id="affde9040f5e3c7c8955013d36764409e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#affde9040f5e3c7c8955013d36764409e">&#9670;&nbsp;</a></span>SetCached()</h2>
+<a id="a27c0a1e3484c7b9b0503d0ae99bb91f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27c0a1e3484c7b9b0503d0ae99bb91f9">&#9670;&nbsp;</a></span>SetNorm()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ void <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::SetCached </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classbool">bool</a>&#160;</td>
-          <td class="paramname"><em>cached</em> = <code>true</code></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a3340e30914d03cd2a6630633c13c9a3c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3340e30914d03cd2a6630633c13c9a3c">&#9670;&nbsp;</a></span>SetCacheIndex()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ void <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::SetCacheIndex </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td>
-          <td class="paramname"><em>index</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a73b2ff73483cb4969c1b6b9c168b75a9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a73b2ff73483cb4969c1b6b9c168b75a9">&#9670;&nbsp;</a></span>SetNorm()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ void <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::SetNorm </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> void <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::SetNorm </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
           <td class="paramname"><em>norm</em></td><td>)</td>
@@ -833,19 +885,19 @@ template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
 </div>
 </div>
 <h4 class="groupheader">Field Documentation</h4>
-<a id="ad31115b1f80ed672ee94ef61ed918455"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad31115b1f80ed672ee94ef61ed918455">&#9670;&nbsp;</a></span>_par</h2>
+<a id="a9f5e356b1fbc0fc434cb48eb5662db6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f5e356b1fbc0fc434cb48eb5662db6c">&#9670;&nbsp;</a></span>_par</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
+template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt;Functor, ReturnType, NPARAM&gt;&amp; <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, ReturnType, NPARAM &gt;::_par</td>
+          <td class="memname"><a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt;Functor, Signature, NPARAM&gt;&amp; <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::_par</td>
         </tr>
       </table>
   </td>
@@ -860,575 +912,12 @@ template&lt;typename Functor, typename ReturnType, size_t NPARAM&gt; </div>
 
 </div>
 </div>
-<a name="classhydra_1_1LambdaWrapper_3_01ReturnType_07ArgType_8_8_8_08_00_01L_00_01N_01_4" id="classhydra_1_1LambdaWrapper_3_01ReturnType_07ArgType_8_8_8_08_00_01L_00_01N_01_4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#classhydra_1_1LambdaWrapper_3_01ReturnType_07ArgType_8_8_8_08_00_01L_00_01N_01_4">&#9670;&nbsp;</a></span>hydra::LambdaWrapper&lt; ReturnType(ArgType...), L, N &gt;</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">class hydra::LambdaWrapper&lt; ReturnType(ArgType...), L, N &gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="textblock"><h3>template&lt;typename ReturnType, typename ... ArgType, typename L, size_t N&gt;<br />
-class hydra::LambdaWrapper&lt; ReturnType(ArgType...), L, N &gt;</h3>
-
-<p>Wrapper for lambda functions. </p>
-</div><div class="dynheader">
-Inheritance diagram for hydra::LambdaWrapper&lt; ReturnType(ArgType...), L, N &gt;:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classhydra_1_1LambdaWrapper_3_01ReturnType_07ArgType_8_8_8_08_00_01L_00_01N_01_4__inherit__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-<div class="dynheader">
-Collaboration diagram for hydra::LambdaWrapper&lt; ReturnType(ArgType...), L, N &gt;:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classhydra_1_1LambdaWrapper_3_01ReturnType_07ArgType_8_8_8_08_00_01L_00_01N_01_4__coll__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-<table class="memberdecls">
-<tr><td colspan="2"><h3>Public Member Functions</h3></td></tr>
-<tr class="memitem:a9b2418b681b3f0afda78568f53860da9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a9b2418b681b3f0afda78568f53860da9">LambdaWrapper</a> ()=delete</td></tr>
-<tr class="separator:a9b2418b681b3f0afda78568f53860da9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c2248822e56fd77e641c73e25a57a8a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a7c2248822e56fd77e641c73e25a57a8a">LambdaWrapper</a> (L const &amp;<a class="el" href="phsp__evaluating__functor_8inl.html#a81b92a607807b240e867aa19e3dedeac">lambda</a>)</td></tr>
-<tr class="memdesc:a7c2248822e56fd77e641c73e25a57a8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for non-parametrized lambdas.  <a href="#a7c2248822e56fd77e641c73e25a57a8a">More...</a><br /></td></tr>
-<tr class="separator:a7c2248822e56fd77e641c73e25a57a8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac370d067714c1eea896eaffaad6c55f3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#ac370d067714c1eea896eaffaad6c55f3">LambdaWrapper</a> (L const &amp;<a class="el" href="phsp__evaluating__functor_8inl.html#a81b92a607807b240e867aa19e3dedeac">lambda</a>, std::array&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a>, N &gt; const &amp;parameters)</td></tr>
-<tr class="memdesc:ac370d067714c1eea896eaffaad6c55f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for parametrized lambdas.  <a href="#ac370d067714c1eea896eaffaad6c55f3">More...</a><br /></td></tr>
-<tr class="separator:ac370d067714c1eea896eaffaad6c55f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40549b55b94ebf77e8d7523d49e0eb83"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a40549b55b94ebf77e8d7523d49e0eb83">LambdaWrapper</a> (<a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt; const &amp;other)</td></tr>
-<tr class="memdesc:a40549b55b94ebf77e8d7523d49e0eb83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <a href="#a40549b55b94ebf77e8d7523d49e0eb83">More...</a><br /></td></tr>
-<tr class="separator:a40549b55b94ebf77e8d7523d49e0eb83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03c753b8f72feda64542b2c780918207"><td class="memTemplParams" colspan="2">template&lt;size_t M = N, typename ... T&gt; </td></tr>
-<tr class="memitem:a03c753b8f72feda64542b2c780918207"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ std::enable_if&lt;(M &gt;0) &amp;&amp;((sizeof...(ArgType)==(sizeof ...(T)+2))), ReturnType &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#a03c753b8f72feda64542b2c780918207">Evaluate</a> (T... a) const</td></tr>
-<tr class="separator:a03c753b8f72feda64542b2c780918207"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a558a654cd875e3a1120016bb30cab0e9"><td class="memTemplParams" colspan="2">template&lt;size_t M = N, typename T &gt; </td></tr>
-<tr class="memitem:a558a654cd875e3a1120016bb30cab0e9"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ std::enable_if&lt;(M &gt;0)&amp;&amp;sizeof...(ArgType)==3, ReturnType &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#a558a654cd875e3a1120016bb30cab0e9">Evaluate</a> (T a) const</td></tr>
-<tr class="separator:a558a654cd875e3a1120016bb30cab0e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a620b9f552df9922485f4a62d6f3b71b6"><td class="memTemplParams" colspan="2">template&lt;typename ... T, size_t M = N&gt; </td></tr>
-<tr class="memitem:a620b9f552df9922485f4a62d6f3b71b6"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ std::enable_if&lt;(M==0) &amp;&amp;((sizeof...(ArgType))&gt;1), ReturnType &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#a620b9f552df9922485f4a62d6f3b71b6">Evaluate</a> (T...a) const</td></tr>
-<tr class="separator:a620b9f552df9922485f4a62d6f3b71b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d06feab4d21ffb413aa028130b42f91"><td class="memTemplParams" colspan="2">template&lt;typename ... T, size_t M = N&gt; </td></tr>
-<tr class="memitem:a1d06feab4d21ffb413aa028130b42f91"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ std::enable_if&lt;(M==0)&amp;&amp;sizeof...(ArgType)==1, ReturnType &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#a1d06feab4d21ffb413aa028130b42f91">Evaluate</a> (T...a) const</td></tr>
-<tr class="separator:a1d06feab4d21ffb413aa028130b42f91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3db9e8c9e7ef8e58334e1dd3e06be7c1"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ const L &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a3db9e8c9e7ef8e58334e1dd3e06be7c1">GetLambda</a> () const</td></tr>
-<tr class="memdesc:a3db9e8c9e7ef8e58334e1dd3e06be7c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the underlying lambda.  <a href="#a3db9e8c9e7ef8e58334e1dd3e06be7c1">More...</a><br /></td></tr>
-<tr class="separator:a3db9e8c9e7ef8e58334e1dd3e06be7c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2a893e69edf39d315509c987898cf95"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#ab2a893e69edf39d315509c987898cf95">operator=</a> (<a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt; const &amp;other)</td></tr>
-<tr class="memdesc:ab2a893e69edf39d315509c987898cf95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assignment operator.  <a href="#ab2a893e69edf39d315509c987898cf95">More...</a><br /></td></tr>
-<tr class="separator:ab2a893e69edf39d315509c987898cf95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_group__functor"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_group__functor')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="group__functor.html">hydra::BaseFunctor&lt; LambdaWrapper&lt; ReturnType(ArgType...), L, N &gt;, ReturnType, N &gt;</a></td></tr>
-<tr class="memitem:a29b9c022926d89831bf2faba0487bbae inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a29b9c022926d89831bf2faba0487bbae">BaseFunctor</a> ()</td></tr>
-<tr class="memdesc:a29b9c022926d89831bf2faba0487bbae inherit pub_methods_group__functor"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="group__functor.html#a29b9c022926d89831bf2faba0487bbae">More...</a><br /></td></tr>
-<tr class="separator:a29b9c022926d89831bf2faba0487bbae inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab25fdc9d775f3c89c1822cd060574c12 inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#ab25fdc9d775f3c89c1822cd060574c12">BaseFunctor</a> (std::initializer_list&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a> &gt; init_parameters)</td></tr>
-<tr class="memdesc:ab25fdc9d775f3c89c1822cd060574c12 inherit pub_methods_group__functor"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor taking a list of parameters.  <a href="group__functor.html#ab25fdc9d775f3c89c1822cd060574c12">More...</a><br /></td></tr>
-<tr class="separator:ab25fdc9d775f3c89c1822cd060574c12 inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a528b09a4609cabb2246f3a2bda26a53a inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a528b09a4609cabb2246f3a2bda26a53a">BaseFunctor</a> (std::array&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a>, NPARAM &gt; const &amp;init_parameters)</td></tr>
-<tr class="memdesc:a528b09a4609cabb2246f3a2bda26a53a inherit pub_methods_group__functor"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor taking std::array of parameters.  <a href="group__functor.html#a528b09a4609cabb2246f3a2bda26a53a">More...</a><br /></td></tr>
-<tr class="separator:a528b09a4609cabb2246f3a2bda26a53a inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5da21102b905204b04e64856c3e0ac58 inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a5da21102b905204b04e64856c3e0ac58">BaseFunctor</a> (<a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt; <a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt;, ReturnType, NPARAM &gt; const &amp;other)</td></tr>
-<tr class="memdesc:a5da21102b905204b04e64856c3e0ac58 inherit pub_methods_group__functor"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <a href="group__functor.html#a5da21102b905204b04e64856c3e0ac58">More...</a><br /></td></tr>
-<tr class="separator:a5da21102b905204b04e64856c3e0ac58 inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a525031bdc69d3177b52e0654f3ca453f inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a525031bdc69d3177b52e0654f3ca453f">GetCacheIndex</a> () const</td></tr>
-<tr class="separator:a525031bdc69d3177b52e0654f3ca453f inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ab4082ff43fc2ff2dc575d3684c8791 inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a3ab4082ff43fc2ff2dc575d3684c8791">GetFunctor</a> ()</td></tr>
-<tr class="separator:a3ab4082ff43fc2ff2dc575d3684c8791 inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acdccdd48f4471564c7bb207133f550a4 inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#acdccdd48f4471564c7bb207133f550a4">GetNorm</a> () const</td></tr>
-<tr class="separator:acdccdd48f4471564c7bb207133f550a4 inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23a24709b6bd23c23408297257652e87 inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespace_3globalScope_4.html#classbool">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a23a24709b6bd23c23408297257652e87">IsCached</a> () const</td></tr>
-<tr class="separator:a23a24709b6bd23c23408297257652e87 inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45b039126e994cc3d16c5691f6a0c9aa inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a45b039126e994cc3d16c5691f6a0c9aa">operator()</a> (unsigned <a class="el" href="namespace_3globalScope_4.html#classint">int</a> n, T *x) const</td></tr>
-<tr class="separator:a45b039126e994cc3d16c5691f6a0c9aa inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6cdfdb599fc07d557a2641069655e07 inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#af6cdfdb599fc07d557a2641069655e07">operator()</a> (T &amp;&amp;x) const</td></tr>
-<tr class="separator:af6cdfdb599fc07d557a2641069655e07 inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a662ce4648deb789bc9ef1123b3c5e5c0 inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a662ce4648deb789bc9ef1123b3c5e5c0">operator()</a> (T1 &amp;&amp;x, T2 &amp;&amp;cache) const</td></tr>
-<tr class="separator:a662ce4648deb789bc9ef1123b3c5e5c0 inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48d0d17a8b3aaaec26769e4ebec35517 inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt; <a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt;, ReturnType, NPARAM &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a48d0d17a8b3aaaec26769e4ebec35517">operator=</a> (<a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt; <a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt;, ReturnType, NPARAM &gt; const &amp;other)</td></tr>
-<tr class="memdesc:a48d0d17a8b3aaaec26769e4ebec35517 inherit pub_methods_group__functor"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assignment operator.  <a href="group__functor.html#a48d0d17a8b3aaaec26769e4ebec35517">More...</a><br /></td></tr>
-<tr class="separator:a48d0d17a8b3aaaec26769e4ebec35517 inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85cbce733ead7b16656ef2cd0c4ae22c inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a85cbce733ead7b16656ef2cd0c4ae22c">PrintRegisteredParameters</a> ()</td></tr>
-<tr class="memdesc:a85cbce733ead7b16656ef2cd0c4ae22c inherit pub_methods_group__functor"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print registered parameters.  <a href="group__functor.html#a85cbce733ead7b16656ef2cd0c4ae22c">More...</a><br /></td></tr>
-<tr class="separator:a85cbce733ead7b16656ef2cd0c4ae22c inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:affde9040f5e3c7c8955013d36764409e inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#affde9040f5e3c7c8955013d36764409e">SetCached</a> (<a class="el" href="namespace_3globalScope_4.html#classbool">bool</a> cached=true)</td></tr>
-<tr class="separator:affde9040f5e3c7c8955013d36764409e inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3340e30914d03cd2a6630633c13c9a3c inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a3340e30914d03cd2a6630633c13c9a3c">SetCacheIndex</a> (<a class="el" href="namespace_3globalScope_4.html#classint">int</a> index)</td></tr>
-<tr class="separator:a3340e30914d03cd2a6630633c13c9a3c inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73b2ff73483cb4969c1b6b9c168b75a9 inherit pub_methods_group__functor"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a73b2ff73483cb4969c1b6b9c168b75a9">SetNorm</a> (<a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> norm)</td></tr>
-<tr class="separator:a73b2ff73483cb4969c1b6b9c168b75a9 inherit pub_methods_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classhydra_1_1detail_1_1Parameters"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classhydra_1_1detail_1_1Parameters')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classhydra_1_1detail_1_1Parameters.html">hydra::detail::Parameters&lt; NPARAM &gt;</a></td></tr>
-<tr class="memitem:ad3b55758cd2e4e57c38abc64cea5b078 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#ad3b55758cd2e4e57c38abc64cea5b078">Parameters</a> ()=delete</td></tr>
-<tr class="separator:ad3b55758cd2e4e57c38abc64cea5b078 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d49eab37b17ba71f957d03288299e4b inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a6d49eab37b17ba71f957d03288299e4b">Parameters</a> (std::initializer_list&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> &gt; init_parameters)</td></tr>
-<tr class="separator:a6d49eab37b17ba71f957d03288299e4b inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abea4c9f7051f49a36513c024a6b1f5c8 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#abea4c9f7051f49a36513c024a6b1f5c8">Parameters</a> (std::array&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>, N &gt; const &amp;init_parameters)</td></tr>
-<tr class="separator:abea4c9f7051f49a36513c024a6b1f5c8 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32145942a4df1ca225203b0bf6df3dc4 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a32145942a4df1ca225203b0bf6df3dc4">Parameters</a> (<a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>(&amp;init_parameters)[N])</td></tr>
-<tr class="separator:a32145942a4df1ca225203b0bf6df3dc4 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44e3858485c4d25855cfdbbd07599ba8 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a44e3858485c4d25855cfdbbd07599ba8">Parameters</a> (<a class="el" href="classhydra_1_1detail_1_1Parameters.html">Parameters</a>&lt; N &gt; const &amp;other)</td></tr>
-<tr class="separator:a44e3858485c4d25855cfdbbd07599ba8 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a430a9beed183eeaf73b5a7ff9dc9c09d inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a430a9beed183eeaf73b5a7ff9dc9c09d">AddUserParameters</a> (std::vector&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> * &gt; &amp;user_parameters)</td></tr>
-<tr class="separator:a430a9beed183eeaf73b5a7ff9dc9c09d inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7cc3ec88077d14cfa7ce67d2860c7211 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a7cc3ec88077d14cfa7ce67d2860c7211">GetNumberOfParameters</a> () const</td></tr>
-<tr class="separator:a7cc3ec88077d14cfa7ce67d2860c7211 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a309d8498195ad1a255966e3e349f1613 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ const <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a309d8498195ad1a255966e3e349f1613">GetParameter</a> (Int i) const</td></tr>
-<tr class="separator:a309d8498195ad1a255966e3e349f1613 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4399699be941b5991ba69c10bd7eaa09 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ const <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a4399699be941b5991ba69c10bd7eaa09">GetParameter</a> (const char *name) const</td></tr>
-<tr class="separator:a4399699be941b5991ba69c10bd7eaa09 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2de5e1751a48b11ebce31a054e2f7e92 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ const <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a2de5e1751a48b11ebce31a054e2f7e92">GetParameters</a> () const</td></tr>
-<tr class="separator:a2de5e1751a48b11ebce31a054e2f7e92 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abef3018e08e5bcb754005d7cf668f8f9 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#abef3018e08e5bcb754005d7cf668f8f9">GetParametersKey</a> ()</td></tr>
-<tr class="separator:abef3018e08e5bcb754005d7cf668f8f9 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85476170ba7619e1fcfa5dcd106b01f2 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="classhydra_1_1detail_1_1Parameters.html">Parameters</a>&lt; N &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a85476170ba7619e1fcfa5dcd106b01f2">operator=</a> (<a class="el" href="classhydra_1_1detail_1_1Parameters.html">Parameters</a>&lt; N &gt; const &amp;other)</td></tr>
-<tr class="separator:a85476170ba7619e1fcfa5dcd106b01f2 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a071323f430f90bd926919fbd9e01169d inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a071323f430f90bd926919fbd9e01169d">operator[]</a> (Int i) const</td></tr>
-<tr class="separator:a071323f430f90bd926919fbd9e01169d inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e41a37607990dc97567d58d7c0c5c67 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a6e41a37607990dc97567d58d7c0c5c67">Parameter</a> (Int i)</td></tr>
-<tr class="separator:a6e41a37607990dc97567d58d7c0c5c67 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe373a6d5d5df78b5bb7478301d0d923 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#afe373a6d5d5df78b5bb7478301d0d923">Parameter</a> (const char *name)</td></tr>
-<tr class="separator:afe373a6d5d5df78b5bb7478301d0d923 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afef2923c8d305a6d52aaa5a1243b81d7 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#afef2923c8d305a6d52aaa5a1243b81d7">PrintParameters</a> ()</td></tr>
-<tr class="memdesc:afef2923c8d305a6d52aaa5a1243b81d7 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print registered parameters.  <a href="classhydra_1_1detail_1_1Parameters.html#afef2923c8d305a6d52aaa5a1243b81d7">More...</a><br /></td></tr>
-<tr class="separator:afef2923c8d305a6d52aaa5a1243b81d7 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc8dfeab9029bae35e0c00da71d4d0fa inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#abc8dfeab9029bae35e0c00da71d4d0fa">SetParameter</a> (Int i, <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> const &amp;value)</td></tr>
-<tr class="separator:abc8dfeab9029bae35e0c00da71d4d0fa inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7a3e9dd3dea8f977b60d32b8a690133 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#aa7a3e9dd3dea8f977b60d32b8a690133">SetParameter</a> (Int i, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> value)</td></tr>
-<tr class="separator:aa7a3e9dd3dea8f977b60d32b8a690133 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a713b56a061950fc18741da1c90577dd4 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a713b56a061950fc18741da1c90577dd4">SetParameter</a> (const char *name, <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> const &amp;value)</td></tr>
-<tr class="separator:a713b56a061950fc18741da1c90577dd4 inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90dfd95a11de3a8b718bb06de15cc8bc inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a90dfd95a11de3a8b718bb06de15cc8bc">SetParameter</a> (const char *name, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> value)</td></tr>
-<tr class="separator:a90dfd95a11de3a8b718bb06de15cc8bc inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12fa435d67cfda236b2d93ab992462af inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">__hydra_host__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a12fa435d67cfda236b2d93ab992462af">SetParameters</a> (const std::vector&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> &gt; &amp;parameters)</td></tr>
-<tr class="memdesc:a12fa435d67cfda236b2d93ab992462af inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set parameters.  <a href="classhydra_1_1detail_1_1Parameters.html#a12fa435d67cfda236b2d93ab992462af">More...</a><br /></td></tr>
-<tr class="separator:a12fa435d67cfda236b2d93ab992462af inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_types_group__functor"><td colspan="2" onclick="javascript:toggleInherit('pub_types_group__functor')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="group__functor.html">hydra::BaseFunctor&lt; LambdaWrapper&lt; ReturnType(ArgType...), L, N &gt;, ReturnType, N &gt;</a></td></tr>
-<tr class="memitem:a9eb43b40102a67bf3d838f3cd13b5b29 inherit pub_types_group__functor"><td class="memItemLeft" align="right" valign="top">typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a9eb43b40102a67bf3d838f3cd13b5b29">hydra_functor_tag</a></td></tr>
-<tr class="separator:a9eb43b40102a67bf3d838f3cd13b5b29 inherit pub_types_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2425580530e0d2e7a0f3687cf47c511d inherit pub_types_group__functor"><td class="memItemLeft" align="right" valign="top">typedef std::true_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a2425580530e0d2e7a0f3687cf47c511d">is_functor</a></td></tr>
-<tr class="separator:a2425580530e0d2e7a0f3687cf47c511d inherit pub_types_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f086a61951fecd03bb12a7588efc5e9 inherit pub_types_group__functor"><td class="memItemLeft" align="right" valign="top">typedef ReturnType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a6f086a61951fecd03bb12a7588efc5e9">return_type</a></td></tr>
-<tr class="separator:a6f086a61951fecd03bb12a7588efc5e9 inherit pub_types_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_static_attribs_classhydra_1_1detail_1_1Parameters"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_classhydra_1_1detail_1_1Parameters')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="classhydra_1_1detail_1_1Parameters.html">hydra::detail::Parameters&lt; NPARAM &gt;</a></td></tr>
-<tr class="memitem:aaae5c9de6c61f3797eeabb3b26c2a07e inherit pub_static_attribs_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">static const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#aaae5c9de6c61f3797eeabb3b26c2a07e">parameter_count</a></td></tr>
-<tr class="separator:aaae5c9de6c61f3797eeabb3b26c2a07e inherit pub_static_attribs_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_attribs_group__functor"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_group__functor')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="group__functor.html">hydra::BaseFunctor&lt; LambdaWrapper&lt; ReturnType(ArgType...), L, N &gt;, ReturnType, N &gt;</a></td></tr>
-<tr class="memitem:ad31115b1f80ed672ee94ef61ed918455 inherit pro_attribs_group__functor"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt; <a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt;, ReturnType, NPARAM &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#ad31115b1f80ed672ee94ef61ed918455">_par</a></td></tr>
-<tr class="separator:ad31115b1f80ed672ee94ef61ed918455 inherit pro_attribs_group__functor"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h4 class="groupheader">Constructor &amp; Destructor Documentation</h4>
-<a id="a9b2418b681b3f0afda78568f53860da9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b2418b681b3f0afda78568f53860da9">&#9670;&nbsp;</a></span>LambdaWrapper() <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ReturnType , typename ... ArgType, typename L , size_t N&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">hydra::LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt;::<a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">LambdaWrapper</a> </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7c2248822e56fd77e641c73e25a57a8a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c2248822e56fd77e641c73e25a57a8a">&#9670;&nbsp;</a></span>LambdaWrapper() <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ReturnType , typename ... ArgType, typename L , size_t N&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">hydra::LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt;::<a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">LambdaWrapper</a> </td>
-          <td>(</td>
-          <td class="paramtype">L const &amp;&#160;</td>
-          <td class="paramname"><em>lambda</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Constructor for non-parametrized lambdas. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">lambda</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ac370d067714c1eea896eaffaad6c55f3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac370d067714c1eea896eaffaad6c55f3">&#9670;&nbsp;</a></span>LambdaWrapper() <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ReturnType , typename ... ArgType, typename L , size_t N&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">hydra::LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt;::<a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">LambdaWrapper</a> </td>
-          <td>(</td>
-          <td class="paramtype">L const &amp;&#160;</td>
-          <td class="paramname"><em>lambda</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a>, N &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>parameters</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Constructor for parametrized lambdas. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">lambda</td><td></td></tr>
-    <tr><td class="paramname">parameters</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a40549b55b94ebf77e8d7523d49e0eb83"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a40549b55b94ebf77e8d7523d49e0eb83">&#9670;&nbsp;</a></span>LambdaWrapper() <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ReturnType , typename ... ArgType, typename L , size_t N&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">hydra::LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt;::<a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">LambdaWrapper</a> </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>other</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Copy constructor. </p>
-
-</div>
-</div>
-<h4 class="groupheader">Member Function Documentation</h4>
-<a id="a03c753b8f72feda64542b2c780918207"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03c753b8f72feda64542b2c780918207">&#9670;&nbsp;</a></span>Evaluate() <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ReturnType , typename ... ArgType, typename L , size_t N&gt; </div>
-<div class="memtemplate">
-template&lt;size_t M = N, typename ... T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ std::enable_if&lt; (M&gt;0) &amp;&amp;( (sizeof...(ArgType) ==(sizeof ...(T)+2))) , ReturnType &gt;::type <a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">hydra::LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt;::Evaluate </td>
-          <td>(</td>
-          <td class="paramtype">T...&#160;</td>
-          <td class="paramname"><em>a</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a558a654cd875e3a1120016bb30cab0e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a558a654cd875e3a1120016bb30cab0e9">&#9670;&nbsp;</a></span>Evaluate() <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ReturnType , typename ... ArgType, typename L , size_t N&gt; </div>
-<div class="memtemplate">
-template&lt;size_t M = N, typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ std::enable_if&lt; (M&gt;0)&amp;&amp; sizeof...(ArgType)==3, ReturnType &gt;::type <a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">hydra::LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt;::Evaluate </td>
-          <td>(</td>
-          <td class="paramtype">T&#160;</td>
-          <td class="paramname"><em>a</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a620b9f552df9922485f4a62d6f3b71b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a620b9f552df9922485f4a62d6f3b71b6">&#9670;&nbsp;</a></span>Evaluate() <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ReturnType , typename ... ArgType, typename L , size_t N&gt; </div>
-<div class="memtemplate">
-template&lt;typename ... T, size_t M = N&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ std::enable_if&lt; (M==0) &amp;&amp;( (sizeof...(ArgType))&gt;1), ReturnType &gt;::type <a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">hydra::LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt;::Evaluate </td>
-          <td>(</td>
-          <td class="paramtype">T...&#160;</td>
-          <td class="paramname"><em>a</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a1d06feab4d21ffb413aa028130b42f91"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d06feab4d21ffb413aa028130b42f91">&#9670;&nbsp;</a></span>Evaluate() <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ReturnType , typename ... ArgType, typename L , size_t N&gt; </div>
-<div class="memtemplate">
-template&lt;typename ... T, size_t M = N&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ std::enable_if&lt; (M==0)&amp;&amp; sizeof...(ArgType)==1, ReturnType &gt;::type <a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">hydra::LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt;::Evaluate </td>
-          <td>(</td>
-          <td class="paramtype">T...&#160;</td>
-          <td class="paramname"><em>a</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a3db9e8c9e7ef8e58334e1dd3e06be7c1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3db9e8c9e7ef8e58334e1dd3e06be7c1">&#9670;&nbsp;</a></span>GetLambda()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ReturnType , typename ... ArgType, typename L , size_t N&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ const L&amp; <a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">hydra::LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt;::GetLambda </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the underlying lambda. </p>
-
-</div>
-</div>
-<a id="ab2a893e69edf39d315509c987898cf95"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2a893e69edf39d315509c987898cf95">&#9670;&nbsp;</a></span>operator=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ReturnType , typename ... ArgType, typename L , size_t N&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">LambdaWrapper</a>&lt;ReturnType(ArgType...), L, N&gt; <a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">hydra::LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt;::operator= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">LambdaWrapper</a>&lt; ReturnType(ArgType...), L, N &gt; const &amp;&#160;</td>
-          <td class="paramname"><em>other</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Assignment operator. </p>
-
-</div>
-</div>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ga1ed4b0fb2957a3933162b9fc3f386203"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga1ed4b0fb2957a3933162b9fc3f386203">&#9670;&nbsp;</a></span>wrap_lambda() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename L , typename ... T&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">auto hydra::wrap_lambda </td>
-          <td>(</td>
-          <td class="paramtype">L const &amp;&#160;</td>
-          <td class="paramname"><em>f</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">T const &amp;...&#160;</td>
-          <td class="paramname"><em>pars</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> -&gt; decltype(<a class="el" href="namespacehydra_1_1detail.html#a34f5637c265f0432130b335c2590345b">detail::wrap_lambda_helper</a>( std::declval&lt;L&gt;(),
-		std::declval&lt;typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt;L&gt;::return_type&gt;() ,
-		std::declval&lt;typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt;L&gt;::args_type&gt;() ,
-		std::declval&lt;std::array&lt;<a class="el" href="group__fit.html#structhydra_1_1Parameter">Parameter</a>, sizeof...(T)&gt;&gt;()))
-</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="FunctionWrapper_8h.html">FunctionWrapper.h</a>&gt;</code></p>
-
-<p>Function template for wrap a C++11 lambda into a hydra lambda with a certain number of parameters. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">f</td><td>C++11 lambda implementing the operator()(n, params, args) where n is the number of parameters, params a pointer to the parameter array and args are the arguments. </td></tr>
-    <tr><td class="paramname">pars</td><td>parameters. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="namespacehydra.html#classhydra_1_1LambdaWrapper">LambdaWrapper</a> object. </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="adaptive_gauss_kronrod_8inl-example.html#a5">adaptive_gauss_kronrod.inl</a>, <a class="el" href="basic_fit_8inl-example.html#a13">basic_fit.inl</a>, <a class="el" href="basic_fit_range_semantics_8inl-example.html#a13">basic_fit_range_semantics.inl</a>, <a class="el" href="dalitz_plot_8C-example.html#a25">dalitz_plot.C</a>, <a class="el" href="dalitz_plot_8inl-example.html#a25">dalitz_plot.inl</a>, <a class="el" href="dense_histogram_8inl-example.html#a4">dense_histogram.inl</a>, <a class="el" href="extended_logLL_fit_8inl-example.html#a18">extended_logLL_fit.inl</a>, <a class="el" href="fit_gaussian_8C-example.html#a12">fit_gaussian.C</a>, <a class="el" href="fit_johnson_8C-example.html#a12">fit_johnson.C</a>, <a class="el" href="fractional_logLL_fit_8inl-example.html#a17">fractional_logLL_fit.inl</a>, <a class="el" href="gauss_kronrod_8inl-example.html#a5">gauss_kronrod.inl</a>, <a class="el" href="multidimensional_fit_8inl-example.html#a9">multidimensional_fit.inl</a>, <a class="el" href="phsp_averaging_functor_8inl-example.html#a4">phsp_averaging_functor.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#a4">phsp_basic.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#a4">phsp_reweighting.inl</a>, <a class="el" href="phsp_unweighting_functor_8inl-example.html#a4">phsp_unweighting_functor.inl</a>, <a class="el" href="plain_mc_8inl-example.html#a5">plain_mc.inl</a>, <a class="el" href="range_semantics_8inl-example.html#a1">range_semantics.inl</a>, <a class="el" href="sample_distribution_8inl-example.html#a4">sample_distribution.inl</a>, <a class="el" href="sparse_histogram_8inl-example.html#a4">sparse_histogram.inl</a>, <a class="el" href="splot_8inl-example.html#a20">splot.inl</a>, and <a class="el" href="vegas_8inl-example.html#a5">vegas.inl</a>.</dd>
-</dl>
-</div>
-</div>
-<a id="gaaa81f25675f16b161be78aa2b0cfb307"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaaa81f25675f16b161be78aa2b0cfb307">&#9670;&nbsp;</a></span>wrap_lambda() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename L &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">auto hydra::wrap_lambda </td>
-          <td>(</td>
-          <td class="paramtype">L const &amp;&#160;</td>
-          <td class="paramname"><em>f</em></td><td>)</td>
-          <td> -&gt; decltype(<a class="el" href="namespacehydra_1_1detail.html#a34f5637c265f0432130b335c2590345b">detail::wrap_lambda_helper</a>(std::declval&lt;L&gt;(),
-		std::declval&lt;typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt;L&gt;::return_type&gt;() ,
-		std::declval&lt;typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1function__traits">detail::function_traits</a>&lt;L&gt;::args_type&gt;()))
-</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="FunctionWrapper_8h.html">FunctionWrapper.h</a>&gt;</code></p>
-
-<p>Function template for wrap a C++11 lambda into a hydra lambda. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">f</td><td>C++11 lambda implementing the operator()(args) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

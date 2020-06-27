@@ -1,21 +1,15 @@
 var searchData=
 [
-  ['gbool_5ft',['GBool_t',['../namespacehydra.html#aa8c251ed5017d0638da929130062bcad',1,'hydra']]],
-  ['gbyte_5ft',['GByte_t',['../namespacehydra.html#ae2da2ab0037e6bca3cb7c15adc5c4125',1,'hydra']]],
-  ['gchar_5ft',['GChar_t',['../namespacehydra.html#a7ab04a199389c4989174dc115507fa89',1,'hydra']]],
-  ['gcomplex_5ft',['GComplex_t',['../namespacehydra.html#a7ab78a78009fd9969bce04250387d13e',1,'hydra']]],
-  ['gdouble_5ft',['GDouble_t',['../namespacehydra.html#af986267d40d932c5cbf0ae874a506f83',1,'hydra']]],
-  ['gfloat_5ft',['GFloat_t',['../namespacehydra.html#a71bab7b854d7b3c3042fe47201b765eb',1,'hydra']]],
-  ['gint_5ft',['GInt_t',['../namespacehydra.html#a0c9fb4d7195ab952da10a82d5c4ad30e',1,'hydra']]],
-  ['glong64_5ft',['GLong64_t',['../namespacehydra.html#a9d68c21fb715bbfb1edc5b1933b173e9',1,'hydra']]],
-  ['glong_5ft',['GLong_t',['../namespacehydra.html#a5f57a4025b40929c2708cd544c3a1ccd',1,'hydra']]],
-  ['glongdouble_5ft',['GLongDouble_t',['../namespacehydra.html#a751abe69b482cde879c718fd4775733f',1,'hydra']]],
-  ['greal_5ft',['GReal_t',['../namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab',1,'hydra']]],
-  ['gshort_5ft',['GShort_t',['../namespacehydra.html#a589c60d92ba893c28d814edd6e149a9c',1,'hydra']]],
-  ['gtext_5ft',['GText_t',['../namespacehydra.html#abc842c1ec8321e9637dee714dcdaebff',1,'hydra']]],
-  ['guchar_5ft',['GUChar_t',['../namespacehydra.html#a51ef97faee95aa79f3839eb7abdf5238',1,'hydra']]],
-  ['guint_5ft',['GUInt_t',['../namespacehydra.html#a251a7b1f515ac1ed9409afd67252a32b',1,'hydra']]],
-  ['gulong64_5ft',['GULong64_t',['../namespacehydra.html#a55e8443cd746900da90cb1f77807e7c0',1,'hydra']]],
-  ['gulong_5ft',['GULong_t',['../namespacehydra.html#abf9a0d54fd4ed46052939549edd086c5',1,'hydra']]],
-  ['gushort_5ft',['GUShort_t',['../namespacehydra.html#a911a3042526fac189d0c87a089f52955',1,'hydra']]]
+  ['host_5fbackend_5ftype',['host_backend_type',['../namespacehydra_1_1detail.html#a104b4351044b9f8f7d224c9a7e318031',1,'hydra::detail::FFTPolicy&lt; T, detail::CuFFT &gt;::host_backend_type()'],['../namespacehydra_1_1detail.html#a59e397b257e2684bc9e1d77a250b55bc',1,'hydra::detail::FFTPolicy&lt; T, detail::FFTW &gt;::host_backend_type()']]],
+  ['host_5ft',['host_t',['../namespacehydra_1_1detail_1_1host.html#a3634fc7233620f29f577b16f8de977b3',1,'hydra::detail::host']]],
+  ['hydra_5fanalytical_5fintegral_5ftag',['hydra_analytical_integral_tag',['../classhydra_1_1AnalyticalIntegral.html#ae4eb39ed16a57c05edaa59b27e7d221e',1,'hydra::AnalyticalIntegral']]],
+  ['hydra_5fcomposed_5ffunctor_5ftype',['hydra_composed_functor_type',['../classhydra_1_1detail_1_1CompositeBase.html#a22ec3232fa0d6f4f7824472d7cdb3ae9',1,'hydra::detail::CompositeBase::hydra_composed_functor_type()'],['../structhydra_1_1detail_1_1AddPdfFunctor.html#a04a94e4ff0f8761411c14315ef56916d',1,'hydra::detail::AddPdfFunctor::hydra_composed_functor_type()']]],
+  ['hydra_5ffunctor_5ftag',['hydra_functor_tag',['../structhydra_1_1Argument.html#a6b5181815568cf022d3e5b28ba8986c0',1,'hydra::Argument::hydra_functor_tag()'],['../structhydra_1_1Constant.html#ab0e0c64c040b59e598de23f861e576db',1,'hydra::Constant::hydra_functor_tag()']]],
+  ['hydra_5ffunctor_5ftype',['hydra_functor_type',['../classhydra_1_1BaseCompositeFunctor_3_01Composite_00_01hydra__thrust_1_1tuple_3_01F1_00_01F2_00_0863f00b43bfdf79cb6cf50e96bab02ba.html#a7c5a3cbc3cd3736ce265effe4853904a',1,'hydra::BaseCompositeFunctor&lt; Composite, hydra_thrust::tuple&lt; F1, F2, Fs... &gt;, Signature &gt;::hydra_functor_type()'],['../group__functor.html#a7fc5343391019b258e92dce56a5a7cd6',1,'hydra::BaseFunctor::hydra_functor_type()']]],
+  ['hydra_5fintegrator_5ftag',['hydra_integrator_tag',['../group__phsp.html#a31f1fe439c048488c9bbc3e7128c3dc2',1,'hydra::PhaseSpaceIntegrator&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt;, GRND &gt;']]],
+  ['hydra_5fintegrator_5ftype',['hydra_integrator_type',['../structhydra_1_1Integral.html#a6b9a7c3170d2a99ea0ec8c0f31275f2e',1,'hydra::Integral::hydra_integrator_type()'],['../structhydra_1_1Integral_3_01Algorithm_00_011_01_4.html#aef948fd173b85dd2dbffd8d6a55ad104',1,'hydra::Integral&lt; Algorithm, 1 &gt;::hydra_integrator_type()']]],
+  ['hydra_5flambda_5ftype',['hydra_lambda_type',['../classhydra_1_1Lambda_3_01LambdaType_00_010_01_4.html#a8b4be4515a12a72285839cacda505b5b',1,'hydra::Lambda&lt; LambdaType, 0 &gt;::hydra_lambda_type()'],['../classhydra_1_1Lambda.html#a1af2437b57e86194b2a18450caa2200c',1,'hydra::Lambda::hydra_lambda_type()']]],
+  ['hydra_5fnumerical_5fintegral_5ftag',['hydra_numerical_integral_tag',['../classhydra_1_1NumericalIntegral.html#a8c6b8acf2986289db05e2b00652c603c',1,'hydra::NumericalIntegral']]],
+  ['hydra_5fpdf_5ftype',['hydra_pdf_type',['../group__fit.html#a28b44a78f3b7bc22e5b2fd58a18f0128',1,'hydra::PDFSumExtendable::hydra_pdf_type()'],['../group__fit.html#a76c2361a2293edba4f3e4b301ee82d3d',1,'hydra::PDFSumNonExtendable::hydra_pdf_type()']]],
+  ['hydra_5fsum_5fpdf_5ftag',['hydra_sum_pdf_tag',['../group__fit.html#ac397c9fdf1d8c543b0c0b48a37a1556e',1,'hydra::PDFSumExtendable::hydra_sum_pdf_tag()'],['../group__fit.html#a7f97634e10da486449dbbeb70bedfbe3',1,'hydra::PDFSumNonExtendable::hydra_sum_pdf_tag()']]]
 ];

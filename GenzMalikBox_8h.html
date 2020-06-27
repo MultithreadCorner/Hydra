@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -95,7 +96,8 @@ $(document).ready(function(){initNavTree('GenzMalikBox_8h.html','');});
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">GenzMalikBox.h File Reference</div>  </div>
 </div><!--header-->
@@ -104,8 +106,8 @@ $(document).ready(function(){initNavTree('GenzMalikBox_8h.html','');});
 <code>#include &lt;<a class="el" href="">hydra/detail/BackendPolicy.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Types.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/utility/Generic.h</a>&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/tuple.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/iterator/detail/tuple_of_iterator_references.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/tuple.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h&gt;</code><br />
 <code>#include &lt;array&gt;</code><br />
 <code>#include &lt;initializer_list&gt;</code><br />
 <code>#include &lt;math.h&gt;</code><br />
@@ -113,12 +115,14 @@ $(document).ready(function(){initNavTree('GenzMalikBox_8h.html','');});
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for GenzMalikBox.h:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="GenzMalikBox_8h__incl.svg" width="100%" height="484"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="GenzMalikBox_8h__incl.svg" width="100%" height="495"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="GenzMalikBox_8h__dep__incl.svg" width="638" height="411"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="GenzMalikBox_8h__dep__incl.svg" width="348" height="411"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -133,6 +137,10 @@ Data Structures</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1GenzMalikBox.html">hydra::detail::GenzMalikBox&lt; N &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1GenzMalikBoxResult.html">hydra::detail::GenzMalikBoxResult&lt; Type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1GenzMalikBoxResult.html">hydra::detail::GenzMalikBoxResult&lt; Type &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -141,6 +149,15 @@ Namespaces</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacehydra_1_1detail"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html">hydra::detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a6e34df05c3fc32da9e8fe01dddc9fd7e"><td class="memTemplParams" colspan="2">template&lt;typename Type &gt; </td></tr>
+<tr class="memitem:a6e34df05c3fc32da9e8fe01dddc9fd7e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> GenzMalikBoxResult&lt; Type &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a6e34df05c3fc32da9e8fe01dddc9fd7e">hydra::detail::operator+</a> (GenzMalikBoxResult&lt; Type &gt; left, GenzMalikBoxResult&lt; Type &gt; const &amp;right)</td></tr>
+<tr class="separator:a6e34df05c3fc32da9e8fe01dddc9fd7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25dfa2f5f8cfb6485dba5d2a4611b217"><td class="memTemplParams" colspan="2">template&lt;typename Type , size_t N&gt; </td></tr>
+<tr class="memitem:a25dfa2f5f8cfb6485dba5d2a4611b217"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> GenzMalikBoxResult&lt; Type &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a25dfa2f5f8cfb6485dba5d2a4611b217">hydra::detail::operator+</a> (GenzMalikBoxResult&lt; Type &gt; left, GenzMalikBox&lt; N &gt; const &amp;right)</td></tr>
+<tr class="separator:a25dfa2f5f8cfb6485dba5d2a4611b217"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -148,7 +165,7 @@ Namespaces</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="GenzMalikBox_8h.html">GenzMalikBox.h</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

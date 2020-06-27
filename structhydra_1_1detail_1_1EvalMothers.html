@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -107,55 +108,60 @@ $(document).ready(function(){initNavTree('structhydra_1_1detail_1_1EvalMothers.h
 <div class="dynheader">
 Collaboration diagram for hydra::detail::EvalMothers&lt; N, GRND, FUNCTOR, FUNCTORS &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1EvalMothers__coll__graph.svg" width="394" height="331"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1EvalMothers__coll__graph.svg" width="412" height="360"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:ac0821b6ae2694cd5eb00362f04db397b"><td class="memItemLeft" align="right" valign="top">typedef HYDRA_EXTERNAL_NS::thrust::tuple&lt; FUNCTOR, FUNCTORS... &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#ac0821b6ae2694cd5eb00362f04db397b">functors_tuple_type</a></td></tr>
-<tr class="separator:ac0821b6ae2694cd5eb00362f04db397b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7cfd11c7bf7d086409165a883df91e8d"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__cat__type">hydra::detail::tuple_cat_type</a>&lt; HYDRA_EXTERNAL_NS::thrust::tuple&lt; <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> &gt;, <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a4f2c08fd4773bc49e999e6a21bdfee6a">return_tuple_type</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a7cfd11c7bf7d086409165a883df91e8d">result_tuple_type</a></td></tr>
-<tr class="separator:a7cfd11c7bf7d086409165a883df91e8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f2c08fd4773bc49e999e6a21bdfee6a"><td class="memItemLeft" align="right" valign="top">typedef HYDRA_EXTERNAL_NS::thrust::tuple&lt; typename FUNCTOR::return_type, typename FUNCTORS::return_type... &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a4f2c08fd4773bc49e999e6a21bdfee6a">return_tuple_type</a></td></tr>
-<tr class="separator:a4f2c08fd4773bc49e999e6a21bdfee6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2ddbabab4791640c0956de8e4033239"><td class="memItemLeft" align="right" valign="top">typedef hydra_thrust::tuple&lt; FUNCTOR, FUNCTORS... &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#ab2ddbabab4791640c0956de8e4033239">functors_tuple_type</a></td></tr>
+<tr class="separator:ab2ddbabab4791640c0956de8e4033239"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a634cb201dae8b6000fd6e00537a708fe"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__cat__type">hydra::detail::tuple_cat_type</a>&lt; hydra_thrust::tuple&lt; <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> &gt;, <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a920d271b1117c0f722b4df4243e6eb14">return_tuple_type</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a634cb201dae8b6000fd6e00537a708fe">result_tuple_type</a></td></tr>
+<tr class="separator:a634cb201dae8b6000fd6e00537a708fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a920d271b1117c0f722b4df4243e6eb14"><td class="memItemLeft" align="right" valign="top">typedef hydra_thrust::tuple&lt; typename FUNCTOR::return_type, typename FUNCTORS::return_type... &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a920d271b1117c0f722b4df4243e6eb14">return_tuple_type</a></td></tr>
+<tr class="separator:a920d271b1117c0f722b4df4243e6eb14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad25f57d1b7ec8d2866d3feb64e8c5e62"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#ad25f57d1b7ec8d2866d3feb64e8c5e62">EvalMothers</a> (const <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>(&amp;masses)[N], const <a class="el" href="namespacehydra.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> _seed, FUNCTOR const &amp;functor, FUNCTORS const &amp;...functors)</td></tr>
-<tr class="separator:ad25f57d1b7ec8d2866d3feb64e8c5e62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bd4664cfab0d8a7aadbc929c2e7929b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a5bd4664cfab0d8a7aadbc929c2e7929b">EvalMothers</a> (const <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>(&amp;<a class="el" href="phsp__unweighting_8inl.html#ad507bdbe1cd7219fead6e9dcd287d908">masses</a>)[N], <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> maxweight, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> ecm, size_t seed, FUNCTOR const &amp;functor, FUNCTORS const &amp;...functors)</td></tr>
+<tr class="separator:a5bd4664cfab0d8a7aadbc929c2e7929b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2665cdf7783dc95adeec7f6e026d3b4c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a2665cdf7783dc95adeec7f6e026d3b4c">EvalMothers</a> (<a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS... &gt; const &amp;other)</td></tr>
 <tr class="separator:a2665cdf7783dc95adeec7f6e026d3b4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c2e5ae63a49b517382c699bdfcff881"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a3c2e5ae63a49b517382c699bdfcff881">bbsort</a> (<a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *array, <a class="el" href="namespacehydra.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> n)</td></tr>
+<tr class="memitem:a3c2e5ae63a49b517382c699bdfcff881"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a3c2e5ae63a49b517382c699bdfcff881">bbsort</a> (<a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *array, <a class="el" href="namespacehydra.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> <a class="el" href="crystal__ball__plus__exponential_8inl.html#a21f77208d6bc667560ff8aaf8f943b6a">n</a>)</td></tr>
 <tr class="separator:a3c2e5ae63a49b517382c699bdfcff881"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a614a76be8e83b5509801b84ff0816dc0"><td class="memTemplParams" colspan="2">template&lt;typename Tuple &gt; </td></tr>
-<tr class="memitem:a614a76be8e83b5509801b84ff0816dc0"><td class="memTemplItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a7cfd11c7bf7d086409165a883df91e8d">result_tuple_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a614a76be8e83b5509801b84ff0816dc0">operator()</a> (Tuple &amp;particles)</td></tr>
+<tr class="memitem:a614a76be8e83b5509801b84ff0816dc0"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a634cb201dae8b6000fd6e00537a708fe">result_tuple_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a614a76be8e83b5509801b84ff0816dc0">operator()</a> (Tuple &amp;particles)</td></tr>
 <tr class="separator:a614a76be8e83b5509801b84ff0816dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e7cb111514aa49cf56b6351e36833df"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a4e7cb111514aa49cf56b6351e36833df">process</a> (const <a class="el" href="namespacehydra.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> evt, <a class="el" href="group__phsp.html#classhydra_1_1Vector4R">Vector4R</a>(&amp;particles)[N+1])</td></tr>
+<tr class="memitem:a4e7cb111514aa49cf56b6351e36833df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a4e7cb111514aa49cf56b6351e36833df">process</a> (const <a class="el" href="namespacehydra.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> evt, Vector4R(&amp;particles)[N+1])</td></tr>
 <tr class="separator:a4e7cb111514aa49cf56b6351e36833df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:addd7eecad0f184338aa1db401454aa45"><td class="memItemLeft" align="right" valign="top">__hydra_host__ __hydra_device__ static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#addd7eecad0f184338aa1db401454aa45">hash</a> (const size_t a, const size_t b)</td></tr>
+<tr class="memitem:addd7eecad0f184338aa1db401454aa45"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#addd7eecad0f184338aa1db401454aa45">hash</a> (const size_t a, const size_t b)</td></tr>
 <tr class="separator:addd7eecad0f184338aa1db401454aa45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade18c7d601cf9d1ff11b2f3ae2245305"><td class="memItemLeft" align="right" valign="top">__hydra_host__ static __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#ade18c7d601cf9d1ff11b2f3ae2245305">pdk</a> (const <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> a, const <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> b, const <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> c)</td></tr>
+<tr class="memitem:ade18c7d601cf9d1ff11b2f3ae2245305"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> static <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#ade18c7d601cf9d1ff11b2f3ae2245305">pdk</a> (const <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> a, const <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> b, const <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> c)</td></tr>
 <tr class="separator:ade18c7d601cf9d1ff11b2f3ae2245305"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a169822b849fcd3b1044532a6b34f5a50"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#ac0821b6ae2694cd5eb00362f04db397b">functors_tuple_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a169822b849fcd3b1044532a6b34f5a50">fFunctors</a></td></tr>
+<tr class="memitem:a4d417e098d6f21f1ebafee0a17b14ef3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a4d417e098d6f21f1ebafee0a17b14ef3">fECM</a></td></tr>
+<tr class="separator:a4d417e098d6f21f1ebafee0a17b14ef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a169822b849fcd3b1044532a6b34f5a50"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#ab2ddbabab4791640c0956de8e4033239">functors_tuple_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a169822b849fcd3b1044532a6b34f5a50">fFunctors</a></td></tr>
 <tr class="separator:a169822b849fcd3b1044532a6b34f5a50"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc5760166394a4c0e799a2315eefb169"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#adc5760166394a4c0e799a2315eefb169">fMasses</a> [N]</td></tr>
 <tr class="separator:adc5760166394a4c0e799a2315eefb169"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbb9b630d438aeac439426231dce017d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#afbb9b630d438aeac439426231dce017d">fSeed</a></td></tr>
-<tr class="separator:afbb9b630d438aeac439426231dce017d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e1e7b9b396bbcce322eb69bbc0dbd37"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a7e1e7b9b396bbcce322eb69bbc0dbd37">fMaxWeight</a></td></tr>
+<tr class="separator:a7e1e7b9b396bbcce322eb69bbc0dbd37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5d8d41ec9b77837ece02808cdf2027f"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#ab5d8d41ec9b77837ece02808cdf2027f">fSeed</a></td></tr>
+<tr class="separator:ab5d8d41ec9b77837ece02808cdf2027f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;size_t N, typename GRND, typename FUNCTOR, typename ... FUNCTORS&gt;<br />
 struct hydra::detail::EvalMothers&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</h3>
 
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="ac0821b6ae2694cd5eb00362f04db397b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac0821b6ae2694cd5eb00362f04db397b">&#9670;&nbsp;</a></span>functors_tuple_type</h2>
+<a id="ab2ddbabab4791640c0956de8e4033239"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2ddbabab4791640c0956de8e4033239">&#9670;&nbsp;</a></span>functors_tuple_type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -163,15 +169,15 @@ struct hydra::detail::EvalMothers&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</h3>
 template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef HYDRA_EXTERNAL_NS::thrust::tuple&lt;FUNCTOR,FUNCTORS...&gt; <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::<a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#ac0821b6ae2694cd5eb00362f04db397b">functors_tuple_type</a></td>
+          <td class="memname">typedef hydra_thrust::tuple&lt;FUNCTOR,FUNCTORS...&gt; <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::<a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#ab2ddbabab4791640c0956de8e4033239">functors_tuple_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a7cfd11c7bf7d086409165a883df91e8d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7cfd11c7bf7d086409165a883df91e8d">&#9670;&nbsp;</a></span>result_tuple_type</h2>
+<a id="a634cb201dae8b6000fd6e00537a708fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a634cb201dae8b6000fd6e00537a708fe">&#9670;&nbsp;</a></span>result_tuple_type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -179,15 +185,15 @@ template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&g
 template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__cat__type">hydra::detail::tuple_cat_type</a>&lt;HYDRA_EXTERNAL_NS::thrust::tuple&lt;<a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&gt; , <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a4f2c08fd4773bc49e999e6a21bdfee6a">return_tuple_type</a>&gt;::type <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::<a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a7cfd11c7bf7d086409165a883df91e8d">result_tuple_type</a></td>
+          <td class="memname">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__cat__type">hydra::detail::tuple_cat_type</a>&lt;hydra_thrust::tuple&lt;<a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&gt; , <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a920d271b1117c0f722b4df4243e6eb14">return_tuple_type</a>&gt;::type <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::<a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a634cb201dae8b6000fd6e00537a708fe">result_tuple_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a4f2c08fd4773bc49e999e6a21bdfee6a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4f2c08fd4773bc49e999e6a21bdfee6a">&#9670;&nbsp;</a></span>return_tuple_type</h2>
+<a id="a920d271b1117c0f722b4df4243e6eb14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a920d271b1117c0f722b4df4243e6eb14">&#9670;&nbsp;</a></span>return_tuple_type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -195,7 +201,7 @@ template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&g
 template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef HYDRA_EXTERNAL_NS::thrust::tuple&lt;typename FUNCTOR::return_type, typename FUNCTORS::return_type...&gt; <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::<a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a4f2c08fd4773bc49e999e6a21bdfee6a">return_tuple_type</a></td>
+          <td class="memname">typedef hydra_thrust::tuple&lt;typename FUNCTOR::return_type, typename FUNCTORS::return_type...&gt; <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::<a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a920d271b1117c0f722b4df4243e6eb14">return_tuple_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -203,8 +209,8 @@ template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&g
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ad25f57d1b7ec8d2866d3feb64e8c5e62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad25f57d1b7ec8d2866d3feb64e8c5e62">&#9670;&nbsp;</a></span>EvalMothers() <span class="overload">[1/2]</span></h2>
+<a id="a5bd4664cfab0d8a7aadbc929c2e7929b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5bd4664cfab0d8a7aadbc929c2e7929b">&#9670;&nbsp;</a></span>EvalMothers() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -223,8 +229,20 @@ template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&g
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespacehydra.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
-          <td class="paramname"><em>_seed</em>, </td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
+          <td class="paramname"><em>maxweight</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
+          <td class="paramname"><em>ecm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>seed</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -294,7 +312,7 @@ template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&g
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ void <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::bbsort </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> void <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::bbsort </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> *&#160;</td>
           <td class="paramname"><em>array</em>, </td>
@@ -332,7 +350,7 @@ template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&g
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ static constexpr size_t <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::hash </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> static constexpr size_t <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::hash </td>
           <td>(</td>
           <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -372,7 +390,7 @@ template&lt;typename Tuple &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a7cfd11c7bf7d086409165a883df91e8d">result_tuple_type</a> <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::operator() </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a634cb201dae8b6000fd6e00537a708fe">result_tuple_type</a> <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">Tuple &amp;&#160;</td>
           <td class="paramname"><em>particles</em></td><td>)</td>
@@ -400,7 +418,7 @@ template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&g
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ static __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::pdk </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> static <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::pdk </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -444,7 +462,7 @@ template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&g
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">__hydra_host__ __hydra_device__ <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::process </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::process </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="namespacehydra.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a>&#160;</td>
           <td class="paramname"><em>evt</em>, </td>
@@ -452,7 +470,7 @@ template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&g
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__phsp.html#classhydra_1_1Vector4R">Vector4R</a>(&amp;)&#160;</td>
+          <td class="paramtype">Vector4R(&amp;)&#160;</td>
           <td class="paramname"><em>particles</em>[N+1]&#160;</td>
         </tr>
         <tr>
@@ -471,6 +489,22 @@ template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&g
 </div>
 </div>
 <h2 class="groupheader">Field Documentation</h2>
+<a id="a4d417e098d6f21f1ebafee0a17b14ef3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d417e098d6f21f1ebafee0a17b14ef3">&#9670;&nbsp;</a></span>fECM</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::fECM</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a169822b849fcd3b1044532a6b34f5a50"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a169822b849fcd3b1044532a6b34f5a50">&#9670;&nbsp;</a></span>fFunctors</h2>
 
@@ -480,7 +514,7 @@ template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&g
 template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#ac0821b6ae2694cd5eb00362f04db397b">functors_tuple_type</a> <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::fFunctors</td>
+          <td class="memname"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#ab2ddbabab4791640c0956de8e4033239">functors_tuple_type</a> <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::fFunctors</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -503,8 +537,8 @@ template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&g
 
 </div>
 </div>
-<a id="afbb9b630d438aeac439426231dce017d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afbb9b630d438aeac439426231dce017d">&#9670;&nbsp;</a></span>fSeed</h2>
+<a id="a7e1e7b9b396bbcce322eb69bbc0dbd37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e1e7b9b396bbcce322eb69bbc0dbd37">&#9670;&nbsp;</a></span>fMaxWeight</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -512,7 +546,23 @@ template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&g
 template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#a0c9fb4d7195ab952da10a82d5c4ad30e">GInt_t</a> <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::fSeed</td>
+          <td class="memname"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::fMaxWeight</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab5d8d41ec9b77837ece02808cdf2027f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5d8d41ec9b77837ece02808cdf2027f">&#9670;&nbsp;</a></span>fSeed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">hydra::detail::EvalMothers</a>&lt; N, GRND, FUNCTOR, FUNCTORS &gt;::fSeed</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -528,7 +578,7 @@ template&lt;size_t N, typename GRND , typename FUNCTOR , typename ... FUNCTORS&g
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacehydra.html">hydra</a></li><li class="navelem"><a class="el" href="namespacehydra_1_1detail.html">detail</a></li><li class="navelem"><a class="el" href="structhydra_1_1detail_1_1EvalMothers.html">EvalMothers</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

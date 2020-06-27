@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -106,26 +107,30 @@ $(document).ready(function(){initNavTree('multiarray_8h.html','');});
 <code>#include &lt;<a class="el" href="">hydra/detail/BackendPolicy.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/utility/Utility_Tuple.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/functors/Caster.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/Iterable_traits.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/IteratorTraits.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Tuple.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Placeholders.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Iterator.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Range.h</a>&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/iterator/zip_iterator.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/iterator/iterator_traits.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/tuple.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/logical.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/functional.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/detail/type_traits.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/iterator/transform_iterator.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/iterator/zip_iterator.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/iterator/iterator_traits.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/tuple.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/logical.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/functional.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/detail/type_traits.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/iterator/transform_iterator.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for multiarray.h:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="multiarray_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="multiarray_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="multiarray_8h__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="multiarray_8h__dep__incl.svg" width="100%" height="552"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -172,12 +177,12 @@ Functions</h2></td></tr>
 <tr class="memdesc:af63079c411073c082f1099994bd539af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the column <code>_I</code> of the <a class="el" href="namespacehydra.html#classhydra_1_1multiarray">hydra::multiarray</a>.  <a href="namespacehydra.html#af63079c411073c082f1099994bd539af">More...</a><br /></td></tr>
 <tr class="separator:af63079c411073c082f1099994bd539af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa51499fa04d39681eb6244313d32a16c"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, hydra::detail::Backend BACKEND1, hydra::detail::Backend BACKEND2&gt; </td></tr>
-<tr class="memitem:aa51499fa04d39681eb6244313d32a16c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classbool">bool</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#aa51499fa04d39681eb6244313d32a16c">hydra::operator!=</a> (const multiarray&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND1 &gt;&gt; &amp;lhs, const multiarray&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND2 &gt;&gt; &amp;rhs)</td></tr>
+<tr class="memitem:aa51499fa04d39681eb6244313d32a16c"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#aa51499fa04d39681eb6244313d32a16c">hydra::operator!=</a> (const multiarray&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND1 &gt;&gt; &amp;lhs, const multiarray&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND2 &gt;&gt; &amp;rhs)</td></tr>
 <tr class="separator:aa51499fa04d39681eb6244313d32a16c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3bafbf7fa6e97bc40b02d74d7d596ea"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, hydra::detail::Backend BACKEND1, hydra::detail::Backend BACKEND2&gt; </td></tr>
-<tr class="memitem:ab3bafbf7fa6e97bc40b02d74d7d596ea"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classbool">bool</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ab3bafbf7fa6e97bc40b02d74d7d596ea">hydra::operator==</a> (const multiarray&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND1 &gt;&gt; &amp;lhs, const multiarray&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND2 &gt;&gt; &amp;rhs)</td></tr>
+<tr class="memitem:ab3bafbf7fa6e97bc40b02d74d7d596ea"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ab3bafbf7fa6e97bc40b02d74d7d596ea">hydra::operator==</a> (const multiarray&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND1 &gt;&gt; &amp;lhs, const multiarray&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND2 &gt;&gt; &amp;rhs)</td></tr>
 <tr class="separator:ab3bafbf7fa6e97bc40b02d74d7d596ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a589e3fc7f3e94613126a8198bf90dd59"><td class="memItemLeft" align="right" valign="top">return&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a589e3fc7f3e94613126a8198bf90dd59">hydra::Range&lt; iterator_type &gt;</a> (other.begin(cls...), other.end(cls...))</td></tr>
+<tr class="memitem:a589e3fc7f3e94613126a8198bf90dd59"><td class="memItemLeft" align="right" valign="top"><a class="el" href="basic__distributions_8inl.html#a9717e7bbecb906637e86cef6da3d83c2">return</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a589e3fc7f3e94613126a8198bf90dd59">hydra::Range&lt; iterator_type &gt;</a> (other.begin(cls...), <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">other.end</a>(cls...))</td></tr>
 <tr class="separator:a589e3fc7f3e94613126a8198bf90dd59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69daea4927958e8a666ee6ed3a795cbd"><td class="memTemplParams" colspan="2">template&lt;unsigned int I, hydra::detail::Backend BACKEND, typename T , size_t N&gt; </td></tr>
 <tr class="memitem:a69daea4927958e8a666ee6ed3a795cbd"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a69daea4927958e8a666ee6ed3a795cbd">hydra::rbegin</a> (placeholders::placeholder&lt; I &gt;, multiarray&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;&gt; const &amp;other) -&gt; decltype(other.rbegin(placeholders::placeholder&lt; I &gt;</td></tr>
@@ -207,7 +212,7 @@ Functions</h2></td></tr>
 <div class="textblock"><h3>template&lt;typename T, size_t N, typename BACKEND&gt;<br />
 class hydra::multiarray&lt; T, N, BACKEND &gt;</h3>
 
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dense_histogram_8inl-example.html#_a7">dense_histogram.inl</a>, <a class="el" href="multiarray_container_8inl-example.html#_a3">multiarray_container.inl</a>, <a class="el" href="multidimensional_fit_8inl-example.html#_a16">multidimensional_fit.inl</a>, <a class="el" href="range_semantics_8inl-example.html#_a3">range_semantics.inl</a>, <a class="el" href="sample_distribution_8inl-example.html#_a7">sample_distribution.inl</a>, <a class="el" href="sparse_histogram_8inl-example.html#_a7">sparse_histogram.inl</a>, and <a class="el" href="splot_8inl-example.html#_a15">splot.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="multiarray_container_8inl-example.html#_a6">multiarray_container.inl</a>, <a class="el" href="pseudo_experiment_8inl-example.html#_a31">pseudo_experiment.inl</a>, <a class="el" href="sample_distribution_8inl-example.html#_a13">sample_distribution.inl</a>, and <a class="el" href="splot_8inl-example.html#_a42">splot.inl</a>.</dd>
 </dl></div><div class="dynheader">
 Inheritance diagram for hydra::multiarray&lt; T, N, BACKEND &gt;:</div>
 <div class="dyncontent">
@@ -217,7 +222,7 @@ Inheritance diagram for hydra::multiarray&lt; T, N, BACKEND &gt;:</div>
 <div class="dynheader">
 Collaboration diagram for hydra::multiarray&lt; T, N, BACKEND &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classhydra_1_1multiarray__coll__graph.svg" width="146" height="103"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classhydra_1_1multiarray__coll__graph.svg" width="147" height="103"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -229,7 +234,7 @@ Collaboration diagram for hydra::multiarray&lt; T, N, BACKEND &gt;:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="multiarray_8h.html">multiarray.h</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

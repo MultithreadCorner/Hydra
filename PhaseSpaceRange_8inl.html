@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -102,21 +103,23 @@ $(document).ready(function(){initNavTree('PhaseSpaceRange_8inl.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;<a class="el" href="">hydra/detail/Config.h</a>&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/tuple.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/iterator/counting_iterator.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/iterator/transform_iterator.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/tuple.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/iterator/counting_iterator.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/iterator/transform_iterator.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/functors/GenerateDecay.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Vector4R.h</a>&gt;</code><br />
 <code>#include &lt;array&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for PhaseSpaceRange.inl:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="PhaseSpaceRange_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="PhaseSpaceRange_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="PhaseSpaceRange_8inl__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="PhaseSpaceRange_8inl__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -134,9 +137,9 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:acedbe70d8eee7cd7fc27e1b7710e3d99"><td class="memTemplParams" colspan="2">template&lt;size_t N&gt; </td></tr>
-<tr class="memitem:acedbe70d8eee7cd7fc27e1b7710e3d99"><td class="memTemplItemLeft" align="right" valign="top">Range&lt; HYDRA_EXTERNAL_NS::thrust::transform_iterator&lt; detail::GenerateDecay&lt; N, HYDRA_EXTERNAL_NS::thrust::random::default_random_engine &gt;, HYDRA_EXTERNAL_NS::thrust::counting_iterator&lt; size_t &gt;, typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__cat__type">hydra::detail::tuple_cat_type</a>&lt; HYDRA_EXTERNAL_NS::thrust::tuple&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> &gt;, typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__type">hydra::detail::tuple_type</a>&lt; N, Vector4R &gt;::type &gt;::type &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#acedbe70d8eee7cd7fc27e1b7710e3d99">hydra::phase_space_range</a> (Vector4R const &amp;mother, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; masses, size_t nentries)</td></tr>
-<tr class="separator:acedbe70d8eee7cd7fc27e1b7710e3d99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48b523e6ba2de8e88d706f7bad439e00"><td class="memTemplParams" colspan="2">template&lt;size_t N&gt; </td></tr>
+<tr class="memitem:a48b523e6ba2de8e88d706f7bad439e00"><td class="memTemplItemLeft" align="right" valign="top">Range&lt; hydra_thrust::transform_iterator&lt; detail::GenerateDecay&lt; N, hydra_thrust::random::default_random_engine &gt;, hydra_thrust::counting_iterator&lt; size_t &gt;, typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__cat__type">hydra::detail::tuple_cat_type</a>&lt; hydra_thrust::tuple&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> &gt;, typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__type">hydra::detail::tuple_type</a>&lt; N, Vector4R &gt;::type &gt;::type &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a48b523e6ba2de8e88d706f7bad439e00">hydra::phase_space_range</a> (Vector4R const &amp;mother, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; <a class="el" href="phsp__unweighting_8inl.html#ad507bdbe1cd7219fead6e9dcd287d908">masses</a>, size_t seed, size_t length=0)</td></tr>
+<tr class="separator:a48b523e6ba2de8e88d706f7bad439e00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a8a15bcae3f4fff3ff974188f00964d1b"></a>
@@ -159,7 +162,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="PhaseSpaceRange_8inl.html">PhaseSpaceRange.inl</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

@@ -1,0 +1,21 @@
+var NAVTREEINDEX23 =
+{
+"timedependent__phsp__basic_8inl.html#a53db35bcb62ff9ae8ff6ff03c830413c":[4,0,382,2],
+"timedependent__phsp__basic_8inl.html#a7dae4739fbac04752f46169525ad31d0":[4,0,382,0],
+"todo.html":[0],
+"vegas_8cpp.html":[4,0,400],
+"vegas_8cu.html":[4,0,401],
+"vegas_8inl-example.html":[5,39],
+"vegas_8inl.html":[4,0,403],
+"vegas_8inl.html#a1c03069360f1f90a556eb537e0ff8a72":[4,0,403,1],
+"vegas_8inl.html#aea08d3c78fd4f35ccfd9581c8eb76886":[4,0,403,0],
+"wigner__d__matrix_8h.html":[4,0,407],
+"wigner__d__matrix_8h.html#a16cc58cf433d121a37c54f965023d49a":[4,0,407,0],
+"zipping__iterables_8cpp.html":[4,0,416],
+"zipping__iterables_8cpp.html#a1060e1b62a74913a41b374d5cd21f840":[4,0,416,0],
+"zipping__iterables_8cu.html":[4,0,417],
+"zipping__iterables_8cu.html#a8e673f9a60384fbe4c5355ea554cb850":[4,0,417,0],
+"zipping__iterables_8inl.html":[4,0,418],
+"zipping__iterables_8inl.html#a1c03069360f1f90a556eb537e0ff8a72":[4,0,418,1],
+"zipping__iterables_8inl.html#a83fd30fb04e93a5518c391a50ce2471c":[4,0,418,0]
+};

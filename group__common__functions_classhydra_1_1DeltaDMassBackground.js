@@ -1,9 +1,8 @@
 var group__common__functions_classhydra_1_1DeltaDMassBackground =
 [
-    [ "DeltaDMassBackground", "group__common__functions.html#ac57229c308a3c6ab42b18464648c6820", null ],
-    [ "DeltaDMassBackground", "group__common__functions.html#af46eb43537b8bd94a2d2758e3c56537e", null ],
-    [ "DeltaDMassBackground", "group__common__functions.html#a829c2776e5ce9fc2562d96756abe85b5", null ],
-    [ "Evaluate", "group__common__functions.html#a39da21b26e383c0aba1bf2ae96a5a2ab", null ],
-    [ "Evaluate", "group__common__functions.html#ac113e9464e9e8ad7b35629708b65e9ba", null ],
-    [ "operator=", "group__common__functions.html#aa8d8c6981429e26db24930a781970f5c", null ]
+    [ "DeltaDMassBackground", "group__common__functions.html#a04c6f3eaa4f2b203a602202ecd9f28a9", null ],
+    [ "DeltaDMassBackground", "group__common__functions.html#a2967396dde24ae7092e2bc28f48849b3", null ],
+    [ "DeltaDMassBackground", "group__common__functions.html#a51aaae778e2cd9ccd7a338242880a702", null ],
+    [ "Evaluate", "group__common__functions.html#a0bbba87dd0b2d78a79f2dc61f0785d2d", null ],
+    [ "operator=", "group__common__functions.html#a170d3994177184f09f986ed909e5f6e3", null ]
 ];

@@ -1,7 +1,0 @@
-<map id="Chains.h" name="Chains.h">
-<area shape="rect" id="node2" href="$phsp__chain_8inl.html" title="phsp_chain.inl" alt="" coords="76,87,181,114"/>
-<area shape="rect" id="node5" href="$generate__4body__decay__chain_8C.html" title="generate_4body_decay\l_chain.C" alt="" coords="205,80,361,121"/>
-<area shape="rect" id="node6" href="$generate__decay__chain_8C.html" title="generate_decay_chain.C" alt="" coords="386,87,551,114"/>
-<area shape="rect" id="node3" href="$phsp__chain_8cpp.html" title="phsp_chain.cpp" alt="" coords="5,169,119,196"/>
-<area shape="rect" id="node4" href="$phsp__chain_8cu.html" title="phsp_chain.cu" alt="" coords="143,169,250,196"/>
-</map>

@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -96,44 +97,26 @@ $(document).ready(function(){initNavTree('functions_type_p.html','');});
 &#160;
 
 <h3><a id="index_p"></a>- p -</h3><ul>
-<li>particle_tuple
-: <a class="el" href="group__phsp.html#af85d59b360f11ea5afe83ce0c4975f5d">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-</li>
-<li>particles_const_iterator
-: <a class="el" href="group__phsp.html#a0277edcaf5ba42af56747b282117d3ba">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-</li>
-<li>particles_const_reverse_iterator
-: <a class="el" href="group__phsp.html#a9cd7185da710bd91ac1724af3699ebb0">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-</li>
-<li>particles_difference_type
-: <a class="el" href="group__phsp.html#ae6f061fc584a2c8ddfdbf7fb4a1aeb1a">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-</li>
-<li>particles_iterator
-: <a class="el" href="group__phsp.html#aa70f8aa4fc7386e81efb3c77e754e9e0">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-</li>
-<li>particles_iterator_category
-: <a class="el" href="group__phsp.html#ad3e6985ec1315d6e89215a530c2b8670">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-</li>
-<li>particles_reference
-: <a class="el" href="group__phsp.html#aca325f14aa20e6078fde4b1edce9f5e1">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-</li>
-<li>particles_reverse_iterator
-: <a class="el" href="group__phsp.html#a9a8ee9858f21ad3afb3579be7525362f">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-</li>
-<li>particles_value_type
-: <a class="el" href="group__phsp.html#a321cf863e8bfc078714a015a97ecc8f5">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+<li>particles_tuple_type
+: <a class="el" href="structhydra_1_1detail_1_1DecayMother.html#aed8f802bb2693e76abdbafec2fe36170">hydra::detail::DecayMother&lt; N, GRND &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1DecayMothers.html#a6b88e03ee3297c321ded469cc1ccbf24">hydra::detail::DecayMothers&lt; N, GRND &gt;</a>
 </li>
 <li>pdfs_tuple_type
-: <a class="el" href="group__fit.html#a60d4b9bedd916a5c643dfeb6c0667cb4">hydra::PDFSumExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
-, <a class="el" href="group__fit.html#ab9e7f1d098e3a2742d988785a83a0a41">hydra::PDFSumNonExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
-, <a class="el" href="classhydra_1_1SPlot.html#a9ee342eb82211f606905d17ed91414f4">hydra::SPlot&lt; PDF1, PDF2, PDFs &gt;</a>
+: <a class="el" href="group__fit.html#ad4d3b4e3e29419f13bc3814a3d631ca2">hydra::PDFSumExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
+, <a class="el" href="group__fit.html#acc3546dedbf3a4a069c64e2de6a94200">hydra::PDFSumNonExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
+, <a class="el" href="group__fit.html#a2f902f4b8f11c3b94f85ba0bdc07b417">hydra::SPlot&lt; Iterator, PDF1, PDF2, PDFs &gt;</a>
 </li>
-<li>pointer
-: <a class="el" href="group__phsp.html#a8914b769df71ecd2b62d80c0e3c4b8fc">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-, <a class="el" href="classhydra_1_1Range_3_01Iterator_01_4.html#ae9f6519d4d9e3f0639745b9340a135c6">hydra::Range&lt; Iterator &gt;</a>
+<li>plan_type
+: <a class="el" href="classhydra_1_1BaseCuFFT.html#a0c722f7564c645a147e608f67e49c6b8">hydra::BaseCuFFT&lt; InputType, OutputType, PlannerType &gt;</a>
+, <a class="el" href="classhydra_1_1BaseFFTW.html#a93bcbff5775b4362c1ccc286ebac5fe9">hydra::BaseFFTW&lt; InputType, OutputType, PlannerType &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1cufft_1_1__Planner.html#a14ecfcd5923a00e0d40bc09d5e3614b6">hydra::detail::cufft::_Planner&lt; Type &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1fftw_1_1__Planner.html#a7df194883bdcfafe370b71998332b11d">hydra::detail::fftw::_Planner</a>
 </li>
-<li>pointer_t
-: <a class="el" href="classhydra_1_1multivector_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1tuple_3_01T_8_8_8_01_4_00_01hydra3da03b988538add1b3f476b1ea399ad2.html#ae3030a4e25d70b9d713be16c18ccccc5">hydra::multivector&lt; HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt;, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+<li>planf_type
+: <a class="el" href="structhydra_1_1detail_1_1fftw_1_1__Planner.html#a90098a43997b322312682d8adad01dd3">hydra::detail::fftw::_Planner</a>
+</li>
+<li>pointer_tuple
+: <a class="el" href="classhydra_1_1multivector_3_01hydra__thrust_1_1tuple_3_01T_8_8_8_01_4_00_01hydra_1_1detail_1_1Baaf5bb9c490efe1cc04683c31129e6041.html#ace6edbf3d4d3320bd02086edb34c9cf3">hydra::multivector&lt; hydra_thrust::tuple&lt; T... &gt;, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 </li>
 <li>pointer_v
 : <a class="el" href="classhydra_1_1multiarray_3_01T_00_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#a56524e5c2869e4d2dd3889a732946549">hydra::multiarray&lt; T, N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
@@ -144,7 +127,7 @@ $(document).ready(function(){initNavTree('functions_type_p.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:03 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

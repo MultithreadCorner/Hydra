@@ -1,6 +1,6 @@
 var Complex_8h =
 [
-    [ "complex", "Complex_8h.html#a4f9af1aefe36fa4f80f57289ffb84dca", null ],
+    [ "complex", "Complex_8h.html#a9be56668c1da1edd25b29c366adf5df9", null ],
     [ "abs", "Complex_8h.html#a5e095cca28f6bec603156fd48914aefe", null ],
     [ "acos", "Complex_8h.html#a256097a85b1ce0eafa6e497f46d87383", null ],
     [ "acosh", "Complex_8h.html#aec91f5ec5ff214023b38f72ec4ac1e76", null ],
@@ -28,9 +28,9 @@ var Complex_8h =
     [ "pow", "Complex_8h.html#ac2256bff965f5a7359591579a97114ec", null ],
     [ "pow", "Complex_8h.html#a4cf806d100f53f6d281b8b826697e10f", null ],
     [ "pow", "Complex_8h.html#a2e9146d77dfa5b6c0fcbcb31557f6854", null ],
-    [ "pow", "Complex_8h.html#ab5e9dc190c08a69b225d320ab8da1582", null ],
-    [ "pow", "Complex_8h.html#adddd0dd31b59ee6d761eccb6cd78b452", null ],
-    [ "pow", "Complex_8h.html#ab57b4e7a8e408d4e545f46a2c1923cd5", null ],
+    [ "pow", "Complex_8h.html#aece82a0891f743f40547b399caad49ec", null ],
+    [ "pow", "Complex_8h.html#a6f50462bdedcc2c5965cbff78acb0bf3", null ],
+    [ "pow", "Complex_8h.html#aeac8e091577c3ede26c1c26123c07621", null ],
     [ "proj", "Complex_8h.html#ace0454750e3561d390ee18b96824227c", null ],
     [ "sin", "Complex_8h.html#acb7d0e5da38544692eb3545e81617e19", null ],
     [ "sinh", "Complex_8h.html#af59c474655ecd14c6748391d80e2e4c2", null ],

@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -107,26 +108,27 @@ $(document).ready(function(){initNavTree('LogLikelihoodFCN1_8inl.html','');});
 <code>#include &lt;<a class="el" href="">hydra/detail/utility/Generic.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Range.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/functors/LogLikelihood1.h</a>&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/transform_reduce.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/inner_product.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/transform_reduce.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/inner_product.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for LogLikelihoodFCN1.inl:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="LogLikelihoodFCN1_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="LogLikelihoodFCN1_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="LogLikelihoodFCN1_8inl__dep__incl.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="LogLikelihoodFCN1_8inl__dep__incl.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:classhydra_1_1LogLikelihoodFCN_3_01Pdf_3_01Functor_00_01Integrator_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fit.html#classhydra_1_1LogLikelihoodFCN_3_01Pdf_3_01Functor_00_01Integrator_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4">hydra::LogLikelihoodFCN&lt; Pdf&lt; Functor, Integrator &gt;, IteratorD, IteratorW... &gt;</a></td></tr>
-<tr class="memdesc:classhydra_1_1LogLikelihoodFCN_3_01Pdf_3_01Functor_00_01Integrator_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4"><td class="mdescLeft">&#160;</td><td class="mdescRight">LogLikehood object for not composed models represented by <a class="el" href="group__fit.html#classhydra_1_1Pdf" title="Class representing probability density functions. ">hydra::Pdf</a> objects.  <a href="group__fit.html#classhydra_1_1LogLikelihoodFCN_3_01Pdf_3_01Functor_00_01Integrator_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4">More...</a><br /></td></tr>
-<tr class="separator:classhydra_1_1LogLikelihoodFCN_3_01Pdf_3_01Functor_00_01Integrator_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1LogLikelihoodFCN_3_01Pdf_3_01Functor_00_01Integrator_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4.html">hydra::LogLikelihoodFCN&lt; Pdf&lt; Functor, Integrator &gt;, IteratorD, IteratorW... &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -141,21 +143,18 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga6ec47177241d6057ab5d2e4ad5fc84a6"><td class="memTemplParams" colspan="2">template&lt;typename Functor , typename Integrator , typename Iterator , typename ... Iterators&gt; </td></tr>
-<tr class="memitem:ga6ec47177241d6057ab5d2e4ad5fc84a6"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fit.html#ga6ec47177241d6057ab5d2e4ad5fc84a6">hydra::make_loglikehood_fcn</a> (Pdf&lt; Functor, Integrator &gt; const &amp;pdf, Iterator first, Iterator last, Iterators... weights) -&gt; LogLikelihoodFCN&lt; Pdf&lt; Functor, Integrator &gt;, Iterator, Iterators... &gt;</td></tr>
-<tr class="memdesc:ga6ec47177241d6057ab5d2e4ad5fc84a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conveniency function to build up loglikehood fcns.  <a href="group__fit.html#ga6ec47177241d6057ab5d2e4ad5fc84a6">More...</a><br /></td></tr>
-<tr class="separator:ga6ec47177241d6057ab5d2e4ad5fc84a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a956732407bfa5db6dd53fb7a1bb7062b"><td class="memTemplParams" colspan="2">template&lt;typename Functor , typename Integrator , typename Iterable , typename ... Iterables, typename U &gt; </td></tr>
-<tr class="memitem:a956732407bfa5db6dd53fb7a1bb7062b"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(!<a class="el" href="structhydra_1_1detail_1_1is__hydra__dense__histogram.html">hydra::detail::is_hydra_dense_histogram</a>&lt; Iterable &gt;::value) &amp;&amp;(!<a class="el" href="structhydra_1_1detail_1_1is__hydra__sparse__histogram.html">hydra::detail::is_hydra_sparse_histogram</a>&lt; Iterable &gt;::value) &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value &amp;&amp;U::value, LogLikelihoodFCN&lt; Pdf&lt; Functor, Integrator &gt;, decltype(std::declval&lt; const Iterable &amp; &gt;).begin()), decltype(std::declval&lt; const Iterables &amp; &gt;).begin())... &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a956732407bfa5db6dd53fb7a1bb7062b">hydra::make_loglikehood_fcn</a> (Pdf&lt; Functor, Integrator &gt; const &amp;pdf, Iterable const &amp;points, Iterables const &amp;... weights)</td></tr>
-<tr class="separator:a956732407bfa5db6dd53fb7a1bb7062b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabe3d480c21e975f0899d3bd2e7f5383f"><td class="memTemplParams" colspan="2">template&lt;typename Functor , typename Integrator , typename T , size_t N, hydra::detail::Backend BACKEND, typename D &gt; </td></tr>
-<tr class="memitem:gabe3d480c21e975f0899d3bd2e7f5383f"><td class="memTemplItemLeft" align="right" valign="top">LogLikelihoodFCN&lt; Pdf&lt; Functor, Integrator &gt;, decltype(std::declval&lt; DenseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, D &gt; &gt;).GetBinsCenters().begin()), decltype(std::declval&lt; DenseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, D &gt; &gt;).GetBinsContents().begin())&gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fit.html#gabe3d480c21e975f0899d3bd2e7f5383f">hydra::make_loglikehood_fcn</a> (Pdf&lt; Functor, Integrator &gt; const  &amp;pdf, DenseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, D &gt; &amp;points)</td></tr>
-<tr class="memdesc:gabe3d480c21e975f0899d3bd2e7f5383f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conveniency function to build up loglikehood fcns for densely binned datasets.  <a href="group__fit.html#gabe3d480c21e975f0899d3bd2e7f5383f">More...</a><br /></td></tr>
-<tr class="separator:gabe3d480c21e975f0899d3bd2e7f5383f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1720a8aed6a942b814dad14efc2148e5"><td class="memTemplParams" colspan="2">template&lt;typename Functor , typename Integrator , typename T , size_t N, hydra::detail::Backend BACKEND, typename D &gt; </td></tr>
-<tr class="memitem:ga1720a8aed6a942b814dad14efc2148e5"><td class="memTemplItemLeft" align="right" valign="top">LogLikelihoodFCN&lt; Pdf&lt; Functor, Integrator &gt;, decltype(std::declval&lt; SparseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, D &gt; &gt;).GetBinsCenters().begin()), decltype(std::declval&lt; SparseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, D &gt; &gt;).GetBinsContents().begin())&gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fit.html#ga1720a8aed6a942b814dad14efc2148e5">hydra::make_loglikehood_fcn</a> (Pdf&lt; Functor, Integrator &gt; const  &amp;pdf, SparseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, D &gt; &amp;points)</td></tr>
-<tr class="memdesc:ga1720a8aed6a942b814dad14efc2148e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conveniency function to build up loglikehood fcns for densely binned datasets.  <a href="group__fit.html#ga1720a8aed6a942b814dad14efc2148e5">More...</a><br /></td></tr>
-<tr class="separator:ga1720a8aed6a942b814dad14efc2148e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9a66809b24de0479eacf80a3fe269c91"><td class="memTemplParams" colspan="2">template&lt;typename Functor , typename Integrator , typename Iterator , typename ... Iterators&gt; </td></tr>
+<tr class="memitem:ga9a66809b24de0479eacf80a3fe269c91"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; detail::is_iterator&lt; Iterator &gt;::value &amp;&amp;detail::are_iterators&lt; Iterators... &gt;::value, LogLikelihoodFCN&lt; Pdf&lt; Functor, <a class="el" href="multidimensional__fit_8inl.html#a6bdffffea16f0dcaa4e4c96eb2c8838f">Integrator</a> &gt;, Iterator, Iterators... &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fit.html#ga9a66809b24de0479eacf80a3fe269c91">hydra::make_loglikehood_fcn</a> (Pdf&lt; Functor, <a class="el" href="multidimensional__fit_8inl.html#a6bdffffea16f0dcaa4e4c96eb2c8838f">Integrator</a> &gt; const  &amp;pdf, Iterator first, Iterator last, Iterators... weights)</td></tr>
+<tr class="memdesc:ga9a66809b24de0479eacf80a3fe269c91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conveniency function to build up loglikehood fcns.  <a href="group__fit.html#ga9a66809b24de0479eacf80a3fe269c91">More...</a><br /></td></tr>
+<tr class="separator:ga9a66809b24de0479eacf80a3fe269c91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5da2d6085352cf67cc5d6116fdcf60be"><td class="memTemplParams" colspan="2">template&lt;typename Functor , typename Integrator , typename Iterable , typename ... Iterables&gt; </td></tr>
+<tr class="memitem:ga5da2d6085352cf67cc5d6116fdcf60be"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(!detail::is_iterator&lt; Iterable &gt;::value) &amp;&amp;((sizeof...(Iterables)==0)||!detail::are_iterators&lt; Iterables... &gt;::value) &amp;&amp;(!<a class="el" href="structhydra_1_1detail_1_1is__hydra__dense__histogram.html">hydra::detail::is_hydra_dense_histogram</a>&lt; typename std::remove_reference&lt; Iterable &gt;::type &gt;::value) &amp;&amp;(!<a class="el" href="structhydra_1_1detail_1_1is__hydra__sparse__histogram.html">hydra::detail::is_hydra_sparse_histogram</a>&lt; typename std::remove_reference&lt; Iterable &gt;::type &gt;::value) &amp;&amp;detail::is_iterable&lt; Iterable &gt;::value &amp;&amp;detail::are_iterables&lt; Iterables... &gt;::value, LogLikelihoodFCN&lt; Pdf&lt; Functor, <a class="el" href="multidimensional__fit_8inl.html#a6bdffffea16f0dcaa4e4c96eb2c8838f">Integrator</a> &gt;, decltype(std::declval&lt; Iterable &gt;).begin()), decltype(std::declval&lt; Iterables &gt;).begin())... &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fit.html#ga5da2d6085352cf67cc5d6116fdcf60be">hydra::make_loglikehood_fcn</a> (Pdf&lt; Functor, <a class="el" href="multidimensional__fit_8inl.html#a6bdffffea16f0dcaa4e4c96eb2c8838f">Integrator</a> &gt; const  &amp;pdf, Iterable &amp;&amp;points, Iterables &amp;&amp;... weights)</td></tr>
+<tr class="memdesc:ga5da2d6085352cf67cc5d6116fdcf60be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conveniency function to build up loglikehood fcns.  <a href="group__fit.html#ga5da2d6085352cf67cc5d6116fdcf60be">More...</a><br /></td></tr>
+<tr class="separator:ga5da2d6085352cf67cc5d6116fdcf60be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabec44b969b69228eb8f17fa82ec96df0"><td class="memTemplParams" colspan="2">template&lt;typename Functor , typename Integrator , typename Histogram &gt; </td></tr>
+<tr class="memitem:gabec44b969b69228eb8f17fa82ec96df0"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; detail::is_hydra_dense_histogram&lt; Histogram &gt;::value||detail::is_hydra_sparse_histogram&lt; Histogram &gt;::value, LogLikelihoodFCN&lt; Pdf&lt; Functor, <a class="el" href="multidimensional__fit_8inl.html#a6bdffffea16f0dcaa4e4c96eb2c8838f">Integrator</a> &gt;, decltype(std::declval&lt; const Histogram &amp; &gt;).GetBinsCenters().begin()), decltype(std::declval&lt; const Histogram &amp; &gt;).GetBinsContents().begin())&gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fit.html#gabec44b969b69228eb8f17fa82ec96df0">hydra::make_loglikehood_fcn</a> (Pdf&lt; Functor, <a class="el" href="multidimensional__fit_8inl.html#a6bdffffea16f0dcaa4e4c96eb2c8838f">Integrator</a> &gt; const &amp;pdf, Histogram const &amp;points)</td></tr>
+<tr class="memdesc:gabec44b969b69228eb8f17fa82ec96df0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience function to build up loglikehood fcns for densely and sparsely binned datasets.  <a href="group__fit.html#gabec44b969b69228eb8f17fa82ec96df0">More...</a><br /></td></tr>
+<tr class="separator:gabec44b969b69228eb8f17fa82ec96df0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a5bcfedb353252a0471255669507af132"></a>
@@ -178,7 +177,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="LogLikelihoodFCN1_8inl.html">LogLikelihoodFCN1.inl</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

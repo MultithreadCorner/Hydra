@@ -1,3 +1,3 @@
 <map id="hydra::GenzMalikQuadrature&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;" name="hydra::GenzMalikQuadrature&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;">
-<area shape="rect" id="node2" href="$structhydra_1_1Integral.html" title="{hydra::Integral\&lt; std\l::enable_if\&lt;(N \&gt;1), GenzMalik\lQuadrature\&lt; N, hydra::detail\l::BackendPolicy\&lt; BACKEND \&gt; \&gt;\l \&gt;::type \&gt;\n||+ operator()()\l+ operator()()\l}" alt="" coords="6,5,222,156"/>
+<area shape="rect" id="node2" href="$structhydra_1_1Integral.html" title="{hydra::Integral\&lt; std\l::enable_if\&lt;(N \&gt;1), GenzMalik\lQuadrature\&lt; N, hydra::detail\l::BackendPolicy\&lt; BACKEND \&gt; \&gt;\l \&gt;::type \&gt;\n||+ operator()()\l+ operator()()\l}" alt="" coords="5,5,224,156"/>
 </map>

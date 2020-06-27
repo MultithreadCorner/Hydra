@@ -1,5 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$structhydra_1_1detail_1_1all__true.html" title="hydra::detail::all\l_true\&lt; detail::is_hydra\l_pdf\&lt; PDF1 \&gt;::value, detail\l::is_hydra_pdf\&lt; PDF2 \&gt;::value,\l detail::is_hydra_pdf\&lt; PDFs \&gt;\l::value... \&gt;" alt="" coords="124,5,328,105"/>
-<area shape="rect" id="node4" href="$structhydra_1_1detail_1_1all__true.html" title="hydra::detail::all\l_true\&lt; bs \&gt;" alt="" coords="169,129,283,171"/>
-<area shape="rect" id="node3" href="$classhydra_1_1detail_1_1AddPdfChecker.html" title="hydra::detail::AddPdfChecker\l\&lt; PDF1, PDF2, PDFs \&gt;" alt="" coords="376,35,568,76"/>
+<area shape="rect" id="node1" href="$structhydra_1_1detail_1_1AddResultGenzMalikBoxes.html" title="hydra::detail::AddResult\lGenzMalikBoxes" alt="" coords="5,5,168,47"/>
 </map>

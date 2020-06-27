@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -99,14 +100,19 @@ $(document).ready(function(){initNavTree('functions_func_l.html','');});
 <li>Label()
 : <a class="el" href="classhydra_1_1Print.html#a92abedcb3fd91bc7f6ac01b0ea420fd9">hydra::Print</a>
 </li>
-<li>LambdaWrapper()
-: <a class="el" href="group__functor.html#a9b2418b681b3f0afda78568f53860da9">hydra::LambdaWrapper&lt; ReturnType(ArgType...), L, N &gt;</a>
+<li>Lambda()
+: <a class="el" href="classhydra_1_1Lambda.html#a7d6c348dff8389e9d9f21aab48e99faf">hydra::Lambda&lt; LambdaType, NPARAM &gt;</a>
+, <a class="el" href="classhydra_1_1Lambda_3_01LambdaType_00_010_01_4.html#ae3d26f2687d8cc874e901f36ca59bec8">hydra::Lambda&lt; LambdaType, 0 &gt;</a>
 </li>
 <li>Level()
 : <a class="el" href="classhydra_1_1Print.html#a8420ebe5433589b26123013d567a887a">hydra::Print</a>
 </li>
 <li>Limits()
 : <a class="el" href="group__fit.html#affd113cf96daed021e40e90ecd44286e">hydra::Parameter</a>
+</li>
+<li>LoadInputData()
+: <a class="el" href="classhydra_1_1BaseCuFFT.html#a07ae0278e390b0f695e58a21ddfc08a0">hydra::BaseCuFFT&lt; InputType, OutputType, PlannerType &gt;</a>
+, <a class="el" href="classhydra_1_1BaseFFTW.html#a18a18a0f62876cebdfef09fea3496013">hydra::BaseFFTW&lt; InputType, OutputType, PlannerType &gt;</a>
 </li>
 <li>LogLikelihood1()
 : <a class="el" href="structhydra_1_1detail_1_1LogLikelihood1.html#a1642eac76567128df1d1b4ee28df97db">hydra::detail::LogLikelihood1&lt; FUNCTOR &gt;</a>
@@ -115,12 +121,12 @@ $(document).ready(function(){initNavTree('functions_func_l.html','');});
 : <a class="el" href="structhydra_1_1detail_1_1LogLikelihood2.html#a4cb6edffb9e222a91e766cdf944c100b">hydra::detail::LogLikelihood2&lt; FUNCTOR &gt;</a>
 </li>
 <li>LogLikelihoodFCN()
-: <a class="el" href="group__fit.html#afeb1e4a1c769b24307ece88dbbe00ba0">hydra::LogLikelihoodFCN&lt; Pdf&lt; Functor, Integrator &gt;, IteratorD, IteratorW... &gt;</a>
-, <a class="el" href="group__fit.html#aecc159cf7554ee1537b10ca543328048">hydra::LogLikelihoodFCN&lt; PDFSumExtendable&lt; Pdfs... &gt;, IteratorD, IteratorW... &gt;</a>
-, <a class="el" href="group__fit.html#aaf30d9a774fab6f2f57d66aeb566a891">hydra::LogLikelihoodFCN&lt; PDFSumNonExtendable&lt; Pdfs... &gt;, IteratorD, IteratorW... &gt;</a>
+: <a class="el" href="classhydra_1_1LogLikelihoodFCN_3_01Pdf_3_01Functor_00_01Integrator_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4.html#ac7c5c04bd72ab2338ada5c516aabc97f">hydra::LogLikelihoodFCN&lt; Pdf&lt; Functor, Integrator &gt;, IteratorD, IteratorW... &gt;</a>
+, <a class="el" href="classhydra_1_1LogLikelihoodFCN_3_01PDFSumExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4.html#aecc159cf7554ee1537b10ca543328048">hydra::LogLikelihoodFCN&lt; PDFSumExtendable&lt; Pdfs... &gt;, IteratorD, IteratorW... &gt;</a>
+, <a class="el" href="classhydra_1_1LogLikelihoodFCN_3_01PDFSumNonExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4.html#a11cefedc82ddd1894e5f786ce7b9eca3">hydra::LogLikelihoodFCN&lt; PDFSumNonExtendable&lt; Pdfs... &gt;, IteratorD, IteratorW... &gt;</a>
 </li>
 <li>LogNormal()
-: <a class="el" href="group__common__functions.html#a2d23cdf6cb886eefdfef10b46ff6d3d8">hydra::LogNormal&lt; ArgIndex &gt;</a>
+: <a class="el" href="group__common__functions.html#a8eca830aeebe5d8923fdc27ceb899990">hydra::LogNormal&lt; ArgType, Signature &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -128,7 +134,7 @@ $(document).ready(function(){initNavTree('functions_func_l.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:03 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

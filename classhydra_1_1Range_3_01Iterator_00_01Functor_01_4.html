@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -103,31 +104,38 @@ $(document).ready(function(){initNavTree('classhydra_1_1Range_3_01Iterator_00_01
 <div class="dynheader">
 Collaboration diagram for hydra::Range&lt; Iterator, Functor &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4__coll__graph.svg" width="167" height="250"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4__coll__graph.svg" width="167" height="250"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:aa4adce4b827ae3f35b74631b5614f940"><td class="memItemLeft" align="right" valign="top">typedef HYDRA_EXTERNAL_NS::thrust::transform_iterator&lt; Functor, Iterator, typename Functor::return_type &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa4adce4b827ae3f35b74631b5614f940">iterator</a></td></tr>
-<tr class="separator:aa4adce4b827ae3f35b74631b5614f940"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1b5ec65034c1e114e1a8b95b43c9b6e"><td class="memItemLeft" align="right" valign="top">typedef hydra_thrust::transform_iterator&lt; Functor, Iterator, typename Functor::return_type &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa1b5ec65034c1e114e1a8b95b43c9b6e">iterator</a></td></tr>
+<tr class="separator:aa1b5ec65034c1e114e1a8b95b43c9b6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1c935dfa12e8c35cd7868c1596aff4a"><td class="memItemLeft" align="right" valign="top">typedef hydra_thrust::iterator_traits&lt; <a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa1b5ec65034c1e114e1a8b95b43c9b6e">iterator</a> &gt;::<a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#ac1c935dfa12e8c35cd7868c1596aff4a">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#ac1c935dfa12e8c35cd7868c1596aff4a">reference</a></td></tr>
+<tr class="separator:ac1c935dfa12e8c35cd7868c1596aff4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:add923646490cb35c04a4fdf0c331946c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#add923646490cb35c04a4fdf0c331946c">Range</a> ()=delete</td></tr>
 <tr class="separator:add923646490cb35c04a4fdf0c331946c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a700f5e94d5563b7206b2ceb6ab9ef8ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a700f5e94d5563b7206b2ceb6ab9ef8ad">Range</a> (Iterator <a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a4898d3e1c409fed9332a64bd066f28b0">begin</a>, Iterator <a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#ad503467bd848a33f9390130584a7bd06">end</a>, Functor functor)</td></tr>
-<tr class="separator:a700f5e94d5563b7206b2ceb6ab9ef8ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5cbb7d8d707050a1df6bacf5a02ecd3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#ae5cbb7d8d707050a1df6bacf5a02ecd3">Range</a> (Iterator <a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a4898d3e1c409fed9332a64bd066f28b0">begin</a>, size_t last, Functor functor)</td></tr>
-<tr class="separator:ae5cbb7d8d707050a1df6bacf5a02ecd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55be261ac6333c650f11cea222d0a4f5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a55be261ac6333c650f11cea222d0a4f5">Range</a> (Iterator <a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a4898d3e1c409fed9332a64bd066f28b0">begin</a>, Iterator <a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#ad503467bd848a33f9390130584a7bd06">end</a>, Functor const &amp;functor)</td></tr>
+<tr class="separator:a55be261ac6333c650f11cea222d0a4f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e7eb18859f0ab01c6d653fcca86e821"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a8e7eb18859f0ab01c6d653fcca86e821">Range</a> (Iterator <a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a4898d3e1c409fed9332a64bd066f28b0">begin</a>, size_t last, Functor const &amp;functor)</td></tr>
+<tr class="separator:a8e7eb18859f0ab01c6d653fcca86e821"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc0c943b12d4e51f32d782bb347b0fe5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#acc0c943b12d4e51f32d782bb347b0fe5">Range</a> (<a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; Iterator, Functor &gt; const &amp;other)</td></tr>
 <tr class="separator:acc0c943b12d4e51f32d782bb347b0fe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4898d3e1c409fed9332a64bd066f28b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa4adce4b827ae3f35b74631b5614f940">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a4898d3e1c409fed9332a64bd066f28b0">begin</a> ()</td></tr>
+<tr class="memitem:a4898d3e1c409fed9332a64bd066f28b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa1b5ec65034c1e114e1a8b95b43c9b6e">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a4898d3e1c409fed9332a64bd066f28b0">begin</a> ()</td></tr>
 <tr class="separator:a4898d3e1c409fed9332a64bd066f28b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a901bec8fc875f96f41d80763e0580dee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa4adce4b827ae3f35b74631b5614f940">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a901bec8fc875f96f41d80763e0580dee">begin</a> () const</td></tr>
+<tr class="memitem:a901bec8fc875f96f41d80763e0580dee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa1b5ec65034c1e114e1a8b95b43c9b6e">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a901bec8fc875f96f41d80763e0580dee">begin</a> () const</td></tr>
 <tr class="separator:a901bec8fc875f96f41d80763e0580dee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad503467bd848a33f9390130584a7bd06"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa4adce4b827ae3f35b74631b5614f940">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#ad503467bd848a33f9390130584a7bd06">end</a> ()</td></tr>
+<tr class="memitem:a19a796e9ce85118a35f5577d70c71e81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa1b5ec65034c1e114e1a8b95b43c9b6e">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a19a796e9ce85118a35f5577d70c71e81">cbegin</a> () const</td></tr>
+<tr class="separator:a19a796e9ce85118a35f5577d70c71e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d63e347c89b8a17f675062c5f99f448"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa1b5ec65034c1e114e1a8b95b43c9b6e">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a9d63e347c89b8a17f675062c5f99f448">cend</a> () const</td></tr>
+<tr class="separator:a9d63e347c89b8a17f675062c5f99f448"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad503467bd848a33f9390130584a7bd06"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa1b5ec65034c1e114e1a8b95b43c9b6e">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#ad503467bd848a33f9390130584a7bd06">end</a> ()</td></tr>
 <tr class="separator:ad503467bd848a33f9390130584a7bd06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90dd981c64cd582d576379207c26a19c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa4adce4b827ae3f35b74631b5614f940">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a90dd981c64cd582d576379207c26a19c">end</a> () const</td></tr>
+<tr class="memitem:a90dd981c64cd582d576379207c26a19c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa1b5ec65034c1e114e1a8b95b43c9b6e">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a90dd981c64cd582d576379207c26a19c">end</a> () const</td></tr>
 <tr class="separator:a90dd981c64cd582d576379207c26a19c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab13aeeb1d49e641d45c60d91ae843873"><td class="memItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#ab13aeeb1d49e641d45c60d91ae843873">GetBegin</a> () const</td></tr>
 <tr class="separator:ab13aeeb1d49e641d45c60d91ae843873"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,8 +147,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1910536037035261b5e0f6be46375435"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb830c8fdf5c96f160609e07805d9c65"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; Iterator, Functor &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aeb830c8fdf5c96f160609e07805d9c65">operator=</a> (<a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; Iterator, Functor &gt; const &amp;other)</td></tr>
 <tr class="separator:aeb830c8fdf5c96f160609e07805d9c65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeadfb9f60fc241d337e346874c6aef9e"><td class="memItemLeft" align="right" valign="top">iterator::reference&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aeadfb9f60fc241d337e346874c6aef9e">operator[]</a> (size_t i)</td></tr>
-<tr class="separator:aeadfb9f60fc241d337e346874c6aef9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fb4b608222edcf91576abdc4da4cfe6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#ac1c935dfa12e8c35cd7868c1596aff4a">reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a4fb4b608222edcf91576abdc4da4cfe6">operator[]</a> (size_t i)</td></tr>
+<tr class="separator:a4fb4b608222edcf91576abdc4da4cfe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42b800983fde23296d62025a1bbcdd72"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a42b800983fde23296d62025a1bbcdd72">resize</a> (size_t <a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a4d01cd4952b982c9592706e5b08d6578">size</a>)</td></tr>
+<tr class="separator:a42b800983fde23296d62025a1bbcdd72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a496ef771418b80857909845a16c7abb6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a496ef771418b80857909845a16c7abb6">SetBegin</a> (Iterator <a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a4898d3e1c409fed9332a64bd066f28b0">begin</a>)</td></tr>
 <tr class="separator:a496ef771418b80857909845a16c7abb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd920b8480a8dd1495971a1309e50afa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#abd920b8480a8dd1495971a1309e50afa">SetEnd</a> (Iterator <a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#ad503467bd848a33f9390130584a7bd06">end</a>)</td></tr>
@@ -153,8 +163,8 @@ Public Member Functions</h2></td></tr>
 class hydra::Range&lt; Iterator, Functor &gt;</h3>
 
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="aa4adce4b827ae3f35b74631b5614f940"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa4adce4b827ae3f35b74631b5614f940">&#9670;&nbsp;</a></span>iterator</h2>
+<a id="aa1b5ec65034c1e114e1a8b95b43c9b6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1b5ec65034c1e114e1a8b95b43c9b6e">&#9670;&nbsp;</a></span>iterator</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -162,7 +172,23 @@ class hydra::Range&lt; Iterator, Functor &gt;</h3>
 template&lt;typename Iterator , typename Functor &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef HYDRA_EXTERNAL_NS::thrust::transform_iterator&lt;Functor, Iterator, typename Functor::return_type&gt; <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; Iterator, Functor &gt;::<a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa4adce4b827ae3f35b74631b5614f940">iterator</a></td>
+          <td class="memname">typedef hydra_thrust::transform_iterator&lt;Functor, Iterator,typename Functor::return_type&gt; <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; Iterator, Functor &gt;::<a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa1b5ec65034c1e114e1a8b95b43c9b6e">iterator</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac1c935dfa12e8c35cd7868c1596aff4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1c935dfa12e8c35cd7868c1596aff4a">&#9670;&nbsp;</a></span>reference</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator , typename Functor &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef hydra_thrust::iterator_traits&lt;<a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa1b5ec65034c1e114e1a8b95b43c9b6e">iterator</a>&gt;::<a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#ac1c935dfa12e8c35cd7868c1596aff4a">reference</a> <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; Iterator, Functor &gt;::<a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#ac1c935dfa12e8c35cd7868c1596aff4a">reference</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -197,8 +223,8 @@ template&lt;typename Iterator , typename Functor &gt; </div>
 
 </div>
 </div>
-<a id="a700f5e94d5563b7206b2ceb6ab9ef8ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a700f5e94d5563b7206b2ceb6ab9ef8ad">&#9670;&nbsp;</a></span>Range() <span class="overload">[2/4]</span></h2>
+<a id="a55be261ac6333c650f11cea222d0a4f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55be261ac6333c650f11cea222d0a4f5">&#9670;&nbsp;</a></span>Range() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -223,7 +249,7 @@ template&lt;typename Iterator , typename Functor &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Functor&#160;</td>
+          <td class="paramtype">Functor const &amp;&#160;</td>
           <td class="paramname"><em>functor</em>&#160;</td>
         </tr>
         <tr>
@@ -241,8 +267,8 @@ template&lt;typename Iterator , typename Functor &gt; </div>
 
 </div>
 </div>
-<a id="ae5cbb7d8d707050a1df6bacf5a02ecd3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5cbb7d8d707050a1df6bacf5a02ecd3">&#9670;&nbsp;</a></span>Range() <span class="overload">[3/4]</span></h2>
+<a id="a8e7eb18859f0ab01c6d653fcca86e821"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e7eb18859f0ab01c6d653fcca86e821">&#9670;&nbsp;</a></span>Range() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -267,7 +293,7 @@ template&lt;typename Iterator , typename Functor &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Functor&#160;</td>
+          <td class="paramtype">Functor const &amp;&#160;</td>
           <td class="paramname"><em>functor</em>&#160;</td>
         </tr>
         <tr>
@@ -326,7 +352,7 @@ template&lt;typename Iterator , typename Functor &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa4adce4b827ae3f35b74631b5614f940">iterator</a> <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; Iterator, Functor &gt;::begin </td>
+          <td class="memname"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa1b5ec65034c1e114e1a8b95b43c9b6e">iterator</a> <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; Iterator, Functor &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -353,7 +379,61 @@ template&lt;typename Iterator , typename Functor &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa4adce4b827ae3f35b74631b5614f940">iterator</a> <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; Iterator, Functor &gt;::begin </td>
+          <td class="memname"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa1b5ec65034c1e114e1a8b95b43c9b6e">iterator</a> <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; Iterator, Functor &gt;::begin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a19a796e9ce85118a35f5577d70c71e81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19a796e9ce85118a35f5577d70c71e81">&#9670;&nbsp;</a></span>cbegin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator , typename Functor &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa1b5ec65034c1e114e1a8b95b43c9b6e">iterator</a> <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; Iterator, Functor &gt;::cbegin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9d63e347c89b8a17f675062c5f99f448"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d63e347c89b8a17f675062c5f99f448">&#9670;&nbsp;</a></span>cend()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator , typename Functor &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa1b5ec65034c1e114e1a8b95b43c9b6e">iterator</a> <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; Iterator, Functor &gt;::cend </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -380,7 +460,7 @@ template&lt;typename Iterator , typename Functor &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa4adce4b827ae3f35b74631b5614f940">iterator</a> <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; Iterator, Functor &gt;::end </td>
+          <td class="memname"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa1b5ec65034c1e114e1a8b95b43c9b6e">iterator</a> <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; Iterator, Functor &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -407,7 +487,7 @@ template&lt;typename Iterator , typename Functor &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa4adce4b827ae3f35b74631b5614f940">iterator</a> <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; Iterator, Functor &gt;::end </td>
+          <td class="memname"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aa1b5ec65034c1e114e1a8b95b43c9b6e">iterator</a> <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; Iterator, Functor &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -558,8 +638,8 @@ template&lt;typename Iterator , typename Functor &gt; </div>
 
 </div>
 </div>
-<a id="aeadfb9f60fc241d337e346874c6aef9e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeadfb9f60fc241d337e346874c6aef9e">&#9670;&nbsp;</a></span>operator[]()</h2>
+<a id="a4fb4b608222edcf91576abdc4da4cfe6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4fb4b608222edcf91576abdc4da4cfe6">&#9670;&nbsp;</a></span>operator[]()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -570,10 +650,38 @@ template&lt;typename Iterator , typename Functor &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">iterator::reference <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; Iterator, Functor &gt;::operator[] </td>
+          <td class="memname"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#ac1c935dfa12e8c35cd7868c1596aff4a">reference</a> <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; Iterator, Functor &gt;::operator[] </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a42b800983fde23296d62025a1bbcdd72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42b800983fde23296d62025a1bbcdd72">&#9670;&nbsp;</a></span>resize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator , typename Functor &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; Iterator, Functor &gt;::resize </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -678,7 +786,7 @@ template&lt;typename Iterator , typename Functor &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacehydra.html">hydra</a></li><li class="navelem"><a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html">Range&lt; Iterator, Functor &gt;</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

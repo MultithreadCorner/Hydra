@@ -1,4 +1,11 @@
 <map id="ParametersCompositeFunctor.h" name="ParametersCompositeFunctor.h">
-<area shape="rect" id="node2" href="$BaseCompositeFunctor_8h.html" title="BaseCompositeFunctor.h" alt="" coords="24,80,193,107"/>
-<area shape="rect" id="node3" href="$Convolution_8h.html" title="Convolution.h" alt="" coords="58,155,159,181"/>
+<area shape="rect" id="node2" href="$BaseCompositeFunctor_8h.html" title="BaseCompositeFunctor.h" alt="" coords="366,80,535,107"/>
+<area shape="rect" id="node3" href="$ConvolutionFunctor_8h.html" title="ConvolutionFunctor.h" alt="" coords="289,155,434,181"/>
+<area shape="rect" id="node10" href="$OldConvolutionFunctor_8h.html" title="OldConvolutionFunctor.h" alt="" coords="459,155,624,181"/>
+<area shape="rect" id="node4" href="$convolute__functions_8inl.html" title="convolute_functions.inl" alt="" coords="193,229,348,256"/>
+<area shape="rect" id="node7" href="$fit__convoluted__pdfs_8inl.html" title="fit_convoluted_pdfs.inl" alt="" coords="377,229,529,256"/>
+<area shape="rect" id="node5" href="$convolute__functions_8cpp.html" title="convolute_functions.cpp" alt="" coords="5,304,168,331"/>
+<area shape="rect" id="node6" href="$convolute__functions_8cu.html" title="convolute_functions.cu" alt="" coords="193,304,349,331"/>
+<area shape="rect" id="node8" href="$fit__convoluted__pdfs_8cpp.html" title="fit_convoluted_pdfs.cpp" alt="" coords="373,304,533,331"/>
+<area shape="rect" id="node9" href="$fit__convoluted__pdfs_8cu.html" title="fit_convoluted_pdfs.cu" alt="" coords="558,304,711,331"/>
 </map>

@@ -1,8 +1,9 @@
 var structhydra_1_1detail_1_1AddPdfFunctor =
 [
-    [ "functors_tuple_type", "structhydra_1_1detail_1_1AddPdfFunctor.html#aaaaf41ba9d547fead4f140465c984346", null ],
+    [ "functors_tuple_type", "structhydra_1_1detail_1_1AddPdfFunctor.html#a2264d73ef9bbd1f3eef83afbab98e146", null ],
+    [ "hydra_composed_functor_type", "structhydra_1_1detail_1_1AddPdfFunctor.html#a04a94e4ff0f8761411c14315ef56916d", null ],
     [ "AddPdfFunctor", "structhydra_1_1detail_1_1AddPdfFunctor.html#a1b9d22d4964d205db5b911a3519b8093", null ],
-    [ "AddPdfFunctor", "structhydra_1_1detail_1_1AddPdfFunctor.html#a6deab44a76b70d61d0d0e06cd9d9f655", null ],
+    [ "AddPdfFunctor", "structhydra_1_1detail_1_1AddPdfFunctor.html#a8104f399af1ec69bbc24286ad54ca36f", null ],
     [ "AddPdfFunctor", "structhydra_1_1detail_1_1AddPdfFunctor.html#a8646006bb03508aa9e91a7f816fed546", null ],
     [ "GetCoeficients", "structhydra_1_1detail_1_1AddPdfFunctor.html#a2654a679c0f96e837da412df8dbe8cef", null ],
     [ "GetCoefSum", "structhydra_1_1detail_1_1AddPdfFunctor.html#a2bb4d706c515dc3957f68c31f53c88bd", null ],

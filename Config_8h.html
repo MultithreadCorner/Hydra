@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -94,33 +95,59 @@ $(document).ready(function(){initNavTree('Config_8h.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
 <div class="title">Config.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;hydra/detail/external/thrust/detail/config.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/detail/config/host_device.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;hydra/detail/external/hydra_thrust/detail/config.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/detail/config/host_device.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Config.h:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="Config_8h__incl.svg" width="318" height="142"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="Config_8h__incl.svg" width="320" height="142"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespacehydra"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html">hydra</a></td></tr>
+<tr class="memdesc:namespacehydra"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic policies definition. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacehydra_1_1arguments"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1arguments.html">hydra::arguments</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ab4cebf2a08c8860a99286eaa2a9d5891"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Config_8h.html#ab4cebf2a08c8860a99286eaa2a9d5891">__hydra_align__</a>(n)&#160;&#160;&#160;__attribute__((aligned(n)))</td></tr>
+<tr class="memitem:ab4cebf2a08c8860a99286eaa2a9d5891"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Config_8h.html#ab4cebf2a08c8860a99286eaa2a9d5891">__hydra_align__</a>(<a class="el" href="crystal__ball__plus__exponential_8inl.html#a21f77208d6bc667560ff8aaf8f943b6a">n</a>)&#160;&#160;&#160;__attribute__((aligned(<a class="el" href="crystal__ball__plus__exponential_8inl.html#a21f77208d6bc667560ff8aaf8f943b6a">n</a>)))</td></tr>
 <tr class="separator:ab4cebf2a08c8860a99286eaa2a9d5891"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0916cfff5efbb734ef0bc4dc20ffa31a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Config_8h.html#a0916cfff5efbb734ef0bc4dc20ffa31a">__hydra_exec_check_disable__</a>&#160;&#160;&#160;__thrust_exec_check_disable__</td></tr>
-<tr class="separator:a0916cfff5efbb734ef0bc4dc20ffa31a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a438c5ef47bf121b2c5efb75836bcc865"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a>&#160;&#160;&#160;__device__</td></tr>
+<tr class="separator:a438c5ef47bf121b2c5efb75836bcc865"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12fed978a9eb30299d0dc151384dcf3b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Config_8h.html#a12fed978a9eb30299d0dc151384dcf3b">__hydra_dual__</a>&#160;&#160;&#160;__host__ __device__</td></tr>
+<tr class="separator:a12fed978a9eb30299d0dc151384dcf3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfd8a70679d1a0c531e1d38cc798a228"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a>&#160;&#160;&#160;__host__</td></tr>
+<tr class="separator:abfd8a70679d1a0c531e1d38cc798a228"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abbdfa8f54b7fc7761d12ecc473f87bc4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Config_8h.html#abbdfa8f54b7fc7761d12ecc473f87bc4">CPP</a>&#160;&#160;&#160;4</td></tr>
 <tr class="separator:abbdfa8f54b7fc7761d12ecc473f87bc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b01e29f669d6beed251f1b2a547ca93"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Config_8h.html#a7b01e29f669d6beed251f1b2a547ca93">CUDA</a>&#160;&#160;&#160;1</td></tr>
 <tr class="separator:a7b01e29f669d6beed251f1b2a547ca93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff902bd56178dcc4c125d871639fc067"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Config_8h.html#aff902bd56178dcc4c125d871639fc067">HYDRA_DEVICE_LIKELY</a>(x)&#160;&#160;&#160;__builtin_expect(x, 1)</td></tr>
+<tr class="separator:aff902bd56178dcc4c125d871639fc067"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a933a03e77cfd96454095248fcc3ebb30"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Config_8h.html#a933a03e77cfd96454095248fcc3ebb30">HYDRA_DEVICE_UNLIKELY</a>(x)&#160;&#160;&#160;__builtin_expect(x, 0)</td></tr>
+<tr class="separator:a933a03e77cfd96454095248fcc3ebb30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d1021712b57b5a63681271e3fea97e4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Config_8h.html#a2d1021712b57b5a63681271e3fea97e4">HYDRA_EXTERNAL_NS</a></td></tr>
+<tr class="separator:a2d1021712b57b5a63681271e3fea97e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa91cb87d83b0622d10096c9b153b596e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Config_8h.html#aa91cb87d83b0622d10096c9b153b596e">HYDRA_HOST_LIKELY</a>(x)&#160;&#160;&#160;__builtin_expect(x, 1)</td></tr>
+<tr class="separator:aa91cb87d83b0622d10096c9b153b596e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33cd7c019a4f68ca3a653a007b4c8b29"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Config_8h.html#a33cd7c019a4f68ca3a653a007b4c8b29">HYDRA_HOST_UNLIKELY</a>(x)&#160;&#160;&#160;__builtin_expect(x, 0)</td></tr>
+<tr class="separator:a33cd7c019a4f68ca3a653a007b4c8b29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c57d4e5beb85a3cb6b4e721e1f39790"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Config_8h.html#a7c57d4e5beb85a3cb6b4e721e1f39790">HYDRA_OS</a>&#160;&#160;&#160;std::cerr</td></tr>
 <tr class="separator:a7c57d4e5beb85a3cb6b4e721e1f39790"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa33a979af909289129856f57a4a32a10"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Config_8h.html#aa33a979af909289129856f57a4a32a10">HYDRA_PREVENT_MACRO_SUBSTITUTION</a></td></tr>
+<tr class="separator:aa33a979af909289129856f57a4a32a10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afefb8276a9d6168148822d3b9a5f44f5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Config_8h.html#afefb8276a9d6168148822d3b9a5f44f5">HYDRA_THRUST_DEVICE_SYSTEM</a>&#160;&#160;&#160;HYDRA_THRUST_DEVICE_SYSTEM_CPP</td></tr>
 <tr class="separator:afefb8276a9d6168148822d3b9a5f44f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ade51d2f408f56f7ea4f35858eb3f7d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Config_8h.html#a8ade51d2f408f56f7ea4f35858eb3f7d">HYDRA_THRUST_HOST_SYSTEM</a>&#160;&#160;&#160;HYDRA_THRUST_HOST_SYSTEM_CPP</td></tr>
@@ -143,22 +170,51 @@ Macros</h2></td></tr>
           <td class="memname">#define __hydra_align__</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname">n</td><td>)</td>
-          <td>&#160;&#160;&#160;__attribute__((aligned(n)))</td>
+          <td class="paramname"><a class="el" href="crystal__ball__plus__exponential_8inl.html#a21f77208d6bc667560ff8aaf8f943b6a">n</a></td><td>)</td>
+          <td>&#160;&#160;&#160;__attribute__((aligned(<a class="el" href="crystal__ball__plus__exponential_8inl.html#a21f77208d6bc667560ff8aaf8f943b6a">n</a>)))</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a0916cfff5efbb734ef0bc4dc20ffa31a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0916cfff5efbb734ef0bc4dc20ffa31a">&#9670;&nbsp;</a></span>__hydra_exec_check_disable__</h2>
+<a id="a438c5ef47bf121b2c5efb75836bcc865"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a438c5ef47bf121b2c5efb75836bcc865">&#9670;&nbsp;</a></span>__hydra_device__</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define __hydra_exec_check_disable__&#160;&#160;&#160;__thrust_exec_check_disable__</td>
+          <td class="memname">#define __hydra_device__&#160;&#160;&#160;__device__</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a12fed978a9eb30299d0dc151384dcf3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12fed978a9eb30299d0dc151384dcf3b">&#9670;&nbsp;</a></span>__hydra_dual__</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define __hydra_dual__&#160;&#160;&#160;__host__ __device__</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="adaptive_gauss_kronrod_8inl-example.html#a6">adaptive_gauss_kronrod.inl</a>, <a class="el" href="basic_fit_range_semantics_8inl-example.html#a26">basic_fit_range_semantics.inl</a>, <a class="el" href="booststrapping_8inl-example.html#a8">booststrapping.inl</a>, <a class="el" href="cufft_8inl-example.html#a21">cufft.inl</a>, <a class="el" href="dalitz_plot_8C-example.html#a5">dalitz_plot.C</a>, <a class="el" href="dalitz_plot_8inl-example.html#a7">dalitz_plot.inl</a>, <a class="el" href="dense_histogram_8inl-example.html#a6">dense_histogram.inl</a>, <a class="el" href="extended_logLL_fit_8inl-example.html#a34">extended_logLL_fit.inl</a>, <a class="el" href="fft_8inl-example.html#a21">fft.inl</a>, <a class="el" href="fit_gaussian_8C-example.html#a20">fit_gaussian.C</a>, <a class="el" href="fit_johnson_8C-example.html#a21">fit_johnson.C</a>, <a class="el" href="fractional_logLL_fit_8inl-example.html#a32">fractional_logLL_fit.inl</a>, <a class="el" href="gauss_kronrod_8inl-example.html#a6">gauss_kronrod.inl</a>, <a class="el" href="multiarray_container_8inl-example.html#a4">multiarray_container.inl</a>, <a class="el" href="multidimensional_fit_8inl-example.html#a27">multidimensional_fit.inl</a>, <a class="el" href="multivector_container_8inl-example.html#a4">multivector_container.inl</a>, <a class="el" href="phsp_averaging_functor_8inl-example.html#a13">phsp_averaging_functor.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#a19">phsp_basic.inl</a>, <a class="el" href="phsp_chain_8inl-example.html#a12">phsp_chain.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#a19">phsp_reweighting.inl</a>, <a class="el" href="phsp_unweighting_8inl-example.html#a19">phsp_unweighting.inl</a>, <a class="el" href="phsp_unweighting_functor_8inl-example.html#a19">phsp_unweighting_functor.inl</a>, <a class="el" href="plain_mc_8inl-example.html#a6">plain_mc.inl</a>, <a class="el" href="range_semantics_8inl-example.html#a6">range_semantics.inl</a>, <a class="el" href="sample_distribution_8inl-example.html#a9">sample_distribution.inl</a>, <a class="el" href="simultaneous_fit_8inl-example.html#a18">simultaneous_fit.inl</a>, <a class="el" href="splot_8inl-example.html#a30">splot.inl</a>, and <a class="el" href="vegas_8inl-example.html#a6">vegas.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="abfd8a70679d1a0c531e1d38cc798a228"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfd8a70679d1a0c531e1d38cc798a228">&#9670;&nbsp;</a></span>__hydra_host__</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define __hydra_host__&#160;&#160;&#160;__host__</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -193,6 +249,92 @@ Macros</h2></td></tr>
 
 </div>
 </div>
+<a id="aff902bd56178dcc4c125d871639fc067"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff902bd56178dcc4c125d871639fc067">&#9670;&nbsp;</a></span>HYDRA_DEVICE_LIKELY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HYDRA_DEVICE_LIKELY</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x</td><td>)</td>
+          <td>&#160;&#160;&#160;__builtin_expect(x, 1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a933a03e77cfd96454095248fcc3ebb30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a933a03e77cfd96454095248fcc3ebb30">&#9670;&nbsp;</a></span>HYDRA_DEVICE_UNLIKELY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HYDRA_DEVICE_UNLIKELY</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x</td><td>)</td>
+          <td>&#160;&#160;&#160;__builtin_expect(x, 0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2d1021712b57b5a63681271e3fea97e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d1021712b57b5a63681271e3fea97e4">&#9670;&nbsp;</a></span>HYDRA_EXTERNAL_NS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HYDRA_EXTERNAL_NS</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa91cb87d83b0622d10096c9b153b596e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa91cb87d83b0622d10096c9b153b596e">&#9670;&nbsp;</a></span>HYDRA_HOST_LIKELY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HYDRA_HOST_LIKELY</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x</td><td>)</td>
+          <td>&#160;&#160;&#160;__builtin_expect(x, 1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a33cd7c019a4f68ca3a653a007b4c8b29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33cd7c019a4f68ca3a653a007b4c8b29">&#9670;&nbsp;</a></span>HYDRA_HOST_UNLIKELY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HYDRA_HOST_UNLIKELY</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x</td><td>)</td>
+          <td>&#160;&#160;&#160;__builtin_expect(x, 0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a7c57d4e5beb85a3cb6b4e721e1f39790"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7c57d4e5beb85a3cb6b4e721e1f39790">&#9670;&nbsp;</a></span>HYDRA_OS</h2>
 
@@ -201,6 +343,20 @@ Macros</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">#define HYDRA_OS&#160;&#160;&#160;std::cerr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa33a979af909289129856f57a4a32a10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa33a979af909289129856f57a4a32a10">&#9670;&nbsp;</a></span>HYDRA_PREVENT_MACRO_SUBSTITUTION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HYDRA_PREVENT_MACRO_SUBSTITUTION</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -283,7 +439,7 @@ Macros</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="Config_8h.html">Config.h</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

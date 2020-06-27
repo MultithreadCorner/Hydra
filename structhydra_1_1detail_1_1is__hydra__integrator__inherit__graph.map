@@ -1,2 +1,2 @@
-<map id="hydra::detail::is_hydra_integrator&lt; T, Enable &gt;" name="hydra::detail::is_hydra_integrator&lt; T, Enable &gt;">
+<map id="hydra::detail::is_hydra_integrator&lt; Integrator, T &gt;" name="hydra::detail::is_hydra_integrator&lt; Integrator, T &gt;">
 </map>

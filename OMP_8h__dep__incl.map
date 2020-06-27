@@ -1,5 +1,8 @@
 <map id="OMP.h" name="OMP.h">
-<area shape="rect" id="node2" href="$omp_2System_8h.html" title="System.h" alt="" coords="16,80,95,107"/>
-<area shape="rect" id="node3" href="$async__mc_8inl.html" title="async_mc.inl" alt="" coords="6,155,105,181"/>
+<area shape="rect" id="node2" href="$omp_2System_8h.html" title="System.h" alt="" coords="89,80,168,107"/>
+<area shape="rect" id="node3" href="$async__mc_8inl.html" title="async_mc.inl" alt="" coords="9,155,107,181"/>
+<area shape="rect" id="node5" href="$simultaneous__fit_8inl.html" title="simultaneous_fit.inl" alt="" coords="133,155,268,181"/>
 <area shape="rect" id="node4" href="$async__mc_8cu.html" title="async_mc.cu" alt="" coords="5,229,105,256"/>
+<area shape="rect" id="node6" href="$simultaneous__fit_8cpp.html" title="simultaneous_fit.cpp" alt="" coords="129,229,272,256"/>
+<area shape="rect" id="node7" href="$simultaneous__fit_8cu.html" title="simultaneous_fit.cu" alt="" coords="296,229,431,256"/>
 </map>

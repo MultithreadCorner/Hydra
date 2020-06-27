@@ -1,4 +1,4 @@
 <map id="hydra::detail::is_homogeneous&lt; A, Tuple &gt;" name="hydra::detail::is_homogeneous&lt; A, Tuple &gt;">
-<area shape="rect" id="node2" href="$structhydra_1_1detail_1_1is__homogeneous__base.html" title="{hydra::detail::is_homogeneous\l_base\&lt; A, Tuple, HYDRA_EXTERNAL\l_NS::thrust::tuple_size\&lt; Tuple\l \&gt;::value \&gt;\n||}" alt="" coords="123,639,375,760"/>
-<area shape="rect" id="node4" href="$structhydra_1_1detail_1_1is__homogeneous__base.html" title="{hydra::detail::is_homogeneous\l_base\&lt; A, Tp, I \&gt;\n||}" alt="" coords="353,374,552,466"/>
+<area shape="rect" id="node2" href="$structhydra_1_1detail_1_1is__homogeneous__base.html" title="{hydra::detail::is_homogeneous\l_base\&lt; A, Tuple, hydra_thrust\l::tuple_size\&lt; Tuple \&gt;::value \&gt;\n||}" alt="" coords="65,624,263,731"/>
+<area shape="rect" id="node4" href="$structhydra_1_1detail_1_1is__homogeneous__base.html" title="{hydra::detail::is_homogeneous\l_base\&lt; A, Tp, I \&gt;\n||}" alt="" coords="305,367,503,459"/>
 </map>

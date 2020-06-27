@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -95,10 +96,32 @@ $(document).ready(function(){initNavTree('functions_type.html','');});
 <div class="contents">
 &#160;
 
-<h3><a id="index__"></a>- _ -</h3><ul>
-<li>__caster_iterator
-: <a class="el" href="group__phsp.html#ac54f459ea2f93e917dfc236a3e11c9a4">hydra::Chains&lt; Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;... &gt;</a>
-, <a class="el" href="group__phsp.html#a7e2290c158f1551422cfbbafd629353b">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+<h3><a id="index_a"></a>- a -</h3><ul>
+<li>abscissa_iterator
+: <a class="el" href="group__numerical__integration.html#a64e6fc208225c7683c3c4a07f5a0ba35">hydra::GenzMalikRule&lt; DIM, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+</li>
+<li>abscissa_type
+: <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#af1f29d2812b49c9fb0a05b8bfde4c0d3">hydra::detail::ProcessGenzMalikUnaryCall&lt; FUNCTOR, N &gt;</a>
+, <a class="el" href="group__numerical__integration.html#a2ffce7e693fd2c16c1820a08a43b0156">hydra::GenzMalikRule&lt; DIM, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+</li>
+<li>args_type
+: <a class="el" href="structhydra_1_1detail_1_1function__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_01_6_8_8_8_08_4.html#a857f0277c10ef607db3320dcdfd0c3d4">hydra::detail::function_traits&lt; ReturnType(ClassType::*)(Args &amp;...)&gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1function__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#a7006a6df4dfb02aca708222b691fe7ec">hydra::detail::function_traits&lt; ReturnType(ClassType::*)(Args...) const &gt;</a>
+</li>
+<li>ArgType
+: <a class="el" href="structhydra_1_1detail_1_1GetGlobalBin.html#a6b9826cceeb2629103f39484e484916e">hydra::detail::GetGlobalBin&lt; N, T &gt;</a>
+</li>
+<li>argument_rvalue_type
+: <a class="el" href="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#a4fb035201a7347d340f5a73f498de1c9">hydra::detail::functor_traits&lt; ReturnType(ClassType::*)(Args...) const &gt;</a>
+</li>
+<li>argument_type
+: <a class="el" href="classhydra_1_1BaseCompositeFunctor_3_01Composite_00_01hydra__thrust_1_1tuple_3_01F1_00_01F2_00_0863f00b43bfdf79cb6cf50e96bab02ba.html#a7373f785ecf208bd8c06caa0a49248d8">hydra::BaseCompositeFunctor&lt; Composite, hydra_thrust::tuple&lt; F1, F2, Fs... &gt;, Signature &gt;</a>
+, <a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">hydra::BaseFunctor&lt; Functor, Signature, NPARAM &gt;</a>
+, <a class="el" href="classhydra_1_1Compose.html#a0762cbc685943ed8576659b415b5a366">hydra::Compose&lt; F0, F1, Fs &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#ae7e6bde9890e0e8eacc43416a965f56a">hydra::detail::functor_traits&lt; ReturnType(ClassType::*)(Args...) const &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1signature__traits_3_01R_07Args_8_8_8_08_4.html#a66bd3d53853235f5af79a4631dd406cd">hydra::detail::signature_traits&lt; R(Args...)&gt;</a>
+, <a class="el" href="classhydra_1_1Lambda.html#a2843cb229fa1feaacd8beaf36f00a603">hydra::Lambda&lt; LambdaType, NPARAM &gt;</a>
+, <a class="el" href="classhydra_1_1Lambda_3_01LambdaType_00_010_01_4.html#a612693ffca495f3f52ef89e8c3468be5">hydra::Lambda&lt; LambdaType, 0 &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -106,7 +129,7 @@ $(document).ready(function(){initNavTree('functions_type.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:03 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

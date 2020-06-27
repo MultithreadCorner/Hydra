@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -95,7 +96,8 @@ $(document).ready(function(){initNavTree('binned__extended__logLL__fit_8inl.html
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">binned_extended_logLL_fit.inl File Reference</div>  </div>
 </div><!--header-->
@@ -109,7 +111,7 @@ $(document).ready(function(){initNavTree('binned__extended__logLL__fit_8inl.html
 <code>#include &lt;tclap/CmdLine.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/device/System.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Function.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/FunctionWrapper.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Lambda.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Random.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/LogLikelihoodFCN.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Parameter.h</a>&gt;</code><br />
@@ -119,6 +121,7 @@ $(document).ready(function(){initNavTree('binned__extended__logLL__fit_8inl.html
 <code>#include &lt;<a class="el" href="">hydra/DenseHistogram.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/functions/Gaussian.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/functions/Exponential.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/RandomFill.h</a>&gt;</code><br />
 <code>#include &quot;Minuit2/FunctionMinimum.h&quot;</code><br />
 <code>#include &quot;Minuit2/MnUserParameterState.h&quot;</code><br />
 <code>#include &quot;Minuit2/MnPrint.h&quot;</code><br />
@@ -127,12 +130,14 @@ $(document).ready(function(){initNavTree('binned__extended__logLL__fit_8inl.html
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for binned_extended_logLL_fit.inl:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="binned__extended__logLL__fit_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="binned__extended__logLL__fit_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="binned__extended__logLL__fit_8inl__dep__incl.svg" width="352" height="142"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="binned__extended__logLL__fit_8inl__dep__incl.svg" width="352" height="142"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -144,8 +149,67 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a1c03069360f1f90a556eb537e0ff8a72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#a1c03069360f1f90a556eb537e0ff8a72">main</a> (<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv, char **argc)</td></tr>
-<tr class="separator:a1c03069360f1f90a556eb537e0ff8a72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58e43a6eee990d884b2008760c6505c2"><td class="memItemLeft" align="right" valign="top">cmd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#a58e43a6eee990d884b2008760c6505c2">add</a> (<a class="el" href="basic__distributions_8inl.html#a32ea8a498b202f85a8d77adaac39ca1b">EArg</a>)</td></tr>
+<tr class="separator:a58e43a6eee990d884b2008760c6505c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a847ebf0b5067895a9c74f81825c76a00"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#a847ebf0b5067895a9c74f81825c76a00">catch</a> (TCLAP::ArgException &amp;e)</td></tr>
+<tr class="separator:a847ebf0b5067895a9c74f81825c76a00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dc0cdce190fb7c7f4b9ca73cf09ee6b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#a7dc0cdce190fb7c7f4b9ca73cf09ee6b">declarg</a> (_X, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>) <a class="el" href="namespace_3globalScope_4.html#classint">int</a> <a class="el" href="sobol__quasirandom_8inl.html#a1c03069360f1f90a556eb537e0ff8a72">main</a>(<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv</td></tr>
+<tr class="separator:a7dc0cdce190fb7c7f4b9ca73cf09ee6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32ea8a498b202f85a8d77adaac39ca1b"><td class="memItemLeft" align="right" valign="top">TCLAP::ValueArg&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#a32ea8a498b202f85a8d77adaac39ca1b">EArg</a> (&quot;n&quot;, &quot;number-of-events&quot;,&quot;Number of events&quot;, true, 10e6, &quot;size_t&quot;)</td></tr>
+<tr class="separator:a32ea8a498b202f85a8d77adaac39ca1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a698dd1359bb84d3591064d6c1c6937"><td class="memItemLeft" align="right" valign="top"><a class="el" href="particle__mass_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">Hist_Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#a7a698dd1359bb84d3591064d6c1c6937">Fill</a> (data_d.begin(), <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">data_d.end</a>())</td></tr>
+<tr class="separator:a7a698dd1359bb84d3591064d6c1c6937"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5d550cbd7cefc08c5af74390ae26629"><td class="memItemLeft" align="right" valign="top">std::cout&lt;&lt; std::endl&lt;&lt; &quot;Generated data:&quot;&lt;&lt; std::endl;for(size_t i=0;i&lt; 10;i++) std::cout&lt;&lt; &quot;[&quot;&lt;&lt; i&lt;&lt; &quot;] :&quot;&lt;&lt; data_d[i]&lt;&lt; std::endl;<a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">hydra::DenseHistogram</a>&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, 1, <a class="el" href="namespacehydra_1_1device.html#a643f8c450c0d3d1e4fa3a45a7e6afe1d">hydra::device::sys_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#ab5d550cbd7cefc08c5af74390ae26629">Hist_Data</a> (100, <a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>)</td></tr>
+<tr class="separator:ab5d550cbd7cefc08c5af74390ae26629"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0364f6c04ec4b6c9bb4a8182db8f973"><td class="memItemLeft" align="right" valign="top">MnMigrad&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a> (<a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a>, fcn.GetParameters().GetMnState(), <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>)</td></tr>
+<tr class="separator:aa0364f6c04ec4b6c9bb4a8182db8f973"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c06c263c31271c073a8f0735b1e4a16"><td class="memItemLeft" align="right" valign="top">cmd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#a1c06c263c31271c073a8f0735b1e4a16">parse</a> (argv, <a class="el" href="basic__distributions_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a>)</td></tr>
+<tr class="separator:a1c06c263c31271c073a8f0735b1e4a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab33c4f5d33ac3a305332487f429789c6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="particle__mass_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#ab33c4f5d33ac3a305332487f429789c6">SetExtended</a> (1)</td></tr>
+<tr class="separator:ab33c4f5d33ac3a305332487f429789c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a606056a11d38679114392e4b9e9a52c0"><td class="memItemLeft" align="right" valign="top">MnStrategy&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a> (2)</td></tr>
+<tr class="separator:a606056a11d38679114392e4b9e9a52c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a27fb769f88c3c17ca3490b75f7758431"><td class="memItemLeft" align="right" valign="top">char **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a></td></tr>
+<tr class="separator:a27fb769f88c3c17ca3490b75f7758431"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae56786915a465404a84fdb37851cefba"><td class="memItemLeft" align="right" valign="top">std::cout&lt;&lt; fcn.GetParameters().GetMnState()&lt;&lt; std::endl;auto start_d=std::chrono::high_resolution_clock::now();FunctionMinimum minimum_d=FunctionMinimum(<a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a>(std::numeric_limits&lt; <a class="el" href="namespace_3globalScope_4.html#classunsigned">unsigned</a> <a class="el" href="namespace_3globalScope_4.html#classint">int</a> &gt;::<a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>(), 1));auto end_d=std::chrono::high_resolution_clock::now();std::chrono::duration&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, std::milli &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#ae56786915a465404a84fdb37851cefba">elapsed_d</a> = end_d - start_d</td></tr>
+<tr class="separator:ae56786915a465404a84fdb37851cefba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe4dcbceefaf0510914eea5126d4deef"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#abe4dcbceefaf0510914eea5126d4deef">Exp_PDF</a></td></tr>
+<tr class="separator:abe4dcbceefaf0510914eea5126d4deef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad15208f9f01c27dc8a4ccbbe0970fee"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a> = <a class="el" href="group__fit.html#ga7cb37dfdb2198202b4cb3f0b79f94080">hydra::make_loglikehood_fcn</a>( <a class="el" href="particle__mass_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a>, <a class="el" href="particle__mass_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">Hist_Data</a>)</td></tr>
+<tr class="separator:aad15208f9f01c27dc8a4ccbbe0970fee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae01584da56b936fc41d511e6895d30c0"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#ae01584da56b936fc41d511e6895d30c0">Gauss1_PDF</a></td></tr>
+<tr class="separator:ae01584da56b936fc41d511e6895d30c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae63841d2f2663489866089fdf2183e8b"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#ae63841d2f2663489866089fdf2183e8b">Gauss2_PDF</a></td></tr>
+<tr class="separator:ae63841d2f2663489866089fdf2183e8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b0ede69e8156eb97acc579b88e883de"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a> = 10.0</td></tr>
+<tr class="separator:a0b0ede69e8156eb97acc579b88e883de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7923514131edf790da7dabb63c057021"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#a7923514131edf790da7dabb63c057021">mean1_p</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>().Name(&quot;Mean_1&quot;).Value( 2.5) .Error(0.0001).Limits(0.0, 10.0)</td></tr>
+<tr class="separator:a7923514131edf790da7dabb63c057021"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9205994a061ec78c9fcc8b368b0df46f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#a9205994a061ec78c9fcc8b368b0df46f">mean2_p</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>().Name(&quot;Mean_2&quot;).Value(5.0) .Error(0.0001).Limits(0.0, 10.0)</td></tr>
+<tr class="separator:a9205994a061ec78c9fcc8b368b0df46f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad36546e8175d2922bee165fe028fedc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a> = 0.0</td></tr>
+<tr class="separator:aad36546e8175d2922bee165fe028fedc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4494b924b71b8932dedd0783a4e7061f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a> = <a class="el" href="group__fit.html#ga7e7cc3bb04eac1d1350bb41b254fc92b">hydra::add_pdfs</a>( {<a class="el" href="extended__logLL__fit_8inl.html#a21f59966a9e2e3f50844fbd09c310d9d">N_Gauss_1_p</a>, <a class="el" href="extended__logLL__fit_8inl.html#ae3a262626ddc01468b66fbf357166c3c">N_Gauss_2_p</a>, <a class="el" href="extended__logLL__fit_8inl.html#ac1f2e13fa6d7a747126c2bd7cb74e57c">N_Exp_p</a> }, <a class="el" href="fractional__logLL__fit_8inl.html#ae01584da56b936fc41d511e6895d30c0">Gauss1_PDF</a>, <a class="el" href="fractional__logLL__fit_8inl.html#ae63841d2f2663489866089fdf2183e8b">Gauss2_PDF</a>, <a class="el" href="fractional__logLL__fit_8inl.html#abe4dcbceefaf0510914eea5126d4deef">Exp_PDF</a>)</td></tr>
+<tr class="separator:a4494b924b71b8932dedd0783a4e7061f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1f2e13fa6d7a747126c2bd7cb74e57c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#ac1f2e13fa6d7a747126c2bd7cb74e57c">N_Exp_p</a> (&quot;N_Exp&quot;, nentries, sqrt(<a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>), <a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>-<a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>/2, <a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>+<a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>/2)</td></tr>
+<tr class="separator:ac1f2e13fa6d7a747126c2bd7cb74e57c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21f59966a9e2e3f50844fbd09c310d9d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#a21f59966a9e2e3f50844fbd09c310d9d">N_Gauss_1_p</a> (&quot;N_Gauss1&quot;, nentries, sqrt(<a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>), <a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>-<a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>/2, <a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>+<a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>/2)</td></tr>
+<tr class="separator:a21f59966a9e2e3f50844fbd09c310d9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3a262626ddc01468b66fbf357166c3c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#ae3a262626ddc01468b66fbf357166c3c">N_Gauss_2_p</a> (&quot;N_Gauss2&quot;, nentries, sqrt(<a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>), <a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>-<a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>/2, <a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>+<a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>/2)</td></tr>
+<tr class="separator:ae3a262626ddc01468b66fbf357166c3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8b0f365ee5d5b76a62688733e5016a1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a> = EArg.getValue()</td></tr>
+<tr class="separator:af8b0f365ee5d5b76a62688733e5016a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa2c5d32f1fe40d9f920a1a21a771583"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#afa2c5d32f1fe40d9f920a1a21a771583">sigma1_p</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>().Name(&quot;Sigma_1&quot;).Value(0.5).Error(0.0001).Limits(0.01, 1.5)</td></tr>
+<tr class="separator:afa2c5d32f1fe40d9f920a1a21a771583"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8edd1d58d56d04a7029cc1c14da570e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#ad8edd1d58d56d04a7029cc1c14da570e">sigma2_p</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>().Name(&quot;Sigma_2&quot;).Value(0.5).Error(0.0001).Limits(0.01, 1.5)</td></tr>
+<tr class="separator:ad8edd1d58d56d04a7029cc1c14da570e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08fa4a19ce0a011bf3f9bdffe9c0a2b1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#a08fa4a19ce0a011bf3f9bdffe9c0a2b1">tau_p</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>().Name(&quot;Tau&quot;).Value(1.0).Error(0.0001).Limits(-2.0, 2.0)</td></tr>
+<tr class="separator:a08fa4a19ce0a011bf3f9bdffe9c0a2b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe4cc9788f52e49485473dc699537388"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="binned__extended__logLL__fit_8inl.html#abe4cc9788f52e49485473dc699537388">try</a></td></tr>
+<tr class="separator:abe4cc9788f52e49485473dc699537388"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a84271925bdcdff0a2d5fa85706f0f766"></a>
@@ -163,23 +227,59 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a1c03069360f1f90a556eb537e0ff8a72"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c03069360f1f90a556eb537e0ff8a72">&#9670;&nbsp;</a></span>main()</h2>
+<a id="a58e43a6eee990d884b2008760c6505c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58e43a6eee990d884b2008760c6505c2">&#9670;&nbsp;</a></span>add()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classint">int</a> main </td>
+          <td class="memname">cmd add </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td>
-          <td class="paramname"><em>argv</em>, </td>
+          <td class="paramtype"><a class="el" href="basic__distributions_8inl.html#a32ea8a498b202f85a8d77adaac39ca1b">EArg</a>&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a847ebf0b5067895a9c74f81825c76a00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a847ebf0b5067895a9c74f81825c76a00">&#9670;&nbsp;</a></span>catch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">catch </td>
+          <td>(</td>
+          <td class="paramtype">TCLAP::ArgException &amp;&#160;</td>
+          <td class="paramname"><em>e</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7dc0cdce190fb7c7f4b9ca73cf09ee6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7dc0cdce190fb7c7f4b9ca73cf09ee6b">&#9670;&nbsp;</a></span>declarg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">declarg </td>
+          <td>(</td>
+          <td class="paramtype">_X&#160;</td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">char **&#160;</td>
-          <td class="paramname"><em>argc</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
+          <td class="paramname">&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -192,13 +292,535 @@ Functions</h2></td></tr>
 </dl>
 </div>
 </div>
+<a id="a32ea8a498b202f85a8d77adaac39ca1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32ea8a498b202f85a8d77adaac39ca1b">&#9670;&nbsp;</a></span>EArg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TCLAP::ValueArg&lt;size_t&gt; EArg </td>
+          <td>(</td>
+          <td class="paramtype">&quot;n&quot;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;number-of-events&quot;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;Number of events&quot;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">true&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">10e6&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;size_t&quot;&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a4">binned_extended_logLL_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a7a698dd1359bb84d3591064d6c1c6937"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a698dd1359bb84d3591064d6c1c6937">&#9670;&nbsp;</a></span>Fill()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="particle__mass_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">Hist_Data</a> Fill </td>
+          <td>(</td>
+          <td class="paramtype">data_d.&#160;</td>
+          <td class="paramname"><em>begin</em>(), </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">data_d.&#160;</td>
+          <td class="paramname"><em>end</em>()&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab5d550cbd7cefc08c5af74390ae26629"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5d550cbd7cefc08c5af74390ae26629">&#9670;&nbsp;</a></span>Hist_Data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::cout&lt;&lt; std::endl&lt;&lt; &quot;Generated data:&quot;&lt;&lt; std::endl; for(size_t i=0; i&lt;10; i++) std::cout &lt;&lt; &quot;[&quot; &lt;&lt; i &lt;&lt; &quot;] :&quot; &lt;&lt; data_d[i] &lt;&lt; std::endl; <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">hydra::DenseHistogram</a>&lt;<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>,1, <a class="el" href="namespacehydra_1_1device.html#a643f8c450c0d3d1e4fa3a45a7e6afe1d">hydra::device::sys_t</a>&gt; Hist_Data </td>
+          <td>(</td>
+          <td class="paramtype">100&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a33">binned_extended_logLL_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="aa0364f6c04ec4b6c9bb4a8182db8f973"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0364f6c04ec4b6c9bb4a8182db8f973">&#9670;&nbsp;</a></span>migrad_d()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MnMigrad migrad_d </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">fcn.&#160;</td>
+          <td class="paramname"><em>GetParameters</em>).GetMnState(, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="basic_fit_range_semantics_8inl-example.html#a33">basic_fit_range_semantics.inl</a>, <a class="el" href="binned_extended_logLL_fit_8inl-example.html#a39">binned_extended_logLL_fit.inl</a>, <a class="el" href="breit_wigner_plus_polynomial_8inl-example.html#a37">breit_wigner_plus_polynomial.inl</a>, <a class="el" href="crystal_ball_plus_exponential_8inl-example.html#a38">crystal_ball_plus_exponential.inl</a>, <a class="el" href="dalitz_plot_8C-example.html#a55">dalitz_plot.C</a>, <a class="el" href="dalitz_plot_8inl-example.html#a60">dalitz_plot.inl</a>, <a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a39">double_gaussian_plus_exponential.inl</a>, <a class="el" href="extended_logLL_fit_8inl-example.html#a41">extended_logLL_fit.inl</a>, <a class="el" href="fit_convoluted_pdfs_8inl-example.html#a47">fit_convoluted_pdfs.inl</a>, <a class="el" href="fit_gaussian_8C-example.html#a28">fit_gaussian.C</a>, <a class="el" href="fit_johnson_8C-example.html#a29">fit_johnson.C</a>, <a class="el" href="fractional_logLL_fit_8inl-example.html#a39">fractional_logLL_fit.inl</a>, <a class="el" href="gaussian_plus_argus_8inl-example.html#a40">gaussian_plus_argus.inl</a>, <a class="el" href="multidimensional_fit_8inl-example.html#a52">multidimensional_fit.inl</a>, and <a class="el" href="splot_8inl-example.html#a39">splot.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a1c06c263c31271c073a8f0735b1e4a16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c06c263c31271c073a8f0735b1e4a16">&#9670;&nbsp;</a></span>parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cmd parse </td>
+          <td>(</td>
+          <td class="paramtype">argv&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="basic__distributions_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a>&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab33c4f5d33ac3a305332487f429789c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab33c4f5d33ac3a305332487f429789c6">&#9670;&nbsp;</a></span>SetExtended()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="particle__mass_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a> SetExtended </td>
+          <td>(</td>
+          <td class="paramtype">1&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a606056a11d38679114392e4b9e9a52c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a606056a11d38679114392e4b9e9a52c0">&#9670;&nbsp;</a></span>strategy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MnStrategy strategy </td>
+          <td>(</td>
+          <td class="paramtype">2&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="basic_fit_8inl-example.html#a23">basic_fit.inl</a>, <a class="el" href="basic_fit_range_semantics_8inl-example.html#a32">basic_fit_range_semantics.inl</a>, <a class="el" href="binned_extended_logLL_fit_8inl-example.html#a38">binned_extended_logLL_fit.inl</a>, <a class="el" href="breit_wigner_plus_polynomial_8inl-example.html#a36">breit_wigner_plus_polynomial.inl</a>, <a class="el" href="crystal_ball_plus_exponential_8inl-example.html#a37">crystal_ball_plus_exponential.inl</a>, <a class="el" href="dalitz_plot_8C-example.html#a54">dalitz_plot.C</a>, <a class="el" href="dalitz_plot_8inl-example.html#a59">dalitz_plot.inl</a>, <a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a38">double_gaussian_plus_exponential.inl</a>, <a class="el" href="extended_logLL_fit_8inl-example.html#a40">extended_logLL_fit.inl</a>, <a class="el" href="fit_convoluted_pdfs_8inl-example.html#a46">fit_convoluted_pdfs.inl</a>, <a class="el" href="fit_gaussian_8C-example.html#a27">fit_gaussian.C</a>, <a class="el" href="fit_johnson_8C-example.html#a28">fit_johnson.C</a>, <a class="el" href="fractional_logLL_fit_8inl-example.html#a38">fractional_logLL_fit.inl</a>, <a class="el" href="gaussian_plus_argus_8inl-example.html#a39">gaussian_plus_argus.inl</a>, <a class="el" href="multidimensional_fit_8inl-example.html#a51">multidimensional_fit.inl</a>, <a class="el" href="pseudo_experiment_8inl-example.html#a39">pseudo_experiment.inl</a>, <a class="el" href="simultaneous_fit_8inl-example.html#a24">simultaneous_fit.inl</a>, and <a class="el" href="splot_8inl-example.html#a38">splot.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a27fb769f88c3c17ca3490b75f7758431"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27fb769f88c3c17ca3490b75f7758431">&#9670;&nbsp;</a></span>argc</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char** argc</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line">    <span class="keywordtype">size_t</span> <a class="code" href="binned__extended__logLL__fit_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a> = 0</div><div class="ttc" id="binned__extended__logLL__fit_8inl_html_af8b0f365ee5d5b76a62688733e5016a1"><div class="ttname"><a href="binned__extended__logLL__fit_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a></div><div class="ttdeci">nentries</div><div class="ttdef"><b>Definition:</b> binned_extended_logLL_fit.inl:111</div></div>
+</div><!-- fragment --><dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a2">binned_extended_logLL_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="ae56786915a465404a84fdb37851cefba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae56786915a465404a84fdb37851cefba">&#9670;&nbsp;</a></span>elapsed_d</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::cout&lt;&lt;fcn.GetParameters().GetMnState()&lt;&lt;std::endl; auto start_d = std::chrono::high_resolution_clock::now(); FunctionMinimum minimum_d = FunctionMinimum(<a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a>(std::numeric_limits&lt;<a class="el" href="namespace_3globalScope_4.html#classunsigned">unsigned</a> <a class="el" href="namespace_3globalScope_4.html#classint">int</a>&gt;::<a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>(), 1)); auto end_d = std::chrono::high_resolution_clock::now(); std::chrono::duration&lt;<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, std::milli&gt; elapsed_d = end_d - start_d</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a40">binned_extended_logLL_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="abe4dcbceefaf0510914eea5126d4deef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe4dcbceefaf0510914eea5126d4deef">&#9670;&nbsp;</a></span>Exp_PDF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto Exp_PDF</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a>( <a class="code" href="group__common__functions.html#classhydra_1_1Exponential">hydra::Exponential&lt;_X&gt;</a>(<a class="code" href="binned__extended__logLL__fit_8inl.html#a08fa4a19ce0a011bf3f9bdffe9c0a2b1">tau_p</a>),</div><div class="line">            <a class="code" href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a>&lt;<a class="code" href="group__common__functions.html#classhydra_1_1Exponential">hydra::Exponential&lt;_X&gt;</a>&gt;(<a class="code" href="binned__extended__logLL__fit_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="code" href="binned__extended__logLL__fit_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>))</div><div class="ttc" id="group__fit_html_ga2d468a0d98a74f41479f8ccb95f5533e"><div class="ttname"><a href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a></div><div class="ttdeci">Pdf&lt; FUNCTOR, INTEGRATOR &gt; make_pdf(FUNCTOR const &amp;functor, INTEGRATOR integrator)</div><div class="ttdoc">Build a hydra::Pdf given a shape described by a functor and a integrator (algorithm or functor)...</div><div class="ttdef"><b>Definition:</b> Pdf.h:299</div></div>
+<div class="ttc" id="group__common__functions_html_classhydra_1_1Exponential"><div class="ttname"><a href="group__common__functions.html#classhydra_1_1Exponential">hydra::Exponential</a></div><div class="ttdoc">https://en.wikipedia.org/wiki/Exponential_function </div><div class="ttdef"><b>Definition:</b> Exponential.h:57</div></div>
+<div class="ttc" id="binned__extended__logLL__fit_8inl_html_aad36546e8175d2922bee165fe028fedc"><div class="ttname"><a href="binned__extended__logLL__fit_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a></div><div class="ttdeci">double min</div><div class="ttdef"><b>Definition:</b> binned_extended_logLL_fit.inl:121</div></div>
+<div class="ttc" id="binned__extended__logLL__fit_8inl_html_a08fa4a19ce0a011bf3f9bdffe9c0a2b1"><div class="ttname"><a href="binned__extended__logLL__fit_8inl.html#a08fa4a19ce0a011bf3f9bdffe9c0a2b1">tau_p</a></div><div class="ttdeci">hydra::Parameter tau_p</div><div class="ttdef"><b>Definition:</b> binned_extended_logLL_fit.inl:147</div></div>
+<div class="ttc" id="classhydra_1_1AnalyticalIntegral_html"><div class="ttname"><a href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a></div><div class="ttdef"><b>Definition:</b> AnalyticalIntegral.inl:39</div></div>
+<div class="ttc" id="binned__extended__logLL__fit_8inl_html_a0b0ede69e8156eb97acc579b88e883de"><div class="ttname"><a href="binned__extended__logLL__fit_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a></div><div class="ttdeci">double max</div><div class="ttdef"><b>Definition:</b> binned_extended_logLL_fit.inl:122</div></div>
+</div><!-- fragment --><dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a23">binned_extended_logLL_fit.inl</a>, and <a class="el" href="splot_8inl-example.html#a23">splot.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="aad15208f9f01c27dc8a4ccbbe0970fee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad15208f9f01c27dc8a4ccbbe0970fee">&#9670;&nbsp;</a></span>fcn</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto fcn = <a class="el" href="group__fit.html#ga7cb37dfdb2198202b4cb3f0b79f94080">hydra::make_loglikehood_fcn</a>( <a class="el" href="particle__mass_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a>, <a class="el" href="particle__mass_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">Hist_Data</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="basic_fit_range_semantics_8inl-example.html#a28">basic_fit_range_semantics.inl</a>, <a class="el" href="binned_extended_logLL_fit_8inl-example.html#a34">binned_extended_logLL_fit.inl</a>, <a class="el" href="breit_wigner_plus_polynomial_8inl-example.html#a32">breit_wigner_plus_polynomial.inl</a>, <a class="el" href="crystal_ball_plus_exponential_8inl-example.html#a33">crystal_ball_plus_exponential.inl</a>, <a class="el" href="dalitz_plot_8C-example.html#a50">dalitz_plot.C</a>, <a class="el" href="dalitz_plot_8inl-example.html#a55">dalitz_plot.inl</a>, <a class="el" href="double_gaussian_plus_exponential_8inl-example.html#a34">double_gaussian_plus_exponential.inl</a>, <a class="el" href="extended_logLL_fit_8inl-example.html#a36">extended_logLL_fit.inl</a>, <a class="el" href="fit_convoluted_pdfs_8inl-example.html#a42">fit_convoluted_pdfs.inl</a>, <a class="el" href="fit_gaussian_8C-example.html#a23">fit_gaussian.C</a>, <a class="el" href="fit_johnson_8C-example.html#a24">fit_johnson.C</a>, <a class="el" href="fractional_logLL_fit_8inl-example.html#a34">fractional_logLL_fit.inl</a>, <a class="el" href="gaussian_plus_argus_8inl-example.html#a37">gaussian_plus_argus.inl</a>, <a class="el" href="multidimensional_fit_8inl-example.html#a47">multidimensional_fit.inl</a>, <a class="el" href="pseudo_experiment_8inl-example.html#a44">pseudo_experiment.inl</a>, and <a class="el" href="splot_8inl-example.html#a34">splot.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="ae01584da56b936fc41d511e6895d30c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae01584da56b936fc41d511e6895d30c0">&#9670;&nbsp;</a></span>Gauss1_PDF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto Gauss1_PDF</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a>( <a class="code" href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian&lt;_X&gt;</a>(<a class="code" href="binned__extended__logLL__fit_8inl.html#a7923514131edf790da7dabb63c057021">mean1_p</a>, <a class="code" href="binned__extended__logLL__fit_8inl.html#afa2c5d32f1fe40d9f920a1a21a771583">sigma1_p</a>),</div><div class="line">            <a class="code" href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a>&lt;<a class="code" href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian&lt;_X&gt;</a>&gt;(<a class="code" href="binned__extended__logLL__fit_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="code" href="binned__extended__logLL__fit_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>))</div><div class="ttc" id="group__fit_html_ga2d468a0d98a74f41479f8ccb95f5533e"><div class="ttname"><a href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a></div><div class="ttdeci">Pdf&lt; FUNCTOR, INTEGRATOR &gt; make_pdf(FUNCTOR const &amp;functor, INTEGRATOR integrator)</div><div class="ttdoc">Build a hydra::Pdf given a shape described by a functor and a integrator (algorithm or functor)...</div><div class="ttdef"><b>Definition:</b> Pdf.h:299</div></div>
+<div class="ttc" id="binned__extended__logLL__fit_8inl_html_aad36546e8175d2922bee165fe028fedc"><div class="ttname"><a href="binned__extended__logLL__fit_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a></div><div class="ttdeci">double min</div><div class="ttdef"><b>Definition:</b> binned_extended_logLL_fit.inl:121</div></div>
+<div class="ttc" id="binned__extended__logLL__fit_8inl_html_a7923514131edf790da7dabb63c057021"><div class="ttname"><a href="binned__extended__logLL__fit_8inl.html#a7923514131edf790da7dabb63c057021">mean1_p</a></div><div class="ttdeci">hydra::Parameter mean1_p</div><div class="ttdef"><b>Definition:</b> binned_extended_logLL_fit.inl:126</div></div>
+<div class="ttc" id="group__common__functions_html_classhydra_1_1Gaussian"><div class="ttname"><a href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian</a></div><div class="ttdoc">   Gaussian functions are often used to represent the probability density function of a normally dist...</div><div class="ttdef"><b>Definition:</b> Gaussian.h:62</div></div>
+<div class="ttc" id="classhydra_1_1AnalyticalIntegral_html"><div class="ttname"><a href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a></div><div class="ttdef"><b>Definition:</b> AnalyticalIntegral.inl:39</div></div>
+<div class="ttc" id="binned__extended__logLL__fit_8inl_html_afa2c5d32f1fe40d9f920a1a21a771583"><div class="ttname"><a href="binned__extended__logLL__fit_8inl.html#afa2c5d32f1fe40d9f920a1a21a771583">sigma1_p</a></div><div class="ttdeci">hydra::Parameter sigma1_p</div><div class="ttdef"><b>Definition:</b> binned_extended_logLL_fit.inl:127</div></div>
+<div class="ttc" id="binned__extended__logLL__fit_8inl_html_a0b0ede69e8156eb97acc579b88e883de"><div class="ttname"><a href="binned__extended__logLL__fit_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a></div><div class="ttdeci">double max</div><div class="ttdef"><b>Definition:</b> binned_extended_logLL_fit.inl:122</div></div>
+</div><!-- fragment --><dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a15">binned_extended_logLL_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="ae63841d2f2663489866089fdf2183e8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae63841d2f2663489866089fdf2183e8b">&#9670;&nbsp;</a></span>Gauss2_PDF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto Gauss2_PDF</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a>(<a class="code" href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian&lt;_X&gt;</a>(<a class="code" href="binned__extended__logLL__fit_8inl.html#a9205994a061ec78c9fcc8b368b0df46f">mean2_p</a>, <a class="code" href="binned__extended__logLL__fit_8inl.html#ad8edd1d58d56d04a7029cc1c14da570e">sigma2_p</a>),</div><div class="line">            <a class="code" href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a>&lt;<a class="code" href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian&lt;_X&gt;</a>&gt;(<a class="code" href="binned__extended__logLL__fit_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="code" href="binned__extended__logLL__fit_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>))</div><div class="ttc" id="group__fit_html_ga2d468a0d98a74f41479f8ccb95f5533e"><div class="ttname"><a href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a></div><div class="ttdeci">Pdf&lt; FUNCTOR, INTEGRATOR &gt; make_pdf(FUNCTOR const &amp;functor, INTEGRATOR integrator)</div><div class="ttdoc">Build a hydra::Pdf given a shape described by a functor and a integrator (algorithm or functor)...</div><div class="ttdef"><b>Definition:</b> Pdf.h:299</div></div>
+<div class="ttc" id="binned__extended__logLL__fit_8inl_html_ad8edd1d58d56d04a7029cc1c14da570e"><div class="ttname"><a href="binned__extended__logLL__fit_8inl.html#ad8edd1d58d56d04a7029cc1c14da570e">sigma2_p</a></div><div class="ttdeci">hydra::Parameter sigma2_p</div><div class="ttdef"><b>Definition:</b> binned_extended_logLL_fit.inl:137</div></div>
+<div class="ttc" id="binned__extended__logLL__fit_8inl_html_aad36546e8175d2922bee165fe028fedc"><div class="ttname"><a href="binned__extended__logLL__fit_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a></div><div class="ttdeci">double min</div><div class="ttdef"><b>Definition:</b> binned_extended_logLL_fit.inl:121</div></div>
+<div class="ttc" id="group__common__functions_html_classhydra_1_1Gaussian"><div class="ttname"><a href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian</a></div><div class="ttdoc">   Gaussian functions are often used to represent the probability density function of a normally dist...</div><div class="ttdef"><b>Definition:</b> Gaussian.h:62</div></div>
+<div class="ttc" id="classhydra_1_1AnalyticalIntegral_html"><div class="ttname"><a href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a></div><div class="ttdef"><b>Definition:</b> AnalyticalIntegral.inl:39</div></div>
+<div class="ttc" id="binned__extended__logLL__fit_8inl_html_a9205994a061ec78c9fcc8b368b0df46f"><div class="ttname"><a href="binned__extended__logLL__fit_8inl.html#a9205994a061ec78c9fcc8b368b0df46f">mean2_p</a></div><div class="ttdeci">hydra::Parameter mean2_p</div><div class="ttdef"><b>Definition:</b> binned_extended_logLL_fit.inl:136</div></div>
+<div class="ttc" id="binned__extended__logLL__fit_8inl_html_a0b0ede69e8156eb97acc579b88e883de"><div class="ttname"><a href="binned__extended__logLL__fit_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a></div><div class="ttdeci">double max</div><div class="ttdef"><b>Definition:</b> binned_extended_logLL_fit.inl:122</div></div>
+</div><!-- fragment --><dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a21">binned_extended_logLL_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a0b0ede69e8156eb97acc579b88e883de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b0ede69e8156eb97acc579b88e883de">&#9670;&nbsp;</a></span>max</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> max = 10.0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a6">binned_extended_logLL_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a7923514131edf790da7dabb63c057021"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7923514131edf790da7dabb63c057021">&#9670;&nbsp;</a></span>mean1_p</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> mean1_p = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>().Name(&quot;Mean_1&quot;).Value( 2.5) .Error(0.0001).Limits(0.0, 10.0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a8">binned_extended_logLL_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a9205994a061ec78c9fcc8b368b0df46f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9205994a061ec78c9fcc8b368b0df46f">&#9670;&nbsp;</a></span>mean2_p</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> mean2_p = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>().Name(&quot;Mean_2&quot;).Value(5.0) .Error(0.0001).Limits(0.0, 10.0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a19">binned_extended_logLL_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="aad36546e8175d2922bee165fe028fedc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad36546e8175d2922bee165fe028fedc">&#9670;&nbsp;</a></span>min</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> min = 0.0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a5">binned_extended_logLL_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a4494b924b71b8932dedd0783a4e7061f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4494b924b71b8932dedd0783a4e7061f">&#9670;&nbsp;</a></span>model</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto model = <a class="el" href="group__fit.html#ga7e7cc3bb04eac1d1350bb41b254fc92b">hydra::add_pdfs</a>( {<a class="el" href="extended__logLL__fit_8inl.html#a21f59966a9e2e3f50844fbd09c310d9d">N_Gauss_1_p</a>, <a class="el" href="extended__logLL__fit_8inl.html#ae3a262626ddc01468b66fbf357166c3c">N_Gauss_2_p</a>, <a class="el" href="extended__logLL__fit_8inl.html#ac1f2e13fa6d7a747126c2bd7cb74e57c">N_Exp_p</a> }, <a class="el" href="fractional__logLL__fit_8inl.html#ae01584da56b936fc41d511e6895d30c0">Gauss1_PDF</a>, <a class="el" href="fractional__logLL__fit_8inl.html#ae63841d2f2663489866089fdf2183e8b">Gauss2_PDF</a>, <a class="el" href="fractional__logLL__fit_8inl.html#abe4dcbceefaf0510914eea5126d4deef">Exp_PDF</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a29">binned_extended_logLL_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="ac1f2e13fa6d7a747126c2bd7cb74e57c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1f2e13fa6d7a747126c2bd7cb74e57c">&#9670;&nbsp;</a></span>N_Exp_p</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> N_Exp_p(&quot;N_Exp&quot;,nentries, sqrt(<a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>), <a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>-<a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>/2, <a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>+<a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>/2)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a28">binned_extended_logLL_fit.inl</a>, and <a class="el" href="splot_8inl-example.html#a20">splot.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a21f59966a9e2e3f50844fbd09c310d9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21f59966a9e2e3f50844fbd09c310d9d">&#9670;&nbsp;</a></span>N_Gauss_1_p</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> N_Gauss_1_p(&quot;N_Gauss1&quot;,nentries, sqrt(<a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>), <a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>-<a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>/2, <a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>+<a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>/2)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a25">binned_extended_logLL_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="ae3a262626ddc01468b66fbf357166c3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3a262626ddc01468b66fbf357166c3c">&#9670;&nbsp;</a></span>N_Gauss_2_p</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> N_Gauss_2_p(&quot;N_Gauss2&quot;,nentries, sqrt(<a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>), <a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>-<a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>/2, <a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>+<a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>/2)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a27">binned_extended_logLL_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="af8b0f365ee5d5b76a62688733e5016a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8b0f365ee5d5b76a62688733e5016a1">&#9670;&nbsp;</a></span>nentries</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">nentries = EArg.getValue()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a3">binned_extended_logLL_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="afa2c5d32f1fe40d9f920a1a21a771583"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa2c5d32f1fe40d9f920a1a21a771583">&#9670;&nbsp;</a></span>sigma1_p</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> sigma1_p = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>().Name(&quot;Sigma_1&quot;).Value(0.5).Error(0.0001).Limits(0.01, 1.5)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a14">binned_extended_logLL_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="ad8edd1d58d56d04a7029cc1c14da570e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8edd1d58d56d04a7029cc1c14da570e">&#9670;&nbsp;</a></span>sigma2_p</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> sigma2_p = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>().Name(&quot;Sigma_2&quot;).Value(0.5).Error(0.0001).Limits(0.01, 1.5)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a20">binned_extended_logLL_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a08fa4a19ce0a011bf3f9bdffe9c0a2b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08fa4a19ce0a011bf3f9bdffe9c0a2b1">&#9670;&nbsp;</a></span>tau_p</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> tau_p = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>().Name(&quot;Tau&quot;).Value(1.0).Error(0.0001).Limits(-2.0, 2.0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="binned_extended_logLL_fit_8inl-example.html#a22">binned_extended_logLL_fit.inl</a>, <a class="el" href="fit_johnson_8C-example.html#a15">fit_johnson.C</a>, and <a class="el" href="splot_8inl-example.html#a17">splot.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="abe4cc9788f52e49485473dc699537388"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe4cc9788f52e49485473dc699537388">&#9670;&nbsp;</a></span>try</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">try</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line"></div><div class="line">        TCLAP::CmdLine cmd(<span class="stringliteral">&quot;Command line arguments for &quot;</span>, <span class="charliteral">&#39;=&#39;</span>)</div></div><!-- fragment -->
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_b3c69fde212a60de3f50954f66fa65c1.html">examples</a></li><li class="navelem"><a class="el" href="dir_fa9bd4b554716f8530d93b48c470adbb.html">fit</a></li><li class="navelem"><a class="el" href="binned__extended__logLL__fit_8inl.html">binned_extended_logLL_fit.inl</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:23 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

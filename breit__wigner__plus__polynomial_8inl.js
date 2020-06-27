@@ -1,5 +1,31 @@
 var breit__wigner__plus__polynomial_8inl =
 [
     [ "BREITWIGNER_PLUS_POLYNOMIAL_INL_", "breit__wigner__plus__polynomial_8inl.html#a8b37376a0ac51b4bbddb5a4e1e6b856c", null ],
-    [ "main", "breit__wigner__plus__polynomial_8inl.html#a1c03069360f1f90a556eb537e0ff8a72", null ]
+    [ "add", "breit__wigner__plus__polynomial_8inl.html#a58e43a6eee990d884b2008760c6505c2", null ],
+    [ "catch", "breit__wigner__plus__polynomial_8inl.html#a847ebf0b5067895a9c74f81825c76a00", null ],
+    [ "declarg", "breit__wigner__plus__polynomial_8inl.html#a7dc0cdce190fb7c7f4b9ca73cf09ee6b", null ],
+    [ "EArg", "breit__wigner__plus__polynomial_8inl.html#a32ea8a498b202f85a8d77adaac39ca1b", null ],
+    [ "Fill", "breit__wigner__plus__polynomial_8inl.html#ad368805327f3ea0a471914a7b57f8759", null ],
+    [ "Hist_Data", "breit__wigner__plus__polynomial_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc", null ],
+    [ "parse", "breit__wigner__plus__polynomial_8inl.html#a1c06c263c31271c073a8f0735b1e4a16", null ],
+    [ "SetExtended", "breit__wigner__plus__polynomial_8inl.html#ab33c4f5d33ac3a305332487f429789c6", null ],
+    [ "argc", "breit__wigner__plus__polynomial_8inl.html#a27fb769f88c3c17ca3490b75f7758431", null ],
+    [ "Background_PDF", "breit__wigner__plus__polynomial_8inl.html#ae87cf30f58a40cae21dd7d985b83570c", null ],
+    [ "c0", "breit__wigner__plus__polynomial_8inl.html#aecf235c3c4985ff9dfccf0a9caecdc06", null ],
+    [ "c1", "breit__wigner__plus__polynomial_8inl.html#a8175ec4e5461dcd38d40ead25fef205c", null ],
+    [ "c2", "breit__wigner__plus__polynomial_8inl.html#a024a3031e2ed14c5d1405f6e99df1158", null ],
+    [ "elapsed_d", "breit__wigner__plus__polynomial_8inl.html#abfba4c24621d89d3066e1d26c7e47951", null ],
+    [ "max", "breit__wigner__plus__polynomial_8inl.html#a0b0ede69e8156eb97acc579b88e883de", null ],
+    [ "mean", "breit__wigner__plus__polynomial_8inl.html#acf41e89c36c8a1a455eeee9307628e33", null ],
+    [ "min", "breit__wigner__plus__polynomial_8inl.html#aad36546e8175d2922bee165fe028fedc", null ],
+    [ "model", "breit__wigner__plus__polynomial_8inl.html#a4494b924b71b8932dedd0783a4e7061f", null ],
+    [ "model_name", "breit__wigner__plus__polynomial_8inl.html#a23b5b17c4667d01ec62aa77273f3ce96", null ],
+    [ "N_Background", "breit__wigner__plus__polynomial_8inl.html#a1e7b3dc6ec234b82390324c1d98f2874", null ],
+    [ "N_Signal", "breit__wigner__plus__polynomial_8inl.html#a00251336d2727d6e7abec6b4d02ce0ba", null ],
+    [ "nentries", "breit__wigner__plus__polynomial_8inl.html#af8b0f365ee5d5b76a62688733e5016a1", null ],
+    [ "range", "breit__wigner__plus__polynomial_8inl.html#a41c36559284ec68ca0e13c56558b5f09", null ],
+    [ "return", "breit__wigner__plus__polynomial_8inl.html#a9717e7bbecb906637e86cef6da3d83c2", null ],
+    [ "Signal_PDF", "breit__wigner__plus__polynomial_8inl.html#a06cec1bc75de861ff47a64af92566e57", null ],
+    [ "try", "breit__wigner__plus__polynomial_8inl.html#abe4cc9788f52e49485473dc699537388", null ],
+    [ "width", "breit__wigner__plus__polynomial_8inl.html#a59048b9d042712cd265ed1b0f46522d7", null ]
 ];

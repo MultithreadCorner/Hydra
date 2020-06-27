@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -105,17 +106,20 @@ $(document).ready(function(){initNavTree('Range2_8inl.html','');});
 <div class="textblock"><code>#include &lt;<a class="el" href="">hydra/detail/Config.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/BackendPolicy.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Distance.h</a>&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/iterator/transform_iterator.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/iterator/transform_iterator.h&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/FunctorTraits.h</a>&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Range2.inl:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Range2_8inl__incl.svg" width="100%" height="551"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Range2_8inl__incl.svg" width="100%" height="562"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Range2_8inl__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="Range2_8inl__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -138,33 +142,33 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aca7f979949a9340e95660a70b83358dd"><td class="memTemplParams" colspan="2">template&lt;typename Iterator , typename Functor &gt; </td></tr>
-<tr class="memitem:aca7f979949a9340e95660a70b83358dd"><td class="memTemplItemLeft" align="right" valign="top">HYDRA_EXTERNAL_NS::thrust::detail::enable_if&lt; detail::is_hydra_functor&lt; Functor &gt;::value, Range&lt; Iterator, Functor &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#aca7f979949a9340e95660a70b83358dd">hydra::make_range</a> (Iterator begin, Iterator end, Functor const &amp;functor)</td></tr>
-<tr class="separator:aca7f979949a9340e95660a70b83358dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a848831bc77a005363d36d66a5a76dab9"><td class="memTemplParams" colspan="2">template&lt;typename Iterable , typename Functor &gt; </td></tr>
-<tr class="memitem:a848831bc77a005363d36d66a5a76dab9"><td class="memTemplItemLeft" align="right" valign="top">HYDRA_EXTERNAL_NS::thrust::detail::enable_if&lt; detail::is_iterable&lt; Iterable &gt;::value &amp;&amp;detail::is_hydra_functor&lt; Functor &gt;::value, Range&lt; decltype(std::declval&lt; Iterable &gt;).begin()), Functor &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a848831bc77a005363d36d66a5a76dab9">hydra::make_range</a> (Iterable const &amp;iterable, Functor const &amp;functor)</td></tr>
-<tr class="separator:a848831bc77a005363d36d66a5a76dab9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad41a92d68bff7650655ef587d27611c4"><td class="memTemplParams" colspan="2">template&lt;typename Iterable , typename Functor &gt; </td></tr>
-<tr class="memitem:ad41a92d68bff7650655ef587d27611c4"><td class="memTemplItemLeft" align="right" valign="top">HYDRA_EXTERNAL_NS::thrust::detail::enable_if&lt; detail::is_iterable&lt; Iterable &gt;::value &amp;&amp;detail::is_hydra_functor&lt; Functor &gt;::value, Range&lt; decltype(std::declval&lt; Iterable &gt;).begin()), Functor &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ad41a92d68bff7650655ef587d27611c4">hydra::make_range</a> (Iterable &amp;&amp;iterable, Functor const &amp;functor)</td></tr>
-<tr class="separator:ad41a92d68bff7650655ef587d27611c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8920bd6c86e10092b7f5f0a3ac594f0c"><td class="memTemplParams" colspan="2">template&lt;typename Iterator , typename Functor &gt; </td></tr>
-<tr class="memitem:a8920bd6c86e10092b7f5f0a3ac594f0c"><td class="memTemplItemLeft" align="right" valign="top">HYDRA_EXTERNAL_NS::thrust::detail::enable_if&lt; detail::is_hydra_functor&lt; Functor &gt;::value, Range&lt; HYDRA_EXTERNAL_NS::thrust::reverse_iterator&lt; Iterator &gt;, Functor &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a8920bd6c86e10092b7f5f0a3ac594f0c">hydra::make_reverse_range</a> (Iterator begin, Iterator end, Functor const &amp;functor)</td></tr>
-<tr class="separator:a8920bd6c86e10092b7f5f0a3ac594f0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4bd548971df59145c8bcf4db33538645"><td class="memTemplParams" colspan="2">template&lt;typename Iterable , typename Functor &gt; </td></tr>
-<tr class="memitem:a4bd548971df59145c8bcf4db33538645"><td class="memTemplItemLeft" align="right" valign="top">HYDRA_EXTERNAL_NS::thrust::detail::enable_if&lt; detail::is_reverse_iterable&lt; Iterable &gt;::value &amp;&amp;detail::is_hydra_functor&lt; Functor &gt;::value, Range&lt; decltype(std::declval&lt; Iterable &gt;).rbegin()), Functor &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a4bd548971df59145c8bcf4db33538645">hydra::make_reverse_range</a> (Iterable const &amp;iterable, Functor const &amp;functor)</td></tr>
-<tr class="separator:a4bd548971df59145c8bcf4db33538645"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1391215774750e4ae5daf419b5768c7b"><td class="memTemplParams" colspan="2">template&lt;typename Iterable , typename Functor &gt; </td></tr>
-<tr class="memitem:a1391215774750e4ae5daf419b5768c7b"><td class="memTemplItemLeft" align="right" valign="top">HYDRA_EXTERNAL_NS::thrust::detail::enable_if&lt; detail::is_reverse_iterable&lt; Iterable &gt;::value &amp;&amp;detail::is_hydra_functor&lt; Functor &gt;::value, Range&lt; decltype(std::declval&lt; Iterable &gt;).rbegin()), Functor &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a1391215774750e4ae5daf419b5768c7b">hydra::make_reverse_range</a> (Iterable &amp;&amp;iterable, Functor const &amp;functor)</td></tr>
-<tr class="separator:a1391215774750e4ae5daf419b5768c7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac84130bc318145449957a91e45dea963"><td class="memTemplParams" colspan="2">template&lt;typename Iterable , typename Functor &gt; </td></tr>
-<tr class="memitem:ac84130bc318145449957a91e45dea963"><td class="memTemplItemLeft" align="right" valign="top">HYDRA_EXTERNAL_NS::thrust::detail::enable_if&lt; detail::is_iterable&lt; Iterable &gt;::value &amp;&amp;detail::is_hydra_functor&lt; Functor &gt;::value, Range&lt; decltype(std::declval&lt; const Iterable &gt;).begin()), Functor &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ac84130bc318145449957a91e45dea963">hydra::operator|</a> (Iterable const &amp;iterable, Functor const &amp;functor)</td></tr>
-<tr class="separator:ac84130bc318145449957a91e45dea963"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab959ec5340fe7f85b886795bc75debc4"><td class="memTemplParams" colspan="2">template&lt;typename Iterable , typename Functor &gt; </td></tr>
-<tr class="memitem:ab959ec5340fe7f85b886795bc75debc4"><td class="memTemplItemLeft" align="right" valign="top">HYDRA_EXTERNAL_NS::thrust::detail::enable_if&lt; detail::is_iterable&lt; Iterable &gt;::value &amp;&amp;detail::is_hydra_functor&lt; Functor &gt;::value, Range&lt; decltype(std::declval&lt; Iterable &gt;).begin()), Functor &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ab959ec5340fe7f85b886795bc75debc4">hydra::operator|</a> (Iterable &amp;&amp;iterable, Functor const &amp;functor)</td></tr>
-<tr class="separator:ab959ec5340fe7f85b886795bc75debc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3dff93eff6900d6a3aa93db92e8ba065"><td class="memTemplParams" colspan="2">template&lt;typename Iterable &gt; </td></tr>
-<tr class="memitem:a3dff93eff6900d6a3aa93db92e8ba065"><td class="memTemplItemLeft" align="right" valign="top">HYDRA_EXTERNAL_NS::thrust::detail::enable_if&lt; detail::is_iterable&lt; Iterable &gt;::value, Range&lt; HYDRA_EXTERNAL_NS::thrust::reverse_iterator&lt; decltype(std::declval&lt; Iterable &gt;).begin()) &gt; &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a3dff93eff6900d6a3aa93db92e8ba065">hydra::reverse</a> (Iterable &amp;&amp;iterable)</td></tr>
-<tr class="separator:a3dff93eff6900d6a3aa93db92e8ba065"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77c630f8a750d37a4644fc0be2f98c8c"><td class="memTemplParams" colspan="2">template&lt;typename Iterator , typename Functor &gt; </td></tr>
+<tr class="memitem:a77c630f8a750d37a4644fc0be2f98c8c"><td class="memTemplItemLeft" align="right" valign="top">hydra_thrust::detail::enable_if&lt; detail::is_hydra_functor&lt; Functor &gt;::value, Range&lt; Iterator, Functor &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a77c630f8a750d37a4644fc0be2f98c8c">hydra::make_range</a> (Iterator begin, Iterator <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">end</a>, Functor const &amp;functor)</td></tr>
+<tr class="separator:a77c630f8a750d37a4644fc0be2f98c8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21c52c12d57be6225d5a286890b7def5"><td class="memTemplParams" colspan="2">template&lt;typename Iterable , typename Functor &gt; </td></tr>
+<tr class="memitem:a21c52c12d57be6225d5a286890b7def5"><td class="memTemplItemLeft" align="right" valign="top">hydra_thrust::detail::enable_if&lt; detail::is_iterable&lt; Iterable &gt;::value &amp;&amp;detail::is_hydra_functor&lt; Functor &gt;::value, Range&lt; decltype(std::declval&lt; Iterable &gt;).begin()), Functor &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a21c52c12d57be6225d5a286890b7def5">hydra::make_range</a> (Iterable const &amp;iterable, Functor const &amp;functor)</td></tr>
+<tr class="separator:a21c52c12d57be6225d5a286890b7def5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac03229293f965b9aeb8704c32b0fa8bb"><td class="memTemplParams" colspan="2">template&lt;typename Iterable , typename Functor &gt; </td></tr>
+<tr class="memitem:ac03229293f965b9aeb8704c32b0fa8bb"><td class="memTemplItemLeft" align="right" valign="top">hydra_thrust::detail::enable_if&lt; detail::is_iterable&lt; Iterable &gt;::value &amp;&amp;detail::is_hydra_functor&lt; Functor &gt;::value, Range&lt; decltype(std::declval&lt; Iterable &gt;).begin()), Functor &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ac03229293f965b9aeb8704c32b0fa8bb">hydra::make_range</a> (Iterable &amp;&amp;iterable, Functor const &amp;functor)</td></tr>
+<tr class="separator:ac03229293f965b9aeb8704c32b0fa8bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e767e7adf0e19fd813cba22bf470f27"><td class="memTemplParams" colspan="2">template&lt;typename Iterator , typename Functor &gt; </td></tr>
+<tr class="memitem:a4e767e7adf0e19fd813cba22bf470f27"><td class="memTemplItemLeft" align="right" valign="top">hydra_thrust::detail::enable_if&lt; detail::is_hydra_functor&lt; Functor &gt;::value, Range&lt; hydra_thrust::reverse_iterator&lt; Iterator &gt;, Functor &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a4e767e7adf0e19fd813cba22bf470f27">hydra::make_reverse_range</a> (Iterator begin, Iterator <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">end</a>, Functor const &amp;functor)</td></tr>
+<tr class="separator:a4e767e7adf0e19fd813cba22bf470f27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2416806c69de19541c8156b9e060dda"><td class="memTemplParams" colspan="2">template&lt;typename Iterable , typename Functor &gt; </td></tr>
+<tr class="memitem:ae2416806c69de19541c8156b9e060dda"><td class="memTemplItemLeft" align="right" valign="top">hydra_thrust::detail::enable_if&lt; detail::is_reverse_iterable&lt; Iterable &gt;::value &amp;&amp;detail::is_hydra_functor&lt; Functor &gt;::value, Range&lt; decltype(std::declval&lt; Iterable &gt;).rbegin()), Functor &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ae2416806c69de19541c8156b9e060dda">hydra::make_reverse_range</a> (Iterable const &amp;iterable, Functor const &amp;functor)</td></tr>
+<tr class="separator:ae2416806c69de19541c8156b9e060dda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c9ee9245860252a898f227d242011f2"><td class="memTemplParams" colspan="2">template&lt;typename Iterable , typename Functor &gt; </td></tr>
+<tr class="memitem:a8c9ee9245860252a898f227d242011f2"><td class="memTemplItemLeft" align="right" valign="top">hydra_thrust::detail::enable_if&lt; detail::is_reverse_iterable&lt; Iterable &gt;::value &amp;&amp;detail::is_hydra_functor&lt; Functor &gt;::value, Range&lt; decltype(std::declval&lt; Iterable &gt;).rbegin()), Functor &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a8c9ee9245860252a898f227d242011f2">hydra::make_reverse_range</a> (Iterable &amp;&amp;iterable, Functor const &amp;functor)</td></tr>
+<tr class="separator:a8c9ee9245860252a898f227d242011f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55811c5f0a84a83d2d43473fb464eb4b"><td class="memTemplParams" colspan="2">template&lt;typename Iterable , typename Functor &gt; </td></tr>
+<tr class="memitem:a55811c5f0a84a83d2d43473fb464eb4b"><td class="memTemplItemLeft" align="right" valign="top">hydra_thrust::detail::enable_if&lt; detail::is_iterable&lt; Iterable &gt;::value &amp;&amp;(detail::is_hydra_functor&lt; Functor &gt;::value||detail::is_hydra_lambda&lt; Functor &gt;::value), Range&lt; decltype(std::declval&lt; const Iterable &gt;).begin()), Functor &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a55811c5f0a84a83d2d43473fb464eb4b">hydra::operator|</a> (Iterable const &amp;iterable, Functor const &amp;functor)</td></tr>
+<tr class="separator:a55811c5f0a84a83d2d43473fb464eb4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c6bbe00afd80cfb16f208f98defdc1a"><td class="memTemplParams" colspan="2">template&lt;typename Iterable , typename Functor &gt; </td></tr>
+<tr class="memitem:a6c6bbe00afd80cfb16f208f98defdc1a"><td class="memTemplItemLeft" align="right" valign="top">hydra_thrust::detail::enable_if&lt; detail::is_iterable&lt; Iterable &gt;::value &amp;&amp;(detail::is_hydra_functor&lt; Functor &gt;::value||detail::is_hydra_lambda&lt; Functor &gt;::value), Range&lt; decltype(std::declval&lt; Iterable &gt;).begin()), Functor &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a6c6bbe00afd80cfb16f208f98defdc1a">hydra::operator|</a> (Iterable &amp;&amp;iterable, Functor const &amp;functor)</td></tr>
+<tr class="separator:a6c6bbe00afd80cfb16f208f98defdc1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c4c8a32d3456681824f36d2058deb4b"><td class="memTemplParams" colspan="2">template&lt;typename Iterable &gt; </td></tr>
+<tr class="memitem:a9c4c8a32d3456681824f36d2058deb4b"><td class="memTemplItemLeft" align="right" valign="top">hydra_thrust::detail::enable_if&lt; detail::is_iterable&lt; Iterable &gt;::value, Range&lt; hydra_thrust::reverse_iterator&lt; decltype(std::declval&lt; Iterable &gt;).begin()) &gt; &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a9c4c8a32d3456681824f36d2058deb4b">hydra::reverse</a> (Iterable &amp;&amp;iterable)</td></tr>
+<tr class="separator:a9c4c8a32d3456681824f36d2058deb4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ad82892d09eac30b51cabdb565fde5f54"></a>
@@ -187,7 +191,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="Range2_8inl.html">Range2.inl</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

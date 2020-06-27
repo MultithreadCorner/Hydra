@@ -1,0 +1,28 @@
+var group__fit_classhydra_1_1SPlot =
+[
+    [ "functors_tuple_type", "group__fit.html#a2e76c28497929011b53988a508fb974f", null ],
+    [ "iterator", "group__fit.html#afd14a403335a40e91d6075a854565816", null ],
+    [ "pdfs_tuple_type", "group__fit.html#a2f902f4b8f11c3b94f85ba0bdc07b417", null ],
+    [ "siterator", "group__fit.html#a9ee7c8acae710db4a0c0ba38412dfac1", null ],
+    [ "transformer", "group__fit.html#a44a57ecf3acbcc59f51435b831c06cbb", null ],
+    [ "value_type", "group__fit.html#a924426c0ed8072a1fab3519299f48283", null ],
+    [ "SPlot", "group__fit.html#a27eea014955f84986be43b5d773c393d", null ],
+    [ "SPlot", "group__fit.html#adad4b955b488a6ca8c9ac31a02aae331", null ],
+    [ "SPlot", "group__fit.html#a5b1ce7496800bb017862045834af0b84", null ],
+    [ "begin", "group__fit.html#a82149fbb43dced3c19b8fe5f07b43d91", null ],
+    [ "begin", "group__fit.html#a9db4806645edcd1638a31e35ba8b2996", null ],
+    [ "begin", "group__fit.html#aba792e9d1bf2d19e4a500a520ca9ac8c", null ],
+    [ "end", "group__fit.html#aa81fe62a3015404d02ade3e98bf81067", null ],
+    [ "end", "group__fit.html#ad0d0ef0729fd6b1bd44023efface76d4", null ],
+    [ "end", "group__fit.html#a90ef44f9bbf8949e22133bbee1f3c82d", null ],
+    [ "GetCoeficient", "group__fit.html#aa599e9d2a51a4b48b46ba782798a617d", null ],
+    [ "GetCovMatrix", "group__fit.html#a2f8a433c4aa054f5154d275f9040ff06", null ],
+    [ "GetFunctors", "group__fit.html#ae907c6342c5aaeb8ae390168bf3a65c9", null ],
+    [ "GetPDFs", "group__fit.html#ac823f80deb160c4e26c426b8ab1a19e5", null ],
+    [ "operator()", "group__fit.html#a33ff70ce11b19ad7a5965a1ade16e665", null ],
+    [ "operator()", "group__fit.html#a4a34f2bcf6c6e3e680fcc017eb950e67", null ],
+    [ "operator=", "group__fit.html#ab2ba63fbd9ce72584042d4be2c4168e4", null ],
+    [ "operator[]", "group__fit.html#a747e0a41aca5ad39efd16d3ef73dad72", null ],
+    [ "operator[]", "group__fit.html#a81cc2229e9ee0e5fcf5723475698c149", null ],
+    [ "npdfs", "group__fit.html#aa8449f6742b0f4855689843122b319e5", null ]
+];

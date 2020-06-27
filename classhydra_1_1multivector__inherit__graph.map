@@ -1,9 +1,9 @@
 <map id="hydra::multivector&lt; T, BACKEND &gt;" name="hydra::multivector&lt; T, BACKEND &gt;">
-<area shape="rect" id="node2" href="$namespacehydra.html#namespacehydra" title="{hydra::multivector\l\&lt; abscissa_t, hydra\l::detail::BackendPolicy\l\&lt; BACKEND \&gt; \&gt;\n||}" alt="" coords="5,189,161,311"/>
-<area shape="rect" id="node3" href="$namespacehydra.html#namespacehydra" title="{hydra::multivector\l\&lt; parameters_t, hydra\l::detail::BackendPolicy\l\&lt; BACKEND \&gt; \&gt;\n||}" alt="" coords="185,189,341,311"/>
-<area shape="rect" id="node4" href="$namespacehydra.html#namespacehydra" title="{hydra::multivector\l\&lt; tuple_type, hydra\l::detail::BackendPolicy\l\&lt; BACKEND \&gt; \&gt;\n||}" alt="" coords="365,189,521,311"/>
-<area shape="rect" id="node5" href="$namespacehydra.html#namespacehydra" title="{hydra::multivector\l\&lt; call_t, hydra::host\l::sys_t \&gt;\n||}" alt="" coords="546,197,685,303"/>
-<area shape="rect" id="node6" href="$namespacehydra.html#namespacehydra" title="{hydra::multivector\l\&lt; call_t, hydra::detail\l::BackendPolicy\&lt; BACKEND \&gt; \&gt;\n||}" alt="" coords="709,197,925,303"/>
-<area shape="rect" id="node7" href="$namespacehydra.html#namespacehydra" title="{hydra::multivector\l\&lt; node_t, hydra::host\l::sys_t \&gt;\n||}" alt="" coords="949,197,1095,303"/>
-<area shape="rect" id="node8" href="$namespacehydra.html#namespacehydra" title="{hydra::multivector\l\&lt; row_t, hydra::detail\l::BackendPolicy\&lt; BACKEND \&gt; \&gt;\n||}" alt="" coords="1119,197,1335,303"/>
+<area shape="rect" id="node2" href="$namespacehydra.html#namespacehydra" title="{hydra::multivector\l\&lt; tuple_type, system\l_type \&gt;\n||}" alt="" coords="5,197,151,303"/>
+<area shape="rect" id="node3" href="$namespacehydra.html#namespacehydra" title="{hydra::multivector\l\&lt; abscissa_t, hydra\l::detail::BackendPolicy\l\&lt; BACKEND \&gt; \&gt;\n||}" alt="" coords="175,189,331,311"/>
+<area shape="rect" id="node4" href="$namespacehydra.html#namespacehydra" title="{hydra::multivector\l\&lt; parameters_t, hydra\l::detail::BackendPolicy\l\&lt; BACKEND \&gt; \&gt;\n||}" alt="" coords="355,189,511,311"/>
+<area shape="rect" id="node5" href="$namespacehydra.html#namespacehydra" title="{hydra::multivector\l\&lt; call_t, hydra::host\l::sys_t \&gt;\n||}" alt="" coords="535,197,674,303"/>
+<area shape="rect" id="node6" href="$namespacehydra.html#namespacehydra" title="{hydra::multivector\l\&lt; call_t, hydra::detail\l::BackendPolicy\&lt; BACKEND \&gt; \&gt;\n||}" alt="" coords="698,197,917,303"/>
+<area shape="rect" id="node7" href="$namespacehydra.html#namespacehydra" title="{hydra::multivector\l\&lt; node_t, hydra::host\l::sys_t \&gt;\n||}" alt="" coords="941,197,1087,303"/>
+<area shape="rect" id="node8" href="$namespacehydra.html#namespacehydra" title="{hydra::multivector\l\&lt; row_t, hydra::detail\l::BackendPolicy\&lt; BACKEND \&gt; \&gt;\n||}" alt="" coords="1111,197,1330,303"/>
 </map>

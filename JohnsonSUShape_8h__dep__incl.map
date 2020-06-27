@@ -1,3 +1,12 @@
 <map id="JohnsonSUShape.h" name="JohnsonSUShape.h">
-<area shape="rect" id="node2" href="$fit__johnson_8C.html" title="fit_johnson.C" alt="" coords="25,80,123,107"/>
+<area shape="rect" id="node2" href="$quick__test_8inl.html" title="quick_test.inl" alt="" coords="137,80,236,107"/>
+<area shape="rect" id="node5" href="$basic__distributions_8inl.html" title="basic_distributions.inl" alt="" coords="441,80,588,107"/>
+<area shape="rect" id="node8" href="$fill__basic__distributions_8inl.html" title="fill_basic_distributions.inl" alt="" coords="614,80,781,107"/>
+<area shape="rect" id="node11" href="$fit__johnson_8C.html" title="fit_johnson.C" alt="" coords="805,80,904,107"/>
+<area shape="rect" id="node3" href="$quick__test_8cpp.html" title="quick_test.cpp" alt="" coords="5,155,112,181"/>
+<area shape="rect" id="node4" href="$quick__test_8cu.html" title="quick_test.cu" alt="" coords="137,155,237,181"/>
+<area shape="rect" id="node6" href="$basic__distributions_8cpp.html" title="basic_distributions.cpp" alt="" coords="261,155,416,181"/>
+<area shape="rect" id="node7" href="$basic__distributions_8cu.html" title="basic_distributions.cu" alt="" coords="441,155,589,181"/>
+<area shape="rect" id="node9" href="$fill__basic__distributions_8cpp.html" title="fill_basic_distributions.cpp" alt="" coords="613,155,787,181"/>
+<area shape="rect" id="node10" href="$fill__basic__distributions_8cu.html" title="fill_basic_distributions.cu" alt="" coords="812,155,980,181"/>
 </map>

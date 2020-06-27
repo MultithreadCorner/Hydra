@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -94,6 +95,7 @@ $(document).ready(function(){initNavTree('CountingRange_8inl.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
@@ -102,24 +104,36 @@ $(document).ready(function(){initNavTree('CountingRange_8inl.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;<a class="el" href="">hydra/detail/Config.h</a>&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/iterator/counting_iterator.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/iterator/counting_iterator.h&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for CountingRange.inl:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="CountingRange_8inl__incl.svg" width="418" height="246"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="CountingRange_8inl__incl.svg" width="508" height="246"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="CountingRange_8inl__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="CountingRange_8inl__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1range_1_1Shift.html">hydra::detail::range::Shift&lt; T &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacehydra"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html">hydra</a></td></tr>
 <tr class="memdesc:namespacehydra"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic policies definition. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacehydra_1_1detail"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html">hydra::detail</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacehydra_1_1detail_1_1range"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail_1_1range.html">hydra::detail::range</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
@@ -129,8 +143,11 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a0cd814fb01cd9d4d7ca9fa8c289627d9"><td class="memItemLeft" align="right" valign="top">Range&lt; HYDRA_EXTERNAL_NS::thrust::counting_iterator&lt; long <a class="el" href="namespace_3globalScope_4.html#classint">int</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a0cd814fb01cd9d4d7ca9fa8c289627d9">hydra::range</a> (long <a class="el" href="namespace_3globalScope_4.html#classint">int</a> first, long <a class="el" href="namespace_3globalScope_4.html#classint">int</a> last)</td></tr>
-<tr class="separator:a0cd814fb01cd9d4d7ca9fa8c289627d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bcce8141d53ae8f8dafe05ff48eba90"><td class="memItemLeft" align="right" valign="top">Range&lt; hydra_thrust::counting_iterator&lt; long <a class="el" href="namespace_3globalScope_4.html#classint">int</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a5bcce8141d53ae8f8dafe05ff48eba90">hydra::range</a> (long <a class="el" href="namespace_3globalScope_4.html#classint">int</a> first, long <a class="el" href="namespace_3globalScope_4.html#classint">int</a> last)</td></tr>
+<tr class="separator:a5bcce8141d53ae8f8dafe05ff48eba90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4aeda609504b066b04129ac175bc52f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ae4aeda609504b066b04129ac175bc52f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_floating_point&lt; T &gt;::value, Range&lt; hydra_thrust::counting_iterator&lt; <a class="el" href="namespace_3globalScope_4.html#classunsigned">unsigned</a> &gt;, detail::range::Shift&lt; T &gt; &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ae4aeda609504b066b04129ac175bc52f">hydra::range</a> (T <a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, T <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>, <a class="el" href="namespace_3globalScope_4.html#classunsigned">unsigned</a> nbins)</td></tr>
+<tr class="separator:ae4aeda609504b066b04129ac175bc52f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ab73fa32ced6aab1525f0e3c2b01a9ca4"></a>
@@ -153,7 +170,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="CountingRange_8inl.html">CountingRange.inl</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

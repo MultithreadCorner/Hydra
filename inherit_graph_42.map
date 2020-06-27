@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$group__phsp.html#classhydra_1_1Chains_3_01Decays_3_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4_8_8_8_01_4" title="This class provides memory storage for a chain of decays. " alt="" coords="5,5,187,61"/>
+<area shape="rect" id="node1" href="$namespacehydra.html" title="hydra::BaseCompositeFunctor\l\&lt; ConvolutionFunctor\&lt; Functor,\l Kernel, detail::FFTPolicy\&lt;\l std::common_type\&lt; Functor::return\l_type, Kernel::return_type \&gt;::type,\l FFT \&gt;, ArgIndex \&gt;, std::common_type\l\&lt; Functor::return_type, Kernel::return\l_type \&gt;::type, Functor, Kernel \&gt;" alt="" coords="5,5,255,135"/>
+<area shape="rect" id="node2" href="$classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1FFTPolicy_3_01typename_03c6b7363172ee2275ee995c834cc1e03.html" title="hydra::ConvolutionFunctor\l\&lt; Functor, Kernel, detail\l::FFTPolicy\&lt; typename std\l::common_type\&lt; typename Functor\l::return_type, typename Kernel\l::return_type \&gt;::type, FFT \&gt;, ArgIndex \&gt;" alt="" coords="303,20,557,120"/>
 </map>

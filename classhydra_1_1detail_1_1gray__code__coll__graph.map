@@ -1,0 +1,4 @@
+<map id="hydra::detail::gray_code&lt; LatticeT &gt;" name="hydra::detail::gray_code&lt; LatticeT &gt;">
+<area shape="rect" id="node2" href="$classhydra_1_1detail_1_1quasi__random__base.html" title="{hydra::detail::quasi\l_random_base\&lt; gray_code\l\&lt; LatticeT \&gt;, LatticeT,\l LatticeT::value_type \&gt;\n||+ quasi_random_base()\l+ quasi_random_base()\l+ dimension()\l+ discard()\l+ generate()\l+ operator()()\l+ operator=()\l# curr_seq()\l# reset_seq()\l# state_begin()\l# state_end()\l}" alt="" coords="5,491,184,759"/>
+<area shape="rect" id="node4" href="$classhydra_1_1detail_1_1quasi__random__base.html" title="{hydra::detail::quasi\l_random_base\&lt; DerivedT,\l LatticeT, SizeT \&gt;\n||+ quasi_random_base()\l+ quasi_random_base()\l+ dimension()\l+ discard()\l+ generate()\l+ operator()()\l+ operator=()\l# curr_seq()\l# reset_seq()\l# state_begin()\l# state_end()\l}" alt="" coords="145,145,319,399"/>
+</map>

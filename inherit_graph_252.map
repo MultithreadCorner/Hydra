@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$group__phsp.html#classhydra_1_1Vector4R" title="This class represents four&#45;dimensional relativistic vectors and implements common operation performed..." alt="" coords="5,5,121,32"/>
+<area shape="rect" id="node1" href="$group__fit.html" title="hydra::FCN\&lt; LogLikelihood\lFCN\&lt; PDFSumExtendable\&lt;\l Pdfs... \&gt;, IteratorD, Iterator\lW ... \&gt;, true \&gt;" alt="" coords="5,5,195,76"/>
+<area shape="rect" id="node2" href="$classhydra_1_1LogLikelihoodFCN_3_01PDFSumExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4.html" title="hydra::LogLikelihoodFCN\l\&lt; PDFSumExtendable\&lt; Pdfs...\l \&gt;, IteratorD, IteratorW... \&gt;" alt="" coords="243,13,447,69"/>
 </map>

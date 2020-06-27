@@ -1,9 +1,12 @@
 <map id="Plain.inl" name="Plain.inl">
-<area shape="rect" id="node2" href="$Plain_8h.html" title="Plain.h" alt="" coords="228,80,291,107"/>
-<area shape="rect" id="node3" href="$genz__malik_8inl.html" title="genz_malik.inl" alt="" coords="144,155,249,181"/>
-<area shape="rect" id="node6" href="$plain__mc_8inl.html" title="plain_mc.inl" alt="" coords="278,155,369,181"/>
-<area shape="rect" id="node4" href="$genz__malik_8cpp.html" title="genz_malik.cpp" alt="" coords="5,229,119,256"/>
-<area shape="rect" id="node5" href="$genz__malik_8cu.html" title="genz_malik.cu" alt="" coords="143,229,250,256"/>
-<area shape="rect" id="node7" href="$plain__mc_8cpp.html" title="plain_mc.cpp" alt="" coords="274,229,373,256"/>
-<area shape="rect" id="node8" href="$plain__mc_8cu.html" title="plain_mc.cu" alt="" coords="397,229,489,256"/>
+<area shape="rect" id="node2" href="$Plain_8h.html" title="Plain.h" alt="" coords="463,80,526,107"/>
+<area shape="rect" id="node3" href="$multidimensional__fit_8inl.html" title="multidimensional_fit.inl" alt="" coords="192,155,347,181"/>
+<area shape="rect" id="node6" href="$genz__malik_8inl.html" title="genz_malik.inl" alt="" coords="442,155,547,181"/>
+<area shape="rect" id="node9" href="$plain__mc_8inl.html" title="plain_mc.inl" alt="" coords="644,155,735,181"/>
+<area shape="rect" id="node4" href="$multidimensional__fit_8cpp.html" title="multidimensional_fit.cpp" alt="" coords="5,229,168,256"/>
+<area shape="rect" id="node5" href="$multidimensional__fit_8cu.html" title="multidimensional_fit.cu" alt="" coords="192,229,347,256"/>
+<area shape="rect" id="node7" href="$genz__malik_8cpp.html" title="genz_malik.cpp" alt="" coords="371,229,485,256"/>
+<area shape="rect" id="node8" href="$genz__malik_8cu.html" title="genz_malik.cu" alt="" coords="509,229,616,256"/>
+<area shape="rect" id="node10" href="$plain__mc_8cpp.html" title="plain_mc.cpp" alt="" coords="640,229,739,256"/>
+<area shape="rect" id="node11" href="$plain__mc_8cu.html" title="plain_mc.cu" alt="" coords="763,229,855,256"/>
 </map>

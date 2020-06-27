@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -95,7 +96,8 @@ $(document).ready(function(){initNavTree('basic__fit_8inl.html','');});
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">basic_fit.inl File Reference</div>  </div>
 </div><!--header-->
@@ -107,15 +109,14 @@ $(document).ready(function(){initNavTree('basic__fit_8inl.html','');});
 <code>#include &lt;tclap/CmdLine.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/device/System.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Function.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/FunctionWrapper.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/Random.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/LogLikelihoodFCN.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Parameter.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/UserParameters.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Pdf.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/Filter.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/functions/Gaussian.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/DenseHistogram.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/multivector.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Zip.h</a>&gt;</code><br />
 <code>#include &quot;Minuit2/FunctionMinimum.h&quot;</code><br />
 <code>#include &quot;Minuit2/MnUserParameterState.h&quot;</code><br />
 <code>#include &quot;Minuit2/MnPrint.h&quot;</code><br />
@@ -124,12 +125,14 @@ $(document).ready(function(){initNavTree('basic__fit_8inl.html','');});
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for basic_fit.inl:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="basic__fit_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="basic__fit_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="basic__fit_8inl__dep__incl.svg" width="222" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="basic__fit_8inl__dep__incl.svg" width="222" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -141,8 +144,45 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a1c03069360f1f90a556eb537e0ff8a72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#a1c03069360f1f90a556eb537e0ff8a72">main</a> (<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv, char **argc)</td></tr>
-<tr class="separator:a1c03069360f1f90a556eb537e0ff8a72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58e43a6eee990d884b2008760c6505c2"><td class="memItemLeft" align="right" valign="top">cmd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#a58e43a6eee990d884b2008760c6505c2">add</a> (<a class="el" href="basic__distributions_8inl.html#a32ea8a498b202f85a8d77adaac39ca1b">EArg</a>)</td></tr>
+<tr class="separator:a58e43a6eee990d884b2008760c6505c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a847ebf0b5067895a9c74f81825c76a00"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#a847ebf0b5067895a9c74f81825c76a00">catch</a> (TCLAP::ArgException &amp;e)</td></tr>
+<tr class="separator:a847ebf0b5067895a9c74f81825c76a00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f50549764889b769fe59b2dbdb3f8d2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#a0f50549764889b769fe59b2dbdb3f8d2">declarg</a> (xvar, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>) <a class="el" href="namespace_3globalScope_4.html#classint">int</a> <a class="el" href="sobol__quasirandom_8inl.html#a1c03069360f1f90a556eb537e0ff8a72">main</a>(<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv</td></tr>
+<tr class="separator:a0f50549764889b769fe59b2dbdb3f8d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32ea8a498b202f85a8d77adaac39ca1b"><td class="memItemLeft" align="right" valign="top">TCLAP::ValueArg&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#a32ea8a498b202f85a8d77adaac39ca1b">EArg</a> (&quot;n&quot;, &quot;number-of-events&quot;,&quot;Number of events&quot;, true, 10e6, &quot;size_t&quot;)</td></tr>
+<tr class="separator:a32ea8a498b202f85a8d77adaac39ca1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3abe6fef2318a49d542bbb0b454ef9ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="particle__mass_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">Hist_Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#a3abe6fef2318a49d542bbb0b454ef9ef">Fill</a> (dataset)</td></tr>
+<tr class="separator:a3abe6fef2318a49d542bbb0b454ef9ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1de6d4c6af02ff26aa10bc7ee7a507ab"><td class="memItemLeft" align="right" valign="top">std::cout&lt;&lt; &quot; minimum: &quot;&lt;&lt; xminimum&lt;&lt; std::endl;std::cout&lt;&lt; &quot;-----------------------------------------&quot;&lt;&lt; std::endl;std::cout&lt;&lt; &quot;| Time (ms) =&quot;&lt;&lt; elapsed.count()&lt;&lt; std::endl;std::cout&lt;&lt; &quot;-----------------------------------------&quot;&lt;&lt; std::endl;<a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">hydra::DenseHistogram</a>&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, 1, <a class="el" href="namespacehydra_1_1device.html#a643f8c450c0d3d1e4fa3a45a7e6afe1d">hydra::device::sys_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#a1de6d4c6af02ff26aa10bc7ee7a507ab">Hist_Data</a> (100, <a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>)</td></tr>
+<tr class="separator:a1de6d4c6af02ff26aa10bc7ee7a507ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c06c263c31271c073a8f0735b1e4a16"><td class="memItemLeft" align="right" valign="top">cmd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#a1c06c263c31271c073a8f0735b1e4a16">parse</a> (argv, <a class="el" href="basic__distributions_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a>)</td></tr>
+<tr class="separator:a1c06c263c31271c073a8f0735b1e4a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a27fb769f88c3c17ca3490b75f7758431"><td class="memItemLeft" align="right" valign="top">char **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a></td></tr>
+<tr class="separator:a27fb769f88c3c17ca3490b75f7758431"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60810dff65182a1f2ff03ac051475384"><td class="memItemLeft" align="right" valign="top">std::cout&lt;&lt; std::endl&lt;&lt; &quot;Generated data:&quot;&lt;&lt; std::endl;for(size_t i=0;i&lt; 10;i++) std::cout&lt;&lt; &quot;[&quot;&lt;&lt; i&lt;&lt; &quot;] :&quot;&lt;&lt; dataset[i]&lt;&lt; std::endl;auto xfcn=<a class="el" href="group__fit.html#ga7cb37dfdb2198202b4cb3f0b79f94080">hydra::make_loglikehood_fcn</a>(<a class="el" href="basic__fit_8inl.html#a2ccc5a723d316c92589a0c5a182da675">xmodel</a>, dataset);ROOT::Minuit2::MnPrint::SetLevel(3);<a class="el" href="classhydra_1_1Print.html#af480c3aae8aa72e3c10f1a4d64930dc6">hydra::Print::SetLevel</a>(<a class="el" href="namespacehydra.html#ad87c68ca6adb981f4c31ae73ef97de3ba1bf857a06d5b8463494a6fcac6f4ea26">hydra::WARNING</a>);MnStrategy <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>(2);MnMigrad xmigrad(xfcn, xfcn.GetParameters().GetMnState(), <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>);std::cout&lt;&lt; xfcn.GetParameters().GetMnState()&lt;&lt; std::endl;auto <a class="el" href="phsp__unweighting_8inl.html#a7f02a749754f40365411f74cf75d08fa">start</a>=std::chrono::high_resolution_clock::now();FunctionMinimum xminimum=FunctionMinimum(xmigrad(std::numeric_limits&lt; <a class="el" href="namespace_3globalScope_4.html#classunsigned">unsigned</a> <a class="el" href="namespace_3globalScope_4.html#classint">int</a> &gt;::<a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>(), 5));auto stop=std::chrono::high_resolution_clock::now();std::chrono::duration&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, std::milli &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#a60810dff65182a1f2ff03ac051475384">elapsed</a> = stop - <a class="el" href="phsp__unweighting_8inl.html#a7f02a749754f40365411f74cf75d08fa">start</a></td></tr>
+<tr class="separator:a60810dff65182a1f2ff03ac051475384"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b0ede69e8156eb97acc579b88e883de"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a> = 6.0</td></tr>
+<tr class="separator:a0b0ede69e8156eb97acc579b88e883de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad36546e8175d2922bee165fe028fedc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a> = -6.0</td></tr>
+<tr class="separator:aad36546e8175d2922bee165fe028fedc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8b0f365ee5d5b76a62688733e5016a1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a> = EArg.getValue()</td></tr>
+<tr class="separator:af8b0f365ee5d5b76a62688733e5016a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9717e7bbecb906637e86cef6da3d83c2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#a9717e7bbecb906637e86cef6da3d83c2">return</a></td></tr>
+<tr class="separator:a9717e7bbecb906637e86cef6da3d83c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe4cc9788f52e49485473dc699537388"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#abe4cc9788f52e49485473dc699537388">try</a></td></tr>
+<tr class="separator:abe4cc9788f52e49485473dc699537388"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaf66d4e7a0fe1b95a93773290565eca"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#adaf66d4e7a0fe1b95a93773290565eca">xgauss</a> = <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian</a>&lt;xvar&gt;(<a class="el" href="basic__fit_8inl.html#a48bb86712aa34d71feaef9621df81cba">xmean</a>, <a class="el" href="basic__fit_8inl.html#a584f300a82087b968cd1777e26539596">xsigma</a>)</td></tr>
+<tr class="separator:adaf66d4e7a0fe1b95a93773290565eca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48bb86712aa34d71feaef9621df81cba"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#a48bb86712aa34d71feaef9621df81cba">xmean</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;X-<a class="el" href="basic__distributions_8inl.html#af5f88b70b94c2ada29011f672e3e88a4">mean</a>&quot; ).Value(0.0).Error(0.0001).Limits(-1.0, 1.0)</td></tr>
+<tr class="separator:a48bb86712aa34d71feaef9621df81cba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ccc5a723d316c92589a0c5a182da675"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#a2ccc5a723d316c92589a0c5a182da675">xmodel</a> = <a class="el" href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a>(<a class="el" href="basic__fit_8inl.html#adaf66d4e7a0fe1b95a93773290565eca">xgauss</a>, <a class="el" href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a>&lt; <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian</a>&lt;xvar&gt; &gt;(<a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>) )</td></tr>
+<tr class="separator:a2ccc5a723d316c92589a0c5a182da675"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a584f300a82087b968cd1777e26539596"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basic__fit_8inl.html#a584f300a82087b968cd1777e26539596">xsigma</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;X-<a class="el" href="basic__distributions_8inl.html#ae3f390b39c64799bb4571d8b850b1d7f">sigma</a>&quot;).Value(1.0).Error(0.0001).Limits(0.01, 1.5)</td></tr>
+<tr class="separator:a584f300a82087b968cd1777e26539596"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a481a2c2f943d623ea1ebadbc5c72cce9"></a>
@@ -160,23 +200,60 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a1c03069360f1f90a556eb537e0ff8a72"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c03069360f1f90a556eb537e0ff8a72">&#9670;&nbsp;</a></span>main()</h2>
+<a id="a58e43a6eee990d884b2008760c6505c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58e43a6eee990d884b2008760c6505c2">&#9670;&nbsp;</a></span>add()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classint">int</a> main </td>
+          <td class="memname">cmd add </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td>
-          <td class="paramname"><em>argv</em>, </td>
+          <td class="paramtype"><a class="el" href="basic__distributions_8inl.html#a32ea8a498b202f85a8d77adaac39ca1b">EArg</a>&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8inl-example.html#a16">dalitz_plot.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a847ebf0b5067895a9c74f81825c76a00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a847ebf0b5067895a9c74f81825c76a00">&#9670;&nbsp;</a></span>catch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">catch </td>
+          <td>(</td>
+          <td class="paramtype">TCLAP::ArgException &amp;&#160;</td>
+          <td class="paramname"><em>e</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0f50549764889b769fe59b2dbdb3f8d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f50549764889b769fe59b2dbdb3f8d2">&#9670;&nbsp;</a></span>declarg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">declarg </td>
+          <td>(</td>
+          <td class="paramtype">xvar&#160;</td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">char **&#160;</td>
-          <td class="paramname"><em>argc</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
+          <td class="paramname">&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -189,13 +266,312 @@ Functions</h2></td></tr>
 </dl>
 </div>
 </div>
+<a id="a32ea8a498b202f85a8d77adaac39ca1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32ea8a498b202f85a8d77adaac39ca1b">&#9670;&nbsp;</a></span>EArg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TCLAP::ValueArg&lt;size_t&gt; EArg </td>
+          <td>(</td>
+          <td class="paramtype">&quot;n&quot;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;number-of-events&quot;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;Number of events&quot;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">true&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">10e6&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;size_t&quot;&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="basic_fit_8inl-example.html#a4">basic_fit.inl</a>, <a class="el" href="booststrapping_8inl-example.html#a3">booststrapping.inl</a>, <a class="el" href="convolute_functions_8inl-example.html#a3">convolute_functions.inl</a>, <a class="el" href="cufft_8inl-example.html#a5">cufft.inl</a>, <a class="el" href="dalitz_plot_8inl-example.html#a30">dalitz_plot.inl</a>, <a class="el" href="dense_histogram_8inl-example.html#a4">dense_histogram.inl</a>, <a class="el" href="fft_8inl-example.html#a5">fft.inl</a>, <a class="el" href="fill_basic_distributions_8inl-example.html#a4">fill_basic_distributions.inl</a>, <a class="el" href="fit_convoluted_pdfs_8inl-example.html#a4">fit_convoluted_pdfs.inl</a>, <a class="el" href="multiarray_container_8inl-example.html#a3">multiarray_container.inl</a>, <a class="el" href="multivector_container_8inl-example.html#a3">multivector_container.inl</a>, <a class="el" href="pseudo_experiment_8inl-example.html#a4">pseudo_experiment.inl</a>, <a class="el" href="range_semantics_8inl-example.html#a4">range_semantics.inl</a>, <a class="el" href="sample_distribution_8inl-example.html#a3">sample_distribution.inl</a>, <a class="el" href="simultaneous_fit_8inl-example.html#a5">simultaneous_fit.inl</a>, and <a class="el" href="splot_8inl-example.html#a4">splot.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a3abe6fef2318a49d542bbb0b454ef9ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3abe6fef2318a49d542bbb0b454ef9ef">&#9670;&nbsp;</a></span>Fill()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="particle__mass_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc">Hist_Data</a> Fill </td>
+          <td>(</td>
+          <td class="paramtype">dataset&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1de6d4c6af02ff26aa10bc7ee7a507ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1de6d4c6af02ff26aa10bc7ee7a507ab">&#9670;&nbsp;</a></span>Hist_Data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::cout&lt;&lt; &quot; minimum: &quot; &lt;&lt; xminimum &lt;&lt; std::endl; std::cout &lt;&lt; &quot;-----------------------------------------&quot;&lt;&lt;std::endl; std::cout &lt;&lt; &quot;| Time (ms) =&quot;&lt;&lt; elapsed.count() &lt;&lt;std::endl; std::cout &lt;&lt; &quot;-----------------------------------------&quot;&lt;&lt;std::endl; <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">hydra::DenseHistogram</a>&lt;<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, 1, <a class="el" href="namespacehydra_1_1device.html#a643f8c450c0d3d1e4fa3a45a7e6afe1d">hydra::device::sys_t</a>&gt; Hist_Data </td>
+          <td>(</td>
+          <td class="paramtype">100&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="basic_fit_8inl-example.html#a27">basic_fit.inl</a>, <a class="el" href="dense_histogram_8inl-example.html#a18">dense_histogram.inl</a>, <a class="el" href="fit_convoluted_pdfs_8inl-example.html#a41">fit_convoluted_pdfs.inl</a>, <a class="el" href="fit_gaussian_8C-example.html#a31">fit_gaussian.C</a>, <a class="el" href="fit_johnson_8C-example.html#a32">fit_johnson.C</a>, and <a class="el" href="splot_8inl-example.html#a44">splot.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a1c06c263c31271c073a8f0735b1e4a16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c06c263c31271c073a8f0735b1e4a16">&#9670;&nbsp;</a></span>parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cmd parse </td>
+          <td>(</td>
+          <td class="paramtype">argv&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="basic__distributions_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a>&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a27fb769f88c3c17ca3490b75f7758431"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27fb769f88c3c17ca3490b75f7758431">&#9670;&nbsp;</a></span>argc</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char** argc</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line">    <span class="keywordtype">size_t</span> <a class="code" href="basic__fit_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a> = 0</div><div class="ttc" id="basic__fit_8inl_html_af8b0f365ee5d5b76a62688733e5016a1"><div class="ttname"><a href="basic__fit_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a></div><div class="ttdeci">nentries</div><div class="ttdef"><b>Definition:</b> basic_fit.inl:102</div></div>
+</div><!-- fragment --><dl><dt><b>Examples: </b></dt><dd><a class="el" href="adaptive_gauss_kronrod_8inl-example.html#a1">adaptive_gauss_kronrod.inl</a>, <a class="el" href="basic_fit_8inl-example.html#a2">basic_fit.inl</a>, <a class="el" href="booststrapping_8inl-example.html#a1">booststrapping.inl</a>, <a class="el" href="convolute_functions_8inl-example.html#a1">convolute_functions.inl</a>, <a class="el" href="cufft_8inl-example.html#a3">cufft.inl</a>, <a class="el" href="dalitz_plot_8inl-example.html#a29">dalitz_plot.inl</a>, <a class="el" href="dense_histogram_8inl-example.html#a2">dense_histogram.inl</a>, <a class="el" href="fft_8inl-example.html#a3">fft.inl</a>, <a class="el" href="fill_basic_distributions_8inl-example.html#a2">fill_basic_distributions.inl</a>, <a class="el" href="fit_convoluted_pdfs_8inl-example.html#a2">fit_convoluted_pdfs.inl</a>, <a class="el" href="gauss_kronrod_8inl-example.html#a1">gauss_kronrod.inl</a>, <a class="el" href="multiarray_container_8inl-example.html#a1">multiarray_container.inl</a>, <a class="el" href="multivector_container_8inl-example.html#a1">multivector_container.inl</a>, <a class="el" href="phsp_averaging_functor_8inl-example.html#a5">phsp_averaging_functor.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#a5">phsp_basic.inl</a>, <a class="el" href="phsp_chain_8inl-example.html#a3">phsp_chain.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#a5">phsp_reweighting.inl</a>, <a class="el" href="phsp_unweighting_functor_8inl-example.html#a5">phsp_unweighting_functor.inl</a>, <a class="el" href="plain_mc_8inl-example.html#a1">plain_mc.inl</a>, <a class="el" href="pseudo_experiment_8inl-example.html#a2">pseudo_experiment.inl</a>, <a class="el" href="range_semantics_8inl-example.html#a2">range_semantics.inl</a>, <a class="el" href="sample_distribution_8inl-example.html#a1">sample_distribution.inl</a>, <a class="el" href="simultaneous_fit_8inl-example.html#a1">simultaneous_fit.inl</a>, <a class="el" href="splot_8inl-example.html#a2">splot.inl</a>, and <a class="el" href="vegas_8inl-example.html#a1">vegas.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a60810dff65182a1f2ff03ac051475384"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60810dff65182a1f2ff03ac051475384">&#9670;&nbsp;</a></span>elapsed</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::cout&lt;&lt; std::endl&lt;&lt; &quot;Generated data:&quot;&lt;&lt; std::endl; for(size_t i=0; i&lt;10; i++) std::cout &lt;&lt; &quot;[&quot; &lt;&lt; i &lt;&lt; &quot;] :&quot; &lt;&lt; dataset[i] &lt;&lt; std::endl; auto xfcn = <a class="el" href="group__fit.html#ga7cb37dfdb2198202b4cb3f0b79f94080">hydra::make_loglikehood_fcn</a>(<a class="el" href="basic__fit_8inl.html#a2ccc5a723d316c92589a0c5a182da675">xmodel</a>, dataset); ROOT::Minuit2::MnPrint::SetLevel(3); <a class="el" href="classhydra_1_1Print.html#af480c3aae8aa72e3c10f1a4d64930dc6">hydra::Print::SetLevel</a>(<a class="el" href="namespacehydra.html#ad87c68ca6adb981f4c31ae73ef97de3ba1bf857a06d5b8463494a6fcac6f4ea26">hydra::WARNING</a>); MnStrategy <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>(2); MnMigrad xmigrad(xfcn, xfcn.GetParameters().GetMnState() , <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>); std::cout &lt;&lt; xfcn.GetParameters().GetMnState() &lt;&lt; std::endl; auto <a class="el" href="phsp__unweighting_8inl.html#a7f02a749754f40365411f74cf75d08fa">start</a> = std::chrono::high_resolution_clock::now(); FunctionMinimum xminimum = FunctionMinimum( xmigrad(std::numeric_limits&lt;<a class="el" href="namespace_3globalScope_4.html#classunsigned">unsigned</a> <a class="el" href="namespace_3globalScope_4.html#classint">int</a>&gt;::<a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>(), 5)); auto stop = std::chrono::high_resolution_clock::now(); std::chrono::duration&lt;<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, std::milli&gt; elapsed = stop - <a class="el" href="phsp__unweighting_8inl.html#a7f02a749754f40365411f74cf75d08fa">start</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="adaptive_gauss_kronrod_8inl-example.html#a15">adaptive_gauss_kronrod.inl</a>, <a class="el" href="basic_fit_8inl-example.html#a25">basic_fit.inl</a>, <a class="el" href="dalitz_plot_8C-example.html#a45">dalitz_plot.C</a>, <a class="el" href="dalitz_plot_8inl-example.html#a51">dalitz_plot.inl</a>, <a class="el" href="gauss_kronrod_8inl-example.html#a16">gauss_kronrod.inl</a>, <a class="el" href="phsp_averaging_functor_8inl-example.html#a22">phsp_averaging_functor.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#a25">phsp_basic.inl</a>, <a class="el" href="phsp_chain_8inl-example.html#a23">phsp_chain.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#a30">phsp_reweighting.inl</a>, <a class="el" href="phsp_unweighting_functor_8inl-example.html#a30">phsp_unweighting_functor.inl</a>, <a class="el" href="plain_mc_8inl-example.html#a15">plain_mc.inl</a>, <a class="el" href="pseudo_experiment_8inl-example.html#a42">pseudo_experiment.inl</a>, <a class="el" href="sample_distribution_8inl-example.html#a18">sample_distribution.inl</a>, and <a class="el" href="simultaneous_fit_8inl-example.html#a26">simultaneous_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a0b0ede69e8156eb97acc579b88e883de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b0ede69e8156eb97acc579b88e883de">&#9670;&nbsp;</a></span>max</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> max = 6.0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="adaptive_gauss_kronrod_8inl-example.html#a3">adaptive_gauss_kronrod.inl</a>, <a class="el" href="basic_fit_8inl-example.html#a6">basic_fit.inl</a>, <a class="el" href="convolute_functions_8inl-example.html#a5">convolute_functions.inl</a>, <a class="el" href="dense_histogram_8inl-example.html#a10">dense_histogram.inl</a>, <a class="el" href="fit_convoluted_pdfs_8inl-example.html#a6">fit_convoluted_pdfs.inl</a>, <a class="el" href="fit_gaussian_8C-example.html#a3">fit_gaussian.C</a>, <a class="el" href="fit_johnson_8C-example.html#a3">fit_johnson.C</a>, <a class="el" href="gauss_kronrod_8inl-example.html#a3">gauss_kronrod.inl</a>, <a class="el" href="plain_mc_8inl-example.html#a3">plain_mc.inl</a>, <a class="el" href="sample_distribution_8inl-example.html#a11">sample_distribution.inl</a>, <a class="el" href="simultaneous_fit_8inl-example.html#a7">simultaneous_fit.inl</a>, <a class="el" href="splot_8inl-example.html#a6">splot.inl</a>, and <a class="el" href="vegas_8inl-example.html#a3">vegas.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="aad36546e8175d2922bee165fe028fedc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad36546e8175d2922bee165fe028fedc">&#9670;&nbsp;</a></span>min</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> min = -6.0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="adaptive_gauss_kronrod_8inl-example.html#a2">adaptive_gauss_kronrod.inl</a>, <a class="el" href="basic_fit_8inl-example.html#a5">basic_fit.inl</a>, <a class="el" href="convolute_functions_8inl-example.html#a4">convolute_functions.inl</a>, <a class="el" href="dense_histogram_8inl-example.html#a11">dense_histogram.inl</a>, <a class="el" href="fit_convoluted_pdfs_8inl-example.html#a5">fit_convoluted_pdfs.inl</a>, <a class="el" href="fit_gaussian_8C-example.html#a2">fit_gaussian.C</a>, <a class="el" href="fit_johnson_8C-example.html#a2">fit_johnson.C</a>, <a class="el" href="gauss_kronrod_8inl-example.html#a2">gauss_kronrod.inl</a>, <a class="el" href="plain_mc_8inl-example.html#a2">plain_mc.inl</a>, <a class="el" href="sample_distribution_8inl-example.html#a12">sample_distribution.inl</a>, <a class="el" href="simultaneous_fit_8inl-example.html#a6">simultaneous_fit.inl</a>, <a class="el" href="splot_8inl-example.html#a5">splot.inl</a>, and <a class="el" href="vegas_8inl-example.html#a2">vegas.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="af8b0f365ee5d5b76a62688733e5016a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8b0f365ee5d5b76a62688733e5016a1">&#9670;&nbsp;</a></span>nentries</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">nentries = EArg.getValue()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="basic_fit_8inl-example.html#a3">basic_fit.inl</a>, <a class="el" href="booststrapping_8inl-example.html#a2">booststrapping.inl</a>, <a class="el" href="convolute_functions_8inl-example.html#a2">convolute_functions.inl</a>, <a class="el" href="cufft_8inl-example.html#a4">cufft.inl</a>, <a class="el" href="dalitz_plot_8C-example.html#a17">dalitz_plot.C</a>, <a class="el" href="dalitz_plot_8inl-example.html#a24">dalitz_plot.inl</a>, <a class="el" href="dense_histogram_8inl-example.html#a3">dense_histogram.inl</a>, <a class="el" href="fft_8inl-example.html#a4">fft.inl</a>, <a class="el" href="fill_basic_distributions_8inl-example.html#a3">fill_basic_distributions.inl</a>, <a class="el" href="fit_convoluted_pdfs_8inl-example.html#a3">fit_convoluted_pdfs.inl</a>, <a class="el" href="fit_gaussian_8C-example.html#a1">fit_gaussian.C</a>, <a class="el" href="fit_johnson_8C-example.html#a1">fit_johnson.C</a>, <a class="el" href="multiarray_container_8inl-example.html#a2">multiarray_container.inl</a>, <a class="el" href="multivector_container_8inl-example.html#a2">multivector_container.inl</a>, <a class="el" href="phsp_averaging_functor_8inl-example.html#a6">phsp_averaging_functor.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#a6">phsp_basic.inl</a>, <a class="el" href="phsp_chain_8inl-example.html#a4">phsp_chain.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#a6">phsp_reweighting.inl</a>, <a class="el" href="phsp_unweighting_functor_8inl-example.html#a6">phsp_unweighting_functor.inl</a>, <a class="el" href="pseudo_experiment_8inl-example.html#a3">pseudo_experiment.inl</a>, <a class="el" href="range_semantics_8inl-example.html#a3">range_semantics.inl</a>, <a class="el" href="sample_distribution_8inl-example.html#a2">sample_distribution.inl</a>, <a class="el" href="simultaneous_fit_8inl-example.html#a2">simultaneous_fit.inl</a>, and <a class="el" href="splot_8inl-example.html#a3">splot.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a9717e7bbecb906637e86cef6da3d83c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9717e7bbecb906637e86cef6da3d83c2">&#9670;&nbsp;</a></span>return</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">return</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abe4cc9788f52e49485473dc699537388"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe4cc9788f52e49485473dc699537388">&#9670;&nbsp;</a></span>try</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">try</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line"></div><div class="line">        TCLAP::CmdLine cmd(<span class="stringliteral">&quot;Command line arguments for &quot;</span>, <span class="charliteral">&#39;=&#39;</span>)</div></div><!-- fragment -->
+</div>
+</div>
+<a id="adaf66d4e7a0fe1b95a93773290565eca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adaf66d4e7a0fe1b95a93773290565eca">&#9670;&nbsp;</a></span>xgauss</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto xgauss = <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian</a>&lt;xvar&gt;(<a class="el" href="basic__fit_8inl.html#a48bb86712aa34d71feaef9621df81cba">xmean</a>, <a class="el" href="basic__fit_8inl.html#a584f300a82087b968cd1777e26539596">xsigma</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="basic_fit_8inl-example.html#a13">basic_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a48bb86712aa34d71feaef9621df81cba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48bb86712aa34d71feaef9621df81cba">&#9670;&nbsp;</a></span>xmean</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto xmean = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;X-<a class="el" href="basic__distributions_8inl.html#af5f88b70b94c2ada29011f672e3e88a4">mean</a>&quot; ).Value(0.0).Error(0.0001).Limits(-1.0, 1.0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="basic_fit_8inl-example.html#a7">basic_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a2ccc5a723d316c92589a0c5a182da675"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ccc5a723d316c92589a0c5a182da675">&#9670;&nbsp;</a></span>xmodel</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto xmodel = <a class="el" href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a>(<a class="el" href="basic__fit_8inl.html#adaf66d4e7a0fe1b95a93773290565eca">xgauss</a>, <a class="el" href="classhydra_1_1AnalyticalIntegral.html">hydra::AnalyticalIntegral</a>&lt; <a class="el" href="group__common__functions.html#classhydra_1_1Gaussian">hydra::Gaussian</a>&lt;xvar&gt; &gt;(<a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>) )</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="basic_fit_8inl-example.html#a15">basic_fit.inl</a>, and <a class="el" href="simultaneous_fit_8inl-example.html#a14">simultaneous_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a584f300a82087b968cd1777e26539596"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a584f300a82087b968cd1777e26539596">&#9670;&nbsp;</a></span>xsigma</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto xsigma = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;X-<a class="el" href="basic__distributions_8inl.html#ae3f390b39c64799bb4571d8b850b1d7f">sigma</a>&quot;).Value(1.0).Error(0.0001).Limits(0.01, 1.5)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="basic_fit_8inl-example.html#a12">basic_fit.inl</a>, and <a class="el" href="simultaneous_fit_8inl-example.html#a13">simultaneous_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_b3c69fde212a60de3f50954f66fa65c1.html">examples</a></li><li class="navelem"><a class="el" href="dir_fa9bd4b554716f8530d93b48c470adbb.html">fit</a></li><li class="navelem"><a class="el" href="basic__fit_8inl.html">basic_fit.inl</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:23 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

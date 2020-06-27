@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -97,7 +98,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 
 <h3><a id="index__"></a>- _ -</h3><ul>
 <li>_par
-: <a class="el" href="group__functor.html#ad31115b1f80ed672ee94ef61ed918455">hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt;</a>
+: <a class="el" href="group__functor.html#a9f5e356b1fbc0fc434cb48eb5662db6c">hydra::BaseFunctor&lt; Functor, Signature, NPARAM &gt;</a>
 </li>
 </ul>
 
@@ -111,12 +112,13 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="structhydra_1_1detail_1_1BackendPolicy_3_01Backend_1_1Omp_01_4.html#a71167df6d3b366d272d14b6a9deab0aa">hydra::detail::BackendPolicy&lt; Backend::Omp &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1BackendPolicy_3_01Backend_1_1Tbb_01_4.html#af18c8bfc11b847a739a92bae8ef83ce6">hydra::detail::BackendPolicy&lt; Backend::Tbb &gt;</a>
 </li>
-</ul>
-
-
-<h3><a id="index_c"></a>- c -</h3><ul>
-<li>components
-: <a class="el" href="structsetter__t.html#a55c6ab578f6fd14a78652e08aeb2ca55">setter_t</a>
+<li>bit_count
+: <a class="el" href="structhydra_1_1detail_1_1low__bits__mask__t.html#af0ab74b8c093438d3e6a32f8f12b02b8">hydra::detail::low_bits_mask_t&lt; Bits &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1low__bits__mask__t_3_01std_1_1numeric__limits_3_01unsigned_01char_01_4_1_1digits_01_4.html#a69a49bcead1be34fc560e6474ce7e4a5">hydra::detail::low_bits_mask_t&lt; std::numeric_limits&lt; unsigned char &gt;::digits &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1sobol__lattice.html#aee27ea27dee9c036ee081065e37aec1c">hydra::detail::sobol_lattice&lt; UIntType, D, W, SobolTables &gt;</a>
+</li>
+<li>bit_position
+: <a class="el" href="structhydra_1_1detail_1_1high__bit__mask__t.html#a516199008095f88d836dd350b0b82707">hydra::detail::high_bit_mask_t&lt; Bit &gt;</a>
 </li>
 </ul>
 
@@ -148,13 +150,22 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="structhydra_1_1detail_1_1SWeights.html#ae7d49067cca831a5015d7198ad46ddfb">hydra::detail::SWeights&lt; F1, F2, Fs &gt;</a>
 </li>
 <li>fDelta
-: <a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html#aa2da3be368d7a454c189e3f0f137f15d">hydra::detail::GetBinCenter&lt; T, N &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1convolution_1_1__delta.html#ad862a8a5d1b28ba8a9373d7e4798c898">hydra::detail::convolution::_delta&lt; T &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html#aa2da3be368d7a454c189e3f0f137f15d">hydra::detail::GetBinCenter&lt; T, N &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1GetBinCenter_3_01T_00_011_01_4.html#a55586619c263eaae4ecd282110245721">hydra::detail::GetBinCenter&lt; T, 1 &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1GetGlobalBin.html#a096f9b7614f7bc4f368601f60951c1f1">hydra::detail::GetGlobalBin&lt; N, T &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1GetGlobalBin_3_011_00_01T_01_4.html#a6c930d6b0a7ccb40f087af73ad23beae">hydra::detail::GetGlobalBin&lt; 1, T &gt;</a>
 </li>
 <li>fDeltaX
 : <a class="el" href="structhydra_1_1detail_1_1ProcessCallsPlainUnary.html#a6c26fe285702e2b587453d2307bc72fb">hydra::detail::ProcessCallsPlainUnary&lt; FUNCTOR, N, GRND &gt;</a>
+</li>
+<li>fECM
+: <a class="el" href="structhydra_1_1detail_1_1AverageMother.html#ae1dfcac33f9c4bf627e1dff1f3d34595">hydra::detail::AverageMother&lt; N, GRND, FUNCTOR &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1AverageMothers.html#a6ba153d63ab48f8d8c9a17d27ab88236">hydra::detail::AverageMothers&lt; N, GRND, FUNCTOR &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1DecayMother.html#a7999f0fa302d13275f53b0a246aedd77">hydra::detail::DecayMother&lt; N, GRND &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1DecayMothers.html#adb4b16e19c2964afa183bb9d5736d461">hydra::detail::DecayMothers&lt; N, GRND &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1EvalMother.html#a7ed1eaf30c5fd5446acdd847ae6a54fb">hydra::detail::EvalMother&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a4d417e098d6f21f1ebafee0a17b14ef3">hydra::detail::EvalMothers&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
 </li>
 <li>fFtorTuple
 : <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#abc5ebb435c88e3fc48ab5d2b3f2fa32e">hydra::detail::CompositeBase&lt; F0, F1, Fs &gt;</a>
@@ -171,12 +182,12 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="structhydra_1_1detail_1_1RndCDF.html#a49046f16c2423290ed8d6268bca33d62">hydra::detail::RndCDF&lt; GRND, FUNCTOR &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndTrial.html#ac3cbfe46a801e9f36354e15cd041e1d9">hydra::detail::RndTrial&lt; T, GRND, FUNCTOR, N &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndTrial_3_01T_00_01GRND_00_01FUNCTOR_00_011_01_4.html#aae4bc0aa33092f6aa28d1218e248a354">hydra::detail::RndTrial&lt; T, GRND, FUNCTOR, 1 &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1Sampler.html#ae86be5a42eb3587faaf7bb57b1858328">hydra::detail::Sampler&lt; Engine, FUNCTOR &gt;</a>
 , <a class="el" href="structhydra_1_1GaussKronrodUnary.html#abfe0d16e040f1b7cede17c4e4deb4f34">hydra::GaussKronrodUnary&lt; FUNCTOR &gt;</a>
 , <a class="el" href="structhydra_1_1ProcessGaussKronrodAdaptiveQuadrature.html#adf2acfcc33eafdcc966ceb789e73c51e">hydra::ProcessGaussKronrodAdaptiveQuadrature&lt; FUNCTOR &gt;</a>
 </li>
 <li>fFunctors
-: <a class="el" href="structhydra_1_1detail_1_1CacheEvaluator.html#a5653ecae693784cb7e96bc17082d2573">hydra::detail::CacheEvaluator&lt; Functors &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#acf74057555eaa79e2860135f64c15acf">hydra::detail::CovMatrixUnary&lt; F1, F2, Fs &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#acf74057555eaa79e2860135f64c15acf">hydra::detail::CovMatrixUnary&lt; F1, F2, Fs &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalMother.html#ac27b3439e4e78d142b5dcbc6d6316877">hydra::detail::EvalMother&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a169822b849fcd3b1044532a6b34f5a50">hydra::detail::EvalMothers&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1SWeights.html#a1b3295b70c55ee598557dd8a1d1624f1">hydra::detail::SWeights&lt; F1, F2, Fs &gt;</a>
@@ -197,7 +208,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="structhydra_1_1detail_1_1GetGlobalBin_3_011_00_01T_01_4.html#a2084d45771186ed740a77791bd4f2da5">hydra::detail::GetGlobalBin&lt; 1, T &gt;</a>
 </li>
 <li>fH
-: <a class="el" href="structhydra_1_1GaussianKDE_1_1Kernel.html#a9c9a28c23061f661ac64731ce3d746d1">hydra::GaussianKDE&lt; NBins, ArgIndex &gt;::Kernel</a>
+: <a class="el" href="structhydra_1_1GaussianKDE_1_1Kernel.html#aec0ded36116b1a928a73b4397d8e7277">hydra::GaussianKDE&lt; NBins, ArgType, Signature &gt;::Kernel</a>
 </li>
 <li>fICovMatrix
 : <a class="el" href="structhydra_1_1detail_1_1SWeights.html#aded68ff1f53cd9412c38fc0ca2b338e0">hydra::detail::SWeights&lt; F1, F2, Fs &gt;</a>
@@ -233,11 +244,20 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="structhydra_1_1detail_1_1GenerateDecay.html#aa29489893354e66a643234b3116b7f69">hydra::detail::GenerateDecay&lt; N, GRND &gt;</a>
 </li>
 <li>fMax
-: <a class="el" href="structhydra_1_1detail_1_1FlagDaugthers.html#a0fd01e41782e6ccc304028b6e9d0796f">hydra::detail::FlagDaugthers&lt; N &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1FlagDaugthers1.html#a36c903bdb38d7e44f7ee1dfbf4720970">hydra::detail::FlagDaugthers1</a>
+, <a class="el" href="structhydra_1_1detail_1_1FlagDaugthers2.html#a7b3962eefb0f7559585085415709fbdc">hydra::detail::FlagDaugthers2</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndTrial.html#afa9233d63038fd1ebbae06251ee9b2ee">hydra::detail::RndTrial&lt; T, GRND, FUNCTOR, N &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndTrial_3_01T_00_01GRND_00_01FUNCTOR_00_011_01_4.html#aa5dddc6634081ea4fd78005ebcd0db06">hydra::detail::RndTrial&lt; T, GRND, FUNCTOR, 1 &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndUniform.html#a15b7c63f303dc08c5d03cc9992c2c3bc">hydra::detail::RndUniform&lt; T, GRND &gt;</a>
 , <a class="el" href="group__numerical__integration.html#a2dd34bc4e8a05565b2b27cdf51952c2d">hydra::PlainState</a>
+</li>
+<li>fMaxWeight
+: <a class="el" href="structhydra_1_1detail_1_1AverageMother.html#a526315e0a2adff75cdb71ced756ab17b">hydra::detail::AverageMother&lt; N, GRND, FUNCTOR &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1AverageMothers.html#af57b60dbb69800b3298d1d863f937ba5">hydra::detail::AverageMothers&lt; N, GRND, FUNCTOR &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1DecayMother.html#ac1f4870776068d7828ee40aa29097060">hydra::detail::DecayMother&lt; N, GRND &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1DecayMothers.html#a8b814d46d775abd7bde241a7acfb638e">hydra::detail::DecayMothers&lt; N, GRND &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1EvalMother.html#a9aebd7bb5ef490b8c7c9833a026e057c">hydra::detail::EvalMother&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a7e1e7b9b396bbcce322eb69bbc0dbd37">hydra::detail::EvalMothers&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
 </li>
 <li>fMean
 : <a class="el" href="namespacehydra_1_1detail.html#a9c02ae737d47a9ae27842532c81c07bf">hydra::detail::ResultPHSP</a>
@@ -248,7 +268,8 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="group__numerical__integration.html#a057a244d0b55bc878b36e68469e91df0">hydra::PlainState</a>
 </li>
 <li>fMin
-: <a class="el" href="structhydra_1_1detail_1_1RndTrial.html#a136c85a882b982a9675d5dfac109b8cd">hydra::detail::RndTrial&lt; T, GRND, FUNCTOR, N &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1convolution_1_1__delta.html#a6105e492c26493a5374fd5bba3a5a0bf">hydra::detail::convolution::_delta&lt; T &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1RndTrial.html#a136c85a882b982a9675d5dfac109b8cd">hydra::detail::RndTrial&lt; T, GRND, FUNCTOR, N &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndTrial_3_01T_00_01GRND_00_01FUNCTOR_00_011_01_4.html#ac8f291c87464427e1da880cbf7cd8d28">hydra::detail::RndTrial&lt; T, GRND, FUNCTOR, 1 &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndUniform.html#ab0ef75b88c766df98322d0069ef6db5f">hydra::detail::RndUniform&lt; T, GRND &gt;</a>
 , <a class="el" href="group__numerical__integration.html#a739220f8a2a6f4a614c7337b541b6aea">hydra::PlainState</a>
@@ -282,14 +303,16 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikBox.html#a70f9dd081aff75967d02aba6b59bc1c1">hydra::detail::ProcessGenzMalikBox&lt; N, Functor, RuleIterator &gt;</a>
 </li>
 <li>fSeed
-: <a class="el" href="structhydra_1_1detail_1_1AverageMother.html#a13bd22c8130144981a2ca9aa1a3c4f98">hydra::detail::AverageMother&lt; N, GRND, FUNCTOR &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1AverageMothers.html#aca204e0c447dd518d3fa6c30dae30ca7">hydra::detail::AverageMothers&lt; N, GRND, FUNCTOR &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1DecayMother.html#a45fb963a70952a4e90385b81f0d03fcb">hydra::detail::DecayMother&lt; N, GRND &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1AverageMother.html#a3425e35f5ce1c1bd2f925c47647ac651">hydra::detail::AverageMother&lt; N, GRND, FUNCTOR &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1AverageMothers.html#a21b41388b8df62134161ee26af899f36">hydra::detail::AverageMothers&lt; N, GRND, FUNCTOR &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1DecayMother.html#a394d7d6090ab01d5b90ce4888330e7b3">hydra::detail::DecayMother&lt; N, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1DecayMothers.html#a1162eb1e67ea43ce8f634adcaa48cd58">hydra::detail::DecayMothers&lt; N, GRND &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1EvalMother.html#af60f073b18f869b0b6bc64b688ed4ea3">hydra::detail::EvalMother&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#afbb9b630d438aeac439426231dce017d">hydra::detail::EvalMothers&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1EvalMother.html#aa7d3aae421cbfac3816d683c59f882f5">hydra::detail::EvalMother&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#ab5d8d41ec9b77837ece02808cdf2027f">hydra::detail::EvalMothers&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalOnDaughters.html#abf13427de1887b9295df7e15ea61905c">hydra::detail::EvalOnDaughters&lt; N, BACKEND, FUNCTOR, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1FlagAcceptReject.html#abe201ba45f5840752c61b09871c48e07">hydra::detail::FlagAcceptReject</a>
+, <a class="el" href="structhydra_1_1detail_1_1FlagDaugthers1.html#a7f69f43a954f04f042271aea5904c7a2">hydra::detail::FlagDaugthers1</a>
+, <a class="el" href="structhydra_1_1detail_1_1FlagDaugthers2.html#ac1da7252b937f64b93740563a1e3c8e3">hydra::detail::FlagDaugthers2</a>
 , <a class="el" href="structhydra_1_1detail_1_1GenerateDecay.html#abc5d4783bfda2ddccb7df9dcacbc7cc1">hydra::detail::GenerateDecay&lt; N, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1ProcessCallsPlainUnary.html#ae7e4e5a86460a33fdf16f7c30d874825">hydra::detail::ProcessCallsPlainUnary&lt; FUNCTOR, N, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndBreitWigner.html#a27867718ecea2ee0bb8d38add3c035e6">hydra::detail::RndBreitWigner&lt; T, GRND &gt;</a>
@@ -300,6 +323,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 , <a class="el" href="structhydra_1_1detail_1_1RndTrial.html#ade5daaa0fb71187e793c1b93eaf8f40d">hydra::detail::RndTrial&lt; T, GRND, FUNCTOR, N &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndTrial_3_01T_00_01GRND_00_01FUNCTOR_00_011_01_4.html#a1e87bfcc393d0c9b22059d5f79eb1c8e">hydra::detail::RndTrial&lt; T, GRND, FUNCTOR, 1 &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndUniform.html#a427fc4969394bc487c401d85461f19c1">hydra::detail::RndUniform&lt; T, GRND &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1Sampler.html#a6ea4f2ba587998934dfe783a8b86317b">hydra::detail::Sampler&lt; Engine, FUNCTOR &gt;</a>
 </li>
 <li>fSigma
 : <a class="el" href="structhydra_1_1detail_1_1RndGauss.html#acc6615d7c60969ff46eb75f4eea74ebb">hydra::detail::RndGauss&lt; T, GRND &gt;</a>
@@ -311,10 +335,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structhydra_1_1detail_1_1RndExp.html#aa28c988b9b01c790ece9c786b90bc8a2">hydra::detail::RndExp&lt; T, GRND &gt;</a>
 </li>
 <li>fTeCmTm
-: <a class="el" href="structhydra_1_1detail_1_1AverageMother.html#a80dbd24c38ae38926436f36978e68047">hydra::detail::AverageMother&lt; N, GRND, FUNCTOR &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1DecayMother.html#a4071516c3d87a71c6c65dabb412f3265">hydra::detail::DecayMother&lt; N, GRND &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1EvalMother.html#a88ab7ce0c458cd9bfb9688a51004d6c9">hydra::detail::EvalMother&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1EvalOnDaughters.html#a9833530c0b05f3ded4a18dc0150732e7">hydra::detail::EvalOnDaughters&lt; N, BACKEND, FUNCTOR, GRND &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1EvalOnDaughters.html#a9833530c0b05f3ded4a18dc0150732e7">hydra::detail::EvalOnDaughters&lt; N, BACKEND, FUNCTOR, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1GenerateDecay.html#a6cd7d2ca44a08a16708288509dc1c2e3">hydra::detail::GenerateDecay&lt; N, GRND &gt;</a>
 </li>
 <li>fTime
@@ -324,8 +345,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structhydra_1_1detail_1_1RndFlag.html#ae550767953fbed875b43ad6f377e46fe">hydra::detail::RndFlag&lt; T, Iterator, GRND &gt;</a>
 </li>
 <li>fVals
-: <a class="el" href="structhydra_1_1detail_1_1FlagDaugthers.html#a820fb077830832528b0ccaf66b4119a3">hydra::detail::FlagDaugthers&lt; N &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1RndFlag.html#a10342e707b63dc296e21bb44991f5f55">hydra::detail::RndFlag&lt; T, Iterator, GRND &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1RndFlag.html#a10342e707b63dc296e21bb44991f5f55">hydra::detail::RndFlag&lt; T, Iterator, GRND &gt;</a>
 </li>
 <li>fW
 : <a class="el" href="namespacehydra_1_1detail.html#a99c4af82a39dec887b1718c445d47ecd">hydra::detail::ResultPHSP</a>
@@ -335,14 +355,11 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structhydra_1_1detail_1_1FlagAcceptReject.html#ae5318d9c02077488ca6488fee792e901">hydra::detail::FlagAcceptReject</a>
 </li>
 <li>fWtMax
-: <a class="el" href="structhydra_1_1detail_1_1AverageMother.html#a1bfc1d60a36810ade17b5d90368111d2">hydra::detail::AverageMother&lt; N, GRND, FUNCTOR &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1DecayMother.html#a00a563792a2bda7207a80b2cfa3e4414">hydra::detail::DecayMother&lt; N, GRND &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1EvalMother.html#aa41eec0a683771aa6e4f06a22b707e6d">hydra::detail::EvalMother&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1EvalOnDaughters.html#a00eb88c2109fc0168489af905b561af8">hydra::detail::EvalOnDaughters&lt; N, BACKEND, FUNCTOR, GRND &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1EvalOnDaughters.html#a00eb88c2109fc0168489af905b561af8">hydra::detail::EvalOnDaughters&lt; N, BACKEND, FUNCTOR, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1GenerateDecay.html#a90fb81fa49f86ef9be6f3ed866f5961e">hydra::detail::GenerateDecay&lt; N, GRND &gt;</a>
 </li>
 <li>fX
-: <a class="el" href="structhydra_1_1GaussianKDE_1_1Kernel.html#a316f9d91448cb2abac6ac7ebc8575f73">hydra::GaussianKDE&lt; NBins, ArgIndex &gt;::Kernel</a>
+: <a class="el" href="structhydra_1_1GaussianKDE_1_1Kernel.html#a96265441f1f992d355604fab9a58a5a1">hydra::GaussianKDE&lt; NBins, ArgType, Signature &gt;::Kernel</a>
 </li>
 <li>fXLow
 : <a class="el" href="structhydra_1_1detail_1_1ProcessCallsPlainUnary.html#a70a2f46dd65e1d98b38c7cdbb8b00e8b">hydra::detail::ProcessCallsPlainUnary&lt; FUNCTOR, N, GRND &gt;</a>
@@ -360,9 +377,29 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 </ul>
 
 
+<h3><a id="index_h"></a>- h -</h3><ul>
+<li>high_bit
+: <a class="el" href="structhydra_1_1detail_1_1high__bit__mask__t.html#aa95a4116bd88af3d1a3446a40fdde47d">hydra::detail::high_bit_mask_t&lt; Bit &gt;</a>
+</li>
+<li>high_bit_fast
+: <a class="el" href="structhydra_1_1detail_1_1high__bit__mask__t.html#ac0b80e5fc8f3b01af55315c18b91349e">hydra::detail::high_bit_mask_t&lt; Bit &gt;</a>
+</li>
+</ul>
+
+
 <h3><a id="index_i"></a>- i -</h3><ul>
+<li>I
+: <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary_1_1index.html#a2f389fba649e349b03bfbd869fe427f6">hydra::detail::CovMatrixUnary&lt; F1, F2, Fs &gt;::index&lt; N, INDEX &gt;</a>
+</li>
 <li>is_host_iterator
 : <a class="el" href="structhydra_1_1detail_1_1IteratorTraits.html#a4840172eed9a423f072e713c099edb35">hydra::detail::IteratorTraits&lt; Iterator &gt;</a>
+</li>
+</ul>
+
+
+<h3><a id="index_j"></a>- j -</h3><ul>
+<li>J
+: <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary_1_1index.html#ab8fd6a8d3719f669347049b0444b4e44">hydra::detail::CovMatrixUnary&lt; F1, F2, Fs &gt;::index&lt; N, INDEX &gt;</a>
 </li>
 </ul>
 
@@ -377,6 +414,34 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 </ul>
 
 
+<h3><a id="index_l"></a>- l -</h3><ul>
+<li>lattice
+: <a class="el" href="classhydra_1_1detail_1_1quasi__random__base.html#a986dbde459533185b13952b90c4b15b5">hydra::detail::quasi_random_base&lt; DerivedT, LatticeT, SizeT &gt;</a>
+</li>
+<li>lattice_dimension
+: <a class="el" href="structhydra_1_1detail_1_1sobol__lattice.html#ae378853e1ff9528f62d3649ee0b84102">hydra::detail::sobol_lattice&lt; UIntType, D, W, SobolTables &gt;</a>
+</li>
+</ul>
+
+
+<h3><a id="index_m"></a>- m -</h3><ul>
+<li>max
+: <a class="el" href="classhydra_1_1detail_1_1gray__code.html#ab705071dfa6eaf34d5cb3f38d7234bfd">hydra::detail::gray_code&lt; LatticeT &gt;</a>
+, <a class="el" href="classhydra_1_1sobol__engine.html#a29bd44380c808aa70e0b7876b5a192be">hydra::sobol_engine&lt; UIntType, D, W, SobolTables &gt;</a>
+</li>
+<li>max_degree
+: <a class="el" href="structhydra_1_1detail_1_1SobolTable.html#a75e8c7420754a182f0c282ab64a21e80">hydra::detail::SobolTable</a>
+</li>
+<li>max_dimension
+: <a class="el" href="structhydra_1_1detail_1_1SobolTable.html#a0e54e249795abf72d11f34b184f7d657">hydra::detail::SobolTable</a>
+</li>
+<li>min
+: <a class="el" href="classhydra_1_1detail_1_1gray__code.html#a9a6dbea46e3ba4ce2c291e01a611f723">hydra::detail::gray_code&lt; LatticeT &gt;</a>
+, <a class="el" href="classhydra_1_1sobol__engine.html#a1205a92862e692d80c2862f52934fc87">hydra::sobol_engine&lt; UIntType, D, W, SobolTables &gt;</a>
+</li>
+</ul>
+
+
 <h3><a id="index_n"></a>- n -</h3><ul>
 <li>nfunctors
 : <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a126b3cbaeb8c685bcf47cce7883b7583">hydra::detail::CovMatrixUnary&lt; F1, F2, Fs &gt;</a>
@@ -386,7 +451,10 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a7d1de5d62d4b0eab8ff198391723e168">hydra::detail::AddPdfFunctor&lt; PDF1, PDF2, PDFs &gt;</a>
 , <a class="el" href="group__fit.html#a19678b5d43cd6f93dc8e790b1018dc8e">hydra::PDFSumExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
 , <a class="el" href="group__fit.html#a32280b9960487e1b223b433f6ed5348b">hydra::PDFSumNonExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
-, <a class="el" href="classhydra_1_1SPlot.html#a0661f1e49edd8ea93e2a5ba33c76ce09">hydra::SPlot&lt; PDF1, PDF2, PDFs &gt;</a>
+, <a class="el" href="group__fit.html#aa8449f6742b0f4855689843122b319e5">hydra::SPlot&lt; Iterator, PDF1, PDF2, PDFs &gt;</a>
+</li>
+<li>num_polynomials
+: <a class="el" href="structhydra_1_1detail_1_1SobolTable.html#a19c1ebd678f1678cea9ec4bf9032fd42">hydra::detail::SobolTable</a>
 </li>
 </ul>
 
@@ -398,31 +466,31 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 </ul>
 
 
+<h3><a id="index_s"></a>- s -</h3><ul>
+<li>sig_bits
+: <a class="el" href="structhydra_1_1detail_1_1low__bits__mask__t.html#ac0a2ed65c2967569f534024fd86ed10f">hydra::detail::low_bits_mask_t&lt; Bits &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1low__bits__mask__t_3_01std_1_1numeric__limits_3_01unsigned_01char_01_4_1_1digits_01_4.html#adb2bbf8e7d5b8d91f0f7ad64ce701003">hydra::detail::low_bits_mask_t&lt; std::numeric_limits&lt; unsigned char &gt;::digits &gt;</a>
+</li>
+<li>sig_bits_fast
+: <a class="el" href="structhydra_1_1detail_1_1low__bits__mask__t.html#a2a782b0b1eb0c878fe4fa1f2812f91bd">hydra::detail::low_bits_mask_t&lt; Bits &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1low__bits__mask__t_3_01std_1_1numeric__limits_3_01unsigned_01char_01_4_1_1digits_01_4.html#a38f479fe0d3080fa6230da8022e6c51c">hydra::detail::low_bits_mask_t&lt; std::numeric_limits&lt; unsigned char &gt;::digits &gt;</a>
+</li>
+<li>storage_size
+: <a class="el" href="structhydra_1_1detail_1_1sobol__lattice.html#a0e1adb05919ee891f3e24aa1d14eea16">hydra::detail::sobol_lattice&lt; UIntType, D, W, SobolTables &gt;</a>
+</li>
+</ul>
+
+
 <h3><a id="index_v"></a>- v -</h3><ul>
 <li>value
-: <a class="el" href="structhydra_1_1detail_1_1has__analytical__integral_3_01C_00_01Ret_07Args_8_8_8_08_4.html#ab88527bd471ab28e1184da9143642ff4">hydra::detail::has_analytical_integral&lt; C, Ret(Args...)&gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1nearest__int.html#ac190f185af492aec1dfe7ee46468857f">hydra::detail::nearest_int&lt; N, D &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1nearest__int.html#ac190f185af492aec1dfe7ee46468857f">hydra::detail::nearest_int&lt; N, D &gt;</a>
 </li>
 </ul>
 
 
 <h3><a id="index_x"></a>- x -</h3><ul>
-<li>x
-: <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary_1_1index.html#a0a453eca8fa0b2bd3eea9678bc022073">hydra::detail::CovMatrixUnary&lt; F1, F2, Fs &gt;::index&lt; N, I &gt;</a>
-</li>
 <li>X
 : <a class="el" href="group__numerical__integration.html#a11e5ce0df2895bf70c25490bf1c205ac">hydra::GaussKronrodRule&lt; N &gt;</a>
-</li>
-<li>x
-: <a class="el" href="structhydra_1_1SPlot_1_1index.html#a0b7c4cf416b254a78e9ff1c1b02fd4c9">hydra::SPlot&lt; PDF1, PDF2, PDFs &gt;::index&lt; N, I &gt;</a>
-</li>
-</ul>
-
-
-<h3><a id="index_y"></a>- y -</h3><ul>
-<li>y
-: <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary_1_1index.html#aafc6edbf7523a7b3a6dabb5bbcdc5cf3">hydra::detail::CovMatrixUnary&lt; F1, F2, Fs &gt;::index&lt; N, I &gt;</a>
-, <a class="el" href="structhydra_1_1SPlot_1_1index.html#a77e7b946eb940729dd866f2017c0e673">hydra::SPlot&lt; PDF1, PDF2, PDFs &gt;::index&lt; N, I &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -430,7 +498,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:03 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

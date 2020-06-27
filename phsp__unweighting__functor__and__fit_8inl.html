@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -95,7 +96,8 @@ $(document).ready(function(){initNavTree('phsp__unweighting__functor__and__fit_8
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">phsp_unweighting_functor_and_fit.inl File Reference</div>  </div>
 </div><!--header-->
@@ -116,9 +118,10 @@ $(document).ready(function(){initNavTree('phsp__unweighting__functor__and__fit_8
 <code>#include &lt;<a class="el" href="">hydra/PhaseSpaceIntegrator.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Function.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/FunctorArithmetic.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/FunctionWrapper.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Lambda.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Tuple.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Range.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Random.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/LogLikelihoodFCN.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Parameter.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/UserParameters.h</a>&gt;</code><br />
@@ -142,12 +145,14 @@ $(document).ready(function(){initNavTree('phsp__unweighting__functor__and__fit_8
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for phsp_unweighting_functor_and_fit.inl:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phsp__unweighting__functor__and__fit_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phsp__unweighting__functor__and__fit_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phsp__unweighting__functor__and__fit_8inl__dep__incl.svg" width="379" height="142"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phsp__unweighting__functor__and__fit_8inl__dep__incl.svg" width="382" height="142"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -159,8 +164,57 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a1c03069360f1f90a556eb537e0ff8a72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a1c03069360f1f90a556eb537e0ff8a72">main</a> (<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv, char **argc)</td></tr>
-<tr class="separator:a1c03069360f1f90a556eb537e0ff8a72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa427f0da145adedcd46ca1068cd8d7f1"><td class="memItemLeft" align="right" valign="top">cmd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#aa427f0da145adedcd46ca1068cd8d7f1">add</a> (<a class="el" href="phsp__unweighting_8inl.html#a6f9dd541a87fe356658d4b90731d2e3f">NArg</a>)</td></tr>
+<tr class="separator:aa427f0da145adedcd46ca1068cd8d7f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e5b99014b99eed9f49e72f2cf0fecea"><td class="memItemLeft" align="right" valign="top">hydra::Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a6e5b99014b99eed9f49e72f2cf0fecea">B0</a> (<a class="el" href="gaussian__plus__argus_8inl.html#a875c7164f110548cf0d1eae966596bf9">B0_mass</a>, 0.0, 0.0, 0.0)</td></tr>
+<tr class="separator:a6e5b99014b99eed9f49e72f2cf0fecea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a847ebf0b5067895a9c74f81825c76a00"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a847ebf0b5067895a9c74f81825c76a00">catch</a> (TCLAP::ArgException &amp;e)</td></tr>
+<tr class="separator:a847ebf0b5067895a9c74f81825c76a00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a307a0ab71987062a761a1e34a7ca79cb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a307a0ab71987062a761a1e34a7ca79cb">declarg</a> (P1, hydra::Vector4R) declarg(P2</td></tr>
+<tr class="separator:a307a0ab71987062a761a1e34a7ca79cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae076563c526831c7965e334b12dd6941"><td class="memItemLeft" align="right" valign="top">hydra::Vector4R&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#ae076563c526831c7965e334b12dd6941">declarg</a> (P3, hydra::Vector4R) <a class="el" href="namespace_3globalScope_4.html#classint">int</a> <a class="el" href="sobol__quasirandom_8inl.html#a1c03069360f1f90a556eb537e0ff8a72">main</a>(<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv</td></tr>
+<tr class="separator:ae076563c526831c7965e334b12dd6941"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50860e501f709f1d4fa82fa93b6ded52"><td class="memItemLeft" align="right" valign="top"><a class="el" href="phsp__unweighting_8inl.html#ab384b0624c68bc3bae6bc49654c9f478">phsp</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a50860e501f709f1d4fa82fa93b6ded52">Generate</a> (<a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a6e5b99014b99eed9f49e72f2cf0fecea">B0</a>, Events.begin(), <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">Events.end</a>())</td></tr>
+<tr class="separator:a50860e501f709f1d4fa82fa93b6ded52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f9dd541a87fe356658d4b90731d2e3f"><td class="memItemLeft" align="right" valign="top">TCLAP::ValueArg&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a6f9dd541a87fe356658d4b90731d2e3f">NArg</a> (&quot;n&quot;, &quot;nevents&quot;, &quot;Number of events to generate. Default is [ 10e6 ].&quot;, true, 10e6, &quot;unsigned long&quot;)</td></tr>
+<tr class="separator:a6f9dd541a87fe356658d4b90731d2e3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c06c263c31271c073a8f0735b1e4a16"><td class="memItemLeft" align="right" valign="top">cmd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a1c06c263c31271c073a8f0735b1e4a16">parse</a> (argv, <a class="el" href="basic__distributions_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a>)</td></tr>
+<tr class="separator:a1c06c263c31271c073a8f0735b1e4a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a75382457d398a726b2461cf55a40b8c6"><td class="memItemLeft" align="right" valign="top">hydra::Vector4R char **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a75382457d398a726b2461cf55a40b8c6">argc</a></td></tr>
+<tr class="separator:a75382457d398a726b2461cf55a40b8c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a875c7164f110548cf0d1eae966596bf9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a875c7164f110548cf0d1eae966596bf9">B0_mass</a> = 5.27955</td></tr>
+<tr class="separator:a875c7164f110548cf0d1eae966596bf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e07f2f6215790b33fe8f78e61a3e3c4"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a9e07f2f6215790b33fe8f78e61a3e3c4">breit_wigner</a></td></tr>
+<tr class="separator:a9e07f2f6215790b33fe8f78e61a3e3c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6f5e94612d6b780788d65ee98888798"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#ac6f5e94612d6b780788d65ee98888798">dalitz_calculator</a></td></tr>
+<tr class="separator:ac6f5e94612d6b780788d65ee98888798"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78f40e8aeaafd131054b0c2070ccddc1"><td class="memItemLeft" align="right" valign="top">std::chrono::duration&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, std::milli &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a78f40e8aeaafd131054b0c2070ccddc1">elapsed</a> = <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">end</a> - <a class="el" href="phsp__unweighting_8inl.html#a7f02a749754f40365411f74cf75d08fa">start</a></td></tr>
+<tr class="separator:a78f40e8aeaafd131054b0c2070ccddc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6be7d98960df33edf9f3998a9e8b2407"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">end</a> = std::chrono::high_resolution_clock::now()</td></tr>
+<tr class="separator:a6be7d98960df33edf9f3998a9e8b2407"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9dc52148d3b1abe903b23b2130e888b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#aa9dc52148d3b1abe903b23b2130e888b">Jpsi_mass</a> = 3.0969</td></tr>
+<tr class="separator:aa9dc52148d3b1abe903b23b2130e888b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6781212d85143bb4c7598e22efe58e18"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a6781212d85143bb4c7598e22efe58e18">K_mass</a> = 0.493677</td></tr>
+<tr class="separator:a6781212d85143bb4c7598e22efe58e18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f9ace2c4ba93915a71e46cb1ab9f89b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a6f9ace2c4ba93915a71e46cb1ab9f89b">M0</a></td></tr>
+<tr class="separator:a6f9ace2c4ba93915a71e46cb1ab9f89b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4494b924b71b8932dedd0783a4e7061f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a></td></tr>
+<tr class="separator:a4494b924b71b8932dedd0783a4e7061f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8b0f365ee5d5b76a62688733e5016a1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a> = NArg.getValue()</td></tr>
+<tr class="separator:af8b0f365ee5d5b76a62688733e5016a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ef988f1e86ed75cae4059bc8367bac5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__phsp.html#classhydra_1_1PhaseSpace">hydra::PhaseSpace</a>&lt; 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a2ef988f1e86ed75cae4059bc8367bac5">phsp</a> (<a class="el" href="gaussian__plus__argus_8inl.html#a875c7164f110548cf0d1eae966596bf9">B0_mass</a>,{<a class="el" href="gaussian__plus__argus_8inl.html#aa9dc52148d3b1abe903b23b2130e888b">Jpsi_mass</a>, <a class="el" href="gaussian__plus__argus_8inl.html#a6781212d85143bb4c7598e22efe58e18">K_mass</a>, <a class="el" href="gaussian__plus__argus_8inl.html#aaac995b69682ccff5133bebdcf78a2dc">pi_mass</a> })</td></tr>
+<tr class="separator:a2ef988f1e86ed75cae4059bc8367bac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaac995b69682ccff5133bebdcf78a2dc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#aaac995b69682ccff5133bebdcf78a2dc">pi_mass</a> = 0.13957061</td></tr>
+<tr class="separator:aaac995b69682ccff5133bebdcf78a2dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f02a749754f40365411f74cf75d08fa"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a7f02a749754f40365411f74cf75d08fa">start</a> = std::chrono::high_resolution_clock::now()</td></tr>
+<tr class="separator:a7f02a749754f40365411f74cf75d08fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe4cc9788f52e49485473dc699537388"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#abe4cc9788f52e49485473dc699537388">try</a></td></tr>
+<tr class="separator:abe4cc9788f52e49485473dc699537388"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dd07b7604fd23d53093032f0dd5167f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a5dd07b7604fd23d53093032f0dd5167f">W0</a></td></tr>
+<tr class="separator:a5dd07b7604fd23d53093032f0dd5167f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="adbc91805477cd1ff9fc4b416c9c1df1e"></a>
@@ -178,23 +232,100 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a1c03069360f1f90a556eb537e0ff8a72"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c03069360f1f90a556eb537e0ff8a72">&#9670;&nbsp;</a></span>main()</h2>
+<a id="aa427f0da145adedcd46ca1068cd8d7f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa427f0da145adedcd46ca1068cd8d7f1">&#9670;&nbsp;</a></span>add()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classint">int</a> main </td>
+          <td class="memname">cmd add </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td>
-          <td class="paramname"><em>argv</em>, </td>
+          <td class="paramtype"><a class="el" href="phsp__unweighting_8inl.html#a6f9dd541a87fe356658d4b90731d2e3f">NArg</a>&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6e5b99014b99eed9f49e72f2cf0fecea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e5b99014b99eed9f49e72f2cf0fecea">&#9670;&nbsp;</a></span>B0()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">hydra::Vector4R B0 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="gaussian__plus__argus_8inl.html#a875c7164f110548cf0d1eae966596bf9">B0_mass</a>&#160;</td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">char **&#160;</td>
-          <td class="paramname"><em>argc</em>&#160;</td>
+          <td class="paramtype">0.&#160;</td>
+          <td class="paramname"><em>0</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">0.&#160;</td>
+          <td class="paramname"><em>0</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">0.&#160;</td>
+          <td class="paramname"><em>0</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8C-example.html#a35">dalitz_plot.C</a>, <a class="el" href="dalitz_plot_8inl-example.html#a39">dalitz_plot.inl</a>, and <a class="el" href="phsp_chain_8inl-example.html#a13">phsp_chain.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a847ebf0b5067895a9c74f81825c76a00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a847ebf0b5067895a9c74f81825c76a00">&#9670;&nbsp;</a></span>catch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">catch </td>
+          <td>(</td>
+          <td class="paramtype">TCLAP::ArgException &amp;&#160;</td>
+          <td class="paramname"><em>e</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a307a0ab71987062a761a1e34a7ca79cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a307a0ab71987062a761a1e34a7ca79cb">&#9670;&nbsp;</a></span>declarg() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">declarg </td>
+          <td>(</td>
+          <td class="paramtype">P1&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">hydra::Vector4R&#160;</td>
+          <td class="paramname">&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -206,13 +337,418 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ae076563c526831c7965e334b12dd6941"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae076563c526831c7965e334b12dd6941">&#9670;&nbsp;</a></span>declarg() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">hydra::Vector4R declarg </td>
+          <td>(</td>
+          <td class="paramtype">P3&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">hydra::Vector4R&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a50860e501f709f1d4fa82fa93b6ded52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50860e501f709f1d4fa82fa93b6ded52">&#9670;&nbsp;</a></span>Generate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="phsp__unweighting_8inl.html#ab384b0624c68bc3bae6bc49654c9f478">phsp</a> Generate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html#a6e5b99014b99eed9f49e72f2cf0fecea">B0</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Events.&#160;</td>
+          <td class="paramname"><em>begin</em>(), </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Events.&#160;</td>
+          <td class="paramname"><em>end</em>()&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6f9dd541a87fe356658d4b90731d2e3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f9dd541a87fe356658d4b90731d2e3f">&#9670;&nbsp;</a></span>NArg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TCLAP::ValueArg&lt;size_t&gt; NArg </td>
+          <td>(</td>
+          <td class="paramtype">&quot;n&quot;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;nevents&quot;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;Number of events to generate. Default is .&quot;&#160;</td>
+          <td class="paramname">[10e6], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">true&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">10e6&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;unsigned long&quot;&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_averaging_functor_8inl-example.html#a11">phsp_averaging_functor.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#a11">phsp_basic.inl</a>, <a class="el" href="phsp_chain_8inl-example.html#a9">phsp_chain.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#a11">phsp_reweighting.inl</a>, and <a class="el" href="phsp_unweighting_functor_8inl-example.html#a11">phsp_unweighting_functor.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a1c06c263c31271c073a8f0735b1e4a16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c06c263c31271c073a8f0735b1e4a16">&#9670;&nbsp;</a></span>parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cmd parse </td>
+          <td>(</td>
+          <td class="paramtype">argv&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="basic__distributions_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a>&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a75382457d398a726b2461cf55a40b8c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75382457d398a726b2461cf55a40b8c6">&#9670;&nbsp;</a></span>argc</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">hydra::Vector4R char** argc</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keywordtype">size_t</span>  <a class="code" href="phsp__unweighting__functor__and__fit_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>   = 0</div><div class="ttc" id="phsp__unweighting__functor__and__fit_8inl_html_af8b0f365ee5d5b76a62688733e5016a1"><div class="ttname"><a href="phsp__unweighting__functor__and__fit_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a></div><div class="ttdeci">nentries</div><div class="ttdef"><b>Definition:</b> phsp_unweighting_functor_and_fit.inl:155</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a875c7164f110548cf0d1eae966596bf9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a875c7164f110548cf0d1eae966596bf9">&#9670;&nbsp;</a></span>B0_mass</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> B0_mass = 5.27955</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_chain_8inl-example.html#a5">phsp_chain.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a9e07f2f6215790b33fe8f78e61a3e3c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e07f2f6215790b33fe8f78e61a3e3c4">&#9670;&nbsp;</a></span>breit_wigner</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto breit_wigner</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="namespacehydra.html#a094f4a025290ae35ad9eb8c553c7fc61">hydra::wrap_lambda</a>(</div><div class="line">            [] <a class="code" href="Config_8h.html#a12fed978a9eb30299d0dc151384dcf3b">__hydra_dual__</a> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> npar, <span class="keyword">const</span> <a class="code" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a>* params, P1 p1, P2 p2, P3 p3 ){</div><div class="line"></div><div class="line">        <span class="keywordtype">double</span> <a class="code" href="quick__test_8inl.html#abb39a36b520aa64394409998d008eea0">mass</a>  = params[0];</div><div class="line">        <span class="keywordtype">double</span> <a class="code" href="quick__test_8inl.html#a3e2a4a021e927d770355f2971942d62a">width</a> = params[1];</div><div class="line"></div><div class="line">        <span class="keyword">auto</span>   m = (p2+p3).<a class="code" href="quick__test_8inl.html#abb39a36b520aa64394409998d008eea0">mass</a>();</div><div class="line"></div><div class="line">        <span class="keywordtype">double</span> dmass2 = (m-<a class="code" href="quick__test_8inl.html#abb39a36b520aa64394409998d008eea0">mass</a>)*(m-<a class="code" href="quick__test_8inl.html#abb39a36b520aa64394409998d008eea0">mass</a>);</div><div class="line">        <span class="keywordtype">double</span> width2   = <a class="code" href="quick__test_8inl.html#a3e2a4a021e927d770355f2971942d62a">width</a>*<a class="code" href="quick__test_8inl.html#a3e2a4a021e927d770355f2971942d62a">width</a>;</div><div class="line"></div><div class="line">        <span class="keywordtype">double</span> denominator = dmass2 + width2/4.0;</div><div class="line">        <span class="keywordflow">return</span> ((width2)/4.0)/denominator;</div><div class="line"></div><div class="line">    }, <a class="code" href="phsp__unweighting__functor__and__fit_8inl.html#a6f9ace2c4ba93915a71e46cb1ab9f89b">M0</a>, <a class="code" href="phsp__unweighting__functor__and__fit_8inl.html#a5dd07b7604fd23d53093032f0dd5167f">W0</a> )</div><div class="ttc" id="phsp__unweighting__functor__and__fit_8inl_html_a6f9ace2c4ba93915a71e46cb1ab9f89b"><div class="ttname"><a href="phsp__unweighting__functor__and__fit_8inl.html#a6f9ace2c4ba93915a71e46cb1ab9f89b">M0</a></div><div class="ttdeci">hydra::Parameter M0</div><div class="ttdef"><b>Definition:</b> phsp_unweighting_functor_and_fit.inl:214</div></div>
+<div class="ttc" id="Config_8h_html_a12fed978a9eb30299d0dc151384dcf3b"><div class="ttname"><a href="Config_8h.html#a12fed978a9eb30299d0dc151384dcf3b">__hydra_dual__</a></div><div class="ttdeci">#define __hydra_dual__</div><div class="ttdef"><b>Definition:</b> Config.h:104</div></div>
+<div class="ttc" id="quick__test_8inl_html_a3e2a4a021e927d770355f2971942d62a"><div class="ttname"><a href="quick__test_8inl.html#a3e2a4a021e927d770355f2971942d62a">width</a></div><div class="ttdeci">auto width</div><div class="ttdef"><b>Definition:</b> quick_test.inl:126</div></div>
+<div class="ttc" id="namespacehydra_html_a094f4a025290ae35ad9eb8c553c7fc61"><div class="ttname"><a href="namespacehydra.html#a094f4a025290ae35ad9eb8c553c7fc61">hydra::wrap_lambda</a></div><div class="ttdeci">hydra::Lambda&lt; LambdaType, 0 &gt; wrap_lambda(LambdaType const &amp;lambda)</div><div class="ttdef"><b>Definition:</b> Lambda.h:536</div></div>
+<div class="ttc" id="phsp__unweighting__functor__and__fit_8inl_html_a5dd07b7604fd23d53093032f0dd5167f"><div class="ttname"><a href="phsp__unweighting__functor__and__fit_8inl.html#a5dd07b7604fd23d53093032f0dd5167f">W0</a></div><div class="ttdeci">hydra::Parameter W0</div><div class="ttdef"><b>Definition:</b> phsp_unweighting_functor_and_fit.inl:217</div></div>
+<div class="ttc" id="group__fit_html_structhydra_1_1Parameter"><div class="ttname"><a href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a></div><div class="ttdoc"> , </div><div class="ttdef"><b>Definition:</b> Parameter.h:67</div></div>
+<div class="ttc" id="quick__test_8inl_html_abb39a36b520aa64394409998d008eea0"><div class="ttname"><a href="quick__test_8inl.html#abb39a36b520aa64394409998d008eea0">mass</a></div><div class="ttdeci">auto mass</div><div class="ttdef"><b>Definition:</b> quick_test.inl:125</div></div>
+</div><!-- fragment --><dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_reweighting_8inl-example.html#a24">phsp_reweighting.inl</a>, and <a class="el" href="phsp_unweighting_functor_8inl-example.html#a24">phsp_unweighting_functor.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="ac6f5e94612d6b780788d65ee98888798"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6f5e94612d6b780788d65ee98888798">&#9670;&nbsp;</a></span>dalitz_calculator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto dalitz_calculator</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="namespacehydra.html#a094f4a025290ae35ad9eb8c553c7fc61">hydra::wrap_lambda</a>( [] <a class="code" href="Config_8h.html#a12fed978a9eb30299d0dc151384dcf3b">__hydra_dual__</a> ( P1 p1, P2 p2, P3 p3){</div><div class="line"></div><div class="line">            <span class="keywordtype">double</span>   MSq_12 = (p1+p2).mass2();</div><div class="line">            <span class="keywordtype">double</span>   MSq_13 = (p1+p3).mass2();</div><div class="line">            <span class="keywordtype">double</span>   MSq_23 = (p2+p3).mass2();</div><div class="line"></div><div class="line">            <span class="keywordflow">return</span> <a class="code" href="namespacehydra.html#a1db1d8c170d119e8a99389cf5eb0b5d5">hydra::make_tuple</a>(MSq_12, MSq_13, MSq_23);</div><div class="line">    })</div><div class="ttc" id="namespacehydra_html_a1db1d8c170d119e8a99389cf5eb0b5d5"><div class="ttname"><a href="namespacehydra.html#a1db1d8c170d119e8a99389cf5eb0b5d5">hydra::make_tuple</a></div><div class="ttdeci">__hydra_host__ __hydra_device__ auto make_tuple(T &amp;&amp;... t) -&gt; decltype(hydra_thrust::make_tuple(std::forward&lt; T &gt;(t)...))</div><div class="ttdoc">This version of make_tuple creates a new tuple object from a list of objects. </div><div class="ttdef"><b>Definition:</b> Tuple.h:261</div></div>
+<div class="ttc" id="Config_8h_html_a12fed978a9eb30299d0dc151384dcf3b"><div class="ttname"><a href="Config_8h.html#a12fed978a9eb30299d0dc151384dcf3b">__hydra_dual__</a></div><div class="ttdeci">#define __hydra_dual__</div><div class="ttdef"><b>Definition:</b> Config.h:104</div></div>
+<div class="ttc" id="namespacehydra_html_a094f4a025290ae35ad9eb8c553c7fc61"><div class="ttname"><a href="namespacehydra.html#a094f4a025290ae35ad9eb8c553c7fc61">hydra::wrap_lambda</a></div><div class="ttdeci">hydra::Lambda&lt; LambdaType, 0 &gt; wrap_lambda(LambdaType const &amp;lambda)</div><div class="ttdef"><b>Definition:</b> Lambda.h:536</div></div>
+</div><!-- fragment --><dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8C-example.html#a38">dalitz_plot.C</a>, <a class="el" href="dalitz_plot_8inl-example.html#a42">dalitz_plot.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#a17">phsp_basic.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#a17">phsp_reweighting.inl</a>, and <a class="el" href="phsp_unweighting_functor_8inl-example.html#a17">phsp_unweighting_functor.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a78f40e8aeaafd131054b0c2070ccddc1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78f40e8aeaafd131054b0c2070ccddc1">&#9670;&nbsp;</a></span>elapsed</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::duration&lt;<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, std::milli&gt; elapsed = <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">end</a> - <a class="el" href="phsp__unweighting_8inl.html#a7f02a749754f40365411f74cf75d08fa">start</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6be7d98960df33edf9f3998a9e8b2407"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6be7d98960df33edf9f3998a9e8b2407">&#9670;&nbsp;</a></span>end</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto end = std::chrono::high_resolution_clock::now()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="adaptive_gauss_kronrod_8inl-example.html#a14">adaptive_gauss_kronrod.inl</a>, <a class="el" href="dalitz_plot_8C-example.html#a44">dalitz_plot.C</a>, <a class="el" href="dalitz_plot_8inl-example.html#a50">dalitz_plot.inl</a>, <a class="el" href="gauss_kronrod_8inl-example.html#a15">gauss_kronrod.inl</a>, <a class="el" href="plain_mc_8inl-example.html#a14">plain_mc.inl</a>, and <a class="el" href="sample_distribution_8inl-example.html#a17">sample_distribution.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="aa9dc52148d3b1abe903b23b2130e888b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9dc52148d3b1abe903b23b2130e888b">&#9670;&nbsp;</a></span>Jpsi_mass</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> Jpsi_mass = 3.0969</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_chain_8inl-example.html#a6">phsp_chain.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a6781212d85143bb4c7598e22efe58e18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6781212d85143bb4c7598e22efe58e18">&#9670;&nbsp;</a></span>K_mass</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> K_mass = 0.493677</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_chain_8inl-example.html#a7">phsp_chain.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a6f9ace2c4ba93915a71e46cb1ab9f89b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f9ace2c4ba93915a71e46cb1ab9f89b">&#9670;&nbsp;</a></span>M0</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> M0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>()</div><div class="line">        .<a class="code" href="group__fit.html#abd604574084c4877e12eb4a429d3a5bf">Name</a>(<span class="stringliteral">&quot;mass&quot;</span> ).<a class="code" href="group__fit.html#ab9d71d53dc79d1839971ec8cdced636a">Value</a>(0.8).<a class="code" href="group__fit.html#a49f5d6946e744c41d88678858386c0b1">Error</a>(0.001).<a class="code" href="group__fit.html#affd113cf96daed021e40e90ecd44286e">Limits</a>(0.7, 0.9)</div><div class="ttc" id="group__fit_html_ab71317b03a67ac0de6daec09c16df4c6"><div class="ttname"><a href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a></div><div class="ttdeci">static __hydra_host__ Parameter Create()</div><div class="ttdef"><b>Definition:</b> Parameter.h:369</div></div>
+<div class="ttc" id="group__fit_html_abd604574084c4877e12eb4a429d3a5bf"><div class="ttname"><a href="group__fit.html#abd604574084c4877e12eb4a429d3a5bf">hydra::Parameter::Name</a></div><div class="ttdeci">__hydra_host__ Parameter &amp; Name(std::string const &amp;name)</div><div class="ttdef"><b>Definition:</b> Parameter.h:382</div></div>
+<div class="ttc" id="group__fit_html_a49f5d6946e744c41d88678858386c0b1"><div class="ttname"><a href="group__fit.html#a49f5d6946e744c41d88678858386c0b1">hydra::Parameter::Error</a></div><div class="ttdeci">__hydra_host__ Parameter &amp; Error(GReal_t error)</div><div class="ttdef"><b>Definition:</b> Parameter.h:394</div></div>
+<div class="ttc" id="group__fit_html_affd113cf96daed021e40e90ecd44286e"><div class="ttname"><a href="group__fit.html#affd113cf96daed021e40e90ecd44286e">hydra::Parameter::Limits</a></div><div class="ttdeci">__hydra_host__ Parameter &amp; Limits(GReal_t lowlim, GReal_t uplim)</div><div class="ttdef"><b>Definition:</b> Parameter.h:407</div></div>
+<div class="ttc" id="group__fit_html_ab9d71d53dc79d1839971ec8cdced636a"><div class="ttname"><a href="group__fit.html#ab9d71d53dc79d1839971ec8cdced636a">hydra::Parameter::Value</a></div><div class="ttdeci">__hydra_host__ Parameter &amp; Value(GReal_t value)</div><div class="ttdef"><b>Definition:</b> Parameter.h:401</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a4494b924b71b8932dedd0783a4e7061f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4494b924b71b8932dedd0783a4e7061f">&#9670;&nbsp;</a></span>model</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto model</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a>( <a class="code" href="phsp__unweighting__functor__and__fit_8inl.html#a9e07f2f6215790b33fe8f78e61a3e3c4">breit_wigner</a>,</div><div class="line">            <a class="code" href="group__phsp.html#classhydra_1_1PhaseSpaceIntegrator">hydra::PhaseSpaceIntegrator&lt;3, hydra::device::sys_t&gt;</a>(<a class="code" href="phsp__unweighting__functor__and__fit_8inl.html#a875c7164f110548cf0d1eae966596bf9">B0_mass</a>, {<a class="code" href="phsp__unweighting__functor__and__fit_8inl.html#aa9dc52148d3b1abe903b23b2130e888b">Jpsi_mass</a>, <a class="code" href="phsp__unweighting__functor__and__fit_8inl.html#a6781212d85143bb4c7598e22efe58e18">K_mass</a>, <a class="code" href="phsp__unweighting__functor__and__fit_8inl.html#aaac995b69682ccff5133bebdcf78a2dc">pi_mass</a> }, 100000))</div><div class="ttc" id="group__fit_html_ga2d468a0d98a74f41479f8ccb95f5533e"><div class="ttname"><a href="group__fit.html#ga2d468a0d98a74f41479f8ccb95f5533e">hydra::make_pdf</a></div><div class="ttdeci">Pdf&lt; FUNCTOR, INTEGRATOR &gt; make_pdf(FUNCTOR const &amp;functor, INTEGRATOR integrator)</div><div class="ttdoc">Build a hydra::Pdf given a shape described by a functor and a integrator (algorithm or functor)...</div><div class="ttdef"><b>Definition:</b> Pdf.h:299</div></div>
+<div class="ttc" id="phsp__unweighting__functor__and__fit_8inl_html_a9e07f2f6215790b33fe8f78e61a3e3c4"><div class="ttname"><a href="phsp__unweighting__functor__and__fit_8inl.html#a9e07f2f6215790b33fe8f78e61a3e3c4">breit_wigner</a></div><div class="ttdeci">auto breit_wigner</div><div class="ttdef"><b>Definition:</b> phsp_unweighting_functor_and_fit.inl:222</div></div>
+<div class="ttc" id="phsp__unweighting__functor__and__fit_8inl_html_a875c7164f110548cf0d1eae966596bf9"><div class="ttname"><a href="phsp__unweighting__functor__and__fit_8inl.html#a875c7164f110548cf0d1eae966596bf9">B0_mass</a></div><div class="ttdeci">double B0_mass</div><div class="ttdef"><b>Definition:</b> phsp_unweighting_functor_and_fit.inl:135</div></div>
+<div class="ttc" id="phsp__unweighting__functor__and__fit_8inl_html_a6781212d85143bb4c7598e22efe58e18"><div class="ttname"><a href="phsp__unweighting__functor__and__fit_8inl.html#a6781212d85143bb4c7598e22efe58e18">K_mass</a></div><div class="ttdeci">double K_mass</div><div class="ttdef"><b>Definition:</b> phsp_unweighting_functor_and_fit.inl:137</div></div>
+<div class="ttc" id="phsp__unweighting__functor__and__fit_8inl_html_aaac995b69682ccff5133bebdcf78a2dc"><div class="ttname"><a href="phsp__unweighting__functor__and__fit_8inl.html#aaac995b69682ccff5133bebdcf78a2dc">pi_mass</a></div><div class="ttdeci">double pi_mass</div><div class="ttdef"><b>Definition:</b> phsp_unweighting_functor_and_fit.inl:138</div></div>
+<div class="ttc" id="group__phsp_html_classhydra_1_1PhaseSpaceIntegrator"><div class="ttname"><a href="group__phsp.html#classhydra_1_1PhaseSpaceIntegrator">hydra::PhaseSpaceIntegrator</a></div><div class="ttdef"><b>Definition:</b> PhaseSpaceIntegrator.h:47</div></div>
+<div class="ttc" id="phsp__unweighting__functor__and__fit_8inl_html_aa9dc52148d3b1abe903b23b2130e888b"><div class="ttname"><a href="phsp__unweighting__functor__and__fit_8inl.html#aa9dc52148d3b1abe903b23b2130e888b">Jpsi_mass</a></div><div class="ttdeci">double Jpsi_mass</div><div class="ttdef"><b>Definition:</b> phsp_unweighting_functor_and_fit.inl:136</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="af8b0f365ee5d5b76a62688733e5016a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8b0f365ee5d5b76a62688733e5016a1">&#9670;&nbsp;</a></span>nentries</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">nentries = NArg.getValue()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2ef988f1e86ed75cae4059bc8367bac5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ef988f1e86ed75cae4059bc8367bac5">&#9670;&nbsp;</a></span>phsp</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1PhaseSpace">hydra::PhaseSpace</a>&lt;3&gt; phsp(<a class="el" href="gaussian__plus__argus_8inl.html#a875c7164f110548cf0d1eae966596bf9">B0_mass</a>,{<a class="el" href="gaussian__plus__argus_8inl.html#aa9dc52148d3b1abe903b23b2130e888b">Jpsi_mass</a>, <a class="el" href="gaussian__plus__argus_8inl.html#a6781212d85143bb4c7598e22efe58e18">K_mass</a>, <a class="el" href="gaussian__plus__argus_8inl.html#aaac995b69682ccff5133bebdcf78a2dc">pi_mass</a> })</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8C-example.html#a37">dalitz_plot.C</a>, <a class="el" href="dalitz_plot_8inl-example.html#a41">dalitz_plot.inl</a>, <a class="el" href="phsp_averaging_functor_8inl-example.html#a18">phsp_averaging_functor.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#a16">phsp_basic.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#a16">phsp_reweighting.inl</a>, and <a class="el" href="phsp_unweighting_functor_8inl-example.html#a16">phsp_unweighting_functor.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="aaac995b69682ccff5133bebdcf78a2dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaac995b69682ccff5133bebdcf78a2dc">&#9670;&nbsp;</a></span>pi_mass</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> pi_mass = 0.13957061</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_chain_8inl-example.html#a8">phsp_chain.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a7f02a749754f40365411f74cf75d08fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f02a749754f40365411f74cf75d08fa">&#9670;&nbsp;</a></span>start</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto start = std::chrono::high_resolution_clock::now()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="adaptive_gauss_kronrod_8inl-example.html#a13">adaptive_gauss_kronrod.inl</a>, <a class="el" href="basic_fit_8inl-example.html#a24">basic_fit.inl</a>, <a class="el" href="dalitz_plot_8C-example.html#a42">dalitz_plot.C</a>, <a class="el" href="dalitz_plot_8inl-example.html#a48">dalitz_plot.inl</a>, <a class="el" href="gauss_kronrod_8inl-example.html#a14">gauss_kronrod.inl</a>, <a class="el" href="phsp_averaging_functor_8inl-example.html#a19">phsp_averaging_functor.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#a23">phsp_basic.inl</a>, <a class="el" href="phsp_chain_8inl-example.html#a20">phsp_chain.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#a28">phsp_reweighting.inl</a>, <a class="el" href="phsp_unweighting_functor_8inl-example.html#a28">phsp_unweighting_functor.inl</a>, <a class="el" href="plain_mc_8inl-example.html#a13">plain_mc.inl</a>, <a class="el" href="pseudo_experiment_8inl-example.html#a40">pseudo_experiment.inl</a>, <a class="el" href="sample_distribution_8inl-example.html#a14">sample_distribution.inl</a>, and <a class="el" href="simultaneous_fit_8inl-example.html#a25">simultaneous_fit.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="abe4cc9788f52e49485473dc699537388"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe4cc9788f52e49485473dc699537388">&#9670;&nbsp;</a></span>try</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">try</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div><div class="line"></div><div class="line">        TCLAP::CmdLine cmd(<span class="stringliteral">&quot;Command line arguments for PHSP B0 -&gt; J/psi K pi&quot;</span>, <span class="charliteral">&#39;=&#39;</span>)</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a5dd07b7604fd23d53093032f0dd5167f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dd07b7604fd23d53093032f0dd5167f">&#9670;&nbsp;</a></span>W0</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> W0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>()</div><div class="line">        .<a class="code" href="group__fit.html#abd604574084c4877e12eb4a429d3a5bf">Name</a>(<span class="stringliteral">&quot;width&quot;</span>).<a class="code" href="group__fit.html#ab9d71d53dc79d1839971ec8cdced636a">Value</a>(0.05).<a class="code" href="group__fit.html#a49f5d6946e744c41d88678858386c0b1">Error</a>(0.001).<a class="code" href="group__fit.html#affd113cf96daed021e40e90ecd44286e">Limits</a>(0.04, 0.06)</div><div class="ttc" id="group__fit_html_ab71317b03a67ac0de6daec09c16df4c6"><div class="ttname"><a href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a></div><div class="ttdeci">static __hydra_host__ Parameter Create()</div><div class="ttdef"><b>Definition:</b> Parameter.h:369</div></div>
+<div class="ttc" id="group__fit_html_abd604574084c4877e12eb4a429d3a5bf"><div class="ttname"><a href="group__fit.html#abd604574084c4877e12eb4a429d3a5bf">hydra::Parameter::Name</a></div><div class="ttdeci">__hydra_host__ Parameter &amp; Name(std::string const &amp;name)</div><div class="ttdef"><b>Definition:</b> Parameter.h:382</div></div>
+<div class="ttc" id="group__fit_html_a49f5d6946e744c41d88678858386c0b1"><div class="ttname"><a href="group__fit.html#a49f5d6946e744c41d88678858386c0b1">hydra::Parameter::Error</a></div><div class="ttdeci">__hydra_host__ Parameter &amp; Error(GReal_t error)</div><div class="ttdef"><b>Definition:</b> Parameter.h:394</div></div>
+<div class="ttc" id="group__fit_html_affd113cf96daed021e40e90ecd44286e"><div class="ttname"><a href="group__fit.html#affd113cf96daed021e40e90ecd44286e">hydra::Parameter::Limits</a></div><div class="ttdeci">__hydra_host__ Parameter &amp; Limits(GReal_t lowlim, GReal_t uplim)</div><div class="ttdef"><b>Definition:</b> Parameter.h:407</div></div>
+<div class="ttc" id="group__fit_html_ab9d71d53dc79d1839971ec8cdced636a"><div class="ttname"><a href="group__fit.html#ab9d71d53dc79d1839971ec8cdced636a">hydra::Parameter::Value</a></div><div class="ttdeci">__hydra_host__ Parameter &amp; Value(GReal_t value)</div><div class="ttdef"><b>Definition:</b> Parameter.h:401</div></div>
+</div><!-- fragment -->
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_b3c69fde212a60de3f50954f66fa65c1.html">examples</a></li><li class="navelem"><a class="el" href="dir_fa9bd4b554716f8530d93b48c470adbb.html">fit</a></li><li class="navelem"><a class="el" href="phsp__unweighting__functor__and__fit_8inl.html">phsp_unweighting_functor_and_fit.inl</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

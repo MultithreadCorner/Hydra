@@ -1,6 +1,6 @@
 <map id="hydra::AnalyticalIntegral&lt; Functor, 1 &gt;" name="hydra::AnalyticalIntegral&lt; Functor, 1 &gt;">
 <area shape="rect" id="node2" href="$classhydra_1_1IntegrationFormula.html" title="{hydra::IntegrationFormula\l\&lt; Functor, 1 \&gt;\n||}" alt="" coords="9,182,180,274"/>
 <area shape="rect" id="node3" href="$classhydra_1_1IntegrationFormula.html" title="{hydra::IntegrationFormula\l\&lt; Functor, N \&gt;\n||}" alt="" coords="5,5,176,97"/>
-<area shape="rect" id="node4" href="$structhydra_1_1Integral.html" title="{hydra::Integral\&lt; Analytical\lIntegral\&lt; Functor, 1 \&gt; \&gt;\n||+ operator()()\l+ operator()()\l}" alt="" coords="211,175,386,281"/>
+<area shape="rect" id="node4" href="$structhydra_1_1Integral.html" title="{hydra::Integral\&lt; Analytical\lIntegral\&lt; Functor, 1 \&gt; \&gt;\n||+ operator()()\l+ operator()()\l}" alt="" coords="211,175,384,281"/>
 <area shape="rect" id="node5" href="$structhydra_1_1Integral.html" title="{hydra::Integral\&lt; Algorithm, N \&gt;\n||+ operator()()\l+ operator()()\l}" alt="" coords="201,5,402,97"/>
 </map>

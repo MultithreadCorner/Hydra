@@ -1,23 +1,20 @@
 <map id="Parameters.h" name="Parameters.h">
-<area shape="rect" id="node2" href="$Config_8h.html" title="hydra/detail/Config.h" alt="" coords="1173,601,1314,628"/>
-<area shape="rect" id="node5" href="$Types_8h.html" title="Common and useful typedefs. " alt="" coords="2462,601,2567,628"/>
-<area shape="rect" id="node6" href="$Print_8h.html" title="hydra/detail/Print.h" alt="" coords="30,244,161,271"/>
-<area shape="rect" id="node16" href="$Integrator_8h.html" title="hydra/Integrator.h" alt="" coords="688,244,812,271"/>
-<area shape="rect" id="node22" href="$Parameter_8h.html" title="hydra/Parameter.h" alt="" coords="1175,169,1304,196"/>
-<area shape="rect" id="node46" href="$Utility__Tuple_8h.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="2102,80,2226,121"/>
-<area shape="rect" id="node49" href="$Hash_8h.html" title="hydra/detail/Hash.h" alt="" coords="3152,87,3287,114"/>
-<area shape="rect" id="node7" href="$StreamSTL_8h.html" title="hydra/detail/utility\l/StreamSTL.h" alt="" coords="134,326,258,367"/>
-<area shape="rect" id="node18" href="$AnalyticalIntegral_8inl.html" title="hydra/detail/AnalyticalIntegral.inl" alt="" coords="282,333,493,360"/>
-<area shape="rect" id="node20" href="$NumericalIntegral_8inl.html" title="hydra/detail/NumericalIntegral.inl" alt="" coords="645,333,856,360"/>
-<area shape="rect" id="node21" href="$Integrator_8inl.html" title="hydra/detail/Integrator.inl" alt="" coords="880,333,1045,360"/>
-<area shape="rect" id="node23" href="$TypeTraits_8h.html" title="hydra/detail/TypeTraits.h" alt="" coords="1936,244,2103,271"/>
-<area shape="rect" id="node24" href="$Containers_8h.html" title="Typedefs for useful container classes used in MCBooster. " alt="" coords="2344,333,2474,360"/>
-<area shape="rect" id="node26" href="$Vector3R_8h.html" title="hydra/Vector3R.h" alt="" coords="2802,512,2925,539"/>
-<area shape="rect" id="node33" href="$Vector4R_8h.html" title="hydra/Vector4R.h" alt="" coords="2552,423,2674,449"/>
-<area shape="rect" id="node36" href="$Containers_8inl.html" title="hydra/detail/Containers.inl" alt="" coords="1928,423,2100,449"/>
-<area shape="rect" id="node29" href="$Collection_8h.html" title="hydra/Collection.h" alt="" coords="2950,601,3076,628"/>
-<area shape="rect" id="node32" href="$Vector3R_8inl.html" title="hydra/detail/Vector3R.inl" alt="" coords="2762,601,2926,628"/>
-<area shape="rect" id="node34" href="$Vector4R_8inl.html" title="hydra/detail/Vector4R.inl" alt="" coords="2462,512,2626,539"/>
-<area shape="rect" id="node47" href="$Generic_8h.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="1424,326,1548,367"/>
-<area shape="rect" id="node48" href="$FunctorTraits_8h.html" title="hydra/detail/FunctorTraits.h" alt="" coords="2744,333,2925,360"/>
+<area shape="rect" id="node2" href="$Config_8h.html" title="hydra/detail/Config.h" alt="" coords="1078,407,1221,433"/>
+<area shape="rect" id="node5" href="$Types_8h.html" title="Common and useful typedefs. " alt="" coords="1053,303,1157,329"/>
+<area shape="rect" id="node6" href="$Print_8h.html" title="hydra/detail/Print.h" alt="" coords="475,191,605,218"/>
+<area shape="rect" id="node16" href="$Integrator_8h.html" title="hydra/Integrator.h" alt="" coords="959,191,1081,218"/>
+<area shape="rect" id="node24" href="$Parameter_8h.html" title="hydra/Parameter.h" alt="" coords="1283,191,1411,218"/>
+<area shape="rect" id="node37" href="$Utility__Tuple_8h.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="2005,80,2129,121"/>
+<area shape="rect" id="node44" href="$Hash_8h.html" title="hydra/detail/Hash.h" alt="" coords="2427,87,2562,114"/>
+<area shape="rect" id="node7" href="$StreamSTL_8h.html" title="hydra/detail/utility\l/StreamSTL.h" alt="" coords="143,295,267,337"/>
+<area shape="rect" id="node18" href="$IntegratorTraits_8h.html" title="hydra/detail/IntegratorTraits.h" alt="" coords="1661,303,1853,329"/>
+<area shape="rect" id="node20" href="$AnalyticalIntegral_8inl.html" title="hydra/detail/AnalyticalIntegral.inl" alt="" coords="292,303,503,329"/>
+<area shape="rect" id="node22" href="$NumericalIntegral_8inl.html" title="hydra/detail/NumericalIntegral.inl" alt="" coords="766,303,978,329"/>
+<area shape="rect" id="node23" href="$Integrator_8inl.html" title="hydra/detail/Integrator.inl" alt="" coords="578,303,742,329"/>
+<area shape="rect" id="node25" href="$TypeTraits_8h.html" title="hydra/detail/TypeTraits.h" alt="" coords="1928,303,2093,329"/>
+<area shape="rect" id="node38" href="$Generic_8h.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="2825,295,2949,337"/>
+<area shape="rect" id="node39" href="$TagTraits_8h.html" title="hydra/detail/TagTraits.h" alt="" coords="1435,191,1594,218"/>
+<area shape="rect" id="node40" href="$FunctorTraits_8h.html" title="hydra/detail/FunctorTraits.h" alt="" coords="2225,191,2407,218"/>
+<area shape="rect" id="node41" href="$StaticAssert_8h.html" title="hydra/detail/utility\l/StaticAssert.h" alt="" coords="2270,295,2394,337"/>
+<area shape="rect" id="node45" href="$Tuple_8h.html" title="hydra/Tuple.h" alt="" coords="2532,191,2633,218"/>
 </map>

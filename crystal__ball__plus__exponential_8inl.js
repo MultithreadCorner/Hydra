@@ -1,5 +1,31 @@
 var crystal__ball__plus__exponential_8inl =
 [
     [ "CRYSTAL_BALL_PLUS_EXPONENTIAL_INL_", "crystal__ball__plus__exponential_8inl.html#ad214a963c61e0f6c0d84f51763a4f6e1", null ],
-    [ "main", "crystal__ball__plus__exponential_8inl.html#a1c03069360f1f90a556eb537e0ff8a72", null ]
+    [ "add", "crystal__ball__plus__exponential_8inl.html#a58e43a6eee990d884b2008760c6505c2", null ],
+    [ "catch", "crystal__ball__plus__exponential_8inl.html#a847ebf0b5067895a9c74f81825c76a00", null ],
+    [ "declarg", "crystal__ball__plus__exponential_8inl.html#a7dc0cdce190fb7c7f4b9ca73cf09ee6b", null ],
+    [ "EArg", "crystal__ball__plus__exponential_8inl.html#a32ea8a498b202f85a8d77adaac39ca1b", null ],
+    [ "Fill", "crystal__ball__plus__exponential_8inl.html#ad368805327f3ea0a471914a7b57f8759", null ],
+    [ "Hist_Data", "crystal__ball__plus__exponential_8inl.html#aa0a6a937bc6ca2cb3f0ae61d6b6809bc", null ],
+    [ "parse", "crystal__ball__plus__exponential_8inl.html#a1c06c263c31271c073a8f0735b1e4a16", null ],
+    [ "SetExtended", "crystal__ball__plus__exponential_8inl.html#ab33c4f5d33ac3a305332487f429789c6", null ],
+    [ "alpha", "crystal__ball__plus__exponential_8inl.html#a143fa1ae6e83f554763008ef6fc4829b", null ],
+    [ "argc", "crystal__ball__plus__exponential_8inl.html#a27fb769f88c3c17ca3490b75f7758431", null ],
+    [ "Background_PDF", "crystal__ball__plus__exponential_8inl.html#ae87cf30f58a40cae21dd7d985b83570c", null ],
+    [ "elapsed_d", "crystal__ball__plus__exponential_8inl.html#a8382ae2b90c3888089645b9a1e48ffae", null ],
+    [ "max", "crystal__ball__plus__exponential_8inl.html#a0b0ede69e8156eb97acc579b88e883de", null ],
+    [ "mean", "crystal__ball__plus__exponential_8inl.html#af5f88b70b94c2ada29011f672e3e88a4", null ],
+    [ "min", "crystal__ball__plus__exponential_8inl.html#aad36546e8175d2922bee165fe028fedc", null ],
+    [ "model", "crystal__ball__plus__exponential_8inl.html#a4494b924b71b8932dedd0783a4e7061f", null ],
+    [ "model_name", "crystal__ball__plus__exponential_8inl.html#a23b5b17c4667d01ec62aa77273f3ce96", null ],
+    [ "n", "crystal__ball__plus__exponential_8inl.html#a21f77208d6bc667560ff8aaf8f943b6a", null ],
+    [ "N_Background", "crystal__ball__plus__exponential_8inl.html#a0f54b691e46d546789081c719933be2e", null ],
+    [ "N_Signal", "crystal__ball__plus__exponential_8inl.html#ae2a396b472b4d22a6afba8289425db43", null ],
+    [ "nentries", "crystal__ball__plus__exponential_8inl.html#af8b0f365ee5d5b76a62688733e5016a1", null ],
+    [ "range", "crystal__ball__plus__exponential_8inl.html#a41c36559284ec68ca0e13c56558b5f09", null ],
+    [ "return", "crystal__ball__plus__exponential_8inl.html#a9717e7bbecb906637e86cef6da3d83c2", null ],
+    [ "sigma", "crystal__ball__plus__exponential_8inl.html#ae3f390b39c64799bb4571d8b850b1d7f", null ],
+    [ "Signal_PDF", "crystal__ball__plus__exponential_8inl.html#a06cec1bc75de861ff47a64af92566e57", null ],
+    [ "tau", "crystal__ball__plus__exponential_8inl.html#af09d0683face1f506ef2f42ab173b495", null ],
+    [ "try", "crystal__ball__plus__exponential_8inl.html#abe4cc9788f52e49485473dc699537388", null ]
 ];

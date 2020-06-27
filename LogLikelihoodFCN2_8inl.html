@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -105,26 +106,27 @@ $(document).ready(function(){initNavTree('LogLikelihoodFCN2_8inl.html','');});
 <div class="textblock"><code>#include &lt;<a class="el" href="">hydra/FCN.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/PDFSumExtendable.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/functors/LogLikelihood1.h</a>&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/transform_reduce.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/inner_product.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/transform_reduce.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/inner_product.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for LogLikelihoodFCN2.inl:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="LogLikelihoodFCN2_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="LogLikelihoodFCN2_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="LogLikelihoodFCN2_8inl__dep__incl.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="LogLikelihoodFCN2_8inl__dep__incl.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:classhydra_1_1LogLikelihoodFCN_3_01PDFSumExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fit.html#classhydra_1_1LogLikelihoodFCN_3_01PDFSumExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4">hydra::LogLikelihoodFCN&lt; PDFSumExtendable&lt; Pdfs... &gt;, IteratorD, IteratorW... &gt;</a></td></tr>
-<tr class="memdesc:classhydra_1_1LogLikelihoodFCN_3_01PDFSumExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4"><td class="mdescLeft">&#160;</td><td class="mdescRight">LogLikehood object for composed models represented by hydra::PDFSumExtendable&lt;Pdfs...&gt; objects.  <a href="group__fit.html#classhydra_1_1LogLikelihoodFCN_3_01PDFSumExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4">More...</a><br /></td></tr>
-<tr class="separator:classhydra_1_1LogLikelihoodFCN_3_01PDFSumExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1LogLikelihoodFCN_3_01PDFSumExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4.html">hydra::LogLikelihoodFCN&lt; PDFSumExtendable&lt; Pdfs... &gt;, IteratorD, IteratorW... &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -139,22 +141,17 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gaedfd3c104a7e4ee0ec981db5b9d1ab85"><td class="memTemplParams" colspan="2">template&lt;typename... Pdfs, typename Iterator , typename ... Iterators&gt; </td></tr>
-<tr class="memitem:gaedfd3c104a7e4ee0ec981db5b9d1ab85"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fit.html#gaedfd3c104a7e4ee0ec981db5b9d1ab85">hydra::make_loglikehood_fcn</a> (PDFSumExtendable&lt; Pdfs... &gt; const &amp;functor, Iterator first, Iterator last, Iterators... weights) -&gt; LogLikelihoodFCN&lt; PDFSumExtendable&lt; Pdfs... &gt;, Iterator, Iterators... &gt;</td></tr>
-<tr class="memdesc:gaedfd3c104a7e4ee0ec981db5b9d1ab85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conveniency function to build up loglikehood fcns.  <a href="group__fit.html#gaedfd3c104a7e4ee0ec981db5b9d1ab85">More...</a><br /></td></tr>
-<tr class="separator:gaedfd3c104a7e4ee0ec981db5b9d1ab85"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8512d7e57b7f4ba0afedb5184b4ffd9e"><td class="memTemplParams" colspan="2">template&lt;typename ... Pdfs, typename Iterable , typename ... Iterables, typename U &gt; </td></tr>
-<tr class="memitem:ga8512d7e57b7f4ba0afedb5184b4ffd9e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(!<a class="el" href="structhydra_1_1detail_1_1is__hydra__dense__histogram.html">hydra::detail::is_hydra_dense_histogram</a>&lt; Iterable &gt;::value) &amp;&amp;(!<a class="el" href="structhydra_1_1detail_1_1is__hydra__sparse__histogram.html">hydra::detail::is_hydra_sparse_histogram</a>&lt; Iterable &gt;::value) &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value &amp;&amp;U::value, LogLikelihoodFCN&lt; PDFSumExtendable&lt; Pdfs... &gt;, decltype(std::declval&lt; const Iterable &gt;).begin()), decltype(std::declval&lt; const Iterables &gt;).begin())... &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fit.html#ga8512d7e57b7f4ba0afedb5184b4ffd9e">hydra::make_loglikehood_fcn</a> (PDFSumExtendable&lt; Pdfs... &gt; const  &amp;functor, Iterable const  &amp;points, Iterables const  &amp;... weights)</td></tr>
-<tr class="memdesc:ga8512d7e57b7f4ba0afedb5184b4ffd9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conveniency function to build up loglikehood fcns.  <a href="group__fit.html#ga8512d7e57b7f4ba0afedb5184b4ffd9e">More...</a><br /></td></tr>
-<tr class="separator:ga8512d7e57b7f4ba0afedb5184b4ffd9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa7c4af135808c1321a7c324da5286a37"><td class="memTemplParams" colspan="2">template&lt;typename ... Pdfs, typename T , size_t N, hydra::detail::Backend BACKEND, typename D &gt; </td></tr>
-<tr class="memitem:gaa7c4af135808c1321a7c324da5286a37"><td class="memTemplItemLeft" align="right" valign="top">LogLikelihoodFCN&lt; PDFSumExtendable&lt; Pdfs... &gt;, decltype(std::declval&lt; DenseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, D &gt; &gt;).GetBinsCenters().begin()), decltype(std::declval&lt; DenseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, D &gt; &gt;).GetBinsContents().begin()) &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fit.html#gaa7c4af135808c1321a7c324da5286a37">hydra::make_loglikehood_fcn</a> (PDFSumExtendable&lt; Pdfs... &gt; const  &amp;functor, DenseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, D &gt; &amp;points)</td></tr>
-<tr class="memdesc:gaa7c4af135808c1321a7c324da5286a37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conveniency function to build up loglikehood fcns for densely binned datasets.  <a href="group__fit.html#gaa7c4af135808c1321a7c324da5286a37">More...</a><br /></td></tr>
-<tr class="separator:gaa7c4af135808c1321a7c324da5286a37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga26e764d25d35a8556ad8a31e78f92417"><td class="memTemplParams" colspan="2">template&lt;typename ... Pdfs, typename T , size_t N, hydra::detail::Backend BACKEND, typename D &gt; </td></tr>
-<tr class="memitem:ga26e764d25d35a8556ad8a31e78f92417"><td class="memTemplItemLeft" align="right" valign="top">LogLikelihoodFCN&lt; PDFSumExtendable&lt; Pdfs... &gt;, decltype(std::declval&lt; SparseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, D &gt; &gt;).GetBinsCenters().begin()), decltype(std::declval&lt; SparseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, D &gt; &gt;).GetBinsContents().begin()) &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fit.html#ga26e764d25d35a8556ad8a31e78f92417">hydra::make_loglikehood_fcn</a> (PDFSumExtendable&lt; Pdfs... &gt; const  &amp;functor, SparseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, D &gt; &amp;points)</td></tr>
-<tr class="memdesc:ga26e764d25d35a8556ad8a31e78f92417"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conveniency function to build up loglikehood fcns for densely binned datasets.  <a href="group__fit.html#ga26e764d25d35a8556ad8a31e78f92417">More...</a><br /></td></tr>
-<tr class="separator:ga26e764d25d35a8556ad8a31e78f92417"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8a000e95288951de54d3d420b07d3f13"><td class="memTemplParams" colspan="2">template&lt;typename... Pdfs, typename Iterator , typename ... Iterators&gt; </td></tr>
+<tr class="memitem:ga8a000e95288951de54d3d420b07d3f13"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterator.html">hydra::detail::is_iterator</a>&lt; Iterator &gt;::value &amp;&amp;detail::are_iterators&lt; Iterators... &gt;::value, LogLikelihoodFCN&lt; PDFSumExtendable&lt; Pdfs... &gt;, Iterator, Iterators... &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fit.html#ga8a000e95288951de54d3d420b07d3f13">hydra::make_loglikehood_fcn</a> (PDFSumExtendable&lt; Pdfs... &gt; const &amp;functor, Iterator first, Iterator last, Iterators... weights)</td></tr>
+<tr class="memdesc:ga8a000e95288951de54d3d420b07d3f13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conveniency function to build up loglikehood fcns.  <a href="group__fit.html#ga8a000e95288951de54d3d420b07d3f13">More...</a><br /></td></tr>
+<tr class="separator:ga8a000e95288951de54d3d420b07d3f13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad95e718c107a9b491fd272dfd4cd3623"><td class="memTemplParams" colspan="2">template&lt;typename ... Pdfs, typename Iterable , typename ... Iterables&gt; </td></tr>
+<tr class="memitem:gad95e718c107a9b491fd272dfd4cd3623"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(!detail::is_iterator&lt; Iterable &gt;::value) &amp;&amp;((sizeof...(Iterables)==0)||!detail::are_iterators&lt; Iterables... &gt;::value) &amp;&amp;(!<a class="el" href="structhydra_1_1detail_1_1is__hydra__dense__histogram.html">hydra::detail::is_hydra_dense_histogram</a>&lt; typename std::remove_reference&lt; Iterable &gt;::type &gt;::value) &amp;&amp;(!<a class="el" href="structhydra_1_1detail_1_1is__hydra__sparse__histogram.html">hydra::detail::is_hydra_sparse_histogram</a>&lt; typename std::remove_reference&lt; Iterable &gt;::type &gt;::value) &amp;&amp;detail::is_iterable&lt; Iterable &gt;::value &amp;&amp;detail::are_iterables&lt; Iterables... &gt;::value,LogLikelihoodFCN&lt; PDFSumExtendable&lt; Pdfs... &gt;, decltype(std::declval&lt; Iterable &gt;).begin()), decltype(std::declval&lt; Iterables &gt;).begin())... &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__fit.html#gad95e718c107a9b491fd272dfd4cd3623">hydra::make_loglikehood_fcn</a> (PDFSumExtendable&lt; Pdfs... &gt; const &amp;functor, Iterable &amp;&amp;points, Iterables &amp;&amp;... weights)</td></tr>
+<tr class="memdesc:gad95e718c107a9b491fd272dfd4cd3623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conveniency function to build up loglikehood fcns.  <a href="group__fit.html#gad95e718c107a9b491fd272dfd4cd3623">More...</a><br /></td></tr>
+<tr class="separator:gad95e718c107a9b491fd272dfd4cd3623"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a820a933e48fa338a812a9f88bfb18e56"><td class="memTemplParams" colspan="2">template&lt;typename ... Pdfs, typename Histogram &gt; </td></tr>
+<tr class="memitem:a820a933e48fa338a812a9f88bfb18e56"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; detail::is_hydra_dense_histogram&lt; Histogram &gt;::value||detail::is_hydra_sparse_histogram&lt; Histogram &gt;::value, LogLikelihoodFCN&lt; PDFSumExtendable&lt; Pdfs... &gt;, decltype(std::declval&lt; const Histogram &amp; &gt;).GetBinsCenters().begin()), decltype(std::declval&lt; const Histogram &amp; &gt;).GetBinsContents().begin()) &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a820a933e48fa338a812a9f88bfb18e56">hydra::make_loglikehood_fcn</a> (PDFSumExtendable&lt; Pdfs... &gt; const &amp;functor, Histogram const &amp;points)</td></tr>
+<tr class="separator:a820a933e48fa338a812a9f88bfb18e56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a0a1e420bb5dea0fe3e98b61049490378"></a>
@@ -177,7 +174,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="LogLikelihoodFCN2_8inl.html">LogLikelihoodFCN2.inl</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -96,23 +97,32 @@ $(document).ready(function(){initNavTree('functions_type_s.html','');});
 &#160;
 
 <h3><a id="index_s"></a>- s -</h3><ul>
+<li>signature
+: <a class="el" href="namespacehydra_1_1detail_1_1convolution.html#a7b64169931baf51605e7685c01c4756f">hydra::detail::convolution::_traits&lt; hydra_thrust::tuple&lt; Functor, Kernel &gt;, ArgType &gt;</a>
+</li>
+<li>siterator
+: <a class="el" href="group__fit.html#a9ee7c8acae710db4a0c0ba38412dfac1">hydra::SPlot&lt; Iterator, PDF1, PDF2, PDFs &gt;</a>
+</li>
 <li>size_type
-: <a class="el" href="group__phsp.html#a55fd8b866d88f509a1b72a75dfe5ad53">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+: <a class="el" href="classhydra_1_1detail_1_1gray__code.html#acb993ab831b16f42b6ae8c57896fc6c6">hydra::detail::gray_code&lt; LatticeT &gt;</a>
+, <a class="el" href="classhydra_1_1detail_1_1quasi__random__base.html#aa6a4772e44beef7d5f41f78633976776">hydra::detail::quasi_random_base&lt; DerivedT, LatticeT, SizeT &gt;</a>
 , <a class="el" href="classhydra_1_1multiarray_3_01T_00_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#aef7528f6d15716cf7c3c45cbf3f57a0e">hydra::multiarray&lt; T, N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-, <a class="el" href="classhydra_1_1multivector_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1tuple_3_01T_8_8_8_01_4_00_01hydra3da03b988538add1b3f476b1ea399ad2.html#adcc719f34fb1c5923527fabd627c7c05">hydra::multivector&lt; HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt;, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+, <a class="el" href="classhydra_1_1multivector_3_01hydra__thrust_1_1tuple_3_01T_8_8_8_01_4_00_01hydra_1_1detail_1_1Baaf5bb9c490efe1cc04683c31129e6041.html#a1b4376d1bae60e70d657ed2b02cd3943">hydra::multivector&lt; hydra_thrust::tuple&lt; T... &gt;, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+</li>
+<li>state_iterator
+: <a class="el" href="classhydra_1_1detail_1_1quasi__random__base.html#ac4a65f928ad5d59b06bf7c8cb051eac9">hydra::detail::quasi_random_base&lt; DerivedT, LatticeT, SizeT &gt;</a>
 </li>
 <li>state_t
 : <a class="el" href="structhydra_1_1detail_1_1ProcessCallsVegas_3_01FUNCTOR_00_01NDimensions_00_01hydra_1_1detail_1_1d02dd45e61a2dbf17b7be7b9bd27e346.html#a638e6208505ef7addce3c06efac2d4ee">hydra::detail::ProcessCallsVegas&lt; FUNCTOR, NDimensions, hydra::detail::BackendPolicy&lt; BACKEND &gt;, IteratorBackendReal, IteratorBackendUInt, GRND &gt;</a>
 </li>
-<li>storage_t
-: <a class="el" href="classhydra_1_1multivector_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1tuple_3_01T_8_8_8_01_4_00_01hydra3da03b988538add1b3f476b1ea399ad2.html#ae3025c226894dc0c99125e2fecc7183b">hydra::multivector&lt; HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt;, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+<li>storage_tuple
+: <a class="el" href="classhydra_1_1multivector_3_01hydra__thrust_1_1tuple_3_01T_8_8_8_01_4_00_01hydra_1_1detail_1_1Baaf5bb9c490efe1cc04683c31129e6041.html#a2f0d95d51817756d0f5e156d89efb89d">hydra::multivector&lt; hydra_thrust::tuple&lt; T... &gt;, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 </li>
 <li>storage_type
-: <a class="el" href="classhydra_1_1Cache_3_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_00_01Functors_8_8_8_01_4.html#a37caa91c16f254ab23fc40c533718605">hydra::Cache&lt; hydra::detail::BackendPolicy&lt; BACKEND &gt;, Functors... &gt;</a>
-, <a class="el" href="group__numerical__integration.html#a7a0573e98f331a0bb77800b074e6189d">hydra::GenzMalikRule&lt; DIM, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+: <a class="el" href="group__numerical__integration.html#a7a0573e98f331a0bb77800b074e6189d">hydra::GenzMalikRule&lt; DIM, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 </li>
 <li>system_t
-: <a class="el" href="structhydra_1_1detail_1_1IteratorTraits.html#a374eabceebf9934073e036256c5465da">hydra::detail::IteratorTraits&lt; Iterator &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1IteratorTraits.html#a17a7bb2e01bc4c661bf35d92fe5d52cf">hydra::detail::IteratorTraits&lt; Iterator &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -120,7 +130,7 @@ $(document).ready(function(){initNavTree('functions_type_s.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:03 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

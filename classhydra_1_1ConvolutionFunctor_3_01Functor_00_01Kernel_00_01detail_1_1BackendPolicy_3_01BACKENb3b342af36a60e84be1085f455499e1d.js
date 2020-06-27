@@ -1,0 +1,22 @@
+var classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d =
+[
+    [ "return_t", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#ad0025dd9a405940fafe169dffb434f1a", null ],
+    [ "ConvolutionFunctor", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#a87726051a794df4a02bddef1c73a7e71", null ],
+    [ "ConvolutionFunctor", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#adf4df1bc4e2cd710031f6848620f3d07", null ],
+    [ "ConvolutionFunctor", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#ac29931adc78ae970a59761d2ce685059", null ],
+    [ "~ConvolutionFunctor", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#a220e35d6188761f98f88ae7cb04807fe", null ],
+    [ "Dispose", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#a98bd9ce1ccf62484ba95ad68137affc7", null ],
+    [ "Evaluate", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#a686ab9fdc080d2fc82d11d1fd60907f4", null ],
+    [ "GetDeviceData", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#aa2c70176dd2d8ab9fc54542cce952430", null ],
+    [ "GetFFTData", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#aa08f79f92167f1c9c3fad8acf4dbbea9", null ],
+    [ "GetHostData", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#a81578f09046ac89597b6eeb24684b25b", null ],
+    [ "GetMax", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#a2a7762eb190fcf1f6574fa298c11ad99", null ],
+    [ "GetMin", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#a336047a7767664e2485934f224d98e8e", null ],
+    [ "GetNSamples", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#ad19606a1509ebd313ec8b03a7f5e5542", null ],
+    [ "GetXMax", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#a6d0292352928890621e14ab0e16cab4d", null ],
+    [ "GetXMin", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#a220d08f0239058b2077aae400434f13f", null ],
+    [ "IsInterpolated", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#a0f20ecd4cb864425b15efaa7267c2c24", null ],
+    [ "operator=", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#a054fdb81aa0ed2c2f3a91425c31fe655", null ],
+    [ "SetInterpolate", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#a1d7175d6d132932d0fa34be3e716bb25", null ],
+    [ "Update", "classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#a61a32de6bbf6e5e9178be68a0ce1c6b5", null ]
+];

@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -110,33 +111,34 @@ $(document).ready(function(){initNavTree('SPlot_8h.html','');});
 <code>#include &lt;<a class="el" href="">hydra/detail/FunctorTraits.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/BackendPolicy.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/PDFSumExtendable.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/multiarray.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/Distance.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/AddPdfBase.h</a>&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/tuple.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/Eigen/Dense&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Tuple.h</a>&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/tuple.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/transform_reduce.h&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/functors/ProcessSPlot.h</a>&gt;</code><br />
+<code>#include &lt;Eigen/Dense&gt;</code><br />
 <code>#include &lt;initializer_list&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/detail/SPlot.inl</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for SPlot.h:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="SPlot_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="SPlot_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="SPlot_8h__dep__incl.svg" width="179" height="187"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="SPlot_8h__dep__incl.svg" width="542" height="187"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1SPlot.html">hydra::SPlot&lt; PDF1, PDF2, PDFs &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1SPlot_1_1index.html">hydra::SPlot&lt; PDF1, PDF2, PDFs &gt;::index&lt; N, I &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:classhydra_1_1SPlot"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__fit.html#classhydra_1_1SPlot">hydra::SPlot&lt; Iterator, PDF1, PDF2, PDFs &gt;</a></td></tr>
+<tr class="memdesc:classhydra_1_1SPlot"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of {s}_{Plot} technique for statistical unfolding of sample containing events from different sources.  <a href="group__fit.html#classhydra_1_1SPlot">More...</a><br /></td></tr>
+<tr class="separator:classhydra_1_1SPlot"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -146,9 +148,14 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:af5314ace45b4baa7084a9addb625ca99"><td class="memTemplParams" colspan="2">template&lt;typename PDF1 , typename PDF2 , typename ... PDFs&gt; </td></tr>
-<tr class="memitem:af5314ace45b4baa7084a9addb625ca99"><td class="memTemplItemLeft" align="right" valign="top">SPlot&lt; PDF1, PDF2, PDFs... &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#af5314ace45b4baa7084a9addb625ca99">hydra::make_splot</a> (PDFSumExtendable&lt; PDF1, PDF2, PDFs... &gt; const &amp;pdf)</td></tr>
-<tr class="separator:af5314ace45b4baa7084a9addb625ca99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f74fb09a286265393fbce752c0c32cb"><td class="memTemplParams" colspan="2">template&lt;typename Iterator , typename PDF1 , typename PDF2 , typename ... PDFs&gt; </td></tr>
+<tr class="memitem:a7f74fb09a286265393fbce752c0c32cb"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; detail::is_iterator&lt; Iterator &gt;::value, SPlot&lt; Iterator, PDF1, PDF2, PDFs... &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a7f74fb09a286265393fbce752c0c32cb">hydra::make_splot</a> (PDFSumExtendable&lt; PDF1, PDF2, PDFs... &gt; const &amp;pdf, Iterator first, Iterator last)</td></tr>
+<tr class="memdesc:a7f74fb09a286265393fbce752c0c32cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience function for instantiating <a class="el" href="group__fit.html#classhydra_1_1SPlot" title="Implementation of {s}_{Plot} technique for statistical unfolding of sample containing events from dif...">SPlot</a> objects using type deduction.  <a href="namespacehydra.html#a7f74fb09a286265393fbce752c0c32cb">More...</a><br /></td></tr>
+<tr class="separator:a7f74fb09a286265393fbce752c0c32cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5ead3609a0334574dba725caebf656b"><td class="memTemplParams" colspan="2">template&lt;typename Iterable , typename PDF1 , typename PDF2 , typename ... PDFs&gt; </td></tr>
+<tr class="memitem:ac5ead3609a0334574dba725caebf656b"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; detail::is_iterable&lt; Iterable &gt;::value, SPlot&lt; decltype(std::declval&lt; Iterable &gt;).begin()), PDF1, PDF2, PDFs... &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ac5ead3609a0334574dba725caebf656b">hydra::make_splot</a> (PDFSumExtendable&lt; PDF1, PDF2, PDFs... &gt; const &amp;pdf, Iterable &amp;&amp;<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>)</td></tr>
+<tr class="memdesc:ac5ead3609a0334574dba725caebf656b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience function for instantiating <a class="el" href="group__fit.html#classhydra_1_1SPlot" title="Implementation of {s}_{Plot} technique for statistical unfolding of sample containing events from dif...">SPlot</a> objects using type deduction.  <a href="namespacehydra.html#ac5ead3609a0334574dba725caebf656b">More...</a><br /></td></tr>
+<tr class="separator:ac5ead3609a0334574dba725caebf656b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -156,7 +163,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="SPlot_8h.html">SPlot.h</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

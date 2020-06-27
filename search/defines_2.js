@@ -6,6 +6,8 @@ var searchData=
   ['basic_5ffit_5frange_5fsemantics_5fcu_5f',['BASIC_FIT_RANGE_SEMANTICS_CU_',['../basic__fit__range__semantics_8cu.html#aeb10014316e8d665a1d0ba877cfdf6b5',1,'basic_fit_range_semantics.cu']]],
   ['basic_5ffit_5frange_5fsemantics_5finl_5f',['BASIC_FIT_RANGE_SEMANTICS_INL_',['../basic__fit__range__semantics_8inl.html#aa60a9a824a2be2c112502316ed1e0e7c',1,'basic_fit_range_semantics.inl']]],
   ['binned_5fextended_5flogll_5ffit_5finl_5f',['BINNED_EXTENDED_LOGLL_FIT_INL_',['../binned__extended__logLL__fit_8inl.html#a84271925bdcdff0a2d5fa85706f0f766',1,'binned_extended_logLL_fit.inl']]],
+  ['booststrappedrange_5finl_5f',['BOOSTSTRAPPEDRANGE_INL_',['../BooststrappedRange_8inl.html#a15576f5bba93d7fa0d82ae68bf86045f',1,'BooststrappedRange.inl']]],
+  ['booststrapping_5finl_5f',['BOOSTSTRAPPING_INL_',['../booststrapping_8inl.html#a85b3b9805971482e2e8466fca21844ba',1,'booststrapping.inl']]],
   ['breit_5fwigner_5fplus_5fchebychev_5fcpp_5f',['BREIT_WIGNER_PLUS_CHEBYCHEV_CPP_',['../breit__wigner__plus__chebychev_8cpp.html#ab9f87c6a63c2c018fee7fd5880381011',1,'breit_wigner_plus_chebychev.cpp']]],
   ['breit_5fwigner_5fplus_5fchebychev_5fcu_5f',['BREIT_WIGNER_PLUS_CHEBYCHEV_CU_',['../breit__wigner__plus__chebychev_8cu.html#a40397d26d34b38161b1e113a9f5f0cf1',1,'breit_wigner_plus_chebychev.cu']]],
   ['breit_5fwigner_5fplus_5fchebychev_5finl_5f',['BREIT_WIGNER_PLUS_CHEBYCHEV_INL_',['../breit__wigner__plus__chebychev_8inl.html#a149f9a554d983e06932da700192b4bc2',1,'breit_wigner_plus_chebychev.inl']]],

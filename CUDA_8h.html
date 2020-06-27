@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -104,17 +105,19 @@ $(document).ready(function(){initNavTree('CUDA_8h.html','');});
 <div class="contents">
 <div class="textblock"><code>#include &lt;<a class="el" href="">hydra/detail/Config.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/BackendPolicy.h</a>&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/system/cuda/detail/par.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/system/cuda/vector.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/system/cuda/detail/par.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/system/cuda/vector.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for CUDA.h:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="CUDA_8h__incl.svg" width="100%" height="473"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="CUDA_8h__incl.svg" width="100%" height="484"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="CUDA_8h__dep__incl.svg" width="111" height="262"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="CUDA_8h__dep__incl.svg" width="100%" height="552"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -138,8 +141,8 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:aeabcc06816d6698e9022fdacecabc1fc"><td class="memItemLeft" align="right" valign="top">typedef HYDRA_EXTERNAL_NS::thrust::system::cuda::detail::par_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail_1_1cuda.html#aeabcc06816d6698e9022fdacecabc1fc">hydra::detail::cuda::cuda_t</a></td></tr>
-<tr class="separator:aeabcc06816d6698e9022fdacecabc1fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbb884122783328e4b85264864cfc6df"><td class="memItemLeft" align="right" valign="top">typedef hydra_thrust::system::cuda::detail::par_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail_1_1cuda.html#afbb884122783328e4b85264864cfc6df">hydra::detail::cuda::cuda_t</a></td></tr>
+<tr class="separator:afbb884122783328e4b85264864cfc6df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05c7818f1ebb50d17aff5dc1f7e0c2ab"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; <a class="el" href="namespacehydra_1_1detail.html#a1461b18b118ced9f91233acbe90fd897a3ef47f45ff0de8694163bcfe498e4a89">hydra::detail::Backend::Cuda</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1cuda.html#a05c7818f1ebb50d17aff5dc1f7e0c2ab">hydra::cuda::sys_t</a></td></tr>
 <tr class="separator:a05c7818f1ebb50d17aff5dc1f7e0c2ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acca3fb246e261e9cbae9d25253c65e92"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
@@ -159,7 +162,7 @@ Variables</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="dir_0159963d6f903ad9528fa1a7a3a6a118.html">policies</a></li><li class="navelem"><a class="el" href="dir_7def6ed35b93d1d31991589929154947.html">backends</a></li><li class="navelem"><a class="el" href="CUDA_8h.html">CUDA.h</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

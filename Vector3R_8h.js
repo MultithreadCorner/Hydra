@@ -1,5 +1,6 @@
 var Vector3R_8h =
 [
+    [ "__hydra_align__", "Vector3R_8h.html#ga315c1e042b983e5b623b5046074b7c56", null ],
     [ "cross", "Vector3R_8h.html#a6d55d71b4eca1da2fac83a615ea4b990", null ],
     [ "operator*", "Vector3R_8h.html#ad01febd59c4dfebc87b5d363955d65db", null ],
     [ "operator*", "Vector3R_8h.html#a0dce6130507b07eaac142c1815ade3f2", null ],

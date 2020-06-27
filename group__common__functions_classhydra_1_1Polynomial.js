@@ -1,9 +1,8 @@
 var group__common__functions_classhydra_1_1Polynomial =
 [
-    [ "Polynomial", "group__common__functions.html#a569b9b8a140b2a48b9ae2997bbb92a4e", null ],
-    [ "Polynomial", "group__common__functions.html#a5ffafab23eed5d7890deb974fa868efd", null ],
-    [ "Polynomial", "group__common__functions.html#ab4190b85088c0a99c2327ff997957827", null ],
-    [ "Evaluate", "group__common__functions.html#ae705a6ec17adf4bea1ecd71973e55c01", null ],
-    [ "Evaluate", "group__common__functions.html#aa34b35d90c9c25b32485cd8a06541348", null ],
-    [ "operator=", "group__common__functions.html#a9711464ba4efeab3aca1d50ce3e1ac04", null ]
+    [ "Polynomial", "group__common__functions.html#a02876f6e4ebbb1a592c2de8bef594a95", null ],
+    [ "Polynomial", "group__common__functions.html#abd068af2d33ead4ccdbb0b0f7a3bae23", null ],
+    [ "Polynomial", "group__common__functions.html#af41f9bbdc55a0c02a6437f1083ed0ebf", null ],
+    [ "Evaluate", "group__common__functions.html#ac392a390aa9109c51d6e1407b3ee79d3", null ],
+    [ "operator=", "group__common__functions.html#afc6b71342380534ba8507b618429756a", null ]
 ];

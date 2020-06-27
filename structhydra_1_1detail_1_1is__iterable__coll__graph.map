@@ -1,2 +1,2 @@
-<map id="hydra::detail::is_iterable&lt; T, U &gt;" name="hydra::detail::is_iterable&lt; T, U &gt;">
+<map id="hydra::detail::is_iterable&lt; T, typename &gt;" name="hydra::detail::is_iterable&lt; T, typename &gt;">
 </map>

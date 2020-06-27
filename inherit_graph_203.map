@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$group__common__functions.html#classhydra_1_1IntegrationFormula_3_01ChiSquare_3_01ArgIndex_01_4_00_011_01_4" title="hydra::IntegrationFormula\l\&lt; ChiSquare\&lt; ArgIndex \&gt;, 1 \&gt;" alt="" coords="5,5,203,47"/>
+<area shape="rect" id="node1" href="$classhydra_1_1detail_1_1quasi__random__base.html" title="hydra::detail::quasi\l_random_base\&lt; gray_code\l\&lt; detail::sobol_lattice\l\&lt; UIntType, D, W, SobolTables\l \&gt; \&gt;, detail::sobol_lattice\l\&lt; UIntType, D, W, SobolTables\l \&gt;, detail::sobol_lattice\&lt; UIntType,\l D, W, SobolTables \&gt; ::value_type \&gt;" alt="" coords="5,5,239,135"/>
+<area shape="rect" id="node2" href="$classhydra_1_1detail_1_1gray__code.html" title="hydra::detail::gray\l_code\&lt; detail::sobol\l_lattice\&lt; UIntType, D,\l W, SobolTables \&gt; \&gt;" alt="" coords="287,35,437,105"/>
+<area shape="rect" id="node3" href="$classhydra_1_1sobol__engine.html" title="Instantiations of class template sobol. The sobol_engine uses the algorithm described in &#160;[Bratley+Fo..." alt="" coords="485,49,700,91"/>
 </map>

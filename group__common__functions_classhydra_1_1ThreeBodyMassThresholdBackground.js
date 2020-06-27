@@ -1,9 +1,8 @@
 var group__common__functions_classhydra_1_1ThreeBodyMassThresholdBackground =
 [
-    [ "ThreeBodyMassThresholdBackground", "group__common__functions.html#a4928aabd9b6ecb4a066a8f5a67deb9d3", null ],
-    [ "ThreeBodyMassThresholdBackground", "group__common__functions.html#aa1dc0ce1b9811316395b255b21e0a4fb", null ],
-    [ "ThreeBodyMassThresholdBackground", "group__common__functions.html#adb7f3683dfdbc48671ba77f531411fb7", null ],
-    [ "Evaluate", "group__common__functions.html#a32c7612d29351ea259db047afcfce3c4", null ],
-    [ "Evaluate", "group__common__functions.html#a534792403395bf8b8cbf64ccd772c0bb", null ],
-    [ "operator=", "group__common__functions.html#a0455afdeeaee67dbbe6c1271dc45880d", null ]
+    [ "ThreeBodyMassThresholdBackground", "group__common__functions.html#af316362671ac611530238433cff541f8", null ],
+    [ "ThreeBodyMassThresholdBackground", "group__common__functions.html#a943232bc1704e240058195da5ca99e2b", null ],
+    [ "ThreeBodyMassThresholdBackground", "group__common__functions.html#a460fbdebe80e323b93e4e69e4af0e349", null ],
+    [ "Evaluate", "group__common__functions.html#a9e2d1b93915837d7c100c5c504156df5", null ],
+    [ "operator=", "group__common__functions.html#ad7aa5c46bee39e1ac9eb5f893445ca76", null ]
 ];

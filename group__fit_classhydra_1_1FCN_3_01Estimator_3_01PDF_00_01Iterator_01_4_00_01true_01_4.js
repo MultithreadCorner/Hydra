@@ -1,0 +1,28 @@
+var group__fit_classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_00_01true_01_4 =
+[
+    [ "iterator", "group__fit.html#a4be3eceafbd962f7a9341b2bed104e71", null ],
+    [ "FCN", "group__fit.html#a435fbf4d53c7243b45eb078633f4af30", null ],
+    [ "FCN", "group__fit.html#a229cfac87df3483652ef73c0dc092af4", null ],
+    [ "FCN", "group__fit.html#a638631163ae807117dc5aa6d8265397b", null ],
+    [ "~FCN", "group__fit.html#aed49fbb0222add7555a64394d762fd47", null ],
+    [ "begin", "group__fit.html#adf09ec6a27f265f60fdbf3bbe9e104d2", null ],
+    [ "end", "group__fit.html#a6f744c2f7d449f142100df2d5dda11b1", null ],
+    [ "ErrorDef", "group__fit.html#a0e4b4777aa9a54aa1a59c49dc76c08d5", null ],
+    [ "GetBegin", "group__fit.html#acf3cf7d7c72e21d2c1f3d88cf9504d7d", null ],
+    [ "GetDataSize", "group__fit.html#a04df0340ac8360edaef102a210d7115b", null ],
+    [ "GetEnd", "group__fit.html#a324047d025377c98fd37475c93879fc0", null ],
+    [ "GetErrorDef", "group__fit.html#a7f7424e9a43b874b11bd711742edb1e3", null ],
+    [ "GetFcnMaxValue", "group__fit.html#a13f71b73f98e1bdf4c8eecd602cb2d6b", null ],
+    [ "GetParameters", "group__fit.html#a3f004e374d8d40510a76c04f81de6681", null ],
+    [ "GetParameters", "group__fit.html#a9a403b628b52425a73e1c675b8ec45bc", null ],
+    [ "GetPDF", "group__fit.html#a706de00245500ae3833990a25b0ea1ab", null ],
+    [ "GetPDF", "group__fit.html#a08402cf240b5dc50f9123bc45f113452", null ],
+    [ "operator()", "group__fit.html#a4dc75a1b3fca47899a2430d4a3db7735", null ],
+    [ "operator=", "group__fit.html#a06a295ea03f0e3e11864dbcccf8a030f", null ],
+    [ "SetBegin", "group__fit.html#afb465800413f4bcc772e30d64fec0489", null ],
+    [ "SetEnd", "group__fit.html#afd2138af6a7c955c9ae8800335217524", null ],
+    [ "SetErrorDef", "group__fit.html#ab259898d21914d73a90bf7913696be4e", null ],
+    [ "SetFcnMaxValue", "group__fit.html#aa1ddfcd85f90992b24754234ab4f7940", null ],
+    [ "SetParameters", "group__fit.html#a4559863fc3281a7835a3a9d70f3668cb", null ],
+    [ "Up", "group__fit.html#aeaaa75c8f1544a3988685ff20295a2cb", null ]
+];

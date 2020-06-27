@@ -1,0 +1,4 @@
+<map id="hydra::detail::functor_traits&lt; T &gt;" name="hydra::detail::functor_traits&lt; T &gt;">
+<area shape="rect" id="node2" href="$namespacehydra_1_1detail.html" title="{hydra::detail::functor\l_traits\&lt; decltype(&amp;T::\loperator())\&gt;\n||}" alt="" coords="5,160,152,267"/>
+<area shape="rect" id="node3" href="$structhydra_1_1detail_1_1lambda__traits.html" title="{hydra::detail::lambda\l_traits\&lt; T \&gt;\n||}" alt="" coords="7,316,150,408"/>
+</map>

@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -99,6 +100,21 @@ $(document).ready(function(){initNavTree('functions_n.html','');});
 <li>Name()
 : <a class="el" href="group__fit.html#abd604574084c4877e12eb4a429d3a5bf">hydra::Parameter</a>
 </li>
+<li>name_type
+: <a class="el" href="structhydra_1_1detail_1_1FunctionArgument.html#aa95a6a70064024ab342dca4c558439f7">hydra::detail::FunctionArgument&lt; Derived, Type &gt;</a>
+</li>
+<li>NCalls()
+: <a class="el" href="structhydra_1_1RngFormula_3_01BifurcatedGaussian_3_01ArgType_01_4_01_4.html#a6c6e91a6d363defd21485f365ee2ccb1">hydra::RngFormula&lt; BifurcatedGaussian&lt; ArgType &gt; &gt;</a>
+, <a class="el" href="structhydra_1_1RngFormula_3_01BreitWignerNR_3_01ArgType_01_4_01_4.html#a392f1e6b9d1c672d0017f0463c2e64ed">hydra::RngFormula&lt; BreitWignerNR&lt; ArgType &gt; &gt;</a>
+, <a class="el" href="group__common__functions.html#ac2baa93a942b9196ffce3893422707ed">hydra::RngFormula&lt; ChiSquare&lt; ArgType &gt; &gt;</a>
+, <a class="el" href="structhydra_1_1RngFormula_3_01Exponential_3_01ArgType_01_4_01_4.html#a60fdba864e69773a9763784b40a73ecf">hydra::RngFormula&lt; Exponential&lt; ArgType &gt; &gt;</a>
+, <a class="el" href="structhydra_1_1RngFormula_3_01Gaussian_3_01ArgType_01_4_01_4.html#a1a2dfcc71dbce3d267c05f7e16f19ed2">hydra::RngFormula&lt; Gaussian&lt; ArgType &gt; &gt;</a>
+, <a class="el" href="structhydra_1_1RngFormula_3_01JohnsonSU_3_01ArgType_01_4_01_4.html#ac21c954903e4a31ef65c923707fb6f13">hydra::RngFormula&lt; JohnsonSU&lt; ArgType &gt; &gt;</a>
+, <a class="el" href="structhydra_1_1RngFormula_3_01LogNormal_3_01ArgType_01_4_01_4.html#ac89c934f45eb2adcd3d027aeb8865f4c">hydra::RngFormula&lt; LogNormal&lt; ArgType &gt; &gt;</a>
+, <a class="el" href="structhydra_1_1RngFormula_3_01TrapezoidalShape_3_01ArgType_01_4_01_4.html#aed463ad6f6ad0796bacdda7479572f96">hydra::RngFormula&lt; TrapezoidalShape&lt; ArgType &gt; &gt;</a>
+, <a class="el" href="structhydra_1_1RngFormula_3_01TriangularShape_3_01ArgType_01_4_01_4.html#a811e55e3632338dd0bd9f35e14df2676">hydra::RngFormula&lt; TriangularShape&lt; ArgType &gt; &gt;</a>
+, <a class="el" href="structhydra_1_1RngFormula_3_01UniformShape_3_01ArgType_01_4_01_4.html#a912200da05e9aa8a77284781fe5ae8e9">hydra::RngFormula&lt; UniformShape&lt; ArgType &gt; &gt;</a>
+</li>
 <li>nfunctors
 : <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a126b3cbaeb8c685bcf47cce7883b7583">hydra::detail::CovMatrixUnary&lt; F1, F2, Fs &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1SWeights.html#a83dd4ae7904e4a657c0c6b1c01f6e2a9">hydra::detail::SWeights&lt; F1, F2, Fs &gt;</a>
@@ -106,14 +122,26 @@ $(document).ready(function(){initNavTree('functions_n.html','');});
 <li>NonResonant()
 : <a class="el" href="classNonResonant.html#a3d146dea7af33b7788901f7f637ef824">NonResonant</a>
 </li>
-<li>Normalize()
-: <a class="el" href="group__fit.html#ade7dcfc7ce1ec528e0e61b979ef819d1">hydra::Pdf&lt; FUNCTOR, INTEGRATOR &gt;</a>
+<li>Norm()
+: <a class="el" href="classNorm.html#a72ba9d84ff64555b7fb361ac51806d1d">Norm&lt; T &gt;</a>
+</li>
+<li>normal()
+: <a class="el" href="structhydra_1_1RngBase.html#a84bc8391ffd81b64a0bc6aac28f28b99">hydra::RngBase</a>
+</li>
+<li>normal_rng_type
+: <a class="el" href="structhydra_1_1RngBase.html#a32f9ea5f6f18edaf99ec72cb505f6c62">hydra::RngBase</a>
+</li>
+<li>NormalizeFFT()
+: <a class="el" href="structhydra_1_1detail_1_1convolution_1_1NormalizeFFT.html#a413dd8d9486976046b32762dfa7aff85">hydra::detail::convolution::NormalizeFFT&lt; T &gt;</a>
 </li>
 <li>npdfs
 : <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a7d1de5d62d4b0eab8ff198391723e168">hydra::detail::AddPdfFunctor&lt; PDF1, PDF2, PDFs &gt;</a>
 , <a class="el" href="group__fit.html#a19678b5d43cd6f93dc8e790b1018dc8e">hydra::PDFSumExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
 , <a class="el" href="group__fit.html#a32280b9960487e1b223b433f6ed5348b">hydra::PDFSumNonExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
-, <a class="el" href="classhydra_1_1SPlot.html#a0661f1e49edd8ea93e2a5ba33c76ce09">hydra::SPlot&lt; PDF1, PDF2, PDFs &gt;</a>
+, <a class="el" href="group__fit.html#aa8449f6742b0f4855689843122b319e5">hydra::SPlot&lt; Iterator, PDF1, PDF2, PDFs &gt;</a>
+</li>
+<li>num_polynomials
+: <a class="el" href="structhydra_1_1detail_1_1SobolTable.html#a19c1ebd678f1678cea9ec4bf9032fd42">hydra::detail::SobolTable</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -121,7 +149,7 @@ $(document).ready(function(){initNavTree('functions_n.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:03 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

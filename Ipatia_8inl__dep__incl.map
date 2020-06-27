@@ -1,9 +1,12 @@
 <map id="Ipatia.inl" name="Ipatia.inl">
-<area shape="rect" id="node2" href="$Ipatia_8h.html" title="Ipatia.h" alt="" coords="295,80,360,107"/>
-<area shape="rect" id="node3" href="$Ipatia__plus__argus_8inl.html" title="Ipatia_plus_argus.inl" alt="" coords="178,155,319,181"/>
-<area shape="rect" id="node6" href="$particle__mass_8inl.html" title="particle_mass.inl" alt="" coords="347,155,467,181"/>
-<area shape="rect" id="node4" href="$ipatia__plus__argus_8cpp.html" title="ipatia_plus_argus.cpp" alt="" coords="5,229,153,256"/>
-<area shape="rect" id="node5" href="$ipatia__plus__argus_8cu.html" title="ipatia_plus_argus.cu" alt="" coords="178,229,319,256"/>
-<area shape="rect" id="node7" href="$particle__mass_8cpp.html" title="particle_mass.cpp" alt="" coords="343,229,471,256"/>
-<area shape="rect" id="node8" href="$particle__mass_8cu.html" title="particle_mass.cu" alt="" coords="496,229,617,256"/>
+<area shape="rect" id="node2" href="$Ipatia_8h.html" title="Ipatia.h" alt="" coords="498,80,563,107"/>
+<area shape="rect" id="node3" href="$convolute__functions_8inl.html" title="convolute_functions.inl" alt="" coords="193,155,348,181"/>
+<area shape="rect" id="node6" href="$Ipatia__plus__argus_8inl.html" title="Ipatia_plus_argus.inl" alt="" coords="460,155,601,181"/>
+<area shape="rect" id="node9" href="$particle__mass_8inl.html" title="particle_mass.inl" alt="" coords="715,155,835,181"/>
+<area shape="rect" id="node4" href="$convolute__functions_8cpp.html" title="convolute_functions.cpp" alt="" coords="5,229,168,256"/>
+<area shape="rect" id="node5" href="$convolute__functions_8cu.html" title="convolute_functions.cu" alt="" coords="193,229,349,256"/>
+<area shape="rect" id="node7" href="$ipatia__plus__argus_8cpp.html" title="ipatia_plus_argus.cpp" alt="" coords="373,229,521,256"/>
+<area shape="rect" id="node8" href="$ipatia__plus__argus_8cu.html" title="ipatia_plus_argus.cu" alt="" coords="545,229,687,256"/>
+<area shape="rect" id="node10" href="$particle__mass_8cpp.html" title="particle_mass.cpp" alt="" coords="711,229,839,256"/>
+<area shape="rect" id="node11" href="$particle__mass_8cu.html" title="particle_mass.cu" alt="" coords="863,229,985,256"/>
 </map>

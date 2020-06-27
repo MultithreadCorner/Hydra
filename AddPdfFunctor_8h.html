@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -107,17 +108,19 @@ $(document).ready(function(){initNavTree('AddPdfFunctor_8h.html','');});
 <code>#include &lt;<a class="el" href="">hydra/Parameter.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/utility/Utility_Tuple.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/utility/Generic.h</a>&gt;</code><br />
-<code>#include &lt;hydra/detail/external/thrust/tuple.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/tuple.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Pdf.h</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for AddPdfFunctor.h:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="AddPdfFunctor_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="AddPdfFunctor_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="AddPdfFunctor_8h__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="AddPdfFunctor_8h__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -137,13 +140,13 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aa6e9567de066ffc2ee411b913e068465"><td class="memTemplParams" colspan="2">template&lt;typename Tup &gt; </td></tr>
-<tr class="memitem:aa6e9567de066ffc2ee411b913e068465"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#aa6e9567de066ffc2ee411b913e068465">hydra::detail::get_functor_tuple</a> (Tup &amp;pdfs) -&gt; decltype(get_functor_tuple_helper(pdfs, make_index_sequence&lt; HYDRA_EXTERNAL_NS::thrust::tuple_size&lt; Tup &gt;::value &gt;</td></tr>
-<tr class="separator:aa6e9567de066ffc2ee411b913e068465"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb5cece13dc19ee98f60f927d7c615c2"><td class="memTemplParams" colspan="2">template&lt;typename Tup , size_t ... index&gt; </td></tr>
-<tr class="memitem:adb5cece13dc19ee98f60f927d7c615c2"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#adb5cece13dc19ee98f60f927d7c615c2">hydra::detail::get_functor_tuple_helper</a> (Tup &amp;pdfs, index_sequence&lt; index... &gt;) -&gt; decltype(HYDRA_EXTERNAL_NS::thrust::make_tuple(HYDRA_EXTERNAL_NS::thrust::get&lt; index &gt;(pdfs).GetFunctor()...))</td></tr>
-<tr class="separator:adb5cece13dc19ee98f60f927d7c615c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c688d5b722922805a5837cac93a6411"><td class="memItemLeft" align="right" valign="top">return&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a7c688d5b722922805a5837cac93a6411">hydra::detail::get_functor_tuple_helper</a> (pdfs, make_index_sequence&lt; Size &gt; { })</td></tr>
+<tr class="memitem:a8cb37313145410697a80a4a7786a1712"><td class="memTemplParams" colspan="2">template&lt;typename Tup &gt; </td></tr>
+<tr class="memitem:a8cb37313145410697a80a4a7786a1712"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a8cb37313145410697a80a4a7786a1712">hydra::detail::get_functor_tuple</a> (Tup &amp;pdfs) -&gt; decltype(get_functor_tuple_helper(pdfs, make_index_sequence&lt; hydra_thrust::tuple_size&lt; Tup &gt;::value &gt;</td></tr>
+<tr class="separator:a8cb37313145410697a80a4a7786a1712"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a500db4ea93e7304d994ed97337f1c479"><td class="memTemplParams" colspan="2">template&lt;typename Tup , size_t ... index&gt; </td></tr>
+<tr class="memitem:a500db4ea93e7304d994ed97337f1c479"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a500db4ea93e7304d994ed97337f1c479">hydra::detail::get_functor_tuple_helper</a> (Tup &amp;pdfs, index_sequence&lt; index... &gt;) -&gt; decltype(hydra_thrust::make_tuple(hydra_thrust::get&lt; index &gt;(pdfs).GetFunctor()...))</td></tr>
+<tr class="separator:a500db4ea93e7304d994ed97337f1c479"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c688d5b722922805a5837cac93a6411"><td class="memItemLeft" align="right" valign="top"><a class="el" href="basic__distributions_8inl.html#a9717e7bbecb906637e86cef6da3d83c2">return</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a7c688d5b722922805a5837cac93a6411">hydra::detail::get_functor_tuple_helper</a> (pdfs, make_index_sequence&lt; Size &gt; { })</td></tr>
 <tr class="separator:a7c688d5b722922805a5837cac93a6411"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
@@ -152,7 +155,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="dir_35ca0ad8653ac3849130d5ccd34a6c7d.html">functors</a></li><li class="navelem"><a class="el" href="AddPdfFunctor_8h.html">AddPdfFunctor.h</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:23 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

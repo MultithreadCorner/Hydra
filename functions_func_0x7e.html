@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -96,20 +97,47 @@ $(document).ready(function(){initNavTree('functions_func_0x7e.html','');});
 &#160;
 
 <h3><a id="index_0x7e"></a>- ~ -</h3><ul>
-<li>~Convolution()
-: <a class="el" href="classhydra_1_1Convolution.html#a5b3de30191777b1f361a27cbf886d3fa">hydra::Convolution&lt; Functor, Kernel, ArgIndex &gt;</a>
+<li>~BaseCuFFT()
+: <a class="el" href="classhydra_1_1BaseCuFFT.html#acf1844e83f6364006b42875b0b44f9a5">hydra::BaseCuFFT&lt; InputType, OutputType, PlannerType &gt;</a>
+</li>
+<li>~BaseFFTW()
+: <a class="el" href="classhydra_1_1BaseFFTW.html#aeee341a7f3ebfbf6e43bb1295a77b359">hydra::BaseFFTW&lt; InputType, OutputType, PlannerType &gt;</a>
+</li>
+<li>~ComplexToComplexCuFFT()
+: <a class="el" href="classhydra_1_1ComplexToComplexCuFFT.html#a6f44f09e2f9fa69dea2f0376e685d32d">hydra::ComplexToComplexCuFFT&lt; T, InputType, OutputType, PlanType &gt;</a>
+</li>
+<li>~ComplexToComplexFFTW()
+: <a class="el" href="classhydra_1_1ComplexToComplexFFTW.html#a437b247760cca71a5f97c49ed5e82311">hydra::ComplexToComplexFFTW&lt; T, InputType, OutputType, PlanType &gt;</a>
+</li>
+<li>~ComplexToRealCuFFT()
+: <a class="el" href="classhydra_1_1ComplexToRealCuFFT.html#aac320bb144d308d3defe2745d6ae7736">hydra::ComplexToRealCuFFT&lt; T, InputType, OutputType, PlanType &gt;</a>
+</li>
+<li>~ComplexToRealFFTW()
+: <a class="el" href="classhydra_1_1ComplexToRealFFTW.html#ab00166e56255510258ca9c03dc24d08a">hydra::ComplexToRealFFTW&lt; T, InputType, OutputType, PlanType &gt;</a>
+</li>
+<li>~ConvolutionFunctor()
+: <a class="el" href="classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#a220e35d6188761f98f88ae7cb04807fe">hydra::ConvolutionFunctor&lt; Functor, Kernel, detail::BackendPolicy&lt; BACKEND &gt;, detail::FFTPolicy&lt; typename std::common_type&lt; typename Functor::return_type, typename Kernel::return_type &gt;::type, FFT &gt;, ArgType &gt;</a>
+, <a class="el" href="classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1FFTPolicy_3_01typename_03c6b7363172ee2275ee995c834cc1e03.html#a18040f651849bc904e1fcb35d3b0cf62">hydra::ConvolutionFunctor&lt; Functor, Kernel, detail::FFTPolicy&lt; typename std::common_type&lt; typename Functor::return_type, typename Kernel::return_type &gt;::type, FFT &gt;, ArgIndex &gt;</a>
+</li>
+<li>~FCN()
+: <a class="el" href="group__fit.html#aed49fbb0222add7555a64394d762fd47">hydra::FCN&lt; Estimator&lt; PDF, Iterator &gt;, true &gt;</a>
+, <a class="el" href="group__fit.html#a76eae14fcd5a98d6e575b75f95cb2901">hydra::FCN&lt; Estimator&lt; PDF, Iterator, Iterators... &gt;, true &gt;</a>
+, <a class="el" href="group__fit.html#a1e73fc44fbb969e6137bd35aeb3dc800">hydra::FCN&lt; hydra_thrust::tuple&lt; FCN&lt; ESTIMATORS &gt;... &gt;, false &gt;</a>
 </li>
 <li>~ParametersCompositeFunctor()
 : <a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#a3e37134a1668a01d2eb0df15f06076e9">hydra::detail::ParametersCompositeFunctor&lt; F0, F1, Fs &gt;</a>
 </li>
-<li>~Pdf()
-: <a class="el" href="group__fit.html#a76acfa97331d3ff48528ab4f492e4f9d">hydra::Pdf&lt; FUNCTOR, INTEGRATOR &gt;</a>
-</li>
 <li>~ProcessCallsVegas()
 : <a class="el" href="structhydra_1_1detail_1_1ProcessCallsVegas.html#aac72be199d7bcdd9e6e7ce41a5856ec0">hydra::detail::ProcessCallsVegas&lt; FUNCTOR, NDimensions, Precision, GRND &gt;</a>
 </li>
-<li>~Random()
-: <a class="el" href="group__random.html#abd8e96c690c86807455b92f641b1ad0e">hydra::Random&lt; GRND &gt;</a>
+<li>~RealToComplexCuFFT()
+: <a class="el" href="classhydra_1_1RealToComplexCuFFT.html#a9283a8afccaebbbc01c36ca2132815f9">hydra::RealToComplexCuFFT&lt; T, InputType, OutputType, PlanType &gt;</a>
+</li>
+<li>~RealToComplexFFTW()
+: <a class="el" href="classhydra_1_1RealToComplexFFTW.html#a0b9aaac9c8d2209a395e8081521062bd">hydra::RealToComplexFFTW&lt; T, InputType, OutputType, PlanType &gt;</a>
+</li>
+<li>~ScopedBuffer()
+: <a class="el" href="classhydra_1_1ScopedBuffer_3_01T_00_01detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#ada1ad06fbabd4963da888eff12b56fd8">hydra::ScopedBuffer&lt; T, detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -117,7 +145,7 @@ $(document).ready(function(){initNavTree('functions_func_0x7e.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:03 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

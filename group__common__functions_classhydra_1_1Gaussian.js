@@ -1,9 +1,8 @@
 var group__common__functions_classhydra_1_1Gaussian =
 [
-    [ "Gaussian", "group__common__functions.html#ada5ef868c3140c62390a3df9eee63566", null ],
-    [ "Gaussian", "group__common__functions.html#a95d24d48999aae2ba867da75a0297de5", null ],
-    [ "Gaussian", "group__common__functions.html#a88994de50b276218dd100046dcd82664", null ],
-    [ "Evaluate", "group__common__functions.html#a638f8d76729b76bbe6b87e6fdb20e2c5", null ],
-    [ "Evaluate", "group__common__functions.html#ac73125dae4da63c4e4ed955421a9c7fa", null ],
-    [ "operator=", "group__common__functions.html#aa975fb9923323934e93e7bbcfc099cd8", null ]
+    [ "Gaussian", "group__common__functions.html#ad339b989bf20ae45ce29a757fbf45721", null ],
+    [ "Gaussian", "group__common__functions.html#a4eb270504fdcd96bc98f25ead77269af", null ],
+    [ "Gaussian", "group__common__functions.html#a8ade52fecbbf9e2807e6ecdb11217874", null ],
+    [ "Evaluate", "group__common__functions.html#a2523dbcb6ce29b2aabbcbbcaf6437edc", null ],
+    [ "operator=", "group__common__functions.html#a2837bc7e556b80f1627f5455604fcb1f", null ]
 ];

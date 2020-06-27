@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -110,23 +111,27 @@ $(document).ready(function(){initNavTree('phsp__averaging__functor_8inl.html',''
 <code>#include &lt;<a class="el" href="">hydra/Types.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Vector4R.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/PhaseSpace.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/Evaluate.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Function.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/FunctorArithmetic.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/FunctionWrapper.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Lambda.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Algorithm.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Tuple.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/host/System.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/device/System.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Decays.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/DenseHistogram.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Range.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/functions/CosHelicityAngle.h</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for phsp_averaging_functor.inl:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phsp__averaging__functor_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phsp__averaging__functor_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phsp__averaging__functor_8inl__dep__incl.svg" width="400" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phsp__averaging__functor_8inl__dep__incl.svg" width="398" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -138,8 +143,10 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a1c03069360f1f90a556eb537e0ff8a72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__averaging__functor_8inl.html#a1c03069360f1f90a556eb537e0ff8a72">main</a> (<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv, char **argc)</td></tr>
-<tr class="separator:a1c03069360f1f90a556eb537e0ff8a72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a360010ac145f9a19e570323679bb07da"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__averaging__functor_8inl.html#a360010ac145f9a19e570323679bb07da">declarg</a> (<a class="el" href="basic__distributions_8inl.html#a107bc7301b1b250d34c25693b90096c8">A</a>, hydra::Vector4R) declarg(<a class="el" href="basic__distributions_8inl.html#a4b77ca8e9b2aaa14302e909ffc455c46">B</a></td></tr>
+<tr class="separator:a360010ac145f9a19e570323679bb07da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a522c34c6449dee4f100905c27df699da"><td class="memItemLeft" align="right" valign="top">hydra::Vector4R <a class="el" href="basic__distributions_8inl.html#a0f50549764889b769fe59b2dbdb3f8d2">declarg</a>(<a class="el" href="basic__distributions_8inl.html#a4900ef306eb9271438791f1a98b8ccba">C</a>, hydra::Vector4R) using namespace hydra <a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="phsp__averaging__functor_8inl.html#a522c34c6449dee4f100905c27df699da">main</a> (<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv, char **<a class="el" href="basic__distributions_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a>)</td></tr>
+<tr class="separator:a522c34c6449dee4f100905c27df699da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a83bc676851de7baa782d3a9ac0ef2750"></a>
@@ -157,14 +164,43 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a1c03069360f1f90a556eb537e0ff8a72"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c03069360f1f90a556eb537e0ff8a72">&#9670;&nbsp;</a></span>main()</h2>
+<a id="a360010ac145f9a19e570323679bb07da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a360010ac145f9a19e570323679bb07da">&#9670;&nbsp;</a></span>declarg()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classint">int</a> main </td>
+          <td class="memname">declarg </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="basic__distributions_8inl.html#a107bc7301b1b250d34c25693b90096c8">A</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">hydra::Vector4R&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_averaging_functor_8inl-example.html#a0">phsp_averaging_functor.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="a522c34c6449dee4f100905c27df699da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a522c34c6449dee4f100905c27df699da">&#9670;&nbsp;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">hydra::Vector4R <a class="el" href="basic__distributions_8inl.html#a0f50549764889b769fe59b2dbdb3f8d2">declarg</a> (<a class="el" href="basic__distributions_8inl.html#a4900ef306eb9271438791f1a98b8ccba">C</a>, hydra::Vector4R) using namespace hydra <a class="el" href="namespace_3globalScope_4.html#classint">int</a> main </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td>
           <td class="paramname"><em>argv</em>, </td>
@@ -182,7 +218,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_averaging_functor_8inl-example.html#a0">phsp_averaging_functor.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="phsp_averaging_functor_8inl-example.html#a4">phsp_averaging_functor.inl</a>.</dd>
 </dl>
 </div>
 </div>
@@ -192,7 +228,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_b3c69fde212a60de3f50954f66fa65c1.html">examples</a></li><li class="navelem"><a class="el" href="dir_4b3c3c870991bb8ad671d5780b5e0415.html">phase_space</a></li><li class="navelem"><a class="el" href="phsp__averaging__functor_8inl.html">phsp_averaging_functor.inl</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

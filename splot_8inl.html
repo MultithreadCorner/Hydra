@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -109,7 +110,7 @@ $(document).ready(function(){initNavTree('splot_8inl.html','');});
 <code>#include &lt;<a class="el" href="">hydra/device/System.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/host/System.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Function.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/FunctionWrapper.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Lambda.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Random.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/LogLikelihoodFCN.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Parameter.h</a>&gt;</code><br />
@@ -118,12 +119,13 @@ $(document).ready(function(){initNavTree('splot_8inl.html','');});
 <code>#include &lt;<a class="el" href="">hydra/AddPdf.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Algorithm.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Filter.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/GaussKronrodQuadrature.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/SPlot.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/DenseHistogram.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/SparseHistogram.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/functions/Gaussian.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/functions/Exponential.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/multiarray.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/multivector.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/RandomFill.h</a>&gt;</code><br />
 <code>#include &quot;Minuit2/FunctionMinimum.h&quot;</code><br />
 <code>#include &quot;Minuit2/MnUserParameterState.h&quot;</code><br />
 <code>#include &quot;Minuit2/MnPrint.h&quot;</code><br />
@@ -139,12 +141,14 @@ $(document).ready(function(){initNavTree('splot_8inl.html','');});
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for splot.inl:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="splot_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="splot_8inl__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="splot_8inl__dep__incl.svg" width="179" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="splot_8inl__dep__incl.svg" width="179" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
@@ -156,8 +160,10 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a1c03069360f1f90a556eb537e0ff8a72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="splot_8inl.html#a1c03069360f1f90a556eb537e0ff8a72">main</a> (<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv, char **argc)</td></tr>
-<tr class="separator:a1c03069360f1f90a556eb537e0ff8a72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9b6bcd8013255ccec1b02c79e77636d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="splot_8inl.html#ae9b6bcd8013255ccec1b02c79e77636d">declarg</a> (_X, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>) declarg(_Y</td></tr>
+<tr class="separator:ae9b6bcd8013255ccec1b02c79e77636d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb2f7a1f0eb68ffefa0e3c2bb2434191"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> <a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="splot_8inl.html#afb2f7a1f0eb68ffefa0e3c2bb2434191">main</a> (<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv, char **<a class="el" href="basic__distributions_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a>)</td></tr>
+<tr class="separator:afb2f7a1f0eb68ffefa0e3c2bb2434191"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="aae21aee92343842e5456d820cae4a4eb"></a>
@@ -175,14 +181,43 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a1c03069360f1f90a556eb537e0ff8a72"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c03069360f1f90a556eb537e0ff8a72">&#9670;&nbsp;</a></span>main()</h2>
+<a id="ae9b6bcd8013255ccec1b02c79e77636d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9b6bcd8013255ccec1b02c79e77636d">&#9670;&nbsp;</a></span>declarg()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classint">int</a> main </td>
+          <td class="memname">declarg </td>
+          <td>(</td>
+          <td class="paramtype">_X&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="splot_8inl-example.html#a0">splot.inl</a>.</dd>
+</dl>
+</div>
+</div>
+<a id="afb2f7a1f0eb68ffefa0e3c2bb2434191"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb2f7a1f0eb68ffefa0e3c2bb2434191">&#9670;&nbsp;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> <a class="el" href="namespace_3globalScope_4.html#classint">int</a> main </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td>
           <td class="paramname"><em>argv</em>, </td>
@@ -200,7 +235,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="splot_8inl-example.html#a0">splot.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="splot_8inl-example.html#a1">splot.inl</a>.</dd>
 </dl>
 </div>
 </div>
@@ -210,7 +245,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_b3c69fde212a60de3f50954f66fa65c1.html">examples</a></li><li class="navelem"><a class="el" href="dir_fa9bd4b554716f8530d93b48c470adbb.html">fit</a></li><li class="navelem"><a class="el" href="splot_8inl.html">splot.inl</a></li>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:24 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

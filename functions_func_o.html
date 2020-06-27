@@ -34,9 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">2.2.1</span>
+   &#160;<span id="projectnumber">3.0.0</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -98,59 +99,80 @@ $(document).ready(function(){initNavTree('functions_func_o.html','');});
 <h3><a id="index_o"></a>- o -</h3><ul>
 <li>one()
 : <a class="el" href="structhydra_1_1detail_1_1TypeTraits.html#a2d56a749709c39030633504526dd72e7">hydra::detail::TypeTraits&lt; T &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1TypeTraits_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1complex_3_01T_01_4_01_4.html#a531d6643a07496d50fba76c8d75054d5">hydra::detail::TypeTraits&lt; HYDRA_EXTERNAL_NS::thrust::complex&lt; T &gt; &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1TypeTraits_3_01hydra__thrust_1_1complex_3_01T_01_4_01_4.html#a423a38d1e8a7edb98cf82eba91911812">hydra::detail::TypeTraits&lt; hydra_thrust::complex&lt; T &gt; &gt;</a>
+</li>
+<li>operator GenzMalikBoxResult&lt; double &gt;()
+: <a class="el" href="classhydra_1_1detail_1_1GenzMalikBox.html#a77d62005f1e79cacc6e0dfb97336a913">hydra::detail::GenzMalikBox&lt; N &gt;</a>
 </li>
 <li>operator GReal_t()
-: <a class="el" href="group__fit.html#a20da57a19513bf0f2f50d3834cdf367d">hydra::Parameter</a>
-</li>
-<li>operator hydra::pair&lt; double, double &gt;()
-: <a class="el" href="classhydra_1_1detail_1_1GenzMalikBox.html#a6a0425751a47888b08ec137915ef8e12">hydra::detail::GenzMalikBox&lt; N &gt;</a>
+: <a class="el" href="group__fit.html#a7bb040d2db8daef34b4682ca0c633d81">hydra::Parameter</a>
 </li>
 <li>operator unsigned int()
 : <a class="el" href="structhydra_1_1placeholders_1_1placeholder.html#a49165d7f79fd7b1f9ea04afa44ccfde7">hydra::placeholders::placeholder&lt; I &gt;</a>
+</li>
+<li>operator value_type()
+: <a class="el" href="structhydra_1_1detail_1_1FunctionArgument.html#a35581cb884bbb4a4f6443633a1d9cd44">hydra::detail::FunctionArgument&lt; Derived, Type &gt;</a>
+</li>
+<li>operator value_type &amp;()
+: <a class="el" href="structhydra_1_1detail_1_1FunctionArgument.html#a25899f60f9bae61ada7d61d14d513742">hydra::detail::FunctionArgument&lt; Derived, Type &gt;</a>
+</li>
+<li>operator%=()
+: <a class="el" href="structhydra_1_1detail_1_1FunctionArgument.html#a713a166783d06c17283f457137208ac8">hydra::detail::FunctionArgument&lt; Derived, Type &gt;</a>
 </li>
 <li>operator()()
 : <a class="el" href="structEvolve.html#aabe582d34496a4904c1d93b247f105c7">Evolve</a>
 , <a class="el" href="classhydra_1_1AnalyticalIntegral.html#aea3975fdc399f3e58783df7772b069c8">hydra::AnalyticalIntegral&lt; Functor, N &gt;</a>
 , <a class="el" href="structhydra_1_1Argument.html#acb9dbc09e3ced7adadecfef1f55b2a92">hydra::Argument&lt; ReturnType &gt;</a>
-, <a class="el" href="classhydra_1_1BaseCompositeFunctor.html#a4c033b9625ed8aceeadc2629d2aa3124">hydra::BaseCompositeFunctor&lt; Composite, ReturnType, F1, F2, Fs &gt;</a>
-, <a class="el" href="group__functor.html#a45b039126e994cc3d16c5691f6a0c9aa">hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt;</a>
-, <a class="el" href="classhydra_1_1Compose.html#a7730844546974214f533167f6f67f9ac">hydra::Compose&lt; F0, F1, Fs &gt;</a>
+, <a class="el" href="classhydra_1_1BaseCompositeFunctor_3_01Composite_00_01hydra__thrust_1_1tuple_3_01F1_00_01F2_00_0863f00b43bfdf79cb6cf50e96bab02ba.html#a19d7a2adaf22bdd83fd934521c44fe8f">hydra::BaseCompositeFunctor&lt; Composite, hydra_thrust::tuple&lt; F1, F2, Fs... &gt;, Signature &gt;</a>
+, <a class="el" href="group__functor.html#a0074164f8a77ebfcd36751683bed97f2">hydra::BaseFunctor&lt; Functor, Signature, NPARAM &gt;</a>
+, <a class="el" href="classhydra_1_1Compose.html#afd2e91647626761c8e972af419890ce0">hydra::Compose&lt; F0, F1, Fs &gt;</a>
 , <a class="el" href="structhydra_1_1Constant.html#a1ac45d8785675d005c4334b274760cbc">hydra::Constant&lt; ReturnType &gt;</a>
-, <a class="el" href="classhydra_1_1CosHelicityAngle.html#a4765b8dbc76ccdf00eb766943d2e3676">hydra::CosHelicityAngle</a>
-, <a class="el" href="group__phsp.html#aaec94ff7457475e75cb074efae833896">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;::__CastToUnWeightedDecay</a>
-, <a class="el" href="group__phsp.html#af38710190808bf278eeab4e50e80f031">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;::__CastToWeightedDecay</a>
-, <a class="el" href="group__phsp.html#acc63d99435ce8b1db7cc4c21b5f8801c">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;::__CastTupleToVector4</a>
 , <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a5873e543e677b4f5dfb9c230a1c21aa5">hydra::detail::AddPdfFunctor&lt; PDF1, PDF2, PDFs &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1AddResultGenzMalikBoxes.html#a6451d0ff2e8974eac72b0130f947ab4f">hydra::detail::AddResultGenzMalikBoxes</a>
+, <a class="el" href="structhydra_1_1detail_1_1AddResultGenzMalikBoxes.html#abaf5f2efd5afb802516b7b358e74b2a9">hydra::detail::AddResultGenzMalikBoxes</a>
 , <a class="el" href="structhydra_1_1detail_1_1AddStatsPHSP.html#a5340d004f17cea70b8c3c8ced702dfb1">hydra::detail::AddStatsPHSP</a>
-, <a class="el" href="structhydra_1_1detail_1_1AverageMother.html#ade163bdda0fd72a92fba37dc513c963c">hydra::detail::AverageMother&lt; N, GRND, FUNCTOR &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1AverageMothers.html#a02e97d6bd68af844b62bfdafbf3435ad">hydra::detail::AverageMothers&lt; N, GRND, FUNCTOR &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1CacheEvaluator.html#a5f34992364637e037e2ba4d4046854be">hydra::detail::CacheEvaluator&lt; Functors &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1AverageMother.html#a8efc3f862f679bcdc8055f90e746be24">hydra::detail::AverageMother&lt; N, GRND, FUNCTOR &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1AverageMothers.html#abaec639d976de86d09d388f32b23e9c6">hydra::detail::AverageMothers&lt; N, GRND, FUNCTOR &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1Caster.html#a7d45bb805a1b9fb79fdf81b7b6edfd67">hydra::detail::Caster&lt; TypeIn, TypeOut &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1CheckEnergy.html#a2a9175e96fc4db69da00df405727cf34">hydra::detail::CheckEnergy&lt; N &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1CompareGenzMalikBoxes.html#abd04d54496bd6e25c9da5bdadbe0cc45">hydra::detail::CompareGenzMalikBoxes&lt; N &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1CompareTuples.html#acc1f72493785e4d0b2209cd84fd2c56d">hydra::detail::CompareTuples&lt; N, COM &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1CovMatrixBinary.html#aaf8a8fee28dea7be348d3c8630b65fae">hydra::detail::CovMatrixBinary&lt; T &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a7dcbcc9668436caab2caf141c2078784">hydra::detail::CovMatrixUnary&lt; F1, F2, Fs &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1DecayMother.html#a38ce6d4a45a3d565831440710e0c2bbd">hydra::detail::DecayMother&lt; N, GRND &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1DecayMothers.html#ad38a81d151d57a6ff7e805989cdca6ed">hydra::detail::DecayMothers&lt; N, GRND &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1EvalMother.html#aa59243798171fa218d65af8be59e2d75">hydra::detail::EvalMother&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1convolution_1_1__delta.html#aafc4b6f1fc9dc0c3233430d8ffb06b75">hydra::detail::convolution::_delta&lt; T &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1convolution_1_1FunctorSampler.html#a7843260401ab4a3d567766c3d26616a5">hydra::detail::convolution::FunctorSampler&lt; Functor &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1convolution_1_1KernelSampler.html#aceb2b5b7d22caaab3f3bdf92a944e0bc">hydra::detail::convolution::KernelSampler&lt; Kernel &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1convolution_1_1MultiplyFFT.html#a3e4bc5643bcf909ece311f01bdd1bb13">hydra::detail::convolution::MultiplyFFT&lt; T &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1convolution_1_1NormalizeFFT.html#adf1389e847fb2a1a0a855952641ad7c6">hydra::detail::convolution::NormalizeFFT&lt; T &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1CovMatrixBinary.html#a1e5555bff30545f0c07924c46842fbe8">hydra::detail::CovMatrixBinary</a>
+, <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a573edfab8d8f180e14a207087f1f6a5e">hydra::detail::CovMatrixUnary&lt; F1, F2, Fs &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1cufft_1_1__Deleter.html#a74f9be35c2e775f8969d4a535d90e98c">hydra::detail::cufft::_Deleter</a>
+, <a class="el" href="structhydra_1_1detail_1_1cufft_1_1__PlanDestroyer.html#ad9ed14ca3449b42963e5ccd07606e56b">hydra::detail::cufft::_PlanDestroyer</a>
+, <a class="el" href="structhydra_1_1detail_1_1cufft_1_1__PlanExecutor.html#a703348b1b0081dcdda9c4ee37e3fa49c">hydra::detail::cufft::_PlanExecutor</a>
+, <a class="el" href="structhydra_1_1detail_1_1cufft_1_1__Planner.html#a1fca30317aa037c5cdcee9f8f5e64e84">hydra::detail::cufft::_Planner&lt; Type &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1DecayMother.html#ad8e03dc5961d09e600f5f233afd70715">hydra::detail::DecayMother&lt; N, GRND &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1DecayMothers.html#a0dceb1bd8770979d5db35ebe8acf608b">hydra::detail::DecayMothers&lt; N, GRND &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1EvalMother.html#a91247956cfa2de02d512f1dde0c33254">hydra::detail::EvalMother&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalMothers.html#a614a76be8e83b5509801b84ff0816dc0">hydra::detail::EvalMothers&lt; N, GRND, FUNCTOR, FUNCTORS &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1EvalOnDaughters.html#a6b0e5ea9072867b13f4a3116d5853f21">hydra::detail::EvalOnDaughters&lt; N, BACKEND, FUNCTOR, GRND &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1EvalOnDaughters.html#abb15eb7e236afe762c34a6ebc42803d4">hydra::detail::EvalOnDaughters&lt; N, BACKEND, FUNCTOR, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalOnDaughtersBinary.html#a2cf84b26251d078ae0db5d2a9549a0b0">hydra::detail::EvalOnDaughtersBinary</a>
 , <a class="el" href="structhydra_1_1detail_1_1EvalOnDaugthers.html#a0094c6b8cf6322be6ac1c66edacc92a1">hydra::detail::EvalOnDaugthers&lt; N, Functor, ArgType &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1FCNWeightsReducerUnary.html#afcce7257e83bf17178b1af5d85601753">hydra::detail::FCNWeightsReducerUnary&lt; ArgType &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1FCNWeightsReducerUnary.html#aa6f9a459f4af887a3ad84a37fd1fc8b4">hydra::detail::FCNWeightsReducerUnary&lt; ArgType &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1fftw_1_1__Deleter.html#a050c377786ef233be3955c58590baeaf">hydra::detail::fftw::_Deleter</a>
+, <a class="el" href="structhydra_1_1detail_1_1fftw_1_1__PlanDestroyer.html#a9da994a0a390e25a392513c20dda061a">hydra::detail::fftw::_PlanDestroyer</a>
+, <a class="el" href="structhydra_1_1detail_1_1fftw_1_1__PlanExecutor.html#a08d968dffff0af8ca5f0575651d91069">hydra::detail::fftw::_PlanExecutor</a>
+, <a class="el" href="structhydra_1_1detail_1_1fftw_1_1__Planner.html#ab1aeffcca766516c4fb3654360d80edd">hydra::detail::fftw::_Planner</a>
 , <a class="el" href="structhydra_1_1detail_1_1FlagAcceptReject.html#affb23716680c5a3c87d143d193dc1355">hydra::detail::FlagAcceptReject</a>
-, <a class="el" href="structhydra_1_1detail_1_1FlagDaugthers.html#a19d33a27eb27aebc0a2e86acae430cdc">hydra::detail::FlagDaugthers&lt; N &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1GenerateDecay.html#a764ce0b6e4fdbbe1f3fce8f4b7604a10">hydra::detail::GenerateDecay&lt; N, GRND &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1FlagDaugthers1.html#ae4993227b278487aabdf7aec033e3545">hydra::detail::FlagDaugthers1</a>
+, <a class="el" href="structhydra_1_1detail_1_1FlagDaugthers2.html#a6fe0aed59c7f674236a7e3441910935a">hydra::detail::FlagDaugthers2</a>
+, <a class="el" href="classhydra_1_1detail_1_1FlagDaugthers.html#a059c40933c5211aa50b4a5f283920c62">hydra::detail::FlagDaugthers&lt; Functor &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1FunctionArgument.html#ab0902d37c6e4a038b45e0e6bce35ef02">hydra::detail::FunctionArgument&lt; Derived, Type &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1GenerateDecay.html#a02dae4f9a5991da901d9c1409f8c609a">hydra::detail::GenerateDecay&lt; N, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html#ad50a7af76fc4186dbc40d50539da2335">hydra::detail::GetBinCenter&lt; T, N &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1GetBinCenter_3_01T_00_011_01_4.html#a220178c32fce0a98a45cd8b43b682d5c">hydra::detail::GetBinCenter&lt; T, 1 &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1GetGlobalBin.html#a1c88516aab7c4bf4610d73a1b46e58a6">hydra::detail::GetGlobalBin&lt; N, T &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1GetGlobalBin_3_011_00_01T_01_4.html#a0d1eca5e45c3aa6c03faf2a3344ff388">hydra::detail::GetGlobalBin&lt; 1, T &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1GetSWeight.html#aa552375c3c8092135324eba20eca6236">hydra::detail::GetSWeight&lt; I &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1isAccepted.html#ae592fb09fafc3918cf9a888814887957">hydra::detail::isAccepted</a>
-, <a class="el" href="structhydra_1_1detail_1_1LogLikelihood1.html#ade3ef35d4d124b9093232f78058ab077">hydra::detail::LogLikelihood1&lt; FUNCTOR &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1LogLikelihood2.html#a82cdf4461337e3710fac84e598640429">hydra::detail::LogLikelihood2&lt; FUNCTOR &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1LogLikelihood1.html#a681d0f1737faf0e13a73434fd1f462f7">hydra::detail::LogLikelihood1&lt; FUNCTOR &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1LogLikelihood2.html#af4843a7ee49a2a05751e483bcfc21578">hydra::detail::LogLikelihood2&lt; FUNCTOR &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1ProcessBoxesVegas.html#a1d0295e4db78ae0e893c1765523ff815">hydra::detail::ProcessBoxesVegas</a>
 , <a class="el" href="structhydra_1_1detail_1_1ProcessCallsPlainBinary.html#a891131ed49c8e042b9b433d035a821cb">hydra::detail::ProcessCallsPlainBinary</a>
 , <a class="el" href="structhydra_1_1detail_1_1ProcessCallsPlainUnary.html#ae6d244e26f5e17aa441d8ee22baffc9c">hydra::detail::ProcessCallsPlainUnary&lt; FUNCTOR, N, GRND &gt;</a>
@@ -159,82 +181,95 @@ $(document).ready(function(){initNavTree('functions_func_o.html','');});
 , <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikBinaryCall.html#a01b97f639cbbee254883447d6788c33f">hydra::detail::ProcessGenzMalikBinaryCall&lt; N &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikBox.html#afc26d24fc555b0e6f09dd0865356c7ff">hydra::detail::ProcessGenzMalikBox&lt; N, Functor, RuleIterator &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#ab6429217be6b491d27d91eff41694e52">hydra::detail::ProcessGenzMalikUnaryCall&lt; FUNCTOR, N &gt;</a>
+, <a class="el" href="classhydra_1_1detail_1_1quasi__random__base.html#ad363e3751a65a087b9aaeddac97e69cf">hydra::detail::quasi_random_base&lt; DerivedT, LatticeT, SizeT &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1range_1_1Shift.html#a892987f55001ca8720cb43d772387e51">hydra::detail::range::Shift&lt; T &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndBreitWigner.html#ad81b8ae45dcf4170ba0bdbbe8b6b9c93">hydra::detail::RndBreitWigner&lt; T, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndCDF.html#a8315e4ff2513de7f9693e7de5fe1bd2b">hydra::detail::RndCDF&lt; GRND, FUNCTOR &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndExp.html#a48360f18bc0ea749fd7331443a22a27e">hydra::detail::RndExp&lt; T, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndFlag.html#a82c54b85e742bb678d4bfd9a65d5f528">hydra::detail::RndFlag&lt; T, Iterator, GRND &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndGauss.html#aa4af9f4fbab1d3018d4f22dfead174ed">hydra::detail::RndGauss&lt; T, GRND &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1RndTrial.html#ac4c7c3a9f1b54a789e506390c6d04805">hydra::detail::RndTrial&lt; T, GRND, FUNCTOR, N &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1RndTrial.html#ae085cb2eb08571eb7bdf8c373665962a">hydra::detail::RndTrial&lt; T, GRND, FUNCTOR, N &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndTrial_3_01T_00_01GRND_00_01FUNCTOR_00_011_01_4.html#a611a5043ded7fd3e82be4ffa9ff6f420">hydra::detail::RndTrial&lt; T, GRND, FUNCTOR, 1 &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1RndUniform.html#a20f517f3b87ddad1b22109401b0fbed6">hydra::detail::RndUniform&lt; T, GRND &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1SWeights.html#a04248488f31146412c7deacbcd9aeb65">hydra::detail::SWeights&lt; F1, F2, Fs &gt;</a>
-, <a class="el" href="classhydra_1_1Divide.html#a89d346160cea9aa2d7e6fb17eae09e16">hydra::Divide&lt; F1, F2 &gt;</a>
-, <a class="el" href="classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4.html#a05931ccb161ad39d1b33c05aea49815f">hydra::FCN&lt; Estimator&lt; PDF, Iterator &gt; &gt;</a>
-, <a class="el" href="group__fit.html#a05e00648586ac41259e8a79888f909ab">hydra::FCN&lt; Estimator&lt; PDF, Iterator, Iterators... &gt; &gt;</a>
-, <a class="el" href="structhydra_1_1GaussianKDE_1_1Kernel.html#abc36d1d54f962e6f140bda76eaca6afa">hydra::GaussianKDE&lt; NBins, ArgIndex &gt;::Kernel</a>
+, <a class="el" href="structhydra_1_1detail_1_1Sampler.html#aebcbc1518c228cf86a295941b1d733a4">hydra::detail::Sampler&lt; Engine, FUNCTOR &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1SWeights.html#a19a2bda2be5cd3ce28f84daca475d657">hydra::detail::SWeights&lt; F1, F2, Fs &gt;</a>
+, <a class="el" href="structhydra_1_1Distribution_3_01Functor_00_01true_01_4.html#ac784720b8330e9a0d1042de039ff1338">hydra::Distribution&lt; Functor, true &gt;</a>
+, <a class="el" href="classhydra_1_1Divide.html#a45707920e4c617bed9d0f91503c5644c">hydra::Divide&lt; F1, F2 &gt;</a>
+, <a class="el" href="group__fit.html#a4dc75a1b3fca47899a2430d4a3db7735">hydra::FCN&lt; Estimator&lt; PDF, Iterator &gt;, true &gt;</a>
+, <a class="el" href="group__fit.html#a887a77a9a85a26d733f1327c95e0d913">hydra::FCN&lt; Estimator&lt; PDF, Iterator, Iterators... &gt;, true &gt;</a>
+, <a class="el" href="group__fit.html#a38557e4cdb1b4425590e1c666593583e">hydra::FCN&lt; hydra_thrust::tuple&lt; FCN&lt; ESTIMATORS &gt;... &gt;, false &gt;</a>
+, <a class="el" href="structhydra_1_1GaussianKDE_1_1Kernel.html#a03ef87f7c74bc2a63b7cbe543218f19d">hydra::GaussianKDE&lt; NBins, ArgType, Signature &gt;::Kernel</a>
 , <a class="el" href="structhydra_1_1GaussKronrodBinary.html#aed26a84febba587a979694052a856806">hydra::GaussKronrodBinary</a>
 , <a class="el" href="structhydra_1_1GaussKronrodUnary.html#a01a5e797d2c30c1217722c28bf2459ec">hydra::GaussKronrodUnary&lt; FUNCTOR &gt;</a>
 , <a class="el" href="structhydra_1_1Integral.html#affd71aa5e0b3e13a262cc8d0925a73a5">hydra::Integral&lt; Algorithm, N &gt;</a>
 , <a class="el" href="structhydra_1_1Integral_3_01Algorithm_00_011_01_4.html#a749a32f81bdd42631f7aa1d90e090f3d">hydra::Integral&lt; Algorithm, 1 &gt;</a>
+, <a class="el" href="classhydra_1_1Lambda.html#a2a56a52f04255e0471f43a22f6a075f8">hydra::Lambda&lt; LambdaType, NPARAM &gt;</a>
+, <a class="el" href="classhydra_1_1Lambda_3_01LambdaType_00_010_01_4.html#a33ca3f66f0502cb5ef23df45f12cb7a6">hydra::Lambda&lt; LambdaType, 0 &gt;</a>
 , <a class="el" href="classhydra_1_1Minus.html#a9cceadf81998cb66ed3c11a91b88539d">hydra::Minus&lt; F1, F2 &gt;</a>
 , <a class="el" href="classhydra_1_1Multiply.html#a897a6a6012f380fad4e7f6dc7638f8e4">hydra::Multiply&lt; F1, F2, Fs &gt;</a>
 , <a class="el" href="group__fit.html#ab571338fafd21fb0fc262c07925ef8b6">hydra::Parameter</a>
-, <a class="el" href="group__fit.html#a4788a1febb21d84a3715c5b5c1ca5acd">hydra::Pdf&lt; FUNCTOR, INTEGRATOR &gt;</a>
 , <a class="el" href="group__fit.html#a0331dd95dc165b0bbb3e5835570b92c8">hydra::PDFSumExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
 , <a class="el" href="group__fit.html#a146e29721ba28a6c600c3d2f4462bf25">hydra::PDFSumNonExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
 , <a class="el" href="group__common__functions.html#a7f2bc705745c6c1d244e382c15544fe2">hydra::PlanesDeltaAngle</a>
 , <a class="el" href="structhydra_1_1ProcessGaussKronrodAdaptiveQuadrature.html#ae920aad9228e8d5b820650be90ceb66c">hydra::ProcessGaussKronrodAdaptiveQuadrature&lt; FUNCTOR &gt;</a>
+, <a class="el" href="structhydra_1_1SeedRNG.html#a7599586c714e88a819fbcf8bd0ae6060">hydra::SeedRNG</a>
+, <a class="el" href="group__fit.html#a33ff70ce11b19ad7a5965a1ade16e665">hydra::SPlot&lt; Iterator, PDF1, PDF2, PDFs &gt;</a>
 , <a class="el" href="classhydra_1_1Sum.html#a3fa80c84a03bf5a1d8f3f78fca73288a">hydra::Sum&lt; F1, F2, Fs &gt;</a>
-, <a class="el" href="structprinter__t.html#ab5fd34cb5a276b4defdd82f5a474d049">printer_t</a>
-, <a class="el" href="structsetter__t.html#a56d51e4d67329a8a0a37827760c072b3">setter_t</a>
 </li>
 <li>operator*=()
-: <a class="el" href="group__fit.html#a0d91c8591ca465dca5e14a6bb8f284c0">hydra::Parameter</a>
-, <a class="el" href="group__phsp.html#a7bde56d3bb2f4575fe01746eb8d7bc78">hydra::Vector3R</a>
-, <a class="el" href="group__phsp.html#af64c1ee54e2944b7748315718349b0c7">hydra::Vector4R</a>
+: <a class="el" href="structhydra_1_1detail_1_1FunctionArgument.html#a516e9a1d94b0adb92f1b79ced67a0370">hydra::detail::FunctionArgument&lt; Derived, Type &gt;</a>
+, <a class="el" href="group__fit.html#a0d91c8591ca465dca5e14a6bb8f284c0">hydra::Parameter</a>
 </li>
 <li>operator+=()
-: <a class="el" href="group__fit.html#a97fdda97208ed39ab53b633277803387">hydra::Parameter</a>
-, <a class="el" href="group__phsp.html#a87227847626722e3e8001bb125b0c141">hydra::Vector3R</a>
-, <a class="el" href="group__phsp.html#aea7663874e85ec9ea4ad4c7a9895d762">hydra::Vector4R</a>
+: <a class="el" href="structhydra_1_1detail_1_1FunctionArgument.html#ab1d545cb7b4b38ac1ef6cfac359f88ca">hydra::detail::FunctionArgument&lt; Derived, Type &gt;</a>
+, <a class="el" href="classhydra_1_1detail_1_1GenzMalikBoxResult.html#a04c958fea16d1f105351cb946e970c31">hydra::detail::GenzMalikBoxResult&lt; Type &gt;</a>
+, <a class="el" href="group__fit.html#a97fdda97208ed39ab53b633277803387">hydra::Parameter</a>
 </li>
 <li>operator-=()
-: <a class="el" href="group__fit.html#abe42e1b16d2170d12254b447d9a727b3">hydra::Parameter</a>
-, <a class="el" href="group__phsp.html#a8d4c5ba48bf8dcf11fa638547c08f137">hydra::Vector3R</a>
-, <a class="el" href="group__phsp.html#ac36b901a1eae4881c2d948becefdf231">hydra::Vector4R</a>
+: <a class="el" href="structhydra_1_1detail_1_1FunctionArgument.html#a903208af937f5280aca32c739a57def5">hydra::detail::FunctionArgument&lt; Derived, Type &gt;</a>
+, <a class="el" href="group__fit.html#abe42e1b16d2170d12254b447d9a727b3">hydra::Parameter</a>
 </li>
 <li>operator/=()
-: <a class="el" href="group__fit.html#a2cc0fb28811a9d5e353bb3d7d39a5b95">hydra::Parameter</a>
-, <a class="el" href="group__phsp.html#a48ea8f0368306ba3d53ec8f4ea20e103">hydra::Vector3R</a>
-, <a class="el" href="group__phsp.html#a7ebba9ef307e1947fe135520f0d343e3">hydra::Vector4R</a>
+: <a class="el" href="structhydra_1_1detail_1_1FunctionArgument.html#a8784be17acc815bcc1848e262eae822f">hydra::detail::FunctionArgument&lt; Derived, Type &gt;</a>
+, <a class="el" href="group__fit.html#a4d667ba86820039a06d8f1b04817774b">hydra::Parameter</a>
 </li>
 <li>operator=()
 : <a class="el" href="classhydra_1_1AnalyticalIntegral.html#ac8c8d08e6e38ab557d4afa4d13b3e7c8">hydra::AnalyticalIntegral&lt; Functor, N &gt;</a>
 , <a class="el" href="classhydra_1_1AnalyticalIntegral_3_01Functor_00_011_01_4.html#a127ff09a9e533803b101710631a6c758">hydra::AnalyticalIntegral&lt; Functor, 1 &gt;</a>
-, <a class="el" href="group__common__functions.html#a55794273f4f682416b831d5cc7e8cbaa">hydra::ArgusShape&lt; ArgIndex &gt;</a>
-, <a class="el" href="classhydra_1_1BaseCompositeFunctor.html#ac12505f6c6d0830542235776a3041054">hydra::BaseCompositeFunctor&lt; Composite, ReturnType, F1, F2, Fs &gt;</a>
-, <a class="el" href="group__functor.html#a48d0d17a8b3aaaec26769e4ebec35517">hydra::BaseFunctor&lt; Functor, ReturnType, NPARAM &gt;</a>
-, <a class="el" href="group__common__functions.html#a732c39e534a4dcad5b915c3574ea92f7">hydra::BifurcatedGaussian&lt; ArgIndex &gt;</a>
-, <a class="el" href="group__common__functions.html#aca81fdd721195aeb422e91a0e817166f">hydra::BreitWignerLineShape&lt; ResonanceWave, MotherWave, ArgIndex &gt;</a>
-, <a class="el" href="classhydra_1_1BreitWignerNR.html#ae3f0f9f8836fefd098077b74faba9469">hydra::BreitWignerNR&lt; ArgIndex &gt;</a>
-, <a class="el" href="classhydra_1_1Cache_3_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_00_01Functors_8_8_8_01_4.html#aea344b8bc98491caf97f7d81d0ea6223">hydra::Cache&lt; hydra::detail::BackendPolicy&lt; BACKEND &gt;, Functors... &gt;</a>
-, <a class="el" href="group__phsp.html#aaaa951296db95ca372947ed63ba89eef">hydra::Chains&lt; Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;... &gt;</a>
-, <a class="el" href="group__common__functions.html#ab4193637753399a47958407beb2d3db3">hydra::Chebychev&lt; Order, ArgIndex &gt;</a>
-, <a class="el" href="group__common__functions.html#ad23cd2be8a9b121e2d6693cd76e006f3">hydra::ChiSquare&lt; ArgIndex &gt;</a>
+, <a class="el" href="group__common__functions.html#ad200e25128823fe5ef37d79fe1274b25">hydra::ArgusShape&lt; ArgType, Signature &gt;</a>
+, <a class="el" href="classhydra_1_1BaseCompositeFunctor_3_01Composite_00_01hydra__thrust_1_1tuple_3_01F1_00_01F2_00_0863f00b43bfdf79cb6cf50e96bab02ba.html#a867fae8a81ddfb4e231049b82103bc50">hydra::BaseCompositeFunctor&lt; Composite, hydra_thrust::tuple&lt; F1, F2, Fs... &gt;, Signature &gt;</a>
+, <a class="el" href="classhydra_1_1BaseCuFFT.html#a9c1486ae9ab4ea868461447360067991">hydra::BaseCuFFT&lt; InputType, OutputType, PlannerType &gt;</a>
+, <a class="el" href="classhydra_1_1BaseFFTW.html#ae3667afbb27d59ddd33a84bec3578c17">hydra::BaseFFTW&lt; InputType, OutputType, PlannerType &gt;</a>
+, <a class="el" href="group__functor.html#aa94acf67b46da9f243e71444def7de30">hydra::BaseFunctor&lt; Functor, Signature, NPARAM &gt;</a>
+, <a class="el" href="group__common__functions.html#a7811ce3733427c9bb487bbe97fc4bb1e">hydra::BifurcatedGaussian&lt; ArgType, Signature &gt;</a>
+, <a class="el" href="group__common__functions.html#a9de6de2d5ea40a0cf78a25d040518cdf">hydra::BreitWignerLineShape&lt; ResonanceWave, MotherWave, ArgType, Signature &gt;</a>
+, <a class="el" href="classhydra_1_1BreitWignerNR.html#a206328158b9be618d91a091174ec407f">hydra::BreitWignerNR&lt; ArgType, Signature &gt;</a>
+, <a class="el" href="group__common__functions.html#aa588bffd8e623491ba3e1a4a874c774e">hydra::Chebychev&lt; Order, ArgType, Signature &gt;</a>
+, <a class="el" href="group__common__functions.html#a369d0af31004974f372f8698241110e2">hydra::ChiSquare&lt; ArgType, Signature &gt;</a>
+, <a class="el" href="classhydra_1_1ComplexToComplexCuFFT.html#ae0bd3e85ea2210727874ba838a31c836">hydra::ComplexToComplexCuFFT&lt; T, InputType, OutputType, PlanType &gt;</a>
+, <a class="el" href="classhydra_1_1ComplexToComplexFFTW.html#a2da222452090c8ab71b9678ca1cc9b6c">hydra::ComplexToComplexFFTW&lt; T, InputType, OutputType, PlanType &gt;</a>
+, <a class="el" href="classhydra_1_1ComplexToRealCuFFT.html#a431b530d19588ab7571932f71aace351">hydra::ComplexToRealCuFFT&lt; T, InputType, OutputType, PlanType &gt;</a>
+, <a class="el" href="classhydra_1_1ComplexToRealFFTW.html#aafe22405c3ebee15605cb32cac0c0700">hydra::ComplexToRealFFTW&lt; T, InputType, OutputType, PlanType &gt;</a>
 , <a class="el" href="classhydra_1_1Compose.html#a2c2c93c8b79e13077bfe992031a6a6de">hydra::Compose&lt; F0, F1, Fs &gt;</a>
-, <a class="el" href="classhydra_1_1Convolution.html#af22c4f324a80f5cb25322cbcb8f20f51">hydra::Convolution&lt; Functor, Kernel, ArgIndex &gt;</a>
+, <a class="el" href="classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1BackendPolicy_3_01BACKENb3b342af36a60e84be1085f455499e1d.html#a054fdb81aa0ed2c2f3a91425c31fe655">hydra::ConvolutionFunctor&lt; Functor, Kernel, detail::BackendPolicy&lt; BACKEND &gt;, detail::FFTPolicy&lt; typename std::common_type&lt; typename Functor::return_type, typename Kernel::return_type &gt;::type, FFT &gt;, ArgType &gt;</a>
+, <a class="el" href="classhydra_1_1ConvolutionFunctor_3_01Functor_00_01Kernel_00_01detail_1_1FFTPolicy_3_01typename_03c6b7363172ee2275ee995c834cc1e03.html#a39c182959c32d06c99c5657dd8612615">hydra::ConvolutionFunctor&lt; Functor, Kernel, detail::FFTPolicy&lt; typename std::common_type&lt; typename Functor::return_type, typename Kernel::return_type &gt;::type, FFT &gt;, ArgIndex &gt;</a>
 , <a class="el" href="classhydra_1_1CosHelicityAngle.html#a93417579560e7c6dea0e58fd2ad02f91">hydra::CosHelicityAngle</a>
-, <a class="el" href="classhydra_1_1CrystalBallShape.html#ae2b3bda1ec06853de8a7ff2e5ec06fa6">hydra::CrystalBallShape&lt; ArgIndex &gt;</a>
+, <a class="el" href="classhydra_1_1CrystalBallShape.html#aea50feab2c4a6183bb2d7329d750d4a3">hydra::CrystalBallShape&lt; ArgType, Signature &gt;</a>
 , <a class="el" href="classhydra_1_1CubicSpiline.html#ae17a95cb39aa5080c95fdf0099778746">hydra::CubicSpiline&lt; N, ArgIndex &gt;</a>
-, <a class="el" href="group__phsp.html#a4a2ecfe81f14adcc689bfd527d4a68c3">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-, <a class="el" href="group__common__functions.html#aa8d8c6981429e26db24930a781970f5c">hydra::DeltaDMassBackground&lt; ArgIndex &gt;</a>
-, <a class="el" href="group__histogram.html#ac2091c73b287caef7ec44389f88cf301">hydra::DenseHistogram&lt; T, 1, hydra::detail::BackendPolicy&lt; BACKEND &gt;, detail::unidimensional &gt;</a>
-, <a class="el" href="group__histogram.html#ad0e92e56975b87c6160c3f2fd8641274">hydra::DenseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;</a>
+, <a class="el" href="group__phsp.html#ad110b665b3db3f6924ff383cb2645253">hydra::Decays&lt; hydra::tuple&lt; Particles... &gt;, hydra::detail::BackendPolicy&lt; Backend &gt; &gt;</a>
+, <a class="el" href="group__common__functions.html#a170d3994177184f09f986ed909e5f6e3">hydra::DeltaDMassBackground&lt; ArgType, Signature &gt;</a>
+, <a class="el" href="group__histogram.html#aa0485c3ebf2ebc86e8e689735ef21673">hydra::DenseHistogram&lt; T, 1, hydra::detail::BackendPolicy&lt; BACKEND &gt;, detail::unidimensional &gt;</a>
+, <a class="el" href="group__histogram.html#ae34e0b09c2269d5a35b0cf23d63720d1">hydra::DenseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1AddPdfFunctor.html#a0f6c7dc0d626326df4573ec99b40277b">hydra::detail::AddPdfFunctor&lt; PDF1, PDF2, PDFs &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1CacheEvaluator.html#a234f4d6ab5db1acf9dc2ad4916153b04">hydra::detail::CacheEvaluator&lt; Functors &gt;</a>
-, <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a88e2a1d12f0ae54496ae8d044014a855">hydra::detail::CompositeBase&lt; F0, F1, Fs &gt;</a>
+, <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a28ebedc3e16f554169d0c8b43fac2974">hydra::detail::CompositeBase&lt; F0, F1, Fs &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1convolution_1_1FunctorSampler.html#a8071ce8abbdbd1174dd39757eb703782">hydra::detail::convolution::FunctorSampler&lt; Functor &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1convolution_1_1KernelSampler.html#aee50dc7b250d920705564fc686a2414f">hydra::detail::convolution::KernelSampler&lt; Kernel &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1convolution_1_1NormalizeFFT.html#a3d5bb17f42e24699ab695b0ca6f21069">hydra::detail::convolution::NormalizeFFT&lt; T &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#ae96b293bb3a6e1e8eb2ddfc3fea59d08">hydra::detail::CovMatrixUnary&lt; F1, F2, Fs &gt;</a>
+, <a class="el" href="classhydra_1_1detail_1_1FlagDaugthers.html#a082033b8d98c99f3549ceab1879e36e5">hydra::detail::FlagDaugthers&lt; Functor &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1FunctionArgument.html#a6fafe82d9c9638b14a2b3f85c4e6a541">hydra::detail::FunctionArgument&lt; Derived, Type &gt;</a>
 , <a class="el" href="classhydra_1_1detail_1_1GenzMalikBox.html#a195d019b8de11970243a5a3bdd8f1d46">hydra::detail::GenzMalikBox&lt; N &gt;</a>
+, <a class="el" href="classhydra_1_1detail_1_1GenzMalikBoxResult.html#ae7ee89e0244172075a9b16e5ade62464">hydra::detail::GenzMalikBoxResult&lt; Type &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html#ad19007b7782fd5474cd775edfdb2d789">hydra::detail::GetBinCenter&lt; T, N &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1GetBinCenter_3_01T_00_011_01_4.html#aa0d60fb7f0aa8d914c426a2aa6377c2b">hydra::detail::GetBinCenter&lt; T, 1 &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1GetGlobalBin.html#a0b9f141c603ebaac6fbfd6ad85950e93">hydra::detail::GetGlobalBin&lt; N, T &gt;</a>
@@ -244,77 +279,84 @@ $(document).ready(function(){initNavTree('functions_func_o.html','');});
 , <a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#aa78d6af3da59ebcc39d7f81cd68b1478">hydra::detail::ParametersCompositeFunctor&lt; F0, F1, Fs &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikBox.html#ad13b13bdb0458e38a11920da6d24b050">hydra::detail::ProcessGenzMalikBox&lt; N, Functor, RuleIterator &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html#a3b467f1f7bf654cfdf9882252dd6b098">hydra::detail::ProcessGenzMalikUnaryCall&lt; FUNCTOR, N &gt;</a>
+, <a class="el" href="classhydra_1_1detail_1_1quasi__random__base.html#a2b0dfa346c6d32100959df2c2f14e572">hydra::detail::quasi_random_base&lt; DerivedT, LatticeT, SizeT &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1sobol__lattice.html#acdad61ee01fa2534383945c2e37316f5">hydra::detail::sobol_lattice&lt; UIntType, D, W, SobolTables &gt;</a>
 , <a class="el" href="classhydra_1_1Divide.html#a952f3c54ba1722247660283e5c56d539">hydra::Divide&lt; F1, F2 &gt;</a>
-, <a class="el" href="group__common__functions.html#aa74b42f0911404cdc13b51da2e1cec03">hydra::Exponential&lt; ArgIndex &gt;</a>
-, <a class="el" href="classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_01_4_01_4.html#a102aa639bb02d783c7d80286ef71015d">hydra::FCN&lt; Estimator&lt; PDF, Iterator &gt; &gt;</a>
-, <a class="el" href="group__fit.html#aba2f9616408063d90f8239b415250165">hydra::FCN&lt; Estimator&lt; PDF, Iterator, Iterators... &gt; &gt;</a>
-, <a class="el" href="group__common__functions.html#aa975fb9923323934e93e7bbcfc099cd8">hydra::Gaussian&lt; ArgIndex &gt;</a>
-, <a class="el" href="structhydra_1_1GaussianKDE_1_1Kernel.html#a8bb1e443a02bc86901c4cd1a7edfe11c">hydra::GaussianKDE&lt; NBins, ArgIndex &gt;::Kernel</a>
-, <a class="el" href="group__common__functions.html#a8ee4b99a0442bfd41cb8a74ba1507921">hydra::GaussianKDE&lt; NBins, ArgIndex &gt;</a>
+, <a class="el" href="group__common__functions.html#a3fd33733cf92fe9972d5a154e0e4008c">hydra::DoubleExponential&lt; ArgType, Signature &gt;</a>
+, <a class="el" href="group__common__functions.html#a357c8b2921830f1dd0f01ed606fce916">hydra::Exponential&lt; ArgType, Signature &gt;</a>
+, <a class="el" href="group__fit.html#a06a295ea03f0e3e11864dbcccf8a030f">hydra::FCN&lt; Estimator&lt; PDF, Iterator &gt;, true &gt;</a>
+, <a class="el" href="group__fit.html#a0f4013bad0eec2b997f0ad06ec5ea37c">hydra::FCN&lt; Estimator&lt; PDF, Iterator, Iterators... &gt;, true &gt;</a>
+, <a class="el" href="group__fit.html#a6327c6f8e72287062f994c0f9b6bdb88">hydra::FCN&lt; hydra_thrust::tuple&lt; FCN&lt; ESTIMATORS &gt;... &gt;, false &gt;</a>
+, <a class="el" href="group__common__functions.html#a2837bc7e556b80f1627f5455604fcb1f">hydra::Gaussian&lt; ArgType, Signature &gt;</a>
+, <a class="el" href="structhydra_1_1GaussianKDE_1_1Kernel.html#a7e66f44829b31ba019d8ecd20bed8157">hydra::GaussianKDE&lt; NBins, ArgType, Signature &gt;::Kernel</a>
+, <a class="el" href="group__common__functions.html#a77ff652dc65c3ec5f0a2f4c9c9cc0d46">hydra::GaussianKDE&lt; NBins, ArgType, Signature &gt;</a>
 , <a class="el" href="classhydra_1_1GaussKronrodAdaptiveQuadrature_3_01NRULE_00_01NBIN_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#a980c0b5c301df1fc06e765f0b55e446d">hydra::GaussKronrodAdaptiveQuadrature&lt; NRULE, NBIN, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 , <a class="el" href="structhydra_1_1GaussKronrodCall.html#a43de1d9f4591333ca4b5a82123710a3b">hydra::GaussKronrodCall</a>
-, <a class="el" href="classhydra_1_1GaussKronrodQuadrature_3_01NRULE_00_01NBIN_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#ad87f16d2c73b8f705f2c96fa61a00d41">hydra::GaussKronrodQuadrature&lt; NRULE, NBIN, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+, <a class="el" href="classhydra_1_1GaussKronrodQuadrature_3_01NRULE_00_01NBIN_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#a6a7fc6d1bf2efe877a7d710a1111d960">hydra::GaussKronrodQuadrature&lt; NRULE, NBIN, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 , <a class="el" href="group__numerical__integration.html#adac4980d97372aae2cc96d5d9f4e868d">hydra::GaussKronrodRule&lt; N &gt;</a>
 , <a class="el" href="structhydra_1_1GaussKronrodUnary.html#adc7f59ec6c021478c6e69c35f59a279c">hydra::GaussKronrodUnary&lt; FUNCTOR &gt;</a>
-, <a class="el" href="group__numerical__integration.html#a134fd61c5ff191f61a97577e295cb328">hydra::GenzMalikQuadrature&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-, <a class="el" href="group__numerical__integration.html#ac47ba3595a5293d63949a12803277fdc">hydra::GenzMalikRule&lt; DIM, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-, <a class="el" href="group__common__functions.html#af5a71020d21f6b4b6619560c59a502e0">hydra::Ipatia&lt; ArgIndex &gt;</a>
-, <a class="el" href="group__common__functions.html#a24be5947c3115a6dc053929727554123">hydra::JohnsonSUShape&lt; ArgIndex &gt;</a>
-, <a class="el" href="group__functor.html#ab2a893e69edf39d315509c987898cf95">hydra::LambdaWrapper&lt; ReturnType(ArgType...), L, N &gt;</a>
-, <a class="el" href="group__fit.html#a718be2cae85fe8f7e41b2b672ccaf93e">hydra::LogLikelihoodFCN&lt; Pdf&lt; Functor, Integrator &gt;, IteratorD, IteratorW... &gt;</a>
-, <a class="el" href="group__fit.html#a583a64cad00e3aca825095a41167e7ea">hydra::LogLikelihoodFCN&lt; PDFSumExtendable&lt; Pdfs... &gt;, IteratorD, IteratorW... &gt;</a>
-, <a class="el" href="group__fit.html#a564714015322ac6dda5c95a1029f9f3b">hydra::LogLikelihoodFCN&lt; PDFSumNonExtendable&lt; Pdfs... &gt;, IteratorD, IteratorW... &gt;</a>
-, <a class="el" href="group__common__functions.html#a95e901a3d7ceae5e0bebb3eaec73c507">hydra::LogNormal&lt; ArgIndex &gt;</a>
-, <a class="el" href="group__common__functions.html#adf3668f01c2f2569ce9f7891be8b956a">hydra::M12PhaseSpaceLineShape&lt; ArgIndex &gt;</a>
-, <a class="el" href="group__common__functions.html#af2b3fae88fbba0aba8081568acaabd16">hydra::M12SqPhaseSpaceLineShape&lt; ArgIndex &gt;</a>
+, <a class="el" href="group__numerical__integration.html#ae4aa1557c58ba3ef4795586e07db963b">hydra::GenzMalikQuadrature&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+, <a class="el" href="group__numerical__integration.html#ab46e38e5420af3230ad49807e2b795ea">hydra::GenzMalikRule&lt; DIM, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+, <a class="el" href="group__common__functions.html#ad608fcbb5aeb1ffbbb4a0184194b9503">hydra::Ipatia&lt; ArgType, Signature &gt;</a>
+, <a class="el" href="classhydra_1_1JohnsonSU.html#ac36850a2a90a497fa97b0338acd489fb">hydra::JohnsonSU&lt; ArgType, Signature &gt;</a>
+, <a class="el" href="classhydra_1_1Lambda.html#aa547a1aa105faef022a6471f5a249edd">hydra::Lambda&lt; LambdaType, NPARAM &gt;</a>
+, <a class="el" href="classhydra_1_1Lambda_3_01LambdaType_00_010_01_4.html#a7e8df5c200eddbf01f9b2ecc9193423d">hydra::Lambda&lt; LambdaType, 0 &gt;</a>
+, <a class="el" href="classhydra_1_1LogLikelihoodFCN_3_01Pdf_3_01Functor_00_01Integrator_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4.html#a718be2cae85fe8f7e41b2b672ccaf93e">hydra::LogLikelihoodFCN&lt; Pdf&lt; Functor, Integrator &gt;, IteratorD, IteratorW... &gt;</a>
+, <a class="el" href="classhydra_1_1LogLikelihoodFCN_3_01PDFSumExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4.html#a583a64cad00e3aca825095a41167e7ea">hydra::LogLikelihoodFCN&lt; PDFSumExtendable&lt; Pdfs... &gt;, IteratorD, IteratorW... &gt;</a>
+, <a class="el" href="classhydra_1_1LogLikelihoodFCN_3_01PDFSumNonExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4.html#a564714015322ac6dda5c95a1029f9f3b">hydra::LogLikelihoodFCN&lt; PDFSumNonExtendable&lt; Pdfs... &gt;, IteratorD, IteratorW... &gt;</a>
+, <a class="el" href="group__common__functions.html#a666d249ca457d2a341ad13f0524cdb56">hydra::LogNormal&lt; ArgType, Signature &gt;</a>
+, <a class="el" href="group__common__functions.html#af258a3a676d3cde4699e6f7d93f9b391">hydra::M12PhaseSpaceLineShape&lt; ArgType &gt;</a>
+, <a class="el" href="group__common__functions.html#a39616b3915afe60e7e999f246b0a3565">hydra::M12SqPhaseSpaceLineShape&lt; ArgType &gt;</a>
 , <a class="el" href="classhydra_1_1Minus.html#ad0a2f89e969c96de295f66f5ed61597c">hydra::Minus&lt; F1, F2 &gt;</a>
-, <a class="el" href="classhydra_1_1multiarray_3_01T_00_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#a66a5cb976d2bb36ca932e456e3ee92cb">hydra::multiarray&lt; T, N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+, <a class="el" href="classhydra_1_1multiarray_3_01T_00_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#a53bb916510751b6dcc09c37b8d55618a">hydra::multiarray&lt; T, N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 , <a class="el" href="classhydra_1_1Multiply.html#a167386bbbdc992bb703163d23dbb6d33">hydra::Multiply&lt; F1, F2, Fs &gt;</a>
-, <a class="el" href="classhydra_1_1multivector_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1tuple_3_01T_8_8_8_01_4_00_01hydra3da03b988538add1b3f476b1ea399ad2.html#a4739c5d1d4242854331f77b6782fcb1e">hydra::multivector&lt; HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt;, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+, <a class="el" href="classhydra_1_1multivector_3_01hydra__thrust_1_1tuple_3_01T_8_8_8_01_4_00_01hydra_1_1detail_1_1Baaf5bb9c490efe1cc04683c31129e6041.html#ad249df7641011b6873cd0279f00bd6be">hydra::multivector&lt; hydra_thrust::tuple&lt; T... &gt;, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
 , <a class="el" href="group__fit.html#ae1ea15f13ba6689d7afaa40b2e24fe1d">hydra::Parameter</a>
-, <a class="el" href="group__fit.html#a9aad0d6d41f15027f28a48ddeb73052e">hydra::Pdf&lt; FUNCTOR, INTEGRATOR &gt;</a>
 , <a class="el" href="group__fit.html#abadfade8e34cfbfa8d9a713df5e84bb0">hydra::PDFSumExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
 , <a class="el" href="group__fit.html#addfe623055b4f8e75d8db7107580d588">hydra::PDFSumNonExtendable&lt; PDF1, PDF2, PDFs &gt;</a>
 , <a class="el" href="group__phsp.html#a96459eb924e97cec9926d80fe5331bdb">hydra::PhaseSpace&lt; N, GRND &gt;</a>
-, <a class="el" href="group__phsp.html#a47dd8484f1291ce9ecf80c1317360145">hydra::PhaseSpaceIntegrator&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt;, GRND &gt;</a>
-, <a class="el" href="group__numerical__integration.html#ae4e3c7d5629c2cfa87cc9eba91d4a273">hydra::Plain&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt;, GRND &gt;</a>
+, <a class="el" href="group__phsp.html#a257322254325a8655811c3e573f2c66d">hydra::PhaseSpaceIntegrator&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt;, GRND &gt;</a>
+, <a class="el" href="classhydra_1_1PhaseSpaceReweight.html#accccbda1e56f57aabc0c4c0e19146961">hydra::PhaseSpaceReweight&lt; Functor, ParticleTypes &gt;</a>
+, <a class="el" href="classhydra_1_1PhaseSpaceWeight.html#a7c2ee3048c77feb7d1e7a22b750f6982">hydra::PhaseSpaceWeight&lt; ParticleTypes &gt;</a>
+, <a class="el" href="group__numerical__integration.html#a1fa79e6ca01ceae7aee53e6c92bd60b0">hydra::Plain&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt;, GRND &gt;</a>
 , <a class="el" href="group__common__functions.html#a2d08c9ff41c3d88b24fa4a61e47dc890">hydra::PlanesDeltaAngle</a>
-, <a class="el" href="group__common__functions.html#a9711464ba4efeab3aca1d50ce3e1ac04">hydra::Polynomial&lt; Order, ArgIndex &gt;</a>
+, <a class="el" href="group__common__functions.html#afc6b71342380534ba8507b618429756a">hydra::Polynomial&lt; Order, ArgType, Signature &gt;</a>
 , <a class="el" href="structhydra_1_1ProcessGaussKronrodAdaptiveQuadrature.html#ad96532876fb4b03076db58d25f3ba99c">hydra::ProcessGaussKronrodAdaptiveQuadrature&lt; FUNCTOR &gt;</a>
 , <a class="el" href="classhydra_1_1Range_3_01Iterator_01_4.html#a2d5c7f3924211eb6015c176b6f423769">hydra::Range&lt; Iterator &gt;</a>
 , <a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aeb830c8fdf5c96f160609e07805d9c65">hydra::Range&lt; Iterator, Functor &gt;</a>
-, <a class="el" href="group__histogram.html#a6422c23b5e674a599afdfff0c0cff294">hydra::SparseHistogram&lt; T, 1, detail::BackendPolicy&lt; BACKEND &gt;, detail::unidimensional &gt;</a>
+, <a class="el" href="classhydra_1_1RealToComplexCuFFT.html#a1a443da18c8827a16ac4800e8fa43396">hydra::RealToComplexCuFFT&lt; T, InputType, OutputType, PlanType &gt;</a>
+, <a class="el" href="classhydra_1_1RealToComplexFFTW.html#a1ee18f2370855d7a866ddb8b6da4b57d">hydra::RealToComplexFFTW&lt; T, InputType, OutputType, PlanType &gt;</a>
+, <a class="el" href="classhydra_1_1ScopedBuffer_3_01T_00_01detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#a88c9448967ecd8a0804c97b6326cbc03">hydra::ScopedBuffer&lt; T, detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+, <a class="el" href="group__histogram.html#a26d81e1a67e2b5a3e2cabc340060a527">hydra::SparseHistogram&lt; T, 1, detail::BackendPolicy&lt; BACKEND &gt;, detail::unidimensional &gt;</a>
 , <a class="el" href="group__histogram.html#a779490fd65762a18c70496466f58c2c7">hydra::SparseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;</a>
+, <a class="el" href="classhydra_1_1SpilineFunctor.html#aa78facaf4e360204a20ab27bd5488402">hydra::SpilineFunctor&lt; Iterator1, Iterator2, ArgType, Signature &gt;</a>
+, <a class="el" href="group__fit.html#ab2ba63fbd9ce72584042d4be2c4168e4">hydra::SPlot&lt; Iterator, PDF1, PDF2, PDFs &gt;</a>
 , <a class="el" href="classhydra_1_1Sum.html#ad34cabe27f76b3c2a013004b2090d6a6">hydra::Sum&lt; F1, F2, Fs &gt;</a>
-, <a class="el" href="group__common__functions.html#a0455afdeeaee67dbbe6c1271dc45880d">hydra::ThreeBodyMassThresholdBackground&lt; ArgIndex &gt;</a>
-, <a class="el" href="group__common__functions.html#a8332e88562d5e96b24d75b834c8c7e4e">hydra::TrapezoidalShape&lt; ArgIndex &gt;</a>
-, <a class="el" href="classhydra_1_1TrapezoidalShapeAnalyticalIntegral.html#a60d88b6628db68eecfdcb92f24a3fa3b">hydra::TrapezoidalShapeAnalyticalIntegral</a>
-, <a class="el" href="group__common__functions.html#a1a7ae2730b531c8c9da883117289d82c">hydra::TriangularShape&lt; ArgIndex &gt;</a>
-, <a class="el" href="group__common__functions.html#a914f07690d47e5c9e450bd2a46ba98e5">hydra::UniformShape&lt; ArgIndex &gt;</a>
+, <a class="el" href="group__common__functions.html#ad7aa5c46bee39e1ac9eb5f893445ca76">hydra::ThreeBodyMassThresholdBackground&lt; ArgType, Signature &gt;</a>
+, <a class="el" href="group__common__functions.html#ae0a3ada751232e3afcc7ec4990f50217">hydra::TrapezoidalShape&lt; ArgType, Signature &gt;</a>
+, <a class="el" href="group__common__functions.html#af9262cccd7286a45a5cbb7128f2effbf">hydra::TriangularShape&lt; ArgType, Signature &gt;</a>
+, <a class="el" href="group__common__functions.html#a0f487f551021a00b9fd5a575b85a69b6">hydra::UniformShape&lt; ArgType, Signature &gt;</a>
 , <a class="el" href="group__fit.html#a1669e2daa6d9cf66d16d64636d2d8e32">hydra::UserParameters</a>
-, <a class="el" href="group__phsp.html#af96ff1c31c738f6710ef0d7fe2afc641">hydra::Vector3R</a>
-, <a class="el" href="group__phsp.html#a6c4381e6da703408645fe733f83abd46">hydra::Vector4R</a>
 , <a class="el" href="group__numerical__integration.html#a1ca2afb268a97f590460f0834efb1104">hydra::Vegas&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt;, GRND &gt;</a>
 , <a class="el" href="group__numerical__integration.html#a49a5bc9b7aef0c9d15507493719b4ad1">hydra::VegasState&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-, <a class="el" href="classhydra_1_1Weights_3_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#a5bc418196fb682948c815f3d8d88b630">hydra::Weights&lt; hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-, <a class="el" href="classhydra_1_1WignerD_3_01T_3_01J_01_4_00_01T_3_01M_01_4_00_01T_3_01N_01_4_00_01ArgIndex_01_4.html#a6fb0530c035c20130c9e71ee0b47040e">hydra::WignerD&lt; T&lt; J &gt;, T&lt; M &gt;, T&lt; N &gt;, ArgIndex &gt;</a>
-, <a class="el" href="group__common__functions.html#a8bdf9fe4cc5476c6ec1745e08102ae2f">hydra::WignerDMatrix&lt; ArgIndex &gt;</a>
-, <a class="el" href="group__common__functions.html#aa926f1d09009044aa52021b119a9ba0f">hydra::ZemachFunction&lt; L, ArgIndex &gt;</a>
-, <a class="el" href="classResonance.html#ad96584f9bd9c9beb24c9e4fed99296ca">Resonance&lt; CHANNEL, L &gt;</a>
+, <a class="el" href="group__common__functions.html#af91286f4824d9808df558ef7576ffa50">hydra::WignerDMatrix&lt; ArgType, Signature &gt;</a>
+, <a class="el" href="group__common__functions.html#a86f6bf0ede829c33c504f0188fed26db">hydra::ZemachFunction&lt; L, ArgType, Signature &gt;</a>
+, <a class="el" href="classNonResonant.html#acc911ef7da4707a78630abcafe5cce48">NonResonant</a>
+, <a class="el" href="classNorm.html#a0ec320e73fa35090211d8fc25b697bfa">Norm&lt; T &gt;</a>
+, <a class="el" href="classResonance.html#a571a3772effacf07e052924c92793139">Resonance&lt; L, Signature &gt;</a>
 </li>
 <li>operator[]()
-: <a class="el" href="classhydra_1_1Cache_3_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_00_01Functors_8_8_8_01_4.html#a6787c4b2cd6922d1de2292680cffff90">hydra::Cache&lt; hydra::detail::BackendPolicy&lt; BACKEND &gt;, Functors... &gt;</a>
-, <a class="el" href="group__phsp.html#afad580bbd178fb6e15d194552b6fea7e">hydra::Chains&lt; Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;... &gt;</a>
-, <a class="el" href="group__phsp.html#af520372b240d23aeeecb1bca4252174c">hydra::Decays&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-, <a class="el" href="group__histogram.html#a8c4b6599512a557afd78979fc84b925e">hydra::DenseHistogram&lt; T, 1, hydra::detail::BackendPolicy&lt; BACKEND &gt;, detail::unidimensional &gt;</a>
-, <a class="el" href="group__histogram.html#a29ff32f6847f56f5d1cbdfe35739aa67">hydra::DenseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;</a>
+: <a class="el" href="group__phsp.html#a053f1700793df0fcb21e971ceb07513c">hydra::Decays&lt; hydra::tuple&lt; Particles... &gt;, hydra::detail::BackendPolicy&lt; Backend &gt; &gt;</a>
+, <a class="el" href="group__histogram.html#a3e93685d71c649fe31587e2f829a2afa">hydra::DenseHistogram&lt; T, 1, hydra::detail::BackendPolicy&lt; BACKEND &gt;, detail::unidimensional &gt;</a>
+, <a class="el" href="group__histogram.html#a3abecfe8a6a49734e4d7625d42fac5c1">hydra::DenseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;</a>
 , <a class="el" href="classhydra_1_1detail_1_1Parameters.html#a071323f430f90bd926919fbd9e01169d">hydra::detail::Parameters&lt; N &gt;</a>
-, <a class="el" href="classhydra_1_1multiarray_3_01T_00_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#a760d535d6882a94a532591a61c77694a">hydra::multiarray&lt; T, N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-, <a class="el" href="classhydra_1_1multivector_3_01HYDRA__EXTERNAL__NS_1_1thrust_1_1tuple_3_01T_8_8_8_01_4_00_01hydra3da03b988538add1b3f476b1ea399ad2.html#a537bb97827c08cb6374c5da7d5b68154">hydra::multivector&lt; HYDRA_EXTERNAL_NS::thrust::tuple&lt; T... &gt;, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
-, <a class="el" href="classhydra_1_1Range_3_01Iterator_01_4.html#af300814d47cb095b4060e47be50f46f6">hydra::Range&lt; Iterator &gt;</a>
-, <a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#aeadfb9f60fc241d337e346874c6aef9e">hydra::Range&lt; Iterator, Functor &gt;</a>
+, <a class="el" href="classhydra_1_1multiarray_3_01T_00_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#ad91d0d5a2c8d83a055ad0bfb9ac1a418">hydra::multiarray&lt; T, N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+, <a class="el" href="classhydra_1_1multivector_3_01hydra__thrust_1_1tuple_3_01T_8_8_8_01_4_00_01hydra_1_1detail_1_1Baaf5bb9c490efe1cc04683c31129e6041.html#a09f6dbd5d669e5fcc64ff9b98fe3c46c">hydra::multivector&lt; hydra_thrust::tuple&lt; T... &gt;, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
+, <a class="el" href="classhydra_1_1Range_3_01Iterator_01_4.html#a002d920a36367396a43f56abd2dcbecd">hydra::Range&lt; Iterator &gt;</a>
+, <a class="el" href="classhydra_1_1Range_3_01Iterator_00_01Functor_01_4.html#a4fb4b608222edcf91576abdc4da4cfe6">hydra::Range&lt; Iterator, Functor &gt;</a>
 , <a class="el" href="group__histogram.html#a3161091610d214221f0470a6e583b1f1">hydra::SparseHistogram&lt; T, 1, detail::BackendPolicy&lt; BACKEND &gt;, detail::unidimensional &gt;</a>
 , <a class="el" href="group__histogram.html#ac6ec8b05ada5182db119179b01a3a93f">hydra::SparseHistogram&lt; T, N, detail::BackendPolicy&lt; BACKEND &gt;, detail::multidimensional &gt;</a>
+, <a class="el" href="group__fit.html#a81cc2229e9ee0e5fcf5723475698c149">hydra::SPlot&lt; Iterator, PDF1, PDF2, PDFs &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -322,7 +364,7 @@ $(document).ready(function(){initNavTree('functions_func_o.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Nov 3 2018 02:26:25 for Hydra by
+    <li class="footer">Generated on Sun Jun 28 2020 00:00:03 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

@@ -1,8 +1,8 @@
 var LogLikelihoodFCN2_8inl =
 [
+    [ "LogLikelihoodFCN< PDFSumExtendable< Pdfs... >, IteratorD, IteratorW... >", "classhydra_1_1LogLikelihoodFCN_3_01PDFSumExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4.html", "classhydra_1_1LogLikelihoodFCN_3_01PDFSumExtendable_3_01Pdfs_8_8_8_01_4_00_01IteratorD_00_01IteratorW_8_8_8_01_4" ],
     [ "LOGLIKELIHOODFCN2_INL_", "LogLikelihoodFCN2_8inl.html#a0a1e420bb5dea0fe3e98b61049490378", null ],
-    [ "make_loglikehood_fcn", "LogLikelihoodFCN2_8inl.html#gaedfd3c104a7e4ee0ec981db5b9d1ab85", null ],
-    [ "make_loglikehood_fcn", "LogLikelihoodFCN2_8inl.html#ga8512d7e57b7f4ba0afedb5184b4ffd9e", null ],
-    [ "make_loglikehood_fcn", "LogLikelihoodFCN2_8inl.html#gaa7c4af135808c1321a7c324da5286a37", null ],
-    [ "make_loglikehood_fcn", "LogLikelihoodFCN2_8inl.html#ga26e764d25d35a8556ad8a31e78f92417", null ]
+    [ "make_loglikehood_fcn", "LogLikelihoodFCN2_8inl.html#ga8a000e95288951de54d3d420b07d3f13", null ],
+    [ "make_loglikehood_fcn", "LogLikelihoodFCN2_8inl.html#gad95e718c107a9b491fd272dfd4cd3623", null ],
+    [ "make_loglikehood_fcn", "LogLikelihoodFCN2_8inl.html#a820a933e48fa338a812a9f88bfb18e56", null ]
 ];

@@ -1,12 +1,9 @@
 <map id="GenzMalikRule.h" name="GenzMalikRule.h">
-<area shape="rect" id="node2" href="$GenzMalikQuadrature_8h.html" title="GenzMalikQuadrature.h" alt="" coords="427,80,586,107"/>
-<area shape="rect" id="node3" href="$ProcessGenzMalikQuadrature_8h.html" title="ProcessGenzMalikQuadrature.h" alt="" coords="403,155,610,181"/>
-<area shape="rect" id="node5" href="$multidimensional__fit_8inl.html" title="multidimensional_fit.inl" alt="" coords="173,155,328,181"/>
-<area shape="rect" id="node8" href="$genz__malik_8inl.html" title="genz_malik.inl" alt="" coords="785,155,890,181"/>
-<area shape="rect" id="node11" href="$fit__3d__gaussian_8C.html" title="fit_3d_gaussian.C" alt="" coords="634,155,761,181"/>
-<area shape="rect" id="node4" href="$GenzMalikQuadrature_8inl.html" title="GenzMalikQuadrature.inl" alt="" coords="407,229,572,256"/>
-<area shape="rect" id="node6" href="$multidimensional__fit_8cpp.html" title="multidimensional_fit.cpp" alt="" coords="5,229,168,256"/>
-<area shape="rect" id="node7" href="$multidimensional__fit_8cu.html" title="multidimensional_fit.cu" alt="" coords="192,229,347,256"/>
-<area shape="rect" id="node9" href="$genz__malik_8cpp.html" title="genz_malik.cpp" alt="" coords="847,229,961,256"/>
-<area shape="rect" id="node10" href="$genz__malik_8cu.html" title="genz_malik.cu" alt="" coords="716,229,823,256"/>
+<area shape="rect" id="node2" href="$GenzMalikQuadrature_8h.html" title="GenzMalikQuadrature.h" alt="" coords="315,80,473,107"/>
+<area shape="rect" id="node3" href="$ProcessGenzMalikQuadrature_8h.html" title="ProcessGenzMalikQuadrature.h" alt="" coords="196,155,403,181"/>
+<area shape="rect" id="node5" href="$genz__malik_8inl.html" title="genz_malik.inl" alt="" coords="67,155,172,181"/>
+<area shape="rect" id="node8" href="$fit__3d__gaussian_8C.html" title="fit_3d_gaussian.C" alt="" coords="427,155,553,181"/>
+<area shape="rect" id="node4" href="$GenzMalikQuadrature_8inl.html" title="GenzMalikQuadrature.inl" alt="" coords="391,229,557,256"/>
+<area shape="rect" id="node6" href="$genz__malik_8cpp.html" title="genz_malik.cpp" alt="" coords="5,229,119,256"/>
+<area shape="rect" id="node7" href="$genz__malik_8cu.html" title="genz_malik.cu" alt="" coords="143,229,250,256"/>
 </map>

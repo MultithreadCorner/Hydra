@@ -16,7 +16,7 @@ var classhydra_1_1detail_1_1GenzMalikBox =
     [ "GetUpperLimit", "classhydra_1_1detail_1_1GenzMalikBox.html#a1f55f736aedfd5fa6fb34a43e33af388", null ],
     [ "GetUpperLimit", "classhydra_1_1detail_1_1GenzMalikBox.html#a50531a06347a0a6ff1e8b9f1aae9a05b", null ],
     [ "GetVolume", "classhydra_1_1detail_1_1GenzMalikBox.html#abf31d64a473a4c6d132693e2a1511c88", null ],
-    [ "operator hydra::pair< double, double >", "classhydra_1_1detail_1_1GenzMalikBox.html#a6a0425751a47888b08ec137915ef8e12", null ],
+    [ "operator GenzMalikBoxResult< double >", "classhydra_1_1detail_1_1GenzMalikBox.html#a77d62005f1e79cacc6e0dfb97336a913", null ],
     [ "operator=", "classhydra_1_1detail_1_1GenzMalikBox.html#a195d019b8de11970243a5a3bdd8f1d46", null ],
     [ "operator=", "classhydra_1_1detail_1_1GenzMalikBox.html#a08847be3679e2ffd82fe905a20f82751", null ],
     [ "Print", "classhydra_1_1detail_1_1GenzMalikBox.html#a418296a9345968cc8ea2d4907223c0d4", null ],
