@@ -85,7 +85,7 @@ public:
 
 		hydra_thrust::uniform_real_distribution<double> uniDist(0.0,1.0);
 
-		return (  weight/fMaxWeight >= uniDist(randEng)) ;
+		return (  weight/fMaxWeight > uniDist(randEng)) ;
 	}
 
 	__hydra_host__ __hydra_device__
@@ -474,7 +474,7 @@ typedef hydra_thrust::transform_iterator<reweight_functor,iterator> reweight_ite
 typedef detail::FlagDaugthers< reweight_functor> tagger_type;
 
 	//number of events to trial
-	size_t ntrials = this->size();
+	size_t ntrials = fDecays.size();
 
 	//create iterators
 	hydra_thrust::counting_iterator < size_t > first(0);

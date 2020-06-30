@@ -84,7 +84,7 @@ template< typename RNG, typename IteratorData, typename IteratorWeight>
 typename std::enable_if<
 detail::random::is_iterator<IteratorData>::value && detail::random::is_iterator<IteratorWeight>::value,
 Range<IteratorData> >::type
-unweight(IteratorData data_begin, IteratorData data_end , IteratorData weights_begin)
+unweight(IteratorData data_begin, IteratorData data_end , IteratorWeight weights_begin)
 {
 	using hydra_thrust::system::detail::generic::select_system;
 	typedef  typename hydra_thrust::iterator_system<IteratorData>::type   system_data_type;
@@ -138,8 +138,7 @@ unweight(hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& poli
 
 	typedef typename Functor::return_type value_type;
 
-	typedef hydra_thrust::pointer<value_type,
-			typename hydra_thrust::detail::execution_policy_base<DerivedPolicy>::tag_type> pointer_type;
+	typedef hydra_thrust::pointer<value_type,DerivedPolicy> pointer_type;
 
 	typedef detail::RndFlag<value_type,pointer_type, RNG > flagger_type;
 
