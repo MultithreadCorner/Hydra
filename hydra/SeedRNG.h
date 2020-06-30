@@ -51,7 +51,7 @@ public:
 	{}
 
 	 __hydra_host__ __hydra_device__
-	 inline SeetRNG& operator=(SeedRNG const& other)
+	 inline SeedRNG& operator=(SeedRNG const& other)
 	{
 		if(this==&other) return *this;
 
