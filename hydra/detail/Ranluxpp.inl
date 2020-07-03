@@ -35,6 +35,9 @@
 #include "mulmod.h"
 #include <stdio.h>
 
+namespace hydra {
+
+
 // modular exponentiation:
 // x <- x^n mod (2^576 - 2^240 + 1)
 void powmod(uint64_t *x, unsigned long int n){
@@ -119,53 +122,7 @@ void ranluxpp::unpackdoubles(double *d) {
   for(int j=0;j<11;j++) d[j] -= 1;
 }
 
-void ranluxpp::getarray(int n, float *a) {
-  if(_fpos < 24){ // prologue, if the entropy state is not exhausted fetch first it.
-    int rest = 24 - _fpos;
-    rest = (rest < n) ? rest : n;
-    float *f = (float*)_floats + _fpos;
-    for(int i=0;i<rest;i++) a[i] = f[i];
-    n     -= rest;
-    a     += rest;
-    _fpos += rest;
-  }
-  while(n>=24){
-    nextstate();
-    unpackfloats(a);
-    n -= 24;
-    a += 24;
-  }
-  if(n){
-    nextfloats();
-    float *f = (float*)_floats;
-    for(int i=0;i<n;i++) a[i] = f[i];
-    _fpos = n;
-  }
-}
 
-void ranluxpp::getarray(int n, double *a) {
-  if(_dpos < 11) {
-    int rest = 11 - _dpos;
-    rest = (rest < n) ? rest : n;
-    double *f = (double*)_doubles + _dpos;
-    for(int i=0;i<rest;i++) a[i] = f[i];
-    n     -= rest;
-    a     += rest;
-    _dpos += rest;
-  }
-  while(n>=11){
-    nextstate();
-    unpackdoubles(a);
-    n -= 11;
-    a += 11;
-  }
-  if(n){
-    nextdoubles();
-    double *f = (double*)_doubles;
-    for(int i=0;i<n;i++) a[i] = f[i];
-    _dpos = n;
-  }
-}
 
 // set the multiplier A to A = a^2048 + 13, a primitive element modulo
 // m = 2^576 - 2^240 + 1 to provide the full period m-1 of the sequence.
@@ -191,12 +148,7 @@ void ranluxpp::jump(uint64_t n){
   mul9x9mod(_x, a);
 }
 
-// set skip factor to emulate RANLUX behaviour
-void ranluxpp::setskip(uint64_t n){
-  for(int i=0;i<9;i++) _A[i] = geta()[i];
-  powmod(_A, n);
-}
 
-
+}  // namespace hydra
 
 #endif /* RANLUXPP_INL_ */

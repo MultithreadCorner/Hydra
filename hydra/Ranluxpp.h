@@ -39,6 +39,7 @@ namespace hydra {
 #define   likely(x) __builtin_expect(!!(x), 1)
 #define unlikely(x) __builtin_expect(!!(x), 0)
 
+template<typename >
 class ranluxpp {
 
 protected:
@@ -64,11 +65,14 @@ protected:
 
   // transfrom the binary state vector of LCG to 11 doubles
   void unpackdoubles(double *d);
+
 public:
+
   // The LCG constructor:
   // seed -- jump to the state x_seed = x_0 * A^(2^96 * seed) mod m
   // p    -- the exponent of to get the multiplier A = a^p mod m
   ranluxpp(uint64_t seed, uint64_t p);
+
   ranluxpp(uint64_t seed) : ranluxpp(seed, 2048){}
 
   // get access to the state vector
@@ -101,19 +105,9 @@ public:
     return *(double*)(_doubles + _dpos++);
   }
 
-  // Fill array size of n by single precision random numbers uniformly
-  // distributed in [0,1).
-  void getarray(int n, float *a);
-
-  // Fill array size of n by double precision random numbers uniformly
-  // distributed in [0,1).
-  void getarray(int n, double *a);
-
   // jump ahead by n 24-bit RANLUX numbers
   void jump(uint64_t n);
 
-  // set skip factor to emulate RANLUX behaviour
-  void setskip(uint64_t n);
 };
 
 }  // namespace hydra

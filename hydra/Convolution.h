@@ -41,6 +41,7 @@
 #include <hydra/detail/Convolution.inl>
 #include <hydra/detail/ArgumentTraits.h>
 #include <hydra/detail/external/hydra_thrust/transform.h>
+#include <hydra/detail/external/hydra_thrust/reduce.h>
 #include <hydra/detail/external/hydra_thrust/iterator/transform_iterator.h>
 #include <hydra/detail/external/hydra_thrust/memory.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/execution_policy.h>
@@ -93,6 +94,8 @@ convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend
 	hydra_thrust::transform(policy, counting_samples.begin(), counting_samples.end(),
 			kernel_samples.first , kernel_sampler);
 
+	auto norm_factor = hydra_thrust::reduce(policy, kernel_samples.first, kernel_samples.first + kernel_samples.second );
+
 	// sample function
 	auto functor_sampler = hydra::detail::convolution::FunctorSampler<Functor>(functor, nsamples,  min, delta);
 
@@ -135,12 +138,12 @@ convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend
 
 	auto fft_product_output =  fft_product.GetOutputData();
 
-	T n = ::pow(10.0, (long unsigned)::log10((double)nsamples*nsamples ));
+	T n = 2*nsamples*norm_factor;
 
 	auto normalize_fft =  detail::convolution::NormalizeFFT<T>(n);
 
     auto first = hydra_thrust::make_transform_iterator( fft_product_output.first,normalize_fft);
-    auto last  = hydra_thrust::make_transform_iterator(fft_product_output.first + nsamples,normalize_fft);
+    auto last  = hydra_thrust::make_transform_iterator(fft_product_output.first + nsamples+1,normalize_fft);
 
 	auto fft_product_range = make_range(first, last);
 

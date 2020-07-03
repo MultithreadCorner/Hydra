@@ -98,7 +98,9 @@ public:
 
 };
 
-// + operator two functors
+/**
+ * operator+ for two functors.
+ */
 template<typename T1, typename T2>
 inline typename std::enable_if<
 (detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value) &&
@@ -109,6 +111,9 @@ operator+(T1 const& F1, T2 const& F2)
 	return  Sum<T1,T2>(F1, F2);
 }
 
+/**
+ * operator+ for a value and a functor.
+ */
 template <typename T, typename U>
 inline typename std::enable_if<
 (detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value) &&
@@ -119,6 +124,9 @@ operator+(U const cte, T const& F)
 	return  Constant<U>(cte)+F;
 }
 
+/**
+ * operator+ for a value and a functor.
+ */
 template <typename T, typename U>
 inline typename std::enable_if<
 (detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value) &&
@@ -129,6 +137,9 @@ operator+( T const& F, U cte)
 	return  Constant<U>(cte)+F;
 }
 
+/**
+ * operator+ for a complex value and a functor.
+ */
 template <typename T, typename U>
 inline typename std::enable_if<
 (detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value) &&
@@ -139,6 +150,9 @@ operator+(hydra::complex<U> const& cte, T const& F)
 	return  Constant<hydra::complex<U> >(cte)+F;
 }
 
+/**
+ * operator+ for a complex value and a functor.
+ */
 template <typename T, typename U>
 inline typename std::enable_if<
 (detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value) &&
@@ -148,6 +162,7 @@ operator+( T const& F, hydra::complex<U> const& cte)
 {
 	return  Constant<hydra::complex<U> >(cte)+F;
 }
+
 
 // Convenience function
 template <typename F1, typename F2, typename ...Fs>
