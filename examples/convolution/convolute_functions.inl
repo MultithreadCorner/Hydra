@@ -47,7 +47,8 @@
 #include <hydra/functions/Ipatia.h>
 #include <hydra/device/System.h>
 #include <hydra/functions/ConvolutionFunctor.h>
-#include <hydra/Random.h>
+#include <hydra/GaussKronrodQuadrature.h>
+
 //hydra
 #if HYDRA_DEVICE_SYSTEM == CUDA
 #include <hydra/CuFFT.h>
@@ -112,9 +113,9 @@ int main(int argv, char** argc)
 
 	// gaussian
 	auto mean   = hydra::Parameter::Create( "mean").Value(0.0).Error(0.0001);
-	auto sigma  = hydra::Parameter::Create("sigma").Value(3.5).Error(0.0001);
+	auto sigma  = hydra::Parameter::Create("sigma").Value(1.0).Error(0.0001);
 
-	hydra::Gaussian<double> gaussian_kernel(mean,  sigma);
+	hydra::Gaussian<double> kernel(mean,  sigma);
 
 	//===========================
 	// signals
@@ -162,7 +163,7 @@ int main(int argv, char** argc)
 	auto start_d = std::chrono::high_resolution_clock::now();
 
 	hydra::convolute(hydra::device::sys, fft_backend,
-			signal, gaussian_kernel, min, max,  conv_result, true);
+			signal, kernel, min, max,  conv_result, true);
 
 	auto end_d = std::chrono::high_resolution_clock::now();
 
@@ -176,7 +177,22 @@ int main(int argv, char** argc)
 	/*
 	 * using the hydra::ConvolutionFunctor
 	 */
-    auto convoluton = hydra::make_convolution<double>(  hydra::device::sys,  fft_backend, signal, gaussian_kernel, min, max,  conv_result.size() );
+    auto convoluton = hydra::make_convolution<double>(  hydra::device::sys,  fft_backend,
+    		signal, kernel, min, max,  conv_result.size() );
+
+    hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t> GKQ61_Kernel(-25.0, 25.0);
+    hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t> GKQ61_Signal(min,  max);
+
+    auto kernel_int = GKQ61_Kernel.Integrate(kernel);
+    auto signal_int = GKQ61_Signal.Integrate(signal);
+    auto convol_int = GKQ61_Signal.Integrate(convoluton);
+
+    std::cout << "===========================================" << std::endl;
+    std::cout << "Kernel Integral: " <<kernel_int.first <<"+/-"<< kernel_int.second << std::endl;
+    std::cout << "Signal Integral: " <<signal_int.first <<"+/-"<< signal_int.second << std::endl;
+    std::cout << "Convol Integral: " <<convol_int.first <<"+/-"<< convol_int.second << std::endl;
+    std::cout << "===========================================" << std::endl;
+
 
 	//------------------------
 	//------------------------
@@ -193,7 +209,7 @@ int main(int argv, char** argc)
 		hist_convol_functor->SetBinContent(i, convoluton(hist_convol_functor->GetBinCenter(i)) );
 		hist_convol->SetBinContent(i, conv_result[i-1] );
 		hist_signal->SetBinContent(i, signal(hist_signal->GetBinCenter(i) ) );
-		hist_kernel->SetBinContent(i, gaussian_kernel( hist_kernel->GetBinCenter(i)));
+		hist_kernel->SetBinContent(i, kernel( hist_kernel->GetBinCenter(i)));
 	}
 #endif //_ROOT_AVAILABLE_
 

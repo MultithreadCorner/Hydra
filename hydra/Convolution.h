@@ -79,7 +79,6 @@ convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend
 
 	int nsamples = std::forward<Iterable>(output).size();
 
-
 	T delta = (max - min)/(nsamples);
 
 	auto complex_buffer  = hydra_thrust::get_temporary_buffer<complex_type>(policy, nsamples+1);
@@ -88,19 +87,22 @@ convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend
 
 	//
 	auto counting_samples = range(0, 2*nsamples);
+
 	// sample kernel
 	auto kernel_sampler = hydra::detail::convolution::KernelSampler<Kernel>(kernel, nsamples, delta);
 
 	hydra_thrust::transform(policy, counting_samples.begin(), counting_samples.end(),
 			kernel_samples.first , kernel_sampler);
 
-	auto norm_factor = hydra_thrust::reduce(policy, kernel_samples.first, kernel_samples.first + kernel_samples.second );
+	//auto norm_factor = hydra_thrust::reduce(policy, kernel_samples.first, kernel_samples.first + kernel_samples.second );
 
 	// sample function
 	auto functor_sampler = hydra::detail::convolution::FunctorSampler<Functor>(functor, nsamples,  min, delta);
 
 	hydra_thrust::transform( policy, counting_samples.begin(), counting_samples.end(),
 			functor_samples.first, functor_sampler);
+
+	//norm_factor *= hydra_thrust::reduce(policy, functor_samples.first, functor_samples.first + functor_samples.second );
 
 	//transform kernel
 	auto fft_kernel = _RealToComplexFFT( kernel_samples.second );
@@ -131,19 +133,19 @@ convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend
 
 	//transform product back to real
 
-	auto fft_product = _ComplexToRealFFT( 2*nsamples );
+	auto fft_product = _ComplexToRealFFT( 2.0*nsamples );
 
 	fft_product.LoadInputData(complex_buffer.second, complex_buffer.first);
 	fft_product.Execute();
 
 	auto fft_product_output =  fft_product.GetOutputData();
 
-	T n = 2*nsamples*norm_factor;
+	T n = 2*nsamples;
 
 	auto normalize_fft =  detail::convolution::NormalizeFFT<T>(n);
 
     auto first = hydra_thrust::make_transform_iterator( fft_product_output.first,normalize_fft);
-    auto last  = hydra_thrust::make_transform_iterator(fft_product_output.first + nsamples+1,normalize_fft);
+    auto last  = hydra_thrust::make_transform_iterator(fft_product_output.first + nsamples,normalize_fft);
 
 	auto fft_product_range = make_range(first, last);
 
