@@ -40,6 +40,7 @@
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/CompositeTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
+#include <hydra/detail/xoshiro256pp.h>
 
 #include <hydra/Range.h>
 
@@ -64,7 +65,8 @@ namespace hydra{
  *  \note \p default_random_engine is currently an alias for \p minstd_rand, and may change
  *        in a future version.
  */
-typedef hydra_thrust::random::default_random_engine default_random_engine;
+//typedef hydra_thrust::random::default_random_engine default_random_engine;
+typedef hydra::random::xoshiro256pp default_random_engine;
 
 
 /*! \typedef minstd_rand0

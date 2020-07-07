@@ -87,14 +87,13 @@ convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend
 	auto functor_samples = hydra_thrust::get_temporary_buffer<T>(policy, 2*nsamples);
 
 	//
-	auto counting_samples = range(0, 2*nsamples);
+	auto counting_samples = range(0, 2*nsamples-1);
 	// sample kernel
 	auto kernel_sampler = hydra::detail::convolution::KernelSampler<Kernel>(kernel, nsamples, delta);
 
 	hydra_thrust::transform(policy, counting_samples.begin(), counting_samples.end(),
 			kernel_samples.first , kernel_sampler);
 
-	auto norm_factor = hydra_thrust::reduce(policy, kernel_samples.first, kernel_samples.first + kernel_samples.second );
 
 	// sample function
 	auto functor_sampler = hydra::detail::convolution::FunctorSampler<Functor>(functor, nsamples,  min, delta);
@@ -129,16 +128,20 @@ convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend
 	hydra_thrust::transform( policy, ffts.begin(),  ffts.end(),
 			complex_buffer.first, detail::convolution::MultiplyFFT<T>());
 
+	std::cout<<"fft_functor_range :"<< fft_functor_range.size() <<std::endl;
+	std::cout<<"fft_kernel_range  :" << fft_kernel_range.size() <<std::endl;
+	std::cout<<"complex_buffer :"<< complex_buffer.second<<std::endl;
+
 	//transform product back to real
 
-	auto fft_product = _ComplexToRealFFT( 2*nsamples );
+	auto fft_product = _ComplexToRealFFT( complex_buffer.second );
 
 	fft_product.LoadInputData(complex_buffer.second, complex_buffer.first);
 	fft_product.Execute();
 
 	auto fft_product_output =  fft_product.GetOutputData();
 
-	T n = 2*nsamples*norm_factor;
+	T n = 2*nsamples;//*norm_factor;
 
 	auto normalize_fft =  detail::convolution::NormalizeFFT<T>(n);
 

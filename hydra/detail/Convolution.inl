@@ -107,7 +107,7 @@ struct KernelSampler
 
         double value=0.0;
 
-        if( (0 == index) || (index+1 == 2.0*fNZero ) ){
+        if( (0 == index) || (index-1 == 2.0*fNZero ) ){
 
         		    value = 0.5*fKernel(0.0);
         		  //  std::cout << "branch 0 :" << value << std::endl;
@@ -121,9 +121,9 @@ struct KernelSampler
 		    //std::cout << "branch 1 :" << value << std::endl;
 		}
 
-		if (  index >=  fNMax && (index+1 < 2.0*fNZero)){
+		if (  index >=  fNMax && (index-1 < 2.0*fNZero)){
 
-			double t =  (index+1-2.0*fNZero)*fDelta;
+			double t =  (index-1-2.0*fNZero)*fDelta;
 
 			value = fKernel(t);
 			//std::cout << "branch 2 :" << value << std::endl;

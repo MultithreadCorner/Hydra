@@ -31,7 +31,6 @@
 
 
 
-#include "ranluxpp.h"
 #include "mulmod.h"
 #include <stdio.h>
 
@@ -40,7 +39,8 @@ namespace hydra {
 
 // modular exponentiation:
 // x <- x^n mod (2^576 - 2^240 + 1)
-void powmod(uint64_t *x, unsigned long int n){
+__hydra_host__ __hydra_device__
+void ranluxpp::powmod(uint64_t *x, unsigned long int n){
   uint64_t res[9];
   res[0] = 1;
   for(int i=1;i<9;i++) res[i] = 0;
@@ -53,7 +53,9 @@ void powmod(uint64_t *x, unsigned long int n){
   for(int i=0;i<9;i++) x[i] = res[i];
 }
 
-const uint64_t *ranluxpp::geta(){
+__hydra_host__ __hydra_device__
+const uint64_t *ranluxpp::geta()
+ {
   static const uint64_t
     a[9] = {0x0000000000000001UL, 0x0000000000000000UL, 0x0000000000000000UL,
 	    0xffff000001000000UL, 0xffffffffffffffffUL, 0xffffffffffffffffUL,
@@ -61,6 +63,7 @@ const uint64_t *ranluxpp::geta(){
   return a;
 }
 
+__hydra_host__ __hydra_device__
 ranluxpp::ranluxpp(uint64_t seed, uint64_t p) : _dpos(11), _fpos(24) {
   _x[0] = 1;
   for(int i=1;i<9;i++) _x[i] = 0;
@@ -70,19 +73,23 @@ ranluxpp::ranluxpp(uint64_t seed, uint64_t p) : _dpos(11), _fpos(24) {
 }
 
 // the core of LCG -- modular mulitplication
+__hydra_host__ __hydra_device__
 void ranluxpp::nextstate(){
   mul9x9mod(_x,_A);
 }
 
+__hydra_host__ __hydra_device__
 void ranluxpp::nextfloats() {
   nextstate(); unpackfloats((float*)_floats); _fpos = 0;
 }
 
+__hydra_host__ __hydra_device__
 void ranluxpp::nextdoubles() {
   nextstate(); unpackdoubles((double*)_doubles); _dpos = 0;
 }
 
 // unpack state into single precision format
+__hydra_host__ __hydra_device__
 void ranluxpp::unpackfloats(float *a) {
   const uint32_t m = 0xffffff;
   const float sc = 1.0f/0x1p24f;
@@ -102,6 +109,7 @@ void ranluxpp::unpackfloats(float *a) {
 
 // unpack state into double precision format
 // 52 bits out of possible 53 bits are random
+__hydra_host__ __hydra_device__
 void ranluxpp::unpackdoubles(double *d) {
   const uint64_t
     one = 0x3ff0000000000000, // exponent
@@ -126,12 +134,14 @@ void ranluxpp::unpackdoubles(double *d) {
 
 // set the multiplier A to A = a^2048 + 13, a primitive element modulo
 // m = 2^576 - 2^240 + 1 to provide the full period m-1 of the sequence.
+__hydra_host__ __hydra_device__
 void ranluxpp::primitive(){
   for(int i=0;i<9;i++) _A[i] = geta()[i];
   powmod(_A, 2048);
   _A[0] += 13;
 }
 
+__hydra_host__ __hydra_device__
 void ranluxpp::init(uint64_t seed){
   uint64_t a[9];
   for(int i=0;i<9;i++) a[i] = _A[i];
@@ -141,6 +151,7 @@ void ranluxpp::init(uint64_t seed){
 }
 
 // jump ahead by n 24-bit RANLUX numbers
+__hydra_host__ __hydra_device__
 void ranluxpp::jump(uint64_t n){
   uint64_t a[9];
   for(int i=0;i<9;i++) a[i] = geta()[i];
