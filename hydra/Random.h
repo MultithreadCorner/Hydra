@@ -40,7 +40,8 @@
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/CompositeTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
-#include <hydra/detail/philox.h>
+#include <hydra/detail/random/philox.h>
+#include <hydra/detail/random/threefry.h>
 
 #include <hydra/Range.h>
 
@@ -66,8 +67,8 @@ namespace hydra{
  *        in a future version.
  */
 //typedef hydra_thrust::random::default_random_engine default_random_engine;
-typedef hydra::random::philox default_random_engine;
-
+//typedef hydra::random::philox default_random_engine;
+typedef hydra::random::threefry default_random_engine;
 
 /*! \typedef minstd_rand0
  *  \brief A random number engine with predefined parameters which implements a version of
@@ -111,6 +112,19 @@ typedef hydra_thrust::random::ranlux48	ranlux48;
  */
 typedef hydra_thrust::random::taus88 	taus88;
 
+
+/*! \typedef philox
+ *  \brief The Philox family of counter-based RNGs use integer multiplication, xor and permutation of W-bit words
+ *         to scramble its N-word input key.  Philox is a mnemonic for Product HI LO Xor).
+ *
+ */
+typedef hydra::random::philox philox;
+
+/*! \typedef philox
+ *  \brief Threefry uses integer addition, bitwise rotation, xor and permutation of words to randomize its output.
+ *
+ */
+typedef hydra::random::threefry threefry;
 
 namespace detail {
 
