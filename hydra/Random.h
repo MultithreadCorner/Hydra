@@ -42,6 +42,7 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/random/philox.h>
 #include <hydra/detail/random/threefry.h>
+#include <hydra/detail/random/ars.h>
 
 #include <hydra/Range.h>
 
@@ -66,9 +67,11 @@ namespace hydra{
  *  \note \p default_random_engine is currently an alias for \p minstd_rand, and may change
  *        in a future version.
  */
+
 //typedef hydra_thrust::random::default_random_engine default_random_engine;
-//typedef hydra::random::philox default_random_engine;
-typedef hydra::random::threefry default_random_engine;
+typedef hydra::random::philox default_random_engine;
+//typedef hydra::random::threefry default_random_engine;
+//typedef hydra::random::ars default_random_engine;
 
 /*! \typedef minstd_rand0
  *  \brief A random number engine with predefined parameters which implements a version of
@@ -120,11 +123,18 @@ typedef hydra_thrust::random::taus88 	taus88;
  */
 typedef hydra::random::philox philox;
 
-/*! \typedef philox
+/*! \typedef threefry
  *  \brief Threefry uses integer addition, bitwise rotation, xor and permutation of words to randomize its output.
  *
  */
 typedef hydra::random::threefry threefry;
+
+/*! \typedef ars
+ *  \brief Ars uses the crypotgraphic AES round function, but a @b non-cryptographc key schedule
+to save time and space..
+ *
+ */
+typedef hydra::random::ars ars;
 
 namespace detail {
 
