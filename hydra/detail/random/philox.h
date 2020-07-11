@@ -31,6 +31,7 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/external/hydra_R123/philox.h>
+#include <stdint.h>
 
 namespace hydra {
 
@@ -46,6 +47,7 @@ public:
 
 	typedef typename engine_type::ctr_type  state_type;
 	typedef typename engine_type::ukey_type  seed_type;
+	typedef unsigned long long advance_type;
 
 	__hydra_host__ __hydra_device__
 	philox()=delete;
