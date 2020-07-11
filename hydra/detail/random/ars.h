@@ -32,13 +32,16 @@
 
 
 #include <hydra/detail/Config.h>
+
+#if R123_USE_AES_NI
+
 #include <hydra/detail/external/hydra_R123/ars.h>
 
 namespace hydra {
 
 namespace random {
 
-#if R123_USE_AES_NI
+
 
 class ars
 {
@@ -166,7 +169,26 @@ private:
 
 #else
 
-#error ">>> [Hydra]: NVCC has no AES-IN instructions. hydra::ars. hydra::ars does not support CUDA backend. "
+namespace hydra {
+
+namespace random {
+
+
+
+class ars
+{
+public:
+
+	ars(uint32_t  s)
+	{
+	 static_assert( sizeof(ars)==1, "[Hydra]: NVCC has no AES-IN instructions. hydra::ars. hydra::ars does not support CUDA backend. " );
+	}
+};
+
+}  // namespace random
+
+}  // namespace hydra
+
 
 #endif
 

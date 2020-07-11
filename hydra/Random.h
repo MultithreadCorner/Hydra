@@ -64,17 +64,20 @@
 namespace hydra{
 
 
+
 /*! \typedef default_random_engine
  *  \brief An implementation-defined "default" random number engine.
- *  \note \p default_random_engine is currently an alias for \p minstd_rand, and may change
+ *  \note \p default_random_engine is currently an alias for \p hydra::random::squares3, and may change
  *        in a future version.
  */
+
+typedef typename hydra::random::squares3 default_random_engine;
 
 //typedef hydra_thrust::random::default_random_engine default_random_engine;
 //typedef hydra::random::philox default_random_engine;
 //typedef hydra::random::threefry default_random_engine;
 //typedef hydra::random::ars default_random_engine;
-typedef hydra::random::squares3 default_random_engine;
+//typedef hydra::random::squares3 default_random_engine;
 //typedef hydra::random::squares4 default_random_engine;
 
 /*! \typedef minstd_rand0
