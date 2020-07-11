@@ -199,6 +199,26 @@ struct is_callable: std::conditional<
 }  // namespace detail
 
 
+/**
+ * \ingroup random
+ *
+ * This functions reorder a dataset to produce a unweighted sample according to the weights
+ * [wbegin, wend]. The length of the range [wbegin, wend] should be equal or greater than
+ * the dataset size.
+ *
+ * @param policy parallel backend to perform the unweighting
+ * @param data_begin iterator pointing to the begin of the range of weights
+ * @param data_end iterator pointing to the begin of the range of weights
+ * @param weights_begin iterator pointing to the begin of the range of data
+ * @return
+ */
+template<typename RNG=default_random_engine, typename DerivedPolicy, typename IteratorData, typename IteratorWeight>
+typename std::enable_if<
+detail::random::is_iterator<IteratorData>::value && detail::random::is_iterator<IteratorWeight>::value,
+Range<IteratorData> >::type
+unweight( hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& policy, IteratorData data_begin, IteratorData data_end, IteratorWeight weights_begin);
+
+
 
 
 /**
@@ -274,6 +294,25 @@ typename std::enable_if<
 	Range< decltype(std::declval<IterableData>().begin())>
 >::type
 unweight( IterableData data, IterableWeight weights);
+
+
+/**
+ * \ingroup random
+ *
+ * This functions reorder a dataset to produce an unweighted sample according to @param functor .
+ *
+ * @param policy
+ * @param begin
+ * @param end
+ * @param functor
+ * @return the index of the last entry of the unweighted event.
+ */
+template<typename RNG=default_random_engine, typename Functor, typename Iterator, typename DerivedPolicy>
+typename std::enable_if<
+	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
+	Range<Iterator>
+>::type
+unweight( hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& policy, Iterator begin, Iterator end, Functor const& functor);
 
 
 /**

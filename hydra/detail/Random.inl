@@ -39,13 +39,12 @@
 
 namespace hydra{
 
-
-template<typename RNG, typename IteratorData, typename IteratorWeight, hydra::detail::Backend BACKEND>
+template<typename RNG, typename DerivedPolicy, typename IteratorData, typename IteratorWeight>
 typename std::enable_if<
 	detail::random::is_iterator<IteratorData>::value && detail::random::is_iterator<IteratorWeight>::value,
 	Range<IteratorData>
 >::type
-unweight( detail::BackendPolicy<BACKEND> const& policy, IteratorData data_begin, IteratorData data_end, IteratorWeight weights_begin)
+unweight( hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& policy, IteratorData data_begin, IteratorData data_end, IteratorWeight weights_begin)
 {
 
 	typedef typename IteratorWeight::value_type value_type;
@@ -68,11 +67,24 @@ unweight( detail::BackendPolicy<BACKEND> const& policy, IteratorData data_begin,
 	return  make_range(begin , r);
 }
 
+
+template<typename RNG, typename IteratorData, typename IteratorWeight, hydra::detail::Backend BACKEND>
+typename std::enable_if<
+	detail::random::is_iterator<IteratorData>::value && detail::random::is_iterator<IteratorWeight>::value,
+	Range<IteratorData>
+>::type
+unweight( detail::BackendPolicy<BACKEND> const& policy, IteratorData data_begin, IteratorData data_end, IteratorWeight weights_begin)
+{
+
+
+	return  unweight<RNG>(policy.backend, data_begin, data_end, weights_begin);
+}
+
 template< typename RNG, typename IteratorData, typename IteratorWeight>
 typename std::enable_if<
 detail::random::is_iterator<IteratorData>::value && detail::random::is_iterator<IteratorWeight>::value,
 Range<IteratorData> >::type
-unweight(IteratorData data_begin, IteratorData data_end , IteratorData weights_begin)
+unweight(IteratorData data_begin, IteratorData data_end , IteratorWeight weights_begin)
 {
 	using hydra_thrust::system::detail::generic::select_system;
 	typedef  typename hydra_thrust::iterator_system<IteratorData>::type   system_data_type;
@@ -116,17 +128,17 @@ unweight( IterableData&&  data, IterableWeight&&  weights)
 }
 
 
-template< typename RNG, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND>
+template< typename RNG, typename Functor, typename Iterator, typename DerivedPolicy>
 typename std::enable_if<
 	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 	Range<Iterator>
 >::type
-unweight( detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor)
+unweight(hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& policy, Iterator begin, Iterator end, Functor const& functor)
 {
 
 	typedef typename Functor::return_type value_type;
 
-	typedef hydra_thrust::pointer<value_type, typename detail::BackendPolicy<BACKEND>::execution_policy_type::tag_type> pointer_type;
+	typedef hydra_thrust::pointer<value_type,DerivedPolicy> pointer_type;
 
 	typedef detail::RndFlag<value_type,pointer_type, RNG > flagger_type;
 
@@ -150,6 +162,19 @@ unweight( detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator
 	hydra_thrust::return_temporary_buffer(policy, values.first);
 
 	return  make_range(begin , r);
+
+}
+
+
+template< typename RNG, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND>
+typename std::enable_if<
+	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
+	Range<Iterator>
+>::type
+unweight( detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor)
+{
+
+	return  unweight<RNG>(policy.backend, begin, end, functor );
 
 }
 

@@ -165,7 +165,40 @@ The filling functions can be called also with a specific backend policy and with
 
 #### Data fitting
 
-1. Adding support to simultaneous fit.
+1. Added support to multi-layered simultaneous fit of different models, over different datasets, deploying different parallelization strategies for each model. No categorization of the dataset is needed, but just to set up preliminarly the different component FCNs, that can be optimized in isolation or in the context of the simultaneous FCN. Simultaneous FCNs can be created via direct instantiation or using the convenience function `hydra::make_simultaneous_fcn(...)`, as shown in the following snippet.
+
+    ```cpp
+    ...
+    #include <hydra/LogLikelihoodFCN.h>
+    ...
+    
+    int main(int argv, char** argc)
+    {
+     ...
+     //=====================================================================================
+     //                                                           +----< fcn(model-x) 
+     //                           +----< simultaneous fcn 1 ----- |
+     //                           |                               +----< fcn(model-y)  
+     //   simultaneous fcn   <----+
+     //                           |                               +----< fcn(model-w)
+     //                           +----< simultaneous fcn 2 ------|
+     //                           |                               +----< fcn(model-z) 
+     //                           +----< fcn(model-v)
+     //=====================================================================================        
+     auto fcnX    = hydra::make_loglikehood_fcn(modelX, dataX);
+     auto fcnY    = hydra::make_loglikehood_fcn(modelY, dataY);
+     auto fcnW    = hydra::make_loglikehood_fcn(modelY, dataY);
+     auto fcnZ    = hydra::make_loglikehood_fcn(modelZ, dataZ);    
+     auto fcnV    = hydra::make_loglikehood_fcn(modelv, datav);
+     
+     auto sim_fcn1 = hydra::make_simultaneous_fcn(fcnx, fcny);
+     auto sim_fcn2 = hydra::make_simultaneous_fcn(fcnw, fcnz);
+     auto sim_fcn  = hydra::make_simultaneous_fcn(sim_fcn1, sim_fcn2, fcnV);
+     ...
+    }
+    ```
+    Moreover, the generic interface allows to build up a simultaneous FCN object by composing usual FCNs and simultaneous FCNs. An example of such new method can be found in `examples/fit/simultaneous_fit.inl`.
+
 2. Fitting of convoluted PDFs.
 
 #### General
