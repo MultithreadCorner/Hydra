@@ -24,6 +24,7 @@ In summary, ***Squares3, Squares4 and Philox are way faster*** then the any opti
 
 * Bug fixed in ```hydra::unweight``` implementation.
 * Other minor fixes and modifitions across the tree.
+______________________________
 
 ### Hydra 3.0.0
 
