@@ -9,14 +9,14 @@ From Random123 (see: *John K. Salmon and others, (2011) "Parallel random numbers
 2) *Ars*
 3) *Threefry*
 
-*Squares* PRNG ( see: *Widynski, Bernard (2020). "Squares: A Fast Counter-Based RNG"*. https://arxiv.org/abs/2004.06278v2 )  is also provided from this version
-in two versions:
+*Squares* PRNG ( see: *Widynski, Bernard (2020). "Squares: A Fast Counter-Based RNG"*. https://arxiv.org/abs/2004.06278v2 ), are available from now, in two versions:
 
 1) *Squares3*
 2) *Squares4*
 
-All the new generators belong to the *count-based family* and passes BigCrush (TestU01) and other tests  without any failure and provide very long periods (2^64 -1 or higher). 
-Squares3, Squares4 and Philox are way faster then the any option available in the previous releases. Ars and Threefry are competitive, being most of the time slightly faster.
+All the new generators belong to the *count-based family*, have excelent statistical properties, passing BigCrush (TestU01) and other tests easily, without any failure. All implementations provide very long periods (2^64 -1 or higher). For Squares{3,4}, users get a set of 2500 precalculated seeds for generation of sequences (streams) without statistical artifacts among them (all credits to Bernard Widynski!).
+
+In summary, ***Squares3, Squares4 and Philox are way faster*** then the any option available in the previous releases. Ars and Threefry are competitive, being most of the time slightly faster.
 
 **From this release, the defaut PRNG in Hydra is set to hydra::squares3**. 
 
