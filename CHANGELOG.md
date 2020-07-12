@@ -1,5 +1,30 @@
 ## CHANGE LOG
 
+### Hydra 3.1.0
+
+This release substantially expands the set of pseudorandom number generators available in Hydra.
+From Random123 (see: *John K. Salmon and others, (2011) "Parallel random numbers: as easy as 1, 2, 3"*. https://dl.acm.org/doi/10.1145/2063384.2063405), Hydra provides wrappers and implementations for 
+
+1) *Philox* 
+2) *Ars*
+3) *Threefry*
+
+*Squares* PRNG ( see: *Widynski, Bernard (2020). "Squares: A Fast Counter-Based RNG"*. https://arxiv.org/abs/2004.06278v2 )  is also provided from this version
+in two versions:
+
+1) *Squares3*
+2) *Squares4*
+
+All the new generators belong to the *count-based family* and passes BigCrush (TestU01) and other tests  without any failure and provide very long periods (2^64 -1 or higher). 
+Squares3, Squares4 and Philox are way faster then the any option available in the previous releases. Ars and Threefry are competitive, being most of the time slightly faster.
+
+**From this release, the defaut PRNG in Hydra is set to hydra::squares3**. 
+
+#### General
+
+* Bug fixed in ```hydra::unweight``` implementation.
+* Other minor fixes and modifitions across the tree.
+
 ### Hydra 3.0.0
 
 It is the first release of the longly  waited 3 series. Overall, this release is expected to be faster
