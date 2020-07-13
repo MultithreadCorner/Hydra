@@ -93,7 +93,7 @@ public:
 		double alpha = _par[2];
 		double N     = _par[3];
 
-		double t = (alpha < 0.0) ? (m-mean)/sigma:(mean-m)/sigma;
+		double t = (alpha < 0.0) ? (mean-m)/sigma:(mean-m)/sigma;
 		double abs_alpha = fabs(alpha);
 
 
