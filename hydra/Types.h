@@ -71,7 +71,9 @@ typedef double GReal_t;///< Double 16 bytes or float 4 bytes
 const GBool_t kTrue = true;
 const GBool_t kFalse = false;
 
+#ifndef PI
 #define PI     3.1415926535897932384626422832795028841971
+#endif
 
 namespace math_constants {
 
