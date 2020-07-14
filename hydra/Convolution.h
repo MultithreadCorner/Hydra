@@ -128,20 +128,17 @@ convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend
 	hydra_thrust::transform( policy, ffts.begin(),  ffts.end(),
 			complex_buffer.first, detail::convolution::MultiplyFFT<T>());
 
-	std::cout<<"fft_functor_range :"<< fft_functor_range.size() <<std::endl;
-	std::cout<<"fft_kernel_range  :" << fft_kernel_range.size() <<std::endl;
-	std::cout<<"complex_buffer :"<< complex_buffer.second<<std::endl;
 
 	//transform product back to real
 
-	auto fft_product = _ComplexToRealFFT( complex_buffer.second );
+	auto fft_product = _ComplexToRealFFT( 2*complex_buffer.second-2 );
 
 	fft_product.LoadInputData(complex_buffer.second, complex_buffer.first);
 	fft_product.Execute();
 
 	auto fft_product_output =  fft_product.GetOutputData();
 
-	T n = 2*nsamples;//*norm_factor;
+	T n = 2*complex_buffer.second-2;
 
 	auto normalize_fft =  detail::convolution::NormalizeFFT<T>(n);
 

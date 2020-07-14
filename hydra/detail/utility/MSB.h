@@ -55,7 +55,7 @@ inline typename std::enable_if<
     	!(std::is_signed<Integer>::value) &&
     	(std::numeric_limits<Integer>::digits==64)
     , unsigned>::type
-msb( Integer  const& x){
+msb( Integer  const x){
 
 	if(!x) return 64;
 
@@ -73,17 +73,18 @@ msb( Integer  const& x){
 
 	#else
 
+	   Integer _x
 	   unsigned y;
 	   int n = 64;
 
-	   y = x >>32;  if (y != 0) {n = n -32;  x = y;}
-	   y = x >>16;  if (y != 0) {n = n -16;  x = y;}
-	   y = x >> 8;  if (y != 0) {n = n - 8;  x = y;}
-	   y = x >> 4;  if (y != 0) {n = n - 4;  x = y;}
-	   y = x >> 2;  if (y != 0) {n = n - 2;  x = y;}
-	   y = x >> 1;  if (y != 0) return n - 2;
+	   y = _x >>32;  if (y != 0) {n = n -32;  _x = y;}
+	   y = _x >>16;  if (y != 0) {n = n -16;  _x = y;}
+	   y = _x >> 8;  if (y != 0) {n = n - 8;  _x = y;}
+	   y = _x >> 4;  if (y != 0) {n = n - 4;  _x = y;}
+	   y = _x >> 2;  if (y != 0) {n = n - 2;  _x = y;}
+	   y = _x >> 1;  if (y != 0) return n - 2;
 
-	   return 63 - n - x;
+	   return 63 - n - _x;
 
 	#endif
 //device path will try to use
@@ -105,7 +106,7 @@ inline typename std::enable_if<
     	!(std::is_signed<Integer>::value) &&
     	(std::numeric_limits<Integer>::digits<=32)
     , unsigned>::type
-msb( Integer const& x){
+msb( Integer const x){
 
 	if(!x) return 32;
 
@@ -126,12 +127,12 @@ msb( Integer const& x){
 
 	   unsigned y;
 	   int n = 32;
-	   y = x >>16;  if (y != 0) {n = n -16;  x = y;}
-	   y = x >> 8;  if (y != 0) {n = n - 8;  x = y;}
-	   y = x >> 4;  if (y != 0) {n = n - 4;  x = y;}
-	   y = x >> 2;  if (y != 0) {n = n - 2;  x = y;}
-	   y = x >> 1;  if (y != 0) return n - 2;
-	   return 31 - n - x;
+	   y = _x >>16;  if (y != 0) {n = n -16;  _x = y;}
+	   y = _x >> 8;  if (y != 0) {n = n - 8;  _x = y;}
+	   y = _x >> 4;  if (y != 0) {n = n - 4;  _x = y;}
+	   y = _x >> 2;  if (y != 0) {n = n - 2;  _x = y;}
+	   y = _x >> 1;  if (y != 0) return n - 2;
+	   return 31 - n - _x;
 
 	#endif
 #else
