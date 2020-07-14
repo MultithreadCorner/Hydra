@@ -141,7 +141,7 @@ convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend
 	//transform product back to real
 
 
-	auto fft_product = _ComplexToRealFFT( complex_buffer.second );
+	auto fft_product = _ComplexToRealFFT( 2*complex_buffer.second-2 );
 
 
 	fft_product.LoadInputData(complex_buffer.second, complex_buffer.first);
@@ -150,7 +150,7 @@ convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend
 	auto fft_product_output =  fft_product.GetOutputData();
 
 
-	T n = 2*nsamples;
+	T n = 2*complex_buffer.second-2;
 
 	auto normalize_fft =  detail::convolution::NormalizeFFT<T>(n);
 
