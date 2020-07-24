@@ -1,5 +1,16 @@
 ## CHANGE LOG
 
+### Hydra 3.2.1
+
+This release:
+
+1) In certain corner cases, large fractions of calculations performed in order to evaluate a functor depends only on the functor's parameters self. For these cases, we now added the method  ``virtual void hydra::Parameter::Update(void)``, which can be overridden by functors 
+in order to pre-calculate the parameter dependent only factors, before the calculations are distributed to the parallel backend. 
+
+Bug fixes:
+
+Any at this round, just some typos here and there. 
+
 ### Hydra 3.1.0
 
 This release substantially expands the set of pseudorandom number generators available in Hydra.
@@ -49,7 +60,7 @@ This is probably the most impacting change in this release, making **Hydra3** se
 
 1. New interface for calling functors and lambdas. 
 
-    a) Extensive statically-bound named parameter idiom support. This new idiom for specification of function call interfaces makes the definition callable objects in **Hydra3** much more safe, straight forward, transparent and user friendly, without compromise performance. In many cases enhancing performance, indeed. From **Hydra3**, users will be able to define new types, with *ad hoc* names wrapping around primary types, using the macro ```declvar(NewVar, Type)```. 
+    a) Extensive statically-bound named parameter idiom support. This new idiom for specification of function call interfaces makes the definition callable objects in **Hydra3** much more safe, straight forward, transparent and user friendly, without compromise performance. In many cases enhancing performance, indeed. From **Hydra3**, users will be able to define new types, with *ad hoc* names wrapping around primary types, using the macro ```declarg(NewVar, Type)```. 
     These new types are searched in compile time to bind the function call, if the type
 is not found a compile error is emitted, avoiding the generation of invalid or error prone code.
 See how it works:
@@ -59,7 +70,7 @@ See how it works:
     #include <hydra/functions/Gaussian.h>
     ...
     
-    declvar(Angle, double)
+    declarg(Angle, double)
     
     int main(int argv, char** argc)
     {
@@ -78,9 +89,9 @@ See how it works:
     #include <hydra/multivector.h>
     ...
      
-    declvar(X, double)
-    declvar(Y, double)
-    declvar(Z, double)
+    declarg(X, double)
+    declarg(Y, double)
+    declarg(Z, double)
     
     int main(int argv, char** argc)
     {
@@ -131,9 +142,9 @@ See how it works:
     #include <hydra/Lambda.h>
     ...
 
-    declvar(X, double)
-    declvar(Y, double)
-    declvar(Z, double)
+    declarg(X, double)
+    declarg(Y, double)
+    declarg(Z, double)
 
     int main(int argv, char** argc)
     {
@@ -163,7 +174,7 @@ is not found a compile error is emitted, informing and suggesting the user to us
     #include <hydra/functions/Gaussian.h>
     ...
     
-    declvar(Xvar, double)
+    declarg(Xvar, double)
     
     int main(int argv, char** argc)
     {
