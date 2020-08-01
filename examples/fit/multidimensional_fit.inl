@@ -308,7 +308,7 @@ int main(int argv, char** argc) {
 
 		//time
 		std::cout << "-----------------------------------------" << std::endl;
-		std::cout << "| GPU Time (ms) =" << elapsed_d.count() << std::endl;
+		std::cout << "| GPU Time (ms) =" << elapsed_d.count()    << std::endl;
 		std::cout << "-----------------------------------------" << std::endl;
 
 		//histogram

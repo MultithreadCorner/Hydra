@@ -128,7 +128,6 @@ struct parity;
 
 //positive
 template<hydra::Wave L>
-
 struct parity<L, false>: std::integral_constant<int,1>{};
 
 //negative

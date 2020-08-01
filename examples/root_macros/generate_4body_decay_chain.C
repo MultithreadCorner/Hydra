@@ -59,8 +59,7 @@
 
 
 #include <hydra/PhaseSpace.h>
-#include <hydra/Chains.h>
-#include <hydra/Evaluate.h>
+#include <hydra/Decays.h>
 #include <hydra/Function.h>
 #include <hydra/FunctorArithmetic.h>
 #include <hydra/Lambda.h>
@@ -70,9 +69,10 @@
 #include <hydra/Vector4R.h>
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
+#include <hydra/DenseHistogram.h>
 #include <hydra/Placeholders.h>
+#include <hydra/multivector.h>
 
-#include <hydra/functions/PlanesDeltaAngle.h>
 /*-------------------------------------
  * Include classes from ROOT to fill
  * and draw histograms and plots.
@@ -90,181 +90,185 @@
 #include <TStyle.h>
 
 
+// B0 -> [J/psi] K+ pi-
+//             \-> mu+ mu-
+
+declarg(Jpsi, hydra::Vector4R)
+declarg(Kaon, hydra::Vector4R)
+declarg(Pion, hydra::Vector4R)
+declarg(MuonP, hydra::Vector4R)
+declarg(MuonM, hydra::Vector4R)
+
+//phase-space variables
+declarg(M13Sq, double)
+declarg(M23Sq, double)
+declarg(CosTheta, double)
+declarg(DeltaPhi, double)
+declarg(Weight, double)
+
 
 using namespace hydra::placeholders;
+using namespace hydra::arguments;
 
-void generate_decay_chain(size_t  nentries =100000)
+
+
+void generate_4body_decay_chain(size_t  nentries =100000)
 {
 
 
-	double D0_mass    = 1.86483;      // D0 mass
-	double Jpsi_mass  = 3.0969;       // J/psi mass
-	double rho_mass   = 0.77526;      // rho mass
-	double f0_mass    = 0.990;       // f0 mass
-	double K_mass     = 0.493677;     // K+ mass
-	double pi_mass    = 0.13957061;   // pi mass
-	double mu_mass    = 0.1056583745 ;// mu mass
+	double B0_mass   = 5.27955;     // B0 mass
+	double Jpsi_mass = 3.0969;      // J/psi mass
+	double K_mass    = 0.493677;    // K+ mass
+	double pi_mass   = 0.13957061;  // pi mass
+	double mup_mass  = 0.1056583745;// mu mass
+	double mum_mass  = 0.1056583745;// mu mass
 
 
-	TH2D* Dalitz_d = new TH2D("Dalitz_d", "Device;M^{2}(#rho #pi) [GeV^{2}/c^{4}]; M^{2}(#pi #pi) [GeV^{2}/c^{4}]",
-			100, pow(rho_mass + pi_mass,2), pow(D0_mass - pi_mass,2),
-			100, pow(pi_mass + pi_mass,2), pow(D0_mass - rho_mass,2));
 
-	TH1D* CosTheta_d = new TH1D("CosTheta_d", "Device; cos(#theta_{K*}), Events", 100, -1.0, 1.0);
+	TH2D* DalitzHist = new TH2D("Dalitz_d", ";M^{2}(J/psi #pi) [GeV^{2}/c^{4}]; M^{2}(K #pi) [GeV^{2}/c^{4}]",
+			100, pow(Jpsi_mass + pi_mass,2), pow(B0_mass - K_mass,2),
+			100, pow(K_mass + pi_mass,2), pow(B0_mass - Jpsi_mass,2));
 
-	TH1D*    Delta_d  = new TH1D("Delta_d",  "Device; #delta #phi, Events", 100, 0.0, 3.5);
-	TH1D*    Delta_d2 = new TH1D("Delta_d2", "Device; #delta #phi, Events", 100, 0.0, 3.5);
+	TH1D* CosThetaHist = new TH1D("CosTheta_d", "; cos(#theta_{K*}); Events", 100, -1.0, 1.0);
 
-	//C++11 lambda for Kpi invariant mass
-	auto M2 = [] __hydra_dual__ (hydra::Vector4R const& p1, hydra::Vector4R const& p2 )
-	{ return (p1 + p2).mass2(); };
+	TH1D* DeltaPhiHist = new TH1D("Delta_d", "; #Delta #phi; Events", 100, 0.0, 3.5);
 
-
-	//C++11 lambda for cosine of helicity angle Kpi
-	auto COSHELANG = [] __hydra_dual__ (hydra::Vector4R const& p1, hydra::Vector4R const& p2, hydra::Vector4R const& p3  )
+	auto Variables  = hydra::wrap_lambda(
+			[] __hydra_dual__ (Jpsi jpsi, Kaon kaon, Pion pion , MuonP mup, MuonM mum )
 	{
-		hydra::Vector4R p = p1 + p2 + p3;
-		hydra::Vector4R q = p2 + p3;
 
-		double pd = p * p2;
-		double pq = p * q;
-		double qd = q * p2;
-		double mp2 = p.mass2();
-		double mq2 = q.mass2();
-		double md2 = p2.mass2();
+		hydra::Vector4R B0    = jpsi+kaon+pion;
+		hydra::Vector4R Kstar = kaon+pion;
+		hydra::Vector4R Zplus = jpsi+pion;
 
-		return (pd * mq2 - pq * qd)
-				/ sqrt((pq * pq - mq2 * mp2) * (qd * qd - mq2 * md2));
-	};
+		//invariant masses
+		M23Sq M2_Kpi    = Kstar.mass2();
+		M13Sq M2_jpsipi = Zplus.mass2();
 
-	//C++11 lambda for angle between the planes [K,pi] and [mu+, mu-]
-	auto DELTA = [] __hydra_dual__ (hydra::Vector4R const& d2, hydra::Vector4R const& d3,
-			hydra::Vector4R const& h1, hydra::Vector4R const&  )
-	{
-		hydra::Vector4R D = d2 + d3;
-     
-		hydra::Vector4R d1_perp = d2 - (D.dot(d2) / D.dot(D)) * D;
-		hydra::Vector4R h1_perp = h1 - (D.dot(h1) / D.dot(D)) * D;
+
+		//cosine of helicity angle
+
+		double pd = B0 * kaon;
+		double pq = B0 * Kstar;
+		double qd = Kstar * kaon;
+		double mp2 = B0.mass2();
+		double mq2 = Kstar.mass2();
+		double md2 = kaon().mass2();
+
+		CosTheta cos_helangle = (pd * mq2 - pq * qd)	/ sqrt((pq * pq - mq2 * mp2) * (qd * qd - mq2 * md2));
+
+		//angle between the decay planes
+
+		hydra::Vector4R d1_perp = kaon - (Kstar.dot(kaon) / Kstar.dot(Kstar)) * Kstar;
+		hydra::Vector4R h1_perp = mup  - (Kstar.dot(mup)  / Kstar.dot(Kstar)) * Kstar;
 
 		// orthogonal to both D and d1_perp
-		hydra::Vector4R d1_prime = D.cross(d1_perp);
+		hydra::Vector4R d1_prime = Kstar.cross(d1_perp);
 
-		d1_perp = d1_perp / d1_perp.d3mag();
+		d1_perp  = d1_perp  / d1_perp.d3mag();
 		d1_prime = d1_prime / d1_prime.d3mag();
 
-		double x, y;
+		double x = d1_perp.dot(h1_perp);
+		double y = d1_prime.dot(h1_perp);
 
-		x = d1_perp.dot(h1_perp);
-		y = d1_prime.dot(h1_perp);
+		DeltaPhi chi = atan2(y, x);
 
-		double chi = atan2(y, x);
-      
+		if(chi < 0.0) chi += 2.0*PI;
 
-		return chi;
-	};
+
+
+		return hydra::make_tuple(M2_jpsipi, M2_Kpi, cos_helangle, chi ) ;
+	});
+
 
 	//B0
-	hydra::Vector4R D0(D0_mass, 0.0, 0.0, 0.0);
+	hydra::Vector4R B0(B0_mass, 0.0, 0.0, 0.0);
 
-	// Create PhaseSpace object for D0 -> f0 rho
-	hydra::PhaseSpace<2> phsp1{f0_mass, rho_mass};
+	// Create PhaseSpace object for B0 -> K pi J/psi
+	hydra::PhaseSpace<3> ThreeBodyPHSP(B0_mass, {Jpsi_mass, K_mass, pi_mass });
 
-	// Create PhaseSpace object for f0 -> pi+ pi-
-	hydra::PhaseSpace<2> phsp2{pi_mass , pi_mass};
-
-	// Create PhaseSpace object for rh0 -> mu+ mu-
-	hydra::PhaseSpace<2> phsp3{mu_mass , mu_mass};
+	// Create PhaseSpace object for J/psi -> mu+ mu-
+	hydra::PhaseSpace<2> TwoBodyPHSP(Jpsi_mass, {mup_mass , mum_mass});
 
 
 	//device
 	{
 		//allocate memory to hold the final states particles
-		auto Chain_d   = hydra::make_chain<2,2,2>(hydra::device::sys, nentries);
+		auto ThreeBodyDecay = hydra::Decays< hydra::tuple<Jpsi,Kaon,Pion>,
+				hydra::device::sys_t >( B0_mass, {Jpsi_mass, K_mass, pi_mass }, nentries);
 
+		auto TwoBodyDecay   = hydra::Decays< hydra::tuple<MuonP,MuonM>,
+						hydra::device::sys_t >(Jpsi_mass, { mup_mass , mup_mass}, nentries);
 
 		auto start = std::chrono::high_resolution_clock::now();
 
-		//generate the final state particles for D0 -> f0 rho
-		phsp1.Generate(D0, Chain_d.GetDecay(_0).begin(), Chain_d.GetDecay(_0).end());
+		//generate the final state particles for B0 -> K pi J/psi
+		ThreeBodyPHSP.Generate(B0, ThreeBodyDecay);
 
-		//pass the list of f0 to generate the final
-		//state particles for f0 -> pi+ pi-
-		phsp2.Generate(Chain_d.GetDecay(_0).GetDaughters(0).begin(),
-		               Chain_d.GetDecay(_0).GetDaughters(0).end(),
-				       Chain_d.GetDecay(_1).begin()  );
-
-		//pass the list of rho to generate the final
-		//state particles for rho -> mu+ mu-
-		phsp3.Generate(Chain_d.GetDecay(_0).GetDaughters(1).begin(),
-					   Chain_d.GetDecay(_0).GetDaughters(1).end(),
-				       Chain_d.GetDecay(_2).begin());
+		//pass the list of J/psi to generate the final
+		//state particles for J/psi -> mu+ mu-
+		TwoBodyPHSP.Generate( ThreeBodyDecay.GetDaugtherRange(_0),  TwoBodyDecay);
 
 		auto end = std::chrono::high_resolution_clock::now();
 
 		std::chrono::duration<double, std::milli> elapsed = end - start;
 
+	    auto  chain   = ThreeBodyDecay.Meld( TwoBodyDecay ) | Variables;
+	    auto  weights = ThreeBodyDecay | ThreeBodyDecay.GetEventWeightFunctor();
+
 		//output
 		std::cout << std::endl;
 		std::cout << std::endl;
-		std::cout << "----------------- Device --------------------------"    << std::endl;
-		std::cout << "| D0 -> f0 rho     | f0 -> pi+ pi- | rho -> mu+ mu-"    << std::endl;
-		std::cout << "| Number of events :"<< nentries                        << std::endl;
-		std::cout << "| Time (ms)        :"<< elapsed.count()                 << std::endl;
-		std::cout << "---------------------------------------------------"    << std::endl;
+		std::cout << "----------------- Device ----------------"<< std::endl;
+		std::cout << "| B0 -> J/psi K pi | J/psi -> mu+ mu-"    << std::endl;
+		std::cout << "| Number of events :"<< nentries          << std::endl;
+		std::cout << "| Time (ms)        :"<< elapsed.count()   << std::endl;
+		std::cout << "-----------------------------------------"<< std::endl;
 
 		//print
 		for( size_t i=0; i<10; i++ )
-			std::cout << Chain_d[i] << std::endl;
+			std::cout <<"Weight {"<< weights[i]  << "} | Event { " << chain[i]<< " }" << std::endl;
 
 
-		//bring events to CPU memory space
-		auto Chain_h   = hydra::make_chain<2,2,2>(hydra::host::sys, nentries);
-		Chain_h  = Chain_d;
 
-		for( auto event : Chain_h )
+
+		//bring the data to host memory to fill the histograms faster
+		hydra::multivector< hydra::tuple<M13Sq, M23Sq, CosTheta, DeltaPhi>, hydra::host::sys_t> variables(chain.size());
+		hydra::copy( chain, variables);
+
+		hydra::host::vector<Weight> Weights(chain.size());
+		hydra::copy(weights, Weights );
+
+		auto dataset = variables.meld(Weights);
+
+
+		for( auto entry: dataset )
 		{
+			M13Sq M2_13       = hydra::get<M13Sq&>(entry);
+			M23Sq M2_23       = hydra::get<M23Sq&>(entry);
+			CosTheta cosTheta = hydra::get<CosTheta&>(entry);
+			DeltaPhi deltaPhi = hydra::get<DeltaPhi&>(entry);
+            Weight weight     = hydra::get<Weight&>(entry);
 
-			auto   D0_decay    = hydra::get<1>(event) ;
-			auto   f0_decay    = hydra::get<2>(event) ;
-			auto   rho_decay   = hydra::get<3>(event) ;
-          
-			double weight        = hydra::get<0>(D0_decay );
-			hydra::Vector4R f0   = hydra::get<1>(D0_decay );
-			hydra::Vector4R rho  = hydra::get<2>(D0_decay );
-
-			hydra::Vector4R pip  = hydra::get<1>(f0_decay );
-			hydra::Vector4R pim  = hydra::get<2>(f0_decay );
-
-			hydra::Vector4R mup  = hydra::get<1>(rho_decay );
-			hydra::Vector4R mum  = hydra::get<2>(rho_decay );
-			
-			
-			double M2_pipi      = M2(pim,pip);
-			double M2_rhopi     = M2(rho,pip);
-			double CosTheta   = COSHELANG(rho, pip, pim );
-			double DeltaAngle = DELTA( pip, pim, mup, mum);
-			hydra::PlanesDeltaAngle chi;
-			double DeltaAngle2 = chi(pip, pim, mup, mum);
-			Dalitz_d->Fill(M2_rhopi, M2_pipi , weight);
-			Delta_lambda->Fill(DeltaAngle);
-			Delta_functor->Fill(DeltaAngle2);
+			DalitzHist->Fill(M2_13, M2_23, weight );
+			CosThetaHist->Fill(cosTheta, weight );
+			DeltaPhiHist->Fill(deltaPhi, weight );
 		}
 
-     }//end device
-
+	}
 
 
 	//--------------------------------------
 
-	TCanvas* canvas1_d = new TCanvas("canvas1_d", "Phase-space Host", 500, 500);
-	Dalitz_d->Draw("colz");
-	Dalitz_d->SetMinimum(0.0);
+	TCanvas* canvas1_d =  new TCanvas("canvas1_d", "Phase-space", 500, 500);
+	DalitzHist->Draw("colz");
 
-	TCanvas* canvas3_d = new TCanvas("canvas3_d", "Phase-space Host", 500, 500);
-	Delta_lambda->Draw("hist");
-	Delta_lambda->SetMinimum(0.0);
+	TCanvas* canvas2_d =  new TCanvas("canvas2_d", "Phase-space", 500, 500);
+	CosThetaHist->Draw("hist");
+	CosThetaHist->SetMinimum(0.0);
 
-	TCanvas* canvas4_d = new TCanvas("canvas4_d", "Phase-space Host", 500, 500);
-	Delta_functor->Draw("hist");
-	Delta_functor->SetMinimum(0.0);
+	TCanvas* canvas3_d =  new TCanvas("canvas3_d", "Phase-space", 500, 500);
+	DeltaPhiHist->Draw("hist");
+	DeltaPhiHist->SetMinimum(0.0);
+
 }

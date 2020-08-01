@@ -95,10 +95,10 @@ struct FunctionArgument
     }
 
       __hydra_host__ __hydra_device__
-      constexpr  operator value_type() const { return value; }
+      operator value_type() const { return value; }
 
       __hydra_host__ __hydra_device__
-      constexpr operator  value_type&()  { return value; }
+     operator  value_type&()  { return value; }
 
     __hydra_host__ __hydra_device__
     constexpr value_type operator()(void) const { return value; }
