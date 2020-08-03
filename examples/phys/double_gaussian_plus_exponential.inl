@@ -241,11 +241,11 @@ int main(int argv, char** argc)
 		hist_signal.Scale(hist_data.Integral()*signal_fraction/hist_signal.Integral());
 		 */
 
-		double signal_fraction = fcn.GetPDF().Coeficient(0)/fcn.GetPDF().GetCoefSum();
+		double signal_fraction = fcn.GetPDF().Coefficient(0)/fcn.GetPDF().GetCoefSum();
 
 		//core component
 		auto   core	          = fcn.GetPDF().PDF(_0).PDF(_0);
-		double core_fraction  = signal_fraction*fcn.GetPDF().PDF(_0).Coeficient(0);
+		double core_fraction  = signal_fraction*fcn.GetPDF().PDF(_0).Coefficient(0);
 		for (size_t i=0 ; i<=100 ; i++) {
 			double x = hist_core.GetBinCenter(i);
 			hist_core.SetBinContent(i, core(x) );
@@ -254,7 +254,7 @@ int main(int argv, char** argc)
 
 		//tail component
 		auto   tail	          = fcn.GetPDF().PDF(_0).PDF(_1);
-		double tail_fraction  = signal_fraction*fcn.GetPDF().PDF(_0).Coeficient(1);
+		double tail_fraction  = signal_fraction*fcn.GetPDF().PDF(_0).Coefficient(1);
 		for (size_t i=0 ; i<=100 ; i++) {
 			double x = hist_tail.GetBinCenter(i);
 			hist_tail.SetBinContent(i, tail(x) );
@@ -264,7 +264,7 @@ int main(int argv, char** argc)
 
 		// background component
 		auto   background          = fcn.GetPDF().PDF(_1);
-		double background_fraction = fcn.GetPDF().Coeficient(1)/fcn.GetPDF().GetCoefSum();
+		double background_fraction = fcn.GetPDF().Coefficient(1)/fcn.GetPDF().GetCoefSum();
 		for (size_t i=0 ; i<=100 ; i++) {
 			double x = hist_background.GetBinCenter(i);
 			hist_background.SetBinContent(i, background(x) );

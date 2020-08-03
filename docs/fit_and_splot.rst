@@ -131,7 +131,7 @@ to build a extended model, which can be used to predict the yields:
 
 The user can get a reference to one of the component PDFs using the method ``PDF( hydra::placeholder )``. 
 This is useful, for example, to change the state of a component PDF "in place". Same operation can 
-be performed for coeficients using the method ``Coeficient( unsigned int )`` : 
+be performed for coeficients using the method ``Coefficient( unsigned int )`` : 
 
 .. code-block:: cpp
 	
@@ -145,7 +145,7 @@ be performed for coeficients using the method ``Coeficient( unsigned int )`` :
 	model.PDF( _0 ).SetParameter(0, 2.0);
 
 	//set Gaussian coeficient  to 1.5e4
-	model.Coeficient(0).SetValue(1.5e4);
+	model.Coefficient(0).SetValue(1.5e4);
 
 
 

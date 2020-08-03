@@ -180,6 +180,13 @@ public:
     inline hydra::BreitWignerLineShape<L,L,double> const&
     GetLineShape() const {	return fLineShape; }
 
+    void Update() final 	{
+
+    	fLineShape.SetParameter(0, _par[2]);
+		fLineShape.SetParameter(1, _par[3]);
+
+    }
+
     __hydra_dual__
     inline  void Update() final
     {
@@ -197,7 +204,6 @@ public:
 		hydra::Vector4R mother = kaon + pion1 + pion2;
 		hydra::Vector4R Kpi1   = kaon + pion1;
 		hydra::Vector4R Kpi2   = kaon + pion2;
-
 
 
 		hydra::complex<double> contrib_12 = fLineShape((Kpi1).mass())*fAngularDist(fCosDecayAngle(mother, Kpi1, kaon));
