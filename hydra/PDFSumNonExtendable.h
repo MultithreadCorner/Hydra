@@ -217,7 +217,7 @@ public:
 		return fCoefficients[i];
 	}
 
-	inline	Parameter& Coefficientt(size_t i)
+	inline	Parameter& Coefficient(size_t i)
 	{
 		return fCoefficients[i];
 	}

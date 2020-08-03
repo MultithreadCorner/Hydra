@@ -106,7 +106,7 @@ public:
 	{
 		size_t i=0;
 		for(Parameter var:coef){
-			fCoefficientss[i] = var;
+			fCoefficients[i] = var;
 			fCoefSum += var.GetValue();
 			i++;
 		}
@@ -123,7 +123,7 @@ public:
 
 			for(size_t i=0; i<npdfs; i++)
 			{
-			fCoefficientsts[i] = coef[i];
+				fCoefficients[i] = coef[i];
 				fCoefSum +=  coef[i].GetValue();
 			}
 
@@ -139,7 +139,7 @@ public:
 	fCoefSum(other.GetCoefSum())
 	{
 		for( size_t i=0; i< npdfs; i++ ){
-	fCoefficientsnts[i]=other.GetCoefficient(i);
+			fCoefficients[i]=other.GetCoefficient(i);
 			}
 	}
 
@@ -157,7 +157,7 @@ public:
 		this->fExtended = other.IsExtended();
 		this->fCoefSum= other.GetCoefSum();
 		for( size_t i=0; i< npdfs; i++ ){
-			thisfCoefficientsnts[i]=other.GetCoefficient(i);
+			this->fCoefficients[i]=other.GetCoefficient(i);
 		}
 
 		return *this;
@@ -173,7 +173,7 @@ public:
 	inline	void SetParameters(const std::vector<double>& parameters){
 
 		for(size_t i=0; i< npdfs; i++)
-			    fCoefficientsnts[i].Reset(parameters );
+			      fCoefficients[i].Reset(parameters );
 
 		detail::set_functors_in_tuple(fPDFs, parameters);
 
@@ -182,7 +182,7 @@ public:
 		fCoefSum=0;
 
 		for(size_t i=0; i< npdfs ; i++)
-				fCoefSufCoefficientsents[i];
+				fCoefSum+=fCoefficients[i];
 	}
 
 	/**
@@ -194,7 +194,7 @@ public:
 		HYDRA_MSG << "Registered parameters begin:" << HYDRA_ENDL;
 
 		for(size_t i=0; i< npdfs ; i++)
-			HYDRA_MSfCoefficientsients[i]<< HYDRA_ENDL;
+			HYDRA_MSG <<fCoefficients[i]<< HYDRA_ENDL;
 
 		detail::print_parameters_in_tuple(fPDFs);
 		HYDRA_MSG <<"Registered parameters end." << HYDRA_ENDL;
@@ -212,7 +212,7 @@ public:
 	inline	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
 	{
 		for(size_t i=0; i< npdfs ; i++)
-			user_parameters.push_bfCoefficientscients[i]);
+			user_parameters.push_back(&fCoefficients[i]);
 
 		detail::add_parameters_in_tuple(user_parameters, fPDFs);
 	}
@@ -220,17 +220,13 @@ public:
 
 	inline	const Parameter& GetCoefficient(size_t i) const
 	{
-		refCoefficientscients[i];
-	}
-
-
-	inline	void SetCoefficient(size_t i, Parameter const& par)fCoefficientsicients[i] = par;
+		return fCoefficients[i];
 	}
 
 
 	inline	Parameter& Coefficient(size_t i)
 	{
-		fCoefficientsficients[i];
+		return fCoefficients[i];
 	}
 
 	inline	GBool_t IsExtended() const
@@ -245,7 +241,7 @@ public:
 	{
 
 
-		return detail::AddPdfFunctor<PDF1, PDF2, PDFs...>(fFfCoefficientsfficients,1.0/fCoefSum );
+		return detail::AddPdfFunctor<PDF1, PDF2, PDFs...>(fFunctors,fCoefficients,1.0/fCoefSum );
 	}
 
 
@@ -283,7 +279,7 @@ public:
 
 		GReal_t result = 0;
 		for(size_t i=0; i< npdfs; i++)
-			rfCoefficientsefficients[i]*pdf_res_array[i];
+			result += fCoefficients[i]*pdf_res_array[i];
 
 		return result/fCoefSum;
 	}
@@ -299,7 +295,7 @@ public:
 
 		GReal_t result = 0;
 		for(size_t i=0; i< npdfs; i++)
-			fCoefficientsoefficients[i]*pdf_res_array[i];
+			result += fCoefficients[i]*pdf_res_array[i];
 
 		return result/fCoefSum;
 	}
@@ -316,7 +312,7 @@ public:
 
 		for(size_t i=0; i< npdfs; i++)
 		{
-		fCoefficientsCoefficients[i]*pdf_res_array[i];
+			result += fCoefficients[i]*pdf_res_array[i];
 		}
 
 		return result/fCoefSum;
@@ -329,7 +325,7 @@ private:
 
 
     GReal_t     fCoefSum;
-	PfCoefficientsfCoefficients[npdfs];
+	Parameter    fCoefficients[npdfs];
 	pdfs_tuple_type fPDFs;
 	functors_tuple_type fFunctors;
 	GBool_t fExtended;
