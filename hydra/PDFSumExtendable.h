@@ -220,10 +220,16 @@ public:
 
 	inline	const Parameter& GetCoefficient(size_t i) const
 	{
+<<<<<<< HEAD
 		return fCoefficients[i];
 	}
 
 
+=======
+		fCoefficientscients[i];
+	}
+	
+>>>>>>> aaffb47a49b8ac3843d6ada64fa4b185f0f5890c
 	inline	Parameter& Coefficient(size_t i)
 	{
 		return fCoefficients[i];
