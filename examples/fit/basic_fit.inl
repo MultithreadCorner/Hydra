@@ -141,7 +141,7 @@ int main(int argv, char** argc)
 
 		//gaussian range
 
-		hydra::copy(hydra::random_gauss_range(xmean.GetValue(), xsigma.GetValue(), 159753,nentries ), dataset);
+		hydra::copy(hydra::random_range(hydra::Gaussian<xvar>(xmean, xsigma) , 159753,nentries ), dataset);
 
 		std::cout<< std::endl<< "Generated data:"<< std::endl;
 		for(size_t i=0; i<10; i++)

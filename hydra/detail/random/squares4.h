@@ -73,7 +73,7 @@ public:
 	typedef uint64_t   state_type;
 	typedef uint64_t    seed_type;
 	typedef uint64_t advance_type;
-
+	typedef uint32_t  result_type;
 
 	__hydra_host__ __hydra_device__
 	squares4()=delete;

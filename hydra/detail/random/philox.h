@@ -48,6 +48,7 @@ public:
 	typedef typename engine_type::ctr_type  state_type;
 	typedef typename engine_type::ukey_type  seed_type;
 	typedef unsigned long long advance_type;
+	typedef uint64_t  result_type;
 
 	__hydra_host__ __hydra_device__
 	philox()=delete;

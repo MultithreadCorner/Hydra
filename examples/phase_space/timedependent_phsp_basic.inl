@@ -162,7 +162,7 @@ int main(int argv, char** argc)
 
 		auto   exp_dist = hydra::Distribution<hydra::Exponential<DecayTime>>();
 
-			hydra::default_random_engine engine;
+			hydra::default_random_engine engine(1256);
 
 			exp_dist.SetState(engine, {tau}, n );
 

@@ -1,5 +1,6 @@
 ## CHANGE LOG
 
+
 ### Hydra 3.2.1
 
 This release:
@@ -7,9 +8,17 @@ This release:
 1) In certain corner cases, large fractions of calculations performed in order to evaluate a functor depends only on the functor's parameters self. For these cases, we now added the method  ``virtual void hydra::Parameter::Update(void)``, which can be overridden by functors 
 in order to pre-calculate the parameter dependent only factors, before the calculations are distributed to the parallel backend. 
 
+2) Introduction of `hydra::random_range` and retirement of `hydra::random_uniform_range`, `hydra::random_gaussian_range`, `hydra::random_exp_range` , to define iterators for drawing samples from functors. Examples updated accordingly.
+
+ 
+
 Bug fixes:
 
-Any at this round, just some typos here and there. 
+1) ROOT examples updated and tested against ROOT/6.22.00. 
+
+
+-------------------------------------
+
 
 ### Hydra 3.1.0
 
@@ -27,7 +36,7 @@ From Random123 (see: *John K. Salmon and others, (2011) "Parallel random numbers
 
 All the new generators belong to the *count-based family*, have excelent statistical properties, passing BigCrush (TestU01) and other tests easily, without any failure. All implementations provide very long periods (2^64 -1 or higher). For Squares{3,4}, users get a set of 2500 precalculated seeds for generation of sequences (streams) without statistical artifacts among them (all credits to Bernard Widynski!).
 
-In summary, ***Squares3, Squares4 and Philox are way faster*** then the any option available in the previous releases. Ars and Threefry are competitive, being most of the time slightly faster.
+In summary, ***Squares3, Squares4 and Philox are way faster*** than the any option available in the previous releases. Ars and Threefry are competitive, being most of the time slightly faster than the fastest native `Thrust` rng. 
 
 **From this release, the defaut PRNG in Hydra is set to hydra::squares3**. 
 
@@ -35,7 +44,9 @@ In summary, ***Squares3, Squares4 and Philox are way faster*** then the any opti
 
 * Bug fixed in ```hydra::unweight``` implementation.
 * Other minor fixes and modifitions across the tree.
+
 ______________________________
+
 
 ### Hydra 3.0.0
 

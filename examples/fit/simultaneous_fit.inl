@@ -139,30 +139,30 @@ int main(int argv, char** argc) {
 
 		//make datasets
 		// x in omp memory space
-		auto gauss_x_range = hydra::random_gauss_range(mean.GetValue()+0.1, xsigma.GetValue()+0.1, 0xd73ad43c3);
+		auto gauss_x_range = hydra::random_range( hydra::Gaussian<double>(mean, zsigma), 0xd73ad43c3, nentries);
 
 		auto xdata = hydra::omp::vector<double>(nentries);
 
-        hydra::copy(gauss_x_range.begin(), gauss_x_range.begin()+ xdata.size(), xdata.begin());
+        hydra::copy(gauss_x_range,  xdata);
 
         auto xrange = hydra::filter(xdata, filter_entries);
 
         // y in host memory space
-        auto gauss_y_range = hydra::random_gauss_range(mean.GetValue()+0.1, ysigma.GetValue()+0.1, 0xff4e48b27);
+        auto gauss_y_range = hydra::random_range(hydra::Gaussian<double>(mean, zsigma), 0xff4e48b27, nentries);
 
         auto ydata= hydra::tbb::vector<double>(nentries);
 
-        hydra::copy(gauss_y_range.begin(), gauss_y_range.begin()+ ydata.size(), ydata.begin());
+        hydra::copy(gauss_y_range, ydata);
 
         auto yrange = hydra::filter(ydata, filter_entries);
 
 
         // y in device memory space
-        auto gauss_z_range = hydra::random_gauss_range(mean.GetValue()+0.1, zsigma.GetValue()+0.1, 0xff4e48c31 );
+        auto gauss_z_range = hydra::random_range(hydra::Gaussian<double>(mean, zsigma), 0xff4e48c31, nentries );
 
         auto zdata= hydra::device::vector<double>(nentries);
 
-        hydra::copy(gauss_z_range.begin(), gauss_z_range.begin()+ zdata.size(), zdata.begin());
+        hydra::copy(gauss_z_range, zdata );
 
         auto zrange = hydra::filter(zdata, filter_entries);
 
