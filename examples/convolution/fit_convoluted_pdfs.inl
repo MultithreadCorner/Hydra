@@ -264,10 +264,10 @@ int main(int argv, char** argc)
 
 		}
 
-		double signal_fraction = fcn.GetPDF().Coeficient(0)/fcn.GetPDF().GetCoefSum();
+		double signal_fraction = fcn.GetPDF().Coefficient(0)/fcn.GetPDF().GetCoefSum();
 		hist_signal.Scale(hist_data.Integral()*signal_fraction/hist_signal.Integral() );
 
-		double background_fraction = fcn.GetPDF().Coeficient(1)/fcn.GetPDF().GetCoefSum();
+		double background_fraction = fcn.GetPDF().Coefficient(1)/fcn.GetPDF().GetCoefSum();
 		hist_background.Scale(hist_data.Integral()*background_fraction/hist_background.Integral() );
 
 		hist_total.Scale(hist_data.Integral()/hist_total.Integral() );

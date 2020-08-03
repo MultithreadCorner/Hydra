@@ -252,7 +252,7 @@ int main(int argv, char** argc)
 
 		//signal component
 		auto   signal          = fcn.GetPDF().PDF(_0);
-		double signal_fraction = fcn.GetPDF().Coeficient(0)/fcn.GetPDF().GetCoefSum();
+		double signal_fraction = fcn.GetPDF().Coefficient(0)/fcn.GetPDF().GetCoefSum();
 		for (size_t i=0 ; i<=100 ; i++) {
 			double x = hist_signal.GetBinCenter(i);
 			hist_signal.SetBinContent(i, signal(x) );
@@ -261,7 +261,7 @@ int main(int argv, char** argc)
 
 		//combinatorial component
 		auto   combinatorial       = fcn.GetPDF().PDF(_1);
-		double combinatorial_fraction = fcn.GetPDF().Coeficient(1)/fcn.GetPDF().GetCoefSum();
+		double combinatorial_fraction = fcn.GetPDF().Coefficient(1)/fcn.GetPDF().GetCoefSum();
 		for (size_t i=0 ; i<=100 ; i++) {
 			double x = hist_combinatorial.GetBinCenter(i);
 			hist_combinatorial.SetBinContent(i, combinatorial(x) );
@@ -270,7 +270,7 @@ int main(int argv, char** argc)
 
 		//partial component
 		auto   partialrec          = fcn.GetPDF().PDF(_2);
-		double partialrec_fraction = fcn.GetPDF().Coeficient(2)/fcn.GetPDF().GetCoefSum();
+		double partialrec_fraction = fcn.GetPDF().Coefficient(2)/fcn.GetPDF().GetCoefSum();
 		for (size_t i=0 ; i<=100 ; i++) {
 			double x = hist_partialrec.GetBinCenter(i);
 			hist_partialrec.SetBinContent(i, partialrec(x) );

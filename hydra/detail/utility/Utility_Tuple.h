@@ -1241,19 +1241,19 @@ namespace hydra {
 	 template<typename Tuple, size_t ...I>
 	 __hydra_host__  __hydra_device__
 	 inline	typename tuple_type<sizeof...(I), GReal_t>::type
-	 multiply_array_tuple_helper(GReal_t (&fCoeficients)[sizeof...(I)],Tuple const& tpl,
+	 multiply_array_tuple_helper(GReal_t (&fCoefficients)[sizeof...(I)],Tuple const& tpl,
 			 index_sequence<I...>)
 	 {
-		 return hydra_thrust::make_tuple(fCoeficients[I]*hydra_thrust::get<I>(tpl)... );
+		 return hydra_thrust::make_tuple(fCoefficients[I]*hydra_thrust::get<I>(tpl)... );
 	 }
 
 	template<typename ...T>
 	__hydra_host__  __hydra_device__
-	inline	auto multiply_array_tuple(GReal_t (&fCoeficients)[sizeof...(T)],
+	inline	auto multiply_array_tuple(GReal_t (&fCoefficients)[sizeof...(T)],
 			hydra_thrust::tuple<T...> const& tpl)
-	-> decltype( multiply_array_tuple_helper(fCoeficients,tpl,make_index_sequence<sizeof...(T)>{}) )
+	-> decltype( multiply_array_tuple_helper(fCoefficients,tpl,make_index_sequence<sizeof...(T)>{}) )
 	{
-		return multiply_array_tuple_helper(fCoeficients,tpl,make_index_sequence<sizeof...(T)>{});
+		return multiply_array_tuple_helper(fCoefficients,tpl,make_index_sequence<sizeof...(T)>{});
 	}
 
 
