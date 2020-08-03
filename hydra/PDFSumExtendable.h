@@ -220,14 +220,9 @@ public:
 
 	inline	const Parameter& GetCoefficient(size_t i) const
 	{
-		refCoefficientscients[i];
+		fCoefficientscients[i];
 	}
-
-
-	inline	void SetCoefficient(size_t i, Parameter const& par)fCoefficientsicients[i] = par;
-	}
-
-
+	
 	inline	Parameter& Coefficient(size_t i)
 	{
 		fCoefficientsficients[i];
