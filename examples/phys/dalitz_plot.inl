@@ -181,6 +181,15 @@ public:
     GetLineShape() const {	return fLineShape; }
 
     __hydra_dual__
+    inline  void Update() final
+    {
+    	fLineShape.SetParameter(0, _par[2]);
+		fLineShape.SetParameter(1, _par[3]);
+    }
+
+
+
+    __hydra_dual__
     inline hydra::complex<double>
     Evaluate(Kaon kaon, PionA pion1, PionB pion2)  const {
 
@@ -189,8 +198,7 @@ public:
 		hydra::Vector4R Kpi1   = kaon + pion1;
 		hydra::Vector4R Kpi2   = kaon + pion2;
 
-		fLineShape.SetParameter(0, _par[2]);
-		fLineShape.SetParameter(1, _par[3]);
+
 
 		hydra::complex<double> contrib_12 = fLineShape((Kpi1).mass())*fAngularDist(fCosDecayAngle(mother, Kpi1, kaon));
 		hydra::complex<double> contrib_13 = fLineShape((Kpi2).mass())*fAngularDist(fCosDecayAngle(mother, Kpi2, pion2));
