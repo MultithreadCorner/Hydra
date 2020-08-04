@@ -187,14 +187,6 @@ public:
 
     }
 
-    __hydra_dual__
-    inline  void Update() final
-    {
-    	fLineShape.SetParameter(0, _par[2]);
-		fLineShape.SetParameter(1, _par[3]);
-    }
-
-
 
     __hydra_dual__
     inline hydra::complex<double>

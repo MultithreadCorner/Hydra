@@ -101,10 +101,10 @@ struct FunctionArgument
      operator  value_type&()  { return value; }
 
     __hydra_host__ __hydra_device__
-    constexpr value_type operator()(void) const { return value; }
+    value_type operator()(void) const { return value; }
 
     __hydra_host__ __hydra_device__
-     constexpr value_type Value(void) const { return value; }
+    value_type Value(void) const { return value; }
 
     //=============================================================
     //Compound assignment operators
