@@ -54,10 +54,12 @@ namespace tuple_utility {
 }  // namespace tuple_utility
 
 	template<typename T>
+	__hydra_host__ __hydra_device__
 	typename std::enable_if< detail::is_tuple<T>::value, T>::type
 	tupler( T const& data ) { return data;}
 
 	template<typename T>
+	__hydra_host__ __hydra_device__
 	typename std::enable_if<!detail::is_tuple<T>::value, hydra::tuple<T> >::type
 	tupler( T const& data )	{ return hydra::make_tuple( data ); }
 
@@ -65,6 +67,7 @@ namespace tuple_utility {
 
 
 	template<typename ...T>
+	__hydra_host__ __hydra_device__
 	typename detail::tuple_utility::flat_tuple<T...>::type
 	get_flat_tuple(T const&... args)
 	{

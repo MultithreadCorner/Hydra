@@ -1197,7 +1197,7 @@ size_t generate_dataset(Backend const& system, Model const& model, std::array<do
 
 		decays.insert(decays.end(), sample.begin(), sample.end());
 
-	} while(decays.size()<nevents );
+	} while(decays.size() < (nevents+1) );
 
 	decays.erase(decays.begin()+nevents, decays.end());
 
