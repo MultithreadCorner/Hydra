@@ -232,12 +232,12 @@ struct NAME : detail::FunctionArgument<NAME, TYPE>                     \
      {}                                                                \
                                                                        \
   __hydra_host__ __hydra_device__	                                   \
-    NAME( hydra_thrust::device_reference<TYPE> x):             \
+  NAME( hydra_thrust::device_reference<TYPE> x):                       \
          super_type(x)                                                 \
          {}                                                            \
                                                                        \
-__hydra_host__ __hydra_device__	                                       \
-explicit  NAME( hydra_thrust::device_reference<TYPE>& x):              \
+ __hydra_host__ __hydra_device__	                                   \
+ explicit  NAME( hydra_thrust::device_reference<TYPE>& x):             \
         super_type(x)                                                  \
        {}                                                              \
                                                                        \

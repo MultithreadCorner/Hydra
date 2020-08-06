@@ -5,10 +5,12 @@
 
 This release:
 
-1) In certain corner cases, large fractions of calculations performed in order to evaluate a functor depends only on the functor's parameters self. For these cases, we now added the method  ``virtual void hydra::Parameter::Update(void)``, which can be overridden by functors 
-in order to pre-calculate the parameter dependent only factors, before the calculations are distributed to the parallel backend. 
+1) In certain corner cases, a substantial part of the calculations performed to evaluate a functor depends only on the functor's state and it's parameters; i.e. it does not depend on the current functor's arguments that can be dataset points, numerical integration abscissas and so on. To further optimize the calculations in these cases, Hydra now provides the method ``virtual void hydra::Parameter::Update(void)``, which can be overridden by the functors 
+in order to pre-calculate the factors only depending in the parameters, before the calculations are distributed to one of the parallel backends.  
 
 2) Introduction of `hydra::random_range` and retirement of `hydra::random_uniform_range`, `hydra::random_gaussian_range`, `hydra::random_exp_range` , to define iterators for drawing samples from functors. Examples updated accordingly.
+
+3) 
 
  
 
@@ -16,6 +18,9 @@ Bug fixes:
 
 1) ROOT examples updated and tested against ROOT/6.22.00. 
 
+2) Spelling of ``...Coefficient...()`` corrected in ``hydra::PdfSumExtended`` and  ``hydra::PdfSumNonExtended`` headers.
+
+3) Bug fixed in ``phys/dalitz_plot`` example.
 
 -------------------------------------
 
