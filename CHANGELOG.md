@@ -10,17 +10,19 @@ in order to pre-calculate the factors only depending in the parameters, before t
 
 2) Introduction of `hydra::random_range` and retirement of `hydra::random_uniform_range`, `hydra::random_gaussian_range`, `hydra::random_exp_range` , to define iterators for drawing samples from functors. Examples updated accordingly.
 
-3) 
-
- 
 
 Bug fixes:
 
-1) ROOT examples updated and tested against ROOT/6.22.00. 
+1) ROOT examples updated and tested against ROOT/6.22.00. ( https://github.com/MultithreadCorner/Hydra/commit/acd303e7fb21d220beb7986ab7122206ac6a8eed )
 
-2) Spelling of ``...Coefficient...()`` corrected in ``hydra::PdfSumExtended`` and  ``hydra::PdfSumNonExtended`` headers.
+2) Correction of `hydra::CrystalBallShape` math. ( https://github.com/MultithreadCorner/Hydra/commit/a7ce56d4c9efad46351ddee630f7afce245c9909 )
 
-3) Bug fixed in ``phys/dalitz_plot`` example.
+3) Spelling of some words (in code) accross the tree. (https://github.com/MultithreadCorner/Hydra/commit/d2161898bd9ed4e09ee6593d27372c8ad43347b1) 
+
+4) Fixing fallback path in `MSB.h`. ( https://github.com/MultithreadCorner/Hydra/commit/5b10e05e2517c27f270507c27ea76c85a62e24f5 )
+
+5) Reimplementation of `hydra::detail::is_valid_type_pack` ( https://github.com/MultithreadCorner/Hydra/commit/f30b97a414f513e3e410195555bd0eb8f44eb9f9 )
+
 
 -------------------------------------
 

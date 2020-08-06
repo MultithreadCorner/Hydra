@@ -32,6 +32,7 @@
 #include <hydra/detail/Config.h>
 #include<hydra/detail/utility/StaticAssert.h>
 #include <hydra/detail/utility/Generic.h>
+#include <hydra/detail/TypeTraits.h>
 #include <hydra/detail/external/hydra_thrust/tuple.h>
 #include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
@@ -53,12 +54,7 @@ struct is_valid_type_pack;
 
 template<typename ...RefT, typename ...T>
 struct is_valid_type_pack<hydra_thrust::tuple<RefT...>, T... >:
-hydra_thrust::detail::is_convertible<hydra_thrust::tuple<T...>,  hydra_thrust::tuple<RefT...> > {};
-
-template<typename ...RefT, typename ...T>
-struct is_valid_type_pack<hydra_thrust::tuple<RefT...>, hydra_thrust::device_reference<T>...>:
-       hydra_thrust::detail::is_convertible<hydra_thrust::tuple<T...>,  hydra_thrust::tuple<RefT...> > {};
-
+std::is_convertible< std::tuple<typename detail::remove_device_reference<T>::type...>, std::tuple<RefT...> > {};
 
 template<typename ArgType>
 struct is_tuple_type: std::false_type {};
