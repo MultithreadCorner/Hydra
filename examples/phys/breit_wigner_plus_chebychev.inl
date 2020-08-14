@@ -130,7 +130,7 @@ int main(int argv, char** argc)
     //-------------------------------------------
 	//Polynomial
     //parameters
-    auto  c0  = hydra::Parameter::Create("C_0").Value( 1.5).Error(0.0001).Limits( 1.0, 2.0);
+    auto  c0  = hydra::Parameter::Create("C_0").Value( 1.0).Fixed();
     auto  c1  = hydra::Parameter::Create("C_1").Value( 0.2).Error(0.0001).Limits( 0.1, 0.3);
     auto  c2  = hydra::Parameter::Create("C_2").Value( 0.1).Error(0.0001).Limits( 0.01, 0.2);
     auto  c3  = hydra::Parameter::Create("C_3").Value( 0.1).Error(0.0001).Limits( 0.01, 0.2);

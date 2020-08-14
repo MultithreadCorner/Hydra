@@ -136,7 +136,7 @@ int main(int argv, char** argc)
     //-------------------------------------------
 	//Polynomial
     //parameters
-    auto  c0  = hydra::Parameter::Create().Name("C_0").Value( 0.5).Error(0.0001).Limits( 0.1, 2.0);
+    auto  c0  = hydra::Parameter::Create().Name("C_0").Value( 1.0).Fixed();
     auto  c1  = hydra::Parameter::Create().Name("C_1").Value( 1.0).Error(0.0001).Limits( 0.1, 1.5);
     auto  c2  = hydra::Parameter::Create().Name("C_2").Value( 0.5).Error(0.0001).Limits( 0.0, 1.0);
 
@@ -199,7 +199,7 @@ int main(int argv, char** argc)
 
 		auto start_d = std::chrono::high_resolution_clock::now();
 
-		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(5000, 5));
+		FunctionMinimum minimum_d =  FunctionMinimum(migrad_d(50000, 1));
 
 		auto end_d = std::chrono::high_resolution_clock::now();
 
