@@ -38,6 +38,8 @@
 #include <hydra/detail/base_functor.h>
 #include <hydra/detail/Constant.h>
 #include <hydra/detail/CompositeBase.h>
+#include <hydra/detail/FunctorTraits.h>
+#include <hydra/detail/CompositeTraits.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 
@@ -101,9 +103,10 @@ public:
 // Conveniency function
 template < typename T0, typename T1, typename ...Ts >
 inline typename std::enable_if<
-(detail::is_hydra_functor<T0>::value || detail::is_hydra_lambda<T0>::value) &&
-(detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value) &&
-detail::all_true<(detail::is_hydra_functor<Ts>::value || detail::is_hydra_lambda<Ts>::value)...>::value,
+(detail::is_hydra_functor<T0>::value || detail::is_hydra_lambda<T0>::value || detail::is_hydra_composite_functor<T0>::value) &&
+(detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value || detail::is_hydra_composite_functor<T1>::value) &&
+detail::all_true<
+(detail::is_hydra_functor<Ts>::value || detail::is_hydra_lambda<Ts>::value || detail::is_hydra_composite_functor<Ts>::value)...>::value,
 Compose<T0,T1,Ts...>>::type
 compose(T0 const& F0, T1 const& F1, Ts const&...Fs){
 

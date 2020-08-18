@@ -1,5 +1,17 @@
 ## CHANGE LOG
 
+### Hydra 3.2.2
+
+This release:
+
+1) 
+
+Bug fixes:
+
+1) Missing assignment operators for hydra::FunctionArgments
+
+2) Covering composite of composites (https://github.com/MultithreadCorner/Hydra/issues/100)
+
 
 ### Hydra 3.2.1
 

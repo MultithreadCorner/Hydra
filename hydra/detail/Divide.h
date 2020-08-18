@@ -42,6 +42,8 @@
 #include <hydra/detail/base_functor.h>
 #include <hydra/detail/Constant.h>
 #include <hydra/detail/CompositeBase.h>
+#include <hydra/detail/FunctorTraits.h>
+#include <hydra/detail/CompositeTraits.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 
@@ -89,8 +91,8 @@ public:
 // divide: / operator two functors
 template<typename T1, typename T2>
 inline typename std::enable_if<
-(detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value) &&
-(detail::is_hydra_functor<T2>::value || detail::is_hydra_lambda<T2>::value),
+(detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value || detail::is_hydra_composite_functor<T1>::value) &&
+(detail::is_hydra_functor<T2>::value || detail::is_hydra_lambda<T2>::value || detail::is_hydra_composite_functor<T2>::value),
 Divide<T1, T2> >::type
 operator/(T1 const& F1, T2 const& F2)
 {
@@ -99,7 +101,7 @@ operator/(T1 const& F1, T2 const& F2)
 
 template <typename T, typename U>
 inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value) &&
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value || detail::is_hydra_composite_functor<T>::value) &&
 (std::is_arithmetic<U>::value),
 Divide< Constant<U>, T> >::type
 operator/(U const cte, T const& F)
@@ -109,7 +111,7 @@ operator/(U const cte, T const& F)
 
 template <typename T, typename U>
 inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value) &&
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value || detail::is_hydra_composite_functor<T>::value) &&
 (std::is_arithmetic<U>::value),
 Divide< Constant<U>, T> >::type
 operator/( T const& F, U cte)
@@ -119,7 +121,7 @@ operator/( T const& F, U cte)
 
 template <typename T, typename U>
 inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value) &&
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value || detail::is_hydra_composite_functor<T>::value) &&
 (std::is_arithmetic<U>::value),
 Divide< Constant<hydra::complex<U>>, T> >::type
 operator/(hydra::complex<U> const& cte, T const& F)
@@ -129,7 +131,7 @@ operator/(hydra::complex<U> const& cte, T const& F)
 
 template <typename T, typename U>
 inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value) &&
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value || detail::is_hydra_composite_functor<T>::value) &&
 (std::is_arithmetic<U>::value),
 Divide< Constant<hydra::complex<U>>, T> >::type
 operator/( T const& F, hydra::complex<U> const& cte)
@@ -141,8 +143,8 @@ operator/( T const& F, hydra::complex<U> const& cte)
 // Convenience function
 template <typename F1, typename F2, typename ...Fs>
 inline typename std::enable_if<
-(detail::is_hydra_functor<F1>::value || detail::is_hydra_lambda<F1>::value) &&
-(detail::is_hydra_functor<F2>::value || detail::is_hydra_lambda<F2>::value),
+(detail::is_hydra_functor<F1>::value || detail::is_hydra_lambda<F1>::value || detail::is_hydra_composite_functor<F1>::value) &&
+(detail::is_hydra_functor<F2>::value || detail::is_hydra_lambda<F2>::value || detail::is_hydra_composite_functor<F2>::value),
 Divide<F1, F2>>::type
 divide(F1 const& f1, F2 const& f2)
 {

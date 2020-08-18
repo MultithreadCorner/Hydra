@@ -77,6 +77,26 @@ struct FunctionArgument
         return *this;
     }
 
+    template<typename T>
+    __hydra_host__ __hydra_device__
+    typename  std::enable_if< std::is_convertible<T, value_type>::value,
+    FunctionArgument<name_type, value_type>&>::type
+    operator=(T other)
+    {
+    	value = other;
+    	return *this;
+    }
+
+    template<typename T>
+    __hydra_host__ __hydra_device__
+    typename  std::enable_if< std::is_convertible<T, value_type>::value,
+       FunctionArgument<name_type, value_type>&>::type
+    operator=(hydra_thrust::device_reference<T> const& other)
+    {
+    	value = other;
+    	return *this;
+    }
+
     template<typename Derived2>
     __hydra_host__ __hydra_device__
     FunctionArgument(FunctionArgument<Derived2, value_type>const& other):
