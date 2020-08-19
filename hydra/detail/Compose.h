@@ -42,6 +42,7 @@
 #include <hydra/detail/CompositeTraits.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
+#include <type_traits>
 
 namespace hydra {
 
@@ -49,6 +50,9 @@ namespace hydra {
 template<typename F0, typename F1, typename... Fs >
 class Compose: public detail::CompositeBase<F0, F1, Fs...>
 {
+
+
+
 public:
 	    //tag
 
@@ -80,10 +84,15 @@ public:
 			return *this;
 		}
 
-	  	template<typename T1>
+	  	template<typename ...T>
 	  	__hydra_host__ __hydra_device__
-	  	inline return_type operator()(T1&& x ) const
+	  	inline std::enable_if<
+	  		detail::is_valid_type_pack< argument_type, T...>::value,
+	  		return_type>::type
+	  	operator()( T... x ) const
 	  	{
+
+	  		static_assert( std::is_convertible< hydra::tuple<T...>, argument_type>::value, ">>>>>>>");
 
 	  		//evaluating f(g_1(x), g_2(x), ..., g_n(x))
 
@@ -93,7 +102,7 @@ public:
 
 	  		typedef decltype(g) G_tuple ;
 
-	  		return f(detail::invoke<G_tuple, T1>(std::forward<T1>(x),g ));
+	  		return f(detail::invoke<G_tuple, hydra::tuple<T&...>>(hydra::tie(x...), g ));
 	  	}
 
 

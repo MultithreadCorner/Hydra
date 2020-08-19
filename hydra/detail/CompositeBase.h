@@ -39,6 +39,7 @@
 #include <hydra/detail/Constant.h>
 #include <hydra/Parameter.h>
 #include <hydra/Placeholders.h>
+#include <hydra/detail/TupleTraits.h>
 
 namespace hydra {
 
@@ -48,8 +49,11 @@ template<typename F0, typename F1, typename... Fs >
 class  CompositeBase
 {
 
+
+
 public:
 
+    typedef typename hydra::detail::merged_tuple<typename F1::argument_type>::type argument_type;
 	typedef typename hydra_thrust::tuple<F0, F1, Fs...> functors_type;
 
 	//tag
