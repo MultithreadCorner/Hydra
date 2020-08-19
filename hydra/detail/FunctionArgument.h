@@ -79,7 +79,7 @@ struct FunctionArgument
 
     template<typename T>
     __hydra_host__ __hydra_device__
-    typename  std::enable_if< std::is_convertible<T, value_type>::value,
+    typename  std::enable_if< std::is_convertible<T, value_type>::value && (!detail::is_function_argument<T>::value),
     FunctionArgument<name_type, value_type>&>::type
     operator=(T other)
     {
@@ -89,7 +89,7 @@ struct FunctionArgument
 
     template<typename T>
     __hydra_host__ __hydra_device__
-    typename  std::enable_if< std::is_convertible<T, value_type>::value,
+    typename  std::enable_if< std::is_convertible<T, value_type>::value && (!detail::is_function_argument<T>::value),
        FunctionArgument<name_type, value_type>&>::type
     operator=(hydra_thrust::device_reference<T> const& other)
     {
