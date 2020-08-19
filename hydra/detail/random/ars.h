@@ -49,13 +49,14 @@ class ars
 	typedef hydra_r123::ARS4x32 engine_type;
 
 	typedef bool                  trigger_type;
+	typedef uint64_t  result_type;
 
 	typedef union result_union
 	{
 		typename engine_type::ctr_type state32;
 		uint64_t state64[2];
 
-	} result_type;
+	} result_utype;
 
 public:
 
@@ -103,7 +104,7 @@ public:
 	inline uint64_t operator()(void)
 	{
 		uint64_t result = 0;
-		result_type temp;
+		result_utype temp;
 
 		if(fTrigger)
 		{

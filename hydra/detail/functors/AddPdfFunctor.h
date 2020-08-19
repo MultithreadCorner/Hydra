@@ -80,7 +80,7 @@ struct AddPdfFunctor
 				fCoefSum(coef_sum)
 	{
 		for(size_t i=0; i<sizeof...(PDFs)+2;i++)
-			fCoeficients[i]=coeficients[i].GetValue();
+			fCoefficients[i]=coeficients[i].GetValue();
 	}
 
     __hydra_host__ __hydra_device__
@@ -89,7 +89,7 @@ struct AddPdfFunctor
 		fCoefSum( other.GetCoefSum() )
 	{
 		for(size_t i=0; i<sizeof...(PDFs)+2;i++)
-			fCoeficients[i]=other.GetCoeficients()[i];
+			fCoefficients[i]=other.GetCoefficients()[i];
 	}
 
 
@@ -101,7 +101,7 @@ struct AddPdfFunctor
     	this->fCoefSum = other.GetCoefSum() ;
 
     	for(size_t i=0; i<sizeof...(PDFs)+2;i++)
-    		this->fCoeficients[i]=other.GetCoeficients()[i];
+    		this->fCoefficients[i]=other.GetCoefficients()[i];
 
     	return *this;
     }
@@ -111,19 +111,19 @@ struct AddPdfFunctor
     {
     	HYDRA_CALLER ;
     	HYDRA_MSG << "Registered parameters begin:" << HYDRA_ENDL;
-    	HYDRA_MSG << "Coeficients: "<< HYDRA_ENDL;
+    	HYDRA_MSG << "Coefficients: "<< HYDRA_ENDL;
     			for(size_t i=0;i< sizeof...(PDFs)+2;i++ )
     			{
-    				HYDRA_MSG << "["<<i<<"]" <<	fCoeficients[i]<<HYDRA_ENDL;
+    				HYDRA_MSG << "["<<i<<"]" <<	fCoefficients[i]<<HYDRA_ENDL;
     			}
     			detail::print_parameters_in_tuple(fFunctors);
     	HYDRA_MSG <<"Registered parameters end."<< HYDRA_ENDL;
     	HYDRA_MSG << HYDRA_ENDL;
     }
     __hydra_host__ __hydra_device__
-	const GReal_t* GetCoeficients() const
+	const GReal_t* GetCoefficients() const
 	{
-		return fCoeficients;
+		return fCoefficients;
 	}
     __hydra_host__ __hydra_device__
 	GReal_t GetCoefSum() const
@@ -166,7 +166,7 @@ struct AddPdfFunctor
 
 		GReal_t result = 0;
 		for(size_t i=0; i< npdfs; i++)
-			result += fCoeficients[i]*pdf_res_array[i];
+			result += fCoefficients[i]*pdf_res_array[i];
 
 		//printf("%f %f %f %f %f  \n", pdf_res_array[0], pdf_res_array[1], pdf_res_array[2], result, fCoefSum );
 
@@ -185,7 +185,7 @@ struct AddPdfFunctor
 
 		GReal_t result = 0;
 		for(size_t i=0; i< npdfs; i++)
-			result += fCoeficients[i]*pdf_res_array[i];
+			result += fCoefficients[i]*pdf_res_array[i];
 
 		return result*fCoefSum;
 	}
@@ -204,7 +204,7 @@ struct AddPdfFunctor
 
 		for(size_t i=0; i< npdfs; i++)
 		{
-			result += fCoeficients[i]*pdf_res_array[i];
+			result += fCoefficients[i]*pdf_res_array[i];
 		}
 
 		return result*fCoefSum;
@@ -213,7 +213,7 @@ struct AddPdfFunctor
 
 private:
 	GReal_t fCoefSum;
-	GReal_t fCoeficients[sizeof...(PDFs)+2];
+	GReal_t fCoefficients[sizeof...(PDFs)+2];
 	functors_tuple_type fFunctors;
 };
 

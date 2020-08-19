@@ -175,11 +175,11 @@ public:
 		HYDRA_STATIC_ASSERT(int(sizeof...(T))==-1,
 				"This Hydra lambda can not be called with these arguments.\n"
 				"Possible functions arguments are:\n\n"
-				"1) List of arguments matching or convertible to the lambda signature.\n"
-				"2) One tuple containing the arguments in the lambda's signature.\n"
-				"3) Two tuples that concatenated contain the arguments in the lambda's signature.\n"
-				"4) One argument and one tuple that concatenated contain the arguments in the lambda's signature.\n"
-		        "5) One tuple that is convertible to a tuple of the arguments in the lambda's signature.\n\n"
+				"1) List of arguments matching or convertible to the functor signature.\n"
+				"2) One tuple containing the arguments in the functor's signature.\n"
+				"3) Two tuples that concatenated contain the arguments in the functor's signature.\n"
+				"4) One argument and one tuple that concatenated contain the arguments in the functor's signature.\n"
+		        "5) One tuple that is convertible to a tuple of the arguments in the functor's signature.\n\n"
 				"Please inspect the error messages issued above to find the line generating the error."
 				)
 

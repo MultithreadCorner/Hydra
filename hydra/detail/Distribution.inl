@@ -41,6 +41,7 @@ namespace hydra {
 template<typename Class>
 struct Distribution<Class, false >
 {
+
  	HYDRA_STATIC_ASSERT( !(std::is_class<Class>::value), "There is no implemented method for"
  			"sampling this distribution.\n"
  			"Provide a hydra::RngFormula specialization for this distribution\n"

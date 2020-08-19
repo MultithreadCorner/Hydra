@@ -130,7 +130,7 @@ int main(int argv, char** argc)
     //-------------------------------------------
 	//Polynomial
     //parameters
-    auto  c0  = hydra::Parameter::Create("C_0").Value( 1.5).Error(0.0001).Limits( 1.0, 2.0);
+    auto  c0  = hydra::Parameter::Create("C_0").Value( 1.0).Fixed();
     auto  c1  = hydra::Parameter::Create("C_1").Value( 0.2).Error(0.0001).Limits( 0.1, 0.3);
     auto  c2  = hydra::Parameter::Create("C_2").Value( 0.1).Error(0.0001).Limits( 0.01, 0.2);
     auto  c3  = hydra::Parameter::Create("C_3").Value( 0.1).Error(0.0001).Limits( 0.01, 0.2);
@@ -225,7 +225,7 @@ int main(int argv, char** argc)
 
 		//signal component
 		auto   signal          = fcn.GetPDF().PDF(_0);
-		double signal_fraction = fcn.GetPDF().Coeficient(0)/fcn.GetPDF().GetCoefSum();
+		double signal_fraction = fcn.GetPDF().Coefficient(0)/fcn.GetPDF().GetCoefSum();
 		for (size_t i=0 ; i<=100 ; i++) {
 			double x = hist_signal.GetBinCenter(i);
 			hist_signal.SetBinContent(i, signal(x) );
@@ -234,7 +234,7 @@ int main(int argv, char** argc)
 
 		//signal component
 		auto   background          = fcn.GetPDF().PDF(_1);
-		double background_fraction = fcn.GetPDF().Coeficient(1)/fcn.GetPDF().GetCoefSum();
+		double background_fraction = fcn.GetPDF().Coefficient(1)/fcn.GetPDF().GetCoefSum();
 		for (size_t i=0 ; i<=100 ; i++) {
 			double x = hist_background.GetBinCenter(i);
 			hist_background.SetBinContent(i, background(x) );

@@ -45,7 +45,21 @@ boost_strapped_range(Iterable&& iterable, size_t seed){
 
 	using hydra_thrust::make_permutation_iterator;
 
-	auto permutations = random_uniform_range(size_t(0), std::forward<Iterable>(iterable).size()-1, seed );
+	typedef hydra_thrust::counting_iterator<size_t> index_t;
+	typedef detail::RndUniform<size_t, hydra_thrust::random::default_random_engine> uniform_t;
+
+	size_t min = 0;
+	size_t max = std::forward<Iterable>(iterable).size() -1;
+
+	index_t first(min);
+	index_t last(max);
+
+	auto permutations = make_range(
+			hydra_thrust::transform_iterator<uniform_t, index_t, size_t>(first, uniform_t(seed, 0, min )),
+			hydra_thrust::transform_iterator<uniform_t, index_t, size_t>( last, uniform_t(seed, 0, max )));
+
+
+	//auto permutations = random_range(size_t(0), std::forward<Iterable>(iterable).size()-1, seed );
 
 	return make_range(make_permutation_iterator( std::forward<Iterable>(iterable).begin(), permutations.begin()),
 			make_permutation_iterator( std::forward<Iterable>(iterable).end(), permutations.end()));

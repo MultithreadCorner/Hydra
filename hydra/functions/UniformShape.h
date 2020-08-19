@@ -151,6 +151,7 @@ struct RngFormula< UniformShape<ArgType> >
 {
 
 	typedef ArgType value_type;
+
 	__hydra_host__ __hydra_device__
 	inline unsigned NCalls( UniformShape<ArgType>const&) const
 	{

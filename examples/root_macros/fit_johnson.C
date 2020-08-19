@@ -76,6 +76,10 @@
 #include <TCanvas.h>
 
 using namespace ROOT::Minuit2;
+using namespace hydra::arguments;
+
+
+declarg(xvar, double)
 
 
 void fit_johnson(size_t nentries=500000 )
@@ -84,29 +88,22 @@ void fit_johnson(size_t nentries=500000 )
 
 	//-----------------
 	// some definitions
-	double min   = -5.0;
+	double min   = -15.0;
 	double max   =  5.0;
-	double mean  =  0.0;
-	double sigma =  1.5;
-	double width =  0.5;
-	double nu    =  0.0;
-	double tau   =  0.0;
-
-	//generator
-	hydra::Random<> Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
 	//parameters
-	hydra::Parameter  mean_p  = hydra::Parameter::Create().Name("gamma").Value(0.0).Error(0.0001).Limits(-1.0, 1.0);
-	hydra::Parameter  width_p = hydra::Parameter::Create().Name("delta").Value(1.0).Error(0.0001).Limits(0.001, 100.5);
-	hydra::Parameter  nu_p    = hydra::Parameter::Create().Name("xi").Value(0.05).Error(0.0001).Limits(-5.0, 5.0);
-	hydra::Parameter  tau_p   = hydra::Parameter::Create().Name("lambda").Value(1.0).Error(0.0001).Limits(0.001, 100.5);
+	auto Gamma  = hydra::Parameter::Create("gamma" ).Value(3.0 ).Error(0.0001).Limits( -1.0, 5.0  );
+	auto Delta  = hydra::Parameter::Create("delta" ).Value(2.0 ).Error(0.0001).Limits(0.5, 2.5);
+	auto Xi     = hydra::Parameter::Create("xi"    ).Value(1.1).Error(0.0001).Limits( 0.0, 2.0  );
+	auto Lambda = hydra::Parameter::Create("lambda").Value(1.5 ).Error(0.0001).Limits(0.5, 2.5);
 
 
 	//johnson function evaluating on argument one
-	hydra::JohnsonSU<> johnson(mean_p, width_p, nu_p, tau_p);
+	hydra::JohnsonSU<xvar> johnson(Gamma, Delta, Xi, Lambda);
 
 	//make model (pdf with analytical integral)
-	auto model = hydra::make_pdf(johnson, hydra::JohnsonSUShapeAnalyticalIntegral(min, max) );
+	auto model = hydra::make_pdf(johnson,
+			hydra::AnalyticalIntegral< hydra::JohnsonSU<xvar> >(min, max) );
 
 
 	//------------------------
@@ -118,29 +115,29 @@ void fit_johnson(size_t nentries=500000 )
 	//begin raii scope
 	{
 		//1D device buffer
-		hydra::device::vector<double>  data_d(nentries);
+		hydra::device::vector<double>  dataset(nentries);
 
 		//-------------------------------------------------------
-		//generate gaussian data
-		Generator.Gauss(mean, sigma, data_d.begin(), data_d.end());
+		//generate johnson data
+		hydra::copy( hydra::random_range( johnson, 159753, dataset.size() ), dataset);
 
 		std::cout<< std::endl<< "Generated data:"<< std::endl;
 		for(size_t i=0; i<10; i++)
-			std::cout << "[" << i << "] :" << data_d[i] << std::endl;
+			std::cout << "[" << i << "] :" << dataset[i] << std::endl;
 
 		//filtering
 		auto filter = hydra::wrap_lambda(
-				[=] __hydra_dual__ (unsigned int n, double* x){
-				return (x[0] > min) && (x[0] < max );
+				[=] __hydra_dual__ (xvar x){
+				return (x > min) && (x < max );
 		});
 
-		auto range  = hydra::apply_filter(data_d,  filter);
+		auto range  = hydra::filter(dataset,  filter);
 
 		std::cout<< std::endl<< "Filtered data:"<< std::endl;
 		for(size_t i=0; i<10; i++)
-			std::cout << "[" << i << "] :" << range.begin()[i] << std::endl;
+			std::cout << "[" << i << "] :" << range[i] << std::endl;
 
-		auto fcn   = hydra::make_loglikehood_fcn(model, range.begin(), range.end());
+		auto fcn   = hydra::make_loglikehood_fcn(model, range );
 
 		//-------------------------------------------------------
 		//fit
@@ -175,7 +172,7 @@ void fit_johnson(size_t nentries=500000 )
 		std::cout << "-----------------------------------------"  << std::endl;
 
 		hydra::DenseHistogram<double,1,  hydra::device::sys_t> Hist_Data(100, min, max);
-		Hist_Data.Fill( range.begin(), range.end() );
+		Hist_Data.Fill( range);
 
 
 

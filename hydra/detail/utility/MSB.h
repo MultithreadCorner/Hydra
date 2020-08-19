@@ -55,7 +55,7 @@ inline typename std::enable_if<
     	!(std::is_signed<Integer>::value) &&
     	(std::numeric_limits<Integer>::digits==64)
     , unsigned>::type
-msb( Integer  const& x){
+msb( Integer x){
 
 	if(!x) return 64;
 
@@ -105,7 +105,7 @@ inline typename std::enable_if<
     	!(std::is_signed<Integer>::value) &&
     	(std::numeric_limits<Integer>::digits<=32)
     , unsigned>::type
-msb( Integer const& x){
+msb( Integer x){
 
 	if(!x) return 32;
 
