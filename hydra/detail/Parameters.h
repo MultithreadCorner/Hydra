@@ -341,6 +341,8 @@ public:
 	__hydra_host__ __hydra_device__ inline
 	size_t GetNumberOfParameters() const { 	return 0; 	}
 
+	size_t  GetParametersKey() { return 1;};
+
 };
 
 
