@@ -51,6 +51,7 @@
 #include <hydra/Algorithm.h>
 #include <hydra/DenseHistogram.h>
 #include <hydra/Zip.h>
+#include <hydra/functions/UniformShape.h>
 
 //command line arguments
 #include <tclap/CmdLine.h>
@@ -115,9 +116,9 @@ int main(int argv, char** argc)
 
 		hydra::multivector<hydra::tuple<AxisX, AxisY, AxisZ>, hydra::device::sys_t> positions(
 				hydra::zip(
-				hydra::random_uniform_range(-1.5, 1.5, 753, nentries),
-				hydra::random_uniform_range(-1.5, 1.5, 123, nentries),
-				hydra::random_uniform_range(-1.5, 1.5, 789, nentries))
+				hydra::random_range( hydra::UniformShape<AxisX>(-1.5, 1.5), 753, nentries),
+				hydra::random_range( hydra::UniformShape<AxisY>(-1.5, 1.5), 123, nentries),
+				hydra::random_range( hydra::UniformShape<AxisZ>(-1.5, 1.5), 789, nentries))
 		 );
 		std::cout  << std::endl<< std::endl<< std::endl;
 		std::cout  << std::endl<<"hydra::sort_by_key" <<std::endl<< std::endl;

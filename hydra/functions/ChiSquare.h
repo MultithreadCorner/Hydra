@@ -72,33 +72,52 @@ class ChiSquare: public BaseFunctor< ChiSquare<ArgType>, Signature, 1>
 		ChiSquare()=delete;
 
 		ChiSquare(Parameter const& ndof ):
-			BaseFunctor<ChiSquare<ArgType>, Signature,  1>({ndof})
+			BaseFunctor<ChiSquare<ArgType>, Signature,  1>({ndof}),
+			fDenominator( (::tgamma(ndof/2.0)*::pow(2.0,ndof/2.0)) )
 			{}
 
 		__hydra_host__ __hydra_device__
 		ChiSquare(ChiSquare<ArgType> const& other ):
-			BaseFunctor<ChiSquare<ArgType>, Signature, 1>(other)
+			BaseFunctor<ChiSquare<ArgType>, Signature, 1>(other),
+			fDenominator( other.GetDenominator())
 			{}
 
 		__hydra_host__ __hydra_device__
 		inline ChiSquare<ArgType>&
 		operator=(ChiSquare<ArgType> const& other ){
 			if(this==&other) return  *this;
+
 			BaseFunctor<ChiSquare<ArgType>, Signature, 1>::operator=(other);
+			fDenominator = other.GetDenominator();
+
 			return  *this;
 		}
 
+		__hydra_host__ __hydra_device__
+		double GetDenominator() const {
+			return fDenominator;
+		}
+
+		void Update(void ) override
+		{
+			double ndof  = 0.5*_par[0];
+			fDenominator = ::tgamma(ndof)*::pow(2.0,ndof);
+		}
 
 		__hydra_host__ __hydra_device__
 		inline double Evaluate(ArgType m)  const
 		{
 			double ndof  = _par[0];
 
-			double r = (m > 0)?::pow(m,(ndof/2.0)-1.0) * ::exp(-m/2.0) / (::tgamma(ndof/2.0)*::pow(2.0,ndof/2.0)):0.0;
+			double r = (m > 0)?::pow(m,(ndof/2.0)-1.0) * ::exp(-m/2.0) / fDenominator:0.0;
 
 
 			return CHECK_VALUE(r, "par[0]=%f", _par[0]) ;
 		}
+
+	private:
+
+		double fDenominator;
 
 
 

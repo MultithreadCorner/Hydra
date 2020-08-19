@@ -266,8 +266,11 @@ auto data = hydra::device::vector< double>(10, .0);
 	auto gauss     = hydra::Gaussian<xvar>(mean, sigma);
 
     for(auto x: data)
+    	std::cout << ">>>>>>>>>"<<hydra::detail::is_valid_type_pack<hydra_thrust::tuple<xvar> , decltype(x) >::value << std::endl;
     	//x.dummy;
-    	std::cout << gauss(x) << std::endl;
+    	//std::cout << gauss(x) << std::endl;
+
+
 
 	//LogNormal distribution
 	auto lognormal = hydra::LogNormal<xvar>(mean, sigma);

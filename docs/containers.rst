@@ -1,26 +1,24 @@
 Containers
 ==========
 
-Hydra framework provides one dimensional STL-like vector containers for each supported back-end, aliasing the underlying Thrust types. Beyond this, Hydra implements two native multidimensional containers: ``hydra::multivector`` and   ``hydra::multiarray`` .
-In these containers, the data corresponding to each dimension is stored in contiguous memory regions and when the container is traversed, each entry is accessed as 
-a ``hydra::tuple``, where each field holds a value corresponding to a dimension. Both classes implement an interface completely compliant with a STL vector and
-also provides constant and non-constant accessors for the single dimensional data. The container 
-``hydra::multivector`` is suitable to store data-sets where the dimensions are represented by entries with different POD types. ``hydra::multiarray`` is designed to store data-sets where all dimensions are represented by fields with the same type. Data is always copyable across different back-ends and movable between containers on the same back-end.  
-
-
+Hydra framework provides an one-dimensional STL-like vector container for each supported back-end, aliasing the underlying Thrust types. The framework also implements two native multidimensional containers called hydra::multivector`` and   ``hydra::multiarray`` .
+  
+  In these containers, the data corresponding to each dimension is stored in contiguous memory addresses that can be traversed in a CPU/GPU cache friendly way, independently of the other dimensions. In the case of multidimensional containers, when the data is traversed each entry is accessed as 
+a ``hydra::tuple`` object, where each field holds a value corresponding to a dimension. 
+ 
 One-dimensional containers
 --------------------------
 
-Hydra's one-dimensional containers are aliases to the corresponding [Thrust]_ vectors and defined for each supported back-end. They are: 
+Hydra's one-dimensional containers are aliases to the corresponding [Thrust]_ vectors and are defined for each supported back-end. They are: 
 
-	1. ``hydra::device::vector`` : storage allocated in the device back-end defined at compile time using the macro ``THRUST_DEVICE_SYSTEM``
-	2. ``hydra::host::vector`` : storage allocated in the device back-end defined at compile time using the macro ``THRUST_HOST_SYSTEM``
+	1. ``hydra::device::vector`` : storage allocated in the device back-end defined at compile time using the macro ``HYDRA_DEVICE_SYSTEM``
+	2. ``hydra::host::vector`` : storage allocated in the device back-end defined at compile time using the macro ``HYDRA_HOST_SYSTEM``
 	3. ``hydra::omp::vector`` : storage allocated in the [OpenMP]_ back-end. Usually the CPU memory space.  
 	4. ``hydra::tbb::vector`` : storage allocated in the [TBB]_ back-end. Usually the CPU memory space.
 	5. ``hydra::cuda::vector`` : storage allocated in the [CUDA]_ back-end. The GPU memory space.
 	6. ``hydra::cpp::vector`` : storage allocated in the [CPP]_ back-end. Usually the CPU memory 
 	
-The usage of these containers is extensively documented in the [Thrust]_ library. 
+The usage of these containers is extensively documented in STL and [Thrust]_ library. Hydra also implements range-semantics for many of these containers.  
 
 Multi-dimensional containers
 ----------------------------
@@ -28,12 +26,15 @@ Multi-dimensional containers
 Hydra implements two multidimensional containers:``hydra::multivector`` and ``hydra::multiarray``. 
 These containers store data using [SoA]_ layout and provides a STL-vector compliant interface.
 
-The best way to understand how these containers operates is to visualize them as a table, there each row corresponds to a entry and each column to a dimension. The design of ``hydra::multivector`` and ``hydra::multiarray`` makes possible to iterate over the container to access a complete row
-or to iterate over one or more columns to access only the data of interest in a given entry, without to load the entire row. 
+Both classes provides constant and non-constant accessors for the single dimensional data. The container 
+``hydra::multivector`` is suitable to store data-sets where the dimensions are represented by entries with different POD types. ``hydra::multiarray`` is designed to store data-sets where all dimensions are represented by fields of the same type. Data is always copyable across different back-ends and movable between containers on the same back-end. 
 
-When the user iterates over the whole container, each entry (row) is returned as a ``hydra::tuple``. If the user iterates over one single column, the entries have the type of the column. If two or more columns are accessed, entry's data is returned as again as  ``hydra::tuple`` containing only the elements of interest. Hydra's multi-dimensional containers can hold any type of data per dimension, but there is not real gain using these containers for describing dimensions with non-POD data. 
+The best way to understand how these containers operate is to visualize them as a table, there each row corresponds to a entry and each column to a dimension. The design of ``hydra::multivector`` and ``hydra::multiarray`` makes possible to iterate over the container to access a complete row
+or to iterate over one or more columns to access only the data of interest in a given entry, without loading the entire row. 
 
-Both containers can store the state of arbitrary objects and perform type conversions on-the-fly, using suitable overloaded iterators and ``push_back()`` methods. 
+When the user iterates over the whole container, each entry (row) is returned as a ``hydra::tuple``. If the user iterates over one single column, the entries have the type of the column. If two or more columns are accessed, entry's data is returned as again as  ``hydra::tuple`` containing only the elements of interest. Hydra's multi-dimensional containers can hold any type of data per dimension, but there is not real gain using these containers for describing dimensions with non-POD or non alignable data. 
+
+These containers can store the state of arbitrary objects and perform type conversions on-the-fly, using suitable overloaded iterators and ``push_back()`` methods. 
 
 
 ``hydra::multivector``
@@ -70,7 +71,7 @@ this will print in stdout something like it :
 	...
 	(9, 18, 9.0, 18.0)
 
-To access the columns the user needs to deploy ``hydra::placeholders``: _0, _1, _2,...,_99; 
+To access the columns the user needs ``hydra::placeholders``: _0, _1, _2,..., _99; 
 
 .. code-block:: cpp
 	:name: multivector-example2
@@ -90,7 +91,8 @@ To access the columns the user needs to deploy ``hydra::placeholders``: _0, _1, 
 	}
     
    	for(auto x = mvector.begin(_1, _3);
-   			 x != mvector.end(_1, _3); x++ ) 
+   			 x != mvector.end(_1, _3); ++x )
+   			  
    				std::cout << *x << std::endl;
 
 now in stdout the user will get:
@@ -120,13 +122,13 @@ It is not necessary to access each field stored in each entry to perform a conve
 		mvector.push_back(hydra::make_tuple( i, 2*i, i, 2*i));
 	}
     
-   	auto caster = [] __host__ device__ (hydra::tuple<int, int, double, double>& entry )
+   	auto caster = [] __host__ device__ ( hydra::tuple<int, int, double, double>& entry )
    	{
 
-    	hydra::complex<int> c_int(hydra::get<0>(entry), hydra::get<1>(entry));
-    	hydra::complex<double> c_double(hydra::get<2>(entry), hydra::get<2>(entry));
+    	hydra::complex<int> cint(hydra::get<0>(entry), hydra::get<1>(entry));
+    	hydra::complex<double> cdouble(hydra::get<2>(entry), hydra::get<2>(entry));
     	
-    	return hydra::make_pair(  c_int, c_double ); 
+    	return hydra::make_pair(  cint, cdouble ); 
     };
 
    	for(auto x = mvector.begin(caster); x != mvector.end(caster); x++ ) 
@@ -142,9 +144,11 @@ stdout will look like:
 	...
 	((9, 18), (9.0, 18.0))
 
+Same effect can be 
+
 
 ``hydra::multiarray``
-......................
+  .................
 
 
 ``hydra::multiarray`` templates are instantiated passing the type and the number of dimensions via and the back-end where memory will be allocated. The snippet 

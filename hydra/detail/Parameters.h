@@ -35,6 +35,7 @@
 #include <hydra/Integrator.h>
 #include <hydra/Parameter.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
+#include <hydra/detail/utility/Exception.h>
 #include <hydra/detail/Hash.h>
 #include <assert.h>
 
@@ -54,20 +55,23 @@ public:
 	{
 		assert(init_parameters.size()==N && "HYDRA MESSAGE: hydra::detail::Parameters -> init_parameters list need do have N parameters");
 		for(unsigned int i=0; i<N; i++)
-			this->SetParameter(i, *(init_parameters.begin() + i));
+			//this->SetParameter(i, *(init_parameters.begin() + i));
+		fParameters[i] = *(init_parameters.begin() + i);
 	}
 
 	Parameters(std::array<hydra::Parameter,N> const& init_parameters)
 	{
 		for(unsigned int i=0; i<N; i++)
-			this->SetParameter(i, init_parameters[i]);
+			//this->SetParameter(i, init_parameters[i]);
+			fParameters[i] = init_parameters[i];
 	}
 
 	__hydra_host__ __hydra_device__ inline
 	Parameters(hydra::Parameter(& init_parameters)[N])
 	{
 		for(unsigned int i=0; i<N; i++)
-			this->SetParameter(i, init_parameters[i]);
+			//this->SetParameter(i, init_parameters[i]);
+			fParameters[i] = init_parameters[i];
 	}
 
 
@@ -76,7 +80,8 @@ public:
 	Parameters(Parameters<N> const& other)
 	{
 		for(unsigned int i=0; i<N; i++)
-			this->SetParameter(i, other.GetParameter(i));
+			//this->SetParameter(i, other.GetParameter(i));
+			fParameters[i] =other.GetParameter(i);
 	}
 
 	__hydra_host__ __hydra_device__ inline
@@ -85,7 +90,8 @@ public:
 		if(this == &other) return *this;
 
 		for(unsigned int i=0; i<N; i++)
-			this->SetParameter(i, other.GetParameter(i));
+			//this->SetParameter(i, other.GetParameter(i));
+			fParameters[i] =other.GetParameter(i);
 
 		return *this;
 	}
@@ -133,6 +139,8 @@ public:
 			}
 			HYDRA_LOG(INFO, stringStream.str().c_str() )
 		}
+
+		Update();
 
 		return;
 	}
@@ -206,6 +214,12 @@ public:
 	__hydra_host__ __hydra_device__ inline
 	void SetParameter(Int i, hydra::Parameter const& value) {
 		fParameters[i]=value;
+
+#ifndef __CUDA_ARCH__
+		Update();
+#else
+		HYDRA_EXCEPTION("Setting parameter from CUDA backend may not update the functor state completely .");
+#endif
 	}
 
 	template<typename Int,
@@ -213,6 +227,11 @@ public:
 	__hydra_host__ __hydra_device__ inline
 	void SetParameter(Int i, double value) {
 		fParameters[i]=value;
+#ifndef __CUDA_ARCH__
+		Update();
+#else
+		HYDRA_EXCEPTION("Setting parameter from CUDA backend may not update the functor state completely .");
+#endif
 	}
 
 	__hydra_host__ inline
@@ -225,6 +244,8 @@ public:
 				fParameters[i]=value;
 				break;
 			}
+
+		Update();
 	}
 
 	__hydra_host__ inline
@@ -237,6 +258,8 @@ public:
 				fParameters[i]=value;
 				break;
 			}
+
+		Update();
 	}
 
 	template<typename Int,
@@ -244,6 +267,20 @@ public:
 	__hydra_host__ __hydra_device__  inline
 	GReal_t operator[](Int i) const {
 		return (GReal_t ) fParameters[i];
+	}
+
+	/**
+	 * \brief This method offers an opportunity to redo calculations
+	 * and update values that depends only on the functor parameters.
+	 * Update takes no arguments. Parameters can be accessed
+	 * by index or name using ```GetParameter(...)```.
+	 *
+	 * This method is called in all modifying parameters operations.
+	 */
+	virtual void Update(void)
+	{
+
+		return;
 	}
 
 private:
@@ -303,6 +340,8 @@ public:
 
 	__hydra_host__ __hydra_device__ inline
 	size_t GetNumberOfParameters() const { 	return 0; 	}
+
+	size_t  GetParametersKey() { return 1;};
 
 };
 

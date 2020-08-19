@@ -56,14 +56,17 @@
 #include <hydra/Tuple.h>
 #include <hydra/Distance.h>
 #include <hydra/multiarray.h>
+#include <hydra/multivector.h>
 #include <hydra/LogLikelihoodFCN.h>
 #include <hydra/Parameter.h>
 #include <hydra/UserParameters.h>
 #include <hydra/Pdf.h>
 #include <hydra/AddPdf.h>
 #include <hydra/Filter.h>
-#include <hydra/GenzMalikQuadrature.h>
+#include <hydra/Plain.h>
 #include <hydra/DenseHistogram.h>
+#include <hydra/functions/Gaussian.h>
+#include <hydra/RandomFill.h>
 
 //Minuit2
 #include "Minuit2/FunctionMinimum.h"
@@ -89,6 +92,11 @@
 
 
 using namespace ROOT::Minuit2;
+using namespace hydra::arguments;
+
+declarg(_X, double)
+declarg(_Y, double)
+declarg(_Z, double)
 
 /**
  *
@@ -119,8 +127,6 @@ void fit_3d_gaussian(size_t nentries=1000000 ) {
 	double sigmaz = 1.5;
 
 	//generator
-	hydra::Random<> Generator(
-			std::chrono::system_clock::now().time_since_epoch().count());
 
 
 	//______________________________________________________________
@@ -156,24 +162,27 @@ void fit_3d_gaussian(size_t nentries=1000000 ) {
 	//fit function
 
 	auto gaussian = hydra::wrap_lambda(
-		[=] __hydra_dual__ 	(unsigned int npar, const hydra::Parameter* params, unsigned int narg, double* x ){
+		[=] __hydra_dual__ 	(unsigned int npar, const hydra::Parameter* params, _X x, _Y y, _Z z ){
 
 		double g = 1.0;
 
-		double mean[3] = {params[0].GetValue(), params[2].GetValue(), params[4].GetValue()};
-		double sigma[3]= {params[1].GetValue(), params[3].GetValue(), params[5].GetValue()};
+		double mean[3]  = {params[0].GetValue(), params[2].GetValue(), params[4].GetValue()};
+		double sigma[3] = {params[1].GetValue(), params[3].GetValue(), params[5].GetValue()};
+        double X[3]     = {x, y, z};
 
-		for(size_t i=0; i<narg; i++) {
+		for(size_t i=0; i<3; i++) {
 
-			double m2 = (x[i] - mean[i] )*(x[i] - mean[i] );
+			double m2 = (X[i] - mean[i] )*(X[i] - mean[i] );
 			double s2 = sigma[i]*sigma[i];
+
 			g *= exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
 		}
+
 		return g;
 
 	}, meanx_p, sigmax_p, meany_p, sigmay_p, meanz_p, sigmaz_p);
 
-	hydra::GenzMalikQuadrature<3, hydra::device::sys_t> Integrator({min, min, min},{ max, max, max },500);
+	hydra::Plain<3, hydra::device::sys_t> Integrator({min, min, min},{ max, max, max }, 50000);
 	//make model and fcn
 	auto model = hydra::make_pdf(gaussian, Integrator);
 
@@ -192,18 +201,39 @@ void fit_3d_gaussian(size_t nentries=1000000 ) {
 	{
 
 		//3D device/host buffer
-		hydra::multiarray<double,3,  hydra::device::sys_t> data_d(nentries);
+		hydra::multivector< hydra::tuple<_X,_Y,_Z>,  hydra::device::sys_t> data_d(nentries);
 
 		//-------------------------------------------------------
-		//gaussian
-		Generator.SetSeed(145);
-		Generator.Gauss(meanx, sigmax, data_d.begin(0), data_d.end(0));
-		//gaussian
-		Generator.SetSeed(216);
-		Generator.Gauss(meany, sigmay, data_d.begin(1), data_d.end(1));
-		//gaussian
-		Generator.SetSeed(321);
-		Generator.Gauss(meanz, sigmaz, data_d.begin(2), data_d.end(2));
+		// gaussian X
+		auto GaussianX_Handler = std::async(std::launch::async,
+				[&data_d, meanx, sigmax]( ) {
+
+			hydra::fill_random(data_d.begin<_X>(), data_d.end<_X>(), hydra::Gaussian<_X>(meanx, sigmax), 159 );
+		});
+
+		//-------------------------------------------------------
+		// gaussian X
+		auto GaussianY_Handler = std::async(std::launch::async,
+				[&data_d, meany, sigmay]( ) {
+
+			hydra::fill_random(data_d.begin<_Y>(), data_d.end<_Y>(), hydra::Gaussian<_Y>(meany, sigmay), 753 );
+		});
+
+		//-------------------------------------------------------
+		// gaussian X
+		auto GaussianZ_Handler = std::async(std::launch::async,
+				[&data_d, meanz, sigmaz]( ) {
+
+			hydra::fill_random(data_d.begin<_Z>(), data_d.end<_Z>(), hydra::Gaussian<_Z>(meanz, sigmaz), 789 );
+		});
+
+		//-------------------------------------------------------
+		//wait the threads to finish their tasks
+		GaussianX_Handler.wait();
+		GaussianY_Handler.wait();
+		GaussianZ_Handler.wait();
+
+		//-------------------------------------------------------
 
 		std::cout<< std::endl<< "Generated data:"<< std::endl;
 		for (size_t i = 0; i < 10; i++)
@@ -211,23 +241,28 @@ void fit_3d_gaussian(size_t nentries=1000000 ) {
 					<< std::endl;
 		//filtering
 		auto filter = hydra::wrap_lambda(
-			[=] __hydra_dual__ (unsigned int n, double* x){
+			[=] __hydra_dual__ ( _X x, _Y y, _Z z ){
 
-			bool decision = true;
-			for (unsigned int i=0; i<n; i++)
-				decision &=((x[i] > min) && (x[i] < max ));
+			bool decision =
+					((x > min) && (x < max ))&&
+					((y > min) && (y < max ))&&
+					((z > min) && (z < max ));
+
 			return decision;
+
 		});
 
-		auto range  = hydra::apply_filter(data_d, filter);
+		auto range  = hydra::filter(data_d, filter);
 
 		std::cout << std::endl<< "Filtered data:" << std::endl;
 		for (size_t i = 0; i < 10; i++)
-			std::cout << "[" << i << "] :" << range.begin()[i]
-					<< std::endl;
+			std::cout << "[" << i << "] :"
+			          << range.begin()[i]
+					  << std::endl;
 
 
-		auto fcn = hydra::make_loglikehood_fcn(	model, range.begin(), range.end());
+		auto fcn = hydra::make_loglikehood_fcn(	model, range);
+
 		fcn.GetPDF().PrintRegisteredParameters();
 		//-------------------------------------------------------
 		//fit
@@ -253,12 +288,15 @@ void fit_3d_gaussian(size_t nentries=1000000 ) {
 
 		//time
 		std::cout << "-----------------------------------------" << std::endl;
-		std::cout << "| GPU Time (ms) =" << elapsed_d.count() << std::endl;
+		std::cout << "| GPU Time (ms) =" << elapsed_d.count()    << std::endl;
 		std::cout << "-----------------------------------------" << std::endl;
 
 		//histogram
-		hydra::DenseHistogram<double, 3, hydra::device::sys_t> Hist_Data( {100, 100, 100}, {min, min, min},
-				{ max, max, max });
+		hydra::DenseHistogram<double, 3, hydra::device::sys_t> Hist_Data(
+				{100, 100, 100},
+				{min, min, min},
+				{max, max, max } );
+
 		Hist_Data.Fill(range.begin(), range.end());
 
 

@@ -18,7 +18,7 @@ SET(CMAKE_VERBOSE_MAKEFILE  ON)
 #check if compiler is C++14 compliant
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("--std=c++14" COMPILER_SUPPORTS_CXX14)
-if(NOT COMPILER_SUPPORTS_CXX11)
+if(NOT COMPILER_SUPPORTS_CXX14)
  message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++14 support. Please use a different C++ compiler.")
 endif()
 

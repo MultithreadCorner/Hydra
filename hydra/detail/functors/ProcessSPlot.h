@@ -59,7 +59,7 @@ struct CovMatrixUnary
 		fFunctors(functors)
 	{
 		for(size_t i=0;i<nfunctors; i++)
-				fCoeficients[i] = coeficients[i].GetValue();
+				fCoefficients[i] = coeficients[i].GetValue();
 	}
 
 	__hydra_host__ __hydra_device__
@@ -67,7 +67,7 @@ struct CovMatrixUnary
 		fFunctors( other.fFunctors )
 	{
 		for(size_t i=0;i<nfunctors; i++)
-			fCoeficients[i] = other.fCoeficients[i];
+			fCoefficients[i] = other.fCoefficients[i];
 	}
 
 	__hydra_host__ __hydra_device__
@@ -77,7 +77,7 @@ struct CovMatrixUnary
 			if(this==&other) return *this;
 			fFunctors = other.fFunctors ;
 			for(size_t i=0;i<nfunctors; i++)
-				fCoeficients[i] = other.fCoeficients[i];
+				fCoefficients[i] = other.fCoefficients[i];
 			 return *this;
 	}
 
@@ -113,7 +113,7 @@ struct CovMatrixUnary
 	Eigen::Matrix<double, nfunctors, nfunctors> operator()(Type x)
 	{
 		auto fvalues  = detail::invoke_normalized(x, fFunctors);
-		auto wfvalues = detail::multiply_array_tuple(fCoeficients, fvalues);
+		auto wfvalues = detail::multiply_array_tuple(fCoefficients, fvalues);
 
 		GReal_t denominator   = 0;
 		detail::add_tuple_values(denominator, wfvalues);
@@ -127,7 +127,7 @@ struct CovMatrixUnary
       return fCovMatrix;
 	}
 
-	GReal_t    fCoeficients[nfunctors];
+	GReal_t    fCoefficients[nfunctors];
 	functors_tuple_type fFunctors;
 };
 
@@ -171,7 +171,7 @@ struct SWeights
 	{
 
 		for(size_t i=0;i<nfunctors; i++)
-			fCoeficients[i] = coeficients[i].GetValue();
+			fCoefficients[i] = coeficients[i].GetValue();
 	}
 
 	//dummy ctor just to bypass deleted default ctor
@@ -189,7 +189,7 @@ struct SWeights
 	{
 
 		for(size_t i=0;i<nfunctors; i++)
-				fCoeficients[i] = other.fCoeficients[i];
+				fCoefficients[i] = other.fCoefficients[i];
 	}
 
 
@@ -202,7 +202,7 @@ struct SWeights
 		detail::tupleToArray(fvalues, values);
 		Eigen::Matrix<double, nfunctors,1> values_vector(Eigen::Map<Eigen::Matrix<double, nfunctors,1> >(values).eval());
 		Eigen::Matrix<double, nfunctors,1> sweights(fICovMatrix*values_vector.eval());
-		auto wfvalues = detail::multiply_array_tuple(fCoeficients, fvalues);
+		auto wfvalues = detail::multiply_array_tuple(fCoefficients, fvalues);
 		GReal_t denominator   = 0.0;
 		detail::add_tuple_values(denominator, wfvalues);
 		sweights /=denominator;
@@ -211,7 +211,7 @@ struct SWeights
 		return r;
 	}
 
-	GReal_t    fCoeficients[nfunctors];
+	GReal_t    fCoefficients[nfunctors];
 	functors_tuple_type fFunctors;
 	cmatrix_t  fICovMatrix;
 };

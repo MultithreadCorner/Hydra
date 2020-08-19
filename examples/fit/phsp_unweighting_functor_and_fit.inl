@@ -502,30 +502,30 @@ int main(int argv, char** argc)
 	TCanvas canvas_4("canvas_projections", "Phase-space Breit-Wigner", 1500, 500);
 	canvas_4.Divide(3,1);
 	canvas_4.cd(1);
-	proj = Dalitz_FLAT.Project3D("x")->DrawNormalized("CLHIST");
+	proj = Dalitz_FLAT.Project3D("x")->DrawNormalized("CHIST");
 	proj->SetLineColor(kRed);
 	proj =  Dalitz_BW.Project3D("x")->DrawNormalized("E0same");
 	proj->SetMarkerSize(1.0);
 	proj->SetMarkerStyle(20);
-	proj =  Dalitz_FIT.Project3D("x")->DrawNormalized("CLHISTsame");
+	proj =  Dalitz_FIT.Project3D("x")->DrawNormalized("CHISTsame");
 	proj->SetLineColor(kBlue);
 
 	canvas_4.cd(2);
-	proj = Dalitz_FLAT.Project3D("y")->DrawNormalized("CLHIST");
+	proj = Dalitz_FLAT.Project3D("y")->DrawNormalized("CHIST");
 	proj->SetLineColor(kRed);
 	proj =  Dalitz_BW.Project3D("y")->DrawNormalized("E0same");
 	proj->SetMarkerSize(1.0);
 	proj->SetMarkerStyle(20);
-	proj =  Dalitz_FIT.Project3D("y")->DrawNormalized("CLHISTsame");
+	proj =  Dalitz_FIT.Project3D("y")->DrawNormalized("CHISTsame");
 	proj->SetLineColor(kBlue);
 
 	canvas_4.cd(3);
-	proj = Dalitz_FIT.Project3D("z")->DrawNormalized("CLHIST");
+	proj = Dalitz_FIT.Project3D("z")->DrawNormalized("CHIST");
 	proj->SetLineColor(kBlue);
 	proj =  Dalitz_BW.Project3D("z")->DrawNormalized("E0same");
 	proj->SetMarkerSize(1.0);
 	proj->SetMarkerStyle(20);
-	proj =  Dalitz_FLAT.Project3D("z")->DrawNormalized("CLHISTsame");
+	proj =  Dalitz_FLAT.Project3D("z")->DrawNormalized("CHISTsame");
 	proj->SetLineColor(kRed);
 
 	m_app->Run();

@@ -105,7 +105,6 @@ template<typename Element, typename Pointer, typename Derived>
   return strip_const_get_value(select_system(*system));
 } // end convert_to_value_type()
 
-
 template<typename Element, typename Pointer, typename Derived>
   __host__ __device__
   reference<Element,Pointer,Derived>

@@ -70,12 +70,11 @@ struct KernelSampler
 
 	KernelSampler(Kernel const& kernel, int nsamples , double delta):
 		fDelta(delta),
-
 		fKernel(kernel)
 	{
 		fNZero = nsamples;
-		fNMin  = nsamples- nsamples/16;
-	    fNMax  = nsamples+ nsamples/16;
+		fNMin  = nsamples- nsamples/2;
+	    fNMax  = nsamples+ nsamples/2;
 	}
 
 	__hydra_host__ __hydra_device__
@@ -215,7 +214,7 @@ struct FunctorSampler
 
         double t =  index*fDelta + fMin;
 
-        if(  (t >= fMin) && ( t <=  (fNSamples)*fDelta + fMin)){
+        if(  (t >= fMin) && ( t < (fNSamples)*fDelta + fMin)){
 
 		    value = fFunctor(t);
 		}

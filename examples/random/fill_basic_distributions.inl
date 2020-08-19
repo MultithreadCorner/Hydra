@@ -46,7 +46,7 @@
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
 #include <hydra/Parameter.h>
-#include <hydra/RandomFill.h>
+#include <hydra/Random.h>
 #include <hydra/detail/Copy.inl>
 
 

@@ -9,9 +9,9 @@ Welcome to Hydra's manual
 =================================
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 4
    :caption: Contents:
-   
+
    introduction
    functors
    containers
@@ -28,4 +28,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

@@ -40,14 +40,14 @@
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/CompositeTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
-#include <hydra/detail/random/philox.h>
-#include <hydra/detail/random/threefry.h>
-#include <hydra/detail/random/ars.h>
+
+#include <hydra/detail/PRNGTypedefs.h>
 
 #include <hydra/Range.h>
 
 //
 #include <hydra/detail/external/hydra_thrust/copy.h>
+#include <hydra/detail/external/hydra_thrust/tabulate.h>
 #include <hydra/detail/external/hydra_thrust/random.h>
 #include <hydra/detail/external/hydra_thrust/distance.h>
 #include <hydra/detail/external/hydra_thrust/extrema.h>
@@ -60,81 +60,6 @@
 #include <utility>
 
 namespace hydra{
-
-
-/*! \typedef default_random_engine
- *  \brief An implementation-defined "default" random number engine.
- *  \note \p default_random_engine is currently an alias for \p minstd_rand, and may change
- *        in a future version.
- */
-
-//typedef hydra_thrust::random::default_random_engine default_random_engine;
-typedef hydra::random::philox default_random_engine;
-//typedef hydra::random::threefry default_random_engine;
-//typedef hydra::random::ars default_random_engine;
-
-/*! \typedef minstd_rand0
- *  \brief A random number engine with predefined parameters which implements a version of
- *         the Minimal Standard random number generation algorithm.
- *  \note The 10000th consecutive invocation of a default-constructed object of type \p minstd_rand0
- *        shall produce the value \c 1043618065 .
- */
-typedef hydra_thrust::random::minstd_rand0 minstd_rand0;
-
-/*! \typedef minstd_rand
- *  \brief A random number engine with predefined parameters which implements a version of
- *         the Minimal Standard random number generation algorithm.
- *  \note The 10000th consecutive invocation of a default-constructed object of type \p minstd_rand
- *        shall produce the value \c 399268537 .
- */
-typedef hydra_thrust::random::minstd_rand minstd_rand;
-
-
-/*! \typedef ranlux24
- *  \brief A random number engine with predefined parameters which implements the
- *         RANLUX level-3 random number generation algorithm.
- *  \note The 10000th consecutive invocation of a default-constructed object of type \p ranlux24
- *        shall produce the value \c 9901578 .
- */
-typedef hydra_thrust::random::ranlux24	ranlux24;
-
-/*! \typedef ranlux48
- *  \brief A random number engine with predefined parameters which implements the
- *         RANLUX level-4 random number generation algorithm.
- *  \note The 10000th consecutive invocation of a default-constructed object of type \p ranlux48
- *        shall produce the value \c 88229545517833 .
- */
-typedef hydra_thrust::random::ranlux48	ranlux48;
-
-/*! \typedef taus88
- *  \brief A random number engine with predefined parameters which implements
- *         L'Ecuyer's 1996 three-component Tausworthe random number generator.
- *
- *  \note The 10000th consecutive invocation of a default-constructed object of type \p taus88
- *        shall produce the value \c 3535848941 .
- */
-typedef hydra_thrust::random::taus88 	taus88;
-
-
-/*! \typedef philox
- *  \brief The Philox family of counter-based RNGs use integer multiplication, xor and permutation of W-bit words
- *         to scramble its N-word input key.  Philox is a mnemonic for Product HI LO Xor).
- *
- */
-typedef hydra::random::philox philox;
-
-/*! \typedef threefry
- *  \brief Threefry uses integer addition, bitwise rotation, xor and permutation of words to randomize its output.
- *
- */
-typedef hydra::random::threefry threefry;
-
-/*! \typedef ars
- *  \brief Ars uses the crypotgraphic AES round function, but a @b non-cryptographc key schedule
-to save time and space..
- *
- */
-typedef hydra::random::ars ars;
 
 namespace detail {
 
@@ -176,7 +101,24 @@ struct is_callable: std::conditional<
 }  // namespace detail
 
 
-
+/**
+ * \ingroup random
+ *
+ * This functions reorder a dataset to produce a unweighted sample according to the weights
+ * [wbegin, wend]. The length of the range [wbegin, wend] should be equal or greater than
+ * the dataset size.
+ *
+ * @param policy parallel backend to perform the unweighting
+ * @param data_begin iterator pointing to the begin of the range of weights
+ * @param data_end iterator pointing to the begin of the range of weights
+ * @param weights_begin iterator pointing to the begin of the range of data
+ * @return
+ */
+template<typename RNG=default_random_engine, typename DerivedPolicy, typename IteratorData, typename IteratorWeight>
+typename std::enable_if<
+detail::random::is_iterator<IteratorData>::value && detail::random::is_iterator<IteratorWeight>::value,
+Range<IteratorData> >::type
+unweight( hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& policy, IteratorData data_begin, IteratorData data_end, IteratorWeight weights_begin);
 
 /**
  * \ingroup random
@@ -264,6 +206,25 @@ unweight( IterableData data, IterableWeight weights);
  * @param functor
  * @return the index of the last entry of the unweighted event.
  */
+template<typename RNG=default_random_engine, typename Functor, typename Iterator, typename DerivedPolicy>
+typename std::enable_if<
+	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
+	Range<Iterator>
+>::type
+unweight( hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& policy, Iterator begin, Iterator end, Functor const& functor);
+
+
+/**
+ * \ingroup random
+ *
+ * This functions reorder a dataset to produce an unweighted sample according to @param functor .
+ *
+ * @param policy
+ * @param begin
+ * @param end
+ * @param functor
+ * @return the index of the last entry of the unweighted event.
+ */
 template<typename RNG=default_random_engine, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND>
 typename std::enable_if<
 	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
@@ -318,9 +279,6 @@ typename std::enable_if<
 detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
 Range< decltype(std::declval<Iterable>().begin())>>::type
 unweight( Iterable&& iterable, Functor const& functor);
-
-
-
 
 
 /**
@@ -457,12 +415,158 @@ sample( Iterable&& output ,
 		std::array<double,N>const& min, std::array<double,N>const& max,
 		Functor const& functor, size_t seed=0xb56c4feeef1b);
 
+/**
+ * \ingroup random
+ *
+ * @brief Fill a range with numbers distributed according a user defined distribution using a RNG analytical formula
+ * @param policy backend to perform the calculation.
+ * @param begin beginning of the range storing the generated values
+ * @param end ending of the range storing the generated values
+ * @param functor distribution to be sampled
+ */
+template< typename Engine = hydra::default_random_engine,  hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
+typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::is_convertible<
+decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
+typename hydra_thrust::iterator_traits<Iterator>::value_type
+>::value, void>::type
+fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+            Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+
+/**
+ * \ingroup random
+ *
+ * @brief Fill a range with numbers distributed according a user defined distribution using a RNG analytical formula
+ * @param begin beginning of the range storing the generated values
+ * @param end ending of the range storing the generated values
+ * @param functor distribution to be sampled
+ */
+template< typename Engine =hydra::default_random_engine, typename Iterator, typename FUNCTOR >
+typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::is_convertible<
+decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
+typename hydra_thrust::iterator_traits<Iterator>::value_type
+>::value, void>::type
+fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+
+/**
+ * \ingroup random
+ *
+ * @brief Fill a range with numbers distributed according a user defined distribution.
+ * @param policy backend to perform the calculation.
+ * @param iterable range storing the generated values
+ * @param functor distribution to be sampled
+ */
+template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterable, typename FUNCTOR >
+typename std::enable_if< hydra::detail::is_iterable<Iterable>::value && std::is_convertible<
+decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
+>::value, void>::type
+fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+            Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+
+/**
+ * \ingroup random
+ *
+ * @brief Fill a range with numbers distributed according a user defined distribution.
+ * @param iterable range storing the generated values
+ * @param functor distribution to be sampled
+ */
+template< typename Engine = hydra::default_random_engine, typename Iterable, typename FUNCTOR >
+typename std::enable_if< hydra::detail::is_iterable<Iterable>::value && std::is_convertible<
+decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
+>::value, void>::type
+fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+
+/**
+ * \ingroup random
+ *
+ * @brief Fall back function if RngFormula is not implemented for the requested functor
+ * @param policy backend to perform the calculation.
+ * @param begin beginning of the range storing the generated values
+ * @param end ending of the range storing the generated values
+ * @param functor distribution to be sampled
+ */
+template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
+typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
+fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+            Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+
+/**
+ * \ingroup random
+ *
+ * @brief Fall back function if RngFormula is not implemented for the requested functor
+ * @param begin beginning of the range storing the generated values
+ * @param end ending of the range storing the generated values
+ * @param functor distribution to be sampled
+ */
+template< typename Engine = hydra::default_random_engine, typename Iterator, typename FUNCTOR >
+typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
+fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+
+/**
+ * \ingroup random
+ *
+ * @brief Fall back function if RngFormula::Generate() return value is not convertible to functor return value
+ * @param policy backend to perform the calculation.
+ * @param begin beginning of the range storing the generated values
+ * @param end ending of the range storing the generated values
+ * @param functor distribution to be sampled
+ */
+template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
+typename std::enable_if< !std::is_convertible<
+decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
+typename std::iterator_traits<Iterator>::value_type
+>::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
+fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+            Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed=0x254a0afcf7da74a2);
+
+/**
+ * \ingroup random
+ *
+ * @brief Fall back function if RngFormula::Generate() return value is not convertible to functor return value
+ * @param begin beginning of the range storing the generated values
+ * @param end ending of the range storing the generated values
+ * @param functor distribution to be sampled
+ */
+template< typename Engine = hydra::default_random_engine, typename Iterator, typename FUNCTOR >
+typename std::enable_if< !std::is_convertible<
+decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
+typename std::iterator_traits<Iterator>::value_type
+>::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
+fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+
+/**
+ * \ingroup random
+ *
+ * @brief Fall back function if the argument is not an Iterable or if itis not convertible to the Functor return value
+ * @param policy backend to perform the calculation.
+ * @param iterable range storing the generated values
+ * @param functor distribution to be sampled
+ */
+template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterable, typename FUNCTOR >
+typename std::enable_if< !hydra::detail::is_iterable<Iterable>::value || !std::is_convertible<
+decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
+>::value, void>::type
+fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+            Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+
+/**
+ * \ingroup random
+ *
+ * @brief Fall back function if the argument is not an Iterable or if itis not convertible to the Functor return value
+ * @param iterable range storing the generated values
+ * @param functor distribution to be sampled
+ */
+template< typename Engine = hydra::default_random_engine, typename Iterable, typename FUNCTOR >
+typename std::enable_if< !hydra::detail::is_iterable<Iterable>::value || !std::is_convertible<
+decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
+>::value, void>::type
+fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
 
 
 
 }
 
 #include <hydra/detail/Random.inl>
+#include <hydra/detail/RandomFill.inl>
 
 #endif /* RANDOM_H_ */
 

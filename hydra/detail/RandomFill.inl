@@ -24,6 +24,10 @@
  *
  *  Created on: 26/02/2020
  *      Author: Davide Brundu
+ *
+ *  Modified on: 28/07/2020
+ *       Author: Antonio Augusto Alves Junior
+ *          Log: Moved detail::Sampler class DistributionSampler.h
  */
 
 
@@ -33,41 +37,8 @@
 #define RANDOMFILL_INL_
 
 
+
 namespace hydra{
-
-    namespace detail {
-
-        template< typename Engine , typename FUNCTOR>
-        struct Sampler: public hydra_thrust::unary_function<size_t, typename Distribution<FUNCTOR>::value_type>
-        {
-        typedef typename Distribution<FUNCTOR>::value_type  value_type;
-
-            Sampler(FUNCTOR const& functor, size_t seed) :
-                    fFunctor(functor), fSeed(seed) {}
-
-            __hydra_host__  __hydra_device__
-            Sampler(Sampler<Engine, FUNCTOR> const& other) :
-                    fFunctor(other.fFunctor), fSeed(other.fSeed) {}
-
-            __hydra_host__  __hydra_device__
-            value_type operator()(size_t index) {
-
-                Engine rng(fSeed) ;
-
-                auto distribution = hydra::Distribution<FUNCTOR>();
-                distribution.SetState(rng, fFunctor, index);
-
-                return distribution(rng, fFunctor);
-
-            }
-
-            FUNCTOR fFunctor;
-            size_t fSeed;
-        };
-
-    } //namespace detail
-
-
 
     /**
      * @brief Fill a range with numbers distributed according a user defined distribution using a RNG analytical formula
@@ -93,15 +64,9 @@ namespace hydra{
         typedef  typename hydra_thrust::detail::remove_reference<
                     decltype(select_system( system, _policy ))>::type common_system_type;
  
-        hydra_thrust::tabulate( common_system_type(), begin, end, detail::Sampler<Engine, FUNCTOR>(functor, seed) );
+        hydra_thrust::tabulate( common_system_type(), begin, end, detail::Sampler<FUNCTOR,Engine>(functor, seed) );
 
     }
-
-
-
-
-
-
 
     /**
      * @brief Fill a range with numbers distributed according a user defined distribution using a RNG analytical formula
@@ -120,14 +85,8 @@ namespace hydra{
         typedef typename hydra_thrust::iterator_system<Iterator>::type system_t;
         system_t system;
 
-        hydra_thrust::tabulate(select_system(system), begin, end, detail::Sampler<Engine, FUNCTOR>(functor, seed) );
+        hydra_thrust::tabulate(select_system(system), begin, end, detail::Sampler<FUNCTOR,Engine>(functor, seed) );
     }
-
-
-
-
-
-
 
     /**
      * @brief Fill a range with numbers distributed according a user defined distribution.
@@ -147,9 +106,6 @@ namespace hydra{
 
     }
 
-
-
-
     /**
      * @brief Fill a range with numbers distributed according a user defined distribution.
      * @param iterable range storing the generated values
@@ -165,10 +121,6 @@ namespace hydra{
                     std::forward<Iterable>(iterable).end(), functor, seed);
 
     }
-
-
-
-
 
     /**
      * @brief Fall back function if RngFormula is not implemented for the requested functor
@@ -186,8 +138,6 @@ namespace hydra{
 
     }
     
-
-
     /**
      * @brief Fall back function if RngFormula is not implemented for the requested functor
      */
@@ -203,9 +153,6 @@ namespace hydra{
 
     }
     
-    
-    
-
     /**
      * @brief Fall back function if RngFormula::Generate() return value is not convertible to functor return value
      */
@@ -221,7 +168,6 @@ namespace hydra{
                 " Generated objects can't be stored in this container. " )
     }
 
-
     /**
      * @brief Fall back function if RngFormula::Generate() return value is not convertible to functor return value
      */
@@ -235,10 +181,6 @@ namespace hydra{
         HYDRA_STATIC_ASSERT( int(std::is_class<Engine>::value) ==-1 ,
                 " Generated objects can't be stored in this container. " )
     }
-
-
-
-
     
     /**
      * @brief Fall back function if the argument is not an Iterable or if it is not convertible to the Functor return value
@@ -255,8 +197,6 @@ namespace hydra{
                 " The container is not iterable, or it is not convertible \n"
                 " from/to the functor return value. " )
     }
-
-
 
     /**
      * @brief Fall back function if the argument is not an Iterable or if it is not convertible to the Functor return value

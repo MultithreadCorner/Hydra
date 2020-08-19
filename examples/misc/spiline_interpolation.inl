@@ -43,6 +43,7 @@
 #include <hydra/Function.h>
 #include <hydra/Lambda.h>
 #include <hydra/functions/Gaussian.h>
+#include <hydra/functions/UniformShape.h>
 #include <hydra/functions/SpilineFunctor.h>
 #include <hydra/Range.h>
 #include <hydra/Algorithm.h>
@@ -103,7 +104,7 @@ int main(int argv, char** argc)
 
    // std::cout <<  "Size = " <<  hydra::random_uniform_range(-10.0, 10.0, 15753, 10).size() << std::endl;
 
-    hydra::for_each( hydra::random_uniform_range(-10.0, 10.0, 15753, 10) , [ spiline, gaussian]__hydra_dual__(double arg){
+    hydra::for_each( hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 15753, 10) , [ spiline, gaussian]__hydra_dual__(double arg){
     	printf("arg %f spiline %f gaussian %f\n", arg, spiline(arg), gaussian(arg));
     } );
 

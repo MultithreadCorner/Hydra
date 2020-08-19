@@ -77,6 +77,26 @@ struct FunctionArgument
         return *this;
     }
 
+    template<typename T>
+    __hydra_host__ __hydra_device__
+    typename  std::enable_if< std::is_convertible<T, value_type>::value && (!detail::is_function_argument<T>::value),
+    FunctionArgument<name_type, value_type>&>::type
+    operator=(T other)
+    {
+    	value = other;
+    	return *this;
+    }
+
+    template<typename T>
+    __hydra_host__ __hydra_device__
+    typename  std::enable_if< std::is_convertible<T, value_type>::value && (!detail::is_function_argument<T>::value),
+       FunctionArgument<name_type, value_type>&>::type
+    operator=(hydra_thrust::device_reference<T> const& other)
+    {
+    	value = other;
+    	return *this;
+    }
+
     template<typename Derived2>
     __hydra_host__ __hydra_device__
     FunctionArgument(FunctionArgument<Derived2, value_type>const& other):
@@ -95,16 +115,16 @@ struct FunctionArgument
     }
 
       __hydra_host__ __hydra_device__
-      constexpr  operator value_type() const { return value; }
+      operator value_type() const { return value; }
 
       __hydra_host__ __hydra_device__
-      constexpr operator  value_type&()  { return value; }
+     operator  value_type&()  { return value; }
 
     __hydra_host__ __hydra_device__
-    constexpr value_type operator()(void) const { return value; }
+    value_type operator()(void) const { return value; }
 
     __hydra_host__ __hydra_device__
-     constexpr value_type Value(void) const { return value; }
+    value_type Value(void) const { return value; }
 
     //=============================================================
     //Compound assignment operators
@@ -232,12 +252,12 @@ struct NAME : detail::FunctionArgument<NAME, TYPE>                     \
      {}                                                                \
                                                                        \
   __hydra_host__ __hydra_device__	                                   \
-    NAME( hydra_thrust::device_reference<TYPE> x):             \
+  NAME( hydra_thrust::device_reference<TYPE> x):                       \
          super_type(x)                                                 \
          {}                                                            \
                                                                        \
-__hydra_host__ __hydra_device__	                                       \
-explicit  NAME( hydra_thrust::device_reference<TYPE>& x):              \
+ __hydra_host__ __hydra_device__	                                   \
+ explicit  NAME( hydra_thrust::device_reference<TYPE>& x):             \
         super_type(x)                                                  \
        {}                                                              \
                                                                        \

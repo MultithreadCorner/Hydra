@@ -113,7 +113,7 @@ public:
 
 	{
 		for(size_t i=0;i<npdfs; i++)
-			fCoeficients[i] = pdf.GetCoeficient(i);
+			fCoefficients[i] = pdf.GetCoefficient(i);
 
 		//fCovMatrix << 0.0, 0.0, 0.0, 0.0;
 
@@ -125,13 +125,13 @@ public:
 				detail::CovMatrixUnary<
 				 typename PDF1::functor_type,
 				 typename PDF2::functor_type,
-				 typename PDFs::functor_type...>(fCoeficients, fFunctors ),
+				 typename PDFs::functor_type...>(fCoefficients, fFunctors ),
 				 init, detail::CovMatrixBinary() );
 
 		Eigen::Matrix<double, npdfs, npdfs> inverseCovMatrix = fCovMatrix.inverse();
 
-		fBegin = iterator( first, transformer(fCoeficients, fFunctors, inverseCovMatrix ));
-		fEnd   = iterator( last , transformer(fCoeficients, fFunctors, inverseCovMatrix ));
+		fBegin = iterator( first, transformer(fCoefficients, fFunctors, inverseCovMatrix ));
+		fEnd   = iterator( last , transformer(fCoefficients, fFunctors, inverseCovMatrix ));
 
 
 	}
@@ -149,7 +149,7 @@ public:
 	    fCovMatrix(other.GetCovMatrix() )
 	{
 		for( size_t i=0; i< npdfs; i++ ){
-			fCoeficients[i]=other.GetCoeficient(i);
+			fCoefficients[i]=other.GetCoefficient(i);
 		}
 	}
 
@@ -170,7 +170,7 @@ public:
 		fCovMatrix=other.GetCovMatrix();
 
 		for( size_t i=0; i< npdfs; i++ ){
-			fCoeficients[i]=other.GetCoeficient(i);
+			fCoefficients[i]=other.GetCoefficient(i);
 		}
 
 		return *this;
@@ -198,8 +198,8 @@ public:
 	 * @param i index of PDF
 	 * @return hydra::Parameter
 	 */
-	inline	const Parameter& GetCoeficient(size_t i) const {
-		return fCoeficients[i];
+	inline	const Parameter& GetCoefficient(size_t i) const {
+		return fCoefficients[i];
 	}
 
 	/**
@@ -305,7 +305,7 @@ public:
 
 private:
 
-	Parameter           fCoeficients[npdfs];
+	Parameter           fCoefficients[npdfs];
 	pdfs_tuple_type     fPDFs;
 	functors_tuple_type fFunctors;
 

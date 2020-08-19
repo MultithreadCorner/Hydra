@@ -1,5 +1,72 @@
 ## CHANGE LOG
 
+### Hydra 3.2.2
+
+This release:
+
+1) 
+
+Bug fixes:
+
+1) Missing assignment operators for hydra::FunctionArgments
+
+2) Covering composite of composites (https://github.com/MultithreadCorner/Hydra/issues/100)
+
+
+### Hydra 3.2.1
+
+This release:
+
+1) In certain corner cases, a substantial part of the calculations performed to evaluate a functor depends only on the functor's state and it's parameters; i.e. it does not depend on the current functor's arguments that can be dataset points, numerical integration abscissas and so on. To further optimize the calculations in these cases, Hydra now provides the method ``virtual void hydra::Parameter::Update(void)``, which can be overridden by the functors 
+in order to pre-calculate the factors only depending in the parameters, before the calculations are distributed to one of the parallel backends.  
+
+2) Introduction of `hydra::random_range` and retirement of `hydra::random_uniform_range`, `hydra::random_gaussian_range`, `hydra::random_exp_range` , to define iterators for drawing samples from functors. Examples updated accordingly.
+
+
+Bug fixes:
+
+1) ROOT examples updated and tested against ROOT/6.22.00. ( https://github.com/MultithreadCorner/Hydra/commit/acd303e7fb21d220beb7986ab7122206ac6a8eed )
+
+2) Correction of `hydra::CrystalBallShape` math. ( https://github.com/MultithreadCorner/Hydra/commit/a7ce56d4c9efad46351ddee630f7afce245c9909 )
+
+3) Spelling of some words (in code) accross the tree. (https://github.com/MultithreadCorner/Hydra/commit/d2161898bd9ed4e09ee6593d27372c8ad43347b1) 
+
+4) Fixing fallback path in `MSB.h`. ( https://github.com/MultithreadCorner/Hydra/commit/5b10e05e2517c27f270507c27ea76c85a62e24f5 )
+
+5) Reimplementation of `hydra::detail::is_valid_type_pack` ( https://github.com/MultithreadCorner/Hydra/commit/f30b97a414f513e3e410195555bd0eb8f44eb9f9 )
+
+
+-------------------------------------
+
+
+### Hydra 3.1.0
+
+This release substantially expands the set of pseudorandom number generators available in Hydra.
+From Random123 (see: *John K. Salmon and others, (2011) "Parallel random numbers: as easy as 1, 2, 3"*. https://dl.acm.org/doi/10.1145/2063384.2063405), Hydra provides wrappers and implementations for 
+
+1) *Philox* 
+2) *Ars*
+3) *Threefry*
+
+*Squares* PRNG ( see: *Widynski, Bernard (2020). "Squares: A Fast Counter-Based RNG"*. https://arxiv.org/abs/2004.06278v2 ), are available from now, in two versions:
+
+1) *Squares3*
+2) *Squares4*
+
+All the new generators belong to the *count-based family*, have excelent statistical properties, passing BigCrush (TestU01) and other tests easily, without any failure. All implementations provide very long periods (2^64 -1 or higher). For Squares{3,4}, users get a set of 2500 precalculated seeds for generation of sequences (streams) without statistical artifacts among them (all credits to Bernard Widynski!).
+
+In summary, ***Squares3, Squares4 and Philox are way faster*** than the any option available in the previous releases. Ars and Threefry are competitive, being most of the time slightly faster than the fastest native `Thrust` rng. 
+
+**From this release, the defaut PRNG in Hydra is set to hydra::squares3**. 
+
+#### General
+
+* Bug fixed in ```hydra::unweight``` implementation.
+* Other minor fixes and modifitions across the tree.
+
+______________________________
+
+
 ### Hydra 3.0.0
 
 It is the first release of the longly  waited 3 series. Overall, this release is expected to be faster
@@ -23,7 +90,7 @@ This is probably the most impacting change in this release, making **Hydra3** se
 
 1. New interface for calling functors and lambdas. 
 
-    a) Extensive statically-bound named parameter idiom support. This new idiom for specification of function call interfaces makes the definition callable objects in **Hydra3** much more safe, straight forward, transparent and user friendly, without compromise performance. In many cases enhancing performance, indeed. From **Hydra3**, users will be able to define new types, with *ad hoc* names wrapping around primary types, using the macro ```declvar(NewVar, Type)```. 
+    a) Extensive statically-bound named parameter idiom support. This new idiom for specification of function call interfaces makes the definition callable objects in **Hydra3** much more safe, straight forward, transparent and user friendly, without compromise performance. In many cases enhancing performance, indeed. From **Hydra3**, users will be able to define new types, with *ad hoc* names wrapping around primary types, using the macro ```declarg(NewVar, Type)```. 
     These new types are searched in compile time to bind the function call, if the type
 is not found a compile error is emitted, avoiding the generation of invalid or error prone code.
 See how it works:
@@ -33,7 +100,7 @@ See how it works:
     #include <hydra/functions/Gaussian.h>
     ...
     
-    declvar(Angle, double)
+    declarg(Angle, double)
     
     int main(int argv, char** argc)
     {
@@ -52,9 +119,9 @@ See how it works:
     #include <hydra/multivector.h>
     ...
      
-    declvar(X, double)
-    declvar(Y, double)
-    declvar(Z, double)
+    declarg(X, double)
+    declarg(Y, double)
+    declarg(Z, double)
     
     int main(int argv, char** argc)
     {
@@ -105,9 +172,9 @@ See how it works:
     #include <hydra/Lambda.h>
     ...
 
-    declvar(X, double)
-    declvar(Y, double)
-    declvar(Z, double)
+    declarg(X, double)
+    declarg(Y, double)
+    declarg(Z, double)
 
     int main(int argv, char** argc)
     {
@@ -137,7 +204,7 @@ is not found a compile error is emitted, informing and suggesting the user to us
     #include <hydra/functions/Gaussian.h>
     ...
     
-    declvar(Xvar, double)
+    declarg(Xvar, double)
     
     int main(int argv, char** argc)
     {
@@ -165,7 +232,40 @@ The filling functions can be called also with a specific backend policy and with
 
 #### Data fitting
 
-1. Adding support to simultaneous fit.
+1. Added support to multi-layered simultaneous fit of different models, over different datasets, deploying different parallelization strategies for each model. No categorization of the dataset is needed, but just to set up preliminarly the different component FCNs, that can be optimized in isolation or in the context of the simultaneous FCN. Simultaneous FCNs can be created via direct instantiation or using the convenience function `hydra::make_simultaneous_fcn(...)`, as shown in the following snippet.
+
+    ```cpp
+    ...
+    #include <hydra/LogLikelihoodFCN.h>
+    ...
+    
+    int main(int argv, char** argc)
+    {
+     ...
+     //=====================================================================================
+     //                                                           +----< fcn(model-x) 
+     //                           +----< simultaneous fcn 1 ----- |
+     //                           |                               +----< fcn(model-y)  
+     //   simultaneous fcn   <----+
+     //                           |                               +----< fcn(model-w)
+     //                           +----< simultaneous fcn 2 ------|
+     //                           |                               +----< fcn(model-z) 
+     //                           +----< fcn(model-v)
+     //=====================================================================================        
+     auto fcnX    = hydra::make_loglikehood_fcn(modelX, dataX);
+     auto fcnY    = hydra::make_loglikehood_fcn(modelY, dataY);
+     auto fcnW    = hydra::make_loglikehood_fcn(modelY, dataY);
+     auto fcnZ    = hydra::make_loglikehood_fcn(modelZ, dataZ);    
+     auto fcnV    = hydra::make_loglikehood_fcn(modelv, datav);
+     
+     auto sim_fcn1 = hydra::make_simultaneous_fcn(fcnx, fcny);
+     auto sim_fcn2 = hydra::make_simultaneous_fcn(fcnw, fcnz);
+     auto sim_fcn  = hydra::make_simultaneous_fcn(sim_fcn1, sim_fcn2, fcnV);
+     ...
+    }
+    ```
+    Moreover, the generic interface allows to build up a simultaneous FCN object by composing usual FCNs and simultaneous FCNs. An example of such new method can be found in `examples/fit/simultaneous_fit.inl`.
+
 2. Fitting of convoluted PDFs.
 
 #### General
