@@ -36,6 +36,7 @@
 #include <hydra/PhaseSpace.h>
 #include <hydra/detail/Print.h>
 #include <tuple>
+#include <hydra/Random.h>
 
 namespace hydra {
 
@@ -43,7 +44,7 @@ namespace hydra {
  * \ingroup phsp
  *
  */
-template <size_t N, typename Backend,  typename GRND=hydra_thrust::random::default_random_engine>
+template <size_t N, typename Backend,  typename GRND=hydra::default_random_engine>
 class PhaseSpaceIntegrator;
 
 /**

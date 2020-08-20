@@ -50,6 +50,19 @@ struct is_tuple : std::false_type{ };
 template<typename ...T>
 struct is_tuple<hydra::tuple<T...>>: std::true_type {};
 
+//-----------------------------------------------
+
+template<typename T, typename Tuple>
+struct is_intuple : std::false_type{ };
+
+template<typename T>
+struct is_intuple<T, hydra::tuple<>>:std::false_type{};
+
+template<typename T, typename Head, typename ...Tail>
+struct is_intuple<T, hydra::tuple<Head, Tail...>>:
+	std::conditional< std::is_same<T,Head>::value,
+		std::true_type,  is_intuple<T, hydra::tuple<Tail...> > >::type{};
+
 //----------------------------------------
 template<typename ...T>
 struct merged_tuple;
@@ -95,34 +108,36 @@ struct selected_tuple<Selector, hydra::tuple<Head,Tail...> >
             >::type type;
 };
 
+//================================================
+
+namespace stuple_impl {
+
+template<typename T, typename U>
+struct stripped_tuple_impl;
+
+template<typename ...T>
+struct stripped_tuple_impl< hydra::tuple<T...>,  hydra::tuple< > >
+{
+  typedef  hydra::tuple<T...> type;
+};
+
+template< typename Tuple, typename Head, typename ...Tail>
+struct stripped_tuple_impl< Tuple, hydra::tuple<Head, Tail... > > :
+       stripped_tuple_impl< typename std::conditional< (detail::is_intuple<Head, Tuple>::value),
+                    Tuple,  typename detail::merged_tuple<Tuple, hydra::tuple<Head> >::type >::type, hydra::tuple<Tail...> >{};
+
+}  // namespace stuple_impl
+
+
+template<typename ...T>
+struct stripped_tuple;
+
+template<typename ...T>
+struct stripped_tuple<hydra::tuple<T...>>: stuple_impl::stripped_tuple_impl<  hydra::tuple< >,  hydra::tuple<T...> >{};
+
+
 //------------------------------------------
 
-template<template<typename Type> class Selector, typename TypeList, unsigned I=0>
-struct selected_indices_tuple;
-
-template<template<typename T> class Selector, typename Type, unsigned I >
-struct selected_indices_tuple<Selector, hydra::tuple<Type>, I>
-{
-    typedef typename std::conditional<
-                          Selector<Type>::value,
-                          hydra::tuple<std::integral_constant<unsigned, I>>,
-                          hydra::tuple<>
-                    >::type type;
-};
-
-
-template<template<typename T> class Selector, typename Head, typename ...Tail, unsigned I >
-struct selected_indices_tuple<Selector, hydra::tuple<Head,Tail...>, I>
-{
-    typedef typename std::conditional<
-               Selector<Head>::value,
-               typename merged_tuple<
-                            typename selected_indices_tuple<Selector, hydra::tuple<Head>, I>::type,
-                            typename selected_indices_tuple<Selector, hydra::tuple<Tail...>, I+1>::type
-                        >::type,
-               typename selected_indices_tuple<Selector, hydra::tuple<Tail...>, I+1>::type
-            >::type type;
-};
 
 template<typename Type, typename Tuple>
 struct index_in_tuple;

@@ -37,6 +37,7 @@
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <type_traits>
 #include <utility>
+#include <hydra/detail/TupleTraits.h>
 
 namespace hydra {
 
@@ -71,7 +72,7 @@ namespace tuple_utility {
 	typename detail::tuple_utility::flat_tuple<T...>::type
 	get_flat_tuple(T const&... args)
 	{
-		return hydra::tuple_cat( detail::tupler(args)...);
+		return hydra_thrust::tuple_cat( detail::tupler(args)...);
 	}
 
 }  // namespace hydra
