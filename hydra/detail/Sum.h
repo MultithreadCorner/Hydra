@@ -46,36 +46,68 @@
 #include <hydra/detail/Constant.h>
 #include <hydra/Complex.h>
 #include <hydra/Parameter.h>
-#include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
-#include <hydra/detail/CompositeBase.h>
-#include <hydra/detail/FunctorTraits.h>
-#include <hydra/detail/CompositeTraits.h>
+#include <hydra/detail/BaseCompositeFunctor.h>
+#include <hydra/detail/TupleUtility.h>
+#include <hydra/detail/TupleTraits.h>
+
 #include <type_traits>
 
 namespace hydra {
 
 
 template<typename F1, typename F2, typename ...Fs>
-class Sum: public detail::CompositeBase< F1,F2, Fs...>
+class Sum:   public BaseCompositeFunctor<
+Sum<F1, F2,Fs...>,
+hydra_thrust::tuple<F1, F2, Fs...>,
+ typename detail::merged_tuple<
+ 	 hydra_thrust::tuple< typename std::common_type<
+ 	 	 	 	 	 	 	 	 	 	 typename F1::return_type,
+ 	 	 	 	 	 	 	 	 	 	 typename F2::return_type,
+ 	 	 	 	 	 	 	 	 	 	 typename Fs::return_type...
+ 	 	 	 	 	 	 	 	 	>::type >,
+ 	 typename detail::stripped_tuple<
+ 	 	 typename detail::merged_tuple<
+ 	 	 	 typename F1::argument_type,
+ 	 	 	 typename F2::argument_type,
+ 	 	 	 typename Fs::argument_type ...
+ 	 	 >::type
+ 	 >::type
+ >::type
+>
 {
+
+	typedef BaseCompositeFunctor<
+	Sum<F1, F2,Fs...>,
+	hydra_thrust::tuple<F1, F2, Fs...>,
+	 typename detail::merged_tuple<
+	 	 hydra_thrust::tuple< typename std::common_type<
+	 	 	 	 	 	 	 	 	 	 	 typename F1::return_type,
+	 	 	 	 	 	 	 	 	 	 	 typename F2::return_type,
+	 	 	 	 	 	 	 	 	 	 	 typename Fs::return_type...
+	 	 	 	 	 	 	 	 	 	>::type >,
+	 	 typename detail::stripped_tuple<
+	 	 	 typename detail::merged_tuple<
+	 	 	 	 typename F1::argument_type,
+	 	 	 	 typename F2::argument_type,
+	 	 	 	 typename Fs::argument_type ...
+	 	 	 >::type
+	 	 >::type
+	 >::type
+	> super_type;
 
 public:
 
-	typedef typename detail::sum_result<
-	 		  typename F1::return_type,
-			  typename F2::return_type,
-			  typename Fs::return_type... >::type  return_type;
 
 	Sum()=delete;
 
     Sum(F1 const& f1, F2 const& f2, Fs const&... fs ):
-		detail::CompositeBase<F1,F2, Fs...>( f1, f2,fs...)
+		super_type( f1, f2,fs...)
   	{}
 
 	__hydra_host__ __hydra_device__
 	Sum(const Sum<F1,F2, Fs...>& other):
-		detail::CompositeBase<F1,F2, Fs...>(  other)
+		super_type(  other)
 	{};
 
 	__hydra_host__ __hydra_device__
@@ -83,18 +115,19 @@ public:
 	operator=(Sum<F1,F2, Fs...> const& other)
 	{
 		if(this==&other) return *this;
-		detail::CompositeBase<F1,F2, Fs...>::operator=( other);
+
+		super_type::operator=( other);
 
 		return *this;
 
 	}
 
-  	template<typename T1>
+  	template<typename ...T>
   	__hydra_host__ __hydra_device__
-  	inline return_type
-  	operator()(T1&& t ) const
+  	inline  typename super_type::return_type
+  	Evaluate(T... x ) const
   	{
-  		return detail::accumulate<return_type,T1,F1,F2,Fs...>(std::forward<T1>(t),this->fFtorTuple );
+  		return detail::accumulate<typename super_type::return_type, hydra::tuple<T...> ,F1,F2,Fs...>( hydra::tie(x...), this->GetFunctors() );
 
   	}
 
@@ -105,8 +138,8 @@ public:
  */
 template<typename T1, typename T2>
 inline typename std::enable_if<
-(detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value || detail::is_hydra_composite_functor<T1>::value) &&
-(detail::is_hydra_functor<T2>::value || detail::is_hydra_lambda<T2>::value || detail::is_hydra_composite_functor<T2>::value),
+(detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value ) &&
+(detail::is_hydra_functor<T2>::value || detail::is_hydra_lambda<T2>::value ),
 Sum<T1, T2> >::type
 operator+(T1 const& F1, T2 const& F2)
 {
@@ -118,7 +151,7 @@ operator+(T1 const& F1, T2 const& F2)
  */
 template <typename T, typename U>
 inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value || detail::is_hydra_composite_functor<T>::value) &&
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value ) &&
 (std::is_arithmetic<U>::value),
 Sum< Constant<U>, T> >::type
 operator+(U const cte, T const& F)
@@ -131,7 +164,7 @@ operator+(U const cte, T const& F)
  */
 template <typename T, typename U>
 inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value || detail::is_hydra_composite_functor<T>::value) &&
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value  ) &&
 (std::is_arithmetic<U>::value),
 Sum< Constant<U>, T> >::type
 operator+( T const& F, U cte)
@@ -144,7 +177,7 @@ operator+( T const& F, U cte)
  */
 template <typename T, typename U>
 inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value || detail::is_hydra_composite_functor<T>::value) &&
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value ) &&
 (std::is_arithmetic<U>::value),
 Sum< Constant<hydra::complex<U>>, T> >::type
 operator+(hydra::complex<U> const& cte, T const& F)
@@ -157,7 +190,7 @@ operator+(hydra::complex<U> const& cte, T const& F)
  */
 template <typename T, typename U>
 inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value || detail::is_hydra_composite_functor<T>::value) &&
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value ) &&
 (std::is_arithmetic<U>::value),
 Sum< Constant<U>, T> >::type
 operator+( T const& F, hydra::complex<U> const& cte)
@@ -169,10 +202,10 @@ operator+( T const& F, hydra::complex<U> const& cte)
 // Convenience function
 template <typename F1, typename F2, typename ...Fs>
 inline typename std::enable_if<
-(detail::is_hydra_functor<F1>::value || detail::is_hydra_lambda<F1>::value || detail::is_hydra_composite_functor<F1>::value) &&
-(detail::is_hydra_functor<F2>::value || detail::is_hydra_lambda<F2>::value || detail::is_hydra_composite_functor<F2>::value) &&
+(detail::is_hydra_functor<F1>::value || detail::is_hydra_lambda<F1>::value ) &&
+(detail::is_hydra_functor<F2>::value || detail::is_hydra_lambda<F2>::value ) &&
 detail::all_true<
-(detail::is_hydra_functor<Fs>::value || detail::is_hydra_lambda<Fs>::value || detail::is_hydra_composite_functor<Fs>::value)...>::value,
+(detail::is_hydra_functor<Fs>::value || detail::is_hydra_lambda<Fs>::value )...>::value,
 Sum<F1, F2,Fs...>>::type
 sum(F1 const& f1, F2 const& f2, Fs const&... functors )
 {

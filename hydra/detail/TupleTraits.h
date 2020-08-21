@@ -129,7 +129,7 @@ struct stripped_tuple_impl< Tuple, hydra::tuple<Head, Tail... > > :
 }  // namespace stuple_impl
 
 
-template<typename ...T>
+template<typename T>
 struct stripped_tuple;
 
 template<typename ...T>

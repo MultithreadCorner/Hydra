@@ -42,39 +42,40 @@
 #include <hydra/Tuple.h>
 #include <hydra/detail/BaseCompositeFunctor.h>
 #include <hydra/detail/TupleUtility.h>
-
+#include <hydra/detail/TupleTraits.h>
 
 namespace hydra {
-
-
-namespace detail {
-
-namespace compose_signature {
-
-
-
-}  // namespace compose_signature
-
-}  // namespace detail
 
 
 template<typename F0, typename F1, typename... Fs >
 class Compose: public BaseCompositeFunctor<
 						Compose<F0, F1,Fs...>,
 						hydra_thrust::tuple<F0, F1, Fs...>,
-						typename detail::merged_tuple<
-						hydra_thrust::tuple<typename F0::return_type>,
-						typename F1::argument_type, typename Fs::argument_type ... >::type >
+						 typename detail::merged_tuple<
+						 	 hydra_thrust::tuple<typename F0::return_type>,
+						 	 typename detail::stripped_tuple<
+						 	 	 typename detail::merged_tuple<
+						 	 	 	 typename F1::argument_type,
+						 	 	 	 typename Fs::argument_type ...
+						 	 	 >::type
+						 	 >::type
+						 >::type
+					   >
 {
 
-
-	typedef  BaseCompositeFunctor<
-			    Compose<F0, F1,Fs...>,
-			    hydra_thrust::tuple<F0, F1, Fs...>,
-			    typename detail::merged_tuple< hydra_thrust::tuple<typename F0::return_type>,
-			    typename F1::argument_type, typename Fs::argument_type ... >::type > super_type;
-
-
+	typedef BaseCompositeFunctor<
+				Compose<F0, F1,Fs...>,
+				hydra_thrust::tuple<F0, F1, Fs...>,
+				 typename detail::merged_tuple<
+					 hydra_thrust::tuple<typename F0::return_type>,
+					 typename detail::stripped_tuple<
+						 typename detail::merged_tuple<
+							 typename F1::argument_type,
+							 typename Fs::argument_type ...
+						 >::type
+					 >::type
+				 >::type
+			> super_type;
 
 public:
 
@@ -120,10 +121,10 @@ public:
 // Conveniency function
 template < typename T0, typename T1, typename ...Ts >
 inline typename std::enable_if<
-(detail::is_hydra_functor<T0>::value || detail::is_hydra_lambda<T0>::value || detail::is_hydra_composite_functor<T0>::value) &&
-(detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value || detail::is_hydra_composite_functor<T1>::value) &&
+(detail::is_hydra_functor<T0>::value || detail::is_hydra_lambda<T0>::value ) &&
+(detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value ) &&
 detail::all_true<
-(detail::is_hydra_functor<Ts>::value || detail::is_hydra_lambda<Ts>::value || detail::is_hydra_composite_functor<Ts>::value)...>::value,
+(detail::is_hydra_functor<Ts>::value || detail::is_hydra_lambda<Ts>::value )...>::value,
 Compose<T0,T1,Ts...>>::type
 compose(T0 const& F0, T1 const& F1, Ts const&...Fs){
 

@@ -43,8 +43,12 @@
 #include <hydra/Lambda.h>
 #include <hydra/Parameter.h>
 #include <hydra/detail/Compose.h>
+#include <hydra/detail/Divide.h>
+#include <hydra/detail/Minus.h>
+#include <hydra/detail/Multiply.h>
+#include <hydra/detail/Sum.h>
 #include <hydra/functions/Gaussian.h>
-#include <hydra/functions/LogNormal.h>
+
 
 
 #include <hydra/detail/external/hydra_thrust/random.h>
@@ -88,26 +92,40 @@ int main(int argv, char** argc)
     auto data = hydra::device::vector< double>(10, .0);
 
 	//Parameters
-	auto mean   = hydra::Parameter::Create("mean"  ).Value(0.0);
-	auto sigma  = hydra::Parameter::Create("sigma" ).Value(1.0);
-	auto factor = hydra::Parameter::Create("factor").Value(1.0);
+	auto mean1   = hydra::Parameter::Create("mean1"  ).Value(-1.0);
+	auto mean2   = hydra::Parameter::Create("mean2"  ).Value( 1.0);
+	auto sigma   = hydra::Parameter::Create("sigma" ).Value(1.0);
+	auto factor  = hydra::Parameter::Create("factor").Value(1.0);
 
 	//Gaussian distribution
-	auto gauss     = hydra::Gaussian<xvar>(mean, sigma);
+	auto gauss1 = hydra::Gaussian<xvar>(mean1, sigma);
 	//LogNormal distribution
-	auto lognormal = hydra::LogNormal<yvar>(mean, sigma);
+	auto gauss2 = hydra::Gaussian<yvar>(mean2, sigma);
 	//
 
 	auto combiner = hydra::wrap_lambda( [] __hydra_dual__ (unsigned int npar, const hydra::Parameter* params, double x, double y) {
 
-		printf("gauss %f , log-gauss %f\n", x, y );
+		printf("Gauss1 %f , Gauss2 %f\n", x, y );
 		return x + params[0]*y;
 	}, factor);
 
-	auto fcomposed = hydra::compose( combiner, gauss, lognormal);
+	auto fcomposed = hydra::compose( combiner, gauss1, gauss2);
+	auto fdivided  = hydra::divide( gauss1, gauss2  );
+	auto fminus    = hydra::minus( gauss1, gauss2  );
+	auto fmultiply = hydra::multiply( gauss1, gauss2 , gauss2  );
+	auto fsum      = hydra::sum( gauss1, gauss2 , gauss2  );
 
     for(size_t i=0; i< data.size(); ++i)
-    	fcomposed(xvar(1.0), yvar(1.0));
+    {
+    	std::cout << "fcomposed: " << fcomposed(xvar(-1.0), yvar(1.0)) << std::endl;
+    	std::cout << "fdivided:  " << fdivided(xvar(-1.0), yvar(1.0))  << std::endl;
+    	std::cout << "fminus:    " << fminus(xvar(-1.0), yvar(1.0))    << std::endl;
+    	std::cout << "fmultiply: " << fmultiply(xvar(-1.0), yvar(1.0)) << std::endl;
+    	std::cout << "fsum:      " << fsum(xvar(-1.0), yvar(1.0)) << std::endl;
+
+    }
+
+
 
 	return 0;
 }
