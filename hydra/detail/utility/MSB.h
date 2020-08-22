@@ -73,7 +73,7 @@ msb( Integer x){
 
 	#else
 
-	   Integer _x
+	   Integer _x;
 	   unsigned y;
 	   int n = 64;
 

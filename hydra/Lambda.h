@@ -302,16 +302,16 @@ template<typename LambdaType, size_t NPARAM>
 class  Lambda : public detail::Parameters<NPARAM>
 {
 
-	typedef typename detail::lambda_traits<LambdaType>::argument_rvalue_type argument_rvalue_type;
+	typedef typename detail::trimmed_lambda_signature<typename detail::lambda_traits<LambdaType>::argument_rvalue_type>::type argument_rvalue_type;
 
 public:
 
 	typedef void hydra_lambda_type;
 
 	typedef typename detail::lambda_traits<LambdaType>::return_type   return_type;
-	typedef typename detail::lambda_traits<LambdaType>::argument_type argument_type;
+	typedef typename detail::trimmed_lambda_signature<typename detail::lambda_traits<LambdaType>::argument_type>::type argument_type;
 
-	enum {arity=detail::lambda_traits<LambdaType>::arity};
+	enum {arity=detail::lambda_traits<LambdaType>::arity-2};
 
 
 	explicit Lambda()=delete;
@@ -391,8 +391,7 @@ public:
 	template<typename ...T>
 	__hydra_host__  __hydra_device__
 	inline typename std::enable_if<
-	(!detail::is_valid_type_pack<argument_type, size_t,
-			const hydra::Parameter*, T...>::value),
+	(!detail::is_valid_type_pack<argument_type, T...>::value),
 	return_type>::type
 	operator()(T...x)  const
 	{
@@ -413,8 +412,7 @@ public:
 	template<typename ...T>
 	__hydra_host__  __hydra_device__
 	inline typename  std::enable_if<
-	(detail::is_valid_type_pack<argument_type, size_t,
-			const hydra::Parameter*, T...>::value),
+	(detail::is_valid_type_pack<argument_type, T...>::value),
 	return_type>::type
 	operator()(T...x)  const
 	{
@@ -426,13 +424,7 @@ public:
 	inline typename std::enable_if<
 	( detail::is_tuple_type< typename std::decay<T>::type >::value )                 &&
 	(!detail::is_tuple_of_function_arguments< typename std::decay<T>::type >::value) &&
-	( std::is_convertible<
-			typename detail::tuple_cat_type<
-			         hydra::tuple<size_t, const Parameter*>,
-			         typename std::decay<T>::type
-			    >::type,
-			argument_rvalue_type
-			>::value ),
+	( std::is_convertible<typename std::decay<T>::type,	argument_rvalue_type>::value ),
 	return_type >::type
 	operator()( T x )  const
 	{
@@ -500,14 +492,14 @@ private:
 
 		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),
 			detail::get_tuple_element<
-			typename hydra_thrust::tuple_element<I+2,argument_rvalue_type>::type >(x)...);
+			typename hydra_thrust::tuple_element<I,argument_rvalue_type>::type >(x)...);
 	}
 
 	template<typename T>
 	__hydra_host__ __hydra_device__
 	inline return_type call(T x) const
 	{
-		return call_helper(x, detail::make_index_sequence<arity-2>{});
+		return call_helper(x, detail::make_index_sequence<arity>{});
 	}
 
 	template<typename T, size_t ...I>
@@ -515,7 +507,7 @@ private:
 	inline  return_type raw_call_helper(T x, detail::index_sequence<I...> ) const
 	{
 		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),
-				static_cast<typename hydra_thrust::tuple_element<I+2,argument_rvalue_type>::type>(
+				static_cast<typename hydra_thrust::tuple_element<I,argument_rvalue_type>::type>(
 				hydra_thrust::get<I>(x))...);
 	}
 
@@ -523,7 +515,7 @@ private:
 	__hydra_host__ __hydra_device__
 	inline return_type raw_call(T x) const
 	{
-		return raw_call_helper(x, detail::make_index_sequence<arity-2>{});
+		return raw_call_helper(x, detail::make_index_sequence<arity>{});
 	}
 
 

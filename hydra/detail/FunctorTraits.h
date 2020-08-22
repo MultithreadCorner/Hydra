@@ -101,6 +101,16 @@ struct functor_traits<ReturnType(ClassType::*)(Args...) const>
 
 };
 
+template<typename T>
+struct trimmed_lambda_signature;
+
+template<typename Head, typename Neck, typename ...Tail>
+struct trimmed_lambda_signature< hydra_thrust::tuple<Head,Neck, Tail...> >
+{
+	typedef hydra_thrust::tuple<Tail...> type;
+};
+
+
 template<typename Functor, typename T= hydra_thrust::void_t<> >
 struct is_hydra_functor:std::false_type{};
 

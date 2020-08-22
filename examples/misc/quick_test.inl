@@ -140,9 +140,19 @@ int main(int argv, char** argc)
     std::cout << Total( hydra::make_tuple( _x(1.0), _y(-1.0), _v(1.0), _u(-1.0))) << std::endl;
 
 
+    auto myfunc = hydra::wrap_lambda( [] __hydra_dual__ (unsigned int npar, const hydra::Parameter* params, _x x, _y y) {
+
+    	return x + params[0]*y;
+
+    }, exponent);
+
+    auto mycombination = Gx + myfunc * Gy;
+
+    std::cout << "mycombination: " << mycombination(_x(-1.0), _y(1.0)) << std::endl;
+
     //What is the type of the natural signature of Total?
     //uncomment this
-    //typename decltype(Total)::argument_type  test{};
+   // typename decltype(mycombination)::argument_type  test{};
     //std::cout << test.dummy << '\n';
 
 	return 0;
