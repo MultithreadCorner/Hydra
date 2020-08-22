@@ -29,71 +29,89 @@
 #ifndef COMPOSE_H_
 #define COMPOSE_H_
 
-
-
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
 #include <hydra/detail/TypeTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/base_functor.h>
 #include <hydra/detail/Constant.h>
-#include <hydra/detail/CompositeBase.h>
+//#include <hydra/detail/CompositeBase.h>
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/CompositeTraits.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
+#include <hydra/detail/BaseCompositeFunctor.h>
+#include <hydra/detail/TupleUtility.h>
+#include <hydra/detail/TupleTraits.h>
 
 namespace hydra {
 
 
 template<typename F0, typename F1, typename... Fs >
-class Compose: public detail::CompositeBase<F0, F1, Fs...>
+class Compose: public BaseCompositeFunctor<
+						Compose<F0, F1,Fs...>,
+						hydra_thrust::tuple<F0, F1, Fs...>,
+						 typename detail::merged_tuple<
+						 	 hydra_thrust::tuple<typename F0::return_type>,
+						 	 typename detail::stripped_tuple<
+						 	 	 typename detail::merged_tuple<
+						 	 	 	 typename F1::argument_type,
+						 	 	 	 typename Fs::argument_type ...
+						 	 	 >::type
+						 	 >::type
+						 >::type
+					   >
 {
+
+	typedef BaseCompositeFunctor<
+				Compose<F0, F1,Fs...>,
+				hydra_thrust::tuple<F0, F1, Fs...>,
+				 typename detail::merged_tuple<
+					 hydra_thrust::tuple<typename F0::return_type>,
+					 typename detail::stripped_tuple<
+						 typename detail::merged_tuple<
+							 typename F1::argument_type,
+							 typename Fs::argument_type ...
+						 >::type
+					 >::type
+				 >::type
+			> super_type;
+
 public:
-	    //tag
-
-	    typedef typename F0::return_type  return_type;
-
-		typedef typename hydra_thrust::tuple<
-				     typename F1::return_type,
-				     typename Fs::return_type...> argument_type;
-
 
 
 		Compose()=delete;
 
 		Compose(F0 const& f0, F1 const& f1,  Fs const& ...fs):
-			detail::CompositeBase<F0, F1, Fs...>( f0, f1,fs...)
+		 super_type( f0, f1,fs...)
 		{ }
 
 		__hydra_host__ __hydra_device__
 		inline Compose(Compose<F0,F1,Fs...> const& other):
-		detail::CompositeBase<F0, F1, Fs...>( other)
+	      super_type( other)
 		{ }
 
 		__hydra_host__ __hydra_device__
 		inline Compose<F0,F1,Fs...>& operator=(Compose<F0,F1,Fs...> const& other)
 		{
 			if(this==&other) return *this;
-			detail::CompositeBase<F0, F1, Fs...>::operator=( other);
+			super_type::operator=( other);
 
 			return *this;
 		}
 
-	  	template<typename T1>
+	  	template<typename ...T>
 	  	__hydra_host__ __hydra_device__
-	  	inline return_type operator()(T1&& x ) const
+	  	inline typename  super_type::return_type Evaluate(T... x ) const
 	  	{
 
-	  		//evaluating f(g_1(x), g_2(x), ..., g_n(x))
+	  		auto g = detail::dropFirst(this->GetFunctors());
 
-	  		auto g = detail::dropFirst(this->fFtorTuple);
-
-	  		auto f =  hydra::get<0>(this->fFtorTuple);
+	  		auto f =  hydra::get<0>(this->GetFunctors());
 
 	  		typedef decltype(g) G_tuple ;
 
-	  		return f(detail::invoke<G_tuple, T1>(std::forward<T1>(x),g ));
+	  		return f(detail::invoke<G_tuple, hydra_thrust::tuple<T...>>( hydra_thrust::tie(x...), g ));
 	  	}
 
 
@@ -103,10 +121,10 @@ public:
 // Conveniency function
 template < typename T0, typename T1, typename ...Ts >
 inline typename std::enable_if<
-(detail::is_hydra_functor<T0>::value || detail::is_hydra_lambda<T0>::value || detail::is_hydra_composite_functor<T0>::value) &&
-(detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value || detail::is_hydra_composite_functor<T1>::value) &&
+(detail::is_hydra_functor<T0>::value || detail::is_hydra_lambda<T0>::value ) &&
+(detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value ) &&
 detail::all_true<
-(detail::is_hydra_functor<Ts>::value || detail::is_hydra_lambda<Ts>::value || detail::is_hydra_composite_functor<Ts>::value)...>::value,
+(detail::is_hydra_functor<Ts>::value || detail::is_hydra_lambda<Ts>::value )...>::value,
 Compose<T0,T1,Ts...>>::type
 compose(T0 const& F0, T1 const& F1, Ts const&...Fs){
 

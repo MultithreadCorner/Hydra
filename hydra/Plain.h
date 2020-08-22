@@ -42,12 +42,12 @@
 #include <hydra/detail/functors/ProcessCallsPlain.h>
 #include <utility>
 #include <vector>
-
-#include <hydra/detail/external/hydra_thrust/random.h>
+#include <hydra/Integrator.h>
+#include <hydra/Random.h>
 
 namespace hydra {
 
-template<size_t N, typename BACKEND, typename GRND=hydra_thrust::random::default_random_engine>
+template<size_t N, typename BACKEND, typename GRND=hydra::default_random_engine>
 struct Plain;
 
 

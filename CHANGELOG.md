@@ -12,6 +12,8 @@ Bug fixes:
 
 2) Covering composite of composites (https://github.com/MultithreadCorner/Hydra/issues/100)
 
+3) Covering caching for parameterless functors.
+
 
 ### Hydra 3.2.1
 

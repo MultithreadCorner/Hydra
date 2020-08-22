@@ -63,6 +63,14 @@ typedef hydra_thrust::tuple<typename std::decay<Args>::type...> argument_type;
 enum {arity=sizeof...(Args)};
 };
 
+template<typename R, typename...Args>
+struct signature_traits< hydra_thrust::tuple<R,Args...>>
+{
+typedef typename std::decay<R>::type return_type;
+typedef hydra_thrust::tuple<typename std::decay<Args>::type...> argument_type;
+enum {arity=sizeof...(Args)};
+};
+
 
 template <typename T>
 struct functor_traits:
@@ -92,6 +100,16 @@ struct functor_traits<ReturnType(ClassType::*)(Args...) const>
 			typename std::decay<Args>::type...> argument_rvalue_type;
 
 };
+
+template<typename T>
+struct trimmed_lambda_signature;
+
+template<typename Head, typename Neck, typename ...Tail>
+struct trimmed_lambda_signature< hydra_thrust::tuple<Head,Neck, Tail...> >
+{
+	typedef hydra_thrust::tuple<Tail...> type;
+};
+
 
 template<typename Functor, typename T= hydra_thrust::void_t<> >
 struct is_hydra_functor:std::false_type{};

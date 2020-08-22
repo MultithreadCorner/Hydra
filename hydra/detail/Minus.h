@@ -41,51 +41,78 @@
 #include <hydra/detail/TypeTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/base_functor.h>
+#include <hydra/detail/Constant.h>
+#include <hydra/Complex.h>
 #include <hydra/Parameter.h>
-#include <hydra/detail/CompositeBase.h>
 #include <hydra/detail/FunctorTraits.h>
-#include <hydra/detail/CompositeTraits.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
+#include <hydra/detail/BaseCompositeFunctor.h>
+#include <hydra/detail/TupleUtility.h>
+#include <hydra/detail/TupleTraits.h>
+
 
 namespace hydra {
 
 
-
 template<typename F1, typename F2 >
-class  Minus: public detail::CompositeBase<F1, F2>
+class  Minus: public BaseCompositeFunctor<
+Minus<F1, F2>,
+hydra_thrust::tuple<F1, F2>,
+ typename detail::merged_tuple<
+ 	 hydra_thrust::tuple< typename std::common_type<typename F1::return_type, typename F2::return_type>::type >,
+ 	 typename detail::stripped_tuple<
+ 	 	 typename detail::merged_tuple<
+ 	 	 	 typename F1::argument_type,
+ 	 	 	 typename F2::argument_type
+ 	 	 >::type
+ 	 >::type
+ >::type
+>
 {
+
+	typedef  BaseCompositeFunctor<
+			Minus<F1, F2>,
+			hydra_thrust::tuple<F1, F2>,
+			 typename detail::merged_tuple<
+			 	 hydra_thrust::tuple< typename std::common_type<typename F1::return_type, typename F2::return_type>::type  >,
+			 	 typename detail::stripped_tuple<
+			 	 	 typename detail::merged_tuple<
+			 	 	 	 typename F1::argument_type,
+			 	 	 	 typename F2::argument_type
+			 	 	 >::type
+			 	 >::type
+			 >::type
+			>  super_type;
+
 	public:
 
-	    typedef typename detail::minus_result<
-	    		        typename F1::return_type,
-	    		        typename F2::return_type>::type  return_type;
 
 		Minus()=delete;
 
 		__hydra_host__
 		Minus(F1 const& f1, F2 const& f2):
-		detail::CompositeBase<F1, F2>( f1, f2)
+		super_type( f1, f2)
 	  	{ }
 
 		__hydra_host__ __hydra_device__
 		Minus(Minus<F1,F2> const& other):
-		detail::CompositeBase<F1, F2>( other )
+		super_type( other )
 		{ }
 
 		__hydra_host__ __hydra_device__
 		Minus<F1,F2>& operator=(Minus<F1,F2> const& other)
 		{
 			if(this==&other) return *this;
-			detail::CompositeBase< F1, F2>::operator=( other);
+			super_type::operator=( other);
 			return *this;
 		}
 
-	  	template<typename T1>
+	  	template<typename ...T>
 	  	__hydra_host__ __hydra_device__ inline
-	  	return_type operator()(T1& t ) const
+	  	typename super_type::return_type Evaluate(T... x ) const
 	  	{
-	  		return hydra::get<0>(this->fFtorTuple)(t)-hydra::get<1>(this->fFtorTuple)(t);
+	  		return hydra::get<0>(this->GetFunctors())( hydra::tie(x...) ) - hydra::get<1>(this->GetFunctors())(hydra::tie(x...));
 	  	}
 
 
@@ -94,8 +121,8 @@ class  Minus: public detail::CompositeBase<F1, F2>
 // + operator two functors
 template<typename T1, typename T2>
 inline typename std::enable_if<
-(detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value || detail::is_hydra_composite_functor<T1>::value) &&
-(detail::is_hydra_functor<T2>::value || detail::is_hydra_lambda<T2>::value || detail::is_hydra_composite_functor<T2>::value),
+(detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value ) &&
+(detail::is_hydra_functor<T2>::value || detail::is_hydra_lambda<T2>::value ),
 Minus<T1, T2> >::type
 operator-(T1 const& F1, T2 const& F2)
 {
@@ -104,7 +131,7 @@ operator-(T1 const& F1, T2 const& F2)
 
 template <typename T, typename U>
 inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value  || detail::is_hydra_composite_functor<T>::value) &&
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value  ) &&
 (std::is_arithmetic<U>::value),
 Minus< Constant<U>, T> >::type
 operator-(U const cte, T const& F)
@@ -114,7 +141,7 @@ operator-(U const cte, T const& F)
 
 template <typename T, typename U>
 inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value || detail::is_hydra_composite_functor<T>::value) &&
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value ) &&
 (std::is_arithmetic<U>::value),
 Minus< Constant<U>, T> >::type
 operator-( T const& F, U cte)
@@ -124,7 +151,7 @@ operator-( T const& F, U cte)
 
 template <typename T, typename U>
 inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value || detail::is_hydra_composite_functor<T>::value) &&
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value ) &&
 (std::is_arithmetic<U>::value),
 Minus< Constant<hydra::complex<U>>, T> >::type
 operator-(hydra::complex<U> const& cte, T const& F)
@@ -134,7 +161,7 @@ operator-(hydra::complex<U> const& cte, T const& F)
 
 template <typename T, typename U>
 inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value || detail::is_hydra_composite_functor<T>::value) &&
+(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value ) &&
 (std::is_arithmetic<U>::value),
 Minus< Constant<U>, T> >::type
 operator-( T const& F, hydra::complex<U> const& cte)
@@ -145,8 +172,8 @@ operator-( T const& F, hydra::complex<U> const& cte)
 // Convenience function
 template <typename F1, typename F2>
 inline typename std::enable_if<
-(detail::is_hydra_functor<F1>::value || detail::is_hydra_lambda<F1>::value || detail::is_hydra_composite_functor<F1>::value) &&
-(detail::is_hydra_functor<F2>::value || detail::is_hydra_lambda<F2>::value || detail::is_hydra_composite_functor<F2>::value),
+(detail::is_hydra_functor<F1>::value || detail::is_hydra_lambda<F1>::value ) &&
+(detail::is_hydra_functor<F2>::value || detail::is_hydra_lambda<F2>::value ),
 Minus<F1, F2>>::type
 minus(F1 const& f1, F2 const& f2)
 {

@@ -116,6 +116,13 @@ namespace hydra {
     };
 
 
+    template<typename T>
+    struct remove_device_reference<T&>
+    {
+    	typedef T type;
+    };
+
+
 
 	//----------------------
 	template<bool Condition, template<typename ...> class T1, template<typename ...> class T2>

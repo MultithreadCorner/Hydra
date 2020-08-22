@@ -364,6 +364,28 @@ sample(Iterator begin, Iterator end , std::array<double,N>const& min, std::array
 
 }
 
+
+template<typename RNG, typename Functor, typename Iterator>
+typename std::enable_if<
+detail::random::is_callable<Functor>::value  &&
+detail::random::is_iterator<Iterator>::value &&
+detail::is_tuple_type< decltype(*std::declval<Iterator>())>::value,
+Range<Iterator> >::type
+sample(Iterator begin, Iterator end ,
+		typename Functor::argument_type const& min, typename Functor::argument_type const& max,
+		Functor const& functor, size_t seed)
+{
+	typedef  typename hydra_thrust::iterator_system<Iterator>::type   system_type;
+    std::array<double, Functor::arity> _min{};
+    std::array<double, Functor::arity> _max{};
+
+    detail::assignTupleToArray(min , _min);
+    detail::assignTupleToArray(max , _max);
+
+	return	sample<RNG>(system_type(), begin, end, _min, _max, functor, seed );
+
+}
+
 template<typename RNG, typename Functor, typename Iterable, size_t N >
 typename std::enable_if<
 	detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
@@ -374,6 +396,26 @@ sample(Iterable&& output , std::array<double,N>const& min, std::array<double,N>c
 {
 	return	sample<RNG>(std::forward<Iterable>(output).begin(), std::forward<Iterable>(output).end(),
 			min, max, functor, seed );
+}
+
+template<typename RNG, typename Functor, typename Iterable>
+typename std::enable_if<
+detail::random::is_callable<Functor>::value  &&
+detail::random::is_iterable<Iterable>::value &&
+detail::is_tuple_type< decltype(*std::declval<Iterable>().begin())>::value ,
+Range< decltype(std::declval<Iterable>().begin())>>::type
+sample( Iterable&& output ,
+		typename Functor::argument_type const& min,typename Functor::argument_type  const& max,
+		Functor const& functor, size_t seed)
+{
+	std::array<double, Functor::arity> _min{};
+	    std::array<double, Functor::arity> _max{};
+
+	    detail::assignTupleToArray(min , _min);
+	    detail::assignTupleToArray(max , _max);
+
+	return	sample<RNG>(std::forward<Iterable>(output).begin(), std::forward<Iterable>(output).end(),
+			_min, _max, functor, seed );
 }
 
 

@@ -40,7 +40,7 @@
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/CompositeTraits.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
-
+#include <hydra/detail/ArgumentTraits.h>
 #include <hydra/detail/PRNGTypedefs.h>
 
 #include <hydra/Range.h>
@@ -366,6 +366,25 @@ sample(Iterator begin, Iterator end , std::array<double,N>const& min, std::array
 
 /**
  * @brief Fill a range with numbers distributed according a user defined distribution.
+ * @param begin beginning of the range storing the generated values
+ * @param end ending of the range storing the generated values
+ * @param min tuple of lower limits of sampling region
+ * @param max tuple of upper limits of sampling region.
+ * @param functor distribution to be sampled
+ * @return range with the generated values
+ */
+template<typename RNG=default_random_engine, typename Functor, typename Iterator>
+typename std::enable_if<
+detail::random::is_callable<Functor>::value  &&
+detail::random::is_iterator<Iterator>::value &&
+detail::is_tuple_type< decltype(*std::declval<Iterator>())>::value,
+Range<Iterator> >::type
+sample(Iterator begin, Iterator end ,
+		typename Functor::argument_type const& min, typename Functor::argument_type const& max,
+		Functor const& functor, size_t seed=0xb56c4feeef1b);
+
+/**
+ * @brief Fill a range with numbers distributed according a user defined distribution.
  * @param policy backend to perform the calculation.
  * @param begin beginning of the range storing the generated values
  * @param end ending of the range storing the generated values
@@ -413,6 +432,24 @@ detail::random::is_callable<Functor>::value && detail::random::is_iterable<Itera
 Range< decltype(std::declval<Iterable>().begin())>>::type
 sample( Iterable&& output ,
 		std::array<double,N>const& min, std::array<double,N>const& max,
+		Functor const& functor, size_t seed=0xb56c4feeef1b);
+
+/**
+ * @brief Fill a range with numbers distributed according a user defined distribution.
+ * @param output range storing the generated values
+ * @param min tuple of lower limits of sampling region
+ * @param max tuple of upper limits of sampling region.
+ * @param functor distribution to be sampled
+ * @return output range with the generated values
+ */
+template<typename RNG=default_random_engine, typename Functor, typename Iterable>
+typename std::enable_if<
+detail::random::is_callable<Functor>::value  &&
+detail::random::is_iterable<Iterable>::value &&
+detail::is_tuple_type< decltype(*std::declval<Iterable>().begin())>::value ,
+Range< decltype(std::declval<Iterable>().begin())>>::type
+sample( Iterable&& output ,
+		typename Functor::argument_type const& min,typename Functor::argument_type  const& max,
 		Functor const& functor, size_t seed=0xb56c4feeef1b);
 
 /**

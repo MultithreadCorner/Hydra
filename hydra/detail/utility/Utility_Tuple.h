@@ -474,73 +474,108 @@ namespace hydra {
 
 	 //---------------------------------------
 	 // set a std::array with tuple values
-	 template<size_t I = 0, typename ArrayType, typename FistType, typename ...OtherTypes>
+	 template<size_t I, typename Type, typename Head, typename ...Tail>
 	 __hydra_host__  __hydra_device__
-	 inline typename hydra_thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
-	 is_hydra_convertible_to_tuple<ArrayType>::value &&
-	 are_all_same<FistType,OtherTypes...>::value, void>::type
-	 assignTupleToArray(hydra_thrust::tuple<FistType, OtherTypes...> const&,
-			 ArrayType (&)[sizeof...(OtherTypes)+1])
-	 {}
+	 inline typename std::enable_if<
+	 (I == sizeof...(Tail) + 1) &&
+	 std::is_convertible< Head, Type>::value &&
+	 all_true<std::is_convertible<Tail, Type>::value ... >::value,
+	 void >::type
+	 assignTupleToArray(hydra_thrust::tuple<Head, Tail...> const&, Type(&)[sizeof...(Tail)+1])
+	 { }
 
-	 template<size_t I = 0, typename  ArrayType, typename FistType, typename ...OtherTypes>
+	 template<size_t I = 0, typename Type, typename Head, typename ...Tail>
 	 __hydra_host__  __hydra_device__
-	 inline typename hydra_thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
-	 is_hydra_convertible_to_tuple<ArrayType>::value &&
-	 are_all_same<FistType,OtherTypes...>::value, void >::type
-	 assignTupleToArray(hydra_thrust::tuple<FistType, OtherTypes...> const& t,
-			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
+	 inline typename std::enable_if<
+	 	 (I < sizeof...(Tail) + 1) &&
+	 	 std::is_convertible< Head, Type>::value &&
+	 	 all_true<std::is_convertible<Tail, Type>::value ... >::value,
+	 void >::type
+	 assignTupleToArray(hydra_thrust::tuple<Head, Tail...> const& Tuple, Type (&Array)[sizeof...(Tail)+1])
 	 {
 
-		 Array[I] = hydra_thrust::get<I>(t);
-		 assignTupleToArray<I + 1,ArrayType,FistType, OtherTypes... >( t, Array);
+		 Array[I] = hydra_thrust::get<I>(Tuple);
+		 assignTupleToArray<I + 1, Type, Head, Tail... >( Tuple, Array);
 	 }
 
+	 //-----------------
 	 // set a std::array with tuple values
-	 template<size_t I = 0, typename ArrayType, typename FistType, typename ...OtherTypes>
+	 template<size_t I, typename Type, typename Head, typename ...Tail>
 	 __hydra_host__  __hydra_device__
-	 inline typename hydra_thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
-	 is_hydra_convertible_to_tuple<ArrayType>::value &&
-	 are_all_same<FistType,OtherTypes...>::value, void>::type
-	 assignTupleToArray(hydra_thrust::tuple<FistType&, OtherTypes&...> const&,
-			 ArrayType (&)[sizeof...(OtherTypes)+1])
-	 {}
+	 inline typename std::enable_if<
+	 (I == sizeof...(Tail) + 1) &&
+	 std::is_convertible< Head, Type>::value &&
+	 all_true<std::is_convertible<Tail, Type>::value ... >::value,
+	 void >::type
+	 assignTupleToArray(hydra_thrust::tuple<Head, Tail...> const&, std::array<Type, sizeof...(Tail)+1>&)
+	 { }
 
-	 template<size_t I = 0, typename  ArrayType, typename FistType, typename ...OtherTypes>
+	 template<size_t I = 0, typename Type, typename Head, typename ...Tail>
 	 __hydra_host__  __hydra_device__
-	 inline typename hydra_thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
-	 is_hydra_convertible_to_tuple<ArrayType>::value &&
-	 are_all_same<FistType,OtherTypes...>::value, void >::type
-	 assignTupleToArray(hydra_thrust::tuple<FistType&, OtherTypes&...> const& t,
-			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
+	 inline typename std::enable_if<
+	 (I < sizeof...(Tail) + 1) &&
+	 std::is_convertible< Head, Type>::value &&
+	 all_true<std::is_convertible<Tail, Type>::value ... >::value,
+	 void >::type
+	 assignTupleToArray(hydra_thrust::tuple<Head, Tail...> const& Tuple, std::array<Type, sizeof...(Tail)+1>& Array)
 	 {
 
-		 Array[I] = hydra_thrust::get<I>(t);
-		 assignTupleToArray<I + 1,ArrayType,FistType, OtherTypes... >( t, Array);
+		 Array[I] = hydra_thrust::get<I>(Tuple);
+		 assignTupleToArray<I + 1, Type, Head, Tail... >( Tuple, Array);
 	 }
 
+	 //---------------------------------------
 	 // set a std::array with tuple values
-	 template<size_t I = 0, typename ArrayType, typename FistType, typename ...OtherTypes>
+	 template<size_t I, typename Type, typename Head, typename ...Tail>
 	 __hydra_host__  __hydra_device__
-	 inline typename hydra_thrust::detail::enable_if<I == (sizeof...(OtherTypes) + 1) &&
-	 is_hydra_convertible_to_tuple<ArrayType>::value &&
-	 are_all_same<FistType,OtherTypes...>::value, void>::type
-	 assignTupleToArray(hydra_thrust::detail::tuple_of_iterator_references<FistType, OtherTypes...> const&,
-			 ArrayType (&)[sizeof...(OtherTypes)+1])
-	 {}
+	 inline typename std::enable_if<
+	 (I == sizeof...(Tail) + 1) &&
+	 std::is_convertible< typename remove_device_reference<Head>::type, Type>::value &&
+	 all_true<std::is_convertible< typename remove_device_reference<Tail>::type, Type>::value ... >::value,
+	 void >::type
+	 assignTupleToArray(hydra_thrust::detail::tuple_of_iterator_references<Head, Tail...> const&, Type(&)[sizeof...(Tail)+1])
+	 { }
 
-	 template<size_t I = 0, typename  ArrayType, typename FistType, typename ...OtherTypes>
+	 template<size_t I = 0, typename Type, typename Head, typename ...Tail>
 	 __hydra_host__  __hydra_device__
-	 inline typename hydra_thrust::detail::enable_if<(I < sizeof...(OtherTypes)+1) &&
-	 is_hydra_convertible_to_tuple<ArrayType>::value &&
-	 are_all_same<FistType,OtherTypes...>::value, void >::type
-	 assignTupleToArray(hydra_thrust::detail::tuple_of_iterator_references<FistType, OtherTypes...> const& t,
-			 ArrayType (&Array)[sizeof...(OtherTypes)+1])
+	 inline typename std::enable_if<
+	 (I < sizeof...(Tail) + 1) &&
+	 std::is_convertible< typename remove_device_reference<Head>::type, Type>::value &&
+	 all_true<std::is_convertible<typename remove_device_reference<Tail>::type, Type>::value ... >::value,
+	 void >::type
+	 assignTupleToArray(hydra_thrust::detail::tuple_of_iterator_references<Head, Tail...> const& Tuple, Type (&Array)[sizeof...(Tail)+1])
 	 {
 
-		 Array[I] = hydra_thrust::get<I>(t);
-		 assignTupleToArray<I + 1,ArrayType,FistType, OtherTypes... >( t, Array);
+		 Array[I] = hydra_thrust::get<I>(Tuple);
+		 assignTupleToArray<I + 1, Type, Head, Tail... >( Tuple, Array);
 	 }
+
+	 //-----------------
+	 // set a std::array with tuple values
+	 template<size_t I, typename Type, typename Head, typename ...Tail>
+	 __hydra_host__  __hydra_device__
+	 inline typename std::enable_if<
+	 (I == sizeof...(Tail) + 1) &&
+	 std::is_convertible< typename remove_device_reference<Head>::type, Type>::value &&
+	 all_true<std::is_convertible<typename remove_device_reference<Tail>::type, Type>::value ... >::value,
+	 void >::type
+	 assignTupleToArray(hydra_thrust::detail::tuple_of_iterator_references<Head, Tail...> const&, std::array<Type, sizeof...(Tail)+1>&)
+	 { }
+
+	 template<size_t I = 0, typename Type, typename Head, typename ...Tail>
+	 __hydra_host__  __hydra_device__
+	 inline typename std::enable_if<
+	 (I < sizeof...(Tail) + 1) &&
+	 std::is_convertible< typename remove_device_reference<Head>::type, Type>::value &&
+	 all_true<std::is_convertible<typename remove_device_reference<Tail>::type, Type>::value ... >::value,
+	 void >::type
+	 assignTupleToArray(hydra_thrust::detail::tuple_of_iterator_references<Head, Tail...> const& Tuple, std::array<Type, sizeof...(Tail)+1>& Array)
+	 {
+
+		 Array[I] = hydra_thrust::get<I>(Tuple);
+		 assignTupleToArray<I + 1, Type, Head, Tail... >( Tuple, Array);
+	 }
+
 
 	 //---------------------------------------
 	 // set a generic array with tuple values

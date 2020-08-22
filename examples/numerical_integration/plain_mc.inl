@@ -60,7 +60,10 @@
 #include <hydra/device/System.h>
 
 
+declarg(AxisX, double)
+declarg(AxisY, double)
 
+using namespace hydra::arguments;
 
 int main(int argv, char** argc)
 {
@@ -104,7 +107,7 @@ int main(int argv, char** argc)
 	}
 
 	// create functor using C++11 lambda
-	auto GAUSSIAN = [=] __hydra_dual__ ( double x, double y ){
+	auto GAUSSIAN = [=] __hydra_dual__ ( AxisX x, AxisY y ){
 
 		double g = 1.0;
 		double f = 0.0;

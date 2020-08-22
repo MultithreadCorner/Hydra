@@ -250,6 +250,9 @@ private:
 
 	void LoadInput(int size, const InputType* data )
 	{
+		std::cout << "size "<< size<<std::endl;
+		std::cout << "fNInput "<< fNInput<<std::endl;
+
 		assert(size <= fNInput);
 		memcpy(&fInput.get()[0], data, sizeof(InputType)*size);
 		memset(&fInput.get()[size], 0, sizeof(InputType)*( fNInput-size  ));
