@@ -33,7 +33,8 @@
 #include <assert.h>
 #include <time.h>
 #include <chrono>
-
+#include <typeinfo>
+#include <type_traits>
 //command line
 #include <tclap/CmdLine.h>
 
@@ -42,11 +43,7 @@
 #include <hydra/device/System.h>
 #include <hydra/Lambda.h>
 #include <hydra/Parameter.h>
-#include <hydra/detail/Compose.h>
-#include <hydra/detail/Divide.h>
-#include <hydra/detail/Minus.h>
-#include <hydra/detail/Multiply.h>
-#include <hydra/detail/Sum.h>
+#include <hydra/FunctorArithmetic.h>
 #include <hydra/functions/Gaussian.h>
 
 
@@ -65,8 +62,11 @@
 
 using namespace hydra::arguments;
 
-declarg(xvar, double)
-declarg(yvar, double)
+declarg(_u, double)
+declarg(_v, double)
+declarg(_x, double)
+declarg(_y, double)
+
 
 int main(int argv, char** argc)
 {
@@ -91,41 +91,59 @@ int main(int argv, char** argc)
 
     auto data = hydra::device::vector< double>(10, .0);
 
+
 	//Parameters
-	auto mean1   = hydra::Parameter::Create("mean1"  ).Value(-1.0);
-	auto mean2   = hydra::Parameter::Create("mean2"  ).Value( 1.0);
-	auto sigma   = hydra::Parameter::Create("sigma" ).Value(1.0);
-	auto factor  = hydra::Parameter::Create("factor").Value(1.0);
+	auto mean_x   = hydra::Parameter::Create("mean_x"  ).Value(-0.5);
+	auto mean_y   = hydra::Parameter::Create("mean_y"  ).Value(0.6);
+	auto mean_u   = hydra::Parameter::Create("mean_u"  ).Value(-0.5);
+	auto mean_v   = hydra::Parameter::Create("mean_v"  ).Value(0.6);
+	auto sigma    = hydra::Parameter::Create("sigma"   ).Value(1.0);
+	auto exponent = hydra::Parameter::Create("exponent"   ).Value(2.0);
 
-	//Gaussian distribution
-	auto gauss1 = hydra::Gaussian<xvar>(mean1, sigma);
-	//LogNormal distribution
-	auto gauss2 = hydra::Gaussian<yvar>(mean2, sigma);
-	//
+	//build the expression
+	// [ ( G(x)-G(y) ) / ( G(x) + G(y) ) +  ( G(u)-G(v) ) / ( G(u) + G(v) ) ]^z
+	//using symbolic mathematics
 
-	auto combiner = hydra::wrap_lambda( [] __hydra_dual__ (unsigned int npar, const hydra::Parameter* params, double x, double y) {
+	//Gaussian distributions
+	auto Gx = hydra::Gaussian<_x>(mean_x, sigma);
+	auto Gy = hydra::Gaussian<_y>(mean_y, sigma);
+	auto Gu = hydra::Gaussian<_u>(mean_u, sigma);
+	auto Gv = hydra::Gaussian<_v>(mean_v, sigma);
 
-		printf("Gauss1 %f , Gauss2 %f\n", x, y );
-		return x + params[0]*y;
-	}, factor);
+	auto Axy =  (Gx - Gy)/(Gx + Gy);
+	auto Auv =  (Gu - Gv)/(Gu + Gv);
+    auto A   =  Axy + Auv;
 
-	auto fcomposed = hydra::compose( combiner, gauss1, gauss2);
-	auto fdivided  = hydra::divide( gauss1, gauss2  );
-	auto fminus    = hydra::minus( gauss1, gauss2  );
-	auto fmultiply = hydra::multiply( gauss1, gauss2 , gauss2  );
-	auto fsum      = hydra::sum( gauss1, gauss2 , gauss2  );
+	auto powerz = hydra::wrap_lambda( [] __hydra_dual__ (unsigned int npar, const hydra::Parameter* params, double x )
+	{
 
-    for(size_t i=0; i< data.size(); ++i)
-    {
-    	std::cout << "fcomposed: " << fcomposed(xvar(-1.0), yvar(1.0)) << std::endl;
-    	std::cout << "fdivided:  " << fdivided(xvar(-1.0), yvar(1.0))  << std::endl;
-    	std::cout << "fminus:    " << fminus(xvar(-1.0), yvar(1.0))    << std::endl;
-    	std::cout << "fmultiply: " << fmultiply(xvar(-1.0), yvar(1.0)) << std::endl;
-    	std::cout << "fsum:      " << fsum(xvar(-1.0), yvar(1.0)) << std::endl;
+		return ::pow(x, params[0]);
 
-    }
+	}, exponent );
+
+	auto Total = hydra::compose(powerz, A );
+
+	//print parameters
+	Total.PrintRegisteredParameters();
+
+	//evaluate using named function arguments
+    std::cout << Total( _x(1.0), _y(-1.0), _v(1.0), _u(-1.0)) << std::endl;
+    //evaluate using named function arguments (changed order)
+    std::cout << Total( _y(-1.0), _x(1.0), _u(-1.0), _v(1.0)) << std::endl;
+    //evaluate using tuple of unamed arguments (risky!!!)
+    std::cout << Total( hydra::make_tuple(1.0, -1.0, 1.0, -1.0)) << std::endl;
+    //evaluate using tuple of unamed arguments (risky!!!)
+    std::cout << Total( hydra::make_tuple(-1.0, 1.0, -1.0, 1.0)) << std::endl;
+    //evaluate using tuple of unamed arguments (risky!!!)
+    std::cout << Total( hydra::make_tuple(1.0, -1.0, -1.0, 1.0)) << std::endl;
+    //evaluate using tuple of named arguments ()
+    std::cout << Total( hydra::make_tuple( _x(1.0), _y(-1.0), _v(1.0), _u(-1.0))) << std::endl;
 
 
+    //What is the type of the natural signature of Total?
+    //uncomment this
+    //typename decltype(Total)::argument_type  test{};
+    //std::cout << test.dummy << '\n';
 
 	return 0;
 }
