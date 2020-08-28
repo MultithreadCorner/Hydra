@@ -58,9 +58,9 @@ namespace hydra {
 
 	}
 
-template<typename T>
+
 __hydra_host__ __hydra_device__
-inline T jacobi(double a, double b, unsigned n, const T x){
+inline double jacobi(double a, double b, unsigned n, const double x){
 
 	using hydra::detail::jacobi::c_n;
 
@@ -76,16 +76,16 @@ inline T jacobi(double a, double b, unsigned n, const T x){
 
 	default:
 
-		T JL = 1.0;
-		T JM = (a-b)*0.5 + (1.0 + (a+b)*0.5)*x;
-		T JN = static_cast<T>(0.0);
+		double JL = 1.0;
+		double JM = (a-b)*0.5 + (1.0 + (a+b)*0.5)*x;
+		double JN = static_cast<double>(0.0);
 
 		for(unsigned m=2; m<=n; m++){
 
-			JN = static_cast<T>( c_n(a, b, 2*m-1) * ( c_n(a, b, 2*m-2) * c_n(a, b, 2*m) * x + a*a - b*b ) ) * JM -
-					static_cast<T>(2 * (m-1+a) * (m-1+b) * c_n(a, b, 2*m)) * JL;
+			JN = static_cast<double>( c_n(a, b, 2*m-1) * ( c_n(a, b, 2*m-2) * c_n(a, b, 2*m) * x + a*a - b*b ) ) * JM -
+					static_cast<double>(2 * (m-1+a) * (m-1+b) * c_n(a, b, 2*m)) * JL;
 
-			JN /=static_cast<T>( 2 * m * c_n(a, b, 2*m-2) *  c_n(a, b, m));
+			JN /=static_cast<double>( 2 * m * c_n(a, b, 2*m-2) *  c_n(a, b, m));
 
 			JL = JM;
 			JM = JN;

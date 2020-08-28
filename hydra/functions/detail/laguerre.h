@@ -43,9 +43,8 @@
 
 namespace hydra {
 
-template<typename T>
 __hydra_host__ __hydra_device__
-inline T laguerre(unsigned n, const T x){
+inline double laguerre(unsigned n, const double x){
 
 	switch(n) {
 
@@ -59,14 +58,14 @@ inline T laguerre(unsigned n, const T x){
 
 	default:
 
-		T LL = 1.0;
-		T LM = 1-x;
-		T LN = static_cast<T>(0.0);
+		double LL = 1.0;
+		double LM = 1-x;
+		double LN = static_cast<double>(0.0);
 
 		for(unsigned m=2; m<=n; m++){
 
-			LN = ((static_cast<T>(2)*m -static_cast<T>(1) - x)/m ) * LM -
-					((static_cast<T>(m)- static_cast<T>(1))/m) * LL;
+			LN = ((static_cast<double>(2)*m -static_cast<double>(1) - x)/m ) * LM -
+					((static_cast<double>(m)- static_cast<double>(1))/m) * LL;
 			LL = LM;    LM = LN;
 		}
 

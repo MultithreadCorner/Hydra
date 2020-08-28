@@ -44,9 +44,8 @@
 
 namespace hydra {
 
-template<typename T>
 __hydra_host__ __hydra_device__
-inline T hermite(unsigned n, const T x){
+inline double hermite(unsigned n, const double x){
 
 	switch(n) {
 
@@ -60,13 +59,13 @@ inline T hermite(unsigned n, const T x){
 
 	default:
 
-		T LL = 1.0;
-		T LM = 2*x;
-		T LN = static_cast<T>(0.0);
+		double LL = 1.0;
+		double LM = 2*x;
+		double LN = static_cast<double>(0.0);
 
 		for(unsigned m=2; m<=n; m++){
 
-			LN = 2*x*LM - 2*static_cast<T>(m-1)*LL;
+			LN = 2*x*LM - 2*static_cast<double>(m-1)*LL;
 			LL = LM;    LM = LN;
 		}
 

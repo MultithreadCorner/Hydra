@@ -58,9 +58,8 @@ namespace hydra {
  * @param x argument
  * @return
  */
-template<typename T>
 __hydra_host__ __hydra_device__
-inline T legendre(unsigned n, const T x);
+inline double legendre(unsigned n, const double x);
 
 /**
  * Implementation of Laguerre polynomials \f$ P_n(n) \f$ using the recursive relation
@@ -71,9 +70,8 @@ inline T legendre(unsigned n, const T x);
  * @param x argument
  * @return
  */
-template<typename T>
 __hydra_host__ __hydra_device__
-inline T laguerre(unsigned n, const T x);
+inline double laguerre(unsigned n, const double x);
 
 /**
  * Implementation of Chebychev polynomials of first kind \f$ P_n(n) \f$ using the recursive relation
@@ -84,9 +82,8 @@ inline T laguerre(unsigned n, const T x);
  * @param x argument
  * @return
  */
-template<typename T>
 __hydra_host__ __hydra_device__
-inline T chebychev_1st_kind(unsigned n, const T x);
+inline double chebychev_1st_kind(unsigned n, const double x);
 
 /**
  * Implementation of Chebychev polynomials of second kind \f$ P_n(n) \f$ using the recursive relation
@@ -97,9 +94,8 @@ inline T chebychev_1st_kind(unsigned n, const T x);
  * @param x argument
  * @return
  */
-template<typename T>
 __hydra_host__ __hydra_device__
-inline T chebychev_2nd_kind(unsigned n, const T x);
+inline double chebychev_2nd_kind(unsigned n, const double x);
 
 /**
  * Implementation of Hermite polynomials \f$ P_n(n) \f$ using the recursive relation
@@ -110,9 +106,8 @@ inline T chebychev_2nd_kind(unsigned n, const T x);
  * @param x argument
  * @return
  */
-template<typename T>
 __hydra_host__ __hydra_device__
-inline T hermite(unsigned n, const T x);
+inline double hermite(unsigned n, const double x);
 
 /**
  * Recurrence relation|recurrence relation]] for the Jacobi polynomials of fixed ''α'',''β'' is:<ref name=sz/>
@@ -124,14 +119,14 @@ inline T hermite(unsigned n, const T x);
 
 for ''n'' = 2, 3, ....
  */
-template<typename T>
 __hydra_host__ __hydra_device__
-inline T jacobi(double a, double b, unsigned n, const T x);
+inline double jacobi(double a, double b, unsigned n, const double x);
 
 
-template<typename T>
 __hydra_host__ __hydra_device__
-inline T wigner_d_matrix(unsigned j, unsigned m, unsigned n, const T theta);
+inline double wigner_d_matrix(unsigned j, unsigned m, unsigned n, const double theta);
+
+
 
 
 }  // namespace hydra
