@@ -24,6 +24,13 @@
  *
  *  Created on: 28/08/2020
  *      Author: Antonio Augusto Alves Junior
+ *
+ *        Note: This implementation reproduces closely the contents of:
+ *
+ *        Numerical Recipes in C,
+ *        The Art of Scientific Computing - Second Edition
+ *        "Chapter 6.Special Functions"
+ *        "6.6 Modified Bessel Functions of Integer Order"
  */
 
 #ifndef BESSEL_H_
@@ -34,11 +41,12 @@
 #include <cmath>
 #include <limits>
 
-#define BESSEL_ACC 40.0
+#define BESSEL_ACC 100.0
 #define BESSEL_BIGNO 1.0e10
 #define BESSEL_BIGNI 1.0e-10
 
 namespace hydra {
+
 
 __hydra_host__ __hydra_device__
 inline double bessel_j0( const double x )
