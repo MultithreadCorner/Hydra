@@ -50,6 +50,78 @@
 namespace hydra {
 
 /**
+ * Bessel function of first kind and order 0
+ */
+__hydra_host__ __hydra_device__
+inline double bessel_j0( const double x );
+
+/**
+ * Bessel function of first kind and order 1
+ */
+__hydra_host__ __hydra_device__
+inline double bessel_j1( const double x );
+
+/**
+ * Bessel function of first kind and order n
+ */
+__hydra_host__ __hydra_device__
+inline double bessel_j(  const int n, const double x );
+
+/**
+ * Bessel function of second kind and order 0
+ */
+__hydra_host__ __hydra_device__
+inline  double bessel_y0(const double x );
+
+/**
+ * Bessel function of second kind and order 1
+ */
+__hydra_host__ __hydra_device__
+inline  double bessel_y1( const double x );
+
+/**
+ *  Bessel function of second kind and order n
+ */
+__hydra_host__ __hydra_device__
+inline  double bessel_y( const int n, const double x );
+
+/**
+ * Modified Bessel function of first kind and order 0
+ */
+__hydra_host__ __hydra_device__
+inline  double bessel_i0( const double x );
+
+/**
+ *  Modified Bessel function of first kind and order 1
+ */
+__hydra_host__ __hydra_device__
+inline  double bessel_i1( const double x);
+
+/**
+ * Modified Bessel function of first kind and order n
+ */
+__hydra_host__ __hydra_device__
+inline  double bessel_i( const int n, const double x);
+
+/**
+ * Modified Bessel function of second kind and order 0
+ */
+__hydra_host__ __hydra_device__
+inline  double bessel_k0( const double x );
+
+/**
+ * Modified Bessel function of second kind and order 1
+ */
+__hydra_host__ __hydra_device__
+inline  double bessel_k1( const double x );
+
+/**
+ * Modified Bessel function of second kind and order n
+ */
+__hydra_host__ __hydra_device__
+inline  double bessel_k( const int n, const double x );
+
+/**
  * Implementation of Legendre polynomials \f$ P_n(n) \f$ using the recursive relation
  *
  * \f[ (n+1)P_{n+1}(x) = (2n+1)xP_{n}(x) - nP_{n-1}(x) \f]
@@ -131,6 +203,7 @@ inline double wigner_d_matrix(unsigned j, unsigned m, unsigned n, const double t
 
 }  // namespace hydra
 
+#include "hydra/functions/detail/bessel.h"
 #include "hydra/functions/detail/hermite.h"
 #include "hydra/functions/detail/legendre.h"
 #include "hydra/functions/detail/laguerre.h"

@@ -25,7 +25,8 @@
  *  Created on: 28/08/2020
  *      Author: Antonio Augusto Alves Junior
  *
- *        Note: This implementation reproduces closely the contents of:
+ *        Note: This implementation inspired by, but not reproducing,
+ *        the contents of:
  *
  *        Numerical Recipes in C,
  *        The Art of Scientific Computing - Second Edition
@@ -140,7 +141,7 @@ inline double bessel_j(  const int n, const double x )
       double  dblank = -std::numeric_limits<double>::infinity();
       return  dblank ;
    }
-   ax=fabs(x);
+   ax=::fabs(x);
    if (n == 0)
       return( bessel_j0(ax) );
    if (n == 1)
@@ -161,7 +162,7 @@ inline double bessel_j(  const int n, const double x )
       ans=bj;
    } else {
       tox=2.0/ax;
-      m=2*((n+(int) sqrt(BESSEL_ACC*n))/2);
+      m=2*((n+(int) ::sqrt(BESSEL_ACC*n))/2);
       jsum=0;
       bjp=ans=sum=0.0;
       bj=1.0;
@@ -169,7 +170,7 @@ inline double bessel_j(  const int n, const double x )
          bjm=j*tox*bj-bjp;
          bjp=bj;
          bj=bjm;
-         if (fabs(bj) > BESSEL_BIGNO) {
+         if (::fabs(bj) > BESSEL_BIGNO) {
             bj *= BESSEL_BIGNI;
             bjp *= BESSEL_BIGNI;
             ans *= BESSEL_BIGNI;
@@ -197,7 +198,7 @@ inline  double bessel_y0(const double x )
          +y*(10879881.29+y*(-86327.92757+y*228.4622733))));
       ans2=40076544269.0+y*(745249964.8+y*(7189466.438
          +y*(47447.26470+y*(226.1030244+y*1.0))));
-      ans=(ans1/ans2)+0.636619772*bessj0(x)*log(x);
+      ans=(ans1/ans2)+0.636619772*bessel_j0(x)*::log(x);
    } else {
       z=8.0/x;
       y=z*z;
@@ -207,7 +208,7 @@ inline  double bessel_y0(const double x )
       ans2 = -0.1562499995e-1+y*(0.1430488765e-3
          +y*(-0.6911147651e-5+y*(0.7621095161e-6
          +y*(-0.934945152e-7))));
-      ans=sqrt(0.636619772/x)*(sin(xx)*ans1+z*cos(xx)*ans2);
+      ans=::sqrt(0.636619772/x)*(::sin(xx)*ans1+z*::cos(xx)*ans2);
    }
 
    return ans;
@@ -229,7 +230,7 @@ inline  double bessel_y1( const double x )
       ans2=0.2499580570e14+y*(0.4244419664e12
          +y*(0.3733650367e10+y*(0.2245904002e8
          +y*(0.1020426050e6+y*(0.3549632885e3+y)))));
-      ans=(ans1/ans2)+0.636619772*(bessj1(x)*log(x)-1.0/x);
+      ans=(ans1/ans2)+0.636619772*(bessel_j1(x)*::log(x)-1.0/x);
    } else {
       z=8.0/x;
       y=z*z;
@@ -239,7 +240,7 @@ inline  double bessel_y1( const double x )
       ans2=0.04687499995+y*(-0.2002690873e-3
          +y*(0.8449199096e-5+y*(-0.88228987e-6
          +y*0.105787412e-6)));
-      ans=sqrt(0.636619772/x)*(sin(xx)*ans1+z*cos(xx)*ans2);
+      ans=::sqrt(0.636619772/x)*(::sin(xx)*ans1+z*::cos(xx)*ans2);
    }
    return ans;
 }
@@ -282,13 +283,13 @@ inline  double bessel_i0( const double x )
    double y;
 
 
-   if ((ax=fabs(x)) < 3.75) {
+   if ((ax=::fabs(x)) < 3.75) {
       y=x/3.75,y=y*y;
       ans=1.0+y*(3.5156229+y*(3.0899424+y*(1.2067492
          +y*(0.2659732+y*(0.360768e-1+y*0.45813e-2)))));
    } else {
       y=3.75/ax;
-      ans=(exp(ax)/sqrt(ax))*(0.39894228+y*(0.1328592e-1
+      ans=(::exp(ax)/::sqrt(ax))*(0.39894228+y*(0.1328592e-1
          +y*(0.225319e-2+y*(-0.157565e-2+y*(0.916281e-2
          +y*(-0.2057706e-1+y*(0.2635537e-1+y*(-0.1647633e-1
          +y*0.392377e-2))))))));
@@ -306,7 +307,7 @@ inline  double bessel_i1( const double x)
    double y;
 
 
-   if ((ax=fabs(x)) < 3.75) {
+   if ((ax=::fabs(x)) < 3.75) {
       y=x/3.75,y=y*y;
       ans=ax*(0.5+y*(0.87890594+y*(0.51498869+y*(0.15084934
          +y*(0.2658733e-1+y*(0.301532e-2+y*0.32411e-3))))));
@@ -316,7 +317,7 @@ inline  double bessel_i1( const double x)
          -y*0.420059e-2));
       ans=0.39894228+y*(-0.3988024e-1+y*(-0.362018e-2
          +y*(0.163801e-2+y*(-0.1031555e-1+y*ans))));
-      ans *= (exp(ax)/sqrt(ax));
+      ans *= (::exp(ax)/::sqrt(ax));
    }
    return x < 0.0 ? -ans : ans;
 }
@@ -343,14 +344,14 @@ inline  double bessel_i( const int n, const double x)
    if (x == 0.0)
       return 0.0;
    else {
-      tox=2.0/fabs(x);
+      tox=2.0/::fabs(x);
       bip=ans=0.0;
       bi=1.0;
-      for (j=2*(n+(int) sqrt(BESSEL_ACC*n));j>0;j--) {
+      for (j=2*(n+(int) ::sqrt(BESSEL_ACC*n));j>0;j--) {
          bim=bip+j*tox*bi;
          bip=bi;
          bi=bim;
-         if (fabs(bi) > BESSEL_BIGNO) {
+         if (::fabs(bi) > BESSEL_BIGNO) {
             ans *= BESSEL_BIGNI;
             bi  *= BESSEL_BIGNI;
             bip *= BESSEL_BIGNI;
@@ -364,20 +365,17 @@ inline  double bessel_i( const int n, const double x)
 
 __hydra_host__ __hydra_device__
 inline  double bessel_k0( const double x )
-/*------------------------------------------------------------*/
-/* PURPOSE: Evaluate modified Bessel function Kn(x) and n=0.  */
-/*------------------------------------------------------------*/
 {
    double y,ans;
 
    if (x <= 2.0) {
       y=x*x/4.0;
-      ans=(-log(x/2.0)*bessi0(x))+(-0.57721566+y*(0.42278420
+      ans=(-::log(x/2.0)*bessel_i0(x))+(-0.57721566+y*(0.42278420
          +y*(0.23069756+y*(0.3488590e-1+y*(0.262698e-2
          +y*(0.10750e-3+y*0.74e-5))))));
    } else {
       y=2.0/x;
-      ans=(exp(-x)/sqrt(x))*(1.25331414+y*(-0.7832358e-1
+      ans=(::exp(-x)/::sqrt(x))*(1.25331414+y*(-0.7832358e-1
          +y*(0.2189568e-1+y*(-0.1062446e-1+y*(0.587872e-2
          +y*(-0.251540e-2+y*0.53208e-3))))));
    }
@@ -394,12 +392,12 @@ inline  double bessel_k1( const double x )
 
    if (x <= 2.0) {
       y=x*x/4.0;
-      ans=(log(x/2.0)*bessi1(x))+(1.0/x)*(1.0+y*(0.15443144
+      ans=(::log(x/2.0)*bessel_i1(x))+(1.0/x)*(1.0+y*(0.15443144
          +y*(-0.67278579+y*(-0.18156897+y*(-0.1919402e-1
          +y*(-0.110404e-2+y*(-0.4686e-4)))))));
    } else {
       y=2.0/x;
-      ans=(exp(-x)/sqrt(x))*(1.25331414+y*(0.23498619
+      ans=(::exp(-x)/::sqrt(x))*(1.25331414+y*(0.23498619
          +y*(-0.3655620e-1+y*(0.1504268e-1+y*(-0.780353e-2
          +y*(0.325614e-2+y*(-0.68245e-3)))))));
    }
@@ -415,9 +413,8 @@ inline  double bessel_k( const int n, const double x )
 
    if (n < 0 || x == 0.0)
    {
-      double   dblank;
-      setdblank_c( &dblank );
-      return( dblank );
+	   double   dblank = -std::numeric_limits<double>::infinity();
+      return dblank ;
    }
    if (n == 0)
       return( bessel_k0(x) );
