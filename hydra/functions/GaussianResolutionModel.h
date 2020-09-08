@@ -29,7 +29,12 @@
 #ifndef GAUSSIANRESOLUTIONMODEL_H_
 #define GAUSSIANRESOLUTIONMODEL_H_
 
+namespace hydra {
 
+template<typename Functor, typename Functor, size_t NPoints=11>
+GaussianResolutionModel
+
+}  // namespace hydra
 
 
 
