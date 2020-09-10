@@ -60,12 +60,24 @@ public:
 	__hydra_host__ __hydra_device__
 	EngineR123()=delete;
 
+	//typedef typename	init_type::dummy tt;
+
+
+	__hydra_host__ __hydra_device__
+	EngineR123(size_t  seed):
+	  fEngine(engine_type{}),
+      fCache(state_type{}),
+      fState(state_type{}),
+      fSeed(init_type{{seed}}),
+      fTrigger(true)
+    {}
+
 	__hydra_host__ __hydra_device__
 	EngineR123(init_type  seed):
 	  fEngine(engine_type{}),
       fCache(state_type{}),
       fState(state_type{}),
-      fSeed(seed_type{seed}),
+      fSeed(seed),
       fTrigger(true)
     {}
 
