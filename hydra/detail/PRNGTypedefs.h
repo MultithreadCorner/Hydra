@@ -32,9 +32,12 @@
 #include <hydra/detail/Config.h>
 
 #include <hydra/detail/external/hydra_thrust/random.h>
+/*
 #include <hydra/detail/random/philox.h>
 #include <hydra/detail/random/threefry.h>
 #include <hydra/detail/random/ars.h>
+*/
+#include <hydra/detail/random/EngineR123.h>
 #include <hydra/detail/random/squares3.h>
 #include <hydra/detail/random/squares4.h>
 
@@ -47,13 +50,13 @@ namespace hydra {
  *        in a future version.
  */
 
-typedef  hydra::random::squares3 default_random_engine;
+//typedef  hydra::random::squares3 default_random_engine;
 
 //typedef hydra_thrust::random::default_random_engine default_random_engine;
 //typedef hydra::random::philox default_random_engine;
-//typedef hydra::random::threefry default_random_engine;
+typedef hydra::random::threefry default_random_engine;
 //typedef hydra::random::ars default_random_engine;
-typedef hydra::random::squares3 default_random_engine;
+//typedef hydra::random::squares3 default_random_engine;
 //typedef hydra::random::squares4 default_random_engine;
 
 /*! \typedef minstd_rand0
