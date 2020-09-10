@@ -20,51 +20,58 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * philox.h
+ * EngineR123.h
  *
- *  Created on: 10/07/2020
+ *  Created on: 09/09/2020
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef PHILOX_H_
-#define PHILOX_H_
+#ifndef ENGINER123_H_
+#define ENGINER123_H_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/RandomTraits.h>
 #include <hydra/detail/external/hydra_R123/philox.h>
+#include <hydra/detail/external/hydra_R123/threefry.h>
+#if R123_USE_AES_NI
+#include <hydra/detail/external/hydra_R123/ars.h>
+#endif
+
 #include <stdint.h>
 
 namespace hydra {
 
 namespace random {
 
-class philox
+template<typename Engine>
+class EngineR123
 {
-	typedef hydra_r123::Philox2x64 engine_type;
-
 	typedef bool                     trigger_type;
 
 public:
 
-	typedef typename engine_type::ctr_type  state_type;
-	typedef typename engine_type::ukey_type  seed_type;
-	typedef unsigned long long advance_type;
-	typedef uint64_t  result_type;
+	typedef Engine   engine_type;
+	typedef typename hydra::detail::random_traits<engine_type>::state_type     state_type;
+	typedef typename hydra::detail::random_traits<engine_type>::seed_type       seed_type;
+	typedef typename hydra::detail::random_traits<engine_type>::advance_type advance_type;
+	typedef typename hydra::detail::random_traits<engine_type>::init_type       init_type;
+	typedef typename hydra::detail::random_traits<engine_type>::result_type   result_type;
 
 	__hydra_host__ __hydra_device__
-	philox()=delete;
+	EngineR123()=delete;
 
 	__hydra_host__ __hydra_device__
-	philox(uint64_t  s):
+	EngineR123(init_type  seed):
 	  fEngine(engine_type{}),
       fCache(state_type{}),
       fState(state_type{}),
-      fSeed(seed_type{s}),
+      fSeed(seed_type{seed}),
       fTrigger(true)
     {}
 
 
 	__hydra_host__ __hydra_device__
-	philox( philox const& other):
+	EngineR123( EngineR123<Engine> const& other):
 	  fEngine(engine_type{}),
       fCache(state_type{}),
       fState(other.GetState() ),
@@ -73,7 +80,8 @@ public:
     {}
 
 	__hydra_host__ __hydra_device__
-	inline philox& operator=( philox const& other)
+	inline EngineR123<Engine>&
+	operator=( EngineR123<Engine> const& other)
 	{
 		if(this==&other) return *this;
 
@@ -87,31 +95,30 @@ public:
 
 
 	__hydra_host__ __hydra_device__
-	inline uint64_t operator()(void)
+	inline result_type operator()(void)
 	{
-		uint64_t result = 0;
+		result_type result = 0;
 
 		if(fTrigger)
 		{
-			fCache = fEngine(fState,  fSeed);
-			result = fCache[0];
+			fCache.counter = fEngine(fState.counter,  fSeed);
+			result = fCache.state[0];
+			fState.counter.incr();
 			fTrigger=false;
 		}
 		else
 		{
-			result = fCache[ 1 ];
+			result = fCache.state[1];
 			fTrigger=true;
 		}
-
-		fState.incr();
 
 		return result;
 	}
 
 	__hydra_host__ __hydra_device__
-	inline void discard( unsigned long long n){
+	inline void discard( advance_type n){
 
-		fState.incr(n);
+		fState.counter.incr(n);
 	}
 
 	__hydra_host__ __hydra_device__
@@ -134,18 +141,27 @@ public:
 		fState = state;
 	}
 
-	static const  uint64_t HYDRA_PREVENT_MACRO_SUBSTITUTION min  = 0;
+	static const result_type HYDRA_PREVENT_MACRO_SUBSTITUTION min  = 0;
 
-	static const  uint64_t HYDRA_PREVENT_MACRO_SUBSTITUTION max = std::numeric_limits<uint64_t>::max();
+	static const result_type HYDRA_PREVENT_MACRO_SUBSTITUTION max = std::numeric_limits<result_type>::max();
 
 private:
 
-	engine_type  fEngine;
-	state_type fCache;
-	state_type fState;
-	seed_type     fSeed;
+	engine_type   fEngine;
+	state_type     fCache;
+	state_type     fState;
+	seed_type       fSeed;
 	trigger_type fTrigger;
 };
+
+#if R123_USE_AES_NI
+typedef EngineR123<hydra_r123::ARS4x32>           ars;
+#else
+typedef void  ars;
+#endif
+typedef EngineR123<hydra_r123::Threefry2x64> threefry;
+typedef EngineR123<hydra_r123::Philox2x64>     philox;
+
 
 }  // namespace random
 
@@ -153,5 +169,4 @@ private:
 
 
 
-
-#endif /* PHILOX_H_ */
+#endif /* ENGINER123_H_ */
