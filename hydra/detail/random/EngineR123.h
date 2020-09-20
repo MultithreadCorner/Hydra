@@ -31,8 +31,10 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/RandomTraits.h>
+#include <hydra/detail/external/hydra_R123/array.h>
 #include <hydra/detail/external/hydra_R123/philox.h>
 #include <hydra/detail/external/hydra_R123/threefry.h>
+#include <hydra/detail/external/hydra_R123/ReinterpretCtr.hpp>
 #if R123_USE_AES_NI
 #include <hydra/detail/external/hydra_R123/ars.h>
 #endif
@@ -43,10 +45,34 @@ namespace hydra {
 
 namespace random {
 
+template<typename UIntType>
+__hydra_host__ __hydra_device__
+UIntType splitmix( UIntType& );
+
+
+template<>
+__hydra_host__ __hydra_device__
+uint32_t splitmix<uint32_t>(uint32_t& x) {
+	uint32_t z = (x += 0x6D2B79F5UL);
+	z = (z ^ (z >> 15)) * (z | 1UL);
+	z ^= z + (z ^ (z >> 7)) * (z | 61UL);
+	return z ^ (z >> 14);
+}
+
+template<>
+__hydra_host__ __hydra_device__
+uint64_t  splitmix<uint64_t>(uint64_t& x){
+	uint64_t z = (x += 0x9e3779b97f4a7c15);
+	z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;
+	z = (z ^ (z >> 27)) * 0x94d049bb133111eb;
+	return z ^ (z >> 31);
+}
+
+
 template<typename Engine>
 class EngineR123
 {
-	typedef bool                     trigger_type;
+	typedef unsigned               trigger_type;
 
 public:
 
@@ -57,6 +83,8 @@ public:
 	typedef typename hydra::detail::random_traits<engine_type>::init_type       init_type;
 	typedef typename hydra::detail::random_traits<engine_type>::result_type   result_type;
 
+	static const unsigned arity= hydra::detail::random_traits<engine_type>::arity;
+
 	__hydra_host__ __hydra_device__
 	EngineR123()=delete;
 
@@ -64,13 +92,21 @@ public:
 
 
 	__hydra_host__ __hydra_device__
-	EngineR123(size_t  seed):
+	EngineR123(typename init_type::value_type  seed):
 	  fEngine(engine_type{}),
       fCache(state_type{}),
       fState(state_type{}),
-      fSeed(init_type{{seed}}),
-      fTrigger(true)
-    {}
+      fSeed(seed_type{}),
+      fTrigger(0)
+    {
+		init_type temp= {{}};
+		temp[0]= seed;
+
+		for(unsigned i=1; i<fSeed.size(); ++i)
+			temp[i] = splitmix<typename init_type::value_type>(seed);
+
+		fSeed=temp;
+    }
 
 	__hydra_host__ __hydra_device__
 	EngineR123(init_type  seed):
@@ -78,7 +114,7 @@ public:
       fCache(state_type{}),
       fState(state_type{}),
       fSeed(seed),
-      fTrigger(true)
+      fTrigger(0)
     {}
 
 
@@ -88,7 +124,7 @@ public:
       fCache(state_type{}),
       fState(other.GetState() ),
       fSeed(other.GetSeed() ),
-      fTrigger(true)
+      fTrigger(other.GetTrigger())
     {}
 
 	__hydra_host__ __hydra_device__
@@ -101,7 +137,7 @@ public:
       fCache  = state_type{};
       fState  = other.GetState();
       fSeed   = other.GetSeed();
-      fTrigger = true;
+      fTrigger =other.GetTrigger();
       return *this;
     }
 
@@ -111,17 +147,15 @@ public:
 	{
 		result_type result = 0;
 
-		if(fTrigger)
-		{
-			fCache.counter = fEngine(fState.counter,  fSeed);
-			result = fCache.state[0];
-			fState.counter.incr();
-			fTrigger=false;
+		if(fTrigger==arity) fTrigger=0;
+
+		if(fTrigger==0){
+
+			fCache = fEngine(fState.incr(),  fSeed);
+			result = fCache[fTrigger++];
 		}
-		else
-		{
-			result = fCache.state[1];
-			fTrigger=true;
+		else {
+			result = fCache[fTrigger++];
 		}
 
 		return result;
@@ -130,7 +164,7 @@ public:
 	__hydra_host__ __hydra_device__
 	inline void discard( advance_type n){
 
-		fState.counter.incr(n);
+		fState.incr(n);
 	}
 
 	__hydra_host__ __hydra_device__
@@ -159,6 +193,12 @@ public:
 
 private:
 
+	__hydra_host__ __hydra_device__
+	trigger_type GetTrigger() const {
+		return fTrigger;
+	}
+
+
 	engine_type   fEngine;
 	state_type     fCache;
 	state_type     fState;
@@ -171,7 +211,9 @@ typedef EngineR123<hydra_r123::ARS4x32>           ars;
 #else
 typedef void  ars;
 #endif
+
 typedef EngineR123<hydra_r123::Threefry2x64> threefry;
+
 typedef EngineR123<hydra_r123::Philox2x64>     philox;
 
 

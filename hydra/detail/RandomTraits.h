@@ -30,9 +30,11 @@
 #define RANDOMTRAITS_H_
 
 #include <hydra/detail/Config.h>
+#include <hydra/detail/external/hydra_R123/array.h>
 #include <hydra/detail/external/hydra_R123/philox.h>
 #include <hydra/detail/external/hydra_R123/threefry.h>
 #include <hydra/detail/external/hydra_R123/ars.h>
+#include <hydra/detail/external/hydra_R123/ReinterpretCtr.hpp>
 #include <stdint.h>
 
 namespace hydra {
@@ -51,14 +53,10 @@ struct random_traits;
 //philox
 template<> struct random_traits<hydra_r123::Philox2x64>
 {
-	typedef union {
-		typename hydra_r123::Philox2x64::ctr_type  counter;
-		typename hydra_r123::Philox2x64::ctr_type    state;
-	} state_type;
-
+	typedef typename hydra_r123::Philox2x64::ctr_type  state_type;
 	typedef typename hydra_r123::Philox2x64::key_type  seed_type;
 	typedef uint64_t advance_type;
-	typedef typename hydra_r123::Philox2x64::ukey_type    init_type;
+	typedef typename hydra_r123::Philox2x64::ukey_type init_type;
 	typedef uint64_t  result_type;
 
 	enum{arity=2};
@@ -67,11 +65,7 @@ template<> struct random_traits<hydra_r123::Philox2x64>
 //
 template<> struct random_traits<hydra_r123::Threefry2x64>
 {
-	typedef union {
-		typename hydra_r123::Threefry2x64::ctr_type  counter;
-		typename hydra_r123::Threefry2x64::ctr_type    state;
-	} state_type;
-
+	typedef typename hydra_r123::Threefry2x64::ctr_type  state_type;
 	typedef typename hydra_r123::Threefry2x64::key_type  seed_type;
 	typedef uint64_t advance_type;
 	typedef typename hydra_r123::Threefry2x64::ukey_type    init_type;
@@ -84,17 +78,13 @@ template<> struct random_traits<hydra_r123::Threefry2x64>
 #if R123_USE_AES_NI
 template<> struct random_traits<hydra_r123::ARS4x32>
 {
-	typedef union {
-		typename hydra_r123::ARS4x32::ctr_type  counter;
-		uint64_t                               state[2];
-	} state_type;
-
+	typedef typename hydra_r123::ARS4x32::ctr_type  state_type;
 	typedef typename hydra_r123::ARS4x32::key_type  seed_type;
 	typedef uint64_t advance_type;
-	typedef typename hydra_r123::ARS4x32::ukey_type    init_type;
-	typedef uint64_t  result_type;
+	typedef typename hydra_r123::ARS4x32::ukey_type init_type;
+	typedef uint32_t  result_type;
 
-	enum{arity=2};
+	enum{arity=4};
 };
 #endif
 

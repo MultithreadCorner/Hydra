@@ -15,7 +15,7 @@ if(BUILD_CUDA_TARGETS)
         
 endif(BUILD_CUDA_TARGETS)
     
-        #+++++++++++++++++++++++++
+#+++++++++++++++++++++++++
 # TBB TARGETS            |
 #+++++++++++++++++++++++++
 if(BUILD_TBB_TARGETS)
@@ -34,6 +34,7 @@ if(BUILD_TBB_TARGETS)
 # CPP TARGETS            |
 #+++++++++++++++++++++++++
 if(BUILD_CPP_TARGETS)
+
          message(STATUS "Adding target tests to CPP backend. Executable file name: tests_cpp")
          add_executable(tests_cpp main.cpp )
             
@@ -42,7 +43,21 @@ if(BUILD_CPP_TARGETS)
          target_link_libraries( tests_cpp ${ROOT_LIBRARIES} ${TBB_LIBRARIES} )
            
          add_dependencies(tests tests_cpp)
-               
+ 
+ #----------------------------
+ # BigCrush for hydra::Random   
+ #----------------------------
+ 
+         message(STATUS "Adding target BigCrush CPP backend. Executable file name: bigcrush")
+         
+         add_executable(hydra_ars_bigcrush ars_bigcrush.cpp )
+            
+         set_target_properties( hydra_ars_bigcrush  PROPERTIES COMPILE_FLAGS "-DHYDRA_HOST_SYSTEM=CPP -DHYDRA_DEVICE_SYSTEM=CPP")
+            
+         target_link_libraries( hydra_ars_bigcrush -L/usr/lib64 ${TESTU01_LIBRARIES}  )
+         
+         add_dependencies(tests  hydra_bigcrush)
+         
  endif(BUILD_CPP_TARGETS)
  
   

@@ -54,9 +54,9 @@ namespace hydra {
 
 //typedef hydra_thrust::random::default_random_engine default_random_engine;
 //typedef hydra::random::philox default_random_engine;
-typedef hydra::random::threefry default_random_engine;
+//typedef hydra::random::threefry default_random_engine;
 //typedef hydra::random::ars default_random_engine;
-//typedef hydra::random::squares3 default_random_engine;
+typedef hydra::random::squares3 default_random_engine;
 //typedef hydra::random::squares4 default_random_engine;
 
 /*! \typedef minstd_rand0
