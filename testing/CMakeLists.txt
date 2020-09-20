@@ -56,7 +56,7 @@ if(BUILD_CPP_TARGETS)
             
          target_link_libraries( hydra_ars_bigcrush -L/usr/lib64 ${TESTU01_LIBRARIES}  )
          
-         add_dependencies(tests  hydra_bigcrush)
+         add_dependencies(tests  hydra_ars_bigcrush)
          
  endif(BUILD_CPP_TARGETS)
  
