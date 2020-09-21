@@ -20,7 +20,7 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * ars_bigcrush.cpp
+ * philox_bigcrush.cpp
  *
  *  Created on: 18/09/2020
  *      Author: Antonio Augusto Alves Junior
@@ -46,9 +46,9 @@ extern "C"
 //set a global seed
 static const uint64_t seed= 0x123abdf3 ;
 
-static hydra::ars RNG(seed);
+static hydra::threefry RNG(seed);
 
-uint32_t ars(void){
+uint32_t threefry(void){
 
 	return RNG();
 }
@@ -78,29 +78,29 @@ int main(int argv, char** argc)
 		std::cerr << "error: " << e.error() << " for arg " << e.argId()	<< std::endl;
 	}
 
-   unif01_Gen* gen_a = unif01_CreateExternGenBits(const_cast<char*>("hydra::ars"), ars );
+   unif01_Gen* gen_a = unif01_CreateExternGenBits(const_cast<char*>("hydra::threefry"), threefry );
 
    if(battery==0) std::cout <<
-		   "[Testing hydra::ars] : "
-		   "Running TestU01's SmallCrush on hydra::ars.\n"
-		   "Find the test report on 'hydra_ars_TestU01_log.txt'\n"
+		   "[Testing hydra::threefry] : "
+		   "Running TestU01's SmallCrush on hydra::threefry.\n"
+		   "Find the test report on 'hydra_philox_TestU01_log.txt'\n"
 		   "It is going to take from seconds to minutes."
 		   << std::endl;
    if(battery==1) std::cout<<
-		   "[Testing hydra::ars] : "
-		   "Running TestU01's Crush on hydra::ars.\n"
-		   "Find the test report on 'hydra_ars_TestU01_log.txt'\n"
+		   "[Testing hydra::threefry] : "
+		   "Running TestU01's Crush on hydra::threefry.\n"
+		   "Find the test report on 'hydra_philox_TestU01_log.txt'\n"
 		   "It is going to take from dozens of minutes to hours."
 		    << std::endl;
    if(battery==2) std::cout<<
-		   "[Testing hydra::ars] : "
-		   "Running TestU01's BigCrush on hydra::ars.\n"
-		   "Find the test report on 'hydra_ars_TestU01_log.txt'\n"
+		   "[Testing hydra::threefry] : "
+		   "Running TestU01's BigCrush on hydra::threefry.\n"
+		   "Find the test report on 'hydra_philox_TestU01_log.txt'\n"
 		   "It is going to take many hours."
 		   << std::endl;
 
 
-   freopen("hydra_ars_TestU01_log.txt", "w", stdout);
+   freopen("hydra_threefry_TestU01_log.txt", "w", stdout);
 
    if(battery==0) bbattery_SmallCrush(gen_a);
    if(battery==1) bbattery_Crush(gen_a);

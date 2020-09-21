@@ -47,8 +47,9 @@ if(BUILD_CPP_TARGETS)
  #----------------------------
  # BigCrush for hydra::Random   
  #----------------------------
+
  
-         message(STATUS "Adding target BigCrush CPP backend. Executable file name: bigcrush")
+         message(STATUS "Adding target to CPP backend. Executable file name: hydra_ars_bigcrush")
          
          add_executable(hydra_ars_bigcrush ars_bigcrush.cpp )
             
@@ -57,6 +58,31 @@ if(BUILD_CPP_TARGETS)
          target_link_libraries( hydra_ars_bigcrush -L/usr/lib64 ${TESTU01_LIBRARIES}  )
          
          add_dependencies(tests  hydra_ars_bigcrush)
+         
+  #----------------------------       
+          
+         message(STATUS "Adding target to CPP backend. Executable file name: hydra_philox_bigcrush")
+         
+         add_executable(hydra_philox_bigcrush philox_bigcrush.cpp )
+            
+         set_target_properties( hydra_philox_bigcrush  PROPERTIES COMPILE_FLAGS "-DHYDRA_HOST_SYSTEM=CPP -DHYDRA_DEVICE_SYSTEM=CPP")
+            
+         target_link_libraries( hydra_philox_bigcrush -L/usr/lib64 ${TESTU01_LIBRARIES}  )
+         
+         add_dependencies(tests  hydra_philox_bigcrush)
+             
+  #----------------------------       
+          
+         message(STATUS "Adding target to CPP backend. Executable file name: hydra_threefry_bigcrush")
+         
+         add_executable(hydra_threefry_bigcrush threefry_bigcrush.cpp )
+            
+         set_target_properties( hydra_threefry_bigcrush  PROPERTIES COMPILE_FLAGS "-DHYDRA_HOST_SYSTEM=CPP -DHYDRA_DEVICE_SYSTEM=CPP")
+            
+         target_link_libraries( hydra_threefry_bigcrush -L/usr/lib64 ${TESTU01_LIBRARIES}  )
+         
+         add_dependencies(tests  hydra_threefry_bigcrush)
+         
          
  endif(BUILD_CPP_TARGETS)
  
