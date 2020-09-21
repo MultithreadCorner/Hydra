@@ -47,12 +47,12 @@ namespace random {
 
 template<typename UIntType>
 __hydra_host__ __hydra_device__
-UIntType splitmix( UIntType& );
+inline UIntType splitmix( UIntType& );
 
 
 template<>
 __hydra_host__ __hydra_device__
-uint32_t splitmix<uint32_t>(uint32_t& x) {
+inline uint32_t splitmix<uint32_t>(uint32_t& x) {
 	uint32_t z = (x += 0x6D2B79F5UL);
 	z = (z ^ (z >> 15)) * (z | 1UL);
 	z ^= z + (z ^ (z >> 7)) * (z | 61UL);
@@ -61,7 +61,7 @@ uint32_t splitmix<uint32_t>(uint32_t& x) {
 
 template<>
 __hydra_host__ __hydra_device__
-uint64_t  splitmix<uint64_t>(uint64_t& x){
+inline uint64_t  splitmix<uint64_t>(uint64_t& x){
 	uint64_t z = (x += 0x9e3779b97f4a7c15);
 	z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;
 	z = (z ^ (z >> 27)) * 0x94d049bb133111eb;
@@ -102,7 +102,7 @@ public:
 		init_type temp= {{}};
 		temp[0]= seed;
 
-		for(unsigned i=1; i<fSeed.size(); ++i)
+		for(unsigned i=1; i<temp.size(); ++i)
 			temp[i] = splitmix<typename init_type::value_type>(seed);
 
 		fSeed=temp;
@@ -194,7 +194,7 @@ public:
 private:
 
 	__hydra_host__ __hydra_device__
-	trigger_type GetTrigger() const {
+	inline trigger_type GetTrigger() const {
 		return fTrigger;
 	}
 
@@ -212,9 +212,9 @@ typedef EngineR123<hydra_r123::ARS4x32>           ars;
 typedef void  ars;
 #endif
 
-typedef EngineR123<hydra_r123::Threefry2x64> threefry;
+typedef EngineR123<hydra_r123::Threefry4x64> threefry;
 
-typedef EngineR123<hydra_r123::Philox2x64>     philox;
+typedef EngineR123<hydra_r123::Philox4x64>     philox;
 
 
 }  // namespace random

@@ -62,6 +62,16 @@ template<> struct random_traits<hydra_r123::Philox2x64>
 	enum{arity=2};
 };
 
+template<> struct random_traits<hydra_r123::Philox4x64>
+{
+	typedef typename hydra_r123::Philox4x64::ctr_type  state_type;
+	typedef typename hydra_r123::Philox4x64::key_type  seed_type;
+	typedef uint64_t advance_type;
+	typedef typename hydra_r123::Philox4x64::ukey_type init_type;
+	typedef uint64_t  result_type;
+
+	enum{arity=4};
+};
 //
 template<> struct random_traits<hydra_r123::Threefry2x64>
 {
@@ -72,6 +82,18 @@ template<> struct random_traits<hydra_r123::Threefry2x64>
 	typedef uint64_t  result_type;
 
 	enum{arity=2};
+};
+
+//
+template<> struct random_traits<hydra_r123::Threefry4x64>
+{
+	typedef typename hydra_r123::Threefry4x64::ctr_type  state_type;
+	typedef typename hydra_r123::Threefry4x64::key_type  seed_type;
+	typedef uint64_t advance_type;
+	typedef typename hydra_r123::Threefry4x64::ukey_type    init_type;
+	typedef uint64_t  result_type;
+
+	enum{arity=4};
 };
 
 

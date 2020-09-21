@@ -41,6 +41,7 @@ extern "C"
     #include "unif01.h"
     #include "bbattery.h"
     #include "util.h"
+    #include "sstring.h"
 }
 
 //set a global seed
@@ -83,26 +84,33 @@ int main(int argv, char** argc)
    if(battery==0) std::cout <<
 		   "[Testing hydra::threefry] : "
 		   "Running TestU01's SmallCrush on hydra::threefry.\n"
-		   "Find the test report on 'hydra_philox_TestU01_log.txt'\n"
+		   "Find the test report on 'hydra_threefry_TestU01_log.txt'\n"
 		   "It is going to take from seconds to minutes."
 		   << std::endl;
    if(battery==1) std::cout<<
 		   "[Testing hydra::threefry] : "
 		   "Running TestU01's Crush on hydra::threefry.\n"
-		   "Find the test report on 'hydra_philox_TestU01_log.txt'\n"
+		   "Find the test report on 'hydra_threefry_TestU01_log.txt'\n"
 		   "It is going to take from dozens of minutes to hours."
 		    << std::endl;
    if(battery==2) std::cout<<
 		   "[Testing hydra::threefry] : "
 		   "Running TestU01's BigCrush on hydra::threefry.\n"
-		   "Find the test report on 'hydra_philox_TestU01_log.txt'\n"
+		   "Find the test report on 'hydra_threefry_TestU01_log.txt'\n"
 		   "It is going to take many hours."
 		   << std::endl;
 
 
    freopen("hydra_threefry_TestU01_log.txt", "w", stdout);
 
-   if(battery==0) bbattery_SmallCrush(gen_a);
+   //
+   if(battery==0)bbattery_SmallCrush(gen_a);
+   /*
+   {
+	   RNG.discard(::pow(2,34));
+	   sstring_AutoCor(gen_a, NULL, 10, 1000000029, 27,3,1);
+   }*/
+
    if(battery==1) bbattery_Crush(gen_a);
    if(battery==2) bbattery_BigCrush(gen_a);
 
