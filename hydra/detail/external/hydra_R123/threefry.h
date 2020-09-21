@@ -189,7 +189,7 @@ R123_CUDA_DEVICE R123_STATIC_INLINE uint32_t RotL_32(uint32_t x, unsigned int N)
 #endif
 
 #ifndef THREEFRY4x64_DEFAULT_ROUNDS
-#define THREEFRY4x64_DEFAULT_ROUNDS 20
+#define THREEFRY4x64_DEFAULT_ROUNDS 22
 #endif
 
 #define _threefry2x_tpl(W)                                              \

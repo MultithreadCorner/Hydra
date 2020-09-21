@@ -92,7 +92,7 @@ public:
 
 
 	__hydra_host__ __hydra_device__
-	EngineR123(typename init_type::value_type  seed):
+	EngineR123(result_type  seed):
 	  fEngine(engine_type{}),
       fCache(state_type{}),
       fState(state_type{}),
@@ -100,12 +100,11 @@ public:
       fTrigger(0)
     {
 		init_type temp= {{}};
-		temp[0]= seed;
 
-		for(unsigned i=1; i<temp.size(); ++i)
-			temp[i] = splitmix<typename init_type::value_type>(seed);
+		for(unsigned i=0; i<temp.size()-1; ++i)
+			temp[i] = splitmix<result_type>(seed);
 
-		fSeed=temp;
+		fSeed =temp;
     }
 
 	__hydra_host__ __hydra_device__

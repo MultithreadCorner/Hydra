@@ -55,9 +55,9 @@ template<> struct random_traits<hydra_r123::Philox2x64>
 {
 	typedef typename hydra_r123::Philox2x64::ctr_type  state_type;
 	typedef typename hydra_r123::Philox2x64::key_type  seed_type;
-	typedef uint64_t advance_type;
 	typedef typename hydra_r123::Philox2x64::ukey_type init_type;
-	typedef uint64_t  result_type;
+	typedef uint64_t advance_type;
+	typedef state_type::value_type result_type;
 
 	enum{arity=2};
 };
@@ -66,9 +66,9 @@ template<> struct random_traits<hydra_r123::Philox4x64>
 {
 	typedef typename hydra_r123::Philox4x64::ctr_type  state_type;
 	typedef typename hydra_r123::Philox4x64::key_type  seed_type;
-	typedef uint64_t advance_type;
 	typedef typename hydra_r123::Philox4x64::ukey_type init_type;
-	typedef uint64_t  result_type;
+	typedef uint64_t advance_type;
+	typedef state_type::value_type result_type;
 
 	enum{arity=4};
 };
@@ -77,9 +77,9 @@ template<> struct random_traits<hydra_r123::Threefry2x64>
 {
 	typedef typename hydra_r123::Threefry2x64::ctr_type  state_type;
 	typedef typename hydra_r123::Threefry2x64::key_type  seed_type;
+	typedef typename hydra_r123::Threefry2x64::ukey_type init_type;
 	typedef uint64_t advance_type;
-	typedef typename hydra_r123::Threefry2x64::ukey_type    init_type;
-	typedef uint64_t  result_type;
+	typedef state_type::value_type result_type;
 
 	enum{arity=2};
 };
@@ -89,9 +89,9 @@ template<> struct random_traits<hydra_r123::Threefry4x64>
 {
 	typedef typename hydra_r123::Threefry4x64::ctr_type  state_type;
 	typedef typename hydra_r123::Threefry4x64::key_type  seed_type;
+	typedef typename hydra_r123::Threefry4x64::ukey_type init_type;
 	typedef uint64_t advance_type;
-	typedef typename hydra_r123::Threefry4x64::ukey_type    init_type;
-	typedef uint64_t  result_type;
+	typedef state_type::value_type result_type;
 
 	enum{arity=4};
 };
@@ -102,9 +102,9 @@ template<> struct random_traits<hydra_r123::ARS4x32>
 {
 	typedef typename hydra_r123::ARS4x32::ctr_type  state_type;
 	typedef typename hydra_r123::ARS4x32::key_type  seed_type;
-	typedef uint64_t advance_type;
 	typedef typename hydra_r123::ARS4x32::ukey_type init_type;
-	typedef uint32_t  result_type;
+	typedef uint64_t advance_type;
+	typedef state_type::value_type result_type;
 
 	enum{arity=4};
 };
