@@ -79,7 +79,13 @@ int main(int argv, char** argc)
 		std::cerr << "error: " << e.error() << " for arg " << e.argId()	<< std::endl;
 	}
 
-   unif01_Gen* gen_a = unif01_CreateExternGenBits(const_cast<char*>("hydra::threefry"), threefry );
+   unif01_Gen* gen_a = unif01_CreateExternGenBits(const_cast<char*>("threefry"), threefry );
+
+   std::cout << "------------ [ Testing hydra::threefry ] --------------"  << std::endl;
+
+    unif01_TimerGenWr(gen_a, 100000000, 0);
+
+   std::cout << "-----------------------------------------------------"  << std::endl;
 
    if(battery==0) std::cout <<
 		   "[Testing hydra::threefry] : "

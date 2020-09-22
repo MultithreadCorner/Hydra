@@ -99,12 +99,12 @@ public:
       fSeed(seed_type{}),
       fTrigger(0)
     {
-		init_type temp= {{}};
+		 fSeed = init_type{{splitmix<result_type>(seed)}};
 
-		for(unsigned i=0; i<temp.size()-1; ++i)
-			temp[i] = splitmix<result_type>(seed);
+//		for(unsigned i=0; i<fSeed.size(); ++i)
+//			std::cout << fSeed << std::endl ;
 
-		fSeed =temp;
+
     }
 
 	__hydra_host__ __hydra_device__
@@ -146,10 +146,9 @@ public:
 	{
 		result_type result = 0;
 
-		if(fTrigger==arity) fTrigger=0;
+		if(fTrigger==arity){
 
-		if(fTrigger==0){
-
+            fTrigger=0;
 			fCache = fEngine(fState.incr(),  fSeed);
 			result = fCache[fTrigger++];
 		}

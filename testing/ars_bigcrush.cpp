@@ -78,22 +78,25 @@ int main(int argv, char** argc)
 		std::cerr << "error: " << e.error() << " for arg " << e.argId()	<< std::endl;
 	}
 
-   unif01_Gen* gen_a = unif01_CreateExternGenBits(const_cast<char*>("hydra::ars"), ars );
+   unif01_Gen* gen_a = unif01_CreateExternGenBits(const_cast<char*>("ars"), ars );
+
+   std::cout << "------------ [ Testing hydra::ars ] --------------"  << std::endl;
+
+   unif01_TimerGenWr(gen_a, 100000000, 0);
+
+   std::cout << "-----------------------------------------------------"  << std::endl;
 
    if(battery==0) std::cout <<
-		   "[Testing hydra::ars] : "
 		   "Running TestU01's SmallCrush on hydra::ars.\n"
 		   "Find the test report on 'hydra_ars_TestU01_log.txt'\n"
 		   "It is going to take from seconds to minutes."
 		   << std::endl;
    if(battery==1) std::cout<<
-		   "[Testing hydra::ars] : "
 		   "Running TestU01's Crush on hydra::ars.\n"
 		   "Find the test report on 'hydra_ars_TestU01_log.txt'\n"
 		   "It is going to take from dozens of minutes to hours."
 		    << std::endl;
    if(battery==2) std::cout<<
-		   "[Testing hydra::ars] : "
 		   "Running TestU01's BigCrush on hydra::ars.\n"
 		   "Find the test report on 'hydra_ars_TestU01_log.txt'\n"
 		   "It is going to take many hours."
