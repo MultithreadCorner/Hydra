@@ -97,14 +97,16 @@ public:
       fCache(state_type{}),
       fState(state_type{}),
       fSeed(seed_type{}),
-      fTrigger(0)
+      fTrigger(arity)
     {
-		 fSeed = init_type{{splitmix<result_type>(seed)}};
+		init_type temp{{}};
 
-//		for(unsigned i=0; i<fSeed.size(); ++i)
-//			std::cout << fSeed << std::endl ;
+		for(unsigned i=0; i< temp.size(); ++i){
+			temp[i]=splitmix<result_type>(seed);
+			//std::cout << i <<" " <<temp[i] << std::endl;
+		}
 
-
+        fSeed = temp;
     }
 
 	__hydra_host__ __hydra_device__
@@ -113,16 +115,16 @@ public:
       fCache(state_type{}),
       fState(state_type{}),
       fSeed(seed),
-      fTrigger(0)
+      fTrigger(arity)
     {}
 
 
 	__hydra_host__ __hydra_device__
 	EngineR123( EngineR123<Engine> const& other):
-	  fEngine(engine_type{}),
-      fCache(state_type{}),
-      fState(other.GetState() ),
-      fSeed(other.GetSeed() ),
+	  fEngine(engine_type{}  ),
+      fCache(other.GetCache()),
+      fState(other.GetState()),
+      fSeed(other.GetSeed()  ),
       fTrigger(other.GetTrigger())
     {}
 
@@ -133,7 +135,7 @@ public:
 		if(this==&other) return *this;
 
 	  fEngine = engine_type{};
-      fCache  = state_type{};
+      fCache  = other.GetCache();
       fState  = other.GetState();
       fSeed   = other.GetSeed();
       fTrigger =other.GetTrigger();
@@ -150,10 +152,12 @@ public:
 
             fTrigger=0;
 			fCache = fEngine(fState.incr(),  fSeed);
-			result = fCache[fTrigger++];
+			result = fCache[fTrigger];
+			++fTrigger;
 		}
 		else {
-			result = fCache[fTrigger++];
+			result = fCache[fTrigger];
+			++fTrigger;
 		}
 
 		return result;
@@ -163,6 +167,7 @@ public:
 	inline void discard( advance_type n){
 
 		fState.incr(n);
+		fTrigger=arity;
 	}
 
 	__hydra_host__ __hydra_device__
@@ -185,11 +190,17 @@ public:
 		fState = state;
 	}
 
+
 	static const result_type HYDRA_PREVENT_MACRO_SUBSTITUTION min  = 0;
 
 	static const result_type HYDRA_PREVENT_MACRO_SUBSTITUTION max = std::numeric_limits<result_type>::max();
 
 private:
+
+	__hydra_host__ __hydra_device__
+	inline state_type GetCache() const {
+		return fCache;
+	}
 
 	__hydra_host__ __hydra_device__
 	inline trigger_type GetTrigger() const {
@@ -210,9 +221,9 @@ typedef EngineR123<hydra_r123::ARS4x32>           ars;
 typedef void  ars;
 #endif
 
-typedef EngineR123<hydra_r123::Threefry4x64> threefry;
+typedef EngineR123<hydra_r123::Threefry2x64> threefry;
 
-typedef EngineR123<hydra_r123::Philox4x64>     philox;
+typedef EngineR123<hydra_r123::Philox2x64>     philox;
 
 
 }  // namespace random

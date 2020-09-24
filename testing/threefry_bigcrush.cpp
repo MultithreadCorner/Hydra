@@ -83,42 +83,56 @@ int main(int argv, char** argc)
 
    std::cout << "------------ [ Testing hydra::threefry ] --------------"  << std::endl;
 
-    unif01_TimerGenWr(gen_a, 100000000, 0);
+   char* filename;
 
-   std::cout << "-----------------------------------------------------"  << std::endl;
+   if(battery==0){
 
-   if(battery==0) std::cout <<
+	   filename = const_cast<char*>("hydra_threefry_TestU01_SmallCrush_log.txt");
+
+	   std::cout <<
 		   "[Testing hydra::threefry] : "
 		   "Running TestU01's SmallCrush on hydra::threefry.\n"
-		   "Find the test report on 'hydra_threefry_TestU01_log.txt'\n"
-		   "It is going to take from seconds to minutes."
+		   "Find the test report on 'hydra_threefry_TestU01_SmallCrush_log.txt'\n"
+		   "It is going to take from seconds to minutes.\n"
+		   "Check the result issuing the command: tail -n 40  hydra_threefry_TestU01_SmallCrush_log.txt\n"
 		   << std::endl;
-   if(battery==1) std::cout<<
+   }
+
+   if(battery==1){
+
+	   filename =  const_cast<char*>("hydra_threefry_TestU01_Crush_log.txt");
+
+	   std::cout<<
 		   "[Testing hydra::threefry] : "
 		   "Running TestU01's Crush on hydra::threefry.\n"
-		   "Find the test report on 'hydra_threefry_TestU01_log.txt'\n"
-		   "It is going to take from dozens of minutes to hours."
+		   "Find the test report on 'hydra_threefry_TestU01_Crush_log.txt'\n"
+		   "It is going to take from dozens of minutes to hours.\n"
+		   "Check the result issuing the command: tail -n 40  hydra_threefry_TestU01_Crush_log.txt\n"
 		    << std::endl;
-   if(battery==2) std::cout<<
+   }
+
+   if(battery==2){
+
+	   filename =  const_cast<char*>("hydra_threefry_TestU01_BigCrush_log.txt");
+
+	   std::cout<<
 		   "[Testing hydra::threefry] : "
 		   "Running TestU01's BigCrush on hydra::threefry.\n"
-		   "Find the test report on 'hydra_threefry_TestU01_log.txt'\n"
-		   "It is going to take many hours."
+		   "Find the test report on 'hydra_threefry_TestU01_BigCrush_log.txt'\n"
+		   "It is going to take many hours.\n"
+		   "Check the result issuing the command: tail -n 40  hydra_threefry_TestU01_BigCrush_log.txt\n"
 		   << std::endl;
+   }
 
 
-   freopen("hydra_threefry_TestU01_log.txt", "w", stdout);
+   freopen(filename, "w", stdout);
 
    //
    if(battery==0)bbattery_SmallCrush(gen_a);
-   /*
-   {
-	   RNG.discard(::pow(2,34));
-	   sstring_AutoCor(gen_a, NULL, 10, 1000000029, 27,3,1);
-   }*/
-
    if(battery==1) bbattery_Crush(gen_a);
    if(battery==2) bbattery_BigCrush(gen_a);
+
+   unif01_TimerGenWr(gen_a, 1000000000, 0);
 
    fclose(stdout);
 
