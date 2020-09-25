@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 #include <cstdlib>
+#include <sstream>
 #include <vector>
 
 //hydra
@@ -93,75 +94,49 @@ int main(int argv, char** argc)
 
    unif01_Gen* gen_a;
 
-   char* filename;
-
-   std::string bit_range("");
+   char* bit_range;
 
    if( test_high_bits ) {
 
-	   bit_range =  "_HighBits";
+	   bit_range = const_cast<char*>( "HigherBits");
 	   gen_a = unif01_CreateExternGenBits(const_cast<char*>("philoxH"), philox_hi );
    }
    else {
 
-	   bit_range =  "_LowBits";
+	   bit_range =  const_cast<char*>("LowerBits");
 	   gen_a = unif01_CreateExternGenBits(const_cast<char*>("philoxL"), philox_lo );
    }
 
-   std::string battery_name("");
+   char* battery_name=const_cast<char*>("");
 
    switch( battery ) {
 
    case 0:
-	   battery_name="_SmallCrush";
+	   battery_name=const_cast<char*>( "SmallCrush");
 	   break;
    case 1:
-	   battery_name="_Crush";
+	   battery_name=const_cast<char*>("Crush");
 	   break;
    case 2:
-	   battery_name="_BigCrush";
+	   battery_name=const_cast<char*>("BigCrush");
 	   break;
 
    }
 
-   std::cout << "------------ [ Testing hydra::philox ] --------------"  << std::endl;
+   std::ostringstream filename;
+   filename << "hydra_philox_TestU01_" << battery_name << "_" <<  bit_range << "_log.txt" ;
 
-   if(battery==0){
+   std::ostringstream message;
+   message << "Running TestU01's " << battery_name << " on hydra::philox." << std::endl
+		   << "Find the test's report on the file " << filename.str().c_str() << " in the program's work directory." << std::endl
+		   << "It is going to take from seconds (SmallCrush) to hours (BigCrush)."<< std::endl
+		   << "Check the result issuing the command: tail -n 25 " << filename.str().c_str() << std::endl;
 
-	   filename =  const_cast<char*>("hydra_philox_TestU01_SmallCrush_log.txt");
+   std::cout << "------------ [ Testing hydra::philox ("<< bit_range<<")] --------------"  << std::endl;
 
-	   std::cout <<
-		   "Running TestU01's SmallCrush on hydra::philox.\n"
-		   "Find the test report on 'hydra_philox_TestU01_SmallCrush_log.txt'\n"
-		   "It is going to take from seconds to minutes.\n"
-		   "Check the result issuing the command: tail -n 40 hydra_philox_TestU01_SmallCrush_log.txt"
-		   << std::endl;
-   }
+   std::cout << message.str().c_str()  << std::endl;
 
-   if(battery==1){
-
-	   filename =  const_cast<char*>("hydra_philox_TestU01_Crush_log.txt");
-
-	   std::cout<<
-		   "Running TestU01's Crush on hydra::philox.\n"
-		   "Find the test report on 'hydra_philox_TestU01_Crush_log.txt'\n"
-		   "It is going to take from dozens of minutes to hours.\n"
-		   "Check the result issuing the command: tail -n 40 hydra_philox_TestU01_Crush_log.txt"
-		    << std::endl;
-   }
-   if(battery==2){
-
-	   filename =  const_cast<char*>("hydra_philox_TestU01_BigCrush_log.txt");
-
-	   std::cout<<
-		   "Running TestU01's BigCrush on hydra::philox.\n"
-		   "Find the test report on 'hydra_philox_TestU01_BigCrush_log.txt'\n"
-		   "It is going to take many hours.\n"
-		   "Check the result issuing the command: tail -n 40 hydra_philox_TestU01_BigCrush_log.txt"
-		   << std::endl;
-   }
-
-   freopen(filename, "w", stdout);
+   freopen(filename.str().c_str(), "w", stdout);
 
    if(battery==0) bbattery_SmallCrush(gen_a);
    if(battery==1) bbattery_Crush(gen_a);

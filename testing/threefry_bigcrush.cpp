@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 #include <cstdlib>
+#include <sstream>
 #include <vector>
 
 //hydra
@@ -41,23 +42,31 @@ extern "C"
     #include "unif01.h"
     #include "bbattery.h"
     #include "util.h"
-    #include "sstring.h"
 }
+
+
 
 //set a global seed
 static const uint64_t seed= 0x123abdf3 ;
 
+
 static hydra::threefry RNG(seed);
 
-uint32_t threefry(void){
+uint32_t threefry_hi(void){
 
-	return RNG();
+	return uint32_t(RNG()>>32);
 }
 
+uint32_t threefry_lo(void){
+
+	return uint32_t(RNG());
+}
 
 int main(int argv, char** argc)
 {
 	unsigned battery = 0;
+	bool     test_high_bits=0;
+
 	std::vector<unsigned> allowed{0,1,2};
 	TCLAP::ValuesConstraint<unsigned> allowedVals( allowed );
 
@@ -68,67 +77,68 @@ int main(int argv, char** argc)
 		TCLAP::ValueArg<unsigned> EArg("b", "battery","TestU01's battery: 0 - SmallCrush (default) / 1 - Crush / 2 - BigCrush", false, 0, &allowedVals);
 		cmd.add(EArg);
 
+		TCLAP::SwitchArg HighBitArg("H", "high_bits", "Test the 32 higher bits of output", false) ;
+		cmd.add(HighBitArg);
+
 		// Parse the argv array.
 		cmd.parse(argv, argc);
 
 		// Get the value parsed by each arg.
 		battery = EArg.getValue();
+		test_high_bits= HighBitArg.getValue();
 
 	}
 	catch (TCLAP::ArgException &e)  {
 		std::cerr << "error: " << e.error() << " for arg " << e.argId()	<< std::endl;
 	}
 
-   unif01_Gen* gen_a = unif01_CreateExternGenBits(const_cast<char*>("threefry"), threefry );
+   unif01_Gen* gen_a;
 
-   std::cout << "------------ [ Testing hydra::threefry ] --------------"  << std::endl;
+   char* bit_range;
 
-   char* filename;
+   if( test_high_bits ) {
 
-   if(battery==0){
+	   bit_range = const_cast<char*>( "HigherBits");
+	   gen_a = unif01_CreateExternGenBits(const_cast<char*>("threefryH"), threefry_hi );
+   }
+   else {
 
-	   filename = const_cast<char*>("hydra_threefry_TestU01_SmallCrush_log.txt");
-
-	   std::cout <<
-		   "[Testing hydra::threefry] : "
-		   "Running TestU01's SmallCrush on hydra::threefry.\n"
-		   "Find the test report on 'hydra_threefry_TestU01_SmallCrush_log.txt'\n"
-		   "It is going to take from seconds to minutes.\n"
-		   "Check the result issuing the command: tail -n 40  hydra_threefry_TestU01_SmallCrush_log.txt\n"
-		   << std::endl;
+	   bit_range =  const_cast<char*>("LowerBits");
+	   gen_a = unif01_CreateExternGenBits(const_cast<char*>("threefryL"), threefry_lo );
    }
 
-   if(battery==1){
+   char* battery_name=const_cast<char*>("");
 
-	   filename =  const_cast<char*>("hydra_threefry_TestU01_Crush_log.txt");
+   switch( battery ) {
 
-	   std::cout<<
-		   "[Testing hydra::threefry] : "
-		   "Running TestU01's Crush on hydra::threefry.\n"
-		   "Find the test report on 'hydra_threefry_TestU01_Crush_log.txt'\n"
-		   "It is going to take from dozens of minutes to hours.\n"
-		   "Check the result issuing the command: tail -n 40  hydra_threefry_TestU01_Crush_log.txt\n"
-		    << std::endl;
+   case 0:
+	   battery_name=const_cast<char*>( "SmallCrush");
+	   break;
+   case 1:
+	   battery_name=const_cast<char*>("Crush");
+	   break;
+   case 2:
+	   battery_name=const_cast<char*>("BigCrush");
+	   break;
+
    }
 
-   if(battery==2){
+   std::ostringstream filename;
+   filename << "hydra_threefry_TestU01_" << battery_name << "_" <<  bit_range << "_log.txt" ;
 
-	   filename =  const_cast<char*>("hydra_threefry_TestU01_BigCrush_log.txt");
+   std::ostringstream message;
+   message << "Running TestU01's " << battery_name << " on hydra::threefry." << std::endl
+		   << "Find the test's report on the file " << filename.str().c_str() << " in the program's work directory." << std::endl
+		   << "It is going to take from seconds (SmallCrush) to hours (BigCrush)."<< std::endl
+		   << "Check the result issuing the command: tail -n 25 " << filename.str().c_str() << std::endl;
 
-	   std::cout<<
-		   "[Testing hydra::threefry] : "
-		   "Running TestU01's BigCrush on hydra::threefry.\n"
-		   "Find the test report on 'hydra_threefry_TestU01_BigCrush_log.txt'\n"
-		   "It is going to take many hours.\n"
-		   "Check the result issuing the command: tail -n 40  hydra_threefry_TestU01_BigCrush_log.txt\n"
-		   << std::endl;
-   }
+   std::cout << "------------ [ Testing hydra::threefry ("<< bit_range<<")] --------------"  << std::endl;
 
+   std::cout << message.str().c_str()  << std::endl;
 
-   freopen(filename, "w", stdout);
+   freopen(filename.str().c_str(), "w", stdout);
 
-   //
-   if(battery==0)bbattery_SmallCrush(gen_a);
+   if(battery==0) bbattery_SmallCrush(gen_a);
    if(battery==1) bbattery_Crush(gen_a);
    if(battery==2) bbattery_BigCrush(gen_a);
 
