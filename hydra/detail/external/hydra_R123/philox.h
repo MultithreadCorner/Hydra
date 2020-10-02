@@ -272,7 +272,7 @@ _mulhilo_fail_tpl(64, uint64_t)
 #endif
 
 #ifndef PHILOX4x64_DEFAULT_ROUNDS
-#define PHILOX4x64_DEFAULT_ROUNDS 7//10
+#define PHILOX4x64_DEFAULT_ROUNDS 9
 #endif
 /** \cond HIDDEN_FROM_DOXYGEN */
 

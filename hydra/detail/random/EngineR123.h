@@ -31,6 +31,7 @@
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/RandomTraits.h>
+#include <hydra/detail/random/splitmix.h>
 #include <hydra/detail/external/hydra_R123/array.h>
 #include <hydra/detail/external/hydra_R123/philox.h>
 #include <hydra/detail/external/hydra_R123/threefry.h>
@@ -45,6 +46,7 @@ namespace hydra {
 
 namespace random {
 
+/*
 template<typename UIntType>
 __hydra_host__ __hydra_device__
 inline UIntType splitmix( UIntType& );
@@ -67,7 +69,7 @@ inline uint64_t  splitmix<uint64_t>(uint64_t& x){
 	z = (z ^ (z >> 27)) * 0x94d049bb133111eb;
 	return z ^ (z >> 31);
 }
-
+*/
 
 template<typename Engine>
 class EngineR123
@@ -221,9 +223,15 @@ typedef EngineR123<hydra_r123::ARS4x32>           ars;
 typedef void  ars;
 #endif
 
+//2^128 period
 typedef EngineR123<hydra_r123::Threefry2x64> threefry;
 
 typedef EngineR123<hydra_r123::Philox2x64>     philox;
+
+//2^256 period
+typedef EngineR123<hydra_r123::Threefry4x64> threefry_long;
+
+typedef EngineR123<hydra_r123::Philox4x64>     philox_long;
 
 
 }  // namespace random

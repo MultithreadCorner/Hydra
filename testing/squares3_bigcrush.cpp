@@ -20,7 +20,7 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * philox_bigcrush.cpp
+ * ars_bigcrush.cpp
  *
  *  Created on: 18/09/2020
  *      Author: Antonio Augusto Alves Junior
@@ -29,7 +29,6 @@
 
 #include <stdio.h>
 #include <cstdlib>
-#include <sstream>
 #include <vector>
 
 //hydra
@@ -44,30 +43,20 @@ extern "C"
     #include "util.h"
 }
 
-
-
 //set a global seed
-static const uint64_t seed= 0x123abdf3 ;
+static const uint64_t seed= 0x548c9decbce65295  ;
 
+static hydra::squares3 RNG(seed);
 
-static hydra::threefry RNG(seed);
+uint32_t squares(void){
 
-uint32_t threefry_hi(void){
-
-	return uint32_t(RNG()>>32);
+	return RNG();
 }
 
-uint32_t threefry_lo(void){
-
-	return uint32_t(RNG());
-}
 
 int main(int argv, char** argc)
 {
-
 	unsigned battery = 0;
-	bool     test_high_bits=0;
-
 	std::vector<unsigned> allowed{0,1,2};
 	TCLAP::ValuesConstraint<unsigned> allowedVals( allowed );
 
@@ -78,35 +67,18 @@ int main(int argv, char** argc)
 		TCLAP::ValueArg<unsigned> EArg("b", "battery","TestU01's battery: 0 - SmallCrush (default) / 1 - Crush / 2 - BigCrush", false, 0, &allowedVals);
 		cmd.add(EArg);
 
-		TCLAP::SwitchArg HighBitArg("H", "high_bits", "Test the 32 higher bits of output", false) ;
-		cmd.add(HighBitArg);
-
 		// Parse the argv array.
 		cmd.parse(argv, argc);
 
 		// Get the value parsed by each arg.
 		battery = EArg.getValue();
-		test_high_bits= HighBitArg.getValue();
 
 	}
 	catch (TCLAP::ArgException &e)  {
 		std::cerr << "error: " << e.error() << " for arg " << e.argId()	<< std::endl;
 	}
 
-   unif01_Gen* gen_a;
-
-   char* bit_range;
-
-   if( test_high_bits ) {
-
-	   bit_range = const_cast<char*>( "HigherBits");
-	   gen_a = unif01_CreateExternGenBits(const_cast<char*>("threefryH"), threefry_hi );
-   }
-   else {
-
-	   bit_range =  const_cast<char*>("LowerBits");
-	   gen_a = unif01_CreateExternGenBits(const_cast<char*>("threefryL"), threefry_lo );
-   }
+   unif01_Gen* gen_a = unif01_CreateExternGenBits(const_cast<char*>("squares3"),squares );
 
    char* battery_name=const_cast<char*>("");
 
@@ -115,25 +87,28 @@ int main(int argv, char** argc)
    case 0:
 	   battery_name=const_cast<char*>( "SmallCrush");
 	   break;
+
    case 1:
 	   battery_name=const_cast<char*>("Crush");
 	   break;
+
    case 2:
 	   battery_name=const_cast<char*>("BigCrush");
 	   break;
 
    }
 
+
    std::ostringstream filename;
-   filename << "hydra_threefry_TestU01_" << battery_name << "_" <<  bit_range << "_log.txt" ;
+   filename << "hydra_squares3_TestU01_" << battery_name << "_log.txt" ;
 
    std::ostringstream message;
-   message << "Running TestU01's " << battery_name << " on hydra::threefry." << std::endl
+   message << "Running TestU01's " << battery_name << " on hydra::squares3." << std::endl
 		   << "Find the test's report on the file " << filename.str().c_str() << " in the program's work directory." << std::endl
 		   << "It is going to take from seconds (SmallCrush) to hours (BigCrush)."<< std::endl
 		   << "Check the result issuing the command: tail -n 25 " << filename.str().c_str() << std::endl;
 
-   std::cout << "------------ [ Testing hydra::threefry ("<< bit_range<<")] --------------"  << std::endl;
+   std::cout << "------------------- [ Testing hydra::squares3 ] -------------------"  << std::endl;
 
    std::cout << message.str().c_str()  << std::endl;
 

@@ -47,24 +47,23 @@ extern "C"
 
 
 //set a global seed
-static const uint64_t seed= 0x123abdf3 ;
+static const uint64_t seed= 0x123abde35ef ;
 
 
-static hydra::threefry RNG(seed);
+static hydra::philox_long RNG(seed);
 
-uint32_t threefry_hi(void){
+uint32_t philox_hi(void){
 
 	return uint32_t(RNG()>>32);
 }
 
-uint32_t threefry_lo(void){
+uint32_t philox_lo(void){
 
 	return uint32_t(RNG());
 }
 
 int main(int argv, char** argc)
 {
-
 	unsigned battery = 0;
 	bool     test_high_bits=0;
 
@@ -100,12 +99,12 @@ int main(int argv, char** argc)
    if( test_high_bits ) {
 
 	   bit_range = const_cast<char*>( "HigherBits");
-	   gen_a = unif01_CreateExternGenBits(const_cast<char*>("threefryH"), threefry_hi );
+	   gen_a = unif01_CreateExternGenBits(const_cast<char*>("philoxLH"), philox_hi );
    }
    else {
 
 	   bit_range =  const_cast<char*>("LowerBits");
-	   gen_a = unif01_CreateExternGenBits(const_cast<char*>("threefryL"), threefry_lo );
+	   gen_a = unif01_CreateExternGenBits(const_cast<char*>("philoxLL"), philox_lo );
    }
 
    char* battery_name=const_cast<char*>("");
@@ -125,15 +124,15 @@ int main(int argv, char** argc)
    }
 
    std::ostringstream filename;
-   filename << "hydra_threefry_TestU01_" << battery_name << "_" <<  bit_range << "_log.txt" ;
+   filename << "hydra_philox_long_TestU01_" << battery_name << "_" <<  bit_range << "_log.txt" ;
 
    std::ostringstream message;
-   message << "Running TestU01's " << battery_name << " on hydra::threefry." << std::endl
+   message << "Running TestU01's " << battery_name << " on hydra::philox_long." << std::endl
 		   << "Find the test's report on the file " << filename.str().c_str() << " in the program's work directory." << std::endl
 		   << "It is going to take from seconds (SmallCrush) to hours (BigCrush)."<< std::endl
 		   << "Check the result issuing the command: tail -n 25 " << filename.str().c_str() << std::endl;
 
-   std::cout << "------------ [ Testing hydra::threefry ("<< bit_range<<")] --------------"  << std::endl;
+   std::cout << "------------ [ Testing hydra::philox_long ("<< bit_range<<")] --------------"  << std::endl;
 
    std::cout << message.str().c_str()  << std::endl;
 

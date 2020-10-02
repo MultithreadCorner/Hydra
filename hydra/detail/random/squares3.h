@@ -80,7 +80,7 @@ public:
 	__hydra_host__ __hydra_device__
 	squares3(seed_type  s):
 	  fState(0),
-      fSeed(seed_type{s})
+      fSeed(seed_type{ splitmix<seed_type>(s) })
     {}
 
 	__hydra_host__ __hydra_device__
@@ -102,7 +102,7 @@ public:
 
 
 	__hydra_host__ __hydra_device__
-	inline uint32_t operator()(void)
+	inline result_type operator()(void)
 	{
 		uint64_t x, y, z;
 
@@ -112,7 +112,7 @@ public:
 
 		x = x*x + z; x = (x>>32) | (x<<32);       /* round 2 */
 
-		++fSeed;                                  /* advance state */
+		++fState;                                 /* advance state */
 
 		return (x*x + y) >> 32;                   /* round 3 */
 
@@ -150,7 +150,7 @@ public:
 
 	static const  uint32_t HYDRA_PREVENT_MACRO_SUBSTITUTION min  = 0;
 
-	static const  uint32_t HYDRA_PREVENT_MACRO_SUBSTITUTION max = std::numeric_limits<uint32_t>::max();
+	static const  uint32_t HYDRA_PREVENT_MACRO_SUBSTITUTION max = std::numeric_limits<result_type>::max();
 
 private:
 

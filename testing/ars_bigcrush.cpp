@@ -44,9 +44,9 @@ extern "C"
 }
 
 //set a global seed
-static const uint64_t seed= 0x123abdf3 ;
+static const uint64_t default_seed= 0x5748156b5787d77e;
 
-static hydra::ars RNG(seed);
+static hydra::ars RNG(default_seed);
 
 uint32_t ars(void){
 
@@ -80,43 +80,33 @@ int main(int argv, char** argc)
 
    unif01_Gen* gen_a = unif01_CreateExternGenBits(const_cast<char*>("ars"), ars );
 
-   std::cout << "------------ [ Testing hydra::ars ] --------------"  << std::endl;
+   char* battery_name=const_cast<char*>("");
 
-   char* filename;
+   switch( battery ) {
 
-   if(battery==0){
+   case 0:
+	   battery_name=const_cast<char*>( "SmallCrush");
+	   break;
+   case 1:
+	   battery_name=const_cast<char*>("Crush");
+	   break;
+   case 2:
+	   battery_name=const_cast<char*>("BigCrush");
+	   break;
 
-	   filename = const_cast<char*>("hydra_ars_TestU01_SmallCrush_log.txt");
-
-	   std::cout <<
-			   "Running TestU01's SmallCrush on hydra::ars.\n"
-			   "Find the test report on 'hydra_ars_TestU01_SmallCrush_log.txt'\n"
-			   "It is going to take from seconds to minutes.\n"
-			   "Check the result issuing the command: tail -n 40 hydra_ars_TestU01_SmallCrush_log.txt\n"
-			   << std::endl;
-   }
-   if(battery==1){
-
-	   filename = const_cast<char*>("hydra_ars_TestU01_Crush_log.txt");
-	   std::cout<<
-			   "Running TestU01's Crush on hydra::ars.\n"
-			   "Find the test report on 'hydra_ars_TestU01_Crush_log.txt'\n"
-			   "It is going to take from dozens of minutes to hours.\n"
-			   "Check the result issuing the command: tail -n 40 hydra_ars_TestU01_Crush_log.txt\n"
-			   << std::endl;
-   }
-   if(battery==2){
-	   filename = const_cast<char*>("hydra_ars_TestU01_BigCrush_log.txt");
-	   std::cout<<
-			   "Running TestU01's BigCrush on hydra::ars.\n"
-			   "Find the test report on 'hydra_ars_TestU01_BigCrush_log.txt'\n"
-			   "It is going to take many hours.\n"
-			   "Check the result issuing the command: tail -n 40 hydra_ars_TestU01_BigCrush_log.txt\n"
-			   << std::endl;
    }
 
 
-   freopen(filename, "w", stdout);
+   std::ostringstream filename;
+   filename << "hydra_ars_TestU01_" << battery_name << "_log.txt" ;
+
+   std::ostringstream message;
+   message << "Running TestU01's " << battery_name << " on hydra::ars." << std::endl
+		   << "Find the test's report on the file " << filename.str().c_str() << " in the program's work directory." << std::endl
+		   << "It is going to take from seconds (SmallCrush) to hours (BigCrush)."<< std::endl
+		   << "Check the result issuing the command: tail -n 25 " << filename.str().c_str() << std::endl;
+
+   freopen(filename.str().c_str(), "w", stdout);
 
    if(battery==0) bbattery_SmallCrush(gen_a);
    if(battery==1) bbattery_Crush(gen_a);
