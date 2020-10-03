@@ -33,7 +33,10 @@
 //command line
 #include <tclap/CmdLine.h>
 
-static uint64_t seeds[48]={
+#define MAX_NSEEDS 48
+#define NSEEDS 20
+
+static uint64_t seeds[ MAX_NSEEDS ]={
 		0xd88f1030046b761c,
 		0x6d98e2c649d074a5,
 		0x79a119c8698cd4af,
@@ -160,21 +163,44 @@ int main(int argv, char** argc)
 
 	std::vector<std::string> command_list;
 
-	for(size_t i=0; i<48; ++i){
+	for(size_t i=0; i<NSEEDS; ++i){
 
 		std::ostringstream command;
-		command << "./"<< executor_name << " -H"<< " -i="<< i <<" -b=" << battery_code << " -s=" << std::hex << seeds[i] ;
+		command << "./"<< executor_name << " "<< " -i="<< i <<" -b=" << battery_code << " -s=0x" << std::hex << seeds[i] ;
 		command_list.push_back(command.str());
 	}
 
-    std::vector<std::future<void>>& tasks;
+    std::vector<std::future<int>> tasks;
 
-	for(size_t i=0; i<48; ++i){
+    //submit tasks
+	for(int i=0; i<NSEEDS; ++i){
+
 		std::cout << command_list[i].c_str()  << std::endl;
+
 		tasks.push_back(std::async( std::launch::async,
-						[](void) { 	std::system(command_list[i].c_str()); }) );
+						[i, &command_list](void) {
+		  std::system(command_list[i].c_str());
+		  return i;
+		} ) );
 
 	}
+
+	size_t ntasks = 0;
+	//monitor tasks
+	while(ntasks < NSEEDS){
+
+		for(auto& task: tasks){
+
+			if( (task.valid()==true) && ( task.wait_for(std::chrono::seconds(0)) == std::future_status::ready)){
+
+				int i = task.get();
+				std::cout << ">> Task #" << i << " finished. Active tasks: " << (NSEEDS-ntasks) << std::endl;
+				++ntasks;
+			}
+
+		}
+	}
+
 
 
    return 0;
