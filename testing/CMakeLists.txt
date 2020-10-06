@@ -130,7 +130,7 @@ if(BUILD_CPP_TARGETS)
          
          add_dependencies(tests  hydra_threefry_bigcrush)
  
- #----------------------------       
+      #----------------------------       
           
          message(STATUS "Adding target to CPP backend. Executable file name: hydra_threefry_long_bigcrush")
          
@@ -153,6 +153,18 @@ if(BUILD_CPP_TARGETS)
          target_link_libraries( batch_test_generator -L/usr/lib64  )
          
          add_dependencies(tests  batch_test_generator)    
+         
+         #----------------------------       
+          
+         message(STATUS "Adding target to CPP backend. Executable file name: hydra_squares3_practrand")
+         
+         add_executable(hydra_squares3_practrand squares3_practrand.cpp )
+            
+         set_target_properties( hydra_squares3_practrand  PROPERTIES COMPILE_FLAGS "-DHYDRA_HOST_SYSTEM=CPP -DHYDRA_DEVICE_SYSTEM=CPP")
+            
+         target_link_libraries( hydra_squares3_practrand -L/usr/lib64 ${TESTU01_LIBRARIES}  )
+         
+         add_dependencies(tests hydra_squares3_practrand)
          
  endif(BUILD_CPP_TARGETS)
  
