@@ -64,7 +64,7 @@ int main(int argv, char** argc)
 	hydra::threefry_long RNG(seed);
 
 	while (1) {
-		uint32_t value = RNG();
+		uint64_t value = RNG();
 		fwrite((void*) &value, sizeof(value), 1, stdout);
 	}
 }
