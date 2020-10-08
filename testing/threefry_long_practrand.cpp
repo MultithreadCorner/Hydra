@@ -36,6 +36,7 @@
 #define TCLAP_SETBASE_ZERO 1
 #include <tclap/CmdLine.h>
 
+
 //set a global seed
 static const uint64_t default_seed= 0x548c9decbce65295  ;
 
@@ -63,8 +64,14 @@ int main(int argv, char** argc)
 
 	hydra::threefry_long RNG(seed);
 
+	constexpr size_t BUFFER_SIZE = 1024 * 1024 / sizeof(uint64_t);
+	static uint64_t  buffer[BUFFER_SIZE];
+
 	while (1) {
-		uint64_t value = RNG();
-		fwrite((void*) &value, sizeof(value), 1, stdout);
+		//uint64_t value = RNG();
+		for (size_t i = 0; i < BUFFER_SIZE; ++i)
+			buffer[i] = RNG();
+		//fwrite((void*) &value, sizeof(value), 1, stdout);
+		fwrite((void*) buffer, sizeof(buffer[0]), BUFFER_SIZE, stdout);
 	}
 }
