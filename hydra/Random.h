@@ -211,7 +211,9 @@ typename std::enable_if<
 	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 	Range<Iterator>
 >::type
-unweight( hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& policy, Iterator begin, Iterator end, Functor const& functor);
+unweight( hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& policy,
+	    	Iterator begin, Iterator end, Functor const& functor,
+			double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0 );
 
 
 /**
@@ -230,7 +232,8 @@ typename std::enable_if<
 	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 	Range<Iterator>
 >::type
-unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor);
+unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor,
+		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -247,7 +250,8 @@ typename std::enable_if<
 	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 	Range<Iterator>
 >::type
-unweight( Iterator begin, Iterator end, Functor const& functor);
+unweight( Iterator begin, Iterator end, Functor const& functor,
+		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -263,7 +267,9 @@ typename std::enable_if<
 	detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
 	Range< decltype(std::declval<Iterable>().begin())>
 >::type
-unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterable&& iterable, Functor const& functor);
+unweight( hydra::detail::BackendPolicy<BACKEND> const& policy,
+		Iterable&& iterable, Functor const& functor,
+		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0  );
 
 /**
  * \ingroup random
@@ -278,7 +284,8 @@ template<typename RNG=default_random_engine, typename Functor, typename Iterable
 typename std::enable_if<
 detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
 Range< decltype(std::declval<Iterable>().begin())>>::type
-unweight( Iterable&& iterable, Functor const& functor);
+unweight( Iterable&& iterable, Functor const& functor,
+		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0 );
 
 
 /**

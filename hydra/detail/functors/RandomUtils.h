@@ -220,7 +220,8 @@ template<typename T, typename Iterator,typename GRND>
 struct RndFlag{
 
 
-	RndFlag(const size_t seed, const T max_value, Iterator values ):
+	RndFlag(const size_t jump, const size_t seed, const T max_value, Iterator values ):
+		fJump(jump ),
 		fSeed(seed),
 		fValMax(max_value),
 		fVals(values)
@@ -228,6 +229,7 @@ struct RndFlag{
 
 	__hydra_host__ __hydra_device__
 	RndFlag(RndFlag<T,Iterator, GRND> const& other):
+	    fJump(other.fJump ),
 		fSeed(other.fSeed),
 		fValMax(other.fValMax),
 		fVals(other.fVals)
@@ -236,13 +238,14 @@ struct RndFlag{
 	__hydra_host__ __hydra_device__
 	inline GBool_t operator()(size_t index)
 	{
-		GRND randEng(fSeed*2);
-		randEng.discard(index);
+		GRND randEng(fSeed);
+		randEng.discard(fJump+index);
 		hydra_thrust::uniform_real_distribution<T>  dist(0.0, fValMax);
 
-		return (fVals[index] > dist(randEng)) ;
+		return (dist(randEng) < fVals[index] ) ;
 	}
 
+	size_t  fJump;
 	size_t  fSeed;
 	T fValMax;
 	Iterator fVals;
