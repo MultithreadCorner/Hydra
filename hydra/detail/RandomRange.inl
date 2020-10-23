@@ -35,7 +35,7 @@
 #include <hydra/detail/functors/RandomUtils.h>
 #include <hydra/detail/external/hydra_thrust/iterator/constant_iterator.h>
 #include <hydra/detail/external/hydra_thrust/iterator/transform_iterator.h>
-#include <hydra/detail/DistributionSampler.h>
+#include <hydra/detail/functors/DistributionSampler.h>
 #include <hydra/detail/PRNGTypedefs.h>
 
 namespace hydra {

@@ -53,7 +53,7 @@ namespace hydra{
     typename hydra_thrust::iterator_traits<Iterator>::value_type
     >::value, void>::type
     fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-                Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed)
+                Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed, size_t rng_jump)
     {
         using hydra_thrust::system::detail::generic::select_system;
         typedef typename hydra_thrust::iterator_system<Iterator>::type system_t;
@@ -64,7 +64,7 @@ namespace hydra{
         typedef  typename hydra_thrust::detail::remove_reference<
                     decltype(select_system( system, _policy ))>::type common_system_type;
  
-        hydra_thrust::tabulate( common_system_type(), begin, end, detail::Sampler<FUNCTOR,Engine>(functor, seed) );
+        hydra_thrust::tabulate( common_system_type(), begin, end, detail::Sampler<FUNCTOR,Engine>(functor, seed, rng_jump) );
 
     }
 
@@ -79,13 +79,13 @@ namespace hydra{
     decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
     typename hydra_thrust::iterator_traits<Iterator>::value_type
     >::value, void>::type
-    fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed)
+    fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed, size_t rng_jump)
     {
         using hydra_thrust::system::detail::generic::select_system;
         typedef typename hydra_thrust::iterator_system<Iterator>::type system_t;
         system_t system;
 
-        hydra_thrust::tabulate(select_system(system), begin, end, detail::Sampler<FUNCTOR,Engine>(functor, seed) );
+        hydra_thrust::tabulate(select_system(system), begin, end, detail::Sampler<FUNCTOR,Engine>(functor, seed, rng_jump) );
     }
 
     /**
@@ -99,10 +99,10 @@ namespace hydra{
     decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
     >::value, void>::type
     fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-                Iterable&& iterable, FUNCTOR const& functor, size_t seed){
+                Iterable&& iterable, FUNCTOR const& functor, size_t seed, size_t rng_jump){
 
         fill_random(policy, std::forward<Iterable>(iterable).begin(),
-                    std::forward<Iterable>(iterable).end(), functor, seed);
+                    std::forward<Iterable>(iterable).end(), functor, seed, rng_jump);
 
     }
 
@@ -115,10 +115,10 @@ namespace hydra{
     typename std::enable_if< hydra::detail::is_iterable<Iterable>::value && std::is_convertible<
     decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
     >::value, void>::type
-    fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed){
+    fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed, size_t rng_jump){
 
         fill_random(std::forward<Iterable>(iterable).begin(),
-                    std::forward<Iterable>(iterable).end(), functor, seed);
+                    std::forward<Iterable>(iterable).end(), functor, seed, rng_jump);
 
     }
 
@@ -128,7 +128,7 @@ namespace hydra{
     template< typename Engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
     typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
     fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-                Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed)
+                Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed, size_t rng_jump)
     {
 
         HYDRA_STATIC_ASSERT( int(std::is_class<Engine>::value) ==-1 ,
@@ -143,7 +143,7 @@ namespace hydra{
      */
     template< typename Engine, typename Iterator, typename FUNCTOR >
     typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
-    fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed)
+    fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed, size_t rng_jump)
     {
 
         HYDRA_STATIC_ASSERT( int(std::is_class<Engine>::value) ==-1 ,
@@ -162,7 +162,7 @@ namespace hydra{
     typename std::iterator_traits<Iterator>::value_type
     >::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
     fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-                Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed)
+                Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed, size_t rng_jump)
     {
         HYDRA_STATIC_ASSERT( int(std::is_class<Engine>::value) ==-1 ,
                 " Generated objects can't be stored in this container. " )
@@ -176,7 +176,7 @@ namespace hydra{
     decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
     typename std::iterator_traits<Iterator>::value_type
     >::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
-    fill_random(Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed)
+    fill_random(Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed, size_t rng_jump)
     {
         HYDRA_STATIC_ASSERT( int(std::is_class<Engine>::value) ==-1 ,
                 " Generated objects can't be stored in this container. " )
@@ -190,7 +190,7 @@ namespace hydra{
     decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
     >::value, void>::type
     fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-                Iterable&& iterable, FUNCTOR const& functor, size_t seed)
+                Iterable&& iterable, FUNCTOR const& functor, size_t seed, size_t rng_jump)
     {
         HYDRA_STATIC_ASSERT( int(std::is_class<Engine>::value) ==-1 ,
                 " Generated objects can't be stored in this container. \n"
@@ -205,7 +205,7 @@ namespace hydra{
     typename std::enable_if< !hydra::detail::is_iterable<Iterable>::value || !std::is_convertible<
     decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
     >::value, void>::type
-    fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed)
+    fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed, size_t rng_jump)
     {
         HYDRA_STATIC_ASSERT( int(std::is_class<Engine>::value) ==-1 ,
                 " Generated objects can't be stored in this container. \n"
