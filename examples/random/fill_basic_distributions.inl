@@ -164,11 +164,11 @@ int main(int argv, char** argc)
     
     hydra::fill_random(data_d , gauss);
     
-    /*
+
     std::cout << std::endl<< "Generated data:"<< std::endl;
     for(size_t i=0; i<10; ++i) 
         std::cout << "[" << i << "] :" << data_d[i] << std::endl;
-*/
+
 
 #ifdef _ROOT_AVAILABLE_
 
@@ -198,7 +198,7 @@ int main(int argv, char** argc)
     // filling the container in the device
     // and copy back to the host also for the 
     // other functors
-/*
+
     hydra::fill_random(data_d , lognormal);
     hydra::copy(data_d , data_h);
     for(auto x : data_h) hist_lognormal.Fill( x );
@@ -234,7 +234,7 @@ int main(int argv, char** argc)
     hydra::fill_random(data_d , trapezoid);
     hydra::copy(data_d , data_h);
     for(auto x : data_h) hist_trapezoid.Fill( x );
-    */
+
     
 
     TApplication *myapp=new TApplication("myapp",0,0);
