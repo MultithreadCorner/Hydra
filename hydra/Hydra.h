@@ -67,7 +67,7 @@
  *  \brief The preprocessor macro \p HYDRA_PATCH_NUMBER encodes the
  *         patch number of the Hydra library.
  */
-#define HYDRA_PATCH_NUMBER  0
+#define HYDRA_PATCH_NUMBER  1
 
 
 
