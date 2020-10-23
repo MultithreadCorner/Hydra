@@ -48,7 +48,7 @@
  *         <tt>HYDRA_VERSION / 100 % 1000</tt> is the feature version.
  *         <tt>HYDRA_VERSION / 100000</tt> is the major version.
  */
-#define HYDRA_VERSION 300202
+#define HYDRA_VERSION 300203
 
 
 /*! \def HYDRA_MAJOR_VERSION
@@ -67,7 +67,7 @@
  *  \brief The preprocessor macro \p HYDRA_PATCH_NUMBER encodes the
  *         patch number of the Hydra library.
  */
-#define HYDRA_PATCH_NUMBER  1
+#define HYDRA_PATCH_NUMBER  0
 
 
 
