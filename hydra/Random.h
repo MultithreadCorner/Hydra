@@ -113,7 +113,10 @@ struct is_callable: std::conditional<
  * @param data_begin iterator pointing to the begin of the range of weights
  * @param data_end iterator pointing to the begin of the range of weights
  * @param weights_begin iterator pointing to the begin of the range of data
- * @return
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
+ * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename DerivedPolicy, typename IteratorData, typename IteratorWeight>
 typename std::enable_if<
@@ -134,7 +137,10 @@ unweight( hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& pol
  * @param data_begin iterator pointing to the begin of the range of weights
  * @param data_end iterator pointing to the begin of the range of weights
  * @param weights_begin iterator pointing to the begin of the range of data
- * @return
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
+ * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename IteratorData, typename IteratorWeight, hydra::detail::Backend  BACKEND>
 typename std::enable_if<
@@ -153,7 +159,10 @@ unweight( detail::BackendPolicy<BACKEND> const& policy, IteratorData data_begin,
  * @param data_begin iterator pointing to the begin of the range of weights
  * @param data_end iterator pointing to the begin of the range of weights
  * @param weights_begin iterator pointing to the begin of the range of data
- * @return
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
+ * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename IteratorData, typename IteratorWeight>
 typename std::enable_if<
@@ -173,7 +182,10 @@ unweight(IteratorData data_begin, IteratorData data_end , IteratorData weights_b
  * @param policy parallel backend to perform the unweighting
  * @param weights the range of weights
  * @param data the range corresponding dataset
- * @return
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
+ * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename IterableData, typename IterableWeight, hydra::detail::Backend BACKEND>
 typename std::enable_if<
@@ -191,7 +203,10 @@ unweight( hydra::detail::BackendPolicy<BACKEND> const& policy,  IterableData&& d
  *
  * @param weights the range of weights
  * @param data the range corresponding dataset
- * @return
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
+ * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename IterableData, typename IterableWeight>
 typename std::enable_if<
@@ -211,7 +226,10 @@ unweight( IterableData data, IterableWeight weights,
  * @param begin
  * @param end
  * @param functor
- * @return the index of the last entry of the unweighted event.
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
+ * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterator, typename DerivedPolicy>
 typename std::enable_if<
@@ -232,7 +250,10 @@ unweight( hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& poli
  * @param begin
  * @param end
  * @param functor
- * @return the index of the last entry of the unweighted event.
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
+ * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND>
 typename std::enable_if<
@@ -250,7 +271,10 @@ unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, I
  * @param begin
  * @param end
  * @param functor
- * @return the index of the last entry of the unweighted event.
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
+ * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterator>
 typename std::enable_if<
@@ -267,6 +291,9 @@ unweight( Iterator begin, Iterator end, Functor const& functor,
  *
  * @param iterable
  * @param functor
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterable, hydra::detail::Backend  BACKEND>
@@ -285,6 +312,9 @@ unweight( hydra::detail::BackendPolicy<BACKEND> const& policy,
  *
  * @param iterable
  * @param functor
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterable>
@@ -303,6 +333,9 @@ unweight( Iterable&& iterable, Functor const& functor,
  * @param min lower limit of sampling region
  * @param max upper limit of sampling region.
  * @param functor distribution to be sampled
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  * @return range with the generated values
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND>
@@ -321,6 +354,9 @@ sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param min lower limit of sampling region
  * @param max upper limit of sampling region.
  * @param functor distribution to be sampled
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  * @return range with the generated values
  */
 template<typename RNG=default_random_engine, typename DerivedPolicy, typename Functor, typename Iterator>
@@ -338,6 +374,9 @@ sample(hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& policy,
  * @param min lower limit of sampling region
  * @param max upper limit of sampling region.
  * @param functor distribution to be sampled
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  * @return range with the generated values
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterator>
@@ -353,6 +392,9 @@ sample(Iterator begin, Iterator end , double min, double max,
  * @param min lower limit of sampling region
  * @param max upper limit of sampling region.
  * @param functor distribution to be sampled
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  * @return range with the generated values
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterable>
@@ -369,6 +411,9 @@ sample(Iterable&& output, double min, double max,
  * @param min array of lower limits of sampling region
  * @param max array of upper limits of sampling region.
  * @param functor distribution to be sampled
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  * @return range with the generated values
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterator, size_t N >
@@ -385,6 +430,9 @@ sample(Iterator begin, Iterator end , std::array<double,N>const& min, std::array
  * @param min tuple of lower limits of sampling region
  * @param max tuple of upper limits of sampling region.
  * @param functor distribution to be sampled
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  * @return range with the generated values
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterator>
@@ -404,6 +452,9 @@ sample(Iterator begin, Iterator end ,
  * @param end ending of the range storing the generated values
  * @param min array of lower limits of sampling region
  * @param max array of upper limits of sampling region.
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  * @param functor distribution to be sampled
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND, size_t N >
@@ -421,6 +472,9 @@ sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param end ending of the range storing the generated values
  * @param min array of lower limits of sampling region
  * @param max array of upper limits of sampling region.
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  * @param functor distribution to be sampled
  */
 template<typename RNG=default_random_engine, typename DerivedPolicy, typename Functor, typename Iterator, size_t N >
@@ -438,6 +492,9 @@ sample(hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& policy
  * @param min array of lower limits of sampling region
  * @param max array of upper limits of sampling region.
  * @param functor distribution to be sampled
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  * @return output range with the generated values
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterable, size_t N >
@@ -454,6 +511,9 @@ sample( Iterable&& output ,
  * @param min tuple of lower limits of sampling region
  * @param max tuple of upper limits of sampling region.
  * @param functor distribution to be sampled
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  * @return output range with the generated values
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterable>
@@ -474,6 +534,9 @@ sample( Iterable&& output ,
  * @param begin beginning of the range storing the generated values
  * @param end ending of the range storing the generated values
  * @param functor distribution to be sampled
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine,  hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
 typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::is_convertible<
@@ -490,6 +553,9 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param begin beginning of the range storing the generated values
  * @param end ending of the range storing the generated values
  * @param functor distribution to be sampled
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine =hydra::default_random_engine, typename Iterator, typename FUNCTOR >
 typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::is_convertible<
@@ -505,6 +571,9 @@ fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x
  * @param policy backend to perform the calculation.
  * @param iterable range storing the generated values
  * @param functor distribution to be sampled
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterable, typename FUNCTOR >
 typename std::enable_if< hydra::detail::is_iterable<Iterable>::value && std::is_convertible<
@@ -519,6 +588,9 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @brief Fill a range with numbers distributed according a user defined distribution.
  * @param iterable range storing the generated values
  * @param functor distribution to be sampled
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, typename Iterable, typename FUNCTOR >
 typename std::enable_if< hydra::detail::is_iterable<Iterable>::value && std::is_convertible<
@@ -534,6 +606,9 @@ fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf
  * @param begin beginning of the range storing the generated values
  * @param end ending of the range storing the generated values
  * @param functor distribution to be sampled
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
 typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
@@ -547,6 +622,9 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param begin beginning of the range storing the generated values
  * @param end ending of the range storing the generated values
  * @param functor distribution to be sampled
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, typename Iterator, typename FUNCTOR >
 typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
@@ -560,6 +638,9 @@ fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x
  * @param begin beginning of the range storing the generated values
  * @param end ending of the range storing the generated values
  * @param functor distribution to be sampled
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
 typename std::enable_if< !std::is_convertible<
@@ -576,6 +657,9 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param begin beginning of the range storing the generated values
  * @param end ending of the range storing the generated values
  * @param functor distribution to be sampled
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, typename Iterator, typename FUNCTOR >
 typename std::enable_if< !std::is_convertible<
@@ -591,6 +675,9 @@ fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x
  * @param policy backend to perform the calculation.
  * @param iterable range storing the generated values
  * @param functor distribution to be sampled
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterable, typename FUNCTOR >
 typename std::enable_if< !hydra::detail::is_iterable<Iterable>::value || !std::is_convertible<
@@ -605,6 +692,9 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @brief Fall back function if the argument is not an Iterable or if itis not convertible to the Functor return value
  * @param iterable range storing the generated values
  * @param functor distribution to be sampled
+ * @param max_pdf maximum pdf value for accept-reject method. If no value is set, the maximum value in the sample is used.
+ * @param rng_seed seed for the underlying pseudo-random number generator
+ * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, typename Iterable, typename FUNCTOR >
 typename std::enable_if< !hydra::detail::is_iterable<Iterable>::value || !std::is_convertible<
