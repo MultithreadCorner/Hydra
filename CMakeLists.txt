@@ -129,6 +129,15 @@ if(OPENMP_CXX_FOUND OR OPENMP_FOUND)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif(OPENMP_CXX_FOUND OR OPENMP_FOUND)
 
+#-----------------------
+#get TestU01
+set(TESTU01_ROOT "/usr")
+set(TESTU01_LINK_DIR "/usr/lib64")
+find_package(TestU01)
+if(TESTU01_FOUND)
+include_directories(${TESTU01_INCLUDE_DIRS})
+endif(TESTU01_FOUND)
+
 #generate API documentation with Doxygen
 #find_package(Doxygen)
 option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" NO)
@@ -214,13 +223,6 @@ enable_testing()
 
 add_custom_target(tests)
 add_subdirectory(testing)
-
-#add_dependencies(tests
-#Hydra_Test_Host_OMP_Device_CUDA
-#Hydra_Test_Host_CPP_Device_CUDA
-#Hydra_Test_Host_OMP_Device_OMP
-#Hydra_Test_Host_CPP_Device_OMP
-#)
 
 #+++++++++++++++++++++++++++
 #       DOXYGEN            +

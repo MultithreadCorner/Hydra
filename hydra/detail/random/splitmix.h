@@ -20,63 +20,52 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * hermite.h
+ * splitmix.h
  *
- *  Created on: 08/04/2018
+ *  Created on: Sep 28, 2020
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef HERMITE_H_
-#define HERMITE_H_
-
+#ifndef SPLITMIX_H_
+#define SPLITMIX_H_
 
 #include <hydra/detail/Config.h>
-#include <hydra/Types.h>
-#include <hydra/Function.h>
-#include <hydra/detail/utility/CheckValue.h>
-#include <hydra/Tuple.h>
-#include <tuple>
-#include <limits>
-#include <stdexcept>
-#include <assert.h>
-#include <utility>
-#include <cmath>
+#include <hydra/detail/random/detail/squares_key.h>
+#include <stdint.h>
 
 namespace hydra {
 
+namespace random {
+
+template<typename UIntType>
 __hydra_host__ __hydra_device__
-inline double hermite(unsigned n, const double x){
+inline UIntType splitmix( UIntType& );
 
-	switch(n) {
 
-	case 0:
-
-		return 1.0;
-
-	case 1:
-
-		return 2*x;
-
-	default:
-
-		double LL = 1.0;
-		double LM = 2*x;
-		double LN = static_cast<double>(0.0);
-
-		for(unsigned m=2; m<=n; m++){
-
-			LN = 2*x*LM - 2*static_cast<double>(m-1)*LL;
-			LL = LM;    LM = LN;
-		}
-
-		return LN;
-	}
-
+template<>
+__hydra_host__ __hydra_device__
+inline uint32_t splitmix<uint32_t>(uint32_t& x) {
+	uint32_t z = (x += 0x6D2B79F5UL);
+	z = (z ^ (z >> 15)) * (z | 1UL);
+	z ^= z + (z ^ (z >> 7)) * (z | 61UL);
+	return z ^ (z >> 14);
 }
+
+template<>
+__hydra_host__ __hydra_device__
+inline uint64_t  splitmix<uint64_t>(uint64_t& x){
+	uint64_t z = (x += 0x9e3779b97f4a7c15);
+	z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;
+	z = (z ^ (z >> 27)) * 0x94d049bb133111eb;
+	return z ^ (z >> 31);
+}
+
+
+}  // namespace random
 
 }  // namespace hydra
 
 
 
 
-#endif /* HERMITE_H_ */
+#endif /* SPLITMIX_H_ */

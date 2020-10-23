@@ -32,9 +32,12 @@
 #include <hydra/detail/Config.h>
 
 #include <hydra/detail/external/hydra_thrust/random.h>
+/*
 #include <hydra/detail/random/philox.h>
 #include <hydra/detail/random/threefry.h>
 #include <hydra/detail/random/ars.h>
+*/
+#include <hydra/detail/random/EngineR123.h>
 #include <hydra/detail/random/squares3.h>
 #include <hydra/detail/random/squares4.h>
 
@@ -47,7 +50,7 @@ namespace hydra {
  *        in a future version.
  */
 
-typedef  hydra::random::squares3 default_random_engine;
+//typedef  hydra::random::squares3 default_random_engine;
 
 //typedef hydra_thrust::random::default_random_engine default_random_engine;
 //typedef hydra::random::philox default_random_engine;
@@ -102,15 +105,28 @@ typedef hydra_thrust::random::taus88 	taus88;
 /*! \typedef philox
  *  \brief The Philox family of counter-based RNGs use integer multiplication, xor and permutation of W-bit words
  *         to scramble its N-word input key.  Philox is a mnemonic for Product HI LO Xor).
- *
+ *         This generator has a period of 2^128
  */
 typedef hydra::random::philox philox;
 
+/*! \typedef philox
+ *  \brief The Philox family of counter-based RNGs use integer multiplication, xor and permutation of W-bit words
+ *         to scramble its N-word input key.  Philox is a mnemonic for Product HI LO Xor).
+ *         This generator has a period of 2^256
+ */
+typedef hydra::random::philox_long philox_long;
+
 /*! \typedef threefry
  *  \brief Threefry uses integer addition, bitwise rotation, xor and permutation of words to randomize its output.
- *
+ *   This generator has a period of 2^128
  */
 typedef hydra::random::threefry threefry;
+
+/*! \typedef threefry_long
+ *  \brief Threefry uses integer addition, bitwise rotation, xor and permutation of words to randomize its output.
+ *  This generator has a period of 2^256
+ */
+typedef hydra::random::threefry_long threefry_long;
 
 /*! \typedef ars
  *  \brief Ars uses the crypotgraphic AES round function, but a @b non-cryptographc key schedule

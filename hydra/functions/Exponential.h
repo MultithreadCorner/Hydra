@@ -82,7 +82,7 @@ public:
 	__hydra_host__ __hydra_device__
 	inline double Evaluate(ArgType x)  const	{
 
-		return  CHECK_VALUE(::exp(x*_par[0] ),"par[0]=%f ", _par[0] ) ;
+		return  CHECK_VALUE(::exp(-x*_par[0] ),"par[0]=%f ", _par[0] ) ;
 	}
 
 
@@ -99,7 +99,7 @@ protected:
 	EvalFormula( Exponential<ArgType>const& functor, double LowerLimit, double UpperLimit )const
 	{
 		double tau = functor[0];
-		double r   =  (::exp(UpperLimit*tau) - ::exp(LowerLimit*tau))/tau ;
+		double r   =  -(::exp(-UpperLimit*tau) - ::exp(-LowerLimit*tau))/tau ;
 		return std::make_pair( CHECK_VALUE(r, "par[0]=%f ", tau ) , 0.0);
 
 	}

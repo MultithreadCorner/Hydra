@@ -50,6 +50,78 @@
 namespace hydra {
 
 /**
+ * Bessel function of first kind and order 0
+ */
+__hydra_host__ __hydra_device__
+inline double bessel_j0( const double x );
+
+/**
+ * Bessel function of first kind and order 1
+ */
+__hydra_host__ __hydra_device__
+inline double bessel_j1( const double x );
+
+/**
+ * Bessel function of first kind and order n
+ */
+__hydra_host__ __hydra_device__
+inline double bessel_j(  const int n, const double x );
+
+/**
+ * Bessel function of second kind and order 0
+ */
+__hydra_host__ __hydra_device__
+inline  double bessel_y0(const double x );
+
+/**
+ * Bessel function of second kind and order 1
+ */
+__hydra_host__ __hydra_device__
+inline  double bessel_y1( const double x );
+
+/**
+ *  Bessel function of second kind and order n
+ */
+__hydra_host__ __hydra_device__
+inline  double bessel_y( const int n, const double x );
+
+/**
+ * Modified Bessel function of first kind and order 0
+ */
+__hydra_host__ __hydra_device__
+inline  double bessel_i0( const double x );
+
+/**
+ *  Modified Bessel function of first kind and order 1
+ */
+__hydra_host__ __hydra_device__
+inline  double bessel_i1( const double x);
+
+/**
+ * Modified Bessel function of first kind and order n
+ */
+__hydra_host__ __hydra_device__
+inline  double bessel_i( const int n, const double x);
+
+/**
+ * Modified Bessel function of second kind and order 0
+ */
+__hydra_host__ __hydra_device__
+inline  double bessel_k0( const double x );
+
+/**
+ * Modified Bessel function of second kind and order 1
+ */
+__hydra_host__ __hydra_device__
+inline  double bessel_k1( const double x );
+
+/**
+ * Modified Bessel function of second kind and order n
+ */
+__hydra_host__ __hydra_device__
+inline  double bessel_k( const int n, const double x );
+
+/**
  * Implementation of Legendre polynomials \f$ P_n(n) \f$ using the recursive relation
  *
  * \f[ (n+1)P_{n+1}(x) = (2n+1)xP_{n}(x) - nP_{n-1}(x) \f]
@@ -58,9 +130,8 @@ namespace hydra {
  * @param x argument
  * @return
  */
-template<typename T>
 __hydra_host__ __hydra_device__
-inline T legendre(unsigned n, const T x);
+inline double legendre(unsigned n, const double x);
 
 /**
  * Implementation of Laguerre polynomials \f$ P_n(n) \f$ using the recursive relation
@@ -71,9 +142,8 @@ inline T legendre(unsigned n, const T x);
  * @param x argument
  * @return
  */
-template<typename T>
 __hydra_host__ __hydra_device__
-inline T laguerre(unsigned n, const T x);
+inline double laguerre(unsigned n, const double x);
 
 /**
  * Implementation of Chebychev polynomials of first kind \f$ P_n(n) \f$ using the recursive relation
@@ -84,9 +154,8 @@ inline T laguerre(unsigned n, const T x);
  * @param x argument
  * @return
  */
-template<typename T>
 __hydra_host__ __hydra_device__
-inline T chebychev_1st_kind(unsigned n, const T x);
+inline double chebychev_1st_kind(unsigned n, const double x);
 
 /**
  * Implementation of Chebychev polynomials of second kind \f$ P_n(n) \f$ using the recursive relation
@@ -97,9 +166,8 @@ inline T chebychev_1st_kind(unsigned n, const T x);
  * @param x argument
  * @return
  */
-template<typename T>
 __hydra_host__ __hydra_device__
-inline T chebychev_2nd_kind(unsigned n, const T x);
+inline double chebychev_2nd_kind(unsigned n, const double x);
 
 /**
  * Implementation of Hermite polynomials \f$ P_n(n) \f$ using the recursive relation
@@ -110,9 +178,8 @@ inline T chebychev_2nd_kind(unsigned n, const T x);
  * @param x argument
  * @return
  */
-template<typename T>
 __hydra_host__ __hydra_device__
-inline T hermite(unsigned n, const T x);
+inline double hermite(unsigned n, const double x);
 
 /**
  * Recurrence relation|recurrence relation]] for the Jacobi polynomials of fixed ''α'',''β'' is:<ref name=sz/>
@@ -124,18 +191,19 @@ inline T hermite(unsigned n, const T x);
 
 for ''n'' = 2, 3, ....
  */
-template<typename T>
 __hydra_host__ __hydra_device__
-inline T jacobi(double a, double b, unsigned n, const T x);
+inline double jacobi(double a, double b, unsigned n, const double x);
 
 
-template<typename T>
 __hydra_host__ __hydra_device__
-inline T wigner_d_matrix(unsigned j, unsigned m, unsigned n, const T theta);
+inline double wigner_d_matrix(unsigned j, unsigned m, unsigned n, const double theta);
+
+
 
 
 }  // namespace hydra
 
+#include "hydra/functions/detail/bessel.h"
 #include "hydra/functions/detail/hermite.h"
 #include "hydra/functions/detail/legendre.h"
 #include "hydra/functions/detail/laguerre.h"

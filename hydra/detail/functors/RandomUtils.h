@@ -220,7 +220,8 @@ template<typename T, typename Iterator,typename GRND>
 struct RndFlag{
 
 
-	RndFlag(const size_t seed, const T max_value, Iterator values ):
+	RndFlag(const size_t seed, const size_t jump, const T max_value, Iterator values ):
+		fJump(jump ),
 		fSeed(seed),
 		fValMax(max_value),
 		fVals(values)
@@ -228,6 +229,7 @@ struct RndFlag{
 
 	__hydra_host__ __hydra_device__
 	RndFlag(RndFlag<T,Iterator, GRND> const& other):
+	    fJump(other.fJump ),
 		fSeed(other.fSeed),
 		fValMax(other.fValMax),
 		fVals(other.fVals)
@@ -236,13 +238,14 @@ struct RndFlag{
 	__hydra_host__ __hydra_device__
 	inline GBool_t operator()(size_t index)
 	{
-		GRND randEng(fSeed*2);
-		randEng.discard(index);
+		GRND randEng(fSeed);
+		randEng.discard(fJump+index);
 		hydra_thrust::uniform_real_distribution<T>  dist(0.0, fValMax);
 
-		return (fVals[index] > dist(randEng)) ;
+		return (dist(randEng) < fVals[index] ) ;
 	}
 
+	size_t  fJump;
 	size_t  fSeed;
 	T fValMax;
 	Iterator fVals;
@@ -252,11 +255,12 @@ struct RndFlag{
 template<typename T,typename GRND, typename FUNCTOR, size_t N>
 struct RndTrial{
 
-	RndTrial(size_t seed, FUNCTOR const& functor,
+	RndTrial(size_t seed, const size_t jump, FUNCTOR const& functor,
 			std::array<T,N>const& min,
 			std::array<T,N>const& max):
 				fFunctor(functor),
-				fSeed(seed)
+				fSeed(seed),
+				fJump(jump)
 	{
 		for(size_t i=0; i<N; i++){
 			fMin[i] = min[i];
@@ -267,7 +271,8 @@ struct RndTrial{
 	__hydra_host__ __hydra_device__
 	RndTrial(RndTrial<T, GRND,FUNCTOR, N> const& other):
 		fFunctor(other.fFunctor),
-		fSeed(other.fSeed)
+		fSeed(other.fSeed),
+		fJump(other.fJump)
 	{
 		for(size_t i=0; i<N; i++){
 			fMin[i] = other.fMin[i];
@@ -284,7 +289,7 @@ struct RndTrial{
 		//detail::set_ptrs_to_tuple(t, &x[0]);
 
 		GRND randEng(fSeed);
-		randEng.discard(index);
+		randEng.discard(index+fJump);
 
 		for (size_t j = 0; j < N; j++)
 		{
@@ -299,6 +304,7 @@ struct RndTrial{
 
 	FUNCTOR fFunctor;
 	size_t  fSeed;
+	size_t  fJump;
 	T fMin[N];
 	T fMax[N];
 };
@@ -307,9 +313,10 @@ struct RndTrial{
 template<typename T,typename GRND, typename FUNCTOR>
 struct RndTrial<T,GRND, FUNCTOR, 1>{
 
-	RndTrial(size_t seed, FUNCTOR const& functor, GReal_t min, GReal_t max):
+	RndTrial(size_t seed, const size_t jump, FUNCTOR const& functor, GReal_t min, GReal_t max):
 		fFunctor(functor),
 		fSeed(seed),
+		fJump(jump),
 		fMin(min),
 		fMax(max)
 	{}
@@ -318,6 +325,7 @@ struct RndTrial<T,GRND, FUNCTOR, 1>{
 	RndTrial(RndTrial<T, GRND,FUNCTOR, 1> const& other):
 		fFunctor(other.fFunctor),
 		fSeed(other.fSeed),
+		fJump(other.fJump),
 		fMin(other.fMin),
 		fMax(other.fMax)
 	{}
@@ -328,7 +336,7 @@ struct RndTrial<T,GRND, FUNCTOR, 1>{
 	{
 
 		GRND randEng(fSeed);
-		randEng.discard(index);
+		randEng.discard(index+fJump);
     	hydra_thrust::uniform_real_distribution<T>  dist(fMin, fMax);
 		t = dist(randEng);
         //std::cout<< fFunctor(t) << std::endl;
@@ -337,6 +345,7 @@ struct RndTrial<T,GRND, FUNCTOR, 1>{
 
 	FUNCTOR fFunctor;
 	size_t  fSeed;
+	size_t  fJump;
 	GReal_t fMin;
 	GReal_t fMax;
 };

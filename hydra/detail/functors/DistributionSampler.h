@@ -46,15 +46,17 @@ struct Sampler
 
 	Sampler()=delete;
 
-	Sampler(Functor const& functor, size_t seed) :
+	Sampler(Functor const& functor, const size_t seed, const size_t jump) :
 		fFunctor(functor),
-		fSeed(seed)
+		fSeed(seed),
+		fJump(jump )
 	{}
 
 	__hydra_host__  __hydra_device__
 	Sampler(Sampler<Functor, Engine> const& other) :
 	fFunctor(other.fFunctor),
-	fSeed(other.fSeed)
+	fSeed(other.fSeed),
+	 fJump(other.fJump )
 	{}
 
 	__hydra_host__  __hydra_device__
@@ -65,6 +67,7 @@ struct Sampler
 
 		fFunctor = other.fFunctor;
 		fSeed    = other.fSeed;
+		fJump     = other.fJump ;
 
 		 return *this;
 	}
@@ -75,7 +78,7 @@ struct Sampler
 		Engine rng(fSeed) ;
 
 		auto distribution = hydra::Distribution<Functor>();
-		distribution.SetState(rng, fFunctor, index);
+		distribution.SetState(rng, fFunctor, index+fJump);
 
 		return distribution(rng, fFunctor);
 
@@ -85,6 +88,7 @@ private:
 
 	Functor fFunctor;
 	size_t fSeed;
+	size_t  fJump;
 };
 
 }  // namespace detail

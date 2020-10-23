@@ -47,7 +47,7 @@
 #include <hydra/device/System.h>
 #include <hydra/Parameter.h>
 #include <hydra/Random.h>
-#include <hydra/detail/Copy.inl>
+#include <hydra/Algorithm.h>
 
 
 //hydra functions

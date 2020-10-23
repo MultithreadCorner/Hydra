@@ -20,63 +20,51 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * hermite.h
+ * threefry_practrand.cpp
  *
- *  Created on: 08/04/2018
+ *  Created on: 07/10/2020
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef HERMITE_H_
-#define HERMITE_H_
+#include <cstdio>
+#include <cstdint>
 
+//hydra
+#include <hydra/Random.h>
 
-#include <hydra/detail/Config.h>
-#include <hydra/Types.h>
-#include <hydra/Function.h>
-#include <hydra/detail/utility/CheckValue.h>
-#include <hydra/Tuple.h>
-#include <tuple>
-#include <limits>
-#include <stdexcept>
-#include <assert.h>
-#include <utility>
-#include <cmath>
+//command line
+#define TCLAP_SETBASE_ZERO 1
+#include <tclap/CmdLine.h>
 
-namespace hydra {
+//set a global seed
+static const uint64_t default_seed= 0x548c9decbce65295  ;
 
-__hydra_host__ __hydra_device__
-inline double hermite(unsigned n, const double x){
+int main(int argv, char** argc)
+{
+	uint64_t seed = default_seed;
 
-	switch(n) {
+	try {
 
-	case 0:
+		TCLAP::CmdLine cmd("Command line arguments for ", '=');
 
-		return 1.0;
+		TCLAP::ValueArg<uint64_t> SeedArg("s", "seed","RNG seed.", false, default_seed, "uint64_t");
+		cmd.add(SeedArg);
 
-	case 1:
+		// Parse the argv array.
+		cmd.parse(argv, argc);
 
-		return 2*x;
+		// Get the value parsed by each arg.
+		seed    = SeedArg.getValue();
 
-	default:
-
-		double LL = 1.0;
-		double LM = 2*x;
-		double LN = static_cast<double>(0.0);
-
-		for(unsigned m=2; m<=n; m++){
-
-			LN = 2*x*LM - 2*static_cast<double>(m-1)*LL;
-			LL = LM;    LM = LN;
-		}
-
-		return LN;
+	}
+	catch (TCLAP::ArgException &e)  {
+		std::cerr << "error: " << e.error() << " for arg " << e.argId()	<< std::endl;
 	}
 
+	hydra::threefry RNG(seed);
+
+	while (1) {
+		uint64_t value = RNG();
+		fwrite((void*) &value, sizeof(value), 1, stdout);
+	}
 }
-
-}  // namespace hydra
-
-
-
-
-#endif /* HERMITE_H_ */

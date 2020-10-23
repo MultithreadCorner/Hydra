@@ -44,9 +44,8 @@
 
 namespace hydra {
 
-template<typename T>
 __hydra_host__ __hydra_device__
-inline T chebychev_1st_kind(unsigned n, const T x){
+inline double chebychev_1st_kind(unsigned n, const double x){
 
 	switch(n) {
 
@@ -60,9 +59,9 @@ inline T chebychev_1st_kind(unsigned n, const T x){
 
 	default:
 
-		T LL = 1.0;
-		T LM = x;
-		T LN = static_cast<T>(0.0);
+		double LL = 1.0;
+		double LM = x;
+		double LN = static_cast<double>(0.0);
 
 		for(unsigned m=2; m<=n; m++){
 
@@ -75,9 +74,8 @@ inline T chebychev_1st_kind(unsigned n, const T x){
 
 }
 
-template<typename T>
 __hydra_host__ __hydra_device__
-inline T chebychev_2nd_kind(unsigned n, const T x){
+inline double chebychev_2nd_kind(unsigned n, const double x){
 
 	switch(n) {
 
@@ -91,9 +89,9 @@ inline T chebychev_2nd_kind(unsigned n, const T x){
 
 	default:
 
-		T LL = 1.0;
-		T LM = 2*x;
-		T LN = static_cast<T>(0.0);
+		double LL = 1.0;
+		double LM = 2*x;
+		double LN = static_cast<double>(0.0);
 
 		for(unsigned m=2; m<=n; m++){
 

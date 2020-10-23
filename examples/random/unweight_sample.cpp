@@ -20,63 +20,10 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * hermite.h
+ * unweight_sample.cpp
  *
- *  Created on: 08/04/2018
+ *  Created on: 21/10/2020
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef HERMITE_H_
-#define HERMITE_H_
-
-
-#include <hydra/detail/Config.h>
-#include <hydra/Types.h>
-#include <hydra/Function.h>
-#include <hydra/detail/utility/CheckValue.h>
-#include <hydra/Tuple.h>
-#include <tuple>
-#include <limits>
-#include <stdexcept>
-#include <assert.h>
-#include <utility>
-#include <cmath>
-
-namespace hydra {
-
-__hydra_host__ __hydra_device__
-inline double hermite(unsigned n, const double x){
-
-	switch(n) {
-
-	case 0:
-
-		return 1.0;
-
-	case 1:
-
-		return 2*x;
-
-	default:
-
-		double LL = 1.0;
-		double LM = 2*x;
-		double LN = static_cast<double>(0.0);
-
-		for(unsigned m=2; m<=n; m++){
-
-			LN = 2*x*LM - 2*static_cast<double>(m-1)*LL;
-			LL = LM;    LM = LN;
-		}
-
-		return LN;
-	}
-
-}
-
-}  // namespace hydra
-
-
-
-
-#endif /* HERMITE_H_ */
+#include <examples/random/unweight_sample.inl>
