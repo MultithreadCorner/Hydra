@@ -88,7 +88,6 @@ struct is_iterable: std::conditional<
 
 template<typename T>
 struct is_callable: std::conditional<
-
         (hydra::detail::is_hydra_composite_functor<T>::value ||
          hydra::detail::is_hydra_functor<T>::value ||
          hydra::detail::is_hydra_lambda<T>::value ) &&
@@ -97,6 +96,19 @@ struct is_callable: std::conditional<
          std::true_type,
          std::false_type >::type {};
 
+template< typename Engine, typename Functor, typename Iterable>
+struct is_matching_iterable: std::conditional<
+     hydra::detail::is_iterable<Iterable>::value &&
+    !hydra::detail::is_iterator<Iterable>::value &&
+    (hydra::detail::is_hydra_composite_functor<Functor>::value ||
+     hydra::detail::is_hydra_functor<Functor>::value ||
+     hydra::detail::is_hydra_lambda<Functor>::value  ) &&
+     hydra::detail::has_rng_formula<Functor>::value &&
+     std::is_convertible<
+    decltype(std::declval<RngFormula<Functor>>().Generate( std::declval<Engine&>(),  std::declval<Functor const&>())),
+    typename hydra_thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type>::value,
+    std::true_type,  std::false_type
+>::type{};
 }  // namespace random
 
 }  // namespace detail
@@ -576,9 +588,7 @@ fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterable, typename FUNCTOR >
-typename std::enable_if< hydra::detail::is_iterable<Iterable>::value && std::is_convertible<
-decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
->::value, void>::type
+typename std::enable_if< detail::random::is_matching_iterable<Engine, FUNCTOR, Iterable>::value, void>::type
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
             Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
@@ -593,9 +603,8 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, typename Iterable, typename FUNCTOR >
-typename std::enable_if< hydra::detail::is_iterable<Iterable>::value && std::is_convertible<
-decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
->::value, void>::type
+typename std::enable_if< detail::random::is_matching_iterable<Engine, FUNCTOR, Iterable>::value,
+void>::type
 fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
 /**
@@ -680,9 +689,7 @@ fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterable, typename FUNCTOR >
-typename std::enable_if< !hydra::detail::is_iterable<Iterable>::value || !std::is_convertible<
-decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
->::value, void>::type
+typename std::enable_if< !(detail::random::is_matching_iterable<Engine, FUNCTOR, Iterable>::value), void>::type
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
             Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
@@ -697,9 +704,7 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, typename Iterable, typename FUNCTOR >
-typename std::enable_if< !hydra::detail::is_iterable<Iterable>::value || !std::is_convertible<
-decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
->::value, void>::type
+typename std::enable_if<!(detail::random::is_matching_iterable<Engine, FUNCTOR, Iterable>::value),void>::type
 fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
 
