@@ -4,7 +4,12 @@
 
 This release:
 
-1) 
+1) Adding more counter based PRNGs, with periods of 2^64, 2^128 and 2^256.  
+2) TestU01 and PracRand wrappers for testing counter based random numbers generators.
+3) Improvement of interfaces for sampling, unweighting and container filling, namely: `hydra::sample`, `hydra::unweight` and `hydra::random_fill`. 
+Now it is possible to set a maximum probability value, seed and sequence offset for the underlying prng in these facilities. The new parameters are defaulted to resonable values, 
+so no code relying in the previous interface would get broken. 
+4) Many others minor improvements. 
 
 Bug fixes:
 

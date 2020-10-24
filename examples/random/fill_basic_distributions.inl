@@ -101,7 +101,7 @@ int main(int argv, char** argc)
     }
 
 
-    auto data_d = hydra::device::vector<double>(nentries);
+    auto data_d = hydra::device::vector<xvar>(nentries);
 
 
 
@@ -164,6 +164,7 @@ int main(int argv, char** argc)
     
     hydra::fill_random(data_d , gauss);
     
+
     std::cout << std::endl<< "Generated data:"<< std::endl;
     for(size_t i=0; i<10; ++i) 
         std::cout << "[" << i << "] :" << data_d[i] << std::endl;
@@ -186,7 +187,7 @@ int main(int argv, char** argc)
 
     // copying the values in the host and fill the ROOT histogram
     
-    auto data_h = hydra::host::vector<double>(nentries);
+    auto data_h = hydra::host::vector<xvar>(nentries);
     
     hydra::copy(data_d , data_h);
     
@@ -201,7 +202,7 @@ int main(int argv, char** argc)
     hydra::fill_random(data_d , lognormal);
     hydra::copy(data_d , data_h);
     for(auto x : data_h) hist_lognormal.Fill( x );
-    
+
     hydra::fill_random(data_d , bigauss);
     hydra::copy(data_d , data_h);
     for(auto x : data_h) hist_bigauss.Fill( x );
@@ -233,7 +234,7 @@ int main(int argv, char** argc)
     hydra::fill_random(data_d , trapezoid);
     hydra::copy(data_d , data_h);
     for(auto x : data_h) hist_trapezoid.Fill( x );
-    
+
     
 
     TApplication *myapp=new TApplication("myapp",0,0);

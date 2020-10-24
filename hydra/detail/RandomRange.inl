@@ -102,7 +102,7 @@ template<typename Engine=hydra::default_random_engine, typename Functor>
 Range< hydra_thrust::transform_iterator< detail::Sampler<Functor,Engine >,
 		 hydra_thrust::counting_iterator<size_t>,
 		 typename detail::Sampler<Functor,Engine>::value_type > >
-random_range( Functor const& functor,  size_t seed, size_t length=0 ) {
+random_range( Functor const& functor,  size_t seed=0x8ec74d321e6b5a27,  size_t length=0,size_t rng_jump=0) {
 
 	typedef hydra_thrust::counting_iterator<size_t> index_t;
 	typedef detail::Sampler<Functor,Engine>      sampler_t;
@@ -111,7 +111,7 @@ random_range( Functor const& functor,  size_t seed, size_t length=0 ) {
 	index_t first(0);
 	index_t last( length==0 ? std::numeric_limits<size_t>::max() : length);
 
-	auto sampler= detail::Sampler<Functor, Engine>(functor, seed);
+	auto sampler= detail::Sampler<Functor, Engine>(functor, seed, rng_jump);
 
 	return make_range(
 			 hydra_thrust::transform_iterator<sampler_t, index_t, value_t>(first, sampler),
