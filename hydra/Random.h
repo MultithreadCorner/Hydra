@@ -105,7 +105,7 @@ struct is_matching_iterable: std::conditional<
      hydra::detail::is_hydra_lambda<Functor>::value  ) &&
      hydra::detail::has_rng_formula<Functor>::value &&
      std::is_convertible<
-    decltype(std::declval<RngFormula<Functor>>().Generate( std::declval<Engine&>(),  std::declval<Functor const&>())),
+    decltype(std::declval<RngFormula<Functor>>().Generate( std::declval<Engine&>(), std::declval<Functor const&>())),
     typename hydra_thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type>::value,
     std::true_type,  std::false_type
 >::type{};
