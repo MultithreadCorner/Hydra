@@ -168,6 +168,18 @@ if(BUILD_CPP_TARGETS)
          
          #----------------------------       
           
+         message(STATUS "Adding target to CPP backend. Executable file name: hydra_squares3_practrand")
+         
+         add_executable(hydra_squares3_128bit_practrand squares3_128bit_practrand.cpp )
+            
+         set_target_properties( hydra_squares3_128bit_practrand  PROPERTIES COMPILE_FLAGS "-DHYDRA_HOST_SYSTEM=CPP -DHYDRA_DEVICE_SYSTEM=CPP")
+            
+         target_link_libraries( hydra_squares3_128bit_practrand -L/usr/lib64 ${TESTU01_LIBRARIES}  )
+         
+         add_dependencies(tests hydra_squares3_128bit_practrand)
+         
+         #----------------------------       
+          
          message(STATUS "Adding target to CPP backend. Executable file name: hydra_squares4_practrand")
          
          add_executable(hydra_squares4_practrand squares4_practrand.cpp )
@@ -238,6 +250,18 @@ if(BUILD_CPP_TARGETS)
          target_link_libraries( hydra_threefry_long_practrand -L/usr/lib64 ${TESTU01_LIBRARIES}  )
          
          add_dependencies(tests hydra_threefry_long_practrand)
+           
+         #----------------------------       
+          
+         message(STATUS "Adding target to CPP backend. Executable file name:  benchmark_cbprng")
+         
+         add_executable( benchmark_cbprng  benchmark_cbprng.cpp )
+            
+         set_target_properties( benchmark_cbprng  PROPERTIES COMPILE_FLAGS "-DHYDRA_HOST_SYSTEM=CPP -DHYDRA_DEVICE_SYSTEM=CPP")
+            
+         target_link_libraries( benchmark_cbprng -L/usr/lib64 ${TESTU01_LIBRARIES}  )
+         
+         add_dependencies(tests benchmark_cbprng )
          
          
  endif(BUILD_CPP_TARGETS)
