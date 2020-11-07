@@ -427,7 +427,7 @@ struct Parameter{
 
 private:
 
-	GChar_t const*  fName;
+	GChar_t const*  fName; //
 	GReal_t  fValue;
 	GReal_t  fError;
 	GReal_t  fLowerLim;

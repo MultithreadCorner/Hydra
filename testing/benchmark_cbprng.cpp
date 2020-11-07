@@ -35,19 +35,54 @@
 
 //hydra
 #include <hydra/Random.h>
+#include <random>
 
 //set a global seed
 static const uint64_t default_seed= 0x548c9decbce65295  ;
 
 TEST_CASE("Performance of Hydra's counter based PRNGs") {
 
+
 	hydra::squares3        RNG_squares3(default_seed);
 	hydra::squares4        RNG_squares4(default_seed);
-	hydra::squares3_128bit RNG_squares3_128bit(default_seed);
+	hydra::squares3_long   RNG_squares3_long(default_seed);
+	hydra::squares4_long   RNG_squares4_long(default_seed);
 	hydra::threefry        RNG_threefry(default_seed);
 	hydra::threefry_long   RNG_threefry_long(default_seed);
 	hydra::philox          RNG_philox(default_seed);
 	hydra::philox_long     RNG_philox_long(default_seed);
+	  std::mt19937         RNG_mt19937(default_seed );
+	  std::ranlux48        RNG_ranlux48(default_seed);
+
+	SECTION( "hydra::squares3_long: test sequence" )
+	{
+		hydra::squares3_long   RNG_squares3_long_1(default_seed);
+		RNG_squares3_long_1.discard(0);
+		hydra::squares3_long   RNG_squares3_long_2(default_seed);
+		RNG_squares3_long_2.discard( RNG_squares3_long_2.max);
+		std::cout<<"hydra::squares3_long output: counter | RNG(counter) | RNG (counter+2^64-1 )" << std::endl << std::endl ;
+		for(size_t n=0; n< 10; ++n){
+			auto x= RNG_squares3_long_1();
+			auto y= RNG_squares3_long_2();
+			std::cout<< n <<" | "<< std::hex << x <<" | " << y<< std::dec << std::endl ;
+	  		REQUIRE( x != y );
+		}
+	 }
+
+	SECTION( "hydra::squares4_long: test sequence" )
+	{
+		hydra::squares3_long   RNG_squares4_long_1(default_seed);
+		RNG_squares4_long_1.discard(0);
+		hydra::squares3_long   RNG_squares4_long_2(default_seed);
+		RNG_squares4_long_2.discard( RNG_squares4_long_2.max);
+		std::cout<<"hydra::squares3_long output: counter | RNG(counter) | RNG (counter+2^64-1 )" << std::endl << std::endl ;
+		for(size_t n=0; n< 10; ++n){
+			auto x= RNG_squares4_long_1();
+			auto y= RNG_squares4_long_2();
+			std::cout<< n <<" | "<< std::hex << x <<" | " << y<< std::dec << std::endl ;
+	  		REQUIRE( x != y );
+		}
+	 }
 
 	BENCHMARK("hydra::squares3") {
 		return RNG_squares3();
@@ -57,8 +92,12 @@ TEST_CASE("Performance of Hydra's counter based PRNGs") {
 		return RNG_squares4();
 	};
 
-	BENCHMARK("hydra::squares3_128bit") {
-		return RNG_squares3_128bit();
+	BENCHMARK("hydra::squares3_long") {
+		return RNG_squares3_long();
+	};
+
+	BENCHMARK("hydra::squares4_long") {
+		return RNG_squares4_long();
 	};
 
 	BENCHMARK("hydra::threefry") {
@@ -73,7 +112,16 @@ TEST_CASE("Performance of Hydra's counter based PRNGs") {
 		return RNG_philox();
 	};
 
-	BENCHMARK("RNG_philox_long") {
+	BENCHMARK("hydra::philox_long") {
 		return RNG_philox_long();
 	};
+
+	BENCHMARK("std::mt19937") {
+		return RNG_mt19937();
+	};
+
+	BENCHMARK("std::ranlux48") {
+		return RNG_ranlux48();
+	};
+
 }

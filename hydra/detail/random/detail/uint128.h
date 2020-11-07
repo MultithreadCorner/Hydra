@@ -65,6 +65,7 @@ using T_type = typename std::enable_if<std::is_integral<T>::value, T>::type;
 
 class uint128_t
 {
+
 	uint64_t lo;
 	uint64_t hi;
 
@@ -80,6 +81,13 @@ class uint128_t
 	}
 
 	__hydra_host__ __hydra_device__
+	uint128_t(uint64_t a, uint64_t b){
+
+		lo = a ;
+		hi = b;
+	}
+
+	__hydra_host__ __hydra_device__
 	uint128_t(uint128_t const& a){
 
 		lo = a.lo ;
@@ -87,13 +95,14 @@ class uint128_t
 	}
 
     template<typename T, typename=typename std::enable_if<std::is_integral<T>::value>::type>
-	explicit inline operator T() const {
+    __hydra_host__ __hydra_device__
+	inline __attribute__((always_inline))  operator T() const {
 
 		return T(lo);
 	}
 
 	__hydra_host__ __hydra_device__
-	uint128_t & operator=( uint128_t const& n){
+	inline uint128_t&  __attribute__((always_inline))  operator=( uint128_t const& n){
 
 		lo = n.lo;
 		hi = n.hi;
@@ -103,7 +112,7 @@ class uint128_t
 	template <typename T>
 	__hydra_host__ __hydra_device__
 	inline typename std::enable_if<std::is_integral<T>::value>::type&
-	operator=(T const& n){
+	 __attribute__((always_inline))  operator=(T const& n){
 
 		hi = 0;
 		lo = n;
@@ -118,7 +127,7 @@ class uint128_t
 	//
 	template <typename T>
 	__hydra_host__ __hydra_device__
-	inline detail::check_uint128_t<T> & operator+=(const T & a){
+	inline detail::check_uint128_t<T> &  __attribute__((always_inline)) operator+=(const T  a){
 
 		uint128_t b = (uint128_t) a;
 		hi += b.hi + ((lo + b.lo) < lo);
@@ -128,7 +137,7 @@ class uint128_t
 
 	template <typename T>
 	__hydra_host__ __hydra_device__
-	inline detail::check_uint128_t<T>& operator-=(const T & b){
+	inline detail::check_uint128_t<T>&  __attribute__((always_inline)) operator-=(const T  b){
 
 		uint128_t temp = (uint128_t)b;
 		if(lo < temp.lo) hi--;
@@ -138,7 +147,7 @@ class uint128_t
 
 	template <typename T>
 	__hydra_host__ __hydra_device__
-	inline detail::check_uint128_t<T>& operator*=( const T & b){
+	inline detail::check_uint128_t<T>&  __attribute__((always_inline)) operator*=( const T  b){
 
 		 *this = mul128(*this, b);
 		return *this;
@@ -146,50 +155,80 @@ class uint128_t
 
 	template <typename T>
 	__hydra_host__ __hydra_device__
-	inline detail::check_uint128_t<T>& operator/=( const T & b){
+	inline detail::check_uint128_t<T>& operator/=( const T  b){
 
 		 *this = divide_u128_to_u64(*this, (uint64_t)b);
 		return *this;
 	}
+
 	//
 	// increment
 	//
 	__hydra_host__ __hydra_device__
-	inline uint128_t  & operator++(){
+	inline uint128_t& __attribute__((always_inline)) operator++(){
 
 		return *this +=1;
 	}
 
 	__hydra_host__ __hydra_device__
-	inline uint128_t & operator--(){
+	inline uint128_t __attribute__((always_inline)) operator++(int){
+		uint128_t temp = *this;
+          *this +=1;
+		return temp;
+	}
+
+	__hydra_host__ __hydra_device__
+	inline uint128_t & __attribute__((always_inline)) operator--(){
 
 		return *this -=1;
 	}
 
+	__hydra_host__ __hydra_device__
+	inline uint128_t __attribute__((always_inline)) operator--(int){
+		uint128_t temp = *this;
+          *this -=1;
+		return temp;
+	}
 	//
 	// bitwise
 	//
+
 	template <typename T>
 	__hydra_host__ __hydra_device__
-	inline detail::check_uint128_t<T>& operator>>=(const T & b)
+	inline detail::check_uint128_t<T>& operator>>=(const T  b)
 	{
+		if(b==64){
+			lo = hi;
+			hi = 0;
+			return *this;
+		}
+
 		lo = (lo >> b) | (hi << (int)(b - 64));
 		(b < 64) ? hi >>= b : hi = 0;
+
 		return *this;
 	}
 
 	template <typename T>
 	__hydra_host__ __hydra_device__
-	inline detail::check_uint128_t<T>& operator<<=(const T & b){
+	inline detail::check_uint128_t<T>& operator<<=(const T  b){
 
-		hi = (hi << b) | (lo << (int)(b - 64));
-		(b < 64) ? lo <<= b : lo = 0;
+		if(b==64){
+
+			hi = lo;
+			lo = 0;
+			return *this;
+		}
+
+			hi = (hi << b) | (lo << (int)(b - 64));
+			(b < 64) ? lo <<= b : lo = 0;
+
 		return *this;
 	}
 
 	template <typename T>
 	__hydra_host__ __hydra_device__
-	detail::check_uint128_t<T>  & operator|=(const T & b){
+	inline detail::check_uint128_t<T>  & operator|=(const T  b){
 
 		*this = *this | b;
 		return *this;
@@ -197,14 +236,14 @@ class uint128_t
 
 	template <typename T>
 	__hydra_host__ __hydra_device__
-	detail::check_uint128_t<T>  & operator&=(const T & b){
+	inline detail::check_uint128_t<T>  & operator&=(const T  b){
 
 		*this = *this & b; return *this;
 	}
 
 	template <typename T>
 	__hydra_host__ __hydra_device__
-	detail::check_uint128_t<T>  & operator^=(const T & b){
+	inline detail::check_uint128_t<T>  & operator^=(const T  b){
 
 		*this = *this ^ b;
 		return *this;
@@ -215,84 +254,84 @@ class uint128_t
 	//-----------------------------
 	template <typename T>
 	__hydra_host__ __hydra_device__
-	friend inline detail::check_uint128_t<T> operator>>(uint128_t a, const T & b);
+	friend detail::check_uint128_t<T> operator>>(uint128_t a, const T  b);
 
 	template <typename T>
 	__hydra_host__ __hydra_device__
-	friend inline detail::check_uint128_t<T>  operator<<(uint128_t a, const T & b);
+	friend detail::check_uint128_t<T>  operator<<(uint128_t a, const T  b);
 
 	template <typename T>
 	__hydra_host__ __hydra_device__
-	friend detail::check_uint128_t<T> operator+(uint128_t a, const T & b);
+	friend detail::check_uint128_t<T>  operator+(uint128_t a, const T  b);
 
 	template <typename T>
 	__hydra_host__ __hydra_device__
-	friend detail::check_uint128_t<T>  operator-(uint128_t a, const T & b);
+	friend detail::check_uint128_t<T>  operator-(uint128_t a, const T  b);
 
 	template <typename T>
 	__hydra_host__ __hydra_device__
-	friend detail::check_uint128_t<T>  operator*(uint128_t a, const T & b);
+	friend detail::check_uint128_t<T>  operator*(uint128_t a, const T  b);
 
 	template <typename T>
 	__hydra_host__ __hydra_device__
-	friend T operator/(uint128_t x, const T & v);
+	friend T operator/(uint128_t x, const T  v);
 
 	template <typename T>
 	__hydra_host__ __hydra_device__
-	friend T operator%(uint128_t x, const T & v);
+	friend T operator%(uint128_t x, const T  v);
 
 	__hydra_host__ __hydra_device__
-	friend bool operator<(uint128_t const&  a, uint128_t const&  b);
+	friend bool operator<(uint128_t const  a, uint128_t const  b);
 
 	__hydra_host__ __hydra_device__
-	friend bool operator>(uint128_t const&  a, uint128_t const&  b);
+	friend bool operator>(uint128_t const  a, uint128_t const  b);
 
 	__hydra_host__ __hydra_device__
-	friend bool operator<=(uint128_t  const& a, uint128_t const&  b);
+	friend bool operator<=(uint128_t  const a, uint128_t const  b);
 
 	__hydra_host__ __hydra_device__
-	friend bool operator>=(uint128_t  const& a, uint128_t  const& b);
+	friend bool operator>=(uint128_t  const a, uint128_t  const b);
 
 	__hydra_host__ __hydra_device__
-	friend bool operator==(uint128_t  const& a, uint128_t const&  b);
+	friend bool operator==(uint128_t  const a, uint128_t const b);
 
 	__hydra_host__ __hydra_device__
-	friend bool operator!=(uint128_t  const& a, uint128_t  const& b);
-
-	template <typename T>
-	__hydra_host__ __hydra_device__
-	friend detail::check_uint128_t<T>  operator|(uint128_t a, const T & b);
+	friend bool operator!=(uint128_t  const a, uint128_t  const b);
 
 	template <typename T>
 	__hydra_host__ __hydra_device__
-	friend detail::check_uint128_t<T>  operator&(uint128_t a, const T & b);
+	friend detail::check_uint128_t<T>  operator|(uint128_t a, const T  b);
 
 	template <typename T>
 	__hydra_host__ __hydra_device__
-	friend detail::check_uint128_t<T>  operator^(uint128_t a, const T & b);
+	friend detail::check_uint128_t<T>  operator&(uint128_t a, const T  b);
+
+	template <typename T>
+	__hydra_host__ __hydra_device__
+	friend detail::check_uint128_t<T>  operator^(uint128_t a, const T  b);
 
 	__hydra_host__ __hydra_device__
 	friend uint128_t operator~(uint128_t a);
 
 	__hydra_host__ __hydra_device__
-	friend uint128_t min(uint128_t a, uint128_t b);
+	friend uint128_t min(uint128_t  const a, uint128_t  const b);
 
 	__hydra_host__ __hydra_device__
-	friend uint128_t max(uint128_t a, uint128_t b);
+	friend uint128_t max(uint128_t  const a, uint128_t const  b);
 
     // This just makes it more convenient to count leading zeros for uint128_t
 	__hydra_host__ __hydra_device__
-	friend inline uint64_t clz128(uint128_t  const& x);
+	friend uint64_t clz128(uint128_t  const x);
 
 	//  iostream
 	//------------------
-	friend inline std::ostream & operator<<(std::ostream & out, uint128_t x);
+	friend std::ostream & operator<<(std::ostream & out, uint128_t x);
 
 	//
 	// static members
 	//------------------------
 	__hydra_host__ __hydra_device__
-	static  bool is_less_than(uint128_t  const& a, uint128_t  const& b){
+	static  inline bool is_less_than(uint128_t  const& a, uint128_t  const& b){
 
 		if(a.hi < b.hi) return 1;
 		if(a.hi > b.hi) return 0;
@@ -301,7 +340,7 @@ class uint128_t
 	}
 
 	__hydra_host__ __hydra_device__
-	static  bool is_less_than_or_equal(uint128_t  const& a, uint128_t const&  b){
+	static  inline bool is_less_than_or_equal(uint128_t  const& a, uint128_t const&  b){
 
 		if(a.hi < b.hi) return 1;
 		if(a.hi > b.hi) return 0;
@@ -310,7 +349,7 @@ class uint128_t
 	}
 
 	__hydra_host__ __hydra_device__
-	static  bool is_greater_than(uint128_t  const& a, uint128_t  const& b){
+	static  inline bool is_greater_than(uint128_t  const& a, uint128_t  const& b){
 
 		if(a.hi < b.hi) return 0;
 		if(a.hi > b.hi) return 1;
@@ -319,7 +358,7 @@ class uint128_t
 	}
 
 	__hydra_host__ __hydra_device__
-	static  bool is_greater_than_or_equal(uint128_t  const& a, uint128_t  const& b)
+	static  inline bool is_greater_than_or_equal(uint128_t  const& a, uint128_t  const& b)
 	{
 		if(a.hi < b.hi) return 0;
 		if(a.hi > b.hi) return 1;
@@ -328,14 +367,14 @@ class uint128_t
 	}
 
 	__hydra_host__ __hydra_device__
-	static  bool is_equal_to(uint128_t  const& a, uint128_t  const& b)
+	static  inline bool is_equal_to(uint128_t  const& a, uint128_t  const& b)
 	{
 		if(a.lo == b.lo && a.hi == b.hi) return 1;
 		else return 0;
 	}
 
 	__hydra_host__ __hydra_device__
-	static  bool is_not_equal_to(uint128_t  const& a, uint128_t  const& b)
+	static inline  bool is_not_equal_to(uint128_t  const& a, uint128_t  const& b)
 	{
 		if(a.lo != b.lo || a.hi != b.hi) return 1;
 		else return 0;
@@ -367,7 +406,7 @@ class uint128_t
 
 
 	__hydra_host__ __hydra_device__
-	static  uint128_t bitwise_or(uint128_t a, uint128_t const&  b)
+	static  inline uint128_t bitwise_or(uint128_t a, uint128_t const&  b)
 	{
 		a.lo |= b.lo;
 		a.hi |= b.hi;
@@ -375,7 +414,7 @@ class uint128_t
 	}
 
 	__hydra_host__ __hydra_device__
-	static  uint128_t bitwise_and(uint128_t a, uint128_t  const& b)
+	static inline  uint128_t bitwise_and(uint128_t a, uint128_t  const& b)
 	{
 		a.lo &= b.lo;
 		a.hi &= b.hi;
@@ -398,18 +437,67 @@ class uint128_t
 		return a;
 	}
 
+	__hydra_host__ __hydra_device__
+	static inline  uint128_t  __attribute__((always_inline)) rotate_right64( uint128_t x)
+	{
+		uint64_t temp = x.lo;
+		x.lo = x.hi;
+		x.hi = temp;
+		return x;
+	}
+	__hydra_host__ __hydra_device__
+	static inline uint128_t  pow2_add(uint128_t const x, uint128_t const y)
+	{
+		uint128_t z;
+#ifdef __CUDA_ARCH__
+		z.lo = x.lo * x.lo;
+		z.hi = __mul64hi(x.lo, x.lo);
+#elif __x86_64__
+		asm( "mulq %3\n\t"
+				: "=a" (z.lo), "=d" (z.hi)
+				  : "%0" (x.lo), "rm" (x.lo));
+#endif
+		z.hi +=2*(x.hi * x.lo);
+		z.hi += y.hi + ((z.lo + y.lo) < z.lo);
+		z.lo += y.lo;
+
+		return z;
+	}
+
+	__hydra_host__ __hydra_device__
+	static inline uint128_t  pow2_add_rotate64(uint128_t const x, uint128_t const y)
+	{
+		uint128_t z;
+#ifdef __CUDA_ARCH__
+		z.lo = x.lo * x.lo;
+		z.hi = __mul64hi(x.lo, x.lo);
+#elif __x86_64__
+		asm( "mulq %3\n\t"
+				: "=a" (z.lo), "=d" (z.hi)
+				  : "%0" (x.lo), "rm" (x.lo));
+#endif
+		z.hi +=2*(x.hi * x.lo);
+		z.hi += y.hi + ((z.lo + y.lo) < z.lo);
+		z.lo += y.lo;
+		uint64_t temp = z.lo;
+		z.lo = z.hi;
+		z.hi = temp;
+		return z;
+	}
+
 	//   arithmetic
 	//-------------------
 
 	__hydra_host__ __hydra_device__
-	static inline uint128_t add128(uint128_t x, uint128_t const& y)
+	static inline uint128_t __attribute__((always_inline)) add128(uint128_t x, uint128_t const y)
 	{
-		x+=y;
+		x.hi += y.hi + ((x.lo + y.lo) < x.lo);
+		x.lo += y.lo;
 		return x;
 	}
 
 	__hydra_host__ __hydra_device__
-	static inline uint128_t add128(uint128_t x, uint64_t const& y)
+	static inline uint128_t __attribute__((always_inline)) add128(uint128_t x, uint64_t  const y)
 	{
 		x+=uint128_t(y);
 		return x;
@@ -417,7 +505,7 @@ class uint128_t
 	}
 
 	__hydra_host__ __hydra_device__
-	static inline uint128_t mul128(uint64_t const&  x, uint64_t  const& y)
+	static inline uint128_t  __attribute__((always_inline)) mul128(uint64_t const  x, uint64_t  const y)
 	{
 		uint128_t res;
 #ifdef __CUDA_ARCH__
@@ -439,15 +527,24 @@ class uint128_t
 	}
 
 	__hydra_host__ __hydra_device__
-	static inline uint128_t mul128(uint128_t  const& x, uint128_t  const& y)
+	static inline uint128_t  __attribute__((always_inline)) mul128(uint128_t  const x, uint128_t  const y)
 	{
-		uint128_t z = uint128_t::mul128(x.lo, y.lo);
+		uint128_t z;
+#ifdef __CUDA_ARCH__
+		z.lo = x.lo * y.lo;
+		z.hi = __mul64hi(x.lo, y.lo);
+#elif __x86_64__
+		asm( "mulq %3\n\t"
+				: "=a" (z.lo), "=d" (z.hi)
+				  : "%0" (x.lo), "rm" (y.lo));
+#endif
 		z.hi +=(x.hi * y.lo) + (x.lo * y.hi);
 		return z;
 	}
 
+
 	__hydra_host__ __hydra_device__
-	static inline uint128_t mul128(uint128_t  const& x, uint64_t  const& y)
+	static inline uint128_t __attribute__((always_inline))  mul128(uint128_t  const x, uint64_t  const y)
 	{
 		uint128_t res;
 #ifdef __CUDA_ARCH__

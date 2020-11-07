@@ -37,7 +37,7 @@ namespace random {
 
 template <typename T>
 __hydra_host__ __hydra_device__
-inline detail::check_uint128_t<T> operator>>(uint128_t a, const T & b) {
+inline detail::check_uint128_t<T> operator>>(uint128_t a, const T  b) {
 
 	a >>= b;
 	return a;
@@ -45,7 +45,7 @@ inline detail::check_uint128_t<T> operator>>(uint128_t a, const T & b) {
 
 template <typename T>
 __hydra_host__ __hydra_device__
-inline detail::check_uint128_t<T>  operator<<(uint128_t a, const T & b) {
+inline detail::check_uint128_t<T>  operator<<(uint128_t a, const T b) {
 
 	a <<= b;
 	return a;
@@ -53,28 +53,28 @@ inline detail::check_uint128_t<T>  operator<<(uint128_t a, const T & b) {
 
 template <typename T>
 __hydra_host__ __hydra_device__
-inline detail::check_uint128_t<T> operator+(uint128_t a, const T & b) {
+inline detail::check_uint128_t<T> operator+(uint128_t a, const T  b) {
 
 	return uint128_t::add128(a, b);
 }
 
 template <typename T>
 __hydra_host__ __hydra_device__
-inline detail::check_uint128_t<T>  operator-(uint128_t a, const T & b) {
+inline detail::check_uint128_t<T>  operator-(uint128_t a, const T  b) {
 
 	return uint128_t::sub128(a, (uint128_t)b);
 }
 
 template <typename T>
 __hydra_host__ __hydra_device__
-inline detail::check_uint128_t<T>  operator*(uint128_t a, const T & b) {
+inline detail::check_uint128_t<T>  operator*(uint128_t a, const T  b) {
 
 	return uint128_t::mul128(a, b);
 }
 
 template <typename T>
 __hydra_host__ __hydra_device__
-inline T operator/(uint128_t x, const T & v) {
+inline T operator/(uint128_t x, const T  v) {
 
 	return uint128_t::divide_u128_to_u64(x, (uint64_t)v);
 }
@@ -89,51 +89,51 @@ inline T operator%(uint128_t x, const T & v) {
 }
 
 __hydra_host__ __hydra_device__
-inline bool operator<(uint128_t const&  a, uint128_t  const& b) {
+inline bool operator<(uint128_t const  a, uint128_t  const b) {
 
 	return uint128_t::is_less_than(a, b);
 }
 
 __hydra_host__ __hydra_device__
-inline bool operator>(uint128_t  const& a, uint128_t  const& b) {
+inline bool operator>(uint128_t  const a, uint128_t  const b) {
 
 	return uint128_t::is_greater_than(a, b);
 }
 
 __hydra_host__ __hydra_device__
-inline bool operator<=(uint128_t  const& a, uint128_t const&  b) {
+inline bool operator<=(uint128_t  const a, uint128_t const  b) {
 
 	return uint128_t::is_less_than_or_equal(a, b);
 }
 
 __hydra_host__ __hydra_device__
-inline bool operator>=(uint128_t  const& a, uint128_t  const& b) {
+inline bool operator>=(uint128_t  const a, uint128_t  const b) {
 
 	return uint128_t::is_greater_than_or_equal(a, b);
 }
 
 __hydra_host__ __hydra_device__
-inline bool operator==(uint128_t const&  a, uint128_t  const& b) {
+inline bool operator==(uint128_t const  a, uint128_t  const b) {
 
 	return uint128_t::is_equal_to(a, b);
 }
 
 __hydra_host__ __hydra_device__
-inline bool operator!=(uint128_t const&  a, uint128_t const&  b) {
+inline bool operator!=(uint128_t const  a, uint128_t const  b) {
 
 	return uint128_t::is_not_equal_to(a, b);
 }
 
 template <typename T>
 __hydra_host__ __hydra_device__
-inline detail::check_uint128_t<T>  operator|(uint128_t a, const T & b) {
+inline detail::check_uint128_t<T>  operator|(uint128_t a, const T  b) {
 
 	return uint128_t::bitwise_or(a, (uint128_t)b);
 }
 
 template <typename T>
 __hydra_host__ __hydra_device__
-inline detail::check_uint128_t<T>  operator&(uint128_t a, const T & b) {
+inline detail::check_uint128_t<T>  operator&(uint128_t a, const T  b) {
 
 	return uint128_t::bitwise_and(a, (uint128_t)b);
 }
@@ -141,7 +141,7 @@ inline detail::check_uint128_t<T>  operator&(uint128_t a, const T & b) {
 
 template <typename T>
 __hydra_host__ __hydra_device__
-inline detail::check_uint128_t<T>  operator^(uint128_t a, const T & b) {
+inline detail::check_uint128_t<T>  operator^(uint128_t a, const T  b) {
 
 	return uint128_t::bitwise_xor(a, (uint128_t)b);
 }
@@ -153,19 +153,19 @@ inline uint128_t operator~(uint128_t a) {
 }
 
 __hydra_host__ __hydra_device__
-inline uint128_t min(uint128_t const& a, uint128_t const& b) {
+inline uint128_t min(uint128_t const& a, uint128_t const b) {
 
 	return a < b ? a : b;
 }
 
 __hydra_host__ __hydra_device__
-inline uint128_t max(uint128_t const& a, uint128_t const& b) {
+inline uint128_t max(uint128_t const& a, uint128_t const b) {
 
 	return a > b ? a : b;
 }
 
 __hydra_host__ __hydra_device__
-inline uint64_t clz128(uint128_t const& x){
+inline uint64_t clz128(uint128_t const x){
 
 	uint64_t res;
 

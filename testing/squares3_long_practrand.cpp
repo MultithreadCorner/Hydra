@@ -20,7 +20,7 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * squares3_practrand.cpp
+ * squares3_long_practrand.cpp
  *
  *  Created on: 06/10/2020
  *      Author: Antonio Augusto Alves Junior
@@ -66,7 +66,7 @@ int main(int argv, char** argc)
 		std::cerr << "error: " << e.error() << " for arg " << e.argId()	<< std::endl;
 	}
 
-	hydra::squares3_128bit RNG(seed);
+	hydra::squares3_long RNG(seed);
 
 	if( jump ) RNG.discard(RNG.max);
 
