@@ -254,7 +254,7 @@ private:
 	void GetGrid( size_t nboxes , std::array<size_t, N>& grid )
 	{
 		size_t ndivsion = std::llround( std::pow( 2.0, std::log2(double(nboxes))/double(N) ) );
-
+        std::cout << "ndivision :" << ndivsion<< std::endl;
 		std::fill_n( grid.begin(), N,  ndivsion );
 
 	}

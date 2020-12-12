@@ -56,10 +56,7 @@
 namespace hydra {
 
 
-template<typename T>
-class GenzMalikRuleBase{};
-
-template<size_t DIM, typename BACKEND>
+template<size_t DIM, typename BACKEND, typename T>
 class GenzMalikRule;
 
 /**
@@ -68,11 +65,9 @@ class GenzMalikRule;
  * \brief Class representing Genz-Malik rule.
  *
  */
-template<size_t DIM, hydra::detail::Backend   BACKEND>
-class GenzMalikRule<DIM, hydra::detail::BackendPolicy<BACKEND>>:
-           GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >::type >
+template<size_t DIM, hydra::detail::Backend   BACKEND, typename = typename std::enable_if< (DIM>1), void >::type>
+class GenzMalikRule<DIM, hydra::detail::BackendPolicy<BACKEND>>
 	{
-
 
 	typedef typename hydra::detail::tuple_type<DIM+2,GChar_t >::type char_abscissa_t;
 	typedef hydra_thrust::tuple<GReal_t,GReal_t, GReal_t> real_abscissa_t;

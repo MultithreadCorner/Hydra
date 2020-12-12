@@ -64,7 +64,13 @@ namespace hydra {
  *
  *
  */
-struct Parameter{
+
+class Parameter{
+
+	enum FlagMask{ ErrorBit = 1, LimitBit=2, FixBit=4 };
+	typedef struct FlagBits{ unsigned char b:3; } flags_type;
+
+public:
 
 	__hydra_host__ __hydra_device__
 	Parameter():
@@ -74,10 +80,11 @@ struct Parameter{
 	fLowerLim(detail::TypeTraits<GReal_t>::invalid()),
 	fUpperLim(detail::TypeTraits<GReal_t>::invalid()),
 	fIndex(detail::TypeTraits<GInt_t>::invalid()),
-	fLimited(0),
-    fHasError(0),
-    fFixed(0)
-	{}
+	fFlags()
+	{
+
+
+	}
 
 
 	__hydra_host__ __hydra_device__
@@ -88,9 +95,7 @@ struct Parameter{
 	fLowerLim(detail::TypeTraits<GReal_t>::zero()),
 	fUpperLim(detail::TypeTraits<GReal_t>::zero()),
 	fIndex(detail::TypeTraits<GInt_t>::invalid()),
-	fLimited(0),
-	fHasError(0),
-	fFixed(0)
+	fFlags()
 	{}
 
 
@@ -101,10 +106,12 @@ struct Parameter{
 	fLowerLim(downlim),
 	fUpperLim(uplim),
 	fIndex(detail::TypeTraits<GInt_t>::invalid()),
-	fFixed(fixed),
-	fLimited(1),
-	fHasError(1)
-	{ }
+	fFlags()
+	{
+		SetFixed(fixed);
+		SetHasError(true);
+		SetLimited(true);
+	}
 
 	Parameter( GChar_t const* name, GReal_t value, GReal_t error, GBool_t fixed=0 ):
 		fName(name),
@@ -113,10 +120,13 @@ struct Parameter{
 		fLowerLim(detail::TypeTraits<GReal_t>::invalid()),
 		fUpperLim(detail::TypeTraits<GReal_t>::invalid()),
 		fIndex(detail::TypeTraits<GInt_t>::invalid()),
-		fFixed(fixed),
-		fLimited(0),
-		fHasError(1)
-	{ }
+		fFlags()
+	{
+		SetFixed(fixed);
+		SetHasError(true);
+		SetLimited(false);
+
+	}
 
 	Parameter(std::string const& name, GReal_t value, GBool_t fixed=0 ):
 		fName(const_cast<GChar_t*>(name.data())),
@@ -125,40 +135,36 @@ struct Parameter{
 		fLowerLim(detail::TypeTraits<GReal_t>::invalid()),
 		fUpperLim(detail::TypeTraits<GReal_t>::invalid()),
 		fIndex(detail::TypeTraits<GInt_t>::invalid()),
-		fFixed(fixed),
-		fLimited(0),
-		fHasError(0)
-	{ }
+		fFlags()
+	{
+		SetFixed(fixed);
+	}
 
 
 
 
 	__hydra_host__ __hydra_device__
 	inline Parameter( Parameter const& other ):
+	    fName( other.GetName()),
 		fValue(other.GetValue()),
 		fError(other.GetError()),
 		fLowerLim(other.GetLowerLim()),
 		fUpperLim(other.GetUpperLim()),
 		fIndex(other.GetIndex()),
-		fLimited( other.IsLimited()),
-		fHasError(other.HasError()),
-		fName( other.GetName()),
-		fFixed(other.IsFixed())
+		fFlags(other.GetFlags())
 	{}
 
 	__hydra_host__ __hydra_device__
 	inline Parameter& operator=(Parameter const& other)
 	{
 		if(this != &other){
+			this->fName     = const_cast<GChar_t*>(other.GetName());
 			this->fValue    = other.GetValue();
 			this->fError    = other.GetError();
 			this->fLowerLim = other.GetLowerLim();
 			this->fUpperLim = other.GetUpperLim();
 			this->fIndex    = other.GetIndex();
-			this->fLimited  = other.IsLimited();
-			this->fHasError = other.HasError();
-			this->fName     = const_cast<GChar_t*>(other.GetName());
-			this->fFixed    = other.IsFixed();
+			this->fFlags    = other.GetFlags();
 		}
 		return *this;
 	}
@@ -255,7 +261,7 @@ struct Parameter{
 	__hydra_host__ __hydra_device__
 	inline void SetLowerLim(GReal_t downLim) {
 		fLowerLim = downLim;
-		fLimited=1;
+		SetLimited(true);
 	}
 
 	__hydra_host__ __hydra_device__
@@ -277,13 +283,13 @@ struct Parameter{
 	inline void SetLimits(GReal_t lower , GReal_t upper) {
 		fLowerLim = lower;
 		fUpperLim = upper;
-		fLimited=1;
+        SetLimited(true);
 	}
 
 	__hydra_host__ __hydra_device__
 	inline void SetUpperLim(GReal_t upLim) {
 		fUpperLim = upLim;
-		fLimited=1;
+		SetLimited(true);
 	}
 
 	__hydra_host__ __hydra_device__
@@ -296,11 +302,6 @@ struct Parameter{
 		return fName;
 	}
 
-	/*
-	__hydra_host__ __hydra_device__
-		inline  std::string GetName() const {
-			return std::string(fName);
-		}*/
 
 	__hydra_host__
 	inline void SetName(const std::string& name) {
@@ -335,28 +336,23 @@ struct Parameter{
 	__hydra_host__ __hydra_device__
 	inline void SetError(GReal_t error) {
 		fError = error;
-		fHasError=1;
+		SetHasError(true);
 	}
 
 	__hydra_host__ __hydra_device__
-		inline GBool_t IsLimited() const {
-		return fLimited;
+	inline GBool_t IsLimited() const {
+
+		return  bool( fFlags.b & LimitBit );
 	}
 
-	__hydra_host__ __hydra_device__
-			inline void SetLimited(GBool_t limited) {
-		fLimited = limited;
-	}
+
 
 	__hydra_host__ __hydra_device__
-			inline GBool_t HasError() const {
-		return fHasError;
+	inline GBool_t HasError() const {
+		return bool( fFlags.b & ErrorBit );
 	}
 
-	__hydra_host__ __hydra_device__
-	inline void SetHasError(GBool_t nullError) {
-		fHasError = nullError;
-	}
+
 
 	__hydra_host__ __hydra_device__
 	inline operator GReal_t() { return fValue; }
@@ -368,15 +364,13 @@ struct Parameter{
 	__hydra_host__
 	static Parameter Create() {
 	      return Parameter();
-	    }
+	 }
 
 
 	__hydra_host__
 	static Parameter Create( GChar_t const* name ) {
 		return Parameter().Name(name);
 	}
-
-
 
 	__hydra_host__
 	Parameter& Name(std::string const& name ){
@@ -393,7 +387,8 @@ struct Parameter{
 	__hydra_host__
 	Parameter& Error(GReal_t error){
 		this->fError = error;
-		this->fHasError=1;
+		SetHasError(true);
+;
 		return *this;
 	}
 
@@ -407,35 +402,58 @@ struct Parameter{
 	Parameter& Limits(GReal_t lowlim, GReal_t uplim){
 		this->fUpperLim=uplim;
 		this->fLowerLim=lowlim;
-		this->fLimited=1;
+		SetLimited(true);
+
 		return *this;
 	}
 
 	__hydra_host__
 	Parameter& Fixed(GBool_t flag=1){
-		this->fFixed = flag;
+
+		if(flag) fFlags.b |= FixBit;
+		else fFlags.b &= ~FixBit;
+
 		return *this;
 	}
 	__hydra_host__ __hydra_device__ inline
 	GBool_t IsFixed() const {
-		return fFixed;
+
+		return bool( fFlags.b & FixBit );
 	}
-	__hydra_host__ __hydra_device__ inline
-	void SetFixed(GBool_t constant) {
-		fFixed = constant;
+	__hydra_host__ __hydra_device__
+	flags_type GetFlags() const {
+		return fFlags;
 	}
 
 private:
 
-	GChar_t const*  fName; //
-	GReal_t  fValue;
-	GReal_t  fError;
-	GReal_t  fLowerLim;
-	GReal_t  fUpperLim;
-	GUInt_t  fIndex;
-	GBool_t  fLimited;
-	GBool_t  fHasError;
-	GBool_t  fFixed;
+	__hydra_host__ __hydra_device__ inline
+	void SetFixed(GBool_t constant) {
+
+		if(constant) fFlags.b |= FixBit;
+		else fFlags.b &= ~FixBit;
+	}
+
+	__hydra_host__ __hydra_device__
+	inline void SetHasError(GBool_t nullError) {
+		if(nullError) fFlags.b |= ErrorBit;
+			else fFlags.b &= ~ErrorBit;
+	}
+
+	__hydra_host__ __hydra_device__
+	inline void SetLimited(GBool_t limited) {
+
+		if(limited) fFlags.b |= LimitBit;
+			else fFlags.b &= ~LimitBit;
+	}
+
+	char const* fName; //
+	double  fValue;
+	double  fError;
+	double  fLowerLim;
+	double  fUpperLim;
+	unsigned  fIndex;
+	flags_type fFlags;
 
 };
 

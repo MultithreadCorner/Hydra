@@ -306,7 +306,7 @@ struct ProcessGenzMalikBox
 	}
 
 	__hydra_host__ __hydra_device__
-	inline void operator()(GenzMalikBox<N>& hyperbox)
+	inline void operator()(GenzMalikBox<N>& hyperbox) const
 	{
 
 		typedef typename hydra::detail::tuple_type<N+2, GReal_t>::type tuple_t;

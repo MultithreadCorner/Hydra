@@ -252,12 +252,30 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 	detail::ProcessGenzMalikBox<N, FUNCTOR, rule_iterator> process_box(functor,
 			fGenzMalikRule.begin(), fGenzMalikRule.end() ) ;
 
-	hydra_thrust::for_each(hydra::detail::BackendPolicy<BACKEND>{}, TempBoxList_d.begin(),
-			TempBoxList_d.end(), process_box);
+
+	//hydra_thrust::for_each(hydra::detail::BackendPolicy<BACKEND>{}, TempBoxList_d.begin(),
+		//	TempBoxList_d.end(), process_box);
+
+	std::vector< std::future<void> > futures(fBoxList.size());
+
+	auto it = fBoxList.begin();
+
+	for( size_t i=0; i< fBoxList.size();i++ ){
+
+		futures[i] = std::async(std::launch::async,
+				[process_box, it ]( size_t j){
+			process_box(*(it+j));
+			return ;
+		}, i );
+	}
 
 
-	std::pair<GReal_t, GReal_t> result = CalculateIntegral(TempBoxList_d);
+    for(auto& f: futures)
+    	f.wait();
 
+	std::pair<GReal_t, GReal_t> result = CalculateIntegral(fBoxList);
+	return result;
+	/*
 	if( result.second/result.first < fRelativeError)
 
 		return result;
@@ -280,7 +298,7 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 
 	}
 
-	return  result;
+	return  result;*/
 }
 
 template<size_t N, hydra::detail::Backend  BACKEND>

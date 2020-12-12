@@ -348,7 +348,8 @@ int main(int argv, char** argc)
 														<< std::endl;
 	}
 
-	//-----------------
+
+		//-----------------
     //magnitudes and phases from Cleo-c model
     //https://arxiv.org/pdf/0802.4214.pdf
 
@@ -461,6 +462,14 @@ int main(int argv, char** argc)
 			KST0_1430_Resonance, KST2_1430_Resonance,
 			KST_1680_Resonance, NR );
 
+	std::cout<< "=================================================================" << std::endl;
+	std::cout<< "Size of components" << std::endl;
+	std::cout<< "hydra::Parameter................................................ "<< sizeof(hydra::Parameter) << std::endl;
+	std::cout<< "Resonance<hydra::PWave>......................................... "<< sizeof(Resonance<hydra::PWave>)  << std::endl;
+	std::cout<< "hydra::BreitWignerLineShape<hydra::PWave, hydra::PWave,double>.. "<< sizeof(hydra::BreitWignerLineShape<hydra::PWave,hydra::PWave,double>) << std::endl;
+	std::cout<< "hydra::CosHelicityAngle......................................... "<< sizeof(hydra::CosHelicityAngle) << std::endl;
+	std::cout<< "Full model...................................................... "<< sizeof(decltype(Model)) << std::endl;
+	std::cout<< "=================================================================" << std::endl;
 	//--------------------
 	//generator
 	hydra::Vector4R B0(D_MASS, 0.0, 0.0, 0.0);

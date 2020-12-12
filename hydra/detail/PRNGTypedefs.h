@@ -39,9 +39,9 @@
 */
 #include <hydra/detail/random/EngineR123.h>
 #include <hydra/detail/random/squares3.h>
-#include <hydra/detail/random/squares3_long.h>
+//#include <hydra/detail/random/squares3_long.h>
 #include <hydra/detail/random/squares4.h>
-#include <hydra/detail/random/squares4_long.h>
+//#include <hydra/detail/random/squares4_long.h>
 
 namespace hydra {
 
@@ -149,14 +149,15 @@ typedef hydra::random::squares3 squares3;
 to save time and space..
  *
  */
-typedef hydra::random::squares3_long squares3_long;
+
+//typedef hydra::random::squares3_long squares3_long;
 
 /*! \typedef squares4_long
  *  \brief Ars uses the crypotgraphic AES round function, but a @b non-cryptographc key schedule
 to save time and space..
  *
  */
-typedef hydra::random::squares4_long squares4_long;
+//typedef hydra::random::squares4_long squares4_long;
 
 /*! \typedef squares4
  *  \brief Ars uses the crypotgraphic AES round function, but a @b non-cryptographc key schedule
