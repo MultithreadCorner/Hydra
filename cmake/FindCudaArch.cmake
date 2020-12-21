@@ -1,9 +1,9 @@
-# Borrowed from caffe
+# Initially borrowed from caffe
 # https://github.com/BVLC/caffe/blob/master/cmake/Cuda.cmake
 
 # Known NVIDIA GPU achitectures Torch can be compiled for.
 # This list will be used for CUDA_ARCH_NAME = All option
-SET(KNOWN_GPU_ARCHITECTURES "3.0 3.2 3.5 3.7 5.0 5.2 5.3 6.0 6.1 6.2 7.0 7.5")
+SET(KNOWN_GPU_ARCHITECTURES "3.0 3.2 3.5 3.7 5.0 5.2 5.3 6.0 6.1 6.2 7.0 7.5 8.0 8.5")
 
 ################################################################################################
 # Removes duplicates from LIST(s)
@@ -118,6 +118,8 @@ FUNCTION(SELECT_NVCC_ARCH_FLAGS out_variable)
     SET(__cuda_arch_bin "6.0 6.1 6.2")
   elseIF(${CUDA_ARCH_NAME} STREQUAL "Turing")
     SET(__cuda_arch_bin "7.0 7.5")
+  elseIF(${CUDA_ARCH_NAME} STREQUAL "Ampere")
+    SET(__cuda_arch_bin "8.0 8.5") 
   elseIF(${CUDA_ARCH_NAME} STREQUAL "All")
     SET(__cuda_arch_bin ${KNOWN_GPU_ARCHITECTURES})
   elseIF(${CUDA_ARCH_NAME} STREQUAL "Auto")
