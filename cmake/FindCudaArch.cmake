@@ -74,7 +74,7 @@ ENDFUNCTION()
 #   SELECT_NVCC_ARCH_FLAGS(out_variable)
 FUNCTION(SELECT_NVCC_ARCH_FLAGS out_variable)
   # List of arch names
-  SET(__archs_names "Kepler" "Maxwell" "Pascal" "Turing" "All" "Manual")
+  SET(__archs_names "Kepler" "Maxwell" "Pascal" "Turing" "Ampere" "All" "Manual")
   SET(__archs_name_default "All")
   IF(NOT CMAKE_CROSSCOMPILING)
     LIST(APPEND __archs_names "Auto")
