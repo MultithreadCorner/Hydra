@@ -100,7 +100,7 @@ namespace detail {
 		StatsPHSP init = StatsPHSP();
 
 		StatsPHSP result = hydra_thrust::transform_reduce(policy , begin, end,
-				evaluator, init,detail::AddStatsPHSP() );
+				evaluator, init, detail::AddStatsPHSP() );
 
 		return result;
 	}
