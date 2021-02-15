@@ -216,9 +216,9 @@ struct RndBreitWigner{
 
 };
 
+
 template<typename T, typename Iterator,typename GRND>
 struct RndFlag{
-
 
 	RndFlag(const size_t seed, const size_t jump, const T max_value, Iterator values ):
 		fJump(jump ),
@@ -242,7 +242,7 @@ struct RndFlag{
 		randEng.discard(fJump+index);
 		hydra_thrust::uniform_real_distribution<T>  dist(0.0, fValMax);
 
-		return (dist(randEng) < fVals[index] ) ;
+		return (dist(randEng) < hydra_thrust::raw_reference_cast( fVals[index] )) ;
 	}
 
 	size_t  fJump;
@@ -251,6 +251,40 @@ struct RndFlag{
 	Iterator fVals;
 };
 
+
+template<typename T, typename Iterator,typename Function, typename GRND>
+struct RndFunctionFlag{
+
+	RndFunctionFlag(const size_t seed, const size_t jump, const T max_value, Iterator values, Function ):
+		fJump(jump ),
+		fSeed(seed),
+		fValMax(max_value),
+		fVals(values)
+	{}
+
+	__hydra_host__ __hydra_device__
+	RndFunctionFlag(RndFunctionFlag<T,Iterator, GRND> const& other):
+	    fJump(other.fJump ),
+		fSeed(other.fSeed),
+		fValMax(other.fValMax),
+		fVals(other.fVals)
+	{}
+
+	__hydra_host__ __hydra_device__
+	inline GBool_t operator()(size_t index)
+	{
+		GRND randEng(fSeed);
+		randEng.discard(fJump+index);
+		hydra_thrust::uniform_real_distribution<T>  dist(0.0, fValMax);
+
+		return (dist(randEng) < hydra_thrust::raw_reference_cast( fVals[index] )) ;
+	}
+
+	size_t  fJump;
+	size_t  fSeed;
+	T fValMax;
+	Iterator fVals;
+};
 
 template<typename T,typename GRND, typename FUNCTOR, size_t N>
 struct RndTrial{

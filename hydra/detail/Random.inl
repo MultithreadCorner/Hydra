@@ -55,8 +55,9 @@ unweight( hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& poli
 
 	IteratorWeight weights_end = weights_begin + ntrials;
 
+	double v_max = hydra_thrust::raw_reference_cast(*( hydra_thrust::max_element(policy,  weights_begin, weights_end ) ) );
 	//get the maximum value
-	value_type max_value =  max_pdf>0.0? max_pdf:*( hydra_thrust::max_element(policy,  weights_begin, weights_end ) );
+	value_type max_value =  max_pdf>0.0? max_pdf: v_max;
 
 	// create iterators
 	hydra_thrust::counting_iterator<size_t> first(0);
@@ -65,7 +66,7 @@ unweight( hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& poli
 	IteratorData r = hydra_thrust::partition(policy, data_begin, data_end, first,
 			flagger_type(rng_seed, rng_jump, max_value, weights_begin) );
 
-	return  make_range(begin , r);
+	return  make_range(data_begin , r);
 }
 
 
@@ -90,14 +91,14 @@ unweight(IteratorData data_begin, IteratorData data_end , IteratorWeight weights
 		double max_pdf, size_t rng_seed, size_t rng_jump)
 {
 	using hydra_thrust::system::detail::generic::select_system;
-	typedef  typename hydra_thrust::iterator_system<IteratorData>::type   system_data_type;
+	typedef  typename hydra_thrust::iterator_system<IteratorData>::type     system_data_type;
 	typedef  typename hydra_thrust::iterator_system<IteratorWeight>::type system_weight_type;
 
-	typedef  typename hydra_thrust::detail::remove_reference<
-			 decltype(select_system(std::declval<system_data_type>(), std::declval<system_weight_type>()))
-			 >::type common_system_type;
+	 system_data_type  system_data;
+     system_weight_type  system_weight;
 
-	return unweight<RNG>(common_system_type(), data_begin, data_end , weights_begin, max_pdf, rng_seed, rng_jump);
+
+	return unweight<RNG>( select_system(system_data, system_weight), data_begin, data_end , weights_begin, max_pdf, rng_seed, rng_jump);
 
 }
 
@@ -118,7 +119,7 @@ Range< decltype(std::declval<IterableData>().begin())>>::type
 unweight( IterableData&&  data, IterableWeight&&  weights,
 		double max_pdf, size_t rng_seed, size_t rng_jump)
 {
-
+/*
 	using hydra_thrust::system::detail::generic::select_system;
 	typedef  typename hydra_thrust::iterator_system<decltype(data.begin())>::type   system_data_type;
 	typedef  typename hydra_thrust::iterator_system<decltype(weights.begin())>::type system_weight_type;
@@ -126,8 +127,9 @@ unweight( IterableData&&  data, IterableWeight&&  weights,
 	typedef  typename hydra_thrust::detail::remove_reference<
 			 decltype(select_system(std::declval<system_data_type>(), std::declval<system_weight_type>()))
 			 >::type common_system_type;
+*/
 
-	return unweight<RNG>(common_system_type(), std::forward<IterableData>(data).begin(), std::forward<IterableData>(data).end(),
+	return unweight<RNG>(/*common_system_type() select_system(system_data_type{}, system_weight_type{} ),*/ std::forward<IterableData>(data).begin(), std::forward<IterableData>(data).end(),
 			std::forward<IterableWeight>(weights).begin(), max_pdf, rng_seed, rng_jump);
 
 }

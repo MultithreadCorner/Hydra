@@ -20,35 +20,11 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Range.h
+ * phsp_dalitz_unweighting_functor_and_fit.cpp
  *
- *  Created on: 29/08/2017
+ *  Created on: 19/01/2021
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef RANGE_H_
-#define RANGE_H_
 
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Distance.h>
-#include <hydra/detail/Iterable_traits.h>
-#include <utility>
-
-namespace hydra {
-
-template<typename ...T>
-class Range;
-
-}// namespace hydra
-
-#include <hydra/detail/Range1.inl>
-#include <hydra/detail/Range2.inl>
-#include <hydra/detail/CountingRange.inl>
-#include <hydra/detail/ConstantRange.inl>
-#include <hydra/detail/RandomRange.inl>
-#include <hydra/detail/PhaseSpaceRange.inl>
-#include <hydra/detail/DalitzRange.inl>
-#include <hydra/detail/BooststrappedRange.inl>
-
-#endif /* RANGE_H_ */
+#include <examples/fit/phsp_dalitz_unweighting_functor_and_fit.inl>

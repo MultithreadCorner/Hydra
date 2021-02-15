@@ -47,27 +47,22 @@ namespace hydra
 namespace detail
 {
 
-
 /**\struct FlagAcceptReject
  * Flags generated events as accepted (1) or rejected (0).
  */
+
 struct FlagAcceptReject
 {
 	size_t fSeed;
 	GReal_t fWmax; ///< maximum weight
 
-	/**
-	 * FlagAcceptReject constructor. It is initialized with the value of the maximum weight
-	 * with which event weights will be compared.
-	 */
+
 	FlagAcceptReject(const size_t seed, const GReal_t wmax) :
 		fWmax(wmax),
 		fSeed(seed)
 	{	}
 
-	/**
-	 * hash function. Generate hashs to be used in random number generation initialization
-	 */
+
 	__hydra_host__   __hydra_device__ inline
 	size_t hash(size_t a, size_t b)
 	{
@@ -79,10 +74,7 @@ struct FlagAcceptReject
 		size_t  C = ((A >= B ? A * A + A + B : A + B * B) / 2);
 	    return  C ;
 	}
-	/**
-	 * operator(). Takes the events index and weight and so flag it as accepted and rejected
-	 *
-	 */
+
 	__hydra_host__ __hydra_device__ GBool_t operator ()(size_t idx, GReal_t weight)
 	{
 
@@ -96,6 +88,8 @@ struct FlagAcceptReject
 	}
 
 };
+
+
 }//namespace detail
 }//namespace hydra
 

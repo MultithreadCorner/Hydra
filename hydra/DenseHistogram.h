@@ -448,8 +448,9 @@ public:
 	inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value
 	&&  hydra::detail::is_iterable<Iterable2>::value,
 	 DenseHistogram<T,N, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>& >::type
-	Fill(Iterable1& container, Iterable2& wbegin){
-		return this->Fill( container.begin(), container.end(), wbegin.begin());
+	Fill(Iterable1&& container, Iterable2&& wbegin){
+		return this->Fill( std::forward<Iterable1>(container).begin(), std::forward<Iterable1>(container).end(),
+				std::forward<Iterable2>(wbegin).begin());
 	}
 
 	template<hydra::detail::Backend BACKEND2, typename Iterator >
@@ -834,6 +835,34 @@ private:
 
 };
 
+
+namespace detail {
+
+	namespace histogram {
+
+		template<typename ...Types>
+		struct has_iterator_argument;
+
+		template<typename Iterator>
+		struct has_iterator_argument<Iterator>:
+		std::integral_constant<bool,
+			(hydra::detail::is_iterable<Iterator>::value==false) &&
+			(hydra::detail::is_iterator<Iterator>::value==true )
+		>{};
+
+		template<typename Iterator1, typename Iterator2>
+		struct has_iterator_argument<Iterator1, Iterator2>:
+		std::integral_constant<bool,
+			(hydra::detail::is_iterable<Iterator1>::value==false) &&
+			(hydra::detail::is_iterator<Iterator1>::value==true ) &&
+			(hydra::detail::is_iterable<Iterator2>::value==false) &&
+			(hydra::detail::is_iterator<Iterator2>::value==true )
+		>{};
+
+	}  // namespace histogram
+
+}  // namespace detail
+
 /**
  * \ingroup histogram
  * \brief Function to make a N-dimensional dense histogram.
@@ -847,8 +876,9 @@ private:
  * @return
  */
 template<typename Iterator, typename T, size_t N , hydra::detail::Backend BACKEND>
-DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
-make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N>const&  grid,
+inline typename std::enable_if< detail::histogram::has_iterator_argument<Iterator>::value,
+DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
+make_dense_histogram( detail::BackendPolicy<BACKEND>const& pol, std::array<size_t, N> const& grid,
 		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
 		Iterator first, Iterator end);
 
@@ -864,9 +894,9 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t,
  * @return
  */
 template<typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable >
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
+inline typename std::enable_if<  !detail::histogram::has_iterator_argument<Iterable>::value,
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
-make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> const& grid,
+make_dense_histogram( detail::BackendPolicy<BACKEND> const& backend, std::array<size_t, N> const& grid,
 		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,	Iterable&& data);
 
 /**
@@ -882,8 +912,7 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t,
  * @return
  */
 template<typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable1, typename Iterable2 >
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value &&
-                    hydra::detail::is_iterable<Iterable2>::value,
+inline typename std::enable_if< !detail::histogram::has_iterator_argument<Iterable1, Iterable2>::value,
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
 make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> const&  grid,
 		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,

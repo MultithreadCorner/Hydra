@@ -416,12 +416,13 @@ public:
 	}
 
 	template<typename Iterable1, typename Iterable2>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value
-	&&  hydra::detail::is_iterable<Iterable2>::value,
+	inline typename std::enable_if<
+	  hydra::detail::is_iterable<Iterable1>::value &&
+	  hydra::detail::is_iterable<Iterable2>::value,
 	SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>& >::type
 	Fill(Iterable1&& container, Iterable2&& wbegin){
-		return this->Fill( std::forward<Iterable1>(container).begin(),
-				std::forward<Iterable1>(container).end(), std::forward<Iterable2>(wbegin).begin());
+		return this->Fill( std::forward<Iterable1>(container).begin(),std::forward<Iterable1>(container).end(),
+				std::forward<Iterable2>(wbegin).begin());
 	}
 
 

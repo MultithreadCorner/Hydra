@@ -34,6 +34,8 @@
 #include <hydra/Distance.h>
 #include <hydra/detail/external/hydra_thrust/iterator/transform_iterator.h>
 #include <hydra/detail/FunctorTraits.h>
+#include <hydra/detail/TypeTraits.h>
+#include <hydra/Placeholders.h>
 #include <utility>
 
 namespace hydra {
@@ -249,6 +251,69 @@ reverse(Iterable&& iterable) {
 
 }
 
+namespace detail {
+
+namespace range {
+
+template<unsigned int I, unsigned int...Is>
+struct SelectFields
+{
+
+template<typename T>
+__hydra_host__ __hydra_device__
+inline typename std::enable_if<(sizeof...(Is) > 0), hydra::tuple<
+typename detail::remove_device_reference<typename hydra::tuple_element<I, T>::type>::type,
+typename detail::remove_device_reference<typename hydra::tuple_element<Is,T>::type>::type... >>::type
+operator()(T const& value){
+
+	return hydra::make_tuple( hydra::get<I>(value),  hydra::get<Is>(value)...);
+}
+
+
+template<typename T>
+__hydra_host__ __hydra_device__
+inline typename std::enable_if<(sizeof...(Is) == 0),
+typename detail::remove_device_reference<typename hydra::tuple_element<I, T>::type>::type >::type
+operator()(T const& value){
+
+	return hydra::get<I>(value);
+}
+
+
+
+};
+
+}  // namespace range
+
+}  // namespace detail
+
+template<typename Iterator,  unsigned int...I>
+auto columns( Range<Iterator>const& other, placeholders::placeholder<I>...cls)
+-> Range<hydra_thrust::transform_iterator< detail::range::SelectFields<I...>, Iterator,
+typename std::result_of<detail::range::SelectFields<I...>( decltype(*other.begin()))>::type > >
+{
+
+	typedef typename std::result_of<detail::range::SelectFields<I...>( decltype(*other.begin())) >::type return_type;
+
+	typedef hydra_thrust::transform_iterator< detail::range::SelectFields<I...>, Iterator, return_type> iterator;
+	detail::range::SelectFields<I...> functor;
+
+	return Range<iterator>(iterator( other.begin(), functor), iterator( other.end(), functor) );
+}
+
+template<typename Iterator, typename Functor, unsigned int...I>
+auto columns( Range<Iterator, Functor>const& other, placeholders::placeholder<I>...cls)
+-> Range<hydra_thrust::transform_iterator< detail::range::SelectFields<I...>, Iterator,
+typename std::result_of<detail::range::SelectFields<I...>( decltype(*other.begin()))>::type > >
+{
+
+	typedef typename std::result_of<detail::range::SelectFields<I...>( decltype(*other.begin())) >::type return_type;
+
+	typedef hydra_thrust::transform_iterator< detail::range::SelectFields<I...>, Iterator, return_type> iterator;
+	detail::range::SelectFields<I...> functor;
+
+	return Range<iterator>(iterator( other.begin(), functor), iterator( other.end(), functor) );
+}
 
 }  // namespace hydra
 

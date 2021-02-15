@@ -20,35 +20,28 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Range.h
+ * DalitzIntegrator.inl
  *
- *  Created on: 29/08/2017
+ *  Created on: 15/01/2021
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef RANGE_H_
-#define RANGE_H_
+#ifndef DALITZINTEGRATOR_INL_
+#define DALITZINTEGRATOR_INL_
 
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Distance.h>
-#include <hydra/detail/Iterable_traits.h>
-#include <utility>
 
 namespace hydra {
 
-template<typename ...T>
-class Range;
+template <hydra::detail::Backend BACKEND, typename GRND>
+template<typename FUNCTOR>
+std::pair<GReal_t, GReal_t>
+DalitzIntegrator<hydra::detail::BackendPolicy<BACKEND>, GRND>::Integrate(  FUNCTOR  const& functor)
+{
+ return	fGenerator.AverageOn(hydra::detail::BackendPolicy<BACKEND>(), functor, fNSamples );
+}
 
-}// namespace hydra
 
-#include <hydra/detail/Range1.inl>
-#include <hydra/detail/Range2.inl>
-#include <hydra/detail/CountingRange.inl>
-#include <hydra/detail/ConstantRange.inl>
-#include <hydra/detail/RandomRange.inl>
-#include <hydra/detail/PhaseSpaceRange.inl>
-#include <hydra/detail/DalitzRange.inl>
-#include <hydra/detail/BooststrappedRange.inl>
+}  // namespace hydra
 
-#endif /* RANGE_H_ */
+
+#endif /* DALITZINTEGRATOR_INL_ */

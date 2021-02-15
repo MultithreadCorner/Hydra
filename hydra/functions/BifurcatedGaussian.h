@@ -99,6 +99,21 @@ public:
 	}
 
 
+	__hydra_host__ __hydra_device__ inline
+	double Max()  const	{
+
+		double m2 = (x - _par[0])*(x - _par[0] );
+		double sigmaL = _par[1];
+		double sigmaR = _par[2];
+
+		double coef = ( (x - _par[0]) <= 0.0)*(::fabs(sigmaL) > 1e-30)*( -0.5/(sigmaL*sigmaL))
+		            + ( (x - _par[0])  > 0.0)*(::fabs(sigmaR) > 1e-30)*( -0.5/(sigmaR*sigmaR)) ;
+
+		return  CHECK_VALUE(exp(coef*m2), "par[0]=%f, par[1]=%f, par[2]=%f", _par[0], _par[1], _par[2]);
+
+	}
+
+
 };
 
 
@@ -189,6 +204,7 @@ struct RngFormula< BifurcatedGaussian<ArgType> >
 
 		return static_cast<value_type>(x);
 	}
+
 
 	template<typename Engine, typename T>
 	__hydra_host__ __hydra_device__

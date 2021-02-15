@@ -204,7 +204,7 @@ int main(int argv, char** argc)
 				{100,100},
 				{pow(A_mass + B_mass,2), pow(B_mass + C_mass,2)},
 				{pow(P_mass - C_mass,2), pow(P_mass - A_mass,2)},
-				dalitz_variables, dalitz_weights);
+				dalitz_variables/*, dalitz_weights*/);
 
         auto Hist_Dalitz_U = hydra::make_dense_histogram<double,2>( hydra::device::sys,
 				{100,100},

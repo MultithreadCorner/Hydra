@@ -225,7 +225,7 @@ typename std::enable_if<
 	detail::random::is_iterable<IterableData>::value && detail::random::is_iterable<IterableWeight>::value,
 	Range< decltype(std::declval<IterableData>().begin())>
 >::type
-unweight( IterableData data, IterableWeight weights,
+unweight( IterableData&& data, IterableWeight&& weights,
 		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0 );
 
 

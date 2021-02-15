@@ -88,7 +88,6 @@ struct  Distribution<Functor, true>: protected RngFormula<Functor>
 		return;
 	}
 
-
 	/**
 	 * \brief The function call operator return a random number at each call.
 	 */

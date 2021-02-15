@@ -41,7 +41,7 @@ namespace detail {
 template<size_t N, typename T>
 struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T>::type ,size_t>
 {
-	typedef typename tuple_type<N,T>::type ArgType;
+	//typedef typename tuple_type<N,T>::type ArgType;
 
 	GetGlobalBin( size_t (&grid)[N], T (&lowerlimits)[N], T (&upperlimits)[N])
 	{
@@ -117,6 +117,7 @@ struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T
 		return bin;
 	}
 
+	template<typename ArgType>
 	__hydra_host__ __hydra_device__
 	size_t operator()(ArgType value){
 
@@ -125,16 +126,22 @@ struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T
 		tupleToArray(value, X );
 
 
-		bool is_underflow = true;
-		bool is_overflow  = true;
+		bool is_underflow = false;
+		bool is_overflow  = false;
 
 		for(size_t i=0; i<N; i++){
+
 			X[i]  = (X[i]-fLowerLimits[i])*fGrid[i]/fDelta[i];
-			is_underflow = is_underflow && (X[i]<0.0);
-			is_overflow  = is_overflow && (X[i]>fGrid[i]);
+
+			if( X[i]<0.0 ) is_underflow = true;
+            if( X[i]>fGrid[i] ) is_overflow = true;
+
 		}
 
-		return is_underflow ? fNGlobalBins : (is_overflow ? fNGlobalBins+1 : get_bin(X) );
+		size_t result = is_underflow ? fNGlobalBins : (is_overflow ? fNGlobalBins+1 : get_bin(X) );
+
+
+		return result;
 
 	}
 

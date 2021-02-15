@@ -20,35 +20,10 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * Range.h
+ * phsp_dalitz.cpp
  *
- *  Created on: 29/08/2017
+ *  Created on: 25/12/2020
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef RANGE_H_
-#define RANGE_H_
-
-#include <hydra/detail/Config.h>
-#include <hydra/detail/BackendPolicy.h>
-#include <hydra/Distance.h>
-#include <hydra/detail/Iterable_traits.h>
-#include <utility>
-
-namespace hydra {
-
-template<typename ...T>
-class Range;
-
-}// namespace hydra
-
-#include <hydra/detail/Range1.inl>
-#include <hydra/detail/Range2.inl>
-#include <hydra/detail/CountingRange.inl>
-#include <hydra/detail/ConstantRange.inl>
-#include <hydra/detail/RandomRange.inl>
-#include <hydra/detail/PhaseSpaceRange.inl>
-#include <hydra/detail/DalitzRange.inl>
-#include <hydra/detail/BooststrappedRange.inl>
-
-#endif /* RANGE_H_ */
+#include<examples/phase_space/phsp_dalitz.inl>
