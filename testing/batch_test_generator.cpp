@@ -206,14 +206,14 @@ int main(int argv, char** argc)
 
 	size_t ntasks = 0;
 	//monitor tasks
-	while(ntasks < NSEEDS){
+	while(ntasks < command_list.size()){
 
 		for(auto& task: tasks){
 
 			if( (task.valid()==true) && ( task.wait_for(std::chrono::seconds(0)) == std::future_status::ready)){
 
 				int i = task.get();
-				std::cout << ">> Task #" << i << " finished. Active tasks: " << (NSEEDS-ntasks) << std::endl;
+				std::cout << ">> Task #" << i << " finished. Active tasks: " << (command_list.size()-ntasks) << std::endl;
 				++ntasks;
 			}
 
