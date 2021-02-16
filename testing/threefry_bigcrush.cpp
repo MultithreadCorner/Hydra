@@ -35,6 +35,7 @@
 //hydra
 #include <hydra/Random.h>
 //command line
+#define TCLAP_SETBASE_ZERO 1
 #include <tclap/CmdLine.h>
 
 extern "C"

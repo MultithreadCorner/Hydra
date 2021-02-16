@@ -34,6 +34,7 @@
 //hydra
 #include <hydra/Random.h>
 //command line
+#define TCLAP_SETBASE_ZERO 1
 #include <tclap/CmdLine.h>
 
 extern "C"
@@ -45,9 +46,9 @@ extern "C"
 }
 
 //set a global seed
-static const uint64_t seed= 0x548c9decbce65297 ;
+static const uint64_t default_seed= 0x548c9decbce65297 ;
 
-static hydra::squares4 RNG(seed);
+static hydra::squares4 RNG(default_seed);
 
 uint32_t squares(void){
 
@@ -97,7 +98,7 @@ int main(int argv, char** argc)
 
 	RNG.SetSeed(seed);
 
-   unif01_Gen* gen_a = unif01_CreateExternGenBits(const_cast<char*>("squares3"),squares );
+   unif01_Gen* gen_a = unif01_CreateExternGenBits(const_cast<char*>("squares4"),squares );
 
    char* battery_name=const_cast<char*>("");
 

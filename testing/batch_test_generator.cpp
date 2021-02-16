@@ -120,15 +120,22 @@ int main(int argv, char** argc)
 
 	char* executor_name=const_cast<char*>("");
 
+    bool launch_hilo_bits = true;
 
-	if( hasher(std::string("squares3") )==hasher(generator))
+	if( hasher(std::string("squares3") )==hasher(generator)){
+		launch_hilo_bits = false;
 		executor_name= const_cast<char*>("hydra_squares3_bigcrush");
+	}
 
-	else if(hasher(std::string("squares4") )==hasher(generator))
+	else if(hasher(std::string("squares4") )==hasher(generator)){
+		launch_hilo_bits = false;
 		executor_name= const_cast<char*>("hydra_squares4_bigcrush");
+	}
 
-	else if(hasher(std::string("ars") )==hasher(generator))
+	else if(hasher(std::string("ars") )==hasher(generator)){
+		launch_hilo_bits = false;
 		executor_name= const_cast<char*>("hydra_ars_bigcrush");
+	}
 
 	else if(hasher(std::string("philox") )==hasher(generator))
 		executor_name= const_cast<char*>("hydra_philox_bigcrush");
@@ -142,9 +149,10 @@ int main(int argv, char** argc)
 	else if(hasher(std::string("threefry_long") )==hasher(generator))
 		executor_name= const_cast<char*>("hydra_threefry_long_bigcrush");
 
-	else
+	else{
+		launch_hilo_bits = false;
 		executor_name= const_cast<char*>("hydra_squares3_bigcrush");
-
+	}
 
 	char* battery_code =const_cast<char*>("");
 
@@ -164,16 +172,27 @@ int main(int argv, char** argc)
 	std::vector<std::string> command_list;
 
 	for(size_t i=0; i<NSEEDS; ++i){
+		if(launch_hilo_bits){
+			std::ostringstream command_hi;
+			command_hi << "./"<< executor_name << " "<< " -i="<< i <<" -b=" << battery_code << " -s=0x" << std::hex << seeds[i] << " -H";
 
-		std::ostringstream command;
-		command << "./"<< executor_name << " "<< " -i="<< i <<" -b=" << battery_code << " -s=0x" << std::hex << seeds[i] ;
-		command_list.push_back(command.str());
+			std::ostringstream command_lo;
+			command_lo << "./"<< executor_name << " "<< " -i="<< i <<" -b=" << battery_code << " -s=0x" << std::hex << seeds[i] ;
+
+			command_list.push_back(command_hi.str());
+			command_list.push_back(command_lo.str());
+		}
+		else {
+			std::ostringstream command;
+			command << "./"<< executor_name << " "<< " -i="<< i <<" -b=" << battery_code << " -s=0x" << std::hex << seeds[i] ;
+			command_list.push_back(command.str());
+		}
 	}
 
     std::vector<std::future<int>> tasks;
 
     //submit tasks
-	for(int i=0; i<NSEEDS; ++i){
+	for(int i=0; i<command_list.size(); ++i){
 
 		std::cout << command_list[i].c_str()  << std::endl;
 

@@ -35,6 +35,7 @@
 //hydra
 #include <hydra/Random.h>
 //command line
+#define TCLAP_SETBASE_ZERO 1
 #include <tclap/CmdLine.h>
 
 extern "C"
@@ -51,7 +52,7 @@ extern "C"
 static const uint64_t default_seed= 0x123abdf3 ;
 
 
-static hydra::threefry_long RNG(seed);
+static hydra::threefry_long RNG(default_seed);
 
 std::string rng_name = "threefry_long";
 
