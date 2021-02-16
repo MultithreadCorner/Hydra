@@ -42,30 +42,37 @@ extern "C"
     #include "unif01.h"
     #include "bbattery.h"
     #include "util.h"
+    #include "swrite.h"
 }
 
 
 
 //set a global seed
-static const uint64_t seed= 0x123abdf3 ;
+static const uint64_t default_seed= 0x123abdf3 ;
 
 
-static hydra::threefry RNG(seed);
+static hydra::threefry RNG(default_seed);
 
-uint32_t threefry_hi(void){
+std::string rng_name = "threefry";
+
+uint32_t rng_hi(void){
 
 	return uint32_t(RNG()>>32);
 }
 
-uint32_t threefry_lo(void){
+uint32_t rng_lo(void){
 
 	return uint32_t(RNG());
 }
 
 int main(int argv, char** argc)
 {
+	swrite_Basic = FALSE; // only print summary
 
 	unsigned battery = 0;
+	unsigned id = 0;
+	uint64_t seed = default_seed;
+
 	bool     test_high_bits=0;
 
 	std::vector<unsigned> allowed{0,1,2};
@@ -78,6 +85,13 @@ int main(int argv, char** argc)
 		TCLAP::ValueArg<unsigned> EArg("b", "battery","TestU01's battery: 0 - SmallCrush (default) / 1 - Crush / 2 - BigCrush", false, 0, &allowedVals);
 		cmd.add(EArg);
 
+
+		TCLAP::ValueArg<uint64_t> SeedArg("s", "seed","RNG seed.", false, default_seed, "uint64_t");
+		cmd.add(SeedArg);
+
+		TCLAP::ValueArg<unsigned> IdArg("i", "id","Run ID.", false, 0, "unsigned");
+		cmd.add(IdArg);
+
 		TCLAP::SwitchArg HighBitArg("H", "high_bits", "Test the 32 higher bits of output", false) ;
 		cmd.add(HighBitArg);
 
@@ -86,6 +100,8 @@ int main(int argv, char** argc)
 
 		// Get the value parsed by each arg.
 		battery = EArg.getValue();
+		id      = IdArg.getValue();
+		seed    = SeedArg.getValue();
 		test_high_bits= HighBitArg.getValue();
 
 	}
@@ -93,19 +109,27 @@ int main(int argv, char** argc)
 		std::cerr << "error: " << e.error() << " for arg " << e.argId()	<< std::endl;
 	}
 
+   RNG.SetSeed(seed);
+
    unif01_Gen* gen_a;
 
    char* bit_range;
 
+   std::ostringstream unif01_name;
+
+   unif01_name << rng_name ;
+
    if( test_high_bits ) {
 
+	   unif01_name << "H";
 	   bit_range = const_cast<char*>( "HigherBits");
-	   gen_a = unif01_CreateExternGenBits(const_cast<char*>("threefryH"), threefry_hi );
+	   gen_a = unif01_CreateExternGenBits(const_cast<char*>(unif01_name.str().c_str()), rng_hi );
    }
    else {
 
+	   unif01_name << "L";
 	   bit_range =  const_cast<char*>("LowerBits");
-	   gen_a = unif01_CreateExternGenBits(const_cast<char*>("threefryL"), threefry_lo );
+	   gen_a = unif01_CreateExternGenBits(const_cast<char*>(unif01_name.str().c_str()), rng_lo );
    }
 
    char* battery_name=const_cast<char*>("");
@@ -113,7 +137,7 @@ int main(int argv, char** argc)
    switch( battery ) {
 
    case 0:
-	   battery_name=const_cast<char*>( "SmallCrush");
+	   battery_name=const_cast<char*>("SmallCrush");
 	   break;
    case 1:
 	   battery_name=const_cast<char*>("Crush");
@@ -125,15 +149,15 @@ int main(int argv, char** argc)
    }
 
    std::ostringstream filename;
-   filename << "hydra_threefry_TestU01_" << battery_name << "_" <<  bit_range << "_log.txt" ;
+   filename << "hydra_"<< rng_name <<"_TestU01_" << battery_name << "_" <<  bit_range << "_log_"<<id <<".txt" ; ;
 
    std::ostringstream message;
-   message << "Running TestU01's " << battery_name << " on hydra::threefry." << std::endl
+   message << "Running TestU01's " << battery_name << " on hydra::"<<rng_name << std::endl
 		   << "Find the test's report on the file " << filename.str().c_str() << " in the program's work directory." << std::endl
 		   << "It is going to take from seconds (SmallCrush) to hours (BigCrush)."<< std::endl
 		   << "Check the result issuing the command: tail -n 25 " << filename.str().c_str() << std::endl;
 
-   std::cout << "------------ [ Testing hydra::threefry ("<< bit_range<<")] --------------"  << std::endl;
+   std::cout << "------------ [ Testing hydra::philox ("<< bit_range<<")] --------------"  << std::endl;
 
    std::cout << message.str().c_str()  << std::endl;
 

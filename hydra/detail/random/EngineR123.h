@@ -182,6 +182,21 @@ public:
 		fSeed = seed;
 	}
 
+
+	__hydra_host__ __hydra_device__
+	inline void SetSeed(result_type seed) {
+		init_type temp{{}};
+
+		for(unsigned i=0; i< temp.size(); ++i){
+			temp[i]=splitmix<result_type>(seed);
+			//std::cout << i <<" " <<temp[i] << std::endl;
+		}
+
+        fSeed = temp;
+	}
+
+
+
 	__hydra_host__ __hydra_device__
 	inline const state_type& GetState() const {
 		return fState;
