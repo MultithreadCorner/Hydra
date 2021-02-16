@@ -131,8 +131,6 @@ endif(OPENMP_CXX_FOUND OR OPENMP_FOUND)
 
 #-----------------------
 #get TestU01
-set(TESTU01_ROOT "/usr")
-set(TESTU01_LINK_DIR "/usr/lib64")
 find_package(TestU01)
 if(TESTU01_FOUND)
 include_directories(${TESTU01_INCLUDE_DIRS})

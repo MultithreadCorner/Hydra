@@ -20,6 +20,11 @@ if(TESTU01_INCLUDE_DIRS AND TESTU01_LIBRARIES)
   set (TESTU01_FIND_QUIETLY TRUE)
 endif()
 
+if(NOT DEFINED TESTU01_ROOT)
+set(TESTU01_ROOT "/usr")
+endif()
+
+
 find_path(TESTU01_INCLUDE_SRES NAMES sres.h
                                HINTS ${TESTU01_ROOT}/include
                                      $ENV{TESTU01_ROOT}/include)

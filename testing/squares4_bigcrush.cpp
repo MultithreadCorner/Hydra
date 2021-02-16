@@ -79,6 +79,9 @@ int main(int argv, char** argc)
 		TCLAP::ValueArg<unsigned> IdArg("i", "id","Run ID.", false, 0, "unsigned");
 		cmd.add(IdArg);
 
+		TCLAP::SwitchArg HighBitArg("H", "high_bits", "Test the 32 higher bits of output", false) ;
+		cmd.add(HighBitArg);
+
 		// Parse the argv array.
 		cmd.parse(argv, argc);
 
