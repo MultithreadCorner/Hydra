@@ -36,6 +36,7 @@
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/TypeTraits.h>
 #include <hydra/Placeholders.h>
+#include <hydra/Tuple.h>
 #include <utility>
 
 namespace hydra {
