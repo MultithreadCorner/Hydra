@@ -263,7 +263,7 @@ struct RndFunctionFlag{
 	{}
 
 	__hydra_host__ __hydra_device__
-	RndFunctionFlag(RndFunctionFlag<T,Iterator, GRND> const& other):
+	RndFunctionFlag(RndFunctionFlag<T,Iterator, Function,GRND> const& other):
 	    fJump(other.fJump ),
 		fSeed(other.fSeed),
 		fValMax(other.fValMax),
