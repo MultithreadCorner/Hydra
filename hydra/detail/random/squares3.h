@@ -144,7 +144,7 @@ public:
 		fState = state;
 	}
 
-	inline static uint64_t GenerateSeed( size_t i ){
+	inline static uint64_t GenerateSeed( std::size_t i ){
 			return random::detail::keys[i];
 		}
 

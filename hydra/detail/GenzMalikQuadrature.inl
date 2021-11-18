@@ -48,32 +48,32 @@
 
 namespace hydra {
 
-template<size_t N,hydra::detail::Backend  BACKEND>
+template<std::size_t N,hydra::detail::Backend  BACKEND>
 void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(
 		std::array<GReal_t,N> const& LowerLimit,
 		std::array<GReal_t,N> const& UpperLimit,
-		std::array<size_t, N> const& grid){
+		std::array<std::size_t, N> const& grid){
 
-	size_t nboxes = 1;
+	std::size_t nboxes = 1;
 	hydra::detail::multiply(grid, nboxes );
 
 	fBoxList.reserve(nboxes);
 
 	std::array<GReal_t, N> width;
 
-	for( size_t i=0; i<N; i++)
+	for( std::size_t i=0; i<N; i++)
 	{ width[i] = (UpperLimit[i] -  LowerLimit[i])/grid[i];  }
 
-	std::array<size_t, N>  mindex;
+	std::array<std::size_t, N>  mindex;
 	std::array<GReal_t,N>  lower_limit;
 	std::array<GReal_t,N>  upper_limit;
 
 
-	for(size_t index=0; index<nboxes; index++)
+	for(std::size_t index=0; index<nboxes; index++)
 	{
 		hydra::detail::get_indexes( index, grid,  mindex );
 
-		for( size_t dim=0; dim<N; dim++)
+		for( std::size_t dim=0; dim<N; dim++)
 		{
 			lower_limit[dim] =   LowerLimit[dim] + width[dim]*mindex[dim];
 			upper_limit[dim] =   LowerLimit[dim] + width[dim]*(mindex[dim]+1);
@@ -88,12 +88,12 @@ void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(
 }
 
 
-template<size_t N,hydra::detail::Backend  BACKEND>
+template<std::size_t N,hydra::detail::Backend  BACKEND>
 void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(
 		std::array<GReal_t,N> const& LowerLimit,
-		std::array<GReal_t,N> const& UpperLimit, size_t nboxes){
+		std::array<GReal_t,N> const& UpperLimit, std::size_t nboxes){
 
-			std::array<size_t, N> grid;
+			std::array<std::size_t, N> grid;
 
 			GetGrid( nboxes, grid) ;
 			hydra::detail::multiply(grid, nboxes );
@@ -102,18 +102,18 @@ void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(
 
 			std::array<GReal_t, N> width;
 
-			for( size_t i=0; i<N; i++)
+			for( std::size_t i=0; i<N; i++)
 				width[i] = (UpperLimit[i] -  LowerLimit[i])/grid[i];
 
-			std::array< size_t,N> mindex;
+			std::array< std::size_t,N> mindex;
 			std::array<GReal_t,N> lower_limit;
 			std::array<GReal_t,N> upper_limit;
 
-			for(size_t index=0; index<nboxes; index++)
+			for(std::size_t index=0; index<nboxes; index++)
 			{
 				hydra::detail::get_indexes( index, grid,  mindex );
 
-				for( size_t dim=0; dim<N; dim++)
+				for( std::size_t dim=0; dim<N; dim++)
 				{
 					lower_limit[dim] =   LowerLimit[dim] + width[dim]*mindex[dim];
 					upper_limit[dim] =   LowerLimit[dim] + width[dim]*(mindex[dim]+1);
@@ -128,30 +128,30 @@ void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(
 
 
 
-template<size_t N,hydra::detail::Backend  BACKEND>
+template<std::size_t N,hydra::detail::Backend  BACKEND>
 void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(
 		const GReal_t (&LowerLimit)[N],
-		const GReal_t (&UpperLimit)[N], const size_t (&grid)[N]){
+		const GReal_t (&UpperLimit)[N], const std::size_t (&grid)[N]){
 
-			size_t nboxes = 1;
+			std::size_t nboxes = 1;
 			hydra::detail::multiply(grid, nboxes );
 
 			fBoxList.reserve(nboxes);
 
 			std::array<GReal_t, N> width;
 
-			for( size_t i=0; i<N; i++)
+			for( std::size_t i=0; i<N; i++)
 			{ width[i] = (UpperLimit[i] -  LowerLimit[i])/grid[i];  }
 
-			size_t mindex[N];
+			std::size_t mindex[N];
 			GReal_t  lower_limit[N];
 			GReal_t  upper_limit[N];
 
-			for(size_t index=0; index<nboxes; index++)
+			for(std::size_t index=0; index<nboxes; index++)
 			{
 				hydra::detail::get_indexes( index, grid,  mindex );
 
-				for( size_t dim=0; dim<N; dim++)
+				for( std::size_t dim=0; dim<N; dim++)
 				{
 					lower_limit[dim] =   LowerLimit[dim] + width[dim]*mindex[dim];
 					upper_limit[dim] =   LowerLimit[dim] + width[dim]*(mindex[dim]+1);
@@ -164,12 +164,12 @@ void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(
 		}
 
 
-template<size_t N,hydra::detail::Backend  BACKEND>
+template<std::size_t N,hydra::detail::Backend  BACKEND>
 void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(const GReal_t (&LowerLimit)[N],
-		const GReal_t (&UpperLimit)[N],	size_t nboxes)
+		const GReal_t (&UpperLimit)[N],	std::size_t nboxes)
 		{
 
-			std::array<size_t, N> grid;
+			std::array<std::size_t, N> grid;
 
 			GetGrid( nboxes, grid) ;
 			hydra::detail::multiply(grid, nboxes );
@@ -178,18 +178,18 @@ void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(
 
 			std::array<GReal_t, N> width;
 
-			for( size_t i=0; i<N; i++)
+			for( std::size_t i=0; i<N; i++)
 				width[i] = (UpperLimit[i] -  LowerLimit[i])/grid[i];
 
-			std::array< size_t,N> mindex;
+			std::array< std::size_t,N> mindex;
 			std::array<GReal_t,N> lower_limit;
 			std::array<GReal_t,N> upper_limit;
 
-			for(size_t index=0; index<nboxes; index++)
+			for(std::size_t index=0; index<nboxes; index++)
 			{
 				hydra::detail::get_indexes( index, grid,  mindex );
 
-				for( size_t dim=0; dim<N; dim++)
+				for( std::size_t dim=0; dim<N; dim++)
 				{
 					lower_limit[dim] =   LowerLimit[dim] + width[dim]*mindex[dim];
 					upper_limit[dim] =   LowerLimit[dim] + width[dim]*(mindex[dim]+1);
@@ -203,13 +203,13 @@ void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(
 		}
 
 
-template<size_t N, hydra::detail::Backend  BACKEND>
+template<std::size_t N, hydra::detail::Backend  BACKEND>
 GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::GenzMalikQuadrature( GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>> const& other):
 fBoxList(other.GetBoxList() ),
 fGenzMalikRule(other.GetGenzMalikRule() )
 {}
 
-template<size_t N, hydra::detail::Backend  BACKEND>
+template<std::size_t N, hydra::detail::Backend  BACKEND>
 template<hydra::detail::Backend  BACKEND2>
 GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::GenzMalikQuadrature( GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND2>> const& other):
 fBoxList(other.GetBoxList() ),
@@ -217,7 +217,7 @@ fGenzMalikRule(other.GetGenzMalikRule() )
 {}
 
 
-template<size_t N, hydra::detail::Backend  BACKEND>
+template<std::size_t N, hydra::detail::Backend  BACKEND>
 GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>&
 GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>::operator=( GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>> const& other)
 {
@@ -229,7 +229,7 @@ GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>::operator=( GenzMal
 	return *this;
 }
 
-template<size_t N, hydra::detail::Backend  BACKEND>
+template<std::size_t N, hydra::detail::Backend  BACKEND>
 template<hydra::detail::Backend  BACKEND2>
 GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>&
 GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>::operator=( GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND2>> const& other)
@@ -242,7 +242,7 @@ GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>::operator=( GenzMal
 	return *this;
 }
 
-template<size_t N, hydra::detail::Backend  BACKEND>
+template<std::size_t N, hydra::detail::Backend  BACKEND>
 template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>::Integrate(FUNCTOR const& functor)
 {
@@ -260,10 +260,10 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 
 	auto it = fBoxList.begin();
 
-	for( size_t i=0; i< fBoxList.size();i++ ){
+	for( std::size_t i=0; i< fBoxList.size();i++ ){
 
 		futures[i] = std::async(std::launch::async,
-				[process_box, it ]( size_t j){
+				[process_box, it ]( std::size_t j){
 			process_box(*(it+j));
 			return ;
 		}, i );
@@ -301,7 +301,7 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 	return  result;*/
 }
 
-template<size_t N, hydra::detail::Backend  BACKEND>
+template<std::size_t N, hydra::detail::Backend  BACKEND>
 template<typename FUNCTOR, typename Vector>
 void GenzMalikQuadrature<N,
        hydra::detail::BackendPolicy<BACKEND>>::AdaptiveIntegration(FUNCTOR const& functor, Vector& BoxList) {
@@ -319,7 +319,7 @@ void GenzMalikQuadrature<N,
 	//std::chrono::duration<double, std::milli> elapsed = stop - start;
 	//std::cout << "Sort Time (ms): " << elapsed.count() <<std::endl;
 
-	size_t n = BoxList.size()*fFraction;
+	std::size_t n = BoxList.size()*fFraction;
 	SplitBoxes(BoxList, n );
 
 	//launch calculation
@@ -327,10 +327,10 @@ void GenzMalikQuadrature<N,
 
 }
 
-template<size_t N, hydra::detail::Backend  BACKEND>
+template<std::size_t N, hydra::detail::Backend  BACKEND>
 template<typename Vector>
 void hydra::GenzMalikQuadrature<N,
-         hydra::detail::BackendPolicy<BACKEND> >::SplitBoxes( Vector& boxes, size_t n ){
+         hydra::detail::BackendPolicy<BACKEND> >::SplitBoxes( Vector& boxes, std::size_t n ){
 
 	Vector new_boxes;
 	new_boxes.reserve(2*n);
@@ -354,7 +354,7 @@ void hydra::GenzMalikQuadrature<N,
 
 
 
-template<size_t N, hydra::detail::Backend  BACKEND>
+template<std::size_t N, hydra::detail::Backend  BACKEND>
 template<typename Vector>
 std::pair<GReal_t, GReal_t>
 hydra::GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND> >::CalculateIntegral( Vector const& BoxList){

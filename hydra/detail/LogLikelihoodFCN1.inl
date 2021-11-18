@@ -75,7 +75,7 @@ public:
 		return  *this;
 	}
 
-	template<size_t M = sizeof...(IteratorW)>
+	template<std::size_t M = sizeof...(IteratorW)>
 	inline typename std::enable_if<(M==0), double >::type
 	Eval( const std::vector<double>& parameters ) const{
 
@@ -85,8 +85,8 @@ public:
 		System system;
 
 		// create iterators
-		hydra_thrust::counting_iterator<size_t> first(0);
-		hydra_thrust::counting_iterator<size_t> last = first + this->GetDataSize();
+		hydra_thrust::counting_iterator<std::size_t> first(0);
+		hydra_thrust::counting_iterator<std::size_t> last = first + this->GetDataSize();
 
 		GReal_t final;
 		GReal_t init=0;
@@ -94,7 +94,7 @@ public:
 		if (INFO >= Print::Level()  )
 		{
 			std::ostringstream stringStream;
-			for(size_t i=0; i< parameters.size(); i++){
+			for(std::size_t i=0; i< parameters.size(); i++){
 				stringStream << "Parameter["<< i<<"] :  " << parameters[i]  << "  ";
 			}
 			HYDRA_LOG(INFO, stringStream.str().c_str() )
@@ -110,7 +110,7 @@ public:
 		return (GReal_t)this->GetDataSize() -final ;
 	}
 
-	template<size_t M = sizeof...(IteratorW)>
+	template<std::size_t M = sizeof...(IteratorW)>
 	inline typename std::enable_if<(M>0), double >::type
 	Eval( const std::vector<double>& parameters ) const{
 
@@ -120,8 +120,8 @@ public:
 		System system;
 
 		// create iterators
-		hydra_thrust::counting_iterator<size_t> first(0);
-		hydra_thrust::counting_iterator<size_t> last = first + this->GetDataSize();
+		hydra_thrust::counting_iterator<std::size_t> first(0);
+		hydra_thrust::counting_iterator<std::size_t> last = first + this->GetDataSize();
 
 		GReal_t final;
 		GReal_t init=0;
@@ -129,7 +129,7 @@ public:
 		if (INFO >= Print::Level()  )
 		{
 			std::ostringstream stringStream;
-			for(size_t i=0; i< parameters.size(); i++){
+			for(std::size_t i=0; i< parameters.size(); i++){
 				stringStream << "Parameter["<< i<<"] :  " << parameters[i]  << "  ";
 			}
 			HYDRA_LOG(INFO, stringStream.str().c_str() )

@@ -44,7 +44,7 @@ namespace hydra {
  * \ingroup phsp
  *
  */
-template <size_t N, typename Backend,  typename GRND=hydra::default_random_engine>
+template <std::size_t N, typename Backend,  typename GRND=hydra::default_random_engine>
 class PhaseSpaceIntegrator;
 
 /**
@@ -53,7 +53,7 @@ class PhaseSpaceIntegrator;
  * \tparam N is the number of particles in final state.
  * \tparam GRND underlying random number generator. See the options in hydra_thrust::random namespace.
  */
-template <size_t N, hydra::detail::Backend BACKEND,  typename GRND>
+template <std::size_t N, hydra::detail::Backend BACKEND,  typename GRND>
 class PhaseSpaceIntegrator<N,  hydra::detail::BackendPolicy<BACKEND>, GRND>:
 public Integral< PhaseSpaceIntegrator<N,  hydra::detail::BackendPolicy<BACKEND>, GRND> >
 {
@@ -62,14 +62,14 @@ public:
 	typedef void hydra_integrator_tag;
 
 
-	PhaseSpaceIntegrator(const GReal_t motherMass, const GReal_t (&daughtersMasses)[N], size_t n):
+	PhaseSpaceIntegrator(const GReal_t motherMass, const GReal_t (&daughtersMasses)[N], std::size_t n):
 		fGenerator(motherMass,  daughtersMasses),
 		fMother(motherMass,0,0,0),
 		fNSamples(n)
 	{}
 
 
-	PhaseSpaceIntegrator(const GReal_t motherMass, std::array<GReal_t,N> const& daughtersMasses, size_t n):
+	PhaseSpaceIntegrator(const GReal_t motherMass, std::array<GReal_t,N> const& daughtersMasses, std::size_t n):
 		fGenerator(motherMass, daughtersMasses),
 		fMother(motherMass,0,0,0),
 		fNSamples(n)
@@ -77,7 +77,7 @@ public:
 
 
 
-	PhaseSpaceIntegrator(const GReal_t motherMass, std::initializer_list<GReal_t> const& daughtersMasses, size_t n):
+	PhaseSpaceIntegrator(const GReal_t motherMass, std::initializer_list<GReal_t> const& daughtersMasses, std::size_t n):
 		fGenerator(motherMass, daughtersMasses),
 		fMother(motherMass,0,0,0),
 		fNSamples(n)
@@ -142,11 +142,11 @@ public:
 		fMother = mother;
 	}
 
-	size_t GetNSamples() const {
+	std::size_t GetNSamples() const {
 		return fNSamples;
 	}
 
-	void SetNSamples(size_t nSamples) {
+	void SetNSamples(std::size_t nSamples) {
 		fNSamples = nSamples;
 	}
 
@@ -157,7 +157,7 @@ private:
 
 	PhaseSpace<N,GRND> fGenerator;
 	Vector4R  fMother;
-	size_t fNSamples;
+	std::size_t fNSamples;
 
 };
 

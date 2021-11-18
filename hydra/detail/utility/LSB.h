@@ -81,7 +81,7 @@ lsb( Integer x){
 		};
 
 		x = (x & -x);
-		size_t p;
+		std::size_t p;
 		unsigned r;
 
 		if( (p = x >> 56) ) {  r = 56 + table[p]; }
@@ -142,7 +142,7 @@ lsb( Integer x){
 		};
 
 		x = (x & -x);
-		size_t p;
+		std::size_t p;
 		unsigned r;
 
 

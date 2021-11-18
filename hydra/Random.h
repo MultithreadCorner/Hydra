@@ -136,7 +136,7 @@ detail::random::is_iterator<IteratorData>::value && detail::random::is_iterator<
 Range<IteratorData> >::type
 unweight( hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& policy,
 		IteratorData data_begin, IteratorData data_end, IteratorWeight weights_begin,
-		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0);
+		double max_pdf=-1.0, std::size_t rng_seed=0x8ec74d321e6b5a27, std::size_t rng_jump=0);
 
 /**
  * \ingroup random
@@ -159,7 +159,7 @@ typename std::enable_if<
 detail::random::is_iterator<IteratorData>::value && detail::random::is_iterator<IteratorWeight>::value,
 Range<IteratorData> >::type
 unweight( detail::BackendPolicy<BACKEND> const& policy, IteratorData data_begin, IteratorData data_end, IteratorWeight weights_begin,
-		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0);
+		double max_pdf=-1.0, std::size_t rng_seed=0x8ec74d321e6b5a27, std::size_t rng_jump=0);
 
 /**
  * \ingroup random
@@ -182,7 +182,7 @@ typename std::enable_if<
 	Range<IteratorData>
 >::type
 unweight(IteratorData data_begin, IteratorData data_end , IteratorData weights_begin,
-		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0);
+		double max_pdf=-1.0, std::size_t rng_seed=0x8ec74d321e6b5a27, std::size_t rng_jump=0);
 
 /**
  * \ingroup random
@@ -204,7 +204,7 @@ typename std::enable_if<
 detail::random::is_iterable<IterableData>::value && detail::random::is_iterable<IterableWeight>::value,
 Range< decltype(std::declval<IterableData>().begin())> >::type
 unweight( hydra::detail::BackendPolicy<BACKEND> const& policy,  IterableData&& data, IterableWeight&& weights,
-		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0);
+		double max_pdf=-1.0, std::size_t rng_seed=0x8ec74d321e6b5a27, std::size_t rng_jump=0);
 
 /**
  * \ingroup random
@@ -226,7 +226,7 @@ typename std::enable_if<
 	Range< decltype(std::declval<IterableData>().begin())>
 >::type
 unweight( IterableData&& data, IterableWeight&& weights,
-		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0 );
+		double max_pdf=-1.0, std::size_t rng_seed=0x8ec74d321e6b5a27, std::size_t rng_jump=0 );
 
 
 /**
@@ -250,7 +250,7 @@ typename std::enable_if<
 >::type
 unweight( hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& policy,
 	    	Iterator begin, Iterator end, Functor const& functor,
-			double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0 );
+			double max_pdf=-1.0, std::size_t rng_seed=0x8ec74d321e6b5a27, std::size_t rng_jump=0 );
 
 
 /**
@@ -273,7 +273,7 @@ typename std::enable_if<
 	Range<Iterator>
 >::type
 unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor,
-		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0 );
+		double max_pdf=-1.0, std::size_t rng_seed=0x8ec74d321e6b5a27, std::size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -294,7 +294,7 @@ typename std::enable_if<
 	Range<Iterator>
 >::type
 unweight( Iterator begin, Iterator end, Functor const& functor,
-		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0 );
+		double max_pdf=-1.0, std::size_t rng_seed=0x8ec74d321e6b5a27, std::size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -315,7 +315,7 @@ typename std::enable_if<
 >::type
 unweight( hydra::detail::BackendPolicy<BACKEND> const& policy,
 		Iterable&& iterable, Functor const& functor,
-		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0  );
+		double max_pdf=-1.0, std::size_t rng_seed=0x8ec74d321e6b5a27, std::size_t rng_jump=0  );
 
 /**
  * \ingroup random
@@ -334,7 +334,7 @@ typename std::enable_if<
 detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
 Range< decltype(std::declval<Iterable>().begin())>>::type
 unweight( Iterable&& iterable, Functor const& functor,
-		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0 );
+		double max_pdf=-1.0, std::size_t rng_seed=0x8ec74d321e6b5a27, std::size_t rng_jump=0 );
 
 
 /**
@@ -356,7 +356,7 @@ detail::random::is_callable<Functor>::value && detail::random::is_iterator<Itera
 Range<Iterator> >::type
 sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
 		Iterator begin, Iterator end, double min, double max,
-		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
+		Functor const& functor, std::size_t seed=0xb56c4feeef1b, std::size_t rng_jump=0 );
 
 /**
  * @brief Fill a range with numbers distributed according a user defined distribution.
@@ -377,7 +377,7 @@ detail::random::is_callable<Functor>::value && detail::random::is_iterator<Itera
 Range<Iterator> >::type
 sample(hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& policy,
 		Iterator begin, Iterator end, double min, double max,
-		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
+		Functor const& functor, std::size_t seed=0xb56c4feeef1b, std::size_t rng_jump=0 );
 
 /**
  * @brief Fill a range with numbers distributed according a user defined distribution.
@@ -396,7 +396,7 @@ typename std::enable_if<
 detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 Range<Iterator> >::type
 sample(Iterator begin, Iterator end , double min, double max,
-		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
+		Functor const& functor, std::size_t seed=0xb56c4feeef1b, std::size_t rng_jump=0 );
 
 /**
  * @brief Fill a range with numbers distributed according a user defined distribution.
@@ -414,7 +414,7 @@ typename std::enable_if<
 detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
 Range< decltype(std::declval<Iterable>().begin())>>::type
 sample(Iterable&& output, double min, double max,
-		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
+		Functor const& functor, std::size_t seed=0xb56c4feeef1b, std::size_t rng_jump=0 );
 
 /**
  * @brief Fill a range with numbers distributed according a user defined distribution.
@@ -428,12 +428,12 @@ sample(Iterable&& output, double min, double max,
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  * @return range with the generated values
  */
-template<typename RNG=default_random_engine, typename Functor, typename Iterator, size_t N >
+template<typename RNG=default_random_engine, typename Functor, typename Iterator, std::size_t N >
 typename std::enable_if<
 detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 Range<Iterator> >::type
 sample(Iterator begin, Iterator end , std::array<double,N>const& min, std::array<double,N>const& max,
-		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
+		Functor const& functor, std::size_t seed=0xb56c4feeef1b, std::size_t rng_jump=0 );
 
 /**
  * @brief Fill a range with numbers distributed according a user defined distribution.
@@ -455,7 +455,7 @@ detail::is_tuple_type< decltype(*std::declval<Iterator>())>::value,
 Range<Iterator> >::type
 sample(Iterator begin, Iterator end ,
 		typename Functor::argument_type const& min, typename Functor::argument_type const& max,
-		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
+		Functor const& functor, std::size_t seed=0xb56c4feeef1b, std::size_t rng_jump=0 );
 
 /**
  * @brief Fill a range with numbers distributed according a user defined distribution.
@@ -469,14 +469,14 @@ sample(Iterator begin, Iterator end ,
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  * @param functor distribution to be sampled
  */
-template<typename RNG=default_random_engine, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND, size_t N >
+template<typename RNG=default_random_engine, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND, std::size_t N >
 typename std::enable_if<
 detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 Range<Iterator> >::type
 sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
 		Iterator begin, Iterator end ,
 		std::array<double,N>const& min,	std::array<double,N>const& max,
-		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
+		Functor const& functor, std::size_t seed=0xb56c4feeef1b, std::size_t rng_jump=0 );
 /**
  * @brief Fill a range with numbers distributed according a user defined distribution.
  * @param policy backend to perform the calculation.
@@ -489,14 +489,14 @@ sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  * @param functor distribution to be sampled
  */
-template<typename RNG=default_random_engine, typename DerivedPolicy, typename Functor, typename Iterator, size_t N >
+template<typename RNG=default_random_engine, typename DerivedPolicy, typename Functor, typename Iterator, std::size_t N >
 typename std::enable_if<
 detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 Range<Iterator> >::type
 sample(hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& policy,
 		Iterator begin, Iterator end ,
 		std::array<double,N>const& min,	std::array<double,N>const& max,
-		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
+		Functor const& functor, std::size_t seed=0xb56c4feeef1b, std::size_t rng_jump=0 );
 
 /**
  * @brief Fill a range with numbers distributed according a user defined distribution.
@@ -509,13 +509,13 @@ sample(hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& policy
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  * @return output range with the generated values
  */
-template<typename RNG=default_random_engine, typename Functor, typename Iterable, size_t N >
+template<typename RNG=default_random_engine, typename Functor, typename Iterable, std::size_t N >
 typename std::enable_if<
 detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
 Range< decltype(std::declval<Iterable>().begin())>>::type
 sample( Iterable&& output ,
 		std::array<double,N>const& min, std::array<double,N>const& max,
-		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
+		Functor const& functor, std::size_t seed=0xb56c4feeef1b, std::size_t rng_jump=0 );
 
 /**
  * @brief Fill a range with numbers distributed according a user defined distribution.
@@ -536,7 +536,7 @@ detail::is_tuple_type< decltype(*std::declval<Iterable>().begin())>::value ,
 Range< decltype(std::declval<Iterable>().begin())>>::type
 sample( Iterable&& output ,
 		typename Functor::argument_type const& min,typename Functor::argument_type  const& max,
-		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
+		Functor const& functor, std::size_t seed=0xb56c4feeef1b, std::size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -556,7 +556,7 @@ decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(), 
 typename hydra_thrust::iterator_traits<Iterator>::value_type
 >::value, void>::type
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-            Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
+            Iterator begin, Iterator end, FUNCTOR const& functor, std::size_t seed=0x254a0afcf7da74a2, std::size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -574,7 +574,7 @@ typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::
 decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
 typename hydra_thrust::iterator_traits<Iterator>::value_type
 >::value, void>::type
-fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
+fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, std::size_t seed=0x254a0afcf7da74a2, std::size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -590,7 +590,7 @@ fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x
 template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterable, typename FUNCTOR >
 typename std::enable_if< detail::random::is_matching_iterable<Engine, FUNCTOR, Iterable>::value, void>::type
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-            Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
+            Iterable&& iterable, FUNCTOR const& functor, std::size_t seed=0x254a0afcf7da74a2, std::size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -605,7 +605,7 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
 template< typename Engine = hydra::default_random_engine, typename Iterable, typename FUNCTOR >
 typename std::enable_if< detail::random::is_matching_iterable<Engine, FUNCTOR, Iterable>::value,
 void>::type
-fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
+fill_random(Iterable&& iterable, FUNCTOR const& functor, std::size_t seed=0x254a0afcf7da74a2, std::size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -622,7 +622,7 @@ fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf
 template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
 typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-            Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
+            Iterator begin, Iterator end, FUNCTOR const& functor, std::size_t seed=0x254a0afcf7da74a2, std::size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -637,7 +637,7 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  */
 template< typename Engine = hydra::default_random_engine, typename Iterator, typename FUNCTOR >
 typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
-fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
+fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, std::size_t seed=0x254a0afcf7da74a2, std::size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -657,7 +657,7 @@ decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(), 
 typename std::iterator_traits<Iterator>::value_type
 >::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-            Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
+            Iterator begin, Iterator end, FUNCTOR const& funct, std::size_t seed=0x254a0afcf7da74a2, std::size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -675,7 +675,7 @@ typename std::enable_if< !std::is_convertible<
 decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
 typename std::iterator_traits<Iterator>::value_type
 >::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
-fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
+fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, std::size_t seed=0x254a0afcf7da74a2, std::size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -691,7 +691,7 @@ fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x
 template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterable, typename FUNCTOR >
 typename std::enable_if< !(detail::random::is_matching_iterable<Engine, FUNCTOR, Iterable>::value), void>::type
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-            Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
+            Iterable&& iterable, FUNCTOR const& functor, std::size_t seed=0x254a0afcf7da74a2, std::size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -705,7 +705,7 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  */
 template< typename Engine = hydra::default_random_engine, typename Iterable, typename FUNCTOR >
 typename std::enable_if<!(detail::random::is_matching_iterable<Engine, FUNCTOR, Iterable>::value),void>::type
-fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
+fill_random(Iterable&& iterable, FUNCTOR const& functor, std::size_t seed=0x254a0afcf7da74a2, std::size_t rng_jump=0 );
 
 
 

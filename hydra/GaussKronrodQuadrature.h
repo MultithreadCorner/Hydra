@@ -45,7 +45,7 @@
 namespace hydra {
 
 
-template< size_t NRULE, size_t NBIN, typename  BACKEND>
+template< std::size_t NRULE, std::size_t NBIN, typename  BACKEND>
 class GaussKronrodQuadrature;
 
 /**
@@ -91,7 +91,7 @@ the corresponding Gauss rule is of order \f$2n-1\f$. These extra points are the 
 This allows for computing higher-order estimates while reusing the function values of a lower-order estimate.
 The difference between a Gauss quadrature rule and its Kronrod extension are often used as an estimate of the approximation error.
  */
-template<size_t NRULE, size_t NBIN, hydra::detail::Backend  BACKEND>
+template<std::size_t NRULE, std::size_t NBIN, hydra::detail::Backend  BACKEND>
 class GaussKronrodQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND>>:
 public Integral< GaussKronrodQuadrature<NRULE, NBIN, hydra::detail::BackendPolicy<BACKEND> > >
 {
@@ -172,7 +172,7 @@ public:
 		HYDRA_MSG << "XLower: " << fXLower << HYDRA_ENDL;
 		HYDRA_MSG << "XUpper: " << fXUpper << HYDRA_ENDL;
 		HYDRA_MSG << "NBins: " << NBIN << HYDRA_ENDL;
-		for(size_t i=0; i<NBIN; i++ ){
+		for(std::size_t i=0; i<NBIN; i++ ){
 			HYDRA_MSG << "bin " << i <<" = ["<< fBins[i] <<", " << fBins[i+1]<< "]"<< HYDRA_ENDL;
 		    	}
 		fRule.Print();
@@ -215,7 +215,7 @@ private:
 
     	GReal_t delta = (fXUpper - fXLower)/NBIN;
 
-    	for(size_t i=0; i<NBIN; i++ )
+    	for(std::size_t i=0; i<NBIN; i++ )
     	{
     		this->fBins[i] = this->fXLower + i*delta;
     	}
@@ -231,9 +231,9 @@ private:
     	fCallTable.resize(NBIN*(NRULE+1)/2);
     	table_h temp_table(NBIN*(NRULE+1)/2);
 
-    	for(size_t bin=0; bin<NBIN; bin++)
+    	for(std::size_t bin=0; bin<NBIN; bin++)
     	{
-    		for(size_t call=0; call<(NRULE+1)/2; call++)
+    		for(std::size_t call=0; call<(NRULE+1)/2; call++)
     		{
     			GReal_t lower_lim = fBins[bin];
     			GReal_t upper_lim = fBins[bin+1];
@@ -246,7 +246,7 @@ private:
     			GReal_t rule_GaussKronrod_Weight   = fRule.KronrodWeight[call];
     			GReal_t rule_Gauss_Weight          = fRule.GaussWeight[call];
 
-    			size_t index = call*NBIN + bin;
+    			std::size_t index = call*NBIN + bin;
 
     			temp_table[index]= row_t( abscissa_X_P, abscissa_X_M, abscissa_Weight, rule_GaussKronrod_Weight, rule_Gauss_Weight);
     		}

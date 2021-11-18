@@ -56,7 +56,7 @@ namespace hydra {
 namespace detail {
 
 
-template <size_t N, typename GRND, typename FUNCTOR, typename ...FUNCTORS >
+template <std::size_t N, typename GRND, typename FUNCTOR, typename ...FUNCTORS >
 struct EvalMother
 {
 	typedef  hydra_thrust::tuple<FUNCTOR,FUNCTORS...> functors_tuple_type;
@@ -68,7 +68,7 @@ struct EvalMother
 			result_tuple_type;
 
 
-	size_t  fSeed;
+	std::size_t  fSeed;
 
 	GReal_t fECM;
 	GReal_t fMaxWeight;
@@ -83,7 +83,7 @@ struct EvalMother
 	//constructor
 	EvalMother(Vector4R const& mother,
 			const GReal_t (&masses)[N],
-			double maxweight, double ecm, size_t seed,
+			double maxweight, double ecm, std::size_t seed,
 			FUNCTOR const& functor, FUNCTORS const& ...functors ):
 			fMaxWeight(maxweight),
 			fECM(ecm),
@@ -91,7 +91,7 @@ struct EvalMother
 			fFunctors( hydra_thrust::make_tuple(functor,functors...))
 	{
 
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 			fMasses[i]=masses[i];
 
 		GReal_t beta = mother.d3mag() / mother.get(0);
@@ -118,7 +118,7 @@ struct EvalMother
 	fBeta0(other.fBeta0 ),
 	fBeta1(other.fBeta1 ),
 	fBeta2(other.fBeta2 )
-	{ for(size_t i=0; i<N; i++) fMasses[i]=other.fMasses[i]; }
+	{ for(std::size_t i=0; i<N; i++) fMasses[i]=other.fMasses[i]; }
 
 
 
@@ -159,7 +159,7 @@ struct EvalMother
 
 
 	__hydra_host__   __hydra_device__ inline
-	constexpr static size_t hash(const size_t a, const size_t b)
+	constexpr static std::size_t hash(const std::size_t a, const std::size_t b)
 	{
 		//Matthew Szudzik pairing
 		//http://szudzik.com/ElegantPairing.pdf
@@ -167,7 +167,7 @@ struct EvalMother
 	}
 
 	__hydra_host__   __hydra_device__ inline
-	GReal_t process(size_t evt, Vector4R (&daugters)[N])
+	GReal_t process(std::size_t evt, Vector4R (&daugters)[N])
 	{
 
 		GRND randEng( fSeed );//hash(evt,fSeed) );
@@ -181,7 +181,7 @@ struct EvalMother
 		if (N > 2)
 		{
 //#pragma unroll N
-			for (size_t n = 1; n < N - 1; n++)
+			for (std::size_t n = 1; n < N - 1; n++)
 			{
 				rno[n] =  uniDist(randEng) ;
 
@@ -195,7 +195,7 @@ struct EvalMother
 		GReal_t invMas[N], sum = 0.0;
 
 //#pragma unroll N
-		for (size_t n = 0; n < N; n++)
+		for (std::size_t n = 0; n < N; n++)
 		{
 			//printf("%d mass=%f \n",n, fMasses[n]);
 			sum += fMasses[n];
@@ -211,7 +211,7 @@ struct EvalMother
 		GReal_t pd[N];
 
 //#pragma unroll N
-		for (size_t n = 0; n < N - 1; n++)
+		for (std::size_t n = 0; n < N - 1; n++)
 		{
 			pd[n] = pdk(invMas[n + 1], invMas[n], fMasses[n + 1]);
 			wt *= pd[n];
@@ -225,7 +225,7 @@ struct EvalMother
 				pd[0], 0.0);
 
 //#pragma unroll N
-		for (size_t i = 1; i < N; i++)
+		for (std::size_t i = 1; i < N; i++)
 		{
 
 			daugters[i].set(
@@ -237,7 +237,7 @@ struct EvalMother
 			GReal_t angY = 2 * PI* uniDist(randEng);
 			GReal_t cY = ::cos(angY);
 			GReal_t sY = ::sin(angY);
-			for (size_t j = 0; j <= i; j++)
+			for (std::size_t j = 0; j <= i; j++)
 			{
 
 				GReal_t x = daugters[j].get(1);
@@ -255,7 +255,7 @@ struct EvalMother
 				break;
 
 			GReal_t beta = pd[i] / ::sqrt(pd[i] * pd[i] + invMas[i] * invMas[i]);
-			for (size_t j = 0; j <= i; j++)
+			for (std::size_t j = 0; j <= i; j++)
 			{
 
 				daugters[j].applyBoostTo(Vector3R(0, beta, 0));
@@ -267,7 +267,7 @@ struct EvalMother
 		//---> final boost of all particles to the mother's frame
 		//
 //#pragma unroll N
-		for (size_t n = 0; n < N; n++)
+		for (std::size_t n = 0; n < N; n++)
 		{
 
 			daugters[n].applyBoostTo(Vector3R(fBeta0, fBeta1, fBeta2));
@@ -289,7 +289,7 @@ struct EvalMother
 		typedef typename hydra::detail::tuple_type<N,
 				Vector4R>::type Tuple_t;
 
-		constexpr size_t SIZE = hydra_thrust::tuple_size<Tuple_t>::value;
+		constexpr std::size_t SIZE = hydra_thrust::tuple_size<Tuple_t>::value;
 
 		Vector4R Particles[SIZE];
 

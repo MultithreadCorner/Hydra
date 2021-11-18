@@ -56,7 +56,7 @@
 namespace hydra {
 
 
-template<size_t DIM, typename BACKEND, typename T>
+template<std::size_t DIM, typename BACKEND, typename T>
 class GenzMalikRule;
 
 /**
@@ -65,7 +65,7 @@ class GenzMalikRule;
  * \brief Class representing Genz-Malik rule.
  *
  */
-template<size_t DIM, hydra::detail::Backend   BACKEND, typename = typename std::enable_if< (DIM>1), void >::type>
+template<std::size_t DIM, hydra::detail::Backend   BACKEND, typename = typename std::enable_if< (DIM>1), void >::type>
 class GenzMalikRule<DIM, hydra::detail::BackendPolicy<BACKEND>>
 	{
 
@@ -355,13 +355,13 @@ public:
 
 	private:
 
-		template<size_t N=0>
+		template<std::size_t N=0>
 		inline   typename std::enable_if< (N==0), GULong64_t>::type twoN()
 		{
 			return 1;
 		}
 
-		template<size_t N=0>
+		template<std::size_t N=0>
 		inline typename std::enable_if< (N>0), GULong64_t>::type twoN()
 		{
 			return 2*twoN<N-1>();
@@ -373,7 +373,7 @@ public:
 			add_abscissas<GChar_t, DIM>(odr);
 		}
 
-		template<typename T, size_t N=1>
+		template<typename T, std::size_t N=1>
 		inline void permute_abscissas( AbscissaCategory_t category, GReal_t rule5_weight, GReal_t rule7_weight, GReal_t lambda,
 			 std::array<T, N> const& seed, vector_abscissa_t& container)
 		{
@@ -434,7 +434,7 @@ public:
 		}
 
 
-		template<typename T, size_t N>
+		template<typename T, std::size_t N>
 		inline void add_abscissas( unsigned int order)
 		{
 		  typedef std::array<T, N> X_t;
@@ -494,9 +494,9 @@ public:
 		  case 5:
 		  {
 			  auto 	  x = X_t();
-			  for(size_t i=0;i<N+1;i++)
+			  for(std::size_t i=0;i<N+1;i++)
 			  {
-				  for(size_t j=0;j<N;j++)
+				  for(std::size_t j=0;j<N;j++)
 				  {
 					  x[j]= T(j<i?-1:1);
 				  }

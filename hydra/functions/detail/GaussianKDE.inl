@@ -46,7 +46,7 @@
 
 namespace hydra {
 
-template< size_t NBins, typename ArgType>
+template< std::size_t NBins, typename ArgType>
 template<typename Iterator>
 __hydra_host__ __hydra_device__
 inline CubicSpiline<NBins> GaussianKDE<NBins, ArgType>::BuildKDE(double min, double max, double h, Iterator begin, Iterator end) {
@@ -64,12 +64,12 @@ inline CubicSpiline<NBins> GaussianKDE<NBins, ArgType>::BuildKDE(double min, dou
 
 	double bin_width = (max-min)/(NBins);
 
-	auto _X = [=](size_t index){
+	auto _X = [=](std::size_t index){
 
 		return min + index*bin_width;
 	};
 
-	typedef hydra_thrust::counting_iterator<size_t> citerator;
+	typedef hydra_thrust::counting_iterator<std::size_t> citerator;
 	citerator counter(0);
 
 	typedef hydra_thrust::transform_iterator<decltype(_X),   citerator> xiterator;

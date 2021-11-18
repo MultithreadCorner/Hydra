@@ -83,7 +83,7 @@ namespace hydra {
  *\tparam N is the number of particles in final state.
  *\tparam GRND underlying random number generator. See the options in hydra_thrust::random namespace.
  */
-template <size_t N, typename GRND=hydra::default_random_engine>
+template <std::size_t N, typename GRND=hydra::default_random_engine>
 class PhaseSpace {
 
 public:
@@ -148,7 +148,7 @@ public:
 	 */
 	template<typename FUNCTOR, hydra::detail::Backend BACKEND>
 	std::pair<GReal_t, GReal_t> AverageOn(hydra::detail::BackendPolicy<BACKEND>const& policy,
-			Vector4R const& mother, FUNCTOR const& functor, size_t n) ;
+			Vector4R const& mother, FUNCTOR const& functor, std::size_t n) ;
 
 	/**
 	 * @brief Calculate the mean and the \f$ \sqrt(\sigma)\f$  of a functor over the phase-space given a list of mother particles.
@@ -337,7 +337,7 @@ private:
 
 
 
-	size_t  fSeed;///< seed.
+	std::size_t  fSeed;///< seed.
 	double  fMotherMass;
 	double  fMaxWeight;
 	double  fECM;

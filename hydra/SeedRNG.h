@@ -41,7 +41,7 @@ class SeedRNG
 public:
 
 	 __hydra_host__ __hydra_device__
-	 SeedRNG(size_t state=1337 ):
+	 SeedRNG(std::size_t state=1337 ):
 	fState(state)
 	{}
 
@@ -61,19 +61,19 @@ public:
 	}
 
 	 __hydra_host__ __hydra_device__
-	size_t GetState() const {
+	std::size_t GetState() const {
 		return fState;
 	}
 
 	__hydra_host__ __hydra_device__
-	void SetState(size_t state) {
+	void SetState(std::size_t state) {
 		fState = state;
 	}
 
 	__hydra_host__ __hydra_device__
-	size_t operator()()
+	std::size_t operator()()
 	{
-		size_t z = (fState += 0x9e3779b97f4a7c15);
+		std::size_t z = (fState += 0x9e3779b97f4a7c15);
 		z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;
 		z = (z ^ (z >> 27)) * 0x94d049bb133111eb;
 		return z ^ (z >> 31);
@@ -82,7 +82,7 @@ public:
 
 private:
 
-	size_t fState;
+	std::size_t fState;
 
 };
 

@@ -66,7 +66,7 @@ Reference: M. Steffen, Astron. Astrophys. 239, 443—450 (1990).
 
 
 
-template<size_t N, unsigned int ArgIndex=0>
+template<std::size_t N, unsigned int ArgIndex=0>
 class CubicSpiline: public BaseFunctor<CubicSpiline<N, ArgIndex>, GReal_t , 0>
 {
 
@@ -90,7 +90,7 @@ public:
 	BaseFunctor<CubicSpiline<N, ArgIndex>, double, 0>(other)
 	{
 #pragma unroll
-		for(size_t i =0; i< N; i++){
+		for(std::size_t i =0; i< N; i++){
 
 			fD[i] = other.GetD()[i];
 			fX[i] = other.GetX()[i];
@@ -105,7 +105,7 @@ public:
 		BaseFunctor<CubicSpiline<N, ArgIndex>, double, 0>::operator=(other);
 
 #pragma unroll
-		for(size_t i =0; i< N; i++){
+		for(std::size_t i =0; i< N; i++){
 
 			fD[i] = other.GetD()[i];
 			fX[i] = other.GetX()[i];
@@ -162,7 +162,7 @@ private:
 	{
 		using hydra_thrust::min;
 
-		const size_t i = hydra_thrust::distance(fX,
+		const std::size_t i = hydra_thrust::distance(fX,
 							hydra_thrust::lower_bound(hydra_thrust::seq, fX, fX +N, x));
 		//--------------------
 

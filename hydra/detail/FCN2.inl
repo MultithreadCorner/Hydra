@@ -55,7 +55,7 @@ public:
 	fBegin(begin ),
 	fEnd(end),
 	fErrorDef(0.5),
-	fFCNCache(std::unordered_map<size_t, GReal_t>()),
+	fFCNCache(std::unordered_map<std::size_t, GReal_t>()),
 	fFCNMaxValue(std::numeric_limits<GReal_t>::min())
 	{
 		fDataSize = hydra_thrust::distance(fBegin, fEnd);
@@ -170,7 +170,7 @@ public:
 		fUserParameters = userParameters;
 	}
 
-	size_t GetDataSize() const
+	std::size_t GetDataSize() const
 	{
 		return fDataSize;
 	}
@@ -197,17 +197,17 @@ public:
 
 private:
 
-	std::unordered_map<size_t, GReal_t>& GetFcnCache() const {
+	std::unordered_map<std::size_t, GReal_t>& GetFcnCache() const {
 		return fFCNCache;
 	}
 
-	void SetFcnCache(std::unordered_map<size_t, GReal_t> fcnCache) {
+	void SetFcnCache(std::unordered_map<std::size_t, GReal_t> fcnCache) {
 		fFCNCache = fcnCache;
 	}
 
 	GReal_t GetFCNValue(const std::vector<double>& parameters) const {
 
-		size_t key = hydra::detail::hash_range(parameters.begin(),parameters.end());
+		std::size_t key = hydra::detail::hash_range(parameters.begin(),parameters.end());
 
 		auto search = fFCNCache.find(key);
 
@@ -262,7 +262,7 @@ private:
     GReal_t  fErrorDef;
     mutable GReal_t   fFCNMaxValue;
     hydra::UserParameters fUserParameters ;
-    mutable std::unordered_map<size_t, GReal_t> fFCNCache;
+    mutable std::unordered_map<std::size_t, GReal_t> fFCNCache;
 
 
 };

@@ -45,7 +45,7 @@
 
 namespace hydra {
 
-template<typename T,size_t N,  hydra::detail::Backend BACKEND >
+template<typename T,std::size_t N,  hydra::detail::Backend BACKEND >
 template<typename Iterator1, typename Iterator2>
 SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin )
@@ -60,7 +60,7 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 			decltype(select_system(fSystem,system1, system2 ))>::type common_system_t;
 	//----------------
 
-	size_t data_size = hydra_thrust::distance(begin, end);
+	std::size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<N,T>(fGrid, fLowerLimits, fUpperLimits);
 
@@ -69,14 +69,14 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 
 	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	hydra_thrust::copy(common_system_t(), keys_begin, keys_end, key_buffer.first);
 	hydra_thrust::sort_by_key( common_system_t(), key_buffer.first, key_buffer.first+data_size, weights.first);
 
 	//bins content
 	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	auto reduced_end = hydra_thrust::reduce_by_key(common_system_t(),
 			key_buffer.first, key_buffer.first +  key_buffer.second,
@@ -84,7 +84,7 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 
 	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
-	size_t histogram_size = hydra_thrust::distance(reduced_keys.first, reduced_end.first);
+	std::size_t histogram_size = hydra_thrust::distance(reduced_keys.first, reduced_end.first);
 
 	fContents.resize(histogram_size);
 	fBins.resize(histogram_size);
@@ -104,7 +104,7 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 }
 
 
-template< typename T,size_t N, hydra::detail::Backend BACKEND >
+template< typename T,std::size_t N, hydra::detail::Backend BACKEND >
 template<hydra::detail::Backend BACKEND2, typename Iterator1, typename Iterator2>
 SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
@@ -120,7 +120,7 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 			decltype(select_system(exec_policy,fSystem, system1, system2 ))>::type common_system_t;
 	//----------------
 
-	size_t data_size = hydra_thrust::distance(begin, end);
+	std::size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<N,T>(fGrid, fLowerLimits, fUpperLimits);
 
@@ -129,14 +129,14 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 
 	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	hydra_thrust::copy(common_system_t(), keys_begin, keys_end, key_buffer.first);
 	hydra_thrust::sort_by_key( common_system_t(), key_buffer.first, key_buffer.first+data_size, weights.first);
 
 	//bins content
 	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	auto reduced_end = hydra_thrust::reduce_by_key(common_system_t(),
 			key_buffer.first, key_buffer.first +  key_buffer.second,
@@ -144,7 +144,7 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 
 	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
-	size_t histogram_size = hydra_thrust::distance(reduced_keys.first, reduced_end.first);
+	std::size_t histogram_size = hydra_thrust::distance(reduced_keys.first, reduced_end.first);
 
 	fContents.resize(histogram_size);
 	fBins.resize(histogram_size);
@@ -161,7 +161,7 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 	return *this;
 }
 
-template<typename T, size_t N,  hydra::detail::Backend BACKEND >
+template<typename T, std::size_t N,  hydra::detail::Backend BACKEND >
 template<typename Iterator>
 SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(Iterator begin, Iterator end )
@@ -176,14 +176,14 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 
 	//----------------
 
-	size_t data_size = hydra_thrust::distance(begin, end);
+	std::size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<N,T>(fGrid, fLowerLimits, fUpperLimits);
 
 
 	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	hydra_thrust::copy( common_system_t(),keys_begin, keys_end, key_buffer.first);
 	hydra_thrust::sort( common_system_t(),key_buffer.first, key_buffer.first+data_size );
@@ -191,7 +191,7 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 
 	//bins content
 	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	//reduction_by_key
 	auto  weights    = hydra_thrust::constant_iterator<double>(1.0);
@@ -202,7 +202,7 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 
 	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
-	size_t histogram_size = hydra_thrust::distance(reduced_keys.first, reduced_end.first);
+	std::size_t histogram_size = hydra_thrust::distance(reduced_keys.first, reduced_end.first);
 
 	fContents.resize(histogram_size);
 	fBins.resize(histogram_size);
@@ -219,7 +219,7 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 
 }
 
-template<typename T,size_t N,  hydra::detail::Backend BACKEND >
+template<typename T,std::size_t N,  hydra::detail::Backend BACKEND >
 template<hydra::detail::Backend BACKEND2,typename Iterator>
 SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
@@ -232,14 +232,14 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 				decltype(select_system(exec_policy,fSystem, system1))>::type common_system_t;
 	//----------------
 
-	size_t data_size = hydra_thrust::distance(begin, end);
+	std::size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<N,T>(fGrid, fLowerLimits, fUpperLimits);
 
 
 	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	hydra_thrust::copy( common_system_t(),keys_begin, keys_end, key_buffer.first);
 	hydra_thrust::sort( common_system_t(),key_buffer.first, key_buffer.first+data_size );
@@ -247,7 +247,7 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 
 	//bins content
 	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	//reduction_by_key
 	auto  weights    = hydra_thrust::constant_iterator<double>(1.0);
@@ -258,7 +258,7 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 
 	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
-	size_t histogram_size = hydra_thrust::distance(reduced_keys.first, reduced_end.first);
+	std::size_t histogram_size = hydra_thrust::distance(reduced_keys.first, reduced_end.first);
 
 	fContents.resize(histogram_size);
 	fBins.resize(histogram_size);
@@ -288,20 +288,20 @@ SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>::
 			decltype(select_system(fSystem, system1 ))>::type common_system_t;
 
 
-	size_t data_size = hydra_thrust::distance(begin, end);
+	std::size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<1,T>(fGrid, fLowerLimits, fUpperLimits);
 
 	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	hydra_thrust::copy(common_system_t(), keys_begin, keys_end, key_buffer.first);
 	hydra_thrust::sort(common_system_t(),key_buffer.first, key_buffer.first+data_size);
 
 	//bins content
 	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 	auto weights         = hydra_thrust::constant_iterator<double>(1.0);
 
 	//reduction_by_key
@@ -311,7 +311,7 @@ SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>::
 
 	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
-    size_t histogram_size = hydra_thrust::distance(common_system_t(),reduced_keys.first, reduced_end.first);
+    std::size_t histogram_size = hydra_thrust::distance(common_system_t(),reduced_keys.first, reduced_end.first);
 
 	fContents.resize(histogram_size);
 	fBins.resize(histogram_size);
@@ -341,20 +341,20 @@ SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>::
 	typedef  typename hydra_thrust::detail::remove_reference<
 			decltype(select_system(exec_policy,fSystem, system1))>::type common_system_t;
 
-	size_t data_size = hydra_thrust::distance(begin, end);
+	std::size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<1,T>(fGrid, fLowerLimits, fUpperLimits);
 
 	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	hydra_thrust::copy(common_system_t(), keys_begin, keys_end, key_buffer.first);
 	hydra_thrust::sort(common_system_t(),key_buffer.first, key_buffer.first+data_size);
 
 	//bins content
 	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 	auto weights         = hydra_thrust::constant_iterator<double>(1.0);
 
 	//reduction_by_key
@@ -364,7 +364,7 @@ SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>::
 
 	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
-	size_t histogram_size = hydra_thrust::distance(common_system_t(),reduced_keys.first, reduced_end.first);
+	std::size_t histogram_size = hydra_thrust::distance(common_system_t(),reduced_keys.first, reduced_end.first);
 
 	fContents.resize(histogram_size);
 	fBins.resize(histogram_size);
@@ -396,7 +396,7 @@ SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional >:
 	typedef  typename hydra_thrust::detail::remove_reference<
 			decltype(select_system(fSystem,system1, system2 ))>::type common_system_t;
 
-	size_t data_size = hydra_thrust::distance(begin, end);
+	std::size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<1,T>(fGrid, fLowerLimits, fUpperLimits);
 
@@ -406,14 +406,14 @@ SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional >:
 
 	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	hydra_thrust::copy(common_system_t(), keys_begin, keys_end, key_buffer.first);
 	hydra_thrust::sort_by_key(common_system_t(),key_buffer.first, key_buffer.first+data_size, weights.first);
 
 	//bins content
 	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	//reduction_by_key
 	auto reduced_end = hydra_thrust::reduce_by_key(common_system_t(),
@@ -422,7 +422,7 @@ SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional >:
 
 	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
-	size_t histogram_size = hydra_thrust::distance(reduced_keys.first, reduced_end.first);
+	std::size_t histogram_size = hydra_thrust::distance(reduced_keys.first, reduced_end.first);
 
 	fContents.resize(histogram_size);
 	fBins.resize(histogram_size);
@@ -457,7 +457,7 @@ SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>,detail::unidimensional >::
 	typedef  typename hydra_thrust::detail::remove_reference<
 			decltype(select_system(exec_policy,fSystem,system1, system2 ))>::type common_system_t;
 
-	size_t data_size = hydra_thrust::distance(begin, end);
+	std::size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<1,T>(fGrid, fLowerLimits, fUpperLimits);
 
@@ -467,14 +467,14 @@ SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>,detail::unidimensional >::
 
 	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	hydra_thrust::copy(common_system_t(), keys_begin, keys_end, key_buffer.first);
 	hydra_thrust::sort_by_key(common_system_t(),key_buffer.first, key_buffer.first+data_size, weights.first);
 
 	//bins content
 	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	//reduction_by_key
 	auto reduced_end = hydra_thrust::reduce_by_key(common_system_t(),
@@ -483,7 +483,7 @@ SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>,detail::unidimensional >::
 
 	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
 
-	size_t histogram_size = hydra_thrust::distance(reduced_keys.first, reduced_end.first);
+	std::size_t histogram_size = hydra_thrust::distance(reduced_keys.first, reduced_end.first);
 
 	fContents.resize(histogram_size);
 	fBins.resize(histogram_size);
@@ -507,9 +507,9 @@ SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>,detail::unidimensional >::
  */
 
 //iterator based
-template<typename Iterator, typename T, size_t N , hydra::detail::Backend BACKEND>
+template<typename Iterator, typename T, std::size_t N , hydra::detail::Backend BACKEND>
 SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
-make_sparse_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> grid,
+make_sparse_histogram( detail::BackendPolicy<BACKEND>, std::array<std::size_t, N> grid,
 		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
 		Iterator first, Iterator end){
 
@@ -519,9 +519,9 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> gri
 	return _Hist;
 }
 
-template<typename Iterator1,typename Iterator2, typename T, size_t N , hydra::detail::Backend BACKEND>
+template<typename Iterator1,typename Iterator2, typename T, std::size_t N , hydra::detail::Backend BACKEND>
 SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
-make_sparse_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> grid,
+make_sparse_histogram( detail::BackendPolicy<BACKEND>, std::array<std::size_t, N> grid,
 		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
 		Iterator1 first, Iterator1 end, Iterator2 wfirst){
 
@@ -533,10 +533,10 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> gri
 
 
 //iterable based
-template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable>
+template< typename T, std::size_t N , hydra::detail::Backend BACKEND, typename Iterable>
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
 SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
-make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
+make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<std::size_t, N> grid,
 		std::array<T, N>lowerlimits,   std::array<T, N> upperlimits,	Iterable&& data){
 
 	return make_sparse_histogram(backend,grid, lowerlimits, upperlimits,
@@ -544,11 +544,11 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t
 
 }
 
-template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable1,typename Iterable2 >
+template< typename T, std::size_t N , hydra::detail::Backend BACKEND, typename Iterable1,typename Iterable2 >
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value&&
 hydra::detail::is_iterable<Iterable2>::value,
 SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
-make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
+make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<std::size_t, N> grid,
 		std::array<T, N>lowerlimits,   std::array<T, N> upperlimits,
 		Iterable1&& data,
 		Iterable2&& weights){
@@ -566,7 +566,7 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t
 //iterator based
 template<typename Iterator, typename T, hydra::detail::Backend BACKEND>
 SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
-make_sparse_histogram( detail::BackendPolicy<BACKEND>, size_t grid, T lowerlimits,  T upperlimits,
+make_sparse_histogram( detail::BackendPolicy<BACKEND>, std::size_t grid, T lowerlimits,  T upperlimits,
 		Iterator first, Iterator end){
 
 	hydra::SparseHistogram< T, 1, detail::BackendPolicy<BACKEND>> _Hist( grid, lowerlimits, upperlimits);
@@ -578,7 +578,7 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND>, size_t grid, T lowerlimit
 
 template<typename Iterator1, typename Iterator2, typename T, hydra::detail::Backend BACKEND>
 SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
-make_sparse_histogram( detail::BackendPolicy<BACKEND>, size_t grid, T lowerlimits,  T upperlimits,
+make_sparse_histogram( detail::BackendPolicy<BACKEND>, std::size_t grid, T lowerlimits,  T upperlimits,
 		Iterator1 first, Iterator1 end, Iterator2 wfirst){
 
 	hydra::SparseHistogram< T, 1, detail::BackendPolicy<BACKEND>> _Hist( grid, lowerlimits, upperlimits);
@@ -592,7 +592,7 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND>, size_t grid, T lowerlimit
 template< typename T, hydra::detail::Backend BACKEND, typename Iterable>
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
 SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
-make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid,
+make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::size_t grid,
 		T lowerlimits,  T upperlimits,	Iterable&& data){
 
 	return make_sparse_histogram(backend,grid, lowerlimits, upperlimits,
@@ -604,7 +604,7 @@ template< typename T, hydra::detail::Backend BACKEND, typename Iterable1,typenam
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value&&
 hydra::detail::is_iterable<Iterable2>::value,
 SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
-make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid,
+make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::size_t grid,
 		T lowerlimits, T upperlimits,
 		Iterable1&& data,
 		Iterable2&& weights){

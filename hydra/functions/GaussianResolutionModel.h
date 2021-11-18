@@ -31,7 +31,7 @@
 
 namespace hydra {
 
-template<typename Functor, typename Functor, size_t NPoints=11>
+template<typename Functor, typename Functor, std::size_t NPoints=11>
 GaussianResolutionModel
 
 }  // namespace hydra

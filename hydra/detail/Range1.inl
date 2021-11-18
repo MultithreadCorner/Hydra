@@ -58,7 +58,7 @@ public:
 		fEnd( end )
 		{}
 
-	Range(Iterator begin,  size_t last):
+	Range(Iterator begin,  std::size_t last):
 			fBegin( begin),
 			fEnd( begin + last )
 			{}
@@ -103,9 +103,9 @@ public:
 	inline Iterator   cend() const { return fEnd;}
 
 
-	inline void resize(size_t size){	}
+	inline void resize(std::size_t size){	}
 
-	inline size_t size() { return hydra_thrust::distance(fBegin, fEnd);}
+	inline std::size_t size() { return hydra_thrust::distance(fBegin, fEnd);}
 
 	inline Iterator GetBegin() const {
 		return fBegin;
@@ -123,12 +123,12 @@ public:
 		fEnd = end;
 	}
 
-	inline 	reference  operator[](size_t i)
+	inline 	reference  operator[](std::size_t i)
 	{
 		return fBegin[i];
 	}
 
-	inline const reference  operator[](size_t i) const
+	inline const reference  operator[](std::size_t i) const
 	{
 		return fBegin[i];
 	}

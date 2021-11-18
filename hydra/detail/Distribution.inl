@@ -65,7 +65,7 @@ struct  Distribution<Functor, true>: protected RngFormula<Functor>
 	 */
 	template<typename Engine>
 	__hydra_host__ __hydra_device__
-	void SetState(Engine& rng, Functor const& functor, size_t ncall) const
+	void SetState(Engine& rng, Functor const& functor, std::size_t ncall) const
 	{
 		rng.discard(
 				static_cast<const RngFormula<Functor>& >(*this).NCalls(functor)*ncall) ;
@@ -81,7 +81,7 @@ struct  Distribution<Functor, true>: protected RngFormula<Functor>
 	 */
 	template<typename Engine, typename T=double>
 	__hydra_host__ __hydra_device__
-	void SetState(Engine& rng,  std::initializer_list<T> pars, size_t ncall) const
+	void SetState(Engine& rng,  std::initializer_list<T> pars, std::size_t ncall) const
 	{
 		rng.discard(
 				static_cast<const RngFormula<Functor>& >(*this).NCalls(pars)*ncall) ;

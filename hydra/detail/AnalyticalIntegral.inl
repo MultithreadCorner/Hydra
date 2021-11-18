@@ -35,7 +35,7 @@
 namespace hydra {
 
 
-template<typename Functor, size_t N>
+template<typename Functor, std::size_t N>
 class AnalyticalIntegral: protected IntegrationFormula<Functor,N>,
 							public Integral< AnalyticalIntegral<Functor, N> >
 {
@@ -48,7 +48,7 @@ public:
 
 	AnalyticalIntegral(GReal_t (&lower_limit)[N], GReal_t (&upper_limit)[N])
 	{
-		for(size_t i =0; i<N; i++ ){
+		for(std::size_t i =0; i<N; i++ ){
 
 			fLowerLimit[i] = lower_limit[i];
 			fUpperLimit[i] = upper_limit[i];
@@ -61,7 +61,7 @@ public:
 		IntegrationFormula<Functor,N>(other)
 	{
 
-		for(size_t i =0; i<N; i++ ){
+		for(std::size_t i =0; i<N; i++ ){
 
 			fLowerLimit[i] = other.GetLowerLimit(i);
 			fUpperLimit[i] = other.GetUpperLimit(i);
@@ -77,7 +77,7 @@ public:
 
 		IntegrationFormula<Functor,1>::operator=(other);
 
-		for(size_t i =0; i<N; i++ ){
+		for(std::size_t i =0; i<N; i++ ){
 
 			fLowerLimit[i] = other.GetLowerLimit(i);
 			fUpperLimit[i] = other.GetUpperLimit(i);
@@ -105,20 +105,20 @@ public:
 					LowerLimit, UpperLimit );
 	}
 
-	double GetLowerLimit(size_t i) const {
+	double GetLowerLimit(std::size_t i) const {
 		return fLowerLimit[i];
 	}
 
-	void SetLowerLimit(size_t i, double value) {
+	void SetLowerLimit(std::size_t i, double value) {
 
 		fLowerLimit[i]=value;
 	}
 
-	double GetUpperLimit(size_t i) const {
+	double GetUpperLimit(std::size_t i) const {
 		return fUpperLimit[i];
 	}
 
-	void SetUpperLimit(size_t i, double value){
+	void SetUpperLimit(std::size_t i, double value){
 
 		fUpperLimit[i]=value;
 	}

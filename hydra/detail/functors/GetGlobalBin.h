@@ -38,15 +38,15 @@ namespace hydra {
 namespace detail {
 
 
-template<size_t N, typename T>
-struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T>::type ,size_t>
+template<std::size_t N, typename T>
+struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T>::type ,std::size_t>
 {
 	//typedef typename tuple_type<N,T>::type ArgType;
 
-	GetGlobalBin( size_t (&grid)[N], T (&lowerlimits)[N], T (&upperlimits)[N])
+	GetGlobalBin( std::size_t (&grid)[N], T (&lowerlimits)[N], T (&upperlimits)[N])
 	{
 		fNGlobalBins=1;
-		for( size_t i=0; i<N; i++){
+		for( std::size_t i=0; i<N; i++){
 			fNGlobalBins *=grid[i];
 			fGrid[i]=grid[i];
 			fLowerLimits[i]=lowerlimits[i];
@@ -58,7 +58,7 @@ struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T
 	GetGlobalBin( GetGlobalBin<N, T> const& other ):
 	fNGlobalBins(other.fNGlobalBins)
 	{
-		for( size_t i=0; i<N; i++){
+		for( std::size_t i=0; i<N; i++){
 			fGrid[i] = other.fGrid[i];
 			fDelta[i] = other.fDelta[i];
 			fLowerLimits[i] = other.fLowerLimits[i];
@@ -71,7 +71,7 @@ struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T
 	operator=( GetGlobalBin<N, T> const& other )
 	{
 		if(this==&other) return *this;
-		for( size_t i=0; i<N; i++){
+		for( std::size_t i=0; i<N; i++){
 			fGrid[i]= other.fGrid[i];
 			fDelta[i] = other.fDelta[i];
 			fLowerLimits[i] = other.fLowerLimits[i];
@@ -83,18 +83,18 @@ struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T
 
 	//k = i_1*(dim_2*...*dim_n) + i_2*(dim_3*...*dim_n) + ... + i_{n-1}*dim_n + i_n
 
-	template<size_t I>
+	template<std::size_t I>
 	__hydra_host__ __hydra_device__
 	typename hydra_thrust::detail::enable_if< I== N, void>::type
-	get_global_bin(const size_t (&)[N], size_t& ){ }
+	get_global_bin(const std::size_t (&)[N], std::size_t& ){ }
 
-	template<size_t I=0>
+	template<std::size_t I=0>
 	__hydra_host__ __hydra_device__
 	typename hydra_thrust::detail::enable_if< (I< N), void>::type
-	get_global_bin(const size_t (&indexes)[N], size_t& index)
+	get_global_bin(const std::size_t (&indexes)[N], std::size_t& index)
 	{
-	    size_t prod =1;
-	    for(size_t i=N-1; i>I; i--)
+	    std::size_t prod =1;
+	    for(std::size_t i=N-1; i>I; i--)
 	           prod *=fGrid[i];
 	    index += prod*indexes[I];
 
@@ -104,12 +104,12 @@ struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T
 
 
 	__hydra_host__ __hydra_device__
-	size_t get_bin( T (&X)[N]){
+	std::size_t get_bin( T (&X)[N]){
 
-		size_t indexes[N];
-		size_t bin=0;
-		for(size_t i=0; i<N; i++)
-			indexes[i]=size_t(X[i]);
+		std::size_t indexes[N];
+		std::size_t bin=0;
+		for(std::size_t i=0; i<N; i++)
+			indexes[i]=std::size_t(X[i]);
 
 		get_global_bin(indexes,  bin);
 
@@ -119,7 +119,7 @@ struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T
 
 	template<typename ArgType>
 	__hydra_host__ __hydra_device__
-	size_t operator()(ArgType value){
+	std::size_t operator()(ArgType value){
 
 		T X[N];
 
@@ -129,7 +129,7 @@ struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T
 		bool is_underflow = false;
 		bool is_overflow  = false;
 
-		for(size_t i=0; i<N; i++){
+		for(std::size_t i=0; i<N; i++){
 
 			X[i]  = (X[i]-fLowerLimits[i])*fGrid[i]/fDelta[i];
 
@@ -138,7 +138,7 @@ struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T
 
 		}
 
-		size_t result = is_underflow ? fNGlobalBins : (is_overflow ? fNGlobalBins+1 : get_bin(X) );
+		std::size_t result = is_underflow ? fNGlobalBins : (is_overflow ? fNGlobalBins+1 : get_bin(X) );
 
 
 		return result;
@@ -148,8 +148,8 @@ struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T
 
 	T fLowerLimits[N];
 	T fDelta[N];
-	size_t   fGrid[N];
-	size_t   fNGlobalBins;
+	std::size_t   fGrid[N];
+	std::size_t   fNGlobalBins;
 
 
 
@@ -158,10 +158,10 @@ struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T
 //---------------
 
 template<typename T>
-struct GetGlobalBin<1,T>: public hydra_thrust::unary_function<T,size_t>
+struct GetGlobalBin<1,T>: public hydra_thrust::unary_function<T,std::size_t>
 {
 
-	GetGlobalBin( size_t grid, T lowerlimits, T upperlimits):
+	GetGlobalBin( std::size_t grid, T lowerlimits, T upperlimits):
 		fLowerLimits(lowerlimits),
 		fDelta( upperlimits - lowerlimits),
 		fGrid(grid),
@@ -191,13 +191,13 @@ struct GetGlobalBin<1,T>: public hydra_thrust::unary_function<T,size_t>
 	}
 
 	__hydra_host__ __hydra_device__
-	size_t get_bin(T X){
+	std::size_t get_bin(T X){
 
-		return size_t(X) ;
+		return std::size_t(X) ;
 	}
 
 	__hydra_host__ __hydra_device__
- size_t	operator()(T& value){
+ std::size_t	operator()(T& value){
 
 		T X = value;
 
@@ -216,8 +216,8 @@ struct GetGlobalBin<1,T>: public hydra_thrust::unary_function<T,size_t>
 
 	T fLowerLimits;
 	T fDelta;
-	size_t   fGrid;
-	size_t   fNGlobalBins;
+	std::size_t   fGrid;
+	std::size_t   fNGlobalBins;
 
 
 

@@ -34,7 +34,7 @@ namespace hydra {
 namespace detail {
 
 
-template <size_t N>
+template <std::size_t N>
 struct CheckEnergy
 {
 	GReal_t fMasses[N];
@@ -42,7 +42,7 @@ struct CheckEnergy
 	//constructor
 	CheckEnergy(const GReal_t (&masses)[N] )
 	{
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 			fMasses[i] = masses[i];
 	}
 
@@ -50,7 +50,7 @@ struct CheckEnergy
 	__hydra_host__      __hydra_device__
 	CheckEnergy(CheckEnergy<N> const& other)
 	{
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 			fMasses[i] = other.fMasses[i];
 	}
 
@@ -63,7 +63,7 @@ struct CheckEnergy
 		GReal_t fTeCmTm =  mother.mass();
 
 //#pragma unroll N
-		for (size_t n = 0; n < N; n++)
+		for (std::size_t n = 0; n < N; n++)
 		{
 			fTeCmTm -= fMasses[n];
 		}

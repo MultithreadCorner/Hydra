@@ -53,7 +53,7 @@
 
 namespace hydra {
 
-template<size_t N, hydra::detail::Backend  BACKEND, typename GRND>
+template<std::size_t N, hydra::detail::Backend  BACKEND, typename GRND>
 template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t>
 Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::Integrate(FUNCTOR const& fFunctor )
@@ -67,7 +67,7 @@ Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::Integrate(FUNCTOR const& 
 
 }
 
-template<size_t N, hydra::detail::Backend  BACKEND , typename GRND>
+template<std::size_t N, hydra::detail::Backend  BACKEND , typename GRND>
 template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t>
 Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::IntegIterator(FUNCTOR const& fFunctor, GBool_t training )
@@ -99,8 +99,8 @@ Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::IntegIterator(FUNCTOR con
 
 	if( fState.GetStage()  <= 2) {
 
-		size_t bins = fState.GetNBinsMax();
-		size_t boxes = 1;
+		std::size_t bins = fState.GetNBinsMax();
+		std::size_t boxes = 1;
 
 		if (fState.GetMode() != MODE_IMPORTANCE_ONLY) {
 			/* shooting for 2 calls/box */
@@ -114,7 +114,7 @@ Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::IntegIterator(FUNCTOR con
 		}
 
 
-		/*size_t*/GReal_t tot_boxes = ::pow( (GReal_t)boxes,  N);
+		/*std::size_t*/GReal_t tot_boxes = ::pow( (GReal_t)boxes,  N);
 		fState.SetCallsPerBox(std::max(  GInt_t(fState.GetCalls(training ) / tot_boxes), 2) );
 		fState.SetCalls( training , fState.GetCallsPerBox() * tot_boxes);
 		//std::cout << "fState.GetCalls "<< fState.GetCalls()<< std::endl;
@@ -147,15 +147,15 @@ Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::IntegIterator(FUNCTOR con
 
 	cum_int = 0.0;
 	cum_sig = 0.0;
-	size_t nkeys  = N*fState.GetCalls(training);
+	std::size_t nkeys  = N*fState.GetCalls(training);
 	fFValInput.resize(nkeys);
 	fGlobalBinInput.resize(nkeys);
 	fFValOutput.resize(nkeys);
 	fGlobalBinOutput.resize(nkeys);
 
-	//for (size_t it = 0; it < fState.GetIterations()+fState.GetTrainingIterations(); it++)
+	//for (std::size_t it = 0; it < fState.GetIterations()+fState.GetTrainingIterations(); it++)
 
-	for (size_t it = 0; it < (!training?fState.GetIterations():fState.GetTrainingIterations()); it++)
+	for (std::size_t it = 0; it < (!training?fState.GetIterations():fState.GetTrainingIterations()); it++)
 	{
 
 		auto start = std::chrono::high_resolution_clock::now();
@@ -167,7 +167,7 @@ Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::IntegIterator(FUNCTOR con
 		GReal_t var=0;
 		GReal_t sig=0;
 
-		size_t calls_per_box = fState.GetCallsPerBox();
+		std::size_t calls_per_box = fState.GetCallsPerBox();
 		GReal_t jacbin = fState.GetJacobian();
 
 		//if(it >=fState.GetTrainingIterations())	fState.SetItNum(fState.GetItStart() + it);
@@ -320,17 +320,17 @@ Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::IntegIterator(FUNCTOR con
 
 }
 
-template< size_t N , hydra::detail::Backend  BACKEND, typename GRND>
+template< std::size_t N , hydra::detail::Backend  BACKEND, typename GRND>
 void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::PrintLimits()  {
 
 	//PrintToStream(fState.GetOStream(),, ... );
 
 	PrintToStream(fState.GetOStream(), "The limits of Integration are:\n" );
-	for (size_t j = 0; j < N; ++j)
+	for (std::size_t j = 0; j < N; ++j)
 		PrintToStream(fState.GetOStream(), "\nxl[%lu]=%f    xu[%lu]=%f", j, fState.GetXLow()[j], j, fState.GetXUp()[j] );
 
 	//fState.GetOStream() << boost::format("The limits of Int_tegration are:\n");
-	//for (size_t j = 0; j < N; ++j)
+	//for (std::size_t j = 0; j < N; ++j)
 	//	fState.GetOStream() <<  boost::format("\nxl[%lu]=%f    xu[%lu]=%f") % j % fState.GetXLow()[j] % j % fState.GetXUp()[j] ;
 
 	fState.GetOStream() << std::endl;
@@ -338,7 +338,7 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::PrintLimits()  {
 
 }
 
-template< size_t N , hydra::detail::Backend  BACKEND, typename GRND>
+template< std::size_t N , hydra::detail::Backend  BACKEND, typename GRND>
 void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::PrintHead()  {
 
 	PrintToStream(fState.GetOStream(),
@@ -370,7 +370,7 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::PrintHead()  {
 
 }
 
-template< size_t N, hydra::detail::Backend  BACKEND , typename GRND>
+template< std::size_t N, hydra::detail::Backend  BACKEND , typename GRND>
 void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::PrintResults(GReal_t integral, GReal_t sigma,
 		GReal_t cumulated_integral, GReal_t cumulated_sigma, GReal_t time)  {
 
@@ -387,10 +387,10 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::PrintResults(GReal_t
 
 }
 
-template< size_t N, hydra::detail::Backend  BACKEND, typename GRND >
+template< std::size_t N, hydra::detail::Backend  BACKEND, typename GRND >
 void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::PrintDistribution()   {
 
-	size_t i, j;
+	std::size_t i, j;
 
 	/*
 	if (!fState.GetVerbose())
@@ -417,19 +417,19 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::PrintDistribution() 
 
 }
 
-template< size_t N, hydra::detail::Backend  BACKEND , typename GRND>
+template< std::size_t N, hydra::detail::Backend  BACKEND , typename GRND>
 void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::PrintGrid()   {
 
 /*
 	if (!fState.GetVerbose())
 		return;*/
 
-	for (size_t j = 0; j < N; ++j) {
+	for (std::size_t j = 0; j < N; ++j) {
 		PrintToStream(fState.GetOStream(),"\n axis %lu \n", j);
 
 	//fState.GetOStream() << boost::format("\n axis %lu \n") % j ;
 	fState.GetOStream() << "      x   \n";
-	for (size_t i = 0; i <= fState.GetNBins(); i++) {
+	for (std::size_t i = 0; i <= fState.GetNBins(); i++) {
 		PrintToStream(fState.GetOStream(), "%11.2e", GetCoordinate(i, j));
 		//fState.GetOStream() << boost::format("%11.2e") % GetCoordinate(i, j);
 		if (i % 5 == 4) fState.GetOStream() << std::endl;
@@ -441,14 +441,14 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::PrintGrid()   {
 
 }
 
-template< size_t N, hydra::detail::Backend  BACKEND , typename GRND>
+template< std::size_t N, hydra::detail::Backend  BACKEND , typename GRND>
 void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::InitGrid() {
 
 	GReal_t vol = 1.0;
 
 	fState.SetNBins(1);
 
-	for (size_t j = 0; j < N; j++) {
+	for (std::size_t j = 0; j < N; j++) {
 		GReal_t dx = fState.GetXUp()[j] - fState.GetXLow()[j];
 		fState.SetDeltaX(j, dx);
 		vol *= dx;
@@ -461,25 +461,25 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::InitGrid() {
 	fState.SendGridToBackend();
 }
 
-template< size_t N, hydra::detail::Backend  BACKEND, typename GRND >
+template< std::size_t N, hydra::detail::Backend  BACKEND, typename GRND >
 void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::ResetGridValues() {
 
-	for (size_t i = 0; i < fState.GetNBins(); i++) {
-		for (size_t j = 0; j < N; j++) {
+	for (std::size_t i = 0; i < fState.GetNBins(); i++) {
+		for (std::size_t j = 0; j < N; j++) {
 			SetDistributionValue(i, j, 0.0);
 		}
 	}
 }
 
-template< size_t N, hydra::detail::Backend  BACKEND , typename GRND>
+template< std::size_t N, hydra::detail::Backend  BACKEND , typename GRND>
 void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::InitBoxCoordinates() {
 
-	//for (size_t i = 0; i < N; i++)
+	//for (std::size_t i = 0; i < N; i++)
 		//fState.SetBox(i, 0);
 }
 
 
-template< size_t N, hydra::detail::Backend  BACKEND, typename GRND >
+template< std::size_t N, hydra::detail::Backend  BACKEND, typename GRND >
 void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::ResizeGrid(const GInt_t bins) {
 
 
@@ -488,13 +488,13 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::ResizeGrid(const GIn
 
 		GReal_t pts_per_bin = (GReal_t) fState.GetNBins() / (GReal_t) bins;
 
-		for (size_t j = 0; j < N; j++) {
+		for (std::size_t j = 0; j < N; j++) {
 			GReal_t xold;
 			GReal_t xnew = 0;
 			GReal_t dw = 0;
 			GInt_t i = 1;
 
-			for ( size_t k = 1; k <=  fState.GetNBins(); k++) {
+			for ( std::size_t k = 1; k <=  fState.GetNBins(); k++) {
 				dw += 1.0;
 				xold = xnew;
 				xnew = GetCoordinate(k, j);
@@ -516,11 +516,11 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::ResizeGrid(const GIn
 
 }
 
-template< size_t N , hydra::detail::Backend  BACKEND, typename GRND>
+template< std::size_t N , hydra::detail::Backend  BACKEND, typename GRND>
 void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::RefineGrid() {
 
 
-		for (size_t j = 0; j < N; j++) {
+		for (std::size_t j = 0; j < N; j++) {
 
 			GReal_t grid_tot_j, tot_weight;
 			//GReal_t *weight = fState.GetWeight();
@@ -532,7 +532,7 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::RefineGrid() {
 			grid_tot_j =  GetDistributionValue(0, j);
 
 
-			for (size_t i = 1; i < fState.GetNBins() - 1; i++) {
+			for (std::size_t i = 1; i < fState.GetNBins() - 1; i++) {
 
 				GReal_t rc = oldg + newg;
 
@@ -551,7 +551,7 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::RefineGrid() {
 
 			tot_weight = 0;
 
-			for (size_t i = 0; i < fState.GetNBins(); i++) {
+			for (std::size_t i = 0; i < fState.GetNBins(); i++) {
 				fState.SetWeight(i,0);
 
 				if (GetDistributionValue( i, j)> 0)
@@ -575,9 +575,9 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::RefineGrid() {
 				GReal_t xold;
 				GReal_t xnew = 0;
 				GReal_t dw = 0;
-				size_t i = 1;
+				std::size_t i = 1;
 
-				for (size_t k = 0; k < fState.GetNBins(); k++) {
+				for (std::size_t k = 0; k < fState.GetNBins(); k++) {
 					dw += fState.GetWeight()[k];
 					xold = xnew;
 					xnew = GetCoordinate( k + 1, j);
@@ -588,7 +588,7 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::RefineGrid() {
 					}
 				}
 
-				for (size_t k = 1; k < fState.GetNBins(); k++) {
+				for (std::size_t k = 1; k < fState.GetNBins(); k++) {
 
 					SetCoordinate(k, j, GetNewCoordinate(k));
 				}
@@ -599,17 +599,17 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::RefineGrid() {
 
 }
 
-template< size_t N, hydra::detail::Backend  BACKEND , typename GRND>
+template< std::size_t N, hydra::detail::Backend  BACKEND , typename GRND>
 template<typename FUNCTOR>
 void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::ProcessFuncionCalls(FUNCTOR const& fFunctor, GBool_t training, GReal_t& integral, GReal_t& tss)
 {
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
-	size_t ncalls = fState.GetCalls(training);
-	size_t nkeys  = N*fState.GetCalls(training);
+	std::size_t ncalls = fState.GetCalls(training);
+	std::size_t nkeys  = N*fState.GetCalls(training);
 
 	// create iterators
-	hydra_thrust::counting_iterator<size_t> first(0);
-	hydra_thrust::counting_iterator<size_t> last = first + ncalls;
+	hydra_thrust::counting_iterator<std::size_t> first(0);
+	hydra_thrust::counting_iterator<std::size_t> last = first + ncalls;
 
 
 	fState.CopyStateToDevice();
@@ -623,13 +623,13 @@ void Vegas<N,hydra::detail::BackendPolicy<BACKEND>, GRND >::ProcessFuncionCalls(
 
 
 	/*
-	for(size_t i=0; i< hydra_thrust::distance( fGlobalBinInput.begin(),fGlobalBinInput.end() ); i++)
+	for(std::size_t i=0; i< hydra_thrust::distance( fGlobalBinInput.begin(),fGlobalBinInput.end() ); i++)
 			std::cout <<"<< " << i << " " << fGlobalBinInput[i] << " " << fFValInput[i] << std::endl;
 	 */
 
 	hydra_thrust::sort_by_key(system_t(),fGlobalBinInput.begin(),fGlobalBinInput.end(), fFValInput.begin());
 	/*
-	for(size_t i=0; i< hydra_thrust::distance( fGlobalBin.begin(),fGlobalBin.end() ); i++)
+	for(std::size_t i=0; i< hydra_thrust::distance( fGlobalBin.begin(),fGlobalBin.end() ); i++)
 		std::cout <<"<< " << i << " " << fGlobalBin[i] << " " << fFVal[i] << std::endl;
 	 */
 

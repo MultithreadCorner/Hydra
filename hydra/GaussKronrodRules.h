@@ -42,7 +42,7 @@
  */
 namespace hydra {
 
-template<size_t N>
+template<std::size_t N>
 struct GaussKronrodRuleSelector;
 
 /**

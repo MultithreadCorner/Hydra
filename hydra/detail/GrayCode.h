@@ -63,7 +63,7 @@ class gray_code: public quasi_random_base< gray_code<LatticeT>, LatticeT, typena
 
 public:
   typedef typename LatticeT::value_type result_type;
-  typedef result_type size_type;
+  typedef result_type std::size_type;
 
    static const result_type min=0;
    static const result_type max=
@@ -71,11 +71,11 @@ public:
 
 private:
   typedef gray_code<LatticeT> self_t;
-  typedef quasi_random_base<self_t, LatticeT, size_type> base_t;
+  typedef quasi_random_base<self_t, LatticeT, std::size_type> base_t;
 
   // The base needs to access modifying member f-ns, and we
   // don't want these functions to be available for the public use
-  friend class quasi_random_base<self_t, LatticeT, size_type>;
+  friend class quasi_random_base<self_t, LatticeT, std::size_type>;
 
   // Respect lattice bit_count here
   struct check_nothing {
@@ -83,7 +83,7 @@ private:
     inline static void bit_pos(unsigned) {}
 
 	__hydra_host__ __hydra_device__
-    inline static void code_size(size_type) {}
+    inline static void code_size(std::size_type) {}
   };
   struct check_bit_range {
 
@@ -99,19 +99,19 @@ private:
     }
 
 	__hydra_host__ __hydra_device__
-    inline static void code_size(size_type code) {
+    inline static void code_size(std::size_type code) {
       if (code > (self_t::max))
         raise_bit_count();
     }
   };
 
   // We only want to check whether bit pos is outside the range if given bit_count
-  // is narrower than the size_type, otherwise checks compile to nothing.
- static_assert(LatticeT::bit_count <= std::numeric_limits<size_type>::digits,
+  // is narrower than the std::size_type, otherwise checks compile to nothing.
+ static_assert(LatticeT::bit_count <= std::numeric_limits<std::size_type>::digits,
 		 "hydra::gray_code : bit_count in LatticeT' > digits");
 
   typedef typename std::conditional<
-	 std::integral_constant<bool,((LatticeT::bit_count) < std::numeric_limits<size_type>::digits)>::value
+	 std::integral_constant<bool,((LatticeT::bit_count) < std::numeric_limits<std::size_type>::digits)>::value
     , check_bit_range
     , check_nothing
   >::type check_bit_range_t;
@@ -135,14 +135,14 @@ public:
   }
 
  __hydra_host__ __hydra_device__
-  inline  void seed(const size_type init)
+  inline  void seed(const std::size_type init)
   {
     if (init != this->curr_seq())
     {
       // We don't want negative seeds.
      // check_seed_sign(init);
 
-      size_type seq_code =  init+1;
+      std::size_type seq_code =  init+1;
      if(HYDRA_HOST_UNLIKELY(!(init < seq_code))){
     	 HYDRA_EXCEPTION("hydra::gray_code : seed overflow. Returning without set seed")
          return ;
@@ -156,7 +156,7 @@ public:
       set_zero_state();
       for (unsigned r = 0; seq_code != 0; ++r, seq_code >>= 1)
       {
-        if (seq_code & static_cast<size_type>(1))
+        if (seq_code & static_cast<std::size_type>(1))
           update_quasi(r);
       }
     }
@@ -167,7 +167,7 @@ public:
 private:
 
  __hydra_host__ __hydra_device__
-  inline  void compute_seq(size_type seq)
+  inline  void compute_seq(std::size_type seq)
   {
     // Find the position of the least-significant zero in sequence count.
     // This is the bit that changes in the Gray-code representation as
@@ -188,7 +188,7 @@ private:
 	const  result_type* j= this->lattice.iter_at(r * this->dimension());
 
 #pragma unroll LatticeT::lattice_dimension
-   for(size_t s=0;s<LatticeT::lattice_dimension; ++s)
+   for(std::size_t s=0;s<LatticeT::lattice_dimension; ++s)
 	   i[s]=(i[s])^(j[s]);
 
   }
@@ -199,7 +199,7 @@ private:
    result_type* s= this->state_begin();
 
 #pragma unroll LatticeT::lattice_dimension
-   for(size_t i=0;i<LatticeT::lattice_dimension; ++i)
+   for(std::size_t i=0;i<LatticeT::lattice_dimension; ++i)
     	s[i]=result_type{};
   }
 

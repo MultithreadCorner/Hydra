@@ -95,22 +95,22 @@ public:
 		Update();
 	}
 
-	inline size_t  GetParametersKey(){
+	inline std::size_t  GetParametersKey(){
 
 		std::vector<hydra::Parameter*> _parameters;
 		detail::add_parameters_in_tuple(_parameters, fFtorTuple );
 
 		std::vector<double> _temp(_parameters.size());
 
-		for(size_t i=0; i< _parameters.size(); i++)
+		for(std::size_t i=0; i< _parameters.size(); i++)
 			_temp[i]= *(_parameters[i]);
 
-		size_t key = detail::hash_range(_temp.begin(), _temp.end() );
+		std::size_t key = detail::hash_range(_temp.begin(), _temp.end() );
 
 		return key;
 	}
 
-	inline size_t GetNumberOfParameters() const {
+	inline std::size_t GetNumberOfParameters() const {
 
 		std::vector<hydra::Parameter*> _parameters;
 		detail::add_parameters_in_tuple(_parameters, fFtorTuple );
@@ -132,7 +132,7 @@ public:
 
 	inline const hydra::Parameter& GetParameter(const char* name) const {
 
-		size_t i=0;
+		std::size_t i=0;
 
 		std::vector<hydra::Parameter*> _parameters;
 		detail::add_parameters_in_tuple(_parameters, fFtorTuple );
@@ -155,7 +155,7 @@ public:
 
 	inline hydra::Parameter& Parameter(const char* name) {
 
-		size_t i=0;
+		std::size_t i=0;
 
 		std::vector<hydra::Parameter*> _parameters;
 		detail::add_parameters_in_tuple(_parameters, fFtorTuple );
@@ -188,7 +188,7 @@ public:
 
 	inline	void SetParameter(const char* name, hydra::Parameter const& value) {
 
-		size_t i=0;
+		std::size_t i=0;
 
 		std::vector<hydra::Parameter*> _parameters;
 		detail::add_parameters_in_tuple(_parameters, fFtorTuple );
@@ -202,7 +202,7 @@ public:
 
 	inline	void SetParameter(const char* name, double value) {
 
-		size_t i=0;
+		std::size_t i=0;
 
 		std::vector<hydra::Parameter*> _parameters;
 		detail::add_parameters_in_tuple(_parameters, fFtorTuple );

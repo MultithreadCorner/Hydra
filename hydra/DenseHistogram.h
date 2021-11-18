@@ -50,7 +50,7 @@ namespace hydra {
 /**
  * \ingroup histogram
  */
-template< typename T, size_t N, typename BACKEND, typename = typename detail::dimensionality<N>::type,
+template< typename T, std::size_t N, typename BACKEND, typename = typename detail::dimensionality<N>::type,
 	typename = typename std::enable_if<std::is_arithmetic<T>::value, void>::type>
 class DenseHistogram;
 
@@ -61,7 +61,7 @@ class DenseHistogram;
  * \tparam N number of dimensions
  * \tparam BACKEND memory space where histogram is allocated
  */
-template<typename T, size_t N , hydra::detail::Backend BACKEND>
+template<typename T, std::size_t N , hydra::detail::Backend BACKEND>
 class DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 {
 	typedef hydra::detail::BackendPolicy<BACKEND>    system_t;
@@ -78,11 +78,11 @@ public:
 	DenseHistogram()=delete;
 
 
-	explicit DenseHistogram( std::array<size_t, N> grid,
+	explicit DenseHistogram( std::array<std::size_t, N> grid,
 			std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits):
 				fNBins(1)
 	{
-		for( size_t i=0; i<N; i++){
+		for( std::size_t i=0; i<N; i++){
 			fGrid[i]=grid[i];
 			fLowerLimits[i]=lowerlimits[i];
 			fUpperLimits[i]=upperlimits[i];
@@ -92,11 +92,11 @@ public:
 		fContents.resize(fNBins +2 );
 	}
 
-	explicit DenseHistogram( size_t (&grid)[N],
+	explicit DenseHistogram( std::size_t (&grid)[N],
 			T (&lowerlimits)[N],   T (&upperlimits)[N] ):
 				fNBins(1)
 	{
-		for( size_t i=0; i<N; i++){
+		for( std::size_t i=0; i<N; i++){
 			fGrid[i]=grid[i];
 			fLowerLimits[i]=lowerlimits[i];
 			fUpperLimits[i]=upperlimits[i];
@@ -110,7 +110,7 @@ public:
 	DenseHistogram( std::array<Int, N> grid, std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits):
 					fNBins(1)
 		{
-			for( size_t i=0; i<N; i++){
+			for( std::size_t i=0; i<N; i++){
 				fGrid[i]=grid[i];
 				fLowerLimits[i]=lowerlimits[i];
 				fUpperLimits[i]=upperlimits[i];
@@ -124,7 +124,7 @@ public:
 	DenseHistogram( Int (&grid)[N],	T (&lowerlimits)[N],   T (&upperlimits)[N] ):
 				fNBins(1)
 		{
-			for( size_t i=0; i<N; i++){
+			for( std::size_t i=0; i<N; i++){
 				fGrid[i]=grid[i];
 				fLowerLimits[i]=lowerlimits[i];
 				fUpperLimits[i]=upperlimits[i];
@@ -140,7 +140,7 @@ public:
 	DenseHistogram(DenseHistogram< T, N, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> const& other ):
 			fContents(other.GetContents())
 		{
-			for( size_t i=0; i<N; i++){
+			for( std::size_t i=0; i<N; i++){
 				fGrid[i] = other.GetGrid(i);
 				fLowerLimits[i] = other.GetLowerLimits(i);
 				fUpperLimits[i] = other.GetUpperLimits(i);
@@ -152,7 +152,7 @@ public:
 	DenseHistogram(DenseHistogram< T, N, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>&& other ):
 			fContents(std::move(other.GetContents()))
 		{
-			for( size_t i=0; i<N; i++){
+			for( std::size_t i=0; i<N; i++){
 				fGrid[i] = other.GetGrid(i);
 				fLowerLimits[i] = other.GetLowerLimits(i);
 				fUpperLimits[i] = other.GetUpperLimits(i);
@@ -167,7 +167,7 @@ public:
 		if(this==&other) return *this;
 
 		fContents = other.GetContents();
-		for( size_t i=0; i<N; i++){
+		for( std::size_t i=0; i<N; i++){
 			fGrid[i] = other.GetGrid(i);
 			fLowerLimits[i] = other.GetLowerLimits(i);
 			fUpperLimits[i] = other.GetUpperLimits(i);
@@ -184,7 +184,7 @@ public:
 		if(this==&other) return *this;
 
 		fContents = std::move(other.GetContents());
-		for( size_t i=0; i<N; i++){
+		for( std::size_t i=0; i<N; i++){
 			fGrid[i] = other.GetGrid(i);
 			fLowerLimits[i] = other.GetLowerLimits(i);
 			fUpperLimits[i] = other.GetUpperLimits(i);
@@ -200,7 +200,7 @@ public:
 	DenseHistogram(DenseHistogram< T, N, hydra::detail::BackendPolicy<BACKEND2>, detail::multidimensional> const& other ):
 			fContents(other.GetContents())
 		{
-			for( size_t i=0; i<N; i++){
+			for( std::size_t i=0; i<N; i++){
 				fGrid[i] = other.GetGrid(i);
 				fLowerLimits[i] = other.GetLowerLimits(i);
 				fUpperLimits[i] = other.GetUpperLimits(i);
@@ -214,7 +214,7 @@ public:
 	operator=(DenseHistogram<T, N, hydra::detail::BackendPolicy<BACKEND2>, detail::multidimensional> const& other )
 	{
 		fContents = other.GetContents();
-		for( size_t i=0; i<N; i++){
+		for( std::size_t i=0; i<N; i++){
 			fGrid[i] = other.GetGrid(i);
 			fLowerLimits[i] = other.GetLowerLimits(i);
 			fUpperLimits[i] = other.GetUpperLimits(i);
@@ -233,45 +233,34 @@ public:
 		fContents = histogram;
 	}
 
-	 inline size_t GetGrid(size_t i) const {
+	 inline std::size_t GetGrid(std::size_t i) const {
 		return fGrid[i];
 	}
 
-	 inline 	T GetLowerLimits(size_t i) const {
+	 inline 	T GetLowerLimits(std::size_t i) const {
 		return fLowerLimits[i];
 	}
 
-	 inline T GetUpperLimits(size_t i) const {
+	 inline T GetUpperLimits(std::size_t i) const {
 		return fUpperLimits[i];
 	}
 
-	 inline size_t GetNBins() const {
+	 inline std::size_t GetNBins() const {
 		return fNBins;
 	}
 
-	 inline 	size_t GetBin( size_t  (&bins)[N]){
+	 inline 	std::size_t GetBin( std::size_t  (&bins)[N]){
 
-		size_t bin=0;
-
-		get_global_bin( bins,  bin);
-
-		return bin;
-	}
-
-	 inline size_t GetBin( std::array<size_t,N> const&  bins){
-
-		size_t bin=0;
+		std::size_t bin=0;
 
 		get_global_bin( bins,  bin);
 
 		return bin;
 	}
 
-	 template<typename Int,
-	 		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-	 inline 	size_t GetBin( Int  (&bins)[N]){
+	 inline std::size_t GetBin( std::array<std::size_t,N> const&  bins){
 
-		size_t bin=0;
+		std::size_t bin=0;
 
 		get_global_bin( bins,  bin);
 
@@ -280,44 +269,55 @@ public:
 
 	 template<typename Int,
 	 		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-	 inline size_t GetBin( std::array<Int,N> const&  bins){
+	 inline 	std::size_t GetBin( Int  (&bins)[N]){
 
-		size_t bin=0;
+		std::size_t bin=0;
 
 		get_global_bin( bins,  bin);
 
 		return bin;
 	}
 
-	 inline void GetIndexes(size_t globalbin,  size_t  (&bins)[N]){
+	 template<typename Int,
+	 		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	 inline std::size_t GetBin( std::array<Int,N> const&  bins){
+
+		std::size_t bin=0;
+
+		get_global_bin( bins,  bin);
+
+		return bin;
+	}
+
+	 inline void GetIndexes(std::size_t globalbin,  std::size_t  (&bins)[N]){
 
 		get_indexes(globalbin, bins);
 	}
 
-	 inline void GetIndexes(size_t globalbin, std::array<size_t,N>&  bins){
+	 inline void GetIndexes(std::size_t globalbin, std::array<std::size_t,N>&  bins){
 
 		get_indexes(globalbin, bins);
 	}
 
 	 template<typename Int,
 	 			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-	 inline void GetIndexes(size_t globalbin,  Int  (&bins)[N]){
+	 inline void GetIndexes(std::size_t globalbin,  Int  (&bins)[N]){
 
 		get_indexes(globalbin, bins);
 	}
 
 	 template<typename Int,
 	 			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-	 inline void GetIndexes(size_t globalbin, std::array<Int,N>&  bins){
+	 inline void GetIndexes(std::size_t globalbin, std::array<Int,N>&  bins){
 
 		get_indexes(globalbin, bins);
 	}
 
 
 
-	 inline double GetBinContent( size_t (&bins)[N]){
+	 inline double GetBinContent( std::size_t (&bins)[N]){
 
-		size_t bin=0;
+		std::size_t bin=0;
 
 		get_global_bin( bins,  bin);
 
@@ -326,9 +326,9 @@ public:
 				std::numeric_limits<double>::max();
 	}
 
-	 inline double GetBinContent( std::array<size_t, N> const& bins){
+	 inline double GetBinContent( std::array<std::size_t, N> const& bins){
 
-		size_t bin=0;
+		std::size_t bin=0;
 
 		get_global_bin( bins,  bin);
 
@@ -341,7 +341,7 @@ public:
 	 			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
 	 inline double GetBinContent( Int (&bins)[N]){
 
-		size_t bin=0;
+		std::size_t bin=0;
 
 		get_global_bin( bins,  bin);
 
@@ -354,7 +354,7 @@ public:
 	 			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
 	 inline double GetBinContent( std::array<Int, N> const& bins){
 
-		size_t bin=0;
+		std::size_t bin=0;
 
 		get_global_bin( bins,  bin);
 
@@ -363,7 +363,7 @@ public:
 				std::numeric_limits<double>::max();
 	}
 
-	 inline double GetBinContent( size_t  bin){
+	 inline double GetBinContent( std::size_t  bin){
 
 		return ( bin<= (fNBins+1) ) ?
 				fContents.begin()[bin] :
@@ -381,12 +381,12 @@ public:
     }
 
     inline Range<hydra_thrust::transform_iterator<detail::GetBinCenter<T,N>,
-	hydra_thrust::counting_iterator<size_t>  > >
+	hydra_thrust::counting_iterator<std::size_t>  > >
     GetBinsCenters() {
 
     	hydra_thrust::transform_iterator<detail::GetBinCenter<T,N>,
-    			hydra_thrust::counting_iterator<size_t> > first(
-    					hydra_thrust::counting_iterator<size_t>(0),
+    			hydra_thrust::counting_iterator<std::size_t> > first(
+    					hydra_thrust::counting_iterator<std::size_t>(0),
     					detail::GetBinCenter<T,N>( fGrid, fLowerLimits, fUpperLimits) );
 
 
@@ -416,15 +416,15 @@ public:
 		return fContents.end();
 	}
 
-    inline reference operator[](size_t i) {
+    inline reference operator[](std::size_t i) {
 		return *(fContents.begin()+i);
 	}
 
-    inline  value_type operator[](size_t i) const {
+    inline  value_type operator[](std::size_t i) const {
 		return fContents.begin()[i];
 	}
 
-    inline size_t size() const	{
+    inline std::size_t size() const	{
 
 		return  hydra_thrust::distance(fContents.begin(), fContents.end() );
 	}
@@ -467,33 +467,33 @@ private:
 
 	//k = i_1*(dim_2*...*dim_n) + i_2*(dim_3*...*dim_n) + ... + i_{n-1}*dim_n + i_n
 
-	template<typename Int,size_t I>
+	template<typename Int,std::size_t I>
 	typename hydra_thrust::detail::enable_if< (I== N) && std::is_integral<Int>::value, void>::type
-	get_global_bin(const Int (&)[N], size_t&){ }
+	get_global_bin(const Int (&)[N], std::size_t&){ }
 
-	template<typename Int,size_t I=0>
+	template<typename Int,std::size_t I=0>
 	typename hydra_thrust::detail::enable_if< (I< N) && std::is_integral<Int>::value, void>::type
-	get_global_bin(const Int (&indexes)[N], size_t& index)
+	get_global_bin(const Int (&indexes)[N], std::size_t& index)
 	{
-		size_t prod =1;
-		for(size_t i=N-1; i>I; i--)
+		std::size_t prod =1;
+		for(std::size_t i=N-1; i>I; i--)
 			prod *=fGrid[i];
 		index += prod*indexes[I];
 
 		get_global_bin<Int,I+1>( indexes, index);
 	}
 
-	template<typename Int,size_t I>
+	template<typename Int,std::size_t I>
 	typename hydra_thrust::detail::enable_if< (I== N) && std::is_integral<Int>::value, void>::type
-	get_global_bin( std::array<Int,N> const& , size_t&){ }
+	get_global_bin( std::array<Int,N> const& , std::size_t&){ }
 
-	template<typename Int,size_t I=0>
+	template<typename Int,std::size_t I=0>
 	typename hydra_thrust::detail::enable_if< (I< N) && std::is_integral<Int>::value, void>::type
-	get_global_bin( std::array<Int,N> const& indexes, size_t& index)
+	get_global_bin( std::array<Int,N> const& indexes, std::size_t& index)
 	{
-		size_t prod =1;
+		std::size_t prod =1;
 
-		for(size_t i=N-1; i>I; i--)
+		for(std::size_t i=N-1; i>I; i--)
 			prod *=fGrid[i];
 
 		index += prod*indexes[I];
@@ -509,14 +509,14 @@ private:
 	//----------------------------------------
 	// multiply  std::array elements
 	//----------------------------------------
-	template<size_t I>
+	template<std::size_t I>
 	typename std::enable_if< (I==N), void  >::type
-	multiply( std::array<size_t, N> const&, size_t& )
+	multiply( std::array<std::size_t, N> const&, std::size_t& )
 	{ }
 
-	template<size_t I=0>
+	template<std::size_t I=0>
 	typename std::enable_if< (I<N), void  >::type
-	multiply( std::array<size_t, N> const&  obj, size_t& result )
+	multiply( std::array<std::size_t, N> const&  obj, std::size_t& result )
 	{
 		result = I==0? 1.0: result;
 		result *= obj[I];
@@ -526,14 +526,14 @@ private:
 	//----------------------------------------
 	// multiply static array elements
 	//----------------------------------------
-	template< size_t I>
+	template< std::size_t I>
 	typename std::enable_if< (I==N), void  >::type
-	multiply( size_t (&)[N] , size_t& )
+	multiply( std::size_t (&)[N] , std::size_t& )
 	{ }
 
-	template<size_t I=0>
+	template<std::size_t I=0>
 	typename std::enable_if< (I<N), void  >::type
-	multiply( size_t (&obj)[N], size_t& result )
+	multiply( std::size_t (&obj)[N], std::size_t& result )
 	{
 		result = I==0? 1.0: result;
 		result *= obj[I];
@@ -545,22 +545,22 @@ private:
 	// std::array version
 	//-------------------------
 	//end of recursion
-	template<typename Int, size_t I,
+	template<typename Int, std::size_t I,
 	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
 	typename std::enable_if< (I==N), void  >::type
-	get_indexes(size_t ,  std::array<Int,N>& )
+	get_indexes(std::size_t ,  std::array<Int,N>& )
 	{}
 
 	//begin of the recursion
-	template<typename Int, size_t I=0,
+	template<typename Int, std::size_t I=0,
 			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
 	typename std::enable_if< (I<N), void  >::type
-	get_indexes(size_t index, std::array<Int,N>& indexes)
+	get_indexes(std::size_t index, std::array<Int,N>& indexes)
 	{
-		size_t factor    =  1;
+		std::size_t factor    =  1;
 		multiply<I+1>(fGrid, factor );
 		indexes[I]  =  index/factor;
-		size_t next_index =  index%factor;
+		std::size_t next_index =  index%factor;
 		get_indexes< Int,I+1>(next_index,indexes );
 	}
 
@@ -568,22 +568,22 @@ private:
 	// static array version
 	//-------------------------
 	//end of recursion
-	template<typename Int, size_t I,
+	template<typename Int, std::size_t I,
 	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
 	typename std::enable_if< (I==N), void  >::type
-	get_indexes(size_t, Int (&)[N])
+	get_indexes(std::size_t, Int (&)[N])
 	{}
 
 	//begin of the recursion
-	template<typename Int, size_t I=0,
+	template<typename Int, std::size_t I=0,
 			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
 	typename std::enable_if< (I<N), void  >::type
-	get_indexes(size_t index, Int (&indexes)[N] )
+	get_indexes(std::size_t index, Int (&indexes)[N] )
 	{
-		size_t factor    =  1;
+		std::size_t factor    =  1;
 		multiply<I+1>(fGrid, factor );
 		indexes[I]  =  index/factor;
-		size_t next_index =  index%factor;
+		std::size_t next_index =  index%factor;
 		get_indexes< Int, I+1>(next_index, indexes );
 	}
 
@@ -591,8 +591,8 @@ private:
 
 	T fUpperLimits[N];
 	T fLowerLimits[N];
-	size_t   fGrid[N];
-	size_t   fNBins;
+	std::size_t   fGrid[N];
+	std::size_t   fNBins;
 	storage_t fContents;
 	system_t fSystem;
 
@@ -624,7 +624,7 @@ public:
 	DenseHistogram()=delete;
 
 
-	DenseHistogram( size_t grid, T lowerlimits, T upperlimits):
+	DenseHistogram( std::size_t grid, T lowerlimits, T upperlimits):
 		fGrid(grid),
 		fLowerLimits(lowerlimits),
 		fUpperLimits(upperlimits),
@@ -709,7 +709,7 @@ public:
 		fContents = histogram;
 	}
 
-	size_t GetGrid() const {
+	std::size_t GetGrid() const {
 		return fGrid;
 	}
 
@@ -721,11 +721,11 @@ public:
 		return fUpperLimits;
 	}
 
-	size_t GetNBins() const {
+	std::size_t GetNBins() const {
 		return fNBins;
 	}
 
-	double GetBinContent(size_t i){
+	double GetBinContent(std::size_t i){
 
 		return (i<=fNBins+1) ?
 				fContents.begin()[i] :
@@ -733,12 +733,12 @@ public:
 	}
 
 	inline Range<hydra_thrust::transform_iterator<detail::GetBinCenter<T,1>,
-	hydra_thrust::counting_iterator<size_t>  > >
+	hydra_thrust::counting_iterator<std::size_t>  > >
 	GetBinsCenters() const {
 
 
 		hydra_thrust::transform_iterator<detail::GetBinCenter<T,1>,
-		hydra_thrust::counting_iterator<size_t> > first(hydra_thrust::counting_iterator<size_t>(0),
+		hydra_thrust::counting_iterator<std::size_t> > first(hydra_thrust::counting_iterator<std::size_t>(0),
 				detail::GetBinCenter<T,1>( fGrid, fLowerLimits, fUpperLimits) );
 
 
@@ -778,15 +778,15 @@ public:
 		return fContents.end();
 	}
 
-   reference operator[](size_t i) {
+   reference operator[](std::size_t i) {
     	return *(fContents.begin()+i);
     }
 
-   value_type  operator[](size_t i) const {
+   value_type  operator[](std::size_t i) const {
         return fContents.begin()[i];
     }
 
-	size_t size() const	{
+	std::size_t size() const	{
 	 return  hydra_thrust::distance(fContents.begin(), fContents.end() );
 	}
 
@@ -828,8 +828,8 @@ private:
 
 	T fUpperLimits;
 	T fLowerLimits;
-	size_t   fGrid;
-	size_t   fNBins;
+	std::size_t   fGrid;
+	std::size_t   fNBins;
 	storage_t fContents;
 	system_t fSystem;
 
@@ -875,10 +875,10 @@ namespace detail {
  * @param end Iterator pointing to the end of the data range.
  * @return
  */
-template<typename Iterator, typename T, size_t N , hydra::detail::Backend BACKEND>
+template<typename Iterator, typename T, std::size_t N , hydra::detail::Backend BACKEND>
 inline typename std::enable_if< detail::histogram::has_iterator_argument<Iterator>::value,
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
-make_dense_histogram( detail::BackendPolicy<BACKEND>const& pol, std::array<size_t, N> const& grid,
+make_dense_histogram( detail::BackendPolicy<BACKEND>const& pol, std::array<std::size_t, N> const& grid,
 		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
 		Iterator first, Iterator end);
 
@@ -893,10 +893,10 @@ make_dense_histogram( detail::BackendPolicy<BACKEND>const& pol, std::array<size_
  * @param data Iterable storing the data to histogram.
  * @return
  */
-template<typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable >
+template<typename T, std::size_t N , hydra::detail::Backend BACKEND, typename Iterable >
 inline typename std::enable_if<  !detail::histogram::has_iterator_argument<Iterable>::value,
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
-make_dense_histogram( detail::BackendPolicy<BACKEND> const& backend, std::array<size_t, N> const& grid,
+make_dense_histogram( detail::BackendPolicy<BACKEND> const& backend, std::array<std::size_t, N> const& grid,
 		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,	Iterable&& data);
 
 /**
@@ -911,10 +911,10 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> const& backend, std::array<
  * @param weight Iterable storing the data to histogram.
  * @return
  */
-template<typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable1, typename Iterable2 >
+template<typename T, std::size_t N , hydra::detail::Backend BACKEND, typename Iterable1, typename Iterable2 >
 inline typename std::enable_if< !detail::histogram::has_iterator_argument<Iterable1, Iterable2>::value,
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
-make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> const&  grid,
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<std::size_t, N> const&  grid,
 		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
 		Iterable1&& data, Iterable2&& weight);
 
@@ -935,7 +935,7 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t,
  */
 template<typename Iterator, typename T, hydra::detail::Backend BACKEND>
 DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
-make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins, T lowerlimit, T upperlimit,
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::size_t nbins, T lowerlimit, T upperlimit,
 		Iterator first, Iterator end);
 /**
  * \ingroup histogram
@@ -952,7 +952,7 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins, T lo
  */
 template<typename Iterator1, typename Iterator2, typename T, hydra::detail::Backend BACKEND>
 DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
-make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins, T lowerlimit, T upperlimit,
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::size_t nbins, T lowerlimit, T upperlimit,
 		Iterator1 first, Iterator1 end, Iterator2 wfirst);
 
 /**
@@ -969,7 +969,7 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins, T lo
 template<typename T, hydra::detail::Backend BACKEND, typename Iterable>
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
 DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
-make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins,
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::size_t nbins,
 		T lowerlimits,  T upperlimits,	Iterable&& data);
 
 /**
@@ -988,7 +988,7 @@ template<typename T, hydra::detail::Backend BACKEND, typename Iterable1,  typena
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value&&
                                 hydra::detail::is_iterable<Iterable2>::value,
 DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
-make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins,
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::size_t nbins,
 		T lowerlimits,  T upperlimits,	Iterable1&& data,	Iterable2&& weight);
 
 

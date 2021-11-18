@@ -49,11 +49,11 @@ namespace detail {
 
 // ProcessCallsPlainUnary is a functor that takes in a value x and
 // returns a PlainState whose mean value is initialized to f(x).
-template <typename FUNCTOR, size_t N, typename GRND=hydra_thrust::random::default_random_engine>
+template <typename FUNCTOR, std::size_t N, typename GRND=hydra_thrust::random::default_random_engine>
 struct ProcessCallsPlainUnary
 {
 
-	ProcessCallsPlainUnary(GReal_t* XLow, GReal_t  *DeltaX, size_t seed, FUNCTOR const& functor):
+	ProcessCallsPlainUnary(GReal_t* XLow, GReal_t  *DeltaX, std::size_t seed, FUNCTOR const& functor):
 		fSeed(seed),
 		fXLow(XLow),
 		fDeltaX(DeltaX),
@@ -80,7 +80,7 @@ struct ProcessCallsPlainUnary
 
 
 	__hydra_host__ __hydra_device__ inline
-	PlainState operator()(size_t index)
+	PlainState operator()(std::size_t index)
 	 {
 
 		GRND randEng(fSeed);
@@ -89,7 +89,7 @@ struct ProcessCallsPlainUnary
 
 		GReal_t x[N];
 
-		for (size_t j = 0; j < N; j++) {
+		for (std::size_t j = 0; j < N; j++) {
 			GReal_t r =  uniDist(randEng);
 			x[j] = fXLow[j] + r*fDeltaX[j];
 		}
@@ -106,7 +106,7 @@ struct ProcessCallsPlainUnary
 		return result;
 	}
 
-	size_t fSeed;
+	std::size_t fSeed;
 	FUNCTOR fFunctor;
 	GReal_t* __restrict__ fXLow;
 	GReal_t* __restrict__ fDeltaX;
@@ -129,7 +129,7 @@ struct ProcessCallsPlainBinary
     	PlainState result;
 
         // precompute some common subexpressions
-        size_t n  = x.fN + y.fN;
+        std::size_t n  = x.fN + y.fN;
 
         GReal_t delta  = y.fMean - x.fMean;
         GReal_t delta2 = delta  * delta;

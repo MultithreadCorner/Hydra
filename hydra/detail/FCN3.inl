@@ -127,11 +127,11 @@ public:
 
 private:
 
-	template<size_t I>
+	template<std::size_t I>
 	typename std::enable_if<(I==nfcns), void>::type
 	load_fcn_parameters_helper(std::vector<Parameter*>&){}
 
-	template<size_t I=0>
+	template<std::size_t I=0>
 	typename std::enable_if< (I<nfcns), void>::type
 	load_fcn_parameters_helper( std::vector<Parameter*>& pars){
 
@@ -152,11 +152,11 @@ private:
 		fUserParameters.SetVariables(pars);
 	}
 
-	template<size_t I>
+	template<std::size_t I>
 	typename std::enable_if< (I==nfcns), void>::type
 	add_tasks( std::vector<double> const& parameters, std::vector<std::future<double>>&  ) const {}
 
-	template<size_t I=0>
+	template<std::size_t I=0>
 	typename std::enable_if< (I<nfcns), void>::type
 	add_tasks(std::vector<double> const& parameters, std::vector<std::future<double>>& tasks ) const
 	{

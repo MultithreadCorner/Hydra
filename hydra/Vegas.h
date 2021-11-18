@@ -44,7 +44,7 @@
 
 namespace hydra {
 
-template<size_t N, typename  BACKEND,  typename GRND=hydra::default_random_engine >
+template<std::size_t N, typename  BACKEND,  typename GRND=hydra::default_random_engine >
 class Vegas ;
 
 /**
@@ -60,7 +60,7 @@ class Vegas ;
  *  *Find a more complete documentation* [here](https://www.gnu.org/software/gsl/doc/html/montecarlo.html#vegas) .
  *
  */
-template<size_t N,  hydra::detail::Backend  BACKEND,  typename GRND>
+template<std::size_t N,  hydra::detail::Backend  BACKEND,  typename GRND>
 class Vegas<N, hydra::detail::BackendPolicy<BACKEND>, GRND >
 : public Integral<Vegas<N,hydra::detail::BackendPolicy<BACKEND>,GRND>>
 {
@@ -77,7 +77,7 @@ public:
 
 	Vegas()=delete;
 
-	Vegas(std::array<GReal_t,N> const& xlower,	std::array<GReal_t,N> const& xupper, size_t ncalls):
+	Vegas(std::array<GReal_t,N> const& xlower,	std::array<GReal_t,N> const& xupper, std::size_t ncalls):
 		Integral<Vegas<N, hydra::detail::BackendPolicy<BACKEND>,GRND>>(),
 		fState(xlower,xupper)
 		{

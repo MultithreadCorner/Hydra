@@ -59,7 +59,7 @@ namespace hydra {
 template<typename T>
 class GenzMalikRuleBase{};
 
-template<size_t DIM, typename BACKEND>
+template<std::size_t DIM, typename BACKEND>
 class GenzMalikRule;
 
 /**
@@ -68,7 +68,7 @@ class GenzMalikRule;
  * \brief Class representing Genz-Malik rule.
  *
  */
-template<size_t DIM, hydra::detail::Backend   BACKEND>
+template<std::size_t DIM, hydra::detail::Backend   BACKEND>
 class GenzMalikRule<DIM, hydra::detail::BackendPolicy<BACKEND>>:
 GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >::type >
 {
@@ -502,9 +502,9 @@ private:
 		//adding permutations of {lambda_5,lambda_5,...,lambda_5}
 		std::array<double, DIM> x_temp{};
 
-		for(size_t i=0;i<DIM+1;i++){
+		for(std::size_t i=0;i<DIM+1;i++){
 
-			for(size_t j=0;j<DIM;j++){
+			for(std::size_t j=0;j<DIM;j++){
 
 				x_temp[j]= j<i ? -fLambda5: fLambda5;
 			}

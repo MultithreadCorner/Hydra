@@ -36,23 +36,23 @@ namespace hydra {
 
 namespace detail {
 
-template<size_t I, class T, class... Types>
+template<std::size_t I, class T, class... Types>
 struct find_unique_type_impl;
 
 
-template<size_t I, class T, class U, class... Types>
+template<std::size_t I, class T, class U, class... Types>
 struct find_unique_type_impl<I,T,U,Types...> : find_unique_type_impl<I+1, T, Types...> {};
 
 
-template<size_t I, class T, class... Types>
-struct find_unique_type_impl<I,T,T,Types...> : std::integral_constant<size_t, I>
+template<std::size_t I, class T, class... Types>
+struct find_unique_type_impl<I,T,T,Types...> : std::integral_constant<std::size_t, I>
 {
   HYDRA_STATIC_ASSERT((find_unique_type_impl<I,T,Types...>::value==-1),
 		  "Type not unique in type list")
 };
 
 
-template<size_t I, class T>
+template<std::size_t I, class T>
 struct find_unique_type_impl<I,T>: std::integral_constant<int, -1> {};
 
 

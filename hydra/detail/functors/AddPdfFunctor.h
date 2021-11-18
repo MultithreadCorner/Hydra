@@ -43,7 +43,7 @@ namespace hydra {
 namespace detail {
 
 //evaluate a tuple of functors and return a tuple of results
-template< typename Tup, size_t ... index>
+template< typename Tup, std::size_t ... index>
 inline auto get_functor_tuple_helper(Tup& pdfs, index_sequence<index...>)
 -> decltype(hydra_thrust::make_tuple(hydra_thrust::get<index>(pdfs).GetFunctor()...))
 {
@@ -54,7 +54,7 @@ template< typename Tup>
 inline auto get_functor_tuple(Tup& pdfs)
 -> decltype(get_functor_tuple_helper(pdfs, make_index_sequence< hydra_thrust::tuple_size<Tup>::value> { }))
 {
-	constexpr size_t Size = hydra_thrust::tuple_size<Tup>::value;
+	constexpr std::size_t Size = hydra_thrust::tuple_size<Tup>::value;
 	return get_functor_tuple_helper(pdfs, make_index_sequence<Size> { });
 }
 
@@ -69,7 +69,7 @@ struct AddPdfFunctor
 			typename PDF2::functor_type,
 			typename PDFs::functor_type...> functors_tuple_type;
 
-	constexpr static size_t npdfs = sizeof...(PDFs)+2;
+	constexpr static std::size_t npdfs = sizeof...(PDFs)+2;
 
 	AddPdfFunctor()=delete;
 
@@ -79,7 +79,7 @@ struct AddPdfFunctor
 				fFunctors( functors ),
 				fCoefSum(coef_sum)
 	{
-		for(size_t i=0; i<sizeof...(PDFs)+2;i++)
+		for(std::size_t i=0; i<sizeof...(PDFs)+2;i++)
 			fCoefficients[i]=coeficients[i].GetValue();
 	}
 
@@ -88,7 +88,7 @@ struct AddPdfFunctor
 		fFunctors( other.GetFunctors() ),
 		fCoefSum( other.GetCoefSum() )
 	{
-		for(size_t i=0; i<sizeof...(PDFs)+2;i++)
+		for(std::size_t i=0; i<sizeof...(PDFs)+2;i++)
 			fCoefficients[i]=other.GetCoefficients()[i];
 	}
 
@@ -100,7 +100,7 @@ struct AddPdfFunctor
     	this->fFunctors = other.GetFunctors() ;
     	this->fCoefSum = other.GetCoefSum() ;
 
-    	for(size_t i=0; i<sizeof...(PDFs)+2;i++)
+    	for(std::size_t i=0; i<sizeof...(PDFs)+2;i++)
     		this->fCoefficients[i]=other.GetCoefficients()[i];
 
     	return *this;
@@ -112,7 +112,7 @@ struct AddPdfFunctor
     	HYDRA_CALLER ;
     	HYDRA_MSG << "Registered parameters begin:" << HYDRA_ENDL;
     	HYDRA_MSG << "Coefficients: "<< HYDRA_ENDL;
-    			for(size_t i=0;i< sizeof...(PDFs)+2;i++ )
+    			for(std::size_t i=0;i< sizeof...(PDFs)+2;i++ )
     			{
     				HYDRA_MSG << "["<<i<<"]" <<	fCoefficients[i]<<HYDRA_ENDL;
     			}
@@ -165,7 +165,7 @@ struct AddPdfFunctor
 		detail::tupleToArray( pdf_res_tuple, pdf_res_array );
 
 		GReal_t result = 0;
-		for(size_t i=0; i< npdfs; i++)
+		for(std::size_t i=0; i< npdfs; i++)
 			result += fCoefficients[i]*pdf_res_array[i];
 
 		//printf("%f %f %f %f %f  \n", pdf_res_array[0], pdf_res_array[1], pdf_res_array[2], result, fCoefSum );
@@ -184,7 +184,7 @@ struct AddPdfFunctor
 		detail::tupleToArray( pdf_res_tuple, pdf_res_array );
 
 		GReal_t result = 0;
-		for(size_t i=0; i< npdfs; i++)
+		for(std::size_t i=0; i< npdfs; i++)
 			result += fCoefficients[i]*pdf_res_array[i];
 
 		return result*fCoefSum;
@@ -202,7 +202,7 @@ struct AddPdfFunctor
 
 		GReal_t result = 0;
 
-		for(size_t i=0; i< npdfs; i++)
+		for(std::size_t i=0; i< npdfs; i++)
 		{
 			result += fCoefficients[i]*pdf_res_array[i];
 		}

@@ -60,7 +60,7 @@ enum {
  * \tparam N number of parameters.
  * \tparam BACKEND can be hydra::omp::sys , hydra::cuda::sys , hydra::tbb::sys , hydra::cpp::sys ,hydra::host::sys and hydra::device::sys.
  */
-template<size_t N , typename  BACKEND>
+template<std::size_t N , typename  BACKEND>
 class VegasState ;
 
 /**
@@ -71,7 +71,7 @@ class VegasState ;
  * \tparam hydra::detail::BackendPolicy<BACKEND> can be hydra::omp::sys ,
  *  hydra::cuda::sys , hydra::tbb::sys , hydra::cpp::sys ,hydra::host::sys and hydra::device::sys.
  */
-template<size_t N , hydra::detail::Backend BACKEND>
+template<std::size_t N , hydra::detail::Backend BACKEND>
 class VegasState<N, hydra::detail::BackendPolicy<BACKEND>>
 {
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
@@ -143,23 +143,23 @@ public:
 	//-----------------------------
 	//Calls
 
-	inline size_t GetCalls() const {return fCalls;}
+	inline std::size_t GetCalls() const {return fCalls;}
 
-	inline size_t GetCalls(GBool_t training) const
+	inline std::size_t GetCalls(GBool_t training) const
 	{ return  training ? fTrainingCalls : fCalls;}
 
-	inline void SetCalls(size_t calls) {fCalls = calls;}
+	inline void SetCalls(std::size_t calls) {fCalls = calls;}
 
-	inline void SetCalls(GBool_t training, size_t calls)
+	inline void SetCalls(GBool_t training, std::size_t calls)
 	{ if(training) fTrainingCalls = calls;
 	else fCalls = calls;}
 
 	//-----------------------------
 	//CallsPerBox
 
-	inline size_t GetCallsPerBox() const {return fCallsPerBox;}
+	inline std::size_t GetCallsPerBox() const {return fCallsPerBox;}
 
-	inline void SetCallsPerBox(size_t callsPerBox) {fCallsPerBox = callsPerBox;}
+	inline void SetCallsPerBox(std::size_t callsPerBox) {fCallsPerBox = callsPerBox;}
 
 	//-----------------------------
 	//ChiSquare
@@ -278,32 +278,32 @@ public:
 	//----------------
 	//NBins
 
-	inline size_t GetNBins() const {return fNBins;}
+	inline std::size_t GetNBins() const {return fNBins;}
 
-	inline void SetNBins(size_t nBins) { fNBins = nBins;	}
+	inline void SetNBins(std::size_t nBins) { fNBins = nBins;	}
 
 	//----------------
 	//NBinsMax
 
-	inline size_t GetNBinsMax() const {	return fNBinsMax;}
+	inline std::size_t GetNBinsMax() const {	return fNBinsMax;}
 
 
-	inline void SetNBinsMax(size_t nBinsMax) {fNBinsMax = nBinsMax;}
+	inline void SetNBinsMax(std::size_t nBinsMax) {fNBinsMax = nBinsMax;}
 
 	//----------------
 	//NBoxes
 
-	inline size_t GetNBoxes() const {return fNBoxes;}
+	inline std::size_t GetNBoxes() const {return fNBoxes;}
 
-	inline void SetNBoxes(size_t nBoxes) {fNBoxes = nBoxes;}
+	inline void SetNBoxes(std::size_t nBoxes) {fNBoxes = nBoxes;}
 
 	//----------------
 	//NDimensions
 
-	inline size_t GetNDimensions() const {return fNDimensions;}
+	inline std::size_t GetNDimensions() const {return fNDimensions;}
 
 
-	inline void SetNDimensions(size_t nDimensions) {
+	inline void SetNDimensions(std::size_t nDimensions) {
 		fNDimensions = nDimensions;
 	}
 
@@ -485,11 +485,11 @@ public:
 
 
 
-	size_t GetTrainingCalls() const {
+	std::size_t GetTrainingCalls() const {
 		return fTrainingCalls;
 	}
 
-	void SetTrainingCalls(size_t trainingCalls) {
+	void SetTrainingCalls(std::size_t trainingCalls) {
 		fTrainingCalls = trainingCalls;
 	}
 
@@ -526,10 +526,10 @@ private:
 	std::ostream &fOStream;
 
 	/* grid */
-	size_t fNDimensions;
-	size_t fNBinsMax;
-	size_t fNBins;
-	size_t fNBoxes; /* these are both counted along the axes */
+	std::size_t fNDimensions;
+	std::size_t fNBinsMax;
+	std::size_t fNBins;
+	std::size_t fNBoxes; /* these are both counted along the axes */
 
 	//host
 
@@ -581,9 +581,9 @@ private:
 	GUInt_t fItStart;
 	GUInt_t fItNum;
 	GUInt_t fSamples;
-	size_t  fCallsPerBox; ///< number of call per box
-	size_t  fCalls;
-	size_t  fTrainingCalls;
+	std::size_t  fCallsPerBox; ///< number of call per box
+	std::size_t  fCalls;
+	std::size_t  fTrainingCalls;
 	GReal_t fMaxError; ///< max error
 	GBool_t fUseRelativeError; ///< use relative error as convergence criteria
 

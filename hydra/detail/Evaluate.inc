@@ -65,12 +65,12 @@ struct process
 
 
 
-template<typename T, template<typename, typename...> class V,  size_t N>
-inline 	size_t get_size(std::array<V<T>*, N>const & Array)
+template<typename T, template<typename, typename...> class V,  std::size_t N>
+inline 	std::size_t get_size(std::array<V<T>*, N>const & Array)
 {
 	bool same_size=true;
 
-	for ( size_t n=1; n< N; n++ )
+	for ( std::size_t n=1; n< N; n++ )
 	{
 		if( Array[n-1]->size() != Array[n]->size() )
 		{

@@ -107,7 +107,7 @@ public:
 	}
 
 	__hydra_host__ __hydra_device__
-	size_t GetSize() const
+	std::size_t GetSize() const
 	{
 		return fSize;
 	}
@@ -141,7 +141,7 @@ public:
 private:
 
 
-	size_t fSize;
+	std::size_t fSize;
 	Iterator1 fX;
 	Iterator2 fY;
 };

@@ -93,7 +93,7 @@ public:
 	template<int I>
 	using siterator = hydra_thrust::transform_iterator< detail::GetSWeight<I>, iterator >;
 
-	constexpr static size_t npdfs = sizeof...(PDFs)+2;
+	constexpr static std::size_t npdfs = sizeof...(PDFs)+2;
 
 	SPlot()=delete;
 
@@ -112,7 +112,7 @@ public:
 		fEnd (iterator( last , transformer(  pdf.GetFunctors(), Eigen::Matrix<double, npdfs, npdfs>{} )))
 
 	{
-		for(size_t i=0;i<npdfs; i++)
+		for(std::size_t i=0;i<npdfs; i++)
 			fCoefficients[i] = pdf.GetCoefficient(i);
 
 		//fCovMatrix << 0.0, 0.0, 0.0, 0.0;
@@ -148,7 +148,7 @@ public:
 	    fEnd(other.end()),
 	    fCovMatrix(other.GetCovMatrix() )
 	{
-		for( size_t i=0; i< npdfs; i++ ){
+		for( std::size_t i=0; i< npdfs; i++ ){
 			fCoefficients[i]=other.GetCoefficient(i);
 		}
 	}
@@ -169,7 +169,7 @@ public:
 		fEnd=other.end();
 		fCovMatrix=other.GetCovMatrix();
 
-		for( size_t i=0; i< npdfs; i++ ){
+		for( std::size_t i=0; i< npdfs; i++ ){
 			fCoefficients[i]=other.GetCoefficient(i);
 		}
 
@@ -198,7 +198,7 @@ public:
 	 * @param i index of PDF
 	 * @return hydra::Parameter
 	 */
-	inline	const Parameter& GetCoefficient(size_t i) const {
+	inline	const Parameter& GetCoefficient(std::size_t i) const {
 		return fCoefficients[i];
 	}
 
@@ -299,7 +299,7 @@ public:
 	 * @param index i
 	 * @return value_type
 	 */
-	value_type operator[](size_t i){
+	value_type operator[](std::size_t i){
 		return fBegin[i];
 	}
 

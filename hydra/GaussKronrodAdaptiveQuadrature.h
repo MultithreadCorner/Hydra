@@ -52,7 +52,7 @@ namespace hydra {
  * \class
  * @ingroup numerical_integration
  */
-template<size_t NRULE, size_t NBIN, typename BACKEND>
+template<std::size_t NRULE, std::size_t NBIN, typename BACKEND>
 class GaussKronrodAdaptiveQuadrature;
 
 
@@ -99,7 +99,7 @@ This allows for computing higher-order estimates while reusing the function valu
 The difference between a Gauss quadrature rule and its Kronrod extension are often used as an estimate of the approximation error.
 
  */
-template<size_t NRULE, size_t NBIN, hydra::detail::Backend BACKEND>
+template<std::size_t NRULE, std::size_t NBIN, hydra::detail::Backend BACKEND>
 class GaussKronrodAdaptiveQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND>>:
 public Integral< GaussKronrodAdaptiveQuadrature<NRULE, NBIN, hydra::detail::BackendPolicy<BACKEND> > >
 {
@@ -270,13 +270,13 @@ public:
 	 */
 	void Print()
 	{
-		size_t nNodes   =  fNodesTable.size();
+		std::size_t nNodes   =  fNodesTable.size();
 		HYDRA_CALLER ;
 		HYDRA_MSG << "GaussKronrodAdaptiveQuadrature begin: " << HYDRA_ENDL;
 		HYDRA_MSG << "XLower: " << fXLower << HYDRA_ENDL;
 		HYDRA_MSG << "XUpper: " << fXUpper << HYDRA_ENDL;
 		HYDRA_MSG << "#Nodes: " << nNodes << HYDRA_ENDL;
-		for(size_t i=0; i< nNodes; i++ ){
+		for(std::size_t i=0; i< nNodes; i++ ){
 			auto node = this->fNodesTable[i];
 			HYDRA_MSG <<std::setprecision(50)<< "Node ID #" << hydra_thrust::get<1>(node) <<" Interval ["
 					  << hydra_thrust::get<2>(node)
@@ -354,7 +354,7 @@ private:
 		GReal_t delta = (fXUpper - fXLower)/NBIN;
 		fNodesTable.resize(NBIN);
 
-		for(size_t i=0; i<NBIN; i++ )
+		for(std::size_t i=0; i<NBIN; i++ )
 		{
 			auto node = this->fNodesTable[i];
 			hydra_thrust::get<0>(node) = 	1;
@@ -367,12 +367,12 @@ private:
 
 	}
 
-	size_t CountNodesToProcess()
+	std::size_t CountNodesToProcess()
 	{
 		auto begin = fNodesTable.begin( placeholders::_0);
 		auto end   = fNodesTable.end( placeholders::_0);
 
-	    size_t n=0;
+	    std::size_t n=0;
 		for(auto i = begin; i!=end; i++)
 		if(*i)n++;
 		return n;
@@ -381,20 +381,20 @@ private:
 	void SetParametersTable( )
 	{
 
-		size_t nNodes =  CountNodesToProcess();
+		std::size_t nNodes =  CountNodesToProcess();
 
 		fParametersTable.clear();
 		fParametersTable.resize(nNodes*(NRULE+1)/2);
 		parameters_table_h temp_table(nNodes*(NRULE+1)/2);
 
-		//for(size_t i=0; i<nNodes; i++)
-		size_t i=0;
+		//for(std::size_t i=0; i<nNodes; i++)
+		std::size_t i=0;
 		for(auto node : fNodesTable)
 		{
 
 			if(!hydra_thrust::get<0>(node)) 	continue;
 
-			for(size_t call=0; call<(NRULE+1)/2; call++)
+			for(std::size_t call=0; call<(NRULE+1)/2; call++)
 			{
 				GReal_t abscissa_X_P = 0;
 				GReal_t abscissa_X_M = 0;
@@ -408,7 +408,7 @@ private:
 				GReal_t rule_GaussKronrod_Weight   = fRule.KronrodWeight[call];
 				GReal_t rule_Gauss_Weight                = fRule.GaussWeight[call];
 
-				size_t index = call*nNodes + i;
+				std::size_t index = call*nNodes + i;
 
 				temp_table[index]= parameters_t(hydra_thrust::get<1>(node), abscissa_X_P, abscissa_X_M,
 						jacobian, rule_GaussKronrod_Weight, rule_Gauss_Weight);

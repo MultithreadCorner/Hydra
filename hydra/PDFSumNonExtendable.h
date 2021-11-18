@@ -70,7 +70,7 @@ public:
 	//will fail
 	typedef typename detail::AddPdfBase<PDF1,PDF2,PDFs...>::type base_type; //!< base class type
 
-	constexpr static size_t npdfs = sizeof...(PDFs)+2; //!< number of pdfs
+	constexpr static std::size_t npdfs = sizeof...(PDFs)+2; //!< number of pdfs
 
 	typedef hydra_thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;//!< type of the tuple of pdfs
 
@@ -102,7 +102,7 @@ public:
 			fCoefPartialSum(0.0)
 	{
 		double fraction=1.0;
-		size_t i=0;
+		std::size_t i=0;
 		for(Parameter var:coef){
 			fCoefficients[i] = var;
 			fraction -= var.GetValue();
@@ -126,7 +126,7 @@ public:
 	fCoefSum(other.GetCoefSum()),
 	fCoefPartialSum(other.GetCoefPartialSum())
 	{
-		for( size_t i=0; i< npdfs; i++ ){
+		for( std::size_t i=0; i< npdfs; i++ ){
 			fCoefficients[i]=other.GetCoefficient(i);
 			}
 	}
@@ -145,7 +145,7 @@ public:
 		this->fCoefSum= other.GetCoefSum();
 		this->fCoefPartialSum = other.GetCoefPartialSum();
 
-		for( size_t i=0; i< npdfs; i++ ){
+		for( std::size_t i=0; i< npdfs; i++ ){
 			this->fCoefficients[i]=other.GetCoefficient(i);
 		}
 
@@ -163,7 +163,7 @@ public:
 
 		fCoefficients[ npdfs-1] = 1.0;
 		fCoefPartialSum=0.0;
-		for(size_t i=0; i< npdfs-1; i++){
+		for(std::size_t i=0; i< npdfs-1; i++){
 			      fCoefficients[i].Reset(parameters );
 			      fCoefficients[ npdfs-1] -= fCoefficients[i].GetValue();
 			      fCoefPartialSum += fCoefficients[i].GetValue();
@@ -175,7 +175,7 @@ public:
 
 		fCoefSum=0;
 
-		for(size_t i=0; i< npdfs ; i++)
+		for(std::size_t i=0; i< npdfs ; i++)
 				fCoefSum+=fCoefficients[i];
 	}
 
@@ -187,7 +187,7 @@ public:
 		HYDRA_CALLER ;
 		HYDRA_MSG << "Registered parameters begin:" << HYDRA_ENDL;
 
-		for(size_t i=0; i< npdfs ; i++)
+		for(std::size_t i=0; i< npdfs ; i++)
 			HYDRA_MSG <<fCoefficients[i]<< HYDRA_ENDL;
 
 		detail::print_parameters_in_tuple(fPDFs);
@@ -205,19 +205,19 @@ public:
 	 */
 	inline	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
 	{
-		for(size_t i=0; i< npdfs-1; i++)
+		for(std::size_t i=0; i< npdfs-1; i++)
 			user_parameters.push_back(&fCoefficients[i]);
 
 		detail::add_parameters_in_tuple(user_parameters, fPDFs);
 	}
 
 
-	inline	const Parameter& GetCoefficient(size_t i) const
+	inline	const Parameter& GetCoefficient(std::size_t i) const
 	{
 		return fCoefficients[i];
 	}
 
-	inline	Parameter& Coefficient(size_t i)
+	inline	Parameter& Coefficient(std::size_t i)
 	{
 		return fCoefficients[i];
 	}
@@ -264,7 +264,7 @@ public:
 		detail::tupleToArray( pdf_res_tuple, pdf_res_array );
 
 		GReal_t result = 0;
-		for(size_t i=0; i< npdfs; i++)
+		for(std::size_t i=0; i< npdfs; i++)
 			result += fCoefficients[i]*pdf_res_array[i];
 
 		return result/fCoefSum;
@@ -280,7 +280,7 @@ public:
 		detail::tupleToArray( pdf_res_tuple, pdf_res_array );
 
 		GReal_t result = 0;
-		for(size_t i=0; i< npdfs; i++)
+		for(std::size_t i=0; i< npdfs; i++)
 			result += fCoefficients[i]*pdf_res_array[i];
 
 		return result/fCoefSum;
@@ -296,7 +296,7 @@ public:
 
 		GReal_t result = 0;
 
-		for(size_t i=0; i< npdfs; i++)
+		for(std::size_t i=0; i< npdfs; i++)
 		{
 			result += fCoefficients[i]*pdf_res_array[i];
 		}

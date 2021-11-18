@@ -40,17 +40,17 @@
 
 namespace hydra {
 
-template<size_t NRULE, size_t NBIN, hydra::detail::Backend BACKEND>
+template<std::size_t NRULE, std::size_t NBIN, hydra::detail::Backend BACKEND>
 std::pair<GReal_t, GReal_t>
 GaussKronrodAdaptiveQuadrature<NRULE,NBIN,hydra::detail::BackendPolicy<BACKEND>>::Accumulate()
 {
 
-	for(size_t index=0; index<fCallTableHost.size() ; index++ )
+	for(std::size_t index=0; index<fCallTableHost.size() ; index++ )
 		{
 
 			auto row = fCallTableHost[index];
 
-			size_t  bin        = hydra_thrust::get<0>(row);
+			std::size_t  bin        = hydra_thrust::get<0>(row);
 			GReal_t bin_delta  = hydra_thrust::get<1>(row)-hydra_thrust::get<2>(row);
 			GReal_t bin_result = hydra_thrust::get<2>(row);
 			hydra_thrust::get<4>(fNodesTable[bin])   +=  bin_result;
@@ -62,7 +62,7 @@ GaussKronrodAdaptiveQuadrature<NRULE,NBIN,hydra::detail::BackendPolicy<BACKEND>>
 
 	//for(auto row: fNodesTable ) std::cout <<std::setprecision(10)<< row << std::endl;
 
-	for(size_t node=0; node<fNodesTable.size(); node++ )
+	for(std::size_t node=0; node<fNodesTable.size(); node++ )
 	{
 		//std::cout <<std::setprecision(10)<< fNodesTable[node]<< std::endl;
 		if(hydra_thrust::get<0>(fNodesTable[node])==1 )
@@ -80,7 +80,7 @@ GaussKronrodAdaptiveQuadrature<NRULE,NBIN,hydra::detail::BackendPolicy<BACKEND>>
 	return std::pair<GReal_t, GReal_t>(result, sqrt(error2) );
 }
 
-template<size_t NRULE, size_t NBIN, hydra::detail::Backend BACKEND>
+template<std::size_t NRULE, std::size_t NBIN, hydra::detail::Backend BACKEND>
 template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t>
 GaussKronrodAdaptiveQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND>>::Integrate(FUNCTOR const& functor)
@@ -136,7 +136,7 @@ GaussKronrodAdaptiveQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND>
 }
 
 
-template<size_t NRULE, size_t NBIN, hydra::detail::Backend BACKEND>
+template<std::size_t NRULE, std::size_t NBIN, hydra::detail::Backend BACKEND>
 void GaussKronrodAdaptiveQuadrature<NRULE,NBIN,hydra::detail::BackendPolicy<BACKEND>>::UpdateNodes()
 {
 
@@ -165,7 +165,7 @@ void GaussKronrodAdaptiveQuadrature<NRULE,NBIN,hydra::detail::BackendPolicy<BACK
 			hydra::detail::CompareTuples<2,	hydra_thrust::less >());
 
 
-	for(size_t  i = 0; i<fNodesTable.size(); i++)
+	for(std::size_t  i = 0; i<fNodesTable.size(); i++)
 	{
 		hydra_thrust::get<1>(fNodesTable[i])=i;
 	}

@@ -205,7 +205,7 @@ namespace hydra {
 				typedef ReturnType return_type;
 				typedef hydra_thrust::tuple<Args...> args_type;
 
-				template <size_t i>
+				template <std::size_t i>
 				struct arg
 				{
 					typedef typename std::tuple_element<i, std::tuple<Args...>>::type type;
@@ -221,7 +221,7 @@ namespace hydra {
 				typedef ReturnType return_type;
 				typedef hydra_thrust::tuple<Args&...> args_type;
 
-				template <size_t i>
+				template <std::size_t i>
 				struct arg
 				{
 					typedef typename std::tuple_element<i, std::tuple<Args&...>>::type type;

@@ -86,12 +86,12 @@ struct ProcessBoxesVegas
 };
 
 
-template<typename FUNCTOR, size_t NDimensions, typename  BACKEND,
+template<typename FUNCTOR, std::size_t NDimensions, typename  BACKEND,
 typename IteratorBackendReal, typename IteratorBackendUInt,
 typename GRND=hydra_thrust::random::default_random_engine>
 struct ProcessCallsVegas;
 
-template<typename FUNCTOR, size_t NDimensions,  hydra::detail::Backend  BACKEND,
+template<typename FUNCTOR, std::size_t NDimensions,  hydra::detail::Backend  BACKEND,
 typename IteratorBackendReal, typename IteratorBackendUInt, typename GRND>
 struct ProcessCallsVegas<FUNCTOR,  NDimensions, hydra::detail::BackendPolicy<BACKEND>,
 IteratorBackendReal,  IteratorBackendUInt, GRND>
@@ -104,7 +104,7 @@ IteratorBackendReal,  IteratorBackendUInt, GRND>
 
 public :
 
-	ProcessCallsVegas( size_t NBoxes, state_t& fState,	IteratorBackendUInt begin_bins,
+	ProcessCallsVegas( std::size_t NBoxes, state_t& fState,	IteratorBackendUInt begin_bins,
 			IteratorBackendReal begin_real,  FUNCTOR const& functor):
 				fNBoxes( NBoxes ),
 				fSeed(fState.GetItNum()),
@@ -154,29 +154,29 @@ public :
 	}
 
 	__hydra_host__   __hydra_device__ inline
-	size_t hash(size_t a, size_t b)
+	std::size_t hash(std::size_t a, std::size_t b)
 	{
 		//Matthew Szudzik pairing
 		//http://szudzik.com/ElegantPairing.pdf
 
-		size_t  A = 2 * a ;
-		size_t  B = 2 * b ;
-		size_t  C = ((A >= B ? A * A + A + B : A + B * B) / 2);
+		std::size_t  A = 2 * a ;
+		std::size_t  B = 2 * b ;
+		std::size_t  C = ((A >= B ? A * A + A + B : A + B * B) / 2);
 		return  C ;
 	}
 
 
 	__hydra_host__   __hydra_device__ inline
-	void get_point(const size_t  index, GReal_t &volume, GInt_t (&bin)[NDimensions], GReal_t (&x)[NDimensions] )
+	void get_point(const std::size_t  index, GReal_t &volume, GInt_t (&bin)[NDimensions], GReal_t (&x)[NDimensions] )
 	{
 
-		size_t box = index/fNCallsPerBox;
+		std::size_t box = index/fNCallsPerBox;
 
 		GRND randEng( hash(fSeed,index) );
 		//randEng.discard(index);
 		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
-		for (size_t j = 0; j < NDimensions; j++)
+		for (std::size_t j = 0; j < NDimensions; j++)
 		{
 			x[j] = uniDist(randEng);
 
@@ -206,7 +206,7 @@ public :
 	}
 
 	__hydra_host__ __hydra_device__ inline
-	size_t GetDistributionIndex(size_t index,  const GUInt_t dim) const
+	std::size_t GetDistributionIndex(std::size_t index,  const GUInt_t dim) const
 	{ return index*NDimensions + dim; }
 
 	__hydra_host__ __hydra_device__ inline
@@ -215,7 +215,7 @@ public :
 
 
 	__hydra_host__ __hydra_device__ inline
-	ResultVegas operator()( size_t index)
+	ResultVegas operator()( std::size_t index)
 	{
 
 		GReal_t volume = 1.0;
@@ -245,10 +245,10 @@ public :
 
 private:
 
-	size_t  fNBins;
-	size_t  fNBoxes;
-	size_t  fNBoxesPerDimension;
-	size_t  fNCallsPerBox;
+	std::size_t  fNBins;
+	std::size_t  fNBoxes;
+	std::size_t  fNBoxesPerDimension;
+	std::size_t  fNCallsPerBox;
 
 	GReal_t fJacobian;
 	GInt_t  fSeed;

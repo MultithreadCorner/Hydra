@@ -56,7 +56,7 @@ namespace hydra {
  *  \ingroup common_functions
  *  \class GaussianKDE
  */
-template< size_t NBins, typename ArgType, typename Signature=double(ArgType)>
+template< std::size_t NBins, typename ArgType, typename Signature=double(ArgType)>
 class GaussianKDE: public BaseFunctor<GaussianKDE<NBins, ArgType>, Signature, 0>
 {
 	using BaseFunctor<GaussianKDE<NBins, ArgType>, Signature, 0>::_par;

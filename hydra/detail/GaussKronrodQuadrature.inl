@@ -40,7 +40,7 @@
 namespace hydra {
 
 
-template<size_t NRULE, size_t NBIN, hydra::detail::Backend  BACKEND>
+template<std::size_t NRULE, std::size_t NBIN, hydra::detail::Backend  BACKEND>
 template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t>
 GaussKronrodQuadrature<NRULE, NBIN, hydra::detail::BackendPolicy<BACKEND>>::Integrate(FUNCTOR const& functor)

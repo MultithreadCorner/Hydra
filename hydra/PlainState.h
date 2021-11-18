@@ -46,7 +46,7 @@ struct PlainState
 {
 
 
-    size_t  fN;
+    std::size_t  fN;
     GReal_t fMin;
     GReal_t fMax;
     GReal_t fMean;

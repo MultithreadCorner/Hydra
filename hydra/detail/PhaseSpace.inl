@@ -39,7 +39,7 @@
 namespace hydra {
 
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 PhaseSpace<N,GRND>::PhaseSpace(double motherMass, const GReal_t (&daughtersMasses)[N]):
 fSeed(1),
 fMotherMass(motherMass),
@@ -50,7 +50,7 @@ fECM(0.)
 		throw std::invalid_argument("[hydra::PhaseSpace]: Mass of mother particle is negative or zero. (fMotherMass <=0)");
 	}
 
-	for(size_t i=0;i<N;i++){
+	for(std::size_t i=0;i<N;i++){
 
 		fMasses[i]= daughtersMasses[i];
 
@@ -66,7 +66,7 @@ fECM(0.)
 	//compute maximum weight
 	fECM = fMotherMass;
 
-	for (size_t n = 0; n < N; n++)
+	for (std::size_t n = 0; n < N; n++)
 	{
 		fECM -= fMasses[n];
 	}
@@ -79,7 +79,7 @@ fECM(0.)
 	double emmin = 0.0;
 	double wtmax = 1.0;
 
-	for (size_t n = 1; n < N; n++)
+	for (std::size_t n = 1; n < N; n++)
 	{
 		emmin += fMasses[n - 1];
 		emmax += fMasses[n];
@@ -89,7 +89,7 @@ fECM(0.)
 	fMaxWeight = 1.0 / wtmax;
 }
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 PhaseSpace<N,GRND>::PhaseSpace(double motherMass,  std::array<GReal_t,N>const& daughtersMasses):
 fSeed(1),
 fMotherMass(motherMass),
@@ -100,7 +100,7 @@ fECM(0.)
 		throw std::invalid_argument("[hydra::PhaseSpace]: Mass of mother particle is negative or zero. (fMotherMass <=0)");
 	}
 
-	for(size_t i=0;i<N;i++){
+	for(std::size_t i=0;i<N;i++){
 
 
 		fMasses[i]= daughtersMasses[i];
@@ -117,7 +117,7 @@ fECM(0.)
 	//compute maximum weight
 	fECM = fMotherMass;
 
-	for (size_t n = 0; n < N; n++)
+	for (std::size_t n = 0; n < N; n++)
 	{
 		fECM -= fMasses[n];
 	}
@@ -130,7 +130,7 @@ fECM(0.)
 	double emmin = 0.0;
 	double wtmax = 1.0;
 
-	for (size_t n = 1; n < N; n++)
+	for (std::size_t n = 1; n < N; n++)
 	{
 		emmin += fMasses[n - 1];
 		emmax += fMasses[n];
@@ -140,7 +140,7 @@ fECM(0.)
 	fMaxWeight = 1.0 / wtmax;
 }
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 PhaseSpace<N,GRND>::PhaseSpace(double motherMass,  const std::initializer_list<GReal_t>& daughtersMasses):
 fSeed(1),
 fMotherMass(motherMass),
@@ -151,7 +151,7 @@ fECM(0.)
 		throw std::invalid_argument("[hydra::PhaseSpace]: Mass of mother particle is negative or zero. (fMotherMass <=0)");
 	}
 
-	for(size_t i=0;i<N;i++){
+	for(std::size_t i=0;i<N;i++){
 
 
 		fMasses[i]= *(daughtersMasses.begin()+i);
@@ -167,7 +167,7 @@ fECM(0.)
 	//compute maximum weight
 	fECM = fMotherMass;
 
-	for (size_t n = 0; n < N; n++)
+	for (std::size_t n = 0; n < N; n++)
 	{
 		fECM -= fMasses[n];
 	}
@@ -180,7 +180,7 @@ fECM(0.)
 	double emmin = 0.0;
 	double wtmax = 1.0;
 
-	for (size_t n = 1; n < N; n++)
+	for (std::size_t n = 1; n < N; n++)
 	{
 		emmin += fMasses[n - 1];
 		emmax += fMasses[n];
@@ -190,7 +190,7 @@ fECM(0.)
 	fMaxWeight = 1.0 / wtmax;
 }
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 PhaseSpace<N,GRND>::PhaseSpace( PhaseSpace<N,GRND> const& other):
 fSeed(other.GetSeed()),
 fMotherMass(other.GetMotherMass()),
@@ -198,11 +198,11 @@ fMaxWeight(other.GetMaxWeight()),
 fECM(other.GetECM())
 {
 
-	for(size_t i=0;i<N;i++)
+	for(std::size_t i=0;i<N;i++)
 		fMasses[i]= other.GetMasses()[i];
 }
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 template <typename GRND2>
 PhaseSpace<N,GRND>::PhaseSpace( PhaseSpace<N,GRND2> const& other):
 fSeed(other.GetSeed()),
@@ -211,12 +211,12 @@ fMaxWeight(other.GetMaxWeight()),
 fECM(other.GetECM())
 {
 
-	for(size_t i=0;i<N;i++)
+	for(std::size_t i=0;i<N;i++)
 		fMasses[i]= other.GetMasses()[i];
 }
 
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 PhaseSpace<N,GRND> &
 PhaseSpace<N,GRND>::operator=( PhaseSpace<N,GRND> const& other)
 {
@@ -227,13 +227,13 @@ PhaseSpace<N,GRND>::operator=( PhaseSpace<N,GRND> const& other)
 	this->fMaxWeight = other.GetMaxWeight();
 	this->fECM = other.GetECM();
 
-	for(size_t i=0;i<N;i++)
+	for(std::size_t i=0;i<N;i++)
 		this->ffMasses[i]= other.GetMasses()[i];
 
 	return *this;
 }
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 template <typename GRND2>
 PhaseSpace<N,GRND> &
 PhaseSpace<N,GRND>::operator=( PhaseSpace<N,GRND2> const& other)
@@ -245,18 +245,18 @@ PhaseSpace<N,GRND>::operator=( PhaseSpace<N,GRND2> const& other)
 	this->fMaxWeight = other.GetMaxWeight();
 	this->fECM = other.GetECM();
 
-	for(size_t i=0;i<N;i++)
+	for(std::size_t i=0;i<N;i++)
 		this->ffMasses[i]= other.GetMasses()[i];
 
 		return *this;
 }
 
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 template<typename FUNCTOR, hydra::detail::Backend BACKEND>
 std::pair<GReal_t, GReal_t>
 PhaseSpace<N,GRND>::AverageOn(hydra::detail::BackendPolicy<BACKEND>const& policy,
-		Vector4R const& mother, FUNCTOR const& functor, size_t n){
+		Vector4R const& mother, FUNCTOR const& functor, std::size_t n){
 
 	detail::StatsPHSP result;
 
@@ -272,7 +272,7 @@ PhaseSpace<N,GRND>::AverageOn(hydra::detail::BackendPolicy<BACKEND>const& policy
 
 }
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 template<typename FUNCTOR,typename Iterator>
 std::pair<GReal_t, GReal_t>
 PhaseSpace<N,GRND>::AverageOn(Iterator begin, Iterator end, FUNCTOR const& functor) {
@@ -286,7 +286,7 @@ PhaseSpace<N,GRND>::AverageOn(Iterator begin, Iterator end, FUNCTOR const& funct
 	return std::make_pair(result.fMean, ::sqrt(result.fM2)/ result.fW);
 }
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 template<typename Iterator, typename ...FUNCTOR>
 void PhaseSpace<N,GRND>::Evaluate(Vector4R const& mother,
 		Iterator begin, Iterator end, FUNCTOR const& ...functors) {
@@ -297,7 +297,7 @@ void PhaseSpace<N,GRND>::Evaluate(Vector4R const& mother,
 
 }
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 template<typename ...FUNCTOR, typename IteratorMother, typename Iterator>
 void PhaseSpace<N,GRND>::Evaluate( IteratorMother mbegin,
 		IteratorMother mend, Iterator begin, FUNCTOR const& ...functors) {
@@ -311,7 +311,7 @@ void PhaseSpace<N,GRND>::Evaluate( IteratorMother mbegin,
 //Evaluate range semantics interface ----------------------------
 
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 template<typename ...FUNCTOR, typename Iterable>
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
@@ -328,7 +328,7 @@ PhaseSpace<N,GRND>::Evaluate(Vector4R const& mother, Iterable&& result,
 
 }
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 template<typename ...FUNCTOR, typename IterableMother, typename Iterable>
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value &&
 	hydra::detail::is_iterable<IterableMother>::value,
@@ -348,7 +348,7 @@ return make_range( std::forward<Iterable>(result).begin(),
 }
 //---------------------------------------------------------------
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 template<typename Iterator>
 void PhaseSpace<N,GRND>::Generate(Vector4R const& mother, Iterator begin, Iterator end){
 	/**
@@ -361,7 +361,7 @@ void PhaseSpace<N,GRND>::Generate(Vector4R const& mother, Iterator begin, Iterat
 
 }
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 template<typename Iterator1, typename Iterator2>
 void PhaseSpace<N,GRND>::Generate( Iterator1 begin, Iterator1 end, Iterator2 daughters_begin){
 	/**
@@ -374,7 +374,7 @@ void PhaseSpace<N,GRND>::Generate( Iterator1 begin, Iterator1 end, Iterator2 dau
 
 }
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 template<typename Iterable>
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
 				 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
@@ -393,7 +393,7 @@ PhaseSpace<N,GRND>::Generate(Vector4R const& mother, Iterable&& events){
 			std::forward<Iterable>(events).end() );
 }
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 template<typename IterableMothers, typename Iterable>
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value &&
 		hydra::detail::is_iterable<IterableMothers>::value,
@@ -416,7 +416,7 @@ PhaseSpace<N,GRND>::Generate( IterableMothers&& mothers, Iterable&& daughters){
 
 
 //========================
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 template<typename Iterator, hydra::detail::Backend BACKEND>
 void PhaseSpace<N,GRND>::Generate(hydra::detail::BackendPolicy<BACKEND> const& exec_policy ,Vector4R const& mother, Iterator begin, Iterator end){
 	/**
@@ -429,7 +429,7 @@ void PhaseSpace<N,GRND>::Generate(hydra::detail::BackendPolicy<BACKEND> const& e
 
 }
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 template<typename Iterator1, typename Iterator2, hydra::detail::Backend BACKEND>
 void PhaseSpace<N,GRND>::Generate(hydra::detail::BackendPolicy<BACKEND> const& exec_policy , Iterator1 begin, Iterator1 end, Iterator2 daughters_begin){
 	/**
@@ -444,12 +444,12 @@ void PhaseSpace<N,GRND>::Generate(hydra::detail::BackendPolicy<BACKEND> const& e
 }
 
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 inline GInt_t PhaseSpace<N,GRND>::GetSeed() const	{
 	return fSeed;
 }
 
-template <size_t N, typename GRND>
+template <std::size_t N, typename GRND>
 inline void PhaseSpace<N,GRND>::SetSeed(GInt_t _seed) 	{
 	fSeed=_seed;
 }

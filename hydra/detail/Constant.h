@@ -67,9 +67,9 @@ public:
 
 	inline void SetParameters(const std::vector<double>& parameters){}
 
-	inline size_t  GetParametersKey(){ return 99999999;}
+	inline std::size_t  GetParametersKey(){ return 99999999;}
 
-	inline size_t GetNumberOfParameters() const { return 0;	}
+	inline std::size_t GetNumberOfParameters() const { return 0;	}
 
 	template<typename ...T>
 	__hydra_host__ __hydra_device__

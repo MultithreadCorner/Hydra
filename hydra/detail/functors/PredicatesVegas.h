@@ -45,14 +45,14 @@ namespace hydra{
 
 namespace detail {
 
-template<typename FUNCTOR, size_t NDimensions, typename Precision, typename GRND=hydra_thrust::random::default_random_engine>
+template<typename FUNCTOR, std::size_t NDimensions, typename Precision, typename GRND=hydra_thrust::random::default_random_engine>
 struct ProcessCallsVegas
 {
-	ProcessCallsVegas( size_t NBins,
-			size_t NBoxes,
-			size_t NBoxesPerDimension,
-			size_t NCallsPerBox,
-			size_t Seed,
+	ProcessCallsVegas( std::size_t NBins,
+			std::size_t NBoxes,
+			std::size_t NBoxesPerDimension,
+			std::size_t NCallsPerBox,
+			std::size_t Seed,
 			GReal_t Jacobian,
 			GReal_t* Xi,
 			GReal_t* XLow,
@@ -72,7 +72,7 @@ struct ProcessCallsVegas
 		fFVal(fval),
 		fFunctor(functor)
 	{
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 			fBins[i]=bins[i];
 
 	}
@@ -91,7 +91,7 @@ struct ProcessCallsVegas
 	fFVal(fval),
 	fFunctor(other.fFunctor)
 	{
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 		fBins[i]=bins[i];
 	}
 
@@ -117,24 +117,24 @@ struct ProcessCallsVegas
 	}
 
 	__hydra_host__   __hydra_device__ inline
-	size_t hash(size_t a, size_t b)
+	std::size_t hash(std::size_t a, std::size_t b)
 	{
 		//Matthew Szudzik pairing
 		//http://szudzik.com/ElegantPairing.pdf
 
-		size_t  A = 2 * a ;
-		size_t  B = 2 * b ;
-		size_t  C = ((A >= B ? A * A + A + B : A + B * B) / 2);
+		std::size_t  A = 2 * a ;
+		std::size_t  B = 2 * b ;
+		std::size_t  C = ((A >= B ? A * A + A + B : A + B * B) / 2);
 		return  C ;
 	}
 
 #ifdef __CUDA_ARCH__
 	__hydra_device__ inline
-	void GetPointSobol(size_t index, GReal_t &volume, GReal_t (&point)[NDimensions], GUInt_t bin[NDimensions] )
+	void GetPointSobol(std::size_t index, GReal_t &volume, GReal_t (&point)[NDimensions], GUInt_t bin[NDimensions] )
 	{
 		skipahead(index*NDimensions, &fSobolState);
 
-		for (size_t j = 0; j < NDimensions; j++) {
+		for (std::size_t j = 0; j < NDimensions; j++) {
 
 			x[j] = 	curand_uniform_double(&fSobolState);
 
@@ -163,11 +163,11 @@ struct ProcessCallsVegas
 #endif
 
 	__hydra_host__ __hydra_device__ inline
-	void GetPointRandom(size_t index, GReal_t &volume, GReal_t (&point)[NDimensions], GUInt_t bin[NDimensions] )
+	void GetPointRandom(std::size_t index, GReal_t &volume, GReal_t (&point)[NDimensions], GUInt_t bin[NDimensions] )
 	{
 		fRandonEngine.discard(index*NDimensions);
 
-		for (size_t j = 0; j < NDimensions; j++) {
+		for (std::size_t j = 0; j < NDimensions; j++) {
 
 			x[j] = fUniformDistribution(fRandonEngine );
 
@@ -196,7 +196,7 @@ struct ProcessCallsVegas
 
 
 	__hydra_host__ __hydra_device__	inline
-	void 	operator()( size_t index)
+	void 	operator()( std::size_t index)
 	{
 		GReal_t volume = 1.0;
 		GReal_t x[NDimensions];
@@ -210,7 +210,7 @@ struct ProcessCallsVegas
 
 		GReal_t fval = fJacobian*volume*fFunctor( detail::arrayToTuple<GReal_t, NDimensions>(x));
 		fFVal[index] = fval;
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 				fBins[i][index]=bin[i];
 
 	}
@@ -228,10 +228,10 @@ private:
    GRND fRandonEngine;
    hydra_thrust::uniform_real_distribution<GReal_t> fUniformDistribution;
 
-	size_t  fNBins;
-	size_t  fNBoxes;
-	size_t  fNBoxesPerDimension;
-	size_t  fNCallsPerBox;
+	std::size_t  fNBins;
+	std::size_t  fNBoxes;
+	std::size_t  fNBoxesPerDimension;
+	std::size_t  fNCallsPerBox;
     GReal_t fJacobian;
     GInt_t  fSeed;
 

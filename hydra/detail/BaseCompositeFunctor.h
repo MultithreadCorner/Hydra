@@ -253,7 +253,7 @@ public:
 private:
 
 
-	template<typename T, size_t ...I>
+	template<typename T, std::size_t ...I>
 	__hydra_host__ __hydra_device__
 	inline  return_type call_helper(T x, detail::index_sequence<I...> ) const
 	{
@@ -272,7 +272,7 @@ private:
 
 
 
-	template<typename T, size_t ...I>
+	template<typename T, std::size_t ...I>
 	__hydra_host__ __hydra_device__
 	inline  return_type raw_call_helper(T x, detail::index_sequence<I...> ) const
 	{

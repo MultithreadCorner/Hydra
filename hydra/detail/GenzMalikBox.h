@@ -47,7 +47,7 @@ namespace hydra {
 
 namespace detail {
 
-template<size_t N>
+template<std::size_t N>
 class GenzMalikBox;
 
 template<typename Type>
@@ -61,7 +61,7 @@ GenzMalikBoxResult<Type> operator+( GenzMalikBoxResult<Type> left, GenzMalikBoxR
 	return left;
 }
 
-template<typename Type, size_t N>
+template<typename Type, std::size_t N>
 __hydra_host__ __hydra_device__
 GenzMalikBoxResult<Type> operator+( GenzMalikBoxResult<Type> left, GenzMalikBox<N> const& right){
 
@@ -78,7 +78,7 @@ struct AddResultGenzMalikBoxes
 		return left+right;
 	}
 
-	template<typename Type, size_t N>
+	template<typename Type, std::size_t N>
 	__hydra_host__ __hydra_device__
 	GenzMalikBoxResult<Type> operator()(GenzMalikBoxResult<Type>  const& left, GenzMalikBox<N> const& right  ){
 			return left+right;
@@ -87,7 +87,7 @@ struct AddResultGenzMalikBoxes
 };
 
 
-template<size_t N>
+template<std::size_t N>
 struct CompareGenzMalikBoxes
 {
 	__hydra_host__ __hydra_device__
@@ -116,14 +116,14 @@ public:
 		fError(other.GetError())
 	{}
 
-	template<size_t N>
+	template<std::size_t N>
 	__hydra_host__ __hydra_device__
 	GenzMalikBoxResult( GenzMalikBox<N>const&  other):
 	fIntegral(other.GetIntegral()),
 	fError(other.GetError())
 	{}
 
-	template<size_t N>
+	template<std::size_t N>
 	__hydra_host__ __hydra_device__
 	GenzMalikBoxResult( hydra_thrust::device_reference<const hydra::detail::GenzMalikBox<N>> other):
 	fIntegral(hydra_thrust::raw_reference_cast(other).GetIntegral()),
@@ -142,7 +142,7 @@ public:
 		return *this;
 	}
 
-	template< size_t N>
+	template< std::size_t N>
 	__hydra_host__ __hydra_device__
 	GenzMalikBoxResult<Type>& operator=( GenzMalikBox<N> const& other){
 
@@ -153,7 +153,7 @@ public:
 		return *this;
 	}
 
-	template< size_t N>
+	template< std::size_t N>
 	__hydra_host__ __hydra_device__
 	GenzMalikBoxResult<Type>& operator=(  GenzMalikBox<N> other){
 
@@ -173,7 +173,7 @@ public:
 		return *this;
 	}
 
-	template<size_t N>
+	template<std::size_t N>
 	__hydra_host__ __hydra_device__
 	GenzMalikBoxResult<Type>& operator+=( GenzMalikBox<N> const& other){
 
@@ -218,7 +218,7 @@ private:
 
 };
 
-template<size_t N>
+template<std::size_t N>
 class GenzMalikBox
 {
 
@@ -238,7 +238,7 @@ public:
 		fVolume(1.0),
 		fCutAxis(-1)
 	{
-		for(size_t i=0; i<N; i++) {
+		for(std::size_t i=0; i<N; i++) {
 
 		    fUpperLimit[i]=UpperLimit[i];
 			fLowerLimit[i]=LowerLimit[i];
@@ -256,7 +256,7 @@ public:
 		fVolume(1.0),
 		fCutAxis(-1)
 	{
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 		{
 			fUpperLimit[i]=UpperLimit[i];
 			fLowerLimit[i]=LowerLimit[i];
@@ -277,7 +277,7 @@ public:
 		fCutAxis(other.GetCutAxis())
 
 	{
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 		{
 			fUpperLimit[i]=other.GetUpperLimit(i);
 			fLowerLimit[i]=other.GetLowerLimit(i);
@@ -298,7 +298,7 @@ public:
 		this->fErrorSq = other.GetErrorSq();
 		this->fCutAxis = other.GetCutAxis();
 
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 		{
 			this->fUpperLimit[i]=other.GetUpperLimit(i);
 			this->fLowerLimit[i]=other.GetLowerLimit(i);
@@ -344,7 +344,7 @@ public:
 		HYDRA_SPACED_MSG << "Rule5: "   << fRule5  << HYDRA_ENDL;
 		HYDRA_SPACED_MSG << "Cutting dimension: "   << fCutAxis  << HYDRA_ENDL;
 
-		for(size_t i=0; i<N; i++ )
+		for(std::size_t i=0; i<N; i++ )
 		{
 			HYDRA_SPACED_MSG <<"Dimension: " << i << ", Limits: [ "
 					<< fLowerLimit[i] << ", "
@@ -413,25 +413,25 @@ public:
 	}
 
 	__hydra_host__ __hydra_device__
-	void SetLowerLimit(size_t i, double value) {
+	void SetLowerLimit(std::size_t i, double value) {
 		fLowerLimit[i]=value;
 		this->UpdateVolume();
 	}
 
 	__hydra_host__ __hydra_device__
-	void SetUpperLimit(size_t i, double value) {
+	void SetUpperLimit(std::size_t i, double value) {
 		fUpperLimit[i]=value;
 		this->UpdateVolume();
 	}
 
 
 	__hydra_host__ __hydra_device__
-	GReal_t GetLowerLimit(size_t i) const {
+	GReal_t GetLowerLimit(std::size_t i) const {
 		return fLowerLimit[i];
 	}
 
 	__hydra_host__ __hydra_device__
-	GReal_t GetUpperLimit(size_t i) const {
+	GReal_t GetUpperLimit(std::size_t i) const {
 			return fUpperLimit[i];
 		}
 
@@ -490,7 +490,7 @@ private:
 	__hydra_host__ __hydra_device__
 	void UpdateVolume(){
 		fVolume =1.0;
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 			fVolume *=(fUpperLimit[i]-fLowerLimit[i]);
 
 	}

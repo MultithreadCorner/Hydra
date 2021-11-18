@@ -89,7 +89,7 @@ public:
 	Pdf(FUNCTOR const& functor,  INTEGRATOR const& integrator):
 	fIntegrator(integrator),
 	fFunctor(functor),
-	fNormCache(std::unordered_map<size_t, std::pair<GReal_t, GReal_t>>() )
+	fNormCache(std::unordered_map<std::size_t, std::pair<GReal_t, GReal_t>>() )
 	{Normalize();}
 
 
@@ -213,7 +213,7 @@ public:
 	 */
 	inline	void Normalize( )
 	{
-		size_t key = fFunctor.GetParametersKey();
+		std::size_t key = fFunctor.GetParametersKey();
 
 		auto search = fNormCache.find(key);
 		if (search != fNormCache.end() && fNormCache.size()>0) {
@@ -234,9 +234,9 @@ public:
 
 	/**
 	 * @brief Get cache table of normalization factors.
-	 * @return std::unordered_map<size_t,std::pair<GReal_t,GReal_t> > instance with the cache table.
+	 * @return std::unordered_map<std::size_t,std::pair<GReal_t,GReal_t> > instance with the cache table.
 	 */
-	 const std::unordered_map<size_t,std::pair<GReal_t,GReal_t> >& GetNormCache()const 	{
+	 const std::unordered_map<std::size_t,std::pair<GReal_t,GReal_t> >& GetNormCache()const 	{
 		return fNormCache;
 	}
 
@@ -282,7 +282,7 @@ private:
   	mutable INTEGRATOR fIntegrator;
 	GReal_t fNorm;
 	GReal_t fNormError;
-	std::unordered_map<size_t, std::pair<GReal_t, GReal_t>> fNormCache;
+	std::unordered_map<std::size_t, std::pair<GReal_t, GReal_t>> fNormCache;
 
 };
 

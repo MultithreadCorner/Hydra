@@ -53,7 +53,7 @@ public:
 
 	ScopedBuffer()=delete;
 
-	ScopedBuffer(size_t n):
+	ScopedBuffer(std::size_t n):
 		fSize(n)
 	{
 		auto policy = detail::BackendPolicy<BACKEND>{};
@@ -83,7 +83,7 @@ public:
 		return fPointer;
 	}
 
-	size_t GetSize() const
+	std::size_t GetSize() const
 	{
 		return fSize;
 	}
@@ -97,7 +97,7 @@ public:
 
 private:
 
-	size_t    fSize;
+	std::size_t    fSize;
 	pointer_type fPointer;
 };
 

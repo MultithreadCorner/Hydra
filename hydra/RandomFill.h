@@ -71,7 +71,7 @@ decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(), 
 typename hydra_thrust::iterator_traits<Iterator>::value_type
 >::value, void>::type
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-            Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+            Iterator begin, Iterator end, FUNCTOR const& functor, std::size_t seed=0x254a0afcf7da74a2);
 
 
 
@@ -90,7 +90,7 @@ typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::
 decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
 typename hydra_thrust::iterator_traits<Iterator>::value_type
 >::value, void>::type
-fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, std::size_t seed=0x254a0afcf7da74a2);
 
 
 
@@ -109,7 +109,7 @@ typename std::enable_if< hydra::detail::is_iterable<Iterable>::value && std::is_
 decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
 >::value, void>::type
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-            Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+            Iterable&& iterable, FUNCTOR const& functor, std::size_t seed=0x254a0afcf7da74a2);
 
 
 
@@ -126,7 +126,7 @@ template< typename Engine = hydra::default_random_engine, typename Iterable, typ
 typename std::enable_if< hydra::detail::is_iterable<Iterable>::value && std::is_convertible<
 decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
 >::value, void>::type
-fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+fill_random(Iterable&& iterable, FUNCTOR const& functor, std::size_t seed=0x254a0afcf7da74a2);
 
 
 
@@ -144,7 +144,7 @@ fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf
 template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
 typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-            Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+            Iterator begin, Iterator end, FUNCTOR const& functor, std::size_t seed=0x254a0afcf7da74a2);
 
 
 
@@ -159,7 +159,7 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  */
 template< typename Engine = hydra::default_random_engine, typename Iterator, typename FUNCTOR >
 typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
-fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, std::size_t seed=0x254a0afcf7da74a2);
 
 
 
@@ -179,7 +179,7 @@ decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(), 
 typename std::iterator_traits<Iterator>::value_type
 >::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-            Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed=0x254a0afcf7da74a2);
+            Iterator begin, Iterator end, FUNCTOR const& funct, std::size_t seed=0x254a0afcf7da74a2);
 
 
 
@@ -197,7 +197,7 @@ typename std::enable_if< !std::is_convertible<
 decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
 typename std::iterator_traits<Iterator>::value_type
 >::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
-fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, std::size_t seed=0x254a0afcf7da74a2);
 
 
 
@@ -216,7 +216,7 @@ typename std::enable_if< !hydra::detail::is_iterable<Iterable>::value || !std::i
 decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
 >::value, void>::type
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
-            Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+            Iterable&& iterable, FUNCTOR const& functor, std::size_t seed=0x254a0afcf7da74a2);
 
 
 
@@ -232,7 +232,7 @@ template< typename Engine = hydra::default_random_engine, typename Iterable, typ
 typename std::enable_if< !hydra::detail::is_iterable<Iterable>::value || !std::is_convertible<
 decltype(*std::declval<Iterable>().begin()), typename FUNCTOR::return_type
 >::value, void>::type
-fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
+fill_random(Iterable&& iterable, FUNCTOR const& functor, std::size_t seed=0x254a0afcf7da74a2);
 
 
 

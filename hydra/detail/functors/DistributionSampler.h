@@ -46,7 +46,7 @@ struct Sampler
 
 	Sampler()=delete;
 
-	Sampler(Functor const& functor, const size_t seed, const size_t jump) :
+	Sampler(Functor const& functor, const std::size_t seed, const std::size_t jump) :
 		fFunctor(functor),
 		fSeed(seed),
 		fJump(jump )
@@ -73,7 +73,7 @@ struct Sampler
 	}
 
 	__hydra_host__  __hydra_device__
-	value_type operator()(size_t index) {
+	value_type operator()(std::size_t index) {
 
 		Engine rng(fSeed) ;
 
@@ -87,8 +87,8 @@ struct Sampler
 private:
 
 	Functor fFunctor;
-	size_t fSeed;
-	size_t  fJump;
+	std::size_t fSeed;
+	std::size_t  fJump;
 };
 
 }  // namespace detail

@@ -43,11 +43,11 @@ namespace hydra {
 
 namespace detail {
 
-template<size_t N>
+template<std::size_t N>
 class Parameters{
 
 public:
-	static const size_t parameter_count =N;
+	static const std::size_t parameter_count =N;
 
 	Parameters () = default;
 
@@ -107,7 +107,7 @@ public:
 		HYDRA_MSG <<  HYDRA_ENDL;
 		HYDRA_MSG << "Parameters begin:" << HYDRA_ENDL;
 
-		for(size_t i=0; i<N; i++ )
+		for(std::size_t i=0; i<N; i++ )
 			HYDRA_MSG <<"  >> Parameter " << i <<") "<< fParameters[i] << HYDRA_ENDL;
 
 		HYDRA_MSG <<"Parameters end." << HYDRA_ENDL;
@@ -125,14 +125,14 @@ public:
 	{
 
 
-		for(size_t i=0; i< N; i++){
+		for(std::size_t i=0; i< N; i++){
 			fParameters[i] = parameters[fParameters[i].GetIndex()];
 		}
 
 		if (INFO >= hydra::Print::Level()  )
 		{
 			std::ostringstream stringStream;
-			for(size_t i=0; i< N ; i++){
+			for(std::size_t i=0; i< N ; i++){
 				stringStream << "Parameter["<< fParameters[i].GetIndex() <<"] :  "
 						<< parameters[fParameters[i].GetIndex() ]
 						              << "  " << fParameters[i] << "\n";
@@ -149,22 +149,22 @@ public:
 	inline	void AddUserParameters(std::vector<hydra::Parameter*>& user_parameters )
 	{
 
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 			user_parameters.push_back(&fParameters[i]);
 	}
 
-	size_t  GetParametersKey(){
+	std::size_t  GetParametersKey(){
 
 		std::array<double,N> _temp;
-		for(size_t i=0; i<N; i++) _temp[i]= fParameters[i];
+		for(std::size_t i=0; i<N; i++) _temp[i]= fParameters[i];
 
-		size_t key = detail::hash_range(_temp.begin(), _temp.end() );
+		std::size_t key = detail::hash_range(_temp.begin(), _temp.end() );
 
 		return key;
 	}
 
 	__hydra_host__ __hydra_device__ inline
-	 size_t GetNumberOfParameters() const {
+	 std::size_t GetNumberOfParameters() const {
 		return N;
 	}
 
@@ -183,7 +183,7 @@ public:
 	__hydra_host__ inline
 	const hydra::Parameter& GetParameter(const char* name) const {
 
-		size_t i=0;
+		std::size_t i=0;
 
 		for(i=0; i<N; i++)
 			if (strcmp(fParameters[i].GetName(),name)==0) break;
@@ -201,7 +201,7 @@ public:
 	__hydra_host__ inline
 	hydra::Parameter& Parameter(const char* name) {
 
-		size_t i=0;
+		std::size_t i=0;
 
 		for(i=0; i<N; i++)
 			if (strcmp(fParameters[i].GetName(),name)==0) break;
@@ -237,7 +237,7 @@ public:
 	__hydra_host__ inline
 	void SetParameter(const char* name, hydra::Parameter const& value) {
 
-		size_t i=0;
+		std::size_t i=0;
 
 		for(i=0; i<N; i++)
 			if (strcmp(fParameters[i].GetName(),name)==0){
@@ -251,7 +251,7 @@ public:
 	__hydra_host__ inline
 	void SetParameter(const char* name, double value) {
 
-		size_t i=0;
+		std::size_t i=0;
 
 		for(i=0; i<N; i++)
 			if (strcmp(fParameters[i].GetName(),name)==0){
@@ -339,9 +339,9 @@ public:
 	inline	void AddUserParameters(std::vector<hydra::Parameter*>&  ){}
 
 	__hydra_host__ __hydra_device__ inline
-	size_t GetNumberOfParameters() const { 	return 0; 	}
+	std::size_t GetNumberOfParameters() const { 	return 0; 	}
 
-	size_t  GetParametersKey() { return 1;};
+	std::size_t  GetParametersKey() { return 1;};
 
 };
 

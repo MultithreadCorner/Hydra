@@ -51,14 +51,14 @@ template<typename F1, typename F2, typename ...Fs >
 struct CovMatrixUnary
 {
 	typedef hydra::tuple<F1, F2, Fs...> functors_tuple_type;
-	constexpr static size_t nfunctors = sizeof...(Fs)+2;
+	constexpr static std::size_t nfunctors = sizeof...(Fs)+2;
 	typedef typename detail::tuple_type<nfunctors*nfunctors, double>::type matrix_tuple;
 
 
 	CovMatrixUnary( Parameter(&coeficients)[nfunctors], functors_tuple_type const& functors ):
 		fFunctors(functors)
 	{
-		for(size_t i=0;i<nfunctors; i++)
+		for(std::size_t i=0;i<nfunctors; i++)
 				fCoefficients[i] = coeficients[i].GetValue();
 	}
 
@@ -66,7 +66,7 @@ struct CovMatrixUnary
 	CovMatrixUnary( CovMatrixUnary<F1, F2, Fs...> const& other ):
 		fFunctors( other.fFunctors )
 	{
-		for(size_t i=0;i<nfunctors; i++)
+		for(std::size_t i=0;i<nfunctors; i++)
 			fCoefficients[i] = other.fCoefficients[i];
 	}
 
@@ -76,17 +76,17 @@ struct CovMatrixUnary
 	{
 			if(this==&other) return *this;
 			fFunctors = other.fFunctors ;
-			for(size_t i=0;i<nfunctors; i++)
+			for(std::size_t i=0;i<nfunctors; i++)
 				fCoefficients[i] = other.fCoefficients[i];
 			 return *this;
 	}
 
 
-	template<size_t N, size_t INDEX>
+	template<std::size_t N, std::size_t INDEX>
 	struct index{
 
-	 constexpr static const size_t I = INDEX/N;
-	 constexpr static const size_t J = INDEX%N;
+	 constexpr static const std::size_t I = INDEX/N;
+	 constexpr static const std::size_t J = INDEX%N;
 	};
 
 
@@ -157,7 +157,7 @@ struct GetSWeight
 template<typename F1, typename F2, typename ...Fs >
 struct SWeights
 {
-	constexpr static size_t nfunctors = sizeof...(Fs)+2;
+	constexpr static std::size_t nfunctors = sizeof...(Fs)+2;
 	typedef hydra::tuple<F1, F2, Fs...> functors_tuple_type;
 	typedef Eigen::Matrix<double, nfunctors, nfunctors> cmatrix_t;
 	typedef typename hydra::detail::tuple_type<nfunctors, double>::type tuple_t;
@@ -170,7 +170,7 @@ struct SWeights
 				fICovMatrix( icmatrix )
 	{
 
-		for(size_t i=0;i<nfunctors; i++)
+		for(std::size_t i=0;i<nfunctors; i++)
 			fCoefficients[i] = coeficients[i].GetValue();
 	}
 
@@ -188,7 +188,7 @@ struct SWeights
 		fICovMatrix( other.fICovMatrix )
 	{
 
-		for(size_t i=0;i<nfunctors; i++)
+		for(std::size_t i=0;i<nfunctors; i++)
 				fCoefficients[i] = other.fCoefficients[i];
 	}
 

@@ -47,7 +47,7 @@
 
 namespace hydra {
 
-template<size_t N, typename BACKEND, typename GRND=hydra::default_random_engine>
+template<std::size_t N, typename BACKEND, typename GRND=hydra::default_random_engine>
 struct Plain;
 
 
@@ -69,7 +69,7 @@ struct Plain;
  * The familiar law of errors decreasing as \f$1/\sqrt{N}\f$ applies—to
  * reduce the error by a factor of 10 requires a 100-fold increase in the number of sample points.
  */
-template<size_t N, hydra::detail::Backend BACKEND, typename GRND>
+template<std::size_t N, hydra::detail::Backend BACKEND, typename GRND>
 class Plain<N, hydra::detail::BackendPolicy<BACKEND>, GRND>:
 public Integral<Plain<N,hydra::detail::BackendPolicy<BACKEND>,GRND>>
 {
@@ -87,7 +87,7 @@ public:
 	 * @param calls Number of calls.
 	 */
 	Plain( std::array<GReal_t,N> const& LowLim, std::array<GReal_t,N> const& UpLim,
-			size_t calls, size_t seed=159753456852):
+			std::size_t calls, std::size_t seed=159753456852):
 				fSeed(seed),
 				fNCalls(calls),
 				fResult(0),
@@ -96,7 +96,7 @@ public:
 	{
 
 		fVolume=1.0;
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 		{
 			fDeltaX.push_back( -LowLim[i] + UpLim[i]);
 			fXLow.push_back( LowLim[i]);
@@ -112,7 +112,7 @@ public:
 	 * @param UpLim std::array<GReal_t,N>  with the upper limits of the integration region.
 	 * @param calls Number of calls.
 	 */
-	Plain( const double LowLim[N] , const double  UpLim[N], size_t calls, size_t seed=159753456852):
+	Plain( const double LowLim[N] , const double  UpLim[N], std::size_t calls, std::size_t seed=159753456852):
         fSeed(seed),
 		fNCalls(calls),
 		fResult(0),
@@ -121,7 +121,7 @@ public:
 	{
 
 		fVolume=1.0;
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 		{
 		    fDeltaX.push_back( -LowLim[i] + UpLim[i]);
 			fXLow.push_back( LowLim[i]);
@@ -236,11 +236,11 @@ public:
 	}
 
 
-	inline size_t GetNCalls() const {
+	inline std::size_t GetNCalls() const {
 		return fNCalls;
 	}
 
-	inline void SetNCalls(size_t nCalls) {
+	inline void SetNCalls(std::size_t nCalls) {
 		fNCalls = nCalls;
 	}
 
@@ -269,11 +269,11 @@ public:
 		fXLow = xLow;
 	}
 
-	inline size_t GetSeed() const {
+	inline std::size_t GetSeed() const {
 		return fSeed;
 	}
 
-	inline void SetSeed(const size_t& seed) {
+	inline void SetSeed(const std::size_t& seed) {
 		fSeed = seed;
 	}
 
@@ -281,8 +281,8 @@ public:
 
 private:
 
-	size_t  fSeed;
-	size_t  fNCalls;
+	std::size_t  fSeed;
+	std::size_t  fNCalls;
 	GReal_t fResult;
 	GReal_t fAbsError;
 	GReal_t fVolume;

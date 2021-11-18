@@ -49,7 +49,7 @@ namespace detail {
 
 namespace convolution {
 
-size_t upper_power_of_two(size_t v)
+std::size_t upper_power_of_two(std::size_t v)
 {
     v--;
     v |= v >> 1;
@@ -302,7 +302,7 @@ struct NormalizeFFT: public  std::unary_function<T,T>
 	}
 
 	__hydra_host__ __hydra_device__
-	inline void SetNorm(size_t norm) {
+	inline void SetNorm(std::size_t norm) {
 		fNorm = 1.0/norm;
 	}
 

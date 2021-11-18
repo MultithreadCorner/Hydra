@@ -323,7 +323,7 @@ void Dispose(){
 	virtual ~ConvolutionFunctor()=default;
 
 	__hydra_host__ __hydra_device__
-	size_t GetNSamples() const
+	std::size_t GetNSamples() const
 	{
 		return fNSamples;
 	}
@@ -361,7 +361,7 @@ private:
 		hydra_thrust::copy_n(device_system_type(), fFFTData, fNSamples, fHostData );
 	}
 
-	size_t          fNSamples;
+	std::size_t          fNSamples;
 	abiscissae_type fXMin;
 	abiscissae_type fXMax;
     value_type      fMax;

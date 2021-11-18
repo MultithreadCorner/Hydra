@@ -36,7 +36,7 @@ namespace detail {
 struct multidimensional{};
 struct unidimensional{};
 
-template<size_t N>
+template<std::size_t N>
 struct dimensionality:
 		std::conditional<(N>1), multidimensional , unidimensional>{};
 

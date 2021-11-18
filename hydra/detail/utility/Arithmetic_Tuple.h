@@ -45,14 +45,14 @@ namespace hydra {
 		namespace detail {
 
 		    // add two tuples element by element
-			template<size_t I, typename ... T>
+			template<std::size_t I, typename ... T>
 			__hydra_host__ __hydra_device__
 			inline typename hydra_thrust::tuple_element<I, hydra_thrust::tuple<T...>>::type
 			addTuplesHelper(const hydra_thrust::tuple<T...>&a, const hydra_thrust::tuple<T...>&b) {
 				return hydra_thrust::get<I>(a) + hydra_thrust::get<I>(b);
 			}
 
-			template<typename ... T, size_t ... I>
+			template<typename ... T, std::size_t ... I>
 			__hydra_host__ __hydra_device__
 			inline hydra_thrust::tuple<T...>
 			addTuples(const hydra_thrust::tuple<T...>&a, const hydra_thrust::tuple<T...>&b, index_sequence<I...>) {
@@ -67,14 +67,14 @@ namespace hydra {
 			}
 
 			// subtract two tuples element by element
-			template<size_t I, typename ... T>
+			template<std::size_t I, typename ... T>
 			__hydra_host__ __hydra_device__
 			inline typename hydra_thrust::tuple_element<I, hydra_thrust::tuple<T...>>::type
 			subtractTuplesHelper(const hydra_thrust::tuple<T...>&a, const hydra_thrust::tuple<T...>&b) {
 				return hydra_thrust::get<I>(a) + hydra_thrust::get<I>(b);
 			}
 
-			template<typename ... T, size_t ... I>
+			template<typename ... T, std::size_t ... I>
 			__hydra_host__ __hydra_device__
 			inline hydra_thrust::tuple<T...>
 			subtractTuples(const hydra_thrust::tuple<T...>&a, const hydra_thrust::tuple<T...>&b, index_sequence<I...>) {
@@ -89,14 +89,14 @@ namespace hydra {
 			}
 
 			// multiply two tuples element by element
-			template<size_t I, typename ... T>
+			template<std::size_t I, typename ... T>
 			__hydra_host__ __hydra_device__
 			inline typename hydra_thrust::tuple_element<I, hydra_thrust::tuple<T...>>::type
 			multiplyTuplesHelper(const hydra_thrust::tuple<T...>&a, const hydra_thrust::tuple<T...>&b) {
 				return hydra_thrust::get<I>(a) * hydra_thrust::get<I>(b);
 			}
 
-			template<typename ... T, size_t ... I>
+			template<typename ... T, std::size_t ... I>
 			__hydra_host__ __hydra_device__
 			inline hydra_thrust::tuple<T...>
 			multiplyTuples(const hydra_thrust::tuple<T...>&a, const hydra_thrust::tuple<T...>&b, index_sequence<I...>) {
@@ -111,14 +111,14 @@ namespace hydra {
 			}
 
 			//divide two tuples element by element
-			template<size_t I, typename ... T>
+			template<std::size_t I, typename ... T>
 			__hydra_host__ __hydra_device__
 			inline typename hydra_thrust::tuple_element<I, hydra_thrust::tuple<T...>>::type
 			divideTuplesHelper(const hydra_thrust::tuple<T...>&a, const hydra_thrust::tuple<T...>&b) {
 				return hydra_thrust::get<I>(a) * hydra_thrust::get<I>(b);
 			}
 
-			template<typename ... T, size_t ... I>
+			template<typename ... T, std::size_t ... I>
 			__hydra_host__ __hydra_device__
 			inline hydra_thrust::tuple<T...>
 			divideTuples(const hydra_thrust::tuple<T...>&a, const hydra_thrust::tuple<T...>&b, index_sequence<I...>) {
@@ -133,7 +133,7 @@ namespace hydra {
 			}
 
 			//evaluate functor on tuples element by element
-			template<typename F, typename ... T, size_t ... I>
+			template<typename F, typename ... T, std::size_t ... I>
 			__hydra_host__ __hydra_device__
 			inline hydra_thrust::tuple<T...>
 			callOnTupleHelper(F const& f, const hydra_thrust::tuple<T...>&tuple, index_sequence<I...>) {

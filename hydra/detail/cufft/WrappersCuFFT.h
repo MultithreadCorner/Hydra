@@ -55,7 +55,7 @@ namespace hydra {
 
 		namespace cufft {
 
-			void* malloc( size_t size )
+			void* malloc( std::size_t size )
 			{
 					void *ptr;
 					if (cudaMalloc(&ptr, size) == cudaSuccess) return ptr;
@@ -66,7 +66,7 @@ namespace hydra {
 				 cudaFree( ptr);
 			}
 
-			void* reallocate(void* ptr, size_t new_size){
+			void* reallocate(void* ptr, std::size_t new_size){
 						void* new_ptr ;
 						if (cudaMalloc(&new_ptr, new_size) == cudaSuccess){
 
@@ -77,13 +77,13 @@ namespace hydra {
 					}
 
 
-			void* memset( void* dest, int ch, size_t count  )
+			void* memset( void* dest, int ch, std::size_t count  )
 			{
 					if (cudaMemset(dest, ch, count) == cudaSuccess) return dest;
 					return 0;
 			}
 
-			void* memcpy( void* dest, const void* src, size_t count ){
+			void* memcpy( void* dest, const void* src, std::size_t count ){
 				 if( cudaMemcpy( dest, src, count, cudaMemcpyDeviceToDevice) == cudaSuccess) return dest;
 				 return 0;
 			}

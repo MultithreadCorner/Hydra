@@ -105,11 +105,11 @@ template<class ...A> struct CanConvert{
 	//--------------------------------------------
     // hydra implementation of integer_sequence and make_index_sequence
 	// available in c++14 but not on c++11
-	template<size_t ...Ints>
+	template<std::size_t ...Ints>
 	struct index_sequence
 	{
 		using type = index_sequence;
-		using value_type = size_t;
+		using value_type = std::size_t;
 		static constexpr std::size_t size()
 		{
 			return sizeof...(Ints);
@@ -120,11 +120,11 @@ template<class ...A> struct CanConvert{
 	template<class Sequence1, class Sequence2>
 	struct _merge_and_renumber;
 
-	template<size_t ... I1, size_t ... I2>
+	template<std::size_t ... I1, std::size_t ... I2>
 	struct _merge_and_renumber<index_sequence<I1...>, index_sequence<I2...>>:
 	index_sequence<	I1..., (sizeof...(I1)+I2)...> {	};
 
-	template<size_t N>
+	template<std::size_t N>
 	struct make_index_sequence:_merge_and_renumber<typename make_index_sequence<N / 2>::type,
 			typename make_index_sequence<N - N / 2>::type> {};
 
@@ -187,12 +187,12 @@ template<class ...A> struct CanConvert{
 	//----------------------------------------
 	// multiply  std::array elements
 	//----------------------------------------
-	template<typename T, size_t N, size_t I>
+	template<typename T, std::size_t N, std::size_t I>
 	typename std::enable_if< (I==N), void  >::type
 	multiply( std::array<T, N> const& , T&  )
 	{ }
 
-	template<typename T, size_t N, size_t I=0>
+	template<typename T, std::size_t N, std::size_t I=0>
 	typename std::enable_if< (I<N), void  >::type
 	multiply( std::array<T, N> const&  obj, T& result )
 	{
@@ -204,12 +204,12 @@ template<class ...A> struct CanConvert{
 	//----------------------------------------
 	// multiply static array elements
 	//----------------------------------------
-	template<typename T, size_t N, size_t I>
+	template<typename T, std::size_t N, std::size_t I>
 	typename std::enable_if< (I==N), void  >::type
 	multiply(const T (&)[N] , T& )
 	{ }
 
-	template<typename T, size_t N, size_t I=0>
+	template<typename T, std::size_t N, std::size_t I=0>
 	typename std::enable_if< (I<N), void  >::type
 	multiply(const  T (&obj)[N], T& result )
 	{
@@ -224,23 +224,23 @@ template<class ...A> struct CanConvert{
 	// std::array version
 	//-------------------------
 	//end of recursion
-	template<typename T, size_t DIM, size_t I>
+	template<typename T, std::size_t DIM, std::size_t I>
 	typename std::enable_if< (I==DIM) && (std::is_integral<T>::value), void  >::type
-	get_indexes(size_t , std::array<T, DIM> const& , std::array<T,DIM>& )
+	get_indexes(std::size_t , std::array<T, DIM> const& , std::array<T,DIM>& )
 	{}
 
 	//begin of the recursion
-	template<typename T, size_t DIM, size_t I=0>
+	template<typename T, std::size_t DIM, std::size_t I=0>
 	typename std::enable_if< (I<DIM) && (std::is_integral<T>::value), void  >::type
-	get_indexes(size_t index, std::array<T, DIM> const& depths, std::array<T,DIM>& indexes)
+	get_indexes(std::size_t index, std::array<T, DIM> const& depths, std::array<T,DIM>& indexes)
 	{
 
-		size_t factor    =  1;
-	    multiply<size_t, DIM, I+1>(depths, factor );
+		std::size_t factor    =  1;
+	    multiply<std::size_t, DIM, I+1>(depths, factor );
 
 		indexes[I]  =  index/factor;
 
-	    size_t next_index =  index%factor;
+	    std::size_t next_index =  index%factor;
 
 		get_indexes<T, DIM, I+1>(next_index, depths, indexes );
 
@@ -250,23 +250,23 @@ template<class ...A> struct CanConvert{
 	// static array version
 	//-------------------------
 	//end of recursion
-	template<typename T, size_t DIM, size_t I>
+	template<typename T, std::size_t DIM, std::size_t I>
 	typename std::enable_if< (I==DIM) && (std::is_integral<T>::value), void  >::type
-	get_indexes(size_t , const T ( &)[DIM], T (&)[DIM])
+	get_indexes(std::size_t , const T ( &)[DIM], T (&)[DIM])
 	{}
 
 	//begin of the recursion
-	template<typename T, size_t DIM, size_t I=0>
+	template<typename T, std::size_t DIM, std::size_t I=0>
 	typename std::enable_if< (I<DIM) && (std::is_integral<T>::value), void  >::type
-	get_indexes(size_t index,const  T ( &depths)[DIM], T (&indexes)[DIM] )
+	get_indexes(std::size_t index,const  T ( &depths)[DIM], T (&indexes)[DIM] )
 	{
 
-		size_t factor    =  1;
-	    multiply<size_t, DIM, I+1>(depths, factor );
+		std::size_t factor    =  1;
+	    multiply<std::size_t, DIM, I+1>(depths, factor );
 
 		indexes[I]  =  index/factor;
 
-	    size_t next_index =  index%factor;
+	    std::size_t next_index =  index%factor;
 
 		get_indexes<T, DIM, I+1>(next_index, depths, indexes );
 

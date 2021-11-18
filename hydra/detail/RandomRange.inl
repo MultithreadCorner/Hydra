@@ -43,16 +43,16 @@ namespace hydra {
 
 template<typename Engine=hydra::default_random_engine, typename Functor>
 Range< hydra_thrust::transform_iterator< detail::Sampler<Functor,Engine >,
-		 hydra_thrust::counting_iterator<size_t>,
+		 hydra_thrust::counting_iterator<std::size_t>,
 		 typename detail::Sampler<Functor,Engine>::value_type > >
-random_range( Functor const& functor,  size_t seed=0x8ec74d321e6b5a27,  size_t length=0,size_t rng_jump=0) {
+random_range( Functor const& functor,  std::size_t seed=0x8ec74d321e6b5a27,  std::size_t length=0,std::size_t rng_jump=0) {
 
-	typedef hydra_thrust::counting_iterator<size_t> index_t;
+	typedef hydra_thrust::counting_iterator<std::size_t> index_t;
 	typedef detail::Sampler<Functor,Engine>      sampler_t;
 	typedef typename detail::Sampler<Functor,Engine>::value_type  value_t;
 
 	index_t first(0);
-	index_t last( length==0 ? std::numeric_limits<size_t>::max() : length);
+	index_t last( length==0 ? std::numeric_limits<std::size_t>::max() : length);
 
 	auto sampler= detail::Sampler<Functor, Engine>(functor, seed, rng_jump);
 

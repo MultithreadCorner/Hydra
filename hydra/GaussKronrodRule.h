@@ -46,11 +46,11 @@ namespace hydra {
  * \brief Rules for Gauss-Kronrod quadrature.
  *
  */
-template<size_t N>
+template<std::size_t N>
 struct GaussKronrodRule
 {
-	constexpr static size_t KronrodN = (N+1)/2;
-	constexpr static size_t GaussN   = (N+1)/2;
+	constexpr static std::size_t KronrodN = (N+1)/2;
+	constexpr static std::size_t GaussN   = (N+1)/2;
 
 
 	GaussKronrodRule()=delete;
@@ -61,7 +61,7 @@ struct GaussKronrodRule
 			std::initializer_list<GReal_t> const& kronrod_weight)
 	{
 
-		for(size_t i=0; i<(N+1)/2;i++ )
+		for(std::size_t i=0; i<(N+1)/2;i++ )
 		{
 			X[i]=x.begin()[i];
 			KronrodWeight[i]=kronrod_weight.begin()[i];
@@ -77,7 +77,7 @@ struct GaussKronrodRule
 			GReal_t const (&kronrod_weight)[(N+1)/2]	)
 	{
 
-		for(size_t i=0; i<(N+1)/2;i++ )
+		for(std::size_t i=0; i<(N+1)/2;i++ )
 		{
 			X[i]=x[i];
 			KronrodWeight[i]=kronrod_weight[i];
@@ -91,7 +91,7 @@ struct GaussKronrodRule
 	GaussKronrodRule(GaussKronrodRule<N> const& other	)
 	{
 
-		for(size_t i=0; i<(N+1)/2;i++ )
+		for(std::size_t i=0; i<(N+1)/2;i++ )
 		{
 			this->X[i] = other.X[i];
 			this->KronrodWeight[i] = other.KronrodWeight[i];
@@ -105,7 +105,7 @@ struct GaussKronrodRule
 	{
 		if(this == &other) return *this;
 
-		for(size_t i=0; i<(N+1)/2;i++ )
+		for(std::size_t i=0; i<(N+1)/2;i++ )
 		{
 			this->X[i] = other.X[i];
 			this->KronrodWeight[i] = other.KronrodWeight[i];
@@ -121,14 +121,14 @@ struct GaussKronrodRule
 		HYDRA_MSG << HYDRA_ENDL;
 		HYDRA_MSG << "Gauss-Kronrod Rule #" << 2*KronrodN-1 << " begin:" << HYDRA_ENDL;
 		HYDRA_MSG << "Kronrod nodes #" << 2*KronrodN-1 << " begin:" << HYDRA_ENDL;
-		for(size_t i=0; i<KronrodN; i++ )
+		for(std::size_t i=0; i<KronrodN; i++ )
 		{
 			HYDRA_MSG << std::setprecision(50) << "X[" << i << "] = " << (i?"+-":"") << X[i]
 			                                                     << " Weight[" << i << "] = " << KronrodWeight[i]
 			                                                                                                   << HYDRA_ENDL;
 		}
 		HYDRA_MSG << "Gauss nodes #" << 2*GaussN-1 << HYDRA_ENDL;
-		for(size_t i=0; i<GaussN; i++ )
+		for(std::size_t i=0; i<GaussN; i++ )
 		{
 			HYDRA_MSG << std::setprecision(50) <<"X[" << i << "] = "<< (i?"+-":"") << X[i]
 			                                                    << " Weight[" << i << "] = " << GaussWeight[i]
@@ -139,7 +139,7 @@ struct GaussKronrodRule
 
 	__hydra_host__  __hydra_device__
 	inline hydra_thrust::tuple<GReal_t, GReal_t, GReal_t>
-	GetAbscissa(size_t index, GReal_t xlower, GReal_t xupper  )
+	GetAbscissa(std::size_t index, GReal_t xlower, GReal_t xupper  )
 		{
 
 		GReal_t a = (xupper - xlower)/2.0;

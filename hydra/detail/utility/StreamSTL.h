@@ -42,12 +42,12 @@
 namespace hydra {
 
 /** array streamer helper **/
-template<  size_t N, typename T, size_t I>
+template<  std::size_t N, typename T, std::size_t I>
 inline typename std::enable_if<(I==N), void>::type
 stream_array_helper(std::ostream& , std::array<T,N> const& )
 { }
 
-template< size_t N, typename T, size_t I=0>
+template< std::size_t N, typename T, std::size_t I=0>
 inline typename std::enable_if< (I < N), void>::type
 stream_array_helper(std::ostream& os, std::array<T,N> const&  obj)
 {
@@ -58,7 +58,7 @@ stream_array_helper(std::ostream& os, std::array<T,N> const&  obj)
 
 
 /* stream std::array */
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline std::ostream& operator<<(std::ostream& os, std::array<T, N> const&  obj)
 {
   os << "{"; stream_array_helper(os, obj); os << "}";
@@ -69,12 +69,12 @@ inline std::ostream& operator<<(std::ostream& os, std::array<T, N> const&  obj)
 
 
 /** tuple streamer helper **/
-template<size_t I, typename ...T>
+template<std::size_t I, typename ...T>
 inline typename std::enable_if<(I==sizeof ...(T)), void>::type
 stream_tuple_helper(std::ostream& , std::tuple<T...> const&  )
 { }
 
-template<size_t I=0, typename ...T>
+template<std::size_t I=0, typename ...T>
 inline typename std::enable_if< (I < sizeof ...(T)), void>::type
  stream_tuple_helper(std::ostream& os, std::tuple<T...> const&  obj)
 {

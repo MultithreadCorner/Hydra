@@ -60,7 +60,7 @@ namespace hydra
  * @tparam Functor is "bare" c++ functor implementing the template<typename T> Evaluate(T x) method.
  * @tparam NPARAM number of parameters of the functor.
  */
-template<typename Functor, typename Signature, size_t NPARAM>
+template<typename Functor, typename Signature, std::size_t NPARAM>
 class  BaseFunctor : public detail::Parameters<NPARAM>
 {
 
@@ -298,7 +298,7 @@ public:
 
 private:
 
-	template<typename T, size_t ...I>
+	template<typename T, std::size_t ...I>
 	__hydra_host__ __hydra_device__
 	inline  return_type call_helper(T x, detail::index_sequence<I...> ) const
 	{
@@ -317,7 +317,7 @@ private:
 
 
 
-	template<typename T, size_t ...I>
+	template<typename T, std::size_t ...I>
 	__hydra_host__ __hydra_device__
 	inline  return_type raw_call_helper(T x, detail::index_sequence<I...> ) const
 	{

@@ -53,29 +53,29 @@ namespace detail
 
 struct FlagAcceptReject
 {
-	size_t fSeed;
+	std::size_t fSeed;
 	GReal_t fWmax; ///< maximum weight
 
 
-	FlagAcceptReject(const size_t seed, const GReal_t wmax) :
+	FlagAcceptReject(const std::size_t seed, const GReal_t wmax) :
 		fWmax(wmax),
 		fSeed(seed)
 	{	}
 
 
 	__hydra_host__   __hydra_device__ inline
-	size_t hash(size_t a, size_t b)
+	std::size_t hash(std::size_t a, std::size_t b)
 	{
 		//Matthew Szudzik pairing
 		//http://szudzik.com/ElegantPairing.pdf
 
-		size_t  A = 2 * a ;
-		size_t  B = 2 * b ;
-		size_t  C = ((A >= B ? A * A + A + B : A + B * B) / 2);
+		std::size_t  A = 2 * a ;
+		std::size_t  B = 2 * b ;
+		std::size_t  C = ((A >= B ? A * A + A + B : A + B * B) / 2);
 	    return  C ;
 	}
 
-	__hydra_host__ __hydra_device__ GBool_t operator ()(size_t idx, GReal_t weight)
+	__hydra_host__ __hydra_device__ GBool_t operator ()(std::size_t idx, GReal_t weight)
 	{
 
 		hydra_thrust::default_random_engine randEng(hash(fSeed, idx));

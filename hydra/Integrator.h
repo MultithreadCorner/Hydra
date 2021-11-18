@@ -41,16 +41,16 @@
 
 namespace hydra {
 
-template<typename Functor, size_t N=1>
+template<typename Functor, std::size_t N=1>
 class IntegrationFormula;
 
-template<typename Functor, size_t N=1>
+template<typename Functor, std::size_t N=1>
 class AnalyticalIntegral;
 
-template<typename Functor, size_t N=1>
+template<typename Functor, std::size_t N=1>
 class NumericalIntegral;
 
-template<typename Algorithm, size_t N=1>
+template<typename Algorithm, std::size_t N=1>
 struct Integral;
 
 

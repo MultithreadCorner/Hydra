@@ -45,13 +45,13 @@ typename std::enable_if<
 	Range<IteratorData>
 >::type
 unweight( hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& policy, IteratorData data_begin, IteratorData data_end, IteratorWeight weights_begin,
-		double max_pdf, size_t rng_seed, size_t rng_jump)
+		double max_pdf, std::size_t rng_seed, std::size_t rng_jump)
 {
 
 	typedef typename IteratorWeight::value_type value_type;
 	typedef detail::RndFlag<value_type, IteratorWeight, RNG> flagger_type;
 
-	size_t ntrials = hydra_thrust::distance( data_begin, data_end );
+	std::size_t ntrials = hydra_thrust::distance( data_begin, data_end );
 
 	IteratorWeight weights_end = weights_begin + ntrials;
 
@@ -60,8 +60,8 @@ unweight( hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& poli
 	value_type max_value =  max_pdf>0.0? max_pdf: v_max;
 
 	// create iterators
-	hydra_thrust::counting_iterator<size_t> first(0);
-	hydra_thrust::counting_iterator<size_t> last = first + ntrials;
+	hydra_thrust::counting_iterator<std::size_t> first(0);
+	hydra_thrust::counting_iterator<std::size_t> last = first + ntrials;
 
 	IteratorData r = hydra_thrust::partition(policy, data_begin, data_end, first,
 			flagger_type(rng_seed, rng_jump, max_value, weights_begin) );
@@ -76,7 +76,7 @@ typename std::enable_if<
 	Range<IteratorData>
 >::type
 unweight( detail::BackendPolicy<BACKEND> const& policy, IteratorData data_begin, IteratorData data_end, IteratorWeight weights_begin,
-		double max_pdf, size_t rng_seed, size_t rng_jump)
+		double max_pdf, std::size_t rng_seed, std::size_t rng_jump)
 {
 
 
@@ -88,7 +88,7 @@ typename std::enable_if<
 detail::random::is_iterator<IteratorData>::value && detail::random::is_iterator<IteratorWeight>::value,
 Range<IteratorData> >::type
 unweight(IteratorData data_begin, IteratorData data_end , IteratorWeight weights_begin,
-		double max_pdf, size_t rng_seed, size_t rng_jump)
+		double max_pdf, std::size_t rng_seed, std::size_t rng_jump)
 {
 	using hydra_thrust::system::detail::generic::select_system;
 	typedef  typename hydra_thrust::iterator_system<IteratorData>::type     system_data_type;
@@ -107,7 +107,7 @@ typename std::enable_if<
 detail::random::is_iterable<IterableData>::value && detail::random::is_iterable<IterableWeight>::value,
 Range< decltype(std::declval<IterableData>().begin())> >::type
 unweight( hydra::detail::BackendPolicy<BACKEND> const& policy,  IterableData&& data, IterableWeight&& weights,
-		double max_pdf, size_t rng_seed, size_t rng_jump)
+		double max_pdf, std::size_t rng_seed, std::size_t rng_jump)
 {
 	return unweight<RNG>( policy, std::forward<IterableData>(data).begin(), std::forward<IterableData>(data).end(),
 			std::forward<IterableWeight>(weights).begin(), max_pdf, rng_seed, rng_jump);
@@ -117,7 +117,7 @@ template< typename RNG, typename IterableData, typename IterableWeight>
 typename std::enable_if<detail::random::is_iterable<IterableData>::value && detail::random::is_iterable<IterableWeight>::value,
 Range< decltype(std::declval<IterableData>().begin())>>::type
 unweight( IterableData&&  data, IterableWeight&&  weights,
-		double max_pdf, size_t rng_seed, size_t rng_jump)
+		double max_pdf, std::size_t rng_seed, std::size_t rng_jump)
 {
 /*
 	using hydra_thrust::system::detail::generic::select_system;
@@ -141,7 +141,7 @@ typename std::enable_if<
 	Range<Iterator>
 >::type
 unweight(hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& policy, Iterator begin, Iterator end, Functor const& functor,
-		double max_pdf, size_t rng_seed, size_t rng_jump)
+		double max_pdf, std::size_t rng_seed, std::size_t rng_jump)
 {
 
 	typedef typename Functor::return_type value_type;
@@ -150,13 +150,13 @@ unweight(hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& poli
 
 	typedef detail::RndFlag<value_type,pointer_type, RNG > flagger_type;
 
-    size_t ntrials = hydra_thrust::distance( begin, end);
+    std::size_t ntrials = hydra_thrust::distance( begin, end);
 
     auto values = hydra_thrust::get_temporary_buffer<value_type>(policy, ntrials);
 
 	// create iterators
-	hydra_thrust::counting_iterator<size_t> first(0);
-	hydra_thrust::counting_iterator<size_t> last = first + ntrials;
+	hydra_thrust::counting_iterator<std::size_t> first(0);
+	hydra_thrust::counting_iterator<std::size_t> last = first + ntrials;
 
 	//calculate the functor values
 	hydra_thrust::transform(policy, begin, end, values.first, functor);
@@ -181,7 +181,7 @@ typename std::enable_if<
 	Range<Iterator>
 >::type
 unweight( detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor,
-		double max_pdf, size_t rng_seed, size_t rng_jump)
+		double max_pdf, std::size_t rng_seed, std::size_t rng_jump)
 {
 
 	return  unweight<RNG>(policy.backend, begin, end, functor, max_pdf, rng_seed, rng_jump);
@@ -193,7 +193,7 @@ typename std::enable_if<
 	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 	Range<Iterator>
 >::type
-unweight( Iterator begin, Iterator end, Functor const& functor, double max_pdf, size_t rng_seed, size_t rng_jump)
+unweight( Iterator begin, Iterator end, Functor const& functor, double max_pdf, std::size_t rng_seed, std::size_t rng_jump)
 {
 	typedef  typename hydra_thrust::iterator_system< Iterator>::type   system_data_type;
 	return unweight<RNG>( system_data_type(), begin, end, functor, max_pdf , rng_seed, rng_jump);
@@ -206,7 +206,7 @@ typename std::enable_if<
 	Range< decltype(std::declval<Iterable>().begin())>
 >::type
 unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterable&& iterable, Functor const& functor,
-		double max_pdf, size_t rng_seed, size_t rng_jump)
+		double max_pdf, std::size_t rng_seed, std::size_t rng_jump)
 {
 
 	return hydra::unweight<RNG>(policy, std::forward<Iterable>(iterable).begin(),
@@ -218,7 +218,7 @@ typename std::enable_if<
 	detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
 	Range< decltype(std::declval<Iterable>().begin())>
 >::type
-unweight( Iterable&& iterable, Functor const& functor, double max_pdf, size_t rng_seed, size_t rng_jump)
+unweight( Iterable&& iterable, Functor const& functor, double max_pdf, std::size_t rng_seed, std::size_t rng_jump)
 {
 
 	return hydra::unweight<RNG>(std::forward<Iterable>(iterable).begin(),
@@ -233,7 +233,7 @@ typename std::enable_if<
 	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 	Range<Iterator> >::type
 sample(hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& policy, Iterator begin, Iterator end, double min, double max,
-				Functor const& functor, size_t seed, size_t rng_jump)
+				Functor const& functor, std::size_t seed, std::size_t rng_jump)
 {
 	typedef double value_type;
 
@@ -243,13 +243,13 @@ sample(hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& policy,
 
 	typedef detail::RndFlag<value_type, pointer_type,RNG> flagger_type;
 
-    size_t ntrials = hydra_thrust::distance( begin, end);
+    std::size_t ntrials = hydra_thrust::distance( begin, end);
 
     auto values = hydra_thrust::get_temporary_buffer<value_type>( policy, ntrials);
 
 	// create iterators
-	hydra_thrust::counting_iterator<size_t> first(0);
-	hydra_thrust::counting_iterator<size_t> last = first + ntrials;
+	hydra_thrust::counting_iterator<std::size_t> first(0);
+	hydra_thrust::counting_iterator<std::size_t> last = first + ntrials;
 
 
 	//calculate the functor values
@@ -274,7 +274,7 @@ detail::random::is_callable<Functor>::value && detail::random::is_iterator<Itera
 Range<Iterator> >::type
 sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
 		Iterator begin, Iterator end, double min, double max,
-		Functor const& functor, size_t seed, size_t rng_jump)
+		Functor const& functor, std::size_t seed, std::size_t rng_jump)
 {
 	return	sample<RNG>( policy.backend, begin, end, min, max, functor, seed , rng_jump );
 
@@ -285,7 +285,7 @@ typename std::enable_if<
 detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 Range<Iterator> >::type
 sample(Iterator begin, Iterator end , double min, double max,
-		Functor const& functor, size_t seed, size_t rng_jump)
+		Functor const& functor, std::size_t seed, std::size_t rng_jump)
 {
 	typedef  typename hydra_thrust::iterator_system<Iterator>::type   system_type;
 
@@ -297,14 +297,14 @@ template<typename RNG, typename Functor, typename Iterable>
 typename std::enable_if<
 detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
 Range< decltype(std::declval<Iterable>().begin())>>::type
-sample(Iterable&& output, double min, double max, Functor const& functor, size_t seed, size_t rng_jump)
+sample(Iterable&& output, double min, double max, Functor const& functor, std::size_t seed, std::size_t rng_jump)
 {
 	return	sample<RNG>(std::forward<Iterable>(output).begin(), std::forward<Iterable>(output).end(),
 			min, max, functor, seed, rng_jump  );
 }
 
 
-template<typename RNG, typename DerivedPolicy, typename Functor, typename Iterator, size_t N >
+template<typename RNG, typename DerivedPolicy, typename Functor, typename Iterator, std::size_t N >
 typename std::enable_if<
 	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 	Range<Iterator>
@@ -312,7 +312,7 @@ typename std::enable_if<
 sample( hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& policy,
 		Iterator begin, Iterator end ,
 		std::array<double,N> const& min, std::array<double,N> const& max,
-		Functor const& functor, size_t seed, size_t rng_jump)
+		Functor const& functor, std::size_t seed, std::size_t rng_jump)
 {
 	typedef double value_type;
 
@@ -322,14 +322,14 @@ sample( hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& polic
 
 	typedef detail::RndTrial<value_type, RNG, Functor, N> sampler_type;
 
-    size_t ntrials = hydra_thrust::distance( begin, end);
+    std::size_t ntrials = hydra_thrust::distance( begin, end);
 
 
     auto values = hydra_thrust::get_temporary_buffer<value_type>(policy, ntrials);
 
 	// create iterators
-	hydra_thrust::counting_iterator<size_t> first(0);
-	hydra_thrust::counting_iterator<size_t> last = first + ntrials;
+	hydra_thrust::counting_iterator<std::size_t> first(0);
+	hydra_thrust::counting_iterator<std::size_t> last = first + ntrials;
 
 
 	//calculate the functor values
@@ -348,26 +348,26 @@ sample( hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& polic
 	return  make_range(begin , r);
 }
 
-template<typename RNG, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND, size_t N >
+template<typename RNG, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND, std::size_t N >
 typename std::enable_if<
 detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 Range<Iterator> >::type
 sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
 		Iterator begin, Iterator end ,
 		std::array<double,N>const& min,	std::array<double,N>const& max,
-		Functor const& functor, size_t seed, size_t rng_jump)
+		Functor const& functor, std::size_t seed, std::size_t rng_jump)
 {
 
 	return sample<RNG>(policy.backend, begin, end, min, max, functor, seed, rng_jump );
 }
 
-template<typename RNG, typename Functor, typename Iterator, size_t N >
+template<typename RNG, typename Functor, typename Iterator, std::size_t N >
 typename std::enable_if<
 	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 	Range<Iterator>
 >::type
 sample(Iterator begin, Iterator end , std::array<double,N>const& min, std::array<double,N>const& max,
-		Functor const& functor, size_t seed, size_t rng_jump)
+		Functor const& functor, std::size_t seed, std::size_t rng_jump)
 {
 	typedef  typename hydra_thrust::iterator_system<Iterator>::type   system_type;
 
@@ -384,7 +384,7 @@ detail::is_tuple_type< decltype(*std::declval<Iterator>())>::value,
 Range<Iterator> >::type
 sample(Iterator begin, Iterator end ,
 		typename Functor::argument_type const& min, typename Functor::argument_type const& max,
-		Functor const& functor, size_t seed, size_t rng_jump)
+		Functor const& functor, std::size_t seed, std::size_t rng_jump)
 {
 	typedef  typename hydra_thrust::iterator_system<Iterator>::type   system_type;
     std::array<double, Functor::arity> _min{};
@@ -397,13 +397,13 @@ sample(Iterator begin, Iterator end ,
 
 }
 
-template<typename RNG, typename Functor, typename Iterable, size_t N >
+template<typename RNG, typename Functor, typename Iterable, std::size_t N >
 typename std::enable_if<
 	detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
 	Range< decltype(std::declval<Iterable>().begin())>
 >::type
 sample(Iterable&& output , std::array<double,N>const& min, std::array<double,N>const& max,
-		Functor const& functor, size_t seed, size_t rng_jump)
+		Functor const& functor, std::size_t seed, std::size_t rng_jump)
 {
 	return	sample<RNG>(std::forward<Iterable>(output).begin(), std::forward<Iterable>(output).end(),
 			min, max, functor, seed, rng_jump );
@@ -417,7 +417,7 @@ detail::is_tuple_type< decltype(*std::declval<Iterable>().begin())>::value ,
 Range< decltype(std::declval<Iterable>().begin())>>::type
 sample( Iterable&& output ,
 		typename Functor::argument_type const& min,typename Functor::argument_type  const& max,
-		Functor const& functor, size_t seed, size_t rng_jump)
+		Functor const& functor, std::size_t seed, std::size_t rng_jump)
 {
 	std::array<double, Functor::arity> _min{};
 	    std::array<double, Functor::arity> _max{};

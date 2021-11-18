@@ -61,7 +61,7 @@ namespace hydra {
 		 * @param ptr
 		 * @param new_size
 		 */
-		void* reallocate(void* ptr, size_t new_size){
+		void* reallocate(void* ptr, std::size_t new_size){
 			void* new_ptr =fftw_malloc(new_size );
 
 			if(new_ptr!=NULL){

@@ -70,7 +70,7 @@ template<typename ...T, hydra::detail::Backend BACKEND>
 class multivector< hydra_thrust::tuple<T...>, hydra::detail::BackendPolicy<BACKEND>>
 {
 	typedef hydra::detail::BackendPolicy<BACKEND> system_t;
-	constexpr static size_t N = sizeof...(T);
+	constexpr static std::size_t N = sizeof...(T);
 
 	//Useful aliases
 	template<typename Type>
@@ -125,7 +125,7 @@ public:
 	typedef hydra_thrust::zip_iterator<const_reverse_iterator_tuple>	 const_reverse_iterator;
 
 	 //stl-like typedefs
-	 typedef size_t size_type;
+	 typedef std::size_t std::size_type;
 	 typedef typename hydra_thrust::iterator_traits<iterator>::reference             reference;
 	 typedef typename hydra_thrust::iterator_traits<const_iterator>::reference const_reference;
 
@@ -156,7 +156,7 @@ public:
 	 * Constructor initializing the \p multivector with \p n entries.
 	 * @param n The number of elements to initially create.
 	 */
-	multivector(size_t n){
+	multivector(std::size_t n){
 		__resize(n);
 	};
 
@@ -165,14 +165,14 @@ public:
      * @param n number of elements
      * @param value object to copy from (hydra::tuple or convertible to hydra::tuple)
      */
-	multivector(size_t n, value_type const& value){
+	multivector(std::size_t n, value_type const& value){
 		__resize(n);
 		hydra_thrust::fill(begin(), end(), value );
 	};
 
 	/**
 	 * Constructor initializing the multivector with \p n copies of \p value .
-	 * @param pair hydra::pair<size_t, hydra::tuple<T...> >  object to copy from.
+	 * @param pair hydra::pair<std::size_t, hydra::tuple<T...> >  object to copy from.
 	 */
 	template<typename Int, typename = typename hydra_thrust::detail::enable_if<std::is_integral<Int>::value>::type >
 	multivector(hydra::pair<Int, hydra_thrust::tuple<T...> > const& pair)
@@ -311,7 +311,7 @@ public:
 	/*!
 	 *  Returns the number of elements in this \p multivector.
 	 */
-	inline size_type size() const
+	inline std::size_type size() const
 	{
 		return hydra_thrust::distance( begin(), end() );
 	}
@@ -319,7 +319,7 @@ public:
 	/*! Returns the number of elements which have been reserved in this
 	 *  \p multivector.
 	 */
-	inline size_type capacity() const
+	inline std::size_type capacity() const
 	{
 		return hydra_thrust::get<0>(fData).capacity();
 	}
@@ -341,7 +341,7 @@ public:
 	 *  size this \p multivector is truncated, otherwise this \p multivector is
 	 *  extended and new default initialized elements are populated.
 	 */
-	inline void resize(size_type new_size)
+	inline void resize(std::size_type new_size)
 	{
 		__resize(new_size);
 	}
@@ -369,7 +369,7 @@ public:
 	 *         n; otherwise, capacity() is unchanged. In either case, size() is unchanged.
 	 *  \throw std::length_error If n exceeds max_size().
 	 */
-	inline void reserve(size_type size)
+	inline void reserve(std::size_type size)
 	{
 		__reserve(size);
 	}
@@ -381,7 +381,7 @@ public:
      */
 	inline iterator erase(iterator pos)
 	{
-		size_type position = hydra_thrust::distance(begin(), pos);
+		std::size_type position = hydra_thrust::distance(begin(), pos);
 		return __erase(position);
 	}
 
@@ -393,8 +393,8 @@ public:
      */
 	inline iterator erase(iterator first, iterator last)
 	{
-		size_type first_position = hydra_thrust::distance(begin(), first);
-		size_type last_position = hydra_thrust::distance(begin(), last);
+		std::size_type first_position = hydra_thrust::distance(begin(), first);
+		std::size_type last_position = hydra_thrust::distance(begin(), last);
 
 		return __erase( first_position, last_position);
 	}
@@ -407,7 +407,7 @@ public:
      */
 	inline iterator insert(iterator pos, const value_type &x)
 	{
-		size_type position = hydra_thrust::distance(begin(), pos);
+		std::size_type position = hydra_thrust::distance(begin(), pos);
 		return __insert(position, x);
 	}
 
@@ -417,9 +417,9 @@ public:
 	 *  \param n The number of insertions to perform.
 	 *  \param x The value to replicate and insert.
 	 */
-	inline void insert(iterator pos, size_type n, const value_type &x)
+	inline void insert(iterator pos, std::size_type n, const value_type &x)
 	{
-		size_type position = hydra_thrust::distance(begin(), pos);
+		std::size_type position = hydra_thrust::distance(begin(), pos);
 		__insert(position, n, x);
 	}
 
@@ -440,7 +440,7 @@ public:
 	value_type>::value, void>::type
 	insert(iterator pos, InputIterator first, InputIterator last)
 	{
-		size_type position = hydra_thrust::distance(begin(), pos);
+		std::size_type position = hydra_thrust::distance(begin(), pos);
 		__insert(position, first, last);
 	}
 
@@ -862,7 +862,7 @@ public:
 	 *  Note that data access with this operator is unchecked and
 	 *  out_of_range lookups are not defined.
 	 */
-	inline	reference operator[](size_t n)
+	inline	reference operator[](std::size_t n)
 	{	return begin()[n] ;	}
 
 	/*! \brief Subscript read access to the data contained in this vector_dev.
@@ -873,7 +873,7 @@ public:
 	     *  Note that data access with this operator is unchecked and
 	     *  out_of_range lookups are not defined.
 	     */
-	inline const_reference operator[](size_t n) const
+	inline const_reference operator[](std::size_t n) const
 	{	return cbegin()[n]; }
 
 
@@ -912,11 +912,11 @@ private:
 	}
 	//__________________________________________
 	// pop_back
-	template<size_t I>
+	template<std::size_t I>
 	 inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
 	__pop_back(){}
 
-	template<size_t I=0>
+	template<std::size_t I=0>
 	 inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
 	__pop_back()
 	{
@@ -927,13 +927,13 @@ private:
 
 	//__________________________________________
 	// resize
-	template<size_t I>
+	template<std::size_t I>
 	 inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
-	__resize(size_type){}
+	__resize(std::size_type){}
 
-	template<size_t I=0>
+	template<std::size_t I=0>
 	 inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
-	__resize(size_type n)
+	__resize(std::size_type n)
 	{
 		hydra_thrust::get<I>(fData).resize(n);
 		__resize<I + 1>(n);
@@ -941,11 +941,11 @@ private:
 
 	//__________________________________________
 	// push_back
-	template<size_t I>
+	template<std::size_t I>
 	 inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
 	__push_back( value_type const& ){}
 
-	template<size_t I=0>
+	template<std::size_t I=0>
 	 inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
 	__push_back( value_type const& value )
 	{
@@ -955,11 +955,11 @@ private:
 
 	//__________________________________________
 	// clear
-	template<size_t I>
+	template<std::size_t I>
 	 inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
 	__clear(){}
 
-	template<size_t I=0>
+	template<std::size_t I=0>
 	 inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
 	__clear( )
 	{
@@ -969,11 +969,11 @@ private:
 
 	//__________________________________________
 	// shrink_to_fit
-	template<size_t I>
+	template<std::size_t I>
 	 inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
 	__shrink_to_fit(){}
 
-	template<size_t I=0>
+	template<std::size_t I=0>
 	 inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
 	__shrink_to_fit( )
 	{
@@ -983,13 +983,13 @@ private:
 
 	//__________________________________________
 	// shrink_to_fit
-	template<size_t I>
+	template<std::size_t I>
 	 inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
-	__reserve(size_type ){}
+	__reserve(std::size_type ){}
 
-	template<size_t I=0>
+	template<std::size_t I=0>
 	 inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
-	__reserve(size_type size )
+	__reserve(std::size_type size )
 	{
 		hydra_thrust::get<I>(fData).reserve(size);
 		__reserve<I + 1>(size);
@@ -997,20 +997,20 @@ private:
 
 	//__________________________________________
 	// erase
-	template<size_t I>
+	template<std::size_t I>
 	 inline typename hydra_thrust::detail::enable_if<(I == N), void>::type
-	__erase_helper( size_type ){ }
+	__erase_helper( std::size_type ){ }
 
-	template<size_t I=0>
+	template<std::size_t I=0>
 	 inline typename hydra_thrust::detail::enable_if<(I < N), void>::type
-	__erase_helper(size_type position )
+	__erase_helper(std::size_type position )
 	{
 		hydra_thrust::get<I>(fData).erase(
 					hydra_thrust::get<I>(fData).begin()+position);
 		__erase_helper<I+1>(position);
 	}
 
-	 inline iterator __erase(size_type position )
+	 inline iterator __erase(std::size_type position )
 	{
 		__erase_helper(position);
 
@@ -1020,13 +1020,13 @@ private:
 	//__________________________________________
 	// erase
 
-	template<size_t I>
+	template<std::size_t I>
 	 inline typename hydra_thrust::detail::enable_if<(I == N), void>::type
-	__erase_helper( size_type ,  size_type ){}
+	__erase_helper( std::size_type ,  std::size_type ){}
 
-	template<size_t I=0>
+	template<std::size_t I=0>
 	 inline typename hydra_thrust::detail::enable_if<(I < N), void>::type
-	__erase_helper( size_type first_position,  size_type last_position)
+	__erase_helper( std::size_type first_position,  std::size_type last_position)
 	{
 		hydra_thrust::get<I>(fData).erase(
 				hydra_thrust::get<I>(fData).begin() + first_position,
@@ -1035,7 +1035,7 @@ private:
 		__erase_helper<I+1>(first_position, last_position);
 	}
 
-	 inline iterator __erase( size_type first_position,  size_type last_position )
+	 inline iterator __erase( std::size_type first_position,  std::size_type last_position )
 	{
 	    __erase_helper( first_position, last_position );
 
@@ -1044,13 +1044,13 @@ private:
 
 	//__________________________________________
 	// insert
-	template<size_t I>
+	template<std::size_t I>
 	 inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
-	__insert_helper( size_type ,  const value_type&){}
+	__insert_helper( std::size_type ,  const value_type&){}
 
-	template<size_t I=0>
+	template<std::size_t I=0>
 	 inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
-	__insert_helper( size_type position,  const value_type &x)
+	__insert_helper( std::size_type position,  const value_type &x)
 	{
 		hydra_thrust::get<I>(fData).insert(
 				hydra_thrust::get<I>(fData).begin()+position,
@@ -1059,7 +1059,7 @@ private:
 		__insert_helper<I+1>(position,x);
 	}
 
-	 inline iterator __insert(size_type position,  const value_type &x )
+	 inline iterator __insert(std::size_type position,  const value_type &x )
 	{
 		 __insert_helper(position, x );
 
@@ -1068,20 +1068,20 @@ private:
 
 	//__________________________________________
 	// insert
-	template<size_t I>
+	template<std::size_t I>
 	 inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
-	__insert_helper( size_type, size_type, const value_type & ){}
+	__insert_helper( std::size_type, std::size_type, const value_type & ){}
 
-	template<size_t I=0>
+	template<std::size_t I=0>
 	 inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
-	__insert_helper( size_type position, size_type n, const value_type &x)
+	__insert_helper( std::size_type position, std::size_type n, const value_type &x)
 	{
 		hydra_thrust::get<I>(fData).insert(
 				hydra_thrust::get<I>(fData).begin() + position, n,
 				hydra_thrust::get<I>(x) );
 	}
 
-	 inline iterator __insert(size_t position, size_type n,  const value_type &x )
+	 inline iterator __insert(std::size_t position, std::size_type n,  const value_type &x )
 	{
 		__insert_helper(position, x  ,  n);
 		return begin()+position+n;
@@ -1090,13 +1090,13 @@ private:
 
 	//__________________________________________
 	// insert
-	template<size_t I,typename InputIterator >
+	template<std::size_t I,typename InputIterator >
 	 inline typename hydra_thrust::detail::enable_if<(I == N), void >::type
-	__insert(size_type , InputIterator , InputIterator  ){}
+	__insert(std::size_type , InputIterator , InputIterator  ){}
 
-	template<size_t I=0,typename InputIterator >
+	template<std::size_t I=0,typename InputIterator >
 	 inline typename hydra_thrust::detail::enable_if<(I < N), void >::type
-	__insert(size_type position, InputIterator first, InputIterator last  )
+	__insert(std::size_type position, InputIterator first, InputIterator last  )
 	{
 		hydra_thrust::get<I>(fData).insert(hydra_thrust::get<I>(fData).begin() + position,
 				hydra_thrust::get<I>(first.get_iterator_tuple()),
@@ -1143,7 +1143,7 @@ private:
 						hydra_thrust::get<IN>(fData).begin()...));
 			}
 
-	template<size_t ...I>
+	template<std::size_t ...I>
 	 inline iterator __begin_helper( detail::index_sequence<I...> ){
 
 		return hydra_thrust::make_zip_iterator(
@@ -1167,7 +1167,7 @@ private:
 						hydra_thrust::get<IN>(fData).begin()...));
 	}
 
-	template<size_t ...I>
+	template<std::size_t ...I>
 	 inline const_iterator __begin_helper( detail::index_sequence<I...> ) const {
 
 		return hydra_thrust::make_zip_iterator(
@@ -1191,7 +1191,7 @@ private:
 						hydra_thrust::get<IN>(fData).cbegin()...));
 	}
 
-	template<size_t ...I>
+	template<std::size_t ...I>
 	 inline const_iterator __cbegin_helper( detail::index_sequence<I...> ) const {
 		return hydra_thrust::make_zip_iterator(
 				hydra_thrust::make_tuple(
@@ -1215,7 +1215,7 @@ private:
 						 hydra_thrust::get<IN>(fData).end()...));
 	 }
 
-	template<size_t ...I>
+	template<std::size_t ...I>
 	 inline iterator __end_helper( detail::index_sequence<I...> ){
 
 		return hydra_thrust::make_zip_iterator(
@@ -1239,7 +1239,7 @@ private:
 						hydra_thrust::get<IN>(fData).end()...));
 	}
 
-	template<size_t ...I>
+	template<std::size_t ...I>
 	 inline const_iterator __end_helper( detail::index_sequence<I...> ) const {
 
 		return hydra_thrust::make_zip_iterator(
@@ -1263,7 +1263,7 @@ private:
 							hydra_thrust::get<IN>(fData).cend()...));
 		}
 
-	template<size_t ...I>
+	template<std::size_t ...I>
 	 inline const_iterator __cend_helper( detail::index_sequence<I...> ) const {
 		return hydra_thrust::make_zip_iterator(
 				hydra_thrust::make_tuple(
@@ -1287,7 +1287,7 @@ private:
 						 hydra_thrust::get<IN>(fData).rbegin()...));
 	 }
 
-	template<size_t ...I>
+	template<std::size_t ...I>
 	 inline reverse_iterator __rbegin_helper( detail::index_sequence<I...> ){
 
 		return hydra_thrust::make_zip_iterator(
@@ -1311,7 +1311,7 @@ private:
 						hydra_thrust::get<IN>(fData).rbegin()...));
 	}
 
-	template<size_t ...I>
+	template<std::size_t ...I>
 	 inline const_reverse_iterator __rbegin_helper( detail::index_sequence<I...> ) const {
 
 		return hydra_thrust::make_zip_iterator(
@@ -1335,7 +1335,7 @@ private:
 						hydra_thrust::get<IN>(fData).crbegin()...));
 	}
 
-	template<size_t ...I>
+	template<std::size_t ...I>
 	 inline const_reverse_iterator __crbegin_helper( detail::index_sequence<I...> ) const {
 		return hydra_thrust::make_zip_iterator(
 				hydra_thrust::make_tuple(
@@ -1359,7 +1359,7 @@ private:
 						hydra_thrust::get<IN>(fData).rend()...));
 	}
 
-	template<size_t ...I>
+	template<std::size_t ...I>
 	 inline reverse_iterator __rend_helper( detail::index_sequence<I...> ){
 
 		return hydra_thrust::make_zip_iterator(
@@ -1383,7 +1383,7 @@ private:
 						hydra_thrust::get<IN>(fData).rend()...));
 	}
 
-	template<size_t ...I>
+	template<std::size_t ...I>
 	 inline const_reverse_iterator __rend_helper( detail::index_sequence<I...> ) const {
 
 		return hydra_thrust::make_zip_iterator(
@@ -1407,7 +1407,7 @@ private:
 						hydra_thrust::get<IN>(fData).crend()...));
 	}
 
-	template<size_t ...I>
+	template<std::size_t ...I>
 	 inline const_reverse_iterator __crend_helper( detail::index_sequence<I...> ) const {
 		return hydra_thrust::make_zip_iterator(
 				hydra_thrust::make_tuple(
@@ -1593,7 +1593,7 @@ hydra::detail::BackendPolicy<BACKEND>>&>().begin(
 		placeholders::placeholder<detail::index_in_tuple<Type, hydra_thrust::tuple<T...> >::value>{})) >
 {
 
-	constexpr size_t I = detail::index_in_tuple<Type, hydra_thrust::tuple<T...> >::value;
+	constexpr std::size_t I = detail::index_in_tuple<Type, hydra_thrust::tuple<T...> >::value;
 
 	typedef decltype( other.begin( placeholders::placeholder<I>{} )) iterator_type;
 	return Range<iterator_type>( other.begin( placeholders::placeholder<I>{}),

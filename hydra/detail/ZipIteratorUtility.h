@@ -123,7 +123,7 @@ struct filter_tuple<Selector, std::tuple<Head,Tail...>, I>
 
 //-----------------------------------------
 
-template<typename EntryList, typename ReturnType, typename T, size_t ...I>
+template<typename EntryList, typename ReturnType, typename T, std::size_t ...I>
 ReturnType get_filtered_tuple_helper(std::index_sequence<I...>, T const& data )
 {
 

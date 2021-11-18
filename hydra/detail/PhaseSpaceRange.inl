@@ -41,14 +41,14 @@
 
 namespace hydra {
 
-template <size_t N>
+template <std::size_t N>
 Range<
 hydra_thrust::transform_iterator<
 	detail::GenerateDecay<N,hydra_thrust::random::default_random_engine>,
-	hydra_thrust::counting_iterator<size_t>,
+	hydra_thrust::counting_iterator<std::size_t>,
 	typename hydra::detail::tuple_cat_type< hydra_thrust::tuple<double>,
 				 typename hydra::detail::tuple_type<N,Vector4R>::type>::type>>
-phase_space_range(Vector4R const& mother, std::array<double, N> masses, size_t seed, size_t length=0 )
+phase_space_range(Vector4R const& mother, std::array<double, N> masses, std::size_t seed, std::size_t length=0 )
 {
 	typedef typename hydra::detail::tuple_cat_type<
 			 hydra_thrust::tuple<double>,
@@ -56,12 +56,12 @@ phase_space_range(Vector4R const& mother, std::array<double, N> masses, size_t s
 			>::type	 event_t;
 
 
-	typedef hydra_thrust::counting_iterator<size_t> index_iterator;
+	typedef hydra_thrust::counting_iterator<std::size_t> index_iterator;
 
 	typedef detail::GenerateDecay<N,hydra_thrust::random::default_random_engine> decayer_t;
 
 	auto first_index = index_iterator(0);
-	auto  last_index = index_iterator( length==0 ? std::numeric_limits<size_t>::max(): length);
+	auto  last_index = index_iterator( length==0 ? std::numeric_limits<std::size_t>::max(): length);
 
 	auto decayer = decayer_t(mother, masses, seed);
 

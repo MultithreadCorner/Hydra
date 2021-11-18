@@ -53,11 +53,11 @@ namespace hydra {
 namespace detail {
 
 
-template <size_t N, typename GRND, typename FUNCTOR>
+template <std::size_t N, typename GRND, typename FUNCTOR>
 struct AverageMother
 {
 
-	size_t  fSeed;
+	std::size_t  fSeed;
 
 	GReal_t fECM;
 	GReal_t fMaxWeight;
@@ -71,14 +71,14 @@ struct AverageMother
 
 	//constructor
 	AverageMother(Vector4R const& mother, const GReal_t (&masses)[N],
-			double maxweight, double ecm, size_t seed, FUNCTOR const& functor):
+			double maxweight, double ecm, std::size_t seed, FUNCTOR const& functor):
 			fMaxWeight(maxweight),
 			fECM(ecm),
 			fSeed(seed),
 			fFunctor(functor)
 	{
 
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 			fMasses[i]=masses[i];
 
 		GReal_t beta = mother.d3mag() / mother.get(0);
@@ -104,7 +104,7 @@ struct AverageMother
 	fBeta0(other.fBeta0 ),
 	fBeta1(other.fBeta1 ),
 	fBeta2(other.fBeta2 )
-	{ for(size_t i=0; i<N; i++) fMasses[i]=other.fMasses[i]; }
+	{ for(std::size_t i=0; i<N; i++) fMasses[i]=other.fMasses[i]; }
 
 
 
@@ -145,7 +145,7 @@ struct AverageMother
 
 
 	__hydra_host__   __hydra_device__ inline
-	constexpr static size_t hash(const size_t a, const size_t b)
+	constexpr static std::size_t hash(const std::size_t a, const std::size_t b)
 	{
 		//Matthew Szudzik pairing
 		//http://szudzik.com/ElegantPairing.pdf
@@ -153,7 +153,7 @@ struct AverageMother
 	}
 
 	__hydra_host__   __hydra_device__ inline
-	GReal_t process(size_t evt, Vector4R (&daugters)[N])
+	GReal_t process(std::size_t evt, Vector4R (&daugters)[N])
 	{
 
 		GRND randEng(fSeed);
@@ -168,7 +168,7 @@ struct AverageMother
 		if (N > 2)
 		{
 //#pragma unroll N
-			for (size_t n = 1; n < N - 1; n++)
+			for (std::size_t n = 1; n < N - 1; n++)
 			{
 				rno[n] =  uniDist(randEng) ;
 
@@ -182,7 +182,7 @@ struct AverageMother
 		GReal_t invMas[N], sum = 0.0;
 
 //#pragma unroll N
-		for (size_t n = 0; n < N; n++)
+		for (std::size_t n = 0; n < N; n++)
 		{
 			//printf("%d mass=%f \n",n, fMasses[n]);
 			sum += fMasses[n];
@@ -198,7 +198,7 @@ struct AverageMother
 		GReal_t pd[N];
 
 //#pragma unroll N
-		for (size_t n = 0; n < N - 1; n++)
+		for (std::size_t n = 0; n < N - 1; n++)
 		{
 			pd[n] = pdk(invMas[n + 1], invMas[n], fMasses[n + 1]);
 			wt *= pd[n];
@@ -212,7 +212,7 @@ struct AverageMother
 				pd[0], 0.0);
 
 //#pragma unroll N
-		for (size_t i = 1; i < N; i++)
+		for (std::size_t i = 1; i < N; i++)
 		{
 
 			daugters[i].set(
@@ -224,7 +224,7 @@ struct AverageMother
 			GReal_t angY = 2 * PI* uniDist(randEng);
 			GReal_t cY = ::cos(angY);
 			GReal_t sY = ::sin(angY);
-			for (size_t j = 0; j <= i; j++)
+			for (std::size_t j = 0; j <= i; j++)
 			{
 
 				GReal_t x = daugters[j].get(1);
@@ -242,7 +242,7 @@ struct AverageMother
 				break;
 
 			GReal_t beta = pd[i] / ::sqrt(pd[i] * pd[i] + invMas[i] * invMas[i]);
-			for (size_t j = 0; j <= i; j++)
+			for (std::size_t j = 0; j <= i; j++)
 			{
 
 				daugters[j].applyBoostTo(Vector3R(0, beta, 0));
@@ -254,7 +254,7 @@ struct AverageMother
 		//---> final boost of all particles to the mother's frame
 		//
 //#pragma unroll N
-		for (size_t n = 0; n < N; n++)
+		for (std::size_t n = 0; n < N; n++)
 		{
 
 			daugters[n].applyBoostTo(Vector3R(fBeta0, fBeta1, fBeta2));

@@ -63,7 +63,7 @@ class quasi_random_base
 
 public:
 
-	typedef SizeT size_type;
+	typedef SizeT std::size_type;
 	typedef typename LatticeT::value_type result_type;
 
 	 __hydra_host__ __hydra_device__
@@ -81,7 +81,7 @@ public:
 		seq_count(other.seq_count)
 	{
 #pragma unroll LatticeT::lattice_dimension
-		for(size_t i=0;i<LatticeT::lattice_dimension; ++i)
+		for(std::size_t i=0;i<LatticeT::lattice_dimension; ++i)
 			quasi_state[i] = other.quasi_state[i];
 	}
 
@@ -96,7 +96,7 @@ public:
 		seq_count = other.seq_count;
 
 #pragma unroll LatticeT::lattice_dimension
-		for(size_t i=0;i<LatticeT::lattice_dimension; ++i)
+		for(std::size_t i=0;i<LatticeT::lattice_dimension; ++i)
 			quasi_state[i] = other.quasi_state[i];
 
 		return *this;
@@ -180,7 +180,7 @@ public:
 				// |x.seq_count - y.get_seq_count| <= 1
 				!((x.seq_count < y.seq_count ?
 						y.seq_count - x.seq_count :
-						x.seq_count - y.seq_count)> static_cast<size_type>(1)) &&
+						x.seq_count - y.seq_count)> static_cast<std::size_type>(1)) &&
 						// Potential overflows don't matter here, since we've already ascertained
 						// that sequence counts differ by no more than 1, so if they overflow, they
 						// can overflow together.
@@ -202,7 +202,7 @@ protected:
 
 // Getters
 	 __hydra_host__ __hydra_device__
-	inline size_type curr_seq() const {
+	inline std::size_type curr_seq() const {
 		return seq_count;
 	}
 
@@ -218,7 +218,7 @@ protected:
 
 	// Setters
 	 __hydra_host__ __hydra_device__
-	inline void reset_seq(size_type seq){
+	inline void reset_seq(std::size_type seq){
 
 		seq_count = seq;
 		curr_elem = 0u;
@@ -257,7 +257,7 @@ private:
 	 __hydra_host__ __hydra_device__
 	inline 	result_type next_state()
 	{
-		size_type new_seq = seq_count;
+		std::size_type new_seq = seq_count;
 
 		if (HYDRA_HOST_LIKELY(++new_seq > seq_count))
 		{
@@ -275,7 +275,7 @@ private:
 	 __hydra_host__ __hydra_device__
 	inline void discard_vector(uintmax_t z)
 	{
-		const uintmax_t max_z = std::numeric_limits<size_type>::max() - seq_count;
+		const uintmax_t max_z = std::numeric_limits<std::size_type>::max() - seq_count;
 
 		// Don't allow seq_count + z overflows here
 		if (max_z < z){
@@ -283,7 +283,7 @@ private:
 			return ;
 		}
 		std::size_t tmp = curr_elem;
-		derived().seed(static_cast<size_type>(seq_count + z));
+		derived().seed(static_cast<std::size_type>(seq_count + z));
 		curr_elem = tmp;
 	}
 
@@ -297,7 +297,7 @@ private:
 	// need to do any more work.
 private:
 	std::size_t curr_elem;
-	size_type seq_count;
+	std::size_type seq_count;
 protected:
 	LatticeT lattice;
 private:

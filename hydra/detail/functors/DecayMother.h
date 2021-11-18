@@ -55,12 +55,12 @@ namespace hydra {
 namespace detail {
 
 
-template <size_t N,  typename GRND>
+template <std::size_t N,  typename GRND>
 struct DecayMother
 {
 	typedef typename tuple_type<N, hydra::Vector4R>::type particles_tuple_type;
 
-	size_t fSeed;
+	std::size_t fSeed;
 
 	GReal_t fECM;
 	GReal_t fMaxWeight;
@@ -74,14 +74,14 @@ struct DecayMother
 
 	//constructor
 	DecayMother(Vector4R const& mother,	const GReal_t (&masses)[N],
-			double maxweight, double ecm, size_t seed):
+			double maxweight, double ecm, std::size_t seed):
 				fMaxWeight(maxweight),
 				fECM(ecm),
 				fSeed(seed)
 
 	{
 
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 			fMasses[i]=masses[i];
 
 
@@ -109,7 +109,7 @@ struct DecayMother
 	fBeta1(other.fBeta1 ),
 	fBeta2(other.fBeta2 )
 	{
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 		fMasses[i]=other.fMasses[i];
 	}
 
@@ -152,7 +152,7 @@ struct DecayMother
 
 
 	__hydra_host__   __hydra_device__ inline
-	constexpr static size_t hash(const size_t a, const size_t b)
+	constexpr static std::size_t hash(const std::size_t a, const std::size_t b)
 	{
 		//Matthew Szudzik pairing
 		//http://szudzik.com/ElegantPairing.pdf
@@ -160,7 +160,7 @@ struct DecayMother
 	}
 
 	__hydra_host__   __hydra_device__ inline
-	GReal_t process(size_t evt, Vector4R (&daugters)[N])
+	GReal_t process(std::size_t evt, Vector4R (&daugters)[N])
 	{
 
 		GRND randEng(fSeed);
@@ -189,7 +189,7 @@ struct DecayMother
 		GReal_t invMas[N], sum = 0.0;
 
 //#pragma unroll N
-		for (size_t n = 0; n < N; n++)
+		for (std::size_t n = 0; n < N; n++)
 		{
 			//printf("%d mass=%f \n",n, fMasses[n]);
 			sum += fMasses[n];
@@ -205,7 +205,7 @@ struct DecayMother
 		GReal_t pd[N];
 
 //#pragma unroll N
-		for (size_t n = 0; n < N - 1; n++)
+		for (std::size_t n = 0; n < N - 1; n++)
 		{
 			pd[n] = pdk(invMas[n + 1], invMas[n], fMasses[n + 1]);
 			wt *= pd[n];
@@ -219,7 +219,7 @@ struct DecayMother
 				pd[0], 0.0);
 
 //#pragma unroll N
-		for (size_t i = 1; i < N; i++)
+		for (std::size_t i = 1; i < N; i++)
 		{
 
 			daugters[i].set(
@@ -231,7 +231,7 @@ struct DecayMother
 			GReal_t angY = 2 * PI* uniDist(randEng);
 			GReal_t cY = ::cos(angY);
 			GReal_t sY = ::sin(angY);
-			for (size_t j = 0; j <= i; j++)
+			for (std::size_t j = 0; j <= i; j++)
 			{
 
 				GReal_t x = daugters[j].get(1);
@@ -249,7 +249,7 @@ struct DecayMother
 				break;
 
 			GReal_t beta = pd[i] / ::sqrt(pd[i] * pd[i] + invMas[i] * invMas[i]);
-			for (size_t j = 0; j <= i; j++)
+			for (std::size_t j = 0; j <= i; j++)
 			{
 
 				daugters[j].applyBoostTo(Vector3R(0, beta, 0));
@@ -261,7 +261,7 @@ struct DecayMother
 		//---> final boost of all particles to the mother's frame
 		//
 //#pragma unroll N
-		for (size_t n = 0; n < N; n++)
+		for (std::size_t n = 0; n < N; n++)
 		{
 
 			daugters[n].applyBoostTo(Vector3R(fBeta0, fBeta1, fBeta2));
@@ -277,7 +277,7 @@ struct DecayMother
 	}
 
 	__hydra_host__  __hydra_device__
-	inline particles_tuple_type operator()(size_t evt)
+	inline particles_tuple_type operator()(std::size_t evt)
 	{
 
 		Vector4R Particles[N];

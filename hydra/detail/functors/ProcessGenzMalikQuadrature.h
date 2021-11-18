@@ -57,7 +57,7 @@ namespace hydra {
 namespace detail {
 
 
-template< typename FUNCTOR,  size_t N>
+template< typename FUNCTOR,  std::size_t N>
 struct ProcessGenzMalikUnaryCall
 {
 
@@ -73,7 +73,7 @@ public:
 				FUNCTOR const& functor):
 					fFunctor(functor){
 
-			for(size_t i=0; i<N; i++)
+			for(std::size_t i=0; i<N; i++)
 			{
 				fA[i] = (upperLimit[i] - lowerLimit[i])/2.0;
 				fB[i] = (upperLimit[i] + lowerLimit[i])/2.0;
@@ -86,7 +86,7 @@ public:
 			FUNCTOR const& functor):
 				fFunctor(functor){
 
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 		{
 			fA[i] = (upperLimit[i] - lowerLimit[i])/2.0;
 			fB[i] = (upperLimit[i] + lowerLimit[i])/2.0;
@@ -98,7 +98,7 @@ public:
 	ProcessGenzMalikUnaryCall(ProcessGenzMalikUnaryCall<FUNCTOR, N> const& other ):
 	fFunctor(other.GetFunctor())
 	{
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 		{
 			this->fA[i]=other.fA[i];
 			this->fB[i]=other.fB[i];
@@ -113,7 +113,7 @@ public:
 
 		fFunctor=other.GetFunctor();
 
-		for(size_t i=0; i<N; i++)
+		for(std::size_t i=0; i<N; i++)
 		{
 			this->fA[i]=other.fA[i];
 			this->fB[i]=other.fB[i];
@@ -148,7 +148,7 @@ public:
 	    	_temp[four_diff_index+2]  = fval*hydra_thrust::get<2>(rule_abscissa);//w_four_diff;
 	    }
 	    else if(four_diff_index==N){
-	    	for(size_t i =0; i<N ;i++)
+	    	for(std::size_t i =0; i<N ;i++)
 	    		_temp[i+2]  = fval*hydra_thrust::get<2>(rule_abscissa);
 	    }
 
@@ -177,12 +177,12 @@ private:
 
 	\f$ \int_a^b f(x)\,dx \approx \frac{b-a}{2} \sum_{i=1}^n w_i f\left(\frac{b-a}{2}x_i + \frac{a+b}{2}\right) \f$.
 	*/
-	template<typename Abscissa, typename TransAbscissa , size_t I>
+	template<typename Abscissa, typename TransAbscissa , std::size_t I>
 	__hydra_host__ __hydra_device__
 	inline typename std::enable_if< (I== hydra_thrust::tuple_size<TransAbscissa>::value), void  >::type
 	get_transformed_abscissa_helper( Abscissa const& ,  TransAbscissa& ){}
 
-	template<typename Abscissa, typename TransAbscissa , size_t I=0>
+	template<typename Abscissa, typename TransAbscissa , std::size_t I=0>
 	__hydra_host__ __hydra_device__
 	inline typename std::enable_if< (I < hydra_thrust::tuple_size<TransAbscissa>::value), void  >::type
 	get_transformed_abscissa_helper(  Abscissa const& abscissa, TransAbscissa& transformed_abscissa  ){
@@ -199,7 +199,7 @@ private:
 	typename hydra::detail::tuple_type< hydra_thrust::tuple_size<Abscissa>::value-4
 	, double>::type	{
 
-		constexpr size_t _N = hydra_thrust::tuple_size<Abscissa>::value;
+		constexpr std::size_t _N = hydra_thrust::tuple_size<Abscissa>::value;
 
 		typename hydra::detail::tuple_type< _N-4, double>::type abscissa{};
 
@@ -226,7 +226,7 @@ private:
 
 	}
 
-	template<typename T,  size_t I=0>
+	template<typename T,  std::size_t I=0>
 	__hydra_host__ __hydra_device__
 	int get_dim( T const& X){
 
@@ -250,7 +250,7 @@ private:
 //
 //-----------------------------------------------------
 
-template< size_t N>
+template< std::size_t N>
 struct ProcessGenzMalikBinaryCall:
 		public hydra_thrust::binary_function< typename hydra::detail::tuple_type<N+2, GReal_t>::type ,
 		                                typename hydra::detail::tuple_type<N+2, GReal_t>::type,
@@ -271,7 +271,7 @@ struct ProcessGenzMalikBinaryCall:
 
 
 
-template <size_t N, typename Functor, typename RuleIterator>
+template <std::size_t N, typename Functor, typename RuleIterator>
 struct ProcessGenzMalikBox
 {
 

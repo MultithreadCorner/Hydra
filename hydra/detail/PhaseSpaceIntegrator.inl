@@ -31,7 +31,7 @@
 
 namespace hydra {
 
-template <size_t N, hydra::detail::Backend BACKEND, typename GRND>
+template <std::size_t N, hydra::detail::Backend BACKEND, typename GRND>
 template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t>
 PhaseSpaceIntegrator<N,hydra::detail::BackendPolicy<BACKEND>, GRND>::Integrate(  FUNCTOR  const& functor)

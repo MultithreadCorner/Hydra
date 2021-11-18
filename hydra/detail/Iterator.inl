@@ -55,12 +55,12 @@ auto end( C&& c ) -> decltype(std::forward<C>(c).end()){
 	return std::forward<C>(c).end();
 }
 
-template< class T, size_t N >
+template< class T, std::size_t N >
 T* begin( T (&array)[N] ){
 	return &array[0];
 }
 
-template< class T, size_t N >
+template< class T, std::size_t N >
 T* end( T (&array)[N] ){
 	return &array[N];
 }
@@ -86,12 +86,12 @@ auto rend( const C& c ) -> decltype(c.rend()){
 	return c.rend();
 }
 
-template< class T, size_t N >
+template< class T, std::size_t N >
 T* rbegin( T (&array)[N] ){
 	return hydra_thrust::reverse_iterator<T*>(&array[0]);
 }
 
-template< class T, size_t N >
+template< class T, std::size_t N >
 T* rend( T (&array)[N] ){
 	return hydra_thrust::reverse_iterator<T*>(&array[N]);
 }

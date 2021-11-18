@@ -43,7 +43,7 @@
 
 namespace hydra {
 
-template< typename T, size_t N, hydra::detail::Backend BACKEND>
+template< typename T, std::size_t N, hydra::detail::Backend BACKEND>
 template<typename Iterator1, typename Iterator2>
 DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin )
@@ -60,7 +60,7 @@ DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>::
 
     //----------------
 
-	size_t data_size = hydra_thrust::distance(begin, end);
+	std::size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<N,T>(fGrid, fLowerLimits, fUpperLimits);
 
@@ -71,7 +71,7 @@ DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>::
 
 	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	hydra_thrust::copy( keys_begin, keys_end, key_buffer.first);
 
@@ -81,7 +81,7 @@ DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>::
 	//bins content
 	auto bin_contents    = hydra_thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
 	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	hydra_thrust::fill(bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
 
@@ -105,7 +105,7 @@ DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>::
 }
 
 
-template<typename T, size_t N, hydra::detail::Backend BACKEND>
+template<typename T, std::size_t N, hydra::detail::Backend BACKEND>
 template<hydra::detail::Backend BACKEND2, typename Iterator1, typename Iterator2>
 DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy,
@@ -123,7 +123,7 @@ DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>::
 
     //----------------
 
-	size_t data_size = hydra_thrust::distance(begin, end);
+	std::size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<N,T>(fGrid, fLowerLimits, fUpperLimits);
 
@@ -134,7 +134,7 @@ DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>::
 
 	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	hydra_thrust::copy( keys_begin, keys_end, key_buffer.first);
 
@@ -144,7 +144,7 @@ DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>::
 	//bins content
 	auto bin_contents    = hydra_thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
 	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	hydra_thrust::fill(bin_contents.first, bin_contents.first+bin_contents.second, 0.0);
 
@@ -168,7 +168,7 @@ DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>::
 }
 
 
-template<typename T, size_t N, hydra::detail::Backend BACKEND>
+template<typename T, std::size_t N, hydra::detail::Backend BACKEND>
 template<typename Iterator>
 DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(Iterator begin, Iterator end )
@@ -183,13 +183,13 @@ DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimens
 
 	typedef hydra_thrust::pointer<T, common_system_t> buffer_t;
 
-	size_t data_size = hydra_thrust::distance(begin, end);
+	std::size_t data_size = hydra_thrust::distance(begin, end);
 
 
 	auto bin_contents    = hydra_thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
-	auto key_buffer      = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto key_buffer      = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 	auto weights         = hydra_thrust::constant_iterator<double>(1.0);
 
 	auto key_functor = detail::GetGlobalBin<N,T>(fGrid, fLowerLimits, fUpperLimits);
@@ -223,7 +223,7 @@ DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimens
 	return *this;
 }
 
-template<typename T, size_t N, hydra::detail::Backend BACKEND>
+template<typename T, std::size_t N, hydra::detail::Backend BACKEND>
 template<hydra::detail::Backend BACKEND2, typename Iterator>
 DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>::Fill(detail::BackendPolicy<BACKEND2> const& exec_policy, Iterator begin, Iterator end )
@@ -236,13 +236,13 @@ DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimens
 
 		typedef hydra_thrust::pointer<T, common_system_t> buffer_t;
 
-		size_t data_size = hydra_thrust::distance(begin, end);
+		std::size_t data_size = hydra_thrust::distance(begin, end);
 
 		auto key_functor = detail::GetGlobalBin<N,T>(fGrid, fLowerLimits, fUpperLimits);
 
 		auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
 		auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
-		auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+		auto key_buffer = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 
 		hydra_thrust::copy( keys_begin, keys_end, key_buffer.first);
@@ -252,7 +252,7 @@ DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimens
 		//bins content
 		auto bin_contents    = hydra_thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
 		auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-		auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+		auto reduced_keys    = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 		auto weights         = hydra_thrust::constant_iterator<double>(1.0);
 
 		auto reduced_end = hydra_thrust::reduce_by_key(common_system_t(),
@@ -289,7 +289,7 @@ DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fi
 	typedef  typename hydra_thrust::detail::remove_reference<
 			decltype(select_system(fSystem, system1 ))>::type common_system_t;
 
-	size_t data_size = hydra_thrust::distance(begin, end);
+	std::size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<1,T>(fGrid, fLowerLimits, fUpperLimits);
 
@@ -297,7 +297,7 @@ DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fi
 
 	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	hydra_thrust::copy( keys_begin, keys_end, key_buffer.first);
 	hydra_thrust::sort(key_buffer.first, key_buffer.first+data_size );
@@ -306,8 +306,8 @@ DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fi
 	//bins content
 	auto bin_contents    = hydra_thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
 	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
-	auto  weights    = hydra_thrust::constant_iterator<size_t>(1.0);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
+	auto  weights    = hydra_thrust::constant_iterator<std::size_t>(1.0);
 
 	auto reduced_end = hydra_thrust::reduce_by_key(common_system_t(),
 			key_buffer.first, key_buffer.first+data_size,
@@ -346,7 +346,7 @@ DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fi
 	typedef  typename hydra_thrust::detail::remove_reference<
 			decltype(select_system(exec_policy, fSystem,system1))>::type common_system_t;
 
-	size_t data_size = hydra_thrust::distance(begin, end);
+	std::size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<1,T>(fGrid, fLowerLimits, fUpperLimits);
 
@@ -354,7 +354,7 @@ DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fi
 
 	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	hydra_thrust::copy( keys_begin, keys_end, key_buffer.first);
 	hydra_thrust::sort(key_buffer.first, key_buffer.first+data_size );
@@ -363,8 +363,8 @@ DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fi
 	//bins content
 	auto bin_contents    = hydra_thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
 	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
-	auto  weights    = hydra_thrust::constant_iterator<size_t>(1.0);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
+	auto  weights    = hydra_thrust::constant_iterator<std::size_t>(1.0);
 
 	auto reduced_end = hydra_thrust::reduce_by_key(common_system_t(),
 			key_buffer.first, key_buffer.first+data_size,
@@ -404,7 +404,7 @@ DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fil
 	typedef  typename hydra_thrust::detail::remove_reference<
 			decltype(select_system(fSystem,system1, system2 ))>::type common_system_t;
 
-	size_t data_size = hydra_thrust::distance(begin, end);
+	std::size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<1,T>(fGrid, fLowerLimits, fUpperLimits);
 
@@ -414,7 +414,7 @@ DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fil
 
 	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	hydra_thrust::copy(common_system_t(),  keys_begin, keys_end, key_buffer.first);
 	hydra_thrust::sort_by_key(common_system_t(), key_buffer.first, key_buffer.first+data_size, weights.first);
@@ -422,7 +422,7 @@ DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fil
 	//bins content
 	auto bin_contents    = hydra_thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
 	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 
 	auto reduced_end = hydra_thrust::reduce_by_key(common_system_t(),
@@ -466,7 +466,7 @@ DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional >::Fi
 	typedef  typename hydra_thrust::detail::remove_reference<
 			decltype(select_system(exec_policy, fSystem,system1, system2 ))>::type common_system_t;
 
-	size_t data_size = hydra_thrust::distance(begin, end);
+	std::size_t data_size = hydra_thrust::distance(begin, end);
 
 	auto key_functor = detail::GetGlobalBin<1,T>(fGrid, fLowerLimits, fUpperLimits);
 
@@ -476,7 +476,7 @@ DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional >::Fi
 
 	auto keys_begin = hydra_thrust::make_transform_iterator(begin, key_functor );
 	auto keys_end   = hydra_thrust::make_transform_iterator(end, key_functor);
-	auto key_buffer = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto key_buffer = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 	hydra_thrust::copy(common_system_t(),  keys_begin, keys_end, key_buffer.first);
 	hydra_thrust::sort_by_key(common_system_t(), key_buffer.first, key_buffer.first+data_size, weights.first);
@@ -484,7 +484,7 @@ DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional >::Fi
 	//bins content
 	auto bin_contents    = hydra_thrust::get_temporary_buffer<double>(common_system_t(), fContents.size());
 	auto reduced_values  = hydra_thrust::get_temporary_buffer<double>(common_system_t(), data_size);
-	auto reduced_keys    = hydra_thrust::get_temporary_buffer<size_t>(common_system_t(), data_size);
+	auto reduced_keys    = hydra_thrust::get_temporary_buffer<std::size_t>(common_system_t(), data_size);
 
 
 	auto reduced_end = hydra_thrust::reduce_by_key(common_system_t(),
@@ -515,10 +515,10 @@ DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional >::Fi
  */
 
 //iterator based
-template<typename Iterator, typename T, size_t N , hydra::detail::Backend BACKEND>
+template<typename Iterator, typename T, std::size_t N , hydra::detail::Backend BACKEND>
 inline typename std::enable_if< detail::histogram::has_iterator_argument<Iterator>::value,
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
-make_dense_histogram( detail::BackendPolicy<BACKEND>const& pol, std::array<size_t, N> const& grid,
+make_dense_histogram( detail::BackendPolicy<BACKEND>const& pol, std::array<std::size_t, N> const& grid,
 		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
 		Iterator first, Iterator end)
 {
@@ -529,10 +529,10 @@ make_dense_histogram( detail::BackendPolicy<BACKEND>const& pol, std::array<size_
 	return _Hist;
 }
 
-template<typename Iterator1,typename Iterator2, typename T, size_t N , hydra::detail::Backend BACKEND>
+template<typename Iterator1,typename Iterator2, typename T, std::size_t N , hydra::detail::Backend BACKEND>
 inline typename std::enable_if<detail::histogram::has_iterator_argument<Iterator1, Iterator2>::value,
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
-make_dense_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> const& grid,
+make_dense_histogram( detail::BackendPolicy<BACKEND>, std::array<std::size_t, N> const& grid,
 		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
 		Iterator1 first, Iterator1 end, Iterator2 wfirst){
 
@@ -544,10 +544,10 @@ make_dense_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> cons
 
 
 //iterable based
-template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable>
+template< typename T, std::size_t N , hydra::detail::Backend BACKEND, typename Iterable>
 inline typename std::enable_if< !detail::histogram::has_iterator_argument<Iterable>::value,
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
-make_dense_histogram( detail::BackendPolicy<BACKEND> const& backend, std::array<size_t, N> const& grid,
+make_dense_histogram( detail::BackendPolicy<BACKEND> const& backend, std::array<std::size_t, N> const& grid,
 		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,	Iterable&& data){
 
 	return make_dense_histogram(backend,grid, lowerlimits, upperlimits,
@@ -555,10 +555,10 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> const& backend, std::array<
 
 }
 
-template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable1,typename Iterable2 >
+template< typename T, std::size_t N , hydra::detail::Backend BACKEND, typename Iterable1,typename Iterable2 >
 inline typename std::enable_if< !detail::histogram::has_iterator_argument<Iterable1, Iterable2>::value,
 DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
-make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N>const&  grid,
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<std::size_t, N>const&  grid,
 		std::array<T, N>const& lowerlimits,   std::array<T, N>const&  upperlimits,
 		Iterable1&& data,
 		Iterable2&& weights){
@@ -576,7 +576,7 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t,
 //iterator based
 template<typename Iterator, typename T, hydra::detail::Backend BACKEND>
 DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
-make_dense_histogram( detail::BackendPolicy<BACKEND>, size_t grid, T lowerlimits,  T upperlimits,
+make_dense_histogram( detail::BackendPolicy<BACKEND>, std::size_t grid, T lowerlimits,  T upperlimits,
 		Iterator first, Iterator end){
 
 	hydra::DenseHistogram< T, 1, detail::BackendPolicy<BACKEND>> _Hist( grid, lowerlimits, upperlimits);
@@ -588,7 +588,7 @@ make_dense_histogram( detail::BackendPolicy<BACKEND>, size_t grid, T lowerlimits
 
 template<typename Iterator1, typename Iterator2, typename T, hydra::detail::Backend BACKEND>
 DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
-make_dense_histogram( detail::BackendPolicy<BACKEND>, size_t grid, T lowerlimits,  T upperlimits,
+make_dense_histogram( detail::BackendPolicy<BACKEND>, std::size_t grid, T lowerlimits,  T upperlimits,
 		Iterator1 first, Iterator1 end, Iterator2 wfirst){
 
 	hydra::DenseHistogram< T, 1, detail::BackendPolicy<BACKEND>> _Hist( grid, lowerlimits, upperlimits);
@@ -602,7 +602,7 @@ make_dense_histogram( detail::BackendPolicy<BACKEND>, size_t grid, T lowerlimits
 template< typename T, hydra::detail::Backend BACKEND, typename Iterable>
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
 DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
-make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid,
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::size_t grid,
 		T lowerlimits,  T upperlimits,	Iterable&& data){
 
 	return make_dense_histogram(backend,grid, lowerlimits, upperlimits,
@@ -614,7 +614,7 @@ template< typename T, hydra::detail::Backend BACKEND, typename Iterable1,typenam
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value&&
 hydra::detail::is_iterable<Iterable2>::value,
 DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
-make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid,
+make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::size_t grid,
 		T lowerlimits, T upperlimits, Iterable1&& data, Iterable2&& weights){
 
 	return make_dense_histogram(backend, grid, lowerlimits, upperlimits,

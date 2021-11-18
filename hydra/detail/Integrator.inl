@@ -32,7 +32,7 @@
 
 namespace hydra {
 
-template<typename Algorithm, size_t N>
+template<typename Algorithm, std::size_t N>
 struct Integral{
 
 	typedef void hydra_integrator_type;

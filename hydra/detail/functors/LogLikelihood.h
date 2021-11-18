@@ -92,7 +92,7 @@ struct LogLikelihood
 
     template<typename U = cache_value_type >
 	__hydra_host__ __hydra_device__ inline
-	GReal_t operator()(size_t index, const typename std::enable_if< !std::is_same<U,
+	GReal_t operator()(std::size_t index, const typename std::enable_if< !std::is_same<U,
 	       	null_type>::value, void >::type* dummy=0 ){
 
     	          auto      C = (cache_value_type) fCacheBegin[index];
@@ -105,7 +105,7 @@ struct LogLikelihood
 
     template<typename U = cache_value_type >
    	__hydra_host__ __hydra_device__ inline
-   	GReal_t operator()(size_t index, const typename std::enable_if< std::is_same<U,
+   	GReal_t operator()(std::size_t index, const typename std::enable_if< std::is_same<U,
    	       	null_type>::value, void >::type* dummy=0 ){
 
 

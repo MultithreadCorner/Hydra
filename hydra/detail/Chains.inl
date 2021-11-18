@@ -31,8 +31,8 @@
 
 namespace hydra {
 
-template<size_t ...N, hydra::detail::Backend BACKEND>
-Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::Chains(size_t nevents):
+template<std::size_t ...N, hydra::detail::Backend BACKEND>
+Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::Chains(std::size_t nevents):
 fStorage(hydra_thrust::make_tuple(Decays<N,hydra::detail::BackendPolicy<BACKEND> >(nevents)...) ),
 fSize(nevents)
 {
@@ -52,7 +52,7 @@ fSize(nevents)
 
 }
 
-template<size_t ...N, hydra::detail::Backend BACKEND>
+template<std::size_t ...N, hydra::detail::Backend BACKEND>
 Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::Chains(Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>const& other):
 fStorage(std::move(other.CopyStorage()) ),
 fSize (other.GetNDecays())
@@ -73,7 +73,7 @@ fSize (other.GetNDecays())
 
 }
 
-template<size_t ...N, hydra::detail::Backend BACKEND>
+template<std::size_t ...N, hydra::detail::Backend BACKEND>
 template<hydra::detail::Backend BACKEND2>
 Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::Chains(Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND2> >...>const& other):
 fStorage(std::move(other.CopyStorage()) ),
@@ -95,7 +95,7 @@ fSize (other.GetNDecays())
 
 }
 
-template<size_t ...N, hydra::detail::Backend BACKEND>
+template<std::size_t ...N, hydra::detail::Backend BACKEND>
 Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::Chains(Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>&& other):
 fStorage(std::move(other.MoveStorage())),
 fSize (other.GetNDecays())
@@ -116,7 +116,7 @@ fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrus
 		detail::cend_call_args(fStorage) ) );
 }
 
-template<size_t ...N, hydra::detail::Backend BACKEND>
+template<std::size_t ...N, hydra::detail::Backend BACKEND>
 Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>&
 Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::operator=(Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND> >...> const& other)
 {
@@ -141,7 +141,7 @@ Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::operator=(Chains<D
 
 }
 
-template<size_t ...N, hydra::detail::Backend BACKEND>
+template<std::size_t ...N, hydra::detail::Backend BACKEND>
 template<hydra::detail::Backend BACKEND2>
 Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>&
 Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::operator=(Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND2> >...>const& other)
@@ -166,7 +166,7 @@ Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::operator=(Chains<D
 		return *this;
 	}
 
-template<size_t ...N, hydra::detail::Backend BACKEND>
+template<std::size_t ...N, hydra::detail::Backend BACKEND>
 Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>&
 Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::operator=(Chains<Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>&& other)
 	{
@@ -192,7 +192,7 @@ Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::operator=(Chains<D
 		return *this;
 	}
 
-template<size_t ...N, hydra::detail::Backend BACKEND>
+template<std::size_t ...N, hydra::detail::Backend BACKEND>
 Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::Chains(Decays<N,hydra::detail::BackendPolicy<BACKEND> > const& ...events):
 		fSize ( CheckSizes({events.GetNDecays()...}) ),
 		fStorage( hydra_thrust::make_tuple( events... ))
@@ -213,8 +213,8 @@ Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::Chains(Decays<N,hy
 
 	}
 
-template<size_t ...N, hydra::detail::Backend BACKEND>
-void Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::resize(size_t n){
+template<std::size_t ...N, hydra::detail::Backend BACKEND>
+void Chains< Decays<N,hydra::detail::BackendPolicy<BACKEND> >...>::resize(std::size_t n){
 
 	fSize=n;
 	fWeights.resize(n);

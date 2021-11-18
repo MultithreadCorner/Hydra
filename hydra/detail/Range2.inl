@@ -58,7 +58,7 @@ public:
 		fFunctor(functor)
 		{}
 
-	Range(Iterator begin,  size_t last, Functor  const& functor):
+	Range(Iterator begin,  std::size_t last, Functor  const& functor):
 			fBegin( begin),
 			fEnd( begin + last ),
 			fFunctor(functor)
@@ -96,9 +96,9 @@ public:
 
 	inline iterator   cend()const{ return iterator(fEnd, fFunctor); }
 
-    inline void resize(size_t size){}
+    inline void resize(std::size_t size){}
 
-	inline 	size_t size() { return hydra::distance(fBegin, fEnd);}
+	inline 	std::size_t size() { return hydra::distance(fBegin, fEnd);}
 
 	inline Functor const& GetFunctor() const { return fFunctor;}
 
@@ -121,7 +121,7 @@ public:
 		fEnd = end;
 	}
 
-	inline reference operator[](size_t i)
+	inline reference operator[](std::size_t i)
 	{
 
 	 return *(begin() +i);

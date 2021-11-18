@@ -33,15 +33,15 @@
 
 namespace hydra {
 
-template< size_t N,hydra::detail::Backend BACKEND, typename GRND>
+template< std::size_t N,hydra::detail::Backend BACKEND, typename GRND>
 template<typename FUNCTOR>
 inline std::pair<GReal_t, GReal_t>
 Plain<N,hydra::detail::BackendPolicy<BACKEND>,GRND>::Integrate(FUNCTOR const& fFunctor)
 {
 
 	// create iterators
-	hydra_thrust::counting_iterator<size_t> first(0);
-	hydra_thrust::counting_iterator<size_t> last = first + fNCalls;
+	hydra_thrust::counting_iterator<std::size_t> first(0);
+	hydra_thrust::counting_iterator<std::size_t> last = first + fNCalls;
 
 
 	// compute summary statistics

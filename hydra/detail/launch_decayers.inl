@@ -63,7 +63,7 @@ namespace detail {
 
 	//-------------------------------
 
-	template<size_t N,typename FUNCTOR, typename ...FUNCTORS, typename GRND, typename Iterator>
+	template<std::size_t N,typename FUNCTOR, typename ...FUNCTORS, typename GRND, typename Iterator>
 	inline void launch_evaluator(Iterator begin, Iterator end,
 			detail::EvalMother<N, GRND,FUNCTOR, FUNCTORS...> const& evaluator) {
 
@@ -72,14 +72,14 @@ namespace detail {
 	}
 
 
-	template<size_t N, typename FUNCTOR,typename ...FUNCTORS, typename GRND,
+	template<std::size_t N, typename FUNCTOR,typename ...FUNCTORS, typename GRND,
 	                   typename IteratorMother, typename Iterator>
 	inline void launch_evaluator( IteratorMother mbegin, IteratorMother mend, Iterator begin,
 			 detail::EvalMothers<N, GRND,FUNCTOR, FUNCTORS...> const& evaluator) {
 
-		size_t nevents = hydra_thrust::distance(mbegin, mend);
-		hydra_thrust::counting_iterator<size_t> first(0);
-		hydra_thrust::counting_iterator<size_t> last = first + nevents;
+		std::size_t nevents = hydra_thrust::distance(mbegin, mend);
+		hydra_thrust::counting_iterator<std::size_t> first(0);
+		hydra_thrust::counting_iterator<std::size_t> last = first + nevents;
 
 		hydra_thrust::transform(
 				hydra_thrust::make_zip_iterator(first, mbegin),
@@ -91,7 +91,7 @@ namespace detail {
 
 	//-------------------------------
 
-	template<size_t N, hydra::detail::Backend BACKEND, typename FUNCTOR, typename GRND, typename Iterator>
+	template<std::size_t N, hydra::detail::Backend BACKEND, typename FUNCTOR, typename GRND, typename Iterator>
 	inline StatsPHSP launch_reducer(hydra::detail::BackendPolicy<BACKEND>const& policy,
 			Iterator begin, Iterator end,	detail::AverageMother<N, GRND,FUNCTOR> const& evaluator)
 	{
@@ -106,7 +106,7 @@ namespace detail {
 	}
 
 
-	template<size_t N, typename FUNCTOR, typename GRND, typename Iterator>
+	template<std::size_t N, typename FUNCTOR, typename GRND, typename Iterator>
 	inline StatsPHSP launch_reducer(Iterator begin, Iterator end,
 			detail::AverageMothers<N, GRND,FUNCTOR> const& evaluator)
 	{
@@ -114,9 +114,9 @@ namespace detail {
 		typedef typename hydra_thrust::iterator_system<Iterator>::type System;
 		System system;
 
-		size_t nevents = hydra_thrust::distance(begin, end);
-		hydra_thrust::counting_iterator<size_t> first(0);
-		hydra_thrust::counting_iterator<size_t> last = first + nevents;
+		std::size_t nevents = hydra_thrust::distance(begin, end);
+		hydra_thrust::counting_iterator<std::size_t> first(0);
+		hydra_thrust::counting_iterator<std::size_t> last = first + nevents;
 
 		StatsPHSP init = StatsPHSP();
 
@@ -130,7 +130,7 @@ namespace detail {
 
 	//-------------------------------
 
-	template<size_t N, typename GRND, typename Iterator>
+	template<std::size_t N, typename GRND, typename Iterator>
     inline void launch_decayer(Iterator begin, Iterator end, DecayMother<N, GRND> const& decayer)
 	{
 
@@ -138,7 +138,7 @@ namespace detail {
 		return;
 	}
 
-	template<size_t N, typename GRND, typename Iterator, hydra::detail::Backend BACKEND>
+	template<std::size_t N, typename GRND, typename Iterator, hydra::detail::Backend BACKEND>
 	inline void launch_decayer( hydra::detail::BackendPolicy<BACKEND> const& exec_policy ,
 			Iterator begin, Iterator end, DecayMother<N, GRND> const& decayer)
 	{
@@ -150,15 +150,15 @@ namespace detail {
 
 	//-------------------------------
 
-	template<size_t N, typename GRND,	typename IteratorMother, typename IteratorDaughter>
+	template<std::size_t N, typename GRND,	typename IteratorMother, typename IteratorDaughter>
 	inline	void launch_decayer(IteratorMother begin_mothers, IteratorMother end_mothers
 			, IteratorDaughter begin_daugters, DecayMothers<N, GRND> const& decayer)
 	{
 
-		size_t nevents    = hydra_thrust::distance(begin_mothers, end_mothers);
+		std::size_t nevents    = hydra_thrust::distance(begin_mothers, end_mothers);
 
-		hydra_thrust::counting_iterator<size_t> first(0);
-		hydra_thrust::counting_iterator<size_t> last = first + nevents;
+		hydra_thrust::counting_iterator<std::size_t> first(0);
+		hydra_thrust::counting_iterator<std::size_t> last = first + nevents;
 
 		hydra_thrust::transform(first, last, begin_mothers,	begin_daugters, decayer);
 
@@ -166,15 +166,15 @@ namespace detail {
 	}
 
 
-	template<size_t N, typename GRND,	typename IteratorMother, typename IteratorDaughter, hydra::detail::Backend BACKEND>
+	template<std::size_t N, typename GRND,	typename IteratorMother, typename IteratorDaughter, hydra::detail::Backend BACKEND>
 	inline	void launch_decayer( hydra::detail::BackendPolicy<BACKEND> const& exec_policy,
 			  IteratorMother begin_mothers, IteratorMother end_mothers,
 			  IteratorDaughter begin_daugters, DecayMothers<N, GRND> const& decayer)
 	{
-		size_t nevents    = hydra_thrust::distance(begin_mothers, end_mothers);
+		std::size_t nevents    = hydra_thrust::distance(begin_mothers, end_mothers);
 
-		hydra_thrust::counting_iterator<size_t> first(0);
-		hydra_thrust::counting_iterator<size_t> last = first + nevents;
+		hydra_thrust::counting_iterator<std::size_t> first(0);
+		hydra_thrust::counting_iterator<std::size_t> last = first + nevents;
 
 		hydra_thrust::transform(exec_policy, first, last, begin_mothers, begin_daugters, decayer);
 

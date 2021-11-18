@@ -173,7 +173,7 @@ public:
 		else{
 			HYDRA_CALLER ;
 			HYDRA_MSG << "Parameters: "<< HYDRA_ENDL;
-			for(size_t i=0; i<fVariables.size(); i++ )
+			for(std::size_t i=0; i<fVariables.size(); i++ )
 				HYDRA_MSG <<"  Variable " << i <<") "<< *fVariables[i] << HYDRA_ENDL;
 			HYDRA_MSG <<"Parameters end.\n\n" << HYDRA_ENDL;
 		}
@@ -199,7 +199,7 @@ public:
 		std::unique_ptr<ROOT::Minuit2::MnUserParameters>
 				temp(new ROOT::Minuit2::MnUserParameters());
 		this->fMnState.swap(temp) ;
-		for(size_t i=0; i < fVariables.size(); i++)
+		for(std::size_t i=0; i < fVariables.size(); i++)
 			this->AddParameter( fVariables[i], 0);
 	}
 

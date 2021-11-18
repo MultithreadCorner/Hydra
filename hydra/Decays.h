@@ -88,18 +88,18 @@ public :
 	 */
 	Decays()=delete;
 
-	Decays( double motherMass,  std::array<double, nparticles> const& daughtersMasses, size_t nentries=0 ):
+	Decays( double motherMass,  std::array<double, nparticles> const& daughtersMasses, std::size_t nentries=0 ):
 		fDecays(nentries),
 		fMaxWeight(0.),
 	    fMotherMass(motherMass)
 	{
-		for(size_t i=0;i<nparticles;i++)
+		for(std::size_t i=0;i<nparticles;i++)
 			fMasses[i] = daughtersMasses[i];
 
 		//compute maximum weight
 		double  ECM = fMotherMass;
 
-		for (size_t n = 0; n < nparticles; n++)
+		for (std::size_t n = 0; n < nparticles; n++)
 		{
 			ECM -= fMasses[n];
 		}
@@ -108,7 +108,7 @@ public :
 		double emmin = 0.0;
 		double wtmax = 1.0;
 
-		for (size_t n = 1; n < nparticles; n++)
+		for (std::size_t n = 1; n < nparticles; n++)
 		{
 			emmin  += fMasses[n - 1];
 			emmax += fMasses[n];
@@ -118,18 +118,18 @@ public :
 		fMaxWeight = 1.0 / wtmax;
 	}
 
-	Decays( double motherMass, const double (&daughtersMasses)[nparticles], size_t nentries=0 ):
+	Decays( double motherMass, const double (&daughtersMasses)[nparticles], std::size_t nentries=0 ):
 		fDecays(nentries),
 		fMaxWeight(0.),
 	    fMotherMass(motherMass)
 	{
-		for(size_t i=0;i<nparticles;i++)
+		for(std::size_t i=0;i<nparticles;i++)
 			fMasses[i] = daughtersMasses[i];
 
 		//compute maximum weight
 		double  ECM = fMotherMass;
 
-		for (size_t n = 0; n < nparticles; n++)
+		for (std::size_t n = 0; n < nparticles; n++)
 		{
 			ECM -= fMasses[n];
 		}
@@ -138,7 +138,7 @@ public :
 		double emmin = 0.0;
 		double wtmax = 1.0;
 
-		for (size_t n = 1; n < nparticles; n++)
+		for (std::size_t n = 1; n < nparticles; n++)
 		{
 			emmin  += fMasses[n - 1];
 			emmax += fMasses[n];
@@ -158,7 +158,7 @@ public :
     fMotherMass(other.GetMotherMass())
 	{
 		auto other_masses = other.GetMasses();
-		for(size_t i=0;i<nparticles;i++)
+		for(std::size_t i=0;i<nparticles;i++)
 			fMasses[i]= other_masses[i];
 
 	}
@@ -172,7 +172,7 @@ public :
 	    fMotherMass(other.GetMotherMass())
 	{
 		auto other_masses = other.GetMasses();
-		for(size_t i=0;i<nparticles;i++)
+		for(std::size_t i=0;i<nparticles;i++)
 				fMasses[i] = other_masses[i];
 
 	}
@@ -188,7 +188,7 @@ public :
     fMotherMass(other.GetMotherMass())
 	{
 		auto other_masses = other.GetMasses();
-		for(size_t i=0;i<nparticles;i++)
+		for(std::size_t i=0;i<nparticles;i++)
 						fMasses[i]= other_masses[i];
 	}
 
@@ -202,13 +202,13 @@ public :
     fMotherMass(motherMass)
 	{
 
-		for(size_t i=0;i<nparticles;i++)
+		for(std::size_t i=0;i<nparticles;i++)
 			fMasses[i] = daughtersMasses[i];
 
 		//compute maximum weight
 		double  ECM = fMotherMass;
 
-		for (size_t n = 0; n < nparticles; n++)
+		for (std::size_t n = 0; n < nparticles; n++)
 		{
 			ECM -= fMasses[n];
 		}
@@ -217,7 +217,7 @@ public :
 		double emmin  = 0.0;
 		double wtmax  = 1.0;
 
-		for (size_t n = 1; n < nparticles; n++)
+		for (std::size_t n = 1; n < nparticles; n++)
 		{
 			emmin  += fMasses[n - 1];
 			emmax += fMasses[n];
@@ -226,7 +226,7 @@ public :
 
 		fMaxWeight = 1.0 / wtmax;
 
-		size_t n = hydra_thrust::distance(first, last);
+		std::size_t n = hydra_thrust::distance(first, last);
 		fDecays.resize(n);
 		hydra_thrust::copy(first, last, fDecays.begin());
 	}
@@ -250,7 +250,7 @@ public :
 	 }
 
 	 hydra::Range<iterator>
-	 Unweight(size_t seed=0x180ec6d33cfd0aba);
+	 Unweight(std::size_t seed=0x180ec6d33cfd0aba);
 
 	 template<typename Functor>
 	 typename std::enable_if<
@@ -258,7 +258,7 @@ public :
  	 detail::is_hydra_lambda<Functor>::value  ||
  	 detail::is_hydra_composite_functor<Functor>::value ,
 	 hydra::Range<iterator>>::type
-	 Unweight( Functor  const& functor, double weight=-1.0, size_t seed=0x39abdc4529b1661c);
+	 Unweight( Functor  const& functor, double weight=-1.0, std::size_t seed=0x39abdc4529b1661c);
 
 	/**
 	 * Add a decay to the container, increasing
@@ -271,7 +271,7 @@ public :
 	}
 
 
-	reference GetEntry( size_t i )
+	reference GetEntry( std::size_t i )
 	{
 		return fDecays[i];
 	}
@@ -305,7 +305,7 @@ public :
 		fDecays.push_back( particles );
 	}
 
-	void resize(size_t size)
+	void resize(std::size_t size)
 	{
 		fDecays.resize(size);
 	}
@@ -320,17 +320,17 @@ public :
 		fDecays.shrink_to_fit();
 	}
 
-	void reserve(size_t size)
+	void reserve(std::size_t size)
 	{
 		fDecays.reserve(size);
 	}
 
-	size_t size() const
+	std::size_t size() const
 	{
 		return fDecays.size();
 	}
 
-	size_t capacity() const
+	std::size_t capacity() const
 	{
 		return fDecays.capacity();
 	}
@@ -355,7 +355,7 @@ public :
 		return fDecays.insert(position, x);
 	}
 
-	void insert(iterator position, size_t n, const value_type &x)
+	void insert(iterator position, std::size_t n, const value_type &x)
 	{
 		fDecays.insert(position,n,x );
 	}
@@ -548,12 +548,12 @@ public :
 
 	//sub-script operators
 
-	inline	reference operator[](size_t n)
+	inline	reference operator[](std::size_t n)
 	{
 		return fDecays.begin()[n] ;
 	}
 
-	inline const_reference operator[](size_t n) const
+	inline const_reference operator[](std::size_t n) const
 	{
 		return  fDecays.cbegin()[n];
 	}

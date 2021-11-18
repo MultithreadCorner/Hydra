@@ -50,7 +50,7 @@
 
 namespace hydra {
 
-template<  size_t N, typename  BACKEND>
+template<  std::size_t N, typename  BACKEND>
 class  GenzMalikQuadrature;
 
 /**
@@ -62,7 +62,7 @@ class  GenzMalikQuadrature;
  * A. C. Genz and A. A. Malik, "An adaptive algorithm for numeric integration over an N-dimensional rectangular region," J. Comput. Appl. Math. 6 (4), 295–302 (1980).
  * J. Berntsen, T. O. Espelid, and A. Genz, "An adaptive algorithm for the approximate calculation of multiple integrals," ACM Trans. Math. Soft. 17 (4), 437–451 (1991)
  */
-template<  size_t N, hydra::detail::Backend  BACKEND>
+template<  std::size_t N, hydra::detail::Backend  BACKEND>
 class  GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND> >:
 public Integral<typename std::enable_if< (N>1),GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>>::type  >
 {
@@ -97,7 +97,7 @@ public:
 	 */
 	GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit,
 			std::array<GReal_t,N> const& UpperLimit,
-			std::array<size_t, N> const& grid,
+			std::array<std::size_t, N> const& grid,
 			GReal_t fraction=0.25,
 			GReal_t relative_error=0.001):
 				fRelativeError(relative_error),
@@ -117,7 +117,7 @@ public:
 	 */
 	GenzMalikQuadrature(std::array<GReal_t,N> const& LowerLimit,
 			std::array<GReal_t,N> const& UpperLimit,
-			size_t nboxes=10,
+			std::size_t nboxes=10,
 			GReal_t fraction=0.25,
 			GReal_t relative_error=0.001):
 				fRelativeError(relative_error),
@@ -134,7 +134,7 @@ public:
 	 */
 	GenzMalikQuadrature(const GReal_t (&LowerLimit)[N],
 			const GReal_t (&UpperLimit)[N],
-			const size_t (&grid)[N],
+			const std::size_t (&grid)[N],
 			GReal_t fraction=0.25,
 			GReal_t relative_error=0.001):
 				fRelativeError(relative_error),
@@ -152,7 +152,7 @@ public:
 	 */
 	GenzMalikQuadrature(const GReal_t (&LowerLimit)[N],
 			const GReal_t (&UpperLimit)[N],
-			size_t nboxes=10,
+			std::size_t nboxes=10,
 			GReal_t fraction=0.25,
 			GReal_t relative_error=0.001):
 				fRelativeError(relative_error),
@@ -237,23 +237,23 @@ private:
 	std::pair<GReal_t, GReal_t> CalculateIntegral( Vector const& BoxList);
 
 	void SetGeometry(std::array<GReal_t,N> const& LowerLimit,
-			         std::array<GReal_t,N> const& UpperLimit, std::array<size_t, N> const& grid);
+			         std::array<GReal_t,N> const& UpperLimit, std::array<std::size_t, N> const& grid);
 
 	void SetGeometry(std::array<GReal_t,N> const& LowerLimit,
-			         std::array<GReal_t,N> const& UpperLimit, size_t nboxes=10);
+			         std::array<GReal_t,N> const& UpperLimit, std::size_t nboxes=10);
 
 	void SetGeometry(const GReal_t (&LowerLimit)[N],
-					 const GReal_t (&UpperLimit)[N], const size_t (&grid)[N]);
+					 const GReal_t (&UpperLimit)[N], const std::size_t (&grid)[N]);
 
 	void SetGeometry(const GReal_t (&LowerLimit)[N],
-			         const GReal_t (&UpperLimit)[N], size_t nboxes=10);
+			         const GReal_t (&UpperLimit)[N], std::size_t nboxes=10);
 
 	template<typename Vector>
-	void SplitBoxes( Vector& boxes, size_t n );
+	void SplitBoxes( Vector& boxes, std::size_t n );
 
-	void GetGrid( size_t nboxes , std::array<size_t, N>& grid )
+	void GetGrid( std::size_t nboxes , std::array<std::size_t, N>& grid )
 	{
-		size_t ndivsion = std::llround( std::pow( 2.0, std::log2(double(nboxes))/double(N) ) );
+		std::size_t ndivsion = std::llround( std::pow( 2.0, std::log2(double(nboxes))/double(N) ) );
         std::cout << "ndivision :" << ndivsion<< std::endl;
 		std::fill_n( grid.begin(), N,  ndivsion );
 

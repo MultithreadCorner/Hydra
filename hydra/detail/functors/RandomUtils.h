@@ -49,7 +49,7 @@ namespace detail {
 template<typename GRND, typename FUNCTOR>
 struct RndCDF{
 
-	RndCDF(FUNCTOR const& functor, size_t seed):
+	RndCDF(FUNCTOR const& functor, std::size_t seed):
 		fSeed(seed),
 		fFunctor(functor)
 	{}
@@ -60,7 +60,7 @@ struct RndCDF{
 	{}
 
 	__hydra_host__ __hydra_device__
-	inline GReal_t operator()(size_t index)
+	inline GReal_t operator()(std::size_t index)
 	{
 		GRND randEng(fSeed);
 		randEng.discard(index);
@@ -69,7 +69,7 @@ struct RndCDF{
 		return fFunctor(x);
 	}
 
-	size_t fSeed;
+	std::size_t fSeed;
 	FUNCTOR fFunctor;
 };
 
@@ -95,7 +95,7 @@ struct RndGauss{
 	 *	```
 	 *
 	 */
-	RndGauss(size_t seed, T mean, T  sigma):
+	RndGauss(std::size_t seed, T mean, T  sigma):
 		fSeed(seed),
 		fMean(mean),
 		fSigma(sigma)
@@ -108,7 +108,7 @@ struct RndGauss{
 	{}
 
 	__hydra_host__ __hydra_device__
-	inline T operator()(size_t index)
+	inline T operator()(std::size_t index)
 	{
 		GRND randEng(fSeed);
 		randEng.discard(index);
@@ -118,7 +118,7 @@ struct RndGauss{
 		return x;
 	}
 
-	size_t fSeed;
+	std::size_t fSeed;
 	T fMean;
 	T fSigma;
 };
@@ -128,7 +128,7 @@ struct RndUniform{
 	typedef typename std::conditional<std::is_integral<T>::value, hydra_thrust::uniform_int_distribution<T>,
 			hydra_thrust::uniform_real_distribution<T>>::type distribution_t;
 
-	RndUniform(size_t seed, T min, T max):
+	RndUniform(std::size_t seed, T min, T max):
 		fSeed(seed),
 		fMin(min),
 		fMax(max)
@@ -142,7 +142,7 @@ struct RndUniform{
 
 
 	__hydra_host__ __hydra_device__
-	inline T operator()(size_t index)
+	inline T operator()(std::size_t index)
 	{
 		GRND randEng(fSeed);
 		randEng.discard(index);
@@ -150,7 +150,7 @@ struct RndUniform{
 		return dist(randEng);
 	}
 
-	size_t fSeed;
+	std::size_t fSeed;
 	T fMin;
 	T fMax;
 };
@@ -159,7 +159,7 @@ struct RndUniform{
 template<typename T,typename GRND>
 struct RndExp{
 
-	RndExp(size_t seed, T tau):
+	RndExp(std::size_t seed, T tau):
 		fSeed(seed),
 		fTau(tau)
 	{}
@@ -170,7 +170,7 @@ struct RndExp{
 	{}
 
 	__hydra_host__ __hydra_device__
-	inline T operator()(size_t index)
+	inline T operator()(std::size_t index)
 	{
 		GRND randEng(fSeed);
 		randEng.discard(index);
@@ -178,14 +178,14 @@ struct RndExp{
 		return  -fTau*log(dist(randEng));
 	}
 
-	size_t fSeed;
+	std::size_t fSeed;
 	T fTau;
 };
 
 template<typename T,typename GRND>
 struct RndBreitWigner{
 
-	RndBreitWigner(size_t seed, T mean, T gamma):
+	RndBreitWigner(std::size_t seed, T mean, T gamma):
 		fSeed(seed),
 		fMean(mean),
 		fGamma(gamma)
@@ -199,7 +199,7 @@ struct RndBreitWigner{
 	{}
 
 	__hydra_host__ __hydra_device__
-	inline T operator()(size_t index)
+	inline T operator()(std::size_t index)
 	{
 		GRND randEng(fSeed);
 		randEng.discard(index);
@@ -210,7 +210,7 @@ struct RndBreitWigner{
 		return  x;
 	}
 
-	size_t fSeed;
+	std::size_t fSeed;
 	T fMean;
 	T fGamma;
 
@@ -220,7 +220,7 @@ struct RndBreitWigner{
 template<typename T, typename Iterator,typename GRND>
 struct RndFlag{
 
-	RndFlag(const size_t seed, const size_t jump, const T max_value, Iterator values ):
+	RndFlag(const std::size_t seed, const std::size_t jump, const T max_value, Iterator values ):
 		fJump(jump ),
 		fSeed(seed),
 		fValMax(max_value),
@@ -236,7 +236,7 @@ struct RndFlag{
 	{}
 
 	__hydra_host__ __hydra_device__
-	inline GBool_t operator()(size_t index)
+	inline GBool_t operator()(std::size_t index)
 	{
 		GRND randEng(fSeed);
 		randEng.discard(fJump+index);
@@ -245,8 +245,8 @@ struct RndFlag{
 		return (dist(randEng) < hydra_thrust::raw_reference_cast( fVals[index] )) ;
 	}
 
-	size_t  fJump;
-	size_t  fSeed;
+	std::size_t  fJump;
+	std::size_t  fSeed;
 	T fValMax;
 	Iterator fVals;
 };
@@ -255,7 +255,7 @@ struct RndFlag{
 template<typename T, typename Iterator,typename Function, typename GRND>
 struct RndFunctionFlag{
 
-	RndFunctionFlag(const size_t seed, const size_t jump, const T max_value, Iterator values, Function ):
+	RndFunctionFlag(const std::size_t seed, const std::size_t jump, const T max_value, Iterator values, Function ):
 		fJump(jump ),
 		fSeed(seed),
 		fValMax(max_value),
@@ -271,7 +271,7 @@ struct RndFunctionFlag{
 	{}
 
 	__hydra_host__ __hydra_device__
-	inline GBool_t operator()(size_t index)
+	inline GBool_t operator()(std::size_t index)
 	{
 		GRND randEng(fSeed);
 		randEng.discard(fJump+index);
@@ -280,23 +280,23 @@ struct RndFunctionFlag{
 		return (dist(randEng) < hydra_thrust::raw_reference_cast( fVals[index] )) ;
 	}
 
-	size_t  fJump;
-	size_t  fSeed;
+	std::size_t  fJump;
+	std::size_t  fSeed;
 	T fValMax;
 	Iterator fVals;
 };
 
-template<typename T,typename GRND, typename FUNCTOR, size_t N>
+template<typename T,typename GRND, typename FUNCTOR, std::size_t N>
 struct RndTrial{
 
-	RndTrial(size_t seed, const size_t jump, FUNCTOR const& functor,
+	RndTrial(std::size_t seed, const std::size_t jump, FUNCTOR const& functor,
 			std::array<T,N>const& min,
 			std::array<T,N>const& max):
 				fFunctor(functor),
 				fSeed(seed),
 				fJump(jump)
 	{
-		for(size_t i=0; i<N; i++){
+		for(std::size_t i=0; i<N; i++){
 			fMin[i] = min[i];
 			fMax[i] = max[i];
 		}
@@ -308,7 +308,7 @@ struct RndTrial{
 		fSeed(other.fSeed),
 		fJump(other.fJump)
 	{
-		for(size_t i=0; i<N; i++){
+		for(std::size_t i=0; i<N; i++){
 			fMin[i] = other.fMin[i];
 			fMax[i] = other.fMax[i];
 		}
@@ -317,7 +317,7 @@ struct RndTrial{
 
 	template<typename Tuple>
 	__hydra_host__ __hydra_device__
-	inline T operator()(size_t index, Tuple t)
+	inline T operator()(std::size_t index, Tuple t)
 	{
 		T x[N];
 		//detail::set_ptrs_to_tuple(t, &x[0]);
@@ -325,7 +325,7 @@ struct RndTrial{
 		GRND randEng(fSeed);
 		randEng.discard(index+fJump);
 
-		for (size_t j = 0; j < N; j++)
+		for (std::size_t j = 0; j < N; j++)
 		{
 			hydra_thrust::uniform_real_distribution<T>  dist(fMin[j], fMax[j]);
 			x[j] = dist(randEng);
@@ -337,8 +337,8 @@ struct RndTrial{
 	}
 
 	FUNCTOR fFunctor;
-	size_t  fSeed;
-	size_t  fJump;
+	std::size_t  fSeed;
+	std::size_t  fJump;
 	T fMin[N];
 	T fMax[N];
 };
@@ -347,7 +347,7 @@ struct RndTrial{
 template<typename T,typename GRND, typename FUNCTOR>
 struct RndTrial<T,GRND, FUNCTOR, 1>{
 
-	RndTrial(size_t seed, const size_t jump, FUNCTOR const& functor, GReal_t min, GReal_t max):
+	RndTrial(std::size_t seed, const std::size_t jump, FUNCTOR const& functor, GReal_t min, GReal_t max):
 		fFunctor(functor),
 		fSeed(seed),
 		fJump(jump),
@@ -366,7 +366,7 @@ struct RndTrial<T,GRND, FUNCTOR, 1>{
 
 
 	__hydra_host__ __hydra_device__
-	inline GReal_t operator()(size_t index, T& t)
+	inline GReal_t operator()(std::size_t index, T& t)
 	{
 
 		GRND randEng(fSeed);
@@ -378,8 +378,8 @@ struct RndTrial<T,GRND, FUNCTOR, 1>{
 	}
 
 	FUNCTOR fFunctor;
-	size_t  fSeed;
-	size_t  fJump;
+	std::size_t  fSeed;
+	std::size_t  fJump;
 	GReal_t fMin;
 	GReal_t fMax;
 };

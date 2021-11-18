@@ -38,7 +38,7 @@ auto eval(hydra::detail::BackendPolicy<BACKEND>, Functor const& functor, Iterato
 
 	typedef	typename hydra::detail::BackendPolicy<BACKEND>::template
 			container<typename Functor::return_type> container;
-	size_t size = hydra_thrust::distance(begin, end) ;
+	std::size_t size = hydra_thrust::distance(begin, end) ;
 	container Table( size );
 
 	//auto fBegin = hydra_thrust::make_zip_iterator(hydra_thrust::make_tuple(begin) );
@@ -58,7 +58,7 @@ auto eval(hydra::detail::BackendPolicy<BACKEND>, hydra_thrust::tuple<Functors...
 	typedef multivector<hydra_thrust::tuple<typename Functors::return_type ...>,
 			hydra::detail::BackendPolicy<BACKEND>> container;
 
-	size_t size = hydra_thrust::distance(begin, end) ;
+	std::size_t size = hydra_thrust::distance(begin, end) ;
 	container Table( size );
 
 
@@ -78,7 +78,7 @@ container<typename Functor::return_type>
 			container<typename Functor::return_type> container;
 
 
-	size_t size = hydra_thrust::distance(begin, end) ;
+	std::size_t size = hydra_thrust::distance(begin, end) ;
 	container Table( size );
 
 	auto fBegin = hydra_thrust::make_zip_iterator(hydra_thrust::make_tuple(begin, begins...) );
@@ -100,7 +100,7 @@ auto eval(hydra::detail::BackendPolicy<BACKEND>, hydra_thrust::tuple<Functors...
 	typedef multivector<hydra_thrust::tuple<typename Functors::return_type ...>
 	, hydra::detail::BackendPolicy<BACKEND> > container;
 
-	size_t size = hydra_thrust::distance(begin, end) ;
+	std::size_t size = hydra_thrust::distance(begin, end) ;
 	container Table( size );
 
 	auto fBegin = hydra_thrust::make_zip_iterator(hydra_thrust::make_tuple(begin, begins...) );

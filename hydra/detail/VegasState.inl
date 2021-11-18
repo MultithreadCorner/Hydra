@@ -32,7 +32,7 @@
 
 namespace hydra {
 
-template<size_t N , hydra::detail::Backend BACKEND>
+template<std::size_t N , hydra::detail::Backend BACKEND>
 VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::VegasState(std::array<GReal_t,N> const& xlower,
 		std::array<GReal_t,N> const& xupper) :
 		fTrainingIterations(1),
@@ -78,7 +78,7 @@ VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::VegasState(std::array<GRea
 		fXLow(N)
 {
 
-	for(size_t i=0; i<N; i++)
+	for(std::size_t i=0; i<N; i++)
 	{
 		fXUp[i]=xupper[i];
 		fXLow[i]=xlower[i];
@@ -90,7 +90,7 @@ VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::VegasState(std::array<GRea
 }
 
 
-template<size_t N , hydra::detail::Backend BACKEND>
+template<std::size_t N , hydra::detail::Backend BACKEND>
 VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::VegasState(const GReal_t xlower[N], const GReal_t xupper[N]) :
 		fTrainingIterations(1),
 		fTrainedGridFrozen(0),
@@ -135,7 +135,7 @@ VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::VegasState(const GReal_t x
 		fXLow(N)
 {
 
-	for(size_t i=0; i<N; i++)
+	for(std::size_t i=0; i<N; i++)
 	{
 		fXUp[i]=xupper[i];
 		fXLow[i]=xlower[i];
@@ -147,7 +147,7 @@ VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::VegasState(const GReal_t x
 }
 
 
-template<size_t N , hydra::detail::Backend BACKEND>
+template<std::size_t N , hydra::detail::Backend BACKEND>
 VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::VegasState(VegasState<N,hydra::detail::BackendPolicy<BACKEND>> const& other) :
         fTrainingIterations(other.GetTrainingIterations()),
         fTrainedGridFrozen(other.IsTrainedGridFrozen()),
@@ -194,7 +194,7 @@ VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::VegasState(VegasState<N,hy
 		//fBackendDistribution(other.GetBackendDistribution()),
 		fOStream(std::cout) {}
 
-template<size_t N , hydra::detail::Backend BACKEND>
+template<std::size_t N , hydra::detail::Backend BACKEND>
 template<hydra::detail::Backend BACKEND2>
 VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::
 VegasState( VegasState<N, hydra::detail::BackendPolicy <BACKEND2>> const& other) :
@@ -245,7 +245,7 @@ VegasState( VegasState<N, hydra::detail::BackendPolicy <BACKEND2>> const& other)
 
 
 
-template<size_t N , hydra::detail::Backend BACKEND>
+template<std::size_t N , hydra::detail::Backend BACKEND>
 VegasState<N,hydra::detail::BackendPolicy<BACKEND>>&
 VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::operator=(VegasState<N,hydra::detail::BackendPolicy<BACKEND>> const& other)
 {
@@ -298,7 +298,7 @@ VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::operator=(VegasState<N,hyd
 
 }
 
-template<size_t N , hydra::detail::Backend BACKEND>
+template<std::size_t N , hydra::detail::Backend BACKEND>
 template<hydra::detail::Backend BACKEND2>
 VegasState<N,hydra::detail::BackendPolicy<BACKEND>>&
 VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::operator=( VegasState<N, hydra::detail::BackendPolicy <BACKEND2>> const& other)
@@ -355,7 +355,7 @@ VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::operator=( VegasState<N, h
 
 
 
-template<size_t N , hydra::detail::Backend BACKEND>
+template<std::size_t N , hydra::detail::Backend BACKEND>
 void VegasState<N, hydra::detail::BackendPolicy<BACKEND>>::ClearStoredIterations()
 {
 	fIterationResult.clear();
