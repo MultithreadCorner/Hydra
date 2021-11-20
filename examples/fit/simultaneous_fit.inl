@@ -133,22 +133,22 @@ int main(int argv, char** argc) {
 
 	{ //device scope
 
-		auto filter_entries = [min, max] __hydra_dual__ (double x){
-			return bool (x >= min) && (x< max);
-		};
+	auto filter_entries = [min, max] __hydra_dual__ (double x){
+		return bool (x >= min) && (x< max);
+	};
 
-		//make datasets
-		// x in omp memory space
-		auto gauss_x_range = hydra::random_range( hydra::Gaussian<double>(mean, zsigma), 0xd73ad43c3, nentries);
+	//make datasets
+	// x in omp memory space
+	auto gauss_x_range = hydra::random_range( hydra::Gaussian<double>(mean, xsigma), 0xd73ad43c3, nentries);
 
-		auto xdata = hydra::omp::vector<double>(nentries);
+	auto xdata = hydra::omp::vector<double>(nentries);
 
         hydra::copy(gauss_x_range,  xdata);
 
         auto xrange = hydra::filter(xdata, filter_entries);
 
         // y in host memory space
-        auto gauss_y_range = hydra::random_range(hydra::Gaussian<double>(mean, zsigma), 0xff4e48b27, nentries);
+        auto gauss_y_range = hydra::random_range(hydra::Gaussian<double>(mean, ysigma), 0xff4e48b27, nentries);
 
         auto ydata= hydra::tbb::vector<double>(nentries);
 
