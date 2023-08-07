@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/copy_if.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
@@ -21,9 +23,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/select_system.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/copy_if.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 __hydra_thrust_exec_check_disable__
 template<typename DerivedPolicy,
@@ -104,6 +104,4 @@ template<typename InputIterator1,
   return hydra_thrust::copy_if(select_system(system1,system2,system3), first, last, stencil, result, pred);
 } // end copy_if()
 
-
-} // end hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

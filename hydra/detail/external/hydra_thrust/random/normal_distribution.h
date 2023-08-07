@@ -27,8 +27,7 @@
 #include <hydra/detail/external/hydra_thrust/random/detail/normal_distribution_base.h>
 #include <iostream>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace random
 {
@@ -269,7 +268,7 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 
 using random::normal_distribution;
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/random/detail/normal_distribution.inl>
 

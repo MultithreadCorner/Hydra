@@ -23,11 +23,10 @@
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/execution_policy.h>
+#include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/hydra_thrust/pair.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /*! \addtogroup stream_compaction
  *  \{
@@ -53,9 +52,9 @@ namespace hydra_thrust
  *  \return The end of the unique range <tt>[first, new_last)</tt>.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator is mutable,
- *          and \p ForwardIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
+ *          and \p ForwardIterator's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
  *
  *  The following code snippet demonstrates how to use \p unique to
  *  compact a sequence of numbers to remove consecutive duplicates using the \p hydra_thrust::host execution policy
@@ -72,7 +71,7 @@ namespace hydra_thrust
  *  // Values beyond new_end are unspecified.
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/unique.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/unique
  *  \see unique_copy
  */
 template<typename DerivedPolicy,
@@ -98,9 +97,9 @@ ForwardIterator unique(const hydra_thrust::detail::execution_policy_base<Derived
  *  \param last  The end of the input range.
  *  \return The end of the unique range <tt>[first, new_last)</tt>.
  *
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator is mutable,
- *          and \p ForwardIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
+ *          and \p ForwardIterator's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
  *
  *  The following code snippet demonstrates how to use \p unique to
  *  compact a sequence of numbers to remove consecutive duplicates.
@@ -115,7 +114,7 @@ ForwardIterator unique(const hydra_thrust::detail::execution_policy_base<Derived
  *  // Values beyond new_end are unspecified.
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/unique.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/unique
  *  \see unique_copy
  */
 template<typename ForwardIterator>
@@ -144,10 +143,10 @@ ForwardIterator unique(ForwardIterator first,
  *  \return The end of the unique range <tt>[first, new_last)</tt>
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator is mutable,
  *          and \p ForwardIterator's \c value_type is convertible to \p BinaryPredicate's \c first_argument_type and to \p BinaryPredicate's \c second_argument_type.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p unique to
  *  compact a sequence of numbers to remove consecutive duplicates using the \p hydra_thrust::host execution policy
@@ -164,7 +163,7 @@ ForwardIterator unique(ForwardIterator first,
  *  // Values beyond new_end are unspecified.
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/unique.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/unique
  *  \see unique_copy
  */
 template<typename DerivedPolicy,
@@ -194,10 +193,10 @@ ForwardIterator unique(const hydra_thrust::detail::execution_policy_base<Derived
  *  \param binary_pred  The binary predicate used to determine equality.
  *  \return The end of the unique range <tt>[first, new_last)</tt>
  *
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator is mutable,
  *          and \p ForwardIterator's \c value_type is convertible to \p BinaryPredicate's \c first_argument_type and to \p BinaryPredicate's \c second_argument_type.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p unique to
  *  compact a sequence of numbers to remove consecutive duplicates.
@@ -212,7 +211,7 @@ ForwardIterator unique(const hydra_thrust::detail::execution_policy_base<Derived
  *  // Values beyond new_end are unspecified.
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/unique.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/unique
  *  \see unique_copy
  */
 template<typename ForwardIterator,
@@ -248,9 +247,9 @@ ForwardIterator unique(ForwardIterator first,
  *  \return The end of the unique range <tt>[result, result_end)</tt>.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
- *          and \p InputIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
+ *          and \p InputIterator's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a> and
  *          and \p InputIterator's \c value_type is convertible to \c OutputIterator's \c value_type.
  *
  *  \pre The range <tt>[first,last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap.
@@ -272,7 +271,7 @@ ForwardIterator unique(ForwardIterator first,
  *  \endcode
  *
  *  \see unique
- *  \see http://www.sgi.com/tech/stl/unique_copy.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/unique_copy
  */
 template<typename DerivedPolicy,
          typename InputIterator,
@@ -306,9 +305,9 @@ OutputIterator unique_copy(const hydra_thrust::detail::execution_policy_base<Der
  *  \param result The beginning of the output range.
  *  \return The end of the unique range <tt>[result, result_end)</tt>.
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
- *          and \p InputIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
+ *          and \p InputIterator's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a> and
  *          and \p InputIterator's \c value_type is convertible to \c OutputIterator's \c value_type.
  *
  *  \pre The range <tt>[first,last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap.
@@ -328,7 +327,7 @@ OutputIterator unique_copy(const hydra_thrust::detail::execution_policy_base<Der
  *  \endcode
  *
  *  \see unique
- *  \see http://www.sgi.com/tech/stl/unique_copy.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/unique_copy
  */
 template<typename InputIterator,
          typename OutputIterator>
@@ -355,11 +354,11 @@ OutputIterator unique_copy(InputIterator first,
  *  \return The end of the unique range <tt>[result, result_end)</tt>.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
- *          and \p InputIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
+ *          and \p InputIterator's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a> and
  *          and \p InputIterator's \c value_type is convertible to \c OutputIterator's \c value_type.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
  *
  *  \pre The range <tt>[first,last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap.
  *
@@ -380,7 +379,7 @@ OutputIterator unique_copy(InputIterator first,
  *  \endcode
  *
  *  \see unique
- *  \see http://www.sgi.com/tech/stl/unique_copy.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/unique_copy
  */
 template<typename DerivedPolicy,
          typename InputIterator,
@@ -408,11 +407,11 @@ OutputIterator unique_copy(const hydra_thrust::detail::execution_policy_base<Der
  *  \param binary_pred  The binary predicate used to determine equality.
  *  \return The end of the unique range <tt>[result, result_end)</tt>.
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
- *          and \p InputIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
+ *          and \p InputIterator's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a> and
  *          and \p InputIterator's \c value_type is convertible to \c OutputIterator's \c value_type.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
  *
  *  \pre The range <tt>[first,last)</tt> and the range <tt>[result, result + (last - first))</tt> shall not overlap.
  *
@@ -431,7 +430,7 @@ OutputIterator unique_copy(const hydra_thrust::detail::execution_policy_base<Der
  *  \endcode
  *
  *  \see unique
- *  \see http://www.sgi.com/tech/stl/unique_copy.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/unique_copy
  */
 template<typename InputIterator,
          typename OutputIterator,
@@ -465,10 +464,10 @@ OutputIterator unique_copy(InputIterator first,
  *  \return A pair of iterators at end of the ranges <tt>[key_first, keys_new_last)</tt> and <tt>[values_first, values_new_last)</tt>.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam ForwardIterator1 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator1 is mutable,
- *          and \p ForwardIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
- *  \tparam ForwardIterator2 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *          and \p ForwardIterator's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
+ *  \tparam ForwardIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator2 is mutable.
  *
  *  \pre The range <tt>[keys_first, keys_last)</tt> and the range <tt>[values_first, values_first + (keys_last - keys_first))</tt> shall not overlap.
@@ -526,10 +525,10 @@ __host__ __device__
  *  \param values_first The beginning of the value range.
  *  \return A pair of iterators at end of the ranges <tt>[key_first, keys_new_last)</tt> and <tt>[values_first, values_new_last)</tt>.
  *
- *  \tparam ForwardIterator1 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator1 is mutable,
- *          and \p ForwardIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
- *  \tparam ForwardIterator2 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *          and \p ForwardIterator's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
+ *  \tparam ForwardIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator2 is mutable.
  *
  *  \pre The range <tt>[keys_first, keys_last)</tt> and the range <tt>[values_first, values_first + (keys_last - keys_first))</tt> shall not overlap.
@@ -583,12 +582,12 @@ template<typename ForwardIterator1,
  *  \return The end of the unique range <tt>[first, new_last)</tt>.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam ForwardIterator1 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator1 is mutable,
- *          and \p ForwardIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
- *  \tparam ForwardIterator2 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *          and \p ForwardIterator's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
+ *  \tparam ForwardIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator2 is mutable.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
  *
  *  \pre The range <tt>[keys_first, keys_last)</tt> and the range <tt>[values_first, values_first + (keys_last - keys_first))</tt> shall not overlap.
  *
@@ -645,12 +644,12 @@ __host__ __device__
  *  \param binary_pred  The binary predicate used to determine equality.
  *  \return The end of the unique range <tt>[first, new_last)</tt>.
  *
- *  \tparam ForwardIterator1 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator1 is mutable,
- *          and \p ForwardIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
- *  \tparam ForwardIterator2 is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *          and \p ForwardIterator's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
+ *  \tparam ForwardIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator2 is mutable.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
  *
  *  \pre The range <tt>[keys_first, keys_last)</tt> and the range <tt>[values_first, values_first + (keys_last - keys_first))</tt> shall not overlap.
  *
@@ -707,11 +706,11 @@ template<typename ForwardIterator1,
  *  \return A pair of iterators at end of the ranges <tt>[keys_result, keys_result_last)</tt> and <tt>[values_result, values_result_last)</tt>.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a> and
  *          and \p InputIterator1's \c value_type is convertible to \c OutputIterator1's \c value_type.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a> and
  *          and \p InputIterator2's \c value_type is convertible to \c OutputIterator2's \c value_type.
  *
  *  \pre The input ranges shall not overlap either output range.
@@ -773,11 +772,11 @@ __host__ __device__
  *  \param values_result The beginning of the output value range.
  *  \return A pair of iterators at end of the ranges <tt>[keys_result, keys_result_last)</tt> and <tt>[values_result, values_result_last)</tt>.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a> and
  *          and \p InputIterator1's \c value_type is convertible to \c OutputIterator1's \c value_type.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a> and
  *          and \p InputIterator2's \c value_type is convertible to \c OutputIterator2's \c value_type.
  *
  *  \pre The input ranges shall not overlap either output range.
@@ -839,13 +838,13 @@ template<typename InputIterator1,
  *  \return A pair of iterators at end of the ranges <tt>[keys_result, keys_result_last)</tt> and <tt>[values_result, values_result_last)</tt>.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a> and
  *          and \p InputIterator1's \c value_type is convertible to \c OutputIterator1's \c value_type.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a> and
  *          and \p InputIterator2's \c value_type is convertible to \c OutputIterator2's \c value_type.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
  *
  *  \pre The input ranges shall not overlap either output range.
  *
@@ -910,13 +909,13 @@ __host__ __device__
  *  \param binary_pred  The binary predicate used to determine equality.
  *  \return A pair of iterators at end of the ranges <tt>[keys_result, keys_result_last)</tt> and <tt>[values_result, values_result_last)</tt>.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a> and
  *          and \p InputIterator1's \c value_type is convertible to \c OutputIterator1's \c value_type.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a> and
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a> and
  *          and \p InputIterator2's \c value_type is convertible to \c OutputIterator2's \c value_type.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
  *
  *  \pre The input ranges shall not overlap either output range.
  *
@@ -958,11 +957,184 @@ template<typename InputIterator1,
                      BinaryPredicate binary_pred);
 
 
+/*! \p unique_count counts runs of equal elements in the range <tt>[first, last)</tt>
+ *  with the same value, 
+ *
+ *  This version of \p unique_count uses the function object \p binary_pred to test for equality.
+ *
+ *  The algorithm's execution is parallelized as determined by \p exec.
+ *
+ *  \param exec The execution policy to use for parallelization.
+ *  \param first The beginning of the input range.
+ *  \param last  The end of the input range.
+ *  \param binary_pred  The binary predicate used to determine equality.
+ *  \return The number of runs of equal elements in <tt>[first, new_last)</tt>
+ *
+ *  \tparam DerivedPolicy The name of the derived execution policy.
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
+ *          and \p ForwardIterator's \c value_type is convertible to \p BinaryPredicate's \c first_argument_type and to \p BinaryPredicate's \c second_argument_type.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
+ *
+ *  The following code snippet demonstrates how to use \p unique_count to
+ *  determine a number of runs of equal elements using the \p hydra_thrust::host execution policy
+ *  for parallelization:
+ *
+ *  \code
+ *  #include <hydra/detail/external/hydra_thrust/unique.h>
+ *  #include <hydra/detail/external/hydra_thrust/execution_policy.h>
+ *  ...
+ *  const int N = 7;
+ *  int A[N] = {1, 3, 3, 3, 2, 2, 1};
+ *  int count = hydra_thrust::unique_count(hydra_thrust::host, A, A + N, hydra_thrust::equal_to<int>());
+ *  // count is now 4
+ *  \endcode
+ *
+ *  \see unique_copy
+ *  \see unique_by_key_copy
+ *  \see reduce_by_key_copy
+ */
+template<typename DerivedPolicy,
+         typename ForwardIterator,
+         typename BinaryPredicate>
+__host__ __device__
+  typename hydra_thrust::iterator_traits<ForwardIterator>::difference_type
+    unique_count(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                 ForwardIterator first,
+                 ForwardIterator last,
+                 BinaryPredicate binary_pred);
+
+
+/*! \p unique_count counts runs of equal elements in the range <tt>[first, last)</tt>
+ *  with the same value, 
+ *
+ *  This version of \p unique_count uses \c operator== to test for equality.
+ *
+ *  The algorithm's execution is parallelized as determined by \p exec.
+ *
+ *  \param exec The execution policy to use for parallelization.
+ *  \param first The beginning of the input range.
+ *  \param last  The end of the input range.
+ *  \param binary_pred  The binary predicate used to determine equality.
+ *  \return The number of runs of equal elements in <tt>[first, new_last)</tt>
+ *
+ *  \tparam DerivedPolicy The name of the derived execution policy.
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
+ *          and \p ForwardIterator's \c value_type is convertible to \p BinaryPredicate's \c first_argument_type and to \p BinaryPredicate's \c second_argument_type.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
+ *
+ *  The following code snippet demonstrates how to use \p unique_count to
+ *  determine the number of runs of equal elements using the \p hydra_thrust::host execution policy
+ *  for parallelization:
+ *
+ *  \code
+ *  #include <hydra/detail/external/hydra_thrust/unique.h>
+ *  #include <hydra/detail/external/hydra_thrust/execution_policy.h>
+ *  ...
+ *  const int N = 7;
+ *  int A[N] = {1, 3, 3, 3, 2, 2, 1};
+ *  int count = hydra_thrust::unique_count(hydra_thrust::host, A, A + N);
+ *  // count is now 4
+ *  \endcode
+ *
+ *  \see unique_copy
+ *  \see unique_by_key_copy
+ *  \see reduce_by_key_copy
+ */
+template<typename DerivedPolicy,
+         typename ForwardIterator>
+__host__ __device__
+  typename hydra_thrust::iterator_traits<ForwardIterator>::difference_type
+    unique_count(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                 ForwardIterator first,
+                 ForwardIterator last);
+
+
+/*! \p unique_count counts runs of equal elements in the range <tt>[first, last)</tt>
+ *  with the same value, 
+ *
+ *  This version of \p unique_count uses the function object \p binary_pred to test for equality.
+ *
+ *  \param exec The execution policy to use for parallelization.
+ *  \param first The beginning of the input range.
+ *  \param last  The end of the input range.
+ *  \param binary_pred  The binary predicate used to determine equality.
+ *  \return The number of runs of equal elements in <tt>[first, new_last)</tt>
+ *
+ *  \tparam DerivedPolicy The name of the derived execution policy.
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
+ *          and \p ForwardIterator's \c value_type is convertible to \p BinaryPredicate's \c first_argument_type and to \p BinaryPredicate's \c second_argument_type.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
+ *
+ *  The following code snippet demonstrates how to use \p unique_count to
+ *  determine the number of runs of equal elements:
+ *
+ *  \code
+ *  #include <hydra/detail/external/hydra_thrust/unique.h>
+ *  #include <hydra/detail/external/hydra_thrust/execution_policy.h>
+ *  ...
+ *  const int N = 7;
+ *  int A[N] = {1, 3, 3, 3, 2, 2, 1};
+ *  int count = hydra_thrust::unique_count(A, A + N, hydra_thrust::equal_to<int>());
+ *  // count is now 4
+ *  \endcode
+ *
+ *  \see unique_copy
+ *  \see unique_by_key_copy
+ *  \see reduce_by_key_copy
+ */
+template<typename ForwardIterator,
+         typename BinaryPredicate>
+__host__ __device__
+  typename hydra_thrust::iterator_traits<ForwardIterator>::difference_type
+    unique_count(ForwardIterator first,
+                 ForwardIterator last,
+                 BinaryPredicate binary_pred);
+
+
+/*! \p unique_count counts runs of equal elements in the range <tt>[first, last)</tt>
+ *  with the same value, 
+ *
+ *  This version of \p unique_count uses \c operator== to test for equality.
+ *
+ *  \param exec The execution policy to use for parallelization.
+ *  \param first The beginning of the input range.
+ *  \param last  The end of the input range.
+ *  \param binary_pred  The binary predicate used to determine equality.
+ *  \return The number of runs of equal elements in <tt>[first, new_last)</tt>
+ *
+ *  \tparam DerivedPolicy The name of the derived execution policy.
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
+ *          and \p ForwardIterator's \c value_type is convertible to \p BinaryPredicate's \c first_argument_type and to \p BinaryPredicate's \c second_argument_type.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
+ *
+ *  The following code snippet demonstrates how to use \p unique_count to
+ *  determine the number of runs of equal elements:
+ *
+ *  \code
+ *  #include <hydra/detail/external/hydra_thrust/unique.h>
+ *  #include <hydra/detail/external/hydra_thrust/execution_policy.h>
+ *  ...
+ *  const int N = 7;
+ *  int A[N] = {1, 3, 3, 3, 2, 2, 1};
+ *  int count = hydra_thrust::unique_count(hydra_thrust::host, A, A + N);
+ *  // count is now 4
+ *  \endcode
+ *
+ *  \see unique_copy
+ *  \see unique_by_key_copy
+ *  \see reduce_by_key_copy
+ */
+template<typename ForwardIterator>
+__host__ __device__
+  typename hydra_thrust::iterator_traits<ForwardIterator>::difference_type
+    unique_count(ForwardIterator first,
+                 ForwardIterator last);
+
+
 /*! \} // end stream_compaction
  */
 
-
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/unique.inl>
 

@@ -23,8 +23,7 @@
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 // forward declaration of any_system_tag for any_conversion below
 struct any_system_tag;
@@ -164,5 +163,5 @@ template<typename Tag1, typename Tag2, typename Tag3, typename Tag4, typename Ta
 } // end generic
 } // end detail
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

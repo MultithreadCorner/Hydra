@@ -21,7 +21,8 @@
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/pointer_traits.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/memory.h> // for get_value()
 
-namespace hydra_thrust {
+HYDRA_THRUST_NAMESPACE_BEGIN
+
 namespace detail {
 
 // get_iterator_value specialization on iterators
@@ -50,4 +51,5 @@ get_iterator_value(hydra_thrust::execution_policy<DerivedPolicy> &exec, Pointer*
 } // get_iterator_value(exec,Pointer*)
 
 } // namespace detail
-} // namespace hydra_thrust
+
+HYDRA_THRUST_NAMESPACE_END

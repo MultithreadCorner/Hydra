@@ -14,17 +14,14 @@
  *  limitations under the License.
  */
 
+#pragma once
 
-/*! \file device_new.inl
- *  \brief Inline file for device_new.h.
- */
-
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/device_new.h>
 #include <hydra/detail/external/hydra_thrust/device_malloc.h>
 #include <hydra/detail/external/hydra_thrust/uninitialized_fill.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 template<typename T>
   device_ptr<T> device_new(device_ptr<void> p,
@@ -45,7 +42,7 @@ template<typename T>
 
   // run copy constructors at p here
   hydra_thrust::uninitialized_fill(result, result + n, exemplar);
-  
+
   return result;
 } // end device_new()
 
@@ -56,5 +53,4 @@ template<typename T>
   return device_new<T>(hydra_thrust::device_malloc<T>(n));
 } // end device_new()
 
-} // hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

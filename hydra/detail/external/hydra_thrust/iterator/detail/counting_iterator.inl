@@ -16,14 +16,15 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/iterator/counting_iterator.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/numeric_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <cstddef>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 // forward declaration of counting_iterator
 template <typename Incrementable, typename System, typename Traversal, typename Difference>
@@ -137,5 +138,5 @@ template<typename Difference, typename Incrementable1, typename Incrementable2>
 
 
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

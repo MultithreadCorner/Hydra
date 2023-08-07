@@ -34,18 +34,14 @@
 #pragma once
 
 #include <iterator>
+#include <type_traits>
 
 #include "block_exchange.cuh"
+#include "../config.cuh"
 #include "../util_ptx.cuh"
-#include "../util_macro.cuh"
 #include "../util_type.cuh"
-#include "../util_namespace.cuh"
 
-/// Optional outer namespace(s)
-CUB_NS_PREFIX
-
-/// CUB namespace
-namespace cub {
+CUB_NAMESPACE_BEGIN
 
 /**
  * \addtogroup UtilIo
@@ -367,6 +363,17 @@ enum BlockStoreAlgorithm
 
     /**
      * \par Overview
+     * A [<em>striped arrangement</em>](index.html#sec5sec3) of data is written
+     * directly to memory.
+     *
+     * \par Performance Considerations
+     * The utilization of memory transactions (coalescing) remains high regardless
+     * of items written per thread.
+     */
+    BLOCK_STORE_STRIPED,
+
+    /**
+     * \par Overview
      *
      * A [<em>blocked arrangement</em>](index.html#sec5sec3) of data is written directly
      * to memory using CUDA's built-in vectorized stores as a coalescing optimization.
@@ -433,7 +440,6 @@ enum BlockStoreAlgorithm
      *   latencies than the BLOCK_STORE_WARP_TRANSPOSE alternative.
      */
     BLOCK_STORE_WARP_TRANSPOSE_TIMESLICED,
-
 };
 
 
@@ -446,10 +452,9 @@ enum BlockStoreAlgorithm
  * \tparam BLOCK_DIM_X          The thread block length in threads along the X dimension
  * \tparam ITEMS_PER_THREAD     The number of consecutive items partitioned onto each thread.
  * \tparam ALGORITHM            <b>[optional]</b> cub::BlockStoreAlgorithm tuning policy enumeration.  default: cub::BLOCK_STORE_DIRECT.
- * \tparam WARP_TIME_SLICING    <b>[optional]</b> Whether or not only one warp's worth of shared memory should be allocated and time-sliced among block-warps during any load-related data transpositions (versus each warp having its own storage). (default: false)
  * \tparam BLOCK_DIM_Y          <b>[optional]</b> The thread block length in threads along the Y dimension (default: 1)
  * \tparam BLOCK_DIM_Z          <b>[optional]</b> The thread block length in threads along the Z dimension (default: 1)
- * \tparam PTX_ARCH             <b>[optional]</b> \ptxversion
+ * \tparam LEGACY_PTX_ARCH      <b>[optional]</b> Unused.
  *
  * \par Overview
  * - The BlockStore class provides a single data movement abstraction that can be specialized
@@ -458,6 +463,8 @@ enum BlockStoreAlgorithm
  * - BlockStore can be optionally specialized by different data movement strategies:
  *   -# <b>cub::BLOCK_STORE_DIRECT</b>.  A [<em>blocked arrangement</em>](index.html#sec5sec3) of data is written
  *      directly to memory. [More...](\ref cub::BlockStoreAlgorithm)
+ *   -# <b>cub::BLOCK_STORE_STRIPED</b>.  A [<em>striped arrangement</em>](index.html#sec5sec3)
+ *      of data is written directly to memory. [More...](\ref cub::BlockStoreAlgorithm)
  *   -# <b>cub::BLOCK_STORE_VECTORIZE</b>.  A [<em>blocked arrangement</em>](index.html#sec5sec3)
  *      of data is written directly to memory using CUDA's built-in vectorized stores as a
  *      coalescing optimization.  [More...](\ref cub::BlockStoreAlgorithm)
@@ -467,6 +474,10 @@ enum BlockStoreAlgorithm
  *   -# <b>cub::BLOCK_STORE_WARP_TRANSPOSE</b>.  A [<em>blocked arrangement</em>](index.html#sec5sec3)
  *      is locally transposed into a [<em>warp-striped arrangement</em>](index.html#sec5sec3) which is
  *      then written to memory.  [More...](\ref cub::BlockStoreAlgorithm)
+ *   -# <b>cub::BLOCK_STORE_WARP_TRANSPOSE_TIMESLICED</b>.  A [<em>blocked arrangement</em>](index.html#sec5sec3)
+ *      is locally transposed into a [<em>warp-striped arrangement</em>](index.html#sec5sec3) which is
+ *      then written to memory. To reduce the shared memory requireent, only one warp's worth of shared
+ *      memory is provisioned and is subsequently time-sliced among warps.  [More...](\ref cub::BlockStoreAlgorithm)
  * - \rowmajor
  *
  * \par A Simple Example
@@ -494,7 +505,6 @@ enum BlockStoreAlgorithm
  *     ...
  *
  *     // Store items to linear memory
- *     int thread_data[4];
  *     BlockStore(temp_storage).Store(d_data, thread_data);
  *
  * \endcode
@@ -503,6 +513,13 @@ enum BlockStoreAlgorithm
  * <tt>{ [0,1,2,3], [4,5,6,7], ..., [508,509,510,511] }</tt>.
  * The output \p d_data will be <tt>0, 1, 2, 3, 4, 5, ...</tt>.
  *
+ * \par Re-using dynamically allocating shared memory
+ * The following example under the examples/block folder illustrates usage of
+ * dynamically shared memory with BlockReduce and how to re-purpose
+ * the same memory region:
+ * <a href="../../examples/block/example_block_reduce_dyn_smem.cu">example_block_reduce_dyn_smem.cu</a>
+ *
+ * This example can be easily adapted to the storage required by BlockStore.
  */
 template <
     typename                T,
@@ -511,7 +528,7 @@ template <
     BlockStoreAlgorithm     ALGORITHM           = BLOCK_STORE_DIRECT,
     int                     BLOCK_DIM_Y         = 1,
     int                     BLOCK_DIM_Z         = 1,
-    int                     PTX_ARCH            = CUB_PTX_ARCH>
+    int                     LEGACY_PTX_ARCH     = 0>
 class BlockStore
 {
 private:
@@ -578,6 +595,47 @@ private:
 
 
     /**
+    * BLOCK_STORE_STRIPED specialization of store helper
+    */
+    template <int DUMMY>
+    struct StoreInternal<BLOCK_STORE_STRIPED, DUMMY>
+    {
+        /// Shared memory storage layout type
+        typedef NullType TempStorage;
+
+        /// Linear thread-id
+        int linear_tid;
+
+        /// Constructor
+        __device__ __forceinline__ StoreInternal(
+            TempStorage &/*temp_storage*/,
+            int linear_tid)
+        :
+            linear_tid(linear_tid)
+        {}
+
+        /// Store items into a linear segment of memory
+        template <typename OutputIteratorT>
+        __device__ __forceinline__ void Store(
+            OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
+            T                   (&items)[ITEMS_PER_THREAD]) ///< [in] Data to store
+        {
+            StoreDirectStriped<BLOCK_THREADS>(linear_tid, block_itr, items);
+        }
+
+        /// Store items into a linear segment of memory, guarded by range
+        template <typename OutputIteratorT>
+        __device__ __forceinline__ void Store(
+            OutputIteratorT   block_itr,                  ///< [in] The thread block's base output iterator for storing to
+            T                   (&items)[ITEMS_PER_THREAD], ///< [in] Data to store
+            int                 valid_items)                ///< [in] Number of valid items to write
+        {
+            StoreDirectStriped<BLOCK_THREADS>(linear_tid, block_itr, items, valid_items);
+        }
+    };
+
+
+    /**
      * BLOCK_STORE_VECTORIZE specialization of store helper
      */
     template <int DUMMY>
@@ -633,7 +691,7 @@ private:
     struct StoreInternal<BLOCK_STORE_TRANSPOSE, DUMMY>
     {
         // BlockExchange utility type for keys
-        typedef BlockExchange<T, BLOCK_DIM_X, ITEMS_PER_THREAD, false, BLOCK_DIM_Y, BLOCK_DIM_Z, PTX_ARCH> BlockExchange;
+        typedef BlockExchange<T, BLOCK_DIM_X, ITEMS_PER_THREAD, false, BLOCK_DIM_Y, BLOCK_DIM_Z> BlockExchange;
 
         /// Shared memory storage layout type
         struct _TempStorage : BlockExchange::TempStorage
@@ -694,14 +752,14 @@ private:
     {
         enum
         {
-            WARP_THREADS = CUB_WARP_THREADS(PTX_ARCH)
+            WARP_THREADS = CUB_WARP_THREADS(0)
         };
 
         // Assert BLOCK_THREADS must be a multiple of WARP_THREADS
-        CUB_STATIC_ASSERT((BLOCK_THREADS % WARP_THREADS == 0), "BLOCK_THREADS must be a multiple of WARP_THREADS");
+        CUB_STATIC_ASSERT((int(BLOCK_THREADS) % int(WARP_THREADS) == 0), "BLOCK_THREADS must be a multiple of WARP_THREADS");
 
         // BlockExchange utility type for keys
-        typedef BlockExchange<T, BLOCK_DIM_X, ITEMS_PER_THREAD, false, BLOCK_DIM_Y, BLOCK_DIM_Z, PTX_ARCH> BlockExchange;
+        typedef BlockExchange<T, BLOCK_DIM_X, ITEMS_PER_THREAD, false, BLOCK_DIM_Y, BLOCK_DIM_Z> BlockExchange;
 
         /// Shared memory storage layout type
         struct _TempStorage : BlockExchange::TempStorage
@@ -762,14 +820,14 @@ private:
     {
         enum
         {
-            WARP_THREADS = CUB_WARP_THREADS(PTX_ARCH)
+            WARP_THREADS = CUB_WARP_THREADS(0)
         };
 
         // Assert BLOCK_THREADS must be a multiple of WARP_THREADS
-        CUB_STATIC_ASSERT((BLOCK_THREADS % WARP_THREADS == 0), "BLOCK_THREADS must be a multiple of WARP_THREADS");
+        CUB_STATIC_ASSERT((int(BLOCK_THREADS) % int(WARP_THREADS) == 0), "BLOCK_THREADS must be a multiple of WARP_THREADS");
 
         // BlockExchange utility type for keys
-        typedef BlockExchange<T, BLOCK_DIM_X, ITEMS_PER_THREAD, true, BLOCK_DIM_Y, BLOCK_DIM_Z, PTX_ARCH> BlockExchange;
+        typedef BlockExchange<T, BLOCK_DIM_X, ITEMS_PER_THREAD, true, BLOCK_DIM_Y, BLOCK_DIM_Z> BlockExchange;
 
         /// Shared memory storage layout type
         struct _TempStorage : BlockExchange::TempStorage
@@ -820,6 +878,7 @@ private:
             StoreDirectWarpStriped(linear_tid, block_itr, items, temp_storage.valid_items);
         }
     };
+ 
 
     /******************************************************************************
      * Type definitions
@@ -937,7 +996,7 @@ public:
      */
     template <typename OutputIteratorT>
     __device__ __forceinline__ void Store(
-        OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
+        OutputIteratorT     block_itr,                  ///< [out] The thread block's base output iterator for storing to
         T                   (&items)[ITEMS_PER_THREAD]) ///< [in] Data to store
     {
         InternalStore(temp_storage, linear_tid).Store(block_itr, items);
@@ -986,15 +1045,26 @@ public:
      */
     template <typename OutputIteratorT>
     __device__ __forceinline__ void Store(
-        OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
+        OutputIteratorT     block_itr,                  ///< [out] The thread block's base output iterator for storing to
         T                   (&items)[ITEMS_PER_THREAD], ///< [in] Data to store
         int                 valid_items)                ///< [in] Number of valid items to write
     {
         InternalStore(temp_storage, linear_tid).Store(block_itr, items, valid_items);
     }
+
+    //@}  end member group
 };
 
+template <class Policy,
+          class It,
+          class T = cub::detail::value_t<It>>
+struct BlockStoreType
+{
+  using type = cub::BlockStore<T,
+                               Policy::BLOCK_THREADS,
+                               Policy::ITEMS_PER_THREAD,
+                               Policy::STORE_ALGORITHM>;
+};
 
-}               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+CUB_NAMESPACE_END
 

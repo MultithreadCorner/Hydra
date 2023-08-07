@@ -37,8 +37,7 @@
 #include <hydra/detail/external/hydra_thrust/iterator/detail/reverse_iterator_base.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_facade.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /*! \addtogroup iterators
  *  \{
@@ -180,14 +179,14 @@ template<typename BidirectionalIterator>
     reverse_iterator(reverse_iterator<OtherBidirectionalIterator> const &r
 // XXX msvc screws this up
 // XXX remove these guards when we have static_assert
-#ifndef _MSC_VER
+#if HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
                      , typename hydra_thrust::detail::enable_if<
                          hydra_thrust::detail::is_convertible<
                            OtherBidirectionalIterator,
                            BidirectionalIterator
                          >::value
                        >::type * = 0
-#endif // _MSC_VER
+#endif // MSVC
                      );
 
   /*! \cond
@@ -232,7 +231,7 @@ reverse_iterator<BidirectionalIterator> make_reverse_iterator(BidirectionalItera
 /*! \} // end iterators
  */
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/iterator/detail/reverse_iterator.inl>
 

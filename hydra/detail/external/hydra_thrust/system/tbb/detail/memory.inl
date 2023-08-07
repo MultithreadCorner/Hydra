@@ -14,14 +14,15 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/cpp/detail/execution_policy.h>
 #include <hydra/detail/external/hydra_thrust/system/tbb/memory.h>
 #include <hydra/detail/external/hydra_thrust/system/cpp/memory.h>
 #include <limits>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace tbb
@@ -82,5 +83,5 @@ inline void free(pointer<void> ptr)
 
 } // end tbb
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

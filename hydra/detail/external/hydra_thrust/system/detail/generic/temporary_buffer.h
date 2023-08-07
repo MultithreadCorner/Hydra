@@ -21,8 +21,7 @@
 #include <hydra/detail/external/hydra_thrust/pair.h>
 #include <hydra/detail/external/hydra_thrust/detail/pointer.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -37,6 +36,13 @@ __host__ __device__
     get_temporary_buffer(hydra_thrust::execution_policy<DerivedPolicy> &exec, typename hydra_thrust::pointer<T,DerivedPolicy>::difference_type n);
 
 
+__hydra_thrust_exec_check_disable__
+template<typename DerivedPolicy, typename Pointer>
+__host__ __device__
+  void return_temporary_buffer(hydra_thrust::execution_policy<DerivedPolicy> &exec, Pointer p, std::ptrdiff_t n);
+
+
+__hydra_thrust_exec_check_disable__
 template<typename DerivedPolicy, typename Pointer>
 __host__ __device__
   void return_temporary_buffer(hydra_thrust::execution_policy<DerivedPolicy> &exec, Pointer p);
@@ -45,7 +51,7 @@ __host__ __device__
 } // end generic
 } // end detail
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/temporary_buffer.inl>
 

@@ -14,10 +14,7 @@
  *  limitations under the License.
  */
 
-
-/*! \file replace.inl
- *  \brief Inline file for replace.h.
- */
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/replace.h>
@@ -26,8 +23,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/replace.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/replace.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 
 __hydra_thrust_exec_check_disable__
@@ -218,5 +214,5 @@ template<typename ForwardIterator, typename T>
 } // end replace()
 
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

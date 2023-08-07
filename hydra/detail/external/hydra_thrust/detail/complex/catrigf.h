@@ -50,10 +50,11 @@
 
 #include <hydra/detail/external/hydra_thrust/complex.h>
 #include <hydra/detail/external/hydra_thrust/detail/complex/math_private.h>
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <cfloat>
 #include <cmath>
 
-namespace hydra_thrust{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail{
 namespace complex{		      	
 
@@ -166,7 +167,7 @@ casinhf(complex<float> z)
   float x, y, ax, ay, rx, ry, B, sqrt_A2my2, new_y;
   int B_is_usable;
   complex<float> w;
-  const float RECIP_EPSILON = 1.0 / FLT_EPSILON;
+  const float RECIP_EPSILON = 1.0f / FLT_EPSILON;
   const float m_ln2 = 6.9314718055994531e-1f; /*  0x162e42fefa39ef.0p-53 */
   x = z.real();
   y = z.imag();
@@ -245,7 +246,7 @@ complex<float> cacosf(complex<float> z)
     return (complex<float>(x + 0.0f + (y + 0), x + 0.0f + (y + 0)));
   }
 
-  const float RECIP_EPSILON = 1.0 / FLT_EPSILON;
+  const float RECIP_EPSILON = 1.0f / FLT_EPSILON;
   if (ax > RECIP_EPSILON || ay > RECIP_EPSILON) {
     w = clog_for_large_values(z);
     rx = fabsf(w.imag());
@@ -386,13 +387,13 @@ inline float real_part_reciprocal(float x, float y)
   return (x / (x * x + y * y) * scale);
 }
 
-#if __cplusplus >= 201103L || !defined _MSC_VER
+#if HYDRA_THRUST_CPP_DIALECT >= 2011 || HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
 __host__ __device__ inline
 complex<float> catanhf(complex<float> z)
 {
   float x, y, ax, ay, rx, ry;
-  const volatile float pio2_lo = 6.1232339957367659e-17; /*  0x11a62633145c07.0p-106 */
-  const float pio2_hi = 1.5707963267948966e0;/*  0x1921fb54442d18.0p-52 */
+  const volatile float pio2_lo = 6.1232339957367659e-17f; /*  0x11a62633145c07.0p-106 */
+  const float pio2_hi = 1.5707963267948966e0f;/*  0x1921fb54442d18.0p-52 */
 
 
   x = z.real();
@@ -421,7 +422,7 @@ complex<float> catanhf(complex<float> z)
     return (complex<float>(real_part_reciprocal(x, y),
 			   copysignf(pio2_hi + pio2_lo, y)));
 
-  const float SQRT_3_EPSILON = 5.9801995673e-4; /*  0x9cc471.0p-34 */
+  const float SQRT_3_EPSILON = 5.9801995673e-4f; /*  0x9cc471.0p-34 */
   if (ax < SQRT_3_EPSILON / 2 && ay < SQRT_3_EPSILON / 2) {
     raise_inexact();
     return (z);
@@ -467,7 +468,7 @@ inline complex<float> asin(const complex<float>& z){
   return detail::complex::casinf(z);
 }
 
-#if __cplusplus >= 201103L || !defined _MSC_VER
+#if HYDRA_THRUST_CPP_DIALECT >= 2011 || HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
 template <>
 __host__ __device__
 inline complex<float> atan(const complex<float>& z){
@@ -488,7 +489,7 @@ inline complex<float> asinh(const complex<float>& z){
   return detail::complex::casinhf(z);
 }
 
-#if __cplusplus >= 201103L || !defined _MSC_VER
+#if HYDRA_THRUST_CPP_DIALECT >= 2011 || HYDRA_THRUST_HOST_COMPILER != HYDRA_THRUST_HOST_COMPILER_MSVC
 template <>
 __host__ __device__
 inline complex<float> atanh(const complex<float>& z){
@@ -496,4 +497,4 @@ inline complex<float> atanh(const complex<float>& z){
 }
 #endif
 
-} // namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END

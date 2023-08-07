@@ -20,8 +20,7 @@
 #include <hydra/detail/external/hydra_thrust/system/tbb/detail/execution_policy.h>
 #include <hydra/detail/external/hydra_thrust/pair.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace tbb
@@ -81,7 +80,7 @@ template<typename DerivedPolicy,
 } // end namespace detail
 } // end namespace tbb
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/system/tbb/detail/partition.inl>
 

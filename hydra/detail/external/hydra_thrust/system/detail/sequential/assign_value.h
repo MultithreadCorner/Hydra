@@ -20,8 +20,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/sequential/execution_policy.h>
 #include <hydra/detail/external/hydra_thrust/detail/raw_pointer_cast.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -39,5 +38,5 @@ __host__ __device__
 } // end sequential
 } // end detail
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

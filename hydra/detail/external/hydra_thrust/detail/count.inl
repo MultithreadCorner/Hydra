@@ -14,10 +14,7 @@
  *  limitations under the License.
  */
 
-
-/*! \file count.inl
- *  \brief Inline file for count.h.
- */
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/count.h>
@@ -26,9 +23,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/count.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/count.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 __hydra_thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename EqualityComparable>
@@ -79,6 +74,4 @@ count_if(InputIterator first, InputIterator last, Predicate pred)
   return hydra_thrust::count_if(select_system(system), first, last, pred);
 } // end count_if()
 
-
-} // end namespace hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

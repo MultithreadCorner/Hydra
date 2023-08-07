@@ -27,11 +27,8 @@
 #include <hydra/detail/external/hydra_thrust/mr/allocator.h>
 #include <ostream>
 
-namespace hydra_thrust
-{
-namespace system
-{
-namespace omp
+HYDRA_THRUST_NAMESPACE_BEGIN
+namespace system { namespace omp
 {
 
 /*! Allocates an area of memory available to Thrust's <tt>omp</tt> system.
@@ -67,83 +64,38 @@ inline pointer<T> malloc(std::size_t n);
  */
 inline void free(pointer<void> ptr);
 
-// XXX upon c++11
-// template<typename T>
-// using allocator = hydra_thrust::mr::stateless_resource_allocator<T, memory_resource>;
-
-/*! \p omp::allocator is the default allocator used by the \p omp system's containers such as
- *  <tt>omp::vector</tt> if no user-specified allocator is provided. \p omp::allocator allocates
- *  (deallocates) storage with \p omp::malloc (\p omp::free).
+/*! \p omp::allocator is the default allocator used by the \p omp system's
+ *  containers such as <tt>omp::vector</tt> if no user-specified allocator is
+ *  provided. \p omp::allocator allocates (deallocates) storage with \p
+ *  omp::malloc (\p omp::free).
  */
 template<typename T>
-  struct allocator
-    : hydra_thrust::mr::stateless_resource_allocator<
-        T,
-        memory_resource
-    >
-{
-private:
-    typedef hydra_thrust::mr::stateless_resource_allocator<
-        T,
-        memory_resource
-    > base;
+using allocator = hydra_thrust::mr::stateless_resource_allocator<
+  T, hydra_thrust::system::omp::memory_resource
+>;
 
-public:
-  /*! The \p rebind metafunction provides the type of an \p allocator
-   *  instantiated with another type.
-   *
-   *  \tparam U The other type to use for instantiation.
-   */
-  template<typename U>
-    struct rebind
-  {
-    /*! The typedef \p other gives the type of the rebound \p allocator.
-     */
-    typedef allocator<U> other;
-  };
-
-  /*! No-argument constructor has no effect.
-   */
-  __host__ __device__
-  inline allocator() {}
-
-  /*! Copy constructor has no effect.
-   */
-  __host__ __device__
-  inline allocator(const allocator & other) : base(other) {}
-
-  /*! Constructor from other \p allocator has no effect.
-   */
-  template<typename U>
-  __host__ __device__
-  inline allocator(const allocator<U> & other) : base(other) {}
-
-  /*! Destructor has no effect.
-   */
-  __host__ __device__
-  inline ~allocator() {}
-}; // end allocator
-
-} // end omp
-
-/*! \}
+/*! \p omp::universal_allocator allocates memory that can be used by the \p omp
+ *  system and host systems.
  */
+template<typename T>
+using universal_allocator = hydra_thrust::mr::stateless_resource_allocator<
+  T, hydra_thrust::system::omp::universal_memory_resource
+>;
 
-} // end system
+}} // namespace system::omp
 
 /*! \namespace hydra_thrust::omp
  *  \brief \p hydra_thrust::omp is a top-level alias for hydra_thrust::system::omp.
  */
 namespace omp
 {
-
 using hydra_thrust::system::omp::malloc;
 using hydra_thrust::system::omp::free;
 using hydra_thrust::system::omp::allocator;
+using hydra_thrust::system::omp::universal_allocator;
+} // namespace omp
 
-} // end omp
-
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/system/omp/detail/memory.inl>
 

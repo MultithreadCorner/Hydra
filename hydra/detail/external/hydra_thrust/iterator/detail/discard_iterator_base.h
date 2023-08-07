@@ -22,8 +22,7 @@
 #include <hydra/detail/external/hydra_thrust/iterator/detail/any_assign.h>
 #include <cstddef> // for std::ptrdiff_t
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 // forward declaration of discard_iterator
 template<typename> class discard_iterator;
@@ -60,6 +59,6 @@ template<typename System>
 
 } // end detail
   
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 

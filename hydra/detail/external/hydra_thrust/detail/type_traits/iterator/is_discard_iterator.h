@@ -20,8 +20,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/iterator/discard_iterator.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 
@@ -36,5 +35,5 @@ struct is_discard_iterator< hydra_thrust::discard_iterator<System> >
 {};
 
 } // end namespace detail
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

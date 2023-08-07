@@ -17,11 +17,13 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/complex.h>
 #include <hydra/detail/external/hydra_thrust/detail/complex/math_private.h>
 #include <cmath>
 
-namespace hydra_thrust{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail{
 namespace complex{	 
 __host__ __device__
@@ -67,5 +69,4 @@ inline hydra_thrust::complex<float> proj(const hydra_thrust::complex<float>& z){
   return detail::complex::cprojf(z);
 }
 
-}
-
+HYDRA_THRUST_NAMESPACE_END

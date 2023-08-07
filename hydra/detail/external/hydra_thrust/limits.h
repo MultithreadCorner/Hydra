@@ -7,12 +7,12 @@
 
 #include <limits>
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 template <typename T>
 struct numeric_limits : std::numeric_limits<T> {};
 
-HYDRA_THRUST_END_NS
-
+HYDRA_THRUST_NAMESPACE_END

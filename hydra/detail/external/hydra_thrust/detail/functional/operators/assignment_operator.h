@@ -22,8 +22,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/functional/operators/operator_adaptors.h>
 #include <hydra/detail/external/hydra_thrust/functional.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 // XXX WAR circular inclusion with this forward declaration
 template<typename,typename,typename> struct binary_function;
@@ -37,19 +36,27 @@ namespace functional
 template<typename> struct as_actor;
 
 // there's no standard assign functional, so roll an ad hoc one here
-template<typename T>
-  struct assign
-    : hydra_thrust::binary_function<T&,T,T&>
+struct assign
 {
-  __host__ __device__ T& operator()(T &lhs, const T &rhs) const { return lhs = rhs; }
-}; // end assign
+  using is_transparent = void;
+
+  __hydra_thrust_exec_check_disable__
+  template <typename T1, typename T2>
+  __host__ __device__
+  constexpr auto operator()(T1&& t1, T2&& t2) const
+  noexcept(noexcept(HYDRA_THRUST_FWD(t1) = HYDRA_THRUST_FWD(t2)))
+  HYDRA_THRUST_TRAILING_RETURN(decltype(HYDRA_THRUST_FWD(t1) = HYDRA_THRUST_FWD(t2)))
+  {
+    return HYDRA_THRUST_FWD(t1) = HYDRA_THRUST_FWD(t2);
+  }
+};
 
 template<typename Eval, typename T>
   struct assign_result
 {
   typedef actor<
     composite<
-      binary_operator<assign>,
+      transparent_binary_operator<assign>,
       actor<Eval>,
       typename as_actor<T>::type
     >
@@ -61,12 +68,12 @@ template<typename Eval, typename T>
     typename assign_result<Eval,T>::type
       do_assign(const actor<Eval> &_1, const T &_2)
 {
-  return compose(binary_operator<assign>(),
+  return compose(transparent_binary_operator<assign>(),
                  _1,
                  as_actor<T>::convert(_2));
 } // end do_assign()
 
 } // end functional
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

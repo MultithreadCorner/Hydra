@@ -33,17 +33,13 @@
 
 #pragma once
 
-#include "../util_ptx.cuh"
-#include "../util_arch.cuh"
-#include "../util_macro.cuh"
-#include "../util_type.cuh"
-#include "../util_namespace.cuh"
+#include <hydra/detail/external/hydra_cub/config.cuh>
+#include <hydra/detail/external/hydra_cub/detail/uninitialized_copy.cuh>
+#include <hydra/detail/external/hydra_cub/util_ptx.cuh>
+#include <hydra/detail/external/hydra_cub/util_type.cuh>
+#include <hydra/detail/external/hydra_cub/warp/warp_exchange.cuh>
 
-/// Optional outer namespace(s)
-CUB_NS_PREFIX
-
-/// CUB namespace
-namespace cub {
+CUB_NAMESPACE_BEGIN
 
 /**
  * \brief The BlockExchange class provides [<em>collective</em>](index.html#sec0) methods for rearranging data partitioned across a CUDA thread block. ![](transpose_logo.png)
@@ -55,7 +51,7 @@ namespace cub {
  * \tparam WARP_TIME_SLICING    <b>[optional]</b> When \p true, only use enough shared memory for a single warp's worth of tile data, time-slicing the block-wide exchange over multiple synchronized rounds.  Yields a smaller memory footprint at the expense of decreased parallelism.  (Default: false)
  * \tparam BLOCK_DIM_Y          <b>[optional]</b> The thread block length in threads along the Y dimension (default: 1)
  * \tparam BLOCK_DIM_Z          <b>[optional]</b> The thread block length in threads along the Z dimension (default: 1)
- * \tparam PTX_ARCH             <b>[optional]</b> \ptxversion
+ * \tparam LEGACY_PTX_ARCH      <b>[optional]</b> Unused.
  *
  * \par Overview
  * - It is commonplace for blocks of threads to rearrange data items between
@@ -104,6 +100,13 @@ namespace cub {
  * \par Performance Considerations
  * - Proper device-specific padding ensures zero bank conflicts for most types.
  *
+ * \par Re-using dynamically allocating shared memory
+ * The following example under the examples/block folder illustrates usage of
+ * dynamically shared memory with BlockReduce and how to re-purpose
+ * the same memory region:
+ * <a href="../../examples/block/example_block_reduce_dyn_smem.cu">example_block_reduce_dyn_smem.cu</a>
+ *
+ * This example can be easily adapted to the storage required by BlockExchange.
  */
 template <
     typename    InputT,
@@ -112,7 +115,7 @@ template <
     bool        WARP_TIME_SLICING   = false,
     int         BLOCK_DIM_Y         = 1,
     int         BLOCK_DIM_Z         = 1,
-    int         PTX_ARCH            = CUB_PTX_ARCH>
+    int         LEGACY_PTX_ARCH     = 0>
 class BlockExchange
 {
 private:
@@ -127,11 +130,11 @@ private:
         /// The thread block size in threads
         BLOCK_THREADS               = BLOCK_DIM_X * BLOCK_DIM_Y * BLOCK_DIM_Z,
 
-        LOG_WARP_THREADS            = CUB_LOG_WARP_THREADS(PTX_ARCH),
+        LOG_WARP_THREADS            = CUB_LOG_WARP_THREADS(0),
         WARP_THREADS                = 1 << LOG_WARP_THREADS,
         WARPS                       = (BLOCK_THREADS + WARP_THREADS - 1) / WARP_THREADS,
 
-        LOG_SMEM_BANKS              = CUB_LOG_SMEM_BANKS(PTX_ARCH),
+        LOG_SMEM_BANKS              = CUB_LOG_SMEM_BANKS(0),
         SMEM_BANKS                  = 1 << LOG_SMEM_BANKS,
 
         TILE_ITEMS                  = BLOCK_THREADS * ITEMS_PER_THREAD,
@@ -198,8 +201,8 @@ private:
      */
     template <typename OutputT>
     __device__ __forceinline__ void BlockedToStriped(
-        InputT          input_items[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
-        OutputT         output_items[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        InputT          (&input_items)[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        OutputT         (&output_items)[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
         Int2Type<false> /*time_slicing*/)
     {
         #pragma unroll
@@ -207,7 +210,8 @@ private:
         {
             int item_offset = (linear_tid * ITEMS_PER_THREAD) + ITEM;
             if (INSERT_PADDING) item_offset += item_offset >> LOG_SMEM_BANKS;
-            temp_storage.buff[item_offset] = input_items[ITEM];
+            detail::uninitialized_copy(temp_storage.buff + item_offset,
+                                       input_items[ITEM]);
         }
 
         CTA_SYNC();
@@ -227,8 +231,8 @@ private:
      */
     template <typename OutputT>
     __device__ __forceinline__ void BlockedToStriped(
-        InputT          input_items[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
-        OutputT         output_items[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        InputT          (&input_items)[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        OutputT         (&output_items)[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
         Int2Type<true>  /*time_slicing*/)
     {
         InputT temp_items[ITEMS_PER_THREAD];
@@ -248,7 +252,8 @@ private:
                 {
                     int item_offset = (lane_id * ITEMS_PER_THREAD) + ITEM;
                     if (INSERT_PADDING) item_offset += item_offset >> LOG_SMEM_BANKS;
-                    temp_storage.buff[item_offset] = input_items[ITEM];
+                    detail::uninitialized_copy(temp_storage.buff + item_offset,
+                                               input_items[ITEM]);
                 }
             }
 
@@ -287,8 +292,8 @@ private:
      */
     template <typename OutputT>
     __device__ __forceinline__ void BlockedToWarpStriped(
-        InputT          input_items[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
-        OutputT         output_items[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        InputT          (&input_items)[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        OutputT         (&output_items)[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
         Int2Type<false> /*time_slicing*/)
     {
         #pragma unroll
@@ -296,7 +301,8 @@ private:
         {
             int item_offset = warp_offset + ITEM + (lane_id * ITEMS_PER_THREAD);
             if (INSERT_PADDING) item_offset += item_offset >> LOG_SMEM_BANKS;
-            temp_storage.buff[item_offset] = input_items[ITEM];
+            detail::uninitialized_copy(temp_storage.buff + item_offset,
+                                       input_items[ITEM]);
         }
 
         WARP_SYNC(0xffffffff);
@@ -315,8 +321,8 @@ private:
      */
     template <typename OutputT>
     __device__ __forceinline__ void BlockedToWarpStriped(
-        InputT          input_items[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
-        OutputT         output_items[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        InputT          (&input_items)[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        OutputT         (&output_items)[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
         Int2Type<true>  /*time_slicing*/)
     {
         if (warp_id == 0)
@@ -326,7 +332,8 @@ private:
             {
                 int item_offset = ITEM + (lane_id * ITEMS_PER_THREAD);
                 if (INSERT_PADDING) item_offset += item_offset >> LOG_SMEM_BANKS;
-                temp_storage.buff[item_offset] = input_items[ITEM];
+                detail::uninitialized_copy(temp_storage.buff + item_offset,
+                                           input_items[ITEM]);
             }
 
             WARP_SYNC(0xffffffff);
@@ -352,7 +359,8 @@ private:
                 {
                     int item_offset = ITEM + (lane_id * ITEMS_PER_THREAD);
                     if (INSERT_PADDING) item_offset += item_offset >> LOG_SMEM_BANKS;
-                    temp_storage.buff[item_offset] = input_items[ITEM];
+                    detail::uninitialized_copy(temp_storage.buff + item_offset,
+                                               input_items[ITEM]);
                 }
 
                 WARP_SYNC(0xffffffff);
@@ -374,8 +382,8 @@ private:
      */
     template <typename OutputT>
     __device__ __forceinline__ void StripedToBlocked(
-        InputT          input_items[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
-        OutputT         output_items[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        InputT          (&input_items)[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        OutputT         (&output_items)[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
         Int2Type<false> /*time_slicing*/)
     {
         #pragma unroll
@@ -383,7 +391,8 @@ private:
         {
             int item_offset = int(ITEM * BLOCK_THREADS) + linear_tid;
             if (INSERT_PADDING) item_offset += item_offset >> LOG_SMEM_BANKS;
-            temp_storage.buff[item_offset] = input_items[ITEM];
+            detail::uninitialized_copy(temp_storage.buff + item_offset,
+                                       input_items[ITEM]);
         }
 
         CTA_SYNC();
@@ -404,8 +413,8 @@ private:
      */
     template <typename OutputT>
     __device__ __forceinline__ void StripedToBlocked(
-        InputT          input_items[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
-        OutputT         output_items[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        InputT          (&input_items)[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        OutputT         (&output_items)[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
         Int2Type<true>  /*time_slicing*/)
     {
         // Warp time-slicing
@@ -432,7 +441,9 @@ private:
                     if ((item_offset >= 0) && (item_offset < TIME_SLICED_ITEMS))
                     {
                         if (INSERT_PADDING) item_offset += item_offset >> LOG_SMEM_BANKS;
-                        temp_storage.buff[item_offset] = input_items[ITEM];
+                        detail::uninitialized_copy(temp_storage.buff +
+                                                     item_offset,
+                                                   input_items[ITEM]);
                     }
                 }
             }
@@ -465,8 +476,8 @@ private:
      */
     template <typename OutputT>
     __device__ __forceinline__ void WarpStripedToBlocked(
-        InputT          input_items[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
-        OutputT         output_items[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        InputT          (&input_items)[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        OutputT         (&output_items)[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
         Int2Type<false> /*time_slicing*/)
     {
         #pragma unroll
@@ -474,7 +485,8 @@ private:
         {
             int item_offset = warp_offset + (ITEM * WARP_TIME_SLICED_THREADS) + lane_id;
             if (INSERT_PADDING) item_offset += item_offset >> LOG_SMEM_BANKS;
-            temp_storage.buff[item_offset] = input_items[ITEM];
+            detail::uninitialized_copy(temp_storage.buff + item_offset,
+                                       input_items[ITEM]);
         }
 
         WARP_SYNC(0xffffffff);
@@ -484,7 +496,8 @@ private:
         {
             int item_offset = warp_offset + ITEM + (lane_id * ITEMS_PER_THREAD);
             if (INSERT_PADDING) item_offset += item_offset >> LOG_SMEM_BANKS;
-            output_items[ITEM] = temp_storage.buff[item_offset];
+            detail::uninitialized_copy(output_items + ITEM,
+                                       temp_storage.buff[item_offset]);
         }
     }
 
@@ -494,8 +507,8 @@ private:
      */
     template <typename OutputT>
     __device__ __forceinline__ void WarpStripedToBlocked(
-        InputT          input_items[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
-        OutputT         output_items[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        InputT          (&input_items)[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        OutputT         (&output_items)[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
         Int2Type<true>  /*time_slicing*/)
     {
         #pragma unroll
@@ -510,7 +523,8 @@ private:
                 {
                     int item_offset = (ITEM * WARP_TIME_SLICED_THREADS) + lane_id;
                     if (INSERT_PADDING) item_offset += item_offset >> LOG_SMEM_BANKS;
-                    temp_storage.buff[item_offset] = input_items[ITEM];
+                    detail::uninitialized_copy(temp_storage.buff + item_offset,
+                                               input_items[ITEM]);
                 }
 
                 WARP_SYNC(0xffffffff);
@@ -532,9 +546,9 @@ private:
      */
     template <typename OutputT, typename OffsetT>
     __device__ __forceinline__ void ScatterToBlocked(
-        InputT          input_items[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
-        OutputT         output_items[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
-        OffsetT         ranks[ITEMS_PER_THREAD],    ///< [in] Corresponding scatter ranks
+        InputT          (&input_items)[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        OutputT         (&output_items)[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        OffsetT         (&ranks)[ITEMS_PER_THREAD],            ///< [in] Corresponding scatter ranks
         Int2Type<false> /*time_slicing*/)
     {
         #pragma unroll
@@ -542,7 +556,8 @@ private:
         {
             int item_offset = ranks[ITEM];
             if (INSERT_PADDING) item_offset = SHR_ADD(item_offset, LOG_SMEM_BANKS, item_offset);
-            temp_storage.buff[item_offset] = input_items[ITEM];
+            detail::uninitialized_copy(temp_storage.buff + item_offset,
+                                       input_items[ITEM]);
         }
 
         CTA_SYNC();
@@ -561,9 +576,9 @@ private:
      */
     template <typename OutputT, typename OffsetT>
     __device__ __forceinline__ void ScatterToBlocked(
-        InputT          input_items[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
-        OutputT         output_items[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
-        OffsetT         ranks[ITEMS_PER_THREAD],    ///< [in] Corresponding scatter ranks
+        InputT          (&input_items)[ITEMS_PER_THREAD],     ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        OutputT         (&output_items)[ITEMS_PER_THREAD],    ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        OffsetT         ranks[ITEMS_PER_THREAD],              ///< [in] Corresponding scatter ranks
         Int2Type<true>  /*time_slicing*/)
     {
         InputT temp_items[ITEMS_PER_THREAD];
@@ -582,7 +597,8 @@ private:
                 if ((item_offset >= 0) && (item_offset < WARP_TIME_SLICED_ITEMS))
                 {
                     if (INSERT_PADDING) item_offset = SHR_ADD(item_offset, LOG_SMEM_BANKS, item_offset);
-                    temp_storage.buff[item_offset] = input_items[ITEM];
+                    detail::uninitialized_copy(temp_storage.buff + item_offset,
+                                               input_items[ITEM]);
                 }
             }
 
@@ -614,9 +630,9 @@ private:
      */
     template <typename OutputT, typename OffsetT>
     __device__ __forceinline__ void ScatterToStriped(
-        InputT          input_items[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
-        OutputT         output_items[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
-        OffsetT         ranks[ITEMS_PER_THREAD],    ///< [in] Corresponding scatter ranks
+        InputT          (&input_items)[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        OutputT         (&output_items)[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        OffsetT         (&ranks)[ITEMS_PER_THREAD],            ///< [in] Corresponding scatter ranks
         Int2Type<false> /*time_slicing*/)
     {
         #pragma unroll
@@ -624,7 +640,8 @@ private:
         {
             int item_offset = ranks[ITEM];
             if (INSERT_PADDING) item_offset = SHR_ADD(item_offset, LOG_SMEM_BANKS, item_offset);
-            temp_storage.buff[item_offset] = input_items[ITEM];
+            detail::uninitialized_copy(temp_storage.buff + item_offset,
+                                       input_items[ITEM]);
         }
 
         CTA_SYNC();
@@ -644,9 +661,9 @@ private:
      */
     template <typename OutputT, typename OffsetT>
     __device__ __forceinline__ void ScatterToStriped(
-        InputT          input_items[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
-        OutputT         output_items[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
-        OffsetT         ranks[ITEMS_PER_THREAD],    ///< [in] Corresponding scatter ranks
+        InputT          (&input_items)[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        OutputT         (&output_items)[ITEMS_PER_THREAD],     ///< [out] Items to exchange, converting between <em>blocked</em> and <em>striped</em> arrangements.
+        OffsetT         (&ranks)[ITEMS_PER_THREAD],            ///< [in] Corresponding scatter ranks
         Int2Type<true> /*time_slicing*/)
     {
         InputT temp_items[ITEMS_PER_THREAD];
@@ -666,7 +683,8 @@ private:
                 if ((item_offset >= 0) && (item_offset < WARP_TIME_SLICED_ITEMS))
                 {
                     if (INSERT_PADDING) item_offset = SHR_ADD(item_offset, LOG_SMEM_BANKS, item_offset);
-                    temp_storage.buff[item_offset] = input_items[ITEM];
+                    detail::uninitialized_copy(temp_storage.buff + item_offset,
+                                               input_items[ITEM]);
                 }
             }
 
@@ -714,8 +732,8 @@ public:
     :
         temp_storage(PrivateStorage()),
         linear_tid(RowMajorTid(BLOCK_DIM_X, BLOCK_DIM_Y, BLOCK_DIM_Z)),
-        warp_id((WARPS == 1) ? 0 : linear_tid / WARP_THREADS),
         lane_id(LaneId()),
+        warp_id((WARPS == 1) ? 0 : linear_tid / WARP_THREADS),
         warp_offset(warp_id * WARP_TIME_SLICED_ITEMS)
     {}
 
@@ -778,8 +796,8 @@ public:
      */
     template <typename OutputT>
     __device__ __forceinline__ void StripedToBlocked(
-        InputT      input_items[ITEMS_PER_THREAD],    ///< [in] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
-        OutputT     output_items[ITEMS_PER_THREAD])   ///< [out] Items from exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        InputT      (&input_items)[ITEMS_PER_THREAD],    ///< [in] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        OutputT     (&output_items)[ITEMS_PER_THREAD])   ///< [out] Items from exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
     {
         StripedToBlocked(input_items, output_items, Int2Type<WARP_TIME_SLICING>());
     }
@@ -827,8 +845,8 @@ public:
      */
     template <typename OutputT>
     __device__ __forceinline__ void BlockedToStriped(
-        InputT      input_items[ITEMS_PER_THREAD],    ///< [in] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
-        OutputT     output_items[ITEMS_PER_THREAD])   ///< [out] Items from exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        InputT      (&input_items)[ITEMS_PER_THREAD],    ///< [in] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        OutputT     (&output_items)[ITEMS_PER_THREAD])   ///< [out] Items from exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
     {
         BlockedToStriped(input_items, output_items, Int2Type<WARP_TIME_SLICING>());
     }
@@ -875,8 +893,8 @@ public:
      */
     template <typename OutputT>
     __device__ __forceinline__ void WarpStripedToBlocked(
-        InputT      input_items[ITEMS_PER_THREAD],    ///< [in] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
-        OutputT     output_items[ITEMS_PER_THREAD])   ///< [out] Items from exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        InputT      (&input_items)[ITEMS_PER_THREAD],    ///< [in] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        OutputT     (&output_items)[ITEMS_PER_THREAD])   ///< [out] Items from exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
     {
         WarpStripedToBlocked(input_items, output_items, Int2Type<WARP_TIME_SLICING>());
     }
@@ -926,8 +944,8 @@ public:
      */
     template <typename OutputT>
     __device__ __forceinline__ void BlockedToWarpStriped(
-        InputT      input_items[ITEMS_PER_THREAD],    ///< [in] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
-        OutputT     output_items[ITEMS_PER_THREAD])   ///< [out] Items from exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        InputT      (&input_items)[ITEMS_PER_THREAD],    ///< [in] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        OutputT     (&output_items)[ITEMS_PER_THREAD])   ///< [out] Items from exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
     {
         BlockedToWarpStriped(input_items, output_items, Int2Type<WARP_TIME_SLICING>());
     }
@@ -951,9 +969,9 @@ public:
      */
     template <typename OutputT, typename OffsetT>
     __device__ __forceinline__ void ScatterToBlocked(
-        InputT      input_items[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
-        OutputT     output_items[ITEMS_PER_THREAD],     ///< [out] Items from exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
-        OffsetT     ranks[ITEMS_PER_THREAD])            ///< [in] Corresponding scatter ranks
+        InputT      (&input_items)[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        OutputT     (&output_items)[ITEMS_PER_THREAD],     ///< [out] Items from exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        OffsetT     (&ranks)[ITEMS_PER_THREAD])            ///< [in] Corresponding scatter ranks
     {
         ScatterToBlocked(input_items, output_items, ranks, Int2Type<WARP_TIME_SLICING>());
     }
@@ -970,9 +988,9 @@ public:
      */
     template <typename OutputT, typename OffsetT>
     __device__ __forceinline__ void ScatterToStriped(
-        InputT      input_items[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
-        OutputT     output_items[ITEMS_PER_THREAD],     ///< [out] Items from exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
-        OffsetT     ranks[ITEMS_PER_THREAD])            ///< [in] Corresponding scatter ranks
+        InputT      (&input_items)[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        OutputT     (&output_items)[ITEMS_PER_THREAD],     ///< [out] Items from exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        OffsetT     (&ranks)[ITEMS_PER_THREAD])            ///< [in] Corresponding scatter ranks
     {
         ScatterToStriped(input_items, output_items, ranks, Int2Type<WARP_TIME_SLICING>());
     }
@@ -989,9 +1007,9 @@ public:
      */
     template <typename OutputT, typename OffsetT>
     __device__ __forceinline__ void ScatterToStripedGuarded(
-        InputT      input_items[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
-        OutputT     output_items[ITEMS_PER_THREAD],     ///< [out] Items from exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
-        OffsetT     ranks[ITEMS_PER_THREAD])            ///< [in] Corresponding scatter ranks
+        InputT      (&input_items)[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        OutputT     (&output_items)[ITEMS_PER_THREAD],     ///< [out] Items from exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        OffsetT     (&ranks)[ITEMS_PER_THREAD])            ///< [in] Corresponding scatter ranks
     {
         #pragma unroll
         for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
@@ -1027,10 +1045,10 @@ public:
      */
     template <typename OutputT, typename OffsetT, typename ValidFlag>
     __device__ __forceinline__ void ScatterToStripedFlagged(
-        InputT      input_items[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
-        OutputT     output_items[ITEMS_PER_THREAD],     ///< [out] Items from exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
-        OffsetT     ranks[ITEMS_PER_THREAD],            ///< [in] Corresponding scatter ranks
-        ValidFlag   is_valid[ITEMS_PER_THREAD])         ///< [in] Corresponding flag denoting item validity
+        InputT      (&input_items)[ITEMS_PER_THREAD],      ///< [in] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        OutputT     (&output_items)[ITEMS_PER_THREAD],     ///< [out] Items from exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        OffsetT     (&ranks)[ITEMS_PER_THREAD],            ///< [in] Corresponding scatter ranks
+        ValidFlag   (&is_valid)[ITEMS_PER_THREAD])         ///< [in] Corresponding flag denoting item validity
     {
         #pragma unroll
         for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
@@ -1061,58 +1079,58 @@ public:
 
 
     __device__ __forceinline__ void StripedToBlocked(
-        InputT      items[ITEMS_PER_THREAD])   ///< [in-out] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        InputT      (&items)[ITEMS_PER_THREAD])   ///< [in-out] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
     {
         StripedToBlocked(items, items);
     }
 
     __device__ __forceinline__ void BlockedToStriped(
-        InputT      items[ITEMS_PER_THREAD])   ///< [in-out] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        InputT      (&items)[ITEMS_PER_THREAD])   ///< [in-out] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
     {
         BlockedToStriped(items, items);
     }
 
     __device__ __forceinline__ void WarpStripedToBlocked(
-        InputT      items[ITEMS_PER_THREAD])    ///< [in-out] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        InputT      (&items)[ITEMS_PER_THREAD])    ///< [in-out] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
     {
         WarpStripedToBlocked(items, items);
     }
 
     __device__ __forceinline__ void BlockedToWarpStriped(
-        InputT      items[ITEMS_PER_THREAD])    ///< [in-out] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        InputT      (&items)[ITEMS_PER_THREAD])    ///< [in-out] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
     {
         BlockedToWarpStriped(items, items);
     }
 
     template <typename OffsetT>
     __device__ __forceinline__ void ScatterToBlocked(
-        InputT      items[ITEMS_PER_THREAD],    ///< [in-out] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
-        OffsetT     ranks[ITEMS_PER_THREAD])    ///< [in] Corresponding scatter ranks
+        InputT      (&items)[ITEMS_PER_THREAD],    ///< [in-out] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        OffsetT     (&ranks)[ITEMS_PER_THREAD])    ///< [in] Corresponding scatter ranks
     {
         ScatterToBlocked(items, items, ranks);
     }
 
     template <typename OffsetT>
     __device__ __forceinline__ void ScatterToStriped(
-        InputT      items[ITEMS_PER_THREAD],    ///< [in-out] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
-        OffsetT     ranks[ITEMS_PER_THREAD])    ///< [in] Corresponding scatter ranks
+        InputT      (&items)[ITEMS_PER_THREAD],    ///< [in-out] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        OffsetT     (&ranks)[ITEMS_PER_THREAD])    ///< [in] Corresponding scatter ranks
     {
         ScatterToStriped(items, items, ranks);
     }
 
     template <typename OffsetT>
     __device__ __forceinline__ void ScatterToStripedGuarded(
-        InputT      items[ITEMS_PER_THREAD],    ///< [in-out] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
-        OffsetT     ranks[ITEMS_PER_THREAD])    ///< [in] Corresponding scatter ranks
+        InputT      (&items)[ITEMS_PER_THREAD],    ///< [in-out] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        OffsetT     (&ranks)[ITEMS_PER_THREAD])    ///< [in] Corresponding scatter ranks
     {
         ScatterToStripedGuarded(items, items, ranks);
     }
 
     template <typename OffsetT, typename ValidFlag>
     __device__ __forceinline__ void ScatterToStripedFlagged(
-        InputT      items[ITEMS_PER_THREAD],        ///< [in-out] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
-        OffsetT     ranks[ITEMS_PER_THREAD],        ///< [in] Corresponding scatter ranks
-        ValidFlag   is_valid[ITEMS_PER_THREAD])     ///< [in] Corresponding flag denoting item validity
+        InputT      (&items)[ITEMS_PER_THREAD],        ///< [in-out] Items to exchange, converting between <em>striped</em> and <em>blocked</em> arrangements.
+        OffsetT     (&ranks)[ITEMS_PER_THREAD],        ///< [in] Corresponding scatter ranks
+        ValidFlag   (&is_valid)[ITEMS_PER_THREAD])     ///< [in] Corresponding flag denoting item validity
     {
         ScatterToStriped(items, items, ranks, is_valid);
     }
@@ -1123,126 +1141,4 @@ public:
 };
 
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
-
-
-template <
-    typename    T,
-    int         ITEMS_PER_THREAD,
-    int         LOGICAL_WARP_THREADS    = CUB_PTX_WARP_THREADS,
-    int         PTX_ARCH                = CUB_PTX_ARCH>
-class WarpExchange
-{
-private:
-
-    /******************************************************************************
-     * Constants
-     ******************************************************************************/
-
-    /// Constants
-    enum
-    {
-        // Whether the logical warp size and the PTX warp size coincide
-        IS_ARCH_WARP = (LOGICAL_WARP_THREADS == CUB_WARP_THREADS(PTX_ARCH)),
-
-        WARP_ITEMS                  = (ITEMS_PER_THREAD * LOGICAL_WARP_THREADS) + 1,
-
-        LOG_SMEM_BANKS              = CUB_LOG_SMEM_BANKS(PTX_ARCH),
-        SMEM_BANKS                  = 1 << LOG_SMEM_BANKS,
-
-        // Insert padding if the number of items per thread is a power of two and > 4 (otherwise we can typically use 128b loads)
-        INSERT_PADDING              = (ITEMS_PER_THREAD > 4) && (PowerOfTwo<ITEMS_PER_THREAD>::VALUE),
-        PADDING_ITEMS               = (INSERT_PADDING) ? (WARP_ITEMS >> LOG_SMEM_BANKS) : 0,
-    };
-
-    /******************************************************************************
-     * Type definitions
-     ******************************************************************************/
-
-    /// Shared memory storage layout type
-    struct _TempStorage
-    {
-        T buff[WARP_ITEMS + PADDING_ITEMS];
-    };
-
-public:
-
-    /// \smemstorage{WarpExchange}
-    struct TempStorage : Uninitialized<_TempStorage> {};
-
-private:
-
-
-    /******************************************************************************
-     * Thread fields
-     ******************************************************************************/
-
-    _TempStorage    &temp_storage;
-    int             lane_id;
-
-public:
-
-    /******************************************************************************
-     * Construction
-     ******************************************************************************/
-
-    /// Constructor
-    __device__ __forceinline__ WarpExchange(
-        TempStorage &temp_storage)
-    :
-        temp_storage(temp_storage.Alias()),
-        lane_id(IS_ARCH_WARP ?
-            LaneId() :
-            LaneId() % LOGICAL_WARP_THREADS)
-    {}
-
-
-    /******************************************************************************
-     * Interface
-     ******************************************************************************/
-
-    /**
-     * \brief Exchanges valid data items annotated by rank into <em>striped</em> arrangement.
-     *
-     * \par
-     * - \smemreuse
-     *
-     * \tparam OffsetT                              <b>[inferred]</b> Signed integer type for local offsets
-     */
-    template <typename OffsetT>
-    __device__ __forceinline__ void ScatterToStriped(
-        T               items[ITEMS_PER_THREAD],        ///< [in-out] Items to exchange
-        OffsetT         ranks[ITEMS_PER_THREAD])        ///< [in] Corresponding scatter ranks
-    {
-        #pragma unroll
-        for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
-        {
-            if (INSERT_PADDING) ranks[ITEM] = SHR_ADD(ranks[ITEM], LOG_SMEM_BANKS, ranks[ITEM]);
-            temp_storage.buff[ranks[ITEM]] = items[ITEM];
-        }
-
-        WARP_SYNC(0xffffffff);
-
-        #pragma unroll
-        for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
-        {
-            int item_offset = (ITEM * LOGICAL_WARP_THREADS) + lane_id;
-            if (INSERT_PADDING) item_offset = SHR_ADD(item_offset, LOG_SMEM_BANKS, item_offset);
-            items[ITEM] = temp_storage.buff[item_offset];
-        }
-    }
-
-};
-
-
-
-
-#endif // DOXYGEN_SHOULD_SKIP_THIS
-
-
-
-
-
-}               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
-
+CUB_NAMESPACE_END

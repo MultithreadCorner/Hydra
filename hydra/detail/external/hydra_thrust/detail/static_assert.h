@@ -29,7 +29,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/preprocessor.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace detail
 {
@@ -65,16 +65,16 @@ template <int x> struct static_assert_test {};
   // Clang and GCC 4.8+ will complain about this typedef being unused unless we
   // annotate it as such.
 #  define HYDRA_THRUST_STATIC_ASSERT(B)                                             \
-    typedef ::hydra_thrust::detail::static_assert_test<                             \
-      sizeof(::hydra_thrust::detail::STATIC_ASSERTION_FAILURE<(bool)(B)>)           \
+    typedef HYDRA_THRUST_NS_QUALIFIER::detail::static_assert_test<                  \
+      sizeof(HYDRA_THRUST_NS_QUALIFIER::detail::STATIC_ASSERTION_FAILURE<(bool)(B)>)\
     >                                                                         \
       HYDRA_THRUST_PP_CAT2(hydra_thrust_static_assert_typedef_, __LINE__)                 \
       __attribute__((unused))                                                 \
     /**/      
 #else
 #  define HYDRA_THRUST_STATIC_ASSERT(B)                                             \
-    typedef ::hydra_thrust::detail::static_assert_test<                             \
-      sizeof(::hydra_thrust::detail::STATIC_ASSERTION_FAILURE<(bool)(B)>)           \
+    typedef HYDRA_THRUST_NS_QUALIFIER::detail::static_assert_test<                  \
+      sizeof(HYDRA_THRUST_NS_QUALIFIER::detail::STATIC_ASSERTION_FAILURE<(bool)(B)>)\
     >                                                                         \
       HYDRA_THRUST_PP_CAT2(hydra_thrust_static_assert_typedef_, __LINE__)                 \
     /**/      
@@ -86,6 +86,6 @@ template <int x> struct static_assert_test {};
 
 } // namespace detail
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 

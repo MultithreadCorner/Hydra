@@ -18,9 +18,11 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 namespace alignment_of_detail {
 
@@ -245,4 +247,4 @@ struct aligned_storage
 
 }    // end cuda_
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END

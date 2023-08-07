@@ -14,17 +14,19 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
 #include <hydra/detail/external/hydra_thrust/detail/copy.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/hydra_thrust/distance.h>
 #include <hydra/detail/external/hydra_thrust/merge.h>
+#include <hydra/detail/external/hydra_thrust/sort.h>
 #include <hydra/detail/external/hydra_thrust/detail/seq.h>
 #include <tbb/parallel_invoke.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace tbb
@@ -38,7 +40,7 @@ namespace sort_detail
 // TODO tune this based on data type and comp
 const static int threshold = 128 * 1024;
 
-  
+
 template<typename DerivedPolicy, typename Iterator1, typename Iterator2, typename StrictWeakOrdering>
 void merge_sort(execution_policy<DerivedPolicy> &exec, Iterator1 first1, Iterator1 last1, Iterator2 first2, StrictWeakOrdering comp, bool inplace);
 
@@ -73,7 +75,7 @@ void merge_sort(execution_policy<DerivedPolicy> &exec, Iterator1 first1, Iterato
   if (n < threshold)
   {
     hydra_thrust::stable_sort(hydra_thrust::seq, first1, last1, comp);
-    
+
     if(!inplace)
     {
       hydra_thrust::copy(hydra_thrust::seq, first1, last1, first2);
@@ -87,7 +89,7 @@ void merge_sort(execution_policy<DerivedPolicy> &exec, Iterator1 first1, Iterato
   Iterator2 last2 = first2 + n;
 
   typedef merge_sort_closure<DerivedPolicy,Iterator1,Iterator2,StrictWeakOrdering> Closure;
-  
+
   Closure left (exec, first1, mid1,  first2, comp, !inplace);
   Closure right(exec, mid1,   last1, mid2,   comp, !inplace);
 
@@ -108,7 +110,7 @@ namespace sort_by_key_detail
 // TODO tune this based on data type and comp
 const static int threshold = 128 * 1024;
 
-  
+
 template<typename DerivedPolicy,
          typename Iterator1,
          typename Iterator2,
@@ -177,7 +179,7 @@ void merge_sort_by_key(execution_policy<DerivedPolicy> &exec,
   typedef typename hydra_thrust::iterator_difference<Iterator1>::type difference_type;
 
   difference_type n = hydra_thrust::distance(first1, last1);
-  
+
   Iterator1 mid1  = first1 + (n / 2);
   Iterator2 mid2  = first2 + (n / 2);
   Iterator3 mid3  = first3 + (n / 2);
@@ -188,7 +190,7 @@ void merge_sort_by_key(execution_policy<DerivedPolicy> &exec,
   if (n < threshold)
   {
     hydra_thrust::stable_sort_by_key(hydra_thrust::seq, first1, last1, first2, comp);
-    
+
     if(!inplace)
     {
       hydra_thrust::copy(hydra_thrust::seq, first1, last1, first3);
@@ -199,7 +201,7 @@ void merge_sort_by_key(execution_policy<DerivedPolicy> &exec,
   }
 
   typedef merge_sort_by_key_closure<DerivedPolicy,Iterator1,Iterator2,Iterator3,Iterator4,StrictWeakOrdering> Closure;
-  
+
   Closure left (exec, first1, mid1,  first2, first3, first4, comp, !inplace);
   Closure right(exec, mid1,   last1, mid2,   mid3,   mid4,   comp, !inplace);
 
@@ -260,5 +262,5 @@ template<typename DerivedPolicy,
 } // end namespace detail
 } // end namespace tbb
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

@@ -24,8 +24,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/execution_policy.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /*! \addtogroup algorithms
  */
@@ -54,11 +53,11 @@ namespace hydra_thrust
  *  \param last The end of the sequence to copy.
  *  \param result The destination sequence.
  *  \return The end of the destination sequence.
- *  \see http://www.sgi.com/tech/stl/copy.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/copy
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
- *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam InputIterator must be a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
+ *  \tparam OutputIterator must be a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre \p result may be equal to \p first, but \p result shall not be in the range <tt>[first, last)</tt> otherwise.
  *
@@ -107,9 +106,9 @@ __host__ __device__
  *  \return The end of the destination range.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
+ *  \tparam InputIterator must be a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
  *  \tparam Size is an integral type.
- *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator must be a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre \p result may be equal to \p first, but \p result shall not be in the range <tt>[first, first + n)</tt> otherwise.
  *
@@ -130,7 +129,7 @@ __host__ __device__
  *  // vec1 is now a copy of vec0
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/copy_n.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/copy_n
  *  \see hydra_thrust::copy
  */
 template<typename DerivedPolicy, typename InputIterator, typename Size, typename OutputIterator>
@@ -157,10 +156,10 @@ __host__ __device__
  *  \param last The end of the sequence to copy.
  *  \param result The destination sequence.
  *  \return The end of the destination sequence.
- *  \see http://www.sgi.com/tech/stl/copy.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/copy
  *
- *  \tparam InputIterator must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
- *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam InputIterator must be a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
+ *  \tparam OutputIterator must be a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre \p result may be equal to \p first, but \p result shall not be in the range <tt>[first, last)</tt> otherwise.
  *
@@ -202,9 +201,9 @@ template<typename InputIterator, typename OutputIterator>
  *  \param result The beginning destination range.
  *  \return The end of the destination range.
  *
- *  \tparam InputIterator must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
+ *  \tparam InputIterator must be a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c OutputIterator's \c value_type.
  *  \tparam Size is an integral type.
- *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator must be a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre \p result may be equal to \p first, but \p result shall not be in the range <tt>[first, first + n)</tt> otherwise.
  *
@@ -224,7 +223,7 @@ template<typename InputIterator, typename OutputIterator>
  *  // vec1 is now a copy of vec0
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/copy_n.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/copy_n
  *  \see hydra_thrust::copy
  */
 template<typename InputIterator, typename Size, typename OutputIterator>
@@ -261,10 +260,10 @@ template<typename InputIterator, typename Size, typename OutputIterator>
  *          evaluated to \c true in the range <tt>[first, last)</tt>.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *                        and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/concepts/predicate">Predicate</a>.
  *
  *  \pre The ranges <tt>[first, last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *
@@ -323,10 +322,10 @@ __host__ __device__
  *  \return <tt>result + n</tt>, where \c n is equal to the number of times \p pred
  *          evaluated to \c true in the range <tt>[first, last)</tt>.
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *                        and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/concepts/predicate">Predicate</a>.
  *
  *  \pre The ranges <tt>[first, last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *
@@ -388,11 +387,11 @@ template<typename InputIterator,
  *          evaluated to \c true in the range <tt>[stencil, stencil + (last-first))</tt>.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *                         and \p InputIterator2's \c value_type is convertible to \p Predicate's \c argument_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator">Output Iterator</a>.
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/named_req/OutputIterator">Output Iterator</a>.
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/concepts/predicate">Predicate</a>.
  *
  *  \pre The ranges <tt>[first, last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *  \pre The ranges <tt>[stencil, stencil + (last - first))</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
@@ -455,11 +454,11 @@ __host__ __device__
  *  \return <tt>result + n</tt>, where \c n is equal to the number of times \p pred
  *          evaluated to \c true in the range <tt>[stencil, stencil + (last-first))</tt>.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *                         and \p InputIterator2's \c value_type is convertible to \p Predicate's \c argument_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator">Output Iterator</a>.
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/named_req/OutputIterator">Output Iterator</a>.
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/concepts/predicate">Predicate</a>.
  *
  *  \pre The ranges <tt>[first, last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *  \pre The ranges <tt>[stencil, stencil + (last - first))</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
@@ -505,8 +504,8 @@ template<typename InputIterator1,
 
 /*! \} // end stream_compaction
  */
-	
-} // end namespace hydra_thrust
+
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/copy.h>
 #include <hydra/detail/external/hydra_thrust/detail/copy_if.h>

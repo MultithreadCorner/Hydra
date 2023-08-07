@@ -21,8 +21,7 @@
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/malloc_and_free.h>
 #include <limits>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace cuda_cub
 {
 
@@ -49,5 +48,5 @@ void free(pointer<void> ptr)
 } // end free()
 
 } // end cuda_cub
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

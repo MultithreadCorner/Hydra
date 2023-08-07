@@ -16,8 +16,9 @@
 
 #pragma once
 
-namespace hydra_thrust
-{
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 // define Boost's traversal tags
 struct no_traversal_tag {};
@@ -37,5 +38,5 @@ struct bidirectional_traversal_tag
 struct random_access_traversal_tag
   : bidirectional_traversal_tag {};
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

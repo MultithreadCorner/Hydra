@@ -25,8 +25,8 @@
 #include <hydra/detail/external/hydra_thrust/detail/allocator/allocator_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/integer_math.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
+
 namespace detail
 {
 
@@ -68,17 +68,23 @@ void
 return_temporary_buffer(
     hydra_thrust::detail::execute_with_allocator<Allocator, BaseSystem>& system
   , Pointer p
+  , std::ptrdiff_t n
     )
 {
   typedef typename hydra_thrust::detail::remove_reference<Allocator>::type naked_allocator;
   typedef typename hydra_thrust::detail::allocator_traits<naked_allocator> alloc_traits;
   typedef typename alloc_traits::pointer                             pointer;
+  typedef typename alloc_traits::size_type                           size_type;
+  typedef typename alloc_traits::value_type                          value_type;
+  typedef typename hydra_thrust::detail::pointer_traits<Pointer>::element_type T;
+
+  size_type num_elements = divide_ri(sizeof(T) * n, sizeof(value_type));
 
   pointer to_ptr = hydra_thrust::reinterpret_pointer_cast<pointer>(p);
-  alloc_traits::deallocate(system.get_allocator(), to_ptr, 0);
+  alloc_traits::deallocate(system.get_allocator(), to_ptr, num_elements);
 }
 
-#if __cplusplus >= 201103L
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 template <
     typename T,
@@ -119,18 +125,25 @@ __host__
 void
 return_temporary_buffer(
     hydra_thrust::detail::execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>& system,
-    Pointer p
+    Pointer p,
+    std::ptrdiff_t n
     )
 {
   typedef typename hydra_thrust::detail::remove_reference<Allocator>::type naked_allocator;
   typedef typename hydra_thrust::detail::allocator_traits<naked_allocator> alloc_traits;
   typedef typename alloc_traits::pointer                             pointer;
+  typedef typename alloc_traits::size_type                           size_type;
+  typedef typename alloc_traits::value_type                          value_type;
+  typedef typename hydra_thrust::detail::pointer_traits<Pointer>::element_type T;
+
+  size_type num_elements = divide_ri(sizeof(T) * n, sizeof(value_type));
 
   pointer to_ptr = hydra_thrust::reinterpret_pointer_cast<pointer>(p);
-  alloc_traits::deallocate(system.get_allocator(), to_ptr, 0);
+  alloc_traits::deallocate(system.get_allocator(), to_ptr, num_elements);
 }
 
 #endif
 
-}} // namespace hydra_thrust::detail
+} // namespace detail
 
+HYDRA_THRUST_NAMESPACE_END

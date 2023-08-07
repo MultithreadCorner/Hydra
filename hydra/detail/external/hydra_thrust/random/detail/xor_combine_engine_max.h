@@ -16,13 +16,14 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/mpl/math.h>
 #include <limits>
 #include <cstddef>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace random
 {
@@ -320,5 +321,5 @@ template<typename Engine1, size_t s1, typename Engine2, size_t s2, typename resu
 
 } // end random
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

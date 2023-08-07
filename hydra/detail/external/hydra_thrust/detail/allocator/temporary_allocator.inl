@@ -14,18 +14,23 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/allocator/temporary_allocator.h>
 #include <hydra/detail/external/hydra_thrust/detail/temporary_buffer.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/bad_alloc.h>
 #include <cassert>
 
-#if defined(__CUDA_ARCH__) && HYDRA_THRUST_DEVICE_SYSTEM == HYDRA_THRUST_DEVICE_SYSTEM_CUDA
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/terminate.h>
-#endif
+#include <hydra/detail/external/hydra_libcudacxx/nv/target>
 
-namespace hydra_thrust
-{
+#if HYDRA_THRUST_DEVICE_SYSTEM == HYDRA_THRUST_DEVICE_SYSTEM_CUDA
+#if (defined(_NVHPC_CUDA) || defined(__CUDA_ARCH__))
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/terminate.h>
+#endif // NVCC device pass or NVC++
+#endif // CUDA
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 
@@ -45,10 +50,14 @@ __host__ __device__
     // note that we pass cnt to deallocate, not a value derived from result.second
     deallocate(result.first, cnt);
 
-#if !defined(__CUDA_ARCH__)
+#if HYDRA_THRUST_DEVICE_SYSTEM == HYDRA_THRUST_DEVICE_SYSTEM_CUDA
+    NV_IF_TARGET(NV_IS_HOST, (
+      throw hydra_thrust::system::detail::bad_alloc("temporary_buffer::allocate: get_temporary_buffer failed");
+    ), ( // NV_IS_DEVICE
+      hydra_thrust::system::cuda::detail::terminate_with_message("temporary_buffer::allocate: get_temporary_buffer failed");
+    ));
+#else
     throw hydra_thrust::system::detail::bad_alloc("temporary_buffer::allocate: get_temporary_buffer failed");
-#elif HYDRA_THRUST_DEVICE_SYSTEM == HYDRA_THRUST_DEVICE_SYSTEM_CUDA
-    hydra_thrust::system::cuda::detail::terminate_with_message("temporary_buffer::allocate: get_temporary_buffer failed");
 #endif
   } // end if
 
@@ -59,12 +68,12 @@ __host__ __device__
 template<typename T, typename System>
 __host__ __device__
   void temporary_allocator<T,System>
-    ::deallocate(typename temporary_allocator<T,System>::pointer p, typename temporary_allocator<T,System>::size_type)
+    ::deallocate(typename temporary_allocator<T,System>::pointer p, typename temporary_allocator<T,System>::size_type n)
 {
-  return hydra_thrust::return_temporary_buffer(system(), p);
+  return hydra_thrust::return_temporary_buffer(system(), p, n);
 } // end temporary_allocator
 
 
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

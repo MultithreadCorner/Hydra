@@ -14,16 +14,17 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/allocator/allocator_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/pointer_traits.h>
 #include <hydra/detail/external/hydra_thrust/for_each.h>
 #include <hydra/detail/external/hydra_thrust/uninitialized_fill.h>
-#include <memory>
+#include <hydra/detail/external/hydra_thrust/detail/memory_wrapper.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 namespace allocator_traits_detail
@@ -109,5 +110,5 @@ __host__ __device__
 
 
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

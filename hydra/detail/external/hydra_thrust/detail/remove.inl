@@ -14,10 +14,7 @@
  *  limitations under the License.
  */
 
-
-/*! \file remove.inl
- *  \brief Inline file for remove.h.
- */
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/remove.h>
@@ -26,8 +23,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/remove.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/remove.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 
 __hydra_thrust_exec_check_disable__
@@ -246,5 +242,5 @@ template<typename InputIterator1,
 } // end remove_copy_if()
 
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

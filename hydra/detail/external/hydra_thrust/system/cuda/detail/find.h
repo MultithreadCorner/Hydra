@@ -26,6 +26,7 @@
  ******************************************************************************/
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
@@ -34,7 +35,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/minmax.h>
 #include <hydra/detail/external/hydra_thrust/distance.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
 // XXX forward declare to circumvent circular depedency
@@ -66,12 +67,12 @@ find(execution_policy<Derived> &policy,
      T const& value);
 
 }; // namespace cuda_cub
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/reduce.h>
 #include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
 namespace __find_if {
@@ -203,13 +204,15 @@ find(execution_policy<Derived> &policy,
      InputIt                    last,
      T const& value)
 {
+  using hydra_thrust::placeholders::_1;
+
   return cuda_cub::find_if(policy,
                         first,
                         last,
-                        hydra_thrust::detail::equal_to_value<T>(value));
+                        _1 == value);
 }
 
 
 } // namespace cuda_cub
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 #endif

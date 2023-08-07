@@ -14,10 +14,9 @@
  *  limitations under the License.
  */
 
+#pragma once
 
-/*! \file swap_ranges.inl
- *  \brief Inline file for swap_ranges.h.
- */
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #include <hydra/detail/external/hydra_thrust/swap.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
@@ -25,8 +24,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/swap_ranges.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/swap_ranges.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 
 __hydra_thrust_exec_check_disable__
@@ -62,5 +60,5 @@ template<typename ForwardIterator1,
 } // end swap_ranges()
 
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -23,13 +23,15 @@
 
 #include <hydra/detail/external/hydra_thrust/tuple.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+#include <hydra/detail/external/hydra_thrust/detail/static_assert.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
 #include <hydra/detail/external/hydra_thrust/detail/raw_reference_cast.h>
-#include <memory> // for ::new
+#include <hydra/detail/external/hydra_thrust/detail/memory_wrapper.h> // for ::new
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
+
 namespace detail
 {
 
@@ -97,7 +99,7 @@ struct predicate_to_integral
 
   template <typename T>
   __host__ __device__
-  bool operator()(const T& x)
+  IntegralType operator()(const T& x)
   {
     return pred(x) ? IntegralType(1) : IntegralType(0);
   }
@@ -175,7 +177,7 @@ template<typename Generator>
   struct host_generate_functor
 {
   typedef void result_type;
-  
+
   __hydra_thrust_exec_check_disable__
   __host__ __device__
   host_generate_functor(Generator g)
@@ -209,7 +211,7 @@ template<typename Generator>
   struct device_generate_functor
 {
   typedef void result_type;
-  
+
   __hydra_thrust_exec_check_disable__
   __host__ __device__
   device_generate_functor(Generator g)
@@ -278,13 +280,12 @@ template<typename T>
       >
 {};
 
-#ifdef HYDRA_THRUST_VARIADIC_TUPLE
 template<typename T> struct is_tuple_of_iterator_references : hydra_thrust::detail::false_type {};
 
-template<typename... Types>
+template<typename... Ts>
   struct is_tuple_of_iterator_references<
     hydra_thrust::detail::tuple_of_iterator_references<
-      Types...
+      Ts...
     >
   >
     : hydra_thrust::detail::true_type
@@ -298,31 +299,7 @@ template<typename T>
         is_non_const_reference<T>::value || is_tuple_of_iterator_references<T>::value
       >
 {};
-#else
 
-template<typename T> struct is_tuple_of_iterator_references : hydra_thrust::detail::false_type {};
-
-template<typename T1, typename T2, typename T3,
-         typename T4, typename T5, typename T6,
-         typename T7, typename T8, typename T9,
-         typename T10>
-  struct is_tuple_of_iterator_references<
-    hydra_thrust::detail::tuple_of_iterator_references<
-      T1,T2,T3,T4,T5,T6,T7,T8,T9,T10
-    >
-  >
-    : hydra_thrust::detail::true_type
-{};
-
-// use this enable_if to avoid assigning to temporaries in the transform functors below
-template<typename T>
-  struct enable_if_non_const_reference_or_tuple_of_iterator_references
-    : hydra_thrust::detail::enable_if<
-        is_non_const_reference<T>::value || is_tuple_of_iterator_references<T>::value
-      >
-{};
-
-#endif
 
 template<typename UnaryFunction>
   struct unary_transform_functor
@@ -485,22 +462,22 @@ template <typename T>
 struct fill_functor
 {
   T exemplar;
-  
-__hydra_thrust_exec_check_disable__
+
+  __hydra_thrust_exec_check_disable__
   __host__ __device__
   fill_functor(const T& _exemplar)
     : exemplar(_exemplar) {}
-    
-__hydra_thrust_exec_check_disable__
+
+  __hydra_thrust_exec_check_disable__
   __host__ __device__
   fill_functor(const fill_functor & other)
     :exemplar(other.exemplar){}
 
-__hydra_thrust_exec_check_disable__
- __host__ __device__
+  __hydra_thrust_exec_check_disable__
+  __host__ __device__
   ~fill_functor() {}
-  
-__hydra_thrust_exec_check_disable__
+
+  __hydra_thrust_exec_check_disable__
   __host__ __device__
   T operator()(void) const
   {
@@ -513,12 +490,12 @@ template<typename T>
   struct uninitialized_fill_functor
 {
   T exemplar;
-  
-__hydra_thrust_exec_check_disable__
+
+  __hydra_thrust_exec_check_disable__
   __host__ __device__
-  uninitialized_fill_functor(T x):exemplar(x){}
-  
-__hydra_thrust_exec_check_disable__
+  uninitialized_fill_functor(const T & x):exemplar(x){}
+
+  __hydra_thrust_exec_check_disable__
   __host__ __device__
   uninitialized_fill_functor(const uninitialized_fill_functor & other)
     :exemplar(other.exemplar){}
@@ -527,7 +504,7 @@ __hydra_thrust_exec_check_disable__
   __host__ __device__
   ~uninitialized_fill_functor() {}
 
- __hydra_thrust_exec_check_disable__
+  __hydra_thrust_exec_check_disable__
   __host__ __device__
   void operator()(T &x)
   {
@@ -577,5 +554,5 @@ template<typename Compare>
 
 
 } // end namespace detail
-} // end namespace hydra_thrust
 
+HYDRA_THRUST_NAMESPACE_END

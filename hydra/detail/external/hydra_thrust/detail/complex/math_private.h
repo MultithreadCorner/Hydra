@@ -35,7 +35,7 @@
 #include <hydra/detail/external/hydra_thrust/complex.h>
 #include <hydra/detail/external/hydra_thrust/detail/cstdint.h>
 
-namespace hydra_thrust{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail{
 namespace complex{
 
@@ -130,7 +130,7 @@ void  extract_words(int32_t & ix0,int32_t & ix1, double d){
 
 } // namespace detail
 
-} // namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 
 #include <hydra/detail/external/hydra_thrust/detail/complex/c99math.h>

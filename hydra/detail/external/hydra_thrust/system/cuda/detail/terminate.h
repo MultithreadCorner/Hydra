@@ -31,8 +31,7 @@
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
 #include <cstdio>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace cuda
@@ -59,5 +58,5 @@ void terminate_with_message(const char* message)
 } // end detail
 } // end cuda
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

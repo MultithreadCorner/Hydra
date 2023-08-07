@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/tabulate.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
@@ -21,8 +23,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/tabulate.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/tabulate.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 
 __hydra_thrust_exec_check_disable__
@@ -53,5 +54,5 @@ template<typename ForwardIterator, typename UnaryOperation>
 } // end tabulate()
 
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

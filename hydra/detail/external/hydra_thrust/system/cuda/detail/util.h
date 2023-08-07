@@ -27,22 +27,31 @@
 #pragma once
 
 #include <cstdio>
+#include <exception>
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
-#include <hydra/detail/external/hydra_cub/util_arch.cuh>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/execution_policy.h>
 #include <hydra/detail/external/hydra_thrust/system_error.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/error.h>
 
-HYDRA_THRUST_BEGIN_NS
+#include <hydra/detail/external/hydra_cub/detail/device_synchronize.cuh>
+#include <hydra/detail/external/hydra_cub/util_arch.cuh>
+#include <hydra/detail/external/hydra_cub/util_device.cuh>
 
+#include <hydra/detail/external/hydra_libcudacxx/nv/target>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
 inline __host__ __device__
 cudaStream_t
 default_stream()
 {
+#ifdef CUDA_API_PER_THREAD_DEFAULT_STREAM
+  return cudaStreamPerThread;
+#else
   return cudaStreamLegacy;
+#endif
 }
 
 // Fallback implementation of the customization point.
@@ -62,19 +71,33 @@ stream(execution_policy<Derived> &policy)
   return get_stream(derived_cast(policy));
 }
 
+
+// Fallback implementation of the customization point.
+template <class Derived>
+__host__ __device__
+bool
+must_perform_optional_stream_synchronization(execution_policy<Derived> &)
+{
+  return true;
+}
+
+// Entry point/interface.
+template <class Derived>
+__host__ __device__ bool
+must_perform_optional_synchronization(execution_policy<Derived> &policy)
+{
+  return must_perform_optional_stream_synchronization(derived_cast(policy));
+}
+
+
 // Fallback implementation of the customization point.
 __hydra_thrust_exec_check_disable__
 template <class Derived>
 __host__ __device__
 cudaError_t
-synchronize_stream(execution_policy<Derived> &)
+synchronize_stream(execution_policy<Derived> &policy)
 {
-  #if __HYDRA_THRUST_HAS_CUDART__
-    cudaDeviceSynchronize();
-    return cudaGetLastError();
-  #else
-    return cudaSuccess;
-  #endif
+  return cub::SyncStream(stream(policy));
 }
 
 // Entry point/interface.
@@ -84,6 +107,36 @@ cudaError_t
 synchronize(Policy &policy)
 {
   return synchronize_stream(derived_cast(policy));
+}
+
+// Fallback implementation of the customization point.
+__hydra_thrust_exec_check_disable__
+template <class Derived>
+__host__ __device__
+cudaError_t
+synchronize_stream_optional(execution_policy<Derived> &policy)
+{
+  cudaError_t result;
+
+  if (must_perform_optional_synchronization(policy))
+  {
+    result = synchronize_stream(policy);
+  }
+  else
+  {
+    result = cudaSuccess;
+  }
+
+  return result;
+}
+
+// Entry point/interface.
+template <class Policy>
+__host__ __device__
+cudaError_t
+synchronize_optional(Policy &policy)
+{
+  return synchronize_stream_optional(derived_cast(policy));
 }
 
 template <class Type>
@@ -148,66 +201,93 @@ trivial_copy_device_to_device(Policy &    policy,
 inline void __host__ __device__
 terminate()
 {
-#ifdef __CUDA_ARCH__
-  asm("trap;");
-#else
-  std::terminate();
-#endif
+  NV_IF_TARGET(NV_IS_HOST, (std::terminate();), (asm("trap;");));
 }
 
 __host__  __device__
 inline void throw_on_error(cudaError_t status)
 {
-#if __HYDRA_THRUST_HAS_CUDART__
   // Clear the global CUDA error state which may have been set by the last
   // call. Otherwise, errors may "leak" to unrelated kernel launches.
+#ifdef HYDRA_THRUST_RDC_ENABLED
   cudaGetLastError();
+#else
+  NV_IF_TARGET(NV_IS_HOST, (cudaGetLastError();));
 #endif
 
   if (cudaSuccess != status)
   {
-#if !defined(__CUDA_ARCH__)
-    throw hydra_thrust::system_error(status, hydra_thrust::cuda_category());
+
+    // Can't use #if inside NV_IF_TARGET, use a temp macro to hoist the device
+    // instructions out of the target logic.
+#ifdef HYDRA_THRUST_RDC_ENABLED
+
+#define HYDRA_THRUST_TEMP_DEVICE_CODE \
+  printf("Thrust CUDA backend error: %s: %s\n", \
+         cudaGetErrorName(status), \
+         cudaGetErrorString(status))
+
 #else
-#if __HYDRA_THRUST_HAS_CUDART__
-    printf("Thrust CUDA backend error: %s: %s\n",
-           cudaGetErrorName(status),
-           cudaGetErrorString(status));
-#else
-    printf("Thrust CUDA backend error: %d\n",
-           static_cast<int>(status));
+
+#define HYDRA_THRUST_TEMP_DEVICE_CODE \
+  printf("Thrust CUDA backend error: %d\n", \
+         static_cast<int>(status))
+
 #endif
-    cuda_cub::terminate();
-#endif
+
+    NV_IF_TARGET(NV_IS_HOST, (
+      throw hydra_thrust::system_error(status, hydra_thrust::cuda_category());
+    ), (
+      HYDRA_THRUST_TEMP_DEVICE_CODE;
+      cuda_cub::terminate();
+    ));
+
+#undef HYDRA_THRUST_TEMP_DEVICE_CODE
+
   }
 }
 
 __host__ __device__
 inline void throw_on_error(cudaError_t status, char const *msg)
 {
-#if __HYDRA_THRUST_HAS_CUDART__
   // Clear the global CUDA error state which may have been set by the last
   // call. Otherwise, errors may "leak" to unrelated kernel launches.
+#ifdef HYDRA_THRUST_RDC_ENABLED
   cudaGetLastError();
+#else
+  NV_IF_TARGET(NV_IS_HOST, (cudaGetLastError();));
 #endif
 
   if (cudaSuccess != status)
   {
-#if !defined(__CUDA_ARCH__)
-    throw hydra_thrust::system_error(status, hydra_thrust::cuda_category(), msg);
+    // Can't use #if inside NV_IF_TARGET, use a temp macro to hoist the device
+    // instructions out of the target logic.
+#ifdef HYDRA_THRUST_RDC_ENABLED
+
+#define HYDRA_THRUST_TEMP_DEVICE_CODE \
+  printf("Thrust CUDA backend error: %s: %s: %s\n", \
+         cudaGetErrorName(status), \
+         cudaGetErrorString(status),\
+         msg)
+
 #else
-#if __HYDRA_THRUST_HAS_CUDART__
-    printf("Thrust CUDA backend error: %s: %s: %s\n",
-           cudaGetErrorName(status),
-           cudaGetErrorString(status),
-           msg);
-#else
-    printf("Thrust CUDA backend error: %d: %s \n",
-           static_cast<int>(status),
-           msg);
+
+#define HYDRA_THRUST_TEMP_DEVICE_CODE \
+  printf("Thrust CUDA backend error: %d: %s\n", \
+         static_cast<int>(status),              \
+         msg)
+
 #endif
-    cuda_cub::terminate();
-#endif
+
+    NV_IF_TARGET(NV_IS_HOST, (
+      throw hydra_thrust::system_error(status, hydra_thrust::cuda_category(), msg);
+    ), (
+      HYDRA_THRUST_TEMP_DEVICE_CODE;
+      cuda_cub::terminate();
+    ));
+
+#undef HYDRA_THRUST_TEMP_DEVICE_CODE
+
   }
 }
 
@@ -231,6 +311,19 @@ struct transform_input_iterator_t
   __host__ __device__ __forceinline__
   transform_input_iterator_t(InputIt input, UnaryOp op)
       : input(input), op(op) {}
+
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+  transform_input_iterator_t(const self_t &) = default;
+#endif
+
+  // UnaryOp might not be copy assignable, such as when it is a lambda.  Define
+  // an explicit copy assignment operator that doesn't try to assign it.
+  __host__ __device__ 
+  self_t& operator=(const self_t& o)
+  {
+    input = o.input;
+    return *this;
+  }
 
   /// Postfix increment
   __host__ __device__ __forceinline__ self_t operator++(int)
@@ -298,14 +391,6 @@ struct transform_input_iterator_t
     return op(input[n]);
   }
 
-#if 0
-    /// Structure dereference
-    __host__ __device__ __forceinline__ pointer operator->()
-    {
-        return &op(*input_itr);
-    }
-#endif
-
   /// Equal to
   __host__ __device__ __forceinline__ bool operator==(const self_t &rhs) const
   {
@@ -317,14 +402,6 @@ struct transform_input_iterator_t
   {
     return (input != rhs.input);
   }
-
-#if 0
-    /// ostream operator
-    friend std::ostream& operator<<(std::ostream& os, const self& itr)
-    {
-        return os;
-    }
-#endif
 };    // struct transform_input_iterarot_t
 
 template <class ValueType,
@@ -349,6 +426,20 @@ struct transform_pair_of_input_iterators_t
                                       InputIt2 input2_,
                                       BinaryOp op_)
       : input1(input1_), input2(input2_), op(op_) {}
+
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+  transform_pair_of_input_iterators_t(const self_t &) = default;
+#endif
+
+  // BinaryOp might not be copy assignable, such as when it is a lambda.
+  // Define an explicit copy assignment operator that doesn't try to assign it.
+  __host__ __device__
+  self_t& operator=(const self_t& o)
+  {
+    input1 = o.input1;
+    input2 = o.input2;
+    return *this;
+  }
 
   /// Postfix increment
   __host__ __device__ __forceinline__ self_t operator++(int)
@@ -432,121 +523,6 @@ struct transform_pair_of_input_iterators_t
 
 };    // struct transform_pair_of_input_iterators_t
 
-template <class ValueType,
-          class InputIt1,
-          class InputIt2,
-          class InputIt3,
-          class TransformOp>
-struct transform_triple_of_input_iterators_t
-{
-  typedef transform_triple_of_input_iterators_t               self_t;
-  typedef typename iterator_traits<InputIt1>::difference_type difference_type;
-  typedef ValueType                                           value_type;
-  typedef value_type *                                        pointer;
-  typedef value_type                                          reference;
-  typedef std::random_access_iterator_tag                     iterator_category;
-
-  InputIt1            input1;
-  InputIt2            input2;
-  InputIt3            input3;
-  mutable TransformOp op;
-
-  __host__ __device__ __forceinline__
-  transform_triple_of_input_iterators_t(InputIt1    input1_,
-                                        InputIt2    input2_,
-                                        InputIt3    input3_,
-                                        TransformOp op_)
-      : input1(input1_), input2(input2_), input3(input3_), op(op_) {}
-
-  /// Postfix increment
-  __host__ __device__ __forceinline__ self_t operator++(int)
-  {
-    self_t retval = *this;
-    ++input1;
-    ++input2;
-    ++input3;
-    return retval;
-  }
-
-  /// Prefix increment
-  __host__ __device__ __forceinline__ self_t operator++()
-  {
-    ++input1;
-    ++input2;
-    ++input3;
-    return *this;
-  }
-
-  /// Indirection
-  __host__ __device__ __forceinline__ reference operator*() const
-  {
-    return op(*input1, *input2, *input3);
-  }
-  /// Indirection
-  __host__ __device__ __forceinline__ reference operator*()
-  {
-    return op(*input1, *input2, *input3);
-  }
-
-  /// Addition
-  __host__ __device__ __forceinline__ self_t operator+(difference_type n) const
-  {
-    return self_t(input1 + n, input2 + n, input3 + n, op);
-  }
-
-  /// Addition assignment
-  __host__ __device__ __forceinline__ self_t &operator+=(difference_type n)
-  {
-    input1 += n;
-    input2 += n;
-    input3 += n;
-    return *this;
-  }
-
-  /// Subtraction
-  __host__ __device__ __forceinline__ self_t operator-(difference_type n) const
-  {
-    return self_t(input1 - n, input2 - n, input3 - n, op);
-  }
-
-  /// Subtraction assignment
-  __host__ __device__ __forceinline__ self_t &operator-=(difference_type n)
-  {
-    input1 -= n;
-    input2 -= n;
-    input3 -= n;
-    return *this;
-  }
-
-  /// Distance
-  __host__ __device__ __forceinline__ difference_type operator-(self_t other) const
-  {
-    return input1 - other.input1;
-  }
-
-  /// Array subscript
-  __host__ __device__ __forceinline__ reference operator[](difference_type n) const
-  {
-    return op(input1[n], input2[n], input3[n]);
-  }
-
-  /// Equal to
-  __host__ __device__ __forceinline__ bool operator==(const self_t &rhs) const
-  {
-    return (input1 == rhs.input1) &&
-           (input2 == rhs.input2) &&
-           (input3 == rhs.input3);
-  }
-
-  /// Not equal to
-  __host__ __device__ __forceinline__ bool operator!=(const self_t &rhs) const
-  {
-    return (input1 != rhs.input1) ||
-           (input2 != rhs.input2) ||
-           (input3 != rhs.input3);
-  }
-
-};    // struct transform_triple_of_input_iterators_t
 
 struct identity
 {
@@ -565,208 +541,6 @@ struct identity
   }
 };
 
-template <class ValueType,
-          class OutputIt,
-          class TransformOp = identity>
-struct transform_output_iterator_t
-{
-  struct proxy_reference
-  {
-  private:
-    OutputIt    output;
-    TransformOp op;
-
-  public:
-    __host__ __device__
-    proxy_reference(OutputIt const &output_, TransformOp op_)
-        : output(output_), op(op_) {}
-
-    proxy_reference __host__ __device__
-    operator=(ValueType const &x)
-    {
-      *output = op(x);
-      return *this;
-    }
-  };
-
-  typedef transform_output_iterator_t                         self_t;
-  typedef typename iterator_traits<OutputIt>::difference_type difference_type;
-  typedef void                                                value_type;
-  typedef proxy_reference                                     reference;
-  typedef std::output_iterator_tag                            iterator_category;
-
-  OutputIt    output;
-  TransformOp op;
-
-  __host__ __device__ __forceinline__
-  transform_output_iterator_t(OutputIt output)
-      : output(output) {}
-
-  __host__ __device__ __forceinline__
-  transform_output_iterator_t(OutputIt output, TransformOp op)
-      : output(output), op(op) {}
-
-  /// Postfix increment
-  __host__ __device__ __forceinline__ self_t operator++(int)
-  {
-    self_t retval = *this;
-    ++output;
-    return retval;
-  }
-
-  /// Prefix increment
-  __host__ __device__ __forceinline__ self_t operator++()
-  {
-    ++output;
-    return *this;
-  }
-
-  /// Indirection
-  __host__ __device__ __forceinline__ reference operator*() const
-  {
-    return proxy_reference(output, op);
-  }
-  /// Indirection
-  __host__ __device__ __forceinline__ reference operator*()
-  {
-    return proxy_reference(output, op);
-  }
-
-  /// Addition
-  __host__ __device__ __forceinline__ self_t operator+(difference_type n) const
-  {
-    return self_t(output + n, op);
-  }
-
-  /// Addition assignment
-  __host__ __device__ __forceinline__ self_t &operator+=(difference_type n)
-  {
-    output += n;
-    return *this;
-  }
-
-  /// Subtraction
-  __host__ __device__ __forceinline__ self_t operator-(difference_type n) const
-  {
-    return self_t(output - n, op);
-  }
-
-  /// Subtraction assignment
-  __host__ __device__ __forceinline__ self_t &operator-=(difference_type n)
-  {
-    output -= n;
-    return *this;
-  }
-
-  /// Distance
-  __host__ __device__ __forceinline__ difference_type operator-(self_t other) const
-  {
-    return output - other.output;
-  }
-
-  /// Array subscript
-  __host__ __device__ __forceinline__ reference operator[](difference_type n) const
-  {
-    return *(output + n);
-  }
-
-  /// Equal to
-  __host__ __device__ __forceinline__ bool operator==(const self_t &rhs) const
-  {
-    return (output == rhs.output);
-  }
-
-  /// Not equal to
-  __host__ __device__ __forceinline__ bool operator!=(const self_t &rhs) const
-  {
-    return (output != rhs.output);
-  }
-};    // struct transform_output_iterator_
-
-template <class T, T VALUE>
-struct static_integer_iterator
-{
-  typedef static_integer_iterator         self_t;
-  typedef int                             difference_type;
-  typedef T                               value_type;
-  typedef T                               reference;
-  typedef std::random_access_iterator_tag iterator_category;
-
-  __host__ __device__ __forceinline__
-  static_integer_iterator() {}
-
-  /// Postfix increment
-  __host__ __device__ __forceinline__ self_t operator++(int)
-  {
-    return *this;
-  }
-
-  /// Prefix increment
-  __host__ __device__ __forceinline__ self_t operator++()
-  {
-    return *this;
-  }
-
-  /// Indirection
-  __host__ __device__ __forceinline__ reference operator*() const
-  {
-    return VALUE;
-  }
-  /// Indirection
-  __host__ __device__ __forceinline__ reference operator*()
-  {
-    return VALUE;
-  }
-
-  /// Addition
-  __host__ __device__ __forceinline__ self_t operator+(difference_type ) const
-  {
-    return self_t();
-  }
-
-  /// Addition assignment
-  __host__ __device__ __forceinline__ self_t &operator+=(difference_type )
-  {
-    return *this;
-  }
-
-  /// Subtraction
-  __host__ __device__ __forceinline__ self_t operator-(difference_type ) const
-  {
-    return self_t();
-  }
-
-  /// Subtraction assignment
-  __host__ __device__ __forceinline__ self_t &operator-=(difference_type )
-  {
-    return *this;
-  }
-
-  /// Distance
-  __host__ __device__ __forceinline__ difference_type operator-(self_t ) const
-  {
-    return 0;
-  }
-
-  /// Array subscript
-  __host__ __device__ __forceinline__ reference operator[](difference_type ) const
-  {
-    return VALUE;
-  }
-
-  /// Equal to
-  __host__ __device__ __forceinline__ bool operator==(const self_t &) const
-  {
-    return true;
-  }
-
-  /// Not equal to
-  __host__ __device__ __forceinline__ bool operator!=(const self_t &) const
-  {
-    return false;
-  }
-
-};    // struct static_bool_iterator
 
 template <class T>
 struct counting_iterator_t
@@ -864,4 +638,4 @@ struct counting_iterator_t
 
 }    // cuda_
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END

@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/pointer_traits.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/memory.h>
@@ -21,8 +23,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/static_assert.h>
 #include <hydra/detail/external/hydra_thrust/detail/malloc_and_free.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -100,5 +101,5 @@ void iter_swap(hydra_thrust::execution_policy<DerivedPolicy> &, Pointer1, Pointe
 } // end generic
 } // end detail
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

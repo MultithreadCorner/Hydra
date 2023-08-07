@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2020 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2023 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -48,7 +48,7 @@
  *         <tt>HYDRA_VERSION / 100 % 1000</tt> is the feature version.
  *         <tt>HYDRA_VERSION / 100000</tt> is the major version.
  */
-#define HYDRA_VERSION 300203
+#define HYDRA_VERSION 400001
 
 
 /*! \def HYDRA_MAJOR_VERSION

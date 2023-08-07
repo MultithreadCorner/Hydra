@@ -14,20 +14,16 @@
  *  limitations under the License.
  */
 
+#pragma once
 
-/*! \file equal.inl
- *  \brief Inline file for equal.h.
- */
-
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/equal.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/select_system.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/equal.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/equal.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 __hydra_thrust_exec_check_disable__
 template<typename System, typename InputIterator1, typename InputIterator2>
@@ -65,7 +61,7 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
 }
 
 
-template <typename InputIterator1, typename InputIterator2, 
+template <typename InputIterator1, typename InputIterator2,
           typename BinaryPredicate>
 bool equal(InputIterator1 first1, InputIterator1 last1,
            InputIterator2 first2, BinaryPredicate binary_pred)
@@ -81,6 +77,4 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
   return hydra_thrust::equal(select_system(system1,system2), first1, last1, first2, binary_pred);
 }
 
-
-} // end namespace hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

@@ -22,8 +22,7 @@
 #include <hydra/detail/external/hydra_thrust/iterator/detail/iterator_category_to_system.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace detail
 {
@@ -31,9 +30,6 @@ namespace detail
 // forward declarations
 template <typename> struct is_iterator_system;
 template <typename> struct is_iterator_traversal;
-
-// make type_traits easy to access
-using namespace hydra_thrust::detail;
 
 template <typename Category>
   struct host_system_category_to_traversal
@@ -52,7 +48,7 @@ template <typename Category>
               eval_if<
                 is_convertible<Category, output_host_iterator_tag>::value,
                 detail::identity_<incrementable_traversal_tag>,
-                void
+                detail::identity_<void>
               >
             >
           >
@@ -80,7 +76,7 @@ template <typename Category>
               eval_if<
                 is_convertible<Category, output_device_iterator_tag>::value,
                 detail::identity_<incrementable_traversal_tag>,
-                void
+                detail::identity_<void>
               >
             >
           >
@@ -111,7 +107,7 @@ template<typename Category>
           device_system_category_to_traversal<Category>,
 
           // unknown category
-          void
+          detail::identity_<void>
         >
       >
 {};
@@ -130,5 +126,5 @@ template <typename CategoryOrTraversal>
 
 } // end detail
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

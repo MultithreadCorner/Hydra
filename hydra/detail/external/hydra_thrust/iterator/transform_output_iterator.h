@@ -1,7 +1,7 @@
 /*
  *  Copyright 2008-2018 NVIDIA Corporation
  *
- *  Licensed under the Apache License, Vesion 2.0 (the "License");
+ *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
@@ -24,8 +24,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/iterator/detail/transform_output_iterator.inl>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /*! \addtogroup iterators
  *  \{
@@ -105,6 +104,8 @@ template <typename UnaryFunction, typename OutputIterator>
   /*! \endcond
    */
 
+  transform_output_iterator() = default;
+
   /*! This constructor takes as argument an \c OutputIterator and an \c
    * UnaryFunction and copies them to a new \p transform_output_iterator
    *
@@ -159,5 +160,5 @@ make_transform_output_iterator(OutputIterator out, UnaryFunction fun)
 /*! \} // end iterators
  */
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

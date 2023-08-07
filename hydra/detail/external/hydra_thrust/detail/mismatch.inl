@@ -14,11 +14,7 @@
  *  limitations under the License.
  */
 
-
-/*! \file mismatch.inl
- *  \brief Inline file for mismatch.h
- */
-
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/mismatch.h>
@@ -27,9 +23,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/mismatch.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/mismatch.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 __hydra_thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2>
@@ -92,6 +86,4 @@ hydra_thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first
   return hydra_thrust::mismatch(select_system(system1,system2), first1, last1, first2, pred);
 } // end mismatch()
 
-
-} // end namespace hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

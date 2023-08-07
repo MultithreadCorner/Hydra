@@ -16,11 +16,12 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/has_nested_type.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 // forward definitions for is_commutative
 template <typename T> struct plus;
@@ -92,5 +93,5 @@ template<typename T> struct is_commutative< typename hydra_thrust::bit_and<T>   
 template<typename T> struct is_commutative< typename hydra_thrust::bit_xor<T>     > : public hydra_thrust::detail::is_arithmetic<T> {};
 
 } // end namespace detail
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

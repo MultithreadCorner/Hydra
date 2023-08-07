@@ -19,17 +19,21 @@
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
+#include <hydra/detail/external/hydra_thrust/detail/raw_pointer_cast.h>
+#include <hydra/detail/external/hydra_thrust/detail/raw_reference_cast.h>
 #include <hydra/detail/external/hydra_thrust/detail/seq.h>
-#include <hydra/detail/external/hydra_thrust/memory.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
+#include <hydra/detail/external/hydra_thrust/system/detail/bad_alloc.h>
+#include <hydra/detail/external/hydra_thrust/detail/malloc_and_free.h>
+
 #ifdef HYDRA_THRUST_CACHING_DEVICE_MALLOC
 #include <hydra/detail/external/hydra_cub/util_allocator.cuh>
 #endif
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
-#include <hydra/detail/external/hydra_thrust/system/detail/bad_alloc.h>
 
+#include <hydra/detail/external/hydra_libcudacxx/nv/target>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
 #ifdef HYDRA_THRUST_CACHING_DEVICE_MALLOC
@@ -52,21 +56,34 @@ void *malloc(execution_policy<DerivedPolicy> &, std::size_t n)
 {
   void *result = 0;
 
-#ifndef __CUDA_ARCH__
+  // need to repeat a lot of code here because we can't use #if inside of the
+  // NV_IF_TARGET macro.
+  // The device path is the same either way, but the host allocations differ.
 #ifdef __CUB_CACHING_MALLOC
-  cub::CachingDeviceAllocator &alloc = get_allocator();
-  cudaError_t status = alloc.DeviceAllocate(&result, n);
-#else
-  cudaError_t status = cudaMalloc(&result, n);
-#endif
+  NV_IF_TARGET(NV_IS_HOST, (
+    cub::CachingDeviceAllocator &alloc = get_allocator();
+    cudaError_t status = alloc.DeviceAllocate(&result, n);
 
-  if(status != cudaSuccess)
-  {
-    cudaGetLastError(); // Clear global CUDA error state.
-    hydra_thrust::system::detail::bad_alloc(hydra_thrust::cuda_category().message(status).c_str());
-  }
-#else
-  result = hydra_thrust::raw_pointer_cast(hydra_thrust::malloc(hydra_thrust::seq, n));
+    if (status != cudaSuccess)
+    {
+      cudaGetLastError(); // Clear global CUDA error state.
+      throw hydra_thrust::system::detail::bad_alloc(hydra_thrust::cuda_category().message(status).c_str());
+    }
+  ), ( // NV_IS_DEVICE
+    result = hydra_thrust::raw_pointer_cast(hydra_thrust::malloc(hydra_thrust::seq, n));
+  ));
+#else // not __CUB_CACHING_MALLOC
+  NV_IF_TARGET(NV_IS_HOST, (
+    cudaError_t status = cudaMalloc(&result, n);
+
+    if (status != cudaSuccess)
+    {
+      cudaGetLastError(); // Clear global CUDA error state.
+      throw hydra_thrust::system::detail::bad_alloc(hydra_thrust::cuda_category().message(status).c_str());
+    }
+  ), ( // NV_IS_DEVICE
+    result = hydra_thrust::raw_pointer_cast(hydra_thrust::malloc(hydra_thrust::seq, n));
+  ));
 #endif
 
   return result;
@@ -77,18 +94,26 @@ template<typename DerivedPolicy, typename Pointer>
 __host__ __device__
 void free(execution_policy<DerivedPolicy> &, Pointer ptr)
 {
-#ifndef __CUDA_ARCH__
+  // need to repeat a lot of code here because we can't use #if inside of the
+  // NV_IF_TARGET macro.
+  // The device path is the same either way, but the host deallocations differ.
 #ifdef __CUB_CACHING_MALLOC
-  cub::CachingDeviceAllocator &alloc = get_allocator();
-  cudaError_t status = alloc.DeviceFree(hydra_thrust::raw_pointer_cast(ptr));
-#else
-  cudaError_t status = cudaFree(hydra_thrust::raw_pointer_cast(ptr));
-#endif
-  cuda_cub::throw_on_error(status, "device free failed");
-#else
-  hydra_thrust::free(hydra_thrust::seq, ptr);
+  NV_IF_TARGET(NV_IS_HOST, (
+    cub::CachingDeviceAllocator &alloc = get_allocator();
+    cudaError_t status = alloc.DeviceFree(hydra_thrust::raw_pointer_cast(ptr));
+    cuda_cub::throw_on_error(status, "device free failed");
+  ), ( // NV_IS_DEVICE
+    hydra_thrust::free(hydra_thrust::seq, ptr);
+  ));
+#else // not __CUB_CACHING_MALLOC
+  NV_IF_TARGET(NV_IS_HOST, (
+    cudaError_t status = cudaFree(hydra_thrust::raw_pointer_cast(ptr));
+    cuda_cub::throw_on_error(status, "device free failed");
+  ), ( // NV_IS_DEVICE
+    hydra_thrust::free(hydra_thrust::seq, ptr);
+  ));
 #endif
 } // end free()
 
 }    // namespace cuda_cub
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END

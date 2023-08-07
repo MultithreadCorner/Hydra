@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2022 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@
  *         <tt>HYDRA_THRUST_VERSION / 100 % 1000</tt> is the minor version.
  *         <tt>HYDRA_THRUST_VERSION / 100000</tt> is the major version.
  */
-#define HYDRA_THRUST_VERSION 100907
+#define HYDRA_THRUST_VERSION 200200
 
 /*! \def HYDRA_THRUST_MAJOR_VERSION
  *  \brief The preprocessor macro \p HYDRA_THRUST_MAJOR_VERSION encodes the
@@ -70,26 +70,6 @@
 /*! \def HYDRA_THRUST_PATCH_NUMBER
  *  \brief The preprocessor macro \p HYDRA_THRUST_PATCH_NUMBER encodes the
  *         patch number of the Thrust library.
+ *         Legacy; will be 0 for all future releases.
  */
 #define HYDRA_THRUST_PATCH_NUMBER 0
-
-
-// Declare these namespaces here for the purpose of Doxygenating them
-
-/*! \namespace hydra_thrust
- *  \brief \p hydra_thrust is the top-level namespace which contains all Thrust
- *         functions and types.
- */
-namespace hydra_thrust
-{
-
-}
-
-#ifndef HYDRA_THRUST_BEGIN_NS
-#define HYDRA_THRUST_BEGIN_NS namespace hydra_thrust {
-#endif
-
-#ifndef HYDRA_THRUST_END_NS
-#define HYDRA_THRUST_END_NS }
-#endif
-

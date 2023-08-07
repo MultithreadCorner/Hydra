@@ -14,12 +14,13 @@
  *  limitations under the License.
  */
 
-/*! \file sync_pool.h
+/*! \file 
  *  \brief A mutex-synchronized version of \p unsynchronized_pool_resource.
  */
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/cpp11_required.h>
 
 #if HYDRA_THRUST_CPP_DIALECT >= 2011
@@ -28,15 +29,12 @@
 
 #include <hydra/detail/external/hydra_thrust/mr/pool.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace mr
 {
 
-/*! \addtogroup memory_management Memory Management
- *  \addtogroup memory_management_classes Memory Management Classes
- *  \addtogroup memory_resources Memory Resources
- *  \ingroup memory_resources
+/*! \addtogroup memory_resources Memory Resources
+ *  \ingroup memory_management
  *  \{
  */
 
@@ -89,13 +87,13 @@ public:
         upstream_pool.release();
     }
 
-    HYDRA_THRUST_NODISCARD virtual void_ptr do_allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) HYDRA_THRUST_OVERRIDE
+    HYDRA_THRUST_NODISCARD virtual void_ptr do_allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) override
     {
         lock_t lock(mtx);
         return upstream_pool.do_allocate(bytes, alignment);
     }
 
-    virtual void do_deallocate(void_ptr p, std::size_t n, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) HYDRA_THRUST_OVERRIDE
+    virtual void do_deallocate(void_ptr p, std::size_t n, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) override
     {
         lock_t lock(mtx);
         upstream_pool.do_deallocate(p, n, alignment);
@@ -106,11 +104,11 @@ private:
     unsync_pool upstream_pool;
 };
 
-/*! \}
+/*! \} // memory_resources
  */
 
 } // end mr
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #endif // HYDRA_THRUST_CPP_DIALECT >= 2011
 

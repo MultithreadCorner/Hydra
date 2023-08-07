@@ -20,8 +20,9 @@
 
 #pragma once
 
-namespace hydra_thrust
-{
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 
@@ -31,7 +32,7 @@ template<typename T, typename System>
   class temporary_array;
 
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
@@ -39,10 +40,9 @@ template<typename T, typename System>
 #include <hydra/detail/external/hydra_thrust/detail/contiguous_storage.h>
 #include <hydra/detail/external/hydra_thrust/detail/allocator/temporary_allocator.h>
 #include <hydra/detail/external/hydra_thrust/detail/allocator/no_throw_allocator.h>
-#include <memory>
+#include <hydra/detail/external/hydra_thrust/detail/memory_wrapper.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 
@@ -175,7 +175,7 @@ template<typename Iterator, typename FromSystem, typename ToSystem>
 
 
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/temporary_array.inl>
 

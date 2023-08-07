@@ -34,19 +34,16 @@
 
 #pragma once
 
-#include "../../util_ptx.cuh"
-#include "../../util_arch.cuh"
-#include "../../block/block_raking_layout.cuh"
-#include "../../thread/thread_reduce.cuh"
-#include "../../thread/thread_scan.cuh"
-#include "../../warp/warp_scan.cuh"
-#include "../../util_namespace.cuh"
+#include <hydra/detail/external/hydra_cub/config.cuh>
 
-/// Optional outer namespace(s)
-CUB_NS_PREFIX
+#include <hydra/detail/external/hydra_cub/block/block_raking_layout.cuh>
+#include <hydra/detail/external/hydra_cub/detail/uninitialized_copy.cuh>
+#include <hydra/detail/external/hydra_cub/thread/thread_reduce.cuh>
+#include <hydra/detail/external/hydra_cub/thread/thread_scan.cuh>
+#include <hydra/detail/external/hydra_cub/util_ptx.cuh>
+#include <hydra/detail/external/hydra_cub/warp/warp_scan.cuh>
 
-/// CUB namespace
-namespace cub {
+CUB_NAMESPACE_BEGIN
 
 
 /**
@@ -58,7 +55,7 @@ template <
     int         BLOCK_DIM_Y,    ///< The thread block length in threads along the Y dimension
     int         BLOCK_DIM_Z,    ///< The thread block length in threads along the Z dimension
     bool        MEMOIZE,        ///< Whether or not to buffer outer raking scan partials to incur fewer shared memory reads at the expense of higher register pressure
-    int         PTX_ARCH>       ///< The PTX compute capability for which to to specialize this collective
+    int         LEGACY_PTX_ARCH = 0> ///< The PTX compute capability for which to to specialize this collective
 struct BlockScanRaking
 {
     //---------------------------------------------------------------------
@@ -73,7 +70,7 @@ struct BlockScanRaking
     };
 
     /// Layout type for padded thread block raking grid
-    typedef BlockRakingLayout<T, BLOCK_THREADS, PTX_ARCH> BlockRakingLayout;
+    typedef BlockRakingLayout<T, BLOCK_THREADS> BlockRakingLayout;
 
     /// Constants
     enum
@@ -85,11 +82,11 @@ struct BlockScanRaking
         SEGMENT_LENGTH = BlockRakingLayout::SEGMENT_LENGTH,
 
         /// Cooperative work can be entirely warp synchronous
-        WARP_SYNCHRONOUS = (BLOCK_THREADS == RAKING_THREADS),
+        WARP_SYNCHRONOUS = (int(BLOCK_THREADS) == int(RAKING_THREADS)),
     };
 
     ///  WarpScan utility type
-    typedef WarpScan<T, RAKING_THREADS, PTX_ARCH> WarpScan;
+    typedef WarpScan<T, RAKING_THREADS> WarpScan;
 
     /// Shared memory storage layout type
     struct _TempStorage
@@ -261,7 +258,7 @@ struct BlockScanRaking
         {
             // Place thread partial into shared memory raking grid
             T *placement_ptr = BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid);
-            *placement_ptr = input;
+            detail::uninitialized_copy(placement_ptr, input);
 
             CTA_SYNC();
 
@@ -303,7 +300,7 @@ struct BlockScanRaking
         {
             // Place thread partial into shared memory raking grid
             T *placement_ptr = BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid);
-            *placement_ptr = input;
+            detail::uninitialized_copy(placement_ptr, input);
 
             CTA_SYNC();
 
@@ -346,7 +343,7 @@ struct BlockScanRaking
         {
             // Place thread partial into shared memory raking grid
             T *placement_ptr = BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid);
-            *placement_ptr = input;
+            detail::uninitialized_copy(placement_ptr, input);
 
             CTA_SYNC();
 
@@ -398,7 +395,7 @@ struct BlockScanRaking
         {
             // Place thread partial into shared memory raking grid
             T *placement_ptr = BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid);
-            *placement_ptr = input;
+            detail::uninitialized_copy(placement_ptr, input);
 
             CTA_SYNC();
 
@@ -460,7 +457,7 @@ struct BlockScanRaking
         {
             // Place thread partial into shared memory raking grid
             T *placement_ptr = BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid);
-            *placement_ptr = input;
+            detail::uninitialized_copy(placement_ptr, input);
 
             CTA_SYNC();
 
@@ -517,7 +514,7 @@ struct BlockScanRaking
         {
             // Place thread partial into shared memory raking grid
             T *placement_ptr = BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid);
-            *placement_ptr = input;
+            detail::uninitialized_copy(placement_ptr, input);
 
             CTA_SYNC();
 
@@ -560,7 +557,7 @@ struct BlockScanRaking
         {
             // Place thread partial into shared memory raking grid
             T *placement_ptr = BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid);
-            *placement_ptr = input;
+            detail::uninitialized_copy(placement_ptr, input);
 
             CTA_SYNC();
 
@@ -622,7 +619,7 @@ struct BlockScanRaking
         {
             // Place thread partial into shared memory raking grid
             T *placement_ptr = BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid);
-            *placement_ptr = input;
+            detail::uninitialized_copy(placement_ptr, input);
 
             CTA_SYNC();
 
@@ -661,6 +658,5 @@ struct BlockScanRaking
 };
 
 
-}               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+CUB_NAMESPACE_END
 

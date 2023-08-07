@@ -33,17 +33,13 @@
 
 #pragma once
 
+#include "../../config.cuh"
 #include "../../thread/thread_operators.cuh"
 #include "../../thread/thread_load.cuh"
 #include "../../thread/thread_store.cuh"
 #include "../../util_type.cuh"
-#include "../../util_namespace.cuh"
 
-/// Optional outer namespace(s)
-CUB_NS_PREFIX
-
-/// CUB namespace
-namespace cub {
+CUB_NAMESPACE_BEGIN
 
 /**
  * \brief WarpReduceSmem provides smem-based variants of parallel reduction of items partitioned across a CUDA thread warp.
@@ -51,7 +47,7 @@ namespace cub {
 template <
     typename    T,                      ///< Data type being reduced
     int         LOGICAL_WARP_THREADS,   ///< Number of threads per logical warp
-    int         PTX_ARCH>               ///< The PTX compute capability for which to to specialize this collective
+    int         LEGACY_PTX_ARCH = 0>    ///< The PTX compute capability for which to to specialize this collective
 struct WarpReduceSmem
 {
     /******************************************************************************
@@ -61,7 +57,7 @@ struct WarpReduceSmem
     enum
     {
         /// Whether the logical warp size and the PTX warp size coincide
-        IS_ARCH_WARP = (LOGICAL_WARP_THREADS == CUB_WARP_THREADS(PTX_ARCH)),
+        IS_ARCH_WARP = (LOGICAL_WARP_THREADS == CUB_WARP_THREADS(0)),
 
         /// Whether the logical warp size is a power-of-two
         IS_POW_OF_TWO = PowerOfTwo<LOGICAL_WARP_THREADS>::VALUE,
@@ -109,18 +105,11 @@ struct WarpReduceSmem
      ******************************************************************************/
 
     /// Constructor
-    __device__ __forceinline__ WarpReduceSmem(
-        TempStorage     &temp_storage)
-    :
-        temp_storage(temp_storage.Alias()),
-
-        lane_id(IS_ARCH_WARP ?
-            LaneId() :
-            LaneId() % LOGICAL_WARP_THREADS),
-
-        member_mask((0xffffffff >> (32 - LOGICAL_WARP_THREADS)) << ((IS_ARCH_WARP || !IS_POW_OF_TWO ) ?
-            0 : // arch-width and non-power-of-two subwarps cannot be tiled with the arch-warp
-            ((LaneId() / LOGICAL_WARP_THREADS) * LOGICAL_WARP_THREADS)))
+    explicit __device__ __forceinline__ WarpReduceSmem(TempStorage &temp_storage)
+        : temp_storage(temp_storage.Alias())
+        , lane_id(IS_ARCH_WARP ? LaneId() : LaneId() % LOGICAL_WARP_THREADS)
+        , member_mask(
+            WarpMask<LOGICAL_WARP_THREADS>(LaneId() / LOGICAL_WARP_THREADS))
     {}
 
     /******************************************************************************
@@ -361,12 +350,11 @@ struct WarpReduceSmem
         FlagT            flag,               ///< [in] Whether or not the current lane is a segment head/tail
         ReductionOp     reduction_op)       ///< [in] Reduction operator
     {
-        return SegmentedReduce<HEAD_SEGMENTED>(input, flag, reduction_op, Int2Type<(PTX_ARCH >= 200)>());
+        return SegmentedReduce<HEAD_SEGMENTED>(input, flag, reduction_op, Int2Type<true>());
     }
 
 
 };
 
 
-}               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+CUB_NAMESPACE_END

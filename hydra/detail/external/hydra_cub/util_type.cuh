@@ -33,26 +33,46 @@
 
 #pragma once
 
-#include <iostream>
-#include <limits>
 #include <cfloat>
+#include <iostream>
+#include <iterator>
+#include <limits>
 
-#if (__CUDACC_VER_MAJOR__ >= 9)
+#include <cuda.h>
+
+#if !_NVHPC_CUDA
     #include <cuda_fp16.h>
 #endif
+#if !_NVHPC_CUDA && !defined(CUB_DISABLE_BF16_SUPPORT)
+    #include <cuda_bf16.h>
+#endif
 
-#include "util_macro.cuh"
-#include "util_arch.cuh"
-#include "util_namespace.cuh"
+#include <hydra/detail/external/hydra_cub/detail/uninitialized_copy.cuh>
+#include <hydra/detail/external/hydra_cub/util_arch.cuh>
+#include <hydra/detail/external/hydra_cub/util_compiler.cuh>
+#include <hydra/detail/external/hydra_cub/util_deprecated.cuh>
+#include <hydra/detail/external/hydra_cub/util_macro.cuh>
+#include <hydra/detail/external/hydra_cub/util_namespace.cuh>
 
+#include <hydra/detail/external/hydra_libcudacxx/cuda/std/type_traits>
 
+CUB_NAMESPACE_BEGIN
 
-/// Optional outer namespace(s)
-CUB_NS_PREFIX
-
-/// CUB namespace
-namespace cub {
-
+#ifndef CUB_IS_INT128_ENABLED
+#if defined(__CUDACC_RTC__)
+#if defined(__CUDACC_RTC_INT128__)
+#define CUB_IS_INT128_ENABLED 1
+#endif // !defined(__CUDACC_RTC_INT128__)
+#else  // !defined(__CUDACC_RTC__)
+#if CUDA_VERSION >= 11050
+#if (CUB_HOST_COMPILER == CUB_HOST_COMPILER_GCC) || \
+    (CUB_HOST_COMPILER == CUB_HOST_COMPILER_CLANG) || \
+    defined(__ICC) || defined(_NVHPC_CUDA)
+#define CUB_IS_INT128_ENABLED 1
+#endif // GCC || CLANG || ICC || NVHPC
+#endif // CTK >= 11.5
+#endif // !defined(__CUDACC_RTC__)
+#endif // !defined(CUB_IS_INT128_ENABLED)
 
 /**
  * \addtogroup UtilModule
@@ -62,59 +82,81 @@ namespace cub {
 
 
 /******************************************************************************
+ * Conditional types
+ ******************************************************************************/
+
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS // Do not document
+namespace detail
+{
+
+
+template <bool Test, class T1, class T2>
+using conditional_t = typename std::conditional<Test, T1, T2>::type;
+
+
+template <typename Iterator>
+using value_t = typename std::iterator_traits<Iterator>::value_type;
+
+template <typename It,
+          typename FallbackT,
+          bool = ::cuda::std::is_same<
+            typename ::cuda::std::remove_cv<typename ::cuda::std::remove_pointer<It>::type>::type,
+            void>::value>
+struct non_void_value_impl
+{
+  using type = FallbackT;
+};
+
+template <typename It, typename FallbackT>
+struct non_void_value_impl<It, FallbackT, false>
+{
+  using type = typename ::cuda::std::conditional<
+    ::cuda::std::is_same<typename std::iterator_traits<It>::value_type, void>::value,
+    FallbackT,
+    typename std::iterator_traits<It>::value_type>::type;
+};
+
+/**
+ * The output value type
+ * type = (if IteratorT's value type is void) ?
+ * ... then the FallbackT,
+ * ... else the IteratorT's value type
+ */
+template <typename It, typename FallbackT>
+using non_void_value_t = typename non_void_value_impl<It, FallbackT>::type;
+} // namespace detail
+
+
+/**
+ * \brief Type selection (<tt>IF ? ThenType : ElseType</tt>)
+ *
+ * \deprecated [Since 1.16.0] The cub::If APIs are deprecated.
+ *             Use cub::detail::conditional_t instead.
+ */
+template <bool IF, typename ThenType, typename ElseType>
+struct CUB_DEPRECATED If
+{
+  using Type = cub::detail::conditional_t<IF, ThenType, ElseType>;
+};
+
+
+/******************************************************************************
  * Type equality
  ******************************************************************************/
 
 /**
- * \brief Type selection (<tt>IF ? ThenType : ElseType</tt>)
- */
-template <bool IF, typename ThenType, typename ElseType>
-struct If
-{
-    /// Conditional type result
-    typedef ThenType Type;      // true
-};
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
-
-template <typename ThenType, typename ElseType>
-struct If<false, ThenType, ElseType>
-{
-    typedef ElseType Type;      // false
-};
-
-#endif // DOXYGEN_SHOULD_SKIP_THIS
-
-
-
-/******************************************************************************
- * Conditional types
- ******************************************************************************/
-
-/**
  * \brief Type equality test
+ *
+ * \deprecated [Since 1.16.0] The cub::Equals APIs are deprecated.
+ *             Use std::is_same instead.
  */
 template <typename A, typename B>
-struct Equals
+struct CUB_DEPRECATED Equals
 {
-    enum {
-        VALUE = 0,
-        NEGATE = 1
-    };
+  static constexpr int VALUE = std::is_same<A, B>::value ? 1 : 0;
+  static constexpr int NEGATE = VALUE ? 0 : 1;
 };
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
-
-template <typename A>
-struct Equals <A, A>
-{
-    enum {
-        VALUE = 1,
-        NEGATE = 0
-    };
-};
-
-#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 
 /******************************************************************************
@@ -147,7 +189,6 @@ struct Log2<N, 0, COUNT>
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
-
 /**
  * \brief Statically determine if N is a power-of-two
  */
@@ -165,23 +206,15 @@ struct PowerOfTwo
 
 /**
  * \brief Pointer vs. iterator
+ *
+ * \deprecated [Since 1.16.0] The cub::IsPointer APIs are deprecated.
+ *             Use std::is_pointer instead.
  */
 template <typename Tp>
-struct IsPointer
+struct CUB_DEPRECATED IsPointer
 {
-    enum { VALUE = 0 };
+  static constexpr int VALUE = std::is_pointer<Tp>::value;
 };
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
-
-template <typename Tp>
-struct IsPointer<Tp*>
-{
-    enum { VALUE = 1 };
-};
-
-#endif // DOXYGEN_SHOULD_SKIP_THIS
-
 
 
 /******************************************************************************
@@ -190,23 +223,15 @@ struct IsPointer<Tp*>
 
 /**
  * \brief Volatile modifier test
+ *
+ * \deprecated [Since 1.16.0] The cub::IsVolatile APIs are deprecated.
+ *             Use std::is_volatile instead.
  */
 template <typename Tp>
-struct IsVolatile
+struct CUB_DEPRECATED IsVolatile
 {
-    enum { VALUE = 0 };
+  static constexpr int VALUE = std::is_volatile<Tp>::value;
 };
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
-
-template <typename Tp>
-struct IsVolatile<Tp volatile>
-{
-    enum { VALUE = 1 };
-};
-
-#endif // DOXYGEN_SHOULD_SKIP_THIS
-
 
 /******************************************************************************
  * Qualifier removal
@@ -215,47 +240,32 @@ struct IsVolatile<Tp volatile>
 /**
  * \brief Removes \p const and \p volatile qualifiers from type \p Tp.
  *
+ * \deprecated [Since 1.16.0] The cub::RemoveQualifiers APIs are deprecated.
+ *             Use std::remove_cv instead.
+ *
  * For example:
  *     <tt>typename RemoveQualifiers<volatile int>::Type         // int;</tt>
  */
 template <typename Tp, typename Up = Tp>
-struct RemoveQualifiers
+struct CUB_DEPRECATED RemoveQualifiers
 {
-    /// Type without \p const and \p volatile qualifiers
-    typedef Up Type;
+  using Type = typename std::remove_cv<Tp>::type;
 };
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
-
-template <typename Tp, typename Up>
-struct RemoveQualifiers<Tp, volatile Up>
-{
-    typedef Up Type;
-};
-
-template <typename Tp, typename Up>
-struct RemoveQualifiers<Tp, const Up>
-{
-    typedef Up Type;
-};
-
-template <typename Tp, typename Up>
-struct RemoveQualifiers<Tp, const volatile Up>
-{
-    typedef Up Type;
-};
+#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 
 /******************************************************************************
  * Marker types
  ******************************************************************************/
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
+
 /**
  * \brief A simple "NULL" marker type
  */
 struct NullType
 {
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
+    using value_type = NullType;
 
     template <typename T>
     __host__ __device__ __forceinline__ NullType& operator =(const T&) { return *this; }
@@ -263,8 +273,6 @@ struct NullType
     __host__ __device__ __forceinline__ bool operator ==(const NullType&) { return true; }
 
     __host__ __device__ __forceinline__ bool operator !=(const NullType&) { return false; }
-
-#endif // DOXYGEN_SHOULD_SKIP_THIS
 };
 
 
@@ -274,11 +282,85 @@ struct NullType
 template <int A>
 struct Int2Type
 {
-   enum {VALUE = A};
+    enum {VALUE = A};
 };
 
+/**
+ * \brief Allows algorithms that take a value as input to take a future value that is not computed yet at launch time.
+ *
+ * Note that it is user's responsibility to ensure that the result will be ready before use via external synchronization
+ * or stream-ordering dependencies.
+ *
+ * \code
+ * int *d_intermediate_result;
+ * allocator.DeviceAllocate((void **)&d_intermediate_result, sizeof(int));
+ * compute_intermediate_result<<<blocks, threads>>>(
+ *     d_intermediate_result,  // output
+ *     arg1,                   // input
+ *     arg2);                  // input
+ * cub::FutureValue<int> init_value(d_intermediate_result);
+ * cub::DeviceScan::ExclusiveScan(
+ *     d_temp_storage,
+ *     temp_storage_bytes,
+ *     d_in,
+ *     d_out,
+ *     cub::Sum(),
+ *     init_value,
+ *     num_items);
+ * allocator.DeviceFree(d_intermediate_result);
+ * \endcode
+ */
+template <typename T, typename IterT = T*>
+struct FutureValue
+{
+    using value_type = T;
+    using iterator_type = IterT;
+    explicit __host__ __device__ __forceinline__ FutureValue(IterT iter):m_iter(iter) {}
+    __host__ __device__ __forceinline__ operator T() {
+        return *m_iter;
+    }
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
+private:
+    IterT m_iter;
+};
+
+namespace detail {
+
+/**
+ * \brief Allows algorithms to instantiate a single kernel to support both immediate value and future value.
+ */
+template <typename T, typename IterT = T*>
+struct InputValue
+{
+    using value_type = T;
+    using iterator_type = IterT;
+    __host__ __device__ __forceinline__ operator T() {
+        if (m_is_future) {
+            return m_future_value;
+        }
+        return m_immediate_value;
+    }
+    explicit __host__ __device__ __forceinline__ InputValue(T immediate_value): m_is_future(false), m_immediate_value(immediate_value) {}
+    explicit __host__ __device__ __forceinline__ InputValue(FutureValue<T, IterT> future_value): m_is_future(true), m_future_value(future_value) {}
+    __host__ __device__ __forceinline__ InputValue(const InputValue &other): m_is_future(other.m_is_future) {
+        if (m_is_future) {
+            m_future_value = other.m_future_value;
+        } else {
+          detail::uninitialized_copy(&m_immediate_value,
+                                     other.m_immediate_value);
+        }
+    }
+
+private:
+    bool m_is_future;
+    union
+    {
+        FutureValue<T, IterT> m_future_value;
+        T m_immediate_value;
+    };
+};
+
+} // namespace detail
 
 
 /******************************************************************************
@@ -340,10 +422,11 @@ __CUB_ALIGN_BYTES(longlong4, 16)
 __CUB_ALIGN_BYTES(ulonglong4, 16)
 __CUB_ALIGN_BYTES(double4, 16)
 
+// clang-format off
 template <typename T> struct AlignBytes<volatile T> : AlignBytes<T> {};
 template <typename T> struct AlignBytes<const T> : AlignBytes<T> {};
 template <typename T> struct AlignBytes<const volatile T> : AlignBytes<T> {};
-
+// clang-format on
 
 /// Unit-words of data movement
 template <typename T>
@@ -358,48 +441,48 @@ struct UnitWord
     {
         enum {
             UNIT_ALIGN_BYTES    = AlignBytes<Unit>::ALIGN_BYTES,
-            IS_MULTIPLE         = (sizeof(T) % sizeof(Unit) == 0) && (ALIGN_BYTES % UNIT_ALIGN_BYTES == 0)
+            IS_MULTIPLE         = (sizeof(T) % sizeof(Unit) == 0) && (int(ALIGN_BYTES) % int(UNIT_ALIGN_BYTES) == 0)
         };
     };
 
-    /// Biggest shuffle word that T is a whole multiple of and is not larger than the alignment of T
-    typedef typename If<IsMultiple<int>::IS_MULTIPLE,
-        unsigned int,
-        typename If<IsMultiple<short>::IS_MULTIPLE,
-            unsigned short,
-            unsigned char>::Type>::Type         ShuffleWord;
+    /// Biggest shuffle word that T is a whole multiple of and is not larger than
+    /// the alignment of T
+    using ShuffleWord = cub::detail::conditional_t<
+      IsMultiple<int>::IS_MULTIPLE,
+      unsigned int,
+      cub::detail::conditional_t<IsMultiple<short>::IS_MULTIPLE,
+                                 unsigned short,
+                                 unsigned char>>;
 
-    /// Biggest volatile word that T is a whole multiple of and is not larger than the alignment of T
-    typedef typename If<IsMultiple<long long>::IS_MULTIPLE,
-        unsigned long long,
-        ShuffleWord>::Type                      VolatileWord;
+    /// Biggest volatile word that T is a whole multiple of and is not larger than
+    /// the alignment of T
+    using VolatileWord =
+      cub::detail::conditional_t<IsMultiple<long long>::IS_MULTIPLE,
+                                 unsigned long long,
+                                 ShuffleWord>;
 
-    /// Biggest memory-access word that T is a whole multiple of and is not larger than the alignment of T
-    typedef typename If<IsMultiple<longlong2>::IS_MULTIPLE,
-        ulonglong2,
-        VolatileWord>::Type                     DeviceWord;
+    /// Biggest memory-access word that T is a whole multiple of and is not larger
+    /// than the alignment of T
+    using DeviceWord =
+      cub::detail::conditional_t<IsMultiple<longlong2>::IS_MULTIPLE,
+                                 ulonglong2,
+                                 VolatileWord>;
 
-    /// Biggest texture reference word that T is a whole multiple of and is not larger than the alignment of T
-    typedef typename If<IsMultiple<int4>::IS_MULTIPLE,
-        uint4,
-        typename If<IsMultiple<int2>::IS_MULTIPLE,
-            uint2,
-            ShuffleWord>::Type>::Type           TextureWord;
+    /// Biggest texture reference word that T is a whole multiple of and is not
+    /// larger than the alignment of T
+    using TextureWord = cub::detail::conditional_t<
+      IsMultiple<int4>::IS_MULTIPLE,
+      uint4,
+      cub::detail::conditional_t<IsMultiple<int2>::IS_MULTIPLE, uint2, ShuffleWord>>;
 };
-
 
 // float2 specialization workaround (for SM10-SM13)
 template <>
 struct UnitWord <float2>
 {
     typedef int         ShuffleWord;
-#if (CUB_PTX_ARCH > 0) && (CUB_PTX_ARCH <= 130)
-    typedef float       VolatileWord;
-    typedef uint2       DeviceWord;
-#else
     typedef unsigned long long   VolatileWord;
     typedef unsigned long long   DeviceWord;
-#endif
     typedef float2      TextureWord;
 };
 
@@ -408,13 +491,8 @@ template <>
 struct UnitWord <float4>
 {
     typedef int         ShuffleWord;
-#if (CUB_PTX_ARCH > 0) && (CUB_PTX_ARCH <= 130)
-    typedef float               VolatileWord;
-    typedef uint4               DeviceWord;
-#else
     typedef unsigned long long  VolatileWord;
     typedef ulonglong2          DeviceWord;
-#endif
     typedef float4              TextureWord;
 };
 
@@ -424,24 +502,16 @@ template <>
 struct UnitWord <char2>
 {
     typedef unsigned short      ShuffleWord;
-#if (CUB_PTX_ARCH > 0) && (CUB_PTX_ARCH <= 130)
-    typedef unsigned short      VolatileWord;
-    typedef short               DeviceWord;
-#else
     typedef unsigned short      VolatileWord;
     typedef unsigned short      DeviceWord;
-#endif
     typedef unsigned short      TextureWord;
 };
 
-
+// clang-format off
 template <typename T> struct UnitWord<volatile T> : UnitWord<T> {};
 template <typename T> struct UnitWord<const T> : UnitWord<T> {};
 template <typename T> struct UnitWord<const volatile T> : UnitWord<T> {};
-
-
-#endif // DOXYGEN_SHOULD_SKIP_THIS
-
+// clang-format on
 
 
 /******************************************************************************
@@ -453,7 +523,6 @@ template <typename T> struct UnitWord<const volatile T> : UnitWord<T> {};
  */
 template <typename T, int vec_elements> struct CubVector;
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
 
 enum
 {
@@ -601,6 +670,7 @@ struct CubVector<T, 4>
 
 
 // Expand CUDA vector types for built-in primitives
+// clang-format off
 CUB_DEFINE_VECTOR_TYPE(char,               char)
 CUB_DEFINE_VECTOR_TYPE(signed char,        char)
 CUB_DEFINE_VECTOR_TYPE(short,              short)
@@ -615,12 +685,10 @@ CUB_DEFINE_VECTOR_TYPE(unsigned long long, ulonglong)
 CUB_DEFINE_VECTOR_TYPE(float,              float)
 CUB_DEFINE_VECTOR_TYPE(double,             double)
 CUB_DEFINE_VECTOR_TYPE(bool,               uchar)
+// clang-format on
 
 // Undefine macros
 #undef CUB_DEFINE_VECTOR_TYPE
-
-#endif // DOXYGEN_SHOULD_SKIP_THIS
-
 
 
 /******************************************************************************
@@ -636,10 +704,9 @@ struct Uninitialized
     /// Biggest memory-access word that T is a whole multiple of and is not larger than the alignment of T
     typedef typename UnitWord<T>::DeviceWord DeviceWord;
 
-    enum
-    {
-        WORDS = sizeof(T) / sizeof(DeviceWord)
-    };
+    static constexpr std::size_t DATA_SIZE = sizeof(T);
+    static constexpr std::size_t WORD_SIZE = sizeof(DeviceWord);
+    static constexpr std::size_t WORDS = DATA_SIZE / WORD_SIZE;
 
     /// Backing storage
     DeviceWord storage[WORDS];
@@ -760,9 +827,6 @@ struct KeyValuePair<K, V, false, true>
 #endif // #if defined(_WIN32) && !defined(_WIN64)
 
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
-
-
 /**
  * \brief A wrapper for passing simple static arrays as kernel parameters
  */
@@ -777,7 +841,6 @@ struct ArrayWrapper
     __host__ __device__ __forceinline__ ArrayWrapper() {}
 };
 
-#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 /**
  * \brief Double-buffer storage wrapper for multi-pass stream transformations that require more than one storage array for streaming intermediate results back and forth.
@@ -854,19 +917,15 @@ struct DoubleBuffer
 
 /**
  * \brief Simple enable-if (similar to Boost)
+ *
+ * \deprecated [Since 1.16.0] The cub::If APIs are deprecated.
+ *             Use std::enable_if instead.
  */
 template <bool Condition, class T = void>
-struct EnableIf
+struct CUB_DEPRECATED EnableIf
 {
-    /// Enable-if type for SFINAE dummy variables
-    typedef T Type;
+  using Type = typename std::enable_if<Condition, T>::type;
 };
-
-
-template <class T>
-struct EnableIf<false, T> {};
-
-
 
 /******************************************************************************
  * Typedef-detection
@@ -969,26 +1028,30 @@ struct BaseTraits<UNSIGNED_INTEGER, true, false, _UnsignedBits, T>
     };
 
 
-    static __device__ __forceinline__ UnsignedBits TwiddleIn(UnsignedBits key)
+    static __host__ __device__ __forceinline__ UnsignedBits TwiddleIn(UnsignedBits key)
     {
         return key;
     }
 
-    static __device__ __forceinline__ UnsignedBits TwiddleOut(UnsignedBits key)
+    static __host__ __device__ __forceinline__ UnsignedBits TwiddleOut(UnsignedBits key)
     {
         return key;
     }
 
     static __host__ __device__ __forceinline__ T Max()
     {
-        UnsignedBits retval = MAX_KEY;
-        return reinterpret_cast<T&>(retval);
+        UnsignedBits retval_bits = MAX_KEY;
+        T retval;
+        memcpy(&retval, &retval_bits, sizeof(T));
+        return retval;
     }
 
     static __host__ __device__ __forceinline__ T Lowest()
     {
-        UnsignedBits retval = LOWEST_KEY;
-        return reinterpret_cast<T&>(retval);
+        UnsignedBits retval_bits = LOWEST_KEY;
+        T retval;
+        memcpy(&retval, &retval_bits, sizeof(T));
+        return retval;
     }
 };
 
@@ -1012,12 +1075,12 @@ struct BaseTraits<SIGNED_INTEGER, true, false, _UnsignedBits, T>
         NULL_TYPE       = false,
     };
 
-    static __device__ __forceinline__ UnsignedBits TwiddleIn(UnsignedBits key)
+    static __host__ __device__ __forceinline__ UnsignedBits TwiddleIn(UnsignedBits key)
     {
         return key ^ HIGH_BIT;
     };
 
-    static __device__ __forceinline__ UnsignedBits TwiddleOut(UnsignedBits key)
+    static __host__ __device__ __forceinline__ UnsignedBits TwiddleOut(UnsignedBits key)
     {
         return key ^ HIGH_BIT;
     };
@@ -1062,8 +1125,7 @@ struct FpLimits<double>
     }
 };
 
-
-#if (__CUDACC_VER_MAJOR__ >= 9)
+#if !_NVHPC_CUDA
 template <>
 struct FpLimits<__half>
 {
@@ -1079,6 +1141,21 @@ struct FpLimits<__half>
 };
 #endif
 
+#if !_NVHPC_CUDA && !defined(CUB_DISABLE_BF16_SUPPORT)
+template <>
+struct FpLimits<__nv_bfloat16>
+{
+    static __host__ __device__ __forceinline__ __nv_bfloat16 Max() {
+        unsigned short max_word = 0x7F7F;
+        return reinterpret_cast<__nv_bfloat16&>(max_word);
+    }
+
+    static __host__ __device__ __forceinline__ __nv_bfloat16 Lowest() {
+        unsigned short lowest_word = 0xFF7F;
+        return reinterpret_cast<__nv_bfloat16&>(lowest_word);
+    }
+};
+#endif
 
 /**
  * Basic type traits (fp primitive specialization)
@@ -1099,13 +1176,13 @@ struct BaseTraits<FLOATING_POINT, true, false, _UnsignedBits, T>
         NULL_TYPE       = false,
     };
 
-    static __device__ __forceinline__ UnsignedBits TwiddleIn(UnsignedBits key)
+    static __host__ __device__ __forceinline__ UnsignedBits TwiddleIn(UnsignedBits key)
     {
         UnsignedBits mask = (key & HIGH_BIT) ? UnsignedBits(-1) : HIGH_BIT;
         return key ^ mask;
     };
 
-    static __device__ __forceinline__ UnsignedBits TwiddleOut(UnsignedBits key)
+    static __host__ __device__ __forceinline__ UnsignedBits TwiddleOut(UnsignedBits key)
     {
         UnsignedBits mask = (key & HIGH_BIT) ? HIGH_BIT : UnsignedBits(-1);
         return key ^ mask;
@@ -1124,6 +1201,7 @@ struct BaseTraits<FLOATING_POINT, true, false, _UnsignedBits, T>
 /**
  * \brief Numeric type traits
  */
+// clang-format off
 template <typename T> struct NumericTraits :            BaseTraits<NOT_A_NUMBER, false, false, T, T> {};
 
 template <> struct NumericTraits<NullType> :            BaseTraits<NOT_A_NUMBER, false, true, NullType, NullType> {};
@@ -1141,21 +1219,97 @@ template <> struct NumericTraits<unsigned int> :        BaseTraits<UNSIGNED_INTE
 template <> struct NumericTraits<unsigned long> :       BaseTraits<UNSIGNED_INTEGER, true, false, unsigned long, unsigned long> {};
 template <> struct NumericTraits<unsigned long long> :  BaseTraits<UNSIGNED_INTEGER, true, false, unsigned long long, unsigned long long> {};
 
+
+#if CUB_IS_INT128_ENABLED 
+template <>
+struct NumericTraits<__uint128_t>
+{
+  using T = __uint128_t;
+  using UnsignedBits = __uint128_t;
+
+  static constexpr Category       CATEGORY    = UNSIGNED_INTEGER;
+  static constexpr UnsignedBits   LOWEST_KEY  = UnsignedBits(0);
+  static constexpr UnsignedBits   MAX_KEY     = UnsignedBits(-1);
+
+  static constexpr bool PRIMITIVE = false;
+  static constexpr bool NULL_TYPE = false;
+
+  static __host__ __device__ __forceinline__ UnsignedBits TwiddleIn(UnsignedBits key)
+  {
+    return key;
+  }
+
+  static __host__ __device__ __forceinline__ UnsignedBits TwiddleOut(UnsignedBits key)
+  {
+    return key;
+  }
+
+  static __host__ __device__ __forceinline__ T Max()
+  {
+    return MAX_KEY;
+  }
+
+  static __host__ __device__ __forceinline__ T Lowest()
+  {
+    return LOWEST_KEY;
+  }
+};
+
+template <>
+struct NumericTraits<__int128_t>
+{
+  using T = __int128_t;
+  using UnsignedBits = __uint128_t;
+
+  static constexpr Category       CATEGORY    = SIGNED_INTEGER;
+  static constexpr UnsignedBits   HIGH_BIT    = UnsignedBits(1) << ((sizeof(UnsignedBits) * 8) - 1);
+  static constexpr UnsignedBits   LOWEST_KEY  = HIGH_BIT;
+  static constexpr UnsignedBits   MAX_KEY     = UnsignedBits(-1) ^ HIGH_BIT;
+
+  static constexpr bool PRIMITIVE = false;
+  static constexpr bool NULL_TYPE = false;
+
+  static __host__ __device__ __forceinline__ UnsignedBits TwiddleIn(UnsignedBits key)
+  {
+    return key ^ HIGH_BIT;
+  };
+
+  static __host__ __device__ __forceinline__ UnsignedBits TwiddleOut(UnsignedBits key)
+  {
+    return key ^ HIGH_BIT;
+  };
+
+  static __host__ __device__ __forceinline__ T Max()
+  {
+    UnsignedBits retval = MAX_KEY;
+    return reinterpret_cast<T&>(retval);
+  }
+
+  static __host__ __device__ __forceinline__ T Lowest()
+  {
+    UnsignedBits retval = LOWEST_KEY;
+    return reinterpret_cast<T&>(retval);
+  }
+};
+#endif
+
 template <> struct NumericTraits<float> :               BaseTraits<FLOATING_POINT, true, false, unsigned int, float> {};
 template <> struct NumericTraits<double> :              BaseTraits<FLOATING_POINT, true, false, unsigned long long, double> {};
-#if (__CUDACC_VER_MAJOR__ >= 9)
+#if !_NVHPC_CUDA
     template <> struct NumericTraits<__half> :          BaseTraits<FLOATING_POINT, true, false, unsigned short, __half> {};
+#endif
+#if !_NVHPC_CUDA && !defined(CUB_DISABLE_BF16_SUPPORT)
+    template <> struct NumericTraits<__nv_bfloat16> :   BaseTraits<FLOATING_POINT, true, false, unsigned short, __nv_bfloat16> {};
 #endif
 
 template <> struct NumericTraits<bool> :                BaseTraits<UNSIGNED_INTEGER, true, false, typename UnitWord<bool>::VolatileWord, bool> {};
-
-
+// clang-format on
 
 /**
  * \brief Type traits
  */
 template <typename T>
-struct Traits : NumericTraits<typename RemoveQualifiers<T>::Type> {};
+struct Traits : NumericTraits<typename std::remove_cv<T>::type> {};
 
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
@@ -1163,5 +1317,4 @@ struct Traits : NumericTraits<typename RemoveQualifiers<T>::Type> {};
 
 /** @} */       // end group UtilModule
 
-}               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+CUB_NAMESPACE_END

@@ -17,13 +17,14 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/system/error_code.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/errno.h>
 #include <hydra/detail/external/hydra_thrust/functional.h>
 #include <cstring>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace system
 {
@@ -232,5 +233,5 @@ const error_category &system_category(void)
 
 } // end system
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

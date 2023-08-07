@@ -14,11 +14,9 @@
  *  limitations under the License.
  */
 
+#pragma once
 
-/*! \file vector_base.inl
- *  \brief Inline file for vector_base.h.
- */
-
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/vector_base.h>
 #include <hydra/detail/external/hydra_thrust/detail/copy.h>
 #include <hydra/detail/external/hydra_thrust/detail/overlapped_copy.h>
@@ -32,8 +30,7 @@
 
 #include <stdexcept>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace detail
 {
@@ -110,7 +107,7 @@ template<typename T, typename Alloc>
   range_init(v.begin(), v.end());
 } // end vector_base::vector_base()
 
-#if __cplusplus >= 201103L
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   template<typename T, typename Alloc>
     vector_base<T,Alloc>
       ::vector_base(vector_base &&v)
@@ -139,7 +136,7 @@ template<typename T, typename Alloc>
   return *this;
 } // end vector_base::operator=()
 
-#if __cplusplus >= 201103L
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   template<typename T, typename Alloc>
     vector_base<T,Alloc> &
       vector_base<T,Alloc>
@@ -197,6 +194,34 @@ template<typename T, typename Alloc>
 
   return *this;
 } // end vector_base::operator=()
+
+  template<typename T, typename Alloc>
+    vector_base<T,Alloc>
+      ::vector_base(std::initializer_list<T> il)
+        :m_storage(),
+         m_size(0)
+  {
+    range_init(il.begin(), il.end());
+  } // end vector_base::vector_base()
+
+  template<typename T, typename Alloc>
+  vector_base<T,Alloc>
+    ::vector_base(std::initializer_list<T> il, const Alloc &alloc)
+    :m_storage(alloc),
+      m_size(0)
+  {
+    range_init(il.begin(), il.end());
+  } // end vector_base::vector_base()
+
+  template<typename T, typename Alloc>
+    vector_base<T,Alloc> &
+      vector_base<T,Alloc>
+      ::operator=(std::initializer_list<T> il)
+  {
+    assign(il.begin(), il.end());
+
+    return *this;
+  } // end vector_base::operator=()
 
 template<typename T, typename Alloc>
   template<typename IteratorOrIntegralType>
@@ -342,6 +367,7 @@ template<typename T, typename Alloc>
 } // end vector_base::resize()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::size_type
     vector_base<T,Alloc>
       ::size(void) const
@@ -350,6 +376,7 @@ template<typename T, typename Alloc>
 } // end vector_base::size()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::size_type
     vector_base<T,Alloc>
       ::max_size(void) const
@@ -363,11 +390,43 @@ template<typename T, typename Alloc>
 {
   if(n > capacity())
   {
-    allocate_and_copy(n, begin(), end(), m_storage);
+    // compute the new capacity after the allocation
+    size_type new_capacity = n;
+
+    // do not exceed maximum storage
+    new_capacity = hydra_thrust::min HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
+
+    // create new storage
+    storage_type new_storage(copy_allocator_t(), m_storage, new_capacity);
+
+    // record how many constructors we invoke in the try block below
+    iterator new_end = new_storage.begin();
+
+    try
+    {
+      // construct copy all elements into the newly allocated storage
+      new_end = m_storage.uninitialized_copy(begin(), end(), new_storage.begin());
+    } // end try
+    catch(...)
+    {
+      // something went wrong, so destroy & deallocate the new storage
+      new_storage.destroy(new_storage.begin(), new_end);
+      new_storage.deallocate();
+
+      // rethrow
+      throw;
+    } // end catch
+
+    // call destructors on the elements in the old storage
+    m_storage.destroy(begin(), end());
+
+    // record the vector's new state
+    m_storage.swap(new_storage);
   } // end if
 } // end vector_base::reserve()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::size_type
     vector_base<T,Alloc>
       ::capacity(void) const
@@ -384,6 +443,7 @@ template<typename T, typename Alloc>
 } // end vector_base::shrink_to_fit()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::reference
     vector_base<T,Alloc>
       ::operator[](const size_type n)
@@ -392,6 +452,7 @@ template<typename T, typename Alloc>
 } // end vector_base::operator[]
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::const_reference
     vector_base<T,Alloc>
       ::operator[](const size_type n) const
@@ -400,6 +461,7 @@ template<typename T, typename Alloc>
 } // end vector_base::operator[]
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::iterator
     vector_base<T,Alloc>
       ::begin(void)
@@ -408,6 +470,7 @@ template<typename T, typename Alloc>
 } // end vector_base::begin()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::const_iterator
     vector_base<T,Alloc>
       ::begin(void) const
@@ -416,6 +479,7 @@ template<typename T, typename Alloc>
 } // end vector_base::begin()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::const_iterator
     vector_base<T,Alloc>
       ::cbegin(void) const
@@ -424,6 +488,7 @@ template<typename T, typename Alloc>
 } // end vector_base::cbegin()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::reverse_iterator
     vector_base<T,Alloc>
       ::rbegin(void)
@@ -432,6 +497,7 @@ template<typename T, typename Alloc>
 } // end vector_base::rbegin()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::const_reverse_iterator
     vector_base<T,Alloc>
       ::rbegin(void) const
@@ -440,6 +506,7 @@ template<typename T, typename Alloc>
 } // end vector_base::rbegin()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::const_reverse_iterator
     vector_base<T,Alloc>
       ::crbegin(void) const
@@ -448,6 +515,7 @@ template<typename T, typename Alloc>
 } // end vector_base::crbegin()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::iterator
     vector_base<T,Alloc>
       ::end(void)
@@ -458,6 +526,7 @@ template<typename T, typename Alloc>
 } // end vector_base::end()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::const_iterator
     vector_base<T,Alloc>
       ::end(void) const
@@ -468,6 +537,7 @@ template<typename T, typename Alloc>
 } // end vector_base::end()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::const_iterator
     vector_base<T,Alloc>
       ::cend(void) const
@@ -476,6 +546,7 @@ template<typename T, typename Alloc>
 } // end vector_base::cend()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::reverse_iterator
     vector_base<T,Alloc>
       ::rend(void)
@@ -484,6 +555,7 @@ template<typename T, typename Alloc>
 } // end vector_base::rend()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::const_reverse_iterator
     vector_base<T,Alloc>
       ::rend(void) const
@@ -492,6 +564,7 @@ template<typename T, typename Alloc>
 } // end vector_base::rend()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::const_reverse_iterator
     vector_base<T,Alloc>
       ::crend(void) const
@@ -500,6 +573,7 @@ template<typename T, typename Alloc>
 } // end vector_base::crend()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::const_reference
     vector_base<T,Alloc>
       ::front(void) const
@@ -508,6 +582,7 @@ template<typename T, typename Alloc>
 } // end vector_base::front()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::reference
     vector_base<T,Alloc>
       ::front(void)
@@ -516,6 +591,7 @@ template<typename T, typename Alloc>
 } // end vector_base::front()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::const_reference
     vector_base<T,Alloc>
       ::back(void) const
@@ -526,6 +602,7 @@ template<typename T, typename Alloc>
 } // end vector_base::vector_base
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::reference
     vector_base<T,Alloc>
       ::back(void)
@@ -536,19 +613,21 @@ template<typename T, typename Alloc>
 } // end vector_base::vector_base
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::pointer
     vector_base<T,Alloc>
       ::data(void)
 {
-  return &front();
+  return pointer(&front());
 } // end vector_base::data()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   typename vector_base<T,Alloc>::const_pointer
     vector_base<T,Alloc>
       ::data(void) const
 {
-  return &front();
+  return const_pointer(&front());
 } // end vector_base::data()
 
 template<typename T, typename Alloc>
@@ -568,6 +647,7 @@ template<typename T, typename Alloc>
 } // end vector_base::~vector_dev()
 
 template<typename T, typename Alloc>
+  __host__ __device__
   bool vector_base<T,Alloc>
     ::empty(void) const
 {
@@ -876,13 +956,13 @@ template<typename T, typename Alloc>
         new_end = m_storage.uninitialized_copy(begin(), end(), new_storage.begin());
 
         // construct new elements to insert
-        m_storage.default_construct_n(new_end, n);
+        new_storage.default_construct_n(new_end, n);
         new_end += n;
       } // end try
       catch(...)
       {
         // something went wrong, so destroy & deallocate the new storage
-        m_storage.destroy(new_storage.begin(), new_end);
+        new_storage.destroy(new_storage.begin(), new_end);
         new_storage.deallocate();
 
         // rethrow
@@ -1285,5 +1365,5 @@ bool operator!=(const std::vector<T1,Alloc1>&         lhs,
     return !(lhs == rhs);
 }
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

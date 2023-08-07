@@ -22,8 +22,7 @@
 #include <hydra/detail/external/hydra_thrust/mr/memory_resource.h>
 #include <hydra/detail/external/hydra_thrust/detail/execution_policy.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -43,5 +42,5 @@ MR * get_per_device_resource(hydra_thrust::detail::execution_policy_base<Derived
 } // end generic
 } // end detail
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

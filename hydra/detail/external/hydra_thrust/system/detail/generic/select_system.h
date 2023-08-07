@@ -24,8 +24,7 @@
 #include <hydra/detail/external/hydra_thrust/iterator/detail/device_system_tag.h>
 #include <hydra/detail/external/hydra_thrust/iterator/detail/any_system_tag.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -120,6 +119,6 @@ hydra_thrust::device_system_tag select_system(hydra_thrust::any_system_tag);
 } // end generic
 } // end detail
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/select_system.inl>

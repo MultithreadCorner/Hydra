@@ -33,17 +33,47 @@
 
 #pragma once
 
+#include "../../config.cuh"
 #include "../../thread/thread_operators.cuh"
 #include "../../util_ptx.cuh"
 #include "../../util_type.cuh"
-#include "../../util_macro.cuh"
-#include "../../util_namespace.cuh"
 
-/// Optional outer namespace(s)
-CUB_NS_PREFIX
+#include <stdint.h>
 
-/// CUB namespace
-namespace cub {
+#include <hydra/detail/external/hydra_libcudacxx/cuda/std/type_traits>
+#include <hydra/detail/external/hydra_libcudacxx/nv/target>
+
+CUB_NAMESPACE_BEGIN
+
+
+namespace detail 
+{
+
+template <class A = int, class = A>
+struct reduce_add_exists : ::cuda::std::false_type 
+{};
+
+template <class T>
+struct reduce_add_exists<T, decltype(__reduce_add_sync(0xFFFFFFFF, T{}))> : ::cuda::std::true_type 
+{};
+
+template <class T = int, class = T>
+struct reduce_min_exists : ::cuda::std::false_type 
+{};
+
+template <class T>
+struct reduce_min_exists<T, decltype(__reduce_min_sync(0xFFFFFFFF, T{}))> : ::cuda::std::true_type 
+{};
+
+template <class T = int, class = T>
+struct reduce_max_exists : ::cuda::std::false_type 
+{};
+
+template <class T>
+struct reduce_max_exists<T, decltype(__reduce_max_sync(0xFFFFFFFF, T{}))> : ::cuda::std::true_type 
+{};
+
+}
 
 
 /**
@@ -54,9 +84,12 @@ namespace cub {
 template <
     typename    T,                      ///< Data type being reduced
     int         LOGICAL_WARP_THREADS,   ///< Number of threads per logical warp
-    int         PTX_ARCH>               ///< The PTX compute capability for which to to specialize this collective
+    int         LEGACY_PTX_ARCH = 0>    ///< The PTX compute capability for which to to specialize this collective
 struct WarpReduceShfl
 {
+    static_assert(PowerOfTwo<LOGICAL_WARP_THREADS>::VALUE,
+                  "LOGICAL_WARP_THREADS must be a power of two");
+
     //---------------------------------------------------------------------
     // Constants and type definitions
     //---------------------------------------------------------------------
@@ -64,16 +97,16 @@ struct WarpReduceShfl
     enum
     {
         /// Whether the logical warp size and the PTX warp size coincide
-        IS_ARCH_WARP = (LOGICAL_WARP_THREADS == CUB_WARP_THREADS(PTX_ARCH)),
+        IS_ARCH_WARP = (LOGICAL_WARP_THREADS == CUB_WARP_THREADS(0)),
 
         /// The number of warp reduction steps
         STEPS = Log2<LOGICAL_WARP_THREADS>::VALUE,
 
         /// Number of logical warps in a PTX warp
-        LOGICAL_WARPS = CUB_WARP_THREADS(PTX_ARCH) / LOGICAL_WARP_THREADS,
+        LOGICAL_WARPS = CUB_WARP_THREADS(0) / LOGICAL_WARP_THREADS,
 
         /// The 5-bit SHFL mask for logically splitting warps into sub-segments starts 8-bits up
-        SHFL_C = (CUB_WARP_THREADS(PTX_ARCH) - LOGICAL_WARP_THREADS) << 8
+        SHFL_C = (CUB_WARP_THREADS(0) - LOGICAL_WARP_THREADS) << 8
 
     };
 
@@ -96,13 +129,13 @@ struct WarpReduceShfl
     //---------------------------------------------------------------------
 
     /// Lane index in logical warp
-    unsigned int lane_id;
+    int lane_id;
 
     /// Logical warp index in 32-thread physical warp
-    unsigned int warp_id;
+    int warp_id;
 
     /// 32-thread physical warp member mask of logical warp
-    unsigned int member_mask;
+    uint32_t member_mask;
 
 
     //---------------------------------------------------------------------
@@ -112,16 +145,13 @@ struct WarpReduceShfl
     /// Constructor
     __device__ __forceinline__ WarpReduceShfl(
         TempStorage &/*temp_storage*/)
+        : lane_id(static_cast<int>(LaneId()))
+        , warp_id(IS_ARCH_WARP ? 0 : (lane_id / LOGICAL_WARP_THREADS))
+        , member_mask(WarpMask<LOGICAL_WARP_THREADS>(warp_id))
     {
-        lane_id = LaneId();
-        warp_id = 0;
-        member_mask = 0xffffffffu >> (CUB_WARP_THREADS(PTX_ARCH) - LOGICAL_WARP_THREADS);
-
         if (!IS_ARCH_WARP)
         {
-            warp_id = lane_id / LOGICAL_WARP_THREADS;
             lane_id = lane_id % LOGICAL_WARP_THREADS;
-            member_mask = member_mask << (warp_id * LOGICAL_WARP_THREADS);
         }
     }
 
@@ -141,7 +171,6 @@ struct WarpReduceShfl
         int shfl_c = last_lane | SHFL_C;   // Shuffle control (mask and last_lane)
 
         // Use predicate set from SHFL to guard against invalid peers
-#ifdef CUB_USE_COOPERATIVE_GROUPS
         asm volatile(
             "{"
             "  .reg .u32 r0;"
@@ -151,17 +180,6 @@ struct WarpReduceShfl
             "  mov.u32 %0, r0;"
             "}"
             : "=r"(output) : "r"(input), "r"(offset), "r"(shfl_c), "r"(input), "r"(member_mask));
-#else
-        asm volatile(
-            "{"
-            "  .reg .u32 r0;"
-            "  .reg .pred p;"
-            "  shfl.down.b32 r0|p, %1, %2, %3;"
-            "  @p add.u32 r0, r0, %4;"
-            "  mov.u32 %0, r0;"
-            "}"
-            : "=r"(output) : "r"(input), "r"(offset), "r"(shfl_c), "r"(input));
-#endif
 
         return output;
     }
@@ -178,7 +196,6 @@ struct WarpReduceShfl
         int shfl_c = last_lane | SHFL_C;   // Shuffle control (mask and last_lane)
 
         // Use predicate set from SHFL to guard against invalid peers
-#ifdef CUB_USE_COOPERATIVE_GROUPS
         asm volatile(
             "{"
             "  .reg .f32 r0;"
@@ -188,17 +205,6 @@ struct WarpReduceShfl
             "  mov.f32 %0, r0;"
             "}"
             : "=f"(output) : "f"(input), "r"(offset), "r"(shfl_c), "f"(input), "r"(member_mask));
-#else
-        asm volatile(
-            "{"
-            "  .reg .f32 r0;"
-            "  .reg .pred p;"
-            "  shfl.down.b32 r0|p, %1, %2, %3;"
-            "  @p add.f32 r0, r0, %4;"
-            "  mov.f32 %0, r0;"
-            "}"
-            : "=f"(output) : "f"(input), "r"(offset), "r"(shfl_c), "f"(input));
-#endif
 
         return output;
     }
@@ -214,7 +220,6 @@ struct WarpReduceShfl
         unsigned long long output;
         int shfl_c = last_lane | SHFL_C;   // Shuffle control (mask and last_lane)
 
-#ifdef CUB_USE_COOPERATIVE_GROUPS
         asm volatile(
             "{"
             "  .reg .u32 lo;"
@@ -227,20 +232,6 @@ struct WarpReduceShfl
             "  @p add.u64 %0, %0, %1;"
             "}"
             : "=l"(output) : "l"(input), "r"(offset), "r"(shfl_c), "r"(member_mask));
-#else
-        asm volatile(
-            "{"
-            "  .reg .u32 lo;"
-            "  .reg .u32 hi;"
-            "  .reg .pred p;"
-            "  mov.b64 {lo, hi}, %1;"
-            "  shfl.down.b32 lo|p, lo, %2, %3;"
-            "  shfl.down.b32 hi|p, hi, %2, %3;"
-            "  mov.b64 %0, {lo, hi};"
-            "  @p add.u64 %0, %0, %1;"
-            "}"
-            : "=l"(output) : "l"(input), "r"(offset), "r"(shfl_c));
-#endif
 
         return output;
     }
@@ -257,7 +248,6 @@ struct WarpReduceShfl
         int shfl_c = last_lane | SHFL_C;   // Shuffle control (mask and last_lane)
 
         // Use predicate set from SHFL to guard against invalid peers
-#ifdef CUB_USE_COOPERATIVE_GROUPS
         asm volatile(
             "{"
             "  .reg .u32 lo;"
@@ -270,20 +260,6 @@ struct WarpReduceShfl
             "  @p add.s64 %0, %0, %1;"
             "}"
             : "=l"(output) : "l"(input), "r"(offset), "r"(shfl_c), "r"(member_mask));
-#else
-        asm volatile(
-            "{"
-            "  .reg .u32 lo;"
-            "  .reg .u32 hi;"
-            "  .reg .pred p;"
-            "  mov.b64 {lo, hi}, %1;"
-            "  shfl.down.b32 lo|p, lo, %2, %3;"
-            "  shfl.down.b32 hi|p, hi, %2, %3;"
-            "  mov.b64 %0, {lo, hi};"
-            "  @p add.s64 %0, %0, %1;"
-            "}"
-            : "=l"(output) : "l"(input), "r"(offset), "r"(shfl_c));
-#endif
 
         return output;
     }
@@ -300,7 +276,6 @@ struct WarpReduceShfl
         int shfl_c = last_lane | SHFL_C;   // Shuffle control (mask and last_lane)
 
         // Use predicate set from SHFL to guard against invalid peers
-#ifdef CUB_USE_COOPERATIVE_GROUPS
         asm volatile(
             "{"
             "  .reg .u32 lo;"
@@ -315,22 +290,6 @@ struct WarpReduceShfl
             "  @p add.f64 %0, %0, r0;"
             "}"
             : "=d"(output) : "d"(input), "r"(offset), "r"(shfl_c), "r"(member_mask));
-#else
-        asm volatile(
-            "{"
-            "  .reg .u32 lo;"
-            "  .reg .u32 hi;"
-            "  .reg .pred p;"
-            "  .reg .f64 r0;"
-            "  mov.b64 %0, %1;"
-            "  mov.b64 {lo, hi}, %1;"
-            "  shfl.down.b32 lo|p, lo, %2, %3;"
-            "  shfl.down.b32 hi|p, hi, %2, %3;"
-            "  mov.b64 r0, {lo, hi};"
-            "  @p add.f64 %0, %0, r0;"
-            "}"
-            : "=d"(output) : "d"(input), "r"(offset), "r"(shfl_c));
-#endif
 
         return output;
     }
@@ -458,6 +417,105 @@ struct WarpReduceShfl
     //---------------------------------------------------------------------
     // Reduction operations
     //---------------------------------------------------------------------
+    template <typename ReductionOp>
+    __device__ __forceinline__ T ReduceImpl(
+        Int2Type<0>     /* all_lanes_valid */, 
+        T               input,                  ///< [in] Calling thread's input
+        int             valid_items,            ///< [in] Total number of valid items across the logical warp
+        ReductionOp     reduction_op)           ///< [in] Binary reduction operator
+    {
+        int last_lane = valid_items - 1;
+
+        T output = input;
+
+        // Template-iterate reduction steps
+        ReduceStep(output, reduction_op, last_lane, Int2Type<0>());
+
+        return output;
+    }
+
+    template <typename ReductionOp>
+    __device__ __forceinline__ T ReduceImpl(
+        Int2Type<1>     /* all_lanes_valid */, 
+        T               input,                  ///< [in] Calling thread's input
+        int             /* valid_items */,      ///< [in] Total number of valid items across the logical warp
+        ReductionOp     reduction_op)           ///< [in] Binary reduction operator
+    {
+        int last_lane = LOGICAL_WARP_THREADS - 1;
+
+        T output = input;
+
+        // Template-iterate reduction steps
+        ReduceStep(output, reduction_op, last_lane, Int2Type<0>());
+
+        return output;
+    }
+
+    template <class U = T>
+    __device__ __forceinline__ 
+    typename std::enable_if<
+               (std::is_same<int, U>::value || std::is_same<unsigned int, U>::value)
+            && detail::reduce_add_exists<>::value, T>::type
+    ReduceImpl(Int2Type<1> /* all_lanes_valid */,
+               T input,
+               int /* valid_items */,
+               cub::Sum /* reduction_op */)
+    {
+      T output = input;
+
+      NV_IF_TARGET(NV_PROVIDES_SM_80,
+                   (output = __reduce_add_sync(member_mask, input);),
+                   (output = ReduceImpl<cub::Sum>(Int2Type<1>{},
+                                                  input,
+                                                  LOGICAL_WARP_THREADS,
+                                                  cub::Sum{});));
+
+      return output;
+    }
+
+    template <class U = T>
+    __device__ __forceinline__ 
+    typename std::enable_if<
+               (std::is_same<int, U>::value || std::is_same<unsigned int, U>::value)
+            && detail::reduce_min_exists<>::value, T>::type
+    ReduceImpl(Int2Type<1> /* all_lanes_valid */,
+               T input,
+               int /* valid_items */,
+               cub::Min /* reduction_op */)
+    {
+      T output = input;
+
+      NV_IF_TARGET(NV_PROVIDES_SM_80,
+                   (output = __reduce_min_sync(member_mask, input);),
+                   (output = ReduceImpl<cub::Min>(Int2Type<1>{},
+                                                  input,
+                                                  LOGICAL_WARP_THREADS,
+                                                  cub::Min{});));
+
+      return output;
+    }
+
+    template <class U = T>
+    __device__ __forceinline__ 
+    typename std::enable_if<
+               (std::is_same<int, U>::value || std::is_same<unsigned int, U>::value)
+            && detail::reduce_max_exists<>::value, T>::type
+    ReduceImpl(Int2Type<1> /* all_lanes_valid */,
+               T input,
+               int /* valid_items */,
+               cub::Max /* reduction_op */)
+    {
+      T output = input;
+
+      NV_IF_TARGET(NV_PROVIDES_SM_80,
+                   (output = __reduce_max_sync(member_mask, input);),
+                   (output = ReduceImpl<cub::Max>(Int2Type<1>{},
+                                                  input,
+                                                  LOGICAL_WARP_THREADS,
+                                                  cub::Max{});));
+
+      return output;
+    }
 
     /// Reduction
     template <
@@ -468,23 +526,8 @@ struct WarpReduceShfl
         int             valid_items,            ///< [in] Total number of valid items across the logical warp
         ReductionOp     reduction_op)           ///< [in] Binary reduction operator
     {
-        int last_lane = (ALL_LANES_VALID) ?
-                            LOGICAL_WARP_THREADS - 1 :
-                            valid_items - 1;
-
-        T output = input;
-
-//        // Iterate reduction steps
-//        #pragma unroll
-//        for (int STEP = 0; STEP < STEPS; STEP++)
-//        {
-//            output = ReduceStep(output, reduction_op, last_lane, 1 << STEP, Int2Type<IsInteger<T>::IS_SMALL_UNSIGNED>());
-//        }
-
-        // Template-iterate reduction steps
-        ReduceStep(output, reduction_op, last_lane, Int2Type<0>());
-
-        return output;
+        return ReduceImpl(
+            Int2Type<ALL_LANES_VALID>{}, input, valid_items, reduction_op);
     }
 
 
@@ -537,5 +580,4 @@ struct WarpReduceShfl
 };
 
 
-}               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+CUB_NAMESPACE_END

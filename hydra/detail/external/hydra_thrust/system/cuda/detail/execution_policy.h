@@ -27,6 +27,8 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/version.h>
 #include <hydra/detail/external/hydra_thrust/detail/execution_policy.h>
 #include <hydra/detail/external/hydra_thrust/iterator/detail/any_system_tag.h>
@@ -38,7 +40,7 @@
   #include <hydra/detail/external/hydra_thrust/detail/dependencies_aware_execution_policy.h>
 #endif
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace cuda_cub
 {
@@ -94,5 +96,5 @@ using hydra_thrust::cuda_cub::execution_policy;
 
 } // namespace cuda
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 

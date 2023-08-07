@@ -6,15 +6,14 @@
 #pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
-#include <hydra/detail/external/hydra_thrust/detail/cpp11_required.h>
-#include <hydra/detail/external/hydra_thrust/detail/modern_gcc_required.h>
+#include <hydra/detail/external/hydra_thrust/detail/cpp14_required.h>
 
-#if HYDRA_THRUST_CPP_DIALECT >= 2011 && !defined(HYDRA_THRUST_LEGACY_GCC)
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 
 #include <hydra/detail/external/hydra_thrust/system/cuda/pointer.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/execution_policy.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace system { namespace cuda
 {
@@ -66,9 +65,9 @@ unique_eager_future_type(
   hydra_thrust::cuda::execution_policy<DerivedPolicy> const&
 ) noexcept;
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/future.inl>
 
-#endif
+#endif // C++14
 

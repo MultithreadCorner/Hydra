@@ -14,9 +14,8 @@
  *  limitations under the License.
  */
 
-
-/*! \file device_malloc.h
- *  \brief Allocates storage in device memory
+/*! \file
+ *  \brief Allocates storage in device memory.
  */
 
 #pragma once
@@ -25,11 +24,9 @@
 #include <hydra/detail/external/hydra_thrust/device_ptr.h>
 #include <cstddef> // for std::size_t
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
-/*! \addtogroup allocation_functions Allocation Functions
- *  \ingroup memory_management_functions
+/*! \addtogroup memory_management Memory Management
  *  \{
  */
 
@@ -94,10 +91,10 @@ inline hydra_thrust::device_ptr<void> device_malloc(const std::size_t n);
 template<typename T>
   inline hydra_thrust::device_ptr<T> device_malloc(const std::size_t n);
 
-/*! \}
+/*! \} // memory_management
  */
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/device_malloc.inl>
 

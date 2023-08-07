@@ -16,8 +16,9 @@
 
 #pragma once
 
-namespace hydra_thrust
-{
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace random
 {
@@ -43,5 +44,5 @@ template<typename T, int w>
 
 } // end random
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

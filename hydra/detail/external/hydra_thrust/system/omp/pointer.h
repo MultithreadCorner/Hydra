@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2018 NVIDIA Corporation
+ *  Copyright 2008-2020 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,113 +21,30 @@
 #pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
+#include <type_traits>
 #include <hydra/detail/external/hydra_thrust/system/omp/detail/execution_policy.h>
-#include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/pointer.h>
 #include <hydra/detail/external/hydra_thrust/detail/reference.h>
 
-namespace hydra_thrust
-{
-namespace system
-{
-namespace omp
+HYDRA_THRUST_NAMESPACE_BEGIN
+namespace system { namespace omp
 {
 
-template<typename> class pointer;
-
-} // end omp
-} // end system
-} // end hydra_thrust
-
-
-/*! \cond
- */
-
-// specialize hydra_thrust::iterator_traits to avoid problems with the name of
-// pointer's constructor shadowing its nested pointer type
-// do this before pointer is defined so the specialization is correctly
-// used inside the definition
-namespace hydra_thrust
-{
-
-template<typename Element>
-  struct iterator_traits<hydra_thrust::system::omp::pointer<Element> >
-{
-  private:
-    typedef hydra_thrust::system::omp::pointer<Element> ptr;
-
-  public:
-    typedef typename ptr::iterator_category       iterator_category;
-    typedef typename ptr::value_type              value_type;
-    typedef typename ptr::difference_type         difference_type;
-    typedef ptr                                   pointer;
-    typedef typename ptr::reference               reference;
-}; // end iterator_traits
-
-} // end hydra_thrust
-
-/*! \endcond
- */
-
-
-namespace hydra_thrust
-{
-namespace system
-{
-
-/*! \addtogroup system_backends Systems
- *  \ingroup system
- *  \{
- */
-
-/*! \namespace hydra_thrust::system::omp
- *  \brief \p hydra_thrust::system::omp is the namespace containing functionality for allocating, manipulating,
- *         and deallocating memory available to Thrust's OpenMP backend system.
- *         The identifiers are provided in a separate namespace underneath <tt>hydra_thrust::system</tt>
- *         for import convenience but are also aliased in the top-level <tt>hydra_thrust::omp</tt>
- *         namespace for easy access.
+/*! \p omp::pointer stores a pointer to an object allocated in memory accessible
+ *  by the \p omp system. This type provides type safety when dispatching
+ *  algorithms on ranges resident in \p omp memory.
  *
- */
-namespace omp
-{
-
-// forward declaration of reference for pointer
-template<typename Element> class reference;
-
-/*! \cond
- */
-
-// XXX nvcc + msvc have trouble instantiating reference below
-//     this is a workaround
-namespace detail
-{
-
-template<typename Element>
-  struct reference_msvc_workaround
-{
-  typedef hydra_thrust::system::omp::reference<Element> type;
-}; // end reference_msvc_workaround
-
-} // end detail
-
-/*! \endcond
- */
-
-
-/*! \p pointer stores a pointer to an object allocated in memory available to the omp system.
- *  This type provides type safety when dispatching standard algorithms on ranges resident
- *  in omp memory.
+ *  \p omp::pointer has pointer semantics: it may be dereferenced and
+ *  manipulated with pointer arithmetic.
  *
- *  \p pointer has pointer semantics: it may be dereferenced and manipulated with pointer arithmetic.
+ *  \p omp::pointer can be created with the function \p omp::malloc, or by
+ *  explicitly calling its constructor with a raw pointer.
  *
- *  \p pointer can be created with the function \p omp::malloc, or by explicitly calling its constructor
- *  with a raw pointer.
+ *  The raw pointer encapsulated by a \p omp::pointer may be obtained by eiter its
+ *  <tt>get</tt> member function or the \p raw_pointer_cast function.
  *
- *  The raw pointer encapsulated by a \p pointer may be obtained by eiter its <tt>get</tt> member function
- *  or the \p raw_pointer_cast function.
- *
- *  \note \p pointer is not a "smart" pointer; it is the programmer's responsibility to deallocate memory
- *  pointed to by \p pointer.
+ *  \note \p omp::pointer is not a "smart" pointer; it is the programmer's
+ *        responsibility to deallocate memory pointed to by \p omp::pointer.
  *
  *  \tparam T specifies the type of the pointee.
  *
@@ -135,226 +52,66 @@ template<typename Element>
  *  \see omp::free
  *  \see raw_pointer_cast
  */
-template<typename T>
-  class pointer
-    : public hydra_thrust::pointer<
-               T,
-               hydra_thrust::system::omp::tag,
-               hydra_thrust::system::omp::reference<T>,
-               hydra_thrust::system::omp::pointer<T>
-             >
-{
-  /*! \cond
-   */
+template <typename T>
+using pointer = hydra_thrust::pointer<
+  T,
+  hydra_thrust::system::omp::tag,
+  hydra_thrust::tagged_reference<T, hydra_thrust::system::omp::tag>
+>;
 
-  private:
-    typedef hydra_thrust::pointer<
-      T,
-      hydra_thrust::system::omp::tag,
-      //hydra_thrust::system::omp::reference<T>,
-      typename detail::reference_msvc_workaround<T>::type,
-      hydra_thrust::system::omp::pointer<T>
-    > super_t;
+/*! \p omp::universal_pointer stores a pointer to an object allocated in memory
+ * accessible by the \p omp system and host systems.
+ *
+ *  \p omp::universal_pointer has pointer semantics: it may be dereferenced and
+ *  manipulated with pointer arithmetic.
+ *
+ *  \p omp::universal_pointer can be created with \p omp::universal_allocator
+ *  or by explicitly calling its constructor with a raw pointer.
+ *
+ *  The raw pointer encapsulated by a \p omp::universal_pointer may be obtained
+ *  by eiter its <tt>get</tt> member function or the \p raw_pointer_cast
+ *  function.
+ *
+ *  \note \p omp::universal_pointer is not a "smart" pointer; it is the
+ *        programmer's responsibility to deallocate memory pointed to by
+ *        \p omp::universal_pointer.
+ *
+ *  \tparam T specifies the type of the pointee.
+ *
+ *  \see omp::universal_allocator
+ *  \see raw_pointer_cast
+ */
+template <typename T>
+using universal_pointer = hydra_thrust::pointer<
+  T,
+  hydra_thrust::system::omp::tag,
+  typename std::add_lvalue_reference<T>::type
+>;
 
-  /*! \endcond
-   */
-
-  public:
-    // note that omp::pointer's member functions need __host__ __device__
-    // to interoperate with nvcc + iterators' dereference member function
-
-    /*! \p pointer's no-argument constructor initializes its encapsulated pointer to \c 0.
-     */
-    __host__ __device__
-    pointer() : super_t() {}
-
-    #if HYDRA_THRUST_CPP_DIALECT >= 2011
-    // NOTE: This is needed so that Thrust smart pointers can be used in
-    // `std::unique_ptr`.
-    __host__ __device__
-    pointer(decltype(nullptr)) : super_t(nullptr) {}
-    #endif
-
-    /*! This constructor allows construction of a <tt>pointer<const T></tt> from a <tt>T*</tt>.
-     *
-     *  \param ptr A raw pointer to copy from, presumed to point to a location in memory
-     *         accessible by the \p omp system.
-     *  \tparam OtherT \p OtherT shall be convertible to \p T.
-     */
-    template<typename OtherT>
-    __host__ __device__
-    explicit pointer(OtherT *ptr) : super_t(ptr) {}
-
-    /*! This constructor allows construction from another pointer-like object with related type.
-     *
-     *  \param other The \p OtherPointer to copy.
-     *  \tparam OtherPointer The system tag associated with \p OtherPointer shall be convertible
-     *          to \p hydra_thrust::system::omp::tag and its element type shall be convertible to \p T.
-     */
-    template<typename OtherPointer>
-    __host__ __device__
-    pointer(const OtherPointer &other,
-            typename hydra_thrust::detail::enable_if_pointer_is_convertible<
-              OtherPointer,
-              pointer
-            >::type * = 0) : super_t(other) {}
-
-    /*! This constructor allows construction from another pointer-like object with \p void type.
-     *
-     *  \param other The \p OtherPointer to copy.
-     *  \tparam OtherPointer The system tag associated with \p OtherPointer shall be convertible
-     *          to \p hydra_thrust::system::omp::tag and its element type shall be \p void.
-     */
-    template<typename OtherPointer>
-    __host__ __device__
-    explicit
-    pointer(const OtherPointer &other,
-            typename hydra_thrust::detail::enable_if_void_pointer_is_system_convertible<
-              OtherPointer,
-              pointer
-            >::type * = 0) : super_t(other) {}
-
-    /*! Assignment operator allows assigning from another pointer-like object with related type.
-     *
-     *  \param other The other pointer-like object to assign from.
-     *  \tparam OtherPointer The system tag associated with \p OtherPointer shall be convertible
-     *          to \p hydra_thrust::system::omp::tag and its element type shall be convertible to \p T.
-     */
-    template<typename OtherPointer>
-    __host__ __device__
-    typename hydra_thrust::detail::enable_if_pointer_is_convertible<
-      OtherPointer,
-      pointer,
-      pointer &
-    >::type
-    operator=(const OtherPointer &other)
-    {
-      return super_t::operator=(other);
-    }
-
-    #if HYDRA_THRUST_CPP_DIALECT >= 2011
-    // NOTE: This is needed so that Thrust smart pointers can be used in
-    // `std::unique_ptr`.
-    __host__ __device__
-    pointer& operator=(decltype(nullptr))
-    {
-      super_t::operator=(nullptr);
-      return *this;
-    }
-    #endif
-}; // end pointer
-
-
-/*! \p reference is a wrapped reference to an object stored in memory available to the \p omp system.
- *  \p reference is the type of the result of dereferencing a \p omp::pointer.
+/*! \p reference is a wrapped reference to an object stored in memory available
+ *  to the \p omp system. \p reference is the type of the result of
+ *  dereferencing a \p omp::pointer.
  *
  *  \tparam T Specifies the type of the referenced object.
  */
-template<typename T>
-  class reference
-    : public hydra_thrust::reference<
-               T,
-               hydra_thrust::system::omp::pointer<T>,
-               hydra_thrust::system::omp::reference<T>
-             >
-{
-  /*! \cond
-   */
+template <typename T>
+using reference = hydra_thrust::tagged_reference<T, hydra_thrust::system::omp::tag>;
 
-  private:
-    typedef hydra_thrust::reference<
-      T,
-      hydra_thrust::system::omp::pointer<T>,
-      hydra_thrust::system::omp::reference<T>
-    > super_t;
+}} // namespace system::omp
 
-  /*! \endcond
-   */
-
-  public:
-    /*! \cond
-     */
-
-    typedef typename super_t::value_type value_type;
-    typedef typename super_t::pointer    pointer;
-
-    /*! \endcond
-     */
-
-    /*! This constructor initializes this \p reference to refer to an object
-     *  pointed to by the given \p pointer. After this \p reference is constructed,
-     *  it shall refer to the object pointed to by \p ptr.
-     *
-     *  \param ptr A \p pointer to copy from.
-     */
-    __host__ __device__
-    explicit reference(const pointer &ptr)
-      : super_t(ptr)
-    {}
-
-    /*! This constructor accepts a const reference to another \p reference of related type.
-     *  After this \p reference is constructed, it shall refer to the same object as \p other.
-     *
-     *  \param other A \p reference to copy from.
-     *  \tparam OtherT The element type of the other \p reference.
-     *
-     *  \note This constructor is templated primarily to allow initialization of <tt>reference<const T></tt>
-     *        from <tt>reference<T></tt>.
-     */
-    template<typename OtherT>
-    __host__ __device__
-    reference(const reference<OtherT> &other,
-              typename hydra_thrust::detail::enable_if_convertible<
-                typename reference<OtherT>::pointer,
-                pointer
-              >::type * = 0)
-      : super_t(other)
-    {}
-
-    /*! Copy assignment operator copy assigns from another \p reference of related type.
-     *
-     *  \param other The other \p reference to assign from.
-     *  \return <tt>*this</tt>
-     *  \tparam OtherT The element type of the other \p reference.
-     */
-    template<typename OtherT>
-    reference &operator=(const reference<OtherT> &other);
-
-    /*! Assignment operator assigns from a \p value_type.
-     *
-     *  \param x The \p value_type to assign from.
-     *  \return <tt>*this</tt>
-     */
-    reference &operator=(const value_type &x);
-}; // end reference
-
-/*! Exchanges the values of two objects referred to by \p reference.
- *  \p x The first \p reference of interest.
- *  \p y The second \p reference of interest.
+/*! \addtogroup system_backends Systems
+ *  \ingroup system
+ *  \{
  */
-template<typename T>
-__host__ __device__
-void swap(reference<T> x, reference<T> y);
-
-} // end omp
-
-/*! \}
- */
-
-} // end system
 
 /*! \namespace hydra_thrust::omp
- *  \brief \p hydra_thrust::omp is a top-level alias for hydra_thrust::system::omp.
- */
+ *  \brief \p hydra_thrust::omp is a top-level alias for \p hydra_thrust::system::omp. */
 namespace omp
 {
-
 using hydra_thrust::system::omp::pointer;
+using hydra_thrust::system::omp::universal_pointer;
 using hydra_thrust::system::omp::reference;
+} // namespace omp
 
-} // end omp
-
-} // end hydra_thrust
-
-#include <hydra/detail/external/hydra_thrust/system/omp/detail/pointer.inl>
+HYDRA_THRUST_NAMESPACE_END
 

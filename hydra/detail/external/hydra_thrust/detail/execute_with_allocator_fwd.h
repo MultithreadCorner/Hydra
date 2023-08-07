@@ -24,8 +24,8 @@
   #include <hydra/detail/external/hydra_thrust/detail/execute_with_dependencies.h>
 #endif
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
+
 namespace detail
 {
 
@@ -101,4 +101,6 @@ public:
 #endif
 };
 
-}} // namespace hydra_thrust::detail
+} // namespace detail
+
+HYDRA_THRUST_NAMESPACE_END

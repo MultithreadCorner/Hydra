@@ -16,15 +16,17 @@
 
 #pragma once
 
-#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
+
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/execution_policy.h>
 #include <hydra/detail/external/hydra_thrust/detail/raw_pointer_cast.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/copy.h>
 
+#include <hydra/detail/external/hydra_libcudacxx/nv/target>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
 
@@ -46,11 +48,12 @@ inline __host__ __device__
     }
   };
 
-#ifndef __CUDA_ARCH__
-  war_nvbugs_881631::host_path(exec,dst,src);
-#else
-  war_nvbugs_881631::device_path(exec,dst,src);
-#endif // __CUDA_ARCH__
+  NV_IF_TARGET(NV_IS_HOST, (
+    war_nvbugs_881631::host_path(exec,dst,src);
+  ), (
+    war_nvbugs_881631::device_path(exec,dst,src);
+  ));
+
 } // end assign_value()
 
 
@@ -78,16 +81,14 @@ inline __host__ __device__
     }
   };
 
-#if __CUDA_ARCH__
-  war_nvbugs_881631::device_path(systems,dst,src);
-#else
-  war_nvbugs_881631::host_path(systems,dst,src);
-#endif
+  NV_IF_TARGET(NV_IS_HOST, (
+    war_nvbugs_881631::host_path(systems,dst,src);
+  ), (
+    war_nvbugs_881631::device_path(systems,dst,src);
+  ));
 } // end assign_value()
 
 
-
-  
 } // end cuda_cub
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 #endif

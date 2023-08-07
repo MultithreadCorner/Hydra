@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 
 /*! \file tuple.h
- *  \brief A type encapsulating a heterogeneous collection of elements
+ *  \brief A type encapsulating a heterogeneous collection of elements.
  */
 
 /*
@@ -31,17 +31,10 @@
 #pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
-#include <hydra/detail/external/hydra_thrust/detail/tuple/index_sequence.h>
+#include <hydra/detail/external/hydra_thrust/detail/tuple.inl>
 #include <hydra/detail/external/hydra_thrust/pair.h>
-#include <hydra/detail/external/hydra_thrust/detail/tuple/tuple.h>
 
-#ifdef HYDRA_THRUST_VARIADIC_TUPLE
-#include <hydra/detail/external/hydra_thrust/detail/tuple/variadic_tuple.h>
-#else // HYDRA_THRUST_VARIADIC_TUPLE
-//#include <hydra/detail/external/hydra_thrust/detail/tuple.inl>
-
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /*! \addtogroup utility
  *  \{
@@ -68,17 +61,7 @@ struct null_type;
  *  \see pair
  *  \see tuple
  */
-template<size_t N, class T>
-  struct tuple_element
-{
-  private:
-    typedef typename T::tail_type Next;
-
-  public:
-    /*! The result of this metafunction is returned in \c type.
-     */
-    typedef typename tuple_element<N-1, Next>::type type;
-}; // end tuple_element
+template <size_t N, class T> struct tuple_element;
 
 /*! This metafunction returns the number of elements
  *  of a \p tuple type of interest.
@@ -88,13 +71,8 @@ template<size_t N, class T>
  *  \see pair
  *  \see tuple
  */
-template<class T>
-  struct tuple_size
-{
-  /*! The result of this metafunction is returned in \c value.
-   */
-  static const unsigned int value = 1 + tuple_size<typename T::tail_type>::value;
-}; // end tuple_size
+template <class T> struct tuple_size;
+
 
 // get function for non-const cons-lists, returns a reference to the element
 
@@ -161,12 +139,12 @@ get(const detail::cons<HT, TT>& t);
 
 
 
-/*! \p tuple is a class template that can be instantiated with up to ten arguments.
- *  Each template argument specifies the type of element in the \p tuple.
- *  Consequently, tuples are heterogeneous, fixed-size collections of values. An
- *  instantiation of \p tuple with two arguments is similar to an instantiation
- *  of \p pair with the same two arguments. Individual elements of a \p tuple may
- *  be accessed with the \p get function.
+/*! \brief \p tuple is a class template that can be instantiated with up to ten
+ *  arguments. Each template argument specifies the type of element in the \p
+ *  tuple. Consequently, tuples are heterogeneous, fixed-size collections of
+ *  values. An instantiation of \p tuple with two arguments is similar to an
+ *  instantiation of \p pair with the same two arguments. Individual elements
+ *  of a \p tuple may be accessed with the \p get function.
  *
  *  \tparam TN The type of the <tt>N</tt> \c tuple element. Thrust's \p tuple
  *          type currently supports up to ten elements.
@@ -177,18 +155,20 @@ get(const detail::cons<HT, TT>& t);
  *  \code
  *  #include <hydra/detail/external/hydra_thrust/tuple.h>
  *  #include <iostream>
- *  ...
- *  // create a tuple containing an int, a float, and a string
- *  hydra_thrust::tuple<int, float, const char*> t(13, 0.1f, "hydra_thrust");
+ *  
+ *  int main() {
+ *    // Create a tuple containing an `int`, a `float`, and a string.
+ *    hydra_thrust::tuple<int, float, const char*> t(13, 0.1f, "hydra_thrust");
  *
- *  // individual members are accessed with the free function get
- *  std::cout << "The first element's value is " << hydra_thrust::get<0>(t) << std::endl;
+ *    // Individual members are accessed with the free function `get`.
+ *    std::cout << "The first element's value is " << hydra_thrust::get<0>(t) << std::endl;
  *
- *  // or the member function get
- *  std::cout << "The second element's value is " << t.get<1>() << std::endl;
+ *    // ... or the member function `get`.
+ *    std::cout << "The second element's value is " << t.get<1>() << std::endl;
  *
- *  // we can also modify elements with the same function
- *  hydra_thrust::get<0>(t) += 10;
+ *    // We can also modify elements with the same function.
+ *    hydra_thrust::get<0>(t) += 10;
+ *  }
  *  \endcode
  *
  *  \see pair
@@ -200,8 +180,12 @@ get(const detail::cons<HT, TT>& t);
  */
 template <class T0, class T1, class T2, class T3, class T4,
           class T5, class T6, class T7, class T8, class T9>
-  class tuple :
-    public detail::map_tuple_to_cons<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>::type
+  class tuple
+  /*! \cond
+   */
+    : public detail::map_tuple_to_cons<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>::type
+  /*! \endcond
+   */
 {
   /*! \cond
    */
@@ -213,6 +197,7 @@ template <class T0, class T1, class T2, class T3, class T4,
    */
 
   public:
+
   /*! \p tuple's no-argument constructor initializes each element.
    */
   inline __host__ __device__
@@ -366,6 +351,7 @@ template <class T0, class T1, class T2, class T3, class T4,
   inline __host__ __device__
   tuple(const detail::cons<U1, U2>& p) : inherited(p) {}
 
+  __hydra_thrust_exec_check_disable__
   template <class U1, class U2>
   inline __host__ __device__
   tuple& operator=(const detail::cons<U1, U2>& k)
@@ -380,6 +366,7 @@ template <class T0, class T1, class T2, class T3, class T4,
   /*! This assignment operator allows assigning the first two elements of this \p tuple from a \p pair.
    *  \param k A \p pair to assign from.
    */
+  __hydra_thrust_exec_check_disable__
   template <class U1, class U2>
   __host__ __device__ inline
   tuple& operator=(const hydra_thrust::pair<U1, U2>& k) {
@@ -585,121 +572,4 @@ bool operator>(const null_type&, const null_type&);
 /*! \} // utility
  */
 
-} // end hydra_thrust
-
-
-#include <hydra/detail/external/hydra_thrust/detail/tuple/tuple_cat.h>
-
-#endif
-
-
-#include <hydra/detail/external/hydra_thrust/detail/tuple/tuple_io.h>
-
-
-namespace hydra_thrust
-{
-/*! \addtogroup utility
-*  \{
-*/
-
-/*! \addtogroup tuple
-*  \{
-*/
-
-/*! This version of \p tuple_cat creates a new \c tuple object from two
- *  tuples by concanenation
- *
- *  \param t1 The first object to concatenate.
- *  \param ts The other objects to concatenate.
- *  \return A \p tuple object which is a concatenation of \p t0 and \p ts... .
- */
-#ifndef HYDRA_THRUST_VARIADIC_TUPLE
-
-//template<typename... Tuples>
-//inline __host__ __device__
-//tuple_cat_result<Tuples...>
-//  tuple_cat(const Tuples&... ts);
-//#else
-
-template<typename Tuple1, typename... Tuples>
-inline __host__ __device__
-typename hydra_thrust::detail::tuple_cat_enable_if<Tuple1,Tuples...>::type
-  tuple_cat(const Tuple1 &t1, const Tuples&... ts);
-
-#endif
-
-/*! tuple_manipulator for defining the character that is output before the first element of a tuple
- *
- *  \param c The character that is output before the first element of a tuple
- *  \return A tuple_manipulator which changes the default character output before the first element of a tuple
- */
-template<class CharType>
-inline detail::tuple_detail::tuple_manipulator<CharType>
-  set_open(const CharType c);
-
-/*! tuple_manipulator for defining the character that is output after the last element of a tuple
- *
- *  \param c The character that is output after the last element of a tuple
- *  \return A tuple_manipulator which changes the default character output after the last element of a tuple
- */
-template<class CharType>
-inline detail::tuple_detail::tuple_manipulator<CharType>
-  set_close(const CharType c);
-
- /*! tuple_manipulator for defining the character that is output between tuple elements
-  *
-  *  \param c The character that is output between tuple elements
-  *  \return A tuple_manipulator which changes the default character output between element
-  */
-template<class CharType>
-inline detail::tuple_detail::tuple_manipulator<CharType>
-  set_delimiter(const CharType c);
-
-/*! Stream insertion operator<< overload for tuple_manipulator
- *
- *  \param o The stream to insert \p t into.
- *  \param t The tuple_manipulator object to insert into \p o.
- *  \return A reference to \p o.
- */
-template<class CharType, class CharTrait>
-inline std::basic_ostream<CharType, CharTrait>&
-  operator<<(std::basic_ostream<CharType, CharTrait>& o, const detail::tuple_detail::tuple_manipulator<CharType>& m);
-
-/*! Stream extraction operator<< overload for tuple_manipulator
- *
- *  \param o The stream to extract \p t from.
- *  \param t The tuple_manipulator object to extract from \p i.
- *  \return A reference to \p i.
- */
-template<class CharType, class CharTrait>
-inline std::basic_istream<CharType, CharTrait>&
-  operator>>(std::basic_istream<CharType, CharTrait>& i, const detail::tuple_detail::tuple_manipulator<CharType>& m);
-
-/*! Stream insertion operator<< overload for hydra_thrust::tuple
- *
- *  \param o The stream to insert \p t into.
- *  \param t The tuple object to insert into \p o.
- *  \return A reference to \p o.
- */
-template<class CharType, class CharTrait, class... Types>
-inline std::basic_ostream<CharType, CharTrait>&
-  operator<<(std::basic_ostream<CharType, CharTrait>& o,
-             const hydra_thrust::tuple<Types...>& t);
-
-/*! Stream extraction operator>> overload for hydra_thrust::tuple
- *
- *  \param is The stream to extract \p t from.
- *  \param t The tuple object to extract from \p i.
- *  \return A reference to \p i.
- */
-template<class CharType, class CharTrait, class... Types>
-inline std::basic_istream<CharType, CharTrait>&
-  operator>>(std::basic_istream<CharType, CharTrait>& i,
-             hydra_thrust::tuple<Types...>& t);
-
-/*! \} // tuple
- */
-
-/*! \} // utility
- */
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END

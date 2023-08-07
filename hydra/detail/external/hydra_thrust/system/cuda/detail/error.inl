@@ -17,11 +17,12 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/system/cuda/error.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace system
 {
@@ -71,7 +72,7 @@ class cuda_error_category
     {
       using namespace cuda::errc;
 
-      if(ev < ::cudaErrorApiFailureBase)
+      if(ev < ::cudaErrorUnknown)
       {
         return make_error_condition(static_cast<errc_t>(ev));
       }
@@ -94,5 +95,5 @@ const error_category &cuda_category(void)
 
 } // end namespace system
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

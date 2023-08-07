@@ -38,15 +38,11 @@
 
 #include <set>
 #include <map>
+#include <mutex>
 
-#include "host/mutex.cuh"
 #include <math.h>
 
-/// Optional outer namespace(s)
-CUB_NS_PREFIX
-
-/// CUB namespace
-namespace cub {
+CUB_NAMESPACE_BEGIN
 
 
 /**
@@ -82,7 +78,7 @@ namespace cub {
  * - Allocations above (\p bin_growth ^ \p max_bin) are not rounded up to the nearest
  *   bin and are simply freed when they are deallocated instead of being returned
  *   to a bin-cache.
- * - %If the total storage of cached allocations on a given device will exceed
+ * - If the total storage of cached allocations on a given device will exceed
  *   \p max_cached_bytes, allocations for that device are simply freed when they are
  *   deallocated instead of being returned to their bin-cache.
  *
@@ -247,7 +243,7 @@ struct CachingDeviceAllocator
     // Fields
     //---------------------------------------------------------------------
 
-    cub::Mutex      mutex;              /// Mutex for thread-safety
+    std::mutex      mutex;              /// Mutex for thread-safety
 
     unsigned int    bin_growth;         /// Geometric growth factor for bin-sizes
     unsigned int    min_bin;            /// Minimum bin enumeration
@@ -330,18 +326,17 @@ struct CachingDeviceAllocator
      * Changing the ceiling of cached bytes does not cause any allocations (in-use or
      * cached-in-reserve) to be freed.  See \p FreeAllCached().
      */
-    cudaError_t SetMaxCachedBytes(
-        size_t max_cached_bytes)
+    cudaError_t SetMaxCachedBytes(size_t max_cached_bytes_)
     {
         // Lock
-        mutex.Lock();
+        mutex.lock();
 
-        if (debug) _CubLog("Changing max_cached_bytes (%lld -> %lld)\n", (long long) this->max_cached_bytes, (long long) max_cached_bytes);
+        if (debug) _CubLog("Changing max_cached_bytes (%lld -> %lld)\n", (long long) this->max_cached_bytes, (long long) max_cached_bytes_);
 
-        this->max_cached_bytes = max_cached_bytes;
+        this->max_cached_bytes = max_cached_bytes_;
 
         // Unlock
-        mutex.Unlock();
+        mutex.unlock();
 
         return cudaSuccess;
     }
@@ -387,7 +382,7 @@ struct CachingDeviceAllocator
         else
         {
             // Search for a suitable cached allocation: lock
-            mutex.Lock();
+            mutex.lock();
 
             if (search_key.bin < min_bin)
             {
@@ -405,8 +400,22 @@ struct CachingDeviceAllocator
                 // To prevent races with reusing blocks returned by the host but still
                 // in use by the device, only consider cached blocks that are
                 // either (from the active stream) or (from an idle stream)
-                if ((active_stream == block_itr->associated_stream) ||
-                    (cudaEventQuery(block_itr->ready_event) != cudaErrorNotReady))
+                bool is_reusable = false;
+                if (active_stream == block_itr->associated_stream)
+                {
+                    is_reusable = true;
+                }
+                else
+                {
+                    const cudaError_t event_status = cudaEventQuery(block_itr->ready_event);
+                    if(event_status != cudaErrorNotReady)
+                    {
+                        CubDebug(event_status);
+                        is_reusable = true;
+                    }
+                }
+
+                if(is_reusable)
                 {
                     // Reuse existing cache block.  Insert into live blocks.
                     found = true;
@@ -429,7 +438,7 @@ struct CachingDeviceAllocator
             }
 
             // Done searching: unlock
-            mutex.Unlock();
+            mutex.unlock();
         }
 
         // Allocate the block if necessary
@@ -453,7 +462,7 @@ struct CachingDeviceAllocator
                 cudaGetLastError();     // Reset CUDART's error
 
                 // Lock
-                mutex.Lock();
+                mutex.lock();
 
                 // Iterate the range of free blocks on the same device
                 BlockDescriptor free_key(device);
@@ -481,7 +490,7 @@ struct CachingDeviceAllocator
                 }
 
                 // Unlock
-                mutex.Unlock();
+                mutex.unlock();
 
                 // Return under error
                 if (error) return error;
@@ -495,10 +504,10 @@ struct CachingDeviceAllocator
                 return error;
 
             // Insert into live blocks
-            mutex.Lock();
+            mutex.lock();
             live_blocks.insert(search_key);
             cached_bytes[device].live += search_key.bytes;
-            mutex.Unlock();
+            mutex.unlock();
 
             if (debug) _CubLog("\tDevice %d allocated new device block at %p (%lld bytes associated with stream %lld).\n",
                       device, search_key.d_ptr, (long long) search_key.bytes, (long long) search_key.associated_stream);
@@ -558,7 +567,7 @@ struct CachingDeviceAllocator
         }
 
         // Lock
-        mutex.Lock();
+        mutex.lock();
 
         // Find corresponding block descriptor
         bool recached = false;
@@ -585,6 +594,9 @@ struct CachingDeviceAllocator
             }
         }
 
+        // Unlock
+        mutex.unlock();
+
         // First set to specified device (entrypoint may not be set)
         if (device != entrypoint_device)
         {
@@ -597,9 +609,6 @@ struct CachingDeviceAllocator
             // Insert the ready event in the associated stream (must have current device set properly)
             if (CubDebug(error = cudaEventRecord(search_key.ready_event, search_key.associated_stream))) return error;
         }
-
-        // Unlock
-        mutex.Unlock();
 
         if (!recached)
         {
@@ -644,7 +653,7 @@ struct CachingDeviceAllocator
         int entrypoint_device     = INVALID_DEVICE_ORDINAL;
         int current_device        = INVALID_DEVICE_ORDINAL;
 
-        mutex.Lock();
+        mutex.lock();
 
         while (!cached_blocks.empty())
         {
@@ -669,15 +678,16 @@ struct CachingDeviceAllocator
             if (CubDebug(error = cudaEventDestroy(begin->ready_event))) break;
 
             // Reduce balance and erase entry
-            cached_bytes[current_device].free -= begin->bytes;
+            const size_t block_bytes = begin->bytes;
+            cached_bytes[current_device].free -= block_bytes;
+            cached_blocks.erase(begin);
 
             if (debug) _CubLog("\tDevice %d freed %lld bytes.\n\t\t  %lld available blocks cached (%lld bytes), %lld live blocks (%lld bytes) outstanding.\n",
-                current_device, (long long) begin->bytes, (long long) cached_blocks.size(), (long long) cached_bytes[current_device].free, (long long) live_blocks.size(), (long long) cached_bytes[current_device].live);
+                current_device, (long long) block_bytes, (long long) cached_blocks.size(), (long long) cached_bytes[current_device].free, (long long) live_blocks.size(), (long long) cached_bytes[current_device].live);
 
-            cached_blocks.erase(begin);
         }
 
-        mutex.Unlock();
+        mutex.unlock();
 
         // Attempt to revert back to entry-point device if necessary
         if (entrypoint_device != INVALID_DEVICE_ORDINAL)
@@ -705,5 +715,4 @@ struct CachingDeviceAllocator
 
 /** @} */       // end group UtilMgmt
 
-}               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+CUB_NAMESPACE_END

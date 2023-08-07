@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2018 NVIDIA Corporation
+ *  Copyright 2008-2021 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,21 +14,24 @@
  *  limitations under the License.
  */
 
-/*! \file is_contiguous_iterator.h
- *  \brief An extensible type trait for determining if an iterator satisifies
- *         the <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>
- *         requirements (e.g. is pointer-like).
+/*! \file
+ *  \brief An extensible type trait for determining if an iterator satisifies the
+ *  <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>
+ *  requirements (aka is pointer-like).
  */
 
 #pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
+#include <hydra/detail/external/hydra_thrust/detail/raw_pointer_cast.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/pointer_traits.h>
 
 #include <iterator>
+#include <type_traits>
+#include <utility>
 
-#if defined(_MSC_VER) && _MSC_VER < 1916 // MSVC 2017 version 15.9
+#if HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC && _MSC_VER < 1916 // MSVC 2017 version 15.9
   #include <vector>
   #include <string>
   #include <array>
@@ -38,7 +41,18 @@
   #endif
 #endif
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
+
+/*! \addtogroup utility
+ *  \{
+ */
+
+/*! \addtogroup type_traits Type Traits
+ *  \{
+ */
+
+/*! \cond
+ */
 
 namespace detail
 {
@@ -48,10 +62,19 @@ struct is_contiguous_iterator_impl;
 
 } // namespace detail
 
-/// Unary metafunction returns \c true_type if \c Iterator satisfies
-/// <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>,
-/// e.g. it points to elements that are contiguous in memory, and \c false_type
-/// otherwise.
+/*! \endcond
+ */
+
+/*! \brief <a href="https://en.cppreference.com/w/cpp/named_req/UnaryTypeTrait"><i>UnaryTypeTrait</i></a>
+ *  that returns \c true_type if \c Iterator satisfies
+ *  <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>,
+ *  aka it points to elements that are contiguous in memory, and \c false_type
+ *  otherwise.
+ *
+ * \see is_contiguous_iterator_v
+ * \see proclaim_contiguous_iterator
+ * \see HYDRA_THRUST_PROCLAIM_CONTIGUOUS_ITERATOR
+ */
 template <typename Iterator>
 #if HYDRA_THRUST_CPP_DIALECT >= 2011
 using is_contiguous_iterator =
@@ -65,32 +88,47 @@ struct is_contiguous_iterator :
 ;
 
 #if HYDRA_THRUST_CPP_DIALECT >= 2014
-/// <code>constexpr bool</code> that is \c true if \c Iterator satisfies
-/// <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>,
-/// e.g. it points to elements that are contiguous in memory, and \c false
-/// otherwise.
+/*! \brief <tt>constexpr bool</tt> that is \c true if \c Iterator satisfies
+ *  <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>,
+ *  aka it points to elements that are contiguous in memory, and \c false
+ *  otherwise.
+ *
+ * \see is_contiguous_iterator
+ * \see proclaim_contiguous_iterator
+ * \see HYDRA_THRUST_PROCLAIM_CONTIGUOUS_ITERATOR
+ */
 template <typename Iterator>
 constexpr bool is_contiguous_iterator_v = is_contiguous_iterator<Iterator>::value;
 #endif
 
-/// Customization point that can be customized to indicate that an iterator
-/// type \c Iterator satisfies
-/// <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>,
-/// e.g. it points to elements that are contiguous in memory.
+/*! \brief Customization point that can be customized to indicate that an
+ *  iterator type \c Iterator satisfies
+ *  <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>,
+ *  aka it points to elements that are contiguous in memory.
+ *
+ * \see is_contiguous_iterator
+ * \see HYDRA_THRUST_PROCLAIM_CONTIGUOUS_ITERATOR
+ */
 template <typename Iterator>
 struct proclaim_contiguous_iterator : false_type {};
 
-/// Declares that the iterator \c Iterator is
-/// <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>
-/// by specializing `hydra_thrust::proclaim_contiguous_iterator`.
+/*! \brief Declares that the iterator \c Iterator is
+ *  <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>
+ *  by specializing \c proclaim_contiguous_iterator.
+ *
+ * \see is_contiguous_iterator
+ * \see proclaim_contiguous_iterator
+ */
 #define HYDRA_THRUST_PROCLAIM_CONTIGUOUS_ITERATOR(Iterator)                         \
-  HYDRA_THRUST_BEGIN_NS                                                             \
+  HYDRA_THRUST_NAMESPACE_BEGIN                                                      \
   template <>                                                                 \
-  struct proclaim_contiguous_iterator<Iterator> : ::hydra_thrust::true_type {};     \
-  HYDRA_THRUST_END_NS                                                               \
+  struct proclaim_contiguous_iterator<Iterator>                               \
+      : HYDRA_THRUST_NS_QUALIFIER::true_type {};                                    \
+  HYDRA_THRUST_NAMESPACE_END                                                        \
   /**/
 
-///////////////////////////////////////////////////////////////////////////////
+/*! \cond
+ */
 
 namespace detail
 {
@@ -164,7 +202,6 @@ template <typename Iterator>
 struct is_msvc_contiguous_iterator : false_type {};
 #endif
 
-
 template <typename Iterator>
 struct is_contiguous_iterator_impl
   : integral_constant<
@@ -178,7 +215,81 @@ struct is_contiguous_iterator_impl
     >
 {};
 
+// Type traits for contiguous iterators:
+template <typename Iterator>
+struct contiguous_iterator_traits
+{
+  static_assert(hydra_thrust::is_contiguous_iterator<Iterator>::value,
+                "contiguous_iterator_traits requires a contiguous iterator.");
+
+  using raw_pointer = typename hydra_thrust::detail::pointer_traits<
+    decltype(&*std::declval<Iterator>())>::raw_pointer;
+};
+
+template <typename Iterator>
+using contiguous_iterator_raw_pointer_t =
+  typename contiguous_iterator_traits<Iterator>::raw_pointer;
+
+// Converts a contiguous iterator to a raw pointer:
+template <typename Iterator>
+__host__ __device__
+contiguous_iterator_raw_pointer_t<Iterator>
+contiguous_iterator_raw_pointer_cast(Iterator it)
+{
+  static_assert(hydra_thrust::is_contiguous_iterator<Iterator>::value,
+                "contiguous_iterator_raw_pointer_cast called with "
+                "non-contiguous iterator.");
+  return hydra_thrust::raw_pointer_cast(&*it);
+}
+
+// Implementation for non-contiguous iterators -- passthrough.
+template <typename Iterator,
+          bool IsContiguous = hydra_thrust::is_contiguous_iterator<Iterator>::value>
+struct try_unwrap_contiguous_iterator_impl
+{
+  using type = Iterator;
+
+  static __host__ __device__ type get(Iterator it) { return it; }
+};
+
+// Implementation for contiguous iterators -- unwraps to raw pointer.
+template <typename Iterator>
+struct try_unwrap_contiguous_iterator_impl<Iterator, true /*is_contiguous*/>
+{
+  using type = contiguous_iterator_raw_pointer_t<Iterator>;
+
+  static __host__ __device__ type get(Iterator it)
+  {
+    return contiguous_iterator_raw_pointer_cast(it);
+  }
+};
+
+template <typename Iterator>
+using try_unwrap_contiguous_iterator_return_t =
+  typename try_unwrap_contiguous_iterator_impl<Iterator>::type;
+
+// Casts to a raw pointer if iterator is marked as contiguous, otherwise returns
+// the input iterator.
+template <typename Iterator>
+__host__ __device__
+try_unwrap_contiguous_iterator_return_t<Iterator>
+try_unwrap_contiguous_iterator(Iterator it)
+{
+  return try_unwrap_contiguous_iterator_impl<Iterator>::get(it);
+}
+
 } // namespace detail
 
-HYDRA_THRUST_END_NS
+/*! \endcond
+ */
+
+///////////////////////////////////////////////////////////////////////////////
+
+/*! \} // type traits
+ */
+
+/*! \} // utility
+ */
+
+HYDRA_THRUST_NAMESPACE_END
 

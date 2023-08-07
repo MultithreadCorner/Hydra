@@ -16,11 +16,12 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/detail/cstdint.h>
 #include <hydra/detail/external/hydra_thrust/random/detail/mod.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace random
 {
@@ -103,5 +104,5 @@ struct linear_congruential_engine_discard
 
 } // end random
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

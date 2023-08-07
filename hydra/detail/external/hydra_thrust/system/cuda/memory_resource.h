@@ -1,5 +1,5 @@
 /*
- *  Copyright 2018 NVIDIA Corporation
+ *  Copyright 2018-2020 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/mr/memory_resource.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/pointer.h>
@@ -27,9 +29,9 @@
 #include <hydra/detail/external/hydra_thrust/system/cuda/error.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
 
-#include <hydra/detail/external/hydra_thrust/memory/detail/host_system_resource.h>
+#include <hydra/detail/external/hydra_thrust/mr/host_memory_resource.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace system
 {
@@ -40,14 +42,14 @@ namespace cuda
 namespace detail
 {
 
-    typedef cudaError_t (*allocation_fn)(void **, std::size_t);
-    typedef cudaError_t (*deallocation_fn)(void *);
+    typedef cudaError_t (CUDARTAPI *allocation_fn)(void **, std::size_t);
+    typedef cudaError_t (CUDARTAPI *deallocation_fn)(void *);
 
     template<allocation_fn Alloc, deallocation_fn Dealloc, typename Pointer>
-    class cuda_memory_resource HYDRA_THRUST_FINAL : public mr::memory_resource<Pointer>
+    class cuda_memory_resource final : public mr::memory_resource<Pointer>
     {
     public:
-        Pointer do_allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) HYDRA_THRUST_OVERRIDE
+        Pointer do_allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) override
         {
             (void)alignment;
 
@@ -63,7 +65,7 @@ namespace detail
             return Pointer(ret);
         }
 
-        void do_deallocate(Pointer p, std::size_t bytes, std::size_t alignment) HYDRA_THRUST_OVERRIDE
+        void do_deallocate(Pointer p, std::size_t bytes, std::size_t alignment) override
         {
             (void)bytes;
             (void)alignment;
@@ -77,7 +79,7 @@ namespace detail
         }
     };
 
-    inline cudaError_t cudaMallocManaged(void ** ptr, std::size_t bytes)
+    inline cudaError_t CUDARTAPI cudaMallocManaged(void ** ptr, std::size_t bytes)
     {
         return ::cudaMallocManaged(ptr, bytes, cudaMemAttachGlobal);
     }
@@ -86,24 +88,39 @@ namespace detail
         hydra_thrust::cuda::pointer<void> >
         device_memory_resource;
     typedef detail::cuda_memory_resource<detail::cudaMallocManaged, cudaFree,
-        hydra_thrust::cuda::pointer<void> >
+        hydra_thrust::cuda::universal_pointer<void> >
         managed_memory_resource;
     typedef detail::cuda_memory_resource<cudaMallocHost, cudaFreeHost,
-        hydra_thrust::host_memory_resource::pointer>
+        hydra_thrust::cuda::universal_pointer<void> >
         pinned_memory_resource;
 
 } // end detail
 //! \endcond
 
-/*! The memory resource for the CUDA system. Uses <tt>cudaMalloc</tt> and wraps the result with \p cuda::pointer. */
+/*! The memory resource for the CUDA system. Uses <tt>cudaMalloc</tt> and wraps
+ *  the result with \p cuda::pointer.
+ */
 typedef detail::device_memory_resource memory_resource;
-/*! The universal memory resource for the CUDA system. Uses <tt>cudaMallocManaged</tt> and wraps the result with \p cuda::pointer. */
+/*! The universal memory resource for the CUDA system. Uses
+ *  <tt>cudaMallocManaged</tt> and wraps the result with
+ *  \p cuda::universal_pointer.
+ */
 typedef detail::managed_memory_resource universal_memory_resource;
-/*! The host pinned memory resource for the CUDA system. Uses <tt>cudaMallocHost</tt> and wraps the result with \p cuda::pointer. */
+/*! The host pinned memory resource for the CUDA system. Uses
+ *  <tt>cudaMallocHost</tt> and wraps the result with \p
+ *  cuda::universal_pointer.
+ */
 typedef detail::pinned_memory_resource universal_host_pinned_memory_resource;
 
 } // end cuda
 } // end system
 
-HYDRA_THRUST_END_NS
+namespace cuda
+{
+using hydra_thrust::system::cuda::memory_resource;
+using hydra_thrust::system::cuda::universal_memory_resource;
+using hydra_thrust::system::cuda::universal_host_pinned_memory_resource;
+}
+
+HYDRA_THRUST_NAMESPACE_END
 

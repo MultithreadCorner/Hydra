@@ -30,6 +30,8 @@
 // this file must not be included on its own, ever,
 // but must be part of include in hydra_thrust/system/cuda/detail/copy.h
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
 
 #include <hydra/detail/external/hydra_thrust/distance.h>
@@ -40,7 +42,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
 #include <hydra/detail/external/hydra_thrust/type_traits/is_trivially_relocatable.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
 namespace __copy {
@@ -99,12 +101,13 @@ namespace __copy {
 
   {
     typedef typename iterator_traits<InputIt>::value_type InputTy;
-
-    trivial_device_copy(derived_cast(sys1),
-                        derived_cast(sys2),
-                        reinterpret_cast<InputTy*>(hydra_thrust::raw_pointer_cast(&*result)),
-                        reinterpret_cast<InputTy const*>(hydra_thrust::raw_pointer_cast(&*begin)),
-                        n);
+    if (n > 0) {
+      trivial_device_copy(derived_cast(sys1),
+                          derived_cast(sys2),
+                          reinterpret_cast<InputTy*>(hydra_thrust::raw_pointer_cast(&*result)),
+                          reinterpret_cast<InputTy const*>(hydra_thrust::raw_pointer_cast(&*begin)),
+                          n);
+    }
 
     return result + n;
   }
@@ -238,4 +241,4 @@ namespace __copy {
 }    // namespace __copy
 
 } // namespace cuda_cub
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END

@@ -14,12 +14,13 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/allocator/tagged_allocator.h>
 #include <limits>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 
@@ -96,8 +97,8 @@ bool operator!=(const tagged_allocator<T1,Pointer1,Tag> &, const tagged_allocato
 {
   return false;
 }
-    
+
 
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

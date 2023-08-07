@@ -26,11 +26,13 @@
  ******************************************************************************/
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 #include <hydra/detail/external/hydra_thrust/system/cpp/detail/execution_policy.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/execution_policy.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
   template <class Sys1, class Sys2>
@@ -55,7 +57,7 @@ namespace cuda_cub {
 #if HYDRA_THRUST_CPP_DIALECT >= 2011
   // Device to host.
   template <class Sys1, class Sys2>
-  HYDRA_THRUST_CONSTEXPR __host__ __device__ 
+  constexpr __host__ __device__
   auto direction_of_copy(
     hydra_thrust::system::cuda::execution_policy<Sys1> const&
   , hydra_thrust::cpp::execution_policy<Sys2> const&
@@ -68,7 +70,7 @@ namespace cuda_cub {
 
   // Host to device.
   template <class Sys1, class Sys2>
-  HYDRA_THRUST_CONSTEXPR __host__ __device__
+  constexpr __host__ __device__
   auto direction_of_copy(
     hydra_thrust::cpp::execution_policy<Sys1> const&
   , hydra_thrust::system::cuda::execution_policy<Sys2> const&
@@ -81,7 +83,7 @@ namespace cuda_cub {
 
   // Device to device.
   template <class Sys1, class Sys2>
-  HYDRA_THRUST_CONSTEXPR __host__ __device__
+  constexpr __host__ __device__
   auto direction_of_copy(
     hydra_thrust::system::cuda::execution_policy<Sys1> const&
   , hydra_thrust::system::cuda::execution_policy<Sys2> const&
@@ -94,7 +96,7 @@ namespace cuda_cub {
 
   // Device to device.
   template <class DerivedPolicy>
-  HYDRA_THRUST_CONSTEXPR __host__ __device__ 
+  constexpr __host__ __device__
   auto direction_of_copy(execution_policy<DerivedPolicy> const &)
   HYDRA_THRUST_DECLTYPE_RETURNS(
     hydra_thrust::detail::integral_constant<
@@ -103,7 +105,7 @@ namespace cuda_cub {
   )
 
   template <class Sys1, class Sys2>
-  HYDRA_THRUST_CONSTEXPR __host__ __device__
+  constexpr __host__ __device__
   auto direction_of_copy(
     execution_policy<cross_system<Sys1, Sys2>> const &systems
   )
@@ -114,89 +116,95 @@ namespace cuda_cub {
     )
   )
 
-  template <typename ExecutionPolicy0, typename ExecutionPolicy1>
-  HYDRA_THRUST_CONSTEXPR __host__ __device__
-  auto is_device_to_host_copy(
+  template <typename ExecutionPolicy0,
+            typename ExecutionPolicy1,
+            // MSVC2015 WAR: put decltype here instead of in trailing return type
+            typename Direction =
+              decltype(direction_of_copy(std::declval<ExecutionPolicy0>(),
+                                         std::declval<ExecutionPolicy1>()))>
+  constexpr __host__ __device__
+  hydra_thrust::detail::integral_constant<
+    bool, cudaMemcpyDeviceToHost == Direction::value
+  >
+  is_device_to_host_copy(
     ExecutionPolicy0 const& exec0
   , ExecutionPolicy1 const& exec1
-  )
-    noexcept -> 
-      hydra_thrust::detail::integral_constant<
-        bool
-      ,    cudaMemcpyDeviceToHost
-        == decltype(direction_of_copy(exec0, exec1))::value
-      >
+  ) noexcept
   {
     return {};
   }
 
-  template <typename ExecutionPolicy>
-  HYDRA_THRUST_CONSTEXPR __host__ __device__
-  auto is_device_to_host_copy(ExecutionPolicy const& exec)
-    noexcept -> 
-      hydra_thrust::detail::integral_constant<
-        bool
-      ,    cudaMemcpyDeviceToHost
-        == decltype(direction_of_copy(exec))::value
-      >
+  template <typename ExecutionPolicy,
+            // MSVC2015 WAR: put decltype here instead of in trailing return type
+            typename Direction =
+              decltype(direction_of_copy(std::declval<ExecutionPolicy>()))>
+  constexpr __host__ __device__
+  hydra_thrust::detail::integral_constant<
+    bool, cudaMemcpyDeviceToHost == Direction::value
+  >
+  is_device_to_host_copy(ExecutionPolicy const& exec) noexcept
   {
     return {};
   }
 
-  template <typename ExecutionPolicy0, typename ExecutionPolicy1>
-  HYDRA_THRUST_CONSTEXPR __host__ __device__
-  auto is_host_to_device_copy(
+  template <typename ExecutionPolicy0,
+            typename ExecutionPolicy1,
+            // MSVC2015 WAR: put decltype here instead of in trailing return type
+            typename Direction =
+              decltype(direction_of_copy(std::declval<ExecutionPolicy0>(),
+                                         std::declval<ExecutionPolicy1>()))>
+  constexpr __host__ __device__
+  hydra_thrust::detail::integral_constant<
+    bool, cudaMemcpyHostToDevice == Direction::value
+  >
+  is_host_to_device_copy(
     ExecutionPolicy0 const& exec0
   , ExecutionPolicy1 const& exec1
-  )
-    noexcept -> 
-      hydra_thrust::detail::integral_constant<
-        bool
-      ,    cudaMemcpyHostToDevice
-        == decltype(direction_of_copy(exec0, exec1))::value
-      >
+  ) noexcept
   {
     return {};
   }
 
-  template <typename ExecutionPolicy>
-  HYDRA_THRUST_CONSTEXPR __host__ __device__
-  auto is_host_to_device_copy(ExecutionPolicy const& exec)
-    noexcept -> 
-      hydra_thrust::detail::integral_constant<
-        bool
-      ,    cudaMemcpyHostToDevice
-        == decltype(direction_of_copy(exec))::value
-      >
+  template <typename ExecutionPolicy,
+            // MSVC2015 WAR: put decltype here instead of in trailing return type
+            typename Direction =
+              decltype(direction_of_copy(std::declval<ExecutionPolicy>()))>
+  constexpr __host__ __device__
+  hydra_thrust::detail::integral_constant<
+    bool, cudaMemcpyHostToDevice == Direction::value
+  >
+  is_host_to_device_copy(ExecutionPolicy const& exec) noexcept
   {
     return {};
   }
 
-  template <typename ExecutionPolicy0, typename ExecutionPolicy1>
-  HYDRA_THRUST_CONSTEXPR __host__ __device__
-  auto is_device_to_device_copy(
+  template <typename ExecutionPolicy0,
+            typename ExecutionPolicy1,
+            // MSVC2015 WAR: put decltype here instead of in trailing return type
+            typename Direction =
+              decltype(direction_of_copy(std::declval<ExecutionPolicy0>(),
+                                         std::declval<ExecutionPolicy1>()))>
+  constexpr __host__ __device__
+  hydra_thrust::detail::integral_constant<
+    bool, cudaMemcpyDeviceToDevice == Direction::value
+  >
+  is_device_to_device_copy(
     ExecutionPolicy0 const& exec0
   , ExecutionPolicy1 const& exec1
-  )
-    noexcept -> 
-      hydra_thrust::detail::integral_constant<
-        bool
-      ,    cudaMemcpyDeviceToDevice
-        == decltype(direction_of_copy(exec0, exec1))::value
-      >
+  ) noexcept
   {
     return {};
   }
 
-  template <typename ExecutionPolicy>
-  HYDRA_THRUST_CONSTEXPR __host__ __device__
-  auto is_device_to_device_copy(ExecutionPolicy const& exec)
-    noexcept -> 
-      hydra_thrust::detail::integral_constant<
-        bool
-      ,    cudaMemcpyDeviceToDevice
-        == decltype(direction_of_copy(exec))::value
-      >
+  template <typename ExecutionPolicy,
+            // MSVC2015 WAR: put decltype here instead of in trailing return type
+            typename Direction =
+              decltype(direction_of_copy(std::declval<ExecutionPolicy>()))>
+  constexpr __host__ __device__
+  hydra_thrust::detail::integral_constant<
+    bool, cudaMemcpyDeviceToDevice == Direction::value
+  >
+  is_device_to_device_copy(ExecutionPolicy const& exec) noexcept
   {
     return {};
   }
@@ -327,5 +335,5 @@ namespace cuda_cub {
   }
 
 } // namespace cuda_cub
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 

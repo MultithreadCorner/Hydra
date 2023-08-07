@@ -29,8 +29,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/pointer.h>
 #include <hydra/detail/external/hydra_thrust/pair.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -65,7 +64,7 @@ void iter_swap(hydra_thrust::execution_policy<DerivedPolicy>&, Pointer1, Pointer
 } // end generic
 } // end detail
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/memory.inl>
 

@@ -8,10 +8,10 @@
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #if HYDRA_THRUST_CPP_DIALECT >= 2011
-#  include <memory>
+#  include <hydra_thrust/detail/memory_wrapper.h>
 #endif
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -28,5 +28,4 @@ T* addressof(T& arg)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-HYDRA_THRUST_END_NS
-
+HYDRA_THRUST_NAMESPACE_END

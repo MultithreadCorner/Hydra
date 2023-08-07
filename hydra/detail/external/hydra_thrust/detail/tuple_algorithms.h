@@ -26,7 +26,7 @@
 
 #include <tuple>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 template <typename Tuple, std::size_t... Is>
 auto tuple_subset(Tuple&& t, index_sequence<Is...>)
@@ -104,7 +104,7 @@ HYDRA_THRUST_DECLTYPE_RETURNS(
   )
 );
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #endif // HYDRA_THRUST_CPP_DIALECT >= 2011
 

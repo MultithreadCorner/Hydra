@@ -14,14 +14,15 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/equal.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/internal_functional.h>
 #include <hydra/detail/external/hydra_thrust/mismatch.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -35,7 +36,7 @@ __host__ __device__
 bool equal(hydra_thrust::execution_policy<DerivedPolicy> &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
 {
   typedef typename hydra_thrust::iterator_traits<InputIterator1>::value_type InputType1;
-  
+
   return hydra_thrust::equal(exec, first1, last1, first2, hydra_thrust::detail::equal_to<InputType1>());
 }
 
@@ -54,5 +55,5 @@ bool equal(hydra_thrust::execution_policy<DerivedPolicy> &exec, InputIterator1 f
 } // end generic
 } // end detail
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

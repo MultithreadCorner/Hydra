@@ -23,18 +23,8 @@
 #include __HYDRA_THRUST_HOST_SYSTEM_TAG_HEADER
 #undef __HYDRA_THRUST_HOST_SYSTEM_TAG_HEADER
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 typedef hydra_thrust::system::__HYDRA_THRUST_HOST_SYSTEM_NAMESPACE::tag host_system_tag;
 
-} // end hydra_thrust
-
-// TODO remove this in 1.8.0
-namespace hydra_thrust
-{
-
-typedef HYDRA_THRUST_DEPRECATED host_system_tag host_space_tag;
-
-} // end hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

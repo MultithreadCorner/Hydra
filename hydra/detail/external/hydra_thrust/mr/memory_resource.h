@@ -14,27 +14,27 @@
  *  limitations under the License.
  */
 
-/*! \file mr/memory_resource.h
- *  \brief A base class for the memory resource system, similar to std::memory_resource,
- *      and related utilities.
+/*! \file
+ *  \brief A base class for the memory resource system, similar to
+ *  std::memory_resource, and related utilities.
  */
 
 #pragma once
 
-#include "detail/config.h"
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+#include <hydra/detail/external/hydra_thrust/detail/config/memory_resource.h>
 #ifdef HYDRA_THRUST_MR_STD_MR_HEADER
 #  include HYDRA_THRUST_MR_STD_MR_HEADER
 #endif
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 /*! \brief \p hydra_thrust::mr is the namespace containing system agnostic types and functions for \p memory_resource related functionalities.
  */
 namespace mr
 {
 
 /** \addtogroup memory_resources Memory Resources
- *  \ingroup memory_management_classes
+ *  \ingroup memory_management
  *  \{
  */
 
@@ -54,14 +54,14 @@ public:
 
     /*! Virtual destructor, defaulted when possible.
      */
-    virtual ~memory_resource() HYDRA_THRUST_DEFAULT
+    virtual ~memory_resource() = default;
 
     /*! Allocates memory of size at least \p bytes and alignment at least \p alignment.
      *
      *  \param bytes size, in bytes, that is requested from this allocation
      *  \param alignment alignment that is requested from this allocation
      *  \throws hydra_thrust::bad_alloc when no memory with requested size and alignment can be allocated.
-     *  \returns A pointer to void to the newly allocated memory.
+     *  \return A pointer to void to the newly allocated memory.
      */
     HYDRA_THRUST_NODISCARD
     pointer allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT)
@@ -86,10 +86,10 @@ public:
      *      which is often the right thing to do and doesn't require RTTI involvement.
      *
      *  \param other the other resource to compare this resource to
-     *  \returns whether the two resources are equivalent.
+     *  \return whether the two resources are equivalent.
      */
     __host__ __device__
-    bool is_equal(const memory_resource & other) const HYDRA_THRUST_NOEXCEPT
+    bool is_equal(const memory_resource & other) const noexcept
     {
         return do_is_equal(other);
     }
@@ -99,7 +99,7 @@ public:
      *  \param bytes size, in bytes, that is requested from this allocation
      *  \param alignment alignment that is requested from this allocation
      *  \throws hydra_thrust::bad_alloc when no memory with requested size and alignment can be allocated.
-     *  \returns A pointer to void to the newly allocated memory.
+     *  \return A pointer to void to the newly allocated memory.
      */
     virtual pointer do_allocate(std::size_t bytes, std::size_t alignment) = 0;
 
@@ -117,10 +117,10 @@ public:
      *      which is often the right thing to do and doesn't require RTTI involvement.
      *
      *  \param other the other resource to compare this resource to
-     *  \returns whether the two resources are equivalent.
+     *  \return whether the two resources are equivalent.
      */
     __host__ __device__
-    virtual bool do_is_equal(const memory_resource & other) const HYDRA_THRUST_NOEXCEPT
+    virtual bool do_is_equal(const memory_resource & other) const noexcept
     {
         return this == &other;
     }
@@ -135,7 +135,7 @@ class memory_resource<void *>
 public:
     typedef void * pointer;
 
-    virtual ~memory_resource() HYDRA_THRUST_DEFAULT
+    virtual ~memory_resource() = default;
 
     HYDRA_THRUST_NODISCARD
     pointer allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT)
@@ -149,7 +149,7 @@ public:
     }
 
     __host__ __device__
-    bool is_equal(const memory_resource & other) const HYDRA_THRUST_NOEXCEPT
+    bool is_equal(const memory_resource & other) const noexcept
     {
         return do_is_equal(other);
     }
@@ -157,7 +157,7 @@ public:
     virtual pointer do_allocate(std::size_t bytes, std::size_t alignment) = 0;
     virtual void do_deallocate(pointer p, std::size_t bytes, std::size_t alignment) = 0;
     __host__ __device__
-    virtual bool do_is_equal(const memory_resource & other) const HYDRA_THRUST_NOEXCEPT
+    virtual bool do_is_equal(const memory_resource & other) const noexcept
     {
         return this == &other;
     }
@@ -182,7 +182,7 @@ public:
  */
 template<typename Pointer>
 __host__ __device__
-bool operator==(const memory_resource<Pointer> & lhs, const memory_resource<Pointer> & rhs) HYDRA_THRUST_NOEXCEPT
+bool operator==(const memory_resource<Pointer> & lhs, const memory_resource<Pointer> & rhs) noexcept
 {
     return &lhs == &rhs || rhs.is_equal(rhs);
 }
@@ -191,7 +191,7 @@ bool operator==(const memory_resource<Pointer> & lhs, const memory_resource<Poin
  */
 template<typename Pointer>
 __host__ __device__
-bool operator!=(const memory_resource<Pointer> & lhs, const memory_resource<Pointer> & rhs) HYDRA_THRUST_NOEXCEPT
+bool operator!=(const memory_resource<Pointer> & lhs, const memory_resource<Pointer> & rhs) noexcept
 {
     return !(lhs == rhs);
 }
@@ -199,7 +199,7 @@ bool operator!=(const memory_resource<Pointer> & lhs, const memory_resource<Poin
 /*! Returns a global instance of \p MR, created as a function local static variable.
  *
  *  \tparam MR type of a memory resource to get an instance from. Must be \p DefaultConstructible.
- *  \returns a pointer to a global instance of \p MR.
+ *  \return a pointer to a global instance of \p MR.
  */
 template<typename MR>
 __host__
@@ -209,9 +209,9 @@ MR * get_global_resource()
     return &resource;
 }
 
-/*! \}
+/*! \} // memory_resource
  */
 
 } // end mr
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

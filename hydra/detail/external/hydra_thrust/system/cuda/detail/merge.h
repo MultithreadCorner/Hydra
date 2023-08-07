@@ -26,24 +26,26 @@ j * Copyright (c) 2016, NVIDIA CORPORATION.  All rights reserved.
  ******************************************************************************/
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
+
 #include <hydra/detail/external/hydra_thrust/detail/cstdint.h>
 #include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
-
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/execution_policy.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/core/agent_launcher.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/core/util.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/par_to_seq.h>
-#include <hydra/detail/external/hydra_thrust/merge.h>
-#include <hydra/detail/external/hydra_thrust/extrema.h>
-#include <hydra/detail/external/hydra_thrust/pair.h>
 #include <hydra/detail/external/hydra_thrust/detail/mpl/math.h>
 #include <hydra/detail/external/hydra_thrust/distance.h>
+#include <hydra/detail/external/hydra_thrust/extrema.h>
+#include <hydra/detail/external/hydra_thrust/merge.h>
+#include <hydra/detail/external/hydra_thrust/pair.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/cdp_dispatch.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/core/agent_launcher.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/core/util.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/execution_policy.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/par_to_seq.h>
 
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
 namespace __merge {
@@ -129,15 +131,13 @@ namespace __merge {
             int                      _ITEMS_PER_THREAD = 1,
             cub::BlockLoadAlgorithm  _LOAD_ALGORITHM   = cub::BLOCK_LOAD_DIRECT,
             cub::CacheLoadModifier   _LOAD_MODIFIER    = cub::LOAD_LDG,
-            cub::BlockStoreAlgorithm _STORE_ALGORITHM  = cub::BLOCK_STORE_DIRECT,
-            int                      _MIN_BLOCKS       = 1>
+            cub::BlockStoreAlgorithm _STORE_ALGORITHM  = cub::BLOCK_STORE_DIRECT>
   struct PtxPolicy
   {
     enum
     {
       BLOCK_THREADS      = _BLOCK_THREADS,
       ITEMS_PER_THREAD   = _ITEMS_PER_THREAD,
-      MIN_BLOCKS         = _MIN_BLOCKS,
       ITEMS_PER_TILE     = _BLOCK_THREADS * _ITEMS_PER_THREAD,
     };
 
@@ -170,7 +170,7 @@ namespace __merge {
       Size partition_idx = blockDim.x * blockIdx.x + threadIdx.x;
       if (partition_idx < num_partitions)
       {
-        Size partition_at = hydra_thrust::min(partition_idx * items_per_tile,
+        Size partition_at = (hydra_thrust::min)(partition_idx * items_per_tile,
                                         keys1_count + keys2_count);
         Size partition_diag = merge_path(keys1,
                                          keys2,
@@ -189,7 +189,7 @@ namespace __merge {
 
   namespace mpl = hydra_thrust::detail::mpl::math;
 
-  template<size_t NOMINAL_4B_ITEMS_PER_THREAD, size_t INPUT_SIZE>
+  template<int NOMINAL_4B_ITEMS_PER_THREAD, size_t INPUT_SIZE>
   struct items_per_thread
   {
     enum
@@ -201,8 +201,8 @@ namespace __merge {
               mpl::max<
                   int,
                   1,
-                  (NOMINAL_4B_ITEMS_PER_THREAD * 4 / INPUT_SIZE)>::value>::value,
-      value = mpl::is_odd<size_t, ITEMS_PER_THREAD>::value
+                  static_cast<int>(NOMINAL_4B_ITEMS_PER_THREAD * 4 / INPUT_SIZE)>::value>::value,
+      value = mpl::is_odd<int, ITEMS_PER_THREAD>::value
                   ? ITEMS_PER_THREAD
                   : ITEMS_PER_THREAD + 1
     };
@@ -463,7 +463,7 @@ namespace __merge {
         Size partition_end = merge_partitions[tile_idx + 1];
 
         Size diag0 = ITEMS_PER_TILE * tile_idx;
-        Size diag1 = hydra_thrust::min(keys1_count + keys2_count, diag0 + ITEMS_PER_TILE);
+        Size diag1 = (hydra_thrust::min)(keys1_count + keys2_count, diag0 + ITEMS_PER_TILE);
 
         // compute bounding box for keys1 & keys2
         //
@@ -685,8 +685,7 @@ namespace __merge {
             KeysOutputIt  keys_result,
             ItemsOutputIt items_result,
             CompareOp     compare_op,
-            cudaStream_t  stream,
-            bool          debug_sync)
+            cudaStream_t  stream)
   {
     if (num_keys1 + num_keys2 == 0)
       return cudaErrorNotSupported;
@@ -745,7 +744,7 @@ namespace __merge {
     {
       Size num_partitions = num_tiles + 1;
 
-      partition_agent(partition_plan, num_partitions, stream, "partition agent", debug_sync)
+      partition_agent(partition_plan, num_partitions, stream, "partition agent")
           .launch(keys1,
                   keys2,
                   num_keys1,
@@ -757,7 +756,7 @@ namespace __merge {
       CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
     }
 
-    merge_agent(merge_plan, num_keys1 + num_keys2, stream, vshmem_ptr, "merge agent", debug_sync)
+    merge_agent(merge_plan, num_keys1 + num_keys2, stream, vshmem_ptr, "merge agent")
         .launch(keys1,
                 keys2,
                 items1,
@@ -809,7 +808,6 @@ namespace __merge {
 
     size_t       storage_size = 0;
     cudaStream_t stream       = cuda_cub::stream(policy);
-    bool         debug_sync   = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = doit_step<MERGE_ITEMS>(NULL,
@@ -823,8 +821,7 @@ namespace __merge {
                                     keys_result,
                                     items_result,
                                     compare_op,
-                                    stream,
-                                    debug_sync);
+                                    stream);
     cuda_cub::throw_on_error(status, "merge: failed on 1st step");
 
     // Allocate temporary storage.
@@ -843,11 +840,10 @@ namespace __merge {
                                     keys_result,
                                     items_result,
                                     compare_op,
-                                    stream,
-                                    debug_sync);
+                                    stream);
     cuda_cub::throw_on_error(status, "merge: failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
+    status = cuda_cub::synchronize_optional(policy);
     cuda_cub::throw_on_error(status, "merge: failed to synchronize");
 
     return hydra_thrust::make_pair(keys_result + count, items_result + count);
@@ -876,38 +872,28 @@ merge(execution_policy<Derived>& policy,
       CompareOp                  compare_op)
 
 {
-  ResultIt ret = result;
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    typedef typename hydra_thrust::iterator_value<KeysIt1>::type keys_type;
-    //
-    keys_type* null_ = NULL;
-    //
-    ret = __merge::merge<hydra_thrust::detail::false_type>(policy,
-                                                     keys1_first,
-                                                     keys1_last,
-                                                     keys2_first,
-                                                     keys2_last,
-                                                     null_,
-                                                     null_,
-                                                     result,
-                                                     null_,
-                                                     compare_op)
-              .first;
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::merge(cvt_to_seq(derived_cast(policy)),
-                        keys1_first,
-                        keys1_last,
-                        keys2_first,
-                        keys2_last,
-                        result,
-                        compare_op);
-#endif
-  }
-  return ret;
+  HYDRA_THRUST_CDP_DISPATCH((using keys_type  = hydra_thrust::iterator_value_t<KeysIt1>;
+                       keys_type *null_ = nullptr;
+                       auto tmp =
+                         __merge::merge<hydra_thrust::detail::false_type>(policy,
+                                                                    keys1_first,
+                                                                    keys1_last,
+                                                                    keys2_first,
+                                                                    keys2_last,
+                                                                    null_,
+                                                                    null_,
+                                                                    result,
+                                                                    null_,
+                                                                    compare_op);
+                       result = tmp.first;),
+                      (result = hydra_thrust::merge(cvt_to_seq(derived_cast(policy)),
+                                              keys1_first,
+                                              keys1_last,
+                                              keys2_first,
+                                              keys2_last,
+                                              result,
+                                              compare_op);));
+  return result;
 }
 
 template <class Derived, class KeysIt1, class KeysIt2, class ResultIt>
@@ -950,10 +936,9 @@ merge_by_key(execution_policy<Derived> &policy,
              ItemsOutputIt              items_result,
              CompareOp                  compare_op)
 {
-  pair<KeysOutputIt, ItemsOutputIt> ret = hydra_thrust::make_pair(keys_result, items_result);
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    return __merge::merge<hydra_thrust::detail::true_type>(policy,
+  auto ret = hydra_thrust::make_pair(keys_result, items_result);
+  HYDRA_THRUST_CDP_DISPATCH(
+    (ret = __merge::merge<hydra_thrust::detail::true_type>(policy,
                                                      keys1_first,
                                                      keys1_last,
                                                      keys2_first,
@@ -962,23 +947,17 @@ merge_by_key(execution_policy<Derived> &policy,
                                                      items2_first,
                                                      keys_result,
                                                      items_result,
-                                                     compare_op);
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::merge_by_key(cvt_to_seq(derived_cast(policy)),
-                               keys1_first,
-                               keys1_last,
-                               keys2_first,
-                               keys2_last,
-                               items1_first,
-                               items2_first,
-                               keys_result,
-                               items_result,
-                               compare_op);
-#endif
-  }
+                                                     compare_op);),
+    (ret = hydra_thrust::merge_by_key(cvt_to_seq(derived_cast(policy)),
+                                keys1_first,
+                                keys1_last,
+                                keys2_first,
+                                keys2_last,
+                                items1_first,
+                                items2_first,
+                                keys_result,
+                                items_result,
+                                compare_op);));
   return ret;
 }
 
@@ -1015,5 +994,5 @@ merge_by_key(execution_policy<Derived> &policy,
 
 
 }    // namespace cuda_cub
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 #endif

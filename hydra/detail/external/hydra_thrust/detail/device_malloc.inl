@@ -14,10 +14,7 @@
  *  limitations under the License.
  */
 
-
-/*! \file device_malloc.inl
- *  \brief Inline file for device_malloc.h.
- */
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/device_malloc.h>
@@ -25,9 +22,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/select_system.h>
 #include <hydra/detail/external/hydra_thrust/detail/malloc_and_free.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 hydra_thrust::device_ptr<void> device_malloc(const std::size_t n)
 {
@@ -55,6 +50,4 @@ template<typename T>
   return hydra_thrust::device_ptr<T>(hydra_thrust::malloc<T>(s,n).get());
 } // end device_malloc()
 
-
-} // end hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

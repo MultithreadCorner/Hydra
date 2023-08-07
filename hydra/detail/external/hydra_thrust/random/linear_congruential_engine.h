@@ -27,8 +27,7 @@
 #include <hydra/detail/external/hydra_thrust/random/detail/random_core_access.h>
 #include <hydra/detail/external/hydra_thrust/random/detail/linear_congruential_engine_discard.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace random
 {
@@ -289,7 +288,7 @@ using random::linear_congruential_engine;
 using random::minstd_rand;
 using random::minstd_rand0;
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/random/detail/linear_congruential_engine.inl>
 

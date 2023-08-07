@@ -14,10 +14,7 @@
  *  limitations under the License.
  */
 
-
-/*! \file scan.inl
- *  \brief Inline file for scan.h.
- */
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/scan.h>
@@ -28,8 +25,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/scan.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/scan_by_key.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 
 __hydra_thrust_exec_check_disable__
@@ -44,7 +40,7 @@ __host__ __device__
 {
   using hydra_thrust::system::detail::generic::inclusive_scan;
   return inclusive_scan(hydra_thrust::detail::derived_cast(hydra_thrust::detail::strip_const(exec)), first, last, result);
-} // end inclusive_scan() 
+} // end inclusive_scan()
 
 
 __hydra_thrust_exec_check_disable__
@@ -522,5 +518,5 @@ template<typename InputIterator1,
 }
 
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

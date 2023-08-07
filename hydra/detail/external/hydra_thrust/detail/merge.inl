@@ -14,9 +14,9 @@
  *  limitations under the License.
  */
 
-/*! \file merge.inl
- *  \brief Inline file for merge.h.
- */
+#pragma once
+
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #include <hydra/detail/external/hydra_thrust/merge.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
@@ -24,9 +24,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/merge.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/merge.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 __hydra_thrust_exec_check_disable__
 template<typename DerivedPolicy,
@@ -220,6 +218,4 @@ template<typename InputIterator1,
   return hydra_thrust::merge_by_key(select_system(system1,system2,system3,system4,system5,system6), keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
 } // end merge_by_key()
 
-
-} // end hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

@@ -17,12 +17,13 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/detail/cstdint.h>
 
 // functions to handle memory alignment
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 namespace util
@@ -55,5 +56,5 @@ bool is_aligned(T * ptr, detail::uintptr_t bytes = sizeof(T))
 
 } // end namespace util
 } // end namespace detail
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

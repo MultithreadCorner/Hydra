@@ -20,17 +20,16 @@
 #pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
-#include <hydra/detail/external/hydra_thrust/detail/cpp11_required.h>
-#include <hydra/detail/external/hydra_thrust/detail/modern_gcc_required.h>
+#include <hydra/detail/external/hydra_thrust/detail/cpp14_required.h>
 
-#if HYDRA_THRUST_CPP_DIALECT >= 2011 && !defined(HYDRA_THRUST_LEGACY_GCC)
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/system/error_code.h>
 
 #include <stdexcept>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 enum class event_errc
 {
@@ -64,7 +63,7 @@ struct event_error_category : error_category
         return "no_state: an operation that requires an event or future to have "
                "a stream or content has been performed on a event or future "
                "without either, e.g. a moved-from or default constructed event "
-               "or future (anevent or future may have been consumed more than "
+               "or future (an event or future may have been consumed more than "
                "once)";
       }
       case event_errc::no_content:
@@ -93,21 +92,24 @@ struct event_error_category : error_category
 
     return system_category().default_error_condition(ev);
   }
-}; 
+};
 
 /// Obtains a reference to the static error category object for the errors
 /// related to futures and promises. The object is required to override the
-/// virtual function error_category::name() to return a pointer to the string 
-/// "event". It is used to identify error codes provided in the 
-/// exceptions of type event_error. 
+/// virtual function error_category::name() to return a pointer to the string
+/// "event". It is used to identify error codes provided in the
+/// exceptions of type event_error.
 inline error_category const& event_category()
 {
   static const event_error_category result;
   return result;
 }
 
+namespace system
+{
 /// Specialization of \p is_error_code_enum for \p event_errc.
 template<> struct is_error_code_enum<event_errc> : true_type {};
+} // end system
 
 /// \return <tt>error_code(static_cast<int>(e), event_category())</tt>
 inline error_code make_error_code(event_errc e)
@@ -119,7 +121,7 @@ inline error_code make_error_code(event_errc e)
 inline error_condition make_error_condition(event_errc e)
 {
   return error_condition(static_cast<int>(e), event_category());
-} 
+}
 
 struct event_error : std::logic_error
 {
@@ -156,7 +158,7 @@ inline bool operator<(event_error const& lhs, event_error const& rhs) noexcept
   return lhs.code() < rhs.code();
 }
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
-#endif
+#endif // C++14
 

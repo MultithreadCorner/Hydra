@@ -28,13 +28,13 @@
 #include <hydra/detail/external/hydra_thrust/detail/execution_policy.h>
 #include <hydra/detail/external/hydra_thrust/mr/allocator.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /*! Returns a global instance of \p MR for the current device of the provided system.
  *
  *  \tparam MR type of a memory resource to get an instance from. Must be \p DefaultConstructible.
  *  \param system execution policy for which the resource is requested.
- *  \returns a pointer to a global instance of \p MR for the current device.
+ *  \return a pointer to a global instance of \p MR for the current device.
  */
 template<typename MR, typename DerivedPolicy>
 __host__
@@ -97,7 +97,6 @@ public:
     ~per_device_allocator() {}
 };
 
-
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #endif // HYDRA_THRUST_CPP_DIALECT >= 2011

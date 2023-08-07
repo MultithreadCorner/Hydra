@@ -21,8 +21,7 @@
 #include <hydra/detail/external/hydra_thrust/iterator/detail/any_system_tag.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 // put the canonical tag in the same ns as the backend's entry points
@@ -79,5 +78,5 @@ using hydra_thrust::system::tbb::execution_policy;
 using hydra_thrust::system::tbb::tag;
 
 } // end tbb
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

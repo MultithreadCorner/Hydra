@@ -25,7 +25,7 @@
 #include <hydra/detail/external/hydra_thrust/type_traits/remove_cvref.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/select_system.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace detail
 {
@@ -78,7 +78,7 @@ HYDRA_THRUST_INLINE_CONSTANT select_system_detail::select_system_fn select_syste
 
 } // detail
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #endif // HYDRA_THRUST_CPP_DIALECT >= 2011
 

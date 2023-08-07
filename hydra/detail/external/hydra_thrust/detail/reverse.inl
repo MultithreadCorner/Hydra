@@ -14,10 +14,7 @@
  *  limitations under the License.
  */
 
-
-/*! \file reverse.inl
- *  \brief Inline file for reverse.h.
- */
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/reverse.h>
@@ -26,8 +23,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/reverse.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/reverse.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 
 __hydra_thrust_exec_check_disable__
@@ -87,5 +83,5 @@ template<typename BidirectionalIterator,
 } // end reverse_copy()
 
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

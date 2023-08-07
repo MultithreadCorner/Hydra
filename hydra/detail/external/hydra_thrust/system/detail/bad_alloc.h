@@ -20,8 +20,9 @@
 #include <new>
 #include <string>
 
-namespace hydra_thrust
-{
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -40,9 +41,9 @@ class bad_alloc
       m_what += w;
     } // end bad_alloc()
 
-    inline virtual ~bad_alloc(void) throw () {};
+    inline virtual ~bad_alloc(void) noexcept {};
 
-    inline virtual const char *what(void) const throw()
+    inline virtual const char *what(void) const noexcept
     {
       return m_what.c_str();
     } // end what()
@@ -53,5 +54,5 @@ class bad_alloc
   
 } // end detail
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

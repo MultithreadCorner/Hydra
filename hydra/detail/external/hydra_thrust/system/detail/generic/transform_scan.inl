@@ -18,15 +18,15 @@
 #pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
-#include <hydra/detail/external/hydra_thrust/system/detail/generic/transform_scan.h>
-#include <hydra/detail/external/hydra_thrust/scan.h>
-#include <hydra/detail/external/hydra_thrust/iterator/transform_iterator.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/function_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/iterator/is_output_iterator.h>
+#include <hydra/detail/external/hydra_thrust/iterator/transform_iterator.h>
+#include <hydra/detail/external/hydra_thrust/scan.h>
+#include <hydra/detail/external/hydra_thrust/system/detail/generic/transform_scan.h>
+#include <hydra/detail/external/hydra_thrust/type_traits/remove_cvref.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -48,27 +48,10 @@ __host__ __device__
                                           UnaryFunction unary_op,
                                           BinaryFunction binary_op)
 {
-  // the pseudocode for deducing the type of the temporary used below:
-  // 
-  // if UnaryFunction is AdaptableUnaryFunction
-  //   TemporaryType = AdaptableUnaryFunction::result_type
-  // else if OutputIterator is a "pure" output iterator
-  //   TemporaryType = InputIterator::value_type
-  // else
-  //   TemporaryType = OutputIterator::value_type
-  //
-  // XXX upon c++0x, TemporaryType needs to be:
-  // result_of_adaptable_function<UnaryFunction>::type
-
-  typedef typename hydra_thrust::detail::eval_if<
-    hydra_thrust::detail::has_result_type<UnaryFunction>::value,
-    hydra_thrust::detail::result_type<UnaryFunction>,
-    hydra_thrust::detail::eval_if<
-      hydra_thrust::detail::is_output_iterator<OutputIterator>::value,
-      hydra_thrust::iterator_value<InputIterator>,
-      hydra_thrust::iterator_value<OutputIterator>
-    >
-  >::type ValueType;
+  // Use the input iterator's value type per https://wg21.link/P0571
+  using InputType = typename hydra_thrust::iterator_value<InputIterator>::type;
+  using ResultType = hydra_thrust::detail::invoke_result_t<UnaryFunction, InputType>;
+  using ValueType = hydra_thrust::remove_cvref_t<ResultType>;
 
   hydra_thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _first(first, unary_op);
   hydra_thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _last(last, unary_op);
@@ -81,7 +64,7 @@ template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction,
-         typename T,
+         typename InitialValueType,
          typename AssociativeOperator>
 __host__ __device__
   OutputIterator transform_exclusive_scan(hydra_thrust::execution_policy<ExecutionPolicy> &exec,
@@ -89,30 +72,11 @@ __host__ __device__
                                           InputIterator last,
                                           OutputIterator result,
                                           UnaryFunction unary_op,
-                                          T init,
+                                          InitialValueType init,
                                           AssociativeOperator binary_op)
 {
-  // the pseudocode for deducing the type of the temporary used below:
-  // 
-  // if UnaryFunction is AdaptableUnaryFunction
-  //   TemporaryType = AdaptableUnaryFunction::result_type
-  // else if OutputIterator is a "pure" output iterator
-  //   TemporaryType = InputIterator::value_type
-  // else
-  //   TemporaryType = OutputIterator::value_type
-  //
-  // XXX upon c++0x, TemporaryType needs to be:
-  // result_of_adaptable_function<UnaryFunction>::type
-
-  typedef typename hydra_thrust::detail::eval_if<
-    hydra_thrust::detail::has_result_type<UnaryFunction>::value,
-    hydra_thrust::detail::result_type<UnaryFunction>,
-    hydra_thrust::detail::eval_if<
-      hydra_thrust::detail::is_output_iterator<OutputIterator>::value,
-      hydra_thrust::iterator_value<InputIterator>,
-      hydra_thrust::iterator_value<OutputIterator>
-    >
-  >::type ValueType;
+  // Use the initial value type per https://wg21.link/P0571
+  using ValueType = hydra_thrust::remove_cvref_t<InitialValueType>;
 
   hydra_thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _first(first, unary_op);
   hydra_thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _last(last, unary_op);
@@ -124,5 +88,5 @@ __host__ __device__
 } // end namespace generic
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

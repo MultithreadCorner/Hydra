@@ -34,16 +34,10 @@
 
 #pragma once
 
-#include "../util_macro.cuh"
-#include "../util_arch.cuh"
+#include "../config.cuh"
 #include "../util_type.cuh"
-#include "../util_namespace.cuh"
 
-/// Optional outer namespace(s)
-CUB_NS_PREFIX
-
-/// CUB namespace
-namespace cub {
+CUB_NAMESPACE_BEGIN
 
 /**
  * \brief BlockRakingLayout provides a conflict-free shared memory layout abstraction for 1D raking across thread block data.    ![](raking.png)
@@ -58,12 +52,12 @@ namespace cub {
  *
  * \tparam T                        The data type to be exchanged.
  * \tparam BLOCK_THREADS            The thread block size in threads.
- * \tparam PTX_ARCH                 <b>[optional]</b> \ptxversion
+ * \tparam LEGACY_PTX_ARCH          <b>[optional]</b> Unused.
  */
 template <
     typename    T,
     int         BLOCK_THREADS,
-    int         PTX_ARCH = CUB_PTX_ARCH>
+    int         LEGACY_PTX_ARCH = 0>
 struct BlockRakingLayout
 {
     //---------------------------------------------------------------------
@@ -76,7 +70,7 @@ struct BlockRakingLayout
         SHARED_ELEMENTS = BLOCK_THREADS,
 
         /// Maximum number of warp-synchronous raking threads
-        MAX_RAKING_THREADS = CUB_MIN(BLOCK_THREADS, CUB_WARP_THREADS(PTX_ARCH)),
+        MAX_RAKING_THREADS = CUB_MIN(BLOCK_THREADS, CUB_WARP_THREADS(0)),
 
         /// Number of raking elements per warp-synchronous raking thread (rounded up)
         SEGMENT_LENGTH = (SHARED_ELEMENTS + MAX_RAKING_THREADS - 1) / MAX_RAKING_THREADS,
@@ -85,11 +79,11 @@ struct BlockRakingLayout
         RAKING_THREADS = (SHARED_ELEMENTS + SEGMENT_LENGTH - 1) / SEGMENT_LENGTH,
 
         /// Whether we will have bank conflicts (technically we should find out if the GCD is > 1)
-        HAS_CONFLICTS = (CUB_SMEM_BANKS(PTX_ARCH) % SEGMENT_LENGTH == 0),
+        HAS_CONFLICTS = (CUB_SMEM_BANKS(0) % SEGMENT_LENGTH == 0),
 
         /// Degree of bank conflicts (e.g., 4-way)
         CONFLICT_DEGREE = (HAS_CONFLICTS) ?
-            (MAX_RAKING_THREADS * SEGMENT_LENGTH) / CUB_SMEM_BANKS(PTX_ARCH) :
+            (MAX_RAKING_THREADS * SEGMENT_LENGTH) / CUB_SMEM_BANKS(0) :
             1,
 
         /// Pad each segment length with one element if segment length is not relatively prime to warp size and can't be optimized as a vector load
@@ -147,6 +141,5 @@ struct BlockRakingLayout
     }
 };
 
-}               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+CUB_NAMESPACE_END
 

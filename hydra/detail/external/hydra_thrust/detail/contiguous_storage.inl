@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/contiguous_storage.h>
 #include <hydra/detail/external/hydra_thrust/detail/swap.h>
 #include <hydra/detail/external/hydra_thrust/detail/allocator/allocator_traits.h>
@@ -23,10 +24,13 @@
 #include <hydra/detail/external/hydra_thrust/detail/allocator/default_construct_range.h>
 #include <hydra/detail/external/hydra_thrust/detail/allocator/destroy_range.h>
 #include <hydra/detail/external/hydra_thrust/detail/allocator/fill_construct_range.h>
+
+#include <hydra/detail/external/hydra_libcudacxx/nv/target>
+
+#include <stdexcept> // for std::runtime_error
 #include <utility> // for use of std::swap in the WAR below
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace detail
 {
@@ -186,6 +190,7 @@ __host__ __device__
   return m_begin[n];
 } // end contiguous_storage::operator[]()
 
+__hydra_thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
   typename contiguous_storage<T,Alloc>::allocator_type
@@ -340,6 +345,7 @@ __host__ __device__
   destroy_on_allocator_mismatch_dispatch(c, other, first, last);
 } // end contiguous_storage::destroy_on_allocator_mismatch
 
+__hydra_thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
   void contiguous_storage<T,Alloc>
@@ -382,7 +388,7 @@ __host__ __device__
   propagate_allocator_dispatch(c, other);
 } // end contiguous_storage::propagate_allocator()
 
-#if __cplusplus >= 201103L
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 template<typename T, typename Alloc>
 __host__ __device__
   void contiguous_storage<T,Alloc>
@@ -428,15 +434,16 @@ __host__ __device__
   void contiguous_storage<T,Alloc>
     ::swap_allocators(false_type, Alloc &other)
 {
-#ifdef __CUDA_ARCH__
-  // allocators must be equal when swapping containers with allocators that propagate on swap
-  assert(!is_allocator_not_equal(other));
-#else
-  if (is_allocator_not_equal(other))
-  {
-    throw allocator_mismatch_on_swap();
-  }
-#endif
+  NV_IF_TARGET(NV_IS_DEVICE, (
+    // allocators must be equal when swapping containers with allocators that propagate on swap
+    assert(!is_allocator_not_equal(other));
+  ), (
+    if (is_allocator_not_equal(other))
+    {
+      throw allocator_mismatch_on_swap();
+    }
+  ));
+
   hydra_thrust::swap(m_allocator, other);
 } // end contiguous_storage::swap_allocators()
 
@@ -448,6 +455,7 @@ __host__ __device__
   return false;
 } // end contiguous_storage::is_allocator_not_equal_dispatch()
 
+__hydra_thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
   bool contiguous_storage<T,Alloc>
@@ -456,6 +464,7 @@ __host__ __device__
   return m_allocator != other;
 } // end contiguous_storage::is_allocator_not_equal_dispatch()
 
+__hydra_thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
   void contiguous_storage<T,Alloc>
@@ -474,6 +483,7 @@ __host__ __device__
 {
 } // end contiguous_storage::deallocate_on_allocator_mismatch()
 
+__hydra_thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
   void contiguous_storage<T,Alloc>
@@ -494,6 +504,7 @@ __host__ __device__
 {
 } // end contiguous_storage::destroy_on_allocator_mismatch()
 
+__hydra_thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
   void contiguous_storage<T,Alloc>
@@ -509,7 +520,8 @@ __host__ __device__
 {
 } // end contiguous_storage::propagate_allocator()
 
-#if __cplusplus >= 201103L
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+__hydra_thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
   void contiguous_storage<T,Alloc>
@@ -535,5 +547,4 @@ __host__ __device__
   lhs.swap(rhs);
 } // end swap()
 
-} // end hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

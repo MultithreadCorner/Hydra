@@ -14,10 +14,7 @@
  *  limitations under the License.
  */
 
-
-/*! \file advance.inl
- *  \brief Inline file for advance.h
- */
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/advance.h>
@@ -27,8 +24,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/has_nested_type.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/pointer_traits.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 __HYDRA_THRUST_DEFINE_HAS_NESTED_TYPE(has_difference_type, difference_type)
 
@@ -75,5 +71,4 @@ typename detail::disable_if<
   return i;
 }
 
-} // namespace hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

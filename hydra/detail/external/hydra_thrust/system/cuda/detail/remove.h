@@ -26,11 +26,12 @@
  ******************************************************************************/
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/copy_if.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
 // in-place
@@ -73,8 +74,9 @@ remove(execution_policy<Derived> &policy,
        InputIt                    last,
        const T &                  value)
 {
-  hydra_thrust::detail::equal_to_value<T> pred(value);
-  return cuda_cub::remove_if(policy, first, last, pred);
+  using hydra_thrust::placeholders::_1;
+
+  return cuda_cub::remove_if(policy, first, last, _1 == value);
 }
 
 // copy
@@ -128,5 +130,5 @@ remove_copy(execution_policy<Derived> &policy,
 }
 
 }    // namespace cuda_cub
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 #endif

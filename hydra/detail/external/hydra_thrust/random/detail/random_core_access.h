@@ -16,8 +16,9 @@
 
 #pragma once
 
-namespace hydra_thrust
-{
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace random
 {
@@ -53,5 +54,5 @@ static bool equal(const EngineOrDistribution &lhs, const EngineOrDistribution &r
 
 } // end random
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

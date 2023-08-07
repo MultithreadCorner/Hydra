@@ -21,8 +21,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/unique.h>
 #include <hydra/detail/external/hydra_thrust/pair.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace tbb
@@ -59,8 +58,22 @@ template<typename DerivedPolicy,
 } // end unique_copy()
 
 
+template<typename DerivedPolicy,
+         typename ForwardIterator,
+         typename BinaryPredicate>
+  typename hydra_thrust::iterator_traits<ForwardIterator>::difference_type
+    unique_count(execution_policy<DerivedPolicy> &exec,
+                 ForwardIterator first,
+                 ForwardIterator last,
+                 BinaryPredicate binary_pred)
+{
+  // tbb prefers generic::unique_count to cpp::unique_count
+  return hydra_thrust::system::detail::generic::unique_count(exec,first,last,binary_pred);
+} // end unique_count()
+
+
 } // end namespace detail
 } // end namespace tbb 
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

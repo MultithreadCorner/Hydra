@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2018 NVIDIA Corporation
+ *  Copyright 2008-2021 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,17 +14,16 @@
  *  limitations under the License.
  */
 
-/*! \file async/sort.h
- *  \brief Functions for asynchronously sorting a range.
+/*! \file
+ *  \brief Algorithms for asynchronously sorting a range.
  */
 
 #pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
-#include <hydra/detail/external/hydra_thrust/detail/cpp11_required.h>
-#include <hydra/detail/external/hydra_thrust/detail/modern_gcc_required.h>
+#include <hydra/detail/external/hydra_thrust/detail/cpp14_required.h>
 
-#if HYDRA_THRUST_CPP_DIALECT >= 2011 && !defined(HYDRA_THRUST_LEGACY_GCC)
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 
 #include <hydra/detail/external/hydra_thrust/detail/static_assert.h>
 #include <hydra/detail/external/hydra_thrust/detail/select_system.h>
@@ -35,10 +34,13 @@
 
 #include <hydra/detail/external/hydra_thrust/event.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace async
 {
+
+/*! \cond
+ */
 
 namespace unimplemented
 {
@@ -47,10 +49,10 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Sentinel, typename StrictWeakOrdering
 >
-__host__ 
+__host__
 event<DerivedPolicy>
 async_stable_sort(
-  hydra_thrust::execution_policy<DerivedPolicy>& 
+  hydra_thrust::execution_policy<DerivedPolicy>&
 , ForwardIt, Sentinel, StrictWeakOrdering
 )
 {
@@ -59,7 +61,7 @@ async_stable_sort(
   , "this algorithm is not implemented for the specified system"
   );
   return {};
-} 
+}
 
 } // namespace unimplemented
 
@@ -74,14 +76,14 @@ struct stable_sort_fn final
     typename DerivedPolicy
   , typename ForwardIt, typename Sentinel, typename StrictWeakOrdering
   >
-  __host__ 
+  __host__
   static auto call(
     hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
   , StrictWeakOrdering&& comp
   )
   // ADL dispatch.
-  HYDRA_THRUST_DECLTYPE_RETURNS(
+  HYDRA_THRUST_RETURNS(
     async_stable_sort(
       hydra_thrust::detail::derived_cast(hydra_thrust::detail::strip_const(exec))
     , HYDRA_THRUST_FWD(first), HYDRA_THRUST_FWD(last)
@@ -93,13 +95,13 @@ struct stable_sort_fn final
     typename DerivedPolicy
   , typename ForwardIt, typename Sentinel
   >
-  __host__ 
+  __host__
   static auto call(
     hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
   )
   // ADL dispatch.
-  HYDRA_THRUST_DECLTYPE_RETURNS(
+  HYDRA_THRUST_RETURNS(
     async_stable_sort(
       hydra_thrust::detail::derived_cast(hydra_thrust::detail::strip_const(exec))
     , HYDRA_THRUST_FWD(first), HYDRA_THRUST_FWD(last)
@@ -110,9 +112,9 @@ struct stable_sort_fn final
   )
 
   template <typename ForwardIt, typename Sentinel, typename StrictWeakOrdering>
-  __host__ 
-  static auto call(ForwardIt&& first, Sentinel&& last, StrictWeakOrdering&& comp) 
-  HYDRA_THRUST_DECLTYPE_RETURNS(
+  __host__
+  static auto call(ForwardIt&& first, Sentinel&& last, StrictWeakOrdering&& comp)
+  HYDRA_THRUST_RETURNS(
     stable_sort_fn::call(
       hydra_thrust::detail::select_system(
         typename iterator_system<remove_cvref_t<ForwardIt>>::type{}
@@ -123,9 +125,9 @@ struct stable_sort_fn final
   )
 
   template <typename ForwardIt, typename Sentinel>
-  __host__ 
-  static auto call(ForwardIt&& first, Sentinel&& last) 
-  HYDRA_THRUST_DECLTYPE_RETURNS(
+  __host__
+  static auto call(ForwardIt&& first, Sentinel&& last)
+  HYDRA_THRUST_RETURNS(
     stable_sort_fn::call(
       HYDRA_THRUST_FWD(first), HYDRA_THRUST_FWD(last)
     , hydra_thrust::less<
@@ -135,9 +137,9 @@ struct stable_sort_fn final
   )
 
   template <typename... Args>
-  HYDRA_THRUST_NODISCARD __host__ 
+  HYDRA_THRUST_NODISCARD __host__
   auto operator()(Args&&... args) const
-  HYDRA_THRUST_DECLTYPE_RETURNS(
+  HYDRA_THRUST_RETURNS(
     call(HYDRA_THRUST_FWD(args)...)
   )
 };
@@ -153,7 +155,7 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Sentinel, typename StrictWeakOrdering
 >
-__host__ 
+__host__
 event<DerivedPolicy>
 async_sort(
   hydra_thrust::execution_policy<DerivedPolicy>& exec
@@ -164,7 +166,7 @@ async_sort(
     hydra_thrust::detail::derived_cast(exec)
   , HYDRA_THRUST_FWD(first), HYDRA_THRUST_FWD(last), HYDRA_THRUST_FWD(comp)
   );
-} 
+}
 
 } // namespace fallback
 
@@ -179,14 +181,14 @@ struct sort_fn final
     typename DerivedPolicy
   , typename ForwardIt, typename Sentinel, typename StrictWeakOrdering
   >
-  __host__ 
+  __host__
   static auto call(
     hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
   , StrictWeakOrdering&& comp
   )
   // ADL dispatch.
-  HYDRA_THRUST_DECLTYPE_RETURNS(
+  HYDRA_THRUST_RETURNS(
     async_sort(
       hydra_thrust::detail::derived_cast(hydra_thrust::detail::strip_const(exec))
     , HYDRA_THRUST_FWD(first), HYDRA_THRUST_FWD(last)
@@ -198,12 +200,13 @@ struct sort_fn final
     typename DerivedPolicy
   , typename ForwardIt, typename Sentinel
   >
-  __host__ 
-  static auto call(
+  __host__
+  static auto call3(
     hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
+  , hydra_thrust::true_type
   )
-  HYDRA_THRUST_DECLTYPE_RETURNS(
+  HYDRA_THRUST_RETURNS(
     sort_fn::call(
       exec
     , HYDRA_THRUST_FWD(first), HYDRA_THRUST_FWD(last)
@@ -214,11 +217,12 @@ struct sort_fn final
   )
 
   template <typename ForwardIt, typename Sentinel, typename StrictWeakOrdering>
-  __host__ 
-  static auto call(ForwardIt&& first, Sentinel&& last, StrictWeakOrdering&& comp) 
-  HYDRA_THRUST_DECLTYPE_RETURNS_WITH_SFINAE_CONDITION(
-    (negation<is_execution_policy<remove_cvref_t<ForwardIt>>>::value)
-  , sort_fn::call(
+  __host__
+  static auto call3(ForwardIt&& first, Sentinel&& last,
+                    StrictWeakOrdering&& comp,
+                    hydra_thrust::false_type)
+  HYDRA_THRUST_RETURNS(
+    sort_fn::call(
       hydra_thrust::detail::select_system(
         typename iterator_system<remove_cvref_t<ForwardIt>>::type{}
       )
@@ -227,10 +231,21 @@ struct sort_fn final
     )
   )
 
+  // MSVC WAR: MSVC gets angsty and eats all available RAM when we try to detect
+  // if T1 is an execution_policy by using SFINAE. Switching to a static
+  // dispatch pattern to prevent this.
+  template <typename T1, typename T2, typename T3>
+  __host__
+  static auto call(T1&& t1, T2&& t2, T3&& t3)
+  HYDRA_THRUST_RETURNS(
+    sort_fn::call3(HYDRA_THRUST_FWD(t1), HYDRA_THRUST_FWD(t2), HYDRA_THRUST_FWD(t3),
+                   hydra_thrust::is_execution_policy<hydra_thrust::remove_cvref_t<T1>>{})
+  )
+
   template <typename ForwardIt, typename Sentinel>
-  __host__ 
-  static auto call(ForwardIt&& first, Sentinel&& last) 
-  HYDRA_THRUST_DECLTYPE_RETURNS(
+  __host__
+  static auto call(ForwardIt&& first, Sentinel&& last)
+  HYDRA_THRUST_RETURNS(
     sort_fn::call(
       hydra_thrust::detail::select_system(
         typename iterator_system<remove_cvref_t<ForwardIt>>::type{}
@@ -243,9 +258,9 @@ struct sort_fn final
   )
 
   template <typename... Args>
-  HYDRA_THRUST_NODISCARD __host__ 
+  HYDRA_THRUST_NODISCARD __host__
   auto operator()(Args&&... args) const
-  HYDRA_THRUST_DECLTYPE_RETURNS(
+  HYDRA_THRUST_RETURNS(
     call(HYDRA_THRUST_FWD(args)...)
   )
 };
@@ -254,9 +269,12 @@ struct sort_fn final
 
 HYDRA_THRUST_INLINE_CONSTANT sort_detail::sort_fn sort{};
 
+/*! \endcond
+ */
+
 } // namespace async
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #endif
 

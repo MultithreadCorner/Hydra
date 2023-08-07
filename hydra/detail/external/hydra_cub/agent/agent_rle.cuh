@@ -41,16 +41,12 @@
 #include "../block/block_scan.cuh"
 #include "../block/block_exchange.cuh"
 #include "../block/block_discontinuity.cuh"
+#include "../config.cuh"
 #include "../grid/grid_queue.cuh"
 #include "../iterator/cache_modified_input_iterator.cuh"
 #include "../iterator/constant_input_iterator.cuh"
-#include "../util_namespace.cuh"
 
-/// Optional outer namespace(s)
-CUB_NS_PREFIX
-
-/// CUB namespace
-namespace cub {
+CUB_NAMESPACE_BEGIN
 
 
 /******************************************************************************
@@ -59,14 +55,38 @@ namespace cub {
 
 /**
  * Parameterizable tuning policy type for AgentRle
+ *
+ * @tparam _BLOCK_THREADS 
+ *   Threads per thread block
+ *
+ * @tparam _ITEMS_PER_THREAD 
+ *   Items per thread (per tile of input)
+ *
+ * @tparam _LOAD_ALGORITHM 
+ *   The BlockLoad algorithm to use
+ *
+ * @tparam _LOAD_MODIFIER 
+ *   Cache load modifier for reading input elements
+ *
+ * @tparam _STORE_WARP_TIME_SLICING 
+ *   Whether or not only one warp's worth of shared memory should be allocated and time-sliced among 
+ *   block-warps during any store-related data transpositions 
+ *   (versus each warp having its own storage)
+ *
+ * @tparam _SCAN_ALGORITHM 
+ *   The BlockScan algorithm to use
+ *
+ * @tparam DelayConstructorT 
+ *   Implementation detail, do not specify directly, requirements on the 
+ *   content of this type are subject to breaking change.
  */
-template <
-    int                         _BLOCK_THREADS,                 ///< Threads per thread block
-    int                         _ITEMS_PER_THREAD,              ///< Items per thread (per tile of input)
-    BlockLoadAlgorithm          _LOAD_ALGORITHM,                ///< The BlockLoad algorithm to use
-    CacheLoadModifier           _LOAD_MODIFIER,                 ///< Cache load modifier for reading input elements
-    bool                        _STORE_WARP_TIME_SLICING,       ///< Whether or not only one warp's worth of shared memory should be allocated and time-sliced among block-warps during any store-related data transpositions (versus each warp having its own storage)
-    BlockScanAlgorithm          _SCAN_ALGORITHM>                ///< The BlockScan algorithm to use
+template <int _BLOCK_THREADS,
+          int _ITEMS_PER_THREAD,
+          BlockLoadAlgorithm _LOAD_ALGORITHM,
+          CacheLoadModifier _LOAD_MODIFIER,
+          bool _STORE_WARP_TIME_SLICING,
+          BlockScanAlgorithm _SCAN_ALGORITHM,
+          typename DelayConstructorT = detail::fixed_delay_constructor_t<350, 450>>
 struct AgentRlePolicy
 {
     enum
@@ -79,6 +99,11 @@ struct AgentRlePolicy
     static const BlockLoadAlgorithm     LOAD_ALGORITHM          = _LOAD_ALGORITHM;      ///< The BlockLoad algorithm to use
     static const CacheLoadModifier      LOAD_MODIFIER           = _LOAD_MODIFIER;       ///< Cache load modifier for reading input elements
     static const BlockScanAlgorithm     SCAN_ALGORITHM          = _SCAN_ALGORITHM;      ///< The BlockScan algorithm to use
+
+    struct detail 
+    {
+        using delay_constructor_t = DelayConstructorT;
+    };
 };
 
 
@@ -106,23 +131,22 @@ struct AgentRle
     //---------------------------------------------------------------------
 
     /// The input value type
-    typedef typename std::iterator_traits<InputIteratorT>::value_type T;
+    using T = cub::detail::value_t<InputIteratorT>;
 
     /// The lengths output value type
-    typedef typename If<(Equals<typename std::iterator_traits<LengthsOutputIteratorT>::value_type, void>::VALUE),   // LengthT =  (if output iterator's value type is void) ?
-        OffsetT,                                                                                                    // ... then the OffsetT type,
-        typename std::iterator_traits<LengthsOutputIteratorT>::value_type>::Type LengthT;                           // ... else the output iterator's value type
+    using LengthT =
+      cub::detail::non_void_value_t<LengthsOutputIteratorT, OffsetT>;
 
     /// Tuple type for scanning (pairs run-length and run-index)
-    typedef KeyValuePair<OffsetT, LengthT> LengthOffsetPair;
+    using LengthOffsetPair = KeyValuePair<OffsetT, LengthT>;
 
     /// Tile status descriptor interface type
-    typedef ReduceByKeyScanTileState<LengthT, OffsetT> ScanTileStateT;
+    using ScanTileStateT = ReduceByKeyScanTileState<LengthT, OffsetT>;
 
     // Constants
     enum
     {
-        WARP_THREADS            = CUB_WARP_THREADS(PTX_ARCH),
+        WARP_THREADS            = CUB_WARP_THREADS(0),
         BLOCK_THREADS           = AgentRlePolicyT::BLOCK_THREADS,
         ITEMS_PER_THREAD        = AgentRlePolicyT::ITEMS_PER_THREAD,
         WARP_ITEMS              = WARP_THREADS * ITEMS_PER_THREAD,
@@ -169,42 +193,43 @@ struct AgentRle
 
 
     // Cache-modified Input iterator wrapper type (for applying cache modifier) for data
-    typedef typename If<IsPointer<InputIteratorT>::VALUE,
-            CacheModifiedInputIterator<AgentRlePolicyT::LOAD_MODIFIER, T, OffsetT>,      // Wrap the native input pointer with CacheModifiedVLengthnputIterator
-            InputIteratorT>::Type                                                       // Directly use the supplied input iterator type
-        WrappedInputIteratorT;
+    // Wrap the native input pointer with CacheModifiedVLengthnputIterator
+    // Directly use the supplied input iterator type
+    using WrappedInputIteratorT = cub::detail::conditional_t<
+      std::is_pointer<InputIteratorT>::value,
+      CacheModifiedInputIterator<AgentRlePolicyT::LOAD_MODIFIER, T, OffsetT>,
+      InputIteratorT>;
 
     // Parameterized BlockLoad type for data
-    typedef BlockLoad<
-            T,
-            AgentRlePolicyT::BLOCK_THREADS,
-            AgentRlePolicyT::ITEMS_PER_THREAD,
-            AgentRlePolicyT::LOAD_ALGORITHM>
-        BlockLoadT;
+    using BlockLoadT = BlockLoad<T,
+                                 AgentRlePolicyT::BLOCK_THREADS,
+                                 AgentRlePolicyT::ITEMS_PER_THREAD,
+                                 AgentRlePolicyT::LOAD_ALGORITHM>;
 
     // Parameterized BlockDiscontinuity type for data
-    typedef BlockDiscontinuity<T, BLOCK_THREADS> BlockDiscontinuityT;
+    using BlockDiscontinuityT = BlockDiscontinuity<T, BLOCK_THREADS> ;
 
     // Parameterized WarpScan type
-    typedef WarpScan<LengthOffsetPair> WarpScanPairs;
+    using WarpScanPairs = WarpScan<LengthOffsetPair>;
 
     // Reduce-length-by-run scan operator
-    typedef ReduceBySegmentOp<cub::Sum> ReduceBySegmentOpT;
+    using ReduceBySegmentOpT = ReduceBySegmentOp<cub::Sum>;
 
     // Callback type for obtaining tile prefix during block scan
-    typedef TilePrefixCallbackOp<
-            LengthOffsetPair,
-            ReduceBySegmentOpT,
-            ScanTileStateT>
-        TilePrefixCallbackOpT;
+    using DelayConstructorT = typename AgentRlePolicyT::detail::delay_constructor_t;
+    using TilePrefixCallbackOpT =
+      TilePrefixCallbackOp<LengthOffsetPair, ReduceBySegmentOpT, ScanTileStateT, 0, DelayConstructorT>;
 
     // Warp exchange types
-    typedef WarpExchange<LengthOffsetPair, ITEMS_PER_THREAD>        WarpExchangePairs;
+    using WarpExchangePairs = WarpExchange<LengthOffsetPair, ITEMS_PER_THREAD>;
 
-    typedef typename If<STORE_WARP_TIME_SLICING, typename WarpExchangePairs::TempStorage, NullType>::Type WarpExchangePairsStorage;
+    using WarpExchangePairsStorage =
+      cub::detail::conditional_t<STORE_WARP_TIME_SLICING,
+                                 typename WarpExchangePairs::TempStorage,
+                                 NullType>;
 
-    typedef WarpExchange<OffsetT, ITEMS_PER_THREAD>                 WarpExchangeOffsets;
-    typedef WarpExchange<LengthT, ITEMS_PER_THREAD>                 WarpExchangeLengths;
+    using WarpExchangeOffsets = WarpExchange<OffsetT, ITEMS_PER_THREAD>;
+    using WarpExchangeLengths = WarpExchange<LengthT, ITEMS_PER_THREAD>;
 
     typedef LengthOffsetPair WarpAggregates[WARPS];
 
@@ -214,13 +239,13 @@ struct AgentRle
         // Aliasable storage layout
         union Aliasable
         {
-            struct
+            struct ScanStorage
             {
                 typename BlockDiscontinuityT::TempStorage       discontinuity;              // Smem needed for discontinuity detection
                 typename WarpScanPairs::TempStorage             warp_scan[WARPS];           // Smem needed for warp-synchronous scans
                 Uninitialized<LengthOffsetPair[WARPS]>          warp_aggregates;            // Smem needed for sharing warp-wide aggregates
                 typename TilePrefixCallbackOpT::TempStorage     prefix;                     // Smem needed for cooperative prefix callback
-            };
+            } scan_storage;
 
             // Smem needed for input loading
             typename BlockLoadT::TempStorage                    load;
@@ -305,7 +330,7 @@ struct AgentRle
         {
             // First-and-last-tile always head-flags the first item and tail-flags the last item
 
-            BlockDiscontinuityT(temp_storage.aliasable.discontinuity).FlagHeadsAndTails(
+            BlockDiscontinuityT(temp_storage.aliasable.scan_storage.discontinuity).FlagHeadsAndTails(
                 head_flags, tail_flags, items, inequality_op);
         }
         else if (FIRST_TILE)
@@ -317,7 +342,7 @@ struct AgentRle
             if (threadIdx.x == BLOCK_THREADS - 1)
                 tile_successor_item = d_in[tile_offset + TILE_ITEMS];
 
-            BlockDiscontinuityT(temp_storage.aliasable.discontinuity).FlagHeadsAndTails(
+            BlockDiscontinuityT(temp_storage.aliasable.scan_storage.discontinuity).FlagHeadsAndTails(
                 head_flags, tail_flags, tile_successor_item, items, inequality_op);
         }
         else if (LAST_TILE)
@@ -329,7 +354,7 @@ struct AgentRle
             if (threadIdx.x == 0)
                 tile_predecessor_item = d_in[tile_offset - 1];
 
-            BlockDiscontinuityT(temp_storage.aliasable.discontinuity).FlagHeadsAndTails(
+            BlockDiscontinuityT(temp_storage.aliasable.scan_storage.discontinuity).FlagHeadsAndTails(
                 head_flags, tile_predecessor_item, tail_flags, items, inequality_op);
         }
         else
@@ -344,7 +369,7 @@ struct AgentRle
             if (threadIdx.x == 0)
                 tile_predecessor_item = d_in[tile_offset - 1];
 
-            BlockDiscontinuityT(temp_storage.aliasable.discontinuity).FlagHeadsAndTails(
+            BlockDiscontinuityT(temp_storage.aliasable.scan_storage.discontinuity).FlagHeadsAndTails(
                 head_flags, tile_predecessor_item, tail_flags, tile_successor_item, items, inequality_op);
         }
 
@@ -381,7 +406,7 @@ struct AgentRle
 
         LengthOffsetPair thread_inclusive;
         LengthOffsetPair thread_aggregate = internal::ThreadReduce(lengths_and_num_runs, scan_op);
-        WarpScanPairs(temp_storage.aliasable.warp_scan[warp_id]).Scan(
+        WarpScanPairs(temp_storage.aliasable.scan_storage.warp_scan[warp_id]).Scan(
             thread_aggregate,
             thread_inclusive,
             thread_exclusive_in_warp,
@@ -390,14 +415,14 @@ struct AgentRle
 
         // Last lane in each warp shares its warp-aggregate
         if (lane_id == WARP_THREADS - 1)
-            temp_storage.aliasable.warp_aggregates.Alias()[warp_id] = thread_inclusive;
+            temp_storage.aliasable.scan_storage.warp_aggregates.Alias()[warp_id] = thread_inclusive;
 
         CTA_SYNC();
 
         // Accumulate total selected and the warp-wide prefix
         warp_exclusive_in_tile          = identity;
-        warp_aggregate                  = temp_storage.aliasable.warp_aggregates.Alias()[warp_id];
-        tile_aggregate                  = temp_storage.aliasable.warp_aggregates.Alias()[0];
+        warp_aggregate                  = temp_storage.aliasable.scan_storage.warp_aggregates.Alias()[warp_id];
+        tile_aggregate                  = temp_storage.aliasable.scan_storage.warp_aggregates.Alias()[0];
 
         #pragma unroll
         for (int WARP = 1; WARP < WARPS; ++WARP)
@@ -405,7 +430,7 @@ struct AgentRle
             if (warp_id == WARP)
                 warp_exclusive_in_tile = tile_aggregate;
 
-            tile_aggregate = scan_op(tile_aggregate, temp_storage.aliasable.warp_aggregates.Alias()[WARP]);
+            tile_aggregate = scan_op(tile_aggregate, temp_storage.aliasable.scan_storage.warp_aggregates.Alias()[WARP]);
         }
     }
 
@@ -738,7 +763,7 @@ struct AgentRle
                 lengths_and_num_runs);
 
             // First warp computes tile prefix in lane 0
-            TilePrefixCallbackOpT prefix_op(tile_status, temp_storage.aliasable.prefix, Sum(), tile_idx);
+            TilePrefixCallbackOpT prefix_op(tile_status, temp_storage.aliasable.scan_storage.prefix, Sum(), tile_idx);
             unsigned int warp_id = ((WARPS == 1) ? 0 : threadIdx.x / WARP_THREADS);
             if (warp_id == 0)
             {
@@ -832,6 +857,5 @@ struct AgentRle
 };
 
 
-}               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+CUB_NAMESPACE_END
 

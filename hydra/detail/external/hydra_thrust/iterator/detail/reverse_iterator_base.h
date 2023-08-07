@@ -16,11 +16,12 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_adaptor.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 template <typename> class reverse_iterator;
 
@@ -38,5 +39,5 @@ template<typename BidirectionalIterator>
 
 } // end detail
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

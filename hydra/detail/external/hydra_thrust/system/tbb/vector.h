@@ -26,140 +26,57 @@
 #include <hydra/detail/external/hydra_thrust/detail/vector_base.h>
 #include <vector>
 
-namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_BEGIN
+namespace system { namespace tbb
 {
-namespace system
-{
-namespace tbb
-{
-
-// XXX upon c++11
-// template<typename T, typename Allocator = allocator<T> > using vector = hydra_thrust::detail::vector_base<T,Allocator>;
 
 /*! \p tbb::vector is a container that supports random access to elements,
  *  constant time removal of elements at the end, and linear time insertion
  *  and removal of elements at the beginning or in the middle. The number of
  *  elements in a \p tbb::vector may vary dynamically; memory management is
  *  automatic. The elements contained in a \p tbb::vector reside in memory
- *  available to the \p tbb system.
+ *  accessible by the \p tbb system.
  *
  *  \tparam T The element type of the \p tbb::vector.
- *  \tparam Allocator The allocator type of the \p tbb::vector. Defaults to \p tbb::allocator.
+ *  \tparam Allocator The allocator type of the \p tbb::vector.
+ *          Defaults to \p tbb::allocator.
  *
- *  \see http://www.sgi.com/tech/stl/Vector.html
+ *  \see https://en.cppreference.com/w/cpp/container/vector
  *  \see host_vector For the documentation of the complete interface which is
- *                   shared by \p tbb::vector
+ *                   shared by \p tbb::vector.
  *  \see device_vector
+ *  \see universal_vector
  */
-template<typename T, typename Allocator = allocator<T> >
-  class vector
-    : public hydra_thrust::detail::vector_base<T,Allocator>
-{
-  /*! \cond
-   */
-  private:
-    typedef hydra_thrust::detail::vector_base<T,Allocator> super_t;
-  /*! \endcond
-   */
+template <typename T, typename Allocator = hydra_thrust::system::tbb::allocator<T>>
+using vector = hydra_thrust::detail::vector_base<T, Allocator>;
 
-  public:
+/*! \p tbb::universal_vector is a container that supports random access to
+ *  elements, constant time removal of elements at the end, and linear time
+ *  insertion and removal of elements at the beginning or in the middle. The
+ *  number of elements in a \p tbb::universal_vector may vary dynamically;
+ *  memory management is automatic. The elements contained in a
+ *  \p tbb::universal_vector reside in memory accessible by the \p tbb system
+ *  and host systems.
+ *
+ *  \tparam T The element type of the \p tbb::universal_vector.
+ *  \tparam Allocator The allocator type of the \p tbb::universal_vector.
+ *          Defaults to \p tbb::universal_allocator.
+ *
+ *  \see https://en.cppreference.com/w/cpp/container/vector
+ *  \see host_vector For the documentation of the complete interface which is
+ *                   shared by \p tbb::universal_vector
+ *  \see device_vector
+ *  \see universal_vector
+ */
+template <typename T, typename Allocator = hydra_thrust::system::tbb::universal_allocator<T>>
+using universal_vector = hydra_thrust::detail::vector_base<T, Allocator>;
 
-  /*! \cond
-   */
-    typedef typename super_t::size_type  size_type;
-    typedef typename super_t::value_type value_type;
-  /*! \endcond
-   */
+}} // namespace system::tbb
 
-    /*! This constructor creates an empty \p tbb::vector.
-     */
-    vector();
-
-    /*! This constructor creates a \p tbb::vector with \p n default-constructed elements.
-     *  \param n The size of the \p tbb::vector to create.
-     */
-    explicit vector(size_type n);
-
-    /*! This constructor creates a \p tbb::vector with \p n copies of \p value.
-     *  \param n The size of the \p tbb::vector to create.
-     *  \param value An element to copy.
-     */
-    explicit vector(size_type n, const value_type &value);
-
-    /*! Copy constructor copies from another \p tbb::vector.
-     *  \param x The other \p tbb::vector to copy.
-     */
-    vector(const vector &x);
-    
-  #if __cplusplus >= 201103L
-    /*! Move constructor use the move semantic over another \p tbb::vector.
-     *  \param x The other \p tbb::vector to move from.
-     */
-    vector(vector &&x);
-  #endif
-
-    /*! This constructor copies from another Thrust vector-like object.
-     *  \param x The other object to copy from.
-     */
-    template<typename OtherT, typename OtherAllocator>
-    vector(const hydra_thrust::detail::vector_base<OtherT,OtherAllocator> &x);
-
-    /*! This constructor copies from a \c std::vector.
-     *  \param x The \c std::vector to copy from.
-     */
-    template<typename OtherT, typename OtherAllocator>
-    vector(const std::vector<OtherT,OtherAllocator> &x);
-
-    /*! This constructor creates a \p tbb::vector by copying from a range.
-     *  \param first The beginning of the range.
-     *  \param last The end of the range.
-     */
-    template<typename InputIterator>
-    vector(InputIterator first, InputIterator last);
-
-    // XXX vector_base should take a Derived type so we don't have to define these superfluous assigns
-
-    /*! Assignment operator assigns from another \p tbb::vector.
-     *  \param x The other object to assign from.
-     *  \return <tt>*this</tt>
-     */
-    vector &operator=(const vector &x);
-
-  #if __cplusplus >= 201103L
-    /*! Move assignment operator use move semantic over another \p tbb::vector.
-     *  \param x The other \p tbb::vector to move from.
-     *  \return <tt>*this</tt>
-     */
-     vector &operator=(vector &&x);
-  #endif
-
-    /*! Assignment operator assigns from a \c std::vector.
-     *  \param x The \c std::vector to assign from.
-     *  \return <tt>*this</tt>
-     */
-    template<typename OtherT, typename OtherAllocator>
-    vector &operator=(const std::vector<OtherT,OtherAllocator> &x);
-
-    /*! Assignment operator assigns from another Thrust vector-like object.
-     *  \param x The other object to assign from.
-     *  \return <tt>*this</tt>
-     */
-    template<typename OtherT, typename OtherAllocator>
-    vector &operator=(const hydra_thrust::detail::vector_base<OtherT,OtherAllocator> &x);
-}; // end vector
-
-} // end tbb
-} // end system
-
-// alias system::tbb names at top-level
 namespace tbb
 {
-
 using hydra_thrust::system::tbb::vector;
+using hydra_thrust::system::tbb::universal_vector;
+}
 
-} // end tbb
-
-} // end hydra_thrust
-
-#include <hydra/detail/external/hydra_thrust/system/tbb/detail/vector.inl>
-
+HYDRA_THRUST_NAMESPACE_END

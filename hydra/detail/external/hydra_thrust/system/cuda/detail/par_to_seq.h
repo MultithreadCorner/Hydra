@@ -26,10 +26,12 @@
  ******************************************************************************/
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/detail/seq.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/par.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
 template <int PAR>
@@ -80,11 +82,5 @@ cvt_to_seq(Policy& policy)
   return cvt_to_seq_impl<Policy>::doit(policy);
 }
 
-#if __HYDRA_THRUST_HAS_CUDART__
-#define HYDRA_THRUST_CUDART_DISPATCH par
-#else
-#define HYDRA_THRUST_CUDART_DISPATCH seq
-#endif
-
 } // namespace cuda_
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END

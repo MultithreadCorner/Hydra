@@ -27,8 +27,7 @@
 #include <hydra/detail/external/hydra_thrust/iterator/detail/iterator_category_with_system_and_traversal.h>
 #include <hydra/detail/external/hydra_thrust/iterator/detail/iterator_category_to_traversal.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace detail
 {
@@ -249,5 +248,5 @@ template<typename CategoryOrSystem,
 
 
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

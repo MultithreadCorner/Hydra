@@ -28,8 +28,7 @@
 #include <hydra/detail/external/hydra_thrust/unique.h>
 #include <hydra/detail/external/hydra_thrust/detail/range/head_flags.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -136,5 +135,5 @@ unique_by_key_copy(hydra_thrust::execution_policy<ExecutionPolicy> &exec,
 } // end namespace generic
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

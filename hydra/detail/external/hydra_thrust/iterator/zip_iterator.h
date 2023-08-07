@@ -36,8 +36,7 @@
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_facade.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /*! \addtogroup iterators
  *  \{
@@ -67,7 +66,7 @@ namespace hydra_thrust
  *  int_v[0] = 0; int_v[1] = 1; int_v[2] = 2;
  *
  *  hydra_thrust::device_vector<float> float_v(3);
- *  float_v[0] = 0.0f; float_v[1] = 1.0;f float_v[2] = 2.0f;
+ *  float_v[0] = 0.0f; float_v[1] = 1.0f; float_v[2] = 2.0f;
  *
  *  hydra_thrust::device_vector<char> char_v(3);
  *  char_v[0] = 'a'; char_v[1] = 'b'; char_v[2] = 'c';
@@ -108,7 +107,7 @@ namespace hydra_thrust
  *  #include <hydra/detail/external/hydra_thrust/tuple.h>
  *  #include <hydra/detail/external/hydra_thrust/device_vector.h>
  *
- *  int main(void)
+ *  int main()
  *  {
  *    hydra_thrust::device_vector<int> int_in(3), int_out(3);
  *    int_in[0] = 0;
@@ -144,7 +143,7 @@ template <typename IteratorTuple>
     /*! Null constructor does nothing.
      */
     inline __host__ __device__
-    zip_iterator(void);
+    zip_iterator();
 
     /*! This constructor creates a new \p zip_iterator from a
      *  \p tuple of iterators.
@@ -229,7 +228,6 @@ template <typename IteratorTuple>
  *
  *  \see zip_iterator
  */
-#ifdef HYDRA_THRUST_VARIADIC_TUPLE
 template<typename... Iterators>
 inline __host__ __device__
 zip_iterator<hydra_thrust::tuple<Iterators...>> make_zip_iterator(hydra_thrust::tuple<Iterators...> t);
@@ -246,11 +244,6 @@ zip_iterator<hydra_thrust::tuple<Iterators...>> make_zip_iterator(hydra_thrust::
 template<typename... Iterators>
 inline __host__ __device__
 zip_iterator<hydra_thrust::tuple<Iterators...>> make_zip_iterator(Iterators... its);
-#else
-template<typename IteratorTuple>
-inline __host__ __device__
-zip_iterator<IteratorTuple> make_zip_iterator(IteratorTuple t);
-#endif
 
 
 /*! \} // end fancyiterators
@@ -259,7 +252,7 @@ zip_iterator<IteratorTuple> make_zip_iterator(IteratorTuple t);
 /*! \} // end iterators
  */
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/iterator/detail/zip_iterator.inl>
 

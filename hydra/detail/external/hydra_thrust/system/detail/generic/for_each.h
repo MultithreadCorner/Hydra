@@ -26,8 +26,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/tag.h>
 #include <hydra/detail/external/hydra_thrust/detail/static_assert.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -74,5 +73,5 @@ InputIterator for_each_n(hydra_thrust::execution_policy<DerivedPolicy> &,
 } // end namespace generic
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
