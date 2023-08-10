@@ -1,9 +1,9 @@
 ### CMakeList for Hydra examples and documentation
 
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.24)
 
 # project name
-project(Hydra_examples_and_documentation)
+project(Hydra_examples_and_documentation LANGUAGES CXX)
 
 # warn user if system is not UNIX
 if(NOT UNIX)
@@ -38,6 +38,25 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
  MESSAGE(STATUS "Setting ICC flags")
  set(CMAKE_CXX_FLAGS " --std=c++14 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
 endif()
+
+#-----------------------
+#CUDA
+include(CheckLanguage)
+check_language(CUDA)
+if(CMAKE_CUDA_COMPILER)
+  enable_language(CUDA)
+  message(STATUS "CUDA compiler found. Enabling CUDA support")
+else()
+  message(STATUS "CUDA compiler not found. Disabling CUDA support")
+endif(CMAKE_CUDA_COMPILER)
+
+if(CMAKE_CUDA_COMPILER)
+set(CMAKE_CUDA_STANDARD 14)
+set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+
+find_package(CUDAToolkit)
+
+endif(CMAKE_CUDA_COMPILER)
 
 #-----------------------
 # get Hydra
@@ -86,33 +105,6 @@ if(FFTW_FOUND)
 include_directories(${FFTW_INCLUDE_DIRS})
 endif(FFTW_FOUND)
 
-#-----------------------
-#get CUDA
-find_package(CUDA 9.2)
-if(CUDA_FOUND)
-link_directories( ${CUDA_TOOLKIT_ROOT_DIR}/lib64/)
-
-#set cuda flags
-SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}  -ftemplate-backtrace-limit=0; --cudart;   static;  -O4 ; --expt-relaxed-constexpr; -fmad=true; --expt-extended-lambda;--relocatable-device-code=false;
--Xptxas -dlcm=ca;-Xptxas --opt-level=4 )
-
-SET(CUDA_PROPAGATE_HOST_FLAGS ON)
-SET(CUDA_SEPARABLE_COMPILATION OFF)
-SET(CUDA_VERBOSE_BUILD OFF)
-
-
-if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.4)
- #   LIST(APPEND CUDA_NVCC_FLAGS " -Xcompiler -D__CORRECT_ISO_CPP11_MATH_H_PROTO ")
-endif()
-# Detect CUDA architecture and get best NVCC flags
-
-INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindCudaArch.cmake)
-
-SELECT_NVCC_ARCH_FLAGS(NVCC_FLAGS_EXTRA)
-
-LIST(APPEND CUDA_NVCC_FLAGS ${NVCC_FLAGS_EXTRA})
-
-endif(CUDA_FOUND)
 
 #-----------------------
 #get TBB

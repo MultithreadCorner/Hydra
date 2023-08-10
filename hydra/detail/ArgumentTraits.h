@@ -30,13 +30,13 @@
 #define ARGUMENTTRAITS_H_
 
 #include <hydra/detail/Config.h>
-#include<hydra/detail/utility/StaticAssert.h>
+#include <hydra/detail/utility/StaticAssert.h>
 #include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/TypeTraits.h>
 #include <hydra/detail/external/hydra_thrust/tuple.h>
 #include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
-#include<hydra/detail/external/hydra_thrust/type_traits/void_t.h>
+#include <hydra/detail/external/hydra_thrust/type_traits/void_t.h>
 #include <type_traits>
 #include <tuple>
 
