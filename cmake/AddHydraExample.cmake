@@ -7,17 +7,15 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
 
                   message(STATUS "Adding target ${target_name} to CUDA backend. Executable file name: ${target_name}_cuda")
 
-                  cuda_add_executable("${target_name}_cuda"
-                   #EXCLUDE_FROM_ALL
-                   "${target_name}.cu"
-                    OPTIONS -Xcompiler -DHYDRA_DEVICE_SYSTEM=CUDA -DHYDRA_HOST_SYSTEM=CPP)
+                  add_executable("${target_name}_cuda"  "${CMAKE_CURRENT_SOURCE_DIR}/${target_name}.cu")
+                   set_target_properties("${target_name}_cuda" PROPERTIES COMPILE_FLAGS "-Xcompiler -DHYDRA_DEVICE_SYSTEM=CUDA -DHYDRA_HOST_SYSTEM=CPP")
 
-                  target_link_libraries("${target_name}_cuda" ${ROOT_LIBRARIES} ${TBB_LIBRARIES}  ${GSL_LIBRARIES}  ${CUDA_CUFFT_LIBRARIES} -lm)
+                  target_link_libraries("${target_name}_cuda" ${ROOT_LIBRARIES} ${TBB_LIBRARIES}  ${GSL_LIBRARIES} CUDA::cufft   CUDA::cudart -lm)
 
                   add_dependencies(examples      "${target_name}_cuda")
-                  
+
         endif( ${${build_cuda}} )
-        
+
         #+++++++++++++++++++++++++
         # TBB TARGETS            |
         #+++++++++++++++++++++++++

@@ -40,9 +40,12 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
 endif()
 
 #-----------------------
-#CUDA
+# Handling CUDA
+
 include(CheckLanguage)
+
 check_language(CUDA)
+
 if(CMAKE_CUDA_COMPILER)
   enable_language(CUDA)
   message(STATUS "CUDA compiler found. Enabling CUDA support")
@@ -51,11 +54,35 @@ else()
 endif(CMAKE_CUDA_COMPILER)
 
 if(CMAKE_CUDA_COMPILER)
+
 set(CMAKE_CUDA_STANDARD 14)
 set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
+
 find_package(CUDAToolkit)
 
+if(CUDAToolkit_FOUND)
+
+set( CUDA_FOUND TRUE)
+list(APPEND HYDRA_CUDA_FLAGS "--std=c++14")
+list(APPEND HYDRA_CUDA_FLAGS "--gpu-architecture=native")
+list(APPEND HYDRA_CUDA_FLAGS "-extended-lambda")
+list(APPEND HYDRA_CUDA_FLAGS "-split-compile")
+list(APPEND HYDRA_CUDA_FLAGS "-O4")
+list(APPEND HYDRA_CUDA_FLAGS "--debug")
+list(APPEND HYDRA_CUDA_FLAGS "--device-debug")
+list(APPEND HYDRA_CUDA_FLAGS "-lineinfo")
+list(APPEND HYDRA_CUDA_FLAGS "-m64")
+list(APPEND HYDRA_CUDA_FLAGS "--threads number=0")
+list(APPEND HYDRA_CUDA_FLAGS "--verbos")
+list(APPEND HYDRA_CUDA_FLAGS "")
+list(APPEND HYDRA_CUDA_FLAGS "")
+list(JOIN   HYDRA_CUDA_FLAGS " " HYDRA_CUDA_FLAGS)
+set( CMAKE_CUDA_FLAGS "${HYDRA_CUDA_FLAGS}" CACHE STRING "CUDA compile flags" FORCE)
+get_target_property(HYDRA_CUDA_RT CUDA::cudart ALIASED_TARGET)
+get_target_property(HYDRA_CUDA_FFT CUDA::cufft ALIASED_TARGET)
+
+endif(CUDAToolkit_FOUND)
 endif(CMAKE_CUDA_COMPILER)
 
 #-----------------------
@@ -167,10 +194,10 @@ MESSAGE(STATUS "ROOT library path: ${ROOT_LIBRARY_DIR}" )
 MESSAGE(STATUS "ROOT libraries: ${ROOT_LIBRARIES}")
 MESSAGE(STATUS "ROOT::Minuit2: ${ROOT_Minuit2_LIBRARY}")
 MESSAGE(STATUS "Build CUDA/NVCC-based targets: ${BUILD_CUDA_TARGETS}")
-MESSAGE(STATUS "CUDA include: ${CUDA_INCLUDE_DIRS}" )
-MESSAGE(STATUS "CUDA RT libraries: ${CUDA_LIBRARIES}"  )
-MESSAGE(STATUS "CUDA CUFFT libraries: ${CUDA_CUFFT_LIBRARIES}")
-MESSAGE(STATUS "NVCC flags: ${CUDA_NVCC_FLAGS}" )
+MESSAGE(STATUS "CUDAToolkit include: ${CUDAToolkit_INCLUDE_DIRS}" )
+MESSAGE(STATUS "CUDA RT libraries: ${HYDRA_CUDA_RT}"  )
+MESSAGE(STATUS "CUDA CUFFT libraries: CUDA::cufft: ${HYDRA_CUDA_FFT}" )
+MESSAGE(STATUS "NVCC flags: ${CMAKE_CUDA_FLAGS}" )
 MESSAGE(STATUS "Build TBB targets: ${BUILD_TBB_TARGETS}")
 MESSAGE(STATUS "TBB include: ${TBB_INCLUDE_DIRS}" )
 MESSAGE(STATUS "TBB libraries: ${TBB_LIBRARIES}" )
