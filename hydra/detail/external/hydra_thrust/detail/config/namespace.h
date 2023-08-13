@@ -109,6 +109,12 @@
 
 HYDRA_THRUST_NS_PREFIX
 
+
+//#define CUB_NS_PREFIX namespace hydra_thrust {   namespace cuda_cub {
+
+//#define CUB_NS_POSTFIX }  }
+
+//#define CUB_NS_QUALIFIER ::hydra_thrust::cuda_cub::cub
 /*! \namespace hydra_thrust
  *  \brief \p hydra_thrust is the top-level namespace which contains all Thrust
  *         functions and types.

@@ -206,7 +206,7 @@ private:
 
     // Integer type for packing DigitCounters into columns of shared memory banks
     using PackedCounter =
-      cub::detail::conditional_t<SMEM_CONFIG == cudaSharedMemBankSizeEightByte,
+    cub::detail::conditional_t<SMEM_CONFIG == cudaSharedMemBankSizeEightByte,
                                  unsigned long long,
                                  unsigned int>;
 

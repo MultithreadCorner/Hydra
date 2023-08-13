@@ -34,7 +34,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/allocator_aware_execution_policy.h>
 
 #if HYDRA_THRUST_CPP_DIALECT >= 2011
-#  include <hydra_thrust/detail/dependencies_aware_execution_policy.h>
+#include <hydra/detail/external/hydra_thrust/detail/dependencies_aware_execution_policy.h>
 #endif
 
 

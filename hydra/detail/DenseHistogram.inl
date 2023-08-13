@@ -95,11 +95,11 @@ DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>::
 			bin_contents.first+ bin_contents.second,  fContents.begin());
 
     // deallocate storage with hydra_thrust::return_temporary_buffer
-	hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
-    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
-    hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
-    hydra_thrust::return_temporary_buffer(common_system_t(), weights.first  );
+	hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first, bin_contents.second );
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first, reduced_values.second );
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first, reduced_keys.second);
+    hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first, key_buffer.second );
+    hydra_thrust::return_temporary_buffer(common_system_t(), weights.first,  weights.second );
 
     return *this;
 }
@@ -158,11 +158,11 @@ DenseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>::
 			bin_contents.first+ bin_contents.second,  fContents.begin());
 
     // deallocate storage with hydra_thrust::return_temporary_buffer
-	hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
-    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
-    hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
-    hydra_thrust::return_temporary_buffer(common_system_t(), weights.first  );
+	hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first, bin_contents.second );
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first, reduced_values.second );
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first,reduced_keys.second );
+    hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first, key_buffer.second );
+    hydra_thrust::return_temporary_buffer(common_system_t(), weights.first, weights.second  );
 
     return *this;
 }
@@ -215,10 +215,10 @@ DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimens
 				bin_contents.first+ bin_contents.second,  fContents.begin());
 
 	    // deallocate storage with hydra_thrust::return_temporary_buffer
-		hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
-		hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
-	    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-	    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
+		hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first, key_buffer.second );
+		hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first, bin_contents.second );
+	    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first, reduced_values.second);
+	    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first, reduced_keys.second);
 
 	    return *this;
 }
@@ -269,10 +269,10 @@ DenseHistogram<T, N,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimens
 				bin_contents.first+ bin_contents.second,  fContents.begin());
 
 	    // deallocate storage with hydra_thrust::return_temporary_buffer
-		hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
-		hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
-	    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-	    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
+		hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first, key_buffer.second );
+		hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first, bin_contents.second );
+	    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first, reduced_values.second );
+	    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first, reduced_keys.second );
 
 	    return *this;
 }
@@ -381,10 +381,10 @@ DenseHistogram< T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional>::Fi
 
 
     // deallocate storage with hydra_thrust::return_temporary_buffer
-	hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
-    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
-    hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+	hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first,bin_contents.second  );
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first, reduced_values.second );
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first, reduced_keys.second );
+    hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first, key_buffer.ssecond );
 
     return *this;
 }
@@ -502,11 +502,11 @@ DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional >::Fi
 
 
     // deallocate storage with hydra_thrust::return_temporary_buffer
-	hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first );
-	hydra_thrust::return_temporary_buffer(common_system_t(), weights.first  );
-    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
-    hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+	hydra_thrust::return_temporary_buffer(common_system_t(), bin_contents.first , bin_contents.second);
+	hydra_thrust::return_temporary_buffer(common_system_t(), weights.first , weights.second );
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first , reduced_values.second);
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first , reduced_keys.second);
+    hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first , key_buffer.second);
 
     return *this;
 }

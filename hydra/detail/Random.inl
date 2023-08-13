@@ -261,7 +261,7 @@ sample(hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& policy,
 			flagger_type(seed, 2*rng_jump, max_value, values.first) );
 
 	// deallocate storage with hydra_thrust::return_temporary_buffer
-	hydra_thrust::return_temporary_buffer( policy, values.first);
+	hydra_thrust::return_temporary_buffer( policy, values.first, values.second);
 
 	return make_range(begin , r);
 }
@@ -341,7 +341,7 @@ sample( hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& polic
 			flagger_type(seed, 2*rng_jump, max_value, values.first) );
 
 	// deallocate storage with hydra_thrust::return_temporary_buffer
-	hydra_thrust::return_temporary_buffer(policy, values.first);
+	hydra_thrust::return_temporary_buffer(policy, values.first, values.second);
 
 	return  make_range(begin , r);
 }
