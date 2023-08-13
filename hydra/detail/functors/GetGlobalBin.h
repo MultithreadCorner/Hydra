@@ -190,7 +190,7 @@ struct GetGlobalBin<1,T>: public hydra_thrust::unary_function<T,size_t>
 	}
 
 	__hydra_host__ __hydra_device__
- size_t	operator()(T& value){
+ size_t	operator()(T const& value){
 
 		T X = value;
 

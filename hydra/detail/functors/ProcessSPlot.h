@@ -193,6 +193,19 @@ struct SWeights
 	}
 
 
+	__hydra_host__ __hydra_device__ inline
+	SWeights<F1, F2, Fs...>& operator=(SWeights<F1, F2, Fs...> const& other )
+	{
+		if(this == &other) return *this;
+
+		fFunctors = other.fFunctors ;
+		fICovMatrix = other.fICovMatrix ;
+		for(size_t i=0;i<nfunctors; i++)
+			fCoefficients[i] = other.fCoefficients[i];
+		return *this;
+	}
+
+
 	template<typename Type>
 	__hydra_host__ __hydra_device__ inline
 	tuple_t operator()(Type x)
