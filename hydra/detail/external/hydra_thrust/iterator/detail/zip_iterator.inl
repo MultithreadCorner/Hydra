@@ -16,18 +16,18 @@
 
 #pragma once
 
-#include <hydra/detail/external/hydra_thrust/detail/config.h>
-
 #include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
-#include <hydra/detail/external/hydra_thrust/detail/tuple_transform.h>
+#include <hydra/detail/external/hydra_thrust/detail/tuple/tuple_transform.h>
 
-HYDRA_THRUST_NAMESPACE_BEGIN
+
+namespace hydra_thrust
+{
 
 
 template<typename IteratorTuple>
 __host__ __device__
   zip_iterator<IteratorTuple>
-    ::zip_iterator()
+    ::zip_iterator(void)
 {
 } // end zip_iterator::zip_iterator()
 
@@ -58,7 +58,7 @@ template<typename IteratorTuple>
 template<typename IteratorTuple>
 __host__ __device__
 const IteratorTuple &zip_iterator<IteratorTuple>
-  ::get_iterator_tuple() const
+  ::get_iterator_tuple(void) const
 {
   return m_iterator_tuple;
 } // end zip_iterator::get_iterator_tuple()
@@ -68,13 +68,11 @@ template<typename IteratorTuple>
   typename zip_iterator<IteratorTuple>::super_t::reference
   __host__ __device__
     zip_iterator<IteratorTuple>
-      ::dereference() const
+      ::dereference(void) const
 {
   using namespace detail::tuple_impl_specific;
 
-  return hydra_thrust::detail::tuple_host_device_transform<
-    detail::dereference_iterator::template apply
-  >(get_iterator_tuple(), detail::dereference_iterator());
+  return hydra_thrust::detail::tuple_host_device_transform<detail::dereference_iterator::template apply>(get_iterator_tuple(), detail::dereference_iterator());
 } // end zip_iterator::dereference()
 
 
@@ -103,7 +101,7 @@ __host__ __device__
 template<typename IteratorTuple>
 __host__ __device__
   void zip_iterator<IteratorTuple>
-    ::increment()
+    ::increment(void)
 {
   using namespace detail::tuple_impl_specific;
   tuple_for_each(m_iterator_tuple, detail::increment_iterator());
@@ -113,7 +111,7 @@ __host__ __device__
 template<typename IteratorTuple>
 __host__ __device__
   void zip_iterator<IteratorTuple>
-    ::decrement()
+    ::decrement(void)
 {
   using namespace detail::tuple_impl_specific;
   tuple_for_each(m_iterator_tuple, detail::decrement_iterator());
@@ -131,12 +129,12 @@ template<typename IteratorTuple>
   return get<0>(other.get_iterator_tuple()) - get<0>(get_iterator_tuple());
 } // end zip_iterator::distance_to()
 
-
+#ifdef HYDRA_THRUST_VARIADIC_TUPLE
 template<typename... Iterators>
 __host__ __device__
   zip_iterator<hydra_thrust::tuple<Iterators...>> make_zip_iterator(hydra_thrust::tuple<Iterators...> t)
 {
-  return zip_iterator<hydra_thrust::tuple<Iterators...>>(t);
+    return zip_iterator<hydra_thrust::tuple<Iterators...>>(t);
 } // end make_zip_iterator()
 
 
@@ -144,9 +142,16 @@ template<typename... Iterators>
 __host__ __device__
   zip_iterator<hydra_thrust::tuple<Iterators...>> make_zip_iterator(Iterators... its)
 {
-  return make_zip_iterator(hydra_thrust::make_tuple(its...));
+    return make_zip_iterator(hydra_thrust::make_tuple(its...));
 } // end make_zip_iterator()
+#else
+template<typename IteratorTuple>
+__host__ __device__
+  zip_iterator<IteratorTuple> make_zip_iterator(IteratorTuple t)
+{
+  return zip_iterator<IteratorTuple>(t);
+} // end make_zip_iterator()
+#endif
 
-
-HYDRA_THRUST_NAMESPACE_END
+} // end hydra_thrust
 

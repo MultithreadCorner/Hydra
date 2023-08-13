@@ -34,7 +34,7 @@
 #include <hydra/detail/external/hydra_thrust/execution_policy.h>
 #include <hydra/detail/external/hydra_thrust/host_vector.h>
 #if HYDRA_THRUST_DEVICE_SYSTEM==HYDRA_THRUST_DEVICE_SYSTEM_CUDA
-#include <hydra/detail/external/hydra_thrust/system/cuda/experimental/pinned_allocator.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/memory_resource.h>
 #endif
 
 namespace hydra {
@@ -59,7 +59,7 @@ struct BackendPolicy<Backend::Host>: hydra_thrust::host_execution_policy<host::h
 #if HYDRA_THRUST_DEVICE_SYSTEM==HYDRA_THRUST_DEVICE_SYSTEM_CUDA
 	template<typename T>
 	using   container = hydra_thrust::host_vector<T ,
-			hydra_thrust::system::cuda::experimental::pinned_allocator<T>>;
+			hydra_thrust::mr::stateless_resource_allocator<T, hydra_hrust::system::cuda::universal_host_pinned_memory_resource>>;
 #else
 	template<typename T>
 	using   container = hydra_thrust::host_vector<T>;

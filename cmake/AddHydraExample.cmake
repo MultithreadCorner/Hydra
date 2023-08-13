@@ -8,7 +8,7 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
                   message(STATUS "Adding target ${target_name} to CUDA backend. Executable file name: ${target_name}_cuda")
 
                   add_executable("${target_name}_cuda"  "${CMAKE_CURRENT_SOURCE_DIR}/${target_name}.cu")
-                   set_target_properties("${target_name}_cuda" PROPERTIES COMPILE_FLAGS "-Xcompiler -DHYDRA_DEVICE_SYSTEM=CUDA -DHYDRA_HOST_SYSTEM=CPP")
+                  set_target_properties("${target_name}_cuda" PROPERTIES COMPILE_FLAGS "-Xcompiler -DHYDRA_DEVICE_SYSTEM=CUDA -DHYDRA_HOST_SYSTEM=CPP")
 
                   target_link_libraries("${target_name}_cuda" ${ROOT_LIBRARIES} ${TBB_LIBRARIES}  ${GSL_LIBRARIES} CUDA::cufft   CUDA::cudart -lm)
 

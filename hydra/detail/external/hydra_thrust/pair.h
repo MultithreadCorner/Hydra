@@ -23,7 +23,8 @@
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <utility>
 
-HYDRA_THRUST_NAMESPACE_BEGIN
+namespace hydra_thrust
+{
 
 /*! \addtogroup utility
  *  \{
@@ -104,7 +105,7 @@ template <typename T1, typename T2>
   pair(const std::pair<U1,U2> &p);
 
   /*! \p swap swaps the elements of two <tt>pair</tt>s.
-   *  
+   *
    *  \param p The other <tt>pair</tt> with which to swap.
    */
   inline __host__ __device__
@@ -117,9 +118,9 @@ template <typename T1, typename T2>
  *  \param x The first \p pair to compare.
  *  \param y The second \p pair to compare.
  *  \return \c true if and only if <tt>x.first == y.first && x.second == y.second</tt>.
- *  
- *  \tparam T1 is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
- *  \tparam T2 is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
+ *
+ *  \tparam T1 is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
+ *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
  */
 template <typename T1, typename T2>
   inline __host__ __device__
@@ -132,8 +133,8 @@ template <typename T1, typename T2>
  *  \param y The second \p pair to compare.
  *  \return \c true if and only if <tt>x.first < y.first || (!(y.first < x.first) && x.second < y.second)</tt>.
  *
- *  \tparam T1 is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
- *  \tparam T2 is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
+ *  \tparam T1 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
  */
 template <typename T1, typename T2>
   inline __host__ __device__
@@ -146,8 +147,8 @@ template <typename T1, typename T2>
  *  \param y The second \p pair to compare.
  *  \return \c true if and only if <tt>!(x == y)</tt>.
  *
- *  \tparam T1 is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
- *  \tparam T2 is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
+ *  \tparam T1 is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
+ *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
  */
 template <typename T1, typename T2>
   inline __host__ __device__
@@ -160,8 +161,8 @@ template <typename T1, typename T2>
  *  \param y The second \p pair to compare.
  *  \return \c true if and only if <tt>y < x</tt>.
  *
- *  \tparam T1 is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
- *  \tparam T2 is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
+ *  \tparam T1 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
  */
 template <typename T1, typename T2>
   inline __host__ __device__
@@ -174,8 +175,8 @@ template <typename T1, typename T2>
  *  \param y The second \p pair to compare.
  *  \return \c true if and only if <tt>!(y < x)</tt>.
  *
- *  \tparam T1 is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
- *  \tparam T2 is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
+ *  \tparam T1 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
  */
 template <typename T1, typename T2>
   inline __host__ __device__
@@ -188,8 +189,8 @@ template <typename T1, typename T2>
  *  \param y The second \p pair to compare.
  *  \return \c true if and only if <tt>!(x < y)</tt>.
  *
- *  \tparam T1 is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
- *  \tparam T2 is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
+ *  \tparam T1 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
  */
 template <typename T1, typename T2>
   inline __host__ __device__
@@ -227,7 +228,7 @@ template <typename T1, typename T2>
  *  \tparam N This parameter selects the member of interest.
  *  \tparam T A \c pair type of interest.
  */
-template<size_t N, class T> struct tuple_element;
+template<size_t N, typename T> struct tuple_element;
 
 
 /*! This convenience metafunction is included for compatibility with
@@ -276,6 +277,7 @@ template<typename Pair> struct tuple_size;
 /*! \} // utility
  */
 
-HYDRA_THRUST_NAMESPACE_END
+} // end hydra_thrust
 
 #include <hydra/detail/external/hydra_thrust/detail/pair.inl>
+

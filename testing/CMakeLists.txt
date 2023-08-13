@@ -7,8 +7,9 @@ message(STATUS "-----------")
 if(BUILD_CUDA_TARGETS)
           message(STATUS "Adding target tests to CUDA backend. Executable file name: tests_cuda")
 
-          add_executable(tests_cuda main.cu  OPTIONS -Xcompiler -DHYDRA_DEVICE_SYSTEM=CUDA -DHYDRA_HOST_SYSTEM=CPP)
+          add_executable(tests_cuda main.cu )
 
+          set_target_properties(tests_cuda PROPERTIES COMPILE_FLAGS "-Xcompiler -DHYDRA_DEVICE_SYSTEM=CUDA -DHYDRA_HOST_SYSTEM=CPP")
           target_link_libraries("tests_cuda" ${ROOT_LIBRARIES} )
 
           add_dependencies(tests tests_cuda)

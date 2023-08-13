@@ -17,26 +17,26 @@ SET(CMAKE_VERBOSE_MAKEFILE  ON)
 
 #check if compiler is C++14 compliant
 include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("--std=c++14" COMPILER_SUPPORTS_CXX14)
-if(NOT COMPILER_SUPPORTS_CXX14)
- message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++14 support. Please use a different C++ compiler.")
+CHECK_CXX_COMPILER_FLAG("--std=c++17" COMPILER_SUPPORTS_CXX17)
+if(NOT COMPILER_SUPPORTS_CXX17)
+ message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++1 support. Please use a different C++ compiler.")
 endif()
 
 #compiler flags
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
 
  MESSAGE(STATUS "Setting Clang flags")
- set(CMAKE_CXX_FLAGS " --std=c++14 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
+ set(CMAKE_CXX_FLAGS " --std=c++17 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
 
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
  MESSAGE(STATUS "Setting GCC flags")
- set(CMAKE_CXX_FLAGS " --std=c++14 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
+ set(CMAKE_CXX_FLAGS " --std=c++17 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
 
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
 
  MESSAGE(STATUS "Setting ICC flags")
- set(CMAKE_CXX_FLAGS " --std=c++14 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
+ set(CMAKE_CXX_FLAGS " --std=c++17 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
 endif()
 
 #-----------------------
@@ -55,7 +55,7 @@ endif(CMAKE_CUDA_COMPILER)
 
 if(CMAKE_CUDA_COMPILER)
 
-set(CMAKE_CUDA_STANDARD 14)
+set(CMAKE_CUDA_STANDARD 17)
 set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
 
@@ -67,16 +67,16 @@ set( CUDA_FOUND TRUE)
 list(APPEND HYDRA_CUDA_FLAGS "--std=c++14")
 list(APPEND HYDRA_CUDA_FLAGS "--gpu-architecture=native")
 list(APPEND HYDRA_CUDA_FLAGS "-extended-lambda")
-list(APPEND HYDRA_CUDA_FLAGS "-split-compile")
-list(APPEND HYDRA_CUDA_FLAGS "-O4")
+list(APPEND HYDRA_CUDA_FLAGS "-split-compile 0")
+list(APPEND HYDRA_CUDA_FLAGS "-O3")
 list(APPEND HYDRA_CUDA_FLAGS "--debug")
 list(APPEND HYDRA_CUDA_FLAGS "--device-debug")
 list(APPEND HYDRA_CUDA_FLAGS "-lineinfo")
 list(APPEND HYDRA_CUDA_FLAGS "-m64")
-list(APPEND HYDRA_CUDA_FLAGS "--threads number=0")
-list(APPEND HYDRA_CUDA_FLAGS "--verbos")
-list(APPEND HYDRA_CUDA_FLAGS "")
-list(APPEND HYDRA_CUDA_FLAGS "")
+list(APPEND HYDRA_CUDA_FLAGS "--threads=0")
+list(APPEND HYDRA_CUDA_FLAGS "--verbose")
+#list(APPEND HYDRA_CUDA_FLAGS "")
+#list(APPEND HYDRA_CUDA_FLAGS "")
 list(JOIN   HYDRA_CUDA_FLAGS " " HYDRA_CUDA_FLAGS)
 set( CMAKE_CUDA_FLAGS "${HYDRA_CUDA_FLAGS}" CACHE STRING "CUDA compile flags" FORCE)
 get_target_property(HYDRA_CUDA_RT CUDA::cudart ALIASED_TARGET)
