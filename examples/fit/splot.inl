@@ -267,7 +267,7 @@ int main(int argv, char** argc)
 
 		//-------------------------------------------------------
 		//fit
-		ROOT::Minuit2::MnPrint::SetLevel(3);
+		ROOT::Minuit2::MnPrint::SetGlobalLevel(3);
 		hydra::Print::SetLevel(hydra::WARNING);
 		//minimization strategy
 		MnStrategy strategy(2);
@@ -424,6 +424,13 @@ int main(int argv, char** argc)
 	hist_data_dicriminating_d.Draw("hist");
 	hist_fit_d.Draw("histsameC");
 	hist_fit_d.SetLineColor(2);
+
+	TCanvas canvas_3_d("canvas_3_d" ,"Distributions - Device", 500, 500);
+
+		hist_data_control_d.Draw("hist");
+		hist_data_control_d.SetLineColor(2);
+
+
 
 	TCanvas canvas_2_d("canvas_2_d" ,"Distributions - Device", 1000, 500);
 	canvas_2_d.Divide(2,1);
