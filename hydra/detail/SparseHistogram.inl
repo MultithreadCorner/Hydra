@@ -82,7 +82,7 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 			key_buffer.first, key_buffer.first +  key_buffer.second,
 			weights.first, reduced_keys.first, reduced_values.first);
 
-	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first, key_buffer.second );
 
 	size_t histogram_size = hydra_thrust::distance(reduced_keys.first, reduced_end.first);
 
@@ -95,9 +95,9 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 
 	// deallocate storage with hydra_thrust::return_temporary_buffer
 
-	hydra_thrust::return_temporary_buffer(common_system_t(), weights.first  );
-	hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-	hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
+	hydra_thrust::return_temporary_buffer(common_system_t(), weights.first,  weights.second );
+	hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first, reduced_values.second);
+	hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first, reduced_keys.second );
 
 	return *this;
 
@@ -142,7 +142,7 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 			key_buffer.first, key_buffer.first +  key_buffer.second,
 			weights.first, reduced_keys.first, reduced_values.first);
 
-	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first, key_buffer.second);
 
 	size_t histogram_size = hydra_thrust::distance(reduced_keys.first, reduced_end.first);
 
@@ -154,9 +154,9 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 	hydra_thrust::copy(common_system_t(),reduced_values.first, reduced_end.second,  fContents.begin());
 
 	// deallocate storage with hydra_thrust::return_temporary_buffer
-	hydra_thrust::return_temporary_buffer(common_system_t(), weights.first  );
-	hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-	hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
+	hydra_thrust::return_temporary_buffer(common_system_t(), weights.first, weights.second  );
+	hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first, reduced_values.second );
+	hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first, reduced_keys.second );
 
 	return *this;
 }
@@ -200,7 +200,7 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 			key_buffer.first, key_buffer.first+data_size,
 			weights, reduced_keys.first, reduced_values.first);
 
-	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first, key_buffer.second);
 
 	size_t histogram_size = hydra_thrust::distance(reduced_keys.first, reduced_end.first);
 
@@ -212,8 +212,8 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 	hydra_thrust::copy(reduced_values.first, reduced_end.second,  fContents.begin());
 
 	// deallocate storage with hydra_thrust::return_temporary_buffer
-	hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-	hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
+	hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first, reduced_values.second);
+	hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first, reduced_keys.second);
 
 	return *this;
 
@@ -268,8 +268,8 @@ SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 	hydra_thrust::copy(reduced_values.first, reduced_end.second,  fContents.begin());
 
 	// deallocate storage with hydra_thrust::return_temporary_buffer
-	hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-	hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
+	hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first, reduced_values.second );
+	hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first, reduced_keys.second );
 
 	return *this;
 
@@ -321,8 +321,8 @@ SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>::
 	hydra_thrust::copy(common_system_t(), reduced_values.first, reduced_end.second,  fContents.begin());
 
     // deallocate storage with hydra_thrust::return_temporary_buffer
-    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first, reduced_values.second);
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first, reduced_keys.second );
 
 	return *this;
 
@@ -374,8 +374,8 @@ SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>::
 	hydra_thrust::copy(common_system_t(), reduced_values.first, reduced_end.second,  fContents.begin());
 
     // deallocate storage with hydra_thrust::return_temporary_buffer
-    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first, reduced_values.second);
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first, reduced_keys.second );
 
 
 	return *this;
@@ -434,9 +434,9 @@ SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional >:
 
 
     // deallocate storage with hydra_thrust::return_temporary_buffer
-	hydra_thrust::return_temporary_buffer(common_system_t(), weights.first  );
-    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
+	hydra_thrust::return_temporary_buffer(common_system_t(), weights.first, weights.second );
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first,reduced_values.second );
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first, reduced_keys.second );
 
 	return *this;
 }
@@ -495,9 +495,9 @@ SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>,detail::unidimensional >::
 
 
     // deallocate storage with hydra_thrust::return_temporary_buffer
-	hydra_thrust::return_temporary_buffer(common_system_t(), weights.first  );
-    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first);
-    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first);
+	hydra_thrust::return_temporary_buffer(common_system_t(), weights.first, weights.second );
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_values.first, reduced_values.second );
+    hydra_thrust::return_temporary_buffer(common_system_t(), reduced_keys.first, reduced_keys.second );
 
 	return *this;
 }
