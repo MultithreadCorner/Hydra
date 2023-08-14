@@ -43,8 +43,8 @@
 #include "../config.cuh"
 #include "../util_ptx.cuh"
 #include "../util_type.cuh"
-#include "cub/detail/cpp_compatibility.cuh"
-#include "cub/detail/type_traits.cuh"
+#include "../detail/cpp_compatibility.cuh"
+#include "../detail/type_traits.cuh"
 
 
 CUB_NAMESPACE_BEGIN
