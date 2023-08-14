@@ -75,7 +75,7 @@
 
 // These definitions were intended for internal use only and are now obsolete.
 // If you relied on them, consider porting your code to use the functionality
-// in libcu++'s <hydra_libcudacxx/nv/target> header.
+// in libcu++'s <hydra/detail/external/hydra_libcudacxx/nv/target> header.
 // For a temporary workaround, define HYDRA_THRUST_PROVIDE_LEGACY_ARCH_MACROS to make
 // them available again. These should be considered deprecated and will be
 // fully removed in a future version.

@@ -70,7 +70,7 @@ CUB_NAMESPACE_BEGIN
  * dereference a sequence of incrementing integers.
  * \par
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/iterator/counting_input_iterator.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/iterator/counting_input_iterator.cuh>
  *
  * cub::CountingInputIterator<int> itr(5);
  *

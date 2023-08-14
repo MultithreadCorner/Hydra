@@ -22,5 +22,5 @@
 
 #include <hydra/detail/external/hydra_thrust/future.h>
 
-// TODO: Actually separate `<hydra_thrust/future.h>` into two headers.
+// TODO: Actually separate `<hydra/detail/external/hydra_thrust/future.h>` into two headers.
 

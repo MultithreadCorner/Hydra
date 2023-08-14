@@ -159,7 +159,7 @@ enum WarpLoadAlgorithm
 //!
 //! .. code-block:: c++
 //!
-//!    #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/warp/warp_load.cuh>
+//!    #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/warp/warp_load.cuh>
 //!
 //!    __global__ void ExampleKernel(int *d_data, ...)
 //!    {
@@ -481,7 +481,7 @@ public:
   //!
   //! .. code-block:: c++
   //!
-  //!    #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/warp/warp_load.cuh>
+  //!    #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/warp/warp_load.cuh>
   //!
   //!    __global__ void ExampleKernel(int *d_data, ...)
   //!    {
@@ -530,7 +530,7 @@ public:
   //!
   //! .. code-block:: c++
   //!
-  //!    #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/warp/warp_load.cuh>
+  //!    #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/warp/warp_load.cuh>
   //!
   //!    __global__ void ExampleKernel(int *d_data, int valid_items, ...)
   //!    {
@@ -584,7 +584,7 @@ public:
   //!
   //! .. code-block:: c++
   //!
-  //!    #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/warp/warp_load.cuh>
+  //!    #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/warp/warp_load.cuh>
   //!
   //!    __global__ void ExampleKernel(int *d_data, int valid_items, ...)
   //!    {

@@ -77,7 +77,7 @@ CUB_NAMESPACE_BEGIN
  * (i.e., load values through texture cache).
  * \par
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/iterator/cache_modified_input_iterator.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/iterator/cache_modified_input_iterator.cuh>
  *
  * // Declare, allocate, and initialize a device array
  * double *d_in;            // e.g., [8.0, 6.0, 7.0, 5.0, 3.0, 0.0, 9.0]

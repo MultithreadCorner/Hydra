@@ -37,7 +37,7 @@
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 
-// We don't directly include <hydra_cub/version.cuh> since it doesn't exist in
+// We don't directly include <hydra/detail/external/hydra_cub/version.cuh> since it doesn't exist in
 // older releases. This header will always pull in version info:
 #include <hydra/detail/external/hydra_cub/util_namespace.cuh>
 #include <hydra/detail/external/hydra_cub/util_debug.cuh>
@@ -81,7 +81,7 @@
 
 // These definitions were intended for internal use only and are now obsolete.
 // If you relied on them, consider porting your code to use the functionality
-// in libcu++'s <hydra_libcudacxx/nv/target> header.
+// in libcu++'s <hydra/detail/external/hydra_libcudacxx/nv/target> header.
 //
 // For a temporary workaround, define HYDRA_THRUST_PROVIDE_LEGACY_ARCH_MACROS to make
 // them available again. These should be considered deprecated and will be

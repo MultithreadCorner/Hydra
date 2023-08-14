@@ -215,7 +215,7 @@ template <size_t I>
 _LIBCUDACXX_BEGIN_NAMESPACE_STD
 
 // This header is not currently supported. It exists to allow for the use of
-// `unary_function`, needed by `<hydra_libcudacxx/cuda/std/functional>`, which happens to be defined here.
+// `unary_function`, needed by `<hydra/detail/external/hydra_libcudacxx/cuda/std/functional>`, which happens to be defined here.
 
 #ifndef __cuda_std__
 

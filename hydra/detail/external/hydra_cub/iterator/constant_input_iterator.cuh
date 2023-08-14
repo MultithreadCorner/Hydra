@@ -72,7 +72,7 @@ CUB_NAMESPACE_BEGIN
  * dereference a sequence of homogeneous doubles.
  * \par
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/iterator/constant_input_iterator.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/iterator/constant_input_iterator.cuh>
  *
  * cub::ConstantInputIterator<double> itr(5.0);
  *

@@ -73,7 +73,7 @@ enum CacheStoreModifier
  *
  * \par Example
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/thread/thread_store.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/thread/thread_store.cuh>
  *
  * // 32-bit store using cache-global modifier:
  * int *d_out;

@@ -603,7 +603,7 @@ enum BlockLoadAlgorithm
  * pattern (after which items are locally reordered among threads).
  * \par
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_load.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_load.cuh>
  *
  * __global__ void ExampleKernel(int *d_data, ...)
  * {
@@ -1160,7 +1160,7 @@ public:
      * pattern (after which items are locally reordered among threads).
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_load.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_load.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, ...)
      * {
@@ -1205,7 +1205,7 @@ public:
      * pattern (after which items are locally reordered among threads).
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_load.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_load.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, int valid_items, ...)
      * {
@@ -1252,7 +1252,7 @@ public:
      * pattern (after which items are locally reordered among threads).
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_load.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_load.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, int valid_items, ...)
      * {

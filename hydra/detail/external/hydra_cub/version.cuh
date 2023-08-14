@@ -28,7 +28,7 @@
 /*! \file version.cuh
  *  \brief Compile-time macros encoding CUB release version
  *
- *         <hydra_cub/version.h> is the only CUB header that is guaranteed to
+ *         <hydra/detail/external/hydra_cub/version.h> is the only CUB header that is guaranteed to
  *         change with every CUB release.
  *
  */

@@ -53,7 +53,7 @@ CUB_NAMESPACE_BEGIN
 //!
 //! .. code-block:: c++
 //!
-//!    #include <hydra/detail/external/hydra_cub/cub.cuh>  // or equivalently <hydra_cub/warp/warp_merge_sort.cuh>
+//!    #include <hydra/detail/external/hydra_cub/cub.cuh>  // or equivalently <hydra/detail/external/hydra_cub/warp/warp_merge_sort.cuh>
 //!
 //!    struct CustomLess
 //!    {

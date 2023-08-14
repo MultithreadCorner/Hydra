@@ -334,7 +334,7 @@ CUB_RUNTIME_FUNCTION inline cudaError_t PtxVersionUncached(int& ptx_version)
 
     // Define a temporary macro that expands to the current target ptx version
     // in device code.
-    // <hydra_libcudacxx/nv/target> may provide an abstraction for this eventually. For now,
+    // <hydra/detail/external/hydra_libcudacxx/nv/target> may provide an abstraction for this eventually. For now,
     // we have to keep this usage of __CUDA_ARCH__.
 #if defined(_NVHPC_CUDA)
 #define CUB_TEMP_GET_PTX __builtin_current_device_sm()
@@ -598,7 +598,7 @@ CUB_RUNTIME_FUNCTION inline cudaError_t HasUVA(bool& has_uva)
  * The code snippet below illustrates the use of the MaxSmOccupancy function.
  * \par
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/util_device.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/util_device.cuh>
  *
  * template <typename T>
  * __global__ void ExampleKernel()

@@ -117,7 +117,7 @@ enum BlockHistogramAlgorithm
  * are partitioned across 128 threads where each thread owns 4 samples.
  * \par
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_histogram.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_histogram.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
@@ -262,7 +262,7 @@ public:
      * where each thread owns 4 samples.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_histogram.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_histogram.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -320,7 +320,7 @@ public:
      * are partitioned across 128 threads where each thread owns 4 samples.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_histogram.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_histogram.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -374,7 +374,7 @@ public:
      * where each thread owns 4 samples.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_histogram.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_histogram.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {

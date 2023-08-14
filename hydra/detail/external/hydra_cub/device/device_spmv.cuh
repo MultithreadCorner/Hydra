@@ -79,7 +79,7 @@ struct DeviceSpmv
      *
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/device/device_spmv.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/device/device_spmv.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for input matrix A, input vector x,
      * // and output vector y

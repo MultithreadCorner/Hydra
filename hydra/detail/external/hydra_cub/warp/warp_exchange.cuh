@@ -81,7 +81,7 @@ CUB_NAMESPACE_BEGIN
  * each thread owns 4 items.
  * @par
  * @code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/warp/warp_exchange.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/warp/warp_exchange.cuh>
  *
  * __global__ void ExampleKernel(int *d_data, ...)
  * {
@@ -193,7 +193,7 @@ public:
    * where each thread owns 4 items.
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/warp/warp_exchange.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/warp/warp_exchange.cuh>
    *
    * __global__ void ExampleKernel(int *d_data, ...)
    * {
@@ -262,7 +262,7 @@ public:
    * where each thread owns 4 items.
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/warp/warp_exchange.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/warp/warp_exchange.cuh>
    *
    * __global__ void ExampleKernel(int *d_data, ...)
    * {
@@ -329,7 +329,7 @@ public:
    * where each thread owns 4 items.
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/warp/warp_exchange.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/warp/warp_exchange.cuh>
    *
    * __global__ void ExampleKernel(int *d_data, ...)
    * {
@@ -387,7 +387,7 @@ public:
    * where each thread owns 4 items.
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/warp/warp_exchange.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/warp/warp_exchange.cuh>
    *
    * __global__ void ExampleKernel(int *d_data, ...)
    * {

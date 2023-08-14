@@ -136,7 +136,7 @@ CUB_NAMESPACE_BEGIN
 //!
 //! .. code-block:: c++
 //!
-//!     #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_radix_sort.cuh>
+//!     #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_radix_sort.cuh>
 //!
 //!     __global__ void ExampleKernel(...)
 //!     {
@@ -540,7 +540,7 @@ public:
      * where each thread owns 4 consecutive keys.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_radix_sort.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_radix_sort.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -722,7 +722,7 @@ public:
      * where each thread owns 4 consecutive pairs.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_radix_sort.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_radix_sort.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -924,7 +924,7 @@ public:
      * where each thread owns 4 consecutive keys.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_radix_sort.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_radix_sort.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -1117,7 +1117,7 @@ public:
      * where each thread owns 4 consecutive pairs.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_radix_sort.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_radix_sort.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -1328,7 +1328,7 @@ public:
      * where each thread owns 4 consecutive keys.  The final partitioning is striped.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_radix_sort.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_radix_sort.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -1524,7 +1524,7 @@ public:
      * where each thread owns 4 consecutive pairs.  The final partitioning is striped.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_radix_sort.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_radix_sort.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -1720,7 +1720,7 @@ public:
      * where each thread owns 4 consecutive keys.  The final partitioning is striped.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_radix_sort.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_radix_sort.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -1916,7 +1916,7 @@ public:
      * where each thread owns 4 consecutive pairs.  The final partitioning is striped.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_radix_sort.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_radix_sort.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {

@@ -124,7 +124,7 @@ __device__ __forceinline__ void SerialMerge(KeyT *keys_shared,
  * The code snippet below illustrates the way this class can be used.
  * @par
  * @code
- * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra_cub/block/block_merge_sort.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra/detail/external/hydra_cub/block/block_merge_sort.cuh>
  *
  * constexpr int BLOCK_THREADS = 256;
  * constexpr int ITEMS_PER_THREAD = 9;
@@ -707,7 +707,7 @@ private:
  * partitioned across 128 threads * where each thread owns 4 consecutive items.
  * @par
  * @code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>  // or equivalently <hydra_cub/block/block_merge_sort.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>  // or equivalently <hydra/detail/external/hydra_cub/block/block_merge_sort.cuh>
  *
  * struct CustomLess
  * {

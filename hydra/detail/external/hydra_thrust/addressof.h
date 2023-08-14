@@ -8,7 +8,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #if HYDRA_THRUST_CPP_DIALECT >= 2011
-#  include <hydra_thrust/detail/memory_wrapper.h>
+#  include <hydra/detail/external/hydra_thrust/detail/memory_wrapper.h>
 #endif
 
 HYDRA_THRUST_NAMESPACE_BEGIN

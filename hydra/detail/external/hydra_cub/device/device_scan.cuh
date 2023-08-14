@@ -123,7 +123,7 @@ struct DeviceScan
    * device vector.
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra_cub/device/device_scan.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra/detail/external/hydra_cub/device/device_scan.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for 
    * // input and output
@@ -250,7 +250,7 @@ struct DeviceScan
    * device vector.
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra_cub/device/device_scan.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra/detail/external/hydra_cub/device/device_scan.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for 
    * // input and output
@@ -357,7 +357,7 @@ struct DeviceScan
    * `int` device vector
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/device/device_scan.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/device/device_scan.cuh>
    * #include <climits>       // for INT_MAX
    *
    * // CustomMin functor
@@ -522,7 +522,7 @@ struct DeviceScan
    * `int` device vector
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/device/device_scan.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/device/device_scan.cuh>
    * #include <climits>       // for INT_MAX
    *
    * // CustomMin functor
@@ -668,7 +668,7 @@ struct DeviceScan
    * `int` device vector
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/device/device_scan.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/device/device_scan.cuh>
    * #include <climits>       // for INT_MAX
    *
    * // CustomMin functor
@@ -843,7 +843,7 @@ struct DeviceScan
    * `int` device vector
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/device/device_scan.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/device/device_scan.cuh>
    * #include <climits>       // for INT_MAX
    *
    * // CustomMin functor
@@ -1003,7 +1003,7 @@ struct DeviceScan
    *
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/device/device_scan.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/device/device_scan.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for 
    * // input and output
@@ -1127,7 +1127,7 @@ struct DeviceScan
    *
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/device/device_scan.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/device/device_scan.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for 
    * // input and output
@@ -1235,7 +1235,7 @@ struct DeviceScan
    *
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/device/device_scan.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/device/device_scan.cuh>
    * #include <climits>       // for INT_MAX
    *
    * // CustomMin functor
@@ -1383,7 +1383,7 @@ struct DeviceScan
    *
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/device/device_scan.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/device/device_scan.cuh>
    * #include <climits>       // for INT_MAX
    *
    * // CustomMin functor
@@ -1518,7 +1518,7 @@ struct DeviceScan
    * `int` device vector.
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/device/device_scan.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/device/device_scan.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for 
    * // input and output
@@ -1691,7 +1691,7 @@ struct DeviceScan
    * an `int` device vector
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/device/device_scan.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/device/device_scan.cuh>
    * #include <climits>       // for INT_MAX
    *
    * // CustomMin functor
@@ -1910,7 +1910,7 @@ struct DeviceScan
    * `int` device vector.
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/device/device_scan.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/device/device_scan.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for 
    * // input and output
@@ -2077,7 +2077,7 @@ struct DeviceScan
    * of an `int` device vector.
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/device/device_scan.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/device/device_scan.cuh>
    * #include <climits>       // for INT_MAX
    *
    * // CustomMin functor

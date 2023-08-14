@@ -53,9 +53,10 @@ template<
       super_t::operator=(other);
       return *this;
     }
-    /*
+
      // allow assignment from tuples
     // XXX might be worthwhile to guard this with an enable_if is_assignable
+    /*
     __hydra_thrust_exec_check_disable__
     template<typename U1, typename U2>
     inline __host__ __device__

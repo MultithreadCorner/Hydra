@@ -165,7 +165,7 @@ enum WarpStoreAlgorithm
 //!
 //! .. code-block:: c++
 //!
-//!    #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/warp/warp_store.cuh>
+//!    #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/warp/warp_store.cuh>
 //!
 //!    __global__ void ExampleKernel(int *d_data, ...)
 //!    {
@@ -411,7 +411,7 @@ public:
   //!
   //! .. code-block:: c++
   //!
-  //!    #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/warp/warp_store.cuh>
+  //!    #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/warp/warp_store.cuh>
   //!
   //!    __global__ void ExampleKernel(int *d_data, ...)
   //!    {
@@ -469,7 +469,7 @@ public:
   //!
   //! .. code-block:: c++
   //!
-  //!    #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/warp/warp_store.cuh>
+  //!    #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/warp/warp_store.cuh>
   //!
   //!    __global__ void ExampleKernel(int *d_data, int valid_items ...)
   //!    {

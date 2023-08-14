@@ -81,7 +81,7 @@
  * CUB_NS_POSTFIX, and CUB_NS_QUALIFIER must all be set consistently.
  */
 #ifndef CUB_NS_PREFIX
-#define CUB_NS_PREFIX namespace hydra_thrust {
+#define CUB_NS_PREFIX
 #endif
 
 /**
@@ -93,7 +93,7 @@
  * CUB_NS_QUALIFIER must all be set consistently.
  */
 #ifndef CUB_NS_POSTFIX
-#define CUB_NS_POSTFIX }
+#define CUB_NS_POSTFIX
 #endif
 
 /**
@@ -209,7 +209,7 @@ CUB_NS_PREFIX
  *  \brief \p cub is the top-level namespace which contains all CUB
  *         functions and types.
  */
-namespace hydra_cub
+namespace cub
 {
 }
 

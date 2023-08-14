@@ -75,7 +75,7 @@ enum CacheLoadModifier
  *
  * \par Example
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/thread/thread_load.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/thread/thread_load.cuh>
  *
  * // 32-bit load using cache-global modifier:
  * int *d_in;

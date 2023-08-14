@@ -73,7 +73,7 @@ CUB_NAMESPACE_BEGIN
  * of 512 integer items partitioned across 128 threads where each thread owns 4 items.
  * \par
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_exchange.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_exchange.cuh>
  *
  * __global__ void ExampleKernel(int *d_data, ...)
  * {
@@ -769,7 +769,7 @@ public:
      * of 512 integer items partitioned across 128 threads where each thread owns 4 items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_exchange.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_exchange.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, ...)
      * {
@@ -814,7 +814,7 @@ public:
      * of 512 integer items partitioned across 128 threads where each thread owns 4 items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_exchange.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_exchange.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, ...)
      * {
@@ -864,7 +864,7 @@ public:
      * of 512 integer items partitioned across 128 threads where each thread owns 4 items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_exchange.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_exchange.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, ...)
      * {
@@ -912,7 +912,7 @@ public:
      * of 512 integer items partitioned across 128 threads where each thread owns 4 items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_exchange.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_exchange.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, ...)
      * {

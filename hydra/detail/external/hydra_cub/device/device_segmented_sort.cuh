@@ -78,7 +78,7 @@ CUB_NAMESPACE_BEGIN
  * @par A simple example
  * @code
  * #include <hydra/detail/external/hydra_cub/cub.cuh>
- * // or equivalently <hydra_cub/device/device_segmented_sort.cuh>
+ * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_sort.cuh>
  *
  * // Declare, allocate, and initialize device-accessible pointers
  * // for sorting data
@@ -149,7 +149,7 @@ struct DeviceSegmentedSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_segmented_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible
    * // pointers for sorting data
@@ -323,7 +323,7 @@ struct DeviceSegmentedSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_segmented_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers
    * // for sorting data
@@ -505,7 +505,7 @@ struct DeviceSegmentedSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_segmented_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible
    * // pointers for sorting data
@@ -686,7 +686,7 @@ struct DeviceSegmentedSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_segmented_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for
    * // sorting data
@@ -860,7 +860,7 @@ struct DeviceSegmentedSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_segmented_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers
    * // for sorting data
@@ -1023,7 +1023,7 @@ struct DeviceSegmentedSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_segmented_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers
    * // for sorting data
@@ -1196,7 +1196,7 @@ struct DeviceSegmentedSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_segmented_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers
    * // for sorting data
@@ -1365,7 +1365,7 @@ struct DeviceSegmentedSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_segmented_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers
    * // for sorting data
@@ -1536,7 +1536,7 @@ struct DeviceSegmentedSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_segmented_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers
    * // for sorting data
@@ -1736,7 +1736,7 @@ struct DeviceSegmentedSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_segmented_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for
    * // sorting data
@@ -1949,7 +1949,7 @@ struct DeviceSegmentedSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_segmented_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers
    * // for sorting data
@@ -2150,7 +2150,7 @@ struct DeviceSegmentedSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_segmented_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for
    * // sorting data
@@ -2343,7 +2343,7 @@ struct DeviceSegmentedSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_segmented_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers
    * // for sorting data
@@ -2536,7 +2536,7 @@ struct DeviceSegmentedSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_segmented_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers
    * // for sorting data
@@ -2742,7 +2742,7 @@ struct DeviceSegmentedSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_segmented_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers
    * // for sorting data
@@ -2937,7 +2937,7 @@ struct DeviceSegmentedSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_segmented_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers
    * // for sorting data

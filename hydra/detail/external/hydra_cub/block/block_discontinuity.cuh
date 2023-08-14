@@ -66,7 +66,7 @@ CUB_NAMESPACE_BEGIN
  * where each thread owns 4 consecutive items.
  * \par
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_discontinuity.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_discontinuity.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
@@ -347,7 +347,7 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_discontinuity.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_discontinuity.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -411,7 +411,7 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_discontinuity.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_discontinuity.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -489,7 +489,7 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_discontinuity.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_discontinuity.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -568,7 +568,7 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_discontinuity.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_discontinuity.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -667,7 +667,7 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_discontinuity.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_discontinuity.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -779,7 +779,7 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_discontinuity.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_discontinuity.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -897,7 +897,7 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_discontinuity.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_discontinuity.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -1016,7 +1016,7 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_discontinuity.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_discontinuity.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {

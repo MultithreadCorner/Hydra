@@ -91,7 +91,7 @@ struct DeviceSegmentedReduce
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>   
-   * // or equivalently <hydra_cub/device/device_radix_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_radix_sort.cuh>
    *
    * // CustomMin functor
    * struct CustomMin
@@ -296,7 +296,7 @@ struct DeviceSegmentedReduce
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>   
-   * // or equivalently <hydra_cub/device/device_radix_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_radix_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers 
    * // for input and output
@@ -470,7 +470,7 @@ struct DeviceSegmentedReduce
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>   
-   * // or equivalently <hydra_cub/device/device_radix_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_radix_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers 
    * // for input and output
@@ -651,7 +651,7 @@ struct DeviceSegmentedReduce
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>   
-   * // or equivalently <hydra_cub/device/device_radix_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_radix_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers 
    * // for input and output
@@ -846,7 +846,7 @@ struct DeviceSegmentedReduce
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>   
-   * // or equivalently <hydra_cub/device/device_radix_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_radix_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers 
    * // for input and output
@@ -1027,7 +1027,7 @@ struct DeviceSegmentedReduce
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>   
-   * // or equivalently <hydra_cub/device/device_reduce.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_reduce.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers 
    * // for input and output

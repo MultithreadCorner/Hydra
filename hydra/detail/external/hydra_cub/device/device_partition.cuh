@@ -97,7 +97,7 @@ struct DevicePartition
      * @par
      * @code
      * #include <hydra/detail/external/hydra_cub/cub.cuh>
-     * // or equivalently <hydra_cub/device/device_partition.cuh>
+     * // or equivalently <hydra/detail/external/hydra_cub/device/device_partition.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for
      * // input, flags, and output
@@ -277,7 +277,7 @@ struct DevicePartition
      * @par
      * @code
      * #include <hydra/detail/external/hydra_cub/cub.cuh>
-     * // or equivalently <hydra_cub/device/device_partition.cuh>
+     * // or equivalently <hydra/detail/external/hydra_cub/device/device_partition.cuh>
      *
      * // Functor type for selecting values less than some criteria
      * struct LessThan
@@ -481,7 +481,7 @@ struct DevicePartition
      * @par
      * @code
      * #include <hydra/detail/external/hydra_cub/cub.cuh>
-     * // or equivalently <hydra_cub/device/device_partition.cuh>
+     * // or equivalently <hydra/detail/external/hydra_cub/device/device_partition.cuh>
      *
      * // Functor type for selecting values less than some criteria
      * struct LessThan

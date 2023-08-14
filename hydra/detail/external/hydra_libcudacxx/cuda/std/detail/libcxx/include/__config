@@ -28,7 +28,7 @@
 
 #ifdef __cplusplus
 
-// __config may be included in `extern "C"` contexts, switch back to include <hydra_libcudacxx/nv/target>
+// __config may be included in `extern "C"` contexts, switch back to include <hydra/detail/external/hydra_libcudacxx/nv/target>
 extern "C++" {
 #include <hydra/detail/external/hydra_libcudacxx/nv/target>
 }

@@ -74,7 +74,7 @@ CUB_NAMESPACE_BEGIN
  * dereference an array of integers, tripling the values and converting them to doubles.
  * \par
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/iterator/transform_input_iterator.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/iterator/transform_input_iterator.cuh>
  *
  * // Functor for tripling integer values and converting to doubles
  * struct TripleDoubler

@@ -95,7 +95,7 @@ struct DeviceHistogram
    *
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra_cub/device/device_histogram.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra/detail/external/hydra_cub/device/device_histogram.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for 
    * // input samples and output histogram
@@ -275,7 +275,7 @@ struct DeviceHistogram
    *
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra_cub/device/device_histogram.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra/detail/external/hydra_cub/device/device_histogram.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for 
    * // input samples and output histogram
@@ -471,7 +471,7 @@ struct DeviceHistogram
    *
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra_cub/device/device_histogram.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra/detail/external/hydra_cub/device/device_histogram.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for 
    * // input samples and output histograms
@@ -684,7 +684,7 @@ struct DeviceHistogram
    *
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra_cub/device/device_histogram.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra/detail/external/hydra_cub/device/device_histogram.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for input 
    * // samples and output histograms
@@ -919,7 +919,7 @@ struct DeviceHistogram
    *
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra_cub/device/device_histogram.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra/detail/external/hydra_cub/device/device_histogram.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for input 
    * // samples and output histogram
@@ -1082,7 +1082,7 @@ struct DeviceHistogram
    *
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra_cub/device/device_histogram.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra/detail/external/hydra_cub/device/device_histogram.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for input samples and
    * // output histogram
@@ -1264,7 +1264,7 @@ struct DeviceHistogram
    *
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra_cub/device/device_histogram.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra/detail/external/hydra_cub/device/device_histogram.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for 
    * // input samples and output histograms
@@ -1462,7 +1462,7 @@ struct DeviceHistogram
    *
    * @par
    * @code
-   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra_cub/device/device_histogram.cuh>
+   * #include <hydra/detail/external/hydra_cub/cub.cuh> // or equivalently <hydra/detail/external/hydra_cub/device/device_histogram.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for input 
    * // samples and output histograms

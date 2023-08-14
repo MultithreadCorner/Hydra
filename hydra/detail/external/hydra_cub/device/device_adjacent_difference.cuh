@@ -74,7 +74,7 @@ CUB_NAMESPACE_BEGIN
  * @par
  * @code
  * #include <hydra/detail/external/hydra_cub/cub.cuh>
- * // or equivalently <hydra_cub/device/device_adjacent_difference.cuh>
+ * // or equivalently <hydra/detail/external/hydra_cub/device/device_adjacent_difference.cuh>
  *
  * // Declare, allocate, and initialize device-accessible pointers
  * int  num_items;       // e.g., 8
@@ -156,7 +156,7 @@ public:
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_adjacent_difference.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_adjacent_difference.cuh>
    *
    * struct CustomDifference
    * {
@@ -306,7 +306,7 @@ public:
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_adjacent_difference.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_adjacent_difference.cuh>
    *
    * struct CustomDifference
    * {
@@ -443,7 +443,7 @@ public:
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_adjacent_difference.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_adjacent_difference.cuh>
    *
    * struct CustomDifference
    * {
@@ -591,7 +591,7 @@ public:
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_adjacent_difference.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_adjacent_difference.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers
    * int  num_items;    // e.g., 8

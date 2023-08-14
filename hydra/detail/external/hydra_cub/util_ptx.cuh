@@ -528,7 +528,7 @@ __device__ __forceinline__ unsigned int LaneMaskGe()
  * predecessor of its predecessor.
  * \par
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/util_ptx.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/util_ptx.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
@@ -596,7 +596,7 @@ __device__ __forceinline__ T ShuffleUp(
  * successor of its successor.
  * \par
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/util_ptx.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/util_ptx.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
@@ -667,7 +667,7 @@ __device__ __forceinline__ T ShuffleDown(
  *
  * \par
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/util_ptx.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/util_ptx.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {

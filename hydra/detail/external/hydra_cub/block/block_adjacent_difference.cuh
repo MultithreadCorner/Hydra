@@ -81,7 +81,7 @@ CUB_NAMESPACE_BEGIN
  * @par
  * @code
  * #include <hydra/detail/external/hydra_cub/cub.cuh>
- * // or equivalently <hydra_cub/block/block_adjacent_difference.cuh>
+ * // or equivalently <hydra/detail/external/hydra_cub/block/block_adjacent_difference.cuh>
  *
  * struct CustomDifference
  * {
@@ -307,7 +307,7 @@ public:
      * @par
      * @code
      * #include <hydra/detail/external/hydra_cub/cub.cuh>
-     * // or equivalently <hydra_cub/block/block_adjacent_difference.cuh>
+     * // or equivalently <hydra/detail/external/hydra_cub/block/block_adjacent_difference.cuh>
      *
      * struct CustomDifference
      * {
@@ -399,7 +399,7 @@ public:
      * @par
      * @code
      * #include <hydra/detail/external/hydra_cub/cub.cuh>
-     * // or equivalently <hydra_cub/block/block_adjacent_difference.cuh>
+     * // or equivalently <hydra/detail/external/hydra_cub/block/block_adjacent_difference.cuh>
      *
      * struct CustomDifference
      * {
@@ -503,7 +503,7 @@ public:
      * @par
      * @code
      * #include <hydra/detail/external/hydra_cub/cub.cuh>
-     * // or equivalently <hydra_cub/block/block_adjacent_difference.cuh>
+     * // or equivalently <hydra/detail/external/hydra_cub/block/block_adjacent_difference.cuh>
      *
      * struct CustomDifference
      * {
@@ -621,7 +621,7 @@ public:
      * @par
      * @code
      * #include <hydra/detail/external/hydra_cub/cub.cuh>
-     * // or equivalently <hydra_cub/block/block_adjacent_difference.cuh>
+     * // or equivalently <hydra/detail/external/hydra_cub/block/block_adjacent_difference.cuh>
      *
      * struct CustomDifference
      * {
@@ -758,7 +758,7 @@ public:
      * @par
      * @code
      * #include <hydra/detail/external/hydra_cub/cub.cuh>
-     * // or equivalently <hydra_cub/block/block_adjacent_difference.cuh>
+     * // or equivalently <hydra/detail/external/hydra_cub/block/block_adjacent_difference.cuh>
      *
      * struct CustomDifference
      * {
@@ -851,7 +851,7 @@ public:
      * @par
      * @code
      * #include <hydra/detail/external/hydra_cub/cub.cuh>
-     * // or equivalently <hydra_cub/block/block_adjacent_difference.cuh>
+     * // or equivalently <hydra/detail/external/hydra_cub/block/block_adjacent_difference.cuh>
      *
      * struct CustomDifference
      * {
@@ -953,7 +953,7 @@ public:
      * @par
      * @code
      * #include <hydra/detail/external/hydra_cub/cub.cuh>
-     * // or equivalently <hydra_cub/block/block_adjacent_difference.cuh>
+     * // or equivalently <hydra/detail/external/hydra_cub/block/block_adjacent_difference.cuh>
      *
      * struct CustomDifference
      * {

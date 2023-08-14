@@ -490,7 +490,7 @@ enum BlockStoreAlgorithm
  * efficiently coalesced using a warp-striped access pattern.
  * \par
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_store.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_store.cuh>
  *
  * __global__ void ExampleKernel(int *d_data, ...)
  * {
@@ -969,7 +969,7 @@ public:
      * efficiently coalesced using a warp-striped access pattern.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_store.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_store.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, ...)
      * {
@@ -1017,7 +1017,7 @@ public:
      * efficiently coalesced using a warp-striped access pattern.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_store.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_store.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, int valid_items, ...)
      * {

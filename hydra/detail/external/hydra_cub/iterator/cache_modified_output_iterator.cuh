@@ -76,7 +76,7 @@ CUB_NAMESPACE_BEGIN
  * (i.e., write-through to system memory).
  * \par
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/iterator/cache_modified_output_iterator.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/iterator/cache_modified_output_iterator.cuh>
  *
  * // Declare, allocate, and initialize a device array
  * double *d_out;              // e.g., [, , , , , , ]

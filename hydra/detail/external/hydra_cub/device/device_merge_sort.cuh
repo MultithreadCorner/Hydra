@@ -56,7 +56,7 @@ CUB_NAMESPACE_BEGIN
  * The code snippet below illustrates a hydra_thrust reverse iterator usage.
  * @par
  * @code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>  // or equivalently <hydra_cub/device/device_merge_sort.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>  // or equivalently <hydra/detail/external/hydra_cub/device/device_merge_sort.cuh>
  *
  * struct CustomLess
  * {
@@ -119,7 +119,7 @@ struct DeviceMergeSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_merge_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_merge_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for
    * // sorting data
@@ -273,7 +273,7 @@ struct DeviceMergeSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_merge_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_merge_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers
    * // for sorting data
@@ -452,7 +452,7 @@ struct DeviceMergeSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_merge_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_merge_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers
    * // for sorting data
@@ -591,7 +591,7 @@ struct DeviceMergeSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_merge_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_merge_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for
    * // sorting data
@@ -742,7 +742,7 @@ struct DeviceMergeSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_merge_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_merge_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for
    * // sorting data
@@ -884,7 +884,7 @@ struct DeviceMergeSort
    * \par
    * \code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_merge_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_merge_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for
    * // sorting data
@@ -1013,7 +1013,7 @@ struct DeviceMergeSort
    * \par
    * \code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>
-   * // or equivalently <hydra_cub/device/device_merge_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_merge_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for
    * // sorting data

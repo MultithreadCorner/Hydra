@@ -17,7 +17,7 @@
 /*! \file version.h
  *  \brief Compile-time macros encoding Thrust release version
  *
- *         <hydra_thrust/version.h> is the only Thrust header that is guaranteed to
+ *         <hydra/detail/external/hydra_thrust/version.h> is the only Thrust header that is guaranteed to
  *         change with every hydra_thrust release.
  *
  *         It is also the only header that does not cause HYDRA_THRUST_HOST_SYSTEM

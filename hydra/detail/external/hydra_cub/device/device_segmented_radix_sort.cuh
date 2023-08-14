@@ -111,7 +111,7 @@ struct DeviceSegmentedRadixSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>  
-   * // or equivalently <hydra_cub/device/device_segmented_radix_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_radix_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers 
    * // for sorting data
@@ -338,7 +338,7 @@ struct DeviceSegmentedRadixSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>   
-   * // or equivalently <hydra_cub/device/device_segmented_radix_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_radix_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers 
    * // for sorting data
@@ -544,7 +544,7 @@ struct DeviceSegmentedRadixSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>   
-   * // or equivalently <hydra_cub/device/device_segmented_radix_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_radix_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers 
    * // for sorting data
@@ -774,7 +774,7 @@ struct DeviceSegmentedRadixSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>   
-   * // or equivalently <hydra_cub/device/device_segmented_radix_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_radix_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers 
    * // for sorting data
@@ -986,7 +986,7 @@ struct DeviceSegmentedRadixSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>   
-   * // or equivalently <hydra_cub/device/device_segmented_radix_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_radix_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers 
    * // for sorting data
@@ -1182,7 +1182,7 @@ struct DeviceSegmentedRadixSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>   
-   * // or equivalently <hydra_cub/device/device_segmented_radix_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_radix_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers for 
    * // sorting data
@@ -1372,7 +1372,7 @@ struct DeviceSegmentedRadixSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>   
-   * // or equivalently <hydra_cub/device/device_segmented_radix_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_radix_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers 
    * // for sorting data
@@ -1573,7 +1573,7 @@ struct DeviceSegmentedRadixSort
    * @par
    * @code
    * #include <hydra/detail/external/hydra_cub/cub.cuh>   
-   * // or equivalently <hydra_cub/device/device_segmented_radix_sort.cuh>
+   * // or equivalently <hydra/detail/external/hydra_cub/device/device_segmented_radix_sort.cuh>
    *
    * // Declare, allocate, and initialize device-accessible pointers 
    * // for sorting data
