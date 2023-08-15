@@ -656,7 +656,7 @@ int main(int argv, char** argc)
 				particles.end());
 
 		//print level
-		ROOT::Minuit2::MnPrint::SetLevel(3);
+		ROOT::Minuit2::MnPrint::SetGlobalLevel(3);
 		hydra::Print::SetLevel(hydra::WARNING);
 
 		//minimization strategy

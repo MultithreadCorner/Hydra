@@ -86,12 +86,12 @@ struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T
 	template<size_t I>
 	__hydra_host__ __hydra_device__
 	typename hydra_thrust::detail::enable_if< I== N, void>::type
-	get_global_bin(const size_t (&)[N], size_t& ){ }
+	get_global_bin(const size_t (&)[N], size_t& )const{ }
 
 	template<size_t I=0>
 	__hydra_host__ __hydra_device__
 	typename hydra_thrust::detail::enable_if< (I< N), void>::type
-	get_global_bin(const size_t (&indexes)[N], size_t& index)
+	get_global_bin(const size_t (&indexes)[N], size_t& index) const
 	{
 	    size_t prod =1;
 	    for(size_t i=N-1; i>I; i--)
@@ -104,7 +104,7 @@ struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T
 
 
 	__hydra_host__ __hydra_device__
-	size_t get_bin( T (&X)[N]){
+	size_t get_bin( T (&X)[N])const {
 
 		size_t indexes[N];
 		size_t bin=0;
@@ -118,7 +118,7 @@ struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T
 	}
 
 	__hydra_host__ __hydra_device__
-	size_t operator()(ArgType value){
+	size_t operator() (ArgType const& value) const {
 
 		T X[N];
 
@@ -184,13 +184,32 @@ struct GetGlobalBin<1,T>: public hydra_thrust::unary_function<T,size_t>
 	}
 
 	__hydra_host__ __hydra_device__
-	size_t get_bin(T X){
+	size_t get_bin(T X) const {
 
 		return size_t(X) ;
 	}
 
+	template<typename ConvertibleType>
 	__hydra_host__ __hydra_device__
- size_t	operator()(T const& value){
+	typename std::enable_if< std::is_convertible_v<ConvertibleType, T>, size_t>::type
+    operator()(ConvertibleType const& value) const {
+
+		T X = value;
+
+		bool is_underflow = true;
+		bool is_overflow  = true;
+
+		X  = (X-fLowerLimits)*fGrid/fDelta;
+		is_underflow =(X<0.0);
+		is_overflow  =(X>fGrid);
+
+
+		return is_underflow ? fNGlobalBins  : (is_overflow ? fNGlobalBins+1 : get_bin(X) );
+
+	}
+
+	__hydra_host__ __hydra_device__
+    size_t	operator()(T const& value){
 
 		T X = value;
 

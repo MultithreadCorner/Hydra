@@ -217,7 +217,7 @@ int main(int argv, char** argc)
 		//-------------------------------------------------------
 
 		//fit
-		ROOT::Minuit2::MnPrint::SetLevel(-1);
+		ROOT::Minuit2::MnPrint::SetGlobalLevel(-1);
 		hydra::Print::SetLevel(hydra::WARNING);
 		//minimization strategy
 		MnStrategy strategy(2);

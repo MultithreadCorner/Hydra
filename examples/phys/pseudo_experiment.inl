@@ -447,11 +447,11 @@ int main(int argv, char** argc)
 
 			//print level
 			if(verbose){
-				ROOT::Minuit2::MnPrint::SetLevel(3);
+				ROOT::Minuit2::MnPrint::SetGlobalLevel(3);
 				hydra::Print::SetLevel(hydra::WARNING);
 			}
 			else{
-				ROOT::Minuit2::MnPrint::SetLevel(-1);
+				ROOT::Minuit2::MnPrint::SetGlobalLevel(-1);
 				hydra::Print::SetLevel(hydra::ERROR);
 			}
 			//minimization strategy

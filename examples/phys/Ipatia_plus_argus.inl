@@ -182,7 +182,7 @@ int main(int argv, char** argc)
 
 		//-------------------------------------------------------
 		//fit
-		ROOT::Minuit2::MnPrint::SetLevel(3);
+		ROOT::Minuit2::MnPrint::SetGlobalLevel(3);
 
 		MnStrategy strategy(2);
 

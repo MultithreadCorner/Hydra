@@ -266,7 +266,7 @@ void fit_3d_gaussian(size_t nentries=1000000 ) {
 		fcn.GetPDF().PrintRegisteredParameters();
 		//-------------------------------------------------------
 		//fit
-		ROOT::Minuit2::MnPrint::SetLevel(3);
+		ROOT::Minuit2::MnPrint::SetGlobalLevel(3);
 		hydra::Print::SetLevel(hydra::WARNING);
 		//minimization strategy
 		MnStrategy strategy(2);

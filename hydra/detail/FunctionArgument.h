@@ -114,6 +114,7 @@ struct FunctionArgument
         return *this;
     }
 
+
       __hydra_host__ __hydra_device__
       operator value_type() const { return value; }
 
