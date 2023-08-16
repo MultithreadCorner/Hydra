@@ -36,7 +36,9 @@
 #include <hydra/detail/external/hydra_thrust/detail/tuple/tuple.h>
 
 #ifdef HYDRA_THRUST_VARIADIC_TUPLE
+
 #include <hydra/detail/external/hydra_thrust/detail/tuple/variadic_tuple.h>
+
 #else // HYDRA_THRUST_VARIADIC_TUPLE
 //#include <hydra/detail/external/hydra_thrust/detail/tuple.inl>
 
@@ -587,10 +589,11 @@ bool operator>(const null_type&, const null_type&);
 
 } // end hydra_thrust
 
+#endif
 
 #include <hydra/detail/external/hydra_thrust/detail/tuple/tuple_cat.h>
 
-#endif
+
 
 
 #include <hydra/detail/external/hydra_thrust/detail/tuple/tuple_io.h>
@@ -618,7 +621,10 @@ namespace hydra_thrust
 template<typename... Tuples>
 inline __host__ __device__
 tuple_cat_result<Tuples...>
-  tuple_cat(const Tuples&... ts);
+  tuple_cat(Tuples&&... ts);
+
+
+
 #else
 
 template<typename Tuple1, typename... Tuples>

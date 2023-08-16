@@ -71,8 +71,7 @@ namespace detail {
 		template<typename T>
 		struct _delta
 		{
-			_delta()=default;
-
+			_delta() = default;
 
 			_delta(T min,  T delta):
 				fMin(min),
@@ -84,6 +83,17 @@ namespace detail {
 			fMin(other.fMin),
 			fDelta(other.fDelta)
 			{}
+
+			__hydra_host__ __hydra_device__
+		 _delta<T> & operator=(  _delta<T> const& other)
+		{        if(this == &other) return *this;
+
+						fMin = other.fMin ;
+						fDelta = other.fDelta;
+						return *this;
+		}
+
+
 
 			__hydra_host__ __hydra_device__
 			inline T operator()(unsigned bin){
@@ -314,9 +324,9 @@ typedef typename detail::convolution::_traits<hydra_thrust::tuple<Functor, Kerne
 void Dispose(){
 		using hydra_thrust::return_temporary_buffer;
 
-		return_temporary_buffer(  device_system_type(), fDeviceData );
-		return_temporary_buffer(  host_system_type(),   fHostData );
-		return_temporary_buffer(  fft_system_type()  , fFFTData );
+		return_temporary_buffer(  device_system_type(), fDeviceData, fNSamples );
+		return_temporary_buffer(  host_system_type(),   fHostData, fNSamples );
+		return_temporary_buffer(  fft_system_type()  , fFFTData, fNSamples );
 
 	}
 

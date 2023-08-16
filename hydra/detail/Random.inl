@@ -166,7 +166,7 @@ unweight(hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& poli
 			flagger_type(rng_seed, rng_jump, max_value, values.first ) );
 
 	// deallocate storage with hydra_thrust::return_temporary_buffer
-	hydra_thrust::return_temporary_buffer(policy, values.first);
+	hydra_thrust::return_temporary_buffer(policy, values.first, values.second);
 
 	return  make_range(begin , r);
 

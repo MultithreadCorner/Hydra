@@ -80,7 +80,7 @@ int main(int argv, char** argc)
 	}
 
 
-	auto caster = [] __hydra_dual__ ( hydra::tuple<double,double, double,double, double, double>& entry)
+	auto caster = [] __hydra_dual__ ( hydra::tuple<double,double, double,double, double, double> const& entry)
 	{
 		return hydra::make_tuple(
 				hydra::complex<double>( hydra::get<0>(entry),hydra::get<1>(entry) ),

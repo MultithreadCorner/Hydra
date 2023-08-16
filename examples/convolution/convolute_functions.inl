@@ -113,7 +113,7 @@ int main(int argv, char** argc)
 
 	// gaussian
 	auto mean   = hydra::Parameter::Create( "mean").Value(0.0).Error(0.0001);
-	auto sigma  = hydra::Parameter::Create("sigma").Value(1.0).Error(0.0001);
+	auto sigma  = hydra::Parameter::Create("sigma").Value(3.0).Error(0.0001);
 
 	hydra::Gaussian<double> kernel(mean,  sigma);
 
@@ -261,7 +261,7 @@ int main(int argv, char** argc)
 
 	hist_signal->Draw("histl");
 
-    hist_convol->Draw("histsame");
+    hist_convol->Draw("histl");
     hist_convol->SetFillColor(4);
     hist_convol->SetFillStyle(3003);
     hist_convol->SetLineWidth(1);

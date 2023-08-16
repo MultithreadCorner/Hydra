@@ -446,7 +446,7 @@ Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::Unwei
 
 	auto end_of_range = hydra_thrust::distance(start, middle);
 
-	hydra_thrust::return_temporary_buffer(system_type(), sequence.first  );
+	hydra_thrust::return_temporary_buffer(system_type(), sequence.first , sequence.second);
 
 	//done!
 	//return (size_t) hydra_thrust::distance(begin(), middle);
@@ -502,7 +502,7 @@ typedef detail::FlagDaugthers< reweight_functor> tagger_type;
 
 	auto end_of_range = hydra_thrust::distance(start, middle);
 
-	hydra_thrust::return_temporary_buffer(system_type(), sequence.first  );
+	hydra_thrust::return_temporary_buffer(system_type(), sequence.first , sequence.second );
 
 	//done!
 

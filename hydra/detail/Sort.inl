@@ -104,7 +104,7 @@ sort_by_key(Iterable& iterable, Range<Iterator_Key,Functor> keys){
 	hydra_thrust::stable_sort_by_key(key_buffer.first, key_buffer.first +key_buffer.second, iterable.begin() );
 
 
-	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first, key_buffer.second);
 
 	return make_range(iterable.begin(), iterable.end());
 }
