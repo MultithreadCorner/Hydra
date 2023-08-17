@@ -221,8 +221,13 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 add_custom_target(examples)
-include(${Hydra_CMAKE_DIR}/AddHydraExample.cmake)
+add_custom_target(examples_cpp)
+add_custom_target(examples_tbb)
+add_custom_target(examples_omp)
+add_custom_target(examples_cuda)
 
+
+include(${Hydra_CMAKE_DIR}/AddHydraExample.cmake)
 add_subdirectory(examples/phase_space)
 add_subdirectory(examples/numerical_integration)
 add_subdirectory(examples/random)

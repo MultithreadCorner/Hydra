@@ -12,7 +12,7 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
 
                   target_link_libraries("${target_name}_cuda" ${ROOT_LIBRARIES} ${TBB_LIBRARIES}  ${GSL_LIBRARIES} CUDA::cufft   CUDA::cudart -lm)
 
-                  add_dependencies(examples      "${target_name}_cuda")
+                  add_dependencies(examples_cuda     "${target_name}_cuda")
 
         endif( ${${build_cuda}} )
 
@@ -30,7 +30,7 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
 
                  target_link_libraries( "${target_name}_tbb" ${ROOT_LIBRARIES} ${TBB_LIBRARIES}  ${GSL_LIBRARIES} ${FFTW_LIBRARIES} -lm)
 
-                 add_dependencies(examples "${target_name}_tbb")
+                 add_dependencies(examples_tbb "${target_name}_tbb")
 
          endif( ${${build_tbb}} )
 
@@ -49,7 +49,7 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
 
                  target_link_libraries( "${target_name}_cpp" ${ROOT_LIBRARIES} ${TBB_LIBRARIES} ${GSL_LIBRARIES} ${FFTW_LIBRARIES} -lm)
 
-                 add_dependencies(examples "${target_name}_cpp")
+                 add_dependencies(examples_cpp "${target_name}_cpp")
 
          endif( ${${build_cpp}} )
         #+++++++++++++++++++++++++
@@ -66,7 +66,7 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
 
                  target_link_libraries( "${target_name}_omp" ${ROOT_LIBRARIES} ${OpenMP_CXX_LIBRARIES} ${GSL_LIBRARIES} ${FFTW_LIBRARIES} -lm)
 
-                 add_dependencies(examples "${target_name}_omp")
+                 add_dependencies(examples_omp "${target_name}_omp")
 
          endif(${${build_omp}})
 
