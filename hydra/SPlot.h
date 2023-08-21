@@ -44,7 +44,7 @@
 #include <hydra/detail/external/hydra_thrust/transform_reduce.h>
 #include <hydra/detail/functors/ProcessSPlot.h>
 
-#include <Eigen/Dense>
+#include <hydra/detail/external/hydra_Eigen/Dense>
 
 #include <initializer_list>
 #include <utility>

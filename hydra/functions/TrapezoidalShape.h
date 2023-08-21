@@ -203,9 +203,9 @@ struct RngFormula< TrapezoidalShape<ArgType> >
 
 		double x= RngBase::uniform(rng);
 
-        if( x<=f1 ) x = sqrt(denominator*(b-a)*x)+a;
+        if( x<=f1 ) x = ::sqrt(denominator*(b-a)*x)+a;
         else if (  x>f1 && x <=f2) x = 0.5*(denominator*x + a + b);
-        else x = d - sqrt((1-x)*denominator*(d-c));
+        else x = d - ::sqrt((1-x)*denominator*(d-c));
 
 		return static_cast<value_type>(x);
 	}
@@ -225,9 +225,9 @@ struct RngFormula< TrapezoidalShape<ArgType> >
 
 		double x= RngBase::uniform(rng);
 
-		if( x<=f1 ) x = sqrt(denominator*(b-a)*x)+a;
+		if( x<=f1 ) x = ::sqrt(denominator*(b-a)*x)+a;
 		else if (  x>f1 && x <=f2) x = 0.5*(denominator*x + a + b);
-		else x = d - sqrt((1-x)*denominator*(d-c));
+		else x = d - ::sqrt((1-x)*denominator*(d-c));
 
 		return static_cast<value_type>(x);
 	}

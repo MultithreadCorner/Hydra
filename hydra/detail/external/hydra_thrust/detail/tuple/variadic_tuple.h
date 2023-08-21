@@ -45,7 +45,7 @@ struct std__is_constructible : std::is_constructible<T, Args...> { };
 #  if __cplusplus <= 201103L
 #    define __TUPLE_ANNOTATION __device__ __host__
 #  else
-#    define __TUPLE_ANNOTATION /*constexpr*/ __device__ __host__
+#    define __TUPLE_ANNOTATION __device__ __host__
 #  endif
 #  define __TUPLE_ANNOTATION_NEEDS_UNDEF
 #endif
@@ -100,16 +100,19 @@ struct tuple_size<__TUPLE_NAMESPACE::tuple<Types...>>
 {};
 
 template<size_t i, class... UTypes>
+__TUPLE_ANNOTATION
 typename hydra_thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &
 get(__TUPLE_NAMESPACE::tuple<UTypes...>& t);
 
 
 template<size_t i, class... UTypes>
+__TUPLE_ANNOTATION
 const typename hydra_thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &
 get(const __TUPLE_NAMESPACE::tuple<UTypes...>& t);
 
 
 template<size_t i, class... UTypes>
+__TUPLE_ANNOTATION
 typename hydra_thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &&
 get(__TUPLE_NAMESPACE::tuple<UTypes...>&& t);
 

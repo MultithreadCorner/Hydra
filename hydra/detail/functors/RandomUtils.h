@@ -241,8 +241,10 @@ struct RndFlag{
 		GRND randEng(fSeed);
 		randEng.discard(fJump+index);
 		hydra_thrust::uniform_real_distribution<T>  dist(0.0, fValMax);
+		T urnd=dist(randEng);
+		bool dec = (urnd <= fVals[index] );
 
-		return (dist(randEng) < fVals[index] ) ;
+		return dec;
 	}
 
 	size_t  fJump;
@@ -339,7 +341,6 @@ struct RndTrial<T,GRND, FUNCTOR, 1>{
 		randEng.discard(index+fJump);
     	hydra_thrust::uniform_real_distribution<T>  dist(fMin, fMax);
 		t = dist(randEng);
-        //std::cout<< fFunctor(t) << std::endl;
 		return  fFunctor(t);
 	}
 

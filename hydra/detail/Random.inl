@@ -245,6 +245,7 @@ sample(hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& policy,
 
     auto values = hydra_thrust::get_temporary_buffer<value_type>( policy, ntrials);
 
+
 	// create iterators
 	hydra_thrust::counting_iterator<size_t> first(0);
 	hydra_thrust::counting_iterator<size_t> last = first + ntrials;
@@ -254,11 +255,14 @@ sample(hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& policy,
 	hydra_thrust::transform(policy, first, last, begin, values.first.get(),
 			sampler_type(seed, rng_jump , functor, min, max));
 
+
 	//get the maximum value
 	value_type max_value = *( hydra_thrust::max_element(policy,values.first, values.first+ values.second) );
 
+
 	Iterator r = hydra_thrust::partition(policy, begin, end, first,
-			flagger_type(seed, 2*rng_jump, max_value, values.first) );
+			flagger_type(seed+1337, rng_jump, max_value, values.first) );
+
 
 	// deallocate storage with hydra_thrust::return_temporary_buffer
 	hydra_thrust::return_temporary_buffer( policy, values.first, values.second);
@@ -338,7 +342,7 @@ sample( hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& polic
 	value_type max_value = *( hydra_thrust::max_element(policy,values.first, values.first+ values.second) );
 
 	Iterator r = hydra_thrust::partition(policy, begin, end, first,
-			flagger_type(seed, 2*rng_jump, max_value, values.first) );
+			flagger_type(seed+1337, rng_jump, max_value, values.first) );
 
 	// deallocate storage with hydra_thrust::return_temporary_buffer
 	hydra_thrust::return_temporary_buffer(policy, values.first, values.second);

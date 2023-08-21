@@ -39,7 +39,7 @@
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/external/hydra_thrust/functional.h>
 
-#include <Eigen/Dense>
+#include <hydra/detail/external/hydra_Eigen/Dense>
 
 namespace hydra {
 

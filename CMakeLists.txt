@@ -76,7 +76,7 @@ list(APPEND HYDRA_CUDA_FLAGS "-O4")
 list(APPEND HYDRA_CUDA_FLAGS "-m64")
 list(APPEND HYDRA_CUDA_FLAGS "--threads=0")
 list(APPEND HYDRA_CUDA_FLAGS "--verbose")
-#list(APPEND HYDRA_CUDA_FLAGS "")
+list(APPEND HYDRA_CUDA_FLAGS "--expt-relaxed-constexpr")
 #list(APPEND HYDRA_CUDA_FLAGS "")
 list(JOIN   HYDRA_CUDA_FLAGS " " HYDRA_CUDA_FLAGS)
 set( CMAKE_CUDA_FLAGS "${HYDRA_CUDA_FLAGS}" CACHE STRING "CUDA compile flags" FORCE)
@@ -123,11 +123,11 @@ endif(GSL_FOUND)
 
 #-----------------------
 # get Eigen for sPlot examples
-find_package( Eigen3 3.3.7 REQUIRED )
-include_directories( EIGEN3_INCLUDE_DIR )
-if(EIGEN3_FOUND)
-include_directories(${EIGEN3_INCLUDE_DIR})
-endif(EIGEN3_FOUND)
+#find_package( Eigen3 3.3.7 REQUIRED )
+#include_directories( EIGEN3_INCLUDE_DIR )
+#if(EIGEN3_FOUND)
+#include_directories(${EIGEN3_INCLUDE_DIR})
+#endif(EIGEN3_FOUND)
 
 #-----------------------
 # get FFTW for convolution examples
