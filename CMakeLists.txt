@@ -116,10 +116,10 @@ endif(ROOT_FOUND)
 
 #-----------------------
 # get GSL for convolution examples
-find_package(GSL)
-if(GSL_FOUND)
-include_directories(${GSL_INCLUDE_DIRS})
-endif(GSL_FOUND)
+#find_package(GSL)
+#if(GSL_FOUND)
+#include_directories(${GSL_INCLUDE_DIRS})
+#endif(GSL_FOUND)
 
 #-----------------------
 # get Eigen for sPlot examples
