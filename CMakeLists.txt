@@ -19,7 +19,7 @@ SET(CMAKE_VERBOSE_MAKEFILE  ON)
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("--std=c++17" COMPILER_SUPPORTS_CXX17)
 if(NOT COMPILER_SUPPORTS_CXX17)
- message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++1 support. Please use a different C++ compiler.")
+ message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++17 support. Please use a different C++ compiler.")
 endif()
 
 #compiler flags

@@ -133,12 +133,27 @@ struct RndUniform{
 		fMin(min),
 		fMax(max)
 	{}
+
 	__hydra_host__ __hydra_device__
 	RndUniform( RndUniform<T,GRND> const& other):
 		fSeed(other.fSeed),
 		fMin(other.fMin),
 		fMax(other.fMax)
 	{}
+
+
+	__hydra_host__ __hydra_device__
+	RndUniform<T,GRND>&
+	operator=( RndUniform<T,GRND> const& other)
+	{
+		if(this == &other) return *this;
+
+		fSeed = other.fSeed;
+		fMin = other.fMin;
+		fMax = other.fMax;
+
+		return *this;
+	}
 
 
 	__hydra_host__ __hydra_device__

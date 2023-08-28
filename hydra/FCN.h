@@ -59,7 +59,7 @@ namespace hydra {
 namespace detail {
 
 template<typename ArgType>
-struct FCNWeightsReducerUnary: public hydra_thrust::unary_function<ArgType, double>
+struct FCNWeightsReducerUnary//: public hydra_thrust::unary_function<ArgType, double>
 {
 
 

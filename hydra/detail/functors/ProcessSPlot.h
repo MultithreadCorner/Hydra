@@ -39,6 +39,9 @@
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/external/hydra_thrust/functional.h>
 
+#if (HYDRA__HOST_SYSTEM==OMP || HYDRA_DEVICE_SYSTEM==OMP )
+#define  EIGEN_MAX_STATIC_ALIGN_BYTES 0
+#endif
 #include <hydra/detail/external/hydra_Eigen/Dense>
 
 namespace hydra {
@@ -53,7 +56,7 @@ struct CovMatrixUnary
 	typedef hydra::tuple<F1, F2, Fs...> functors_tuple_type;
 	constexpr static size_t nfunctors = sizeof...(Fs)+2;
 	typedef typename detail::tuple_type<nfunctors*nfunctors, double>::type matrix_tuple;
-
+	typedef Eigen::Matrix<double, nfunctors, nfunctors> covariant_matrix_type;
 
 	CovMatrixUnary( Parameter(&coeficients)[nfunctors], functors_tuple_type const& functors ):
 		fFunctors(functors)
@@ -109,8 +112,8 @@ struct CovMatrixUnary
 	}
 
 	template<typename Type>
-	__hydra_host__ __hydra_device__ inline
-	Eigen::Matrix<double, nfunctors, nfunctors> operator()(Type x)
+	__hydra_host__ __hydra_device__
+	inline covariant_matrix_type operator()(Type x)
 	{
 		auto fvalues  = detail::invoke_normalized(x, fFunctors);
 		auto wfvalues = detail::multiply_array_tuple(fCoefficients, fvalues);
@@ -119,7 +122,7 @@ struct CovMatrixUnary
 		detail::add_tuple_values(denominator, wfvalues);
 		denominator *=denominator;
 
-		Eigen::Matrix<double, nfunctors, nfunctors> fCovMatrix;
+		covariant_matrix_type fCovMatrix{};
 
 
         set_matrix(denominator,  fvalues, fCovMatrix);
@@ -131,23 +134,23 @@ struct CovMatrixUnary
 	functors_tuple_type fFunctors;
 };
 
+template<typename CovariantMatrixType>
 struct CovMatrixBinary
 {
-	template<int N>
+
 	__hydra_host__ __hydra_device__
-	inline Eigen::Matrix<double, N, N>
-	operator()( Eigen::Matrix<double, N, N>const& x, Eigen::Matrix<double, N, N>const& y )
+	inline CovariantMatrixType
+	operator()( CovariantMatrixType const& x, CovariantMatrixType const& y )
 	{
 		return y + x;
 	}
 };
 
-template<int I>
+template<typename T, int I>
 struct GetSWeight
 {
-	template<typename T>
 	__hydra_host__ __hydra_device__
-	double operator()( T sweights )	{
+	double operator()( T const& sweights )	{
 
 		return hydra_thrust::get<I>(sweights);
 	}

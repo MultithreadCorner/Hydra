@@ -44,6 +44,12 @@
 #include <hydra/detail/external/hydra_thrust/transform_reduce.h>
 #include <hydra/detail/functors/ProcessSPlot.h>
 
+//Ugly workaround: disabling alignment of EIGEN, which gives trouble
+//when compiling and running on OMP targets
+#if (HYDRA__HOST_SYSTEM==OMP || HYDRA_DEVICE_SYSTEM==OMP )
+#define  EIGEN_MAX_STATIC_ALIGN_BYTES 0
+#endif
+
 #include <hydra/detail/external/hydra_Eigen/Dense>
 
 #include <initializer_list>
@@ -91,7 +97,7 @@ public:
 	typedef typename  hydra_thrust::iterator_traits<iterator>::value_type value_type;
 
 	template<int I>
-	using siterator = hydra_thrust::transform_iterator< detail::GetSWeight<I>, iterator >;
+	using siterator = hydra_thrust::transform_iterator< detail::GetSWeight<value_type, I>, iterator >;
 
 	constexpr static size_t npdfs = sizeof...(PDFs)+2;
 
@@ -108,8 +114,8 @@ public:
 		fPDFs( pdf.GetPDFs() ),
 		fFunctors( pdf.GetFunctors()),
 		fCovMatrix( Eigen::Matrix<double, npdfs, npdfs>{} ),
-	    fBegin( iterator( first, transformer(  pdf.GetFunctors(), Eigen::Matrix<double, npdfs, npdfs>{} ))),
-		fEnd (iterator( last , transformer(  pdf.GetFunctors(), Eigen::Matrix<double, npdfs, npdfs>{} )))
+	    fBegin( iterator( first, transformer(  pdf.GetFunctors(), Eigen::Matrix<double, npdfs, npdfs>::Zero() ))),
+		fEnd (iterator( last , transformer(  pdf.GetFunctors(), Eigen::Matrix<double, npdfs, npdfs>::Zero() )))
 
 	{
 		for(size_t i=0;i<npdfs; i++)
@@ -121,17 +127,19 @@ public:
 		Eigen::Matrix<double, npdfs, npdfs>  init = Eigen::Matrix<double, npdfs, npdfs>::Zero();
 		//init << 0.0, 0.0, 0.0, 0.0;
 
+
 		fCovMatrix = hydra_thrust::transform_reduce(system_type(), first, last,
 				detail::CovMatrixUnary<
 				 typename PDF1::functor_type,
 				 typename PDF2::functor_type,
 				 typename PDFs::functor_type...>(fCoefficients, fFunctors ),
-				 init, detail::CovMatrixBinary() );
+				 init, detail::CovMatrixBinary<Eigen::Matrix<double, npdfs, npdfs>>() );
+
 
 		Eigen::Matrix<double, npdfs, npdfs> inverseCovMatrix = fCovMatrix.inverse();
 
-		fBegin = iterator( first, transformer(fCoefficients, fFunctors, inverseCovMatrix ));
-		fEnd   = iterator( last , transformer(fCoefficients, fFunctors, inverseCovMatrix ));
+		fBegin = iterator( first, SPlot<Iterator, PDF1, PDF2, PDFs...>::transformer(fCoefficients, fFunctors, inverseCovMatrix ));
+		fEnd   = iterator( last , SPlot<Iterator, PDF1, PDF2, PDFs...>::transformer(fCoefficients, fFunctors, inverseCovMatrix ));
 
 
 	}
@@ -220,7 +228,7 @@ public:
 	template<unsigned int I>
 	siterator<I> begin(placeholders::placeholder<I>) {
 
-		return siterator<I>(fBegin, detail::GetSWeight<I>());
+		return siterator<I>(fBegin, detail::GetSWeight<value_type, I>());
 	}
 
 	/**
@@ -231,7 +239,7 @@ public:
 	template<unsigned int I>
 	siterator<I> end(placeholders::placeholder<I>) {
 
-		return siterator<I>(fEnd, detail::GetSWeight<I>());
+		return siterator<I>(fEnd, detail::GetSWeight<value_type, I>());
 	}
 
 
@@ -275,7 +283,7 @@ public:
 	 * Get a range with the s-weights.
 	 * @return hydra::Range<iterator>
 	 */
-	template<unsigned int I>
+
 	hydra::Range<iterator>
 	operator()(){
 
