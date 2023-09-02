@@ -5,15 +5,15 @@
  * LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_MATH_STATISTICS_ANDERSON_DARLING_HPP
-#define BOOST_MATH_STATISTICS_ANDERSON_DARLING_HPP
+#ifndef HYDRA_BOOST_MATH_STATISTICS_ANDERSON_DARLING_HPP
+#define HYDRA_BOOST_MATH_STATISTICS_ANDERSON_DARLING_HPP
 
 #include <cmath>
 #include <algorithm>
 #include <hydra/detail/external/hydra_boost/math/statistics/univariate_statistics.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/erf.hpp>
 
-namespace boost { namespace math { namespace statistics {
+namespace hydra_boost { namespace math { namespace statistics {
 
 template<class RandomAccessContainer>
 auto anderson_darling_normality_statistic(RandomAccessContainer const & v,
@@ -23,18 +23,18 @@ auto anderson_darling_normality_statistic(RandomAccessContainer const & v,
     using Real = typename RandomAccessContainer::value_type;
     using std::log;
     using std::sqrt;
-    using boost::math::erfc;
+    using hydra_boost::math::erfc;
 
     if (std::isnan(mu)) {
-        mu = boost::math::statistics::mean(v);
+        mu = hydra_boost::math::statistics::mean(v);
     }
     if (std::isnan(sd)) {
-        sd = sqrt(boost::math::statistics::sample_variance(v));
+        sd = sqrt(hydra_boost::math::statistics::sample_variance(v));
     }
 
-    typedef boost::math::policies::policy<
-          boost::math::policies::promote_float<false>,
-          boost::math::policies::promote_double<false> >
+    typedef hydra_boost::math::policies::policy<
+          hydra_boost::math::policies::promote_float<false>,
+          hydra_boost::math::policies::promote_double<false> >
           no_promote_policy;
 
     // This is where Knuth's literate programming could really come in handy!

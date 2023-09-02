@@ -11,7 +11,7 @@
 #ifndef TEST_VALUE_HPP
 #define TEST_VALUE_HPP
 
-// BOOST_MATH_TEST_VALUE is used to create a test value of suitable type from a decimal digit string.
+// HYDRA_BOOST_MATH_TEST_VALUE is used to create a test value of suitable type from a decimal digit string.
 // Two parameters, both a floating-point literal double like 1.23 (not long double so no suffix L)
 // and a decimal digit string const char* like "1.23" must be provided.
 // The decimal value represented must be the same of course, with at least enough precision for long double.
@@ -24,27 +24,27 @@
 // but it's not generally usable in large tables
 // where you really need everything to be statically initialized.
 
-// Macro BOOST_MATH_INSTRUMENT_CREATE_TEST_VALUE provides a global diagnostic value for create_type.
+// Macro HYDRA_BOOST_MATH_INSTRUMENT_CREATE_TEST_VALUE provides a global diagnostic value for create_type.
 
 #include <hydra/detail/external/hydra_boost/cstdfloat.hpp> // For float_64_t, float128_t. Must be first include!
-#ifndef BOOST_MATH_STANDALONE
+#ifndef HYDRA_BOOST_MATH_STANDALONE
 #include <hydra/detail/external/hydra_boost/lexical_cast.hpp>
 #endif
 #include <limits>
 #include <type_traits>
 
-#ifdef BOOST_MATH_INSTRUMENT_CREATE_TEST_VALUE
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_CREATE_TEST_VALUE
 // global int create_type(0); must be defined before including this file.
 #endif
 
-#ifdef BOOST_HAS_FLOAT128
+#ifdef HYDRA_BOOST_HAS_FLOAT128
 typedef __float128 largest_float;
-#define BOOST_MATH_TEST_LARGEST_FLOAT_SUFFIX(x) x##Q
-#define BOOST_MATH_TEST_LARGEST_FLOAT_DIGITS 113
+#define HYDRA_BOOST_MATH_TEST_LARGEST_FLOAT_SUFFIX(x) x##Q
+#define HYDRA_BOOST_MATH_TEST_LARGEST_FLOAT_DIGITS 113
 #else
 typedef long double largest_float;
-#define BOOST_MATH_TEST_LARGEST_FLOAT_SUFFIX(x) x##L
-#define BOOST_MATH_TEST_LARGEST_FLOAT_DIGITS std::numeric_limits<long double>::digits
+#define HYDRA_BOOST_MATH_TEST_LARGEST_FLOAT_SUFFIX(x) x##L
+#define HYDRA_BOOST_MATH_TEST_LARGEST_FLOAT_DIGITS std::numeric_limits<long double>::digits
 #endif
 
 template <class T, class T2>
@@ -59,7 +59,7 @@ inline T create_test_value(largest_float val, const char*, const std::true_type&
   // Choose this method, even if can be constructed from a string,
   // because it will be faster, and more likely to be the closest representation.
   // (This is case for MPL parameters = true_type and T2 == true_type).
-  #ifdef BOOST_MATH_INSTRUMENT_CREATE_TEST_VALUE
+  #ifdef HYDRA_BOOST_MATH_INSTRUMENT_CREATE_TEST_VALUE
   create_type = 1;
   #endif
   return static_cast<T>(val);
@@ -71,7 +71,7 @@ inline T create_test_value(largest_float, const char* str, const std::false_type
   // For example, extended precision or other User-Defined types which ARE constructible from a string
   // (but not from double, or long double without loss of precision).
   // (This is case for MPL parameters = false_type and T2 == true_type).
-  #ifdef BOOST_MATH_INSTRUMENT_CREATE_TEST_VALUE
+  #ifdef HYDRA_BOOST_MATH_INSTRUMENT_CREATE_TEST_VALUE
   create_type = 2;
   #endif
   return T(str);
@@ -83,14 +83,14 @@ inline T create_test_value(largest_float, const char* str, const std::false_type
   // For example, extended precision or other User-Defined types which are NOT constructible from a string
   // (NOR constructible from a long double).
   // (This is case T1 = false_type and T2 == false_type).
-#ifdef BOOST_MATH_INSTRUMENT_CREATE_TEST_VALUE
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_CREATE_TEST_VALUE
   create_type = 3;
 #endif
-#if defined(BOOST_MATH_STANDALONE)
+#if defined(HYDRA_BOOST_MATH_STANDALONE)
   static_assert(sizeof(T) == 0, "Can not create a test value using lexical cast of string in standalone mode");
   return T();
 #else
-  return boost::lexical_cast<T>(str);
+  return hydra_boost::lexical_cast<T>(str);
 #endif
 }
 
@@ -101,7 +101,7 @@ inline T create_test_value(largest_float, const char* str, const std::false_type
 //  x is also passed as a const char* or string representation "12.34"
 //  (to suit most other types that cannot be constructed from long double without possible loss).
 
-// BOOST_MATH_TEST_LARGEST_FLOAT_SUFFIX(x) makes a long double or quad version, with
+// HYDRA_BOOST_MATH_TEST_LARGEST_FLOAT_SUFFIX(x) makes a long double or quad version, with
 // suffix a letter L (or Q) to suit long double (or quad) fundamental type, 12.34L or 12.34Q.
 // #x makes a decimal digit string version to suit multiprecision and fixed_point constructors, "12.34".
 // (Constructing from double or long double (or quad) could lose precision for multiprecision or fixed-point).
@@ -109,33 +109,33 @@ inline T create_test_value(largest_float, const char* str, const std::false_type
 // The matching create_test_value function above is chosen depending on the T1 and T2 mpl bool truths.
 // The string version from #x is used if the precision of T is greater than long double.
 
-// Example: long double test_value = BOOST_MATH_TEST_VALUE(double, 1.23456789);
+// Example: long double test_value = HYDRA_BOOST_MATH_TEST_VALUE(double, 1.23456789);
 
-#define BOOST_MATH_TEST_VALUE(T, x) create_test_value<T>(\
-  BOOST_MATH_TEST_LARGEST_FLOAT_SUFFIX(x),\
+#define HYDRA_BOOST_MATH_TEST_VALUE(T, x) create_test_value<T>(\
+  HYDRA_BOOST_MATH_TEST_LARGEST_FLOAT_SUFFIX(x),\
   #x,\
   std::integral_constant<bool, \
     std::numeric_limits<T>::is_specialized &&\
       (std::numeric_limits<T>::radix == 2)\
-        && (std::numeric_limits<T>::digits <= BOOST_MATH_TEST_LARGEST_FLOAT_DIGITS)\
+        && (std::numeric_limits<T>::digits <= HYDRA_BOOST_MATH_TEST_LARGEST_FLOAT_DIGITS)\
         && std::is_convertible<largest_float, T>::value>(),\
   std::integral_constant<bool, \
     std::is_constructible<T, const char*>::value>()\
 )
 
 #if LDBL_MAX_10_EXP > DBL_MAX_10_EXP
-#define BOOST_MATH_TEST_HUGE_FLOAT_SUFFIX(x) BOOST_MATH_TEST_LARGEST_FLOAT_SUFFIX(x)
+#define HYDRA_BOOST_MATH_TEST_HUGE_FLOAT_SUFFIX(x) HYDRA_BOOST_MATH_TEST_LARGEST_FLOAT_SUFFIX(x)
 #else
-#define BOOST_MATH_TEST_HUGE_FLOAT_SUFFIX(x) 0.0
+#define HYDRA_BOOST_MATH_TEST_HUGE_FLOAT_SUFFIX(x) 0.0
 #endif
 
-#define BOOST_MATH_HUGE_TEST_VALUE(T, x) create_test_value<T>(\
-  BOOST_MATH_TEST_HUGE_FLOAT_SUFFIX(x),\
+#define HYDRA_BOOST_MATH_HUGE_TEST_VALUE(T, x) create_test_value<T>(\
+  HYDRA_BOOST_MATH_TEST_HUGE_FLOAT_SUFFIX(x),\
   #x,\
   std::integral_constant<bool, \
     std::numeric_limits<T>::is_specialized &&\
       (std::numeric_limits<T>::radix == 2)\
-        && (std::numeric_limits<T>::digits <= BOOST_MATH_TEST_LARGEST_FLOAT_DIGITS)\
+        && (std::numeric_limits<T>::digits <= HYDRA_BOOST_MATH_TEST_LARGEST_FLOAT_DIGITS)\
         && std::is_convertible<largest_float, T>::value>(),\
   std::integral_constant<bool, \
     std::is_constructible<T, const char*>::value>()\

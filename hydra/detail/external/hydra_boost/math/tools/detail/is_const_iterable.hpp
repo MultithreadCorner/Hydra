@@ -3,17 +3,17 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_TOOLS_IS_CONST_ITERABLE_HPP
-#define BOOST_MATH_TOOLS_IS_CONST_ITERABLE_HPP
+#ifndef HYDRA_BOOST_MATH_TOOLS_IS_CONST_ITERABLE_HPP
+#define HYDRA_BOOST_MATH_TOOLS_IS_CONST_ITERABLE_HPP
 
 #include <hydra/detail/external/hydra_boost/math/tools/cxx03_warn.hpp>
 
-#define BOOST_MATH_HAS_IS_CONST_ITERABLE
+#define HYDRA_BOOST_MATH_HAS_IS_CONST_ITERABLE
 
 #include <hydra/detail/external/hydra_boost/math/tools/is_detected.hpp>
 #include <utility>
 
-namespace boost {
+namespace hydra_boost {
    namespace math {
       namespace tools {
          namespace detail {
@@ -35,4 +35,4 @@ namespace boost {
 
 } } } }
 
-#endif // BOOST_MATH_TOOLS_IS_CONST_ITERABLE_HPP
+#endif // HYDRA_BOOST_MATH_TOOLS_IS_CONST_ITERABLE_HPP

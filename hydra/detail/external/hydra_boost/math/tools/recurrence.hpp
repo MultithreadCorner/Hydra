@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_TOOLS_RECURRENCE_HPP_
-#define BOOST_MATH_TOOLS_RECURRENCE_HPP_
+#ifndef HYDRA_BOOST_MATH_TOOLS_RECURRENCE_HPP_
+#define HYDRA_BOOST_MATH_TOOLS_RECURRENCE_HPP_
 
 #include <type_traits>
 #include <tuple>
@@ -16,7 +16,7 @@
 #include <hydra/detail/external/hydra_boost/math/tools/cxx03_warn.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/assert.hpp>
 
-namespace boost {
+namespace hydra_boost {
    namespace math {
       namespace tools {
          namespace detail{
@@ -101,7 +101,7 @@ namespace boost {
          T function_ratio_from_backwards_recurrence(const Recurrence& r, const T& factor, std::uintmax_t& max_iter)
          {
             detail::function_ratio_from_backwards_recurrence_fraction<Recurrence> f(r);
-            return boost::math::tools::continued_fraction_a(f, factor, max_iter);
+            return hydra_boost::math::tools::continued_fraction_a(f, factor, max_iter);
          }
 
          //
@@ -121,8 +121,8 @@ namespace boost {
          template <class Recurrence, class T>
          T function_ratio_from_forwards_recurrence(const Recurrence& r, const T& factor, std::uintmax_t& max_iter)
          {
-            boost::math::tools::detail::function_ratio_from_backwards_recurrence_fraction<boost::math::tools::detail::recurrence_reverser<Recurrence, T> > f(r);
-            return boost::math::tools::continued_fraction_a(f, factor, max_iter);
+            hydra_boost::math::tools::detail::function_ratio_from_backwards_recurrence_fraction<hydra_boost::math::tools::detail::recurrence_reverser<Recurrence, T> > f(r);
+            return hydra_boost::math::tools::continued_fraction_a(f, factor, max_iter);
          }
 
 
@@ -141,7 +141,7 @@ namespace boost {
          template <class NextCoefs, class T>
          inline T apply_recurrence_relation_forward(const NextCoefs& get_coefs, unsigned number_of_steps, T first, T second, long long* log_scaling = nullptr, T* previous = nullptr)
          {
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             using std::tuple;
             using std::get;
             using std::swap;
@@ -170,7 +170,7 @@ namespace boost {
                }
                // scale each part separately to avoid spurious overflow:
                third = (a / -c) * first + (b / -c) * second;
-               BOOST_MATH_ASSERT((boost::math::isfinite)(third));
+               HYDRA_BOOST_MATH_ASSERT((hydra_boost::math::isfinite)(third));
 
 
                swap(first, second);
@@ -197,7 +197,7 @@ namespace boost {
          template <class T, class NextCoefs>
          inline T apply_recurrence_relation_backward(const NextCoefs& get_coefs, unsigned number_of_steps, T first, T second, long long* log_scaling = nullptr, T* previous = nullptr)
          {
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             using std::tuple;
             using std::get;
             using std::swap;
@@ -225,7 +225,7 @@ namespace boost {
                }
                // scale each part separately to avoid spurious overflow:
                next = (b / -a) * second + (c / -a) * first;
-               BOOST_MATH_ASSERT((boost::math::isfinite)(next));
+               HYDRA_BOOST_MATH_ASSERT((hydra_boost::math::isfinite)(next));
 
                swap(first, second);
                swap(second, next);
@@ -248,9 +248,9 @@ namespace boost {
             forward_recurrence_iterator(const Recurrence& r, value_type f_n)
                : f_n(f_n), coef(r), k(0)
             {
-               std::uintmax_t max_iter = boost::math::policies::get_max_series_iterations<boost::math::policies::policy<> >();
-               f_n_minus_1 = f_n * boost::math::tools::function_ratio_from_forwards_recurrence(detail::recurrence_offsetter<Recurrence>(r, -1), value_type(boost::math::tools::epsilon<value_type>() * 2), max_iter);
-               boost::math::policies::check_series_iterations<value_type>("forward_recurrence_iterator<>::forward_recurrence_iterator", max_iter, boost::math::policies::policy<>());
+               std::uintmax_t max_iter = hydra_boost::math::policies::get_max_series_iterations<hydra_boost::math::policies::policy<> >();
+               f_n_minus_1 = f_n * hydra_boost::math::tools::function_ratio_from_forwards_recurrence(detail::recurrence_offsetter<Recurrence>(r, -1), value_type(hydra_boost::math::tools::epsilon<value_type>() * 2), max_iter);
+               hydra_boost::math::policies::check_series_iterations<value_type>("forward_recurrence_iterator<>::forward_recurrence_iterator", max_iter, hydra_boost::math::policies::policy<>());
             }
 
             forward_recurrence_iterator& operator++()
@@ -290,9 +290,9 @@ namespace boost {
             backward_recurrence_iterator(const Recurrence& r, value_type f_n)
                : f_n(f_n), coef(r), k(0)
             {
-               std::uintmax_t max_iter = boost::math::policies::get_max_series_iterations<boost::math::policies::policy<> >();
-               f_n_plus_1 = f_n * boost::math::tools::function_ratio_from_backwards_recurrence(detail::recurrence_offsetter<Recurrence>(r, 1), value_type(boost::math::tools::epsilon<value_type>() * 2), max_iter);
-               boost::math::policies::check_series_iterations<value_type>("backward_recurrence_iterator<>::backward_recurrence_iterator", max_iter, boost::math::policies::policy<>());
+               std::uintmax_t max_iter = hydra_boost::math::policies::get_max_series_iterations<hydra_boost::math::policies::policy<> >();
+               f_n_plus_1 = f_n * hydra_boost::math::tools::function_ratio_from_backwards_recurrence(detail::recurrence_offsetter<Recurrence>(r, 1), value_type(hydra_boost::math::tools::epsilon<value_type>() * 2), max_iter);
+               hydra_boost::math::policies::check_series_iterations<value_type>("backward_recurrence_iterator<>::backward_recurrence_iterator", max_iter, hydra_boost::math::policies::policy<>());
             }
 
             backward_recurrence_iterator& operator++()
@@ -325,4 +325,4 @@ namespace boost {
    }
 } // namespaces
 
-#endif // BOOST_MATH_TOOLS_RECURRENCE_HPP_
+#endif // HYDRA_BOOST_MATH_TOOLS_RECURRENCE_HPP_

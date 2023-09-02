@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_DIFFERENTIATION_FINITE_DIFFERENCE_HPP
-#define BOOST_MATH_DIFFERENTIATION_FINITE_DIFFERENCE_HPP
+#ifndef HYDRA_BOOST_MATH_DIFFERENTIATION_FINITE_DIFFERENCE_HPP
+#define HYDRA_BOOST_MATH_DIFFERENTIATION_FINITE_DIFFERENCE_HPP
 
 /*
  * Performs numerical differentiation by finite-differences.
@@ -47,7 +47,7 @@
 #include <complex>
 #include <hydra/detail/external/hydra_boost/math/special_functions/next.hpp>
 
-namespace boost{ namespace math{ namespace differentiation {
+namespace hydra_boost{ namespace math{ namespace differentiation {
 
 namespace detail {
     template<class Real>
@@ -61,7 +61,7 @@ namespace detail {
         // Handle the case x + h == x:
         if (h == 0)
         {
-            h = boost::math::nextafter(x, (numeric_limits<Real>::max)()) - x;
+            h = hydra_boost::math::nextafter(x, (numeric_limits<Real>::max)()) - x;
         }
         return h;
     }
@@ -153,7 +153,7 @@ namespace detail {
 
       const Real eps = (numeric_limits<Real>::epsilon)();
       // Error bound ~eps^4/5
-      Real h = pow(Real(11.25)*eps, static_cast<Real>(1) / static_cast<Real>(5));
+      Real h = pow(11.25*eps, static_cast<Real>(1) / static_cast<Real>(5));
       h = detail::make_xph_representable(x, h);
       Real ymth = f(x - 2 * h);
       Real yth = f(x + 2 * h);
@@ -222,7 +222,7 @@ namespace detail {
       // Mathematica code to get the error:
       // Series[(f[x+h]-f[x-h])*(4/5) + (1/5)*(f[x-2*h] - f[x+2*h]) + (4/105)*(f[x+3*h] - f[x-3*h]) + (1/280)*(f[x-4*h] - f[x+4*h]), {h, 0, 9}]
       // If we used Kahan summation, we could get the max error down to h^8|f^(9)(x)|/630 + |f(x)|eps/h.
-      Real h = pow(Real(551.25)*eps, static_cast<Real>(1) / static_cast<Real>(9));
+      Real h = pow(551.25*eps, static_cast<Real>(1) / static_cast<Real>(9));
       h = detail::make_xph_representable(x, h);
 
       Real yh = f(x + h);

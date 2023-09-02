@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_BESSEL_IK_HPP
-#define BOOST_MATH_BESSEL_IK_HPP
+#ifndef HYDRA_BOOST_MATH_BESSEL_IK_HPP
+#define HYDRA_BOOST_MATH_BESSEL_IK_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -21,7 +21,7 @@
 
 // Modified Bessel functions of the first and second kind of fractional order
 
-namespace boost { namespace math {
+namespace hydra_boost { namespace math {
 
 namespace detail {
 
@@ -32,7 +32,7 @@ struct cyl_bessel_i_small_z
 
    cyl_bessel_i_small_z(T v_, T z_) : k(0), v(v_), mult(z_*z_/4)
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       term = 1;
    }
 
@@ -54,15 +54,15 @@ private:
 template <class T, class Policy>
 inline T bessel_i_small_z_series(T v, T x, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    T prefix;
    if(v < max_factorial<T>::value)
    {
-      prefix = pow(x / 2, v) / boost::math::tgamma(v + 1, pol);
+      prefix = pow(x / 2, v) / hydra_boost::math::tgamma(v + 1, pol);
    }
    else
    {
-      prefix = v * log(x / 2) - boost::math::lgamma(v + 1, pol);
+      prefix = v * log(x / 2) - hydra_boost::math::lgamma(v + 1, pol);
       prefix = exp(prefix);
    }
    if(prefix == 0)
@@ -71,9 +71,9 @@ inline T bessel_i_small_z_series(T v, T x, const Policy& pol)
    cyl_bessel_i_small_z<T, Policy> s(v, x);
    std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
 
-   T result = boost::math::tools::sum_series(s, boost::math::policies::get_epsilon<T, Policy>(), max_iter);
+   T result = hydra_boost::math::tools::sum_series(s, hydra_boost::math::policies::get_epsilon<T, Policy>(), max_iter);
 
-   policies::check_series_iterations<T>("boost::math::bessel_j_small_z_series<%1%>(%1%,%1%)", max_iter, pol);
+   policies::check_series_iterations<T>("hydra_boost::math::bessel_j_small_z_series<%1%>(%1%,%1%)", max_iter, pol);
    return prefix * result;
 }
 
@@ -86,24 +86,24 @@ int temme_ik(T v, T x, T* K, T* K1, const Policy& pol)
     T a, b, c, d, sigma, gamma1, gamma2;
     unsigned long k;
 
-    BOOST_MATH_STD_USING
-    using namespace boost::math::tools;
-    using namespace boost::math::constants;
+    HYDRA_BOOST_MATH_STD_USING
+    using namespace hydra_boost::math::tools;
+    using namespace hydra_boost::math::constants;
 
 
     // |x| <= 2, Temme series converge rapidly
     // |x| > 2, the larger the |x|, the slower the convergence
-    BOOST_MATH_ASSERT(abs(x) <= 2);
-    BOOST_MATH_ASSERT(abs(v) <= 0.5f);
+    HYDRA_BOOST_MATH_ASSERT(abs(x) <= 2);
+    HYDRA_BOOST_MATH_ASSERT(abs(v) <= 0.5f);
 
-    T gp = boost::math::tgamma1pm1(v, pol);
-    T gm = boost::math::tgamma1pm1(-v, pol);
+    T gp = hydra_boost::math::tgamma1pm1(v, pol);
+    T gm = hydra_boost::math::tgamma1pm1(-v, pol);
 
     a = log(x / 2);
     b = exp(v * a);
     sigma = -a * v;
     c = abs(v) < tools::epsilon<T>() ?
-       T(1) : T(boost::math::sin_pi(v, pol) / (v * pi<T>()));
+       T(1) : T(hydra_boost::math::sin_pi(v, pol) / (v * pi<T>()));
     d = abs(sigma) < tools::epsilon<T>() ?
         T(1) : T(sinh(sigma) / sigma);
     gamma1 = abs(v) < tools::epsilon<T>() ?
@@ -119,16 +119,16 @@ int temme_ik(T v, T x, T* K, T* K1, const Policy& pol)
     sum = coef * f;
     sum1 = coef * h;
 
-    BOOST_MATH_INSTRUMENT_VARIABLE(p);
-    BOOST_MATH_INSTRUMENT_VARIABLE(q);
-    BOOST_MATH_INSTRUMENT_VARIABLE(f);
-    BOOST_MATH_INSTRUMENT_VARIABLE(sigma);
-    BOOST_MATH_INSTRUMENT_CODE(sinh(sigma));
-    BOOST_MATH_INSTRUMENT_VARIABLE(gamma1);
-    BOOST_MATH_INSTRUMENT_VARIABLE(gamma2);
-    BOOST_MATH_INSTRUMENT_VARIABLE(c);
-    BOOST_MATH_INSTRUMENT_VARIABLE(d);
-    BOOST_MATH_INSTRUMENT_VARIABLE(a);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(p);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(q);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(f);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(sigma);
+    HYDRA_BOOST_MATH_INSTRUMENT_CODE(sinh(sigma));
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(gamma1);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(gamma2);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(c);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(d);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(a);
 
     // series summation
     tolerance = tools::epsilon<T>();
@@ -146,7 +146,7 @@ int temme_ik(T v, T x, T* K, T* K1, const Policy& pol)
            break;
         }
     }
-    policies::check_series_iterations<T>("boost::math::bessel_ik<%1%>(%1%,%1%) in temme_ik", k, pol);
+    policies::check_series_iterations<T>("hydra_boost::math::bessel_ik<%1%>(%1%,%1%) in temme_ik", k, pol);
 
     *K = sum;
     *K1 = 2 * sum1 / x;
@@ -162,7 +162,7 @@ int CF1_ik(T v, T x, T* fv, const Policy& pol)
     T C, D, f, a, b, delta, tiny, tolerance;
     unsigned long k;
 
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
 
     // |x| <= |v|, CF1_ik converges rapidly
     // |x| > |v|, CF1_ik needs O(|x|) iterations to converge
@@ -170,9 +170,9 @@ int CF1_ik(T v, T x, T* fv, const Policy& pol)
     // modified Lentz's method, see
     // Lentz, Applied Optics, vol 15, 668 (1976)
     tolerance = 2 * tools::epsilon<T>();
-    BOOST_MATH_INSTRUMENT_VARIABLE(tolerance);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(tolerance);
     tiny = sqrt(tools::min_value<T>());
-    BOOST_MATH_INSTRUMENT_VARIABLE(tiny);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(tiny);
     C = f = tiny;                           // b0 = 0, replace with tiny
     D = 0;
     for (k = 1; k < policies::get_max_series_iterations<Policy>(); k++)
@@ -186,14 +186,14 @@ int CF1_ik(T v, T x, T* fv, const Policy& pol)
         D = 1 / D;
         delta = C * D;
         f *= delta;
-        BOOST_MATH_INSTRUMENT_VARIABLE(delta-1);
+        HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(delta-1);
         if (abs(delta - 1) <= tolerance)
         {
            break;
         }
     }
-    BOOST_MATH_INSTRUMENT_VARIABLE(k);
-    policies::check_series_iterations<T>("boost::math::bessel_ik<%1%>(%1%,%1%) in CF1_ik", k, pol);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(k);
+    policies::check_series_iterations<T>("hydra_boost::math::bessel_ik<%1%>(%1%,%1%) in CF1_ik", k, pol);
 
     *fv = f;
 
@@ -206,8 +206,8 @@ int CF1_ik(T v, T x, T* fv, const Policy& pol)
 template <typename T, typename Policy>
 int CF2_ik(T v, T x, T* Kv, T* Kv1, const Policy& pol)
 {
-    BOOST_MATH_STD_USING
-    using namespace boost::math::constants;
+    HYDRA_BOOST_MATH_STD_USING
+    using namespace hydra_boost::math::constants;
 
     T S, C, Q, D, f, a, b, q, delta, tolerance, current, prev;
     unsigned long k;
@@ -215,7 +215,7 @@ int CF2_ik(T v, T x, T* Kv, T* Kv1, const Policy& pol)
     // |x| >= |v|, CF2_ik converges rapidly
     // |x| -> 0, CF2_ik fails to converge
 
-    BOOST_MATH_ASSERT(abs(x) > 1);
+    HYDRA_BOOST_MATH_ASSERT(abs(x) > 1);
 
     // Steed's algorithm, see Thompson and Barnett,
     // Journal of Computational Physics, vol 64, 490 (1986)
@@ -228,11 +228,11 @@ int CF2_ik(T v, T x, T* Kv, T* Kv1, const Policy& pol)
     current = 1;                                  // q1
     Q = C = -a;                                   // Q1 = C1 because q1 = 1
     S = 1 + Q * delta;                            // S1
-    BOOST_MATH_INSTRUMENT_VARIABLE(tolerance);
-    BOOST_MATH_INSTRUMENT_VARIABLE(a);
-    BOOST_MATH_INSTRUMENT_VARIABLE(b);
-    BOOST_MATH_INSTRUMENT_VARIABLE(D);
-    BOOST_MATH_INSTRUMENT_VARIABLE(f);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(tolerance);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(a);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(b);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(D);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(f);
 
     for (k = 2; k < policies::get_max_series_iterations<Policy>(); k++)     // starting from 2
     {
@@ -268,23 +268,23 @@ int CF2_ik(T v, T x, T* Kv, T* Kv1, const Policy& pol)
         }
 
         // S converges slower than f
-        BOOST_MATH_INSTRUMENT_VARIABLE(Q * delta);
-        BOOST_MATH_INSTRUMENT_VARIABLE(abs(S) * tolerance);
-        BOOST_MATH_INSTRUMENT_VARIABLE(S);
+        HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(Q * delta);
+        HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(abs(S) * tolerance);
+        HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(S);
         if (abs(Q * delta) < abs(S) * tolerance)
         {
            break;
         }
     }
-    policies::check_series_iterations<T>("boost::math::bessel_ik<%1%>(%1%,%1%) in CF2_ik", k, pol);
+    policies::check_series_iterations<T>("hydra_boost::math::bessel_ik<%1%>(%1%,%1%) in CF2_ik", k, pol);
 
     if(x >= tools::log_max_value<T>())
        *Kv = exp(0.5f * log(pi<T>() / (2 * x)) - x - log(S));
     else
       *Kv = sqrt(pi<T>() / (2 * x)) * exp(-x) / S;
     *Kv1 = *Kv * (0.5f + v + x + (v * v - 0.25f) * f) / x;
-    BOOST_MATH_INSTRUMENT_VARIABLE(*Kv);
-    BOOST_MATH_INSTRUMENT_VARIABLE(*Kv1);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(*Kv);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(*Kv1);
 
     return 0;
 }
@@ -306,15 +306,15 @@ int bessel_ik(T v, T x, T* I, T* K, int kind, const Policy& pol)
     bool reflect = false;
     unsigned n, k;
     int org_kind = kind;
-    BOOST_MATH_INSTRUMENT_VARIABLE(v);
-    BOOST_MATH_INSTRUMENT_VARIABLE(x);
-    BOOST_MATH_INSTRUMENT_VARIABLE(kind);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(v);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(x);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(kind);
 
-    BOOST_MATH_STD_USING
-    using namespace boost::math::tools;
-    using namespace boost::math::constants;
+    HYDRA_BOOST_MATH_STD_USING
+    using namespace hydra_boost::math::tools;
+    using namespace hydra_boost::math::constants;
 
-    static const char* function = "boost::math::bessel_ik<%1%>(%1%,%1%)";
+    static const char* function = "hydra_boost::math::bessel_ik<%1%>(%1%,%1%)";
 
     if (v < 0)
     {
@@ -324,8 +324,8 @@ int bessel_ik(T v, T x, T* I, T* K, int kind, const Policy& pol)
     }
     n = iround(v, pol);
     u = v - n;                              // -1/2 <= u < 1/2
-    BOOST_MATH_INSTRUMENT_VARIABLE(n);
-    BOOST_MATH_INSTRUMENT_VARIABLE(u);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(n);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(u);
 
     if (x < 0)
     {
@@ -348,7 +348,7 @@ int bessel_ik(T v, T x, T* I, T* K, int kind, const Policy& pol)
        if(reflect && (kind & need_i))
        {
            T z = (u + n % 2);
-           Iv = boost::math::sin_pi(z, pol) == 0 ?
+           Iv = hydra_boost::math::sin_pi(z, pol) == 0 ?
                Iv :
                policies::raise_overflow_error<T>(function, nullptr, pol);   // reflection formula
        }
@@ -368,8 +368,8 @@ int bessel_ik(T v, T x, T* I, T* K, int kind, const Policy& pol)
     {
         CF2_ik(u, x, &Ku, &Ku1, pol);               // continued fraction CF2_ik
     }
-    BOOST_MATH_INSTRUMENT_VARIABLE(Ku);
-    BOOST_MATH_INSTRUMENT_VARIABLE(Ku1);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(Ku);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(Ku1);
     prev = Ku;
     current = Ku1;
     T scale = 1;
@@ -389,7 +389,7 @@ int bessel_ik(T v, T x, T* I, T* K, int kind, const Policy& pol)
         {
            prev /= current;
            scale /= current;
-           scale_sign *= boost::math::sign(current);
+           scale_sign *= hydra_boost::math::sign(current);
            current = 1;
         }
         next = fact * current + prev;
@@ -398,8 +398,8 @@ int bessel_ik(T v, T x, T* I, T* K, int kind, const Policy& pol)
     }
     Kv = prev;
     Kv1 = current;
-    BOOST_MATH_INSTRUMENT_VARIABLE(Kv);
-    BOOST_MATH_INSTRUMENT_VARIABLE(Kv1);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(Kv);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(Kv1);
     if(kind & need_i)
     {
        T lim = (4 * v * v + 10) / (8 * x);
@@ -431,7 +431,7 @@ int bessel_ik(T v, T x, T* I, T* K, int kind, const Policy& pol)
     if (reflect)
     {
         T z = (u + n % 2);
-        T fact = (2 / pi<T>()) * (boost::math::sin_pi(z, pol) * Kv);
+        T fact = (2 / pi<T>()) * (hydra_boost::math::sin_pi(z, pol) * Kv);
         if(fact == 0)
            *I = Iv;
         else if(tools::max_value<T>() * scale < fact)
@@ -447,12 +447,12 @@ int bessel_ik(T v, T x, T* I, T* K, int kind, const Policy& pol)
        *K = (org_kind & need_k) ? T(sign(Kv) * scale_sign * policies::raise_overflow_error<T>(function, nullptr, pol)) : T(0);
     else
       *K = Kv / scale;
-    BOOST_MATH_INSTRUMENT_VARIABLE(*I);
-    BOOST_MATH_INSTRUMENT_VARIABLE(*K);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(*I);
+    HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(*K);
     return 0;
 }
 
 }}} // namespaces
 
-#endif // BOOST_MATH_BESSEL_IK_HPP
+#endif // HYDRA_BOOST_MATH_BESSEL_IK_HPP
 

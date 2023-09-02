@@ -7,8 +7,8 @@
 
 // See http://www.boost.org for updates, documentation, and revision history.
 
-#ifndef BOOST_SINC_HPP
-#define BOOST_SINC_HPP
+#ifndef HYDRA_BOOST_SINC_HPP
+#define HYDRA_BOOST_SINC_HPP
 
 
 #ifdef _MSC_VER
@@ -26,7 +26,7 @@
 
 // These are the the "Sinus Cardinal" functions.
 
-namespace boost
+namespace hydra_boost
 {
     namespace math
     {
@@ -37,7 +37,7 @@ namespace boost
         template<typename T>
         inline T    sinc_pi_imp(const T x)
         {
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
 
             if    (abs(x) >= 3.3 * tools::forth_root_epsilon<T>())
             {
@@ -69,7 +69,7 @@ namespace boost
         template<typename T, template<typename> class U>
         inline U<T>    sinc_pi(const U<T> x)
         {
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             using    ::std::numeric_limits;
 
             T const    taylor_0_bound = tools::epsilon<T>();
@@ -115,5 +115,5 @@ namespace boost
     }
 }
 
-#endif /* BOOST_SINC_HPP */
+#endif /* HYDRA_BOOST_SINC_HPP */
 

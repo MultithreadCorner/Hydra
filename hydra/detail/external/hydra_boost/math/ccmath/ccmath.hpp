@@ -4,8 +4,8 @@
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef BOOST_MATH_CCMATH_HPP
-#define BOOST_MATH_CCMATH_HPP
+#ifndef HYDRA_BOOST_MATH_CCMATH_HPP
+#define HYDRA_BOOST_MATH_CCMATH_HPP
 
 #include <hydra/detail/external/hydra_boost/math/ccmath/sqrt.hpp>
 #include <hydra/detail/external/hydra_boost/math/ccmath/isinf.hpp>
@@ -42,4 +42,4 @@
 #include <hydra/detail/external/hydra_boost/math/ccmath/next.hpp>
 #include <hydra/detail/external/hydra_boost/math/ccmath/signbit.hpp>
 
-#endif // BOOST_MATH_CCMATH_HPP
+#endif // HYDRA_BOOST_MATH_CCMATH_HPP

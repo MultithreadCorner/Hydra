@@ -9,13 +9,13 @@
  *  as would be computed by barycentric_rational.hpp. But this is a bit more efficient and convenient.
  */
 
-#ifndef BOOST_MATH_INTERPOLATORS_VECTOR_BARYCENTRIC_RATIONAL_HPP
-#define BOOST_MATH_INTERPOLATORS_VECTOR_BARYCENTRIC_RATIONAL_HPP
+#ifndef HYDRA_BOOST_MATH_INTERPOLATORS_VECTOR_BARYCENTRIC_RATIONAL_HPP
+#define HYDRA_BOOST_MATH_INTERPOLATORS_VECTOR_BARYCENTRIC_RATIONAL_HPP
 
 #include <memory>
 #include <hydra/detail/external/hydra_boost/math/interpolators/detail/vector_barycentric_rational_detail.hpp>
 
-namespace boost{ namespace math{ namespace interpolators{
+namespace hydra_boost{ namespace math{ namespace interpolators{
 
 template<class TimeContainer, class SpaceContainer>
 class vector_barycentric_rational

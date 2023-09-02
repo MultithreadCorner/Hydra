@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_CCMATH_ROUND_HPP
-#define BOOST_MATH_CCMATH_ROUND_HPP
+#ifndef HYDRA_BOOST_MATH_CCMATH_ROUND_HPP
+#define HYDRA_BOOST_MATH_CCMATH_ROUND_HPP
 
 #include <cmath>
 #include <type_traits>
@@ -16,14 +16,14 @@
 #include <hydra/detail/external/hydra_boost/math/ccmath/modf.hpp>
 
 #include <hydra/detail/external/hydra_boost/math/tools/is_standalone.hpp>
-#ifndef BOOST_MATH_STANDALONE
+#ifndef HYDRA_BOOST_MATH_STANDALONE
 #include <hydra/detail/external/hydra_boost/config.hpp>
-#ifdef BOOST_NO_CXX17_IF_CONSTEXPR
+#ifdef HYDRA_BOOST_NO_CXX17_IF_CONSTEXPR
 #error "The header <hydra/detail/external/hydra_boost/math/norms.hpp> can only be used in C++17 and later."
 #endif
 #endif
 
-namespace boost::math::ccmath {
+namespace hydra_boost::math::ccmath {
 
 namespace detail {
 
@@ -33,14 +33,14 @@ template <typename T>
 inline constexpr T round_impl(T arg) noexcept
 {
     T iptr = 0;
-    const T x = boost::math::ccmath::modf(arg, &iptr);
+    const T x = hydra_boost::math::ccmath::modf(arg, &iptr);
     constexpr T half = T(1)/2;
 
     if(x >= half && iptr > 0)
     {
         return iptr + 1;
     }
-    else if(boost::math::ccmath::abs(x) >= half && iptr < 0)
+    else if(hydra_boost::math::ccmath::abs(x) >= half && iptr < 0)
     {
         return iptr - 1;
     }
@@ -77,12 +77,12 @@ inline constexpr ReturnType int_round_impl(T arg)
 template <typename Real, std::enable_if_t<!std::is_integral_v<Real>, bool> = true>
 inline constexpr Real round(Real arg) noexcept
 {
-    if(BOOST_MATH_IS_CONSTANT_EVALUATED(arg))
+    if(HYDRA_BOOST_MATH_IS_CONSTANT_EVALUATED(arg))
     {
-        return boost::math::ccmath::abs(arg) == Real(0) ? arg :
-               boost::math::ccmath::isinf(arg) ? arg :
-               boost::math::ccmath::isnan(arg) ? arg :
-               boost::math::ccmath::detail::round_impl(arg);
+        return hydra_boost::math::ccmath::abs(arg) == Real(0) ? arg :
+               hydra_boost::math::ccmath::isinf(arg) ? arg :
+               hydra_boost::math::ccmath::isnan(arg) ? arg :
+               hydra_boost::math::ccmath::detail::round_impl(arg);
     }
     else
     {
@@ -94,30 +94,30 @@ inline constexpr Real round(Real arg) noexcept
 template <typename Z, std::enable_if_t<std::is_integral_v<Z>, bool> = true>
 inline constexpr double round(Z arg) noexcept
 {
-    return boost::math::ccmath::round(static_cast<double>(arg));
+    return hydra_boost::math::ccmath::round(static_cast<double>(arg));
 }
 
 inline constexpr float roundf(float arg) noexcept
 {
-    return boost::math::ccmath::round(arg);
+    return hydra_boost::math::ccmath::round(arg);
 }
 
-#ifndef BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
+#ifndef HYDRA_BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
 inline constexpr long double roundl(long double arg) noexcept
 {
-    return boost::math::ccmath::round(arg);
+    return hydra_boost::math::ccmath::round(arg);
 }
 #endif
 
 template <typename Real, std::enable_if_t<!std::is_integral_v<Real>, bool> = true>
 inline constexpr long lround(Real arg)
 {
-    if(BOOST_MATH_IS_CONSTANT_EVALUATED(arg))
+    if(HYDRA_BOOST_MATH_IS_CONSTANT_EVALUATED(arg))
     {
-        return boost::math::ccmath::abs(arg) == Real(0) ? 0l :
-               boost::math::ccmath::isinf(arg) ? 0l :
-               boost::math::ccmath::isnan(arg) ? 0l :
-               boost::math::ccmath::detail::int_round_impl<long>(arg);
+        return hydra_boost::math::ccmath::abs(arg) == Real(0) ? 0l :
+               hydra_boost::math::ccmath::isinf(arg) ? 0l :
+               hydra_boost::math::ccmath::isnan(arg) ? 0l :
+               hydra_boost::math::ccmath::detail::int_round_impl<long>(arg);
     }
     else
     {
@@ -129,30 +129,30 @@ inline constexpr long lround(Real arg)
 template <typename Z, std::enable_if_t<std::is_integral_v<Z>, bool> = true>
 inline constexpr long lround(Z arg)
 {
-    return boost::math::ccmath::lround(static_cast<double>(arg));
+    return hydra_boost::math::ccmath::lround(static_cast<double>(arg));
 }
 
 inline constexpr long lroundf(float arg)
 {
-    return boost::math::ccmath::lround(arg);
+    return hydra_boost::math::ccmath::lround(arg);
 }
 
-#ifndef BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
+#ifndef HYDRA_BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
 inline constexpr long lroundl(long double arg)
 {
-    return boost::math::ccmath::lround(arg);
+    return hydra_boost::math::ccmath::lround(arg);
 }
 #endif
 
 template <typename Real, std::enable_if_t<!std::is_integral_v<Real>, bool> = true>
 inline constexpr long long llround(Real arg)
 {
-    if(BOOST_MATH_IS_CONSTANT_EVALUATED(arg))
+    if(HYDRA_BOOST_MATH_IS_CONSTANT_EVALUATED(arg))
     {
-        return boost::math::ccmath::abs(arg) == Real(0) ? 0ll :
-               boost::math::ccmath::isinf(arg) ? 0ll :
-               boost::math::ccmath::isnan(arg) ? 0ll :
-               boost::math::ccmath::detail::int_round_impl<long long>(arg);
+        return hydra_boost::math::ccmath::abs(arg) == Real(0) ? 0ll :
+               hydra_boost::math::ccmath::isinf(arg) ? 0ll :
+               hydra_boost::math::ccmath::isnan(arg) ? 0ll :
+               hydra_boost::math::ccmath::detail::int_round_impl<long long>(arg);
     }
     else
     {
@@ -164,21 +164,21 @@ inline constexpr long long llround(Real arg)
 template <typename Z, std::enable_if_t<std::is_integral_v<Z>, bool> = true>
 inline constexpr long llround(Z arg)
 {
-    return boost::math::ccmath::llround(static_cast<double>(arg));
+    return hydra_boost::math::ccmath::llround(static_cast<double>(arg));
 }
 
 inline constexpr long long llroundf(float arg)
 {
-    return boost::math::ccmath::llround(arg);
+    return hydra_boost::math::ccmath::llround(arg);
 }
 
-#ifndef BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
+#ifndef HYDRA_BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
 inline constexpr long long llroundl(long double arg)
 {
-    return boost::math::ccmath::llround(arg);
+    return hydra_boost::math::ccmath::llround(arg);
 }
 #endif
 
 } // Namespaces
 
-#endif // BOOST_MATH_CCMATH_ROUND_HPP
+#endif // HYDRA_BOOST_MATH_CCMATH_ROUND_HPP

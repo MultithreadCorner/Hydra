@@ -5,8 +5,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STATS_NORMAL_HPP
-#define BOOST_STATS_NORMAL_HPP
+#ifndef HYDRA_BOOST_STATS_NORMAL_HPP
+#define HYDRA_BOOST_STATS_NORMAL_HPP
 
 // http://en.wikipedia.org/wiki/Normal_distribution
 // http://www.itl.nist.gov/div898/handbook/eda/section3/eda3661.htm
@@ -23,7 +23,7 @@
 #include <utility>
 #include <type_traits>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 template <class RealType = double, class Policy = policies::policy<> >
 class normal_distribution
@@ -35,7 +35,7 @@ public:
    explicit normal_distribution(RealType l_mean = 0, RealType sd = 1)
       : m_mean(l_mean), m_sd(sd)
    { // Default is a 'standard' normal distribution N01.
-     static const char* function = "boost::math::normal_distribution<%1%>::normal_distribution";
+     static const char* function = "hydra_boost::math::normal_distribution<%1%>::normal_distribution";
 
      RealType result;
      detail::check_scale(function, sd, &result, Policy());
@@ -80,9 +80,9 @@ using normal = normal_distribution<double>;
 #ifdef __cpp_deduction_guides
 
 template <class RealType>
-normal_distribution(RealType, RealType)->normal_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+normal_distribution(RealType, RealType)->normal_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 template <class RealType>
-normal_distribution(RealType)->normal_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+normal_distribution(RealType)->normal_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 
 #endif
 
@@ -100,7 +100,7 @@ inline std::pair<RealType, RealType> range(const normal_distribution<RealType, P
   }
   else
   { // Can only use max_value.
-    using boost::math::tools::max_value;
+    using hydra_boost::math::tools::max_value;
     return std::pair<RealType, RealType>(-max_value<RealType>(), max_value<RealType>()); // - to + max value.
   }
 }
@@ -114,7 +114,7 @@ inline std::pair<RealType, RealType> support(const normal_distribution<RealType,
   }
   else
   { // Can only use max_value.
-   using boost::math::tools::max_value;
+   using hydra_boost::math::tools::max_value;
    return std::pair<RealType, RealType>(-max_value<RealType>(),  max_value<RealType>()); // - to + max value.
   }
 }
@@ -126,12 +126,12 @@ inline std::pair<RealType, RealType> support(const normal_distribution<RealType,
 template <class RealType, class Policy>
 inline RealType pdf(const normal_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
    RealType sd = dist.standard_deviation();
    RealType mean = dist.mean();
 
-   static const char* function = "boost::math::pdf(const normal_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::pdf(const normal_distribution<%1%>&, %1%)";
 
    RealType result = 0;
    if(false == detail::check_scale(function, sd, &result, Policy()))
@@ -142,7 +142,7 @@ inline RealType pdf(const normal_distribution<RealType, Policy>& dist, const Rea
    {
       return result;
    }
-   if((boost::math::isinf)(x))
+   if((hydra_boost::math::isinf)(x))
    {
      return 0; // pdf + and - infinity is zero.
    }
@@ -164,12 +164,12 @@ inline RealType pdf(const normal_distribution<RealType, Policy>& dist, const Rea
 template <class RealType, class Policy>
 inline RealType logpdf(const normal_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
    const RealType sd = dist.standard_deviation();
    const RealType mean = dist.mean();
 
-   static const char* function = "boost::math::logpdf(const normal_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::logpdf(const normal_distribution<%1%>&, %1%)";
 
    RealType result = -std::numeric_limits<RealType>::infinity();
    if(false == detail::check_scale(function, sd, &result, Policy()))
@@ -180,7 +180,7 @@ inline RealType logpdf(const normal_distribution<RealType, Policy>& dist, const 
    {
       return result;
    }
-   if((boost::math::isinf)(x))
+   if((hydra_boost::math::isinf)(x))
    {
       return result; // pdf + and - infinity is zero so logpdf is -inf
    }
@@ -189,8 +189,8 @@ inline RealType logpdf(const normal_distribution<RealType, Policy>& dist, const 
       return result;
    }
 
-   const RealType pi = boost::math::constants::pi<RealType>();
-   const RealType half = boost::math::constants::half<RealType>();
+   const RealType pi = hydra_boost::math::constants::pi<RealType>();
+   const RealType half = hydra_boost::math::constants::half<RealType>();
 
    result = -log(sd) - half*log(2*pi) - (x-mean)*(x-mean)/(2*sd*sd);
 
@@ -200,11 +200,11 @@ inline RealType logpdf(const normal_distribution<RealType, Policy>& dist, const 
 template <class RealType, class Policy>
 inline RealType cdf(const normal_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
    RealType sd = dist.standard_deviation();
    RealType mean = dist.mean();
-   static const char* function = "boost::math::cdf(const normal_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::cdf(const normal_distribution<%1%>&, %1%)";
    RealType result = 0;
    if(false == detail::check_scale(function, sd, &result, Policy()))
    {
@@ -214,7 +214,7 @@ inline RealType cdf(const normal_distribution<RealType, Policy>& dist, const Rea
    {
       return result;
    }
-   if((boost::math::isinf)(x))
+   if((hydra_boost::math::isinf)(x))
    {
      if(x < 0) return 0; // -infinity
      return 1; // + infinity
@@ -224,18 +224,18 @@ inline RealType cdf(const normal_distribution<RealType, Policy>& dist, const Rea
      return result;
    }
    RealType diff = (x - mean) / (sd * constants::root_two<RealType>());
-   result = boost::math::erfc(-diff, Policy()) / 2;
+   result = hydra_boost::math::erfc(-diff, Policy()) / 2;
    return result;
 } // cdf
 
 template <class RealType, class Policy>
 inline RealType quantile(const normal_distribution<RealType, Policy>& dist, const RealType& p)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
    RealType sd = dist.standard_deviation();
    RealType mean = dist.mean();
-   static const char* function = "boost::math::quantile(const normal_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::quantile(const normal_distribution<%1%>&, %1%)";
 
    RealType result = 0;
    if(false == detail::check_scale(function, sd, &result, Policy()))
@@ -245,7 +245,7 @@ inline RealType quantile(const normal_distribution<RealType, Policy>& dist, cons
    if(false == detail::check_probability(function, p, &result, Policy()))
       return result;
 
-   result= boost::math::erfc_inv(2 * p, Policy());
+   result= hydra_boost::math::erfc_inv(2 * p, Policy());
    result = -result;
    result *= sd * constants::root_two<RealType>();
    result += mean;
@@ -255,19 +255,19 @@ inline RealType quantile(const normal_distribution<RealType, Policy>& dist, cons
 template <class RealType, class Policy>
 inline RealType cdf(const complemented2_type<normal_distribution<RealType, Policy>, RealType>& c)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
    RealType sd = c.dist.standard_deviation();
    RealType mean = c.dist.mean();
    RealType x = c.param;
-   static const char* function = "boost::math::cdf(const complement(normal_distribution<%1%>&), %1%)";
+   static const char* function = "hydra_boost::math::cdf(const complement(normal_distribution<%1%>&), %1%)";
 
    RealType result = 0;
    if(false == detail::check_scale(function, sd, &result, Policy()))
       return result;
    if(false == detail::check_location(function, mean, &result, Policy()))
       return result;
-   if((boost::math::isinf)(x))
+   if((hydra_boost::math::isinf)(x))
    {
      if(x < 0) return 1; // cdf complement -infinity is unity.
      return 0; // cdf complement +infinity is zero
@@ -276,18 +276,18 @@ inline RealType cdf(const complemented2_type<normal_distribution<RealType, Polic
       return result;
 
    RealType diff = (x - mean) / (sd * constants::root_two<RealType>());
-   result = boost::math::erfc(diff, Policy()) / 2;
+   result = hydra_boost::math::erfc(diff, Policy()) / 2;
    return result;
 } // cdf complement
 
 template <class RealType, class Policy>
 inline RealType quantile(const complemented2_type<normal_distribution<RealType, Policy>, RealType>& c)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
    RealType sd = c.dist.standard_deviation();
    RealType mean = c.dist.mean();
-   static const char* function = "boost::math::quantile(const complement(normal_distribution<%1%>&), %1%)";
+   static const char* function = "hydra_boost::math::quantile(const complement(normal_distribution<%1%>&), %1%)";
    RealType result = 0;
    if(false == detail::check_scale(function, sd, &result, Policy()))
       return result;
@@ -296,7 +296,7 @@ inline RealType quantile(const complemented2_type<normal_distribution<RealType, 
    RealType q = c.param;
    if(false == detail::check_probability(function, q, &result, Policy()))
       return result;
-   result = boost::math::erfc_inv(2 * q, Policy());
+   result = hydra_boost::math::erfc_inv(2 * q, Policy());
    result *= sd * constants::root_two<RealType>();
    result += mean;
    return result;
@@ -353,13 +353,13 @@ inline RealType entropy(const normal_distribution<RealType, Policy> & dist)
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_STATS_NORMAL_HPP
+#endif // HYDRA_BOOST_STATS_NORMAL_HPP
 
 

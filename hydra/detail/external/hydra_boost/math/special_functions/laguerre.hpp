@@ -4,8 +4,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_LAGUERRE_HPP
-#define BOOST_MATH_SPECIAL_LAGUERRE_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_LAGUERRE_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_LAGUERRE_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -15,7 +15,7 @@
 #include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
 
-namespace boost{
+namespace hydra_boost{
 namespace math{
 
 // Recurrence relation for Laguerre polynomials:
@@ -56,14 +56,14 @@ laguerre(unsigned n, T x, const Policy&, const std::true_type&)
 {
    typedef typename tools::promote_args<T>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
-   return policies::checked_narrowing_cast<result_type, Policy>(detail::laguerre_imp(n, static_cast<value_type>(x)), "boost::math::laguerre<%1%>(unsigned, %1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(detail::laguerre_imp(n, static_cast<value_type>(x)), "hydra_boost::math::laguerre<%1%>(unsigned, %1%)");
 }
 
 template <class T>
 inline typename tools::promote_args<T>::type 
    laguerre(unsigned n, unsigned m, T x, const std::false_type&)
 {
-   return boost::math::laguerre(n, m, x, policies::policy<>());
+   return hydra_boost::math::laguerre(n, m, x, policies::policy<>());
 }
 
 } // namespace detail
@@ -91,7 +91,7 @@ T laguerre_imp(unsigned n, unsigned m, T x, const Policy& pol)
 {
    // Special cases:
    if(m == 0)
-      return boost::math::laguerre(n, x, pol);
+      return hydra_boost::math::laguerre(n, x, pol);
 
    T p0 = 1;
    
@@ -105,7 +105,7 @@ T laguerre_imp(unsigned n, unsigned m, T x, const Policy& pol)
    while(c < n)
    {
       std::swap(p0, p1);
-      p1 = static_cast<T>(laguerre_next(c, m, x, p0, p1));
+      p1 = laguerre_next(c, m, x, p0, p1);
       ++c;
    }
    return p1;
@@ -119,7 +119,7 @@ inline typename tools::promote_args<T>::type
 {
    typedef typename tools::promote_args<T>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
-   return policies::checked_narrowing_cast<result_type, Policy>(detail::laguerre_imp(n, m, static_cast<value_type>(x), pol), "boost::math::laguerre<%1%>(unsigned, unsigned, %1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(detail::laguerre_imp(n, m, static_cast<value_type>(x), pol), "hydra_boost::math::laguerre<%1%>(unsigned, unsigned, %1%)");
 }
 
 template <class T1, class T2>
@@ -131,9 +131,9 @@ inline typename laguerre_result<T1, T2>::type
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
-#endif // BOOST_MATH_SPECIAL_LAGUERRE_HPP
+#endif // HYDRA_BOOST_MATH_SPECIAL_LAGUERRE_HPP
 
 
 

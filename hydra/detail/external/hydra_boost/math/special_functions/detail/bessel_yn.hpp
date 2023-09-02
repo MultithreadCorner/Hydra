@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_BESSEL_YN_HPP
-#define BOOST_MATH_BESSEL_YN_HPP
+#ifndef HYDRA_BOOST_MATH_BESSEL_YN_HPP
+#define HYDRA_BOOST_MATH_BESSEL_YN_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -18,17 +18,17 @@
 // Bessel function of the second kind of integer order
 // Y_n(z) is the dominant solution, forward recurrence always OK (though unstable)
 
-namespace boost { namespace math { namespace detail{
+namespace hydra_boost { namespace math { namespace detail{
 
 template <typename T, typename Policy>
 T bessel_yn(int n, T x, const Policy& pol)
 {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     T value, factor, current, prev;
 
-    using namespace boost::math::tools;
+    using namespace hydra_boost::math::tools;
 
-    static const char* function = "boost::math::bessel_yn<%1%>(%1%,%1%)";
+    static const char* function = "hydra_boost::math::bessel_yn<%1%>(%1%,%1%)";
 
     if ((x == 0) && (n == 0))
     {
@@ -57,7 +57,7 @@ T bessel_yn(int n, T x, const Policy& pol)
        T scale = 1;
        value = bessel_yn_small_z(n, x, &scale, pol);
        if(tools::max_value<T>() * fabs(scale) < fabs(value))
-          return boost::math::sign(scale) * boost::math::sign(value) * policies::raise_overflow_error<T>(function, nullptr, pol);
+          return hydra_boost::math::sign(scale) * hydra_boost::math::sign(value) * policies::raise_overflow_error<T>(function, nullptr, pol);
        value /= scale;
     }
     else if(asymptotic_bessel_large_x_limit(n, x))
@@ -77,8 +77,8 @@ T bessel_yn(int n, T x, const Policy& pol)
        prev = bessel_y0(x, pol);
        current = bessel_y1(x, pol);
        int k = 1;
-       BOOST_MATH_ASSERT(k < n);
-       policies::check_series_iterations<T>("boost::math::bessel_y_n<%1%>(%1%,%1%)", n, pol);
+       HYDRA_BOOST_MATH_ASSERT(k < n);
+       policies::check_series_iterations<T>("hydra_boost::math::bessel_y_n<%1%>(%1%,%1%)", n, pol);
        T mult = 2 * k / x;
        value = mult * current - prev;
        prev = current;
@@ -108,5 +108,5 @@ T bessel_yn(int n, T x, const Policy& pol)
 
 }}} // namespaces
 
-#endif // BOOST_MATH_BESSEL_YN_HPP
+#endif // HYDRA_BOOST_MATH_BESSEL_YN_HPP
 

@@ -7,14 +7,14 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_NON_CENTRAL_F_HPP
-#define BOOST_MATH_SPECIAL_NON_CENTRAL_F_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_NON_CENTRAL_F_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_NON_CENTRAL_F_HPP
 
 #include <hydra/detail/external/hydra_boost/math/distributions/non_central_beta.hpp>
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/generic_mode.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/pow.hpp>
 
-namespace boost
+namespace hydra_boost
 {
    namespace math
    {
@@ -27,7 +27,7 @@ namespace boost
 
          non_central_f_distribution(RealType v1_, RealType v2_, RealType lambda) : v1(v1_), v2(v2_), ncp(lambda)
          {
-            const char* function = "boost::math::non_central_f_distribution<%1%>::non_central_f_distribution(%1%,%1%)";
+            const char* function = "hydra_boost::math::non_central_f_distribution<%1%>::non_central_f_distribution(%1%,%1%)";
             RealType r;
             detail::check_df(
                function,
@@ -65,7 +65,7 @@ namespace boost
 
       #ifdef __cpp_deduction_guides
       template <class RealType>
-      non_central_f_distribution(RealType,RealType,RealType)->non_central_f_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+      non_central_f_distribution(RealType,RealType,RealType)->non_central_f_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
       #endif
 
       // Non-member functions to give properties of the distribution.
@@ -73,7 +73,7 @@ namespace boost
       template <class RealType, class Policy>
       inline const std::pair<RealType, RealType> range(const non_central_f_distribution<RealType, Policy>& /* dist */)
       { // Range of permissible values for random variable k.
-         using boost::math::tools::max_value;
+         using hydra_boost::math::tools::max_value;
          return std::pair<RealType, RealType>(static_cast<RealType>(0), max_value<RealType>());
       }
 
@@ -81,7 +81,7 @@ namespace boost
       inline const std::pair<RealType, RealType> support(const non_central_f_distribution<RealType, Policy>& /* dist */)
       { // Range of supported values for random variable k.
          // This is range where cdf rises from 0 to 1, and outside it, the pdf is zero.
-         using boost::math::tools::max_value;
+         using hydra_boost::math::tools::max_value;
          return std::pair<RealType, RealType>(static_cast<RealType>(0), max_value<RealType>());
       }
 
@@ -185,7 +185,7 @@ namespace boost
       inline RealType skewness(const non_central_f_distribution<RealType, Policy>& dist)
       { // skewness = sqrt(l).
          const char* function = "skewness(non_central_f_distribution<%1%> const&)";
-         BOOST_MATH_STD_USING
+         HYDRA_BOOST_MATH_STD_USING
          RealType n = dist.degrees_of_freedom1();
          RealType m = dist.degrees_of_freedom2();
          RealType l = dist.non_centrality();
@@ -222,7 +222,7 @@ namespace boost
       inline RealType kurtosis_excess(const non_central_f_distribution<RealType, Policy>& dist)
       {
          const char* function = "kurtosis_excess(non_central_f_distribution<%1%> const&)";
-         BOOST_MATH_STD_USING
+         HYDRA_BOOST_MATH_STD_USING
          RealType n = dist.degrees_of_freedom1();
          RealType m = dist.degrees_of_freedom2();
          RealType l = dist.non_centrality();
@@ -260,7 +260,7 @@ namespace boost
             + 4 * (10 + m) * (-2 + m + n) * l3
             + (10 + m) * l4))
             /
-            ((-8 + m) * (-6 + m) * boost::math::pow<2>(n * (-2 + m + n)
+            ((-8 + m) * (-6 + m) * hydra_boost::math::pow<2>(n * (-2 + m + n)
             + 2 * (-2 + m + n) * l + l2));
             return result;
       } // kurtosis_excess
@@ -285,7 +285,7 @@ namespace boost
          value_type alpha = dist.degrees_of_freedom1() / 2;
          value_type beta = dist.degrees_of_freedom2() / 2;
          value_type y = x * alpha / beta;
-         value_type r = pdf(boost::math::non_central_beta_distribution<value_type, forwarding_policy>(alpha, beta, dist.non_centrality()), y / (1 + y));
+         value_type r = pdf(hydra_boost::math::non_central_beta_distribution<value_type, forwarding_policy>(alpha, beta, dist.non_centrality()), y / (1 + y));
          return policies::checked_narrowing_cast<RealType, forwarding_policy>(
             r * (dist.degrees_of_freedom1() / dist.degrees_of_freedom2()) / ((1 + y) * (1 + y)),
             "pdf(non_central_f_distribution<%1%>, %1%)");
@@ -311,7 +311,7 @@ namespace boost
                Policy()))
                   return r;
 
-         if((x < 0) || !(boost::math::isfinite)(x))
+         if((x < 0) || !(hydra_boost::math::isfinite)(x))
          {
             return policies::raise_domain_error<RealType>(
                function, "Random Variable parameter was %1%, but must be > 0 !", x, Policy());
@@ -352,7 +352,7 @@ namespace boost
                Policy()))
                   return r;
 
-         if((c.param < 0) || !(boost::math::isfinite)(c.param))
+         if((c.param < 0) || !(hydra_boost::math::isfinite)(c.param))
          {
             return policies::raise_domain_error<RealType>(
                function, "Random Variable parameter was %1%, but must be > 0 !", c.param, Policy());
@@ -378,7 +378,7 @@ namespace boost
       { // Quantile (or Percent Point) function.
          RealType alpha = dist.degrees_of_freedom1() / 2;
          RealType beta = dist.degrees_of_freedom2() / 2;
-         RealType x = quantile(boost::math::non_central_beta_distribution<RealType, Policy>(alpha, beta, dist.non_centrality()), p);
+         RealType x = quantile(hydra_boost::math::non_central_beta_distribution<RealType, Policy>(alpha, beta, dist.non_centrality()), p);
          if(x == 1)
             return policies::raise_overflow_error<RealType>(
                "quantile(const non_central_f_distribution<%1%>&, %1%)",
@@ -392,7 +392,7 @@ namespace boost
       { // Quantile (or Percent Point) function.
          RealType alpha = c.dist.degrees_of_freedom1() / 2;
          RealType beta = c.dist.degrees_of_freedom2() / 2;
-         RealType x = quantile(complement(boost::math::non_central_beta_distribution<RealType, Policy>(alpha, beta, c.dist.non_centrality()), c.param));
+         RealType x = quantile(complement(hydra_boost::math::non_central_beta_distribution<RealType, Policy>(alpha, beta, c.dist.non_centrality()), c.param));
          if(x == 1)
             return policies::raise_overflow_error<RealType>(
                "quantile(complement(const non_central_f_distribution<%1%>&, %1%))",
@@ -402,14 +402,14 @@ namespace boost
       } // quantile complement.
 
    } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_MATH_SPECIAL_NON_CENTRAL_F_HPP
+#endif // HYDRA_BOOST_MATH_SPECIAL_NON_CENTRAL_F_HPP
 
 
 

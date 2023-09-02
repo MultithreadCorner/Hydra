@@ -6,8 +6,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STATS_STUDENTS_T_HPP
-#define BOOST_STATS_STUDENTS_T_HPP
+#ifndef HYDRA_BOOST_STATS_STUDENTS_T_HPP
+#define HYDRA_BOOST_STATS_STUDENTS_T_HPP
 
 // http://en.wikipedia.org/wiki/Student%27s_t_distribution
 // http://www.itl.nist.gov/div898/handbook/eda/section3/eda3664.htm
@@ -26,7 +26,7 @@
 # pragma warning(disable: 4702) // unreachable code (return after domain_error throw).
 #endif
 
-namespace boost { namespace math {
+namespace hydra_boost { namespace math {
 
 template <class RealType = double, class Policy = policies::policy<> >
 class students_t_distribution
@@ -39,7 +39,7 @@ public:
    { // Constructor.
       RealType result;
       detail::check_df_gt0_to_inf( // Checks that df > 0 or df == inf.
-         "boost::math::students_t_distribution<%1%>::students_t_distribution", df_, &result, Policy());
+         "hydra_boost::math::students_t_distribution<%1%>::students_t_distribution", df_, &result, Policy());
    } // students_t_distribution
 
    RealType degrees_of_freedom()const
@@ -64,14 +64,14 @@ typedef students_t_distribution<double> students_t; // Convenience typedef for d
 
 #ifdef __cpp_deduction_guides
 template <class RealType>
-students_t_distribution(RealType)->students_t_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+students_t_distribution(RealType)->students_t_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 #endif
 
 template <class RealType, class Policy>
 inline const std::pair<RealType, RealType> range(const students_t_distribution<RealType, Policy>& /*dist*/)
 { // Range of permissible values for random variable x.
   // Now including infinity.
-   using boost::math::tools::max_value;
+   using hydra_boost::math::tools::max_value;
    //return std::pair<RealType, RealType>(-max_value<RealType>(), max_value<RealType>());
    return std::pair<RealType, RealType>(((::std::numeric_limits<RealType>::is_specialized & ::std::numeric_limits<RealType>::has_infinity) ? -std::numeric_limits<RealType>::infinity() : -max_value<RealType>()), ((::std::numeric_limits<RealType>::is_specialized & ::std::numeric_limits<RealType>::has_infinity) ? +std::numeric_limits<RealType>::infinity() : +max_value<RealType>()));
 }
@@ -81,7 +81,7 @@ inline const std::pair<RealType, RealType> support(const students_t_distribution
 { // Range of supported values for random variable x.
   // Now including infinity.
    // This is range where cdf rises from 0 to 1, and outside it, the pdf is zero.
-   using boost::math::tools::max_value;
+   using hydra_boost::math::tools::max_value;
    //return std::pair<RealType, RealType>(-max_value<RealType>(), max_value<RealType>());
    return std::pair<RealType, RealType>(((::std::numeric_limits<RealType>::is_specialized & ::std::numeric_limits<RealType>::has_infinity) ? -std::numeric_limits<RealType>::infinity() : -max_value<RealType>()), ((::std::numeric_limits<RealType>::is_specialized & ::std::numeric_limits<RealType>::has_infinity) ? +std::numeric_limits<RealType>::infinity() : +max_value<RealType>()));
 }
@@ -89,20 +89,20 @@ inline const std::pair<RealType, RealType> support(const students_t_distribution
 template <class RealType, class Policy>
 inline RealType pdf(const students_t_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   BOOST_FPU_EXCEPTION_GUARD
-   BOOST_MATH_STD_USING  // for ADL of std functions.
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions.
 
    RealType error_result;
    if(false == detail::check_x_not_NaN(
-      "boost::math::pdf(const students_t_distribution<%1%>&, %1%)", x, &error_result, Policy()))
+      "hydra_boost::math::pdf(const students_t_distribution<%1%>&, %1%)", x, &error_result, Policy()))
       return error_result;
    RealType df = dist.degrees_of_freedom();
    if(false == detail::check_df_gt0_to_inf( // Check that df > 0 or == +infinity.
-      "boost::math::pdf(const students_t_distribution<%1%>&, %1%)", df, &error_result, Policy()))
+      "hydra_boost::math::pdf(const students_t_distribution<%1%>&, %1%)", df, &error_result, Policy()))
       return error_result;
 
    RealType result;
-   if ((boost::math::isinf)(x))
+   if ((hydra_boost::math::isinf)(x))
    { // - or +infinity.
      result = static_cast<RealType>(0);
      return result;
@@ -123,13 +123,13 @@ inline RealType pdf(const students_t_distribution<RealType, Policy>& dist, const
      RealType basem1 = x * x / df;
      if(basem1 < 0.125)
      {
-        result = exp(-boost::math::log1p(basem1, Policy()) * (1+df) / 2);
+        result = exp(-hydra_boost::math::log1p(basem1, Policy()) * (1+df) / 2);
      }
      else
      {
         result = pow(1 / (1 + basem1), (df + 1) / 2);
      }
-     result /= sqrt(df) * boost::math::beta(df / 2, RealType(0.5f), Policy());
+     result /= sqrt(df) * hydra_boost::math::beta(df / 2, RealType(0.5f), Policy());
    }
    return result;
 } // pdf
@@ -141,13 +141,13 @@ inline RealType cdf(const students_t_distribution<RealType, Policy>& dist, const
    // degrees_of_freedom > 0 or infinity check:
    RealType df = dist.degrees_of_freedom();
    if (false == detail::check_df_gt0_to_inf(  // Check that df > 0 or == +infinity.
-     "boost::math::cdf(const students_t_distribution<%1%>&, %1%)", df, &error_result, Policy()))
+     "hydra_boost::math::cdf(const students_t_distribution<%1%>&, %1%)", df, &error_result, Policy()))
    {
      return error_result;
    }
    // Check for bad x first.
    if(false == detail::check_x_not_NaN(
-      "boost::math::cdf(const students_t_distribution<%1%>&, %1%)", x, &error_result, Policy()))
+      "hydra_boost::math::cdf(const students_t_distribution<%1%>&, %1%)", x, &error_result, Policy()))
    { 
       return error_result;
    }
@@ -155,7 +155,7 @@ inline RealType cdf(const students_t_distribution<RealType, Policy>& dist, const
    { // Special case with exact result.
      return static_cast<RealType>(0.5);
    }
-   if ((boost::math::isinf)(x))
+   if ((hydra_boost::math::isinf)(x))
    { // x == - or + infinity, regardless of df.
      return ((x < 0) ? static_cast<RealType>(0) : static_cast<RealType>(1));
    }
@@ -211,14 +211,14 @@ inline RealType cdf(const students_t_distribution<RealType, Policy>& dist, const
 template <class RealType, class Policy>
 inline RealType quantile(const students_t_distribution<RealType, Policy>& dist, const RealType& p)
 {
-   BOOST_MATH_STD_USING // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING // for ADL of std functions
    //
    // Obtain parameters:
    RealType probability = p;
  
    // Check for domain errors:
    RealType df = dist.degrees_of_freedom();
-   static const char* function = "boost::math::quantile(const students_t_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::quantile(const students_t_distribution<%1%>&, %1%)";
    RealType error_result;
    if(false == (detail::check_df_gt0_to_inf( // Check that df > 0 or == +infinity.
       function, df, &error_result, Policy())
@@ -259,7 +259,7 @@ inline RealType quantile(const students_t_distribution<RealType, Policy>& dist, 
    // and a couple of epsilon at double precision and in the central 
    // region where most use cases will occur...
    //
-   return boost::math::detail::fast_students_t_quantile(df, probability, Policy());
+   return hydra_boost::math::detail::fast_students_t_quantile(df, probability, Policy());
 } // quantile
 
 template <class RealType, class Policy>
@@ -315,7 +315,7 @@ RealType students_t_distribution<RealType, Policy>::find_degrees_of_freedom(
       RealType sd,
       RealType hint)
 {
-   static const char* function = "boost::math::students_t_distribution<%1%>::find_degrees_of_freedom";
+   static const char* function = "hydra_boost::math::students_t_distribution<%1%>::find_degrees_of_freedom";
    //
    // Check for domain errors:
    //
@@ -362,10 +362,10 @@ template <class RealType, class Policy>
 inline RealType mean(const students_t_distribution<RealType, Policy>& dist)
 {  // Revised for https://svn.boost.org/trac/boost/ticket/7177
    RealType df = dist.degrees_of_freedom();
-   if(((boost::math::isnan)(df)) || (df <= 1) ) 
+   if(((hydra_boost::math::isnan)(df)) || (df <= 1) ) 
    { // mean is undefined for moment <= 1!
       return policies::raise_domain_error<RealType>(
-      "boost::math::mean(students_t_distribution<%1%> const&, %1%)",
+      "hydra_boost::math::mean(students_t_distribution<%1%> const&, %1%)",
       "Mean is undefined for degrees of freedom < 1 but got %1%.", df, Policy());
       return std::numeric_limits<RealType>::quiet_NaN();
    }
@@ -377,15 +377,15 @@ inline RealType variance(const students_t_distribution<RealType, Policy>& dist)
 { // http://en.wikipedia.org/wiki/Student%27s_t-distribution
   // Revised for https://svn.boost.org/trac/boost/ticket/7177
   RealType df = dist.degrees_of_freedom();
-  if ((boost::math::isnan)(df) || (df <= 2))
+  if ((hydra_boost::math::isnan)(df) || (df <= 2))
   { // NaN or undefined for <= 2.
      return policies::raise_domain_error<RealType>(
-      "boost::math::variance(students_t_distribution<%1%> const&, %1%)",
+      "hydra_boost::math::variance(students_t_distribution<%1%> const&, %1%)",
       "variance is undefined for degrees of freedom <= 2, but got %1%.",
       df, Policy());
     return std::numeric_limits<RealType>::quiet_NaN(); // Undefined.
   }
-  if ((boost::math::isinf)(df))
+  if ((hydra_boost::math::isinf)(df))
   { // +infinity.
     return 1;
   }
@@ -408,10 +408,10 @@ template <class RealType, class Policy>
 inline RealType skewness(const students_t_distribution<RealType, Policy>& dist)
 {
     RealType df = dist.degrees_of_freedom();
-   if( ((boost::math::isnan)(df)) || (dist.degrees_of_freedom() <= 3))
+   if( ((hydra_boost::math::isnan)(df)) || (dist.degrees_of_freedom() <= 3))
    { // Undefined for moment k = 3.
       return policies::raise_domain_error<RealType>(
-         "boost::math::skewness(students_t_distribution<%1%> const&, %1%)",
+         "hydra_boost::math::skewness(students_t_distribution<%1%> const&, %1%)",
          "Skewness is undefined for degrees of freedom <= 3, but got %1%.",
          dist.degrees_of_freedom(), Policy());
       return std::numeric_limits<RealType>::quiet_NaN();
@@ -423,15 +423,15 @@ template <class RealType, class Policy>
 inline RealType kurtosis(const students_t_distribution<RealType, Policy>& dist)
 {
    RealType df = dist.degrees_of_freedom();
-   if(((boost::math::isnan)(df)) || (df <= 4))
+   if(((hydra_boost::math::isnan)(df)) || (df <= 4))
    { // Undefined or infinity for moment k = 4.
       return policies::raise_domain_error<RealType>(
-       "boost::math::kurtosis(students_t_distribution<%1%> const&, %1%)",
+       "hydra_boost::math::kurtosis(students_t_distribution<%1%> const&, %1%)",
        "Kurtosis is undefined for degrees of freedom <= 4, but got %1%.",
         df, Policy());
         return std::numeric_limits<RealType>::quiet_NaN(); // Undefined.
    }
-   if ((boost::math::isinf)(df))
+   if ((hydra_boost::math::isinf)(df))
    { // +infinity.
      return 3;
    }
@@ -457,15 +457,15 @@ inline RealType kurtosis_excess(const students_t_distribution<RealType, Policy>&
    // see http://mathworld.wolfram.com/Kurtosis.html
 
    RealType df = dist.degrees_of_freedom();
-   if(((boost::math::isnan)(df)) || (df <= 4))
+   if(((hydra_boost::math::isnan)(df)) || (df <= 4))
    { // Undefined or infinity for moment k = 4.
      return policies::raise_domain_error<RealType>(
-       "boost::math::kurtosis_excess(students_t_distribution<%1%> const&, %1%)",
+       "hydra_boost::math::kurtosis_excess(students_t_distribution<%1%> const&, %1%)",
        "Kurtosis_excess is undefined for degrees of freedom <= 4, but got %1%.",
       df, Policy());
      return std::numeric_limits<RealType>::quiet_NaN(); // Undefined.
    }
-   if ((boost::math::isinf)(df))
+   if ((hydra_boost::math::isinf)(df))
    { // +infinity.
      return 0;
    }
@@ -497,7 +497,7 @@ inline RealType entropy(const students_t_distribution<RealType, Policy>& dist)
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 #ifdef _MSC_VER
 # pragma warning(pop)
@@ -508,4 +508,4 @@ inline RealType entropy(const students_t_distribution<RealType, Policy>& dist)
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_STATS_STUDENTS_T_HPP
+#endif // HYDRA_BOOST_STATS_STUDENTS_T_HPP

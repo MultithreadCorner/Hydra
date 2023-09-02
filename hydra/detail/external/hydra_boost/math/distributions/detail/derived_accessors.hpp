@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STATS_DERIVED_HPP
-#define BOOST_STATS_DERIVED_HPP
+#ifndef HYDRA_BOOST_STATS_DERIVED_HPP
+#define HYDRA_BOOST_STATS_DERIVED_HPP
 
 // This file implements various common properties of distributions
 // that can be implemented in terms of other properties:
@@ -36,7 +36,7 @@
 // Suppressing spurious warning in coefficient_of_variation
 #endif
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 template <class Distribution>
 typename Distribution::value_type variance(const Distribution& dist);
@@ -44,7 +44,7 @@ typename Distribution::value_type variance(const Distribution& dist);
 template <class Distribution>
 inline typename Distribution::value_type standard_deviation(const Distribution& dist)
 {
-   BOOST_MATH_STD_USING  // ADL of sqrt.
+   HYDRA_BOOST_MATH_STD_USING  // ADL of sqrt.
    return sqrt(variance(dist));
 }
 
@@ -65,7 +65,7 @@ inline typename Distribution::value_type hazard(const Distribution& dist, const 
    value_type d = pdf(dist, x);
    if(d > p * tools::max_value<value_type>())
       return policies::raise_overflow_error<value_type>(
-      "boost::math::hazard(const Distribution&, %1%)", nullptr, policy_type());
+      "hydra_boost::math::hazard(const Distribution&, %1%)", nullptr, policy_type());
    if(d == 0)
    {
       // This protects against 0/0, but is it the right thing to do?
@@ -78,7 +78,7 @@ template <class Distribution, class RealType>
 inline typename Distribution::value_type chf(const Distribution& dist, const RealType& x)
 { // cumulative hazard function.
   // http://www.itl.nist.gov/div898/handbook/eda/section3/eda362.htm#HAZ
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return -log(cdf(complement(dist, x)));
 }
 
@@ -94,7 +94,7 @@ inline typename Distribution::value_type coefficient_of_variation(const Distribu
    value_type d = standard_deviation(dist);
    if((abs(m) < 1) && (d > abs(m) * tools::max_value<value_type>()))
    { // Checks too that m is not zero,
-      return policies::raise_overflow_error<value_type>("boost::math::coefficient_of_variation(const Distribution&, %1%)", nullptr, policy_type());
+      return policies::raise_overflow_error<value_type>("hydra_boost::math::coefficient_of_variation(const Distribution&, %1%)", nullptr, policy_type());
    }
    return d / m; // so MSVC warning on zerodivide is spurious, and suppressed.
 }
@@ -122,13 +122,6 @@ inline typename Distribution::value_type cdf(const Distribution& dist, const Rea
    typedef typename Distribution::value_type value_type;
    return cdf(dist, static_cast<value_type>(x));
 }
-template <class Distribution, class Realtype>
-inline typename Distribution::value_type logcdf(const Distribution& dist, const Realtype& x)
-{
-   using std::log;
-   using value_type = typename Distribution::value_type;
-   return log(cdf(dist, static_cast<value_type>(x)));
-}
 template <class Distribution, class RealType>
 inline typename Distribution::value_type quantile(const Distribution& dist, const RealType& x)
 {
@@ -151,14 +144,6 @@ inline typename Distribution::value_type cdf(const complemented2_type<Distributi
 }
 
 template <class Distribution, class RealType>
-inline typename Distribution::value_type logcdf(const complemented2_type<Distribution, RealType>& c)
-{
-   using std::log;
-   typedef typename Distribution::value_type value_type;
-   return log(cdf(complement(c.dist, static_cast<value_type>(c.param))));
-}
-
-template <class Distribution, class RealType>
 inline typename Distribution::value_type quantile(const complemented2_type<Distribution, RealType>& c)
 {
    typedef typename Distribution::value_type value_type;
@@ -175,11 +160,11 @@ inline typename Dist::value_type median(const Dist& d)
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 
 #ifdef _MSC_VER
 # pragma warning(pop)
 #endif
 
-#endif // BOOST_STATS_DERIVED_HPP
+#endif // HYDRA_BOOST_STATS_DERIVED_HPP

@@ -7,8 +7,8 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_NON_CENTRAL_T_HPP
-#define BOOST_MATH_SPECIAL_NON_CENTRAL_T_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_NON_CENTRAL_T_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_NON_CENTRAL_T_HPP
 
 #include <hydra/detail/external/hydra_boost/math/distributions/fwd.hpp>
 #include <hydra/detail/external/hydra_boost/math/distributions/non_central_beta.hpp> // for nc beta
@@ -17,7 +17,7 @@
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/generic_quantile.hpp> // quantile
 #include <hydra/detail/external/hydra_boost/math/special_functions/trunc.hpp>
 
-namespace boost
+namespace hydra_boost
 {
    namespace math
    {
@@ -30,7 +30,7 @@ namespace boost
          template <class T, class Policy>
          T non_central_t2_p(T v, T delta, T x, T y, const Policy& pol, T init_val)
          {
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             //
             // Variables come first:
             //
@@ -108,12 +108,12 @@ namespace boost
          template <class T, class Policy>
          T non_central_t2_q(T v, T delta, T x, T y, const Policy& pol, T init_val)
          {
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             //
             // Variables come first:
             //
             std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
-            T errtol = boost::math::policies::get_epsilon<T, Policy>();
+            T errtol = hydra_boost::math::policies::get_epsilon<T, Policy>();
             T d2 = delta * delta / 2;
             //
             // k is the starting point for iteration, and is the
@@ -134,7 +134,7 @@ namespace boost
                //
                pois = exp(-d2);
                pois *= pow(d2, static_cast<T>(k));
-               pois /= boost::math::tgamma(T(k + 1 + 0.5), pol);
+               pois /= hydra_boost::math::tgamma(T(k + 1 + 0.5), pol);
                pois *= delta / constants::root_two<T>();
             }
             else
@@ -207,8 +207,8 @@ namespace boost
          template <class T, class Policy>
          T non_central_t_cdf(T v, T delta, T t, bool invert, const Policy& pol)
          {
-            BOOST_MATH_STD_USING
-            if ((boost::math::isinf)(v))
+            HYDRA_BOOST_MATH_STD_USING
+            if ((hydra_boost::math::isinf)(v))
             { // Infinite degrees of freedom, so use normal distribution located at delta.
                normal_distribution<T, Policy> n(delta, 1);
                return cdf(n, t);
@@ -266,7 +266,7 @@ namespace boost
                }
                else
                   result = 0;
-               result += cdf(boost::math::normal_distribution<T, Policy>(), -delta);
+               result += cdf(hydra_boost::math::normal_distribution<T, Policy>(), -delta);
             }
             else
             {
@@ -281,7 +281,7 @@ namespace boost
                   result /= 2;
                }
                else // x == 0
-                  result = cdf(complement(boost::math::normal_distribution<T, Policy>(), -delta));
+                  result = cdf(complement(hydra_boost::math::normal_distribution<T, Policy>(), -delta));
             }
             if(invert)
                result = 1 - result;
@@ -291,7 +291,7 @@ namespace boost
          template <class T, class Policy>
          T non_central_t_quantile(const char* function, T v, T delta, T p, T q, const Policy&)
          {
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
      //       static const char* function = "quantile(non_central_t_distribution<%1%>, %1%)";
      // now passed as function
             typedef typename policies::evaluation<T, Policy>::type value_type;
@@ -322,7 +322,7 @@ namespace boost
 
 
             value_type guess = 0;
-            if ( ((boost::math::isinf)(v)) || (v > 1 / boost::math::tools::epsilon<T>()) )
+            if ( ((hydra_boost::math::isinf)(v)) || (v > 1 / hydra_boost::math::tools::epsilon<T>()) )
             { // Infinite or very large degrees of freedom, so use normal distribution located at delta.
                normal_distribution<T, Policy> n(delta, 1);
                if (p < q)
@@ -355,10 +355,10 @@ namespace boost
                forwarding_policy());
             int s;
             if(p < q)
-               s = boost::math::sign(p - pzero);
+               s = hydra_boost::math::sign(p - pzero);
             else
-               s = boost::math::sign(pzero - q);
-            if(s != boost::math::sign(guess))
+               s = hydra_boost::math::sign(pzero - q);
+            if(s != hydra_boost::math::sign(guess))
             {
                guess = static_cast<T>(s);
             }
@@ -377,12 +377,12 @@ namespace boost
          template <class T, class Policy>
          T non_central_t2_pdf(T n, T delta, T x, T y, const Policy& pol, T init_val)
          {
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             //
             // Variables come first:
             //
             std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
-            T errtol = boost::math::policies::get_epsilon<T, Policy>();
+            T errtol = hydra_boost::math::policies::get_epsilon<T, Policy>();
             T d2 = delta * delta / 2;
             //
             // k is the starting point for iteration, and is the
@@ -448,8 +448,8 @@ namespace boost
          template <class T, class Policy>
          T non_central_t_pdf(T n, T delta, T t, const Policy& pol)
          {
-            BOOST_MATH_STD_USING
-            if ((boost::math::isinf)(n))
+            HYDRA_BOOST_MATH_STD_USING
+            if ((hydra_boost::math::isinf)(n))
             { // Infinite degrees of freedom, so use normal distribution located at delta.
                normal_distribution<T, Policy> norm(delta, 1);
                return pdf(norm, t);
@@ -517,15 +517,15 @@ namespace boost
          template <class T, class Policy>
          T mean(T v, T delta, const Policy& pol)
          {
-            if ((boost::math::isinf)(v))
+            if ((hydra_boost::math::isinf)(v))
             {
                return delta;
             }
-            BOOST_MATH_STD_USING
-            if (v > 1 / boost::math::tools::epsilon<T>() )
+            HYDRA_BOOST_MATH_STD_USING
+            if (v > 1 / hydra_boost::math::tools::epsilon<T>() )
             {
               //normal_distribution<T, Policy> n(delta, 1);
-              //return boost::math::mean(n);
+              //return hydra_boost::math::mean(n);
               return delta;
             }
             else
@@ -538,7 +538,7 @@ namespace boost
          template <class T, class Policy>
          T variance(T v, T delta, const Policy& pol)
          {
-            if ((boost::math::isinf)(v))
+            if ((hydra_boost::math::isinf)(v))
             {
                return 1;
             }
@@ -555,8 +555,8 @@ namespace boost
          template <class T, class Policy>
          T skewness(T v, T delta, const Policy& pol)
          {
-            BOOST_MATH_STD_USING
-            if ((boost::math::isinf)(v))
+            HYDRA_BOOST_MATH_STD_USING
+            if ((hydra_boost::math::isinf)(v))
             {
                return 0;
             }
@@ -564,7 +564,7 @@ namespace boost
             { // == Student's t
               return 0;
             }
-            T mean = boost::math::detail::mean(v, delta, pol);
+            T mean = hydra_boost::math::detail::mean(v, delta, pol);
             T l2 = delta * delta;
             T var = ((l2 + 1) * v) / (v - 2) - mean * mean;
             T result = -2 * var;
@@ -577,8 +577,8 @@ namespace boost
          template <class T, class Policy>
          T kurtosis_excess(T v, T delta, const Policy& pol)
          {
-            BOOST_MATH_STD_USING
-            if ((boost::math::isinf)(v))
+            HYDRA_BOOST_MATH_STD_USING
+            if ((hydra_boost::math::isinf)(v))
             {
                return 1;
             }
@@ -586,7 +586,7 @@ namespace boost
             { // == Student's t
               return 1;
             }
-            T mean = boost::math::detail::mean(v, delta, pol);
+            T mean = hydra_boost::math::detail::mean(v, delta, pol);
             T l2 = delta * delta;
             T var = ((l2 + 1) * v) / (v - 2) - mean * mean;
             T result = -3 * var;
@@ -725,7 +725,7 @@ namespace boost
 
          non_central_t_distribution(RealType v_, RealType lambda) : v(v_), ncp(lambda)
          {
-            const char* function = "boost::math::non_central_t_distribution<%1%>::non_central_t_distribution(%1%,%1%)";
+            const char* function = "hydra_boost::math::non_central_t_distribution<%1%>::non_central_t_distribution(%1%,%1%)";
             RealType r;
             detail::check_df_gt0_to_inf(
                function,
@@ -843,7 +843,7 @@ namespace boost
 
       #ifdef __cpp_deduction_guides
       template <class RealType>
-      non_central_t_distribution(RealType,RealType)->non_central_t_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+      non_central_t_distribution(RealType,RealType)->non_central_t_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
       #endif
 
       // Non-member functions to give properties of the distribution.
@@ -851,7 +851,7 @@ namespace boost
       template <class RealType, class Policy>
       inline const std::pair<RealType, RealType> range(const non_central_t_distribution<RealType, Policy>& /* dist */)
       { // Range of permissible values for random variable k.
-         using boost::math::tools::max_value;
+         using hydra_boost::math::tools::max_value;
          return std::pair<RealType, RealType>(-max_value<RealType>(), max_value<RealType>());
       }
 
@@ -859,7 +859,7 @@ namespace boost
       inline const std::pair<RealType, RealType> support(const non_central_t_distribution<RealType, Policy>& /* dist */)
       { // Range of supported values for random variable k.
          // This is range where cdf rises from 0 to 1, and outside it, the pdf is zero.
-         using boost::math::tools::max_value;
+         using hydra_boost::math::tools::max_value;
          return std::pair<RealType, RealType>(-max_value<RealType>(), max_value<RealType>());
       }
 
@@ -881,7 +881,7 @@ namespace boost
             Policy()))
                return static_cast<RealType>(r);
 
-         BOOST_MATH_STD_USING
+         HYDRA_BOOST_MATH_STD_USING
 
          RealType m = v < 3 ? 0 : detail::mean(v, l, Policy());
          RealType var = v < 4 ? 1 : detail::variance(v, l, Policy());
@@ -896,7 +896,7 @@ namespace boost
       template <class RealType, class Policy>
       inline RealType mean(const non_central_t_distribution<RealType, Policy>& dist)
       {
-         BOOST_MATH_STD_USING
+         HYDRA_BOOST_MATH_STD_USING
          const char* function = "mean(const non_central_t_distribution<%1%>&)";
          typedef typename policies::evaluation<RealType, Policy>::type value_type;
          typedef typename policies::normalise<
@@ -939,7 +939,7 @@ namespace boost
             policies::promote_double<false>,
             policies::discrete_quantile<>,
             policies::assert_undefined<> >::type forwarding_policy;
-         BOOST_MATH_STD_USING
+         HYDRA_BOOST_MATH_STD_USING
          RealType v = dist.degrees_of_freedom();
          RealType l = dist.non_centrality();
          RealType r;
@@ -1076,8 +1076,8 @@ namespace boost
       template <class RealType, class Policy>
       RealType cdf(const non_central_t_distribution<RealType, Policy>& dist, const RealType& x)
       {
-         const char* function = "boost::math::cdf(non_central_t_distribution<%1%>&, %1%)";
-//   was const char* function = "boost::math::non_central_t_distribution<%1%>::cdf(%1%)";
+         const char* function = "hydra_boost::math::cdf(non_central_t_distribution<%1%>&, %1%)";
+//   was const char* function = "hydra_boost::math::non_central_t_distribution<%1%>::cdf(%1%)";
          typedef typename policies::evaluation<RealType, Policy>::type value_type;
          typedef typename policies::normalise<
             Policy,
@@ -1105,7 +1105,7 @@ namespace boost
             &r,
             Policy()))
                return static_cast<RealType>(r);
-         if ((boost::math::isinf)(v))
+         if ((hydra_boost::math::isinf)(v))
           { // Infinite degrees of freedom, so use normal distribution located at delta.
              normal_distribution<RealType, Policy> n(l, 1);
              cdf(n, x);
@@ -1128,8 +1128,8 @@ namespace boost
       template <class RealType, class Policy>
       RealType cdf(const complemented2_type<non_central_t_distribution<RealType, Policy>, RealType>& c)
       { // Complemented Cumulative Distribution Function
-  // was       const char* function = "boost::math::non_central_t_distribution<%1%>::cdf(%1%)";
-         const char* function = "boost::math::cdf(const complement(non_central_t_distribution<%1%>&), %1%)";
+  // was       const char* function = "hydra_boost::math::non_central_t_distribution<%1%>::cdf(%1%)";
+         const char* function = "hydra_boost::math::cdf(const complement(non_central_t_distribution<%1%>&), %1%)";
          typedef typename policies::evaluation<RealType, Policy>::type value_type;
          typedef typename policies::normalise<
             Policy,
@@ -1160,7 +1160,7 @@ namespace boost
             Policy()))
                return static_cast<RealType>(r);
 
-         if ((boost::math::isinf)(v))
+         if ((hydra_boost::math::isinf)(v))
          { // Infinite degrees of freedom, so use normal distribution located at delta.
              normal_distribution<RealType, Policy> n(l, 1);
              return cdf(complement(n, x));
@@ -1199,12 +1199,12 @@ namespace boost
       } // quantile complement.
 
    } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_MATH_SPECIAL_NON_CENTRAL_T_HPP
+#endif // HYDRA_BOOST_MATH_SPECIAL_NON_CENTRAL_T_HPP
 

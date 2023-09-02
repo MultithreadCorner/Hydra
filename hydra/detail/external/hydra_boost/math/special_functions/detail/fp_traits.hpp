@@ -1,7 +1,7 @@
 // fp_traits.hpp
 
-#ifndef BOOST_MATH_FP_TRAITS_HPP
-#define BOOST_MATH_FP_TRAITS_HPP
+#ifndef HYDRA_BOOST_MATH_FP_TRAITS_HPP
+#define HYDRA_BOOST_MATH_FP_TRAITS_HPP
 
 // Copyright (c) 2006 Johan Rade
 
@@ -17,7 +17,7 @@ With these techniques, the code could be simplified.
 
 #if defined(__vms) && defined(__DECCXX) && !__IEEE_FLOAT
 // The VAX floating point formats are used (for float and double)
-#   define BOOST_FPCLASSIFY_VAX_FORMAT
+#   define HYDRA_BOOST_FPCLASSIFY_VAX_FORMAT
 #endif
 
 #include <cstring>
@@ -28,41 +28,41 @@ With these techniques, the code could be simplified.
 #include <hydra/detail/external/hydra_boost/math/tools/assert.hpp>
 
 // Determine endianness
-#ifndef BOOST_MATH_STANDALONE
+#ifndef HYDRA_BOOST_MATH_STANDALONE
 
 #include <hydra/detail/external/hydra_boost/predef/other/endian.h>
-#define BOOST_MATH_ENDIAN_BIG_BYTE BOOST_ENDIAN_BIG_BYTE
-#define BOOST_MATH_ENDIAN_LITTLE_BYTE BOOST_ENDIAN_LITTLE_BYTE
+#define HYDRA_BOOST_MATH_ENDIAN_BIG_BYTE HYDRA_BOOST_ENDIAN_BIG_BYTE
+#define HYDRA_BOOST_MATH_ENDIAN_LITTLE_BYTE HYDRA_BOOST_ENDIAN_LITTLE_BYTE
 
 #elif (__cplusplus >= 202002L || _MSVC_LANG >= 202002L)
 
 #if __has_include(<bit>)
 #include <bit>
-#define BOOST_MATH_ENDIAN_BIG_BYTE (std::endian::native == std::endian::big)
-#define BOOST_MATH_ENDIAN_LITTLE_BYTE (std::endian::native == std::endian::little)
+#define HYDRA_BOOST_MATH_ENDIAN_BIG_BYTE (std::endian::native == std::endian::big)
+#define HYDRA_BOOST_MATH_ENDIAN_LITTLE_BYTE (std::endian::native == std::endian::little)
 #else
 #error Missing <bit> header. Please disable standalone mode, and file an issue at https://github.com/boostorg/math
 #endif
 
 #elif defined(_WIN32)
 
-#define BOOST_MATH_ENDIAN_BIG_BYTE 0
-#define BOOST_MATH_ENDIAN_LITTLE_BYTE 1
+#define HYDRA_BOOST_MATH_ENDIAN_BIG_BYTE 0
+#define HYDRA_BOOST_MATH_ENDIAN_LITTLE_BYTE 1
 
 #elif defined(__BYTE_ORDER__)
 
-#define BOOST_MATH_ENDIAN_BIG_BYTE (__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__)
-#define BOOST_MATH_ENDIAN_LITTLE_BYTE (__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__)
+#define HYDRA_BOOST_MATH_ENDIAN_BIG_BYTE (__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__)
+#define HYDRA_BOOST_MATH_ENDIAN_LITTLE_BYTE (__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__)
 
 #else
 #error Could not determine endian type. Please disable standalone mode, and file an issue at https://github.com/boostorg/math
 #endif // Determine endianness
 
-static_assert((BOOST_MATH_ENDIAN_BIG_BYTE || BOOST_MATH_ENDIAN_LITTLE_BYTE)
-    && !(BOOST_MATH_ENDIAN_BIG_BYTE && BOOST_MATH_ENDIAN_LITTLE_BYTE),
+static_assert((HYDRA_BOOST_MATH_ENDIAN_BIG_BYTE || HYDRA_BOOST_MATH_ENDIAN_LITTLE_BYTE)
+    && !(HYDRA_BOOST_MATH_ENDIAN_BIG_BYTE && HYDRA_BOOST_MATH_ENDIAN_LITTLE_BYTE),
     "Inconsistent endianness detected. Please disable standalone mode, and file an issue at https://github.com/boostorg/math");
 
-#ifdef BOOST_NO_STDC_NAMESPACE
+#ifdef HYDRA_BOOST_NO_STDC_NAMESPACE
   namespace std{ using ::memcpy; }
 #endif
 
@@ -76,7 +76,7 @@ static_assert((BOOST_MATH_ENDIAN_BIG_BYTE || BOOST_MATH_ENDIAN_LITTLE_BYTE)
 
 #else
 
-#define BOOST_HAS_FPCLASSIFY
+#define HYDRA_BOOST_HAS_FPCLASSIFY
 
 #ifndef fpclassify
 #  if (defined(__GLIBCPP__) || defined(__GLIBCXX__)) \
@@ -85,26 +85,26 @@ static_assert((BOOST_MATH_ENDIAN_BIG_BYTE || BOOST_MATH_ENDIAN_LITTLE_BYTE)
          && (_GLIBCXX_USE_C99_FP_MACROS_DYNAMIC != 0))
 #     ifdef _STLP_VENDOR_CSTD
 #        if _STLPORT_VERSION >= 0x520
-#           define BOOST_FPCLASSIFY_PREFIX ::__std_alias::
+#           define HYDRA_BOOST_FPCLASSIFY_PREFIX ::__std_alias::
 #        else
-#           define BOOST_FPCLASSIFY_PREFIX ::_STLP_VENDOR_CSTD::
+#           define HYDRA_BOOST_FPCLASSIFY_PREFIX ::_STLP_VENDOR_CSTD::
 #        endif
 #     else
-#        define BOOST_FPCLASSIFY_PREFIX ::std::
+#        define HYDRA_BOOST_FPCLASSIFY_PREFIX ::std::
 #     endif
 #  else
-#     undef BOOST_HAS_FPCLASSIFY
-#     define BOOST_FPCLASSIFY_PREFIX
+#     undef HYDRA_BOOST_HAS_FPCLASSIFY
+#     define HYDRA_BOOST_FPCLASSIFY_PREFIX
 #  endif
 #elif (defined(__HP_aCC) && !defined(__hppa))
 // aCC 6 appears to do "#define fpclassify fpclassify" which messes us up a bit!
-#  define BOOST_FPCLASSIFY_PREFIX ::
+#  define HYDRA_BOOST_FPCLASSIFY_PREFIX ::
 #else
-#  define BOOST_FPCLASSIFY_PREFIX
+#  define HYDRA_BOOST_FPCLASSIFY_PREFIX
 #endif
 
 #ifdef __MINGW32__
-#  undef BOOST_HAS_FPCLASSIFY
+#  undef HYDRA_BOOST_HAS_FPCLASSIFY
 #endif
 
 #endif
@@ -112,7 +112,7 @@ static_assert((BOOST_MATH_ENDIAN_BIG_BYTE || BOOST_MATH_ENDIAN_LITTLE_BYTE)
 
 //------------------------------------------------------------------------------
 
-namespace boost {
+namespace hydra_boost {
 namespace math {
 namespace detail {
 
@@ -130,7 +130,7 @@ struct ieee_tag {};
 struct ieee_copy_all_bits_tag : public ieee_tag {};
 struct ieee_copy_leading_bits_tag : public ieee_tag {};
 
-#ifdef BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
+#ifdef HYDRA_BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
 //
 // These helper functions are used only when numeric_limits<>
 // members are not compile time constants:
@@ -172,7 +172,7 @@ template<class T> struct fp_traits_native
 
 template<class T, class U> struct fp_traits_non_native
 {
-#ifndef BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
+#ifndef HYDRA_BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
    typedef generic_tag<std::numeric_limits<T>::is_specialized> method;
 #else
    typedef generic_tag<false> method;
@@ -206,7 +206,7 @@ Static function members:
 
 // ieee_tag version, float (32 bits) -----------------------------------------------
 
-#ifndef BOOST_FPCLASSIFY_VAX_FORMAT
+#ifndef HYDRA_BOOST_FPCLASSIFY_VAX_FORMAT
 
 template<> struct fp_traits_non_native<float, single_precision>
 {
@@ -224,8 +224,8 @@ template<> struct fp_traits_non_native<float, single_precision>
 
 // ieee_tag version, double (64 bits) ----------------------------------------------
 
-#if defined(BOOST_NO_INT64_T) || defined(BOOST_NO_INCLASS_MEMBER_INITIALIZATION) \
-   || defined(BOOST_BORLANDC) || defined(__CODEGEAR__)
+#if defined(HYDRA_BOOST_NO_INT64_T) || defined(HYDRA_BOOST_NO_INCLASS_MEMBER_INITIALIZATION) \
+   || defined(HYDRA_BOOST_BORLANDC) || defined(__CODEGEAR__)
 
 template<> struct fp_traits_non_native<double, double_precision>
 {
@@ -249,7 +249,7 @@ template<> struct fp_traits_non_native<double, double_precision>
     }
 
 private:
-    static constexpr int offset_ = BOOST_MATH_ENDIAN_BIG_BYTE ? 0 : 4;
+    static constexpr int offset_ = HYDRA_BOOST_MATH_ENDIAN_BIG_BYTE ? 0 : 4;
 };
 
 //..............................................................................
@@ -273,12 +273,12 @@ template<> struct fp_traits_non_native<double, double_precision>
 
 #endif
 
-#endif  // #ifndef BOOST_FPCLASSIFY_VAX_FORMAT
+#endif  // #ifndef HYDRA_BOOST_FPCLASSIFY_VAX_FORMAT
 
 // long double (64 bits) -------------------------------------------------------
 
-#if defined(BOOST_NO_INT64_T) || defined(BOOST_NO_INCLASS_MEMBER_INITIALIZATION)\
-   || defined(BOOST_BORLANDC) || defined(__CODEGEAR__)
+#if defined(HYDRA_BOOST_NO_INT64_T) || defined(HYDRA_BOOST_NO_INCLASS_MEMBER_INITIALIZATION)\
+   || defined(HYDRA_BOOST_BORLANDC) || defined(__CODEGEAR__)
 
 template<> struct fp_traits_non_native<long double, double_precision>
 {
@@ -302,7 +302,7 @@ template<> struct fp_traits_non_native<long double, double_precision>
     }
 
 private:
-    static constexpr int offset_ = BOOST_MATH_ENDIAN_BIG_BYTE ? 0 : 4;
+    static constexpr int offset_ = HYDRA_BOOST_MATH_ENDIAN_BIG_BYTE ? 0 : 4;
 };
 
 //..............................................................................
@@ -409,7 +409,7 @@ struct fp_traits_non_native<long double, extended_double_precision>
     }
 
 private:
-    static constexpr int offset_ = BOOST_MATH_ENDIAN_BIG_BYTE ? 0 : 12;
+    static constexpr int offset_ = HYDRA_BOOST_MATH_ENDIAN_BIG_BYTE ? 0 : 12;
 };
 
 
@@ -483,7 +483,7 @@ struct fp_traits_non_native<long double, extended_double_precision>
     }
 
 private:
-    static constexpr int offset_ = BOOST_MATH_ENDIAN_BIG_BYTE ? 0 : 12;
+    static constexpr int offset_ = HYDRA_BOOST_MATH_ENDIAN_BIG_BYTE ? 0 : 12;
 };
 
 #endif
@@ -554,23 +554,23 @@ struct select_native<long double>
 
 // fp_traits is a type switch that selects the right fp_traits_non_native
 
-#if (defined(BOOST_MATH_USE_C99) && !(defined(__GNUC__) && (__GNUC__ < 4))) \
+#if (defined(HYDRA_BOOST_MATH_USE_C99) && !(defined(__GNUC__) && (__GNUC__ < 4))) \
    && !defined(__hpux) \
    && !defined(__DECCXX)\
    && !defined(__osf__) \
    && !defined(__SGI_STL_PORT) && !defined(_STLPORT_VERSION)\
    && !defined(__FAST_MATH__)\
-   && !defined(BOOST_MATH_DISABLE_STD_FPCLASSIFY)\
+   && !defined(HYDRA_BOOST_MATH_DISABLE_STD_FPCLASSIFY)\
    && !defined(__INTEL_COMPILER)\
    && !defined(sun)\
    && !defined(__VXWORKS__)
-#  define BOOST_MATH_USE_STD_FPCLASSIFY
+#  define HYDRA_BOOST_MATH_USE_STD_FPCLASSIFY
 #endif
 
 template<class T> struct fp_traits
 {
     typedef typename size_to_precision<sizeof(T), ::std::is_floating_point<T>::value>::type precision;
-#if defined(BOOST_MATH_USE_STD_FPCLASSIFY) && !defined(BOOST_MATH_DISABLE_STD_FPCLASSIFY)
+#if defined(HYDRA_BOOST_MATH_USE_STD_FPCLASSIFY) && !defined(HYDRA_BOOST_MATH_DISABLE_STD_FPCLASSIFY)
     typedef typename select_native<T>::type type;
 #else
     typedef fp_traits_non_native<T, precision> type;
@@ -582,6 +582,6 @@ template<class T> struct fp_traits
 
 }   // namespace detail
 }   // namespace math
-}   // namespace boost
+}   // namespace hydra_boost
 
 #endif

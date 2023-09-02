@@ -4,8 +4,8 @@
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 
-#ifndef BOOST_MATH_TOOLS_MINIMA_HPP
-#define BOOST_MATH_TOOLS_MINIMA_HPP
+#ifndef HYDRA_BOOST_MATH_TOOLS_MINIMA_HPP
+#define HYDRA_BOOST_MATH_TOOLS_MINIMA_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -17,13 +17,13 @@
 #include <hydra/detail/external/hydra_boost/math/tools/precision.hpp>
 #include <hydra/detail/external/hydra_boost/math/policies/policy.hpp>
 
-namespace boost{ namespace math{ namespace tools{
+namespace hydra_boost{ namespace math{ namespace tools{
 
 template <class F, class T>
 std::pair<T, T> brent_find_minima(F f, T min, T max, int bits, std::uintmax_t& max_iter)
-   noexcept(BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
+   noexcept(HYDRA_BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    bits = (std::min)(policies::digits<T, policies::policy<> >() / 2, bits);
    T tolerance = static_cast<T>(ldexp(1.0, 1-bits));
    T x;  // minima so far
@@ -139,7 +139,7 @@ std::pair<T, T> brent_find_minima(F f, T min, T max, int bits, std::uintmax_t& m
 
 template <class F, class T>
 inline std::pair<T, T> brent_find_minima(F f, T min, T max, int digits)
-   noexcept(BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
+   noexcept(HYDRA_BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
 {
    std::uintmax_t m = (std::numeric_limits<std::uintmax_t>::max)();
    return brent_find_minima(f, min, max, digits, m);

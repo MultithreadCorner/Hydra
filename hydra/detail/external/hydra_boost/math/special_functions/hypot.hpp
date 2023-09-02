@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_HYPOT_INCLUDED
-#define BOOST_MATH_HYPOT_INCLUDED
+#ifndef HYDRA_BOOST_MATH_HYPOT_INCLUDED
+#define HYDRA_BOOST_MATH_HYPOT_INCLUDED
 
 #ifdef _MSC_VER
 #pragma once
@@ -17,7 +17,7 @@
 #include <algorithm> // for swap
 #include <cmath>
 
-namespace boost{ namespace math{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace detail{
 
 template <class T, class Policy>
 T hypot_imp(T x, T y, const Policy& pol)
@@ -38,7 +38,7 @@ T hypot_imp(T x, T y, const Policy& pol)
    if(std::numeric_limits<T>::has_infinity
       && ((x == std::numeric_limits<T>::infinity())
       || (y == std::numeric_limits<T>::infinity())))
-      return policies::raise_overflow_error<T>("boost::math::hypot<%1%>(%1%,%1%)", nullptr, pol);
+      return policies::raise_overflow_error<T>("hydra_boost::math::hypot<%1%>(%1%,%1%)", nullptr, pol);
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
@@ -74,9 +74,9 @@ inline typename tools::promote_args<T1, T2>::type
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
-#endif // BOOST_MATH_HYPOT_INCLUDED
+#endif // HYDRA_BOOST_MATH_HYPOT_INCLUDED
 
 
 

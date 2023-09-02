@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_BESSEL_JN_SERIES_HPP
-#define BOOST_MATH_BESSEL_JN_SERIES_HPP
+#ifndef HYDRA_BOOST_MATH_BESSEL_JN_SERIES_HPP
+#define HYDRA_BOOST_MATH_BESSEL_JN_SERIES_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -15,7 +15,7 @@
 #include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/assert.hpp>
 
-namespace boost { namespace math { namespace detail{
+namespace hydra_boost { namespace math { namespace detail{
 
 template <class T, class Policy>
 struct bessel_j_small_z_series_term
@@ -25,7 +25,7 @@ struct bessel_j_small_z_series_term
    bessel_j_small_z_series_term(T v_, T x)
       : N(0), v(v_)
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       mult = x / 2;
       mult *= -mult;
       term = 1;
@@ -51,15 +51,15 @@ private:
 template <class T, class Policy>
 inline T bessel_j_small_z_series(T v, T x, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    T prefix;
    if(v < max_factorial<T>::value)
    {
-      prefix = pow(x / 2, v) / boost::math::tgamma(v+1, pol);
+      prefix = pow(x / 2, v) / hydra_boost::math::tgamma(v+1, pol);
    }
    else
    {
-      prefix = v * log(x / 2) - boost::math::lgamma(v+1, pol);
+      prefix = v * log(x / 2) - hydra_boost::math::lgamma(v+1, pol);
       prefix = exp(prefix);
    }
    if(0 == prefix)
@@ -68,9 +68,9 @@ inline T bessel_j_small_z_series(T v, T x, const Policy& pol)
    bessel_j_small_z_series_term<T, Policy> s(v, x);
    std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
 
-   T result = boost::math::tools::sum_series(s, boost::math::policies::get_epsilon<T, Policy>(), max_iter);
+   T result = hydra_boost::math::tools::sum_series(s, hydra_boost::math::policies::get_epsilon<T, Policy>(), max_iter);
 
-   policies::check_series_iterations<T>("boost::math::bessel_j_small_z_series<%1%>(%1%,%1%)", max_iter, pol);
+   policies::check_series_iterations<T>("hydra_boost::math::bessel_j_small_z_series<%1%>(%1%,%1%)", max_iter, pol);
    return prefix * result;
 }
 
@@ -82,14 +82,14 @@ struct bessel_y_small_z_series_term_a
    bessel_y_small_z_series_term_a(T v_, T x)
       : N(0), v(v_)
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       mult = x / 2;
       mult *= -mult;
       term = 1;
    }
    T operator()()
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       T r = term;
       ++N;
       term *= mult / (N * (N - v));
@@ -110,7 +110,7 @@ struct bessel_y_small_z_series_term_b
    bessel_y_small_z_series_term_b(T v_, T x)
       : N(0), v(v_)
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       mult = x / 2;
       mult *= -mult;
       term = 1;
@@ -140,7 +140,7 @@ private:
 template <class T, class Policy>
 inline T bessel_y_small_z_series(T v, T x, T* pscale, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    static const char* function = "bessel_y_small_z_series<%1%>(%1%,%1%)";
    T prefix;
    T gam;
@@ -149,7 +149,7 @@ inline T bessel_y_small_z_series(T v, T x, T* pscale, const Policy& pol)
    bool need_logs = (v >= max_factorial<T>::value) || (tools::log_max_value<T>() / v < fabs(p));
    if(!need_logs)
    {
-      gam = boost::math::tgamma(v, pol);
+      gam = hydra_boost::math::tgamma(v, pol);
       p = pow(x / 2, v);
       if(tools::max_value<T>() * p < gam)
       {
@@ -164,7 +164,7 @@ inline T bessel_y_small_z_series(T v, T x, T* pscale, const Policy& pol)
    }
    else
    {
-      gam = boost::math::lgamma(v, pol);
+      gam = hydra_boost::math::lgamma(v, pol);
       p = v * p;
       prefix = gam - log(constants::pi<T>()) - p;
       if(tools::log_max_value<T>() < prefix)
@@ -182,25 +182,25 @@ inline T bessel_y_small_z_series(T v, T x, T* pscale, const Policy& pol)
    std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
    *pscale = scale;
 
-   T result = boost::math::tools::sum_series(s, boost::math::policies::get_epsilon<T, Policy>(), max_iter);
+   T result = hydra_boost::math::tools::sum_series(s, hydra_boost::math::policies::get_epsilon<T, Policy>(), max_iter);
 
-   policies::check_series_iterations<T>("boost::math::bessel_y_small_z_series<%1%>(%1%,%1%)", max_iter, pol);
+   policies::check_series_iterations<T>("hydra_boost::math::bessel_y_small_z_series<%1%>(%1%,%1%)", max_iter, pol);
    result *= prefix;
 
    if(!need_logs)
    {
-      prefix = boost::math::tgamma(-v, pol) * boost::math::cos_pi(v, pol) * p / constants::pi<T>();
+      prefix = hydra_boost::math::tgamma(-v, pol) * hydra_boost::math::cos_pi(v, pol) * p / constants::pi<T>();
    }
    else
    {
-      int sgn {};
-      prefix = boost::math::lgamma(-v, &sgn, pol) + p;
+      int sgn;
+      prefix = hydra_boost::math::lgamma(-v, &sgn, pol) + p;
       prefix = exp(prefix) * sgn / constants::pi<T>();
    }
    bessel_y_small_z_series_term_b<T, Policy> s2(v, x);
    max_iter = policies::get_max_series_iterations<Policy>();
 
-   T b = boost::math::tools::sum_series(s2, boost::math::policies::get_epsilon<T, Policy>(), max_iter);
+   T b = hydra_boost::math::tools::sum_series(s2, hydra_boost::math::policies::get_epsilon<T, Policy>(), max_iter);
 
    result -= scale * prefix * b;
    return result;
@@ -214,9 +214,9 @@ T bessel_yn_small_z(int n, T z, T* scale, const Policy& pol)
    //
    // Note that when called we assume that x < epsilon and n is a positive integer.
    //
-   BOOST_MATH_STD_USING
-   BOOST_MATH_ASSERT(n >= 0);
-   BOOST_MATH_ASSERT((z < policies::get_epsilon<T, Policy>()));
+   HYDRA_BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_ASSERT(n >= 0);
+   HYDRA_BOOST_MATH_ASSERT((z < policies::get_epsilon<T, Policy>()));
 
    if(n == 0)
    {
@@ -236,13 +236,8 @@ T bessel_yn_small_z(int n, T z, T* scale, const Policy& pol)
    }
    else
    {
-      #if (defined(__GNUC__) && __GNUC__ == 13)
-      auto p = static_cast<T>(pow(z / 2, T(n)));
-      #else
       auto p = static_cast<T>(pow(z / 2, n));
-      #endif
-      
-      T result = -((boost::math::factorial<T>(n - 1, pol) / constants::pi<T>()));
+      T result = -((hydra_boost::math::factorial<T>(n - 1, pol) / constants::pi<T>()));
       if(p * tools::max_value<T>() < result)
       {
          T div = tools::max_value<T>() / 8;
@@ -259,5 +254,5 @@ T bessel_yn_small_z(int n, T z, T* scale, const Policy& pol)
 
 }}} // namespaces
 
-#endif // BOOST_MATH_BESSEL_JN_SERIES_HPP
+#endif // HYDRA_BOOST_MATH_BESSEL_JN_SERIES_HPP
 

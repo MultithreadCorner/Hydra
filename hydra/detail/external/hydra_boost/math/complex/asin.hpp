@@ -2,22 +2,22 @@
 //  Distributed under the Boost Software License, Version 1.0. (See accompanying
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_COMPLEX_ASIN_INCLUDED
-#define BOOST_MATH_COMPLEX_ASIN_INCLUDED
+#ifndef HYDRA_BOOST_MATH_COMPLEX_ASIN_INCLUDED
+#define HYDRA_BOOST_MATH_COMPLEX_ASIN_INCLUDED
 
-#ifndef BOOST_MATH_COMPLEX_DETAILS_INCLUDED
+#ifndef HYDRA_BOOST_MATH_COMPLEX_DETAILS_INCLUDED
 #  include <hydra/detail/external/hydra_boost/math/complex/details.hpp>
 #endif
-#ifndef BOOST_MATH_LOG1P_INCLUDED
+#ifndef HYDRA_BOOST_MATH_LOG1P_INCLUDED
 #  include <hydra/detail/external/hydra_boost/math/special_functions/log1p.hpp>
 #endif
 #include <hydra/detail/external/hydra_boost/math/tools/assert.hpp>
 
-#ifdef BOOST_NO_STDC_NAMESPACE
+#ifdef HYDRA_BOOST_NO_STDC_NAMESPACE
 namespace std{ using ::sqrt; using ::fabs; using ::acos; using ::asin; using ::atan; using ::atan2; }
 #endif
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 template<class T> 
 [[deprecated("Replaced by C++11")]] inline std::complex<T> asin(const std::complex<T>& z)
@@ -39,9 +39,9 @@ template<class T>
    static const T half = static_cast<T>(0.5L);
    static const T a_crossover = static_cast<T>(10);
    static const T b_crossover = static_cast<T>(0.6417L);
-   static const T s_pi = boost::math::constants::pi<T>();
+   static const T s_pi = hydra_boost::math::constants::pi<T>();
    static const T half_pi = s_pi / 2;
-   static const T log_two = boost::math::constants::ln_two<T>();
+   static const T log_two = hydra_boost::math::constants::ln_two<T>();
    static const T quarter_pi = s_pi / 4;
 #ifdef _MSC_VER
 #pragma warning(push)
@@ -61,11 +61,11 @@ template<class T>
    // below, but handling it as a special case prevents overflow/underflow
    // arithmetic which may trip up some machines:
    //
-   if((boost::math::isnan)(x))
+   if((hydra_boost::math::isnan)(x))
    {
-      if((boost::math::isnan)(y))
+      if((hydra_boost::math::isnan)(y))
          return std::complex<T>(x, x);
-      if((boost::math::isinf)(y))
+      if((hydra_boost::math::isinf)(y))
       {
          real = x;
          imag = std::numeric_limits<T>::infinity();
@@ -73,14 +73,14 @@ template<class T>
       else
          return std::complex<T>(x, x);
    }
-   else if((boost::math::isnan)(y))
+   else if((hydra_boost::math::isnan)(y))
    {
       if(x == 0)
       {
          real = 0;
          imag = y;
       }
-      else if((boost::math::isinf)(x))
+      else if((hydra_boost::math::isinf)(x))
       {
          real = y;
          imag = std::numeric_limits<T>::infinity();
@@ -88,9 +88,9 @@ template<class T>
       else
          return std::complex<T>(y, y);
    }
-   else if((boost::math::isinf)(x))
+   else if((hydra_boost::math::isinf)(x))
    {
-      if((boost::math::isinf)(y))
+      if((hydra_boost::math::isinf)(y))
       {
          real = quarter_pi;
          imag = std::numeric_limits<T>::infinity();
@@ -101,7 +101,7 @@ template<class T>
          imag = std::numeric_limits<T>::infinity();
       }
    }
-   else if((boost::math::isinf)(y))
+   else if((hydra_boost::math::isinf)(y))
    {
       real = 0;
       imag = std::numeric_limits<T>::infinity();
@@ -161,7 +161,7 @@ template<class T>
             {
                am1 = half * (yy/(r + xp1) + (s + xm1));
             }
-            imag = boost::math::log1p(am1 + std::sqrt(am1 * (a + one)));
+            imag = hydra_boost::math::log1p(am1 + std::sqrt(am1 * (a + one)));
          }
          else
          {
@@ -186,7 +186,7 @@ template<class T>
                if(((std::numeric_limits<T>::max)() / xp1) > xm1)
                {
                   // xp1 * xm1 won't overflow:
-                  imag = boost::math::log1p(xm1 + std::sqrt(xp1*xm1));
+                  imag = hydra_boost::math::log1p(xm1 + std::sqrt(xp1*xm1));
                }
                else
                {
@@ -209,7 +209,7 @@ template<class T>
             // but we have no way to test that here, so for now just assert
             // on the assumption:
             //
-            BOOST_MATH_ASSERT(x == 1);
+            HYDRA_BOOST_MATH_ASSERT(x == 1);
             real = half_pi - std::sqrt(y);
             imag = std::sqrt(y);
          }
@@ -222,13 +222,13 @@ template<class T>
          {
             real = std::atan(x/y);
             T xoy = x/y;
-            imag = log_two + std::log(y) + half * boost::math::log1p(xoy*xoy);
+            imag = log_two + std::log(y) + half * hydra_boost::math::log1p(xoy*xoy);
          }
          else
          {
             T a = std::sqrt(one + y*y);
             real = x/a; // This can underflow!
-            imag = half * boost::math::log1p(static_cast<T>(2)*y*(y+a));
+            imag = half * hydra_boost::math::log1p(static_cast<T>(2)*y*(y+a));
          }
       }
    }
@@ -236,10 +236,10 @@ template<class T>
    //
    // Finish off by working out the sign of the result:
    //
-   if((boost::math::signbit)(z.real()))
-      real = (boost::math::changesign)(real);
-   if((boost::math::signbit)(z.imag()))
-      imag = (boost::math::changesign)(imag);
+   if((hydra_boost::math::signbit)(z.real()))
+      real = (hydra_boost::math::changesign)(real);
+   if((hydra_boost::math::signbit)(z.imag()))
+      imag = (hydra_boost::math::changesign)(imag);
 
    return std::complex<T>(real, imag);
 #ifdef _MSC_VER
@@ -249,4 +249,4 @@ template<class T>
 
 } } // namespaces
 
-#endif // BOOST_MATH_COMPLEX_ASIN_INCLUDED
+#endif // HYDRA_BOOST_MATH_COMPLEX_ASIN_INCLUDED

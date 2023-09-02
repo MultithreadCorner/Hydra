@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_BESSEL_JY_HPP
-#define BOOST_MATH_BESSEL_JY_HPP
+#ifndef HYDRA_BOOST_MATH_BESSEL_JY_HPP
+#define HYDRA_BOOST_MATH_BESSEL_JY_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -24,7 +24,7 @@
 
 // Bessel functions of the first and second kind of fractional order
 
-namespace boost { namespace math {
+namespace hydra_boost { namespace math {
 
    namespace detail {
 
@@ -40,7 +40,7 @@ namespace boost { namespace math {
       template <class T, class Policy>
       bool hankel_PQ(T v, T x, T* p, T* q, const Policy& )
       {
-         BOOST_MATH_STD_USING
+         HYDRA_BOOST_MATH_STD_USING
             T tolerance = 2 * policies::get_epsilon<T, Policy>();
          *p = 1;
          *q = 0;
@@ -76,16 +76,16 @@ namespace boost { namespace math {
          T a, d, e, sigma;
          unsigned long k;
 
-         BOOST_MATH_STD_USING
-            using namespace boost::math::tools;
-         using namespace boost::math::constants;
+         HYDRA_BOOST_MATH_STD_USING
+            using namespace hydra_boost::math::tools;
+         using namespace hydra_boost::math::constants;
 
-         BOOST_MATH_ASSERT(fabs(v) <= 0.5f);  // precondition for using this routine
+         HYDRA_BOOST_MATH_ASSERT(fabs(v) <= 0.5f);  // precondition for using this routine
 
-         T gp = boost::math::tgamma1pm1(v, pol);
-         T gm = boost::math::tgamma1pm1(-v, pol);
-         T spv = boost::math::sin_pi(v, pol);
-         T spv2 = boost::math::sin_pi(v/2, pol);
+         T gp = hydra_boost::math::tgamma1pm1(v, pol);
+         T gm = hydra_boost::math::tgamma1pm1(-v, pol);
+         T spv = hydra_boost::math::sin_pi(v, pol);
+         T spv2 = hydra_boost::math::sin_pi(v/2, pol);
          T xp = pow(x/2, v);
 
          a = log(x / 2);
@@ -129,7 +129,7 @@ namespace boost { namespace math {
                break;
             }
          }
-         policies::check_series_iterations<T>("boost::math::bessel_jy<%1%>(%1%,%1%) in temme_jy", k, pol);
+         policies::check_series_iterations<T>("hydra_boost::math::bessel_jy<%1%>(%1%,%1%) in temme_jy", k, pol);
          *Y = -sum;
          *Y1 = -2 * sum1 / x;
 
@@ -145,7 +145,7 @@ namespace boost { namespace math {
          unsigned long k;
          int s = 1;
 
-         BOOST_MATH_STD_USING
+         HYDRA_BOOST_MATH_STD_USING
 
             // |x| <= |v|, CF1_jy converges rapidly
             // |x| > |v|, CF1_jy needs O(|x|) iterations to converge
@@ -171,7 +171,7 @@ namespace boost { namespace math {
             if (abs(delta - 1) < tolerance)
             { break; }
          }
-         policies::check_series_iterations<T>("boost::math::bessel_jy<%1%>(%1%,%1%) in CF1_jy", k / 100, pol);
+         policies::check_series_iterations<T>("hydra_boost::math::bessel_jy<%1%>(%1%,%1%) in CF1_jy", k / 100, pol);
          *fv = -f;
          *sign = s;                              // sign of denominator
 
@@ -187,7 +187,7 @@ namespace boost { namespace math {
       template <typename T, typename Policy>
       int CF2_jy(T v, T x, T* p, T* q, const Policy& pol)
       {
-         BOOST_MATH_STD_USING
+         HYDRA_BOOST_MATH_STD_USING
 
             T Cr, Ci, Dr, Di, fr, fi, a, br, bi, delta_r, delta_i, temp;
          T tiny;
@@ -195,7 +195,7 @@ namespace boost { namespace math {
 
          // |x| >= |v|, CF2_jy converges rapidly
          // |x| -> 0, CF2_jy fails to converge
-         BOOST_MATH_ASSERT(fabs(x) > 1);
+         HYDRA_BOOST_MATH_ASSERT(fabs(x) > 1);
 
          // modified Lentz's method, complex numbers involved, see
          // Lentz, Applied Optics, vol 15, 668 (1976)
@@ -247,7 +247,7 @@ namespace boost { namespace math {
             if (fabs(delta_r - 1) + fabs(delta_i) < tolerance)
                break;
          }
-         policies::check_series_iterations<T>("boost::math::bessel_jy<%1%>(%1%,%1%) in CF2_jy", k, pol);
+         policies::check_series_iterations<T>("hydra_boost::math::bessel_jy<%1%>(%1%,%1%) in CF2_jy", k, pol);
          *p = fr;
          *q = fi;
 
@@ -262,7 +262,7 @@ namespace boost { namespace math {
       template <typename T, typename Policy>
       int bessel_jy(T v, T x, T* J, T* Y, int kind, const Policy& pol)
       {
-         BOOST_MATH_ASSERT(x >= 0);
+         HYDRA_BOOST_MATH_ASSERT(x >= 0);
 
          T u, Jv, Ju, Yv, Yv1, Yu, Yu1(0), fv, fu;
          T W, p, q, gamma, current, prev, next;
@@ -273,11 +273,11 @@ namespace boost { namespace math {
          T cp = 0;
          T sp = 0;
 
-         static const char* function = "boost::math::bessel_jy<%1%>(%1%,%1%)";
+         static const char* function = "hydra_boost::math::bessel_jy<%1%>(%1%,%1%)";
 
-         BOOST_MATH_STD_USING
-            using namespace boost::math::tools;
-         using namespace boost::math::constants;
+         HYDRA_BOOST_MATH_STD_USING
+            using namespace hydra_boost::math::tools;
+         using namespace hydra_boost::math::constants;
 
          if (v < 0)
          {
@@ -295,8 +295,8 @@ namespace boost { namespace math {
          if(reflect)
          {
             T z = (u + n % 2);
-            cp = boost::math::cos_pi(z, pol);
-            sp = boost::math::sin_pi(z, pol);
+            cp = hydra_boost::math::cos_pi(z, pol);
+            sp = hydra_boost::math::sin_pi(z, pol);
             if(u != 0)
                kind = need_j|need_y;               // need both for reflection formula
          }
@@ -395,7 +395,7 @@ namespace boost { namespace math {
             //
             // Normally we calculate sin/cos(chi) where:
             //
-            // chi = x - fmod(T(v / 2 + 0.25f), T(2)) * boost::math::constants::pi<T>();
+            // chi = x - fmod(T(v / 2 + 0.25f), T(2)) * hydra_boost::math::constants::pi<T>();
             //
             // But this introduces large errors, so use sin/cos addition formulae to
             // improve accuracy:
@@ -403,12 +403,12 @@ namespace boost { namespace math {
             T mod_v = fmod(T(v / 2 + 0.25f), T(2));
             T sx = sin(x);
             T cx = cos(x);
-            T sv = boost::math::sin_pi(mod_v, pol);
-            T cv = boost::math::cos_pi(mod_v, pol);
+            T sv = hydra_boost::math::sin_pi(mod_v, pol);
+            T cv = hydra_boost::math::cos_pi(mod_v, pol);
 
             T sc = sx * cv - sv * cx; // == sin(chi);
             T cc = cx * cv + sx * sv; // == cos(chi);
-            T chi = boost::math::constants::root_two<T>() / (boost::math::constants::root_pi<T>() * sqrt(x)); //sqrt(2 / (boost::math::constants::pi<T>() * x));
+            T chi = hydra_boost::math::constants::root_two<T>() / (hydra_boost::math::constants::root_pi<T>() * sqrt(x)); //sqrt(2 / (hydra_boost::math::constants::pi<T>() * x));
             Yv = chi * (p * sc + q * cc);
             Jv = chi * (p * cc - q * sc);
          }
@@ -456,7 +456,7 @@ namespace boost { namespace math {
             CF1_jy(v, x, &fv, &s, pol);
             // tiny initial value to prevent overflow
             T init = sqrt(tools::min_value<T>());
-            BOOST_MATH_INSTRUMENT_VARIABLE(init);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(init);
             prev = fv * s * init;
             current = s * init;
             if(v < max_factorial<T>::value)
@@ -524,14 +524,14 @@ namespace boost { namespace math {
             {
                gamma = u * tools::epsilon<T>() / x;
             }
-            BOOST_MATH_INSTRUMENT_VARIABLE(current);
-            BOOST_MATH_INSTRUMENT_VARIABLE(W);
-            BOOST_MATH_INSTRUMENT_VARIABLE(q);
-            BOOST_MATH_INSTRUMENT_VARIABLE(gamma);
-            BOOST_MATH_INSTRUMENT_VARIABLE(p);
-            BOOST_MATH_INSTRUMENT_VARIABLE(t);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(current);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(W);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(q);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(gamma);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(p);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(t);
             Ju = sign(current) * sqrt(W / (q + gamma * (p - t)));
-            BOOST_MATH_INSTRUMENT_VARIABLE(Ju);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(Ju);
 
             Jv = Ju * ratio;                    // normalization
 
@@ -590,4 +590,4 @@ namespace boost { namespace math {
 
 }} // namespaces
 
-#endif // BOOST_MATH_BESSEL_JY_HPP
+#endif // HYDRA_BOOST_MATH_BESSEL_JY_HPP

@@ -4,27 +4,27 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_COMMON_FACTOR_RT_HPP
-#define BOOST_MATH_COMMON_FACTOR_RT_HPP
+#ifndef HYDRA_BOOST_MATH_COMMON_FACTOR_RT_HPP
+#define HYDRA_BOOST_MATH_COMMON_FACTOR_RT_HPP
 
-#ifndef BOOST_MATH_STANDALONE
+#ifndef HYDRA_BOOST_MATH_STANDALONE
 #include <hydra/detail/external/hydra_boost/integer/common_factor_rt.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/header_deprecated.hpp>
 
-BOOST_MATH_HEADER_DEPRECATED("<hydra/detail/external/hydra_boost/integer/common_factor_rt.hpp>");
+HYDRA_BOOST_MATH_HEADER_DEPRECATED("<hydra/detail/external/hydra_boost/integer/common_factor_rt.hpp>");
 
-namespace boost {
+namespace hydra_boost {
    namespace math {
-      using boost::integer::gcd;
-      using boost::integer::lcm;
-      using boost::integer::gcd_range;
-      using boost::integer::lcm_range;
-      using boost::integer::gcd_evaluator;
-      using boost::integer::lcm_evaluator;
+      using hydra_boost::integer::gcd;
+      using hydra_boost::integer::lcm;
+      using hydra_boost::integer::gcd_range;
+      using hydra_boost::integer::lcm_range;
+      using hydra_boost::integer::gcd_evaluator;
+      using hydra_boost::integer::lcm_evaluator;
    }
 }
 #else
 #error Common factor is not available in standalone mode because it requires boost.integer.
-#endif // BOOST_MATH_STANDALONE
+#endif // HYDRA_BOOST_MATH_STANDALONE
 
-#endif  // BOOST_MATH_COMMON_FACTOR_RT_HPP
+#endif  // HYDRA_BOOST_MATH_COMMON_FACTOR_RT_HPP

@@ -3,14 +3,14 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_TOOLS_CONDITION_NUMBERS_HPP
-#define BOOST_MATH_TOOLS_CONDITION_NUMBERS_HPP
+#ifndef HYDRA_BOOST_MATH_TOOLS_CONDITION_NUMBERS_HPP
+#define HYDRA_BOOST_MATH_TOOLS_CONDITION_NUMBERS_HPP
 #include <cmath>
 #include <limits>
 #include <hydra/detail/external/hydra_boost/math/differentiation/finite_difference.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
 
-namespace boost { namespace math { namespace tools {
+namespace hydra_boost { namespace math { namespace tools {
 
 template<class Real, bool kahan=true>
 class summation_condition_number {
@@ -28,7 +28,7 @@ public:
         using std::abs;
         // No need to Kahan the l1 calc; it's well conditioned:
         m_l1 += abs(x);
-        BOOST_IF_CONSTEXPR (kahan)
+        HYDRA_BOOST_IF_CONSTEXPR (kahan)
         {
             Real y = x - m_c;
             Real t = m_sum + y;
@@ -86,7 +86,7 @@ Real evaluation_condition_number(F const & f, Real const & x)
     using std::abs;
     using std::isnan;
     using std::sqrt;
-    using boost::math::differentiation::finite_difference_derivative;
+    using hydra_boost::math::differentiation::finite_difference_derivative;
 
     Real fx = f(x);
     if (isnan(fx))
@@ -95,12 +95,12 @@ Real evaluation_condition_number(F const & f, Real const & x)
     }
     bool caught_exception = false;
     Real fp;
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
     try
     {
 #endif
         fp = finite_difference_derivative(f, x);
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
     }
     catch(...)
     {
@@ -116,7 +116,7 @@ Real evaluation_condition_number(F const & f, Real const & x)
             // Check if a left derivative exists:
             const Real eps = (std::numeric_limits<Real>::epsilon)();
             Real h = - 2 * sqrt(eps);
-            h = boost::math::differentiation::detail::make_xph_representable(x, h);
+            h = hydra_boost::math::differentiation::detail::make_xph_representable(x, h);
             Real yh = f(x + h);
             Real y0 = f(x);
             Real diff = yh - y0;

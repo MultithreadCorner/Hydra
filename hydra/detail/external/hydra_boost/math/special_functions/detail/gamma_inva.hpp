@@ -10,8 +10,8 @@
 // root finding algorithm (TOMS Algorithm 748).
 //
 
-#ifndef BOOST_MATH_SP_DETAIL_GAMMA_INVA
-#define BOOST_MATH_SP_DETAIL_GAMMA_INVA
+#ifndef HYDRA_BOOST_MATH_SP_DETAIL_GAMMA_INVA
+#define HYDRA_BOOST_MATH_SP_DETAIL_GAMMA_INVA
 
 #ifdef _MSC_VER
 #pragma once
@@ -20,7 +20,7 @@
 #include <cstdint>
 #include <hydra/detail/external/hydra_boost/math/tools/toms748_solve.hpp>
 
-namespace boost{ namespace math{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace detail{
 
 template <class T, class Policy>
 struct gamma_inva_t
@@ -28,7 +28,7 @@ struct gamma_inva_t
    gamma_inva_t(T z_, T p_, bool invert_) : z(z_), p(p_), invert(invert_) {}
    T operator()(T a)
    {
-      return invert ? p - boost::math::gamma_q(a, z, Policy()) : boost::math::gamma_p(a, z, Policy()) - p;
+      return invert ? p - hydra_boost::math::gamma_q(a, z, Policy()) : hydra_boost::math::gamma_p(a, z, Policy()) - p;
    }
 private:
    T z, p;
@@ -38,7 +38,7 @@ private:
 template <class T, class Policy>
 T inverse_poisson_cornish_fisher(T lambda, T p, T q, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    // mean:
    T m = lambda;
    // standard deviation:
@@ -48,7 +48,7 @@ T inverse_poisson_cornish_fisher(T lambda, T p, T q, const Policy& pol)
    // kurtosis:
    // T k = 1/lambda;
    // Get the inverse of a std normal distribution:
-   T x = boost::math::erfc_inv(p > q ? 2 * q : 2 * p, pol) * constants::root_two<T>();
+   T x = hydra_boost::math::erfc_inv(p > q ? 2 * q : 2 * p, pol) * constants::root_two<T>();
    // Set the sign:
    if(p < 0.5)
       x = -x;
@@ -69,13 +69,13 @@ T inverse_poisson_cornish_fisher(T lambda, T p, T q, const Policy& pol)
 template <class T, class Policy>
 T gamma_inva_imp(const T& z, const T& p, const T& q, const Policy& pol)
 {
-   BOOST_MATH_STD_USING  // for ADL of std lib math functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std lib math functions
    //
    // Special cases first:
    //
    if(p == 0)
    {
-      return policies::raise_overflow_error<T>("boost::math::gamma_p_inva<%1%>(%1%, %1%)", nullptr, Policy());
+      return policies::raise_overflow_error<T>("hydra_boost::math::gamma_p_inva<%1%>(%1%, %1%)", nullptr, Policy());
    }
    if(q == 0)
    {
@@ -144,7 +144,7 @@ T gamma_inva_imp(const T& z, const T& p, const T& q, const Policy& pol)
    //
    std::pair<T, T> r = bracket_and_solve_root(f, guess, factor, false, tol, max_iter, pol);
    if(max_iter >= policies::get_max_root_iterations<Policy>())
-      return policies::raise_evaluation_error<T>("boost::math::gamma_p_inva<%1%>(%1%, %1%)", "Unable to locate the root within a reasonable number of iterations, closest approximation so far was %1%", r.first, pol);
+      return policies::raise_evaluation_error<T>("hydra_boost::math::gamma_p_inva<%1%>(%1%, %1%)", "Unable to locate the root within a reasonable number of iterations, closest approximation so far was %1%", r.first, pol);
    return (r.first + r.second) / 2;
 }
 
@@ -165,7 +165,7 @@ inline typename tools::promote_args<T1, T2>::type
 
    if(p == 0)
    {
-      policies::raise_overflow_error<result_type>("boost::math::gamma_p_inva<%1%>(%1%, %1%)", nullptr, Policy());
+      policies::raise_overflow_error<result_type>("hydra_boost::math::gamma_p_inva<%1%>(%1%, %1%)", nullptr, Policy());
    }
    if(p == 1)
    {
@@ -177,7 +177,7 @@ inline typename tools::promote_args<T1, T2>::type
          static_cast<value_type>(x),
          static_cast<value_type>(p),
          static_cast<value_type>(1 - static_cast<value_type>(p)),
-         pol), "boost::math::gamma_p_inva<%1%>(%1%, %1%)");
+         pol), "hydra_boost::math::gamma_p_inva<%1%>(%1%, %1%)");
 }
 
 template <class T1, class T2, class Policy>
@@ -195,7 +195,7 @@ inline typename tools::promote_args<T1, T2>::type
 
    if(q == 1)
    {
-      policies::raise_overflow_error<result_type>("boost::math::gamma_q_inva<%1%>(%1%, %1%)", nullptr, Policy());
+      policies::raise_overflow_error<result_type>("hydra_boost::math::gamma_q_inva<%1%>(%1%, %1%)", nullptr, Policy());
    }
    if(q == 0)
    {
@@ -207,27 +207,27 @@ inline typename tools::promote_args<T1, T2>::type
          static_cast<value_type>(x),
          static_cast<value_type>(1 - static_cast<value_type>(q)),
          static_cast<value_type>(q),
-         pol), "boost::math::gamma_q_inva<%1%>(%1%, %1%)");
+         pol), "hydra_boost::math::gamma_q_inva<%1%>(%1%, %1%)");
 }
 
 template <class T1, class T2>
 inline typename tools::promote_args<T1, T2>::type
    gamma_p_inva(T1 x, T2 p)
 {
-   return boost::math::gamma_p_inva(x, p, policies::policy<>());
+   return hydra_boost::math::gamma_p_inva(x, p, policies::policy<>());
 }
 
 template <class T1, class T2>
 inline typename tools::promote_args<T1, T2>::type
    gamma_q_inva(T1 x, T2 q)
 {
-   return boost::math::gamma_q_inva(x, q, policies::policy<>());
+   return hydra_boost::math::gamma_q_inva(x, q, policies::policy<>());
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
-#endif // BOOST_MATH_SP_DETAIL_GAMMA_INVA
+#endif // HYDRA_BOOST_MATH_SP_DETAIL_GAMMA_INVA
 
 
 

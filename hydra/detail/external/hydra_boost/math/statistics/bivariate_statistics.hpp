@@ -4,8 +4,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_STATISTICS_BIVARIATE_STATISTICS_HPP
-#define BOOST_MATH_STATISTICS_BIVARIATE_STATISTICS_HPP
+#ifndef HYDRA_BOOST_MATH_STATISTICS_BIVARIATE_STATISTICS_HPP
+#define HYDRA_BOOST_MATH_STATISTICS_BIVARIATE_STATISTICS_HPP
 
 #include <iterator>
 #include <tuple>
@@ -18,13 +18,13 @@
 #include <hydra/detail/external/hydra_boost/math/tools/assert.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
 
-#ifdef BOOST_MATH_EXEC_COMPATIBLE
+#ifdef HYDRA_BOOST_MATH_EXEC_COMPATIBLE
 #include <execution>
 #include <future>
 #include <thread>
 #endif
 
-namespace boost{ namespace math{ namespace statistics { namespace detail {
+namespace hydra_boost{ namespace math{ namespace statistics { namespace detail {
 
 // See Equation III.9 of "Numerically Stable, Single-Pass, Parallel Statistics Algorithms", Bennet et al.
 template<typename ReturnType, typename ForwardIterator>
@@ -57,7 +57,7 @@ ReturnType means_and_covariance_seq_impl(ForwardIterator u_begin, ForwardIterato
     return std::make_tuple(mu_u, mu_v, cov/i, Real(i));
 }
 
-#ifdef BOOST_MATH_EXEC_COMPATIBLE
+#ifdef HYDRA_BOOST_MATH_EXEC_COMPATIBLE
 
 // Numerically stable parallel computation of (co-)variance
 // https://dl.acm.org/doi/10.1145/3221269.3223036
@@ -151,7 +151,7 @@ ReturnType means_and_covariance_parallel_impl(ForwardIterator u_begin, ForwardIt
     return std::make_tuple(mu_u_a, mu_v_a, cov_a, n_a);
 }
 
-#endif // BOOST_MATH_EXEC_COMPATIBLE
+#endif // HYDRA_BOOST_MATH_EXEC_COMPATIBLE
 
 template<typename ReturnType, typename ForwardIterator>
 ReturnType correlation_coefficient_seq_impl(ForwardIterator u_begin, ForwardIterator u_end, ForwardIterator v_begin, ForwardIterator v_end)
@@ -201,7 +201,7 @@ ReturnType correlation_coefficient_seq_impl(ForwardIterator u_begin, ForwardIter
     return std::make_tuple(mu_u, Qu, mu_v, Qv, cov, rho, Real(i));
 }
 
-#ifdef BOOST_MATH_EXEC_COMPATIBLE
+#ifdef HYDRA_BOOST_MATH_EXEC_COMPATIBLE
 
 // Numerically stable parallel computation of (co-)variance:
 // https://dl.acm.org/doi/10.1145/3221269.3223036
@@ -321,11 +321,11 @@ ReturnType correlation_coefficient_parallel_impl(ForwardIterator u_begin, Forwar
     return std::make_tuple(mu_u_a, Qu_a, mu_v_a, Qv_a, cov_a, rho, n_a);
 }
 
-#endif // BOOST_MATH_EXEC_COMPATIBLE
+#endif // HYDRA_BOOST_MATH_EXEC_COMPATIBLE
 
 } // namespace detail
 
-#ifdef BOOST_MATH_EXEC_COMPATIBLE
+#ifdef HYDRA_BOOST_MATH_EXEC_COMPATIBLE
 
 template<typename ExecutionPolicy, typename Container, typename Real = typename Container::value_type>
 inline auto means_and_covariance(ExecutionPolicy&& exec, Container const & u, Container const & v)
@@ -465,6 +465,6 @@ inline Real correlation_coefficient(Container const & u, Container const & v)
 
 #endif
 
-}}} // namespace boost::math::statistics
+}}} // namespace hydra_boost::math::statistics
 
 #endif

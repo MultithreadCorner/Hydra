@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_FUNCTIONS_IGAMMA_INVERSE_HPP
-#define BOOST_MATH_SPECIAL_FUNCTIONS_IGAMMA_INVERSE_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_FUNCTIONS_IGAMMA_INVERSE_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_FUNCTIONS_IGAMMA_INVERSE_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,7 +16,7 @@
 #include <hydra/detail/external/hydra_boost/math/tools/roots.hpp>
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 namespace detail{
 
@@ -31,9 +31,9 @@ T find_inverse_s(T p, T q)
    //
    // See equation 32.
    //
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    T t;
-   if(p < T(0.5))
+   if(p < 0.5)
    {
       t = sqrt(-2 * log(p));
    }
@@ -44,7 +44,7 @@ T find_inverse_s(T p, T q)
    static const double a[4] = { 3.31125922108741, 11.6616720288968, 4.28342155967104, 0.213623493715853 };
    static const double b[5] = { 1, 6.61053765625462, 6.40691597760039, 1.27364489782223, 0.3611708101884203e-1 };
    T s = t - tools::evaluate_polynomial(a, t) / tools::evaluate_polynomial(b, t);
-   if(p < T(0.5))
+   if(p < 0.5)
       s = -s;
    return s;
 }
@@ -87,8 +87,8 @@ inline T didonato_FN(T p, T a, T x, unsigned N, T tolerance, const Policy& pol)
    //
    // See equation 34.
    //
-   BOOST_MATH_STD_USING
-   T u = log(p) + boost::math::lgamma(a + 1, pol);
+   HYDRA_BOOST_MATH_STD_USING
+   T u = log(p) + hydra_boost::math::lgamma(a + 1, pol);
    return exp((u + x - log(didonato_SN(a, x, N, tolerance))) / a);
 }
 
@@ -104,7 +104,7 @@ T find_inverse_gamma(T a, T p, T q, const Policy& pol, bool* p_has_10_digits)
    // ACM Transactions on Mathematical Software, Vol. 12, No. 4,
    // December 1986, Pages 377-393.
    //
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
    T result;
    *p_has_10_digits = false;
@@ -112,15 +112,15 @@ T find_inverse_gamma(T a, T p, T q, const Policy& pol, bool* p_has_10_digits)
    if(a == 1)
    {
       result = -log(q);
-      BOOST_MATH_INSTRUMENT_VARIABLE(result);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
    }
    else if(a < 1)
    {
-      T g = boost::math::tgamma(a, pol);
+      T g = hydra_boost::math::tgamma(a, pol);
       T b = q * g;
-      BOOST_MATH_INSTRUMENT_VARIABLE(g);
-      BOOST_MATH_INSTRUMENT_VARIABLE(b);
-      if((b >T(0.6)) || ((b >= T(0.45)) && (a >= T(0.3))))
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(g);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(b);
+      if((b > 0.6) || ((b >= 0.45) && (a >= 0.3)))
       {
          // DiDonato & Morris Eq 21:
          //
@@ -130,18 +130,18 @@ T find_inverse_gamma(T a, T p, T q, const Policy& pol, bool* p_has_10_digits)
          // q.  Fortunately the second form works perfectly well in this case.
          //
          T u;
-         if((b * q > T(1e-8)) && (q > T(1e-5)))
+         if((b * q > 1e-8) && (q > 1e-5))
          {
             u = pow(p * g * a, 1 / a);
-            BOOST_MATH_INSTRUMENT_VARIABLE(u);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(u);
          }
          else
          {
             u = exp((-q / a) - constants::euler<T>());
-            BOOST_MATH_INSTRUMENT_VARIABLE(u);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(u);
          }
          result = u / (1 - (u / (a + 1)));
-         BOOST_MATH_INSTRUMENT_VARIABLE(result);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
       }
       else if((a < 0.3) && (b >= 0.35))
       {
@@ -149,7 +149,7 @@ T find_inverse_gamma(T a, T p, T q, const Policy& pol, bool* p_has_10_digits)
          T t = exp(-constants::euler<T>() - b);
          T u = t * exp(t);
          result = t * exp(u);
-         BOOST_MATH_INSTRUMENT_VARIABLE(result);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
       }
       else if((b > 0.15) || (a >= 0.3))
       {
@@ -157,7 +157,7 @@ T find_inverse_gamma(T a, T p, T q, const Policy& pol, bool* p_has_10_digits)
          T y = -log(b);
          T u = y - (1 - a) * log(y);
          result = y - (1 - a) * log(u) - log(1 + (1 - a) / (1 + u));
-         BOOST_MATH_INSTRUMENT_VARIABLE(result);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
       }
       else if (b > 0.1)
       {
@@ -165,7 +165,7 @@ T find_inverse_gamma(T a, T p, T q, const Policy& pol, bool* p_has_10_digits)
          T y = -log(b);
          T u = y - (1 - a) * log(y);
          result = y - (1 - a) * log(u) - log((u * u + 2 * (3 - a) * u + (2 - a) * (3 - a)) / (u * u + (5 - a) * u + 2));
-         BOOST_MATH_INSTRUMENT_VARIABLE(result);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
       }
       else
       {
@@ -191,7 +191,7 @@ T find_inverse_gamma(T a, T p, T q, const Policy& pol, bool* p_has_10_digits)
          T y_3 = y_2 * y;
          T y_4 = y_2 * y_2;
          result = y + c1 + (c2 / y) + (c3 / y_2) + (c4 / y_3) + (c5 / y_4);
-         BOOST_MATH_INSTRUMENT_VARIABLE(result);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
          if(b < 1e-28f)
             *p_has_10_digits = true;
       }
@@ -201,7 +201,7 @@ T find_inverse_gamma(T a, T p, T q, const Policy& pol, bool* p_has_10_digits)
       // DiDonato and Morris Eq 31:
       T s = find_inverse_s(p, q);
 
-      BOOST_MATH_INSTRUMENT_VARIABLE(s);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(s);
 
       T s_2 = s * s;
       T s_3 = s_2 * s;
@@ -209,34 +209,34 @@ T find_inverse_gamma(T a, T p, T q, const Policy& pol, bool* p_has_10_digits)
       T s_5 = s_4 * s;
       T ra = sqrt(a);
 
-      BOOST_MATH_INSTRUMENT_VARIABLE(ra);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(ra);
 
       T w = a + s * ra + (s * s -1) / 3;
       w += (s_3 - 7 * s) / (36 * ra);
       w -= (3 * s_4 + 7 * s_2 - 16) / (810 * a);
       w += (9 * s_5 + 256 * s_3 - 433 * s) / (38880 * a * ra);
 
-      BOOST_MATH_INSTRUMENT_VARIABLE(w);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(w);
 
       if((a >= 500) && (fabs(1 - w / a) < 1e-6))
       {
          result = w;
          *p_has_10_digits = true;
-         BOOST_MATH_INSTRUMENT_VARIABLE(result);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
       }
       else if (p > 0.5)
       {
          if(w < 3 * a)
          {
             result = w;
-            BOOST_MATH_INSTRUMENT_VARIABLE(result);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
          }
          else
          {
             T D = (std::max)(T(2), T(a * (a - 1)));
-            T lg = boost::math::lgamma(a, pol);
+            T lg = hydra_boost::math::lgamma(a, pol);
             T lb = log(q) + lg;
-            if(lb < -D * T(2.3))
+            if(lb < -D * 2.3)
             {
                // DiDonato and Morris Eq 25:
                T y = -lb;
@@ -260,14 +260,14 @@ T find_inverse_gamma(T a, T p, T q, const Policy& pol, bool* p_has_10_digits)
                T y_3 = y_2 * y;
                T y_4 = y_2 * y_2;
                result = y + c1 + (c2 / y) + (c3 / y_2) + (c4 / y_3) + (c5 / y_4);
-               BOOST_MATH_INSTRUMENT_VARIABLE(result);
+               HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
             }
             else
             {
                // DiDonato and Morris Eq 33:
                T u = -lb + (a - 1) * log(w) - log(1 + (1 - a) / (1 + w));
                result = -lb + (a - 1) * log(u) - log(1 + (1 - a) / (1 + u));
-               BOOST_MATH_INSTRUMENT_VARIABLE(result);
+               HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
             }
          }
       }
@@ -279,33 +279,33 @@ T find_inverse_gamma(T a, T p, T q, const Policy& pol, bool* p_has_10_digits)
          if(w < 0.15f * ap1)
          {
             // DiDonato and Morris Eq 35:
-            T v = log(p) + boost::math::lgamma(ap1, pol);
+            T v = log(p) + hydra_boost::math::lgamma(ap1, pol);
             z = exp((v + w) / a);
-            s = boost::math::log1p(z / ap1 * (1 + z / ap2), pol);
+            s = hydra_boost::math::log1p(z / ap1 * (1 + z / ap2), pol);
             z = exp((v + z - s) / a);
-            s = boost::math::log1p(z / ap1 * (1 + z / ap2), pol);
+            s = hydra_boost::math::log1p(z / ap1 * (1 + z / ap2), pol);
             z = exp((v + z - s) / a);
-            s = boost::math::log1p(z / ap1 * (1 + z / ap2 * (1 + z / (a + 3))), pol);
+            s = hydra_boost::math::log1p(z / ap1 * (1 + z / ap2 * (1 + z / (a + 3))), pol);
             z = exp((v + z - s) / a);
-            BOOST_MATH_INSTRUMENT_VARIABLE(z);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(z);
          }
 
          if((z <= 0.01 * ap1) || (z > 0.7 * ap1))
          {
             result = z;
-            if(z <= T(0.002) * ap1)
+            if(z <= 0.002 * ap1)
                *p_has_10_digits = true;
-            BOOST_MATH_INSTRUMENT_VARIABLE(result);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
          }
          else
          {
             // DiDonato and Morris Eq 36:
             T ls = log(didonato_SN(a, z, 100, T(1e-4)));
-            T v = log(p) + boost::math::lgamma(ap1, pol);
+            T v = log(p) + hydra_boost::math::lgamma(ap1, pol);
             z = exp((v + z - ls) / a);
             result = z * (1 - (a * log(z) - z - v + ls) / (a - z));
 
-            BOOST_MATH_INSTRUMENT_VARIABLE(result);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
          }
       }
    }
@@ -326,16 +326,16 @@ struct gamma_p_inverse_func
       // be inaccurate anyway (because there's not enough information in p)
       // but at least we will converge on the (inaccurate) answer quickly.
       //
-      if(p > T(0.9))
+      if(p > 0.9)
       {
          p = 1 - p;
          invert = !invert;
       }
    }
 
-   boost::math::tuple<T, T, T> operator()(const T& x)const
+   hydra_boost::math::tuple<T, T, T> operator()(const T& x)const
    {
-      BOOST_FPU_EXCEPTION_GUARD
+      HYDRA_BOOST_FPU_EXCEPTION_GUARD
       //
       // Calculate P(x) - p and the first two derivates, or if the invert
       // flag is set, then Q(x) - q and it's derivatives.
@@ -349,11 +349,11 @@ struct gamma_p_inverse_func
          policies::discrete_quantile<>,
          policies::assert_undefined<> >::type forwarding_policy;
 
-      BOOST_MATH_STD_USING  // For ADL of std functions.
+      HYDRA_BOOST_MATH_STD_USING  // For ADL of std functions.
 
       T f, f1;
       value_type ft;
-      f = static_cast<T>(boost::math::detail::gamma_incomplete_imp(
+      f = static_cast<T>(hydra_boost::math::detail::gamma_incomplete_imp(
                static_cast<value_type>(a),
                static_cast<value_type>(x),
                true, invert,
@@ -387,7 +387,7 @@ struct gamma_p_inverse_func
          f2 = -f2;
       }
 
-      return boost::math::make_tuple(static_cast<T>(f - p), f1, f2);
+      return hydra_boost::math::make_tuple(static_cast<T>(f - p), f1, f2);
    }
 private:
    T a, p;
@@ -397,12 +397,12 @@ private:
 template <class T, class Policy>
 T gamma_p_inv_imp(T a, T p, const Policy& pol)
 {
-   BOOST_MATH_STD_USING  // ADL of std functions.
+   HYDRA_BOOST_MATH_STD_USING  // ADL of std functions.
 
-   static const char* function = "boost::math::gamma_p_inv<%1%>(%1%, %1%)";
+   static const char* function = "hydra_boost::math::gamma_p_inv<%1%>(%1%, %1%)";
 
-   BOOST_MATH_INSTRUMENT_VARIABLE(a);
-   BOOST_MATH_INSTRUMENT_VARIABLE(p);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(a);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(p);
 
    if(a <= 0)
       return policies::raise_domain_error<T>(function, "Argument a in the incomplete gamma function inverse must be >= 0 (got a=%1%).", a, pol);
@@ -419,7 +419,7 @@ T gamma_p_inv_imp(T a, T p, const Policy& pol)
    T lower = tools::min_value<T>();
    if(guess <= lower)
       guess = tools::min_value<T>();
-   BOOST_MATH_INSTRUMENT_VARIABLE(guess);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(guess);
    //
    // Work out how many digits to converge to, normally this is
    // 2/3 of the digits in T, but if the first derivative is very
@@ -437,7 +437,7 @@ T gamma_p_inv_imp(T a, T p, const Policy& pol)
       digits /= 2;
       digits -= 1;
    }
-   if((a < T(0.125)) && (fabs(gamma_p_derivative(a, guess, pol)) > 1 / sqrt(tools::epsilon<T>())))
+   if((a < 0.125) && (fabs(gamma_p_derivative(a, guess, pol)) > 1 / sqrt(tools::epsilon<T>())))
       digits = policies::digits<T, Policy>() - 2;
    //
    // Go ahead and iterate:
@@ -451,7 +451,7 @@ T gamma_p_inv_imp(T a, T p, const Policy& pol)
       digits,
       max_iter);
    policies::check_root_iterations<T>(function, max_iter, pol);
-   BOOST_MATH_INSTRUMENT_VARIABLE(guess);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(guess);
    if(guess == lower)
       guess = policies::raise_underflow_error<T>(function, "Expected result known to be non-zero, but is smaller than the smallest available number.", pol);
    return guess;
@@ -460,9 +460,9 @@ T gamma_p_inv_imp(T a, T p, const Policy& pol)
 template <class T, class Policy>
 T gamma_q_inv_imp(T a, T q, const Policy& pol)
 {
-   BOOST_MATH_STD_USING  // ADL of std functions.
+   HYDRA_BOOST_MATH_STD_USING  // ADL of std functions.
 
-   static const char* function = "boost::math::gamma_q_inv<%1%>(%1%, %1%)";
+   static const char* function = "hydra_boost::math::gamma_q_inv<%1%>(%1%, %1%)";
 
    if(a <= 0)
       return policies::raise_domain_error<T>(function, "Argument a in the incomplete gamma function inverse must be >= 0 (got a=%1%).", a, pol);
@@ -552,9 +552,9 @@ inline typename tools::promote_args<T1, T2>::type
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
-#endif // BOOST_MATH_SPECIAL_FUNCTIONS_IGAMMA_INVERSE_HPP
+#endif // HYDRA_BOOST_MATH_SPECIAL_FUNCTIONS_IGAMMA_INVERSE_HPP
 
 
 

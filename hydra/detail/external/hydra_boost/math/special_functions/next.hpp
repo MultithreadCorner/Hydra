@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_NEXT_HPP
-#define BOOST_MATH_SPECIAL_NEXT_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_NEXT_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_NEXT_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -23,11 +23,11 @@
 #if !defined(_CRAYC) && !defined(__CUDACC__) && (!defined(__GNUC__) || (__GNUC__ > 3) || ((__GNUC__ == 3) && (__GNUC_MINOR__ > 3)))
 #if (defined(_M_IX86_FP) && (_M_IX86_FP >= 2)) || defined(__SSE2__)
 #include "xmmintrin.h"
-#define BOOST_MATH_CHECK_SSE2
+#define HYDRA_BOOST_MATH_CHECK_SSE2
 #endif
 #endif
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
    namespace concepts {
 
@@ -46,14 +46,14 @@ template <>
 struct has_hidden_guard_digits<double> : public std::false_type {};
 template <>
 struct has_hidden_guard_digits<long double> : public std::false_type {};
-#ifdef BOOST_HAS_FLOAT128
+#ifdef HYDRA_BOOST_HAS_FLOAT128
 template <>
 struct has_hidden_guard_digits<__float128> : public std::false_type {};
 #endif
 template <>
-struct has_hidden_guard_digits<boost::math::concepts::real_concept> : public std::false_type {};
+struct has_hidden_guard_digits<hydra_boost::math::concepts::real_concept> : public std::false_type {};
 template <>
-struct has_hidden_guard_digits<boost::math::concepts::std_real_concept> : public std::false_type {};
+struct has_hidden_guard_digits<hydra_boost::math::concepts::std_real_concept> : public std::false_type {};
 
 template <class T, bool b>
 struct has_hidden_guard_digits_10 : public std::false_type {};
@@ -90,7 +90,7 @@ inline T get_smallest_value(std::true_type const&)
    // when using the SSE2 registers in DAZ or FTZ mode.
    //
    static const T m = std::numeric_limits<T>::denorm_min();
-#ifdef BOOST_MATH_CHECK_SSE2
+#ifdef HYDRA_BOOST_MATH_CHECK_SSE2
    return (_mm_getcsr() & (_MM_FLUSH_ZERO_ON | 0x40)) ? tools::min_value<T>() : m;
 #else
    return ((tools::min_value<T>() / 2) == 0) ? tools::min_value<T>() : m;
@@ -106,7 +106,7 @@ inline T get_smallest_value(std::false_type const&)
 template <class T>
 inline T get_smallest_value()
 {
-#if defined(BOOST_MSVC) && (BOOST_MSVC <= 1310)
+#if defined(HYDRA_BOOST_MSVC) && (HYDRA_BOOST_MSVC <= 1310)
    return get_smallest_value<T>(std::integral_constant<bool, std::numeric_limits<T>::is_specialized && (std::numeric_limits<T>::has_denorm == 1)>());
 #else
    return get_smallest_value<T>(std::integral_constant<bool, std::numeric_limits<T>::is_specialized && (std::numeric_limits<T>::has_denorm == std::denorm_present)>());
@@ -148,7 +148,7 @@ const typename min_shift_initializer<T>::init min_shift_initializer<T>::initiali
 template <class T>
 inline T calc_min_shifted(const std::true_type&)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return ldexp(tools::min_value<T>(), tools::digits<T>() + 1);
 }
 template <class T>
@@ -170,7 +170,7 @@ inline T get_min_shift_value()
    return val;
 }
 
-template <class T, bool b = boost::math::tools::detail::has_backend_type<T>::value>
+template <class T, bool b = hydra_boost::math::tools::detail::has_backend_type<T>::value>
 struct exponent_type
 {
    typedef int type;
@@ -187,11 +187,11 @@ T float_next_imp(const T& val, const std::true_type&, const Policy& pol)
 {
    typedef typename exponent_type<T>::type exponent_type;
 
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    exponent_type expon;
    static const char* function = "float_next<%1%>(%1%)";
 
-   int fpclass = (boost::math::fpclassify)(val);
+   int fpclass = (hydra_boost::math::fpclassify)(val);
 
    if((fpclass == (int)FP_NAN) || (fpclass == (int)FP_INFINITE))
    {
@@ -236,11 +236,11 @@ T float_next_imp(const T& val, const std::false_type&, const Policy& pol)
    static_assert(std::numeric_limits<T>::is_specialized, "Type T must be specialized.");
    static_assert(std::numeric_limits<T>::radix != 2, "Type T must be specialized.");
 
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    exponent_type expon;
    static const char* function = "float_next<%1%>(%1%)";
 
-   int fpclass = (boost::math::fpclassify)(val);
+   int fpclass = (hydra_boost::math::fpclassify)(val);
 
    if((fpclass == (int)FP_NAN) || (fpclass == (int)FP_INFINITE))
    {
@@ -285,7 +285,7 @@ inline typename tools::promote_args<T>::type float_next(const T& val, const Poli
    return detail::float_next_imp(detail::normalize_value(static_cast<result_type>(val), typename detail::has_hidden_guard_digits<result_type>::type()), std::integral_constant<bool, !std::numeric_limits<result_type>::is_specialized || (std::numeric_limits<result_type>::radix == 2)>(), pol);
 }
 
-#if 0 //def BOOST_MSVC
+#if 0 //def HYDRA_BOOST_MSVC
 //
 // We used to use ::_nextafter here, but doing so fails when using
 // the SSE2 registers if the FTZ or DAZ flags are set, so use our own
@@ -296,7 +296,7 @@ inline double float_next(const double& val, const Policy& pol)
 {
    static const char* function = "float_next<%1%>(%1%)";
 
-   if(!(boost::math::isfinite)(val) && (val > 0))
+   if(!(hydra_boost::math::isfinite)(val) && (val > 0))
       return policies::raise_domain_error<double>(
          function,
          "Argument must be finite, but got %1%", val, pol);
@@ -321,11 +321,11 @@ T float_prior_imp(const T& val, const std::true_type&, const Policy& pol)
 {
    typedef typename exponent_type<T>::type exponent_type;
 
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    exponent_type expon;
    static const char* function = "float_prior<%1%>(%1%)";
 
-   int fpclass = (boost::math::fpclassify)(val);
+   int fpclass = (hydra_boost::math::fpclassify)(val);
 
    if((fpclass == (int)FP_NAN) || (fpclass == (int)FP_INFINITE))
    {
@@ -371,11 +371,11 @@ T float_prior_imp(const T& val, const std::false_type&, const Policy& pol)
    static_assert(std::numeric_limits<T>::is_specialized, "Type T must be specialized.");
    static_assert(std::numeric_limits<T>::radix != 2, "Type T must be specialized.");
 
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    exponent_type expon;
    static const char* function = "float_prior<%1%>(%1%)";
 
-   int fpclass = (boost::math::fpclassify)(val);
+   int fpclass = (hydra_boost::math::fpclassify)(val);
 
    if((fpclass == (int)FP_NAN) || (fpclass == (int)FP_INFINITE))
    {
@@ -421,7 +421,7 @@ inline typename tools::promote_args<T>::type float_prior(const T& val, const Pol
    return detail::float_prior_imp(detail::normalize_value(static_cast<result_type>(val), typename detail::has_hidden_guard_digits<result_type>::type()), std::integral_constant<bool, !std::numeric_limits<result_type>::is_specialized || (std::numeric_limits<result_type>::radix == 2)>(), pol);
 }
 
-#if 0 //def BOOST_MSVC
+#if 0 //def HYDRA_BOOST_MSVC
 //
 // We used to use ::_nextafter here, but doing so fails when using
 // the SSE2 registers if the FTZ or DAZ flags are set, so use our own
@@ -432,7 +432,7 @@ inline double float_prior(const double& val, const Policy& pol)
 {
    static const char* function = "float_prior<%1%>(%1%)";
 
-   if(!(boost::math::isfinite)(val) && (val < 0))
+   if(!(hydra_boost::math::isfinite)(val) && (val < 0))
       return policies::raise_domain_error<double>(
          function,
          "Argument must be finite, but got %1%", val, pol);
@@ -454,7 +454,7 @@ template <class T, class U, class Policy>
 inline typename tools::promote_args<T, U>::type nextafter(const T& val, const U& direction, const Policy& pol)
 {
    typedef typename tools::promote_args<T, U>::type result_type;
-   return val < direction ? boost::math::float_next<result_type>(val, pol) : val == direction ? val : boost::math::float_prior<result_type>(val, pol);
+   return val < direction ? hydra_boost::math::float_next<result_type>(val, pol) : val == direction ? val : hydra_boost::math::float_prior<result_type>(val, pol);
 }
 
 template <class T, class U>
@@ -468,16 +468,16 @@ namespace detail{
 template <class T, class Policy>
 T float_distance_imp(const T& a, const T& b, const std::true_type&, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    //
    // Error handling:
    //
    static const char* function = "float_distance<%1%>(%1%, %1%)";
-   if(!(boost::math::isfinite)(a))
+   if(!(hydra_boost::math::isfinite)(a))
       return policies::raise_domain_error<T>(
          function,
          "Argument a must be finite, but got %1%", a, pol);
-   if(!(boost::math::isfinite)(b))
+   if(!(hydra_boost::math::isfinite)(b))
       return policies::raise_domain_error<T>(
          function,
          "Argument b must be finite, but got %1%", b, pol);
@@ -492,7 +492,7 @@ T float_distance_imp(const T& a, const T& b, const std::true_type&, const Policy
       return 1 + fabs(float_distance(static_cast<T>((b < 0) ? T(-detail::get_smallest_value<T>()) : detail::get_smallest_value<T>()), b, pol));
    if(b == 0)
       return 1 + fabs(float_distance(static_cast<T>((a < 0) ? T(-detail::get_smallest_value<T>()) : detail::get_smallest_value<T>()), a, pol));
-   if(boost::math::sign(a) != boost::math::sign(b))
+   if(hydra_boost::math::sign(a) != hydra_boost::math::sign(b))
       return 2 + fabs(float_distance(static_cast<T>((b < 0) ? T(-detail::get_smallest_value<T>()) : detail::get_smallest_value<T>()), b, pol))
          + fabs(float_distance(static_cast<T>((a < 0) ? T(-detail::get_smallest_value<T>()) : detail::get_smallest_value<T>()), a, pol));
    //
@@ -502,8 +502,8 @@ T float_distance_imp(const T& a, const T& b, const std::true_type&, const Policy
    if(a < 0)
       return float_distance(static_cast<T>(-b), static_cast<T>(-a), pol);
 
-   BOOST_MATH_ASSERT(a >= 0);
-   BOOST_MATH_ASSERT(b >= a);
+   HYDRA_BOOST_MATH_ASSERT(a >= 0);
+   HYDRA_BOOST_MATH_ASSERT(b >= a);
 
    int expon;
    //
@@ -511,7 +511,7 @@ T float_distance_imp(const T& a, const T& b, const std::true_type&, const Policy
    // because we actually have fewer than tools::digits<T>()
    // significant bits in the representation:
    //
-   (void)frexp(((boost::math::fpclassify)(a) == (int)FP_SUBNORMAL) ? tools::min_value<T>() : a, &expon);
+   (void)frexp(((hydra_boost::math::fpclassify)(a) == (int)FP_SUBNORMAL) ? tools::min_value<T>() : a, &expon);
    T upper = ldexp(T(1), expon);
    T result = T(0);
    //
@@ -532,7 +532,7 @@ T float_distance_imp(const T& a, const T& b, const std::true_type&, const Policy
    //
    expon = tools::digits<T>() - expon;
    T mb, x, y, z;
-   if(((boost::math::fpclassify)(a) == (int)FP_SUBNORMAL) || (b - a < tools::min_value<T>()))
+   if(((hydra_boost::math::fpclassify)(a) == (int)FP_SUBNORMAL) || (b - a < tools::min_value<T>()))
    {
       //
       // Special case - either one end of the range is a denormal, or else the difference is.
@@ -564,7 +564,7 @@ T float_distance_imp(const T& a, const T& b, const std::true_type&, const Policy
    //
    // Result must be an integer:
    //
-   BOOST_MATH_ASSERT(result == floor(result));
+   HYDRA_BOOST_MATH_ASSERT(result == floor(result));
    return result;
 } // float_distance_imp
 //
@@ -576,16 +576,16 @@ T float_distance_imp(const T& a, const T& b, const std::false_type&, const Polic
    static_assert(std::numeric_limits<T>::is_specialized, "Type T must be specialized.");
    static_assert(std::numeric_limits<T>::radix != 2, "Type T must be specialized.");
 
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    //
    // Error handling:
    //
    static const char* function = "float_distance<%1%>(%1%, %1%)";
-   if(!(boost::math::isfinite)(a))
+   if(!(hydra_boost::math::isfinite)(a))
       return policies::raise_domain_error<T>(
          function,
          "Argument a must be finite, but got %1%", a, pol);
-   if(!(boost::math::isfinite)(b))
+   if(!(hydra_boost::math::isfinite)(b))
       return policies::raise_domain_error<T>(
          function,
          "Argument b must be finite, but got %1%", b, pol);
@@ -600,7 +600,7 @@ T float_distance_imp(const T& a, const T& b, const std::false_type&, const Polic
       return 1 + fabs(float_distance(static_cast<T>((b < 0) ? T(-detail::get_smallest_value<T>()) : detail::get_smallest_value<T>()), b, pol));
    if(b == 0)
       return 1 + fabs(float_distance(static_cast<T>((a < 0) ? T(-detail::get_smallest_value<T>()) : detail::get_smallest_value<T>()), a, pol));
-   if(boost::math::sign(a) != boost::math::sign(b))
+   if(hydra_boost::math::sign(a) != hydra_boost::math::sign(b))
       return 2 + fabs(float_distance(static_cast<T>((b < 0) ? T(-detail::get_smallest_value<T>()) : detail::get_smallest_value<T>()), b, pol))
          + fabs(float_distance(static_cast<T>((a < 0) ? T(-detail::get_smallest_value<T>()) : detail::get_smallest_value<T>()), a, pol));
    //
@@ -610,8 +610,8 @@ T float_distance_imp(const T& a, const T& b, const std::false_type&, const Polic
    if(a < 0)
       return float_distance(static_cast<T>(-b), static_cast<T>(-a), pol);
 
-   BOOST_MATH_ASSERT(a >= 0);
-   BOOST_MATH_ASSERT(b >= a);
+   HYDRA_BOOST_MATH_ASSERT(a >= 0);
+   HYDRA_BOOST_MATH_ASSERT(b >= a);
 
    std::intmax_t expon;
    //
@@ -619,7 +619,7 @@ T float_distance_imp(const T& a, const T& b, const std::false_type&, const Polic
    // because we actually have fewer than tools::digits<T>()
    // significant bits in the representation:
    //
-   expon = 1 + ilogb(((boost::math::fpclassify)(a) == (int)FP_SUBNORMAL) ? tools::min_value<T>() : a);
+   expon = 1 + ilogb(((hydra_boost::math::fpclassify)(a) == (int)FP_SUBNORMAL) ? tools::min_value<T>() : a);
    T upper = scalbn(T(1), expon);
    T result = T(0);
    //
@@ -639,7 +639,7 @@ T float_distance_imp(const T& a, const T& b, const std::false_type&, const Polic
    //
    expon = std::numeric_limits<T>::digits - expon;
    T mb, x, y, z;
-   if(((boost::math::fpclassify)(a) == (int)FP_SUBNORMAL) || (b - a < tools::min_value<T>()))
+   if(((hydra_boost::math::fpclassify)(a) == (int)FP_SUBNORMAL) || (b - a < tools::min_value<T>()))
    {
       //
       // Special case - either one end of the range is a denormal, or else the difference is.
@@ -671,7 +671,7 @@ T float_distance_imp(const T& a, const T& b, const std::false_type&, const Polic
    //
    // Result must be an integer:
    //
-   BOOST_MATH_ASSERT(result == floor(result));
+   HYDRA_BOOST_MATH_ASSERT(result == floor(result));
    return result;
 } // float_distance_imp
 
@@ -693,9 +693,9 @@ inline typename tools::promote_args<T, U>::type float_distance(const T& a, const
          && !std::numeric_limits<T>::is_integer && !std::numeric_limits<U>::is_integer)),
       "Float distance between two different floating point types is undefined.");
 
-   BOOST_IF_CONSTEXPR (!std::is_same<T, U>::value)
+   HYDRA_BOOST_IF_CONSTEXPR (!std::is_same<T, U>::value)
    {
-      BOOST_IF_CONSTEXPR(std::is_integral<T>::value)
+      HYDRA_BOOST_IF_CONSTEXPR(std::is_integral<T>::value)
       {
          return float_distance(static_cast<U>(a), b, pol);
       }
@@ -714,7 +714,7 @@ inline typename tools::promote_args<T, U>::type float_distance(const T& a, const
 template <class T, class U>
 typename tools::promote_args<T, U>::type float_distance(const T& a, const U& b)
 {
-   return boost::math::float_distance(a, b, policies::policy<>());
+   return hydra_boost::math::float_distance(a, b, policies::policy<>());
 }
 
 namespace detail{
@@ -722,13 +722,13 @@ namespace detail{
 template <class T, class Policy>
 T float_advance_imp(T val, int distance, const std::true_type&, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    //
    // Error handling:
    //
    static const char* function = "float_advance<%1%>(%1%, int)";
 
-   int fpclass = (boost::math::fpclassify)(val);
+   int fpclass = (hydra_boost::math::fpclassify)(val);
 
    if((fpclass == (int)FP_NAN) || (fpclass == (int)FP_INFINITE))
       return policies::raise_domain_error<T>(
@@ -808,13 +808,13 @@ T float_advance_imp(T val, int distance, const std::false_type&, const Policy& p
    static_assert(std::numeric_limits<T>::is_specialized, "Type T must be specialized.");
    static_assert(std::numeric_limits<T>::radix != 2, "Type T must be specialized.");
 
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    //
    // Error handling:
    //
    static const char* function = "float_advance<%1%>(%1%, int)";
 
-   int fpclass = (boost::math::fpclassify)(val);
+   int fpclass = (hydra_boost::math::fpclassify)(val);
 
    if((fpclass == (int)FP_NAN) || (fpclass == (int)FP_INFINITE))
       return policies::raise_domain_error<T>(
@@ -898,9 +898,9 @@ inline typename tools::promote_args<T>::type float_advance(T val, int distance, 
 template <class T>
 inline typename tools::promote_args<T>::type float_advance(const T& val, int distance)
 {
-   return boost::math::float_advance(val, distance, policies::policy<>());
+   return hydra_boost::math::float_advance(val, distance, policies::policy<>());
 }
 
 }} // boost math namespaces
 
-#endif // BOOST_MATH_SPECIAL_NEXT_HPP
+#endif // HYDRA_BOOST_MATH_SPECIAL_NEXT_HPP

@@ -5,8 +5,8 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_ROUND_FWD_HPP
-#define BOOST_MATH_SPECIAL_ROUND_FWD_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_ROUND_FWD_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_ROUND_FWD_HPP
 
 #include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/promotion.hpp>
@@ -15,7 +15,7 @@
 #pragma once
 #endif
 
-namespace boost
+namespace hydra_boost
 {
    namespace math
    { 
@@ -71,16 +71,16 @@ namespace boost
    }
 }
 
-#undef BOOST_MATH_STD_USING
-#define BOOST_MATH_STD_USING BOOST_MATH_STD_USING_CORE\
-   using boost::math::round;\
-   using boost::math::iround;\
-   using boost::math::lround;\
-   using boost::math::trunc;\
-   using boost::math::itrunc;\
-   using boost::math::ltrunc;\
-   using boost::math::modf;
+#undef HYDRA_BOOST_MATH_STD_USING
+#define HYDRA_BOOST_MATH_STD_USING HYDRA_BOOST_MATH_STD_USING_CORE\
+   using hydra_boost::math::round;\
+   using hydra_boost::math::iround;\
+   using hydra_boost::math::lround;\
+   using hydra_boost::math::trunc;\
+   using hydra_boost::math::itrunc;\
+   using hydra_boost::math::ltrunc;\
+   using hydra_boost::math::modf;
 
 
-#endif // BOOST_MATH_SPECIAL_ROUND_FWD_HPP
+#endif // HYDRA_BOOST_MATH_SPECIAL_ROUND_FWD_HPP
 

@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_BESSEL_KN_HPP
-#define BOOST_MATH_BESSEL_KN_HPP
+#ifndef HYDRA_BOOST_MATH_BESSEL_KN_HPP
+#define HYDRA_BOOST_MATH_BESSEL_KN_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -17,17 +17,17 @@
 // Modified Bessel function of the second kind of integer order
 // K_n(z) is the dominant solution, forward recurrence always OK (though unstable)
 
-namespace boost { namespace math { namespace detail{
+namespace hydra_boost { namespace math { namespace detail{
 
 template <typename T, typename Policy>
 T bessel_kn(int n, T x, const Policy& pol)
 {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     T value, current, prev;
 
-    using namespace boost::math::tools;
+    using namespace hydra_boost::math::tools;
 
-    static const char* function = "boost::math::bessel_kn<%1%>(%1%,%1%)";
+    static const char* function = "hydra_boost::math::bessel_kn<%1%>(%1%,%1%)";
 
     if (x < 0)
     {
@@ -56,7 +56,7 @@ T bessel_kn(int n, T x, const Policy& pol)
        prev = bessel_k0(x);
        current = bessel_k1(x);
        int k = 1;
-       BOOST_MATH_ASSERT(k < n);
+       HYDRA_BOOST_MATH_ASSERT(k < n);
        T scale = 1;
        do
        {
@@ -82,5 +82,5 @@ T bessel_kn(int n, T x, const Policy& pol)
 
 }}} // namespaces
 
-#endif // BOOST_MATH_BESSEL_KN_HPP
+#endif // HYDRA_BOOST_MATH_BESSEL_KN_HPP
 

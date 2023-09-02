@@ -7,8 +7,8 @@
 // TODO deal with infinity as special better - or remove.
 //
 
-#ifndef BOOST_STATS_UNIFORM_HPP
-#define BOOST_STATS_UNIFORM_HPP
+#ifndef HYDRA_BOOST_STATS_UNIFORM_HPP
+#define HYDRA_BOOST_STATS_UNIFORM_HPP
 
 // http://www.itl.nist.gov/div898/handbook/eda/section3/eda3668.htm
 // http://mathworld.wolfram.com/UniformDistribution.html
@@ -21,7 +21,7 @@
 
 #include <utility>
 
-namespace boost{ namespace math
+namespace hydra_boost{ namespace math
 {
   namespace detail
   {
@@ -31,7 +31,7 @@ namespace boost{ namespace math
       RealType lower,
       RealType* result, const Policy& pol)
     {
-      if((boost::math::isfinite)(lower))
+      if((hydra_boost::math::isfinite)(lower))
       { // any finite value is OK.
         return true;
       }
@@ -50,7 +50,7 @@ namespace boost{ namespace math
       RealType upper,
       RealType* result, const Policy& pol)
     {
-      if((boost::math::isfinite)(upper))
+      if((hydra_boost::math::isfinite)(upper))
       { // Any finite value is OK.
         return true;
       }
@@ -69,7 +69,7 @@ namespace boost{ namespace math
       RealType const& x,
       RealType* result, const Policy& pol)
     {
-      if((boost::math::isfinite)(x))
+      if((hydra_boost::math::isfinite)(x))
       { // Any finite value is OK
         return true;
       }
@@ -120,7 +120,7 @@ namespace boost{ namespace math
       : m_lower(l_lower), m_upper(l_upper) // Default is standard uniform distribution.
     {
       RealType result;
-      detail::check_uniform("boost::math::uniform_distribution<%1%>::uniform_distribution", l_lower, l_upper, &result, Policy());
+      detail::check_uniform("hydra_boost::math::uniform_distribution<%1%>::uniform_distribution", l_lower, l_upper, &result, Policy());
     }
     // Accessor functions.
     RealType lower()const
@@ -142,15 +142,15 @@ namespace boost{ namespace math
 
   #ifdef __cpp_deduction_guides
   template <class RealType>
-  uniform_distribution(RealType)->uniform_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+  uniform_distribution(RealType)->uniform_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
   template <class RealType>
-  uniform_distribution(RealType,RealType)->uniform_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+  uniform_distribution(RealType,RealType)->uniform_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
   #endif
 
   template <class RealType, class Policy>
   inline const std::pair<RealType, RealType> range(const uniform_distribution<RealType, Policy>& /* dist */)
   { // Range of permissible values for random variable x.
-     using boost::math::tools::max_value;
+     using hydra_boost::math::tools::max_value;
      return std::pair<RealType, RealType>(-max_value<RealType>(), max_value<RealType>()); // - to + 'infinity'.
      // Note RealType infinity is NOT permitted, only max_value.
   }
@@ -159,7 +159,7 @@ namespace boost{ namespace math
   inline const std::pair<RealType, RealType> support(const uniform_distribution<RealType, Policy>& dist)
   { // Range of supported values for random variable x.
      // This is range where cdf rises from 0 to 1, and outside it, the pdf is zero.
-     using boost::math::tools::max_value;
+     using hydra_boost::math::tools::max_value;
      return std::pair<RealType, RealType>(dist.lower(),  dist.upper());
   }
 
@@ -169,11 +169,11 @@ namespace boost{ namespace math
     RealType lower = dist.lower();
     RealType upper = dist.upper();
     RealType result = 0; // of checks.
-    if(false == detail::check_uniform("boost::math::pdf(const uniform_distribution<%1%>&, %1%)", lower, upper, &result, Policy()))
+    if(false == detail::check_uniform("hydra_boost::math::pdf(const uniform_distribution<%1%>&, %1%)", lower, upper, &result, Policy()))
     {
       return result;
     }
-    if(false == detail::check_uniform_x("boost::math::pdf(const uniform_distribution<%1%>&, %1%)", x, &result, Policy()))
+    if(false == detail::check_uniform_x("hydra_boost::math::pdf(const uniform_distribution<%1%>&, %1%)", x, &result, Policy()))
     {
       return result;
     }
@@ -194,11 +194,11 @@ namespace boost{ namespace math
     RealType lower = dist.lower();
     RealType upper = dist.upper();
     RealType result = 0; // of checks.
-    if(false == detail::check_uniform("boost::math::cdf(const uniform_distribution<%1%>&, %1%)",lower, upper, &result, Policy()))
+    if(false == detail::check_uniform("hydra_boost::math::cdf(const uniform_distribution<%1%>&, %1%)",lower, upper, &result, Policy()))
     {
       return result;
     }
-    if(false == detail::check_uniform_x("boost::math::cdf(const uniform_distribution<%1%>&, %1%)", x, &result, Policy()))
+    if(false == detail::check_uniform_x("hydra_boost::math::cdf(const uniform_distribution<%1%>&, %1%)", x, &result, Policy()))
     {
       return result;
     }
@@ -219,11 +219,11 @@ namespace boost{ namespace math
     RealType lower = dist.lower();
     RealType upper = dist.upper();
     RealType result = 0; // of checks
-    if(false == detail::check_uniform("boost::math::quantile(const uniform_distribution<%1%>&, %1%)",lower, upper, &result, Policy()))
+    if(false == detail::check_uniform("hydra_boost::math::quantile(const uniform_distribution<%1%>&, %1%)",lower, upper, &result, Policy()))
     {
       return result;
     }
-    if(false == detail::check_probability("boost::math::quantile(const uniform_distribution<%1%>&, %1%)", p, &result, Policy()))
+    if(false == detail::check_probability("hydra_boost::math::quantile(const uniform_distribution<%1%>&, %1%)", p, &result, Policy()))
     {
       return result;
     }
@@ -245,11 +245,11 @@ namespace boost{ namespace math
     RealType upper = c.dist.upper();
     RealType x = c.param;
     RealType result = 0; // of checks.
-    if(false == detail::check_uniform("boost::math::cdf(const uniform_distribution<%1%>&, %1%)", lower, upper, &result, Policy()))
+    if(false == detail::check_uniform("hydra_boost::math::cdf(const uniform_distribution<%1%>&, %1%)", lower, upper, &result, Policy()))
     {
       return result;
     }
-    if(false == detail::check_uniform_x("boost::math::cdf(const uniform_distribution<%1%>&, %1%)", x, &result, Policy()))
+    if(false == detail::check_uniform_x("hydra_boost::math::cdf(const uniform_distribution<%1%>&, %1%)", x, &result, Policy()))
     {
       return result;
     }
@@ -271,11 +271,11 @@ namespace boost{ namespace math
     RealType upper = c.dist.upper();
     RealType q = c.param;
     RealType result = 0; // of checks.
-    if(false == detail::check_uniform("boost::math::quantile(const uniform_distribution<%1%>&, %1%)", lower, upper, &result, Policy()))
+    if(false == detail::check_uniform("hydra_boost::math::quantile(const uniform_distribution<%1%>&, %1%)", lower, upper, &result, Policy()))
     {
       return result;
     }
-    if(false == detail::check_probability("boost::math::quantile(const uniform_distribution<%1%>&, %1%)", q, &result, Policy()))
+    if(false == detail::check_probability("hydra_boost::math::quantile(const uniform_distribution<%1%>&, %1%)", q, &result, Policy()))
     {
        return result;
     }
@@ -296,7 +296,7 @@ namespace boost{ namespace math
     RealType lower = dist.lower();
     RealType upper = dist.upper();
     RealType result = 0;  // of checks.
-    if(false == detail::check_uniform("boost::math::mean(const uniform_distribution<%1%>&)", lower, upper, &result, Policy()))
+    if(false == detail::check_uniform("hydra_boost::math::mean(const uniform_distribution<%1%>&)", lower, upper, &result, Policy()))
     {
       return result;
     }
@@ -309,7 +309,7 @@ namespace boost{ namespace math
     RealType lower = dist.lower();
     RealType upper = dist.upper();
     RealType result = 0; // of checks.
-    if(false == detail::check_uniform("boost::math::variance(const uniform_distribution<%1%>&)", lower, upper, &result, Policy()))
+    if(false == detail::check_uniform("hydra_boost::math::variance(const uniform_distribution<%1%>&)", lower, upper, &result, Policy()))
     {
       return result;
     }
@@ -323,7 +323,7 @@ namespace boost{ namespace math
     RealType lower = dist.lower();
     RealType upper = dist.upper();
     RealType result = 0; // of checks.
-    if(false == detail::check_uniform("boost::math::mode(const uniform_distribution<%1%>&)", lower, upper, &result, Policy()))
+    if(false == detail::check_uniform("hydra_boost::math::mode(const uniform_distribution<%1%>&)", lower, upper, &result, Policy()))
     {
       return result;
     }
@@ -337,7 +337,7 @@ namespace boost{ namespace math
     RealType lower = dist.lower();
     RealType upper = dist.upper();
     RealType result = 0; // of checks.
-    if(false == detail::check_uniform("boost::math::median(const uniform_distribution<%1%>&)", lower, upper, &result, Policy()))
+    if(false == detail::check_uniform("hydra_boost::math::median(const uniform_distribution<%1%>&)", lower, upper, &result, Policy()))
     {
       return result;
     }
@@ -349,7 +349,7 @@ namespace boost{ namespace math
     RealType lower = dist.lower();
     RealType upper = dist.upper();
     RealType result = 0; // of checks.
-    if(false == detail::check_uniform("boost::math::skewness(const uniform_distribution<%1%>&)",lower, upper, &result, Policy()))
+    if(false == detail::check_uniform("hydra_boost::math::skewness(const uniform_distribution<%1%>&)",lower, upper, &result, Policy()))
     {
       return result;
     }
@@ -362,7 +362,7 @@ namespace boost{ namespace math
     RealType lower = dist.lower();
     RealType upper = dist.upper();
     RealType result = 0;  // of checks.
-    if(false == detail::check_uniform("boost::math::kurtosis_excess(const uniform_distribution<%1%>&)", lower, upper, &result, Policy()))
+    if(false == detail::check_uniform("hydra_boost::math::kurtosis_excess(const uniform_distribution<%1%>&)", lower, upper, &result, Policy()))
     {
       return result;
     }
@@ -383,14 +383,14 @@ namespace boost{ namespace math
   }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_STATS_UNIFORM_HPP
+#endif // HYDRA_BOOST_STATS_UNIFORM_HPP
 
 
 

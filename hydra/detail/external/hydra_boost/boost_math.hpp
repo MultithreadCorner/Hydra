@@ -29,10 +29,16 @@
 
 #pragma once
 
-#define BOOST_MATH_STANDALONE
+#define HYDRA_HYDRA_BOOST_MATH_STANDALONE
 
 #include <hydra/detail/external/hydra_boost/math/octonion.hpp>
 #include <hydra/detail/external/hydra_boost/math/quaternion.hpp>
 #include <hydra/detail/external/hydra_boost/math/complex.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions.hpp>
+
+namespace hydra {
+
+namespace  boost = hydra_boost;
+
+}  // namespace hydra
 

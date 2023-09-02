@@ -11,8 +11,8 @@
 //  Updated 2015 to use Carlson's latest methods.
 //
 
-#ifndef BOOST_MATH_ELLINT_RJ_HPP
-#define BOOST_MATH_ELLINT_RJ_HPP
+#ifndef HYDRA_BOOST_MATH_ELLINT_RJ_HPP
+#define HYDRA_BOOST_MATH_ELLINT_RJ_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -29,16 +29,16 @@
 // R_J(x, y, z, p) = 1.5 * \int_{0}^{\infty} (t+p)^{-1} [(t+x)(t+y)(t+z)]^{-1/2} dt
 // Carlson, Numerische Mathematik, vol 33, 1 (1979)
 
-namespace boost { namespace math { namespace detail{
+namespace hydra_boost { namespace math { namespace detail{
 
 template <typename T, typename Policy>
 T ellint_rc1p_imp(T y, const Policy& pol)
 {
-   using namespace boost::math;
+   using namespace hydra_boost::math;
    // Calculate RC(1, 1 + x)
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
-  static const char* function = "boost::math::ellint_rc<%1%>(%1%,%1%)";
+  static const char* function = "hydra_boost::math::ellint_rc<%1%>(%1%,%1%)";
 
    if(y == -1)
    {
@@ -62,10 +62,10 @@ T ellint_rc1p_imp(T y, const Policy& pol)
    }
    else
    {
-      if(y > T(-0.5))
+      if(y > -0.5)
       {
          T arg = sqrt(-y);
-         result = (boost::math::log1p(arg, pol) - boost::math::log1p(-arg, pol)) / (2 * sqrt(-y));
+         result = (hydra_boost::math::log1p(arg, pol) - hydra_boost::math::log1p(-arg, pol)) / (2 * sqrt(-y));
       }
       else
       {
@@ -78,9 +78,9 @@ T ellint_rc1p_imp(T y, const Policy& pol)
 template <typename T, typename Policy>
 T ellint_rj_imp(T x, T y, T z, T p, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
-   static const char* function = "boost::math::ellint_rj<%1%>(%1%,%1%,%1%)";
+   static const char* function = "hydra_boost::math::ellint_rj<%1%>(%1%,%1%,%1%)";
 
    if(x < 0)
    {
@@ -124,13 +124,13 @@ T ellint_rj_imp(T x, T y, T z, T p, const Policy& pol)
       if(x > y)
          std::swap(x, y);
 
-      BOOST_MATH_ASSERT(x <= y);
-      BOOST_MATH_ASSERT(y <= z);
+      HYDRA_BOOST_MATH_ASSERT(x <= y);
+      HYDRA_BOOST_MATH_ASSERT(y <= z);
 
       T q = -p;
       p = (z * (x + y + q) - x * y) / (z + q);
 
-      BOOST_MATH_ASSERT(p >= 0);
+      HYDRA_BOOST_MATH_ASSERT(p >= 0);
 
       T value = (p - z) * ellint_rj_imp(x, y, z, p, pol);
       value -= 3 * ellint_rf_imp(x, y, z, pol);
@@ -166,7 +166,7 @@ T ellint_rj_imp(T x, T y, T z, T p, const Policy& pol)
          {
             return ellint_rd_imp(x, y, y, pol);
          }
-         else if((std::max)(y, p) / (std::min)(y, p) > T(1.2))
+         else if((std::max)(y, p) / (std::min)(y, p) > 1.2)
          {
             return 3 * (ellint_rc_imp(x, y, pol) - ellint_rc_imp(x, p, pol)) / (p - y);
          }
@@ -180,7 +180,7 @@ T ellint_rj_imp(T x, T y, T z, T p, const Policy& pol)
          // y = z = p:
          return ellint_rd_imp(x, y, y, pol);
       }
-      else if((std::max)(y, p) / (std::min)(y, p) > T(1.2))
+      else if((std::max)(y, p) / (std::min)(y, p) > 1.2)
       {
          // y = z:
          return 3 * (ellint_rc_imp(x, y, pol) - ellint_rc_imp(x, p, pol)) / (p - y);
@@ -218,7 +218,7 @@ T ellint_rj_imp(T x, T y, T z, T p, const Policy& pol)
       Dn = (rp + rx) * (rp + ry) * (rp + rz);
       En = delta / Dn;
       En /= Dn;
-      if((En < T(-0.5)) && (En > T(-1.5)))
+      if((En < -0.5) && (En > -1.5))
       {
          //
          // Occasionally En ~ -1, we then have no means of calculating
@@ -286,7 +286,7 @@ inline typename tools::promote_args<T1, T2, T3, T4>::type
          static_cast<value_type>(y),
          static_cast<value_type>(z),
          static_cast<value_type>(p),
-         pol), "boost::math::ellint_rj<%1%>(%1%,%1%,%1%,%1%)");
+         pol), "hydra_boost::math::ellint_rj<%1%>(%1%,%1%,%1%,%1%)");
 }
 
 template <class T1, class T2, class T3, class T4>
@@ -298,5 +298,5 @@ inline typename tools::promote_args<T1, T2, T3, T4>::type
 
 }} // namespaces
 
-#endif // BOOST_MATH_ELLINT_RJ_HPP
+#endif // HYDRA_BOOST_MATH_ELLINT_RJ_HPP
 

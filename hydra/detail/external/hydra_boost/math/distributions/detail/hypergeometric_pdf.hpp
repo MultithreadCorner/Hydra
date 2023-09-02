@@ -6,8 +6,8 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_DISTRIBUTIONS_DETAIL_HG_PDF_HPP
-#define BOOST_MATH_DISTRIBUTIONS_DETAIL_HG_PDF_HPP
+#ifndef HYDRA_BOOST_MATH_DISTRIBUTIONS_DETAIL_HG_PDF_HPP
+#define HYDRA_BOOST_MATH_DISTRIBUTIONS_DETAIL_HG_PDF_HPP
 
 #include <hydra/detail/external/hydra_boost/math/constants/constants.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/lanczos.hpp>
@@ -15,14 +15,12 @@
 #include <hydra/detail/external/hydra_boost/math/special_functions/pow.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/prime.hpp>
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
-#include <algorithm>
-#include <cstdint>
 
-#ifdef BOOST_MATH_INSTRUMENT
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT
 #include <typeinfo>
 #endif
 
-namespace boost{ namespace math{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace detail{
 
 template <class T, class Func>
 void bubble_down_one(T* first, T* last, Func f)
@@ -42,7 +40,7 @@ template <class T>
 struct sort_functor
 {
    sort_functor(const T* exponents) : m_exponents(exponents){}
-   bool operator()(std::size_t i, std::size_t j)
+   bool operator()(int i, int j)
    {
       return m_exponents[i] > m_exponents[j];
    }
@@ -51,16 +49,16 @@ private:
 };
 
 template <class T, class Lanczos, class Policy>
-T hypergeometric_pdf_lanczos_imp(T /*dummy*/, std::uint64_t x, std::uint64_t r, std::uint64_t n, std::uint64_t N, const Lanczos&, const Policy&)
+T hypergeometric_pdf_lanczos_imp(T /*dummy*/, unsigned x, unsigned r, unsigned n, unsigned N, const Lanczos&, const Policy&)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
-   BOOST_MATH_INSTRUMENT_FPU
-   BOOST_MATH_INSTRUMENT_VARIABLE(x);
-   BOOST_MATH_INSTRUMENT_VARIABLE(r);
-   BOOST_MATH_INSTRUMENT_VARIABLE(n);
-   BOOST_MATH_INSTRUMENT_VARIABLE(N);
-   BOOST_MATH_INSTRUMENT_VARIABLE(typeid(Lanczos).name());
+   HYDRA_BOOST_MATH_INSTRUMENT_FPU
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(x);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(r);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(n);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(N);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(typeid(Lanczos).name());
 
    T bases[9] = {
       T(n) + static_cast<T>(Lanczos::g()) + 0.5f,
@@ -90,27 +88,27 @@ T hypergeometric_pdf_lanczos_imp(T /*dummy*/, std::uint64_t x, std::uint64_t r, 
    int sorted_indexes[9] = {
       0, 1, 2, 3, 4, 5, 6, 7, 8
    };
-#ifdef BOOST_MATH_INSTRUMENT
-   BOOST_MATH_INSTRUMENT_FPU
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT
+   HYDRA_BOOST_MATH_INSTRUMENT_FPU
    for(unsigned i = 0; i < 9; ++i)
    {
-      BOOST_MATH_INSTRUMENT_VARIABLE(i);
-      BOOST_MATH_INSTRUMENT_VARIABLE(bases[i]);
-      BOOST_MATH_INSTRUMENT_VARIABLE(exponents[i]);
-      BOOST_MATH_INSTRUMENT_VARIABLE(base_e_factors[i]);
-      BOOST_MATH_INSTRUMENT_VARIABLE(sorted_indexes[i]);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(i);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(bases[i]);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(exponents[i]);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(base_e_factors[i]);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(sorted_indexes[i]);
    }
 #endif
    std::sort(sorted_indexes, sorted_indexes + 9, sort_functor<T>(exponents));
-#ifdef BOOST_MATH_INSTRUMENT
-   BOOST_MATH_INSTRUMENT_FPU
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT
+   HYDRA_BOOST_MATH_INSTRUMENT_FPU
    for(unsigned i = 0; i < 9; ++i)
    {
-      BOOST_MATH_INSTRUMENT_VARIABLE(i);
-      BOOST_MATH_INSTRUMENT_VARIABLE(bases[i]);
-      BOOST_MATH_INSTRUMENT_VARIABLE(exponents[i]);
-      BOOST_MATH_INSTRUMENT_VARIABLE(base_e_factors[i]);
-      BOOST_MATH_INSTRUMENT_VARIABLE(sorted_indexes[i]);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(i);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(bases[i]);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(exponents[i]);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(base_e_factors[i]);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(sorted_indexes[i]);
    }
 #endif
 
@@ -124,14 +122,14 @@ T hypergeometric_pdf_lanczos_imp(T /*dummy*/, std::uint64_t x, std::uint64_t r, 
       base_e_factors[sorted_indexes[1]] += base_e_factors[sorted_indexes[0]];
       bubble_down_one(sorted_indexes, sorted_indexes + 9, sort_functor<T>(exponents));
 
-#ifdef BOOST_MATH_INSTRUMENT
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT
       for(unsigned i = 0; i < 9; ++i)
       {
-         BOOST_MATH_INSTRUMENT_VARIABLE(i);
-         BOOST_MATH_INSTRUMENT_VARIABLE(bases[i]);
-         BOOST_MATH_INSTRUMENT_VARIABLE(exponents[i]);
-         BOOST_MATH_INSTRUMENT_VARIABLE(base_e_factors[i]);
-         BOOST_MATH_INSTRUMENT_VARIABLE(sorted_indexes[i]);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(i);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(bases[i]);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(exponents[i]);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(base_e_factors[i]);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(sorted_indexes[i]);
       }
 #endif
    }while(exponents[sorted_indexes[1]] > 1);
@@ -139,7 +137,7 @@ T hypergeometric_pdf_lanczos_imp(T /*dummy*/, std::uint64_t x, std::uint64_t r, 
    //
    // Combine equal powers:
    //
-   std::size_t j = 8;
+   int j = 8;
    while(exponents[sorted_indexes[j]] == 0) --j;
    while(j)
    {
@@ -153,42 +151,42 @@ T hypergeometric_pdf_lanczos_imp(T /*dummy*/, std::uint64_t x, std::uint64_t r, 
       }
       --j;
 
-#ifdef BOOST_MATH_INSTRUMENT
-      BOOST_MATH_INSTRUMENT_VARIABLE(j);
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(j);
       for(unsigned i = 0; i < 9; ++i)
       {
-         BOOST_MATH_INSTRUMENT_VARIABLE(i);
-         BOOST_MATH_INSTRUMENT_VARIABLE(bases[i]);
-         BOOST_MATH_INSTRUMENT_VARIABLE(exponents[i]);
-         BOOST_MATH_INSTRUMENT_VARIABLE(base_e_factors[i]);
-         BOOST_MATH_INSTRUMENT_VARIABLE(sorted_indexes[i]);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(i);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(bases[i]);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(exponents[i]);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(base_e_factors[i]);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(sorted_indexes[i]);
       }
 #endif
    }
 
-#ifdef BOOST_MATH_INSTRUMENT
-   BOOST_MATH_INSTRUMENT_FPU
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT
+   HYDRA_BOOST_MATH_INSTRUMENT_FPU
    for(unsigned i = 0; i < 9; ++i)
    {
-      BOOST_MATH_INSTRUMENT_VARIABLE(i);
-      BOOST_MATH_INSTRUMENT_VARIABLE(bases[i]);
-      BOOST_MATH_INSTRUMENT_VARIABLE(exponents[i]);
-      BOOST_MATH_INSTRUMENT_VARIABLE(base_e_factors[i]);
-      BOOST_MATH_INSTRUMENT_VARIABLE(sorted_indexes[i]);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(i);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(bases[i]);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(exponents[i]);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(base_e_factors[i]);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(sorted_indexes[i]);
    }
 #endif
 
    T result;
-   BOOST_MATH_INSTRUMENT_VARIABLE(bases[sorted_indexes[0]] * exp(static_cast<T>(base_e_factors[sorted_indexes[0]])));
-   BOOST_MATH_INSTRUMENT_VARIABLE(exponents[sorted_indexes[0]]);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(bases[sorted_indexes[0]] * exp(static_cast<T>(base_e_factors[sorted_indexes[0]])));
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(exponents[sorted_indexes[0]]);
    {
-      BOOST_FPU_EXCEPTION_GUARD
+      HYDRA_BOOST_FPU_EXCEPTION_GUARD
       result = pow(bases[sorted_indexes[0]] * exp(static_cast<T>(base_e_factors[sorted_indexes[0]])), exponents[sorted_indexes[0]]);
    }
-   BOOST_MATH_INSTRUMENT_VARIABLE(result);
-   for(std::size_t i = 1; (i < 9) && (exponents[sorted_indexes[i]] > 0); ++i)
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
+   for(unsigned i = 1; (i < 9) && (exponents[sorted_indexes[i]] > 0); ++i)
    {
-      BOOST_FPU_EXCEPTION_GUARD
+      HYDRA_BOOST_FPU_EXCEPTION_GUARD
       if(result < tools::min_value<T>())
          return 0; // short circuit further evaluation
       if(exponents[sorted_indexes[i]] == 1)
@@ -198,7 +196,7 @@ T hypergeometric_pdf_lanczos_imp(T /*dummy*/, std::uint64_t x, std::uint64_t r, 
       else
          result *= pow(bases[sorted_indexes[i]] * exp(static_cast<T>(base_e_factors[sorted_indexes[i]])), exponents[sorted_indexes[i]]);
    
-      BOOST_MATH_INSTRUMENT_VARIABLE(result);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
    }
 
    result *= Lanczos::lanczos_sum_expG_scaled(static_cast<T>(n + 1))
@@ -212,24 +210,24 @@ T hypergeometric_pdf_lanczos_imp(T /*dummy*/, std::uint64_t x, std::uint64_t r, 
          * Lanczos::lanczos_sum_expG_scaled(static_cast<T>(r - x + 1))
          * Lanczos::lanczos_sum_expG_scaled(static_cast<T>(N - n - r + x + 1)));
    
-   BOOST_MATH_INSTRUMENT_VARIABLE(result);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
    return result;
 }
 
 template <class T, class Policy>
-T hypergeometric_pdf_lanczos_imp(T /*dummy*/, std::uint64_t x, std::uint64_t r, std::uint64_t n, std::uint64_t N, const boost::math::lanczos::undefined_lanczos&, const Policy& pol)
+T hypergeometric_pdf_lanczos_imp(T /*dummy*/, unsigned x, unsigned r, unsigned n, unsigned N, const hydra_boost::math::lanczos::undefined_lanczos&, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return exp(
-      boost::math::lgamma(T(n + 1), pol)
-      + boost::math::lgamma(T(r + 1), pol)
-      + boost::math::lgamma(T(N - n + 1), pol)
-      + boost::math::lgamma(T(N - r + 1), pol)
-      - boost::math::lgamma(T(N + 1), pol)
-      - boost::math::lgamma(T(x + 1), pol)
-      - boost::math::lgamma(T(n - x + 1), pol)
-      - boost::math::lgamma(T(r - x + 1), pol)
-      - boost::math::lgamma(T(N - n - r + x + 1), pol));
+      hydra_boost::math::lgamma(T(n + 1), pol)
+      + hydra_boost::math::lgamma(T(r + 1), pol)
+      + hydra_boost::math::lgamma(T(N - n + 1), pol)
+      + hydra_boost::math::lgamma(T(N - r + 1), pol)
+      - hydra_boost::math::lgamma(T(N + 1), pol)
+      - hydra_boost::math::lgamma(T(x + 1), pol)
+      - hydra_boost::math::lgamma(T(n - x + 1), pol)
+      - hydra_boost::math::lgamma(T(r - x + 1), pol)
+      - hydra_boost::math::lgamma(T(N - n - r + x + 1), pol));
 }
 
 template <class T>
@@ -248,21 +246,21 @@ inline T integer_power(const T& x, int ex)
    case 3:
       return x * x * x;
    case 4:
-      return boost::math::pow<4>(x);
+      return hydra_boost::math::pow<4>(x);
    case 5:
-      return boost::math::pow<5>(x);
+      return hydra_boost::math::pow<5>(x);
    case 6:
-      return boost::math::pow<6>(x);
+      return hydra_boost::math::pow<6>(x);
    case 7:
-      return boost::math::pow<7>(x);
+      return hydra_boost::math::pow<7>(x);
    case 8:
-      return boost::math::pow<8>(x);
+      return hydra_boost::math::pow<8>(x);
    }
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 #ifdef __SUNPRO_CC
    return pow(x, T(ex));
 #else
-   return static_cast<T>(pow(x, ex));
+   return pow(x, ex);
 #endif
 }
 template <class T>
@@ -279,12 +277,12 @@ struct hypergeometric_pdf_prime_loop_result_entry
 
 struct hypergeometric_pdf_prime_loop_data
 {
-   const std::uint64_t x;
-   const std::uint64_t r;
-   const std::uint64_t n;
-   const std::uint64_t N;
-   std::size_t prime_index;
-   std::uint64_t current_prime;
+   const unsigned x;
+   const unsigned r;
+   const unsigned n;
+   const unsigned N;
+   unsigned prime_index;
+   unsigned current_prime;
 };
 
 #ifdef _MSC_VER
@@ -296,8 +294,8 @@ T hypergeometric_pdf_prime_loop_imp(hypergeometric_pdf_prime_loop_data& data, hy
 {
    while(data.current_prime <= data.N)
    {
-      std::uint64_t base = data.current_prime;
-      std::int64_t prime_powers = 0;
+      unsigned base = data.current_prime;
+      int prime_powers = 0;
       while(base <= data.N)
       {
          prime_powers += data.n / base;
@@ -383,7 +381,7 @@ T hypergeometric_pdf_prime_loop_imp(hypergeometric_pdf_prime_loop_data& data, hy
 }
 
 template <class T, class Policy>
-inline T hypergeometric_pdf_prime_imp(std::uint64_t x, std::uint64_t r, std::uint64_t n, std::uint64_t N, const Policy&)
+inline T hypergeometric_pdf_prime_imp(unsigned x, unsigned r, unsigned n, unsigned N, const Policy&)
 {
    hypergeometric_pdf_prime_loop_result_entry<T> result = { 1, 0 };
    hypergeometric_pdf_prime_loop_data data = { x, r, n, N, 0, prime(0) };
@@ -391,25 +389,25 @@ inline T hypergeometric_pdf_prime_imp(std::uint64_t x, std::uint64_t r, std::uin
 }
 
 template <class T, class Policy>
-T hypergeometric_pdf_factorial_imp(std::uint64_t x, std::uint64_t r, std::uint64_t n, std::uint64_t N, const Policy&)
+T hypergeometric_pdf_factorial_imp(unsigned x, unsigned r, unsigned n, unsigned N, const Policy&)
 {
-   BOOST_MATH_STD_USING
-   BOOST_MATH_ASSERT(N <= boost::math::max_factorial<T>::value);
-   T result = boost::math::unchecked_factorial<T>(n);
+   HYDRA_BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_ASSERT(N <= hydra_boost::math::max_factorial<T>::value);
+   T result = hydra_boost::math::unchecked_factorial<T>(n);
    T num[3] = {
-      boost::math::unchecked_factorial<T>(r),
-      boost::math::unchecked_factorial<T>(N - n),
-      boost::math::unchecked_factorial<T>(N - r)
+      hydra_boost::math::unchecked_factorial<T>(r),
+      hydra_boost::math::unchecked_factorial<T>(N - n),
+      hydra_boost::math::unchecked_factorial<T>(N - r)
    };
    T denom[5] = {
-      boost::math::unchecked_factorial<T>(N),
-      boost::math::unchecked_factorial<T>(x),
-      boost::math::unchecked_factorial<T>(n - x),
-      boost::math::unchecked_factorial<T>(r - x),
-      boost::math::unchecked_factorial<T>(N - n - r + x)
+      hydra_boost::math::unchecked_factorial<T>(N),
+      hydra_boost::math::unchecked_factorial<T>(x),
+      hydra_boost::math::unchecked_factorial<T>(n - x),
+      hydra_boost::math::unchecked_factorial<T>(r - x),
+      hydra_boost::math::unchecked_factorial<T>(N - n - r + x)
    };
-   std::size_t i = 0;
-   std::size_t j = 0;
+   int i = 0;
+   int j = 0;
    while((i < 3) || (j < 5))
    {
       while((j < 5) && ((result >= 1) || (i >= 3)))
@@ -429,9 +427,9 @@ T hypergeometric_pdf_factorial_imp(std::uint64_t x, std::uint64_t r, std::uint64
 
 template <class T, class Policy>
 inline typename tools::promote_args<T>::type 
-   hypergeometric_pdf(std::uint64_t x, std::uint64_t r, std::uint64_t n, std::uint64_t N, const Policy&)
+   hypergeometric_pdf(unsigned x, unsigned r, unsigned n, unsigned N, const Policy&)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename lanczos::lanczos<value_type, Policy>::type evaluation_type;
@@ -443,7 +441,7 @@ inline typename tools::promote_args<T>::type
       policies::assert_undefined<> >::type forwarding_policy;
 
    value_type result;
-   if(N <= boost::math::max_factorial<value_type>::value)
+   if(N <= hydra_boost::math::max_factorial<value_type>::value)
    {
       //
       // If N is small enough then we can evaluate the PDF via the factorials
@@ -452,7 +450,7 @@ inline typename tools::promote_args<T>::type
       //
       result = detail::hypergeometric_pdf_factorial_imp<value_type>(x, r, n, N, forwarding_policy());
    }
-   else if(N <= boost::math::prime(boost::math::max_prime - 1))
+   else if(N <= hydra_boost::math::prime(hydra_boost::math::max_prime - 1))
    {
       //
       // If N is no larger than the largest prime number in our lookup table
@@ -481,7 +479,7 @@ inline typename tools::promote_args<T>::type
       result = 0;
    }
 
-   return policies::checked_narrowing_cast<result_type, forwarding_policy>(result, "boost::math::hypergeometric_pdf<%1%>(%1%,%1%,%1%,%1%)");
+   return policies::checked_narrowing_cast<result_type, forwarding_policy>(result, "hydra_boost::math::hypergeometric_pdf<%1%>(%1%,%1%,%1%,%1%)");
 }
 
 }}} // namespaces

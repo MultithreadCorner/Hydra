@@ -7,8 +7,8 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_NON_CENTRAL_BETA_HPP
-#define BOOST_MATH_SPECIAL_NON_CENTRAL_BETA_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_NON_CENTRAL_BETA_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_NON_CENTRAL_BETA_HPP
 
 #include <hydra/detail/external/hydra_boost/math/distributions/fwd.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/beta.hpp> // for incomplete gamma. gamma_q
@@ -21,7 +21,7 @@
 #include <hydra/detail/external/hydra_boost/math/tools/roots.hpp> // for root finding.
 #include <hydra/detail/external/hydra_boost/math/tools/series.hpp>
 
-namespace boost
+namespace hydra_boost
 {
    namespace math
    {
@@ -34,13 +34,13 @@ namespace boost
          template <class T, class Policy>
          T non_central_beta_p(T a, T b, T lam, T x, T y, const Policy& pol, T init_val = 0)
          {
-            BOOST_MATH_STD_USING
-               using namespace boost::math;
+            HYDRA_BOOST_MATH_STD_USING
+               using namespace hydra_boost::math;
             //
             // Variables come first:
             //
             std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
-            T errtol = boost::math::policies::get_epsilon<T, Policy>();
+            T errtol = hydra_boost::math::policies::get_epsilon<T, Policy>();
             T l2 = lam / 2;
             //
             // k is the starting point for iteration, and is the
@@ -120,13 +120,13 @@ namespace boost
          template <class T, class Policy>
          T non_central_beta_q(T a, T b, T lam, T x, T y, const Policy& pol, T init_val = 0)
          {
-            BOOST_MATH_STD_USING
-               using namespace boost::math;
+            HYDRA_BOOST_MATH_STD_USING
+               using namespace hydra_boost::math;
             //
             // Variables come first:
             //
             std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
-            T errtol = boost::math::policies::get_epsilon<T, Policy>();
+            T errtol = hydra_boost::math::policies::get_epsilon<T, Policy>();
             T l2 = lam / 2;
             //
             // k is the starting point for iteration, and is the
@@ -228,7 +228,7 @@ namespace boost
                policies::discrete_quantile<>,
                policies::assert_undefined<> >::type forwarding_policy;
 
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
 
             if(x == 0)
                return invert ? 1.0f : 0.0f;
@@ -238,7 +238,7 @@ namespace boost
             value_type c = a + b + l / 2;
             value_type cross = 1 - (b / c) * (1 + l / (2 * c * c));
             if(l == 0)
-               result = cdf(boost::math::beta_distribution<RealType, Policy>(a, b), x);
+               result = cdf(hydra_boost::math::beta_distribution<RealType, Policy>(a, b), x);
             else if(x > cross)
             {
                // Complement is the smaller of the two:
@@ -267,7 +267,7 @@ namespace boost
                result = -result;
             return policies::checked_narrowing_cast<RealType, forwarding_policy>(
                result,
-               "boost::math::non_central_beta_cdf<%1%>(%1%, %1%, %1%)");
+               "hydra_boost::math::non_central_beta_cdf<%1%>(%1%, %1%, %1%)");
          }
 
          template <class T, class Policy>
@@ -297,8 +297,8 @@ namespace boost
          template <class F, class T, class Tol, class Policy>
          std::pair<T, T> bracket_and_solve_root_01(F f, const T& guess, T factor, bool rising, Tol tol, std::uintmax_t& max_iter, const Policy& pol)
          {
-            BOOST_MATH_STD_USING
-               static const char* function = "boost::math::tools::bracket_and_solve_root_01<%1%>";
+            HYDRA_BOOST_MATH_STD_USING
+               static const char* function = "hydra_boost::math::tools::bracket_and_solve_root_01<%1%>";
             //
             // Set up initial brackets:
             //
@@ -317,7 +317,7 @@ namespace boost
                // Zero is to the right of b, so walk upwards
                // until we find it:
                //
-               while((boost::math::sign)(fb) == (boost::math::sign)(fa))
+               while((hydra_boost::math::sign)(fb) == (hydra_boost::math::sign)(fa))
                {
                   if(count == 0)
                   {
@@ -339,7 +339,7 @@ namespace boost
                   b = 1 - ((1 - b) / factor);
                   fb = f(b);
                   --count;
-                  BOOST_MATH_INSTRUMENT_CODE("a = " << a << " b = " << b << " fa = " << fa << " fb = " << fb << " count = " << count);
+                  HYDRA_BOOST_MATH_INSTRUMENT_CODE("a = " << a << " b = " << b << " fa = " << fa << " fb = " << fb << " count = " << count);
                }
             }
             else
@@ -348,7 +348,7 @@ namespace boost
                // Zero is to the left of a, so walk downwards
                // until we find it:
                //
-               while((boost::math::sign)(fb) == (boost::math::sign)(fa))
+               while((hydra_boost::math::sign)(fb) == (hydra_boost::math::sign)(fa))
                {
                   if(fabs(a) < tools::min_value<T>())
                   {
@@ -376,7 +376,7 @@ namespace boost
                   a /= factor;
                   fa = f(a);
                   --count;
-                  BOOST_MATH_INSTRUMENT_CODE("a = " << a << " b = " << b << " fa = " << fa << " fb = " << fb << " count = " << count);
+                  HYDRA_BOOST_MATH_INSTRUMENT_CODE("a = " << a << " b = " << b << " fa = " << fa << " fb = " << fb << " count = " << count);
                }
             }
             max_iter -= count;
@@ -391,7 +391,7 @@ namespace boost
                count,
                pol);
             max_iter += count;
-            BOOST_MATH_INSTRUMENT_CODE("max_iter = " << max_iter << " count = " << count);
+            HYDRA_BOOST_MATH_INSTRUMENT_CODE("max_iter = " << max_iter << " count = " << count);
             return r;
          }
 
@@ -520,7 +520,7 @@ namespace boost
          template <class T, class Policy>
          T non_central_beta_pdf(T a, T b, T lam, T x, T y, const Policy& pol)
          {
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             //
             // Special cases:
             //
@@ -530,7 +530,7 @@ namespace boost
             // Variables come first:
             //
             std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
-            T errtol = boost::math::policies::get_epsilon<T, Policy>();
+            T errtol = hydra_boost::math::policies::get_epsilon<T, Policy>();
             T l2 = lam / 2;
             //
             // k is the starting point for iteration, and is the
@@ -591,7 +591,7 @@ namespace boost
          template <class RealType, class Policy>
          RealType nc_beta_pdf(const non_central_beta_distribution<RealType, Policy>& dist, const RealType& x)
          {
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             static const char* function = "pdf(non_central_beta_distribution<%1%>, %1%)";
             typedef typename policies::evaluation<RealType, Policy>::type value_type;
             typedef typename policies::normalise<
@@ -627,7 +627,7 @@ namespace boost
                   return static_cast<RealType>(r);
 
             if(l == 0)
-               return pdf(boost::math::beta_distribution<RealType, Policy>(dist.alpha(), dist.beta()), x);
+               return pdf(hydra_boost::math::beta_distribution<RealType, Policy>(dist.alpha(), dist.beta()), x);
             return policies::checked_narrowing_cast<RealType, forwarding_policy>(
                non_central_beta_pdf(a, b, l, static_cast<value_type>(x), value_type(1 - static_cast<value_type>(x)), forwarding_policy()),
                "function");
@@ -659,12 +659,12 @@ namespace boost
          {
             typedef typename policies::evaluation<T, Policy>::type value_type;
 
-            const char* function = "boost::math::detail::hypergeometric_2F2<%1%>(%1%,%1%,%1%,%1%,%1%)";
+            const char* function = "hydra_boost::math::detail::hypergeometric_2F2<%1%>(%1%,%1%,%1%,%1%,%1%)";
 
             hypergeometric_2F2_sum<value_type> s(a1, a2, b1, b2, z);
             std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
 
-            value_type result = boost::math::tools::sum_series(s, boost::math::policies::get_epsilon<value_type, Policy>(), max_iter);
+            value_type result = hydra_boost::math::tools::sum_series(s, hydra_boost::math::policies::get_epsilon<value_type, Policy>(), max_iter);
 
             policies::check_series_iterations<T>(function, max_iter, pol);
             return policies::checked_narrowing_cast<T, Policy>(result, function);
@@ -681,7 +681,7 @@ namespace boost
 
          non_central_beta_distribution(RealType a_, RealType b_, RealType lambda) : a(a_), b(b_), ncp(lambda)
          {
-            const char* function = "boost::math::non_central_beta_distribution<%1%>::non_central_beta_distribution(%1%,%1%)";
+            const char* function = "hydra_boost::math::non_central_beta_distribution<%1%>::non_central_beta_distribution(%1%,%1%)";
             RealType r;
             beta_detail::check_alpha(
                function,
@@ -719,7 +719,7 @@ namespace boost
 
       #ifdef __cpp_deduction_guides
       template <class RealType>
-      non_central_beta_distribution(RealType,RealType,RealType)->non_central_beta_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+      non_central_beta_distribution(RealType,RealType,RealType)->non_central_beta_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
       #endif
 
       // Non-member functions to give properties of the distribution.
@@ -727,7 +727,7 @@ namespace boost
       template <class RealType, class Policy>
       inline const std::pair<RealType, RealType> range(const non_central_beta_distribution<RealType, Policy>& /* dist */)
       { // Range of permissible values for random variable k.
-         using boost::math::tools::max_value;
+         using hydra_boost::math::tools::max_value;
          return std::pair<RealType, RealType>(static_cast<RealType>(0), static_cast<RealType>(1));
       }
 
@@ -735,7 +735,7 @@ namespace boost
       inline const std::pair<RealType, RealType> support(const non_central_beta_distribution<RealType, Policy>& /* dist */)
       { // Range of supported values for random variable k.
          // This is range where cdf rises from 0 to 1, and outside it, the pdf is zero.
-         using boost::math::tools::max_value;
+         using hydra_boost::math::tools::max_value;
          return std::pair<RealType, RealType>(static_cast<RealType>(0), static_cast<RealType>(1));
       }
 
@@ -779,7 +779,7 @@ namespace boost
       template <class RealType, class Policy>
       inline RealType mean(const non_central_beta_distribution<RealType, Policy>& dist)
       {
-         BOOST_MATH_STD_USING
+         HYDRA_BOOST_MATH_STD_USING
          RealType a = dist.alpha();
          RealType b = dist.beta();
          RealType d = dist.non_centrality();
@@ -794,7 +794,7 @@ namespace boost
          // Relative error of this function may be arbitrarily large... absolute
          // error will be small however... that's the best we can do for now.
          //
-         BOOST_MATH_STD_USING
+         HYDRA_BOOST_MATH_STD_USING
          RealType a = dist.alpha();
          RealType b = dist.beta();
          RealType d = dist.non_centrality();
@@ -810,7 +810,7 @@ namespace boost
       template <class RealType, class Policy>
       inline RealType skewness(const non_central_beta_distribution<RealType, Policy>& /*dist*/)
       { // skewness = sqrt(l).
-         const char* function = "boost::math::non_central_beta_distribution<%1%>::skewness()";
+         const char* function = "hydra_boost::math::non_central_beta_distribution<%1%>::skewness()";
          typedef typename Policy::assert_undefined_type assert_type;
          static_assert(assert_type::value == 0, "Assert type is undefined.");
 
@@ -823,7 +823,7 @@ namespace boost
       template <class RealType, class Policy>
       inline RealType kurtosis_excess(const non_central_beta_distribution<RealType, Policy>& /*dist*/)
       {
-         const char* function = "boost::math::non_central_beta_distribution<%1%>::kurtosis_excess()";
+         const char* function = "hydra_boost::math::non_central_beta_distribution<%1%>::kurtosis_excess()";
          typedef typename Policy::assert_undefined_type assert_type;
          static_assert(assert_type::value == 0, "Assert type is undefined.");
 
@@ -848,7 +848,7 @@ namespace boost
       template <class RealType, class Policy>
       RealType cdf(const non_central_beta_distribution<RealType, Policy>& dist, const RealType& x)
       {
-         const char* function = "boost::math::non_central_beta_distribution<%1%>::cdf(%1%)";
+         const char* function = "hydra_boost::math::non_central_beta_distribution<%1%>::cdf(%1%)";
             RealType a = dist.alpha();
             RealType b = dist.beta();
             RealType l = dist.non_centrality();
@@ -883,7 +883,7 @@ namespace boost
       template <class RealType, class Policy>
       RealType cdf(const complemented2_type<non_central_beta_distribution<RealType, Policy>, RealType>& c)
       { // Complemented Cumulative Distribution Function
-         const char* function = "boost::math::non_central_beta_distribution<%1%>::cdf(%1%)";
+         const char* function = "hydra_boost::math::non_central_beta_distribution<%1%>::cdf(%1%)";
          non_central_beta_distribution<RealType, Policy> const& dist = c.dist;
             RealType a = dist.alpha();
             RealType b = dist.beta();
@@ -930,12 +930,12 @@ namespace boost
       } // quantile complement.
 
    } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_MATH_SPECIAL_NON_CENTRAL_BETA_HPP
+#endif // HYDRA_BOOST_MATH_SPECIAL_NON_CENTRAL_BETA_HPP
 

@@ -3,10 +3,10 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_DISTIBUTIONS_DETAIL_GENERIC_QUANTILE_HPP
-#define BOOST_MATH_DISTIBUTIONS_DETAIL_GENERIC_QUANTILE_HPP
+#ifndef HYDRA_BOOST_MATH_DISTIBUTIONS_DETAIL_GENERIC_QUANTILE_HPP
+#define HYDRA_BOOST_MATH_DISTIBUTIONS_DETAIL_GENERIC_QUANTILE_HPP
 
-namespace boost{ namespace math{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace detail{
 
 template <class Dist>
 struct generic_quantile_finder
@@ -93,5 +93,5 @@ typename Dist::value_type generic_quantile(const Dist& dist, const typename Dist
 
 }}} // namespaces
 
-#endif // BOOST_MATH_DISTIBUTIONS_DETAIL_GENERIC_QUANTILE_HPP
+#endif // HYDRA_BOOST_MATH_DISTIBUTIONS_DETAIL_GENERIC_QUANTILE_HPP
 

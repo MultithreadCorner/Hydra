@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STATS_LOGNORMAL_HPP
-#define BOOST_STATS_LOGNORMAL_HPP
+#ifndef HYDRA_BOOST_STATS_LOGNORMAL_HPP
+#define HYDRA_BOOST_STATS_LOGNORMAL_HPP
 
 // http://www.itl.nist.gov/div898/handbook/eda/section3/eda3669.htm
 // http://mathworld.wolfram.com/LogNormalDistribution.html
@@ -17,7 +17,7 @@
 
 #include <utility>
 
-namespace boost{ namespace math
+namespace hydra_boost{ namespace math
 {
 namespace detail
 {
@@ -28,7 +28,7 @@ namespace detail
         RealType const& x,
         RealType* result, const Policy& pol)
   {
-     if((x < 0) || !(boost::math::isfinite)(x))
+     if((x < 0) || !(hydra_boost::math::isfinite)(x))
      {
         *result = policies::raise_domain_error<RealType>(
            function,
@@ -52,8 +52,8 @@ public:
       : m_location(l_location), m_scale(l_scale)
    {
       RealType result;
-      detail::check_scale("boost::math::lognormal_distribution<%1%>::lognormal_distribution", l_scale, &result, Policy());
-      detail::check_location("boost::math::lognormal_distribution<%1%>::lognormal_distribution", l_location, &result, Policy());
+      detail::check_scale("hydra_boost::math::lognormal_distribution<%1%>::lognormal_distribution", l_scale, &result, Policy());
+      detail::check_location("hydra_boost::math::lognormal_distribution<%1%>::lognormal_distribution", l_location, &result, Policy());
    }
 
    RealType location()const
@@ -77,15 +77,15 @@ typedef lognormal_distribution<double> lognormal;
 
 #ifdef __cpp_deduction_guides
 template <class RealType>
-lognormal_distribution(RealType)->lognormal_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+lognormal_distribution(RealType)->lognormal_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 template <class RealType>
-lognormal_distribution(RealType,RealType)->lognormal_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+lognormal_distribution(RealType,RealType)->lognormal_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 #endif
 
 template <class RealType, class Policy>
 inline const std::pair<RealType, RealType> range(const lognormal_distribution<RealType, Policy>& /*dist*/)
 { // Range of permissible values for random variable x is >0 to +infinity.
-   using boost::math::tools::max_value;
+   using hydra_boost::math::tools::max_value;
    return std::pair<RealType, RealType>(static_cast<RealType>(0), max_value<RealType>());
 }
 
@@ -93,19 +93,19 @@ template <class RealType, class Policy>
 inline const std::pair<RealType, RealType> support(const lognormal_distribution<RealType, Policy>& /*dist*/)
 { // Range of supported values for random variable x.
    // This is range where cdf rises from 0 to 1, and outside it, the pdf is zero.
-   using boost::math::tools::max_value;
+   using hydra_boost::math::tools::max_value;
    return std::pair<RealType, RealType>(static_cast<RealType>(0),  max_value<RealType>());
 }
 
 template <class RealType, class Policy>
 RealType pdf(const lognormal_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
    RealType mu = dist.location();
    RealType sigma = dist.scale();
 
-   static const char* function = "boost::math::pdf(const lognormal_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::pdf(const lognormal_distribution<%1%>&, %1%)";
 
    RealType result = 0;
    if(0 == detail::check_scale(function, sigma, &result, Policy()))
@@ -131,9 +131,9 @@ RealType pdf(const lognormal_distribution<RealType, Policy>& dist, const RealTyp
 template <class RealType, class Policy>
 inline RealType cdf(const lognormal_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
-   static const char* function = "boost::math::cdf(const lognormal_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::cdf(const lognormal_distribution<%1%>&, %1%)";
 
    RealType result = 0;
    if(0 == detail::check_scale(function, dist.scale(), &result, Policy()))
@@ -153,9 +153,9 @@ inline RealType cdf(const lognormal_distribution<RealType, Policy>& dist, const 
 template <class RealType, class Policy>
 inline RealType quantile(const lognormal_distribution<RealType, Policy>& dist, const RealType& p)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
-   static const char* function = "boost::math::quantile(const lognormal_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::quantile(const lognormal_distribution<%1%>&, %1%)";
 
    RealType result = 0;
    if(0 == detail::check_scale(function, dist.scale(), &result, Policy()))
@@ -177,9 +177,9 @@ inline RealType quantile(const lognormal_distribution<RealType, Policy>& dist, c
 template <class RealType, class Policy>
 inline RealType cdf(const complemented2_type<lognormal_distribution<RealType, Policy>, RealType>& c)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
-   static const char* function = "boost::math::cdf(const lognormal_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::cdf(const lognormal_distribution<%1%>&, %1%)";
 
    RealType result = 0;
    if(0 == detail::check_scale(function, c.dist.scale(), &result, Policy()))
@@ -199,9 +199,9 @@ inline RealType cdf(const complemented2_type<lognormal_distribution<RealType, Po
 template <class RealType, class Policy>
 inline RealType quantile(const complemented2_type<lognormal_distribution<RealType, Policy>, RealType>& c)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
-   static const char* function = "boost::math::quantile(const lognormal_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::quantile(const lognormal_distribution<%1%>&, %1%)";
 
    RealType result = 0;
    if(0 == detail::check_scale(function, c.dist.scale(), &result, Policy()))
@@ -223,15 +223,15 @@ inline RealType quantile(const complemented2_type<lognormal_distribution<RealTyp
 template <class RealType, class Policy>
 inline RealType mean(const lognormal_distribution<RealType, Policy>& dist)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
    RealType mu = dist.location();
    RealType sigma = dist.scale();
 
    RealType result = 0;
-   if(0 == detail::check_scale("boost::math::mean(const lognormal_distribution<%1%>&)", sigma, &result, Policy()))
+   if(0 == detail::check_scale("hydra_boost::math::mean(const lognormal_distribution<%1%>&)", sigma, &result, Policy()))
       return result;
-   if(0 == detail::check_location("boost::math::mean(const lognormal_distribution<%1%>&)", mu, &result, Policy()))
+   if(0 == detail::check_location("hydra_boost::math::mean(const lognormal_distribution<%1%>&)", mu, &result, Policy()))
       return result;
 
    return exp(mu + sigma * sigma / 2);
@@ -240,32 +240,32 @@ inline RealType mean(const lognormal_distribution<RealType, Policy>& dist)
 template <class RealType, class Policy>
 inline RealType variance(const lognormal_distribution<RealType, Policy>& dist)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
    RealType mu = dist.location();
    RealType sigma = dist.scale();
 
    RealType result = 0;
-   if(0 == detail::check_scale("boost::math::variance(const lognormal_distribution<%1%>&)", sigma, &result, Policy()))
+   if(0 == detail::check_scale("hydra_boost::math::variance(const lognormal_distribution<%1%>&)", sigma, &result, Policy()))
       return result;
-   if(0 == detail::check_location("boost::math::variance(const lognormal_distribution<%1%>&)", mu, &result, Policy()))
+   if(0 == detail::check_location("hydra_boost::math::variance(const lognormal_distribution<%1%>&)", mu, &result, Policy()))
       return result;
 
-   return boost::math::expm1(sigma * sigma, Policy()) * exp(2 * mu + sigma * sigma);
+   return hydra_boost::math::expm1(sigma * sigma, Policy()) * exp(2 * mu + sigma * sigma);
 }
 
 template <class RealType, class Policy>
 inline RealType mode(const lognormal_distribution<RealType, Policy>& dist)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
    RealType mu = dist.location();
    RealType sigma = dist.scale();
 
    RealType result = 0;
-   if(0 == detail::check_scale("boost::math::mode(const lognormal_distribution<%1%>&)", sigma, &result, Policy()))
+   if(0 == detail::check_scale("hydra_boost::math::mode(const lognormal_distribution<%1%>&)", sigma, &result, Policy()))
       return result;
-   if(0 == detail::check_location("boost::math::mode(const lognormal_distribution<%1%>&)", mu, &result, Policy()))
+   if(0 == detail::check_location("hydra_boost::math::mode(const lognormal_distribution<%1%>&)", mu, &result, Policy()))
       return result;
 
    return exp(mu - sigma * sigma);
@@ -274,7 +274,7 @@ inline RealType mode(const lognormal_distribution<RealType, Policy>& dist)
 template <class RealType, class Policy>
 inline RealType median(const lognormal_distribution<RealType, Policy>& dist)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
    RealType mu = dist.location();
    return exp(mu); // e^mu
 }
@@ -282,7 +282,7 @@ inline RealType median(const lognormal_distribution<RealType, Policy>& dist)
 template <class RealType, class Policy>
 inline RealType skewness(const lognormal_distribution<RealType, Policy>& dist)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
    //RealType mu = dist.location();
    RealType sigma = dist.scale();
@@ -291,27 +291,27 @@ inline RealType skewness(const lognormal_distribution<RealType, Policy>& dist)
    RealType ess = exp(ss);
 
    RealType result = 0;
-   if(0 == detail::check_scale("boost::math::skewness(const lognormal_distribution<%1%>&)", sigma, &result, Policy()))
+   if(0 == detail::check_scale("hydra_boost::math::skewness(const lognormal_distribution<%1%>&)", sigma, &result, Policy()))
       return result;
-   if(0 == detail::check_location("boost::math::skewness(const lognormal_distribution<%1%>&)", dist.location(), &result, Policy()))
+   if(0 == detail::check_location("hydra_boost::math::skewness(const lognormal_distribution<%1%>&)", dist.location(), &result, Policy()))
       return result;
 
-   return (ess + 2) * sqrt(boost::math::expm1(ss, Policy()));
+   return (ess + 2) * sqrt(hydra_boost::math::expm1(ss, Policy()));
 }
 
 template <class RealType, class Policy>
 inline RealType kurtosis(const lognormal_distribution<RealType, Policy>& dist)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
    //RealType mu = dist.location();
    RealType sigma = dist.scale();
    RealType ss = sigma * sigma;
 
    RealType result = 0;
-   if(0 == detail::check_scale("boost::math::kurtosis(const lognormal_distribution<%1%>&)", sigma, &result, Policy()))
+   if(0 == detail::check_scale("hydra_boost::math::kurtosis(const lognormal_distribution<%1%>&)", sigma, &result, Policy()))
       return result;
-   if(0 == detail::check_location("boost::math::kurtosis(const lognormal_distribution<%1%>&)", dist.location(), &result, Policy()))
+   if(0 == detail::check_location("hydra_boost::math::kurtosis(const lognormal_distribution<%1%>&)", dist.location(), &result, Policy()))
       return result;
 
    return exp(4 * ss) + 2 * exp(3 * ss) + 3 * exp(2 * ss) - 3;
@@ -320,16 +320,16 @@ inline RealType kurtosis(const lognormal_distribution<RealType, Policy>& dist)
 template <class RealType, class Policy>
 inline RealType kurtosis_excess(const lognormal_distribution<RealType, Policy>& dist)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
    // RealType mu = dist.location();
    RealType sigma = dist.scale();
    RealType ss = sigma * sigma;
 
    RealType result = 0;
-   if(0 == detail::check_scale("boost::math::kurtosis_excess(const lognormal_distribution<%1%>&)", sigma, &result, Policy()))
+   if(0 == detail::check_scale("hydra_boost::math::kurtosis_excess(const lognormal_distribution<%1%>&)", sigma, &result, Policy()))
       return result;
-   if(0 == detail::check_location("boost::math::kurtosis_excess(const lognormal_distribution<%1%>&)", dist.location(), &result, Policy()))
+   if(0 == detail::check_location("hydra_boost::math::kurtosis_excess(const lognormal_distribution<%1%>&)", dist.location(), &result, Policy()))
       return result;
 
    return exp(4 * ss) + 2 * exp(3 * ss) + 3 * exp(2 * ss) - 6;
@@ -345,13 +345,13 @@ inline RealType entropy(const lognormal_distribution<RealType, Policy>& dist)
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_STATS_STUDENTS_T_HPP
+#endif // HYDRA_BOOST_STATS_STUDENTS_T_HPP
 
 

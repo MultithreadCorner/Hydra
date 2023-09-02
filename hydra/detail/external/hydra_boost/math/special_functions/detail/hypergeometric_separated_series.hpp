@@ -7,15 +7,15 @@
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
-#ifndef BOOST_MATH_HYPERGEOMETRIC_SEPARATED_SERIES_HPP
-#define BOOST_MATH_HYPERGEOMETRIC_SEPARATED_SERIES_HPP
+#ifndef HYDRA_BOOST_MATH_HYPERGEOMETRIC_SEPARATED_SERIES_HPP
+#define HYDRA_BOOST_MATH_HYPERGEOMETRIC_SEPARATED_SERIES_HPP
 
-  namespace boost { namespace math { namespace detail {
+  namespace hydra_boost { namespace math { namespace detail {
 
   template <class T, class Policy>
   inline T hypergeometric_1F1_separated_series(const T& a, const T& b, const T& z, const Policy& pol)
   {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
 
     std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
     const T factor = policies::get_epsilon<T, Policy>();
@@ -47,4 +47,4 @@
 
   } } } // namespaces
 
-#endif // BOOST_MATH_HYPERGEOMETRIC_SEPARATED_SERIES_HPP
+#endif // HYDRA_BOOST_MATH_HYPERGEOMETRIC_SEPARATED_SERIES_HPP

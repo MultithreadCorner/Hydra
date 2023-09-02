@@ -5,8 +5,8 @@
  * LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_MATH_STATISTICS_RUNS_TEST_HPP
-#define BOOST_MATH_STATISTICS_RUNS_TEST_HPP
+#ifndef HYDRA_BOOST_MATH_STATISTICS_RUNS_TEST_HPP
+#define HYDRA_BOOST_MATH_STATISTICS_RUNS_TEST_HPP
 
 #include <cmath>
 #include <algorithm>
@@ -14,7 +14,7 @@
 #include <hydra/detail/external/hydra_boost/math/statistics/univariate_statistics.hpp>
 #include <hydra/detail/external/hydra_boost/math/distributions/normal.hpp>
 
-namespace boost::math::statistics {
+namespace hydra_boost::math::statistics {
 
 template<class RandomAccessContainer>
 auto runs_above_and_below_threshold(RandomAccessContainer const & v,
@@ -27,9 +27,9 @@ auto runs_above_and_below_threshold(RandomAccessContainer const & v,
     {
         throw std::domain_error("At least 2 samples are required to get number of runs.");
     }
-    typedef boost::math::policies::policy<
-          boost::math::policies::promote_float<false>,
-          boost::math::policies::promote_double<false> >
+    typedef hydra_boost::math::policies::policy<
+          hydra_boost::math::policies::promote_float<false>,
+          hydra_boost::math::policies::promote_double<false> >
           no_promote_policy;
 
     decltype(v.size()) nabove = 0;
@@ -98,8 +98,8 @@ auto runs_above_and_below_threshold(RandomAccessContainer const & v,
     Real sd = sqrt(variance);
     Real statistic = (runs - expected_runs)/sd;
 
-    auto normal = boost::math::normal_distribution<Real, no_promote_policy>(0,1);
-    Real pvalue = 2*boost::math::cdf(normal, -abs(statistic));
+    auto normal = hydra_boost::math::normal_distribution<Real, no_promote_policy>(0,1);
+    Real pvalue = 2*hydra_boost::math::cdf(normal, -abs(statistic));
     return std::make_pair(statistic, pvalue);
 }
 
@@ -113,7 +113,7 @@ auto runs_above_and_below_median(RandomAccessContainer const & v)
     // We have to memcpy v because the median does a partial sort,
     // and that would be catastrophic for the runs test.
     auto w = v;
-    Real median = boost::math::statistics::median(w);
+    Real median = hydra_boost::math::statistics::median(w);
     return runs_above_and_below_threshold(v, median);
 }
 

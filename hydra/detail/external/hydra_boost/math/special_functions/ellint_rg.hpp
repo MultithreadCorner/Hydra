@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
-#ifndef BOOST_MATH_ELLINT_RG_HPP
-#define BOOST_MATH_ELLINT_RG_HPP
+#ifndef HYDRA_BOOST_MATH_ELLINT_RG_HPP
+#define HYDRA_BOOST_MATH_ELLINT_RG_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -18,13 +18,13 @@
 #include <hydra/detail/external/hydra_boost/math/special_functions/ellint_rf.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/pow.hpp>
 
-namespace boost { namespace math { namespace detail{
+namespace hydra_boost { namespace math { namespace detail{
 
    template <typename T, typename Policy>
    T ellint_rg_imp(T x, T y, T z, const Policy& pol)
    {
-      BOOST_MATH_STD_USING
-      static const char* function = "boost::math::ellint_rf<%1%>(%1%,%1%,%1%)";
+      HYDRA_BOOST_MATH_STD_USING
+      static const char* function = "hydra_boost::math::ellint_rf<%1%>(%1%,%1%,%1%)";
 
       if(x < 0 || y < 0 || z < 0)
       {
@@ -46,8 +46,8 @@ namespace boost { namespace math { namespace detail{
       if(y > z)
          swap(y, z);
       
-      BOOST_MATH_ASSERT(x >= z);
-      BOOST_MATH_ASSERT(z >= y);
+      HYDRA_BOOST_MATH_ASSERT(x >= z);
+      HYDRA_BOOST_MATH_ASSERT(z >= y);
       //
       // Special cases from http://dlmf.nist.gov/19.20#ii
       //
@@ -92,16 +92,16 @@ namespace boost { namespace math { namespace detail{
          T sum = 0;
          T sum_pow = 0.25f;
 
-         while(fabs(xn - yn) >= T(2.7) * tools::root_epsilon<T>() * fabs(xn))
+         while(fabs(xn - yn) >= 2.7 * tools::root_epsilon<T>() * fabs(xn))
          {
             T t = sqrt(xn * yn);
             xn = (xn + yn) / 2;
             yn = t;
             sum_pow *= 2;
-            sum += sum_pow * boost::math::pow<2>(xn - yn);
+            sum += sum_pow * hydra_boost::math::pow<2>(xn - yn);
          }
          T RF = constants::pi<T>() / (xn + yn);
-         return ((boost::math::pow<2>((x0 + y0) / 2) - sum) * RF) / 2;
+         return ((hydra_boost::math::pow<2>((x0 + y0) / 2) - sum) * RF) / 2;
       }
       return (z * ellint_rf_imp(x, y, z, pol)
          - (x - z) * (y - z) * ellint_rd_imp(x, y, z, pol) / 3
@@ -120,7 +120,7 @@ inline typename tools::promote_args<T1, T2, T3>::type
       detail::ellint_rg_imp(
          static_cast<value_type>(x),
          static_cast<value_type>(y),
-         static_cast<value_type>(z), pol), "boost::math::ellint_rf<%1%>(%1%,%1%,%1%)");
+         static_cast<value_type>(z), pol), "hydra_boost::math::ellint_rf<%1%>(%1%,%1%,%1%)");
 }
 
 template <class T1, class T2, class T3>
@@ -132,5 +132,5 @@ inline typename tools::promote_args<T1, T2, T3>::type
 
 }} // namespaces
 
-#endif // BOOST_MATH_ELLINT_RG_HPP
+#endif // HYDRA_BOOST_MATH_ELLINT_RG_HPP
 

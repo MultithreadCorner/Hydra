@@ -4,8 +4,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_STATISTICS_UNIVARIATE_STATISTICS_DETAIL_SINGLE_PASS_HPP
-#define BOOST_MATH_STATISTICS_UNIVARIATE_STATISTICS_DETAIL_SINGLE_PASS_HPP
+#ifndef HYDRA_BOOST_MATH_STATISTICS_UNIVARIATE_STATISTICS_DETAIL_SINGLE_PASS_HPP
+#define HYDRA_BOOST_MATH_STATISTICS_UNIVARIATE_STATISTICS_DETAIL_SINGLE_PASS_HPP
 
 #include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/assert.hpp>
@@ -19,12 +19,12 @@
 #include <functional>
 #include <vector>
 
-#ifdef BOOST_HAS_THREADS
+#ifdef HYDRA_BOOST_HAS_THREADS
 #include <future>
 #include <thread>
 #endif
 
-namespace boost { namespace math { namespace statistics { namespace detail {
+namespace hydra_boost { namespace math { namespace statistics { namespace detail {
 
 template<typename ReturnType, typename ForwardIterator>
 ReturnType mean_sequential_impl(ForwardIterator first, ForwardIterator last)
@@ -112,7 +112,7 @@ ReturnType first_four_moments_sequential_impl(ForwardIterator first, ForwardIter
     return std::make_tuple(M1, M2, M3, M4, n-1);
 }
 
-#ifdef BOOST_HAS_THREADS
+#ifdef HYDRA_BOOST_HAS_THREADS
 
 // https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Higher-order_statistics
 // EQN 3.1: https://www.osti.gov/servlets/purl/1426900
@@ -200,7 +200,7 @@ ReturnType first_four_moments_parallel_impl(ForwardIterator first, ForwardIterat
     return std::make_tuple(M1_a, M2_a, M3_a, M4_a, elements);
 }
 
-#endif // BOOST_HAS_THREADS
+#endif // HYDRA_BOOST_HAS_THREADS
 
 // Follows equation 1.5 of:
 // https://prod.sandia.gov/techlib-noauth/access-control.cgi/2008/086212.pdf
@@ -208,7 +208,7 @@ template<typename ReturnType, typename ForwardIterator>
 ReturnType skewness_sequential_impl(ForwardIterator first, ForwardIterator last)
 {
     using std::sqrt;
-    BOOST_MATH_ASSERT_MSG(first != last, "At least one sample is required to compute skewness.");
+    HYDRA_BOOST_MATH_ASSERT_MSG(first != last, "At least one sample is required to compute skewness.");
     
     ReturnType M1 = *first;
     ReturnType M2 = 0;
@@ -282,7 +282,7 @@ ReturnType gini_range_fraction(ForwardIterator first, ForwardIterator last, std:
     return std::make_tuple(num, denom, i);
 }
 
-#ifdef BOOST_HAS_THREADS
+#ifdef HYDRA_BOOST_HAS_THREADS
 
 template<typename ReturnType, typename ExecutionPolicy, typename ForwardIterator>
 ReturnType gini_coefficient_parallel_impl(ExecutionPolicy&&, ForwardIterator first, ForwardIterator last)
@@ -357,7 +357,7 @@ ReturnType gini_coefficient_parallel_impl(ExecutionPolicy&&, ForwardIterator fir
     }
 }
 
-#endif // BOOST_HAS_THREADS
+#endif // HYDRA_BOOST_HAS_THREADS
 
 template<typename ForwardIterator, typename OutputIterator>
 OutputIterator mode_impl(ForwardIterator first, ForwardIterator last, OutputIterator output)
@@ -398,4 +398,4 @@ OutputIterator mode_impl(ForwardIterator first, ForwardIterator last, OutputIter
 }
 }}}}
 
-#endif // BOOST_MATH_STATISTICS_UNIVARIATE_STATISTICS_DETAIL_SINGLE_PASS_HPP
+#endif // HYDRA_BOOST_MATH_STATISTICS_UNIVARIATE_STATISTICS_DETAIL_SINGLE_PASS_HPP

@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_REAL_TYPE_CONCEPT_HPP
-#define BOOST_MATH_REAL_TYPE_CONCEPT_HPP
+#ifndef HYDRA_BOOST_MATH_REAL_TYPE_CONCEPT_HPP
+#define HYDRA_BOOST_MATH_REAL_TYPE_CONCEPT_HPP
 
 #include <cmath>
 #ifdef _MSC_VER
@@ -20,7 +20,7 @@
 #include <hydra/detail/external/hydra_boost/math/tools/precision.hpp>
 
 
-namespace boost{ namespace math{ namespace concepts{
+namespace hydra_boost{ namespace math{ namespace concepts{
 
 template <class RealType>
 struct RealTypeConcept
@@ -71,7 +71,7 @@ struct RealTypeConcept
 
    void constraints()
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
 
       RealType r;
       check_binary_ops(r);
@@ -103,12 +103,12 @@ struct RealTypeConcept
       int i {};
       r2 = ldexp(r, i);
       r2 = frexp(r, &i);
-      i = boost::math::tools::digits<RealType>();
-      r2 = boost::math::tools::max_value<RealType>();
-      r2 = boost::math::tools::min_value<RealType>();
-      r2 = boost::math::tools::log_max_value<RealType>();
-      r2 = boost::math::tools::log_min_value<RealType>();
-      r2 = boost::math::tools::epsilon<RealType>();
+      i = hydra_boost::math::tools::digits<RealType>();
+      r2 = hydra_boost::math::tools::max_value<RealType>();
+      r2 = hydra_boost::math::tools::min_value<RealType>();
+      r2 = hydra_boost::math::tools::log_max_value<RealType>();
+      r2 = hydra_boost::math::tools::log_min_value<RealType>();
+      r2 = hydra_boost::math::tools::epsilon<RealType>();
    }
 }; // struct DistributionConcept
 

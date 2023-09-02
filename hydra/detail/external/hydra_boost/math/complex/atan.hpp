@@ -3,17 +3,17 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_COMPLEX_ATAN_INCLUDED
-#define BOOST_MATH_COMPLEX_ATAN_INCLUDED
+#ifndef HYDRA_BOOST_MATH_COMPLEX_ATAN_INCLUDED
+#define HYDRA_BOOST_MATH_COMPLEX_ATAN_INCLUDED
 
-#ifndef BOOST_MATH_COMPLEX_DETAILS_INCLUDED
+#ifndef HYDRA_BOOST_MATH_COMPLEX_DETAILS_INCLUDED
 #  include <hydra/detail/external/hydra_boost/math/complex/details.hpp>
 #endif
-#ifndef BOOST_MATH_COMPLEX_ATANH_INCLUDED
+#ifndef HYDRA_BOOST_MATH_COMPLEX_ATANH_INCLUDED
 #  include <hydra/detail/external/hydra_boost/math/complex/atanh.hpp>
 #endif
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 template<class T> 
 [[deprecated("Replaced by C++11")]] std::complex<T> atan(const std::complex<T>& x)
@@ -28,9 +28,9 @@ template<class T>
       if(x.imag() == -1)
          return std::complex<T>(0, std::numeric_limits<T>::has_infinity ? -std::numeric_limits<T>::infinity() : -static_cast<T>(HUGE_VAL));
    }
-   return ::boost::math::detail::mult_minus_i(::boost::math::atanh(::boost::math::detail::mult_i(x)));
+   return ::hydra_boost::math::detail::mult_minus_i(::hydra_boost::math::atanh(::hydra_boost::math::detail::mult_i(x)));
 }
 
 } } // namespaces
 
-#endif // BOOST_MATH_COMPLEX_ATAN_INCLUDED
+#endif // HYDRA_BOOST_MATH_COMPLEX_ATAN_INCLUDED

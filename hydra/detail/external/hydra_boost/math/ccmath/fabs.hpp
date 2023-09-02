@@ -5,31 +5,31 @@
 //
 //  Constepxr implementation of fabs (see c.math.abs secion 26.8.2 of the ISO standard)
 
-#ifndef BOOST_MATH_CCMATH_FABS
-#define BOOST_MATH_CCMATH_FABS
+#ifndef HYDRA_BOOST_MATH_CCMATH_FABS
+#define HYDRA_BOOST_MATH_CCMATH_FABS
 
 #include <hydra/detail/external/hydra_boost/math/ccmath/abs.hpp>
 
-namespace boost::math::ccmath {
+namespace hydra_boost::math::ccmath {
 
 template <typename T>
 inline constexpr auto fabs(T x) noexcept
 {
-    return boost::math::ccmath::abs(x);
+    return hydra_boost::math::ccmath::abs(x);
 }
 
 inline constexpr float fabsf(float x) noexcept
 {
-    return boost::math::ccmath::abs(x);
+    return hydra_boost::math::ccmath::abs(x);
 }
 
-#ifndef BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
+#ifndef HYDRA_BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
 inline constexpr long double fabsl(long double x) noexcept
 {
-    return boost::math::ccmath::abs(x);
+    return hydra_boost::math::ccmath::abs(x);
 }
 #endif
 
 }
 
-#endif // BOOST_MATH_CCMATH_FABS
+#endif // HYDRA_BOOST_MATH_CCMATH_FABS

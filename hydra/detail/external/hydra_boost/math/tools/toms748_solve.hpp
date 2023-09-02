@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_TOOLS_SOLVE_ROOT_HPP
-#define BOOST_MATH_TOOLS_SOLVE_ROOT_HPP
+#ifndef HYDRA_BOOST_MATH_TOOLS_SOLVE_ROOT_HPP
+#define HYDRA_BOOST_MATH_TOOLS_SOLVE_ROOT_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -18,15 +18,15 @@
 #include <utility>
 #include <cstdint>
 
-#ifdef BOOST_MATH_LOG_ROOT_ITERATIONS
-#  define BOOST_MATH_LOGGER_INCLUDE <hydra/detail/external/hydra_boost/math/tools/iteration_logger.hpp>
-#  include BOOST_MATH_LOGGER_INCLUDE
-#  undef BOOST_MATH_LOGGER_INCLUDE
+#ifdef HYDRA_BOOST_MATH_LOG_ROOT_ITERATIONS
+#  define HYDRA_BOOST_MATH_LOGGER_INCLUDE <hydra/detail/external/hydra_boost/math/tools/iteration_logger.hpp>
+#  include HYDRA_BOOST_MATH_LOGGER_INCLUDE
+#  undef HYDRA_BOOST_MATH_LOGGER_INCLUDE
 #else
-#  define BOOST_MATH_LOG_COUNT(count)
+#  define HYDRA_BOOST_MATH_LOG_COUNT(count)
 #endif
 
-namespace boost{ namespace math{ namespace tools{
+namespace hydra_boost{ namespace math{ namespace tools{
 
 template <class T>
 class eps_tolerance
@@ -38,12 +38,12 @@ public:
    }
    eps_tolerance(unsigned bits)
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       eps = (std::max)(T(ldexp(1.0F, 1-bits)), T(4 * tools::epsilon<T>()));
    }
    bool operator()(const T& a, const T& b)
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       return fabs(a - b) <= (eps * (std::min)(fabs(a), fabs(b)));
    }
 private:
@@ -56,7 +56,7 @@ struct equal_floor
    template <class T>
    bool operator()(const T& a, const T& b)
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       return floor(a) == floor(b);
    }
 };
@@ -67,7 +67,7 @@ struct equal_ceil
    template <class T>
    bool operator()(const T& a, const T& b)
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       return ceil(a) == ceil(b);
    }
 };
@@ -78,7 +78,7 @@ struct equal_nearest_integer
    template <class T>
    bool operator()(const T& a, const T& b)
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       return floor(a + 0.5f) == floor(b + 0.5f);
    }
 };
@@ -96,7 +96,7 @@ void bracket(F f, T& a, T& b, T c, T& fa, T& fb, T& d, T& fd)
    // the interval.  In other words d is the third best guess
    // to the root.
    //
-   BOOST_MATH_STD_USING  // For ADL of std math functions
+   HYDRA_BOOST_MATH_STD_USING  // For ADL of std math functions
    T tol = tools::epsilon<T>() * 2;
    //
    // If the interval [a,b] is very small, or if c is too close 
@@ -133,7 +133,7 @@ void bracket(F f, T& a, T& b, T c, T& fa, T& fb, T& d, T& fd)
    //
    // Non-zero fc, update the interval:
    //
-   if(boost::math::sign(fa) * boost::math::sign(fc) < 0)
+   if(hydra_boost::math::sign(fa) * hydra_boost::math::sign(fc) < 0)
    {
       d = b;
       fd = fb;
@@ -156,7 +156,7 @@ inline T safe_div(T num, T denom, T r)
    // return num / denom without overflow,
    // return r if overflow would occur.
    //
-   BOOST_MATH_STD_USING  // For ADL of std math functions
+   HYDRA_BOOST_MATH_STD_USING  // For ADL of std math functions
 
    if(fabs(denom) < 1)
    {
@@ -178,7 +178,7 @@ inline T secant_interpolate(const T& a, const T& b, const T& fa, const T& fb)
    // that the function is unlikely to be smooth with a root very
    // close to a or b.
    //
-   BOOST_MATH_STD_USING  // For ADL of std math functions
+   HYDRA_BOOST_MATH_STD_USING  // For ADL of std math functions
 
    T tol = tools::epsilon<T>() * 5;
    T c = a - (fa / (fb - fa)) * (b - a);
@@ -219,7 +219,7 @@ T quadratic_interpolate(const T& a, const T& b, T const& d,
    // Determine the starting point of the Newton steps:
    //
    T c;
-   if(boost::math::sign(A) * boost::math::sign(fa) > 0)
+   if(hydra_boost::math::sign(A) * hydra_boost::math::sign(fa) > 0)
    {
       c = a;
    }
@@ -259,7 +259,7 @@ T cubic_interpolate(const T& a, const T& b, const T& d,
    // inside [a, b], so we fall back to quadratic
    // interpolation in case of an erroneous result.
    //
-   BOOST_MATH_INSTRUMENT_CODE(" a = " << a << " b = " << b
+   HYDRA_BOOST_MATH_INSTRUMENT_CODE(" a = " << a << " b = " << b
       << " d = " << d << " e = " << e << " fa = " << fa << " fb = " << fb 
       << " fd = " << fd << " fe = " << fe);
    T q11 = (d - e) * fd / (fe - fd);
@@ -267,7 +267,7 @@ T cubic_interpolate(const T& a, const T& b, const T& d,
    T q31 = (a - b) * fa / (fb - fa);
    T d21 = (b - d) * fd / (fd - fb);
    T d31 = (a - b) * fb / (fb - fa);
-   BOOST_MATH_INSTRUMENT_CODE(
+   HYDRA_BOOST_MATH_INSTRUMENT_CODE(
       "q11 = " << q11 << " q21 = " << q21 << " q31 = " << q31
       << " d21 = " << d21 << " d31 = " << d31);
    T q22 = (d21 - q11) * fb / (fe - fb);
@@ -275,7 +275,7 @@ T cubic_interpolate(const T& a, const T& b, const T& d,
    T d32 = (d31 - q21) * fd / (fd - fa);
    T q33 = (d32 - q22) * fa / (fe - fa);
    T c = q31 + q32 + q33 + a;
-   BOOST_MATH_INSTRUMENT_CODE(
+   HYDRA_BOOST_MATH_INSTRUMENT_CODE(
       "q22 = " << q22 << " q32 = " << q32 << " d32 = " << d32
       << " q33 = " << q33 << " c = " << c);
 
@@ -283,7 +283,7 @@ T cubic_interpolate(const T& a, const T& b, const T& d,
    {
       // Out of bounds step, fall back to quadratic interpolation:
       c = quadratic_interpolate(a, b, d, fa, fb, fd, 3);
-   BOOST_MATH_INSTRUMENT_CODE(
+   HYDRA_BOOST_MATH_INSTRUMENT_CODE(
       "Out of bounds interpolation, falling back to quadratic interpolation. c = " << c);
    }
 
@@ -299,9 +299,9 @@ std::pair<T, T> toms748_solve(F f, const T& ax, const T& bx, const T& fax, const
    // Main entry point and logic for Toms Algorithm 748
    // root finder.
    //
-   BOOST_MATH_STD_USING  // For ADL of std math functions
+   HYDRA_BOOST_MATH_STD_USING  // For ADL of std math functions
 
-   static const char* function = "boost::math::tools::toms748_solve<%1%>";
+   static const char* function = "hydra_boost::math::tools::toms748_solve<%1%>";
 
    //
    // Sanity check - are we allowed to iterate at all?
@@ -317,7 +317,7 @@ std::pair<T, T> toms748_solve(F f, const T& ax, const T& bx, const T& fax, const
    a = ax;
    b = bx;
    if(a >= b)
-      return boost::math::detail::pair_from_single(policies::raise_domain_error(
+      return hydra_boost::math::detail::pair_from_single(policies::raise_domain_error(
          function, 
          "Parameters a and b out of order: a=%1%", a, pol));
    fa = fax;
@@ -333,8 +333,8 @@ std::pair<T, T> toms748_solve(F f, const T& ax, const T& bx, const T& fax, const
       return std::make_pair(a, b);
    }
 
-   if(boost::math::sign(fa) * boost::math::sign(fb) > 0)
-      return boost::math::detail::pair_from_single(policies::raise_domain_error(
+   if(hydra_boost::math::sign(fa) * hydra_boost::math::sign(fb) > 0)
+      return hydra_boost::math::detail::pair_from_single(policies::raise_domain_error(
          function, 
          "Parameters a and b do not bracket the root: a=%1%", a, pol));
    // dummy value for fd, e and fe:
@@ -348,7 +348,7 @@ std::pair<T, T> toms748_solve(F f, const T& ax, const T& bx, const T& fax, const
       c = detail::secant_interpolate(a, b, fa, fb);
       detail::bracket(f, a, b, c, fa, fb, d, fd);
       --count;
-      BOOST_MATH_INSTRUMENT_CODE(" a = " << a << " b = " << b);
+      HYDRA_BOOST_MATH_INSTRUMENT_CODE(" a = " << a << " b = " << b);
 
       if(count && (fa != 0) && !tol(a, b))
       {
@@ -360,7 +360,7 @@ std::pair<T, T> toms748_solve(F f, const T& ax, const T& bx, const T& fax, const
          fe = fd;
          detail::bracket(f, a, b, c, fa, fb, d, fd);
          --count;
-         BOOST_MATH_INSTRUMENT_CODE(" a = " << a << " b = " << b);
+         HYDRA_BOOST_MATH_INSTRUMENT_CODE(" a = " << a << " b = " << b);
       }
    }
 
@@ -382,7 +382,7 @@ std::pair<T, T> toms748_solve(F f, const T& ax, const T& bx, const T& fax, const
       if(prof)
       {
          c = detail::quadratic_interpolate(a, b, d, fa, fb, fd, 2);
-         BOOST_MATH_INSTRUMENT_CODE("Can't take cubic step!!!!");
+         HYDRA_BOOST_MATH_INSTRUMENT_CODE("Can't take cubic step!!!!");
       }
       else
       {
@@ -396,7 +396,7 @@ std::pair<T, T> toms748_solve(F f, const T& ax, const T& bx, const T& fax, const
       detail::bracket(f, a, b, c, fa, fb, d, fd);
       if((0 == --count) || (fa == 0) || tol(a, b))
          break;
-      BOOST_MATH_INSTRUMENT_CODE(" a = " << a << " b = " << b);
+      HYDRA_BOOST_MATH_INSTRUMENT_CODE(" a = " << a << " b = " << b);
       //
       // Now another interpolated step:
       //
@@ -404,7 +404,7 @@ std::pair<T, T> toms748_solve(F f, const T& ax, const T& bx, const T& fax, const
       if(prof)
       {
          c = detail::quadratic_interpolate(a, b, d, fa, fb, fd, 3);
-         BOOST_MATH_INSTRUMENT_CODE("Can't take cubic step!!!!");
+         HYDRA_BOOST_MATH_INSTRUMENT_CODE("Can't take cubic step!!!!");
       }
       else
       {
@@ -416,7 +416,7 @@ std::pair<T, T> toms748_solve(F f, const T& ax, const T& bx, const T& fax, const
       detail::bracket(f, a, b, c, fa, fb, d, fd);
       if((0 == --count) || (fa == 0) || tol(a, b))
          break;
-      BOOST_MATH_INSTRUMENT_CODE(" a = " << a << " b = " << b);
+      HYDRA_BOOST_MATH_INSTRUMENT_CODE(" a = " << a << " b = " << b);
       //
       // Now we take a double-length secant step:
       //
@@ -441,8 +441,8 @@ std::pair<T, T> toms748_solve(F f, const T& ax, const T& bx, const T& fax, const
       e = d;
       fe = fd;
       detail::bracket(f, a, b, c, fa, fb, d, fd);
-      BOOST_MATH_INSTRUMENT_CODE(" a = " << a << " b = " << b);
-      BOOST_MATH_INSTRUMENT_CODE(" tol = " << T((fabs(a) - fabs(b)) / fabs(a)));
+      HYDRA_BOOST_MATH_INSTRUMENT_CODE(" a = " << a << " b = " << b);
+      HYDRA_BOOST_MATH_INSTRUMENT_CODE(" tol = " << T((fabs(a) - fabs(b)) / fabs(a)));
       if((0 == --count) || (fa == 0) || tol(a, b))
          break;
       //
@@ -458,8 +458,8 @@ std::pair<T, T> toms748_solve(F f, const T& ax, const T& bx, const T& fax, const
       fe = fd;
       detail::bracket(f, a, b, T(a + (b - a) / 2), fa, fb, d, fd);
       --count;
-      BOOST_MATH_INSTRUMENT_CODE("Not converging: Taking a bisection!!!!");
-      BOOST_MATH_INSTRUMENT_CODE(" a = " << a << " b = " << b);
+      HYDRA_BOOST_MATH_INSTRUMENT_CODE("Not converging: Taking a bisection!!!!");
+      HYDRA_BOOST_MATH_INSTRUMENT_CODE(" a = " << a << " b = " << b);
    } // while loop
 
    max_iter -= count;
@@ -471,7 +471,7 @@ std::pair<T, T> toms748_solve(F f, const T& ax, const T& bx, const T& fax, const
    {
       a = b;
    }
-   BOOST_MATH_LOG_COUNT(max_iter)
+   HYDRA_BOOST_MATH_LOG_COUNT(max_iter)
    return std::make_pair(a, b);
 }
 
@@ -501,8 +501,8 @@ inline std::pair<T, T> toms748_solve(F f, const T& ax, const T& bx, Tol tol, std
 template <class F, class T, class Tol, class Policy>
 std::pair<T, T> bracket_and_solve_root(F f, const T& guess, T factor, bool rising, Tol tol, std::uintmax_t& max_iter, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
-   static const char* function = "boost::math::tools::bracket_and_solve_root<%1%>";
+   HYDRA_BOOST_MATH_STD_USING
+   static const char* function = "hydra_boost::math::tools::bracket_and_solve_root<%1%>";
    //
    // Set up initial brackets:
    //
@@ -523,10 +523,10 @@ std::pair<T, T> bracket_and_solve_root(F f, const T& guess, T factor, bool risin
       // Zero is to the right of b, so walk upwards
       // until we find it:
       //
-      while((boost::math::sign)(fb) == (boost::math::sign)(fa))
+      while((hydra_boost::math::sign)(fb) == (hydra_boost::math::sign)(fa))
       {
          if(count == 0)
-            return boost::math::detail::pair_from_single(policies::raise_evaluation_error(function, "Unable to bracket root, last nearest value was %1%", b, pol));
+            return hydra_boost::math::detail::pair_from_single(policies::raise_evaluation_error(function, "Unable to bracket root, last nearest value was %1%", b, pol));
          //
          // Heuristic: normally it's best not to increase the step sizes as we'll just end up
          // with a really wide range to search for the root.  However, if the initial guess was *really*
@@ -547,7 +547,7 @@ std::pair<T, T> bracket_and_solve_root(F f, const T& guess, T factor, bool risin
          b *= factor;
          fb = f(b);
          --count;
-         BOOST_MATH_INSTRUMENT_CODE("a = " << a << " b = " << b << " fa = " << fa << " fb = " << fb << " count = " << count);
+         HYDRA_BOOST_MATH_INSTRUMENT_CODE("a = " << a << " b = " << b << " fa = " << fa << " fb = " << fb << " count = " << count);
       }
    }
    else
@@ -556,7 +556,7 @@ std::pair<T, T> bracket_and_solve_root(F f, const T& guess, T factor, bool risin
       // Zero is to the left of a, so walk downwards
       // until we find it:
       //
-      while((boost::math::sign)(fb) == (boost::math::sign)(fa))
+      while((hydra_boost::math::sign)(fb) == (hydra_boost::math::sign)(fa))
       {
          if(fabs(a) < tools::min_value<T>())
          {
@@ -566,7 +566,7 @@ std::pair<T, T> bracket_and_solve_root(F f, const T& guess, T factor, bool risin
             return a > 0 ? std::make_pair(T(0), T(a)) : std::make_pair(T(a), T(0)); 
          }
          if(count == 0)
-            return boost::math::detail::pair_from_single(policies::raise_evaluation_error(function, "Unable to bracket root, last nearest value was %1%", a, pol));
+            return hydra_boost::math::detail::pair_from_single(policies::raise_evaluation_error(function, "Unable to bracket root, last nearest value was %1%", a, pol));
          //
          // Heuristic: normally it's best not to increase the step sizes as we'll just end up
          // with a really wide range to search for the root.  However, if the initial guess was *really*
@@ -587,7 +587,7 @@ std::pair<T, T> bracket_and_solve_root(F f, const T& guess, T factor, bool risin
          a /= factor;
          fa = f(a);
          --count;
-         BOOST_MATH_INSTRUMENT_CODE("a = " << a << " b = " << b << " fa = " << fa << " fb = " << fb << " count = " << count);
+         HYDRA_BOOST_MATH_INSTRUMENT_CODE("a = " << a << " b = " << b << " fa = " << fa << " fb = " << fb << " count = " << count);
       }
    }
    max_iter -= count;
@@ -602,8 +602,8 @@ std::pair<T, T> bracket_and_solve_root(F f, const T& guess, T factor, bool risin
       count, 
       pol);
    max_iter += count;
-   BOOST_MATH_INSTRUMENT_CODE("max_iter = " << max_iter << " count = " << count);
-   BOOST_MATH_LOG_COUNT(max_iter)
+   HYDRA_BOOST_MATH_INSTRUMENT_CODE("max_iter = " << max_iter << " count = " << count);
+   HYDRA_BOOST_MATH_LOG_COUNT(max_iter)
    return r;
 }
 
@@ -615,8 +615,8 @@ inline std::pair<T, T> bracket_and_solve_root(F f, const T& guess, const T& fact
 
 } // namespace tools
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 
-#endif // BOOST_MATH_TOOLS_SOLVE_ROOT_HPP
+#endif // HYDRA_BOOST_MATH_TOOLS_SOLVE_ROOT_HPP
 

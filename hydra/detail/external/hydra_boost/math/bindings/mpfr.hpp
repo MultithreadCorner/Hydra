@@ -8,8 +8,8 @@
 // Also requires the gmp and mpfr libraries.
 //
 
-#ifndef BOOST_MATH_MPLFR_BINDINGS_HPP
-#define BOOST_MATH_MPLFR_BINDINGS_HPP
+#ifndef HYDRA_BOOST_MATH_MPLFR_BINDINGS_HPP
+#define HYDRA_BOOST_MATH_MPLFR_BINDINGS_HPP
 
 #include <type_traits>
 
@@ -107,7 +107,7 @@ template <class Policy>
 inline mpfr_class modf(const mpfr_class& v, long long* ipart, const Policy& pol)
 {
    *ipart = lltrunc(v, pol);
-   return v - boost::math::tools::real_cast<mpfr_class>(*ipart);
+   return v - hydra_boost::math::tools::real_cast<mpfr_class>(*ipart);
 }
 template <class T, class U, class Policy>
 inline mpfr_class modf(const __gmp_expr<T,U>& v, long long* ipart, const Policy& pol)
@@ -118,7 +118,7 @@ inline mpfr_class modf(const __gmp_expr<T,U>& v, long long* ipart, const Policy&
 template <class Policy>
 inline int iround(mpfr_class const& x, const Policy&)
 {
-   return boost::math::tools::real_cast<int>(boost::math::round(x, typename boost::math::policies::normalise<Policy, boost::math::policies::rounding_error< boost::math::policies::throw_on_error> >::type()));
+   return hydra_boost::math::tools::real_cast<int>(hydra_boost::math::round(x, typename hydra_boost::math::policies::normalise<Policy, hydra_boost::math::policies::rounding_error< hydra_boost::math::policies::throw_on_error> >::type()));
 }
 template <class T, class U, class Policy>
 inline int iround(__gmp_expr<T,U> const& x, const Policy& pol)
@@ -129,7 +129,7 @@ inline int iround(__gmp_expr<T,U> const& x, const Policy& pol)
 template <class Policy>
 inline long lround(mpfr_class const& x, const Policy&)
 {
-   return boost::math::tools::real_cast<long>(boost::math::round(x, typename boost::math::policies::normalise<Policy, boost::math::policies::rounding_error< boost::math::policies::throw_on_error> >::type()));
+   return hydra_boost::math::tools::real_cast<long>(hydra_boost::math::round(x, typename hydra_boost::math::policies::normalise<Policy, hydra_boost::math::policies::rounding_error< hydra_boost::math::policies::throw_on_error> >::type()));
 }
 template <class T, class U, class Policy>
 inline long lround(__gmp_expr<T,U> const& x, const Policy& pol)
@@ -140,7 +140,7 @@ inline long lround(__gmp_expr<T,U> const& x, const Policy& pol)
 template <class Policy>
 inline long long llround(mpfr_class const& x, const Policy&)
 {
-   return boost::math::tools::real_cast<long long>(boost::math::round(x, typename boost::math::policies::normalise<Policy, boost::math::policies::rounding_error< boost::math::policies::throw_on_error> >::type()));
+   return hydra_boost::math::tools::real_cast<long long>(hydra_boost::math::round(x, typename hydra_boost::math::policies::normalise<Policy, hydra_boost::math::policies::rounding_error< hydra_boost::math::policies::throw_on_error> >::type()));
 }
 template <class T, class U, class Policy>
 inline long long llround(__gmp_expr<T,U> const& x, const Policy& pol)
@@ -151,7 +151,7 @@ inline long long llround(__gmp_expr<T,U> const& x, const Policy& pol)
 template <class Policy>
 inline int itrunc(mpfr_class const& x, const Policy&)
 {
-   return boost::math::tools::real_cast<int>(boost::math::trunc(x, typename boost::math::policies::normalise<Policy, boost::math::policies::rounding_error< boost::math::policies::throw_on_error> >::type()));
+   return hydra_boost::math::tools::real_cast<int>(hydra_boost::math::trunc(x, typename hydra_boost::math::policies::normalise<Policy, hydra_boost::math::policies::rounding_error< hydra_boost::math::policies::throw_on_error> >::type()));
 }
 template <class T, class U, class Policy>
 inline int itrunc(__gmp_expr<T,U> const& x, const Policy& pol)
@@ -162,7 +162,7 @@ inline int itrunc(__gmp_expr<T,U> const& x, const Policy& pol)
 template <class Policy>
 inline long ltrunc(mpfr_class const& x, const Policy&)
 {
-   return boost::math::tools::real_cast<long>(boost::math::trunc(x, typename boost::math::policies::normalise<Policy, boost::math::policies::rounding_error< boost::math::policies::throw_on_error> >::type()));
+   return hydra_boost::math::tools::real_cast<long>(hydra_boost::math::trunc(x, typename hydra_boost::math::policies::normalise<Policy, hydra_boost::math::policies::rounding_error< hydra_boost::math::policies::throw_on_error> >::type()));
 }
 template <class T, class U, class Policy>
 inline long ltrunc(__gmp_expr<T,U> const& x, const Policy& pol)
@@ -173,7 +173,7 @@ inline long ltrunc(__gmp_expr<T,U> const& x, const Policy& pol)
 template <class Policy>
 inline long long lltrunc(mpfr_class const& x, const Policy&)
 {
-   return boost::math::tools::real_cast<long long>(boost::math::trunc(x, typename boost::math::policies::normalise<Policy, boost::math::policies::rounding_error< boost::math::policies::throw_on_error> >::type()));
+   return hydra_boost::math::tools::real_cast<long long>(hydra_boost::math::trunc(x, typename hydra_boost::math::policies::normalise<Policy, hydra_boost::math::policies::rounding_error< hydra_boost::math::policies::throw_on_error> >::type()));
 }
 template <class T, class U, class Policy>
 inline long long lltrunc(__gmp_expr<T,U> const& x, const Policy& pol)
@@ -181,10 +181,10 @@ inline long long lltrunc(__gmp_expr<T,U> const& x, const Policy& pol)
    return lltrunc(static_cast<mpfr_class>(x), pol);
 }
 
-namespace boost{
+namespace hydra_boost{
 
-#ifdef BOOST_MATH_USE_FLOAT128
-   template<> struct std::is_convertible<BOOST_MATH_FLOAT128_TYPE, mpfr_class> : public std::integral_constant<bool, false>{};
+#ifdef HYDRA_BOOST_MATH_USE_FLOAT128
+   template<> struct std::is_convertible<HYDRA_BOOST_MATH_FLOAT128_TYPE, mpfr_class> : public std::integral_constant<bool, false>{};
 #endif
    template<> struct std::is_convertible<long long, mpfr_class> : public std::integral_constant<bool, false>{};
 
@@ -297,7 +297,7 @@ struct promote_arg<__gmp_expr<T,U> >
 };
 
 template<>
-inline int digits<mpfr_class>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr_class)) noexcept
+inline int digits<mpfr_class>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr_class)) noexcept
 {
    return mpfr_class::get_dprec();
 }
@@ -377,7 +377,7 @@ inline long long real_cast<long long, mpfr_class>(mpfr_class t)
 }
 
 template <>
-inline mpfr_class max_value<mpfr_class>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr_class))
+inline mpfr_class max_value<mpfr_class>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr_class))
 {
    static bool has_init = false;
    static mpfr_class val;
@@ -391,7 +391,7 @@ inline mpfr_class max_value<mpfr_class>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(m
 }
 
 template <>
-inline mpfr_class min_value<mpfr_class>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr_class))
+inline mpfr_class min_value<mpfr_class>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr_class))
 {
    static bool has_init = false;
    static mpfr_class val;
@@ -405,7 +405,7 @@ inline mpfr_class min_value<mpfr_class>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(m
 }
 
 template <>
-inline mpfr_class log_max_value<mpfr_class>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr_class))
+inline mpfr_class log_max_value<mpfr_class>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr_class))
 {
    static bool has_init = false;
    static mpfr_class val = max_value<mpfr_class>();
@@ -418,7 +418,7 @@ inline mpfr_class log_max_value<mpfr_class>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SP
 }
 
 template <>
-inline mpfr_class log_min_value<mpfr_class>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr_class))
+inline mpfr_class log_min_value<mpfr_class>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr_class))
 {
    static bool has_init = false;
    static mpfr_class val = max_value<mpfr_class>();
@@ -431,9 +431,9 @@ inline mpfr_class log_min_value<mpfr_class>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SP
 }
 
 template <>
-inline mpfr_class epsilon<mpfr_class>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr_class))
+inline mpfr_class epsilon<mpfr_class>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr_class))
 {
-   return ldexp(mpfr_class(1), 1-boost::math::policies::digits<mpfr_class, boost::math::policies::policy<> >());
+   return ldexp(mpfr_class(1), 1-hydra_boost::math::policies::digits<mpfr_class, hydra_boost::math::policies::policy<> >());
 }
 
 } // namespace tools
@@ -455,7 +455,7 @@ inline mpfr_class skewness(const extreme_value_distribution<mpfr_class, Policy>&
    // This is 12 * sqrt(6) * zeta(3) / pi^3:
    // See http://mathworld.wolfram.com/ExtremeValueDistribution.html
    //
-   #ifdef BOOST_MATH_STANDALONE
+   #ifdef HYDRA_BOOST_MATH_STANDALONE
    static_assert(sizeof(Policy) == 0, "mpfr skewness can not be calculated in standalone mode");
    #endif
 
@@ -465,8 +465,8 @@ inline mpfr_class skewness(const extreme_value_distribution<mpfr_class, Policy>&
 template <class Policy>
 inline mpfr_class skewness(const rayleigh_distribution<mpfr_class, Policy>& /*dist*/)
 {
-  // using namespace boost::math::constants;
-  #ifdef BOOST_MATH_STANDALONE
+  // using namespace hydra_boost::math::constants;
+  #ifdef HYDRA_BOOST_MATH_STANDALONE
   static_assert(sizeof(Policy) == 0, "mpfr skewness can not be calculated in standalone mode");
   #endif
 
@@ -478,8 +478,8 @@ inline mpfr_class skewness(const rayleigh_distribution<mpfr_class, Policy>& /*di
 template <class Policy>
 inline mpfr_class kurtosis(const rayleigh_distribution<mpfr_class, Policy>& /*dist*/)
 {
-  // using namespace boost::math::constants;
-  #ifdef BOOST_MATH_STANDALONE
+  // using namespace hydra_boost::math::constants;
+  #ifdef HYDRA_BOOST_MATH_STANDALONE
   static_assert(sizeof(Policy) == 0, "mpfr kurtosis can not be calculated in standalone mode");
   #endif
 
@@ -492,9 +492,9 @@ inline mpfr_class kurtosis(const rayleigh_distribution<mpfr_class, Policy>& /*di
 template <class Policy>
 inline mpfr_class kurtosis_excess(const rayleigh_distribution<mpfr_class, Policy>& /*dist*/)
 {
-  //using namespace boost::math::constants;
+  //using namespace hydra_boost::math::constants;
   // Computed using NTL at 150 bit, about 50 decimal digits.
-  #ifdef BOOST_MATH_STANDALONE
+  #ifdef HYDRA_BOOST_MATH_STANDALONE
   static_assert(sizeof(Policy) == 0, "mpfr excess kurtosis can not be calculated in standalone mode");
   #endif
 
@@ -515,7 +515,7 @@ mpfr_class digamma_imp(mpfr_class x, const std::integral_constant<int, 0>* , con
    // This handles reflection of negative arguments, and all our
    // empfr_classor handling, then forwards to the T-specific approximation.
    //
-   BOOST_MATH_STD_USING // ADL of std functions.
+   HYDRA_BOOST_MATH_STD_USING // ADL of std functions.
 
    mpfr_class result = 0;
    //
@@ -537,7 +537,7 @@ mpfr_class digamma_imp(mpfr_class x, const std::integral_constant<int, 0>* , con
       //
       if(remainder == 0)
       {
-         return policies::raise_pole_error<mpfr_class>("boost::math::digamma<%1%>(%1%)", nullptr, (1-x), pol);
+         return policies::raise_pole_error<mpfr_class>("hydra_boost::math::digamma<%1%>(%1%)", nullptr, (1-x), pol);
       }
       result = constants::pi<mpfr_class>() / tan(constants::pi<mpfr_class>() * remainder);
    }
@@ -551,7 +551,7 @@ mpfr_class digamma_imp(mpfr_class x, const std::integral_constant<int, 0>* , con
 template <class Policy>
 inline mpfr_class erf_inv_imp(const mpfr_class& p, const mpfr_class& q, const Policy&, const std::integral_constant<int, 64>*)
 {
-   BOOST_MATH_STD_USING // for ADL of std names.
+   HYDRA_BOOST_MATH_STD_USING // for ADL of std names.
 
    mpfr_class result = 0;
 
@@ -807,7 +807,7 @@ inline mpfr_class erf_inv_imp(const mpfr_class& p, const mpfr_class& q, const Po
 
 inline mpfr_class bessel_i0(mpfr_class x)
 {
-   #ifdef BOOST_MATH_STANDALONE
+   #ifdef HYDRA_BOOST_MATH_STANDALONE
    static_assert(sizeof(x) == 0, "mpfr bessel_i0 can not be calculated in standalone mode");
    #endif
 
@@ -857,8 +857,8 @@ inline mpfr_class bessel_i0(mpfr_class x)
     };
     mpfr_class value, factor, r;
 
-    BOOST_MATH_STD_USING
-    using namespace boost::math::tools;
+    HYDRA_BOOST_MATH_STD_USING
+    using namespace hydra_boost::math::tools;
 
     if (x < 0)
     {
@@ -932,8 +932,8 @@ inline mpfr_class bessel_i1(mpfr_class x)
     };
     mpfr_class value, factor, r, w;
 
-    BOOST_MATH_STD_USING
-    using namespace boost::math::tools;
+    HYDRA_BOOST_MATH_STD_USING
+    using namespace hydra_boost::math::tools;
 
     w = abs(x);
     if (x == 0)
@@ -970,5 +970,5 @@ template<> struct std::is_convertible<long double, mpfr_class> : public std::fal
 
 }
 
-#endif // BOOST_MATH_MPLFR_BINDINGS_HPP
+#endif // HYDRA_BOOST_MATH_MPLFR_BINDINGS_HPP
 

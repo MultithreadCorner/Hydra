@@ -4,8 +4,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STATS_SKEW_NORMAL_HPP
-#define BOOST_STATS_SKEW_NORMAL_HPP
+#ifndef HYDRA_BOOST_STATS_SKEW_NORMAL_HPP
+#define HYDRA_BOOST_STATS_SKEW_NORMAL_HPP
 
 // http://en.wikipedia.org/wiki/Skew_normal_distribution
 // http://azzalini.stat.unipd.it/SN/
@@ -27,7 +27,7 @@
 #include <utility>
 #include <algorithm> // std::lower_bound, std::distance
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
   namespace detail
   {
@@ -38,7 +38,7 @@ namespace boost{ namespace math{
       RealType* result,
       const Policy& pol)
     {
-      if(!(boost::math::isfinite)(shape))
+      if(!(hydra_boost::math::isfinite)(shape))
       {
         *result =
           policies::raise_domain_error<RealType>(function,
@@ -61,7 +61,7 @@ namespace boost{ namespace math{
     skew_normal_distribution(RealType l_location = 0, RealType l_scale = 1, RealType l_shape = 0)
       : location_(l_location), scale_(l_scale), shape_(l_shape)
     { // Default is a 'standard' normal distribution N01. (shape=0 results in the normal distribution with no skew)
-      static const char* function = "boost::math::skew_normal_distribution<%1%>::skew_normal_distribution";
+      static const char* function = "hydra_boost::math::skew_normal_distribution<%1%>::skew_normal_distribution";
 
       RealType result;
       detail::check_scale(function, l_scale, &result, Policy());
@@ -98,17 +98,17 @@ namespace boost{ namespace math{
 
   #ifdef __cpp_deduction_guides
   template <class RealType>
-  skew_normal_distribution(RealType)->skew_normal_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+  skew_normal_distribution(RealType)->skew_normal_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
   template <class RealType>
-  skew_normal_distribution(RealType,RealType)->skew_normal_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+  skew_normal_distribution(RealType,RealType)->skew_normal_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
   template <class RealType>
-  skew_normal_distribution(RealType,RealType,RealType)->skew_normal_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+  skew_normal_distribution(RealType,RealType,RealType)->skew_normal_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
   #endif
 
   template <class RealType, class Policy>
   inline const std::pair<RealType, RealType> range(const skew_normal_distribution<RealType, Policy>& /*dist*/)
   { // Range of permissible values for random variable x.
-    using boost::math::tools::max_value;
+    using hydra_boost::math::tools::max_value;
     return std::pair<RealType, RealType>(
        std::numeric_limits<RealType>::has_infinity ? -std::numeric_limits<RealType>::infinity() : -max_value<RealType>(),
        std::numeric_limits<RealType>::has_infinity ? std::numeric_limits<RealType>::infinity() : max_value<RealType>()); // - to + max value.
@@ -119,7 +119,7 @@ namespace boost{ namespace math{
   { // Range of supported values for random variable x.
     // This is range where cdf rises from 0 to 1, and outside it, the pdf is zero.
 
-    using boost::math::tools::max_value;
+    using hydra_boost::math::tools::max_value;
     return std::pair<RealType, RealType>(-max_value<RealType>(),  max_value<RealType>()); // - to + max value.
   }
 
@@ -130,7 +130,7 @@ namespace boost{ namespace math{
     const RealType location = dist.location();
     const RealType shape = dist.shape();
 
-    static const char* function = "boost::math::pdf(const skew_normal_distribution<%1%>&, %1%)";
+    static const char* function = "hydra_boost::math::pdf(const skew_normal_distribution<%1%>&, %1%)";
 
     RealType result = 0;
     if(false == detail::check_scale(function, scale, &result, Policy()))
@@ -145,7 +145,7 @@ namespace boost{ namespace math{
     {
       return result;
     }
-    if((boost::math::isinf)(x))
+    if((hydra_boost::math::isinf)(x))
     {
        return 0; // pdf + and - infinity is zero.
     }
@@ -175,7 +175,7 @@ namespace boost{ namespace math{
     const RealType location = dist.location();
     const RealType shape = dist.shape();
 
-    static const char* function = "boost::math::cdf(const skew_normal_distribution<%1%>&, %1%)";
+    static const char* function = "hydra_boost::math::cdf(const skew_normal_distribution<%1%>&, %1%)";
     RealType result = 0;
     if(false == detail::check_scale(function, scale, &result, Policy()))
     {
@@ -189,7 +189,7 @@ namespace boost{ namespace math{
     {
       return result;
     }
-    if((boost::math::isinf)(x))
+    if((hydra_boost::math::isinf)(x))
     {
       if(x < 0) return 0; // -infinity
       return 1; // + infinity
@@ -225,9 +225,9 @@ namespace boost{ namespace math{
     const RealType shape = c.dist.shape();
     const RealType x = c.param;
 
-    static const char* function = "boost::math::cdf(const complement(skew_normal_distribution<%1%>&), %1%)";
+    static const char* function = "hydra_boost::math::cdf(const complement(skew_normal_distribution<%1%>&), %1%)";
 
-    if((boost::math::isinf)(x))
+    if((hydra_boost::math::isinf)(x))
     {
       if(x < 0) return 1; // cdf complement -infinity is unity.
       return 0; // cdf complement +infinity is zero
@@ -280,9 +280,9 @@ namespace boost{ namespace math{
   template <class RealType, class Policy>
   inline RealType mean(const skew_normal_distribution<RealType, Policy>& dist)
   {
-    BOOST_MATH_STD_USING  // for ADL of std functions
+    HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
-    using namespace boost::math::constants;
+    using namespace hydra_boost::math::constants;
 
     //const RealType delta = dist.shape() / sqrt(static_cast<RealType>(1)+dist.shape()*dist.shape());
 
@@ -294,7 +294,7 @@ namespace boost{ namespace math{
   template <class RealType, class Policy>
   inline RealType variance(const skew_normal_distribution<RealType, Policy>& dist)
   {
-    using namespace boost::math::constants;
+    using namespace hydra_boost::math::constants;
 
     const RealType delta2 = dist.shape() != 0 ? static_cast<RealType>(1) / (static_cast<RealType>(1)+static_cast<RealType>(1)/(dist.shape()*dist.shape())) : static_cast<RealType>(0);
     //const RealType inv_delta2 = static_cast<RealType>(1)+static_cast<RealType>(1)/(dist.shape()*dist.shape());
@@ -344,7 +344,7 @@ namespace boost{ namespace math{
           return result;
         }
 
-        BOOST_MATH_STD_USING
+        HYDRA_BOOST_MATH_STD_USING
 
         // 21 elements
         static const RealType shapes[] = {
@@ -401,7 +401,7 @@ namespace boost{ namespace math{
 
         const diff_type d = std::distance(shapes, result_ptr);
 
-        BOOST_MATH_ASSERT(d > static_cast<diff_type>(0));
+        HYDRA_BOOST_MATH_ASSERT(d > static_cast<diff_type>(0));
 
         // refine
         if(d < static_cast<diff_type>(21)) // shape smaller 100
@@ -431,12 +431,12 @@ namespace boost{ namespace math{
     template <class RealType, class Policy>
     struct skew_normal_mode_functor
     {
-      skew_normal_mode_functor(const boost::math::skew_normal_distribution<RealType, Policy> dist)
+      skew_normal_mode_functor(const hydra_boost::math::skew_normal_distribution<RealType, Policy> dist)
         : distribution(dist)
       {
       }
 
-      boost::math::tuple<RealType, RealType> operator()(RealType const& x)
+      hydra_boost::math::tuple<RealType, RealType> operator()(RealType const& x)
       {
         normal_distribution<RealType, Policy> std_normal;
         const RealType shape = distribution.shape();
@@ -446,10 +446,10 @@ namespace boost{ namespace math{
         RealType fx = static_cast<RealType>(2)*shape*normpdf_ax*normpdf_x - x*pdf_x;
         RealType dx = static_cast<RealType>(2)*shape*x*normpdf_x*normpdf_ax*(static_cast<RealType>(1) + shape*shape) + pdf_x + x*fx;
         // return both function evaluation difference f(x) and 1st derivative f'(x).
-        return boost::math::make_tuple(fx, -dx);
+        return hydra_boost::math::make_tuple(fx, -dx);
       }
     private:
-      const boost::math::skew_normal_distribution<RealType, Policy> distribution;
+      const hydra_boost::math::skew_normal_distribution<RealType, Policy> distribution;
     };
 
   } // namespace detail
@@ -461,7 +461,7 @@ namespace boost{ namespace math{
     const RealType location = dist.location();
     const RealType shape = dist.shape();
 
-    static const char* function = "boost::math::mode(const skew_normal_distribution<%1%>&, %1%)";
+    static const char* function = "hydra_boost::math::mode(const skew_normal_distribution<%1%>&, %1%)";
 
     RealType result = 0;
     if(false == detail::check_scale(function, scale, &result, Policy()))
@@ -486,7 +486,7 @@ namespace boost{ namespace math{
 
     // 21 elements
     static const RealType shapes[] = {
-      static_cast<RealType>(0.0),
+      0.0,
       static_cast<RealType>(1.000000000000000e-004),
       static_cast<RealType>(2.069138081114790e-004),
       static_cast<RealType>(4.281332398719396e-004),
@@ -511,7 +511,7 @@ namespace boost{ namespace math{
 
     // 21 elements
     static const RealType guess[] = {
-      static_cast<RealType>(0.0),
+      0.0,
       static_cast<RealType>(5.000050000525391e-005),
       static_cast<RealType>(1.500015000148736e-004),
       static_cast<RealType>(3.500035000350010e-004),
@@ -540,7 +540,7 @@ namespace boost{ namespace math{
 
     const diff_type d = std::distance(shapes, result_ptr);
 
-    BOOST_MATH_ASSERT(d > static_cast<diff_type>(0));
+    HYDRA_BOOST_MATH_ASSERT(d > static_cast<diff_type>(0));
 
     // TODO: make the search bounds smarter, depending on the shape parameter
     RealType search_min = 0; // below zero was caught above
@@ -578,8 +578,8 @@ namespace boost{ namespace math{
   template <class RealType, class Policy>
   inline RealType skewness(const skew_normal_distribution<RealType, Policy>& dist)
   {
-    BOOST_MATH_STD_USING  // for ADL of std functions
-    using namespace boost::math::constants;
+    HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
+    using namespace hydra_boost::math::constants;
 
     static const RealType factor = four_minus_pi<RealType>()/static_cast<RealType>(2);
     const RealType delta = dist.shape() / sqrt(static_cast<RealType>(1)+dist.shape()*dist.shape());
@@ -597,7 +597,7 @@ namespace boost{ namespace math{
   template <class RealType, class Policy>
   inline RealType kurtosis_excess(const skew_normal_distribution<RealType, Policy>& dist)
   {
-    using namespace boost::math::constants;
+    using namespace hydra_boost::math::constants;
 
     static const RealType factor = pi_minus_three<RealType>()*static_cast<RealType>(2);
 
@@ -615,21 +615,21 @@ namespace boost{ namespace math{
     template <class RealType, class Policy>
     struct skew_normal_quantile_functor
     {
-      skew_normal_quantile_functor(const boost::math::skew_normal_distribution<RealType, Policy> dist, RealType const& p)
+      skew_normal_quantile_functor(const hydra_boost::math::skew_normal_distribution<RealType, Policy> dist, RealType const& p)
         : distribution(dist), prob(p)
       {
       }
 
-      boost::math::tuple<RealType, RealType> operator()(RealType const& x)
+      hydra_boost::math::tuple<RealType, RealType> operator()(RealType const& x)
       {
         RealType c = cdf(distribution, x);
         RealType fx = c - prob;  // Difference cdf - value - to minimize.
         RealType dx = pdf(distribution, x); // pdf is 1st derivative.
         // return both function evaluation difference f(x) and 1st derivative f'(x).
-        return boost::math::make_tuple(fx, dx);
+        return hydra_boost::math::make_tuple(fx, dx);
       }
     private:
-      const boost::math::skew_normal_distribution<RealType, Policy> distribution;
+      const hydra_boost::math::skew_normal_distribution<RealType, Policy> distribution;
       RealType prob;
     };
 
@@ -642,7 +642,7 @@ namespace boost{ namespace math{
     const RealType location = dist.location();
     const RealType shape = dist.shape();
 
-    static const char* function = "boost::math::quantile(const skew_normal_distribution<%1%>&, %1%)";
+    static const char* function = "hydra_boost::math::quantile(const skew_normal_distribution<%1%>&, %1%)";
 
     RealType result = 0;
     if(false == detail::check_scale(function, scale, &result, Policy()))
@@ -655,7 +655,7 @@ namespace boost{ namespace math{
       return result;
 
     // Compute initial guess via Cornish-Fisher expansion.
-    RealType x = -boost::math::erfc_inv(2 * p, Policy()) * constants::root_two<RealType>();
+    RealType x = -hydra_boost::math::erfc_inv(2 * p, Policy()) * constants::root_two<RealType>();
 
     // Avoid unnecessary computations if there is no skew.
     if(shape != 0)
@@ -695,7 +695,7 @@ namespace boost{ namespace math{
     const RealType location = c.dist.location();
     const RealType shape = c.dist.shape();
 
-    static const char* function = "boost::math::quantile(const complement(skew_normal_distribution<%1%>&), %1%)";
+    static const char* function = "hydra_boost::math::quantile(const complement(skew_normal_distribution<%1%>&), %1%)";
     RealType result = 0;
     if(false == detail::check_scale(function, scale, &result, Policy()))
       return result;
@@ -716,13 +716,13 @@ namespace boost{ namespace math{
 
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_STATS_SKEW_NORMAL_HPP
+#endif // HYDRA_BOOST_STATS_SKEW_NORMAL_HPP
 
 

@@ -3,10 +3,10 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_CCMATH_DETAIL_SWAP_HPP
-#define BOOST_MATH_CCMATH_DETAIL_SWAP_HPP
+#ifndef HYDRA_BOOST_MATH_CCMATH_DETAIL_SWAP_HPP
+#define HYDRA_BOOST_MATH_CCMATH_DETAIL_SWAP_HPP
 
-namespace boost::math::ccmath::detail {
+namespace hydra_boost::math::ccmath::detail {
 
 template <typename T>
 inline constexpr void swap(T& x, T& y) noexcept
@@ -18,4 +18,4 @@ inline constexpr void swap(T& x, T& y) noexcept
 
 }
 
-#endif // BOOST_MATH_CCMATH_DETAIL_SWAP_HPP
+#endif // HYDRA_BOOST_MATH_CCMATH_DETAIL_SWAP_HPP

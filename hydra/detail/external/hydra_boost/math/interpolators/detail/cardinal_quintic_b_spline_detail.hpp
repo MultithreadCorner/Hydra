@@ -4,14 +4,14 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_INTERPOLATORS_CARDINAL_QUINTIC_B_SPLINE_DETAIL_HPP
-#define BOOST_MATH_INTERPOLATORS_CARDINAL_QUINTIC_B_SPLINE_DETAIL_HPP
+#ifndef HYDRA_BOOST_MATH_INTERPOLATORS_CARDINAL_QUINTIC_B_SPLINE_DETAIL_HPP
+#define HYDRA_BOOST_MATH_INTERPOLATORS_CARDINAL_QUINTIC_B_SPLINE_DETAIL_HPP
 #include <cmath>
 #include <vector>
 #include <utility>
 #include <hydra/detail/external/hydra_boost/math/special_functions/cardinal_b_spline.hpp>
 
-namespace boost{ namespace math{ namespace interpolators{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace interpolators{ namespace detail{
 
 
 template <class Real>
@@ -166,7 +166,7 @@ public:
     Real operator()(Real t) const {
         using std::ceil;
         using std::floor;
-        using boost::math::cardinal_b_spline;
+        using hydra_boost::math::cardinal_b_spline;
         // tf = t0 + (n-1)*h
         // alpha.size() = n+4
         if (t < m_t0 || t > m_t0 + (m_alpha.size()-5)/m_inv_h) {
@@ -189,7 +189,7 @@ public:
     Real prime(Real t) const {
         using std::ceil;
         using std::floor;
-        using boost::math::cardinal_b_spline_prime;
+        using hydra_boost::math::cardinal_b_spline_prime;
         if (t < m_t0 || t > m_t0 + (m_alpha.size()-5)/m_inv_h) {
             const char* err_msg = "Tried to evaluate the cardinal quintic b-spline outside the domain of of interpolation; extrapolation does not work.";
             throw std::domain_error(err_msg);
@@ -209,7 +209,7 @@ public:
     Real double_prime(Real t) const {
         using std::ceil;
         using std::floor;
-        using boost::math::cardinal_b_spline_double_prime;
+        using hydra_boost::math::cardinal_b_spline_double_prime;
         if (t < m_t0 || t > m_t0 + (m_alpha.size()-5)/m_inv_h) {
             const char* err_msg = "Tried to evaluate the cardinal quintic b-spline outside the domain of of interpolation; extrapolation does not work.";
             throw std::domain_error(err_msg);

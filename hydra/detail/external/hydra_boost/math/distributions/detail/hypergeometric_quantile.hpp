@@ -5,20 +5,20 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_DISTRIBUTIONS_DETAIL_HG_QUANTILE_HPP
-#define BOOST_MATH_DISTRIBUTIONS_DETAIL_HG_QUANTILE_HPP
+#ifndef HYDRA_BOOST_MATH_DISTRIBUTIONS_DETAIL_HG_QUANTILE_HPP
+#define HYDRA_BOOST_MATH_DISTRIBUTIONS_DETAIL_HG_QUANTILE_HPP
 
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/hypergeometric_pdf.hpp>
 
-namespace boost{ namespace math{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace detail{
 
 template <class T>
 inline unsigned round_x_from_p(unsigned x, T p, T cum, T fudge_factor, unsigned lbound, unsigned /*ubound*/, const policies::discrete_quantile<policies::integer_round_down>&)
 {
    if((p < cum * fudge_factor) && (x != lbound))
    {
-      BOOST_MATH_INSTRUMENT_VARIABLE(x-1);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(x-1);
       return --x;
    }
    return x;
@@ -29,7 +29,7 @@ inline unsigned round_x_from_p(unsigned x, T p, T cum, T fudge_factor, unsigned 
 {
    if((cum < p * fudge_factor) && (x != ubound))
    {
-      BOOST_MATH_INSTRUMENT_VARIABLE(x+1);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(x+1);
       return ++x;
    }
    return x;
@@ -62,7 +62,7 @@ inline unsigned round_x_from_q(unsigned x, T q, T cum, T fudge_factor, unsigned 
 {
    if((q * fudge_factor > cum) && (x != lbound))
    {
-      BOOST_MATH_INSTRUMENT_VARIABLE(x-1);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(x-1);
       return --x;
    }
    return x;
@@ -73,7 +73,7 @@ inline unsigned round_x_from_q(unsigned x, T q, T cum, T fudge_factor, unsigned 
 {
    if((q < cum * fudge_factor) && (x != ubound))
    {
-      BOOST_MATH_INSTRUMENT_VARIABLE(x+1);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(x+1);
       return ++x;
    }
    return x;
@@ -109,21 +109,21 @@ unsigned hypergeometric_quantile_imp(T p, T q, unsigned r, unsigned n, unsigned 
 #  pragma warning(disable:4267)
 #endif
    typedef typename Policy::discrete_quantile_type discrete_quantile_type;
-   BOOST_MATH_STD_USING
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_MATH_STD_USING
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    T result;
-   T fudge_factor = 1 + tools::epsilon<T>() * ((N <= boost::math::prime(boost::math::max_prime - 1)) ? 50 : 2 * N);
+   T fudge_factor = 1 + tools::epsilon<T>() * ((N <= hydra_boost::math::prime(hydra_boost::math::max_prime - 1)) ? 50 : 2 * N);
    unsigned base = static_cast<unsigned>((std::max)(0, static_cast<int>(n + r) - static_cast<int>(N)));
    unsigned lim = (std::min)(r, n);
 
-   BOOST_MATH_INSTRUMENT_VARIABLE(p);
-   BOOST_MATH_INSTRUMENT_VARIABLE(q);
-   BOOST_MATH_INSTRUMENT_VARIABLE(r);
-   BOOST_MATH_INSTRUMENT_VARIABLE(n);
-   BOOST_MATH_INSTRUMENT_VARIABLE(N);
-   BOOST_MATH_INSTRUMENT_VARIABLE(fudge_factor);
-   BOOST_MATH_INSTRUMENT_VARIABLE(base);
-   BOOST_MATH_INSTRUMENT_VARIABLE(lim);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(p);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(q);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(r);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(n);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(N);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fudge_factor);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(base);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(lim);
 
    if(p <= 0.5)
    {
@@ -135,15 +135,15 @@ unsigned hypergeometric_quantile_imp(T p, T q, unsigned r, unsigned n, unsigned 
          ++x;
          // We want to skip through x values as fast as we can until we start getting non-zero values,
          // otherwise we're just making lots of expensive PDF calls:
-         T log_pdf = boost::math::lgamma(static_cast<T>(n + 1), pol)
-            + boost::math::lgamma(static_cast<T>(r + 1), pol)
-            + boost::math::lgamma(static_cast<T>(N - n + 1), pol)
-            + boost::math::lgamma(static_cast<T>(N - r + 1), pol)
-            - boost::math::lgamma(static_cast<T>(N + 1), pol)
-            - boost::math::lgamma(static_cast<T>(x + 1), pol)
-            - boost::math::lgamma(static_cast<T>(n - x + 1), pol)
-            - boost::math::lgamma(static_cast<T>(r - x + 1), pol)
-            - boost::math::lgamma(static_cast<T>(N - n - r + x + 1), pol);
+         T log_pdf = hydra_boost::math::lgamma(static_cast<T>(n + 1), pol)
+            + hydra_boost::math::lgamma(static_cast<T>(r + 1), pol)
+            + hydra_boost::math::lgamma(static_cast<T>(N - n + 1), pol)
+            + hydra_boost::math::lgamma(static_cast<T>(N - r + 1), pol)
+            - hydra_boost::math::lgamma(static_cast<T>(N + 1), pol)
+            - hydra_boost::math::lgamma(static_cast<T>(x + 1), pol)
+            - hydra_boost::math::lgamma(static_cast<T>(n - x + 1), pol)
+            - hydra_boost::math::lgamma(static_cast<T>(r - x + 1), pol)
+            - hydra_boost::math::lgamma(static_cast<T>(N - n - r + x + 1), pol);
          while (log_pdf < tools::log_min_value<T>())
          {
             log_pdf += -log(static_cast<T>(x + 1)) + log(static_cast<T>(n - x)) + log(static_cast<T>(r - x)) - log(static_cast<T>(N - n - r + x + 1));
@@ -162,12 +162,12 @@ unsigned hypergeometric_quantile_imp(T p, T q, unsigned r, unsigned n, unsigned 
             break;
          ++x;
          result += diff;
-#ifdef BOOST_MATH_INSTRUMENT
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT
          if(diff != 0)
          {
-            BOOST_MATH_INSTRUMENT_VARIABLE(x);
-            BOOST_MATH_INSTRUMENT_VARIABLE(diff);
-            BOOST_MATH_INSTRUMENT_VARIABLE(result);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(x);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(diff);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
          }
 #endif
       }
@@ -183,15 +183,15 @@ unsigned hypergeometric_quantile_imp(T p, T q, unsigned r, unsigned n, unsigned 
          // We want to skip through x values as fast as we can until we start getting non-zero values,
          // otherwise we're just making lots of expensive PDF calls:
          --x;
-         T log_pdf = boost::math::lgamma(static_cast<T>(n + 1), pol)
-            + boost::math::lgamma(static_cast<T>(r + 1), pol)
-            + boost::math::lgamma(static_cast<T>(N - n + 1), pol)
-            + boost::math::lgamma(static_cast<T>(N - r + 1), pol)
-            - boost::math::lgamma(static_cast<T>(N + 1), pol)
-            - boost::math::lgamma(static_cast<T>(x + 1), pol)
-            - boost::math::lgamma(static_cast<T>(n - x + 1), pol)
-            - boost::math::lgamma(static_cast<T>(r - x + 1), pol)
-            - boost::math::lgamma(static_cast<T>(N - n - r + x + 1), pol);
+         T log_pdf = hydra_boost::math::lgamma(static_cast<T>(n + 1), pol)
+            + hydra_boost::math::lgamma(static_cast<T>(r + 1), pol)
+            + hydra_boost::math::lgamma(static_cast<T>(N - n + 1), pol)
+            + hydra_boost::math::lgamma(static_cast<T>(N - r + 1), pol)
+            - hydra_boost::math::lgamma(static_cast<T>(N + 1), pol)
+            - hydra_boost::math::lgamma(static_cast<T>(x + 1), pol)
+            - hydra_boost::math::lgamma(static_cast<T>(n - x + 1), pol)
+            - hydra_boost::math::lgamma(static_cast<T>(r - x + 1), pol)
+            - hydra_boost::math::lgamma(static_cast<T>(N - n - r + x + 1), pol);
          while (log_pdf < tools::log_min_value<T>())
          {
             log_pdf += log(static_cast<T>(x)) - log(static_cast<T>(n - x + 1)) - log(static_cast<T>(r - x + 1)) + log(static_cast<T>(N - n - r + x));
@@ -208,12 +208,12 @@ unsigned hypergeometric_quantile_imp(T p, T q, unsigned r, unsigned n, unsigned 
             ? x * T(N + x - n - r) * diff / (T(1 + n - x) * T(1 + r - x))
             : hypergeometric_pdf<T>(x - 1, r, n, N, pol);
          --x;
-#ifdef BOOST_MATH_INSTRUMENT
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT
          if(diff != 0)
          {
-            BOOST_MATH_INSTRUMENT_VARIABLE(x);
-            BOOST_MATH_INSTRUMENT_VARIABLE(diff);
-            BOOST_MATH_INSTRUMENT_VARIABLE(result);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(x);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(diff);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
          }
 #endif
       }
@@ -227,7 +227,7 @@ unsigned hypergeometric_quantile_imp(T p, T q, unsigned r, unsigned n, unsigned 
 template <class T, class Policy>
 inline unsigned hypergeometric_quantile(T p, T q, unsigned r, unsigned n, unsigned N, const Policy&)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<

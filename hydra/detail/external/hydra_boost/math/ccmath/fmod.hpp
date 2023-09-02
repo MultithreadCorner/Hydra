@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_CCMATH_FMOD_HPP
-#define BOOST_MATH_CCMATH_FMOD_HPP
+#ifndef HYDRA_BOOST_MATH_CCMATH_FMOD_HPP
+#define HYDRA_BOOST_MATH_CCMATH_FMOD_HPP
 
 #include <cmath>
 #include <cstdint>
@@ -17,7 +17,7 @@
 #include <hydra/detail/external/hydra_boost/math/ccmath/isnan.hpp>
 #include <hydra/detail/external/hydra_boost/math/ccmath/isfinite.hpp>
 
-namespace boost::math::ccmath {
+namespace hydra_boost::math::ccmath {
 
 namespace detail {
 
@@ -44,34 +44,34 @@ constexpr T fmod_impl(T x, T y)
 template <typename Real, std::enable_if_t<!std::is_integral_v<Real>, bool> = true>
 constexpr Real fmod(Real x, Real y)
 {
-    if(BOOST_MATH_IS_CONSTANT_EVALUATED(x))
+    if(HYDRA_BOOST_MATH_IS_CONSTANT_EVALUATED(x))
     {
-        if (boost::math::ccmath::abs(x) == static_cast<Real>(0) && y != static_cast<Real>(0))
+        if (hydra_boost::math::ccmath::abs(x) == static_cast<Real>(0) && y != static_cast<Real>(0))
         {
             return x;
         }
-        else if (boost::math::ccmath::isinf(x) && !boost::math::ccmath::isnan(y))
+        else if (hydra_boost::math::ccmath::isinf(x) && !hydra_boost::math::ccmath::isnan(y))
         {
             return std::numeric_limits<Real>::quiet_NaN();
         }
-        else if (boost::math::ccmath::abs(y) == static_cast<Real>(0) && !boost::math::ccmath::isnan(x))
+        else if (hydra_boost::math::ccmath::abs(y) == static_cast<Real>(0) && !hydra_boost::math::ccmath::isnan(x))
         {
             return std::numeric_limits<Real>::quiet_NaN();
         }
-        else if (boost::math::ccmath::isinf(y) && boost::math::ccmath::isfinite(x))
+        else if (hydra_boost::math::ccmath::isinf(y) && hydra_boost::math::ccmath::isfinite(x))
         {
             return x;
         }
-        else if (boost::math::ccmath::isnan(x))
+        else if (hydra_boost::math::ccmath::isnan(x))
         {
             return x;
         }
-        else if (boost::math::ccmath::isnan(y))
+        else if (hydra_boost::math::ccmath::isnan(y))
         {
             return y;
         }
 
-        return boost::math::ccmath::detail::fmod_impl<Real>(x, y);
+        return hydra_boost::math::ccmath::detail::fmod_impl<Real>(x, y);
     }
     else
     {
@@ -83,10 +83,10 @@ constexpr Real fmod(Real x, Real y)
 template <typename T1, typename T2>
 constexpr auto fmod(T1 x, T2 y)
 {
-    if(BOOST_MATH_IS_CONSTANT_EVALUATED(x))
+    if(HYDRA_BOOST_MATH_IS_CONSTANT_EVALUATED(x))
     {
-        using promoted_type = boost::math::tools::promote_args_t<T1, T2>;
-        return boost::math::ccmath::fmod(promoted_type(x), promoted_type(y));
+        using promoted_type = hydra_boost::math::tools::promote_args_t<T1, T2>;
+        return hydra_boost::math::ccmath::fmod(promoted_type(x), promoted_type(y));
     }
     else
     {
@@ -97,16 +97,16 @@ constexpr auto fmod(T1 x, T2 y)
 
 constexpr float fmodf(float x, float y)
 {
-    return boost::math::ccmath::fmod(x, y);
+    return hydra_boost::math::ccmath::fmod(x, y);
 }
 
-#ifndef BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
+#ifndef HYDRA_BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
 constexpr long double fmodl(long double x, long double y)
 {
-    return boost::math::ccmath::fmod(x, y);
+    return hydra_boost::math::ccmath::fmod(x, y);
 }
 #endif
 
 } // Namespaces
 
-#endif // BOOST_MATH_CCMATH_FMOD_HPP
+#endif // HYDRA_BOOST_MATH_CCMATH_FMOD_HPP

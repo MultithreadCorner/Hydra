@@ -154,7 +154,7 @@ private:
 
 	inline double inc_gamma( const double a, const double x) const {
 
-		return  boost::math::gamma_q(a, x); //gsl_sf_gamma_inc_Q(a, x);
+		return  hydra::boost::math::gamma_q(a, x); //gsl_sf_gamma_inc_Q(a, x);
 	}
 
 

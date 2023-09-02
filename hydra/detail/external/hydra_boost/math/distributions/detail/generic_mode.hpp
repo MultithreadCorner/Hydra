@@ -5,14 +5,14 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_DISTRIBUTIONS_DETAIL_MODE_HPP
-#define BOOST_MATH_DISTRIBUTIONS_DETAIL_MODE_HPP
+#ifndef HYDRA_BOOST_MATH_DISTRIBUTIONS_DETAIL_MODE_HPP
+#define HYDRA_BOOST_MATH_DISTRIBUTIONS_DETAIL_MODE_HPP
 
 #include <hydra/detail/external/hydra_boost/math/tools/minima.hpp> // function minimization for mode
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
 #include <hydra/detail/external/hydra_boost/math/distributions/fwd.hpp>
 
-namespace boost{ namespace math{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace detail{
 
 template <class Dist>
 struct pdf_minimizer
@@ -31,7 +31,7 @@ private:
 template <class Dist>
 typename Dist::value_type generic_find_mode(const Dist& dist, typename Dist::value_type guess, const char* function, typename Dist::value_type step = 0)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    typedef typename Dist::value_type value_type;
    typedef typename Dist::policy_type policy_type;
    //
@@ -96,7 +96,7 @@ typename Dist::value_type generic_find_mode(const Dist& dist, typename Dist::val
 template <class Dist>
 typename Dist::value_type generic_find_mode_01(const Dist& dist, typename Dist::value_type guess, const char* function)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    typedef typename Dist::value_type value_type;
    typedef typename Dist::policy_type policy_type;
    //
@@ -146,4 +146,4 @@ typename Dist::value_type generic_find_mode_01(const Dist& dist, typename Dist::
 
 }}} // namespaces
 
-#endif // BOOST_MATH_DISTRIBUTIONS_DETAIL_MODE_HPP
+#endif // HYDRA_BOOST_MATH_DISTRIBUTIONS_DETAIL_MODE_HPP

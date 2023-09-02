@@ -11,8 +11,8 @@
 //  handle the various corner cases.
 //
 
-#ifndef BOOST_MATH_ELLINT_3_HPP
-#define BOOST_MATH_ELLINT_3_HPP
+#ifndef HYDRA_BOOST_MATH_ELLINT_3_HPP
+#define HYDRA_BOOST_MATH_ELLINT_3_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -33,7 +33,7 @@
 // Elliptic integrals (complete and incomplete) of the third kind
 // Carlson, Numerische Mathematik, vol 33, 1 (1979)
 
-namespace boost { namespace math { 
+namespace hydra_boost { namespace math { 
    
 namespace detail{
 
@@ -45,9 +45,9 @@ template <typename T, typename Policy>
 T ellint_pi_imp(T v, T phi, T k, T vc, const Policy& pol)
 {
    // Note vc = 1-v presumably without cancellation error.
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
-   static const char* function = "boost::math::ellint_3<%1%>(%1%,%1%,%1%)";
+   static const char* function = "hydra_boost::math::ellint_3<%1%>(%1%,%1%,%1%)";
 
 
    T sphi = sin(fabs(phi));
@@ -119,14 +119,14 @@ T ellint_pi_imp(T v, T phi, T k, T vc, const Policy& pol)
       }
       else
       {
-         T rphi = boost::math::tools::fmod_workaround(T(fabs(phi)), T(constants::half_pi<T>()));
-         T m = boost::math::round((fabs(phi) - rphi) / constants::half_pi<T>());
+         T rphi = hydra_boost::math::tools::fmod_workaround(T(fabs(phi)), T(constants::half_pi<T>()));
+         T m = hydra_boost::math::round((fabs(phi) - rphi) / constants::half_pi<T>());
          int sign = 1;
          if((m != 0) && (k >= 1))
          {
             return policies::raise_domain_error<T>(function, "Got k=1 and phi=%1% but the result is complex in that domain", phi, pol);
          }
-         if(boost::math::tools::fmod_workaround(m, T(2)) > T(0.5))
+         if(hydra_boost::math::tools::fmod_workaround(m, T(2)) > 0.5)
          {
             m += 1;
             sign = -1;
@@ -151,7 +151,7 @@ T ellint_pi_imp(T v, T phi, T k, T vc, const Policy& pol)
          // v > 1:
          T vcr = sqrt(-vc);
          T arg = vcr * tan(phi);
-         return (boost::math::log1p(arg, pol) - boost::math::log1p(-arg, pol)) / (2 * vcr);
+         return (hydra_boost::math::log1p(arg, pol) - hydra_boost::math::log1p(-arg, pol)) / (2 * vcr);
       }
    }
    if((v < 0) && fabs(k) <= 1)
@@ -253,15 +253,15 @@ T ellint_pi_imp(T v, T phi, T k, T vc, const Policy& pol)
    // by the time we get here phi should already have been
    // normalised above.
    //
-   BOOST_MATH_ASSERT(fabs(phi) < constants::half_pi<T>());
-   BOOST_MATH_ASSERT(phi >= 0);
+   HYDRA_BOOST_MATH_ASSERT(fabs(phi) < constants::half_pi<T>());
+   HYDRA_BOOST_MATH_ASSERT(phi >= 0);
    T x, y, z, p, t;
    T cosp = cos(phi);
    x = cosp * cosp;
    t = sphi * sphi;
    y = 1 - k * k * t;
    z = 1;
-   if(v * t < T(0.5))
+   if(v * t < 0.5)
       p = 1 - v * t;
    else
       p = x + vc * t;
@@ -275,10 +275,10 @@ template <typename T, typename Policy>
 T ellint_pi_imp(T v, T k, T vc, const Policy& pol)
 {
     // Note arg vc = 1-v, possibly without cancellation errors
-    BOOST_MATH_STD_USING
-    using namespace boost::math::tools;
+    HYDRA_BOOST_MATH_STD_USING
+    using namespace hydra_boost::math::tools;
 
-    static const char* function = "boost::math::ellint_pi<%1%>(%1%,%1%)";
+    static const char* function = "hydra_boost::math::ellint_pi<%1%>(%1%,%1%)";
 
     if (abs(k) >= 1)
     {
@@ -294,7 +294,7 @@ T ellint_pi_imp(T v, T k, T vc, const Policy& pol)
 
     if(v == 0)
     {
-       return (k == 0) ? boost::math::constants::pi<T>() / 2 : boost::math::ellint_1(k, pol);
+       return (k == 0) ? hydra_boost::math::constants::pi<T>() / 2 : hydra_boost::math::ellint_1(k, pol);
     }
 
     if(v < 0)
@@ -304,11 +304,11 @@ T ellint_pi_imp(T v, T k, T vc, const Policy& pol)
        T N = (k2 - v) / (1 - v);
        T Nm1 = (1 - k2) / (1 - v);
        T result = 0;
-       result = boost::math::detail::ellint_pi_imp(N, k, Nm1, pol);
+       result = hydra_boost::math::detail::ellint_pi_imp(N, k, Nm1, pol);
        // This next part is split in two to avoid spurious over/underflow:
        result *= -v / (1 - v);
        result *= (1 - k2) / (k2 - v);
-       result += boost::math::ellint_1(k, pol) * k2 / (k2 - v);
+       result += hydra_boost::math::ellint_1(k, pol) * k2 / (k2 - v);
        return result;
     }
 
@@ -324,7 +324,7 @@ T ellint_pi_imp(T v, T k, T vc, const Policy& pol)
 template <class T1, class T2, class T3>
 inline typename tools::promote_args<T1, T2, T3>::type ellint_3(T1 k, T2 v, T3 phi, const std::false_type&)
 {
-   return boost::math::ellint_3(k, v, phi, policies::policy<>());
+   return hydra_boost::math::ellint_3(k, v, phi, policies::policy<>());
 }
 
 template <class T1, class T2, class Policy>
@@ -337,7 +337,7 @@ inline typename tools::promote_args<T1, T2>::type ellint_3(T1 k, T2 v, const Pol
          static_cast<value_type>(v), 
          static_cast<value_type>(k),
          static_cast<value_type>(1-v),
-         pol), "boost::math::ellint_3<%1%>(%1%,%1%)");
+         pol), "hydra_boost::math::ellint_3<%1%>(%1%,%1%)");
 }
 
 } // namespace detail
@@ -354,7 +354,7 @@ inline typename tools::promote_args<T1, T2, T3>::type ellint_3(T1 k, T2 v, T3 ph
          static_cast<value_type>(phi), 
          static_cast<value_type>(k),
          static_cast<value_type>(1-v),
-         forwarding_policy()), "boost::math::ellint_3<%1%>(%1%,%1%,%1%)");
+         forwarding_policy()), "hydra_boost::math::ellint_3<%1%>(%1%,%1%,%1%)");
 }
 
 template <class T1, class T2, class T3>
@@ -372,5 +372,5 @@ inline typename tools::promote_args<T1, T2>::type ellint_3(T1 k, T2 v)
 
 }} // namespaces
 
-#endif // BOOST_MATH_ELLINT_3_HPP
+#endif // HYDRA_BOOST_MATH_ELLINT_3_HPP
 

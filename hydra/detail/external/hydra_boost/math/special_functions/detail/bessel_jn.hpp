@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_BESSEL_JN_HPP
-#define BOOST_MATH_BESSEL_JN_HPP
+#ifndef HYDRA_BOOST_MATH_BESSEL_JN_HPP
+#define HYDRA_BOOST_MATH_BESSEL_JN_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -21,14 +21,14 @@
 // n < abs(z), forward recurrence stable and usable
 // n >= abs(z), forward recurrence unstable, use Miller's algorithm
 
-namespace boost { namespace math { namespace detail{
+namespace hydra_boost { namespace math { namespace detail{
 
 template <typename T, typename Policy>
 T bessel_jn(int n, T x, const Policy& pol)
 {
     T value(0), factor, current, prev, next;
 
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
 
     //
     // Reflection has to come first:
@@ -66,13 +66,13 @@ T bessel_jn(int n, T x, const Policy& pol)
         return static_cast<T>(0);
     }
 
-    BOOST_MATH_ASSERT(n > 1);
+    HYDRA_BOOST_MATH_ASSERT(n > 1);
     T scale = 1;
     if (n < abs(x))                         // forward recurrence
     {
         prev = bessel_j0(x);
         current = bessel_j1(x);
-        policies::check_series_iterations<T>("boost::math::bessel_j_n<%1%>(%1%,%1%)", n, pol);
+        policies::check_series_iterations<T>("hydra_boost::math::bessel_j_n<%1%>(%1%,%1%)", n, pol);
         for (int k = 1; k < n; k++)
         {
             T fact = 2 * k / x;
@@ -98,11 +98,11 @@ T bessel_jn(int n, T x, const Policy& pol)
     {
         T fn; int s;                        // fn = J_(n+1) / J_n
         // |x| <= n, fast convergence for continued fraction CF1
-        boost::math::detail::CF1_jy(static_cast<T>(n), x, &fn, &s, pol);
+        hydra_boost::math::detail::CF1_jy(static_cast<T>(n), x, &fn, &s, pol);
         prev = fn;
         current = 1;
         // Check recursion won't go on too far:
-        policies::check_series_iterations<T>("boost::math::bessel_j_n<%1%>(%1%,%1%)", n, pol);
+        policies::check_series_iterations<T>("hydra_boost::math::bessel_j_n<%1%>(%1%,%1%)", n, pol);
         for (int k = n; k > 0; k--)
         {
             T fact = 2 * k / x;
@@ -122,12 +122,12 @@ T bessel_jn(int n, T x, const Policy& pol)
     value *= factor;
 
     if(tools::max_value<T>() * scale < fabs(value))
-       return policies::raise_overflow_error<T>("boost::math::bessel_jn<%1%>(%1%,%1%)", nullptr, pol);
+       return policies::raise_overflow_error<T>("hydra_boost::math::bessel_jn<%1%>(%1%,%1%)", nullptr, pol);
 
     return value / scale;
 }
 
 }}} // namespaces
 
-#endif // BOOST_MATH_BESSEL_JN_HPP
+#endif // HYDRA_BOOST_MATH_BESSEL_JN_HPP
 

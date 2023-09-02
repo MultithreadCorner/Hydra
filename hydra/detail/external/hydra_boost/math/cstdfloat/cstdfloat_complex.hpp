@@ -9,30 +9,30 @@
 
 // Implement quadruple-precision (and extended) support for <complex>.
 
-#ifndef BOOST_MATH_CSTDFLOAT_COMPLEX_2014_02_15_HPP_
-  #define BOOST_MATH_CSTDFLOAT_COMPLEX_2014_02_15_HPP_
+#ifndef HYDRA_BOOST_MATH_CSTDFLOAT_COMPLEX_2014_02_15_HPP_
+  #define HYDRA_BOOST_MATH_CSTDFLOAT_COMPLEX_2014_02_15_HPP_
 
   #include <hydra/detail/external/hydra_boost/math/cstdfloat/cstdfloat_types.hpp>
   #include <hydra/detail/external/hydra_boost/math/cstdfloat/cstdfloat_limits.hpp>
   #include <hydra/detail/external/hydra_boost/math/cstdfloat/cstdfloat_cmath.hpp>
   #include <hydra/detail/external/hydra_boost/math/cstdfloat/cstdfloat_iostream.hpp>
 
-  #if defined(BOOST_CSTDFLOAT_NO_LIBQUADMATH_LIMITS)
-  #error You can not use <hydra/detail/external/hydra_boost/math/cstdfloat/cstdfloat_complex.hpp> with BOOST_CSTDFLOAT_NO_LIBQUADMATH_LIMITS defined.
+  #if defined(HYDRA_BOOST_CSTDFLOAT_NO_LIBQUADMATH_LIMITS)
+  #error You can not use <hydra/detail/external/hydra_boost/math/cstdfloat/cstdfloat_complex.hpp> with HYDRA_BOOST_CSTDFLOAT_NO_LIBQUADMATH_LIMITS defined.
   #endif
-  #if defined(BOOST_CSTDFLOAT_NO_LIBQUADMATH_CMATH)
-  #error You can not use <hydra/detail/external/hydra_boost/math/cstdfloat/cstdfloat_complex.hpp> with BOOST_CSTDFLOAT_NO_LIBQUADMATH_CMATH defined.
+  #if defined(HYDRA_BOOST_CSTDFLOAT_NO_LIBQUADMATH_CMATH)
+  #error You can not use <hydra/detail/external/hydra_boost/math/cstdfloat/cstdfloat_complex.hpp> with HYDRA_BOOST_CSTDFLOAT_NO_LIBQUADMATH_CMATH defined.
   #endif
-  #if defined(BOOST_CSTDFLOAT_NO_LIBQUADMATH_IOSTREAM)
-  #error You can not use <hydra/detail/external/hydra_boost/math/cstdfloat/cstdfloat_complex.hpp> with BOOST_CSTDFLOAT_NO_LIBQUADMATH_IOSTREAM defined.
+  #if defined(HYDRA_BOOST_CSTDFLOAT_NO_LIBQUADMATH_IOSTREAM)
+  #error You can not use <hydra/detail/external/hydra_boost/math/cstdfloat/cstdfloat_complex.hpp> with HYDRA_BOOST_CSTDFLOAT_NO_LIBQUADMATH_IOSTREAM defined.
   #endif
 
-  #if defined(BOOST_CSTDFLOAT_HAS_INTERNAL_FLOAT128_T) && defined(BOOST_MATH_USE_FLOAT128) && !defined(BOOST_CSTDFLOAT_NO_LIBQUADMATH_SUPPORT)
+  #if defined(HYDRA_BOOST_CSTDFLOAT_HAS_INTERNAL_FLOAT128_T) && defined(HYDRA_BOOST_MATH_USE_FLOAT128) && !defined(HYDRA_BOOST_CSTDFLOAT_NO_LIBQUADMATH_SUPPORT)
 
-  #define BOOST_CSTDFLOAT_EXTENDED_COMPLEX_FLOAT_TYPE boost::math::cstdfloat::detail::float_internal128_t
+  #define HYDRA_BOOST_CSTDFLOAT_EXTENDED_COMPLEX_FLOAT_TYPE hydra_boost::math::cstdfloat::detail::float_internal128_t
   #include <hydra/detail/external/hydra_boost/math/cstdfloat/cstdfloat_complex_std.hpp>
-  #undef BOOST_CSTDFLOAT_EXTENDED_COMPLEX_FLOAT_TYPE
+  #undef HYDRA_BOOST_CSTDFLOAT_EXTENDED_COMPLEX_FLOAT_TYPE
 
-  #endif // Not BOOST_CSTDFLOAT_NO_LIBQUADMATH_SUPPORT (i.e., the user would like to have libquadmath support)
+  #endif // Not HYDRA_BOOST_CSTDFLOAT_NO_LIBQUADMATH_SUPPORT (i.e., the user would like to have libquadmath support)
 
-#endif // BOOST_MATH_CSTDFLOAT_COMPLEX_2014_02_15_HPP_
+#endif // HYDRA_BOOST_MATH_CSTDFLOAT_COMPLEX_2014_02_15_HPP_

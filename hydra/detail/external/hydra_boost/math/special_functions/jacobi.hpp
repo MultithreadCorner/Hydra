@@ -3,13 +3,13 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_JACOBI_HPP
-#define BOOST_MATH_SPECIAL_JACOBI_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_JACOBI_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_JACOBI_HPP
 
 #include <limits>
 #include <stdexcept>
 
-namespace boost { namespace math {
+namespace hydra_boost { namespace math {
 
 template<typename Real>
 Real jacobi(unsigned n, Real alpha, Real beta, Real x)

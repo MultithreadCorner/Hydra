@@ -5,8 +5,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STATS_FIND_LOCATION_HPP
-#define BOOST_STATS_FIND_LOCATION_HPP
+#ifndef HYDRA_BOOST_STATS_FIND_LOCATION_HPP
+#define HYDRA_BOOST_STATS_FIND_LOCATION_HPP
 
 #include <hydra/detail/external/hydra_boost/math/distributions/fwd.hpp> // for all distribution signatures.
 #include <hydra/detail/external/hydra_boost/math/distributions/complement.hpp>
@@ -14,11 +14,11 @@
 #include <hydra/detail/external/hydra_boost/math/tools/traits.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/fpclassify.hpp>
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
-// using boost::math::policies::policy;
-// using boost::math::complement; // will be needed by users who want complement,
+// using hydra_boost::math::policies::policy;
+// using hydra_boost::math::complement; // will be needed by users who want complement,
 // but NOT placed here to avoid putting it in global scope.
 
-namespace boost
+namespace hydra_boost
 {
   namespace math
   {
@@ -37,21 +37,21 @@ namespace boost
       const Policy& pol 
       )
     {
-      static_assert(::boost::math::tools::is_distribution<Dist>::value, "The provided distribution does not meet the conceptual requirements of a distribution."); 
-      static_assert(::boost::math::tools::is_scaled_distribution<Dist>::value, "The provided distribution does not meet the conceptual requirements of a scaled distribution."); 
-      static const char* function = "boost::math::find_location<Dist, Policy>&, %1%)";
+      static_assert(::hydra_boost::math::tools::is_distribution<Dist>::value, "The provided distribution does not meet the conceptual requirements of a distribution."); 
+      static_assert(::hydra_boost::math::tools::is_scaled_distribution<Dist>::value, "The provided distribution does not meet the conceptual requirements of a scaled distribution."); 
+      static const char* function = "hydra_boost::math::find_location<Dist, Policy>&, %1%)";
 
-      if(!(boost::math::isfinite)(p) || (p < 0) || (p > 1))
+      if(!(hydra_boost::math::isfinite)(p) || (p < 0) || (p > 1))
       {
        return policies::raise_domain_error<typename Dist::value_type>(
            function, "Probability parameter was %1%, but must be >= 0 and <= 1!", p, pol);
       }
-      if(!(boost::math::isfinite)(z))
+      if(!(hydra_boost::math::isfinite)(z))
       {
        return policies::raise_domain_error<typename Dist::value_type>(
            function, "z parameter was %1%, but must be finite!", z, pol);
       }
-      if(!(boost::math::isfinite)(scale))
+      if(!(hydra_boost::math::isfinite)(scale))
       {
        return policies::raise_domain_error<typename Dist::value_type>(
            function, "scale parameter was %1%, but must be finite!", scale, pol);
@@ -80,22 +80,22 @@ namespace boost
     inline typename Dist::value_type find_location( // Default policy.
       complemented3_type<Real1, Real2, Real3> const& c)
     {
-      static const char* function = "boost::math::find_location<Dist, Policy>&, %1%)";
+      static const char* function = "hydra_boost::math::find_location<Dist, Policy>&, %1%)";
 
       typename Dist::value_type p = c.param1;
-      if(!(boost::math::isfinite)(p) || (p < 0) || (p > 1))
+      if(!(hydra_boost::math::isfinite)(p) || (p < 0) || (p > 1))
       {
        return policies::raise_domain_error<typename Dist::value_type>(
            function, "Probability parameter was %1%, but must be >= 0 and <= 1!", p, policies::policy<>());
       }
       typename Dist::value_type z = c.dist;
-      if(!(boost::math::isfinite)(z))
+      if(!(hydra_boost::math::isfinite)(z))
       {
        return policies::raise_domain_error<typename Dist::value_type>(
            function, "z parameter was %1%, but must be finite!", z, policies::policy<>());
       }
       typename Dist::value_type scale = c.param2;
-      if(!(boost::math::isfinite)(scale))
+      if(!(hydra_boost::math::isfinite)(scale))
       {
        return policies::raise_domain_error<typename Dist::value_type>(
            function, "scale parameter was %1%, but must be finite!", scale, policies::policy<>());
@@ -109,22 +109,22 @@ namespace boost
     inline typename Dist::value_type find_location( // Explicit policy.
       complemented4_type<Real1, Real2, Real3, Real4> const& c)
     {
-      static const char* function = "boost::math::find_location<Dist, Policy>&, %1%)";
+      static const char* function = "hydra_boost::math::find_location<Dist, Policy>&, %1%)";
 
       typename Dist::value_type p = c.param1;
-      if(!(boost::math::isfinite)(p) || (p < 0) || (p > 1))
+      if(!(hydra_boost::math::isfinite)(p) || (p < 0) || (p > 1))
       {
        return policies::raise_domain_error<typename Dist::value_type>(
            function, "Probability parameter was %1%, but must be >= 0 and <= 1!", p, c.param3);
       }
       typename Dist::value_type z = c.dist;
-      if(!(boost::math::isfinite)(z))
+      if(!(hydra_boost::math::isfinite)(z))
       {
        return policies::raise_domain_error<typename Dist::value_type>(
            function, "z parameter was %1%, but must be finite!", z, c.param3);
       }
       typename Dist::value_type scale = c.param2;
-      if(!(boost::math::isfinite)(scale))
+      if(!(hydra_boost::math::isfinite)(scale))
       {
        return policies::raise_domain_error<typename Dist::value_type>(
            function, "scale parameter was %1%, but must be finite!", scale, c.param3);
@@ -133,8 +133,8 @@ namespace boost
        return z - quantile(Dist(), p) * scale;
     } // find_location complement
 
-  } // namespace boost
+  } // namespace hydra_boost
 } // namespace math
 
-#endif // BOOST_STATS_FIND_LOCATION_HPP
+#endif // HYDRA_BOOST_STATS_FIND_LOCATION_HPP
 

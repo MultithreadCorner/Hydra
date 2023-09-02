@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_COMPLEX_DETAILS_INCLUDED
-#define BOOST_MATH_COMPLEX_DETAILS_INCLUDED
+#ifndef HYDRA_BOOST_MATH_COMPLEX_DETAILS_INCLUDED
+#define HYDRA_BOOST_MATH_COMPLEX_DETAILS_INCLUDED
 //
 // This header contains all the support code that is common to the
 // inverse trig complex functions, it also contains all the includes
@@ -18,12 +18,12 @@
 #include <hydra/detail/external/hydra_boost/math/special_functions/fpclassify.hpp>
 #include <hydra/detail/external/hydra_boost/math/constants/constants.hpp>
 
-namespace boost{ namespace math{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace detail{
 
 template <class T>
 inline T mult_minus_one(const T& t)
 {
-   return (boost::math::isnan)(t) ? t : (boost::math::changesign)(t);
+   return (hydra_boost::math::isnan)(t) ? t : (hydra_boost::math::changesign)(t);
 }
 
 template <class T>
@@ -64,5 +64,5 @@ inline long double safe_min(long double t)
 
 } } } // namespaces
 
-#endif // BOOST_MATH_COMPLEX_DETAILS_INCLUDED
+#endif // HYDRA_BOOST_MATH_COMPLEX_DETAILS_INCLUDED
 

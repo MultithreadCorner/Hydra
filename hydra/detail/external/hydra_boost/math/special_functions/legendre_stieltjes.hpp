@@ -4,8 +4,8 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_LEGENDRE_STIELTJES_HPP
-#define BOOST_MATH_SPECIAL_LEGENDRE_STIELTJES_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_LEGENDRE_STIELTJES_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_LEGENDRE_STIELTJES_HPP
 
 /*
  * Constructs the Legendre-Stieltjes polynomial of degree m.
@@ -21,7 +21,7 @@
 #include <hydra/detail/external/hydra_boost/math/tools/roots.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/legendre.hpp>
 
-namespace boost{
+namespace hydra_boost{
 namespace math{
 
 template<class Real>
@@ -114,14 +114,14 @@ public:
         for (size_t i = 2; i <= r; ++i)
         {
             std::swap(p0, p1);
-            p1 = boost::math::legendre_next(n, x, p0, p1);
+            p1 = hydra_boost::math::legendre_next(n, x, p0, p1);
             ++n;
             if (!odd)
             {
                Em += m_a[i]*p1;
             }
             std::swap(p0, p1);
-            p1 = boost::math::legendre_next(n, x, p0, p1);
+            p1 = hydra_boost::math::legendre_next(n, x, p0, p1);
             ++n;
             if(odd)
             {
@@ -152,7 +152,7 @@ public:
 
     std::vector<Real> zeros() const
     {
-        using boost::math::constants::half;
+        using hydra_boost::math::constants::half;
 
         std::vector<Real> stieltjes_zeros;
         std::vector<Real> legendre_zeros = legendre_p_zeros<Real>(m_m - 1);
@@ -200,9 +200,9 @@ public:
 
             // The root bracketing is not very tight; to keep weird stuff from happening
             // in the Newton's method, let's tighten up the tolerance using a few bisections.
-            boost::math::tools::eps_tolerance<Real> tol(6);
+            hydra_boost::math::tools::eps_tolerance<Real> tol(6);
             auto g = [&](Real t) { return this->operator()(t); };
-            auto p = boost::math::tools::bisect(g, lower_bound, upper_bound, tol);
+            auto p = hydra_boost::math::tools::bisect(g, lower_bound, upper_bound, tol);
 
             Real x_nk_guess = p.first + (p.second - p.first)*half<Real>();
             std::uintmax_t number_of_iterations = 500;
@@ -211,13 +211,13 @@ public:
                                     Real Pn_prime = this->prime(x);
                                     return std::pair<Real, Real>(Pn, Pn_prime); };
 
-            const Real x_nk = boost::math::tools::newton_raphson_iterate(f, x_nk_guess,
+            const Real x_nk = hydra_boost::math::tools::newton_raphson_iterate(f, x_nk_guess,
                                                   p.first, p.second,
                                                   tools::digits<Real>(),
                                                   number_of_iterations);
 
-            BOOST_MATH_ASSERT(p.first < x_nk);
-            BOOST_MATH_ASSERT(x_nk < p.second);
+            HYDRA_BOOST_MATH_ASSERT(p.first < x_nk);
+            HYDRA_BOOST_MATH_ASSERT(x_nk < p.second);
             stieltjes_zeros[k] = x_nk;
             ++k;
         }

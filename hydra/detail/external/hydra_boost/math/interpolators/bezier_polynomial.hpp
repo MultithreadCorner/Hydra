@@ -3,16 +3,16 @@
 // Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
-#ifndef BOOST_MATH_INTERPOLATORS_BEZIER_POLYNOMIAL_HPP
-#define BOOST_MATH_INTERPOLATORS_BEZIER_POLYNOMIAL_HPP
+#ifndef HYDRA_BOOST_MATH_INTERPOLATORS_BEZIER_POLYNOMIAL_HPP
+#define HYDRA_BOOST_MATH_INTERPOLATORS_BEZIER_POLYNOMIAL_HPP
 #include <memory>
 #include <hydra/detail/external/hydra_boost/math/interpolators/detail/bezier_polynomial_detail.hpp>
 
-#ifdef BOOST_MATH_NO_THREAD_LOCAL_WITH_NON_TRIVIAL_TYPES
+#ifdef HYDRA_BOOST_MATH_NO_THREAD_LOCAL_WITH_NON_TRIVIAL_TYPES
 #warning "Thread local storage support is necessary for the Bezier polynomial class to work."
 #endif
 
-namespace boost::math::interpolators {
+namespace hydra_boost::math::interpolators {
 
 template <class RandomAccessContainer>
 class bezier_polynomial

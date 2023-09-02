@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_FUNCTIONS_LANCZOS_SSE2
-#define BOOST_MATH_SPECIAL_FUNCTIONS_LANCZOS_SSE2
+#ifndef HYDRA_BOOST_MATH_SPECIAL_FUNCTIONS_LANCZOS_SSE2
+#define HYDRA_BOOST_MATH_SPECIAL_FUNCTIONS_LANCZOS_SSE2
 
 #ifdef _MSC_VER
 #pragma once
@@ -18,7 +18,7 @@
 #define ALIGN16 __declspec(align(16))
 #endif
 
-namespace boost{ namespace math{ namespace lanczos{
+namespace hydra_boost{ namespace math{ namespace lanczos{
 
 template <>
 inline double lanczos13m53::lanczos_sum<double>(const double& x)
@@ -226,11 +226,11 @@ inline long double lanczos13m53::lanczos_sum_expG_scaled<long double>(const long
 
 } // namespace lanczos
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 #undef ALIGN16
 
-#endif // BOOST_MATH_SPECIAL_FUNCTIONS_LANCZOS
+#endif // HYDRA_BOOST_MATH_SPECIAL_FUNCTIONS_LANCZOS
 
 
 

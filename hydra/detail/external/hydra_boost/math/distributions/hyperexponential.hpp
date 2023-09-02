@@ -12,8 +12,8 @@
 // - http://en.wikipedia.org/wiki/Hyperexponential_distribution
 //
 
-#ifndef BOOST_MATH_DISTRIBUTIONS_HYPEREXPONENTIAL_HPP
-#define BOOST_MATH_DISTRIBUTIONS_HYPEREXPONENTIAL_HPP
+#ifndef HYDRA_BOOST_MATH_DISTRIBUTIONS_HYPEREXPONENTIAL_HPP
+#define HYDRA_BOOST_MATH_DISTRIBUTIONS_HYPEREXPONENTIAL_HPP
 
 #include <hydra/detail/external/hydra_boost/math/tools/cxx03_warn.hpp>
 #include <hydra/detail/external/hydra_boost/math/distributions/complement.hpp>
@@ -40,7 +40,7 @@
 # pragma warning(disable:4389) // '==' : signed/unsigned mismatch in test_tools
 #endif // _MSC_VER
 
-namespace boost { namespace math {
+namespace hydra_boost { namespace math {
 
 namespace detail {
 
@@ -77,14 +77,14 @@ void normalize(std::vector<T>& v)
 template <typename RealT, typename PolicyT>
 bool check_probabilities(char const* function, std::vector<RealT> const& probabilities, RealT* presult, PolicyT const& pol)
 {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     const std::size_t n = probabilities.size();
     RealT sum = 0;
     for (std::size_t i = 0; i < n; ++i)
     {
         if (probabilities[i] < 0
             || probabilities[i] > 1
-            || !(boost::math::isfinite)(probabilities[i]))
+            || !(hydra_boost::math::isfinite)(probabilities[i]))
         {
             *presult = policies::raise_domain_error<RealT>(function,
                                                            "The elements of parameter \"probabilities\" must be >= 0 and <= 1, but at least one of them was: %1%.",
@@ -118,7 +118,7 @@ bool check_rates(char const* function, std::vector<RealT> const& rates, RealT* p
     for (std::size_t i = 0; i < n; ++i)
     {
         if (rates[i] <= 0
-            || !(boost::math::isfinite)(rates[i]))
+            || !(hydra_boost::math::isfinite)(rates[i]))
         {
             *presult = policies::raise_domain_error<RealT>(function,
                                                            "The elements of parameter \"rates\" must be > 0, but at least one of them is: %1%.",
@@ -133,7 +133,7 @@ bool check_rates(char const* function, std::vector<RealT> const& rates, RealT* p
 template <typename RealT, typename PolicyT>
 bool check_dist(char const* function, std::vector<RealT> const& probabilities, std::vector<RealT> const& rates, RealT* presult, PolicyT const& pol)
 {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     if (probabilities.size() != rates.size())
     {
         *presult = policies::raise_domain_error<RealT>(function,
@@ -150,7 +150,7 @@ bool check_dist(char const* function, std::vector<RealT> const& probabilities, s
 template <typename RealT, typename PolicyT>
 bool check_x(char const* function, RealT x, RealT* presult, PolicyT const& pol)
 {
-    if (x < 0 || (boost::math::isnan)(x))
+    if (x < 0 || (hydra_boost::math::isnan)(x))
     {
         *presult = policies::raise_domain_error<RealT>(function, "The random variable must be >= 0, but is: %1%.", x, pol);
         return false;
@@ -161,7 +161,7 @@ bool check_x(char const* function, RealT x, RealT* presult, PolicyT const& pol)
 template <typename RealT, typename PolicyT>
 bool check_probability(char const* function, RealT p, RealT* presult, PolicyT const& pol)
 {
-    if (p < 0 || p > 1 || (boost::math::isnan)(p))
+    if (p < 0 || p > 1 || (hydra_boost::math::isnan)(p))
     {
         *presult = policies::raise_domain_error<RealT>(function, "The probability be >= 0 and <= 1, but is: %1%.", p, pol);
         return false;
@@ -181,8 +181,8 @@ RealT quantile_impl(hyperexponential_distribution<RealT, PolicyT> const& dist, R
                                          policies::discrete_quantile<>,
                                          policies::assert_undefined<> >::type forwarding_policy;
 
-    static const char* function = comp ? "boost::math::quantile(const boost::math::complemented2_type<boost::math::hyperexponential_distribution<%1%>, %1%>&)"
-                                       : "boost::math::quantile(const boost::math::hyperexponential_distribution<%1%>&, %1%)";
+    static const char* function = comp ? "hydra_boost::math::quantile(const hydra_boost::math::complemented2_type<hydra_boost::math::hyperexponential_distribution<%1%>, %1%>&)"
+                                       : "hydra_boost::math::quantile(const hydra_boost::math::hyperexponential_distribution<%1%>&, %1%)";
 
     RealT result = 0;
 
@@ -250,7 +250,7 @@ class hyperexponential_distribution
       rates_(1, 1)
     {
         RealT err;
-        hyperexp_detail::check_dist("boost::math::hyperexponential_distribution<%1%>::hyperexponential_distribution",
+        hyperexp_detail::check_dist("hydra_boost::math::hyperexponential_distribution<%1%>::hyperexponential_distribution",
                                     probs_,
                                     rates_,
                                     &err,
@@ -266,7 +266,7 @@ class hyperexponential_distribution
     {
         hyperexp_detail::normalize(probs_);
         RealT err;
-        hyperexp_detail::check_dist("boost::math::hyperexponential_distribution<%1%>::hyperexponential_distribution",
+        hyperexp_detail::check_dist("hydra_boost::math::hyperexponential_distribution<%1%>::hyperexponential_distribution",
                                     probs_,
                                     rates_,
                                     &err,
@@ -279,7 +279,7 @@ class hyperexponential_distribution
              };
 
              template <typename T>
-             struct is_iterator<T, boost::math::tools::void_t<typename std::iterator_traits<T>::difference_type>>
+             struct is_iterator<T, hydra_boost::math::tools::void_t<typename std::iterator_traits<T>::difference_type>>
              {
                  // std::iterator_traits<T>::difference_type returns void for invalid types
                  static constexpr bool value = !std::is_same<typename std::iterator_traits<T>::difference_type, void>::value;
@@ -299,7 +299,7 @@ class hyperexponential_distribution
         hyperexp_detail::normalize(probs_);
 
         RealT err;
-        hyperexp_detail::check_dist("boost::math::hyperexponential_distribution<%1%>::hyperexponential_distribution",
+        hyperexp_detail::check_dist("hydra_boost::math::hyperexponential_distribution<%1%>::hyperexponential_distribution",
                                     probs_,
                                     rates_,
                                     &err,
@@ -321,7 +321,7 @@ class hyperexponential_distribution
         hyperexp_detail::normalize(probs_);
 
         RealT err;
-        hyperexp_detail::check_dist("boost::math::hyperexponential_distribution<%1%>::hyperexponential_distribution",
+        hyperexp_detail::check_dist("hydra_boost::math::hyperexponential_distribution<%1%>::hyperexponential_distribution",
                                     probs_,
                                     rates_,
                                     &err,
@@ -336,7 +336,7 @@ public: hyperexponential_distribution(std::initializer_list<RealT> l1, std::init
          hyperexp_detail::normalize(probs_);
 
          RealT err;
-         hyperexp_detail::check_dist("boost::math::hyperexponential_distribution<%1%>::hyperexponential_distribution",
+         hyperexp_detail::check_dist("hydra_boost::math::hyperexponential_distribution<%1%>::hyperexponential_distribution",
             probs_,
             rates_,
             &err,
@@ -350,7 +350,7 @@ public: hyperexponential_distribution(std::initializer_list<RealT> l1)
          hyperexp_detail::normalize(probs_);
 
          RealT err;
-         hyperexp_detail::check_dist("boost::math::hyperexponential_distribution<%1%>::hyperexponential_distribution",
+         hyperexp_detail::check_dist("hydra_boost::math::hyperexponential_distribution<%1%>::hyperexponential_distribution",
             probs_,
             rates_,
             &err,
@@ -366,7 +366,7 @@ public: hyperexponential_distribution(std::initializer_list<RealT> l1)
         hyperexp_detail::normalize(probs_);
 
         RealT err;
-        hyperexp_detail::check_dist("boost::math::hyperexponential_distribution<%1%>::hyperexponential_distribution",
+        hyperexp_detail::check_dist("hydra_boost::math::hyperexponential_distribution<%1%>::hyperexponential_distribution",
                                     probs_,
                                     rates_,
                                     &err,
@@ -421,10 +421,10 @@ std::pair<RealT,RealT> support(hyperexponential_distribution<RealT,PolicyT> cons
 template <typename RealT, typename PolicyT>
 RealT pdf(hyperexponential_distribution<RealT, PolicyT> const& dist, RealT const& x)
 {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     RealT result = 0;
 
-    if (!hyperexp_detail::check_x("boost::math::pdf(const boost::math::hyperexponential_distribution<%1%>&, %1%)", x, &result, PolicyT()))
+    if (!hyperexp_detail::check_x("hydra_boost::math::pdf(const hydra_boost::math::hyperexponential_distribution<%1%>&, %1%)", x, &result, PolicyT()))
     {
         return result;
     }
@@ -449,7 +449,7 @@ RealT cdf(hyperexponential_distribution<RealT, PolicyT> const& dist, RealT const
 {
     RealT result = 0;
 
-    if (!hyperexp_detail::check_x("boost::math::cdf(const boost::math::hyperexponential_distribution<%1%>&, %1%)", x, &result, PolicyT()))
+    if (!hyperexp_detail::check_x("hydra_boost::math::cdf(const hydra_boost::math::hyperexponential_distribution<%1%>&, %1%)", x, &result, PolicyT()))
     {
         return result;
     }
@@ -482,7 +482,7 @@ RealT cdf(complemented2_type<hyperexponential_distribution<RealT,PolicyT>, RealT
 
     RealT result = 0;
 
-    if (!hyperexp_detail::check_x("boost::math::cdf(boost::math::complemented2_type<const boost::math::hyperexponential_distribution<%1%>&, %1%>)", x, &result, PolicyT()))
+    if (!hyperexp_detail::check_x("hydra_boost::math::cdf(hydra_boost::math::complemented2_type<const hydra_boost::math::hyperexponential_distribution<%1%>&, %1%>)", x, &result, PolicyT()))
     {
         return result;
     }
@@ -544,7 +544,7 @@ RealT variance(hyperexponential_distribution<RealT, PolicyT> const& dist)
         result += probs[i]/(rates[i]*rates[i]);
     }
 
-    const RealT mean = boost::math::mean(dist);
+    const RealT mean = hydra_boost::math::mean(dist);
 
     result = 2*result-mean*mean;
 
@@ -554,7 +554,7 @@ RealT variance(hyperexponential_distribution<RealT, PolicyT> const& dist)
 template <typename RealT, typename PolicyT>
 RealT skewness(hyperexponential_distribution<RealT,PolicyT> const& dist)
 {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     const std::size_t n = dist.num_phases();
     const std::vector<RealT> probs = dist.probabilities();
     const std::vector<RealT> rates = dist.rates();
@@ -627,7 +627,7 @@ RealT mode(hyperexponential_distribution<RealT,PolicyT> const& /*dist*/)
     return 0;
 }
 
-}} // namespace boost::math
+}} // namespace hydra_boost::math
 
 #ifdef _MSC_VER
 #pragma warning (pop)
@@ -638,4 +638,4 @@ RealT mode(hyperexponential_distribution<RealT,PolicyT> const& /*dist*/)
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/generic_quantile.hpp>
 
-#endif // BOOST_MATH_DISTRIBUTIONS_HYPEREXPONENTIAL
+#endif // HYDRA_BOOST_MATH_DISTRIBUTIONS_HYPEREXPONENTIAL

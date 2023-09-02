@@ -7,13 +7,13 @@
 // Tools for operator on complex as well as scalar types.
 //
 
-#ifndef BOOST_MATH_TOOLS_COMPLEX_HPP
-#define BOOST_MATH_TOOLS_COMPLEX_HPP
+#ifndef HYDRA_BOOST_MATH_TOOLS_COMPLEX_HPP
+#define HYDRA_BOOST_MATH_TOOLS_COMPLEX_HPP
 
 #include <utility>
 #include <hydra/detail/external/hydra_boost/math/tools/is_detected.hpp>
 
-namespace boost {
+namespace hydra_boost {
    namespace math {
       namespace tools {
 
@@ -73,4 +73,4 @@ namespace boost {
 
 } } }
 
-#endif // BOOST_MATH_TOOLS_COMPLEX_HPP
+#endif // HYDRA_BOOST_MATH_TOOLS_COMPLEX_HPP

@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_TOOLS_NORMS_HPP
-#define BOOST_MATH_TOOLS_NORMS_HPP
+#ifndef HYDRA_BOOST_MATH_TOOLS_NORMS_HPP
+#define HYDRA_BOOST_MATH_TOOLS_NORMS_HPP
 #include <algorithm>
 #include <iterator>
 #include <complex>
@@ -13,15 +13,15 @@
 #include <hydra/detail/external/hydra_boost/math/tools/complex.hpp>
 
 #include <hydra/detail/external/hydra_boost/math/tools/is_standalone.hpp>
-#ifndef BOOST_MATH_STANDALONE
+#ifndef HYDRA_BOOST_MATH_STANDALONE
 #include <hydra/detail/external/hydra_boost/config.hpp>
-#ifdef BOOST_NO_CXX17_IF_CONSTEXPR
+#ifdef HYDRA_BOOST_NO_CXX17_IF_CONSTEXPR
 #error "The header <hydra/detail/external/hydra_boost/math/norms.hpp> can only be used in C++17 and later."
 #endif
 #endif
 
 
-namespace boost::math::tools {
+namespace hydra_boost::math::tools {
 
 // Mallat, "A Wavelet Tour of Signal Processing", equation 2.60:
 template<class ForwardIterator>
@@ -29,7 +29,7 @@ auto total_variation(ForwardIterator first, ForwardIterator last)
 {
     using T = typename std::iterator_traits<ForwardIterator>::value_type;
     using std::abs;
-    BOOST_MATH_ASSERT_MSG(first != last && std::next(first) != last, "At least two samples are required to compute the total variation.");
+    HYDRA_BOOST_MATH_ASSERT_MSG(first != last && std::next(first) != last, "At least two samples are required to compute the total variation.");
     auto it = first;
     if constexpr (std::is_unsigned<T>::value)
     {
@@ -84,10 +84,10 @@ inline auto total_variation(Container const & v)
 template<class ForwardIterator>
 auto sup_norm(ForwardIterator first, ForwardIterator last)
 {
-    BOOST_MATH_ASSERT_MSG(first != last, "At least one value is required to compute the sup norm.");
+    HYDRA_BOOST_MATH_ASSERT_MSG(first != last, "At least one value is required to compute the sup norm.");
     using T = typename std::iterator_traits<ForwardIterator>::value_type;
     using std::abs;
-    if constexpr (boost::math::tools::is_complex_type<T>::value)
+    if constexpr (hydra_boost::math::tools::is_complex_type<T>::value)
     {
         auto it = std::max_element(first, last, [](T a, T b) { return abs(b) > abs(a); });
         return abs(*it);
@@ -168,7 +168,7 @@ auto l2_norm(ForwardIterator first, ForwardIterator last)
     using std::sqrt;
     using std::is_floating_point;
     using std::isfinite;
-    if constexpr (boost::math::tools::is_complex_type<T>::value)
+    if constexpr (hydra_boost::math::tools::is_complex_type<T>::value)
     {
         typedef typename T::value_type Real;
         Real l2 = 0;
@@ -285,7 +285,7 @@ auto lp_norm(ForwardIterator first, ForwardIterator last, unsigned p)
     using std::is_floating_point;
     using std::isfinite;
     using RealOrComplex = typename std::iterator_traits<ForwardIterator>::value_type;
-    if constexpr (boost::math::tools::is_complex_type<RealOrComplex>::value)
+    if constexpr (hydra_boost::math::tools::is_complex_type<RealOrComplex>::value)
     {
         using std::norm;
         using Real = typename RealOrComplex::value_type;
@@ -298,7 +298,7 @@ auto lp_norm(ForwardIterator first, ForwardIterator last, unsigned p)
         auto result = pow(lp, Real(1)/Real(p));
         if (!isfinite(result))
         {
-            auto a = boost::math::tools::sup_norm(first, last);
+            auto a = hydra_boost::math::tools::sup_norm(first, last);
             Real lp = 0;
             for (auto it = first; it != last; ++it)
             {
@@ -310,7 +310,7 @@ auto lp_norm(ForwardIterator first, ForwardIterator last, unsigned p)
     }
     else if constexpr (is_floating_point<RealOrComplex>::value || std::numeric_limits<RealOrComplex>::max_exponent)
     {
-        BOOST_MATH_ASSERT_MSG(p >= 0, "For p < 0, the lp norm is not a norm");
+        HYDRA_BOOST_MATH_ASSERT_MSG(p >= 0, "For p < 0, the lp norm is not a norm");
         RealOrComplex lp = 0;
 
         for (auto it = first; it != last; ++it)
@@ -321,7 +321,7 @@ auto lp_norm(ForwardIterator first, ForwardIterator last, unsigned p)
         RealOrComplex result = pow(lp, RealOrComplex(1)/RealOrComplex(p));
         if (!isfinite(result))
         {
-            RealOrComplex a = boost::math::tools::sup_norm(first, last);
+            RealOrComplex a = hydra_boost::math::tools::sup_norm(first, last);
             lp = 0;
             for (auto it = first; it != last; ++it)
             {
@@ -343,7 +343,7 @@ auto lp_norm(ForwardIterator first, ForwardIterator last, unsigned p)
         double result = pow(lp, 1.0/static_cast<double>(p));
         if (!isfinite(result))
         {
-            double a = boost::math::tools::sup_norm(first, last);
+            double a = hydra_boost::math::tools::sup_norm(first, last);
             lp = 0;
             for (auto it = first; it != last; ++it)
             {
@@ -374,7 +374,7 @@ auto lp_distance(ForwardIterator first1, ForwardIterator last1, ForwardIterator 
     auto it1 = first1;
     auto it2 = first2;
 
-    if constexpr (boost::math::tools::is_complex_type<RealOrComplex>::value)
+    if constexpr (hydra_boost::math::tools::is_complex_type<RealOrComplex>::value)
     {
         using Real = typename RealOrComplex::value_type;
         using std::norm;
@@ -428,7 +428,7 @@ auto l1_distance(ForwardIterator first1, ForwardIterator last1, ForwardIterator 
     using T = typename std::iterator_traits<ForwardIterator>::value_type;
     auto it1 = first1;
     auto it2 = first2;
-    if constexpr (boost::math::tools::is_complex_type<T>::value)
+    if constexpr (hydra_boost::math::tools::is_complex_type<T>::value)
     {
         using Real = typename T::value_type;
         Real sum = 0;
@@ -477,7 +477,7 @@ auto l1_distance(ForwardIterator first1, ForwardIterator last1, ForwardIterator 
     }
     else
     {
-        BOOST_MATH_ASSERT_MSG(false, "Could not recognize type.");
+        HYDRA_BOOST_MATH_ASSERT_MSG(false, "Could not recognize type.");
     }
 
 }
@@ -486,7 +486,7 @@ template<class Container>
 auto l1_distance(Container const & v, Container const & w)
 {
     using std::size;
-    BOOST_MATH_ASSERT_MSG(size(v) == size(w),
+    HYDRA_BOOST_MATH_ASSERT_MSG(size(v) == size(w),
                      "L1 distance requires both containers to have the same number of elements");
     return l1_distance(v.cbegin(), v.cend(), w.begin());
 }
@@ -502,7 +502,7 @@ auto l2_distance(ForwardIterator first1, ForwardIterator last1, ForwardIterator 
     using T = typename std::iterator_traits<ForwardIterator>::value_type;
     auto it1 = first1;
     auto it2 = first2;
-    if constexpr (boost::math::tools::is_complex_type<T>::value)
+    if constexpr (hydra_boost::math::tools::is_complex_type<T>::value)
     {
         using Real = typename T::value_type;
         Real sum = 0;
@@ -559,7 +559,7 @@ template<class Container>
 auto l2_distance(Container const & v, Container const & w)
 {
     using std::size;
-    BOOST_MATH_ASSERT_MSG(size(v) == size(w),
+    HYDRA_BOOST_MATH_ASSERT_MSG(size(v) == size(w),
                      "L2 distance requires both containers to have the same number of elements");
     return l2_distance(v.cbegin(), v.cend(), w.begin());
 }
@@ -575,7 +575,7 @@ auto sup_distance(ForwardIterator first1, ForwardIterator last1, ForwardIterator
     using T = typename std::iterator_traits<ForwardIterator>::value_type;
     auto it1 = first1;
     auto it2 = first2;
-    if constexpr (boost::math::tools::is_complex_type<T>::value)
+    if constexpr (hydra_boost::math::tools::is_complex_type<T>::value)
     {
         using Real = typename T::value_type;
         Real sup_sq = 0;
@@ -628,7 +628,7 @@ template<class Container>
 auto sup_distance(Container const & v, Container const & w)
 {
     using std::size;
-    BOOST_MATH_ASSERT_MSG(size(v) == size(w),
+    HYDRA_BOOST_MATH_ASSERT_MSG(size(v) == size(w),
                      "sup distance requires both containers to have the same number of elements");
     return sup_distance(v.cbegin(), v.cend(), w.begin());
 }

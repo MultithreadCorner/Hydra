@@ -8,14 +8,14 @@
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef _BOOST_POLYGAMMA_2013_07_30_HPP_
-  #define _BOOST_POLYGAMMA_2013_07_30_HPP_
+#ifndef _HYDRA_BOOST_POLYGAMMA_2013_07_30_HPP_
+  #define _HYDRA_BOOST_POLYGAMMA_2013_07_30_HPP_
 
 #include <hydra/detail/external/hydra_boost/math/special_functions/factorials.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/detail/polygamma.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/trigamma.hpp>
 
-namespace boost { namespace math {
+namespace hydra_boost { namespace math {
 
   
   template<class T, class Policy>
@@ -25,15 +25,15 @@ namespace boost { namespace math {
      // Filter off special cases right at the start:
      //
      if(n == 0)
-        return boost::math::digamma(x, pol);
+        return hydra_boost::math::digamma(x, pol);
      if(n == 1)
-        return boost::math::trigamma(x, pol);
+        return hydra_boost::math::trigamma(x, pol);
      //
      // We've found some standard library functions to misbehave if any FPU exception flags
      // are set prior to their call, this code will clear those flags, then reset them
      // on exit:
      //
-     BOOST_FPU_EXCEPTION_GUARD
+     HYDRA_BOOST_FPU_EXCEPTION_GUARD
      //
      // The type of the result - the common type of T and U after
      // any integer types have been promoted to double:
@@ -68,16 +68,16 @@ namespace boost { namespace math {
      //
      return policies::checked_narrowing_cast<result_type, forwarding_policy>(
         detail::polygamma_imp(n, static_cast<value_type>(x), forwarding_policy()),
-        "boost::math::polygamma<%1%>(int, %1%)");
+        "hydra_boost::math::polygamma<%1%>(int, %1%)");
   }
 
   template<class T>
   inline typename tools::promote_args<T>::type polygamma(const int n, T x)
   {
-      return boost::math::polygamma(n, x, policies::policy<>());
+      return hydra_boost::math::polygamma(n, x, policies::policy<>());
   }
 
-} } // namespace boost::math
+} } // namespace hydra_boost::math
 
-#endif // _BOOST_BERNOULLI_2013_05_30_HPP_
+#endif // _HYDRA_BOOST_BERNOULLI_2013_05_30_HPP_
 

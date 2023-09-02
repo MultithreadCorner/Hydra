@@ -4,8 +4,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STATS_TRIANGULAR_HPP
-#define BOOST_STATS_TRIANGULAR_HPP
+#ifndef HYDRA_BOOST_STATS_TRIANGULAR_HPP
+#define HYDRA_BOOST_STATS_TRIANGULAR_HPP
 
 // http://mathworld.wolfram.com/TriangularDistribution.html
 // Note that the 'constructors' defined by Wolfram are difference from those here,
@@ -24,7 +24,7 @@
 
 #include <utility>
 
-namespace boost{ namespace math
+namespace hydra_boost{ namespace math
 {
   namespace detail
   {
@@ -34,7 +34,7 @@ namespace boost{ namespace math
       RealType lower,
       RealType* result, const Policy& pol)
     {
-      if((boost::math::isfinite)(lower))
+      if((hydra_boost::math::isfinite)(lower))
       { // Any finite value is OK.
         return true;
       }
@@ -53,7 +53,7 @@ namespace boost{ namespace math
       RealType mode,
       RealType* result, const Policy& pol)
     {
-      if((boost::math::isfinite)(mode))
+      if((hydra_boost::math::isfinite)(mode))
       { // any finite value is OK.
         return true;
       }
@@ -72,7 +72,7 @@ namespace boost{ namespace math
       RealType upper,
       RealType* result, const Policy& pol)
     {
-      if((boost::math::isfinite)(upper))
+      if((hydra_boost::math::isfinite)(upper))
       { // any finite value is OK.
         return true;
       }
@@ -91,7 +91,7 @@ namespace boost{ namespace math
       RealType const& x,
       RealType* result, const Policy& pol)
     {
-      if((boost::math::isfinite)(x))
+      if((hydra_boost::math::isfinite)(x))
       { // Any finite value is OK
         return true;
       }
@@ -160,7 +160,7 @@ namespace boost{ namespace math
       // But this -1, 0, 1 is more useful in most applications to approximate normal distribution,
       // where the central value is the most likely and deviations either side equally likely.
       RealType result;
-      detail::check_triangular("boost::math::triangular_distribution<%1%>::triangular_distribution",l_lower, l_mode, l_upper, &result, Policy());
+      detail::check_triangular("hydra_boost::math::triangular_distribution<%1%>::triangular_distribution",l_lower, l_mode, l_upper, &result, Policy());
     }
     // Accessor functions.
     RealType lower()const
@@ -186,17 +186,17 @@ namespace boost{ namespace math
 
   #ifdef __cpp_deduction_guides
   template <class RealType>
-  triangular_distribution(RealType)->triangular_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+  triangular_distribution(RealType)->triangular_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
   template <class RealType>
-  triangular_distribution(RealType,RealType)->triangular_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+  triangular_distribution(RealType,RealType)->triangular_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
   template <class RealType>
-  triangular_distribution(RealType,RealType,RealType)->triangular_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+  triangular_distribution(RealType,RealType,RealType)->triangular_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
   #endif
 
   template <class RealType, class Policy>
   inline const std::pair<RealType, RealType> range(const triangular_distribution<RealType, Policy>& /* dist */)
   { // Range of permissible values for random variable x.
-    using boost::math::tools::max_value;
+    using hydra_boost::math::tools::max_value;
     return std::pair<RealType, RealType>(-max_value<RealType>(), max_value<RealType>());
   }
 
@@ -210,7 +210,7 @@ namespace boost{ namespace math
   template <class RealType, class Policy>
   RealType pdf(const triangular_distribution<RealType, Policy>& dist, const RealType& x)
   {
-    static const char* function = "boost::math::pdf(const triangular_distribution<%1%>&, %1%)";
+    static const char* function = "hydra_boost::math::pdf(const triangular_distribution<%1%>&, %1%)";
     RealType lower = dist.lower();
     RealType mode = dist.mode();
     RealType upper = dist.upper();
@@ -248,7 +248,7 @@ namespace boost{ namespace math
   template <class RealType, class Policy>
   inline RealType cdf(const triangular_distribution<RealType, Policy>& dist, const RealType& x)
   {
-    static const char* function = "boost::math::cdf(const triangular_distribution<%1%>&, %1%)";
+    static const char* function = "hydra_boost::math::cdf(const triangular_distribution<%1%>&, %1%)";
     RealType lower = dist.lower();
     RealType mode = dist.mode();
     RealType upper = dist.upper();
@@ -283,8 +283,8 @@ namespace boost{ namespace math
   template <class RealType, class Policy>
   RealType quantile(const triangular_distribution<RealType, Policy>& dist, const RealType& p)
   {
-    BOOST_MATH_STD_USING  // for ADL of std functions (sqrt).
-    static const char* function = "boost::math::quantile(const triangular_distribution<%1%>&, %1%)";
+    HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions (sqrt).
+    static const char* function = "hydra_boost::math::quantile(const triangular_distribution<%1%>&, %1%)";
     RealType lower = dist.lower();
     RealType mode = dist.mode();
     RealType upper = dist.upper();
@@ -326,7 +326,7 @@ namespace boost{ namespace math
   template <class RealType, class Policy>
   RealType cdf(const complemented2_type<triangular_distribution<RealType, Policy>, RealType>& c)
   {
-    static const char* function = "boost::math::cdf(const triangular_distribution<%1%>&, %1%)";
+    static const char* function = "hydra_boost::math::cdf(const triangular_distribution<%1%>&, %1%)";
     RealType lower = c.dist.lower();
     RealType mode = c.dist.mode();
     RealType upper = c.dist.upper();
@@ -361,8 +361,8 @@ namespace boost{ namespace math
   template <class RealType, class Policy>
   RealType quantile(const complemented2_type<triangular_distribution<RealType, Policy>, RealType>& c)
   {
-    BOOST_MATH_STD_USING  // Aid ADL for sqrt.
-    static const char* function = "boost::math::quantile(const triangular_distribution<%1%>&, %1%)";
+    HYDRA_BOOST_MATH_STD_USING  // Aid ADL for sqrt.
+    static const char* function = "hydra_boost::math::quantile(const triangular_distribution<%1%>&, %1%)";
     RealType l = c.dist.lower();
     RealType m = c.dist.mode();
     RealType u = c.dist.upper();
@@ -410,7 +410,7 @@ namespace boost{ namespace math
   template <class RealType, class Policy>
   inline RealType mean(const triangular_distribution<RealType, Policy>& dist)
   {
-    static const char* function = "boost::math::mean(const triangular_distribution<%1%>&)";
+    static const char* function = "hydra_boost::math::mean(const triangular_distribution<%1%>&)";
     RealType lower = dist.lower();
     RealType mode = dist.mode();
     RealType upper = dist.upper();
@@ -426,7 +426,7 @@ namespace boost{ namespace math
   template <class RealType, class Policy>
   inline RealType variance(const triangular_distribution<RealType, Policy>& dist)
   {
-    static const char* function = "boost::math::mean(const triangular_distribution<%1%>&)";
+    static const char* function = "hydra_boost::math::mean(const triangular_distribution<%1%>&)";
     RealType lower = dist.lower();
     RealType mode = dist.mode();
     RealType upper = dist.upper();
@@ -441,7 +441,7 @@ namespace boost{ namespace math
   template <class RealType, class Policy>
   inline RealType mode(const triangular_distribution<RealType, Policy>& dist)
   {
-    static const char* function = "boost::math::mode(const triangular_distribution<%1%>&)";
+    static const char* function = "hydra_boost::math::mode(const triangular_distribution<%1%>&)";
     RealType mode = dist.mode();
     RealType result = 0; // of checks.
     if(false == detail::check_triangular_mode(function, mode, &result, Policy()))
@@ -454,8 +454,8 @@ namespace boost{ namespace math
   template <class RealType, class Policy>
   inline RealType median(const triangular_distribution<RealType, Policy>& dist)
   {
-    BOOST_MATH_STD_USING // ADL of std functions.
-    static const char* function = "boost::math::median(const triangular_distribution<%1%>&)";
+    HYDRA_BOOST_MATH_STD_USING // ADL of std functions.
+    static const char* function = "hydra_boost::math::median(const triangular_distribution<%1%>&)";
     RealType mode = dist.mode();
     RealType result = 0; // of checks.
     if(false == detail::check_triangular_mode(function, mode, &result, Policy()))
@@ -477,15 +477,15 @@ namespace boost{ namespace math
   template <class RealType, class Policy>
   inline RealType skewness(const triangular_distribution<RealType, Policy>& dist)
   {
-    BOOST_MATH_STD_USING  // for ADL of std functions
-    using namespace boost::math::constants; // for root_two
-    static const char* function = "boost::math::skewness(const triangular_distribution<%1%>&)";
+    HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
+    using namespace hydra_boost::math::constants; // for root_two
+    static const char* function = "hydra_boost::math::skewness(const triangular_distribution<%1%>&)";
 
     RealType lower = dist.lower();
     RealType mode = dist.mode();
     RealType upper = dist.upper();
     RealType result = 0; // of checks.
-    if(false == boost::math::detail::check_triangular(function,lower, mode, upper, &result, Policy()))
+    if(false == hydra_boost::math::detail::check_triangular(function,lower, mode, upper, &result, Policy()))
     {
       return result;
     }
@@ -498,7 +498,7 @@ namespace boost{ namespace math
   template <class RealType, class Policy>
   inline RealType kurtosis(const triangular_distribution<RealType, Policy>& dist)
   { // These checks may be belt and braces as should have been checked on construction?
-    static const char* function = "boost::math::kurtosis(const triangular_distribution<%1%>&)";
+    static const char* function = "hydra_boost::math::kurtosis(const triangular_distribution<%1%>&)";
     RealType lower = dist.lower();
     RealType upper = dist.upper();
     RealType mode = dist.mode();
@@ -513,7 +513,7 @@ namespace boost{ namespace math
   template <class RealType, class Policy>
   inline RealType kurtosis_excess(const triangular_distribution<RealType, Policy>& dist)
   { // These checks may be belt and braces as should have been checked on construction?
-    static const char* function = "boost::math::kurtosis_excess(const triangular_distribution<%1%>&)";
+    static const char* function = "hydra_boost::math::kurtosis_excess(const triangular_distribution<%1%>&)";
     RealType lower = dist.lower();
     RealType upper = dist.upper();
     RealType mode = dist.mode();
@@ -534,14 +534,14 @@ namespace boost{ namespace math
   }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_STATS_TRIANGULAR_HPP
+#endif // HYDRA_BOOST_STATS_TRIANGULAR_HPP
 
 
 

@@ -9,8 +9,8 @@
 // this may be useful if many are used
 // - to avoid including each function individually.
 
-#ifndef BOOST_MATH_SPECIAL_FUNCTIONS_HPP
-#define BOOST_MATH_SPECIAL_FUNCTIONS_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_FUNCTIONS_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_FUNCTIONS_HPP
 
 #include <hydra/detail/external/hydra_boost/math/special_functions/airy.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/acosh.hpp>
@@ -79,7 +79,7 @@
 #include <hydra/detail/external/hydra_boost/math/special_functions/lambert_w.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/gegenbauer.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/jacobi.hpp>
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
 #include <hydra/detail/external/hydra_boost/math/special_functions/legendre_stieltjes.hpp>
 #endif
-#endif // BOOST_MATH_SPECIAL_FUNCTIONS_HPP
+#endif // HYDRA_BOOST_MATH_SPECIAL_FUNCTIONS_HPP

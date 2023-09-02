@@ -4,8 +4,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_TOOLS_POLYNOMIAL_GCD_HPP
-#define BOOST_MATH_TOOLS_POLYNOMIAL_GCD_HPP
+#ifndef HYDRA_BOOST_MATH_TOOLS_POLYNOMIAL_GCD_HPP
+#define HYDRA_BOOST_MATH_TOOLS_POLYNOMIAL_GCD_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,7 +16,7 @@
 #include <hydra/detail/external/hydra_boost/math/tools/is_standalone.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/polynomial.hpp>
 
-#ifndef BOOST_MATH_STANDALONE
+#ifndef HYDRA_BOOST_MATH_STANDALONE
 #include <hydra/detail/external/hydra_boost/integer/common_factor_rt.hpp>
 
 #else
@@ -26,7 +26,7 @@
 #include <hydra/detail/external/hydra_boost/math/tools/assert.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
 
-namespace boost { namespace integer {
+namespace hydra_boost { namespace integer {
 
 namespace gcd_detail {
 
@@ -54,13 +54,13 @@ enum method_type
 template <typename Iter, typename T = typename std::iterator_traits<Iter>::value_type>
 std::pair<T, Iter> gcd_range(Iter first, Iter last) noexcept(std::is_arithmetic<T>::value)
 {
-    BOOST_MATH_ASSERT(first != last);
+    HYDRA_BOOST_MATH_ASSERT(first != last);
 
     T d = *first;
     ++first;
     while (d != T(1) && first != last)
     {
-        #ifdef BOOST_MATH_HAS_CXX17_NUMERIC
+        #ifdef HYDRA_BOOST_MATH_HAS_CXX17_NUMERIC
         d = std::gcd(d, *first);
         #else
         d = gcd_detail::Euclid_gcd(d, *first);
@@ -70,10 +70,10 @@ std::pair<T, Iter> gcd_range(Iter first, Iter last) noexcept(std::is_arithmetic<
     return std::make_pair(d, first);
 }
 
-}} // namespace boost::integer
+}} // namespace hydra_boost::integer
 #endif
 
-namespace boost{
+namespace hydra_boost{
 
    namespace integer {
 
@@ -83,9 +83,9 @@ namespace boost{
          struct gcd_traits;
 
          template <class T>
-         struct gcd_traits<boost::math::tools::polynomial<T> >
+         struct gcd_traits<hydra_boost::math::tools::polynomial<T> >
          {
-            inline static const boost::math::tools::polynomial<T>& abs(const boost::math::tools::polynomial<T>& val) { return val; }
+            inline static const hydra_boost::math::tools::polynomial<T>& abs(const hydra_boost::math::tools::polynomial<T>& val) { return val; }
 
             static const method_type method = method_euclid;
          };
@@ -109,7 +109,7 @@ namespace math{ namespace tools{
 template <class T>
 T content(polynomial<T> const &x)
 {
-    return x ? boost::integer::gcd_range(x.data().begin(), x.data().end()).first : T(0);
+    return x ? hydra_boost::integer::gcd_range(x.data().begin(), x.data().end()).first : T(0);
 }
 
 // Knuth, 4.6.1
@@ -147,10 +147,10 @@ namespace detail
         u /= u_cont;
         v /= v_cont;
 
-        #ifdef BOOST_MATH_HAS_CXX17_NUMERIC
+        #ifdef HYDRA_BOOST_MATH_HAS_CXX17_NUMERIC
         return std::gcd(u_cont, v_cont);
         #else
-        return boost::integer::gcd_detail::Euclid_gcd(u_cont, v_cont);
+        return hydra_boost::integer::gcd_detail::Euclid_gcd(u_cont, v_cont);
         #endif
     }
 }
@@ -177,7 +177,7 @@ typename std::enable_if< std::numeric_limits<T>::is_integer, polynomial<T> >::ty
 subresultant_gcd(polynomial<T> u, polynomial<T> v)
 {
     using std::swap;
-    BOOST_MATH_ASSERT(u || v);
+    HYDRA_BOOST_MATH_ASSERT(u || v);
 
     if (!u)
         return v;
@@ -194,7 +194,7 @@ subresultant_gcd(polynomial<T> u, polynomial<T> v)
     polynomial<T> r;
     while (true)
     {
-        BOOST_MATH_ASSERT(u.degree() >= v.degree());
+        HYDRA_BOOST_MATH_ASSERT(u.degree() >= v.degree());
         // Pseudo-division.
         r = u % v;
         if (!r)
@@ -244,14 +244,14 @@ template <typename T>
 typename std::enable_if<!std::numeric_limits<T>::is_integer && (std::numeric_limits<T>::min_exponent != std::numeric_limits<T>::max_exponent) && !std::numeric_limits<T>::is_exact, polynomial<T> >::type
 gcd(polynomial<T> const &u, polynomial<T> const &v)
 {
-    return boost::integer::gcd_detail::Euclid_gcd(u, v);
+    return hydra_boost::integer::gcd_detail::Euclid_gcd(u, v);
 }
 
 }
 //
 // Using declaration so we overload the default implementation in this namespace:
 //
-using boost::math::tools::gcd;
+using hydra_boost::math::tools::gcd;
 
 }
 
@@ -260,9 +260,9 @@ namespace integer
    //
    // Using declaration so we overload the default implementation in this namespace:
    //
-   using boost::math::tools::gcd;
+   using hydra_boost::math::tools::gcd;
 }
 
-} // namespace boost::math::tools
+} // namespace hydra_boost::math::tools
 
 #endif

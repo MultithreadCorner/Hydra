@@ -4,8 +4,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_OWENS_T_HPP
-#define BOOST_OWENS_T_HPP
+#ifndef HYDRA_BOOST_OWENS_T_HPP
+#define HYDRA_BOOST_OWENS_T_HPP
 
 // Reference:
 // Mike Patefield, David Tandy
@@ -32,7 +32,7 @@
 #pragma warning(disable:4127)
 #endif
 
-#if defined(__GNUC__) && defined(BOOST_MATH_USE_FLOAT128)
+#if defined(__GNUC__) && defined(HYDRA_BOOST_MATH_USE_FLOAT128)
 //
 // This is the only way we can avoid
 // warning: non-standard suffix on floating constant [-Wpedantic]
@@ -42,7 +42,7 @@
 #pragma GCC system_header
 #endif
 
-namespace boost
+namespace hydra_boost
 {
    namespace math
    {
@@ -52,16 +52,16 @@ namespace boost
          template<typename RealType, class Policy>
          inline RealType owens_t_znorm1(const RealType x, const Policy& pol)
          {
-            using namespace boost::math::constants;
-            return boost::math::erf(x*one_div_root_two<RealType>(), pol)*half<RealType>();
+            using namespace hydra_boost::math::constants;
+            return hydra_boost::math::erf(x*one_div_root_two<RealType>(), pol)*half<RealType>();
          } // RealType owens_t_znorm1(const RealType x)
 
          // owens_t_znorm2(x) = P(x<=Z<oo) with Z being normally distributed.
          template<typename RealType, class Policy>
          inline RealType owens_t_znorm2(const RealType x, const Policy& pol)
          {
-            using namespace boost::math::constants;
-            return boost::math::erfc(x*one_div_root_two<RealType>(), pol)*half<RealType>();
+            using namespace hydra_boost::math::constants;
+            return hydra_boost::math::erfc(x*one_div_root_two<RealType>(), pol)*half<RealType>();
          } // RealType owens_t_znorm2(const RealType x)
 
          // Auxiliary function, it computes an array key that is used to determine
@@ -127,7 +127,7 @@ namespace boost
          {
             static const unsigned short ord[] = {2, 3, 4, 5, 7, 10, 12, 18, 10, 20, 30, 0, 4, 7, 8, 20, 0, 0}; // 18 entries
 
-            BOOST_MATH_ASSERT(icode<18);
+            HYDRA_BOOST_MATH_ASSERT(icode<18);
 
             return ord[icode];
          } // unsigned short owens_t_get_order(const unsigned short icode, RealType, std::integral_constant<int, 53> const&)
@@ -138,7 +138,7 @@ namespace boost
            // method ================>>>       {1, 1, 1, 1, 1,  1,  1,  1,  2,  2,  2,  3, 4,  4,  4,  4,  5, 6}
            static const unsigned short ord[] = {3, 4, 5, 6, 8, 11, 13, 19, 10, 20, 30,  0, 7, 10, 11, 23,  0, 0}; // 18 entries
 
-          BOOST_MATH_ASSERT(icode<18);
+          HYDRA_BOOST_MATH_ASSERT(icode<18);
 
           return ord[icode];
         } // unsigned short owens_t_get_order(const unsigned short icode, RealType, std::integral_constant<int, 64> const&)
@@ -159,8 +159,8 @@ namespace boost
          template<typename RealType, typename Policy>
          inline RealType owens_t_T1(const RealType h, const RealType a, const unsigned short m, const Policy& pol)
          {
-            BOOST_MATH_STD_USING
-            using namespace boost::math::constants;
+            HYDRA_BOOST_MATH_STD_USING
+            using namespace hydra_boost::math::constants;
 
             const RealType hs = -h*h*half<RealType>();
             const RealType dhs = exp( hs );
@@ -169,7 +169,7 @@ namespace boost
             unsigned short j=1;
             RealType jj = 1;
             RealType aj = a * one_div_two_pi<RealType>();
-            RealType dj = boost::math::expm1( hs, pol);
+            RealType dj = hydra_boost::math::expm1( hs, pol);
             RealType gj = hs*dhs;
 
             RealType val = atan( a ) * one_div_two_pi<RealType>();
@@ -195,8 +195,8 @@ namespace boost
          template<typename RealType, class Policy>
          inline RealType owens_t_T2(const RealType h, const RealType a, const unsigned short m, const RealType ah, const Policy& pol, const std::false_type&)
          {
-            BOOST_MATH_STD_USING
-            using namespace boost::math::constants;
+            HYDRA_BOOST_MATH_STD_USING
+            using namespace hydra_boost::math::constants;
 
             const unsigned short maxii = m+m+1;
             const RealType hs = h*h;
@@ -228,8 +228,8 @@ namespace boost
          template<typename RealType, class Policy>
          inline RealType owens_t_T3_imp(const RealType h, const RealType a, const RealType ah, const std::integral_constant<int, 53>&, const Policy& pol)
          {
-            BOOST_MATH_STD_USING
-            using namespace boost::math::constants;
+            HYDRA_BOOST_MATH_STD_USING
+            using namespace hydra_boost::math::constants;
 
       const unsigned short m = 20;
 
@@ -260,7 +260,7 @@ namespace boost
 
             while( true )
             {
-               BOOST_MATH_ASSERT(i < 21);
+               HYDRA_BOOST_MATH_ASSERT(i < 21);
                val += zi*c2[i];
                if( m <= i ) // if( m < i+1 )
                {
@@ -280,44 +280,44 @@ namespace boost
         template<class RealType, class Policy>
         inline RealType owens_t_T3_imp(const RealType h, const RealType a, const RealType ah, const std::integral_constant<int, 64>&, const Policy& pol)
         {
-          BOOST_MATH_STD_USING
-          using namespace boost::math::constants;
+          HYDRA_BOOST_MATH_STD_USING
+          using namespace hydra_boost::math::constants;
           
           const unsigned short m = 30;
 
           static const RealType c2[] =
           {
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.99999999999999999999999729978162447266851932041876728736094298092917625009873),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.99999999999999999999467056379678391810626533251885323416799874878563998732905968),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.99999999999999999824849349313270659391127814689133077036298754586814091034842536),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.9999999999999997703859616213643405880166422891953033591551179153879839440241685),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.99999999999998394883415238173334565554173013941245103172035286759201504179038147),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.9999999999993063616095509371081203145247992197457263066869044528823599399470977),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.9999999999797336340409464429599229870590160411238245275855903767652432017766116267),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.999999999574958412069046680119051639753412378037565521359444170241346845522403274),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.9999999933226234193375324943920160947158239076786103108097456617750134812033362048),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.9999999188923242461073033481053037468263536806742737922476636768006622772762168467),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.9999992195143483674402853783549420883055129680082932629160081128947764415749728967),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.999993935137206712830997921913316971472227199741857386575097250553105958772041501),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.99996135597690552745362392866517133091672395614263398912807169603795088421057688716),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.99979556366513946026406788969630293820987757758641211293079784585126692672425362469),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.999092789629617100153486251423850590051366661947344315423226082520411961968929483),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.996593837411918202119308620432614600338157335862888580671450938858935084316004769854),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.98910017138386127038463510314625339359073956513420458166238478926511821146316469589567),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.970078558040693314521331982203762771512160168582494513347846407314584943870399016019),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.92911438683263187495758525500033707204091967947532160289872782771388170647150321633673),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.8542058695956156057286980736842905011429254735181323743367879525470479126968822863),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.73796526033030091233118357742803709382964420335559408722681794195743240930748630755),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.58523469882837394570128599003785154144164680587615878645171632791404210655891158),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.415997776145676306165661663581868460503874205343014196580122174949645271353372263),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.2588210875241943574388730510317252236407805082485246378222935376279663808416534365),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.1375535825163892648504646951500265585055789019410617565727090346559210218472356689),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.0607952766325955730493900985022020434830339794955745989150270485056436844239206648),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.0216337683299871528059836483840390514275488679530797294557060229266785853764115),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.00593405693455186729876995814181203900550014220428843483927218267309209471516256),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.0011743414818332946510474576182739210553333860106811865963485870668929503649964142),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, -1.489155613350368934073453260689881330166342484405529981510694514036264969925132e-4),
-             BOOST_MATH_BIG_CONSTANT(RealType, 260, 9.072354320794357587710929507988814669454281514268844884841547607134260303118208e-6)
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.99999999999999999999999729978162447266851932041876728736094298092917625009873),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.99999999999999999999467056379678391810626533251885323416799874878563998732905968),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.99999999999999999824849349313270659391127814689133077036298754586814091034842536),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.9999999999999997703859616213643405880166422891953033591551179153879839440241685),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.99999999999998394883415238173334565554173013941245103172035286759201504179038147),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.9999999999993063616095509371081203145247992197457263066869044528823599399470977),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.9999999999797336340409464429599229870590160411238245275855903767652432017766116267),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.999999999574958412069046680119051639753412378037565521359444170241346845522403274),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.9999999933226234193375324943920160947158239076786103108097456617750134812033362048),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.9999999188923242461073033481053037468263536806742737922476636768006622772762168467),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.9999992195143483674402853783549420883055129680082932629160081128947764415749728967),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.999993935137206712830997921913316971472227199741857386575097250553105958772041501),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.99996135597690552745362392866517133091672395614263398912807169603795088421057688716),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.99979556366513946026406788969630293820987757758641211293079784585126692672425362469),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.999092789629617100153486251423850590051366661947344315423226082520411961968929483),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.996593837411918202119308620432614600338157335862888580671450938858935084316004769854),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.98910017138386127038463510314625339359073956513420458166238478926511821146316469589567),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.970078558040693314521331982203762771512160168582494513347846407314584943870399016019),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.92911438683263187495758525500033707204091967947532160289872782771388170647150321633673),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.8542058695956156057286980736842905011429254735181323743367879525470479126968822863),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.73796526033030091233118357742803709382964420335559408722681794195743240930748630755),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.58523469882837394570128599003785154144164680587615878645171632791404210655891158),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.415997776145676306165661663581868460503874205343014196580122174949645271353372263),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.2588210875241943574388730510317252236407805082485246378222935376279663808416534365),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.1375535825163892648504646951500265585055789019410617565727090346559210218472356689),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.0607952766325955730493900985022020434830339794955745989150270485056436844239206648),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.0216337683299871528059836483840390514275488679530797294557060229266785853764115),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, -0.00593405693455186729876995814181203900550014220428843483927218267309209471516256),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, 0.0011743414818332946510474576182739210553333860106811865963485870668929503649964142),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, -1.489155613350368934073453260689881330166342484405529981510694514036264969925132e-4),
+             HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 260, 9.072354320794357587710929507988814669454281514268844884841547607134260303118208e-6)
           };
 
           const RealType as = a*a;
@@ -332,7 +332,7 @@ namespace boost
 
           while( true )
           {
-              BOOST_MATH_ASSERT(i < 31);
+              HYDRA_BOOST_MATH_ASSERT(i < 31);
               val += zi*c2[i];
               if( m <= i ) // if( m < i+1 )
               {
@@ -364,8 +364,8 @@ namespace boost
          template<typename RealType>
          inline RealType owens_t_T4(const RealType h, const RealType a, const unsigned short m)
          {
-            BOOST_MATH_STD_USING
-            using namespace boost::math::constants;
+            HYDRA_BOOST_MATH_STD_USING
+            using namespace hydra_boost::math::constants;
 
             const unsigned short maxii = m+m+1;
             const RealType hs = h*h;
@@ -393,7 +393,7 @@ namespace boost
          template<typename RealType>
          inline RealType owens_t_T5_imp(const RealType h, const RealType a, const std::integral_constant<int, 53>&)
          {
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             /*
                NOTICE:
                - The pts[] array contains the squares (!) of the abscissas, i.e. the roots of the Legendre
@@ -422,12 +422,12 @@ namespace boost
                static_cast<RealType>(0.38862217010742057883E-02),  static_cast<RealType>(0.16793031084546090448E-02) };
 
             const RealType as = a*a;
-            const RealType hs = -h*h*boost::math::constants::half<RealType>();
+            const RealType hs = -h*h*hydra_boost::math::constants::half<RealType>();
 
             RealType val = 0;
             for(unsigned short i = 0; i < m; ++i)
             {
-               BOOST_MATH_ASSERT(i < 13);
+               HYDRA_BOOST_MATH_ASSERT(i < 13);
                const RealType r = static_cast<RealType>(1) + as*pts[i];
                val += wts[i] * exp( hs*r ) / r;
             } // for(unsigned short i = 0; i < m; ++i)
@@ -439,7 +439,7 @@ namespace boost
         template<typename RealType>
         inline RealType owens_t_T5_imp(const RealType h, const RealType a, const std::integral_constant<int, 64>&)
         {
-          BOOST_MATH_STD_USING
+          HYDRA_BOOST_MATH_STD_USING
             /*
               NOTICE:
               - The pts[] array contains the squares (!) of the abscissas, i.e. the roots of the Legendre
@@ -451,55 +451,55 @@ namespace boost
 
           const unsigned short m = 19;
           static const RealType pts[] = {
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0016634282895983227941),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.014904509242697054183),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.04103478879005817919),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.079359853513391511008),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.1288612130237615133),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.18822336642448518856),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.25586876186122962384),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.32999972011807857222),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.40864620815774761438),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.48971819306044782365),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.57106118513245543894),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.6505134942981533829),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.72596367859928091618),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.79540665919549865924),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.85699701386308739244),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.90909804422384697594),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.95032536436570154409),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.97958418733152273717),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.99610366384229088321)
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0016634282895983227941),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.014904509242697054183),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.04103478879005817919),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.079359853513391511008),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.1288612130237615133),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.18822336642448518856),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.25586876186122962384),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.32999972011807857222),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.40864620815774761438),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.48971819306044782365),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.57106118513245543894),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.6505134942981533829),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.72596367859928091618),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.79540665919549865924),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.85699701386308739244),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.90909804422384697594),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.95032536436570154409),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.97958418733152273717),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.99610366384229088321)
           };
           static const RealType wts[] = {
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.012975111395684900835),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.012888764187499150078),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.012716644398857307844),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.012459897461364705691),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.012120231988292330388),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.011699908404856841158),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.011201723906897224448),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.010628993848522759853),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0099855296835573320047),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0092756136096132857933),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0085039700881139589055),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0076757344408814561254),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0067964187616556459109),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.005871875456524750363),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0049082589542498110071),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0039119870792519721409),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0028897090921170700834),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0018483371329504443947),
-               BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.00079623320100438873578)
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.012975111395684900835),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.012888764187499150078),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.012716644398857307844),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.012459897461364705691),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.012120231988292330388),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.011699908404856841158),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.011201723906897224448),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.010628993848522759853),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0099855296835573320047),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0092756136096132857933),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0085039700881139589055),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0076757344408814561254),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0067964187616556459109),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.005871875456524750363),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0049082589542498110071),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0039119870792519721409),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0028897090921170700834),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.0018483371329504443947),
+               HYDRA_BOOST_MATH_BIG_CONSTANT(RealType, 64, 0.00079623320100438873578)
           };
 
           const RealType as = a*a;
-          const RealType hs = -h*h*boost::math::constants::half<RealType>();
+          const RealType hs = -h*h*hydra_boost::math::constants::half<RealType>();
 
           RealType val = 0;
           for(unsigned short i = 0; i < m; ++i)
             {
-              BOOST_MATH_ASSERT(i < 19);
+              HYDRA_BOOST_MATH_ASSERT(i < 19);
               const RealType r = 1 + as*pts[i];
               val += wts[i] * exp( hs*r ) / r;
             } // for(unsigned short i = 0; i < m; ++i)
@@ -524,8 +524,8 @@ namespace boost
          template<typename RealType, class Policy>
          inline RealType owens_t_T6(const RealType h, const RealType a, const Policy& pol)
          {
-            BOOST_MATH_STD_USING
-            using namespace boost::math::constants;
+            HYDRA_BOOST_MATH_STD_USING
+            using namespace hydra_boost::math::constants;
 
             const RealType normh = owens_t_znorm2(h, pol);
             const RealType y = static_cast<RealType>(1) - a;
@@ -550,8 +550,8 @@ namespace boost
             //   from H. Cohen, F. Rodriguez Villegas, D. Zagier, 
             //   "Convergence acceleration of alternating series", Bonn, (1991).
             //
-            BOOST_MATH_STD_USING
-            static const char* function = "boost::math::owens_t<%1%>(%1%, %1%)";
+            HYDRA_BOOST_MATH_STD_USING
+            static const char* function = "hydra_boost::math::owens_t<%1%>(%1%, %1%)";
             T half_h_h = h * h / 2;
             T a_pow = a;
             T aa = a * a;
@@ -575,12 +575,12 @@ namespace boost
             // when the last accelerated term was small enough...
             //
             int n;
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
             try
             {
 #endif
                n = itrunc(T(tools::log_max_value<T>() / 6));
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
             }
             catch(...)
             {
@@ -588,7 +588,7 @@ namespace boost
             }
 #endif
             n = (std::min)(n, 1500);
-            T d = pow(3 + sqrt(T(8)), T(n));
+            T d = pow(3 + sqrt(T(8)), n);
             d = (d + 1 / d) / 2;
             T b = -1;
             T c = -d;
@@ -617,14 +617,14 @@ namespace boost
             abs_err += fabs(c * term);
             if(sum < 0)  // sum must always be positive, if it's negative something really bad has happened:
                policies::raise_evaluation_error(function, 0, T(0), pol);
-            return std::pair<T, T>((sum / d) / boost::math::constants::two_pi<T>(), abs_err / sum);
+            return std::pair<T, T>((sum / d) / hydra_boost::math::constants::two_pi<T>(), abs_err / sum);
          }
 
          template<typename RealType, class Policy>
          inline RealType owens_t_T2(const RealType h, const RealType a, const unsigned short m, const RealType ah, const Policy& pol, const std::true_type&)
          {
-            BOOST_MATH_STD_USING
-            using namespace boost::math::constants;
+            HYDRA_BOOST_MATH_STD_USING
+            using namespace hydra_boost::math::constants;
 
             const unsigned short maxii = m+m+1;
             const RealType hs = h*h;
@@ -668,8 +668,8 @@ namespace boost
             // has happened during evaluation - this series will go divergent
             // and/or fail to alternate at a drop of a hat! :-(
             //
-            BOOST_MATH_STD_USING
-            using namespace boost::math::constants;
+            HYDRA_BOOST_MATH_STD_USING
+            using namespace hydra_boost::math::constants;
 
             const RealType hs = h*h;
             const RealType as = -a*a;
@@ -678,7 +678,7 @@ namespace boost
             unsigned short ii = 1;
             RealType val = 0;
             RealType vi = a * exp( -ah*ah*half<RealType>() ) / root_two_pi<RealType>();
-            RealType z = boost::math::detail::owens_t_znorm1(ah, pol)/h;
+            RealType z = hydra_boost::math::detail::owens_t_znorm1(ah, pol)/h;
             RealType last_z = fabs(z);
 
             //
@@ -693,12 +693,12 @@ namespace boost
             // when the last accelerated term was small enough...
             //
             int n;
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
             try
             {
 #endif
                n = itrunc(RealType(tools::log_max_value<RealType>() / 6));
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
             }
             catch(...)
             {
@@ -706,7 +706,7 @@ namespace boost
             }
 #endif
             n = (std::min)(n, 1500);
-            RealType d = pow(3 + sqrt(RealType(8)), RealType(n));
+            RealType d = pow(3 + sqrt(RealType(8)), n);
             d = (d + 1 / d) / 2;
             RealType b = -1;
             RealType c = -d;
@@ -741,7 +741,7 @@ namespace boost
          template<typename RealType, typename Policy>
          inline RealType T4_mp(const RealType h, const RealType a, const Policy& pol)
          {
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             
             const RealType hs = h*h;
             const RealType as = -a*a;
@@ -751,7 +751,7 @@ namespace boost
             RealType yi = 1.0;
             RealType val = 0.0;
 
-            RealType lim = boost::math::policies::get_epsilon<RealType, Policy>();
+            RealType lim = hydra_boost::math::policies::get_epsilon<RealType, Policy>();
 
             while( true )
             {
@@ -763,7 +763,7 @@ namespace boost
                yi = (1.0-hs*yi) / static_cast<RealType>(ii);
                ai *= as;
                if(ii > (std::min)(1500, (int)policies::get_max_series_iterations<Policy>()))
-                  policies::raise_evaluation_error("boost::math::owens_t<%1%>", 0, val, pol);
+                  policies::raise_evaluation_error("hydra_boost::math::owens_t<%1%>", 0, val, pol);
             } // while( true )
 
             return val;
@@ -779,7 +779,7 @@ namespace boost
          inline RealType owens_t_dispatch(const RealType h, const RealType a, const RealType ah, const Policy& pol, std::integral_constant<int, 64> const&)
          {
             // Simple main case for 64-bit precision or less, this is as per the Patefield-Tandy paper:
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             //
             // Handle some special cases first, these are from
             // page 1077 of Owen's original paper:
@@ -829,7 +829,7 @@ namespace boost
                val = owens_t_T6(h,a, pol);
                break;
             default:
-               val = policies::raise_evaluation_error<RealType>("boost::math::owens_t", "selection routine in Owen's T function failed with h = %1%", h, pol);
+               val = policies::raise_evaluation_error<RealType>("hydra_boost::math::owens_t", "selection routine in Owen's T function failed with h = %1%", h, pol);
             }
             return val;
          }
@@ -838,7 +838,7 @@ namespace boost
          inline RealType owens_t_dispatch(const RealType h, const RealType a, const RealType ah, const Policy& pol, const std::integral_constant<int, 65>&)
          {
             // Arbitrary precision version:
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             //
             // Handle some special cases first, these are from
             // page 1077 of Owen's original paper:
@@ -860,13 +860,13 @@ namespace boost
                return owens_t_znorm2(RealType(fabs(h)), pol);
             }
             // Attempt arbitrary precision code, this will throw if it goes wrong:
-            typedef typename boost::math::policies::normalise<Policy, boost::math::policies::evaluation_error<> >::type forwarding_policy;
+            typedef typename hydra_boost::math::policies::normalise<Policy, hydra_boost::math::policies::evaluation_error<> >::type forwarding_policy;
             std::pair<RealType, RealType> p1(0, tools::max_value<RealType>()), p2(0, tools::max_value<RealType>());
             RealType target_precision = policies::get_epsilon<RealType, Policy>() * 1000;
             bool have_t1(false), have_t2(false);
             if(ah < 3)
             {
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
                try
                {
 #endif
@@ -874,14 +874,14 @@ namespace boost
                   p1 = owens_t_T1_accelerated(h, a, forwarding_policy());
                   if(p1.second < target_precision)
                      return p1.first;
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
                }
-               catch(const boost::math::evaluation_error&){}  // T1 may fail and throw, that's OK
+               catch(const hydra_boost::math::evaluation_error&){}  // T1 may fail and throw, that's OK
 #endif
             }
             if(ah > 1)
             {
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
                try
                {
 #endif
@@ -889,9 +889,9 @@ namespace boost
                   p2 = owens_t_T2_accelerated(h, a, ah, forwarding_policy());
                   if(p2.second < target_precision)
                      return p2.first;
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
                }
-               catch(const boost::math::evaluation_error&){}  // T2 may fail and throw, that's OK
+               catch(const hydra_boost::math::evaluation_error&){}  // T2 may fail and throw, that's OK
 #endif
             }
             //
@@ -900,7 +900,7 @@ namespace boost
             //
             if(!have_t1)
             {
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
                try
                {
 #endif
@@ -908,9 +908,9 @@ namespace boost
                   p1 = owens_t_T1_accelerated(h, a, forwarding_policy());
                   if(p1.second < target_precision)
                      return p1.first;
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
                }
-               catch(const boost::math::evaluation_error&){}  // T1 may fail and throw, that's OK
+               catch(const hydra_boost::math::evaluation_error&){}  // T1 may fail and throw, that's OK
 #endif
             }
             //
@@ -919,7 +919,7 @@ namespace boost
             //
             if(!have_t2)
             {
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
                try
                {
 #endif
@@ -927,29 +927,29 @@ namespace boost
                   p2 = owens_t_T2_accelerated(h, a, ah, forwarding_policy());
                   if(p2.second < target_precision)
                      return p2.first;
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
                }
-               catch(const boost::math::evaluation_error&){}  // T2 may fail and throw, that's OK
+               catch(const hydra_boost::math::evaluation_error&){}  // T2 may fail and throw, that's OK
 #endif
             }
             //
             // OK, nothing left to do but try the most expensive option which is T4,
             // this is often slow to converge, but when it does converge it tends to
             // be accurate:
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
             try
             {
 #endif
                return T4_mp(h, a, pol);
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
             }
-            catch(const boost::math::evaluation_error&){}  // T4 may fail and throw, that's OK
+            catch(const hydra_boost::math::evaluation_error&){}  // T4 may fail and throw, that's OK
 #endif
             //
             // Now look back at the results from T1 and T2 and see if either gave better
             // results than we could get from the 64-bit precision versions.
             //
-            if((std::min)(p1.second, p2.second) < RealType(1e-20))
+            if((std::min)(p1.second, p2.second) < 1e-20)
             {
                return p1.second < p2.second ? p1.first : p2.first;
             }
@@ -982,7 +982,7 @@ namespace boost
          template<typename RealType, class Policy>
          inline RealType owens_t(RealType h, RealType a, const Policy& pol)
          {
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             // exploit that T(-h,a) == T(h,a)
             h = fabs(h);
 
@@ -993,7 +993,7 @@ namespace boost
             const RealType fabs_a = fabs(a);
             const RealType fabs_ah = fabs_a*h;
 
-            RealType val = static_cast<RealType>(0.0f); // avoid compiler warnings, 0.0 will be overwritten in any case
+            RealType val = 0.0; // avoid compiler warnings, 0.0 will be overwritten in any case
 
             if(fabs_a <= 1)
             {
@@ -1001,7 +1001,7 @@ namespace boost
             } // if(fabs_a <= 1.0)
             else 
             {
-               if( h <= RealType(0.67) )
+               if( h <= 0.67 )
                {
                   const RealType normh = owens_t_znorm1(h, pol);
                   const RealType normah = owens_t_znorm1(fabs_ah, pol);
@@ -1039,8 +1039,8 @@ namespace boost
                static void do_init(const std::integral_constant<int, N>&){}
                static void do_init(const std::integral_constant<int, 64>&)
                {
-                  boost::math::owens_t(static_cast<T>(7), static_cast<T>(0.96875), Policy());
-                  boost::math::owens_t(static_cast<T>(2), static_cast<T>(0.5), Policy());
+                  hydra_boost::math::owens_t(static_cast<T>(7), static_cast<T>(0.96875), Policy());
+                  hydra_boost::math::owens_t(static_cast<T>(2), static_cast<T>(0.5), Policy());
                }
                void force_instantiate()const{}
             };
@@ -1069,7 +1069,7 @@ namespace boost
 
          detail::owens_t_initializer<result_type, Policy, tag_type>::force_instantiate();
             
-         return policies::checked_narrowing_cast<result_type, Policy>(detail::owens_t(static_cast<value_type>(h), static_cast<value_type>(a), pol), "boost::math::owens_t<%1%>(%1%,%1%)");
+         return policies::checked_narrowing_cast<result_type, Policy>(detail::owens_t(static_cast<value_type>(h), static_cast<value_type>(a), pol), "hydra_boost::math::owens_t<%1%>(%1%,%1%)");
       }
 
       template <class T1, class T2>
@@ -1080,7 +1080,7 @@ namespace boost
 
 
    } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 #ifdef _MSC_VER
 #pragma warning(pop)

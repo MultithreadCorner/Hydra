@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_COS_PI_HPP
-#define BOOST_MATH_COS_PI_HPP
+#ifndef HYDRA_BOOST_MATH_COS_PI_HPP
+#define HYDRA_BOOST_MATH_COS_PI_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -18,15 +18,15 @@
 #include <hydra/detail/external/hydra_boost/math/tools/promotion.hpp>
 #include <hydra/detail/external/hydra_boost/math/constants/constants.hpp>
 
-namespace boost{ namespace math{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace detail{
 
 template <class T, class Policy>
 T cos_pi_imp(T x, const Policy&)
 {
-   BOOST_MATH_STD_USING // ADL of std names
+   HYDRA_BOOST_MATH_STD_USING // ADL of std names
    // cos of pi*x:
    bool invert = false;
-   if(fabs(x) < T(0.25))
+   if(fabs(x) < 0.25)
       return cos(constants::pi<T>() * x);
 
    if(x < 0)
@@ -73,16 +73,16 @@ inline typename tools::promote_args<T>::type cos_pi(T x, const Policy&)
       // We want to ignore overflows since the result is in [-1,1] and the 
       // check slows the code down considerably.
       policies::overflow_error<policies::ignore_error> >::type forwarding_policy;
-   return policies::checked_narrowing_cast<result_type, forwarding_policy>(boost::math::detail::cos_pi_imp<value_type>(x, forwarding_policy()), "cos_pi");
+   return policies::checked_narrowing_cast<result_type, forwarding_policy>(hydra_boost::math::detail::cos_pi_imp<value_type>(x, forwarding_policy()), "cos_pi");
 }
 
 template <class T>
 inline typename tools::promote_args<T>::type cos_pi(T x)
 {
-   return boost::math::cos_pi(x, policies::policy<>());
+   return hydra_boost::math::cos_pi(x, policies::policy<>());
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 #endif
 

@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_ULP_HPP
-#define BOOST_MATH_SPECIAL_ULP_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_ULP_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_ULP_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -15,16 +15,16 @@
 #include <hydra/detail/external/hydra_boost/math/special_functions/fpclassify.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/next.hpp>
 
-namespace boost{ namespace math{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace detail{
 
 template <class T, class Policy>
 T ulp_imp(const T& val, const std::true_type&, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    int expon;
    static const char* function = "ulp<%1%>(%1%)";
 
-   int fpclass = (boost::math::fpclassify)(val);
+   int fpclass = (hydra_boost::math::fpclassify)(val);
 
    if(fpclass == FP_NAN)
    {
@@ -54,11 +54,11 @@ T ulp_imp(const T& val, const std::false_type&, const Policy& pol)
 {
    static_assert(std::numeric_limits<T>::is_specialized, "Type T must be specialized.");
    static_assert(std::numeric_limits<T>::radix != 2, "Type T must be specialized.");
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    int expon;
    static const char* function = "ulp<%1%>(%1%)";
 
-   int fpclass = (boost::math::fpclassify)(val);
+   int fpclass = (hydra_boost::math::fpclassify)(val);
 
    if(fpclass == FP_NAN)
    {
@@ -101,5 +101,5 @@ inline typename tools::promote_args<T>::type ulp(const T& val)
 
 }} // namespaces
 
-#endif // BOOST_MATH_SPECIAL_ULP_HPP
+#endif // HYDRA_BOOST_MATH_SPECIAL_ULP_HPP
 

@@ -3,12 +3,12 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_DISTRIBUTIONS_DETAIL_INV_DISCRETE_QUANTILE
-#define BOOST_MATH_DISTRIBUTIONS_DETAIL_INV_DISCRETE_QUANTILE
+#ifndef HYDRA_BOOST_MATH_DISTRIBUTIONS_DETAIL_INV_DISCRETE_QUANTILE
+#define HYDRA_BOOST_MATH_DISTRIBUTIONS_DETAIL_INV_DISCRETE_QUANTILE
 
 #include <algorithm>
 
-namespace boost{ namespace math{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace detail{
 
 //
 // Functor for root finding algorithm:
@@ -47,21 +47,21 @@ void adjust_bounds(Real& /* a */, Real& /* b */, Tol const& /* tol */){}
 template <class Real>
 void adjust_bounds(Real& /* a */, Real& b, tools::equal_floor const& /* tol */)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    b -= tools::epsilon<Real>() * b;
 }
 
 template <class Real>
 void adjust_bounds(Real& a, Real& /* b */, tools::equal_ceil const& /* tol */)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    a += tools::epsilon<Real>() * a;
 }
 
 template <class Real>
 void adjust_bounds(Real& a, Real& b, tools::equal_nearest_integer const& /* tol */)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    a += tools::epsilon<Real>() * a;
    b -= tools::epsilon<Real>() * b;
 }
@@ -83,16 +83,16 @@ typename Dist::value_type
    typedef typename Dist::value_type value_type;
    typedef typename Dist::policy_type policy_type;
 
-   static const char* function = "boost::math::do_inverse_discrete_quantile<%1%>";
+   static const char* function = "hydra_boost::math::do_inverse_discrete_quantile<%1%>";
 
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
    distribution_quantile_finder<Dist> f(dist, p, comp);
    //
    // Max bounds of the distribution:
    //
    value_type min_bound, max_bound;
-   boost::math::tie(min_bound, max_bound) = support(dist);
+   hydra_boost::math::tie(min_bound, max_bound) = support(dist);
 
    if(guess > max_bound)
       guess = max_bound;
@@ -204,7 +204,7 @@ typename Dist::value_type
    // If the root hasn't been bracketed yet, try again
    // using the multiplier this time:
    //
-   if((boost::math::sign)(fb) == (boost::math::sign)(fa))
+   if((hydra_boost::math::sign)(fb) == (hydra_boost::math::sign)(fa))
    {
       if(fa < 0)
       {
@@ -212,7 +212,7 @@ typename Dist::value_type
          // Zero is to the right of x2, so walk upwards
          // until we find it:
          //
-         while(((boost::math::sign)(fb) == (boost::math::sign)(fa)) && (a != b))
+         while(((hydra_boost::math::sign)(fb) == (hydra_boost::math::sign)(fa)) && (a != b))
          {
             if(count == 0)
                return policies::raise_evaluation_error(function, "Unable to bracket root, last nearest value was %1%", b, policy_type());
@@ -223,7 +223,7 @@ typename Dist::value_type
                b = max_bound;
             fb = f(b);
             --count;
-            BOOST_MATH_INSTRUMENT_CODE("a = " << a << " b = " << b << " fa = " << fa << " fb = " << fb << " count = " << count);
+            HYDRA_BOOST_MATH_INSTRUMENT_CODE("a = " << a << " b = " << b << " fa = " << fa << " fb = " << fb << " count = " << count);
          }
       }
       else
@@ -232,7 +232,7 @@ typename Dist::value_type
          // Zero is to the left of a, so walk downwards
          // until we find it:
          //
-         while(((boost::math::sign)(fb) == (boost::math::sign)(fa)) && (a != b))
+         while(((hydra_boost::math::sign)(fb) == (hydra_boost::math::sign)(fa)) && (a != b))
          {
             if(fabs(a) < tools::min_value<value_type>())
             {
@@ -250,7 +250,7 @@ typename Dist::value_type
                a = min_bound;
             fa = f(a);
             --count;
-            BOOST_MATH_INSTRUMENT_CODE("a = " << a << " b = " << b << " fa = " << fa << " fb = " << fb << " count = " << count);
+            HYDRA_BOOST_MATH_INSTRUMENT_CODE("a = " << a << " b = " << b << " fa = " << fa << " fb = " << fb << " count = " << count);
          }
       }
    }
@@ -276,7 +276,7 @@ typename Dist::value_type
    //
    std::pair<value_type, value_type> r = toms748_solve(f, a, b, fa, fb, tol, count, policy_type());
    max_iter += count;
-   BOOST_MATH_INSTRUMENT_CODE("max_iter = " << max_iter << " count = " << count);
+   HYDRA_BOOST_MATH_INSTRUMENT_CODE("max_iter = " << max_iter << " count = " << count);
    return (r.first + r.second) / 2;
 }
 //
@@ -290,7 +290,7 @@ typename Dist::value_type
 template <class Dist>
 inline typename Dist::value_type round_to_floor(const Dist& d, typename Dist::value_type result, typename Dist::value_type p, bool c)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    typename Dist::value_type cc = ceil(result);
    typename Dist::value_type pp = cc <= support(d).second ? c ? cdf(complement(d, cc)) : cdf(d, cc) : 1;
    if(pp == p)
@@ -324,7 +324,7 @@ inline typename Dist::value_type round_to_floor(const Dist& d, typename Dist::va
 template <class Dist>
 inline typename Dist::value_type round_to_ceil(const Dist& d, typename Dist::value_type result, typename Dist::value_type p, bool c)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    typename Dist::value_type cc = floor(result);
    typename Dist::value_type pp = cc >= support(d).first ? c ? cdf(complement(d, cc)) : cdf(d, cc) : 0;
    if(pp == p)
@@ -404,7 +404,7 @@ inline typename Dist::value_type
       std::uintmax_t& max_iter)
 {
    typedef typename Dist::value_type value_type;
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    typename Dist::value_type pp = c ? 1 - p : p;
    if(pp <= pdf(dist, 0))
       return 0;
@@ -447,7 +447,7 @@ inline typename Dist::value_type
       std::uintmax_t& max_iter)
 {
    typedef typename Dist::value_type value_type;
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    typename Dist::value_type pp = c ? 1 - p : p;
    if(pp <= pdf(dist, 0))
       return 0;
@@ -490,7 +490,7 @@ inline typename Dist::value_type
       std::uintmax_t& max_iter)
 {
    typedef typename Dist::value_type value_type;
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    typename Dist::value_type pp = c ? 1 - p : p;
    if(pp <= pdf(dist, 0))
       return 0;
@@ -517,7 +517,7 @@ inline typename Dist::value_type
       const policies::discrete_quantile<policies::integer_round_up>&,
       std::uintmax_t& max_iter)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    typename Dist::value_type pp = c ? 1 - p : p;
    if(pp <= pdf(dist, 0))
       return 0;
@@ -545,7 +545,7 @@ inline typename Dist::value_type
       std::uintmax_t& max_iter)
 {
    typedef typename Dist::value_type value_type;
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    typename Dist::value_type pp = c ? 1 - p : p;
    if(pp <= pdf(dist, 0))
       return 0;
@@ -567,5 +567,5 @@ inline typename Dist::value_type
 
 }}} // namespaces
 
-#endif // BOOST_MATH_DISTRIBUTIONS_DETAIL_INV_DISCRETE_QUANTILE
+#endif // HYDRA_BOOST_MATH_DISTRIBUTIONS_DETAIL_INV_DISCRETE_QUANTILE
 

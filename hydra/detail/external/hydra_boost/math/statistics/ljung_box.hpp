@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_STATISTICS_LJUNG_BOX_HPP
-#define BOOST_MATH_STATISTICS_LJUNG_BOX_HPP
+#ifndef HYDRA_BOOST_MATH_STATISTICS_LJUNG_BOX_HPP
+#define HYDRA_BOOST_MATH_STATISTICS_LJUNG_BOX_HPP
 
 #include <cmath>
 #include <iterator>
@@ -12,7 +12,7 @@
 #include <hydra/detail/external/hydra_boost/math/distributions/chi_squared.hpp>
 #include <hydra/detail/external/hydra_boost/math/statistics/univariate_statistics.hpp>
 
-namespace boost::math::statistics {
+namespace hydra_boost::math::statistics {
 
 template<class RandomAccessIterator>
 auto ljung_box(RandomAccessIterator begin, RandomAccessIterator end, int64_t lags = -1, int64_t fit_dof = 0) {
@@ -31,7 +31,7 @@ auto ljung_box(RandomAccessIterator begin, RandomAccessIterator end, int64_t lag
       throw std::domain_error("Must have at least one lag.");
     }
 
-    auto mu = boost::math::statistics::mean(begin, end);
+    auto mu = hydra_boost::math::statistics::mean(begin, end);
 
     std::vector<Real> r(lags + 1, Real(0));
     for (size_t i = 0; i < r.size(); ++i) {
@@ -49,14 +49,14 @@ auto ljung_box(RandomAccessIterator begin, RandomAccessIterator end, int64_t lag
     }
     Q *= n*(n+2);
 
-    typedef boost::math::policies::policy<
-          boost::math::policies::promote_float<false>,
-          boost::math::policies::promote_double<false> >
+    typedef hydra_boost::math::policies::policy<
+          hydra_boost::math::policies::promote_float<false>,
+          hydra_boost::math::policies::promote_double<false> >
           no_promote_policy;
 
-    auto chi = boost::math::chi_squared_distribution<Real, no_promote_policy>(Real(lags - fit_dof));
+    auto chi = hydra_boost::math::chi_squared_distribution<Real, no_promote_policy>(Real(lags - fit_dof));
 
-    Real pvalue = 1 - boost::math::cdf(chi, Q);
+    Real pvalue = 1 - hydra_boost::math::cdf(chi, Q);
     return std::make_pair(Q, pvalue);
 }
 

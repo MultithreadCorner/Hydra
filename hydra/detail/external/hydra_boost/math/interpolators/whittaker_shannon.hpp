@@ -3,12 +3,12 @@
 // Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
-#ifndef BOOST_MATH_INTERPOLATORS_WHITAKKER_SHANNON_HPP
-#define BOOST_MATH_INTERPOLATORS_WHITAKKER_SHANNON_HPP
+#ifndef HYDRA_BOOST_MATH_INTERPOLATORS_WHITAKKER_SHANNON_HPP
+#define HYDRA_BOOST_MATH_INTERPOLATORS_WHITAKKER_SHANNON_HPP
 #include <memory>
 #include <hydra/detail/external/hydra_boost/math/interpolators/detail/whittaker_shannon_detail.hpp>
 
-namespace boost { namespace math { namespace interpolators {
+namespace hydra_boost { namespace math { namespace interpolators {
 
 template<class RandomAccessContainer>
 class whittaker_shannon {

@@ -8,10 +8,10 @@
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
-#ifndef BOOST_MATH_DETAIL_HYPERGEOMETRIC_CF_HPP
-#define BOOST_MATH_DETAIL_HYPERGEOMETRIC_CF_HPP
+#ifndef HYDRA_BOOST_MATH_DETAIL_HYPERGEOMETRIC_CF_HPP
+#define HYDRA_BOOST_MATH_DETAIL_HYPERGEOMETRIC_CF_HPP
 
-  namespace boost { namespace math { namespace detail {
+  namespace hydra_boost { namespace math { namespace detail {
 
   // primary template for term of continued fraction
   template <class T, unsigned p, unsigned q>
@@ -165,14 +165,14 @@
   template <class T, unsigned p, unsigned q, class Policy>
   inline T compute_cf_pFq(detail::hypergeometric_pFq_cf_term<T, p, q>& term, const Policy& pol)
   {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
     const T result = tools::continued_fraction_b(
       term,
-      boost::math::policies::get_epsilon<T, Policy>(),
+      hydra_boost::math::policies::get_epsilon<T, Policy>(),
       max_iter);
-    boost::math::policies::check_series_iterations<T>(
-      "boost::math::hypergeometric_pFq_cf<%1%>(%1%,%1%,%1%)",
+    hydra_boost::math::policies::check_series_iterations<T>(
+      "hydra_boost::math::hypergeometric_pFq_cf<%1%>(%1%,%1%,%1%)",
       max_iter,
       pol);
     return result;
@@ -225,4 +225,4 @@
 
   } } } // namespaces
 
-#endif // BOOST_MATH_DETAIL_HYPERGEOMETRIC_CF_HPP
+#endif // HYDRA_BOOST_MATH_DETAIL_HYPERGEOMETRIC_CF_HPP

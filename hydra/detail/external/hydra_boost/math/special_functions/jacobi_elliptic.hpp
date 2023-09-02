@@ -4,22 +4,22 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_JACOBI_ELLIPTIC_HPP
-#define BOOST_MATH_JACOBI_ELLIPTIC_HPP
+#ifndef HYDRA_BOOST_MATH_JACOBI_ELLIPTIC_HPP
+#define HYDRA_BOOST_MATH_JACOBI_ELLIPTIC_HPP
 
 #include <hydra/detail/external/hydra_boost/math/tools/precision.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/promotion.hpp>
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/math_fwd.hpp>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 namespace detail{
 
 template <class T, class Policy>
 T jacobi_recurse(const T& x, const T& k, T anm1, T bnm1, unsigned N, T* pTn, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    ++N;
    T Tn;
    T cn = (anm1 - bnm1) / 2;
@@ -38,7 +38,7 @@ T jacobi_recurse(const T& x, const T& k, T anm1, T bnm1, unsigned N, T* pTn, con
 template <class T, class Policy>
 T jacobi_imp(const T& x, const T& k, T* cn, T* dn, const Policy& pol, const char* function)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    if(k < 0)
    {
       *cn = policies::raise_domain_error<T>(function, "Modulus k must be positive but got %1%.", k, pol);
@@ -107,7 +107,7 @@ T jacobi_imp(const T& x, const T& k, T* cn, T* dn, const Policy& pol, const char
    }*/
    T T1;
    T kc = 1 - k;
-   T k_prime = k < T(0.5) ? T(sqrt(1 - k * k)) : T(sqrt(2 * kc - kc * kc));
+   T k_prime = k < 0.5 ? T(sqrt(1 - k * k)) : T(sqrt(2 * kc - kc * kc));
    T T0 = jacobi_recurse(x, k, T(1), k_prime, 0, &T1, pol);
    *cn = cos(T0);
    *dn = cos(T0) / cos(T1 - T0);
@@ -119,7 +119,7 @@ T jacobi_imp(const T& x, const T& k, T* cn, T* dn, const Policy& pol, const char
 template <class T, class U, class V, class Policy>
 inline typename tools::promote_args<T, U, V>::type jacobi_elliptic(T k, U theta, V* pcn, V* pdn, const Policy&)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -129,7 +129,7 @@ inline typename tools::promote_args<T, U, V>::type jacobi_elliptic(T k, U theta,
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   static const char* function = "boost::math::jacobi_elliptic<%1%>(%1%)";
+   static const char* function = "hydra_boost::math::jacobi_elliptic<%1%>(%1%)";
 
    value_type sn, cn, dn;
    sn = detail::jacobi_imp<value_type>(static_cast<value_type>(theta), static_cast<value_type>(k), &cn, &dn, forwarding_policy(), function);
@@ -318,4 +318,4 @@ inline typename tools::promote_args<T, U>::type jacobi_cs(T k, U theta)
 
 }} // namespaces
 
-#endif // BOOST_MATH_JACOBI_ELLIPTIC_HPP
+#endif // HYDRA_BOOST_MATH_JACOBI_ELLIPTIC_HPP

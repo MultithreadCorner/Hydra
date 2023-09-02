@@ -6,8 +6,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STATS_INVERSE_GAMMA_HPP
-#define BOOST_STATS_INVERSE_GAMMA_HPP
+#ifndef HYDRA_BOOST_STATS_INVERSE_GAMMA_HPP
+#define HYDRA_BOOST_STATS_INVERSE_GAMMA_HPP
 
 // Inverse Gamma Distribution is a two-parameter family
 // of continuous probability distributions
@@ -30,7 +30,7 @@
 #include <utility>
 #include <cfenv>
 
-namespace boost{ namespace math
+namespace hydra_boost{ namespace math
 {
 namespace detail
 {
@@ -46,7 +46,7 @@ inline bool check_inverse_gamma_shape(
    // returning pdf and cdf zero (but not < 0).
    // (Functions like mean, variance with other limits on shape are checked
    // in version including an operator & limit below).
-   if((shape < 0) || !(boost::math::isfinite)(shape))
+   if((shape < 0) || !(hydra_boost::math::isfinite)(shape))
    {
       *result = policies::raise_domain_error<RealType>(
          function,
@@ -62,7 +62,7 @@ inline bool check_inverse_gamma_x(
       RealType const& x,
       RealType* result, const Policy& pol)
 {
-   if((x < 0) || !(boost::math::isfinite)(x))
+   if((x < 0) || !(hydra_boost::math::isfinite)(x))
    {
       *result = policies::raise_domain_error<RealType>(
          function,
@@ -97,7 +97,7 @@ public:
    {
       RealType result;
       detail::check_inverse_gamma(
-        "boost::math::inverse_gamma_distribution<%1%>::inverse_gamma_distribution",
+        "hydra_boost::math::inverse_gamma_distribution<%1%>::inverse_gamma_distribution",
         l_scale, l_shape, &result, Policy());
    }
 
@@ -124,9 +124,9 @@ using inverse_gamma = inverse_gamma_distribution<double>;
 
 #ifdef __cpp_deduction_guides
 template <class RealType>
-inverse_gamma_distribution(RealType)->inverse_gamma_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+inverse_gamma_distribution(RealType)->inverse_gamma_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 template <class RealType>
-inverse_gamma_distribution(RealType,RealType)->inverse_gamma_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+inverse_gamma_distribution(RealType,RealType)->inverse_gamma_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 #endif
 
 // Allow random variable x to be zero, treated as a special case (unlike some definitions).
@@ -134,7 +134,7 @@ inverse_gamma_distribution(RealType,RealType)->inverse_gamma_distribution<typena
 template <class RealType, class Policy>
 inline std::pair<RealType, RealType> range(const inverse_gamma_distribution<RealType, Policy>& /* dist */)
 {  // Range of permissible values for random variable x.
-   using boost::math::tools::max_value;
+   using hydra_boost::math::tools::max_value;
    return std::pair<RealType, RealType>(static_cast<RealType>(0), max_value<RealType>());
 }
 
@@ -142,17 +142,17 @@ template <class RealType, class Policy>
 inline std::pair<RealType, RealType> support(const inverse_gamma_distribution<RealType, Policy>& /* dist */)
 {  // Range of supported values for random variable x.
    // This is range where cdf rises from 0 to 1, and outside it, the pdf is zero.
-   using boost::math::tools::max_value;
-   using boost::math::tools::min_value;
+   using hydra_boost::math::tools::max_value;
+   using hydra_boost::math::tools::min_value;
    return std::pair<RealType, RealType>(static_cast<RealType>(0),  max_value<RealType>());
 }
 
 template <class RealType, class Policy>
 inline RealType pdf(const inverse_gamma_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
-   static const char* function = "boost::math::pdf(const inverse_gamma_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::pdf(const inverse_gamma_distribution<%1%>&, %1%)";
 
    RealType shape = dist.shape();
    RealType scale = dist.scale();
@@ -197,10 +197,10 @@ inline RealType pdf(const inverse_gamma_distribution<RealType, Policy>& dist, co
 template <class RealType, class Policy>
 inline RealType logpdf(const inverse_gamma_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
-   using boost::math::lgamma;
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
+   using hydra_boost::math::lgamma;
 
-   static const char* function = "boost::math::logpdf(const inverse_gamma_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::logpdf(const inverse_gamma_distribution<%1%>&, %1%)";
 
    RealType shape = dist.shape();
    RealType scale = dist.scale();
@@ -223,7 +223,7 @@ inline RealType logpdf(const inverse_gamma_distribution<RealType, Policy>& dist,
       return result;  // random variable is infinite or so close as to make no difference.
       
    // x * x may under or overflow, likewise our result
-   if (!(boost::math::isfinite)(x*x))
+   if (!(hydra_boost::math::isfinite)(x*x))
    {
       return policies::raise_overflow_error<RealType, Policy>(function, "PDF is infinite.", Policy());
    }
@@ -234,9 +234,9 @@ inline RealType logpdf(const inverse_gamma_distribution<RealType, Policy>& dist,
 template <class RealType, class Policy>
 inline RealType cdf(const inverse_gamma_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
-   static const char* function = "boost::math::cdf(const inverse_gamma_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::cdf(const inverse_gamma_distribution<%1%>&, %1%)";
 
    RealType shape = dist.shape();
    RealType scale = dist.scale();
@@ -254,7 +254,7 @@ inline RealType cdf(const inverse_gamma_distribution<RealType, Policy>& dist, co
    { // x bad
       return result;
    }
-   result = boost::math::gamma_q(shape, scale / x, Policy());
+   result = hydra_boost::math::gamma_q(shape, scale / x, Policy());
    // result = tgamma(shape, scale / x) / tgamma(shape); // naive using tgamma
    return result;
 } // cdf
@@ -262,10 +262,10 @@ inline RealType cdf(const inverse_gamma_distribution<RealType, Policy>& dist, co
 template <class RealType, class Policy>
 inline RealType quantile(const inverse_gamma_distribution<RealType, Policy>& dist, const RealType& p)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
-   using boost::math::gamma_q_inv;
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
+   using hydra_boost::math::gamma_q_inv;
 
-   static const char* function = "boost::math::quantile(const inverse_gamma_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::quantile(const inverse_gamma_distribution<%1%>&, %1%)";
 
    RealType shape = dist.shape();
    RealType scale = dist.scale();
@@ -289,9 +289,9 @@ inline RealType quantile(const inverse_gamma_distribution<RealType, Policy>& dis
 template <class RealType, class Policy>
 inline RealType cdf(const complemented2_type<inverse_gamma_distribution<RealType, Policy>, RealType>& c)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
-   static const char* function = "boost::math::quantile(const gamma_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::quantile(const gamma_distribution<%1%>&, %1%)";
 
    RealType shape = c.dist.shape();
    RealType scale = c.dist.scale();
@@ -312,9 +312,9 @@ inline RealType cdf(const complemented2_type<inverse_gamma_distribution<RealType
 template <class RealType, class Policy>
 inline RealType quantile(const complemented2_type<inverse_gamma_distribution<RealType, Policy>, RealType>& c)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
-   static const char* function = "boost::math::quantile(const inverse_gamma_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::quantile(const inverse_gamma_distribution<%1%>&, %1%)";
 
    RealType shape = c.dist.shape();
    RealType scale = c.dist.scale();
@@ -340,9 +340,9 @@ inline RealType quantile(const complemented2_type<inverse_gamma_distribution<Rea
 template <class RealType, class Policy>
 inline RealType mean(const inverse_gamma_distribution<RealType, Policy>& dist)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
-   static const char* function = "boost::math::mean(const inverse_gamma_distribution<%1%>&)";
+   static const char* function = "hydra_boost::math::mean(const inverse_gamma_distribution<%1%>&)";
 
    RealType shape = dist.shape();
    RealType scale = dist.scale();
@@ -353,7 +353,7 @@ inline RealType mean(const inverse_gamma_distribution<RealType, Policy>& dist)
    {
      return result;
    }
-   if((shape <= 1) || !(boost::math::isfinite)(shape))
+   if((shape <= 1) || !(hydra_boost::math::isfinite)(shape))
    {
      result = policies::raise_domain_error<RealType>(
        function,
@@ -367,9 +367,9 @@ inline RealType mean(const inverse_gamma_distribution<RealType, Policy>& dist)
 template <class RealType, class Policy>
 inline RealType variance(const inverse_gamma_distribution<RealType, Policy>& dist)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
-   static const char* function = "boost::math::variance(const inverse_gamma_distribution<%1%>&)";
+   static const char* function = "hydra_boost::math::variance(const inverse_gamma_distribution<%1%>&)";
 
    RealType shape = dist.shape();
    RealType scale = dist.scale();
@@ -379,7 +379,7 @@ inline RealType variance(const inverse_gamma_distribution<RealType, Policy>& dis
    {
      return result;
    }
-   if((shape <= 2) || !(boost::math::isfinite)(shape))
+   if((shape <= 2) || !(hydra_boost::math::isfinite)(shape))
    {
      result = policies::raise_domain_error<RealType>(
        function,
@@ -393,9 +393,9 @@ inline RealType variance(const inverse_gamma_distribution<RealType, Policy>& dis
 template <class RealType, class Policy>
 inline RealType mode(const inverse_gamma_distribution<RealType, Policy>& dist)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
-   static const char* function = "boost::math::mode(const inverse_gamma_distribution<%1%>&)";
+   static const char* function = "hydra_boost::math::mode(const inverse_gamma_distribution<%1%>&)";
 
    RealType shape = dist.shape();
    RealType scale = dist.scale();
@@ -420,9 +420,9 @@ inline RealType mode(const inverse_gamma_distribution<RealType, Policy>& dist)
 template <class RealType, class Policy>
 inline RealType skewness(const inverse_gamma_distribution<RealType, Policy>& dist)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
-   static const char* function = "boost::math::skewness(const inverse_gamma_distribution<%1%>&)";
+   static const char* function = "hydra_boost::math::skewness(const inverse_gamma_distribution<%1%>&)";
 
    RealType shape = dist.shape();
    RealType scale = dist.scale();
@@ -432,7 +432,7 @@ inline RealType skewness(const inverse_gamma_distribution<RealType, Policy>& dis
    {
      return result;
    }
-   if((shape <= 3) || !(boost::math::isfinite)(shape))
+   if((shape <= 3) || !(hydra_boost::math::isfinite)(shape))
    {
      result = policies::raise_domain_error<RealType>(
        function,
@@ -446,9 +446,9 @@ inline RealType skewness(const inverse_gamma_distribution<RealType, Policy>& dis
 template <class RealType, class Policy>
 inline RealType kurtosis_excess(const inverse_gamma_distribution<RealType, Policy>& dist)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
-   static const char* function = "boost::math::kurtosis_excess(const inverse_gamma_distribution<%1%>&)";
+   static const char* function = "hydra_boost::math::kurtosis_excess(const inverse_gamma_distribution<%1%>&)";
 
    RealType shape = dist.shape();
    RealType scale = dist.scale();
@@ -458,7 +458,7 @@ inline RealType kurtosis_excess(const inverse_gamma_distribution<RealType, Polic
    {
      return result;
    }
-   if((shape <= 4) || !(boost::math::isfinite)(shape))
+   if((shape <= 4) || !(hydra_boost::math::isfinite)(shape))
    {
      result = policies::raise_domain_error<RealType>(
        function,
@@ -472,7 +472,7 @@ inline RealType kurtosis_excess(const inverse_gamma_distribution<RealType, Polic
 template <class RealType, class Policy>
 inline RealType kurtosis(const inverse_gamma_distribution<RealType, Policy>& dist)
 {
-  static const char* function = "boost::math::kurtosis(const inverse_gamma_distribution<%1%>&)";
+  static const char* function = "hydra_boost::math::kurtosis(const inverse_gamma_distribution<%1%>&)";
    RealType shape = dist.shape();
    RealType scale = dist.scale();
 
@@ -482,7 +482,7 @@ inline RealType kurtosis(const inverse_gamma_distribution<RealType, Policy>& dis
    {
      return result;
    }
-   if((shape <= 4) || !(boost::math::isfinite)(shape))
+   if((shape <= 4) || !(hydra_boost::math::isfinite)(shape))
    {
      result = policies::raise_domain_error<RealType>(
        function,
@@ -493,11 +493,11 @@ inline RealType kurtosis(const inverse_gamma_distribution<RealType, Policy>& dis
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_STATS_INVERSE_GAMMA_HPP
+#endif // HYDRA_BOOST_STATS_INVERSE_GAMMA_HPP

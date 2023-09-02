@@ -97,8 +97,8 @@
 // https://mathworld.wolfram.com/JacobiThetaFunctions.html
 // https://dlmf.nist.gov/20
 
-#ifndef BOOST_MATH_JACOBI_THETA_HPP
-#define BOOST_MATH_JACOBI_THETA_HPP
+#ifndef HYDRA_BOOST_MATH_JACOBI_THETA_HPP
+#define HYDRA_BOOST_MATH_JACOBI_THETA_HPP
 
 #include <hydra/detail/external/hydra_boost/math/tools/complex.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/precision.hpp>
@@ -106,7 +106,7 @@
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
 #include <hydra/detail/external/hydra_boost/math/constants/constants.hpp>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 // Simple functions - parameterized by q
 template <class T, class U>
@@ -181,7 +181,7 @@ _jacobi_theta_converged(RealType last_delta, RealType delta, RealType eps) {
 template <class RealType>
 inline RealType
 _jacobi_theta_sum(RealType tau, RealType z_n, RealType z_increment, RealType eps) {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     RealType delta = 0, partial_result = 0;
     RealType last_delta = 0;
 
@@ -210,7 +210,7 @@ _jacobi_theta_sum(RealType tau, RealType z_n, RealType z_increment, RealType eps
 template <class RealType, class Policy>
 inline RealType
 _IMAGINARY_jacobi_theta1tau(RealType z, RealType tau, const Policy&) {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     RealType eps = policies::get_epsilon<RealType, Policy>();
     RealType result = RealType(0);
 
@@ -229,7 +229,7 @@ _IMAGINARY_jacobi_theta1tau(RealType z, RealType tau, const Policy&) {
 template <class RealType, class Policy>
 inline RealType
 _IMAGINARY_jacobi_theta2tau(RealType z, RealType tau, const Policy&) {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     RealType eps = policies::get_epsilon<RealType, Policy>();
     RealType result = RealType(0);
 
@@ -244,7 +244,7 @@ _IMAGINARY_jacobi_theta2tau(RealType z, RealType tau, const Policy&) {
 template <class RealType, class Policy>
 inline RealType
 _IMAGINARY_jacobi_theta3tau(RealType z, RealType tau, const Policy&) {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     RealType eps = policies::get_epsilon<RealType, Policy>();
     RealType result = 0;
 
@@ -261,7 +261,7 @@ _IMAGINARY_jacobi_theta3tau(RealType z, RealType tau, const Policy&) {
 template <class RealType, class Policy>
 inline RealType
 _IMAGINARY_jacobi_theta4tau(RealType z, RealType tau, const Policy&) {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     RealType eps = policies::get_epsilon<RealType, Policy>();
     RealType result = 0;
 
@@ -286,7 +286,7 @@ template <class RealType, class Policy>
 inline RealType
 jacobi_theta1tau_imp(RealType z, RealType tau, const Policy& pol, const char *function)
 {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     unsigned n = 0;
     RealType eps = policies::get_epsilon<RealType, Policy>();
     RealType q_n = 0, last_q_n, delta, result = 0;
@@ -329,7 +329,7 @@ jacobi_theta1tau_imp(RealType z, RealType tau, const Policy& pol, const char *fu
 template <class RealType, class Policy>
 inline RealType
 jacobi_theta1_imp(RealType z, RealType q, const Policy& pol, const char *function) {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     if (q <= 0.0 || q >= 1.0) {
         return policies::raise_domain_error<RealType>(function,
                 "q must be greater than 0 and less than 1 but got %1%.", q, pol);
@@ -343,7 +343,7 @@ template <class RealType, class Policy>
 inline RealType
 jacobi_theta2tau_imp(RealType z, RealType tau, const Policy& pol, const char *function)
 {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     unsigned n = 0;
     RealType eps = policies::get_epsilon<RealType, Policy>();
     RealType q_n = 0, last_q_n, delta, result = 0;
@@ -381,7 +381,7 @@ jacobi_theta2tau_imp(RealType z, RealType tau, const Policy& pol, const char *fu
 template <class RealType, class Policy>
 inline RealType
 jacobi_theta2_imp(RealType z, RealType q, const Policy& pol, const char *function) {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     if (q <= 0.0 || q >= 1.0) {
         return policies::raise_domain_error<RealType>(function,
                 "q must be greater than 0 and less than 1 but got %1%.", q, pol);
@@ -397,7 +397,7 @@ template <class RealType, class Policy>
 inline RealType
 jacobi_theta3m1tau_imp(RealType z, RealType tau, const Policy& pol)
 {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
 
     RealType eps = policies::get_epsilon<RealType, Policy>();
     RealType q_n = 0, last_q_n, delta, result = 0;
@@ -423,7 +423,7 @@ template <class RealType, class Policy>
 inline RealType
 jacobi_theta3tau_imp(RealType z, RealType tau, const Policy& pol, const char *function)
 {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     if (tau <= 0.0) {
         return policies::raise_domain_error<RealType>(function,
                 "tau must be greater than 0 but got %1%.", tau, pol);
@@ -447,7 +447,7 @@ jacobi_theta3tau_imp(RealType z, RealType tau, const Policy& pol, const char *fu
 template <class RealType, class Policy>
 inline RealType
 jacobi_theta3m1_imp(RealType z, RealType q, const Policy& pol, const char *function) {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     if (q <= 0.0 || q >= 1.0) {
         return policies::raise_domain_error<RealType>(function,
                 "q must be greater than 0 and less than 1 but got %1%.", q, pol);
@@ -460,7 +460,7 @@ jacobi_theta3m1_imp(RealType z, RealType q, const Policy& pol, const char *funct
 template <class RealType, class Policy>
 inline RealType
 jacobi_theta3_imp(RealType z, RealType q, const Policy& pol, const char *function) {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     if (q <= 0.0 || q >= 1.0) {
         return policies::raise_domain_error<RealType>(function,
                 "q must be greater than 0 and less than 1 but got %1%.", q, pol);
@@ -475,7 +475,7 @@ template <class RealType, class Policy>
 inline RealType
 jacobi_theta4m1tau_imp(RealType z, RealType tau, const Policy& pol)
 {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
 
     RealType eps = policies::get_epsilon<RealType, Policy>();
     RealType q_n = 0, last_q_n, delta, result = 0;
@@ -504,7 +504,7 @@ template <class RealType, class Policy>
 inline RealType
 jacobi_theta4tau_imp(RealType z, RealType tau, const Policy& pol, const char *function)
 {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     if (tau <= 0.0) {
         return policies::raise_domain_error<RealType>(function,
                 "tau must be greater than 0 but got %1%.", tau, pol);
@@ -530,7 +530,7 @@ jacobi_theta4tau_imp(RealType z, RealType tau, const Policy& pol, const char *fu
 template <class RealType, class Policy>
 inline RealType
 jacobi_theta4m1_imp(RealType z, RealType q, const Policy& pol, const char *function) {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     if (q <= 0.0 || q >= 1.0) {
         return policies::raise_domain_error<RealType>(function,
                 "q must be greater than 0 and less than 1 but got %1%.", q, pol);
@@ -543,7 +543,7 @@ jacobi_theta4m1_imp(RealType z, RealType q, const Policy& pol, const char *funct
 template <class RealType, class Policy>
 inline RealType
 jacobi_theta4_imp(RealType z, RealType q, const Policy& pol, const char *function) {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     if (q <= 0.0 || q >= 1.0) {
         return policies::raise_domain_error<RealType>(function,
             "|q| must be greater than zero and less than 1, but got %1%.", q, pol);
@@ -555,7 +555,7 @@ jacobi_theta4_imp(RealType z, RealType q, const Policy& pol, const char *functio
 
 template <class T, class U, class Policy>
 inline typename tools::promote_args<T, U>::type jacobi_theta1tau(T z, U tau, const Policy&) {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T, U>::type result_type;
    typedef typename policies::normalise<
       Policy,
@@ -564,7 +564,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta1tau(T z, U tau, con
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   static const char* function = "boost::math::jacobi_theta1tau<%1%>(%1%)";
+   static const char* function = "hydra_boost::math::jacobi_theta1tau<%1%>(%1%)";
 
    return policies::checked_narrowing_cast<result_type, Policy>(
            jacobi_theta1tau_imp(static_cast<result_type>(z), static_cast<result_type>(tau),
@@ -578,7 +578,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta1tau(T z, U tau) {
 
 template <class T, class U, class Policy>
 inline typename tools::promote_args<T, U>::type jacobi_theta1(T z, U q, const Policy&) {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T, U>::type result_type;
    typedef typename policies::normalise<
       Policy,
@@ -587,7 +587,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta1(T z, U q, const Po
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   static const char* function = "boost::math::jacobi_theta1<%1%>(%1%)";
+   static const char* function = "hydra_boost::math::jacobi_theta1<%1%>(%1%)";
 
    return policies::checked_narrowing_cast<result_type, Policy>(
            jacobi_theta1_imp(static_cast<result_type>(z), static_cast<result_type>(q),
@@ -601,7 +601,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta1(T z, U q) {
 
 template <class T, class U, class Policy>
 inline typename tools::promote_args<T, U>::type jacobi_theta2tau(T z, U tau, const Policy&) {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T, U>::type result_type;
    typedef typename policies::normalise<
       Policy,
@@ -610,7 +610,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta2tau(T z, U tau, con
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   static const char* function = "boost::math::jacobi_theta2tau<%1%>(%1%)";
+   static const char* function = "hydra_boost::math::jacobi_theta2tau<%1%>(%1%)";
 
    return policies::checked_narrowing_cast<result_type, Policy>(
            jacobi_theta2tau_imp(static_cast<result_type>(z), static_cast<result_type>(tau),
@@ -624,7 +624,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta2tau(T z, U tau) {
 
 template <class T, class U, class Policy>
 inline typename tools::promote_args<T, U>::type jacobi_theta2(T z, U q, const Policy&) {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T, U>::type result_type;
    typedef typename policies::normalise<
       Policy,
@@ -633,7 +633,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta2(T z, U q, const Po
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   static const char* function = "boost::math::jacobi_theta2<%1%>(%1%)";
+   static const char* function = "hydra_boost::math::jacobi_theta2<%1%>(%1%)";
 
    return policies::checked_narrowing_cast<result_type, Policy>(
            jacobi_theta2_imp(static_cast<result_type>(z), static_cast<result_type>(q),
@@ -647,7 +647,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta2(T z, U q) {
 
 template <class T, class U, class Policy>
 inline typename tools::promote_args<T, U>::type jacobi_theta3m1tau(T z, U tau, const Policy&) {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T, U>::type result_type;
    typedef typename policies::normalise<
       Policy,
@@ -656,7 +656,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta3m1tau(T z, U tau, c
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   static const char* function = "boost::math::jacobi_theta3m1tau<%1%>(%1%)";
+   static const char* function = "hydra_boost::math::jacobi_theta3m1tau<%1%>(%1%)";
 
    return policies::checked_narrowing_cast<result_type, Policy>(
            jacobi_theta3m1tau_imp(static_cast<result_type>(z), static_cast<result_type>(tau),
@@ -670,7 +670,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta3m1tau(T z, U tau) {
 
 template <class T, class U, class Policy>
 inline typename tools::promote_args<T, U>::type jacobi_theta3tau(T z, U tau, const Policy&) {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T, U>::type result_type;
    typedef typename policies::normalise<
       Policy,
@@ -679,7 +679,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta3tau(T z, U tau, con
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   static const char* function = "boost::math::jacobi_theta3tau<%1%>(%1%)";
+   static const char* function = "hydra_boost::math::jacobi_theta3tau<%1%>(%1%)";
 
    return policies::checked_narrowing_cast<result_type, Policy>(
            jacobi_theta3tau_imp(static_cast<result_type>(z), static_cast<result_type>(tau),
@@ -694,7 +694,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta3tau(T z, U tau) {
 
 template <class T, class U, class Policy>
 inline typename tools::promote_args<T, U>::type jacobi_theta3m1(T z, U q, const Policy&) {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T, U>::type result_type;
    typedef typename policies::normalise<
       Policy,
@@ -703,7 +703,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta3m1(T z, U q, const 
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   static const char* function = "boost::math::jacobi_theta3m1<%1%>(%1%)";
+   static const char* function = "hydra_boost::math::jacobi_theta3m1<%1%>(%1%)";
 
    return policies::checked_narrowing_cast<result_type, Policy>(
            jacobi_theta3m1_imp(static_cast<result_type>(z), static_cast<result_type>(q),
@@ -717,7 +717,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta3m1(T z, U q) {
 
 template <class T, class U, class Policy>
 inline typename tools::promote_args<T, U>::type jacobi_theta3(T z, U q, const Policy&) {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T, U>::type result_type;
    typedef typename policies::normalise<
       Policy,
@@ -726,7 +726,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta3(T z, U q, const Po
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   static const char* function = "boost::math::jacobi_theta3<%1%>(%1%)";
+   static const char* function = "hydra_boost::math::jacobi_theta3<%1%>(%1%)";
 
    return policies::checked_narrowing_cast<result_type, Policy>(
            jacobi_theta3_imp(static_cast<result_type>(z), static_cast<result_type>(q),
@@ -740,7 +740,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta3(T z, U q) {
 
 template <class T, class U, class Policy>
 inline typename tools::promote_args<T, U>::type jacobi_theta4m1tau(T z, U tau, const Policy&) {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T, U>::type result_type;
    typedef typename policies::normalise<
       Policy,
@@ -749,7 +749,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta4m1tau(T z, U tau, c
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   static const char* function = "boost::math::jacobi_theta4m1tau<%1%>(%1%)";
+   static const char* function = "hydra_boost::math::jacobi_theta4m1tau<%1%>(%1%)";
 
    return policies::checked_narrowing_cast<result_type, Policy>(
            jacobi_theta4m1tau_imp(static_cast<result_type>(z), static_cast<result_type>(tau),
@@ -763,7 +763,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta4m1tau(T z, U tau) {
 
 template <class T, class U, class Policy>
 inline typename tools::promote_args<T, U>::type jacobi_theta4tau(T z, U tau, const Policy&) {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T, U>::type result_type;
    typedef typename policies::normalise<
       Policy,
@@ -772,7 +772,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta4tau(T z, U tau, con
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   static const char* function = "boost::math::jacobi_theta4tau<%1%>(%1%)";
+   static const char* function = "hydra_boost::math::jacobi_theta4tau<%1%>(%1%)";
 
    return policies::checked_narrowing_cast<result_type, Policy>(
            jacobi_theta4tau_imp(static_cast<result_type>(z), static_cast<result_type>(tau),
@@ -786,7 +786,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta4tau(T z, U tau) {
 
 template <class T, class U, class Policy>
 inline typename tools::promote_args<T, U>::type jacobi_theta4m1(T z, U q, const Policy&) {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T, U>::type result_type;
    typedef typename policies::normalise<
       Policy,
@@ -795,7 +795,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta4m1(T z, U q, const 
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   static const char* function = "boost::math::jacobi_theta4m1<%1%>(%1%)";
+   static const char* function = "hydra_boost::math::jacobi_theta4m1<%1%>(%1%)";
 
    return policies::checked_narrowing_cast<result_type, Policy>(
            jacobi_theta4m1_imp(static_cast<result_type>(z), static_cast<result_type>(q),
@@ -809,7 +809,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta4m1(T z, U q) {
 
 template <class T, class U, class Policy>
 inline typename tools::promote_args<T, U>::type jacobi_theta4(T z, U q, const Policy&) {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T, U>::type result_type;
    typedef typename policies::normalise<
       Policy,
@@ -818,7 +818,7 @@ inline typename tools::promote_args<T, U>::type jacobi_theta4(T z, U q, const Po
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   static const char* function = "boost::math::jacobi_theta4<%1%>(%1%)";
+   static const char* function = "hydra_boost::math::jacobi_theta4<%1%>(%1%)";
 
    return policies::checked_narrowing_cast<result_type, Policy>(
            jacobi_theta4_imp(static_cast<result_type>(z), static_cast<result_type>(q),

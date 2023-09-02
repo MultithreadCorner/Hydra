@@ -10,8 +10,8 @@
 //  types longer than 80-bit reals.
 //  Updated 2015 to use Carlson's latest methods.
 //
-#ifndef BOOST_MATH_ELLINT_RF_HPP
-#define BOOST_MATH_ELLINT_RF_HPP
+#ifndef HYDRA_BOOST_MATH_ELLINT_RF_HPP
+#define HYDRA_BOOST_MATH_ELLINT_RF_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -27,16 +27,16 @@
 // R_F(x, y, z) = 0.5 * \int_{0}^{\infty} [(t+x)(t+y)(t+z)]^{-1/2} dt
 // Carlson, Numerische Mathematik, vol 33, 1 (1979)
 
-namespace boost { namespace math { namespace detail{
+namespace hydra_boost { namespace math { namespace detail{
 
    template <typename T, typename Policy>
    T ellint_rf_imp(T x, T y, T z, const Policy& pol)
    {
-      BOOST_MATH_STD_USING
-      using namespace boost::math;
+      HYDRA_BOOST_MATH_STD_USING
+      using namespace hydra_boost::math;
       using std::swap;
 
-      static const char* function = "boost::math::ellint_rf<%1%>(%1%,%1%,%1%)";
+      static const char* function = "hydra_boost::math::ellint_rf<%1%>(%1%,%1%,%1%)";
 
       if(x < 0 || y < 0 || z < 0)
       {
@@ -97,7 +97,7 @@ namespace boost { namespace math { namespace detail{
          T xn = sqrt(x);
          T yn = sqrt(y);
 
-         while(fabs(xn - yn) >= T(2.7) * tools::root_epsilon<T>() * fabs(xn))
+         while(fabs(xn - yn) >= 2.7 * tools::root_epsilon<T>() * fabs(xn))
          {
             T t = sqrt(xn * yn);
             xn = (xn + yn) / 2;
@@ -111,13 +111,13 @@ namespace boost { namespace math { namespace detail{
       T zn = z;
       T An = (x + y + z) / 3;
       T A0 = An;
-      T Q = pow(3 * boost::math::tools::epsilon<T>(), T(-1) / 8) * (std::max)((std::max)(fabs(An - xn), fabs(An - yn)), fabs(An - zn));
+      T Q = pow(3 * hydra_boost::math::tools::epsilon<T>(), T(-1) / 8) * (std::max)((std::max)(fabs(An - xn), fabs(An - yn)), fabs(An - zn));
       T fn = 1;
 
 
       // duplication
       unsigned k = 1;
-      for(; k < boost::math::policies::get_max_series_iterations<Policy>(); ++k)
+      for(; k < hydra_boost::math::policies::get_max_series_iterations<Policy>(); ++k)
       {
          T root_x = sqrt(xn);
          T root_y = sqrt(yn);
@@ -134,7 +134,7 @@ namespace boost { namespace math { namespace detail{
       }
       // Check to see if we gave up too soon:
       policies::check_series_iterations<T>(function, k, pol);
-      BOOST_MATH_INSTRUMENT_VARIABLE(k);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(k);
 
       T X = (A0 - x) / (An * fn);
       T Y = (A0 - y) / (An * fn);
@@ -158,7 +158,7 @@ inline typename tools::promote_args<T1, T2, T3>::type
       detail::ellint_rf_imp(
          static_cast<value_type>(x),
          static_cast<value_type>(y),
-         static_cast<value_type>(z), pol), "boost::math::ellint_rf<%1%>(%1%,%1%,%1%)");
+         static_cast<value_type>(z), pol), "hydra_boost::math::ellint_rf<%1%>(%1%,%1%,%1%)");
 }
 
 template <class T1, class T2, class T3>
@@ -170,5 +170,5 @@ inline typename tools::promote_args<T1, T2, T3>::type
 
 }} // namespaces
 
-#endif // BOOST_MATH_ELLINT_RF_HPP
+#endif // HYDRA_BOOST_MATH_ELLINT_RF_HPP
 

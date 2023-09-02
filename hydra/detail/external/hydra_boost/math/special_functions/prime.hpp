@@ -5,15 +5,15 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SF_PRIME_HPP
-#define BOOST_MATH_SF_PRIME_HPP
+#ifndef HYDRA_BOOST_MATH_SF_PRIME_HPP
+#define HYDRA_BOOST_MATH_SF_PRIME_HPP
 
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/math_fwd.hpp>
 #include <array>
 #include <cstdint>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
    //
    // See https://github.com/boostorg/math/issues/923 for the reasons behind using struct's here:
@@ -29,7 +29,7 @@ namespace boost{ namespace math{
       // That gives us the first 10000 primes with the largest
       // being 104729:
       //
-#ifndef BOOST_MATH_HAVE_CONSTEXPR_TABLES
+#ifndef HYDRA_BOOST_MATH_HAVE_CONSTEXPR_TABLES
       static const unsigned b1 = 53;
       static const unsigned b2 = 6541;
       static const unsigned b3 = 10000;
@@ -1209,7 +1209,7 @@ namespace boost{ namespace math{
 #endif
    };
 
-#ifndef BOOST_MATH_HAVE_CONSTEXPR_TABLES
+#ifndef HYDRA_BOOST_MATH_HAVE_CONSTEXPR_TABLES
    template <bool b>
    const unsigned prime_data_imp<b>::b1;
    template <bool b>
@@ -1225,7 +1225,7 @@ namespace boost{ namespace math{
    constexpr unsigned prime_data_imp<b>::b3;
 #endif
 
-#ifndef BOOST_MATH_HAVE_CONSTEXPR_TABLES
+#ifndef HYDRA_BOOST_MATH_HAVE_CONSTEXPR_TABLES
    template <bool b>
    const std::array<unsigned char, 54> prime_data_imp<b>::a1 = { {
          2u, 3u, 5u, 7u, 11u, 13u, 17u, 19u, 23u, 29u, 31u,
@@ -2407,7 +2407,7 @@ constexpr std::array<std::uint16_t, 3458> prime_data_imp<b>::a3;
    using prime_data = prime_data_imp<true>;
 
    template <class Policy>
-   BOOST_MATH_CONSTEXPR_TABLE_FUNCTION std::uint32_t prime(unsigned n, const Policy& pol)
+   HYDRA_BOOST_MATH_CONSTEXPR_TABLE_FUNCTION std::uint32_t prime(unsigned n, const Policy& pol)
    {
 
       if(n <= prime_data::b1)
@@ -2416,19 +2416,19 @@ constexpr std::array<std::uint16_t, 3458> prime_data_imp<b>::a3;
          return prime_data::a2[n - prime_data::b1 - 1];
       if(n >= prime_data::b3)
       {
-         return boost::math::policies::raise_domain_error<std::uint32_t>(
-            "boost::math::prime<%1%>", "Argument n out of range: got %1%", n, pol);
+         return hydra_boost::math::policies::raise_domain_error<std::uint32_t>(
+            "hydra_boost::math::prime<%1%>", "Argument n out of range: got %1%", n, pol);
       }
       return static_cast<std::uint32_t>(prime_data::a3[n - prime_data::b2 - 1]) + 0xFFFFu;
    }
 
-   inline BOOST_MATH_CONSTEXPR_TABLE_FUNCTION std::uint32_t prime(unsigned n)
+   inline HYDRA_BOOST_MATH_CONSTEXPR_TABLE_FUNCTION std::uint32_t prime(unsigned n)
    {
-      return boost::math::prime(n, boost::math::policies::policy<>());
+      return hydra_boost::math::prime(n, hydra_boost::math::policies::policy<>());
    }
 
    static const unsigned max_prime = 9999;
 
-}} // namespace boost and math
+}} // namespace hydra_boost and math
 
-#endif // BOOST_MATH_SF_PRIME_HPP
+#endif // HYDRA_BOOST_MATH_SF_PRIME_HPP

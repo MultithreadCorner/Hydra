@@ -8,14 +8,14 @@
 //  Source: http://www.pdimov.com/cpp2/simple_cxx11_metaprogramming.html
 //  Source: https://github.com/boostorg/mp11/
 
-#ifndef BOOST_MATH_TOOLS_MP
-#define BOOST_MATH_TOOLS_MP
+#ifndef HYDRA_BOOST_MATH_TOOLS_MP
+#define HYDRA_BOOST_MATH_TOOLS_MP
 
 #include <type_traits>
 #include <cstddef>
 #include <utility>
 
-namespace boost { namespace math { namespace tools { namespace meta_programming {
+namespace hydra_boost { namespace math { namespace tools { namespace meta_programming {
 
 // Types:
 // Typelist 
@@ -436,4 +436,4 @@ using index_sequence_for = make_integer_sequence<std::size_t, sizeof...(T)>;
 
 }}}} // namespaces
 
-#endif // BOOST_MATH_TOOLS_MP
+#endif // HYDRA_BOOST_MATH_TOOLS_MP

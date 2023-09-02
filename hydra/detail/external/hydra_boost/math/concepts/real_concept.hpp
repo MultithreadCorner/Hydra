@@ -15,13 +15,13 @@
 // That this is the minimum set is confirmed by use as a type
 // in tests of all functions & distributions, for example:
 //   test_spots(0.F); & test_spots(0.);  for float and double, but also
-//   test_spots(boost::math::concepts::real_concept(0.));
+//   test_spots(hydra_boost::math::concepts::real_concept(0.));
 // NTL quad_float type is an example of a type meeting the requirements,
 // but note minor additions are needed - see ntl.diff and documentation
 // "Using With NTL - a High-Precision Floating-Point Library".
 
-#ifndef BOOST_MATH_REAL_CONCEPT_HPP
-#define BOOST_MATH_REAL_CONCEPT_HPP
+#ifndef HYDRA_BOOST_MATH_REAL_CONCEPT_HPP
+#define HYDRA_BOOST_MATH_REAL_CONCEPT_HPP
 
 #include <hydra/detail/external/hydra_boost/math/special_functions/round.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/trunc.hpp>
@@ -45,16 +45,12 @@
 #  include <cstdio>
 #endif
 
-#if __has_include(<stdfloat>)
-#  include <stdfloat>
-#endif
-
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 namespace concepts
 {
 
-#ifdef BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
+#ifdef HYDRA_BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
    typedef double real_concept_base_type;
 #else
    typedef long double real_concept_base_type;
@@ -80,14 +76,8 @@ public:
    real_concept(float c) : m_value(c){}
    real_concept(double c) : m_value(c){}
    real_concept(long double c) : m_value(c){}
-#ifdef BOOST_MATH_USE_FLOAT128
-   real_concept(BOOST_MATH_FLOAT128_TYPE c) : m_value(c){}
-#endif
-#ifdef __STDCPP_FLOAT32_T__
-   real_concept(std::float32_t c) : m_value(static_cast<real_concept_base_type>(c)){}
-#endif
-#ifdef __STDCPP_FLOAT64_T__
-   real_concept(std::float64_t c) : m_value(static_cast<real_concept_base_type>(c)){}
+#ifdef HYDRA_BOOST_MATH_USE_FLOAT128
+   real_concept(HYDRA_BOOST_MATH_FLOAT128_TYPE c) : m_value(c){}
 #endif
 
    // Assignment:
@@ -106,12 +96,6 @@ public:
    real_concept& operator=(float c) { m_value = c; return *this; }
    real_concept& operator=(double c) { m_value = c; return *this; }
    real_concept& operator=(long double c) { m_value = c; return *this; }
-   #ifdef __STDCPP_FLOAT32_T__
-   real_concept& operator=(std::float32_t c) { m_value = c; return *this; }
-   #endif
-   #ifdef __STDCPP_FLOAT64_T__
-   real_concept& operator=(std::float64_t c) { m_value = c; return *this; }
-   #endif
 
    // Access:
    real_concept_base_type value()const{ return m_value; }
@@ -191,7 +175,7 @@ inline real_concept atan2(real_concept a, real_concept b)
 { return std::atan2(a.value(), b.value()); }
 inline real_concept ceil(real_concept a)
 { return std::ceil(a.value()); }
-#ifndef BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
+#ifndef HYDRA_BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
 // I've seen std::fmod(long double) crash on some platforms
 // so use fmodl instead:
 #ifdef _WIN32_WCE
@@ -221,7 +205,7 @@ inline real_concept modf(real_concept a, real_concept* ipart)
 {
 #ifdef __MINGW32__
    real_concept_base_type ip;
-   real_concept_base_type result = boost::math::modf(a.value(), &ip);
+   real_concept_base_type result = hydra_boost::math::modf(a.value(), &ip);
    *ipart = ip;
    return result;
 #else
@@ -264,17 +248,17 @@ inline real_concept tanh(real_concept a)
 // Note that these must not actually call the std:: versions as that precludes using this
 // header to test in C++03 mode, call the Boost versions instead:
 //
-inline boost::math::concepts::real_concept asinh(boost::math::concepts::real_concept a)
+inline hydra_boost::math::concepts::real_concept asinh(hydra_boost::math::concepts::real_concept a)
 {
-   return boost::math::asinh(a.value(), boost::math::policies::make_policy(boost::math::policies::overflow_error<boost::math::policies::ignore_error>()));
+   return hydra_boost::math::asinh(a.value(), hydra_boost::math::policies::make_policy(hydra_boost::math::policies::overflow_error<hydra_boost::math::policies::ignore_error>()));
 }
-inline boost::math::concepts::real_concept acosh(boost::math::concepts::real_concept a)
+inline hydra_boost::math::concepts::real_concept acosh(hydra_boost::math::concepts::real_concept a)
 {
-   return boost::math::acosh(a.value(), boost::math::policies::make_policy(boost::math::policies::overflow_error<boost::math::policies::ignore_error>()));
+   return hydra_boost::math::acosh(a.value(), hydra_boost::math::policies::make_policy(hydra_boost::math::policies::overflow_error<hydra_boost::math::policies::ignore_error>()));
 }
-inline boost::math::concepts::real_concept atanh(boost::math::concepts::real_concept a)
+inline hydra_boost::math::concepts::real_concept atanh(hydra_boost::math::concepts::real_concept a)
 {
-   return boost::math::atanh(a.value(), boost::math::policies::make_policy(boost::math::policies::overflow_error<boost::math::policies::ignore_error>()));
+   return hydra_boost::math::atanh(a.value(), hydra_boost::math::policies::make_policy(hydra_boost::math::policies::overflow_error<hydra_boost::math::policies::ignore_error>()));
 }
 
 //
@@ -282,37 +266,37 @@ inline boost::math::concepts::real_concept atanh(boost::math::concepts::real_con
 //
 template <class Policy>
 inline int iround(const concepts::real_concept& v, const Policy& pol)
-{ return boost::math::iround(v.value(), pol); }
+{ return hydra_boost::math::iround(v.value(), pol); }
 inline int iround(const concepts::real_concept& v)
-{ return boost::math::iround(v.value(), policies::policy<>()); }
+{ return hydra_boost::math::iround(v.value(), policies::policy<>()); }
 template <class Policy>
 inline long lround(const concepts::real_concept& v, const Policy& pol)
-{ return boost::math::lround(v.value(), pol); }
+{ return hydra_boost::math::lround(v.value(), pol); }
 inline long lround(const concepts::real_concept& v)
-{ return boost::math::lround(v.value(), policies::policy<>()); }
+{ return hydra_boost::math::lround(v.value(), policies::policy<>()); }
 
 template <class Policy>
 inline long long llround(const concepts::real_concept& v, const Policy& pol)
-{ return boost::math::llround(v.value(), pol); }
+{ return hydra_boost::math::llround(v.value(), pol); }
 inline long long llround(const concepts::real_concept& v)
-{ return boost::math::llround(v.value(), policies::policy<>()); }
+{ return hydra_boost::math::llround(v.value(), policies::policy<>()); }
 
 template <class Policy>
 inline int itrunc(const concepts::real_concept& v, const Policy& pol)
-{ return boost::math::itrunc(v.value(), pol); }
+{ return hydra_boost::math::itrunc(v.value(), pol); }
 inline int itrunc(const concepts::real_concept& v)
-{ return boost::math::itrunc(v.value(), policies::policy<>()); }
+{ return hydra_boost::math::itrunc(v.value(), policies::policy<>()); }
 template <class Policy>
 inline long ltrunc(const concepts::real_concept& v, const Policy& pol)
-{ return boost::math::ltrunc(v.value(), pol); }
+{ return hydra_boost::math::ltrunc(v.value(), pol); }
 inline long ltrunc(const concepts::real_concept& v)
-{ return boost::math::ltrunc(v.value(), policies::policy<>()); }
+{ return hydra_boost::math::ltrunc(v.value(), policies::policy<>()); }
 
 template <class Policy>
 inline long long lltrunc(const concepts::real_concept& v, const Policy& pol)
-{ return boost::math::lltrunc(v.value(), pol); }
+{ return hydra_boost::math::lltrunc(v.value(), pol); }
 inline long long lltrunc(const concepts::real_concept& v)
-{ return boost::math::lltrunc(v.value(), policies::policy<>()); }
+{ return hydra_boost::math::lltrunc(v.value(), policies::policy<>()); }
 
 // Streaming:
 template <class charT, class traits>
@@ -335,37 +319,37 @@ namespace tools
 {
 
 template <>
-inline concepts::real_concept make_big_value<concepts::real_concept>(boost::math::tools::largest_float val, const char* , std::false_type const&, std::false_type const&)
+inline concepts::real_concept make_big_value<concepts::real_concept>(hydra_boost::math::tools::largest_float val, const char* , std::false_type const&, std::false_type const&)
 {
    return val;  // Can't use lexical_cast here, sometimes it fails....
 }
 
 template <>
-inline concepts::real_concept max_value<concepts::real_concept>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(concepts::real_concept))
+inline concepts::real_concept max_value<concepts::real_concept>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(concepts::real_concept))
 {
    return max_value<concepts::real_concept_base_type>();
 }
 
 template <>
-inline concepts::real_concept min_value<concepts::real_concept>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(concepts::real_concept))
+inline concepts::real_concept min_value<concepts::real_concept>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(concepts::real_concept))
 {
    return min_value<concepts::real_concept_base_type>();
 }
 
 template <>
-inline concepts::real_concept log_max_value<concepts::real_concept>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(concepts::real_concept))
+inline concepts::real_concept log_max_value<concepts::real_concept>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(concepts::real_concept))
 {
    return log_max_value<concepts::real_concept_base_type>();
 }
 
 template <>
-inline concepts::real_concept log_min_value<concepts::real_concept>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(concepts::real_concept))
+inline concepts::real_concept log_min_value<concepts::real_concept>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(concepts::real_concept))
 {
    return log_min_value<concepts::real_concept_base_type>();
 }
 
 template <>
-inline concepts::real_concept epsilon<concepts::real_concept>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(concepts::real_concept))
+inline concepts::real_concept epsilon<concepts::real_concept>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(concepts::real_concept))
 {
 #ifdef __SUNPRO_CC
    return std::numeric_limits<concepts::real_concept_base_type>::epsilon();
@@ -375,7 +359,7 @@ inline concepts::real_concept epsilon<concepts::real_concept>(BOOST_MATH_EXPLICI
 }
 
 template <>
-inline constexpr int digits<concepts::real_concept>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(concepts::real_concept)) noexcept
+inline constexpr int digits<concepts::real_concept>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(concepts::real_concept)) noexcept
 {
    // Assume number of significand bits is same as real_concept_base_type,
    // unless std::numeric_limits<T>::is_specialized to provide digits.
@@ -389,8 +373,8 @@ inline constexpr int digits<concepts::real_concept>(BOOST_MATH_EXPLICIT_TEMPLATE
 
 } // namespace tools
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
-#endif // BOOST_MATH_REAL_CONCEPT_HPP
+#endif // HYDRA_BOOST_MATH_REAL_CONCEPT_HPP
 
 

@@ -6,8 +6,8 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_DISTRIBUTIONS_CHI_SQUARED_HPP
-#define BOOST_MATH_DISTRIBUTIONS_CHI_SQUARED_HPP
+#ifndef HYDRA_BOOST_MATH_DISTRIBUTIONS_CHI_SQUARED_HPP
+#define HYDRA_BOOST_MATH_DISTRIBUTIONS_CHI_SQUARED_HPP
 
 #include <hydra/detail/external/hydra_boost/math/distributions/fwd.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/gamma.hpp> // for incomplete beta.
@@ -17,7 +17,7 @@
 
 #include <utility>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 template <class RealType = double, class Policy = policies::policy<> >
 class chi_squared_distribution
@@ -30,7 +30,7 @@ public:
    {
       RealType result;
       detail::check_df(
-         "boost::math::chi_squared_distribution<%1%>::chi_squared_distribution", m_df, &result, Policy());
+         "hydra_boost::math::chi_squared_distribution<%1%>::chi_squared_distribution", m_df, &result, Policy());
    } // chi_squared_distribution
 
    RealType degrees_of_freedom()const
@@ -57,7 +57,7 @@ using chi_squared = chi_squared_distribution<double>;
 
 #ifdef __cpp_deduction_guides
 template <class RealType>
-chi_squared_distribution(RealType)->chi_squared_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+chi_squared_distribution(RealType)->chi_squared_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 #endif
 
 #ifdef _MSC_VER
@@ -74,7 +74,7 @@ inline std::pair<RealType, RealType> range(const chi_squared_distribution<RealTy
   }
   else
   {
-    using boost::math::tools::max_value;
+    using hydra_boost::math::tools::max_value;
     return std::pair<RealType, RealType>(static_cast<RealType>(0), max_value<RealType>()); // 0 to + max.
   }
 }
@@ -93,18 +93,18 @@ inline std::pair<RealType, RealType> support(const chi_squared_distribution<Real
 template <class RealType, class Policy>
 RealType pdf(const chi_squared_distribution<RealType, Policy>& dist, const RealType& chi_square)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
    RealType degrees_of_freedom = dist.degrees_of_freedom();
    // Error check:
    RealType error_result;
 
-   static const char* function = "boost::math::pdf(const chi_squared_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::pdf(const chi_squared_distribution<%1%>&, %1%)";
 
    if(false == detail::check_df(
          function, degrees_of_freedom, &error_result, Policy()))
       return error_result;
 
-   if((chi_square < 0) || !(boost::math::isfinite)(chi_square))
+   if((chi_square < 0) || !(hydra_boost::math::isfinite)(chi_square))
    {
       return policies::raise_domain_error<RealType>(
          function, "Chi Square parameter was %1%, but must be > 0 !", chi_square, Policy());
@@ -137,26 +137,26 @@ inline RealType cdf(const chi_squared_distribution<RealType, Policy>& dist, cons
    RealType degrees_of_freedom = dist.degrees_of_freedom();
    // Error check:
    RealType error_result;
-   static const char* function = "boost::math::cdf(const chi_squared_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::cdf(const chi_squared_distribution<%1%>&, %1%)";
 
    if(false == detail::check_df(
          function, degrees_of_freedom, &error_result, Policy()))
       return error_result;
 
-   if((chi_square < 0) || !(boost::math::isfinite)(chi_square))
+   if((chi_square < 0) || !(hydra_boost::math::isfinite)(chi_square))
    {
       return policies::raise_domain_error<RealType>(
          function, "Chi Square parameter was %1%, but must be > 0 !", chi_square, Policy());
    }
 
-   return boost::math::gamma_p(degrees_of_freedom / 2, chi_square / 2, Policy());
+   return hydra_boost::math::gamma_p(degrees_of_freedom / 2, chi_square / 2, Policy());
 } // cdf
 
 template <class RealType, class Policy>
 inline RealType quantile(const chi_squared_distribution<RealType, Policy>& dist, const RealType& p)
 {
    RealType degrees_of_freedom = dist.degrees_of_freedom();
-   static const char* function = "boost::math::quantile(const chi_squared_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::quantile(const chi_squared_distribution<%1%>&, %1%)";
    // Error check:
    RealType error_result;
    if(false ==
@@ -166,7 +166,7 @@ inline RealType quantile(const chi_squared_distribution<RealType, Policy>& dist,
      )
      return error_result;
 
-   return 2 * boost::math::gamma_p_inv(degrees_of_freedom / 2, p, Policy());
+   return 2 * hydra_boost::math::gamma_p_inv(degrees_of_freedom / 2, p, Policy());
 } // quantile
 
 template <class RealType, class Policy>
@@ -174,20 +174,20 @@ inline RealType cdf(const complemented2_type<chi_squared_distribution<RealType, 
 {
    RealType const& degrees_of_freedom = c.dist.degrees_of_freedom();
    RealType const& chi_square = c.param;
-   static const char* function = "boost::math::cdf(const chi_squared_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::cdf(const chi_squared_distribution<%1%>&, %1%)";
    // Error check:
    RealType error_result;
    if(false == detail::check_df(
          function, degrees_of_freedom, &error_result, Policy()))
       return error_result;
 
-   if((chi_square < 0) || !(boost::math::isfinite)(chi_square))
+   if((chi_square < 0) || !(hydra_boost::math::isfinite)(chi_square))
    {
       return policies::raise_domain_error<RealType>(
          function, "Chi Square parameter was %1%, but must be > 0 !", chi_square, Policy());
    }
 
-   return boost::math::gamma_q(degrees_of_freedom / 2, chi_square / 2, Policy());
+   return hydra_boost::math::gamma_q(degrees_of_freedom / 2, chi_square / 2, Policy());
 }
 
 template <class RealType, class Policy>
@@ -195,7 +195,7 @@ inline RealType quantile(const complemented2_type<chi_squared_distribution<RealT
 {
    RealType const& degrees_of_freedom = c.dist.degrees_of_freedom();
    RealType const& q = c.param;
-   static const char* function = "boost::math::quantile(const chi_squared_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::quantile(const chi_squared_distribution<%1%>&, %1%)";
    // Error check:
    RealType error_result;
    if(false == (
@@ -204,7 +204,7 @@ inline RealType quantile(const complemented2_type<chi_squared_distribution<RealT
      )
     return error_result;
 
-   return 2 * boost::math::gamma_q_inv(degrees_of_freedom / 2, q, Policy());
+   return 2 * hydra_boost::math::gamma_q_inv(degrees_of_freedom / 2, q, Policy());
 }
 
 template <class RealType, class Policy>
@@ -223,7 +223,7 @@ template <class RealType, class Policy>
 inline RealType mode(const chi_squared_distribution<RealType, Policy>& dist)
 {
    RealType df = dist.degrees_of_freedom();
-   static const char* function = "boost::math::mode(const chi_squared_distribution<%1%>&)";
+   static const char* function = "hydra_boost::math::mode(const chi_squared_distribution<%1%>&)";
 
    if(df < 2)
       return policies::raise_domain_error<RealType>(
@@ -236,7 +236,7 @@ inline RealType mode(const chi_squared_distribution<RealType, Policy>& dist)
 template <class RealType, class Policy>
 inline RealType skewness(const chi_squared_distribution<RealType, Policy>& dist)
 {
-   BOOST_MATH_STD_USING // For ADL
+   HYDRA_BOOST_MATH_STD_USING // For ADL
    RealType df = dist.degrees_of_freedom();
    return sqrt (8 / df);
 }
@@ -304,7 +304,7 @@ RealType chi_squared_distribution<RealType, Policy>::find_degrees_of_freedom(
    RealType variance,
    RealType hint)
 {
-   static const char* function = "boost::math::chi_squared_distribution<%1%>::find_degrees_of_freedom(%1%,%1%,%1%,%1%,%1%)";
+   static const char* function = "hydra_boost::math::chi_squared_distribution<%1%>::find_degrees_of_freedom(%1%,%1%,%1%,%1%,%1%)";
    // Check for domain errors:
    RealType error_result;
    if(false ==
@@ -335,11 +335,11 @@ RealType chi_squared_distribution<RealType, Policy>::find_degrees_of_freedom(
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_MATH_DISTRIBUTIONS_CHI_SQUARED_HPP
+#endif // HYDRA_BOOST_MATH_DISTRIBUTIONS_CHI_SQUARED_HPP

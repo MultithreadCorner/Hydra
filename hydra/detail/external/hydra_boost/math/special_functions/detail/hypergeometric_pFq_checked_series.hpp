@@ -4,11 +4,11 @@
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_HYPERGEOMETRIC_PFQ_SERIES_HPP_
-#define BOOST_HYPERGEOMETRIC_PFQ_SERIES_HPP_
+#ifndef HYDRA_BOOST_HYPERGEOMETRIC_PFQ_SERIES_HPP_
+#define HYDRA_BOOST_HYPERGEOMETRIC_PFQ_SERIES_HPP_
 
-#ifndef BOOST_MATH_PFQ_MAX_B_TERMS
-#  define BOOST_MATH_PFQ_MAX_B_TERMS 5
+#ifndef HYDRA_BOOST_MATH_PFQ_MAX_B_TERMS
+#  define HYDRA_BOOST_MATH_PFQ_MAX_B_TERMS 5
 #endif
 
 #include <array>
@@ -17,12 +17,12 @@
 #include <hydra/detail/external/hydra_boost/math/special_functions/expm1.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/detail/hypergeometric_series.hpp>
 
-  namespace boost { namespace math { namespace detail {
+  namespace hydra_boost { namespace math { namespace detail {
 
      template <class Seq, class Real>
      unsigned set_crossover_locations(const Seq& aj, const Seq& bj, const Real& z, unsigned int* crossover_locations)
      {
-        BOOST_MATH_STD_USING
+        HYDRA_BOOST_MATH_STD_USING
         unsigned N_terms = 0;
 
         if(aj.size() == 1 && bj.size() == 1)
@@ -121,16 +121,16 @@
      template <class Seq, class Real, class Policy, class Terminal>
      std::pair<Real, Real> hypergeometric_pFq_checked_series_impl(const Seq& aj, const Seq& bj, const Real& z, const Policy& pol, const Terminal& termination, long long& log_scale)
      {
-        BOOST_MATH_STD_USING
+        HYDRA_BOOST_MATH_STD_USING
         Real result = 1;
         Real abs_result = 1;
         Real term = 1;
         Real term0 = 0;
-        Real tol = boost::math::policies::get_epsilon<Real, Policy>();
+        Real tol = hydra_boost::math::policies::get_epsilon<Real, Policy>();
         std::uintmax_t k = 0;
-        Real upper_limit(sqrt(boost::math::tools::max_value<Real>())), diff;
+        Real upper_limit(sqrt(hydra_boost::math::tools::max_value<Real>())), diff;
         Real lower_limit(1 / upper_limit);
-        long long log_scaling_factor = lltrunc(boost::math::tools::log_max_value<Real>()) - 2;
+        long long log_scaling_factor = lltrunc(hydra_boost::math::tools::log_max_value<Real>()) - 2;
         Real scaling_factor = exp(Real(log_scaling_factor));
         Real term_m1;
         long long local_scaling = 0;
@@ -142,17 +142,11 @@
            {
               if ((z > 0) && (floor(*aj.begin()) != *aj.begin()))
               {
-                 Real r = policies::raise_domain_error("boost::math::hypergeometric_pFq", "Got p == 1 and q == 0 and |z| > 1, result is imaginary", z, pol);
+                 Real r = policies::raise_domain_error("hydra_boost::math::hypergeometric_pFq", "Got p == 1 and q == 0 and |z| > 1, result is imaginary", z, pol);
                  return std::make_pair(r, r);
               }
               std::pair<Real, Real> r = hypergeometric_pFq_checked_series_impl(aj, bj, Real(1 / z), pol, termination, log_scale);
-              
-              #if (defined(__GNUC__) && __GNUC__ == 13)
-              Real mul = pow(-z, Real(-*aj.begin()));
-              #else
               Real mul = pow(-z, -*aj.begin());
-              #endif
-              
               r.first *= mul;
               r.second *= mul;
               return r;
@@ -165,7 +159,7 @@
            {
               if (fabs(z) > 1)
               {
-                 Real r = policies::raise_domain_error("boost::math::hypergeometric_pFq", "Got p == q+1 and |z| > 1, series does not converge", z, pol);
+                 Real r = policies::raise_domain_error("hydra_boost::math::hypergeometric_pFq", "Got p == q+1 and |z| > 1, series does not converge", z, pol);
                  return std::make_pair(r, r);
               }
               if (fabs(z) == 1)
@@ -177,19 +171,19 @@
                     s -= *i;
                  if ((z == 1) && (s <= 0))
                  {
-                    Real r = policies::raise_domain_error("boost::math::hypergeometric_pFq", "Got p == q+1 and |z| == 1, in a situation where the series does not converge", z, pol);
+                    Real r = policies::raise_domain_error("hydra_boost::math::hypergeometric_pFq", "Got p == q+1 and |z| == 1, in a situation where the series does not converge", z, pol);
                     return std::make_pair(r, r);
                  }
                  if ((z == -1) && (s <= -1))
                  {
-                    Real r = policies::raise_domain_error("boost::math::hypergeometric_pFq", "Got p == q+1 and |z| == 1, in a situation where the series does not converge", z, pol);
+                    Real r = policies::raise_domain_error("hydra_boost::math::hypergeometric_pFq", "Got p == q+1 and |z| == 1, in a situation where the series does not converge", z, pol);
                     return std::make_pair(r, r);
                  }
               }
            }
            else
            {
-              Real r = policies::raise_domain_error("boost::math::hypergeometric_pFq", "Got p > q+1, series does not converge", z, pol);
+              Real r = policies::raise_domain_error("hydra_boost::math::hypergeometric_pFq", "Got p > q+1, series does not converge", z, pol);
               return std::make_pair(r, r);
            }
         }
@@ -210,7 +204,7 @@
               if (*bi + k == 0)
               {
                  // The series is undefined:
-                 result = boost::math::policies::raise_domain_error("boost::math::hypergeometric_pFq<%1%>", "One of the b values was the negative integer %1%", *bi, pol);
+                 result = hydra_boost::math::policies::raise_domain_error("hydra_boost::math::hypergeometric_pFq<%1%>", "One of the b values was the negative integer %1%", *bi, pol);
                  return std::make_pair(result, result);
               }
               term /= *bi + k;
@@ -253,7 +247,7 @@
               if (have_no_correct_bits)
               {
                  // We have no correct bits in the result... just give up!
-                 result = boost::math::policies::raise_evaluation_error("boost::math::hypergeometric_pFq<%1%>", "Cancellation is so severe that no bits in the result are correct, last result was %1%", Real(result * exp(Real(log_scale))), pol);
+                 result = hydra_boost::math::policies::raise_evaluation_error("hydra_boost::math::hypergeometric_pFq<%1%>", "Cancellation is so severe that no bits in the result are correct, last result was %1%", Real(result * exp(Real(log_scale))), pol);
                  return std::make_pair(result, result);
               }
               else
@@ -265,16 +259,16 @@
         }
         //std::cout << "result = " << result << std::endl;
         //std::cout << "local_scaling = " << local_scaling << std::endl;
-        //std::cout << "Norm result = " << std::setprecision(35) << boost::multiprecision::mpfr_float_50(result) * exp(boost::multiprecision::mpfr_float_50(local_scaling)) << std::endl;
+        //std::cout << "Norm result = " << std::setprecision(35) << hydra_boost::multiprecision::mpfr_float_50(result) * exp(hydra_boost::multiprecision::mpfr_float_50(local_scaling)) << std::endl;
         //
         // We have to be careful when one of the b's crosses the origin:
         //
-        if(bj.size() > BOOST_MATH_PFQ_MAX_B_TERMS)
-           policies::raise_domain_error<Real>("boost::math::hypergeometric_pFq<%1%>(Seq, Seq, %1%)",
-              "The number of b terms must be less than the value of BOOST_MATH_PFQ_MAX_B_TERMS (" BOOST_STRINGIZE(BOOST_MATH_PFQ_MAX_B_TERMS)  "), but got %1%.",
+        if(bj.size() > HYDRA_BOOST_MATH_PFQ_MAX_B_TERMS)
+           policies::raise_domain_error<Real>("hydra_boost::math::hypergeometric_pFq<%1%>(Seq, Seq, %1%)",
+              "The number of b terms must be less than the value of HYDRA_BOOST_MATH_PFQ_MAX_B_TERMS (" HYDRA_BOOST_STRINGIZE(HYDRA_BOOST_MATH_PFQ_MAX_B_TERMS)  "), but got %1%.",
               Real(bj.size()), pol);
 
-        unsigned crossover_locations[BOOST_MATH_PFQ_MAX_B_TERMS];
+        unsigned crossover_locations[HYDRA_BOOST_MATH_PFQ_MAX_B_TERMS];
 
         unsigned N_crossovers = set_crossover_locations(aj, bj, z, crossover_locations);
 
@@ -301,7 +295,7 @@
               // the pochhammer symbols.
               //
               Real loop_error_scale = 0;
-              //boost::multiprecision::mpfi_float err_est = 0;
+              //hydra_boost::multiprecision::mpfi_float err_est = 0;
               //
               // b hasn't crossed the origin yet and the series may spring back into life at that point
               // so we need to jump forward to that term and then evaluate forwards and backwards from there:
@@ -325,7 +319,7 @@
                     s1 *= ls;
                     term += p;
                     loop_error_scale = (std::max)(p, loop_error_scale);
-                    //err_est += boost::multiprecision::mpfi_float(p);
+                    //err_est += hydra_boost::multiprecision::mpfi_float(p);
                  }
               }
               //std::cout << "term = " << term << std::endl;
@@ -338,17 +332,17 @@
                  s2 *= ls;
                  term -= p;
                  loop_error_scale = (std::max)(p, loop_error_scale);
-                 //err_est -= boost::multiprecision::mpfi_float(p);
+                 //err_est -= hydra_boost::multiprecision::mpfi_float(p);
               }
               //std::cout << "term = " << term << std::endl;
               Real p = lgamma(Real(s + 1), pol);
               term -= p;
               loop_error_scale = (std::max)(p, loop_error_scale);
-              //err_est -= boost::multiprecision::mpfi_float(p);
+              //err_est -= hydra_boost::multiprecision::mpfi_float(p);
               p = s * log(fabs(z));
               term += p;
               loop_error_scale = (std::max)(p, loop_error_scale);
-              //err_est += boost::multiprecision::mpfi_float(p);
+              //err_est += hydra_boost::multiprecision::mpfi_float(p);
               //err_est = exp(err_est);
               //std::cout << err_est << std::endl;
               //
@@ -424,7 +418,7 @@
                      if (*bi + k == 0)
                      {
                         // The series is undefined:
-                        result = boost::math::policies::raise_domain_error("boost::math::hypergeometric_pFq<%1%>", "One of the b values was the negative integer %1%", *bi, pol);
+                        result = hydra_boost::math::policies::raise_domain_error("hydra_boost::math::hypergeometric_pFq<%1%>", "One of the b values was the negative integer %1%", *bi, pol);
                         return std::make_pair(result, result);
                      }
                      term /= *bi + k;
@@ -459,12 +453,12 @@
                         else
                            d = fabs(term * exp(Real(rescale)) / result);
                      }
-                     if (d < boost::math::policies::get_epsilon<Real, Policy>())
+                     if (d < hydra_boost::math::policies::get_epsilon<Real, Policy>())
                         break;
                   }
-               } while (!termination(k - s) && ((diff > boost::math::policies::get_epsilon<Real, Policy>()) || terms_are_growing));
+               } while (!termination(k - s) && ((diff > hydra_boost::math::policies::get_epsilon<Real, Policy>()) || terms_are_growing));
 
-               //std::cout << "Norm loop result = " << std::setprecision(35) << boost::multiprecision::mpfr_float_50(loop_result)* exp(boost::multiprecision::mpfr_float_50(loop_scale)) << std::endl;
+               //std::cout << "Norm loop result = " << std::setprecision(35) << hydra_boost::multiprecision::mpfr_float_50(loop_result)* exp(hydra_boost::multiprecision::mpfr_float_50(loop_scale)) << std::endl;
                //
                // We now need to combine the results of the first series summation with whatever
                // local results we have now.  First though, rescale abs_result by loop_error_scale
@@ -527,7 +521,7 @@
                      if (*bi + k == 0)
                      {
                         // The series is undefined:
-                        result = boost::math::policies::raise_domain_error("boost::math::hypergeometric_pFq<%1%>", "One of the b values was the negative integer %1%", *bi, pol);
+                        result = hydra_boost::math::policies::raise_domain_error("hydra_boost::math::hypergeometric_pFq<%1%>", "One of the b values was the negative integer %1%", *bi, pol);
                         return std::make_pair(result, result);
                      }
                      term *= *bi + k;
@@ -561,7 +555,7 @@
                         else
                            d = fabs(term * exp(Real(rescale)) / result);
                      }
-                     if (d < boost::math::policies::get_epsilon<Real, Policy>())
+                     if (d < hydra_boost::math::policies::get_epsilon<Real, Policy>())
                         break;
                   }
 
@@ -581,9 +575,9 @@
                      loop_scale -= log_scaling_factor;
                   }
                   diff = fabs(term / loop_result);
-               } while (!termination(s - k) && ((diff > boost::math::policies::get_epsilon<Real, Policy>()) || (fabs(term) > fabs(term_m1))));
+               } while (!termination(s - k) && ((diff > hydra_boost::math::policies::get_epsilon<Real, Policy>()) || (fabs(term) > fabs(term_m1))));
 
-               //std::cout << "Norm loop result = " << std::setprecision(35) << boost::multiprecision::mpfr_float_50(loop_result)* exp(boost::multiprecision::mpfr_float_50(loop_scale)) << std::endl;
+               //std::cout << "Norm loop result = " << std::setprecision(35) << hydra_boost::multiprecision::mpfr_float_50(loop_result)* exp(hydra_boost::multiprecision::mpfr_float_50(loop_scale)) << std::endl;
                //
                // We now need to combine the results of the first series summation with whatever
                // local results we have now.  First though, rescale abs_result by loop_error_scale
@@ -644,16 +638,16 @@
      template <class Seq, class Real, class Policy>
      Real hypergeometric_pFq_checked_series_impl(const Seq& aj, const Seq& bj, const Real& z, const Policy& pol, long long& log_scale)
      {
-        BOOST_MATH_STD_USING
-        iteration_terminator term(boost::math::policies::get_max_series_iterations<Policy>());
+        HYDRA_BOOST_MATH_STD_USING
+        iteration_terminator term(hydra_boost::math::policies::get_max_series_iterations<Policy>());
         std::pair<Real, Real> result = hypergeometric_pFq_checked_series_impl(aj, bj, z, pol, term, log_scale);
         //
         // Check to see how many digits we've lost, if it's more than half, raise an evaluation error -
         // this is an entirely arbitrary cut off, but not unreasonable.
         //
-        if (result.second * sqrt(boost::math::policies::get_epsilon<Real, Policy>()) > abs(result.first))
+        if (result.second * sqrt(hydra_boost::math::policies::get_epsilon<Real, Policy>()) > abs(result.first))
         {
-           return boost::math::policies::raise_evaluation_error("boost::math::hypergeometric_pFq<%1%>", "Cancellation is so severe that fewer than half the bits in the result are correct, last result was %1%", Real(result.first * exp(Real(log_scale))), pol);
+           return hydra_boost::math::policies::raise_evaluation_error("hydra_boost::math::hypergeometric_pFq<%1%>", "Cancellation is so severe that fewer than half the bits in the result are correct, last result was %1%", Real(result.first * exp(Real(log_scale))), pol);
         }
         return result.first;
      }
@@ -668,4 +662,4 @@
 
   } } } // namespaces
 
-#endif // BOOST_HYPERGEOMETRIC_PFQ_SERIES_HPP_
+#endif // HYDRA_BOOST_HYPERGEOMETRIC_PFQ_SERIES_HPP_

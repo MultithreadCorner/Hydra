@@ -14,16 +14,15 @@
 // Abramowitz and Stegun 1972, p 930
 // http://www.math.sfu.ca/~cbm/aands/page_930.htm
 
-#ifndef BOOST_STATS_LAPLACE_HPP
-#define BOOST_STATS_LAPLACE_HPP
+#ifndef HYDRA_BOOST_STATS_LAPLACE_HPP
+#define HYDRA_BOOST_STATS_LAPLACE_HPP
 
-#include <hydra/detail/external/hydra_boost/math/special_functions/log1p.hpp>
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/common_error_handling.hpp>
 #include <hydra/detail/external/hydra_boost/math/distributions/complement.hpp>
 #include <hydra/detail/external/hydra_boost/math/constants/constants.hpp>
 #include <limits>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 #ifdef _MSC_VER
 #  pragma warning(push)
@@ -47,7 +46,7 @@ public:
       : m_location(l_location), m_scale(l_scale)
    {
       RealType result;
-      check_parameters("boost::math::laplace_distribution<%1%>::laplace_distribution()", &result);
+      check_parameters("hydra_boost::math::laplace_distribution<%1%>::laplace_distribution()", &result);
    }
 
 
@@ -83,9 +82,9 @@ using laplace = laplace_distribution<double>;
 
 #ifdef __cpp_deduction_guides
 template <class RealType>
-laplace_distribution(RealType)->laplace_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+laplace_distribution(RealType)->laplace_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 template <class RealType>
-laplace_distribution(RealType,RealType)->laplace_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+laplace_distribution(RealType,RealType)->laplace_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 #endif
 
 //
@@ -99,7 +98,7 @@ inline std::pair<RealType, RealType> range(const laplace_distribution<RealType, 
   }
   else
   { // Can only use max_value.
-    using boost::math::tools::max_value;
+    using hydra_boost::math::tools::max_value;
     return std::pair<RealType, RealType>(-max_value<RealType>(), max_value<RealType>()); // - to + max value.
   }
 
@@ -114,7 +113,7 @@ inline std::pair<RealType, RealType> support(const laplace_distribution<RealType
   }
   else
   { // Can only use max_value.
-    using boost::math::tools::max_value;
+    using hydra_boost::math::tools::max_value;
     return std::pair<RealType, RealType>(-max_value<RealType>(), max_value<RealType>()); // - to + max value.
   }
 }
@@ -122,16 +121,16 @@ inline std::pair<RealType, RealType> support(const laplace_distribution<RealType
 template <class RealType, class Policy>
 inline RealType pdf(const laplace_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   BOOST_MATH_STD_USING // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING // for ADL of std functions
 
    // Checking function argument
    RealType result = 0;
-   const char* function = "boost::math::pdf(const laplace_distribution<%1%>&, %1%))";
+   const char* function = "hydra_boost::math::pdf(const laplace_distribution<%1%>&, %1%))";
 
    // Check scale and location.
    if (false == dist.check_parameters(function, &result)) return result;
    // Special pdf values.
-   if((boost::math::isinf)(x))
+   if((hydra_boost::math::isinf)(x))
    {
       return 0; // pdf + and - infinity is zero.
    }
@@ -154,11 +153,11 @@ inline RealType pdf(const laplace_distribution<RealType, Policy>& dist, const Re
 template <class RealType, class Policy>
 inline RealType logpdf(const laplace_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   BOOST_MATH_STD_USING // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING // for ADL of std functions
 
    // Checking function argument
    RealType result = -std::numeric_limits<RealType>::infinity();
-   const char* function = "boost::math::logpdf(const laplace_distribution<%1%>&, %1%))";
+   const char* function = "hydra_boost::math::logpdf(const laplace_distribution<%1%>&, %1%))";
 
    // Check scale and location.
    if (false == dist.check_parameters(function, &result))
@@ -166,7 +165,7 @@ inline RealType logpdf(const laplace_distribution<RealType, Policy>& dist, const
        return result;
    }
    // Special pdf values.
-   if((boost::math::isinf)(x))
+   if((hydra_boost::math::isinf)(x))
    {
       return result; // pdf + and - infinity is zero so logpdf is -INF
    }
@@ -186,7 +185,7 @@ inline RealType logpdf(const laplace_distribution<RealType, Policy>& dist, const
    else
    {
       // General case
-      const RealType log2 = boost::math::constants::ln_two<RealType>();
+      const RealType log2 = hydra_boost::math::constants::ln_two<RealType>();
       result = -abs(x-mu)/b - log(b) - log2;
    }
 
@@ -196,16 +195,16 @@ inline RealType logpdf(const laplace_distribution<RealType, Policy>& dist, const
 template <class RealType, class Policy>
 inline RealType cdf(const laplace_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   BOOST_MATH_STD_USING  // For ADL of std functions.
+   HYDRA_BOOST_MATH_STD_USING  // For ADL of std functions.
 
    RealType result = 0;
    // Checking function argument.
-   const char* function = "boost::math::cdf(const laplace_distribution<%1%>&, %1%)";
+   const char* function = "hydra_boost::math::cdf(const laplace_distribution<%1%>&, %1%)";
    // Check scale and location.
    if (false == dist.check_parameters(function, &result)) return result;
 
    // Special cdf values:
-   if((boost::math::isinf)(x))
+   if((hydra_boost::math::isinf)(x))
    {
      if(x < 0) return 0; // -infinity.
      return 1; // + infinity.
@@ -227,59 +226,15 @@ inline RealType cdf(const laplace_distribution<RealType, Policy>& dist, const Re
    return result;
 } // cdf
 
-template <class RealType, class Policy>
-inline RealType logcdf(const laplace_distribution<RealType, Policy>& dist, const RealType& x)
-{
-   BOOST_MATH_STD_USING  // For ADL of std functions.
-
-   RealType result = 0;
-   // Checking function argument.
-   const char* function = "boost::math::logcdf(const laplace_distribution<%1%>&, %1%)";
-   // Check scale and location.
-   if (false == dist.check_parameters(function, &result)) 
-   {
-      return result;
-   }
-
-   // Special cdf values:
-   if((boost::math::isinf)(x))
-   {
-      if(x < 0) 
-      {
-         return 0; // -infinity.
-      }
-      return 1; // + infinity.
-   }
-
-   if (false == detail::check_x(function, x, &result, Policy())) 
-   {
-      return result;
-   }
-
-   // General cdf  values
-   RealType scale( dist.scale() );
-   RealType location( dist.location() );
-
-   if (x < location)
-   {
-      result = ((x - location) / scale) - boost::math::constants::ln_two<RealType>();
-   }
-   else
-   {
-      result = log1p(-exp((location - x) / scale) / 2);
-   }
-
-   return result;
-} // logcdf
 
 template <class RealType, class Policy>
 inline RealType quantile(const laplace_distribution<RealType, Policy>& dist, const RealType& p)
 {
-   BOOST_MATH_STD_USING // for ADL of std functions.
+   HYDRA_BOOST_MATH_STD_USING // for ADL of std functions.
 
    // Checking function argument
    RealType result = 0;
-   const char* function = "boost::math::quantile(const laplace_distribution<%1%>&, %1%)";
+   const char* function = "hydra_boost::math::quantile(const laplace_distribution<%1%>&, %1%)";
    if (false == dist.check_parameters(function, &result)) return result;
    if(false == detail::check_probability(function, p, &result, Policy())) return result;
 
@@ -314,7 +269,7 @@ template <class RealType, class Policy>
 inline RealType cdf(const complemented2_type<laplace_distribution<RealType, Policy>, RealType>& c)
 {
    // Calculate complement of cdf.
-   BOOST_MATH_STD_USING // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING // for ADL of std functions
 
    RealType scale = c.dist.scale();
    RealType location = c.dist.location();
@@ -322,13 +277,13 @@ inline RealType cdf(const complemented2_type<laplace_distribution<RealType, Poli
    RealType result = 0;
 
    // Checking function argument.
-   const char* function = "boost::math::cdf(const complemented2_type<laplace_distribution<%1%>, %1%>&)";
+   const char* function = "hydra_boost::math::cdf(const complemented2_type<laplace_distribution<%1%>, %1%>&)";
 
    // Check scale and location.
     if (false == c.dist.check_parameters(function, &result)) return result;
 
    // Special cdf values.
-   if((boost::math::isinf)(x))
+   if((hydra_boost::math::isinf)(x))
    {
      if(x < 0) return 1; // cdf complement -infinity is unity.
      return 0; // cdf complement +infinity is zero.
@@ -347,51 +302,11 @@ inline RealType cdf(const complemented2_type<laplace_distribution<RealType, Poli
    return result;
 } // cdf complement
 
-template <class RealType, class Policy>
-inline RealType logcdf(const complemented2_type<laplace_distribution<RealType, Policy>, RealType>& c)
-{
-   // Calculate complement of logcdf.
-   BOOST_MATH_STD_USING // for ADL of std functions
-
-   RealType scale = c.dist.scale();
-   RealType location = c.dist.location();
-   RealType x = c.param;
-   RealType result = 0;
-
-   // Checking function argument.
-   const char* function = "boost::math::logcdf(const complemented2_type<laplace_distribution<%1%>, %1%>&)";
-
-   // Check scale and location.
-    if (false == c.dist.check_parameters(function, &result)) return result;
-
-   // Special cdf values.
-   if((boost::math::isinf)(x))
-   {
-     if(x < 0) 
-     { 
-       return 1; // cdf complement -infinity is unity.
-     }
-
-     return 0; // cdf complement +infinity is zero.
-   }
-   if(false == detail::check_x(function, x, &result, Policy()))return result;
-
-   // Cdf interval value.
-   if (-x < -location)
-   {
-      result = (-x+location)/scale - boost::math::constants::ln_two<RealType>();
-   }
-   else
-   {
-      result = log1p(-exp( (-location+x)/scale )/2, Policy());
-   }
-   return result;
-} // cdf complement
 
 template <class RealType, class Policy>
 inline RealType quantile(const complemented2_type<laplace_distribution<RealType, Policy>, RealType>& c)
 {
-   BOOST_MATH_STD_USING // for ADL of std functions.
+   HYDRA_BOOST_MATH_STD_USING // for ADL of std functions.
 
    // Calculate quantile.
    RealType scale = c.dist.scale();
@@ -477,13 +392,13 @@ inline RealType entropy(const laplace_distribution<RealType, Policy> & dist)
 #endif
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_STATS_LAPLACE_HPP
+#endif // HYDRA_BOOST_STATS_LAPLACE_HPP
 
 

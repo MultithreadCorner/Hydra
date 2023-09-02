@@ -5,12 +5,12 @@
 //
 //  https://en.cppreference.com/w/cpp/experimental/is_detected
 
-#ifndef BOOST_MATH_TOOLS_IS_DETECTED_HPP
-#define BOOST_MATH_TOOLS_IS_DETECTED_HPP
+#ifndef HYDRA_BOOST_MATH_TOOLS_IS_DETECTED_HPP
+#define HYDRA_BOOST_MATH_TOOLS_IS_DETECTED_HPP
 
 #include <type_traits>
 
-namespace boost { namespace math { namespace tools {
+namespace hydra_boost { namespace math { namespace tools {
 
 template <typename...>
 using void_t = void;
@@ -53,4 +53,4 @@ using detected_or = detail::detector<Default, void, Op, Args...>;
 
 }}} // Namespaces boost math tools
 
-#endif // BOOST_MATH_TOOLS_IS_DETECTED_HPP
+#endif // HYDRA_BOOST_MATH_TOOLS_IS_DETECTED_HPP

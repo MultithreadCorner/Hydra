@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_TOOLS_NEWTON_SOLVER_HPP
-#define BOOST_MATH_TOOLS_NEWTON_SOLVER_HPP
+#ifndef HYDRA_BOOST_MATH_TOOLS_NEWTON_SOLVER_HPP
+#define HYDRA_BOOST_MATH_TOOLS_NEWTON_SOLVER_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -24,7 +24,7 @@
 #include <hydra/detail/external/hydra_boost/math/tools/toms748_solve.hpp>
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
 
-namespace boost {
+namespace hydra_boost {
 namespace math {
 namespace tools {
 
@@ -33,11 +33,11 @@ namespace detail {
 namespace dummy {
 
    template<int n, class T>
-   typename T::value_type get(const T&) BOOST_MATH_NOEXCEPT(T);
+   typename T::value_type get(const T&) HYDRA_BOOST_MATH_NOEXCEPT(T);
 }
 
 template <class Tuple, class T>
-void unpack_tuple(const Tuple& t, T& a, T& b) BOOST_MATH_NOEXCEPT(T)
+void unpack_tuple(const Tuple& t, T& a, T& b) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    using dummy::get;
    // Use ADL to find the right overload for get:
@@ -45,7 +45,7 @@ void unpack_tuple(const Tuple& t, T& a, T& b) BOOST_MATH_NOEXCEPT(T)
    b = get<1>(t);
 }
 template <class Tuple, class T>
-void unpack_tuple(const Tuple& t, T& a, T& b, T& c) BOOST_MATH_NOEXCEPT(T)
+void unpack_tuple(const Tuple& t, T& a, T& b, T& c) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    using dummy::get;
    // Use ADL to find the right overload for get:
@@ -55,7 +55,7 @@ void unpack_tuple(const Tuple& t, T& a, T& b, T& c) BOOST_MATH_NOEXCEPT(T)
 }
 
 template <class Tuple, class T>
-inline void unpack_0(const Tuple& t, T& val) BOOST_MATH_NOEXCEPT(T)
+inline void unpack_0(const Tuple& t, T& val) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    using dummy::get;
    // Rely on ADL to find the correct overload of get:
@@ -63,13 +63,13 @@ inline void unpack_0(const Tuple& t, T& val) BOOST_MATH_NOEXCEPT(T)
 }
 
 template <class T, class U, class V>
-inline void unpack_tuple(const std::pair<T, U>& p, V& a, V& b) BOOST_MATH_NOEXCEPT(T)
+inline void unpack_tuple(const std::pair<T, U>& p, V& a, V& b) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    a = p.first;
    b = p.second;
 }
 template <class T, class U, class V>
-inline void unpack_0(const std::pair<T, U>& p, V& a) BOOST_MATH_NOEXCEPT(T)
+inline void unpack_0(const std::pair<T, U>& p, V& a) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    a = p.first;
 }
@@ -82,7 +82,7 @@ void handle_zero_derivative(F f,
    T& result,
    T& guess,
    const T& min,
-   const T& max) noexcept(BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
+   const T& max) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
 {
    if (last_f0 == 0)
    {
@@ -128,7 +128,7 @@ void handle_zero_derivative(F f,
 } // namespace
 
 template <class F, class T, class Tol, class Policy>
-std::pair<T, T> bisect(F f, T min, T max, Tol tol, std::uintmax_t& max_iter, const Policy& pol) noexcept(policies::is_noexcept_error_policy<Policy>::value&& BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
+std::pair<T, T> bisect(F f, T min, T max, Tol tol, std::uintmax_t& max_iter, const Policy& pol) noexcept(policies::is_noexcept_error_policy<Policy>::value&& HYDRA_BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
 {
    T fmin = f(min);
    T fmax = f(max);
@@ -146,16 +146,16 @@ std::pair<T, T> bisect(F f, T min, T max, Tol tol, std::uintmax_t& max_iter, con
    //
    // Error checking:
    //
-   static const char* function = "boost::math::tools::bisect<%1%>";
+   static const char* function = "hydra_boost::math::tools::bisect<%1%>";
    if (min >= max)
    {
-      return boost::math::detail::pair_from_single(policies::raise_evaluation_error(function,
-         "Arguments in wrong order in boost::math::tools::bisect (first arg=%1%)", min, pol));
+      return hydra_boost::math::detail::pair_from_single(policies::raise_evaluation_error(function,
+         "Arguments in wrong order in hydra_boost::math::tools::bisect (first arg=%1%)", min, pol));
    }
    if (fmin * fmax >= 0)
    {
-      return boost::math::detail::pair_from_single(policies::raise_evaluation_error(function,
-         "No change of sign in boost::math::tools::bisect, either there is no root to find, or there are multiple roots in the interval (f(min) = %1%).", fmin, pol));
+      return hydra_boost::math::detail::pair_from_single(policies::raise_evaluation_error(function,
+         "No change of sign in hydra_boost::math::tools::bisect, either there is no root to find, or there are multiple roots in the interval (f(min) = %1%).", fmin, pol));
    }
 
    //
@@ -192,7 +192,7 @@ std::pair<T, T> bisect(F f, T min, T max, Tol tol, std::uintmax_t& max_iter, con
 
    max_iter -= count;
 
-#ifdef BOOST_MATH_INSTRUMENT
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT
    std::cout << "Bisection required " << max_iter << " iterations.\n";
 #endif
 
@@ -200,13 +200,13 @@ std::pair<T, T> bisect(F f, T min, T max, Tol tol, std::uintmax_t& max_iter, con
 }
 
 template <class F, class T, class Tol>
-inline std::pair<T, T> bisect(F f, T min, T max, Tol tol, std::uintmax_t& max_iter)  noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
+inline std::pair<T, T> bisect(F f, T min, T max, Tol tol, std::uintmax_t& max_iter)  noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& HYDRA_BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
 {
    return bisect(f, min, max, tol, max_iter, policies::policy<>());
 }
 
 template <class F, class T, class Tol>
-inline std::pair<T, T> bisect(F f, T min, T max, Tol tol) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
+inline std::pair<T, T> bisect(F f, T min, T max, Tol tol) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& HYDRA_BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
 {
    std::uintmax_t m = (std::numeric_limits<std::uintmax_t>::max)();
    return bisect(f, min, max, tol, m, policies::policy<>());
@@ -214,14 +214,14 @@ inline std::pair<T, T> bisect(F f, T min, T max, Tol tol) noexcept(policies::is_
 
 
 template <class F, class T>
-T newton_raphson_iterate(F f, T guess, T min, T max, int digits, std::uintmax_t& max_iter) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
+T newton_raphson_iterate(F f, T guess, T min, T max, int digits, std::uintmax_t& max_iter) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& HYDRA_BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
-   static const char* function = "boost::math::tools::newton_raphson_iterate<%1%>";
+   static const char* function = "hydra_boost::math::tools::newton_raphson_iterate<%1%>";
    if (min > max)
    {
-      return policies::raise_evaluation_error(function, "Range arguments in wrong order in boost::math::tools::newton_raphson_iterate(first arg=%1%)", min, boost::math::policies::policy<>());
+      return policies::raise_evaluation_error(function, "Range arguments in wrong order in hydra_boost::math::tools::newton_raphson_iterate(first arg=%1%)", min, hydra_boost::math::policies::policy<>());
    }
 
    T f0(0), f1, last_f0(0);
@@ -247,7 +247,7 @@ T newton_raphson_iterate(F f, T guess, T min, T max, int digits, std::uintmax_t&
 
    std::uintmax_t count(max_iter);
 
-#ifdef BOOST_MATH_INSTRUMENT
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT
    std::cout << "Newton_raphson_iterate, guess = " << guess << ", min = " << min << ", max = " << max
       << ", digits = " << digits << ", max_iter = " << max_iter << "\n";
 #endif
@@ -269,7 +269,7 @@ T newton_raphson_iterate(F f, T guess, T min, T max, int digits, std::uintmax_t&
       {
          delta = f0 / f1;
       }
-#ifdef BOOST_MATH_INSTRUMENT
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT
       std::cout << "Newton iteration " << max_iter - count << ", delta = " << delta << ", residual = " << f0 << "\n";
 #endif
       if (fabs(delta * 2) > fabs(delta2))
@@ -319,13 +319,13 @@ T newton_raphson_iterate(F f, T guess, T min, T max, int digits, std::uintmax_t&
       //
       if (max_range_f * min_range_f > 0)
       {
-         return policies::raise_evaluation_error(function, "There appears to be no root to be found in boost::math::tools::newton_raphson_iterate, perhaps we have a local minima near current best guess of %1%", guess, boost::math::policies::policy<>());
+         return policies::raise_evaluation_error(function, "There appears to be no root to be found in hydra_boost::math::tools::newton_raphson_iterate, perhaps we have a local minima near current best guess of %1%", guess, hydra_boost::math::policies::policy<>());
       }
    }while(count && (fabs(result * factor) < fabs(delta)));
 
    max_iter -= count;
 
-#ifdef BOOST_MATH_INSTRUMENT
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT
    std::cout << "Newton Raphson required " << max_iter << " iterations\n";
 #endif
 
@@ -333,7 +333,7 @@ T newton_raphson_iterate(F f, T guess, T min, T max, int digits, std::uintmax_t&
 }
 
 template <class F, class T>
-inline T newton_raphson_iterate(F f, T guess, T min, T max, int digits) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
+inline T newton_raphson_iterate(F f, T guess, T min, T max, int digits) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& HYDRA_BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
 {
    std::uintmax_t m = (std::numeric_limits<std::uintmax_t>::max)();
    return newton_raphson_iterate(f, guess, min, max, digits, m);
@@ -344,15 +344,15 @@ namespace detail {
    struct halley_step
    {
       template <class T>
-      static T step(const T& /*x*/, const T& f0, const T& f1, const T& f2) noexcept(BOOST_MATH_IS_FLOAT(T))
+      static T step(const T& /*x*/, const T& f0, const T& f1, const T& f2) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(T))
       {
          using std::fabs;
          T denom = 2 * f0;
          T num = 2 * f1 - f0 * (f2 / f1);
          T delta;
 
-         BOOST_MATH_INSTRUMENT_VARIABLE(denom);
-         BOOST_MATH_INSTRUMENT_VARIABLE(num);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(denom);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(num);
 
          if ((fabs(num) < 1) && (fabs(denom) >= fabs(num) * tools::max_value<T>()))
          {
@@ -366,10 +366,10 @@ namespace detail {
    };
 
    template <class F, class T>
-   T bracket_root_towards_min(F f, T guess, const T& f0, T& min, T& max, std::uintmax_t& count) noexcept(BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())));
+   T bracket_root_towards_min(F f, T guess, const T& f0, T& min, T& max, std::uintmax_t& count) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())));
 
    template <class F, class T>
-   T bracket_root_towards_max(F f, T guess, const T& f0, T& min, T& max, std::uintmax_t& count) noexcept(BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
+   T bracket_root_towards_max(F f, T guess, const T& f0, T& min, T& max, std::uintmax_t& count) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
    {
       using std::fabs;
       using std::ldexp;
@@ -432,7 +432,7 @@ namespace detail {
    }
 
    template <class F, class T>
-   T bracket_root_towards_min(F f, T guess, const T& f0, T& min, T& max, std::uintmax_t& count) noexcept(BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
+   T bracket_root_towards_min(F f, T guess, const T& f0, T& min, T& max, std::uintmax_t& count) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
    {
       using std::fabs;
       using std::ldexp;
@@ -496,18 +496,18 @@ namespace detail {
    }
 
    template <class Stepper, class F, class T>
-   T second_order_root_finder(F f, T guess, T min, T max, int digits, std::uintmax_t& max_iter) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
+   T second_order_root_finder(F f, T guess, T min, T max, int digits, std::uintmax_t& max_iter) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& HYDRA_BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
 
-#ifdef BOOST_MATH_INSTRUMENT
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT
         std::cout << "Second order root iteration, guess = " << guess << ", min = " << min << ", max = " << max
         << ", digits = " << digits << ", max_iter = " << max_iter << "\n";
 #endif
-      static const char* function = "boost::math::tools::halley_iterate<%1%>";
+      static const char* function = "hydra_boost::math::tools::halley_iterate<%1%>";
       if (min >= max)
       {
-         return policies::raise_evaluation_error(function, "Range arguments in wrong order in boost::math::tools::halley_iterate(first arg=%1%)", min, boost::math::policies::policy<>());
+         return policies::raise_evaluation_error(function, "Range arguments in wrong order in hydra_boost::math::tools::halley_iterate(first arg=%1%)", min, hydra_boost::math::policies::policy<>());
       }
 
       T f0(0), f1, f2;
@@ -520,7 +520,7 @@ namespace detail {
       T delta2 = delta;
       bool out_of_bounds_sentry = false;
 
-   #ifdef BOOST_MATH_INSTRUMENT
+   #ifdef HYDRA_BOOST_MATH_INSTRUMENT
       std::cout << "Second order root iteration, limit = " << factor << "\n";
    #endif
 
@@ -543,13 +543,13 @@ namespace detail {
          last_f0 = f0;
          delta2 = delta1;
          delta1 = delta;
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
          try
 #endif
          {
             detail::unpack_tuple(f(result), f0, f1, f2);
          }
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
          catch (const std::overflow_error&)
          {
             f0 = max > 0 ? tools::max_value<T>() : -tools::min_value<T>();
@@ -558,9 +558,9 @@ namespace detail {
 #endif
          --count;
 
-         BOOST_MATH_INSTRUMENT_VARIABLE(f0);
-         BOOST_MATH_INSTRUMENT_VARIABLE(f1);
-         BOOST_MATH_INSTRUMENT_VARIABLE(f2);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(f0);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(f1);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(f2);
 
          if (0 == f0)
             break;
@@ -593,7 +593,7 @@ namespace detail {
             else
                delta = f0 / f1;
          }
-   #ifdef BOOST_MATH_INSTRUMENT
+   #ifdef HYDRA_BOOST_MATH_INSTRUMENT
          std::cout << "Second order root iteration, delta = " << delta << ", residual = " << f0 << "\n";
    #endif
          T convergence = fabs(delta / delta2);
@@ -617,11 +617,11 @@ namespace detail {
             // next iteration:
             delta2 = delta * 3;
             delta1 = delta * 3;
-            BOOST_MATH_INSTRUMENT_VARIABLE(delta);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(delta);
          }
          guess = result;
          result -= delta;
-         BOOST_MATH_INSTRUMENT_VARIABLE(result);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
 
          // check for out of bounds step:
          if (result < min)
@@ -703,13 +703,13 @@ namespace detail {
          //
          if (max_range_f * min_range_f > 0)
          {
-            return policies::raise_evaluation_error(function, "There appears to be no root to be found in boost::math::tools::newton_raphson_iterate, perhaps we have a local minima near current best guess of %1%", guess, boost::math::policies::policy<>());
+            return policies::raise_evaluation_error(function, "There appears to be no root to be found in hydra_boost::math::tools::newton_raphson_iterate, perhaps we have a local minima near current best guess of %1%", guess, hydra_boost::math::policies::policy<>());
          }
       } while(count && (fabs(result * factor) < fabs(delta)));
 
       max_iter -= count;
 
-   #ifdef BOOST_MATH_INSTRUMENT
+   #ifdef HYDRA_BOOST_MATH_INSTRUMENT
       std::cout << "Second order root finder required " << max_iter << " iterations.\n";
    #endif
 
@@ -718,13 +718,13 @@ namespace detail {
 } // T second_order_root_finder
 
 template <class F, class T>
-T halley_iterate(F f, T guess, T min, T max, int digits, std::uintmax_t& max_iter) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
+T halley_iterate(F f, T guess, T min, T max, int digits, std::uintmax_t& max_iter) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& HYDRA_BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
 {
    return detail::second_order_root_finder<detail::halley_step>(f, guess, min, max, digits, max_iter);
 }
 
 template <class F, class T>
-inline T halley_iterate(F f, T guess, T min, T max, int digits) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
+inline T halley_iterate(F f, T guess, T min, T max, int digits) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& HYDRA_BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
 {
    std::uintmax_t m = (std::numeric_limits<std::uintmax_t>::max)();
    return halley_iterate(f, guess, min, max, digits, m);
@@ -735,7 +735,7 @@ namespace detail {
    struct schroder_stepper
    {
       template <class T>
-      static T step(const T& x, const T& f0, const T& f1, const T& f2) noexcept(BOOST_MATH_IS_FLOAT(T))
+      static T step(const T& x, const T& f0, const T& f1, const T& f2) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(T))
       {
          using std::fabs;
          T ratio = f0 / f1;
@@ -756,13 +756,13 @@ namespace detail {
 }
 
 template <class F, class T>
-T schroder_iterate(F f, T guess, T min, T max, int digits, std::uintmax_t& max_iter) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
+T schroder_iterate(F f, T guess, T min, T max, int digits, std::uintmax_t& max_iter) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& HYDRA_BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
 {
    return detail::second_order_root_finder<detail::schroder_stepper>(f, guess, min, max, digits, max_iter);
 }
 
 template <class F, class T>
-inline T schroder_iterate(F f, T guess, T min, T max, int digits) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
+inline T schroder_iterate(F f, T guess, T min, T max, int digits) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& HYDRA_BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
 {
    std::uintmax_t m = (std::numeric_limits<std::uintmax_t>::max)();
    return schroder_iterate(f, guess, min, max, digits, m);
@@ -771,19 +771,19 @@ inline T schroder_iterate(F f, T guess, T min, T max, int digits) noexcept(polic
 // These two are the old spelling of this function, retained for backwards compatibility just in case:
 //
 template <class F, class T>
-T schroeder_iterate(F f, T guess, T min, T max, int digits, std::uintmax_t& max_iter) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
+T schroeder_iterate(F f, T guess, T min, T max, int digits, std::uintmax_t& max_iter) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& HYDRA_BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
 {
    return detail::second_order_root_finder<detail::schroder_stepper>(f, guess, min, max, digits, max_iter);
 }
 
 template <class F, class T>
-inline T schroeder_iterate(F f, T guess, T min, T max, int digits) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
+inline T schroeder_iterate(F f, T guess, T min, T max, int digits) noexcept(policies::is_noexcept_error_policy<policies::policy<> >::value&& HYDRA_BOOST_MATH_IS_FLOAT(T) && noexcept(std::declval<F>()(std::declval<T>())))
 {
    std::uintmax_t m = (std::numeric_limits<std::uintmax_t>::max)();
    return schroder_iterate(f, guess, min, max, digits, m);
 }
 
-#ifndef BOOST_NO_CXX11_AUTO_DECLARATIONS
+#ifndef HYDRA_BOOST_NO_CXX11_AUTO_DECLARATIONS
 /*
    * Why do we set the default maximum number of iterations to the number of digits in the type?
    * Because for double roots, the number of digits increases linearly with the number of iterations,
@@ -870,14 +870,14 @@ Complex complex_newton(F g, Complex guess, int max_iterations = std::numeric_lim
 #endif
 
 
-#if !defined(BOOST_NO_CXX17_IF_CONSTEXPR)
+#if !defined(HYDRA_BOOST_NO_CXX17_IF_CONSTEXPR)
 // https://stackoverflow.com/questions/48979861/numerically-stable-method-for-solving-quadratic-equations/50065711
 namespace detail
 {
-#if defined(BOOST_GNU_STDLIB) && !defined(_GLIBCXX_USE_C99_MATH_TR1)
+#if defined(HYDRA_BOOST_GNU_STDLIB) && !defined(_GLIBCXX_USE_C99_MATH_TR1)
 inline float fma_workaround(float x, float y, float z) { return ::fmaf(x, y, z); }
 inline double fma_workaround(double x, double y, double z) { return ::fma(x, y, z); }
-#ifndef BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
+#ifndef HYDRA_BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
 inline long double fma_workaround(long double x, long double y, long double z) { return ::fmal(x, y, z); }
 #endif
 #endif            
@@ -885,7 +885,7 @@ template<class T>
 inline T discriminant(T const& a, T const& b, T const& c)
 {
    T w = 4 * a * c;
-#if defined(BOOST_GNU_STDLIB) && !defined(_GLIBCXX_USE_C99_MATH_TR1)
+#if defined(HYDRA_BOOST_GNU_STDLIB) && !defined(_GLIBCXX_USE_C99_MATH_TR1)
    T e = fma_workaround(-c, 4 * a, w);
    T f = fma_workaround(b, b, -w);
 #else
@@ -898,8 +898,8 @@ inline T discriminant(T const& a, T const& b, T const& c)
 template<class T>
 std::pair<T, T> quadratic_roots_imp(T const& a, T const& b, T const& c)
 {
-#if defined(BOOST_GNU_STDLIB) && !defined(_GLIBCXX_USE_C99_MATH_TR1)
-   using boost::math::copysign;
+#if defined(HYDRA_BOOST_GNU_STDLIB) && !defined(_GLIBCXX_USE_C99_MATH_TR1)
+   using hydra_boost::math::copysign;
 #else
    using std::copysign;
 #endif
@@ -944,7 +944,7 @@ std::pair<T, T> quadratic_roots_imp(T const& a, T const& b, T const& c)
       }
       return std::pair<T, T>(x1, x0);
    }
-   else if constexpr (boost::math::tools::is_complex_type<T>::value)
+   else if constexpr (hydra_boost::math::tools::is_complex_type<T>::value)
    {
       typename T::value_type nan = std::numeric_limits<typename T::value_type>::quiet_NaN();
       if (a.real() == 0 && a.imag() == 0)
@@ -1023,6 +1023,6 @@ inline std::pair<typename tools::promote_args<T1, T2, T3>::type, typename tools:
 
 } // namespace tools
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
-#endif // BOOST_MATH_TOOLS_NEWTON_SOLVER_HPP
+#endif // HYDRA_BOOST_MATH_TOOLS_NEWTON_SOLVER_HPP

@@ -1,11 +1,10 @@
 //  Copyright Paul A. Bristow 2007.
-//  Copyright Matt Borland 2023.
 //  Use, modification and distribution are subject to the
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STATS_rayleigh_HPP
-#define BOOST_STATS_rayleigh_HPP
+#ifndef HYDRA_BOOST_STATS_rayleigh_HPP
+#define HYDRA_BOOST_STATS_rayleigh_HPP
 
 #include <hydra/detail/external/hydra_boost/math/distributions/fwd.hpp>
 #include <hydra/detail/external/hydra_boost/math/constants/constants.hpp>
@@ -20,17 +19,16 @@
 #endif
 
 #include <utility>
-#include <limits>
 #include <cmath>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 namespace detail
 { // Error checks:
   template <class RealType, class Policy>
   inline bool verify_sigma(const char* function, RealType sigma, RealType* presult, const Policy& pol)
   {
-     if((sigma <= 0) || (!(boost::math::isfinite)(sigma)))
+     if((sigma <= 0) || (!(hydra_boost::math::isfinite)(sigma)))
      {
         *presult = policies::raise_domain_error<RealType>(
            function,
@@ -43,7 +41,7 @@ namespace detail
   template <class RealType, class Policy>
   inline bool verify_rayleigh_x(const char* function, RealType x, RealType* presult, const Policy& pol)
   {
-     if((x < 0) || (boost::math::isnan)(x))
+     if((x < 0) || (hydra_boost::math::isnan)(x))
      {
         *presult = policies::raise_domain_error<RealType>(
            function,
@@ -65,7 +63,7 @@ public:
       : m_sigma(l_sigma)
    {
       RealType err;
-      detail::verify_sigma("boost::math::rayleigh_distribution<%1%>::rayleigh_distribution", l_sigma, &err, Policy());
+      detail::verify_sigma("hydra_boost::math::rayleigh_distribution<%1%>::rayleigh_distribution", l_sigma, &err, Policy());
    } // rayleigh_distribution
 
    RealType sigma()const
@@ -81,13 +79,13 @@ using rayleigh = rayleigh_distribution<double>;
 
 #ifdef __cpp_deduction_guides
 template <class RealType>
-rayleigh_distribution(RealType)->rayleigh_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+rayleigh_distribution(RealType)->rayleigh_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 #endif
 
 template <class RealType, class Policy>
 inline std::pair<RealType, RealType> range(const rayleigh_distribution<RealType, Policy>& /*dist*/)
 { // Range of permissible values for random variable x.
-   using boost::math::tools::max_value;
+   using hydra_boost::math::tools::max_value;
    return std::pair<RealType, RealType>(static_cast<RealType>(0), std::numeric_limits<RealType>::has_infinity ? std::numeric_limits<RealType>::infinity() : max_value<RealType>());
 }
 
@@ -95,18 +93,18 @@ template <class RealType, class Policy>
 inline std::pair<RealType, RealType> support(const rayleigh_distribution<RealType, Policy>& /*dist*/)
 { // Range of supported values for random variable x.
    // This is range where cdf rises from 0 to 1, and outside it, the pdf is zero.
-   using boost::math::tools::max_value;
+   using hydra_boost::math::tools::max_value;
    return std::pair<RealType, RealType>(static_cast<RealType>(0),  max_value<RealType>());
 }
 
 template <class RealType, class Policy>
 inline RealType pdf(const rayleigh_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   BOOST_MATH_STD_USING // for ADL of std function exp.
+   HYDRA_BOOST_MATH_STD_USING // for ADL of std function exp.
 
    RealType sigma = dist.sigma();
    RealType result = 0;
-   static const char* function = "boost::math::pdf(const rayleigh_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::pdf(const rayleigh_distribution<%1%>&, %1%)";
    if(false == detail::verify_sigma(function, sigma, &result, Policy()))
    {
       return result;
@@ -115,7 +113,7 @@ inline RealType pdf(const rayleigh_distribution<RealType, Policy>& dist, const R
    {
       return result;
    }
-   if((boost::math::isinf)(x))
+   if((hydra_boost::math::isinf)(x))
    {
       return 0;
    }
@@ -127,11 +125,11 @@ inline RealType pdf(const rayleigh_distribution<RealType, Policy>& dist, const R
 template <class RealType, class Policy>
 inline RealType logpdf(const rayleigh_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   BOOST_MATH_STD_USING // for ADL of std function exp.
+   HYDRA_BOOST_MATH_STD_USING // for ADL of std function exp.
 
    const RealType sigma = dist.sigma();
    RealType result = -std::numeric_limits<RealType>::infinity();
-   static const char* function = "boost::math::logpdf(const rayleigh_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::logpdf(const rayleigh_distribution<%1%>&, %1%)";
 
    if(false == detail::verify_sigma(function, sigma, &result, Policy()))
    {
@@ -141,7 +139,7 @@ inline RealType logpdf(const rayleigh_distribution<RealType, Policy>& dist, cons
    {
       return result;
    }
-   if((boost::math::isinf)(x))
+   if((hydra_boost::math::isinf)(x))
    {
       return result;
    }
@@ -153,11 +151,11 @@ inline RealType logpdf(const rayleigh_distribution<RealType, Policy>& dist, cons
 template <class RealType, class Policy>
 inline RealType cdf(const rayleigh_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   BOOST_MATH_STD_USING // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING // for ADL of std functions
 
    RealType result = 0;
    RealType sigma = dist.sigma();
-   static const char* function = "boost::math::cdf(const rayleigh_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::cdf(const rayleigh_distribution<%1%>&, %1%)";
    if(false == detail::verify_sigma(function, sigma, &result, Policy()))
    {
       return result;
@@ -166,38 +164,18 @@ inline RealType cdf(const rayleigh_distribution<RealType, Policy>& dist, const R
    {
       return result;
    }
-   result = -boost::math::expm1(-x * x / ( 2 * sigma * sigma), Policy());
+   result = -hydra_boost::math::expm1(-x * x / ( 2 * sigma * sigma), Policy());
    return result;
 } // cdf
 
 template <class RealType, class Policy>
-inline RealType logcdf(const rayleigh_distribution<RealType, Policy>& dist, const RealType& x)
-{
-   BOOST_MATH_STD_USING // for ADL of std functions
-
-   RealType result = 0;
-   RealType sigma = dist.sigma();
-   static const char* function = "boost::math::logcdf(const rayleigh_distribution<%1%>&, %1%)";
-   if(false == detail::verify_sigma(function, sigma, &result, Policy()))
-   {
-      return -std::numeric_limits<RealType>::infinity();
-   }
-   if(false == detail::verify_rayleigh_x(function, x, &result, Policy()))
-   {
-      return -std::numeric_limits<RealType>::infinity();
-   }
-   result = log1p(-exp(-x * x / ( 2 * sigma * sigma)), Policy());   
-   return result;
-} // logcdf
-
-template <class RealType, class Policy>
 inline RealType quantile(const rayleigh_distribution<RealType, Policy>& dist, const RealType& p)
 {
-   BOOST_MATH_STD_USING // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING // for ADL of std functions
 
    RealType result = 0;
    RealType sigma = dist.sigma();
-   static const char* function = "boost::math::quantile(const rayleigh_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::quantile(const rayleigh_distribution<%1%>&, %1%)";
    if(false == detail::verify_sigma(function, sigma, &result, Policy()))
       return result;
    if(false == detail::check_probability(function, p, &result, Policy()))
@@ -211,18 +189,18 @@ inline RealType quantile(const rayleigh_distribution<RealType, Policy>& dist, co
    {
      return policies::raise_overflow_error<RealType>(function, 0, Policy());
    }
-   result = sqrt(-2 * sigma * sigma * boost::math::log1p(-p, Policy()));
+   result = sqrt(-2 * sigma * sigma * hydra_boost::math::log1p(-p, Policy()));
    return result;
 } // quantile
 
 template <class RealType, class Policy>
 inline RealType cdf(const complemented2_type<rayleigh_distribution<RealType, Policy>, RealType>& c)
 {
-   BOOST_MATH_STD_USING // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING // for ADL of std functions
 
    RealType result = 0;
    RealType sigma = c.dist.sigma();
-   static const char* function = "boost::math::cdf(const rayleigh_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::cdf(const rayleigh_distribution<%1%>&, %1%)";
    if(false == detail::verify_sigma(function, sigma, &result, Policy()))
    {
       return result;
@@ -241,38 +219,13 @@ inline RealType cdf(const complemented2_type<rayleigh_distribution<RealType, Pol
 } // cdf complement
 
 template <class RealType, class Policy>
-inline RealType logcdf(const complemented2_type<rayleigh_distribution<RealType, Policy>, RealType>& c)
-{
-   BOOST_MATH_STD_USING // for ADL of std functions
-
-   RealType result = 0;
-   RealType sigma = c.dist.sigma();
-   static const char* function = "boost::math::logcdf(const rayleigh_distribution<%1%>&, %1%)";
-   if(false == detail::verify_sigma(function, sigma, &result, Policy()))
-   {
-      return -std::numeric_limits<RealType>::infinity();
-   }
-   RealType x = c.param;
-   if(false == detail::verify_rayleigh_x(function, x, &result, Policy()))
-   {
-      return -std::numeric_limits<RealType>::infinity();
-   }
-   RealType ea = x * x / (2 * sigma * sigma);
-   // Fix for VC11/12 x64 bug in exp(float):
-   if (ea >= tools::max_value<RealType>())
-      return 0;
-   result = -ea;
-   return result;
-} // logcdf complement
-
-template <class RealType, class Policy>
 inline RealType quantile(const complemented2_type<rayleigh_distribution<RealType, Policy>, RealType>& c)
 {
-   BOOST_MATH_STD_USING // for ADL of std functions, log & sqrt.
+   HYDRA_BOOST_MATH_STD_USING // for ADL of std functions, log & sqrt.
 
    RealType result = 0;
    RealType sigma = c.dist.sigma();
-   static const char* function = "boost::math::quantile(const rayleigh_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::quantile(const rayleigh_distribution<%1%>&, %1%)";
    if(false == detail::verify_sigma(function, sigma, &result, Policy()))
    {
       return result;
@@ -299,12 +252,12 @@ inline RealType mean(const rayleigh_distribution<RealType, Policy>& dist)
 {
    RealType result = 0;
    RealType sigma = dist.sigma();
-   static const char* function = "boost::math::mean(const rayleigh_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::mean(const rayleigh_distribution<%1%>&, %1%)";
    if(false == detail::verify_sigma(function, sigma, &result, Policy()))
    {
       return result;
    }
-   using boost::math::constants::root_half_pi;
+   using hydra_boost::math::constants::root_half_pi;
    return sigma * root_half_pi<RealType>();
 } // mean
 
@@ -313,12 +266,12 @@ inline RealType variance(const rayleigh_distribution<RealType, Policy>& dist)
 {
    RealType result = 0;
    RealType sigma = dist.sigma();
-   static const char* function = "boost::math::variance(const rayleigh_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::variance(const rayleigh_distribution<%1%>&, %1%)";
    if(false == detail::verify_sigma(function, sigma, &result, Policy()))
    {
       return result;
    }
-   using boost::math::constants::four_minus_pi;
+   using hydra_boost::math::constants::four_minus_pi;
    return four_minus_pi<RealType>() * sigma * sigma / 2;
 } // variance
 
@@ -331,7 +284,7 @@ inline RealType mode(const rayleigh_distribution<RealType, Policy>& dist)
 template <class RealType, class Policy>
 inline RealType median(const rayleigh_distribution<RealType, Policy>& dist)
 {
-   using boost::math::constants::root_ln_four;
+   using hydra_boost::math::constants::root_ln_four;
    return root_ln_four<RealType>() * dist.sigma();
 }
 
@@ -367,7 +320,7 @@ inline RealType entropy(const rayleigh_distribution<RealType, Policy>& dist)
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 #ifdef _MSC_VER
 # pragma warning(pop)
@@ -378,4 +331,4 @@ inline RealType entropy(const rayleigh_distribution<RealType, Policy>& dist)
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_STATS_rayleigh_HPP
+#endif // HYDRA_BOOST_STATS_rayleigh_HPP

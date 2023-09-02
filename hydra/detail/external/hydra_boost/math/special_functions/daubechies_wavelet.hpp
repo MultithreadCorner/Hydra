@@ -5,8 +5,8 @@
  * LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_MATH_SPECIAL_DAUBECHIES_WAVELET_HPP
-#define BOOST_MATH_SPECIAL_DAUBECHIES_WAVELET_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_DAUBECHIES_WAVELET_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_DAUBECHIES_WAVELET_HPP
 #include <vector>
 #include <array>
 #include <cmath>
@@ -22,14 +22,14 @@
 #include <hydra/detail/external/hydra_boost/math/interpolators/detail/septic_hermite_detail.hpp>
 
 #include <hydra/detail/external/hydra_boost/math/tools/is_standalone.hpp>
-#ifndef BOOST_MATH_STANDALONE
+#ifndef HYDRA_BOOST_MATH_STANDALONE
 #include <hydra/detail/external/hydra_boost/config.hpp>
-#ifdef BOOST_NO_CXX17_IF_CONSTEXPR
+#ifdef HYDRA_BOOST_NO_CXX17_IF_CONSTEXPR
 #error "The header <hydra/detail/external/hydra_boost/math/norms.hpp> can only be used in C++17 and later."
 #endif
 #endif
 
-namespace boost::math {
+namespace hydra_boost::math {
 
    template<class Real, int p, int order>
    std::vector<Real> daubechies_wavelet_dyadic_grid(int64_t j_max)
@@ -41,8 +41,8 @@ namespace boost::math {
       auto phijk = daubechies_scaling_dyadic_grid<Real, p, order>(j_max - 1);
       //psi_j[l] = psi(-p+1 + l/2^j) = \sum_{k=0}^{2p-1} (-1)^k c_k \phi(1-2p+k + l/2^{j-1})
       //For derivatives just map c_k -> 2^order c_k.
-      auto d = boost::math::filters::daubechies_scaling_filter<Real, p>();
-      Real scale = boost::math::constants::root_two<Real>() * (1 << order);
+      auto d = hydra_boost::math::filters::daubechies_scaling_filter<Real, p>();
+      Real scale = hydra_boost::math::constants::root_two<Real>() * (1 << order);
       for (size_t i = 0; i < d.size(); ++i)
       {
          d[i] *= scale;
@@ -263,4 +263,4 @@ namespace boost::math {
 
 }
 
-#endif // BOOST_MATH_SPECIAL_DAUBECHIES_WAVELET_HPP
+#endif // HYDRA_BOOST_MATH_SPECIAL_DAUBECHIES_WAVELET_HPP

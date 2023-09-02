@@ -23,13 +23,13 @@
  *  Press, William H., et al. "Numerical recipes third edition: the art of scientific computing." Cambridge University Press 32 (2007): 10013-2473.
  */
 
-#ifndef BOOST_MATH_INTERPOLATORS_BARYCENTRIC_RATIONAL_HPP
-#define BOOST_MATH_INTERPOLATORS_BARYCENTRIC_RATIONAL_HPP
+#ifndef HYDRA_BOOST_MATH_INTERPOLATORS_BARYCENTRIC_RATIONAL_HPP
+#define HYDRA_BOOST_MATH_INTERPOLATORS_BARYCENTRIC_RATIONAL_HPP
 
 #include <memory>
 #include <hydra/detail/external/hydra_boost/math/interpolators/detail/barycentric_rational_detail.hpp>
 
-namespace boost{ namespace math{ namespace interpolators{
+namespace hydra_boost{ namespace math{ namespace interpolators{
 
 template<class Real>
 class barycentric_rational

@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_BETA_HPP
-#define BOOST_MATH_SPECIAL_BETA_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_BETA_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_BETA_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -23,7 +23,7 @@
 #include <hydra/detail/external/hydra_boost/math/tools/assert.hpp>
 #include <cmath>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 namespace detail{
 
@@ -33,12 +33,12 @@ namespace detail{
 template <class T, class Lanczos, class Policy>
 T beta_imp(T a, T b, const Lanczos&, const Policy& pol)
 {
-   BOOST_MATH_STD_USING  // for ADL of std names
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std names
 
    if(a <= 0)
-      return policies::raise_domain_error<T>("boost::math::beta<%1%>(%1%,%1%)", "The arguments to the beta function must be greater than zero (got a=%1%).", a, pol);
+      return policies::raise_domain_error<T>("hydra_boost::math::beta<%1%>(%1%,%1%)", "The arguments to the beta function must be greater than zero (got a=%1%).", a, pol);
    if(b <= 0)
-      return policies::raise_domain_error<T>("boost::math::beta<%1%>(%1%,%1%)", "The arguments to the beta function must be greater than zero (got b=%1%).", b, pol);
+      return policies::raise_domain_error<T>("hydra_boost::math::beta<%1%>(%1%,%1%)", "The arguments to the beta function must be greater than zero (got b=%1%).", b, pol);
 
    T result;
 
@@ -97,7 +97,7 @@ T beta_imp(T a, T b, const Lanczos&, const Policy& pol)
    {
       // Special case where the base of the power term is close to 1
       // compute (1+x)^y instead:
-      result *= exp(ambh * boost::math::log1p(-b / cgh, pol));
+      result *= exp(ambh * hydra_boost::math::log1p(-b / cgh, pol));
    }
    else
    {
@@ -108,7 +108,7 @@ T beta_imp(T a, T b, const Lanczos&, const Policy& pol)
       result *= pow((agh / cgh) * (bgh / cgh), b);
    else
       result *= pow((agh * bgh) / (cgh * cgh), b);
-   result *= sqrt(boost::math::constants::e<T>() / bgh);
+   result *= sqrt(hydra_boost::math::constants::e<T>() / bgh);
 
    // If a and b were originally less than 1 we need to scale the result:
    result *= prefix;
@@ -123,12 +123,12 @@ T beta_imp(T a, T b, const Lanczos&, const Policy& pol)
 template <class T, class Policy>
 T beta_imp(T a, T b, const lanczos::undefined_lanczos& l, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
    if(a <= 0)
-      return policies::raise_domain_error<T>("boost::math::beta<%1%>(%1%,%1%)", "The arguments to the beta function must be greater than zero (got a=%1%).", a, pol);
+      return policies::raise_domain_error<T>("hydra_boost::math::beta<%1%>(%1%,%1%)", "The arguments to the beta function must be greater than zero (got a=%1%).", a, pol);
    if(b <= 0)
-      return policies::raise_domain_error<T>("boost::math::beta<%1%>(%1%,%1%)", "The arguments to the beta function must be greater than zero (got b=%1%).", b, pol);
+      return policies::raise_domain_error<T>("hydra_boost::math::beta<%1%>(%1%,%1%)", "The arguments to the beta function must be greater than zero (got b=%1%).", b, pol);
 
    const T c = a + b;
 
@@ -166,12 +166,12 @@ T beta_imp(T a, T b, const lanczos::undefined_lanczos& l, const Policy& pol)
    }
    else if ((a < 1) && (b < 1))
    {
-      return boost::math::tgamma(a, pol) * (boost::math::tgamma(b, pol) / boost::math::tgamma(c));
+      return hydra_boost::math::tgamma(a, pol) * (hydra_boost::math::tgamma(b, pol) / hydra_boost::math::tgamma(c));
    }
    else if(a < 1)
-      return boost::math::tgamma(a, pol) * boost::math::tgamma_delta_ratio(b, a, pol);
+      return hydra_boost::math::tgamma(a, pol) * hydra_boost::math::tgamma_delta_ratio(b, a, pol);
    else if(b < 1)
-      return boost::math::tgamma(b, pol) * boost::math::tgamma_delta_ratio(a, b, pol);
+      return hydra_boost::math::tgamma(b, pol) * hydra_boost::math::tgamma_delta_ratio(a, b, pol);
    else
    {
       T result = beta_imp(T(a + shift_a), T(b + shift_b), l, pol);
@@ -212,9 +212,9 @@ T ibeta_power_terms(T a,
                         bool normalised,
                         const Policy& pol,
                         T prefix = 1,
-                        const char* function = "boost::math::ibeta<%1%>(%1%, %1%, %1%)")
+                        const char* function = "hydra_boost::math::ibeta<%1%>(%1%, %1%, %1%)")
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
    if(!normalised)
    {
@@ -233,7 +233,7 @@ T ibeta_power_terms(T a,
    result = Lanczos::lanczos_sum_expG_scaled(c) / (Lanczos::lanczos_sum_expG_scaled(a) * Lanczos::lanczos_sum_expG_scaled(b));
    result *= prefix;
    // combine with the leftover terms from the Lanczos approximation:
-   result *= sqrt(bgh / boost::math::constants::e<T>());
+   result *= sqrt(bgh / hydra_boost::math::constants::e<T>());
    result *= sqrt(agh / cgh);
 
    // l1 and l2 are the base of the exponents minus one:
@@ -260,23 +260,23 @@ T ibeta_power_terms(T a,
          //
          if(fabs(l1) < 0.1)
          {
-            result *= exp(a * boost::math::log1p(l1, pol));
-            BOOST_MATH_INSTRUMENT_VARIABLE(result);
+            result *= exp(a * hydra_boost::math::log1p(l1, pol));
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
          }
          else
          {
             result *= pow((x * cgh) / agh, a);
-            BOOST_MATH_INSTRUMENT_VARIABLE(result);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
          }
          if(fabs(l2) < 0.1)
          {
-            result *= exp(b * boost::math::log1p(l2, pol));
-            BOOST_MATH_INSTRUMENT_VARIABLE(result);
+            result *= exp(b * hydra_boost::math::log1p(l2, pol));
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
          }
          else
          {
             result *= pow((y * cgh) / bgh, b);
-            BOOST_MATH_INSTRUMENT_VARIABLE(result);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
          }
       }
       else if((std::max)(fabs(l1), fabs(l2)) < 0.5)
@@ -304,25 +304,25 @@ T ibeta_power_terms(T a,
          T ratio = b / a;
          if((small_a && (ratio * l2 < 0.1)) || (!small_a && (l1 / ratio > 0.1)))
          {
-            T l3 = boost::math::expm1(ratio * boost::math::log1p(l2, pol), pol);
+            T l3 = hydra_boost::math::expm1(ratio * hydra_boost::math::log1p(l2, pol), pol);
             l3 = l1 + l3 + l3 * l1;
-            l3 = a * boost::math::log1p(l3, pol);
+            l3 = a * hydra_boost::math::log1p(l3, pol);
             result *= exp(l3);
-            BOOST_MATH_INSTRUMENT_VARIABLE(result);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
          }
          else
          {
-            T l3 = boost::math::expm1(boost::math::log1p(l1, pol) / ratio, pol);
+            T l3 = hydra_boost::math::expm1(hydra_boost::math::log1p(l1, pol) / ratio, pol);
             l3 = l2 + l3 + l3 * l2;
-            l3 = b * boost::math::log1p(l3, pol);
+            l3 = b * hydra_boost::math::log1p(l3, pol);
             result *= exp(l3);
-            BOOST_MATH_INSTRUMENT_VARIABLE(result);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
          }
       }
       else if(fabs(l1) < fabs(l2))
       {
          // First base near 1 only:
-         T l = a * boost::math::log1p(l1, pol)
+         T l = a * hydra_boost::math::log1p(l1, pol)
             + b * log((y * cgh) / bgh);
          if((l <= tools::log_min_value<T>()) || (l >= tools::log_max_value<T>()))
          {
@@ -333,12 +333,12 @@ T ibeta_power_terms(T a,
          }
          else
             result *= exp(l);
-         BOOST_MATH_INSTRUMENT_VARIABLE(result);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
       }
       else
       {
          // Second base near 1 only:
-         T l = b * boost::math::log1p(l2, pol)
+         T l = b * hydra_boost::math::log1p(l2, pol)
             + a * log((x * cgh) / agh);
          if((l <= tools::log_min_value<T>()) || (l >= tools::log_max_value<T>()))
          {
@@ -349,7 +349,7 @@ T ibeta_power_terms(T a,
          }
          else
             result *= exp(l);
-         BOOST_MATH_INSTRUMENT_VARIABLE(result);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
       }
    }
    else
@@ -359,10 +359,10 @@ T ibeta_power_terms(T a,
       T b2 = (y * cgh) / bgh;
       l1 = a * log(b1);
       l2 = b * log(b2);
-      BOOST_MATH_INSTRUMENT_VARIABLE(b1);
-      BOOST_MATH_INSTRUMENT_VARIABLE(b2);
-      BOOST_MATH_INSTRUMENT_VARIABLE(l1);
-      BOOST_MATH_INSTRUMENT_VARIABLE(l2);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(b1);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(b2);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(l1);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(l2);
       if((l1 >= tools::log_max_value<T>())
          || (l1 <= tools::log_min_value<T>())
          || (l2 >= tools::log_max_value<T>())
@@ -404,17 +404,17 @@ T ibeta_power_terms(T a,
                result = exp(l2);
             }
          }
-         BOOST_MATH_INSTRUMENT_VARIABLE(result);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
       }
       else
       {
          // finally the normal case:
          result *= pow(b1, a) * pow(b2, b);
-         BOOST_MATH_INSTRUMENT_VARIABLE(result);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
       }
    }
 
-   BOOST_MATH_INSTRUMENT_VARIABLE(result);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
 
    if (0 == result)
    {
@@ -422,7 +422,7 @@ T ibeta_power_terms(T a,
          return result;  // true zero
       if ((b > 1) && (y == 0))
          return result; // true zero
-      return boost::math::policies::raise_underflow_error<T>(function, nullptr, pol);
+      return hydra_boost::math::policies::raise_underflow_error<T>(function, nullptr, pol);
    }
 
    return result;
@@ -445,13 +445,13 @@ T ibeta_power_terms(T a,
                         T b,
                         T x,
                         T y,
-                        const boost::math::lanczos::undefined_lanczos& l,
+                        const hydra_boost::math::lanczos::undefined_lanczos& l,
                         bool normalised,
                         const Policy& pol,
                         T prefix = 1,
-                        const char* = "boost::math::ibeta<%1%>(%1%, %1%, %1%)")
+                        const char* = "hydra_boost::math::ibeta<%1%>(%1%, %1%, %1%)")
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
    if(!normalised)
    {
@@ -483,7 +483,7 @@ T ibeta_power_terms(T a,
          power1 = pow((x * y * c * c) / (a * b), b);
          power2 = pow((x * c) / a, a - b);
       }
-      if (!(boost::math::isnormal)(power1) || !(boost::math::isnormal)(power2))
+      if (!(hydra_boost::math::isnormal)(power1) || !(hydra_boost::math::isnormal)(power2))
       {
          // We have to use logs :(
          return prefix * exp(a * log(x * c / a) + b * log(y * c / b)) * scaled_tgamma_no_lanczos(c, pol) / (scaled_tgamma_no_lanczos(a, pol) * scaled_tgamma_no_lanczos(b, pol));
@@ -495,11 +495,11 @@ T ibeta_power_terms(T a,
    T power2 = pow(y, b);
    T bet = beta_imp(a, b, l, pol);
 
-   if(!(boost::math::isnormal)(power1) || !(boost::math::isnormal)(power2) || !(boost::math::isnormal)(bet))
+   if(!(hydra_boost::math::isnormal)(power1) || !(hydra_boost::math::isnormal)(power2) || !(hydra_boost::math::isnormal)(bet))
    {
       int shift_c = shift_a + shift_b;
       T result = ibeta_power_terms(T(a + shift_a), T(b + shift_b), x, y, l, normalised, pol, prefix);
-      if ((boost::math::isnormal)(result))
+      if ((hydra_boost::math::isnormal)(result))
       {
          for (int i = 0; i < shift_c; ++i)
          {
@@ -520,10 +520,10 @@ T ibeta_power_terms(T a,
       else
       {
          T log_result = log(x) * a + log(y) * b + log(prefix);
-         if ((boost::math::isnormal)(bet))
+         if ((hydra_boost::math::isnormal)(bet))
             log_result -= log(bet);
          else
-            log_result += boost::math::lgamma(c, pol) - boost::math::lgamma(a, pol) - boost::math::lgamma(b, pol);
+            log_result += hydra_boost::math::lgamma(c, pol) - hydra_boost::math::lgamma(a, pol) - hydra_boost::math::lgamma(b, pol);
          return exp(log_result);
       }
    }
@@ -554,11 +554,11 @@ private:
 template <class T, class Lanczos, class Policy>
 T ibeta_series(T a, T b, T x, T s0, const Lanczos&, bool normalised, T* p_derivative, T y, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
    T result;
 
-   BOOST_MATH_ASSERT((p_derivative == 0) || normalised);
+   HYDRA_BOOST_MATH_ASSERT((p_derivative == 0) || normalised);
 
    if(normalised)
    {
@@ -570,7 +570,7 @@ T ibeta_series(T a, T b, T x, T s0, const Lanczos&, bool normalised, T* p_deriva
       T cgh = static_cast<T>(c + Lanczos::g() - 0.5f);
       result = Lanczos::lanczos_sum_expG_scaled(c) / (Lanczos::lanczos_sum_expG_scaled(a) * Lanczos::lanczos_sum_expG_scaled(b));
 
-      if (!(boost::math::isfinite)(result))
+      if (!(hydra_boost::math::isfinite)(result))
          result = 0;
 
       T l1 = log(cgh / bgh) * (b - 0.5f);
@@ -584,16 +584,16 @@ T ibeta_series(T a, T b, T x, T s0, const Lanczos&, bool normalised, T* p_deriva
          && (l2 < tools::log_max_value<T>()))
       {
          if(a * b < bgh * 10)
-            result *= exp((b - 0.5f) * boost::math::log1p(a / bgh, pol));
+            result *= exp((b - 0.5f) * hydra_boost::math::log1p(a / bgh, pol));
          else
-            result *= pow(cgh / bgh, T(b - T(0.5)));
+            result *= pow(cgh / bgh, b - 0.5f);
          result *= pow(x * cgh / agh, a);
-         result *= sqrt(agh / boost::math::constants::e<T>());
+         result *= sqrt(agh / hydra_boost::math::constants::e<T>());
 
          if(p_derivative)
          {
             *p_derivative = result * pow(y, b);
-            BOOST_MATH_ASSERT(*p_derivative >= 0);
+            HYDRA_BOOST_MATH_ASSERT(*p_derivative >= 0);
          }
       }
       else
@@ -616,20 +616,20 @@ T ibeta_series(T a, T b, T x, T s0, const Lanczos&, bool normalised, T* p_deriva
       return s0; // Safeguard: series can't cope with denorms.
    ibeta_series_t<T> s(a, b, x, result);
    std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
-   result = boost::math::tools::sum_series(s, boost::math::policies::get_epsilon<T, Policy>(), max_iter, s0);
-   policies::check_series_iterations<T>("boost::math::ibeta<%1%>(%1%, %1%, %1%) in ibeta_series (with lanczos)", max_iter, pol);
+   result = hydra_boost::math::tools::sum_series(s, hydra_boost::math::policies::get_epsilon<T, Policy>(), max_iter, s0);
+   policies::check_series_iterations<T>("hydra_boost::math::ibeta<%1%>(%1%, %1%, %1%) in ibeta_series (with lanczos)", max_iter, pol);
    return result;
 }
 //
 // Incomplete Beta series again, this time without Lanczos support:
 //
 template <class T, class Policy>
-T ibeta_series(T a, T b, T x, T s0, const boost::math::lanczos::undefined_lanczos& l, bool normalised, T* p_derivative, T y, const Policy& pol)
+T ibeta_series(T a, T b, T x, T s0, const hydra_boost::math::lanczos::undefined_lanczos& l, bool normalised, T* p_derivative, T y, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
    T result;
-   BOOST_MATH_ASSERT((p_derivative == 0) || normalised);
+   HYDRA_BOOST_MATH_ASSERT((p_derivative == 0) || normalised);
 
    if(normalised)
    {
@@ -650,14 +650,14 @@ T ibeta_series(T a, T b, T x, T s0, const boost::math::lanczos::undefined_lanczo
          result = pow(x * c / a, a) * pow(c / b, b) * scaled_tgamma_no_lanczos(c, pol) / (scaled_tgamma_no_lanczos(a, pol) * scaled_tgamma_no_lanczos(b, pol));
       }
       else if ((a < 1) && (b > 1))
-         result = pow(x, a) / (boost::math::tgamma(a, pol) * boost::math::tgamma_delta_ratio(b, a, pol));
+         result = pow(x, a) / (hydra_boost::math::tgamma(a, pol) * hydra_boost::math::tgamma_delta_ratio(b, a, pol));
       else
       {
          T power = pow(x, a);
          T bet = beta_imp(a, b, l, pol);
-         if (!(boost::math::isnormal)(power) || !(boost::math::isnormal)(bet))
+         if (!(hydra_boost::math::isnormal)(power) || !(hydra_boost::math::isnormal)(bet))
          {
-            result = exp(a * log(x) + boost::math::lgamma(c, pol) - boost::math::lgamma(a, pol) - boost::math::lgamma(b, pol));
+            result = exp(a * log(x) + hydra_boost::math::lgamma(c, pol) - hydra_boost::math::lgamma(a, pol) - hydra_boost::math::lgamma(b, pol));
          }
          else
             result = power / bet;
@@ -665,7 +665,7 @@ T ibeta_series(T a, T b, T x, T s0, const boost::math::lanczos::undefined_lanczo
       if(p_derivative)
       {
          *p_derivative = result * pow(y, b);
-         BOOST_MATH_ASSERT(*p_derivative >= 0);
+         HYDRA_BOOST_MATH_ASSERT(*p_derivative >= 0);
       }
    }
    else
@@ -677,8 +677,8 @@ T ibeta_series(T a, T b, T x, T s0, const boost::math::lanczos::undefined_lanczo
       return s0; // Safeguard: series can't cope with denorms.
    ibeta_series_t<T> s(a, b, x, result);
    std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
-   result = boost::math::tools::sum_series(s, boost::math::policies::get_epsilon<T, Policy>(), max_iter, s0);
-   policies::check_series_iterations<T>("boost::math::ibeta<%1%>(%1%, %1%, %1%) in ibeta_series (without lanczos)", max_iter, pol);
+   result = hydra_boost::math::tools::sum_series(s, hydra_boost::math::policies::get_epsilon<T, Policy>(), max_iter, s0);
+   policies::check_series_iterations<T>("hydra_boost::math::ibeta<%1%>(%1%, %1%, %1%) in ibeta_series (without lanczos)", max_iter, pol);
    return result;
 }
 
@@ -718,20 +718,20 @@ template <class T, class Policy>
 inline T ibeta_fraction2(T a, T b, T x, T y, const Policy& pol, bool normalised, T* p_derivative)
 {
    typedef typename lanczos::lanczos<T, Policy>::type lanczos_type;
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    T result = ibeta_power_terms(a, b, x, y, lanczos_type(), normalised, pol);
    if(p_derivative)
    {
       *p_derivative = result;
-      BOOST_MATH_ASSERT(*p_derivative >= 0);
+      HYDRA_BOOST_MATH_ASSERT(*p_derivative >= 0);
    }
    if(result == 0)
       return result;
 
    ibeta_fraction2_t<T> f(a, b, x, y);
-   T fract = boost::math::tools::continued_fraction_b(f, boost::math::policies::get_epsilon<T, Policy>());
-   BOOST_MATH_INSTRUMENT_VARIABLE(fract);
-   BOOST_MATH_INSTRUMENT_VARIABLE(result);
+   T fract = hydra_boost::math::tools::continued_fraction_b(f, hydra_boost::math::policies::get_epsilon<T, Policy>());
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
    return result / fract;
 }
 //
@@ -742,13 +742,13 @@ T ibeta_a_step(T a, T b, T x, T y, int k, const Policy& pol, bool normalised, T*
 {
    typedef typename lanczos::lanczos<T, Policy>::type lanczos_type;
 
-   BOOST_MATH_INSTRUMENT_VARIABLE(k);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(k);
 
    T prefix = ibeta_power_terms(a, b, x, y, lanczos_type(), normalised, pol);
    if(p_derivative)
    {
       *p_derivative = prefix;
-      BOOST_MATH_ASSERT(*p_derivative >= 0);
+      HYDRA_BOOST_MATH_ASSERT(*p_derivative >= 0);
    }
    prefix /= a;
    if(prefix == 0)
@@ -782,7 +782,7 @@ inline T rising_factorial_ratio(T a, T b, int k)
    // This is only called with small k, for large k
    // it is grossly inefficient, do not use outside it's
    // intended purpose!!!
-   BOOST_MATH_INSTRUMENT_VARIABLE(k);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(k);
    if(k == 0)
       return 1;
    T result = 1;
@@ -804,35 +804,35 @@ struct Pn_size
    // This is likely to be enough for ~35-50 digit accuracy
    // but it's hard to quantify exactly:
    static constexpr unsigned value =
-      ::boost::math::max_factorial<T>::value >= 100 ? 50
-   : ::boost::math::max_factorial<T>::value >= ::boost::math::max_factorial<double>::value ? 30
-   : ::boost::math::max_factorial<T>::value >= ::boost::math::max_factorial<float>::value ? 15 : 1;
-   static_assert(::boost::math::max_factorial<T>::value >= ::boost::math::max_factorial<float>::value, "Type does not provide for 35-50 digits of accuracy.");
+      ::hydra_boost::math::max_factorial<T>::value >= 100 ? 50
+   : ::hydra_boost::math::max_factorial<T>::value >= ::hydra_boost::math::max_factorial<double>::value ? 30
+   : ::hydra_boost::math::max_factorial<T>::value >= ::hydra_boost::math::max_factorial<float>::value ? 15 : 1;
+   static_assert(::hydra_boost::math::max_factorial<T>::value >= ::hydra_boost::math::max_factorial<float>::value, "Type does not provide for 35-50 digits of accuracy.");
 };
 template <>
 struct Pn_size<float>
 {
    static constexpr unsigned value = 15; // ~8-15 digit accuracy
-   static_assert(::boost::math::max_factorial<float>::value >= 30, "Type does not provide for 8-15 digits of accuracy.");
+   static_assert(::hydra_boost::math::max_factorial<float>::value >= 30, "Type does not provide for 8-15 digits of accuracy.");
 };
 template <>
 struct Pn_size<double>
 {
    static constexpr unsigned value = 30; // 16-20 digit accuracy
-   static_assert(::boost::math::max_factorial<double>::value >= 60, "Type does not provide for 16-20 digits of accuracy.");
+   static_assert(::hydra_boost::math::max_factorial<double>::value >= 60, "Type does not provide for 16-20 digits of accuracy.");
 };
 template <>
 struct Pn_size<long double>
 {
    static constexpr unsigned value = 50; // ~35-50 digit accuracy
-   static_assert(::boost::math::max_factorial<long double>::value >= 100, "Type does not provide for ~35-50 digits of accuracy");
+   static_assert(::hydra_boost::math::max_factorial<long double>::value >= 100, "Type does not provide for ~35-50 digits of accuracy");
 };
 
 template <class T, class Policy>
 T beta_small_b_large_a_series(T a, T b, T x, T y, T s0, T mult, const Policy& pol, bool normalised)
 {
    typedef typename lanczos::lanczos<T, Policy>::type lanczos_type;
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    //
    // This is DiDonato and Morris's BGRAT routine, see Eq's 9 through 9.6.
    //
@@ -842,7 +842,7 @@ T beta_small_b_large_a_series(T a, T b, T x, T y, T s0, T mult, const Policy& po
    T t = a + bm1 / 2;
    T lx, u;
    if(y < 0.35)
-      lx = boost::math::log1p(-y, pol);
+      lx = hydra_boost::math::log1p(-y, pol);
    else
       lx = log(x);
    u = -t * lx;
@@ -853,7 +853,7 @@ T beta_small_b_large_a_series(T a, T b, T x, T y, T s0, T mult, const Policy& po
       return s0;
    if(normalised)
    {
-      prefix = h / boost::math::tgamma_delta_ratio(a, b, pol);
+      prefix = h / hydra_boost::math::tgamma_delta_ratio(a, b, pol);
       prefix /= pow(t, b);
    }
    else
@@ -866,11 +866,11 @@ T beta_small_b_large_a_series(T a, T b, T x, T y, T s0, T mult, const Policy& po
    // recursively, and requires a full history of all the previous values
    // so no choice but to declare a big table and hope it's big enough...
    //
-   T p[ ::boost::math::detail::Pn_size<T>::value ] = { 1 };  // see 9.3.
+   T p[ ::hydra_boost::math::detail::Pn_size<T>::value ] = { 1 };  // see 9.3.
    //
    // Now an initial value for J, see 9.6:
    //
-   T j = boost::math::gamma_q(b, u, pol) / h;
+   T j = hydra_boost::math::gamma_q(b, u, pol) / h;
    //
    // Now we can start to pull things together and evaluate the sum in Eq 9:
    //
@@ -906,11 +906,11 @@ T beta_small_b_large_a_series(T a, T b, T x, T y, T s0, T mult, const Policy& po
       for(unsigned m = 1; m < n; ++m)
       {
          mbn = m * b - n;
-         p[n] += mbn * p[n-m] / boost::math::unchecked_factorial<T>(tmp1);
+         p[n] += mbn * p[n-m] / hydra_boost::math::unchecked_factorial<T>(tmp1);
          tmp1 += 2;
       }
       p[n] /= n;
-      p[n] += bm1 / boost::math::unchecked_factorial<T>(tnp1);
+      p[n] += bm1 / hydra_boost::math::unchecked_factorial<T>(tnp1);
       //
       // Now we want Jn from Jn-1 using Eq 9.6:
       //
@@ -943,7 +943,7 @@ T beta_small_b_large_a_series(T a, T b, T x, T y, T s0, T mult, const Policy& po
 template <class T, class Policy>
 T binomial_ccdf(T n, T k, T x, T y, const Policy& pol)
 {
-   BOOST_MATH_STD_USING // ADL of std names
+   HYDRA_BOOST_MATH_STD_USING // ADL of std names
 
    T result = pow(x, n);
 
@@ -963,14 +963,14 @@ T binomial_ccdf(T n, T k, T x, T y, const Policy& pol)
       int start = itrunc(n * x);
       if(start <= k + 1)
          start = itrunc(k + 2);
-      result = static_cast<T>(pow(x, T(start)) * pow(y, n - T(start)) * boost::math::binomial_coefficient<T>(itrunc(n), itrunc(start), pol));
+      result = static_cast<T>(pow(x, start) * pow(y, n - start) * hydra_boost::math::binomial_coefficient<T>(itrunc(n), itrunc(start), pol));
       if(result == 0)
       {
          // OK, starting slightly above the mode didn't work,
          // we'll have to sum the terms the old fashioned way:
          for(unsigned i = start - 1; i > k; --i)
          {
-            result += static_cast<T>(pow(x, static_cast<T>(i)) * pow(y, n - i) * boost::math::binomial_coefficient<T>(itrunc(n), itrunc(i), pol));
+            result += static_cast<T>(pow(x, static_cast<int>(i)) * pow(y, n - i) * hydra_boost::math::binomial_coefficient<T>(itrunc(n), itrunc(i), pol));
          }
       }
       else
@@ -1004,27 +1004,27 @@ T binomial_ccdf(T n, T k, T x, T y, const Policy& pol)
 template <class T, class Policy>
 T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_derivative)
 {
-   static const char* function = "boost::math::ibeta<%1%>(%1%, %1%, %1%)";
+   static const char* function = "hydra_boost::math::ibeta<%1%>(%1%, %1%, %1%)";
    typedef typename lanczos::lanczos<T, Policy>::type lanczos_type;
-   BOOST_MATH_STD_USING // for ADL of std math functions.
+   HYDRA_BOOST_MATH_STD_USING // for ADL of std math functions.
 
-   BOOST_MATH_INSTRUMENT_VARIABLE(a);
-   BOOST_MATH_INSTRUMENT_VARIABLE(b);
-   BOOST_MATH_INSTRUMENT_VARIABLE(x);
-   BOOST_MATH_INSTRUMENT_VARIABLE(inv);
-   BOOST_MATH_INSTRUMENT_VARIABLE(normalised);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(a);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(b);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(x);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(inv);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(normalised);
 
    bool invert = inv;
    T fract;
    T y = 1 - x;
 
-   BOOST_MATH_ASSERT((p_derivative == 0) || normalised);
+   HYDRA_BOOST_MATH_ASSERT((p_derivative == 0) || normalised);
 
-   if(!(boost::math::isfinite)(a))
+   if(!(hydra_boost::math::isfinite)(a))
       return policies::raise_domain_error<T>(function, "The argument a to the incomplete beta function must be >= zero (got a=%1%).", a, pol);
-   if(!(boost::math::isfinite)(b))
+   if(!(hydra_boost::math::isfinite)(b))
       return policies::raise_domain_error<T>(function, "The argument b to the incomplete beta function must be >= zero (got b=%1%).", b, pol);
-   if(!(boost::math::isfinite)(x))
+   if(!(hydra_boost::math::isfinite)(x))
       return policies::raise_domain_error<T>(function, "The argument x to the incomplete beta function must be in [0,1] (got x=%1%).", x, pol);
 
    if(p_derivative)
@@ -1067,7 +1067,7 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
       {
          *p_derivative = (a == 1) ? (T)1 : (a < 1) ? T(tools::max_value<T>() / 2) : T(tools::min_value<T>() * 2);
       }
-      return (invert ? (normalised ? T(1) : boost::math::beta(a, b, pol)) : T(0));
+      return (invert ? (normalised ? T(1) : hydra_boost::math::beta(a, b, pol)) : T(0));
    }
    if(x == 1)
    {
@@ -1075,7 +1075,7 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
       {
          *p_derivative = (b == 1) ? T(1) : (b < 1) ? T(tools::max_value<T>() / 2) : T(tools::min_value<T>() * 2);
       }
-      return (invert == 0 ? (normalised ? 1 : boost::math::beta(a, b, pol)) : 0);
+      return (invert == 0 ? (normalised ? 1 : hydra_boost::math::beta(a, b, pol)) : 0);
    }
    if((a == 0.5f) && (b == 0.5f))
    {
@@ -1113,9 +1113,9 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
       }
       T p;
       if(y < 0.5)
-         p = invert ? T(-boost::math::expm1(a * boost::math::log1p(-y, pol), pol)) : T(exp(a * boost::math::log1p(-y, pol)));
+         p = invert ? T(-hydra_boost::math::expm1(a * hydra_boost::math::log1p(-y, pol), pol)) : T(exp(a * hydra_boost::math::log1p(-y, pol)));
       else
-         p = invert ? T(-boost::math::powm1(x, a, pol)) : T(pow(x, a));
+         p = invert ? T(-hydra_boost::math::powm1(x, a, pol)) : T(pow(x, a));
       if(!normalised)
          p /= a;
       return p;
@@ -1128,7 +1128,7 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
          std::swap(a, b);
          std::swap(x, y);
          invert = !invert;
-         BOOST_MATH_INSTRUMENT_VARIABLE(invert);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(invert);
       }
       if((std::max)(a, b) <= 1)
       {
@@ -1138,14 +1138,14 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
             if(!invert)
             {
                fract = ibeta_series(a, b, x, T(0), lanczos_type(), normalised, p_derivative, y, pol);
-               BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+               HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
             }
             else
             {
-               fract = -(normalised ? 1 : boost::math::beta(a, b, pol));
+               fract = -(normalised ? 1 : hydra_boost::math::beta(a, b, pol));
                invert = false;
                fract = -ibeta_series(a, b, x, fract, lanczos_type(), normalised, p_derivative, y, pol);
-               BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+               HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
             }
          }
          else
@@ -1158,14 +1158,14 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
                if(!invert)
                {
                   fract = ibeta_series(a, b, x, T(0), lanczos_type(), normalised, p_derivative, y, pol);
-                  BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+                  HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
                }
                else
                {
-                  fract = -(normalised ? 1 : boost::math::beta(a, b, pol));
+                  fract = -(normalised ? 1 : hydra_boost::math::beta(a, b, pol));
                   invert = false;
                   fract = -ibeta_series(a, b, x, fract, lanczos_type(), normalised, p_derivative, y, pol);
-                  BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+                  HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
                }
             }
             else
@@ -1184,14 +1184,14 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
                if(!invert)
                {
                   fract = beta_small_b_large_a_series(T(a + 20), b, x, y, fract, prefix, pol, normalised);
-                  BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+                  HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
                }
                else
                {
-                  fract -= (normalised ? 1 : boost::math::beta(a, b, pol));
+                  fract -= (normalised ? 1 : hydra_boost::math::beta(a, b, pol));
                   invert = false;
                   fract = -beta_small_b_large_a_series(T(a + 20), b, x, y, fract, prefix, pol, normalised);
-                  BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+                  HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
                }
             }
          }
@@ -1204,14 +1204,14 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
             if(!invert)
             {
                fract = ibeta_series(a, b, x, T(0), lanczos_type(), normalised, p_derivative, y, pol);
-               BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+               HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
             }
             else
             {
-               fract = -(normalised ? 1 : boost::math::beta(a, b, pol));
+               fract = -(normalised ? 1 : hydra_boost::math::beta(a, b, pol));
                invert = false;
                fract = -ibeta_series(a, b, x, fract, lanczos_type(), normalised, p_derivative, y, pol);
-               BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+               HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
             }
          }
          else
@@ -1225,14 +1225,14 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
                if(!invert)
                {
                   fract = ibeta_series(a, b, x, T(0), lanczos_type(), normalised, p_derivative, y, pol);
-                  BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+                  HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
                }
                else
                {
-                  fract = -(normalised ? 1 : boost::math::beta(a, b, pol));
+                  fract = -(normalised ? 1 : hydra_boost::math::beta(a, b, pol));
                   invert = false;
                   fract = -ibeta_series(a, b, x, fract, lanczos_type(), normalised, p_derivative, y, pol);
-                  BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+                  HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
                }
             }
             else if(a >= 15)
@@ -1240,14 +1240,14 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
                if(!invert)
                {
                   fract = beta_small_b_large_a_series(a, b, x, y, T(0), T(1), pol, normalised);
-                  BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+                  HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
                }
                else
                {
-                  fract = -(normalised ? 1 : boost::math::beta(a, b, pol));
+                  fract = -(normalised ? 1 : hydra_boost::math::beta(a, b, pol));
                   invert = false;
                   fract = -beta_small_b_large_a_series(a, b, x, y, fract, T(1), pol, normalised);
-                  BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+                  HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
                }
             }
             else
@@ -1263,18 +1263,18 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
                   prefix = 1;
                }
                fract = ibeta_a_step(a, b, x, y, 20, pol, normalised, p_derivative);
-               BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+               HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
                if(!invert)
                {
                   fract = beta_small_b_large_a_series(T(a + 20), b, x, y, fract, prefix, pol, normalised);
-                  BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+                  HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
                }
                else
                {
-                  fract -= (normalised ? 1 : boost::math::beta(a, b, pol));
+                  fract -= (normalised ? 1 : hydra_boost::math::beta(a, b, pol));
                   invert = false;
                   fract = -beta_small_b_large_a_series(T(a + 20), b, x, y, fract, prefix, pol, normalised);
-                  BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+                  HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
                }
             }
          }
@@ -1297,7 +1297,7 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
          std::swap(a, b);
          std::swap(x, y);
          invert = !invert;
-         BOOST_MATH_INSTRUMENT_VARIABLE(invert);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(invert);
       }
 
       if(b < 40)
@@ -1309,22 +1309,22 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
             T n = b + k;
             fract = binomial_ccdf(n, k, x, y, pol);
             if(!normalised)
-               fract *= boost::math::beta(a, b, pol);
-            BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+               fract *= hydra_boost::math::beta(a, b, pol);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
          }
          else if(b * x <= 0.7)
          {
             if(!invert)
             {
                fract = ibeta_series(a, b, x, T(0), lanczos_type(), normalised, p_derivative, y, pol);
-               BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+               HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
             }
             else
             {
-               fract = -(normalised ? 1 : boost::math::beta(a, b, pol));
+               fract = -(normalised ? 1 : hydra_boost::math::beta(a, b, pol));
                invert = false;
                fract = -ibeta_series(a, b, x, fract, lanczos_type(), normalised, p_derivative, y, pol);
-               BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+               HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
             }
          }
          else if(a > 15)
@@ -1346,7 +1346,7 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
             fract = ibeta_a_step(bbar, a, y, x, n, pol, normalised, static_cast<T*>(nullptr));
             fract = beta_small_b_large_a_series(a,  bbar, x, y, fract, T(1), pol, normalised);
             fract /= prefix;
-            BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
          }
          else if(normalised)
          {
@@ -1370,18 +1370,18 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
                fract = -fract;
                invert = false;
             }
-            BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
          }
          else
          {
             fract = ibeta_fraction2(a, b, x, y, pol, normalised, p_derivative);
-            BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
          }
       }
       else
       {
          fract = ibeta_fraction2(a, b, x, y, pol, normalised, p_derivative);
-         BOOST_MATH_INSTRUMENT_VARIABLE(fract);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(fract);
       }
    }
    if(p_derivative)
@@ -1405,7 +1405,7 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
          }
       }
    }
-   return invert ? (normalised ? 1 : boost::math::beta(a, b, pol)) - fract : fract;
+   return invert ? (normalised ? 1 : hydra_boost::math::beta(a, b, pol)) - fract : fract;
 } // template <class T, class Lanczos>T ibeta_imp(T a, T b, T x, const Lanczos& l, bool inv, bool normalised)
 
 template <class T, class Policy>
@@ -1421,11 +1421,11 @@ T ibeta_derivative_imp(T a, T b, T x, const Policy& pol)
    //
    // start with the usual error checks:
    //
-   if (!(boost::math::isfinite)(a))
+   if (!(hydra_boost::math::isfinite)(a))
       return policies::raise_domain_error<T>(function, "The argument a to the incomplete beta function must be >= zero (got a=%1%).", a, pol);
-   if (!(boost::math::isfinite)(b))
+   if (!(hydra_boost::math::isfinite)(b))
       return policies::raise_domain_error<T>(function, "The argument b to the incomplete beta function must be >= zero (got b=%1%).", b, pol);
-   if (!(boost::math::isfinite)(x))
+   if (!(hydra_boost::math::isfinite)(x))
       return policies::raise_domain_error<T>(function, "The argument x to the incomplete beta function must be in [0,1] (got x=%1%).", x, pol);
 
    if(a <= 0)
@@ -1440,28 +1440,19 @@ T ibeta_derivative_imp(T a, T b, T x, const Policy& pol)
    if(x == 0)
    {
       return (a > 1) ? 0 :
-         (a == 1) ? 1 / boost::math::beta(a, b, pol) : policies::raise_overflow_error<T>(function, nullptr, pol);
+         (a == 1) ? 1 / hydra_boost::math::beta(a, b, pol) : policies::raise_overflow_error<T>(function, nullptr, pol);
    }
    else if(x == 1)
    {
       return (b > 1) ? 0 :
-         (b == 1) ? 1 / boost::math::beta(a, b, pol) : policies::raise_overflow_error<T>(function, nullptr, pol);
+         (b == 1) ? 1 / hydra_boost::math::beta(a, b, pol) : policies::raise_overflow_error<T>(function, nullptr, pol);
    }
    //
    // Now the regular cases:
    //
    typedef typename lanczos::lanczos<T, Policy>::type lanczos_type;
    T y = (1 - x) * x;
-   T f1;
-   if (!(boost::math::isinf)(1 / y))
-   {
-      f1 = ibeta_power_terms<T>(a, b, x, 1 - x, lanczos_type(), true, pol, 1 / y, function);
-   }
-   else
-   {
-      return (a > 1) ? 0 : (a == 1) ? 1 / boost::math::beta(a, b, pol) : policies::raise_overflow_error<T>(function, nullptr, pol);
-   }
-
+   T f1 = ibeta_power_terms<T>(a, b, x, 1 - x, lanczos_type(), true, pol, 1 / y, function);
    return f1;
 }
 //
@@ -1471,7 +1462,7 @@ template <class RT1, class RT2, class Policy>
 inline typename tools::promote_args<RT1, RT2>::type
    beta(RT1 a, RT2 b, const Policy&, const std::true_type*)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<RT1, RT2>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename lanczos::lanczos<value_type, Policy>::type evaluation_type;
@@ -1482,13 +1473,13 @@ inline typename tools::promote_args<RT1, RT2>::type
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::beta_imp(static_cast<value_type>(a), static_cast<value_type>(b), evaluation_type(), forwarding_policy()), "boost::math::beta<%1%>(%1%,%1%)");
+   return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::beta_imp(static_cast<value_type>(a), static_cast<value_type>(b), evaluation_type(), forwarding_policy()), "hydra_boost::math::beta<%1%>(%1%,%1%)");
 }
 template <class RT1, class RT2, class RT3>
 inline typename tools::promote_args<RT1, RT2, RT3>::type
    beta(RT1 a, RT2 b, RT3 x, const std::false_type*)
 {
-   return boost::math::beta(a, b, x, policies::policy<>());
+   return hydra_boost::math::beta(a, b, x, policies::policy<>());
 }
 } // namespace detail
 
@@ -1501,23 +1492,22 @@ template <class RT1, class RT2, class A>
 inline typename tools::promote_args<RT1, RT2, A>::type
    beta(RT1 a, RT2 b, A arg)
 {
-   using tag = typename policies::is_policy<A>::type;
-   using ReturnType = tools::promote_args_t<RT1, RT2, A>;
-   return static_cast<ReturnType>(boost::math::detail::beta(a, b, arg, static_cast<tag*>(nullptr)));
+   typedef typename policies::is_policy<A>::type tag;
+   return hydra_boost::math::detail::beta(a, b, arg, static_cast<tag*>(nullptr));
 }
 
 template <class RT1, class RT2>
 inline typename tools::promote_args<RT1, RT2>::type
    beta(RT1 a, RT2 b)
 {
-   return boost::math::beta(a, b, policies::policy<>());
+   return hydra_boost::math::beta(a, b, policies::policy<>());
 }
 
 template <class RT1, class RT2, class RT3, class Policy>
 inline typename tools::promote_args<RT1, RT2, RT3>::type
    beta(RT1 a, RT2 b, RT3 x, const Policy&)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<RT1, RT2, RT3>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -1527,14 +1517,14 @@ inline typename tools::promote_args<RT1, RT2, RT3>::type
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::ibeta_imp(static_cast<value_type>(a), static_cast<value_type>(b), static_cast<value_type>(x), forwarding_policy(), false, false), "boost::math::beta<%1%>(%1%,%1%,%1%)");
+   return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::ibeta_imp(static_cast<value_type>(a), static_cast<value_type>(b), static_cast<value_type>(x), forwarding_policy(), false, false), "hydra_boost::math::beta<%1%>(%1%,%1%,%1%)");
 }
 
 template <class RT1, class RT2, class RT3, class Policy>
 inline typename tools::promote_args<RT1, RT2, RT3>::type
    betac(RT1 a, RT2 b, RT3 x, const Policy&)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<RT1, RT2, RT3>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -1544,20 +1534,20 @@ inline typename tools::promote_args<RT1, RT2, RT3>::type
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::ibeta_imp(static_cast<value_type>(a), static_cast<value_type>(b), static_cast<value_type>(x), forwarding_policy(), true, false), "boost::math::betac<%1%>(%1%,%1%,%1%)");
+   return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::ibeta_imp(static_cast<value_type>(a), static_cast<value_type>(b), static_cast<value_type>(x), forwarding_policy(), true, false), "hydra_boost::math::betac<%1%>(%1%,%1%,%1%)");
 }
 template <class RT1, class RT2, class RT3>
 inline typename tools::promote_args<RT1, RT2, RT3>::type
    betac(RT1 a, RT2 b, RT3 x)
 {
-   return boost::math::betac(a, b, x, policies::policy<>());
+   return hydra_boost::math::betac(a, b, x, policies::policy<>());
 }
 
 template <class RT1, class RT2, class RT3, class Policy>
 inline typename tools::promote_args<RT1, RT2, RT3>::type
    ibeta(RT1 a, RT2 b, RT3 x, const Policy&)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<RT1, RT2, RT3>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -1567,20 +1557,20 @@ inline typename tools::promote_args<RT1, RT2, RT3>::type
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::ibeta_imp(static_cast<value_type>(a), static_cast<value_type>(b), static_cast<value_type>(x), forwarding_policy(), false, true), "boost::math::ibeta<%1%>(%1%,%1%,%1%)");
+   return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::ibeta_imp(static_cast<value_type>(a), static_cast<value_type>(b), static_cast<value_type>(x), forwarding_policy(), false, true), "hydra_boost::math::ibeta<%1%>(%1%,%1%,%1%)");
 }
 template <class RT1, class RT2, class RT3>
 inline typename tools::promote_args<RT1, RT2, RT3>::type
    ibeta(RT1 a, RT2 b, RT3 x)
 {
-   return boost::math::ibeta(a, b, x, policies::policy<>());
+   return hydra_boost::math::ibeta(a, b, x, policies::policy<>());
 }
 
 template <class RT1, class RT2, class RT3, class Policy>
 inline typename tools::promote_args<RT1, RT2, RT3>::type
    ibetac(RT1 a, RT2 b, RT3 x, const Policy&)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<RT1, RT2, RT3>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -1590,20 +1580,20 @@ inline typename tools::promote_args<RT1, RT2, RT3>::type
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::ibeta_imp(static_cast<value_type>(a), static_cast<value_type>(b), static_cast<value_type>(x), forwarding_policy(), true, true), "boost::math::ibetac<%1%>(%1%,%1%,%1%)");
+   return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::ibeta_imp(static_cast<value_type>(a), static_cast<value_type>(b), static_cast<value_type>(x), forwarding_policy(), true, true), "hydra_boost::math::ibetac<%1%>(%1%,%1%,%1%)");
 }
 template <class RT1, class RT2, class RT3>
 inline typename tools::promote_args<RT1, RT2, RT3>::type
    ibetac(RT1 a, RT2 b, RT3 x)
 {
-   return boost::math::ibetac(a, b, x, policies::policy<>());
+   return hydra_boost::math::ibetac(a, b, x, policies::policy<>());
 }
 
 template <class RT1, class RT2, class RT3, class Policy>
 inline typename tools::promote_args<RT1, RT2, RT3>::type
    ibeta_derivative(RT1 a, RT2 b, RT3 x, const Policy&)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<RT1, RT2, RT3>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -1613,19 +1603,19 @@ inline typename tools::promote_args<RT1, RT2, RT3>::type
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::ibeta_derivative_imp(static_cast<value_type>(a), static_cast<value_type>(b), static_cast<value_type>(x), forwarding_policy()), "boost::math::ibeta_derivative<%1%>(%1%,%1%,%1%)");
+   return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::ibeta_derivative_imp(static_cast<value_type>(a), static_cast<value_type>(b), static_cast<value_type>(x), forwarding_policy()), "hydra_boost::math::ibeta_derivative<%1%>(%1%,%1%,%1%)");
 }
 template <class RT1, class RT2, class RT3>
 inline typename tools::promote_args<RT1, RT2, RT3>::type
    ibeta_derivative(RT1 a, RT2 b, RT3 x)
 {
-   return boost::math::ibeta_derivative(a, b, x, policies::policy<>());
+   return hydra_boost::math::ibeta_derivative(a, b, x, policies::policy<>());
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 #include <hydra/detail/external/hydra_boost/math/special_functions/detail/ibeta_inverse.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/detail/ibeta_inv_ab.hpp>
 
-#endif // BOOST_MATH_SPECIAL_BETA_HPP
+#endif // HYDRA_BOOST_MATH_SPECIAL_BETA_HPP

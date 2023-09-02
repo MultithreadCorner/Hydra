@@ -5,7 +5,7 @@
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 /*
-This header defines two traits classes, both in namespace boost::math::tools.
+This header defines two traits classes, both in namespace hydra_boost::math::tools.
 
 is_distribution<D>::value is true iff D has overloaded "cdf" and
 "quantile" functions, plus member typedefs value_type and policy_type.  
@@ -18,8 +18,8 @@ as defined above, and has member functions "scale" and "location".
 
 */
 
-#ifndef BOOST_STATS_IS_DISTRIBUTION_HPP
-#define BOOST_STATS_IS_DISTRIBUTION_HPP
+#ifndef HYDRA_BOOST_STATS_IS_DISTRIBUTION_HPP
+#define HYDRA_BOOST_STATS_IS_DISTRIBUTION_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -27,11 +27,11 @@ as defined above, and has member functions "scale" and "location".
 
 #include <type_traits>
 
-namespace boost{ namespace math{ namespace tools{
+namespace hydra_boost{ namespace math{ namespace tools{
 
 namespace detail{
 
-#define BOOST_MATH_HAS_NAMED_TRAIT(trait, name)                         \
+#define HYDRA_BOOST_MATH_HAS_NAMED_TRAIT(trait, name)                         \
 template <typename T>                                                   \
 class trait                                                             \
 {                                                                       \
@@ -49,9 +49,9 @@ public:                                                                 \
    static constexpr bool value = (sizeof(test<T>(0)) == sizeof(char));  \
 };
 
-BOOST_MATH_HAS_NAMED_TRAIT(has_value_type, value_type)
-BOOST_MATH_HAS_NAMED_TRAIT(has_policy_type, policy_type)
-BOOST_MATH_HAS_NAMED_TRAIT(has_backend_type, backend_type)
+HYDRA_BOOST_MATH_HAS_NAMED_TRAIT(has_value_type, value_type)
+HYDRA_BOOST_MATH_HAS_NAMED_TRAIT(has_policy_type, policy_type)
+HYDRA_BOOST_MATH_HAS_NAMED_TRAIT(has_backend_type, backend_type)
 
 // C++17-esque helpers
 #if defined(__cpp_variable_templates) && __cpp_variable_templates >= 201304L
@@ -125,13 +125,13 @@ struct is_scaled_distribution_helper<D, true>
 template <typename D>
 struct is_scaled_distribution_imp
 {
-   static constexpr bool value = (::boost::math::tools::detail::is_scaled_distribution_helper<D, ::boost::math::tools::detail::is_distribution_imp<D>::value>::value);
+   static constexpr bool value = (::hydra_boost::math::tools::detail::is_scaled_distribution_helper<D, ::hydra_boost::math::tools::detail::is_distribution_imp<D>::value>::value);
 };
 
 } // namespace detail
 
-template <typename T> struct is_distribution : public std::integral_constant<bool, ::boost::math::tools::detail::is_distribution_imp<T>::value> {};
-template <typename T> struct is_scaled_distribution : public std::integral_constant<bool, ::boost::math::tools::detail::is_scaled_distribution_imp<T>::value> {};
+template <typename T> struct is_distribution : public std::integral_constant<bool, ::hydra_boost::math::tools::detail::is_distribution_imp<T>::value> {};
+template <typename T> struct is_scaled_distribution : public std::integral_constant<bool, ::hydra_boost::math::tools::detail::is_scaled_distribution_imp<T>::value> {};
 
 }}}
 

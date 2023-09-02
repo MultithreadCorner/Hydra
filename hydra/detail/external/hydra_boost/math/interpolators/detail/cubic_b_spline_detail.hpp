@@ -14,7 +14,7 @@
 #include <hydra/detail/external/hydra_boost/math/constants/constants.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/fpclassify.hpp>
 
-namespace boost{ namespace math{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace detail{
 
 
 template <class Real>
@@ -52,12 +52,12 @@ Real b3_spline(Real x)
     {
         Real y = 2 - absx;
         Real z = 1 - absx;
-        return boost::math::constants::sixth<Real>()*(y*y*y - 4*z*z*z);
+        return hydra_boost::math::constants::sixth<Real>()*(y*y*y - 4*z*z*z);
     }
     if (absx < 2)
     {
         Real y = 2 - absx;
-        return boost::math::constants::sixth<Real>()*y*y*y;
+        return hydra_boost::math::constants::sixth<Real>()*y*y*y;
     }
     return static_cast<Real>(0);
 }
@@ -72,11 +72,11 @@ Real b3_spline_prime(Real x)
 
     if (x < 1)
     {
-        return x*(3*boost::math::constants::half<Real>()*x - 2);
+        return x*(3*hydra_boost::math::constants::half<Real>()*x - 2);
     }
     if (x < 2)
     {
-        return -boost::math::constants::half<Real>()*(2 - x)*(2 - x);
+        return -hydra_boost::math::constants::half<Real>()*(2 - x)*(2 - x);
     }
     return static_cast<Real>(0);
 }
@@ -106,13 +106,13 @@ template <class BidiIterator>
 cubic_b_spline_imp<Real>::cubic_b_spline_imp(BidiIterator f, BidiIterator end_p, Real left_endpoint, Real step_size,
                                              Real left_endpoint_derivative, Real right_endpoint_derivative) : m_a(left_endpoint), m_avg(0)
 {
-    using boost::math::constants::third;
+    using hydra_boost::math::constants::third;
 
     std::size_t length = end_p - f;
 
     if (length < 5)
     {
-        if (boost::math::isnan(left_endpoint_derivative) || boost::math::isnan(right_endpoint_derivative))
+        if (hydra_boost::math::isnan(left_endpoint_derivative) || hydra_boost::math::isnan(right_endpoint_derivative))
         {
             throw std::logic_error("Interpolation using a cubic b spline with derivatives estimated at the endpoints requires at least 5 points.\n");
         }
@@ -122,7 +122,7 @@ cubic_b_spline_imp<Real>::cubic_b_spline_imp(BidiIterator f, BidiIterator end_p,
         }
     }
 
-    if (boost::math::isnan(left_endpoint))
+    if (hydra_boost::math::isnan(left_endpoint))
     {
         throw std::logic_error("Left endpoint is NAN; this is disallowed.\n");
     }
@@ -144,7 +144,7 @@ cubic_b_spline_imp<Real>::cubic_b_spline_imp(BidiIterator f, BidiIterator end_p,
     // to construct high-order estimates for one-sided derivatives:
     // https://en.wikipedia.org/wiki/Finite_difference_coefficient#Forward_and_backward_finite_difference
     // Here, we estimate then to O(h^4), as that is the maximum accuracy we could obtain from this method.
-    if (boost::math::isnan(a1))
+    if (hydra_boost::math::isnan(a1))
     {
         // For simple functions (linear, quadratic, so on)
         // almost all the error comes from derivative estimation.
@@ -155,7 +155,7 @@ cubic_b_spline_imp<Real>::cubic_b_spline_imp(BidiIterator f, BidiIterator end_p,
     }
 
     Real b1 = right_endpoint_derivative;
-    if (boost::math::isnan(b1))
+    if (hydra_boost::math::isnan(b1))
     {
         size_t n = length - 1;
         Real t0 = 4*(f[n-3] + third<Real>()*f[n - 1]);
@@ -177,7 +177,7 @@ cubic_b_spline_imp<Real>::cubic_b_spline_imp(BidiIterator f, BidiIterator end_p,
     Real t = 1;
     for (size_t i = 0; i < length; ++i)
     {
-        if (boost::math::isnan(f[i]))
+        if (hydra_boost::math::isnan(f[i]))
         {
             std::string err = "This function you are trying to interpolate is a nan at index " + std::to_string(i) + "\n";
             throw std::logic_error(err);
@@ -273,8 +273,8 @@ Real cubic_b_spline_imp<Real>::operator()(Real x) const
     using std::ceil;
     using std::floor;
 
-    size_t k_min = static_cast<size_t>((max)(static_cast<long>(0), boost::math::ltrunc(ceil(t - 2))));
-    size_t k_max = static_cast<size_t>((max)((min)(static_cast<long>(m_beta.size() - 1), boost::math::ltrunc(floor(t + 2))), 0l));
+    size_t k_min = static_cast<size_t>((max)(static_cast<long>(0), hydra_boost::math::ltrunc(ceil(t - 2))));
+    size_t k_max = static_cast<size_t>((max)((min)(static_cast<long>(m_beta.size() - 1), hydra_boost::math::ltrunc(floor(t + 2))), 0l));
     for (size_t k = k_min; k <= k_max; ++k)
     {
         z += m_beta[k]*b3_spline(t - k);
@@ -294,8 +294,8 @@ Real cubic_b_spline_imp<Real>::prime(Real x) const
     using std::ceil;
     using std::floor;
 
-    size_t k_min = static_cast<size_t>((max)(static_cast<long>(0), boost::math::ltrunc(ceil(t - 2))));
-    size_t k_max = static_cast<size_t>((min)(static_cast<long>(m_beta.size() - 1), boost::math::ltrunc(floor(t + 2))));
+    size_t k_min = static_cast<size_t>((max)(static_cast<long>(0), hydra_boost::math::ltrunc(ceil(t - 2))));
+    size_t k_max = static_cast<size_t>((min)(static_cast<long>(m_beta.size() - 1), hydra_boost::math::ltrunc(floor(t + 2))));
 
     for (size_t k = k_min; k <= k_max; ++k)
     {
@@ -315,8 +315,8 @@ Real cubic_b_spline_imp<Real>::double_prime(Real x) const
     using std::ceil;
     using std::floor;
 
-    size_t k_min = static_cast<size_t>((max)(static_cast<long>(0), boost::math::ltrunc(ceil(t - 2))));
-    size_t k_max = static_cast<size_t>((min)(static_cast<long>(m_beta.size() - 1), boost::math::ltrunc(floor(t + 2))));
+    size_t k_min = static_cast<size_t>((max)(static_cast<long>(0), hydra_boost::math::ltrunc(ceil(t - 2))));
+    size_t k_max = static_cast<size_t>((min)(static_cast<long>(m_beta.size() - 1), hydra_boost::math::ltrunc(floor(t + 2))));
 
     for (size_t k = k_min; k <= k_max; ++k)
     {

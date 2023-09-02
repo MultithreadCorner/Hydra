@@ -5,8 +5,8 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_FIBO_HPP
-#define BOOST_MATH_SPECIAL_FIBO_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_FIBO_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_FIBO_HPP
 
 #include <hydra/detail/external/hydra_boost/math/constants/constants.hpp>
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
@@ -17,7 +17,7 @@
 #pragma once
 #endif
 
-namespace boost {
+namespace hydra_boost {
 namespace math {
 
 namespace detail {
@@ -26,7 +26,7 @@ namespace detail {
 } // namespace detail
 
 template <typename T>
-inline BOOST_CXX14_CONSTEXPR T unchecked_fibonacci(unsigned long long n) noexcept(std::is_fundamental<T>::value) {
+inline HYDRA_BOOST_CXX14_CONSTEXPR T unchecked_fibonacci(unsigned long long n) noexcept(std::is_fundamental<T>::value) {
     // This function is called by the rest and computes the actual nth fibonacci number
     // First few fibonacci numbers: 0 (0th), 1 (1st), 1 (2nd), 2 (3rd), ...
     if (n <= 2) return n == 0 ? 0 : 1;
@@ -50,15 +50,15 @@ inline BOOST_CXX14_CONSTEXPR T unchecked_fibonacci(unsigned long long n) noexcep
 }
 
 template <typename T, class Policy>
-T inline BOOST_CXX14_CONSTEXPR fibonacci(unsigned long long n, const Policy &pol) {
+T inline HYDRA_BOOST_CXX14_CONSTEXPR fibonacci(unsigned long long n, const Policy &pol) {
     // check for overflow using approximation to binet's formula: F_n ~ phi^n / sqrt(5)
     if (n > 20 && n * detail::fib_bits_phi - detail::fib_bits_deno > std::numeric_limits<T>::digits)
-        return policies::raise_overflow_error<T>("boost::math::fibonacci<%1%>(unsigned long long)", "Possible overflow detected.", pol);
+        return policies::raise_overflow_error<T>("hydra_boost::math::fibonacci<%1%>(unsigned long long)", "Possible overflow detected.", pol);
     return unchecked_fibonacci<T>(n);
 }
 
 template <typename T>
-T inline BOOST_CXX14_CONSTEXPR fibonacci(unsigned long long n) {
+T inline HYDRA_BOOST_CXX14_CONSTEXPR fibonacci(unsigned long long n) {
     return fibonacci<T>(n, policies::policy<>());
 }
 
@@ -87,6 +87,6 @@ class fibonacci_generator {
 };
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 #endif

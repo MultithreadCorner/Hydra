@@ -5,14 +5,14 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_POLICY_ERROR_HANDLING_HPP
-#define BOOST_MATH_POLICY_ERROR_HANDLING_HPP
+#ifndef HYDRA_BOOST_MATH_POLICY_ERROR_HANDLING_HPP
+#define HYDRA_BOOST_MATH_POLICY_ERROR_HANDLING_HPP
 
 #include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
 #include <iomanip>
 #include <string>
 #include <cstring>
-#ifndef BOOST_NO_RTTI
+#ifndef HYDRA_BOOST_NO_RTTI
 #include <typeinfo>
 #endif
 #include <cerrno>
@@ -21,7 +21,7 @@
 #include <cstdint>
 #include <hydra/detail/external/hydra_boost/math/policies/policy.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/precision.hpp>
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
 #include <stdexcept>
 #include <hydra/detail/external/hydra_boost/math/tools/throw_exception.hpp>
 #endif
@@ -38,9 +38,9 @@
 #endif
 #include <sstream>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
 
 class evaluation_error : public std::runtime_error
 {
@@ -82,9 +82,9 @@ namespace detail
 {
 
 template <class T>
-inline std::string prec_format(const T& val)
+std::string prec_format(const T& val)
 {
-   typedef typename boost::math::policies::precision<T, boost::math::policies::policy<> >::type prec_type;
+   typedef typename hydra_boost::math::policies::precision<T, hydra_boost::math::policies::policy<> >::type prec_type;
    std::stringstream ss;
    if(prec_type::value)
    {
@@ -94,18 +94,6 @@ inline std::string prec_format(const T& val)
    ss << val;
    return ss.str();
 }
-
-#ifdef BOOST_MATH_USE_CHARCONV_FOR_CONVERSION
-
-template <>
-inline std::string prec_format<std::float128_t>(const std::float128_t& val)
-{
-   char buffer[128] {};
-   const auto r = std::to_chars(buffer, buffer + sizeof(buffer), val);
-   return std::string(buffer, r.ptr);
-}
-
-#endif
 
 inline void replace_all_in_string(std::string& result, const char* what, const char* with)
 {
@@ -122,7 +110,7 @@ inline void replace_all_in_string(std::string& result, const char* what, const c
 template <class T>
 inline const char* name_of()
 {
-#ifndef BOOST_NO_RTTI
+#ifndef HYDRA_BOOST_NO_RTTI
    return typeid(T).name();
 #else
    return "unknown";
@@ -132,15 +120,15 @@ template <> inline const char* name_of<float>(){ return "float"; }
 template <> inline const char* name_of<double>(){ return "double"; }
 template <> inline const char* name_of<long double>(){ return "long double"; }
 
-#ifdef BOOST_MATH_USE_FLOAT128
+#ifdef HYDRA_BOOST_MATH_USE_FLOAT128
 template <>
-inline const char* name_of<BOOST_MATH_FLOAT128_TYPE>()
+inline const char* name_of<HYDRA_BOOST_MATH_FLOAT128_TYPE>()
 {
    return "__float128";
 }
 #endif
 
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
 template <class E, class T>
 void raise_error(const char* pfunction, const char* message)
 {
@@ -155,8 +143,8 @@ void raise_error(const char* pfunction, const char* message)
 
   std::string function(pfunction);
   std::string msg("Error in function ");
-#ifndef BOOST_NO_RTTI
-  replace_all_in_string(function, "%1%", boost::math::policies::detail::name_of<T>());
+#ifndef HYDRA_BOOST_NO_RTTI
+  replace_all_in_string(function, "%1%", hydra_boost::math::policies::detail::name_of<T>());
 #else
   replace_all_in_string(function, "%1%", "Unknown");
 #endif
@@ -164,7 +152,7 @@ void raise_error(const char* pfunction, const char* message)
   msg += ": ";
   msg += message;
 
-  BOOST_MATH_THROW_EXCEPTION(E(msg))
+  HYDRA_BOOST_MATH_THROW_EXCEPTION(E(msg))
 }
 
 template <class E, class T>
@@ -182,8 +170,8 @@ void raise_error(const char* pfunction, const char* pmessage, const T& val)
   std::string function(pfunction);
   std::string message(pmessage);
   std::string msg("Error in function ");
-#ifndef BOOST_NO_RTTI
-  replace_all_in_string(function, "%1%", boost::math::policies::detail::name_of<T>());
+#ifndef HYDRA_BOOST_NO_RTTI
+  replace_all_in_string(function, "%1%", hydra_boost::math::policies::detail::name_of<T>());
 #else
   replace_all_in_string(function, "%1%", "Unknown");
 #endif
@@ -194,7 +182,7 @@ void raise_error(const char* pfunction, const char* pmessage, const T& val)
   replace_all_in_string(message, "%1%", sval.c_str());
   msg += message;
 
-  BOOST_MATH_THROW_EXCEPTION(E(msg))
+  HYDRA_BOOST_MATH_THROW_EXCEPTION(E(msg))
 }
 #endif
 
@@ -203,10 +191,10 @@ inline T raise_domain_error(
            const char* function,
            const char* message,
            const T& val,
-           const ::boost::math::policies::domain_error< ::boost::math::policies::throw_on_error>&)
+           const ::hydra_boost::math::policies::domain_error< ::hydra_boost::math::policies::throw_on_error>&)
 {
-#ifdef BOOST_NO_EXCEPTIONS
-   static_assert(sizeof(T) == 0, "Error handler called with throw_on_error and BOOST_NO_EXCEPTIONS set.");
+#ifdef HYDRA_BOOST_NO_EXCEPTIONS
+   static_assert(sizeof(T) == 0, "Error handler called with throw_on_error and HYDRA_BOOST_NO_EXCEPTIONS set.");
 #else
    raise_error<std::domain_error, T>(function, message, val);
    // we never get here:
@@ -219,7 +207,7 @@ inline constexpr T raise_domain_error(
            const char* ,
            const char* ,
            const T& ,
-           const ::boost::math::policies::domain_error< ::boost::math::policies::ignore_error>&) BOOST_MATH_NOEXCEPT(T)
+           const ::hydra_boost::math::policies::domain_error< ::hydra_boost::math::policies::ignore_error>&) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    // This may or may not do the right thing, but the user asked for the error
    // to be ignored so here we go anyway:
@@ -231,7 +219,7 @@ inline T raise_domain_error(
            const char* ,
            const char* ,
            const T& ,
-           const ::boost::math::policies::domain_error< ::boost::math::policies::errno_on_error>&) BOOST_MATH_NOEXCEPT(T)
+           const ::hydra_boost::math::policies::domain_error< ::hydra_boost::math::policies::errno_on_error>&) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    errno = EDOM;
    // This may or may not do the right thing, but the user asked for the error
@@ -244,7 +232,7 @@ inline T raise_domain_error(
            const char* function,
            const char* message,
            const T& val,
-           const  ::boost::math::policies::domain_error< ::boost::math::policies::user_error>&)
+           const  ::hydra_boost::math::policies::domain_error< ::hydra_boost::math::policies::user_error>&)
 {
    return user_domain_error(function, message, val);
 }
@@ -254,12 +242,12 @@ inline T raise_pole_error(
            const char* function,
            const char* message,
            const T& val,
-           const  ::boost::math::policies::pole_error< ::boost::math::policies::throw_on_error>&)
+           const  ::hydra_boost::math::policies::pole_error< ::hydra_boost::math::policies::throw_on_error>&)
 {
-#ifdef BOOST_NO_EXCEPTIONS
-   static_assert(sizeof(T) == 0, "Error handler called with throw_on_error and BOOST_NO_EXCEPTIONS set.");
+#ifdef HYDRA_BOOST_NO_EXCEPTIONS
+   static_assert(sizeof(T) == 0, "Error handler called with throw_on_error and HYDRA_BOOST_NO_EXCEPTIONS set.");
 #else
-   return boost::math::policies::detail::raise_domain_error(function, message, val,  ::boost::math::policies::domain_error< ::boost::math::policies::throw_on_error>());
+   return hydra_boost::math::policies::detail::raise_domain_error(function, message, val,  ::hydra_boost::math::policies::domain_error< ::hydra_boost::math::policies::throw_on_error>());
 #endif
 }
 
@@ -268,9 +256,9 @@ inline constexpr T raise_pole_error(
            const char* function,
            const char* message,
            const T& val,
-           const  ::boost::math::policies::pole_error< ::boost::math::policies::ignore_error>&) BOOST_MATH_NOEXCEPT(T)
+           const  ::hydra_boost::math::policies::pole_error< ::hydra_boost::math::policies::ignore_error>&) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
-   return  ::boost::math::policies::detail::raise_domain_error(function, message, val,  ::boost::math::policies::domain_error< ::boost::math::policies::ignore_error>());
+   return  ::hydra_boost::math::policies::detail::raise_domain_error(function, message, val,  ::hydra_boost::math::policies::domain_error< ::hydra_boost::math::policies::ignore_error>());
 }
 
 template <class T>
@@ -278,9 +266,9 @@ inline constexpr T raise_pole_error(
            const char* function,
            const char* message,
            const T& val,
-           const  ::boost::math::policies::pole_error< ::boost::math::policies::errno_on_error>&) BOOST_MATH_NOEXCEPT(T)
+           const  ::hydra_boost::math::policies::pole_error< ::hydra_boost::math::policies::errno_on_error>&) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
-   return  ::boost::math::policies::detail::raise_domain_error(function, message, val,  ::boost::math::policies::domain_error< ::boost::math::policies::errno_on_error>());
+   return  ::hydra_boost::math::policies::detail::raise_domain_error(function, message, val,  ::hydra_boost::math::policies::domain_error< ::hydra_boost::math::policies::errno_on_error>());
 }
 
 template <class T>
@@ -288,7 +276,7 @@ inline T raise_pole_error(
            const char* function,
            const char* message,
            const T& val,
-           const  ::boost::math::policies::pole_error< ::boost::math::policies::user_error>&)
+           const  ::hydra_boost::math::policies::pole_error< ::hydra_boost::math::policies::user_error>&)
 {
    return user_pole_error(function, message, val);
 }
@@ -297,14 +285,14 @@ template <class T>
 inline T raise_overflow_error(
            const char* function,
            const char* message,
-           const  ::boost::math::policies::overflow_error< ::boost::math::policies::throw_on_error>&)
+           const  ::hydra_boost::math::policies::overflow_error< ::hydra_boost::math::policies::throw_on_error>&)
 {
-#ifdef BOOST_NO_EXCEPTIONS
-   static_assert(sizeof(T) == 0, "Error handler called with throw_on_error and BOOST_NO_EXCEPTIONS set.");
+#ifdef HYDRA_BOOST_NO_EXCEPTIONS
+   static_assert(sizeof(T) == 0, "Error handler called with throw_on_error and HYDRA_BOOST_NO_EXCEPTIONS set.");
 #else
    raise_error<std::overflow_error, T>(function, message ? message : "numeric overflow");
    // We should never get here:
-   return std::numeric_limits<T>::has_infinity ? std::numeric_limits<T>::infinity() : boost::math::tools::max_value<T>();
+   return std::numeric_limits<T>::has_infinity ? std::numeric_limits<T>::infinity() : hydra_boost::math::tools::max_value<T>();
 #endif
 }
 
@@ -313,14 +301,14 @@ inline T raise_overflow_error(
            const char* function,
            const char* message,
            const T& val,
-           const ::boost::math::policies::overflow_error< ::boost::math::policies::throw_on_error>&)
+           const ::hydra_boost::math::policies::overflow_error< ::hydra_boost::math::policies::throw_on_error>&)
 {
-#ifdef BOOST_NO_EXCEPTIONS
-   static_assert(sizeof(T) == 0, "Error handler called with throw_on_error and BOOST_NO_EXCEPTIONS set.");
+#ifdef HYDRA_BOOST_NO_EXCEPTIONS
+   static_assert(sizeof(T) == 0, "Error handler called with throw_on_error and HYDRA_BOOST_NO_EXCEPTIONS set.");
 #else
    raise_error<std::overflow_error, T>(function, message ? message : "numeric overflow", val);
    // We should never get here:
-   return std::numeric_limits<T>::has_infinity ? std::numeric_limits<T>::infinity() : boost::math::tools::max_value<T>();
+   return std::numeric_limits<T>::has_infinity ? std::numeric_limits<T>::infinity() : hydra_boost::math::tools::max_value<T>();
 #endif
 }
 
@@ -328,11 +316,11 @@ template <class T>
 inline constexpr T raise_overflow_error(
            const char* ,
            const char* ,
-           const  ::boost::math::policies::overflow_error< ::boost::math::policies::ignore_error>&) BOOST_MATH_NOEXCEPT(T)
+           const  ::hydra_boost::math::policies::overflow_error< ::hydra_boost::math::policies::ignore_error>&) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    // This may or may not do the right thing, but the user asked for the error
    // to be ignored so here we go anyway:
-   return std::numeric_limits<T>::has_infinity ? std::numeric_limits<T>::infinity() : boost::math::tools::max_value<T>();
+   return std::numeric_limits<T>::has_infinity ? std::numeric_limits<T>::infinity() : hydra_boost::math::tools::max_value<T>();
 }
 
 template <class T>
@@ -340,23 +328,23 @@ inline constexpr T raise_overflow_error(
            const char* ,
            const char* ,
            const T&,
-           const  ::boost::math::policies::overflow_error< ::boost::math::policies::ignore_error>&) BOOST_MATH_NOEXCEPT(T)
+           const  ::hydra_boost::math::policies::overflow_error< ::hydra_boost::math::policies::ignore_error>&) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    // This may or may not do the right thing, but the user asked for the error
    // to be ignored so here we go anyway:
-   return std::numeric_limits<T>::has_infinity ? std::numeric_limits<T>::infinity() : boost::math::tools::max_value<T>();
+   return std::numeric_limits<T>::has_infinity ? std::numeric_limits<T>::infinity() : hydra_boost::math::tools::max_value<T>();
 }
 
 template <class T>
 inline T raise_overflow_error(
            const char* ,
            const char* ,
-           const  ::boost::math::policies::overflow_error< ::boost::math::policies::errno_on_error>&) BOOST_MATH_NOEXCEPT(T)
+           const  ::hydra_boost::math::policies::overflow_error< ::hydra_boost::math::policies::errno_on_error>&) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    errno = ERANGE;
    // This may or may not do the right thing, but the user asked for the error
    // to be silent so here we go anyway:
-   return std::numeric_limits<T>::has_infinity ? std::numeric_limits<T>::infinity() : boost::math::tools::max_value<T>();
+   return std::numeric_limits<T>::has_infinity ? std::numeric_limits<T>::infinity() : hydra_boost::math::tools::max_value<T>();
 }
 
 template <class T>
@@ -364,19 +352,19 @@ inline T raise_overflow_error(
            const char* ,
            const char* ,
            const T&,
-           const  ::boost::math::policies::overflow_error< ::boost::math::policies::errno_on_error>&) BOOST_MATH_NOEXCEPT(T)
+           const  ::hydra_boost::math::policies::overflow_error< ::hydra_boost::math::policies::errno_on_error>&) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    errno = ERANGE;
    // This may or may not do the right thing, but the user asked for the error
    // to be silent so here we go anyway:
-   return std::numeric_limits<T>::has_infinity ? std::numeric_limits<T>::infinity() : boost::math::tools::max_value<T>();
+   return std::numeric_limits<T>::has_infinity ? std::numeric_limits<T>::infinity() : hydra_boost::math::tools::max_value<T>();
 }
 
 template <class T>
 inline T raise_overflow_error(
            const char* function,
            const char* message,
-           const  ::boost::math::policies::overflow_error< ::boost::math::policies::user_error>&)
+           const  ::hydra_boost::math::policies::overflow_error< ::hydra_boost::math::policies::user_error>&)
 {
    return user_overflow_error(function, message, std::numeric_limits<T>::infinity());
 }
@@ -386,7 +374,7 @@ inline T raise_overflow_error(
            const char* function,
            const char* message,
            const T& val,
-           const  ::boost::math::policies::overflow_error< ::boost::math::policies::user_error>&)
+           const  ::hydra_boost::math::policies::overflow_error< ::hydra_boost::math::policies::user_error>&)
 {
    std::string m(message ? message : "");
    std::string sval = prec_format(val);
@@ -399,10 +387,10 @@ template <class T>
 inline T raise_underflow_error(
            const char* function,
            const char* message,
-           const  ::boost::math::policies::underflow_error< ::boost::math::policies::throw_on_error>&)
+           const  ::hydra_boost::math::policies::underflow_error< ::hydra_boost::math::policies::throw_on_error>&)
 {
-#ifdef BOOST_NO_EXCEPTIONS
-   static_assert(sizeof(T) == 0, "Error handler called with throw_on_error and BOOST_NO_EXCEPTIONS set.");
+#ifdef HYDRA_BOOST_NO_EXCEPTIONS
+   static_assert(sizeof(T) == 0, "Error handler called with throw_on_error and HYDRA_BOOST_NO_EXCEPTIONS set.");
 #else
    raise_error<std::underflow_error, T>(function, message ? message : "numeric underflow");
    // We should never get here:
@@ -414,7 +402,7 @@ template <class T>
 inline constexpr T raise_underflow_error(
            const char* ,
            const char* ,
-           const  ::boost::math::policies::underflow_error< ::boost::math::policies::ignore_error>&) BOOST_MATH_NOEXCEPT(T)
+           const  ::hydra_boost::math::policies::underflow_error< ::hydra_boost::math::policies::ignore_error>&) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    // This may or may not do the right thing, but the user asked for the error
    // to be ignored so here we go anyway:
@@ -425,7 +413,7 @@ template <class T>
 inline T raise_underflow_error(
            const char* /* function */,
            const char* /* message */,
-           const  ::boost::math::policies::underflow_error< ::boost::math::policies::errno_on_error>&) BOOST_MATH_NOEXCEPT(T)
+           const  ::hydra_boost::math::policies::underflow_error< ::hydra_boost::math::policies::errno_on_error>&) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    errno = ERANGE;
    // This may or may not do the right thing, but the user asked for the error
@@ -437,7 +425,7 @@ template <class T>
 inline T raise_underflow_error(
            const char* function,
            const char* message,
-           const  ::boost::math::policies::underflow_error< ::boost::math::policies::user_error>&)
+           const  ::hydra_boost::math::policies::underflow_error< ::hydra_boost::math::policies::user_error>&)
 {
    return user_underflow_error(function, message, T(0));
 }
@@ -447,10 +435,10 @@ inline T raise_denorm_error(
            const char* function,
            const char* message,
            const T& /* val */,
-           const  ::boost::math::policies::denorm_error< ::boost::math::policies::throw_on_error>&)
+           const  ::hydra_boost::math::policies::denorm_error< ::hydra_boost::math::policies::throw_on_error>&)
 {
-#ifdef BOOST_NO_EXCEPTIONS
-   static_assert(sizeof(T) == 0, "Error handler called with throw_on_error and BOOST_NO_EXCEPTIONS set.");
+#ifdef HYDRA_BOOST_NO_EXCEPTIONS
+   static_assert(sizeof(T) == 0, "Error handler called with throw_on_error and HYDRA_BOOST_NO_EXCEPTIONS set.");
 #else
    raise_error<std::underflow_error, T>(function, message ? message : "denormalised result");
    // we never get here:
@@ -463,7 +451,7 @@ inline constexpr T raise_denorm_error(
            const char* ,
            const char* ,
            const T&  val,
-           const  ::boost::math::policies::denorm_error< ::boost::math::policies::ignore_error>&) BOOST_MATH_NOEXCEPT(T)
+           const  ::hydra_boost::math::policies::denorm_error< ::hydra_boost::math::policies::ignore_error>&) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    // This may or may not do the right thing, but the user asked for the error
    // to be ignored so here we go anyway:
@@ -475,7 +463,7 @@ inline T raise_denorm_error(
            const char* ,
            const char* ,
            const T& val,
-           const  ::boost::math::policies::denorm_error< ::boost::math::policies::errno_on_error>&) BOOST_MATH_NOEXCEPT(T)
+           const  ::hydra_boost::math::policies::denorm_error< ::hydra_boost::math::policies::errno_on_error>&) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    errno = ERANGE;
    // This may or may not do the right thing, but the user asked for the error
@@ -488,7 +476,7 @@ inline T raise_denorm_error(
            const char* function,
            const char* message,
            const T& val,
-           const  ::boost::math::policies::denorm_error< ::boost::math::policies::user_error>&)
+           const  ::hydra_boost::math::policies::denorm_error< ::hydra_boost::math::policies::user_error>&)
 {
    return user_denorm_error(function, message, val);
 }
@@ -498,12 +486,12 @@ inline T raise_evaluation_error(
            const char* function,
            const char* message,
            const T& val,
-           const  ::boost::math::policies::evaluation_error< ::boost::math::policies::throw_on_error>&)
+           const  ::hydra_boost::math::policies::evaluation_error< ::hydra_boost::math::policies::throw_on_error>&)
 {
-#ifdef BOOST_NO_EXCEPTIONS
-   static_assert(sizeof(T) == 0, "Error handler called with throw_on_error and BOOST_NO_EXCEPTIONS set.");
+#ifdef HYDRA_BOOST_NO_EXCEPTIONS
+   static_assert(sizeof(T) == 0, "Error handler called with throw_on_error and HYDRA_BOOST_NO_EXCEPTIONS set.");
 #else
-   raise_error<boost::math::evaluation_error, T>(function, message, val);
+   raise_error<hydra_boost::math::evaluation_error, T>(function, message, val);
    // we never get here:
    return T(0);
 #endif
@@ -514,7 +502,7 @@ inline constexpr T raise_evaluation_error(
            const char* ,
            const char* ,
            const T& val,
-           const  ::boost::math::policies::evaluation_error< ::boost::math::policies::ignore_error>&) BOOST_MATH_NOEXCEPT(T)
+           const  ::hydra_boost::math::policies::evaluation_error< ::hydra_boost::math::policies::ignore_error>&) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    // This may or may not do the right thing, but the user asked for the error
    // to be ignored so here we go anyway:
@@ -526,7 +514,7 @@ inline T raise_evaluation_error(
            const char* ,
            const char* ,
            const T& val,
-           const  ::boost::math::policies::evaluation_error< ::boost::math::policies::errno_on_error>&) BOOST_MATH_NOEXCEPT(T)
+           const  ::hydra_boost::math::policies::evaluation_error< ::hydra_boost::math::policies::errno_on_error>&) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    errno = EDOM;
    // This may or may not do the right thing, but the user asked for the error
@@ -539,7 +527,7 @@ inline T raise_evaluation_error(
            const char* function,
            const char* message,
            const T& val,
-           const  ::boost::math::policies::evaluation_error< ::boost::math::policies::user_error>&)
+           const  ::hydra_boost::math::policies::evaluation_error< ::hydra_boost::math::policies::user_error>&)
 {
    return user_evaluation_error(function, message, val);
 }
@@ -550,12 +538,12 @@ inline TargetType raise_rounding_error(
            const char* message,
            const T& val,
            const TargetType&,
-           const  ::boost::math::policies::rounding_error< ::boost::math::policies::throw_on_error>&)
+           const  ::hydra_boost::math::policies::rounding_error< ::hydra_boost::math::policies::throw_on_error>&)
 {
-#ifdef BOOST_NO_EXCEPTIONS
-   static_assert(sizeof(T) == 0, "Error handler called with throw_on_error and BOOST_NO_EXCEPTIONS set.");
+#ifdef HYDRA_BOOST_NO_EXCEPTIONS
+   static_assert(sizeof(T) == 0, "Error handler called with throw_on_error and HYDRA_BOOST_NO_EXCEPTIONS set.");
 #else
-   raise_error<boost::math::rounding_error, T>(function, message, val);
+   raise_error<hydra_boost::math::rounding_error, T>(function, message, val);
    // we never get here:
    return TargetType(0);
 #endif
@@ -567,7 +555,7 @@ inline constexpr TargetType raise_rounding_error(
            const char* ,
            const T& val,
            const TargetType&,
-           const  ::boost::math::policies::rounding_error< ::boost::math::policies::ignore_error>&) BOOST_MATH_NOEXCEPT(T)
+           const  ::hydra_boost::math::policies::rounding_error< ::hydra_boost::math::policies::ignore_error>&) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    // This may or may not do the right thing, but the user asked for the error
    // to be ignored so here we go anyway:
@@ -581,7 +569,7 @@ inline TargetType raise_rounding_error(
            const char* ,
            const T& val,
            const TargetType&,
-           const  ::boost::math::policies::rounding_error< ::boost::math::policies::errno_on_error>&) BOOST_MATH_NOEXCEPT(T)
+           const  ::hydra_boost::math::policies::rounding_error< ::hydra_boost::math::policies::errno_on_error>&) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    errno = ERANGE;
    // This may or may not do the right thing, but the user asked for the error
@@ -595,7 +583,7 @@ inline TargetType raise_rounding_error(
            const char* message,
            const T& val,
            const TargetType& t,
-           const  ::boost::math::policies::rounding_error< ::boost::math::policies::user_error>&)
+           const  ::hydra_boost::math::policies::rounding_error< ::hydra_boost::math::policies::user_error>&)
 {
    return user_rounding_error(function, message, val, t);
 }
@@ -606,10 +594,10 @@ inline T raise_indeterminate_result_error(
            const char* message,
            const T& val,
            const R& ,
-           const ::boost::math::policies::indeterminate_result_error< ::boost::math::policies::throw_on_error>&)
+           const ::hydra_boost::math::policies::indeterminate_result_error< ::hydra_boost::math::policies::throw_on_error>&)
 {
-#ifdef BOOST_NO_EXCEPTIONS
-   static_assert(sizeof(T) == 0, "Error handler called with throw_on_error and BOOST_NO_EXCEPTIONS set.");
+#ifdef HYDRA_BOOST_NO_EXCEPTIONS
+   static_assert(sizeof(T) == 0, "Error handler called with throw_on_error and HYDRA_BOOST_NO_EXCEPTIONS set.");
 #else
    raise_error<std::domain_error, T>(function, message, val);
    // we never get here:
@@ -623,7 +611,7 @@ inline constexpr T raise_indeterminate_result_error(
            const char* ,
            const T& ,
            const R& result,
-           const ::boost::math::policies::indeterminate_result_error< ::boost::math::policies::ignore_error>&) BOOST_MATH_NOEXCEPT(T)
+           const ::hydra_boost::math::policies::indeterminate_result_error< ::hydra_boost::math::policies::ignore_error>&) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    // This may or may not do the right thing, but the user asked for the error
    // to be ignored so here we go anyway:
@@ -636,7 +624,7 @@ inline T raise_indeterminate_result_error(
            const char* ,
            const T& ,
            const R& result,
-           const ::boost::math::policies::indeterminate_result_error< ::boost::math::policies::errno_on_error>&)
+           const ::hydra_boost::math::policies::indeterminate_result_error< ::hydra_boost::math::policies::errno_on_error>&)
 {
    errno = EDOM;
    // This may or may not do the right thing, but the user asked for the error
@@ -650,7 +638,7 @@ inline T raise_indeterminate_result_error(
            const char* message,
            const T& val,
            const R& ,
-           const ::boost::math::policies::indeterminate_result_error< ::boost::math::policies::user_error>&)
+           const ::hydra_boost::math::policies::indeterminate_result_error< ::hydra_boost::math::policies::user_error>&)
 {
    return user_indeterminate_result_error(function, message, val);
 }
@@ -658,7 +646,7 @@ inline T raise_indeterminate_result_error(
 }  // namespace detail
 
 template <class T, class Policy>
-inline constexpr T raise_domain_error(const char* function, const char* message, const T& val, const Policy&) noexcept(is_noexcept_error_policy<Policy>::value && BOOST_MATH_IS_FLOAT(T))
+inline constexpr T raise_domain_error(const char* function, const char* message, const T& val, const Policy&) noexcept(is_noexcept_error_policy<Policy>::value && HYDRA_BOOST_MATH_IS_FLOAT(T))
 {
    typedef typename Policy::domain_error_type policy_type;
    return detail::raise_domain_error(
@@ -667,7 +655,7 @@ inline constexpr T raise_domain_error(const char* function, const char* message,
 }
 
 template <class T, class Policy>
-inline constexpr T raise_pole_error(const char* function, const char* message, const T& val, const Policy&) noexcept(is_noexcept_error_policy<Policy>::value && BOOST_MATH_IS_FLOAT(T))
+inline constexpr T raise_pole_error(const char* function, const char* message, const T& val, const Policy&) noexcept(is_noexcept_error_policy<Policy>::value && HYDRA_BOOST_MATH_IS_FLOAT(T))
 {
    typedef typename Policy::pole_error_type policy_type;
    return detail::raise_pole_error(
@@ -676,7 +664,7 @@ inline constexpr T raise_pole_error(const char* function, const char* message, c
 }
 
 template <class T, class Policy>
-inline constexpr T raise_overflow_error(const char* function, const char* message, const Policy&) noexcept(is_noexcept_error_policy<Policy>::value && BOOST_MATH_IS_FLOAT(T))
+inline constexpr T raise_overflow_error(const char* function, const char* message, const Policy&) noexcept(is_noexcept_error_policy<Policy>::value && HYDRA_BOOST_MATH_IS_FLOAT(T))
 {
    typedef typename Policy::overflow_error_type policy_type;
    return detail::raise_overflow_error<T>(
@@ -685,7 +673,7 @@ inline constexpr T raise_overflow_error(const char* function, const char* messag
 }
 
 template <class T, class Policy>
-inline constexpr T raise_overflow_error(const char* function, const char* message, const T& val, const Policy&) noexcept(is_noexcept_error_policy<Policy>::value && BOOST_MATH_IS_FLOAT(T))
+inline constexpr T raise_overflow_error(const char* function, const char* message, const T& val, const Policy&) noexcept(is_noexcept_error_policy<Policy>::value && HYDRA_BOOST_MATH_IS_FLOAT(T))
 {
    typedef typename Policy::overflow_error_type policy_type;
    return detail::raise_overflow_error(
@@ -694,7 +682,7 @@ inline constexpr T raise_overflow_error(const char* function, const char* messag
 }
 
 template <class T, class Policy>
-inline constexpr T raise_underflow_error(const char* function, const char* message, const Policy&) noexcept(is_noexcept_error_policy<Policy>::value && BOOST_MATH_IS_FLOAT(T))
+inline constexpr T raise_underflow_error(const char* function, const char* message, const Policy&) noexcept(is_noexcept_error_policy<Policy>::value && HYDRA_BOOST_MATH_IS_FLOAT(T))
 {
    typedef typename Policy::underflow_error_type policy_type;
    return detail::raise_underflow_error<T>(
@@ -703,7 +691,7 @@ inline constexpr T raise_underflow_error(const char* function, const char* messa
 }
 
 template <class T, class Policy>
-inline constexpr T raise_denorm_error(const char* function, const char* message, const T& val, const Policy&) noexcept(is_noexcept_error_policy<Policy>::value && BOOST_MATH_IS_FLOAT(T))
+inline constexpr T raise_denorm_error(const char* function, const char* message, const T& val, const Policy&) noexcept(is_noexcept_error_policy<Policy>::value && HYDRA_BOOST_MATH_IS_FLOAT(T))
 {
    typedef typename Policy::denorm_error_type policy_type;
    return detail::raise_denorm_error<T>(
@@ -713,7 +701,7 @@ inline constexpr T raise_denorm_error(const char* function, const char* message,
 }
 
 template <class T, class Policy>
-inline constexpr T raise_evaluation_error(const char* function, const char* message, const T& val, const Policy&) noexcept(is_noexcept_error_policy<Policy>::value && BOOST_MATH_IS_FLOAT(T))
+inline constexpr T raise_evaluation_error(const char* function, const char* message, const T& val, const Policy&) noexcept(is_noexcept_error_policy<Policy>::value && HYDRA_BOOST_MATH_IS_FLOAT(T))
 {
    typedef typename Policy::evaluation_error_type policy_type;
    return detail::raise_evaluation_error(
@@ -722,7 +710,7 @@ inline constexpr T raise_evaluation_error(const char* function, const char* mess
 }
 
 template <class T, class TargetType, class Policy>
-inline constexpr TargetType raise_rounding_error(const char* function, const char* message, const T& val, const TargetType& t, const Policy&) noexcept(is_noexcept_error_policy<Policy>::value && BOOST_MATH_IS_FLOAT(T))
+inline constexpr TargetType raise_rounding_error(const char* function, const char* message, const T& val, const TargetType& t, const Policy&) noexcept(is_noexcept_error_policy<Policy>::value && HYDRA_BOOST_MATH_IS_FLOAT(T))
 {
    typedef typename Policy::rounding_error_type policy_type;
    return detail::raise_rounding_error(
@@ -731,7 +719,7 @@ inline constexpr TargetType raise_rounding_error(const char* function, const cha
 }
 
 template <class T, class R, class Policy>
-inline constexpr T raise_indeterminate_result_error(const char* function, const char* message, const T& val, const R& result, const Policy&) noexcept(is_noexcept_error_policy<Policy>::value && BOOST_MATH_IS_FLOAT(T))
+inline constexpr T raise_indeterminate_result_error(const char* function, const char* message, const T& val, const R& result, const Policy&) noexcept(is_noexcept_error_policy<Policy>::value && HYDRA_BOOST_MATH_IS_FLOAT(T))
 {
    typedef typename Policy::indeterminate_result_error_type policy_type;
    return detail::raise_indeterminate_result_error(
@@ -746,19 +734,19 @@ namespace detail
 {
 
 template <class R, class T, class Policy>
-BOOST_FORCEINLINE bool check_overflow(T val, R* result, const char* function, const Policy& pol) noexcept(BOOST_MATH_IS_FLOAT(R) && BOOST_MATH_IS_FLOAT(T) && (Policy::value != throw_on_error) && (Policy::value != user_error))
+HYDRA_BOOST_FORCEINLINE bool check_overflow(T val, R* result, const char* function, const Policy& pol) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(R) && HYDRA_BOOST_MATH_IS_FLOAT(T) && (Policy::value != throw_on_error) && (Policy::value != user_error))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    if(fabs(val) > tools::max_value<R>())
    {
-      boost::math::policies::detail::raise_overflow_error<R>(function, nullptr, pol);
+      hydra_boost::math::policies::detail::raise_overflow_error<R>(function, nullptr, pol);
       *result = static_cast<R>(val);
       return true;
    }
    return false;
 }
 template <class R, class T, class Policy>
-BOOST_FORCEINLINE bool check_overflow(std::complex<T> val, R* result, const char* function, const Policy& pol) noexcept(BOOST_MATH_IS_FLOAT(R) && BOOST_MATH_IS_FLOAT(T) && (Policy::value != throw_on_error) && (Policy::value != user_error))
+HYDRA_BOOST_FORCEINLINE bool check_overflow(std::complex<T> val, R* result, const char* function, const Policy& pol) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(R) && HYDRA_BOOST_MATH_IS_FLOAT(T) && (Policy::value != throw_on_error) && (Policy::value != user_error))
 {
    typedef typename R::value_type r_type;
    r_type re, im;
@@ -768,17 +756,17 @@ BOOST_FORCEINLINE bool check_overflow(std::complex<T> val, R* result, const char
    return r;
 }
 template <class R, class T, class Policy>
-BOOST_FORCEINLINE bool check_underflow(T val, R* result, const char* function, const Policy& pol) noexcept(BOOST_MATH_IS_FLOAT(R) && BOOST_MATH_IS_FLOAT(T) && (Policy::value != throw_on_error) && (Policy::value != user_error))
+HYDRA_BOOST_FORCEINLINE bool check_underflow(T val, R* result, const char* function, const Policy& pol) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(R) && HYDRA_BOOST_MATH_IS_FLOAT(T) && (Policy::value != throw_on_error) && (Policy::value != user_error))
 {
    if((val != 0) && (static_cast<R>(val) == 0))
    {
-      *result = static_cast<R>(boost::math::policies::detail::raise_underflow_error<R>(function, nullptr, pol));
+      *result = static_cast<R>(hydra_boost::math::policies::detail::raise_underflow_error<R>(function, nullptr, pol));
       return true;
    }
    return false;
 }
 template <class R, class T, class Policy>
-BOOST_FORCEINLINE bool check_underflow(std::complex<T> val, R* result, const char* function, const Policy& pol) noexcept(BOOST_MATH_IS_FLOAT(R) && BOOST_MATH_IS_FLOAT(T) && (Policy::value != throw_on_error) && (Policy::value != user_error))
+HYDRA_BOOST_FORCEINLINE bool check_underflow(std::complex<T> val, R* result, const char* function, const Policy& pol) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(R) && HYDRA_BOOST_MATH_IS_FLOAT(T) && (Policy::value != throw_on_error) && (Policy::value != user_error))
 {
    typedef typename R::value_type r_type;
    r_type re, im;
@@ -788,18 +776,18 @@ BOOST_FORCEINLINE bool check_underflow(std::complex<T> val, R* result, const cha
    return r;
 }
 template <class R, class T, class Policy>
-BOOST_FORCEINLINE bool check_denorm(T val, R* result, const char* function, const Policy& pol) noexcept(BOOST_MATH_IS_FLOAT(R) && BOOST_MATH_IS_FLOAT(T) && (Policy::value != throw_on_error) && (Policy::value != user_error))
+HYDRA_BOOST_FORCEINLINE bool check_denorm(T val, R* result, const char* function, const Policy& pol) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(R) && HYDRA_BOOST_MATH_IS_FLOAT(T) && (Policy::value != throw_on_error) && (Policy::value != user_error))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    if((fabs(val) < static_cast<T>(tools::min_value<R>())) && (static_cast<R>(val) != 0))
    {
-      *result = static_cast<R>(boost::math::policies::detail::raise_denorm_error<R>(function, 0, static_cast<R>(val), pol));
+      *result = static_cast<R>(hydra_boost::math::policies::detail::raise_denorm_error<R>(function, 0, static_cast<R>(val), pol));
       return true;
    }
    return false;
 }
 template <class R, class T, class Policy>
-BOOST_FORCEINLINE bool check_denorm(std::complex<T> val, R* result, const char* function, const Policy& pol) noexcept(BOOST_MATH_IS_FLOAT(R) && BOOST_MATH_IS_FLOAT(T) && (Policy::value != throw_on_error) && (Policy::value != user_error))
+HYDRA_BOOST_FORCEINLINE bool check_denorm(std::complex<T> val, R* result, const char* function, const Policy& pol) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(R) && HYDRA_BOOST_MATH_IS_FLOAT(T) && (Policy::value != throw_on_error) && (Policy::value != user_error))
 {
    typedef typename R::value_type r_type;
    r_type re, im;
@@ -811,28 +799,28 @@ BOOST_FORCEINLINE bool check_denorm(std::complex<T> val, R* result, const char* 
 
 // Default instantiations with ignore_error policy.
 template <class R, class T>
-BOOST_FORCEINLINE constexpr bool check_overflow(T /* val */, R* /* result */, const char* /* function */, const overflow_error<ignore_error>&) noexcept(BOOST_MATH_IS_FLOAT(R) && BOOST_MATH_IS_FLOAT(T))
+HYDRA_BOOST_FORCEINLINE constexpr bool check_overflow(T /* val */, R* /* result */, const char* /* function */, const overflow_error<ignore_error>&) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(R) && HYDRA_BOOST_MATH_IS_FLOAT(T))
 { return false; }
 template <class R, class T>
-BOOST_FORCEINLINE constexpr bool check_overflow(std::complex<T> /* val */, R* /* result */, const char* /* function */, const overflow_error<ignore_error>&) noexcept(BOOST_MATH_IS_FLOAT(R) && BOOST_MATH_IS_FLOAT(T))
+HYDRA_BOOST_FORCEINLINE constexpr bool check_overflow(std::complex<T> /* val */, R* /* result */, const char* /* function */, const overflow_error<ignore_error>&) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(R) && HYDRA_BOOST_MATH_IS_FLOAT(T))
 { return false; }
 template <class R, class T>
-BOOST_FORCEINLINE constexpr bool check_underflow(T /* val */, R* /* result */, const char* /* function */, const underflow_error<ignore_error>&) noexcept(BOOST_MATH_IS_FLOAT(R) && BOOST_MATH_IS_FLOAT(T))
+HYDRA_BOOST_FORCEINLINE constexpr bool check_underflow(T /* val */, R* /* result */, const char* /* function */, const underflow_error<ignore_error>&) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(R) && HYDRA_BOOST_MATH_IS_FLOAT(T))
 { return false; }
 template <class R, class T>
-BOOST_FORCEINLINE constexpr bool check_underflow(std::complex<T> /* val */, R* /* result */, const char* /* function */, const underflow_error<ignore_error>&) noexcept(BOOST_MATH_IS_FLOAT(R) && BOOST_MATH_IS_FLOAT(T))
+HYDRA_BOOST_FORCEINLINE constexpr bool check_underflow(std::complex<T> /* val */, R* /* result */, const char* /* function */, const underflow_error<ignore_error>&) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(R) && HYDRA_BOOST_MATH_IS_FLOAT(T))
 { return false; }
 template <class R, class T>
-BOOST_FORCEINLINE constexpr bool check_denorm(T /* val */, R* /* result*/, const char* /* function */, const denorm_error<ignore_error>&) noexcept(BOOST_MATH_IS_FLOAT(R) && BOOST_MATH_IS_FLOAT(T))
+HYDRA_BOOST_FORCEINLINE constexpr bool check_denorm(T /* val */, R* /* result*/, const char* /* function */, const denorm_error<ignore_error>&) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(R) && HYDRA_BOOST_MATH_IS_FLOAT(T))
 { return false; }
 template <class R, class T>
-BOOST_FORCEINLINE constexpr bool check_denorm(std::complex<T> /* val */, R* /* result*/, const char* /* function */, const denorm_error<ignore_error>&) noexcept(BOOST_MATH_IS_FLOAT(R) && BOOST_MATH_IS_FLOAT(T))
+HYDRA_BOOST_FORCEINLINE constexpr bool check_denorm(std::complex<T> /* val */, R* /* result*/, const char* /* function */, const denorm_error<ignore_error>&) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(R) && HYDRA_BOOST_MATH_IS_FLOAT(T))
 { return false; }
 
 } // namespace detail
 
 template <class R, class Policy, class T>
-BOOST_FORCEINLINE R checked_narrowing_cast(T val, const char* function) noexcept(BOOST_MATH_IS_FLOAT(R) && BOOST_MATH_IS_FLOAT(T) && is_noexcept_error_policy<Policy>::value)
+HYDRA_BOOST_FORCEINLINE R checked_narrowing_cast(T val, const char* function) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(R) && HYDRA_BOOST_MATH_IS_FLOAT(T) && is_noexcept_error_policy<Policy>::value)
 {
    typedef typename Policy::overflow_error_type overflow_type;
    typedef typename Policy::underflow_error_type underflow_type;
@@ -852,7 +840,7 @@ BOOST_FORCEINLINE R checked_narrowing_cast(T val, const char* function) noexcept
 }
 
 template <class T, class Policy>
-inline void check_series_iterations(const char* function, std::uintmax_t max_iter, const Policy& pol) noexcept(BOOST_MATH_IS_FLOAT(T) && is_noexcept_error_policy<Policy>::value)
+inline void check_series_iterations(const char* function, std::uintmax_t max_iter, const Policy& pol) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(T) && is_noexcept_error_policy<Policy>::value)
 {
    if(max_iter >= policies::get_max_series_iterations<Policy>())
       raise_evaluation_error<T>(
@@ -861,7 +849,7 @@ inline void check_series_iterations(const char* function, std::uintmax_t max_ite
 }
 
 template <class T, class Policy>
-inline void check_root_iterations(const char* function, std::uintmax_t max_iter, const Policy& pol) noexcept(BOOST_MATH_IS_FLOAT(T) && is_noexcept_error_policy<Policy>::value)
+inline void check_root_iterations(const char* function, std::uintmax_t max_iter, const Policy& pol) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(T) && is_noexcept_error_policy<Policy>::value)
 {
    if(max_iter >= policies::get_max_root_iterations<Policy>())
       raise_evaluation_error<T>(
@@ -878,7 +866,7 @@ namespace detail{
 // that value usually comes from one of the error handlers above:
 //
 template <class T>
-std::pair<T, T> pair_from_single(const T& val) BOOST_MATH_NOEXCEPT(T)
+std::pair<T, T> pair_from_single(const T& val) HYDRA_BOOST_MATH_NOEXCEPT(T)
 {
    return std::make_pair(val, val);
 }
@@ -891,5 +879,5 @@ std::pair<T, T> pair_from_single(const T& val) BOOST_MATH_NOEXCEPT(T)
 
 }} // namespaces boost/math
 
-#endif // BOOST_MATH_POLICY_ERROR_HANDLING_HPP
+#endif // HYDRA_BOOST_MATH_POLICY_ERROR_HANDLING_HPP
 

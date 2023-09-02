@@ -11,8 +11,8 @@
 //  Updated 2015 to use Carlson's latest methods.
 //
 
-#ifndef BOOST_MATH_ELLINT_RC_HPP
-#define BOOST_MATH_ELLINT_RC_HPP
+#ifndef HYDRA_BOOST_MATH_ELLINT_RC_HPP
+#define HYDRA_BOOST_MATH_ELLINT_RC_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -29,14 +29,14 @@
 // R_C(x, y) = R_F(x, y, y) = 0.5 * \int_{0}^{\infty} (t+x)^{-1/2} (t+y)^{-1} dt
 // Carlson, Numerische Mathematik, vol 33, 1 (1979)
 
-namespace boost { namespace math { namespace detail{
+namespace hydra_boost { namespace math { namespace detail{
 
 template <typename T, typename Policy>
 T ellint_rc_imp(T x, T y, const Policy& pol)
 {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
 
-    static const char* function = "boost::math::ellint_rc<%1%>(%1%,%1%)";
+    static const char* function = "hydra_boost::math::ellint_rc<%1%>(%1%,%1%)";
 
     if(x < 0)
     {
@@ -74,10 +74,10 @@ T ellint_rc_imp(T x, T y, const Policy& pol)
     }
     else
     {
-       if(y / x > T(0.5))
+       if(y / x > 0.5)
        {
           T arg = sqrt((x - y) / x);
-          result = (boost::math::log1p(arg, pol) - boost::math::log1p(-arg, pol)) / (2 * sqrt(x - y));
+          result = (hydra_boost::math::log1p(arg, pol) - hydra_boost::math::log1p(-arg, pol)) / (2 * sqrt(x - y));
        }
        else
        {
@@ -98,7 +98,7 @@ inline typename tools::promote_args<T1, T2>::type
    return policies::checked_narrowing_cast<result_type, Policy>(
       detail::ellint_rc_imp(
          static_cast<value_type>(x),
-         static_cast<value_type>(y), pol), "boost::math::ellint_rc<%1%>(%1%,%1%)");
+         static_cast<value_type>(y), pol), "hydra_boost::math::ellint_rc<%1%>(%1%,%1%)");
 }
 
 template <class T1, class T2>
@@ -110,5 +110,5 @@ inline typename tools::promote_args<T1, T2>::type
 
 }} // namespaces
 
-#endif // BOOST_MATH_ELLINT_RC_HPP
+#endif // HYDRA_BOOST_MATH_ELLINT_RC_HPP
 

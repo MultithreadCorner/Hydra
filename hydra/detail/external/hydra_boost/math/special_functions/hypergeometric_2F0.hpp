@@ -7,8 +7,8 @@
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_HYPERGEOMETRIC_2F0_HPP
-#define BOOST_MATH_HYPERGEOMETRIC_2F0_HPP
+#ifndef HYDRA_BOOST_MATH_HYPERGEOMETRIC_2F0_HPP
+#define HYDRA_BOOST_MATH_HYPERGEOMETRIC_2F0_HPP
 
 #include <hydra/detail/external/hydra_boost/math/policies/policy.hpp>
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
@@ -17,7 +17,7 @@
 #include <hydra/detail/external/hydra_boost/math/special_functions/hermite.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/fraction.hpp>
 
-namespace boost { namespace math { namespace detail {
+namespace hydra_boost { namespace math { namespace detail {
 
    template <class T>
    struct hypergeometric_2F0_cf
@@ -46,7 +46,7 @@ namespace boost { namespace math { namespace detail {
    template <class T, class Policy>
    T hypergeometric_2F0_cf_imp(T a1, T a2, T z, const Policy& pol, const char* function)
    {
-      using namespace boost::math;
+      using namespace hydra_boost::math;
       hypergeometric_2F0_cf<T> evaluator(a1, a2, z);
       std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
       T cf = tools::continued_fraction_b(evaluator, policies::get_epsilon<T, Policy>(), max_iter);
@@ -62,9 +62,9 @@ namespace boost { namespace math { namespace detail {
       // The terms in this series go to infinity unless one of a1 and a2 is a negative integer.
       //
       using std::swap;
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
 
-      static const char* const function = "boost::math::hypergeometric_2F0<%1%,%1%,%1%>(%1%,%1%,%1%)";
+      static const char* const function = "hydra_boost::math::hypergeometric_2F0<%1%,%1%,%1%>(%1%,%1%,%1%)";
 
       if (z == 0)
          return 1;
@@ -73,7 +73,7 @@ namespace boost { namespace math { namespace detail {
       bool is_a2_integer = (a2 == floor(a2));
 
       if (!asymptotic && !is_a1_integer && !is_a2_integer)
-         return boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
+         return hydra_boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
       if (!is_a1_integer || (a1 > 0))
       {
          swap(a1, a2);
@@ -83,7 +83,7 @@ namespace boost { namespace math { namespace detail {
       // At this point a1 must be a negative integer:
       //
       if(!asymptotic && (!is_a1_integer || (a1 > 0)))
-         return boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
+         return hydra_boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
       //
       // Special cases first:
       //
@@ -92,29 +92,29 @@ namespace boost { namespace math { namespace detail {
       if ((a1 == a2 - 0.5f) && (z < 0))
       {
          // http://functions.wolfram.com/07.31.03.0083.01
-         int n = static_cast<int>(static_cast<std::uintmax_t>(boost::math::lltrunc(-2 * a1)));
+         int n = static_cast<int>(static_cast<std::uintmax_t>(hydra_boost::math::lltrunc(-2 * a1)));
          T smz = sqrt(-z);
-         return static_cast<T>(pow(2 / smz, T(-n)) * boost::math::hermite(n, 1 / smz, pol));  // Warning suppression: integer power returns at least a double
+         return pow(2 / smz, -n) * hydra_boost::math::hermite(n, 1 / smz, pol);
       }
 
       if (is_a1_integer && is_a2_integer)
       {
          if ((a1 < 1) && (a2 <= a1))
          {
-            const unsigned int n = static_cast<unsigned int>(static_cast<std::uintmax_t>(boost::math::lltrunc(-a1)));
-            const unsigned int m = static_cast<unsigned int>(static_cast<std::uintmax_t>(boost::math::lltrunc(-a2 - n)));
+            const unsigned int n = static_cast<unsigned int>(static_cast<std::uintmax_t>(hydra_boost::math::lltrunc(-a1)));
+            const unsigned int m = static_cast<unsigned int>(static_cast<std::uintmax_t>(hydra_boost::math::lltrunc(-a2 - n)));
 
-            return (pow(z, T(n)) * boost::math::factorial<T>(n, pol)) *
-               boost::math::laguerre(n, m, -(1 / z), pol);
+            return (pow(z, T(n)) * hydra_boost::math::factorial<T>(n, pol)) *
+               hydra_boost::math::laguerre(n, m, -(1 / z), pol);
          }
          else if ((a2 < 1) && (a1 <= a2))
          {
             // function is symmetric for a1 and a2
-            const unsigned int n = static_cast<unsigned int>(static_cast<std::uintmax_t>(boost::math::lltrunc(-a2)));
-            const unsigned int m = static_cast<unsigned int>(static_cast<std::uintmax_t>(boost::math::lltrunc(-a1 - n)));
+            const unsigned int n = static_cast<unsigned int>(static_cast<std::uintmax_t>(hydra_boost::math::lltrunc(-a2)));
+            const unsigned int m = static_cast<unsigned int>(static_cast<std::uintmax_t>(hydra_boost::math::lltrunc(-a1 - n)));
 
-            return (pow(z, T(n)) * boost::math::factorial<T>(n, pol)) *
-               boost::math::laguerre(n, m, -(1 / z), pol);
+            return (pow(z, T(n)) * hydra_boost::math::factorial<T>(n, pol)) *
+               hydra_boost::math::laguerre(n, m, -(1 / z), pol);
          }
       }
 
@@ -133,7 +133,7 @@ namespace boost { namespace math { namespace detail {
 template <class T1, class T2, class T3, class Policy>
 inline typename tools::promote_args<T1, T2, T3>::type hypergeometric_2F0(T1 a1, T2 a2, T3 z, const Policy& /* pol */)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
       typedef typename tools::promote_args<T1, T2, T3>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -148,7 +148,7 @@ inline typename tools::promote_args<T1, T2, T3>::type hypergeometric_2F0(T1 a1, 
          static_cast<value_type>(a2),
          static_cast<value_type>(z),
          forwarding_policy()),
-      "boost::math::hypergeometric_2F0<%1%>(%1%,%1%,%1%)");
+      "hydra_boost::math::hypergeometric_2F0<%1%>(%1%,%1%,%1%)");
 }
 
 template <class T1, class T2, class T3>
@@ -158,6 +158,6 @@ inline typename tools::promote_args<T1, T2, T3>::type hypergeometric_2F0(T1 a1, 
 }
 
 
-  } } // namespace boost::math
+  } } // namespace hydra_boost::math
 
-#endif // BOOST_MATH_HYPERGEOMETRIC_HPP
+#endif // HYDRA_BOOST_MATH_HYPERGEOMETRIC_HPP

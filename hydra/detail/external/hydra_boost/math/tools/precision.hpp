@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_TOOLS_PRECISION_INCLUDED
-#define BOOST_MATH_TOOLS_PRECISION_INCLUDED
+#ifndef HYDRA_BOOST_MATH_TOOLS_PRECISION_INCLUDED
+#define HYDRA_BOOST_MATH_TOOLS_PRECISION_INCLUDED
 
 #ifdef _MSC_VER
 #pragma once
@@ -19,7 +19,7 @@
 #include <cstdint>
 #include <cfloat> // LDBL_MANT_DIG
 
-namespace boost{ namespace math
+namespace hydra_boost{ namespace math
 {
 namespace tools
 {
@@ -36,7 +36,7 @@ namespace tools
 // See  Conceptual Requirements for Real Number Types.
 
 template <class T>
-inline constexpr int digits(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(T)) noexcept
+inline constexpr int digits(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(T)) noexcept
 {
    static_assert( ::std::numeric_limits<T>::is_specialized, "Type T must be specialized");
    static_assert( ::std::numeric_limits<T>::radix == 2 || ::std::numeric_limits<T>::radix == 10, "Type T must have a radix of 2 or 10");
@@ -47,7 +47,7 @@ inline constexpr int digits(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(T)) noexcept
 }
 
 template <class T>
-inline constexpr T max_value(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T))  noexcept(std::is_floating_point<T>::value)
+inline constexpr T max_value(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T))  noexcept(std::is_floating_point<T>::value)
 {
    static_assert( ::std::numeric_limits<T>::is_specialized, "Type T must be specialized");
    return (std::numeric_limits<T>::max)();
@@ -55,7 +55,7 @@ inline constexpr T max_value(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T))  noexcept(std
 // -max_value<double> = -1.79769e+308, max_value<double> = 1.79769e+308.
 
 template <class T>
-inline constexpr T min_value(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value)
+inline constexpr T min_value(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value)
 {
    static_assert( ::std::numeric_limits<T>::is_specialized, "Type T must be specialized");
 
@@ -72,13 +72,13 @@ namespace detail{
 // For type float first:
 //
 template <class T>
-inline constexpr T log_max_value(const std::integral_constant<int, 128>& BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value)
+inline constexpr T log_max_value(const std::integral_constant<int, 128>& HYDRA_BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value)
 {
    return 88.0f;
 }
 
 template <class T>
-inline constexpr T log_min_value(const std::integral_constant<int, 128>& BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value)
+inline constexpr T log_min_value(const std::integral_constant<int, 128>& HYDRA_BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value)
 {
    return -87.0f;
 }
@@ -86,13 +86,13 @@ inline constexpr T log_min_value(const std::integral_constant<int, 128>& BOOST_M
 // Now double:
 //
 template <class T>
-inline constexpr T log_max_value(const std::integral_constant<int, 1024>& BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value)
+inline constexpr T log_max_value(const std::integral_constant<int, 1024>& HYDRA_BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value)
 {
    return 709.0;
 }
 
 template <class T>
-inline constexpr T log_min_value(const std::integral_constant<int, 1024>& BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value)
+inline constexpr T log_min_value(const std::integral_constant<int, 1024>& HYDRA_BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value)
 {
    return -708.0;
 }
@@ -100,52 +100,52 @@ inline constexpr T log_min_value(const std::integral_constant<int, 1024>& BOOST_
 // 80 and 128-bit long doubles:
 //
 template <class T>
-inline constexpr T log_max_value(const std::integral_constant<int, 16384>& BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value)
+inline constexpr T log_max_value(const std::integral_constant<int, 16384>& HYDRA_BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value)
 {
    return 11356.0L;
 }
 
 template <class T>
-inline constexpr T log_min_value(const std::integral_constant<int, 16384>& BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value)
+inline constexpr T log_min_value(const std::integral_constant<int, 16384>& HYDRA_BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value)
 {
    return -11355.0L;
 }
 
 template <class T>
-inline T log_max_value(const std::integral_constant<int, 0>& BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T))
+inline T log_max_value(const std::integral_constant<int, 0>& HYDRA_BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 #ifdef __SUNPRO_CC
-   static const T m = boost::math::tools::max_value<T>();
+   static const T m = hydra_boost::math::tools::max_value<T>();
    static const T val = log(m);
 #else
-   static const T val = log(boost::math::tools::max_value<T>());
+   static const T val = log(hydra_boost::math::tools::max_value<T>());
 #endif
    return val;
 }
 
 template <class T>
-inline T log_min_value(const std::integral_constant<int, 0>& BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T))
+inline T log_min_value(const std::integral_constant<int, 0>& HYDRA_BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 #ifdef __SUNPRO_CC
-   static const T m = boost::math::tools::min_value<T>();
+   static const T m = hydra_boost::math::tools::min_value<T>();
    static const T val = log(m);
 #else
-   static const T val = log(boost::math::tools::min_value<T>());
+   static const T val = log(hydra_boost::math::tools::min_value<T>());
 #endif
    return val;
 }
 
 template <class T>
-inline constexpr T epsilon(const std::true_type& BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value)
+inline constexpr T epsilon(const std::true_type& HYDRA_BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value)
 {
    return std::numeric_limits<T>::epsilon();
 }
 
 #if defined(__GNUC__) && ((LDBL_MANT_DIG == 106) || (__LDBL_MANT_DIG__ == 106))
 template <>
-inline constexpr long double epsilon<long double>(const std::true_type& BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(long double)) noexcept(std::is_floating_point<long double>::value)
+inline constexpr long double epsilon<long double>(const std::true_type& HYDRA_BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(long double)) noexcept(std::is_floating_point<long double>::value)
 {
    // numeric_limits on Darwin (and elsewhere) tells lies here:
    // the issue is that long double on a few platforms is
@@ -164,10 +164,10 @@ inline constexpr long double epsilon<long double>(const std::true_type& BOOST_MA
 #endif
 
 template <class T>
-inline T epsilon(const std::false_type& BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T))
+inline T epsilon(const std::false_type& HYDRA_BOOST_MATH_APPEND_EXPLICIT_TEMPLATE_TYPE(T))
 {
    // Note: don't cache result as precision may vary at runtime:
-   BOOST_MATH_STD_USING  // for ADL of std names
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std names
    return ldexp(static_cast<T>(1), 1-policies::digits<T, policies::policy<> >());
 }
 
@@ -200,26 +200,26 @@ struct log_limit_noexcept_traits : public log_limit_noexcept_traits_imp<T, std::
 #endif
 
 template <class T>
-inline constexpr T log_max_value(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(detail::log_limit_noexcept_traits<T>::value)
+inline constexpr T log_max_value(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(detail::log_limit_noexcept_traits<T>::value)
 {
-#ifndef BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
+#ifndef HYDRA_BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
    return detail::log_max_value<T>(typename detail::log_limit_traits<T>::tag_type());
 #else
-   BOOST_MATH_ASSERT(::std::numeric_limits<T>::is_specialized);
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_ASSERT(::std::numeric_limits<T>::is_specialized);
+   HYDRA_BOOST_MATH_STD_USING
    static const T val = log((std::numeric_limits<T>::max)());
    return val;
 #endif
 }
 
 template <class T>
-inline constexpr T log_min_value(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(detail::log_limit_noexcept_traits<T>::value)
+inline constexpr T log_min_value(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(detail::log_limit_noexcept_traits<T>::value)
 {
-#ifndef BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
+#ifndef HYDRA_BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
    return detail::log_min_value<T>(typename detail::log_limit_traits<T>::tag_type());
 #else
-   BOOST_MATH_ASSERT(::std::numeric_limits<T>::is_specialized);
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_ASSERT(::std::numeric_limits<T>::is_specialized);
+   HYDRA_BOOST_MATH_STD_USING
    static const T val = log((std::numeric_limits<T>::min)());
    return val;
 #endif
@@ -230,9 +230,9 @@ inline constexpr T log_min_value(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(
 #endif
 
 template <class T>
-inline constexpr T epsilon(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(T)) noexcept(std::is_floating_point<T>::value)
+inline constexpr T epsilon(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(T)) noexcept(std::is_floating_point<T>::value)
 {
-#ifndef BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
+#ifndef HYDRA_BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
    return detail::epsilon<T>(std::integral_constant<bool, ::std::numeric_limits<T>::is_specialized>());
 #else
    return ::std::numeric_limits<T>::is_specialized ?
@@ -270,7 +270,7 @@ inline constexpr T root_epsilon_imp(const T*, const std::integral_constant<int, 
 template <class T, class Tag>
 inline T root_epsilon_imp(const T*, const Tag&)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    static const T r_eps = sqrt(tools::epsilon<T>());
    return r_eps;
 }
@@ -278,7 +278,7 @@ inline T root_epsilon_imp(const T*, const Tag&)
 template <class T>
 inline T root_epsilon_imp(const T*, const std::integral_constant<int, 0>&)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return sqrt(tools::epsilon<T>());
 }
 
@@ -309,7 +309,7 @@ inline constexpr T cbrt_epsilon_imp(const T*, const std::integral_constant<int, 
 template <class T, class Tag>
 inline T cbrt_epsilon_imp(const T*, const Tag&)
 {
-   BOOST_MATH_STD_USING;
+   HYDRA_BOOST_MATH_STD_USING;
    static const T cbrt_eps = pow(tools::epsilon<T>(), T(1) / 3);
    return cbrt_eps;
 }
@@ -317,7 +317,7 @@ inline T cbrt_epsilon_imp(const T*, const Tag&)
 template <class T>
 inline T cbrt_epsilon_imp(const T*, const std::integral_constant<int, 0>&)
 {
-   BOOST_MATH_STD_USING;
+   HYDRA_BOOST_MATH_STD_USING;
    return pow(tools::epsilon<T>(), T(1) / 3);
 }
 
@@ -348,7 +348,7 @@ inline constexpr T forth_root_epsilon_imp(const T*, const std::integral_constant
 template <class T, class Tag>
 inline T forth_root_epsilon_imp(const T*, const Tag&)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    static const T r_eps = sqrt(sqrt(tools::epsilon<T>()));
    return r_eps;
 }
@@ -356,7 +356,7 @@ inline T forth_root_epsilon_imp(const T*, const Tag&)
 template <class T>
 inline T forth_root_epsilon_imp(const T*, const std::integral_constant<int, 0>&)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return sqrt(sqrt(tools::epsilon<T>()));
 }
 
@@ -389,7 +389,7 @@ inline constexpr T forth_root_epsilon() noexcept(std::is_floating_point<T>::valu
 
 } // namespace tools
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
-#endif // BOOST_MATH_TOOLS_PRECISION_INCLUDED
+#endif // HYDRA_BOOST_MATH_TOOLS_PRECISION_INCLUDED
 

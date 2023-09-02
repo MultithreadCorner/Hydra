@@ -4,8 +4,8 @@
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_BERNOULLI_DETAIL_HPP
-#define BOOST_MATH_BERNOULLI_DETAIL_HPP
+#ifndef HYDRA_BOOST_MATH_BERNOULLI_DETAIL_HPP
+#define HYDRA_BOOST_MATH_BERNOULLI_DETAIL_HPP
 
 #include <hydra/detail/external/hydra_boost/math/tools/atomic.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/toms748_solve.hpp>
@@ -16,13 +16,13 @@
 #include <vector>
 #include <type_traits>
 
-#if defined(BOOST_HAS_THREADS) && !defined(BOOST_NO_CXX11_HDR_MUTEX) && !defined(BOOST_MATH_NO_ATOMIC_INT)
+#if defined(HYDRA_BOOST_HAS_THREADS) && !defined(HYDRA_BOOST_NO_CXX11_HDR_MUTEX) && !defined(HYDRA_BOOST_MATH_NO_ATOMIC_INT)
 #include <mutex>
 #else
-#  define BOOST_MATH_BERNOULLI_NOTHREADS
+#  define HYDRA_BOOST_MATH_BERNOULLI_NOTHREADS
 #endif
 
-namespace boost{ namespace math{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace detail{
 //
 // Asymptotic expansion for B2n due to
 // Luschny LogB3 formula (http://www.luschny.de/math/primes/bernincl.html)
@@ -30,36 +30,36 @@ namespace boost{ namespace math{ namespace detail{
 template <class T, class Policy>
 T b2n_asymptotic(int n)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    const auto nx = static_cast<T>(n);
    const T nx2(nx * nx);
 
    const T approximate_log_of_bernoulli_bn =
-        ((boost::math::constants::half<T>() + nx) * log(nx))
-        + ((boost::math::constants::half<T>() - nx) * log(boost::math::constants::pi<T>()))
-        + (((T(3) / 2) - nx) * boost::math::constants::ln_two<T>())
+        ((hydra_boost::math::constants::half<T>() + nx) * log(nx))
+        + ((hydra_boost::math::constants::half<T>() - nx) * log(hydra_boost::math::constants::pi<T>()))
+        + (((T(3) / 2) - nx) * hydra_boost::math::constants::ln_two<T>())
         + ((nx * (T(2) - (nx2 * 7) * (1 + ((nx2 * 30) * ((nx2 * 12) - 1))))) / (((nx2 * nx2) * nx2) * 2520));
    return ((n / 2) & 1 ? 1 : -1) * (approximate_log_of_bernoulli_bn > tools::log_max_value<T>()
-      ? policies::raise_overflow_error<T>("boost::math::bernoulli_b2n<%1%>(std::size_t)", nullptr, nx, Policy())
+      ? policies::raise_overflow_error<T>("hydra_boost::math::bernoulli_b2n<%1%>(std::size_t)", nullptr, nx, Policy())
       : static_cast<T>(exp(approximate_log_of_bernoulli_bn)));
 }
 
 template <class T, class Policy>
 T t2n_asymptotic(int n)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    // Just get B2n and convert to a Tangent number:
    T t2n = fabs(b2n_asymptotic<T, Policy>(2 * n)) / (2 * n);
    T p2 = ldexp(T(1), n);
    if(tools::max_value<T>() / p2 < t2n)
    {
-      return policies::raise_overflow_error<T>("boost::math::tangent_t2n<%1%>(std::size_t)", nullptr, T(n), Policy());
+      return policies::raise_overflow_error<T>("hydra_boost::math::tangent_t2n<%1%>(std::size_t)", nullptr, T(n), Policy());
    }
    t2n *= p2;
    p2 -= 1;
    if(tools::max_value<T>() / p2 < t2n)
    {
-      return policies::raise_overflow_error<T>("boost::math::tangent_t2n<%1%>(std::size_t)", nullptr, Policy());
+      return policies::raise_overflow_error<T>("hydra_boost::math::tangent_t2n<%1%>(std::size_t)", nullptr, Policy());
    }
    t2n *= p2;
    return t2n;
@@ -84,16 +84,16 @@ struct max_bernoulli_root_functor
    explicit max_bernoulli_root_functor(unsigned long long t) : target(static_cast<double>(t)) {}
    double operator()(double n) const
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
 
       // Luschny LogB3(n) formula.
 
       const double nx2(n * n);
 
       const double approximate_log_of_bernoulli_bn
-         =   ((boost::math::constants::half<double>() + n) * log(n))
-           + ((boost::math::constants::half<double>() - n) * log(boost::math::constants::pi<double>()))
-           + (((static_cast<double>(3) / 2) - n) * boost::math::constants::ln_two<double>())
+         =   ((hydra_boost::math::constants::half<double>() + n) * log(n))
+           + ((hydra_boost::math::constants::half<double>() - n) * log(hydra_boost::math::constants::pi<double>()))
+           + (((static_cast<double>(3) / 2) - n) * hydra_boost::math::constants::ln_two<double>())
            + ((n * (2 - (nx2 * 7) * (1 + ((nx2 * 30) * ((nx2 * 12) - 1))))) / (((nx2 * nx2) * nx2) * 2520));
 
       return approximate_log_of_bernoulli_bn - target;
@@ -108,11 +108,11 @@ inline std::size_t find_bernoulli_overflow_limit(const std::false_type&)
    // Set a limit on how large the result can ever be:
    static const auto max_result = static_cast<double>((std::numeric_limits<std::size_t>::max)() - 1000u);
 
-   unsigned long long t = lltrunc(boost::math::tools::log_max_value<T>());
+   unsigned long long t = lltrunc(hydra_boost::math::tools::log_max_value<T>());
    max_bernoulli_root_functor fun(t);
-   boost::math::tools::equal_floor tol;
-   std::uintmax_t max_iter = boost::math::policies::get_max_root_iterations<Policy>();
-   double result = boost::math::tools::toms748_solve(fun, sqrt(static_cast<double>(t)), static_cast<double>(t), tol, max_iter).first / 2;
+   hydra_boost::math::tools::equal_floor tol;
+   std::uintmax_t max_iter = hydra_boost::math::policies::get_max_root_iterations<Policy>();
+   double result = hydra_boost::math::tools::toms748_solve(fun, sqrt(static_cast<double>(t)), static_cast<double>(t), tol, max_iter).first / 2;
    if (result > max_result)
    {
       result = max_result;
@@ -145,7 +145,7 @@ std::size_t b2n_overflow_limit()
 template <class T, typename std::enable_if<std::numeric_limits<T>::is_specialized && (std::numeric_limits<T>::radix == 2), bool>::type = true>
 inline T tangent_scale_factor()
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return ldexp(T(1), std::numeric_limits<T>::min_exponent + 5);
 }
 
@@ -162,7 +162,7 @@ inline T tangent_scale_factor()
 // concurrently with another thread extending the table with new values.
 //
 // Very very simple vector class that will never allocate more than once, we could use
-// boost::container::static_vector here, but that allocates on the stack, which may well
+// hydra_boost::container::static_vector here, but that allocates on the stack, which may well
 // cause issues for the amount of memory we want in the extreme case...
 //
 template <class T>
@@ -188,16 +188,16 @@ struct fixed_vector : private std::allocator<T>
       }
       allocator_traits::deallocate(alloc, m_data, m_capacity);
    }
-   T& operator[](unsigned n) { BOOST_MATH_ASSERT(n < m_used); return m_data[n]; }
-   const T& operator[](unsigned n)const { BOOST_MATH_ASSERT(n < m_used); return m_data[n]; }
+   T& operator[](unsigned n) { HYDRA_BOOST_MATH_ASSERT(n < m_used); return m_data[n]; }
+   const T& operator[](unsigned n)const { HYDRA_BOOST_MATH_ASSERT(n < m_used); return m_data[n]; }
    unsigned size()const { return m_used; }
    unsigned size() { return m_used; }
    bool resize(unsigned n, const T& val)
    {
       if(n > m_capacity)
       {
-#ifndef BOOST_NO_EXCEPTIONS
-         BOOST_MATH_THROW_EXCEPTION(std::runtime_error("Exhausted storage for Bernoulli numbers."));
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
+         HYDRA_BOOST_MATH_THROW_EXCEPTION(std::runtime_error("Exhausted storage for Bernoulli numbers."));
 #else
          return false;
 #endif
@@ -226,7 +226,7 @@ class bernoulli_numbers_cache
 public:
    bernoulli_numbers_cache() : m_overflow_limit((std::numeric_limits<std::size_t>::max)())
       , m_counter(0)
-      , m_current_precision(boost::math::tools::digits<T>())
+      , m_current_precision(hydra_boost::math::tools::digits<T>())
    {}
 
    using container_type = fixed_vector<T>;
@@ -240,7 +240,7 @@ public:
          return false;
       }
 
-      BOOST_MATH_INSTRUMENT_VARIABLE(min_overflow_index);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(min_overflow_index);
 
       std::size_t prev_size = m_intermediates.size();
       m_intermediates.resize(m, T(0U));
@@ -250,16 +250,16 @@ public:
          m_intermediates[1] = tangent_scale_factor<T>() /*T(1U)*/;
          tn[0U] = T(0U);
          tn[1U] = tangent_scale_factor<T>()/* T(1U)*/;
-         BOOST_MATH_INSTRUMENT_VARIABLE(tn[0]);
-         BOOST_MATH_INSTRUMENT_VARIABLE(tn[1]);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(tn[0]);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(tn[1]);
       }
 
       for(std::size_t i = std::max<size_t>(2, prev_size); i < m; i++)
       {
          bool overflow_check = false;
-         if(i >= min_overflow_index && (boost::math::tools::max_value<T>() / (i-1) < m_intermediates[1]) )
+         if(i >= min_overflow_index && (hydra_boost::math::tools::max_value<T>() / (i-1) < m_intermediates[1]) )
          {
-            std::fill(tn.begin() + i, tn.end(), boost::math::tools::max_value<T>());
+            std::fill(tn.begin() + i, tn.end(), hydra_boost::math::tools::max_value<T>());
             break;
          }
          m_intermediates[1] = m_intermediates[1] * (i-1);
@@ -267,15 +267,15 @@ public:
          {
             overflow_check =
                   (i >= min_overflow_index) && (
-                  (boost::math::tools::max_value<T>() / (i - j) < m_intermediates[j])
-                  || (boost::math::tools::max_value<T>() / (i - j + 2) < m_intermediates[j-1])
-                  || (boost::math::tools::max_value<T>() - m_intermediates[j] * (i - j) < m_intermediates[j-1] * (i - j + 2))
-                  || ((boost::math::isinf)(m_intermediates[j]))
+                  (hydra_boost::math::tools::max_value<T>() / (i - j) < m_intermediates[j])
+                  || (hydra_boost::math::tools::max_value<T>() / (i - j + 2) < m_intermediates[j-1])
+                  || (hydra_boost::math::tools::max_value<T>() - m_intermediates[j] * (i - j) < m_intermediates[j-1] * (i - j + 2))
+                  || ((hydra_boost::math::isinf)(m_intermediates[j]))
                 );
 
             if(overflow_check)
             {
-               std::fill(tn.begin() + i, tn.end(), boost::math::tools::max_value<T>());
+               std::fill(tn.begin() + i, tn.end(), hydra_boost::math::tools::max_value<T>());
                break;
             }
             m_intermediates[j] = m_intermediates[j] * (i - j) + m_intermediates[j-1] * (i - j + 2);
@@ -283,15 +283,15 @@ public:
          if(overflow_check)
             break; // already filled the tn...
          tn[static_cast<typename container_type::size_type>(i)] = m_intermediates[i];
-         BOOST_MATH_INSTRUMENT_VARIABLE(i);
-         BOOST_MATH_INSTRUMENT_VARIABLE(tn[static_cast<typename container_type::size_type>(i)]);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(i);
+         HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(tn[static_cast<typename container_type::size_type>(i)]);
       }
       return true;
    }
 
    bool tangent_numbers_series(const std::size_t m)
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       static const std::size_t min_overflow_index = b2n_overflow_limit<T, Policy>() - 1;
 
       typename container_type::size_type old_size = bn.size();
@@ -351,7 +351,7 @@ public:
       //
       // There are basically 3 thread safety options:
       //
-      // 1) There are no threads (BOOST_HAS_THREADS is not defined).
+      // 1) There are no threads (HYDRA_BOOST_HAS_THREADS is not defined).
       // 2) There are threads, but we do not have a true atomic integer type,
       //    in this case we just use a mutex to guard against race conditions.
       // 3) There are threads, and we have an atomic integer: in this case we can
@@ -378,38 +378,38 @@ public:
          }
          for(; n; ++start, --n)
          {
-            *out = policies::raise_overflow_error<T>("boost::math::bernoulli_b2n<%1%>(std::size_t)", nullptr, T(start), pol);
+            *out = policies::raise_overflow_error<T>("hydra_boost::math::bernoulli_b2n<%1%>(std::size_t)", nullptr, T(start), pol);
             ++out;
          }
          return out;
       }
 
-      #if defined(BOOST_HAS_THREADS) && defined(BOOST_MATH_BERNOULLI_NOTHREADS) && !defined(BOOST_MATH_BERNOULLI_UNTHREADED)
+      #if defined(HYDRA_BOOST_HAS_THREADS) && defined(HYDRA_BOOST_MATH_BERNOULLI_NOTHREADS) && !defined(HYDRA_BOOST_MATH_BERNOULLI_UNTHREADED)
       // Add a static_assert on instantiation if we have threads, but no C++11 threading support.
-      static_assert(sizeof(T) == 1, "Unsupported configuration: your platform appears to have either no atomic integers, or no std::mutex.  If you are happy with thread-unsafe code, then you may define BOOST_MATH_BERNOULLI_UNTHREADED to suppress this error.");
-      #elif defined(BOOST_MATH_BERNOULLI_NOTHREADS)
+      static_assert(sizeof(T) == 1, "Unsupported configuration: your platform appears to have either no atomic integers, or no std::mutex.  If you are happy with thread-unsafe code, then you may define HYDRA_BOOST_MATH_BERNOULLI_UNTHREADED to suppress this error.");
+      #elif defined(HYDRA_BOOST_MATH_BERNOULLI_NOTHREADS)
       //
       // Single threaded code, very simple:
       //
-      if(m_current_precision < boost::math::tools::digits<T>())
+      if(m_current_precision < hydra_boost::math::tools::digits<T>())
       {
          bn.clear();
          tn.clear();
          m_intermediates.clear();
-         m_current_precision = boost::math::tools::digits<T>();
+         m_current_precision = hydra_boost::math::tools::digits<T>();
       }
       if(start + n >= bn.size())
       {
          std::size_t new_size = (std::min)((std::max)((std::max)(std::size_t(start + n), std::size_t(bn.size() + 20)), std::size_t(50)), std::size_t(bn.capacity()));
          if (!tangent_numbers_series(new_size))
          {
-            return std::fill_n(out, n, policies::raise_evaluation_error<T>("boost::math::bernoulli_b2n<%1%>(std::size_t)", "Unable to allocate Bernoulli numbers cache for %1% values", T(start + n), pol));
+            return std::fill_n(out, n, policies::raise_evaluation_error<T>("hydra_boost::math::bernoulli_b2n<%1%>(std::size_t)", "Unable to allocate Bernoulli numbers cache for %1% values", T(start + n), pol));
          }
       }
 
       for(std::size_t i = (std::max)(std::size_t(max_bernoulli_b2n<T>::value + 1), start); i < start + n; ++i)
       {
-         *out = (i >= m_overflow_limit) ? policies::raise_overflow_error<T>("boost::math::bernoulli_b2n<%1%>(std::size_t)", nullptr, T(i), pol) : bn[i];
+         *out = (i >= m_overflow_limit) ? policies::raise_overflow_error<T>("hydra_boost::math::bernoulli_b2n<%1%>(std::size_t)", nullptr, T(i), pol) : bn[i];
          ++out;
       }
       #else
@@ -420,26 +420,26 @@ public:
       // Get the counter and see if we need to calculate more constants:
       //
       if((static_cast<std::size_t>(m_counter.load(std::memory_order_consume)) < start + n)
-         || (static_cast<int>(m_current_precision.load(std::memory_order_consume)) < boost::math::tools::digits<T>()))
+         || (static_cast<int>(m_current_precision.load(std::memory_order_consume)) < hydra_boost::math::tools::digits<T>()))
       {
          std::lock_guard<std::mutex> l(m_mutex);
 
          if((static_cast<std::size_t>(m_counter.load(std::memory_order_consume)) < start + n)
-            || (static_cast<int>(m_current_precision.load(std::memory_order_consume)) < boost::math::tools::digits<T>()))
+            || (static_cast<int>(m_current_precision.load(std::memory_order_consume)) < hydra_boost::math::tools::digits<T>()))
          {
-            if(static_cast<int>(m_current_precision.load(std::memory_order_consume)) < boost::math::tools::digits<T>())
+            if(static_cast<int>(m_current_precision.load(std::memory_order_consume)) < hydra_boost::math::tools::digits<T>())
             {
                bn.clear();
                tn.clear();
                m_intermediates.clear();
                m_counter.store(0, std::memory_order_release);
-               m_current_precision = boost::math::tools::digits<T>();
+               m_current_precision = hydra_boost::math::tools::digits<T>();
             }
             if(start + n >= bn.size())
             {
                std::size_t new_size = (std::min)((std::max)((std::max)(std::size_t(start + n), std::size_t(bn.size() + 20)), std::size_t(50)), std::size_t(bn.capacity()));
                if (!tangent_numbers_series(new_size))
-                  return std::fill_n(out, n, policies::raise_evaluation_error<T>("boost::math::bernoulli_b2n<%1%>(std::size_t)", "Unable to allocate Bernoulli numbers cache for %1% values", T(new_size), pol));
+                  return std::fill_n(out, n, policies::raise_evaluation_error<T>("hydra_boost::math::bernoulli_b2n<%1%>(std::size_t)", "Unable to allocate Bernoulli numbers cache for %1% values", T(new_size), pol));
             }
             m_counter.store(static_cast<atomic_integer_type>(bn.size()), std::memory_order_release);
          }
@@ -447,11 +447,11 @@ public:
 
       for(std::size_t i = (std::max)(static_cast<std::size_t>(max_bernoulli_b2n<T>::value + 1), start); i < start + n; ++i)
       {
-         *out = (i >= m_overflow_limit) ? policies::raise_overflow_error<T>("boost::math::bernoulli_b2n<%1%>(std::size_t)", nullptr, T(i), pol) : bn[static_cast<typename container_type::size_type>(i)];
+         *out = (i >= m_overflow_limit) ? policies::raise_overflow_error<T>("hydra_boost::math::bernoulli_b2n<%1%>(std::size_t)", nullptr, T(i), pol) : bn[static_cast<typename container_type::size_type>(i)];
          ++out;
       }
 
-      #endif // BOOST_HAS_THREADS
+      #endif // HYDRA_BOOST_HAS_THREADS
       return out;
    }
 
@@ -461,7 +461,7 @@ public:
       //
       // There are basically 3 thread safety options:
       //
-      // 1) There are no threads (BOOST_HAS_THREADS is not defined).
+      // 1) There are no threads (HYDRA_BOOST_HAS_THREADS is not defined).
       // 2) There are threads, but we do not have a true atomic integer type,
       //    in this case we just use a mutex to guard against race conditions.
       // 3) There are threads, and we have an atomic integer: in this case we can
@@ -489,45 +489,45 @@ public:
          }
          for(; n; ++start, --n)
          {
-            *out = policies::raise_overflow_error<T>("boost::math::bernoulli_b2n<%1%>(std::size_t)", 0, T(start), pol);
+            *out = policies::raise_overflow_error<T>("hydra_boost::math::bernoulli_b2n<%1%>(std::size_t)", 0, T(start), pol);
             ++out;
          }
          return out;
       }
 
-      #if defined(BOOST_MATH_BERNOULLI_NOTHREADS)
+      #if defined(HYDRA_BOOST_MATH_BERNOULLI_NOTHREADS)
       //
       // Single threaded code, very simple:
       //
-      if(m_current_precision < boost::math::tools::digits<T>())
+      if(m_current_precision < hydra_boost::math::tools::digits<T>())
       {
          bn.clear();
          tn.clear();
          m_intermediates.clear();
-         m_current_precision = boost::math::tools::digits<T>();
+         m_current_precision = hydra_boost::math::tools::digits<T>();
       }
       if(start + n >= bn.size())
       {
          std::size_t new_size = (std::min)((std::max)((std::max)(start + n, std::size_t(bn.size() + 20)), std::size_t(50)), std::size_t(bn.capacity()));
          if (!tangent_numbers_series(new_size))
-            return std::fill_n(out, n, policies::raise_evaluation_error<T>("boost::math::bernoulli_b2n<%1%>(std::size_t)", "Unable to allocate Bernoulli numbers cache for %1% values", T(start + n), pol));
+            return std::fill_n(out, n, policies::raise_evaluation_error<T>("hydra_boost::math::bernoulli_b2n<%1%>(std::size_t)", "Unable to allocate Bernoulli numbers cache for %1% values", T(start + n), pol));
       }
 
       for(std::size_t i = start; i < start + n; ++i)
       {
          if(i >= m_overflow_limit)
-            *out = policies::raise_overflow_error<T>("boost::math::bernoulli_b2n<%1%>(std::size_t)", nullptr, T(i), pol);
+            *out = policies::raise_overflow_error<T>("hydra_boost::math::bernoulli_b2n<%1%>(std::size_t)", nullptr, T(i), pol);
          else
          {
             if(tools::max_value<T>() * tangent_scale_factor<T>() < tn[static_cast<typename container_type::size_type>(i)])
-               *out = policies::raise_overflow_error<T>("boost::math::bernoulli_b2n<%1%>(std::size_t)", nullptr, T(i), pol);
+               *out = policies::raise_overflow_error<T>("hydra_boost::math::bernoulli_b2n<%1%>(std::size_t)", nullptr, T(i), pol);
             else
                *out = tn[static_cast<typename container_type::size_type>(i)] / tangent_scale_factor<T>();
          }
          ++out;
       }
-      #elif defined(BOOST_MATH_NO_ATOMIC_INT)
-      static_assert(sizeof(T) == 1, "Unsupported configuration: your platform appears to have no atomic integers.  If you are happy with thread-unsafe code, then you may define BOOST_MATH_BERNOULLI_UNTHREADED to suppress this error.");
+      #elif defined(HYDRA_BOOST_MATH_NO_ATOMIC_INT)
+      static_assert(sizeof(T) == 1, "Unsupported configuration: your platform appears to have no atomic integers.  If you are happy with thread-unsafe code, then you may define HYDRA_BOOST_MATH_BERNOULLI_UNTHREADED to suppress this error.");
       #else
       //
       // Double-checked locking pattern, lets us access cached already cached values
@@ -536,26 +536,26 @@ public:
       // Get the counter and see if we need to calculate more constants:
       //
       if((static_cast<std::size_t>(m_counter.load(std::memory_order_consume)) < start + n)
-         || (static_cast<int>(m_current_precision.load(std::memory_order_consume)) < boost::math::tools::digits<T>()))
+         || (static_cast<int>(m_current_precision.load(std::memory_order_consume)) < hydra_boost::math::tools::digits<T>()))
       {
          std::lock_guard<std::mutex> l(m_mutex);
 
          if((static_cast<std::size_t>(m_counter.load(std::memory_order_consume)) < start + n)
-            || (static_cast<int>(m_current_precision.load(std::memory_order_consume)) < boost::math::tools::digits<T>()))
+            || (static_cast<int>(m_current_precision.load(std::memory_order_consume)) < hydra_boost::math::tools::digits<T>()))
          {
-            if(static_cast<int>(m_current_precision.load(std::memory_order_consume)) < boost::math::tools::digits<T>())
+            if(static_cast<int>(m_current_precision.load(std::memory_order_consume)) < hydra_boost::math::tools::digits<T>())
             {
                bn.clear();
                tn.clear();
                m_intermediates.clear();
                m_counter.store(0, std::memory_order_release);
-               m_current_precision = boost::math::tools::digits<T>();
+               m_current_precision = hydra_boost::math::tools::digits<T>();
             }
             if(start + n >= bn.size())
             {
                std::size_t new_size = (std::min)((std::max)((std::max)(start + n, std::size_t(bn.size() + 20)), std::size_t(50)), std::size_t(bn.capacity()));
                if (!tangent_numbers_series(new_size))
-                  return std::fill_n(out, n, policies::raise_evaluation_error<T>("boost::math::bernoulli_b2n<%1%>(std::size_t)", "Unable to allocate Bernoulli numbers cache for %1% values", T(start + n), pol));
+                  return std::fill_n(out, n, policies::raise_evaluation_error<T>("hydra_boost::math::bernoulli_b2n<%1%>(std::size_t)", "Unable to allocate Bernoulli numbers cache for %1% values", T(start + n), pol));
             }
             m_counter.store(static_cast<atomic_integer_type>(bn.size()), std::memory_order_release);
          }
@@ -564,18 +564,18 @@ public:
       for(std::size_t i = start; i < start + n; ++i)
       {
          if(i >= m_overflow_limit)
-            *out = policies::raise_overflow_error<T>("boost::math::bernoulli_b2n<%1%>(std::size_t)", nullptr, T(i), pol);
+            *out = policies::raise_overflow_error<T>("hydra_boost::math::bernoulli_b2n<%1%>(std::size_t)", nullptr, T(i), pol);
          else
          {
             if(tools::max_value<T>() * tangent_scale_factor<T>() < tn[static_cast<typename container_type::size_type>(i)])
-               *out = policies::raise_overflow_error<T>("boost::math::bernoulli_b2n<%1%>(std::size_t)", nullptr, T(i), pol);
+               *out = policies::raise_overflow_error<T>("hydra_boost::math::bernoulli_b2n<%1%>(std::size_t)", nullptr, T(i), pol);
             else
                *out = tn[static_cast<typename container_type::size_type>(i)] / tangent_scale_factor<T>();
          }
          ++out;
       }
 
-      #endif // BOOST_HAS_THREADS
+      #endif // HYDRA_BOOST_HAS_THREADS
       return out;
    }
 
@@ -590,13 +590,13 @@ private:
    // The value at which we know overflow has already occurred for the Bn:
    std::size_t m_overflow_limit;
 
-   #if !defined(BOOST_MATH_BERNOULLI_NOTHREADS)
+   #if !defined(HYDRA_BOOST_MATH_BERNOULLI_NOTHREADS)
    std::mutex m_mutex;
    atomic_counter_type m_counter, m_current_precision;
    #else
    int m_counter;
    int m_current_precision;
-   #endif // BOOST_HAS_THREADS
+   #endif // HYDRA_BOOST_HAS_THREADS
 };
 
 template <class T, class Policy>
@@ -608,8 +608,8 @@ inline typename std::enable_if<(std::numeric_limits<T>::digits == 0) || (std::nu
    // have it's own precision if required:
    //
    static
-#ifndef BOOST_MATH_NO_THREAD_LOCAL_WITH_NON_TRIVIAL_TYPES
-      BOOST_MATH_THREAD_LOCAL
+#ifndef HYDRA_BOOST_MATH_NO_THREAD_LOCAL_WITH_NON_TRIVIAL_TYPES
+      HYDRA_BOOST_MATH_THREAD_LOCAL
 #endif
       bernoulli_numbers_cache<T, Policy> data;
    return data;
@@ -626,4 +626,4 @@ inline typename std::enable_if<std::numeric_limits<T>::digits && (std::numeric_l
 
 }}}
 
-#endif // BOOST_MATH_BERNOULLI_DETAIL_HPP
+#endif // HYDRA_BOOST_MATH_BERNOULLI_DETAIL_HPP

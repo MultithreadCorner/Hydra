@@ -12,8 +12,8 @@
  * are much more efficient methods in this case, including Romberg, Simpson, and double exponential quadrature.
  */
 
-#ifndef BOOST_MATH_QUADRATURE_TRAPEZOIDAL_HPP
-#define BOOST_MATH_QUADRATURE_TRAPEZOIDAL_HPP
+#ifndef HYDRA_BOOST_MATH_QUADRATURE_TRAPEZOIDAL_HPP
+#define HYDRA_BOOST_MATH_QUADRATURE_TRAPEZOIDAL_HPP
 
 #include <cmath>
 #include <limits>
@@ -24,26 +24,26 @@
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/cxx03_warn.hpp>
 
-namespace boost{ namespace math{ namespace quadrature {
+namespace hydra_boost{ namespace math{ namespace quadrature {
 
 template<class F, class Real, class Policy>
 auto trapezoidal(F f, Real a, Real b, Real tol, std::size_t max_refinements, Real* error_estimate, Real* L1, const Policy& pol)->decltype(std::declval<F>()(std::declval<Real>()))
 {
-    static const char* function = "boost::math::quadrature::trapezoidal<%1%>(F, %1%, %1%, %1%)";
+    static const char* function = "hydra_boost::math::quadrature::trapezoidal<%1%>(F, %1%, %1%, %1%)";
     using std::abs;
-    using boost::math::constants::half;
+    using hydra_boost::math::constants::half;
     // In many math texts, K represents the field of real or complex numbers.
     // Too bad we can't put blackboard bold into C++ source!
     typedef decltype(f(a)) K;
     static_assert(!std::is_integral<K>::value,
                   "The return type cannot be integral, it must be either a real or complex floating point type.");
-    if (!(boost::math::isfinite)(a))
+    if (!(hydra_boost::math::isfinite)(a))
     {
-       return static_cast<K>(boost::math::policies::raise_domain_error(function, "Left endpoint of integration must be finite for adaptive trapezoidal integration but got a = %1%.\n", a, pol));
+       return static_cast<K>(hydra_boost::math::policies::raise_domain_error(function, "Left endpoint of integration must be finite for adaptive trapezoidal integration but got a = %1%.\n", a, pol));
     }
-    if (!(boost::math::isfinite)(b))
+    if (!(hydra_boost::math::isfinite)(b))
     {
-       return static_cast<K>(boost::math::policies::raise_domain_error(function, "Right endpoint of integration must be finite for adaptive trapezoidal integration but got b = %1%.\n", b, pol));
+       return static_cast<K>(hydra_boost::math::policies::raise_domain_error(function, "Right endpoint of integration must be finite for adaptive trapezoidal integration but got b = %1%.\n", b, pol));
     }
 
     if (a == b)
@@ -116,9 +116,9 @@ auto trapezoidal(F f, Real a, Real b, Real tol, std::size_t max_refinements, Rea
 }
 
 template<class F, class Real>
-auto trapezoidal(F f, Real a, Real b, Real tol = boost::math::tools::root_epsilon<Real>(), std::size_t max_refinements = 12, Real* error_estimate = nullptr, Real* L1 = nullptr)->decltype(std::declval<F>()(std::declval<Real>()))
+auto trapezoidal(F f, Real a, Real b, Real tol = hydra_boost::math::tools::root_epsilon<Real>(), std::size_t max_refinements = 12, Real* error_estimate = nullptr, Real* L1 = nullptr)->decltype(std::declval<F>()(std::declval<Real>()))
 {
-   return trapezoidal(f, a, b, tol, max_refinements, error_estimate, L1, boost::math::policies::policy<>());
+   return trapezoidal(f, a, b, tol, max_refinements, error_estimate, L1, hydra_boost::math::policies::policy<>());
 }
 
 }}}

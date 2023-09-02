@@ -1,12 +1,11 @@
 //  Copyright John Maddock 2007.
 //  Copyright Paul A. Bristow 2007, 2009
-//  Copyright Matt Borland 2023.
 //  Use, modification and distribution are subject to the
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STATS_PARETO_HPP
-#define BOOST_STATS_PARETO_HPP
+#ifndef HYDRA_BOOST_STATS_PARETO_HPP
+#define HYDRA_BOOST_STATS_PARETO_HPP
 
 // http://en.wikipedia.org/wiki/Pareto_distribution
 // http://www.itl.nist.gov/div898/handbook/eda/section3/eda3661.htm
@@ -21,13 +20,10 @@
 #include <hydra/detail/external/hydra_boost/math/distributions/complement.hpp>
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/common_error_handling.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/powm1.hpp>
-#include <hydra/detail/external/hydra_boost/math/special_functions/log1p.hpp>
 
-#include <utility> // for BOOST_CURRENT_VALUE?
-#include <limits>
-#include <cmath>
+#include <utility> // for HYDRA_BOOST_CURRENT_VALUE?
 
-namespace boost
+namespace hydra_boost
 {
   namespace math
   {
@@ -39,7 +35,7 @@ namespace boost
         RealType scale,
         RealType* result, const Policy& pol)
       {
-        if((boost::math::isfinite)(scale))
+        if((hydra_boost::math::isfinite)(scale))
         { // any > 0 finite value is OK.
           if (scale > 0)
           {
@@ -68,7 +64,7 @@ namespace boost
         RealType shape,
         RealType* result, const Policy& pol)
       {
-        if((boost::math::isfinite)(shape))
+        if((hydra_boost::math::isfinite)(shape))
         { // Any finite value > 0 is OK.
           if (shape > 0)
           {
@@ -97,7 +93,7 @@ namespace boost
         RealType const& x,
         RealType* result, const Policy& pol)
       {
-        if((boost::math::isfinite)(x))
+        if((hydra_boost::math::isfinite)(x))
         { //
           if (x > 0)
           {
@@ -144,7 +140,7 @@ namespace boost
         : m_scale(l_scale), m_shape(l_shape)
       { // Constructor.
         RealType result = 0;
-        detail::check_pareto("boost::math::pareto_distribution<%1%>::pareto_distribution", l_scale, l_shape, &result, Policy());
+        detail::check_pareto("hydra_boost::math::pareto_distribution<%1%>::pareto_distribution", l_scale, l_shape, &result, Policy());
       }
 
       RealType scale()const
@@ -166,16 +162,16 @@ namespace boost
 
     #ifdef __cpp_deduction_guides
     template <class RealType>
-    pareto_distribution(RealType)->pareto_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+    pareto_distribution(RealType)->pareto_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
     template <class RealType>
-    pareto_distribution(RealType,RealType)->pareto_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+    pareto_distribution(RealType,RealType)->pareto_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
     #endif
 
 
     template <class RealType, class Policy>
     inline const std::pair<RealType, RealType> range(const pareto_distribution<RealType, Policy>& /*dist*/)
     { // Range of permissible values for random variable x.
-      using boost::math::tools::max_value;
+      using hydra_boost::math::tools::max_value;
       return std::pair<RealType, RealType>(static_cast<RealType>(0), max_value<RealType>()); // scale zero to + infinity.
     } // range
 
@@ -183,15 +179,15 @@ namespace boost
     inline const std::pair<RealType, RealType> support(const pareto_distribution<RealType, Policy>& dist)
     { // Range of supported values for random variable x.
       // This is range where cdf rises from 0 to 1, and outside it, the pdf is zero.
-      using boost::math::tools::max_value;
+      using hydra_boost::math::tools::max_value;
       return std::pair<RealType, RealType>(dist.scale(), max_value<RealType>() ); // scale to + infinity.
     } // support
 
     template <class RealType, class Policy>
     inline RealType pdf(const pareto_distribution<RealType, Policy>& dist, const RealType& x)
     {
-      BOOST_MATH_STD_USING  // for ADL of std function pow.
-      static const char* function = "boost::math::pdf(const pareto_distribution<%1%>&, %1%)";
+      HYDRA_BOOST_MATH_STD_USING  // for ADL of std function pow.
+      static const char* function = "hydra_boost::math::pdf(const pareto_distribution<%1%>&, %1%)";
       RealType scale = dist.scale();
       RealType shape = dist.shape();
       RealType result = 0;
@@ -209,8 +205,8 @@ namespace boost
     template <class RealType, class Policy>
     inline RealType cdf(const pareto_distribution<RealType, Policy>& dist, const RealType& x)
     {
-      BOOST_MATH_STD_USING  // for ADL of std function pow.
-      static const char* function = "boost::math::cdf(const pareto_distribution<%1%>&, %1%)";
+      HYDRA_BOOST_MATH_STD_USING  // for ADL of std function pow.
+      static const char* function = "hydra_boost::math::cdf(const pareto_distribution<%1%>&, %1%)";
       RealType scale = dist.scale();
       RealType shape = dist.shape();
       RealType result = 0;
@@ -225,37 +221,15 @@ namespace boost
       }
 
       // result = RealType(1) - pow((scale / x), shape);
-      result = -boost::math::powm1(scale/x, shape, Policy()); // should be more accurate.
+      result = -hydra_boost::math::powm1(scale/x, shape, Policy()); // should be more accurate.
       return result;
     } // cdf
 
     template <class RealType, class Policy>
-    inline RealType logcdf(const pareto_distribution<RealType, Policy>& dist, const RealType& x)
-    {
-      BOOST_MATH_STD_USING  // for ADL of std function pow.
-      static const char* function = "boost::math::logcdf(const pareto_distribution<%1%>&, %1%)";
-      RealType scale = dist.scale();
-      RealType shape = dist.shape();
-      RealType result = 0;
-
-      if(false == (detail::check_pareto_x(function, x, &result, Policy())
-         && detail::check_pareto(function, scale, shape, &result, Policy())))
-         return result;
-
-      if (x <= scale)
-      { // regardless of shape, cdf is zero.
-        return -std::numeric_limits<RealType>::infinity();
-      }
-
-      result = log1p(-pow(scale/x, shape), Policy());
-      return result;
-    } // logcdf
-
-    template <class RealType, class Policy>
     inline RealType quantile(const pareto_distribution<RealType, Policy>& dist, const RealType& p)
     {
-      BOOST_MATH_STD_USING  // for ADL of std function pow.
-      static const char* function = "boost::math::quantile(const pareto_distribution<%1%>&, %1%)";
+      HYDRA_BOOST_MATH_STD_USING  // for ADL of std function pow.
+      static const char* function = "hydra_boost::math::quantile(const pareto_distribution<%1%>&, %1%)";
       RealType result = 0;
       RealType scale = dist.scale();
       RealType shape = dist.shape();
@@ -281,8 +255,8 @@ namespace boost
     template <class RealType, class Policy>
     inline RealType cdf(const complemented2_type<pareto_distribution<RealType, Policy>, RealType>& c)
     {
-       BOOST_MATH_STD_USING  // for ADL of std function pow.
-       static const char* function = "boost::math::cdf(const pareto_distribution<%1%>&, %1%)";
+       HYDRA_BOOST_MATH_STD_USING  // for ADL of std function pow.
+       static const char* function = "hydra_boost::math::cdf(const pareto_distribution<%1%>&, %1%)";
        RealType result = 0;
        RealType x = c.param;
        RealType scale = c.dist.scale();
@@ -301,32 +275,10 @@ namespace boost
     } // cdf complement
 
     template <class RealType, class Policy>
-    inline RealType logcdf(const complemented2_type<pareto_distribution<RealType, Policy>, RealType>& c)
-    {
-       BOOST_MATH_STD_USING  // for ADL of std function pow.
-       static const char* function = "boost::math::logcdf(const pareto_distribution<%1%>&, %1%)";
-       RealType result = 0;
-       RealType x = c.param;
-       RealType scale = c.dist.scale();
-       RealType shape = c.dist.shape();
-       if(false == (detail::check_pareto_x(function, x, &result, Policy())
-           && detail::check_pareto(function, scale, shape, &result, Policy())))
-         return result;
-
-       if (x <= scale)
-       { // regardless of shape, cdf is zero, and complement is unity.
-         return 0;
-       }
-       result = log(pow((scale/x), shape));
-
-       return result;
-    } // logcdf complement
-
-    template <class RealType, class Policy>
     inline RealType quantile(const complemented2_type<pareto_distribution<RealType, Policy>, RealType>& c)
     {
-      BOOST_MATH_STD_USING  // for ADL of std function pow.
-      static const char* function = "boost::math::quantile(const pareto_distribution<%1%>&, %1%)";
+      HYDRA_BOOST_MATH_STD_USING  // for ADL of std function pow.
+      static const char* function = "hydra_boost::math::quantile(const pareto_distribution<%1%>&, %1%)";
       RealType result = 0;
       RealType q = c.param;
       RealType scale = c.dist.scale();
@@ -353,7 +305,7 @@ namespace boost
     inline RealType mean(const pareto_distribution<RealType, Policy>& dist)
     {
       RealType result = 0;
-      static const char* function = "boost::math::mean(const pareto_distribution<%1%>&, %1%)";
+      static const char* function = "hydra_boost::math::mean(const pareto_distribution<%1%>&, %1%)";
       if(false == detail::check_pareto(function, dist.scale(), dist.shape(), &result, Policy()))
       {
         return result;
@@ -364,7 +316,7 @@ namespace boost
       }
       else
       {
-        using boost::math::tools::max_value;
+        using hydra_boost::math::tools::max_value;
         return max_value<RealType>(); // +infinity.
       }
     } // mean
@@ -379,12 +331,12 @@ namespace boost
     inline RealType median(const pareto_distribution<RealType, Policy>& dist)
     {
       RealType result = 0;
-      static const char* function = "boost::math::median(const pareto_distribution<%1%>&, %1%)";
+      static const char* function = "hydra_boost::math::median(const pareto_distribution<%1%>&, %1%)";
       if(false == detail::check_pareto(function, dist.scale(), dist.shape(), &result, Policy()))
       {
         return result;
       }
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       return dist.scale() * pow(RealType(2), (1/dist.shape()));
     } // median
 
@@ -394,7 +346,7 @@ namespace boost
       RealType result = 0;
       RealType scale = dist.scale();
       RealType shape = dist.shape();
-      static const char* function = "boost::math::variance(const pareto_distribution<%1%>&, %1%)";
+      static const char* function = "hydra_boost::math::variance(const pareto_distribution<%1%>&, %1%)";
       if(false == detail::check_pareto(function, scale, shape, &result, Policy()))
       {
         return result;
@@ -416,10 +368,10 @@ namespace boost
     template <class RealType, class Policy>
     inline RealType skewness(const pareto_distribution<RealType, Policy>& dist)
     {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       RealType result = 0;
       RealType shape = dist.shape();
-      static const char* function = "boost::math::pdf(const pareto_distribution<%1%>&, %1%)";
+      static const char* function = "hydra_boost::math::pdf(const pareto_distribution<%1%>&, %1%)";
       if(false == detail::check_pareto(function, dist.scale(), shape, &result, Policy()))
       {
         return result;
@@ -444,7 +396,7 @@ namespace boost
     {
       RealType result = 0;
       RealType shape = dist.shape();
-      static const char* function = "boost::math::pdf(const pareto_distribution<%1%>&, %1%)";
+      static const char* function = "hydra_boost::math::pdf(const pareto_distribution<%1%>&, %1%)";
       if(false == detail::check_pareto(function, dist.scale(), shape, &result, Policy()))
       {
         return result;
@@ -468,7 +420,7 @@ namespace boost
     {
       RealType result = 0;
       RealType shape = dist.shape();
-      static const char* function = "boost::math::pdf(const pareto_distribution<%1%>&, %1%)";
+      static const char* function = "hydra_boost::math::pdf(const pareto_distribution<%1%>&, %1%)";
       if(false == detail::check_pareto(function, dist.scale(), shape, &result, Policy()))
       {
         return result;
@@ -497,13 +449,13 @@ namespace boost
     }
 
     } // namespace math
-  } // namespace boost
+  } // namespace hydra_boost
 
   // This include must be at the end, *after* the accessors
   // for this distribution have been defined, in order to
   // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_STATS_PARETO_HPP
+#endif // HYDRA_BOOST_STATS_PARETO_HPP
 
 

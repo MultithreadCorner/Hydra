@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_ICONV_HPP
-#define BOOST_MATH_ICONV_HPP
+#ifndef HYDRA_BOOST_MATH_ICONV_HPP
+#define HYDRA_BOOST_MATH_ICONV_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -13,7 +13,7 @@
 #include <type_traits>
 #include <hydra/detail/external/hydra_boost/math/special_functions/round.hpp>
 
-namespace boost { namespace math { namespace detail{
+namespace hydra_boost { namespace math { namespace detail{
 
 template <class T, class Policy>
 inline int iconv_imp(T v, Policy const&, std::true_type const&)
@@ -24,7 +24,7 @@ inline int iconv_imp(T v, Policy const&, std::true_type const&)
 template <class T, class Policy>
 inline int iconv_imp(T v, Policy const& pol, std::false_type const&)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return iround(v, pol);
 }
 
@@ -38,5 +38,5 @@ inline int iconv(T v, Policy const& pol)
 
 }}} // namespaces
 
-#endif // BOOST_MATH_ICONV_HPP
+#endif // HYDRA_BOOST_MATH_ICONV_HPP
 

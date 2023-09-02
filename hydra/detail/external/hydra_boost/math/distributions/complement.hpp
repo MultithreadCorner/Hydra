@@ -4,17 +4,17 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STATS_COMPLEMENT_HPP
-#define BOOST_STATS_COMPLEMENT_HPP
+#ifndef HYDRA_BOOST_STATS_COMPLEMENT_HPP
+#define HYDRA_BOOST_STATS_COMPLEMENT_HPP
 
 //
 // This code really defines our own tuple type.
-// It would be nice to reuse boost::math::tuple
+// It would be nice to reuse hydra_boost::math::tuple
 // while retaining our own type safety, but it's
 // not clear if that's possible.  In any case this
 // code is *very* lightweight.
 //
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 template <class Dist, class RealType>
 struct complemented2_type
@@ -189,7 +189,7 @@ inline complemented7_type<Dist, RealType1, RealType2, RealType3, RealType4, Real
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
-#endif // BOOST_STATS_COMPLEMENT_HPP
+#endif // HYDRA_BOOST_STATS_COMPLEMENT_HPP
 

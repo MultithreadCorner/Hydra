@@ -3,10 +3,9 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_CHEBYSHEV_HPP
-#define BOOST_MATH_SPECIAL_CHEBYSHEV_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_CHEBYSHEV_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_CHEBYSHEV_HPP
 #include <cmath>
-#include <type_traits>
 #include <hydra/detail/external/hydra_boost/math/special_functions/math_fwd.hpp>
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
 #include <hydra/detail/external/hydra_boost/math/constants/constants.hpp>
@@ -14,14 +13,14 @@
 #include <hydra/detail/external/hydra_boost/math/tools/throw_exception.hpp>
 
 #if (__cplusplus > 201103) || (defined(_CPPLIB_VER) && (_CPPLIB_VER >= 610))
-#  define BOOST_MATH_CHEB_USE_STD_ACOSH
+#  define HYDRA_BOOST_MATH_CHEB_USE_STD_ACOSH
 #endif
 
-#ifndef BOOST_MATH_CHEB_USE_STD_ACOSH
+#ifndef HYDRA_BOOST_MATH_CHEB_USE_STD_ACOSH
 #  include <hydra/detail/external/hydra_boost/math/special_functions/acosh.hpp>
 #endif
 
-namespace boost { namespace math {
+namespace hydra_boost { namespace math {
 
 template <class T1, class T2, class T3>
 inline tools::promote_args_t<T1, T2, T3> chebyshev_next(T1 const & x, T2 const & Tn, T3 const & Tn_1)
@@ -31,40 +30,15 @@ inline tools::promote_args_t<T1, T2, T3> chebyshev_next(T1 const & x, T2 const &
 
 namespace detail {
 
-// https://stackoverflow.com/questions/5625431/efficient-way-to-compute-pq-exponentiation-where-q-is-an-integer
-template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, bool>::type = true>
-T expt(T p, unsigned q)
-{
-    T r = 1;
-
-    while (q != 0) {
-        if (q % 2 == 1) {    // q is odd
-            r *= p;
-            q--;
-        }
-        p *= p;
-        q /= 2;
-    }
-
-    return r;
-}
-
-template <typename T, typename std::enable_if<!std::is_arithmetic<T>::value, bool>::type = true>
-T expt(T p, unsigned q)
-{
-    using std::pow;
-    return pow(p, static_cast<int>(q));
-}
-
 template<class Real, bool second, class Policy>
 inline Real chebyshev_imp(unsigned n, Real const & x, const Policy&)
 {
-#ifdef BOOST_MATH_CHEB_USE_STD_ACOSH
+#ifdef HYDRA_BOOST_MATH_CHEB_USE_STD_ACOSH
     using std::acosh;
-#define BOOST_MATH_ACOSH_POLICY
+#define HYDRA_BOOST_MATH_ACOSH_POLICY
 #else
-   using boost::math::acosh;
-#define BOOST_MATH_ACOSH_POLICY , Policy()
+   using hydra_boost::math::acosh;
+#define HYDRA_BOOST_MATH_ACOSH_POLICY , Policy()
 #endif
     using std::cosh;
     using std::pow;
@@ -72,12 +46,12 @@ inline Real chebyshev_imp(unsigned n, Real const & x, const Policy&)
     Real T0 = 1;
     Real T1;
 
-    BOOST_IF_CONSTEXPR (second)
+    HYDRA_BOOST_IF_CONSTEXPR (second)
     {
         if (x > 1 || x < -1)
         {
             Real t = sqrt(x*x -1);
-            return static_cast<Real>((expt(static_cast<Real>(x+t), n+1) - expt(static_cast<Real>(x-t), n+1))/(2*t));
+            return static_cast<Real>((pow(x+t, static_cast<int>(n+1)) - pow(x-t, static_cast<int>(n+1)))/(2*t));
         }
         T1 = 2*x;
     }
@@ -85,17 +59,17 @@ inline Real chebyshev_imp(unsigned n, Real const & x, const Policy&)
     {
         if (x > 1)
         {
-            return cosh(n*acosh(x BOOST_MATH_ACOSH_POLICY));
+            return cosh(n*acosh(x HYDRA_BOOST_MATH_ACOSH_POLICY));
         }
         if (x < -1)
         {
             if (n & 1)
             {
-                return -cosh(n*acosh(-x BOOST_MATH_ACOSH_POLICY));
+                return -cosh(n*acosh(-x HYDRA_BOOST_MATH_ACOSH_POLICY));
             }
             else
             {
-                return cosh(n*acosh(-x BOOST_MATH_ACOSH_POLICY));
+                return cosh(n*acosh(-x HYDRA_BOOST_MATH_ACOSH_POLICY));
             }
         }
         T1 = x;
@@ -110,7 +84,7 @@ inline Real chebyshev_imp(unsigned n, Real const & x, const Policy&)
     while(l < n)
     {
        std::swap(T0, T1);
-       T1 = static_cast<Real>(boost::math::chebyshev_next(x, T0, T1));
+       T1 = hydra_boost::math::chebyshev_next(x, T0, T1);
        ++l;
     }
     return T1;
@@ -129,7 +103,7 @@ inline tools::promote_args_t<Real> chebyshev_t(unsigned n, Real const & x, const
                                                             policies::discrete_quantile<>,
                                                             policies::assert_undefined<> >::type;
 
-   return policies::checked_narrowing_cast<result_type, Policy>(detail::chebyshev_imp<value_type, false>(n, static_cast<value_type>(x), forwarding_policy()), "boost::math::chebyshev_t<%1%>(unsigned, %1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(detail::chebyshev_imp<value_type, false>(n, static_cast<value_type>(x), forwarding_policy()), "hydra_boost::math::chebyshev_t<%1%>(unsigned, %1%)");
 }
 
 template <class Real>
@@ -150,7 +124,7 @@ inline tools::promote_args_t<Real> chebyshev_u(unsigned n, Real const & x, const
                                                             policies::discrete_quantile<>,
                                                             policies::assert_undefined<> >::type;
 
-   return policies::checked_narrowing_cast<result_type, Policy>(detail::chebyshev_imp<value_type, true>(n, static_cast<value_type>(x), forwarding_policy()), "boost::math::chebyshev_u<%1%>(unsigned, %1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(detail::chebyshev_imp<value_type, true>(n, static_cast<value_type>(x), forwarding_policy()), "hydra_boost::math::chebyshev_u<%1%>(unsigned, %1%)");
 }
 
 template <class Real>
@@ -174,7 +148,7 @@ inline tools::promote_args_t<Real> chebyshev_t_prime(unsigned n, Real const & x,
    {
       return result_type(0);
    }
-   return policies::checked_narrowing_cast<result_type, Policy>(n * detail::chebyshev_imp<value_type, true>(n - 1, static_cast<value_type>(x), forwarding_policy()), "boost::math::chebyshev_t_prime<%1%>(unsigned, %1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(n * detail::chebyshev_imp<value_type, true>(n - 1, static_cast<value_type>(x), forwarding_policy()), "hydra_boost::math::chebyshev_t_prime<%1%>(unsigned, %1%)");
 }
 
 template <class Real>
@@ -194,7 +168,7 @@ inline tools::promote_args_t<Real> chebyshev_t_prime(unsigned n, Real const & x)
 template <class Real, class T2>
 inline Real chebyshev_clenshaw_recurrence(const Real* const c, size_t length, const T2& x)
 {
-    using boost::math::constants::half;
+    using hydra_boost::math::constants::half;
     if (length < 2)
     {
         if (length == 0)
@@ -296,7 +270,7 @@ inline Real chebyshev_clenshaw_recurrence(const Real* const c, size_t length, co
 {
     if (x < a || x > b)
     {
-       BOOST_MATH_THROW_EXCEPTION(std::domain_error("x in [a, b] is required."));
+       HYDRA_BOOST_MATH_THROW_EXCEPTION(std::domain_error("x in [a, b] is required."));
     }
     if (length < 2)
     {
@@ -309,6 +283,6 @@ inline Real chebyshev_clenshaw_recurrence(const Real* const c, size_t length, co
     return detail::unchecked_chebyshev_clenshaw_recurrence(c, length, a, b, x);
 }
 
-}} // Namespace boost::math
+}} // Namespace hydra_boost::math
 
-#endif // BOOST_MATH_SPECIAL_CHEBYSHEV_HPP
+#endif // HYDRA_BOOST_MATH_SPECIAL_CHEBYSHEV_HPP

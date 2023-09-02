@@ -4,8 +4,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SF_DETAIL_INV_T_HPP
-#define BOOST_MATH_SF_DETAIL_INV_T_HPP
+#ifndef HYDRA_BOOST_MATH_SF_DETAIL_INV_T_HPP
+#define HYDRA_BOOST_MATH_SF_DETAIL_INV_T_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -15,7 +15,7 @@
 #include <hydra/detail/external/hydra_boost/math/special_functions/round.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/trunc.hpp>
 
-namespace boost{ namespace math{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace detail{
 
 //
 // The main method used is due to Hill:
@@ -26,13 +26,13 @@ namespace boost{ namespace math{ namespace detail{
 template <class T, class Policy>
 T inverse_students_t_hill(T ndf, T u, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
-   BOOST_MATH_ASSERT(u <= 0.5);
+   HYDRA_BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_ASSERT(u <= 0.5);
 
    T a, b, c, d, q, x, y;
 
    if (ndf > 1e20f)
-      return -boost::math::erfc_inv(2 * u, pol) * constants::root_two<T>();
+      return -hydra_boost::math::erfc_inv(2 * u, pol) * constants::root_two<T>();
 
    a = 1 / (ndf - 0.5f);
    b = 48 / (a * a);
@@ -45,14 +45,14 @@ T inverse_students_t_hill(T ndf, T u, const Policy& pol)
       //
       // Asymptotic inverse expansion about normal:
       //
-      x = -boost::math::erfc_inv(2 * u, pol) * constants::root_two<T>();
+      x = -hydra_boost::math::erfc_inv(2 * u, pol) * constants::root_two<T>();
       y = x * x;
 
       if (ndf < 5)
          c += 0.3f * (ndf - 4.5f) * (x + 0.6f);
       c += (((0.05f * d * x - 5) * x - 7) * x - 2) * x + b;
       y = (((((0.4f * y + 6.3f) * y + 36) * y + 94.5f) / c - y - 3) / b + 1) * x;
-      y = boost::math::expm1(a * y * y, pol);
+      y = hydra_boost::math::expm1(a * y * y, pol);
    }
    else
    {
@@ -76,10 +76,10 @@ T inverse_students_t_hill(T ndf, T u, const Policy& pol)
 template <class T, class Policy>
 T inverse_students_t_tail_series(T df, T v, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    // Tail series expansion, see section 6 of Shaw's paper.
    // w is calculated using Eq 60:
-   T w = boost::math::tgamma_delta_ratio(df / 2, constants::half<T>(), pol)
+   T w = hydra_boost::math::tgamma_delta_ratio(df / 2, constants::half<T>(), pol)
       * sqrt(df * constants::pi<T>()) * v;
    // define some variables:
    T np2 = df + 2;
@@ -127,13 +127,13 @@ T inverse_students_t_tail_series(T df, T v, const Policy& pol)
 template <class T, class Policy>
 T inverse_students_t_body_series(T df, T u, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    //
    // Body series for small N:
    //
    // Start with Eq 56 of Shaw:
    //
-   T v = boost::math::tgamma_delta_ratio(df / 2, constants::half<T>(), pol)
+   T v = hydra_boost::math::tgamma_delta_ratio(df / 2, constants::half<T>(), pol)
       * sqrt(df * constants::pi<T>()) * (u - constants::half<T>());
    //
    // Workspace for the polynomial coefficients:
@@ -212,7 +212,7 @@ T inverse_students_t(T df, T u, T v, const Policy& pol, bool* pexact = nullptr)
    // v = 1 - u.
    // l = lanczos type to use.
    //
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    bool invert = false;
    T result = 0;
    if(pexact)
@@ -284,7 +284,7 @@ T inverse_students_t(T df, T u, T v, const Policy& pol, bool* pexact = nullptr)
             // supplement:
             //
             T a = 4 * (u - u * u);//1 - 4 * (u - 0.5f) * (u - 0.5f);
-            T b = boost::math::cbrt(a, pol);
+            T b = hydra_boost::math::cbrt(a, pol);
             static const T c = static_cast<T>(0.85498797333834849467655443627193);
             T p = 6 * (1 + c * (1 / b - 1));
             T p0;
@@ -374,7 +374,7 @@ T inverse_students_t(T df, T u, T v, const Policy& pol, bool* pexact = nullptr)
 calculate_real:
       if(df > 0x10000000)
       {
-         result = -boost::math::erfc_inv(2 * u, pol) * constants::root_two<T>();
+         result = -hydra_boost::math::erfc_inv(2 * u, pol) * constants::root_two<T>();
          if((pexact) && (df >= 1e20))
             *pexact = true;
       }
@@ -387,11 +387,11 @@ calculate_real:
          T crossover = 0.2742f - df * 0.0242143f;
          if(u > crossover)
          {
-            result = boost::math::detail::inverse_students_t_body_series(df, u, pol);
+            result = hydra_boost::math::detail::inverse_students_t_body_series(df, u, pol);
          }
          else
          {
-            result = boost::math::detail::inverse_students_t_tail_series(df, u, pol);
+            result = hydra_boost::math::detail::inverse_students_t_tail_series(df, u, pol);
          }
       }
       else
@@ -404,11 +404,11 @@ calculate_real:
          T crossover = ldexp(1.0f, iround(T(df / -0.654f), typename policies::normalise<Policy, policies::rounding_error<policies::ignore_error> >::type()));
          if(u > crossover)
          {
-            result = boost::math::detail::inverse_students_t_hill(df, u, pol);
+            result = hydra_boost::math::detail::inverse_students_t_hill(df, u, pol);
          }
          else
          {
-            result = boost::math::detail::inverse_students_t_tail_series(df, u, pol);
+            result = hydra_boost::math::detail::inverse_students_t_tail_series(df, u, pol);
          }
       }
    }
@@ -421,7 +421,7 @@ inline T find_ibeta_inv_from_t_dist(T a, T p, T /*q*/, T* py, const Policy& pol)
    T u = p / 2;
    T v = 1 - u;
    T df = a * 2;
-   T t = boost::math::detail::inverse_students_t(df, u, v, pol);
+   T t = hydra_boost::math::detail::inverse_students_t(df, u, v, pol);
    *py = t * t / (df + t * t);
    return df / (df + t * t);
 }
@@ -429,7 +429,7 @@ inline T find_ibeta_inv_from_t_dist(T a, T p, T /*q*/, T* py, const Policy& pol)
 template <class T, class Policy>
 inline T fast_students_t_quantile_imp(T df, T p, const Policy& pol, const std::false_type*)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    //
    // Need to use inverse incomplete beta to get
    // required precision so not so fast:
@@ -438,7 +438,7 @@ inline T fast_students_t_quantile_imp(T df, T p, const Policy& pol, const std::f
    T t, x, y(0);
    x = ibeta_inv(df / 2, T(0.5), 2 * probability, &y, pol);
    if(df * y > tools::max_value<T>() * x)
-      t = policies::raise_overflow_error<T>("boost::math::students_t_quantile<%1%>(%1%,%1%)", nullptr, pol);
+      t = policies::raise_overflow_error<T>("hydra_boost::math::students_t_quantile<%1%>(%1%,%1%)", nullptr, pol);
    else
       t = sqrt(df * y / x);
    //
@@ -452,10 +452,10 @@ inline T fast_students_t_quantile_imp(T df, T p, const Policy& pol, const std::f
 template <class T, class Policy>
 T fast_students_t_quantile_imp(T df, T p, const Policy& pol, const std::true_type*)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    bool invert = false;
    if((df < 2) && (floor(df) != df))
-      return boost::math::detail::fast_students_t_quantile_imp(df, p, pol, static_cast<std::false_type*>(nullptr));
+      return hydra_boost::math::detail::fast_students_t_quantile_imp(df, p, pol, static_cast<std::false_type*>(nullptr));
    if(p > 0.5)
    {
       p = 1 - p;
@@ -538,12 +538,12 @@ inline T fast_students_t_quantile(T df, T p, const Policy& pol)
        &&
       (std::numeric_limits<T>::radix == 2)
    > tag_type;
-   return policies::checked_narrowing_cast<T, forwarding_policy>(fast_students_t_quantile_imp(static_cast<value_type>(df), static_cast<value_type>(p), pol, static_cast<tag_type*>(nullptr)), "boost::math::students_t_quantile<%1%>(%1%,%1%,%1%)");
+   return policies::checked_narrowing_cast<T, forwarding_policy>(fast_students_t_quantile_imp(static_cast<value_type>(df), static_cast<value_type>(p), pol, static_cast<tag_type*>(nullptr)), "hydra_boost::math::students_t_quantile<%1%>(%1%,%1%,%1%)");
 }
 
 }}} // namespaces
 
-#endif // BOOST_MATH_SF_DETAIL_INV_T_HPP
+#endif // HYDRA_BOOST_MATH_SF_DETAIL_INV_T_HPP
 
 
 

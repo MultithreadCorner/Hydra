@@ -2,8 +2,8 @@
 //  Use, modification and distribution are subject to the
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
-#ifndef BOOST_MATH_TOOLS_ULP_PLOT_HPP
-#define BOOST_MATH_TOOLS_ULP_PLOT_HPP
+#ifndef HYDRA_BOOST_MATH_TOOLS_ULP_PLOT_HPP
+#define HYDRA_BOOST_MATH_TOOLS_ULP_PLOT_HPP
 #include <algorithm>
 #include <iostream>
 #include <iomanip>
@@ -19,7 +19,7 @@
 #include <hydra/detail/external/hydra_boost/math/tools/is_standalone.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/condition_numbers.hpp>
 
-#ifndef BOOST_MATH_STANDALONE
+#ifndef HYDRA_BOOST_MATH_STANDALONE
 #include <hydra/detail/external/hydra_boost/random/uniform_real_distribution.hpp>
 #endif
 
@@ -28,7 +28,7 @@
 
 // The envelope is the maximum of 1/2 and half the condition number of function evaluation.
 
-namespace boost::math::tools {
+namespace hydra_boost::math::tools {
 
 namespace detail {
 template<class F1, class F2, class CoarseReal, class PreciseReal>
@@ -467,7 +467,7 @@ bool ends_with(std::string const& filename, std::string const& suffix)
 template<class F, typename PreciseReal, typename CoarseReal>
 void ulps_plot<F, PreciseReal, CoarseReal>::write(std::string const & filename) const
 {
-    if(!boost::math::tools::detail::ends_with(filename, ".svg"))
+    if(!hydra_boost::math::tools::detail::ends_with(filename, ".svg"))
     {
         throw std::logic_error("Only svg files are supported at this time.");
     }
@@ -502,8 +502,8 @@ ulps_plot<F, PreciseReal, CoarseReal>::ulps_plot(F hi_acc_impl, CoarseReal a, Co
     }
 
     // Boost's uniform_real_distribution can generate quad and multiprecision random numbers; std's cannot:
-    #ifndef BOOST_MATH_STANDALONE
-    boost::random::uniform_real_distribution<PreciseReal> dis(static_cast<PreciseReal>(a), static_cast<PreciseReal>(b));
+    #ifndef HYDRA_BOOST_MATH_STANDALONE
+    hydra_boost::random::uniform_real_distribution<PreciseReal> dis(static_cast<PreciseReal>(a), static_cast<PreciseReal>(b));
     #else
     // Use std::random in standalone mode if it is a type that the standard library can support (float, double, or long double)
     static_assert(std::numeric_limits<PreciseReal>::digits10 <= std::numeric_limits<long double>::digits10, "Standalone mode does not support types with precision that exceeds long double");
@@ -551,7 +551,7 @@ ulps_plot<F, PreciseReal, CoarseReal>::ulps_plot(F hi_acc_impl, CoarseReal a, Co
         if (y != 0)
         {
             // Maybe cond_ is badly names; should it be half_cond_?
-            cond_[i] = boost::math::tools::evaluation_condition_number(hi_acc_impl, precise_abscissas_[i])/2;
+            cond_[i] = hydra_boost::math::tools::evaluation_condition_number(hi_acc_impl, precise_abscissas_[i])/2;
             // Half-ULP accuracy is the correctly rounded result, so make sure the envelop doesn't go below this:
             if (cond_[i] < 0.5)
             {
@@ -594,5 +594,5 @@ ulps_plot<F, PreciseReal, CoarseReal>& ulps_plot<F, PreciseReal, CoarseReal>::ad
 
 
 
-} // namespace boost::math::tools
+} // namespace hydra_boost::math::tools
 #endif

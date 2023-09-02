@@ -11,7 +11,7 @@
 #include <initializer_list>
 #include <hydra/detail/external/hydra_boost/math/special_functions/logaddexp.hpp>
 
-namespace boost { namespace math {
+namespace hydra_boost { namespace math {
 
 // https://nhigham.com/2021/01/05/what-is-the-log-sum-exp-function/
 // See equation (#)
@@ -57,4 +57,4 @@ inline Real logsumexp(Args&& ...args)
     return logsumexp(list.begin(), list.end());
 }
 
-}} // Namespace boost::math
+}} // Namespace hydra_boost::math

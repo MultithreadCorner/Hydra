@@ -4,13 +4,13 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_INTERPOLATORS_CARDINAL_QUADRATIC_B_SPLINE_HPP
-#define BOOST_MATH_INTERPOLATORS_CARDINAL_QUADRATIC_B_SPLINE_HPP
+#ifndef HYDRA_BOOST_MATH_INTERPOLATORS_CARDINAL_QUADRATIC_B_SPLINE_HPP
+#define HYDRA_BOOST_MATH_INTERPOLATORS_CARDINAL_QUADRATIC_B_SPLINE_HPP
 #include <memory>
 #include <hydra/detail/external/hydra_boost/math/interpolators/detail/cardinal_quadratic_b_spline_detail.hpp>
 
 
-namespace boost{ namespace math{ namespace interpolators {
+namespace hydra_boost{ namespace math{ namespace interpolators {
 
 template <class Real>
 class cardinal_quadratic_b_spline

@@ -6,8 +6,8 @@
 // (See accompanying file LICENSE_1_0.txt or
 //  copy at http ://www.boost.org/LICENSE_1_0.txt).
 
-#ifndef BOOST_MATH_SF_LAMBERT_W_HPP
-#define BOOST_MATH_SF_LAMBERT_W_HPP
+#ifndef HYDRA_BOOST_MATH_SF_LAMBERT_W_HPP
+#define HYDRA_BOOST_MATH_SF_LAMBERT_W_HPP
 
 #ifdef _MSC_VER
 #pragma warning(disable : 4127)
@@ -34,21 +34,20 @@ Some macros that will show some (or much) diagnostic values if #defined.
 //[boost_math_instrument_lambert_w_macros
 
 // #define-able macros
-BOOST_MATH_INSTRUMENT_LAMBERT_W_HALLEY                     // Halley refinement diagnostics.
-BOOST_MATH_INSTRUMENT_LAMBERT_W_PRECISION                  // Precision.
-BOOST_MATH_INSTRUMENT_LAMBERT_WM1                          // W1 branch diagnostics.
-BOOST_MATH_INSTRUMENT_LAMBERT_WM1_HALLEY                   // Halley refinement diagnostics only for W-1 branch.
-BOOST_MATH_INSTRUMENT_LAMBERT_WM1_TINY                     // K > 64, z > -1.0264389699511303e-26
-BOOST_MATH_INSTRUMENT_LAMBERT_WM1_LOOKUP                   // Show results from W-1 lookup table.
-BOOST_MATH_INSTRUMENT_LAMBERT_W_SCHROEDER                  // Schroeder refinement diagnostics.
-BOOST_MATH_INSTRUMENT_LAMBERT_W_TERMS                      // Number of terms used for near-singularity series.
-BOOST_MATH_INSTRUMENT_LAMBERT_W_SINGULARITY_SERIES         // Show evaluation of series near branch singularity.
-BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
-BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES_ITERATIONS  // Show evaluation of series for small z.
+HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_HALLEY                     // Halley refinement diagnostics.
+HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_PRECISION                  // Precision.
+HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_WM1                          // W1 branch diagnostics.
+HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_WM1_HALLEY                   // Halley refinement diagnostics only for W-1 branch.
+HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_WM1_TINY                     // K > 64, z > -1.0264389699511303e-26
+HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_WM1_LOOKUP                   // Show results from W-1 lookup table.
+HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SCHROEDER                  // Schroeder refinement diagnostics.
+HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_TERMS                      // Number of terms used for near-singularity series.
+HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SINGULARITY_SERIES         // Show evaluation of series near branch singularity.
+HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES_ITERATIONS  // Show evaluation of series for small z.
 //] [/boost_math_instrument_lambert_w_macros]
 */
 
-#include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
 #include <hydra/detail/external/hydra_boost/math/policies/policy.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/promotion.hpp>
@@ -59,11 +58,11 @@ BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES_ITERATIONS  // Show evaluation of
 #include <hydra/detail/external/hydra_boost/math/tools/series.hpp> // series functor.
 //#include <hydra/detail/external/hydra_boost/math/tools/polynomial.hpp>  // polynomial.
 #include <hydra/detail/external/hydra_boost/math/tools/rational.hpp>  // evaluate_polynomial.
-#include <hydra/detail/external/hydra_boost/math/tools/precision.hpp> // boost::math::tools::max_value().
+#include <hydra/detail/external/hydra_boost/math/tools/precision.hpp> // hydra_boost::math::tools::max_value().
 #include <hydra/detail/external/hydra_boost/math/tools/big_constant.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/cxx03_warn.hpp>
 
-#ifndef BOOST_MATH_STANDALONE
+#ifndef HYDRA_BOOST_MATH_STANDALONE
 #include <hydra/detail/external/hydra_boost/lexical_cast.hpp>
 #endif
 
@@ -85,7 +84,7 @@ using lookup_t = double; // Type for lookup table (double or float, or even long
 // #include "lambert_w_lookup_table.ipp" // Boost.Math version.
 #include <hydra/detail/external/hydra_boost/math/special_functions/detail/lambert_w_lookup_table.ipp>
 
-#if defined(__GNUC__) && defined(BOOST_MATH_USE_FLOAT128)
+#if defined(__GNUC__) && defined(HYDRA_BOOST_MATH_USE_FLOAT128)
 //
 // This is the only way we can avoid
 // warning: non-standard suffix on floating constant [-Wpedantic]
@@ -95,7 +94,7 @@ using lookup_t = double; // Type for lookup table (double or float, or even long
 #pragma GCC system_header
 #endif
 
-namespace boost {
+namespace hydra_boost {
 namespace math {
 namespace lambert_w_detail {
 
@@ -112,7 +111,7 @@ namespace lambert_w_detail {
 template <typename T>
 inline T lambert_w_halley_step(T w_est, const T z)
 {
-  BOOST_MATH_STD_USING
+  HYDRA_BOOST_MATH_STD_USING
   T e = exp(w_est);
   w_est -= 2 * (w_est + 1) * (e * w_est - z) / (z * (w_est + 2) + e * (w_est * (w_est + 2) + 2));
   return w_est;
@@ -129,8 +128,8 @@ inline T lambert_w_halley_step(T w_est, const T z)
 template <typename T>
 inline T lambert_w_halley_iterate(T w_est, const T z)
 {
-  BOOST_MATH_STD_USING
-  static const T max_diff = boost::math::tools::root_epsilon<T>() * fabs(w_est);
+  HYDRA_BOOST_MATH_STD_USING
+  static const T max_diff = hydra_boost::math::tools::root_epsilon<T>() * fabs(w_est);
 
   T w_new = lambert_w_halley_step(w_est, z);
   T diff = fabs(w_est - w_new);
@@ -184,26 +183,8 @@ inline double must_reduce_to_double(const T& z, const std::true_type&)
 template <typename T>
 inline double must_reduce_to_double(const T& z, const std::false_type&)
 { // try a lexical_cast and hope for the best:
-#ifndef BOOST_MATH_STANDALONE
-
-   #ifdef BOOST_MATH_USE_CHARCONV_FOR_CONVERSION
-
-   // Catches the C++23 floating point types
-   if constexpr (std::is_arithmetic_v<T>)
-   {
-      return static_cast<double>(z);
-   }
-   else
-   {
-      return boost::lexical_cast<double>(z);
-   }
-
-   #else
-   
-   return boost::lexical_cast<double>(z);
-   
-   #endif
-
+#ifndef HYDRA_BOOST_MATH_STANDALONE
+   return hydra_boost::lexical_cast<double>(z);
 #else
    static_assert(sizeof(T) == 0, "Unsupported in standalone mode: don't know how to cast your number type to a double.");
    return 0.0;
@@ -232,10 +213,10 @@ inline T schroeder_update(const T w, const T y)
   // w is estimate of Lambert W (from bisection or series).
   // y is z * e^-w.
 
-  BOOST_MATH_STD_USING // Aid argument dependent lookup of abs.
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_W_SCHROEDER
+  HYDRA_BOOST_MATH_STD_USING // Aid argument dependent lookup of abs.
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SCHROEDER
     std::streamsize saved_precision = std::cout.precision(std::numeric_limits<T>::max_digits10);
-  using boost::math::float_distance;
+  using hydra_boost::math::float_distance;
   T fd = float_distance<T>(w, y);
   std::cout << "Schroder ";
   if (abs(fd) < 214748000.)
@@ -247,7 +228,7 @@ inline T schroeder_update(const T w, const T y)
     std::cout << "Difference w - y = " << (w - y) << ".";
   }
   std::cout << std::endl;
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_W_SCHROEDER
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SCHROEDER
   //  Fukushima equation 18, page 6.
   const T f0 = w - y; // f0 = w - y.
   const T f1 = 1 + y; // f1 = df/dW
@@ -259,10 +240,10 @@ inline T schroeder_update(const T w, const T y)
     (f11 * (24 * f11 + 36 * f0y) +
       f00 * (6 * y * y  +  8 * f1 * y  +  f0y)); // Fukushima Page 81, equation 21 from equation 20.
 
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_W_SCHROEDER
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SCHROEDER
   std::cout << "Schroeder refined " << w << "  " << y << ", difference  " << w-y  << ", change " << w - result << ", to result " << result << std::endl;
   std::cout.precision(saved_precision); // Restore.
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_W_SCHROEDER
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SCHROEDER
 
   return result;
 } // template<typename T = double> T schroeder_update(const T w, const T y)
@@ -279,7 +260,7 @@ inline T schroeder_update(const T w, const T y)
 template<typename T>
 T lambert_w_singularity_series(const T p)
 {
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_W_SINGULARITY_SERIES
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SINGULARITY_SERIES
   std::size_t saved_precision = std::cout.precision(3);
   std::cout << "Singularity_series Lambert_w p argument = " << p << std::endl;
   std::cout
@@ -288,7 +269,7 @@ T lambert_w_singularity_series(const T p)
     //<< ", epsilon = " << std::numeric_limits<T>::epsilon()
     << std::endl;
   std::cout.precision(saved_precision);
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_W_SINGULARITY_SERIES
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SINGULARITY_SERIES
 
   static const T q[] =
   {
@@ -317,27 +298,27 @@ T lambert_w_singularity_series(const T p)
     // -T(0.000672061631156136204L), j14
     //+T(1003663334225097487uLL) / 234281684403486720000uLL, // j15 0.00044247306181462090993020760858473726479232802068800 error C2177: constant too big
     //+T(0.000442473061814620910L, // j15
-    BOOST_MATH_BIG_CONSTANT(T, 64, +0.000442473061814620910), // j15
+    HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, +0.000442473061814620910), // j15
     // -T(0.000292677224729627445L), // j16
-    BOOST_MATH_BIG_CONSTANT(T, 64, -0.000292677224729627445), // j16
+    HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, -0.000292677224729627445), // j16
     //+T(0.000194387276054539318L), // j17
-    BOOST_MATH_BIG_CONSTANT(T, 64, 0.000194387276054539318), // j17
+    HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, 0.000194387276054539318), // j17
     //-T(0.000129574266852748819L), // j18
-    BOOST_MATH_BIG_CONSTANT(T, 64, -0.000129574266852748819), // j18
+    HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, -0.000129574266852748819), // j18
     //+T(0.0000866503580520812717L), // j19 N[+1150497127780071399782389/13277465363600276402995200000, 50] 0.000086650358052081271660451590462390293190597827783288
-    BOOST_MATH_BIG_CONSTANT(T, 64, +0.0000866503580520812717), // j19
+    HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, +0.0000866503580520812717), // j19
     //-T(0.0000581136075044138168L) // j20  N[2853534237182741069/49102686267859224000000, 50] 0.000058113607504413816772205464778828177256611844221913
     // -T(2853534237182741069uLL) / 49102686267859224000000uLL  // j20 // error C2177: constant too big,
-    // so must use BOOST_MATH_BIG_CONSTANT(T, ) format in hope of using suffix Q for quad or decimal digits string for others.
+    // so must use HYDRA_BOOST_MATH_BIG_CONSTANT(T, ) format in hope of using suffix Q for quad or decimal digits string for others.
     //-T(0.000058113607504413816772205464778828177256611844221913L), // j20  N[2853534237182741069/49102686267859224000000, 50] 0.000058113607504413816772205464778828177256611844221913
-    BOOST_MATH_BIG_CONSTANT(T, 113, -0.000058113607504413816772205464778828177256611844221913) // j20  - last used by Fukushima
+    HYDRA_BOOST_MATH_BIG_CONSTANT(T, 113, -0.000058113607504413816772205464778828177256611844221913) // j20  - last used by Fukushima
     // More terms don't seem to give any improvement (worse in fact) and are not use for many z values.
-    //BOOST_MATH_BIG_CONSTANT(T, +0.000039076684867439051635395583044527492132109160553593), // j21
-    //BOOST_MATH_BIG_CONSTANT(T, -0.000026338064747231098738584082718649443078703982217219), // j22
-    //BOOST_MATH_BIG_CONSTANT(T, +0.000017790345805079585400736282075184540383274460464169), // j23
-    //BOOST_MATH_BIG_CONSTANT(T, -0.000012040352739559976942274116578992585158113153190354), // j24
-    //BOOST_MATH_BIG_CONSTANT(T, +8.1635319824966121713827512573558687050675701559448E-6), // j25
-    //BOOST_MATH_BIG_CONSTANT(T, -5.5442032085673591366657251660804575198155559225316E-6) // j26
+    //HYDRA_BOOST_MATH_BIG_CONSTANT(T, +0.000039076684867439051635395583044527492132109160553593), // j21
+    //HYDRA_BOOST_MATH_BIG_CONSTANT(T, -0.000026338064747231098738584082718649443078703982217219), // j22
+    //HYDRA_BOOST_MATH_BIG_CONSTANT(T, +0.000017790345805079585400736282075184540383274460464169), // j23
+    //HYDRA_BOOST_MATH_BIG_CONSTANT(T, -0.000012040352739559976942274116578992585158113153190354), // j24
+    //HYDRA_BOOST_MATH_BIG_CONSTANT(T, +8.1635319824966121713827512573558687050675701559448E-6), // j25
+    //HYDRA_BOOST_MATH_BIG_CONSTANT(T, -5.5442032085673591366657251660804575198155559225316E-6) // j26
     // -T(5.5442032085673591366657251660804575198155559225316E-6L) // j26
     // 21 to 26 Added for long double.
   }; // static const T q[]
@@ -377,11 +358,11 @@ T lambert_w_singularity_series(const T p)
      // but also the round-off errors accumulate.
      // See Fukushima equation 35, page 85 for logic of choice of number of series terms.
 
-  BOOST_MATH_STD_USING // Aid argument dependent lookup (ADL) of abs.
+  HYDRA_BOOST_MATH_STD_USING // Aid argument dependent lookup (ADL) of abs.
 
     const T absp = abs(p);
 
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_W_TERMS
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_TERMS
   {
     int terms = 20; // Default to using all terms.
     if (absp < 0.01159)
@@ -396,9 +377,9 @@ T lambert_w_singularity_series(const T p)
     std::cout << "abs(p) = " << absp << ", terms = " << terms << std::endl;
     std::cout.precision(saved_precision);
   }
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_W_TERMS
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_TERMS
 
-  if (absp < T(0.01159))
+  if (absp < 0.01159)
   { // Only 6 near-singularity series terms are useful.
     return
       -1 +
@@ -410,7 +391,7 @@ T lambert_w_singularity_series(const T p)
                 p * q[6]
                 )))));
   }
-  else if (absp < T(0.0766)) // Use 10 near-singularity series terms.
+  else if (absp < 0.0766) // Use 10 near-singularity series terms.
   { // Use 10 near-singularity series terms.
     return
       -1 +
@@ -426,7 +407,8 @@ T lambert_w_singularity_series(const T p)
                         p * q[10]
                         )))))))));
   }
-   // Use all 20 near-singularity series terms.
+  else
+  { // Use all 20 near-singularity series terms.
     return
       -1 +
       p * (1 +
@@ -458,7 +440,7 @@ T lambert_w_singularity_series(const T p)
     //                                                p*q[24] +
     //                                                 p*q[25]
     //                                         )))))))))))))))))));
-
+  }
 } // template<typename T = double> T lambert_w_singularity_series(const T p)
 
 
@@ -538,7 +520,7 @@ T lambert_w0_small_z(T x, const Policy& pol)
 { //std::numeric_limits<T>::max_digits10 == 36 ? 3 : // 128-bit long double.
   using tag_type = std::integral_constant<int,
      std::numeric_limits<T>::is_specialized == 0 ? 5 :
-#ifndef BOOST_NO_CXX11_NUMERIC_LIMITS
+#ifndef HYDRA_BOOST_NO_CXX11_NUMERIC_LIMITS
     std::numeric_limits<T>::max_digits10 <=  9 ? 0 : // for float 32-bit.
     std::numeric_limits<T>::max_digits10 <= 17 ? 1 : // for double 64-bit.
     std::numeric_limits<T>::max_digits10 <= 22 ? 2 : // for 80-bit double extended.
@@ -564,11 +546,11 @@ T lambert_w0_small_z(T x, const Policy& pol)
 template <typename T, typename Policy>
 T lambert_w0_small_z(T z, const Policy&, std::integral_constant<int, 0> const&)
 {
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
   std::streamsize prec = std::cout.precision(std::numeric_limits<T>::max_digits10); // Save.
   std::cout << "\ntag_type 0 float lambert_w0_small_z called with z = " << z << " using " << 9 << " terms of precision "
     << std::numeric_limits<float>::max_digits10 << " decimal digits. " << std::endl;
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
   T result =
     z * (1 - // j1 z^1 term = 1
       z * (1 -  // j2 z^2 term = -1
@@ -580,10 +562,10 @@ T lambert_w0_small_z(T z, const Policy&, std::integral_constant<int, 0> const&)
                   z * (52.012698412698412698F - // j8
                     z * 118.62522321428571429F)))))))); // j9
 
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
   std::cout << "return w = " << result << std::endl;
   std::cout.precision(prec); // Restore.
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
 
   return result;
 } // template <typename T>   T lambert_w0_small_z(T x, std::integral_constant<int, 0> const&)
@@ -596,11 +578,11 @@ T lambert_w0_small_z(T z, const Policy&, std::integral_constant<int, 0> const&)
 template <typename T, typename Policy>
 T lambert_w0_small_z(const T z, const Policy&, std::integral_constant<int, 1> const&)
 {
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
   std::streamsize prec = std::cout.precision(std::numeric_limits<T>::max_digits10); // Save.
   std::cout << "\ntag_type 1 double lambert_w0_small_z called with z = " << z << " using " << 17 << " terms of precision, "
     << std::numeric_limits<double>::max_digits10 << " decimal digits. " << std::endl;
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
   T result =
     z * (1. - // j1 z^1
       z * (1. -  // j2 z^2
@@ -620,10 +602,10 @@ T lambert_w0_small_z(const T z, const Policy&, std::integral_constant<int, 1> co
                                   z * (55103.621972903835338 - // j16
                                     z * 136808.86090394293563)))))))))))))))); // j17 z^17
 
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
   std::cout << "return w = " << result << std::endl;
   std::cout.precision(prec); // Restore.
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
 
   return result;
 } // T lambert_w0_small_z(const T z, std::integral_constant<int, 1> const&)
@@ -636,11 +618,11 @@ T lambert_w0_small_z(const T z, const Policy&, std::integral_constant<int, 1> co
 template <typename T, typename Policy>
 T lambert_w0_small_z(const T z, const Policy&, std::integral_constant<int, 2> const&)
 {
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
   std::streamsize precision = std::cout.precision(std::numeric_limits<T>::max_digits10); // Save.
   std::cout << "\ntag_type 2 long double (80-bit double extended) lambert_w0_small_z called with z = " << z << " using " << 21 << " terms of precision, "
     << std::numeric_limits<long double>::max_digits10 << " decimal digits. " << std::endl;
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
 //  T  result =
 //    z * (1.L - // j1 z^1
 //      z * (1.L -  // j2 z^2
@@ -689,10 +671,10 @@ z * (855992.9659966075514633630250633224L - // z^19
 z * (2.154990206091088289321708745358647e6L // z^20 distance -5 without term 20
 ))))))))))))))))))));
 
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
   std::cout << "return w = " << result << std::endl;
   std::cout.precision(precision); // Restore.
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
   return result;
 }  // long double lambert_w0_small_z(const T z, std::integral_constant<int, 1> const&)
 
@@ -700,18 +682,18 @@ z * (2.154990206091088289321708745358647e6L // z^20 distance -5 without term 20
 // 34 Taylor series coefficients used are computed by Wolfram to 50 decimal digits using instruction
 // N[InverseSeries[Series[z Exp[z],{z,0,34}]],50],
 // and are suffixed by L as they are assumed of type long double.
-// (This is NOT used for 128-bit quad boost::multiprecision::float128 type which required a suffix Q
+// (This is NOT used for 128-bit quad hydra_boost::multiprecision::float128 type which required a suffix Q
 // nor multiprecision type cpp_bin_float_quad that can only be initialized at full precision of the type
 // constructed with a decimal digit string like "2.6666666666666666666666666666666666666666666666667".)
 
 template <typename T, typename Policy>
 T lambert_w0_small_z(const T z, const Policy&, std::integral_constant<int, 3> const&)
 {
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
   std::streamsize precision = std::cout.precision(std::numeric_limits<T>::max_digits10); // Save.
   std::cout << "\ntag_type 3 long double (128-bit) lambert_w0_small_z called with z = " << z << " using " << 17 << " terms of precision,  "
     << std::numeric_limits<double>::max_digits10 << " decimal digits. " << std::endl;
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
   T  result =
     z * (1.L - // j1
       z * (1.L -  // j2
@@ -732,10 +714,10 @@ T lambert_w0_small_z(const T z, const Policy&, std::integral_constant<int, 3> co
                                     z * 136808.86090394293563342215789305736395683485630576L    // j17
                                       ))))))))))))))));
 
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
   std::cout << "return w = " << result << std::endl;
   std::cout.precision(precision); // Restore.
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
   return result;
 }  // T lambert_w0_small_z(const T z, std::integral_constant<int, 3> const&)
 
@@ -749,15 +731,15 @@ T lambert_w0_small_z(const T z, const Policy&, std::integral_constant<int, 3> co
 // over the range -0.049 to +0.049,
 // it is slightly slower than getting a double approximation followed by a single Halley step.
 
-#ifdef BOOST_HAS_FLOAT128
+#ifdef HYDRA_BOOST_HAS_FLOAT128
 template <typename T, typename Policy>
 T lambert_w0_small_z(const T z, const Policy&, std::integral_constant<int, 4> const&)
 {
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
   std::streamsize precision = std::cout.precision(std::numeric_limits<T>::max_digits10); // Save.
   std::cout << "\ntag_type 4 128-bit quad float128 lambert_w0_small_z called with z = " << z << " using " << 34 << " terms of precision, "
     << std::numeric_limits<float128>::max_digits10 << " max decimal digits." << std::endl;
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
   T  result =
     z * (1.Q - // z j1
       z * (1.Q - // z^2
@@ -796,10 +778,10 @@ T lambert_w0_small_z(const T z, const Policy&, std::integral_constant<int, 4> co
                                                                         ))))))))))))))))))))))))))))))))));
 
 
- #ifdef BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+ #ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
   std::cout << "return w = " << result << std::endl;
   std::cout.precision(precision); // Restore.
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
 
   return result;
 }  // T lambert_w0_small_z(const T z, std::integral_constant<int, 4> const&) float128
@@ -812,7 +794,7 @@ inline T lambert_w0_small_z(const T z, const Policy& pol, std::integral_constant
    return lambert_w0_small_z(z, pol, std::integral_constant<int, 5>());
 }
 
-#endif // BOOST_HAS_FLOAT128
+#endif // HYDRA_BOOST_HAS_FLOAT128
 
 //! Series functor to compute series term using pow and factorial.
 //! \details Functor is called after evaluating polynomial with the coefficients as rationals below.
@@ -835,7 +817,7 @@ struct lambert_w0_small_z_series_term
     ++k;
     term *= -z / k;
     //T t = pow(z, k) * pow(T(k), -1 + k) / factorial<T>(k); // (z^k * k(k-1)^k) / k!
-    T result = term * pow(T(k), T(-1 + k)); // term * k^(k-1)
+    T result = term * pow(T(k), -1 + k); // term * k^(k-1)
                                          // std::cout << " k = " << k << ", term = " << term << ", result = " << result << std::endl;
     return result; //
   }
@@ -849,11 +831,11 @@ private:
 template <typename T, typename Policy>
 inline T lambert_w0_small_z(T z, const Policy& pol, std::integral_constant<int, 5> const&)
 {
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
   std::streamsize precision = std::cout.precision(std::numeric_limits<T>::max_digits10); // Save.
   std::cout << "Generic lambert_w0_small_z called with z = " << z << " using as many terms needed for precision." << std::endl;
   std::cout << "Argument z is of type " << typeid(T).name() << std::endl;
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
 
   // First several terms of the series are tabulated and evaluated as a polynomial:
   // this will save us a bunch of expensive calls to pow.
@@ -923,9 +905,9 @@ inline T lambert_w0_small_z(T z, const Policy& pol, std::integral_constant<int, 
           341422.05066583836331735491399356945575432970390954  z^19  Wolfram value differs at 36 decimal digit, as expected.
      */
 
-  using boost::math::policies::get_epsilon; // for type T.
-  using boost::math::tools::sum_series;
-  using boost::math::tools::evaluate_polynomial;
+  using hydra_boost::math::policies::get_epsilon; // for type T.
+  using hydra_boost::math::tools::sum_series;
+  using hydra_boost::math::tools::evaluate_polynomial;
   // http://www.boost.org/doc/libs/release/libs/math/doc/html/math_toolkit/roots/rational.html
 
   // std::streamsize prec = std::cout.precision(std::numeric_limits <T>::max_digits10);
@@ -961,10 +943,10 @@ inline T lambert_w0_small_z(T z, const Policy& pol, std::integral_constant<int, 
   //std::cout.precision(saved_precision);
 
   std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>(); // Max iterations from policy.
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
   std::cout << "max iter from policy = " << max_iter << std::endl;
   // //   max iter from policy = 1000000 is default.
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES
 
   result = sum_series(s, get_epsilon<T, Policy>(), max_iter, result);
   // result == evaluate_polynomial.
@@ -977,11 +959,11 @@ inline T lambert_w0_small_z(T z, const Policy& pol, std::integral_constant<int, 
   //  5.35e-51 for t = cpp_bin_float_50
 
   // std::cout << " get eps = " << get_epsilon<T, Policy>() << std::endl; // quad eps = 1.93e-34, bin_float_50 eps = 5.35e-51
-  policies::check_series_iterations<T>("boost::math::lambert_w0_small_z<%1%>(%1%)", max_iter, pol);
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES_ITERATIONS
+  policies::check_series_iterations<T>("hydra_boost::math::lambert_w0_small_z<%1%>(%1%)", max_iter, pol);
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES_ITERATIONS
   std::cout << "z = " << z << " needed  " << max_iter << " iterations." << std::endl;
   std::cout.precision(prec); // Restore.
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES_ITERATIONS
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W_SMALL_Z_SERIES_ITERATIONS
   return result;
 } // template <typename T, typename Policy> inline T lambert_w0_small_z_series(T z, const Policy& pol)
 
@@ -990,7 +972,7 @@ inline T lambert_w0_small_z(T z, const Policy& pol, std::integral_constant<int, 
 template <typename T>
 inline T lambert_w0_approx(T z)
 {
-  BOOST_MATH_STD_USING
+  HYDRA_BOOST_MATH_STD_USING
   T lz = log(z);
   T llz = log(lz);
   T w = lz - llz + (llz / lz); // Corless equation 4.19, page 349, and Chapeau-Blondeau equation 20, page 2162.
@@ -1015,8 +997,8 @@ inline T lambert_w0_approx(T z)
 template <typename T>
 inline T do_get_near_singularity_param(T z)
 {
-   BOOST_MATH_STD_USING
-   const T p2 = 2 * (boost::math::constants::e<T>() * z + 1);
+   HYDRA_BOOST_MATH_STD_USING
+   const T p2 = 2 * (hydra_boost::math::constants::e<T>() * z + 1);
    const T p = sqrt(p2);
    return p;
 }
@@ -1040,10 +1022,10 @@ inline T get_near_singularity_param(T z, const Policy)
 template <typename T>
 T lambert_w_positive_rational_float(T z)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    if (z < 2)
    {
-      if (z < T(0.5))
+      if (z < 0.5)
       { // 0.05 < z < 0.5
         // Maximum Deviation Found:                     2.993e-08
         // Expected Error Term : 2.993e-08
@@ -1060,7 +1042,7 @@ T lambert_w_positive_rational_float(T z)
             2.871703469e+00f,
             1.690949264e+00f,
          };
-         return z * (Y + boost::math::tools::evaluate_polynomial(P, z) / boost::math::tools::evaluate_polynomial(Q, z));
+         return z * (Y + hydra_boost::math::tools::evaluate_polynomial(P, z) / hydra_boost::math::tools::evaluate_polynomial(Q, z));
       }
       else
       { // 0.5 < z < 2
@@ -1078,7 +1060,7 @@ T lambert_w_positive_rational_float(T z)
             1.830840318e+00f,
             2.407221031e-01f,
          };
-         return z * (Y + boost::math::tools::evaluate_rational(P, Q, z));
+         return z * (Y + hydra_boost::math::tools::evaluate_rational(P, Q, z));
       }
    }
    else if (z < 6)
@@ -1098,7 +1080,7 @@ T lambert_w_positive_rational_float(T z)
          2.295580708e-01f,
          5.477869455e-03f,
       };
-      return Y + boost::math::tools::evaluate_rational(P, Q, z);
+      return Y + hydra_boost::math::tools::evaluate_rational(P, Q, z);
    }
    else if (z < 18)
    {
@@ -1117,9 +1099,9 @@ T lambert_w_positive_rational_float(T z)
          4.489521292e-02f,
          4.076716763e-04f,
       };
-      return Y + boost::math::tools::evaluate_rational(P, Q, z);
+      return Y + hydra_boost::math::tools::evaluate_rational(P, Q, z);
    }
-   else if (z < T(9897.12905874))  // 2.8 < log(z) < 9.2
+   else if (z < 9897.12905874)  // 2.8 < log(z) < 9.2
    {
       // Max error in interpolated form: 1.771e-08
       static const T Y = -1.402973175e+00f;
@@ -1137,9 +1119,9 @@ T lambert_w_positive_rational_float(T z)
          -1.321489743e-05f,
       };
       T log_w = log(z);
-      return log_w + Y + boost::math::tools::evaluate_polynomial(P, log_w) / boost::math::tools::evaluate_polynomial(Q, log_w);
+      return log_w + Y + hydra_boost::math::tools::evaluate_polynomial(P, log_w) / hydra_boost::math::tools::evaluate_polynomial(Q, log_w);
    }
-   else if (z < T(7.896296e+13))  // 9.2 < log(z) <= 32
+   else if (z < 7.896296e+13)  // 9.2 < log(z) <= 32
    {
       // Max error in interpolated form: 5.821e-08
       static const T Y = -2.735729218e+00f;
@@ -1157,36 +1139,37 @@ T lambert_w_positive_rational_float(T z)
          7.312865624e-08f,
       };
       T log_w = log(z);
-      return log_w + Y + boost::math::tools::evaluate_polynomial(P, log_w) / boost::math::tools::evaluate_polynomial(Q, log_w);
+      return log_w + Y + hydra_boost::math::tools::evaluate_polynomial(P, log_w) / hydra_boost::math::tools::evaluate_polynomial(Q, log_w);
    }
-
-    // Max error in interpolated form: 1.491e-08
-    static const T Y = -4.012863159e+00f;
-    static const T P[] = {
-        4.431629226e+00f,
-        2.756690487e-01f,
-        -2.992956930e-03f,
-        -4.912259384e-05f,
-    };
-    static const T Q[] = {
-        1.000000000e+00f,
-        2.015434591e-01f,
-        4.949426142e-03f,
-        1.609659944e-05f,
-        -5.111523436e-09f,
-    };
-    T log_w = log(z);
-    return log_w + Y + boost::math::tools::evaluate_polynomial(P, log_w) / boost::math::tools::evaluate_polynomial(Q, log_w);
-
+   else // 32 < log(z) < 100
+   {
+      // Max error in interpolated form: 1.491e-08
+      static const T Y = -4.012863159e+00f;
+      static const T P[] = {
+         4.431629226e+00f,
+         2.756690487e-01f,
+         -2.992956930e-03f,
+         -4.912259384e-05f,
+      };
+      static const T Q[] = {
+         1.000000000e+00f,
+         2.015434591e-01f,
+         4.949426142e-03f,
+         1.609659944e-05f,
+         -5.111523436e-09f,
+      };
+      T log_w = log(z);
+      return log_w + Y + hydra_boost::math::tools::evaluate_polynomial(P, log_w) / hydra_boost::math::tools::evaluate_polynomial(Q, log_w);
+   }
 }
 
 template <typename T, typename Policy>
 T lambert_w_negative_rational_float(T z, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
-   if (z > T(-0.27))
+   HYDRA_BOOST_MATH_STD_USING
+   if (z > -0.27)
    {
-      if (z < T(-0.051))
+      if (z < -0.051)
       {
          // -0.27 < z < -0.051
          // Max error in interpolated form: 5.080e-08
@@ -1203,7 +1186,7 @@ T lambert_w_negative_rational_float(T z, const Policy& pol)
             7.914062868e+00f,
             3.501498501e+00f,
          };
-         return z * (Y + boost::math::tools::evaluate_rational(P, Q, z));
+         return z * (Y + hydra_boost::math::tools::evaluate_rational(P, Q, z));
       }
       else
       {
@@ -1211,7 +1194,7 @@ T lambert_w_negative_rational_float(T z, const Policy& pol)
          return lambert_w0_small_z(z, pol);
       }
    }
-   else if (z > T(-0.3578794411714423215955237701))
+   else if (z > -0.3578794411714423215955237701)
    { // Very close to branch singularity.
      // Max error in interpolated form: 5.269e-08
       static const T Y = 1.220928431e-01f;
@@ -1229,29 +1212,32 @@ T lambert_w_negative_rational_float(T z, const Policy& pol)
          1.117826726e+03f,
       };
       T d = z + 0.367879441171442321595523770161460867445811f;
-      return -d / (Y + boost::math::tools::evaluate_polynomial(P, d) / boost::math::tools::evaluate_polynomial(Q, d));
+      return -d / (Y + hydra_boost::math::tools::evaluate_polynomial(P, d) / hydra_boost::math::tools::evaluate_polynomial(Q, d));
    }
-
-    return lambert_w_singularity_series(get_near_singularity_param(z, pol));
+   else
+   {
+      // z is very close (within 0.01) of the singularity at e^-1.
+      return lambert_w_singularity_series(get_near_singularity_param(z, pol));
+   }
 }
 
 //! Lambert_w0 @b 'float' implementation, selected when T is 32-bit precision.
 template <typename T, typename Policy>
 inline T lambert_w0_imp(T z, const Policy& pol, const std::integral_constant<int, 1>&)
 {
-  static const char* function = "boost::math::lambert_w0<%1%>"; // For error messages.
-  BOOST_MATH_STD_USING // Aid ADL of std functions.
+  static const char* function = "hydra_boost::math::lambert_w0<%1%>"; // For error messages.
+  HYDRA_BOOST_MATH_STD_USING // Aid ADL of std functions.
 
-  if ((boost::math::isnan)(z))
+  if ((hydra_boost::math::isnan)(z))
   {
-    return boost::math::policies::raise_domain_error<T>(function, "Expected a value > -e^-1 (-0.367879...) but got %1%.", z, pol);
+    return hydra_boost::math::policies::raise_domain_error<T>(function, "Expected a value > -e^-1 (-0.367879...) but got %1%.", z, pol);
   }
-  if ((boost::math::isinf)(z))
+  if ((hydra_boost::math::isinf)(z))
   {
-    return boost::math::policies::raise_overflow_error<T>(function, "Expected a finite value but got %1%.", z, pol);
+    return hydra_boost::math::policies::raise_overflow_error<T>(function, "Expected a finite value but got %1%.", z, pol);
   }
 
-   if (z >= T(0.05)) // Fukushima switch point.
+   if (z >= 0.05) // Fukushima switch point.
    // if (z >= 0.045) // 34 terms makes 128-bit 'exact' below 0.045.
    { // Normal ranges using several rational polynomials.
       return lambert_w_positive_rational_float(z);
@@ -1259,17 +1245,19 @@ inline T lambert_w0_imp(T z, const Policy& pol, const std::integral_constant<int
    else if (z <= -0.3678794411714423215955237701614608674458111310f)
    {
       if (z < -0.3678794411714423215955237701614608674458111310f)
-         return boost::math::policies::raise_domain_error<T>(function, "Expected z >= -e^-1 (-0.367879...) but got %1%.", z, pol);
+         return hydra_boost::math::policies::raise_domain_error<T>(function, "Expected z >= -e^-1 (-0.367879...) but got %1%.", z, pol);
       return -1;
    }
-
-   return lambert_w_negative_rational_float(z, pol);
+   else // z < 0.05
+   {
+      return lambert_w_negative_rational_float(z, pol);
+   }
 } // T lambert_w0_imp(T z, const Policy& pol, const std::integral_constant<int, 1>&) for 32-bit usually float.
 
 template <typename T>
 T lambert_w_positive_rational_double(T z)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    if (z < 2)
    {
       if (z < 0.5)
@@ -1294,7 +1282,7 @@ T lambert_w_positive_rational_double(T z)
             4.03760534788374589e+00,
             2.91327346750475362e-01
          };
-         return z * (offset + boost::math::tools::evaluate_polynomial(P, z) / boost::math::tools::evaluate_polynomial(Q, z));
+         return z * (offset + hydra_boost::math::tools::evaluate_polynomial(P, z) / hydra_boost::math::tools::evaluate_polynomial(Q, z));
       }
       else
       {
@@ -1320,7 +1308,7 @@ T lambert_w_positive_rational_double(T z)
             2.21610620995418981e-01,
             5.70597669908194213e-03
          };
-         return z * (offset + boost::math::tools::evaluate_rational(P, Q, z));
+         return z * (offset + hydra_boost::math::tools::evaluate_rational(P, Q, z));
       }
    }
    else if (z < 6)
@@ -1348,7 +1336,7 @@ T lambert_w_positive_rational_double(T z)
          9.25176499518388571e-04,
          4.43611344705509378e-06,
       };
-      return Y + boost::math::tools::evaluate_rational(P, Q, z);
+      return Y + hydra_boost::math::tools::evaluate_rational(P, Q, z);
    }
    else if (z < 18)
    {
@@ -1378,7 +1366,7 @@ T lambert_w_positive_rational_double(T z)
          6.05713225608426678e-07,
          8.17517283816615732e-10
       };
-      return offset + boost::math::tools::evaluate_rational(P, Q, z);
+      return offset + hydra_boost::math::tools::evaluate_rational(P, Q, z);
    }
    else if (z < 9897.12905874)  // 2.8 < log(z) < 9.2
    {
@@ -1407,7 +1395,7 @@ T lambert_w_positive_rational_double(T z)
          3.44200749053237945e-09,
       };
       T log_w = log(z);
-      return log_w + Y + boost::math::tools::evaluate_rational(P, Q, log_w);
+      return log_w + Y + hydra_boost::math::tools::evaluate_rational(P, Q, log_w);
    }
    else if (z < 7.896296e+13)  // 9.2 < log(z) <= 32
    {
@@ -1436,7 +1424,7 @@ T lambert_w_positive_rational_double(T z)
          3.39460723731970550e-12,
       };
       T log_w = log(z);
-      return log_w + Y + boost::math::tools::evaluate_rational(P, Q, log_w);
+      return log_w + Y + hydra_boost::math::tools::evaluate_rational(P, Q, log_w);
    }
    else if (z < 2.6881171e+43) // 32 < log(z) < 100
    {
@@ -1465,7 +1453,7 @@ T lambert_w_positive_rational_double(T z)
          -2.60648331090076845e-14,
       };
       T log_w = log(z);
-      return log_w + Y + boost::math::tools::evaluate_rational(P, Q, log_w);
+      return log_w + Y + hydra_boost::math::tools::evaluate_rational(P, Q, log_w);
    }
    else // 100 < log(z) < 710
    {
@@ -1498,14 +1486,14 @@ T lambert_w_positive_rational_double(T z)
          3.78250395617836059e-25,
       };
       T log_w = log(z);
-      return log_w + Y + boost::math::tools::evaluate_rational(P, Q, log_w);
+      return log_w + Y + hydra_boost::math::tools::evaluate_rational(P, Q, log_w);
    }
 }
 
 template <typename T, typename Policy>
 T lambert_w_negative_rational_double(T z, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    if (z > -0.1)
    {
       if (z < -0.051)
@@ -1531,7 +1519,7 @@ T lambert_w_negative_rational_double(T z, const Policy& pol)
             1.31256080849023319e+01,
             2.11640324843601588e+00,
          };
-         return z * (Y + boost::math::tools::evaluate_rational(P, Q, z));
+         return z * (Y + hydra_boost::math::tools::evaluate_rational(P, Q, z));
       }
       else
       {
@@ -1564,7 +1552,7 @@ T lambert_w_negative_rational_double(T z, const Policy& pol)
          2.82060127225153607e+01,
          4.10677610657724330e+00,
       };
-      return z * (Y + boost::math::tools::evaluate_rational(P, Q, z));
+      return z * (Y + hydra_boost::math::tools::evaluate_rational(P, Q, z));
    }
    else if (z > -0.3178794411714423215955237)
    {
@@ -1592,7 +1580,7 @@ T lambert_w_negative_rational_double(T z, const Policy& pol)
          6.27765369292636844e+04,
       };
       T d = z + 0.367879441171442321595523770161460867445811;
-      return -d / (Y + boost::math::tools::evaluate_polynomial(P, d) / boost::math::tools::evaluate_polynomial(Q, d));
+      return -d / (Y + hydra_boost::math::tools::evaluate_polynomial(P, d) / hydra_boost::math::tools::evaluate_polynomial(Q, d));
    }
    else if (z > -0.3578794411714423215955237701)
    {
@@ -1621,12 +1609,12 @@ T lambert_w_negative_rational_double(T z, const Policy& pol)
          -1.72845216404874299e+10,
       };
       T d = z + 0.36787944117144232159552377016146086744581113103176804;
-      return -d / (Y + boost::math::tools::evaluate_polynomial(P, d) / boost::math::tools::evaluate_polynomial(Q, d));
+      return -d / (Y + hydra_boost::math::tools::evaluate_polynomial(P, d) / hydra_boost::math::tools::evaluate_polynomial(Q, d));
    }
    else
    {  // z is very close (within 0.01) of the singularity at -e^-1,
       // so use a series expansion from R. M. Corless et al.
-      const T p2 = 2 * (boost::math::constants::e<T>() * z + 1);
+      const T p2 = 2 * (hydra_boost::math::constants::e<T>() * z + 1);
       const T p = sqrt(p2);
       return lambert_w_detail::lambert_w_singularity_series(p);
    }
@@ -1636,8 +1624,8 @@ T lambert_w_negative_rational_double(T z, const Policy& pol)
 template <typename T, typename Policy>
 inline T lambert_w0_imp(T z, const Policy& pol, const std::integral_constant<int, 2>&)
 {
-   static const char* function = "boost::math::lambert_w0<%1%>";
-   BOOST_MATH_STD_USING // Aid ADL of std functions.
+   static const char* function = "hydra_boost::math::lambert_w0<%1%>";
+   HYDRA_BOOST_MATH_STD_USING // Aid ADL of std functions.
 
    // Detect unusual case of 32-bit double with a wider/64-bit long double
    static_assert(std::numeric_limits<double>::digits >= 53,
@@ -1646,13 +1634,13 @@ inline T lambert_w0_imp(T z, const Policy& pol, const std::integral_constant<int
    "- or possibly edit the coefficients to have "
    "an appropriate size-suffix for 64-bit floats on your platform - L?");
 
-    if ((boost::math::isnan)(z))
+    if ((hydra_boost::math::isnan)(z))
     {
-      return boost::math::policies::raise_domain_error<T>(function, "Expected a value > -e^-1 (-0.367879...) but got %1%.", z, pol);
+      return hydra_boost::math::policies::raise_domain_error<T>(function, "Expected a value > -e^-1 (-0.367879...) but got %1%.", z, pol);
     }
-    if ((boost::math::isinf)(z))
+    if ((hydra_boost::math::isinf)(z))
     {
-      return boost::math::policies::raise_overflow_error<T>(function, "Expected a finite value but got %1%.", z, pol);
+      return hydra_boost::math::policies::raise_overflow_error<T>(function, "Expected a finite value but got %1%.", z, pol);
     }
 
    if (z >= 0.05)
@@ -1663,7 +1651,7 @@ inline T lambert_w0_imp(T z, const Policy& pol, const std::integral_constant<int
    {
       if (z < -0.36787944117144232159552377016146086744581113103176804)
       {
-         return boost::math::policies::raise_domain_error<T>(function, "Expected z >= -e^-1 (-0.367879...) but got %1%.", z, pol);
+         return hydra_boost::math::policies::raise_domain_error<T>(function, "Expected z >= -e^-1 (-0.367879...) but got %1%.", z, pol);
       }
       return -1;
    }
@@ -1680,13 +1668,13 @@ inline T lambert_w0_imp(T z, const Policy& pol, const std::integral_constant<int
 template <typename T, typename Policy>
 inline T lambert_w0_imp(T z, const Policy& pol, const std::integral_constant<int, 0>&)
 {
-   static const char* function = "boost::math::lambert_w0<%1%>";
-   BOOST_MATH_STD_USING // Aid ADL of std functions.
+   static const char* function = "hydra_boost::math::lambert_w0<%1%>";
+   HYDRA_BOOST_MATH_STD_USING // Aid ADL of std functions.
 
    // Filter out special cases first:
-   if ((boost::math::isnan)(z))
+   if ((hydra_boost::math::isnan)(z))
    {
-      return boost::math::policies::raise_domain_error<T>(function, "Expected z >= -e^-1 (-0.367879...) but got %1%.", z, pol);
+      return hydra_boost::math::policies::raise_domain_error<T>(function, "Expected z >= -e^-1 (-0.367879...) but got %1%.", z, pol);
    }
    if (fabs(z) <= 0.05f)
    {
@@ -1695,7 +1683,7 @@ inline T lambert_w0_imp(T z, const Policy& pol, const std::integral_constant<int
    }
    if (z > (std::numeric_limits<double>::max)())
    {
-      if ((boost::math::isinf)(z))
+      if ((hydra_boost::math::isinf)(z))
       {
          return policies::raise_overflow_error<T>(function, nullptr, pol);
          // Or might return infinity if available else max_value,
@@ -1712,17 +1700,17 @@ inline T lambert_w0_imp(T z, const Policy& pol, const std::integral_constant<int
    }
    if (z < -0.3578794411714423215955237701)
    { // Very close to branch point so rational polynomials are not usable.
-      if (z <= -boost::math::constants::exp_minus_one<T>())
+      if (z <= -hydra_boost::math::constants::exp_minus_one<T>())
       {
-         if (z == -boost::math::constants::exp_minus_one<T>())
+         if (z == -hydra_boost::math::constants::exp_minus_one<T>())
          { // Exactly at the branch point singularity.
             return -1;
          }
-         return boost::math::policies::raise_domain_error<T>(function, "Expected z >= -e^-1 (-0.367879...) but got %1%.", z, pol);
+         return hydra_boost::math::policies::raise_domain_error<T>(function, "Expected z >= -e^-1 (-0.367879...) but got %1%.", z, pol);
       }
       // z is very close (within 0.01) of the branch singularity at -e^-1
       // so use a series approximation proposed by Corless et al.
-      const T p2 = 2 * (boost::math::constants::e<T>() * z + 1);
+      const T p2 = 2 * (hydra_boost::math::constants::e<T>() * z + 1);
       const T p = sqrt(p2);
       T w = lambert_w_detail::lambert_w_singularity_series(p);
       return lambert_w_halley_iterate(w, z);
@@ -1767,19 +1755,19 @@ T lambert_wm1_imp(const T z, const Policy&  pol)
   static_assert(!std::is_integral<T>::value,
     "Must be floating-point or fixed type (not integer type), for example: lambert_wm1(1.), not lambert_wm1(1)!");
 
-  BOOST_MATH_STD_USING // Aid argument dependent lookup (ADL) of abs.
+  HYDRA_BOOST_MATH_STD_USING // Aid argument dependent lookup (ADL) of abs.
 
-  const char* function = "boost::math::lambert_wm1<RealType>(<RealType>)"; // Used for error messages.
+  const char* function = "hydra_boost::math::lambert_wm1<RealType>(<RealType>)"; // Used for error messages.
 
   // Check for edge and corner cases first:
-  if ((boost::math::isnan)(z))
+  if ((hydra_boost::math::isnan)(z))
   {
     return policies::raise_domain_error(function,
       "Argument z is NaN!",
       z, pol);
   } // isnan
 
-  if ((boost::math::isinf)(z))
+  if ((hydra_boost::math::isinf)(z))
   {
     return policies::raise_domain_error(function,
       "Argument z is infinite!",
@@ -1799,7 +1787,7 @@ T lambert_wm1_imp(const T z, const Policy&  pol)
   }
   if (std::numeric_limits<T>::has_denorm)
   { // All real types except arbitrary precision.
-    if (!(boost::math::isnormal)(z))
+    if (!(hydra_boost::math::isnormal)(z))
     { // Almost zero - might also just return infinity like z == 0 or max_value?
       return policies::raise_overflow_error(function,
         "Argument z =  %1% is denormalized! (must be z > (std::numeric_limits<RealType>::min)() or z == 0)",
@@ -1813,7 +1801,7 @@ T lambert_wm1_imp(const T z, const Policy&  pol)
       "Argument z = %1% is out of range (z <= 0) for Lambert W-1 branch! (Try Lambert W0 branch?)",
       z, pol);
   }
-  if (z > -boost::math::tools::min_value<T>())
+  if (z > -hydra_boost::math::tools::min_value<T>())
   { // z is denormalized, so cannot be computed.
     // -std::numeric_limits<T>::min() is smallest for type T,
     // for example, for double: lambert_wm1(-2.2250738585072014e-308) = -714.96865723796634
@@ -1821,12 +1809,12 @@ T lambert_wm1_imp(const T z, const Policy&  pol)
       "Argument z = %1% is too small (z < -std::numeric_limits<T>::min so denormalized) for Lambert W-1 branch!",
       z, pol);
   }
-  if (z == -boost::math::constants::exp_minus_one<T>()) // == singularity/branch point z = -exp(-1) = -3.6787944.
+  if (z == -hydra_boost::math::constants::exp_minus_one<T>()) // == singularity/branch point z = -exp(-1) = -3.6787944.
   { // At singularity, so return exactly -1.
     return -static_cast<T>(1);
   }
   // z is too negative for the W-1 (or W0) branch.
-  if (z < -boost::math::constants::exp_minus_one<T>()) // > singularity/branch point z = -exp(-1) = -3.6787944.
+  if (z < -hydra_boost::math::constants::exp_minus_one<T>()) // > singularity/branch point z = -exp(-1) = -3.6787944.
   {
     return policies::raise_domain_error(function,
       "Argument z = %1% is out of range (z < -exp(-1) = -3.6787944... <= 0) for Lambert W-1 (or W0) branch!",
@@ -1834,7 +1822,7 @@ T lambert_wm1_imp(const T z, const Policy&  pol)
   }
   if (z < static_cast<T>(-0.35))
   { // Close to singularity/branch point z = -0.3678794411714423215955237701614608727 but on W-1 branch.
-    const T p2 = 2 * (boost::math::constants::e<T>() * z + 1);
+    const T p2 = 2 * (hydra_boost::math::constants::e<T>() * z + 1);
     if (p2 == 0)
     { // At the singularity at branch point.
       return -1;
@@ -1842,14 +1830,14 @@ T lambert_wm1_imp(const T z, const Policy&  pol)
     if (p2 > 0)
     {
       T w_series = lambert_w_singularity_series(T(-sqrt(p2)));
-      if (boost::math::tools::digits<T>() > 53)
+      if (hydra_boost::math::tools::digits<T>() > 53)
       { // Multiprecision, so try a Halley refinement.
         w_series = lambert_w_detail::lambert_w_halley_iterate(w_series, z);
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_WM1_NOT_BUILTIN
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_WM1_NOT_BUILTIN
         std::streamsize saved_precision = std::cout.precision(std::numeric_limits<T>::max_digits10);
         std::cout << "Lambert W-1 Halley updated to " << w_series << std::endl;
         std::cout.precision(saved_precision);
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_WM1_NOT_BUILTIN
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_WM1_NOT_BUILTIN
       }
       return w_series;
     }
@@ -1867,7 +1855,7 @@ T lambert_wm1_imp(const T z, const Policy&  pol)
   // Check that z argument value is not smaller than lookup_table G[64]
   // std::cout << "(z > wm1zs[63]) = " << std::boolalpha << (z > wm1zs[63]) << std::endl;
 
-  if (z >= T(wm1zs[63])) // wm1zs[63]  = -1.0264389699511282259046957018510946438e-26L  W = 64.00000000000000000
+  if (z >= wm1zs[63]) // wm1zs[63]  = -1.0264389699511282259046957018510946438e-26L  W = 64.00000000000000000
   {  // z >= -1.0264389699511303e-26 (but z != 0 and z >= std::numeric_limits<T>::min() and so NOT denormalized).
 
     // Some info on Lambert W-1 values for extreme values of z.
@@ -1893,7 +1881,7 @@ T lambert_wm1_imp(const T z, const Policy&  pol)
     T lz = log(-z);
     T llz = log(-lz);
     guess = lz - llz + (llz / lz); // Chapeau-Blondeau equation 20, page 2162.
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_WM1_TINY
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_WM1_TINY
     std::streamsize saved_precision = std::cout.precision(std::numeric_limits<T>::max_digits10);
     std::cout << "z = " << z << ", guess = " << guess << ", ln(-z) = " << lz << ", ln(-ln(-z) = " << llz << ", llz/lz = " << (llz / lz) << std::endl;
     // z = -1.0000000000000001e-30, guess = -73.312782616731482, ln(-z) = -69.077552789821368, ln(-ln(-z) = 4.2352298269101114, llz/lz = -0.061311231447304194
@@ -1904,7 +1892,7 @@ T lambert_wm1_imp(const T z, const Policy&  pol)
     std::cout << "digits10 = " << d10 << ", digits2 = " << d2 // For example: digits10 = 1, digits2 = 5
       << std::endl;
     std::cout.precision(saved_precision);
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_WM1_TINY
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_WM1_TINY
     if (policies::digits<T, Policy>() < 12)
     { // For the worst case near w = 64, the error in the 'guess' is ~0.008, ratio ~ 0.0001 or 1 in 10,000 digits 10 ~= 4, or digits2 ~= 12.
       return guess;
@@ -1920,46 +1908,46 @@ T lambert_wm1_imp(const T z, const Policy&  pol)
   } // Z too small so use approximation and Halley.
     // Else Use a lookup table to find the nearest integer part of Lambert W-1 as starting point for Bisection.
 
-  if (boost::math::tools::digits<T>() > 53)
+  if (hydra_boost::math::tools::digits<T>() > 53)
   { // T is more precise than 64-bit double (or long double, or ?),
     // so compute an approximate value using only one Schroeder refinement,
     // (avoiding any double-precision Halley refinement from policy double_digits2<50> 53 - 3 = 50
     // because are next going to use Halley refinement at full/high precision using this as an approximation).
-    using boost::math::policies::precision;
-    using boost::math::policies::digits10;
-    using boost::math::policies::digits2;
-    using boost::math::policies::policy;
+    using hydra_boost::math::policies::precision;
+    using hydra_boost::math::policies::digits10;
+    using hydra_boost::math::policies::digits2;
+    using hydra_boost::math::policies::policy;
     // Compute a 50-bit precision approximate W0 in a double (no Halley refinement).
     T double_approx(static_cast<T>(lambert_wm1_imp(must_reduce_to_double(z, std::is_constructible<double, T>()), policy<digits2<50>>())));
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_WM1_NOT_BUILTIN
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_WM1_NOT_BUILTIN
     std::streamsize saved_precision = std::cout.precision(std::numeric_limits<T>::max_digits10);
     std::cout << "Lambert_wm1 Argument Type " << typeid(T).name() << " approximation double = " << double_approx << std::endl;
     std::cout.precision(saved_precision);
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_WM1
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_WM1
     // Perform additional Halley refinement(s) to ensure that
     // get a near as possible to correct result (usually +/- one epsilon).
     T result = lambert_w_halley_iterate(double_approx, z);
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_WM1
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_WM1
     std::streamsize saved_precision = std::cout.precision(std::numeric_limits<T>::max_digits10);
     std::cout << "Result " << typeid(T).name() << " precision Halley refinement =    " << result << std::endl;
     std::cout.precision(saved_precision);
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_WM1
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_WM1
     return result;
   } // digits > 53  - higher precision than double.
   else // T is double or less precision.
   { // Use a lookup table to find the nearest integer part of Lambert W as starting point for Bisection.
-    using namespace boost::math::lambert_w_detail::lambert_w_lookup;
+    using namespace hydra_boost::math::lambert_w_detail::lambert_w_lookup;
     // Bracketing sequence  n = (2, 4, 8, 16, 32, 64) for W-1 branch. (0 is -infinity)
     // Since z is probably quite small, start with lowest n (=2).
     int n = 2;
-    if (T(wm1zs[n - 1]) > z)
+    if (wm1zs[n - 1] > z)
     {
       goto bisect;
     }
     for (int j = 1; j <= 5; ++j)
     {
       n *= 2;
-      if (T(wm1zs[n - 1]) > z)
+      if (wm1zs[n - 1] > z)
       {
         goto overshot;
       }
@@ -1979,7 +1967,7 @@ T lambert_wm1_imp(const T z, const Policy&  pol)
         {
           break; // goto bisect;
         }
-        if (T(wm1zs[n - nh - 1]) > z)
+        if (wm1zs[n - nh - 1] > z)
         {
           n -= nh;
         }
@@ -1989,12 +1977,12 @@ T lambert_wm1_imp(const T z, const Policy&  pol)
     --n;
     // g[n] now holds lambert W of floor integer n and g[n+1] the ceil part;
     // these are used as initial values for bisection.
-#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_WM1_LOOKUP
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_WM1_LOOKUP
     std::streamsize saved_precision = std::cout.precision(std::numeric_limits<T>::max_digits10);
     std::cout << "Result lookup W-1(" << z << ") bisection between wm1zs[" << n - 1 << "] = " << wm1zs[n - 1] << " and wm1zs[" << n << "] = " << wm1zs[n]
       << ", bisect mean = " << (wm1zs[n - 1] + wm1zs[n]) / 2 << std::endl;
     std::cout.precision(saved_precision);
-#endif // BOOST_MATH_INSTRUMENT_LAMBERT_WM1_LOOKUP
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_WM1_LOOKUP
 
     // Compute bisections is the number of bisections computed from n,
     // such that a single application of the fifth-order Schroeder update formula
@@ -2023,7 +2011,7 @@ T lambert_wm1_imp(const T z, const Policy&  pol)
     using calc_type = typename std::conditional<std::is_constructible<lookup_t, T>::value, lookup_t, T>::type;
 
     calc_type w = -static_cast<calc_type>(n); // Equation 25,
-    calc_type y = static_cast<calc_type>(z * T(wm1es[n - 1])); // Equation 26,
+    calc_type y = static_cast<calc_type>(z * wm1es[n - 1]); // Equation 26,
                                                           // Perform the bisections fractional bisections for necessary precision.
     for (int j = 0; j < bisections; ++j)
     { // Equation 27.
@@ -2042,11 +2030,11 @@ T lambert_wm1_imp(const T z, const Policy&  pol)
 //      {
 //       // result = lambert_w_halley_iterate(result, z);
 //        result = lambert_w_halley_step(result, z);  // Just one Halley step should be enough.
-//#ifdef BOOST_MATH_INSTRUMENT_LAMBERT_WM1_HALLEY
+//#ifdef HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_WM1_HALLEY
 //        std::streamsize saved_precision = std::cout.precision(std::numeric_limits<T>::max_digits10);
 //        std::cout << "Halley refinement estimate =    " << result << std::endl;
 //        std::cout.precision(saved_precision);
-//#endif // BOOST_MATH_INSTRUMENT_LAMBERT_W1_HALLEY
+//#endif // HYDRA_BOOST_MATH_INSTRUMENT_LAMBERT_W1_HALLEY
 //        return result; // Halley
 //      } // Schroeder or Schroeder and Halley.
     }
@@ -2058,7 +2046,7 @@ T lambert_wm1_imp(const T z, const Policy&  pol)
 //! Lambert W0 using User-defined policy.
   template <typename T, typename Policy>
   inline
-    typename boost::math::tools::promote_args<T>::type
+    typename hydra_boost::math::tools::promote_args<T>::type
     lambert_w0(T z, const Policy& pol)
   {
      // Promote integer or expression template arguments to double,
@@ -2139,9 +2127,9 @@ T lambert_wm1_imp(const T z, const Policy&  pol)
     }
     // This is the sensible choice if we regard the Lambert-W function as complex analytic.
     // Of course on the real line, it's just undefined.
-    if (z == - boost::math::constants::exp_minus_one<result_type>())
+    if (z == - hydra_boost::math::constants::exp_minus_one<result_type>())
     {
-        return numeric_limits<result_type>::has_infinity ? numeric_limits<result_type>::infinity() : boost::math::tools::max_value<result_type>();
+        return numeric_limits<result_type>::has_infinity ? numeric_limits<result_type>::infinity() : hydra_boost::math::tools::max_value<result_type>();
     }
     // if z < -1/e, we'll let lambert_w0 do the error handling:
     result_type w = lambert_w0(result_type(z), pol);
@@ -2172,10 +2160,10 @@ T lambert_wm1_imp(const T z, const Policy&  pol)
     //{
     //      return static_cast<result_type>(1);
     //}
-    //if (z == - boost::math::constants::exp_minus_one<result_type>())
-    if (z == 0 || z == - boost::math::constants::exp_minus_one<result_type>())
+    //if (z == - hydra_boost::math::constants::exp_minus_one<result_type>())
+    if (z == 0 || z == - hydra_boost::math::constants::exp_minus_one<result_type>())
     {
-        return numeric_limits<result_type>::has_infinity ? -numeric_limits<result_type>::infinity() : -boost::math::tools::max_value<result_type>();
+        return numeric_limits<result_type>::has_infinity ? -numeric_limits<result_type>::infinity() : -hydra_boost::math::tools::max_value<result_type>();
     }
 
     result_type w = lambert_wm1(z, pol);
@@ -2189,7 +2177,7 @@ T lambert_wm1_imp(const T z, const Policy&  pol)
      return lambert_wm1_prime(z, policies::policy<>());
   }
 
-}} //boost::math namespaces
+}} //hydra_boost::math namespaces
 
-#endif // #ifdef BOOST_MATH_SF_LAMBERT_W_HPP
+#endif // #ifdef HYDRA_BOOST_MATH_SF_LAMBERT_W_HPP
 

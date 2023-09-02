@@ -14,7 +14,7 @@
 //  * Use of typename RootType and SizeType is a hack to prevent Visual Studio 2015 from compiling functions
 //    that are never called, that would otherwise produce compiler errors. Also forces functions to be inline.
 
-#ifndef BOOST_MATH_DIFFERENTIATION_AUTODIFF_HPP
+#ifndef HYDRA_BOOST_MATH_DIFFERENTIATION_AUTODIFF_HPP
 #error \
     "Do not #include this file directly. This should only be #included by autodiff.hpp for C++11 compatibility."
 #endif
@@ -22,7 +22,7 @@
 #include <type_traits>
 #include <hydra/detail/external/hydra_boost/math/tools/mp.hpp>
 
-namespace boost {
+namespace hydra_boost {
 namespace math {
 
 namespace mp = tools::meta_programming;
@@ -96,7 +96,7 @@ get_type_at<fvar<RealType, Order>, sizeof...(Orders)> fvar<RealType, Order>::der
   static_assert(sizeof...(Orders) <= depth,
                 "Number of parameters to derivative(...) cannot exceed fvar::depth.");
   return at(static_cast<size_t>(orders)...) *
-         product(boost::math::factorial<root_type>(static_cast<unsigned>(orders))...);
+         product(hydra_boost::math::factorial<root_type>(static_cast<unsigned>(orders))...);
 }
 
 template <typename RootType, typename Func>
@@ -384,4 +384,4 @@ auto make_ftuple(RealTypes const&... ca)
 }  // namespace autodiff_v1
 }  // namespace differentiation
 }  // namespace math
-}  // namespace boost
+}  // namespace hydra_boost

@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SF_CBRT_HPP
-#define BOOST_MATH_SF_CBRT_HPP
+#ifndef HYDRA_BOOST_MATH_SF_CBRT_HPP
+#define HYDRA_BOOST_MATH_SF_CBRT_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -17,7 +17,7 @@
 #include <type_traits>
 #include <cstdint>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 namespace detail
 {
@@ -40,7 +40,7 @@ struct largest_cbrt_int_type
 template <typename T, typename Policy>
 T cbrt_imp(T z, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    //
    // cbrt approximation for z in the range [0.5,1]
    // It's hard to say what number of terms gives the optimum
@@ -66,11 +66,11 @@ T cbrt_imp(T z, const Policy& pol)
       static_cast<T>(1.2599210498948731647672106072782),   // 2^1/3
       static_cast<T>(1.5874010519681994747517056392723),   // 2^2/3
    };
-   if((boost::math::isinf)(z) || (z == 0))
+   if((hydra_boost::math::isinf)(z) || (z == 0))
       return z;
-   if(!(boost::math::isfinite)(z))
+   if(!(hydra_boost::math::isfinite)(z))
    {
-      return policies::raise_domain_error("boost::math::cbrt<%1%>(%1%)", "Argument to function must be finite but got %1%.", z, pol);
+      return policies::raise_domain_error("hydra_boost::math::cbrt<%1%>(%1%)", "Argument to function must be finite but got %1%.", z, pol);
    }
 
    int i_exp, sign(1);
@@ -168,9 +168,9 @@ inline typename tools::promote_args<T>::type cbrt(T z)
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
-#endif // BOOST_MATH_SF_CBRT_HPP
+#endif // HYDRA_BOOST_MATH_SF_CBRT_HPP
 
 
 

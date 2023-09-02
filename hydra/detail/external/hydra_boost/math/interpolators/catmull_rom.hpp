@@ -6,8 +6,8 @@
 
 // This computes the Catmull-Rom spline from a list of points.
 
-#ifndef BOOST_MATH_INTERPOLATORS_CATMULL_ROM
-#define BOOST_MATH_INTERPOLATORS_CATMULL_ROM
+#ifndef HYDRA_BOOST_MATH_INTERPOLATORS_CATMULL_ROM
+#define HYDRA_BOOST_MATH_INTERPOLATORS_CATMULL_ROM
 
 #include <cmath>
 #include <vector>
@@ -34,7 +34,7 @@ namespace std_workaround {
 #endif
 }
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
     namespace detail
     {

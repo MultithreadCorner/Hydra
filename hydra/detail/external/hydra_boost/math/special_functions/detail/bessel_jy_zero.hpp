@@ -15,8 +15,8 @@
 // for small order, uniform asymptotic expansion for large order,
 // and iteration and root interlacing for negative order.
 //
-#ifndef BOOST_MATH_BESSEL_JY_ZERO_2013_01_18_HPP_
-  #define BOOST_MATH_BESSEL_JY_ZERO_2013_01_18_HPP_
+#ifndef HYDRA_BOOST_MATH_BESSEL_JY_ZERO_2013_01_18_HPP_
+  #define HYDRA_BOOST_MATH_BESSEL_JY_ZERO_2013_01_18_HPP_
 
   #include <algorithm>
   #include <hydra/detail/external/hydra_boost/math/constants/constants.hpp>
@@ -24,7 +24,7 @@
   #include <hydra/detail/external/hydra_boost/math/special_functions/cbrt.hpp>
   #include <hydra/detail/external/hydra_boost/math/special_functions/detail/airy_ai_bi_zero.hpp>
 
-  namespace boost { namespace math {
+  namespace hydra_boost { namespace math {
   namespace detail
   {
     namespace bessel_zero
@@ -61,9 +61,9 @@
 
         equation_as_9_3_39_and_its_derivative(const equation_as_9_3_39_and_its_derivative&) = default;
 
-        boost::math::tuple<T, T> operator()(const T& z) const
+        hydra_boost::math::tuple<T, T> operator()(const T& z) const
         {
-          BOOST_MATH_STD_USING // ADL of std names, needed for acos, sqrt.
+          HYDRA_BOOST_MATH_STD_USING // ADL of std names, needed for acos, sqrt.
 
           // Return the function of zeta that is implicitly defined
           // in A&S Eq. 9.3.39 as a function of z. The function is
@@ -77,7 +77,7 @@
 
           const T its_derivative(zsq_minus_one_sqrt / z);
 
-          return boost::math::tuple<T, T>(the_function, its_derivative);
+          return hydra_boost::math::tuple<T, T>(the_function, its_derivative);
         }
 
       private:
@@ -88,7 +88,7 @@
       template<class T, class Policy>
       static T equation_as_9_5_26(const T& v, const T& ai_bi_root, const Policy& pol)
       {
-        BOOST_MATH_STD_USING // ADL of std names, needed for log, sqrt.
+        HYDRA_BOOST_MATH_STD_USING // ADL of std names, needed for log, sqrt.
 
         // Obtain the estimate of the m'th zero of Jv or Yv.
         // The order m has been used to create the input parameter ai_bi_root.
@@ -107,7 +107,7 @@
         // to refine the value of the estimate of the root of z
         // as a function of zeta.
 
-        const T v_pow_third(boost::math::cbrt(v, pol));
+        const T v_pow_third(hydra_boost::math::cbrt(v, pol));
         const T v_pow_minus_two_thirds(T(1) / (v_pow_third * v_pow_third));
 
         // Obtain zeta using the order v combined with the m'th root of
@@ -118,7 +118,7 @@
 
         // Set up a quadratic equation based on the Taylor series
         // expansion mentioned above.
-        const T b = -((((zeta * zeta_sqrt) * 2U) / 3U) + boost::math::constants::half_pi<T>());
+        const T b = -((((zeta * zeta_sqrt) * 2U) / 3U) + hydra_boost::math::constants::half_pi<T>());
 
         // Solve the quadratic equation, taking the positive root.
         const T z_estimate = (-b + sqrt((b * b) - T(2))) / 2U;
@@ -128,7 +128,7 @@
         const T range_zmin = (std::max<T>)(z_estimate - T(1), T(1));
         const T range_zmax = z_estimate + T(1);
 
-        const auto my_digits10 = static_cast<int>(static_cast<float>(boost::math::tools::digits<T>() * 0.301F));
+        const auto my_digits10 = static_cast<int>(static_cast<float>(hydra_boost::math::tools::digits<T>() * 0.301F));
 
         // Select the maximum allowed iterations based on the number
         // of decimal digits in the numeric type T, being at least 12.
@@ -137,12 +137,12 @@
         std::uintmax_t iterations_used = iterations_allowed;
 
         // Calculate the root of z as a function of zeta.
-        const T z = boost::math::tools::newton_raphson_iterate(
-          boost::math::detail::bessel_zero::equation_as_9_3_39_and_its_derivative<T>(zeta),
+        const T z = hydra_boost::math::tools::newton_raphson_iterate(
+          hydra_boost::math::detail::bessel_zero::equation_as_9_3_39_and_its_derivative<T>(zeta),
           z_estimate,
           range_zmin,
           range_zmax,
-          (std::min)(boost::math::tools::digits<T>(), boost::math::tools::digits<float>()),
+          (std::min)(hydra_boost::math::tools::digits<T>(), hydra_boost::math::tools::digits<float>()),
           iterations_used);
 
         static_cast<void>(iterations_used);
@@ -170,7 +170,7 @@
         template<class T, class Policy>
         T equation_nist_10_21_40_a(const T& v, const Policy& pol)
         {
-          const T v_pow_third(boost::math::cbrt(v, pol));
+          const T v_pow_third(hydra_boost::math::cbrt(v, pol));
           const T v_pow_minus_two_thirds(T(1) / (v_pow_third * v_pow_third));
 
           return v * (((((                         + T(0.043)
@@ -193,7 +193,7 @@
 
           T operator()(const T& x) const
           {
-            return boost::math::cyl_bessel_j(my_v, x, my_pol);
+            return hydra_boost::math::cyl_bessel_j(my_v, x, my_pol);
           }
 
         private:
@@ -214,7 +214,7 @@
 
           function_object_jv_and_jv_prime(const function_object_jv_and_jv_prime&) = default;
 
-          boost::math::tuple<T, T> operator()(const T& x) const
+          hydra_boost::math::tuple<T, T> operator()(const T& x) const
           {
             // Obtain Jv(x) and Jv'(x).
             // Chris's original code called the Bessel function implementation layer direct, 
@@ -225,18 +225,18 @@
 
             if(my_order_is_zero)
             {
-              j_v       =  boost::math::cyl_bessel_j(0, x, my_pol);
-              j_v_prime = -boost::math::cyl_bessel_j(1, x, my_pol);
+              j_v       =  hydra_boost::math::cyl_bessel_j(0, x, my_pol);
+              j_v_prime = -hydra_boost::math::cyl_bessel_j(1, x, my_pol);
             }
             else
             {
-                      j_v       = boost::math::cyl_bessel_j(  my_v,      x, my_pol);
-              const T j_v_m1     (boost::math::cyl_bessel_j(T(my_v - 1), x, my_pol));
+                      j_v       = hydra_boost::math::cyl_bessel_j(  my_v,      x, my_pol);
+              const T j_v_m1     (hydra_boost::math::cyl_bessel_j(T(my_v - 1), x, my_pol));
                       j_v_prime = j_v_m1 - ((my_v * j_v) / x);
             }
 
             // Return a tuple containing both Jv(x) and Jv'(x).
-            return boost::math::make_tuple(j_v, j_v_prime);
+            return hydra_boost::math::make_tuple(j_v, j_v_prime);
           }
 
         private:
@@ -251,7 +251,7 @@
         template<class T, class Policy>
         T initial_guess(const T& v, const int m, const Policy& pol)
         {
-          BOOST_MATH_STD_USING // ADL of std names, needed for floor.
+          HYDRA_BOOST_MATH_STD_USING // ADL of std names, needed for floor.
 
           // Compute an estimate of the m'th root of cyl_bessel_j.
 
@@ -286,7 +286,7 @@
             // Bessel function whose reflected, positive integer order
             // is less than, but nearest to vv.
 
-            T root_hi = boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::initial_guess(vv_floor, m, pol);
+            T root_hi = hydra_boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::initial_guess(vv_floor, m, pol);
             T root_lo;
 
             if(m == 1)
@@ -295,11 +295,11 @@
               // an adaptive range-searching algorithm.
               root_lo = T(root_hi - 0.1F);
 
-              const bool hi_end_of_bracket_is_negative = (boost::math::cyl_bessel_j(v, root_hi, pol) < 0);
+              const bool hi_end_of_bracket_is_negative = (hydra_boost::math::cyl_bessel_j(v, root_hi, pol) < 0);
 
-              while((root_lo > boost::math::tools::epsilon<T>()))
+              while((root_lo > hydra_boost::math::tools::epsilon<T>()))
               {
-                const bool lo_end_of_bracket_is_negative = (boost::math::cyl_bessel_j(v, root_lo, pol) < 0);
+                const bool lo_end_of_bracket_is_negative = (hydra_boost::math::cyl_bessel_j(v, root_lo, pol) < 0);
 
                 if(hi_end_of_bracket_is_negative != lo_end_of_bracket_is_negative)
                 {
@@ -321,22 +321,22 @@
             }
             else
             {
-              root_lo = boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::initial_guess(vv_floor, m - 1, pol);
+              root_lo = hydra_boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::initial_guess(vv_floor, m - 1, pol);
             }
 
             // Perform several steps of bisection iteration to refine the guess.
             std::uintmax_t number_of_iterations(12U);
 
             // Do the bisection iteration.
-            const boost::math::tuple<T, T> guess_pair =
-               boost::math::tools::bisect(
-                  boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::function_object_jv<T, Policy>(v, pol),
+            const hydra_boost::math::tuple<T, T> guess_pair =
+               hydra_boost::math::tools::bisect(
+                  hydra_boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::function_object_jv<T, Policy>(v, pol),
                   root_lo,
                   root_hi,
-                  boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::my_bisection_unreachable_tolerance<T>,
+                  hydra_boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::my_bisection_unreachable_tolerance<T>,
                   number_of_iterations);
 
-            return (boost::math::get<0>(guess_pair) + boost::math::get<1>(guess_pair)) / 2U;
+            return (hydra_boost::math::get<0>(guess_pair) + hydra_boost::math::get<1>(guess_pair)) / 2U;
           }
 
           if(m == 1U)
@@ -361,7 +361,7 @@
             else
             {
               // For larger v, use the first line of Eqs. 10.21.40 in the NIST Handbook.
-              guess = boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::equation_nist_10_21_40_a(v, pol);
+              guess = hydra_boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::equation_nist_10_21_40_a(v, pol);
             }
           }
           else
@@ -369,17 +369,17 @@
             if(v < 2.2F)
             {
               // Use Eq. 10.21.19 in the NIST Handbook.
-              const T a(((v + T(m * 2U)) - T(0.5)) * boost::math::constants::half_pi<T>());
+              const T a(((v + T(m * 2U)) - T(0.5)) * hydra_boost::math::constants::half_pi<T>());
 
-              guess = boost::math::detail::bessel_zero::equation_nist_10_21_19(v, a);
+              guess = hydra_boost::math::detail::bessel_zero::equation_nist_10_21_19(v, a);
             }
             else
             {
               // Get an estimate of the m'th root of airy_ai.
-              const T airy_ai_root(boost::math::detail::airy_zero::airy_ai_zero_detail::initial_guess<T>(m, pol));
+              const T airy_ai_root(hydra_boost::math::detail::airy_zero::airy_ai_zero_detail::initial_guess<T>(m, pol));
 
               // Use Eq. 9.5.26 in the A&S Handbook.
-              guess = boost::math::detail::bessel_zero::equation_as_9_5_26(v, airy_ai_root, pol);
+              guess = hydra_boost::math::detail::bessel_zero::equation_as_9_5_26(v, airy_ai_root, pol);
             }
           }
 
@@ -392,7 +392,7 @@
         template<class T, class Policy>
         T equation_nist_10_21_40_b(const T& v, const Policy& pol)
         {
-          const T v_pow_third(boost::math::cbrt(v, pol));
+          const T v_pow_third(hydra_boost::math::cbrt(v, pol));
           const T v_pow_minus_two_thirds(T(1) / (v_pow_third * v_pow_third));
 
           return v * (((((                         - T(0.001)
@@ -415,7 +415,7 @@
 
           T operator()(const T& x) const
           {
-            return boost::math::cyl_neumann(my_v, x, my_pol);
+            return hydra_boost::math::cyl_neumann(my_v, x, my_pol);
           }
 
         private:
@@ -434,9 +434,9 @@
 
           function_object_yv_and_yv_prime(const function_object_yv_and_yv_prime&) = default;
 
-          boost::math::tuple<T, T> operator()(const T& x) const
+          hydra_boost::math::tuple<T, T> operator()(const T& x) const
           {
-            const T half_epsilon(boost::math::tools::epsilon<T>() / 2U);
+            const T half_epsilon(hydra_boost::math::tools::epsilon<T>() / 2U);
 
             const bool order_is_zero = ((my_v > -half_epsilon) && (my_v < +half_epsilon));
 
@@ -449,18 +449,18 @@
 
             if(order_is_zero)
             {
-              y_v       =  boost::math::cyl_neumann(0, x, my_pol);
-              y_v_prime = -boost::math::cyl_neumann(1, x, my_pol);
+              y_v       =  hydra_boost::math::cyl_neumann(0, x, my_pol);
+              y_v_prime = -hydra_boost::math::cyl_neumann(1, x, my_pol);
             }
             else
             {
-                      y_v       = boost::math::cyl_neumann(  my_v,      x, my_pol);
-              const T y_v_m1     (boost::math::cyl_neumann(T(my_v - 1), x, my_pol));
+                      y_v       = hydra_boost::math::cyl_neumann(  my_v,      x, my_pol);
+              const T y_v_m1     (hydra_boost::math::cyl_neumann(T(my_v - 1), x, my_pol));
                       y_v_prime = y_v_m1 - ((my_v * y_v) / x);
             }
 
             // Return a tuple containing both Yv(x) and Yv'(x).
-            return boost::math::make_tuple(y_v, y_v_prime);
+            return hydra_boost::math::make_tuple(y_v, y_v_prime);
           }
 
         private:
@@ -474,7 +474,7 @@
         template<class T, class Policy>
         T initial_guess(const T& v, const int m, const Policy& pol)
         {
-          BOOST_MATH_STD_USING // ADL of std names, needed for floor.
+          HYDRA_BOOST_MATH_STD_USING // ADL of std names, needed for floor.
 
           // Compute an estimate of the m'th root of cyl_neumann.
 
@@ -508,20 +508,20 @@
               // half-integer orders and use different brackets above and below these.
               if(T(vv - vv_floor) < 0.5F)
               {
-                root_hi = boost::math::detail::bessel_zero::cyl_neumann_zero_detail::initial_guess(vv_floor, m, pol);
+                root_hi = hydra_boost::math::detail::bessel_zero::cyl_neumann_zero_detail::initial_guess(vv_floor, m, pol);
               }
               else
               {
-                root_hi = boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::initial_guess(T(vv_floor + 0.5F), m, pol);
+                root_hi = hydra_boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::initial_guess(T(vv_floor + 0.5F), m, pol);
               }
 
               root_lo = T(root_hi - 0.1F);
 
-              const bool hi_end_of_bracket_is_negative = (boost::math::cyl_neumann(v, root_hi, pol) < 0);
+              const bool hi_end_of_bracket_is_negative = (hydra_boost::math::cyl_neumann(v, root_hi, pol) < 0);
 
-              while((root_lo > boost::math::tools::epsilon<T>()))
+              while((root_lo > hydra_boost::math::tools::epsilon<T>()))
               {
-                const bool lo_end_of_bracket_is_negative = (boost::math::cyl_neumann(v, root_lo, pol) < 0);
+                const bool lo_end_of_bracket_is_negative = (hydra_boost::math::cyl_neumann(v, root_lo, pol) < 0);
 
                 if(hi_end_of_bracket_is_negative != lo_end_of_bracket_is_negative)
                 {
@@ -545,15 +545,15 @@
             {
               if(T(vv - vv_floor) < 0.5F)
               {
-                root_lo  = boost::math::detail::bessel_zero::cyl_neumann_zero_detail::initial_guess(vv_floor, m - 1, pol);
-                root_hi = boost::math::detail::bessel_zero::cyl_neumann_zero_detail::initial_guess(vv_floor, m, pol);
+                root_lo  = hydra_boost::math::detail::bessel_zero::cyl_neumann_zero_detail::initial_guess(vv_floor, m - 1, pol);
+                root_hi = hydra_boost::math::detail::bessel_zero::cyl_neumann_zero_detail::initial_guess(vv_floor, m, pol);
                 root_lo += 0.01F;
                 root_hi += 0.01F;
               }
               else
               {
-                root_lo = boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::initial_guess(T(vv_floor + 0.5F), m - 1, pol);
-                root_hi = boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::initial_guess(T(vv_floor + 0.5F), m, pol);
+                root_lo = hydra_boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::initial_guess(T(vv_floor + 0.5F), m - 1, pol);
+                root_hi = hydra_boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::initial_guess(T(vv_floor + 0.5F), m, pol);
                 root_lo += 0.01F;
                 root_hi += 0.01F;
               }
@@ -563,15 +563,15 @@
             std::uintmax_t number_of_iterations(12U);
 
             // Do the bisection iteration.
-            const boost::math::tuple<T, T> guess_pair =
-               boost::math::tools::bisect(
-                  boost::math::detail::bessel_zero::cyl_neumann_zero_detail::function_object_yv<T, Policy>(v, pol),
+            const hydra_boost::math::tuple<T, T> guess_pair =
+               hydra_boost::math::tools::bisect(
+                  hydra_boost::math::detail::bessel_zero::cyl_neumann_zero_detail::function_object_yv<T, Policy>(v, pol),
                   root_lo,
                   root_hi,
-                  boost::math::detail::bessel_zero::cyl_neumann_zero_detail::my_bisection_unreachable_tolerance<T>,
+                  hydra_boost::math::detail::bessel_zero::cyl_neumann_zero_detail::my_bisection_unreachable_tolerance<T>,
                   number_of_iterations);
 
-            return (boost::math::get<0>(guess_pair) + boost::math::get<1>(guess_pair)) / 2U;
+            return (hydra_boost::math::get<0>(guess_pair) + hydra_boost::math::get<1>(guess_pair)) / 2U;
           }
 
           if(m == 1U)
@@ -596,7 +596,7 @@
             else
             {
               // For larger v, use the second line of Eqs. 10.21.40 in the NIST Handbook.
-              guess = boost::math::detail::bessel_zero::cyl_neumann_zero_detail::equation_nist_10_21_40_b(v, pol);
+              guess = hydra_boost::math::detail::bessel_zero::cyl_neumann_zero_detail::equation_nist_10_21_40_b(v, pol);
             }
           }
           else
@@ -604,17 +604,17 @@
             if(v < 2.2F)
             {
               // Use Eq. 10.21.19 in the NIST Handbook.
-              const T a(((v + T(m * 2U)) - T(1.5)) * boost::math::constants::half_pi<T>());
+              const T a(((v + T(m * 2U)) - T(1.5)) * hydra_boost::math::constants::half_pi<T>());
 
-              guess = boost::math::detail::bessel_zero::equation_nist_10_21_19(v, a);
+              guess = hydra_boost::math::detail::bessel_zero::equation_nist_10_21_19(v, a);
             }
             else
             {
               // Get an estimate of the m'th root of airy_bi.
-              const T airy_bi_root(boost::math::detail::airy_zero::airy_bi_zero_detail::initial_guess<T>(m, pol));
+              const T airy_bi_root(hydra_boost::math::detail::airy_zero::airy_bi_zero_detail::initial_guess<T>(m, pol));
 
               // Use Eq. 9.5.26 in the A&S Handbook.
-              guess = boost::math::detail::bessel_zero::equation_as_9_5_26(v, airy_bi_root, pol);
+              guess = hydra_boost::math::detail::bessel_zero::equation_as_9_5_26(v, airy_bi_root, pol);
             }
           }
 
@@ -622,6 +622,6 @@
         }
       } // namespace cyl_neumann_zero_detail
     } // namespace bessel_zero
-  } } } // namespace boost::math::detail
+  } } } // namespace hydra_boost::math::detail
 
-#endif // BOOST_MATH_BESSEL_JY_ZERO_2013_01_18_HPP_
+#endif // HYDRA_BOOST_MATH_BESSEL_JY_ZERO_2013_01_18_HPP_

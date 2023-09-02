@@ -26,15 +26,15 @@
  *
  */
 
-#ifndef BOOST_MATH_QUADRATURE_TANH_SINH_HPP
-#define BOOST_MATH_QUADRATURE_TANH_SINH_HPP
+#ifndef HYDRA_BOOST_MATH_QUADRATURE_TANH_SINH_HPP
+#define HYDRA_BOOST_MATH_QUADRATURE_TANH_SINH_HPP
 
 #include <cmath>
 #include <limits>
 #include <memory>
 #include <hydra/detail/external/hydra_boost/math/quadrature/detail/tanh_sinh_detail.hpp>
 
-namespace boost{ namespace math{ namespace quadrature {
+namespace hydra_boost{ namespace math{ namespace quadrature {
 
 template<class Real, class Policy = policies::policy<> >
 class tanh_sinh
@@ -61,16 +61,16 @@ template<class Real, class Policy>
 template<class F>
 auto tanh_sinh<Real, Policy>::integrate(const F f, Real a, Real b, Real tolerance, Real* error, Real* L1, std::size_t* levels) const ->decltype(std::declval<F>()(std::declval<Real>()))
 {
-    BOOST_MATH_STD_USING
-    using boost::math::constants::half;
-    using boost::math::quadrature::detail::tanh_sinh_detail;
+    HYDRA_BOOST_MATH_STD_USING
+    using hydra_boost::math::constants::half;
+    using hydra_boost::math::quadrature::detail::tanh_sinh_detail;
 
     static const char* function = "tanh_sinh<%1%>::integrate";
 
     typedef decltype(std::declval<F>()(std::declval<Real>())) result_type;
     static_assert(!std::is_integral<result_type>::value,
                   "The return type cannot be integral, it must be either a real or complex floating point type.");
-    if (!(boost::math::isnan)(a) && !(boost::math::isnan)(b))
+    if (!(hydra_boost::math::isnan)(a) && !(hydra_boost::math::isnan)(b))
     {
 
        // Infinite limits:
@@ -93,7 +93,7 @@ auto tanh_sinh<Real, Policy>::integrate(const F f, Real a, Real b, Real toleranc
        }
 
        // Right limit is infinite:
-       if ((boost::math::isfinite)(a) && (b >= tools::max_value<Real>()))
+       if ((hydra_boost::math::isfinite)(a) && (b >= tools::max_value<Real>()))
        {
           auto u = [&](const Real& t, const Real& tc)->result_type
           {
@@ -122,7 +122,7 @@ auto tanh_sinh<Real, Policy>::integrate(const F f, Real a, Real b, Real toleranc
           return Q;
        }
 
-       if ((boost::math::isfinite)(b) && (a <= -tools::max_value<Real>()))
+       if ((hydra_boost::math::isfinite)(b) && (a <= -tools::max_value<Real>()))
        {
           auto v = [&](const Real& t, const Real& tc)->result_type
           {
@@ -152,7 +152,7 @@ auto tanh_sinh<Real, Policy>::integrate(const F f, Real a, Real b, Real toleranc
           return Q;
        }
 
-       if ((boost::math::isfinite)(a) && (boost::math::isfinite)(b))
+       if ((hydra_boost::math::isfinite)(a) && (hydra_boost::math::isfinite)(b))
        {
           if (a == b)
           {
@@ -183,8 +183,8 @@ auto tanh_sinh<Real, Policy>::integrate(const F f, Real a, Real b, Real toleranc
           // factor to move left_min_complement and right_min_complement
           // further from the end points of the range.
           //
-          BOOST_MATH_ASSERT((left_min_complement * diff + a) > a);
-          BOOST_MATH_ASSERT((b - right_min_complement * diff) < b);
+          HYDRA_BOOST_MATH_ASSERT((left_min_complement * diff + a) > a);
+          HYDRA_BOOST_MATH_ASSERT((b - right_min_complement * diff) < b);
           auto u = [&](Real z, Real zc)->result_type
           {
              Real position;
@@ -202,8 +202,8 @@ auto tanh_sinh<Real, Policy>::integrate(const F f, Real a, Real b, Real toleranc
              }
              else
                 position = avg + diff*z;
-             BOOST_MATH_ASSERT(position != a);
-             BOOST_MATH_ASSERT(position != b);
+             HYDRA_BOOST_MATH_ASSERT(position != a);
+             HYDRA_BOOST_MATH_ASSERT(position != b);
              return f(position);
           };
           result_type Q = diff*m_imp->integrate(u, error, L1, function, left_min_complement, right_min_complement, tolerance, levels);
@@ -226,13 +226,13 @@ template<class Real, class Policy>
 template<class F>
 auto tanh_sinh<Real, Policy>::integrate(const F f, Real a, Real b, Real tolerance, Real* error, Real* L1, std::size_t* levels) const ->decltype(std::declval<F>()(std::declval<Real>(), std::declval<Real>()))
 {
-   BOOST_MATH_STD_USING
-      using boost::math::constants::half;
-   using boost::math::quadrature::detail::tanh_sinh_detail;
+   HYDRA_BOOST_MATH_STD_USING
+      using hydra_boost::math::constants::half;
+   using hydra_boost::math::quadrature::detail::tanh_sinh_detail;
 
    static const char* function = "tanh_sinh<%1%>::integrate";
 
-   if ((boost::math::isfinite)(a) && (boost::math::isfinite)(b))
+   if ((hydra_boost::math::isfinite)(a) && (hydra_boost::math::isfinite)(b))
    {
       if (b <= a)
       {
@@ -267,7 +267,7 @@ template<class Real, class Policy>
 template<class F>
 auto tanh_sinh<Real, Policy>::integrate(const F f, Real tolerance, Real* error, Real* L1, std::size_t* levels) const ->decltype(std::declval<F>()(std::declval<Real>()))
 {
-   using boost::math::quadrature::detail::tanh_sinh_detail;
+   using hydra_boost::math::quadrature::detail::tanh_sinh_detail;
    static const char* function = "tanh_sinh<%1%>::integrate";
    Real min_complement = tools::epsilon<Real>();
    return m_imp->integrate([&](const Real& arg, const Real&) { return f(arg); }, error, L1, function, min_complement, min_complement, tolerance, levels);
@@ -277,7 +277,7 @@ template<class Real, class Policy>
 template<class F>
 auto tanh_sinh<Real, Policy>::integrate(const F f, Real tolerance, Real* error, Real* L1, std::size_t* levels) const ->decltype(std::declval<F>()(std::declval<Real>(), std::declval<Real>()))
 {
-   using boost::math::quadrature::detail::tanh_sinh_detail;
+   using hydra_boost::math::quadrature::detail::tanh_sinh_detail;
    static const char* function = "tanh_sinh<%1%>::integrate";
    Real min_complement = tools::min_value<Real>() * 4;
    return m_imp->integrate(f, error, L1, function, min_complement, min_complement, tolerance, levels);

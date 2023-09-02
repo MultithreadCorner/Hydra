@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_NTL_RR_HPP
-#define BOOST_MATH_NTL_RR_HPP
+#ifndef HYDRA_BOOST_MATH_NTL_RR_HPP
+#define HYDRA_BOOST_MATH_NTL_RR_HPP
 
 #include <hydra/detail/external/hydra_boost/math/tools/real_cast.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/precision.hpp>
@@ -21,7 +21,7 @@
 #include <limits>
 #include <NTL/RR.h>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 namespace ntl
 {
@@ -170,7 +170,7 @@ private:
          return;
       }
 
-      if (!(boost::math::isfinite)(a))
+      if (!(hydra_boost::math::isfinite)(a))
       {
          throw std::overflow_error("Cannot construct an instance of NTL::RR with an infinite value.");
       }
@@ -387,8 +387,8 @@ inline RR tanh(RR a)
          *exp -= 1;
          r.value().e += 1;
       }
-      BOOST_MATH_ASSERT(r < 1);
-      BOOST_MATH_ASSERT(r >= 0.5);
+      HYDRA_BOOST_MATH_ASSERT(r < 1);
+      HYDRA_BOOST_MATH_ASSERT(r >= 0.5);
       return r;
    }
    inline RR ldexp(RR r, int exp)
@@ -492,20 +492,20 @@ namespace tools
 {
 
 template<>
-inline int digits<boost::math::ntl::RR>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(boost::math::ntl::RR))
+inline int digits<hydra_boost::math::ntl::RR>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(hydra_boost::math::ntl::RR))
 {
    return ::NTL::RR::precision();
 }
 
 template <>
-inline float real_cast<float, boost::math::ntl::RR>(boost::math::ntl::RR t)
+inline float real_cast<float, hydra_boost::math::ntl::RR>(hydra_boost::math::ntl::RR t)
 {
    double r;
    conv(r, t.value());
    return static_cast<float>(r);
 }
 template <>
-inline double real_cast<double, boost::math::ntl::RR>(boost::math::ntl::RR t)
+inline double real_cast<double, hydra_boost::math::ntl::RR>(hydra_boost::math::ntl::RR t)
 {
    double r;
    conv(r, t.value());
@@ -533,40 +533,40 @@ void convert_to_long_result(NTL::RR const& r, I& result)
 }
 
 template <>
-inline long double real_cast<long double, boost::math::ntl::RR>(boost::math::ntl::RR t)
+inline long double real_cast<long double, hydra_boost::math::ntl::RR>(hydra_boost::math::ntl::RR t)
 {
    long double result(0);
    detail::convert_to_long_result(t.value(), result);
    return result;
 }
 template <>
-inline boost::math::ntl::RR real_cast<boost::math::ntl::RR, boost::math::ntl::RR>(boost::math::ntl::RR t)
+inline hydra_boost::math::ntl::RR real_cast<hydra_boost::math::ntl::RR, hydra_boost::math::ntl::RR>(hydra_boost::math::ntl::RR t)
 {
    return t;
 }
 template <>
-inline unsigned real_cast<unsigned, boost::math::ntl::RR>(boost::math::ntl::RR t)
+inline unsigned real_cast<unsigned, hydra_boost::math::ntl::RR>(hydra_boost::math::ntl::RR t)
 {
    unsigned result;
    detail::convert_to_long_result(t.value(), result);
    return result;
 }
 template <>
-inline int real_cast<int, boost::math::ntl::RR>(boost::math::ntl::RR t)
+inline int real_cast<int, hydra_boost::math::ntl::RR>(hydra_boost::math::ntl::RR t)
 {
    int result;
    detail::convert_to_long_result(t.value(), result);
    return result;
 }
 template <>
-inline long real_cast<long, boost::math::ntl::RR>(boost::math::ntl::RR t)
+inline long real_cast<long, hydra_boost::math::ntl::RR>(hydra_boost::math::ntl::RR t)
 {
    long result;
    detail::convert_to_long_result(t.value(), result);
    return result;
 }
 template <>
-inline long long real_cast<long long, boost::math::ntl::RR>(boost::math::ntl::RR t)
+inline long long real_cast<long long, hydra_boost::math::ntl::RR>(hydra_boost::math::ntl::RR t)
 {
    long long result;
    detail::convert_to_long_result(t.value(), result);
@@ -574,7 +574,7 @@ inline long long real_cast<long long, boost::math::ntl::RR>(boost::math::ntl::RR
 }
 
 template <>
-inline boost::math::ntl::RR max_value<boost::math::ntl::RR>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(boost::math::ntl::RR))
+inline hydra_boost::math::ntl::RR max_value<hydra_boost::math::ntl::RR>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(hydra_boost::math::ntl::RR))
 {
    static bool has_init = false;
    static NTL::RR val;
@@ -588,7 +588,7 @@ inline boost::math::ntl::RR max_value<boost::math::ntl::RR>(BOOST_MATH_EXPLICIT_
 }
 
 template <>
-inline boost::math::ntl::RR min_value<boost::math::ntl::RR>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(boost::math::ntl::RR))
+inline hydra_boost::math::ntl::RR min_value<hydra_boost::math::ntl::RR>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(hydra_boost::math::ntl::RR))
 {
    static bool has_init = false;
    static NTL::RR val;
@@ -602,7 +602,7 @@ inline boost::math::ntl::RR min_value<boost::math::ntl::RR>(BOOST_MATH_EXPLICIT_
 }
 
 template <>
-inline boost::math::ntl::RR log_max_value<boost::math::ntl::RR>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(boost::math::ntl::RR))
+inline hydra_boost::math::ntl::RR log_max_value<hydra_boost::math::ntl::RR>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(hydra_boost::math::ntl::RR))
 {
    static bool has_init = false;
    static NTL::RR val;
@@ -617,7 +617,7 @@ inline boost::math::ntl::RR log_max_value<boost::math::ntl::RR>(BOOST_MATH_EXPLI
 }
 
 template <>
-inline boost::math::ntl::RR log_min_value<boost::math::ntl::RR>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(boost::math::ntl::RR))
+inline hydra_boost::math::ntl::RR log_min_value<hydra_boost::math::ntl::RR>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(hydra_boost::math::ntl::RR))
 {
    static bool has_init = false;
    static NTL::RR val;
@@ -632,9 +632,9 @@ inline boost::math::ntl::RR log_min_value<boost::math::ntl::RR>(BOOST_MATH_EXPLI
 }
 
 template <>
-inline boost::math::ntl::RR epsilon<boost::math::ntl::RR>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(boost::math::ntl::RR))
+inline hydra_boost::math::ntl::RR epsilon<hydra_boost::math::ntl::RR>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(hydra_boost::math::ntl::RR))
 {
-   return ldexp(boost::math::ntl::RR(1), 1-boost::math::policies::digits<boost::math::ntl::RR, boost::math::policies::policy<> >());
+   return ldexp(hydra_boost::math::ntl::RR(1), 1-hydra_boost::math::policies::digits<hydra_boost::math::ntl::RR, hydra_boost::math::policies::policy<> >());
 }
 
 } // namespace tools
@@ -645,13 +645,13 @@ inline boost::math::ntl::RR epsilon<boost::math::ntl::RR>(BOOST_MATH_EXPLICIT_TE
 //
 namespace constants{
 
-template<> inline boost::math::ntl::RR pi<boost::math::ntl::RR>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(boost::math::ntl::RR))
+template<> inline hydra_boost::math::ntl::RR pi<hydra_boost::math::ntl::RR>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(hydra_boost::math::ntl::RR))
 {
     NTL::RR result;
     ComputePi(result);
     return result;
 }
-template<> inline boost::math::ntl::RR e<boost::math::ntl::RR>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(boost::math::ntl::RR))
+template<> inline hydra_boost::math::ntl::RR e<hydra_boost::math::ntl::RR>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(hydra_boost::math::ntl::RR))
 {
     NTL::RR result;
     result = 1;
@@ -674,13 +674,13 @@ namespace ntl{
    {
       asin_root(RR const& target) : t(target){}
 
-      boost::math::tuple<RR, RR, RR> operator()(RR const& p)
+      hydra_boost::math::tuple<RR, RR, RR> operator()(RR const& p)
       {
          RR f0 = sin(p);
          RR f1 = cos(p);
          RR f2 = -f0;
          f0 -= t;
-         return boost::math::make_tuple(f0, f1, f2);
+         return hydra_boost::math::make_tuple(f0, f1, f2);
       }
    private:
       RR t;
@@ -690,11 +690,11 @@ namespace ntl{
    {
       double r;
       conv(r, z.value());
-      return boost::math::tools::halley_iterate(
+      return hydra_boost::math::tools::halley_iterate(
          asin_root(z),
          RR(std::asin(r)),
-         RR(-boost::math::constants::pi<RR>()/2),
-         RR(boost::math::constants::pi<RR>()/2),
+         RR(-hydra_boost::math::constants::pi<RR>()/2),
+         RR(hydra_boost::math::constants::pi<RR>()/2),
          NTL::RR::precision());
    }
 
@@ -702,13 +702,13 @@ namespace ntl{
    {
       acos_root(RR const& target) : t(target){}
 
-      boost::math::tuple<RR, RR, RR> operator()(RR const& p)
+      hydra_boost::math::tuple<RR, RR, RR> operator()(RR const& p)
       {
          RR f0 = cos(p);
          RR f1 = -sin(p);
          RR f2 = -f0;
          f0 -= t;
-         return boost::math::make_tuple(f0, f1, f2);
+         return hydra_boost::math::make_tuple(f0, f1, f2);
       }
    private:
       RR t;
@@ -718,11 +718,11 @@ namespace ntl{
    {
       double r;
       conv(r, z.value());
-      return boost::math::tools::halley_iterate(
+      return hydra_boost::math::tools::halley_iterate(
          acos_root(z),
          RR(std::acos(r)),
-         RR(-boost::math::constants::pi<RR>()/2),
-         RR(boost::math::constants::pi<RR>()/2),
+         RR(-hydra_boost::math::constants::pi<RR>()/2),
+         RR(hydra_boost::math::constants::pi<RR>()/2),
          NTL::RR::precision());
    }
 
@@ -730,14 +730,14 @@ namespace ntl{
    {
       atan_root(RR const& target) : t(target){}
 
-      boost::math::tuple<RR, RR, RR> operator()(RR const& p)
+      hydra_boost::math::tuple<RR, RR, RR> operator()(RR const& p)
       {
          RR c = cos(p);
          RR ta = tan(p);
          RR f0 = ta - t;
          RR f1 = 1 / (c * c);
          RR f2 = 2 * ta / (c * c);
-         return boost::math::make_tuple(f0, f1, f2);
+         return hydra_boost::math::make_tuple(f0, f1, f2);
       }
    private:
       RR t;
@@ -747,11 +747,11 @@ namespace ntl{
    {
       double r;
       conv(r, z.value());
-      return boost::math::tools::halley_iterate(
+      return hydra_boost::math::tools::halley_iterate(
          atan_root(z),
          RR(std::atan(r)),
-         -boost::math::constants::pi<RR>()/2,
-         boost::math::constants::pi<RR>()/2,
+         -hydra_boost::math::constants::pi<RR>()/2,
+         hydra_boost::math::constants::pi<RR>()/2,
          NTL::RR::precision());
    }
 
@@ -761,9 +761,9 @@ namespace ntl{
          return atan(y / x);
       if(x < 0)
       {
-         return y < 0 ? atan(y / x) - boost::math::constants::pi<RR>() : atan(y / x) + boost::math::constants::pi<RR>();
+         return y < 0 ? atan(y / x) - hydra_boost::math::constants::pi<RR>() : atan(y / x) + hydra_boost::math::constants::pi<RR>();
       }
-      return y < 0 ? -boost::math::constants::half_pi<RR>() : boost::math::constants::half_pi<RR>() ;
+      return y < 0 ? -hydra_boost::math::constants::half_pi<RR>() : hydra_boost::math::constants::half_pi<RR>() ;
    }
 
    inline RR sinh(RR z)
@@ -836,7 +836,7 @@ ntl::RR digamma_imp(ntl::RR x, const std::integral_constant<int, 0>* , const Pol
    // This handles reflection of negative arguments, and all our
    // error handling, then forwards to the T-specific approximation.
    //
-   BOOST_MATH_STD_USING // ADL of std functions.
+   HYDRA_BOOST_MATH_STD_USING // ADL of std functions.
 
    ntl::RR result = 0;
    //
@@ -858,7 +858,7 @@ ntl::RR digamma_imp(ntl::RR x, const std::integral_constant<int, 0>* , const Pol
       //
       if(remainder == 0)
       {
-         return policies::raise_pole_error<ntl::RR>("boost::math::digamma<%1%>(%1%)", nullptr, (1-x), pol);
+         return policies::raise_pole_error<ntl::RR>("hydra_boost::math::digamma<%1%>(%1%)", nullptr, (1-x), pol);
       }
       result = constants::pi<ntl::RR>() / tan(constants::pi<ntl::RR>() * remainder);
    }
@@ -869,8 +869,8 @@ ntl::RR digamma_imp(ntl::RR x, const std::integral_constant<int, 0>* , const Pol
 } // namespace detail
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
-#endif // BOOST_MATH_REAL_CONCEPT_HPP
+#endif // HYDRA_BOOST_MATH_REAL_CONCEPT_HPP
 
 

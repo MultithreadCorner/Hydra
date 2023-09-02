@@ -7,8 +7,8 @@
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
-#ifndef BOOST_MATH_DETAIL_HYPERGEOMETRIC_SERIES_HPP
-#define BOOST_MATH_DETAIL_HYPERGEOMETRIC_SERIES_HPP
+#ifndef HYDRA_BOOST_MATH_DETAIL_HYPERGEOMETRIC_SERIES_HPP
+#define HYDRA_BOOST_MATH_DETAIL_HYPERGEOMETRIC_SERIES_HPP
 
 #include <cmath>
 #include <cstdint>
@@ -17,7 +17,7 @@
 #include <hydra/detail/external/hydra_boost/math/special_functions/trunc.hpp>
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
 
-  namespace boost { namespace math { namespace detail {
+  namespace hydra_boost { namespace math { namespace detail {
 
   // primary template for term of Taylor series
   template <class T, unsigned p, unsigned q>
@@ -36,7 +36,7 @@
 
     T operator()()
     {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       const T r = term;
       term *= ((1 / ((b + n) * (n + 1))) * z);
       ++n;
@@ -62,7 +62,7 @@
 
     T operator()()
     {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       const T r = term;
       term *= (((a + n) / (n + 1)) * z);
       ++n;
@@ -88,7 +88,7 @@
 
     T operator()()
     {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       const T r = term;
       term *= (((a + n) / ((b + n) * (n + 1))) * z);
       ++n;
@@ -114,7 +114,7 @@
 
     T operator()()
     {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       const T r = term;
       term *= (((a + n) / ((b1 + n) * (b2 + n) * (n + 1))) * z);
       ++n;
@@ -140,7 +140,7 @@
 
     T operator()()
     {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       const T r = term;
       term *= (((a1 + n) * (a2 + n) / (n + 1)) * z);
       ++n;
@@ -166,7 +166,7 @@
 
     T operator()()
     {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       const T r = term;
       term *= (((a1 + n) * (a2 + n) / ((b + n) * (n + 1))) * z);
       ++n;
@@ -186,12 +186,12 @@
   template <class T, unsigned p, unsigned q, class Policy>
   inline T sum_pFq_series(detail::hypergeometric_pFq_generic_series_term<T, p, q>& term, const Policy& pol)
   {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
 
-    const T result = boost::math::tools::sum_series(term, boost::math::policies::get_epsilon<T, Policy>(), max_iter);
+    const T result = hydra_boost::math::tools::sum_series(term, hydra_boost::math::policies::get_epsilon<T, Policy>(), max_iter);
 
-    policies::check_series_iterations<T>("boost::math::hypergeometric_pFq_generic_series<%1%>(%1%,%1%,%1%)", max_iter, pol);
+    policies::check_series_iterations<T>("hydra_boost::math::hypergeometric_pFq_generic_series<%1%>(%1%,%1%,%1%)", max_iter, pol);
     return result;
   }
 
@@ -212,7 +212,7 @@
   template <class T, class Policy>
   inline T log_pochhammer(T z, unsigned n, const Policy pol, int* s = nullptr)
   {
-     BOOST_MATH_STD_USING
+     HYDRA_BOOST_MATH_STD_USING
 #if 0
      if (z < 0)
      {
@@ -239,7 +239,7 @@
            return r;
         }
         int s1, s2;
-        auto r = static_cast<T>(boost::math::lgamma(T(z + n), &s1, pol) - boost::math::lgamma(z, &s2, pol));
+        auto r = static_cast<T>(hydra_boost::math::lgamma(T(z + n), &s1, pol) - hydra_boost::math::lgamma(z, &s2, pol));
         if(s)
            *s = s1 * s2;
         return r;
@@ -249,11 +249,11 @@
   template <class T, class Policy>
   inline T hypergeometric_1F1_generic_series(const T& a, const T& b, const T& z, const Policy& pol, long long& log_scaling, const char* function)
   {
-     BOOST_MATH_STD_USING
-     T sum(0), term(1), upper_limit(sqrt(boost::math::tools::max_value<T>())), diff;
+     HYDRA_BOOST_MATH_STD_USING
+     T sum(0), term(1), upper_limit(sqrt(hydra_boost::math::tools::max_value<T>())), diff;
      T lower_limit(1 / upper_limit);
      unsigned n = 0;
-     long long log_scaling_factor = lltrunc(boost::math::tools::log_max_value<T>()) - 2;
+     long long log_scaling_factor = lltrunc(hydra_boost::math::tools::log_max_value<T>()) - 2;
      T scaling_factor = exp(T(log_scaling_factor));
      T term_m1 = 0;
      long long local_scaling = 0;
@@ -281,7 +281,7 @@
            summit_location = itrunc(t);
      }
 
-     if (summit_location > boost::math::policies::get_max_series_iterations<Policy>() / 4)
+     if (summit_location > hydra_boost::math::policies::get_max_series_iterations<Policy>() / 4)
      {
         //
         // Skip forward to the location of the largest term in the series and
@@ -289,11 +289,11 @@
         //
         int s1, s2;
         term = log_pochhammer(a, summit_location, pol, &s1) + summit_location * log(z) - log_pochhammer(b, summit_location, pol, &s2) - lgamma(T(summit_location + 1), pol);
-        //std::cout << term << " " << log_pochhammer(boost::multiprecision::mpfr_float(a), summit_location, pol, &s1) + summit_location * log(boost::multiprecision::mpfr_float(z)) - log_pochhammer(boost::multiprecision::mpfr_float(b), summit_location, pol, &s2) - lgamma(boost::multiprecision::mpfr_float(summit_location + 1), pol) << std::endl;
+        //std::cout << term << " " << log_pochhammer(hydra_boost::multiprecision::mpfr_float(a), summit_location, pol, &s1) + summit_location * log(hydra_boost::multiprecision::mpfr_float(z)) - log_pochhammer(hydra_boost::multiprecision::mpfr_float(b), summit_location, pol, &s2) - lgamma(hydra_boost::multiprecision::mpfr_float(summit_location + 1), pol) << std::endl;
         local_scaling = lltrunc(term);
         log_scaling += local_scaling;
         term = s1 * s2 * exp(term - local_scaling);
-        //std::cout << term << " " << exp(log_pochhammer(boost::multiprecision::mpfr_float(a), summit_location, pol, &s1) + summit_location * log(boost::multiprecision::mpfr_float(z)) - log_pochhammer(boost::multiprecision::mpfr_float(b), summit_location, pol, &s2) - lgamma(boost::multiprecision::mpfr_float(summit_location + 1), pol) - local_scaling) << std::endl;
+        //std::cout << term << " " << exp(log_pochhammer(hydra_boost::multiprecision::mpfr_float(a), summit_location, pol, &s1) + summit_location * log(hydra_boost::multiprecision::mpfr_float(z)) - log_pochhammer(hydra_boost::multiprecision::mpfr_float(b), summit_location, pol, &s2) - lgamma(hydra_boost::multiprecision::mpfr_float(summit_location + 1), pol) - local_scaling) << std::endl;
         n = summit_location;
      }
      else
@@ -305,7 +305,7 @@
      do
      {
         sum += term;
-        //std::cout << n << " " << term * exp(boost::multiprecision::mpfr_float(local_scaling)) << " " << rising_factorial(boost::multiprecision::mpfr_float(a), n) * pow(boost::multiprecision::mpfr_float(z), n) / (rising_factorial(boost::multiprecision::mpfr_float(b), n) * factorial<boost::multiprecision::mpfr_float>(n)) << std::endl;
+        //std::cout << n << " " << term * exp(hydra_boost::multiprecision::mpfr_float(local_scaling)) << " " << rising_factorial(hydra_boost::multiprecision::mpfr_float(a), n) * pow(hydra_boost::multiprecision::mpfr_float(z), n) / (rising_factorial(hydra_boost::multiprecision::mpfr_float(b), n) * factorial<hydra_boost::multiprecision::mpfr_float>(n)) << std::endl;
         if (fabs(sum) >= upper_limit)
         {
            sum /= scaling_factor;
@@ -322,11 +322,11 @@
         }
         term_m1 = term;
         term *= (((a + n) / ((b + n) * (n + 1))) * z);
-        if (n - summit_location > boost::math::policies::get_max_series_iterations<Policy>())
-           return boost::math::policies::raise_evaluation_error(function, "Series did not converge, best value is %1%", sum, pol);
+        if (n - summit_location > hydra_boost::math::policies::get_max_series_iterations<Policy>())
+           return hydra_boost::math::policies::raise_evaluation_error(function, "Series did not converge, best value is %1%", sum, pol);
         ++n;
         diff = fabs(term / sum);
-     } while ((diff > boost::math::policies::get_epsilon<T, Policy>()) || (fabs(term_m1) < fabs(term)) || (small_a && n < 10));
+     } while ((diff > hydra_boost::math::policies::get_epsilon<T, Policy>()) || (fabs(term_m1) < fabs(term)) || (small_a && n < 10));
 
      //
      // See if we need to go backwards as well:
@@ -344,7 +344,7 @@
         do
         {
            sum += term;
-           //std::cout << n << " " << term * exp(boost::multiprecision::mpfr_float(local_scaling)) << " " << rising_factorial(boost::multiprecision::mpfr_float(a), n) * pow(boost::multiprecision::mpfr_float(z), n) / (rising_factorial(boost::multiprecision::mpfr_float(b), n) * factorial<boost::multiprecision::mpfr_float>(n)) << std::endl;
+           //std::cout << n << " " << term * exp(hydra_boost::multiprecision::mpfr_float(local_scaling)) << " " << rising_factorial(hydra_boost::multiprecision::mpfr_float(a), n) * pow(hydra_boost::multiprecision::mpfr_float(z), n) / (rising_factorial(hydra_boost::multiprecision::mpfr_float(b), n) * factorial<hydra_boost::multiprecision::mpfr_float>(n)) << std::endl;
            if (n == 0)
               break;
            if (fabs(sum) >= upper_limit)
@@ -363,11 +363,11 @@
            }
            term_m1 = term;
            term *= (b + (n - 1)) * n / ((a + (n - 1)) * z);
-           if (summit_location - n > boost::math::policies::get_max_series_iterations<Policy>())
-              return boost::math::policies::raise_evaluation_error(function, "Series did not converge, best value is %1%", sum, pol);
+           if (summit_location - n > hydra_boost::math::policies::get_max_series_iterations<Policy>())
+              return hydra_boost::math::policies::raise_evaluation_error(function, "Series did not converge, best value is %1%", sum, pol);
            --n;
            diff = fabs(term / sum);
-        } while ((diff > boost::math::policies::get_epsilon<T, Policy>()) || (fabs(term_m1) < fabs(term)));
+        } while ((diff > hydra_boost::math::policies::get_epsilon<T, Policy>()) || (fabs(term_m1) < fabs(term)));
      }
 
      if (have_minima && n && summit_location)
@@ -397,12 +397,12 @@
            }
            //term_m1 = term;
            term *= (((a + n) / ((b + n) * (n + 1))) * z);
-           if (n > boost::math::policies::get_max_series_iterations<Policy>())
-              return boost::math::policies::raise_evaluation_error(function, "Series did not converge, best value is %1%", sum, pol);
+           if (n > hydra_boost::math::policies::get_max_series_iterations<Policy>())
+              return hydra_boost::math::policies::raise_evaluation_error(function, "Series did not converge, best value is %1%", sum, pol);
            if (++n == backstop)
               break; // we've caught up with ourselves.
            diff = fabs(term / sum);
-        } while ((diff > boost::math::policies::get_epsilon<T, Policy>())/* || (fabs(term_m1) < fabs(term))*/);
+        } while ((diff > hydra_boost::math::policies::get_epsilon<T, Policy>())/* || (fabs(term_m1) < fabs(term))*/);
      }
      //std::cout << sum << std::endl;
      return sum;
@@ -431,4 +431,4 @@
 
   } } } // namespaces
 
-#endif // BOOST_MATH_DETAIL_HYPERGEOMETRIC_SERIES_HPP
+#endif // HYDRA_BOOST_MATH_DETAIL_HYPERGEOMETRIC_SERIES_HPP

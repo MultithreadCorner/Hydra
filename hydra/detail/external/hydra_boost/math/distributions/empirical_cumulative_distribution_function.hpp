@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_DISTRIBUTIONS_EMPIRICAL_CUMULATIVE_DISTRIBUTION_FUNCTION_HPP
-#define BOOST_MATH_DISTRIBUTIONS_EMPIRICAL_CUMULATIVE_DISTRIBUTION_FUNCTION_HPP
+#ifndef HYDRA_BOOST_MATH_DISTRIBUTIONS_EMPIRICAL_CUMULATIVE_DISTRIBUTION_FUNCTION_HPP
+#define HYDRA_BOOST_MATH_DISTRIBUTIONS_EMPIRICAL_CUMULATIVE_DISTRIBUTION_FUNCTION_HPP
 #include <algorithm>
 #include <iterator>
 #include <stdexcept>
@@ -12,14 +12,14 @@
 #include <utility>
 
 #include <hydra/detail/external/hydra_boost/math/tools/is_standalone.hpp>
-#ifndef BOOST_MATH_STANDALONE
+#ifndef HYDRA_BOOST_MATH_STANDALONE
 #include <hydra/detail/external/hydra_boost/config.hpp>
-#ifdef BOOST_NO_CXX17_IF_CONSTEXPR
+#ifdef HYDRA_BOOST_NO_CXX17_IF_CONSTEXPR
 #error "The header <hydra/detail/external/hydra_boost/math/norms.hpp> can only be used in C++17 and later."
 #endif
 #endif
 
-namespace boost { namespace math{
+namespace hydra_boost { namespace math{
 
 template<class RandomAccessContainer>
 class empirical_cumulative_distribution_function {

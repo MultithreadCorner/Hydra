@@ -9,8 +9,8 @@
 //  Boost.Math conceptual framework better.
 //  Updated 2015 to use Carlson's latest methods.
 
-#ifndef BOOST_MATH_ELLINT_RD_HPP
-#define BOOST_MATH_ELLINT_RD_HPP
+#ifndef HYDRA_BOOST_MATH_ELLINT_RD_HPP
+#define HYDRA_BOOST_MATH_ELLINT_RD_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -26,15 +26,15 @@
 // R_D(x, y, z) = R_J(x, y, z, z) = 1.5 * \int_{0}^{\infty} [(t+x)(t+y)]^{-1/2} (t+z)^{-3/2} dt
 // Carlson, Numerische Mathematik, vol 33, 1 (1979)
 
-namespace boost { namespace math { namespace detail{
+namespace hydra_boost { namespace math { namespace detail{
 
 template <typename T, typename Policy>
 T ellint_rd_imp(T x, T y, T z, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    using std::swap;
 
-   static const char* function = "boost::math::ellint_rd<%1%>(%1%,%1%,%1%)";
+   static const char* function = "hydra_boost::math::ellint_rd<%1%>(%1%,%1%,%1%)";
 
    if(x < 0)
    {
@@ -74,14 +74,14 @@ T ellint_rd_imp(T x, T y, T z, const Policy& pol)
       }
       else
       {
-         if((std::min)(x, y) / (std::max)(x, y) > T(1.3))
+         if((std::min)(x, y) / (std::max)(x, y) > 1.3)
             return 3 * (ellint_rc_imp(x, y, pol) - sqrt(x) / y) / (2 * (y - x));
          // Otherwise fall through to avoid cancellation in the above (RC(x,y) -> 1/x^0.5 as x -> y)
       }
    }
    if(x == y)
    {
-      if((std::min)(x, z) / (std::max)(x, z) > T(1.3))
+      if((std::min)(x, z) / (std::max)(x, z) > 1.3)
          return 3 * (ellint_rc_imp(z, x, pol) - 1 / sqrt(z)) / (z - x);
       // Otherwise fall through to avoid cancellation in the above (RC(x,y) -> 1/x^0.5 as x -> y)
    }
@@ -100,13 +100,13 @@ T ellint_rd_imp(T x, T y, T z, const Policy& pol)
       T sum = 0;
       T sum_pow = 0.25f;
 
-      while(fabs(xn - yn) >= T(2.7) * tools::root_epsilon<T>() * fabs(xn))
+      while(fabs(xn - yn) >= 2.7 * tools::root_epsilon<T>() * fabs(xn))
       {
          T t = sqrt(xn * yn);
          xn = (xn + yn) / 2;
          yn = t;
          sum_pow *= 2;
-         sum += sum_pow * boost::math::pow<2>(xn - yn);
+         sum += sum_pow * hydra_boost::math::pow<2>(xn - yn);
       }
       T RF = constants::pi<T>() / (xn + yn);
       //
@@ -133,7 +133,7 @@ T ellint_rd_imp(T x, T y, T z, const Policy& pol)
    T A0 = An;
    // This has an extra 1.2 fudge factor which is really only needed when x, y and z are close in magnitude:
    T Q = pow(tools::epsilon<T>() / 4, -T(1) / 8) * (std::max)((std::max)(An - x, An - y), An - z) * 1.2f;
-   BOOST_MATH_INSTRUMENT_VARIABLE(Q);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(Q);
    T lambda, rx, ry, rz;
    unsigned k = 0;
    T fn = 1;
@@ -152,9 +152,9 @@ T ellint_rd_imp(T x, T y, T z, const Policy& pol)
       zn = (zn + lambda) / 4;
       fn /= 4;
       Q /= 4;
-      BOOST_MATH_INSTRUMENT_VARIABLE(k);
-      BOOST_MATH_INSTRUMENT_VARIABLE(RD_sum);
-      BOOST_MATH_INSTRUMENT_VARIABLE(Q);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(k);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(RD_sum);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(Q);
       if(Q < An)
          break;
    }
@@ -172,7 +172,7 @@ T ellint_rd_imp(T x, T y, T z, const Policy& pol)
    T result = fn * pow(An, T(-3) / 2) *
       (1 - 3 * E2 / 14 + E3 / 6 + 9 * E2 * E2 / 88 - 3 * E4 / 22 - 9 * E2 * E3 / 52 + 3 * E5 / 26 - E2 * E2 * E2 / 16
       + 3 * E3 * E3 / 40 + 3 * E2 * E4 / 20 + 45 * E2 * E2 * E3 / 272 - 9 * (E3 * E4 + E2 * E5) / 68);
-   BOOST_MATH_INSTRUMENT_VARIABLE(result);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
    result += 3 * RD_sum;
 
    return result;
@@ -190,7 +190,7 @@ inline typename tools::promote_args<T1, T2, T3>::type
       detail::ellint_rd_imp(
          static_cast<value_type>(x),
          static_cast<value_type>(y),
-         static_cast<value_type>(z), pol), "boost::math::ellint_rd<%1%>(%1%,%1%,%1%)");
+         static_cast<value_type>(z), pol), "hydra_boost::math::ellint_rd<%1%>(%1%,%1%,%1%)");
 }
 
 template <class T1, class T2, class T3>
@@ -202,5 +202,5 @@ inline typename tools::promote_args<T1, T2, T3>::type
 
 }} // namespaces
 
-#endif // BOOST_MATH_ELLINT_RD_HPP
+#endif // HYDRA_BOOST_MATH_ELLINT_RD_HPP
 

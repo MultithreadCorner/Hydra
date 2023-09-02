@@ -3,27 +3,27 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_FUNCTIONS_RSQRT_HPP
-#define BOOST_MATH_SPECIAL_FUNCTIONS_RSQRT_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_FUNCTIONS_RSQRT_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_FUNCTIONS_RSQRT_HPP
 #include <cmath>
 #include <type_traits>
 #include <limits>
 
 #include <hydra/detail/external/hydra_boost/math/tools/is_standalone.hpp>
-#ifndef BOOST_MATH_STANDALONE
-#  include <hydra/detail/external/hydra_boost/config.hpp>
-#  ifdef BOOST_NO_CXX17_IF_CONSTEXPR
-#    error "The header <hydra/detail/external/hydra_boost/math/rqrt.hpp> can only be used in C++17 and later."
-#  endif
+#ifndef HYDRA_BOOST_MATH_STANDALONE
+#include <hydra/detail/external/hydra_boost/config.hpp>
+#ifdef HYDRA_BOOST_NO_CXX17_IF_CONSTEXPR
+#error "The header <hydra/detail/external/hydra_boost/math/norms.hpp> can only be used in C++17 and later."
+#endif
 #endif
 
-namespace boost::math {
+namespace hydra_boost::math {
 
 template<typename Real>
 inline Real rsqrt(Real const & x)
 {
     using std::sqrt;
-    if constexpr (std::is_arithmetic_v<Real> && !std::is_integral_v<Real>)
+    if constexpr (std::is_same_v<Real, float> || std::is_same_v<Real, double> || std::is_same_v<Real, long double>)
     {
         return 1/sqrt(x);
     }

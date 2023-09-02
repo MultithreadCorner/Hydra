@@ -8,8 +8,8 @@
 
 // See http://www.boost.org for updates, documentation, and revision history.
 
-#ifndef BOOST_ACOSH_HPP
-#define BOOST_ACOSH_HPP
+#ifndef HYDRA_BOOST_ACOSH_HPP
+#define HYDRA_BOOST_ACOSH_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -25,7 +25,7 @@
 
 // This is the inverse of the hyperbolic cosine function.
 
-namespace boost
+namespace hydra_boost
 {
     namespace math
     {
@@ -34,12 +34,12 @@ namespace boost
         template<typename T, typename Policy>
         inline T    acosh_imp(const T x, const Policy& pol)
         {
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             
-            if((x < 1) || (boost::math::isnan)(x))
+            if((x < 1) || (hydra_boost::math::isnan)(x))
             {
                return policies::raise_domain_error<T>(
-                  "boost::math::acosh<%1%>(%1%)",
+                  "hydra_boost::math::acosh<%1%>(%1%)",
                   "acosh requires x >= 1, but got x = %1%.", x, pol);
             }
             else if    ((x - 1) >= tools::root_epsilon<T>())
@@ -55,7 +55,7 @@ namespace boost
                    // This is just a rearrangement of the standard form below
                    // devised to minimise loss of precision when x ~ 1:
                    T y = x - 1;
-                   return boost::math::log1p(y + sqrt(y * y + 2 * y), pol);
+                   return hydra_boost::math::log1p(y + sqrt(y * y + 2 * y), pol);
                 }
                 else
                 {
@@ -88,17 +88,17 @@ namespace boost
                policies::assert_undefined<> >::type forwarding_policy;
            return policies::checked_narrowing_cast<result_type, forwarding_policy>(
               detail::acosh_imp(static_cast<value_type>(x), forwarding_policy()),
-              "boost::math::acosh<%1%>(%1%)");
+              "hydra_boost::math::acosh<%1%>(%1%)");
         }
         template<typename T>
         inline typename tools::promote_args<T>::type acosh(T x)
         {
-           return boost::math::acosh(x, policies::policy<>());
+           return hydra_boost::math::acosh(x, policies::policy<>());
         }
 
     }
 }
 
-#endif /* BOOST_ACOSH_HPP */
+#endif /* HYDRA_BOOST_ACOSH_HPP */
 
 

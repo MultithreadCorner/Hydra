@@ -19,15 +19,15 @@
 // - s(x_j) = f(x_j)
 // - All cubic polynomials interpolated exactly
 
-#ifndef BOOST_MATH_INTERPOLATORS_CUBIC_B_SPLINE_HPP
-#define BOOST_MATH_INTERPOLATORS_CUBIC_B_SPLINE_HPP
+#ifndef HYDRA_BOOST_MATH_INTERPOLATORS_CUBIC_B_SPLINE_HPP
+#define HYDRA_BOOST_MATH_INTERPOLATORS_CUBIC_B_SPLINE_HPP
 
 #include <hydra/detail/external/hydra_boost/math/interpolators/detail/cubic_b_spline_detail.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/header_deprecated.hpp>
 
-BOOST_MATH_HEADER_DEPRECATED("<hydra/detail/external/hydra_boost/math/interpolators/cardinal_cubic_b_spline.hpp>");
+HYDRA_BOOST_MATH_HEADER_DEPRECATED("<hydra/detail/external/hydra_boost/math/interpolators/cardinal_cubic_b_spline.hpp>");
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 template <class Real>
 class cubic_b_spline

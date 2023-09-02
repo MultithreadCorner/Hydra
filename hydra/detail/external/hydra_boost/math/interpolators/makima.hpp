@@ -7,13 +7,13 @@
 // See: https://blogs.mathworks.com/cleve/2019/04/29/makima-piecewise-cubic-interpolation/
 // And: https://doi.org/10.1145/321607.321609
 
-#ifndef BOOST_MATH_INTERPOLATORS_MAKIMA_HPP
-#define BOOST_MATH_INTERPOLATORS_MAKIMA_HPP
+#ifndef HYDRA_BOOST_MATH_INTERPOLATORS_MAKIMA_HPP
+#define HYDRA_BOOST_MATH_INTERPOLATORS_MAKIMA_HPP
 #include <memory>
 #include <cmath>
 #include <hydra/detail/external/hydra_boost/math/interpolators/detail/cubic_hermite_detail.hpp>
 
-namespace boost {
+namespace hydra_boost {
 namespace math {
 namespace interpolators {
 

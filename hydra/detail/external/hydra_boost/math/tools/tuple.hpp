@@ -3,13 +3,13 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_TUPLE_HPP_INCLUDED
-#define BOOST_MATH_TUPLE_HPP_INCLUDED
+#ifndef HYDRA_BOOST_MATH_TUPLE_HPP_INCLUDED
+#define HYDRA_BOOST_MATH_TUPLE_HPP_INCLUDED
 
 #include <hydra/detail/external/hydra_boost/math/tools/cxx03_warn.hpp>
 #include <tuple>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 using ::std::tuple;
 

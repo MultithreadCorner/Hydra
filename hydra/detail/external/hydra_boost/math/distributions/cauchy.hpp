@@ -5,8 +5,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STATS_CAUCHY_HPP
-#define BOOST_STATS_CAUCHY_HPP
+#ifndef HYDRA_BOOST_STATS_CAUCHY_HPP
+#define HYDRA_BOOST_STATS_CAUCHY_HPP
 
 #ifdef _MSC_VER
 #pragma warning(push)
@@ -20,7 +20,7 @@
 #include <utility>
 #include <cmath>
 
-namespace boost{ namespace math
+namespace hydra_boost{ namespace math
 {
 
 template <class RealType, class Policy>
@@ -53,8 +53,8 @@ RealType cdf_imp(const cauchy_distribution<RealType, Policy>& dist, const RealTy
    // using the above formula, and then subtract from 1 when required
    // to get the result.
    //
-   BOOST_MATH_STD_USING // for ADL of std functions
-   static const char* function = "boost::math::cdf(cauchy<%1%>&, %1%)";
+   HYDRA_BOOST_MATH_STD_USING // for ADL of std functions
+   static const char* function = "hydra_boost::math::cdf(cauchy<%1%>&, %1%)";
    RealType result = 0;
    RealType location = dist.location();
    RealType scale = dist.scale();
@@ -81,7 +81,7 @@ RealType cdf_imp(const cauchy_distribution<RealType, Policy>& dist, const RealTy
    RealType mx = -fabs((x - location) / scale); // scale is > 0
    if(mx > -tools::epsilon<RealType>() / 8)
    {  // special case first: x extremely close to location.
-      return static_cast<RealType>(0.5f);
+      return 0.5;
    }
    result = -atan(1 / mx) / constants::pi<RealType>();
    return (((x > location) != complement) ? 1 - result : result);
@@ -101,8 +101,8 @@ RealType quantile_imp(
    // mid-point of the distribution.  This is either added or subtracted
    // from the location parameter depending on whether `complement` is true.
    //
-   static const char* function = "boost::math::quantile(cauchy<%1%>&, %1%)";
-   BOOST_MATH_STD_USING // for ADL of std functions
+   static const char* function = "hydra_boost::math::quantile(cauchy<%1%>&, %1%)";
+   HYDRA_BOOST_MATH_STD_USING // for ADL of std functions
 
    RealType result = 0;
    RealType location = dist.location();
@@ -154,7 +154,7 @@ public:
    cauchy_distribution(RealType l_location = 0, RealType l_scale = 1)
       : m_a(l_location), m_hg(l_scale)
    {
-    static const char* function = "boost::math::cauchy_distribution<%1%>::cauchy_distribution";
+    static const char* function = "hydra_boost::math::cauchy_distribution<%1%>::cauchy_distribution";
      RealType result;
      detail::check_location(function, l_location, &result, Policy());
      detail::check_scale(function, l_scale, &result, Policy());
@@ -178,9 +178,9 @@ typedef cauchy_distribution<double> cauchy;
 
 #ifdef __cpp_deduction_guides
 template <class RealType>
-cauchy_distribution(RealType)->cauchy_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+cauchy_distribution(RealType)->cauchy_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 template <class RealType>
-cauchy_distribution(RealType,RealType)->cauchy_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+cauchy_distribution(RealType,RealType)->cauchy_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 #endif
 
 template <class RealType, class Policy>
@@ -192,7 +192,7 @@ inline const std::pair<RealType, RealType> range(const cauchy_distribution<RealT
   }
   else
   { // Can only use max_value.
-   using boost::math::tools::max_value;
+   using hydra_boost::math::tools::max_value;
    return std::pair<RealType, RealType>(-max_value<RealType>(), max_value<RealType>()); // - to + max.
   }
 }
@@ -207,7 +207,7 @@ inline const std::pair<RealType, RealType> support(const cauchy_distribution<Rea
   }
   else
   { // Can only use max_value.
-     using boost::math::tools::max_value;
+     using hydra_boost::math::tools::max_value;
      return std::pair<RealType, RealType>(-tools::max_value<RealType>(), max_value<RealType>()); // - to + max.
   }
 }
@@ -215,21 +215,21 @@ inline const std::pair<RealType, RealType> support(const cauchy_distribution<Rea
 template <class RealType, class Policy>
 inline RealType pdf(const cauchy_distribution<RealType, Policy>& dist, const RealType& x)
 {  
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
-   static const char* function = "boost::math::pdf(cauchy<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::pdf(cauchy<%1%>&, %1%)";
    RealType result = 0;
    RealType location = dist.location();
    RealType scale = dist.scale();
-   if(false == detail::check_scale("boost::math::pdf(cauchy<%1%>&, %1%)", scale, &result, Policy()))
+   if(false == detail::check_scale("hydra_boost::math::pdf(cauchy<%1%>&, %1%)", scale, &result, Policy()))
    {
       return result;
    }
-   if(false == detail::check_location("boost::math::pdf(cauchy<%1%>&, %1%)", location, &result, Policy()))
+   if(false == detail::check_location("hydra_boost::math::pdf(cauchy<%1%>&, %1%)", location, &result, Policy()))
    {
       return result;
    }
-   if((boost::math::isinf)(x))
+   if((hydra_boost::math::isinf)(x))
    {
      return 0; // pdf + and - infinity is zero.
    }
@@ -280,7 +280,7 @@ inline RealType mean(const cauchy_distribution<RealType, Policy>&)
    static_assert(assert_type::value == 0, "assert type is undefined");
 
    return policies::raise_domain_error<RealType>(
-      "boost::math::mean(cauchy<%1%>&)",
+      "hydra_boost::math::mean(cauchy<%1%>&)",
       "The Cauchy distribution does not have a mean: "
       "the only possible return value is %1%.",
       std::numeric_limits<RealType>::quiet_NaN(), Policy());
@@ -294,7 +294,7 @@ inline RealType variance(const cauchy_distribution<RealType, Policy>& /*dist*/)
    static_assert(assert_type::value == 0, "assert type is undefined");
 
    return policies::raise_domain_error<RealType>(
-      "boost::math::variance(cauchy<%1%>&)",
+      "hydra_boost::math::variance(cauchy<%1%>&)",
       "The Cauchy distribution does not have a variance: "
       "the only possible return value is %1%.",
       std::numeric_limits<RealType>::quiet_NaN(), Policy());
@@ -319,7 +319,7 @@ inline RealType skewness(const cauchy_distribution<RealType, Policy>& /*dist*/)
    static_assert(assert_type::value == 0, "assert type is undefined");
 
    return policies::raise_domain_error<RealType>(
-      "boost::math::skewness(cauchy<%1%>&)",
+      "hydra_boost::math::skewness(cauchy<%1%>&)",
       "The Cauchy distribution does not have a skewness: "
       "the only possible return value is %1%.",
       std::numeric_limits<RealType>::quiet_NaN(), Policy()); // infinity?
@@ -333,7 +333,7 @@ inline RealType kurtosis(const cauchy_distribution<RealType, Policy>& /*dist*/)
    static_assert(assert_type::value == 0, "assert type is undefined");
 
    return policies::raise_domain_error<RealType>(
-      "boost::math::kurtosis(cauchy<%1%>&)",
+      "hydra_boost::math::kurtosis(cauchy<%1%>&)",
       "The Cauchy distribution does not have a kurtosis: "
       "the only possible return value is %1%.",
       std::numeric_limits<RealType>::quiet_NaN(), Policy());
@@ -347,7 +347,7 @@ inline RealType kurtosis_excess(const cauchy_distribution<RealType, Policy>& /*d
    static_assert(assert_type::value == 0, "assert type is undefined");
 
    return policies::raise_domain_error<RealType>(
-      "boost::math::kurtosis_excess(cauchy<%1%>&)",
+      "hydra_boost::math::kurtosis_excess(cauchy<%1%>&)",
       "The Cauchy distribution does not have a kurtosis: "
       "the only possible return value is %1%.",
       std::numeric_limits<RealType>::quiet_NaN(), Policy());
@@ -361,7 +361,7 @@ inline RealType entropy(const cauchy_distribution<RealType, Policy> & dist)
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 #ifdef _MSC_VER
 #pragma warning(pop)
@@ -372,4 +372,4 @@ inline RealType entropy(const cauchy_distribution<RealType, Policy> & dist)
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_STATS_CAUCHY_HPP
+#endif // HYDRA_BOOST_STATS_CAUCHY_HPP

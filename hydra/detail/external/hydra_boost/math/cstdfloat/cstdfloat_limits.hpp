@@ -9,12 +9,12 @@
 
 // Implement quadruple-precision std::numeric_limits<> support.
 
-#ifndef BOOST_MATH_CSTDFLOAT_LIMITS_2014_01_09_HPP_
-  #define BOOST_MATH_CSTDFLOAT_LIMITS_2014_01_09_HPP_
+#ifndef HYDRA_BOOST_MATH_CSTDFLOAT_LIMITS_2014_01_09_HPP_
+  #define HYDRA_BOOST_MATH_CSTDFLOAT_LIMITS_2014_01_09_HPP_
 
   #include <hydra/detail/external/hydra_boost/math/cstdfloat/cstdfloat_types.hpp>
 
-#if defined(__GNUC__) && defined(BOOST_MATH_USE_FLOAT128)
+#if defined(__GNUC__) && defined(HYDRA_BOOST_MATH_USE_FLOAT128)
 //
 // This is the only way we can avoid
 // warning: non-standard suffix on floating constant [-Wpedantic]
@@ -24,7 +24,7 @@
 #pragma GCC system_header
 #endif
 
-  #if defined(BOOST_CSTDFLOAT_HAS_INTERNAL_FLOAT128_T) && defined(BOOST_MATH_USE_FLOAT128) && !defined(BOOST_CSTDFLOAT_NO_LIBQUADMATH_SUPPORT) && (!defined(__GNUC__) || (defined(__GNUC__) && __GNUC__ < 14))
+  #if defined(HYDRA_BOOST_CSTDFLOAT_HAS_INTERNAL_FLOAT128_T) && defined(HYDRA_BOOST_MATH_USE_FLOAT128) && !defined(HYDRA_BOOST_CSTDFLOAT_NO_LIBQUADMATH_SUPPORT)
 
     #include <limits>
     #include <hydra/detail/external/hydra_boost/math/tools/nothrow.hpp>
@@ -32,24 +32,24 @@
     // Define the name of the global quadruple-precision function to be used for
     // calculating quiet_NaN() in the specialization of std::numeric_limits<>.
     #if defined(__INTEL_COMPILER)
-      #define BOOST_CSTDFLOAT_FLOAT128_SQRT   __sqrtq
+      #define HYDRA_BOOST_CSTDFLOAT_FLOAT128_SQRT   __sqrtq
     #elif defined(__GNUC__)
-      #define BOOST_CSTDFLOAT_FLOAT128_SQRT   sqrtq
+      #define HYDRA_BOOST_CSTDFLOAT_FLOAT128_SQRT   sqrtq
     #endif
 
     // Forward declaration of the quadruple-precision square root function.
-    extern "C" boost::math::cstdfloat::detail::float_internal128_t BOOST_CSTDFLOAT_FLOAT128_SQRT(boost::math::cstdfloat::detail::float_internal128_t) BOOST_MATH_NOTHROW;
+    extern "C" hydra_boost::math::cstdfloat::detail::float_internal128_t HYDRA_BOOST_CSTDFLOAT_FLOAT128_SQRT(hydra_boost::math::cstdfloat::detail::float_internal128_t) HYDRA_BOOST_MATH_NOTHROW;
 
     namespace std
     {
       template<>
-      class numeric_limits<boost::math::cstdfloat::detail::float_internal128_t>
+      class numeric_limits<hydra_boost::math::cstdfloat::detail::float_internal128_t>
       {
       public:
         static constexpr bool                                                 is_specialized           = true;
-        static                 boost::math::cstdfloat::detail::float_internal128_t  (min) () noexcept  { return BOOST_CSTDFLOAT_FLOAT128_MIN; }
-        static                 boost::math::cstdfloat::detail::float_internal128_t  (max) () noexcept  { return BOOST_CSTDFLOAT_FLOAT128_MAX; }
-        static                 boost::math::cstdfloat::detail::float_internal128_t  lowest() noexcept  { return -(max)(); }
+        static                 hydra_boost::math::cstdfloat::detail::float_internal128_t  (min) () noexcept  { return HYDRA_BOOST_CSTDFLOAT_FLOAT128_MIN; }
+        static                 hydra_boost::math::cstdfloat::detail::float_internal128_t  (max) () noexcept  { return HYDRA_BOOST_CSTDFLOAT_FLOAT128_MAX; }
+        static                 hydra_boost::math::cstdfloat::detail::float_internal128_t  lowest() noexcept  { return -(max)(); }
         static constexpr int                                                  digits                   = 113;
         static constexpr int                                                  digits10                 = 33;
         static constexpr int                                                  max_digits10             = 36;
@@ -57,8 +57,8 @@
         static constexpr bool                                                 is_integer               = false;
         static constexpr bool                                                 is_exact                 = false;
         static constexpr int                                                  radix                    = 2;
-        static                 boost::math::cstdfloat::detail::float_internal128_t  epsilon    ()            { return BOOST_CSTDFLOAT_FLOAT128_EPS; }
-        static                 boost::math::cstdfloat::detail::float_internal128_t  round_error()            { return BOOST_FLOAT128_C(0.5); }
+        static                 hydra_boost::math::cstdfloat::detail::float_internal128_t  epsilon    ()            { return HYDRA_BOOST_CSTDFLOAT_FLOAT128_EPS; }
+        static                 hydra_boost::math::cstdfloat::detail::float_internal128_t  round_error()            { return HYDRA_BOOST_FLOAT128_C(0.5); }
         static constexpr int                                                  min_exponent             = -16381;
         static constexpr int                                                  min_exponent10           = static_cast<int>((min_exponent * 301L) / 1000L);
         static constexpr int                                                  max_exponent             = +16384;
@@ -68,10 +68,10 @@
         static constexpr bool                                                 has_signaling_NaN        = false;
         static constexpr float_denorm_style                                   has_denorm               = denorm_present;
         static constexpr bool                                                 has_denorm_loss          = false;
-        static                 boost::math::cstdfloat::detail::float_internal128_t  infinity     ()          { return BOOST_FLOAT128_C(1.0) / BOOST_FLOAT128_C(0.0); }
-        static                 boost::math::cstdfloat::detail::float_internal128_t  quiet_NaN    ()          { return -(::BOOST_CSTDFLOAT_FLOAT128_SQRT(BOOST_FLOAT128_C(-1.0))); }
-        static                 boost::math::cstdfloat::detail::float_internal128_t  signaling_NaN()          { return BOOST_FLOAT128_C(0.0); }
-        static                 boost::math::cstdfloat::detail::float_internal128_t  denorm_min   ()          { return BOOST_CSTDFLOAT_FLOAT128_DENORM_MIN; }
+        static                 hydra_boost::math::cstdfloat::detail::float_internal128_t  infinity     ()          { return HYDRA_BOOST_FLOAT128_C(1.0) / HYDRA_BOOST_FLOAT128_C(0.0); }
+        static                 hydra_boost::math::cstdfloat::detail::float_internal128_t  quiet_NaN    ()          { return -(::HYDRA_BOOST_CSTDFLOAT_FLOAT128_SQRT(HYDRA_BOOST_FLOAT128_C(-1.0))); }
+        static                 hydra_boost::math::cstdfloat::detail::float_internal128_t  signaling_NaN()          { return HYDRA_BOOST_FLOAT128_C(0.0); }
+        static                 hydra_boost::math::cstdfloat::detail::float_internal128_t  denorm_min   ()          { return HYDRA_BOOST_CSTDFLOAT_FLOAT128_DENORM_MIN; }
         static constexpr bool                                                 is_iec559                = true;
         static constexpr bool                                                 is_bounded               = true;
         static constexpr bool                                                 is_modulo                = false;
@@ -81,7 +81,7 @@
       };
     } // namespace std
 
-  #endif // Not BOOST_CSTDFLOAT_NO_LIBQUADMATH_SUPPORT (i.e., the user would like to have libquadmath support)
+  #endif // Not HYDRA_BOOST_CSTDFLOAT_NO_LIBQUADMATH_SUPPORT (i.e., the user would like to have libquadmath support)
 
-#endif // BOOST_MATH_CSTDFLOAT_LIMITS_2014_01_09_HPP_
+#endif // HYDRA_BOOST_MATH_CSTDFLOAT_LIMITS_2014_01_09_HPP_
 

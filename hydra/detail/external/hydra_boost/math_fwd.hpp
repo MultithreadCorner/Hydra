@@ -6,8 +6,8 @@
 
 //  See http://www.boost.org/libs/math for documentation.
 
-#ifndef BOOST_MATH_FWD_HPP
-#define BOOST_MATH_FWD_HPP
+#ifndef HYDRA_HYDRA_BOOST_MATH_FWD_HPP
+#define HYDRA_HYDRA_BOOST_MATH_FWD_HPP
 
 namespace boost
 {
@@ -15,7 +15,7 @@ namespace math
 {
 
 
-//  From <boost/math/quaternion.hpp>  ----------------------------------------//
+//  From <hydra/detail/external/hydra_boost/math/quaternion.hpp>  ----------------------------------------//
 
 template < typename T >
     class quaternion;
@@ -23,7 +23,7 @@ template < typename T >
 // Also has many function templates (including operators)
 
 
-//  From <boost/math/octonion.hpp>  ------------------------------------------//
+//  From <hydra/detail/external/hydra_boost/math/octonion.hpp>  ------------------------------------------//
 
 template < typename T >
     class octonion;
@@ -39,4 +39,4 @@ template < >
 }  // namespace boost
 
 
-#endif  // BOOST_MATH_FWD_HPP
+#endif  // HYDRA_HYDRA_BOOST_MATH_FWD_HPP

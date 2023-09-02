@@ -5,8 +5,8 @@
  *  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_MATH_INTERPOLATORS_BARYCENTRIC_RATIONAL_DETAIL_HPP
-#define BOOST_MATH_INTERPOLATORS_BARYCENTRIC_RATIONAL_DETAIL_HPP
+#ifndef HYDRA_BOOST_MATH_INTERPOLATORS_BARYCENTRIC_RATIONAL_DETAIL_HPP
+#define HYDRA_BOOST_MATH_INTERPOLATORS_BARYCENTRIC_RATIONAL_DETAIL_HPP
 
 #include <vector>
 #include <utility> // for std::move
@@ -15,7 +15,7 @@
 #include <hydra/detail/external/hydra_boost/math/special_functions/fpclassify.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/assert.hpp>
 
-namespace boost{ namespace math{ namespace interpolators { namespace detail{
+namespace hydra_boost{ namespace math{ namespace interpolators { namespace detail{
 
 template<class Real>
 class barycentric_rational_imp
@@ -69,13 +69,13 @@ barycentric_rational_imp<Real>::barycentric_rational_imp(InputIterator1 start_x,
     for(unsigned i = 0; start_x != end_x; ++start_x, ++start_y, ++i)
     {
         // But if we're going to do a memcpy, we can do some error checking which is inexpensive relative to the copy:
-        if(boost::math::isnan(*start_x))
+        if(hydra_boost::math::isnan(*start_x))
         {
             std::string msg = std::string("x[") + std::to_string(i) + "] is a NAN";
             throw std::domain_error(msg);
         }
 
-        if(boost::math::isnan(*start_y))
+        if(hydra_boost::math::isnan(*start_y))
         {
            std::string msg = std::string("y[") + std::to_string(i) + "] is a NAN";
            throw std::domain_error(msg);
@@ -90,9 +90,9 @@ barycentric_rational_imp<Real>::barycentric_rational_imp(InputIterator1 start_x,
 template <class Real>
 barycentric_rational_imp<Real>::barycentric_rational_imp(std::vector<Real>&& x, std::vector<Real>&& y,size_t approximation_order) : m_x(std::move(x)), m_y(std::move(y))
 {
-    BOOST_MATH_ASSERT_MSG(m_x.size() == m_y.size(), "There must be the same number of abscissas and ordinates.");
-    BOOST_MATH_ASSERT_MSG(approximation_order < m_x.size(), "Approximation order must be < data length.");
-    BOOST_MATH_ASSERT_MSG(std::is_sorted(m_x.begin(), m_x.end()), "The abscissas must be listed in increasing order x[0] < x[1] < ... < x[n-1].");
+    HYDRA_BOOST_MATH_ASSERT_MSG(m_x.size() == m_y.size(), "There must be the same number of abscissas and ordinates.");
+    HYDRA_BOOST_MATH_ASSERT_MSG(approximation_order < m_x.size(), "Approximation order must be < data length.");
+    HYDRA_BOOST_MATH_ASSERT_MSG(std::is_sorted(m_x.begin(), m_x.end()), "The abscissas must be listed in increasing order x[0] < x[1] < ... < x[n-1].");
     calculate_weights(approximation_order);
 }
 

@@ -6,8 +6,8 @@
  * LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_MATH_STATISTICS_LINEAR_REGRESSION_HPP
-#define BOOST_MATH_STATISTICS_LINEAR_REGRESSION_HPP
+#ifndef HYDRA_BOOST_MATH_STATISTICS_LINEAR_REGRESSION_HPP
+#define HYDRA_BOOST_MATH_STATISTICS_LINEAR_REGRESSION_HPP
 
 #include <cmath>
 #include <algorithm>
@@ -18,7 +18,7 @@
 #include <hydra/detail/external/hydra_boost/math/statistics/univariate_statistics.hpp>
 #include <hydra/detail/external/hydra_boost/math/statistics/bivariate_statistics.hpp>
 
-namespace boost { namespace math { namespace statistics { namespace detail {
+namespace hydra_boost { namespace math { namespace statistics { namespace detail {
 
 
 template<class ReturnType, class RandomAccessContainer>
@@ -35,12 +35,12 @@ ReturnType simple_ordinary_least_squares_impl(RandomAccessContainer const & x,
     {
         throw std::domain_error("The same number of samples must be in the independent and dependent variable.");
     }
-    std::tuple<Real, Real, Real> temp = boost::math::statistics::means_and_covariance(x, y);
+    std::tuple<Real, Real, Real> temp = hydra_boost::math::statistics::means_and_covariance(x, y);
     Real mu_x = std::get<0>(temp);
     Real mu_y = std::get<1>(temp);
     Real cov_xy = std::get<2>(temp);
 
-    Real var_x = boost::math::statistics::variance(x);
+    Real var_x = hydra_boost::math::statistics::variance(x);
 
     if (var_x <= 0) {
         throw std::domain_error("Independent variable has no variance; this breaks linear regression.");
@@ -67,12 +67,12 @@ ReturnType simple_ordinary_least_squares_with_R_squared_impl(RandomAccessContain
     {
         throw std::domain_error("The same number of samples must be in the independent and dependent variable.");
     }
-    std::tuple<Real, Real, Real> temp = boost::math::statistics::means_and_covariance(x, y);
+    std::tuple<Real, Real, Real> temp = hydra_boost::math::statistics::means_and_covariance(x, y);
     Real mu_x = std::get<0>(temp);
     Real mu_y = std::get<1>(temp);
     Real cov_xy = std::get<2>(temp);
 
-    Real var_x = boost::math::statistics::variance(x);
+    Real var_x = hydra_boost::math::statistics::variance(x);
 
     if (var_x <= 0) {
         throw std::domain_error("Independent variable has no variance; this breaks linear regression.");
@@ -129,5 +129,5 @@ inline auto simple_ordinary_least_squares_with_R_squared(RandomAccessContainer c
 {
     return detail::simple_ordinary_least_squares_with_R_squared_impl<std::tuple<Real, Real, Real>>(x, y);
 }
-}}} // namespace boost::math::statistics
+}}} // namespace hydra_boost::math::statistics
 #endif

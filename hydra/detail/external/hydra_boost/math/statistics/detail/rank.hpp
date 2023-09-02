@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_STATISTICS_DETAIL_RANK_HPP
-#define BOOST_MATH_STATISTICS_DETAIL_RANK_HPP
+#ifndef HYDRA_BOOST_MATH_STATISTICS_DETAIL_RANK_HPP
+#define HYDRA_BOOST_MATH_STATISTICS_DETAIL_RANK_HPP
 
 #include <cstdint>
 #include <vector>
@@ -14,11 +14,11 @@
 #include <algorithm>
 #include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
 
-#ifdef BOOST_MATH_EXEC_COMPATIBLE
+#ifdef HYDRA_BOOST_MATH_EXEC_COMPATIBLE
 #include <execution>
 #endif
 
-namespace boost { namespace math { namespace statistics { namespace detail {
+namespace hydra_boost { namespace math { namespace statistics { namespace detail {
 
 struct pair_equal
 {
@@ -31,9 +31,9 @@ struct pair_equal
 
 }}}} // Namespaces
 
-#ifndef BOOST_MATH_EXEC_COMPATIBLE
+#ifndef HYDRA_BOOST_MATH_EXEC_COMPATIBLE
 
-namespace boost { namespace math { namespace statistics { namespace detail {
+namespace hydra_boost { namespace math { namespace statistics { namespace detail {
 
 template <typename ForwardIterator, typename T = typename std::iterator_traits<ForwardIterator>::value_type>
 auto rank(ForwardIterator first, ForwardIterator last) -> std::vector<std::size_t>
@@ -79,7 +79,7 @@ inline auto rank(const Container& c) -> std::vector<std::size_t>
 
 #else
 
-namespace boost::math::statistics::detail {
+namespace hydra_boost::math::statistics::detail {
 
 template <typename ExecutionPolicy, typename ForwardIterator, typename T = typename std::iterator_traits<ForwardIterator>::value_type>
 auto rank(ExecutionPolicy&& exec, ForwardIterator first, ForwardIterator last)
@@ -135,6 +135,6 @@ inline auto rank(const Container& c)
 
 } // Namespaces
 
-#endif // BOOST_MATH_EXEC_COMPATIBLE
+#endif // HYDRA_BOOST_MATH_EXEC_COMPATIBLE
 
-#endif // BOOST_MATH_STATISTICS_DETAIL_RANK_HPP
+#endif // HYDRA_BOOST_MATH_STATISTICS_DETAIL_RANK_HPP

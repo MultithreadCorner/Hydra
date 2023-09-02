@@ -5,8 +5,8 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_DISTRIBUTIONS_FISHER_F_HPP
-#define BOOST_MATH_DISTRIBUTIONS_FISHER_F_HPP
+#ifndef HYDRA_BOOST_MATH_DISTRIBUTIONS_FISHER_F_HPP
+#define HYDRA_BOOST_MATH_DISTRIBUTIONS_FISHER_F_HPP
 
 #include <hydra/detail/external/hydra_boost/math/distributions/fwd.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/beta.hpp> // for incomplete beta.
@@ -16,7 +16,7 @@
 
 #include <utility>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 template <class RealType = double, class Policy = policies::policy<> >
 class fisher_f_distribution
@@ -56,13 +56,13 @@ typedef fisher_f_distribution<double> fisher_f;
 
 #ifdef __cpp_deduction_guides
 template <class RealType>
-fisher_f_distribution(RealType,RealType)->fisher_f_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+fisher_f_distribution(RealType,RealType)->fisher_f_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 #endif
 
 template <class RealType, class Policy>
 inline const std::pair<RealType, RealType> range(const fisher_f_distribution<RealType, Policy>& /*dist*/)
 { // Range of permissible values for random variable x.
-   using boost::math::tools::max_value;
+   using hydra_boost::math::tools::max_value;
    return std::pair<RealType, RealType>(static_cast<RealType>(0), max_value<RealType>());
 }
 
@@ -70,26 +70,26 @@ template <class RealType, class Policy>
 inline const std::pair<RealType, RealType> support(const fisher_f_distribution<RealType, Policy>& /*dist*/)
 { // Range of supported values for random variable x.
    // This is range where cdf rises from 0 to 1, and outside it, the pdf is zero.
-   using boost::math::tools::max_value;
+   using hydra_boost::math::tools::max_value;
    return std::pair<RealType, RealType>(static_cast<RealType>(0),  max_value<RealType>());
 }
 
 template <class RealType, class Policy>
 RealType pdf(const fisher_f_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
    RealType df1 = dist.degrees_of_freedom1();
    RealType df2 = dist.degrees_of_freedom2();
    // Error check:
    RealType error_result = 0;
-   static const char* function = "boost::math::pdf(fisher_f_distribution<%1%> const&, %1%)";
+   static const char* function = "hydra_boost::math::pdf(fisher_f_distribution<%1%> const&, %1%)";
    if(false == (detail::check_df(
          function, df1, &error_result, Policy())
          && detail::check_df(
          function, df2, &error_result, Policy())))
       return error_result;
 
-   if((x < 0) || !(boost::math::isfinite)(x))
+   if((x < 0) || !(hydra_boost::math::isfinite)(x))
    {
       return policies::raise_domain_error<RealType>(
          function, "Random variable parameter was %1%, but must be > 0 !", x, Policy());
@@ -134,7 +134,7 @@ RealType pdf(const fisher_f_distribution<RealType, Policy>& dist, const RealType
 template <class RealType, class Policy>
 inline RealType cdf(const fisher_f_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   static const char* function = "boost::math::cdf(fisher_f_distribution<%1%> const&, %1%)";
+   static const char* function = "hydra_boost::math::cdf(fisher_f_distribution<%1%> const&, %1%)";
    RealType df1 = dist.degrees_of_freedom1();
    RealType df2 = dist.degrees_of_freedom2();
    // Error check:
@@ -145,7 +145,7 @@ inline RealType cdf(const fisher_f_distribution<RealType, Policy>& dist, const R
          function, df2, &error_result, Policy()))
       return error_result;
 
-   if((x < 0) || !(boost::math::isfinite)(x))
+   if((x < 0) || !(hydra_boost::math::isfinite)(x))
    {
       return policies::raise_domain_error<RealType>(
          function, "Random Variable parameter was %1%, but must be > 0 !", x, Policy());
@@ -162,14 +162,14 @@ inline RealType cdf(const fisher_f_distribution<RealType, Policy>& dist, const R
    // to switch things around so we're passing 1-z instead.
    //
    return v1x > df2
-      ? boost::math::ibetac(df2 / 2, df1 / 2, df2 / (df2 + v1x), Policy())
-      : boost::math::ibeta(df1 / 2, df2 / 2, v1x / (df2 + v1x), Policy());
+      ? hydra_boost::math::ibetac(df2 / 2, df1 / 2, df2 / (df2 + v1x), Policy())
+      : hydra_boost::math::ibeta(df1 / 2, df2 / 2, v1x / (df2 + v1x), Policy());
 } // cdf
 
 template <class RealType, class Policy>
 inline RealType quantile(const fisher_f_distribution<RealType, Policy>& dist, const RealType& p)
 {
-   static const char* function = "boost::math::quantile(fisher_f_distribution<%1%> const&, %1%)";
+   static const char* function = "hydra_boost::math::quantile(fisher_f_distribution<%1%> const&, %1%)";
    RealType df1 = dist.degrees_of_freedom1();
    RealType df2 = dist.degrees_of_freedom2();
    // Error check:
@@ -186,7 +186,7 @@ inline RealType quantile(const fisher_f_distribution<RealType, Policy>& dist, co
    // uninitialized unless we initialize it to something:
    RealType x, y(0);
 
-   x = boost::math::ibeta_inv(df1 / 2, df2 / 2, p, &y, Policy());
+   x = hydra_boost::math::ibeta_inv(df1 / 2, df2 / 2, p, &y, Policy());
 
    return df2 * x / (df1 * y);
 } // quantile
@@ -194,7 +194,7 @@ inline RealType quantile(const fisher_f_distribution<RealType, Policy>& dist, co
 template <class RealType, class Policy>
 inline RealType cdf(const complemented2_type<fisher_f_distribution<RealType, Policy>, RealType>& c)
 {
-   static const char* function = "boost::math::cdf(fisher_f_distribution<%1%> const&, %1%)";
+   static const char* function = "hydra_boost::math::cdf(fisher_f_distribution<%1%> const&, %1%)";
    RealType df1 = c.dist.degrees_of_freedom1();
    RealType df2 = c.dist.degrees_of_freedom2();
    RealType x = c.param;
@@ -206,7 +206,7 @@ inline RealType cdf(const complemented2_type<fisher_f_distribution<RealType, Pol
          function, df2, &error_result, Policy()))
       return error_result;
 
-   if((x < 0) || !(boost::math::isfinite)(x))
+   if((x < 0) || !(hydra_boost::math::isfinite)(x))
    {
       return policies::raise_domain_error<RealType>(
          function, "Random Variable parameter was %1%, but must be > 0 !", x, Policy());
@@ -223,14 +223,14 @@ inline RealType cdf(const complemented2_type<fisher_f_distribution<RealType, Pol
    // to switch things around so we're passing 1-z instead.
    //
    return v1x > df2
-      ? boost::math::ibeta(df2 / 2, df1 / 2, df2 / (df2 + v1x), Policy())
-      : boost::math::ibetac(df1 / 2, df2 / 2, v1x / (df2 + v1x), Policy());
+      ? hydra_boost::math::ibeta(df2 / 2, df1 / 2, df2 / (df2 + v1x), Policy())
+      : hydra_boost::math::ibetac(df1 / 2, df2 / 2, v1x / (df2 + v1x), Policy());
 }
 
 template <class RealType, class Policy>
 inline RealType quantile(const complemented2_type<fisher_f_distribution<RealType, Policy>, RealType>& c)
 {
-   static const char* function = "boost::math::quantile(fisher_f_distribution<%1%> const&, %1%)";
+   static const char* function = "hydra_boost::math::quantile(fisher_f_distribution<%1%> const&, %1%)";
    RealType df1 = c.dist.degrees_of_freedom1();
    RealType df2 = c.dist.degrees_of_freedom2();
    RealType p = c.param;
@@ -246,7 +246,7 @@ inline RealType quantile(const complemented2_type<fisher_f_distribution<RealType
 
    RealType x, y;
 
-   x = boost::math::ibetac_inv(df1 / 2, df2 / 2, p, &y, Policy());
+   x = hydra_boost::math::ibetac_inv(df1 / 2, df2 / 2, p, &y, Policy());
 
    return df2 * x / (df1 * y);
 }
@@ -254,7 +254,7 @@ inline RealType quantile(const complemented2_type<fisher_f_distribution<RealType
 template <class RealType, class Policy>
 inline RealType mean(const fisher_f_distribution<RealType, Policy>& dist)
 { // Mean of F distribution = v.
-   static const char* function = "boost::math::mean(fisher_f_distribution<%1%> const&)";
+   static const char* function = "hydra_boost::math::mean(fisher_f_distribution<%1%> const&)";
    RealType df1 = dist.degrees_of_freedom1();
    RealType df2 = dist.degrees_of_freedom2();
    // Error check:
@@ -275,7 +275,7 @@ inline RealType mean(const fisher_f_distribution<RealType, Policy>& dist)
 template <class RealType, class Policy>
 inline RealType variance(const fisher_f_distribution<RealType, Policy>& dist)
 { // Variance of F distribution.
-   static const char* function = "boost::math::variance(fisher_f_distribution<%1%> const&)";
+   static const char* function = "hydra_boost::math::variance(fisher_f_distribution<%1%> const&)";
    RealType df1 = dist.degrees_of_freedom1();
    RealType df2 = dist.degrees_of_freedom2();
    // Error check:
@@ -296,7 +296,7 @@ inline RealType variance(const fisher_f_distribution<RealType, Policy>& dist)
 template <class RealType, class Policy>
 inline RealType mode(const fisher_f_distribution<RealType, Policy>& dist)
 {
-   static const char* function = "boost::math::mode(fisher_f_distribution<%1%> const&)";
+   static const char* function = "hydra_boost::math::mode(fisher_f_distribution<%1%> const&)";
    RealType df1 = dist.degrees_of_freedom1();
    RealType df2 = dist.degrees_of_freedom2();
    // Error check:
@@ -306,10 +306,10 @@ inline RealType mode(const fisher_f_distribution<RealType, Policy>& dist)
          && detail::check_df(
             function, df2, &error_result, Policy()))
       return error_result;
-   if(df1 <= 2)
+   if(df2 <= 2)
    {
       return policies::raise_domain_error<RealType>(
-         function, "First degree of freedom was %1% but must be > 2 in order for the distribution to have a mode.", df1, Policy());
+         function, "Second degree of freedom was %1% but must be > 2 in order for the distribution to have a mode.", df2, Policy());
    }
    return df2 * (df1 - 2) / (df1 * (df2 + 2));
 }
@@ -317,7 +317,7 @@ inline RealType mode(const fisher_f_distribution<RealType, Policy>& dist)
 //template <class RealType, class Policy>
 //inline RealType median(const fisher_f_distribution<RealType, Policy>& dist)
 //{ // Median of Fisher F distribution is not defined.
-//  return tools::domain_error<RealType>(BOOST_CURRENT_FUNCTION, "Median is not implemented, result is %1%!", std::numeric_limits<RealType>::quiet_NaN());
+//  return tools::domain_error<RealType>(HYDRA_BOOST_CURRENT_FUNCTION, "Median is not implemented, result is %1%!", std::numeric_limits<RealType>::quiet_NaN());
 //  } // median
 
 // Now implemented via quantile(half) in derived accessors.
@@ -325,8 +325,8 @@ inline RealType mode(const fisher_f_distribution<RealType, Policy>& dist)
 template <class RealType, class Policy>
 inline RealType skewness(const fisher_f_distribution<RealType, Policy>& dist)
 {
-   static const char* function = "boost::math::skewness(fisher_f_distribution<%1%> const&)";
-   BOOST_MATH_STD_USING // ADL of std names
+   static const char* function = "hydra_boost::math::skewness(fisher_f_distribution<%1%> const&)";
+   HYDRA_BOOST_MATH_STD_USING // ADL of std names
    // See http://mathworld.wolfram.com/F-Distribution.html
    RealType df1 = dist.degrees_of_freedom1();
    RealType df2 = dist.degrees_of_freedom2();
@@ -357,7 +357,7 @@ inline RealType kurtosis(const fisher_f_distribution<RealType, Policy>& dist)
 template <class RealType, class Policy>
 inline RealType kurtosis_excess(const fisher_f_distribution<RealType, Policy>& dist)
 {
-   static const char* function = "boost::math::kurtosis_excess(fisher_f_distribution<%1%> const&)";
+   static const char* function = "hydra_boost::math::kurtosis_excess(fisher_f_distribution<%1%> const&)";
    // See http://mathworld.wolfram.com/F-Distribution.html
    RealType df1 = dist.degrees_of_freedom1();
    RealType df2 = dist.degrees_of_freedom2();
@@ -382,11 +382,11 @@ inline RealType kurtosis_excess(const fisher_f_distribution<RealType, Policy>& d
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_MATH_DISTRIBUTIONS_FISHER_F_HPP
+#endif // HYDRA_BOOST_MATH_DISTRIBUTIONS_FISHER_F_HPP

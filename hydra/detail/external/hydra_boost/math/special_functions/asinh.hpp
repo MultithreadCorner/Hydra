@@ -8,8 +8,8 @@
 
 // See http://www.boost.org for updates, documentation, and revision history.
 
-#ifndef BOOST_ASINH_HPP
-#define BOOST_ASINH_HPP
+#ifndef HYDRA_BOOST_ASINH_HPP
+#define HYDRA_BOOST_ASINH_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -26,7 +26,7 @@
 
 // This is the inverse of the hyperbolic sine function.
 
-namespace boost
+namespace hydra_boost
 {
     namespace math
     {
@@ -34,12 +34,12 @@ namespace boost
         template<typename T, class Policy>
         inline T    asinh_imp(const T x, const Policy& pol)
         {
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             
-            if((boost::math::isnan)(x))
+            if((hydra_boost::math::isnan)(x))
             {
                return policies::raise_domain_error<T>(
-                  "boost::math::asinh<%1%>(%1%)",
+                  "hydra_boost::math::asinh<%1%>(%1%)",
                   "asinh requires a finite argument, but got x = %1%.", x, pol);
             }
             if        (x >= tools::forth_root_epsilon<T>())
@@ -53,7 +53,7 @@ namespace boost
                 else if(x < 0.5f)
                 {
                    // As below, but rearranged to preserve digits:
-                   return boost::math::log1p(x + boost::math::sqrt1pm1(x * x, pol), pol);
+                   return hydra_boost::math::log1p(x + hydra_boost::math::sqrt1pm1(x * x, pol), pol);
                 }
                 else
                 {
@@ -87,7 +87,7 @@ namespace boost
         template<typename T>
         inline typename tools::promote_args<T>::type asinh(T x)
         {
-           return boost::math::asinh(x, policies::policy<>());
+           return hydra_boost::math::asinh(x, policies::policy<>());
         }
         template<typename T, typename Policy>
         inline typename tools::promote_args<T>::type asinh(T x, const Policy&)
@@ -102,11 +102,11 @@ namespace boost
                policies::assert_undefined<> >::type forwarding_policy;
            return policies::checked_narrowing_cast<result_type, forwarding_policy>(
               detail::asinh_imp(static_cast<value_type>(x), forwarding_policy()),
-              "boost::math::asinh<%1%>(%1%)");
+              "hydra_boost::math::asinh<%1%>(%1%)");
         }
 
     }
 }
 
-#endif /* BOOST_ASINH_HPP */
+#endif /* HYDRA_BOOST_ASINH_HPP */
 

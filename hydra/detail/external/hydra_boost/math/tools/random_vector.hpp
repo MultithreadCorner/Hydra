@@ -9,7 +9,7 @@
 #include <type_traits>
 #include <vector>
 
-namespace boost { namespace math {
+namespace hydra_boost { namespace math {
 
 // To stress test, set global_seed = 0, global_size = huge.
 static constexpr std::size_t global_seed = 0;

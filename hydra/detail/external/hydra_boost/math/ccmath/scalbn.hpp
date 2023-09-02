@@ -4,8 +4,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_CCMATH_SCALBN_HPP
-#define BOOST_MATH_CCMATH_SCALBN_HPP
+#ifndef HYDRA_BOOST_MATH_CCMATH_SCALBN_HPP
+#define HYDRA_BOOST_MATH_CCMATH_SCALBN_HPP
 
 #include <cmath>
 #include <cfloat>
@@ -16,7 +16,7 @@
 #include <hydra/detail/external/hydra_boost/math/ccmath/isinf.hpp>
 #include <hydra/detail/external/hydra_boost/math/ccmath/isnan.hpp>
 
-namespace boost::math::ccmath {
+namespace hydra_boost::math::ccmath {
 
 namespace detail {
 
@@ -42,12 +42,12 @@ inline constexpr Real scalbn_impl(Real arg, Z exp) noexcept
 template <typename Real, std::enable_if_t<!std::is_integral_v<Real>, bool> = true>
 inline constexpr Real scalbn(Real arg, int exp) noexcept
 {
-    if(BOOST_MATH_IS_CONSTANT_EVALUATED(arg))
+    if(HYDRA_BOOST_MATH_IS_CONSTANT_EVALUATED(arg))
     {
-        return boost::math::ccmath::abs(arg) == Real(0) ? arg :
-               boost::math::ccmath::isinf(arg) ? arg :
-               boost::math::ccmath::isnan(arg) ? arg :
-               boost::math::ccmath::detail::scalbn_impl(arg, exp);
+        return hydra_boost::math::ccmath::abs(arg) == Real(0) ? arg :
+               hydra_boost::math::ccmath::isinf(arg) ? arg :
+               hydra_boost::math::ccmath::isnan(arg) ? arg :
+               hydra_boost::math::ccmath::detail::scalbn_impl(arg, exp);
     }
     else
     {
@@ -59,21 +59,21 @@ inline constexpr Real scalbn(Real arg, int exp) noexcept
 template <typename Z, std::enable_if_t<std::is_integral_v<Z>, bool> = true>
 inline constexpr double scalbn(Z arg, int exp) noexcept
 {
-    return boost::math::ccmath::scalbn(static_cast<double>(arg), exp);
+    return hydra_boost::math::ccmath::scalbn(static_cast<double>(arg), exp);
 }
 
 inline constexpr float scalbnf(float arg, int exp) noexcept
 {
-    return boost::math::ccmath::scalbn(arg, exp);
+    return hydra_boost::math::ccmath::scalbn(arg, exp);
 }
 
-#ifndef BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
+#ifndef HYDRA_BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
 inline constexpr long double scalbnl(long double arg, int exp) noexcept
 {
-    return boost::math::ccmath::scalbn(arg, exp);
+    return hydra_boost::math::ccmath::scalbn(arg, exp);
 }
 #endif
 
 } // Namespaces
 
-#endif // BOOST_MATH_CCMATH_SCALBN_HPP
+#endif // HYDRA_BOOST_MATH_CCMATH_SCALBN_HPP

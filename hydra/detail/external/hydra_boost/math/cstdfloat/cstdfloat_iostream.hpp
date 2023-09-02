@@ -9,18 +9,18 @@
 
 // Implement quadruple-precision I/O stream operations.
 
-#ifndef BOOST_MATH_CSTDFLOAT_IOSTREAM_2014_02_15_HPP_
-  #define BOOST_MATH_CSTDFLOAT_IOSTREAM_2014_02_15_HPP_
+#ifndef HYDRA_BOOST_MATH_CSTDFLOAT_IOSTREAM_2014_02_15_HPP_
+  #define HYDRA_BOOST_MATH_CSTDFLOAT_IOSTREAM_2014_02_15_HPP_
 
   #include <hydra/detail/external/hydra_boost/math/cstdfloat/cstdfloat_types.hpp>
   #include <hydra/detail/external/hydra_boost/math/cstdfloat/cstdfloat_limits.hpp>
   #include <hydra/detail/external/hydra_boost/math/cstdfloat/cstdfloat_cmath.hpp>
 
-  #if defined(BOOST_CSTDFLOAT_NO_LIBQUADMATH_CMATH)
-  #error You can not use <hydra/detail/external/hydra_boost/math/cstdfloat/cstdfloat_iostream.hpp> with BOOST_CSTDFLOAT_NO_LIBQUADMATH_CMATH defined.
+  #if defined(HYDRA_BOOST_CSTDFLOAT_NO_LIBQUADMATH_CMATH)
+  #error You can not use <hydra/detail/external/hydra_boost/math/cstdfloat/cstdfloat_iostream.hpp> with HYDRA_BOOST_CSTDFLOAT_NO_LIBQUADMATH_CMATH defined.
   #endif
 
-  #if defined(BOOST_CSTDFLOAT_HAS_INTERNAL_FLOAT128_T) && defined(BOOST_MATH_USE_FLOAT128) && !defined(BOOST_CSTDFLOAT_NO_LIBQUADMATH_SUPPORT)
+  #if defined(HYDRA_BOOST_CSTDFLOAT_HAS_INTERNAL_FLOAT128_T) && defined(HYDRA_BOOST_MATH_USE_FLOAT128) && !defined(HYDRA_BOOST_CSTDFLOAT_NO_LIBQUADMATH_SUPPORT)
 
   #include <cstddef>
   #include <istream>
@@ -36,13 +36,13 @@
   #if defined(__GNUC__)
 
   // Forward declarations of quadruple-precision string functions.
-  extern "C" int quadmath_snprintf(char *str, size_t size, const char *format, ...) BOOST_MATH_NOTHROW;
-  extern "C" boost::math::cstdfloat::detail::float_internal128_t strtoflt128(const char*, char **) BOOST_MATH_NOTHROW;
+  extern "C" int quadmath_snprintf(char *str, size_t size, const char *format, ...) HYDRA_BOOST_MATH_NOTHROW;
+  extern "C" hydra_boost::math::cstdfloat::detail::float_internal128_t strtoflt128(const char*, char **) HYDRA_BOOST_MATH_NOTHROW;
 
   namespace std
   {
     template<typename char_type, class traits_type>
-    inline std::basic_ostream<char_type, traits_type>& operator<<(std::basic_ostream<char_type, traits_type>& os, const boost::math::cstdfloat::detail::float_internal128_t& x)
+    inline std::basic_ostream<char_type, traits_type>& operator<<(std::basic_ostream<char_type, traits_type>& os, const hydra_boost::math::cstdfloat::detail::float_internal128_t& x)
     {
       std::basic_ostringstream<char_type, traits_type> ostr;
       ostr.flags(os.flags());
@@ -87,7 +87,7 @@
                                         my_digits,
                                         x);
 
-      if(v < 0) { BOOST_MATH_THROW_EXCEPTION(std::runtime_error("Formatting of boost::float128_t failed internally in quadmath_snprintf().")); }
+      if(v < 0) { HYDRA_BOOST_MATH_THROW_EXCEPTION(std::runtime_error("Formatting of hydra_boost::float128_t failed internally in quadmath_snprintf().")); }
 
       if(v >= static_cast<int>(sizeof(my_buffer) - 1U))
       {
@@ -98,16 +98,16 @@
 
         char* my_buffer2 = static_cast<char*>(0U);
 
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
         try
         {
 #endif
           my_buffer2 = new char[v + 3];
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
         }
         catch(const std::bad_alloc&)
         {
-          BOOST_MATH_THROW_EXCEPTION(std::runtime_error("Formatting of boost::float128_t failed while allocating memory."));
+          HYDRA_BOOST_MATH_THROW_EXCEPTION(std::runtime_error("Formatting of hydra_boost::float128_t failed while allocating memory."));
         }
 #endif
         const int v2 = ::quadmath_snprintf(my_buffer2,
@@ -118,7 +118,7 @@
 
         if(v2 >= v + 3)
         {
-          BOOST_MATH_THROW_EXCEPTION(std::runtime_error("Formatting of boost::float128_t failed."));
+          HYDRA_BOOST_MATH_THROW_EXCEPTION(std::runtime_error("Formatting of hydra_boost::float128_t failed."));
         }
 
         static_cast<void>(ostr << my_buffer2);
@@ -134,7 +134,7 @@
     }
 
     template<typename char_type, class traits_type>
-    inline std::basic_istream<char_type, traits_type>& operator>>(std::basic_istream<char_type, traits_type>& is, boost::math::cstdfloat::detail::float_internal128_t& x)
+    inline std::basic_istream<char_type, traits_type>& operator>>(std::basic_istream<char_type, traits_type>& is, hydra_boost::math::cstdfloat::detail::float_internal128_t& x)
     {
       std::string str;
 
@@ -153,7 +153,7 @@
 
         is.setstate(ios_base::failbit);
 
-        BOOST_MATH_THROW_EXCEPTION(std::runtime_error("Unable to interpret input string as a boost::float128_t"));
+        HYDRA_BOOST_MATH_THROW_EXCEPTION(std::runtime_error("Unable to interpret input string as a hydra_boost::float128_t"));
       }
 
       return is;
@@ -170,12 +170,12 @@
 
   // The following string-extraction routines are based on the methodology
   // used in Boost.Multiprecision by John Maddock and Christopher Kormanyos.
-  // This methodology has been slightly modified here for boost::float128_t.
+  // This methodology has been slightly modified here for hydra_boost::float128_t.
 
   #include <cstring>
   #include <cctype>
   
-  namespace boost { namespace math { namespace cstdfloat { namespace detail {
+  namespace hydra_boost { namespace math { namespace cstdfloat { namespace detail {
 
   template<class string_type>
   void format_float_string(string_type& str,
@@ -452,7 +452,7 @@
       {
         int e = -expon / 2;
 
-        const float_type t2 = boost::math::cstdfloat::detail::pown(ten, e);
+        const float_type t2 = hydra_boost::math::cstdfloat::detail::pown(ten, e);
 
         eval_multiply(t, t2, x);
         eval_multiply(t, t2);
@@ -464,7 +464,7 @@
       }
       else
       {
-        t = boost::math::cstdfloat::detail::pown(ten, -expon);
+        t = hydra_boost::math::cstdfloat::detail::pown(ten, -expon);
         eval_multiply(t, x);
       }
 
@@ -700,15 +700,15 @@
 
       if(expon > (std::numeric_limits<float_type>::min_exponent10 + 2))
       {
-        t = boost::math::cstdfloat::detail::pown(t, expon);
+        t = hydra_boost::math::cstdfloat::detail::pown(t, expon);
         eval_multiply(value, t);
       }
       else
       {
-        t = boost::math::cstdfloat::detail::pown(t, (expon + digits_seen + 1));
+        t = hydra_boost::math::cstdfloat::detail::pown(t, (expon + digits_seen + 1));
         eval_multiply(value, t);
         t = ten;
-        t = boost::math::cstdfloat::detail::pown(t, (-digits_seen - 1));
+        t = hydra_boost::math::cstdfloat::detail::pown(t, (-digits_seen - 1));
         eval_multiply(value, t);
       }
     }
@@ -720,16 +720,16 @@
 
     return (*p == static_cast<char>(0));
   }
-  } } } } // boost::math::cstdfloat::detail
+  } } } } // hydra_boost::math::cstdfloat::detail
 
   namespace std
   {
     template<typename char_type, class traits_type>
-    inline std::basic_ostream<char_type, traits_type>& operator<<(std::basic_ostream<char_type, traits_type>& os, const boost::math::cstdfloat::detail::float_internal128_t& x)
+    inline std::basic_ostream<char_type, traits_type>& operator<<(std::basic_ostream<char_type, traits_type>& os, const hydra_boost::math::cstdfloat::detail::float_internal128_t& x)
     {
-      boost::math::cstdfloat::detail::float_internal128_t non_const_x = x;
+      hydra_boost::math::cstdfloat::detail::float_internal128_t non_const_x = x;
 
-      const std::string str = boost::math::cstdfloat::detail::convert_to_string(non_const_x,
+      const std::string str = hydra_boost::math::cstdfloat::detail::convert_to_string(non_const_x,
                                                                                 os.precision(),
                                                                                 os.flags());
 
@@ -744,13 +744,13 @@
     }
 
     template<typename char_type, class traits_type>
-    inline std::basic_istream<char_type, traits_type>& operator>>(std::basic_istream<char_type, traits_type>& is, boost::math::cstdfloat::detail::float_internal128_t& x)
+    inline std::basic_istream<char_type, traits_type>& operator>>(std::basic_istream<char_type, traits_type>& is, hydra_boost::math::cstdfloat::detail::float_internal128_t& x)
     {
       std::string str;
 
       static_cast<void>(is >> str);
 
-      const bool conversion_is_ok = boost::math::cstdfloat::detail::convert_from_string(x, str.c_str());
+      const bool conversion_is_ok = hydra_boost::math::cstdfloat::detail::convert_from_string(x, str.c_str());
 
       if(false == conversion_is_ok)
       {
@@ -761,7 +761,7 @@
 
         is.setstate(ios_base::failbit);
 
-        BOOST_MATH_THROW_EXCEPTION(std::runtime_error("Unable to interpret input string as a boost::float128_t"));
+        HYDRA_BOOST_MATH_THROW_EXCEPTION(std::runtime_error("Unable to interpret input string as a hydra_boost::float128_t"));
       }
 
       return is;
@@ -770,6 +770,6 @@
 
   #endif // Use __GNUC__ or __INTEL_COMPILER libquadmath
 
-  #endif // Not BOOST_CSTDFLOAT_NO_LIBQUADMATH_SUPPORT (i.e., the user would like to have libquadmath support)
+  #endif // Not HYDRA_BOOST_CSTDFLOAT_NO_LIBQUADMATH_SUPPORT (i.e., the user would like to have libquadmath support)
 
-#endif // BOOST_MATH_CSTDFLOAT_IOSTREAM_2014_02_15_HPP_
+#endif // HYDRA_BOOST_MATH_CSTDFLOAT_IOSTREAM_2014_02_15_HPP_

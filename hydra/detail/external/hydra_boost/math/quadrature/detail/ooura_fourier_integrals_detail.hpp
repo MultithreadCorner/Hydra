@@ -3,8 +3,8 @@
 // Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
-#ifndef BOOST_MATH_QUADRATURE_DETAIL_OOURA_FOURIER_INTEGRALS_DETAIL_HPP
-#define BOOST_MATH_QUADRATURE_DETAIL_OOURA_FOURIER_INTEGRALS_DETAIL_HPP
+#ifndef HYDRA_BOOST_MATH_QUADRATURE_DETAIL_OOURA_FOURIER_INTEGRALS_DETAIL_HPP
+#define HYDRA_BOOST_MATH_QUADRATURE_DETAIL_OOURA_FOURIER_INTEGRALS_DETAIL_HPP
 #include <utility> // for std::pair.
 #include <vector>
 #include <iostream>
@@ -14,12 +14,12 @@
 #include <hydra/detail/external/hydra_boost/math/constants/constants.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
 
-#ifdef BOOST_HAS_THREADS
+#ifdef HYDRA_BOOST_HAS_THREADS
 #include <mutex>
 #include <atomic>
 #endif
 
-namespace boost { namespace math { namespace quadrature { namespace detail {
+namespace hydra_boost { namespace math { namespace quadrature { namespace detail {
 
 // Ooura and Mori, A robust double exponential formula for Fourier-type integrals,
 // eta is the argument to the exponential in equation 3.3:
@@ -46,7 +46,7 @@ std::pair<Real, Real> ooura_eta(Real x, Real alpha) {
 template<class Real>
 Real calculate_ooura_alpha(Real h)
 {
-    using boost::math::constants::pi;
+    using hydra_boost::math::constants::pi;
     using std::log1p;
     using std::sqrt;
     Real x = sqrt(16 + 4*log1p(pi<Real>()/h)/h);
@@ -59,7 +59,7 @@ std::pair<Real, Real> ooura_sin_node_and_weight(long n, Real h, Real alpha)
     using std::expm1;
     using std::exp;
     using std::abs;
-    using boost::math::constants::pi;
+    using hydra_boost::math::constants::pi;
     using std::isnan;
 
     if (n == 0) {
@@ -73,7 +73,7 @@ std::pair<Real, Real> ooura_sin_node_and_weight(long n, Real h, Real alpha)
 
         Real eta_prime_0 = Real(2) + alpha + Real(1)/Real(4);
         Real node = pi<Real>()/(eta_prime_0*h);
-        Real weight = pi<Real>()*boost::math::sin_pi(1/(eta_prime_0*h));
+        Real weight = pi<Real>()*hydra_boost::math::sin_pi(1/(eta_prime_0*h));
         Real eta_dbl_prime = -alpha + Real(1)/Real(4);
         Real phi_prime_0 = (1 - eta_dbl_prime/(eta_prime_0*eta_prime_0))/2;
         weight *= phi_prime_0;
@@ -98,18 +98,18 @@ std::pair<Real, Real> ooura_sin_node_and_weight(long n, Real h, Real alpha)
     Real arg;
     if(eta > 1) {
         arg = n/( 1/exp_meta - 1 );
-        s *= boost::math::sin_pi(arg);
+        s *= hydra_boost::math::sin_pi(arg);
         if (n&1) {
             s *= -1;
         }
     }
     else if (eta < -1) {
         arg = n/(1-exp_meta);
-        s *= boost::math::sin_pi(arg);
+        s *= hydra_boost::math::sin_pi(arg);
     }
     else {
         arg = -n*exp_meta/expm1_meta;
-        s *= boost::math::sin_pi(arg);
+        s *= hydra_boost::math::sin_pi(arg);
         if (n&1) {
             s *= -1;
         }
@@ -119,7 +119,7 @@ std::pair<Real, Real> ooura_sin_node_and_weight(long n, Real h, Real alpha)
     return {node, weight};
 }
 
-#ifdef BOOST_MATH_INSTRUMENT_OOURA
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_OOURA
 template<class Real>
 void print_ooura_estimate(size_t i, Real I0, Real I1, Real omega) {
     using std::abs;
@@ -139,7 +139,7 @@ std::pair<Real, Real> ooura_cos_node_and_weight(long n, Real h, Real alpha)
     using std::expm1;
     using std::exp;
     using std::abs;
-    using boost::math::constants::pi;
+    using hydra_boost::math::constants::pi;
 
     Real x = h*(n-Real(1)/Real(2));
     auto p = ooura_eta(x, alpha);
@@ -159,11 +159,11 @@ std::pair<Real, Real> ooura_cos_node_and_weight(long n, Real h, Real alpha)
     Real arg;
     if (eta < -1) {
         arg = -(n-Real(1)/Real(2))/expm1_meta;
-        s *= boost::math::cos_pi(arg);
+        s *= hydra_boost::math::cos_pi(arg);
     }
     else {
         arg = -(n-Real(1)/Real(2))*exp_meta/expm1_meta;
-        s *= boost::math::sin_pi(arg);
+        s *= hydra_boost::math::sin_pi(arg);
         if (n&1) {
             s *= -1;
         }
@@ -178,10 +178,10 @@ template<class Real>
 class ooura_fourier_sin_detail {
 public:
     ooura_fourier_sin_detail(const Real relative_error_goal, size_t levels) {
-#ifdef BOOST_MATH_INSTRUMENT_OOURA
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_OOURA
       std::cout << "ooura_fourier_sin with relative error goal " << relative_error_goal 
         << " & " << levels << " levels." << std::endl;
-#endif // BOOST_MATH_INSTRUMENT_OOURA
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_OOURA
         if (relative_error_goal < std::numeric_limits<Real>::epsilon() * 2) {
             throw std::domain_error("The relative error goal cannot be smaller than the unit roundoff.");
         }
@@ -227,7 +227,7 @@ public:
     std::pair<Real,Real> integrate(F const & f, Real omega) {
         using std::abs;
         using std::max;
-        using boost::math::constants::pi;
+        using hydra_boost::math::constants::pi;
 
         if (omega == 0) {
             return {Real(0), Real(0)};
@@ -245,7 +245,7 @@ public:
         size_t i = starting_level_;
         do {
             Real I0 = estimate_integral(f, omega, i);
-#ifdef BOOST_MATH_INSTRUMENT_OOURA
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_OOURA
             print_ooura_estimate(i, I0, I1, omega);
 #endif
             Real absolute_error_estimate = abs(I0-I1);
@@ -278,7 +278,7 @@ public:
             Real I0 = estimate_integral(f, omega, ii);
             Real absolute_error_estimate = abs(I0-I1);
             Real scale = (max)(abs(I0), abs(I1));
-#ifdef BOOST_MATH_INSTRUMENT_OOURA
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_OOURA
             print_ooura_estimate(ii, I0, I1, omega);
 #endif
             if (absolute_error_estimate <= rel_err_goal_*scale) {
@@ -382,7 +382,7 @@ private:
         lnode_row.shrink_to_fit();
         lweight_row.shrink_to_fit();
 
-        #ifdef BOOST_HAS_THREADS
+        #ifdef HYDRA_BOOST_HAS_THREADS
         // std::scoped_lock once C++17 is more common?
         std::lock_guard<std::mutex> lock(node_weight_mutex_);
         #endif 
@@ -400,7 +400,7 @@ private:
     Real estimate_integral(F const & f, Real omega, size_t i) {
         // Because so few function evaluations are required to get high accuracy on the integrals in the tests,
         // Kahan summation doesn't really help.
-        //auto cond = boost::math::tools::summation_condition_number<Real, true>(0);
+        //auto cond = hydra_boost::math::tools::summation_condition_number<Real, true>(0);
         Real I0 = 0;
         auto const & b_nodes = big_nodes_[i];
         auto const & b_weights = bweights_[i];
@@ -419,7 +419,7 @@ private:
         return I0;
     }
 
-    #ifdef BOOST_HAS_THREADS
+    #ifdef HYDRA_BOOST_HAS_THREADS
     std::mutex node_weight_mutex_;
     #endif
     // Nodes for n >= 0, giving t_n = pi*phi(nh)/h. Generally t_n >> 1.
@@ -433,7 +433,7 @@ private:
     std::vector<std::vector<Real>> lweights_;
     Real rel_err_goal_;
 
-    #ifdef BOOST_HAS_THREADS
+    #ifdef HYDRA_BOOST_HAS_THREADS
     std::atomic<long> starting_level_{};
     #else
     long starting_level_;
@@ -445,11 +445,11 @@ template<class Real>
 class ooura_fourier_cos_detail {
 public:
     ooura_fourier_cos_detail(const Real relative_error_goal, size_t levels) {
-#ifdef BOOST_MATH_INSTRUMENT_OOURA
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_OOURA
       std::cout << "ooura_fourier_cos with relative error goal " << relative_error_goal
         << " & " << levels << " levels." << std::endl;
       std::cout << "epsilon for type = " << std::numeric_limits<Real>::epsilon() << std::endl;
-#endif // BOOST_MATH_INSTRUMENT_OOURA
+#endif // HYDRA_BOOST_MATH_INSTRUMENT_OOURA
         if (relative_error_goal < std::numeric_limits<Real>::epsilon() * 2) {
             throw std::domain_error("The relative error goal cannot be smaller than the unit roundoff!");
         }
@@ -481,7 +481,7 @@ public:
     std::pair<Real,Real> integrate(F const & f, Real omega) {
         using std::abs;
         using std::max;
-        using boost::math::constants::pi;
+        using hydra_boost::math::constants::pi;
 
         if (omega == 0) {
             throw std::domain_error("At omega = 0, the integral is not oscillatory. The user must choose an appropriate method for this case.\n");
@@ -497,7 +497,7 @@ public:
         size_t i = starting_level_;
         do {
             Real I0 = estimate_integral(f, omega, i);
-#ifdef BOOST_MATH_INSTRUMENT_OOURA
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_OOURA
             print_ooura_estimate(i, I0, I1, omega);
 #endif
             absolute_error_estimate = abs(I0-I1);
@@ -522,7 +522,7 @@ public:
                 add_level<Real>(ii);
             }
             Real I0 = estimate_integral(f, omega, ii);
-#ifdef BOOST_MATH_INSTRUMENT_OOURA
+#ifdef HYDRA_BOOST_MATH_INSTRUMENT_OOURA
             print_ooura_estimate(ii, I0, I1, omega);
 #endif
             absolute_error_estimate = abs(I0-I1);
@@ -619,7 +619,7 @@ private:
         lnode_row.shrink_to_fit();
         lweight_row.shrink_to_fit();
 
-        #ifdef BOOST_HAS_THREADS
+        #ifdef HYDRA_BOOST_HAS_THREADS
         std::lock_guard<std::mutex> lock(node_weight_mutex_);
         #endif
 
@@ -651,7 +651,7 @@ private:
         return I0;
     }
 
-    #ifdef BOOST_HAS_THREADS
+    #ifdef HYDRA_BOOST_HAS_THREADS
     std::mutex node_weight_mutex_;
     #endif 
 
@@ -662,7 +662,7 @@ private:
     std::vector<std::vector<Real>> lweights_;
     Real rel_err_goal_;
 
-    #ifdef BOOST_HAS_THREADS
+    #ifdef HYDRA_BOOST_HAS_THREADS
     std::atomic<long> starting_level_{};
     #else
     long starting_level_;

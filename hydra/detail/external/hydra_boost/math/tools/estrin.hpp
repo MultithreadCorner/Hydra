@@ -4,15 +4,15 @@
  * Boost Software License, Version 1.0. (See accompanying file
  * LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
-#ifndef BOOST_MATH_TOOLS_ESTRIN_HPP
-#define BOOST_MATH_TOOLS_ESTRIN_HPP
+#ifndef HYDRA_BOOST_MATH_TOOLS_ESTRIN_HPP
+#define HYDRA_BOOST_MATH_TOOLS_ESTRIN_HPP
 
 #include <array>
 #include <vector>
 #include <type_traits>
 #include <hydra/detail/external/hydra_boost/math/tools/assert.hpp>
 
-namespace boost {
+namespace hydra_boost {
 namespace math {
 namespace tools {
 
@@ -23,7 +23,7 @@ inline RealOrComplex evaluate_polynomial_estrin(RandomAccessContainer1 const &co
   static_assert(std::is_same<typename RandomAccessContainer2::value_type, RealOrComplex>::value,
                 "The value type of the scratch space must be the same as the abscissa.");
   auto n = coeffs.size();
-  BOOST_MATH_ASSERT_MSG(scratch.size() >= (n + 1) / 2, "The scratch space must be at least N+1/2");
+  HYDRA_BOOST_MATH_ASSERT_MSG(scratch.size() >= (n + 1) / 2, "The scratch space must be at least N+1/2");
 
   if (n == 0) {
     return static_cast<RealOrComplex>(0);
@@ -68,5 +68,5 @@ inline RealOrComplex evaluate_polynomial_estrin(const RandomAccessContainer &coe
 
 } // namespace tools
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 #endif

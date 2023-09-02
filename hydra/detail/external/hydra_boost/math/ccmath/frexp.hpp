@@ -4,8 +4,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_CCMATH_FREXP_HPP
-#define BOOST_MATH_CCMATH_FREXP_HPP
+#ifndef HYDRA_BOOST_MATH_CCMATH_FREXP_HPP
+#define HYDRA_BOOST_MATH_CCMATH_FREXP_HPP
 
 #include <cmath>
 #include <limits>
@@ -14,7 +14,7 @@
 #include <hydra/detail/external/hydra_boost/math/ccmath/isnan.hpp>
 #include <hydra/detail/external/hydra_boost/math/ccmath/isfinite.hpp>
 
-namespace boost::math::ccmath {
+namespace hydra_boost::math::ccmath {
 
 namespace detail
 {
@@ -60,13 +60,13 @@ inline constexpr Real frexp_impl(Real arg, int* exp)
 template <typename Real, std::enable_if_t<!std::is_integral_v<Real>, bool> = true>
 inline constexpr Real frexp(Real arg, int* exp)
 {
-    if(BOOST_MATH_IS_CONSTANT_EVALUATED(arg))
+    if(HYDRA_BOOST_MATH_IS_CONSTANT_EVALUATED(arg))
     {
         return arg == Real(0)  ? detail::frexp_zero_impl(arg, exp) : 
                arg == Real(-0) ? detail::frexp_zero_impl(arg, exp) :
-               boost::math::ccmath::isinf(arg) ? detail::frexp_zero_impl(arg, exp) : 
-               boost::math::ccmath::isnan(arg) ? detail::frexp_zero_impl(arg, exp) :
-               boost::math::ccmath::detail::frexp_impl(arg, exp);
+               hydra_boost::math::ccmath::isinf(arg) ? detail::frexp_zero_impl(arg, exp) : 
+               hydra_boost::math::ccmath::isnan(arg) ? detail::frexp_zero_impl(arg, exp) :
+               hydra_boost::math::ccmath::detail::frexp_impl(arg, exp);
     }
     else
     {
@@ -78,21 +78,21 @@ inline constexpr Real frexp(Real arg, int* exp)
 template <typename Z, std::enable_if_t<std::is_integral_v<Z>, bool> = true>
 inline constexpr double frexp(Z arg, int* exp)
 {
-    return boost::math::ccmath::frexp(static_cast<double>(arg), exp);
+    return hydra_boost::math::ccmath::frexp(static_cast<double>(arg), exp);
 }
 
 inline constexpr float frexpf(float arg, int* exp)
 {
-    return boost::math::ccmath::frexp(arg, exp);
+    return hydra_boost::math::ccmath::frexp(arg, exp);
 }
 
-#ifndef BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
+#ifndef HYDRA_BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
 inline constexpr long double frexpl(long double arg, int* exp)
 {
-    return boost::math::ccmath::frexp(arg, exp);
+    return hydra_boost::math::ccmath::frexp(arg, exp);
 }
 #endif
 
 }
 
-#endif // BOOST_MATH_CCMATH_FREXP_HPP
+#endif // HYDRA_BOOST_MATH_CCMATH_FREXP_HPP

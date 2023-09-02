@@ -4,8 +4,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_COLOR_MAPS_HPP
-#define BOOST_MATH_COLOR_MAPS_HPP
+#ifndef HYDRA_BOOST_MATH_COLOR_MAPS_HPP
+#define HYDRA_BOOST_MATH_COLOR_MAPS_HPP
 #include <algorithm> // for std::clamp
 #include <array>     // for table data
 #include <cmath>     // for std::floor
@@ -19,7 +19,7 @@
 #include <string>
 #include <vector>
 
-namespace boost::math::tools {
+namespace hydra_boost::math::tools {
 
 // In lodepng, the vector is expected to be row major, with the top row
 // specified first. Note that this is a bit confusing sometimes as it's more
@@ -35,10 +35,10 @@ unsigned write_png(const std::string &filename,
   return error;
 }
 
-} // Namespace boost::math::tools
+} // Namespace hydra_boost::math::tools
 #endif // __has_include("lodepng.h")
 
-namespace boost::math::tools {
+namespace hydra_boost::math::tools {
 
 namespace detail {
 
@@ -1869,7 +1869,7 @@ color_map_(Real scalar, std::array<std::array<Real, 3>, 256> const &table) {
                 "arithmetic. If you require bytes please submit an issue or "
                 "pull request");
 
-  using boost::math::isnan;
+  using hydra_boost::math::isnan;
 
   if ((isnan)(scalar))
   {
@@ -1938,6 +1938,6 @@ std::array<std::uint8_t, 4> to_8bit_rgba(const std::array<Real, 3> &v) {
   return pixel;
 }
 
-} // Namespace boost::math::tools
+} // Namespace hydra_boost::math::tools
 
-#endif // BOOST_MATH_COLOR_MAPS_HPP
+#endif // HYDRA_BOOST_MATH_COLOR_MAPS_HPP

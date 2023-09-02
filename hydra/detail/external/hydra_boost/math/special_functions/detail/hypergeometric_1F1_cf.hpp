@@ -5,8 +5,8 @@
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
-#ifndef BOOST_MATH_HYPERGEOMETRIC_1F1_CF_HPP
-#define BOOST_MATH_HYPERGEOMETRIC_1F1_CF_HPP
+#ifndef HYDRA_BOOST_MATH_HYPERGEOMETRIC_1F1_CF_HPP
+#define HYDRA_BOOST_MATH_HYPERGEOMETRIC_1F1_CF_HPP
 
 #include <hydra/detail/external/hydra_boost/math/tools/fraction.hpp>
 
@@ -19,7 +19,7 @@
 //
 
 
-  namespace boost { namespace math { namespace detail {
+  namespace hydra_boost { namespace math { namespace detail {
 
      template <class T>
      struct hypergeometric_1F1_cf_func
@@ -39,12 +39,12 @@
      T hypergeometric_1F1_cf(const T& a, const T& b, const T& z, const Policy& pol, const char* function)
      {
         hypergeometric_1F1_cf_func<T> func(a, b, z);
-        std::uintmax_t max_iter = boost::math::policies::get_max_series_iterations<Policy>();
-        T result = boost::math::tools::continued_fraction_a(func, boost::math::policies::get_epsilon<T, Policy>(), max_iter);
-        boost::math::policies::check_series_iterations<T>(function, max_iter, pol);
+        std::uintmax_t max_iter = hydra_boost::math::policies::get_max_series_iterations<Policy>();
+        T result = hydra_boost::math::tools::continued_fraction_a(func, hydra_boost::math::policies::get_epsilon<T, Policy>(), max_iter);
+        hydra_boost::math::policies::check_series_iterations<T>(function, max_iter, pol);
         return 1 + a * z / (b * (1 + result));
      }
 
   } } } // namespaces
 
-#endif // BOOST_MATH_HYPERGEOMETRIC_1F1_BESSEL_HPP
+#endif // HYDRA_BOOST_MATH_HYPERGEOMETRIC_1F1_BESSEL_HPP

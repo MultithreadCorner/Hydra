@@ -7,8 +7,8 @@
 
 // See http://www.boost.org for updates, documentation, and revision history.
 
-#ifndef BOOST_SINHC_HPP
-#define BOOST_SINHC_HPP
+#ifndef HYDRA_BOOST_SINHC_HPP
+#define HYDRA_BOOST_SINHC_HPP
 
 
 #ifdef _MSC_VER
@@ -24,7 +24,7 @@
 
 // These are the the "Hyperbolic Sinus Cardinal" functions.
 
-namespace boost
+namespace hydra_boost
 {
     namespace math
     {
@@ -82,7 +82,7 @@ namespace boost
        template <class T, class Policy>
        inline typename tools::promote_args<T>::type sinhc_pi(T x, const Policy&)
        {
-          return boost::math::sinhc_pi(x);
+          return hydra_boost::math::sinhc_pi(x);
        }
 
         template<typename T, template<typename> class U>
@@ -131,5 +131,5 @@ namespace boost
     }
 }
 
-#endif /* BOOST_SINHC_HPP */
+#endif /* HYDRA_BOOST_SINHC_HPP */
 

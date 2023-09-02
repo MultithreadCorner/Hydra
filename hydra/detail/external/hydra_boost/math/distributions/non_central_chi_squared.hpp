@@ -7,8 +7,8 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_NON_CENTRAL_CHI_SQUARE_HPP
-#define BOOST_MATH_SPECIAL_NON_CENTRAL_CHI_SQUARE_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_NON_CENTRAL_CHI_SQUARE_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_NON_CENTRAL_CHI_SQUARE_HPP
 
 #include <hydra/detail/external/hydra_boost/math/distributions/fwd.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/gamma.hpp> // for incomplete gamma. gamma_q
@@ -22,7 +22,7 @@
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/generic_mode.hpp>
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/generic_quantile.hpp>
 
-namespace boost
+namespace hydra_boost
 {
    namespace math
    {
@@ -50,7 +50,7 @@ namespace boost
             // D. Benton, K. Krishnamoorthy.
             // Computational Statistics & Data Analysis 43 (2003) 249 - 267
             //
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
 
             // Special case:
             if(x == 0)
@@ -63,7 +63,7 @@ namespace boost
             T del = f / 2;
             T y = x / 2;
             std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
-            T errtol = boost::math::policies::get_epsilon<T, Policy>();
+            T errtol = hydra_boost::math::policies::get_epsilon<T, Policy>();
             T sum = init_sum;
             //
             // k is the starting location for iteration, we'll
@@ -73,12 +73,12 @@ namespace boost
             //
             long long k = llround(lambda, pol);
             // Forwards and backwards Poisson weights:
-            T poisf = boost::math::gamma_p_derivative(static_cast<T>(1 + k), lambda, pol);
+            T poisf = hydra_boost::math::gamma_p_derivative(static_cast<T>(1 + k), lambda, pol);
             T poisb = poisf * k / lambda;
             // Initial forwards central chi squared term:
-            T gamf = boost::math::gamma_q(del + k, y, pol);
+            T gamf = hydra_boost::math::gamma_q(del + k, y, pol);
             // Forwards and backwards recursion terms on the central chi squared:
-            T xtermf = boost::math::gamma_p_derivative(del + 1 + k, y, pol);
+            T xtermf = hydra_boost::math::gamma_p_derivative(del + 1 + k, y, pol);
             T xtermb = xtermf * (del + k) / y;
             // Initial backwards central chi squared term:
             T gamb = gamf - xtermb;
@@ -145,11 +145,11 @@ namespace boost
             // * We may need an extra-ordinary number of terms
             //   before we reach the first *significant* term.
             //
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             // Special case:
             if(x == 0)
                return 0;
-            T tk = boost::math::gamma_p_derivative(f/2 + 1, x/2, pol);
+            T tk = hydra_boost::math::gamma_p_derivative(f/2 + 1, x/2, pol);
             T lambda = theta / 2;
             T vk = exp(-lambda);
             T uk = vk;
@@ -158,7 +158,7 @@ namespace boost
                return sum;
 
             std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
-            T errtol = boost::math::policies::get_epsilon<T, Policy>();
+            T errtol = hydra_boost::math::policies::get_epsilon<T, Policy>();
 
             int i;
             T lterm(0), term(0);
@@ -198,12 +198,12 @@ namespace boost
             // We're summing a Poisson weighting term multiplied by
             // a central chi squared distribution.
             //
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             // Special case:
             if(y == 0)
                return 0;
             std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
-            T errtol = boost::math::policies::get_epsilon<T, Policy>();
+            T errtol = hydra_boost::math::policies::get_epsilon<T, Policy>();
             T errorf(0), errorb(0);
 
             T x = y / 2;
@@ -218,7 +218,7 @@ namespace boost
             long long k = llround(del, pol);
             T a = n / 2 + k;
             // Central chi squared term for forward iteration:
-            T gamkf = boost::math::gamma_p(a, x, pol);
+            T gamkf = hydra_boost::math::gamma_p(a, x, pol);
 
             if(lambda == 0)
                return gamkf;
@@ -229,7 +229,7 @@ namespace boost
             // Backwards Poisson weight:
             T poiskb = poiskf;
             // Forwards gamma function recursion term:
-            T xtermf = boost::math::gamma_p_derivative(a, x, pol);
+            T xtermf = hydra_boost::math::gamma_p_derivative(a, x, pol);
             // Backwards gamma function recursion term:
             T xtermb = xtermf * x / a;
             T sum = init_sum + poiskf * gamkf;
@@ -287,9 +287,9 @@ namespace boost
             //
             // As above but for the PDF:
             //
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
-            T errtol = boost::math::policies::get_epsilon<T, Policy>();
+            T errtol = hydra_boost::math::policies::get_epsilon<T, Policy>();
             T x2 = x / 2;
             T n2 = n / 2;
             T l2 = lambda / 2;
@@ -331,10 +331,10 @@ namespace boost
                policies::discrete_quantile<>,
                policies::assert_undefined<> >::type forwarding_policy;
 
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             value_type result;
             if(l == 0)
-              return invert == false ? cdf(boost::math::chi_squared_distribution<RealType, Policy>(k), x) : cdf(complement(boost::math::chi_squared_distribution<RealType, Policy>(k), x));
+              return invert == false ? cdf(hydra_boost::math::chi_squared_distribution<RealType, Policy>(k), x) : cdf(complement(hydra_boost::math::chi_squared_distribution<RealType, Policy>(k), x));
             else if(x > k + l)
             {
                // Complement is the smaller of the two:
@@ -375,7 +375,7 @@ namespace boost
                result = -result;
             return policies::checked_narrowing_cast<RealType, forwarding_policy>(
                result,
-               "boost::math::non_central_chi_squared_cdf<%1%>(%1%, %1%, %1%)");
+               "hydra_boost::math::non_central_chi_squared_cdf<%1%>(%1%, %1%, %1%)");
          }
 
          template <class T, class Policy>
@@ -400,7 +400,7 @@ namespace boost
          template <class RealType, class Policy>
          RealType nccs_quantile(const non_central_chi_squared_distribution<RealType, Policy>& dist, const RealType& p, bool comp)
          {
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             static const char* function = "quantile(non_central_chi_squared_distribution<%1%>, %1%)";
             typedef typename policies::evaluation<RealType, Policy>::type value_type;
             typedef typename policies::normalise<
@@ -472,7 +472,7 @@ namespace boost
             {
                value_type pp = comp ? 1 - p : p;
                //guess = pow(pow(value_type(2), (k / 2 - 1)) * exp(l / 2) * pp * k, 2 / k);
-               guess = pow(pow(value_type(2), (k / 2 - 1)) * exp(l / 2) * pp * k * boost::math::tgamma(k / 2, forwarding_policy()), (2 / k));
+               guess = pow(pow(value_type(2), (k / 2 - 1)) * exp(l / 2) * pp * k * hydra_boost::math::tgamma(k / 2, forwarding_policy()), (2 / k));
                if(guess == 0)
                   guess = tools::min_value<value_type>();
             }
@@ -491,7 +491,7 @@ namespace boost
          template <class RealType, class Policy>
          RealType nccs_pdf(const non_central_chi_squared_distribution<RealType, Policy>& dist, const RealType& x)
          {
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             static const char* function = "pdf(non_central_chi_squared_distribution<%1%>, %1%)";
             typedef typename policies::evaluation<RealType, Policy>::type value_type;
             typedef typename policies::normalise<
@@ -522,7 +522,7 @@ namespace boost
                   return static_cast<RealType>(r);
 
          if(l == 0)
-            return pdf(boost::math::chi_squared_distribution<RealType, forwarding_policy>(dist.degrees_of_freedom()), x);
+            return pdf(hydra_boost::math::chi_squared_distribution<RealType, forwarding_policy>(dist.degrees_of_freedom()), x);
 
          // Special case:
          if(x == 0)
@@ -542,7 +542,7 @@ namespace boost
             {
                r = exp(r);
                r = 0.5f * r
-                  * boost::math::cyl_bessel_i(k/2 - 1, sqrt(l * x), forwarding_policy());
+                  * hydra_boost::math::cyl_bessel_i(k/2 - 1, sqrt(l * x), forwarding_policy());
             }
          }
          return policies::checked_narrowing_cast<RealType, forwarding_policy>(
@@ -673,7 +673,7 @@ namespace boost
 
          non_central_chi_squared_distribution(RealType df_, RealType lambda) : df(df_), ncp(lambda)
          {
-            const char* function = "boost::math::non_central_chi_squared_distribution<%1%>::non_central_chi_squared_distribution(%1%,%1%)";
+            const char* function = "hydra_boost::math::non_central_chi_squared_distribution<%1%>::non_central_chi_squared_distribution(%1%,%1%)";
             RealType r;
             detail::check_df(
                function,
@@ -785,7 +785,7 @@ namespace boost
 
       #ifdef __cpp_deduction_guides
       template <class RealType>
-      non_central_chi_squared_distribution(RealType,RealType)->non_central_chi_squared_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+      non_central_chi_squared_distribution(RealType,RealType)->non_central_chi_squared_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
       #endif
 
       // Non-member functions to give properties of the distribution.
@@ -793,7 +793,7 @@ namespace boost
       template <class RealType, class Policy>
       inline const std::pair<RealType, RealType> range(const non_central_chi_squared_distribution<RealType, Policy>& /* dist */)
       { // Range of permissible values for random variable k.
-         using boost::math::tools::max_value;
+         using hydra_boost::math::tools::max_value;
          return std::pair<RealType, RealType>(static_cast<RealType>(0), max_value<RealType>()); // Max integer?
       }
 
@@ -801,14 +801,14 @@ namespace boost
       inline const std::pair<RealType, RealType> support(const non_central_chi_squared_distribution<RealType, Policy>& /* dist */)
       { // Range of supported values for random variable k.
          // This is range where cdf rises from 0 to 1, and outside it, the pdf is zero.
-         using boost::math::tools::max_value;
+         using hydra_boost::math::tools::max_value;
          return std::pair<RealType, RealType>(static_cast<RealType>(0),  max_value<RealType>());
       }
 
       template <class RealType, class Policy>
       inline RealType mean(const non_central_chi_squared_distribution<RealType, Policy>& dist)
       { // Mean of poisson distribution = lambda.
-         const char* function = "boost::math::non_central_chi_squared_distribution<%1%>::mean()";
+         const char* function = "hydra_boost::math::non_central_chi_squared_distribution<%1%>::mean()";
          RealType k = dist.degrees_of_freedom();
          RealType l = dist.non_centrality();
          RealType r;
@@ -851,7 +851,7 @@ namespace boost
       template <class RealType, class Policy>
       inline RealType variance(const non_central_chi_squared_distribution<RealType, Policy>& dist)
       { // variance.
-         const char* function = "boost::math::non_central_chi_squared_distribution<%1%>::variance()";
+         const char* function = "hydra_boost::math::non_central_chi_squared_distribution<%1%>::variance()";
          RealType k = dist.degrees_of_freedom();
          RealType l = dist.non_centrality();
          RealType r;
@@ -874,7 +874,7 @@ namespace boost
       template <class RealType, class Policy>
       inline RealType skewness(const non_central_chi_squared_distribution<RealType, Policy>& dist)
       { // skewness = sqrt(l).
-         const char* function = "boost::math::non_central_chi_squared_distribution<%1%>::skewness()";
+         const char* function = "hydra_boost::math::non_central_chi_squared_distribution<%1%>::skewness()";
          RealType k = dist.degrees_of_freedom();
          RealType l = dist.non_centrality();
          RealType r;
@@ -888,14 +888,14 @@ namespace boost
             &r,
             Policy()))
                return static_cast<RealType>(r);
-         BOOST_MATH_STD_USING
+         HYDRA_BOOST_MATH_STD_USING
             return pow(2 / (k + 2 * l), RealType(3)/2) * (k + 3 * l);
       }
 
       template <class RealType, class Policy>
       inline RealType kurtosis_excess(const non_central_chi_squared_distribution<RealType, Policy>& dist)
       {
-         const char* function = "boost::math::non_central_chi_squared_distribution<%1%>::kurtosis_excess()";
+         const char* function = "hydra_boost::math::non_central_chi_squared_distribution<%1%>::kurtosis_excess()";
          RealType k = dist.degrees_of_freedom();
          RealType l = dist.non_centrality();
          RealType r;
@@ -927,7 +927,7 @@ namespace boost
       template <class RealType, class Policy>
       RealType cdf(const non_central_chi_squared_distribution<RealType, Policy>& dist, const RealType& x)
       {
-         const char* function = "boost::math::non_central_chi_squared_distribution<%1%>::cdf(%1%)";
+         const char* function = "hydra_boost::math::non_central_chi_squared_distribution<%1%>::cdf(%1%)";
          RealType k = dist.degrees_of_freedom();
          RealType l = dist.non_centrality();
          RealType r;
@@ -954,7 +954,7 @@ namespace boost
       template <class RealType, class Policy>
       RealType cdf(const complemented2_type<non_central_chi_squared_distribution<RealType, Policy>, RealType>& c)
       { // Complemented Cumulative Distribution Function
-         const char* function = "boost::math::non_central_chi_squared_distribution<%1%>::cdf(%1%)";
+         const char* function = "hydra_boost::math::non_central_chi_squared_distribution<%1%>::cdf(%1%)";
          non_central_chi_squared_distribution<RealType, Policy> const& dist = c.dist;
          RealType x = c.param;
          RealType k = dist.degrees_of_freedom();
@@ -993,11 +993,11 @@ namespace boost
       } // quantile complement.
 
    } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_MATH_SPECIAL_NON_CENTRAL_CHI_SQUARE_HPP
+#endif // HYDRA_BOOST_MATH_SPECIAL_NON_CENTRAL_CHI_SQUARE_HPP

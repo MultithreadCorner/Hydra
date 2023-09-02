@@ -7,8 +7,8 @@
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_HYPERGEOMETRIC_1F1_HPP
-#define BOOST_MATH_HYPERGEOMETRIC_1F1_HPP
+#ifndef HYDRA_BOOST_MATH_HYPERGEOMETRIC_1F1_HPP
+#define HYDRA_BOOST_MATH_HYPERGEOMETRIC_1F1_HPP
 
 #include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
 #include <hydra/detail/external/hydra_boost/math/policies/policy.hpp>
@@ -27,13 +27,13 @@
 #include <hydra/detail/external/hydra_boost/math/special_functions/detail/hypergeometric_1F1_small_a_negative_b_by_ratio.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/detail/hypergeometric_1F1_negative_b_regions.hpp>
 
-namespace boost { namespace math { namespace detail {
+namespace hydra_boost { namespace math { namespace detail {
 
    // check when 1F1 series can't decay to polynom
    template <class T>
    inline bool check_hypergeometric_1F1_parameters(const T& a, const T& b)
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
 
          if ((b <= 0) && (b == floor(b)))
          {
@@ -47,7 +47,7 @@ namespace boost { namespace math { namespace detail {
    template <class T, class Policy>
    T hypergeometric_1F1_divergent_fallback(const T& a, const T& b, const T& z, const Policy& pol, long long& log_scaling)
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       const char* function = "hypergeometric_1F1_divergent_fallback<%1%>(%1%,%1%,%1%)";
       //
       // We get here if either:
@@ -67,7 +67,7 @@ namespace boost { namespace math { namespace detail {
          T convergence_at_50 = (b - a + 50) * k / (z * 50);
          if ((k > 0) && (k < 50) && (fabs(convergence_at_50) < 1) && (z > z_limit))
          {
-            return boost::math::detail::hypergeometric_1f1_recurrence_on_z_minus_zero(a, b, T(z - k), k, pol, log_scaling);
+            return hydra_boost::math::detail::hypergeometric_1f1_recurrence_on_z_minus_zero(a, b, T(z - k), k, pol, log_scaling);
          }
 #endif
          if (z < b)
@@ -89,7 +89,7 @@ namespace boost { namespace math { namespace detail {
                // Note that if sqr is negative then we have no solution, so assign an arbitrarily large value to the
                // number of iterations.
                //
-               bool can_use_recursion = (z - b + 100 < boost::math::policies::get_max_series_iterations<Policy>()) && (100 - a < boost::math::policies::get_max_series_iterations<Policy>());
+               bool can_use_recursion = (z - b + 100 < hydra_boost::math::policies::get_max_series_iterations<Policy>()) && (100 - a < hydra_boost::math::policies::get_max_series_iterations<Policy>());
                T sqr = 4 * a * z + b * b - 2 * b * z + z * z;
                T iterations_to_convergence = sqr > 0 ? T(0.5f * (-sqrt(sqr) - b + z)) : T(-a - b);
                if(can_use_recursion && ((std::max)(a, b) + iterations_to_convergence > -300))
@@ -117,19 +117,19 @@ namespace boost { namespace math { namespace detail {
             // OK as long as a > 1 whatever the precision though.
             //
             int domain = hypergeometric_1F1_negative_b_recurrence_region(a, b, z);
-            if ((domain < 0) && ((a > 1) || (boost::math::policies::digits<T, Policy>() <= 64)))
+            if ((domain < 0) && ((a > 1) || (hydra_boost::math::policies::digits<T, Policy>() <= 64)))
                return hypergeometric_1F1_from_function_ratio_negative_b(a, b, z, pol, log_scaling);
             else if (domain > 0)
             {
-               if (boost::math::policies::digits<T, Policy>() <= 64)
+               if (hydra_boost::math::policies::digits<T, Policy>() <= 64)
                   return hypergeometric_1F1_from_function_ratio_negative_b_forwards(a, b, z, pol, log_scaling);
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
                try
 #endif
                {
                   return hypergeometric_1F1_checked_series_impl(a, b, z, pol, log_scaling);
                }
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
                catch (const evaluation_error&)
                {
                   //
@@ -163,7 +163,7 @@ namespace boost { namespace math { namespace detail {
    template <class T>
    bool is_convergent_negative_z_series(const T& a, const T& b, const T& z, const T& b_minus_a)
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       //
       // Filter out some cases we don't want first:
       //
@@ -247,7 +247,7 @@ namespace boost { namespace math { namespace detail {
    template <class T>
    inline bool hypergeometric_1F1_is_13_3_6_region(const T& a, const T& b, const T& z)
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       if(fabs(a) == 0.5)
          return false;
       if ((z < 0) && (fabs(10 * a / b) < 1) && (fabs(a) < 50))
@@ -263,7 +263,7 @@ namespace boost { namespace math { namespace detail {
    template <class T>
    inline bool hypergeometric_1F1_need_kummer_reflection(const T& a, const T& b, const T& z)
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       //
       // Check to see if we should apply Kummer's relation or not:
       //
@@ -304,9 +304,9 @@ namespace boost { namespace math { namespace detail {
    template <class T, class Policy>
    T hypergeometric_1F1_imp(const T& a, const T& b, const T& z, const Policy& pol, long long& log_scaling)
    {
-      BOOST_MATH_STD_USING // exp, fabs, sqrt
+      HYDRA_BOOST_MATH_STD_USING // exp, fabs, sqrt
 
-      static const char* const function = "boost::math::hypergeometric_1F1<%1%,%1%,%1%>(%1%,%1%,%1%)";
+      static const char* const function = "hydra_boost::math::hypergeometric_1F1<%1%,%1%,%1%>(%1%,%1%,%1%)";
 
       if ((z == 0) || (a == 0))
          return T(1);
@@ -339,7 +339,7 @@ namespace boost { namespace math { namespace detail {
             if ((a < -20) && (z > 0) && (z < 1))
             {
                // https://functions.wolfram.com/HypergeometricFunctions/Hypergeometric1F1/03/01/04/02/0002/
-               return exp(z) * boost::math::gamma_q(1 - a, z, pol);
+               return exp(z) * hydra_boost::math::gamma_q(1 - a, z, pol);
             }
             // https://functions.wolfram.com/HypergeometricFunctions/Hypergeometric1F1/03/01/04/02/0003/
             return hypergeometric_1F1_checked_series_impl(a, b, z, pol, log_scaling);
@@ -359,7 +359,7 @@ namespace boost { namespace math { namespace detail {
       }
 
       if ((a == 1) && (b == 2))
-         return boost::math::expm1(z, pol) / z;
+         return hydra_boost::math::expm1(z, pol) / z;
 
       if ((b - a == b) && (fabs(z / b) < policies::get_epsilon<T, Policy>()))
          return 1;
@@ -372,7 +372,7 @@ namespace boost { namespace math { namespace detail {
          {
             // a is tiny compared to b, and z < 0
             // 13.3.6 appears to be the most efficient and often the most accurate method.
-            T r = boost::math::detail::hypergeometric_1F1_AS_13_3_6(b_minus_a, b, T(-z), a, pol, log_scaling);
+            T r = hydra_boost::math::detail::hypergeometric_1F1_AS_13_3_6(b_minus_a, b, T(-z), a, pol, log_scaling);
             long long scale = lltrunc(z, pol);
             log_scaling += scale;
             return r * exp(z - scale);
@@ -403,7 +403,7 @@ namespace boost { namespace math { namespace detail {
             //
             // We've got nothing left but 13.3.6, even though it may be initially divergent:
             //
-            T r = boost::math::detail::hypergeometric_1F1_AS_13_3_6(b_minus_a, b, T(-z), a, pol, log_scaling);
+            T r = hydra_boost::math::detail::hypergeometric_1F1_AS_13_3_6(b_minus_a, b, T(-z), a, pol, log_scaling);
             long long scale = lltrunc(z, pol);
             log_scaling += scale;
             return r * exp(z - scale);
@@ -417,13 +417,13 @@ namespace boost { namespace math { namespace detail {
       if (detail::hypergeometric_1F1_asym_region(a, b, z, pol))
       {
          long long saved_scale = log_scaling;
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
          try
 #endif
          {
             return hypergeometric_1F1_asym_large_z_series(a, b, z, pol, log_scaling);
          }
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
          catch (const evaluation_error&)
          {
          }
@@ -444,7 +444,7 @@ namespace boost { namespace math { namespace detail {
             return detail::hypergeometric_1F1_pade(b, z, pol);
          if (is_convergent_negative_z_series(a, b, z, b_minus_a))
          {
-            if ((boost::math::sign(b_minus_a) == boost::math::sign(b)) && ((b > 0) || (b < -200)))
+            if ((hydra_boost::math::sign(b_minus_a) == hydra_boost::math::sign(b)) && ((b > 0) || (b < -200)))
             {
                // Series is close enough to convergent that we should be OK,
                // In this domain b - a ~ b and since 1F1[a, a, z] = e^z 1F1[b-a, b, -z]
@@ -460,28 +460,13 @@ namespace boost { namespace math { namespace detail {
                return hypergeometric_1F1_checked_series_impl(a, b, z, pol, log_scaling);
             }
          }
-         if ((b < 0) && (floor(b) == b))
-         {
-            // Negative integer b, so a must be a negative integer too.
-            // Kummer's transformation fails here!
-            if(a > -50)
-               return detail::hypergeometric_1F1_generic_series(a, b, z, pol, log_scaling, function);
-            // Is there anything better than this??
-            return hypergeometric_1F1_imp(a, float_next(b), z, pol, log_scaling);
-         }
-         else
-         {
-            // Let's otherwise make z positive (almost always)
-            // by Kummer's transformation
-            // (we also don't transform if z belongs to [-1,0])
-            // Also note that Kummer's transformation fails when b is 
-            // a negative integer, although this seems to be unmentioned
-            // in the literature...
-            long long scaling = lltrunc(z);
-            T r = exp(z - scaling) * detail::hypergeometric_1F1_imp<T>(b_minus_a, b, -z, pol, log_scaling);
-            log_scaling += scaling;
-            return r;
-         }
+         // Let's otherwise make z positive (almost always)
+         // by Kummer's transformation
+         // (we also don't transform if z belongs to [-1,0])
+         long long scaling = lltrunc(z);
+         T r = exp(z - scaling) * detail::hypergeometric_1F1_imp<T>(b_minus_a, b, -z, pol, log_scaling);
+         log_scaling += scaling;
+         return r;
       }
       //
       // Check for initial divergence:
@@ -587,7 +572,7 @@ namespace boost { namespace math { namespace detail {
       {
          // b_minus_a is tiny compared to b, and -z < 0
          // 13.3.6 appears to be the most efficient and often the most accurate method.
-         return boost::math::detail::hypergeometric_1F1_AS_13_3_6(a, b, z, b_minus_a, pol, log_scaling);
+         return hydra_boost::math::detail::hypergeometric_1F1_AS_13_3_6(a, b, z, b_minus_a, pol, log_scaling);
       }
 #if 0
       if ((a > 0) && (b > 0) && (a * z / b > 2))
@@ -618,13 +603,13 @@ namespace boost { namespace math { namespace detail {
    template <class T, class Policy>
    inline T hypergeometric_1F1_imp(const T& a, const T& b, const T& z, const Policy& pol)
    {
-      BOOST_MATH_STD_USING // exp, fabs, sqrt
+      HYDRA_BOOST_MATH_STD_USING // exp, fabs, sqrt
       long long log_scaling = 0;
       T result = hypergeometric_1F1_imp(a, b, z, pol, log_scaling);
       //
       // Actual result will be result * e^log_scaling.
       //
-      static const thread_local long long max_scaling = lltrunc(boost::math::tools::log_max_value<T>()) - 2;
+      static const thread_local long long max_scaling = lltrunc(hydra_boost::math::tools::log_max_value<T>()) - 2;
       static const thread_local T max_scale_factor = exp(T(max_scaling));
 
       while (log_scaling > max_scaling)
@@ -645,7 +630,7 @@ namespace boost { namespace math { namespace detail {
    template <class T, class Policy>
    inline T log_hypergeometric_1F1_imp(const T& a, const T& b, const T& z, int* sign, const Policy& pol)
    {
-      BOOST_MATH_STD_USING // exp, fabs, sqrt
+      HYDRA_BOOST_MATH_STD_USING // exp, fabs, sqrt
       long long log_scaling = 0;
       T result = hypergeometric_1F1_imp(a, b, z, pol, log_scaling);
       if (sign)
@@ -657,16 +642,16 @@ namespace boost { namespace math { namespace detail {
    template <class T, class Policy>
    inline T hypergeometric_1F1_regularized_imp(const T& a, const T& b, const T& z, const Policy& pol)
    {
-      BOOST_MATH_STD_USING // exp, fabs, sqrt
+      HYDRA_BOOST_MATH_STD_USING // exp, fabs, sqrt
       long long log_scaling = 0;
       T result = hypergeometric_1F1_imp(a, b, z, pol, log_scaling);
       //
       // Actual result will be result * e^log_scaling / tgamma(b).
       //
       int result_sign = 1;
-      T scale = log_scaling - boost::math::lgamma(b, &result_sign, pol);
+      T scale = log_scaling - hydra_boost::math::lgamma(b, &result_sign, pol);
 
-      static const thread_local T max_scaling = boost::math::tools::log_max_value<T>() - 2;
+      static const thread_local T max_scaling = hydra_boost::math::tools::log_max_value<T>() - 2;
       static const thread_local T max_scale_factor = exp(max_scaling);
 
       while (scale > max_scaling)
@@ -689,7 +674,7 @@ namespace boost { namespace math { namespace detail {
 template <class T1, class T2, class T3, class Policy>
 inline typename tools::promote_args<T1, T2, T3>::type hypergeometric_1F1(T1 a, T2 b, T3 z, const Policy& /* pol */)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
       typedef typename tools::promote_args<T1, T2, T3>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -704,7 +689,7 @@ inline typename tools::promote_args<T1, T2, T3>::type hypergeometric_1F1(T1 a, T
          static_cast<value_type>(b),
          static_cast<value_type>(z),
          forwarding_policy()),
-      "boost::math::hypergeometric_1F1<%1%>(%1%,%1%,%1%)");
+      "hydra_boost::math::hypergeometric_1F1<%1%>(%1%,%1%,%1%)");
 }
 
 template <class T1, class T2, class T3>
@@ -716,7 +701,7 @@ inline typename tools::promote_args<T1, T2, T3>::type hypergeometric_1F1(T1 a, T
 template <class T1, class T2, class T3, class Policy>
 inline typename tools::promote_args<T1, T2, T3>::type hypergeometric_1F1_regularized(T1 a, T2 b, T3 z, const Policy& /* pol */)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
       typedef typename tools::promote_args<T1, T2, T3>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -731,7 +716,7 @@ inline typename tools::promote_args<T1, T2, T3>::type hypergeometric_1F1_regular
          static_cast<value_type>(b),
          static_cast<value_type>(z),
          forwarding_policy()),
-      "boost::math::hypergeometric_1F1<%1%>(%1%,%1%,%1%)");
+      "hydra_boost::math::hypergeometric_1F1<%1%>(%1%,%1%,%1%)");
 }
 
 template <class T1, class T2, class T3>
@@ -743,7 +728,7 @@ inline typename tools::promote_args<T1, T2, T3>::type hypergeometric_1F1_regular
 template <class T1, class T2, class T3, class Policy>
 inline typename tools::promote_args<T1, T2, T3>::type log_hypergeometric_1F1(T1 a, T2 b, T3 z, const Policy& /* pol */)
 {
-  BOOST_FPU_EXCEPTION_GUARD
+  HYDRA_BOOST_FPU_EXCEPTION_GUARD
     typedef typename tools::promote_args<T1, T2, T3>::type result_type;
   typedef typename policies::evaluation<result_type, Policy>::type value_type;
   typedef typename policies::normalise<
@@ -759,7 +744,7 @@ inline typename tools::promote_args<T1, T2, T3>::type log_hypergeometric_1F1(T1 
       static_cast<value_type>(z),
       0,
       forwarding_policy()),
-    "boost::math::hypergeometric_1F1<%1%>(%1%,%1%,%1%)");
+    "hydra_boost::math::hypergeometric_1F1<%1%>(%1%,%1%,%1%)");
 }
 
 template <class T1, class T2, class T3>
@@ -771,7 +756,7 @@ inline typename tools::promote_args<T1, T2, T3>::type log_hypergeometric_1F1(T1 
 template <class T1, class T2, class T3, class Policy>
 inline typename tools::promote_args<T1, T2, T3>::type log_hypergeometric_1F1(T1 a, T2 b, T3 z, int* sign, const Policy& /* pol */)
 {
-  BOOST_FPU_EXCEPTION_GUARD
+  HYDRA_BOOST_FPU_EXCEPTION_GUARD
     typedef typename tools::promote_args<T1, T2, T3>::type result_type;
   typedef typename policies::evaluation<result_type, Policy>::type value_type;
   typedef typename policies::normalise<
@@ -787,7 +772,7 @@ inline typename tools::promote_args<T1, T2, T3>::type log_hypergeometric_1F1(T1 
       static_cast<value_type>(z),
       sign,
       forwarding_policy()),
-    "boost::math::hypergeometric_1F1<%1%>(%1%,%1%,%1%)");
+    "hydra_boost::math::hypergeometric_1F1<%1%>(%1%,%1%,%1%)");
 }
 
 template <class T1, class T2, class T3>
@@ -797,6 +782,6 @@ inline typename tools::promote_args<T1, T2, T3>::type log_hypergeometric_1F1(T1 
 }
 
 
-  } } // namespace boost::math
+  } } // namespace hydra_boost::math
 
-#endif // BOOST_MATH_HYPERGEOMETRIC_HPP
+#endif // HYDRA_BOOST_MATH_HYPERGEOMETRIC_HPP

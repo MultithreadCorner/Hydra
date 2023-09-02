@@ -4,15 +4,15 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_INTERPOLATORS_BEZIER_POLYNOMIAL_DETAIL_HPP
-#define BOOST_MATH_INTERPOLATORS_BEZIER_POLYNOMIAL_DETAIL_HPP
+#ifndef HYDRA_BOOST_MATH_INTERPOLATORS_BEZIER_POLYNOMIAL_DETAIL_HPP
+#define HYDRA_BOOST_MATH_INTERPOLATORS_BEZIER_POLYNOMIAL_DETAIL_HPP
 
 #include <stdexcept>
 #include <iostream>
 #include <string>
 #include <limits>
 
-namespace boost::math::interpolators::detail {
+namespace hydra_boost::math::interpolators::detail {
 
 
 template <class RandomAccessContainer>

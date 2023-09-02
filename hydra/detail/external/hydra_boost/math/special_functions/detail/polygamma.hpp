@@ -8,8 +8,8 @@
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef _BOOST_POLYGAMMA_DETAIL_2013_07_30_HPP_
-  #define _BOOST_POLYGAMMA_DETAIL_2013_07_30_HPP_
+#ifndef _HYDRA_BOOST_POLYGAMMA_DETAIL_2013_07_30_HPP_
+  #define _HYDRA_BOOST_POLYGAMMA_DETAIL_2013_07_30_HPP_
 
 #include <cmath>
 #include <limits>
@@ -25,7 +25,7 @@
 #include <hydra/detail/external/hydra_boost/math/tools/assert.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
 
-#ifdef BOOST_HAS_THREADS
+#ifdef HYDRA_BOOST_HAS_THREADS
 #include <mutex>
 #endif
 
@@ -35,13 +35,13 @@
 #pragma warning(disable:4702) // Unreachable code (release mode only warning)
 #endif
 
-namespace boost { namespace math { namespace detail{
+namespace hydra_boost { namespace math { namespace detail{
 
   template<class T, class Policy>
   T polygamma_atinfinityplus(const int n, const T& x, const Policy& pol, const char* function) // for large values of x such as for x> 400
   {
      // See http://functions.wolfram.com/GammaBetaErf/PolyGamma2/06/02/0001/
-     BOOST_MATH_STD_USING
+     HYDRA_BOOST_MATH_STD_USING
      //
      // sum       == current value of accumulated sum.
      // term      == value of current term to be added to sum.
@@ -53,9 +53,9 @@ namespace boost { namespace math { namespace detail{
         if(n == 1) return 1 / x;
         T nlx = n * log(x);
         if((nlx < tools::log_max_value<T>()) && (n < (int)max_factorial<T>::value))
-           return ((n & 1) ? 1 : -1) * boost::math::factorial<T>(n - 1, pol) * static_cast<T>(pow(x, T(-n)));
+           return ((n & 1) ? 1 : -1) * hydra_boost::math::factorial<T>(n - 1, pol) * pow(x, -n);
         else
-         return ((n & 1) ? 1 : -1) * exp(boost::math::lgamma(T(n), pol) - n * log(x));
+         return ((n & 1) ? 1 : -1) * exp(hydra_boost::math::lgamma(T(n), pol) - n * log(x));
      }
      T term, sum, part_term;
      T x_squared = x * x;
@@ -79,15 +79,15 @@ namespace boost { namespace math { namespace detail{
      // or the power term underflows, this just gets set to 0 and then we
      // know that we have to use logs for the initial terms:
      //
-     part_term = ((n > (int)boost::math::max_factorial<T>::value) && (T(n) * n > tools::log_max_value<T>()))
-        ? T(0) : static_cast<T>(boost::math::factorial<T>(n - 1, pol) * pow(x, T(-n - 1)));
+     part_term = ((n > (int)hydra_boost::math::max_factorial<T>::value) && (T(n) * n > tools::log_max_value<T>()))
+        ? T(0) : static_cast<T>(hydra_boost::math::factorial<T>(n - 1, pol) * pow(x, -n - 1));
      if(part_term == 0)
      {
         // Either n is very large, or the power term underflows,
         // set the initial values of part_term, term and sum via logs:
-        part_term = static_cast<T>(T(boost::math::lgamma(n, pol)) - (n + 1) * log(x));
-        sum = exp(part_term + log(n + 2 * x) - boost::math::constants::ln_two<T>());
-        part_term += log(T(n) * (n + 1)) - boost::math::constants::ln_two<T>() - log(x);
+        part_term = static_cast<T>(hydra_boost::math::lgamma(n, pol) - (n + 1) * log(x));
+        sum = exp(part_term + log(n + 2 * x) - hydra_boost::math::constants::ln_two<T>());
+        part_term += log(T(n) * (n + 1)) - hydra_boost::math::constants::ln_two<T>() - log(x);
         part_term = exp(part_term);
      }
      else
@@ -104,7 +104,7 @@ namespace boost { namespace math { namespace detail{
 
      for(unsigned k = 1;;)
      {
-        term = part_term * boost::math::bernoulli_b2n<T>(k, pol);
+        term = part_term * hydra_boost::math::bernoulli_b2n<T>(k, pol);
         sum += term;
         //
         // Normal termination condition:
@@ -139,7 +139,7 @@ namespace boost { namespace math { namespace detail{
     // See: http://functions.wolfram.com/GammaBetaErf/PolyGamma2/16/01/01/0017/
 
     // Use N = (0.4 * digits) + (4 * n) for target value for x:
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     const int d4d  = static_cast<int>(0.4F * policies::digits_base10<T, Policy>());
     const int N = d4d + (4 * n);
     const int m    = n;
@@ -159,17 +159,17 @@ namespace boost { namespace math { namespace detail{
     {
        for(int k = 1; k <= iter; ++k)
        {
-          z_plus_k_pow_minus_m_minus_one = static_cast<T>(pow(z, T(minus_m_minus_one)));
+          z_plus_k_pow_minus_m_minus_one = pow(z, minus_m_minus_one);
           sum0 += z_plus_k_pow_minus_m_minus_one;
           z += 1;
        }
-       sum0 *= boost::math::factorial<T>(n, pol);
+       sum0 *= hydra_boost::math::factorial<T>(n, pol);
     }
     else
     {
        for(int k = 1; k <= iter; ++k)
        {
-          T log_term = log(z) * minus_m_minus_one + boost::math::lgamma(T(n + 1), pol);
+          T log_term = log(z) * minus_m_minus_one + hydra_boost::math::lgamma(T(n + 1), pol);
           sum0 += exp(log_term);
           z += 1;
        }
@@ -183,7 +183,7 @@ namespace boost { namespace math { namespace detail{
   template <class T, class Policy>
   T polygamma_nearzero(int n, T x, const Policy& pol, const char* function)
   {
-     BOOST_MATH_STD_USING
+     HYDRA_BOOST_MATH_STD_USING
      //
      // If we take this expansion for polygamma: http://functions.wolfram.com/06.15.06.0003.02
      // and substitute in this expression for polygamma(n, 1): http://functions.wolfram.com/06.15.03.0009.01
@@ -192,7 +192,7 @@ namespace boost { namespace math { namespace detail{
      //
      // In order to avoid spurious overflow, save the n! term for later, and rescale at the end:
      //
-     T scale = boost::math::factorial<T>(n, pol);
+     T scale = hydra_boost::math::factorial<T>(n, pol);
      //
      // "factorial_part" contains everything except the zeta function
      // evaluations in each term:
@@ -203,9 +203,9 @@ namespace boost { namespace math { namespace detail{
      // be n! / z^(n+1), but since we're scaling by n! it's just
      // 1 / z^(n+1) for now:
      //
-     T prefix = static_cast<T>(pow(x, T(n + 1)));  // Warning supression: Integer power returns at least a double
+     T prefix = pow(x, n + 1);
      if(prefix == 0)
-        return boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
+        return hydra_boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
      prefix = 1 / prefix;
      //
      // First term in the series is necessarily < zeta(2) < 2, so
@@ -225,10 +225,10 @@ namespace boost { namespace math { namespace detail{
      for(unsigned k = 0;;)
      {
         // Get the k'th term:
-        T term = factorial_part * boost::math::zeta(T(k + n + 1), pol);
+        T term = factorial_part * hydra_boost::math::zeta(T(k + n + 1), pol);
         sum += term;
         // Termination condition:
-        if(fabs(term) < fabs(sum * boost::math::policies::get_epsilon<T, Policy>()))
+        if(fabs(term) < fabs(sum * hydra_boost::math::policies::get_epsilon<T, Policy>()))
            break;
         //
         // Move on k and factorial_part:
@@ -244,8 +244,8 @@ namespace boost { namespace math { namespace detail{
      //
      // We need to multiply by the scale, at each stage checking for overflow:
      //
-     if(boost::math::tools::max_value<T>() / scale < sum)
-        return boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
+     if(hydra_boost::math::tools::max_value<T>() / scale < sum)
+        return hydra_boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
      sum *= scale;
      return n & 1 ? sum : T(-sum);
   }
@@ -265,7 +265,7 @@ namespace boost { namespace math { namespace detail{
   template <class T, class Policy>
   T poly_cot_pi(int n, T x, T xc, const Policy& pol, const char* function)
   {
-     BOOST_MATH_STD_USING
+     HYDRA_BOOST_MATH_STD_USING
      // Return n'th derivative of cot(pi*x) at x, these are simply
      // tabulated for up to n = 9, beyond that it is possible to
      // calculate coefficients as follows:
@@ -293,106 +293,106 @@ namespace boost { namespace math { namespace detail{
      // subscripting the tables in the calculation, but halves the storage space
      // (and complexity for that matter).
      //
-     T s = fabs(x) < fabs(xc) ? boost::math::sin_pi(x, pol) : boost::math::sin_pi(xc, pol);
-     T c = boost::math::cos_pi(x, pol);
+     T s = fabs(x) < fabs(xc) ? hydra_boost::math::sin_pi(x, pol) : hydra_boost::math::sin_pi(xc, pol);
+     T c = hydra_boost::math::cos_pi(x, pol);
      switch(n)
      {
      case 1:
         return -constants::pi<T, Policy>() / (s * s);
      case 2:
      {
-        return 2 * constants::pi<T, Policy>() * constants::pi<T, Policy>() * c / boost::math::pow<3>(s, pol);
+        return 2 * constants::pi<T, Policy>() * constants::pi<T, Policy>() * c / hydra_boost::math::pow<3>(s, pol);
      }
      case 3:
      {
         constexpr int P[] = { -2, -4 };
-        return boost::math::pow<3>(constants::pi<T, Policy>(), pol) * tools::evaluate_even_polynomial(P, c) / boost::math::pow<4>(s, pol);
+        return hydra_boost::math::pow<3>(constants::pi<T, Policy>(), pol) * tools::evaluate_even_polynomial(P, c) / hydra_boost::math::pow<4>(s, pol);
      }
      case 4:
      {
         constexpr int P[] = { 16, 8 };
-        return boost::math::pow<4>(constants::pi<T, Policy>(), pol) * c * tools::evaluate_even_polynomial(P, c) / boost::math::pow<5>(s, pol);
+        return hydra_boost::math::pow<4>(constants::pi<T, Policy>(), pol) * c * tools::evaluate_even_polynomial(P, c) / hydra_boost::math::pow<5>(s, pol);
      }
      case 5:
      {
         constexpr int P[] = { -16, -88, -16 };
-        return boost::math::pow<5>(constants::pi<T, Policy>(), pol) * tools::evaluate_even_polynomial(P, c) / boost::math::pow<6>(s, pol);
+        return hydra_boost::math::pow<5>(constants::pi<T, Policy>(), pol) * tools::evaluate_even_polynomial(P, c) / hydra_boost::math::pow<6>(s, pol);
      }
      case 6:
      {
         constexpr int P[] = { 272, 416, 32 };
-        return boost::math::pow<6>(constants::pi<T, Policy>(), pol) * c * tools::evaluate_even_polynomial(P, c) / boost::math::pow<7>(s, pol);
+        return hydra_boost::math::pow<6>(constants::pi<T, Policy>(), pol) * c * tools::evaluate_even_polynomial(P, c) / hydra_boost::math::pow<7>(s, pol);
      }
      case 7:
      {
         constexpr int P[] = { -272, -2880, -1824, -64 };
-        return boost::math::pow<7>(constants::pi<T, Policy>(), pol) * tools::evaluate_even_polynomial(P, c) / boost::math::pow<8>(s, pol);
+        return hydra_boost::math::pow<7>(constants::pi<T, Policy>(), pol) * tools::evaluate_even_polynomial(P, c) / hydra_boost::math::pow<8>(s, pol);
      }
      case 8:
      {
         constexpr int P[] = { 7936, 24576, 7680, 128 };
-        return boost::math::pow<8>(constants::pi<T, Policy>(), pol) * c * tools::evaluate_even_polynomial(P, c) / boost::math::pow<9>(s, pol);
+        return hydra_boost::math::pow<8>(constants::pi<T, Policy>(), pol) * c * tools::evaluate_even_polynomial(P, c) / hydra_boost::math::pow<9>(s, pol);
      }
      case 9:
      {
         constexpr int P[] = { -7936, -137216, -185856, -31616, -256 };
-        return boost::math::pow<9>(constants::pi<T, Policy>(), pol) * tools::evaluate_even_polynomial(P, c) / boost::math::pow<10>(s, pol);
+        return hydra_boost::math::pow<9>(constants::pi<T, Policy>(), pol) * tools::evaluate_even_polynomial(P, c) / hydra_boost::math::pow<10>(s, pol);
      }
      case 10:
      {
         constexpr int P[] = { 353792, 1841152, 1304832, 128512, 512 };
-        return boost::math::pow<10>(constants::pi<T, Policy>(), pol) * c * tools::evaluate_even_polynomial(P, c) / boost::math::pow<11>(s, pol);
+        return hydra_boost::math::pow<10>(constants::pi<T, Policy>(), pol) * c * tools::evaluate_even_polynomial(P, c) / hydra_boost::math::pow<11>(s, pol);
      }
      case 11:
      {
         constexpr int P[] = { -353792, -9061376, -21253376, -8728576, -518656, -1024};
-        return boost::math::pow<11>(constants::pi<T, Policy>(), pol) * tools::evaluate_even_polynomial(P, c) / boost::math::pow<12>(s, pol);
+        return hydra_boost::math::pow<11>(constants::pi<T, Policy>(), pol) * tools::evaluate_even_polynomial(P, c) / hydra_boost::math::pow<12>(s, pol);
      }
      case 12:
      {
         constexpr int P[] = { 22368256, 175627264, 222398464, 56520704, 2084864, 2048 };
-        return boost::math::pow<12>(constants::pi<T, Policy>(), pol) * c * tools::evaluate_even_polynomial(P, c) / boost::math::pow<13>(s, pol);
+        return hydra_boost::math::pow<12>(constants::pi<T, Policy>(), pol) * c * tools::evaluate_even_polynomial(P, c) / hydra_boost::math::pow<13>(s, pol);
      }
-#ifndef BOOST_NO_LONG_LONG
+#ifndef HYDRA_BOOST_NO_LONG_LONG
      case 13:
      {
         constexpr long long P[] = { -22368256LL, -795300864LL, -2868264960LL, -2174832640LL, -357888000LL, -8361984LL, -4096 };
-        return boost::math::pow<13>(constants::pi<T, Policy>(), pol) * tools::evaluate_even_polynomial(P, c) / boost::math::pow<14>(s, pol);
+        return hydra_boost::math::pow<13>(constants::pi<T, Policy>(), pol) * tools::evaluate_even_polynomial(P, c) / hydra_boost::math::pow<14>(s, pol);
      }
      case 14:
      {
         constexpr long long P[] = { 1903757312LL, 21016670208LL, 41731645440LL, 20261765120LL, 2230947840LL, 33497088LL, 8192 };
-        return boost::math::pow<14>(constants::pi<T, Policy>(), pol) * c * tools::evaluate_even_polynomial(P, c) / boost::math::pow<15>(s, pol);
+        return hydra_boost::math::pow<14>(constants::pi<T, Policy>(), pol) * c * tools::evaluate_even_polynomial(P, c) / hydra_boost::math::pow<15>(s, pol);
      }
      case 15:
      {
         constexpr long long P[] = { -1903757312LL, -89702612992LL, -460858269696LL, -559148810240LL, -182172651520LL, -13754155008LL, -134094848LL, -16384 };
-        return boost::math::pow<15>(constants::pi<T, Policy>(), pol) * tools::evaluate_even_polynomial(P, c) / boost::math::pow<16>(s, pol);
+        return hydra_boost::math::pow<15>(constants::pi<T, Policy>(), pol) * tools::evaluate_even_polynomial(P, c) / hydra_boost::math::pow<16>(s, pol);
      }
      case 16:
      {
         constexpr long long P[] = { 209865342976LL, 3099269660672LL, 8885192097792LL, 7048869314560LL, 1594922762240LL, 84134068224LL, 536608768LL, 32768 };
-        return boost::math::pow<16>(constants::pi<T, Policy>(), pol) * c * tools::evaluate_even_polynomial(P, c) / boost::math::pow<17>(s, pol);
+        return hydra_boost::math::pow<16>(constants::pi<T, Policy>(), pol) * c * tools::evaluate_even_polynomial(P, c) / hydra_boost::math::pow<17>(s, pol);
      }
      case 17:
      {
         constexpr long long P[] = { -209865342976LL, -12655654469632LL, -87815735738368LL, -155964390375424LL, -84842998005760LL, -13684856848384LL, -511780323328LL, -2146926592LL, -65536 };
-        return boost::math::pow<17>(constants::pi<T, Policy>(), pol) * tools::evaluate_even_polynomial(P, c) / boost::math::pow<18>(s, pol);
+        return hydra_boost::math::pow<17>(constants::pi<T, Policy>(), pol) * tools::evaluate_even_polynomial(P, c) / hydra_boost::math::pow<18>(s, pol);
      }
      case 18:
      {
         constexpr long long P[] = { 29088885112832LL, 553753414467584LL, 2165206642589696LL, 2550316668551168LL, 985278548541440LL, 115620218667008LL, 3100738912256LL, 8588754944LL, 131072 };
-        return boost::math::pow<18>(constants::pi<T, Policy>(), pol) * c * tools::evaluate_even_polynomial(P, c) / boost::math::pow<19>(s, pol);
+        return hydra_boost::math::pow<18>(constants::pi<T, Policy>(), pol) * c * tools::evaluate_even_polynomial(P, c) / hydra_boost::math::pow<19>(s, pol);
      }
      case 19:
      {
         constexpr long long P[] = { -29088885112832LL, -2184860175433728LL, -19686087844429824LL, -48165109676113920LL, -39471306959486976LL, -11124607890751488LL, -965271355195392LL, -18733264797696LL, -34357248000LL, -262144 };
-        return boost::math::pow<19>(constants::pi<T, Policy>(), pol) * tools::evaluate_even_polynomial(P, c) / boost::math::pow<20>(s, pol);
+        return hydra_boost::math::pow<19>(constants::pi<T, Policy>(), pol) * tools::evaluate_even_polynomial(P, c) / hydra_boost::math::pow<20>(s, pol);
      }
      case 20:
      {
         constexpr long long P[] = { 4951498053124096LL, 118071834535526400LL, 603968063567560704LL, 990081991141490688LL, 584901762421358592LL, 122829335169859584LL, 7984436548730880LL, 112949304754176LL, 137433710592LL, 524288 };
-        return boost::math::pow<20>(constants::pi<T, Policy>(), pol) * c * tools::evaluate_even_polynomial(P, c) / boost::math::pow<21>(s, pol);
+        return hydra_boost::math::pow<20>(constants::pi<T, Policy>(), pol) * c * tools::evaluate_even_polynomial(P, c) / hydra_boost::math::pow<21>(s, pol);
      }
 #endif
      }
@@ -406,7 +406,7 @@ namespace boost { namespace math { namespace detail{
      //
      if((unsigned)n / 2u > policies::get_max_series_iterations<Policy>())
         return policies::raise_evaluation_error<T>(function, "The value of n is so large that we're unable to compute the result in reasonable time, best guess is %1%", 0, pol);
-#ifdef BOOST_HAS_THREADS
+#ifdef HYDRA_BOOST_HAS_THREADS
      static std::mutex m;
      std::lock_guard<std::mutex> l(m);
 #endif
@@ -439,8 +439,8 @@ namespace boost { namespace math { namespace detail{
            for(int column = 0; column <= max_columns; ++column)
            {
               int cos_order = 2 * column + offset;  // order of the cosine term in entry "column"
-              BOOST_MATH_ASSERT(column < (int)table[i].size());
-              BOOST_MATH_ASSERT((cos_order + 1) / 2 < (int)table[i + 1].size());
+              HYDRA_BOOST_MATH_ASSERT(column < (int)table[i].size());
+              HYDRA_BOOST_MATH_ASSERT((cos_order + 1) / 2 < (int)table[i + 1].size());
               table[i + 1][(cos_order + 1) / 2] += ((cos_order - sin_order) * table[i][column]) / (sin_order - 1);
               if(cos_order)
                 table[i + 1][(cos_order - 1) / 2] += (-cos_order * table[i][column]) / (sin_order - 1);
@@ -448,7 +448,7 @@ namespace boost { namespace math { namespace detail{
         }
 
      }
-     T sum = boost::math::tools::evaluate_even_polynomial(&table[index][0], c, table[index].size());
+     T sum = hydra_boost::math::tools::evaluate_even_polynomial(&table[index][0], c, table[index].size());
      if(index & 1)
         sum *= c;  // First coefficient is order 1, and really an odd polynomial.
      if(sum == 0)
@@ -457,17 +457,17 @@ namespace boost { namespace math { namespace detail{
      // The remaining terms are computed using logs since the powers and factorials
      // get real large real quick:
      //
-     T power_terms = n * log(boost::math::constants::pi<T>());
+     T power_terms = n * log(hydra_boost::math::constants::pi<T>());
      if(s == 0)
-        return sum * boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
+        return sum * hydra_boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
      power_terms -= log(fabs(s)) * (n + 1);
-     power_terms += boost::math::lgamma(T(n), pol);
+     power_terms += hydra_boost::math::lgamma(T(n), pol);
      power_terms += log(fabs(sum));
 
-     if(power_terms > boost::math::tools::log_max_value<T>())
-        return sum * boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
+     if(power_terms > hydra_boost::math::tools::log_max_value<T>())
+        return sum * hydra_boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
 
-     return exp(power_terms) * ((s < 0) && ((n + 1) & 1) ? -1 : 1) * boost::math::sign(sum);
+     return exp(power_terms) * ((s < 0) && ((n + 1) & 1) ? -1 : 1) * hydra_boost::math::sign(sum);
   }
 
   template <class T, class Policy>
@@ -478,7 +478,7 @@ namespace boost { namespace math { namespace detail{
         init()
         {
            // Forces initialization of our table of coefficients and mutex:
-           boost::math::polygamma(30, T(-2.5f), Policy());
+           hydra_boost::math::polygamma(30, T(-2.5f), Policy());
         }
         void force_instantiate()const{}
      };
@@ -495,8 +495,8 @@ namespace boost { namespace math { namespace detail{
   template<class T, class Policy>
   inline T polygamma_imp(const int n, T x, const Policy &pol)
   {
-    BOOST_MATH_STD_USING
-    static const char* function = "boost::math::polygamma<%1%>(int, %1%)";
+    HYDRA_BOOST_MATH_STD_USING
+    static const char* function = "hydra_boost::math::polygamma<%1%>(int, %1%)";
     polygamma_initializer<T, Policy>::initializer.force_instantiate();
     if(n < 0)
        return policies::raise_domain_error<T>(function, "Order must be >= 0, but got %1%", static_cast<T>(n), pol);
@@ -534,13 +534,13 @@ namespace boost { namespace math { namespace detail{
     }
     else if(x == 1)
     {
-       return (n & 1 ? 1 : -1) * boost::math::factorial<T>(n, pol) * boost::math::zeta(T(n + 1), pol);
+       return (n & 1 ? 1 : -1) * hydra_boost::math::factorial<T>(n, pol) * hydra_boost::math::zeta(T(n + 1), pol);
     }
     else if(x == 0.5f)
     {
-       T result = (n & 1 ? 1 : -1) * boost::math::factorial<T>(n, pol) * boost::math::zeta(T(n + 1), pol);
+       T result = (n & 1 ? 1 : -1) * hydra_boost::math::factorial<T>(n, pol) * hydra_boost::math::zeta(T(n + 1), pol);
        if(fabs(result) >= ldexp(tools::max_value<T>(), -n - 1))
-          return boost::math::sign(result) * policies::raise_overflow_error<T>(function, nullptr, pol);
+          return hydra_boost::math::sign(result) * policies::raise_overflow_error<T>(function, nullptr, pol);
        result *= ldexp(T(1), n + 1) - 1;
        return result;
     }
@@ -550,11 +550,11 @@ namespace boost { namespace math { namespace detail{
     }
   }
 
-} } } // namespace boost::math::detail
+} } } // namespace hydra_boost::math::detail
 
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 
-#endif // _BOOST_POLYGAMMA_DETAIL_2013_07_30_HPP_
+#endif // _HYDRA_BOOST_POLYGAMMA_DETAIL_2013_07_30_HPP_
 

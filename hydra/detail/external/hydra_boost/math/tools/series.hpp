@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_TOOLS_SERIES_INCLUDED
-#define BOOST_MATH_TOOLS_SERIES_INCLUDED
+#ifndef HYDRA_BOOST_MATH_TOOLS_SERIES_INCLUDED
+#define HYDRA_BOOST_MATH_TOOLS_SERIES_INCLUDED
 
 #ifdef _MSC_VER
 #pragma once
@@ -15,15 +15,15 @@
 #include <limits>
 #include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
 
-namespace boost{ namespace math{ namespace tools{
+namespace hydra_boost{ namespace math{ namespace tools{
 
 //
 // Simple series summation come first:
 //
 template <class Functor, class U, class V>
-inline typename Functor::result_type sum_series(Functor& func, const U& factor, std::uintmax_t& max_terms, const V& init_value) noexcept(BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
+inline typename Functor::result_type sum_series(Functor& func, const U& factor, std::uintmax_t& max_terms, const V& init_value) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
    typedef typename Functor::result_type result_type;
 
@@ -44,25 +44,25 @@ inline typename Functor::result_type sum_series(Functor& func, const U& factor, 
 }
 
 template <class Functor, class U>
-inline typename Functor::result_type sum_series(Functor& func, const U& factor, std::uintmax_t& max_terms) noexcept(BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
+inline typename Functor::result_type sum_series(Functor& func, const U& factor, std::uintmax_t& max_terms) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
 {
    typename Functor::result_type init_value = 0;
    return sum_series(func, factor, max_terms, init_value);
 }
 
 template <class Functor, class U>
-inline typename Functor::result_type sum_series(Functor& func, int bits, std::uintmax_t& max_terms, const U& init_value) noexcept(BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
+inline typename Functor::result_type sum_series(Functor& func, int bits, std::uintmax_t& max_terms, const U& init_value) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    typedef typename Functor::result_type result_type;
    result_type factor = ldexp(result_type(1), 1 - bits);
    return sum_series(func, factor, max_terms, init_value);
 }
 
 template <class Functor>
-inline typename Functor::result_type sum_series(Functor& func, int bits) noexcept(BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
+inline typename Functor::result_type sum_series(Functor& func, int bits) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    typedef typename Functor::result_type result_type;
    std::uintmax_t iters = (std::numeric_limits<std::uintmax_t>::max)();
    result_type init_val = 0;
@@ -70,18 +70,18 @@ inline typename Functor::result_type sum_series(Functor& func, int bits) noexcep
 }
 
 template <class Functor>
-inline typename Functor::result_type sum_series(Functor& func, int bits, std::uintmax_t& max_terms) noexcept(BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
+inline typename Functor::result_type sum_series(Functor& func, int bits, std::uintmax_t& max_terms) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    typedef typename Functor::result_type result_type;
    result_type init_val = 0;
    return sum_series(func, bits, max_terms, init_val);
 }
 
 template <class Functor, class U>
-inline typename Functor::result_type sum_series(Functor& func, int bits, const U& init_value) noexcept(BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
+inline typename Functor::result_type sum_series(Functor& func, int bits, const U& init_value) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    std::uintmax_t iters = (std::numeric_limits<std::uintmax_t>::max)();
    return sum_series(func, bits, iters, init_value);
 }
@@ -89,9 +89,9 @@ inline typename Functor::result_type sum_series(Functor& func, int bits, const U
 // Checked summation:
 //
 template <class Functor, class U, class V>
-inline typename Functor::result_type checked_sum_series(Functor& func, const U& factor, std::uintmax_t& max_terms, const V& init_value, V& norm) noexcept(BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
+inline typename Functor::result_type checked_sum_series(Functor& func, const U& factor, std::uintmax_t& max_terms, const V& init_value, V& norm) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
    typedef typename Functor::result_type result_type;
 
@@ -125,13 +125,13 @@ inline typename Functor::result_type checked_sum_series(Functor& func, const U& 
 // in any case the result is still much better than a naive summation.
 //
 template <class Functor>
-inline typename Functor::result_type kahan_sum_series(Functor& func, int bits) noexcept(BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
+inline typename Functor::result_type kahan_sum_series(Functor& func, int bits) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
    typedef typename Functor::result_type result_type;
 
-   result_type factor = pow(result_type(2), result_type(bits));
+   result_type factor = pow(result_type(2), bits);
    result_type result = func();
    result_type next_term, y, t;
    result_type carry = 0;
@@ -148,9 +148,9 @@ inline typename Functor::result_type kahan_sum_series(Functor& func, int bits) n
 }
 
 template <class Functor>
-inline typename Functor::result_type kahan_sum_series(Functor& func, int bits, std::uintmax_t& max_terms) noexcept(BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
+inline typename Functor::result_type kahan_sum_series(Functor& func, int bits, std::uintmax_t& max_terms) noexcept(HYDRA_BOOST_MATH_IS_FLOAT(typename Functor::result_type) && noexcept(std::declval<Functor>()()))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
    typedef typename Functor::result_type result_type;
 
@@ -178,7 +178,7 @@ inline typename Functor::result_type kahan_sum_series(Functor& func, int bits, s
 
 } // namespace tools
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
-#endif // BOOST_MATH_TOOLS_SERIES_INCLUDED
+#endif // HYDRA_BOOST_MATH_TOOLS_SERIES_INCLUDED
 

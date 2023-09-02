@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_TOOLS_RATIONAL_HPP
-#define BOOST_MATH_TOOLS_RATIONAL_HPP
+#ifndef HYDRA_BOOST_MATH_TOOLS_RATIONAL_HPP
+#define HYDRA_BOOST_MATH_TOOLS_RATIONAL_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -14,31 +14,31 @@
 #include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/assert.hpp>
 
-#if BOOST_MATH_POLY_METHOD == 1
-#  define BOOST_HEADER() <BOOST_JOIN(hydra/detail/external/hydra_boost/math/tools/detail/polynomial_horner1_, BOOST_MATH_MAX_POLY_ORDER).hpp>
-#  include BOOST_HEADER()
-#  undef BOOST_HEADER
-#elif BOOST_MATH_POLY_METHOD == 2
-#  define BOOST_HEADER() <BOOST_JOIN(hydra/detail/external/hydra_boost/math/tools/detail/polynomial_horner2_, BOOST_MATH_MAX_POLY_ORDER).hpp>
-#  include BOOST_HEADER()
-#  undef BOOST_HEADER
-#elif BOOST_MATH_POLY_METHOD == 3
-#  define BOOST_HEADER() <BOOST_JOIN(hydra/detail/external/hydra_boost/math/tools/detail/polynomial_horner3_, BOOST_MATH_MAX_POLY_ORDER).hpp>
-#  include BOOST_HEADER()
-#  undef BOOST_HEADER
+#if HYDRA_BOOST_MATH_POLY_METHOD == 1
+#  define HYDRA_BOOST_HEADER() <HYDRA_BOOST_JOIN(hydra/detail/external/hydra_boost/math/tools/detail/polynomial_horner1_, HYDRA_BOOST_MATH_MAX_POLY_ORDER).hpp>
+#  include HYDRA_BOOST_HEADER()
+#  undef HYDRA_BOOST_HEADER
+#elif HYDRA_BOOST_MATH_POLY_METHOD == 2
+#  define HYDRA_BOOST_HEADER() <HYDRA_BOOST_JOIN(hydra/detail/external/hydra_boost/math/tools/detail/polynomial_horner2_, HYDRA_BOOST_MATH_MAX_POLY_ORDER).hpp>
+#  include HYDRA_BOOST_HEADER()
+#  undef HYDRA_BOOST_HEADER
+#elif HYDRA_BOOST_MATH_POLY_METHOD == 3
+#  define HYDRA_BOOST_HEADER() <HYDRA_BOOST_JOIN(hydra/detail/external/hydra_boost/math/tools/detail/polynomial_horner3_, HYDRA_BOOST_MATH_MAX_POLY_ORDER).hpp>
+#  include HYDRA_BOOST_HEADER()
+#  undef HYDRA_BOOST_HEADER
 #endif
-#if BOOST_MATH_RATIONAL_METHOD == 1
-#  define BOOST_HEADER() <BOOST_JOIN(hydra/detail/external/hydra_boost/math/tools/detail/rational_horner1_, BOOST_MATH_MAX_POLY_ORDER).hpp>
-#  include BOOST_HEADER()
-#  undef BOOST_HEADER
-#elif BOOST_MATH_RATIONAL_METHOD == 2
-#  define BOOST_HEADER() <BOOST_JOIN(hydra/detail/external/hydra_boost/math/tools/detail/rational_horner2_, BOOST_MATH_MAX_POLY_ORDER).hpp>
-#  include BOOST_HEADER()
-#  undef BOOST_HEADER
-#elif BOOST_MATH_RATIONAL_METHOD == 3
-#  define BOOST_HEADER() <BOOST_JOIN(hydra/detail/external/hydra_boost/math/tools/detail/rational_horner3_, BOOST_MATH_MAX_POLY_ORDER).hpp>
-#  include BOOST_HEADER()
-#  undef BOOST_HEADER
+#if HYDRA_BOOST_MATH_RATIONAL_METHOD == 1
+#  define HYDRA_BOOST_HEADER() <HYDRA_BOOST_JOIN(hydra/detail/external/hydra_boost/math/tools/detail/rational_horner1_, HYDRA_BOOST_MATH_MAX_POLY_ORDER).hpp>
+#  include HYDRA_BOOST_HEADER()
+#  undef HYDRA_BOOST_HEADER
+#elif HYDRA_BOOST_MATH_RATIONAL_METHOD == 2
+#  define HYDRA_BOOST_HEADER() <HYDRA_BOOST_JOIN(hydra/detail/external/hydra_boost/math/tools/detail/rational_horner2_, HYDRA_BOOST_MATH_MAX_POLY_ORDER).hpp>
+#  include HYDRA_BOOST_HEADER()
+#  undef HYDRA_BOOST_HEADER
+#elif HYDRA_BOOST_MATH_RATIONAL_METHOD == 3
+#  define HYDRA_BOOST_HEADER() <HYDRA_BOOST_JOIN(hydra/detail/external/hydra_boost/math/tools/detail/rational_horner3_, HYDRA_BOOST_MATH_MAX_POLY_ORDER).hpp>
+#  include HYDRA_BOOST_HEADER()
+#  undef HYDRA_BOOST_HEADER
 #endif
 
 #if 0
@@ -162,18 +162,18 @@
 #include <hydra/detail/external/hydra_boost/math/tools/detail/rational_horner3_20.hpp>
 #endif
 
-namespace boost{ namespace math{ namespace tools{
+namespace hydra_boost{ namespace math{ namespace tools{
 
 //
 // Forward declaration to keep two phase lookup happy:
 //
 template <class T, class U>
-U evaluate_polynomial(const T* poly, U const& z, std::size_t count) BOOST_MATH_NOEXCEPT(U);
+U evaluate_polynomial(const T* poly, U const& z, std::size_t count) HYDRA_BOOST_MATH_NOEXCEPT(U);
 
 namespace detail{
 
 template <class T, class V, class Tag>
-inline V evaluate_polynomial_c_imp(const T* a, const V& val, const Tag*) BOOST_MATH_NOEXCEPT(V)
+inline V evaluate_polynomial_c_imp(const T* a, const V& val, const Tag*) HYDRA_BOOST_MATH_NOEXCEPT(V)
 {
    return evaluate_polynomial(a, val, Tag::value);
 }
@@ -186,9 +186,9 @@ inline V evaluate_polynomial_c_imp(const T* a, const V& val, const Tag*) BOOST_M
 // the loop expanded versions above:
 //
 template <class T, class U>
-inline U evaluate_polynomial(const T* poly, U const& z, std::size_t count) BOOST_MATH_NOEXCEPT(U)
+inline U evaluate_polynomial(const T* poly, U const& z, std::size_t count) HYDRA_BOOST_MATH_NOEXCEPT(U)
 {
-   BOOST_MATH_ASSERT(count > 0);
+   HYDRA_BOOST_MATH_ASSERT(count > 0);
    U sum = static_cast<U>(poly[count - 1]);
    for(int i = static_cast<int>(count) - 2; i >= 0; --i)
    {
@@ -202,14 +202,14 @@ inline U evaluate_polynomial(const T* poly, U const& z, std::size_t count) BOOST
 // implementations above:
 //
 template <std::size_t N, class T, class V>
-inline V evaluate_polynomial(const T(&a)[N], const V& val) BOOST_MATH_NOEXCEPT(V)
+inline V evaluate_polynomial(const T(&a)[N], const V& val) HYDRA_BOOST_MATH_NOEXCEPT(V)
 {
    typedef std::integral_constant<int, N> tag_type;
    return detail::evaluate_polynomial_c_imp(static_cast<const T*>(a), val, static_cast<tag_type const*>(nullptr));
 }
 
 template <std::size_t N, class T, class V>
-inline V evaluate_polynomial(const std::array<T,N>& a, const V& val) BOOST_MATH_NOEXCEPT(V)
+inline V evaluate_polynomial(const std::array<T,N>& a, const V& val) HYDRA_BOOST_MATH_NOEXCEPT(V)
 {
    typedef std::integral_constant<int, N> tag_type;
    return detail::evaluate_polynomial_c_imp(static_cast<const T*>(a.data()), val, static_cast<tag_type const*>(nullptr));
@@ -218,19 +218,19 @@ inline V evaluate_polynomial(const std::array<T,N>& a, const V& val) BOOST_MATH_
 // Even polynomials are trivial: just square the argument!
 //
 template <class T, class U>
-inline U evaluate_even_polynomial(const T* poly, U z, std::size_t count) BOOST_MATH_NOEXCEPT(U)
+inline U evaluate_even_polynomial(const T* poly, U z, std::size_t count) HYDRA_BOOST_MATH_NOEXCEPT(U)
 {
    return evaluate_polynomial(poly, U(z*z), count);
 }
 
 template <std::size_t N, class T, class V>
-inline V evaluate_even_polynomial(const T(&a)[N], const V& z) BOOST_MATH_NOEXCEPT(V)
+inline V evaluate_even_polynomial(const T(&a)[N], const V& z) HYDRA_BOOST_MATH_NOEXCEPT(V)
 {
    return evaluate_polynomial(a, V(z*z));
 }
 
 template <std::size_t N, class T, class V>
-inline V evaluate_even_polynomial(const std::array<T,N>& a, const V& z) BOOST_MATH_NOEXCEPT(V)
+inline V evaluate_even_polynomial(const std::array<T,N>& a, const V& z) HYDRA_BOOST_MATH_NOEXCEPT(V)
 {
    return evaluate_polynomial(a, V(z*z));
 }
@@ -238,34 +238,34 @@ inline V evaluate_even_polynomial(const std::array<T,N>& a, const V& z) BOOST_MA
 // Odd polynomials come next:
 //
 template <class T, class U>
-inline U evaluate_odd_polynomial(const T* poly, U z, std::size_t count) BOOST_MATH_NOEXCEPT(U)
+inline U evaluate_odd_polynomial(const T* poly, U z, std::size_t count) HYDRA_BOOST_MATH_NOEXCEPT(U)
 {
    return poly[0] + z * evaluate_polynomial(poly+1, U(z*z), count-1);
 }
 
 template <std::size_t N, class T, class V>
-inline V evaluate_odd_polynomial(const T(&a)[N], const V& z) BOOST_MATH_NOEXCEPT(V)
+inline V evaluate_odd_polynomial(const T(&a)[N], const V& z) HYDRA_BOOST_MATH_NOEXCEPT(V)
 {
    typedef std::integral_constant<int, N-1> tag_type;
    return a[0] + z * detail::evaluate_polynomial_c_imp(static_cast<const T*>(a) + 1, V(z*z), static_cast<tag_type const*>(nullptr));
 }
 
 template <std::size_t N, class T, class V>
-inline V evaluate_odd_polynomial(const std::array<T,N>& a, const V& z) BOOST_MATH_NOEXCEPT(V)
+inline V evaluate_odd_polynomial(const std::array<T,N>& a, const V& z) HYDRA_BOOST_MATH_NOEXCEPT(V)
 {
    typedef std::integral_constant<int, N-1> tag_type;
    return a[0] + z * detail::evaluate_polynomial_c_imp(static_cast<const T*>(a.data()) + 1, V(z*z), static_cast<tag_type const*>(nullptr));
 }
 
 template <class T, class U, class V>
-V evaluate_rational(const T* num, const U* denom, const V& z_, std::size_t count) BOOST_MATH_NOEXCEPT(V);
+V evaluate_rational(const T* num, const U* denom, const V& z_, std::size_t count) HYDRA_BOOST_MATH_NOEXCEPT(V);
 
 namespace detail{
 
 template <class T, class U, class V, class Tag>
-inline V evaluate_rational_c_imp(const T* num, const U* denom, const V& z, const Tag*) BOOST_MATH_NOEXCEPT(V)
+inline V evaluate_rational_c_imp(const T* num, const U* denom, const V& z, const Tag*) HYDRA_BOOST_MATH_NOEXCEPT(V)
 {
-   return boost::math::tools::evaluate_rational(num, denom, z, Tag::value);
+   return hydra_boost::math::tools::evaluate_rational(num, denom, z, Tag::value);
 }
 
 }
@@ -278,7 +278,7 @@ inline V evaluate_rational_c_imp(const T* num, const U* denom, const V& z, const
 // in our Lanczos code for example.
 //
 template <class T, class U, class V>
-V evaluate_rational(const T* num, const U* denom, const V& z_, std::size_t count) BOOST_MATH_NOEXCEPT(V)
+V evaluate_rational(const T* num, const U* denom, const V& z_, std::size_t count) HYDRA_BOOST_MATH_NOEXCEPT(V)
 {
    V z(z_);
    V s1, s2;
@@ -311,22 +311,22 @@ V evaluate_rational(const T* num, const U* denom, const V& z_, std::size_t count
 }
 
 template <std::size_t N, class T, class U, class V>
-inline V evaluate_rational(const T(&a)[N], const U(&b)[N], const V& z) BOOST_MATH_NOEXCEPT(V)
+inline V evaluate_rational(const T(&a)[N], const U(&b)[N], const V& z) HYDRA_BOOST_MATH_NOEXCEPT(V)
 {
    return detail::evaluate_rational_c_imp(a, b, z, static_cast<const std::integral_constant<int, N>*>(nullptr));
 }
 
 template <std::size_t N, class T, class U, class V>
-inline V evaluate_rational(const std::array<T,N>& a, const std::array<U,N>& b, const V& z) BOOST_MATH_NOEXCEPT(V)
+inline V evaluate_rational(const std::array<T,N>& a, const std::array<U,N>& b, const V& z) HYDRA_BOOST_MATH_NOEXCEPT(V)
 {
    return detail::evaluate_rational_c_imp(a.data(), b.data(), z, static_cast<std::integral_constant<int, N>*>(nullptr));
 }
 
 } // namespace tools
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
-#endif // BOOST_MATH_TOOLS_RATIONAL_HPP
+#endif // HYDRA_BOOST_MATH_TOOLS_RATIONAL_HPP
 
 
 

@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_CCMATH_FLOOR_HPP
-#define BOOST_MATH_CCMATH_FLOOR_HPP
+#ifndef HYDRA_BOOST_MATH_CCMATH_FLOOR_HPP
+#define HYDRA_BOOST_MATH_CCMATH_FLOOR_HPP
 
 #include <cmath>
 #include <limits>
@@ -14,7 +14,7 @@
 #include <hydra/detail/external/hydra_boost/math/ccmath/isinf.hpp>
 #include <hydra/detail/external/hydra_boost/math/ccmath/isnan.hpp>
 
-namespace boost::math::ccmath {
+namespace hydra_boost::math::ccmath {
 
 namespace detail {
 
@@ -84,12 +84,12 @@ inline constexpr T floor_impl(T arg) noexcept
 template <typename Real, std::enable_if_t<!std::is_integral_v<Real>, bool> = true>
 inline constexpr Real floor(Real arg) noexcept
 {
-    if(BOOST_MATH_IS_CONSTANT_EVALUATED(arg))
+    if(HYDRA_BOOST_MATH_IS_CONSTANT_EVALUATED(arg))
     {
-        return boost::math::ccmath::abs(arg) == Real(0) ? arg :
-               boost::math::ccmath::isinf(arg) ? arg :
-               boost::math::ccmath::isnan(arg) ? arg :
-               boost::math::ccmath::detail::floor_impl(arg);
+        return hydra_boost::math::ccmath::abs(arg) == Real(0) ? arg :
+               hydra_boost::math::ccmath::isinf(arg) ? arg :
+               hydra_boost::math::ccmath::isnan(arg) ? arg :
+               hydra_boost::math::ccmath::detail::floor_impl(arg);
     }
     else
     {
@@ -101,21 +101,21 @@ inline constexpr Real floor(Real arg) noexcept
 template <typename Z, std::enable_if_t<std::is_integral_v<Z>, bool> = true>
 inline constexpr double floor(Z arg) noexcept
 {
-    return boost::math::ccmath::floor(static_cast<double>(arg));
+    return hydra_boost::math::ccmath::floor(static_cast<double>(arg));
 }
 
 inline constexpr float floorf(float arg) noexcept
 {
-    return boost::math::ccmath::floor(arg);
+    return hydra_boost::math::ccmath::floor(arg);
 }
 
-#ifndef BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
+#ifndef HYDRA_BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
 inline constexpr long double floorl(long double arg) noexcept
 {
-    return boost::math::ccmath::floor(arg);
+    return hydra_boost::math::ccmath::floor(arg);
 }
 #endif
 
 } // Namespaces
 
-#endif // BOOST_MATH_CCMATH_FLOOR_HPP
+#endif // HYDRA_BOOST_MATH_CCMATH_FLOOR_HPP

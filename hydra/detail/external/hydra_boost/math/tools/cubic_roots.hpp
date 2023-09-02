@@ -2,14 +2,14 @@
 //  Use, modification and distribution are subject to the
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
-#ifndef BOOST_MATH_TOOLS_CUBIC_ROOTS_HPP
-#define BOOST_MATH_TOOLS_CUBIC_ROOTS_HPP
+#ifndef HYDRA_BOOST_MATH_TOOLS_CUBIC_ROOTS_HPP
+#define HYDRA_BOOST_MATH_TOOLS_CUBIC_ROOTS_HPP
 #include <algorithm>
 #include <array>
 #include <hydra/detail/external/hydra_boost/math/special_functions/sign.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/roots.hpp>
 
-namespace boost::math::tools {
+namespace hydra_boost::math::tools {
 
 // Solves ax^3 + bx^2 + cx + d = 0.
 // Only returns the real roots, as types get weird for real coefficients and
@@ -172,5 +172,5 @@ Real cubic_root_condition_number(Real a, Real b, Real c, Real d, Real root) {
     return numerator / abs(denominator);
 }
 
-} // namespace boost::math::tools
+} // namespace hydra_boost::math::tools
 #endif

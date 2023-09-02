@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_BESSEL_JY_DERIVATIVES_SERIES_HPP
-#define BOOST_MATH_BESSEL_JY_DERIVATIVES_SERIES_HPP
+#ifndef HYDRA_BOOST_MATH_BESSEL_JY_DERIVATIVES_SERIES_HPP
+#define HYDRA_BOOST_MATH_BESSEL_JY_DERIVATIVES_SERIES_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -13,7 +13,7 @@
 #include <cmath>
 #include <cstdint>
 
-namespace boost{ namespace math{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace detail{
 
 template <class T, class Policy>
 struct bessel_j_derivative_small_z_series_term
@@ -54,26 +54,26 @@ private:
 template <class T, class Policy>
 inline T bessel_j_derivative_small_z_series(T v, T x, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    T prefix;
-   if (v < boost::math::max_factorial<T>::value)
+   if (v < hydra_boost::math::max_factorial<T>::value)
    {
-      prefix = pow(x / 2, v - 1) / 2 / boost::math::tgamma(v + 1, pol);
+      prefix = pow(x / 2, v - 1) / 2 / hydra_boost::math::tgamma(v + 1, pol);
    }
    else
    {
-      prefix = (v - 1) * log(x / 2) - constants::ln_two<T>() - boost::math::lgamma(v + 1, pol);
+      prefix = (v - 1) * log(x / 2) - constants::ln_two<T>() - hydra_boost::math::lgamma(v + 1, pol);
       prefix = exp(prefix);
    }
    if (0 == prefix)
       return prefix;
 
    bessel_j_derivative_small_z_series_term<T, Policy> s(v, x);
-   std::uintmax_t max_iter = boost::math::policies::get_max_series_iterations<Policy>();
+   std::uintmax_t max_iter = hydra_boost::math::policies::get_max_series_iterations<Policy>();
 
-   T result = boost::math::tools::sum_series(s, boost::math::policies::get_epsilon<T, Policy>(), max_iter);
+   T result = hydra_boost::math::tools::sum_series(s, hydra_boost::math::policies::get_epsilon<T, Policy>(), max_iter);
 
-   boost::math::policies::check_series_iterations<T>("boost::math::bessel_j_derivative_small_z_series<%1%>(%1%,%1%)", max_iter, pol);
+   hydra_boost::math::policies::check_series_iterations<T>("hydra_boost::math::bessel_j_derivative_small_z_series<%1%>(%1%,%1%)", max_iter, pol);
    return prefix * result;
 }
 
@@ -140,68 +140,68 @@ private:
 template <class T, class Policy>
 inline T bessel_y_derivative_small_z_series(T v, T x, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    static const char* function = "bessel_y_derivative_small_z_series<%1%>(%1%,%1%)";
    T prefix;
    T gam;
    T p = log(x / 2);
    T scale = 1;
-   bool need_logs = (v >= boost::math::max_factorial<T>::value) || (boost::math::tools::log_max_value<T>() / v < fabs(p));
+   bool need_logs = (v >= hydra_boost::math::max_factorial<T>::value) || (hydra_boost::math::tools::log_max_value<T>() / v < fabs(p));
    if (!need_logs)
    {
-      gam = boost::math::tgamma(v, pol);
+      gam = hydra_boost::math::tgamma(v, pol);
       p = pow(x / 2, v + 1) * 2;
-      if (boost::math::tools::max_value<T>() * p < gam)
+      if (hydra_boost::math::tools::max_value<T>() * p < gam)
       {
          scale /= gam;
          gam = 1;
-         if (boost::math::tools::max_value<T>() * p < gam)
+         if (hydra_boost::math::tools::max_value<T>() * p < gam)
          {
             // This term will overflow to -INF, when combined with the series below it becomes +INF:
-            return boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
+            return hydra_boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
          }
       }
-      prefix = -gam / (boost::math::constants::pi<T>() * p);
+      prefix = -gam / (hydra_boost::math::constants::pi<T>() * p);
    }
    else
    {
-      gam = boost::math::lgamma(v, pol);
+      gam = hydra_boost::math::lgamma(v, pol);
       p = (v + 1) * p + constants::ln_two<T>();
-      prefix = gam - log(boost::math::constants::pi<T>()) - p;
-      if (boost::math::tools::log_max_value<T>() < prefix)
+      prefix = gam - log(hydra_boost::math::constants::pi<T>()) - p;
+      if (hydra_boost::math::tools::log_max_value<T>() < prefix)
       {
-         prefix -= log(boost::math::tools::max_value<T>() / 4);
-         scale /= (boost::math::tools::max_value<T>() / 4);
-         if (boost::math::tools::log_max_value<T>() < prefix)
+         prefix -= log(hydra_boost::math::tools::max_value<T>() / 4);
+         scale /= (hydra_boost::math::tools::max_value<T>() / 4);
+         if (hydra_boost::math::tools::log_max_value<T>() < prefix)
          {
-            return boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
+            return hydra_boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
          }
       }
       prefix = -exp(prefix);
    }
    bessel_y_derivative_small_z_series_term_a<T, Policy> s(v, x);
-   std::uintmax_t max_iter = boost::math::policies::get_max_series_iterations<Policy>();
+   std::uintmax_t max_iter = hydra_boost::math::policies::get_max_series_iterations<Policy>();
 
-   T result = boost::math::tools::sum_series(s, boost::math::policies::get_epsilon<T, Policy>(), max_iter);
+   T result = hydra_boost::math::tools::sum_series(s, hydra_boost::math::policies::get_epsilon<T, Policy>(), max_iter);
 
-   boost::math::policies::check_series_iterations<T>("boost::math::bessel_y_derivative_small_z_series<%1%>(%1%,%1%)", max_iter, pol);
+   hydra_boost::math::policies::check_series_iterations<T>("hydra_boost::math::bessel_y_derivative_small_z_series<%1%>(%1%,%1%)", max_iter, pol);
    result *= prefix;
 
    p = pow(x / 2, v - 1) / 2;
    if (!need_logs)
    {
-      prefix = boost::math::tgamma(-v, pol) * boost::math::cos_pi(v, pol) * p / boost::math::constants::pi<T>();
+      prefix = hydra_boost::math::tgamma(-v, pol) * hydra_boost::math::cos_pi(v, pol) * p / hydra_boost::math::constants::pi<T>();
    }
    else
    {
-      int sgn {};
-      prefix = boost::math::lgamma(-v, &sgn, pol) + (v - 1) * log(x / 2) - constants::ln_two<T>();
-      prefix = exp(prefix) * sgn / boost::math::constants::pi<T>();
+      int sgn;
+      prefix = hydra_boost::math::lgamma(-v, &sgn, pol) + (v - 1) * log(x / 2) - constants::ln_two<T>();
+      prefix = exp(prefix) * sgn / hydra_boost::math::constants::pi<T>();
    }
    bessel_y_derivative_small_z_series_term_b<T, Policy> s2(v, x);
-   max_iter = boost::math::policies::get_max_series_iterations<Policy>();
+   max_iter = hydra_boost::math::policies::get_max_series_iterations<Policy>();
 
-   T b = boost::math::tools::sum_series(s2, boost::math::policies::get_epsilon<T, Policy>(), max_iter);
+   T b = hydra_boost::math::tools::sum_series(s2, hydra_boost::math::policies::get_epsilon<T, Policy>(), max_iter);
 
    result += scale * prefix * b;
    return result;
@@ -213,4 +213,4 @@ inline T bessel_y_derivative_small_z_series(T v, T x, const Policy& pol)
 
 }}} // namespaces
 
-#endif // BOOST_MATH_BESSEL_JY_DERIVATIVES_SERIES_HPP
+#endif // HYDRA_BOOST_MATH_BESSEL_JY_DERIVATIVES_SERIES_HPP

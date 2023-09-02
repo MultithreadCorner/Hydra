@@ -10,13 +10,13 @@
 // This header contains implementation details for estimating the zeros
 // of the Airy functions airy_ai and airy_bi on the negative real axis.
 //
-#ifndef BOOST_MATH_AIRY_AI_BI_ZERO_2013_01_20_HPP_
-  #define BOOST_MATH_AIRY_AI_BI_ZERO_2013_01_20_HPP_
+#ifndef HYDRA_BOOST_MATH_AIRY_AI_BI_ZERO_2013_01_20_HPP_
+  #define HYDRA_BOOST_MATH_AIRY_AI_BI_ZERO_2013_01_20_HPP_
 
   #include <hydra/detail/external/hydra_boost/math/constants/constants.hpp>
   #include <hydra/detail/external/hydra_boost/math/special_functions/cbrt.hpp>
 
-  namespace boost { namespace math {
+  namespace hydra_boost { namespace math {
   namespace detail
   {
     // Forward declarations of the needed Airy function implementations.
@@ -37,7 +37,7 @@
         const T one_over_z        (T(1) / z);
         const T one_over_z_squared(one_over_z * one_over_z);
 
-        const T z_pow_third     (boost::math::cbrt(z, pol));
+        const T z_pow_third     (hydra_boost::math::cbrt(z, pol));
         const T z_pow_two_thirds(z_pow_third * z_pow_third);
 
         // Implement the top line of Eq. 10.4.105.
@@ -94,8 +94,8 @@
               guess = T(-12.8287767528657572004);
               break;
             default:
-              const T t(((boost::math::constants::pi<T>() * 3) * ((T(m) * 4) - 1)) / 8);
-              guess = -boost::math::detail::airy_zero::equation_as_10_4_105(t, pol);
+              const T t(((hydra_boost::math::constants::pi<T>() * 3) * ((T(m) * 4) - 1)) / 8);
+              guess = -hydra_boost::math::detail::airy_zero::equation_as_10_4_105(t, pol);
               break;
           }
 
@@ -110,12 +110,12 @@
 
           function_object_ai_and_ai_prime(const function_object_ai_and_ai_prime&) = default;
 
-          boost::math::tuple<T, T> operator()(const T& x) const
+          hydra_boost::math::tuple<T, T> operator()(const T& x) const
           {
             // Return a tuple containing both Ai(x) and Ai'(x).
-            return boost::math::make_tuple(
-              boost::math::detail::airy_ai_imp      (x, my_pol),
-              boost::math::detail::airy_ai_prime_imp(x, my_pol));
+            return hydra_boost::math::make_tuple(
+              hydra_boost::math::detail::airy_ai_imp      (x, my_pol),
+              hydra_boost::math::detail::airy_ai_prime_imp(x, my_pol));
           }
 
         private:
@@ -167,8 +167,8 @@
               guess = T(-12.3864171385827387456);
               break;
             default:
-              const T t(((boost::math::constants::pi<T>() * 3) * ((T(m) * 4) - 3)) / 8);
-              guess = -boost::math::detail::airy_zero::equation_as_10_4_105(t, pol);
+              const T t(((hydra_boost::math::constants::pi<T>() * 3) * ((T(m) * 4) - 3)) / 8);
+              guess = -hydra_boost::math::detail::airy_zero::equation_as_10_4_105(t, pol);
               break;
           }
 
@@ -183,12 +183,12 @@
 
           function_object_bi_and_bi_prime(const function_object_bi_and_bi_prime&) = default;
 
-          boost::math::tuple<T, T> operator()(const T& x) const
+          hydra_boost::math::tuple<T, T> operator()(const T& x) const
           {
             // Return a tuple containing both Bi(x) and Bi'(x).
-            return boost::math::make_tuple(
-              boost::math::detail::airy_bi_imp      (x, my_pol),
-              boost::math::detail::airy_bi_prime_imp(x, my_pol));
+            return hydra_boost::math::make_tuple(
+              hydra_boost::math::detail::airy_bi_imp      (x, my_pol),
+              hydra_boost::math::detail::airy_bi_prime_imp(x, my_pol));
           }
 
         private:
@@ -201,4 +201,4 @@
   } // namespace math
   } // namespaces boost
 
-#endif // BOOST_MATH_AIRY_AI_BI_ZERO_2013_01_20_HPP_
+#endif // HYDRA_BOOST_MATH_AIRY_AI_BI_ZERO_2013_01_20_HPP_

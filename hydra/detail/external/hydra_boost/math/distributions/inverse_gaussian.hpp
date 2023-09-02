@@ -5,8 +5,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_STATS_INVERSE_GAUSSIAN_HPP
-#define BOOST_STATS_INVERSE_GAUSSIAN_HPP
+#ifndef HYDRA_BOOST_STATS_INVERSE_GAUSSIAN_HPP
+#define HYDRA_BOOST_STATS_INVERSE_GAUSSIAN_HPP
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4512) // assignment operator could not be generated
@@ -61,7 +61,7 @@
 
 #include <utility>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 template <class RealType = double, class Policy = policies::policy<> >
 class inverse_gaussian_distribution
@@ -73,7 +73,7 @@ public:
    explicit inverse_gaussian_distribution(RealType l_mean = 1, RealType l_scale = 1)
       : m_mean(l_mean), m_scale(l_scale)
    { // Default is a 1,1 inverse_gaussian distribution.
-     static const char* function = "boost::math::inverse_gaussian_distribution<%1%>::inverse_gaussian_distribution";
+     static const char* function = "hydra_boost::math::inverse_gaussian_distribution<%1%>::inverse_gaussian_distribution";
 
      RealType result;
      detail::check_scale(function, l_scale, &result, Policy());
@@ -113,15 +113,15 @@ using inverse_gaussian = inverse_gaussian_distribution<double>;
 
 #ifdef __cpp_deduction_guides
 template <class RealType>
-inverse_gaussian_distribution(RealType)->inverse_gaussian_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+inverse_gaussian_distribution(RealType)->inverse_gaussian_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 template <class RealType>
-inverse_gaussian_distribution(RealType,RealType)->inverse_gaussian_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+inverse_gaussian_distribution(RealType,RealType)->inverse_gaussian_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 #endif
 
 template <class RealType, class Policy>
 inline std::pair<RealType, RealType> range(const inverse_gaussian_distribution<RealType, Policy>& /*dist*/)
 { // Range of permissible values for random variable x, zero to max.
-   using boost::math::tools::max_value;
+   using hydra_boost::math::tools::max_value;
    return std::pair<RealType, RealType>(static_cast<RealType>(0.), max_value<RealType>()); // - to + max value.
 }
 
@@ -129,19 +129,19 @@ template <class RealType, class Policy>
 inline std::pair<RealType, RealType> support(const inverse_gaussian_distribution<RealType, Policy>& /*dist*/)
 { // Range of supported values for random variable x, zero to max.
   // This is range where cdf rises from 0 to 1, and outside it, the pdf is zero.
-   using boost::math::tools::max_value;
+   using hydra_boost::math::tools::max_value;
    return std::pair<RealType, RealType>(static_cast<RealType>(0.),  max_value<RealType>()); // - to + max value.
 }
 
 template <class RealType, class Policy>
 inline RealType pdf(const inverse_gaussian_distribution<RealType, Policy>& dist, const RealType& x)
 { // Probability Density Function
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
    RealType scale = dist.scale();
    RealType mean = dist.mean();
    RealType result = 0;
-   static const char* function = "boost::math::pdf(const inverse_gaussian_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::pdf(const inverse_gaussian_distribution<%1%>&, %1%)";
    if(false == detail::check_scale(function, scale, &result, Policy()))
    {
       return result;
@@ -173,12 +173,12 @@ inline RealType pdf(const inverse_gaussian_distribution<RealType, Policy>& dist,
 template <class RealType, class Policy>
 inline RealType logpdf(const inverse_gaussian_distribution<RealType, Policy>& dist, const RealType& x)
 { // Probability Density Function
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
    RealType scale = dist.scale();
    RealType mean = dist.mean();
    RealType result = -std::numeric_limits<RealType>::infinity();
-   static const char* function = "boost::math::logpdf(const inverse_gaussian_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::logpdf(const inverse_gaussian_distribution<%1%>&, %1%)";
    if(false == detail::check_scale(function, scale, &result, Policy()))
    {
       return result;
@@ -201,7 +201,7 @@ inline RealType logpdf(const inverse_gaussian_distribution<RealType, Policy>& di
      return std::numeric_limits<RealType>::quiet_NaN(); // Convenient, even if not defined mathematically. log(0)
    }
 
-   const RealType two_pi = boost::math::constants::two_pi<RealType>();
+   const RealType two_pi = hydra_boost::math::constants::two_pi<RealType>();
    
    result = (-scale*pow(mean - x, RealType(2))/(mean*mean*x) + log(scale) - 3*log(x) - log(two_pi)) / 2;
    return result;
@@ -210,11 +210,11 @@ inline RealType logpdf(const inverse_gaussian_distribution<RealType, Policy>& di
 template <class RealType, class Policy>
 inline RealType cdf(const inverse_gaussian_distribution<RealType, Policy>& dist, const RealType& x)
 { // Cumulative Density Function.
-   BOOST_MATH_STD_USING  // for ADL of std functions.
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions.
 
    RealType scale = dist.scale();
    RealType mean = dist.mean();
-   static const char* function = "boost::math::cdf(const inverse_gaussian_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::cdf(const inverse_gaussian_distribution<%1%>&, %1%)";
    RealType result = 0;
    if(false == detail::check_scale(function, scale, &result, Policy()))
    {
@@ -257,41 +257,41 @@ template <class RealType, class Policy>
 struct inverse_gaussian_quantile_functor
 { 
 
-  inverse_gaussian_quantile_functor(const boost::math::inverse_gaussian_distribution<RealType, Policy> dist, RealType const& p)
+  inverse_gaussian_quantile_functor(const hydra_boost::math::inverse_gaussian_distribution<RealType, Policy> dist, RealType const& p)
     : distribution(dist), prob(p)
   {
   }
-  boost::math::tuple<RealType, RealType> operator()(RealType const& x)
+  hydra_boost::math::tuple<RealType, RealType> operator()(RealType const& x)
   {
     RealType c = cdf(distribution, x);
     RealType fx = c - prob;  // Difference cdf - value - to minimize.
     RealType dx = pdf(distribution, x); // pdf is 1st derivative.
     // return both function evaluation difference f(x) and 1st derivative f'(x).
-    return boost::math::make_tuple(fx, dx);
+    return hydra_boost::math::make_tuple(fx, dx);
   }
   private:
-  const boost::math::inverse_gaussian_distribution<RealType, Policy> distribution;
+  const hydra_boost::math::inverse_gaussian_distribution<RealType, Policy> distribution;
   RealType prob; 
 };
 
 template <class RealType, class Policy>
 struct inverse_gaussian_quantile_complement_functor
 { 
-    inverse_gaussian_quantile_complement_functor(const boost::math::inverse_gaussian_distribution<RealType, Policy> dist, RealType const& p)
+    inverse_gaussian_quantile_complement_functor(const hydra_boost::math::inverse_gaussian_distribution<RealType, Policy> dist, RealType const& p)
     : distribution(dist), prob(p)
   {
   }
-  boost::math::tuple<RealType, RealType> operator()(RealType const& x)
+  hydra_boost::math::tuple<RealType, RealType> operator()(RealType const& x)
   {
     RealType c = cdf(complement(distribution, x));
     RealType fx = c - prob;  // Difference cdf - value - to minimize.
     RealType dx = -pdf(distribution, x); // pdf is 1st derivative.
     // return both function evaluation difference f(x) and 1st derivative f'(x).
     //return std::tr1::make_tuple(fx, dx); if available.
-    return boost::math::make_tuple(fx, dx);
+    return hydra_boost::math::make_tuple(fx, dx);
   }
   private:
-  const boost::math::inverse_gaussian_distribution<RealType, Policy> distribution;
+  const hydra_boost::math::inverse_gaussian_distribution<RealType, Policy> distribution;
   RealType prob; 
 };
 
@@ -300,12 +300,12 @@ namespace detail
   template <class RealType>
   inline RealType guess_ig(RealType p, RealType mu = 1, RealType lambda = 1)
   { // guess at random variate value x for inverse gaussian quantile.
-    BOOST_MATH_STD_USING
-    using boost::math::policies::policy;
+    HYDRA_BOOST_MATH_STD_USING
+    using hydra_boost::math::policies::policy;
     // Error type.
-    using boost::math::policies::overflow_error;
+    using hydra_boost::math::policies::overflow_error;
     // Action.
-    using boost::math::policies::ignore_error;
+    using hydra_boost::math::policies::ignore_error;
 
     using no_overthrow_policy = policy<overflow_error<ignore_error>>;
 
@@ -325,7 +325,7 @@ namespace detail
     else
     { // phi < 2 so much less symmetrical with long tail,
       // so use gamma distribution as an approximation.
-      using boost::math::gamma_distribution;
+      using hydra_boost::math::gamma_distribution;
 
       // Define the distribution, using gamma_nooverflow:
       using gamma_nooverflow = gamma_distribution<RealType, no_overthrow_policy>;
@@ -352,12 +352,12 @@ namespace detail
 template <class RealType, class Policy>
 inline RealType quantile(const inverse_gaussian_distribution<RealType, Policy>& dist, const RealType& p)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions.
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions.
    // No closed form exists so guess and use Newton Raphson iteration.
 
    RealType mean = dist.mean();
    RealType scale = dist.scale();
-   static const char* function = "boost::math::quantile(const inverse_gaussian_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::quantile(const inverse_gaussian_distribution<%1%>&, %1%)";
 
    RealType result = 0;
    if(false == detail::check_scale(function, scale, &result, Policy()))
@@ -380,16 +380,16 @@ inline RealType quantile(const inverse_gaussian_distribution<RealType, Policy>& 
    }
 
   RealType guess = detail::guess_ig(p, dist.mean(), dist.scale());
-  using boost::math::tools::max_value;
+  using hydra_boost::math::tools::max_value;
 
-  RealType min = static_cast<RealType>(0); // Minimum possible value is bottom of range of distribution.
+  RealType min = 0.; // Minimum possible value is bottom of range of distribution.
   RealType max = max_value<RealType>();// Maximum possible value is top of range. 
   // int digits = std::numeric_limits<RealType>::digits; // Maximum possible binary digits accuracy for type T.
   // digits used to control how accurate to try to make the result.
   // To allow user to control accuracy versus speed,
   int get_digits = policies::digits<RealType, Policy>();// get digits from policy, 
   std::uintmax_t m = policies::get_max_root_iterations<Policy>(); // and max iterations.
-  using boost::math::tools::newton_raphson_iterate;
+  using hydra_boost::math::tools::newton_raphson_iterate;
   result =
     newton_raphson_iterate(inverse_gaussian_quantile_functor<RealType, Policy>(dist, p), guess, min, max, get_digits, m);
    return result;
@@ -398,12 +398,12 @@ inline RealType quantile(const inverse_gaussian_distribution<RealType, Policy>& 
 template <class RealType, class Policy>
 inline RealType cdf(const complemented2_type<inverse_gaussian_distribution<RealType, Policy>, RealType>& c)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions.
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions.
 
    RealType scale = c.dist.scale();
    RealType mean = c.dist.mean();
    RealType x = c.param;
-   static const char* function = "boost::math::cdf(const complement(inverse_gaussian_distribution<%1%>&), %1%)";
+   static const char* function = "hydra_boost::math::cdf(const complement(inverse_gaussian_distribution<%1%>&), %1%)";
 
    RealType result = 0;
    if(false == detail::check_scale(function, scale, &result, Policy()))
@@ -434,11 +434,11 @@ inline RealType cdf(const complemented2_type<inverse_gaussian_distribution<RealT
 template <class RealType, class Policy>
 inline RealType quantile(const complemented2_type<inverse_gaussian_distribution<RealType, Policy>, RealType>& c)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions
 
    RealType scale = c.dist.scale();
    RealType mean = c.dist.mean();
-   static const char* function = "boost::math::quantile(const complement(inverse_gaussian_distribution<%1%>&), %1%)";
+   static const char* function = "hydra_boost::math::quantile(const complement(inverse_gaussian_distribution<%1%>&), %1%)";
    RealType result = 0;
    if(false == detail::check_scale(function, scale, &result, Policy()))
       return result;
@@ -452,15 +452,15 @@ inline RealType quantile(const complemented2_type<inverse_gaussian_distribution<
 
    RealType guess = detail::guess_ig(q, mean, scale);
    // Complement.
-   using boost::math::tools::max_value;
+   using hydra_boost::math::tools::max_value;
 
-  RealType min = static_cast<RealType>(0); // Minimum possible value is bottom of range of distribution.
+  RealType min = 0.; // Minimum possible value is bottom of range of distribution.
   RealType max = max_value<RealType>();// Maximum possible value is top of range. 
   // int digits = std::numeric_limits<RealType>::digits; // Maximum possible binary digits accuracy for type T.
   // digits used to control how accurate to try to make the result.
   int get_digits = policies::digits<RealType, Policy>();
   std::uintmax_t m = policies::get_max_root_iterations<Policy>();
-  using boost::math::tools::newton_raphson_iterate;
+  using hydra_boost::math::tools::newton_raphson_iterate;
   result =
     newton_raphson_iterate(inverse_gaussian_quantile_complement_functor<RealType, Policy>(c.dist, q), guess, min, max, get_digits, m);
    return result;
@@ -487,7 +487,7 @@ inline RealType shape(const inverse_gaussian_distribution<RealType, Policy>& dis
 template <class RealType, class Policy>
 inline RealType standard_deviation(const inverse_gaussian_distribution<RealType, Policy>& dist)
 {
-  BOOST_MATH_STD_USING
+  HYDRA_BOOST_MATH_STD_USING
   RealType scale = dist.scale();
   RealType mean = dist.mean();
   RealType result = sqrt(mean * mean * mean / scale);
@@ -497,7 +497,7 @@ inline RealType standard_deviation(const inverse_gaussian_distribution<RealType,
 template <class RealType, class Policy>
 inline RealType mode(const inverse_gaussian_distribution<RealType, Policy>& dist)
 {
-  BOOST_MATH_STD_USING
+  HYDRA_BOOST_MATH_STD_USING
   RealType scale = dist.scale();
   RealType  mean = dist.mean();
   RealType result = mean * (sqrt(1 + (9 * mean * mean)/(4 * scale * scale)) 
@@ -508,7 +508,7 @@ inline RealType mode(const inverse_gaussian_distribution<RealType, Policy>& dist
 template <class RealType, class Policy>
 inline RealType skewness(const inverse_gaussian_distribution<RealType, Policy>& dist)
 {
-  BOOST_MATH_STD_USING
+  HYDRA_BOOST_MATH_STD_USING
   RealType scale = dist.scale();
   RealType  mean = dist.mean();
   RealType result = 3 * sqrt(mean/scale);
@@ -534,13 +534,13 @@ inline RealType kurtosis_excess(const inverse_gaussian_distribution<RealType, Po
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_STATS_INVERSE_GAUSSIAN_HPP
+#endif // HYDRA_BOOST_STATS_INVERSE_GAUSSIAN_HPP
 
 

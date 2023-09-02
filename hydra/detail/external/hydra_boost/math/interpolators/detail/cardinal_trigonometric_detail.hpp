@@ -3,14 +3,14 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_INTERPOLATORS_DETAIL_CARDINAL_TRIGONOMETRIC_HPP
-#define BOOST_MATH_INTERPOLATORS_DETAIL_CARDINAL_TRIGONOMETRIC_HPP
+#ifndef HYDRA_BOOST_MATH_INTERPOLATORS_DETAIL_CARDINAL_TRIGONOMETRIC_HPP
+#define HYDRA_BOOST_MATH_INTERPOLATORS_DETAIL_CARDINAL_TRIGONOMETRIC_HPP
 #include <cstddef>
 #include <cmath>
 #include <stdexcept>
 #include <hydra/detail/external/hydra_boost/math/constants/constants.hpp>
 
-#ifdef BOOST_HAS_FLOAT128
+#ifdef HYDRA_BOOST_HAS_FLOAT128
 #include <quadmath.h>
 #endif
 
@@ -22,7 +22,7 @@
 #endif
 #endif
 
-namespace boost { namespace math { namespace interpolators { namespace detail {
+namespace hydra_boost { namespace math { namespace interpolators { namespace detail {
 
 template<typename Real>
 class cardinal_trigonometric_detail {
@@ -96,12 +96,12 @@ public:
   {
     using std::sin;
     using std::cos;
-    using boost::math::constants::two_pi;
+    using hydra_boost::math::constants::two_pi;
     using std::exp;
     float s = m_gamma[0][0];
     float x = two_pi<float>()*(t - m_t0)/m_T;
     fftwf_complex z;
-    // boost::math::cos_pi with a redefinition of x? Not now . . .
+    // hydra_boost::math::cos_pi with a redefinition of x? Not now . . .
     z[0] = cos(x);
     z[1] = sin(x);
     fftwf_complex b{0, 0};
@@ -122,7 +122,7 @@ public:
   {
       using std::sin;
       using std::cos;
-      using boost::math::constants::two_pi;
+      using hydra_boost::math::constants::two_pi;
       using std::exp;
       float x = two_pi<float>()*(t - m_t0)/m_T;
       fftwf_complex z;
@@ -146,7 +146,7 @@ public:
   {
       using std::sin;
       using std::cos;
-      using boost::math::constants::two_pi;
+      using hydra_boost::math::constants::two_pi;
       using std::exp;
       float x = two_pi<float>()*(t - m_t0)/m_T;
       fftwf_complex z;
@@ -257,7 +257,7 @@ public:
   {
     using std::sin;
     using std::cos;
-    using boost::math::constants::two_pi;
+    using hydra_boost::math::constants::two_pi;
     using std::exp;
     double s = m_gamma[0][0];
     double x = two_pi<double>()*(t - m_t0)/m_T;
@@ -283,7 +283,7 @@ public:
   {
       using std::sin;
       using std::cos;
-      using boost::math::constants::two_pi;
+      using hydra_boost::math::constants::two_pi;
       using std::exp;
       double x = two_pi<double>()*(t - m_t0)/m_T;
       fftw_complex z;
@@ -307,7 +307,7 @@ public:
   {
       using std::sin;
       using std::cos;
-      using boost::math::constants::two_pi;
+      using hydra_boost::math::constants::two_pi;
       using std::exp;
       double x = two_pi<double>()*(t - m_t0)/m_T;
       fftw_complex z;
@@ -414,7 +414,7 @@ public:
   {
     using std::sin;
     using std::cos;
-    using boost::math::constants::two_pi;
+    using hydra_boost::math::constants::two_pi;
     using std::exp;
     long double s = m_gamma[0][0];
     long double x = two_pi<long double>()*(t - m_t0)/m_T;
@@ -439,7 +439,7 @@ public:
   {
       using std::sin;
       using std::cos;
-      using boost::math::constants::two_pi;
+      using hydra_boost::math::constants::two_pi;
       using std::exp;
       long double x = two_pi<long double>()*(t - m_t0)/m_T;
       fftwl_complex z;
@@ -463,7 +463,7 @@ public:
   {
       using std::sin;
       using std::cos;
-      using boost::math::constants::two_pi;
+      using hydra_boost::math::constants::two_pi;
       using std::exp;
       long double x = two_pi<long double>()*(t - m_t0)/m_T;
       fftwl_complex z;
@@ -522,7 +522,7 @@ private:
   size_t m_complex_vector_size;
 };
 
-#ifdef BOOST_HAS_FLOAT128
+#ifdef HYDRA_BOOST_HAS_FLOAT128
 template<>
 class cardinal_trigonometric_detail<__float128> {
 public:
@@ -570,7 +570,7 @@ public:
   {
     using std::sin;
     using std::cos;
-    using boost::math::constants::two_pi;
+    using hydra_boost::math::constants::two_pi;
     using std::exp;
     __float128 s = m_gamma[0][0];
     __float128 x = two_pi<__float128>()*(t - m_t0)/m_T;
@@ -595,7 +595,7 @@ public:
   {
       using std::sin;
       using std::cos;
-      using boost::math::constants::two_pi;
+      using hydra_boost::math::constants::two_pi;
       using std::exp;
       __float128 x = two_pi<__float128>()*(t - m_t0)/m_T;
       fftwq_complex z;
@@ -619,7 +619,7 @@ public:
   {
       using std::sin;
       using std::cos;
-      using boost::math::constants::two_pi;
+      using hydra_boost::math::constants::two_pi;
       using std::exp;
       __float128 x = two_pi<__float128>()*(t - m_t0)/m_T;
       fftwq_complex z;

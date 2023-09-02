@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_MODF_HPP
-#define BOOST_MATH_MODF_HPP
+#ifndef HYDRA_BOOST_MATH_MODF_HPP
+#define HYDRA_BOOST_MATH_MODF_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -14,7 +14,7 @@
 #include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/trunc.hpp>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 template <class T, class Policy>
 inline T modf(const T& v, T* ipart, const Policy& pol)
@@ -66,4 +66,4 @@ inline T modf(const T& v, long long* ipart)
 
 }} // namespaces
 
-#endif // BOOST_MATH_MODF_HPP
+#endif // HYDRA_BOOST_MATH_MODF_HPP

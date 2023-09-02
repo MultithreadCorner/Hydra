@@ -8,8 +8,8 @@
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_UNCHECKED_BERNOULLI_HPP
-#define BOOST_MATH_UNCHECKED_BERNOULLI_HPP
+#ifndef HYDRA_BOOST_MATH_UNCHECKED_BERNOULLI_HPP
+#define HYDRA_BOOST_MATH_UNCHECKED_BERNOULLI_HPP
 
 #include <limits>
 #include <type_traits>
@@ -20,7 +20,7 @@
 #include <hydra/detail/external/hydra_boost/math/constants/constants.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/math_fwd.hpp>
 
-namespace boost { namespace math { 
+namespace hydra_boost { namespace math { 
    
 namespace detail {
 
@@ -92,7 +92,7 @@ namespace detail {
    template <class T>
    struct unchecked_bernoulli_data<T, 0>
    {
-#ifdef BOOST_MATH_HAVE_CONSTEXPR_TABLES
+#ifdef HYDRA_BOOST_MATH_HAVE_CONSTEXPR_TABLES
       static constexpr std::array<std::int64_t, 1 + max_bernoulli_b2n<T>::value> numerators =
       { {
          std::int64_t(+1LL),
@@ -142,7 +142,7 @@ namespace detail {
 #endif
    };
 
-#ifdef BOOST_MATH_HAVE_CONSTEXPR_TABLES
+#ifdef HYDRA_BOOST_MATH_HAVE_CONSTEXPR_TABLES
    template <class T>
    constexpr std::array<std::int64_t, 1 + max_bernoulli_b2n<T>::value> unchecked_bernoulli_data<T, 0>::numerators;
    template <class T>
@@ -196,7 +196,7 @@ namespace detail {
 #endif
 
    template <class T>
-   inline BOOST_MATH_CONSTEXPR_TABLE_FUNCTION T unchecked_bernoulli_imp(std::size_t n, const std::integral_constant<int, 0>&)
+   inline HYDRA_BOOST_MATH_CONSTEXPR_TABLE_FUNCTION T unchecked_bernoulli_imp(std::size_t n, const std::integral_constant<int, 0>&)
    {
       return T(unchecked_bernoulli_data<T, 0>::numerators[n]) / unchecked_bernoulli_data<T, 0>::denominators[n];
    }
@@ -204,7 +204,7 @@ namespace detail {
    template <class T>
    struct unchecked_bernoulli_data<T, 1>
    {
-#ifdef BOOST_MATH_HAVE_CONSTEXPR_TABLES
+#ifdef HYDRA_BOOST_MATH_HAVE_CONSTEXPR_TABLES
       static constexpr std::array<float, 1 + max_bernoulli_b2n<T>::value> bernoulli_data =
       { {
          +1.00000000000000000000000000000000000000000F,
@@ -246,7 +246,7 @@ namespace detail {
 #endif
    };
 
-#ifdef BOOST_MATH_HAVE_CONSTEXPR_TABLES
+#ifdef HYDRA_BOOST_MATH_HAVE_CONSTEXPR_TABLES
    template <class T>
    constexpr std::array<float, 1 + max_bernoulli_b2n<T>::value> unchecked_bernoulli_data<T, 1>::bernoulli_data;
 #else
@@ -290,7 +290,7 @@ namespace detail {
 #endif
 
    template <class T>
-   inline BOOST_MATH_CONSTEXPR_TABLE_FUNCTION T unchecked_bernoulli_imp(std::size_t n, const std::integral_constant<int, 1>&)
+   inline HYDRA_BOOST_MATH_CONSTEXPR_TABLE_FUNCTION T unchecked_bernoulli_imp(std::size_t n, const std::integral_constant<int, 1>&)
    {
       return unchecked_bernoulli_data<T, 1>::bernoulli_data[n];
    }
@@ -298,7 +298,7 @@ namespace detail {
    template <class T>
    struct unchecked_bernoulli_data<T, 2>
    {
-#ifdef BOOST_MATH_HAVE_CONSTEXPR_TABLES
+#ifdef HYDRA_BOOST_MATH_HAVE_CONSTEXPR_TABLES
       static constexpr std::array<double, 1 + max_bernoulli_b2n<T>::value> bernoulli_data =
       { {
          +1.00000000000000000000000000000000000000000,
@@ -437,7 +437,7 @@ namespace detail {
 #endif
    };
 
-#ifdef BOOST_MATH_HAVE_CONSTEXPR_TABLES
+#ifdef HYDRA_BOOST_MATH_HAVE_CONSTEXPR_TABLES
    template <class T>
    constexpr const std::array<double, 1 + max_bernoulli_b2n<T>::value> unchecked_bernoulli_data<T, 2>::bernoulli_data;
 #else
@@ -578,7 +578,7 @@ namespace detail {
 #endif
 
    template <class T>
-   inline BOOST_MATH_CONSTEXPR_TABLE_FUNCTION T unchecked_bernoulli_imp(std::size_t n, const std::integral_constant<int, 2>&)
+   inline HYDRA_BOOST_MATH_CONSTEXPR_TABLE_FUNCTION T unchecked_bernoulli_imp(std::size_t n, const std::integral_constant<int, 2>&)
    {
       return unchecked_bernoulli_data<T, 2>::bernoulli_data[n];
    }
@@ -586,7 +586,7 @@ namespace detail {
    template <class T>
    struct unchecked_bernoulli_data<T, 3>
    {
-#ifdef BOOST_MATH_HAVE_CONSTEXPR_TABLES
+#ifdef HYDRA_BOOST_MATH_HAVE_CONSTEXPR_TABLES
    static constexpr std::array<long double, 1 + max_bernoulli_b2n<T>::value> bernoulli_data =
    { {
       +1.00000000000000000000000000000000000000000L,
@@ -914,7 +914,7 @@ namespace detail {
 #endif
    };
 
-#ifdef BOOST_MATH_HAVE_CONSTEXPR_TABLES
+#ifdef HYDRA_BOOST_MATH_HAVE_CONSTEXPR_TABLES
    template <class T>
    constexpr const std::array<long double, 1 + max_bernoulli_b2n<T>::value> unchecked_bernoulli_data<T, 3>::bernoulli_data;
 #else
@@ -1244,7 +1244,7 @@ namespace detail {
 #endif
 
 template <class T>
-inline BOOST_MATH_CONSTEXPR_TABLE_FUNCTION T unchecked_bernoulli_imp(std::size_t n, const std::integral_constant<int, 3>& )
+inline HYDRA_BOOST_MATH_CONSTEXPR_TABLE_FUNCTION T unchecked_bernoulli_imp(std::size_t n, const std::integral_constant<int, 3>& )
 {
    return unchecked_bernoulli_data<T, 3>::bernoulli_data[n];
 }
@@ -1293,7 +1293,7 @@ inline T unchecked_bernoulli_imp(std::size_t n, const std::integral_constant<int
 } // namespace detail
 
 template<class T>
-inline BOOST_MATH_CONSTEXPR_TABLE_FUNCTION T unchecked_bernoulli_b2n(const std::size_t n)
+inline HYDRA_BOOST_MATH_CONSTEXPR_TABLE_FUNCTION T unchecked_bernoulli_b2n(const std::size_t n)
 {
    typedef std::integral_constant<int, detail::bernoulli_imp_variant<T>::value> tag_type;
 
@@ -1302,4 +1302,4 @@ inline BOOST_MATH_CONSTEXPR_TABLE_FUNCTION T unchecked_bernoulli_b2n(const std::
 
 }} // namespaces
 
-#endif // BOOST_MATH_UNCHECKED_BERNOULLI_HPP
+#endif // HYDRA_BOOST_MATH_UNCHECKED_BERNOULLI_HPP

@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_TOOLS_ENGEL_EXPANSION_HPP
-#define BOOST_MATH_TOOLS_ENGEL_EXPANSION_HPP
+#ifndef HYDRA_BOOST_MATH_TOOLS_ENGEL_EXPANSION_HPP
+#define HYDRA_BOOST_MATH_TOOLS_ENGEL_EXPANSION_HPP
 
 #include <cmath>
 #include <cstdint>
@@ -15,14 +15,14 @@
 #include <stdexcept>
 
 #include <hydra/detail/external/hydra_boost/math/tools/is_standalone.hpp>
-#ifndef BOOST_MATH_STANDALONE
+#ifndef HYDRA_BOOST_MATH_STANDALONE
 #include <hydra/detail/external/hydra_boost/config.hpp>
-#ifdef BOOST_NO_CXX17_IF_CONSTEXPR
+#ifdef HYDRA_BOOST_NO_CXX17_IF_CONSTEXPR
 #error "The header <hydra/detail/external/hydra_boost/math/norms.hpp> can only be used in C++17 and later."
 #endif
 #endif
 
-namespace boost::math::tools {
+namespace hydra_boost::math::tools {
 
 template<typename Real, typename Z = int64_t>
 class engel_expansion {

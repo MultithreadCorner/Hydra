@@ -4,8 +4,8 @@
  * Boost Software License, Version 1.0. (See accompanying file
  * LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
-#ifndef BOOST_MATH_QUADRATURE_NAIVE_MONTE_CARLO_HPP
-#define BOOST_MATH_QUADRATURE_NAIVE_MONTE_CARLO_HPP
+#ifndef HYDRA_BOOST_MATH_QUADRATURE_NAIVE_MONTE_CARLO_HPP
+#define HYDRA_BOOST_MATH_QUADRATURE_NAIVE_MONTE_CARLO_HPP
 #include <sstream>
 #include <algorithm>
 #include <vector>
@@ -21,13 +21,8 @@
 #include <map>
 #include <type_traits>
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
-#include <hydra/detail/external/hydra_boost/math/special_functions/fpclassify.hpp>
 
-#ifdef BOOST_NAIVE_MONTE_CARLO_DEBUG_FAILURES
-#  include <iostream>
-#endif
-
-namespace boost { namespace math { namespace quadrature {
+namespace hydra_boost { namespace math { namespace quadrature {
 
 namespace detail {
   enum class limit_classification {FINITE,
@@ -36,7 +31,7 @@ namespace detail {
                                    DOUBLE_INFINITE};
 }
 
-template<class Real, class F, class RandomNumberGenerator = std::mt19937_64, class Policy = boost::math::policies::policy<>,
+template<class Real, class F, class RandomNumberGenerator = std::mt19937_64, class Policy = hydra_boost::math::policies::policy<>,
          typename std::enable_if<std::is_trivially_copyable<Real>::value, bool>::type = true>
 class naive_monte_carlo
 {
@@ -50,24 +45,22 @@ public:
     {
         using std::numeric_limits;
         using std::sqrt;
-        using boost::math::isinf;
-
         uint64_t n = bounds.size();
         m_lbs.resize(n);
         m_dxs.resize(n);
         m_limit_types.resize(n);
 
-        static const char* function = "boost::math::quadrature::naive_monte_carlo<%1%>";
+        static const char* function = "hydra_boost::math::quadrature::naive_monte_carlo<%1%>";
         for (uint64_t i = 0; i < n; ++i)
         {
             if (bounds[i].second <= bounds[i].first)
             {
-                boost::math::policies::raise_domain_error(function, "The upper bound is <= the lower bound.\n", bounds[i].second, Policy());
+                hydra_boost::math::policies::raise_domain_error(function, "The upper bound is <= the lower bound.\n", bounds[i].second, Policy());
                 return;
             }
-            if (isinf(bounds[i].first))
+            if (bounds[i].first == -numeric_limits<Real>::infinity())
             {
-                if (isinf(bounds[i].second))
+                if (bounds[i].second == numeric_limits<Real>::infinity())
                 {
                     m_limit_types[i] = detail::limit_classification::DOUBLE_INFINITE;
                 }
@@ -79,7 +72,7 @@ public:
                     m_dxs[i] = numeric_limits<Real>::quiet_NaN();
                 }
             }
-            else if (isinf(bounds[i].second))
+            else if (bounds[i].second == numeric_limits<Real>::infinity())
             {
                 m_limit_types[i] = detail::limit_classification::UPPER_BOUND_INFINITE;
                 if (singular)
@@ -291,18 +284,18 @@ private:
          {
             m_done = false;
 
-#ifdef BOOST_NAIVE_MONTE_CARLO_DEBUG_FAILURES
-            std::cerr << "Failed to achieve required tolerance first time through..\n";
-            std::cerr << "  variance =    " << m_variance << std::endl;
-            std::cerr << "  average =     " << m_avg << std::endl;
-            std::cerr << "  total calls = " << m_total_calls << std::endl;
+#ifdef HYDRA_BOOST_NAIVE_MONTE_CARLO_DEBUG_FAILURES
+            std::cout << "Failed to achieve required tolerance first time through..\n";
+            std::cout << "  variance =    " << m_variance << std::endl;
+            std::cout << "  average =     " << m_avg << std::endl;
+            std::cout << "  total calls = " << m_total_calls << std::endl;
 
             for (std::size_t i = 0; i < m_num_threads; ++i)
-               std::cerr << "  thread_calls[" << i << "] = " << m_thread_calls[i] << std::endl;
+               std::cout << "  thread_calls[" << i << "] = " << m_thread_calls[i] << std::endl;
             for (std::size_t i = 0; i < m_num_threads; ++i)
-               std::cerr << "  thread_averages[" << i << "] = " << m_thread_averages[i] << std::endl;
+               std::cout << "  thread_averages[" << i << "] = " << m_thread_averages[i] << std::endl;
             for (std::size_t i = 0; i < m_num_threads; ++i)
-               std::cerr << "  thread_Ss[" << i << "] = " << m_thread_Ss[i] << std::endl;
+               std::cout << "  thread_Ss[" << i << "] = " << m_thread_Ss[i] << std::endl;
 #endif
          }
 
@@ -417,8 +410,8 @@ private:
                              os << x[i] << ", ";
                         }
                         os << x[x.size() -1] << "}, and returned " << f << std::endl;
-                        static const char* function = "boost::math::quadrature::naive_monte_carlo<%1%>";
-                        boost::math::policies::raise_domain_error(function, os.str().c_str(), /*this is a dummy arg to make it compile*/ 7.2, Policy());
+                        static const char* function = "hydra_boost::math::quadrature::naive_monte_carlo<%1%>";
+                        hydra_boost::math::policies::raise_domain_error(function, os.str().c_str(), /*this is a dummy arg to make it compile*/ 7.2, Policy());
                     }
                     ++k;
                     Real term = (f - M1)/k;

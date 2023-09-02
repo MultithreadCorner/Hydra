@@ -4,12 +4,12 @@
  * Boost Software License, Version 1.0. (See accompanying file
  * LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
-#ifndef BOOST_MATH_QUADRATURE_WAVELET_TRANSFORMS_HPP
-#define BOOST_MATH_QUADRATURE_WAVELET_TRANSFORMS_HPP
+#ifndef HYDRA_BOOST_MATH_QUADRATURE_WAVELET_TRANSFORMS_HPP
+#define HYDRA_BOOST_MATH_QUADRATURE_WAVELET_TRANSFORMS_HPP
 #include <hydra/detail/external/hydra_boost/math/special_functions/daubechies_wavelet.hpp>
 #include <hydra/detail/external/hydra_boost/math/quadrature/trapezoidal.hpp>
 
-namespace boost::math::quadrature {
+namespace hydra_boost::math::quadrature {
 
 template<class F, typename Real, int p>
 class daubechies_wavelet_transform
@@ -19,7 +19,7 @@ public:
     int max_refinements = 12) : f_{f}, psi_(grid_refinements), tol_{tol}, max_refinements_{max_refinements}
     {}
 
-    daubechies_wavelet_transform(F f, boost::math::daubechies_wavelet<Real, p> wavelet, Real tol = 100*std::numeric_limits<Real>::epsilon(),
+    daubechies_wavelet_transform(F f, hydra_boost::math::daubechies_wavelet<Real, p> wavelet, Real tol = 100*std::numeric_limits<Real>::epsilon(),
     int max_refinements = 12) : f_{f}, psi_{wavelet}, tol_{tol}, max_refinements_{max_refinements}
     {}
 
@@ -27,7 +27,7 @@ public:
     {
         using std::sqrt;
         using std::abs;
-        using boost::math::quadrature::trapezoidal;
+        using hydra_boost::math::quadrature::trapezoidal;
         auto g = [&] (Real u) {
             return f_(s*u+t)*psi_(u);
         };
@@ -37,7 +37,7 @@ public:
 
 private:
     F f_;
-    boost::math::daubechies_wavelet<Real, p> psi_;
+    hydra_boost::math::daubechies_wavelet<Real, p> psi_;
     Real tol_;
     int max_refinements_;
 };

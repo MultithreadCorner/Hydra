@@ -1,5 +1,5 @@
-#ifndef BOOST_MATH_NONFINITE_NUM_FACETS_HPP
-#define BOOST_MATH_NONFINITE_NUM_FACETS_HPP
+#ifndef HYDRA_BOOST_MATH_NONFINITE_NUM_FACETS_HPP
+#define HYDRA_BOOST_MATH_NONFINITE_NUM_FACETS_HPP
 
 // Copyright 2006 Johan Rade
 // Copyright 2012 K R Walker
@@ -32,7 +32,7 @@
 #  pragma warning(disable : 4706) // assignment within conditional expression.
 #endif
 
-namespace boost {
+namespace hydra_boost {
   namespace math {
 
     // flags (enums can be ORed together)       -----------------------------------
@@ -95,15 +95,15 @@ namespace boost {
         static const CharType body_nan[4] = { 'n', 'a', 'n', '\0' };
         static const CharType* null_string = 0;
 
-        switch((boost::math::fpclassify)(val))
+        switch((hydra_boost::math::fpclassify)(val))
         {
 
         case FP_INFINITE:
           if(flags_ & trap_infinity)
           {
-            BOOST_MATH_THROW_EXCEPTION(std::ios_base::failure("Infinity"));
+            HYDRA_BOOST_MATH_THROW_EXCEPTION(std::ios_base::failure("Infinity"));
           }
-          else if((boost::math::signbit)(val))
+          else if((hydra_boost::math::signbit)(val))
           { // negative infinity.
             put_num_and_fill(it, iosb, prefix_minus, body_inf, fill, val);
           }
@@ -120,9 +120,9 @@ namespace boost {
         case FP_NAN:
           if(flags_ & trap_nan)
           {
-            BOOST_MATH_THROW_EXCEPTION(std::ios_base::failure("NaN"));
+            HYDRA_BOOST_MATH_THROW_EXCEPTION(std::ios_base::failure("NaN"));
           }
-          else if((boost::math::signbit)(val))
+          else if((hydra_boost::math::signbit)(val))
           { // negative so "-nan".
             put_num_and_fill(it, iosb, prefix_minus, body_nan, fill, val);
           }
@@ -137,7 +137,7 @@ namespace boost {
           break;
 
         case FP_ZERO:
-          if((flags_ & signed_zero) && ((boost::math::signbit)(val)))
+          if((flags_ & signed_zero) && ((hydra_boost::math::signbit)(val)))
           { // Flag set to distinguish between positive and negative zero.
             // But string "0" should have stuff after decimal point if setprecision and/or exp format. 
 
@@ -271,7 +271,7 @@ namespace boost {
       template<class ValType> static ValType positive_nan()
       {
         // On some platforms quiet_NaN() may be negative.
-        return (boost::math::copysign)(
+        return (hydra_boost::math::copysign)(
           std::numeric_limits<ValType>::quiet_NaN(), static_cast<ValType>(1)
           );
         // static_cast<ValType>(1) added Paul A. Bristow 5 Apr 11
@@ -316,7 +316,7 @@ namespace boost {
 
         if(negative)
         {
-          val = (boost::math::changesign)(val);
+          val = (hydra_boost::math::changesign)(val);
         }
       } // void get_signed
 
@@ -578,11 +578,11 @@ namespace boost {
     //------------------------------------------------------------------------------
 
   }   // namespace math
-}   // namespace boost
+}   // namespace hydra_boost
 
 #ifdef _MSC_VER
 #   pragma warning(pop)
 #endif
 
-#endif // BOOST_MATH_NONFINITE_NUM_FACETS_HPP
+#endif // HYDRA_BOOST_MATH_NONFINITE_NUM_FACETS_HPP
 

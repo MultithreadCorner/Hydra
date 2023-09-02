@@ -6,8 +6,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_TOOLS_POLYNOMIAL_HPP
-#define BOOST_MATH_TOOLS_POLYNOMIAL_HPP
+#ifndef HYDRA_BOOST_MATH_TOOLS_POLYNOMIAL_HPP
+#define HYDRA_BOOST_MATH_TOOLS_POLYNOMIAL_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -29,12 +29,12 @@
 #include <type_traits>
 #include <iterator>
 
-namespace boost{ namespace math{ namespace tools{
+namespace hydra_boost{ namespace math{ namespace tools{
 
 template <class T>
 T chebyshev_coefficient(unsigned n, unsigned m)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    if(m > n)
       return 0;
    if((n & 1) != (m & 1))
@@ -45,12 +45,12 @@ T chebyshev_coefficient(unsigned n, unsigned m)
    unsigned r = n - m;
    r /= 2;
 
-   BOOST_MATH_ASSERT(n - 2 * r == m);
+   HYDRA_BOOST_MATH_ASSERT(n - 2 * r == m);
 
    if(r & 1)
       result = -result;
    result /= n - r;
-   result *= boost::math::binomial_coefficient<T>(n - r, r);
+   result *= hydra_boost::math::binomial_coefficient<T>(n - r, r);
    result *= ldexp(1.0f, m);
    return result;
 }
@@ -190,9 +190,9 @@ template <typename T>
 std::pair< polynomial<T>, polynomial<T> >
 division(polynomial<T> u, const polynomial<T>& v)
 {
-    BOOST_MATH_ASSERT(v.size() <= u.size());
-    BOOST_MATH_ASSERT(v);
-    BOOST_MATH_ASSERT(u);
+    HYDRA_BOOST_MATH_ASSERT(v.size() <= u.size());
+    HYDRA_BOOST_MATH_ASSERT(v);
+    HYDRA_BOOST_MATH_ASSERT(u);
 
     typedef typename polynomial<T>::size_type N;
 
@@ -267,7 +267,7 @@ template <typename T>
 std::pair< polynomial<T>, polynomial<T> >
 quotient_remainder(const polynomial<T>& dividend, const polynomial<T>& divisor)
 {
-    BOOST_MATH_ASSERT(divisor);
+    HYDRA_BOOST_MATH_ASSERT(divisor);
     if (dividend.size() < divisor.size())
         return std::make_pair(polynomial<T>(), dividend);
     return detail::division(dividend, divisor);
@@ -332,11 +332,11 @@ public:
       m_data.resize(p.size());
       for(unsigned i = 0; i < p.size(); ++i)
       {
-         m_data[i] = boost::math::tools::real_cast<T>(p[i]);
+         m_data[i] = hydra_boost::math::tools::real_cast<T>(p[i]);
       }
    }
-#ifdef BOOST_MATH_HAS_IS_CONST_ITERABLE
-    template <class Range, typename std::enable_if<boost::math::tools::detail::is_const_iterable<Range>::value, bool>::type = true>
+#ifdef HYDRA_BOOST_MATH_HAS_IS_CONST_ITERABLE
+    template <class Range, typename std::enable_if<hydra_boost::math::tools::detail::is_const_iterable<Range>::value, bool>::type = true>
     explicit polynomial(const Range& r) 
        : polynomial(r.begin(), r.end()) 
     {
@@ -360,7 +360,7 @@ public:
    size_type degree() const
    {
        if (size() == 0)
-          BOOST_MATH_THROW_EXCEPTION(std::logic_error("degree() is undefined for the zero polynomial."));
+          HYDRA_BOOST_MATH_THROW_EXCEPTION(std::logic_error("degree() is undefined for the zero polynomial."));
        return m_data.size() - 1;
    }
    value_type& operator[](size_type i)
@@ -379,7 +379,7 @@ public:
 
    T operator()(T z) const
    {
-      return m_data.size() > 0 ? boost::math::tools::evaluate_polynomial((m_data).data(), z, m_data.size()) : T(0);
+      return m_data.size() > 0 ? hydra_boost::math::tools::evaluate_polynomial((m_data).data(), z, m_data.size()) : T(0);
    }
    std::vector<T> chebyshev() const
    {
@@ -537,7 +537,7 @@ public:
    template <typename U>
    polynomial& operator >>=(U const &n)
    {
-       BOOST_MATH_ASSERT(n <= m_data.size());
+       HYDRA_BOOST_MATH_ASSERT(n <= m_data.size());
        m_data.erase(m_data.begin(), m_data.begin() + n);
        return *this;
    }
@@ -818,7 +818,7 @@ polynomial<T> pow(polynomial<T> base, int exp)
 {
     if (exp < 0)
         return policies::raise_domain_error(
-                "boost::math::tools::pow<%1%>",
+                "hydra_boost::math::tools::pow<%1%>",
                 "Negative powers are not supported for polynomials.",
                 base, policies::policy<>());
         // if the policy is ignore_error or errno_on_error, raise_domain_error
@@ -852,11 +852,11 @@ inline std::basic_ostream<charT, traits>& operator << (std::basic_ostream<charT,
 
 } // namespace tools
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 //
 // Polynomial specific overload of gcd algorithm:
 //
 #include <hydra/detail/external/hydra_boost/math/tools/polynomial_gcd.hpp>
 
-#endif // BOOST_MATH_TOOLS_POLYNOMIAL_HPP
+#endif // HYDRA_BOOST_MATH_TOOLS_POLYNOMIAL_HPP

@@ -7,17 +7,17 @@
 
 //  See http://www.boost.org for updates, documentation, and revision history.
 
-#ifndef BOOST_MATH_COMMON_FACTOR_HPP
-#define BOOST_MATH_COMMON_FACTOR_HPP
+#ifndef HYDRA_BOOST_MATH_COMMON_FACTOR_HPP
+#define HYDRA_BOOST_MATH_COMMON_FACTOR_HPP
 
-#ifndef BOOST_MATH_STANDALONE
+#ifndef HYDRA_BOOST_MATH_STANDALONE
 #include <hydra/detail/external/hydra_boost/math/common_factor_ct.hpp>
 #include <hydra/detail/external/hydra_boost/math/common_factor_rt.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/header_deprecated.hpp>
 
-BOOST_MATH_HEADER_DEPRECATED("<hydra/detail/external/hydra_boost/integer/common_factor.hpp>");
+HYDRA_BOOST_MATH_HEADER_DEPRECATED("<hydra/detail/external/hydra_boost/integer/common_factor.hpp>");
 #else
 #error Common factor is not available in standalone mode because it requires boost.integer.
-#endif // BOOST_MATH_STANDALONE
+#endif // HYDRA_BOOST_MATH_STANDALONE
 
-#endif  // BOOST_MATH_COMMON_FACTOR_HPP
+#endif  // HYDRA_BOOST_MATH_COMMON_FACTOR_HPP

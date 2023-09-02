@@ -3,14 +3,14 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_CHEBYSHEV_TRANSFORM_HPP
-#define BOOST_MATH_SPECIAL_CHEBYSHEV_TRANSFORM_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_CHEBYSHEV_TRANSFORM_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_CHEBYSHEV_TRANSFORM_HPP
 #include <cmath>
 #include <type_traits>
 #include <hydra/detail/external/hydra_boost/math/constants/constants.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/chebyshev.hpp>
 
-#ifdef BOOST_HAS_FLOAT128
+#ifdef HYDRA_BOOST_HAS_FLOAT128
 #include <quadmath.h>
 #endif
 
@@ -22,7 +22,7 @@
 #endif
 #endif
 
-namespace boost { namespace math {
+namespace hydra_boost { namespace math {
 
 namespace detail{
 
@@ -91,7 +91,7 @@ struct fftw_cos_transform<long double>
 private:
    fftwl_plan plan;
 };
-#ifdef BOOST_HAS_FLOAT128
+#ifdef HYDRA_BOOST_HAS_FLOAT128
 template<>
 struct fftw_cos_transform<__float128>
 {
@@ -129,8 +129,8 @@ public:
         {
             throw std::domain_error("a < b is required.\n");
         }
-        using boost::math::constants::half;
-        using boost::math::constants::pi;
+        using hydra_boost::math::constants::half;
+        using hydra_boost::math::constants::pi;
         using std::cos;
         using std::abs;
         Real bma = (b-a)*half<Real>();

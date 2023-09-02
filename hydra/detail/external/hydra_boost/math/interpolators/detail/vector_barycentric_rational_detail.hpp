@@ -5,8 +5,8 @@
  *  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_MATH_INTERPOLATORS_VECTOR_BARYCENTRIC_RATIONAL_DETAIL_HPP
-#define BOOST_MATH_INTERPOLATORS_VECTOR_BARYCENTRIC_RATIONAL_DETAIL_HPP
+#ifndef HYDRA_BOOST_MATH_INTERPOLATORS_VECTOR_BARYCENTRIC_RATIONAL_DETAIL_HPP
+#define HYDRA_BOOST_MATH_INTERPOLATORS_VECTOR_BARYCENTRIC_RATIONAL_DETAIL_HPP
 
 #include <cmath>
 #include <vector>
@@ -15,7 +15,7 @@
 #include <algorithm>
 #include <hydra/detail/external/hydra_boost/math/tools/assert.hpp>
 
-namespace boost{ namespace math{ namespace interpolators{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace interpolators{ namespace detail{
 
 template <class TimeContainer, class SpaceContainer>
 class vector_barycentric_rational_imp
@@ -49,11 +49,11 @@ vector_barycentric_rational_imp<TimeContainer, SpaceContainer>::vector_barycentr
     t_ = std::move(t);
     y_ = std::move(y);
 
-    BOOST_MATH_ASSERT_MSG(t_.size() == y_.size(), "There must be the same number of time points as space points.");
-    BOOST_MATH_ASSERT_MSG(approximation_order < y_.size(), "Approximation order must be < data length.");
+    HYDRA_BOOST_MATH_ASSERT_MSG(t_.size() == y_.size(), "There must be the same number of time points as space points.");
+    HYDRA_BOOST_MATH_ASSERT_MSG(approximation_order < y_.size(), "Approximation order must be < data length.");
     for (size_t i = 1; i < t_.size(); ++i)
     {
-        BOOST_MATH_ASSERT_MSG(t_[i] - t_[i-1] >  (numeric_limits<typename TimeContainer::value_type>::min)(), "The abscissas must be listed in strictly increasing order t[0] < t[1] < ... < t[n-1].");
+        HYDRA_BOOST_MATH_ASSERT_MSG(t_[i] - t_[i-1] >  (numeric_limits<typename TimeContainer::value_type>::min)(), "The abscissas must be listed in strictly increasing order t[0] < t[1] < ... < t[n-1].");
     }
     calculate_weights(approximation_order);
 }

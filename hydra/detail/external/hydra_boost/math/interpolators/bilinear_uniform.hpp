@@ -14,14 +14,14 @@
 
 // For clarity, the value f(x0 + i*dx, y0 + j*dy) must be stored in the f[j*cols + i] position.
 
-#ifndef BOOST_MATH_INTERPOLATORS_BILINEAR_UNIFORM_HPP
-#define BOOST_MATH_INTERPOLATORS_BILINEAR_UNIFORM_HPP
+#ifndef HYDRA_BOOST_MATH_INTERPOLATORS_BILINEAR_UNIFORM_HPP
+#define HYDRA_BOOST_MATH_INTERPOLATORS_BILINEAR_UNIFORM_HPP
 
 #include <utility>
 #include <memory>
 #include <hydra/detail/external/hydra_boost/math/interpolators/detail/bilinear_uniform_detail.hpp>
 
-namespace boost::math::interpolators {
+namespace hydra_boost::math::interpolators {
 
 template <class RandomAccessContainer>
 class bilinear_uniform

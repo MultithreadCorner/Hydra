@@ -3,22 +3,22 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_CCMATH_ISGREATER_HPP
-#define BOOST_MATH_CCMATH_ISGREATER_HPP
+#ifndef HYDRA_BOOST_MATH_CCMATH_ISGREATER_HPP
+#define HYDRA_BOOST_MATH_CCMATH_ISGREATER_HPP
 
 #include <cmath>
 #include <limits>
 #include <hydra/detail/external/hydra_boost/math/tools/is_constant_evaluated.hpp>
 #include <hydra/detail/external/hydra_boost/math/ccmath/isnan.hpp>
 
-namespace boost::math::ccmath {
+namespace hydra_boost::math::ccmath {
 
 template <typename T1, typename T2 = T1>
 inline constexpr bool isgreater(T1 x, T2 y) noexcept
 {
-    if (BOOST_MATH_IS_CONSTANT_EVALUATED(x))
+    if (HYDRA_BOOST_MATH_IS_CONSTANT_EVALUATED(x))
     {
-        if (boost::math::ccmath::isnan(x) || boost::math::ccmath::isnan(y))
+        if (hydra_boost::math::ccmath::isnan(x) || hydra_boost::math::ccmath::isnan(y))
         {
             return false;
         }
@@ -36,4 +36,4 @@ inline constexpr bool isgreater(T1 x, T2 y) noexcept
 
 } // Namespaces
 
-#endif // BOOST_MATH_CCMATH_ISGREATER_HPP
+#endif // HYDRA_BOOST_MATH_CCMATH_ISGREATER_HPP

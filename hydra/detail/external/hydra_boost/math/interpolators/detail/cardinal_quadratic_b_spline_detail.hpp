@@ -4,13 +4,13 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_INTERPOLATORS_CARDINAL_QUADRATIC_B_SPLINE_DETAIL_HPP
-#define BOOST_MATH_INTERPOLATORS_CARDINAL_QUADRATIC_B_SPLINE_DETAIL_HPP
+#ifndef HYDRA_BOOST_MATH_INTERPOLATORS_CARDINAL_QUADRATIC_B_SPLINE_DETAIL_HPP
+#define HYDRA_BOOST_MATH_INTERPOLATORS_CARDINAL_QUADRATIC_B_SPLINE_DETAIL_HPP
 #include <vector>
 #include <cmath>
 #include <stdexcept>
 
-namespace boost{ namespace math{ namespace interpolators{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace interpolators{ namespace detail{
 
 template <class Real>
 Real b2_spline(Real x) {

@@ -5,15 +5,15 @@
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_HYPERGEOMETRIC_PFQ_HPP
-#define BOOST_MATH_HYPERGEOMETRIC_PFQ_HPP
+#ifndef HYDRA_BOOST_MATH_HYPERGEOMETRIC_PFQ_HPP
+#define HYDRA_BOOST_MATH_HYPERGEOMETRIC_PFQ_HPP
 
 #include <hydra/detail/external/hydra_boost/math/special_functions/detail/hypergeometric_pFq_checked_series.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/throw_exception.hpp>
 #include <chrono>
 #include <initializer_list>
 
-namespace boost {
+namespace hydra_boost {
    namespace math {
 
       namespace detail {
@@ -30,9 +30,9 @@ namespace boost {
             bool operator()(std::uintmax_t iter)const
             {
                if (iter > max_iter)
-                  BOOST_MATH_THROW_EXCEPTION(boost::math::detail::pFq_termination_exception("pFq exceeded maximum permitted iterations."));
+                  HYDRA_BOOST_MATH_THROW_EXCEPTION(hydra_boost::math::detail::pFq_termination_exception("pFq exceeded maximum permitted iterations."));
                if (std::chrono::duration<double>(std::chrono::system_clock::now() - start_time).count() > max_time)
-                  BOOST_MATH_THROW_EXCEPTION(boost::math::detail::pFq_termination_exception("pFq exceeded maximum permitted evaluation time."));
+                  HYDRA_BOOST_MATH_THROW_EXCEPTION(hydra_boost::math::detail::pFq_termination_exception("pFq exceeded maximum permitted evaluation time."));
                return false;
             }
 
@@ -55,21 +55,21 @@ namespace boost {
             policies::discrete_quantile<>,
             policies::assert_undefined<> >::type forwarding_policy;
 
-         BOOST_MATH_STD_USING
+         HYDRA_BOOST_MATH_STD_USING
 
          long long scale = 0;
-         std::pair<value_type, value_type> r = boost::math::detail::hypergeometric_pFq_checked_series_impl(aj, bj, value_type(z), pol, boost::math::detail::iteration_terminator(boost::math::policies::get_max_series_iterations<forwarding_policy>()), scale);
+         std::pair<value_type, value_type> r = hydra_boost::math::detail::hypergeometric_pFq_checked_series_impl(aj, bj, value_type(z), pol, hydra_boost::math::detail::iteration_terminator(hydra_boost::math::policies::get_max_series_iterations<forwarding_policy>()), scale);
          r.first *= exp(Real(scale));
          r.second *= exp(Real(scale));
          if (p_abs_error)
-            *p_abs_error = static_cast<Real>(r.second) * boost::math::tools::epsilon<Real>();
-         return policies::checked_narrowing_cast<result_type, Policy>(r.first, "boost::math::hypergeometric_pFq<%1%>(%1%,%1%,%1%)");
+            *p_abs_error = static_cast<Real>(r.second) * hydra_boost::math::tools::epsilon<Real>();
+         return policies::checked_narrowing_cast<result_type, Policy>(r.first, "hydra_boost::math::hypergeometric_pFq<%1%>(%1%,%1%,%1%)");
       }
 
       template <class Seq, class Real>
       inline typename tools::promote_args<Real, typename Seq::value_type>::type hypergeometric_pFq(const Seq& aj, const Seq& bj, const Real& z, Real* p_abs_error = 0)
       {
-         return hypergeometric_pFq(aj, bj, z, p_abs_error, boost::math::policies::policy<>());
+         return hypergeometric_pFq(aj, bj, z, p_abs_error, hydra_boost::math::policies::policy<>());
       }
 
       template <class R, class Real, class Policy>
@@ -84,7 +84,7 @@ namespace boost {
          return hypergeometric_pFq<std::initializer_list<R>, Real>(aj, bj, z, p_abs_error);
       }
 
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
       template <class T>
       struct scoped_precision
       {
@@ -128,7 +128,7 @@ namespace boost {
             try
             {
                long long scale = 0;
-               std::pair<Real, Real> rp = boost::math::detail::hypergeometric_pFq_checked_series_impl(aa, bb, z, pol, boost::math::detail::timed_iteration_terminator(boost::math::policies::get_max_series_iterations<Policy>(), timeout), scale);
+               std::pair<Real, Real> rp = hydra_boost::math::detail::hypergeometric_pFq_checked_series_impl(aa, bb, z, pol, hydra_boost::math::detail::timed_iteration_terminator(hydra_boost::math::policies::get_max_series_iterations<Policy>(), timeout), scale);
                rp.first *= exp(Real(scale));
                rp.second *= exp(Real(scale));
 
@@ -139,7 +139,7 @@ namespace boost {
                try {
                   cancellation = itrunc(log10(abs(norm / r)));
                }
-               catch (const boost::math::rounding_error&)
+               catch (const hydra_boost::math::rounding_error&)
                {
                   // Happens when r is near enough zero:
                   cancellation = UINT_MAX;
@@ -157,7 +157,7 @@ namespace boost {
                else
                   break;
             }
-            catch (const boost::math::evaluation_error&)
+            catch (const hydra_boost::math::evaluation_error&)
             {
                current_precision *= 2;
             }
@@ -166,7 +166,7 @@ namespace boost {
                //
                // Either we have exhausted the number of series iterations, or the timeout.
                // Either way we quit now.
-               throw boost::math::evaluation_error(e.what());
+               throw hydra_boost::math::evaluation_error(e.what());
             }
          } while (true);
 
@@ -175,7 +175,7 @@ namespace boost {
       template <class Seq, class Real>
       Real hypergeometric_pFq_precision(const Seq& aj, const Seq& bj, const Real& z, unsigned digits10, double timeout = 0.5)
       {
-         return hypergeometric_pFq_precision(aj, bj, z, digits10, timeout, boost::math::policies::policy<>());
+         return hypergeometric_pFq_precision(aj, bj, z, digits10, timeout, hydra_boost::math::policies::policy<>());
       }
 
       template <class Real, class Policy>
@@ -186,10 +186,10 @@ namespace boost {
       template <class Real>
       Real hypergeometric_pFq_precision(const std::initializer_list<Real>& aj, const std::initializer_list<Real>& bj, const Real& z, unsigned digits10, double timeout = 0.5)
       {
-         return hypergeometric_pFq_precision< std::initializer_list<Real>, Real>(aj, bj, z, digits10, timeout, boost::math::policies::policy<>());
+         return hypergeometric_pFq_precision< std::initializer_list<Real>, Real>(aj, bj, z, digits10, timeout, hydra_boost::math::policies::policy<>());
       }
 #endif
    }
 } // namespaces
 
-#endif // BOOST_MATH_BESSEL_ITERATORS_HPP
+#endif // HYDRA_BOOST_MATH_BESSEL_ITERATORS_HPP

@@ -5,17 +5,17 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_CALCULATE_CONSTANTS_CONSTANTS_INCLUDED
-#define BOOST_MATH_CALCULATE_CONSTANTS_CONSTANTS_INCLUDED
+#ifndef HYDRA_BOOST_MATH_CALCULATE_CONSTANTS_CONSTANTS_INCLUDED
+#define HYDRA_BOOST_MATH_CALCULATE_CONSTANTS_CONSTANTS_INCLUDED
 #include <type_traits>
 
-namespace boost{ namespace math{ namespace constants{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace constants{ namespace detail{
 
 template <class T>
 template<int N>
-inline T constant_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
    return ldexp(acos(T(0)), 1);
 
@@ -32,7 +32,7 @@ inline T constant_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::in
    T D = 0.25f;
 
    T lim;
-   lim = boost::math::tools::epsilon<T>();
+   lim = hydra_boost::math::tools::epsilon<T>();
 
    unsigned k = 1;
 
@@ -47,7 +47,7 @@ inline T constant_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::in
       B = A - result;
       B = ldexp(B, 1);
       result = A - B;
-      bool neg = boost::math::sign(result) < 0;
+      bool neg = hydra_boost::math::sign(result) < 0;
       if(neg)
          result = -result;
       if(result <= lim)
@@ -68,98 +68,98 @@ inline T constant_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::in
 
 template <class T>
 template<int N>
-inline T constant_two_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_two_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
    return 2 * pi<T, policies::policy<policies::digits2<N> > >();
 }
 
 template <class T> // 2 / pi
 template<int N>
-inline T constant_two_div_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_two_div_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
    return 2 / pi<T, policies::policy<policies::digits2<N> > >();
 }
 
 template <class T>  // sqrt(2/pi)
 template <int N>
-inline T constant_root_two_div_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_root_two_div_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return sqrt((2 / pi<T, policies::policy<policies::digits2<N> > >()));
 }
 
 template <class T>
 template<int N>
-inline T constant_one_div_two_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_one_div_two_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
    return 1 / two_pi<T, policies::policy<policies::digits2<N> > >();
 }
 
 template <class T>
 template<int N>
-inline T constant_root_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_root_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return sqrt(pi<T, policies::policy<policies::digits2<N> > >());
 }
 
 template <class T>
 template<int N>
-inline T constant_root_half_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_root_half_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return sqrt(pi<T, policies::policy<policies::digits2<N> > >() / 2);
 }
 
 template <class T>
 template<int N>
-inline T constant_root_two_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_root_two_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return sqrt(two_pi<T, policies::policy<policies::digits2<N> > >());
 }
 
 template <class T>
 template<int N>
-inline T constant_log_root_two_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_log_root_two_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return log(root_two_pi<T, policies::policy<policies::digits2<N> > >());
 }
 
 template <class T>
 template<int N>
-inline T constant_root_ln_four<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_root_ln_four<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return sqrt(log(static_cast<T>(4)));
 }
 
 template <class T>
 template<int N>
-inline T constant_e<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_e<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
    //
    // Although we can clearly calculate this from first principles, this hooks into
    // T's own notion of e, which hopefully will more accurate than one calculated to
    // a few epsilon:
    //
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return exp(static_cast<T>(1));
 }
 
 template <class T>
 template<int N>
-inline T constant_half<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_half<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
    return static_cast<T>(1) / static_cast<T>(2);
 }
 
 template <class T>
 template<int M>
-inline T constant_euler<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, M>)))
+inline T constant_euler<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, M>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    //
    // This is the method described in:
    // "Some New Algorithms for High-Precision Computation of Euler's Constant"
@@ -192,18 +192,18 @@ inline T constant_euler<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std:
 
 template <class T>
 template<int N>
-inline T constant_euler_sqr<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_euler_sqr<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-  BOOST_MATH_STD_USING
+  HYDRA_BOOST_MATH_STD_USING
   return euler<T, policies::policy<policies::digits2<N> > >()
      * euler<T, policies::policy<policies::digits2<N> > >();
 }
 
 template <class T>
 template<int N>
-inline T constant_one_div_euler<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_one_div_euler<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-  BOOST_MATH_STD_USING
+  HYDRA_BOOST_MATH_STD_USING
   return static_cast<T>(1)
      / euler<T, policies::policy<policies::digits2<N> > >();
 }
@@ -211,228 +211,228 @@ inline T constant_one_div_euler<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SP
 
 template <class T>
 template<int N>
-inline T constant_root_two<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_root_two<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return sqrt(static_cast<T>(2));
 }
 
 
 template <class T>
 template<int N>
-inline T constant_root_three<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_root_three<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return sqrt(static_cast<T>(3));
 }
 
 template <class T>
 template<int N>
-inline T constant_half_root_two<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_half_root_two<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return sqrt(static_cast<T>(2)) / 2;
 }
 
 template <class T>
 template<int N>
-inline T constant_ln_two<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_ln_two<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
    //
    // Although there are good ways to calculate this from scratch, this hooks into
    // T's own notion of log(2) which will hopefully be accurate to the full precision
    // of T:
    //
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return log(static_cast<T>(2));
 }
 
 template <class T>
 template<int N>
-inline T constant_ln_ten<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_ln_ten<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return log(static_cast<T>(10));
 }
 
 template <class T>
 template<int N>
-inline T constant_ln_ln_two<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_ln_ln_two<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return log(log(static_cast<T>(2)));
 }
 
 template <class T>
 template<int N>
-inline T constant_third<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_third<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return static_cast<T>(1) / static_cast<T>(3);
 }
 
 template <class T>
 template<int N>
-inline T constant_twothirds<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_twothirds<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return static_cast<T>(2) / static_cast<T>(3);
 }
 
 template <class T>
 template<int N>
-inline T constant_two_thirds<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_two_thirds<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return static_cast<T>(2) / static_cast<T>(3);
 }
 
 template <class T>
 template<int N>
-inline T constant_three_quarters<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_three_quarters<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return static_cast<T>(3) / static_cast<T>(4);
 }
 
 template <class T>
 template<int N>
-inline T constant_sixth<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_sixth<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-  BOOST_MATH_STD_USING
+  HYDRA_BOOST_MATH_STD_USING
   return static_cast<T>(1) / static_cast<T>(6);
 }
 
 // Pi and related constants.
 template <class T>
 template<int N>
-inline T constant_pi_minus_three<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_pi_minus_three<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
    return pi<T, policies::policy<policies::digits2<N> > >() - static_cast<T>(3);
 }
 
 template <class T>
 template<int N>
-inline T constant_four_minus_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_four_minus_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
    return static_cast<T>(4) - pi<T, policies::policy<policies::digits2<N> > >();
 }
 
 template <class T>
 template<int N>
-inline T constant_exp_minus_half<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_exp_minus_half<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return exp(static_cast<T>(-0.5));
 }
 
 template <class T>
 template<int N>
-inline T constant_exp_minus_one<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_exp_minus_one<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-  BOOST_MATH_STD_USING
+  HYDRA_BOOST_MATH_STD_USING
   return exp(static_cast<T>(-1.));
 }
 
 template <class T>
 template<int N>
-inline T constant_one_div_root_two<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_one_div_root_two<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
    return static_cast<T>(1) / root_two<T, policies::policy<policies::digits2<N> > >();
 }
 
 template <class T>
 template<int N>
-inline T constant_one_div_root_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_one_div_root_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
    return static_cast<T>(1) / root_pi<T, policies::policy<policies::digits2<N> > >();
 }
 
 template <class T>
 template<int N>
-inline T constant_one_div_root_two_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_one_div_root_two_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
    return static_cast<T>(1) / root_two_pi<T, policies::policy<policies::digits2<N> > >();
 }
 
 template <class T>
 template<int N>
-inline T constant_root_one_div_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_root_one_div_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return sqrt(static_cast<T>(1) / pi<T, policies::policy<policies::digits2<N> > >());
 }
 
 template <class T>
 template<int N>
-inline T constant_four_thirds_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_four_thirds_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return pi<T, policies::policy<policies::digits2<N> > >() * static_cast<T>(4) / static_cast<T>(3);
 }
 
 template <class T>
 template<int N>
-inline T constant_half_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_half_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return pi<T, policies::policy<policies::digits2<N> > >()  / static_cast<T>(2);
 }
 
 template <class T>
 template<int N>
-inline T constant_third_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_third_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return pi<T, policies::policy<policies::digits2<N> > >()  / static_cast<T>(3);
 }
 
 template <class T>
 template<int N>
-inline T constant_sixth_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_sixth_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return pi<T, policies::policy<policies::digits2<N> > >()  / static_cast<T>(6);
 }
 
 template <class T>
 template<int N>
-inline T constant_two_thirds_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_two_thirds_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return pi<T, policies::policy<policies::digits2<N> > >() * static_cast<T>(2) / static_cast<T>(3);
 }
 
 template <class T>
 template<int N>
-inline T constant_three_quarters_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_three_quarters_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return pi<T, policies::policy<policies::digits2<N> > >() * static_cast<T>(3) / static_cast<T>(4);
 }
 
 template <class T>
 template<int N>
-inline T constant_pi_pow_e<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_pi_pow_e<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return pow(pi<T, policies::policy<policies::digits2<N> > >(), e<T, policies::policy<policies::digits2<N> > >()); //
 }
 
 template <class T>
 template<int N>
-inline T constant_pi_sqr<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_pi_sqr<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return pi<T, policies::policy<policies::digits2<N> > >()
    *      pi<T, policies::policy<policies::digits2<N> > >() ; //
 }
 
 template <class T>
 template<int N>
-inline T constant_pi_sqr_div_six<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_pi_sqr_div_six<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return pi<T, policies::policy<policies::digits2<N> > >()
    *      pi<T, policies::policy<policies::digits2<N> > >()
    / static_cast<T>(6); //
@@ -440,9 +440,9 @@ inline T constant_pi_sqr_div_six<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_S
 
 template <class T>
 template<int N>
-inline T constant_pi_cubed<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_pi_cubed<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return pi<T, policies::policy<policies::digits2<N> > >()
    *      pi<T, policies::policy<policies::digits2<N> > >()
    *      pi<T, policies::policy<policies::digits2<N> > >()
@@ -451,17 +451,17 @@ inline T constant_pi_cubed<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((s
 
 template <class T>
 template<int N>
-inline T constant_cbrt_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_cbrt_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return pow(pi<T, policies::policy<policies::digits2<N> > >(), static_cast<T>(1)/ static_cast<T>(3));
 }
 
 template <class T>
 template<int N>
-inline T constant_one_div_cbrt_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_one_div_cbrt_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return static_cast<T>(1)
    / pow(pi<T, policies::policy<policies::digits2<N> > >(), static_cast<T>(1)/ static_cast<T>(3));
 }
@@ -470,33 +470,33 @@ inline T constant_one_div_cbrt_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_
 
 template <class T>
 template<int N>
-inline T constant_e_pow_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_e_pow_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return pow(e<T, policies::policy<policies::digits2<N> > >(), pi<T, policies::policy<policies::digits2<N> > >()); //
 }
 
 template <class T>
 template<int N>
-inline T constant_root_e<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_root_e<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return sqrt(e<T, policies::policy<policies::digits2<N> > >());
 }
 
 template <class T>
 template<int N>
-inline T constant_log10_e<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_log10_e<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return log10(e<T, policies::policy<policies::digits2<N> > >());
 }
 
 template <class T>
 template<int N>
-inline T constant_one_div_log10_e<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_one_div_log10_e<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return  static_cast<T>(1) /
      log10(e<T, policies::policy<policies::digits2<N> > >());
 }
@@ -505,9 +505,9 @@ inline T constant_one_div_log10_e<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_
 
 template <class T>
 template<int N>
-inline T constant_degree<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_degree<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return pi<T, policies::policy<policies::digits2<N> > >()
    / static_cast<T>(180)
    ; //
@@ -515,9 +515,9 @@ inline T constant_degree<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std
 
 template <class T>
 template<int N>
-inline T constant_radian<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_radian<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return static_cast<T>(180)
    / pi<T, policies::policy<policies::digits2<N> > >()
    ; //
@@ -525,57 +525,57 @@ inline T constant_radian<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std
 
 template <class T>
 template<int N>
-inline T constant_sin_one<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_sin_one<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return sin(static_cast<T>(1)) ; //
 }
 
 template <class T>
 template<int N>
-inline T constant_cos_one<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_cos_one<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return cos(static_cast<T>(1)) ; //
 }
 
 template <class T>
 template<int N>
-inline T constant_sinh_one<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_sinh_one<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return sinh(static_cast<T>(1)) ; //
 }
 
 template <class T>
 template<int N>
-inline T constant_cosh_one<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_cosh_one<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return cosh(static_cast<T>(1)) ; //
 }
 
 template <class T>
 template<int N>
-inline T constant_phi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_phi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return (static_cast<T>(1) + sqrt(static_cast<T>(5)) )/static_cast<T>(2) ; //
 }
 
 template <class T>
 template<int N>
-inline T constant_ln_phi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_ln_phi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return log((static_cast<T>(1) + sqrt(static_cast<T>(5)) )/static_cast<T>(2) );
 }
 
 template <class T>
 template<int N>
-inline T constant_one_div_ln_phi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_one_div_ln_phi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return static_cast<T>(1) /
      log((static_cast<T>(1) + sqrt(static_cast<T>(5)) )/static_cast<T>(2) );
 }
@@ -584,9 +584,9 @@ inline T constant_one_div_ln_phi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_S
 
 template <class T>
 template<int N>
-inline T constant_zeta_two<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_zeta_two<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
      return pi<T, policies::policy<policies::digits2<N> > >()
      *  pi<T, policies::policy<policies::digits2<N> > >()
@@ -595,7 +595,7 @@ inline T constant_zeta_two<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((s
 
 template <class T>
 template<int N>
-inline T constant_zeta_three<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_zeta_three<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
    // http://mathworld.wolfram.com/AperysConstant.html
    // http://en.wikipedia.org/wiki/Mathematical_constant
@@ -613,7 +613,7 @@ inline T constant_zeta_three<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(
 
   // by Stefan Spannare  September 19, 2007
   // zeta(3) = 1/64 * sum
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    T n_fact=static_cast<T>(1); // build n! for n = 0.
    T sum = static_cast<double>(77); // Start with n = 0 case.
    // for n = 0, (77/1) /64 = 1.203125
@@ -655,7 +655,7 @@ inline T constant_zeta_three<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(
 
 template <class T>
 template<int N>
-inline T constant_catalan<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_catalan<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 { // http://oeis.org/A006752/constant
   //T c("0.915965594177219015054603514932384110774"
  //"149374281672134266498119621763019776254769479356512926115106248574");
@@ -665,7 +665,7 @@ inline T constant_catalan<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((st
    // This is equation (entry) 31 from
    // http://www-2.cs.cmu.edu/~adamchik/articles/catalan/catalan.htm
    // See also http://www.mpfr.org/algorithms.pdf
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    T k_fact = 1;
    T tk_fact = 1;
    T sum = 1;
@@ -683,8 +683,8 @@ inline T constant_catalan<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((st
          break;
       }
    }
-   return boost::math::constants::pi<T, boost::math::policies::policy<> >()
-      * log(2 + boost::math::constants::root_three<T, boost::math::policies::policy<> >())
+   return hydra_boost::math::constants::pi<T, hydra_boost::math::policies::policy<> >()
+      * log(2 + hydra_boost::math::constants::root_three<T, hydra_boost::math::policies::policy<> >())
        / 8
       + 3 * sum / 8;
 }
@@ -694,7 +694,7 @@ namespace khinchin_detail{
 template <class T>
 T zeta_polynomial_series(T s, T sc, int digits)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    //
    // This is algorithm 3 from:
    //
@@ -702,7 +702,7 @@ T zeta_polynomial_series(T s, T sc, int digits)
    // Canadian Mathematical Society, Conference Proceedings, 2000.
    // See: http://www.cecm.sfu.ca/personal/pborwein/PAPERS/P155.pdf
    //
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    int n = (digits * 19) / 53;
    T sum = 0;
    T two_n = ldexp(T(1), n);
@@ -728,7 +728,7 @@ T zeta_polynomial_series(T s, T sc, int digits)
 template <class T>
 T khinchin(int digits)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    T sum = 0;
    T term;
    T lim = ldexp(T(1), 1-digits);
@@ -748,14 +748,14 @@ T khinchin(int digits)
       if(term < lim)
          break;
    }
-   return exp(sum / boost::math::constants::ln_two<T, boost::math::policies::policy<> >());
+   return exp(sum / hydra_boost::math::constants::ln_two<T, hydra_boost::math::policies::policy<> >());
 }
 
 }
 
 template <class T>
 template<int N>
-inline T constant_khinchin<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_khinchin<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
    int n = N ? (std::min)(N, tools::digits<T>()) : tools::digits<T>();
    return khinchin_detail::khinchin<T>(n);
@@ -763,9 +763,9 @@ inline T constant_khinchin<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((s
 
 template <class T>
 template<int N>
-inline T constant_extreme_value_skewness<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_extreme_value_skewness<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {  // N[12 Sqrt[6]  Zeta[3]/Pi^3, 1101]
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    T ev(12 * sqrt(static_cast<T>(6)) * zeta_three<T, policies::policy<policies::digits2<N> > >()
     / pi_cubed<T, policies::policy<policies::digits2<N> > >() );
 
@@ -805,7 +805,7 @@ template <class T>
 T zeta_series_derivative_2(unsigned digits)
 {
    // Derivative of the series part, evaluated at 2:
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    int n = digits * 301 * 13 / 10000;
    T d = pow(3 + sqrt(T(8)), n);
    d = (d + 1 / d) / 2;
@@ -826,7 +826,7 @@ template <class T>
 T zeta_series_2(unsigned digits)
 {
    // Series part of zeta at 2:
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    int n = digits * 301 * 13 / 10000;
    T d = pow(3 + sqrt(T(8)), n);
    d = (d + 1 / d) / 2;
@@ -854,7 +854,7 @@ template <class T>
 inline T zeta_series_derivative_lead_2()
 {
    // derivative of lead part at 2:
-   return -2 * boost::math::constants::ln_two<T>();
+   return -2 * hydra_boost::math::constants::ln_two<T>();
 }
 
 template <class T>
@@ -869,17 +869,17 @@ inline T zeta_derivative_2(unsigned n)
 
 template <class T>
 template<int N>
-inline T constant_glaisher<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_glaisher<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
 
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    typedef policies::policy<policies::digits2<N> > forwarding_policy;
    int n = N ? (std::min)(N, tools::digits<T>()) : tools::digits<T>();
    T v = detail::zeta_derivative_2<T>(n);
    v *= 6;
-   v /= boost::math::constants::pi<T, forwarding_policy>() * boost::math::constants::pi<T, forwarding_policy>();
-   v -= boost::math::constants::euler<T, forwarding_policy>();
-   v -= log(2 * boost::math::constants::pi<T, forwarding_policy>());
+   v /= hydra_boost::math::constants::pi<T, forwarding_policy>() * hydra_boost::math::constants::pi<T, forwarding_policy>();
+   v -= hydra_boost::math::constants::euler<T, forwarding_policy>();
+   v -= log(2 * hydra_boost::math::constants::pi<T, forwarding_policy>());
    v /= -12;
    return exp(v);
 
@@ -909,11 +909,11 @@ inline T constant_glaisher<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((s
 
 template <class T>
 template<int N>
-inline T constant_rayleigh_skewness<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_rayleigh_skewness<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {  // 1100 digits of the Rayleigh distribution skewness
    // N[2 Sqrt[Pi] (Pi - 3)/((4 - Pi)^(3/2)), 1100]
 
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    T rs(2 * root_pi<T, policies::policy<policies::digits2<N> > >()
       * pi_minus_three<T, policies::policy<policies::digits2<N> > >()
       / pow(four_minus_pi<T, policies::policy<policies::digits2<N> > >(), static_cast<T>(3./2))
@@ -936,10 +936,10 @@ inline T constant_rayleigh_skewness<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYP
 
 template <class T>
 template<int N>
-inline T constant_rayleigh_kurtosis_excess<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_rayleigh_kurtosis_excess<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 { // - (6 Pi^2 - 24 Pi + 16)/((Pi - 4)^2)
     // Might provide and calculate this using pi_minus_four.
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return - (((static_cast<T>(6) * pi<T, policies::policy<policies::digits2<N> > >()
         * pi<T, policies::policy<policies::digits2<N> > >())
    - (static_cast<T>(24) * pi<T, policies::policy<policies::digits2<N> > >()) + static_cast<T>(16) )
@@ -951,10 +951,10 @@ inline T constant_rayleigh_kurtosis_excess<T>::compute(BOOST_MATH_EXPLICIT_TEMPL
 
 template <class T>
 template<int N>
-inline T constant_rayleigh_kurtosis<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_rayleigh_kurtosis<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 { // 3 - (6 Pi^2 - 24 Pi + 16)/((Pi - 4)^2)
   // Might provide and calculate this using pi_minus_four.
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return static_cast<T>(3) - (((static_cast<T>(6) * pi<T, policies::policy<policies::digits2<N> > >()
         * pi<T, policies::policy<policies::digits2<N> > >())
    - (static_cast<T>(24) * pi<T, policies::policy<policies::digits2<N> > >()) + static_cast<T>(16) )
@@ -966,36 +966,36 @@ inline T constant_rayleigh_kurtosis<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYP
 
 template <class T>
 template<int N>
-inline T constant_log2_e<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_log2_e<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   return 1 / boost::math::constants::ln_two<T>();
+   return 1 / hydra_boost::math::constants::ln_two<T>();
 }
 
 template <class T>
 template<int N>
-inline T constant_quarter_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_quarter_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   return boost::math::constants::pi<T>() / 4;
+   return hydra_boost::math::constants::pi<T>() / 4;
 }
 
 template <class T>
 template<int N>
-inline T constant_one_div_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_one_div_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   return 1 / boost::math::constants::pi<T>();
+   return 1 / hydra_boost::math::constants::pi<T>();
 }
 
 template <class T>
 template<int N>
-inline T constant_two_div_root_pi<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_two_div_root_pi<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
-   return 2 * boost::math::constants::one_div_root_pi<T>();
+   return 2 * hydra_boost::math::constants::one_div_root_pi<T>();
 }
 
 #if __cplusplus >= 201103L || (defined(_MSC_VER) && _MSC_VER >= 1900)
 template <class T>
 template<int N>
-inline T constant_first_feigenbaum<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_first_feigenbaum<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
    // We know the constant to 1018 decimal digits.
    // See:  http://www.plouffe.fr/simon/constants/feigenbaum.txt
@@ -1009,7 +1009,7 @@ inline T constant_first_feigenbaum<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE
 
 template <class T>
 template<int N>
-inline T constant_plastic<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_plastic<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
    using std::sqrt;
    return (cbrt(9-sqrt(T(69))) + cbrt(9+sqrt(T(69))))/cbrt(T(18));
@@ -1018,7 +1018,7 @@ inline T constant_plastic<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((st
 
 template <class T>
 template<int N>
-inline T constant_gauss<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_gauss<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
    using std::sqrt;
    T a = sqrt(T(2));
@@ -1036,7 +1036,7 @@ inline T constant_gauss<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std:
 
 template <class T>
 template<int N>
-inline T constant_dottie<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_dottie<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
   // Error analysis: cos(x(1+d)) - x(1+d) = -(sin(x)+1)xd; plug in x = 0.739 gives -1.236d; take d as half an ulp gives the termination criteria we want.
   using std::cos;
@@ -1054,7 +1054,7 @@ inline T constant_dottie<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std
 
 template <class T>
 template<int N>
-inline T constant_reciprocal_fibonacci<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_reciprocal_fibonacci<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
   // Wikipedia says Gosper has deviced a faster algorithm for this, but I read the linked paper and couldn't see it!
   // In any case, k bits per iteration is fine, though it would be better to sum from smallest to largest.
@@ -1075,7 +1075,7 @@ inline T constant_reciprocal_fibonacci<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_
 
 template <class T>
 template<int N>
-inline T constant_laplace_limit<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
+inline T constant_laplace_limit<T>::compute(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC((std::integral_constant<int, N>)))
 {
   // If x is the exact root, then the approximate root is given by x(1+delta).
   // Plugging this into the equation for the Laplace limit gives the residual of approximately
@@ -1106,4 +1106,4 @@ inline T constant_laplace_limit<T>::compute(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SP
 }
 } // namespaces
 
-#endif // BOOST_MATH_CALCULATE_CONSTANTS_CONSTANTS_INCLUDED
+#endif // HYDRA_BOOST_MATH_CALCULATE_CONSTANTS_CONSTANTS_INCLUDED

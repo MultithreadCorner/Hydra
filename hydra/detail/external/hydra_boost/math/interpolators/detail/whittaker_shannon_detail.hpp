@@ -3,15 +3,15 @@
 // Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
-#ifndef BOOST_MATH_INTERPOLATORS_WHITAKKER_SHANNON_DETAIL_HPP
-#define BOOST_MATH_INTERPOLATORS_WHITAKKER_SHANNON_DETAIL_HPP
+#ifndef HYDRA_BOOST_MATH_INTERPOLATORS_WHITAKKER_SHANNON_DETAIL_HPP
+#define HYDRA_BOOST_MATH_INTERPOLATORS_WHITAKKER_SHANNON_DETAIL_HPP
 #include <cmath>
 #include <hydra/detail/external/hydra_boost/math/tools/assert.hpp>
 #include <hydra/detail/external/hydra_boost/math/constants/constants.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/sin_pi.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/cos_pi.hpp>
 
-namespace boost { namespace math { namespace interpolators { namespace detail {
+namespace hydra_boost { namespace math { namespace interpolators { namespace detail {
 
 template<class RandomAccessContainer>
 class whittaker_shannon_detail {
@@ -27,7 +27,7 @@ public:
     }
 
     inline Real operator()(Real t) const {
-        using boost::math::constants::pi;
+        using hydra_boost::math::constants::pi;
         using std::isfinite;
         using std::floor;
         using std::ceil;
@@ -47,7 +47,7 @@ public:
 
         if (!isfinite(y))
         {
-            BOOST_MATH_ASSERT_MSG(floor(x) == ceil(x), "Floor and ceiling should be equal.\n");
+            HYDRA_BOOST_MATH_ASSERT_MSG(floor(x) == ceil(x), "Floor and ceiling should be equal.\n");
             auto i = static_cast<size_t>(floor(x));
             if (i & 1)
             {
@@ -55,11 +55,11 @@ public:
             }
             return m_y[i];
         }
-        return y*boost::math::sin_pi(x)/pi<Real>();
+        return y*hydra_boost::math::sin_pi(x)/pi<Real>();
     }
 
     Real prime(Real t) const {
-        using boost::math::constants::pi;
+        using hydra_boost::math::constants::pi;
         using std::isfinite;
         using std::floor;
         using std::ceil;
@@ -86,8 +86,8 @@ public:
         }
         Real z = x;
         auto it = m_y.begin();
-        Real cospix = boost::math::cos_pi(x);
-        Real sinpix_div_pi = boost::math::sin_pi(x)/pi<Real>();
+        Real cospix = hydra_boost::math::cos_pi(x);
+        Real sinpix_div_pi = hydra_boost::math::sin_pi(x)/pi<Real>();
 
         Real s = 0;
         auto end = m_y.end();

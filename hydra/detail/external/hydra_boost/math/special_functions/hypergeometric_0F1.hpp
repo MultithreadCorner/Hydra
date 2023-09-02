@@ -7,15 +7,15 @@
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_HYPERGEOMETRIC_0F1_HPP
-#define BOOST_MATH_HYPERGEOMETRIC_0F1_HPP
+#ifndef HYDRA_BOOST_MATH_HYPERGEOMETRIC_0F1_HPP
+#define HYDRA_BOOST_MATH_HYPERGEOMETRIC_0F1_HPP
 
 #include <hydra/detail/external/hydra_boost/math/policies/policy.hpp>
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/detail/hypergeometric_series.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/detail/hypergeometric_0F1_bessel.hpp>
 
-namespace boost { namespace math { namespace detail {
+namespace hydra_boost { namespace math { namespace detail {
 
 
    template <class T>
@@ -56,8 +56,8 @@ namespace boost { namespace math { namespace detail {
    template <class T, class Policy>
    inline T hypergeometric_0F1_imp(const T& b, const T& z, const Policy& pol)
    {
-      const char* function = "boost::math::hypergeometric_0f1<%1%,%1%>(%1%, %1%)";
-      BOOST_MATH_STD_USING
+      const char* function = "hydra_boost::math::hypergeometric_0f1<%1%,%1%>(%1%, %1%)";
+      HYDRA_BOOST_MATH_STD_USING
 
          // some special cases
          if (z == 0)
@@ -89,7 +89,7 @@ namespace boost { namespace math { namespace detail {
 template <class T1, class T2, class Policy>
 inline typename tools::promote_args<T1, T2>::type hypergeometric_0F1(T1 b, T2 z, const Policy& /* pol */)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
       typedef typename tools::promote_args<T1, T2>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -103,7 +103,7 @@ inline typename tools::promote_args<T1, T2>::type hypergeometric_0F1(T1 b, T2 z,
          static_cast<value_type>(b),
          static_cast<value_type>(z),
          forwarding_policy()),
-      "boost::math::hypergeometric_0F1<%1%>(%1%,%1%)");
+      "hydra_boost::math::hypergeometric_0F1<%1%>(%1%,%1%)");
 }
 
 template <class T1, class T2>
@@ -113,6 +113,6 @@ inline typename tools::promote_args<T1, T2>::type hypergeometric_0F1(T1 b, T2 z)
 }
 
 
-} } // namespace boost::math
+} } // namespace hydra_boost::math
 
-#endif // BOOST_MATH_HYPERGEOMETRIC_HPP
+#endif // HYDRA_BOOST_MATH_HYPERGEOMETRIC_HPP

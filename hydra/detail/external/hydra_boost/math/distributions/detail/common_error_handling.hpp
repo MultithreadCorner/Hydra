@@ -6,26 +6,26 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_DISTRIBUTIONS_COMMON_ERROR_HANDLING_HPP
-#define BOOST_MATH_DISTRIBUTIONS_COMMON_ERROR_HANDLING_HPP
+#ifndef HYDRA_BOOST_MATH_DISTRIBUTIONS_COMMON_ERROR_HANDLING_HPP
+#define HYDRA_BOOST_MATH_DISTRIBUTIONS_COMMON_ERROR_HANDLING_HPP
 
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/fpclassify.hpp>
-// using boost::math::isfinite;
-// using boost::math::isnan;
+// using hydra_boost::math::isfinite;
+// using hydra_boost::math::isnan;
 
 #ifdef _MSC_VER
 # pragma warning(push)
 # pragma warning(disable: 4702) // unreachable code (return after domain_error throw).
 #endif
 
-namespace boost{ namespace math{ namespace detail
+namespace hydra_boost{ namespace math{ namespace detail
 {
 
 template <class RealType, class Policy>
 inline bool check_probability(const char* function, RealType const& prob, RealType* result, const Policy& pol)
 {
-   if((prob < 0) || (prob > 1) || !(boost::math::isfinite)(prob))
+   if((prob < 0) || (prob > 1) || !(hydra_boost::math::isfinite)(prob))
    {
       *result = policies::raise_domain_error<RealType>(
          function,
@@ -38,7 +38,7 @@ inline bool check_probability(const char* function, RealType const& prob, RealTy
 template <class RealType, class Policy>
 inline bool check_df(const char* function, RealType const& df, RealType* result, const Policy& pol)
 { //  df > 0 but NOT +infinity allowed.
-   if((df <= 0) || !(boost::math::isfinite)(df))
+   if((df <= 0) || !(hydra_boost::math::isfinite)(df))
    {
       *result = policies::raise_domain_error<RealType>(
          function,
@@ -51,7 +51,7 @@ inline bool check_df(const char* function, RealType const& df, RealType* result,
 template <class RealType, class Policy>
 inline bool check_df_gt0_to_inf(const char* function, RealType const& df, RealType* result, const Policy& pol)
 {  // df > 0 or +infinity are allowed.
-   if( (df <= 0) || (boost::math::isnan)(df) )
+   if( (df <= 0) || (hydra_boost::math::isnan)(df) )
    { // is bad df <= 0 or NaN or -infinity.
       *result = policies::raise_domain_error<RealType>(
          function,
@@ -69,7 +69,7 @@ inline bool check_scale(
       RealType* result,
       const Policy& pol)
 {
-   if((scale <= 0) || !(boost::math::isfinite)(scale))
+   if((scale <= 0) || !(hydra_boost::math::isfinite)(scale))
    { // Assume scale == 0 is NOT valid for any distribution.
       *result = policies::raise_domain_error<RealType>(
          function,
@@ -86,7 +86,7 @@ inline bool check_location(
       RealType* result,
       const Policy& pol)
 {
-   if(!(boost::math::isfinite)(location))
+   if(!(hydra_boost::math::isfinite)(location))
    {
       *result = policies::raise_domain_error<RealType>(
          function,
@@ -107,7 +107,7 @@ inline bool check_x(
    // Some distributions permit x to be infinite, so these must be tested 1st and return,
    // leaving this test to catch any NaNs.
    // See Normal, Logistic, Laplace and Cauchy for example.
-   if(!(boost::math::isfinite)(x))
+   if(!(hydra_boost::math::isfinite)(x))
    {
       *result = policies::raise_domain_error<RealType>(
          function,
@@ -127,7 +127,7 @@ inline bool check_x_not_NaN(
   // Note that this test catches only NaN.
   // Some distributions permit x to be infinite, leaving this test to catch any NaNs.
   // See Normal, Logistic, Laplace and Cauchy for example.
-  if ((boost::math::isnan)(x))
+  if ((hydra_boost::math::isnan)(x))
   {
     *result = policies::raise_domain_error<RealType>(
       function,
@@ -165,7 +165,7 @@ inline bool check_positive_x(
       RealType* result,
       const Policy& pol)
 {
-   if(!(boost::math::isfinite)(x) || (x < 0))
+   if(!(hydra_boost::math::isfinite)(x) || (x < 0))
    {
       *result = policies::raise_domain_error<RealType>(
          function,
@@ -185,8 +185,8 @@ inline bool check_non_centrality(
       RealType* result,
       const Policy& pol)
 {
-   static const RealType upper_limit = static_cast<RealType>((std::numeric_limits<long long>::max)()) - boost::math::policies::get_max_root_iterations<Policy>();
-   if((ncp < 0) || !(boost::math::isfinite)(ncp) || ncp > upper_limit)
+   static const RealType upper_limit = static_cast<RealType>((std::numeric_limits<long long>::max)()) - hydra_boost::math::policies::get_max_root_iterations<Policy>();
+   if((ncp < 0) || !(hydra_boost::math::isfinite)(ncp) || ncp > upper_limit)
    {
       *result = policies::raise_domain_error<RealType>(
          function,
@@ -203,7 +203,7 @@ inline bool check_finite(
       RealType* result,
       const Policy& pol)
 {
-   if(!(boost::math::isfinite)(x))
+   if(!(hydra_boost::math::isfinite)(x))
    { // Assume scale == 0 is NOT valid for any distribution.
       *result = policies::raise_domain_error<RealType>(
          function,
@@ -215,10 +215,10 @@ inline bool check_finite(
 
 } // namespace detail
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 #ifdef _MSC_VER
 #  pragma warning(pop)
 #endif
 
-#endif // BOOST_MATH_DISTRIBUTIONS_COMMON_ERROR_HANDLING_HPP
+#endif // HYDRA_BOOST_MATH_DISTRIBUTIONS_COMMON_ERROR_HANDLING_HPP

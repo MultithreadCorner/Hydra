@@ -33,8 +33,8 @@
 // See http://en.wikipedia.org/wiki/Poisson_distribution
 // http://documents.wolfram.com/v5/Add-onsLinks/StandardPackages/Statistics/DiscreteDistributions.html
 
-#ifndef BOOST_MATH_SPECIAL_POISSON_HPP
-#define BOOST_MATH_SPECIAL_POISSON_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_POISSON_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_POISSON_HPP
 
 #include <hydra/detail/external/hydra_boost/math/distributions/fwd.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/gamma.hpp> // for incomplete gamma. gamma_q
@@ -49,7 +49,7 @@
 #include <utility>
 #include <limits>
 
-namespace boost
+namespace hydra_boost
 {
   namespace math
   {
@@ -62,7 +62,7 @@ namespace boost
       template <class RealType, class Policy>
       inline bool check_mean(const char* function, const RealType& mean, RealType* result, const Policy& pol)
       {
-        if(!(boost::math::isfinite)(mean) || (mean < 0))
+        if(!(hydra_boost::math::isfinite)(mean) || (mean < 0))
         {
           *result = policies::raise_domain_error<RealType>(
             function,
@@ -75,7 +75,7 @@ namespace boost
       template <class RealType, class Policy>
       inline bool check_mean_NZ(const char* function, const RealType& mean, RealType* result, const Policy& pol)
       { // mean == 0 is considered an error.
-        if( !(boost::math::isfinite)(mean) || (mean <= 0))
+        if( !(hydra_boost::math::isfinite)(mean) || (mean <= 0))
         {
           *result = policies::raise_domain_error<RealType>(
             function,
@@ -94,7 +94,7 @@ namespace boost
       template <class RealType, class Policy>
       inline bool check_k(const char* function, const RealType& k, RealType* result, const Policy& pol)
       {
-        if((k < 0) || !(boost::math::isfinite)(k))
+        if((k < 0) || !(hydra_boost::math::isfinite)(k))
         {
           *result = policies::raise_domain_error<RealType>(
             function,
@@ -118,7 +118,7 @@ namespace boost
       template <class RealType, class Policy>
       inline bool check_prob(const char* function, const RealType& p, RealType* result, const Policy& pol)
       { // Check 0 <= p <= 1
-        if(!(boost::math::isfinite)(p) || (p < 0) || (p > 1))
+        if(!(hydra_boost::math::isfinite)(p) || (p < 0) || (p > 1))
         {
           *result = policies::raise_domain_error<RealType>(
             function,
@@ -152,7 +152,7 @@ namespace boost
       { // Expected mean number of events that occur during the given interval.
         RealType r;
         poisson_detail::check_dist(
-           "boost::math::poisson_distribution<%1%>::poisson_distribution",
+           "hydra_boost::math::poisson_distribution<%1%>::poisson_distribution",
           m_l,
           &r, Policy());
       } // poisson_distribution constructor.
@@ -170,7 +170,7 @@ namespace boost
 
     #ifdef __cpp_deduction_guides
     template <class RealType>
-    poisson_distribution(RealType)->poisson_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+    poisson_distribution(RealType)->poisson_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
     #endif
 
     // Non-member functions to give properties of the distribution.
@@ -178,7 +178,7 @@ namespace boost
     template <class RealType, class Policy>
     inline std::pair<RealType, RealType> range(const poisson_distribution<RealType, Policy>& /* dist */)
     { // Range of permissible values for random variable k.
-       using boost::math::tools::max_value;
+       using hydra_boost::math::tools::max_value;
        return std::pair<RealType, RealType>(static_cast<RealType>(0), max_value<RealType>()); // Max integer?
     }
 
@@ -186,7 +186,7 @@ namespace boost
     inline std::pair<RealType, RealType> support(const poisson_distribution<RealType, Policy>& /* dist */)
     { // Range of supported values for random variable k.
        // This is range where cdf rises from 0 to 1, and outside it, the pdf is zero.
-       using boost::math::tools::max_value;
+       using hydra_boost::math::tools::max_value;
        return std::pair<RealType, RealType>(static_cast<RealType>(0),  max_value<RealType>());
     }
 
@@ -199,7 +199,7 @@ namespace boost
     template <class RealType, class Policy>
     inline RealType mode(const poisson_distribution<RealType, Policy>& dist)
     { // mode.
-      BOOST_MATH_STD_USING // ADL of std functions.
+      HYDRA_BOOST_MATH_STD_USING // ADL of std functions.
       return floor(dist.mean());
     }
 
@@ -216,7 +216,7 @@ namespace boost
     template <class RealType, class Policy>
     inline RealType skewness(const poisson_distribution<RealType, Policy>& dist)
     { // skewness = sqrt(l).
-      BOOST_MATH_STD_USING // ADL of std functions.
+      HYDRA_BOOST_MATH_STD_USING // ADL of std functions.
       return 1 / sqrt(dist.mean());
     }
 
@@ -245,15 +245,15 @@ namespace boost
     RealType pdf(const poisson_distribution<RealType, Policy>& dist, const RealType& k)
     { // Probability Density/Mass Function.
       // Probability that there are EXACTLY k occurrences (or arrivals).
-      BOOST_FPU_EXCEPTION_GUARD
+      HYDRA_BOOST_FPU_EXCEPTION_GUARD
 
-      BOOST_MATH_STD_USING // for ADL of std functions.
+      HYDRA_BOOST_MATH_STD_USING // for ADL of std functions.
 
       RealType mean = dist.mean();
       // Error check:
       RealType result = 0;
       if(false == poisson_detail::check_dist_and_k(
-        "boost::math::pdf(const poisson_distribution<%1%>&, %1%)",
+        "hydra_boost::math::pdf(const poisson_distribution<%1%>&, %1%)",
         mean,
         k,
         &result, Policy()))
@@ -270,22 +270,22 @@ namespace boost
       { // mean ^ k = 1, and k! = 1, so can simplify.
         return exp(-mean);
       }
-      return boost::math::gamma_p_derivative(k+1, mean, Policy());
+      return hydra_boost::math::gamma_p_derivative(k+1, mean, Policy());
     } // pdf
 
     template <class RealType, class Policy>
     RealType logpdf(const poisson_distribution<RealType, Policy>& dist, const RealType& k)
     {
-      BOOST_FPU_EXCEPTION_GUARD
+      HYDRA_BOOST_FPU_EXCEPTION_GUARD
 
-      BOOST_MATH_STD_USING // for ADL of std functions.
-      using boost::math::lgamma;
+      HYDRA_BOOST_MATH_STD_USING // for ADL of std functions.
+      using hydra_boost::math::lgamma;
 
       RealType mean = dist.mean();
       // Error check:
       RealType result = -std::numeric_limits<RealType>::infinity();
       if(false == poisson_detail::check_dist_and_k(
-        "boost::math::pdf(const poisson_distribution<%1%>&, %1%)",
+        "hydra_boost::math::pdf(const poisson_distribution<%1%>&, %1%)",
         mean,
         k,
         &result, Policy()))
@@ -329,13 +329,13 @@ namespace boost
       // The terms are not summed directly (at least for larger k)
       // instead the incomplete gamma integral is employed,
 
-      BOOST_MATH_STD_USING // for ADL of std function exp.
+      HYDRA_BOOST_MATH_STD_USING // for ADL of std function exp.
 
       RealType mean = dist.mean();
       // Error checks:
       RealType result = 0;
       if(false == poisson_detail::check_dist_and_k(
-        "boost::math::cdf(const poisson_distribution<%1%>&, %1%)",
+        "hydra_boost::math::cdf(const poisson_distribution<%1%>&, %1%)",
         mean,
         k,
         &result, Policy()))
@@ -387,7 +387,7 @@ namespace boost
       // Error checks:
       RealType result = 0;
       if(false == poisson_detail::check_dist_and_k(
-        "boost::math::cdf(const poisson_distribution<%1%>&, %1%)",
+        "hydra_boost::math::cdf(const poisson_distribution<%1%>&, %1%)",
         mean,
         k,
         &result, Policy()))
@@ -401,7 +401,7 @@ namespace boost
       }
       if (k == 0)
       { // Avoid repeated checks on k and mean in gamma_p.
-         return -boost::math::expm1(-mean, Policy());
+         return -hydra_boost::math::expm1(-mean, Policy());
       }
       // Unlike un-complemented cdf (sum from 0 to k),
       // can't use finite sum from k+1 to infinity for small integral k,
@@ -414,7 +414,7 @@ namespace boost
     inline RealType quantile(const poisson_distribution<RealType, Policy>& dist, const RealType& p)
     { // Quantile (or Percent Point) Poisson function.
       // Return the number of expected events k for a given probability p.
-      static const char* function = "boost::math::quantile(const poisson_distribution<%1%>&, %1%)";
+      static const char* function = "hydra_boost::math::quantile(const poisson_distribution<%1%>&, %1%)";
       RealType result = 0; // of Argument checks:
       if(false == poisson_detail::check_prob(
         function,
@@ -450,7 +450,7 @@ namespace boost
       if(z < 1)
          guess = z;
       else
-         guess = boost::math::detail::inverse_poisson_cornish_fisher(z, p, RealType(1-p), Policy());
+         guess = hydra_boost::math::detail::inverse_poisson_cornish_fisher(z, p, RealType(1-p), Policy());
       if(z > 5)
       {
          if(z > 1000)
@@ -483,7 +483,7 @@ namespace boost
       // complement of the probability q.
       //
       // Error checks:
-      static const char* function = "boost::math::quantile(complement(const poisson_distribution<%1%>&, %1%))";
+      static const char* function = "hydra_boost::math::quantile(complement(const poisson_distribution<%1%>&, %1%))";
       RealType q = c.param;
       const poisson_distribution<RealType, Policy>& dist = c.dist;
       RealType result = 0;  // of argument checks.
@@ -521,7 +521,7 @@ namespace boost
       if(z < 1)
          guess = z;
       else
-         guess = boost::math::detail::inverse_poisson_cornish_fisher(z, RealType(1-q), q, Policy());
+         guess = hydra_boost::math::detail::inverse_poisson_cornish_fisher(z, RealType(1-q), q, Policy());
       if(z > 5)
       {
          if(z > 1000)
@@ -548,14 +548,14 @@ namespace boost
    } // quantile complement.
 
   } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_MATH_SPECIAL_POISSON_HPP
+#endif // HYDRA_BOOST_MATH_SPECIAL_POISSON_HPP
 
 
 

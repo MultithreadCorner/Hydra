@@ -8,19 +8,19 @@
 // See http://www.boost.org for updates, documentation, and revision history.
 
 
-#ifndef BOOST_OCTONION_HPP
-#define BOOST_OCTONION_HPP
+#ifndef HYDRA_BOOST_OCTONION_HPP
+#define HYDRA_BOOST_OCTONION_HPP
 
 #include <hydra/detail/external/hydra_boost/math/quaternion.hpp>
 #include <valarray>
 
 
-namespace boost
+namespace hydra_boost
 {
     namespace math
     {
 
-#define    BOOST_OCTONION_ACCESSOR_GENERATOR(type)                      \
+#define    HYDRA_BOOST_OCTONION_ACCESSOR_GENERATOR(type)                      \
             type                        real() const                    \
             {                                                           \
                 return(a);                                              \
@@ -91,18 +91,18 @@ namespace boost
                 return(::std::complex<type>(g,h));                      \
             }                                                           \
                                                                         \
-            ::boost::math::quaternion<type>    H_component_1() const    \
+            ::hydra_boost::math::quaternion<type>    H_component_1() const    \
             {                                                           \
-                return(::boost::math::quaternion<type>(a,b,c,d));       \
+                return(::hydra_boost::math::quaternion<type>(a,b,c,d));       \
             }                                                           \
                                                                         \
-            ::boost::math::quaternion<type>    H_component_2() const    \
+            ::hydra_boost::math::quaternion<type>    H_component_2() const    \
             {                                                           \
-                return(::boost::math::quaternion<type>(e,f,g,h));       \
+                return(::hydra_boost::math::quaternion<type>(e,f,g,h));       \
             }
 
 
-#define    BOOST_OCTONION_MEMBER_ASSIGNMENT_GENERATOR(type)                                         \
+#define    HYDRA_BOOST_OCTONION_MEMBER_ASSIGNMENT_GENERATOR(type)                                         \
             template<typename X>                                                                    \
             octonion<type> &        operator = (octonion<X> const & a_affecter)                     \
             {                                                                                       \
@@ -151,7 +151,7 @@ namespace boost
                 return(*this);                                                                      \
             }                                                                                       \
                                                                                                     \
-            octonion<type> &        operator = (::boost::math::quaternion<type> const & a_affecter) \
+            octonion<type> &        operator = (::hydra_boost::math::quaternion<type> const & a_affecter) \
             {                                                                                       \
                 a = a_affecter.R_component_1();                                                     \
                 b = a_affecter.R_component_2();                                                     \
@@ -164,7 +164,7 @@ namespace boost
             }
 
 
-#define    BOOST_OCTONION_MEMBER_DATA_GENERATOR(type) \
+#define    HYDRA_BOOST_OCTONION_MEMBER_DATA_GENERATOR(type) \
             type    a;                                \
             type    b;                                \
             type    c;                                \
@@ -227,8 +227,8 @@ namespace boost
 
             // constructor for O seen as H^2
 
-            explicit                octonion(   ::boost::math::quaternion<T> const & q0,
-                                                ::boost::math::quaternion<T> const & q1 = ::boost::math::quaternion<T>())
+            explicit                octonion(   ::hydra_boost::math::quaternion<T> const & q0,
+                                                ::hydra_boost::math::quaternion<T> const & q1 = ::hydra_boost::math::quaternion<T>())
             :   a(q0.R_component_1()),
                 b(q0.R_component_2()),
                 c(q0.R_component_3()),
@@ -276,11 +276,11 @@ namespace boost
             //            However, for practicality, there are accessors for the other components
             //            (these are necessary for the templated copy constructor, for instance).
 
-            BOOST_OCTONION_ACCESSOR_GENERATOR(T)
+            HYDRA_BOOST_OCTONION_ACCESSOR_GENERATOR(T)
 
             // assignment operators
 
-            BOOST_OCTONION_MEMBER_ASSIGNMENT_GENERATOR(T)
+            HYDRA_BOOST_OCTONION_MEMBER_ASSIGNMENT_GENERATOR(T)
 
             // other assignment-related operators
             //
@@ -311,7 +311,7 @@ namespace boost
             }
 
 
-            octonion<T> &            operator += (::boost::math::quaternion<T> const & rhs)
+            octonion<T> &            operator += (::hydra_boost::math::quaternion<T> const & rhs)
             {
                 T    at = a + rhs.R_component_1();    // exception guard
                 T    bt = b + rhs.R_component_2();    // exception guard
@@ -375,7 +375,7 @@ namespace boost
             }
 
 
-            octonion<T> &            operator -= (::boost::math::quaternion<T> const & rhs)
+            octonion<T> &            operator -= (::hydra_boost::math::quaternion<T> const & rhs)
             {
                 T    at = a - rhs.R_component_1();    // exception guard
                 T    bt = b - rhs.R_component_2();    // exception guard
@@ -467,7 +467,7 @@ namespace boost
             }
 
 
-            octonion<T> &            operator *= (::boost::math::quaternion<T> const & rhs)
+            octonion<T> &            operator *= (::hydra_boost::math::quaternion<T> const & rhs)
             {
                 T    ar = rhs.R_component_1();
                 T    br = rhs.R_component_2();
@@ -583,7 +583,7 @@ namespace boost
             }
 
 
-            octonion<T> &            operator /= (::boost::math::quaternion<T> const & rhs)
+            octonion<T> &            operator /= (::hydra_boost::math::quaternion<T> const & rhs)
             {
                 T    ar = rhs.R_component_1();
                 T    br = rhs.R_component_2();
@@ -652,7 +652,7 @@ namespace boost
 
         protected:
 
-            BOOST_OCTONION_MEMBER_DATA_GENERATOR(T)
+            HYDRA_BOOST_OCTONION_MEMBER_DATA_GENERATOR(T)
 
 
         private:
@@ -682,7 +682,7 @@ namespace boost
         // implementation of octonion specialization
 
 
-#define    BOOST_OCTONION_CONSTRUCTOR_GENERATOR(type)                                                                               \
+#define    HYDRA_BOOST_OCTONION_CONSTRUCTOR_GENERATOR(type)                                                                               \
             explicit                    octonion(   type const & requested_a = static_cast<type>(0),                                \
                                                     type const & requested_b = static_cast<type>(0),                                \
                                                     type const & requested_c = static_cast<type>(0),                                \
@@ -717,8 +717,8 @@ namespace boost
             {                                                                                                                       \
             }                                                                                                                       \
                                                                                                                                     \
-            explicit                    octonion(   ::boost::math::quaternion<type> const & q0,                                     \
-                                                    ::boost::math::quaternion<type> const & q1 = ::boost::math::quaternion<type>()) \
+            explicit                    octonion(   ::hydra_boost::math::quaternion<type> const & q0,                                     \
+                                                    ::hydra_boost::math::quaternion<type> const & q1 = ::hydra_boost::math::quaternion<type>()) \
             :   a(q0.R_component_1()),                                                                                              \
                 b(q0.R_component_2()),                                                                                              \
                 c(q0.R_component_3()),                                                                                              \
@@ -731,7 +731,7 @@ namespace boost
             }
 
 
-#define    BOOST_OCTONION_MEMBER_ADD_GENERATOR_1(type)                  \
+#define    HYDRA_BOOST_OCTONION_MEMBER_ADD_GENERATOR_1(type)                  \
             octonion<type> &            operator += (type const & rhs)  \
             {                                                           \
                 a += rhs;                                               \
@@ -739,7 +739,7 @@ namespace boost
                 return(*this);                                          \
             }
 
-#define    BOOST_OCTONION_MEMBER_ADD_GENERATOR_2(type)                                  \
+#define    HYDRA_BOOST_OCTONION_MEMBER_ADD_GENERATOR_2(type)                                  \
             octonion<type> &            operator += (::std::complex<type> const & rhs)  \
             {                                                                           \
                 a += rhs.real();                                                        \
@@ -748,8 +748,8 @@ namespace boost
                 return(*this);                                                          \
             }
 
-#define    BOOST_OCTONION_MEMBER_ADD_GENERATOR_3(type)                                              \
-            octonion<type> &            operator += (::boost::math::quaternion<type> const & rhs)   \
+#define    HYDRA_BOOST_OCTONION_MEMBER_ADD_GENERATOR_3(type)                                              \
+            octonion<type> &            operator += (::hydra_boost::math::quaternion<type> const & rhs)   \
             {                                                                                       \
                 a += rhs.R_component_1();                                                           \
                 b += rhs.R_component_2();                                                           \
@@ -759,7 +759,7 @@ namespace boost
                 return(*this);                                                                      \
             }
 
-#define    BOOST_OCTONION_MEMBER_ADD_GENERATOR_4(type)                          \
+#define    HYDRA_BOOST_OCTONION_MEMBER_ADD_GENERATOR_4(type)                          \
             template<typename X>                                                \
             octonion<type> &            operator += (octonion<X> const & rhs)   \
             {                                                                   \
@@ -775,7 +775,7 @@ namespace boost
                 return(*this);                                                  \
             }
 
-#define    BOOST_OCTONION_MEMBER_SUB_GENERATOR_1(type)                  \
+#define    HYDRA_BOOST_OCTONION_MEMBER_SUB_GENERATOR_1(type)                  \
             octonion<type> &            operator -= (type const & rhs)  \
             {                                                           \
                 a -= rhs;                                               \
@@ -783,7 +783,7 @@ namespace boost
                 return(*this);                                          \
             }
 
-#define    BOOST_OCTONION_MEMBER_SUB_GENERATOR_2(type)                                  \
+#define    HYDRA_BOOST_OCTONION_MEMBER_SUB_GENERATOR_2(type)                                  \
             octonion<type> &            operator -= (::std::complex<type> const & rhs)  \
             {                                                                           \
                 a -= rhs.real();                                                        \
@@ -792,8 +792,8 @@ namespace boost
                 return(*this);                                                          \
             }
 
-#define    BOOST_OCTONION_MEMBER_SUB_GENERATOR_3(type)                                              \
-            octonion<type> &            operator -= (::boost::math::quaternion<type> const & rhs)   \
+#define    HYDRA_BOOST_OCTONION_MEMBER_SUB_GENERATOR_3(type)                                              \
+            octonion<type> &            operator -= (::hydra_boost::math::quaternion<type> const & rhs)   \
             {                                                                                       \
                 a -= rhs.R_component_1();                                                           \
                 b -= rhs.R_component_2();                                                           \
@@ -803,7 +803,7 @@ namespace boost
                 return(*this);                                                                      \
             }
 
-#define    BOOST_OCTONION_MEMBER_SUB_GENERATOR_4(type)                        \
+#define    HYDRA_BOOST_OCTONION_MEMBER_SUB_GENERATOR_4(type)                        \
             template<typename X>                                              \
             octonion<type> &            operator -= (octonion<X> const & rhs) \
             {                                                                 \
@@ -819,7 +819,7 @@ namespace boost
                 return(*this);                                                \
             }
 
-#define    BOOST_OCTONION_MEMBER_MUL_GENERATOR_1(type)                   \
+#define    HYDRA_BOOST_OCTONION_MEMBER_MUL_GENERATOR_1(type)                   \
             octonion<type> &            operator *= (type const & rhs)   \
             {                                                            \
                 a *= rhs;                                                \
@@ -834,7 +834,7 @@ namespace boost
                 return(*this);                                           \
             }
 
-#define    BOOST_OCTONION_MEMBER_MUL_GENERATOR_2(type)                                  \
+#define    HYDRA_BOOST_OCTONION_MEMBER_MUL_GENERATOR_2(type)                                  \
             octonion<type> &            operator *= (::std::complex<type> const & rhs)  \
             {                                                                           \
                 type    ar = rhs.real();                                                \
@@ -861,8 +861,8 @@ namespace boost
                 return(*this);                                                          \
             }
 
-#define    BOOST_OCTONION_MEMBER_MUL_GENERATOR_3(type)                                                    \
-            octonion<type> &            operator *= (::boost::math::quaternion<type> const & rhs)   \
+#define    HYDRA_BOOST_OCTONION_MEMBER_MUL_GENERATOR_3(type)                                                    \
+            octonion<type> &            operator *= (::hydra_boost::math::quaternion<type> const & rhs)   \
             {                                                                                       \
                 type    ar = rhs.R_component_1();                                                   \
                 type    br = rhs.R_component_2();                                                   \
@@ -890,7 +890,7 @@ namespace boost
                 return(*this);                                                                      \
             }
 
-#define    BOOST_OCTONION_MEMBER_MUL_GENERATOR_4(type)                          \
+#define    HYDRA_BOOST_OCTONION_MEMBER_MUL_GENERATOR_4(type)                          \
             template<typename X>                                                \
             octonion<type> &            operator *= (octonion<X> const & rhs)   \
             {                                                                   \
@@ -931,7 +931,7 @@ namespace boost
 // not, we will be able to remove the clutter. This is makes the situation
 // (painfully) explicit.
 
-#define    BOOST_OCTONION_MEMBER_DIV_GENERATOR_1(type)                  \
+#define    HYDRA_BOOST_OCTONION_MEMBER_DIV_GENERATOR_1(type)                  \
             octonion<type> &            operator /= (type const & rhs)  \
             {                                                           \
                 a /= rhs;                                               \
@@ -942,8 +942,8 @@ namespace boost
                 return(*this);                                          \
             }
 
-#if defined(BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP)
-    #define    BOOST_OCTONION_MEMBER_DIV_GENERATOR_2(type)                              \
+#if defined(HYDRA_BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP)
+    #define    HYDRA_BOOST_OCTONION_MEMBER_DIV_GENERATOR_2(type)                              \
             octonion<type> &            operator /= (::std::complex<type> const & rhs)  \
             {                                                                           \
                 using    ::std::valarray;                                               \
@@ -985,7 +985,7 @@ namespace boost
                 return(*this);                                                          \
             }
 #else
-    #define    BOOST_OCTONION_MEMBER_DIV_GENERATOR_2(type)                              \
+    #define    HYDRA_BOOST_OCTONION_MEMBER_DIV_GENERATOR_2(type)                              \
             octonion<type> &            operator /= (::std::complex<type> const & rhs)  \
             {                                                                           \
                 using    ::std::valarray;                                               \
@@ -1025,11 +1025,11 @@ namespace boost
                                                                                         \
                 return(*this);                                                          \
             }
-#endif /* BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP */
+#endif /* HYDRA_BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP */
 
-#if defined(BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP)
-    #define    BOOST_OCTONION_MEMBER_DIV_GENERATOR_3(type)                                           \
-            octonion<type> &            operator /= (::boost::math::quaternion<type> const & rhs)    \
+#if defined(HYDRA_BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP)
+    #define    HYDRA_BOOST_OCTONION_MEMBER_DIV_GENERATOR_3(type)                                           \
+            octonion<type> &            operator /= (::hydra_boost::math::quaternion<type> const & rhs)    \
             {                                                                                        \
                 using    ::std::valarray;                                                            \
                 using    ::std::abs;                                                                 \
@@ -1072,8 +1072,8 @@ namespace boost
                 return(*this);                                                                       \
             }
 #else
-    #define    BOOST_OCTONION_MEMBER_DIV_GENERATOR_3(type)                                           \
-            octonion<type> &            operator /= (::boost::math::quaternion<type> const & rhs)    \
+    #define    HYDRA_BOOST_OCTONION_MEMBER_DIV_GENERATOR_3(type)                                           \
+            octonion<type> &            operator /= (::hydra_boost::math::quaternion<type> const & rhs)    \
             {                                                                                        \
                 using    ::std::valarray;                                                            \
                                                                                                      \
@@ -1114,10 +1114,10 @@ namespace boost
                                                                                                      \
                 return(*this);                                                                       \
             }
-#endif /* BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP */
+#endif /* HYDRA_BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP */
 
-#if defined(BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP)
-    #define    BOOST_OCTONION_MEMBER_DIV_GENERATOR_4(type)                                           \
+#if defined(HYDRA_BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP)
+    #define    HYDRA_BOOST_OCTONION_MEMBER_DIV_GENERATOR_4(type)                                           \
             template<typename X>                                                                     \
             octonion<type> &            operator /= (octonion<X> const & rhs)                        \
             {                                                                                        \
@@ -1166,7 +1166,7 @@ namespace boost
                 return(*this);                                                                       \
             }
 #else
-    #define    BOOST_OCTONION_MEMBER_DIV_GENERATOR_4(type)                                           \
+    #define    HYDRA_BOOST_OCTONION_MEMBER_DIV_GENERATOR_4(type)                                           \
             template<typename X>                                                                     \
             octonion<type> &            operator /= (octonion<X> const & rhs)                        \
             {                                                                                        \
@@ -1213,38 +1213,38 @@ namespace boost
                                                                                                      \
                 return(*this);                                                                       \
             }
-#endif /* BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP */
+#endif /* HYDRA_BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP */
 
 
-#define    BOOST_OCTONION_MEMBER_ADD_GENERATOR(type)       \
-        BOOST_OCTONION_MEMBER_ADD_GENERATOR_1(type)        \
-        BOOST_OCTONION_MEMBER_ADD_GENERATOR_2(type)        \
-        BOOST_OCTONION_MEMBER_ADD_GENERATOR_3(type)        \
-        BOOST_OCTONION_MEMBER_ADD_GENERATOR_4(type)
+#define    HYDRA_BOOST_OCTONION_MEMBER_ADD_GENERATOR(type)       \
+        HYDRA_BOOST_OCTONION_MEMBER_ADD_GENERATOR_1(type)        \
+        HYDRA_BOOST_OCTONION_MEMBER_ADD_GENERATOR_2(type)        \
+        HYDRA_BOOST_OCTONION_MEMBER_ADD_GENERATOR_3(type)        \
+        HYDRA_BOOST_OCTONION_MEMBER_ADD_GENERATOR_4(type)
 
-#define    BOOST_OCTONION_MEMBER_SUB_GENERATOR(type)       \
-        BOOST_OCTONION_MEMBER_SUB_GENERATOR_1(type)        \
-        BOOST_OCTONION_MEMBER_SUB_GENERATOR_2(type)        \
-        BOOST_OCTONION_MEMBER_SUB_GENERATOR_3(type)        \
-        BOOST_OCTONION_MEMBER_SUB_GENERATOR_4(type)
+#define    HYDRA_BOOST_OCTONION_MEMBER_SUB_GENERATOR(type)       \
+        HYDRA_BOOST_OCTONION_MEMBER_SUB_GENERATOR_1(type)        \
+        HYDRA_BOOST_OCTONION_MEMBER_SUB_GENERATOR_2(type)        \
+        HYDRA_BOOST_OCTONION_MEMBER_SUB_GENERATOR_3(type)        \
+        HYDRA_BOOST_OCTONION_MEMBER_SUB_GENERATOR_4(type)
 
-#define    BOOST_OCTONION_MEMBER_MUL_GENERATOR(type)       \
-        BOOST_OCTONION_MEMBER_MUL_GENERATOR_1(type)        \
-        BOOST_OCTONION_MEMBER_MUL_GENERATOR_2(type)        \
-        BOOST_OCTONION_MEMBER_MUL_GENERATOR_3(type)        \
-        BOOST_OCTONION_MEMBER_MUL_GENERATOR_4(type)
+#define    HYDRA_BOOST_OCTONION_MEMBER_MUL_GENERATOR(type)       \
+        HYDRA_BOOST_OCTONION_MEMBER_MUL_GENERATOR_1(type)        \
+        HYDRA_BOOST_OCTONION_MEMBER_MUL_GENERATOR_2(type)        \
+        HYDRA_BOOST_OCTONION_MEMBER_MUL_GENERATOR_3(type)        \
+        HYDRA_BOOST_OCTONION_MEMBER_MUL_GENERATOR_4(type)
 
-#define    BOOST_OCTONION_MEMBER_DIV_GENERATOR(type)       \
-        BOOST_OCTONION_MEMBER_DIV_GENERATOR_1(type)        \
-        BOOST_OCTONION_MEMBER_DIV_GENERATOR_2(type)        \
-        BOOST_OCTONION_MEMBER_DIV_GENERATOR_3(type)        \
-        BOOST_OCTONION_MEMBER_DIV_GENERATOR_4(type)
+#define    HYDRA_BOOST_OCTONION_MEMBER_DIV_GENERATOR(type)       \
+        HYDRA_BOOST_OCTONION_MEMBER_DIV_GENERATOR_1(type)        \
+        HYDRA_BOOST_OCTONION_MEMBER_DIV_GENERATOR_2(type)        \
+        HYDRA_BOOST_OCTONION_MEMBER_DIV_GENERATOR_3(type)        \
+        HYDRA_BOOST_OCTONION_MEMBER_DIV_GENERATOR_4(type)
 
-#define    BOOST_OCTONION_MEMBER_ALGEBRAIC_GENERATOR(type) \
-        BOOST_OCTONION_MEMBER_ADD_GENERATOR(type)          \
-        BOOST_OCTONION_MEMBER_SUB_GENERATOR(type)          \
-        BOOST_OCTONION_MEMBER_MUL_GENERATOR(type)          \
-        BOOST_OCTONION_MEMBER_DIV_GENERATOR(type)
+#define    HYDRA_BOOST_OCTONION_MEMBER_ALGEBRAIC_GENERATOR(type) \
+        HYDRA_BOOST_OCTONION_MEMBER_ADD_GENERATOR(type)          \
+        HYDRA_BOOST_OCTONION_MEMBER_SUB_GENERATOR(type)          \
+        HYDRA_BOOST_OCTONION_MEMBER_MUL_GENERATOR(type)          \
+        HYDRA_BOOST_OCTONION_MEMBER_DIV_GENERATOR(type)
 
 
         template<>
@@ -1254,7 +1254,7 @@ namespace boost
 
             using value_type = float;
 
-            BOOST_OCTONION_CONSTRUCTOR_GENERATOR(float)
+            HYDRA_BOOST_OCTONION_CONSTRUCTOR_GENERATOR(float)
 
             // UNtemplated copy constructor
             octonion(const octonion&) = default;
@@ -1283,11 +1283,11 @@ namespace boost
             //            However, for practicality, there are accessors for the other components
             //            (these are necessary for the templated copy constructor, for instance).
 
-            BOOST_OCTONION_ACCESSOR_GENERATOR(float)
+            HYDRA_BOOST_OCTONION_ACCESSOR_GENERATOR(float)
 
             // assignment operators
 
-            BOOST_OCTONION_MEMBER_ASSIGNMENT_GENERATOR(float)
+            HYDRA_BOOST_OCTONION_MEMBER_ASSIGNMENT_GENERATOR(float)
 
             // other assignment-related operators
             //
@@ -1296,12 +1296,12 @@ namespace boost
             //            and "q /= rhs;" means "q = q * inverse_of(rhs);";
             //            octonion multiplication is also *NOT* associative
 
-            BOOST_OCTONION_MEMBER_ALGEBRAIC_GENERATOR(float)
+            HYDRA_BOOST_OCTONION_MEMBER_ALGEBRAIC_GENERATOR(float)
 
 
         protected:
 
-            BOOST_OCTONION_MEMBER_DATA_GENERATOR(float)
+            HYDRA_BOOST_OCTONION_MEMBER_DATA_GENERATOR(float)
         };
 
 
@@ -1312,7 +1312,7 @@ namespace boost
 
             using value_type = double;
 
-            BOOST_OCTONION_CONSTRUCTOR_GENERATOR(double)
+            HYDRA_BOOST_OCTONION_CONSTRUCTOR_GENERATOR(double)
 
             // Untemplated copy constructor
             octonion(const octonion&) = default;
@@ -1343,11 +1343,11 @@ namespace boost
             //            However, for practicality, there are accessors for the other components
             //            (these are necessary for the templated copy constructor, for instance).
 
-            BOOST_OCTONION_ACCESSOR_GENERATOR(double)
+            HYDRA_BOOST_OCTONION_ACCESSOR_GENERATOR(double)
 
             // assignment operators
 
-            BOOST_OCTONION_MEMBER_ASSIGNMENT_GENERATOR(double)
+            HYDRA_BOOST_OCTONION_MEMBER_ASSIGNMENT_GENERATOR(double)
 
             // other assignment-related operators
             //
@@ -1356,12 +1356,12 @@ namespace boost
             //            and "q /= rhs;" means "q = q * inverse_of(rhs);";
             //            octonion multiplication is also *NOT* associative
 
-            BOOST_OCTONION_MEMBER_ALGEBRAIC_GENERATOR(double)
+            HYDRA_BOOST_OCTONION_MEMBER_ALGEBRAIC_GENERATOR(double)
 
 
         protected:
 
-            BOOST_OCTONION_MEMBER_DATA_GENERATOR(double)
+            HYDRA_BOOST_OCTONION_MEMBER_DATA_GENERATOR(double)
         };
 
 
@@ -1372,7 +1372,7 @@ namespace boost
 
             using value_type = long double;
 
-            BOOST_OCTONION_CONSTRUCTOR_GENERATOR(long double)
+            HYDRA_BOOST_OCTONION_CONSTRUCTOR_GENERATOR(long double)
 
             // UNtemplated copy constructor
             octonion(const octonion&) = default;
@@ -1403,11 +1403,11 @@ namespace boost
             //            However, for practicality, there are accessors for the other components
             //            (these are necessary for the templated copy constructor, for instance).
 
-            BOOST_OCTONION_ACCESSOR_GENERATOR(long double)
+            HYDRA_BOOST_OCTONION_ACCESSOR_GENERATOR(long double)
 
             // assignment operators
 
-            BOOST_OCTONION_MEMBER_ASSIGNMENT_GENERATOR(long double)
+            HYDRA_BOOST_OCTONION_MEMBER_ASSIGNMENT_GENERATOR(long double)
 
             // other assignment-related operators
             //
@@ -1416,12 +1416,12 @@ namespace boost
             //            and "q /= rhs;" means "q = q * inverse_of(rhs);";
             //            octonion multiplication is also *NOT* associative
 
-            BOOST_OCTONION_MEMBER_ALGEBRAIC_GENERATOR(long double)
+            HYDRA_BOOST_OCTONION_MEMBER_ALGEBRAIC_GENERATOR(long double)
 
 
         protected:
 
-            BOOST_OCTONION_MEMBER_DATA_GENERATOR(long double)
+            HYDRA_BOOST_OCTONION_MEMBER_DATA_GENERATOR(long double)
 
 
         private:
@@ -1429,111 +1429,111 @@ namespace boost
         };
 
 
-#undef    BOOST_OCTONION_CONSTRUCTOR_GENERATOR
+#undef    HYDRA_BOOST_OCTONION_CONSTRUCTOR_GENERATOR
 
-#undef    BOOST_OCTONION_MEMBER_ALGEBRAIC_GENERATOR
+#undef    HYDRA_BOOST_OCTONION_MEMBER_ALGEBRAIC_GENERATOR
 
-#undef    BOOST_OCTONION_MEMBER_ADD_GENERATOR
-#undef    BOOST_OCTONION_MEMBER_SUB_GENERATOR
-#undef    BOOST_OCTONION_MEMBER_MUL_GENERATOR
-#undef    BOOST_OCTONION_MEMBER_DIV_GENERATOR
+#undef    HYDRA_BOOST_OCTONION_MEMBER_ADD_GENERATOR
+#undef    HYDRA_BOOST_OCTONION_MEMBER_SUB_GENERATOR
+#undef    HYDRA_BOOST_OCTONION_MEMBER_MUL_GENERATOR
+#undef    HYDRA_BOOST_OCTONION_MEMBER_DIV_GENERATOR
 
-#undef    BOOST_OCTONION_MEMBER_ADD_GENERATOR_1
-#undef    BOOST_OCTONION_MEMBER_ADD_GENERATOR_2
-#undef    BOOST_OCTONION_MEMBER_ADD_GENERATOR_3
-#undef    BOOST_OCTONION_MEMBER_ADD_GENERATOR_4
-#undef    BOOST_OCTONION_MEMBER_SUB_GENERATOR_1
-#undef    BOOST_OCTONION_MEMBER_SUB_GENERATOR_2
-#undef    BOOST_OCTONION_MEMBER_SUB_GENERATOR_3
-#undef    BOOST_OCTONION_MEMBER_SUB_GENERATOR_4
-#undef    BOOST_OCTONION_MEMBER_MUL_GENERATOR_1
-#undef    BOOST_OCTONION_MEMBER_MUL_GENERATOR_2
-#undef    BOOST_OCTONION_MEMBER_MUL_GENERATOR_3
-#undef    BOOST_OCTONION_MEMBER_MUL_GENERATOR_4
-#undef    BOOST_OCTONION_MEMBER_DIV_GENERATOR_1
-#undef    BOOST_OCTONION_MEMBER_DIV_GENERATOR_2
-#undef    BOOST_OCTONION_MEMBER_DIV_GENERATOR_3
-#undef    BOOST_OCTONION_MEMBER_DIV_GENERATOR_4
+#undef    HYDRA_BOOST_OCTONION_MEMBER_ADD_GENERATOR_1
+#undef    HYDRA_BOOST_OCTONION_MEMBER_ADD_GENERATOR_2
+#undef    HYDRA_BOOST_OCTONION_MEMBER_ADD_GENERATOR_3
+#undef    HYDRA_BOOST_OCTONION_MEMBER_ADD_GENERATOR_4
+#undef    HYDRA_BOOST_OCTONION_MEMBER_SUB_GENERATOR_1
+#undef    HYDRA_BOOST_OCTONION_MEMBER_SUB_GENERATOR_2
+#undef    HYDRA_BOOST_OCTONION_MEMBER_SUB_GENERATOR_3
+#undef    HYDRA_BOOST_OCTONION_MEMBER_SUB_GENERATOR_4
+#undef    HYDRA_BOOST_OCTONION_MEMBER_MUL_GENERATOR_1
+#undef    HYDRA_BOOST_OCTONION_MEMBER_MUL_GENERATOR_2
+#undef    HYDRA_BOOST_OCTONION_MEMBER_MUL_GENERATOR_3
+#undef    HYDRA_BOOST_OCTONION_MEMBER_MUL_GENERATOR_4
+#undef    HYDRA_BOOST_OCTONION_MEMBER_DIV_GENERATOR_1
+#undef    HYDRA_BOOST_OCTONION_MEMBER_DIV_GENERATOR_2
+#undef    HYDRA_BOOST_OCTONION_MEMBER_DIV_GENERATOR_3
+#undef    HYDRA_BOOST_OCTONION_MEMBER_DIV_GENERATOR_4
 
 
-#undef    BOOST_OCTONION_MEMBER_DATA_GENERATOR
+#undef    HYDRA_BOOST_OCTONION_MEMBER_DATA_GENERATOR
 
-#undef    BOOST_OCTONION_MEMBER_ASSIGNMENT_GENERATOR
+#undef    HYDRA_BOOST_OCTONION_MEMBER_ASSIGNMENT_GENERATOR
 
-#undef    BOOST_OCTONION_ACCESSOR_GENERATOR
+#undef    HYDRA_BOOST_OCTONION_ACCESSOR_GENERATOR
 
 
         // operators
 
-#define    BOOST_OCTONION_OPERATOR_GENERATOR_BODY(op) \
+#define    HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_BODY(op) \
         {                                             \
             octonion<T>    res(lhs);                  \
             res op##= rhs;                            \
             return(res);                              \
         }
 
-#define    BOOST_OCTONION_OPERATOR_GENERATOR_1_L(op)                                                                              \
+#define    HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_1_L(op)                                                                              \
         template<typename T>                                                                                                      \
         inline octonion<T>                        operator op (T const & lhs, octonion<T> const & rhs)                            \
-        BOOST_OCTONION_OPERATOR_GENERATOR_BODY(op)
+        HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_BODY(op)
 
-#define    BOOST_OCTONION_OPERATOR_GENERATOR_1_R(op)                                                                              \
+#define    HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_1_R(op)                                                                              \
         template<typename T>                                                                                                      \
         inline octonion<T>                        operator op (octonion<T> const & lhs, T const & rhs)                            \
-        BOOST_OCTONION_OPERATOR_GENERATOR_BODY(op)
+        HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_BODY(op)
 
-#define    BOOST_OCTONION_OPERATOR_GENERATOR_2_L(op)                                                                              \
+#define    HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_2_L(op)                                                                              \
         template<typename T>                                                                                                      \
         inline octonion<T>                        operator op (::std::complex<T> const & lhs, octonion<T> const & rhs)            \
-        BOOST_OCTONION_OPERATOR_GENERATOR_BODY(op)
+        HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_BODY(op)
 
-#define    BOOST_OCTONION_OPERATOR_GENERATOR_2_R(op)                                                                              \
+#define    HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_2_R(op)                                                                              \
         template<typename T>                                                                                                      \
         inline octonion<T>                        operator op (octonion<T> const & lhs, ::std::complex<T> const & rhs)            \
-        BOOST_OCTONION_OPERATOR_GENERATOR_BODY(op)
+        HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_BODY(op)
 
-#define    BOOST_OCTONION_OPERATOR_GENERATOR_3_L(op)                                                                              \
+#define    HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_3_L(op)                                                                              \
         template<typename T>                                                                                                      \
-        inline octonion<T>                        operator op (::boost::math::quaternion<T> const & lhs, octonion<T> const & rhs) \
-        BOOST_OCTONION_OPERATOR_GENERATOR_BODY(op)
+        inline octonion<T>                        operator op (::hydra_boost::math::quaternion<T> const & lhs, octonion<T> const & rhs) \
+        HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_BODY(op)
 
-#define    BOOST_OCTONION_OPERATOR_GENERATOR_3_R(op)                                                                              \
+#define    HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_3_R(op)                                                                              \
         template<typename T>                                                                                                      \
-        inline octonion<T>                        operator op (octonion<T> const & lhs, ::boost::math::quaternion<T> const & rhs) \
-        BOOST_OCTONION_OPERATOR_GENERATOR_BODY(op)
+        inline octonion<T>                        operator op (octonion<T> const & lhs, ::hydra_boost::math::quaternion<T> const & rhs) \
+        HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_BODY(op)
 
-#define    BOOST_OCTONION_OPERATOR_GENERATOR_4(op)                                                                                \
+#define    HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_4(op)                                                                                \
         template<typename T>                                                                                                      \
         inline octonion<T>                        operator op (octonion<T> const & lhs, octonion<T> const & rhs)                  \
-        BOOST_OCTONION_OPERATOR_GENERATOR_BODY(op)
+        HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_BODY(op)
 
-#define    BOOST_OCTONION_OPERATOR_GENERATOR(op)     \
-        BOOST_OCTONION_OPERATOR_GENERATOR_1_L(op)    \
-        BOOST_OCTONION_OPERATOR_GENERATOR_1_R(op)    \
-        BOOST_OCTONION_OPERATOR_GENERATOR_2_L(op)    \
-        BOOST_OCTONION_OPERATOR_GENERATOR_2_R(op)    \
-        BOOST_OCTONION_OPERATOR_GENERATOR_3_L(op)    \
-        BOOST_OCTONION_OPERATOR_GENERATOR_3_R(op)    \
-        BOOST_OCTONION_OPERATOR_GENERATOR_4(op)
-
-
-        BOOST_OCTONION_OPERATOR_GENERATOR(+)
-        BOOST_OCTONION_OPERATOR_GENERATOR(-)
-        BOOST_OCTONION_OPERATOR_GENERATOR(*)
-        BOOST_OCTONION_OPERATOR_GENERATOR(/)
+#define    HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR(op)     \
+        HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_1_L(op)    \
+        HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_1_R(op)    \
+        HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_2_L(op)    \
+        HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_2_R(op)    \
+        HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_3_L(op)    \
+        HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_3_R(op)    \
+        HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_4(op)
 
 
-#undef    BOOST_OCTONION_OPERATOR_GENERATOR
+        HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR(+)
+        HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR(-)
+        HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR(*)
+        HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR(/)
 
-#undef    BOOST_OCTONION_OPERATOR_GENERATOR_1_L
-#undef    BOOST_OCTONION_OPERATOR_GENERATOR_1_R
-#undef    BOOST_OCTONION_OPERATOR_GENERATOR_2_L
-#undef    BOOST_OCTONION_OPERATOR_GENERATOR_2_R
-#undef    BOOST_OCTONION_OPERATOR_GENERATOR_3_L
-#undef    BOOST_OCTONION_OPERATOR_GENERATOR_3_R
-#undef    BOOST_OCTONION_OPERATOR_GENERATOR_4
 
-#undef    BOOST_OCTONION_OPERATOR_GENERATOR_BODY
+#undef    HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR
+
+#undef    HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_1_L
+#undef    HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_1_R
+#undef    HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_2_L
+#undef    HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_2_R
+#undef    HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_3_L
+#undef    HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_3_R
+#undef    HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_4
+
+#undef    HYDRA_BOOST_OCTONION_OPERATOR_GENERATOR_BODY
 
 
         template<typename T>
@@ -1615,7 +1615,7 @@ namespace boost
 
 
         template<typename T>
-        inline bool                                operator == (::boost::math::quaternion<T> const & lhs, octonion<T> const & rhs)
+        inline bool                                operator == (::hydra_boost::math::quaternion<T> const & lhs, octonion<T> const & rhs)
         {
             return(
                         (rhs.R_component_1() == lhs.R_component_1())&&
@@ -1631,7 +1631,7 @@ namespace boost
 
 
         template<typename T>
-        inline bool                                operator == (octonion<T> const & lhs, ::boost::math::quaternion<T> const & rhs)
+        inline bool                                operator == (octonion<T> const & lhs, ::hydra_boost::math::quaternion<T> const & rhs)
         {
             return(
                         (lhs.R_component_1() == rhs.R_component_1())&&
@@ -1662,40 +1662,40 @@ namespace boost
         }
 
 
-#define    BOOST_OCTONION_NOT_EQUAL_GENERATOR \
+#define    HYDRA_BOOST_OCTONION_NOT_EQUAL_GENERATOR \
         {                                     \
             return(!(lhs == rhs));            \
         }
 
         template<typename T>
         inline bool                                operator != (T const & lhs, octonion<T> const & rhs)
-        BOOST_OCTONION_NOT_EQUAL_GENERATOR
+        HYDRA_BOOST_OCTONION_NOT_EQUAL_GENERATOR
 
         template<typename T>
         inline bool                                operator != (octonion<T> const & lhs, T const & rhs)
-        BOOST_OCTONION_NOT_EQUAL_GENERATOR
+        HYDRA_BOOST_OCTONION_NOT_EQUAL_GENERATOR
 
         template<typename T>
         inline bool                                operator != (::std::complex<T> const & lhs, octonion<T> const & rhs)
-        BOOST_OCTONION_NOT_EQUAL_GENERATOR
+        HYDRA_BOOST_OCTONION_NOT_EQUAL_GENERATOR
 
         template<typename T>
         inline bool                                operator != (octonion<T> const & lhs, ::std::complex<T> const & rhs)
-        BOOST_OCTONION_NOT_EQUAL_GENERATOR
+        HYDRA_BOOST_OCTONION_NOT_EQUAL_GENERATOR
 
         template<typename T>
-        inline bool                                operator != (::boost::math::quaternion<T> const & lhs, octonion<T> const & rhs)
-        BOOST_OCTONION_NOT_EQUAL_GENERATOR
+        inline bool                                operator != (::hydra_boost::math::quaternion<T> const & lhs, octonion<T> const & rhs)
+        HYDRA_BOOST_OCTONION_NOT_EQUAL_GENERATOR
 
         template<typename T>
-        inline bool                                operator != (octonion<T> const & lhs, ::boost::math::quaternion<T> const & rhs)
-        BOOST_OCTONION_NOT_EQUAL_GENERATOR
+        inline bool                                operator != (octonion<T> const & lhs, ::hydra_boost::math::quaternion<T> const & rhs)
+        HYDRA_BOOST_OCTONION_NOT_EQUAL_GENERATOR
 
         template<typename T>
         inline bool                                operator != (octonion<T> const & lhs, octonion<T> const & rhs)
-        BOOST_OCTONION_NOT_EQUAL_GENERATOR
+        HYDRA_BOOST_OCTONION_NOT_EQUAL_GENERATOR
 
-    #undef    BOOST_OCTONION_NOT_EQUAL_GENERATOR
+    #undef    HYDRA_BOOST_OCTONION_NOT_EQUAL_GENERATOR
 
 
         // Note:    the default values in the constructors of the complex and quaternions make for
@@ -1704,10 +1704,10 @@ namespace boost
         ::std::basic_istream<charT,traits> &    operator >> (    ::std::basic_istream<charT,traits> & is,
                                                                 octonion<T> & o)
         {
-#ifdef     BOOST_NO_STD_LOCALE
+#ifdef     HYDRA_BOOST_NO_STD_LOCALE
 #else
             const ::std::ctype<charT> & ct = ::std::use_facet< ::std::ctype<charT> >(is.getloc());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
             T    a = T();
             T    b = T();
@@ -1723,8 +1723,8 @@ namespace boost
             ::std::complex<T>    x = ::std::complex<T>();
             ::std::complex<T>    y = ::std::complex<T>();
 
-            ::boost::math::quaternion<T>    p = ::boost::math::quaternion<T>();
-            ::boost::math::quaternion<T>    q = ::boost::math::quaternion<T>();
+            ::hydra_boost::math::quaternion<T>    p = ::hydra_boost::math::quaternion<T>();
+            ::hydra_boost::math::quaternion<T>    q = ::hydra_boost::math::quaternion<T>();
 
             charT    ch = charT();
             char    cc;
@@ -1733,11 +1733,11 @@ namespace boost
 
             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
             cc = ch;
 #else
             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
             if    (cc == '(')                            // read "("
             {
@@ -1745,11 +1745,11 @@ namespace boost
 
                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                 cc = ch;
 #else
                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                 if    (cc == '(')                                // read "(("
                 {
@@ -1757,11 +1757,11 @@ namespace boost
 
                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                     cc = ch;
 #else
                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                     if    (cc == '(')                                // read "((("
                     {
@@ -1775,11 +1775,11 @@ namespace boost
 
                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                         cc = ch;
 #else
                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                         if        (cc == ')')                        // read "((u)"
                         {
@@ -1787,11 +1787,11 @@ namespace boost
 
                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                             cc = ch;
 #else
                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                             if        (cc == ')')                        // format: (((a))), (((a,b)))
                             {
@@ -1799,7 +1799,7 @@ namespace boost
                             }
                             else if    (cc == ',')                        // read "((u),"
                             {
-                                p = ::boost::math::quaternion<T>(u);
+                                p = ::hydra_boost::math::quaternion<T>(u);
 
                                 is >> q;                                // read "((u),q"
 
@@ -1809,11 +1809,11 @@ namespace boost
 
                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                 cc = ch;
 #else
                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                 if        (cc == ')')                        // format: (((a)),q), (((a,b)),q)
                                 {
@@ -1839,25 +1839,25 @@ namespace boost
 
                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                             cc = ch;
 #else
                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                             if        (cc == ')')                        // read "((u,v)"
                             {
-                                p = ::boost::math::quaternion<T>(u,v);
+                                p = ::hydra_boost::math::quaternion<T>(u,v);
 
                                 is >> ch;                                // get the next lexeme
 
                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                 cc = ch;
 #else
                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                 if        (cc == ')')                        // format: (((a),v)), (((a,b),v))
                                 {
@@ -1873,11 +1873,11 @@ namespace boost
 
                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                     cc = ch;
 #else
                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                     if        (cc == ')')                        // format: (((a),v),q), (((a,b),v),q)
                                     {
@@ -1915,11 +1915,11 @@ namespace boost
 
                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                         cc = ch;
 #else
                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                         if        (cc == ')')                            // read "((a)"
                         {
@@ -1927,11 +1927,11 @@ namespace boost
 
                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                             cc = ch;
 #else
                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                             if        (cc == ')')                            // read "((a))"
                             {
@@ -1943,11 +1943,11 @@ namespace boost
 
                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                 cc = ch;
 #else
                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                 if        (cc == '(')                            // read "((a),("
                                 {
@@ -1955,11 +1955,11 @@ namespace boost
 
                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                     cc = ch;
 #else
                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                     if        (cc == '(')                            // read "((a),(("
                                     {
@@ -1975,15 +1975,15 @@ namespace boost
 
                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                         cc = ch;
 #else
                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                         if        (cc == ')')                            // read "((a),q)"
                                         {
-                                            p = ::boost::math::quaternion<T>(a);
+                                            p = ::hydra_boost::math::quaternion<T>(a);
 
                                             o = octonion<T>(p,q);
                                         }
@@ -2004,11 +2004,11 @@ namespace boost
 
                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                         cc = ch;
 #else
                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                         if        (cc == ')')                            // read "((a),(c)" (ambiguity resolution)
                                         {
@@ -2016,11 +2016,11 @@ namespace boost
 
                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                             cc = ch;
 #else
                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                             if        (cc == ')')                        // read "((a),(c))"
                                             {
@@ -2040,11 +2040,11 @@ namespace boost
 
                                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                 cc = ch;
 #else
                                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                 if        (cc == ')')                        // read "((a),(c),x)"
                                                 {
@@ -2060,11 +2060,11 @@ namespace boost
 
                                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                     cc = ch;
 #else
                                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                     if        (cc == ')')                        // read "((a),(c),x,y)"
                                                     {
@@ -2091,15 +2091,15 @@ namespace boost
 
                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                             cc = ch;
 #else
                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                             if        (cc == '(')                        // read "((a),(e,(" (ambiguity resolution)
                                             {
-                                                p = ::boost::math::quaternion<T>(a);
+                                                p = ::hydra_boost::math::quaternion<T>(a);
 
                                                 x = ::std::complex<T>(c);                // "c" was actually "e"
 
@@ -2111,23 +2111,23 @@ namespace boost
 
                                                 is >> ch;                                // get the next lexeme
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                 cc = ch;
 #else
                                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                 if        (cc == ')')                        // read "((a),(e,y)"
                                                 {
-                                                    q = ::boost::math::quaternion<T>(x,y);
+                                                    q = ::hydra_boost::math::quaternion<T>(x,y);
 
                                                     is >> ch;                                // get the next lexeme
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                     cc = ch;
 #else
                                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                     if        (cc == ')')                        // read "((a),(e,y))"
                                                     {
@@ -2155,11 +2155,11 @@ namespace boost
 
                                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                 cc = ch;
 #else
                                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                 if        (cc == ')')                        // read "((a),(c,d)" (ambiguity resolution)
                                                 {
@@ -2167,11 +2167,11 @@ namespace boost
 
                                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                     cc = ch;
 #else
                                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                     if        (cc == ')')                        // read "((a),(c,d))"
                                                     {
@@ -2191,11 +2191,11 @@ namespace boost
 
                                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                         cc = ch;
 #else
                                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                         if        (cc == ')')                        // read "((a),(c,d),x)"
                                                         {
@@ -2211,11 +2211,11 @@ namespace boost
 
                                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                             cc = ch;
 #else
                                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                             if        (cc == ')')                        // read "((a),(c,d),x,y)"
                                                             {
@@ -2238,7 +2238,7 @@ namespace boost
                                                 }
                                                 else if    (cc == ',')                        // read "((a),(e,f," (ambiguity resolution)
                                                 {
-                                                    p = ::boost::math::quaternion<T>(a);
+                                                    p = ::hydra_boost::math::quaternion<T>(a);
 
                                                     is >> g;                                // read "((a),(e,f,g" (too late to backtrack)
 
@@ -2248,25 +2248,25 @@ namespace boost
 
                                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                     cc = ch;
 #else
                                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                     if        (cc == ')')                        // read "((a),(e,f,g)"
                                                     {
-                                                        q = ::boost::math::quaternion<T>(c,d,g);        // "c" was actually "e", and "d" was actually "f"
+                                                        q = ::hydra_boost::math::quaternion<T>(c,d,g);        // "c" was actually "e", and "d" was actually "f"
 
                                                         is >> ch;                                // get the next lexeme
 
                                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                         cc = ch;
 #else
                                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                         if        (cc == ')')                        // read "((a),(e,f,g))"
                                                         {
@@ -2287,25 +2287,25 @@ namespace boost
 
                                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                         cc = ch;
 #else
                                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                         if        (cc == ')')                        // read "((a),(e,f,g,h)"
                                                         {
-                                                            q = ::boost::math::quaternion<T>(c,d,g,h);    // "c" was actually "e", and "d" was actually "f"
+                                                            q = ::hydra_boost::math::quaternion<T>(c,d,g,h);    // "c" was actually "e", and "d" was actually "f"
 
                                                             is >> ch;                                // get the next lexeme
 
                                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                             cc = ch;
 #else
                                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                             if        (cc == ')')                        // read "((a),(e,f,g,h))"
                                                             {
@@ -2350,11 +2350,11 @@ namespace boost
 
                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                     cc = ch;
 #else
                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                     if        (cc == ')')                            // read "((a),c)"
                                     {
@@ -2370,11 +2370,11 @@ namespace boost
 
                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                         cc = ch;
 #else
                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                         if        (cc == ')')                            // read "((a),c,x)"
                                         {
@@ -2388,11 +2388,11 @@ namespace boost
 
                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                             cc = ch;
 #else
                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                             if        (cc == ')')                            // read "((a),c,x,y)"
                                             {
@@ -2425,11 +2425,11 @@ namespace boost
 
                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                             cc = ch;
 #else
                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                             if        (cc == '(')                            // read "((a,("
                             {
@@ -2445,11 +2445,11 @@ namespace boost
 
                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                 cc = ch;
 #else
                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                 if        (cc == ')')                            // read "((a,v)"
                                 {
@@ -2457,11 +2457,11 @@ namespace boost
 
                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                     cc = ch;
 #else
                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                     if        (cc == ')')                            // read "((a,v))"
                                     {
@@ -2469,7 +2469,7 @@ namespace boost
                                     }
                                     else if    (cc == ',')                            // read "((a,v),"
                                     {
-                                        p = ::boost::math::quaternion<T>(u,v);
+                                        p = ::hydra_boost::math::quaternion<T>(u,v);
 
                                         is >> q;                                    // read "((a,v),q"
 
@@ -2479,11 +2479,11 @@ namespace boost
 
                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                         cc = ch;
 #else
                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                         if        (cc == ')')                            // read "((a,v),q)"
                                         {
@@ -2516,11 +2516,11 @@ namespace boost
 
                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                 cc = ch;
 #else
                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                 if        (cc == ')')                            // read "((a,b)"
                                 {
@@ -2528,11 +2528,11 @@ namespace boost
 
                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                     cc = ch;
 #else
                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                     if        (cc == ')')                            // read "((a,b))"
                                     {
@@ -2544,11 +2544,11 @@ namespace boost
 
                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                         cc = ch;
 #else
                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                         if        (cc == '(')                            // read "((a,b),("
                                         {
@@ -2556,15 +2556,15 @@ namespace boost
 
                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                             cc = ch;
 #else
                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                             if        (cc == '(')                            // read "((a,b),(("
                                             {
-                                                p = ::boost::math::quaternion<T>(a,b);
+                                                p = ::hydra_boost::math::quaternion<T>(a,b);
 
                                                 is.putback(ch);
 
@@ -2578,11 +2578,11 @@ namespace boost
 
                                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                 cc = ch;
 #else
                                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                 if        (cc == ')')                            // read "((a,b),q)"
                                                 {
@@ -2605,11 +2605,11 @@ namespace boost
 
                                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                 cc = ch;
 #else
                                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                 if        (cc == ')')                            // read "((a,b),(c)" (ambiguity resolution)
                                                 {
@@ -2617,11 +2617,11 @@ namespace boost
 
                                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                     cc = ch;
 #else
                                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                     if        (cc == ')')                            // read "((a,b),(c))"
                                                     {
@@ -2641,11 +2641,11 @@ namespace boost
 
                                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                         cc = ch;
 #else
                                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                         if        (cc == ')')                            // read "((a,b),(c),x)"
                                                         {
@@ -2661,11 +2661,11 @@ namespace boost
 
                                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                             cc = ch;
 #else
                                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                             if        (cc == ')')                            // read "((a,b),(c),x,y)"
                                                             {
@@ -2692,11 +2692,11 @@ namespace boost
 
                                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                     cc = ch;
 #else
                                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                     if        (cc == '(')                            // read "((a,b),(e,(" (ambiguity resolution)
                                                     {
@@ -2714,11 +2714,11 @@ namespace boost
 
                                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                         cc = ch;
 #else
                                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                         if        (cc == ')')                            // read "((a,b),(e,y)"
                                                         {
@@ -2726,11 +2726,11 @@ namespace boost
 
                                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                             cc = ch;
 #else
                                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                             if        (cc == ')')                            // read "((a,b),(e,y))"
                                                             {
@@ -2758,11 +2758,11 @@ namespace boost
 
                                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                         cc = ch;
 #else
                                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                         if        (cc == ')')                            // read "((a,b),(c,d)" (ambiguity resolution)
                                                         {
@@ -2774,11 +2774,11 @@ namespace boost
 
                                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                             cc = ch;
 #else
                                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                             if        (cc == ')')                            // read "((a,b),(c,d))"
                                                             {
@@ -2794,11 +2794,11 @@ namespace boost
 
                                                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                                 cc = ch;
 #else
                                                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                                 if        (cc == ')')                            // read "((a,b),(c,d),x)"
                                                                 {
@@ -2814,11 +2814,11 @@ namespace boost
 
                                                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                                     cc = ch;
 #else
                                                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                                     if        (cc == ')')                            // read "((a,b),(c,d),x,y)"
                                                                     {
@@ -2841,7 +2841,7 @@ namespace boost
                                                         }
                                                         else if    (cc == ',')                            // read "((a,b),(e,f," (ambiguity resolution)
                                                         {
-                                                            p = ::boost::math::quaternion<T>(a,b);                // too late to backtrack
+                                                            p = ::hydra_boost::math::quaternion<T>(a,b);                // too late to backtrack
 
                                                             is >> g;                                    // read "((a,b),(e,f,g"
 
@@ -2851,11 +2851,11 @@ namespace boost
 
                                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                             cc = ch;
 #else
                                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                             if        (cc == ')')                            // read "((a,b),(e,f,g)"
                                                             {
@@ -2863,15 +2863,15 @@ namespace boost
 
                                                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                                 cc = ch;
 #else
                                                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                                 if        (cc == ')')                            // read "((a,b),(e,f,g))"
                                                                 {
-                                                                    q = ::boost::math::quaternion<T>(c,d,g);            // "c" is actually "e" and "d" is actually "f"
+                                                                    q = ::hydra_boost::math::quaternion<T>(c,d,g);            // "c" is actually "e" and "d" is actually "f"
 
                                                                     o = octonion<T>(p,q);
                                                                 }
@@ -2890,11 +2890,11 @@ namespace boost
 
                                                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                                 cc = ch;
 #else
                                                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                                 if        (cc == ')')                            // read "((a,b),(e,f,g,h)"
                                                                 {
@@ -2902,15 +2902,15 @@ namespace boost
 
                                                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                                     cc = ch;
 #else
                                                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                                     if        (cc == ')')                            // read ((a,b),(e,f,g,h))"
                                                                     {
-                                                                        q = ::boost::math::quaternion<T>(c,d,g,h);            // "c" is actually "e" and "d" is actually "f"
+                                                                        q = ::hydra_boost::math::quaternion<T>(c,d,g,h);            // "c" is actually "e" and "d" is actually "f"
 
                                                                         o = octonion<T>(p,q);
                                                                     }
@@ -2961,11 +2961,11 @@ namespace boost
 
                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                     cc = ch;
 #else
                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                     if        (cc == ')')                            // read "((a,b,c)"
                                     {
@@ -2973,11 +2973,11 @@ namespace boost
 
                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                         cc = ch;
 #else
                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                         if        (cc == ')')                            // read "((a,b,c))"
                                         {
@@ -2985,7 +2985,7 @@ namespace boost
                                         }
                                         else if    (cc == ',')                            // read "((a,b,c),"
                                         {
-                                            p = ::boost::math::quaternion<T>(a,b,c);
+                                            p = ::hydra_boost::math::quaternion<T>(a,b,c);
 
                                             is >> q;                                    // read "((a,b,c),q"
 
@@ -2995,11 +2995,11 @@ namespace boost
 
                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                             cc = ch;
 #else
                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                             if        (cc == ')')                            // read "((a,b,c),q)"
                                             {
@@ -3025,11 +3025,11 @@ namespace boost
 
                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                         cc = ch;
 #else
                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                         if        (cc == ')')                            // read "((a,b,c,d)"
                                         {
@@ -3037,11 +3037,11 @@ namespace boost
 
                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                             cc = ch;
 #else
                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                             if        (cc == ')')                            // read "((a,b,c,d))"
                                             {
@@ -3049,7 +3049,7 @@ namespace boost
                                             }
                                             else if    (cc == ',')                            // read "((a,b,c,d),"
                                             {
-                                                p = ::boost::math::quaternion<T>(a,b,c,d);
+                                                p = ::hydra_boost::math::quaternion<T>(a,b,c,d);
 
                                                 is >> q;                                    // read "((a,b,c,d),q"
 
@@ -3059,11 +3059,11 @@ namespace boost
 
                                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                 cc = ch;
 #else
                                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                 if        (cc == ')')                            // read "((a,b,c,d),q)"
                                                 {
@@ -3113,11 +3113,11 @@ namespace boost
 
                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                     cc = ch;
 #else
                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                     if        (cc == ')')                            // read "(a)"
                     {
@@ -3129,11 +3129,11 @@ namespace boost
 
                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                         cc = ch;
 #else
                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                         if        (cc == '(')                            // read "(a,("
                         {
@@ -3141,15 +3141,15 @@ namespace boost
 
                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                             cc = ch;
 #else
                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                             if        (cc == '(')                            // read "(a,(("
                             {
-                                p = ::boost::math::quaternion<T>(a);
+                                p = ::hydra_boost::math::quaternion<T>(a);
 
                                 is.putback(ch);
 
@@ -3163,11 +3163,11 @@ namespace boost
 
                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                 cc = ch;
 #else
                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                 if        (cc == ')')                            // read "(a,q)"
                                 {
@@ -3190,11 +3190,11 @@ namespace boost
 
                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                 cc = ch;
 #else
                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                 if        (cc == ')')                            // read "(a,(c)" (ambiguity resolution)
                                 {
@@ -3202,11 +3202,11 @@ namespace boost
 
                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                     cc = ch;
 #else
                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                     if        (cc == ')')                            // read "(a,(c))"
                                     {
@@ -3226,11 +3226,11 @@ namespace boost
 
                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                         cc = ch;
 #else
                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                         if        (cc == ')')                            // read "(a,(c),x)"
                                         {
@@ -3246,11 +3246,11 @@ namespace boost
 
                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                             cc = ch;
 #else
                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                             if        (cc == ')')                            // read "(a,(c),x,y)"
                                             {
@@ -3277,11 +3277,11 @@ namespace boost
 
                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                     cc = ch;
 #else
                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                     if        (cc == '(')                            // read "(a,(e,(" (ambiguity resolution)
                                     {
@@ -3299,11 +3299,11 @@ namespace boost
 
                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                         cc = ch;
 #else
                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                         if        (cc == ')')                            // read "(a,(e,y)"
                                         {
@@ -3311,11 +3311,11 @@ namespace boost
 
                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                             cc = ch;
 #else
                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                             if        (cc == ')')                            // read "(a,(e,y))"
                                             {
@@ -3343,11 +3343,11 @@ namespace boost
 
                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                         cc = ch;
 #else
                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                         if        (cc == ')')                            // read "(a,(c,d)" (ambiguity resolution)
                                         {
@@ -3355,11 +3355,11 @@ namespace boost
 
                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                             cc = ch;
 #else
                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                             if        (cc == ')')                            // read "(a,(c,d))"
                                             {
@@ -3379,11 +3379,11 @@ namespace boost
 
                                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                 cc = ch;
 #else
                                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                 if        (cc == ')')                            // read "(a,(c,d),x)"
                                                 {
@@ -3399,11 +3399,11 @@ namespace boost
 
                                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                     cc = ch;
 #else
                                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                     if        (cc == ')')                            // read "(a,(c,d),x,y)"
                                                     {
@@ -3426,7 +3426,7 @@ namespace boost
                                         }
                                         else if    (cc == ',')                            // read "(a,(e,f," (ambiguity resolution)
                                         {
-                                            p = ::boost::math::quaternion<T>(a);
+                                            p = ::hydra_boost::math::quaternion<T>(a);
 
                                             is >> g;                                    // read "(a,(e,f,g"
 
@@ -3436,11 +3436,11 @@ namespace boost
 
                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                             cc = ch;
 #else
                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                             if        (cc == ')')                            // read "(a,(e,f,g)"
                                             {
@@ -3448,15 +3448,15 @@ namespace boost
 
                                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                 cc = ch;
 #else
                                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                 if        (cc == ')')                            // read "(a,(e,f,g))"
                                                 {
-                                                    q = ::boost::math::quaternion<T>(c,d,g);            // "c" is actually "e" and "d" is actually "f"
+                                                    q = ::hydra_boost::math::quaternion<T>(c,d,g);            // "c" is actually "e" and "d" is actually "f"
 
                                                     o = octonion<T>(p,q);
                                                 }
@@ -3475,11 +3475,11 @@ namespace boost
 
                                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                 cc = ch;
 #else
                                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                 if        (cc == ')')                            // read "(a,(e,f,g,h)"
                                                 {
@@ -3487,15 +3487,15 @@ namespace boost
 
                                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                     cc = ch;
 #else
                                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                     if        (cc == ')')                            // read "(a,(e,f,g,h))"
                                                     {
-                                                        q = ::boost::math::quaternion<T>(c,d,g,h);            // "c" is actually "e" and "d" is actually "f"
+                                                        q = ::hydra_boost::math::quaternion<T>(c,d,g,h);            // "c" is actually "e" and "d" is actually "f"
 
                                                         o = octonion<T>(p,q);
                                                     }
@@ -3538,11 +3538,11 @@ namespace boost
 
                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                             cc = ch;
 #else
                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                             if        (cc == ')')                            // read "(a,b)" (ambiguity resolution)
                             {
@@ -3554,11 +3554,11 @@ namespace boost
 
                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                 cc = ch;
 #else
                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                 if        (cc == '(')                            // read "(a,c,(" (ambiguity resolution)
                                 {
@@ -3576,11 +3576,11 @@ namespace boost
 
                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                     cc = ch;
 #else
                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                     if        (cc == ')')                            // read "(a,c,x)"
                                     {
@@ -3596,11 +3596,11 @@ namespace boost
 
                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                         cc = ch;
 #else
                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                         if        (cc == ')')                            // read "(a,c,x,y)"
                                         {
@@ -3628,11 +3628,11 @@ namespace boost
 
                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                     cc = ch;
 #else
                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                     if        (cc == ')')                            // read "(a,b,c)" (ambiguity resolution)
                                     {
@@ -3644,11 +3644,11 @@ namespace boost
 
                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                         cc = ch;
 #else
                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                         if        (cc == '(')                            // read "(a,c,e,(") (ambiguity resolution)
                                         {
@@ -3668,11 +3668,11 @@ namespace boost
 
                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                             cc = ch;
 #else
                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                             if        (cc == ')')                            // read "(a,c,e,y)"
                                             {
@@ -3695,11 +3695,11 @@ namespace boost
 
                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                             cc = ch;
 #else
                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                             if        (cc == ')')                            // read "(a,b,c,d)"
                                             {
@@ -3715,11 +3715,11 @@ namespace boost
 
                                                 if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                 cc = ch;
 #else
                                                 cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                 if        (cc == ')')                            // read "(a,b,c,d,e)"
                                                 {
@@ -3735,11 +3735,11 @@ namespace boost
 
                                                     if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                     cc = ch;
 #else
                                                     cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                     if        (cc == ')')                            // read "(a,b,c,d,e,f)"
                                                     {
@@ -3755,11 +3755,11 @@ namespace boost
 
                                                         if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                         cc = ch;
 #else
                                                         cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                         if        (cc == ')')                            // read "(a,b,c,d,e,f,g)"
                                                         {
@@ -3775,11 +3775,11 @@ namespace boost
 
                                                             if    (!is.good())    goto finish;
 
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
                                                             cc = ch;
 #else
                                                             cc = ct.narrow(ch, char());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
 
                                                             if        (cc == ')')                            // read "(a,b,c,d,e,f,g,h)"
                                                             {
@@ -3852,10 +3852,10 @@ namespace boost
             ::std::basic_ostringstream<charT,traits>    s;
 
             s.flags(os.flags());
-#ifdef    BOOST_NO_STD_LOCALE
+#ifdef    HYDRA_BOOST_NO_STD_LOCALE
 #else
             s.imbue(os.getloc());
-#endif /* BOOST_NO_STD_LOCALE */
+#endif /* HYDRA_BOOST_NO_STD_LOCALE */
             s.precision(os.precision());
 
             s << '('    << o.R_component_1() << ','
@@ -3887,7 +3887,7 @@ namespace boost
         }
 
 
-#define    BOOST_OCTONION_VALARRAY_LOADER   \
+#define    HYDRA_BOOST_OCTONION_VALARRAY_LOADER   \
             using    ::std::valarray;       \
                                             \
             valarray<T>    temp(8);         \
@@ -3905,11 +3905,11 @@ namespace boost
         template<typename T>
         inline T                                sup(octonion<T> const & o)
         {
-#ifdef    BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP
+#ifdef    HYDRA_BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP
             using    ::std::abs;
-#endif    /* BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP */
+#endif    /* HYDRA_BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP */
 
-            BOOST_OCTONION_VALARRAY_LOADER
+            HYDRA_BOOST_OCTONION_VALARRAY_LOADER
 
             return((abs(temp).max)());
         }
@@ -3918,11 +3918,11 @@ namespace boost
         template<typename T>
         inline T                                l1(octonion<T> const & o)
         {
-#ifdef    BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP
+#ifdef    HYDRA_BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP
             using    ::std::abs;
-#endif    /* BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP */
+#endif    /* HYDRA_BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP */
 
-            BOOST_OCTONION_VALARRAY_LOADER
+            HYDRA_BOOST_OCTONION_VALARRAY_LOADER
 
             return(abs(temp).sum());
         }
@@ -3931,13 +3931,13 @@ namespace boost
         template<typename T>
         inline T                                abs(const octonion<T> & o)
         {
-#ifdef    BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP
+#ifdef    HYDRA_BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP
             using    ::std::abs;
-#endif    /* BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP */
+#endif    /* HYDRA_BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP */
 
             using    ::std::sqrt;
 
-            BOOST_OCTONION_VALARRAY_LOADER
+            HYDRA_BOOST_OCTONION_VALARRAY_LOADER
 
             T            maxim = (abs(temp).max)();    // overflow protection
 
@@ -3960,7 +3960,7 @@ namespace boost
         }
 
 
-#undef    BOOST_OCTONION_VALARRAY_LOADER
+#undef    HYDRA_BOOST_OCTONION_VALARRAY_LOADER
 
 
         // Note:    This is the Cayley norm, not the Euclidean norm...
@@ -4097,7 +4097,7 @@ namespace boost
             using    ::std::exp;
             using    ::std::cos;
 
-            using    ::boost::math::sinc_pi;
+            using    ::hydra_boost::math::sinc_pi;
 
             T    u = exp(real(o));
 
@@ -4120,7 +4120,7 @@ namespace boost
             using    ::std::cos;
             using    ::std::cosh;
 
-            using    ::boost::math::sinhc_pi;
+            using    ::hydra_boost::math::sinhc_pi;
 
             T    z = abs(unreal(o));
 
@@ -4141,7 +4141,7 @@ namespace boost
             using    ::std::cos;
             using    ::std::cosh;
 
-            using    ::boost::math::sinhc_pi;
+            using    ::hydra_boost::math::sinhc_pi;
 
             T    z = abs(unreal(o));
 
@@ -4240,4 +4240,4 @@ namespace boost
     }
 }
 
-#endif /* BOOST_OCTONION_HPP */
+#endif /* HYDRA_BOOST_OCTONION_HPP */

@@ -7,19 +7,19 @@
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
-#ifndef BOOST_MATH_HYPERGEOMETRIC_RATIONAL_HPP
-#define BOOST_MATH_HYPERGEOMETRIC_RATIONAL_HPP
+#ifndef HYDRA_BOOST_MATH_HYPERGEOMETRIC_RATIONAL_HPP
+#define HYDRA_BOOST_MATH_HYPERGEOMETRIC_RATIONAL_HPP
 
   #include <array>
 
-  namespace boost{ namespace math{ namespace detail{
+  namespace hydra_boost{ namespace math{ namespace detail{
 
   // Luke: C ------- SUBROUTINE R1F1P(AP, CP, Z, A, B, N) ---------
   // Luke: C --- RATIONAL APPROXIMATION OF 1F1( AP ; CP ; -Z ) ----
   template <class T, class Policy>
   inline T hypergeometric_1F1_rational(const T& ap, const T& cp, const T& zp, const Policy& )
   {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
 
     static const T zero = T(0), one = T(1), two = T(2), three = T(3);
 
@@ -42,7 +42,7 @@
     T a3 = b3 - ((one + ct2) * ct1);
     ct1 = three;
 
-    const unsigned max_iterations = boost::math::policies::get_max_series_iterations<Policy>();
+    const unsigned max_iterations = hydra_boost::math::policies::get_max_series_iterations<Policy>();
 
     T a4 = T(0), b4 = T(0);
     T result = T(0), prev_result = a3 / b3;
@@ -66,7 +66,7 @@
       result = a4 / b4;
 
       // condition for interruption
-      if ((fabs(result) * boost::math::tools::epsilon<T>()) > fabs(result - prev_result) / fabs(result))
+      if ((fabs(result) * hydra_boost::math::tools::epsilon<T>()) > fabs(result - prev_result) / fabs(result))
         break;
 
       b1 = b2; b2 = b3; b3 = b4;
@@ -87,7 +87,7 @@
   template <class T, class Policy>
   inline T hypergeometric_2F1_rational(const T& ap, const T& bp, const T& cp, const T& zp, const unsigned n, const Policy& )
   {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
 
     static const T one = T(1), two = T(2), three = T(3), four = T(4),
                    six = T(6), half_7 = T(3.5), half_3 = T(1.5), forth_3 = T(0.75);
@@ -164,4 +164,4 @@
 
   } } } // namespaces
 
-#endif // BOOST_MATH_HYPERGEOMETRIC_RATIONAL_HPP
+#endif // HYDRA_BOOST_MATH_HYPERGEOMETRIC_RATIONAL_HPP

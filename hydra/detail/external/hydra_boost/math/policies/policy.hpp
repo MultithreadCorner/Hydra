@@ -4,8 +4,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_POLICY_HPP
-#define BOOST_MATH_POLICY_HPP
+#ifndef HYDRA_BOOST_MATH_POLICY_HPP
+#define HYDRA_BOOST_MATH_POLICY_HPP
 
 #include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/mp.hpp>
@@ -15,16 +15,16 @@
 #include <cstdint>
 #include <cstddef>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 namespace mp = tools::meta_programming;
 
 namespace tools{
 
 template <class T>
-constexpr int digits(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) noexcept;
+constexpr int digits(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) noexcept;
 template <class T>
-constexpr T epsilon(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value);
+constexpr T epsilon(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value);
 
 }
 
@@ -35,77 +35,77 @@ namespace policies{
 //
 // Special cases for exceptions disabled first:
 //
-#ifdef BOOST_NO_EXCEPTIONS
-#  ifndef BOOST_MATH_DOMAIN_ERROR_POLICY
-#    define BOOST_MATH_DOMAIN_ERROR_POLICY errno_on_error
+#ifdef HYDRA_BOOST_NO_EXCEPTIONS
+#  ifndef HYDRA_BOOST_MATH_DOMAIN_ERROR_POLICY
+#    define HYDRA_BOOST_MATH_DOMAIN_ERROR_POLICY errno_on_error
 #  endif
-#  ifndef BOOST_MATH_POLE_ERROR_POLICY
-#     define BOOST_MATH_POLE_ERROR_POLICY errno_on_error
+#  ifndef HYDRA_BOOST_MATH_POLE_ERROR_POLICY
+#     define HYDRA_BOOST_MATH_POLE_ERROR_POLICY errno_on_error
 #  endif
-#  ifndef BOOST_MATH_OVERFLOW_ERROR_POLICY
-#     define BOOST_MATH_OVERFLOW_ERROR_POLICY errno_on_error
+#  ifndef HYDRA_BOOST_MATH_OVERFLOW_ERROR_POLICY
+#     define HYDRA_BOOST_MATH_OVERFLOW_ERROR_POLICY errno_on_error
 #  endif
-#  ifndef BOOST_MATH_EVALUATION_ERROR_POLICY
-#     define BOOST_MATH_EVALUATION_ERROR_POLICY errno_on_error
+#  ifndef HYDRA_BOOST_MATH_EVALUATION_ERROR_POLICY
+#     define HYDRA_BOOST_MATH_EVALUATION_ERROR_POLICY errno_on_error
 #  endif
-#  ifndef BOOST_MATH_ROUNDING_ERROR_POLICY
-#     define BOOST_MATH_ROUNDING_ERROR_POLICY errno_on_error
+#  ifndef HYDRA_BOOST_MATH_ROUNDING_ERROR_POLICY
+#     define HYDRA_BOOST_MATH_ROUNDING_ERROR_POLICY errno_on_error
 #  endif
 #endif
 //
 // Then the regular cases:
 //
-#ifndef BOOST_MATH_DOMAIN_ERROR_POLICY
-#define BOOST_MATH_DOMAIN_ERROR_POLICY throw_on_error
+#ifndef HYDRA_BOOST_MATH_DOMAIN_ERROR_POLICY
+#define HYDRA_BOOST_MATH_DOMAIN_ERROR_POLICY throw_on_error
 #endif
-#ifndef BOOST_MATH_POLE_ERROR_POLICY
-#define BOOST_MATH_POLE_ERROR_POLICY throw_on_error
+#ifndef HYDRA_BOOST_MATH_POLE_ERROR_POLICY
+#define HYDRA_BOOST_MATH_POLE_ERROR_POLICY throw_on_error
 #endif
-#ifndef BOOST_MATH_OVERFLOW_ERROR_POLICY
-#define BOOST_MATH_OVERFLOW_ERROR_POLICY throw_on_error
+#ifndef HYDRA_BOOST_MATH_OVERFLOW_ERROR_POLICY
+#define HYDRA_BOOST_MATH_OVERFLOW_ERROR_POLICY throw_on_error
 #endif
-#ifndef BOOST_MATH_EVALUATION_ERROR_POLICY
-#define BOOST_MATH_EVALUATION_ERROR_POLICY throw_on_error
+#ifndef HYDRA_BOOST_MATH_EVALUATION_ERROR_POLICY
+#define HYDRA_BOOST_MATH_EVALUATION_ERROR_POLICY throw_on_error
 #endif
-#ifndef BOOST_MATH_ROUNDING_ERROR_POLICY
-#define BOOST_MATH_ROUNDING_ERROR_POLICY throw_on_error
+#ifndef HYDRA_BOOST_MATH_ROUNDING_ERROR_POLICY
+#define HYDRA_BOOST_MATH_ROUNDING_ERROR_POLICY throw_on_error
 #endif
-#ifndef BOOST_MATH_UNDERFLOW_ERROR_POLICY
-#define BOOST_MATH_UNDERFLOW_ERROR_POLICY ignore_error
+#ifndef HYDRA_BOOST_MATH_UNDERFLOW_ERROR_POLICY
+#define HYDRA_BOOST_MATH_UNDERFLOW_ERROR_POLICY ignore_error
 #endif
-#ifndef BOOST_MATH_DENORM_ERROR_POLICY
-#define BOOST_MATH_DENORM_ERROR_POLICY ignore_error
+#ifndef HYDRA_BOOST_MATH_DENORM_ERROR_POLICY
+#define HYDRA_BOOST_MATH_DENORM_ERROR_POLICY ignore_error
 #endif
-#ifndef BOOST_MATH_INDETERMINATE_RESULT_ERROR_POLICY
-#define BOOST_MATH_INDETERMINATE_RESULT_ERROR_POLICY ignore_error
+#ifndef HYDRA_BOOST_MATH_INDETERMINATE_RESULT_ERROR_POLICY
+#define HYDRA_BOOST_MATH_INDETERMINATE_RESULT_ERROR_POLICY ignore_error
 #endif
-#ifndef BOOST_MATH_DIGITS10_POLICY
-#define BOOST_MATH_DIGITS10_POLICY 0
+#ifndef HYDRA_BOOST_MATH_DIGITS10_POLICY
+#define HYDRA_BOOST_MATH_DIGITS10_POLICY 0
 #endif
-#ifndef BOOST_MATH_PROMOTE_FLOAT_POLICY
-#define BOOST_MATH_PROMOTE_FLOAT_POLICY true
+#ifndef HYDRA_BOOST_MATH_PROMOTE_FLOAT_POLICY
+#define HYDRA_BOOST_MATH_PROMOTE_FLOAT_POLICY true
 #endif
-#ifndef BOOST_MATH_PROMOTE_DOUBLE_POLICY
-#ifdef BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
-#define BOOST_MATH_PROMOTE_DOUBLE_POLICY false
+#ifndef HYDRA_BOOST_MATH_PROMOTE_DOUBLE_POLICY
+#ifdef HYDRA_BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
+#define HYDRA_BOOST_MATH_PROMOTE_DOUBLE_POLICY false
 #else
-#define BOOST_MATH_PROMOTE_DOUBLE_POLICY true
+#define HYDRA_BOOST_MATH_PROMOTE_DOUBLE_POLICY true
 #endif
 #endif
-#ifndef BOOST_MATH_DISCRETE_QUANTILE_POLICY
-#define BOOST_MATH_DISCRETE_QUANTILE_POLICY integer_round_outwards
+#ifndef HYDRA_BOOST_MATH_DISCRETE_QUANTILE_POLICY
+#define HYDRA_BOOST_MATH_DISCRETE_QUANTILE_POLICY integer_round_outwards
 #endif
-#ifndef BOOST_MATH_ASSERT_UNDEFINED_POLICY
-#define BOOST_MATH_ASSERT_UNDEFINED_POLICY true
+#ifndef HYDRA_BOOST_MATH_ASSERT_UNDEFINED_POLICY
+#define HYDRA_BOOST_MATH_ASSERT_UNDEFINED_POLICY true
 #endif
-#ifndef BOOST_MATH_MAX_SERIES_ITERATION_POLICY
-#define BOOST_MATH_MAX_SERIES_ITERATION_POLICY 1000000
+#ifndef HYDRA_BOOST_MATH_MAX_SERIES_ITERATION_POLICY
+#define HYDRA_BOOST_MATH_MAX_SERIES_ITERATION_POLICY 1000000
 #endif
-#ifndef BOOST_MATH_MAX_ROOT_ITERATION_POLICY
-#define BOOST_MATH_MAX_ROOT_ITERATION_POLICY 200
+#ifndef HYDRA_BOOST_MATH_MAX_ROOT_ITERATION_POLICY
+#define HYDRA_BOOST_MATH_MAX_ROOT_ITERATION_POLICY 200
 #endif
 
-#define BOOST_MATH_META_INT(Type, name, Default)                                                \
+#define HYDRA_BOOST_MATH_META_INT(Type, name, Default)                                                \
    template <Type N = Default>                                                                  \
    class name : public std::integral_constant<int, N>{};                                        \
                                                                                                 \
@@ -130,11 +130,11 @@ namespace policies{
    class is_##name                                                                              \
    {                                                                                            \
    public:                                                                                      \
-      static constexpr bool value = boost::math::policies::detail::is_##name##_imp<T>::value;   \
+      static constexpr bool value = hydra_boost::math::policies::detail::is_##name##_imp<T>::value;   \
       using type = std::integral_constant<bool, value>;                                         \
    };
 
-#define BOOST_MATH_META_BOOL(name, Default)                                                     \
+#define HYDRA_BOOST_MATH_META_BOOL(name, Default)                                                     \
    template <bool N = Default>                                                                  \
    class name : public std::integral_constant<bool, N>{};                                       \
                                                                                                 \
@@ -159,7 +159,7 @@ namespace policies{
    class is_##name                                                                              \
    {                                                                                            \
    public:                                                                                      \
-      static constexpr bool value = boost::math::policies::detail::is_##name##_imp<T>::value;   \
+      static constexpr bool value = hydra_boost::math::policies::detail::is_##name##_imp<T>::value;   \
       using type = std::integral_constant<bool, value>;                                         \
    };
 
@@ -174,21 +174,21 @@ enum error_policy_type
    user_error = 3
 };
 
-BOOST_MATH_META_INT(error_policy_type, domain_error, BOOST_MATH_DOMAIN_ERROR_POLICY)
-BOOST_MATH_META_INT(error_policy_type, pole_error, BOOST_MATH_POLE_ERROR_POLICY)
-BOOST_MATH_META_INT(error_policy_type, overflow_error, BOOST_MATH_OVERFLOW_ERROR_POLICY)
-BOOST_MATH_META_INT(error_policy_type, underflow_error, BOOST_MATH_UNDERFLOW_ERROR_POLICY)
-BOOST_MATH_META_INT(error_policy_type, denorm_error, BOOST_MATH_DENORM_ERROR_POLICY)
-BOOST_MATH_META_INT(error_policy_type, evaluation_error, BOOST_MATH_EVALUATION_ERROR_POLICY)
-BOOST_MATH_META_INT(error_policy_type, rounding_error, BOOST_MATH_ROUNDING_ERROR_POLICY)
-BOOST_MATH_META_INT(error_policy_type, indeterminate_result_error, BOOST_MATH_INDETERMINATE_RESULT_ERROR_POLICY)
+HYDRA_BOOST_MATH_META_INT(error_policy_type, domain_error, HYDRA_BOOST_MATH_DOMAIN_ERROR_POLICY)
+HYDRA_BOOST_MATH_META_INT(error_policy_type, pole_error, HYDRA_BOOST_MATH_POLE_ERROR_POLICY)
+HYDRA_BOOST_MATH_META_INT(error_policy_type, overflow_error, HYDRA_BOOST_MATH_OVERFLOW_ERROR_POLICY)
+HYDRA_BOOST_MATH_META_INT(error_policy_type, underflow_error, HYDRA_BOOST_MATH_UNDERFLOW_ERROR_POLICY)
+HYDRA_BOOST_MATH_META_INT(error_policy_type, denorm_error, HYDRA_BOOST_MATH_DENORM_ERROR_POLICY)
+HYDRA_BOOST_MATH_META_INT(error_policy_type, evaluation_error, HYDRA_BOOST_MATH_EVALUATION_ERROR_POLICY)
+HYDRA_BOOST_MATH_META_INT(error_policy_type, rounding_error, HYDRA_BOOST_MATH_ROUNDING_ERROR_POLICY)
+HYDRA_BOOST_MATH_META_INT(error_policy_type, indeterminate_result_error, HYDRA_BOOST_MATH_INDETERMINATE_RESULT_ERROR_POLICY)
 
 //
 // Policy types for internal promotion:
 //
-BOOST_MATH_META_BOOL(promote_float, BOOST_MATH_PROMOTE_FLOAT_POLICY)
-BOOST_MATH_META_BOOL(promote_double, BOOST_MATH_PROMOTE_DOUBLE_POLICY)
-BOOST_MATH_META_BOOL(assert_undefined, BOOST_MATH_ASSERT_UNDEFINED_POLICY)
+HYDRA_BOOST_MATH_META_BOOL(promote_float, HYDRA_BOOST_MATH_PROMOTE_FLOAT_POLICY)
+HYDRA_BOOST_MATH_META_BOOL(promote_double, HYDRA_BOOST_MATH_PROMOTE_DOUBLE_POLICY)
+HYDRA_BOOST_MATH_META_BOOL(assert_undefined, HYDRA_BOOST_MATH_ASSERT_UNDEFINED_POLICY)
 //
 // Policy types for discrete quantiles:
 //
@@ -202,23 +202,23 @@ enum discrete_quantile_policy_type
    integer_round_nearest
 };
 
-BOOST_MATH_META_INT(discrete_quantile_policy_type, discrete_quantile, BOOST_MATH_DISCRETE_QUANTILE_POLICY)
+HYDRA_BOOST_MATH_META_INT(discrete_quantile_policy_type, discrete_quantile, HYDRA_BOOST_MATH_DISCRETE_QUANTILE_POLICY)
 //
 // Precision:
 //
-BOOST_MATH_META_INT(int, digits10, BOOST_MATH_DIGITS10_POLICY)
-BOOST_MATH_META_INT(int, digits2, 0)
+HYDRA_BOOST_MATH_META_INT(int, digits10, HYDRA_BOOST_MATH_DIGITS10_POLICY)
+HYDRA_BOOST_MATH_META_INT(int, digits2, 0)
 //
 // Iterations:
 //
-BOOST_MATH_META_INT(unsigned long, max_series_iterations, BOOST_MATH_MAX_SERIES_ITERATION_POLICY)
-BOOST_MATH_META_INT(unsigned long, max_root_iterations, BOOST_MATH_MAX_ROOT_ITERATION_POLICY)
+HYDRA_BOOST_MATH_META_INT(unsigned long, max_series_iterations, HYDRA_BOOST_MATH_MAX_SERIES_ITERATION_POLICY)
+HYDRA_BOOST_MATH_META_INT(unsigned long, max_root_iterations, HYDRA_BOOST_MATH_MAX_ROOT_ITERATION_POLICY)
 //
 // Define the names for each possible policy:
 //
-#define BOOST_MATH_PARAMETER(name)\
-   BOOST_PARAMETER_TEMPLATE_KEYWORD(name##_name)\
-   BOOST_PARAMETER_NAME(name##_name)
+#define HYDRA_BOOST_MATH_PARAMETER(name)\
+   HYDRA_BOOST_PARAMETER_TEMPLATE_KEYWORD(name##_name)\
+   HYDRA_BOOST_PARAMETER_NAME(name##_name)
 
 struct default_policy{};
 
@@ -238,9 +238,9 @@ struct precision
       digits2<((Digits10::value + 1) * 1000L) / 301L>
    >::type;
 public:
-#ifdef BOOST_BORLANDC
+#ifdef HYDRA_BOOST_BORLANDC
    using type = typename std::conditional<
-      (Digits2::value > ::boost::math::policies::detail::precision<Digits10,Digits2>::digits2_type::value),
+      (Digits2::value > ::hydra_boost::math::policies::detail::precision<Digits10,Digits2>::digits2_type::value),
       Digits2, digits2_type>::type;
 #else
    using type = typename std::conditional<
@@ -258,28 +258,28 @@ template <typename T>
 class is_valid_policy_imp
 {
 public:
-   static constexpr bool value = sizeof(boost::math::policies::detail::test_is_valid_arg(static_cast<T*>(nullptr))) == sizeof(char);
+   static constexpr bool value = sizeof(hydra_boost::math::policies::detail::test_is_valid_arg(static_cast<T*>(nullptr))) == sizeof(char);
 };
 
 template <typename T>
 class is_valid_policy
 {
 public:
-   static constexpr bool value = boost::math::policies::detail::is_valid_policy_imp<T>::value;
+   static constexpr bool value = hydra_boost::math::policies::detail::is_valid_policy_imp<T>::value;
 };
 
 template <typename T>
 class is_default_policy_imp
 {
 public:
-   static constexpr bool value = sizeof(boost::math::policies::detail::test_is_default_arg(static_cast<T*>(nullptr))) == sizeof(char);
+   static constexpr bool value = sizeof(hydra_boost::math::policies::detail::test_is_default_arg(static_cast<T*>(nullptr))) == sizeof(char);
 };
 
 template <typename T>
 class is_default_policy
 {
 public:
-   static constexpr bool value = boost::math::policies::detail::is_default_policy_imp<T>::value;
+   static constexpr bool value = hydra_boost::math::policies::detail::is_default_policy_imp<T>::value;
    using type = std::integral_constant<bool, value>;
 
    template <typename U>
@@ -333,8 +333,8 @@ struct default_args<false, true>
    typedef default_policy arg2;
 };
 
-typedef default_args<BOOST_MATH_PROMOTE_FLOAT_POLICY, BOOST_MATH_PROMOTE_DOUBLE_POLICY>::arg1 forwarding_arg1;
-typedef default_args<BOOST_MATH_PROMOTE_FLOAT_POLICY, BOOST_MATH_PROMOTE_DOUBLE_POLICY>::arg2 forwarding_arg2;
+typedef default_args<HYDRA_BOOST_MATH_PROMOTE_FLOAT_POLICY, HYDRA_BOOST_MATH_PROMOTE_DOUBLE_POLICY>::arg1 forwarding_arg1;
+typedef default_args<HYDRA_BOOST_MATH_PROMOTE_FLOAT_POLICY, HYDRA_BOOST_MATH_PROMOTE_DOUBLE_POLICY>::arg2 forwarding_arg2;
 
 } // detail
 
@@ -361,19 +361,19 @@ private:
    //
    // Validate all our arguments:
    //
-   static_assert(::boost::math::policies::detail::is_valid_policy<A1>::value, "::boost::math::policies::detail::is_valid_policy<A1>::value");
-   static_assert(::boost::math::policies::detail::is_valid_policy<A2>::value, "::boost::math::policies::detail::is_valid_policy<A2>::value");
-   static_assert(::boost::math::policies::detail::is_valid_policy<A3>::value, "::boost::math::policies::detail::is_valid_policy<A3>::value");
-   static_assert(::boost::math::policies::detail::is_valid_policy<A4>::value, "::boost::math::policies::detail::is_valid_policy<A4>::value");
-   static_assert(::boost::math::policies::detail::is_valid_policy<A5>::value, "::boost::math::policies::detail::is_valid_policy<A5>::value");
-   static_assert(::boost::math::policies::detail::is_valid_policy<A6>::value, "::boost::math::policies::detail::is_valid_policy<A6>::value");
-   static_assert(::boost::math::policies::detail::is_valid_policy<A7>::value, "::boost::math::policies::detail::is_valid_policy<A7>::value");
-   static_assert(::boost::math::policies::detail::is_valid_policy<A8>::value, "::boost::math::policies::detail::is_valid_policy<A8>::value");
-   static_assert(::boost::math::policies::detail::is_valid_policy<A9>::value, "::boost::math::policies::detail::is_valid_policy<A9>::value");
-   static_assert(::boost::math::policies::detail::is_valid_policy<A10>::value, "::boost::math::policies::detail::is_valid_policy<A10>::value");
-   static_assert(::boost::math::policies::detail::is_valid_policy<A11>::value, "::boost::math::policies::detail::is_valid_policy<A11>::value");
-   static_assert(::boost::math::policies::detail::is_valid_policy<A12>::value, "::boost::math::policies::detail::is_valid_policy<A12>::value");
-   static_assert(::boost::math::policies::detail::is_valid_policy<A13>::value, "::boost::math::policies::detail::is_valid_policy<A13>::value");
+   static_assert(::hydra_boost::math::policies::detail::is_valid_policy<A1>::value, "::hydra_boost::math::policies::detail::is_valid_policy<A1>::value");
+   static_assert(::hydra_boost::math::policies::detail::is_valid_policy<A2>::value, "::hydra_boost::math::policies::detail::is_valid_policy<A2>::value");
+   static_assert(::hydra_boost::math::policies::detail::is_valid_policy<A3>::value, "::hydra_boost::math::policies::detail::is_valid_policy<A3>::value");
+   static_assert(::hydra_boost::math::policies::detail::is_valid_policy<A4>::value, "::hydra_boost::math::policies::detail::is_valid_policy<A4>::value");
+   static_assert(::hydra_boost::math::policies::detail::is_valid_policy<A5>::value, "::hydra_boost::math::policies::detail::is_valid_policy<A5>::value");
+   static_assert(::hydra_boost::math::policies::detail::is_valid_policy<A6>::value, "::hydra_boost::math::policies::detail::is_valid_policy<A6>::value");
+   static_assert(::hydra_boost::math::policies::detail::is_valid_policy<A7>::value, "::hydra_boost::math::policies::detail::is_valid_policy<A7>::value");
+   static_assert(::hydra_boost::math::policies::detail::is_valid_policy<A8>::value, "::hydra_boost::math::policies::detail::is_valid_policy<A8>::value");
+   static_assert(::hydra_boost::math::policies::detail::is_valid_policy<A9>::value, "::hydra_boost::math::policies::detail::is_valid_policy<A9>::value");
+   static_assert(::hydra_boost::math::policies::detail::is_valid_policy<A10>::value, "::hydra_boost::math::policies::detail::is_valid_policy<A10>::value");
+   static_assert(::hydra_boost::math::policies::detail::is_valid_policy<A11>::value, "::hydra_boost::math::policies::detail::is_valid_policy<A11>::value");
+   static_assert(::hydra_boost::math::policies::detail::is_valid_policy<A12>::value, "::hydra_boost::math::policies::detail::is_valid_policy<A12>::value");
+   static_assert(::hydra_boost::math::policies::detail::is_valid_policy<A13>::value, "::hydra_boost::math::policies::detail::is_valid_policy<A13>::value");
    //
    // Typelist of the arguments:
    //
@@ -453,7 +453,7 @@ public:
    using evaluation_error_type = evaluation_error<>;
    using rounding_error_type = rounding_error<>;
    using indeterminate_result_error_type = indeterminate_result_error<>;
-#if BOOST_MATH_DIGITS10_POLICY == 0
+#if HYDRA_BOOST_MATH_DIGITS10_POLICY == 0
    using precision_type = digits2<>;
 #else
    using precision_type = detail::precision<digits10<>, digits2<>>::type;
@@ -478,7 +478,7 @@ public:
    using evaluation_error_type = evaluation_error<>;
    using rounding_error_type = rounding_error<>;
    using indeterminate_result_error_type = indeterminate_result_error<>;
-#if BOOST_MATH_DIGITS10_POLICY == 0
+#if HYDRA_BOOST_MATH_DIGITS10_POLICY == 0
    using precision_type = digits2<>;
 #else
    using precision_type = detail::precision<digits10<>, digits2<>>::type;
@@ -746,7 +746,7 @@ struct precision
 {
    static_assert((std::numeric_limits<Real>::radix == 2) || ((std::numeric_limits<Real>::is_specialized == 0) || (std::numeric_limits<Real>::digits == 0)),
    "(std::numeric_limits<Real>::radix == 2) || ((std::numeric_limits<Real>::is_specialized == 0) || (std::numeric_limits<Real>::digits == 0))");
-#ifndef BOOST_BORLANDC
+#ifndef HYDRA_BOOST_BORLANDC
    using precision_type = typename Policy::precision_type;
    using type = typename std::conditional<
       ((std::numeric_limits<Real>::is_specialized == 0) || (std::numeric_limits<Real>::digits == 0)),
@@ -780,10 +780,10 @@ struct precision
 #endif
 };
 
-#ifdef BOOST_MATH_USE_FLOAT128
+#ifdef HYDRA_BOOST_MATH_USE_FLOAT128
 
 template <class Policy>
-struct precision<BOOST_MATH_FLOAT128_TYPE, Policy>
+struct precision<HYDRA_BOOST_MATH_FLOAT128_TYPE, Policy>
 {
    typedef std::integral_constant<int, 113> type;
 };
@@ -796,7 +796,7 @@ template <class T, class Policy>
 inline constexpr int digits_imp(std::true_type const&) noexcept
 {
    static_assert( std::numeric_limits<T>::is_specialized, "std::numeric_limits<T>::is_specialized");
-   typedef typename boost::math::policies::precision<T, Policy>::type p_t;
+   typedef typename hydra_boost::math::policies::precision<T, Policy>::type p_t;
    return p_t::value;
 }
 
@@ -809,15 +809,15 @@ inline constexpr int digits_imp(std::false_type const&) noexcept
 } // namespace detail
 
 template <class T, class Policy>
-inline constexpr int digits(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) noexcept
+inline constexpr int digits(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) noexcept
 {
    typedef std::integral_constant<bool, std::numeric_limits<T>::is_specialized > tag_type;
    return detail::digits_imp<T, Policy>(tag_type());
 }
 template <class T, class Policy>
-inline constexpr int digits_base10(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) noexcept
+inline constexpr int digits_base10(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) noexcept
 {
-   return boost::math::policies::digits<T, Policy>() * 301 / 1000L;
+   return hydra_boost::math::policies::digits<T, Policy>() * 301 / 1000L;
 }
 
 template <class Policy>
@@ -850,7 +850,7 @@ struct series_factor_calc<T, Digits, std::true_type, std::true_type>
 {
    static constexpr T get() noexcept(std::is_floating_point<T>::value)
    {
-      return boost::math::tools::epsilon<T>();
+      return hydra_boost::math::tools::epsilon<T>();
    }
 };
 template <class T, class Digits>
@@ -866,7 +866,7 @@ struct series_factor_calc<T, Digits, std::false_type, std::true_type>
 {
    static constexpr T get() noexcept(std::is_floating_point<T>::value)
    {
-      return boost::math::tools::epsilon<T>();
+      return hydra_boost::math::tools::epsilon<T>();
    }
 };
 
@@ -876,7 +876,7 @@ inline constexpr T get_epsilon_imp(std::true_type const&) noexcept(std::is_float
    static_assert(std::numeric_limits<T>::is_specialized, "std::numeric_limits<T>::is_specialized");
    static_assert(std::numeric_limits<T>::radix == 2, "std::numeric_limits<T>::radix == 2");
 
-   typedef typename boost::math::policies::precision<T, Policy>::type p_t;
+   typedef typename hydra_boost::math::policies::precision<T, Policy>::type p_t;
    typedef std::integral_constant<bool, p_t::value <= std::numeric_limits<std::uintmax_t>::digits> is_small_int;
    typedef std::integral_constant<bool, p_t::value >= std::numeric_limits<T>::digits> is_default_value;
    return series_factor_calc<T, p_t, is_small_int, is_default_value>::get();
@@ -891,7 +891,7 @@ inline constexpr T get_epsilon_imp(std::false_type const&) noexcept(std::is_floa
 } // namespace detail
 
 template <class T, class Policy>
-inline constexpr T get_epsilon(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value)
+inline constexpr T get_epsilon(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) noexcept(std::is_floating_point<T>::value)
 {
    typedef std::integral_constant<bool, (std::numeric_limits<T>::is_specialized && (std::numeric_limits<T>::radix == 2)) > tag_type;
    return detail::get_epsilon_imp<T, Policy>(tag_type());
@@ -917,7 +917,7 @@ template <typename P>
 class is_policy_imp
 {
 public:
-   static constexpr bool value = (sizeof(::boost::math::policies::detail::test_is_policy(static_cast<P*>(nullptr))) == sizeof(char));
+   static constexpr bool value = (sizeof(::hydra_boost::math::policies::detail::test_is_policy(static_cast<P*>(nullptr))) == sizeof(char));
 };
 
 }
@@ -926,7 +926,7 @@ template <typename P>
 class is_policy
 {
 public:
-   static constexpr bool value = boost::math::policies::detail::is_policy_imp<P>::value;
+   static constexpr bool value = hydra_boost::math::policies::detail::is_policy_imp<P>::value;
    using type = std::integral_constant<bool, value>;
 };
 
@@ -980,5 +980,5 @@ struct is_noexcept_error_policy
 
 }}} // namespaces
 
-#endif // BOOST_MATH_POLICY_HPP
+#endif // HYDRA_BOOST_MATH_POLICY_HPP
 

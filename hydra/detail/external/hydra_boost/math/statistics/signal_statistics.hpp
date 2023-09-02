@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_TOOLS_SIGNAL_STATISTICS_HPP
-#define BOOST_MATH_TOOLS_SIGNAL_STATISTICS_HPP
+#ifndef HYDRA_BOOST_MATH_TOOLS_SIGNAL_STATISTICS_HPP
+#define HYDRA_BOOST_MATH_TOOLS_SIGNAL_STATISTICS_HPP
 
 #include <algorithm>
 #include <iterator>
@@ -14,21 +14,21 @@
 #include <hydra/detail/external/hydra_boost/math/statistics/univariate_statistics.hpp>
 
 #include <hydra/detail/external/hydra_boost/math/tools/is_standalone.hpp>
-#ifndef BOOST_MATH_STANDALONE
+#ifndef HYDRA_BOOST_MATH_STANDALONE
 #include <hydra/detail/external/hydra_boost/config.hpp>
-#ifdef BOOST_NO_CXX17_IF_CONSTEXPR
+#ifdef HYDRA_BOOST_NO_CXX17_IF_CONSTEXPR
 #error "The header <hydra/detail/external/hydra_boost/math/norms.hpp> can only be used in C++17 and later."
 #endif
 #endif
 
-namespace boost::math::statistics {
+namespace hydra_boost::math::statistics {
 
 template<class ForwardIterator>
 auto absolute_gini_coefficient(ForwardIterator first, ForwardIterator last)
 {
     using std::abs;
     using RealOrComplex = typename std::iterator_traits<ForwardIterator>::value_type;
-    BOOST_MATH_ASSERT_MSG(first != last && std::next(first) != last, "Computation of the Gini coefficient requires at least two samples.");
+    HYDRA_BOOST_MATH_ASSERT_MSG(first != last && std::next(first) != last, "Computation of the Gini coefficient requires at least two samples.");
 
     std::sort(first, last,  [](RealOrComplex a, RealOrComplex b) { return abs(b) > abs(a); });
 
@@ -56,20 +56,20 @@ auto absolute_gini_coefficient(ForwardIterator first, ForwardIterator last)
 template<class RandomAccessContainer>
 inline auto absolute_gini_coefficient(RandomAccessContainer & v)
 {
-    return boost::math::statistics::absolute_gini_coefficient(v.begin(), v.end());
+    return hydra_boost::math::statistics::absolute_gini_coefficient(v.begin(), v.end());
 }
 
 template<class ForwardIterator>
 auto sample_absolute_gini_coefficient(ForwardIterator first, ForwardIterator last)
 {
     size_t n = std::distance(first, last);
-    return n*boost::math::statistics::absolute_gini_coefficient(first, last)/(n-1);
+    return n*hydra_boost::math::statistics::absolute_gini_coefficient(first, last)/(n-1);
 }
 
 template<class RandomAccessContainer>
 inline auto sample_absolute_gini_coefficient(RandomAccessContainer & v)
 {
-    return boost::math::statistics::sample_absolute_gini_coefficient(v.begin(), v.end());
+    return hydra_boost::math::statistics::sample_absolute_gini_coefficient(v.begin(), v.end());
 }
 
 
@@ -81,7 +81,7 @@ auto hoyer_sparsity(const ForwardIterator first, const ForwardIterator last)
     using T = typename std::iterator_traits<ForwardIterator>::value_type;
     using std::abs;
     using std::sqrt;
-    BOOST_MATH_ASSERT_MSG(first != last && std::next(first) != last, "Computation of the Hoyer sparsity requires at least two samples.");
+    HYDRA_BOOST_MATH_ASSERT_MSG(first != last && std::next(first) != last, "Computation of the Hoyer sparsity requires at least two samples.");
 
     if constexpr (std::is_unsigned<T>::value)
     {
@@ -127,7 +127,7 @@ auto hoyer_sparsity(const ForwardIterator first, const ForwardIterator last)
 template<class Container>
 inline auto hoyer_sparsity(Container const & v)
 {
-    return boost::math::statistics::hoyer_sparsity(v.cbegin(), v.cend());
+    return hydra_boost::math::statistics::hoyer_sparsity(v.cbegin(), v.cend());
 }
 
 
@@ -135,7 +135,7 @@ template<class Container>
 auto oracle_snr(Container const & signal, Container const & noisy_signal)
 {
     using Real = typename Container::value_type;
-    BOOST_MATH_ASSERT_MSG(signal.size() == noisy_signal.size(),
+    HYDRA_BOOST_MATH_ASSERT_MSG(signal.size() == noisy_signal.size(),
                      "Signal and noisy_signal must be have the same number of elements.");
     if constexpr (std::is_integral<Real>::value)
     {
@@ -156,7 +156,7 @@ auto oracle_snr(Container const & signal, Container const & noisy_signal)
         }
         return numerator/denominator;
     }
-    else if constexpr (boost::math::tools::is_complex_type<Real>::value)
+    else if constexpr (hydra_boost::math::tools::is_complex_type<Real>::value)
 
     {
         using std::norm;
@@ -204,9 +204,9 @@ template<class Container>
 auto mean_invariant_oracle_snr(Container const & signal, Container const & noisy_signal)
 {
     using Real = typename Container::value_type;
-    BOOST_MATH_ASSERT_MSG(signal.size() == noisy_signal.size(), "Signal and noisy signal must be have the same number of elements.");
+    HYDRA_BOOST_MATH_ASSERT_MSG(signal.size() == noisy_signal.size(), "Signal and noisy signal must be have the same number of elements.");
 
-    Real mu = boost::math::statistics::mean(signal);
+    Real mu = hydra_boost::math::statistics::mean(signal);
     Real numerator = 0;
     Real denominator = 0;
     for (size_t i = 0; i < signal.size(); ++i)
@@ -232,7 +232,7 @@ template<class Container>
 auto mean_invariant_oracle_snr_db(Container const & signal, Container const & noisy_signal)
 {
     using std::log10;
-    return 10*log10(boost::math::statistics::mean_invariant_oracle_snr(signal, noisy_signal));
+    return 10*log10(hydra_boost::math::statistics::mean_invariant_oracle_snr(signal, noisy_signal));
 }
 
 
@@ -241,7 +241,7 @@ template<class Container>
 auto oracle_snr_db(Container const & signal, Container const & noisy_signal)
 {
     using std::log10;
-    return 10*log10(boost::math::statistics::oracle_snr(signal, noisy_signal));
+    return 10*log10(hydra_boost::math::statistics::oracle_snr(signal, noisy_signal));
 }
 
 // A good reference on the M2M4 estimator:
@@ -251,8 +251,8 @@ auto oracle_snr_db(Container const & signal, Container const & noisy_signal)
 template<class ForwardIterator>
 auto m2m4_snr_estimator(ForwardIterator first, ForwardIterator last, decltype(*first) estimated_signal_kurtosis=1, decltype(*first) estimated_noise_kurtosis=3)
 {
-    BOOST_MATH_ASSERT_MSG(estimated_signal_kurtosis > 0, "The estimated signal kurtosis must be positive");
-    BOOST_MATH_ASSERT_MSG(estimated_noise_kurtosis > 0, "The estimated noise kurtosis must be positive.");
+    HYDRA_BOOST_MATH_ASSERT_MSG(estimated_signal_kurtosis > 0, "The estimated signal kurtosis must be positive");
+    HYDRA_BOOST_MATH_ASSERT_MSG(estimated_noise_kurtosis > 0, "The estimated noise kurtosis must be positive.");
     using Real = typename std::iterator_traits<ForwardIterator>::value_type;
     using std::sqrt;
     if constexpr (std::is_floating_point<Real>::value || std::numeric_limits<Real>::max_exponent)
@@ -266,7 +266,7 @@ auto m2m4_snr_estimator(ForwardIterator first, ForwardIterator last, decltype(*f
         // However, I can't prove that, so there is a chance that this does unnecessary work.
         // Future improvements: There are algorithms which can solve quadratics much more effectively than the naive implementation found here.
         // See: https://stackoverflow.com/questions/48979861/numerically-stable-method-for-solving-quadratic-equations/50065711#50065711
-        auto [M1, M2, M3, M4] = boost::math::statistics::first_four_moments(first, last);
+        auto [M1, M2, M3, M4] = hydra_boost::math::statistics::first_four_moments(first, last);
         if (M4 == 0)
         {
             // The signal is constant. There is no noise:
@@ -281,7 +281,7 @@ auto m2m4_snr_estimator(ForwardIterator first, ForwardIterator last, decltype(*f
         Real cs = kw*M2*M2 - M4;
         Real bn = 2*M2*(3-ka);
         Real cn = ka*M2*M2 - M4;
-        auto [S0, S1] = boost::math::tools::quadratic_roots(a, bs, cs);
+        auto [S0, S1] = hydra_boost::math::tools::quadratic_roots(a, bs, cs);
         if (S1 > 0)
         {
             auto N = M2 - S1;
@@ -298,7 +298,7 @@ auto m2m4_snr_estimator(ForwardIterator first, ForwardIterator last, decltype(*f
                 }
             }
         }
-        auto [N0, N1] = boost::math::tools::quadratic_roots(a, bn, cn);
+        auto [N0, N1] = hydra_boost::math::tools::quadratic_roots(a, bn, cn);
         if (N1 > 0)
         {
             auto S = M2 - N1;
@@ -320,7 +320,7 @@ auto m2m4_snr_estimator(ForwardIterator first, ForwardIterator last, decltype(*f
     }
     else
     {
-        BOOST_MATH_ASSERT_MSG(false, "The M2M4 estimator has not been implemented for this type.");
+        HYDRA_BOOST_MATH_ASSERT_MSG(false, "The M2M4 estimator has not been implemented for this type.");
         return std::numeric_limits<Real>::quiet_NaN();
     }
 }

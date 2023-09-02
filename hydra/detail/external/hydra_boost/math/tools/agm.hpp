@@ -3,12 +3,12 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_TOOLS_AGM_HPP
-#define BOOST_MATH_TOOLS_AGM_HPP
+#ifndef HYDRA_BOOST_MATH_TOOLS_AGM_HPP
+#define HYDRA_BOOST_MATH_TOOLS_AGM_HPP
 #include <limits>
 #include <cmath>
 
-namespace boost { namespace math { namespace tools {
+namespace hydra_boost { namespace math { namespace tools {
 
 template<typename Real>
 Real agm(Real a, Real g)

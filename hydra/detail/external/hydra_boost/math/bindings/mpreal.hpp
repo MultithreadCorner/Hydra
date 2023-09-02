@@ -8,8 +8,8 @@
 // Also requires the gmp and mpfr libraries.
 //
 
-#ifndef BOOST_MATH_MPREAL_BINDINGS_HPP
-#define BOOST_MATH_MPREAL_BINDINGS_HPP
+#ifndef HYDRA_BOOST_MATH_MPREAL_BINDINGS_HPP
+#define HYDRA_BOOST_MATH_MPREAL_BINDINGS_HPP
 
 #include <type_traits>
 
@@ -36,7 +36,7 @@
 #include <hydra/detail/external/hydra_boost/math/bindings/detail/big_digamma.hpp>
 #include <hydra/detail/external/hydra_boost/math/bindings/detail/big_lanczos.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
-#ifndef BOOST_MATH_STANDALONE
+#ifndef HYDRA_BOOST_MATH_STANDALONE
 #include <hydra/detail/external/hydra_boost/lexical_cast.hpp>
 #endif
 
@@ -127,47 +127,47 @@ template <class Policy>
 inline mpfr::mpreal modf(const mpfr::mpreal& v, long long* ipart, const Policy& pol)
 {
    *ipart = lltrunc(v, pol);
-   return v - boost::math::tools::real_cast<mpfr::mpreal>(*ipart);
+   return v - hydra_boost::math::tools::real_cast<mpfr::mpreal>(*ipart);
 }
 template <class Policy>
 inline int iround(mpfr::mpreal const& x, const Policy& pol)
 {
-   return boost::math::tools::real_cast<int>(boost::math::round(x, pol));
+   return hydra_boost::math::tools::real_cast<int>(hydra_boost::math::round(x, pol));
 }
 
 template <class Policy>
 inline long lround(mpfr::mpreal const& x, const Policy& pol)
 {
-   return boost::math::tools::real_cast<long>(boost::math::round(x, pol));
+   return hydra_boost::math::tools::real_cast<long>(hydra_boost::math::round(x, pol));
 }
 
 template <class Policy>
 inline long long llround(mpfr::mpreal const& x, const Policy& pol)
 {
-   return boost::math::tools::real_cast<long long>(boost::math::round(x, pol));
+   return hydra_boost::math::tools::real_cast<long long>(hydra_boost::math::round(x, pol));
 }
 
 template <class Policy>
 inline int itrunc(mpfr::mpreal const& x, const Policy& pol)
 {
-   return boost::math::tools::real_cast<int>(boost::math::trunc(x, pol));
+   return hydra_boost::math::tools::real_cast<int>(hydra_boost::math::trunc(x, pol));
 }
 
 template <class Policy>
 inline long ltrunc(mpfr::mpreal const& x, const Policy& pol)
 {
-   return boost::math::tools::real_cast<long>(boost::math::trunc(x, pol));
+   return hydra_boost::math::tools::real_cast<long>(hydra_boost::math::trunc(x, pol));
 }
 
 template <class Policy>
 inline long long lltrunc(mpfr::mpreal const& x, const Policy& pol)
 {
-   return boost::math::tools::real_cast<long long>(boost::math::trunc(x, pol));
+   return hydra_boost::math::tools::real_cast<long long>(hydra_boost::math::trunc(x, pol));
 }
 
 }
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 #if defined(__GNUC__) && (__GNUC__ < 4)
    using ::iround;
@@ -257,7 +257,7 @@ namespace tools
 {
 
 template<>
-inline int digits<mpfr::mpreal>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr::mpreal))
+inline int digits<mpfr::mpreal>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr::mpreal))
 {
    return mpfr::mpreal::get_default_prec();
 }
@@ -339,7 +339,7 @@ inline long long real_cast<long long, mpfr::mpreal>(mpfr::mpreal t)
 }
 
 template <>
-inline mpfr::mpreal max_value<mpfr::mpreal>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr::mpreal))
+inline mpfr::mpreal max_value<mpfr::mpreal>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr::mpreal))
 {
    static bool has_init = false;
    static mpfr::mpreal val(0.5);
@@ -352,7 +352,7 @@ inline mpfr::mpreal max_value<mpfr::mpreal>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SP
 }
 
 template <>
-inline mpfr::mpreal min_value<mpfr::mpreal>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr::mpreal))
+inline mpfr::mpreal min_value<mpfr::mpreal>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr::mpreal))
 {
    static bool has_init = false;
    static mpfr::mpreal val(0.5);
@@ -365,7 +365,7 @@ inline mpfr::mpreal min_value<mpfr::mpreal>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SP
 }
 
 template <>
-inline mpfr::mpreal log_max_value<mpfr::mpreal>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr::mpreal))
+inline mpfr::mpreal log_max_value<mpfr::mpreal>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr::mpreal))
 {
    static bool has_init = false;
    static mpfr::mpreal val = max_value<mpfr::mpreal>();
@@ -378,7 +378,7 @@ inline mpfr::mpreal log_max_value<mpfr::mpreal>(BOOST_MATH_EXPLICIT_TEMPLATE_TYP
 }
 
 template <>
-inline mpfr::mpreal log_min_value<mpfr::mpreal>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr::mpreal))
+inline mpfr::mpreal log_min_value<mpfr::mpreal>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr::mpreal))
 {
    static bool has_init = false;
    static mpfr::mpreal val = max_value<mpfr::mpreal>();
@@ -391,9 +391,9 @@ inline mpfr::mpreal log_min_value<mpfr::mpreal>(BOOST_MATH_EXPLICIT_TEMPLATE_TYP
 }
 
 template <>
-inline mpfr::mpreal epsilon<mpfr::mpreal>(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr::mpreal))
+inline mpfr::mpreal epsilon<mpfr::mpreal>(HYDRA_BOOST_MATH_EXPLICIT_TEMPLATE_TYPE_SPEC(mpfr::mpreal))
 {
-   return ldexp(mpfr::mpreal(1), 1-boost::math::policies::digits<mpfr::mpreal, boost::math::policies::policy<> >());
+   return ldexp(mpfr::mpreal(1), 1-hydra_boost::math::policies::digits<mpfr::mpreal, hydra_boost::math::policies::policy<> >());
 }
 
 } // namespace tools
@@ -405,22 +405,22 @@ inline mpfr::mpreal skewness(const extreme_value_distribution<mpfr::mpreal, Poli
    // This is 12 * sqrt(6) * zeta(3) / pi^3:
    // See http://mathworld.wolfram.com/ExtremeValueDistribution.html
    //
-   #ifdef BOOST_MATH_STANDALONE
+   #ifdef HYDRA_BOOST_MATH_STANDALONE
    static_assert(sizeof(Policy) == 0, "mpreal skewness can not be calculated in standalone mode");
    #endif
 
-   return boost::lexical_cast<mpfr::mpreal>("1.1395470994046486574927930193898461120875997958366");
+   return hydra_boost::lexical_cast<mpfr::mpreal>("1.1395470994046486574927930193898461120875997958366");
 }
 
 template <class Policy>
 inline mpfr::mpreal skewness(const rayleigh_distribution<mpfr::mpreal, Policy>& /*dist*/)
 {
-  // using namespace boost::math::constants;
-  #ifdef BOOST_MATH_STANDALONE
+  // using namespace hydra_boost::math::constants;
+  #ifdef HYDRA_BOOST_MATH_STANDALONE
   static_assert(sizeof(Policy) == 0, "mpreal skewness can not be calculated in standalone mode");
   #endif
 
-  return boost::lexical_cast<mpfr::mpreal>("0.63111065781893713819189935154422777984404221106391");
+  return hydra_boost::lexical_cast<mpfr::mpreal>("0.63111065781893713819189935154422777984404221106391");
   // Computed using NTL at 150 bit, about 50 decimal digits.
   // return 2 * root_pi<RealType>() * pi_minus_three<RealType>() / pow23_four_minus_pi<RealType>();
 }
@@ -428,12 +428,12 @@ inline mpfr::mpreal skewness(const rayleigh_distribution<mpfr::mpreal, Policy>& 
 template <class Policy>
 inline mpfr::mpreal kurtosis(const rayleigh_distribution<mpfr::mpreal, Policy>& /*dist*/)
 {
-  // using namespace boost::math::constants;
-  #ifdef BOOST_MATH_STANDALONE
+  // using namespace hydra_boost::math::constants;
+  #ifdef HYDRA_BOOST_MATH_STANDALONE
   static_assert(sizeof(Policy) == 0, "mpreal kurtosis can not be calculated in standalone mode");
   #endif
 
-  return boost::lexical_cast<mpfr::mpreal>("3.2450893006876380628486604106197544154170667057995");
+  return hydra_boost::lexical_cast<mpfr::mpreal>("3.2450893006876380628486604106197544154170667057995");
   // Computed using NTL at 150 bit, about 50 decimal digits.
   // return 3 - (6 * pi<RealType>() * pi<RealType>() - 24 * pi<RealType>() + 16) /
   // (four_minus_pi<RealType>() * four_minus_pi<RealType>());
@@ -442,13 +442,13 @@ inline mpfr::mpreal kurtosis(const rayleigh_distribution<mpfr::mpreal, Policy>& 
 template <class Policy>
 inline mpfr::mpreal kurtosis_excess(const rayleigh_distribution<mpfr::mpreal, Policy>& /*dist*/)
 {
-  //using namespace boost::math::constants;
+  //using namespace hydra_boost::math::constants;
   // Computed using NTL at 150 bit, about 50 decimal digits.
-  #ifdef BOOST_MATH_STANDALONE
+  #ifdef HYDRA_BOOST_MATH_STANDALONE
   static_assert(sizeof(Policy) == 0, "mpreal excess kurtosis can not be calculated in standalone mode");
   #endif
 
-  return boost::lexical_cast<mpfr::mpreal>("0.2450893006876380628486604106197544154170667057995");
+  return hydra_boost::lexical_cast<mpfr::mpreal>("0.2450893006876380628486604106197544154170667057995");
   // return -(6 * pi<RealType>() * pi<RealType>() - 24 * pi<RealType>() + 16) /
   //   (four_minus_pi<RealType>() * four_minus_pi<RealType>());
 } // kurtosis
@@ -465,7 +465,7 @@ mpfr::mpreal digamma_imp(mpfr::mpreal x, const std::integral_constant<int, 0>* ,
    // This handles reflection of negative arguments, and all our
    // empfr_classor handling, then forwards to the T-specific approximation.
    //
-   BOOST_MATH_STD_USING // ADL of std functions.
+   HYDRA_BOOST_MATH_STD_USING // ADL of std functions.
 
    mpfr::mpreal result = 0;
    //
@@ -487,7 +487,7 @@ mpfr::mpreal digamma_imp(mpfr::mpreal x, const std::integral_constant<int, 0>* ,
       //
       if(remainder == 0)
       {
-         return policies::raise_pole_error<mpfr::mpreal>("boost::math::digamma<%1%>(%1%)", nullptr, (1-x), pol);
+         return policies::raise_pole_error<mpfr::mpreal>("hydra_boost::math::digamma<%1%>(%1%)", nullptr, (1-x), pol);
       }
       result = constants::pi<mpfr::mpreal>() / tan(constants::pi<mpfr::mpreal>() * remainder);
    }
@@ -501,7 +501,7 @@ mpfr::mpreal digamma_imp(mpfr::mpreal x, const std::integral_constant<int, 0>* ,
 template <class Policy>
 mpfr::mpreal erf_inv_imp(const mpfr::mpreal& p, const mpfr::mpreal& q, const Policy&, const std::integral_constant<int, 64>*)
 {
-   BOOST_MATH_STD_USING // for ADL of std names.
+   HYDRA_BOOST_MATH_STD_USING // for ADL of std names.
 
    mpfr::mpreal result = 0;
 
@@ -757,58 +757,58 @@ mpfr::mpreal erf_inv_imp(const mpfr::mpreal& p, const mpfr::mpreal& q, const Pol
 
 inline mpfr::mpreal bessel_i0(mpfr::mpreal x)
 {
-   #ifdef BOOST_MATH_STANDALONE
+   #ifdef HYDRA_BOOST_MATH_STANDALONE
    static_assert(sizeof(x) == 0, "mpreal bessel_i0 can not be calculated in standalone mode");
    #endif
 
     static const mpfr::mpreal P1[] = {
-        boost::lexical_cast<mpfr::mpreal>("-2.2335582639474375249e+15"),
-        boost::lexical_cast<mpfr::mpreal>("-5.5050369673018427753e+14"),
-        boost::lexical_cast<mpfr::mpreal>("-3.2940087627407749166e+13"),
-        boost::lexical_cast<mpfr::mpreal>("-8.4925101247114157499e+11"),
-        boost::lexical_cast<mpfr::mpreal>("-1.1912746104985237192e+10"),
-        boost::lexical_cast<mpfr::mpreal>("-1.0313066708737980747e+08"),
-        boost::lexical_cast<mpfr::mpreal>("-5.9545626019847898221e+05"),
-        boost::lexical_cast<mpfr::mpreal>("-2.4125195876041896775e+03"),
-        boost::lexical_cast<mpfr::mpreal>("-7.0935347449210549190e+00"),
-        boost::lexical_cast<mpfr::mpreal>("-1.5453977791786851041e-02"),
-        boost::lexical_cast<mpfr::mpreal>("-2.5172644670688975051e-05"),
-        boost::lexical_cast<mpfr::mpreal>("-3.0517226450451067446e-08"),
-        boost::lexical_cast<mpfr::mpreal>("-2.6843448573468483278e-11"),
-        boost::lexical_cast<mpfr::mpreal>("-1.5982226675653184646e-14"),
-        boost::lexical_cast<mpfr::mpreal>("-5.2487866627945699800e-18"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-2.2335582639474375249e+15"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-5.5050369673018427753e+14"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-3.2940087627407749166e+13"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-8.4925101247114157499e+11"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-1.1912746104985237192e+10"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-1.0313066708737980747e+08"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-5.9545626019847898221e+05"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-2.4125195876041896775e+03"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-7.0935347449210549190e+00"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-1.5453977791786851041e-02"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-2.5172644670688975051e-05"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-3.0517226450451067446e-08"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-2.6843448573468483278e-11"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-1.5982226675653184646e-14"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-5.2487866627945699800e-18"),
     };
     static const mpfr::mpreal Q1[] = {
-        boost::lexical_cast<mpfr::mpreal>("-2.2335582639474375245e+15"),
-        boost::lexical_cast<mpfr::mpreal>("7.8858692566751002988e+12"),
-        boost::lexical_cast<mpfr::mpreal>("-1.2207067397808979846e+10"),
-        boost::lexical_cast<mpfr::mpreal>("1.0377081058062166144e+07"),
-        boost::lexical_cast<mpfr::mpreal>("-4.8527560179962773045e+03"),
-        boost::lexical_cast<mpfr::mpreal>("1.0"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-2.2335582639474375245e+15"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("7.8858692566751002988e+12"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-1.2207067397808979846e+10"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("1.0377081058062166144e+07"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-4.8527560179962773045e+03"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("1.0"),
     };
     static const mpfr::mpreal P2[] = {
-        boost::lexical_cast<mpfr::mpreal>("-2.2210262233306573296e-04"),
-        boost::lexical_cast<mpfr::mpreal>("1.3067392038106924055e-02"),
-        boost::lexical_cast<mpfr::mpreal>("-4.4700805721174453923e-01"),
-        boost::lexical_cast<mpfr::mpreal>("5.5674518371240761397e+00"),
-        boost::lexical_cast<mpfr::mpreal>("-2.3517945679239481621e+01"),
-        boost::lexical_cast<mpfr::mpreal>("3.1611322818701131207e+01"),
-        boost::lexical_cast<mpfr::mpreal>("-9.6090021968656180000e+00"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-2.2210262233306573296e-04"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("1.3067392038106924055e-02"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-4.4700805721174453923e-01"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("5.5674518371240761397e+00"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-2.3517945679239481621e+01"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("3.1611322818701131207e+01"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-9.6090021968656180000e+00"),
     };
     static const mpfr::mpreal Q2[] = {
-        boost::lexical_cast<mpfr::mpreal>("-5.5194330231005480228e-04"),
-        boost::lexical_cast<mpfr::mpreal>("3.2547697594819615062e-02"),
-        boost::lexical_cast<mpfr::mpreal>("-1.1151759188741312645e+00"),
-        boost::lexical_cast<mpfr::mpreal>("1.3982595353892851542e+01"),
-        boost::lexical_cast<mpfr::mpreal>("-6.0228002066743340583e+01"),
-        boost::lexical_cast<mpfr::mpreal>("8.5539563258012929600e+01"),
-        boost::lexical_cast<mpfr::mpreal>("-3.1446690275135491500e+01"),
-        boost::lexical_cast<mpfr::mpreal>("1.0"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-5.5194330231005480228e-04"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("3.2547697594819615062e-02"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-1.1151759188741312645e+00"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("1.3982595353892851542e+01"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-6.0228002066743340583e+01"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("8.5539563258012929600e+01"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("-3.1446690275135491500e+01"),
+        hydra_boost::lexical_cast<mpfr::mpreal>("1.0"),
     };
     mpfr::mpreal value, factor, r;
 
-    BOOST_MATH_STD_USING
-    using namespace boost::math::tools;
+    HYDRA_BOOST_MATH_STD_USING
+    using namespace hydra_boost::math::tools;
 
     if (x < 0)
     {
@@ -882,8 +882,8 @@ inline mpfr::mpreal bessel_i1(mpfr::mpreal x)
     };
     mpfr::mpreal value, factor, r, w;
 
-    BOOST_MATH_STD_USING
-    using namespace boost::math::tools;
+    HYDRA_BOOST_MATH_STD_USING
+    using namespace hydra_boost::math::tools;
 
     w = abs(x);
     if (x == 0)
@@ -917,5 +917,5 @@ inline mpfr::mpreal bessel_i1(mpfr::mpreal x)
 
 }
 
-#endif // BOOST_MATH_MPLFR_BINDINGS_HPP
+#endif // HYDRA_BOOST_MATH_MPLFR_BINDINGS_HPP
 

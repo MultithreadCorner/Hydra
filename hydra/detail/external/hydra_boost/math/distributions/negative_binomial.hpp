@@ -41,8 +41,8 @@
 // might be achieved for extreme values by using a normal approximation.
 // This is NOT been tested or implemented.
 
-#ifndef BOOST_MATH_SPECIAL_NEGATIVE_BINOMIAL_HPP
-#define BOOST_MATH_SPECIAL_NEGATIVE_BINOMIAL_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_NEGATIVE_BINOMIAL_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_NEGATIVE_BINOMIAL_HPP
 
 #include <hydra/detail/external/hydra_boost/math/distributions/fwd.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/beta.hpp> // for ibeta(a, b, x) == Ix(a, b).
@@ -55,14 +55,14 @@
 #include <limits> // using std::numeric_limits;
 #include <utility>
 
-#if defined (BOOST_MSVC)
+#if defined (HYDRA_BOOST_MSVC)
 #  pragma warning(push)
 // This believed not now necessary, so commented out.
 //#  pragma warning(disable: 4702) // unreachable code.
 // in domain_error_imp in error_handling.
 #endif
 
-namespace boost
+namespace hydra_boost
 {
   namespace math
   {
@@ -72,7 +72,7 @@ namespace boost
       template <class RealType, class Policy>
       inline bool check_successes(const char* function, const RealType& r, RealType* result, const Policy& pol)
       {
-        if( !(boost::math::isfinite)(r) || (r <= 0) )
+        if( !(hydra_boost::math::isfinite)(r) || (r <= 0) )
         {
           *result = policies::raise_domain_error<RealType>(
             function,
@@ -84,7 +84,7 @@ namespace boost
       template <class RealType, class Policy>
       inline bool check_success_fraction(const char* function, const RealType& p, RealType* result, const Policy& pol)
       {
-        if( !(boost::math::isfinite)(p) || (p < 0) || (p > 1) )
+        if( !(hydra_boost::math::isfinite)(p) || (p < 0) || (p > 1) )
         {
           *result = policies::raise_domain_error<RealType>(
             function,
@@ -106,7 +106,7 @@ namespace boost
         {
           return false;
         }
-        if( !(boost::math::isfinite)(k) || (k < 0) )
+        if( !(hydra_boost::math::isfinite)(k) || (k < 0) )
         { // Check k failures.
           *result = policies::raise_domain_error<RealType>(
             function,
@@ -159,7 +159,7 @@ namespace boost
         RealType successes,
         RealType alpha) // alpha 0.05 equivalent to 95% for one-sided test.
       {
-        static const char* function = "boost::math::negative_binomial<%1%>::find_lower_bound_on_p";
+        static const char* function = "hydra_boost::math::negative_binomial<%1%>::find_lower_bound_on_p";
         RealType result = 0;  // of error checks.
         RealType failures = trials - successes;
         if(false == detail::check_probability(function, alpha, &result, Policy())
@@ -184,7 +184,7 @@ namespace boost
         RealType successes,
         RealType alpha) // alpha 0.05 equivalent to 95% for one-sided test.
       {
-        static const char* function = "boost::math::negative_binomial<%1%>::find_upper_bound_on_p";
+        static const char* function = "hydra_boost::math::negative_binomial<%1%>::find_upper_bound_on_p";
         RealType result = 0;  // of error checks.
         RealType failures = trials - successes;
         if(false == negative_binomial_detail::check_dist_and_k(
@@ -215,7 +215,7 @@ namespace boost
         RealType p,     // success fraction 0 <= p <= 1.
         RealType alpha) // risk level threshold 0 <= alpha <= 1.
       {
-        static const char* function = "boost::math::negative_binomial<%1%>::find_minimum_number_of_trials";
+        static const char* function = "hydra_boost::math::negative_binomial<%1%>::find_minimum_number_of_trials";
         // Error checks:
         RealType result = 0;
         if(false == negative_binomial_detail::check_dist_and_k(
@@ -232,7 +232,7 @@ namespace boost
         RealType p,     // success fraction 0 <= p <= 1.
         RealType alpha) // risk level threshold 0 <= alpha <= 1.
       {
-        static const char* function = "boost::math::negative_binomial<%1%>::find_maximum_number_of_trials";
+        static const char* function = "hydra_boost::math::negative_binomial<%1%>::find_maximum_number_of_trials";
         // Error checks:
         RealType result = 0;
         if(false == negative_binomial_detail::check_dist_and_k(
@@ -253,13 +253,13 @@ namespace boost
 
     #ifdef __cpp_deduction_guides
     template <class RealType>
-    negative_binomial_distribution(RealType,RealType)->negative_binomial_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+    negative_binomial_distribution(RealType,RealType)->negative_binomial_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
     #endif
 
     template <class RealType, class Policy>
     inline const std::pair<RealType, RealType> range(const negative_binomial_distribution<RealType, Policy>& /* dist */)
     { // Range of permissible values for random variable k.
-       using boost::math::tools::max_value;
+       using hydra_boost::math::tools::max_value;
        return std::pair<RealType, RealType>(static_cast<RealType>(0), max_value<RealType>()); // max_integer?
     }
 
@@ -267,7 +267,7 @@ namespace boost
     inline const std::pair<RealType, RealType> support(const negative_binomial_distribution<RealType, Policy>& /* dist */)
     { // Range of supported values for random variable k.
        // This is range where cdf rises from 0 to 1, and outside it, the pdf is zero.
-       using boost::math::tools::max_value;
+       using hydra_boost::math::tools::max_value;
        return std::pair<RealType, RealType>(static_cast<RealType>(0),  max_value<RealType>()); // max_integer?
     }
 
@@ -280,21 +280,21 @@ namespace boost
     //template <class RealType, class Policy>
     //inline RealType median(const negative_binomial_distribution<RealType, Policy>& dist)
     //{ // Median of negative_binomial_distribution is not defined.
-    //  return policies::raise_domain_error<RealType>(BOOST_CURRENT_FUNCTION, "Median is not implemented, result is %1%!", std::numeric_limits<RealType>::quiet_NaN());
+    //  return policies::raise_domain_error<RealType>(HYDRA_BOOST_CURRENT_FUNCTION, "Median is not implemented, result is %1%!", std::numeric_limits<RealType>::quiet_NaN());
     //} // median
     // Now implemented via quantile(half) in derived accessors.
 
     template <class RealType, class Policy>
     inline RealType mode(const negative_binomial_distribution<RealType, Policy>& dist)
     { // Mode of Negative Binomial distribution = floor[(r-1) * (1 - p)/p]
-      BOOST_MATH_STD_USING // ADL of std functions.
+      HYDRA_BOOST_MATH_STD_USING // ADL of std functions.
       return floor((dist.successes() -1) * (1 - dist.success_fraction()) / dist.success_fraction());
     } // mode
 
     template <class RealType, class Policy>
     inline RealType skewness(const negative_binomial_distribution<RealType, Policy>& dist)
     { // skewness of Negative Binomial distribution = 2-p / (sqrt(r(1-p))
-      BOOST_MATH_STD_USING // ADL of std functions.
+      HYDRA_BOOST_MATH_STD_USING // ADL of std functions.
       RealType p = dist.success_fraction();
       RealType r = dist.successes();
 
@@ -337,9 +337,9 @@ namespace boost
     template <class RealType, class Policy>
     inline RealType pdf(const negative_binomial_distribution<RealType, Policy>& dist, const RealType& k)
     { // Probability Density/Mass Function.
-      BOOST_FPU_EXCEPTION_GUARD
+      HYDRA_BOOST_FPU_EXCEPTION_GUARD
 
-      static const char* function = "boost::math::pdf(const negative_binomial_distribution<%1%>&, %1%)";
+      static const char* function = "hydra_boost::math::pdf(const negative_binomial_distribution<%1%>&, %1%)";
 
       RealType r = dist.successes();
       RealType p = dist.success_fraction();
@@ -363,8 +363,8 @@ namespace boost
     template <class RealType, class Policy>
     inline RealType cdf(const negative_binomial_distribution<RealType, Policy>& dist, const RealType& k)
     { // Cumulative Distribution Function of Negative Binomial.
-      static const char* function = "boost::math::cdf(const negative_binomial_distribution<%1%>&, %1%)";
-      using boost::math::ibeta; // Regularized incomplete beta function.
+      static const char* function = "hydra_boost::math::cdf(const negative_binomial_distribution<%1%>&, %1%)";
+      using hydra_boost::math::ibeta; // Regularized incomplete beta function.
       // k argument may be integral, signed, or unsigned, or floating point.
       // If necessary, it has already been promoted from an integral type.
       RealType p = dist.success_fraction();
@@ -390,8 +390,8 @@ namespace boost
       inline RealType cdf(const complemented2_type<negative_binomial_distribution<RealType, Policy>, RealType>& c)
       { // Complemented Cumulative Distribution Function Negative Binomial.
 
-      static const char* function = "boost::math::cdf(const negative_binomial_distribution<%1%>&, %1%)";
-      using boost::math::ibetac; // Regularized incomplete beta function complement.
+      static const char* function = "hydra_boost::math::cdf(const negative_binomial_distribution<%1%>&, %1%)";
+      using hydra_boost::math::ibetac; // Regularized incomplete beta function complement.
       // k argument may be integral, signed, or unsigned, or floating point.
       // If necessary, it has already been promoted from an integral type.
       RealType const& k = c.param;
@@ -429,8 +429,8 @@ namespace boost
       // MAthCAD pnbinom return smallest k such that negative_binomial(k, n, p) >= probability.
       // k argument may be integral, signed, or unsigned, or floating point.
       // BUT Cephes/CodeCogs says: finds argument p (0 to 1) such that cdf(k, n, p) = y
-      static const char* function = "boost::math::quantile(const negative_binomial_distribution<%1%>&, %1%)";
-      BOOST_MATH_STD_USING // ADL of std functions.
+      static const char* function = "hydra_boost::math::quantile(const negative_binomial_distribution<%1%>&, %1%)";
+      HYDRA_BOOST_MATH_STD_USING // ADL of std functions.
 
       RealType p = dist.success_fraction();
       RealType r = dist.successes();
@@ -450,7 +450,7 @@ namespace boost
             "Probability argument is 1, which implies infinite failures !", Policy());
         return result;
        // usually means return +std::numeric_limits<RealType>::infinity();
-       // unless #define BOOST_MATH_THROW_ON_OVERFLOW_ERROR
+       // unless #define HYDRA_BOOST_MATH_THROW_ON_OVERFLOW_ERROR
       }
       if (P == 0)
       { // No failures are expected if P = 0.
@@ -467,11 +467,11 @@ namespace boost
             "Success fraction is 0, which implies infinite failures !", Policy());
          return result;
          // usually means return +std::numeric_limits<RealType>::infinity();
-         // unless #define BOOST_MATH_THROW_ON_OVERFLOW_ERROR
+         // unless #define HYDRA_BOOST_MATH_THROW_ON_OVERFLOW_ERROR
       }
       /*
       // Calculate quantile of negative_binomial using the inverse incomplete beta function.
-      using boost::math::ibeta_invb;
+      using hydra_boost::math::ibeta_invb;
       return ibeta_invb(r, p, P, Policy()) - 1; //
       */
       RealType guess = 0;
@@ -488,7 +488,7 @@ namespace boost
       }
       else
          factor = (1-P < sqrt(tools::epsilon<RealType>())) ? 2 : (guess < 20 ? 1.2f : 1.1f);
-      BOOST_MATH_INSTRUMENT_CODE("guess = " << guess);
+      HYDRA_BOOST_MATH_INSTRUMENT_CODE("guess = " << guess);
       //
       // Max iterations permitted:
       //
@@ -510,8 +510,8 @@ namespace boost
     {  // Quantile or Percent Point Binomial function.
        // Return the number of expected failures k for a given
        // complement of the probability Q = 1 - P.
-       static const char* function = "boost::math::quantile(const negative_binomial_distribution<%1%>&, %1%)";
-       BOOST_MATH_STD_USING
+       static const char* function = "hydra_boost::math::quantile(const negative_binomial_distribution<%1%>&, %1%)";
+       HYDRA_BOOST_MATH_STD_USING
 
        // Error checks:
        RealType Q = c.param;
@@ -544,9 +544,9 @@ namespace boost
              "Probability argument complement is 0, which implies infinite failures !", Policy());
           return result;
           // usually means return +std::numeric_limits<RealType>::infinity();
-          // unless #define BOOST_MATH_THROW_ON_OVERFLOW_ERROR
+          // unless #define HYDRA_BOOST_MATH_THROW_ON_OVERFLOW_ERROR
        }
-       if (-Q <= boost::math::powm1(dist.success_fraction(), dist.successes(), Policy()))
+       if (-Q <= hydra_boost::math::powm1(dist.success_fraction(), dist.successes(), Policy()))
        {  // q <= cdf(complement(dist, 0)) == pdf(dist, 0)
           return 0; //
        }
@@ -558,7 +558,7 @@ namespace boost
              "Success fraction is 0, which implies infinite failures !", Policy());
           return result;
           // usually means return +std::numeric_limits<RealType>::infinity();
-          // unless #define BOOST_MATH_THROW_ON_OVERFLOW_ERROR
+          // unless #define HYDRA_BOOST_MATH_THROW_ON_OVERFLOW_ERROR
        }
        //return ibetac_invb(r, p, Q, Policy()) -1;
        RealType guess = 0;
@@ -575,7 +575,7 @@ namespace boost
        }
        else
           factor = (Q < sqrt(tools::epsilon<RealType>())) ? 2 : (guess < 20 ? 1.2f : 1.1f);
-       BOOST_MATH_INSTRUMENT_CODE("guess = " << guess);
+       HYDRA_BOOST_MATH_INSTRUMENT_CODE("guess = " << guess);
        //
        // Max iterations permitted:
        //
@@ -593,15 +593,15 @@ namespace boost
     } // quantile complement
 
  } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#if defined (BOOST_MSVC)
+#if defined (HYDRA_BOOST_MSVC)
 # pragma warning(pop)
 #endif
 
-#endif // BOOST_MATH_SPECIAL_NEGATIVE_BINOMIAL_HPP
+#endif // HYDRA_BOOST_MATH_SPECIAL_NEGATIVE_BINOMIAL_HPP

@@ -5,37 +5,36 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_DISTRIBUTIONS_DETAIL_HG_CDF_HPP
-#define BOOST_MATH_DISTRIBUTIONS_DETAIL_HG_CDF_HPP
+#ifndef HYDRA_BOOST_MATH_DISTRIBUTIONS_DETAIL_HG_CDF_HPP
+#define HYDRA_BOOST_MATH_DISTRIBUTIONS_DETAIL_HG_CDF_HPP
 
 #include <hydra/detail/external/hydra_boost/math/policies/error_handling.hpp>
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/hypergeometric_pdf.hpp>
-#include <cstdint>
 
-namespace boost{ namespace math{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace detail{
 
    template <class T, class Policy>
-   T hypergeometric_cdf_imp(std::uint64_t x, std::uint64_t r, std::uint64_t n, std::uint64_t N, bool invert, const Policy& pol)
+   T hypergeometric_cdf_imp(unsigned x, unsigned r, unsigned n, unsigned N, bool invert, const Policy& pol)
    {
 #ifdef _MSC_VER
 #  pragma warning(push)
 #  pragma warning(disable:4267)
 #endif
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       T result = 0;
       T mode = floor(T(r + 1) * T(n + 1) / (N + 2));
       if(x < mode)
       {
          result = hypergeometric_pdf<T>(x, r, n, N, pol);
          T diff = result;
-         const auto lower_limit = static_cast<std::uint64_t>((std::max)(INT64_C(0), static_cast<std::int64_t>(n + r) - static_cast<std::int64_t>(N)));
+         unsigned lower_limit = static_cast<unsigned>((std::max)(0, static_cast<int>(n + r) - static_cast<int>(N)));
          while(diff > (invert ? T(1) : result) * tools::epsilon<T>())
          {
             diff = T(x) * T((N + x) - n - r) * diff / (T(1 + n - x) * T(1 + r - x));
             result += diff;
-            BOOST_MATH_INSTRUMENT_VARIABLE(x);
-            BOOST_MATH_INSTRUMENT_VARIABLE(diff);
-            BOOST_MATH_INSTRUMENT_VARIABLE(result);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(x);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(diff);
+            HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
             if(x == lower_limit)
                break;
             --x;
@@ -44,7 +43,7 @@ namespace boost{ namespace math{ namespace detail{
       else
       {
          invert = !invert;
-         const auto upper_limit = (std::min)(r, n);
+         unsigned upper_limit = (std::min)(r, n);
          if(x != upper_limit)
          {
             ++x;
@@ -55,9 +54,9 @@ namespace boost{ namespace math{ namespace detail{
                diff = T(n - x) * T(r - x) * diff / (T(x + 1) * T((N + x + 1) - n - r));
                result += diff;
                ++x;
-               BOOST_MATH_INSTRUMENT_VARIABLE(x);
-               BOOST_MATH_INSTRUMENT_VARIABLE(diff);
-               BOOST_MATH_INSTRUMENT_VARIABLE(result);
+               HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(x);
+               HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(diff);
+               HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(result);
             }
          }
       }
@@ -70,9 +69,9 @@ namespace boost{ namespace math{ namespace detail{
    }
 
    template <class T, class Policy>
-   inline T hypergeometric_cdf(std::uint64_t x, std::uint64_t r, std::uint64_t n, std::uint64_t N, bool invert, const Policy&)
+   inline T hypergeometric_cdf(unsigned x, unsigned r, unsigned n, unsigned N, bool invert, const Policy&)
    {
-      BOOST_FPU_EXCEPTION_GUARD
+      HYDRA_BOOST_FPU_EXCEPTION_GUARD
       typedef typename tools::promote_args<T>::type result_type;
       typedef typename policies::evaluation<result_type, Policy>::type value_type;
       typedef typename policies::normalise<
@@ -92,7 +91,7 @@ namespace boost{ namespace math{ namespace detail{
       {
          result = 0;
       }
-      return policies::checked_narrowing_cast<result_type, forwarding_policy>(result, "boost::math::hypergeometric_cdf<%1%>(%1%,%1%,%1%,%1%)");
+      return policies::checked_narrowing_cast<result_type, forwarding_policy>(result, "hydra_boost::math::hypergeometric_cdf<%1%>(%1%,%1%,%1%,%1%)");
    }
 
 }}} // namespaces

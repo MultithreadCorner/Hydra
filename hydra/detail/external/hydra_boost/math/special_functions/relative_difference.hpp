@@ -3,24 +3,24 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_RELATIVE_ERROR
-#define BOOST_MATH_RELATIVE_ERROR
+#ifndef HYDRA_BOOST_MATH_RELATIVE_ERROR
+#define HYDRA_BOOST_MATH_RELATIVE_ERROR
 
 #include <hydra/detail/external/hydra_boost/math/special_functions/fpclassify.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/promotion.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/precision.hpp>
 
-namespace boost{
+namespace hydra_boost{
    namespace math{
 
       template <class T, class U>
-      typename boost::math::tools::promote_args<T,U>::type relative_difference(const T& arg_a, const U& arg_b)
+      typename hydra_boost::math::tools::promote_args<T,U>::type relative_difference(const T& arg_a, const U& arg_b)
       {
-         typedef typename boost::math::tools::promote_args<T, U>::type result_type;
+         typedef typename hydra_boost::math::tools::promote_args<T, U>::type result_type;
          result_type a = arg_a;
          result_type b = arg_b;
-         BOOST_MATH_STD_USING
-#ifdef BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
+         HYDRA_BOOST_MATH_STD_USING
+#ifdef HYDRA_BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
          //
          // If math.h has no long double support we can't rely
          // on the math functions generating exponents outside
@@ -37,7 +37,7 @@ namespace boost{
          result_type max_val = tools::max_value<result_type>();
 #endif
          // Screen out NaN's first, if either value is a NaN then the distance is "infinite":
-         if((boost::math::isnan)(a) || (boost::math::isnan)(b))
+         if((hydra_boost::math::isnan)(a) || (hydra_boost::math::isnan)(b))
             return max_val;
          // Screen out infinities:
          if(fabs(b) > max_val)
@@ -71,9 +71,9 @@ namespace boost{
 
 #if (defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__)) && (LDBL_MAX_EXP <= DBL_MAX_EXP)
       template <>
-      inline boost::math::tools::promote_args<double, double>::type relative_difference(const double& arg_a, const double& arg_b)
+      inline hydra_boost::math::tools::promote_args<double, double>::type relative_difference(const double& arg_a, const double& arg_b)
       {
-         BOOST_MATH_STD_USING
+         HYDRA_BOOST_MATH_STD_USING
          double a = arg_a;
          double b = arg_b;
          //
@@ -86,7 +86,7 @@ namespace boost{
          double max_val = (std::min)((double)tools::max_value<long double>(), tools::max_value<double>());
 
          // Screen out NaN's first, if either value is a NaN then the distance is "infinite":
-         if((boost::math::isnan)(a) || (boost::math::isnan)(b))
+         if((hydra_boost::math::isnan)(a) || (hydra_boost::math::isnan)(b))
             return max_val;
          // Screen out infinities:
          if(fabs(b) > max_val)
@@ -120,15 +120,15 @@ namespace boost{
 #endif
 
       template <class T, class U>
-      inline typename boost::math::tools::promote_args<T, U>::type epsilon_difference(const T& arg_a, const U& arg_b)
+      inline typename hydra_boost::math::tools::promote_args<T, U>::type epsilon_difference(const T& arg_a, const U& arg_b)
       {
-         typedef typename boost::math::tools::promote_args<T, U>::type result_type;
+         typedef typename hydra_boost::math::tools::promote_args<T, U>::type result_type;
          result_type r = relative_difference(arg_a, arg_b);
-         if(tools::max_value<result_type>() * boost::math::tools::epsilon<result_type>() < r)
+         if(tools::max_value<result_type>() * hydra_boost::math::tools::epsilon<result_type>() < r)
             return tools::max_value<result_type>();
-         return r / boost::math::tools::epsilon<result_type>();
+         return r / hydra_boost::math::tools::epsilon<result_type>();
       }
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 #endif

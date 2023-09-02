@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_LOG1P_INCLUDED
-#define BOOST_MATH_LOG1P_INCLUDED
+#ifndef HYDRA_BOOST_MATH_LOG1P_INCLUDED
+#define HYDRA_BOOST_MATH_LOG1P_INCLUDED
 
 #ifdef _MSC_VER
 #pragma once
@@ -24,7 +24,7 @@
 #include <hydra/detail/external/hydra_boost/math/tools/assert.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/fpclassify.hpp>
 
-#if defined(__GNUC__) && defined(BOOST_MATH_USE_FLOAT128)
+#if defined(__GNUC__) && defined(HYDRA_BOOST_MATH_USE_FLOAT128)
 //
 // This is the only way we can avoid
 // warning: non-standard suffix on floating constant [-Wpedantic]
@@ -34,7 +34,7 @@
 #pragma GCC system_header
 #endif
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 namespace detail
 {
@@ -82,11 +82,11 @@ template <class T, class Policy>
 T log1p_imp(T const & x, const Policy& pol, const std::integral_constant<int, 0>&)
 { // The function returns the natural logarithm of 1 + x.
    typedef typename tools::promote_args<T>::type result_type;
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
-   static const char* function = "boost::math::log1p<%1%>(%1%)";
+   static const char* function = "hydra_boost::math::log1p<%1%>(%1%)";
 
-   if((x < -1) || (boost::math::isnan)(x))
+   if((x < -1) || (hydra_boost::math::isnan)(x))
       return policies::raise_domain_error<T>(
          function, "log1p(x) requires x > -1, but got x = %1%.", x, pol);
    if(x == -1)
@@ -112,9 +112,9 @@ T log1p_imp(T const & x, const Policy& pol, const std::integral_constant<int, 0>
 template <class T, class Policy>
 T log1p_imp(T const& x, const Policy& pol, const std::integral_constant<int, 53>&)
 { // The function returns the natural logarithm of 1 + x.
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
-   static const char* function = "boost::math::log1p<%1%>(%1%)";
+   static const char* function = "hydra_boost::math::log1p<%1%>(%1%)";
 
    if(x < -1)
       return policies::raise_domain_error<T>(
@@ -136,24 +136,24 @@ T log1p_imp(T const& x, const Policy& pol, const std::integral_constant<int, 53>
    // Maximum Relative Change in Control Points:   8.138e-004
    // Max Error found at double precision =        3.250766e-016
    static const T P[] = {
-       static_cast<T>(0.15141069795941984e-16L),
-       static_cast<T>(0.35495104378055055e-15L),
-       static_cast<T>(0.33333333333332835L),
-       static_cast<T>(0.99249063543365859L),
-       static_cast<T>(1.1143969784156509L),
-       static_cast<T>(0.58052937949269651L),
-       static_cast<T>(0.13703234928513215L),
-       static_cast<T>(0.011294864812099712L)
+       0.15141069795941984e-16L,
+       0.35495104378055055e-15L,
+       0.33333333333332835L,
+       0.99249063543365859L,
+       1.1143969784156509L,
+       0.58052937949269651L,
+       0.13703234928513215L,
+       0.011294864812099712L
      };
    static const T Q[] = {
-       static_cast<T>(1L),
-       static_cast<T>(3.7274719063011499L),
-       static_cast<T>(5.5387948649720334L),
-       static_cast<T>(4.159201143419005L),
-       static_cast<T>(1.6423855110312755L),
-       static_cast<T>(0.31706251443180914L),
-       static_cast<T>(0.022665554431410243L),
-       static_cast<T>(-0.29252538135177773e-5L)
+       1L,
+       3.7274719063011499L,
+       5.5387948649720334L,
+       4.159201143419005L,
+       1.6423855110312755L,
+       0.31706251443180914L,
+       0.022665554431410243L,
+       -0.29252538135177773e-5L
      };
 
    T result = 1 - x / 2 + tools::evaluate_polynomial(P, x) / tools::evaluate_polynomial(Q, x);
@@ -165,9 +165,9 @@ T log1p_imp(T const& x, const Policy& pol, const std::integral_constant<int, 53>
 template <class T, class Policy>
 T log1p_imp(T const& x, const Policy& pol, const std::integral_constant<int, 64>&)
 { // The function returns the natural logarithm of 1 + x.
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
-   static const char* function = "boost::math::log1p<%1%>(%1%)";
+   static const char* function = "hydra_boost::math::log1p<%1%>(%1%)";
 
    if(x < -1)
       return policies::raise_domain_error<T>(
@@ -189,26 +189,26 @@ T log1p_imp(T const& x, const Policy& pol, const std::integral_constant<int, 64>
    // Maximum Relative Change in Control Points:   9.648e-05
    // Max Error found at long double precision =   2.242324e-19
    static const T P[] = {
-      BOOST_MATH_BIG_CONSTANT(T, 64, -0.807533446680736736712e-19),
-      BOOST_MATH_BIG_CONSTANT(T, 64, -0.490881544804798926426e-18),
-      BOOST_MATH_BIG_CONSTANT(T, 64, 0.333333333333333373941),
-      BOOST_MATH_BIG_CONSTANT(T, 64, 1.17141290782087994162),
-      BOOST_MATH_BIG_CONSTANT(T, 64, 1.62790522814926264694),
-      BOOST_MATH_BIG_CONSTANT(T, 64, 1.13156411870766876113),
-      BOOST_MATH_BIG_CONSTANT(T, 64, 0.408087379932853785336),
-      BOOST_MATH_BIG_CONSTANT(T, 64, 0.0706537026422828914622),
-      BOOST_MATH_BIG_CONSTANT(T, 64, 0.00441709903782239229447)
+      HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, -0.807533446680736736712e-19),
+      HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, -0.490881544804798926426e-18),
+      HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, 0.333333333333333373941),
+      HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, 1.17141290782087994162),
+      HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, 1.62790522814926264694),
+      HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, 1.13156411870766876113),
+      HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, 0.408087379932853785336),
+      HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, 0.0706537026422828914622),
+      HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, 0.00441709903782239229447)
    };
    static const T Q[] = {
-      BOOST_MATH_BIG_CONSTANT(T, 64, 1.0),
-      BOOST_MATH_BIG_CONSTANT(T, 64, 4.26423872346263928361),
-      BOOST_MATH_BIG_CONSTANT(T, 64, 7.48189472704477708962),
-      BOOST_MATH_BIG_CONSTANT(T, 64, 6.94757016732904280913),
-      BOOST_MATH_BIG_CONSTANT(T, 64, 3.6493508622280767304),
-      BOOST_MATH_BIG_CONSTANT(T, 64, 1.06884863623790638317),
-      BOOST_MATH_BIG_CONSTANT(T, 64, 0.158292216998514145947),
-      BOOST_MATH_BIG_CONSTANT(T, 64, 0.00885295524069924328658),
-      BOOST_MATH_BIG_CONSTANT(T, 64, -0.560026216133415663808e-6)
+      HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, 1.0),
+      HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, 4.26423872346263928361),
+      HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, 7.48189472704477708962),
+      HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, 6.94757016732904280913),
+      HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, 3.6493508622280767304),
+      HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, 1.06884863623790638317),
+      HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, 0.158292216998514145947),
+      HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, 0.00885295524069924328658),
+      HYDRA_BOOST_MATH_BIG_CONSTANT(T, 64, -0.560026216133415663808e-6)
    };
 
    T result = 1 - x / 2 + tools::evaluate_polynomial(P, x) / tools::evaluate_polynomial(Q, x);
@@ -220,9 +220,9 @@ T log1p_imp(T const& x, const Policy& pol, const std::integral_constant<int, 64>
 template <class T, class Policy>
 T log1p_imp(T const& x, const Policy& pol, const std::integral_constant<int, 24>&)
 { // The function returns the natural logarithm of 1 + x.
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
-   static const char* function = "boost::math::log1p<%1%>(%1%)";
+   static const char* function = "hydra_boost::math::log1p<%1%>(%1%)";
 
    if(x < -1)
       return policies::raise_domain_error<T>(
@@ -276,7 +276,7 @@ struct log1p_initializer
       static void do_init(const std::integral_constant<int, N>&){}
       static void do_init(const std::integral_constant<int, 64>&)
       {
-         boost::math::log1p(static_cast<T>(0.25), Policy());
+         hydra_boost::math::log1p(static_cast<T>(0.25), Policy());
       }
       void force_instantiate()const{}
    };
@@ -315,18 +315,18 @@ inline typename tools::promote_args<T>::type log1p(T x, const Policy&)
    detail::log1p_initializer<value_type, forwarding_policy, tag_type>::force_instantiate();
 
    return policies::checked_narrowing_cast<result_type, forwarding_policy>(
-      detail::log1p_imp(static_cast<value_type>(x), forwarding_policy(), tag_type()), "boost::math::log1p<%1%>(%1%)");
+      detail::log1p_imp(static_cast<value_type>(x), forwarding_policy(), tag_type()), "hydra_boost::math::log1p<%1%>(%1%)");
 }
 
 #ifdef log1p
-#  ifndef BOOST_HAS_LOG1P
-#     define BOOST_HAS_LOG1P
+#  ifndef HYDRA_BOOST_HAS_LOG1P
+#     define HYDRA_BOOST_HAS_LOG1P
 #  endif
 #  undef log1p
 #endif
 
-#if defined(BOOST_HAS_LOG1P) && !(defined(__osf__) && defined(__DECCXX_VER))
-#  ifdef BOOST_MATH_USE_C99
+#if defined(HYDRA_BOOST_HAS_LOG1P) && !(defined(__osf__) && defined(__DECCXX_VER))
+#  ifdef HYDRA_BOOST_MATH_USE_C99
 template <class Policy>
 inline float log1p(float x, const Policy& pol)
 {
@@ -338,7 +338,7 @@ inline float log1p(float x, const Policy& pol)
          "log1p<%1%>(%1%)", nullptr, pol);
    return ::log1pf(x);
 }
-#ifndef BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
+#ifndef HYDRA_BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
 template <class Policy>
 inline long double log1p(long double x, const Policy& pol)
 {
@@ -375,7 +375,7 @@ inline double log1p(double x, const Policy& pol)
          "log1p<%1%>(%1%)", nullptr, pol);
    return ::log1p(x);
 }
-#elif defined(_MSC_VER) && (BOOST_MSVC >= 1400)
+#elif defined(_MSC_VER) && (HYDRA_BOOST_MSVC >= 1400)
 //
 // You should only enable this branch if you are absolutely sure
 // that your compilers optimizer won't mess this code up!!
@@ -399,7 +399,7 @@ inline double log1p(double x, const Policy& pol)
 template <class Policy>
 inline float log1p(float x, const Policy& pol)
 {
-   return static_cast<float>(boost::math::log1p(static_cast<double>(x), pol));
+   return static_cast<float>(hydra_boost::math::log1p(static_cast<double>(x), pol));
 }
 #ifndef _WIN32_WCE
 //
@@ -427,7 +427,7 @@ inline long double log1p(long double x, const Policy& pol)
 template <class T>
 inline typename tools::promote_args<T>::type log1p(T x)
 {
-   return boost::math::log1p(x, policies::policy<>());
+   return hydra_boost::math::log1p(x, policies::policy<>());
 }
 //
 // Compute log(1+x)-x:
@@ -437,8 +437,8 @@ inline typename tools::promote_args<T>::type
    log1pmx(T x, const Policy& pol)
 {
    typedef typename tools::promote_args<T>::type result_type;
-   BOOST_MATH_STD_USING
-   static const char* function = "boost::math::log1pmx<%1%>(%1%)";
+   HYDRA_BOOST_MATH_STD_USING
+   static const char* function = "hydra_boost::math::log1pmx<%1%>(%1%)";
 
    if(x < -1)
       return policies::raise_domain_error<T>(
@@ -454,11 +454,11 @@ inline typename tools::promote_args<T>::type
    // epsilon just returns zero, and our "optimisation" will always fail:
    if(a < tools::epsilon<result_type>())
       return -x * x / 2;
-   boost::math::detail::log1p_series<T> s(x);
+   hydra_boost::math::detail::log1p_series<T> s(x);
    s();
    std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
 
-   T result = boost::math::tools::sum_series(s, policies::get_epsilon<T, Policy>(), max_iter);
+   T result = hydra_boost::math::tools::sum_series(s, policies::get_epsilon<T, Policy>(), max_iter);
 
    policies::check_series_iterations<T>(function, max_iter, pol);
    return result;
@@ -471,13 +471,13 @@ inline typename tools::promote_args<T>::type log1pmx(T x)
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 
-#endif // BOOST_MATH_LOG1P_INCLUDED
+#endif // HYDRA_BOOST_MATH_LOG1P_INCLUDED
 
 
 

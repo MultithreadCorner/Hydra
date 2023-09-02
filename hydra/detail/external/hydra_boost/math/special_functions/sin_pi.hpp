@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SIN_PI_HPP
-#define BOOST_MATH_SIN_PI_HPP
+#ifndef HYDRA_BOOST_MATH_SIN_PI_HPP
+#define HYDRA_BOOST_MATH_SIN_PI_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -18,16 +18,16 @@
 #include <hydra/detail/external/hydra_boost/math/tools/promotion.hpp>
 #include <hydra/detail/external/hydra_boost/math/constants/constants.hpp>
 
-namespace boost{ namespace math{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace detail{
 
 template <class T, class Policy>
 inline T sin_pi_imp(T x, const Policy& pol)
 {
-   BOOST_MATH_STD_USING // ADL of std names
+   HYDRA_BOOST_MATH_STD_USING // ADL of std names
    if(x < 0)
       return -sin_pi_imp(T(-x), pol);
    // sin of pi*x:
-   if(x < T(0.5))
+   if(x < 0.5)
       return sin(constants::pi<T>() * x);
    bool invert;
    if(x < 1)
@@ -69,16 +69,16 @@ inline typename tools::promote_args<T>::type sin_pi(T x, const Policy&)
       // We want to ignore overflows since the result is in [-1,1] and the 
       // check slows the code down considerably.
       policies::overflow_error<policies::ignore_error> >::type forwarding_policy;
-   return policies::checked_narrowing_cast<result_type, forwarding_policy>(boost::math::detail::sin_pi_imp<value_type>(x, forwarding_policy()), "sin_pi");
+   return policies::checked_narrowing_cast<result_type, forwarding_policy>(hydra_boost::math::detail::sin_pi_imp<value_type>(x, forwarding_policy()), "sin_pi");
 }
 
 template <class T>
 inline typename tools::promote_args<T>::type sin_pi(T x)
 {
-   return boost::math::sin_pi(x, policies::policy<>());
+   return hydra_boost::math::sin_pi(x, policies::policy<>());
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 #endif
 

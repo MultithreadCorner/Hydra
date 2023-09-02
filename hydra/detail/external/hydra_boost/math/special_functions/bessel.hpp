@@ -8,8 +8,8 @@
 // to the right implementation method.  Most of the implementation details
 // are in separate headers and copyright Xiaogang Zhang.
 //
-#ifndef BOOST_MATH_BESSEL_HPP
-#define BOOST_MATH_BESSEL_HPP
+#ifndef HYDRA_BOOST_MATH_BESSEL_HPP
+#define HYDRA_BOOST_MATH_BESSEL_HPP
 
 #ifdef _MSC_VER
 #  pragma once
@@ -41,7 +41,7 @@
 # pragma warning(disable: 6326) // potential comparison of a constant with another constant
 #endif
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 namespace detail{
 
@@ -53,15 +53,15 @@ struct sph_bessel_j_small_z_series_term
    sph_bessel_j_small_z_series_term(unsigned v_, T x)
       : N(0), v(v_)
    {
-      BOOST_MATH_STD_USING
+      HYDRA_BOOST_MATH_STD_USING
       mult = x / 2;
       if(v + 3 > max_factorial<T>::value)
       {
-         term = v * log(mult) - boost::math::lgamma(v+1+T(0.5f), Policy());
+         term = v * log(mult) - hydra_boost::math::lgamma(v+1+T(0.5f), Policy());
          term = exp(term);
       }
       else
-         term = pow(mult, T(v)) / boost::math::tgamma(v+1+T(0.5f), Policy());
+         term = pow(mult, T(v)) / hydra_boost::math::tgamma(v+1+T(0.5f), Policy());
       mult *= -mult;
    }
    T operator()()
@@ -81,21 +81,21 @@ private:
 template <class T, class Policy>
 inline T sph_bessel_j_small_z_series(unsigned v, T x, const Policy& pol)
 {
-   BOOST_MATH_STD_USING // ADL of std names
+   HYDRA_BOOST_MATH_STD_USING // ADL of std names
    sph_bessel_j_small_z_series_term<T, Policy> s(v, x);
    std::uintmax_t max_iter = policies::get_max_series_iterations<Policy>();
 
-   T result = boost::math::tools::sum_series(s, boost::math::policies::get_epsilon<T, Policy>(), max_iter);
+   T result = hydra_boost::math::tools::sum_series(s, hydra_boost::math::policies::get_epsilon<T, Policy>(), max_iter);
 
-   policies::check_series_iterations<T>("boost::math::sph_bessel_j_small_z_series<%1%>(%1%,%1%)", max_iter, pol);
+   policies::check_series_iterations<T>("hydra_boost::math::sph_bessel_j_small_z_series<%1%>(%1%,%1%)", max_iter, pol);
    return result * sqrt(constants::pi<T>() / 4);
 }
 
 template <class T, class Policy>
 T cyl_bessel_j_imp(T v, T x, const bessel_no_int_tag& t, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
-   static const char* function = "boost::math::bessel_j<%1%>(%1%,%1%)";
+   HYDRA_BOOST_MATH_STD_USING
+   static const char* function = "hydra_boost::math::bessel_j<%1%>(%1%,%1%)";
    if(x < 0)
    {
       // better have integer v:
@@ -120,7 +120,7 @@ T cyl_bessel_j_imp(T v, T x, const bessel_no_int_tag& t, const Policy& pol)
 template <class T, class Policy>
 inline T cyl_bessel_j_imp(T v, T x, const bessel_maybe_int_tag&, const Policy& pol)
 {
-   BOOST_MATH_STD_USING  // ADL of std names.
+   HYDRA_BOOST_MATH_STD_USING  // ADL of std names.
    int ival = detail::iconv(v, pol);
    // If v is an integer, use the integer recursion
    // method, both that and Steeds method are O(v):
@@ -134,23 +134,23 @@ inline T cyl_bessel_j_imp(T v, T x, const bessel_maybe_int_tag&, const Policy& p
 template <class T, class Policy>
 inline T cyl_bessel_j_imp(int v, T x, const bessel_int_tag&, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    return bessel_jn(v, x, pol);
 }
 
 template <class T, class Policy>
 inline T sph_bessel_j_imp(unsigned n, T x, const Policy& pol)
 {
-   BOOST_MATH_STD_USING // ADL of std names
+   HYDRA_BOOST_MATH_STD_USING // ADL of std names
    if(x < 0)
       return policies::raise_domain_error<T>(
-         "boost::math::sph_bessel_j<%1%>(%1%,%1%)",
+         "hydra_boost::math::sph_bessel_j<%1%>(%1%,%1%)",
          "Got x = %1%, but function requires x > 0.", x, pol);
    //
    // Special case, n == 0 resolves down to the sinus cardinal of x:
    //
    if(n == 0)
-      return boost::math::sinc_pi(x, pol);
+      return hydra_boost::math::sinc_pi(x, pol);
    //
    // Special case for x == 0:
    //
@@ -178,7 +178,7 @@ T cyl_bessel_i_imp(T v, T x, const Policy& pol)
    // algorithm is at least as inefficient as the general case (the general
    // case has better error handling too).
    //
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    if(x < 0)
    {
       // better have integer v:
@@ -191,7 +191,7 @@ T cyl_bessel_i_imp(T v, T x, const Policy& pol)
       }
       else
          return policies::raise_domain_error<T>(
-         "boost::math::cyl_bessel_i<%1%>(%1%,%1%)",
+         "hydra_boost::math::cyl_bessel_i<%1%>(%1%,%1%)",
             "Got x = %1%, but we need x >= 0", x, pol);
    }
    if(x == 0)
@@ -229,8 +229,8 @@ T cyl_bessel_i_imp(T v, T x, const Policy& pol)
 template <class T, class Policy>
 inline T cyl_bessel_k_imp(T v, T x, const bessel_no_int_tag& /* t */, const Policy& pol)
 {
-   static const char* function = "boost::math::cyl_bessel_k<%1%>(%1%,%1%)";
-   BOOST_MATH_STD_USING
+   static const char* function = "hydra_boost::math::cyl_bessel_k<%1%>(%1%,%1%)";
+   HYDRA_BOOST_MATH_STD_USING
    if(x < 0)
    {
       return policies::raise_domain_error<T>(
@@ -252,7 +252,7 @@ inline T cyl_bessel_k_imp(T v, T x, const bessel_no_int_tag& /* t */, const Poli
 template <class T, class Policy>
 inline T cyl_bessel_k_imp(T v, T x, const bessel_maybe_int_tag&, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
    if((floor(v) == v))
    {
       return bessel_kn(itrunc(v), x, pol);
@@ -269,10 +269,10 @@ inline T cyl_bessel_k_imp(int v, T x, const bessel_int_tag&, const Policy& pol)
 template <class T, class Policy>
 inline T cyl_neumann_imp(T v, T x, const bessel_no_int_tag&, const Policy& pol)
 {
-   static const char* function = "boost::math::cyl_neumann<%1%>(%1%,%1%)";
+   static const char* function = "hydra_boost::math::cyl_neumann<%1%>(%1%,%1%)";
 
-   BOOST_MATH_INSTRUMENT_VARIABLE(v);
-   BOOST_MATH_INSTRUMENT_VARIABLE(x);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(v);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(x);
 
    if(x <= 0)
    {
@@ -289,7 +289,7 @@ inline T cyl_neumann_imp(T v, T x, const bessel_no_int_tag&, const Policy& pol)
    // can occur when x is small and v is large, in which case the result
    // is -INF:
    //
-   if(!(boost::math::isfinite)(y))
+   if(!(hydra_boost::math::isfinite)(y))
       return -policies::raise_overflow_error<T>(function, nullptr, pol);
    return y;
 }
@@ -297,19 +297,19 @@ inline T cyl_neumann_imp(T v, T x, const bessel_no_int_tag&, const Policy& pol)
 template <class T, class Policy>
 inline T cyl_neumann_imp(T v, T x, const bessel_maybe_int_tag&, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
-   BOOST_MATH_INSTRUMENT_VARIABLE(v);
-   BOOST_MATH_INSTRUMENT_VARIABLE(x);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(v);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(x);
 
    if(floor(v) == v)
    {
       T r = bessel_yn(itrunc(v, pol), x, pol);
-      BOOST_MATH_INSTRUMENT_VARIABLE(r);
+      HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(r);
       return r;
    }
    T r = cyl_neumann_imp<T>(v, x, bessel_no_int_tag(), pol);
-   BOOST_MATH_INSTRUMENT_VARIABLE(r);
+   HYDRA_BOOST_MATH_INSTRUMENT_VARIABLE(r);
    return r;
 }
 
@@ -322,8 +322,8 @@ inline T cyl_neumann_imp(int v, T x, const bessel_int_tag&, const Policy& pol)
 template <class T, class Policy>
 inline T sph_neumann_imp(unsigned v, T x, const Policy& pol)
 {
-   BOOST_MATH_STD_USING // ADL of std names
-   static const char* function = "boost::math::sph_neumann<%1%>(%1%,%1%)";
+   HYDRA_BOOST_MATH_STD_USING // ADL of std names
+   static const char* function = "hydra_boost::math::sph_neumann<%1%>(%1%,%1%)";
    //
    // Nothing much to do here but check for errors, and
    // evaluate the function's definition directly:
@@ -348,14 +348,14 @@ inline T sph_neumann_imp(unsigned v, T x, const Policy& pol)
 template <class T, class Policy>
 inline T cyl_bessel_j_zero_imp(T v, int m, const Policy& pol)
 {
-   BOOST_MATH_STD_USING // ADL of std names, needed for floor.
+   HYDRA_BOOST_MATH_STD_USING // ADL of std names, needed for floor.
 
-   static const char* function = "boost::math::cyl_bessel_j_zero<%1%>(%1%, int)";
+   static const char* function = "hydra_boost::math::cyl_bessel_j_zero<%1%>(%1%, int)";
 
-   const T half_epsilon(boost::math::tools::epsilon<T>() / 2U);
+   const T half_epsilon(hydra_boost::math::tools::epsilon<T>() / 2U);
 
    // Handle non-finite order.
-   if (!(boost::math::isfinite)(v) )
+   if (!(hydra_boost::math::isfinite)(v) )
    {
      return policies::raise_domain_error<T>(function, "Order argument is %1%, but must be finite >= 0 !", v, pol);
    }
@@ -398,7 +398,7 @@ inline T cyl_bessel_j_zero_imp(T v, int m, const Policy& pol)
    // Set up the initial guess for the upcoming root-finding.
    // If the order is a negative integer, then use the corresponding
    // positive integer for the order.
-   const T guess_root = boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::initial_guess<T, Policy>((order_is_integer ? vv : v), m, pol);
+   const T guess_root = hydra_boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::initial_guess<T, Policy>((order_is_integer ? vv : v), m, pol);
 
    // Select the maximum allowed iterations from the policy.
    std::uintmax_t number_of_iterations = policies::get_max_root_iterations<Policy>();
@@ -407,8 +407,8 @@ inline T cyl_bessel_j_zero_imp(T v, int m, const Policy& pol)
 
    // Perform the root-finding using Newton-Raphson iteration from Boost.Math.
    const T jvm =
-      boost::math::tools::newton_raphson_iterate(
-         boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::function_object_jv_and_jv_prime<T, Policy>((order_is_integer ? vv : v), order_is_zero, pol),
+      hydra_boost::math::tools::newton_raphson_iterate(
+         hydra_boost::math::detail::bessel_zero::cyl_bessel_j_zero_detail::function_object_jv_and_jv_prime<T, Policy>((order_is_integer ? vv : v), order_is_zero, pol),
          guess_root,
          T(guess_root - delta_lo),
          T(guess_root + 0.2F),
@@ -427,12 +427,12 @@ inline T cyl_bessel_j_zero_imp(T v, int m, const Policy& pol)
 template <class T, class Policy>
 inline T cyl_neumann_zero_imp(T v, int m, const Policy& pol)
 {
-   BOOST_MATH_STD_USING // ADL of std names, needed for floor.
+   HYDRA_BOOST_MATH_STD_USING // ADL of std names, needed for floor.
 
-   static const char* function = "boost::math::cyl_neumann_zero<%1%>(%1%, int)";
+   static const char* function = "hydra_boost::math::cyl_neumann_zero<%1%>(%1%, int)";
 
    // Handle non-finite order.
-   if (!(boost::math::isfinite)(v) )
+   if (!(hydra_boost::math::isfinite)(v) )
    {
      return policies::raise_domain_error<T>(function, "Order argument is %1%, but must be finite >= 0 !", v, pol);
    }
@@ -443,7 +443,7 @@ inline T cyl_neumann_zero_imp(T v, int m, const Policy& pol)
       return policies::raise_domain_error<T>(function, "Requested the %1%'th zero, but the rank must be positive !", static_cast<T>(m), pol);
    }
 
-   const T half_epsilon(boost::math::tools::epsilon<T>() / 2U);
+   const T half_epsilon(hydra_boost::math::tools::epsilon<T>() / 2U);
 
    // Get the absolute value of the order.
    const bool order_is_negative = (v < 0);
@@ -453,7 +453,7 @@ inline T cyl_neumann_zero_imp(T v, int m, const Policy& pol)
 
    // For negative integers, use reflection to positive integer order.
    if(order_is_negative && order_is_integer)
-      return boost::math::detail::cyl_neumann_zero_imp(vv, m, pol);
+      return hydra_boost::math::detail::cyl_neumann_zero_imp(vv, m, pol);
 
    // Check if the order is very close to a negative half-integer.
    const T delta_half_integer(vv - (floor(vv) + 0.5F));
@@ -472,12 +472,12 @@ inline T cyl_neumann_zero_imp(T v, int m, const Policy& pol)
    // For negative half-integers, use the corresponding
    // spherical Bessel function of positive half-integer order.
    if(order_is_negative_half_integer)
-      return boost::math::detail::cyl_bessel_j_zero_imp(vv, m, pol);
+      return hydra_boost::math::detail::cyl_bessel_j_zero_imp(vv, m, pol);
 
    // Set up the initial guess for the upcoming root-finding.
    // If the order is a negative integer, then use the corresponding
    // positive integer for the order.
-   const T guess_root = boost::math::detail::bessel_zero::cyl_neumann_zero_detail::initial_guess<T, Policy>(v, m, pol);
+   const T guess_root = hydra_boost::math::detail::bessel_zero::cyl_neumann_zero_detail::initial_guess<T, Policy>(v, m, pol);
 
    // Select the maximum allowed iterations from the policy.
    std::uintmax_t number_of_iterations = policies::get_max_root_iterations<Policy>();
@@ -486,8 +486,8 @@ inline T cyl_neumann_zero_imp(T v, int m, const Policy& pol)
 
    // Perform the root-finding using Newton-Raphson iteration from Boost.Math.
    const T yvm =
-      boost::math::tools::newton_raphson_iterate(
-         boost::math::detail::bessel_zero::cyl_neumann_zero_detail::function_object_yv_and_yv_prime<T, Policy>(v, pol),
+      hydra_boost::math::tools::newton_raphson_iterate(
+         hydra_boost::math::detail::bessel_zero::cyl_neumann_zero_detail::function_object_yv_and_yv_prime<T, Policy>(v, pol),
          guess_root,
          T(guess_root - delta_lo),
          T(guess_root + 0.2F),
@@ -508,7 +508,7 @@ inline T cyl_neumann_zero_imp(T v, int m, const Policy& pol)
 template <class T1, class T2, class Policy>
 inline typename detail::bessel_traits<T1, T2, Policy>::result_type cyl_bessel_j(T1 v, T2 x, const Policy& /* pol */)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename detail::bessel_traits<T1, T2, Policy>::result_type result_type;
    typedef typename detail::bessel_traits<T1, T2, Policy>::optimisation_tag tag_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
@@ -518,7 +518,7 @@ inline typename detail::bessel_traits<T1, T2, Policy>::result_type cyl_bessel_j(
       policies::promote_double<false>,
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
-   return policies::checked_narrowing_cast<result_type, Policy>(detail::cyl_bessel_j_imp<value_type>(v, static_cast<value_type>(x), tag_type(), forwarding_policy()), "boost::math::cyl_bessel_j<%1%>(%1%,%1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(detail::cyl_bessel_j_imp<value_type>(v, static_cast<value_type>(x), tag_type(), forwarding_policy()), "hydra_boost::math::cyl_bessel_j<%1%>(%1%,%1%)");
 }
 
 template <class T1, class T2>
@@ -530,7 +530,7 @@ inline typename detail::bessel_traits<T1, T2, policies::policy<> >::result_type 
 template <class T, class Policy>
 inline typename detail::bessel_traits<T, T, Policy>::result_type sph_bessel(unsigned v, T x, const Policy& /* pol */)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename detail::bessel_traits<T, T, Policy>::result_type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -539,7 +539,7 @@ inline typename detail::bessel_traits<T, T, Policy>::result_type sph_bessel(unsi
       policies::promote_double<false>,
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
-   return policies::checked_narrowing_cast<result_type, Policy>(detail::sph_bessel_j_imp<value_type>(v, static_cast<value_type>(x), forwarding_policy()), "boost::math::sph_bessel<%1%>(%1%,%1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(detail::sph_bessel_j_imp<value_type>(v, static_cast<value_type>(x), forwarding_policy()), "hydra_boost::math::sph_bessel<%1%>(%1%,%1%)");
 }
 
 template <class T>
@@ -551,7 +551,7 @@ inline typename detail::bessel_traits<T, T, policies::policy<> >::result_type sp
 template <class T1, class T2, class Policy>
 inline typename detail::bessel_traits<T1, T2, Policy>::result_type cyl_bessel_i(T1 v, T2 x, const Policy& /* pol */)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename detail::bessel_traits<T1, T2, Policy>::result_type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -560,7 +560,7 @@ inline typename detail::bessel_traits<T1, T2, Policy>::result_type cyl_bessel_i(
       policies::promote_double<false>,
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
-   return policies::checked_narrowing_cast<result_type, Policy>(detail::cyl_bessel_i_imp<value_type>(static_cast<value_type>(v), static_cast<value_type>(x), forwarding_policy()), "boost::math::cyl_bessel_i<%1%>(%1%,%1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(detail::cyl_bessel_i_imp<value_type>(static_cast<value_type>(v), static_cast<value_type>(x), forwarding_policy()), "hydra_boost::math::cyl_bessel_i<%1%>(%1%,%1%)");
 }
 
 template <class T1, class T2>
@@ -572,7 +572,7 @@ inline typename detail::bessel_traits<T1, T2, policies::policy<> >::result_type 
 template <class T1, class T2, class Policy>
 inline typename detail::bessel_traits<T1, T2, Policy>::result_type cyl_bessel_k(T1 v, T2 x, const Policy& /* pol */)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename detail::bessel_traits<T1, T2, Policy>::result_type result_type;
    typedef typename detail::bessel_traits<T1, T2, Policy>::optimisation_tag128 tag_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
@@ -582,7 +582,7 @@ inline typename detail::bessel_traits<T1, T2, Policy>::result_type cyl_bessel_k(
       policies::promote_double<false>,
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
-   return policies::checked_narrowing_cast<result_type, Policy>(detail::cyl_bessel_k_imp<value_type>(v, static_cast<value_type>(x), tag_type(), forwarding_policy()), "boost::math::cyl_bessel_k<%1%>(%1%,%1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(detail::cyl_bessel_k_imp<value_type>(v, static_cast<value_type>(x), tag_type(), forwarding_policy()), "hydra_boost::math::cyl_bessel_k<%1%>(%1%,%1%)");
 }
 
 template <class T1, class T2>
@@ -594,7 +594,7 @@ inline typename detail::bessel_traits<T1, T2, policies::policy<> >::result_type 
 template <class T1, class T2, class Policy>
 inline typename detail::bessel_traits<T1, T2, Policy>::result_type cyl_neumann(T1 v, T2 x, const Policy& /* pol */)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename detail::bessel_traits<T1, T2, Policy>::result_type result_type;
    typedef typename detail::bessel_traits<T1, T2, Policy>::optimisation_tag tag_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
@@ -604,7 +604,7 @@ inline typename detail::bessel_traits<T1, T2, Policy>::result_type cyl_neumann(T
       policies::promote_double<false>,
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
-   return policies::checked_narrowing_cast<result_type, Policy>(detail::cyl_neumann_imp<value_type>(v, static_cast<value_type>(x), tag_type(), forwarding_policy()), "boost::math::cyl_neumann<%1%>(%1%,%1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(detail::cyl_neumann_imp<value_type>(v, static_cast<value_type>(x), tag_type(), forwarding_policy()), "hydra_boost::math::cyl_neumann<%1%>(%1%,%1%)");
 }
 
 template <class T1, class T2>
@@ -616,7 +616,7 @@ inline typename detail::bessel_traits<T1, T2, policies::policy<> >::result_type 
 template <class T, class Policy>
 inline typename detail::bessel_traits<T, T, Policy>::result_type sph_neumann(unsigned v, T x, const Policy& /* pol */)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename detail::bessel_traits<T, T, Policy>::result_type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -625,7 +625,7 @@ inline typename detail::bessel_traits<T, T, Policy>::result_type sph_neumann(uns
       policies::promote_double<false>,
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
-   return policies::checked_narrowing_cast<result_type, Policy>(detail::sph_neumann_imp<value_type>(v, static_cast<value_type>(x), forwarding_policy()), "boost::math::sph_neumann<%1%>(%1%,%1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(detail::sph_neumann_imp<value_type>(v, static_cast<value_type>(x), forwarding_policy()), "hydra_boost::math::sph_neumann<%1%>(%1%,%1%)");
 }
 
 template <class T>
@@ -637,7 +637,7 @@ inline typename detail::bessel_traits<T, T, policies::policy<> >::result_type sp
 template <class T, class Policy>
 inline typename detail::bessel_traits<T, T, Policy>::result_type cyl_bessel_j_zero(T v, int m, const Policy& /* pol */)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename detail::bessel_traits<T, T, Policy>::result_type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -652,7 +652,7 @@ inline typename detail::bessel_traits<T, T, Policy>::result_type cyl_bessel_j_ze
                                && false == std::numeric_limits<T>::is_integer),
                            "Order must be a floating-point type.");
 
-   return policies::checked_narrowing_cast<result_type, Policy>(detail::cyl_bessel_j_zero_imp<value_type>(v, m, forwarding_policy()), "boost::math::cyl_bessel_j_zero<%1%>(%1%,%1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(detail::cyl_bessel_j_zero_imp<value_type>(v, m, forwarding_policy()), "hydra_boost::math::cyl_bessel_j_zero<%1%>(%1%,%1%)");
 }
 
 template <class T>
@@ -680,7 +680,7 @@ inline OutputIterator cyl_bessel_j_zero(T v,
 
    for(int i = 0; i < static_cast<int>(number_of_zeros); ++i)
    {
-      *out_it = boost::math::cyl_bessel_j_zero(v, start_index + i, pol);
+      *out_it = hydra_boost::math::cyl_bessel_j_zero(v, start_index + i, pol);
       ++out_it;
    }
    return out_it;
@@ -698,7 +698,7 @@ inline OutputIterator cyl_bessel_j_zero(T v,
 template <class T, class Policy>
 inline typename detail::bessel_traits<T, T, Policy>::result_type cyl_neumann_zero(T v, int m, const Policy& /* pol */)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename detail::bessel_traits<T, T, Policy>::result_type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -713,7 +713,7 @@ inline typename detail::bessel_traits<T, T, Policy>::result_type cyl_neumann_zer
                                && false == std::numeric_limits<T>::is_integer),
                            "Order must be a floating-point type.");
 
-   return policies::checked_narrowing_cast<result_type, Policy>(detail::cyl_neumann_zero_imp<value_type>(v, m, forwarding_policy()), "boost::math::cyl_neumann_zero<%1%>(%1%,%1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(detail::cyl_neumann_zero_imp<value_type>(v, m, forwarding_policy()), "hydra_boost::math::cyl_neumann_zero<%1%>(%1%,%1%)");
 }
 
 template <class T>
@@ -741,7 +741,7 @@ inline OutputIterator cyl_neumann_zero(T v,
 
    for(int i = 0; i < static_cast<int>(number_of_zeros); ++i)
    {
-      *out_it = boost::math::cyl_neumann_zero(v, start_index + i, pol);
+      *out_it = hydra_boost::math::cyl_neumann_zero(v, start_index + i, pol);
       ++out_it;
    }
    return out_it;
@@ -757,12 +757,12 @@ inline OutputIterator cyl_neumann_zero(T v,
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 #ifdef _MSC_VER
 # pragma warning(pop)
 #endif
 
-#endif // BOOST_MATH_BESSEL_HPP
+#endif // HYDRA_BOOST_MATH_BESSEL_HPP
 
 

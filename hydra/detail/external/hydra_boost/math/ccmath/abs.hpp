@@ -5,8 +5,8 @@
 //
 //  Constepxr implementation of abs (see c.math.abs secion 26.8.2 of the ISO standard)
 
-#ifndef BOOST_MATH_CCMATH_ABS
-#define BOOST_MATH_CCMATH_ABS
+#ifndef HYDRA_BOOST_MATH_CCMATH_ABS
+#define HYDRA_BOOST_MATH_CCMATH_ABS
 
 #include <cmath>
 #include <type_traits>
@@ -17,21 +17,21 @@
 #include <hydra/detail/external/hydra_boost/math/ccmath/isinf.hpp>
 
 #include <hydra/detail/external/hydra_boost/math/tools/is_standalone.hpp>
-#ifndef BOOST_MATH_STANDALONE
+#ifndef HYDRA_BOOST_MATH_STANDALONE
 #include <hydra/detail/external/hydra_boost/config.hpp>
-#ifdef BOOST_NO_CXX17_IF_CONSTEXPR
+#ifdef HYDRA_BOOST_NO_CXX17_IF_CONSTEXPR
 #error "The header <hydra/detail/external/hydra_boost/math/norms.hpp> can only be used in C++17 and later."
 #endif
 #endif
 
-namespace boost::math::ccmath {
+namespace hydra_boost::math::ccmath {
 
 namespace detail {
 
 template <typename T> 
 constexpr T abs_impl(T x) noexcept
 {
-    if ((boost::math::ccmath::isnan)(x))
+    if (hydra_boost::math::ccmath::isnan(x))
     {
         return std::numeric_limits<T>::quiet_NaN();
     }
@@ -42,7 +42,7 @@ constexpr T abs_impl(T x) noexcept
 
     if constexpr (std::is_integral_v<T>)
     {
-        BOOST_MATH_ASSERT(x != (std::numeric_limits<T>::min)());
+        HYDRA_BOOST_MATH_ASSERT(x != (std::numeric_limits<T>::min)());
     }
     
     return x >= 0 ? x : -x;
@@ -53,7 +53,7 @@ constexpr T abs_impl(T x) noexcept
 template <typename T, std::enable_if_t<!std::is_unsigned_v<T>, bool> = true>
 constexpr T abs(T x) noexcept
 {
-    if(BOOST_MATH_IS_CONSTANT_EVALUATED(x))
+    if(HYDRA_BOOST_MATH_IS_CONSTANT_EVALUATED(x))
     {
         return detail::abs_impl<T>(x);
     }
@@ -82,14 +82,14 @@ constexpr T abs(T x) noexcept
 
 constexpr long int labs(long int j) noexcept
 {
-    return boost::math::ccmath::abs(j);
+    return hydra_boost::math::ccmath::abs(j);
 }
 
 constexpr long long int llabs(long long int j) noexcept
 {
-    return boost::math::ccmath::abs(j);
+    return hydra_boost::math::ccmath::abs(j);
 }
 
 } // Namespaces
 
-#endif // BOOST_MATH_CCMATH_ABS
+#endif // HYDRA_BOOST_MATH_CCMATH_ABS

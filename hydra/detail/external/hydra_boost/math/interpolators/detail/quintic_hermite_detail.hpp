@@ -4,15 +4,15 @@
  * Boost Software License, Version 1.0. (See accompanying file
  * LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
-#ifndef BOOST_MATH_INTERPOLATORS_DETAIL_QUINTIC_HERMITE_DETAIL_HPP
-#define BOOST_MATH_INTERPOLATORS_DETAIL_QUINTIC_HERMITE_DETAIL_HPP
+#ifndef HYDRA_BOOST_MATH_INTERPOLATORS_DETAIL_QUINTIC_HERMITE_DETAIL_HPP
+#define HYDRA_BOOST_MATH_INTERPOLATORS_DETAIL_QUINTIC_HERMITE_DETAIL_HPP
 #include <algorithm>
 #include <stdexcept>
 #include <sstream>
 #include <limits>
 #include <cmath>
 
-namespace boost {
+namespace hydra_boost {
 namespace math {
 namespace interpolators {
 namespace detail {

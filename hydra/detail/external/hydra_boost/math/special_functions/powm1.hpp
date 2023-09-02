@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_POWM1
-#define BOOST_MATH_POWM1
+#ifndef HYDRA_BOOST_MATH_POWM1
+#define HYDRA_BOOST_MATH_POWM1
 
 #ifdef _MSC_VER
 #pragma once
@@ -19,40 +19,40 @@
 #include <hydra/detail/external/hydra_boost/math/special_functions/sign.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/assert.hpp>
 
-namespace boost{ namespace math{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace detail{
 
 template <class T, class Policy>
 inline T powm1_imp(const T x, const T y, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
-   static const char* function = "boost::math::powm1<%1%>(%1%, %1%)";
+   HYDRA_BOOST_MATH_STD_USING
+   static const char* function = "hydra_boost::math::powm1<%1%>(%1%, %1%)";
    if (x > 0)
    {
-      if ((fabs(y * (x - 1)) < T(0.5)) || (fabs(y) < T(0.2)))
+      if ((fabs(y * (x - 1)) < 0.5) || (fabs(y) < 0.2))
       {
          // We don't have any good/quick approximation for log(x) * y
          // so just try it and see:
          T l = y * log(x);
-         if (l < T(0.5))
-            return boost::math::expm1(l, pol);
-         if (l > boost::math::tools::log_max_value<T>())
-            return boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
+         if (l < 0.5)
+            return hydra_boost::math::expm1(l, pol);
+         if (l > hydra_boost::math::tools::log_max_value<T>())
+            return hydra_boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
          // fall through....
       }
    }
-   else if ((boost::math::signbit)(x)) // Need to error check -0 here as well
+   else if ((hydra_boost::math::signbit)(x)) // Need to error check -0 here as well
    {
       // y had better be an integer:
-      if (boost::math::trunc(y) != y)
-         return boost::math::policies::raise_domain_error<T>(function, "For non-integral exponent, expected base > 0 but got %1%", x, pol);
-      if (boost::math::trunc(y / 2) == y / 2)
+      if (hydra_boost::math::trunc(y) != y)
+         return hydra_boost::math::policies::raise_domain_error<T>(function, "For non-integral exponent, expected base > 0 but got %1%", x, pol);
+      if (hydra_boost::math::trunc(y / 2) == y / 2)
          return powm1_imp(T(-x), y, pol);
    }
    T result = pow(x, y) - 1;
-   if((boost::math::isinf)(result))
-      return result < 0 ? -boost::math::policies::raise_overflow_error<T>(function, nullptr, pol) : boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
-   if((boost::math::isnan)(result))
-      return boost::math::policies::raise_domain_error<T>(function, "Result of pow is complex or undefined", x, pol);
+   if((hydra_boost::math::isinf)(result))
+      return result < 0 ? -hydra_boost::math::policies::raise_overflow_error<T>(function, nullptr, pol) : hydra_boost::math::policies::raise_overflow_error<T>(function, nullptr, pol);
+   if((hydra_boost::math::isnan)(result))
+      return hydra_boost::math::policies::raise_domain_error<T>(function, "Result of pow is complex or undefined", x, pol);
    return result;
 }
 
@@ -75,13 +75,13 @@ inline typename tools::promote_args<T1, T2>::type
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 
-#endif // BOOST_MATH_POWM1
+#endif // HYDRA_BOOST_MATH_POWM1
 
 
 

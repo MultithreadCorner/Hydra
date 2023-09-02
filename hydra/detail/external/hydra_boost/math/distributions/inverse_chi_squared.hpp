@@ -6,8 +6,8 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_DISTRIBUTIONS_INVERSE_CHI_SQUARED_HPP
-#define BOOST_MATH_DISTRIBUTIONS_INVERSE_CHI_SQUARED_HPP
+#ifndef HYDRA_BOOST_MATH_DISTRIBUTIONS_INVERSE_CHI_SQUARED_HPP
+#define HYDRA_BOOST_MATH_DISTRIBUTIONS_INVERSE_CHI_SQUARED_HPP
 
 #include <hydra/detail/external/hydra_boost/math/distributions/fwd.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/gamma.hpp> // for incomplete beta.
@@ -26,7 +26,7 @@
 
 #include <utility>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 namespace detail
 {
@@ -55,10 +55,10 @@ public:
    {
       RealType result;
       detail::check_df(
-         "boost::math::inverse_chi_squared_distribution<%1%>::inverse_chi_squared_distribution",
+         "hydra_boost::math::inverse_chi_squared_distribution<%1%>::inverse_chi_squared_distribution",
          m_df, &result, Policy())
          && detail::check_scale(
-"boost::math::inverse_chi_squared_distribution<%1%>::inverse_chi_squared_distribution",
+"hydra_boost::math::inverse_chi_squared_distribution<%1%>::inverse_chi_squared_distribution",
          m_scale, &result,  Policy());
    } // inverse_chi_squared_distribution constructor 
 
@@ -67,7 +67,7 @@ public:
       RealType result;
       m_scale = 1 / m_df ; // Default scale = 1 / degrees of freedom (Wikipedia definition 1).
       detail::check_df(
-         "boost::math::inverse_chi_squared_distribution<%1%>::inverse_chi_squared_distribution",
+         "hydra_boost::math::inverse_chi_squared_distribution<%1%>::inverse_chi_squared_distribution",
          m_df, &result, Policy());
    } // inverse_chi_squared_distribution
 
@@ -99,15 +99,15 @@ typedef inverse_chi_squared_distribution<double> inverse_chi_squared;
 
 #ifdef __cpp_deduction_guides
 template <class RealType>
-inverse_chi_squared_distribution(RealType)->inverse_chi_squared_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+inverse_chi_squared_distribution(RealType)->inverse_chi_squared_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 template <class RealType>
-inverse_chi_squared_distribution(RealType,RealType)->inverse_chi_squared_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+inverse_chi_squared_distribution(RealType,RealType)->inverse_chi_squared_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 #endif
 
 template <class RealType, class Policy>
 inline const std::pair<RealType, RealType> range(const inverse_chi_squared_distribution<RealType, Policy>& /*dist*/)
 {  // Range of permissible values for random variable x.
-   using boost::math::tools::max_value;
+   using hydra_boost::math::tools::max_value;
    return std::pair<RealType, RealType>(static_cast<RealType>(0), max_value<RealType>()); // 0 to + infinity.
 }
 
@@ -121,12 +121,12 @@ inline const std::pair<RealType, RealType> support(const inverse_chi_squared_dis
 template <class RealType, class Policy>
 RealType pdf(const inverse_chi_squared_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   BOOST_MATH_STD_USING  // for ADL of std functions.
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions.
    RealType df = dist.degrees_of_freedom();
    RealType scale = dist.scale();
    RealType error_result;
 
-   static const char* function = "boost::math::pdf(const inverse_chi_squared_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::pdf(const inverse_chi_squared_distribution<%1%>&, %1%)";
 
    if(false == detail::check_inverse_chi_squared
      (function, df, scale, &error_result, Policy())
@@ -134,7 +134,7 @@ RealType pdf(const inverse_chi_squared_distribution<RealType, Policy>& dist, con
    { // Bad distribution.
       return error_result;
    }
-   if((x < 0) || !(boost::math::isfinite)(x))
+   if((x < 0) || !(hydra_boost::math::isfinite)(x))
    { // Bad x.
       return policies::raise_domain_error<RealType>(
          function, "inverse Chi Square parameter was %1%, but must be >= 0 !", x, Policy());
@@ -161,7 +161,7 @@ RealType pdf(const inverse_chi_squared_distribution<RealType, Policy>& dist, con
 template <class RealType, class Policy>
 inline RealType cdf(const inverse_chi_squared_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   static const char* function = "boost::math::cdf(const inverse_chi_squared_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::cdf(const inverse_chi_squared_distribution<%1%>&, %1%)";
    RealType df = dist.degrees_of_freedom();
    RealType scale = dist.scale();
    RealType error_result;
@@ -172,7 +172,7 @@ inline RealType cdf(const inverse_chi_squared_distribution<RealType, Policy>& di
    { // Bad distribution.
       return error_result;
    }
-   if((x < 0) || !(boost::math::isfinite)(x))
+   if((x < 0) || !(hydra_boost::math::isfinite)(x))
    { // Bad x.
       return policies::raise_domain_error<RealType>(
          function, "inverse Chi Square parameter was %1%, but must be >= 0 !", x, Policy());
@@ -183,18 +183,18 @@ inline RealType cdf(const inverse_chi_squared_distribution<RealType, Policy>& di
    }
    // RealType shape = df /2; // inv_gamma shape,
    // RealType scale = df * scale/2; // inv_gamma scale,
-   // result = boost::math::gamma_q(shape, scale / x, Policy()); // inverse_gamma code.
-   return boost::math::gamma_q(df / 2, (df * (scale / 2)) / x, Policy());
+   // result = hydra_boost::math::gamma_q(shape, scale / x, Policy()); // inverse_gamma code.
+   return hydra_boost::math::gamma_q(df / 2, (df * (scale / 2)) / x, Policy());
 } // cdf
 
 template <class RealType, class Policy>
 inline RealType quantile(const inverse_chi_squared_distribution<RealType, Policy>& dist, const RealType& p)
 {
-   using boost::math::gamma_q_inv;
+   using hydra_boost::math::gamma_q_inv;
    RealType df = dist.degrees_of_freedom();
    RealType scale = dist.scale();
 
-   static const char* function = "boost::math::quantile(const inverse_chi_squared_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::quantile(const inverse_chi_squared_distribution<%1%>&, %1%)";
    // Error check:
    RealType error_result;
    if(false == detail::check_df(
@@ -222,11 +222,11 @@ inline RealType quantile(const inverse_chi_squared_distribution<RealType, Policy
 template <class RealType, class Policy>
 inline RealType cdf(const complemented2_type<inverse_chi_squared_distribution<RealType, Policy>, RealType>& c)
 {
-   using boost::math::gamma_q_inv;
+   using hydra_boost::math::gamma_q_inv;
    RealType const& df = c.dist.degrees_of_freedom();
    RealType const& scale = c.dist.scale();
    RealType const& x = c.param;
-   static const char* function = "boost::math::cdf(const inverse_chi_squared_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::cdf(const inverse_chi_squared_distribution<%1%>&, %1%)";
    // Error check:
    RealType error_result;
    if(false == detail::check_df(
@@ -238,7 +238,7 @@ inline RealType cdf(const complemented2_type<inverse_chi_squared_distribution<Re
    { // Treat zero as a special case.
      return 1;
    }
-   if((x < 0) || !(boost::math::isfinite)(x))
+   if((x < 0) || !(hydra_boost::math::isfinite)(x))
    {
       return policies::raise_domain_error<RealType>(
          function, "inverse Chi Square parameter was %1%, but must be > 0 !", x, Policy());
@@ -253,12 +253,12 @@ inline RealType cdf(const complemented2_type<inverse_chi_squared_distribution<Re
 template <class RealType, class Policy>
 inline RealType quantile(const complemented2_type<inverse_chi_squared_distribution<RealType, Policy>, RealType>& c)
 {
-   using boost::math::gamma_q_inv;
+   using hydra_boost::math::gamma_q_inv;
 
    RealType const& df = c.dist.degrees_of_freedom();
    RealType const& scale = c.dist.scale();
    RealType const& q = c.param;
-   static const char* function = "boost::math::quantile(const inverse_chi_squared_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::quantile(const inverse_chi_squared_distribution<%1%>&, %1%)";
    // Error check:
    RealType error_result;
    if(false == detail::check_df(function, df, &error_result, Policy()))
@@ -285,7 +285,7 @@ inline RealType mean(const inverse_chi_squared_distribution<RealType, Policy>& d
    RealType df = dist.degrees_of_freedom();
    RealType scale = dist.scale();
 
-   static const char* function = "boost::math::mean(const inverse_chi_squared_distribution<%1%>&)";
+   static const char* function = "hydra_boost::math::mean(const inverse_chi_squared_distribution<%1%>&)";
    if(df <= 2)
       return policies::raise_domain_error<RealType>(
          function,
@@ -299,7 +299,7 @@ inline RealType variance(const inverse_chi_squared_distribution<RealType, Policy
 { // Variance of inverse Chi-Squared distribution.
    RealType df = dist.degrees_of_freedom();
    RealType scale = dist.scale();
-   static const char* function = "boost::math::variance(const inverse_chi_squared_distribution<%1%>&)";
+   static const char* function = "hydra_boost::math::variance(const inverse_chi_squared_distribution<%1%>&)";
    if(df <= 4)
    {
       return policies::raise_domain_error<RealType>(
@@ -318,7 +318,7 @@ inline RealType mode(const inverse_chi_squared_distribution<RealType, Policy>& d
 
    RealType df = dist.degrees_of_freedom();
    RealType scale = dist.scale();
-   static const char* function = "boost::math::mode(const inverse_chi_squared_distribution<%1%>&)";
+   static const char* function = "hydra_boost::math::mode(const inverse_chi_squared_distribution<%1%>&)";
    if(df < 0)
       return policies::raise_domain_error<RealType>(
          function,
@@ -333,7 +333,7 @@ inline RealType mode(const inverse_chi_squared_distribution<RealType, Policy>& d
 //   RealType df = dist.degrees_of_freedom();
 //   if(df <= 1)
 //      return tools::domain_error<RealType>(
-//         BOOST_CURRENT_FUNCTION,
+//         HYDRA_BOOST_CURRENT_FUNCTION,
 //         "The inverse_Chi-Squared distribution only has a median for degrees of freedom >= 0, but got degrees of freedom = %1%.",
 //         df);
 //   return df;
@@ -343,9 +343,9 @@ inline RealType mode(const inverse_chi_squared_distribution<RealType, Policy>& d
 template <class RealType, class Policy>
 inline RealType skewness(const inverse_chi_squared_distribution<RealType, Policy>& dist)
 {
-   BOOST_MATH_STD_USING // For ADL
+   HYDRA_BOOST_MATH_STD_USING // For ADL
    RealType df = dist.degrees_of_freedom();
-   static const char* function = "boost::math::skewness(const inverse_chi_squared_distribution<%1%>&)";
+   static const char* function = "hydra_boost::math::skewness(const inverse_chi_squared_distribution<%1%>&)";
    if(df <= 6)
       return policies::raise_domain_error<RealType>(
          function,
@@ -359,7 +359,7 @@ template <class RealType, class Policy>
 inline RealType kurtosis(const inverse_chi_squared_distribution<RealType, Policy>& dist)
 {
    RealType df = dist.degrees_of_freedom();
-   static const char* function = "boost::math::kurtosis(const inverse_chi_squared_distribution<%1%>&)";
+   static const char* function = "hydra_boost::math::kurtosis(const inverse_chi_squared_distribution<%1%>&)";
    if(df <= 8)
       return policies::raise_domain_error<RealType>(
          function,
@@ -373,7 +373,7 @@ template <class RealType, class Policy>
 inline RealType kurtosis_excess(const inverse_chi_squared_distribution<RealType, Policy>& dist)
 {
    RealType df = dist.degrees_of_freedom();
-   static const char* function = "boost::math::kurtosis(const inverse_chi_squared_distribution<%1%>&)";
+   static const char* function = "hydra_boost::math::kurtosis(const inverse_chi_squared_distribution<%1%>&)";
    if(df <= 8)
       return policies::raise_domain_error<RealType>(
          function,
@@ -388,11 +388,11 @@ inline RealType kurtosis_excess(const inverse_chi_squared_distribution<RealType,
 //
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_MATH_DISTRIBUTIONS_INVERSE_CHI_SQUARED_HPP
+#endif // HYDRA_BOOST_MATH_DISTRIBUTIONS_INVERSE_CHI_SQUARED_HPP

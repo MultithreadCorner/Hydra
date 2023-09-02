@@ -5,8 +5,8 @@
 //
 //  Constexpr implementation of sqrt function
 
-#ifndef BOOST_MATH_CCMATH_SQRT
-#define BOOST_MATH_CCMATH_SQRT
+#ifndef HYDRA_BOOST_MATH_CCMATH_SQRT
+#define HYDRA_BOOST_MATH_CCMATH_SQRT
 
 #include <cmath>
 #include <limits>
@@ -16,7 +16,7 @@
 #include <hydra/detail/external/hydra_boost/math/ccmath/isinf.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/is_constant_evaluated.hpp>
 
-namespace boost::math::ccmath { 
+namespace hydra_boost::math::ccmath { 
 
 namespace detail {
 
@@ -43,16 +43,16 @@ constexpr Real sqrt_impl(Real x)
 template <typename Real, std::enable_if_t<!std::is_integral_v<Real>, bool> = true>
 constexpr Real sqrt(Real x)
 {
-    if(BOOST_MATH_IS_CONSTANT_EVALUATED(x))
+    if(HYDRA_BOOST_MATH_IS_CONSTANT_EVALUATED(x))
     {
-        if (boost::math::ccmath::isnan(x) || 
-           (boost::math::ccmath::isinf(x) && x > 0) ||
-            boost::math::ccmath::abs(x) == Real(0))
+        if (hydra_boost::math::ccmath::isnan(x) || 
+           (hydra_boost::math::ccmath::isinf(x) && x > 0) ||
+            hydra_boost::math::ccmath::abs(x) == Real(0))
         {
             return x;
         }
         // Domain error is implementation defined so return NAN
-        else if (boost::math::ccmath::isinf(x) && x < 0)
+        else if (hydra_boost::math::ccmath::isinf(x) && x < 0)
         {
             return std::numeric_limits<Real>::quiet_NaN();
         }
@@ -74,4 +74,4 @@ constexpr double sqrt(Z x)
 
 } // Namespaces
 
-#endif // BOOST_MATH_CCMATH_SQRT
+#endif // HYDRA_BOOST_MATH_CCMATH_SQRT

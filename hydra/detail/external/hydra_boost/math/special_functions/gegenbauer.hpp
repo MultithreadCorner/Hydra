@@ -3,21 +3,21 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_GEGENBAUER_HPP
-#define BOOST_MATH_SPECIAL_GEGENBAUER_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_GEGENBAUER_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_GEGENBAUER_HPP
 
 #include <limits>
 #include <stdexcept>
 #include <type_traits>
 
-namespace boost { namespace math {
+namespace hydra_boost { namespace math {
 
 template<typename Real>
 Real gegenbauer(unsigned n, Real lambda, Real x)
 {
     static_assert(!std::is_integral<Real>::value, "Gegenbauer polynomials required floating point arguments.");
     if (lambda <= -1/Real(2)) {
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
        throw std::domain_error("lambda > -1/2 is required.");
 #else
        return std::numeric_limits<Real>::quiet_NaN();

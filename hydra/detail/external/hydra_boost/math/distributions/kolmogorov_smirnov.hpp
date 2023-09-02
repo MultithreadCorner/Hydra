@@ -104,8 +104,8 @@
 // parameter (e.g. 0 or infinity), or a separate distribution type altogether
 // (e.g. kolmogorov_smirnov_exact_distribution).
 //
-#ifndef BOOST_MATH_DISTRIBUTIONS_KOLMOGOROV_SMIRNOV_HPP
-#define BOOST_MATH_DISTRIBUTIONS_KOLMOGOROV_SMIRNOV_HPP
+#ifndef HYDRA_BOOST_MATH_DISTRIBUTIONS_KOLMOGOROV_SMIRNOV_HPP
+#define HYDRA_BOOST_MATH_DISTRIBUTIONS_KOLMOGOROV_SMIRNOV_HPP
 
 #include <hydra/detail/external/hydra_boost/math/distributions/fwd.hpp>
 #include <hydra/detail/external/hydra_boost/math/distributions/complement.hpp>
@@ -115,7 +115,7 @@
 #include <hydra/detail/external/hydra_boost/math/tools/roots.hpp> // Newton-Raphson
 #include <hydra/detail/external/hydra_boost/math/tools/minima.hpp> // For the mode
 
-namespace boost { namespace math {
+namespace hydra_boost { namespace math {
 
 namespace detail {
 template <class RealType>
@@ -131,7 +131,7 @@ inline RealType kolmogorov_smirnov_quantile_guess(RealType p) {
 // d/dk (theta2(0, 1/(2*k*k/M_PI))/sqrt(2*k*k*M_PI))
 template <class RealType, class Policy>
 RealType kolmogorov_smirnov_pdf_small_x(RealType x, RealType n, const Policy&) {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     RealType value = RealType(0), delta = RealType(0), last_delta = RealType(0);
     RealType eps = policies::get_epsilon<RealType, Policy>();
     int i = 0;
@@ -160,7 +160,7 @@ RealType kolmogorov_smirnov_pdf_small_x(RealType x, RealType n, const Policy&) {
 // d/dx (theta4(0, 2*x*x*n/M_PI))
 template <class RealType, class Policy>
 inline RealType kolmogorov_smirnov_pdf_large_x(RealType x, RealType n, const Policy&) {
-    BOOST_MATH_STD_USING
+    HYDRA_BOOST_MATH_STD_USING
     RealType value = RealType(0), delta = RealType(0), last_delta = RealType(0);
     RealType eps = policies::get_epsilon<RealType, Policy>();
     int i = 1;
@@ -198,7 +198,7 @@ template <class RealType = double, class Policy = policies::policy<> >
     {
         RealType result;
         detail::check_df(
-                "boost::math::kolmogorov_smirnov_distribution<%1%>::kolmogorov_smirnov_distribution", n_obs_, &result, Policy());
+                "hydra_boost::math::kolmogorov_smirnov_distribution<%1%>::kolmogorov_smirnov_distribution", n_obs_, &result, Policy());
     }
 
     RealType number_of_observations()const
@@ -215,47 +215,47 @@ typedef kolmogorov_smirnov_distribution<double> kolmogorov_k; // Convenience typ
 
 #ifdef __cpp_deduction_guides
 template <class RealType>
-kolmogorov_smirnov_distribution(RealType)->kolmogorov_smirnov_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+kolmogorov_smirnov_distribution(RealType)->kolmogorov_smirnov_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
 #endif
 
 namespace detail {
 template <class RealType, class Policy>
 struct kolmogorov_smirnov_quantile_functor
 {
-  kolmogorov_smirnov_quantile_functor(const boost::math::kolmogorov_smirnov_distribution<RealType, Policy> dist, RealType const& p)
+  kolmogorov_smirnov_quantile_functor(const hydra_boost::math::kolmogorov_smirnov_distribution<RealType, Policy> dist, RealType const& p)
     : distribution(dist), prob(p)
   {
   }
 
-  boost::math::tuple<RealType, RealType> operator()(RealType const& x)
+  hydra_boost::math::tuple<RealType, RealType> operator()(RealType const& x)
   {
     RealType fx = cdf(distribution, x) - prob;  // Difference cdf - value - to minimize.
     RealType dx = pdf(distribution, x); // pdf is 1st derivative.
     // return both function evaluation difference f(x) and 1st derivative f'(x).
-    return boost::math::make_tuple(fx, dx);
+    return hydra_boost::math::make_tuple(fx, dx);
   }
 private:
-  const boost::math::kolmogorov_smirnov_distribution<RealType, Policy> distribution;
+  const hydra_boost::math::kolmogorov_smirnov_distribution<RealType, Policy> distribution;
   RealType prob;
 };
 
 template <class RealType, class Policy>
 struct kolmogorov_smirnov_complementary_quantile_functor
 {
-  kolmogorov_smirnov_complementary_quantile_functor(const boost::math::kolmogorov_smirnov_distribution<RealType, Policy> dist, RealType const& p)
+  kolmogorov_smirnov_complementary_quantile_functor(const hydra_boost::math::kolmogorov_smirnov_distribution<RealType, Policy> dist, RealType const& p)
     : distribution(dist), prob(p)
   {
   }
 
-  boost::math::tuple<RealType, RealType> operator()(RealType const& x)
+  hydra_boost::math::tuple<RealType, RealType> operator()(RealType const& x)
   {
     RealType fx = cdf(complement(distribution, x)) - prob;  // Difference cdf - value - to minimize.
     RealType dx = -pdf(distribution, x); // pdf is the negative of the derivative of (1-CDF)
     // return both function evaluation difference f(x) and 1st derivative f'(x).
-    return boost::math::make_tuple(fx, dx);
+    return hydra_boost::math::make_tuple(fx, dx);
   }
 private:
-  const boost::math::kolmogorov_smirnov_distribution<RealType, Policy> distribution;
+  const hydra_boost::math::kolmogorov_smirnov_distribution<RealType, Policy> distribution;
   RealType prob;
 };
 
@@ -274,7 +274,7 @@ struct kolmogorov_smirnov_negative_pdf_functor
 template <class RealType, class Policy>
 inline const std::pair<RealType, RealType> range(const kolmogorov_smirnov_distribution<RealType, Policy>& /*dist*/)
 { // Range of permissible values for random variable x.
-   using boost::math::tools::max_value;
+   using hydra_boost::math::tools::max_value;
    return std::pair<RealType, RealType>(static_cast<RealType>(0), max_value<RealType>());
 }
 
@@ -283,26 +283,26 @@ inline const std::pair<RealType, RealType> support(const kolmogorov_smirnov_dist
 { // Range of supported values for random variable x.
    // This is range where cdf rises from 0 to 1, and outside it, the pdf is zero.
    // In the exact distribution, the upper limit would be 1.
-   using boost::math::tools::max_value;
+   using hydra_boost::math::tools::max_value;
    return std::pair<RealType, RealType>(static_cast<RealType>(0), max_value<RealType>());
 }
 
 template <class RealType, class Policy>
 inline RealType pdf(const kolmogorov_smirnov_distribution<RealType, Policy>& dist, const RealType& x)
 {
-   BOOST_FPU_EXCEPTION_GUARD
-   BOOST_MATH_STD_USING  // for ADL of std functions.
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_MATH_STD_USING  // for ADL of std functions.
 
    RealType n = dist.number_of_observations();
    RealType error_result;
-   static const char* function = "boost::math::pdf(const kolmogorov_smirnov_distribution<%1%>&, %1%)";
+   static const char* function = "hydra_boost::math::pdf(const kolmogorov_smirnov_distribution<%1%>&, %1%)";
    if(false == detail::check_x_not_NaN(function, x, &error_result, Policy()))
       return error_result;
 
    if(false == detail::check_df(function, n, &error_result, Policy()))
       return error_result;
 
-   if (x < 0 || !(boost::math::isfinite)(x))
+   if (x < 0 || !(hydra_boost::math::isfinite)(x))
    {
       return policies::raise_domain_error<RealType>(
          function, "Kolmogorov-Smirnov parameter was %1%, but must be > 0 !", x, Policy());
@@ -318,15 +318,15 @@ inline RealType pdf(const kolmogorov_smirnov_distribution<RealType, Policy>& dis
 template <class RealType, class Policy>
 inline RealType cdf(const kolmogorov_smirnov_distribution<RealType, Policy>& dist, const RealType& x)
 {
-    BOOST_MATH_STD_USING // for ADL of std function exp.
-   static const char* function = "boost::math::cdf(const kolmogorov_smirnov_distribution<%1%>&, %1%)";
+    HYDRA_BOOST_MATH_STD_USING // for ADL of std function exp.
+   static const char* function = "hydra_boost::math::cdf(const kolmogorov_smirnov_distribution<%1%>&, %1%)";
    RealType error_result;
    RealType n = dist.number_of_observations();
    if(false == detail::check_x_not_NaN(function, x, &error_result, Policy()))
       return error_result;
    if(false == detail::check_df(function, n, &error_result, Policy()))
       return error_result;
-   if((x < 0) || !(boost::math::isfinite)(x)) {
+   if((x < 0) || !(hydra_boost::math::isfinite)(x)) {
       return policies::raise_domain_error<RealType>(
          function, "Random variable parameter was %1%, but must be between > 0 !", x, Policy());
    }
@@ -339,9 +339,9 @@ inline RealType cdf(const kolmogorov_smirnov_distribution<RealType, Policy>& dis
 
 template <class RealType, class Policy>
 inline RealType cdf(const complemented2_type<kolmogorov_smirnov_distribution<RealType, Policy>, RealType>& c) {
-    BOOST_MATH_STD_USING // for ADL of std function exp.
+    HYDRA_BOOST_MATH_STD_USING // for ADL of std function exp.
     RealType x = c.param;
-   static const char* function = "boost::math::cdf(const complemented2_type<const kolmogorov_smirnov_distribution<%1%>&, %1%>)";
+   static const char* function = "hydra_boost::math::cdf(const complemented2_type<const kolmogorov_smirnov_distribution<%1%>&, %1%>)";
    RealType error_result;
    kolmogorov_smirnov_distribution<RealType, Policy> const& dist = c.dist;
    RealType n = dist.number_of_observations();
@@ -351,7 +351,7 @@ inline RealType cdf(const complemented2_type<kolmogorov_smirnov_distribution<Rea
    if(false == detail::check_df(function, n, &error_result, Policy()))
       return error_result;
 
-   if((x < 0) || !(boost::math::isfinite)(x))
+   if((x < 0) || !(hydra_boost::math::isfinite)(x))
       return policies::raise_domain_error<RealType>(
          function, "Random variable parameter was %1%, but must be between > 0 !", x, Policy());
 
@@ -367,8 +367,8 @@ inline RealType cdf(const complemented2_type<kolmogorov_smirnov_distribution<Rea
 template <class RealType, class Policy>
 inline RealType quantile(const kolmogorov_smirnov_distribution<RealType, Policy>& dist, const RealType& p)
 {
-    BOOST_MATH_STD_USING
-   static const char* function = "boost::math::quantile(const kolmogorov_smirnov_distribution<%1%>&, %1%)";
+    HYDRA_BOOST_MATH_STD_USING
+   static const char* function = "hydra_boost::math::quantile(const kolmogorov_smirnov_distribution<%1%>&, %1%)";
    // Error check:
    RealType error_result;
    RealType n = dist.number_of_observations();
@@ -382,13 +382,13 @@ inline RealType quantile(const kolmogorov_smirnov_distribution<RealType, Policy>
    std::uintmax_t m = policies::get_max_root_iterations<Policy>(); // and max iterations.
 
    return tools::newton_raphson_iterate(detail::kolmogorov_smirnov_quantile_functor<RealType, Policy>(dist, p),
-           k, RealType(0), boost::math::tools::max_value<RealType>(), get_digits, m);
+           k, RealType(0), hydra_boost::math::tools::max_value<RealType>(), get_digits, m);
 } // quantile
 
 template <class RealType, class Policy>
 inline RealType quantile(const complemented2_type<kolmogorov_smirnov_distribution<RealType, Policy>, RealType>& c) {
-    BOOST_MATH_STD_USING
-   static const char* function = "boost::math::quantile(const kolmogorov_smirnov_distribution<%1%>&, %1%)";
+    HYDRA_BOOST_MATH_STD_USING
+   static const char* function = "hydra_boost::math::quantile(const kolmogorov_smirnov_distribution<%1%>&, %1%)";
    kolmogorov_smirnov_distribution<RealType, Policy> const& dist = c.dist;
    RealType n = dist.number_of_observations();
    // Error check:
@@ -407,20 +407,20 @@ inline RealType quantile(const complemented2_type<kolmogorov_smirnov_distributio
 
    return tools::newton_raphson_iterate(
            detail::kolmogorov_smirnov_complementary_quantile_functor<RealType, Policy>(dist, p),
-           k, RealType(0), boost::math::tools::max_value<RealType>(), get_digits, m);
+           k, RealType(0), hydra_boost::math::tools::max_value<RealType>(), get_digits, m);
 } // quantile (complemented)
 
 template <class RealType, class Policy>
 inline RealType mode(const kolmogorov_smirnov_distribution<RealType, Policy>& dist)
 {
-    BOOST_MATH_STD_USING
-   static const char* function = "boost::math::mode(const kolmogorov_smirnov_distribution<%1%>&)";
+    HYDRA_BOOST_MATH_STD_USING
+   static const char* function = "hydra_boost::math::mode(const kolmogorov_smirnov_distribution<%1%>&)";
    RealType n = dist.number_of_observations();
    RealType error_result;
    if(false == detail::check_df(function, n, &error_result, Policy()))
       return error_result;
 
-    std::pair<RealType, RealType> r = boost::math::tools::brent_find_minima(
+    std::pair<RealType, RealType> r = hydra_boost::math::tools::brent_find_minima(
             detail::kolmogorov_smirnov_negative_pdf_functor<RealType, Policy>(),
             static_cast<RealType>(0), static_cast<RealType>(1), policies::digits<RealType, Policy>());
     return r.first / sqrt(n);
@@ -431,8 +431,8 @@ inline RealType mode(const kolmogorov_smirnov_distribution<RealType, Policy>& di
 template <class RealType, class Policy>
 inline RealType mean(const kolmogorov_smirnov_distribution<RealType, Policy>& dist)
 {
-    BOOST_MATH_STD_USING
-   static const char* function = "boost::math::mean(const kolmogorov_smirnov_distribution<%1%>&)";
+    HYDRA_BOOST_MATH_STD_USING
+   static const char* function = "hydra_boost::math::mean(const kolmogorov_smirnov_distribution<%1%>&)";
     RealType n = dist.number_of_observations();
     RealType error_result;
     if(false == detail::check_df(function, n, &error_result, Policy()))
@@ -443,7 +443,7 @@ inline RealType mean(const kolmogorov_smirnov_distribution<RealType, Policy>& di
 template <class RealType, class Policy>
 inline RealType variance(const kolmogorov_smirnov_distribution<RealType, Policy>& dist)
 {
-   static const char* function = "boost::math::variance(const kolmogorov_smirnov_distribution<%1%>&)";
+   static const char* function = "hydra_boost::math::variance(const kolmogorov_smirnov_distribution<%1%>&)";
     RealType n = dist.number_of_observations();
     RealType error_result;
     if(false == detail::check_df(function, n, &error_result, Policy()))
@@ -457,38 +457,38 @@ inline RealType variance(const kolmogorov_smirnov_distribution<RealType, Policy>
 template <class RealType, class Policy>
 inline RealType skewness(const kolmogorov_smirnov_distribution<RealType, Policy>& dist)
 {
-    BOOST_MATH_STD_USING
-   static const char* function = "boost::math::skewness(const kolmogorov_smirnov_distribution<%1%>&)";
+    HYDRA_BOOST_MATH_STD_USING
+   static const char* function = "hydra_boost::math::skewness(const kolmogorov_smirnov_distribution<%1%>&)";
     RealType n = dist.number_of_observations();
     RealType error_result;
     if(false == detail::check_df(function, n, &error_result, Policy()))
         return error_result;
     RealType ex3 = RealType(0.5625) * constants::root_half_pi<RealType>() * constants::zeta_three<RealType>() / n / sqrt(n);
-    RealType mean = boost::math::mean(dist);
-    RealType var = boost::math::variance(dist);
+    RealType mean = hydra_boost::math::mean(dist);
+    RealType var = hydra_boost::math::variance(dist);
     return (ex3 - 3 * mean * var - mean * mean * mean) / var / sqrt(var);
 }
 
 template <class RealType, class Policy>
 inline RealType kurtosis(const kolmogorov_smirnov_distribution<RealType, Policy>& dist)
 {
-    BOOST_MATH_STD_USING
-   static const char* function = "boost::math::kurtosis(const kolmogorov_smirnov_distribution<%1%>&)";
+    HYDRA_BOOST_MATH_STD_USING
+   static const char* function = "hydra_boost::math::kurtosis(const kolmogorov_smirnov_distribution<%1%>&)";
     RealType n = dist.number_of_observations();
     RealType error_result;
     if(false == detail::check_df(function, n, &error_result, Policy()))
         return error_result;
     RealType ex4 = 7 * constants::pi_sqr_div_six<RealType>() * constants::pi_sqr_div_six<RealType>() / 20 / n / n;
-    RealType mean = boost::math::mean(dist);
-    RealType var = boost::math::variance(dist);
-    RealType skew = boost::math::skewness(dist);
+    RealType mean = hydra_boost::math::mean(dist);
+    RealType var = hydra_boost::math::variance(dist);
+    RealType skew = hydra_boost::math::skewness(dist);
     return (ex4 - 4 * mean * skew * var * sqrt(var) - 6 * mean * mean * var - mean * mean * mean * mean) / var / var;
 }
 
 template <class RealType, class Policy>
 inline RealType kurtosis_excess(const kolmogorov_smirnov_distribution<RealType, Policy>& dist)
 {
-   static const char* function = "boost::math::kurtosis_excess(const kolmogorov_smirnov_distribution<%1%>&)";
+   static const char* function = "hydra_boost::math::kurtosis_excess(const kolmogorov_smirnov_distribution<%1%>&)";
     RealType n = dist.number_of_observations();
     RealType error_result;
     if(false == detail::check_df(function, n, &error_result, Policy()))

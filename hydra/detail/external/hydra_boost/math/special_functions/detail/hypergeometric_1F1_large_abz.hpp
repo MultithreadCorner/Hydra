@@ -5,15 +5,15 @@
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_HYPERGEOMETRIC_1F1_LARGE_ABZ_HPP_
-#define BOOST_HYPERGEOMETRIC_1F1_LARGE_ABZ_HPP_
+#ifndef HYDRA_BOOST_HYPERGEOMETRIC_1F1_LARGE_ABZ_HPP_
+#define HYDRA_BOOST_HYPERGEOMETRIC_1F1_LARGE_ABZ_HPP_
 
 #include <hydra/detail/external/hydra_boost/math/special_functions/detail/hypergeometric_1F1_bessel.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/detail/hypergeometric_series.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/gamma.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/trunc.hpp>
 
-  namespace boost { namespace math { namespace detail {
+  namespace hydra_boost { namespace math { namespace detail {
 
      template <class T>
      inline bool is_negative_integer(const T& x)
@@ -32,9 +32,9 @@
         hypergeometric_1F1_igamma_series(const T& alpha, const T& delta, const T& x, const Policy& pol)
            : delta_poch(-delta), alpha_poch(alpha), x(x), k(0), cache_offset(0), pol(pol)
         {
-           BOOST_MATH_STD_USING
+           HYDRA_BOOST_MATH_STD_USING
            T log_term = log(x) * -alpha;
-           log_scaling = lltrunc(log_term - 3 - boost::math::tools::log_min_value<T>() / 50);
+           log_scaling = lltrunc(log_term - 3 - hydra_boost::math::tools::log_min_value<T>() / 50);
            term = exp(log_term - log_scaling);
            refill_cache();
         }
@@ -55,7 +55,7 @@
         {
            typedef typename lanczos::lanczos<T, Policy>::type lanczos_type;
 
-           gamma_cache[cache_size - 1] = boost::math::gamma_p(alpha_poch + ((int)cache_size - 1), x, pol);
+           gamma_cache[cache_size - 1] = hydra_boost::math::gamma_p(alpha_poch + ((int)cache_size - 1), x, pol);
            for (int i = cache_size - 1; i > 0; --i)
            {
               gamma_cache[i - 1] = gamma_cache[i] >= 1 ? T(1) : T(gamma_cache[i] + regularised_gamma_prefix(T(alpha_poch + (i - 1)), x, pol, lanczos_type()) / (alpha_poch + (i - 1)));
@@ -72,7 +72,7 @@
      template <class T, class Policy>
      T hypergeometric_1F1_igamma(const T& a, const T& b, const T& x, const T& b_minus_a, const Policy& pol, long long& log_scaling)
      {
-        BOOST_MATH_STD_USING
+        HYDRA_BOOST_MATH_STD_USING
         if (b_minus_a == 0)
         {
            // special case: M(a,a,z) == exp(z)
@@ -82,10 +82,10 @@
         }
         hypergeometric_1F1_igamma_series<T, Policy> s(b_minus_a, a - 1, x, pol);
         log_scaling += s.log_scaling;
-        std::uintmax_t max_iter = boost::math::policies::get_max_series_iterations<Policy>();
-        T result = boost::math::tools::sum_series(s, boost::math::policies::get_epsilon<T, Policy>(), max_iter);
-        boost::math::policies::check_series_iterations<T>("boost::math::tgamma<%1%>(%1%,%1%)", max_iter, pol);
-        T log_prefix = x + boost::math::lgamma(b, pol) - boost::math::lgamma(a, pol);
+        std::uintmax_t max_iter = hydra_boost::math::policies::get_max_series_iterations<Policy>();
+        T result = hydra_boost::math::tools::sum_series(s, hydra_boost::math::policies::get_epsilon<T, Policy>(), max_iter);
+        hydra_boost::math::policies::check_series_iterations<T>("hydra_boost::math::tgamma<%1%>(%1%,%1%)", max_iter, pol);
+        T log_prefix = x + hydra_boost::math::lgamma(b, pol) - hydra_boost::math::lgamma(a, pol);
         long long scale = lltrunc(log_prefix);
         log_scaling += scale;
         return result * exp(log_prefix - scale);
@@ -94,7 +94,7 @@
      template <class T, class Policy>
      T hypergeometric_1F1_shift_on_a(T h, const T& a_local, const T& b_local, const T& x, int a_shift, const Policy& pol, long long& log_scaling)
      {
-        BOOST_MATH_STD_USING
+        HYDRA_BOOST_MATH_STD_USING
         T a = a_local + a_shift;
         if (a_shift == 0)
            return h;
@@ -123,10 +123,10 @@
               if (crossover_shift > a_shift)
                  crossover_shift = a_shift;
               crossover_a = a_local + crossover_shift;
-              boost::math::detail::hypergeometric_1F1_recurrence_b_coefficients<T> b_coef(crossover_a, b_local, x);
-              std::uintmax_t max_iter = boost::math::policies::get_max_series_iterations<Policy>();
-              T b_ratio = boost::math::tools::function_ratio_from_backwards_recurrence(b_coef, boost::math::policies::get_epsilon<T, Policy>(), max_iter);
-              boost::math::policies::check_series_iterations<T>("boost::math::hypergeometric_1F1_large_abz<%1%>(%1%,%1%,%1%)", max_iter, pol);
+              hydra_boost::math::detail::hypergeometric_1F1_recurrence_b_coefficients<T> b_coef(crossover_a, b_local, x);
+              std::uintmax_t max_iter = hydra_boost::math::policies::get_max_series_iterations<Policy>();
+              T b_ratio = hydra_boost::math::tools::function_ratio_from_backwards_recurrence(b_coef, hydra_boost::math::policies::get_epsilon<T, Policy>(), max_iter);
+              hydra_boost::math::policies::check_series_iterations<T>("hydra_boost::math::hypergeometric_1F1_large_abz<%1%>(%1%,%1%,%1%)", max_iter, pol);
               //
               // Convert to a ratio:
               //         (1+a-b)M(a, b, z) - aM(a+1, b, z) + (b-1)M(a, b-1, z) = 0
@@ -138,9 +138,9 @@
               //
               // Recurse down to a_local, compare values and re-normalise first and second:
               //
-              boost::math::detail::hypergeometric_1F1_recurrence_a_coefficients<T> a_coef(crossover_a, b_local, x);
+              hydra_boost::math::detail::hypergeometric_1F1_recurrence_a_coefficients<T> a_coef(crossover_a, b_local, x);
               long long backwards_scale = 0;
-              T comparitor = boost::math::tools::apply_recurrence_relation_backward(a_coef, crossover_shift, second, first, &backwards_scale);
+              T comparitor = hydra_boost::math::tools::apply_recurrence_relation_backward(a_coef, crossover_shift, second, first, &backwards_scale);
               log_scaling -= backwards_scale;
               if ((h < 1) && (tools::max_value<T>() * h > comparitor))
               {
@@ -157,8 +157,8 @@
               //
               if (crossover_shift < a_shift)
               {
-                 boost::math::detail::hypergeometric_1F1_recurrence_a_coefficients<T> a_coef_2(crossover_a + 1, b_local, x);
-                 h = boost::math::tools::apply_recurrence_relation_forward(a_coef_2, a_shift - crossover_shift - 1, first, second, &log_scaling);
+                 hydra_boost::math::detail::hypergeometric_1F1_recurrence_a_coefficients<T> a_coef_2(crossover_a + 1, b_local, x);
+                 h = hydra_boost::math::tools::apply_recurrence_relation_forward(a_coef_2, a_shift - crossover_shift - 1, first, second, &log_scaling);
               }
               else
                  h = first;
@@ -168,10 +168,10 @@
               //
               // Regular case where forwards iteration is stable right from the start:
               //
-              boost::math::detail::hypergeometric_1F1_recurrence_b_coefficients<T> b_coef(a_local, b_local, x);
-              std::uintmax_t max_iter = boost::math::policies::get_max_series_iterations<Policy>();
-              T b_ratio = boost::math::tools::function_ratio_from_backwards_recurrence(b_coef, boost::math::policies::get_epsilon<T, Policy>(), max_iter);
-              boost::math::policies::check_series_iterations<T>("boost::math::hypergeometric_1F1_large_abz<%1%>(%1%,%1%,%1%)", max_iter, pol);
+              hydra_boost::math::detail::hypergeometric_1F1_recurrence_b_coefficients<T> b_coef(a_local, b_local, x);
+              std::uintmax_t max_iter = hydra_boost::math::policies::get_max_series_iterations<Policy>();
+              T b_ratio = hydra_boost::math::tools::function_ratio_from_backwards_recurrence(b_coef, hydra_boost::math::policies::get_epsilon<T, Policy>(), max_iter);
+              hydra_boost::math::policies::check_series_iterations<T>("hydra_boost::math::hypergeometric_1F1_large_abz<%1%>(%1%,%1%,%1%)", max_iter, pol);
               //
               // Convert to a ratio:
               //         (1+a-b)M(a, b, z) - aM(a+1, b, z) + (b-1)M(a, b-1, z) = 0
@@ -179,8 +179,8 @@
               //  hence: M(a+1,b,z) = ((1+a-b) / a) M(a,b,z) + ((b-1) / a) M(a,b,z)/b_ratio
               //
               T second = ((1 + a_local - b_local) / a_local) * h + ((b_local - 1) / a_local) * h / b_ratio;
-              boost::math::detail::hypergeometric_1F1_recurrence_a_coefficients<T> a_coef(a_local + 1, b_local, x);
-              h = boost::math::tools::apply_recurrence_relation_forward(a_coef, --a_shift, h, second, &log_scaling);
+              hydra_boost::math::detail::hypergeometric_1F1_recurrence_a_coefficients<T> a_coef(a_local + 1, b_local, x);
+              h = hydra_boost::math::tools::apply_recurrence_relation_forward(a_coef, --a_shift, h, second, &log_scaling);
            }
         }
         else
@@ -195,11 +195,11 @@
            // is the only stable direction as we will only iterate down until a ~ b, but we
            // will check this with an assert:
            //
-           BOOST_MATH_ASSERT(2 * a - b_local + x > 0);
-           boost::math::detail::hypergeometric_1F1_recurrence_b_coefficients<T> b_coef(a, b_local, x);
-           std::uintmax_t max_iter = boost::math::policies::get_max_series_iterations<Policy>();
-           T b_ratio = boost::math::tools::function_ratio_from_backwards_recurrence(b_coef, boost::math::policies::get_epsilon<T, Policy>(), max_iter);
-           boost::math::policies::check_series_iterations<T>("boost::math::hypergeometric_1F1_large_abz<%1%>(%1%,%1%,%1%)", max_iter, pol);
+           HYDRA_BOOST_MATH_ASSERT(2 * a - b_local + x > 0);
+           hydra_boost::math::detail::hypergeometric_1F1_recurrence_b_coefficients<T> b_coef(a, b_local, x);
+           std::uintmax_t max_iter = hydra_boost::math::policies::get_max_series_iterations<Policy>();
+           T b_ratio = hydra_boost::math::tools::function_ratio_from_backwards_recurrence(b_coef, hydra_boost::math::policies::get_epsilon<T, Policy>(), max_iter);
+           hydra_boost::math::policies::check_series_iterations<T>("hydra_boost::math::hypergeometric_1F1_large_abz<%1%>(%1%,%1%,%1%)", max_iter, pol);
            //
            // Convert to a ratio:
            //         (1+a-b)M(a, b, z) - aM(a+1, b, z) + (b-1)M(a, b-1, z) = 0
@@ -213,9 +213,9 @@
               h = h / second;
            else
            {
-              boost::math::detail::hypergeometric_1F1_recurrence_a_coefficients<T> a_coef(a + 1, b_local, x);
-              T comparitor = boost::math::tools::apply_recurrence_relation_forward(a_coef, -(a_shift + 1), first, second);
-              if (boost::math::tools::min_value<T>() * comparitor > h)
+              hydra_boost::math::detail::hypergeometric_1F1_recurrence_a_coefficients<T> a_coef(a + 1, b_local, x);
+              T comparitor = hydra_boost::math::tools::apply_recurrence_relation_forward(a_coef, -(a_shift + 1), first, second);
+              if (hydra_boost::math::tools::min_value<T>() * comparitor > h)
               {
                  // Ooops, need to rescale h:
                  long long rescale = lltrunc(log(fabs(h)));
@@ -232,7 +232,7 @@
      template <class T, class Policy>
      T hypergeometric_1F1_shift_on_b(T h, const T& a, const T& b_local, const T& x, int b_shift, const Policy& pol, long long& log_scaling)
      {
-        BOOST_MATH_STD_USING
+        HYDRA_BOOST_MATH_STD_USING
 
         T b = b_local + b_shift;
         if (b_shift == 0)
@@ -243,12 +243,12 @@
            // We get here for b_shift > 0 when b > z.  We can't use forward recursion on b - it's unstable,
            // so grab the ratio and work backwards to b - b_shift and normalise.
            //
-           boost::math::detail::hypergeometric_1F1_recurrence_b_coefficients<T> b_coef(a, b, x);
-           std::uintmax_t max_iter = boost::math::policies::get_max_series_iterations<Policy>();
+           hydra_boost::math::detail::hypergeometric_1F1_recurrence_b_coefficients<T> b_coef(a, b, x);
+           std::uintmax_t max_iter = hydra_boost::math::policies::get_max_series_iterations<Policy>();
 
            T first = 1;  // arbitrary value;
-           T second = 1 / boost::math::tools::function_ratio_from_backwards_recurrence(b_coef, boost::math::policies::get_epsilon<T, Policy>(), max_iter);
-           boost::math::policies::check_series_iterations<T>("boost::math::hypergeometric_1F1_large_abz<%1%>(%1%,%1%,%1%)", max_iter, pol);
+           T second = 1 / hydra_boost::math::tools::function_ratio_from_backwards_recurrence(b_coef, hydra_boost::math::policies::get_epsilon<T, Policy>(), max_iter);
+           hydra_boost::math::policies::check_series_iterations<T>("hydra_boost::math::hypergeometric_1F1_large_abz<%1%>(%1%,%1%,%1%)", max_iter, pol);
            if (b_shift == 1)
               h = h / second;
            else
@@ -256,11 +256,11 @@
               //
               // Reset coefficients and recurse:
               //
-              boost::math::detail::hypergeometric_1F1_recurrence_b_coefficients<T> b_coef_2(a, b - 1, x);
+              hydra_boost::math::detail::hypergeometric_1F1_recurrence_b_coefficients<T> b_coef_2(a, b - 1, x);
               long long local_scale = 0;
-              T comparitor = boost::math::tools::apply_recurrence_relation_backward(b_coef_2, --b_shift, first, second, &local_scale);
+              T comparitor = hydra_boost::math::tools::apply_recurrence_relation_backward(b_coef_2, --b_shift, first, second, &local_scale);
               log_scaling -= local_scale;
-              if (boost::math::tools::min_value<T>() * comparitor > h)
+              if (hydra_boost::math::tools::min_value<T>() * comparitor > h)
               {
                  // Ooops, need to rescale h:
                  long long rescale = lltrunc(log(fabs(h)));
@@ -281,18 +281,18 @@
            }
            else
            {
-              BOOST_MATH_ASSERT(!is_negative_integer(b - a));
-              boost::math::detail::hypergeometric_1F1_recurrence_b_coefficients<T> b_coef(a, b_local, x);
-              std::uintmax_t max_iter = boost::math::policies::get_max_series_iterations<Policy>();
-              second = h / boost::math::tools::function_ratio_from_backwards_recurrence(b_coef, boost::math::policies::get_epsilon<T, Policy>(), max_iter);
-              boost::math::policies::check_series_iterations<T>("boost::math::hypergeometric_1F1_large_abz<%1%>(%1%,%1%,%1%)", max_iter, pol);
+              HYDRA_BOOST_MATH_ASSERT(!is_negative_integer(b - a));
+              hydra_boost::math::detail::hypergeometric_1F1_recurrence_b_coefficients<T> b_coef(a, b_local, x);
+              std::uintmax_t max_iter = hydra_boost::math::policies::get_max_series_iterations<Policy>();
+              second = h / hydra_boost::math::tools::function_ratio_from_backwards_recurrence(b_coef, hydra_boost::math::policies::get_epsilon<T, Policy>(), max_iter);
+              hydra_boost::math::policies::check_series_iterations<T>("hydra_boost::math::hypergeometric_1F1_large_abz<%1%>(%1%,%1%,%1%)", max_iter, pol);
            }
            if (b_shift == -1)
               h = second;
            else
            {
-              boost::math::detail::hypergeometric_1F1_recurrence_b_coefficients<T> b_coef_2(a, b_local - 1, x);
-              h = boost::math::tools::apply_recurrence_relation_backward(b_coef_2, -(++b_shift), h, second, &log_scaling);
+              hydra_boost::math::detail::hypergeometric_1F1_recurrence_b_coefficients<T> b_coef_2(a, b_local - 1, x);
+              h = hydra_boost::math::tools::apply_recurrence_relation_backward(b_coef_2, -(++b_shift), h, second, &log_scaling);
            }
         }
         return h;
@@ -302,7 +302,7 @@
      template <class T, class Policy>
      T hypergeometric_1F1_large_igamma(const T& a, const T& b, const T& x, const T& b_minus_a, const Policy& pol, long long& log_scaling)
      {
-        BOOST_MATH_STD_USING
+        HYDRA_BOOST_MATH_STD_USING
         //
         // We need a < b < z in order to ensure there's at least a chance of convergence,
         // we can use recurrence relations to shift forwards on a+b or just a to achieve this,
@@ -337,7 +337,7 @@
      template <class T, class Policy>
      T hypergeometric_1F1_large_series(const T& a, const T& b, const T& z, const Policy& pol, long long& log_scaling)
      {
-        BOOST_MATH_STD_USING
+        HYDRA_BOOST_MATH_STD_USING
         //
         // We make a small, and b > z:
         //
@@ -355,7 +355,7 @@
            a_shift = 0;
         T a_local = a - a_shift;
         T b_local = b - b_shift;
-        T h = boost::math::detail::hypergeometric_1F1_generic_series(a_local, b_local, z, pol, log_scaling, "hypergeometric_1F1_large_series<%1%>(a,b,z)");
+        T h = hydra_boost::math::detail::hypergeometric_1F1_generic_series(a_local, b_local, z, pol, log_scaling, "hypergeometric_1F1_large_series<%1%>(a,b,z)");
         //
         // Apply shifts on a and b as required:
         //
@@ -367,13 +367,13 @@
            // calculate a second 1F1 for a == 1 and recurse as normal:
            //
            long long scale = 0;
-           T h2 = boost::math::detail::hypergeometric_1F1_generic_series(T(a_local + 1), b_local, z, pol, scale, "hypergeometric_1F1_large_series<%1%>(a,b,z)");
+           T h2 = hydra_boost::math::detail::hypergeometric_1F1_generic_series(T(a_local + 1), b_local, z, pol, scale, "hypergeometric_1F1_large_series<%1%>(a,b,z)");
            if (scale != log_scaling)
            {
               h2 *= exp(T(scale - log_scaling));
            }
-           boost::math::detail::hypergeometric_1F1_recurrence_a_coefficients<T> coef(a_local + 1, b_local, z);
-           h = boost::math::tools::apply_recurrence_relation_forward(coef, a_shift - 1, h, h2, &log_scaling);
+           hydra_boost::math::detail::hypergeometric_1F1_recurrence_a_coefficients<T> coef(a_local + 1, b_local, z);
+           h = hydra_boost::math::tools::apply_recurrence_relation_forward(coef, a_shift - 1, h, h2, &log_scaling);
            h = hypergeometric_1F1_shift_on_b(h, a, b_local, z, b_shift, pol, log_scaling);
         }
         else
@@ -387,21 +387,21 @@
      template <class T, class Policy>
      T hypergeometric_1F1_large_13_3_6_series(const T& a, const T& b, const T& z, const Policy& pol, long long& log_scaling)
      {
-        BOOST_MATH_STD_USING
+        HYDRA_BOOST_MATH_STD_USING
         //
         // A&S 13.3.6 is good only when a ~ b, but isn't too fussy on the size of z.
         // So shift b to match a (b shifting seems to be more stable via method of ratios).
         //
         int b_shift = itrunc(b - a);
         T b_local = b - b_shift;
-        T h = boost::math::detail::hypergeometric_1F1_AS_13_3_6(a, b_local, z, T(b_local - a), pol, log_scaling);
+        T h = hydra_boost::math::detail::hypergeometric_1F1_AS_13_3_6(a, b_local, z, T(b_local - a), pol, log_scaling);
         return hypergeometric_1F1_shift_on_b(h, a, b_local, z, b_shift, pol, log_scaling);
      }
 
      template <class T, class Policy>
      T hypergeometric_1F1_large_abz(const T& a, const T& b, const T& z, const Policy& pol, long long& log_scaling)
      {
-        BOOST_MATH_STD_USING
+        HYDRA_BOOST_MATH_STD_USING
         //
         // This is the selection logic to pick the "best" method.
         // We have a,b,z >> 0 and need to compute the approximate cost of each method
@@ -481,4 +481,4 @@
 
   } } } // namespaces
 
-#endif // BOOST_HYPERGEOMETRIC_1F1_LARGE_ABZ_HPP_
+#endif // HYDRA_BOOST_HYPERGEOMETRIC_1F1_LARGE_ABZ_HPP_

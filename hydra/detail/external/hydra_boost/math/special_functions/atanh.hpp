@@ -8,8 +8,8 @@
 
 // See http://www.boost.org for updates, documentation, and revision history.
 
-#ifndef BOOST_ATANH_HPP
-#define BOOST_ATANH_HPP
+#ifndef HYDRA_BOOST_ATANH_HPP
+#define HYDRA_BOOST_ATANH_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -24,7 +24,7 @@
 
 // This is the inverse of the hyperbolic tangent function.
 
-namespace boost
+namespace hydra_boost
 {
     namespace math
     {
@@ -35,8 +35,8 @@ namespace boost
         template<typename T, typename Policy>
         inline T    atanh_imp(const T x, const Policy& pol)
         {
-            BOOST_MATH_STD_USING
-            static const char* function = "boost::math::atanh<%1%>(%1%)";
+            HYDRA_BOOST_MATH_STD_USING
+            static const char* function = "hydra_boost::math::atanh<%1%>(%1%)";
 
             if(x < -1)
             {
@@ -50,7 +50,7 @@ namespace boost
                   function,
                   "atanh requires x <= 1, but got x = %1%.", x, pol);
             }
-            else if((boost::math::isnan)(x))
+            else if((hydra_boost::math::isnan)(x))
             {
                return policies::raise_domain_error<T>(
                   function,
@@ -70,7 +70,7 @@ namespace boost
             {
                 // http://functions.wolfram.com/ElementaryFunctions/ArcTanh/02/
                 if(abs(x) < 0.5f)
-                   return (boost::math::log1p(x, pol) - boost::math::log1p(-x, pol)) / 2;
+                   return (hydra_boost::math::log1p(x, pol) - hydra_boost::math::log1p(-x, pol)) / 2;
                 return(log( (1 + x) / (1 - x) ) / 2);
             }
             else
@@ -105,18 +105,18 @@ namespace boost
                policies::assert_undefined<> >::type forwarding_policy;
            return policies::checked_narrowing_cast<result_type, forwarding_policy>(
               detail::atanh_imp(static_cast<value_type>(x), forwarding_policy()),
-              "boost::math::atanh<%1%>(%1%)");
+              "hydra_boost::math::atanh<%1%>(%1%)");
         }
         template<typename T>
         inline typename tools::promote_args<T>::type atanh(T x)
         {
-           return boost::math::atanh(x, policies::policy<>());
+           return hydra_boost::math::atanh(x, policies::policy<>());
         }
 
     }
 }
 
-#endif /* BOOST_ATANH_HPP */
+#endif /* HYDRA_BOOST_ATANH_HPP */
 
 
 

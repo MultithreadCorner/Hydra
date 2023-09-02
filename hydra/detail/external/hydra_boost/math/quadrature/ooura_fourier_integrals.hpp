@@ -9,12 +9,12 @@
  * Ooura, Takuya, and Masatake Mori. "A robust double exponential formula for Fourier-type integrals." Journal of computational and applied mathematics 112.1-2 (1999): 229-241.
  * http://www.kurims.kyoto-u.ac.jp/~ooura/intde.html
  */
-#ifndef BOOST_MATH_QUADRATURE_OOURA_FOURIER_INTEGRALS_HPP
-#define BOOST_MATH_QUADRATURE_OOURA_FOURIER_INTEGRALS_HPP
+#ifndef HYDRA_BOOST_MATH_QUADRATURE_OOURA_FOURIER_INTEGRALS_HPP
+#define HYDRA_BOOST_MATH_QUADRATURE_OOURA_FOURIER_INTEGRALS_HPP
 #include <memory>
 #include <hydra/detail/external/hydra_boost/math/quadrature/detail/ooura_fourier_integrals_detail.hpp>
 
-namespace boost { namespace math { namespace quadrature {
+namespace hydra_boost { namespace math { namespace quadrature {
 
 template<class Real>
 class ooura_fourier_sin {

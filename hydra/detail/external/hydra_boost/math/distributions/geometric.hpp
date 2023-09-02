@@ -33,8 +33,8 @@
 // http://documents.wolfram.com/v5/Add-onsLinks/StandardPackages/Statistics/DiscreteDistributions.html
 // http://mathworld.wolfram.com/GeometricDistribution.html
 
-#ifndef BOOST_MATH_SPECIAL_GEOMETRIC_HPP
-#define BOOST_MATH_SPECIAL_GEOMETRIC_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_GEOMETRIC_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_GEOMETRIC_HPP
 
 #include <hydra/detail/external/hydra_boost/math/distributions/fwd.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/beta.hpp> // for ibeta(a, b, x) == Ix(a, b).
@@ -43,20 +43,18 @@
 #include <hydra/detail/external/hydra_boost/math/special_functions/fpclassify.hpp> // isnan.
 #include <hydra/detail/external/hydra_boost/math/tools/roots.hpp> // for root finding.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/inv_discrete_quantile.hpp>
-#include <hydra/detail/external/hydra_boost/math/special_functions/log1p.hpp>
 
 #include <limits> // using std::numeric_limits;
 #include <utility>
-#include <cmath>
 
-#if defined (BOOST_MSVC)
+#if defined (HYDRA_BOOST_MSVC)
 #  pragma warning(push)
 // This believed not now necessary, so commented out.
 //#  pragma warning(disable: 4702) // unreachable code.
 // in domain_error_imp in error_handling.
 #endif
 
-namespace boost
+namespace hydra_boost
 {
   namespace math
   {
@@ -66,7 +64,7 @@ namespace boost
       template <class RealType, class Policy>
       inline bool check_success_fraction(const char* function, const RealType& p, RealType* result, const Policy& pol)
       {
-        if( !(boost::math::isfinite)(p) || (p < 0) || (p > 1) )
+        if( !(hydra_boost::math::isfinite)(p) || (p < 0) || (p > 1) )
         {
           *result = policies::raise_domain_error<RealType>(
             function,
@@ -89,7 +87,7 @@ namespace boost
         {
           return false;
         }
-        if( !(boost::math::isfinite)(k) || (k < 0) )
+        if( !(hydra_boost::math::isfinite)(k) || (k < 0) )
         { // Check k failures.
           *result = policies::raise_domain_error<RealType>(
             function,
@@ -142,7 +140,7 @@ namespace boost
         RealType trials,
         RealType alpha) // alpha 0.05 equivalent to 95% for one-sided test.
       {
-        static const char* function = "boost::math::geometric<%1%>::find_lower_bound_on_p";
+        static const char* function = "hydra_boost::math::geometric<%1%>::find_lower_bound_on_p";
         RealType result = 0;  // of error checks.
         RealType successes = 1;
         RealType failures = trials - successes;
@@ -167,7 +165,7 @@ namespace boost
         RealType trials,
         RealType alpha) // alpha 0.05 equivalent to 95% for one-sided test.
       {
-        static const char* function = "boost::math::geometric<%1%>::find_upper_bound_on_p";
+        static const char* function = "hydra_boost::math::geometric<%1%>::find_upper_bound_on_p";
         RealType result = 0;  // of error checks.
         RealType successes = 1;
         RealType failures = trials - successes;
@@ -200,7 +198,7 @@ namespace boost
         RealType p,     // success fraction 0 <= p <= 1.
         RealType alpha) // risk level threshold 0 <= alpha <= 1.
       {
-        static const char* function = "boost::math::geometric<%1%>::find_minimum_number_of_trials";
+        static const char* function = "hydra_boost::math::geometric<%1%>::find_minimum_number_of_trials";
         // Error checks:
         RealType result = 0;
         if(false == geometric_detail::check_dist_and_k(
@@ -218,7 +216,7 @@ namespace boost
         RealType p,     // success fraction 0 <= p <= 1.
         RealType alpha) // risk level threshold 0 <= alpha <= 1.
       {
-        static const char* function = "boost::math::geometric<%1%>::find_maximum_number_of_trials";
+        static const char* function = "hydra_boost::math::geometric<%1%>::find_maximum_number_of_trials";
         // Error checks:
         RealType result = 0;
         if(false == geometric_detail::check_dist_and_k(
@@ -240,13 +238,13 @@ namespace boost
 
     #ifdef __cpp_deduction_guides
     template <class RealType>
-    geometric_distribution(RealType)->geometric_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+    geometric_distribution(RealType)->geometric_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
     #endif
 
     template <class RealType, class Policy>
     inline const std::pair<RealType, RealType> range(const geometric_distribution<RealType, Policy>& /* dist */)
     { // Range of permissible values for random variable k.
-       using boost::math::tools::max_value;
+       using hydra_boost::math::tools::max_value;
        return std::pair<RealType, RealType>(static_cast<RealType>(0), max_value<RealType>()); // max_integer?
     }
 
@@ -254,7 +252,7 @@ namespace boost
     inline const std::pair<RealType, RealType> support(const geometric_distribution<RealType, Policy>& /* dist */)
     { // Range of supported values for random variable k.
        // This is range where cdf rises from 0 to 1, and outside it, the pdf is zero.
-       using boost::math::tools::max_value;
+       using hydra_boost::math::tools::max_value;
        return std::pair<RealType, RealType>(static_cast<RealType>(0),  max_value<RealType>()); // max_integer?
     }
 
@@ -269,7 +267,7 @@ namespace boost
     template <class RealType, class Policy>
     inline RealType mode(const geometric_distribution<RealType, Policy>&)
     { // Mode of geometric distribution = zero.
-      BOOST_MATH_STD_USING // ADL of std functions.
+      HYDRA_BOOST_MATH_STD_USING // ADL of std functions.
       return 0;
     } // mode
 
@@ -283,7 +281,7 @@ namespace boost
     template <class RealType, class Policy>
     inline RealType skewness(const geometric_distribution<RealType, Policy>& dist)
     { // skewness of geometric distribution = 2-p / (sqrt(r(1-p))
-      BOOST_MATH_STD_USING // ADL of std functions.
+      HYDRA_BOOST_MATH_STD_USING // ADL of std functions.
       RealType p = dist.success_fraction();
       return (2 - p) / sqrt(1 - p);
     } // skewness
@@ -314,9 +312,9 @@ namespace boost
     template <class RealType, class Policy>
     inline RealType pdf(const geometric_distribution<RealType, Policy>& dist, const RealType& k)
     { // Probability Density/Mass Function.
-      BOOST_FPU_EXCEPTION_GUARD
-      BOOST_MATH_STD_USING  // For ADL of math functions.
-      static const char* function = "boost::math::pdf(const geometric_distribution<%1%>&, %1%)";
+      HYDRA_BOOST_FPU_EXCEPTION_GUARD
+      HYDRA_BOOST_MATH_STD_USING  // For ADL of math functions.
+      static const char* function = "hydra_boost::math::pdf(const geometric_distribution<%1%>&, %1%)";
 
       RealType p = dist.success_fraction();
       RealType result = 0;
@@ -352,7 +350,7 @@ namespace boost
     template <class RealType, class Policy>
     inline RealType cdf(const geometric_distribution<RealType, Policy>& dist, const RealType& k)
     { // Cumulative Distribution Function of geometric.
-      static const char* function = "boost::math::cdf(const geometric_distribution<%1%>&, %1%)";
+      static const char* function = "hydra_boost::math::cdf(const geometric_distribution<%1%>&, %1%)";
 
       // k argument may be integral, signed, or unsigned, or floating point.
       // If necessary, it has already been promoted from an integral type.
@@ -374,47 +372,17 @@ namespace boost
       //RealType q = 1 - p;  // Bad for small p
       //RealType probability = 1 - std::pow(q, k+1);
 
-      RealType z = boost::math::log1p(-p, Policy()) * (k + 1);
-      RealType probability = -boost::math::expm1(z, Policy());
+      RealType z = hydra_boost::math::log1p(-p, Policy()) * (k + 1);
+      RealType probability = -hydra_boost::math::expm1(z, Policy());
 
       return probability;
     } // cdf Cumulative Distribution Function geometric.
 
-    template <class RealType, class Policy>
-    inline RealType logcdf(const geometric_distribution<RealType, Policy>& dist, const RealType& k)
-    { // Cumulative Distribution Function of geometric.
-      using std::pow;
-      static const char* function = "boost::math::logcdf(const geometric_distribution<%1%>&, %1%)";
-
-      // k argument may be integral, signed, or unsigned, or floating point.
-      // If necessary, it has already been promoted from an integral type.
-      RealType p = dist.success_fraction();
-      // Error check:
-      RealType result = 0;
-      if(false == geometric_detail::check_dist_and_k(
-        function,
-        p,
-        k,
-        &result, Policy()))
-      {
-        return -std::numeric_limits<RealType>::infinity();
-      }
-      if(k == 0)
-      {
-        return log(p); // success_fraction
-      }
-      //RealType q = 1 - p;  // Bad for small p
-      //RealType probability = 1 - std::pow(q, k+1);
-
-      RealType z = boost::math::log1p(-p, Policy()) * (k + 1);
-      return log1p(-exp(z), Policy());
-    } // logcdf Cumulative Distribution Function geometric.
-
-    template <class RealType, class Policy>
-    inline RealType cdf(const complemented2_type<geometric_distribution<RealType, Policy>, RealType>& c)
-    { // Complemented Cumulative Distribution Function geometric.
-      BOOST_MATH_STD_USING
-      static const char* function = "boost::math::cdf(const geometric_distribution<%1%>&, %1%)";
+      template <class RealType, class Policy>
+      inline RealType cdf(const complemented2_type<geometric_distribution<RealType, Policy>, RealType>& c)
+      { // Complemented Cumulative Distribution Function geometric.
+      HYDRA_BOOST_MATH_STD_USING
+      static const char* function = "hydra_boost::math::cdf(const geometric_distribution<%1%>&, %1%)";
       // k argument may be integral, signed, or unsigned, or floating point.
       // If necessary, it has already been promoted from an integral type.
       RealType const& k = c.param;
@@ -430,34 +398,10 @@ namespace boost
       {
         return result;
       }
-      RealType z = boost::math::log1p(-p, Policy()) * (k+1);
+      RealType z = hydra_boost::math::log1p(-p, Policy()) * (k+1);
       RealType probability = exp(z);
       return probability;
     } // cdf Complemented Cumulative Distribution Function geometric.
-
-    template <class RealType, class Policy>
-    inline RealType logcdf(const complemented2_type<geometric_distribution<RealType, Policy>, RealType>& c)
-    { // Complemented Cumulative Distribution Function geometric.
-      BOOST_MATH_STD_USING
-      static const char* function = "boost::math::logcdf(const geometric_distribution<%1%>&, %1%)";
-      // k argument may be integral, signed, or unsigned, or floating point.
-      // If necessary, it has already been promoted from an integral type.
-      RealType const& k = c.param;
-      geometric_distribution<RealType, Policy> const& dist = c.dist;
-      RealType p = dist.success_fraction();
-      // Error check:
-      RealType result = 0;
-      if(false == geometric_detail::check_dist_and_k(
-        function,
-        p,
-        k,
-        &result, Policy()))
-      {
-        return -std::numeric_limits<RealType>::infinity();
-      }
-
-      return boost::math::log1p(-p, Policy()) * (k+1);
-    } // logcdf Complemented Cumulative Distribution Function geometric.
 
     template <class RealType, class Policy>
     inline RealType quantile(const geometric_distribution<RealType, Policy>& dist, const RealType& x)
@@ -467,8 +411,8 @@ namespace boost
       // Inverse cumulative Distribution Function or Quantile (percentile / 100) of geometric Probability.
       // k argument may be integral, signed, or unsigned, or floating point.
 
-      static const char* function = "boost::math::quantile(const geometric_distribution<%1%>&, %1%)";
-      BOOST_MATH_STD_USING // ADL of std functions.
+      static const char* function = "hydra_boost::math::quantile(const geometric_distribution<%1%>&, %1%)";
+      HYDRA_BOOST_MATH_STD_USING // ADL of std functions.
 
       RealType success_fraction = dist.success_fraction();
       // Check dist and x.
@@ -487,7 +431,7 @@ namespace boost
             "Probability argument is 1, which implies infinite failures !", Policy());
         return result;
        // usually means return +std::numeric_limits<RealType>::infinity();
-       // unless #define BOOST_MATH_THROW_ON_OVERFLOW_ERROR
+       // unless #define HYDRA_BOOST_MATH_THROW_ON_OVERFLOW_ERROR
       }
       if (x == 0)
       { // No failures are expected if P = 0.
@@ -504,7 +448,7 @@ namespace boost
       }
 
       // log(1-x) /log(1-success_fraction) -1; but use log1p in case success_fraction is small
-      result = boost::math::log1p(-x, Policy()) / boost::math::log1p(-success_fraction, Policy()) - 1;
+      result = hydra_boost::math::log1p(-x, Policy()) / hydra_boost::math::log1p(-success_fraction, Policy()) - 1;
       // Subtract a few epsilons here too?
       // to make sure it doesn't slip over, so ceil would be one too many.
       return result;
@@ -515,8 +459,8 @@ namespace boost
     {  // Quantile or Percent Point Binomial function.
        // Return the number of expected failures k for a given
        // complement of the probability Q = 1 - P.
-       static const char* function = "boost::math::quantile(const geometric_distribution<%1%>&, %1%)";
-       BOOST_MATH_STD_USING
+       static const char* function = "hydra_boost::math::quantile(const geometric_distribution<%1%>&, %1%)";
+       HYDRA_BOOST_MATH_STD_USING
        // Error checks:
        RealType x = c.param;
        const geometric_distribution<RealType, Policy>& dist = c.dist;
@@ -537,7 +481,7 @@ namespace boost
           // since the probability of zero failures may be non-zero,
           return 0; // but zero is the best we can do:
        }
-       if (-x <= boost::math::powm1(dist.success_fraction(), dist.successes(), Policy()))
+       if (-x <= hydra_boost::math::powm1(dist.success_fraction(), dist.successes(), Policy()))
        {  // q <= cdf(complement(dist, 0)) == pdf(dist, 0)
           return 0; //
        }
@@ -549,24 +493,24 @@ namespace boost
              "Probability argument complement is 0, which implies infinite failures !", Policy());
           return result;
           // usually means return +std::numeric_limits<RealType>::infinity();
-          // unless #define BOOST_MATH_THROW_ON_OVERFLOW_ERROR
+          // unless #define HYDRA_BOOST_MATH_THROW_ON_OVERFLOW_ERROR
        }
        // log(x) /log(1-success_fraction) -1; but use log1p in case success_fraction is small
-       result = log(x) / boost::math::log1p(-success_fraction, Policy()) - 1;
+       result = log(x) / hydra_boost::math::log1p(-success_fraction, Policy()) - 1;
       return result;
 
     } // quantile complement
 
  } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#if defined (BOOST_MSVC)
+#if defined (HYDRA_BOOST_MSVC)
 # pragma warning(pop)
 #endif
 
-#endif // BOOST_MATH_SPECIAL_GEOMETRIC_HPP
+#endif // HYDRA_BOOST_MATH_SPECIAL_GEOMETRIC_HPP

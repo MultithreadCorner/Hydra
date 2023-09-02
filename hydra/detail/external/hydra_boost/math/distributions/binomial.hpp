@@ -76,8 +76,8 @@
 // To enforce the strict mathematical model, users should use floor or ceil functions
 // on k outside this function to ensure that k is integral.
 
-#ifndef BOOST_MATH_SPECIAL_BINOMIAL_HPP
-#define BOOST_MATH_SPECIAL_BINOMIAL_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_BINOMIAL_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_BINOMIAL_HPP
 
 #include <hydra/detail/external/hydra_boost/math/distributions/fwd.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/beta.hpp> // for incomplete beta.
@@ -89,7 +89,7 @@
 
 #include <utility>
 
-namespace boost
+namespace hydra_boost
 {
   namespace math
   {
@@ -102,7 +102,7 @@ namespace boost
         template <class RealType, class Policy>
         inline bool check_N(const char* function, const RealType& N, RealType* result, const Policy& pol)
         {
-           if((N < 0) || !(boost::math::isfinite)(N))
+           if((N < 0) || !(hydra_boost::math::isfinite)(N))
            {
                *result = policies::raise_domain_error<RealType>(
                   function,
@@ -114,7 +114,7 @@ namespace boost
         template <class RealType, class Policy>
         inline bool check_success_fraction(const char* function, const RealType& p, RealType* result, const Policy& pol)
         {
-           if((p < 0) || (p > 1) || !(boost::math::isfinite)(p))
+           if((p < 0) || (p > 1) || !(hydra_boost::math::isfinite)(p))
            {
                *result = policies::raise_domain_error<RealType>(
                   function,
@@ -136,7 +136,7 @@ namespace boost
         {
            if(check_dist(function, N, p, result, pol) == false)
               return false;
-           if((k < 0) || !(boost::math::isfinite)(k))
+           if((k < 0) || !(hydra_boost::math::isfinite)(k))
            {
                *result = policies::raise_domain_error<RealType>(
                   function,
@@ -163,7 +163,7 @@ namespace boost
          template <class T, class Policy>
          T inverse_binomial_cornish_fisher(T n, T sf, T p, T q, const Policy& pol)
          {
-            BOOST_MATH_STD_USING
+            HYDRA_BOOST_MATH_STD_USING
             // mean:
             T m = n * sf;
             // standard deviation:
@@ -173,7 +173,7 @@ namespace boost
             // kurtosis:
             // T k = (1 - 6 * sf * (1 - sf) ) / (n * sf * (1 - sf));
             // Get the inverse of a std normal distribution:
-            T x = boost::math::erfc_inv(p > q ? 2 * q : 2 * p, pol) * constants::root_two<T>();
+            T x = hydra_boost::math::erfc_inv(p > q ? 2 * q : 2 * p, pol) * constants::root_two<T>();
             // Set the sign:
             if(p < 0.5)
                x = -x;
@@ -202,12 +202,12 @@ namespace boost
         // for a given probability p.
         //
         // Error checks:
-        BOOST_MATH_STD_USING  // ADL of std names
+        HYDRA_BOOST_MATH_STD_USING  // ADL of std names
         RealType result = 0;
         RealType trials = dist.trials();
         RealType success_fraction = dist.success_fraction();
         if(false == binomial_detail::check_dist_and_prob(
-           "boost::math::quantile(binomial_distribution<%1%> const&, %1%)",
+           "hydra_boost::math::quantile(binomial_distribution<%1%> const&, %1%)",
            trials,
            success_fraction,
            p,
@@ -283,7 +283,7 @@ namespace boost
         // with equal probability of 'heads' or 'tails.
          RealType r;
          binomial_detail::check_dist(
-            "boost::math::binomial_distribution<%1%>::binomial_distribution",
+            "hydra_boost::math::binomial_distribution<%1%>::binomial_distribution",
             m_n,
             m_p,
             &r, Policy());
@@ -315,7 +315,7 @@ namespace boost
          RealType probability,
          interval_type t = clopper_pearson_exact_interval)
       {
-        static const char* function = "boost::math::binomial_distribution<%1%>::find_lower_bound_on_p";
+        static const char* function = "hydra_boost::math::binomial_distribution<%1%>::find_lower_bound_on_p";
         // Error checks:
         RealType result = 0;
         if(false == binomial_detail::check_dist_and_k(
@@ -340,7 +340,7 @@ namespace boost
          RealType probability,
          interval_type t = clopper_pearson_exact_interval)
       {
-        static const char* function = "boost::math::binomial_distribution<%1%>::find_upper_bound_on_p";
+        static const char* function = "hydra_boost::math::binomial_distribution<%1%>::find_upper_bound_on_p";
         // Error checks:
         RealType result = 0;
         if(false == binomial_detail::check_dist_and_k(
@@ -367,7 +367,7 @@ namespace boost
          RealType p,     // success fraction
          RealType alpha) // risk level
       {
-        static const char* function = "boost::math::binomial_distribution<%1%>::find_minimum_number_of_trials";
+        static const char* function = "hydra_boost::math::binomial_distribution<%1%>::find_minimum_number_of_trials";
         // Error checks:
         RealType result = 0;
         if(false == binomial_detail::check_dist_and_k(
@@ -386,7 +386,7 @@ namespace boost
          RealType p,     // success fraction
          RealType alpha) // risk level
       {
-        static const char* function = "boost::math::binomial_distribution<%1%>::find_maximum_number_of_trials";
+        static const char* function = "hydra_boost::math::binomial_distribution<%1%>::find_maximum_number_of_trials";
         // Error checks:
         RealType result = 0;
         if(false == binomial_detail::check_dist_and_k(
@@ -412,15 +412,15 @@ namespace boost
 
       #ifdef __cpp_deduction_guides
       template <class RealType>
-      binomial_distribution(RealType)->binomial_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+      binomial_distribution(RealType)->binomial_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
       template <class RealType>
-      binomial_distribution(RealType,RealType)->binomial_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+      binomial_distribution(RealType,RealType)->binomial_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
       #endif
 
       template <class RealType, class Policy>
       const std::pair<RealType, RealType> range(const binomial_distribution<RealType, Policy>& dist)
       { // Range of permissible values for random variable k.
-        using boost::math::tools::max_value;
+        using hydra_boost::math::tools::max_value;
         return std::pair<RealType, RealType>(static_cast<RealType>(0), dist.trials());
       }
 
@@ -446,16 +446,16 @@ namespace boost
       template <class RealType, class Policy>
       RealType pdf(const binomial_distribution<RealType, Policy>& dist, const RealType& k)
       { // Probability Density/Mass Function.
-        BOOST_FPU_EXCEPTION_GUARD
+        HYDRA_BOOST_FPU_EXCEPTION_GUARD
 
-        BOOST_MATH_STD_USING // for ADL of std functions
+        HYDRA_BOOST_MATH_STD_USING // for ADL of std functions
 
         RealType n = dist.trials();
 
         // Error check:
         RealType result = 0; // initialization silences some compiler warnings
         if(false == binomial_detail::check_dist_and_k(
-           "boost::math::pdf(binomial_distribution<%1%> const&, %1%)",
+           "hydra_boost::math::pdf(binomial_distribution<%1%> const&, %1%)",
            n,
            dist.success_fraction(),
            k,
@@ -494,7 +494,7 @@ namespace boost
         //           = p^k (1-p)^(n-k) / (beta(k+1, n-k+1) * (n+1))
         //           = ibeta_derivative(k+1, n-k+1, p) / (n+1)
         //
-        using boost::math::ibeta_derivative; // a, b, x
+        using hydra_boost::math::ibeta_derivative; // a, b, x
         return ibeta_derivative(k+1, n-k+1, dist.success_fraction(), Policy()) / (n+1);
 
       } // pdf
@@ -520,7 +520,7 @@ namespace boost
         // P = I[1-p]( n-k, k+1).
         //   = 1 - I[p](k + 1, n - k)
 
-        BOOST_MATH_STD_USING // for ADL of std functions
+        HYDRA_BOOST_MATH_STD_USING // for ADL of std functions
 
         RealType n = dist.trials();
         RealType p = dist.success_fraction();
@@ -528,7 +528,7 @@ namespace boost
         // Error check:
         RealType result = 0;
         if(false == binomial_detail::check_dist_and_k(
-           "boost::math::cdf(binomial_distribution<%1%> const&, %1%)",
+           "hydra_boost::math::cdf(binomial_distribution<%1%> const&, %1%)",
            n,
            p,
            k,
@@ -592,7 +592,7 @@ namespace boost
         // Q = 1 -I[1-p]( n-k, k+1).
         //   = I[p](k + 1, n - k)
 
-        BOOST_MATH_STD_USING // for ADL of std functions
+        HYDRA_BOOST_MATH_STD_USING // for ADL of std functions
 
         RealType const& k = c.param;
         binomial_distribution<RealType, Policy> const& dist = c.dist;
@@ -602,7 +602,7 @@ namespace boost
         // Error checks:
         RealType result = 0;
         if(false == binomial_detail::check_dist_and_k(
-           "boost::math::cdf(binomial_distribution<%1%> const&, %1%)",
+           "hydra_boost::math::cdf(binomial_distribution<%1%> const&, %1%)",
            n,
            p,
            k,
@@ -663,7 +663,7 @@ namespace boost
       template <class RealType, class Policy>
       inline RealType mode(const binomial_distribution<RealType, Policy>& dist)
       {
-         BOOST_MATH_STD_USING // ADL of std functions.
+         HYDRA_BOOST_MATH_STD_USING // ADL of std functions.
          RealType p = dist.success_fraction();
          RealType n = dist.trials();
          return floor(p * (n + 1));
@@ -680,7 +680,7 @@ namespace boost
         // Bounds for median and 50 percentage point of binomial and negative binomial distribution
         // Metrika, ISSN   0026-1335 (Print) 1435-926X (Online)
         // Volume 41, Number 1 / December, 1994, DOI   10.1007/BF01895303
-         BOOST_MATH_STD_USING // ADL of std functions.
+         HYDRA_BOOST_MATH_STD_USING // ADL of std functions.
          RealType p = dist.success_fraction();
          RealType n = dist.trials();
          // Wikipedia says one of floor(np) -1, floor (np), floor(np) +1
@@ -690,7 +690,7 @@ namespace boost
       template <class RealType, class Policy>
       inline RealType skewness(const binomial_distribution<RealType, Policy>& dist)
       {
-         BOOST_MATH_STD_USING // ADL of std functions.
+         HYDRA_BOOST_MATH_STD_USING // ADL of std functions.
          RealType p = dist.success_fraction();
          RealType n = dist.trials();
          return (1 - 2 * p) / sqrt(n * p * (1 - p));
@@ -714,13 +714,13 @@ namespace boost
       }
 
     } // namespace math
-  } // namespace boost
+  } // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#endif // BOOST_MATH_SPECIAL_BINOMIAL_HPP
+#endif // HYDRA_BOOST_MATH_SPECIAL_BINOMIAL_HPP
 
 

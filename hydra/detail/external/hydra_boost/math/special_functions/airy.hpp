@@ -4,8 +4,8 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_AIRY_HPP
-#define BOOST_MATH_AIRY_HPP
+#ifndef HYDRA_BOOST_MATH_AIRY_HPP
+#define HYDRA_BOOST_MATH_AIRY_HPP
 
 #include <limits>
 #include <hydra/detail/external/hydra_boost/math/special_functions/math_fwd.hpp>
@@ -14,43 +14,43 @@
 #include <hydra/detail/external/hydra_boost/math/special_functions/detail/airy_ai_bi_zero.hpp>
 #include <hydra/detail/external/hydra_boost/math/tools/roots.hpp>
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 namespace detail{
 
 template <class T, class Policy>
 T airy_ai_imp(T x, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
    if(x < 0)
    {
       T p = (-x * sqrt(-x) * 2) / 3;
       T v = T(1) / 3;
-      T j1 = boost::math::cyl_bessel_j(v, p, pol);
-      T j2 = boost::math::cyl_bessel_j(-v, p, pol);
+      T j1 = hydra_boost::math::cyl_bessel_j(v, p, pol);
+      T j2 = hydra_boost::math::cyl_bessel_j(-v, p, pol);
       T ai = sqrt(-x) * (j1 + j2) / 3;
       //T bi = sqrt(-x / 3) * (j2 - j1);
       return ai;
    }
    else if(fabs(x * x * x) / 6 < tools::epsilon<T>())
    {
-      T tg = boost::math::tgamma(constants::twothirds<T>(), pol);
+      T tg = hydra_boost::math::tgamma(constants::twothirds<T>(), pol);
       T ai = 1 / (pow(T(3), constants::twothirds<T>()) * tg);
-      //T bi = 1 / (sqrt(boost::math::cbrt(T(3))) * tg);
+      //T bi = 1 / (sqrt(hydra_boost::math::cbrt(T(3))) * tg);
       return ai;
    }
    else
    {
       T p = 2 * x * sqrt(x) / 3;
       T v = T(1) / 3;
-      //T j1 = boost::math::cyl_bessel_i(-v, p, pol);
-      //T j2 = boost::math::cyl_bessel_i(v, p, pol);
+      //T j1 = hydra_boost::math::cyl_bessel_i(-v, p, pol);
+      //T j2 = hydra_boost::math::cyl_bessel_i(v, p, pol);
       //
       // Note that although we can calculate ai from j1 and j2, the accuracy is horrible
       // as we're subtracting two very large values, so use the Bessel K relation instead:
       //
-      T ai = cyl_bessel_k(v, p, pol) * sqrt(x / 3) / boost::math::constants::pi<T>();  //sqrt(x) * (j1 - j2) / 3;
+      T ai = cyl_bessel_k(v, p, pol) * sqrt(x / 3) / hydra_boost::math::constants::pi<T>();  //sqrt(x) * (j1 - j2) / 3;
       //T bi = sqrt(x / 3) * (j1 + j2);
       return ai;
    }
@@ -59,31 +59,31 @@ T airy_ai_imp(T x, const Policy& pol)
 template <class T, class Policy>
 T airy_bi_imp(T x, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
    if(x < 0)
    {
       T p = (-x * sqrt(-x) * 2) / 3;
       T v = T(1) / 3;
-      T j1 = boost::math::cyl_bessel_j(v, p, pol);
-      T j2 = boost::math::cyl_bessel_j(-v, p, pol);
+      T j1 = hydra_boost::math::cyl_bessel_j(v, p, pol);
+      T j2 = hydra_boost::math::cyl_bessel_j(-v, p, pol);
       //T ai = sqrt(-x) * (j1 + j2) / 3;
       T bi = sqrt(-x / 3) * (j2 - j1);
       return bi;
    }
    else if(fabs(x * x * x) / 6 < tools::epsilon<T>())
    {
-      T tg = boost::math::tgamma(constants::twothirds<T>(), pol);
+      T tg = hydra_boost::math::tgamma(constants::twothirds<T>(), pol);
       //T ai = 1 / (pow(T(3), constants::twothirds<T>()) * tg);
-      T bi = 1 / (sqrt(boost::math::cbrt(T(3), pol)) * tg);
+      T bi = 1 / (sqrt(hydra_boost::math::cbrt(T(3), pol)) * tg);
       return bi;
    }
    else
    {
       T p = 2 * x * sqrt(x) / 3;
       T v = T(1) / 3;
-      T j1 = boost::math::cyl_bessel_i(-v, p, pol);
-      T j2 = boost::math::cyl_bessel_i(v, p, pol);
+      T j1 = hydra_boost::math::cyl_bessel_i(-v, p, pol);
+      T j2 = hydra_boost::math::cyl_bessel_i(v, p, pol);
       T bi = sqrt(x / 3) * (j1 + j2);
       return bi;
    }
@@ -92,34 +92,34 @@ T airy_bi_imp(T x, const Policy& pol)
 template <class T, class Policy>
 T airy_ai_prime_imp(T x, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
    if(x < 0)
    {
       T p = (-x * sqrt(-x) * 2) / 3;
       T v = T(2) / 3;
-      T j1 = boost::math::cyl_bessel_j(v, p, pol);
-      T j2 = boost::math::cyl_bessel_j(-v, p, pol);
+      T j1 = hydra_boost::math::cyl_bessel_j(v, p, pol);
+      T j2 = hydra_boost::math::cyl_bessel_j(-v, p, pol);
       T aip = -x * (j1 - j2) / 3;
       return aip;
    }
    else if(fabs(x * x) / 2 < tools::epsilon<T>())
    {
-      T tg = boost::math::tgamma(constants::third<T>(), pol);
-      T aip = 1 / (boost::math::cbrt(T(3), pol) * tg);
+      T tg = hydra_boost::math::tgamma(constants::third<T>(), pol);
+      T aip = 1 / (hydra_boost::math::cbrt(T(3), pol) * tg);
       return -aip;
    }
    else
    {
       T p = 2 * x * sqrt(x) / 3;
       T v = T(2) / 3;
-      //T j1 = boost::math::cyl_bessel_i(-v, p, pol);
-      //T j2 = boost::math::cyl_bessel_i(v, p, pol);
+      //T j1 = hydra_boost::math::cyl_bessel_i(-v, p, pol);
+      //T j2 = hydra_boost::math::cyl_bessel_i(v, p, pol);
       //
       // Note that although we can calculate ai from j1 and j2, the accuracy is horrible
       // as we're subtracting two very large values, so use the Bessel K relation instead:
       //
-      T aip = -cyl_bessel_k(v, p, pol) * x / (boost::math::constants::root_three<T>() * boost::math::constants::pi<T>());
+      T aip = -cyl_bessel_k(v, p, pol) * x / (hydra_boost::math::constants::root_three<T>() * hydra_boost::math::constants::pi<T>());
       return aip;
    }
 }
@@ -127,30 +127,30 @@ T airy_ai_prime_imp(T x, const Policy& pol)
 template <class T, class Policy>
 T airy_bi_prime_imp(T x, const Policy& pol)
 {
-   BOOST_MATH_STD_USING
+   HYDRA_BOOST_MATH_STD_USING
 
    if(x < 0)
    {
       T p = (-x * sqrt(-x) * 2) / 3;
       T v = T(2) / 3;
-      T j1 = boost::math::cyl_bessel_j(v, p, pol);
-      T j2 = boost::math::cyl_bessel_j(-v, p, pol);
+      T j1 = hydra_boost::math::cyl_bessel_j(v, p, pol);
+      T j2 = hydra_boost::math::cyl_bessel_j(-v, p, pol);
       T aip = -x * (j1 + j2) / constants::root_three<T>();
       return aip;
    }
    else if(fabs(x * x) / 2 < tools::epsilon<T>())
    {
-      T tg = boost::math::tgamma(constants::third<T>(), pol);
-      T bip = sqrt(boost::math::cbrt(T(3), pol)) / tg;
+      T tg = hydra_boost::math::tgamma(constants::third<T>(), pol);
+      T bip = sqrt(hydra_boost::math::cbrt(T(3), pol)) / tg;
       return bip;
    }
    else
    {
       T p = 2 * x * sqrt(x) / 3;
       T v = T(2) / 3;
-      T j1 = boost::math::cyl_bessel_i(-v, p, pol);
-      T j2 = boost::math::cyl_bessel_i(v, p, pol);
-      T aip = x * (j1 + j2) / boost::math::constants::root_three<T>();
+      T j1 = hydra_boost::math::cyl_bessel_i(-v, p, pol);
+      T j2 = hydra_boost::math::cyl_bessel_i(v, p, pol);
+      T aip = x * (j1 + j2) / hydra_boost::math::constants::root_three<T>();
       return aip;
    }
 }
@@ -158,24 +158,24 @@ T airy_bi_prime_imp(T x, const Policy& pol)
 template <class T, class Policy>
 T airy_ai_zero_imp(int m, const Policy& pol)
 {
-   BOOST_MATH_STD_USING // ADL of std names, needed for log, sqrt.
+   HYDRA_BOOST_MATH_STD_USING // ADL of std names, needed for log, sqrt.
 
    // Handle cases when a negative zero (negative rank) is requested.
    if(m < 0)
    {
-      return policies::raise_domain_error<T>("boost::math::airy_ai_zero<%1%>(%1%, int)",
+      return policies::raise_domain_error<T>("hydra_boost::math::airy_ai_zero<%1%>(%1%, int)",
          "Requested the %1%'th zero, but the rank must be 1 or more !", static_cast<T>(m), pol);
    }
 
    // Handle case when the zero'th zero is requested.
    if(m == 0U)
    {
-      return policies::raise_domain_error<T>("boost::math::airy_ai_zero<%1%>(%1%,%1%)",
+      return policies::raise_domain_error<T>("hydra_boost::math::airy_ai_zero<%1%>(%1%,%1%)",
         "The requested rank of the zero is %1%, but must be 1 or more !", static_cast<T>(m), pol);
    }
 
    // Set up the initial guess for the upcoming root-finding.
-   const T guess_root = boost::math::detail::airy_zero::airy_ai_zero_detail::initial_guess<T>(m, pol);
+   const T guess_root = hydra_boost::math::detail::airy_zero::airy_ai_zero_detail::initial_guess<T>(m, pol);
 
    // Select the maximum allowed iterations based on the number
    // of decimal digits in the numeric type T, being at least 12.
@@ -195,8 +195,8 @@ T airy_ai_zero_imp(int m, const Policy& pol)
 
    // Perform the root-finding using Newton-Raphson iteration from Boost.Math.
    const T am =
-      boost::math::tools::newton_raphson_iterate(
-         boost::math::detail::airy_zero::airy_ai_zero_detail::function_object_ai_and_ai_prime<T, Policy>(pol),
+      hydra_boost::math::tools::newton_raphson_iterate(
+         hydra_boost::math::detail::airy_zero::airy_ai_zero_detail::function_object_ai_and_ai_prime<T, Policy>(pol),
          guess_root,
          T(guess_root - tolerance),
          T(guess_root + tolerance),
@@ -211,23 +211,23 @@ T airy_ai_zero_imp(int m, const Policy& pol)
 template <class T, class Policy>
 T airy_bi_zero_imp(int m, const Policy& pol)
 {
-   BOOST_MATH_STD_USING // ADL of std names, needed for log, sqrt.
+   HYDRA_BOOST_MATH_STD_USING // ADL of std names, needed for log, sqrt.
 
    // Handle cases when a negative zero (negative rank) is requested.
    if(m < 0)
    {
-      return policies::raise_domain_error<T>("boost::math::airy_bi_zero<%1%>(%1%, int)",
+      return policies::raise_domain_error<T>("hydra_boost::math::airy_bi_zero<%1%>(%1%, int)",
          "Requested the %1%'th zero, but the rank must 1 or more !", static_cast<T>(m), pol);
    }
 
    // Handle case when the zero'th zero is requested.
    if(m == 0U)
    {
-      return policies::raise_domain_error<T>("boost::math::airy_bi_zero<%1%>(%1%,%1%)",
+      return policies::raise_domain_error<T>("hydra_boost::math::airy_bi_zero<%1%>(%1%,%1%)",
         "The requested rank of the zero is %1%, but must be 1 or more !", static_cast<T>(m), pol);
    }
    // Set up the initial guess for the upcoming root-finding.
-   const T guess_root = boost::math::detail::airy_zero::airy_bi_zero_detail::initial_guess<T>(m, pol);
+   const T guess_root = hydra_boost::math::detail::airy_zero::airy_bi_zero_detail::initial_guess<T>(m, pol);
 
    // Select the maximum allowed iterations based on the number
    // of decimal digits in the numeric type T, being at least 12.
@@ -247,8 +247,8 @@ T airy_bi_zero_imp(int m, const Policy& pol)
 
    // Perform the root-finding using Newton-Raphson iteration from Boost.Math.
    const T bm =
-      boost::math::tools::newton_raphson_iterate(
-         boost::math::detail::airy_zero::airy_bi_zero_detail::function_object_bi_and_bi_prime<T, Policy>(pol),
+      hydra_boost::math::tools::newton_raphson_iterate(
+         hydra_boost::math::detail::airy_zero::airy_bi_zero_detail::function_object_bi_and_bi_prime<T, Policy>(pol),
          guess_root,
          T(guess_root - tolerance),
          T(guess_root + tolerance),
@@ -265,7 +265,7 @@ T airy_bi_zero_imp(int m, const Policy& pol)
 template <class T, class Policy>
 inline typename tools::promote_args<T>::type airy_ai(T x, const Policy&)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -275,7 +275,7 @@ inline typename tools::promote_args<T>::type airy_ai(T x, const Policy&)
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   return policies::checked_narrowing_cast<result_type, Policy>(detail::airy_ai_imp<value_type>(static_cast<value_type>(x), forwarding_policy()), "boost::math::airy<%1%>(%1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(detail::airy_ai_imp<value_type>(static_cast<value_type>(x), forwarding_policy()), "hydra_boost::math::airy<%1%>(%1%)");
 }
 
 template <class T>
@@ -287,7 +287,7 @@ inline typename tools::promote_args<T>::type airy_ai(T x)
 template <class T, class Policy>
 inline typename tools::promote_args<T>::type airy_bi(T x, const Policy&)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -297,7 +297,7 @@ inline typename tools::promote_args<T>::type airy_bi(T x, const Policy&)
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   return policies::checked_narrowing_cast<result_type, Policy>(detail::airy_bi_imp<value_type>(static_cast<value_type>(x), forwarding_policy()), "boost::math::airy<%1%>(%1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(detail::airy_bi_imp<value_type>(static_cast<value_type>(x), forwarding_policy()), "hydra_boost::math::airy<%1%>(%1%)");
 }
 
 template <class T>
@@ -309,7 +309,7 @@ inline typename tools::promote_args<T>::type airy_bi(T x)
 template <class T, class Policy>
 inline typename tools::promote_args<T>::type airy_ai_prime(T x, const Policy&)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -319,7 +319,7 @@ inline typename tools::promote_args<T>::type airy_ai_prime(T x, const Policy&)
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   return policies::checked_narrowing_cast<result_type, Policy>(detail::airy_ai_prime_imp<value_type>(static_cast<value_type>(x), forwarding_policy()), "boost::math::airy<%1%>(%1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(detail::airy_ai_prime_imp<value_type>(static_cast<value_type>(x), forwarding_policy()), "hydra_boost::math::airy<%1%>(%1%)");
 }
 
 template <class T>
@@ -331,7 +331,7 @@ inline typename tools::promote_args<T>::type airy_ai_prime(T x)
 template <class T, class Policy>
 inline typename tools::promote_args<T>::type airy_bi_prime(T x, const Policy&)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -341,7 +341,7 @@ inline typename tools::promote_args<T>::type airy_bi_prime(T x, const Policy&)
       policies::discrete_quantile<>,
       policies::assert_undefined<> >::type forwarding_policy;
 
-   return policies::checked_narrowing_cast<result_type, Policy>(detail::airy_bi_prime_imp<value_type>(static_cast<value_type>(x), forwarding_policy()), "boost::math::airy<%1%>(%1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(detail::airy_bi_prime_imp<value_type>(static_cast<value_type>(x), forwarding_policy()), "hydra_boost::math::airy<%1%>(%1%)");
 }
 
 template <class T>
@@ -353,7 +353,7 @@ inline typename tools::promote_args<T>::type airy_bi_prime(T x)
 template <class T, class Policy>
 inline T airy_ai_zero(int m, const Policy& /*pol*/)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename policies::evaluation<T, Policy>::type value_type;
    typedef typename policies::normalise<
       Policy, 
@@ -367,7 +367,7 @@ inline T airy_ai_zero(int m, const Policy& /*pol*/)
                                && false == std::numeric_limits<T>::is_integer),
                            "Airy value type must be a floating-point type.");
 
-   return policies::checked_narrowing_cast<T, Policy>(detail::airy_ai_zero_imp<value_type>(m, forwarding_policy()), "boost::math::airy_ai_zero<%1%>(unsigned)");
+   return policies::checked_narrowing_cast<T, Policy>(detail::airy_ai_zero_imp<value_type>(m, forwarding_policy()), "hydra_boost::math::airy_ai_zero<%1%>(unsigned)");
 }
 
 template <class T>
@@ -392,7 +392,7 @@ inline OutputIterator airy_ai_zero(
 
    for(unsigned i = 0; i < number_of_zeros; ++i)
    {
-      *out_it = boost::math::airy_ai_zero<result_type>(start_index + i, pol);
+      *out_it = hydra_boost::math::airy_ai_zero<result_type>(start_index + i, pol);
       ++out_it;
    }
    return out_it;
@@ -410,7 +410,7 @@ inline OutputIterator airy_ai_zero(
 template <class T, class Policy>
 inline T airy_bi_zero(int m, const Policy& /*pol*/)
 {
-   BOOST_FPU_EXCEPTION_GUARD
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename policies::evaluation<T, Policy>::type value_type;
    typedef typename policies::normalise<
       Policy, 
@@ -424,7 +424,7 @@ inline T airy_bi_zero(int m, const Policy& /*pol*/)
                                && false == std::numeric_limits<T>::is_integer),
                            "Airy value type must be a floating-point type.");
 
-   return policies::checked_narrowing_cast<T, Policy>(detail::airy_bi_zero_imp<value_type>(m, forwarding_policy()), "boost::math::airy_bi_zero<%1%>(unsigned)");
+   return policies::checked_narrowing_cast<T, Policy>(detail::airy_bi_zero_imp<value_type>(m, forwarding_policy()), "hydra_boost::math::airy_bi_zero<%1%>(unsigned)");
 }
 
 template <typename T>
@@ -449,7 +449,7 @@ inline OutputIterator airy_bi_zero(
 
    for(unsigned i = 0; i < number_of_zeros; ++i)
    {
-      *out_it = boost::math::airy_bi_zero<result_type>(start_index + i, pol);
+      *out_it = hydra_boost::math::airy_bi_zero<result_type>(start_index + i, pol);
       ++out_it;
    }
    return out_it;
@@ -466,4 +466,4 @@ inline OutputIterator airy_bi_zero(
 
 }} // namespaces
 
-#endif // BOOST_MATH_AIRY_HPP
+#endif // HYDRA_BOOST_MATH_AIRY_HPP

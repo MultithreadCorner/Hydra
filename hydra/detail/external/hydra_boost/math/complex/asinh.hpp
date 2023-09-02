@@ -3,17 +3,17 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_COMPLEX_ASINH_INCLUDED
-#define BOOST_MATH_COMPLEX_ASINH_INCLUDED
+#ifndef HYDRA_BOOST_MATH_COMPLEX_ASINH_INCLUDED
+#define HYDRA_BOOST_MATH_COMPLEX_ASINH_INCLUDED
 
-#ifndef BOOST_MATH_COMPLEX_DETAILS_INCLUDED
+#ifndef HYDRA_BOOST_MATH_COMPLEX_DETAILS_INCLUDED
 #  include <hydra/detail/external/hydra_boost/math/complex/details.hpp>
 #endif
-#ifndef BOOST_MATH_COMPLEX_ASIN_INCLUDED
+#ifndef HYDRA_BOOST_MATH_COMPLEX_ASIN_INCLUDED
 #  include <hydra/detail/external/hydra_boost/math/complex/asin.hpp>
 #endif
 
-namespace boost{ namespace math{
+namespace hydra_boost{ namespace math{
 
 template<class T> 
 [[deprecated("Replaced by C++11")]] inline std::complex<T> asinh(const std::complex<T>& x)
@@ -24,9 +24,9 @@ template<class T>
    // to say asin is specified in terms of asinh), this is consistent
    // with C99 though:
    //
-   return ::boost::math::detail::mult_i(::boost::math::asin(::boost::math::detail::mult_minus_i(x)));
+   return ::hydra_boost::math::detail::mult_i(::hydra_boost::math::asin(::hydra_boost::math::detail::mult_minus_i(x)));
 }
 
 } } // namespaces
 
-#endif // BOOST_MATH_COMPLEX_ASINH_INCLUDED
+#endif // HYDRA_BOOST_MATH_COMPLEX_ASINH_INCLUDED

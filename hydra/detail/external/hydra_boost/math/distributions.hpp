@@ -9,8 +9,8 @@
 // this *may* be convenient if many are used
 // - to avoid including each distribution individually.
 
-#ifndef BOOST_MATH_DISTRIBUTIONS_HPP
-#define BOOST_MATH_DISTRIBUTIONS_HPP
+#ifndef HYDRA_BOOST_MATH_DISTRIBUTIONS_HPP
+#define HYDRA_BOOST_MATH_DISTRIBUTIONS_HPP
 
 #include <hydra/detail/external/hydra_boost/math/distributions/arcsine.hpp>
 #include <hydra/detail/external/hydra_boost/math/distributions/bernoulli.hpp>
@@ -50,5 +50,5 @@
 #include <hydra/detail/external/hydra_boost/math/distributions/find_scale.hpp>
 #include <hydra/detail/external/hydra_boost/math/distributions/find_location.hpp>
 
-#endif // BOOST_MATH_DISTRIBUTIONS_HPP
+#endif // HYDRA_BOOST_MATH_DISTRIBUTIONS_HPP
 

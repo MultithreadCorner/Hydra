@@ -4,8 +4,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SPECIAL_FUNCTIONS_IBETA_INVERSE_HPP
-#define BOOST_MATH_SPECIAL_FUNCTIONS_IBETA_INVERSE_HPP
+#ifndef HYDRA_BOOST_MATH_SPECIAL_FUNCTIONS_IBETA_INVERSE_HPP
+#define HYDRA_BOOST_MATH_SPECIAL_FUNCTIONS_IBETA_INVERSE_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,7 +16,7 @@
 #include <hydra/detail/external/hydra_boost/math/tools/roots.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/detail/t_distribution_inv.hpp>
 
-namespace boost{ namespace math{ namespace detail{
+namespace hydra_boost{ namespace math{ namespace detail{
 
 //
 // Helper object used by root finding
@@ -27,24 +27,24 @@ struct temme_root_finder
 {
    temme_root_finder(const T t_, const T a_) : t(t_), a(a_) {}
 
-   boost::math::tuple<T, T> operator()(T x)
+   hydra_boost::math::tuple<T, T> operator()(T x)
    {
-      BOOST_MATH_STD_USING // ADL of std names
+      HYDRA_BOOST_MATH_STD_USING // ADL of std names
 
       T y = 1 - x;
       if(y == 0)
       {
          T big = tools::max_value<T>() / 4;
-         return boost::math::make_tuple(static_cast<T>(-big), static_cast<T>(-big));
+         return hydra_boost::math::make_tuple(static_cast<T>(-big), static_cast<T>(-big));
       }
       if(x == 0)
       {
          T big = tools::max_value<T>() / 4;
-         return boost::math::make_tuple(static_cast<T>(-big), big);
+         return hydra_boost::math::make_tuple(static_cast<T>(-big), big);
       }
       T f = log(x) + a * log(y) + t;
       T f1 = (1 / x) - (a / (y));
-      return boost::math::make_tuple(f, f1);
+      return hydra_boost::math::make_tuple(f, f1);
    }
 private:
    T t, a;
@@ -59,14 +59,14 @@ private:
 template <class T, class Policy>
 T temme_method_1_ibeta_inverse(T a, T b, T z, const Policy& pol)
 {
-   BOOST_MATH_STD_USING // ADL of std names
+   HYDRA_BOOST_MATH_STD_USING // ADL of std names
 
    const T r2 = sqrt(T(2));
    //
    // get the first approximation for eta from the inverse
    // error function (Eq: 2.9 and 2.10).
    //
-   T eta0 = boost::math::erfc_inv(2 * z, pol);
+   T eta0 = hydra_boost::math::erfc_inv(2 * z, pol);
    eta0 /= -sqrt(a / 2);
 
    T terms[4] = { eta0 };
@@ -115,7 +115,7 @@ T temme_method_1_ibeta_inverse(T a, T b, T z, const Policy& pol)
    T c = -exp(-eta_2 / 2);
    T x;
    if(eta_2 == 0)
-      x = static_cast<T>(0.5f);
+      x = 0.5;
    else
       x = (1 + eta * sqrt((1 + c) / eta_2)) / 2;
    //
@@ -129,8 +129,8 @@ T temme_method_1_ibeta_inverse(T a, T b, T z, const Policy& pol)
    else if (x > 1)
       x = 1;
    
-   BOOST_MATH_ASSERT(eta * (x - 0.5) >= 0);
-#ifdef BOOST_INSTRUMENT
+   HYDRA_BOOST_MATH_ASSERT(eta * (x - 0.5) >= 0);
+#ifdef HYDRA_BOOST_INSTRUMENT
    std::cout << "Estimating x with Temme method 1: " << x << std::endl;
 #endif
    return x;
@@ -145,13 +145,13 @@ T temme_method_1_ibeta_inverse(T a, T b, T z, const Policy& pol)
 template <class T, class Policy>
 T temme_method_2_ibeta_inverse(T /*a*/, T /*b*/, T z, T r, T theta, const Policy& pol)
 {
-   BOOST_MATH_STD_USING // ADL of std names
+   HYDRA_BOOST_MATH_STD_USING // ADL of std names
 
    //
    // Get first estimate for eta, see Eq 3.9 and 3.10,
    // but note there is a typo in Eq 3.10:
    //
-   T eta0 = boost::math::erfc_inv(2 * z, pol);
+   T eta0 = hydra_boost::math::erfc_inv(2 * z, pol);
    eta0 /= -sqrt(r / 2);
 
    T s = sin(theta);
@@ -180,35 +180,35 @@ T temme_method_2_ibeta_inverse(T /*a*/, T /*b*/, T z, T r, T theta, const Policy
    // Calculate e1 and put it in terms[1], see the middle of page 151:
    //
    workspace[0] = (2 * s * s - 1) / (3 * s * c);
-   static const BOOST_MATH_INT_TABLE_TYPE(T, int) co1[] = { -1, -5, 5 };
+   static const HYDRA_BOOST_MATH_INT_TABLE_TYPE(T, int) co1[] = { -1, -5, 5 };
    workspace[1] = -tools::evaluate_even_polynomial(co1, s, 3) / (36 * sc_2);
-   static const BOOST_MATH_INT_TABLE_TYPE(T, int) co2[] = { 1, 21, -69, 46 };
+   static const HYDRA_BOOST_MATH_INT_TABLE_TYPE(T, int) co2[] = { 1, 21, -69, 46 };
    workspace[2] = tools::evaluate_even_polynomial(co2, s, 4) / (1620 * sc_3);
-   static const BOOST_MATH_INT_TABLE_TYPE(T, int) co3[] = { 7, -2, 33, -62, 31 };
+   static const HYDRA_BOOST_MATH_INT_TABLE_TYPE(T, int) co3[] = { 7, -2, 33, -62, 31 };
    workspace[3] = -tools::evaluate_even_polynomial(co3, s, 5) / (6480 * sc_4);
-   static const BOOST_MATH_INT_TABLE_TYPE(T, int) co4[] = { 25, -52, -17, 88, -115, 46 };
+   static const HYDRA_BOOST_MATH_INT_TABLE_TYPE(T, int) co4[] = { 25, -52, -17, 88, -115, 46 };
    workspace[4] = tools::evaluate_even_polynomial(co4, s, 6) / (90720 * sc_5);
    terms[1] = tools::evaluate_polynomial(workspace, eta0, 5);
    //
    // Now evaluate e2 and put it in terms[2]:
    //
-   static const BOOST_MATH_INT_TABLE_TYPE(T, int) co5[] = { 7, 12, -78, 52 };
+   static const HYDRA_BOOST_MATH_INT_TABLE_TYPE(T, int) co5[] = { 7, 12, -78, 52 };
    workspace[0] = -tools::evaluate_even_polynomial(co5, s, 4) / (405 * sc_3);
-   static const BOOST_MATH_INT_TABLE_TYPE(T, int) co6[] = { -7, 2, 183, -370, 185 };
+   static const HYDRA_BOOST_MATH_INT_TABLE_TYPE(T, int) co6[] = { -7, 2, 183, -370, 185 };
    workspace[1] = tools::evaluate_even_polynomial(co6, s, 5) / (2592 * sc_4);
-   static const BOOST_MATH_INT_TABLE_TYPE(T, int) co7[] = { -533, 776, -1835, 10240, -13525, 5410 };
+   static const HYDRA_BOOST_MATH_INT_TABLE_TYPE(T, int) co7[] = { -533, 776, -1835, 10240, -13525, 5410 };
    workspace[2] = -tools::evaluate_even_polynomial(co7, s, 6) / (204120 * sc_5);
-   static const BOOST_MATH_INT_TABLE_TYPE(T, int) co8[] = { -1579, 3747, -3372, -15821, 45588, -45213, 15071 };
+   static const HYDRA_BOOST_MATH_INT_TABLE_TYPE(T, int) co8[] = { -1579, 3747, -3372, -15821, 45588, -45213, 15071 };
    workspace[3] = -tools::evaluate_even_polynomial(co8, s, 7) / (2099520 * sc_6);
    terms[2] = tools::evaluate_polynomial(workspace, eta0, 4);
    //
    // And e3, and put it in terms[3]:
    //
-   static const BOOST_MATH_INT_TABLE_TYPE(T, int) co9[] = {449, -1259, -769, 6686, -9260, 3704 };
+   static const HYDRA_BOOST_MATH_INT_TABLE_TYPE(T, int) co9[] = {449, -1259, -769, 6686, -9260, 3704 };
    workspace[0] = tools::evaluate_even_polynomial(co9, s, 6) / (102060 * sc_5);
-   static const BOOST_MATH_INT_TABLE_TYPE(T, int) co10[] = { 63149, -151557, 140052, -727469, 2239932, -2251437, 750479 };
+   static const HYDRA_BOOST_MATH_INT_TABLE_TYPE(T, int) co10[] = { 63149, -151557, 140052, -727469, 2239932, -2251437, 750479 };
    workspace[1] = -tools::evaluate_even_polynomial(co10, s, 7) / (20995200 * sc_6);
-   static const BOOST_MATH_INT_TABLE_TYPE(T, int) co11[] = { 29233, -78755, 105222, 146879, -1602610, 3195183, -2554139, 729754 };
+   static const HYDRA_BOOST_MATH_INT_TABLE_TYPE(T, int) co11[] = { 29233, -78755, 105222, 146879, -1602610, 3195183, -2554139, 729754 };
    workspace[2] = tools::evaluate_even_polynomial(co11, s, 8) / (36741600 * sc_7);
    terms[3] = tools::evaluate_polynomial(workspace, eta0, 3);
    //
@@ -242,12 +242,12 @@ T temme_method_2_ibeta_inverse(T /*a*/, T /*b*/, T z, T r, T theta, const Policy
       workspace[0] = s * s;
       workspace[1] = s * c;
       workspace[2] = (1 - 2 * workspace[0]) / 3;
-      static const BOOST_MATH_INT_TABLE_TYPE(T, int) co12[] = { 1, -13, 13 };
+      static const HYDRA_BOOST_MATH_INT_TABLE_TYPE(T, int) co12[] = { 1, -13, 13 };
       workspace[3] = tools::evaluate_polynomial(co12, workspace[0], 3) / (36 * s * c);
-      static const BOOST_MATH_INT_TABLE_TYPE(T, int) co13[] = { 1, 21, -69, 46 };
+      static const HYDRA_BOOST_MATH_INT_TABLE_TYPE(T, int) co13[] = { 1, 21, -69, 46 };
       workspace[4] = tools::evaluate_polynomial(co13, workspace[0], 4) / (270 * workspace[0] * c * c);
       x = tools::evaluate_polynomial(workspace, eta, 5);
-#ifdef BOOST_INSTRUMENT
+#ifdef HYDRA_BOOST_INSTRUMENT
       std::cout << "Estimating x with Temme method 2 (small eta): " << x << std::endl;
 #endif
    }
@@ -277,7 +277,7 @@ T temme_method_2_ibeta_inverse(T /*a*/, T /*b*/, T z, T r, T theta, const Policy
       //
       if((x - s_2) * eta < 0)
          x = 1 - x;
-#ifdef BOOST_INSTRUMENT
+#ifdef HYDRA_BOOST_INSTRUMENT
       std::cout << "Estimating x with Temme method 2 (large eta): " << x << std::endl;
 #endif
    }
@@ -322,7 +322,7 @@ T temme_method_2_ibeta_inverse(T /*a*/, T /*b*/, T z, T r, T theta, const Policy
 template <class T, class Policy>
 T temme_method_3_ibeta_inverse(T a, T b, T p, T q, const Policy& pol)
 {
-   BOOST_MATH_STD_USING // ADL of std names
+   HYDRA_BOOST_MATH_STD_USING // ADL of std names
 
    //
    // Begin by getting an initial approximation for the quantity
@@ -330,9 +330,9 @@ T temme_method_3_ibeta_inverse(T a, T b, T p, T q, const Policy& pol)
    //
    T eta0;
    if(p < q)
-      eta0 = boost::math::gamma_q_inv(b, p, pol);
+      eta0 = hydra_boost::math::gamma_q_inv(b, p, pol);
    else
-      eta0 = boost::math::gamma_p_inv(b, q, pol);
+      eta0 = hydra_boost::math::gamma_p_inv(b, q, pol);
    eta0 /= a;
    //
    // Define the variables and powers we'll need later on:
@@ -412,7 +412,7 @@ T temme_method_3_ibeta_inverse(T a, T b, T p, T q, const Policy& pol)
    T x = (lower + upper) / 2;
    x = tools::newton_raphson_iterate(
       temme_root_finder<T>(u, mu), x, lower, upper, policies::digits<T, Policy>() / 2);
-#ifdef BOOST_INSTRUMENT
+#ifdef HYDRA_BOOST_INSTRUMENT
    std::cout << "Estimating x with Temme method 3: " << x << std::endl;
 #endif
    return x;
@@ -424,11 +424,11 @@ struct ibeta_roots
    ibeta_roots(T _a, T _b, T t, bool inv = false)
       : a(_a), b(_b), target(t), invert(inv) {}
 
-   boost::math::tuple<T, T, T> operator()(T x)
+   hydra_boost::math::tuple<T, T, T> operator()(T x)
    {
-      BOOST_MATH_STD_USING // ADL of std names
+      HYDRA_BOOST_MATH_STD_USING // ADL of std names
 
-      BOOST_FPU_EXCEPTION_GUARD
+      HYDRA_BOOST_FPU_EXCEPTION_GUARD
 
       T f1;
       T y = 1 - x;
@@ -450,7 +450,7 @@ struct ibeta_roots
       if(f1 == 0)
          f1 = (invert ? -1 : 1) * tools::min_value<T>() * 64;
 
-      return boost::math::make_tuple(f, f1, f2);
+      return hydra_boost::math::make_tuple(f, f1, f2);
    }
 private:
    T a, b, target;
@@ -460,7 +460,7 @@ private:
 template <class T, class Policy>
 T ibeta_inv_imp(T a, T b, T p, T q, const Policy& pol, T* py)
 {
-   BOOST_MATH_STD_USING  // For ADL of math functions.
+   HYDRA_BOOST_MATH_STD_USING  // For ADL of math functions.
 
    //
    // The flag invert is set to true if we swap a for b and p for q,
@@ -546,7 +546,7 @@ T ibeta_inv_imp(T a, T b, T p, T q, const Policy& pol, T* py)
          if(a > 1)
          {
             x = pow(p, 1 / a);
-            y = -boost::math::expm1(log(p) / a, pol);
+            y = -hydra_boost::math::expm1(log(p) / a, pol);
          }
          else
          {
@@ -556,8 +556,8 @@ T ibeta_inv_imp(T a, T b, T p, T q, const Policy& pol, T* py)
       }
       else
       {
-         x = exp(boost::math::log1p(-q, pol) / a);
-         y = -boost::math::expm1(boost::math::log1p(-q, pol) / a, pol);
+         x = exp(hydra_boost::math::log1p(-q, pol) / a);
+         y = -hydra_boost::math::expm1(hydra_boost::math::log1p(-q, pol) / a, pol);
       }
       if(invert)
          std::swap(x, y);
@@ -612,7 +612,7 @@ T ibeta_inv_imp(T a, T b, T p, T q, const Policy& pol, T* py)
             T ppa = pow(p, 1/a);
             if((ppa < 0.0025) && (a + b < 200))
             {
-               x = ppa * pow(a * boost::math::beta(a, b, pol), 1/a);
+               x = ppa * pow(a * hydra_boost::math::beta(a, b, pol), 1/a);
             }
             else
                x = temme_method_2_ibeta_inverse(a, b, p, r, theta, pol);
@@ -641,19 +641,19 @@ T ibeta_inv_imp(T a, T b, T p, T q, const Policy& pol, T* py)
             T bet = 0;
             if (b < 2)
             {
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
                try
 #endif
                {
-                  bet = boost::math::beta(a, b, pol);
+                  bet = hydra_boost::math::beta(a, b, pol);
 
                   typedef typename Policy::overflow_error_type overflow_type;
 
-                  BOOST_IF_CONSTEXPR(overflow_type::value != boost::math::policies::throw_on_error)
+                  HYDRA_BOOST_IF_CONSTEXPR(overflow_type::value != hydra_boost::math::policies::throw_on_error)
                      if(bet > tools::max_value<T>())
                         bet = tools::max_value<T>();
                }
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
                catch (const std::overflow_error&)
                {
                   bet = tools::max_value<T>();
@@ -686,7 +686,7 @@ T ibeta_inv_imp(T a, T b, T p, T q, const Policy& pol, T* py)
       // Now we need to ensure that we start our iteration from the
       // right side of the inflection point:
       //
-      T fs = boost::math::ibeta(a, b, xs, pol) - p;
+      T fs = hydra_boost::math::ibeta(a, b, xs, pol) - p;
       if(fabs(fs) / p < tools::epsilon<T>() * 3)
       {
          // The result is at the point of inflection, best just return it:
@@ -715,20 +715,20 @@ T ibeta_inv_imp(T a, T b, T p, T q, const Policy& pol, T* py)
       T bet = 0;
       T xg;
       bool overflow = false;
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
       try {
 #endif
-         bet = boost::math::beta(a, b, pol);
-#ifndef BOOST_NO_EXCEPTIONS
+         bet = hydra_boost::math::beta(a, b, pol);
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
       }
       catch (const std::runtime_error&)
       {
          overflow = true;
       }
 #endif
-      if (overflow || !(boost::math::isfinite)(bet))
+      if (overflow || !(hydra_boost::math::isfinite)(bet))
       {
-         xg = exp((boost::math::lgamma(a + 1, pol) + boost::math::lgamma(b, pol) - boost::math::lgamma(a + b, pol) + log(p)) / a);
+         xg = exp((hydra_boost::math::lgamma(a + 1, pol) + hydra_boost::math::lgamma(b, pol) - hydra_boost::math::lgamma(a + b, pol) + log(p)) / a);
          if (xg > 2 / tools::epsilon<T>())
             xg = 2 / tools::epsilon<T>();
       }
@@ -755,7 +755,7 @@ T ibeta_inv_imp(T a, T b, T p, T q, const Policy& pol, T* py)
       //
       T xs = (a - 1) / (a + b - 2);
       T xs2 = (b - 1) / (a + b - 2);
-      T ps = boost::math::ibeta(a, b, xs, pol) - p;
+      T ps = hydra_boost::math::ibeta(a, b, xs, pol) - p;
 
       if(ps < 0)
       {
@@ -768,9 +768,9 @@ T ibeta_inv_imp(T a, T b, T p, T q, const Policy& pol, T* py)
       // Estimate x and y, using expm1 to get a good estimate
       // for y when it's very small:
       //
-      T lx = log(p * a * boost::math::beta(a, b, pol)) / a;
+      T lx = log(p * a * hydra_boost::math::beta(a, b, pol)) / a;
       x = exp(lx);
-      y = x < 0.9 ? T(1 - x) : (T)(-boost::math::expm1(lx, pol));
+      y = x < 0.9 ? T(1 - x) : (T)(-hydra_boost::math::expm1(lx, pol));
 
       if((b < a) && (x < 0.2))
       {
@@ -830,14 +830,14 @@ T ibeta_inv_imp(T a, T b, T p, T q, const Policy& pol, T* py)
       }
       if(pow(p, 1/a) < 0.5)
       {
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
          try 
          {
 #endif
-            x = pow(p * a * boost::math::beta(a, b, pol), 1 / a);
-            if ((x > 1) || !(boost::math::isfinite)(x))
+            x = pow(p * a * hydra_boost::math::beta(a, b, pol), 1 / a);
+            if ((x > 1) || !(hydra_boost::math::isfinite)(x))
                x = 1;
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
          }
          catch (const std::overflow_error&)
          {
@@ -845,20 +845,20 @@ T ibeta_inv_imp(T a, T b, T p, T q, const Policy& pol, T* py)
          }
 #endif
          if(x == 0)
-            x = boost::math::tools::min_value<T>();
+            x = hydra_boost::math::tools::min_value<T>();
          y = 1 - x;
       }
       else /*if(pow(q, 1/b) < 0.1)*/
       {
          // model a distorted quarter circle:
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
          try 
          {
 #endif
-            y = pow(1 - pow(p, b * boost::math::beta(a, b, pol)), 1/b);
-            if ((y > 1) || !(boost::math::isfinite)(y))
+            y = pow(1 - pow(p, b * hydra_boost::math::beta(a, b, pol)), 1/b);
+            if ((y > 1) || !(hydra_boost::math::isfinite)(y))
                y = 1;
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef HYDRA_BOOST_NO_EXCEPTIONS
          }
          catch (const std::overflow_error&)
          {
@@ -866,7 +866,7 @@ T ibeta_inv_imp(T a, T b, T p, T q, const Policy& pol, T* py)
          }
 #endif
          if(y == 0)
-            y = boost::math::tools::min_value<T>();
+            y = hydra_boost::math::tools::min_value<T>();
          x = 1 - y;
       }
    }
@@ -900,12 +900,12 @@ T ibeta_inv_imp(T a, T b, T p, T q, const Policy& pol, T* py)
          //
          // We're not interested in answers smaller than machine epsilon:
          //
-         lower = boost::math::tools::epsilon<T>();
+         lower = hydra_boost::math::tools::epsilon<T>();
          if(x < lower)
             x = lower;
       }
       else
-         lower = boost::math::tools::min_value<T>();
+         lower = hydra_boost::math::tools::min_value<T>();
       if(x < lower)
          x = lower;
    }
@@ -914,7 +914,7 @@ T ibeta_inv_imp(T a, T b, T p, T q, const Policy& pol, T* py)
    //
    // Figure out how many digits to iterate towards:
    //
-   int digits = boost::math::policies::digits<T, Policy>() / 2;
+   int digits = hydra_boost::math::policies::digits<T, Policy>() / 2;
    if((x < 1e-50) && ((a < 1) || (b < 1)))
    {
       //
@@ -933,15 +933,15 @@ T ibeta_inv_imp(T a, T b, T p, T q, const Policy& pol, T* py)
    // Now iterate, we can use either p or q as the target here
    // depending on which is smaller:
    //
-   x = boost::math::tools::halley_iterate(
-      boost::math::detail::ibeta_roots<T, Policy>(a, b, (p < q ? p : q), (p < q ? false : true)), x, lower, upper, digits, max_iter);
-   policies::check_root_iterations<T>("boost::math::ibeta<%1%>(%1%, %1%, %1%)", max_iter + max_iter_used, pol);
+   x = hydra_boost::math::tools::halley_iterate(
+      hydra_boost::math::detail::ibeta_roots<T, Policy>(a, b, (p < q ? p : q), (p < q ? false : true)), x, lower, upper, digits, max_iter);
+   policies::check_root_iterations<T>("hydra_boost::math::ibeta<%1%>(%1%, %1%, %1%)", max_iter + max_iter_used, pol);
    //
    // We don't really want these asserts here, but they are useful for sanity
    // checking that we have the limits right, uncomment if you suspect bugs *only*.
    //
-   //BOOST_MATH_ASSERT(x != upper);
-   //BOOST_MATH_ASSERT((x != lower) || (x == boost::math::tools::min_value<T>()) || (x == boost::math::tools::epsilon<T>()));
+   //HYDRA_BOOST_MATH_ASSERT(x != upper);
+   //HYDRA_BOOST_MATH_ASSERT((x != lower) || (x == hydra_boost::math::tools::min_value<T>()) || (x == hydra_boost::math::tools::epsilon<T>()));
    //
    // Tidy up, if we "lower" was too high then zero is the best answer we have:
    //
@@ -958,8 +958,8 @@ template <class T1, class T2, class T3, class T4, class Policy>
 inline typename tools::promote_args<T1, T2, T3, T4>::type
    ibeta_inv(T1 a, T2 b, T3 p, T4* py, const Policy& pol)
 {
-   static const char* function = "boost::math::ibeta_inv<%1%>(%1%,%1%,%1%)";
-   BOOST_FPU_EXCEPTION_GUARD
+   static const char* function = "hydra_boost::math::ibeta_inv<%1%>(%1%,%1%,%1%)";
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T1, T2, T3, T4>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -1016,8 +1016,8 @@ template <class T1, class T2, class T3, class T4, class Policy>
 inline typename tools::promote_args<T1, T2, T3, T4>::type
    ibetac_inv(T1 a, T2 b, T3 q, T4* py, const Policy& pol)
 {
-   static const char* function = "boost::math::ibetac_inv<%1%>(%1%,%1%,%1%)";
-   BOOST_FPU_EXCEPTION_GUARD
+   static const char* function = "hydra_boost::math::ibetac_inv<%1%>(%1%,%1%,%1%)";
+   HYDRA_BOOST_FPU_EXCEPTION_GUARD
    typedef typename tools::promote_args<T1, T2, T3, T4>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
    typedef typename policies::normalise<
@@ -1071,9 +1071,9 @@ inline typename tools::promote_args<RT1, RT2, RT3>::type
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
-#endif // BOOST_MATH_SPECIAL_FUNCTIONS_IGAMMA_INVERSE_HPP
+#endif // HYDRA_BOOST_MATH_SPECIAL_FUNCTIONS_IGAMMA_INVERSE_HPP
 
 
 

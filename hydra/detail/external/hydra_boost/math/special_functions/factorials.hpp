@@ -3,8 +3,8 @@
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_SP_FACTORIALS_HPP
-#define BOOST_MATH_SP_FACTORIALS_HPP
+#ifndef HYDRA_BOOST_MATH_SP_FACTORIALS_HPP
+#define HYDRA_BOOST_MATH_SP_FACTORIALS_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -24,7 +24,7 @@
 #include <type_traits>
 #include <cmath>
 
-namespace boost { namespace math
+namespace hydra_boost { namespace math
 {
 
 template <class T, class Policy>
@@ -38,11 +38,11 @@ inline T factorial(unsigned i, const Policy& pol)
    // unsigned int nfac = static_cast<unsigned int>(factorial<double>(n));
    // See factorial documentation for more detail.
 
-   BOOST_MATH_STD_USING // Aid ADL for floor.
+   HYDRA_BOOST_MATH_STD_USING // Aid ADL for floor.
 
    if(i <= max_factorial<T>::value)
       return unchecked_factorial<T>(i);
-   T result = boost::math::tgamma(static_cast<T>(i+1), pol);
+   T result = hydra_boost::math::tgamma(static_cast<T>(i+1), pol);
    if(result > tools::max_value<T>())
       return result; // Overflowed value! (But tgamma will have signalled the error already).
    return floor(result + 0.5f);
@@ -60,7 +60,7 @@ inline float factorial<float>(unsigned i)
 {
    if(i <= max_factorial<float>::value)
       return unchecked_factorial<float>(i);
-   return tools::overflow_error<float>(BOOST_CURRENT_FUNCTION);
+   return tools::overflow_error<float>(HYDRA_BOOST_CURRENT_FUNCTION);
 }
 
 template<>
@@ -68,14 +68,14 @@ inline double factorial<double>(unsigned i)
 {
    if(i <= max_factorial<double>::value)
       return unchecked_factorial<double>(i);
-   return tools::overflow_error<double>(BOOST_CURRENT_FUNCTION);
+   return tools::overflow_error<double>(HYDRA_BOOST_CURRENT_FUNCTION);
 }
 */
 template <class T, class Policy>
 T double_factorial(unsigned i, const Policy& pol)
 {
    static_assert(!std::is_integral<T>::value, "Type T must not be an integral type");
-   BOOST_MATH_STD_USING  // ADL lookup of std names
+   HYDRA_BOOST_MATH_STD_USING  // ADL lookup of std names
    if(i & 1)
    {
       // odd i:
@@ -88,7 +88,7 @@ T double_factorial(unsigned i, const Policy& pol)
       // Fallthrough: i is too large to use table lookup, try the
       // gamma function instead.
       //
-      T result = boost::math::tgamma(static_cast<T>(i) / 2 + 1, pol) / sqrt(constants::pi<T>());
+      T result = hydra_boost::math::tgamma(static_cast<T>(i) / 2 + 1, pol) / sqrt(constants::pi<T>());
       if(ldexp(tools::max_value<T>(), -static_cast<int>(i+1) / 2) > result)
          return ceil(result * ldexp(T(1), static_cast<int>(i+1) / 2) - 0.5f);
    }
@@ -103,7 +103,7 @@ T double_factorial(unsigned i, const Policy& pol)
    //
    // If we fall through to here then the result is infinite:
    //
-   return policies::raise_overflow_error<T>("boost::math::double_factorial<%1%>(unsigned)", 0, pol);
+   return policies::raise_overflow_error<T>("hydra_boost::math::double_factorial<%1%>(unsigned)", 0, pol);
 }
 
 template <class T>
@@ -145,13 +145,13 @@ T rising_factorial_imp(T x, int n, const Policy& pol)
    if(x == 0)
    {
       if(n < 0)
-         return static_cast<T>(-boost::math::tgamma_delta_ratio(x + 1, static_cast<T>(-n), pol));
+         return -hydra_boost::math::tgamma_delta_ratio(x + 1, static_cast<T>(-n), pol);
       else
          return 0;
    }
    if((x < 1) && (x + n < 0))
    {
-      const auto val = static_cast<T>(boost::math::tgamma_delta_ratio(1 - x, static_cast<T>(-n), pol));
+      T val = hydra_boost::math::tgamma_delta_ratio(1 - x, static_cast<T>(-n), pol);
       return (n & 1) ? T(-val) : val;
    }
    //
@@ -159,14 +159,14 @@ T rising_factorial_imp(T x, int n, const Policy& pol)
    // tgamma_delta_ratio is already optimised for that
    // use case:
    //
-   return 1 / static_cast<T>(boost::math::tgamma_delta_ratio(x, static_cast<T>(n), pol));
+   return 1 / hydra_boost::math::tgamma_delta_ratio(x, static_cast<T>(n), pol);
 }
 
 template <class T, class Policy>
 inline T falling_factorial_imp(T x, unsigned n, const Policy& pol)
 {
    static_assert(!std::is_integral<T>::value, "Type T must not be an integral type");
-   BOOST_MATH_STD_USING // ADL of std names
+   HYDRA_BOOST_MATH_STD_USING // ADL of std names
    if(x == 0)
       return 0;
    if(x < 0)
@@ -188,13 +188,13 @@ inline T falling_factorial_imp(T x, unsigned n, const Policy& pol)
       {
          // If the two end of the range are far apart we have a ratio of two very large
          // numbers, split the calculation up into two blocks:
-         T t1 = x * boost::math::falling_factorial(x - 1, max_factorial<T>::value - 2, pol);
-         T t2 = boost::math::falling_factorial(x - max_factorial<T>::value + 1, n - max_factorial<T>::value + 1, pol);
+         T t1 = x * hydra_boost::math::falling_factorial(x - 1, max_factorial<T>::value - 2, pol);
+         T t2 = hydra_boost::math::falling_factorial(x - max_factorial<T>::value + 1, n - max_factorial<T>::value + 1, pol);
          if(tools::max_value<T>() / fabs(t1) < fabs(t2))
-            return boost::math::sign(t1) * boost::math::sign(t2) * policies::raise_overflow_error<T>("boost::math::falling_factorial<%1%>", 0, pol);
+            return hydra_boost::math::sign(t1) * hydra_boost::math::sign(t2) * policies::raise_overflow_error<T>("hydra_boost::math::falling_factorial<%1%>", 0, pol);
          return t1 * t2;
       }
-      return x * boost::math::falling_factorial(x - 1, n - 1, pol);
+      return x * hydra_boost::math::falling_factorial(x - 1, n - 1, pol);
    }
    if(x <= n - 1)
    {
@@ -206,7 +206,7 @@ inline T falling_factorial_imp(T x, unsigned n, const Policy& pol)
       unsigned n2 = itrunc((T)floor(xp1), pol);
       if(n2 == xp1)
          return 0;
-      auto result = static_cast<T>(boost::math::tgamma_delta_ratio(xp1, -static_cast<T>(n2), pol));
+      T result = hydra_boost::math::tgamma_delta_ratio(xp1, -static_cast<T>(n2), pol);
       x -= n2;
       result *= x;
       ++n2;
@@ -221,7 +221,7 @@ inline T falling_factorial_imp(T x, unsigned n, const Policy& pol)
    // because tgamma_delta_ratio is already optimised
    // for that use case:
    //
-   return static_cast<T>(boost::math::tgamma_delta_ratio(x + 1, -static_cast<T>(n), pol));
+   return hydra_boost::math::tgamma_delta_ratio(x + 1, -static_cast<T>(n), pol);
 }
 
 } // namespace detail
@@ -263,7 +263,7 @@ inline typename tools::promote_args<RT>::type
 }
 
 } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
-#endif // BOOST_MATH_SP_FACTORIALS_HPP
+#endif // HYDRA_BOOST_MATH_SP_FACTORIALS_HPP
 

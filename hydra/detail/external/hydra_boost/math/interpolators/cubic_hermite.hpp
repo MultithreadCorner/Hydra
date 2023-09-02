@@ -4,12 +4,12 @@
 // (See accompanying file LICENSE_1_0.txt
 // or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_MATH_INTERPOLATORS_CUBIC_HERMITE_HPP
-#define BOOST_MATH_INTERPOLATORS_CUBIC_HERMITE_HPP
+#ifndef HYDRA_BOOST_MATH_INTERPOLATORS_CUBIC_HERMITE_HPP
+#define HYDRA_BOOST_MATH_INTERPOLATORS_CUBIC_HERMITE_HPP
 #include <memory>
 #include <hydra/detail/external/hydra_boost/math/interpolators/detail/cubic_hermite_detail.hpp>
 
-namespace boost {
+namespace hydra_boost {
 namespace math {
 namespace interpolators {
 

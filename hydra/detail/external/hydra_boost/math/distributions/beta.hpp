@@ -2,7 +2,6 @@
 
 // Copyright John Maddock 2006.
 // Copyright Paul A. Bristow 2006.
-// Copyright Matt Borland 2023.
 
 // Use, modification and distribution are subject to the
 // Boost Software License, Version 1.0.
@@ -22,8 +21,8 @@
 // of obtaining the sum over a set of binomial outcomes.
 // The beta distribution is also used in Bayesian statistics.
 
-#ifndef BOOST_MATH_DIST_BETA_HPP
-#define BOOST_MATH_DIST_BETA_HPP
+#ifndef HYDRA_BOOST_MATH_DIST_BETA_HPP
+#define HYDRA_BOOST_MATH_DIST_BETA_HPP
 
 #include <hydra/detail/external/hydra_boost/math/distributions/fwd.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions/beta.hpp> // for beta.
@@ -32,7 +31,7 @@
 #include <hydra/detail/external/hydra_boost/math/special_functions/fpclassify.hpp> // isnan.
 #include <hydra/detail/external/hydra_boost/math/tools/roots.hpp> // for root finding.
 
-#if defined (BOOST_MSVC)
+#if defined (HYDRA_BOOST_MSVC)
 #  pragma warning(push)
 #  pragma warning(disable: 4702) // unreachable code
 // in domain_error_imp in error_handling
@@ -40,7 +39,7 @@
 
 #include <utility>
 
-namespace boost
+namespace hydra_boost
 {
   namespace math
   {
@@ -50,7 +49,7 @@ namespace boost
       template <class RealType, class Policy>
       inline bool check_alpha(const char* function, const RealType& alpha, RealType* result, const Policy& pol)
       {
-        if(!(boost::math::isfinite)(alpha) || (alpha <= 0))
+        if(!(hydra_boost::math::isfinite)(alpha) || (alpha <= 0))
         {
           *result = policies::raise_domain_error<RealType>(
             function,
@@ -63,7 +62,7 @@ namespace boost
       template <class RealType, class Policy>
       inline bool check_beta(const char* function, const RealType& beta, RealType* result, const Policy& pol)
       {
-        if(!(boost::math::isfinite)(beta) || (beta <= 0))
+        if(!(hydra_boost::math::isfinite)(beta) || (beta <= 0))
         {
           *result = policies::raise_domain_error<RealType>(
             function,
@@ -76,7 +75,7 @@ namespace boost
       template <class RealType, class Policy>
       inline bool check_prob(const char* function, const RealType& p, RealType* result, const Policy& pol)
       {
-        if((p < 0) || (p > 1) || !(boost::math::isfinite)(p))
+        if((p < 0) || (p > 1) || !(hydra_boost::math::isfinite)(p))
         {
           *result = policies::raise_domain_error<RealType>(
             function,
@@ -89,7 +88,7 @@ namespace boost
       template <class RealType, class Policy>
       inline bool check_x(const char* function, const RealType& x, RealType* result, const Policy& pol)
       {
-        if(!(boost::math::isfinite)(x) || (x < 0) || (x > 1))
+        if(!(hydra_boost::math::isfinite)(x) || (x < 0) || (x > 1))
         {
           *result = policies::raise_domain_error<RealType>(
             function,
@@ -123,7 +122,7 @@ namespace boost
       template <class RealType, class Policy>
       inline bool check_mean(const char* function, const RealType& mean, RealType* result, const Policy& pol)
       {
-        if(!(boost::math::isfinite)(mean) || (mean <= 0))
+        if(!(hydra_boost::math::isfinite)(mean) || (mean <= 0))
         {
           *result = policies::raise_domain_error<RealType>(
             function,
@@ -135,7 +134,7 @@ namespace boost
       template <class RealType, class Policy>
       inline bool check_variance(const char* function, const RealType& variance, RealType* result, const Policy& pol)
       {
-        if(!(boost::math::isfinite)(variance) || (variance <= 0))
+        if(!(hydra_boost::math::isfinite)(variance) || (variance <= 0))
         {
           *result = policies::raise_domain_error<RealType>(
             function,
@@ -161,7 +160,7 @@ namespace boost
       {
         RealType result;
         beta_detail::check_dist(
-           "boost::math::beta_distribution<%1%>::beta_distribution",
+           "hydra_boost::math::beta_distribution<%1%>::beta_distribution",
           m_alpha,
           m_beta,
           &result, Policy());
@@ -187,7 +186,7 @@ namespace boost
         RealType mean, // Expected value of mean.
         RealType variance) // Expected value of variance.
       {
-        static const char* function = "boost::math::beta_distribution<%1%>::find_alpha";
+        static const char* function = "hydra_boost::math::beta_distribution<%1%>::find_alpha";
         RealType result = 0; // of error checks.
         if(false ==
             (
@@ -205,7 +204,7 @@ namespace boost
         RealType mean, // Expected value of mean.
         RealType variance) // Expected value of variance.
       {
-        static const char* function = "boost::math::beta_distribution<%1%>::find_beta";
+        static const char* function = "hydra_boost::math::beta_distribution<%1%>::find_beta";
         RealType result = 0; // of error checks.
         if(false ==
             (
@@ -228,7 +227,7 @@ namespace boost
         RealType x, //  x.
         RealType probability) // cdf
       {
-        static const char* function = "boost::math::beta_distribution<%1%>::find_alpha";
+        static const char* function = "hydra_boost::math::beta_distribution<%1%>::find_alpha";
         RealType result = 0; // of error checks.
         if(false ==
             (
@@ -242,7 +241,7 @@ namespace boost
         {
           return result;
         }
-        return static_cast<RealType>(ibeta_inva(beta, x, probability, Policy()));
+        return ibeta_inva(beta, x, probability, Policy());
       } // RealType find_alpha(beta, a, probability)
 
       static RealType find_beta(
@@ -251,7 +250,7 @@ namespace boost
         RealType x, // probability x.
         RealType probability) // probability cdf.
       {
-        static const char* function = "boost::math::beta_distribution<%1%>::find_beta";
+        static const char* function = "hydra_boost::math::beta_distribution<%1%>::find_beta";
         RealType result = 0; // of error checks.
         if(false ==
             (
@@ -265,7 +264,7 @@ namespace boost
         {
           return result;
         }
-        return static_cast<RealType>(ibeta_invb(alpha, x, probability, Policy()));
+        return ibeta_invb(alpha, x, probability, Policy());
       } //  RealType find_beta(alpha, x, probability)
 
     private:
@@ -275,15 +274,15 @@ namespace boost
 
     #ifdef __cpp_deduction_guides
     template <class RealType>
-    beta_distribution(RealType)->beta_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+    beta_distribution(RealType)->beta_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
     template <class RealType>
-    beta_distribution(RealType, RealType)->beta_distribution<typename boost::math::tools::promote_args<RealType>::type>;
+    beta_distribution(RealType, RealType)->beta_distribution<typename hydra_boost::math::tools::promote_args<RealType>::type>;
     #endif
 
     template <class RealType, class Policy>
     inline const std::pair<RealType, RealType> range(const beta_distribution<RealType, Policy>& /* dist */)
     { // Range of permissible values for random variable x.
-      using boost::math::tools::max_value;
+      using hydra_boost::math::tools::max_value;
       return std::pair<RealType, RealType>(static_cast<RealType>(0), static_cast<RealType>(1));
     }
 
@@ -311,7 +310,7 @@ namespace boost
     template <class RealType, class Policy>
     inline RealType mode(const beta_distribution<RealType, Policy>& dist)
     {
-      static const char* function = "boost::math::mode(beta_distribution<%1%> const&)";
+      static const char* function = "hydra_boost::math::mode(beta_distribution<%1%> const&)";
 
       RealType result;
       if ((dist.alpha() <= 1))
@@ -345,7 +344,7 @@ namespace boost
     template <class RealType, class Policy>
     inline RealType skewness(const beta_distribution<RealType, Policy>& dist)
     {
-      BOOST_MATH_STD_USING // ADL of std functions.
+      HYDRA_BOOST_MATH_STD_USING // ADL of std functions.
       RealType a = dist.alpha();
       RealType b = dist.beta();
       return (2 * (b-a) * sqrt(a + b + 1)) / ((a + b + 2) * sqrt(a * b));
@@ -371,11 +370,11 @@ namespace boost
     template <class RealType, class Policy>
     inline RealType pdf(const beta_distribution<RealType, Policy>& dist, const RealType& x)
     { // Probability Density/Mass Function.
-      BOOST_FPU_EXCEPTION_GUARD
+      HYDRA_BOOST_FPU_EXCEPTION_GUARD
 
-      static const char* function = "boost::math::pdf(beta_distribution<%1%> const&, %1%)";
+      static const char* function = "hydra_boost::math::pdf(beta_distribution<%1%> const&, %1%)";
 
-      BOOST_MATH_STD_USING // for ADL of std functions
+      HYDRA_BOOST_MATH_STD_USING // for ADL of std functions
 
       RealType a = dist.alpha();
       RealType b = dist.beta();
@@ -389,50 +388,23 @@ namespace boost
       {
         return result;
       }
-      using boost::math::beta;
+      using hydra_boost::math::beta;
 
-      // Corner cases: check_x ensures x element of [0, 1], but PDF is 0 for x = 0 and x = 1. PDF EQN:
+      // Corner case: check_x ensures x element of [0, 1], but PDF is 0 for x = 0 and x = 1. PDF EQN:
       // https://wikimedia.org/api/rest_v1/media/math/render/svg/125fdaa41844a8703d1a8610ac00fbf3edacc8e7
-      if(x == 0)
+      if(x == 0 || x == 1)
       {
-        if (a == 1)
-        {
-          return static_cast<RealType>(1 / beta(a, b));
-        }
-        else if (a < 1)
-        {
-          policies::raise_overflow_error<RealType>(function, nullptr, Policy());
-        }
-        else
-        {
-          return RealType(0);
-        }
+        return RealType(0);
       }
-      else if (x == 1)
-      {
-        if (b == 1)
-        {
-          return static_cast<RealType>(1 / beta(a, b));
-        }
-        else if (b < 1)
-        {
-          policies::raise_overflow_error<RealType>(function, nullptr, Policy());
-        }
-        else
-        {
-          return RealType(0);
-        }
-      }
-      
-      return static_cast<RealType>(ibeta_derivative(a, b, x, Policy()));
+      return ibeta_derivative(a, b, x, Policy());
     } // pdf
 
     template <class RealType, class Policy>
     inline RealType cdf(const beta_distribution<RealType, Policy>& dist, const RealType& x)
     { // Cumulative Distribution Function beta.
-      BOOST_MATH_STD_USING // for ADL of std functions
+      HYDRA_BOOST_MATH_STD_USING // for ADL of std functions
 
-      static const char* function = "boost::math::cdf(beta_distribution<%1%> const&, %1%)";
+      static const char* function = "hydra_boost::math::cdf(beta_distribution<%1%> const&, %1%)";
 
       RealType a = dist.alpha();
       RealType b = dist.beta();
@@ -455,16 +427,16 @@ namespace boost
       {
         return 1;
       }
-      return static_cast<RealType>(ibeta(a, b, x, Policy()));
+      return ibeta(a, b, x, Policy());
     } // beta cdf
 
     template <class RealType, class Policy>
     inline RealType cdf(const complemented2_type<beta_distribution<RealType, Policy>, RealType>& c)
     { // Complemented Cumulative Distribution Function beta.
 
-      BOOST_MATH_STD_USING // for ADL of std functions
+      HYDRA_BOOST_MATH_STD_USING // for ADL of std functions
 
-      static const char* function = "boost::math::cdf(beta_distribution<%1%> const&, %1%)";
+      static const char* function = "hydra_boost::math::cdf(beta_distribution<%1%> const&, %1%)";
 
       RealType const& x = c.param;
       beta_distribution<RealType, Policy> const& dist = c.dist;
@@ -482,16 +454,16 @@ namespace boost
       }
       if (x == 0)
       {
-        return RealType(1);
+        return 1;
       }
       else if (x == 1)
       {
-        return RealType(0);
+        return 0;
       }
       // Calculate cdf beta using the incomplete beta function.
       // Use of ibeta here prevents cancellation errors in calculating
       // 1 - x if x is very small, perhaps smaller than machine epsilon.
-      return static_cast<RealType>(ibetac(a, b, x, Policy()));
+      return ibetac(a, b, x, Policy());
     } // beta cdf
 
     template <class RealType, class Policy>
@@ -505,7 +477,7 @@ namespace boost
       // will be less than or equal to that value
       // is whatever probability you supplied as an argument.
 
-      static const char* function = "boost::math::quantile(beta_distribution<%1%> const&, %1%)";
+      static const char* function = "hydra_boost::math::quantile(beta_distribution<%1%> const&, %1%)";
 
       RealType result = 0; // of argument checks:
       RealType a = dist.alpha();
@@ -520,13 +492,13 @@ namespace boost
       // Special cases:
       if (p == 0)
       {
-        return RealType(0);
+        return 0;
       }
       if (p == 1)
       {
-        return RealType(1);
+        return 1;
       }
-      return static_cast<RealType>(ibeta_inv(a, b, p, static_cast<RealType*>(nullptr), Policy()));
+      return ibeta_inv(a, b, p, static_cast<RealType*>(nullptr), Policy());
     } // quantile
 
     template <class RealType, class Policy>
@@ -535,7 +507,7 @@ namespace boost
       // Return the number of expected x for a given
       // complement of the probability q.
 
-      static const char* function = "boost::math::quantile(beta_distribution<%1%> const&, %1%)";
+      static const char* function = "hydra_boost::math::quantile(beta_distribution<%1%> const&, %1%)";
 
       //
       // Error checks:
@@ -556,28 +528,28 @@ namespace boost
       // Special cases:
       if(q == 1)
       {
-        return RealType(0);
+        return 0;
       }
       if(q == 0)
       {
-        return RealType(1);
+        return 1;
       }
 
-      return static_cast<RealType>(ibetac_inv(a, b, q, static_cast<RealType*>(nullptr), Policy()));
+      return ibetac_inv(a, b, q, static_cast<RealType*>(nullptr), Policy());
     } // Quantile Complement
 
   } // namespace math
-} // namespace boost
+} // namespace hydra_boost
 
 // This include must be at the end, *after* the accessors
 // for this distribution have been defined, in order to
 // keep compilers that support two-phase lookup happy.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/derived_accessors.hpp>
 
-#if defined (BOOST_MSVC)
+#if defined (HYDRA_BOOST_MSVC)
 # pragma warning(pop)
 #endif
 
-#endif // BOOST_MATH_DIST_BETA_HPP
+#endif // HYDRA_BOOST_MATH_DIST_BETA_HPP
 
 

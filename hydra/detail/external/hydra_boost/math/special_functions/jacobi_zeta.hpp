@@ -4,8 +4,8 @@
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef BOOST_MATH_ELLINT_JZ_HPP
-#define BOOST_MATH_ELLINT_JZ_HPP
+#ifndef HYDRA_BOOST_MATH_ELLINT_JZ_HPP
+#define HYDRA_BOOST_MATH_ELLINT_JZ_HPP
 
 #ifdef _MSC_VER
 #pragma once
@@ -21,7 +21,7 @@
 
 // Elliptic integral the Jacobi Zeta function.
 
-namespace boost { namespace math { 
+namespace hydra_boost { namespace math { 
    
 namespace detail{
 
@@ -29,9 +29,9 @@ namespace detail{
 template <typename T, typename Policy>
 T jacobi_zeta_imp(T phi, T k, const Policy& pol)
 {
-    BOOST_MATH_STD_USING
-    using namespace boost::math::tools;
-    using namespace boost::math::constants;
+    HYDRA_BOOST_MATH_STD_USING
+    using namespace hydra_boost::math::tools;
+    using namespace hydra_boost::math::constants;
 
     bool invert = false;
     if(phi < 0)
@@ -47,7 +47,7 @@ T jacobi_zeta_imp(T phi, T k, const Policy& pol)
     T k2 = k * k;
     T kp = 1 - k2;
     if(k == 1)
-       result = sinp * (boost::math::sign)(cosp);  // We get here by simplifying JacobiZeta[w, 1] in Mathematica, and the fact that 0 <= phi.
+       result = sinp * (hydra_boost::math::sign)(cosp);  // We get here by simplifying JacobiZeta[w, 1] in Mathematica, and the fact that 0 <= phi.
     else
     {
        typedef std::integral_constant<int,
@@ -66,16 +66,16 @@ inline typename tools::promote_args<T1, T2>::type jacobi_zeta(T1 k, T2 phi, cons
 {
    typedef typename tools::promote_args<T1, T2>::type result_type;
    typedef typename policies::evaluation<result_type, Policy>::type value_type;
-   return policies::checked_narrowing_cast<result_type, Policy>(detail::jacobi_zeta_imp(static_cast<value_type>(phi), static_cast<value_type>(k), pol), "boost::math::jacobi_zeta<%1%>(%1%,%1%)");
+   return policies::checked_narrowing_cast<result_type, Policy>(detail::jacobi_zeta_imp(static_cast<value_type>(phi), static_cast<value_type>(k), pol), "hydra_boost::math::jacobi_zeta<%1%>(%1%,%1%)");
 }
 
 template <class T1, class T2>
 inline typename tools::promote_args<T1, T2>::type jacobi_zeta(T1 k, T2 phi)
 {
-   return boost::math::jacobi_zeta(k, phi, policies::policy<>());
+   return hydra_boost::math::jacobi_zeta(k, phi, policies::policy<>());
 }
 
 }} // namespaces
 
-#endif // BOOST_MATH_ELLINT_D_HPP
+#endif // HYDRA_BOOST_MATH_ELLINT_D_HPP
 
