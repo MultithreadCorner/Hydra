@@ -6,8 +6,8 @@
 
 //  See http://www.boost.org/libs/math for documentation.
 
-#ifndef HYDRA_HYDRA_BOOST_MATH_FWD_HPP
-#define HYDRA_HYDRA_BOOST_MATH_FWD_HPP
+#ifndef HYDRA_BOOST_MATH_FWD_HPP
+#define HYDRA_BOOST_MATH_FWD_HPP
 
 namespace boost
 {
@@ -39,4 +39,4 @@ template < >
 }  // namespace boost
 
 
-#endif  // HYDRA_HYDRA_BOOST_MATH_FWD_HPP
+#endif  // HYDRA_BOOST_MATH_FWD_HPP

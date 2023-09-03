@@ -1,4 +1,5 @@
 //  Copyright John Maddock 2016.
+//  Copyright Matt Borland 2023.
 //  Use, modification and distribution are subject to the
 //  Boost Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -10,6 +11,7 @@
 #pragma once
 #endif
 
+#include <hydra/detail/external/hydra_boost/math/tools/config.hpp>
 #include <type_traits>
 #ifndef HYDRA_BOOST_MATH_STANDALONE
 #include <hydra/detail/external/hydra_boost/lexical_cast.hpp>
@@ -26,14 +28,32 @@ namespace hydra_boost{ namespace math{ namespace tools{
    template <class Real>
    Real convert_from_string(const char* p, const std::false_type&)
    {
-#ifdef HYDRA_BOOST_MATH_NO_LEXICAL_CAST
+      #ifdef HYDRA_BOOST_MATH_NO_LEXICAL_CAST
+
       // This function should not compile, we don't have the necessary functionality to support it:
       static_assert(sizeof(Real) == 0, "boost.lexical_cast is not supported in standalone mode.");
       (void)p; // Suppresses -Wunused-parameter
       return Real(0);
-#else
+
+      #elif defined(HYDRA_BOOST_MATH_USE_CHARCONV_FOR_CONVERSION)
+
+      if constexpr (std::is_arithmetic_v<Real>)
+      {
+         Real v {};
+         std::from_chars(p, p + std::strlen(p), v);
+
+         return v;
+      }
+      else
+      {
+         return hydra_boost::lexical_cast<Real>(p);
+      }
+
+      #else
+
       return hydra_boost::lexical_cast<Real>(p);
-#endif
+
+      #endif
    }
    template <class Real>
    constexpr const char* convert_from_string(const char* p, const std::true_type&) noexcept

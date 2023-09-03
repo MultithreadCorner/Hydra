@@ -11,6 +11,7 @@
 #include <iomanip>
 #include <cmath>
 #include <limits>
+#include <cstdint>
 #include <stdexcept>
 
 #include <hydra/detail/external/hydra_boost/math/tools/is_standalone.hpp>

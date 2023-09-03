@@ -9,6 +9,7 @@
 #include <cmath>
 #include <type_traits>
 #include <hydra/detail/external/hydra_boost/math/tools/is_constant_evaluated.hpp>
+#include <hydra/detail/external/hydra_boost/math/special_functions/fpclassify.hpp>
 
 #include <hydra/detail/external/hydra_boost/math/tools/is_standalone.hpp>
 #ifndef HYDRA_BOOST_MATH_STANDALONE
@@ -21,7 +22,7 @@
 namespace hydra_boost::math::ccmath {
 
 template <typename T>
-inline constexpr bool isnan(T x)
+inline constexpr bool isnan HYDRA_BOOST_PREVENT_MACRO_SUBSTITUTION(T x)
 {
     if(HYDRA_BOOST_MATH_IS_CONSTANT_EVALUATED(x))
     {
@@ -29,15 +30,15 @@ inline constexpr bool isnan(T x)
     }
     else
     {
-        using std::isnan;
+        using hydra_boost::math::isnan;
 
         if constexpr (!std::is_integral_v<T>)
         {
-            return isnan(x);
+            return (isnan)(x);
         }
         else
         {
-            return isnan(static_cast<double>(x));
+            return (isnan)(static_cast<double>(x));
         }
     }
 }

@@ -25,11 +25,12 @@
  *
  *  Created on: 26 de ago. de 2023
  *      Author: Antonio Augusto Alves Jr
+ *  Note: Boost version: 1.83
  */
 
 #pragma once
 
-#define HYDRA_HYDRA_BOOST_MATH_STANDALONE
+#define HYDRA_BOOST_MATH_STANDALONE
 
 #include <hydra/detail/external/hydra_boost/math/octonion.hpp>
 #include <hydra/detail/external/hydra_boost/math/quaternion.hpp>

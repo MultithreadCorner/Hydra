@@ -10,6 +10,7 @@
 #include <limits> // to nan initialize
 #include <vector>
 #include <string>
+#include <cstdint>
 #include <stdexcept>
 #include <type_traits>
 #include <hydra/detail/external/hydra_boost/math/tools/assert.hpp>

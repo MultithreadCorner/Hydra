@@ -10,6 +10,7 @@
 #include <limits>
 #include <type_traits>
 #include <hydra/detail/external/hydra_boost/math/tools/is_constant_evaluated.hpp>
+#include <hydra/detail/external/hydra_boost/math/special_functions/fpclassify.hpp>
 #include <hydra/detail/external/hydra_boost/math/ccmath/abs.hpp>
 #include <hydra/detail/external/hydra_boost/math/ccmath/isinf.hpp>
 #include <hydra/detail/external/hydra_boost/math/ccmath/isnan.hpp>
@@ -18,19 +19,19 @@
 namespace hydra_boost::math::ccmath {
 
 template <typename T, std::enable_if_t<!std::is_integral_v<T>, bool> = true>
-inline constexpr int fpclassify(T x)
+inline constexpr int fpclassify HYDRA_BOOST_PREVENT_MACRO_SUBSTITUTION(T x)
 {
     if(HYDRA_BOOST_MATH_IS_CONSTANT_EVALUATED(x))
     {
-        return hydra_boost::math::ccmath::isnan(x) ? FP_NAN :
-               hydra_boost::math::ccmath::isinf(x) ? FP_INFINITE :
+        return (hydra_boost::math::ccmath::isnan)(x) ? FP_NAN :
+               (hydra_boost::math::ccmath::isinf)(x) ? FP_INFINITE :
                hydra_boost::math::ccmath::abs(x) == T(0) ? FP_ZERO :
                hydra_boost::math::ccmath::abs(x) > 0 && hydra_boost::math::ccmath::abs(x) < (std::numeric_limits<T>::min)() ? FP_SUBNORMAL : FP_NORMAL;
     }
     else
     {
-        using std::fpclassify;
-        return fpclassify(x);
+        using hydra_boost::math::fpclassify;
+        return (fpclassify)(x);
     }
 }
 

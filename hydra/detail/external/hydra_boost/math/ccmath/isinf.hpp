@@ -10,6 +10,7 @@
 #include <limits>
 #include <type_traits>
 #include <hydra/detail/external/hydra_boost/math/tools/is_constant_evaluated.hpp>
+#include <hydra/detail/external/hydra_boost/math/special_functions/fpclassify.hpp>
 
 #include <hydra/detail/external/hydra_boost/math/tools/is_standalone.hpp>
 #ifndef HYDRA_BOOST_MATH_STANDALONE
@@ -22,7 +23,7 @@
 namespace hydra_boost::math::ccmath {
 
 template <typename T>
-constexpr bool isinf(T x) noexcept
+constexpr bool isinf HYDRA_BOOST_PREVENT_MACRO_SUBSTITUTION(T x) noexcept
 {
     if(HYDRA_BOOST_MATH_IS_CONSTANT_EVALUATED(x))
     {
@@ -37,15 +38,15 @@ constexpr bool isinf(T x) noexcept
     }
     else
     {
-        using std::isinf;
+        using hydra_boost::math::isinf;
         
         if constexpr (!std::is_integral_v<T>)
         {
-            return isinf(x);
+            return (isinf)(x);
         }
         else
         {
-            return isinf(static_cast<double>(x));
+            return (isinf)(static_cast<double>(x));
         }
     }
 }

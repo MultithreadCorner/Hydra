@@ -43,9 +43,11 @@
 #include <hydra/detail/external/hydra_boost/math/special_functions/fpclassify.hpp> // isnan.
 #include <hydra/detail/external/hydra_boost/math/tools/roots.hpp> // for root finding.
 #include <hydra/detail/external/hydra_boost/math/distributions/detail/inv_discrete_quantile.hpp>
+#include <hydra/detail/external/hydra_boost/math/special_functions/log1p.hpp>
 
 #include <limits> // using std::numeric_limits;
 #include <utility>
+#include <cmath>
 
 #if defined (HYDRA_BOOST_MSVC)
 #  pragma warning(push)
@@ -378,9 +380,39 @@ namespace hydra_boost
       return probability;
     } // cdf Cumulative Distribution Function geometric.
 
-      template <class RealType, class Policy>
-      inline RealType cdf(const complemented2_type<geometric_distribution<RealType, Policy>, RealType>& c)
-      { // Complemented Cumulative Distribution Function geometric.
+    template <class RealType, class Policy>
+    inline RealType logcdf(const geometric_distribution<RealType, Policy>& dist, const RealType& k)
+    { // Cumulative Distribution Function of geometric.
+      using std::pow;
+      static const char* function = "hydra_boost::math::logcdf(const geometric_distribution<%1%>&, %1%)";
+
+      // k argument may be integral, signed, or unsigned, or floating point.
+      // If necessary, it has already been promoted from an integral type.
+      RealType p = dist.success_fraction();
+      // Error check:
+      RealType result = 0;
+      if(false == geometric_detail::check_dist_and_k(
+        function,
+        p,
+        k,
+        &result, Policy()))
+      {
+        return -std::numeric_limits<RealType>::infinity();
+      }
+      if(k == 0)
+      {
+        return log(p); // success_fraction
+      }
+      //RealType q = 1 - p;  // Bad for small p
+      //RealType probability = 1 - std::pow(q, k+1);
+
+      RealType z = hydra_boost::math::log1p(-p, Policy()) * (k + 1);
+      return log1p(-exp(z), Policy());
+    } // logcdf Cumulative Distribution Function geometric.
+
+    template <class RealType, class Policy>
+    inline RealType cdf(const complemented2_type<geometric_distribution<RealType, Policy>, RealType>& c)
+    { // Complemented Cumulative Distribution Function geometric.
       HYDRA_BOOST_MATH_STD_USING
       static const char* function = "hydra_boost::math::cdf(const geometric_distribution<%1%>&, %1%)";
       // k argument may be integral, signed, or unsigned, or floating point.
@@ -402,6 +434,30 @@ namespace hydra_boost
       RealType probability = exp(z);
       return probability;
     } // cdf Complemented Cumulative Distribution Function geometric.
+
+    template <class RealType, class Policy>
+    inline RealType logcdf(const complemented2_type<geometric_distribution<RealType, Policy>, RealType>& c)
+    { // Complemented Cumulative Distribution Function geometric.
+      HYDRA_BOOST_MATH_STD_USING
+      static const char* function = "hydra_boost::math::logcdf(const geometric_distribution<%1%>&, %1%)";
+      // k argument may be integral, signed, or unsigned, or floating point.
+      // If necessary, it has already been promoted from an integral type.
+      RealType const& k = c.param;
+      geometric_distribution<RealType, Policy> const& dist = c.dist;
+      RealType p = dist.success_fraction();
+      // Error check:
+      RealType result = 0;
+      if(false == geometric_detail::check_dist_and_k(
+        function,
+        p,
+        k,
+        &result, Policy()))
+      {
+        return -std::numeric_limits<RealType>::infinity();
+      }
+
+      return hydra_boost::math::log1p(-p, Policy()) * (k+1);
+    } // logcdf Complemented Cumulative Distribution Function geometric.
 
     template <class RealType, class Policy>
     inline RealType quantile(const geometric_distribution<RealType, Policy>& dist, const RealType& x)

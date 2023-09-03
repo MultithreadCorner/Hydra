@@ -45,8 +45,8 @@ inline constexpr Real ldexp(Real arg, int exp) noexcept
     if(HYDRA_BOOST_MATH_IS_CONSTANT_EVALUATED(arg))
     {
         return hydra_boost::math::ccmath::abs(arg) == Real(0) ? arg :
-               hydra_boost::math::ccmath::isinf(arg) ? arg :
-               hydra_boost::math::ccmath::isnan(arg) ? arg :
+               (hydra_boost::math::ccmath::isinf)(arg) ? arg :
+               (hydra_boost::math::ccmath::isnan)(arg) ? arg :
                hydra_boost::math::ccmath::detail::ldexp_impl(arg, exp);
     }
     else

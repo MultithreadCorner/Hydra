@@ -94,7 +94,7 @@ namespace hydra_boost { namespace math { namespace detail {
          // http://functions.wolfram.com/07.31.03.0083.01
          int n = static_cast<int>(static_cast<std::uintmax_t>(hydra_boost::math::lltrunc(-2 * a1)));
          T smz = sqrt(-z);
-         return pow(2 / smz, -n) * hydra_boost::math::hermite(n, 1 / smz, pol);
+         return static_cast<T>(pow(2 / smz, T(-n)) * hydra_boost::math::hermite(n, 1 / smz, pol));  // Warning suppression: integer power returns at least a double
       }
 
       if (is_a1_integer && is_a2_integer)

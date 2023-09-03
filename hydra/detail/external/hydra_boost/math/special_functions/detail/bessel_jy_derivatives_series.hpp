@@ -194,7 +194,7 @@ inline T bessel_y_derivative_small_z_series(T v, T x, const Policy& pol)
    }
    else
    {
-      int sgn;
+      int sgn {};
       prefix = hydra_boost::math::lgamma(-v, &sgn, pol) + (v - 1) * log(x / 2) - constants::ln_two<T>();
       prefix = exp(prefix) * sgn / hydra_boost::math::constants::pi<T>();
    }
