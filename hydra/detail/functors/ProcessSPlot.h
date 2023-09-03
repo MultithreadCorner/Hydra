@@ -151,19 +151,20 @@ struct GetSWeight
 {
 	__hydra_host__ __hydra_device__
 	double operator()( T const& sweights )	{
-
-		return hydra_thrust::get<I>(sweights);
+        double res =hydra_thrust::get<I>(sweights);
+		return res;
 	}
 };
 
 
-template<typename F1, typename F2, typename ...Fs >
+template<int W, typename F1, typename F2, typename ...Fs >
 struct SWeights
 {
 	constexpr static size_t nfunctors = sizeof...(Fs)+2;
 	typedef hydra::tuple<F1, F2, Fs...> functors_tuple_type;
 	typedef hydra::Eigen::Matrix<double, nfunctors, nfunctors> cmatrix_t;
 	typedef typename hydra::detail::tuple_type<nfunctors, double>::type tuple_t;
+
 
 	SWeights() = delete;
 
@@ -185,8 +186,8 @@ struct SWeights
 
 
 
-	__hydra_host__ __hydra_device__ inline
-	SWeights(SWeights<F1, F2, Fs...> const& other ):
+	__hydra_host__ __hydra_device__
+	inline SWeights(SWeights< W,F1, F2, Fs...> const& other ):
 		fFunctors( other.fFunctors ),
 		fICovMatrix( other.fICovMatrix )
 	{
@@ -196,8 +197,8 @@ struct SWeights
 	}
 
 
-	__hydra_host__ __hydra_device__ inline
-	SWeights<F1, F2, Fs...>& operator=(SWeights<F1, F2, Fs...> const& other )
+	__hydra_host__ __hydra_device__
+	inline SWeights< W,F1, F2, Fs...>& operator=(SWeights< W,F1, F2, Fs...> const& other )
 	{
 		if(this == &other) return *this;
 
@@ -209,9 +210,11 @@ struct SWeights
 	}
 
 
-	template<typename Type>
+	template<typename Type, int V=W >
 	__hydra_host__ __hydra_device__
-	inline tuple_t operator()(Type x)
+	inline typename std::enable_if< (V < 0), tuple_t >::type
+	//inline tuple_t
+	operator()(Type x)
 	{
 		auto fvalues  = detail::invoke_normalized(x, fFunctors);
 		double values[nfunctors];
@@ -225,6 +228,25 @@ struct SWeights
 
 		auto r = detail::arrayToTuple<double,nfunctors >(sweights.data());
 		return r;
+	}
+
+	template<typename Type, int V=W>
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if< (V >= 0), double >::type
+	//inline tuple_t
+	operator()(Type x)
+	{
+		auto fvalues  = detail::invoke_normalized(x, fFunctors);
+		double values[nfunctors];
+		detail::tupleToArray(fvalues, values);
+		hydra::Eigen::Matrix<double, nfunctors,1> values_vector(hydra::Eigen::Map<Eigen::Matrix<double, nfunctors,1> >(values).eval());
+		hydra::Eigen::Matrix<double, nfunctors,1> sweights(fICovMatrix*values_vector.eval());
+		auto wfvalues = detail::multiply_array_tuple(fCoefficients, fvalues);
+		GReal_t denominator   = 0.0;
+		detail::add_tuple_values(denominator, wfvalues);
+		sweights /=denominator;
+
+		return sweights.data()[V];
 	}
 
 	GReal_t    fCoefficients[nfunctors];

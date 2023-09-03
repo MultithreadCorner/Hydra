@@ -513,7 +513,7 @@ int main(int argv, char** argc)
 			//allocate memory to hold the sweights
 			//usually this should not be necessary. But nvcc on cuda 12, refuses to
 			//allocate stack size otherwise
-			hydra::multiarray<double, 2, hydra::device::sys_t> sweigts_device( sweigts );
+			//hydra::multiarray<double, 2, hydra::device::sys_t> sweigts_device( sweigts );
 
 
 			//====================================================================
@@ -523,7 +523,7 @@ int main(int argv, char** argc)
 
 			//fitting only the BreitWigner to the background subtracted sample
 			auto fcn = hydra::make_loglikehood_fcn(BreitWigner_PDF,//observable_model,
-					hydra::columns(dataset_device, _1), hydra::columns(sweigts_device ,_0) );
+					hydra::columns(dataset_device, _1), sweigts(_0) );
 
 
 			// create Migrad minimizer
