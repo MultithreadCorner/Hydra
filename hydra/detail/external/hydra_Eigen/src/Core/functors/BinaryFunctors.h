@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_BINARY_FUNCTORS_H
-#define EIGEN_BINARY_FUNCTORS_H
+#ifndef HYDRA_EIGEN_BINARY_FUNCTORS_H
+#define HYDRA_EIGEN_BINARY_FUNCTORS_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -32,19 +32,19 @@ template<typename LhsScalar,typename RhsScalar>
 struct scalar_sum_op : binary_op_base<LhsScalar,RhsScalar>
 {
   typedef typename ScalarBinaryOpTraits<LhsScalar,RhsScalar,scalar_sum_op>::ReturnType result_type;
-#ifndef EIGEN_SCALAR_BINARY_OP_PLUGIN
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_sum_op)
+#ifndef HYDRA_EIGEN_SCALAR_BINARY_OP_PLUGIN
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_sum_op)
 #else
   scalar_sum_op() {
-    EIGEN_SCALAR_BINARY_OP_PLUGIN
+    HYDRA_EIGEN_SCALAR_BINARY_OP_PLUGIN
   }
 #endif
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE result_type operator() (const LhsScalar& a, const RhsScalar& b) const { return a + b; }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE result_type operator() (const LhsScalar& a, const RhsScalar& b) const { return a + b; }
   template<typename Packet>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet packetOp(const Packet& a, const Packet& b) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Packet packetOp(const Packet& a, const Packet& b) const
   { return internal::padd(a,b); }
   template<typename Packet>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE result_type predux(const Packet& a) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE result_type predux(const Packet& a) const
   { return internal::predux(a); }
 };
 template<typename LhsScalar,typename RhsScalar>
@@ -58,7 +58,7 @@ struct functor_traits<scalar_sum_op<LhsScalar,RhsScalar> > {
 
 
 template<>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool scalar_sum_op<bool,bool>::operator() (const bool& a, const bool& b) const { return a || b; }
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE bool scalar_sum_op<bool,bool>::operator() (const bool& a, const bool& b) const { return a || b; }
 
 
 /** \internal
@@ -70,19 +70,19 @@ template<typename LhsScalar,typename RhsScalar>
 struct scalar_product_op  : binary_op_base<LhsScalar,RhsScalar>
 {
   typedef typename ScalarBinaryOpTraits<LhsScalar,RhsScalar,scalar_product_op>::ReturnType result_type;
-#ifndef EIGEN_SCALAR_BINARY_OP_PLUGIN
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_product_op)
+#ifndef HYDRA_EIGEN_SCALAR_BINARY_OP_PLUGIN
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_product_op)
 #else
   scalar_product_op() {
-    EIGEN_SCALAR_BINARY_OP_PLUGIN
+    HYDRA_EIGEN_SCALAR_BINARY_OP_PLUGIN
   }
 #endif
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE result_type operator() (const LhsScalar& a, const RhsScalar& b) const { return a * b; }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE result_type operator() (const LhsScalar& a, const RhsScalar& b) const { return a * b; }
   template<typename Packet>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet packetOp(const Packet& a, const Packet& b) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Packet packetOp(const Packet& a, const Packet& b) const
   { return internal::pmul(a,b); }
   template<typename Packet>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE result_type predux(const Packet& a) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE result_type predux(const Packet& a) const
   { return internal::predux_mul(a); }
 };
 template<typename LhsScalar,typename RhsScalar>
@@ -95,7 +95,7 @@ struct functor_traits<scalar_product_op<LhsScalar,RhsScalar> > {
 };
 
 template<>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool scalar_product_op<bool,bool>::operator() (const bool& a, const bool& b) const { return a && b; }
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE bool scalar_product_op<bool,bool>::operator() (const bool& a, const bool& b) const { return a && b; }
 
 
 /** \internal
@@ -113,12 +113,12 @@ struct scalar_conj_product_op  : binary_op_base<LhsScalar,RhsScalar>
   
   typedef typename ScalarBinaryOpTraits<LhsScalar,RhsScalar,scalar_conj_product_op>::ReturnType result_type;
   
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_conj_product_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE result_type operator() (const LhsScalar& a, const RhsScalar& b) const
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_conj_product_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE result_type operator() (const LhsScalar& a, const RhsScalar& b) const
   { return conj_helper<LhsScalar,RhsScalar,Conj,false>().pmul(a,b); }
   
   template<typename Packet>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet packetOp(const Packet& a, const Packet& b) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Packet packetOp(const Packet& a, const Packet& b) const
   { return conj_helper<Packet,Packet,Conj,false>().pmul(a,b); }
 };
 template<typename LhsScalar,typename RhsScalar>
@@ -138,17 +138,17 @@ template<typename LhsScalar,typename RhsScalar, int NaNPropagation>
 struct scalar_min_op : binary_op_base<LhsScalar,RhsScalar>
 {
   typedef typename ScalarBinaryOpTraits<LhsScalar,RhsScalar,scalar_min_op>::ReturnType result_type;
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_min_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE result_type operator() (const LhsScalar& a, const RhsScalar& b) const {
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_min_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE result_type operator() (const LhsScalar& a, const RhsScalar& b) const {
     return internal::pmin<NaNPropagation>(a, b);
   }
   template<typename Packet>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet packetOp(const Packet& a, const Packet& b) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Packet packetOp(const Packet& a, const Packet& b) const
   {
     return internal::pmin<NaNPropagation>(a,b);
   }
   template<typename Packet>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE result_type predux(const Packet& a) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE result_type predux(const Packet& a) const
   {
     return internal::predux_min<NaNPropagation>(a);
   }
@@ -171,17 +171,17 @@ template<typename LhsScalar,typename RhsScalar, int NaNPropagation>
 struct scalar_max_op : binary_op_base<LhsScalar,RhsScalar>
 {
   typedef typename ScalarBinaryOpTraits<LhsScalar,RhsScalar,scalar_max_op>::ReturnType result_type;
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_max_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE result_type operator() (const LhsScalar& a, const RhsScalar& b) const {
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_max_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE result_type operator() (const LhsScalar& a, const RhsScalar& b) const {
     return internal::pmax<NaNPropagation>(a,b);
   }
   template<typename Packet>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet packetOp(const Packet& a, const Packet& b) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Packet packetOp(const Packet& a, const Packet& b) const
   {
     return internal::pmax<NaNPropagation>(a,b);
   }
   template<typename Packet>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE result_type predux(const Packet& a) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE result_type predux(const Packet& a) const
   {
     return internal::predux_max<NaNPropagation>(a);
   }
@@ -219,50 +219,50 @@ template<typename LhsScalar, typename RhsScalar>
 struct scalar_cmp_op<LhsScalar,RhsScalar, cmp_EQ> : binary_op_base<LhsScalar,RhsScalar>
 {
   typedef bool result_type;
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_cmp_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool operator()(const LhsScalar& a, const RhsScalar& b) const {return a==b;}
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_cmp_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE bool operator()(const LhsScalar& a, const RhsScalar& b) const {return a==b;}
 };
 template<typename LhsScalar, typename RhsScalar>
 struct scalar_cmp_op<LhsScalar,RhsScalar, cmp_LT> : binary_op_base<LhsScalar,RhsScalar>
 {
   typedef bool result_type;
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_cmp_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool operator()(const LhsScalar& a, const RhsScalar& b) const {return a<b;}
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_cmp_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE bool operator()(const LhsScalar& a, const RhsScalar& b) const {return a<b;}
 };
 template<typename LhsScalar, typename RhsScalar>
 struct scalar_cmp_op<LhsScalar,RhsScalar, cmp_LE> : binary_op_base<LhsScalar,RhsScalar>
 {
   typedef bool result_type;
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_cmp_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool operator()(const LhsScalar& a, const RhsScalar& b) const {return a<=b;}
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_cmp_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE bool operator()(const LhsScalar& a, const RhsScalar& b) const {return a<=b;}
 };
 template<typename LhsScalar, typename RhsScalar>
 struct scalar_cmp_op<LhsScalar,RhsScalar, cmp_GT> : binary_op_base<LhsScalar,RhsScalar>
 {
   typedef bool result_type;
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_cmp_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool operator()(const LhsScalar& a, const RhsScalar& b) const {return a>b;}
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_cmp_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE bool operator()(const LhsScalar& a, const RhsScalar& b) const {return a>b;}
 };
 template<typename LhsScalar, typename RhsScalar>
 struct scalar_cmp_op<LhsScalar,RhsScalar, cmp_GE> : binary_op_base<LhsScalar,RhsScalar>
 {
   typedef bool result_type;
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_cmp_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool operator()(const LhsScalar& a, const RhsScalar& b) const {return a>=b;}
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_cmp_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE bool operator()(const LhsScalar& a, const RhsScalar& b) const {return a>=b;}
 };
 template<typename LhsScalar, typename RhsScalar>
 struct scalar_cmp_op<LhsScalar,RhsScalar, cmp_UNORD> : binary_op_base<LhsScalar,RhsScalar>
 {
   typedef bool result_type;
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_cmp_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool operator()(const LhsScalar& a, const RhsScalar& b) const {return !(a<=b || b<=a);}
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_cmp_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE bool operator()(const LhsScalar& a, const RhsScalar& b) const {return !(a<=b || b<=a);}
 };
 template<typename LhsScalar, typename RhsScalar>
 struct scalar_cmp_op<LhsScalar,RhsScalar, cmp_NEQ> : binary_op_base<LhsScalar,RhsScalar>
 {
   typedef bool result_type;
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_cmp_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool operator()(const LhsScalar& a, const RhsScalar& b) const {return a!=b;}
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_cmp_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE bool operator()(const LhsScalar& a, const RhsScalar& b) const {return a!=b;}
 };
 
 /** \internal
@@ -273,9 +273,9 @@ struct scalar_cmp_op<LhsScalar,RhsScalar, cmp_NEQ> : binary_op_base<LhsScalar,Rh
 template<typename Scalar>
 struct scalar_hypot_op<Scalar,Scalar> : binary_op_base<Scalar,Scalar>
 {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_hypot_op)
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_hypot_op)
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator() (const Scalar &x, const Scalar &y) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Scalar operator() (const Scalar &x, const Scalar &y) const
   {
     // This functor is used by hypotNorm only for which it is faster to first apply abs
     // on all coefficients prior to reduction through hypot.
@@ -304,21 +304,21 @@ template<typename Scalar, typename Exponent>
 struct scalar_pow_op  : binary_op_base<Scalar,Exponent>
 {
   typedef typename ScalarBinaryOpTraits<Scalar,Exponent,scalar_pow_op>::ReturnType result_type;
-#ifndef EIGEN_SCALAR_BINARY_OP_PLUGIN
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_pow_op)
+#ifndef HYDRA_EIGEN_SCALAR_BINARY_OP_PLUGIN
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_pow_op)
 #else
   scalar_pow_op() {
     typedef Scalar LhsScalar;
     typedef Exponent RhsScalar;
-    EIGEN_SCALAR_BINARY_OP_PLUGIN
+    HYDRA_EIGEN_SCALAR_BINARY_OP_PLUGIN
   }
 #endif
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline result_type operator() (const Scalar& a, const Exponent& b) const { return numext::pow(a, b); }
 
   template<typename Packet>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(const Packet& a, const Packet& b) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Packet packetOp(const Packet& a, const Packet& b) const
   {
     return generic_pow(a,b);
   }
@@ -349,16 +349,16 @@ template<typename LhsScalar,typename RhsScalar>
 struct scalar_difference_op : binary_op_base<LhsScalar,RhsScalar>
 {
   typedef typename ScalarBinaryOpTraits<LhsScalar,RhsScalar,scalar_difference_op>::ReturnType result_type;
-#ifndef EIGEN_SCALAR_BINARY_OP_PLUGIN
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_difference_op)
+#ifndef HYDRA_EIGEN_SCALAR_BINARY_OP_PLUGIN
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_difference_op)
 #else
   scalar_difference_op() {
-    EIGEN_SCALAR_BINARY_OP_PLUGIN
+    HYDRA_EIGEN_SCALAR_BINARY_OP_PLUGIN
   }
 #endif
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const result_type operator() (const LhsScalar& a, const RhsScalar& b) const { return a - b; }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const result_type operator() (const LhsScalar& a, const RhsScalar& b) const { return a - b; }
   template<typename Packet>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(const Packet& a, const Packet& b) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Packet packetOp(const Packet& a, const Packet& b) const
   { return internal::psub(a,b); }
 };
 template<typename LhsScalar,typename RhsScalar>
@@ -378,16 +378,16 @@ template<typename LhsScalar,typename RhsScalar>
 struct scalar_quotient_op  : binary_op_base<LhsScalar,RhsScalar>
 {
   typedef typename ScalarBinaryOpTraits<LhsScalar,RhsScalar,scalar_quotient_op>::ReturnType result_type;
-#ifndef EIGEN_SCALAR_BINARY_OP_PLUGIN
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_quotient_op)
+#ifndef HYDRA_EIGEN_SCALAR_BINARY_OP_PLUGIN
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_quotient_op)
 #else
   scalar_quotient_op() {
-    EIGEN_SCALAR_BINARY_OP_PLUGIN
+    HYDRA_EIGEN_SCALAR_BINARY_OP_PLUGIN
   }
 #endif
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const result_type operator() (const LhsScalar& a, const RhsScalar& b) const { return a / b; }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const result_type operator() (const LhsScalar& a, const RhsScalar& b) const { return a / b; }
   template<typename Packet>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(const Packet& a, const Packet& b) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Packet packetOp(const Packet& a, const Packet& b) const
   { return internal::pdiv(a,b); }
 };
 template<typename LhsScalar,typename RhsScalar>
@@ -407,10 +407,10 @@ struct functor_traits<scalar_quotient_op<LhsScalar,RhsScalar> > {
   * \sa class CwiseBinaryOp, ArrayBase::operator&&
   */
 struct scalar_boolean_and_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_boolean_and_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool operator() (const bool& a, const bool& b) const { return a && b; }
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_boolean_and_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE bool operator() (const bool& a, const bool& b) const { return a && b; }
   template<typename Packet>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(const Packet& a, const Packet& b) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Packet packetOp(const Packet& a, const Packet& b) const
   { return internal::pand(a,b); }
 };
 template<> struct functor_traits<scalar_boolean_and_op> {
@@ -426,10 +426,10 @@ template<> struct functor_traits<scalar_boolean_and_op> {
   * \sa class CwiseBinaryOp, ArrayBase::operator||
   */
 struct scalar_boolean_or_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_boolean_or_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool operator() (const bool& a, const bool& b) const { return a || b; }
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_boolean_or_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE bool operator() (const bool& a, const bool& b) const { return a || b; }
   template<typename Packet>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(const Packet& a, const Packet& b) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Packet packetOp(const Packet& a, const Packet& b) const
   { return internal::por(a,b); }
 };
 template<> struct functor_traits<scalar_boolean_or_op> {
@@ -445,10 +445,10 @@ template<> struct functor_traits<scalar_boolean_or_op> {
  * \sa class CwiseBinaryOp, ArrayBase::operator^
  */
 struct scalar_boolean_xor_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_boolean_xor_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool operator() (const bool& a, const bool& b) const { return a ^ b; }
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_boolean_xor_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE bool operator() (const bool& a, const bool& b) const { return a ^ b; }
   template<typename Packet>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(const Packet& a, const Packet& b) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Packet packetOp(const Packet& a, const Packet& b) const
   { return internal::pxor(a,b); }
 };
 template<> struct functor_traits<scalar_boolean_xor_op> {
@@ -467,17 +467,17 @@ template<typename LhsScalar,typename RhsScalar>
 struct scalar_absolute_difference_op : binary_op_base<LhsScalar,RhsScalar>
 {
   typedef typename ScalarBinaryOpTraits<LhsScalar,RhsScalar,scalar_absolute_difference_op>::ReturnType result_type;
-#ifndef EIGEN_SCALAR_BINARY_OP_PLUGIN
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_absolute_difference_op)
+#ifndef HYDRA_EIGEN_SCALAR_BINARY_OP_PLUGIN
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_absolute_difference_op)
 #else
   scalar_absolute_difference_op() {
-    EIGEN_SCALAR_BINARY_OP_PLUGIN
+    HYDRA_EIGEN_SCALAR_BINARY_OP_PLUGIN
   }
 #endif
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const result_type operator() (const LhsScalar& a, const RhsScalar& b) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const result_type operator() (const LhsScalar& a, const RhsScalar& b) const
   { return numext::absdiff(a,b); }
   template<typename Packet>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(const Packet& a, const Packet& b) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Packet packetOp(const Packet& a, const Packet& b) const
   { return internal::pabsdiff(a,b); }
 };
 template<typename LhsScalar,typename RhsScalar>
@@ -502,12 +502,12 @@ template<typename BinaryOp> struct bind1st_op : BinaryOp {
   typedef typename BinaryOp::second_argument_type second_argument_type;
   typedef typename BinaryOp::result_type          result_type;
 
-  EIGEN_DEVICE_FUNC explicit bind1st_op(const first_argument_type &val) : m_value(val) {}
+  HYDRA_EIGEN_DEVICE_FUNC explicit bind1st_op(const first_argument_type &val) : m_value(val) {}
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const result_type operator() (const second_argument_type& b) const { return BinaryOp::operator()(m_value,b); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const result_type operator() (const second_argument_type& b) const { return BinaryOp::operator()(m_value,b); }
 
   template<typename Packet>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(const Packet& b) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Packet packetOp(const Packet& b) const
   { return BinaryOp::packetOp(internal::pset1<Packet>(m_value), b); }
 
   first_argument_type m_value;
@@ -521,12 +521,12 @@ template<typename BinaryOp> struct bind2nd_op : BinaryOp {
   typedef typename BinaryOp::second_argument_type second_argument_type;
   typedef typename BinaryOp::result_type          result_type;
 
-  EIGEN_DEVICE_FUNC explicit bind2nd_op(const second_argument_type &val) : m_value(val) {}
+  HYDRA_EIGEN_DEVICE_FUNC explicit bind2nd_op(const second_argument_type &val) : m_value(val) {}
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const result_type operator() (const first_argument_type& a) const { return BinaryOp::operator()(a,m_value); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const result_type operator() (const first_argument_type& a) const { return BinaryOp::operator()(a,m_value); }
 
   template<typename Packet>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(const Packet& a) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Packet packetOp(const Packet& a) const
   { return BinaryOp::packetOp(a,internal::pset1<Packet>(m_value)); }
 
   second_argument_type m_value;
@@ -536,6 +536,6 @@ template<typename BinaryOp> struct functor_traits<bind2nd_op<BinaryOp> > : funct
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_BINARY_FUNCTORS_H
+#endif // HYDRA_EIGEN_BINARY_FUNCTORS_H

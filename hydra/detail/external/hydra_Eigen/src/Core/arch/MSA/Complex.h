@@ -10,36 +10,36 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_COMPLEX_MSA_H
-#define EIGEN_COMPLEX_MSA_H
+#ifndef HYDRA_EIGEN_COMPLEX_MSA_H
+#define HYDRA_EIGEN_COMPLEX_MSA_H
 
 #include <iostream>
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
 //---------- float ----------
 struct Packet2cf {
-  EIGEN_STRONG_INLINE Packet2cf() {
+  HYDRA_EIGEN_STRONG_INLINE Packet2cf() {
   }
-  EIGEN_STRONG_INLINE explicit Packet2cf(const std::complex<float>& a,
+  HYDRA_EIGEN_STRONG_INLINE explicit Packet2cf(const std::complex<float>& a,
                                          const std::complex<float>& b) {
     Packet4f t = { std::real(a), std::imag(a), std::real(b), std::imag(b) };
     v = t;
   }
-  EIGEN_STRONG_INLINE explicit Packet2cf(const Packet4f& a) : v(a) {
+  HYDRA_EIGEN_STRONG_INLINE explicit Packet2cf(const Packet4f& a) : v(a) {
   }
-  EIGEN_STRONG_INLINE Packet2cf(const Packet2cf& a) : v(a.v) {
+  HYDRA_EIGEN_STRONG_INLINE Packet2cf(const Packet2cf& a) : v(a.v) {
   }
-  EIGEN_STRONG_INLINE Packet2cf& operator=(const Packet2cf& b) {
+  HYDRA_EIGEN_STRONG_INLINE Packet2cf& operator=(const Packet2cf& b) {
     v = b.v;
     return *this;
   }
-  EIGEN_STRONG_INLINE Packet2cf conjugate(void) const {
+  HYDRA_EIGEN_STRONG_INLINE Packet2cf conjugate(void) const {
     return Packet2cf((Packet4f)__builtin_msa_bnegi_d((v2u64)v, 63));
   }
-  EIGEN_STRONG_INLINE Packet2cf& operator*=(const Packet2cf& b) {
+  HYDRA_EIGEN_STRONG_INLINE Packet2cf& operator*=(const Packet2cf& b) {
     Packet4f v1, v2;
 
     // Get the real values of a | a1_re | a1_re | a2_re | a2_re |
@@ -53,39 +53,39 @@ struct Packet2cf {
     // Conjugate v2
     v2 = Packet2cf(v2).conjugate().v;
     // Swap real/imag elements in v2.
-    v2 = (Packet4f)__builtin_msa_shf_w((v4i32)v2, EIGEN_MSA_SHF_I8(1, 0, 3, 2));
+    v2 = (Packet4f)__builtin_msa_shf_w((v4i32)v2, HYDRA_EIGEN_MSA_SHF_I8(1, 0, 3, 2));
     // Add and return the result
     v = padd(v1, v2);
     return *this;
   }
-  EIGEN_STRONG_INLINE Packet2cf operator*(const Packet2cf& b) const {
+  HYDRA_EIGEN_STRONG_INLINE Packet2cf operator*(const Packet2cf& b) const {
     return Packet2cf(*this) *= b;
   }
-  EIGEN_STRONG_INLINE Packet2cf& operator+=(const Packet2cf& b) {
+  HYDRA_EIGEN_STRONG_INLINE Packet2cf& operator+=(const Packet2cf& b) {
     v = padd(v, b.v);
     return *this;
   }
-  EIGEN_STRONG_INLINE Packet2cf operator+(const Packet2cf& b) const {
+  HYDRA_EIGEN_STRONG_INLINE Packet2cf operator+(const Packet2cf& b) const {
     return Packet2cf(*this) += b;
   }
-  EIGEN_STRONG_INLINE Packet2cf& operator-=(const Packet2cf& b) {
+  HYDRA_EIGEN_STRONG_INLINE Packet2cf& operator-=(const Packet2cf& b) {
     v = psub(v, b.v);
     return *this;
   }
-  EIGEN_STRONG_INLINE Packet2cf operator-(const Packet2cf& b) const {
+  HYDRA_EIGEN_STRONG_INLINE Packet2cf operator-(const Packet2cf& b) const {
     return Packet2cf(*this) -= b;
   }
-  EIGEN_STRONG_INLINE Packet2cf& operator/=(const Packet2cf& b) {
+  HYDRA_EIGEN_STRONG_INLINE Packet2cf& operator/=(const Packet2cf& b) {
     *this *= b.conjugate();
     Packet4f s = pmul<Packet4f>(b.v, b.v);
-    s = padd(s, (Packet4f)__builtin_msa_shf_w((v4i32)s, EIGEN_MSA_SHF_I8(1, 0, 3, 2)));
+    s = padd(s, (Packet4f)__builtin_msa_shf_w((v4i32)s, HYDRA_EIGEN_MSA_SHF_I8(1, 0, 3, 2)));
     v = pdiv(v, s);
     return *this;
   }
-  EIGEN_STRONG_INLINE Packet2cf operator/(const Packet2cf& b) const {
+  HYDRA_EIGEN_STRONG_INLINE Packet2cf operator/(const Packet2cf& b) const {
     return Packet2cf(*this) /= b;
   }
-  EIGEN_STRONG_INLINE Packet2cf operator-(void) const {
+  HYDRA_EIGEN_STRONG_INLINE Packet2cf operator-(void) const {
     return Packet2cf(pnegate(v));
   }
 
@@ -132,8 +132,8 @@ struct unpacket_traits<Packet2cf> {
 };
 
 template <>
-EIGEN_STRONG_INLINE Packet2cf pset1<Packet2cf>(const std::complex<float>& from) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet2cf pset1<Packet2cf>(const std::complex<float>& from) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   float f0 = from.real(), f1 = from.imag();
   Packet4f v0 = { f0, f0, f0, f0 };
@@ -142,118 +142,118 @@ EIGEN_STRONG_INLINE Packet2cf pset1<Packet2cf>(const std::complex<float>& from) 
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2cf padd<Packet2cf>(const Packet2cf& a, const Packet2cf& b) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet2cf padd<Packet2cf>(const Packet2cf& a, const Packet2cf& b) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return a + b;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2cf psub<Packet2cf>(const Packet2cf& a, const Packet2cf& b) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet2cf psub<Packet2cf>(const Packet2cf& a, const Packet2cf& b) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return a - b;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2cf pnegate(const Packet2cf& a) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet2cf pnegate(const Packet2cf& a) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return -a;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2cf pconj(const Packet2cf& a) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet2cf pconj(const Packet2cf& a) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return a.conjugate();
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2cf pmul<Packet2cf>(const Packet2cf& a, const Packet2cf& b) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet2cf pmul<Packet2cf>(const Packet2cf& a, const Packet2cf& b) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return a * b;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2cf pand<Packet2cf>(const Packet2cf& a, const Packet2cf& b) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet2cf pand<Packet2cf>(const Packet2cf& a, const Packet2cf& b) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return Packet2cf(pand(a.v, b.v));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2cf por<Packet2cf>(const Packet2cf& a, const Packet2cf& b) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet2cf por<Packet2cf>(const Packet2cf& a, const Packet2cf& b) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return Packet2cf(por(a.v, b.v));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2cf pxor<Packet2cf>(const Packet2cf& a, const Packet2cf& b) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet2cf pxor<Packet2cf>(const Packet2cf& a, const Packet2cf& b) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return Packet2cf(pxor(a.v, b.v));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2cf pandnot<Packet2cf>(const Packet2cf& a, const Packet2cf& b) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet2cf pandnot<Packet2cf>(const Packet2cf& a, const Packet2cf& b) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return Packet2cf(pandnot(a.v, b.v));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2cf pload<Packet2cf>(const std::complex<float>* from) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet2cf pload<Packet2cf>(const std::complex<float>* from) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
-  EIGEN_DEBUG_ALIGNED_LOAD return Packet2cf(pload<Packet4f>((const float*)from));
+  HYDRA_EIGEN_DEBUG_ALIGNED_LOAD return Packet2cf(pload<Packet4f>((const float*)from));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2cf ploadu<Packet2cf>(const std::complex<float>* from) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet2cf ploadu<Packet2cf>(const std::complex<float>* from) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
-  EIGEN_DEBUG_UNALIGNED_LOAD return Packet2cf(ploadu<Packet4f>((const float*)from));
+  HYDRA_EIGEN_DEBUG_UNALIGNED_LOAD return Packet2cf(ploadu<Packet4f>((const float*)from));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2cf ploaddup<Packet2cf>(const std::complex<float>* from) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet2cf ploaddup<Packet2cf>(const std::complex<float>* from) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return pset1<Packet2cf>(*from);
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstore<std::complex<float> >(std::complex<float>* to,
+HYDRA_EIGEN_STRONG_INLINE void pstore<std::complex<float> >(std::complex<float>* to,
                                                       const Packet2cf& from) {
-  EIGEN_MSA_DEBUG;
+  HYDRA_EIGEN_MSA_DEBUG;
 
-  EIGEN_DEBUG_ALIGNED_STORE pstore<float>((float*)to, from.v);
+  HYDRA_EIGEN_DEBUG_ALIGNED_STORE pstore<float>((float*)to, from.v);
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstoreu<std::complex<float> >(std::complex<float>* to,
+HYDRA_EIGEN_STRONG_INLINE void pstoreu<std::complex<float> >(std::complex<float>* to,
                                                        const Packet2cf& from) {
-  EIGEN_MSA_DEBUG;
+  HYDRA_EIGEN_MSA_DEBUG;
 
-  EIGEN_DEBUG_UNALIGNED_STORE pstoreu<float>((float*)to, from.v);
+  HYDRA_EIGEN_DEBUG_UNALIGNED_STORE pstoreu<float>((float*)to, from.v);
 }
 
 template <>
-EIGEN_DEVICE_FUNC inline Packet2cf pgather<std::complex<float>, Packet2cf>(
+HYDRA_EIGEN_DEVICE_FUNC inline Packet2cf pgather<std::complex<float>, Packet2cf>(
     const std::complex<float>* from, Index stride) {
-  EIGEN_MSA_DEBUG;
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return Packet2cf(from[0 * stride], from[1 * stride]);
 }
 
 template <>
-EIGEN_DEVICE_FUNC inline void pscatter<std::complex<float>, Packet2cf>(std::complex<float>* to,
+HYDRA_EIGEN_DEVICE_FUNC inline void pscatter<std::complex<float>, Packet2cf>(std::complex<float>* to,
                                                                        const Packet2cf& from,
                                                                        Index stride) {
-  EIGEN_MSA_DEBUG;
+  HYDRA_EIGEN_MSA_DEBUG;
 
   *to = std::complex<float>(from.v[0], from.v[1]);
   to += stride;
@@ -261,36 +261,36 @@ EIGEN_DEVICE_FUNC inline void pscatter<std::complex<float>, Packet2cf>(std::comp
 }
 
 template <>
-EIGEN_STRONG_INLINE void prefetch<std::complex<float> >(const std::complex<float>* addr) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE void prefetch<std::complex<float> >(const std::complex<float>* addr) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   prefetch(reinterpret_cast<const float*>(addr));
 }
 
 template <>
-EIGEN_STRONG_INLINE std::complex<float> pfirst<Packet2cf>(const Packet2cf& a) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE std::complex<float> pfirst<Packet2cf>(const Packet2cf& a) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return std::complex<float>(a.v[0], a.v[1]);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2cf preverse(const Packet2cf& a) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet2cf preverse(const Packet2cf& a) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
-  return Packet2cf((Packet4f)__builtin_msa_shf_w((v4i32)a.v, EIGEN_MSA_SHF_I8(2, 3, 0, 1)));
+  return Packet2cf((Packet4f)__builtin_msa_shf_w((v4i32)a.v, HYDRA_EIGEN_MSA_SHF_I8(2, 3, 0, 1)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2cf pcplxflip<Packet2cf>(const Packet2cf& a) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet2cf pcplxflip<Packet2cf>(const Packet2cf& a) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
-  return Packet2cf((Packet4f)__builtin_msa_shf_w((v4i32)a.v, EIGEN_MSA_SHF_I8(1, 0, 3, 2)));
+  return Packet2cf((Packet4f)__builtin_msa_shf_w((v4i32)a.v, HYDRA_EIGEN_MSA_SHF_I8(1, 0, 3, 2)));
 }
 
 template <>
-EIGEN_STRONG_INLINE std::complex<float> predux<Packet2cf>(const Packet2cf& a) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE std::complex<float> predux<Packet2cf>(const Packet2cf& a) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   Packet4f value = (Packet4f)preverse((Packet2d)a.v);
   value += a.v;
@@ -298,18 +298,18 @@ EIGEN_STRONG_INLINE std::complex<float> predux<Packet2cf>(const Packet2cf& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE std::complex<float> predux_mul<Packet2cf>(const Packet2cf& a) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE std::complex<float> predux_mul<Packet2cf>(const Packet2cf& a) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return std::complex<float>((a.v[0] * a.v[2]) - (a.v[1] * a.v[3]),
                              (a.v[0] * a.v[3]) + (a.v[1] * a.v[2]));
 }
 
-EIGEN_MAKE_CONJ_HELPER_CPLX_REAL(Packet2cf, Packet4f)
+HYDRA_EIGEN_MAKE_CONJ_HELPER_CPLX_REAL(Packet2cf, Packet4f)
 
 template <>
-EIGEN_STRONG_INLINE Packet2cf pdiv<Packet2cf>(const Packet2cf& a, const Packet2cf& b) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet2cf pdiv<Packet2cf>(const Packet2cf& a, const Packet2cf& b) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return a / b;
 }
@@ -319,8 +319,8 @@ inline std::ostream& operator<<(std::ostream& os, const PacketBlock<Packet2cf, 2
   return os;
 }
 
-EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet2cf, 2>& kernel) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet2cf, 2>& kernel) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   Packet4f tmp =
       (Packet4f)__builtin_msa_ilvl_d((v2i64)kernel.packet[1].v, (v2i64)kernel.packet[0].v);
@@ -330,7 +330,7 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet2cf, 2>& kernel) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2cf pblend(const Selector<2>& ifPacket, const Packet2cf& thenPacket,
+HYDRA_EIGEN_STRONG_INLINE Packet2cf pblend(const Selector<2>& ifPacket, const Packet2cf& thenPacket,
                                      const Packet2cf& elsePacket) {
   return (Packet2cf)(Packet4f)pblend<Packet2d>(ifPacket, (Packet2d)thenPacket.v,
                                                (Packet2d)elsePacket.v);
@@ -339,25 +339,25 @@ EIGEN_STRONG_INLINE Packet2cf pblend(const Selector<2>& ifPacket, const Packet2c
 //---------- double ----------
 
 struct Packet1cd {
-  EIGEN_STRONG_INLINE Packet1cd() {
+  HYDRA_EIGEN_STRONG_INLINE Packet1cd() {
   }
-  EIGEN_STRONG_INLINE explicit Packet1cd(const std::complex<double>& a) {
+  HYDRA_EIGEN_STRONG_INLINE explicit Packet1cd(const std::complex<double>& a) {
     v[0] = std::real(a);
     v[1] = std::imag(a);
   }
-  EIGEN_STRONG_INLINE explicit Packet1cd(const Packet2d& a) : v(a) {
+  HYDRA_EIGEN_STRONG_INLINE explicit Packet1cd(const Packet2d& a) : v(a) {
   }
-  EIGEN_STRONG_INLINE Packet1cd(const Packet1cd& a) : v(a.v) {
+  HYDRA_EIGEN_STRONG_INLINE Packet1cd(const Packet1cd& a) : v(a.v) {
   }
-  EIGEN_STRONG_INLINE Packet1cd& operator=(const Packet1cd& b) {
+  HYDRA_EIGEN_STRONG_INLINE Packet1cd& operator=(const Packet1cd& b) {
     v = b.v;
     return *this;
   }
-  EIGEN_STRONG_INLINE Packet1cd conjugate(void) const {
+  HYDRA_EIGEN_STRONG_INLINE Packet1cd conjugate(void) const {
     static const v2u64 p2ul_CONJ_XOR = { 0x0, 0x8000000000000000 };
     return (Packet1cd)pxor(v, (Packet2d)p2ul_CONJ_XOR);
   }
-  EIGEN_STRONG_INLINE Packet1cd& operator*=(const Packet1cd& b) {
+  HYDRA_EIGEN_STRONG_INLINE Packet1cd& operator*=(const Packet1cd& b) {
     Packet2d v1, v2;
 
     // Get the real values of a | a1_re | a1_re
@@ -371,39 +371,39 @@ struct Packet1cd {
     // Conjugate v2
     v2 = Packet1cd(v2).conjugate().v;
     // Swap real/imag elements in v2.
-    v2 = (Packet2d)__builtin_msa_shf_w((v4i32)v2, EIGEN_MSA_SHF_I8(2, 3, 0, 1));
+    v2 = (Packet2d)__builtin_msa_shf_w((v4i32)v2, HYDRA_EIGEN_MSA_SHF_I8(2, 3, 0, 1));
     // Add and return the result
     v = padd(v1, v2);
     return *this;
   }
-  EIGEN_STRONG_INLINE Packet1cd operator*(const Packet1cd& b) const {
+  HYDRA_EIGEN_STRONG_INLINE Packet1cd operator*(const Packet1cd& b) const {
     return Packet1cd(*this) *= b;
   }
-  EIGEN_STRONG_INLINE Packet1cd& operator+=(const Packet1cd& b) {
+  HYDRA_EIGEN_STRONG_INLINE Packet1cd& operator+=(const Packet1cd& b) {
     v = padd(v, b.v);
     return *this;
   }
-  EIGEN_STRONG_INLINE Packet1cd operator+(const Packet1cd& b) const {
+  HYDRA_EIGEN_STRONG_INLINE Packet1cd operator+(const Packet1cd& b) const {
     return Packet1cd(*this) += b;
   }
-  EIGEN_STRONG_INLINE Packet1cd& operator-=(const Packet1cd& b) {
+  HYDRA_EIGEN_STRONG_INLINE Packet1cd& operator-=(const Packet1cd& b) {
     v = psub(v, b.v);
     return *this;
   }
-  EIGEN_STRONG_INLINE Packet1cd operator-(const Packet1cd& b) const {
+  HYDRA_EIGEN_STRONG_INLINE Packet1cd operator-(const Packet1cd& b) const {
     return Packet1cd(*this) -= b;
   }
-  EIGEN_STRONG_INLINE Packet1cd& operator/=(const Packet1cd& b) {
+  HYDRA_EIGEN_STRONG_INLINE Packet1cd& operator/=(const Packet1cd& b) {
     *this *= b.conjugate();
     Packet2d s = pmul<Packet2d>(b.v, b.v);
     s = padd(s, preverse<Packet2d>(s));
     v = pdiv(v, s);
     return *this;
   }
-  EIGEN_STRONG_INLINE Packet1cd operator/(const Packet1cd& b) const {
+  HYDRA_EIGEN_STRONG_INLINE Packet1cd operator/(const Packet1cd& b) const {
     return Packet1cd(*this) /= b;
   }
-  EIGEN_STRONG_INLINE Packet1cd operator-(void) const {
+  HYDRA_EIGEN_STRONG_INLINE Packet1cd operator-(void) const {
     return Packet1cd(pnegate(v));
   }
 
@@ -446,123 +446,123 @@ struct unpacket_traits<Packet1cd> {
 };
 
 template <>
-EIGEN_STRONG_INLINE Packet1cd pload<Packet1cd>(const std::complex<double>* from) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet1cd pload<Packet1cd>(const std::complex<double>* from) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
-  EIGEN_DEBUG_ALIGNED_LOAD return Packet1cd(pload<Packet2d>((const double*)from));
+  HYDRA_EIGEN_DEBUG_ALIGNED_LOAD return Packet1cd(pload<Packet2d>((const double*)from));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet1cd ploadu<Packet1cd>(const std::complex<double>* from) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet1cd ploadu<Packet1cd>(const std::complex<double>* from) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
-  EIGEN_DEBUG_UNALIGNED_LOAD return Packet1cd(ploadu<Packet2d>((const double*)from));
+  HYDRA_EIGEN_DEBUG_UNALIGNED_LOAD return Packet1cd(ploadu<Packet2d>((const double*)from));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet1cd pset1<Packet1cd>(const std::complex<double>& from) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet1cd pset1<Packet1cd>(const std::complex<double>& from) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return Packet1cd(from);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet1cd padd<Packet1cd>(const Packet1cd& a, const Packet1cd& b) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet1cd padd<Packet1cd>(const Packet1cd& a, const Packet1cd& b) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return a + b;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet1cd psub<Packet1cd>(const Packet1cd& a, const Packet1cd& b) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet1cd psub<Packet1cd>(const Packet1cd& a, const Packet1cd& b) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return a - b;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet1cd pnegate(const Packet1cd& a) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet1cd pnegate(const Packet1cd& a) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return -a;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet1cd pconj(const Packet1cd& a) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet1cd pconj(const Packet1cd& a) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return a.conjugate();
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet1cd pmul<Packet1cd>(const Packet1cd& a, const Packet1cd& b) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet1cd pmul<Packet1cd>(const Packet1cd& a, const Packet1cd& b) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return a * b;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet1cd pand<Packet1cd>(const Packet1cd& a, const Packet1cd& b) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet1cd pand<Packet1cd>(const Packet1cd& a, const Packet1cd& b) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return Packet1cd(pand(a.v, b.v));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet1cd por<Packet1cd>(const Packet1cd& a, const Packet1cd& b) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet1cd por<Packet1cd>(const Packet1cd& a, const Packet1cd& b) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return Packet1cd(por(a.v, b.v));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet1cd pxor<Packet1cd>(const Packet1cd& a, const Packet1cd& b) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet1cd pxor<Packet1cd>(const Packet1cd& a, const Packet1cd& b) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return Packet1cd(pxor(a.v, b.v));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet1cd pandnot<Packet1cd>(const Packet1cd& a, const Packet1cd& b) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet1cd pandnot<Packet1cd>(const Packet1cd& a, const Packet1cd& b) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return Packet1cd(pandnot(a.v, b.v));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet1cd ploaddup<Packet1cd>(const std::complex<double>* from) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet1cd ploaddup<Packet1cd>(const std::complex<double>* from) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return pset1<Packet1cd>(*from);
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstore<std::complex<double> >(std::complex<double>* to,
+HYDRA_EIGEN_STRONG_INLINE void pstore<std::complex<double> >(std::complex<double>* to,
                                                        const Packet1cd& from) {
-  EIGEN_MSA_DEBUG;
+  HYDRA_EIGEN_MSA_DEBUG;
 
-  EIGEN_DEBUG_ALIGNED_STORE pstore<double>((double*)to, from.v);
+  HYDRA_EIGEN_DEBUG_ALIGNED_STORE pstore<double>((double*)to, from.v);
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstoreu<std::complex<double> >(std::complex<double>* to,
+HYDRA_EIGEN_STRONG_INLINE void pstoreu<std::complex<double> >(std::complex<double>* to,
                                                         const Packet1cd& from) {
-  EIGEN_MSA_DEBUG;
+  HYDRA_EIGEN_MSA_DEBUG;
 
-  EIGEN_DEBUG_UNALIGNED_STORE pstoreu<double>((double*)to, from.v);
+  HYDRA_EIGEN_DEBUG_UNALIGNED_STORE pstoreu<double>((double*)to, from.v);
 }
 
 template <>
-EIGEN_STRONG_INLINE void prefetch<std::complex<double> >(const std::complex<double>* addr) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE void prefetch<std::complex<double> >(const std::complex<double>* addr) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   prefetch(reinterpret_cast<const double*>(addr));
 }
 
 template <>
-EIGEN_DEVICE_FUNC inline Packet1cd pgather<std::complex<double>, Packet1cd>(
+HYDRA_EIGEN_DEVICE_FUNC inline Packet1cd pgather<std::complex<double>, Packet1cd>(
     const std::complex<double>* from, Index stride __attribute__((unused))) {
-  EIGEN_MSA_DEBUG;
+  HYDRA_EIGEN_MSA_DEBUG;
 
   Packet1cd res;
   res.v[0] = std::real(from[0]);
@@ -571,54 +571,54 @@ EIGEN_DEVICE_FUNC inline Packet1cd pgather<std::complex<double>, Packet1cd>(
 }
 
 template <>
-EIGEN_DEVICE_FUNC inline void pscatter<std::complex<double>, Packet1cd>(std::complex<double>* to,
+HYDRA_EIGEN_DEVICE_FUNC inline void pscatter<std::complex<double>, Packet1cd>(std::complex<double>* to,
                                                                         const Packet1cd& from,
                                                                         Index stride
                                                                         __attribute__((unused))) {
-  EIGEN_MSA_DEBUG;
+  HYDRA_EIGEN_MSA_DEBUG;
 
   pstore(to, from);
 }
 
 template <>
-EIGEN_STRONG_INLINE std::complex<double> pfirst<Packet1cd>(const Packet1cd& a) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE std::complex<double> pfirst<Packet1cd>(const Packet1cd& a) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return std::complex<double>(a.v[0], a.v[1]);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet1cd preverse(const Packet1cd& a) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet1cd preverse(const Packet1cd& a) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return a;
 }
 
 template <>
-EIGEN_STRONG_INLINE std::complex<double> predux<Packet1cd>(const Packet1cd& a) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE std::complex<double> predux<Packet1cd>(const Packet1cd& a) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return pfirst(a);
 }
 
 template <>
-EIGEN_STRONG_INLINE std::complex<double> predux_mul<Packet1cd>(const Packet1cd& a) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE std::complex<double> predux_mul<Packet1cd>(const Packet1cd& a) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return pfirst(a);
 }
 
-EIGEN_MAKE_CONJ_HELPER_CPLX_REAL(Packet1cd, Packet2d)
+HYDRA_EIGEN_MAKE_CONJ_HELPER_CPLX_REAL(Packet1cd, Packet2d)
 
 template <>
-EIGEN_STRONG_INLINE Packet1cd pdiv<Packet1cd>(const Packet1cd& a, const Packet1cd& b) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet1cd pdiv<Packet1cd>(const Packet1cd& a, const Packet1cd& b) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return a / b;
 }
 
-EIGEN_STRONG_INLINE Packet1cd pcplxflip /*<Packet1cd>*/ (const Packet1cd& x) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE Packet1cd pcplxflip /*<Packet1cd>*/ (const Packet1cd& x) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   return Packet1cd(preverse(Packet2d(x.v)));
 }
@@ -628,8 +628,8 @@ inline std::ostream& operator<<(std::ostream& os, const PacketBlock<Packet1cd, 2
   return os;
 }
 
-EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet1cd, 2>& kernel) {
-  EIGEN_MSA_DEBUG;
+HYDRA_EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet1cd, 2>& kernel) {
+  HYDRA_EIGEN_MSA_DEBUG;
 
   Packet2d v1, v2;
 
@@ -643,6 +643,6 @@ EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet1cd, 2>& kernel) {
 
 }  // end namespace internal
 
-}  // end namespace Eigen
+}  // end namespace hydra_Eigen
 
-#endif  // EIGEN_COMPLEX_MSA_H
+#endif  // HYDRA_EIGEN_COMPLEX_MSA_H

@@ -30,16 +30,16 @@
  ********************************************************************************
 */
 
-#ifndef EIGEN_LLT_LAPACKE_H
-#define EIGEN_LLT_LAPACKE_H
+#ifndef HYDRA_EIGEN_LLT_LAPACKE_H
+#define HYDRA_EIGEN_LLT_LAPACKE_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
 template<typename Scalar> struct lapacke_llt;
 
-#define EIGEN_LAPACKE_LLT(EIGTYPE, BLASTYPE, LAPACKE_PREFIX) \
+#define HYDRA_EIGEN_LAPACKE_LLT(EIGTYPE, BLASTYPE, LAPACKE_PREFIX) \
 template<> struct lapacke_llt<EIGTYPE> \
 { \
   template<typename MatrixType> \
@@ -70,7 +70,7 @@ template<> struct llt_inplace<EIGTYPE, Lower> \
   } \
   template<typename MatrixType, typename VectorType> \
   static Index rankUpdate(MatrixType& mat, const VectorType& vec, const typename MatrixType::RealScalar& sigma) \
-  { return Eigen::internal::llt_rank_update_lower(mat, vec, sigma); } \
+  { return hydra_Eigen::internal::llt_rank_update_lower(mat, vec, sigma); } \
 }; \
 template<> struct llt_inplace<EIGTYPE, Upper> \
 { \
@@ -87,13 +87,13 @@ template<> struct llt_inplace<EIGTYPE, Upper> \
   } \
 };
 
-EIGEN_LAPACKE_LLT(double, double, d)
-EIGEN_LAPACKE_LLT(float, float, s)
-EIGEN_LAPACKE_LLT(dcomplex, lapack_complex_double, z)
-EIGEN_LAPACKE_LLT(scomplex, lapack_complex_float, c)
+HYDRA_EIGEN_LAPACKE_LLT(double, double, d)
+HYDRA_EIGEN_LAPACKE_LLT(float, float, s)
+HYDRA_EIGEN_LAPACKE_LLT(dcomplex, lapack_complex_double, z)
+HYDRA_EIGEN_LAPACKE_LLT(scomplex, lapack_complex_float, c)
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_LLT_LAPACKE_H
+#endif // HYDRA_EIGEN_LLT_LAPACKE_H

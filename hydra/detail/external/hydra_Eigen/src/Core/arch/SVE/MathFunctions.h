@@ -7,38 +7,38 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_MATH_FUNCTIONS_SVE_H
-#define EIGEN_MATH_FUNCTIONS_SVE_H
+#ifndef HYDRA_EIGEN_MATH_FUNCTIONS_SVE_H
+#define HYDRA_EIGEN_MATH_FUNCTIONS_SVE_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 namespace internal {
 
 template <>
-EIGEN_STRONG_INLINE EIGEN_UNUSED PacketXf pexp<PacketXf>(const PacketXf& x) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_UNUSED PacketXf pexp<PacketXf>(const PacketXf& x) {
   return pexp_float(x);
 }
 
 template <>
-EIGEN_STRONG_INLINE EIGEN_UNUSED PacketXf plog<PacketXf>(const PacketXf& x) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_UNUSED PacketXf plog<PacketXf>(const PacketXf& x) {
   return plog_float(x);
 }
 
 template <>
-EIGEN_STRONG_INLINE EIGEN_UNUSED PacketXf psin<PacketXf>(const PacketXf& x) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_UNUSED PacketXf psin<PacketXf>(const PacketXf& x) {
   return psin_float(x);
 }
 
 template <>
-EIGEN_STRONG_INLINE EIGEN_UNUSED PacketXf pcos<PacketXf>(const PacketXf& x) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_UNUSED PacketXf pcos<PacketXf>(const PacketXf& x) {
   return pcos_float(x);
 }
 
 // Hyperbolic Tangent function.
 template <>
-EIGEN_STRONG_INLINE EIGEN_UNUSED PacketXf ptanh<PacketXf>(const PacketXf& x) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_UNUSED PacketXf ptanh<PacketXf>(const PacketXf& x) {
   return internal::generic_fast_tanh_float(x);
 }
 }  // end namespace internal
-}  // end namespace Eigen
+}  // end namespace hydra_Eigen
 
-#endif  // EIGEN_MATH_FUNCTIONS_SVE_H
+#endif  // HYDRA_EIGEN_MATH_FUNCTIONS_SVE_H

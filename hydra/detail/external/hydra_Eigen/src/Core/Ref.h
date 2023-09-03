@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_REF_H
-#define EIGEN_REF_H
+#ifndef HYDRA_EIGEN_REF_H
+#define HYDRA_EIGEN_REF_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -65,14 +65,14 @@ template<typename Derived> class RefBase
 public:
 
   typedef MapBase<Derived> Base;
-  EIGEN_DENSE_PUBLIC_INTERFACE(RefBase)
+  HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(RefBase)
 
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR inline Index innerStride() const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR inline Index innerStride() const
   {
     return StrideType::InnerStrideAtCompileTime != 0 ? m_stride.inner() : 1;
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR inline Index outerStride() const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR inline Index outerStride() const
   {
     return StrideType::OuterStrideAtCompileTime != 0 ? m_stride.outer()
          : IsVectorAtCompileTime ? this->size()
@@ -80,45 +80,45 @@ public:
          : this->rows();
   }
 
-  EIGEN_DEVICE_FUNC RefBase()
+  HYDRA_EIGEN_DEVICE_FUNC RefBase()
     : Base(0,RowsAtCompileTime==Dynamic?0:RowsAtCompileTime,ColsAtCompileTime==Dynamic?0:ColsAtCompileTime),
       // Stride<> does not allow default ctor for Dynamic strides, so let' initialize it with dummy values:
       m_stride(StrideType::OuterStrideAtCompileTime==Dynamic?0:StrideType::OuterStrideAtCompileTime,
                StrideType::InnerStrideAtCompileTime==Dynamic?0:StrideType::InnerStrideAtCompileTime)
   {}
 
-  EIGEN_INHERIT_ASSIGNMENT_OPERATORS(RefBase)
+  HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(RefBase)
 
 protected:
 
   typedef Stride<StrideType::OuterStrideAtCompileTime,StrideType::InnerStrideAtCompileTime> StrideBase;
 
   // Resolves inner stride if default 0.
-  static EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR Index resolveInnerStride(Index inner) {
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR Index resolveInnerStride(Index inner) {
     return inner == 0 ? 1 : inner;
   }
 
   // Resolves outer stride if default 0.
-  static EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR Index resolveOuterStride(Index inner, Index outer, Index rows, Index cols, bool isVectorAtCompileTime, bool isRowMajor) {
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR Index resolveOuterStride(Index inner, Index outer, Index rows, Index cols, bool isVectorAtCompileTime, bool isRowMajor) {
     return outer == 0 ? isVectorAtCompileTime ? inner * rows * cols : isRowMajor ? inner * cols : inner * rows : outer;
   }
 
   // Returns true if construction is valid, false if there is a stride mismatch,
   // and fails if there is a size mismatch.
   template<typename Expression>
-  EIGEN_DEVICE_FUNC bool construct(Expression& expr)
+  HYDRA_EIGEN_DEVICE_FUNC bool construct(Expression& expr)
   {
     // Check matrix sizes.  If this is a compile-time vector, we do allow
     // implicitly transposing.
-    EIGEN_STATIC_ASSERT(
-      EIGEN_PREDICATE_SAME_MATRIX_SIZE(PlainObjectType, Expression)
+    HYDRA_EIGEN_STATIC_ASSERT(
+      HYDRA_EIGEN_PREDICATE_SAME_MATRIX_SIZE(PlainObjectType, Expression)
       // If it is a vector, the transpose sizes might match.
       || ( PlainObjectType::IsVectorAtCompileTime
-            && ((int(PlainObjectType::RowsAtCompileTime)==Eigen::Dynamic
-              || int(Expression::ColsAtCompileTime)==Eigen::Dynamic
+            && ((int(PlainObjectType::RowsAtCompileTime)==hydra_Eigen::Dynamic
+              || int(Expression::ColsAtCompileTime)==hydra_Eigen::Dynamic
               || int(PlainObjectType::RowsAtCompileTime)==int(Expression::ColsAtCompileTime))
-            &&  (int(PlainObjectType::ColsAtCompileTime)==Eigen::Dynamic
-              || int(Expression::RowsAtCompileTime)==Eigen::Dynamic
+            &&  (int(PlainObjectType::ColsAtCompileTime)==hydra_Eigen::Dynamic
+              || int(Expression::RowsAtCompileTime)==hydra_Eigen::Dynamic
               || int(PlainObjectType::ColsAtCompileTime)==int(Expression::RowsAtCompileTime)))),
       YOU_MIXED_MATRICES_OF_DIFFERENT_SIZES
     )
@@ -274,7 +274,7 @@ protected:
   * \endcode
   *
   * See also the following stackoverflow questions for further references:
-  *  - <a href="http://stackoverflow.com/questions/21132538/correct-usage-of-the-eigenref-class">Correct usage of the Eigen::Ref<> class</a>
+  *  - <a href="http://stackoverflow.com/questions/21132538/correct-usage-of-the-eigenref-class">Correct usage of the hydra_Eigen::Ref<> class</a>
   *
   * \sa PlainObjectBase::Map(), \ref TopicStorageOrders
   */
@@ -284,27 +284,27 @@ template<typename PlainObjectType, int Options, typename StrideType> class Ref
   private:
     typedef internal::traits<Ref> Traits;
     template<typename Derived>
-    EIGEN_DEVICE_FUNC inline Ref(const PlainObjectBase<Derived>& expr,
+    HYDRA_EIGEN_DEVICE_FUNC inline Ref(const PlainObjectBase<Derived>& expr,
                                  typename internal::enable_if<bool(Traits::template match<Derived>::MatchAtCompileTime),Derived>::type* = 0);
   public:
 
     typedef RefBase<Ref> Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(Ref)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(Ref)
 
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<typename Derived>
-    EIGEN_DEVICE_FUNC inline Ref(PlainObjectBase<Derived>& expr,
+    HYDRA_EIGEN_DEVICE_FUNC inline Ref(PlainObjectBase<Derived>& expr,
                                  typename internal::enable_if<bool(Traits::template match<Derived>::MatchAtCompileTime),Derived>::type* = 0)
     {
-      EIGEN_STATIC_ASSERT(bool(Traits::template match<Derived>::MatchAtCompileTime), STORAGE_LAYOUT_DOES_NOT_MATCH);
+      HYDRA_EIGEN_STATIC_ASSERT(bool(Traits::template match<Derived>::MatchAtCompileTime), STORAGE_LAYOUT_DOES_NOT_MATCH);
       // Construction must pass since we will not create temprary storage in the non-const case.
       const bool success = Base::construct(expr.derived());
-      EIGEN_UNUSED_VARIABLE(success)
+      HYDRA_EIGEN_UNUSED_VARIABLE(success)
       eigen_assert(success);
     }
     template<typename Derived>
-    EIGEN_DEVICE_FUNC inline Ref(const DenseBase<Derived>& expr,
+    HYDRA_EIGEN_DEVICE_FUNC inline Ref(const DenseBase<Derived>& expr,
                                  typename internal::enable_if<bool(Traits::template match<Derived>::MatchAtCompileTime),Derived>::type* = 0)
     #else
     /** Implicit constructor from any dense expression */
@@ -312,16 +312,16 @@ template<typename PlainObjectType, int Options, typename StrideType> class Ref
     inline Ref(DenseBase<Derived>& expr)
     #endif
     {
-      EIGEN_STATIC_ASSERT(bool(internal::is_lvalue<Derived>::value), THIS_EXPRESSION_IS_NOT_A_LVALUE__IT_IS_READ_ONLY);
-      EIGEN_STATIC_ASSERT(bool(Traits::template match<Derived>::MatchAtCompileTime), STORAGE_LAYOUT_DOES_NOT_MATCH);
-      EIGEN_STATIC_ASSERT(!Derived::IsPlainObjectBase,THIS_EXPRESSION_IS_NOT_A_LVALUE__IT_IS_READ_ONLY);
+      HYDRA_EIGEN_STATIC_ASSERT(bool(internal::is_lvalue<Derived>::value), THIS_EXPRESSION_IS_NOT_A_LVALUE__IT_IS_READ_ONLY);
+      HYDRA_EIGEN_STATIC_ASSERT(bool(Traits::template match<Derived>::MatchAtCompileTime), STORAGE_LAYOUT_DOES_NOT_MATCH);
+      HYDRA_EIGEN_STATIC_ASSERT(!Derived::IsPlainObjectBase,THIS_EXPRESSION_IS_NOT_A_LVALUE__IT_IS_READ_ONLY);
       // Construction must pass since we will not create temporary storage in the non-const case.
       const bool success = Base::construct(expr.const_cast_derived());
-      EIGEN_UNUSED_VARIABLE(success)
+      HYDRA_EIGEN_UNUSED_VARIABLE(success)
       eigen_assert(success);
     }
 
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Ref)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Ref)
 
 };
 
@@ -333,10 +333,10 @@ template<typename TPlainObjectType, int Options, typename StrideType> class Ref<
   public:
 
     typedef RefBase<Ref> Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(Ref)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(Ref)
 
     template<typename Derived>
-    EIGEN_DEVICE_FUNC inline Ref(const DenseBase<Derived>& expr,
+    HYDRA_EIGEN_DEVICE_FUNC inline Ref(const DenseBase<Derived>& expr,
                                  typename internal::enable_if<bool(Traits::template match<Derived>::ScalarTypeMatch),Derived>::type* = 0)
     {
 //      std::cout << match_helper<Derived>::HasDirectAccess << "," << match_helper<Derived>::OuterStrideMatch << "," << match_helper<Derived>::InnerStrideMatch << "\n";
@@ -345,19 +345,19 @@ template<typename TPlainObjectType, int Options, typename StrideType> class Ref<
       construct(expr.derived(), typename Traits::template match<Derived>::type());
     }
 
-    EIGEN_DEVICE_FUNC inline Ref(const Ref& other) : Base(other) {
+    HYDRA_EIGEN_DEVICE_FUNC inline Ref(const Ref& other) : Base(other) {
       // copy constructor shall not copy the m_object, to avoid unnecessary malloc and copy
     }
 
     template<typename OtherRef>
-    EIGEN_DEVICE_FUNC inline Ref(const RefBase<OtherRef>& other) {
+    HYDRA_EIGEN_DEVICE_FUNC inline Ref(const RefBase<OtherRef>& other) {
       construct(other.derived(), typename Traits::template match<OtherRef>::type());
     }
 
   protected:
 
     template<typename Expression>
-    EIGEN_DEVICE_FUNC void construct(const Expression& expr,internal::true_type)
+    HYDRA_EIGEN_DEVICE_FUNC void construct(const Expression& expr,internal::true_type)
     {
       // Check if we can use the underlying expr's storage directly, otherwise call the copy version.
       if (!Base::construct(expr)) {
@@ -366,7 +366,7 @@ template<typename TPlainObjectType, int Options, typename StrideType> class Ref<
     }
 
     template<typename Expression>
-    EIGEN_DEVICE_FUNC void construct(const Expression& expr, internal::false_type)
+    HYDRA_EIGEN_DEVICE_FUNC void construct(const Expression& expr, internal::false_type)
     {
       internal::call_assignment_no_alias(m_object,expr,internal::assign_op<Scalar,Scalar>());
       Base::construct(m_object);
@@ -376,6 +376,6 @@ template<typename TPlainObjectType, int Options, typename StrideType> class Ref<
     TPlainObjectType m_object;
 };
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_REF_H
+#endif // HYDRA_EIGEN_REF_H

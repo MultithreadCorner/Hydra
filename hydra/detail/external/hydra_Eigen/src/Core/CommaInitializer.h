@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_COMMAINITIALIZER_H
-#define EIGEN_COMMAINITIALIZER_H
+#ifndef HYDRA_EIGEN_COMMAINITIALIZER_H
+#define HYDRA_EIGEN_COMMAINITIALIZER_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 /** \class CommaInitializer
   * \ingroup Core_Module
@@ -29,7 +29,7 @@ struct CommaInitializer
 {
   typedef typename XprType::Scalar Scalar;
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline CommaInitializer(XprType& xpr, const Scalar& s)
     : m_xpr(xpr), m_row(0), m_col(1), m_currentBlockRows(1)
   {
@@ -39,7 +39,7 @@ struct CommaInitializer
   }
 
   template<typename OtherDerived>
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline CommaInitializer(XprType& xpr, const DenseBase<OtherDerived>& other)
     : m_xpr(xpr), m_row(0), m_col(other.cols()), m_currentBlockRows(other.rows())
   {
@@ -51,7 +51,7 @@ struct CommaInitializer
   /* Copy/Move constructor which transfers ownership. This is crucial in 
    * absence of return value optimization to avoid assertions during destruction. */
   // FIXME in C++11 mode this could be replaced by a proper RValue constructor
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline CommaInitializer(const CommaInitializer& o)
   : m_xpr(o.m_xpr), m_row(o.m_row), m_col(o.m_col), m_currentBlockRows(o.m_currentBlockRows) {
     // Mark original object as finished. In absence of R-value references we need to const_cast:
@@ -61,7 +61,7 @@ struct CommaInitializer
   }
 
   /* inserts a scalar value in the target matrix */
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   CommaInitializer& operator,(const Scalar& s)
   {
     if (m_col==m_xpr.cols())
@@ -81,7 +81,7 @@ struct CommaInitializer
 
   /* inserts a matrix expression in the target matrix */
   template<typename OtherDerived>
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   CommaInitializer& operator,(const DenseBase<OtherDerived>& other)
   {
     if (m_col==m_xpr.cols() && (other.cols()!=0 || other.rows()!=m_currentBlockRows))
@@ -101,10 +101,10 @@ struct CommaInitializer
     return *this;
   }
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline ~CommaInitializer()
-#if defined VERIFY_RAISES_ASSERT && (!defined EIGEN_NO_ASSERTION_CHECKING) && defined EIGEN_EXCEPTIONS
-  EIGEN_EXCEPTION_SPEC(Eigen::eigen_assert_exception)
+#if defined VERIFY_RAISES_ASSERT && (!defined HYDRA_EIGEN_NO_ASSERTION_CHECKING) && defined HYDRA_EIGEN_EXCEPTIONS
+  HYDRA_EIGEN_EXCEPTION_SPEC(hydra_Eigen::eigen_assert_exception)
 #endif
   {
     finished();
@@ -117,7 +117,7 @@ struct CommaInitializer
     * quaternion.fromRotationMatrix((Matrix3f() << axis0, axis1, axis2).finished());
     * \endcode
     */
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline XprType& finished() {
       eigen_assert(((m_row+m_currentBlockRows) == m_xpr.rows() || m_xpr.cols() == 0)
            && m_col == m_xpr.cols()
@@ -145,7 +145,7 @@ struct CommaInitializer
   * \sa CommaInitializer::finished(), class CommaInitializer
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC inline CommaInitializer<Derived> DenseBase<Derived>::operator<< (const Scalar& s)
+HYDRA_EIGEN_DEVICE_FUNC inline CommaInitializer<Derived> DenseBase<Derived>::operator<< (const Scalar& s)
 {
   return CommaInitializer<Derived>(*static_cast<Derived*>(this), s);
 }
@@ -153,12 +153,12 @@ EIGEN_DEVICE_FUNC inline CommaInitializer<Derived> DenseBase<Derived>::operator<
 /** \sa operator<<(const Scalar&) */
 template<typename Derived>
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC inline CommaInitializer<Derived>
+HYDRA_EIGEN_DEVICE_FUNC inline CommaInitializer<Derived>
 DenseBase<Derived>::operator<<(const DenseBase<OtherDerived>& other)
 {
   return CommaInitializer<Derived>(*static_cast<Derived *>(this), other);
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_COMMAINITIALIZER_H
+#endif // HYDRA_EIGEN_COMMAINITIALIZER_H

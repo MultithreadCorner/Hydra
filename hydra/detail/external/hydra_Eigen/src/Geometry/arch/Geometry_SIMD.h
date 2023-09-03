@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_GEOMETRY_SIMD_H
-#define EIGEN_GEOMETRY_SIMD_H
+#ifndef HYDRA_EIGEN_GEOMETRY_SIMD_H
+#define HYDRA_EIGEN_GEOMETRY_SIMD_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -88,7 +88,7 @@ struct cross3_impl<Architecture::Target,VectorLhs,VectorRhs,float,true>
 
 
 
-#if (defined EIGEN_VECTORIZE_SSE) || (EIGEN_ARCH_ARM64)
+#if (defined HYDRA_EIGEN_VECTORIZE_SSE) || (HYDRA_EIGEN_ARCH_ARM64)
 
 template<class Derived, class OtherDerived>
 struct quat_product<Architecture::Target, Derived, OtherDerived, double>
@@ -159,10 +159,10 @@ struct quat_conj<Architecture::Target, Derived, double>
   }
 };
 
-#endif // end EIGEN_VECTORIZE_SSE_OR_EIGEN_ARCH_ARM64
+#endif // end HYDRA_EIGEN_VECTORIZE_SSE_OR_HYDRA_EIGEN_ARCH_ARM64
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_GEOMETRY_SIMD_H
+#endif // HYDRA_EIGEN_GEOMETRY_SIMD_H

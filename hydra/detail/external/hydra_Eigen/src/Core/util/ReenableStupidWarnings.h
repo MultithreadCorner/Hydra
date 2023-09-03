@@ -1,11 +1,11 @@
-#ifdef EIGEN_WARNINGS_DISABLED_2
+#ifdef HYDRA_EIGEN_WARNINGS_DISABLED_2
 // "DisableStupidWarnings.h" was included twice recursively: Do not reenable warnings yet!
-#  undef EIGEN_WARNINGS_DISABLED_2
+#  undef HYDRA_EIGEN_WARNINGS_DISABLED_2
 
-#elif defined(EIGEN_WARNINGS_DISABLED)
-#undef EIGEN_WARNINGS_DISABLED
+#elif defined(HYDRA_EIGEN_WARNINGS_DISABLED)
+#undef HYDRA_EIGEN_WARNINGS_DISABLED
 
-#ifndef EIGEN_PERMANENTLY_DISABLE_STUPID_WARNINGS
+#ifndef HYDRA_EIGEN_PERMANENTLY_DISABLE_STUPID_WARNINGS
   #ifdef _MSC_VER
     #pragma warning( pop )
   #elif defined __INTEL_COMPILER
@@ -28,4 +28,4 @@
 
 #endif
 
-#endif // EIGEN_WARNINGS_DISABLED
+#endif // HYDRA_EIGEN_WARNINGS_DISABLED

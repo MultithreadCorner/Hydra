@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_GENERAL_MATRIX_VECTOR_H
-#define EIGEN_GENERAL_MATRIX_VECTOR_H
+#ifndef HYDRA_EIGEN_GENERAL_MATRIX_VECTOR_H
+#define HYDRA_EIGEN_GENERAL_MATRIX_VECTOR_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -96,7 +96,7 @@ struct general_matrix_vector_product<Index,LhsScalar,LhsMapper,ColMajor,Conjugat
   typedef typename QuarterTraits::RhsPacket RhsPacketQuarter;
   typedef typename QuarterTraits::ResPacket ResPacketQuarter;
 
-EIGEN_DEVICE_FUNC EIGEN_DONT_INLINE static void run(
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_DONT_INLINE static void run(
   Index rows, Index cols,
   const LhsMapper& lhs,
   const RhsMapper& rhs,
@@ -105,14 +105,14 @@ EIGEN_DEVICE_FUNC EIGEN_DONT_INLINE static void run(
 };
 
 template<typename Index, typename LhsScalar, typename LhsMapper, bool ConjugateLhs, typename RhsScalar, typename RhsMapper, bool ConjugateRhs, int Version>
-EIGEN_DEVICE_FUNC EIGEN_DONT_INLINE void general_matrix_vector_product<Index,LhsScalar,LhsMapper,ColMajor,ConjugateLhs,RhsScalar,RhsMapper,ConjugateRhs,Version>::run(
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_DONT_INLINE void general_matrix_vector_product<Index,LhsScalar,LhsMapper,ColMajor,ConjugateLhs,RhsScalar,RhsMapper,ConjugateRhs,Version>::run(
   Index rows, Index cols,
   const LhsMapper& alhs,
   const RhsMapper& rhs,
         ResScalar* res, Index resIncr,
   RhsScalar alpha)
 {
-  EIGEN_UNUSED_VARIABLE(resIncr);
+  HYDRA_EIGEN_UNUSED_VARIABLE(resIncr);
   eigen_internal_assert(resIncr==1);
 
   // The following copy tells the compiler that lhs's attributes are not modified outside this function
@@ -315,7 +315,7 @@ struct general_matrix_vector_product<Index,LhsScalar,LhsMapper,RowMajor,Conjugat
   typedef typename QuarterTraits::RhsPacket RhsPacketQuarter;
   typedef typename QuarterTraits::ResPacket ResPacketQuarter;
 
-EIGEN_DEVICE_FUNC EIGEN_DONT_INLINE static void run(
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_DONT_INLINE static void run(
   Index rows, Index cols,
   const LhsMapper& lhs,
   const RhsMapper& rhs,
@@ -324,7 +324,7 @@ EIGEN_DEVICE_FUNC EIGEN_DONT_INLINE static void run(
 };
 
 template<typename Index, typename LhsScalar, typename LhsMapper, bool ConjugateLhs, typename RhsScalar, typename RhsMapper, bool ConjugateRhs, int Version>
-EIGEN_DEVICE_FUNC EIGEN_DONT_INLINE void general_matrix_vector_product<Index,LhsScalar,LhsMapper,RowMajor,ConjugateLhs,RhsScalar,RhsMapper,ConjugateRhs,Version>::run(
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_DONT_INLINE void general_matrix_vector_product<Index,LhsScalar,LhsMapper,RowMajor,ConjugateLhs,RhsScalar,RhsMapper,ConjugateRhs,Version>::run(
   Index rows, Index cols,
   const LhsMapper& alhs,
   const RhsMapper& rhs,
@@ -513,6 +513,6 @@ EIGEN_DEVICE_FUNC EIGEN_DONT_INLINE void general_matrix_vector_product<Index,Lhs
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_GENERAL_MATRIX_VECTOR_H
+#endif // HYDRA_EIGEN_GENERAL_MATRIX_VECTOR_H

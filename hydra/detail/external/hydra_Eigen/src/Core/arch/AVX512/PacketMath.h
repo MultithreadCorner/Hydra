@@ -7,24 +7,24 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_PACKET_MATH_AVX512_H
-#define EIGEN_PACKET_MATH_AVX512_H
+#ifndef HYDRA_EIGEN_PACKET_MATH_AVX512_H
+#define HYDRA_EIGEN_PACKET_MATH_AVX512_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
-#ifndef EIGEN_CACHEFRIENDLY_PRODUCT_THRESHOLD
-#define EIGEN_CACHEFRIENDLY_PRODUCT_THRESHOLD 8
+#ifndef HYDRA_EIGEN_CACHEFRIENDLY_PRODUCT_THRESHOLD
+#define HYDRA_EIGEN_CACHEFRIENDLY_PRODUCT_THRESHOLD 8
 #endif
 
-#ifndef EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS
-#define EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS 32
+#ifndef HYDRA_EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS
+#define HYDRA_EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS 32
 #endif
 
-#ifdef EIGEN_VECTORIZE_FMA
-#ifndef EIGEN_HAS_SINGLE_INSTRUCTION_MADD
-#define EIGEN_HAS_SINGLE_INSTRUCTION_MADD
+#ifdef HYDRA_EIGEN_VECTORIZE_FMA
+#ifndef HYDRA_EIGEN_HAS_SINGLE_INSTRUCTION_MADD
+#define HYDRA_EIGEN_HAS_SINGLE_INSTRUCTION_MADD
 #endif
 #endif
 
@@ -78,10 +78,10 @@ struct packet_traits<half> : default_packet_traits {
     HasExp    = 1,
     HasSqrt   = 1,
     HasRsqrt  = 1,
-    HasSin    = EIGEN_FAST_MATH,
-    HasCos    = EIGEN_FAST_MATH,
-    HasTanh   = EIGEN_FAST_MATH,
-    HasErf    = EIGEN_FAST_MATH,
+    HasSin    = HYDRA_EIGEN_FAST_MATH,
+    HasCos    = HYDRA_EIGEN_FAST_MATH,
+    HasTanh   = HYDRA_EIGEN_FAST_MATH,
+    HasErf    = HYDRA_EIGEN_FAST_MATH,
     HasBlend = 0,
     HasRound  = 1,
     HasFloor  = 1,
@@ -107,19 +107,19 @@ template<> struct packet_traits<float>  : default_packet_traits
     HasMax    = 1,
     HasConj   = 1,
     HasBlend = 0,
-    HasSin = EIGEN_FAST_MATH,
-    HasCos = EIGEN_FAST_MATH,
-#if EIGEN_GNUC_AT_LEAST(5, 3) || (!EIGEN_COMP_GNUC_STRICT)
+    HasSin = HYDRA_EIGEN_FAST_MATH,
+    HasCos = HYDRA_EIGEN_FAST_MATH,
+#if HYDRA_EIGEN_GNUC_AT_LEAST(5, 3) || (!HYDRA_EIGEN_COMP_GNUC_STRICT)
     HasLog = 1,
     HasLog1p  = 1,
     HasExpm1  = 1,
     HasNdtri = 1,
     HasBessel  = 1,
     HasExp = 1,
-    HasSqrt = EIGEN_FAST_MATH,
-    HasRsqrt = EIGEN_FAST_MATH,
-    HasTanh = EIGEN_FAST_MATH,
-    HasErf = EIGEN_FAST_MATH,
+    HasSqrt = HYDRA_EIGEN_FAST_MATH,
+    HasRsqrt = HYDRA_EIGEN_FAST_MATH,
+    HasTanh = HYDRA_EIGEN_FAST_MATH,
+    HasErf = HYDRA_EIGEN_FAST_MATH,
 #endif
     HasCmp  = 1,
     HasDiv = 1,
@@ -138,11 +138,11 @@ template<> struct packet_traits<double> : default_packet_traits
     AlignedOnScalar = 1,
     size = 8,
     HasHalfPacket = 1,
-#if EIGEN_GNUC_AT_LEAST(5, 3) || (!EIGEN_COMP_GNUC_STRICT)
+#if HYDRA_EIGEN_GNUC_AT_LEAST(5, 3) || (!HYDRA_EIGEN_COMP_GNUC_STRICT)
     HasLog  = 1,
     HasExp = 1,
-    HasSqrt = EIGEN_FAST_MATH,
-    HasRsqrt = EIGEN_FAST_MATH,
+    HasSqrt = HYDRA_EIGEN_FAST_MATH,
+    HasRsqrt = HYDRA_EIGEN_FAST_MATH,
 #endif
     HasCmp  = 1,
     HasDiv = 1,
@@ -188,169 +188,169 @@ struct unpacket_traits<Packet16i> {
 
 template<>
 struct unpacket_traits<Packet16h> {
-  typedef Eigen::half type;
+  typedef hydra_Eigen::half type;
   typedef Packet8h half;
   enum {size=16, alignment=Aligned32, vectorizable=true, masked_load_available=false, masked_store_available=false};
 };
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pset1<Packet16f>(const float& from) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f pset1<Packet16f>(const float& from) {
   return _mm512_set1_ps(from);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pset1<Packet8d>(const double& from) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d pset1<Packet8d>(const double& from) {
   return _mm512_set1_pd(from);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i pset1<Packet16i>(const int& from) {
+HYDRA_EIGEN_STRONG_INLINE Packet16i pset1<Packet16i>(const int& from) {
   return _mm512_set1_epi32(from);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pset1frombits<Packet16f>(unsigned int from) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f pset1frombits<Packet16f>(unsigned int from) {
   return _mm512_castsi512_ps(_mm512_set1_epi32(from));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8d pset1frombits<Packet8d>(const numext::uint64_t from) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d pset1frombits<Packet8d>(const numext::uint64_t from) {
   return _mm512_castsi512_pd(_mm512_set1_epi64(from));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16f pzero(const Packet16f& /*a*/) { return _mm512_setzero_ps(); }
-template<> EIGEN_STRONG_INLINE Packet8d pzero(const Packet8d& /*a*/) { return _mm512_setzero_pd(); }
-template<> EIGEN_STRONG_INLINE Packet16i pzero(const Packet16i& /*a*/) { return _mm512_setzero_si512(); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16f pzero(const Packet16f& /*a*/) { return _mm512_setzero_ps(); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8d pzero(const Packet8d& /*a*/) { return _mm512_setzero_pd(); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16i pzero(const Packet16i& /*a*/) { return _mm512_setzero_si512(); }
 
-template<> EIGEN_STRONG_INLINE Packet16f peven_mask(const Packet16f& /*a*/) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16f peven_mask(const Packet16f& /*a*/) {
   return _mm512_castsi512_ps(_mm512_set_epi32(0, -1, 0, -1, 0, -1, 0, -1,
                                               0, -1, 0, -1, 0, -1, 0, -1));
 }
-template<> EIGEN_STRONG_INLINE Packet16i peven_mask(const Packet16i& /*a*/) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16i peven_mask(const Packet16i& /*a*/) {
   return _mm512_set_epi32(0, -1, 0, -1, 0, -1, 0, -1,
                           0, -1, 0, -1, 0, -1, 0, -1);
 }
-template<> EIGEN_STRONG_INLINE Packet8d peven_mask(const Packet8d& /*a*/) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8d peven_mask(const Packet8d& /*a*/) {
   return _mm512_castsi512_pd(_mm512_set_epi32(0, 0, -1, -1, 0, 0, -1, -1,
                                               0, 0, -1, -1, 0, 0, -1, -1));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pload1<Packet16f>(const float* from) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f pload1<Packet16f>(const float* from) {
   return _mm512_broadcastss_ps(_mm_load_ps1(from));
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pload1<Packet8d>(const double* from) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d pload1<Packet8d>(const double* from) {
   return _mm512_set1_pd(*from);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f plset<Packet16f>(const float& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f plset<Packet16f>(const float& a) {
   return _mm512_add_ps(
       _mm512_set1_ps(a),
       _mm512_set_ps(15.0f, 14.0f, 13.0f, 12.0f, 11.0f, 10.0f, 9.0f, 8.0f, 7.0f, 6.0f, 5.0f,
                     4.0f, 3.0f, 2.0f, 1.0f, 0.0f));
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d plset<Packet8d>(const double& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d plset<Packet8d>(const double& a) {
   return _mm512_add_pd(_mm512_set1_pd(a),
                        _mm512_set_pd(7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f padd<Packet16f>(const Packet16f& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16f padd<Packet16f>(const Packet16f& a,
                                               const Packet16f& b) {
   return _mm512_add_ps(a, b);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d padd<Packet8d>(const Packet8d& a,
+HYDRA_EIGEN_STRONG_INLINE Packet8d padd<Packet8d>(const Packet8d& a,
                                             const Packet8d& b) {
   return _mm512_add_pd(a, b);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i padd<Packet16i>(const Packet16i& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16i padd<Packet16i>(const Packet16i& a,
                                               const Packet16i& b) {
   return _mm512_add_epi32(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f psub<Packet16f>(const Packet16f& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16f psub<Packet16f>(const Packet16f& a,
                                               const Packet16f& b) {
   return _mm512_sub_ps(a, b);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d psub<Packet8d>(const Packet8d& a,
+HYDRA_EIGEN_STRONG_INLINE Packet8d psub<Packet8d>(const Packet8d& a,
                                             const Packet8d& b) {
   return _mm512_sub_pd(a, b);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i psub<Packet16i>(const Packet16i& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16i psub<Packet16i>(const Packet16i& a,
                                               const Packet16i& b) {
   return _mm512_sub_epi32(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pnegate(const Packet16f& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f pnegate(const Packet16f& a) {
   return _mm512_sub_ps(_mm512_set1_ps(0.0), a);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pnegate(const Packet8d& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d pnegate(const Packet8d& a) {
   return _mm512_sub_pd(_mm512_set1_pd(0.0), a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pconj(const Packet16f& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f pconj(const Packet16f& a) {
   return a;
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pconj(const Packet8d& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d pconj(const Packet8d& a) {
   return a;
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i pconj(const Packet16i& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet16i pconj(const Packet16i& a) {
   return a;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pmul<Packet16f>(const Packet16f& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16f pmul<Packet16f>(const Packet16f& a,
                                               const Packet16f& b) {
   return _mm512_mul_ps(a, b);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pmul<Packet8d>(const Packet8d& a,
+HYDRA_EIGEN_STRONG_INLINE Packet8d pmul<Packet8d>(const Packet8d& a,
                                             const Packet8d& b) {
   return _mm512_mul_pd(a, b);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i pmul<Packet16i>(const Packet16i& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16i pmul<Packet16i>(const Packet16i& a,
                                               const Packet16i& b) {
   return _mm512_mullo_epi32(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pdiv<Packet16f>(const Packet16f& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16f pdiv<Packet16f>(const Packet16f& a,
                                               const Packet16f& b) {
   return _mm512_div_ps(a, b);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pdiv<Packet8d>(const Packet8d& a,
+HYDRA_EIGEN_STRONG_INLINE Packet8d pdiv<Packet8d>(const Packet8d& a,
                                             const Packet8d& b) {
   return _mm512_div_pd(a, b);
 }
 
-#ifdef EIGEN_VECTORIZE_FMA
+#ifdef HYDRA_EIGEN_VECTORIZE_FMA
 template <>
-EIGEN_STRONG_INLINE Packet16f pmadd(const Packet16f& a, const Packet16f& b,
+HYDRA_EIGEN_STRONG_INLINE Packet16f pmadd(const Packet16f& a, const Packet16f& b,
                                     const Packet16f& c) {
   return _mm512_fmadd_ps(a, b, c);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pmadd(const Packet8d& a, const Packet8d& b,
+HYDRA_EIGEN_STRONG_INLINE Packet8d pmadd(const Packet8d& a, const Packet8d& b,
                                    const Packet8d& c) {
   return _mm512_fmadd_pd(a, b, c);
 }
 #endif
 
 template <>
-EIGEN_DEVICE_FUNC inline Packet16f pselect(const Packet16f& mask,
+HYDRA_EIGEN_DEVICE_FUNC inline Packet16f pselect(const Packet16f& mask,
                                            const Packet16f& a,
                                            const Packet16f& b) {
   __mmask16 mask16 = _mm512_cmp_epi32_mask(
@@ -359,7 +359,7 @@ EIGEN_DEVICE_FUNC inline Packet16f pselect(const Packet16f& mask,
 }
 
 template <>
-EIGEN_DEVICE_FUNC inline Packet8d pselect(const Packet8d& mask,
+HYDRA_EIGEN_DEVICE_FUNC inline Packet8d pselect(const Packet8d& mask,
                                           const Packet8d& a,
                                           const Packet8d& b) {
   __mmask8 mask8 = _mm512_cmp_epi64_mask(_mm512_castpd_si512(mask),
@@ -368,26 +368,26 @@ EIGEN_DEVICE_FUNC inline Packet8d pselect(const Packet8d& mask,
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pmin<Packet16f>(const Packet16f& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16f pmin<Packet16f>(const Packet16f& a,
                                               const Packet16f& b) {
   // Arguments are reversed to match NaN propagation behavior of std::min.
   return _mm512_min_ps(b, a);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pmin<Packet8d>(const Packet8d& a,
+HYDRA_EIGEN_STRONG_INLINE Packet8d pmin<Packet8d>(const Packet8d& a,
                                             const Packet8d& b) {
   // Arguments are reversed to match NaN propagation behavior of std::min.
   return _mm512_min_pd(b, a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pmax<Packet16f>(const Packet16f& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16f pmax<Packet16f>(const Packet16f& a,
                                               const Packet16f& b) {
   // Arguments are reversed to match NaN propagation behavior of std::max.
   return _mm512_max_ps(b, a);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pmax<Packet8d>(const Packet8d& a,
+HYDRA_EIGEN_STRONG_INLINE Packet8d pmax<Packet8d>(const Packet8d& a,
                                             const Packet8d& b) {
   // Arguments are reversed to match NaN propagation behavior of std::max.
   return _mm512_max_pd(b, a);
@@ -395,55 +395,55 @@ EIGEN_STRONG_INLINE Packet8d pmax<Packet8d>(const Packet8d& a,
 
 // Add specializations for min/max with prescribed NaN progation.
 template<>
-EIGEN_STRONG_INLINE Packet16f pmin<PropagateNumbers, Packet16f>(const Packet16f& a, const Packet16f& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f pmin<PropagateNumbers, Packet16f>(const Packet16f& a, const Packet16f& b) {
   return pminmax_propagate_numbers(a, b, pmin<Packet16f>);
 }
 template<>
-EIGEN_STRONG_INLINE Packet8d pmin<PropagateNumbers, Packet8d>(const Packet8d& a, const Packet8d& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d pmin<PropagateNumbers, Packet8d>(const Packet8d& a, const Packet8d& b) {
   return pminmax_propagate_numbers(a, b, pmin<Packet8d>);
 }
 template<>
-EIGEN_STRONG_INLINE Packet16f pmax<PropagateNumbers, Packet16f>(const Packet16f& a, const Packet16f& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f pmax<PropagateNumbers, Packet16f>(const Packet16f& a, const Packet16f& b) {
   return pminmax_propagate_numbers(a, b, pmax<Packet16f>);
 }
 template<>
-EIGEN_STRONG_INLINE Packet8d pmax<PropagateNumbers, Packet8d>(const Packet8d& a, const Packet8d& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d pmax<PropagateNumbers, Packet8d>(const Packet8d& a, const Packet8d& b) {
   return pminmax_propagate_numbers(a, b, pmax<Packet8d>);
 }
 template<>
-EIGEN_STRONG_INLINE Packet16f pmin<PropagateNaN, Packet16f>(const Packet16f& a, const Packet16f& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f pmin<PropagateNaN, Packet16f>(const Packet16f& a, const Packet16f& b) {
   return pminmax_propagate_nan(a, b, pmin<Packet16f>);
 }
 template<>
-EIGEN_STRONG_INLINE Packet8d pmin<PropagateNaN, Packet8d>(const Packet8d& a, const Packet8d& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d pmin<PropagateNaN, Packet8d>(const Packet8d& a, const Packet8d& b) {
   return pminmax_propagate_nan(a, b, pmin<Packet8d>);
 }
 template<>
-EIGEN_STRONG_INLINE Packet16f pmax<PropagateNaN, Packet16f>(const Packet16f& a, const Packet16f& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f pmax<PropagateNaN, Packet16f>(const Packet16f& a, const Packet16f& b) {
   return pminmax_propagate_nan(a, b, pmax<Packet16f>);
 }
 template<>
-EIGEN_STRONG_INLINE Packet8d pmax<PropagateNaN, Packet8d>(const Packet8d& a, const Packet8d& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d pmax<PropagateNaN, Packet8d>(const Packet8d& a, const Packet8d& b) {
   return pminmax_propagate_nan(a, b, pmax<Packet8d>);
 }
 
 
-#ifdef EIGEN_VECTORIZE_AVX512DQ
-template<int I_> EIGEN_STRONG_INLINE Packet8f extract256(Packet16f x) { return _mm512_extractf32x8_ps(x,I_); }
-template<int I_> EIGEN_STRONG_INLINE Packet2d extract128(Packet8d x) { return _mm512_extractf64x2_pd(x,I_); }
-EIGEN_STRONG_INLINE Packet16f cat256(Packet8f a, Packet8f b) { return _mm512_insertf32x8(_mm512_castps256_ps512(a),b,1); }
+#ifdef HYDRA_EIGEN_VECTORIZE_AVX512DQ
+template<int I_> HYDRA_EIGEN_STRONG_INLINE Packet8f extract256(Packet16f x) { return _mm512_extractf32x8_ps(x,I_); }
+template<int I_> HYDRA_EIGEN_STRONG_INLINE Packet2d extract128(Packet8d x) { return _mm512_extractf64x2_pd(x,I_); }
+HYDRA_EIGEN_STRONG_INLINE Packet16f cat256(Packet8f a, Packet8f b) { return _mm512_insertf32x8(_mm512_castps256_ps512(a),b,1); }
 #else
 // AVX512F does not define _mm512_extractf32x8_ps to extract _m256 from _m512
-template<int I_> EIGEN_STRONG_INLINE Packet8f extract256(Packet16f x) {
+template<int I_> HYDRA_EIGEN_STRONG_INLINE Packet8f extract256(Packet16f x) {
   return  _mm256_castsi256_ps(_mm512_extracti64x4_epi64( _mm512_castps_si512(x),I_));
 }
 
 // AVX512F does not define _mm512_extractf64x2_pd to extract _m128 from _m512
-template<int I_> EIGEN_STRONG_INLINE Packet2d extract128(Packet8d x) {
+template<int I_> HYDRA_EIGEN_STRONG_INLINE Packet2d extract128(Packet8d x) {
   return _mm_castsi128_pd(_mm512_extracti32x4_epi32( _mm512_castpd_si512(x),I_));
 }
 
-EIGEN_STRONG_INLINE Packet16f cat256(Packet8f a, Packet8f b) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f cat256(Packet8f a, Packet8f b) {
   return _mm512_castsi512_ps(_mm512_inserti64x4(_mm512_castsi256_si512(_mm256_castps_si256(a)),
                                                 _mm256_castps_si256(b),1));
 }
@@ -451,7 +451,7 @@ EIGEN_STRONG_INLINE Packet16f cat256(Packet8f a, Packet8f b) {
 
 // Helper function for bit packing snippet of low precision comparison.
 // It packs the flags from 32x16 to 16x16.
-EIGEN_STRONG_INLINE __m256i Pack32To16(Packet16f rf) {
+HYDRA_EIGEN_STRONG_INLINE __m256i Pack32To16(Packet16f rf) {
   // Split data into small pieces and handle with AVX instructions
   // to guarantee internal order of vector.
   // Operation:
@@ -469,103 +469,103 @@ EIGEN_STRONG_INLINE __m256i Pack32To16(Packet16f rf) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pcmp_eq(const Packet16f& a, const Packet16f& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f pcmp_eq(const Packet16f& a, const Packet16f& b) {
   __mmask16 mask = _mm512_cmp_ps_mask(a, b, _CMP_EQ_OQ);
   return _mm512_castsi512_ps(
       _mm512_mask_set1_epi32(_mm512_set1_epi32(0), mask, 0xffffffffu));
 }
-template<> EIGEN_STRONG_INLINE Packet16f pcmp_le(const Packet16f& a, const Packet16f& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16f pcmp_le(const Packet16f& a, const Packet16f& b) {
   __mmask16 mask = _mm512_cmp_ps_mask(a, b, _CMP_LE_OQ);
   return _mm512_castsi512_ps(
       _mm512_mask_set1_epi32(_mm512_set1_epi32(0), mask, 0xffffffffu));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16f pcmp_lt(const Packet16f& a, const Packet16f& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16f pcmp_lt(const Packet16f& a, const Packet16f& b) {
   __mmask16 mask = _mm512_cmp_ps_mask(a, b, _CMP_LT_OQ);
   return _mm512_castsi512_ps(
       _mm512_mask_set1_epi32(_mm512_set1_epi32(0), mask, 0xffffffffu));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16f pcmp_lt_or_nan(const Packet16f& a, const Packet16f& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16f pcmp_lt_or_nan(const Packet16f& a, const Packet16f& b) {
   __mmask16 mask = _mm512_cmp_ps_mask(a, b, _CMP_NGE_UQ);
   return _mm512_castsi512_ps(
       _mm512_mask_set1_epi32(_mm512_set1_epi32(0), mask, 0xffffffffu));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16i pcmp_eq(const Packet16i& a, const Packet16i& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16i pcmp_eq(const Packet16i& a, const Packet16i& b) {
   __mmask16 mask = _mm512_cmp_epi32_mask(a, b, _CMP_EQ_OQ);
   return _mm512_mask_set1_epi32(_mm512_set1_epi32(0), mask, 0xffffffffu);
 }
 
 
 template <>
-EIGEN_STRONG_INLINE Packet8d pcmp_eq(const Packet8d& a, const Packet8d& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d pcmp_eq(const Packet8d& a, const Packet8d& b) {
   __mmask8 mask = _mm512_cmp_pd_mask(a, b, _CMP_EQ_OQ);
   return _mm512_castsi512_pd(
       _mm512_mask_set1_epi64(_mm512_set1_epi64(0), mask, 0xffffffffffffffffu));
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pcmp_le(const Packet8d& a, const Packet8d& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d pcmp_le(const Packet8d& a, const Packet8d& b) {
   __mmask8 mask = _mm512_cmp_pd_mask(a, b, _CMP_LE_OQ);
   return _mm512_castsi512_pd(
       _mm512_mask_set1_epi64(_mm512_set1_epi64(0), mask, 0xffffffffffffffffu));
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pcmp_lt(const Packet8d& a, const Packet8d& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d pcmp_lt(const Packet8d& a, const Packet8d& b) {
   __mmask8 mask = _mm512_cmp_pd_mask(a, b, _CMP_LT_OQ);
   return _mm512_castsi512_pd(
       _mm512_mask_set1_epi64(_mm512_set1_epi64(0), mask, 0xffffffffffffffffu));
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pcmp_lt_or_nan(const Packet8d& a, const Packet8d& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d pcmp_lt_or_nan(const Packet8d& a, const Packet8d& b) {
   __mmask8 mask = _mm512_cmp_pd_mask(a, b, _CMP_NGE_UQ);
   return _mm512_castsi512_pd(
       _mm512_mask_set1_epi64(_mm512_set1_epi64(0), mask, 0xffffffffffffffffu));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16f print<Packet16f>(const Packet16f& a) { return _mm512_roundscale_ps(a, _MM_FROUND_CUR_DIRECTION); }
-template<> EIGEN_STRONG_INLINE Packet8d print<Packet8d>(const Packet8d& a) { return _mm512_roundscale_pd(a, _MM_FROUND_CUR_DIRECTION); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16f print<Packet16f>(const Packet16f& a) { return _mm512_roundscale_ps(a, _MM_FROUND_CUR_DIRECTION); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8d print<Packet8d>(const Packet8d& a) { return _mm512_roundscale_pd(a, _MM_FROUND_CUR_DIRECTION); }
 
-template<> EIGEN_STRONG_INLINE Packet16f pceil<Packet16f>(const Packet16f& a) { return _mm512_roundscale_ps(a, _MM_FROUND_TO_POS_INF); }
-template<> EIGEN_STRONG_INLINE Packet8d pceil<Packet8d>(const Packet8d& a) { return _mm512_roundscale_pd(a, _MM_FROUND_TO_POS_INF); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16f pceil<Packet16f>(const Packet16f& a) { return _mm512_roundscale_ps(a, _MM_FROUND_TO_POS_INF); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8d pceil<Packet8d>(const Packet8d& a) { return _mm512_roundscale_pd(a, _MM_FROUND_TO_POS_INF); }
 
-template<> EIGEN_STRONG_INLINE Packet16f pfloor<Packet16f>(const Packet16f& a) { return _mm512_roundscale_ps(a, _MM_FROUND_TO_NEG_INF); }
-template<> EIGEN_STRONG_INLINE Packet8d pfloor<Packet8d>(const Packet8d& a) { return _mm512_roundscale_pd(a, _MM_FROUND_TO_NEG_INF); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16f pfloor<Packet16f>(const Packet16f& a) { return _mm512_roundscale_ps(a, _MM_FROUND_TO_NEG_INF); }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8d pfloor<Packet8d>(const Packet8d& a) { return _mm512_roundscale_pd(a, _MM_FROUND_TO_NEG_INF); }
 
 template <>
-EIGEN_STRONG_INLINE Packet16i ptrue<Packet16i>(const Packet16i& /*a*/) {
+HYDRA_EIGEN_STRONG_INLINE Packet16i ptrue<Packet16i>(const Packet16i& /*a*/) {
   return _mm512_set1_epi32(0xffffffffu);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f ptrue<Packet16f>(const Packet16f& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f ptrue<Packet16f>(const Packet16f& a) {
   return _mm512_castsi512_ps(ptrue<Packet16i>(_mm512_castps_si512(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8d ptrue<Packet8d>(const Packet8d& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d ptrue<Packet8d>(const Packet8d& a) {
   return _mm512_castsi512_pd(ptrue<Packet16i>(_mm512_castpd_si512(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16i pand<Packet16i>(const Packet16i& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16i pand<Packet16i>(const Packet16i& a,
                                               const Packet16i& b) {
   return _mm512_and_si512(a,b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pand<Packet16f>(const Packet16f& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16f pand<Packet16f>(const Packet16f& a,
                                               const Packet16f& b) {
-#ifdef EIGEN_VECTORIZE_AVX512DQ
+#ifdef HYDRA_EIGEN_VECTORIZE_AVX512DQ
   return _mm512_and_ps(a, b);
 #else
   return _mm512_castsi512_ps(pand(_mm512_castps_si512(a),_mm512_castps_si512(b)));
 #endif
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pand<Packet8d>(const Packet8d& a,
+HYDRA_EIGEN_STRONG_INLINE Packet8d pand<Packet8d>(const Packet8d& a,
                                             const Packet8d& b) {
-#ifdef EIGEN_VECTORIZE_AVX512DQ
+#ifdef HYDRA_EIGEN_VECTORIZE_AVX512DQ
   return _mm512_and_pd(a, b);
 #else
   Packet8d res = _mm512_undefined_pd();
@@ -580,13 +580,13 @@ EIGEN_STRONG_INLINE Packet8d pand<Packet8d>(const Packet8d& a,
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16i por<Packet16i>(const Packet16i& a, const Packet16i& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet16i por<Packet16i>(const Packet16i& a, const Packet16i& b) {
   return _mm512_or_si512(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f por<Packet16f>(const Packet16f& a, const Packet16f& b) {
-#ifdef EIGEN_VECTORIZE_AVX512DQ
+HYDRA_EIGEN_STRONG_INLINE Packet16f por<Packet16f>(const Packet16f& a, const Packet16f& b) {
+#ifdef HYDRA_EIGEN_VECTORIZE_AVX512DQ
   return _mm512_or_ps(a, b);
 #else
   return _mm512_castsi512_ps(por(_mm512_castps_si512(a),_mm512_castps_si512(b)));
@@ -594,9 +594,9 @@ EIGEN_STRONG_INLINE Packet16f por<Packet16f>(const Packet16f& a, const Packet16f
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8d por<Packet8d>(const Packet8d& a,
+HYDRA_EIGEN_STRONG_INLINE Packet8d por<Packet8d>(const Packet8d& a,
                                            const Packet8d& b) {
-#ifdef EIGEN_VECTORIZE_AVX512DQ
+#ifdef HYDRA_EIGEN_VECTORIZE_AVX512DQ
   return _mm512_or_pd(a, b);
 #else
   return _mm512_castsi512_pd(por(_mm512_castpd_si512(a),_mm512_castpd_si512(b)));
@@ -604,13 +604,13 @@ EIGEN_STRONG_INLINE Packet8d por<Packet8d>(const Packet8d& a,
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16i pxor<Packet16i>(const Packet16i& a, const Packet16i& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet16i pxor<Packet16i>(const Packet16i& a, const Packet16i& b) {
   return _mm512_xor_si512(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pxor<Packet16f>(const Packet16f& a, const Packet16f& b) {
-#ifdef EIGEN_VECTORIZE_AVX512DQ
+HYDRA_EIGEN_STRONG_INLINE Packet16f pxor<Packet16f>(const Packet16f& a, const Packet16f& b) {
+#ifdef HYDRA_EIGEN_VECTORIZE_AVX512DQ
   return _mm512_xor_ps(a, b);
 #else
   return _mm512_castsi512_ps(pxor(_mm512_castps_si512(a),_mm512_castps_si512(b)));
@@ -618,8 +618,8 @@ EIGEN_STRONG_INLINE Packet16f pxor<Packet16f>(const Packet16f& a, const Packet16
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8d pxor<Packet8d>(const Packet8d& a, const Packet8d& b) {
-#ifdef EIGEN_VECTORIZE_AVX512DQ
+HYDRA_EIGEN_STRONG_INLINE Packet8d pxor<Packet8d>(const Packet8d& a, const Packet8d& b) {
+#ifdef HYDRA_EIGEN_VECTORIZE_AVX512DQ
   return _mm512_xor_pd(a, b);
 #else
   return _mm512_castsi512_pd(pxor(_mm512_castpd_si512(a),_mm512_castpd_si512(b)));
@@ -627,35 +627,35 @@ EIGEN_STRONG_INLINE Packet8d pxor<Packet8d>(const Packet8d& a, const Packet8d& b
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16i pandnot<Packet16i>(const Packet16i& a, const Packet16i& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet16i pandnot<Packet16i>(const Packet16i& a, const Packet16i& b) {
   return _mm512_andnot_si512(b, a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pandnot<Packet16f>(const Packet16f& a, const Packet16f& b) {
-#ifdef EIGEN_VECTORIZE_AVX512DQ
+HYDRA_EIGEN_STRONG_INLINE Packet16f pandnot<Packet16f>(const Packet16f& a, const Packet16f& b) {
+#ifdef HYDRA_EIGEN_VECTORIZE_AVX512DQ
   return _mm512_andnot_ps(b, a);
 #else
   return _mm512_castsi512_ps(pandnot(_mm512_castps_si512(a),_mm512_castps_si512(b)));
 #endif
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pandnot<Packet8d>(const Packet8d& a,const Packet8d& b) {
-#ifdef EIGEN_VECTORIZE_AVX512DQ
+HYDRA_EIGEN_STRONG_INLINE Packet8d pandnot<Packet8d>(const Packet8d& a,const Packet8d& b) {
+#ifdef HYDRA_EIGEN_VECTORIZE_AVX512DQ
   return _mm512_andnot_pd(b, a);
 #else
   return _mm512_castsi512_pd(pandnot(_mm512_castpd_si512(a),_mm512_castpd_si512(b)));
 #endif
 }
 
-template<> EIGEN_STRONG_INLINE Packet16f pround<Packet16f>(const Packet16f& a)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16f pround<Packet16f>(const Packet16f& a)
 {
   // Work-around for default std::round rounding mode.
   const Packet16f mask = pset1frombits<Packet16f>(static_cast<numext::uint32_t>(0x80000000u));
   const Packet16f prev0dot5 = pset1frombits<Packet16f>(static_cast<numext::uint32_t>(0x3EFFFFFFu));
   return _mm512_roundscale_ps(padd(por(pand(a, mask), prev0dot5), a), _MM_FROUND_TO_ZERO);
 }
-template<> EIGEN_STRONG_INLINE Packet8d pround<Packet8d>(const Packet8d& a)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8d pround<Packet8d>(const Packet8d& a)
 {
   // Work-around for default std::round rounding mode.
   const Packet8d mask = pset1frombits<Packet8d>(static_cast<numext::uint64_t>(0x8000000000000000ull));
@@ -663,56 +663,56 @@ template<> EIGEN_STRONG_INLINE Packet8d pround<Packet8d>(const Packet8d& a)
   return _mm512_roundscale_pd(padd(por(pand(a, mask), prev0dot5), a), _MM_FROUND_TO_ZERO);
 }
 
-template<int N> EIGEN_STRONG_INLINE Packet16i parithmetic_shift_right(Packet16i a) {
+template<int N> HYDRA_EIGEN_STRONG_INLINE Packet16i parithmetic_shift_right(Packet16i a) {
   return _mm512_srai_epi32(a, N);
 }
 
-template<int N> EIGEN_STRONG_INLINE Packet16i plogical_shift_right(Packet16i a) {
+template<int N> HYDRA_EIGEN_STRONG_INLINE Packet16i plogical_shift_right(Packet16i a) {
   return _mm512_srli_epi32(a, N);
 }
 
-template<int N> EIGEN_STRONG_INLINE Packet16i plogical_shift_left(Packet16i a) {
+template<int N> HYDRA_EIGEN_STRONG_INLINE Packet16i plogical_shift_left(Packet16i a) {
   return _mm512_slli_epi32(a, N);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f pload<Packet16f>(const float* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return _mm512_load_ps(from);
+HYDRA_EIGEN_STRONG_INLINE Packet16f pload<Packet16f>(const float* from) {
+  HYDRA_EIGEN_DEBUG_ALIGNED_LOAD return _mm512_load_ps(from);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pload<Packet8d>(const double* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return _mm512_load_pd(from);
+HYDRA_EIGEN_STRONG_INLINE Packet8d pload<Packet8d>(const double* from) {
+  HYDRA_EIGEN_DEBUG_ALIGNED_LOAD return _mm512_load_pd(from);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i pload<Packet16i>(const int* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return _mm512_load_si512(
+HYDRA_EIGEN_STRONG_INLINE Packet16i pload<Packet16i>(const int* from) {
+  HYDRA_EIGEN_DEBUG_ALIGNED_LOAD return _mm512_load_si512(
       reinterpret_cast<const __m512i*>(from));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f ploadu<Packet16f>(const float* from) {
-  EIGEN_DEBUG_UNALIGNED_LOAD return _mm512_loadu_ps(from);
+HYDRA_EIGEN_STRONG_INLINE Packet16f ploadu<Packet16f>(const float* from) {
+  HYDRA_EIGEN_DEBUG_UNALIGNED_LOAD return _mm512_loadu_ps(from);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d ploadu<Packet8d>(const double* from) {
-  EIGEN_DEBUG_UNALIGNED_LOAD return _mm512_loadu_pd(from);
+HYDRA_EIGEN_STRONG_INLINE Packet8d ploadu<Packet8d>(const double* from) {
+  HYDRA_EIGEN_DEBUG_UNALIGNED_LOAD return _mm512_loadu_pd(from);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16i ploadu<Packet16i>(const int* from) {
-  EIGEN_DEBUG_UNALIGNED_LOAD return _mm512_loadu_si512(
+HYDRA_EIGEN_STRONG_INLINE Packet16i ploadu<Packet16i>(const int* from) {
+  HYDRA_EIGEN_DEBUG_UNALIGNED_LOAD return _mm512_loadu_si512(
       reinterpret_cast<const __m512i*>(from));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16f ploadu<Packet16f>(const float* from, uint16_t umask) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f ploadu<Packet16f>(const float* from, uint16_t umask) {
   __mmask16 mask = static_cast<__mmask16>(umask);
-  EIGEN_DEBUG_UNALIGNED_LOAD return _mm512_maskz_loadu_ps(mask, from);
+  HYDRA_EIGEN_DEBUG_UNALIGNED_LOAD return _mm512_maskz_loadu_ps(mask, from);
 }
 
 // Loads 8 floats from memory a returns the packet
 // {a0, a0  a1, a1, a2, a2, a3, a3, a4, a4, a5, a5, a6, a6, a7, a7}
 template <>
-EIGEN_STRONG_INLINE Packet16f ploaddup<Packet16f>(const float* from) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f ploaddup<Packet16f>(const float* from) {
   // an unaligned load is required here as there is no requirement
   // on the alignment of input pointer 'from'
   __m256i low_half = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(from));
@@ -721,12 +721,12 @@ EIGEN_STRONG_INLINE Packet16f ploaddup<Packet16f>(const float* from) {
   return pairs;
 }
 
-#ifdef EIGEN_VECTORIZE_AVX512DQ
+#ifdef HYDRA_EIGEN_VECTORIZE_AVX512DQ
 // FIXME: this does not look optimal, better load a Packet4d and shuffle...
 // Loads 4 doubles from memory a returns the packet {a0, a0  a1, a1, a2, a2, a3,
 // a3}
 template <>
-EIGEN_STRONG_INLINE Packet8d ploaddup<Packet8d>(const double* from) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d ploaddup<Packet8d>(const double* from) {
  __m512d x = _mm512_setzero_pd();
   x = _mm512_insertf64x2(x, _mm_loaddup_pd(&from[0]), 0);
   x = _mm512_insertf64x2(x, _mm_loaddup_pd(&from[1]), 1);
@@ -736,7 +736,7 @@ EIGEN_STRONG_INLINE Packet8d ploaddup<Packet8d>(const double* from) {
 }
 #else
 template <>
-EIGEN_STRONG_INLINE Packet8d ploaddup<Packet8d>(const double* from) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d ploaddup<Packet8d>(const double* from) {
   __m512d x = _mm512_setzero_pd();
   x = _mm512_mask_broadcastsd_pd(x, 0x3<<0, _mm_load_sd(from+0));
   x = _mm512_mask_broadcastsd_pd(x, 0x3<<2, _mm_load_sd(from+1));
@@ -749,7 +749,7 @@ EIGEN_STRONG_INLINE Packet8d ploaddup<Packet8d>(const double* from) {
 // Loads 4 floats from memory a returns the packet
 // {a0, a0  a0, a0, a1, a1, a1, a1, a2, a2, a2, a2, a3, a3, a3, a3}
 template <>
-EIGEN_STRONG_INLINE Packet16f ploadquad<Packet16f>(const float* from) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f ploadquad<Packet16f>(const float* from) {
   Packet16f tmp = _mm512_castps128_ps512(ploadu<Packet4f>(from));
   const Packet16i scatter_mask = _mm512_set_epi32(3,3,3,3, 2,2,2,2, 1,1,1,1, 0,0,0,0);
   return _mm512_permutexvar_ps(scatter_mask, tmp);
@@ -758,7 +758,7 @@ EIGEN_STRONG_INLINE Packet16f ploadquad<Packet16f>(const float* from) {
 // Loads 2 doubles from memory a returns the packet
 // {a0, a0  a0, a0, a1, a1, a1, a1}
 template <>
-EIGEN_STRONG_INLINE Packet8d ploadquad<Packet8d>(const double* from) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d ploadquad<Packet8d>(const double* from) {
   __m256d lane0 = _mm256_set1_pd(*from);
   __m256d lane1 = _mm256_set1_pd(*(from+1));
   __m512d tmp = _mm512_undefined_pd();
@@ -767,40 +767,40 @@ EIGEN_STRONG_INLINE Packet8d ploadquad<Packet8d>(const double* from) {
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstore<float>(float* to, const Packet16f& from) {
-  EIGEN_DEBUG_ALIGNED_STORE _mm512_store_ps(to, from);
+HYDRA_EIGEN_STRONG_INLINE void pstore<float>(float* to, const Packet16f& from) {
+  HYDRA_EIGEN_DEBUG_ALIGNED_STORE _mm512_store_ps(to, from);
 }
 template <>
-EIGEN_STRONG_INLINE void pstore<double>(double* to, const Packet8d& from) {
-  EIGEN_DEBUG_ALIGNED_STORE _mm512_store_pd(to, from);
+HYDRA_EIGEN_STRONG_INLINE void pstore<double>(double* to, const Packet8d& from) {
+  HYDRA_EIGEN_DEBUG_ALIGNED_STORE _mm512_store_pd(to, from);
 }
 template <>
-EIGEN_STRONG_INLINE void pstore<int>(int* to, const Packet16i& from) {
-  EIGEN_DEBUG_ALIGNED_STORE _mm512_storeu_si512(reinterpret_cast<__m512i*>(to),
+HYDRA_EIGEN_STRONG_INLINE void pstore<int>(int* to, const Packet16i& from) {
+  HYDRA_EIGEN_DEBUG_ALIGNED_STORE _mm512_storeu_si512(reinterpret_cast<__m512i*>(to),
                                                 from);
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstoreu<float>(float* to, const Packet16f& from) {
-  EIGEN_DEBUG_UNALIGNED_STORE _mm512_storeu_ps(to, from);
+HYDRA_EIGEN_STRONG_INLINE void pstoreu<float>(float* to, const Packet16f& from) {
+  HYDRA_EIGEN_DEBUG_UNALIGNED_STORE _mm512_storeu_ps(to, from);
 }
 template <>
-EIGEN_STRONG_INLINE void pstoreu<double>(double* to, const Packet8d& from) {
-  EIGEN_DEBUG_UNALIGNED_STORE _mm512_storeu_pd(to, from);
+HYDRA_EIGEN_STRONG_INLINE void pstoreu<double>(double* to, const Packet8d& from) {
+  HYDRA_EIGEN_DEBUG_UNALIGNED_STORE _mm512_storeu_pd(to, from);
 }
 template <>
-EIGEN_STRONG_INLINE void pstoreu<int>(int* to, const Packet16i& from) {
-  EIGEN_DEBUG_UNALIGNED_STORE _mm512_storeu_si512(
+HYDRA_EIGEN_STRONG_INLINE void pstoreu<int>(int* to, const Packet16i& from) {
+  HYDRA_EIGEN_DEBUG_UNALIGNED_STORE _mm512_storeu_si512(
       reinterpret_cast<__m512i*>(to), from);
 }
 template <>
-EIGEN_STRONG_INLINE void pstoreu<float>(float* to, const Packet16f& from, uint16_t umask) {
+HYDRA_EIGEN_STRONG_INLINE void pstoreu<float>(float* to, const Packet16f& from, uint16_t umask) {
   __mmask16 mask = static_cast<__mmask16>(umask);
-  EIGEN_DEBUG_UNALIGNED_STORE return _mm512_mask_storeu_ps(to, mask, from);
+  HYDRA_EIGEN_DEBUG_UNALIGNED_STORE return _mm512_mask_storeu_ps(to, mask, from);
 }
 
 template <>
-EIGEN_DEVICE_FUNC inline Packet16f pgather<float, Packet16f>(const float* from,
+HYDRA_EIGEN_DEVICE_FUNC inline Packet16f pgather<float, Packet16f>(const float* from,
                                                              Index stride) {
   Packet16i stride_vector = _mm512_set1_epi32(convert_index<int>(stride));
   Packet16i stride_multiplier =
@@ -810,7 +810,7 @@ EIGEN_DEVICE_FUNC inline Packet16f pgather<float, Packet16f>(const float* from,
   return _mm512_i32gather_ps(indices, from, 4);
 }
 template <>
-EIGEN_DEVICE_FUNC inline Packet8d pgather<double, Packet8d>(const double* from,
+HYDRA_EIGEN_DEVICE_FUNC inline Packet8d pgather<double, Packet8d>(const double* from,
                                                             Index stride) {
   Packet8i stride_vector = _mm256_set1_epi32(convert_index<int>(stride));
   Packet8i stride_multiplier = _mm256_set_epi32(7, 6, 5, 4, 3, 2, 1, 0);
@@ -820,7 +820,7 @@ EIGEN_DEVICE_FUNC inline Packet8d pgather<double, Packet8d>(const double* from,
 }
 
 template <>
-EIGEN_DEVICE_FUNC inline void pscatter<float, Packet16f>(float* to,
+HYDRA_EIGEN_DEVICE_FUNC inline void pscatter<float, Packet16f>(float* to,
                                                          const Packet16f& from,
                                                          Index stride) {
   Packet16i stride_vector = _mm512_set1_epi32(convert_index<int>(stride));
@@ -830,7 +830,7 @@ EIGEN_DEVICE_FUNC inline void pscatter<float, Packet16f>(float* to,
   _mm512_i32scatter_ps(to, indices, from, 4);
 }
 template <>
-EIGEN_DEVICE_FUNC inline void pscatter<double, Packet8d>(double* to,
+HYDRA_EIGEN_DEVICE_FUNC inline void pscatter<double, Packet8d>(double* to,
                                                          const Packet8d& from,
                                                          Index stride) {
   Packet8i stride_vector = _mm256_set1_epi32(convert_index<int>(stride));
@@ -840,71 +840,71 @@ EIGEN_DEVICE_FUNC inline void pscatter<double, Packet8d>(double* to,
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstore1<Packet16f>(float* to, const float& a) {
+HYDRA_EIGEN_STRONG_INLINE void pstore1<Packet16f>(float* to, const float& a) {
   Packet16f pa = pset1<Packet16f>(a);
   pstore(to, pa);
 }
 template <>
-EIGEN_STRONG_INLINE void pstore1<Packet8d>(double* to, const double& a) {
+HYDRA_EIGEN_STRONG_INLINE void pstore1<Packet8d>(double* to, const double& a) {
   Packet8d pa = pset1<Packet8d>(a);
   pstore(to, pa);
 }
 template <>
-EIGEN_STRONG_INLINE void pstore1<Packet16i>(int* to, const int& a) {
+HYDRA_EIGEN_STRONG_INLINE void pstore1<Packet16i>(int* to, const int& a) {
   Packet16i pa = pset1<Packet16i>(a);
   pstore(to, pa);
 }
 
-template<> EIGEN_STRONG_INLINE void prefetch<float>(const float*   addr) { _mm_prefetch((SsePrefetchPtrType)(addr), _MM_HINT_T0); }
-template<> EIGEN_STRONG_INLINE void prefetch<double>(const double* addr) { _mm_prefetch((SsePrefetchPtrType)(addr), _MM_HINT_T0); }
-template<> EIGEN_STRONG_INLINE void prefetch<int>(const int*       addr) { _mm_prefetch((SsePrefetchPtrType)(addr), _MM_HINT_T0); }
+template<> HYDRA_EIGEN_STRONG_INLINE void prefetch<float>(const float*   addr) { _mm_prefetch((SsePrefetchPtrType)(addr), _MM_HINT_T0); }
+template<> HYDRA_EIGEN_STRONG_INLINE void prefetch<double>(const double* addr) { _mm_prefetch((SsePrefetchPtrType)(addr), _MM_HINT_T0); }
+template<> HYDRA_EIGEN_STRONG_INLINE void prefetch<int>(const int*       addr) { _mm_prefetch((SsePrefetchPtrType)(addr), _MM_HINT_T0); }
 
 template <>
-EIGEN_STRONG_INLINE float pfirst<Packet16f>(const Packet16f& a) {
+HYDRA_EIGEN_STRONG_INLINE float pfirst<Packet16f>(const Packet16f& a) {
   return _mm_cvtss_f32(_mm512_extractf32x4_ps(a, 0));
 }
 template <>
-EIGEN_STRONG_INLINE double pfirst<Packet8d>(const Packet8d& a) {
+HYDRA_EIGEN_STRONG_INLINE double pfirst<Packet8d>(const Packet8d& a) {
   return _mm_cvtsd_f64(_mm256_extractf128_pd(_mm512_extractf64x4_pd(a, 0), 0));
 }
 template <>
-EIGEN_STRONG_INLINE int pfirst<Packet16i>(const Packet16i& a) {
+HYDRA_EIGEN_STRONG_INLINE int pfirst<Packet16i>(const Packet16i& a) {
   return _mm_extract_epi32(_mm512_extracti32x4_epi32(a, 0), 0);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16f preverse(const Packet16f& a)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16f preverse(const Packet16f& a)
 {
   return _mm512_permutexvar_ps(_mm512_set_epi32(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15), a);
 }
 
-template<> EIGEN_STRONG_INLINE Packet8d preverse(const Packet8d& a)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8d preverse(const Packet8d& a)
 {
   return _mm512_permutexvar_pd(_mm512_set_epi32(0, 0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7), a);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16f pabs(const Packet16f& a)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16f pabs(const Packet16f& a)
 {
   // _mm512_abs_ps intrinsic not found, so hack around it
   return _mm512_castsi512_ps(_mm512_and_si512(_mm512_castps_si512(a), _mm512_set1_epi32(0x7fffffff)));
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pabs(const Packet8d& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d pabs(const Packet8d& a) {
   // _mm512_abs_ps intrinsic not found, so hack around it
   return _mm512_castsi512_pd(_mm512_and_si512(_mm512_castpd_si512(a),
                                    _mm512_set1_epi64(0x7fffffffffffffff)));
 }
 
 template<>
-EIGEN_STRONG_INLINE Packet16f pfrexp<Packet16f>(const Packet16f& a, Packet16f& exponent){
+HYDRA_EIGEN_STRONG_INLINE Packet16f pfrexp<Packet16f>(const Packet16f& a, Packet16f& exponent){
   return pfrexp_generic(a, exponent);
 }
 
 // Extract exponent without existence of Packet8l.
 template<>
-EIGEN_STRONG_INLINE  
+HYDRA_EIGEN_STRONG_INLINE  
 Packet8d pfrexp_generic_get_biased_exponent(const Packet8d& a) {
   const Packet8d cst_exp_mask  = pset1frombits<Packet8d>(static_cast<uint64_t>(0x7ff0000000000000ull));
-  #ifdef EIGEN_VECTORIZE_AVX512DQ
+  #ifdef HYDRA_EIGEN_VECTORIZE_AVX512DQ
   return _mm512_cvtepi64_pd(_mm512_srli_epi64(_mm512_castpd_si512(pand(a, cst_exp_mask)), 52));
   #else
   return _mm512_cvtepi32_pd(_mm512_cvtepi64_epi32(_mm512_srli_epi64(_mm512_castpd_si512(pand(a, cst_exp_mask)), 52)));
@@ -912,15 +912,15 @@ Packet8d pfrexp_generic_get_biased_exponent(const Packet8d& a) {
 }
 
 template<>
-EIGEN_STRONG_INLINE Packet8d pfrexp<Packet8d>(const Packet8d& a, Packet8d& exponent) {
+HYDRA_EIGEN_STRONG_INLINE Packet8d pfrexp<Packet8d>(const Packet8d& a, Packet8d& exponent) {
   return pfrexp_generic(a, exponent);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16f pldexp<Packet16f>(const Packet16f& a, const Packet16f& exponent) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16f pldexp<Packet16f>(const Packet16f& a, const Packet16f& exponent) {
   return pldexp_generic(a, exponent);
 }
 
-template<> EIGEN_STRONG_INLINE Packet8d pldexp<Packet8d>(const Packet8d& a, const Packet8d& exponent) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet8d pldexp<Packet8d>(const Packet8d& a, const Packet8d& exponent) {
   // Clamp exponent to [-2099, 2099]
   const Packet8d max_exponent = pset1<Packet8d>(2099.0);
   const Packet8i e = _mm512_cvtpd_epi32(pmin(pmax(exponent, pnegate(max_exponent)), max_exponent));
@@ -947,13 +947,13 @@ template<> EIGEN_STRONG_INLINE Packet8d pldexp<Packet8d>(const Packet8d& a, cons
   return out;
 }
 
-#ifdef EIGEN_VECTORIZE_AVX512DQ
+#ifdef HYDRA_EIGEN_VECTORIZE_AVX512DQ
 // AVX512F does not define _mm512_extractf32x8_ps to extract _m256 from _m512
-#define EIGEN_EXTRACT_8f_FROM_16f(INPUT, OUTPUT)                           \
+#define HYDRA_EIGEN_EXTRACT_8f_FROM_16f(INPUT, OUTPUT)                           \
   __m256 OUTPUT##_0 = _mm512_extractf32x8_ps(INPUT, 0);                    \
   __m256 OUTPUT##_1 = _mm512_extractf32x8_ps(INPUT, 1)
 #else
-#define EIGEN_EXTRACT_8f_FROM_16f(INPUT, OUTPUT)                \
+#define HYDRA_EIGEN_EXTRACT_8f_FROM_16f(INPUT, OUTPUT)                \
   __m256 OUTPUT##_0 = _mm256_insertf128_ps(                     \
       _mm256_castps128_ps256(_mm512_extractf32x4_ps(INPUT, 0)), \
       _mm512_extractf32x4_ps(INPUT, 1), 1);                     \
@@ -962,11 +962,11 @@ template<> EIGEN_STRONG_INLINE Packet8d pldexp<Packet8d>(const Packet8d& a, cons
       _mm512_extractf32x4_ps(INPUT, 3), 1);
 #endif
 
-#ifdef EIGEN_VECTORIZE_AVX512DQ
-#define EIGEN_INSERT_8f_INTO_16f(OUTPUT, INPUTA, INPUTB) \
+#ifdef HYDRA_EIGEN_VECTORIZE_AVX512DQ
+#define HYDRA_EIGEN_INSERT_8f_INTO_16f(OUTPUT, INPUTA, INPUTB) \
   OUTPUT = _mm512_insertf32x8(_mm512_castps256_ps512(INPUTA), INPUTB, 1);
 #else
-#define EIGEN_INSERT_8f_INTO_16f(OUTPUT, INPUTA, INPUTB)                    \
+#define HYDRA_EIGEN_INSERT_8f_INTO_16f(OUTPUT, INPUTA, INPUTB)                    \
   OUTPUT = _mm512_undefined_ps();                                           \
   OUTPUT = _mm512_insertf32x4(OUTPUT, _mm256_extractf128_ps(INPUTA, 0), 0); \
   OUTPUT = _mm512_insertf32x4(OUTPUT, _mm256_extractf128_ps(INPUTA, 1), 1); \
@@ -975,8 +975,8 @@ template<> EIGEN_STRONG_INLINE Packet8d pldexp<Packet8d>(const Packet8d& a, cons
 #endif
 
 template <>
-EIGEN_STRONG_INLINE float predux<Packet16f>(const Packet16f& a) {
-#ifdef EIGEN_VECTORIZE_AVX512DQ
+HYDRA_EIGEN_STRONG_INLINE float predux<Packet16f>(const Packet16f& a) {
+#ifdef HYDRA_EIGEN_VECTORIZE_AVX512DQ
   __m256 lane0 = _mm512_extractf32x8_ps(a, 0);
   __m256 lane1 = _mm512_extractf32x8_ps(a, 1);
   Packet8f x = _mm256_add_ps(lane0, lane1);
@@ -993,7 +993,7 @@ EIGEN_STRONG_INLINE float predux<Packet16f>(const Packet16f& a) {
 #endif
 }
 template <>
-EIGEN_STRONG_INLINE double predux<Packet8d>(const Packet8d& a) {
+HYDRA_EIGEN_STRONG_INLINE double predux<Packet8d>(const Packet8d& a) {
   __m256d lane0 = _mm512_extractf64x4_pd(a, 0);
   __m256d lane1 = _mm512_extractf64x4_pd(a, 1);
   __m256d sum = _mm256_add_pd(lane0, lane1);
@@ -1002,8 +1002,8 @@ EIGEN_STRONG_INLINE double predux<Packet8d>(const Packet8d& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8f predux_half_dowto4<Packet16f>(const Packet16f& a) {
-#ifdef EIGEN_VECTORIZE_AVX512DQ
+HYDRA_EIGEN_STRONG_INLINE Packet8f predux_half_dowto4<Packet16f>(const Packet16f& a) {
+#ifdef HYDRA_EIGEN_VECTORIZE_AVX512DQ
   __m256 lane0 = _mm512_extractf32x8_ps(a, 0);
   __m256 lane1 = _mm512_extractf32x8_ps(a, 1);
   return _mm256_add_ps(lane0, lane1);
@@ -1018,15 +1018,15 @@ EIGEN_STRONG_INLINE Packet8f predux_half_dowto4<Packet16f>(const Packet16f& a) {
 #endif
 }
 template <>
-EIGEN_STRONG_INLINE Packet4d predux_half_dowto4<Packet8d>(const Packet8d& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet4d predux_half_dowto4<Packet8d>(const Packet8d& a) {
   __m256d lane0 = _mm512_extractf64x4_pd(a, 0);
   __m256d lane1 = _mm512_extractf64x4_pd(a, 1);
   return _mm256_add_pd(lane0, lane1);
 }
 
 template <>
-EIGEN_STRONG_INLINE float predux_mul<Packet16f>(const Packet16f& a) {
-//#ifdef EIGEN_VECTORIZE_AVX512DQ
+HYDRA_EIGEN_STRONG_INLINE float predux_mul<Packet16f>(const Packet16f& a) {
+//#ifdef HYDRA_EIGEN_VECTORIZE_AVX512DQ
 #if 0
   Packet8f lane0 = _mm512_extractf32x8_ps(a, 0);
   Packet8f lane1 = _mm512_extractf32x8_ps(a, 1);
@@ -1045,7 +1045,7 @@ EIGEN_STRONG_INLINE float predux_mul<Packet16f>(const Packet16f& a) {
 #endif
 }
 template <>
-EIGEN_STRONG_INLINE double predux_mul<Packet8d>(const Packet8d& a) {
+HYDRA_EIGEN_STRONG_INLINE double predux_mul<Packet8d>(const Packet8d& a) {
   __m256d lane0 = _mm512_extractf64x4_pd(a, 0);
   __m256d lane1 = _mm512_extractf64x4_pd(a, 1);
   __m256d res = pmul(lane0, lane1);
@@ -1054,7 +1054,7 @@ EIGEN_STRONG_INLINE double predux_mul<Packet8d>(const Packet8d& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE float predux_min<Packet16f>(const Packet16f& a) {
+HYDRA_EIGEN_STRONG_INLINE float predux_min<Packet16f>(const Packet16f& a) {
   __m128 lane0 = _mm512_extractf32x4_ps(a, 0);
   __m128 lane1 = _mm512_extractf32x4_ps(a, 1);
   __m128 lane2 = _mm512_extractf32x4_ps(a, 2);
@@ -1064,7 +1064,7 @@ EIGEN_STRONG_INLINE float predux_min<Packet16f>(const Packet16f& a) {
   return pfirst(_mm_min_ps(res, _mm_permute_ps(res, _MM_SHUFFLE(0, 0, 0, 1))));
 }
 template <>
-EIGEN_STRONG_INLINE double predux_min<Packet8d>(const Packet8d& a) {
+HYDRA_EIGEN_STRONG_INLINE double predux_min<Packet8d>(const Packet8d& a) {
   __m256d lane0 = _mm512_extractf64x4_pd(a, 0);
   __m256d lane1 = _mm512_extractf64x4_pd(a, 1);
   __m256d res = _mm256_min_pd(lane0, lane1);
@@ -1073,7 +1073,7 @@ EIGEN_STRONG_INLINE double predux_min<Packet8d>(const Packet8d& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE float predux_max<Packet16f>(const Packet16f& a) {
+HYDRA_EIGEN_STRONG_INLINE float predux_max<Packet16f>(const Packet16f& a) {
   __m128 lane0 = _mm512_extractf32x4_ps(a, 0);
   __m128 lane1 = _mm512_extractf32x4_ps(a, 1);
   __m128 lane2 = _mm512_extractf32x4_ps(a, 2);
@@ -1084,7 +1084,7 @@ EIGEN_STRONG_INLINE float predux_max<Packet16f>(const Packet16f& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE double predux_max<Packet8d>(const Packet8d& a) {
+HYDRA_EIGEN_STRONG_INLINE double predux_max<Packet8d>(const Packet8d& a) {
   __m256d lane0 = _mm512_extractf64x4_pd(a, 0);
   __m256d lane1 = _mm512_extractf64x4_pd(a, 1);
   __m256d res = _mm256_max_pd(lane0, lane1);
@@ -1092,7 +1092,7 @@ EIGEN_STRONG_INLINE double predux_max<Packet8d>(const Packet8d& a) {
   return pfirst(_mm256_max_pd(res, _mm256_shuffle_pd(res, res, 1)));
 }
 
-template<> EIGEN_STRONG_INLINE bool predux_any(const Packet16f& x)
+template<> HYDRA_EIGEN_STRONG_INLINE bool predux_any(const Packet16f& x)
 {
   Packet16i xi = _mm512_castps_si512(x);
   __mmask16 tmp = _mm512_test_epi32_mask(xi,xi);
@@ -1102,9 +1102,9 @@ template<> EIGEN_STRONG_INLINE bool predux_any(const Packet16f& x)
 
 
 #define PACK_OUTPUT(OUTPUT, INPUT, INDEX, STRIDE) \
-  EIGEN_INSERT_8f_INTO_16f(OUTPUT[INDEX], INPUT[INDEX], INPUT[INDEX + STRIDE]);
+  HYDRA_EIGEN_INSERT_8f_INTO_16f(OUTPUT[INDEX], INPUT[INDEX], INPUT[INDEX + STRIDE]);
 
-EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet16f, 16>& kernel) {
+HYDRA_EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet16f, 16>& kernel) {
   __m512 T0 = _mm512_unpacklo_ps(kernel.packet[0], kernel.packet[1]);
   __m512 T1 = _mm512_unpackhi_ps(kernel.packet[0], kernel.packet[1]);
   __m512 T2 = _mm512_unpacklo_ps(kernel.packet[2], kernel.packet[3]);
@@ -1138,22 +1138,22 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet16f, 16>& kernel) {
   __m512 S14 = _mm512_shuffle_ps(T13, T15, _MM_SHUFFLE(1, 0, 1, 0));
   __m512 S15 = _mm512_shuffle_ps(T13, T15, _MM_SHUFFLE(3, 2, 3, 2));
 
-  EIGEN_EXTRACT_8f_FROM_16f(S0, S0);
-  EIGEN_EXTRACT_8f_FROM_16f(S1, S1);
-  EIGEN_EXTRACT_8f_FROM_16f(S2, S2);
-  EIGEN_EXTRACT_8f_FROM_16f(S3, S3);
-  EIGEN_EXTRACT_8f_FROM_16f(S4, S4);
-  EIGEN_EXTRACT_8f_FROM_16f(S5, S5);
-  EIGEN_EXTRACT_8f_FROM_16f(S6, S6);
-  EIGEN_EXTRACT_8f_FROM_16f(S7, S7);
-  EIGEN_EXTRACT_8f_FROM_16f(S8, S8);
-  EIGEN_EXTRACT_8f_FROM_16f(S9, S9);
-  EIGEN_EXTRACT_8f_FROM_16f(S10, S10);
-  EIGEN_EXTRACT_8f_FROM_16f(S11, S11);
-  EIGEN_EXTRACT_8f_FROM_16f(S12, S12);
-  EIGEN_EXTRACT_8f_FROM_16f(S13, S13);
-  EIGEN_EXTRACT_8f_FROM_16f(S14, S14);
-  EIGEN_EXTRACT_8f_FROM_16f(S15, S15);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S0, S0);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S1, S1);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S2, S2);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S3, S3);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S4, S4);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S5, S5);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S6, S6);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S7, S7);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S8, S8);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S9, S9);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S10, S10);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S11, S11);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S12, S12);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S13, S13);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S14, S14);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S15, S15);
 
   PacketBlock<Packet8f, 32> tmp;
 
@@ -1216,10 +1216,10 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet16f, 16>& kernel) {
   PACK_OUTPUT(kernel.packet, tmp.packet, 15, 16);
 }
 #define PACK_OUTPUT_2(OUTPUT, INPUT, INDEX, STRIDE)         \
-  EIGEN_INSERT_8f_INTO_16f(OUTPUT[INDEX], INPUT[2 * INDEX], \
+  HYDRA_EIGEN_INSERT_8f_INTO_16f(OUTPUT[INDEX], INPUT[2 * INDEX], \
                            INPUT[2 * INDEX + STRIDE]);
 
-EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet16f, 4>& kernel) {
+HYDRA_EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet16f, 4>& kernel) {
   __m512 T0 = _mm512_unpacklo_ps(kernel.packet[0], kernel.packet[1]);
   __m512 T1 = _mm512_unpackhi_ps(kernel.packet[0], kernel.packet[1]);
   __m512 T2 = _mm512_unpacklo_ps(kernel.packet[2], kernel.packet[3]);
@@ -1230,10 +1230,10 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet16f, 4>& kernel) {
   __m512 S2 = _mm512_shuffle_ps(T1, T3, _MM_SHUFFLE(1, 0, 1, 0));
   __m512 S3 = _mm512_shuffle_ps(T1, T3, _MM_SHUFFLE(3, 2, 3, 2));
 
-  EIGEN_EXTRACT_8f_FROM_16f(S0, S0);
-  EIGEN_EXTRACT_8f_FROM_16f(S1, S1);
-  EIGEN_EXTRACT_8f_FROM_16f(S2, S2);
-  EIGEN_EXTRACT_8f_FROM_16f(S3, S3);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S0, S0);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S1, S1);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S2, S2);
+  HYDRA_EIGEN_EXTRACT_8f_FROM_16f(S3, S3);
 
   PacketBlock<Packet8f, 8> tmp;
 
@@ -1262,7 +1262,7 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet16f, 4>& kernel) {
   OUTPUT[INDEX] =                                                           \
       _mm512_insertf64x4(OUTPUT[INDEX], INPUT[(2 * INDEX) + STRIDE], 1);
 
-EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet8d, 4>& kernel) {
+HYDRA_EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet8d, 4>& kernel) {
   __m512d T0 = _mm512_shuffle_pd(kernel.packet[0], kernel.packet[1], 0);
   __m512d T1 = _mm512_shuffle_pd(kernel.packet[0], kernel.packet[1], 0xff);
   __m512d T2 = _mm512_shuffle_pd(kernel.packet[2], kernel.packet[3], 0);
@@ -1294,7 +1294,7 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet8d, 4>& kernel) {
   PACK_OUTPUT_D(kernel.packet, tmp.packet, 3, 1);
 }
 
-EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet8d, 8>& kernel) {
+HYDRA_EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet8d, 8>& kernel) {
   __m512d T0 = _mm512_unpacklo_pd(kernel.packet[0], kernel.packet[1]);
   __m512d T1 = _mm512_unpackhi_pd(kernel.packet[0], kernel.packet[1]);
   __m512d T2 = _mm512_unpacklo_pd(kernel.packet[2], kernel.packet[3]);
@@ -1353,14 +1353,14 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet8d, 8>& kernel) {
   PACK_OUTPUT_SQ_D(kernel.packet, tmp.packet, 7, 8);
 }
 template <>
-EIGEN_STRONG_INLINE Packet16f pblend(const Selector<16>& /*ifPacket*/,
+HYDRA_EIGEN_STRONG_INLINE Packet16f pblend(const Selector<16>& /*ifPacket*/,
                                      const Packet16f& /*thenPacket*/,
                                      const Packet16f& /*elsePacket*/) {
   assert(false && "To be implemented");
   return Packet16f();
 }
 template <>
-EIGEN_STRONG_INLINE Packet8d pblend(const Selector<8>& ifPacket,
+HYDRA_EIGEN_STRONG_INLINE Packet8d pblend(const Selector<8>& ifPacket,
                                     const Packet8d& thenPacket,
                                     const Packet8d& elsePacket) {
   __mmask8 m = (ifPacket.select[0]   )
@@ -1374,37 +1374,37 @@ EIGEN_STRONG_INLINE Packet8d pblend(const Selector<8>& ifPacket,
   return _mm512_mask_blend_pd(m, elsePacket, thenPacket);
 }
 
-// Packet math for Eigen::half
-template<> EIGEN_STRONG_INLINE Packet16h pset1<Packet16h>(const Eigen::half& from) {
+// Packet math for hydra_Eigen::half
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pset1<Packet16h>(const hydra_Eigen::half& from) {
   return _mm256_set1_epi16(from.x);
 }
 
-template<> EIGEN_STRONG_INLINE Eigen::half pfirst<Packet16h>(const Packet16h& from) {
+template<> HYDRA_EIGEN_STRONG_INLINE hydra_Eigen::half pfirst<Packet16h>(const Packet16h& from) {
   return half_impl::raw_uint16_to_half(static_cast<unsigned short>(_mm256_extract_epi16(from, 0)));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h pload<Packet16h>(const Eigen::half* from) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pload<Packet16h>(const hydra_Eigen::half* from) {
   return _mm256_load_si256(reinterpret_cast<const __m256i*>(from));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h ploadu<Packet16h>(const Eigen::half* from) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h ploadu<Packet16h>(const hydra_Eigen::half* from) {
   return _mm256_loadu_si256(reinterpret_cast<const __m256i*>(from));
 }
 
-template<> EIGEN_STRONG_INLINE void pstore<half>(Eigen::half* to, const Packet16h& from) {
+template<> HYDRA_EIGEN_STRONG_INLINE void pstore<half>(hydra_Eigen::half* to, const Packet16h& from) {
   // (void*) -> workaround clang warning:
-  // cast from 'Eigen::half *' to '__m256i *' increases required alignment from 2 to 32
+  // cast from 'hydra_Eigen::half *' to '__m256i *' increases required alignment from 2 to 32
   _mm256_store_si256((__m256i*)(void*)to, from);
 }
 
-template<> EIGEN_STRONG_INLINE void pstoreu<half>(Eigen::half* to, const Packet16h& from) {
+template<> HYDRA_EIGEN_STRONG_INLINE void pstoreu<half>(hydra_Eigen::half* to, const Packet16h& from) {
   // (void*) -> workaround clang warning:
-  // cast from 'Eigen::half *' to '__m256i *' increases required alignment from 2 to 32
+  // cast from 'hydra_Eigen::half *' to '__m256i *' increases required alignment from 2 to 32
   _mm256_storeu_si256((__m256i*)(void*)to, from);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h
-ploaddup<Packet16h>(const Eigen::half*  from) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h
+ploaddup<Packet16h>(const hydra_Eigen::half*  from) {
   unsigned short a = from[0].x;
   unsigned short b = from[1].x;
   unsigned short c = from[2].x;
@@ -1416,8 +1416,8 @@ ploaddup<Packet16h>(const Eigen::half*  from) {
   return _mm256_set_epi16(h, h, g, g, f, f, e, e, d, d, c, c, b, b, a, a);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h
-ploadquad(const Eigen::half* from) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h
+ploadquad(const hydra_Eigen::half* from) {
   unsigned short a = from[0].x;
   unsigned short b = from[1].x;
   unsigned short c = from[2].x;
@@ -1425,11 +1425,11 @@ ploadquad(const Eigen::half* from) {
   return _mm256_set_epi16(d, d, d, d, c, c, c, c, b, b, b, b, a, a, a, a);
 }
 
-EIGEN_STRONG_INLINE Packet16f half2float(const Packet16h& a) {
-#ifdef EIGEN_HAS_FP16_C
+HYDRA_EIGEN_STRONG_INLINE Packet16f half2float(const Packet16h& a) {
+#ifdef HYDRA_EIGEN_HAS_FP16_C
   return _mm512_cvtph_ps(a);
 #else
-  EIGEN_ALIGN64 half aux[16];
+  HYDRA_EIGEN_ALIGN64 half aux[16];
   pstore(aux, a);
   float f0(aux[0]);
   float f1(aux[1]);
@@ -1453,11 +1453,11 @@ EIGEN_STRONG_INLINE Packet16f half2float(const Packet16h& a) {
 #endif
 }
 
-EIGEN_STRONG_INLINE Packet16h float2half(const Packet16f& a) {
-#ifdef EIGEN_HAS_FP16_C
+HYDRA_EIGEN_STRONG_INLINE Packet16h float2half(const Packet16f& a) {
+#ifdef HYDRA_EIGEN_HAS_FP16_C
   return _mm512_cvtps_ph(a, _MM_FROUND_TO_NEAREST_INT|_MM_FROUND_NO_EXC);
 #else
-  EIGEN_ALIGN64 float aux[16];
+  HYDRA_EIGEN_ALIGN64 float aux[16];
   pstore(aux, a);
   half h0(aux[0]);
   half h1(aux[1]);
@@ -1482,151 +1482,151 @@ EIGEN_STRONG_INLINE Packet16h float2half(const Packet16f& a) {
 #endif
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h ptrue(const Packet16h& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h ptrue(const Packet16h& a) {
   return ptrue(Packet8i(a));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pabs(const Packet16h& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet16h pabs(const Packet16h& a) {
   const __m256i sign_mask = _mm256_set1_epi16(static_cast<numext::uint16_t>(0x8000));
   return _mm256_andnot_si256(sign_mask, a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pmin<Packet16h>(const Packet16h& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16h pmin<Packet16h>(const Packet16h& a,
                                               const Packet16h& b) {
   return float2half(pmin<Packet16f>(half2float(a), half2float(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h pmax<Packet16h>(const Packet16h& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16h pmax<Packet16h>(const Packet16h& a,
                                               const Packet16h& b) {
   return float2half(pmax<Packet16f>(half2float(a), half2float(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16h plset<Packet16h>(const half& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet16h plset<Packet16h>(const half& a) {
   return float2half(plset<Packet16f>(static_cast<float>(a)));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h por(const Packet16h& a,const Packet16h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h por(const Packet16h& a,const Packet16h& b) {
   // in some cases Packet8i is a wrapper around __m256i, so we need to
   // cast to Packet8i to call the correct overload.
   return por(Packet8i(a),Packet8i(b));
 }
-template<> EIGEN_STRONG_INLINE Packet16h pxor(const Packet16h& a,const Packet16h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pxor(const Packet16h& a,const Packet16h& b) {
   return pxor(Packet8i(a),Packet8i(b));
 }
-template<> EIGEN_STRONG_INLINE Packet16h pand(const Packet16h& a,const Packet16h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pand(const Packet16h& a,const Packet16h& b) {
   return pand(Packet8i(a),Packet8i(b));
 }
-template<> EIGEN_STRONG_INLINE Packet16h pandnot(const Packet16h& a,const Packet16h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pandnot(const Packet16h& a,const Packet16h& b) {
   return pandnot(Packet8i(a),Packet8i(b));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h pselect(const Packet16h& mask, const Packet16h& a, const Packet16h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pselect(const Packet16h& mask, const Packet16h& a, const Packet16h& b) {
   return _mm256_blendv_epi8(b, a, mask);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h pround<Packet16h>(const Packet16h& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pround<Packet16h>(const Packet16h& a) {
   return float2half(pround<Packet16f>(half2float(a)));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h print<Packet16h>(const Packet16h& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h print<Packet16h>(const Packet16h& a) {
   return float2half(print<Packet16f>(half2float(a)));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h pceil<Packet16h>(const Packet16h& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pceil<Packet16h>(const Packet16h& a) {
   return float2half(pceil<Packet16f>(half2float(a)));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h pfloor<Packet16h>(const Packet16h& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pfloor<Packet16h>(const Packet16h& a) {
   return float2half(pfloor<Packet16f>(half2float(a)));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h pcmp_eq(const Packet16h& a,const Packet16h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pcmp_eq(const Packet16h& a,const Packet16h& b) {
   Packet16f af = half2float(a);
   Packet16f bf = half2float(b);
   return Pack32To16(pcmp_eq(af, bf));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h pcmp_le(const Packet16h& a,const Packet16h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pcmp_le(const Packet16h& a,const Packet16h& b) {
   return Pack32To16(pcmp_le(half2float(a), half2float(b)));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h pcmp_lt(const Packet16h& a,const Packet16h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pcmp_lt(const Packet16h& a,const Packet16h& b) {
   return Pack32To16(pcmp_lt(half2float(a), half2float(b)));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h pcmp_lt_or_nan(const Packet16h& a,const Packet16h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pcmp_lt_or_nan(const Packet16h& a,const Packet16h& b) {
   return Pack32To16(pcmp_lt_or_nan(half2float(a), half2float(b)));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h pconj(const Packet16h& a) { return a; }
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pconj(const Packet16h& a) { return a; }
 
-template<> EIGEN_STRONG_INLINE Packet16h pnegate(const Packet16h& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pnegate(const Packet16h& a) {
   Packet16h sign_mask = _mm256_set1_epi16(static_cast<unsigned short>(0x8000));
   return _mm256_xor_si256(a, sign_mask);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h padd<Packet16h>(const Packet16h& a, const Packet16h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h padd<Packet16h>(const Packet16h& a, const Packet16h& b) {
   Packet16f af = half2float(a);
   Packet16f bf = half2float(b);
   Packet16f rf = padd(af, bf);
   return float2half(rf);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h psub<Packet16h>(const Packet16h& a, const Packet16h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h psub<Packet16h>(const Packet16h& a, const Packet16h& b) {
   Packet16f af = half2float(a);
   Packet16f bf = half2float(b);
   Packet16f rf = psub(af, bf);
   return float2half(rf);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h pmul<Packet16h>(const Packet16h& a, const Packet16h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pmul<Packet16h>(const Packet16h& a, const Packet16h& b) {
   Packet16f af = half2float(a);
   Packet16f bf = half2float(b);
   Packet16f rf = pmul(af, bf);
   return float2half(rf);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h pdiv<Packet16h>(const Packet16h& a, const Packet16h& b) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pdiv<Packet16h>(const Packet16h& a, const Packet16h& b) {
   Packet16f af = half2float(a);
   Packet16f bf = half2float(b);
   Packet16f rf = pdiv(af, bf);
   return float2half(rf);
 }
 
-template<> EIGEN_STRONG_INLINE half predux<Packet16h>(const Packet16h& from) {
+template<> HYDRA_EIGEN_STRONG_INLINE half predux<Packet16h>(const Packet16h& from) {
   Packet16f from_float = half2float(from);
   return half(predux(from_float));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8h predux_half_dowto4<Packet16h>(const Packet16h& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet8h predux_half_dowto4<Packet16h>(const Packet16h& a) {
   Packet8h lane0 = _mm256_extractf128_si256(a, 0);
   Packet8h lane1 = _mm256_extractf128_si256(a, 1);
   return padd<Packet8h>(lane0, lane1);
 }
 
-template<> EIGEN_STRONG_INLINE Eigen::half predux_max<Packet16h>(const Packet16h& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE hydra_Eigen::half predux_max<Packet16h>(const Packet16h& a) {
   Packet16f af = half2float(a);
   float reduced = predux_max<Packet16f>(af);
-  return Eigen::half(reduced);
+  return hydra_Eigen::half(reduced);
 }
 
-template<> EIGEN_STRONG_INLINE Eigen::half predux_min<Packet16h>(const Packet16h& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE hydra_Eigen::half predux_min<Packet16h>(const Packet16h& a) {
   Packet16f af = half2float(a);
   float reduced = predux_min<Packet16f>(af);
-  return Eigen::half(reduced);
+  return hydra_Eigen::half(reduced);
 }
 
-template<> EIGEN_STRONG_INLINE half predux_mul<Packet16h>(const Packet16h& from) {
+template<> HYDRA_EIGEN_STRONG_INLINE half predux_mul<Packet16h>(const Packet16h& from) {
   Packet16f from_float = half2float(from);
   return half(predux_mul(from_float));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h preverse(const Packet16h& a)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h preverse(const Packet16h& a)
 {
   __m128i m = _mm_setr_epi8(14,15,12,13,10,11,8,9,6,7,4,5,2,3,0,1);
   return _mm256_insertf128_si256(
@@ -1634,7 +1634,7 @@ template<> EIGEN_STRONG_INLINE Packet16h preverse(const Packet16h& a)
                                            _mm_shuffle_epi8(_mm256_extractf128_si256(a,0),m), 1);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16h pgather<Eigen::half, Packet16h>(const Eigen::half* from, Index stride)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pgather<hydra_Eigen::half, Packet16h>(const hydra_Eigen::half* from, Index stride)
 {
   return _mm256_set_epi16(
       from[15*stride].x, from[14*stride].x, from[13*stride].x, from[12*stride].x,
@@ -1643,9 +1643,9 @@ template<> EIGEN_STRONG_INLINE Packet16h pgather<Eigen::half, Packet16h>(const E
       from[3*stride].x, from[2*stride].x, from[1*stride].x, from[0*stride].x);
 }
 
-template<> EIGEN_STRONG_INLINE void pscatter<half, Packet16h>(half* to, const Packet16h& from, Index stride)
+template<> HYDRA_EIGEN_STRONG_INLINE void pscatter<half, Packet16h>(half* to, const Packet16h& from, Index stride)
 {
-  EIGEN_ALIGN64 half aux[16];
+  HYDRA_EIGEN_ALIGN64 half aux[16];
   pstore(aux, from);
   to[stride*0] = aux[0];
   to[stride*1] = aux[1];
@@ -1665,7 +1665,7 @@ template<> EIGEN_STRONG_INLINE void pscatter<half, Packet16h>(half* to, const Pa
   to[stride*15] = aux[15];
 }
 
-EIGEN_STRONG_INLINE void
+HYDRA_EIGEN_STRONG_INLINE void
 ptranspose(PacketBlock<Packet16h,16>& kernel) {
   __m256i a = kernel.packet[0];
   __m256i b = kernel.packet[1];
@@ -1773,9 +1773,9 @@ ptranspose(PacketBlock<Packet16h,16>& kernel) {
   kernel.packet[15] = a_p_f;
 }
 
-EIGEN_STRONG_INLINE void
+HYDRA_EIGEN_STRONG_INLINE void
 ptranspose(PacketBlock<Packet16h,8>& kernel) {
-  EIGEN_ALIGN64 half in[8][16];
+  HYDRA_EIGEN_ALIGN64 half in[8][16];
   pstore<half>(in[0], kernel.packet[0]);
   pstore<half>(in[1], kernel.packet[1]);
   pstore<half>(in[2], kernel.packet[2]);
@@ -1785,7 +1785,7 @@ ptranspose(PacketBlock<Packet16h,8>& kernel) {
   pstore<half>(in[6], kernel.packet[6]);
   pstore<half>(in[7], kernel.packet[7]);
 
-  EIGEN_ALIGN64 half out[8][16];
+  HYDRA_EIGEN_ALIGN64 half out[8][16];
 
   for (int i = 0; i < 8; ++i) {
     for (int j = 0; j < 8; ++j) {
@@ -1806,15 +1806,15 @@ ptranspose(PacketBlock<Packet16h,8>& kernel) {
   kernel.packet[7] = pload<Packet16h>(out[7]);
 }
 
-EIGEN_STRONG_INLINE void
+HYDRA_EIGEN_STRONG_INLINE void
 ptranspose(PacketBlock<Packet16h,4>& kernel) {
-  EIGEN_ALIGN64 half in[4][16];
+  HYDRA_EIGEN_ALIGN64 half in[4][16];
   pstore<half>(in[0], kernel.packet[0]);
   pstore<half>(in[1], kernel.packet[1]);
   pstore<half>(in[2], kernel.packet[2]);
   pstore<half>(in[3], kernel.packet[3]);
 
-  EIGEN_ALIGN64 half out[4][16];
+  HYDRA_EIGEN_ALIGN64 half out[4][16];
 
   for (int i = 0; i < 4; ++i) {
     for (int j = 0; j < 4; ++j) {
@@ -1850,10 +1850,10 @@ struct packet_traits<bfloat16> : default_packet_traits {
     HasHalfPacket = 1,
     HasBlend = 0,
     HasInsert = 1,
-    HasSin = EIGEN_FAST_MATH,
-    HasCos = EIGEN_FAST_MATH,
-#if EIGEN_GNUC_AT_LEAST(5, 3) || (!EIGEN_COMP_GNUC_STRICT)
-#ifdef EIGEN_VECTORIZE_AVX512DQ
+    HasSin = HYDRA_EIGEN_FAST_MATH,
+    HasCos = HYDRA_EIGEN_FAST_MATH,
+#if HYDRA_EIGEN_GNUC_AT_LEAST(5, 3) || (!HYDRA_EIGEN_COMP_GNUC_STRICT)
+#ifdef HYDRA_EIGEN_VECTORIZE_AVX512DQ
     HasLog = 1,  // Currently fails test with bad accuracy.
     HasLog1p  = 1,
     HasExpm1  = 1,
@@ -1861,10 +1861,10 @@ struct packet_traits<bfloat16> : default_packet_traits {
     HasBessel  = 1,
 #endif
     HasExp = 1,
-    HasSqrt = EIGEN_FAST_MATH,
-    HasRsqrt = EIGEN_FAST_MATH,
-    HasTanh = EIGEN_FAST_MATH,
-    HasErf = EIGEN_FAST_MATH,
+    HasSqrt = HYDRA_EIGEN_FAST_MATH,
+    HasRsqrt = HYDRA_EIGEN_FAST_MATH,
+    HasTanh = HYDRA_EIGEN_FAST_MATH,
+    HasErf = HYDRA_EIGEN_FAST_MATH,
 #endif
     HasCmp  = 1,
     HasDiv = 1
@@ -1880,40 +1880,40 @@ struct unpacket_traits<Packet16bf>
 };
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pset1<Packet16bf>(const bfloat16& from) {
+HYDRA_EIGEN_STRONG_INLINE Packet16bf pset1<Packet16bf>(const bfloat16& from) {
   return _mm256_set1_epi16(from.value);
 }
 
 template <>
-EIGEN_STRONG_INLINE bfloat16 pfirst<Packet16bf>(const Packet16bf& from) {
+HYDRA_EIGEN_STRONG_INLINE bfloat16 pfirst<Packet16bf>(const Packet16bf& from) {
   bfloat16 t;
   t.value = static_cast<unsigned short>(_mm256_extract_epi16(from, 0));
   return t;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pload<Packet16bf>(const bfloat16* from) {
+HYDRA_EIGEN_STRONG_INLINE Packet16bf pload<Packet16bf>(const bfloat16* from) {
   return _mm256_load_si256(reinterpret_cast<const __m256i*>(from));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf ploadu<Packet16bf>(const bfloat16* from) {
+HYDRA_EIGEN_STRONG_INLINE Packet16bf ploadu<Packet16bf>(const bfloat16* from) {
   return _mm256_loadu_si256(reinterpret_cast<const __m256i*>(from));
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstore<bfloat16>(bfloat16* to,
+HYDRA_EIGEN_STRONG_INLINE void pstore<bfloat16>(bfloat16* to,
                                           const Packet16bf& from) {
   _mm256_store_si256(reinterpret_cast<__m256i*>(to), from);
 }
 
 template <>
-EIGEN_STRONG_INLINE void pstoreu<bfloat16>(bfloat16* to,
+HYDRA_EIGEN_STRONG_INLINE void pstoreu<bfloat16>(bfloat16* to,
                                            const Packet16bf& from) {
   _mm256_storeu_si256(reinterpret_cast<__m256i*>(to), from);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16bf
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16bf
 ploaddup<Packet16bf>(const bfloat16* from) {
   Packet16bf r;
   unsigned short a = from[0].value;
@@ -1927,7 +1927,7 @@ ploaddup<Packet16bf>(const bfloat16* from) {
   return _mm256_set_epi16(h, h, g, g, f, f, e, e, d, d, c, c, b, b, a, a);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16bf
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16bf
 ploadquad(const bfloat16* from) {
   Packet16bf r;
   unsigned short a = from[0].value;
@@ -1937,15 +1937,15 @@ ploadquad(const bfloat16* from) {
   return _mm256_set_epi16(d, d, d, d, c, c, c, c, b, b, b, b, a, a, a, a);
 }
 
-EIGEN_STRONG_INLINE Packet16f Bf16ToF32(const Packet16bf& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet16f Bf16ToF32(const Packet16bf& a) {
   return _mm512_castsi512_ps(_mm512_slli_epi32(_mm512_cvtepu16_epi32(a), 16));
 }
 
 // Convert float to bfloat16 according to round-to-nearest-even/denormals algorithm.
-EIGEN_STRONG_INLINE Packet16bf F32ToBf16(const Packet16f& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet16bf F32ToBf16(const Packet16f& a) {
   Packet16bf r;
 
-#if defined(EIGEN_VECTORIZE_AVX512BF16) && EIGEN_GNUC_AT_LEAST(10, 1)
+#if defined(HYDRA_EIGEN_VECTORIZE_AVX512BF16) && HYDRA_EIGEN_GNUC_AT_LEAST(10, 1)
   // Since GCC 10.1 supports avx512bf16 and C style explicit cast
   // (C++ static_cast is not supported yet), do converion via intrinsic
   // and register path for performance.
@@ -1971,39 +1971,39 @@ EIGEN_STRONG_INLINE Packet16bf F32ToBf16(const Packet16f& a) {
   t = _mm512_mask_blend_epi32(mask, nan, t);
   // output.value = static_cast<uint16_t>(input);
   r = _mm512_cvtepi32_epi16(t);
-#endif // EIGEN_VECTORIZE_AVX512BF16
+#endif // HYDRA_EIGEN_VECTORIZE_AVX512BF16
 
   return r;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf ptrue(const Packet16bf& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet16bf ptrue(const Packet16bf& a) {
   return ptrue<Packet8i>(a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf por(const Packet16bf& a, const Packet16bf& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet16bf por(const Packet16bf& a, const Packet16bf& b) {
   return por<Packet8i>(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pxor(const Packet16bf& a, const Packet16bf& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet16bf pxor(const Packet16bf& a, const Packet16bf& b) {
   return pxor<Packet8i>(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pand(const Packet16bf& a, const Packet16bf& b) {
+HYDRA_EIGEN_STRONG_INLINE Packet16bf pand(const Packet16bf& a, const Packet16bf& b) {
   return pand<Packet8i>(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pandnot(const Packet16bf& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16bf pandnot(const Packet16bf& a,
                                        const Packet16bf& b) {
   return pandnot<Packet8i>(a, b);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pselect(const Packet16bf& mask,
+HYDRA_EIGEN_STRONG_INLINE Packet16bf pselect(const Packet16bf& mask,
                                        const Packet16bf& a,
                                        const Packet16bf& b) {
   // Input mask is expected to be all 0/1, handle it with 8-bit
@@ -2011,134 +2011,134 @@ EIGEN_STRONG_INLINE Packet16bf pselect(const Packet16bf& mask,
   return _mm256_blendv_epi8(b, a, mask);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16bf pround<Packet16bf>(const Packet16bf& a)
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16bf pround<Packet16bf>(const Packet16bf& a)
 {
   return F32ToBf16(pround<Packet16f>(Bf16ToF32(a)));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16bf print<Packet16bf>(const Packet16bf& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16bf print<Packet16bf>(const Packet16bf& a) {
   return F32ToBf16(print<Packet16f>(Bf16ToF32(a)));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16bf pceil<Packet16bf>(const Packet16bf& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16bf pceil<Packet16bf>(const Packet16bf& a) {
   return F32ToBf16(pceil<Packet16f>(Bf16ToF32(a)));
 }
 
-template<> EIGEN_STRONG_INLINE Packet16bf pfloor<Packet16bf>(const Packet16bf& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16bf pfloor<Packet16bf>(const Packet16bf& a) {
   return F32ToBf16(pfloor<Packet16f>(Bf16ToF32(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pcmp_eq(const Packet16bf& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16bf pcmp_eq(const Packet16bf& a,
                                        const Packet16bf& b) {
   return Pack32To16(pcmp_eq(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pcmp_le(const Packet16bf& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16bf pcmp_le(const Packet16bf& a,
                                        const Packet16bf& b) {
   return Pack32To16(pcmp_le(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pcmp_lt(const Packet16bf& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16bf pcmp_lt(const Packet16bf& a,
                                        const Packet16bf& b) {
   return Pack32To16(pcmp_lt(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pcmp_lt_or_nan(const Packet16bf& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16bf pcmp_lt_or_nan(const Packet16bf& a,
                                               const Packet16bf& b) {
   return Pack32To16(pcmp_lt_or_nan(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pnegate(const Packet16bf& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet16bf pnegate(const Packet16bf& a) {
   Packet16bf sign_mask = _mm256_set1_epi16(static_cast<unsigned short>(0x8000));
   return _mm256_xor_si256(a, sign_mask);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pconj(const Packet16bf& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet16bf pconj(const Packet16bf& a) {
   return a;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pabs(const Packet16bf& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet16bf pabs(const Packet16bf& a) {
   const __m256i sign_mask = _mm256_set1_epi16(static_cast<numext::uint16_t>(0x8000));
   return _mm256_andnot_si256(sign_mask, a);
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf padd<Packet16bf>(const Packet16bf& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16bf padd<Packet16bf>(const Packet16bf& a,
                                                 const Packet16bf& b) {
   return F32ToBf16(padd<Packet16f>(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf psub<Packet16bf>(const Packet16bf& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16bf psub<Packet16bf>(const Packet16bf& a,
                                                 const Packet16bf& b) {
   return F32ToBf16(psub<Packet16f>(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pmul<Packet16bf>(const Packet16bf& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16bf pmul<Packet16bf>(const Packet16bf& a,
                                                 const Packet16bf& b) {
   return F32ToBf16(pmul<Packet16f>(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pdiv<Packet16bf>(const Packet16bf& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16bf pdiv<Packet16bf>(const Packet16bf& a,
                                                 const Packet16bf& b) {
   return F32ToBf16(pdiv<Packet16f>(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pmin<Packet16bf>(const Packet16bf& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16bf pmin<Packet16bf>(const Packet16bf& a,
                                                 const Packet16bf& b) {
   return F32ToBf16(pmin<Packet16f>(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pmax<Packet16bf>(const Packet16bf& a,
+HYDRA_EIGEN_STRONG_INLINE Packet16bf pmax<Packet16bf>(const Packet16bf& a,
                                                 const Packet16bf& b) {
   return F32ToBf16(pmax<Packet16f>(Bf16ToF32(a), Bf16ToF32(b)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf plset<Packet16bf>(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet16bf plset<Packet16bf>(const bfloat16& a) {
   return F32ToBf16(plset<Packet16f>(static_cast<float>(a)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet8bf predux_half_dowto4<Packet16bf>(const Packet16bf& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet8bf predux_half_dowto4<Packet16bf>(const Packet16bf& a) {
   Packet8bf lane0 = _mm256_extractf128_si256(a, 0);
   Packet8bf lane1 = _mm256_extractf128_si256(a, 1);
   return padd<Packet8bf>(lane0, lane1);
 }
 
 template <>
-EIGEN_STRONG_INLINE bfloat16 predux<Packet16bf>(const Packet16bf& p) {
+HYDRA_EIGEN_STRONG_INLINE bfloat16 predux<Packet16bf>(const Packet16bf& p) {
   return static_cast<bfloat16>(predux<Packet16f>(Bf16ToF32(p)));
 }
 
 template <>
-EIGEN_STRONG_INLINE bfloat16 predux_mul<Packet16bf>(const Packet16bf& from) {
+HYDRA_EIGEN_STRONG_INLINE bfloat16 predux_mul<Packet16bf>(const Packet16bf& from) {
   return static_cast<bfloat16>(predux_mul<Packet16f>(Bf16ToF32(from)));
 }
 
 template <>
-EIGEN_STRONG_INLINE bfloat16 predux_min<Packet16bf>(const Packet16bf& from) {
+HYDRA_EIGEN_STRONG_INLINE bfloat16 predux_min<Packet16bf>(const Packet16bf& from) {
   return static_cast<bfloat16>(predux_min<Packet16f>(Bf16ToF32(from)));
 }
 
 template <>
-EIGEN_STRONG_INLINE bfloat16 predux_max<Packet16bf>(const Packet16bf& from) {
+HYDRA_EIGEN_STRONG_INLINE bfloat16 predux_max<Packet16bf>(const Packet16bf& from) {
   return static_cast<bfloat16>(predux_max<Packet16f>(Bf16ToF32(from)));
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf preverse(const Packet16bf& a) {
+HYDRA_EIGEN_STRONG_INLINE Packet16bf preverse(const Packet16bf& a) {
   __m256i m = _mm256_setr_epi8(14,15,12,13,10,11,8,9,6,7,4,5,2,3,0,1,
                                14,15,12,13,10,11,8,9,6,7,4,5,2,3,0,1);
 
@@ -2150,7 +2150,7 @@ EIGEN_STRONG_INLINE Packet16bf preverse(const Packet16bf& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet16bf pgather<bfloat16, Packet16bf>(const bfloat16* from,
+HYDRA_EIGEN_STRONG_INLINE Packet16bf pgather<bfloat16, Packet16bf>(const bfloat16* from,
                                                              Index stride) {
   return _mm256_set_epi16(
       from[15*stride].value, from[14*stride].value, from[13*stride].value, from[12*stride].value,
@@ -2160,10 +2160,10 @@ EIGEN_STRONG_INLINE Packet16bf pgather<bfloat16, Packet16bf>(const bfloat16* fro
 }
 
 template <>
-EIGEN_STRONG_INLINE void pscatter<bfloat16, Packet16bf>(bfloat16* to,
+HYDRA_EIGEN_STRONG_INLINE void pscatter<bfloat16, Packet16bf>(bfloat16* to,
                                                         const Packet16bf& from,
                                                         Index stride) {
-  EIGEN_ALIGN64 bfloat16 aux[16];
+  HYDRA_EIGEN_ALIGN64 bfloat16 aux[16];
   pstore(aux, from);
   to[stride*0] = aux[0];
   to[stride*1] = aux[1];
@@ -2183,7 +2183,7 @@ EIGEN_STRONG_INLINE void pscatter<bfloat16, Packet16bf>(bfloat16* to,
   to[stride*15] = aux[15];
 }
 
-EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet16bf,16>& kernel) {
+HYDRA_EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet16bf,16>& kernel) {
   __m256i a = kernel.packet[0];
   __m256i b = kernel.packet[1];
   __m256i c = kernel.packet[2];
@@ -2273,7 +2273,7 @@ EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet16bf,16>& kernel) {
   kernel.packet[15] = _mm256_permute2x128_si256(abcdefgh_ef, ijklmnop_ef, 0x31);
 }
 
-EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet16bf,4>& kernel) {
+HYDRA_EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet16bf,4>& kernel) {
   __m256i a = kernel.packet[0];
   __m256i b = kernel.packet[1];
   __m256i c = kernel.packet[2];
@@ -2298,6 +2298,6 @@ EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet16bf,4>& kernel) {
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_PACKET_MATH_AVX512_H
+#endif // HYDRA_EIGEN_PACKET_MATH_AVX512_H

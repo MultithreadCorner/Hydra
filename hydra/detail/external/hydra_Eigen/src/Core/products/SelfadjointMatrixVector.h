@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SELFADJOINT_MATRIX_VECTOR_H
-#define EIGEN_SELFADJOINT_MATRIX_VECTOR_H
+#ifndef HYDRA_EIGEN_SELFADJOINT_MATRIX_VECTOR_H
+#define HYDRA_EIGEN_SELFADJOINT_MATRIX_VECTOR_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -27,7 +27,7 @@ template<typename Scalar, typename Index, int StorageOrder, int UpLo, bool Conju
 struct selfadjoint_matrix_vector_product
 
 {
-static EIGEN_DONT_INLINE EIGEN_DEVICE_FUNC
+static HYDRA_EIGEN_DONT_INLINE HYDRA_EIGEN_DEVICE_FUNC
 void run(
   Index size,
   const Scalar*  lhs, Index lhsStride,
@@ -37,7 +37,7 @@ void run(
 };
 
 template<typename Scalar, typename Index, int StorageOrder, int UpLo, bool ConjugateLhs, bool ConjugateRhs, int Version>
-EIGEN_DONT_INLINE EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DONT_INLINE HYDRA_EIGEN_DEVICE_FUNC
 void selfadjoint_matrix_vector_product<Scalar,Index,StorageOrder,UpLo,ConjugateLhs,ConjugateRhs,Version>::run(
   Index size,
   const Scalar*  lhs, Index lhsStride,
@@ -55,12 +55,12 @@ void selfadjoint_matrix_vector_product<Scalar,Index,StorageOrder,UpLo,ConjugateL
     FirstTriangular = IsRowMajor == IsLower
   };
 
-  conj_helper<Scalar,Scalar,NumTraits<Scalar>::IsComplex && EIGEN_LOGICAL_XOR(ConjugateLhs,  IsRowMajor), ConjugateRhs> cj0;
-  conj_helper<Scalar,Scalar,NumTraits<Scalar>::IsComplex && EIGEN_LOGICAL_XOR(ConjugateLhs, !IsRowMajor), ConjugateRhs> cj1;
+  conj_helper<Scalar,Scalar,NumTraits<Scalar>::IsComplex && HYDRA_EIGEN_LOGICAL_XOR(ConjugateLhs,  IsRowMajor), ConjugateRhs> cj0;
+  conj_helper<Scalar,Scalar,NumTraits<Scalar>::IsComplex && HYDRA_EIGEN_LOGICAL_XOR(ConjugateLhs, !IsRowMajor), ConjugateRhs> cj1;
   conj_helper<RealScalar,Scalar,false, ConjugateRhs> cjd;
 
-  conj_helper<Packet,Packet,NumTraits<Scalar>::IsComplex && EIGEN_LOGICAL_XOR(ConjugateLhs,  IsRowMajor), ConjugateRhs> pcj0;
-  conj_helper<Packet,Packet,NumTraits<Scalar>::IsComplex && EIGEN_LOGICAL_XOR(ConjugateLhs, !IsRowMajor), ConjugateRhs> pcj1;
+  conj_helper<Packet,Packet,NumTraits<Scalar>::IsComplex && HYDRA_EIGEN_LOGICAL_XOR(ConjugateLhs,  IsRowMajor), ConjugateRhs> pcj0;
+  conj_helper<Packet,Packet,NumTraits<Scalar>::IsComplex && HYDRA_EIGEN_LOGICAL_XOR(ConjugateLhs, !IsRowMajor), ConjugateRhs> pcj1;
 
   Scalar cjAlpha = ConjugateRhs ? numext::conj(alpha) : alpha;
 
@@ -71,8 +71,8 @@ void selfadjoint_matrix_vector_product<Scalar,Index,StorageOrder,UpLo,ConjugateL
   for (Index j=FirstTriangular ? bound : 0;
        j<(FirstTriangular ? size : bound);j+=2)
   {
-    const Scalar* EIGEN_RESTRICT A0 = lhs + j*lhsStride;
-    const Scalar* EIGEN_RESTRICT A1 = lhs + (j+1)*lhsStride;
+    const Scalar* HYDRA_EIGEN_RESTRICT A0 = lhs + j*lhsStride;
+    const Scalar* HYDRA_EIGEN_RESTRICT A1 = lhs + (j+1)*lhsStride;
 
     Scalar t0 = cjAlpha * rhs[j];
     Packet ptmp0 = pset1<Packet>(t0);
@@ -110,10 +110,10 @@ void selfadjoint_matrix_vector_product<Scalar,Index,StorageOrder,UpLo,ConjugateL
     }
     // Yes this an optimization for gcc 4.3 and 4.4 (=> huge speed up)
     // gcc 4.2 does this optimization automatically.
-    const Scalar* EIGEN_RESTRICT a0It  = A0  + alignedStart;
-    const Scalar* EIGEN_RESTRICT a1It  = A1  + alignedStart;
-    const Scalar* EIGEN_RESTRICT rhsIt = rhs + alignedStart;
-          Scalar* EIGEN_RESTRICT resIt = res + alignedStart;
+    const Scalar* HYDRA_EIGEN_RESTRICT a0It  = A0  + alignedStart;
+    const Scalar* HYDRA_EIGEN_RESTRICT a1It  = A1  + alignedStart;
+    const Scalar* HYDRA_EIGEN_RESTRICT rhsIt = rhs + alignedStart;
+          Scalar* HYDRA_EIGEN_RESTRICT resIt = res + alignedStart;
     for (Index i=alignedStart; i<alignedEnd; i+=PacketSize)
     {
       Packet A0i = ploadu<Packet>(a0It);  a0It  += PacketSize;
@@ -138,7 +138,7 @@ void selfadjoint_matrix_vector_product<Scalar,Index,StorageOrder,UpLo,ConjugateL
   }
   for (Index j=FirstTriangular ? 0 : bound;j<(FirstTriangular ? bound : size);j++)
   {
-    const Scalar* EIGEN_RESTRICT A0 = lhs + j*lhsStride;
+    const Scalar* HYDRA_EIGEN_RESTRICT A0 = lhs + j*lhsStride;
 
     Scalar t1 = cjAlpha * rhs[j];
     Scalar t2(0);
@@ -176,12 +176,12 @@ struct selfadjoint_product_impl<Lhs,LhsMode,false,Rhs,0,true>
   enum { LhsUpLo = LhsMode&(Upper|Lower) };
 
   template<typename Dest>
-  static EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_DEVICE_FUNC
   void run(Dest& dest, const Lhs &a_lhs, const Rhs &a_rhs, const Scalar& alpha)
   {
     typedef typename Dest::Scalar ResScalar;
     typedef typename Rhs::Scalar RhsScalar;
-    typedef Map<Matrix<ResScalar,Dynamic,1>, EIGEN_PLAIN_ENUM_MIN(AlignedMax,internal::packet_traits<ResScalar>::size)> MappedDest;
+    typedef Map<Matrix<ResScalar,Dynamic,1>, HYDRA_EIGEN_PLAIN_ENUM_MIN(AlignedMax,internal::packet_traits<ResScalar>::size)> MappedDest;
     
     eigen_assert(dest.rows()==a_lhs.rows() && dest.cols()==a_rhs.cols());
 
@@ -207,18 +207,18 @@ struct selfadjoint_product_impl<Lhs,LhsMode,false,Rhs,0,true>
     
     if(!EvalToDest)
     {
-      #ifdef EIGEN_DENSE_STORAGE_CTOR_PLUGIN
+      #ifdef HYDRA_EIGEN_DENSE_STORAGE_CTOR_PLUGIN
       Index size = dest.size();
-      EIGEN_DENSE_STORAGE_CTOR_PLUGIN
+      HYDRA_EIGEN_DENSE_STORAGE_CTOR_PLUGIN
       #endif
       MappedDest(actualDestPtr, dest.size()) = dest;
     }
       
     if(!UseRhs)
     {
-      #ifdef EIGEN_DENSE_STORAGE_CTOR_PLUGIN
+      #ifdef HYDRA_EIGEN_DENSE_STORAGE_CTOR_PLUGIN
       Index size = rhs.size();
-      EIGEN_DENSE_STORAGE_CTOR_PLUGIN
+      HYDRA_EIGEN_DENSE_STORAGE_CTOR_PLUGIN
       #endif
       Map<typename ActualRhsTypeCleaned::PlainObject>(actualRhsPtr, rhs.size()) = rhs;
     }
@@ -257,6 +257,6 @@ struct selfadjoint_product_impl<Lhs,0,true,Rhs,RhsMode,false>
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SELFADJOINT_MATRIX_VECTOR_H
+#endif // HYDRA_EIGEN_SELFADJOINT_MATRIX_VECTOR_H

@@ -8,13 +8,13 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_INCOMPLETE_CHOlESKY_H
-#define EIGEN_INCOMPLETE_CHOlESKY_H
+#ifndef HYDRA_EIGEN_INCOMPLETE_CHOlESKY_H
+#define HYDRA_EIGEN_INCOMPLETE_CHOlESKY_H
 
 #include <vector>
 #include <list>
 
-namespace Eigen {
+namespace hydra_Eigen {
 /**
   * \brief Modified Incomplete Cholesky with dual threshold
   *
@@ -25,7 +25,7 @@ namespace Eigen {
   * \tparam _UpLo The triangular part that will be used for the computations. It can be Lower
     *               or Upper. Default is Lower.
   * \tparam _OrderingType The ordering method to use, either AMDOrdering<> or NaturalOrdering<>. Default is AMDOrdering<int>,
-  *                       unless EIGEN_MPL2_ONLY is defined, in which case the default is NaturalOrdering<int>.
+  *                       unless HYDRA_EIGEN_MPL2_ONLY is defined, in which case the default is NaturalOrdering<int>.
   *
   * \implsparsesolverconcept
   *
@@ -81,10 +81,10 @@ class IncompleteCholesky : public SparseSolverBase<IncompleteCholesky<Scalar,_Up
     }
 
     /** \returns number of rows of the factored matrix */
-    EIGEN_CONSTEXPR Index rows() const EIGEN_NOEXCEPT { return m_L.rows(); }
+    HYDRA_EIGEN_CONSTEXPR Index rows() const HYDRA_EIGEN_NOEXCEPT { return m_L.rows(); }
 
     /** \returns number of columns of the factored matrix */
-    EIGEN_CONSTEXPR Index cols() const EIGEN_NOEXCEPT { return m_L.cols(); }
+    HYDRA_EIGEN_CONSTEXPR Index cols() const HYDRA_EIGEN_NOEXCEPT { return m_L.cols(); }
 
 
     /** \brief Reports whether previous computation was successful.
@@ -389,6 +389,6 @@ inline void IncompleteCholesky<Scalar,_UpLo, OrderingType>::updateList(Ref<const
   }
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
 #endif

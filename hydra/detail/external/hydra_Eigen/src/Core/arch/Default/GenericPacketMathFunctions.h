@@ -13,10 +13,10 @@
  * Julien Pommier's sse math library: http://gruntthepeon.free.fr/ssemath/
  */
 
-#ifndef EIGEN_ARCH_GENERIC_PACKET_MATH_FUNCTIONS_H
-#define EIGEN_ARCH_GENERIC_PACKET_MATH_FUNCTIONS_H
+#ifndef HYDRA_EIGEN_ARCH_GENERIC_PACKET_MATH_FUNCTIONS_H
+#define HYDRA_EIGEN_ARCH_GENERIC_PACKET_MATH_FUNCTIONS_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 namespace internal {
 
 // Creates a Scalar integer type with same bit-width.
@@ -26,7 +26,7 @@ template<> struct make_integer<double>   { typedef numext::int64_t type; };
 template<> struct make_integer<half>     { typedef numext::int16_t type; };
 template<> struct make_integer<bfloat16> { typedef numext::int16_t type; };
 
-template<typename Packet> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC  
+template<typename Packet> HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC  
 Packet pfrexp_generic_get_biased_exponent(const Packet& a) {
   typedef typename unpacket_traits<Packet>::type Scalar;
   typedef typename unpacket_traits<Packet>::integer_packet PacketI;
@@ -36,7 +36,7 @@ Packet pfrexp_generic_get_biased_exponent(const Packet& a) {
 
 // Safely applies frexp, correctly handles denormals.
 // Assumes IEEE floating point format.
-template<typename Packet> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
+template<typename Packet> HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC
 Packet pfrexp_generic(const Packet& a, Packet& exponent) {
   typedef typename unpacket_traits<Packet>::type Scalar;
   typedef typename make_unsigned<typename make_integer<Scalar>::type>::type ScalarUI;
@@ -46,7 +46,7 @@ Packet pfrexp_generic(const Packet& a, Packet& exponent) {
     ExponentBits = int(TotalBits) - int(MantissaBits) - 1
   };
 
-  EIGEN_CONSTEXPR ScalarUI scalar_sign_mantissa_mask = 
+  HYDRA_EIGEN_CONSTEXPR ScalarUI scalar_sign_mantissa_mask = 
       ~(((ScalarUI(1) << int(ExponentBits)) - ScalarUI(1)) << int(MantissaBits)); // ~0x7f800000
   const Packet sign_mantissa_mask = pset1frombits<Packet>(static_cast<ScalarUI>(scalar_sign_mantissa_mask)); 
   const Packet half = pset1<Packet>(Scalar(0.5));
@@ -55,7 +55,7 @@ Packet pfrexp_generic(const Packet& a, Packet& exponent) {
   
   // To handle denormals, normalize by multiplying by 2^(int(MantissaBits)+1).
   const Packet is_denormal = pcmp_lt(pabs(a), normal_min);
-  EIGEN_CONSTEXPR ScalarUI scalar_normalization_offset = ScalarUI(int(MantissaBits) + 1); // 24
+  HYDRA_EIGEN_CONSTEXPR ScalarUI scalar_normalization_offset = ScalarUI(int(MantissaBits) + 1); // 24
   // The following cannot be constexpr because bfloat16(uint16_t) is not constexpr.
   const Scalar scalar_normalization_factor = Scalar(ScalarUI(1) << int(scalar_normalization_offset)); // 2^24
   const Packet normalization_factor = pset1<Packet>(scalar_normalization_factor);  
@@ -81,7 +81,7 @@ Packet pfrexp_generic(const Packet& a, Packet& exponent) {
 
 // Safely applies ldexp, correctly handles overflows, underflows and denormals.
 // Assumes IEEE floating point format.
-template<typename Packet> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
+template<typename Packet> HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC
 Packet pldexp_generic(const Packet& a, const Packet& exponent) {
   // We want to return a * 2^exponent, allowing for all possible integer
   // exponents without overflowing or underflowing in intermediate
@@ -146,7 +146,7 @@ struct pldexp_fast_impl {
     ExponentBits = int(TotalBits) - int(MantissaBits) - 1
   };
   
-  static EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC
   Packet run(const Packet& a, const Packet& exponent) {
     const Packet bias = pset1<Packet>(Scalar((ScalarI(1)<<(int(ExponentBits)-1)) - ScalarI(1)));  // 127
     const Packet limit = pset1<Packet>(Scalar((ScalarI(1)<<int(ExponentBits)) - ScalarI(1)));     // 255
@@ -164,8 +164,8 @@ struct pldexp_fast_impl {
 // TODO(gonnet): Further reduce the interval allowing for lower-degree
 //               polynomial interpolants -> ... -> profit!
 template <typename Packet, bool base2>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-EIGEN_UNUSED
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+HYDRA_EIGEN_UNUSED
 Packet plog_impl_float(const Packet _x)
 {
   Packet x = _x;
@@ -230,10 +230,10 @@ Packet plog_impl_float(const Packet _x)
 
   // Add the logarithm of the exponent back to the result of the interpolation.
   if (base2) {
-    const Packet cst_log2e = pset1<Packet>(static_cast<float>(EIGEN_LOG2E));
+    const Packet cst_log2e = pset1<Packet>(static_cast<float>(HYDRA_EIGEN_LOG2E));
     x = pmadd(x, cst_log2e, e);
   } else {
-    const Packet cst_ln2 = pset1<Packet>(static_cast<float>(EIGEN_LN2));
+    const Packet cst_ln2 = pset1<Packet>(static_cast<float>(HYDRA_EIGEN_LN2));
     x = pmadd(e, cst_ln2, x);
   }
 
@@ -249,16 +249,16 @@ Packet plog_impl_float(const Packet _x)
 }
 
 template <typename Packet>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-EIGEN_UNUSED
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+HYDRA_EIGEN_UNUSED
 Packet plog_float(const Packet _x)
 {
   return plog_impl_float<Packet, /* base2 */ false>(_x);
 }
 
 template <typename Packet>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-EIGEN_UNUSED
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+HYDRA_EIGEN_UNUSED
 Packet plog2_float(const Packet _x)
 {
   return plog_impl_float<Packet, /* base2 */ true>(_x);
@@ -274,8 +274,8 @@ Packet plog2_float(const Packet _x)
  * for more detail see: http://www.netlib.org/cephes/
  */
 template <typename Packet, bool base2>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-EIGEN_UNUSED
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+HYDRA_EIGEN_UNUSED
 Packet plog_impl_double(const Packet _x)
 {
   Packet x = _x;
@@ -351,10 +351,10 @@ Packet plog_impl_double(const Packet _x)
 
   // Add the logarithm of the exponent back to the result of the interpolation.
   if (base2) {
-    const Packet cst_log2e = pset1<Packet>(static_cast<double>(EIGEN_LOG2E));
+    const Packet cst_log2e = pset1<Packet>(static_cast<double>(HYDRA_EIGEN_LOG2E));
     x = pmadd(x, cst_log2e, e);
   } else {
-    const Packet cst_ln2 = pset1<Packet>(static_cast<double>(EIGEN_LN2));
+    const Packet cst_ln2 = pset1<Packet>(static_cast<double>(HYDRA_EIGEN_LN2));
     x = pmadd(e, cst_ln2, x);
   }
 
@@ -370,16 +370,16 @@ Packet plog_impl_double(const Packet _x)
 }
 
 template <typename Packet>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-EIGEN_UNUSED
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+HYDRA_EIGEN_UNUSED
 Packet plog_double(const Packet _x)
 {
   return plog_impl_double<Packet, /* base2 */ false>(_x);
 }
 
 template <typename Packet>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-EIGEN_UNUSED
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+HYDRA_EIGEN_UNUSED
 Packet plog2_double(const Packet _x)
 {
   return plog_impl_double<Packet, /* base2 */ true>(_x);
@@ -434,8 +434,8 @@ Packet generic_expm1(const Packet& x)
 // "m = floor(x/log(2)+1/2)" and "r" is the remainder. The result is then
 // "exp(x) = 2^m*exp(r)" where exp(r) is in the range [-1,1).
 template <typename Packet>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-EIGEN_UNUSED
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+HYDRA_EIGEN_UNUSED
 Packet pexp_float(const Packet _x)
 {
   const Packet cst_1      = pset1<Packet>(1.0f);
@@ -485,8 +485,8 @@ Packet pexp_float(const Packet _x)
 }
 
 template <typename Packet>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-EIGEN_UNUSED
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+HYDRA_EIGEN_UNUSED
 Packet pexp_double(const Packet _x)
 {
   Packet x = _x;
@@ -564,10 +564,10 @@ Packet pexp_double(const Packet _x)
 // Overall, I measured a speed up higher than x2 on x86-64.
 inline float trig_reduce_huge (float xf, int *quadrant)
 {
-  using Eigen::numext::int32_t;
-  using Eigen::numext::uint32_t;
-  using Eigen::numext::int64_t;
-  using Eigen::numext::uint64_t;
+  using hydra_Eigen::numext::int32_t;
+  using hydra_Eigen::numext::uint32_t;
+  using hydra_Eigen::numext::int64_t;
+  using hydra_Eigen::numext::uint64_t;
 
   const double pio2_62 = 3.4061215800865545e-19;    // pi/2 * 2^-62
   const uint64_t zero_dot_five = uint64_t(1) << 61; // 0.5 in 2.62-bit fixed-point foramt
@@ -617,9 +617,9 @@ inline float trig_reduce_huge (float xf, int *quadrant)
 }
 
 template<bool ComputeSine,typename Packet>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-EIGEN_UNUSED
-#if EIGEN_GNUC_AT_LEAST(4,4) && EIGEN_COMP_GNUC_STRICT
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+HYDRA_EIGEN_UNUSED
+#if HYDRA_EIGEN_GNUC_AT_LEAST(4,4) && HYDRA_EIGEN_COMP_GNUC_STRICT
 __attribute__((optimize("-fno-unsafe-math-optimizations")))
 #endif
 Packet psincos_float(const Packet& _x)
@@ -638,13 +638,13 @@ Packet psincos_float(const Packet& _x)
 
   // Rounding trick:
   Packet y_round = padd(y, cst_rounding_magic);
-  EIGEN_OPTIMIZATION_BARRIER(y_round)
+  HYDRA_EIGEN_OPTIMIZATION_BARRIER(y_round)
   PacketI y_int = preinterpret<PacketI>(y_round); // last 23 digits represent integer (if abs(x)<2^24)
   y = psub(y_round, cst_rounding_magic); // nearest integer to x*4/pi
 
   // Reduce x by y octants to get: -Pi/4 <= x <= +Pi/4
   // using "Extended precision modular arithmetic"
-  #if defined(EIGEN_HAS_SINGLE_INSTRUCTION_MADD)
+  #if defined(HYDRA_EIGEN_HAS_SINGLE_INSTRUCTION_MADD)
   // This version requires true FMA for high accuracy
   // It provides a max error of 1ULP up to (with absolute_error < 5.9605e-08):
   const float huge_th = ComputeSine ? 117435.992f : 71476.0625f;
@@ -660,9 +660,9 @@ Packet psincos_float(const Packet& _x)
   // and 2 ULP up to:
   const float huge_th = ComputeSine ? 25966.f : 18838.f;
   x = pmadd(y, pset1<Packet>(-1.5703125), x); // = 0xbfc90000
-  EIGEN_OPTIMIZATION_BARRIER(x)
+  HYDRA_EIGEN_OPTIMIZATION_BARRIER(x)
   x = pmadd(y, pset1<Packet>(-0.000483989715576171875), x); // = 0xb9fdc000
-  EIGEN_OPTIMIZATION_BARRIER(x)
+  HYDRA_EIGEN_OPTIMIZATION_BARRIER(x)
   x = pmadd(y, pset1<Packet>(1.62865035235881805419921875e-07), x); // = 0x342ee000
   x = pmadd(y, pset1<Packet>(5.5644315544167710640977020375430583953857421875e-11), x); // = 0x2e74b9ee
 
@@ -683,9 +683,9 @@ Packet psincos_float(const Packet& _x)
   if(predux_any(pcmp_le(pset1<Packet>(huge_th),pabs(_x))))
   {
     const int PacketSize = unpacket_traits<Packet>::size;
-    EIGEN_ALIGN_TO_BOUNDARY(sizeof(Packet)) float vals[PacketSize];
-    EIGEN_ALIGN_TO_BOUNDARY(sizeof(Packet)) float x_cpy[PacketSize];
-    EIGEN_ALIGN_TO_BOUNDARY(sizeof(Packet)) int y_int2[PacketSize];
+    HYDRA_EIGEN_ALIGN_TO_BOUNDARY(sizeof(Packet)) float vals[PacketSize];
+    HYDRA_EIGEN_ALIGN_TO_BOUNDARY(sizeof(Packet)) float x_cpy[PacketSize];
+    HYDRA_EIGEN_ALIGN_TO_BOUNDARY(sizeof(Packet)) int y_int2[PacketSize];
     pstoreu(vals, pabs(_x));
     pstoreu(x_cpy, x);
     pstoreu(y_int2, y_int);
@@ -742,16 +742,16 @@ Packet psincos_float(const Packet& _x)
 }
 
 template<typename Packet>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-EIGEN_UNUSED
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+HYDRA_EIGEN_UNUSED
 Packet psin_float(const Packet& x)
 {
   return psincos_float<true>(x);
 }
 
 template<typename Packet>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-EIGEN_UNUSED
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+HYDRA_EIGEN_UNUSED
 Packet pcos_float(const Packet& x)
 {
   return psincos_float<false>(x);
@@ -759,8 +759,8 @@ Packet pcos_float(const Packet& x)
 
 
 template<typename Packet>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-EIGEN_UNUSED
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+HYDRA_EIGEN_UNUSED
 Packet psqrt_complex(const Packet& a) {
   typedef typename unpacket_traits<Packet>::type Scalar;
   typedef typename Scalar::value_type RealScalar;
@@ -879,7 +879,7 @@ Packet psqrt_complex(const Packet& a) {
 // This function splits x into the nearest integer n and fractional part r,
 // such that x = n + r holds exactly.
 template<typename Packet>
-EIGEN_STRONG_INLINE
+HYDRA_EIGEN_STRONG_INLINE
 void absolute_split(const Packet& x, Packet& n, Packet& r) {
   n = pround(x);
   r = psub(x, n);
@@ -888,20 +888,20 @@ void absolute_split(const Packet& x, Packet& n, Packet& r) {
 // This function computes the sum {s, r}, such that x + y = s_hi + s_lo
 // holds exactly, and s_hi = fl(x+y), if |x| >= |y|.
 template<typename Packet>
-EIGEN_STRONG_INLINE
+HYDRA_EIGEN_STRONG_INLINE
 void fast_twosum(const Packet& x, const Packet& y, Packet& s_hi, Packet& s_lo) {
   s_hi = padd(x, y);
   const Packet t = psub(s_hi, x);
   s_lo = psub(y, t);
 }
 
-#ifdef EIGEN_HAS_SINGLE_INSTRUCTION_MADD
+#ifdef HYDRA_EIGEN_HAS_SINGLE_INSTRUCTION_MADD
 // This function implements the extended precision product of
 // a pair of floating point numbers. Given {x, y}, it computes the pair
 // {p_hi, p_lo} such that x * y = p_hi + p_lo holds exactly and
 // p_hi = fl(x * y).
 template<typename Packet>
-EIGEN_STRONG_INLINE
+HYDRA_EIGEN_STRONG_INLINE
 void twoprod(const Packet& x, const Packet& y,
              Packet& p_hi, Packet& p_lo) {
   p_hi = pmul(x, y);
@@ -916,10 +916,10 @@ void twoprod(const Packet& x, const Packet& y,
 // This is Algorithm 3 from Jean-Michel Muller, "Elementary Functions",
 // 3rd edition, Birkh\"auser, 2016.
 template<typename Packet>
-EIGEN_STRONG_INLINE
+HYDRA_EIGEN_STRONG_INLINE
 void veltkamp_splitting(const Packet& x, Packet& x_hi, Packet& x_lo) {
   typedef typename unpacket_traits<Packet>::type Scalar;
-  EIGEN_CONSTEXPR int shift = (NumTraits<Scalar>::digits() + 1) / 2;
+  HYDRA_EIGEN_CONSTEXPR int shift = (NumTraits<Scalar>::digits() + 1) / 2;
   const Scalar shift_scale = Scalar(uint64_t(1) << shift);  // Scalar constructor not necessarily constexpr.
   const Packet gamma = pmul(pset1<Packet>(shift_scale + Scalar(1)), x);
   Packet rho = psub(x, gamma);
@@ -932,7 +932,7 @@ void veltkamp_splitting(const Packet& x, Packet& x_hi, Packet& x_lo) {
 // {p_hi, p_lo} such that x * y = p_hi + p_lo holds exactly and
 // p_hi = fl(x * y).
 template<typename Packet>
-EIGEN_STRONG_INLINE
+HYDRA_EIGEN_STRONG_INLINE
 void twoprod(const Packet& x, const Packet& y,
              Packet& p_hi, Packet& p_lo) {
   Packet x_hi, x_lo, y_hi, y_lo;
@@ -946,7 +946,7 @@ void twoprod(const Packet& x, const Packet& y,
   p_lo = pmadd(x_lo, y_lo, p_lo);
 }
 
-#endif  // EIGEN_HAS_SINGLE_INSTRUCTION_MADD
+#endif  // HYDRA_EIGEN_HAS_SINGLE_INSTRUCTION_MADD
 
 
 // This function implements Dekker's algorithm for the addition
@@ -956,7 +956,7 @@ void twoprod(const Packet& x, const Packet& y,
 // This is Algorithm 5 from Jean-Michel Muller, "Elementary Functions",
 // 3rd edition, Birkh\"auser, 2016.
 template<typename Packet>
-EIGEN_STRONG_INLINE
+HYDRA_EIGEN_STRONG_INLINE
   void twosum(const Packet& x_hi, const Packet& x_lo,
               const Packet& y_hi, const Packet& y_lo,
               Packet& s_hi, Packet& s_lo) {
@@ -977,7 +977,7 @@ EIGEN_STRONG_INLINE
 // This is a version of twosum for double word numbers,
 // which assumes that |x_hi| >= |y_hi|.
 template<typename Packet>
-EIGEN_STRONG_INLINE
+HYDRA_EIGEN_STRONG_INLINE
   void fast_twosum(const Packet& x_hi, const Packet& x_lo,
               const Packet& y_hi, const Packet& y_lo,
               Packet& s_hi, Packet& s_lo) {
@@ -991,7 +991,7 @@ EIGEN_STRONG_INLINE
 // double word number {y_hi, y_lo} number, with the assumption
 // that |x| >= |y_hi|.
 template<typename Packet>
-EIGEN_STRONG_INLINE
+HYDRA_EIGEN_STRONG_INLINE
 void fast_twosum(const Packet& x,
                  const Packet& y_hi, const Packet& y_lo,
                  Packet& s_hi, Packet& s_lo) {
@@ -1010,7 +1010,7 @@ void fast_twosum(const Packet& x,
 // This is Algorithm 7 from Jean-Michel Muller, "Elementary Functions",
 // 3rd edition, Birkh\"auser, 2016.
 template<typename Packet>
-EIGEN_STRONG_INLINE
+HYDRA_EIGEN_STRONG_INLINE
 void twoprod(const Packet& x_hi, const Packet& x_lo, const Packet& y,
              Packet& p_hi, Packet& p_lo) {
   Packet c_hi, c_lo1;
@@ -1029,7 +1029,7 @@ void twoprod(const Packet& x_hi, const Packet& x_lo, const Packet& y,
 // of less than 2*2^{-2p}, where p is the number of significand bit
 // in the floating point type.
 template<typename Packet>
-EIGEN_STRONG_INLINE
+HYDRA_EIGEN_STRONG_INLINE
 void twoprod(const Packet& x_hi, const Packet& x_lo,
              const Packet& y_hi, const Packet& y_lo,
              Packet& p_hi, Packet& p_lo) {
@@ -1070,7 +1070,7 @@ void doubleword_reciprocal(const Packet& x, Packet& recip_hi, Packet& recip_lo) 
 template <typename Scalar>
 struct accurate_log2 {
   template <typename Packet>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   void operator()(const Packet& x, Packet& log2_x_hi, Packet& log2_x_lo) {
     log2_x_hi = plog2(x);
     log2_x_lo = pzero(x);
@@ -1086,7 +1086,7 @@ struct accurate_log2 {
 template <>
 struct accurate_log2<float> {
   template <typename Packet>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   void operator()(const Packet& z, Packet& log2_x_hi, Packet& log2_x_lo) {
     // The function log(1+x)/x is approximated in the interval
     // [1/sqrt(2)-1;sqrt(2)-1] by a degree 10 polynomial of the form
@@ -1167,7 +1167,7 @@ struct accurate_log2<float> {
 template <>
 struct accurate_log2<double> {
   template <typename Packet>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   void operator()(const Packet& x, Packet& log2_x_hi, Packet& log2_x_lo) {
     // We use a transformation of variables:
     //    r = c * (x-1) / (x+1),
@@ -1256,10 +1256,10 @@ struct accurate_log2<double> {
 template <typename Scalar>
 struct fast_accurate_exp2 {
   template <typename Packet>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   Packet operator()(const Packet& x) {
     // TODO(rmlarsen): Add a pexp2 packetop.
-    return pexp(pmul(pset1<Packet>(Scalar(EIGEN_LN2)), x));
+    return pexp(pmul(pset1<Packet>(Scalar(HYDRA_EIGEN_LN2)), x));
   }
 };
 
@@ -1270,7 +1270,7 @@ struct fast_accurate_exp2 {
 template <>
 struct fast_accurate_exp2<float> {
   template <typename Packet>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   Packet operator()(const Packet& x) {
     // This function approximates exp2(x) by a degree 6 polynomial of the form
     // Q(x) = 1 + x * (C + x * P(x)), where the degree 4 polynomial P(x) is evaluated in
@@ -1328,7 +1328,7 @@ struct fast_accurate_exp2<float> {
 template <>
 struct fast_accurate_exp2<double> {
   template <typename Packet>
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_STRONG_INLINE
   Packet operator()(const Packet& x) {
     // This function approximates exp2(x) by a degree 10 polynomial of the form
     // Q(x) = 1 + x * (C + x * P(x)), where the degree 8 polynomial P(x) is evaluated in
@@ -1395,14 +1395,14 @@ struct fast_accurate_exp2<double> {
 // TODO(rmlarsen): We should probably add this as a packet up 'ppow', to make it
 // easier to specialize or turn off for specific types and/or backends.x
 template <typename Packet>
-EIGEN_STRONG_INLINE Packet generic_pow_impl(const Packet& x, const Packet& y) {
+HYDRA_EIGEN_STRONG_INLINE Packet generic_pow_impl(const Packet& x, const Packet& y) {
   typedef typename unpacket_traits<Packet>::type Scalar;
   // Split x into exponent e_x and mantissa m_x.
   Packet e_x;
   Packet m_x = pfrexp(x, e_x);
 
   // Adjust m_x to lie in [1/sqrt(2):sqrt(2)] to minimize absolute error in log2(m_x).
-  EIGEN_CONSTEXPR Scalar sqrt_half = Scalar(0.70710678118654752440);
+  HYDRA_EIGEN_CONSTEXPR Scalar sqrt_half = Scalar(0.70710678118654752440);
   const Packet m_x_scale_mask = pcmp_lt(m_x, pset1<Packet>(sqrt_half));
   m_x = pselect(m_x_scale_mask, pmul(pset1<Packet>(Scalar(2)), m_x), m_x);
   e_x = pselect(m_x_scale_mask, psub(e_x, pset1<Packet>(Scalar(1))), e_x);
@@ -1444,8 +1444,8 @@ EIGEN_STRONG_INLINE Packet generic_pow_impl(const Packet& x, const Packet& y) {
 
 // Generic implementation of pow(x,y).
 template<typename Packet>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-EIGEN_UNUSED
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
+HYDRA_EIGEN_UNUSED
 Packet generic_pow(const Packet& x, const Packet& y) {
   typedef typename unpacket_traits<Packet>::type Scalar;
 
@@ -1473,8 +1473,8 @@ Packet generic_pow(const Packet& x, const Packet& y) {
   const Packet y_is_pos = pandnot(ptrue(y), por(y_is_zero, y_is_neg));
   const Packet y_is_nan = pandnot(ptrue(y), pcmp_eq(y, y));
   const Packet abs_y_is_inf = pcmp_eq(pabs(y), cst_pos_inf);
-  EIGEN_CONSTEXPR Scalar huge_exponent =
-      (NumTraits<Scalar>::max_exponent() * Scalar(EIGEN_LN2)) /
+  HYDRA_EIGEN_CONSTEXPR Scalar huge_exponent =
+      (NumTraits<Scalar>::max_exponent() * Scalar(HYDRA_EIGEN_LN2)) /
        NumTraits<Scalar>::epsilon();
   const Packet abs_y_is_huge = pcmp_le(pset1<Packet>(huge_exponent), pabs(y));
 
@@ -1558,16 +1558,16 @@ Packet generic_pow(const Packet& x, const Packet& y) {
  */
 template <typename Packet, int N>
 struct ppolevl {
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet run(const Packet& x, const typename unpacket_traits<Packet>::type coeff[]) {
-    EIGEN_STATIC_ASSERT((N > 0), YOU_MADE_A_PROGRAMMING_MISTAKE);
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Packet run(const Packet& x, const typename unpacket_traits<Packet>::type coeff[]) {
+    HYDRA_EIGEN_STATIC_ASSERT((N > 0), YOU_MADE_A_PROGRAMMING_MISTAKE);
     return pmadd(ppolevl<Packet, N-1>::run(x, coeff), x, pset1<Packet>(coeff[N]));
   }
 };
 
 template <typename Packet>
 struct ppolevl<Packet, 0> {
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet run(const Packet& x, const typename unpacket_traits<Packet>::type coeff[]) {
-    EIGEN_UNUSED_VARIABLE(x);
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Packet run(const Packet& x, const typename unpacket_traits<Packet>::type coeff[]) {
+    HYDRA_EIGEN_UNUSED_VARIABLE(x);
     return pset1<Packet>(coeff[0]);
   }
 };
@@ -1626,8 +1626,8 @@ struct ppolevl<Packet, 0> {
 
 template <typename Packet, int N>
 struct pchebevl {
-  EIGEN_DEVICE_FUNC
-  static EIGEN_STRONG_INLINE Packet run(Packet x, const typename unpacket_traits<Packet>::type coef[]) {
+  HYDRA_EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_STRONG_INLINE Packet run(Packet x, const typename unpacket_traits<Packet>::type coef[]) {
     typedef typename unpacket_traits<Packet>::type Scalar;
     Packet b0 = pset1<Packet>(coef[0]);
     Packet b1 = pset1<Packet>(static_cast<Scalar>(0.f));
@@ -1644,6 +1644,6 @@ struct pchebevl {
 };
 
 } // end namespace internal
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_ARCH_GENERIC_PACKET_MATH_FUNCTIONS_H
+#endif // HYDRA_EIGEN_ARCH_GENERIC_PACKET_MATH_FUNCTIONS_H

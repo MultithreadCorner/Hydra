@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_NOALIAS_H
-#define EIGEN_NOALIAS_H
+#ifndef HYDRA_EIGEN_NOALIAS_H
+#define HYDRA_EIGEN_NOALIAS_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 /** \class NoAlias
   * \ingroup Core_Module
@@ -33,34 +33,34 @@ class NoAlias
   public:
     typedef typename ExpressionType::Scalar Scalar;
     
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     explicit NoAlias(ExpressionType& expression) : m_expression(expression) {}
     
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE ExpressionType& operator=(const StorageBase<OtherDerived>& other)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE ExpressionType& operator=(const StorageBase<OtherDerived>& other)
     {
       call_assignment_no_alias(m_expression, other.derived(), internal::assign_op<Scalar,typename OtherDerived::Scalar>());
       return m_expression;
     }
     
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE ExpressionType& operator+=(const StorageBase<OtherDerived>& other)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE ExpressionType& operator+=(const StorageBase<OtherDerived>& other)
     {
       call_assignment_no_alias(m_expression, other.derived(), internal::add_assign_op<Scalar,typename OtherDerived::Scalar>());
       return m_expression;
     }
     
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE ExpressionType& operator-=(const StorageBase<OtherDerived>& other)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE ExpressionType& operator-=(const StorageBase<OtherDerived>& other)
     {
       call_assignment_no_alias(m_expression, other.derived(), internal::sub_assign_op<Scalar,typename OtherDerived::Scalar>());
       return m_expression;
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     ExpressionType& expression() const
     {
       return m_expression;
@@ -99,11 +99,11 @@ class NoAlias
   * \sa class NoAlias
   */
 template<typename Derived>
-NoAlias<Derived,MatrixBase> EIGEN_DEVICE_FUNC MatrixBase<Derived>::noalias()
+NoAlias<Derived,MatrixBase> HYDRA_EIGEN_DEVICE_FUNC MatrixBase<Derived>::noalias()
 {
-  return NoAlias<Derived, Eigen::MatrixBase >(derived());
+  return NoAlias<Derived, hydra_Eigen::MatrixBase >(derived());
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_NOALIAS_H
+#endif // HYDRA_EIGEN_NOALIAS_H

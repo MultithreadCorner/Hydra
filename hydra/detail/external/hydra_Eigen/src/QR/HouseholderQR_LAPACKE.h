@@ -31,16 +31,16 @@
  ********************************************************************************
 */
 
-#ifndef EIGEN_QR_LAPACKE_H
-#define EIGEN_QR_LAPACKE_H
+#ifndef HYDRA_EIGEN_QR_LAPACKE_H
+#define HYDRA_EIGEN_QR_LAPACKE_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
 /** \internal Specialization for the data types supported by LAPACKe */
 
-#define EIGEN_LAPACKE_QR_NOPIV(EIGTYPE, LAPACKE_TYPE, LAPACKE_PREFIX) \
+#define HYDRA_EIGEN_LAPACKE_QR_NOPIV(EIGTYPE, LAPACKE_TYPE, LAPACKE_PREFIX) \
 template<typename MatrixQR, typename HCoeffs> \
 struct householder_qr_inplace_blocked<MatrixQR, HCoeffs, EIGTYPE, true> \
 { \
@@ -56,13 +56,13 @@ struct householder_qr_inplace_blocked<MatrixQR, HCoeffs, EIGTYPE, true> \
   } \
 };
 
-EIGEN_LAPACKE_QR_NOPIV(double, double, d)
-EIGEN_LAPACKE_QR_NOPIV(float, float, s)
-EIGEN_LAPACKE_QR_NOPIV(dcomplex, lapack_complex_double, z)
-EIGEN_LAPACKE_QR_NOPIV(scomplex, lapack_complex_float, c)
+HYDRA_EIGEN_LAPACKE_QR_NOPIV(double, double, d)
+HYDRA_EIGEN_LAPACKE_QR_NOPIV(float, float, s)
+HYDRA_EIGEN_LAPACKE_QR_NOPIV(dcomplex, lapack_complex_double, z)
+HYDRA_EIGEN_LAPACKE_QR_NOPIV(scomplex, lapack_complex_float, c)
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_QR_LAPACKE_H
+#endif // HYDRA_EIGEN_QR_LAPACKE_H

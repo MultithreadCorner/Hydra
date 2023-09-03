@@ -8,30 +8,30 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_META_H
-#define EIGEN_META_H
+#ifndef HYDRA_EIGEN_META_H
+#define HYDRA_EIGEN_META_H
 
-#if defined(EIGEN_GPU_COMPILE_PHASE)
+#if defined(HYDRA_EIGEN_GPU_COMPILE_PHASE)
 
  #include <cfloat>
 
- #if defined(EIGEN_CUDA_ARCH)
+ #if defined(HYDRA_EIGEN_CUDA_ARCH)
   #include <math_constants.h>
  #endif
 
- #if defined(EIGEN_HIP_DEVICE_COMPILE)
+ #if defined(HYDRA_EIGEN_HIP_DEVICE_COMPILE)
   #include "Eigen/src/Core/arch/HIP/hcc/math_constants.h"
   #endif
 
 #endif
 
 // Recent versions of ICC require <cstdint> for pointer types below.
-#define EIGEN_ICC_NEEDS_CSTDINT (EIGEN_COMP_ICC>=1600 && EIGEN_COMP_CXXVER >= 11)
+#define HYDRA_EIGEN_ICC_NEEDS_CSTDINT (HYDRA_EIGEN_COMP_ICC>=1600 && HYDRA_EIGEN_COMP_CXXVER >= 11)
 
 // Define portable (u)int{32,64} types
-#if EIGEN_HAS_CXX11 || EIGEN_ICC_NEEDS_CSTDINT
+#if HYDRA_EIGEN_HAS_CXX11 || HYDRA_EIGEN_ICC_NEEDS_CSTDINT
 #include <cstdint>
-namespace Eigen {
+namespace hydra_Eigen {
 namespace numext {
 typedef std::uint8_t  uint8_t;
 typedef std::int8_t   int8_t;
@@ -47,7 +47,7 @@ typedef std::int64_t  int64_t;
 // Without c++11, all compilers able to compile Eigen also
 // provide the C99 stdint.h header file.
 #include <stdint.h>
-namespace Eigen {
+namespace hydra_Eigen {
 namespace numext {
 typedef ::uint8_t  uint8_t;
 typedef ::int8_t   int8_t;
@@ -61,17 +61,17 @@ typedef ::int64_t  int64_t;
 }
 #endif
 
-namespace Eigen {
+namespace hydra_Eigen {
 
-typedef EIGEN_DEFAULT_DENSE_INDEX_TYPE DenseIndex;
+typedef HYDRA_EIGEN_DEFAULT_DENSE_INDEX_TYPE DenseIndex;
 
 /**
  * \brief The Index type as used for the API.
- * \details To change this, \c \#define the preprocessor symbol \c EIGEN_DEFAULT_DENSE_INDEX_TYPE.
+ * \details To change this, \c \#define the preprocessor symbol \c HYDRA_EIGEN_DEFAULT_DENSE_INDEX_TYPE.
  * \sa \blank \ref TopicPreprocessorDirectives, StorageIndex.
  */
 
-typedef EIGEN_DEFAULT_DENSE_INDEX_TYPE Index;
+typedef HYDRA_EIGEN_DEFAULT_DENSE_INDEX_TYPE Index;
 
 namespace internal {
 
@@ -84,14 +84,14 @@ namespace internal {
 
 // Only recent versions of ICC complain about using ptrdiff_t to hold pointers,
 // and older versions do not provide *intptr_t types.
-#if EIGEN_ICC_NEEDS_CSTDINT
+#if HYDRA_EIGEN_ICC_NEEDS_CSTDINT
 typedef std::intptr_t  IntPtr;
 typedef std::uintptr_t UIntPtr;
 #else
 typedef std::ptrdiff_t IntPtr;
 typedef std::size_t UIntPtr;
 #endif
-#undef EIGEN_ICC_NEEDS_CSTDINT
+#undef HYDRA_EIGEN_ICC_NEEDS_CSTDINT
 
 struct true_type {  enum { value = 1 }; };
 struct false_type { enum { value = 0 }; };
@@ -151,7 +151,7 @@ template<typename T> struct is_same<T,T> { enum { value = 1 }; };
 template< class T >
 struct is_void : is_same<void, typename remove_const<T>::type> {};
 
-#if EIGEN_HAS_CXX11
+#if HYDRA_EIGEN_HAS_CXX11
 template<> struct is_arithmetic<signed long long>   { enum { value = true }; };
 template<> struct is_arithmetic<unsigned long long> { enum { value = true }; };
 using std::is_integral;
@@ -167,13 +167,13 @@ template<> struct is_integral<signed int>             { enum { value = true }; }
 template<> struct is_integral<unsigned int>           { enum { value = true }; };
 template<> struct is_integral<signed long>            { enum { value = true }; };
 template<> struct is_integral<unsigned long>          { enum { value = true }; };
-#if EIGEN_COMP_MSVC
+#if HYDRA_EIGEN_COMP_MSVC
 template<> struct is_integral<signed __int64>         { enum { value = true }; };
 template<> struct is_integral<unsigned __int64>       { enum { value = true }; };
 #endif
 #endif
 
-#if EIGEN_HAS_CXX11
+#if HYDRA_EIGEN_HAS_CXX11
 using std::make_unsigned;
 #else
 // TODO: Possibly improve this implementation of make_unsigned.
@@ -189,7 +189,7 @@ template<> struct make_unsigned<signed int>       { typedef unsigned int type; }
 template<> struct make_unsigned<unsigned int>     { typedef unsigned int type; };
 template<> struct make_unsigned<signed long>      { typedef unsigned long type; };
 template<> struct make_unsigned<unsigned long>    { typedef unsigned long type; };
-#if EIGEN_COMP_MSVC
+#if HYDRA_EIGEN_COMP_MSVC
 template<> struct make_unsigned<signed __int64>   { typedef unsigned __int64 type; };
 template<> struct make_unsigned<unsigned __int64> { typedef unsigned __int64 type; };
 #endif
@@ -199,7 +199,7 @@ template<> struct make_unsigned<unsigned __int64> { typedef unsigned __int64 typ
 // the definition for make_unsigned. If we just define it, we run into issues
 // where `long long` doesn't exist in some compilers for C++03. We therefore add
 // the specialization for these platforms only.
-#if EIGEN_OS_MAC || EIGEN_COMP_MINGW
+#if HYDRA_EIGEN_OS_MAC || HYDRA_EIGEN_COMP_MINGW
 template<> struct make_unsigned<unsigned long long> { typedef unsigned long long type; };
 template<> struct make_unsigned<long long>          { typedef unsigned long long type; };
 #endif
@@ -217,7 +217,7 @@ template<typename T> struct add_const_on_value_type<T*>        { typedef T const
 template<typename T> struct add_const_on_value_type<T* const>  { typedef T const* const type; };
 template<typename T> struct add_const_on_value_type<T const* const>  { typedef T const* const type; };
 
-#if EIGEN_HAS_CXX11
+#if HYDRA_EIGEN_HAS_CXX11
 
 using std::is_convertible;
 
@@ -275,7 +275,7 @@ template<bool Condition, typename T=void> struct enable_if;
 template<typename T> struct enable_if<true,T>
 { typedef T type; };
 
-#if defined(EIGEN_GPU_COMPILE_PHASE) && !EIGEN_HAS_CXX11
+#if defined(HYDRA_EIGEN_GPU_COMPILE_PHASE) && !HYDRA_EIGEN_HAS_CXX11
 #if !defined(__FLT_EPSILON__)
 #define __FLT_EPSILON__ FLT_EPSILON
 #define __DBL_EPSILON__ DBL_EPSILON
@@ -285,8 +285,8 @@ namespace device {
 
 template<typename T> struct numeric_limits
 {
-  EIGEN_DEVICE_FUNC
-  static EIGEN_CONSTEXPR T epsilon() { return 0; }
+  HYDRA_EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_CONSTEXPR T epsilon() { return 0; }
   static T (max)() { assert(false && "Highest not supported for this type"); }
   static T (min)() { assert(false && "Lowest not supported for this type"); }
   static T infinity() { assert(false && "Infinity not supported for this type"); }
@@ -294,29 +294,29 @@ template<typename T> struct numeric_limits
 };
 template<> struct numeric_limits<float>
 {
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static float epsilon() { return __FLT_EPSILON__; }
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static float (max)() {
-  #if defined(EIGEN_CUDA_ARCH)
+  #if defined(HYDRA_EIGEN_CUDA_ARCH)
     return CUDART_MAX_NORMAL_F;
   #else
     return HIPRT_MAX_NORMAL_F;
   #endif
   }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static float (min)() { return FLT_MIN; }
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static float infinity() {
-  #if defined(EIGEN_CUDA_ARCH)
+  #if defined(HYDRA_EIGEN_CUDA_ARCH)
     return CUDART_INF_F;
   #else
     return HIPRT_INF_F;
   #endif
   }
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static float quiet_NaN() {
-  #if defined(EIGEN_CUDA_ARCH)
+  #if defined(HYDRA_EIGEN_CUDA_ARCH)
     return CUDART_NAN_F;
   #else
     return HIPRT_NAN_F;
@@ -325,23 +325,23 @@ template<> struct numeric_limits<float>
 };
 template<> struct numeric_limits<double>
 {
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static double epsilon() { return __DBL_EPSILON__; }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static double (max)() { return DBL_MAX; }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static double (min)() { return DBL_MIN; }
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static double infinity() {
-  #if defined(EIGEN_CUDA_ARCH)
+  #if defined(HYDRA_EIGEN_CUDA_ARCH)
     return CUDART_INF;
   #else
     return HIPRT_INF;
   #endif
   }
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static double quiet_NaN() {
-  #if defined(EIGEN_CUDA_ARCH)
+  #if defined(HYDRA_EIGEN_CUDA_ARCH)
     return CUDART_NAN;
   #else
     return HIPRT_NAN;
@@ -350,87 +350,87 @@ template<> struct numeric_limits<double>
 };
 template<> struct numeric_limits<int>
 {
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static int epsilon() { return 0; }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static int (max)() { return INT_MAX; }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static int (min)() { return INT_MIN; }
 };
 template<> struct numeric_limits<unsigned int>
 {
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static unsigned int epsilon() { return 0; }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static unsigned int (max)() { return UINT_MAX; }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static unsigned int (min)() { return 0; }
 };
 template<> struct numeric_limits<long>
 {
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static long epsilon() { return 0; }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static long (max)() { return LONG_MAX; }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static long (min)() { return LONG_MIN; }
 };
 template<> struct numeric_limits<unsigned long>
 {
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static unsigned long epsilon() { return 0; }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static unsigned long (max)() { return ULONG_MAX; }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static unsigned long (min)() { return 0; }
 };
 template<> struct numeric_limits<long long>
 {
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static long long epsilon() { return 0; }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static long long (max)() { return LLONG_MAX; }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static long long (min)() { return LLONG_MIN; }
 };
 template<> struct numeric_limits<unsigned long long>
 {
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static unsigned long long epsilon() { return 0; }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static unsigned long long (max)() { return ULLONG_MAX; }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static unsigned long long (min)() { return 0; }
 };
 template<> struct numeric_limits<bool>
 {
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static bool epsilon() { return false; }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
   static bool (max)() { return true; }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR 
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR 
   static bool (min)() { return false; }
 };
 
 }
 
-#endif // defined(EIGEN_GPU_COMPILE_PHASE) && !EIGEN_HAS_CXX11
+#endif // defined(HYDRA_EIGEN_GPU_COMPILE_PHASE) && !HYDRA_EIGEN_HAS_CXX11
 
 /** \internal
   * A base class do disable default copy ctor and copy assignment operator.
   */
 class noncopyable
 {
-  EIGEN_DEVICE_FUNC noncopyable(const noncopyable&);
-  EIGEN_DEVICE_FUNC const noncopyable& operator=(const noncopyable&);
+  HYDRA_EIGEN_DEVICE_FUNC noncopyable(const noncopyable&);
+  HYDRA_EIGEN_DEVICE_FUNC const noncopyable& operator=(const noncopyable&);
 protected:
-  EIGEN_DEVICE_FUNC noncopyable() {}
-  EIGEN_DEVICE_FUNC ~noncopyable() {}
+  HYDRA_EIGEN_DEVICE_FUNC noncopyable() {}
+  HYDRA_EIGEN_DEVICE_FUNC ~noncopyable() {}
 };
 
 /** \internal
   * Provides access to the number of elements in the object of as a compile-time constant expression.
-  * It "returns" Eigen::Dynamic if the size cannot be resolved at compile-time (default).
+  * It "returns" hydra_Eigen::Dynamic if the size cannot be resolved at compile-time (default).
   *
   * Similar to std::tuple_size, but more general.
   *
@@ -457,7 +457,7 @@ template<typename T, int N> struct array_size<T (&)[N]> {
   enum { value = N };
 };
 
-#if EIGEN_HAS_CXX11
+#if HYDRA_EIGEN_HAS_CXX11
 template<typename T, std::size_t N> struct array_size<const std::array<T,N> > {
   enum { value = N };
 };
@@ -476,10 +476,10 @@ template<typename T, std::size_t N> struct array_size<std::array<T,N> > {
   *
   */
 template<typename T>
-EIGEN_CONSTEXPR Index size(const T& x) { return x.size(); }
+HYDRA_EIGEN_CONSTEXPR Index size(const T& x) { return x.size(); }
 
 template<typename T,std::size_t N>
-EIGEN_CONSTEXPR Index size(const T (&) [N]) { return N; }
+HYDRA_EIGEN_CONSTEXPR Index size(const T (&) [N]) { return N; }
 
 /** \internal
   * Convenient struct to get the result type of a nullary, unary, binary, or
@@ -496,7 +496,7 @@ EIGEN_CONSTEXPR Index size(const T (&) [N]) { return N; }
   * This uses std::result_of. However, note the `type` member removes
   * const and converts references/pointers to their corresponding value type.
   */
-#if EIGEN_HAS_STD_INVOKE_RESULT
+#if HYDRA_EIGEN_HAS_STD_INVOKE_RESULT
 template<typename T> struct result_of;
 
 template<typename F, typename... ArgTypes>
@@ -504,7 +504,7 @@ struct result_of<F(ArgTypes...)> {
   typedef typename std::invoke_result<F, ArgTypes...>::type type1;
   typedef typename remove_all<type1>::type type;
 };
-#elif EIGEN_HAS_STD_RESULT_OF
+#elif HYDRA_EIGEN_HAS_STD_RESULT_OF
 template<typename T> struct result_of {
   typedef typename std::result_of<T>::type type1;
   typedef typename remove_all<type1>::type type;
@@ -610,13 +610,13 @@ struct result_of<Func(ArgType0,ArgType1,ArgType2)> {
 
 #endif
 
-#if EIGEN_HAS_STD_INVOKE_RESULT
+#if HYDRA_EIGEN_HAS_STD_INVOKE_RESULT
 template<typename F, typename... ArgTypes>
 struct invoke_result {
   typedef typename std::invoke_result<F, ArgTypes...>::type type1;
   typedef typename remove_all<type1>::type type;
 };
-#elif EIGEN_HAS_CXX11
+#elif HYDRA_EIGEN_HAS_CXX11
 template<typename F, typename... ArgTypes>
 struct invoke_result {
   typedef typename result_of<F(ArgTypes...)>::type type1;
@@ -752,7 +752,7 @@ template<typename T, typename U> struct scalar_product_traits
 template<unsigned Len, unsigned Align>
 struct aligned_storage {
   struct type {
-    EIGEN_ALIGN_TO_BOUNDARY(Align) unsigned char data[Len];
+    HYDRA_EIGEN_ALIGN_TO_BOUNDARY(Align) unsigned char data[Len];
   };
 };
 
@@ -760,13 +760,13 @@ struct aligned_storage {
 
 namespace numext {
 
-#if defined(EIGEN_GPU_COMPILE_PHASE)
-template<typename T> EIGEN_DEVICE_FUNC   void swap(T &a, T &b) { T tmp = b; b = a; a = tmp; }
+#if defined(HYDRA_EIGEN_GPU_COMPILE_PHASE)
+template<typename T> HYDRA_EIGEN_DEVICE_FUNC   void swap(T &a, T &b) { T tmp = b; b = a; a = tmp; }
 #else
-template<typename T> EIGEN_STRONG_INLINE void swap(T &a, T &b) { std::swap(a,b); }
+template<typename T> HYDRA_EIGEN_STRONG_INLINE void swap(T &a, T &b) { std::swap(a,b); }
 #endif
 
-#if defined(EIGEN_GPU_COMPILE_PHASE) && !EIGEN_HAS_CXX11
+#if defined(HYDRA_EIGEN_GPU_COMPILE_PHASE) && !HYDRA_EIGEN_HAS_CXX11
 using internal::device::numeric_limits;
 #else
 using std::numeric_limits;
@@ -775,7 +775,7 @@ using std::numeric_limits;
 // Integer division with rounding up.
 // T is assumed to be an integer type with a>=0, and b>0
 template<typename T>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 T div_ceil(const T &a, const T &b)
 {
   return (a+b-1) / b;
@@ -783,30 +783,30 @@ T div_ceil(const T &a, const T &b)
 
 // The aim of the following functions is to bypass -Wfloat-equal warnings
 // when we really want a strict equality comparison on floating points.
-template<typename X, typename Y> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
+template<typename X, typename Y> HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC
 bool equal_strict(const X& x,const Y& y) { return x == y; }
 
-#if !defined(EIGEN_GPU_COMPILE_PHASE) || (!defined(EIGEN_CUDA_ARCH) && defined(EIGEN_CONSTEXPR_ARE_DEVICE_FUNC))
-template<> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
+#if !defined(HYDRA_EIGEN_GPU_COMPILE_PHASE) || (!defined(HYDRA_EIGEN_CUDA_ARCH) && defined(HYDRA_EIGEN_CONSTEXPR_ARE_DEVICE_FUNC))
+template<> HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC
 bool equal_strict(const float& x,const float& y) { return std::equal_to<float>()(x,y); }
 
-template<> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
+template<> HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC
 bool equal_strict(const double& x,const double& y) { return std::equal_to<double>()(x,y); }
 #endif
 
-template<typename X, typename Y> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
+template<typename X, typename Y> HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC
 bool not_equal_strict(const X& x,const Y& y) { return x != y; }
 
-#if !defined(EIGEN_GPU_COMPILE_PHASE) || (!defined(EIGEN_CUDA_ARCH) && defined(EIGEN_CONSTEXPR_ARE_DEVICE_FUNC))
-template<> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
+#if !defined(HYDRA_EIGEN_GPU_COMPILE_PHASE) || (!defined(HYDRA_EIGEN_CUDA_ARCH) && defined(HYDRA_EIGEN_CONSTEXPR_ARE_DEVICE_FUNC))
+template<> HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC
 bool not_equal_strict(const float& x,const float& y) { return std::not_equal_to<float>()(x,y); }
 
-template<> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
+template<> HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC
 bool not_equal_strict(const double& x,const double& y) { return std::not_equal_to<double>()(x,y); }
 #endif
 
 } // end namespace numext
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_META_H
+#endif // HYDRA_EIGEN_META_H

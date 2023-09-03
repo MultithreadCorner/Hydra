@@ -13,10 +13,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SVDBASE_H
-#define EIGEN_SVDBASE_H
+#ifndef HYDRA_EIGEN_SVDBASE_H
+#define HYDRA_EIGEN_SVDBASE_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 template<typename Derived> struct traits<SVDBase<Derived> >
@@ -70,15 +70,15 @@ public:
   typedef typename internal::traits<Derived>::MatrixType MatrixType;
   typedef typename MatrixType::Scalar Scalar;
   typedef typename NumTraits<typename MatrixType::Scalar>::Real RealScalar;
-  typedef typename Eigen::internal::traits<SVDBase>::StorageIndex StorageIndex;
-  typedef Eigen::Index Index; ///< \deprecated since Eigen 3.3
+  typedef typename hydra_Eigen::internal::traits<SVDBase>::StorageIndex StorageIndex;
+  typedef hydra_Eigen::Index Index; ///< \deprecated since Eigen 3.3
   enum {
     RowsAtCompileTime = MatrixType::RowsAtCompileTime,
     ColsAtCompileTime = MatrixType::ColsAtCompileTime,
-    DiagSizeAtCompileTime = EIGEN_SIZE_MIN_PREFER_DYNAMIC(RowsAtCompileTime,ColsAtCompileTime),
+    DiagSizeAtCompileTime = HYDRA_EIGEN_SIZE_MIN_PREFER_DYNAMIC(RowsAtCompileTime,ColsAtCompileTime),
     MaxRowsAtCompileTime = MatrixType::MaxRowsAtCompileTime,
     MaxColsAtCompileTime = MatrixType::MaxColsAtCompileTime,
-    MaxDiagSizeAtCompileTime = EIGEN_SIZE_MIN_PREFER_FIXED(MaxRowsAtCompileTime,MaxColsAtCompileTime),
+    MaxDiagSizeAtCompileTime = HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(MaxRowsAtCompileTime,MaxColsAtCompileTime),
     MatrixOptions = MatrixType::Options
   };
 
@@ -92,7 +92,7 @@ public:
   /** \returns the \a U matrix.
    *
    * For the SVD decomposition of a n-by-p matrix, letting \a m be the minimum of \a n and \a p,
-   * the U matrix is n-by-n if you asked for \link Eigen::ComputeFullU ComputeFullU \endlink, and is n-by-m if you asked for \link Eigen::ComputeThinU ComputeThinU \endlink.
+   * the U matrix is n-by-n if you asked for \link hydra_Eigen::ComputeFullU ComputeFullU \endlink, and is n-by-m if you asked for \link hydra_Eigen::ComputeThinU ComputeThinU \endlink.
    *
    * The \a m first columns of \a U are the left singular vectors of the matrix being decomposed.
    *
@@ -108,7 +108,7 @@ public:
   /** \returns the \a V matrix.
    *
    * For the SVD decomposition of a n-by-p matrix, letting \a m be the minimum of \a n and \a p,
-   * the V matrix is p-by-p if you asked for \link Eigen::ComputeFullV ComputeFullV \endlink, and is p-by-m if you asked for \link Eigen::ComputeThinV ComputeThinV \endlink.
+   * the V matrix is p-by-p if you asked for \link hydra_Eigen::ComputeFullV ComputeFullV \endlink, and is p-by-m if you asked for \link hydra_Eigen::ComputeThinV ComputeThinV \endlink.
    *
    * The \a m first columns of \a V are the right singular vectors of the matrix being decomposed.
    *
@@ -180,8 +180,8 @@ public:
   /** Allows to come back to the default behavior, letting Eigen use its default formula for
     * determining the threshold.
     *
-    * You should pass the special object Eigen::Default as parameter here.
-    * \code svd.setThreshold(Eigen::Default); \endcode
+    * You should pass the special object hydra_Eigen::Default as parameter here.
+    * \code svd.setThreshold(hydra_Eigen::Default); \endcode
     *
     * See the documentation of setThreshold(const RealScalar&).
     */
@@ -212,7 +212,7 @@ public:
   inline Index rows() const { return m_rows; }
   inline Index cols() const { return m_cols; }
   
-  #ifdef EIGEN_PARSED_BY_DOXYGEN
+  #ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
   /** \returns a (least squares) solution of \f$ A x = b \f$ using the current SVD decomposition of A.
     *
     * \param b the right-hand-side of the equation to solve.
@@ -232,14 +232,14 @@ public:
    *
    * \returns \c Success if computation was successful.
    */
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   ComputationInfo info() const
   {
     eigen_assert(m_isInitialized && "SVD is not initialized.");
     return m_info;
   }
 
-  #ifndef EIGEN_PARSED_BY_DOXYGEN
+  #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
   template<typename RhsType, typename DstType>
   void _solve_impl(const RhsType &rhs, DstType &dst) const;
 
@@ -251,7 +251,7 @@ protected:
 
   static void check_template_parameters()
   {
-    EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+    HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
   }
 
   void _check_compute_assertions() const {
@@ -260,7 +260,7 @@ protected:
 
   template<bool Transpose_, typename Rhs>
   void _check_solve_assertion(const Rhs& b) const {
-      EIGEN_ONLY_USED_FOR_DEBUG(b);
+      HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(b);
       _check_compute_assertions();
       eigen_assert(computeU() && computeV() && "SVDBase::solve(): Both unitaries U and V are required to be computed (thin unitaries suffice).");
       eigen_assert((Transpose_?cols():rows())==b.rows() && "SVDBase::solve(): invalid number of rows of the right hand side matrix b");
@@ -302,7 +302,7 @@ protected:
 
 };
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template<typename Derived>
 template<typename RhsType, typename DstType>
 void SVDBase<Derived>::_solve_impl(const RhsType &rhs, DstType &dst) const
@@ -358,7 +358,7 @@ bool SVDBase<MatrixType>::allocate(Index rows, Index cols, unsigned int computat
   m_computeThinV = (computationOptions & ComputeThinV) != 0;
   eigen_assert(!(m_computeFullU && m_computeThinU) && "SVDBase: you can't ask for both full and thin U");
   eigen_assert(!(m_computeFullV && m_computeThinV) && "SVDBase: you can't ask for both full and thin V");
-  eigen_assert(EIGEN_IMPLIES(m_computeThinU || m_computeThinV, MatrixType::ColsAtCompileTime==Dynamic) &&
+  eigen_assert(HYDRA_EIGEN_IMPLIES(m_computeThinU || m_computeThinV, MatrixType::ColsAtCompileTime==Dynamic) &&
 	       "SVDBase: thin U and V are only available when your matrix has a dynamic number of columns.");
 
   m_diagSize = (std::min)(m_rows, m_cols);
@@ -373,4 +373,4 @@ bool SVDBase<MatrixType>::allocate(Index rows, Index cols, unsigned int computat
 
 }// end namespace
 
-#endif // EIGEN_SVDBASE_H
+#endif // HYDRA_EIGEN_SVDBASE_H

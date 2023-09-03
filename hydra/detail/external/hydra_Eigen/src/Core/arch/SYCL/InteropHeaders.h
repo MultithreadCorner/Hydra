@@ -18,12 +18,12 @@
  *
  *****************************************************************/
 
-#ifndef EIGEN_INTEROP_HEADERS_SYCL_H
-#define EIGEN_INTEROP_HEADERS_SYCL_H
+#ifndef HYDRA_EIGEN_INTEROP_HEADERS_SYCL_H
+#define HYDRA_EIGEN_INTEROP_HEADERS_SYCL_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
-#if !defined(EIGEN_DONT_VECTORIZE_SYCL)
+#if !defined(HYDRA_EIGEN_DONT_VECTORIZE_SYCL)
 
 namespace internal {
 
@@ -128,18 +128,18 @@ struct PacketWrapper;
 #ifndef SYCL_DEVICE_ONLY
 template <typename PacketReturnType, int PacketSize>
 struct PacketWrapper {
-  typedef typename ::Eigen::internal::unpacket_traits<PacketReturnType>::type
+  typedef typename ::hydra_Eigen::internal::unpacket_traits<PacketReturnType>::type
       Scalar;
   template <typename Index>
-  EIGEN_DEVICE_FUNC static Scalar scalarize(Index, PacketReturnType &) {
+  HYDRA_EIGEN_DEVICE_FUNC static Scalar scalarize(Index, PacketReturnType &) {
     eigen_assert(false && "THERE IS NO PACKETIZE VERSION FOR  THE CHOSEN TYPE");
     abort();
   }
-  EIGEN_DEVICE_FUNC static PacketReturnType convert_to_packet_type(Scalar in,
+  HYDRA_EIGEN_DEVICE_FUNC static PacketReturnType convert_to_packet_type(Scalar in,
                                                                    Scalar) {
-    return ::Eigen::internal::template plset<PacketReturnType>(in);
+    return ::hydra_Eigen::internal::template plset<PacketReturnType>(in);
   }
-  EIGEN_DEVICE_FUNC static void set_packet(PacketReturnType, Scalar *) {
+  HYDRA_EIGEN_DEVICE_FUNC static void set_packet(PacketReturnType, Scalar *) {
     eigen_assert(false && "THERE IS NO PACKETIZE VERSION FOR  THE CHOSEN TYPE");
     abort();
   }
@@ -148,10 +148,10 @@ struct PacketWrapper {
 #elif defined(SYCL_DEVICE_ONLY)
 template <typename PacketReturnType>
 struct PacketWrapper<PacketReturnType, 4> {
-  typedef typename ::Eigen::internal::unpacket_traits<PacketReturnType>::type
+  typedef typename ::hydra_Eigen::internal::unpacket_traits<PacketReturnType>::type
       Scalar;
   template <typename Index>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE static Scalar scalarize(Index index, PacketReturnType &in) {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE static Scalar scalarize(Index index, PacketReturnType &in) {
     switch (index) {
       case 0:
         return in.x();
@@ -169,38 +169,38 @@ struct PacketWrapper<PacketReturnType, 4> {
     __builtin_unreachable();
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE static PacketReturnType convert_to_packet_type(
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE static PacketReturnType convert_to_packet_type(
       Scalar in, Scalar other) {
     return PacketReturnType(in, other, other, other);
   }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE static void set_packet(PacketReturnType &lhs, Scalar *rhs) {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE static void set_packet(PacketReturnType &lhs, Scalar *rhs) {
     lhs = PacketReturnType(rhs[0], rhs[1], rhs[2], rhs[3]);
   }
 };
 
 template <typename PacketReturnType>
 struct PacketWrapper<PacketReturnType, 1> {
-  typedef typename ::Eigen::internal::unpacket_traits<PacketReturnType>::type
+  typedef typename ::hydra_Eigen::internal::unpacket_traits<PacketReturnType>::type
       Scalar;
   template <typename Index>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE static Scalar scalarize(Index, PacketReturnType &in) {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE static Scalar scalarize(Index, PacketReturnType &in) {
     return in;
   }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE static PacketReturnType convert_to_packet_type(Scalar in,
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE static PacketReturnType convert_to_packet_type(Scalar in,
                                                                    Scalar) {
     return PacketReturnType(in);
   }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE static void set_packet(PacketReturnType &lhs, Scalar *rhs) {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE static void set_packet(PacketReturnType &lhs, Scalar *rhs) {
     lhs = rhs[0];
   }
 };
 
 template <typename PacketReturnType>
 struct PacketWrapper<PacketReturnType, 2> {
-  typedef typename ::Eigen::internal::unpacket_traits<PacketReturnType>::type
+  typedef typename ::hydra_Eigen::internal::unpacket_traits<PacketReturnType>::type
       Scalar;
   template <typename Index>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE static Scalar scalarize(Index index, PacketReturnType &in) {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE static Scalar scalarize(Index index, PacketReturnType &in) {
     switch (index) {
       case 0:
         return in.x();
@@ -214,11 +214,11 @@ struct PacketWrapper<PacketReturnType, 2> {
     __builtin_unreachable();
   }
   
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE static PacketReturnType convert_to_packet_type(
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE static PacketReturnType convert_to_packet_type(
       Scalar in, Scalar other) {
     return PacketReturnType(in, other);
   }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE static void set_packet(PacketReturnType &lhs, Scalar *rhs) {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE static void set_packet(PacketReturnType &lhs, Scalar *rhs) {
     lhs = PacketReturnType(rhs[0], rhs[1]);
   }
 };
@@ -227,6 +227,6 @@ struct PacketWrapper<PacketReturnType, 2> {
 
 }  // end namespace internal
 }  // end namespace TensorSycl
-}  // end namespace Eigen
+}  // end namespace hydra_Eigen
 
-#endif  // EIGEN_INTEROP_HEADERS_SYCL_H
+#endif  // HYDRA_EIGEN_INTEROP_HEADERS_SYCL_H

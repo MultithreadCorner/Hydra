@@ -8,21 +8,21 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_DIAGONALPRODUCT_H
-#define EIGEN_DIAGONALPRODUCT_H
+#ifndef HYDRA_EIGEN_DIAGONALPRODUCT_H
+#define HYDRA_EIGEN_DIAGONALPRODUCT_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 /** \returns the diagonal matrix product of \c *this by the diagonal matrix \a diagonal.
   */
 template<typename Derived>
 template<typename DiagonalDerived>
-EIGEN_DEVICE_FUNC inline const Product<Derived, DiagonalDerived, LazyProduct>
+HYDRA_EIGEN_DEVICE_FUNC inline const Product<Derived, DiagonalDerived, LazyProduct>
 MatrixBase<Derived>::operator*(const DiagonalBase<DiagonalDerived> &a_diagonal) const
 {
   return Product<Derived, DiagonalDerived, LazyProduct>(derived(),a_diagonal.derived());
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_DIAGONALPRODUCT_H
+#endif // HYDRA_EIGEN_DIAGONALPRODUCT_H

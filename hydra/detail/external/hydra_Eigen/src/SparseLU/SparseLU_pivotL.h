@@ -30,7 +30,7 @@
 #ifndef SPARSELU_PIVOTL_H
 #define SPARSELU_PIVOTL_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 namespace internal {
   
 /**
@@ -132,6 +132,6 @@ Index SparseLUImpl<Scalar,StorageIndex>::pivotL(const Index jcol, const RealScal
 }
 
 } // end namespace internal
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
 #endif // SPARSELU_PIVOTL_H

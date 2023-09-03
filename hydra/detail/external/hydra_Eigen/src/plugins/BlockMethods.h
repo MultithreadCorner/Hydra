@@ -8,7 +8,7 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
 /// \internal expression type of a column */
 typedef Block<Derived, internal::traits<Derived>::RowsAtCompileTime, 1, !IsRowMajor> ColXpr;
@@ -48,7 +48,7 @@ typedef Block<const Derived,IsRowMajor?1:Dynamic,IsRowMajor?Dynamic:1,true> Cons
 typedef Block<Derived,Dynamic,Dynamic,true> InnerVectorsReturnType;
 typedef Block<const Derived,Dynamic,Dynamic,true> ConstInnerVectorsReturnType;
 
-#endif // not EIGEN_PARSED_BY_DOXYGEN
+#endif // not HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
 /// \returns an expression of a block in \c *this with either dynamic or fixed sizes.
 ///
@@ -64,8 +64,8 @@ typedef Block<const Derived,Dynamic,Dynamic,true> ConstInnerVectorsReturnType;
 ///
 /// \newin{3.4}:
 ///
-/// The number of rows \a blockRows and columns \a blockCols can also be specified at compile-time by passing Eigen::fix<N>,
-/// or Eigen::fix<N>(n) as arguments. In the later case, \c n plays the role of a runtime fallback value in case \c N equals Eigen::Dynamic.
+/// The number of rows \a blockRows and columns \a blockCols can also be specified at compile-time by passing hydra_Eigen::fix<N>,
+/// or hydra_Eigen::fix<N>(n) as arguments. In the later case, \c n plays the role of a runtime fallback value in case \c N equals hydra_Eigen::Dynamic.
 /// Here is an example with a fixed number of rows \c NRows and dynamic number of columns \c cols:
 /// \code
 /// mat.block(i,j,fix<NRows>,cols)
@@ -82,13 +82,13 @@ typedef Block<const Derived,Dynamic,Dynamic,true> ConstInnerVectorsReturnType;
 /// when it is applied to a fixed-size matrix, it inherits a fixed maximal size,
 /// which means that evaluating it does not cause a dynamic memory allocation.
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block, fix, fix<N>(int)
 ///
 template<typename NRowsType, typename NColsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 typename FixedBlockXpr<internal::get_fixed_value<NRowsType>::value,internal::get_fixed_value<NColsType>::value>::Type
 #else
 typename FixedBlockXpr<...,...>::Type
@@ -101,8 +101,8 @@ block(Index startRow, Index startCol, NRowsType blockRows, NColsType blockCols)
 
 /// This is the const version of block(Index,Index,NRowsType,NColsType)
 template<typename NRowsType, typename NColsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 const typename ConstFixedBlockXpr<internal::get_fixed_value<NRowsType>::value,internal::get_fixed_value<NColsType>::value>::Type
 #else
 const typename ConstFixedBlockXpr<...,...>::Type
@@ -125,16 +125,16 @@ block(Index startRow, Index startCol, NRowsType blockRows, NColsType blockCols) 
 /// Example with dynamic sizes: \include MatrixBase_topRightCorner_int_int.cpp
 /// Output: \verbinclude MatrixBase_topRightCorner_int_int.out
 ///
-/// The number of rows \a blockRows and columns \a blockCols can also be specified at compile-time by passing Eigen::fix<N>,
-/// or Eigen::fix<N>(n) as arguments. See \link block(Index,Index,NRowsType,NColsType) block() \endlink for the details.
+/// The number of rows \a blockRows and columns \a blockCols can also be specified at compile-time by passing hydra_Eigen::fix<N>,
+/// or hydra_Eigen::fix<N>(n) as arguments. See \link block(Index,Index,NRowsType,NColsType) block() \endlink for the details.
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<typename NRowsType, typename NColsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 typename FixedBlockXpr<internal::get_fixed_value<NRowsType>::value,internal::get_fixed_value<NColsType>::value>::Type
 #else
 typename FixedBlockXpr<...,...>::Type
@@ -147,8 +147,8 @@ topRightCorner(NRowsType cRows, NColsType cCols)
 
 /// This is the const version of topRightCorner(NRowsType, NColsType).
 template<typename NRowsType, typename NColsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 const typename ConstFixedBlockXpr<internal::get_fixed_value<NRowsType>::value,internal::get_fixed_value<NColsType>::value>::Type
 #else
 const typename ConstFixedBlockXpr<...,...>::Type
@@ -167,12 +167,12 @@ topRightCorner(NRowsType cRows, NColsType cCols) const
 /// Example: \include MatrixBase_template_int_int_topRightCorner.cpp
 /// Output: \verbinclude MatrixBase_template_int_int_topRightCorner.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block, block<int,int>(Index,Index)
 ///
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename FixedBlockXpr<CRows,CCols>::Type topRightCorner()
 {
   return typename FixedBlockXpr<CRows,CCols>::Type(derived(), 0, cols() - CCols);
@@ -180,7 +180,7 @@ typename FixedBlockXpr<CRows,CCols>::Type topRightCorner()
 
 /// This is the const version of topRightCorner<int, int>().
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 const typename ConstFixedBlockXpr<CRows,CCols>::Type topRightCorner() const
 {
   return typename ConstFixedBlockXpr<CRows,CCols>::Type(derived(), 0, cols() - CCols);
@@ -201,12 +201,12 @@ const typename ConstFixedBlockXpr<CRows,CCols>::Type topRightCorner() const
 /// Example: \include MatrixBase_template_int_int_topRightCorner_int_int.cpp
 /// Output: \verbinclude MatrixBase_template_int_int_topRightCorner_int_int.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block
 ///
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename FixedBlockXpr<CRows,CCols>::Type topRightCorner(Index cRows, Index cCols)
 {
   return typename FixedBlockXpr<CRows,CCols>::Type(derived(), 0, cols() - cCols, cRows, cCols);
@@ -214,7 +214,7 @@ typename FixedBlockXpr<CRows,CCols>::Type topRightCorner(Index cRows, Index cCol
 
 /// This is the const version of topRightCorner<int, int>(Index, Index).
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 const typename ConstFixedBlockXpr<CRows,CCols>::Type topRightCorner(Index cRows, Index cCols) const
 {
   return typename ConstFixedBlockXpr<CRows,CCols>::Type(derived(), 0, cols() - cCols, cRows, cCols);
@@ -232,16 +232,16 @@ const typename ConstFixedBlockXpr<CRows,CCols>::Type topRightCorner(Index cRows,
 /// Example: \include MatrixBase_topLeftCorner_int_int.cpp
 /// Output: \verbinclude MatrixBase_topLeftCorner_int_int.out
 ///
-/// The number of rows \a blockRows and columns \a blockCols can also be specified at compile-time by passing Eigen::fix<N>,
-/// or Eigen::fix<N>(n) as arguments. See \link block(Index,Index,NRowsType,NColsType) block() \endlink for the details.
+/// The number of rows \a blockRows and columns \a blockCols can also be specified at compile-time by passing hydra_Eigen::fix<N>,
+/// or hydra_Eigen::fix<N>(n) as arguments. See \link block(Index,Index,NRowsType,NColsType) block() \endlink for the details.
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<typename NRowsType, typename NColsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 typename FixedBlockXpr<internal::get_fixed_value<NRowsType>::value,internal::get_fixed_value<NColsType>::value>::Type
 #else
 typename FixedBlockXpr<...,...>::Type
@@ -254,8 +254,8 @@ topLeftCorner(NRowsType cRows, NColsType cCols)
 
 /// This is the const version of topLeftCorner(Index, Index).
 template<typename NRowsType, typename NColsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 const typename ConstFixedBlockXpr<internal::get_fixed_value<NRowsType>::value,internal::get_fixed_value<NColsType>::value>::Type
 #else
 const typename ConstFixedBlockXpr<...,...>::Type
@@ -273,12 +273,12 @@ topLeftCorner(NRowsType cRows, NColsType cCols) const
 /// Example: \include MatrixBase_template_int_int_topLeftCorner.cpp
 /// Output: \verbinclude MatrixBase_template_int_int_topLeftCorner.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename FixedBlockXpr<CRows,CCols>::Type topLeftCorner()
 {
   return typename FixedBlockXpr<CRows,CCols>::Type(derived(), 0, 0);
@@ -286,7 +286,7 @@ typename FixedBlockXpr<CRows,CCols>::Type topLeftCorner()
 
 /// This is the const version of topLeftCorner<int, int>().
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 const typename ConstFixedBlockXpr<CRows,CCols>::Type topLeftCorner() const
 {
   return typename ConstFixedBlockXpr<CRows,CCols>::Type(derived(), 0, 0);
@@ -307,12 +307,12 @@ const typename ConstFixedBlockXpr<CRows,CCols>::Type topLeftCorner() const
 /// Example: \include MatrixBase_template_int_int_topLeftCorner_int_int.cpp
 /// Output: \verbinclude MatrixBase_template_int_int_topLeftCorner_int_int.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block
 ///
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename FixedBlockXpr<CRows,CCols>::Type topLeftCorner(Index cRows, Index cCols)
 {
   return typename FixedBlockXpr<CRows,CCols>::Type(derived(), 0, 0, cRows, cCols);
@@ -320,7 +320,7 @@ typename FixedBlockXpr<CRows,CCols>::Type topLeftCorner(Index cRows, Index cCols
 
 /// This is the const version of topLeftCorner<int, int>(Index, Index).
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 const typename ConstFixedBlockXpr<CRows,CCols>::Type topLeftCorner(Index cRows, Index cCols) const
 {
   return typename ConstFixedBlockXpr<CRows,CCols>::Type(derived(), 0, 0, cRows, cCols);
@@ -338,16 +338,16 @@ const typename ConstFixedBlockXpr<CRows,CCols>::Type topLeftCorner(Index cRows, 
 /// Example: \include MatrixBase_bottomRightCorner_int_int.cpp
 /// Output: \verbinclude MatrixBase_bottomRightCorner_int_int.out
 ///
-/// The number of rows \a blockRows and columns \a blockCols can also be specified at compile-time by passing Eigen::fix<N>,
-/// or Eigen::fix<N>(n) as arguments. See \link block(Index,Index,NRowsType,NColsType) block() \endlink for the details.
+/// The number of rows \a blockRows and columns \a blockCols can also be specified at compile-time by passing hydra_Eigen::fix<N>,
+/// or hydra_Eigen::fix<N>(n) as arguments. See \link block(Index,Index,NRowsType,NColsType) block() \endlink for the details.
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<typename NRowsType, typename NColsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 typename FixedBlockXpr<internal::get_fixed_value<NRowsType>::value,internal::get_fixed_value<NColsType>::value>::Type
 #else
 typename FixedBlockXpr<...,...>::Type
@@ -361,8 +361,8 @@ bottomRightCorner(NRowsType cRows, NColsType cCols)
 
 /// This is the const version of bottomRightCorner(NRowsType, NColsType).
 template<typename NRowsType, typename NColsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 const typename ConstFixedBlockXpr<internal::get_fixed_value<NRowsType>::value,internal::get_fixed_value<NColsType>::value>::Type
 #else
 const typename ConstFixedBlockXpr<...,...>::Type
@@ -381,12 +381,12 @@ bottomRightCorner(NRowsType cRows, NColsType cCols) const
 /// Example: \include MatrixBase_template_int_int_bottomRightCorner.cpp
 /// Output: \verbinclude MatrixBase_template_int_int_bottomRightCorner.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename FixedBlockXpr<CRows,CCols>::Type bottomRightCorner()
 {
   return typename FixedBlockXpr<CRows,CCols>::Type(derived(), rows() - CRows, cols() - CCols);
@@ -394,7 +394,7 @@ typename FixedBlockXpr<CRows,CCols>::Type bottomRightCorner()
 
 /// This is the const version of bottomRightCorner<int, int>().
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 const typename ConstFixedBlockXpr<CRows,CCols>::Type bottomRightCorner() const
 {
   return typename ConstFixedBlockXpr<CRows,CCols>::Type(derived(), rows() - CRows, cols() - CCols);
@@ -415,12 +415,12 @@ const typename ConstFixedBlockXpr<CRows,CCols>::Type bottomRightCorner() const
 /// Example: \include MatrixBase_template_int_int_bottomRightCorner_int_int.cpp
 /// Output: \verbinclude MatrixBase_template_int_int_bottomRightCorner_int_int.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block
 ///
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename FixedBlockXpr<CRows,CCols>::Type bottomRightCorner(Index cRows, Index cCols)
 {
   return typename FixedBlockXpr<CRows,CCols>::Type(derived(), rows() - cRows, cols() - cCols, cRows, cCols);
@@ -428,7 +428,7 @@ typename FixedBlockXpr<CRows,CCols>::Type bottomRightCorner(Index cRows, Index c
 
 /// This is the const version of bottomRightCorner<int, int>(Index, Index).
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 const typename ConstFixedBlockXpr<CRows,CCols>::Type bottomRightCorner(Index cRows, Index cCols) const
 {
   return typename ConstFixedBlockXpr<CRows,CCols>::Type(derived(), rows() - cRows, cols() - cCols, cRows, cCols);
@@ -446,16 +446,16 @@ const typename ConstFixedBlockXpr<CRows,CCols>::Type bottomRightCorner(Index cRo
 /// Example: \include MatrixBase_bottomLeftCorner_int_int.cpp
 /// Output: \verbinclude MatrixBase_bottomLeftCorner_int_int.out
 ///
-/// The number of rows \a blockRows and columns \a blockCols can also be specified at compile-time by passing Eigen::fix<N>,
-/// or Eigen::fix<N>(n) as arguments. See \link block(Index,Index,NRowsType,NColsType) block() \endlink for the details.
+/// The number of rows \a blockRows and columns \a blockCols can also be specified at compile-time by passing hydra_Eigen::fix<N>,
+/// or hydra_Eigen::fix<N>(n) as arguments. See \link block(Index,Index,NRowsType,NColsType) block() \endlink for the details.
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<typename NRowsType, typename NColsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 typename FixedBlockXpr<internal::get_fixed_value<NRowsType>::value,internal::get_fixed_value<NColsType>::value>::Type
 #else
 typename FixedBlockXpr<...,...>::Type
@@ -469,8 +469,8 @@ bottomLeftCorner(NRowsType cRows, NColsType cCols)
 
 /// This is the const version of bottomLeftCorner(NRowsType, NColsType).
 template<typename NRowsType, typename NColsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 typename ConstFixedBlockXpr<internal::get_fixed_value<NRowsType>::value,internal::get_fixed_value<NColsType>::value>::Type
 #else
 typename ConstFixedBlockXpr<...,...>::Type
@@ -489,12 +489,12 @@ bottomLeftCorner(NRowsType cRows, NColsType cCols) const
 /// Example: \include MatrixBase_template_int_int_bottomLeftCorner.cpp
 /// Output: \verbinclude MatrixBase_template_int_int_bottomLeftCorner.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename FixedBlockXpr<CRows,CCols>::Type bottomLeftCorner()
 {
   return typename FixedBlockXpr<CRows,CCols>::Type(derived(), rows() - CRows, 0);
@@ -502,7 +502,7 @@ typename FixedBlockXpr<CRows,CCols>::Type bottomLeftCorner()
 
 /// This is the const version of bottomLeftCorner<int, int>().
 template<int CRows, int CCols>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 const typename ConstFixedBlockXpr<CRows,CCols>::Type bottomLeftCorner() const
 {
   return typename ConstFixedBlockXpr<CRows,CCols>::Type(derived(), rows() - CRows, 0);
@@ -523,12 +523,12 @@ const typename ConstFixedBlockXpr<CRows,CCols>::Type bottomLeftCorner() const
 /// Example: \include MatrixBase_template_int_int_bottomLeftCorner_int_int.cpp
 /// Output: \verbinclude MatrixBase_template_int_int_bottomLeftCorner_int_int.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa class Block
 ///
 template<int CRows, int CCols>
-EIGEN_STRONG_INLINE
+HYDRA_EIGEN_STRONG_INLINE
 typename FixedBlockXpr<CRows,CCols>::Type bottomLeftCorner(Index cRows, Index cCols)
 {
   return typename FixedBlockXpr<CRows,CCols>::Type(derived(), rows() - cRows, 0, cRows, cCols);
@@ -536,7 +536,7 @@ typename FixedBlockXpr<CRows,CCols>::Type bottomLeftCorner(Index cRows, Index cC
 
 /// This is the const version of bottomLeftCorner<int, int>(Index, Index).
 template<int CRows, int CCols>
-EIGEN_STRONG_INLINE
+HYDRA_EIGEN_STRONG_INLINE
 const typename ConstFixedBlockXpr<CRows,CCols>::Type bottomLeftCorner(Index cRows, Index cCols) const
 {
   return typename ConstFixedBlockXpr<CRows,CCols>::Type(derived(), rows() - cRows, 0, cRows, cCols);
@@ -552,17 +552,17 @@ const typename ConstFixedBlockXpr<CRows,CCols>::Type bottomLeftCorner(Index cRow
 /// Example: \include MatrixBase_topRows_int.cpp
 /// Output: \verbinclude MatrixBase_topRows_int.out
 ///
-/// The number of rows \a n can also be specified at compile-time by passing Eigen::fix<N>,
-/// or Eigen::fix<N>(n) as arguments.
+/// The number of rows \a n can also be specified at compile-time by passing hydra_Eigen::fix<N>,
+/// or hydra_Eigen::fix<N>(n) as arguments.
 /// See \link block(Index,Index,NRowsType,NColsType) block() \endlink for the details.
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<typename NRowsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 typename NRowsBlockXpr<internal::get_fixed_value<NRowsType>::value>::Type
 #else
 typename NRowsBlockXpr<...>::Type
@@ -575,8 +575,8 @@ topRows(NRowsType n)
 
 /// This is the const version of topRows(NRowsType).
 template<typename NRowsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 const typename ConstNRowsBlockXpr<internal::get_fixed_value<NRowsType>::value>::Type
 #else
 const typename ConstNRowsBlockXpr<...>::Type
@@ -598,12 +598,12 @@ topRows(NRowsType n) const
 /// Example: \include MatrixBase_template_int_topRows.cpp
 /// Output: \verbinclude MatrixBase_template_int_topRows.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<int N>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename NRowsBlockXpr<N>::Type topRows(Index n = N)
 {
   return typename NRowsBlockXpr<N>::Type(derived(), 0, 0, n, cols());
@@ -611,7 +611,7 @@ typename NRowsBlockXpr<N>::Type topRows(Index n = N)
 
 /// This is the const version of topRows<int>().
 template<int N>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename ConstNRowsBlockXpr<N>::Type topRows(Index n = N) const
 {
   return typename ConstNRowsBlockXpr<N>::Type(derived(), 0, 0, n, cols());
@@ -627,17 +627,17 @@ typename ConstNRowsBlockXpr<N>::Type topRows(Index n = N) const
 /// Example: \include MatrixBase_bottomRows_int.cpp
 /// Output: \verbinclude MatrixBase_bottomRows_int.out
 ///
-/// The number of rows \a n can also be specified at compile-time by passing Eigen::fix<N>,
-/// or Eigen::fix<N>(n) as arguments.
+/// The number of rows \a n can also be specified at compile-time by passing hydra_Eigen::fix<N>,
+/// or hydra_Eigen::fix<N>(n) as arguments.
 /// See \link block(Index,Index,NRowsType,NColsType) block() \endlink for the details.
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<typename NRowsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 typename NRowsBlockXpr<internal::get_fixed_value<NRowsType>::value>::Type
 #else
 typename NRowsBlockXpr<...>::Type
@@ -650,8 +650,8 @@ bottomRows(NRowsType n)
 
 /// This is the const version of bottomRows(NRowsType).
 template<typename NRowsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 const typename ConstNRowsBlockXpr<internal::get_fixed_value<NRowsType>::value>::Type
 #else
 const typename ConstNRowsBlockXpr<...>::Type
@@ -673,12 +673,12 @@ bottomRows(NRowsType n) const
 /// Example: \include MatrixBase_template_int_bottomRows.cpp
 /// Output: \verbinclude MatrixBase_template_int_bottomRows.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<int N>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename NRowsBlockXpr<N>::Type bottomRows(Index n = N)
 {
   return typename NRowsBlockXpr<N>::Type(derived(), rows() - n, 0, n, cols());
@@ -686,7 +686,7 @@ typename NRowsBlockXpr<N>::Type bottomRows(Index n = N)
 
 /// This is the const version of bottomRows<int>().
 template<int N>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename ConstNRowsBlockXpr<N>::Type bottomRows(Index n = N) const
 {
   return typename ConstNRowsBlockXpr<N>::Type(derived(), rows() - n, 0, n, cols());
@@ -703,17 +703,17 @@ typename ConstNRowsBlockXpr<N>::Type bottomRows(Index n = N) const
 /// Example: \include DenseBase_middleRows_int.cpp
 /// Output: \verbinclude DenseBase_middleRows_int.out
 ///
-/// The number of rows \a n can also be specified at compile-time by passing Eigen::fix<N>,
-/// or Eigen::fix<N>(n) as arguments.
+/// The number of rows \a n can also be specified at compile-time by passing hydra_Eigen::fix<N>,
+/// or hydra_Eigen::fix<N>(n) as arguments.
 /// See \link block(Index,Index,NRowsType,NColsType) block() \endlink for the details.
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<typename NRowsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 typename NRowsBlockXpr<internal::get_fixed_value<NRowsType>::value>::Type
 #else
 typename NRowsBlockXpr<...>::Type
@@ -726,8 +726,8 @@ middleRows(Index startRow, NRowsType n)
 
 /// This is the const version of middleRows(Index,NRowsType).
 template<typename NRowsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 const typename ConstNRowsBlockXpr<internal::get_fixed_value<NRowsType>::value>::Type
 #else
 const typename ConstNRowsBlockXpr<...>::Type
@@ -750,12 +750,12 @@ middleRows(Index startRow, NRowsType n) const
 /// Example: \include DenseBase_template_int_middleRows.cpp
 /// Output: \verbinclude DenseBase_template_int_middleRows.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<int N>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename NRowsBlockXpr<N>::Type middleRows(Index startRow, Index n = N)
 {
   return typename NRowsBlockXpr<N>::Type(derived(), startRow, 0, n, cols());
@@ -763,7 +763,7 @@ typename NRowsBlockXpr<N>::Type middleRows(Index startRow, Index n = N)
 
 /// This is the const version of middleRows<int>().
 template<int N>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename ConstNRowsBlockXpr<N>::Type middleRows(Index startRow, Index n = N) const
 {
   return typename ConstNRowsBlockXpr<N>::Type(derived(), startRow, 0, n, cols());
@@ -779,17 +779,17 @@ typename ConstNRowsBlockXpr<N>::Type middleRows(Index startRow, Index n = N) con
 /// Example: \include MatrixBase_leftCols_int.cpp
 /// Output: \verbinclude MatrixBase_leftCols_int.out
 ///
-/// The number of columns \a n can also be specified at compile-time by passing Eigen::fix<N>,
-/// or Eigen::fix<N>(n) as arguments.
+/// The number of columns \a n can also be specified at compile-time by passing hydra_Eigen::fix<N>,
+/// or hydra_Eigen::fix<N>(n) as arguments.
 /// See \link block(Index,Index,NRowsType,NColsType) block() \endlink for the details.
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<typename NColsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 typename NColsBlockXpr<internal::get_fixed_value<NColsType>::value>::Type
 #else
 typename NColsBlockXpr<...>::Type
@@ -802,8 +802,8 @@ leftCols(NColsType n)
 
 /// This is the const version of leftCols(NColsType).
 template<typename NColsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 const typename ConstNColsBlockXpr<internal::get_fixed_value<NColsType>::value>::Type
 #else
 const typename ConstNColsBlockXpr<...>::Type
@@ -825,12 +825,12 @@ leftCols(NColsType n) const
 /// Example: \include MatrixBase_template_int_leftCols.cpp
 /// Output: \verbinclude MatrixBase_template_int_leftCols.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<int N>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename NColsBlockXpr<N>::Type leftCols(Index n = N)
 {
   return typename NColsBlockXpr<N>::Type(derived(), 0, 0, rows(), n);
@@ -838,7 +838,7 @@ typename NColsBlockXpr<N>::Type leftCols(Index n = N)
 
 /// This is the const version of leftCols<int>().
 template<int N>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename ConstNColsBlockXpr<N>::Type leftCols(Index n = N) const
 {
   return typename ConstNColsBlockXpr<N>::Type(derived(), 0, 0, rows(), n);
@@ -854,17 +854,17 @@ typename ConstNColsBlockXpr<N>::Type leftCols(Index n = N) const
 /// Example: \include MatrixBase_rightCols_int.cpp
 /// Output: \verbinclude MatrixBase_rightCols_int.out
 ///
-/// The number of columns \a n can also be specified at compile-time by passing Eigen::fix<N>,
-/// or Eigen::fix<N>(n) as arguments.
+/// The number of columns \a n can also be specified at compile-time by passing hydra_Eigen::fix<N>,
+/// or hydra_Eigen::fix<N>(n) as arguments.
 /// See \link block(Index,Index,NRowsType,NColsType) block() \endlink for the details.
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<typename NColsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 typename NColsBlockXpr<internal::get_fixed_value<NColsType>::value>::Type
 #else
 typename NColsBlockXpr<...>::Type
@@ -877,8 +877,8 @@ rightCols(NColsType n)
 
 /// This is the const version of rightCols(NColsType).
 template<typename NColsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 const typename ConstNColsBlockXpr<internal::get_fixed_value<NColsType>::value>::Type
 #else
 const typename ConstNColsBlockXpr<...>::Type
@@ -900,12 +900,12 @@ rightCols(NColsType n) const
 /// Example: \include MatrixBase_template_int_rightCols.cpp
 /// Output: \verbinclude MatrixBase_template_int_rightCols.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<int N>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename NColsBlockXpr<N>::Type rightCols(Index n = N)
 {
   return typename NColsBlockXpr<N>::Type(derived(), 0, cols() - n, rows(), n);
@@ -913,7 +913,7 @@ typename NColsBlockXpr<N>::Type rightCols(Index n = N)
 
 /// This is the const version of rightCols<int>().
 template<int N>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename ConstNColsBlockXpr<N>::Type rightCols(Index n = N) const
 {
   return typename ConstNColsBlockXpr<N>::Type(derived(), 0, cols() - n, rows(), n);
@@ -930,17 +930,17 @@ typename ConstNColsBlockXpr<N>::Type rightCols(Index n = N) const
 /// Example: \include DenseBase_middleCols_int.cpp
 /// Output: \verbinclude DenseBase_middleCols_int.out
 ///
-/// The number of columns \a n can also be specified at compile-time by passing Eigen::fix<N>,
-/// or Eigen::fix<N>(n) as arguments.
+/// The number of columns \a n can also be specified at compile-time by passing hydra_Eigen::fix<N>,
+/// or hydra_Eigen::fix<N>(n) as arguments.
 /// See \link block(Index,Index,NRowsType,NColsType) block() \endlink for the details.
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<typename NColsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 typename NColsBlockXpr<internal::get_fixed_value<NColsType>::value>::Type
 #else
 typename NColsBlockXpr<...>::Type
@@ -953,8 +953,8 @@ middleCols(Index startCol, NColsType numCols)
 
 /// This is the const version of middleCols(Index,NColsType).
 template<typename NColsType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 const typename ConstNColsBlockXpr<internal::get_fixed_value<NColsType>::value>::Type
 #else
 const typename ConstNColsBlockXpr<...>::Type
@@ -977,12 +977,12 @@ middleCols(Index startCol, NColsType numCols) const
 /// Example: \include DenseBase_template_int_middleCols.cpp
 /// Output: \verbinclude DenseBase_template_int_middleCols.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<int N>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename NColsBlockXpr<N>::Type middleCols(Index startCol, Index n = N)
 {
   return typename NColsBlockXpr<N>::Type(derived(), 0, startCol, rows(), n);
@@ -990,7 +990,7 @@ typename NColsBlockXpr<N>::Type middleCols(Index startCol, Index n = N)
 
 /// This is the const version of middleCols<int>().
 template<int N>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename ConstNColsBlockXpr<N>::Type middleCols(Index startCol, Index n = N) const
 {
   return typename ConstNColsBlockXpr<N>::Type(derived(), 0, startCol, rows(), n);
@@ -1018,12 +1018,12 @@ typename ConstNColsBlockXpr<N>::Type middleCols(Index startCol, Index n = N) con
 /// \note since block is a templated member, the keyword template has to be used
 /// if the matrix type is also a template parameter: \code m.template block<3,3>(1,1); \endcode
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<int NRows, int NCols>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename FixedBlockXpr<NRows,NCols>::Type block(Index startRow, Index startCol)
 {
   return typename FixedBlockXpr<NRows,NCols>::Type(derived(), startRow, startCol);
@@ -1031,7 +1031,7 @@ typename FixedBlockXpr<NRows,NCols>::Type block(Index startRow, Index startCol)
 
 /// This is the const version of block<>(Index, Index). */
 template<int NRows, int NCols>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 const typename ConstFixedBlockXpr<NRows,NCols>::Type block(Index startRow, Index startCol) const
 {
   return typename ConstFixedBlockXpr<NRows,NCols>::Type(derived(), startRow, startCol);
@@ -1064,12 +1064,12 @@ const typename ConstFixedBlockXpr<NRows,NCols>::Type block(Index startRow, Index
 /// mat.template block<Dynamic,NCols>(i,j,rows,NCols)  <-->  mat.block(i,j,rows,fix<NCols>)
 /// \endcode
 ///
-EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 ///
 /// \sa block(Index,Index,NRowsType,NColsType), class Block
 ///
 template<int NRows, int NCols>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename FixedBlockXpr<NRows,NCols>::Type block(Index startRow, Index startCol,
                                                   Index blockRows, Index blockCols)
 {
@@ -1078,7 +1078,7 @@ typename FixedBlockXpr<NRows,NCols>::Type block(Index startRow, Index startCol,
 
 /// This is the const version of block<>(Index, Index, Index, Index).
 template<int NRows, int NCols>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 const typename ConstFixedBlockXpr<NRows,NCols>::Type block(Index startRow, Index startCol,
                                                               Index blockRows, Index blockCols) const
 {
@@ -1090,17 +1090,17 @@ const typename ConstFixedBlockXpr<NRows,NCols>::Type block(Index startRow, Index
 /// Example: \include MatrixBase_col.cpp
 /// Output: \verbinclude MatrixBase_col.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(column-major)
 /**
   * \sa row(), class Block */
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 ColXpr col(Index i)
 {
   return ColXpr(derived(), i);
 }
 
 /// This is the const version of col().
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 ConstColXpr col(Index i) const
 {
   return ConstColXpr(derived(), i);
@@ -1111,17 +1111,17 @@ ConstColXpr col(Index i) const
 /// Example: \include MatrixBase_row.cpp
 /// Output: \verbinclude MatrixBase_row.out
 ///
-EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
+HYDRA_EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(row-major)
 /**
   * \sa col(), class Block */
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 RowXpr row(Index i)
 {
   return RowXpr(derived(), i);
 }
 
 /// This is the const version of row(). */
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 ConstRowXpr row(Index i) const
 {
   return ConstRowXpr(derived(), i);
@@ -1138,8 +1138,8 @@ ConstRowXpr row(Index i) const
 /// Example: \include MatrixBase_segment_int_int.cpp
 /// Output: \verbinclude MatrixBase_segment_int_int.out
 ///
-/// The number of coefficients \a n can also be specified at compile-time by passing Eigen::fix<N>,
-/// or Eigen::fix<N>(n) as arguments.
+/// The number of coefficients \a n can also be specified at compile-time by passing hydra_Eigen::fix<N>,
+/// or hydra_Eigen::fix<N>(n) as arguments.
 /// See \link block(Index,Index,NRowsType,NColsType) block() \endlink for the details.
 ///
 /// \note Even in the case that the returned expression has dynamic size, in the case
@@ -1149,15 +1149,15 @@ ConstRowXpr row(Index i) const
 /// \sa block(Index,Index,NRowsType,NColsType), fix<N>, fix<N>(int), class Block
 ///
 template<typename NType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 typename FixedSegmentReturnType<internal::get_fixed_value<NType>::value>::Type
 #else
 typename FixedSegmentReturnType<...>::Type
 #endif
 segment(Index start, NType n)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return typename FixedSegmentReturnType<internal::get_fixed_value<NType>::value>::Type
             (derived(), start, internal::get_runtime_value(n));
 }
@@ -1165,15 +1165,15 @@ segment(Index start, NType n)
 
 /// This is the const version of segment(Index,NType).
 template<typename NType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 const typename ConstFixedSegmentReturnType<internal::get_fixed_value<NType>::value>::Type
 #else
 const typename ConstFixedSegmentReturnType<...>::Type
 #endif
 segment(Index start, NType n) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return typename ConstFixedSegmentReturnType<internal::get_fixed_value<NType>::value>::Type
             (derived(), start, internal::get_runtime_value(n));
 }
@@ -1188,8 +1188,8 @@ segment(Index start, NType n) const
 /// Example: \include MatrixBase_start_int.cpp
 /// Output: \verbinclude MatrixBase_start_int.out
 ///
-/// The number of coefficients \a n can also be specified at compile-time by passing Eigen::fix<N>,
-/// or Eigen::fix<N>(n) as arguments.
+/// The number of coefficients \a n can also be specified at compile-time by passing hydra_Eigen::fix<N>,
+/// or hydra_Eigen::fix<N>(n) as arguments.
 /// See \link block(Index,Index,NRowsType,NColsType) block() \endlink for the details.
 ///
 /// \note Even in the case that the returned expression has dynamic size, in the case
@@ -1199,30 +1199,30 @@ segment(Index start, NType n) const
 /// \sa class Block, block(Index,Index)
 ///
 template<typename NType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 typename FixedSegmentReturnType<internal::get_fixed_value<NType>::value>::Type
 #else
 typename FixedSegmentReturnType<...>::Type
 #endif
 head(NType n)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return typename FixedSegmentReturnType<internal::get_fixed_value<NType>::value>::Type
               (derived(), 0, internal::get_runtime_value(n));
 }
 
 /// This is the const version of head(NType).
 template<typename NType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 const typename ConstFixedSegmentReturnType<internal::get_fixed_value<NType>::value>::Type
 #else
 const typename ConstFixedSegmentReturnType<...>::Type
 #endif
 head(NType n) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return typename ConstFixedSegmentReturnType<internal::get_fixed_value<NType>::value>::Type
             (derived(), 0, internal::get_runtime_value(n));
 }
@@ -1237,8 +1237,8 @@ head(NType n) const
 /// Example: \include MatrixBase_end_int.cpp
 /// Output: \verbinclude MatrixBase_end_int.out
 ///
-/// The number of coefficients \a n can also be specified at compile-time by passing Eigen::fix<N>,
-/// or Eigen::fix<N>(n) as arguments.
+/// The number of coefficients \a n can also be specified at compile-time by passing hydra_Eigen::fix<N>,
+/// or hydra_Eigen::fix<N>(n) as arguments.
 /// See \link block(Index,Index,NRowsType,NColsType) block() \endlink for the details.
 ///
 /// \note Even in the case that the returned expression has dynamic size, in the case
@@ -1248,30 +1248,30 @@ head(NType n) const
 /// \sa class Block, block(Index,Index)
 ///
 template<typename NType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 typename FixedSegmentReturnType<internal::get_fixed_value<NType>::value>::Type
 #else
 typename FixedSegmentReturnType<...>::Type
 #endif
 tail(NType n)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return typename FixedSegmentReturnType<internal::get_fixed_value<NType>::value>::Type
             (derived(), this->size() - internal::get_runtime_value(n), internal::get_runtime_value(n));
 }
 
 /// This is the const version of tail(Index).
 template<typename NType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 const typename ConstFixedSegmentReturnType<internal::get_fixed_value<NType>::value>::Type
 #else
 const typename ConstFixedSegmentReturnType<...>::Type
 #endif
 tail(NType n) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return typename ConstFixedSegmentReturnType<internal::get_fixed_value<NType>::value>::Type
             (derived(), this->size() - internal::get_runtime_value(n), internal::get_runtime_value(n));
 }
@@ -1293,19 +1293,19 @@ tail(NType n) const
 /// \sa segment(Index,NType), class Block
 ///
 template<int N>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename FixedSegmentReturnType<N>::Type segment(Index start, Index n = N)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return typename FixedSegmentReturnType<N>::Type(derived(), start, n);
 }
 
 /// This is the const version of segment<int>(Index).
 template<int N>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename ConstFixedSegmentReturnType<N>::Type segment(Index start, Index n = N) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return typename ConstFixedSegmentReturnType<N>::Type(derived(), start, n);
 }
 
@@ -1325,19 +1325,19 @@ typename ConstFixedSegmentReturnType<N>::Type segment(Index start, Index n = N) 
 /// \sa head(NType), class Block
 ///
 template<int N>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename FixedSegmentReturnType<N>::Type head(Index n = N)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return typename FixedSegmentReturnType<N>::Type(derived(), 0, n);
 }
 
 /// This is the const version of head<int>().
 template<int N>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename ConstFixedSegmentReturnType<N>::Type head(Index n = N) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return typename ConstFixedSegmentReturnType<N>::Type(derived(), 0, n);
 }
 
@@ -1357,40 +1357,40 @@ typename ConstFixedSegmentReturnType<N>::Type head(Index n = N) const
 /// \sa tail(NType), class Block
 ///
 template<int N>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename FixedSegmentReturnType<N>::Type tail(Index n = N)
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return typename FixedSegmentReturnType<N>::Type(derived(), size() - n);
 }
 
 /// This is the const version of tail<int>.
 template<int N>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename ConstFixedSegmentReturnType<N>::Type tail(Index n = N) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return typename ConstFixedSegmentReturnType<N>::Type(derived(), size() - n);
 }
 
 /// \returns the \a outer -th column (resp. row) of the matrix \c *this if \c *this
 /// is col-major (resp. row-major).
 ///
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 InnerVectorReturnType innerVector(Index outer)
 { return InnerVectorReturnType(derived(), outer); }
 
 /// \returns the \a outer -th column (resp. row) of the matrix \c *this if \c *this
 /// is col-major (resp. row-major). Read-only.
 ///
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 const ConstInnerVectorReturnType innerVector(Index outer) const
 { return ConstInnerVectorReturnType(derived(), outer); }
 
 /// \returns the \a outer -th column (resp. row) of the matrix \c *this if \c *this
 /// is col-major (resp. row-major).
 ///
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 InnerVectorsReturnType
 innerVectors(Index outerStart, Index outerSize)
 {
@@ -1403,7 +1403,7 @@ innerVectors(Index outerStart, Index outerSize)
 /// \returns the \a outer -th column (resp. row) of the matrix \c *this if \c *this
 /// is col-major (resp. row-major). Read-only.
 ///
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 const ConstInnerVectorsReturnType
 innerVectors(Index outerStart, Index outerSize) const
 {
@@ -1417,7 +1417,7 @@ innerVectors(Index outerStart, Index outerSize) const
   * \sa subVectors()
   */
 template<DirectionType Direction>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename internal::conditional<Direction==Vertical,ColXpr,RowXpr>::type
 subVector(Index i)
 {
@@ -1426,7 +1426,7 @@ subVector(Index i)
 
 /** This is the const version of subVector(Index) */
 template<DirectionType Direction>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename internal::conditional<Direction==Vertical,ConstColXpr,ConstRowXpr>::type
 subVector(Index i) const
 {
@@ -1437,6 +1437,6 @@ subVector(Index i) const
   * \sa subVector(Index)
   */
 template<DirectionType Direction>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE EIGEN_CONSTEXPR
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_CONSTEXPR
 Index subVectors() const
 { return (Direction==Vertical)?cols():rows(); }

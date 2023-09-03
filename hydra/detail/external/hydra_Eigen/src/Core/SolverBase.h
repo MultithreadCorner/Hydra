@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SOLVERBASE_H
-#define EIGEN_SOLVERBASE_H
+#ifndef HYDRA_EIGEN_SOLVERBASE_H
+#define HYDRA_EIGEN_SOLVERBASE_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -33,9 +33,9 @@ struct solve_assertion<Transpose<Derived> >
 };
 
 template<typename Scalar, typename Derived>
-struct solve_assertion<CwiseUnaryOp<Eigen::internal::scalar_conjugate_op<Scalar>, const Transpose<Derived> > >
+struct solve_assertion<CwiseUnaryOp<hydra_Eigen::internal::scalar_conjugate_op<Scalar>, const Transpose<Derived> > >
 {
-    typedef CwiseUnaryOp<Eigen::internal::scalar_conjugate_op<Scalar>, const Transpose<Derived> > type;
+    typedef CwiseUnaryOp<hydra_Eigen::internal::scalar_conjugate_op<Scalar>, const Transpose<Derived> > type;
 
     template<bool Transpose_, typename Rhs>
     static void run(const type& adjoint, const Rhs& b)
@@ -146,7 +146,7 @@ class SolverBase : public EigenBase<Derived>
 
     template<bool Transpose_, typename Rhs>
     void _check_solve_assertion(const Rhs& b) const {
-        EIGEN_ONLY_USED_FOR_DEBUG(b);
+        HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(b);
         eigen_assert(derived().m_isInitialized && "Solver is not initialized.");
         eigen_assert((Transpose_?derived().cols():derived().rows())==b.rows() && "SolverBase::solve(): invalid number of rows of the right hand side matrix b");
     }
@@ -163,6 +163,6 @@ struct generic_xpr_base<Derived, MatrixXpr, SolverStorage>
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SOLVERBASE_H
+#endif // HYDRA_EIGEN_SOLVERBASE_H

@@ -8,22 +8,22 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_MATRIX_PRODUCT_ALTIVEC_H
-#define EIGEN_MATRIX_PRODUCT_ALTIVEC_H
+#ifndef HYDRA_EIGEN_MATRIX_PRODUCT_ALTIVEC_H
+#define HYDRA_EIGEN_MATRIX_PRODUCT_ALTIVEC_H
 
-#ifndef EIGEN_ALTIVEC_USE_CUSTOM_PACK
-#define EIGEN_ALTIVEC_USE_CUSTOM_PACK    1
+#ifndef HYDRA_EIGEN_ALTIVEC_USE_CUSTOM_PACK
+#define HYDRA_EIGEN_ALTIVEC_USE_CUSTOM_PACK    1
 #endif
 
 #include "MatrixProductCommon.h"
 
 // Since LLVM doesn't support dynamic dispatching, force either always MMA or VSX
-#if EIGEN_COMP_LLVM
-#if !defined(EIGEN_ALTIVEC_DISABLE_MMA) && !defined(EIGEN_ALTIVEC_MMA_ONLY)
+#if HYDRA_EIGEN_COMP_LLVM
+#if !defined(HYDRA_EIGEN_ALTIVEC_DISABLE_MMA) && !defined(HYDRA_EIGEN_ALTIVEC_MMA_ONLY)
 #ifdef __MMA__
-#define EIGEN_ALTIVEC_MMA_ONLY
+#define HYDRA_EIGEN_ALTIVEC_MMA_ONLY
 #else
-#define EIGEN_ALTIVEC_DISABLE_MMA
+#define HYDRA_EIGEN_ALTIVEC_DISABLE_MMA
 #endif
 #endif
 #endif
@@ -34,7 +34,7 @@
 #endif
 #endif
 
-#if defined(ALTIVEC_MMA_SUPPORT) && !defined(EIGEN_ALTIVEC_DISABLE_MMA)
+#if defined(ALTIVEC_MMA_SUPPORT) && !defined(HYDRA_EIGEN_ALTIVEC_DISABLE_MMA)
   #include "MatrixProductMMA.h"
 #endif
 
@@ -43,7 +43,7 @@
  * - Check StorageOrder on dhs_pack (the innermost second loop seems unvectorized when it could). *
  * - Check the possibility of transposing as GETREAL and GETIMAG when needed.                     *
  **************************************************************************************************/
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -117,7 +117,7 @@ const static Packet16uc p16uc_GETIMAG64 = {  8,  9, 10, 11, 12, 13, 14, 15,
  * float32/64 and complex float32/64 version.
  **/
 template<typename Scalar, typename Index, int StorageOrder>
-EIGEN_ALWAYS_INLINE std::complex<Scalar> getAdjointVal(Index i, Index j, const_blas_data_mapper<std::complex<Scalar>, Index, StorageOrder>& dt)
+HYDRA_EIGEN_ALWAYS_INLINE std::complex<Scalar> getAdjointVal(Index i, Index j, const_blas_data_mapper<std::complex<Scalar>, Index, StorageOrder>& dt)
 {
   std::complex<Scalar> v;
   if(i < j)
@@ -136,7 +136,7 @@ EIGEN_ALWAYS_INLINE std::complex<Scalar> getAdjointVal(Index i, Index j, const_b
 }
 
 template<typename Scalar, typename Index, int StorageOrder, int N>
-EIGEN_STRONG_INLINE void symm_pack_complex_rhs_helper(std::complex<Scalar>* blockB, const std::complex<Scalar>* _rhs, Index rhsStride, Index rows, Index cols, Index k2)
+HYDRA_EIGEN_STRONG_INLINE void symm_pack_complex_rhs_helper(std::complex<Scalar>* blockB, const std::complex<Scalar>* _rhs, Index rhsStride, Index rows, Index cols, Index k2)
 {
   const Index depth = k2 + rows;
   const_blas_data_mapper<std::complex<Scalar>, Index, StorageOrder> rhs(_rhs, rhsStride);
@@ -186,7 +186,7 @@ EIGEN_STRONG_INLINE void symm_pack_complex_rhs_helper(std::complex<Scalar>* bloc
 }
 
 template<typename Scalar, typename Index, int StorageOrder>
-EIGEN_STRONG_INLINE void symm_pack_complex_lhs_helper(std::complex<Scalar>* blockA, const std::complex<Scalar>* _lhs, Index lhsStride, Index cols, Index rows)
+HYDRA_EIGEN_STRONG_INLINE void symm_pack_complex_lhs_helper(std::complex<Scalar>* blockA, const std::complex<Scalar>* _lhs, Index lhsStride, Index cols, Index rows)
 {
   const Index depth = cols;
   const_blas_data_mapper<std::complex<Scalar>, Index, StorageOrder> lhs(_lhs, lhsStride);
@@ -237,7 +237,7 @@ EIGEN_STRONG_INLINE void symm_pack_complex_lhs_helper(std::complex<Scalar>* bloc
 }
 
 template<typename Scalar, typename Index, int StorageOrder, int N>
-EIGEN_STRONG_INLINE void symm_pack_rhs_helper(Scalar* blockB, const Scalar* _rhs, Index rhsStride, Index rows, Index cols, Index k2)
+HYDRA_EIGEN_STRONG_INLINE void symm_pack_rhs_helper(Scalar* blockB, const Scalar* _rhs, Index rhsStride, Index rows, Index cols, Index k2)
 {
   const Index depth = k2 + rows;
   const_blas_data_mapper<Scalar, Index, StorageOrder> rhs(_rhs, rhsStride);
@@ -278,7 +278,7 @@ EIGEN_STRONG_INLINE void symm_pack_rhs_helper(Scalar* blockB, const Scalar* _rhs
 }
 
 template<typename Scalar, typename Index, int StorageOrder>
-EIGEN_STRONG_INLINE void symm_pack_lhs_helper(Scalar* blockA, const Scalar* _lhs, Index lhsStride, Index cols, Index rows)
+HYDRA_EIGEN_STRONG_INLINE void symm_pack_lhs_helper(Scalar* blockA, const Scalar* _lhs, Index lhsStride, Index cols, Index rows)
 {
   const Index depth = cols;
   const_blas_data_mapper<Scalar, Index, StorageOrder> lhs(_lhs, lhsStride);
@@ -407,7 +407,7 @@ struct symm_pack_lhs<double, Index, Pack1, Pack2_dummy, StorageOrder>
  **/
 
 template<typename Scalar, typename Packet, typename Index>
-EIGEN_ALWAYS_INLINE void storeBlock(Scalar* to, PacketBlock<Packet,4>& block)
+HYDRA_EIGEN_ALWAYS_INLINE void storeBlock(Scalar* to, PacketBlock<Packet,4>& block)
 {
   const Index size = 16 / sizeof(Scalar);
   pstore<Scalar>(to + (0 * size), block.packet[0]);
@@ -417,7 +417,7 @@ EIGEN_ALWAYS_INLINE void storeBlock(Scalar* to, PacketBlock<Packet,4>& block)
 }
 
 template<typename Scalar, typename Packet, typename Index>
-EIGEN_ALWAYS_INLINE void storeBlock(Scalar* to, PacketBlock<Packet,2>& block)
+HYDRA_EIGEN_ALWAYS_INLINE void storeBlock(Scalar* to, PacketBlock<Packet,2>& block)
 {
   const Index size = 16 / sizeof(Scalar);
   pstore<Scalar>(to + (0 * size), block.packet[0]);
@@ -427,7 +427,7 @@ EIGEN_ALWAYS_INLINE void storeBlock(Scalar* to, PacketBlock<Packet,2>& block)
 // General template for lhs & rhs complex packing.
 template<typename Scalar, typename Index, typename DataMapper, typename Packet, typename PacketC, int StorageOrder, bool Conjugate, bool PanelMode, bool UseLhs>
 struct dhs_cpack {
-  EIGEN_STRONG_INLINE void operator()(std::complex<Scalar>* blockA, const DataMapper& lhs, Index depth, Index rows, Index stride, Index offset)
+  HYDRA_EIGEN_STRONG_INLINE void operator()(std::complex<Scalar>* blockA, const DataMapper& lhs, Index depth, Index rows, Index stride, Index offset)
   {
     const Index vectorSize = quad_traits<Scalar>::vectorsize;
     const Index vectorDelta = vectorSize * ((PanelMode) ? stride : depth);
@@ -570,7 +570,7 @@ struct dhs_cpack {
 // General template for lhs & rhs packing.
 template<typename Scalar, typename Index, typename DataMapper, typename Packet, int StorageOrder, bool PanelMode, bool UseLhs>
 struct dhs_pack{
-  EIGEN_STRONG_INLINE void operator()(Scalar* blockA, const DataMapper& lhs, Index depth, Index rows, Index stride, Index offset)
+  HYDRA_EIGEN_STRONG_INLINE void operator()(Scalar* blockA, const DataMapper& lhs, Index depth, Index rows, Index stride, Index offset)
   {
     const Index vectorSize = quad_traits<Scalar>::vectorsize;
     Index ri = 0, j = 0;
@@ -655,7 +655,7 @@ struct dhs_pack{
 template<typename Index, typename DataMapper, int StorageOrder, bool PanelMode>
 struct dhs_pack<double, Index, DataMapper, Packet2d, StorageOrder, PanelMode, true>
 {
-  EIGEN_STRONG_INLINE void operator()(double* blockA, const DataMapper& lhs, Index depth, Index rows, Index stride, Index offset)
+  HYDRA_EIGEN_STRONG_INLINE void operator()(double* blockA, const DataMapper& lhs, Index depth, Index rows, Index stride, Index offset)
   {
     const Index vectorSize = quad_traits<double>::vectorsize;
     Index ri = 0, j = 0;
@@ -722,7 +722,7 @@ struct dhs_pack<double, Index, DataMapper, Packet2d, StorageOrder, PanelMode, tr
 template<typename Index, typename DataMapper, int StorageOrder, bool PanelMode>
 struct dhs_pack<double, Index, DataMapper, Packet2d, StorageOrder, PanelMode, false>
 {
-  EIGEN_STRONG_INLINE void operator()(double* blockB, const DataMapper& rhs, Index depth, Index cols, Index stride, Index offset)
+  HYDRA_EIGEN_STRONG_INLINE void operator()(double* blockB, const DataMapper& rhs, Index depth, Index cols, Index stride, Index offset)
   {
     const Index vectorSize = quad_traits<double>::vectorsize;
     Index ri = 0, j = 0;
@@ -809,7 +809,7 @@ struct dhs_pack<double, Index, DataMapper, Packet2d, StorageOrder, PanelMode, fa
 template<typename Index, typename DataMapper, typename Packet, typename PacketC, int StorageOrder, bool Conjugate, bool PanelMode>
 struct dhs_cpack<double, Index, DataMapper, Packet, PacketC, StorageOrder, Conjugate, PanelMode, true>
 {
-  EIGEN_STRONG_INLINE void operator()(std::complex<double>* blockA, const DataMapper& lhs, Index depth, Index rows, Index stride, Index offset)
+  HYDRA_EIGEN_STRONG_INLINE void operator()(std::complex<double>* blockA, const DataMapper& lhs, Index depth, Index rows, Index stride, Index offset)
   {
     const Index vectorSize = quad_traits<double>::vectorsize;
     const Index vectorDelta = vectorSize * ((PanelMode) ? stride : depth);
@@ -922,7 +922,7 @@ struct dhs_cpack<double, Index, DataMapper, Packet, PacketC, StorageOrder, Conju
 template<typename Index, typename DataMapper, typename Packet, typename PacketC, int StorageOrder, bool Conjugate, bool PanelMode>
 struct dhs_cpack<double, Index, DataMapper, Packet, PacketC, StorageOrder, Conjugate, PanelMode, false>
 {
-  EIGEN_STRONG_INLINE void operator()(std::complex<double>* blockB, const DataMapper& rhs, Index depth, Index cols, Index stride, Index offset)
+  HYDRA_EIGEN_STRONG_INLINE void operator()(std::complex<double>* blockB, const DataMapper& rhs, Index depth, Index cols, Index stride, Index offset)
   {
     const Index vectorSize = quad_traits<double>::vectorsize;
     const Index vectorDelta = 2*vectorSize * ((PanelMode) ? stride : depth);
@@ -996,7 +996,7 @@ struct dhs_cpack<double, Index, DataMapper, Packet, PacketC, StorageOrder, Conju
 
 // 512-bits rank1-update of acc. It can either positive or negative accumulate (useful for complex gemm).
 template<typename Packet, bool NegativeAccumulate>
-EIGEN_ALWAYS_INLINE void pger_common(PacketBlock<Packet,4>* acc, const Packet& lhsV, const Packet* rhsV)
+HYDRA_EIGEN_ALWAYS_INLINE void pger_common(PacketBlock<Packet,4>* acc, const Packet& lhsV, const Packet* rhsV)
 {
   if(NegativeAccumulate)
   {
@@ -1013,7 +1013,7 @@ EIGEN_ALWAYS_INLINE void pger_common(PacketBlock<Packet,4>* acc, const Packet& l
 }
 
 template<typename Packet, bool NegativeAccumulate>
-EIGEN_ALWAYS_INLINE void pger_common(PacketBlock<Packet,1>* acc, const Packet& lhsV, const Packet* rhsV)
+HYDRA_EIGEN_ALWAYS_INLINE void pger_common(PacketBlock<Packet,1>* acc, const Packet& lhsV, const Packet* rhsV)
 {
   if(NegativeAccumulate)
   {
@@ -1024,7 +1024,7 @@ EIGEN_ALWAYS_INLINE void pger_common(PacketBlock<Packet,1>* acc, const Packet& l
 }
 
 template<int N, typename Scalar, typename Packet, bool NegativeAccumulate>
-EIGEN_ALWAYS_INLINE void pger(PacketBlock<Packet,N>* acc, const Scalar* lhs, const Packet* rhsV)
+HYDRA_EIGEN_ALWAYS_INLINE void pger(PacketBlock<Packet,N>* acc, const Scalar* lhs, const Packet* rhsV)
 {
   Packet lhsV = pload<Packet>(lhs);
 
@@ -1032,7 +1032,7 @@ EIGEN_ALWAYS_INLINE void pger(PacketBlock<Packet,N>* acc, const Scalar* lhs, con
 }
 
 template<typename Scalar, typename Packet, typename Index>
-EIGEN_ALWAYS_INLINE void loadPacketRemaining(const Scalar* lhs, Packet &lhsV, Index remaining_rows)
+HYDRA_EIGEN_ALWAYS_INLINE void loadPacketRemaining(const Scalar* lhs, Packet &lhsV, Index remaining_rows)
 {
 #ifdef _ARCH_PWR9
   lhsV = vec_xl_len((Scalar *)lhs, remaining_rows * sizeof(Scalar));
@@ -1045,7 +1045,7 @@ EIGEN_ALWAYS_INLINE void loadPacketRemaining(const Scalar* lhs, Packet &lhsV, In
 }
 
 template<int N, typename Scalar, typename Packet, typename Index, bool NegativeAccumulate>
-EIGEN_ALWAYS_INLINE void pger(PacketBlock<Packet,N>* acc, const Scalar* lhs, const Packet* rhsV, Index remaining_rows)
+HYDRA_EIGEN_ALWAYS_INLINE void pger(PacketBlock<Packet,N>* acc, const Scalar* lhs, const Packet* rhsV, Index remaining_rows)
 {
   Packet lhsV;
   loadPacketRemaining<Scalar, Packet, Index>(lhs, lhsV, remaining_rows);
@@ -1055,54 +1055,54 @@ EIGEN_ALWAYS_INLINE void pger(PacketBlock<Packet,N>* acc, const Scalar* lhs, con
 
 // 512-bits rank1-update of complex acc. It takes decoupled accumulators as entries. It also takes cares of mixed types real * complex and complex * real.
 template<int N, typename Packet, bool ConjugateLhs, bool ConjugateRhs, bool LhsIsReal, bool RhsIsReal>
-EIGEN_ALWAYS_INLINE void pgerc_common(PacketBlock<Packet,N>* accReal, PacketBlock<Packet,N>* accImag, const Packet &lhsV, const Packet &lhsVi, const Packet* rhsV, const Packet* rhsVi)
+HYDRA_EIGEN_ALWAYS_INLINE void pgerc_common(PacketBlock<Packet,N>* accReal, PacketBlock<Packet,N>* accImag, const Packet &lhsV, const Packet &lhsVi, const Packet* rhsV, const Packet* rhsVi)
 {
   pger_common<Packet, false>(accReal, lhsV, rhsV);
   if(LhsIsReal)
   {
     pger_common<Packet, ConjugateRhs>(accImag, lhsV, rhsVi);
-    EIGEN_UNUSED_VARIABLE(lhsVi);
+    HYDRA_EIGEN_UNUSED_VARIABLE(lhsVi);
   } else {
     if (!RhsIsReal) {
       pger_common<Packet, ConjugateLhs == ConjugateRhs>(accReal, lhsVi, rhsVi);
       pger_common<Packet, ConjugateRhs>(accImag, lhsV, rhsVi);
     } else {
-      EIGEN_UNUSED_VARIABLE(rhsVi);
+      HYDRA_EIGEN_UNUSED_VARIABLE(rhsVi);
     }
     pger_common<Packet, ConjugateLhs>(accImag, lhsVi, rhsV);
   }
 }
 
 template<int N, typename Scalar, typename Packet, bool ConjugateLhs, bool ConjugateRhs, bool LhsIsReal, bool RhsIsReal>
-EIGEN_ALWAYS_INLINE void pgerc(PacketBlock<Packet,N>* accReal, PacketBlock<Packet,N>* accImag, const Scalar* lhs_ptr, const Scalar* lhs_ptr_imag, const Packet* rhsV, const Packet* rhsVi)
+HYDRA_EIGEN_ALWAYS_INLINE void pgerc(PacketBlock<Packet,N>* accReal, PacketBlock<Packet,N>* accImag, const Scalar* lhs_ptr, const Scalar* lhs_ptr_imag, const Packet* rhsV, const Packet* rhsVi)
 {
   Packet lhsV = ploadLhs<Scalar, Packet>(lhs_ptr);
   Packet lhsVi;
   if(!LhsIsReal) lhsVi = ploadLhs<Scalar, Packet>(lhs_ptr_imag);
-  else EIGEN_UNUSED_VARIABLE(lhs_ptr_imag);
+  else HYDRA_EIGEN_UNUSED_VARIABLE(lhs_ptr_imag);
 
   pgerc_common<N, Packet, ConjugateLhs, ConjugateRhs, LhsIsReal, RhsIsReal>(accReal, accImag, lhsV, lhsVi, rhsV, rhsVi);
 }
 
 template<typename Scalar, typename Packet, typename Index, bool LhsIsReal>
-EIGEN_ALWAYS_INLINE void loadPacketRemaining(const Scalar* lhs_ptr, const Scalar* lhs_ptr_imag, Packet &lhsV, Packet &lhsVi, Index remaining_rows)
+HYDRA_EIGEN_ALWAYS_INLINE void loadPacketRemaining(const Scalar* lhs_ptr, const Scalar* lhs_ptr_imag, Packet &lhsV, Packet &lhsVi, Index remaining_rows)
 {
 #ifdef _ARCH_PWR9
   lhsV = vec_xl_len((Scalar *)lhs_ptr, remaining_rows * sizeof(Scalar));
   if(!LhsIsReal) lhsVi = vec_xl_len((Scalar *)lhs_ptr_imag, remaining_rows * sizeof(Scalar));
-  else EIGEN_UNUSED_VARIABLE(lhs_ptr_imag);
+  else HYDRA_EIGEN_UNUSED_VARIABLE(lhs_ptr_imag);
 #else
   Index i = 0;
   do {
     lhsV[i] = lhs_ptr[i];
     if(!LhsIsReal) lhsVi[i] = lhs_ptr_imag[i];
   } while (++i < remaining_rows);
-  if(LhsIsReal) EIGEN_UNUSED_VARIABLE(lhs_ptr_imag);
+  if(LhsIsReal) HYDRA_EIGEN_UNUSED_VARIABLE(lhs_ptr_imag);
 #endif
 }
 
 template<int N, typename Scalar, typename Packet, typename Index, bool ConjugateLhs, bool ConjugateRhs, bool LhsIsReal, bool RhsIsReal>
-EIGEN_ALWAYS_INLINE void pgerc(PacketBlock<Packet,N>* accReal, PacketBlock<Packet,N>* accImag, const Scalar* lhs_ptr, const Scalar* lhs_ptr_imag, const Packet* rhsV, const Packet* rhsVi, Index remaining_rows)
+HYDRA_EIGEN_ALWAYS_INLINE void pgerc(PacketBlock<Packet,N>* accReal, PacketBlock<Packet,N>* accImag, const Scalar* lhs_ptr, const Scalar* lhs_ptr_imag, const Packet* rhsV, const Packet* rhsVi, Index remaining_rows)
 {
   Packet lhsV, lhsVi;
   loadPacketRemaining<Scalar, Packet, Index, LhsIsReal>(lhs_ptr, lhs_ptr_imag, lhsV, lhsVi, remaining_rows);
@@ -1111,14 +1111,14 @@ EIGEN_ALWAYS_INLINE void pgerc(PacketBlock<Packet,N>* accReal, PacketBlock<Packe
 }
 
 template<typename Scalar, typename Packet>
-EIGEN_ALWAYS_INLINE Packet ploadLhs(const Scalar* lhs)
+HYDRA_EIGEN_ALWAYS_INLINE Packet ploadLhs(const Scalar* lhs)
 {
   return ploadu<Packet>(lhs);
 }
 
 // Zero the accumulator on PacketBlock.
 template<typename Scalar, typename Packet>
-EIGEN_ALWAYS_INLINE void bsetzero(PacketBlock<Packet,4>& acc)
+HYDRA_EIGEN_ALWAYS_INLINE void bsetzero(PacketBlock<Packet,4>& acc)
 {
   acc.packet[0] = pset1<Packet>((Scalar)0);
   acc.packet[1] = pset1<Packet>((Scalar)0);
@@ -1127,14 +1127,14 @@ EIGEN_ALWAYS_INLINE void bsetzero(PacketBlock<Packet,4>& acc)
 }
 
 template<typename Scalar, typename Packet>
-EIGEN_ALWAYS_INLINE void bsetzero(PacketBlock<Packet,1>& acc)
+HYDRA_EIGEN_ALWAYS_INLINE void bsetzero(PacketBlock<Packet,1>& acc)
 {
   acc.packet[0] = pset1<Packet>((Scalar)0);
 }
 
 // Scale the PacketBlock vectors by alpha.
 template<typename Packet>
-EIGEN_ALWAYS_INLINE void bscale(PacketBlock<Packet,4>& acc, PacketBlock<Packet,4>& accZ, const Packet& pAlpha)
+HYDRA_EIGEN_ALWAYS_INLINE void bscale(PacketBlock<Packet,4>& acc, PacketBlock<Packet,4>& accZ, const Packet& pAlpha)
 {
   acc.packet[0] = pmadd(pAlpha, accZ.packet[0], acc.packet[0]);
   acc.packet[1] = pmadd(pAlpha, accZ.packet[1], acc.packet[1]);
@@ -1143,13 +1143,13 @@ EIGEN_ALWAYS_INLINE void bscale(PacketBlock<Packet,4>& acc, PacketBlock<Packet,4
 }
 
 template<typename Packet>
-EIGEN_ALWAYS_INLINE void bscale(PacketBlock<Packet,1>& acc, PacketBlock<Packet,1>& accZ, const Packet& pAlpha)
+HYDRA_EIGEN_ALWAYS_INLINE void bscale(PacketBlock<Packet,1>& acc, PacketBlock<Packet,1>& accZ, const Packet& pAlpha)
 {
   acc.packet[0] = pmadd(pAlpha, accZ.packet[0], acc.packet[0]);
 }
 
 template<typename Packet>
-EIGEN_ALWAYS_INLINE void bscalec_common(PacketBlock<Packet,4>& acc, PacketBlock<Packet,4>& accZ, const Packet& pAlpha)
+HYDRA_EIGEN_ALWAYS_INLINE void bscalec_common(PacketBlock<Packet,4>& acc, PacketBlock<Packet,4>& accZ, const Packet& pAlpha)
 {
   acc.packet[0] = pmul<Packet>(accZ.packet[0], pAlpha);
   acc.packet[1] = pmul<Packet>(accZ.packet[1], pAlpha);
@@ -1158,14 +1158,14 @@ EIGEN_ALWAYS_INLINE void bscalec_common(PacketBlock<Packet,4>& acc, PacketBlock<
 }
 
 template<typename Packet>
-EIGEN_ALWAYS_INLINE void bscalec_common(PacketBlock<Packet,1>& acc, PacketBlock<Packet,1>& accZ, const Packet& pAlpha)
+HYDRA_EIGEN_ALWAYS_INLINE void bscalec_common(PacketBlock<Packet,1>& acc, PacketBlock<Packet,1>& accZ, const Packet& pAlpha)
 {
   acc.packet[0] = pmul<Packet>(accZ.packet[0], pAlpha);
 }
 
 // Complex version of PacketBlock scaling.
 template<typename Packet, int N>
-EIGEN_ALWAYS_INLINE void bscalec(PacketBlock<Packet,N>& aReal, PacketBlock<Packet,N>& aImag, const Packet& bReal, const Packet& bImag, PacketBlock<Packet,N>& cReal, PacketBlock<Packet,N>& cImag)
+HYDRA_EIGEN_ALWAYS_INLINE void bscalec(PacketBlock<Packet,N>& aReal, PacketBlock<Packet,N>& aImag, const Packet& bReal, const Packet& bImag, PacketBlock<Packet,N>& cReal, PacketBlock<Packet,N>& cImag)
 {
   bscalec_common<Packet>(cReal, aReal, bReal);
 
@@ -1177,7 +1177,7 @@ EIGEN_ALWAYS_INLINE void bscalec(PacketBlock<Packet,N>& aReal, PacketBlock<Packe
 }
 
 template<typename Packet>
-EIGEN_ALWAYS_INLINE void band(PacketBlock<Packet,4>& acc, const Packet& pMask)
+HYDRA_EIGEN_ALWAYS_INLINE void band(PacketBlock<Packet,4>& acc, const Packet& pMask)
 {
   acc.packet[0] = pand(acc.packet[0], pMask);
   acc.packet[1] = pand(acc.packet[1], pMask);
@@ -1186,7 +1186,7 @@ EIGEN_ALWAYS_INLINE void band(PacketBlock<Packet,4>& acc, const Packet& pMask)
 }
 
 template<typename Packet>
-EIGEN_ALWAYS_INLINE void bscalec(PacketBlock<Packet,4>& aReal, PacketBlock<Packet,4>& aImag, const Packet& bReal, const Packet& bImag, PacketBlock<Packet,4>& cReal, PacketBlock<Packet,4>& cImag, const Packet& pMask)
+HYDRA_EIGEN_ALWAYS_INLINE void bscalec(PacketBlock<Packet,4>& aReal, PacketBlock<Packet,4>& aImag, const Packet& bReal, const Packet& bImag, PacketBlock<Packet,4>& cReal, PacketBlock<Packet,4>& cImag, const Packet& pMask)
 {
   band<Packet>(aReal, pMask);
   band<Packet>(aImag, pMask);
@@ -1196,7 +1196,7 @@ EIGEN_ALWAYS_INLINE void bscalec(PacketBlock<Packet,4>& aReal, PacketBlock<Packe
 
 // Load a PacketBlock, the N parameters make tunning gemm easier so we can add more accumulators as needed.
 template<typename DataMapper, typename Packet, typename Index, const Index accCols, int N, int StorageOrder>
-EIGEN_ALWAYS_INLINE void bload(PacketBlock<Packet,4>& acc, const DataMapper& res, Index row, Index col)
+HYDRA_EIGEN_ALWAYS_INLINE void bload(PacketBlock<Packet,4>& acc, const DataMapper& res, Index row, Index col)
 {
   if (StorageOrder == RowMajor) {
     acc.packet[0] = res.template loadPacket<Packet>(row + 0, col + N*accCols);
@@ -1213,7 +1213,7 @@ EIGEN_ALWAYS_INLINE void bload(PacketBlock<Packet,4>& acc, const DataMapper& res
 
 // An overload of bload when you have a PacketBLock with 8 vectors.
 template<typename DataMapper, typename Packet, typename Index, const Index accCols, int N, int StorageOrder>
-EIGEN_ALWAYS_INLINE void bload(PacketBlock<Packet,8>& acc, const DataMapper& res, Index row, Index col)
+HYDRA_EIGEN_ALWAYS_INLINE void bload(PacketBlock<Packet,8>& acc, const DataMapper& res, Index row, Index col)
 {
   if (StorageOrder == RowMajor) {
     acc.packet[0] = res.template loadPacket<Packet>(row + 0, col + N*accCols);
@@ -1237,7 +1237,7 @@ EIGEN_ALWAYS_INLINE void bload(PacketBlock<Packet,8>& acc, const DataMapper& res
 }
 
 template<typename DataMapper, typename Packet, typename Index, const Index accCols, int N, int StorageOrder>
-EIGEN_ALWAYS_INLINE void bload(PacketBlock<Packet,2>& acc, const DataMapper& res, Index row, Index col)
+HYDRA_EIGEN_ALWAYS_INLINE void bload(PacketBlock<Packet,2>& acc, const DataMapper& res, Index row, Index col)
 {
   acc.packet[0] = res.template loadPacket<Packet>(row + N*accCols, col + 0);
   acc.packet[1] = res.template loadPacket<Packet>(row + (N+1)*accCols, col + 0);
@@ -1250,7 +1250,7 @@ const static Packet4i mask43 = { -1, -1, -1,  0 };
 const static Packet2l mask21 = { -1, 0 };
 
 template<typename Packet>
-EIGEN_ALWAYS_INLINE Packet bmask(const int remaining_rows)
+HYDRA_EIGEN_ALWAYS_INLINE Packet bmask(const int remaining_rows)
 {
   if (remaining_rows == 0) {
     return pset1<Packet>(float(0.0));  // Not used
@@ -1264,7 +1264,7 @@ EIGEN_ALWAYS_INLINE Packet bmask(const int remaining_rows)
 }
 
 template<>
-EIGEN_ALWAYS_INLINE Packet2d bmask<Packet2d>(const int remaining_rows)
+HYDRA_EIGEN_ALWAYS_INLINE Packet2d bmask<Packet2d>(const int remaining_rows)
 {
   if (remaining_rows == 0) {
     return pset1<Packet2d>(double(0.0));  // Not used
@@ -1274,7 +1274,7 @@ EIGEN_ALWAYS_INLINE Packet2d bmask<Packet2d>(const int remaining_rows)
 }
 
 template<typename Packet>
-EIGEN_ALWAYS_INLINE void bscale(PacketBlock<Packet,4>& acc, PacketBlock<Packet,4>& accZ, const Packet& pAlpha, const Packet& pMask)
+HYDRA_EIGEN_ALWAYS_INLINE void bscale(PacketBlock<Packet,4>& acc, PacketBlock<Packet,4>& accZ, const Packet& pAlpha, const Packet& pMask)
 {
   band<Packet>(accZ, pMask);
 
@@ -1282,13 +1282,13 @@ EIGEN_ALWAYS_INLINE void bscale(PacketBlock<Packet,4>& acc, PacketBlock<Packet,4
 }
 
 template<typename Packet>
-EIGEN_ALWAYS_INLINE void pbroadcast4_old(const __UNPACK_TYPE__(Packet)* a, Packet& a0, Packet& a1, Packet& a2, Packet& a3)
+HYDRA_EIGEN_ALWAYS_INLINE void pbroadcast4_old(const __UNPACK_TYPE__(Packet)* a, Packet& a0, Packet& a1, Packet& a2, Packet& a3)
 {
   pbroadcast4<Packet>(a, a0, a1, a2, a3);
 }
 
 template<>
-EIGEN_ALWAYS_INLINE void pbroadcast4_old<Packet2d>(const double* a, Packet2d& a0, Packet2d& a1, Packet2d& a2, Packet2d& a3)
+HYDRA_EIGEN_ALWAYS_INLINE void pbroadcast4_old<Packet2d>(const double* a, Packet2d& a0, Packet2d& a1, Packet2d& a2, Packet2d& a3)
 {
   a1 = pload<Packet2d>(a);
   a3 = pload<Packet2d>(a + 2);
@@ -1302,7 +1302,7 @@ EIGEN_ALWAYS_INLINE void pbroadcast4_old<Packet2d>(const double* a, Packet2d& a0
 #define PEEL 7
 
 template<typename Scalar, typename Packet, typename Index>
-EIGEN_ALWAYS_INLINE void MICRO_EXTRA_COL(
+HYDRA_EIGEN_ALWAYS_INLINE void MICRO_EXTRA_COL(
   const Scalar* &lhs_ptr,
   const Scalar* &rhs_ptr,
   PacketBlock<Packet,1> &accZero,
@@ -1317,7 +1317,7 @@ EIGEN_ALWAYS_INLINE void MICRO_EXTRA_COL(
 }
 
 template<typename Scalar, typename Packet, typename DataMapper, typename Index, const Index accRows>
-EIGEN_STRONG_INLINE void gemm_extra_col(
+HYDRA_EIGEN_STRONG_INLINE void gemm_extra_col(
   const DataMapper& res,
   const Scalar* lhs_base,
   const Scalar* rhs_base,
@@ -1340,8 +1340,8 @@ EIGEN_STRONG_INLINE void gemm_extra_col(
   Index k = 0;
   for(; k + PEEL <= remaining_depth; k+= PEEL)
   {
-    EIGEN_POWER_PREFETCH(rhs_ptr);
-    EIGEN_POWER_PREFETCH(lhs_ptr);
+    HYDRA_EIGEN_POWER_PREFETCH(rhs_ptr);
+    HYDRA_EIGEN_POWER_PREFETCH(lhs_ptr);
     for (int l = 0; l < PEEL; l++) {
       MICRO_EXTRA_COL<Scalar, Packet, Index>(lhs_ptr, rhs_ptr, accZero, remaining_rows, remaining_cols);
     }
@@ -1366,7 +1366,7 @@ EIGEN_STRONG_INLINE void gemm_extra_col(
 }
 
 template<typename Scalar, typename Packet, typename Index, const Index accRows>
-EIGEN_ALWAYS_INLINE void MICRO_EXTRA_ROW(
+HYDRA_EIGEN_ALWAYS_INLINE void MICRO_EXTRA_ROW(
   const Scalar* &lhs_ptr,
   const Scalar* &rhs_ptr,
   PacketBlock<Packet,4> &accZero,
@@ -1380,7 +1380,7 @@ EIGEN_ALWAYS_INLINE void MICRO_EXTRA_ROW(
 }
 
 template<typename Scalar, typename Packet, typename DataMapper, typename Index, const Index accRows, const Index accCols>
-EIGEN_STRONG_INLINE void gemm_extra_row(
+HYDRA_EIGEN_STRONG_INLINE void gemm_extra_row(
   const DataMapper& res,
   const Scalar* lhs_base,
   const Scalar* rhs_base,
@@ -1405,8 +1405,8 @@ EIGEN_STRONG_INLINE void gemm_extra_row(
   Index k = 0;
   for(; k + PEEL <= remaining_depth; k+= PEEL)
   {
-    EIGEN_POWER_PREFETCH(rhs_ptr);
-    EIGEN_POWER_PREFETCH(lhs_ptr);
+    HYDRA_EIGEN_POWER_PREFETCH(rhs_ptr);
+    HYDRA_EIGEN_POWER_PREFETCH(lhs_ptr);
     for (int l = 0; l < PEEL; l++) {
       MICRO_EXTRA_ROW<Scalar, Packet, Index, accRows>(lhs_ptr, rhs_ptr, accZero, remaining_rows);
     }
@@ -1457,7 +1457,7 @@ EIGEN_STRONG_INLINE void gemm_extra_row(
     lhsV##iter = ploadLhs<Scalar, Packet>(lhs_ptr##iter); \
     lhs_ptr##iter += accCols; \
   } else { \
-    EIGEN_UNUSED_VARIABLE(lhsV##iter); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(lhsV##iter); \
   }
 
 #define MICRO_WORK_ONE(iter, peel) \
@@ -1471,7 +1471,7 @@ EIGEN_STRONG_INLINE void gemm_extra_row(
     pbroadcast4<Packet>(rhs_ptr + (accRows * peel), rhsV##peel[0], rhsV##peel[1], rhsV##peel[2], rhsV##peel[3]); \
     MICRO_UNROLL_WORK(func, func2, peel) \
   } else { \
-    EIGEN_UNUSED_VARIABLE(rhsV##peel); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(rhsV##peel); \
   }
 
 #define MICRO_TYPE_PEEL1(func, func2, peel) \
@@ -1480,7 +1480,7 @@ EIGEN_STRONG_INLINE void gemm_extra_row(
     rhsV##peel[0] = pset1<Packet>(rhs_ptr[remaining_cols * peel]); \
     MICRO_UNROLL_WORK(func, func2, peel) \
   } else { \
-    EIGEN_UNUSED_VARIABLE(rhsV##peel); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(rhsV##peel); \
   }
 
 #define MICRO_UNROLL_TYPE_PEEL(M, func, func1, func2) \
@@ -1515,7 +1515,7 @@ EIGEN_STRONG_INLINE void gemm_extra_row(
   if (unroll_factor > iter) { \
     bsetzero<Scalar, Packet>(accZero##iter); \
   } else { \
-    EIGEN_UNUSED_VARIABLE(accZero##iter); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(accZero##iter); \
   }
 
 #define MICRO_DST_PTR MICRO_UNROLL(MICRO_DST_PTR_ONE)
@@ -1524,14 +1524,14 @@ EIGEN_STRONG_INLINE void gemm_extra_row(
   if (unroll_factor > iter) { \
     lhs_ptr##iter = lhs_base + ( (row/accCols) + iter )*strideA*accCols + accCols*offsetA; \
   } else { \
-    EIGEN_UNUSED_VARIABLE(lhs_ptr##iter); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(lhs_ptr##iter); \
   }
 
 #define MICRO_SRC_PTR MICRO_UNROLL(MICRO_SRC_PTR_ONE)
 
 #define MICRO_PREFETCH_ONE(iter) \
   if (unroll_factor > iter) { \
-    EIGEN_POWER_PREFETCH(lhs_ptr##iter); \
+    HYDRA_EIGEN_POWER_PREFETCH(lhs_ptr##iter); \
   }
 
 #define MICRO_PREFETCH MICRO_UNROLL(MICRO_PREFETCH_ONE)
@@ -1558,7 +1558,7 @@ EIGEN_STRONG_INLINE void gemm_extra_row(
 #define MICRO_COL_STORE MICRO_UNROLL(MICRO_COL_STORE_ONE)
 
 template<int unroll_factor, typename Scalar, typename Packet, typename DataMapper, typename Index, const Index accRows, const Index accCols>
-EIGEN_STRONG_INLINE void gemm_unrolled_iteration(
+HYDRA_EIGEN_STRONG_INLINE void gemm_unrolled_iteration(
   const DataMapper& res,
   const Scalar* lhs_base,
   const Scalar* rhs_base,
@@ -1580,7 +1580,7 @@ EIGEN_STRONG_INLINE void gemm_unrolled_iteration(
   Index k = 0;
   for(; k + PEEL <= depth; k+= PEEL)
   {
-    EIGEN_POWER_PREFETCH(rhs_ptr);
+    HYDRA_EIGEN_POWER_PREFETCH(rhs_ptr);
     MICRO_PREFETCH
     MICRO_ONE_PEEL4
   }
@@ -1594,7 +1594,7 @@ EIGEN_STRONG_INLINE void gemm_unrolled_iteration(
 }
 
 template<int unroll_factor, typename Scalar, typename Packet, typename DataMapper, typename Index, const Index accCols>
-EIGEN_STRONG_INLINE void gemm_unrolled_col_iteration(
+HYDRA_EIGEN_STRONG_INLINE void gemm_unrolled_col_iteration(
   const DataMapper& res,
   const Scalar* lhs_base,
   const Scalar* rhs_base,
@@ -1617,7 +1617,7 @@ EIGEN_STRONG_INLINE void gemm_unrolled_col_iteration(
   Index k = 0;
   for(; k + PEEL <= depth; k+= PEEL)
   {
-    EIGEN_POWER_PREFETCH(rhs_ptr);
+    HYDRA_EIGEN_POWER_PREFETCH(rhs_ptr);
     MICRO_PREFETCH
     MICRO_ONE_PEEL1
   }
@@ -1631,7 +1631,7 @@ EIGEN_STRONG_INLINE void gemm_unrolled_col_iteration(
 }
 
 template<typename Scalar, typename Packet, typename DataMapper, typename Index, const Index accCols>
-EIGEN_STRONG_INLINE void gemm_unrolled_col(
+HYDRA_EIGEN_STRONG_INLINE void gemm_unrolled_col(
   const DataMapper& res,
   const Scalar* lhs_base,
   const Scalar* rhs_base,
@@ -1694,7 +1694,7 @@ EIGEN_STRONG_INLINE void gemm_unrolled_col(
  * GEMM kernels *
  * **************/
 template<typename Scalar, typename Index, typename Packet, typename RhsPacket, typename DataMapper, const Index accRows, const Index accCols>
-EIGEN_STRONG_INLINE void gemm(const DataMapper& res, const Scalar* blockA, const Scalar* blockB, Index rows, Index depth, Index cols, Scalar alpha, Index strideA, Index strideB, Index offsetA, Index offsetB)
+HYDRA_EIGEN_STRONG_INLINE void gemm(const DataMapper& res, const Scalar* blockA, const Scalar* blockB, Index rows, Index depth, Index cols, Scalar alpha, Index strideA, Index strideB, Index offsetA, Index offsetB)
 {
       const Index remaining_rows = rows % accCols;
       const Index remaining_cols = cols % accRows;
@@ -1791,7 +1791,7 @@ EIGEN_STRONG_INLINE void gemm(const DataMapper& res, const Scalar* blockA, const
 #define PEEL_COMPLEX 3
 
 template<typename Scalar, typename Packet, typename Index, const Index accRows, bool ConjugateLhs, bool ConjugateRhs, bool LhsIsReal, bool RhsIsReal>
-EIGEN_ALWAYS_INLINE void MICRO_COMPLEX_EXTRA_COL(
+HYDRA_EIGEN_ALWAYS_INLINE void MICRO_COMPLEX_EXTRA_COL(
   const Scalar* &lhs_ptr_real, const Scalar* &lhs_ptr_imag,
   const Scalar* &rhs_ptr_real, const Scalar* &rhs_ptr_imag,
   PacketBlock<Packet,1> &accReal, PacketBlock<Packet,1> &accImag,
@@ -1804,14 +1804,14 @@ EIGEN_ALWAYS_INLINE void MICRO_COMPLEX_EXTRA_COL(
   pgerc<1, Scalar, Packet, ConjugateLhs, ConjugateRhs, LhsIsReal, RhsIsReal>(&accReal, &accImag, lhs_ptr_real, lhs_ptr_imag, rhsV, rhsVi);
   lhs_ptr_real += remaining_rows;
   if(!LhsIsReal) lhs_ptr_imag += remaining_rows;
-  else EIGEN_UNUSED_VARIABLE(lhs_ptr_imag);
+  else HYDRA_EIGEN_UNUSED_VARIABLE(lhs_ptr_imag);
   rhs_ptr_real += remaining_cols;
   if(!RhsIsReal) rhs_ptr_imag += remaining_cols;
-  else EIGEN_UNUSED_VARIABLE(rhs_ptr_imag);
+  else HYDRA_EIGEN_UNUSED_VARIABLE(rhs_ptr_imag);
 }
 
 template<typename Scalar, typename Packet, typename Packetc, typename DataMapper, typename Index, const Index accRows, const Index accCols, bool ConjugateLhs, bool ConjugateRhs, bool LhsIsReal, bool RhsIsReal>
-EIGEN_STRONG_INLINE void gemm_complex_extra_col(
+HYDRA_EIGEN_STRONG_INLINE void gemm_complex_extra_col(
   const DataMapper& res,
   const Scalar* lhs_base,
   const Scalar* rhs_base,
@@ -1829,11 +1829,11 @@ EIGEN_STRONG_INLINE void gemm_complex_extra_col(
   const Scalar* rhs_ptr_real = rhs_base;
   const Scalar* rhs_ptr_imag;
   if(!RhsIsReal) rhs_ptr_imag = rhs_base + remaining_cols*strideB;
-  else EIGEN_UNUSED_VARIABLE(rhs_ptr_imag);
+  else HYDRA_EIGEN_UNUSED_VARIABLE(rhs_ptr_imag);
   const Scalar* lhs_ptr_real = lhs_base + advanceRows*row*strideA + remaining_rows*offsetA;
   const Scalar* lhs_ptr_imag;
   if(!LhsIsReal) lhs_ptr_imag = lhs_ptr_real + remaining_rows*strideA;
-  else EIGEN_UNUSED_VARIABLE(lhs_ptr_imag);
+  else HYDRA_EIGEN_UNUSED_VARIABLE(lhs_ptr_imag);
   PacketBlock<Packet,1> accReal, accImag;
   PacketBlock<Packet,1> taccReal, taccImag;
   PacketBlock<Packetc,1> acc0, acc1;
@@ -1845,13 +1845,13 @@ EIGEN_STRONG_INLINE void gemm_complex_extra_col(
   Index k = 0;
   for(; k + PEEL_COMPLEX <= remaining_depth; k+= PEEL_COMPLEX)
   {
-    EIGEN_POWER_PREFETCH(rhs_ptr_real);
+    HYDRA_EIGEN_POWER_PREFETCH(rhs_ptr_real);
     if(!RhsIsReal) {
-      EIGEN_POWER_PREFETCH(rhs_ptr_imag);
+      HYDRA_EIGEN_POWER_PREFETCH(rhs_ptr_imag);
     }
-    EIGEN_POWER_PREFETCH(lhs_ptr_real);
+    HYDRA_EIGEN_POWER_PREFETCH(lhs_ptr_real);
     if(!LhsIsReal) {
-      EIGEN_POWER_PREFETCH(lhs_ptr_imag);
+      HYDRA_EIGEN_POWER_PREFETCH(lhs_ptr_imag);
     }
     for (int l = 0; l < PEEL_COMPLEX; l++) {
       MICRO_COMPLEX_EXTRA_COL<Scalar, Packet, Index, accRows, ConjugateLhs, ConjugateRhs, LhsIsReal, RhsIsReal>(lhs_ptr_real, lhs_ptr_imag, rhs_ptr_real, rhs_ptr_imag, accReal, accImag, remaining_rows, remaining_cols);
@@ -1890,7 +1890,7 @@ EIGEN_STRONG_INLINE void gemm_complex_extra_col(
 }
 
 template<typename Scalar, typename Packet, typename Index, const Index accRows, bool ConjugateLhs, bool ConjugateRhs, bool LhsIsReal, bool RhsIsReal>
-EIGEN_ALWAYS_INLINE void MICRO_COMPLEX_EXTRA_ROW(
+HYDRA_EIGEN_ALWAYS_INLINE void MICRO_COMPLEX_EXTRA_ROW(
   const Scalar* &lhs_ptr_real, const Scalar* &lhs_ptr_imag,
   const Scalar* &rhs_ptr_real, const Scalar* &rhs_ptr_imag,
   PacketBlock<Packet,4> &accReal, PacketBlock<Packet,4> &accImag,
@@ -1902,14 +1902,14 @@ EIGEN_ALWAYS_INLINE void MICRO_COMPLEX_EXTRA_ROW(
   pgerc<4, Scalar, Packet, ConjugateLhs, ConjugateRhs, LhsIsReal, RhsIsReal>(&accReal, &accImag, lhs_ptr_real, lhs_ptr_imag, rhsV, rhsVi);
   lhs_ptr_real += remaining_rows;
   if(!LhsIsReal) lhs_ptr_imag += remaining_rows;
-  else EIGEN_UNUSED_VARIABLE(lhs_ptr_imag);
+  else HYDRA_EIGEN_UNUSED_VARIABLE(lhs_ptr_imag);
   rhs_ptr_real += accRows;
   if(!RhsIsReal) rhs_ptr_imag += accRows;
-  else EIGEN_UNUSED_VARIABLE(rhs_ptr_imag);
+  else HYDRA_EIGEN_UNUSED_VARIABLE(rhs_ptr_imag);
 }
 
 template<typename Scalar, typename Packet, typename Packetc, typename DataMapper, typename Index, const Index accRows, const Index accCols, bool ConjugateLhs, bool ConjugateRhs, bool LhsIsReal, bool RhsIsReal>
-EIGEN_STRONG_INLINE void gemm_complex_extra_row(
+HYDRA_EIGEN_STRONG_INLINE void gemm_complex_extra_row(
   const DataMapper& res,
   const Scalar* lhs_base,
   const Scalar* rhs_base,
@@ -1929,11 +1929,11 @@ EIGEN_STRONG_INLINE void gemm_complex_extra_row(
   const Scalar* rhs_ptr_real = rhs_base;
   const Scalar* rhs_ptr_imag;
   if(!RhsIsReal) rhs_ptr_imag = rhs_base + accRows*strideB;
-  else EIGEN_UNUSED_VARIABLE(rhs_ptr_imag);
+  else HYDRA_EIGEN_UNUSED_VARIABLE(rhs_ptr_imag);
   const Scalar* lhs_ptr_real = lhs_base + advanceRows*row*strideA + remaining_rows*offsetA;
   const Scalar* lhs_ptr_imag;
   if(!LhsIsReal) lhs_ptr_imag = lhs_ptr_real + remaining_rows*strideA;
-  else EIGEN_UNUSED_VARIABLE(lhs_ptr_imag);
+  else HYDRA_EIGEN_UNUSED_VARIABLE(lhs_ptr_imag);
   PacketBlock<Packet,4> accReal, accImag;
   PacketBlock<Packet,4> taccReal, taccImag;
   PacketBlock<Packetc,4> acc0, acc1;
@@ -1946,13 +1946,13 @@ EIGEN_STRONG_INLINE void gemm_complex_extra_row(
   Index k = 0;
   for(; k + PEEL_COMPLEX <= remaining_depth; k+= PEEL_COMPLEX)
   {
-    EIGEN_POWER_PREFETCH(rhs_ptr_real);
+    HYDRA_EIGEN_POWER_PREFETCH(rhs_ptr_real);
     if(!RhsIsReal) {
-      EIGEN_POWER_PREFETCH(rhs_ptr_imag);
+      HYDRA_EIGEN_POWER_PREFETCH(rhs_ptr_imag);
     }
-    EIGEN_POWER_PREFETCH(lhs_ptr_real);
+    HYDRA_EIGEN_POWER_PREFETCH(lhs_ptr_real);
     if(!LhsIsReal) {
-      EIGEN_POWER_PREFETCH(lhs_ptr_imag);
+      HYDRA_EIGEN_POWER_PREFETCH(lhs_ptr_imag);
     }
     for (int l = 0; l < PEEL_COMPLEX; l++) {
       MICRO_COMPLEX_EXTRA_ROW<Scalar, Packet, Index, accRows, ConjugateLhs, ConjugateRhs, LhsIsReal, RhsIsReal>(lhs_ptr_real, lhs_ptr_imag, rhs_ptr_real, rhs_ptr_imag, accReal, accImag, remaining_rows);
@@ -2019,11 +2019,11 @@ EIGEN_STRONG_INLINE void gemm_complex_extra_row(
       lhsVi##iter = ploadLhs<Scalar, Packet>(lhs_ptr_imag##iter); \
       lhs_ptr_imag##iter += accCols; \
     } else { \
-      EIGEN_UNUSED_VARIABLE(lhsVi##iter); \
+      HYDRA_EIGEN_UNUSED_VARIABLE(lhsVi##iter); \
     } \
   } else { \
-    EIGEN_UNUSED_VARIABLE(lhsV##iter); \
-    EIGEN_UNUSED_VARIABLE(lhsVi##iter); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(lhsV##iter); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(lhsVi##iter); \
   }
 
 #define MICRO_COMPLEX_WORK_ONE4(iter, peel) \
@@ -2044,12 +2044,12 @@ EIGEN_STRONG_INLINE void gemm_complex_extra_row(
     if(!RhsIsReal) { \
       pbroadcast4_old<Packet>(rhs_ptr_imag + (accRows * peel), rhsVi##peel[0], rhsVi##peel[1], rhsVi##peel[2], rhsVi##peel[3]); \
     } else { \
-      EIGEN_UNUSED_VARIABLE(rhsVi##peel); \
+      HYDRA_EIGEN_UNUSED_VARIABLE(rhsVi##peel); \
     } \
     MICRO_COMPLEX_UNROLL_WORK(func, func2, peel) \
   } else { \
-    EIGEN_UNUSED_VARIABLE(rhsV##peel); \
-    EIGEN_UNUSED_VARIABLE(rhsVi##peel); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(rhsV##peel); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(rhsVi##peel); \
   }
 
 #define MICRO_COMPLEX_TYPE_PEEL1(func, func2, peel) \
@@ -2060,12 +2060,12 @@ EIGEN_STRONG_INLINE void gemm_complex_extra_row(
     if(!RhsIsReal) { \
       rhsVi##peel[0] = pset1<Packet>(rhs_ptr_imag[remaining_cols * peel]); \
     } else { \
-      EIGEN_UNUSED_VARIABLE(rhsVi##peel); \
+      HYDRA_EIGEN_UNUSED_VARIABLE(rhsVi##peel); \
     } \
     MICRO_COMPLEX_UNROLL_WORK(func, func2, peel) \
   } else { \
-    EIGEN_UNUSED_VARIABLE(rhsV##peel); \
-    EIGEN_UNUSED_VARIABLE(rhsVi##peel); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(rhsV##peel); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(rhsVi##peel); \
   }
 
 #define MICRO_COMPLEX_UNROLL_TYPE_PEEL(M, func, func1, func2) \
@@ -2106,8 +2106,8 @@ EIGEN_STRONG_INLINE void gemm_complex_extra_row(
     bsetzero<Scalar, Packet>(accReal##iter); \
     bsetzero<Scalar, Packet>(accImag##iter); \
   } else { \
-    EIGEN_UNUSED_VARIABLE(accReal##iter); \
-    EIGEN_UNUSED_VARIABLE(accImag##iter); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(accReal##iter); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(accImag##iter); \
   }
 
 #define MICRO_COMPLEX_DST_PTR MICRO_COMPLEX_UNROLL(MICRO_COMPLEX_DST_PTR_ONE)
@@ -2118,20 +2118,20 @@ EIGEN_STRONG_INLINE void gemm_complex_extra_row(
     if(!LhsIsReal) { \
       lhs_ptr_imag##iter = lhs_ptr_real##iter + accCols*strideA; \
     } else { \
-      EIGEN_UNUSED_VARIABLE(lhs_ptr_imag##iter); \
+      HYDRA_EIGEN_UNUSED_VARIABLE(lhs_ptr_imag##iter); \
     } \
   } else { \
-    EIGEN_UNUSED_VARIABLE(lhs_ptr_real##iter); \
-    EIGEN_UNUSED_VARIABLE(lhs_ptr_imag##iter); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(lhs_ptr_real##iter); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(lhs_ptr_imag##iter); \
   }
 
 #define MICRO_COMPLEX_SRC_PTR MICRO_COMPLEX_UNROLL(MICRO_COMPLEX_SRC_PTR_ONE)
 
 #define MICRO_COMPLEX_PREFETCH_ONE(iter) \
   if (unroll_factor > iter) { \
-    EIGEN_POWER_PREFETCH(lhs_ptr_real##iter); \
+    HYDRA_EIGEN_POWER_PREFETCH(lhs_ptr_real##iter); \
     if(!LhsIsReal) { \
-      EIGEN_POWER_PREFETCH(lhs_ptr_imag##iter); \
+      HYDRA_EIGEN_POWER_PREFETCH(lhs_ptr_imag##iter); \
     } \
   }
 
@@ -2160,7 +2160,7 @@ EIGEN_STRONG_INLINE void gemm_complex_extra_row(
 #define MICRO_COMPLEX_COL_STORE MICRO_COMPLEX_UNROLL(MICRO_COMPLEX_COL_STORE_ONE)
 
 template<int unroll_factor, typename Scalar, typename Packet, typename Packetc, typename DataMapper, typename Index, const Index accRows, const Index accCols, bool ConjugateLhs, bool ConjugateRhs, bool LhsIsReal, bool RhsIsReal>
-EIGEN_STRONG_INLINE void gemm_complex_unrolled_iteration(
+HYDRA_EIGEN_STRONG_INLINE void gemm_complex_unrolled_iteration(
   const DataMapper& res,
   const Scalar* lhs_base,
   const Scalar* rhs_base,
@@ -2178,7 +2178,7 @@ EIGEN_STRONG_INLINE void gemm_complex_unrolled_iteration(
   if(!RhsIsReal) {
     rhs_ptr_imag = rhs_base + accRows*strideB;
   } else {
-    EIGEN_UNUSED_VARIABLE(rhs_ptr_imag);
+    HYDRA_EIGEN_UNUSED_VARIABLE(rhs_ptr_imag);
   }
   const Scalar* lhs_ptr_real0 = NULL, * lhs_ptr_imag0 = NULL, * lhs_ptr_real1 = NULL, * lhs_ptr_imag1 = NULL;
   const Scalar* lhs_ptr_real2 = NULL, * lhs_ptr_imag2 = NULL, * lhs_ptr_real3 = NULL, * lhs_ptr_imag3 = NULL;
@@ -2196,9 +2196,9 @@ EIGEN_STRONG_INLINE void gemm_complex_unrolled_iteration(
   Index k = 0;
   for(; k + PEEL_COMPLEX <= depth; k+= PEEL_COMPLEX)
   {
-    EIGEN_POWER_PREFETCH(rhs_ptr_real);
+    HYDRA_EIGEN_POWER_PREFETCH(rhs_ptr_real);
     if(!RhsIsReal) {
-      EIGEN_POWER_PREFETCH(rhs_ptr_imag);
+      HYDRA_EIGEN_POWER_PREFETCH(rhs_ptr_imag);
     }
     MICRO_COMPLEX_PREFETCH
     MICRO_COMPLEX_ONE_PEEL4
@@ -2213,7 +2213,7 @@ EIGEN_STRONG_INLINE void gemm_complex_unrolled_iteration(
 }
 
 template<int unroll_factor, typename Scalar, typename Packet, typename Packetc, typename DataMapper, typename Index, const Index accCols, bool ConjugateLhs, bool ConjugateRhs, bool LhsIsReal, bool RhsIsReal>
-EIGEN_STRONG_INLINE void gemm_complex_unrolled_col_iteration(
+HYDRA_EIGEN_STRONG_INLINE void gemm_complex_unrolled_col_iteration(
   const DataMapper& res,
   const Scalar* lhs_base,
   const Scalar* rhs_base,
@@ -2232,7 +2232,7 @@ EIGEN_STRONG_INLINE void gemm_complex_unrolled_col_iteration(
   if(!RhsIsReal) {
     rhs_ptr_imag = rhs_base + remaining_cols*strideB;
   } else {
-    EIGEN_UNUSED_VARIABLE(rhs_ptr_imag);
+    HYDRA_EIGEN_UNUSED_VARIABLE(rhs_ptr_imag);
   }
   const Scalar* lhs_ptr_real0 = NULL, * lhs_ptr_imag0 = NULL, * lhs_ptr_real1 = NULL, * lhs_ptr_imag1 = NULL;
   const Scalar* lhs_ptr_real2 = NULL, * lhs_ptr_imag2 = NULL, * lhs_ptr_real3 = NULL, * lhs_ptr_imag3 = NULL;
@@ -2250,9 +2250,9 @@ EIGEN_STRONG_INLINE void gemm_complex_unrolled_col_iteration(
   Index k = 0;
   for(; k + PEEL_COMPLEX <= depth; k+= PEEL_COMPLEX)
   {
-    EIGEN_POWER_PREFETCH(rhs_ptr_real);
+    HYDRA_EIGEN_POWER_PREFETCH(rhs_ptr_real);
     if(!RhsIsReal) {
-      EIGEN_POWER_PREFETCH(rhs_ptr_imag);
+      HYDRA_EIGEN_POWER_PREFETCH(rhs_ptr_imag);
     }
     MICRO_COMPLEX_PREFETCH
     MICRO_COMPLEX_ONE_PEEL1
@@ -2267,7 +2267,7 @@ EIGEN_STRONG_INLINE void gemm_complex_unrolled_col_iteration(
 }
 
 template<typename Scalar, typename Packet, typename Packetc, typename DataMapper, typename Index, const Index accCols, bool ConjugateLhs, bool ConjugateRhs, bool LhsIsReal, bool RhsIsReal>
-EIGEN_STRONG_INLINE void gemm_complex_unrolled_col(
+HYDRA_EIGEN_STRONG_INLINE void gemm_complex_unrolled_col(
   const DataMapper& res,
   const Scalar* lhs_base,
   const Scalar* rhs_base,
@@ -2314,7 +2314,7 @@ EIGEN_STRONG_INLINE void gemm_complex_unrolled_col(
 }
 
 template<typename LhsScalar, typename RhsScalar, typename Scalarc, typename Scalar, typename Index, typename Packet, typename Packetc, typename RhsPacket, typename DataMapper, const Index accRows, const Index accCols, bool ConjugateLhs, bool ConjugateRhs, bool LhsIsReal, bool RhsIsReal>
-EIGEN_STRONG_INLINE void gemm_complex(const DataMapper& res, const LhsScalar* blockAc, const RhsScalar* blockBc, Index rows, Index depth, Index cols, Scalarc alpha, Index strideA, Index strideB, Index offsetA, Index offsetB)
+HYDRA_EIGEN_STRONG_INLINE void gemm_complex(const DataMapper& res, const LhsScalar* blockAc, const RhsScalar* blockBc, Index rows, Index depth, Index cols, Scalarc alpha, Index strideA, Index strideB, Index offsetA, Index offsetB)
 {
       const Index remaining_rows = rows % accCols;
       const Index remaining_cols = cols % accRows;
@@ -2427,7 +2427,7 @@ void gemm_pack_lhs<double, Index, DataMapper, Pack1, Pack2, Packet, RowMajor, Co
     pack(blockA, lhs, depth, rows, stride, offset);
 }
 
-#if EIGEN_ALTIVEC_USE_CUSTOM_PACK
+#if HYDRA_EIGEN_ALTIVEC_USE_CUSTOM_PACK
 template<typename Index, typename DataMapper, int nr, bool Conjugate, bool PanelMode>
 struct gemm_pack_rhs<double, Index, DataMapper, nr, ColMajor, Conjugate, PanelMode>
 {
@@ -2513,7 +2513,7 @@ void gemm_pack_lhs<std::complex<float>, Index, DataMapper, Pack1, Pack2, Packet,
   pack(blockA, lhs, depth, rows, stride, offset);
 }
 
-#if EIGEN_ALTIVEC_USE_CUSTOM_PACK
+#if HYDRA_EIGEN_ALTIVEC_USE_CUSTOM_PACK
 template<typename Index, typename DataMapper, int nr, bool Conjugate, bool PanelMode>
 struct gemm_pack_rhs<float, Index, DataMapper, nr, ColMajor, Conjugate, PanelMode>
 {
@@ -2649,18 +2649,18 @@ void gebp_kernel<float, float, Index, DataMapper, mr, nr, ConjugateLhs, Conjugat
     const Index accCols = quad_traits<float>::size;
     void (*gemm_function)(const DataMapper&, const float*, const float*, Index, Index, Index, float, Index, Index, Index, Index);
 
-    #ifdef EIGEN_ALTIVEC_MMA_ONLY
+    #ifdef HYDRA_EIGEN_ALTIVEC_MMA_ONLY
       //generate with MMA only
-      gemm_function = &Eigen::internal::gemmMMA<float, Index, Packet, RhsPacket, DataMapper, accRows, accCols>;
-    #elif defined(ALTIVEC_MMA_SUPPORT) && !defined(EIGEN_ALTIVEC_DISABLE_MMA)
+      gemm_function = &hydra_Eigen::internal::gemmMMA<float, Index, Packet, RhsPacket, DataMapper, accRows, accCols>;
+    #elif defined(ALTIVEC_MMA_SUPPORT) && !defined(HYDRA_EIGEN_ALTIVEC_DISABLE_MMA)
       if (__builtin_cpu_supports ("arch_3_1") && __builtin_cpu_supports ("mma")){
-        gemm_function = &Eigen::internal::gemmMMA<float, Index, Packet, RhsPacket, DataMapper, accRows, accCols>;
+        gemm_function = &hydra_Eigen::internal::gemmMMA<float, Index, Packet, RhsPacket, DataMapper, accRows, accCols>;
       }
       else{
-        gemm_function = &Eigen::internal::gemm<float, Index, Packet, RhsPacket, DataMapper, accRows, accCols>;
+        gemm_function = &hydra_Eigen::internal::gemm<float, Index, Packet, RhsPacket, DataMapper, accRows, accCols>;
       }
     #else
-      gemm_function = &Eigen::internal::gemm<float, Index, Packet, RhsPacket, DataMapper, accRows, accCols>;
+      gemm_function = &hydra_Eigen::internal::gemm<float, Index, Packet, RhsPacket, DataMapper, accRows, accCols>;
     #endif
       gemm_function(res, blockA, blockB, rows, depth, cols, alpha, strideA, strideB, offsetA, offsetB);
   }
@@ -2688,18 +2688,18 @@ void gebp_kernel<std::complex<float>, std::complex<float>, Index, DataMapper, mr
     void (*gemm_function)(const DataMapper&, const std::complex<float>*, const std::complex<float>*,
           Index, Index, Index, std::complex<float>, Index, Index, Index, Index);
 
-    #ifdef EIGEN_ALTIVEC_MMA_ONLY
+    #ifdef HYDRA_EIGEN_ALTIVEC_MMA_ONLY
        //generate with MMA only
-       gemm_function = &Eigen::internal::gemm_complexMMA<std::complex<float>, std::complex<float>, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, false>;
-     #elif defined(ALTIVEC_MMA_SUPPORT) && !defined(EIGEN_ALTIVEC_DISABLE_MMA)
+       gemm_function = &hydra_Eigen::internal::gemm_complexMMA<std::complex<float>, std::complex<float>, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, false>;
+     #elif defined(ALTIVEC_MMA_SUPPORT) && !defined(HYDRA_EIGEN_ALTIVEC_DISABLE_MMA)
        if (__builtin_cpu_supports ("arch_3_1") && __builtin_cpu_supports ("mma")){
-         gemm_function = &Eigen::internal::gemm_complexMMA<std::complex<float>, std::complex<float>, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, false>;
+         gemm_function = &hydra_Eigen::internal::gemm_complexMMA<std::complex<float>, std::complex<float>, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, false>;
        }
        else{
-         gemm_function = &Eigen::internal::gemm_complex<std::complex<float>, std::complex<float>, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, false>;
+         gemm_function = &hydra_Eigen::internal::gemm_complex<std::complex<float>, std::complex<float>, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, false>;
        }
      #else
-       gemm_function = &Eigen::internal::gemm_complex<std::complex<float>, std::complex<float>, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, false>;
+       gemm_function = &hydra_Eigen::internal::gemm_complex<std::complex<float>, std::complex<float>, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, false>;
      #endif
       gemm_function(res, blockA, blockB, rows, depth, cols, alpha, strideA, strideB, offsetA, offsetB);
   }
@@ -2726,18 +2726,18 @@ void gebp_kernel<float, std::complex<float>, Index, DataMapper, mr, nr, Conjugat
     const Index accCols = quad_traits<float>::size;
     void (*gemm_function)(const DataMapper&, const float*, const std::complex<float>*,
           Index, Index, Index, std::complex<float>, Index, Index, Index, Index);
-    #ifdef EIGEN_ALTIVEC_MMA_ONLY
+    #ifdef HYDRA_EIGEN_ALTIVEC_MMA_ONLY
        //generate with MMA only
-       gemm_function = &Eigen::internal::gemm_complexMMA<float, std::complex<float>, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, true, false>;
-     #elif defined(ALTIVEC_MMA_SUPPORT) && !defined(EIGEN_ALTIVEC_DISABLE_MMA)
+       gemm_function = &hydra_Eigen::internal::gemm_complexMMA<float, std::complex<float>, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, true, false>;
+     #elif defined(ALTIVEC_MMA_SUPPORT) && !defined(HYDRA_EIGEN_ALTIVEC_DISABLE_MMA)
        if (__builtin_cpu_supports ("arch_3_1") && __builtin_cpu_supports ("mma")){
-         gemm_function = &Eigen::internal::gemm_complexMMA<float, std::complex<float>, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, true, false>;
+         gemm_function = &hydra_Eigen::internal::gemm_complexMMA<float, std::complex<float>, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, true, false>;
        }
        else{
-         gemm_function = &Eigen::internal::gemm_complex<float, std::complex<float>, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, true, false>;
+         gemm_function = &hydra_Eigen::internal::gemm_complex<float, std::complex<float>, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, true, false>;
        }
      #else
-       gemm_function = &Eigen::internal::gemm_complex<float, std::complex<float>, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, true, false>;
+       gemm_function = &hydra_Eigen::internal::gemm_complex<float, std::complex<float>, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, true, false>;
      #endif
        gemm_function(res, blockA, blockB, rows, depth, cols, alpha, strideA, strideB, offsetA, offsetB);
   }
@@ -2764,18 +2764,18 @@ void gebp_kernel<std::complex<float>, float, Index, DataMapper, mr, nr, Conjugat
     const Index accCols = quad_traits<float>::size;
     void (*gemm_function)(const DataMapper&, const std::complex<float>*, const float*,
           Index, Index, Index, std::complex<float>, Index, Index, Index, Index);
-    #ifdef EIGEN_ALTIVEC_MMA_ONLY
+    #ifdef HYDRA_EIGEN_ALTIVEC_MMA_ONLY
        //generate with MMA only
-       gemm_function = &Eigen::internal::gemm_complexMMA<std::complex<float>, float, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, true>;
-     #elif defined(ALTIVEC_MMA_SUPPORT) && !defined(EIGEN_ALTIVEC_DISABLE_MMA)
+       gemm_function = &hydra_Eigen::internal::gemm_complexMMA<std::complex<float>, float, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, true>;
+     #elif defined(ALTIVEC_MMA_SUPPORT) && !defined(HYDRA_EIGEN_ALTIVEC_DISABLE_MMA)
        if (__builtin_cpu_supports ("arch_3_1") && __builtin_cpu_supports ("mma")){
-         gemm_function = &Eigen::internal::gemm_complexMMA<std::complex<float>, float, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, true>;
+         gemm_function = &hydra_Eigen::internal::gemm_complexMMA<std::complex<float>, float, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, true>;
        }
        else{
-         gemm_function = &Eigen::internal::gemm_complex<std::complex<float>, float, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, true>;
+         gemm_function = &hydra_Eigen::internal::gemm_complex<std::complex<float>, float, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, true>;
        }
      #else
-       gemm_function = &Eigen::internal::gemm_complex<std::complex<float>, float, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, true>;
+       gemm_function = &hydra_Eigen::internal::gemm_complex<std::complex<float>, float, std::complex<float>, float, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, true>;
      #endif
        gemm_function(res, blockA, blockB, rows, depth, cols, alpha, strideA, strideB, offsetA, offsetB);
   }
@@ -2801,18 +2801,18 @@ void gebp_kernel<double, double, Index, DataMapper, mr, nr, ConjugateLhs, Conjug
     const Index accCols = quad_traits<double>::size;
     void (*gemm_function)(const DataMapper&, const double*, const double*, Index, Index, Index, double, Index, Index, Index, Index);
 
-    #ifdef EIGEN_ALTIVEC_MMA_ONLY
+    #ifdef HYDRA_EIGEN_ALTIVEC_MMA_ONLY
       //generate with MMA only
-      gemm_function = &Eigen::internal::gemmMMA<double, Index, Packet, RhsPacket, DataMapper, accRows, accCols>;
-    #elif defined(ALTIVEC_MMA_SUPPORT) && !defined(EIGEN_ALTIVEC_DISABLE_MMA)
+      gemm_function = &hydra_Eigen::internal::gemmMMA<double, Index, Packet, RhsPacket, DataMapper, accRows, accCols>;
+    #elif defined(ALTIVEC_MMA_SUPPORT) && !defined(HYDRA_EIGEN_ALTIVEC_DISABLE_MMA)
       if (__builtin_cpu_supports ("arch_3_1") && __builtin_cpu_supports ("mma")){
-        gemm_function = &Eigen::internal::gemmMMA<double, Index, Packet, RhsPacket, DataMapper, accRows, accCols>;
+        gemm_function = &hydra_Eigen::internal::gemmMMA<double, Index, Packet, RhsPacket, DataMapper, accRows, accCols>;
       }
       else{
-        gemm_function = &Eigen::internal::gemm<double, Index, Packet, RhsPacket, DataMapper, accRows, accCols>;
+        gemm_function = &hydra_Eigen::internal::gemm<double, Index, Packet, RhsPacket, DataMapper, accRows, accCols>;
       }
     #else
-      gemm_function = &Eigen::internal::gemm<double, Index, Packet, RhsPacket, DataMapper, accRows, accCols>;
+      gemm_function = &hydra_Eigen::internal::gemm<double, Index, Packet, RhsPacket, DataMapper, accRows, accCols>;
     #endif
       gemm_function(res, blockA, blockB, rows, depth, cols, alpha, strideA, strideB, offsetA, offsetB);
   }
@@ -2839,18 +2839,18 @@ void gebp_kernel<std::complex<double>, std::complex<double>, Index, DataMapper, 
     const Index accCols = quad_traits<double>::size;
     void (*gemm_function)(const DataMapper&, const std::complex<double>*, const std::complex<double>*,
           Index, Index, Index, std::complex<double>, Index, Index, Index, Index);
-    #ifdef EIGEN_ALTIVEC_MMA_ONLY
+    #ifdef HYDRA_EIGEN_ALTIVEC_MMA_ONLY
        //generate with MMA only
-       gemm_function = &Eigen::internal::gemm_complexMMA<std::complex<double>, std::complex<double>, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, false>;
-     #elif defined(ALTIVEC_MMA_SUPPORT) && !defined(EIGEN_ALTIVEC_DISABLE_MMA)
+       gemm_function = &hydra_Eigen::internal::gemm_complexMMA<std::complex<double>, std::complex<double>, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, false>;
+     #elif defined(ALTIVEC_MMA_SUPPORT) && !defined(HYDRA_EIGEN_ALTIVEC_DISABLE_MMA)
        if (__builtin_cpu_supports ("arch_3_1") && __builtin_cpu_supports ("mma")){
-         gemm_function = &Eigen::internal::gemm_complexMMA<std::complex<double>, std::complex<double>, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, false>;
+         gemm_function = &hydra_Eigen::internal::gemm_complexMMA<std::complex<double>, std::complex<double>, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, false>;
        }
        else{
-         gemm_function = &Eigen::internal::gemm_complex<std::complex<double>, std::complex<double>, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, false>;
+         gemm_function = &hydra_Eigen::internal::gemm_complex<std::complex<double>, std::complex<double>, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, false>;
        }
      #else
-       gemm_function = &Eigen::internal::gemm_complex<std::complex<double>, std::complex<double>, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, false>;
+       gemm_function = &hydra_Eigen::internal::gemm_complex<std::complex<double>, std::complex<double>, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, false>;
      #endif
        gemm_function(res, blockA, blockB, rows, depth, cols, alpha, strideA, strideB, offsetA, offsetB);
   }
@@ -2877,18 +2877,18 @@ void gebp_kernel<std::complex<double>, double, Index, DataMapper, mr, nr, Conjug
     const Index accCols = quad_traits<double>::size;
     void (*gemm_function)(const DataMapper&, const std::complex<double>*, const double*,
           Index, Index, Index, std::complex<double>, Index, Index, Index, Index);
-    #ifdef EIGEN_ALTIVEC_MMA_ONLY
+    #ifdef HYDRA_EIGEN_ALTIVEC_MMA_ONLY
        //generate with MMA only
-       gemm_function = &Eigen::internal::gemm_complexMMA<std::complex<double>, double, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, true>;
-     #elif defined(ALTIVEC_MMA_SUPPORT) && !defined(EIGEN_ALTIVEC_DISABLE_MMA)
+       gemm_function = &hydra_Eigen::internal::gemm_complexMMA<std::complex<double>, double, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, true>;
+     #elif defined(ALTIVEC_MMA_SUPPORT) && !defined(HYDRA_EIGEN_ALTIVEC_DISABLE_MMA)
        if (__builtin_cpu_supports ("arch_3_1") && __builtin_cpu_supports ("mma")){
-         gemm_function = &Eigen::internal::gemm_complexMMA<std::complex<double>, double, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, true>;
+         gemm_function = &hydra_Eigen::internal::gemm_complexMMA<std::complex<double>, double, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, true>;
        }
        else{
-         gemm_function = &Eigen::internal::gemm_complex<std::complex<double>, double, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, true>;
+         gemm_function = &hydra_Eigen::internal::gemm_complex<std::complex<double>, double, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, true>;
        }
      #else
-       gemm_function = &Eigen::internal::gemm_complex<std::complex<double>, double, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, true>;
+       gemm_function = &hydra_Eigen::internal::gemm_complex<std::complex<double>, double, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, false, true>;
      #endif
        gemm_function(res, blockA, blockB, rows, depth, cols, alpha, strideA, strideB, offsetA, offsetB);
   }
@@ -2915,23 +2915,23 @@ void gebp_kernel<double, std::complex<double>, Index, DataMapper, mr, nr, Conjug
     const Index accCols = quad_traits<double>::size;
     void (*gemm_function)(const DataMapper&, const double*, const std::complex<double>*,
           Index, Index, Index, std::complex<double>, Index, Index, Index, Index);
-    #ifdef EIGEN_ALTIVEC_MMA_ONLY
+    #ifdef HYDRA_EIGEN_ALTIVEC_MMA_ONLY
        //generate with MMA only
-       gemm_function = &Eigen::internal::gemm_complexMMA<double, std::complex<double>, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, true, false>;
-     #elif defined(ALTIVEC_MMA_SUPPORT) && !defined(EIGEN_ALTIVEC_DISABLE_MMA)
+       gemm_function = &hydra_Eigen::internal::gemm_complexMMA<double, std::complex<double>, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, true, false>;
+     #elif defined(ALTIVEC_MMA_SUPPORT) && !defined(HYDRA_EIGEN_ALTIVEC_DISABLE_MMA)
        if (__builtin_cpu_supports ("arch_3_1") && __builtin_cpu_supports ("mma")){
-         gemm_function = &Eigen::internal::gemm_complexMMA<double, std::complex<double>, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, true, false>;
+         gemm_function = &hydra_Eigen::internal::gemm_complexMMA<double, std::complex<double>, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, true, false>;
        }
        else{
-         gemm_function = &Eigen::internal::gemm_complex<double, std::complex<double>, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, true, false>;
+         gemm_function = &hydra_Eigen::internal::gemm_complex<double, std::complex<double>, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, true, false>;
        }
      #else
-       gemm_function = &Eigen::internal::gemm_complex<double, std::complex<double>, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, true, false>;
+       gemm_function = &hydra_Eigen::internal::gemm_complex<double, std::complex<double>, std::complex<double>, double, Index, Packet, Packetc, RhsPacket, DataMapper, accRows, accCols, ConjugateLhs, ConjugateRhs, true, false>;
      #endif
        gemm_function(res, blockA, blockB, rows, depth, cols, alpha, strideA, strideB, offsetA, offsetB);
   }
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_MATRIX_PRODUCT_ALTIVEC_H
+#endif // HYDRA_EIGEN_MATRIX_PRODUCT_ALTIVEC_H

@@ -9,12 +9,12 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_COMPLEX_EIGEN_SOLVER_H
-#define EIGEN_COMPLEX_EIGEN_SOLVER_H
+#ifndef HYDRA_EIGEN_COMPLEX_HYDRA_EIGEN_SOLVER_H
+#define HYDRA_EIGEN_COMPLEX_HYDRA_EIGEN_SOLVER_H
 
 #include "./ComplexSchur.h"
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 /** \eigenvalues_module \ingroup Eigenvalues_Module
   *
@@ -60,7 +60,7 @@ template<typename _MatrixType> class ComplexEigenSolver
     /** \brief Scalar type for matrices of type #MatrixType. */
     typedef typename MatrixType::Scalar Scalar;
     typedef typename NumTraits<Scalar>::Real RealScalar;
-    typedef Eigen::Index Index; ///< \deprecated since Eigen 3.3
+    typedef hydra_Eigen::Index Index; ///< \deprecated since Eigen 3.3
 
     /** \brief Complex scalar type for #MatrixType.
       *
@@ -239,7 +239,7 @@ template<typename _MatrixType> class ComplexEigenSolver
     
     static void check_template_parameters()
     {
-      EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+      HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
     }
     
     EigenvectorType m_eivec;
@@ -341,6 +341,6 @@ void ComplexEigenSolver<MatrixType>::sortEigenvalues(bool computeEigenvectors)
   }
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_COMPLEX_EIGEN_SOLVER_H
+#endif // HYDRA_EIGEN_COMPLEX_HYDRA_EIGEN_SOLVER_H

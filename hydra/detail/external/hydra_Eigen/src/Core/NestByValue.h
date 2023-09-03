@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_NESTBYVALUE_H
-#define EIGEN_NESTBYVALUE_H
+#ifndef HYDRA_EIGEN_NESTBYVALUE_H
+#define HYDRA_EIGEN_NESTBYVALUE_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 template<typename ExpressionType>
@@ -41,16 +41,16 @@ template<typename ExpressionType> class NestByValue
   public:
 
     typedef typename internal::dense_xpr_base<NestByValue>::type Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(NestByValue)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(NestByValue)
 
-    EIGEN_DEVICE_FUNC explicit inline NestByValue(const ExpressionType& matrix) : m_expression(matrix) {}
+    HYDRA_EIGEN_DEVICE_FUNC explicit inline NestByValue(const ExpressionType& matrix) : m_expression(matrix) {}
 
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR inline Index rows() const EIGEN_NOEXCEPT { return m_expression.rows(); }
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR inline Index cols() const EIGEN_NOEXCEPT { return m_expression.cols(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR inline Index rows() const HYDRA_EIGEN_NOEXCEPT { return m_expression.rows(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR inline Index cols() const HYDRA_EIGEN_NOEXCEPT { return m_expression.cols(); }
 
-    EIGEN_DEVICE_FUNC operator const ExpressionType&() const { return m_expression; }
+    HYDRA_EIGEN_DEVICE_FUNC operator const ExpressionType&() const { return m_expression; }
 
-    EIGEN_DEVICE_FUNC const ExpressionType& nestedExpression() const { return m_expression; }
+    HYDRA_EIGEN_DEVICE_FUNC const ExpressionType& nestedExpression() const { return m_expression; }
 
   protected:
     const ExpressionType m_expression;
@@ -59,7 +59,7 @@ template<typename ExpressionType> class NestByValue
 /** \returns an expression of the temporary version of *this.
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC inline const NestByValue<Derived>
+HYDRA_EIGEN_DEVICE_FUNC inline const NestByValue<Derived>
 DenseBase<Derived>::nestByValue() const
 {
   return NestByValue<Derived>(derived());
@@ -74,12 +74,12 @@ struct evaluator<NestByValue<ArgType> >
 {
   typedef evaluator<ArgType> Base;
 
-  EIGEN_DEVICE_FUNC explicit evaluator(const NestByValue<ArgType>& xpr)
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const NestByValue<ArgType>& xpr)
     : Base(xpr.nestedExpression())
   {}
 };
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_NESTBYVALUE_H
+#endif // HYDRA_EIGEN_NESTBYVALUE_H

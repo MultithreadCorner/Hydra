@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSEVECTOR_H
-#define EIGEN_SPARSEVECTOR_H
+#ifndef HYDRA_EIGEN_SPARSEVECTOR_H
+#define HYDRA_EIGEN_SPARSEVECTOR_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 /** \ingroup SparseCore_Module
   * \class SparseVector
@@ -22,7 +22,7 @@ namespace Eigen {
   * See http://www.netlib.org/linalg/html_templates/node91.html for details on the storage scheme.
   *
   * This class can be extended with the help of the plugin mechanism described on the page
-  * \ref TopicCustomizing_Plugins by defining the preprocessor symbol \c EIGEN_SPARSEVECTOR_PLUGIN.
+  * \ref TopicCustomizing_Plugins by defining the preprocessor symbol \c HYDRA_EIGEN_SPARSEVECTOR_PLUGIN.
   */
 
 namespace internal {
@@ -67,9 +67,9 @@ class SparseVector
     typedef SparseCompressedBase<SparseVector> Base;
     using Base::convert_index;
   public:
-    EIGEN_SPARSE_PUBLIC_INTERFACE(SparseVector)
-    EIGEN_SPARSE_INHERIT_ASSIGNMENT_OPERATOR(SparseVector, +=)
-    EIGEN_SPARSE_INHERIT_ASSIGNMENT_OPERATOR(SparseVector, -=)
+    HYDRA_EIGEN_SPARSE_PUBLIC_INTERFACE(SparseVector)
+    HYDRA_EIGEN_SPARSE_INHERIT_ASSIGNMENT_OPERATOR(SparseVector, +=)
+    HYDRA_EIGEN_SPARSE_INHERIT_ASSIGNMENT_OPERATOR(SparseVector, -=)
     
     typedef internal::CompressedStorage<Scalar,StorageIndex> Storage;
     enum { IsColVector = internal::traits<SparseVector>::IsColVector };
@@ -78,16 +78,16 @@ class SparseVector
       Options = _Options
     };
     
-    EIGEN_STRONG_INLINE Index rows() const { return IsColVector ? m_size : 1; }
-    EIGEN_STRONG_INLINE Index cols() const { return IsColVector ? 1 : m_size; }
-    EIGEN_STRONG_INLINE Index innerSize() const { return m_size; }
-    EIGEN_STRONG_INLINE Index outerSize() const { return 1; }
+    HYDRA_EIGEN_STRONG_INLINE Index rows() const { return IsColVector ? m_size : 1; }
+    HYDRA_EIGEN_STRONG_INLINE Index cols() const { return IsColVector ? 1 : m_size; }
+    HYDRA_EIGEN_STRONG_INLINE Index innerSize() const { return m_size; }
+    HYDRA_EIGEN_STRONG_INLINE Index outerSize() const { return 1; }
 
-    EIGEN_STRONG_INLINE const Scalar* valuePtr() const { return m_data.valuePtr(); }
-    EIGEN_STRONG_INLINE Scalar* valuePtr() { return m_data.valuePtr(); }
+    HYDRA_EIGEN_STRONG_INLINE const Scalar* valuePtr() const { return m_data.valuePtr(); }
+    HYDRA_EIGEN_STRONG_INLINE Scalar* valuePtr() { return m_data.valuePtr(); }
 
-    EIGEN_STRONG_INLINE const StorageIndex* innerIndexPtr() const { return m_data.indexPtr(); }
-    EIGEN_STRONG_INLINE StorageIndex* innerIndexPtr() { return m_data.indexPtr(); }
+    HYDRA_EIGEN_STRONG_INLINE const StorageIndex* innerIndexPtr() const { return m_data.indexPtr(); }
+    HYDRA_EIGEN_STRONG_INLINE StorageIndex* innerIndexPtr() { return m_data.indexPtr(); }
 
     inline const StorageIndex* outerIndexPtr() const { return 0; }
     inline StorageIndex* outerIndexPtr() { return 0; }
@@ -141,13 +141,13 @@ class SparseVector
 
     inline void startVec(Index outer)
     {
-      EIGEN_UNUSED_VARIABLE(outer);
+      HYDRA_EIGEN_UNUSED_VARIABLE(outer);
       eigen_assert(outer==0);
     }
 
     inline Scalar& insertBackByOuterInner(Index outer, Index inner)
     {
-      EIGEN_UNUSED_VARIABLE(outer);
+      HYDRA_EIGEN_UNUSED_VARIABLE(outer);
       eigen_assert(outer==0);
       return insertBack(inner);
     }
@@ -159,7 +159,7 @@ class SparseVector
     
     Scalar& insertBackByOuterInnerUnordered(Index outer, Index inner)
     {
-      EIGEN_UNUSED_VARIABLE(outer);
+      HYDRA_EIGEN_UNUSED_VARIABLE(outer);
       eigen_assert(outer==0);
       return insertBackUnordered(inner);
     }
@@ -175,7 +175,7 @@ class SparseVector
       
       Index inner = IsColVector ? row : col;
       Index outer = IsColVector ? col : row;
-      EIGEN_ONLY_USED_FOR_DEBUG(outer);
+      HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(outer);
       eigen_assert(outer==0);
       return insert(inner);
     }
@@ -266,8 +266,8 @@ class SparseVector
     inline SparseVector(const SparseMatrixBase<OtherDerived>& other)
       : m_size(0)
     {
-      #ifdef EIGEN_SPARSE_CREATE_TEMPORARY_PLUGIN
-        EIGEN_SPARSE_CREATE_TEMPORARY_PLUGIN
+      #ifdef HYDRA_EIGEN_SPARSE_CREATE_TEMPORARY_PLUGIN
+        HYDRA_EIGEN_SPARSE_CREATE_TEMPORARY_PLUGIN
       #endif
       check_template_parameters();
       *this = other.derived();
@@ -321,7 +321,7 @@ class SparseVector
       return *this;
     }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<typename Lhs, typename Rhs>
     inline SparseVector& operator=(const SparseSparseProduct<Lhs,Rhs>& product)
     {
@@ -346,58 +346,58 @@ class SparseVector
   public:
 
     /** \internal \deprecated use setZero() and reserve() */
-    EIGEN_DEPRECATED void startFill(Index reserve)
+    HYDRA_EIGEN_DEPRECATED void startFill(Index reserve)
     {
       setZero();
       m_data.reserve(reserve);
     }
 
     /** \internal \deprecated use insertBack(Index,Index) */
-    EIGEN_DEPRECATED Scalar& fill(Index r, Index c)
+    HYDRA_EIGEN_DEPRECATED Scalar& fill(Index r, Index c)
     {
       eigen_assert(r==0 || c==0);
       return fill(IsColVector ? r : c);
     }
 
     /** \internal \deprecated use insertBack(Index) */
-    EIGEN_DEPRECATED Scalar& fill(Index i)
+    HYDRA_EIGEN_DEPRECATED Scalar& fill(Index i)
     {
       m_data.append(0, i);
       return m_data.value(m_data.size()-1);
     }
 
     /** \internal \deprecated use insert(Index,Index) */
-    EIGEN_DEPRECATED Scalar& fillrand(Index r, Index c)
+    HYDRA_EIGEN_DEPRECATED Scalar& fillrand(Index r, Index c)
     {
       eigen_assert(r==0 || c==0);
       return fillrand(IsColVector ? r : c);
     }
 
     /** \internal \deprecated use insert(Index) */
-    EIGEN_DEPRECATED Scalar& fillrand(Index i)
+    HYDRA_EIGEN_DEPRECATED Scalar& fillrand(Index i)
     {
       return insert(i);
     }
 
     /** \internal \deprecated use finalize() */
-    EIGEN_DEPRECATED void endFill() {}
+    HYDRA_EIGEN_DEPRECATED void endFill() {}
     
     // These two functions were here in the 3.1 release, so let's keep them in case some code rely on them.
     /** \internal \deprecated use data() */
-    EIGEN_DEPRECATED Storage& _data() { return m_data; }
+    HYDRA_EIGEN_DEPRECATED Storage& _data() { return m_data; }
     /** \internal \deprecated use data() */
-    EIGEN_DEPRECATED const Storage& _data() const { return m_data; }
+    HYDRA_EIGEN_DEPRECATED const Storage& _data() const { return m_data; }
     
-#   ifdef EIGEN_SPARSEVECTOR_PLUGIN
-#     include EIGEN_SPARSEVECTOR_PLUGIN
+#   ifdef HYDRA_EIGEN_SPARSEVECTOR_PLUGIN
+#     include HYDRA_EIGEN_SPARSEVECTOR_PLUGIN
 #   endif
 
 protected:
   
     static void check_template_parameters()
     {
-      EIGEN_STATIC_ASSERT(NumTraits<StorageIndex>::IsSigned,THE_INDEX_TYPE_MUST_BE_A_SIGNED_TYPE);
-      EIGEN_STATIC_ASSERT((_Options&(ColMajor|RowMajor))==Options,INVALID_MATRIX_TEMPLATE_PARAMETERS);
+      HYDRA_EIGEN_STATIC_ASSERT(NumTraits<StorageIndex>::IsSigned,THE_INDEX_TYPE_MUST_BE_A_SIGNED_TYPE);
+      HYDRA_EIGEN_STATIC_ASSERT((_Options&(ColMajor|RowMajor))==Options,INVALID_MATRIX_TEMPLATE_PARAMETERS);
     }
     
     Storage m_data;
@@ -424,7 +424,7 @@ struct evaluator<SparseVector<_Scalar,_Options,_Index> >
   
   explicit evaluator(const SparseVectorType &mat) : m_matrix(&mat)
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
   
   inline Index nonZerosEstimate() const {
@@ -473,6 +473,6 @@ struct sparse_vector_assign_selector<Dest,Src,SVA_RuntimeSwitch> {
 
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SPARSEVECTOR_H
+#endif // HYDRA_EIGEN_SPARSEVECTOR_H

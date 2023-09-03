@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_ORTHOMETHODS_H
-#define EIGEN_ORTHOMETHODS_H
+#ifndef HYDRA_EIGEN_ORTHOMETHODS_H
+#define HYDRA_EIGEN_ORTHOMETHODS_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 /** \geometry_module \ingroup Geometry_Module
   *
@@ -26,16 +26,16 @@ namespace Eigen {
   */
 template<typename Derived>
 template<typename OtherDerived>
-#ifndef EIGEN_PARSED_BY_DOXYGEN
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename MatrixBase<Derived>::template cross_product_return_type<OtherDerived>::type
 #else
 typename MatrixBase<Derived>::PlainObject
 #endif
 MatrixBase<Derived>::cross(const MatrixBase<OtherDerived>& other) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(Derived,3)
-  EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(OtherDerived,3)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(Derived,3)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(OtherDerived,3)
 
   // Note that there is no need for an expression here since the compiler
   // optimize such a small temporary very well (even within a complex expression)
@@ -54,7 +54,7 @@ template< int Arch,typename VectorLhs,typename VectorRhs,
           typename Scalar = typename VectorLhs::Scalar,
           bool Vectorizable = bool((VectorLhs::Flags&VectorRhs::Flags)&PacketAccessBit)>
 struct cross3_impl {
-  EIGEN_DEVICE_FUNC static inline typename internal::plain_matrix_type<VectorLhs>::type
+  HYDRA_EIGEN_DEVICE_FUNC static inline typename internal::plain_matrix_type<VectorLhs>::type
   run(const VectorLhs& lhs, const VectorRhs& rhs)
   {
     return typename internal::plain_matrix_type<VectorLhs>::type(
@@ -79,11 +79,11 @@ struct cross3_impl {
   */
 template<typename Derived>
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC inline typename MatrixBase<Derived>::PlainObject
+HYDRA_EIGEN_DEVICE_FUNC inline typename MatrixBase<Derived>::PlainObject
 MatrixBase<Derived>::cross3(const MatrixBase<OtherDerived>& other) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(Derived,4)
-  EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(OtherDerived,4)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(Derived,4)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(OtherDerived,4)
 
   typedef typename internal::nested_eval<Derived,2>::type DerivedNested;
   typedef typename internal::nested_eval<OtherDerived,2>::type OtherDerivedNested;
@@ -106,12 +106,12 @@ MatrixBase<Derived>::cross3(const MatrixBase<OtherDerived>& other) const
   * \sa MatrixBase::cross() */
 template<typename ExpressionType, int Direction>
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC 
+HYDRA_EIGEN_DEVICE_FUNC 
 const typename VectorwiseOp<ExpressionType,Direction>::CrossReturnType
 VectorwiseOp<ExpressionType,Direction>::cross(const MatrixBase<OtherDerived>& other) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(OtherDerived,3)
-  EIGEN_STATIC_ASSERT((internal::is_same<Scalar, typename OtherDerived::Scalar>::value),
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(OtherDerived,3)
+  HYDRA_EIGEN_STATIC_ASSERT((internal::is_same<Scalar, typename OtherDerived::Scalar>::value),
     YOU_MIXED_DIFFERENT_NUMERIC_TYPES__YOU_NEED_TO_USE_THE_CAST_METHOD_OF_MATRIXBASE_TO_CAST_NUMERIC_TYPES_EXPLICITLY)
   
   typename internal::nested_eval<ExpressionType,2>::type mat(_expression());
@@ -144,7 +144,7 @@ struct unitOrthogonal_selector
   typedef typename traits<Derived>::Scalar Scalar;
   typedef typename NumTraits<Scalar>::Real RealScalar;
   typedef Matrix<Scalar,2,1> Vector2;
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline VectorType run(const Derived& src)
   {
     VectorType perp = VectorType::Zero(src.size());
@@ -167,7 +167,7 @@ struct unitOrthogonal_selector<Derived,3>
   typedef typename plain_matrix_type<Derived>::type VectorType;
   typedef typename traits<Derived>::Scalar Scalar;
   typedef typename NumTraits<Scalar>::Real RealScalar;
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline VectorType run(const Derived& src)
   {
     VectorType perp;
@@ -206,7 +206,7 @@ template<typename Derived>
 struct unitOrthogonal_selector<Derived,2>
 {
   typedef typename plain_matrix_type<Derived>::type VectorType;
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline VectorType run(const Derived& src)
   { return VectorType(-numext::conj(src.y()), numext::conj(src.x())).normalized(); }
 };
@@ -223,13 +223,13 @@ struct unitOrthogonal_selector<Derived,2>
   * \sa cross()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC typename MatrixBase<Derived>::PlainObject
+HYDRA_EIGEN_DEVICE_FUNC typename MatrixBase<Derived>::PlainObject
 MatrixBase<Derived>::unitOrthogonal() const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return internal::unitOrthogonal_selector<Derived>::run(derived());
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_ORTHOMETHODS_H
+#endif // HYDRA_EIGEN_ORTHOMETHODS_H

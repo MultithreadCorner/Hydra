@@ -7,14 +7,14 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_PARALLELIZER_H
-#define EIGEN_PARALLELIZER_H
+#ifndef HYDRA_EIGEN_PARALLELIZER_H
+#define HYDRA_EIGEN_PARALLELIZER_H
 
-#if EIGEN_HAS_CXX11_ATOMIC
+#if HYDRA_EIGEN_HAS_CXX11_ATOMIC
 #include <atomic>
 #endif
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -22,7 +22,7 @@ namespace internal {
 inline void manage_multi_threading(Action action, int* v)
 {
   static int m_maxThreads = -1;
-  EIGEN_UNUSED_VARIABLE(m_maxThreads)
+  HYDRA_EIGEN_UNUSED_VARIABLE(m_maxThreads)
 
   if(action==SetAction)
   {
@@ -32,7 +32,7 @@ inline void manage_multi_threading(Action action, int* v)
   else if(action==GetAction)
   {
     eigen_internal_assert(v!=0);
-    #ifdef EIGEN_HAS_OPENMP
+    #ifdef HYDRA_EIGEN_HAS_OPENMP
     if(m_maxThreads>0)
       *v = m_maxThreads;
     else
@@ -84,7 +84,7 @@ template<typename Index> struct GemmParallelInfo
   // to guarantee that when thread A says to thread B that it is
   // done with packing a block, then all writes have been really
   // carried out... C++11 memory model+atomic guarantees this.
-#if EIGEN_HAS_CXX11_ATOMIC
+#if HYDRA_EIGEN_HAS_CXX11_ATOMIC
   std::atomic<Index> sync;
   std::atomic<int> users;
 #else
@@ -99,18 +99,18 @@ template<typename Index> struct GemmParallelInfo
 template<bool Condition, typename Functor, typename Index>
 void parallelize_gemm(const Functor& func, Index rows, Index cols, Index depth, bool transpose)
 {
-  // TODO when EIGEN_USE_BLAS is defined,
+  // TODO when HYDRA_EIGEN_USE_BLAS is defined,
   // we should still enable OMP for other scalar types
   // Without C++11, we have to disable GEMM's parallelization on
   // non x86 architectures because there volatile is not enough for our purpose.
   // See bug 1572.
-#if (! defined(EIGEN_HAS_OPENMP)) || defined(EIGEN_USE_BLAS) || ((!EIGEN_HAS_CXX11_ATOMIC) && !(EIGEN_ARCH_i386_OR_x86_64))
+#if (! defined(HYDRA_EIGEN_HAS_OPENMP)) || defined(HYDRA_EIGEN_USE_BLAS) || ((!HYDRA_EIGEN_HAS_CXX11_ATOMIC) && !(HYDRA_EIGEN_ARCH_i386_OR_x86_64))
   // FIXME the transpose variable is only needed to properly split
   // the matrix product when multithreading is enabled. This is a temporary
   // fix to support row-major destination matrices. This whole
   // parallelizer mechanism has to be redesigned anyway.
-  EIGEN_UNUSED_VARIABLE(depth);
-  EIGEN_UNUSED_VARIABLE(transpose);
+  HYDRA_EIGEN_UNUSED_VARIABLE(depth);
+  HYDRA_EIGEN_UNUSED_VARIABLE(transpose);
   func(0,rows, 0,cols);
 #else
 
@@ -140,7 +140,7 @@ void parallelize_gemm(const Functor& func, Index rows, Index cols, Index depth, 
   if((!Condition) || (threads==1) || (omp_get_num_threads()>1))
     return func(0,rows, 0,cols);
 
-  Eigen::initParallel();
+  hydra_Eigen::initParallel();
   func.initParallelSession(threads);
 
   if(transpose)
@@ -175,6 +175,6 @@ void parallelize_gemm(const Functor& func, Index rows, Index cols, Index depth, 
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_PARALLELIZER_H
+#endif // HYDRA_EIGEN_PARALLELIZER_H

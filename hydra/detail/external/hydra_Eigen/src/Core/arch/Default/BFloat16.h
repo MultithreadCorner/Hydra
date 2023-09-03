@@ -13,17 +13,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#ifndef EIGEN_BFLOAT16_H
-#define EIGEN_BFLOAT16_H
+#ifndef HYDRA_EIGEN_BFLOAT16_H
+#define HYDRA_EIGEN_BFLOAT16_H
 
 #define BF16_PACKET_FUNCTION(PACKET_F, PACKET_BF16, METHOD)         \
   template <>                                                       \
-  EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED  \
+  HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED  \
   PACKET_BF16 METHOD<PACKET_BF16>(const PACKET_BF16& _x) {          \
     return F32ToBf16(METHOD<PACKET_F>(Bf16ToF32(_x)));              \
   }
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 struct bfloat16;
 
@@ -31,25 +31,25 @@ namespace bfloat16_impl {
 
 // Make our own __bfloat16_raw definition.
 struct __bfloat16_raw {
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR __bfloat16_raw() : value(0) {}
-  explicit EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR __bfloat16_raw(unsigned short raw) : value(raw) {}
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR __bfloat16_raw() : value(0) {}
+  explicit HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR __bfloat16_raw(unsigned short raw) : value(raw) {}
   unsigned short value;
 };
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR __bfloat16_raw raw_uint16_to_bfloat16(unsigned short value);
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR __bfloat16_raw raw_uint16_to_bfloat16(unsigned short value);
 template <bool AssumeArgumentIsNormalOrInfinityOrZero>
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __bfloat16_raw float_to_bfloat16_rtne(float ff);
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC __bfloat16_raw float_to_bfloat16_rtne(float ff);
 // Forward declarations of template specializations, to avoid Visual C++ 2019 errors, saying:
 // > error C2908: explicit specialization; 'float_to_bfloat16_rtne' has already been instantiated
 template <>
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __bfloat16_raw float_to_bfloat16_rtne<false>(float ff);
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC __bfloat16_raw float_to_bfloat16_rtne<false>(float ff);
 template <>
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __bfloat16_raw float_to_bfloat16_rtne<true>(float ff);
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC float bfloat16_to_float(__bfloat16_raw h);
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC __bfloat16_raw float_to_bfloat16_rtne<true>(float ff);
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC float bfloat16_to_float(__bfloat16_raw h);
 
 struct bfloat16_base : public __bfloat16_raw {
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR bfloat16_base() {}
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR bfloat16_base(const __bfloat16_raw& h) : __bfloat16_raw(h) {}
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR bfloat16_base() {}
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR bfloat16_base(const __bfloat16_raw& h) : __bfloat16_raw(h) {}
 };
 
 } // namespace bfloat16_impl
@@ -59,35 +59,35 @@ struct bfloat16 : public bfloat16_impl::bfloat16_base {
 
   typedef bfloat16_impl::__bfloat16_raw __bfloat16_raw;
 
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR bfloat16() {}
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR bfloat16() {}
 
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR bfloat16(const __bfloat16_raw& h) : bfloat16_impl::bfloat16_base(h) {}
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR bfloat16(const __bfloat16_raw& h) : bfloat16_impl::bfloat16_base(h) {}
 
-  explicit EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR bfloat16(bool b)
+  explicit HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR bfloat16(bool b)
       : bfloat16_impl::bfloat16_base(bfloat16_impl::raw_uint16_to_bfloat16(b ? 0x3f80 : 0)) {}
 
   template<class T>
-  explicit EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR bfloat16(T val)
+  explicit HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR bfloat16(T val)
       : bfloat16_impl::bfloat16_base(bfloat16_impl::float_to_bfloat16_rtne<internal::is_integral<T>::value>(static_cast<float>(val))) {}
 
-  explicit EIGEN_DEVICE_FUNC bfloat16(float f)
+  explicit HYDRA_EIGEN_DEVICE_FUNC bfloat16(float f)
       : bfloat16_impl::bfloat16_base(bfloat16_impl::float_to_bfloat16_rtne<false>(f)) {}
 
   // Following the convention of numpy, converting between complex and
   // float will lead to loss of imag value.
   template<typename RealScalar>
-  explicit EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR bfloat16(const std::complex<RealScalar>& val)
+  explicit HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR bfloat16(const std::complex<RealScalar>& val)
       : bfloat16_impl::bfloat16_base(bfloat16_impl::float_to_bfloat16_rtne<false>(static_cast<float>(val.real()))) {}
 
-  EIGEN_DEVICE_FUNC operator float() const {  // NOLINT: Allow implicit conversion to float, because it is lossless.
+  HYDRA_EIGEN_DEVICE_FUNC operator float() const {  // NOLINT: Allow implicit conversion to float, because it is lossless.
     return bfloat16_impl::bfloat16_to_float(*this);
   }
 };
-} // namespace Eigen
+} // namespace hydra_Eigen
 
 namespace std {
 template<>
-struct numeric_limits<Eigen::bfloat16> {
+struct numeric_limits<hydra_Eigen::bfloat16> {
   static const bool is_specialized = true;
   static const bool is_signed = true;
   static const bool is_integer = false;
@@ -112,15 +112,15 @@ struct numeric_limits<Eigen::bfloat16> {
   static const bool traps = numeric_limits<float>::traps;
   static const bool tinyness_before = numeric_limits<float>::tinyness_before;
 
-  static Eigen::bfloat16 (min)() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x0080); }
-  static Eigen::bfloat16 lowest() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0xff7f); }
-  static Eigen::bfloat16 (max)() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x7f7f); }
-  static Eigen::bfloat16 epsilon() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x3c00); }
-  static Eigen::bfloat16 round_error() { return Eigen::bfloat16(0x3f00); }
-  static Eigen::bfloat16 infinity() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x7f80); }
-  static Eigen::bfloat16 quiet_NaN() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x7fc0); }
-  static Eigen::bfloat16 signaling_NaN() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x7f81); }
-  static Eigen::bfloat16 denorm_min() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x0001); }
+  static hydra_Eigen::bfloat16 (min)() { return hydra_Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x0080); }
+  static hydra_Eigen::bfloat16 lowest() { return hydra_Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0xff7f); }
+  static hydra_Eigen::bfloat16 (max)() { return hydra_Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x7f7f); }
+  static hydra_Eigen::bfloat16 epsilon() { return hydra_Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x3c00); }
+  static hydra_Eigen::bfloat16 round_error() { return hydra_Eigen::bfloat16(0x3f00); }
+  static hydra_Eigen::bfloat16 infinity() { return hydra_Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x7f80); }
+  static hydra_Eigen::bfloat16 quiet_NaN() { return hydra_Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x7fc0); }
+  static hydra_Eigen::bfloat16 signaling_NaN() { return hydra_Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x7f81); }
+  static hydra_Eigen::bfloat16 denorm_min() { return hydra_Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x0001); }
 };
 
 // If std::numeric_limits<T> is specialized, should also specialize
@@ -128,126 +128,126 @@ struct numeric_limits<Eigen::bfloat16> {
 // std::numeric_limits<const volatile T>
 // https://stackoverflow.com/a/16519653/
 template<>
-struct numeric_limits<const Eigen::bfloat16> : numeric_limits<Eigen::bfloat16> {};
+struct numeric_limits<const hydra_Eigen::bfloat16> : numeric_limits<hydra_Eigen::bfloat16> {};
 template<>
-struct numeric_limits<volatile Eigen::bfloat16> : numeric_limits<Eigen::bfloat16> {};
+struct numeric_limits<volatile hydra_Eigen::bfloat16> : numeric_limits<hydra_Eigen::bfloat16> {};
 template<>
-struct numeric_limits<const volatile Eigen::bfloat16> : numeric_limits<Eigen::bfloat16> {};
+struct numeric_limits<const volatile hydra_Eigen::bfloat16> : numeric_limits<hydra_Eigen::bfloat16> {};
 } // namespace std
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace bfloat16_impl {
 
 // We need to distinguish ‘clang as the CUDA compiler’ from ‘clang as the host compiler,
 // invoked by NVCC’ (e.g. on MacOS). The former needs to see both host and device implementation
 // of the functions, while the latter can only deal with one of them.
-#if !defined(EIGEN_HAS_NATIVE_BF16) || (EIGEN_COMP_CLANG && !EIGEN_COMP_NVCC) // Emulate support for bfloat16 floats
+#if !defined(HYDRA_EIGEN_HAS_NATIVE_BF16) || (HYDRA_EIGEN_COMP_CLANG && !HYDRA_EIGEN_COMP_NVCC) // Emulate support for bfloat16 floats
 
-#if EIGEN_COMP_CLANG && defined(EIGEN_CUDACC)
+#if HYDRA_EIGEN_COMP_CLANG && defined(HYDRA_EIGEN_CUDACC)
 // We need to provide emulated *host-side* BF16 operators for clang.
-#pragma push_macro("EIGEN_DEVICE_FUNC")
-#undef EIGEN_DEVICE_FUNC
-#if defined(EIGEN_HAS_CUDA_BF16) && defined(EIGEN_HAS_NATIVE_BF16)
-#define EIGEN_DEVICE_FUNC __host__
+#pragma push_macro("HYDRA_EIGEN_DEVICE_FUNC")
+#undef HYDRA_EIGEN_DEVICE_FUNC
+#if defined(HYDRA_EIGEN_HAS_CUDA_BF16) && defined(HYDRA_EIGEN_HAS_NATIVE_BF16)
+#define HYDRA_EIGEN_DEVICE_FUNC __host__
 #else // both host and device need emulated ops.
-#define EIGEN_DEVICE_FUNC __host__ __device__
+#define HYDRA_EIGEN_DEVICE_FUNC __host__ __device__
 #endif
 #endif
 
 // Definitions for CPUs, mostly working through conversion
 // to/from fp32.
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 operator + (const bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 operator + (const bfloat16& a, const bfloat16& b) {
   return bfloat16(float(a) + float(b));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 operator + (const bfloat16& a, const int& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 operator + (const bfloat16& a, const int& b) {
   return bfloat16(float(a) + static_cast<float>(b));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 operator + (const int& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 operator + (const int& a, const bfloat16& b) {
   return bfloat16(static_cast<float>(a) + float(b));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 operator * (const bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 operator * (const bfloat16& a, const bfloat16& b) {
   return bfloat16(float(a) * float(b));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 operator - (const bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 operator - (const bfloat16& a, const bfloat16& b) {
   return bfloat16(float(a) - float(b));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 operator / (const bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 operator / (const bfloat16& a, const bfloat16& b) {
   return bfloat16(float(a) / float(b));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 operator - (const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 operator - (const bfloat16& a) {
   bfloat16 result;
   result.value = a.value ^ 0x8000;
   return result;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16& operator += (bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16& operator += (bfloat16& a, const bfloat16& b) {
   a = bfloat16(float(a) + float(b));
   return a;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16& operator *= (bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16& operator *= (bfloat16& a, const bfloat16& b) {
   a = bfloat16(float(a) * float(b));
   return a;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16& operator -= (bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16& operator -= (bfloat16& a, const bfloat16& b) {
   a = bfloat16(float(a) - float(b));
   return a;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16& operator /= (bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16& operator /= (bfloat16& a, const bfloat16& b) {
   a = bfloat16(float(a) / float(b));
   return a;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 operator++(bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 operator++(bfloat16& a) {
   a += bfloat16(1);
   return a;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 operator--(bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 operator--(bfloat16& a) {
   a -= bfloat16(1);
   return a;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 operator++(bfloat16& a, int) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 operator++(bfloat16& a, int) {
   bfloat16 original_value = a;
   ++a;
   return original_value;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 operator--(bfloat16& a, int) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 operator--(bfloat16& a, int) {
   bfloat16 original_value = a;
   --a;
   return original_value;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool operator == (const bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bool operator == (const bfloat16& a, const bfloat16& b) {
   return numext::equal_strict(float(a),float(b));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool operator != (const bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bool operator != (const bfloat16& a, const bfloat16& b) {
   return numext::not_equal_strict(float(a), float(b));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool operator < (const bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bool operator < (const bfloat16& a, const bfloat16& b) {
   return float(a) < float(b);
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool operator <= (const bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bool operator <= (const bfloat16& a, const bfloat16& b) {
   return float(a) <= float(b);
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool operator > (const bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bool operator > (const bfloat16& a, const bfloat16& b) {
   return float(a) > float(b);
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool operator >= (const bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bool operator >= (const bfloat16& a, const bfloat16& b) {
   return float(a) >= float(b);
 }
 
-#if EIGEN_COMP_CLANG && defined(EIGEN_CUDACC)
-#pragma pop_macro("EIGEN_DEVICE_FUNC")
+#if HYDRA_EIGEN_COMP_CLANG && defined(HYDRA_EIGEN_CUDACC)
+#pragma pop_macro("HYDRA_EIGEN_DEVICE_FUNC")
 #endif
 #endif  // Emulate support for bfloat16 floats
 
 // Division by an index. Do it in full float precision to avoid accuracy
 // issues in converting the denominator to bfloat16.
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 operator / (const bfloat16& a, Index b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 operator / (const bfloat16& a, Index b) {
   return bfloat16(static_cast<float>(a) / static_cast<float>(b));
 }
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __bfloat16_raw truncate_to_bfloat16(const float v) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC __bfloat16_raw truncate_to_bfloat16(const float v) {
   __bfloat16_raw output;
-  if (Eigen::numext::isnan EIGEN_NOT_A_MACRO(v)) {
+  if (hydra_Eigen::numext::isnan HYDRA_EIGEN_NOT_A_MACRO(v)) {
     output.value = std::signbit(v) ? 0xFFC0: 0x7FC0;
     return output;
   }
@@ -260,24 +260,24 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __bfloat16_raw truncate_to_bfloat16(const 
   return output;
 }
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR __bfloat16_raw raw_uint16_to_bfloat16(numext::uint16_t value) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR __bfloat16_raw raw_uint16_to_bfloat16(numext::uint16_t value) {
   return __bfloat16_raw(value);
 }
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR numext::uint16_t raw_bfloat16_as_uint16(const __bfloat16_raw& bf) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR numext::uint16_t raw_bfloat16_as_uint16(const __bfloat16_raw& bf) {
   return bf.value;
 }
 
 // float_to_bfloat16_rtne template specialization that does not make any
 // assumption about the value of its function argument (ff).
 template <>
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __bfloat16_raw float_to_bfloat16_rtne<false>(float ff) {
-#if (defined(EIGEN_HAS_CUDA_BF16) && defined(EIGEN_HAS_HIP_BF16))
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC __bfloat16_raw float_to_bfloat16_rtne<false>(float ff) {
+#if (defined(HYDRA_EIGEN_HAS_CUDA_BF16) && defined(HYDRA_EIGEN_HAS_HIP_BF16))
   // Nothing to do here
 #else
   __bfloat16_raw output;
 
-  if (Eigen::numext::isnan EIGEN_NOT_A_MACRO(ff)) {
+  if (hydra_Eigen::numext::isnan HYDRA_EIGEN_NOT_A_MACRO(ff)) {
     // If the value is a NaN, squash it to a qNaN with msb of fraction set,
     // this makes sure after truncation we don't end up with an inf.
     //
@@ -445,8 +445,8 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __bfloat16_raw float_to_bfloat16_rtne<fals
 // zero. Used to improve the runtime performance of conversion from an integer
 // type to bfloat16.
 template <>
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __bfloat16_raw float_to_bfloat16_rtne<true>(float ff) {
-#if (defined(EIGEN_HAS_CUDA_BF16) && defined(EIGEN_HAS_HIP_BF16))
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC __bfloat16_raw float_to_bfloat16_rtne<true>(float ff) {
+#if (defined(HYDRA_EIGEN_HAS_CUDA_BF16) && defined(HYDRA_EIGEN_HAS_HIP_BF16))
     // Nothing to do here
 #else
     numext::uint32_t input = numext::bit_cast<numext::uint32_t>(ff);
@@ -461,7 +461,7 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __bfloat16_raw float_to_bfloat16_rtne<true
 #endif
 }
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC float bfloat16_to_float(__bfloat16_raw h) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC float bfloat16_to_float(__bfloat16_raw h) {
     float result = 0;
     unsigned short* q = reinterpret_cast<unsigned short*>(&result);
 #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
@@ -473,125 +473,125 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC float bfloat16_to_float(__bfloat16_raw h) 
 }
 // --- standard functions ---
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool (isinf)(const bfloat16& a) {
-  EIGEN_USING_STD(isinf);
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bool (isinf)(const bfloat16& a) {
+  HYDRA_EIGEN_USING_STD(isinf);
   return (isinf)(float(a));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool (isnan)(const bfloat16& a) {
-  EIGEN_USING_STD(isnan);
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bool (isnan)(const bfloat16& a) {
+  HYDRA_EIGEN_USING_STD(isnan);
   return (isnan)(float(a));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool (isfinite)(const bfloat16& a) {
-  return !(isinf EIGEN_NOT_A_MACRO (a)) && !(isnan EIGEN_NOT_A_MACRO (a));
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bool (isfinite)(const bfloat16& a) {
+  return !(isinf HYDRA_EIGEN_NOT_A_MACRO (a)) && !(isnan HYDRA_EIGEN_NOT_A_MACRO (a));
 }
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 abs(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 abs(const bfloat16& a) {
   bfloat16 result;
   result.value = a.value & 0x7FFF;
   return result;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 exp(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 exp(const bfloat16& a) {
    return bfloat16(::expf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 expm1(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 expm1(const bfloat16& a) {
   return bfloat16(numext::expm1(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 log(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 log(const bfloat16& a) {
   return bfloat16(::logf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 log1p(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 log1p(const bfloat16& a) {
   return bfloat16(numext::log1p(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 log10(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 log10(const bfloat16& a) {
   return bfloat16(::log10f(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 log2(const bfloat16& a) {
-  return bfloat16(static_cast<float>(EIGEN_LOG2E) * ::logf(float(a)));
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 log2(const bfloat16& a) {
+  return bfloat16(static_cast<float>(HYDRA_EIGEN_LOG2E) * ::logf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 sqrt(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 sqrt(const bfloat16& a) {
     return bfloat16(::sqrtf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 pow(const bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 pow(const bfloat16& a, const bfloat16& b) {
   return bfloat16(::powf(float(a), float(b)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 sin(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 sin(const bfloat16& a) {
   return bfloat16(::sinf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 cos(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 cos(const bfloat16& a) {
   return bfloat16(::cosf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 tan(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 tan(const bfloat16& a) {
   return bfloat16(::tanf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 asin(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 asin(const bfloat16& a) {
   return bfloat16(::asinf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 acos(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 acos(const bfloat16& a) {
   return bfloat16(::acosf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 atan(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 atan(const bfloat16& a) {
   return bfloat16(::atanf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 sinh(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 sinh(const bfloat16& a) {
   return bfloat16(::sinhf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 cosh(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 cosh(const bfloat16& a) {
   return bfloat16(::coshf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 tanh(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 tanh(const bfloat16& a) {
   return bfloat16(::tanhf(float(a)));
 }
-#if EIGEN_HAS_CXX11_MATH
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 asinh(const bfloat16& a) {
+#if HYDRA_EIGEN_HAS_CXX11_MATH
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 asinh(const bfloat16& a) {
   return bfloat16(::asinhf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 acosh(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 acosh(const bfloat16& a) {
   return bfloat16(::acoshf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 atanh(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 atanh(const bfloat16& a) {
   return bfloat16(::atanhf(float(a)));
 }
 #endif
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 floor(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 floor(const bfloat16& a) {
   return bfloat16(::floorf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 ceil(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 ceil(const bfloat16& a) {
   return bfloat16(::ceilf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 rint(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 rint(const bfloat16& a) {
   return bfloat16(::rintf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 round(const bfloat16& a) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 round(const bfloat16& a) {
   return bfloat16(::roundf(float(a)));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 fmod(const bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 fmod(const bfloat16& a, const bfloat16& b) {
   return bfloat16(::fmodf(float(a), float(b)));
 }
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 (min)(const bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 (min)(const bfloat16& a, const bfloat16& b) {
   const float f1 = static_cast<float>(a);
   const float f2 = static_cast<float>(b);
   return f2 < f1 ? b : a;
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 (max)(const bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 (max)(const bfloat16& a, const bfloat16& b) {
   const float f1 = static_cast<float>(a);
   const float f2 = static_cast<float>(b);
   return f1 < f2 ? b : a;
 }
 
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 fmin(const bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 fmin(const bfloat16& a, const bfloat16& b) {
   const float f1 = static_cast<float>(a);
   const float f2 = static_cast<float>(b);
   return bfloat16(::fminf(f1, f2));
 }
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 fmax(const bfloat16& a, const bfloat16& b) {
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC bfloat16 fmax(const bfloat16& a, const bfloat16& b) {
   const float f1 = static_cast<float>(a);
   const float f2 = static_cast<float>(b);
   return bfloat16(::fmaxf(f1, f2));
 }
 
-#ifndef EIGEN_NO_IO
-EIGEN_ALWAYS_INLINE std::ostream& operator << (std::ostream& os, const bfloat16& v) {
+#ifndef HYDRA_EIGEN_NO_IO
+HYDRA_EIGEN_ALWAYS_INLINE std::ostream& operator << (std::ostream& os, const bfloat16& v) {
   os << static_cast<float>(v);
   return os;
 }
@@ -618,8 +618,8 @@ template<> struct is_arithmetic<bfloat16> { enum { value = true }; };
 
 } // namespace internal
 
-template<> struct NumTraits<Eigen::bfloat16>
-    : GenericNumTraits<Eigen::bfloat16>
+template<> struct NumTraits<hydra_Eigen::bfloat16>
+    : GenericNumTraits<hydra_Eigen::bfloat16>
 {
   enum {
     IsSigned = true,
@@ -628,73 +628,73 @@ template<> struct NumTraits<Eigen::bfloat16>
     RequireInitialization = false
   };
 
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR static EIGEN_STRONG_INLINE Eigen::bfloat16 epsilon() {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR static HYDRA_EIGEN_STRONG_INLINE hydra_Eigen::bfloat16 epsilon() {
     return bfloat16_impl::raw_uint16_to_bfloat16(0x3c00);
   }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR static EIGEN_STRONG_INLINE Eigen::bfloat16 dummy_precision() {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR static HYDRA_EIGEN_STRONG_INLINE hydra_Eigen::bfloat16 dummy_precision() {
     return bfloat16_impl::raw_uint16_to_bfloat16(0x3D4D);  // bfloat16(5e-2f);
 
   }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR static EIGEN_STRONG_INLINE Eigen::bfloat16 highest() {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR static HYDRA_EIGEN_STRONG_INLINE hydra_Eigen::bfloat16 highest() {
     return bfloat16_impl::raw_uint16_to_bfloat16(0x7F7F);
   }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR static EIGEN_STRONG_INLINE Eigen::bfloat16 lowest() {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR static HYDRA_EIGEN_STRONG_INLINE hydra_Eigen::bfloat16 lowest() {
     return bfloat16_impl::raw_uint16_to_bfloat16(0xFF7F);
   }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR static EIGEN_STRONG_INLINE Eigen::bfloat16 infinity() {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR static HYDRA_EIGEN_STRONG_INLINE hydra_Eigen::bfloat16 infinity() {
     return bfloat16_impl::raw_uint16_to_bfloat16(0x7f80);
   }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR static EIGEN_STRONG_INLINE Eigen::bfloat16 quiet_NaN() {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR static HYDRA_EIGEN_STRONG_INLINE hydra_Eigen::bfloat16 quiet_NaN() {
     return bfloat16_impl::raw_uint16_to_bfloat16(0x7fc0);
   }
 };
 
-} // namespace Eigen
+} // namespace hydra_Eigen
 
-namespace Eigen {
+namespace hydra_Eigen {
 namespace numext {
 
 template<>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE
-bool (isnan)(const Eigen::bfloat16& h) {
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE
+bool (isnan)(const hydra_Eigen::bfloat16& h) {
   return (bfloat16_impl::isnan)(h);
 }
 
 template<>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE
-bool (isinf)(const Eigen::bfloat16& h) {
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE
+bool (isinf)(const hydra_Eigen::bfloat16& h) {
   return (bfloat16_impl::isinf)(h);
 }
 
 template<>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE
-bool (isfinite)(const Eigen::bfloat16& h) {
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE
+bool (isfinite)(const hydra_Eigen::bfloat16& h) {
   return (bfloat16_impl::isfinite)(h);
 }
 
 template <>
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC Eigen::bfloat16 bit_cast<Eigen::bfloat16, uint16_t>(const uint16_t& src) {
-  return Eigen::bfloat16(Eigen::bfloat16_impl::raw_uint16_to_bfloat16(src));
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC hydra_Eigen::bfloat16 bit_cast<hydra_Eigen::bfloat16, uint16_t>(const uint16_t& src) {
+  return hydra_Eigen::bfloat16(hydra_Eigen::bfloat16_impl::raw_uint16_to_bfloat16(src));
 }
 
 template <>
-EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC uint16_t bit_cast<uint16_t, Eigen::bfloat16>(const Eigen::bfloat16& src) {
-  return Eigen::bfloat16_impl::raw_bfloat16_as_uint16(src);
+HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC uint16_t bit_cast<uint16_t, hydra_Eigen::bfloat16>(const hydra_Eigen::bfloat16& src) {
+  return hydra_Eigen::bfloat16_impl::raw_bfloat16_as_uint16(src);
 }
 
 }  // namespace numext
-}  // namespace Eigen
+}  // namespace hydra_Eigen
 
-#if EIGEN_HAS_STD_HASH
+#if HYDRA_EIGEN_HAS_STD_HASH
 namespace std {
 template <>
-struct hash<Eigen::bfloat16> {
-  EIGEN_STRONG_INLINE std::size_t operator()(const Eigen::bfloat16& a) const {
-    return static_cast<std::size_t>(Eigen::numext::bit_cast<Eigen::numext::uint16_t>(a));
+struct hash<hydra_Eigen::bfloat16> {
+  HYDRA_EIGEN_STRONG_INLINE std::size_t operator()(const hydra_Eigen::bfloat16& a) const {
+    return static_cast<std::size_t>(hydra_Eigen::numext::bit_cast<hydra_Eigen::numext::uint16_t>(a));
   }
 };
 } // namespace std
 #endif
 
 
-#endif // EIGEN_BFLOAT16_H
+#endif // HYDRA_EIGEN_BFLOAT16_H

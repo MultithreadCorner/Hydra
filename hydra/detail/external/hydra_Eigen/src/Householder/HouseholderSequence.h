@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_HOUSEHOLDER_SEQUENCE_H
-#define EIGEN_HOUSEHOLDER_SEQUENCE_H
+#ifndef HYDRA_EIGEN_HOUSEHOLDER_SEQUENCE_H
+#define HYDRA_EIGEN_HOUSEHOLDER_SEQUENCE_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 /** \ingroup Householder_Module
   * \householder_module
@@ -87,7 +87,7 @@ struct hseq_side_dependent_impl
 {
   typedef Block<const VectorsType, Dynamic, 1> EssentialVectorType;
   typedef HouseholderSequence<VectorsType, CoeffsType, OnTheLeft> HouseholderSequenceType;
-  static EIGEN_DEVICE_FUNC inline const EssentialVectorType essentialVector(const HouseholderSequenceType& h, Index k)
+  static HYDRA_EIGEN_DEVICE_FUNC inline const EssentialVectorType essentialVector(const HouseholderSequenceType& h, Index k)
   {
     Index start = k+1+h.m_shift;
     return Block<const VectorsType,Dynamic,1>(h.m_vectors, start, k, h.rows()-start, 1);
@@ -179,7 +179,7 @@ template<typename VectorsType, typename CoeffsType, int Side> class HouseholderS
       *
       * \sa setLength(), setShift()
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     HouseholderSequence(const VectorsType& v, const CoeffsType& h)
       : m_vectors(v), m_coeffs(h), m_reverse(false), m_length(v.diagonalSize()),
         m_shift(0)
@@ -187,7 +187,7 @@ template<typename VectorsType, typename CoeffsType, int Side> class HouseholderS
     }
 
     /** \brief Copy constructor. */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     HouseholderSequence(const HouseholderSequence& other)
       : m_vectors(other.m_vectors),
         m_coeffs(other.m_coeffs),
@@ -201,15 +201,15 @@ template<typename VectorsType, typename CoeffsType, int Side> class HouseholderS
       * \returns Number of rows
       * \details This equals the dimension of the space that the transformation acts on.
       */
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
-    Index rows() const EIGEN_NOEXCEPT { return Side==OnTheLeft ? m_vectors.rows() : m_vectors.cols(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
+    Index rows() const HYDRA_EIGEN_NOEXCEPT { return Side==OnTheLeft ? m_vectors.rows() : m_vectors.cols(); }
 
     /** \brief Number of columns of transformation viewed as a matrix.
       * \returns Number of columns
       * \details This equals the dimension of the space that the transformation acts on.
       */
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
-    Index cols() const EIGEN_NOEXCEPT { return rows(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
+    Index cols() const HYDRA_EIGEN_NOEXCEPT { return rows(); }
 
     /** \brief Essential part of a Householder vector.
       * \param[in]  k  Index of Householder reflection
@@ -225,7 +225,7 @@ template<typename VectorsType, typename CoeffsType, int Side> class HouseholderS
       *
       * \sa setShift(), shift()
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const EssentialVectorType essentialVector(Index k) const
     {
       eigen_assert(k >= 0 && k < m_length);
@@ -254,7 +254,7 @@ template<typename VectorsType, typename CoeffsType, int Side> class HouseholderS
      *           returns \c *this otherwise.
      */
     template<bool Cond>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline typename internal::conditional<Cond,ConjugateReturnType,ConstHouseholderSequence>::type
     conjugateIf() const
     {
@@ -276,7 +276,7 @@ template<typename VectorsType, typename CoeffsType, int Side> class HouseholderS
 
     /** \internal */
     template<typename DestType>
-    inline EIGEN_DEVICE_FUNC
+    inline HYDRA_EIGEN_DEVICE_FUNC
     void evalTo(DestType& dst) const
     {
       Matrix<Scalar, DestType::RowsAtCompileTime, 1,
@@ -286,7 +286,7 @@ template<typename VectorsType, typename CoeffsType, int Side> class HouseholderS
 
     /** \internal */
     template<typename Dest, typename Workspace>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void evalTo(Dest& dst, Workspace& workspace) const
     {
       workspace.resize(rows());
@@ -439,7 +439,7 @@ template<typename VectorsType, typename CoeffsType, int Side> class HouseholderS
       *
       * \sa length()
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     HouseholderSequence& setLength(Index length)
     {
       m_length = length;
@@ -457,17 +457,17 @@ template<typename VectorsType, typename CoeffsType, int Side> class HouseholderS
       *
       * \sa shift()
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     HouseholderSequence& setShift(Index shift)
     {
       m_shift = shift;
       return *this;
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     Index length() const { return m_length; }  /**< \brief Returns the length of the Householder sequence. */
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     Index shift() const { return m_shift; }    /**< \brief Returns the shift of the Householder sequence. */
 
     /* Necessary for .adjoint() and .conjugate() */
@@ -540,6 +540,6 @@ HouseholderSequence<VectorsType,CoeffsType,OnTheRight> rightHouseholderSequence(
   return HouseholderSequence<VectorsType,CoeffsType,OnTheRight>(v, h);
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_HOUSEHOLDER_SEQUENCE_H
+#endif // HYDRA_EIGEN_HOUSEHOLDER_SEQUENCE_H

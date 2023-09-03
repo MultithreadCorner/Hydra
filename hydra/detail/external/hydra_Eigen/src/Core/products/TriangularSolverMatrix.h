@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_TRIANGULAR_SOLVER_MATRIX_H
-#define EIGEN_TRIANGULAR_SOLVER_MATRIX_H
+#ifndef HYDRA_EIGEN_TRIANGULAR_SOLVER_MATRIX_H
+#define HYDRA_EIGEN_TRIANGULAR_SOLVER_MATRIX_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -38,14 +38,14 @@ struct triangular_solve_matrix<Scalar,Index,Side,Mode,Conjugate,TriStorageOrder,
 template <typename Scalar, typename Index, int Mode, bool Conjugate, int TriStorageOrder,int OtherInnerStride>
 struct triangular_solve_matrix<Scalar,Index,OnTheLeft,Mode,Conjugate,TriStorageOrder,ColMajor,OtherInnerStride>
 {
-  static EIGEN_DONT_INLINE void run(
+  static HYDRA_EIGEN_DONT_INLINE void run(
     Index size, Index otherSize,
     const Scalar* _tri, Index triStride,
     Scalar* _other, Index otherIncr, Index otherStride,
     level3_blocking<Scalar,Scalar>& blocking);
 };
 template <typename Scalar, typename Index, int Mode, bool Conjugate, int TriStorageOrder, int OtherInnerStride>
-EIGEN_DONT_INLINE void triangular_solve_matrix<Scalar,Index,OnTheLeft,Mode,Conjugate,TriStorageOrder,ColMajor,OtherInnerStride>::run(
+HYDRA_EIGEN_DONT_INLINE void triangular_solve_matrix<Scalar,Index,OnTheLeft,Mode,Conjugate,TriStorageOrder,ColMajor,OtherInnerStride>::run(
     Index size, Index otherSize,
     const Scalar* _tri, Index triStride,
     Scalar* _other, Index otherIncr, Index otherStride,
@@ -61,7 +61,7 @@ EIGEN_DONT_INLINE void triangular_solve_matrix<Scalar,Index,OnTheLeft,Mode,Conju
     typedef gebp_traits<Scalar,Scalar> Traits;
 
     enum {
-      SmallPanelWidth   = EIGEN_PLAIN_ENUM_MAX(Traits::mr,Traits::nr),
+      SmallPanelWidth   = HYDRA_EIGEN_PLAIN_ENUM_MAX(Traits::mr,Traits::nr),
       IsLower = (Mode&Lower) == Lower
     };
 
@@ -190,14 +190,14 @@ EIGEN_DONT_INLINE void triangular_solve_matrix<Scalar,Index,OnTheLeft,Mode,Conju
 template <typename Scalar, typename Index, int Mode, bool Conjugate, int TriStorageOrder, int OtherInnerStride>
 struct triangular_solve_matrix<Scalar,Index,OnTheRight,Mode,Conjugate,TriStorageOrder,ColMajor,OtherInnerStride>
 {
-  static EIGEN_DONT_INLINE void run(
+  static HYDRA_EIGEN_DONT_INLINE void run(
     Index size, Index otherSize,
     const Scalar* _tri, Index triStride,
     Scalar* _other, Index otherIncr, Index otherStride,
     level3_blocking<Scalar,Scalar>& blocking);
 };
 template <typename Scalar, typename Index, int Mode, bool Conjugate, int TriStorageOrder, int OtherInnerStride>
-EIGEN_DONT_INLINE void triangular_solve_matrix<Scalar,Index,OnTheRight,Mode,Conjugate,TriStorageOrder,ColMajor,OtherInnerStride>::run(
+HYDRA_EIGEN_DONT_INLINE void triangular_solve_matrix<Scalar,Index,OnTheRight,Mode,Conjugate,TriStorageOrder,ColMajor,OtherInnerStride>::run(
     Index size, Index otherSize,
     const Scalar* _tri, Index triStride,
     Scalar* _other, Index otherIncr, Index otherStride,
@@ -214,7 +214,7 @@ EIGEN_DONT_INLINE void triangular_solve_matrix<Scalar,Index,OnTheRight,Mode,Conj
     typedef gebp_traits<Scalar,Scalar> Traits;
     enum {
       RhsStorageOrder   = TriStorageOrder,
-      SmallPanelWidth   = EIGEN_PLAIN_ENUM_MAX(Traits::mr,Traits::nr),
+      SmallPanelWidth   = HYDRA_EIGEN_PLAIN_ENUM_MAX(Traits::mr,Traits::nr),
       IsLower = (Mode&Lower) == Lower
     };
 
@@ -332,6 +332,6 @@ EIGEN_DONT_INLINE void triangular_solve_matrix<Scalar,Index,OnTheRight,Mode,Conj
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_TRIANGULAR_SOLVER_MATRIX_H
+#endif // HYDRA_EIGEN_TRIANGULAR_SOLVER_MATRIX_H

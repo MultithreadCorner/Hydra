@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_IO_H
-#define EIGEN_IO_H
+#ifndef HYDRA_EIGEN_IO_H
+#define HYDRA_EIGEN_IO_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 enum { DontAlignCols = 1 };
 enum { StreamPrecision = -1,
@@ -240,8 +240,8 @@ std::ostream & print_matrix(std::ostream & s, const Derived& _m, const IOFormat&
   *
   * If you wish to print the matrix with a format different than the default, use DenseBase::format().
   *
-  * It is also possible to change the default format by defining EIGEN_DEFAULT_IO_FORMAT before including Eigen headers.
-  * If not defined, this will automatically be defined to Eigen::IOFormat(), that is the Eigen::IOFormat with default parameters.
+  * It is also possible to change the default format by defining HYDRA_EIGEN_DEFAULT_IO_FORMAT before including Eigen headers.
+  * If not defined, this will automatically be defined to hydra_Eigen::IOFormat(), that is the hydra_Eigen::IOFormat with default parameters.
   *
   * \sa DenseBase::format()
   */
@@ -250,9 +250,9 @@ std::ostream & operator <<
 (std::ostream & s,
  const DenseBase<Derived> & m)
 {
-  return internal::print_matrix(s, m.eval(), EIGEN_DEFAULT_IO_FORMAT);
+  return internal::print_matrix(s, m.eval(), HYDRA_EIGEN_DEFAULT_IO_FORMAT);
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_IO_H
+#endif // HYDRA_EIGEN_IO_H

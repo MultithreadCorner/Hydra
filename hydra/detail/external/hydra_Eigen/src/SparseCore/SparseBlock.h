@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSE_BLOCK_H
-#define EIGEN_SPARSE_BLOCK_H
+#ifndef HYDRA_EIGEN_SPARSE_BLOCK_H
+#define HYDRA_EIGEN_SPARSE_BLOCK_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 // Subset of columns or rows
 template<typename XprType, int BlockRows, int BlockCols>
@@ -26,7 +26,7 @@ protected:
     typedef SparseMatrixBase<BlockType> Base;
     using Base::convert_index;
 public:
-    EIGEN_SPARSE_PUBLIC_INTERFACE(BlockType)
+    HYDRA_EIGEN_SPARSE_PUBLIC_INTERFACE(BlockType)
 
     inline BlockImpl(XprType& xpr, Index i)
       : m_matrix(xpr), m_outerStart(convert_index(i)), m_outerSize(OuterSize)
@@ -36,8 +36,8 @@ public:
       : m_matrix(xpr), m_outerStart(convert_index(IsRowMajor ? startRow : startCol)), m_outerSize(convert_index(IsRowMajor ? blockRows : blockCols))
     {}
 
-    EIGEN_STRONG_INLINE Index rows() const { return IsRowMajor ? m_outerSize.value() : m_matrix.rows(); }
-    EIGEN_STRONG_INLINE Index cols() const { return IsRowMajor ? m_matrix.cols() : m_outerSize.value(); }
+    HYDRA_EIGEN_STRONG_INLINE Index rows() const { return IsRowMajor ? m_outerSize.value() : m_matrix.rows(); }
+    HYDRA_EIGEN_STRONG_INLINE Index cols() const { return IsRowMajor ? m_matrix.cols() : m_outerSize.value(); }
 
     Index nonZeros() const
     {
@@ -80,7 +80,7 @@ public:
     template<typename T>
     BlockImpl& operator=(const T&)
     {
-      EIGEN_STATIC_ASSERT(sizeof(T)==0, THIS_SPARSE_BLOCK_SUBEXPRESSION_IS_READ_ONLY);
+      HYDRA_EIGEN_STATIC_ASSERT(sizeof(T)==0, THIS_SPARSE_BLOCK_SUBEXPRESSION_IS_READ_ONLY);
       return *this;
     }
 };
@@ -102,7 +102,7 @@ class sparse_matrix_block_impl
     using Base::convert_index;
 public:
     enum { IsRowMajor = internal::traits<BlockType>::IsRowMajor };
-    EIGEN_SPARSE_PUBLIC_INTERFACE(BlockType)
+    HYDRA_EIGEN_SPARSE_PUBLIC_INTERFACE(BlockType)
 protected:
     typedef typename Base::IndexVector IndexVector;
     enum { OuterSize = IsRowMajor ? BlockRows : BlockCols };
@@ -255,7 +255,7 @@ public:
 
     const Scalar& lastCoeff() const
     {
-      EIGEN_STATIC_ASSERT_VECTOR_ONLY(sparse_matrix_block_impl);
+      HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(sparse_matrix_block_impl);
       eigen_assert(Base::nonZeros()>0);
       if(m_matrix.isCompressed())
         return m_matrix.valuePtr()[m_matrix.outerIndexPtr()[m_outerStart+1]-1];
@@ -263,8 +263,8 @@ public:
         return m_matrix.valuePtr()[m_matrix.outerIndexPtr()[m_outerStart]+m_matrix.innerNonZeroPtr()[m_outerStart]-1];
     }
 
-    EIGEN_STRONG_INLINE Index rows() const { return IsRowMajor ? m_outerSize.value() : m_matrix.rows(); }
-    EIGEN_STRONG_INLINE Index cols() const { return IsRowMajor ? m_matrix.cols() : m_outerSize.value(); }
+    HYDRA_EIGEN_STRONG_INLINE Index rows() const { return IsRowMajor ? m_outerSize.value() : m_matrix.rows(); }
+    HYDRA_EIGEN_STRONG_INLINE Index cols() const { return IsRowMajor ? m_matrix.cols() : m_outerSize.value(); }
 
     inline const SparseMatrixType& nestedExpression() const { return m_matrix; }
     inline SparseMatrixType& nestedExpression() { return m_matrix; }
@@ -338,7 +338,7 @@ class BlockImpl<XprType,BlockRows,BlockCols,InnerPanel,Sparse>
     using Base::convert_index;
 public:
     enum { IsRowMajor = internal::traits<BlockType>::IsRowMajor };
-    EIGEN_SPARSE_PUBLIC_INTERFACE(BlockType)
+    HYDRA_EIGEN_SPARSE_PUBLIC_INTERFACE(BlockType)
 
     typedef typename internal::remove_all<typename XprType::Nested>::type _MatrixTypeNested;
 
@@ -408,7 +408,7 @@ public:
     template<typename T>
     BlockImpl& operator=(const T&)
     {
-      EIGEN_STATIC_ASSERT(sizeof(T)==0, THIS_SPARSE_BLOCK_SUBEXPRESSION_IS_READ_ONLY);
+      HYDRA_EIGEN_STATIC_ASSERT(sizeof(T)==0, THIS_SPARSE_BLOCK_SUBEXPRESSION_IS_READ_ONLY);
       return *this;
     }
 
@@ -475,7 +475,7 @@ class unary_evaluator<Block<ArgType,BlockRows,BlockCols,InnerPanel>, IteratorBas
   Index m_end;
 public:
 
-  EIGEN_STRONG_INLINE InnerVectorInnerIterator(const unary_evaluator& aEval, Index outer)
+  HYDRA_EIGEN_STRONG_INLINE InnerVectorInnerIterator(const unary_evaluator& aEval, Index outer)
     : EvalIterator(aEval.m_argImpl, outer + (XprIsRowMajor ? aEval.m_block.startRow() : aEval.m_block.startCol())),
       m_block(aEval.m_block),
       m_end(XprIsRowMajor ? aEval.m_block.startCol()+aEval.m_block.blockCols() : aEval.m_block.startRow()+aEval.m_block.blockRows())
@@ -504,14 +504,14 @@ class unary_evaluator<Block<ArgType,BlockRows,BlockCols,InnerPanel>, IteratorBas
   EvalIterator m_it;
 public:
 
-  EIGEN_STRONG_INLINE OuterVectorInnerIterator(const unary_evaluator& aEval, Index outer)
+  HYDRA_EIGEN_STRONG_INLINE OuterVectorInnerIterator(const unary_evaluator& aEval, Index outer)
     : m_eval(aEval),
       m_outerPos( (XprIsRowMajor ? aEval.m_block.startCol() : aEval.m_block.startRow()) ),
       m_innerIndex(XprIsRowMajor ? aEval.m_block.startRow() : aEval.m_block.startCol()),
       m_end(XprIsRowMajor ? aEval.m_block.startCol()+aEval.m_block.blockCols() : aEval.m_block.startRow()+aEval.m_block.blockRows()),
       m_it(m_eval.m_argImpl, m_outerPos)
   {
-    EIGEN_UNUSED_VARIABLE(outer);
+    HYDRA_EIGEN_UNUSED_VARIABLE(outer);
     eigen_assert(outer==0);
 
     while(m_it && m_it.index() < m_innerIndex) ++m_it;
@@ -566,6 +566,6 @@ struct unary_evaluator<Block<const SparseMatrix<_Scalar, _Options, _StorageIndex
 } // end namespace internal
 
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SPARSE_BLOCK_H
+#endif // HYDRA_EIGEN_SPARSE_BLOCK_H

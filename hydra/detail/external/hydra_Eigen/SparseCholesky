@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSECHOLESKY_MODULE_H
-#define EIGEN_SPARSECHOLESKY_MODULE_H
+#ifndef HYDRA_EIGEN_SPARSECHOLESKY_MODULE_H
+#define HYDRA_EIGEN_SPARSECHOLESKY_MODULE_H
 
 #include "SparseCore"
 #include "OrderingMethods"
@@ -34,4 +34,4 @@
 #include "src/SparseCholesky/SimplicialCholesky_impl.h"
 #include "src/Core/util/ReenableStupidWarnings.h"
 
-#endif // EIGEN_SPARSECHOLESKY_MODULE_H
+#endif // HYDRA_EIGEN_SPARSECHOLESKY_MODULE_H

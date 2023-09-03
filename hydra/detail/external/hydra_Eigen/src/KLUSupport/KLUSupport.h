@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_KLUSUPPORT_H
-#define EIGEN_KLUSUPPORT_H
+#ifndef HYDRA_EIGEN_KLUSUPPORT_H
+#define HYDRA_EIGEN_KLUSUPPORT_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 /* TODO extract L, extract U, compute det, etc... */
 
@@ -101,8 +101,8 @@ class KLU : public SparseSolverBase<KLU<_MatrixType> >
       if(m_numeric)  klu_free_numeric(&m_numeric,&m_common);
     }
 
-    EIGEN_CONSTEXPR inline Index rows() const EIGEN_NOEXCEPT { return mp_matrix.rows(); }
-    EIGEN_CONSTEXPR inline Index cols() const EIGEN_NOEXCEPT { return mp_matrix.cols(); }
+    HYDRA_EIGEN_CONSTEXPR inline Index rows() const HYDRA_EIGEN_NOEXCEPT { return mp_matrix.rows(); }
+    HYDRA_EIGEN_CONSTEXPR inline Index cols() const HYDRA_EIGEN_NOEXCEPT { return mp_matrix.cols(); }
 
     /** \brief Reports whether previous computation was successful.
       *
@@ -343,7 +343,7 @@ template<typename BDerived,typename XDerived>
 bool KLU<MatrixType>::_solve_impl(const MatrixBase<BDerived> &b, MatrixBase<XDerived> &x) const
 {
   Index rhsCols = b.cols();
-  EIGEN_STATIC_ASSERT((XDerived::Flags&RowMajorBit)==0, THIS_METHOD_IS_ONLY_FOR_COLUMN_MAJOR_MATRICES);
+  HYDRA_EIGEN_STATIC_ASSERT((XDerived::Flags&RowMajorBit)==0, THIS_METHOD_IS_ONLY_FOR_COLUMN_MAJOR_MATRICES);
   eigen_assert(m_factorizationIsOk && "The decomposition is not in a valid state for solving, you must first call either compute() or analyzePattern()/factorize()");
 
   x = b;
@@ -353,6 +353,6 @@ bool KLU<MatrixType>::_solve_impl(const MatrixBase<BDerived> &b, MatrixBase<XDer
   return true;
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_KLUSUPPORT_H
+#endif // HYDRA_EIGEN_KLUSUPPORT_H

@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SELFADJOINT_MATRIX_MATRIX_H
-#define EIGEN_SELFADJOINT_MATRIX_MATRIX_H
+#ifndef HYDRA_EIGEN_SELFADJOINT_MATRIX_MATRIX_H
+#define HYDRA_EIGEN_SELFADJOINT_MATRIX_MATRIX_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -304,7 +304,7 @@ template <typename Scalar, typename Index,
 struct product_selfadjoint_matrix<Scalar,Index,LhsStorageOrder,LhsSelfAdjoint,ConjugateLhs, RhsStorageOrder,RhsSelfAdjoint,ConjugateRhs,RowMajor,ResInnerStride>
 {
 
-  static EIGEN_STRONG_INLINE void run(
+  static HYDRA_EIGEN_STRONG_INLINE void run(
     Index rows, Index cols,
     const Scalar* lhs, Index lhsStride,
     const Scalar* rhs, Index rhsStride,
@@ -312,10 +312,10 @@ struct product_selfadjoint_matrix<Scalar,Index,LhsStorageOrder,LhsSelfAdjoint,Co
     const Scalar& alpha, level3_blocking<Scalar,Scalar>& blocking)
   {
     product_selfadjoint_matrix<Scalar, Index,
-      EIGEN_LOGICAL_XOR(RhsSelfAdjoint,RhsStorageOrder==RowMajor) ? ColMajor : RowMajor,
-      RhsSelfAdjoint, NumTraits<Scalar>::IsComplex && EIGEN_LOGICAL_XOR(RhsSelfAdjoint,ConjugateRhs),
-      EIGEN_LOGICAL_XOR(LhsSelfAdjoint,LhsStorageOrder==RowMajor) ? ColMajor : RowMajor,
-      LhsSelfAdjoint, NumTraits<Scalar>::IsComplex && EIGEN_LOGICAL_XOR(LhsSelfAdjoint,ConjugateLhs),
+      HYDRA_EIGEN_LOGICAL_XOR(RhsSelfAdjoint,RhsStorageOrder==RowMajor) ? ColMajor : RowMajor,
+      RhsSelfAdjoint, NumTraits<Scalar>::IsComplex && HYDRA_EIGEN_LOGICAL_XOR(RhsSelfAdjoint,ConjugateRhs),
+      HYDRA_EIGEN_LOGICAL_XOR(LhsSelfAdjoint,LhsStorageOrder==RowMajor) ? ColMajor : RowMajor,
+      LhsSelfAdjoint, NumTraits<Scalar>::IsComplex && HYDRA_EIGEN_LOGICAL_XOR(LhsSelfAdjoint,ConjugateLhs),
       ColMajor,ResInnerStride>
       ::run(cols, rows,  rhs, rhsStride,  lhs, lhsStride,  res, resIncr, resStride,  alpha, blocking);
   }
@@ -328,7 +328,7 @@ template <typename Scalar, typename Index,
 struct product_selfadjoint_matrix<Scalar,Index,LhsStorageOrder,true,ConjugateLhs, RhsStorageOrder,false,ConjugateRhs,ColMajor,ResInnerStride>
 {
 
-  static EIGEN_DONT_INLINE void run(
+  static HYDRA_EIGEN_DONT_INLINE void run(
     Index rows, Index cols,
     const Scalar* _lhs, Index lhsStride,
     const Scalar* _rhs, Index rhsStride,
@@ -340,7 +340,7 @@ template <typename Scalar, typename Index,
           int LhsStorageOrder, bool ConjugateLhs,
           int RhsStorageOrder, bool ConjugateRhs,
           int ResInnerStride>
-EIGEN_DONT_INLINE void product_selfadjoint_matrix<Scalar,Index,LhsStorageOrder,true,ConjugateLhs, RhsStorageOrder,false,ConjugateRhs,ColMajor,ResInnerStride>::run(
+HYDRA_EIGEN_DONT_INLINE void product_selfadjoint_matrix<Scalar,Index,LhsStorageOrder,true,ConjugateLhs, RhsStorageOrder,false,ConjugateRhs,ColMajor,ResInnerStride>::run(
     Index rows, Index cols,
     const Scalar* _lhs, Index lhsStride,
     const Scalar* _rhs, Index rhsStride,
@@ -423,7 +423,7 @@ template <typename Scalar, typename Index,
 struct product_selfadjoint_matrix<Scalar,Index,LhsStorageOrder,false,ConjugateLhs, RhsStorageOrder,true,ConjugateRhs,ColMajor,ResInnerStride>
 {
 
-  static EIGEN_DONT_INLINE void run(
+  static HYDRA_EIGEN_DONT_INLINE void run(
     Index rows, Index cols,
     const Scalar* _lhs, Index lhsStride,
     const Scalar* _rhs, Index rhsStride,
@@ -435,7 +435,7 @@ template <typename Scalar, typename Index,
           int LhsStorageOrder, bool ConjugateLhs,
           int RhsStorageOrder, bool ConjugateRhs,
           int ResInnerStride>
-EIGEN_DONT_INLINE void product_selfadjoint_matrix<Scalar,Index,LhsStorageOrder,false,ConjugateLhs, RhsStorageOrder,true,ConjugateRhs,ColMajor,ResInnerStride>::run(
+HYDRA_EIGEN_DONT_INLINE void product_selfadjoint_matrix<Scalar,Index,LhsStorageOrder,false,ConjugateLhs, RhsStorageOrder,true,ConjugateRhs,ColMajor,ResInnerStride>::run(
     Index rows, Index cols,
     const Scalar* _lhs, Index lhsStride,
     const Scalar* _rhs, Index rhsStride,
@@ -521,10 +521,10 @@ struct selfadjoint_product_impl<Lhs,LhsMode,false,Rhs,RhsMode,false>
     BlockingType blocking(lhs.rows(), rhs.cols(), lhs.cols(), 1, false);
 
     internal::product_selfadjoint_matrix<Scalar, Index,
-      EIGEN_LOGICAL_XOR(LhsIsUpper,internal::traits<Lhs>::Flags &RowMajorBit) ? RowMajor : ColMajor, LhsIsSelfAdjoint,
-      NumTraits<Scalar>::IsComplex && EIGEN_LOGICAL_XOR(LhsIsUpper,bool(LhsBlasTraits::NeedToConjugate)),
-      EIGEN_LOGICAL_XOR(RhsIsUpper,internal::traits<Rhs>::Flags &RowMajorBit) ? RowMajor : ColMajor, RhsIsSelfAdjoint,
-      NumTraits<Scalar>::IsComplex && EIGEN_LOGICAL_XOR(RhsIsUpper,bool(RhsBlasTraits::NeedToConjugate)),
+      HYDRA_EIGEN_LOGICAL_XOR(LhsIsUpper,internal::traits<Lhs>::Flags &RowMajorBit) ? RowMajor : ColMajor, LhsIsSelfAdjoint,
+      NumTraits<Scalar>::IsComplex && HYDRA_EIGEN_LOGICAL_XOR(LhsIsUpper,bool(LhsBlasTraits::NeedToConjugate)),
+      HYDRA_EIGEN_LOGICAL_XOR(RhsIsUpper,internal::traits<Rhs>::Flags &RowMajorBit) ? RowMajor : ColMajor, RhsIsSelfAdjoint,
+      NumTraits<Scalar>::IsComplex && HYDRA_EIGEN_LOGICAL_XOR(RhsIsUpper,bool(RhsBlasTraits::NeedToConjugate)),
       internal::traits<Dest>::Flags&RowMajorBit  ? RowMajor : ColMajor,
       Dest::InnerStrideAtCompileTime>
       ::run(
@@ -539,6 +539,6 @@ struct selfadjoint_product_impl<Lhs,LhsMode,false,Rhs,RhsMode,false>
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SELFADJOINT_MATRIX_MATRIX_H
+#endif // HYDRA_EIGEN_SELFADJOINT_MATRIX_MATRIX_H

@@ -8,15 +8,15 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_STDDEQUE_MODULE_H
-#define EIGEN_STDDEQUE_MODULE_H
+#ifndef HYDRA_EIGEN_STDDEQUE_MODULE_H
+#define HYDRA_EIGEN_STDDEQUE_MODULE_H
 
 #include "Core"
 #include <deque>
 
-#if EIGEN_COMP_MSVC && EIGEN_OS_WIN64 && (EIGEN_MAX_STATIC_ALIGN_BYTES<=16) /* MSVC auto aligns up to 16 bytes in 64 bit builds */
+#if HYDRA_EIGEN_COMP_MSVC && HYDRA_EIGEN_OS_WIN64 && (HYDRA_EIGEN_MAX_STATIC_ALIGN_BYTES<=16) /* MSVC auto aligns up to 16 bytes in 64 bit builds */
 
-#define EIGEN_DEFINE_STL_DEQUE_SPECIALIZATION(...)
+#define HYDRA_EIGEN_DEFINE_STL_DEQUE_SPECIALIZATION(...)
 
 #else
 
@@ -24,4 +24,4 @@
 
 #endif
 
-#endif // EIGEN_STDDEQUE_MODULE_H
+#endif // HYDRA_EIGEN_STDDEQUE_MODULE_H

@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSEASSIGN_H
-#define EIGEN_SPARSEASSIGN_H
+#ifndef HYDRA_EIGEN_SPARSEASSIGN_H
+#define HYDRA_EIGEN_SPARSEASSIGN_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 template<typename Derived>    
 template<typename OtherDerived>
@@ -158,11 +158,11 @@ template<typename DstXprType, typename Func1, typename Func2>
 struct assignment_from_dense_op_sparse
 {
   template<typename SrcXprType, typename InitialFunc>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   void run(DstXprType &dst, const SrcXprType &src, const InitialFunc& /*func*/)
   {
-    #ifdef EIGEN_SPARSE_ASSIGNMENT_FROM_DENSE_OP_SPARSE_PLUGIN
-    EIGEN_SPARSE_ASSIGNMENT_FROM_DENSE_OP_SPARSE_PLUGIN
+    #ifdef HYDRA_EIGEN_SPARSE_ASSIGNMENT_FROM_DENSE_OP_SPARSE_PLUGIN
+    HYDRA_EIGEN_SPARSE_ASSIGNMENT_FROM_DENSE_OP_SPARSE_PLUGIN
     #endif
 
     call_assignment_no_alias(dst, src.lhs(), Func1());
@@ -171,13 +171,13 @@ struct assignment_from_dense_op_sparse
 
   // Specialization for dense1 = sparse + dense2; -> dense1 = dense2; dense1 += sparse;
   template<typename Lhs, typename Rhs, typename Scalar>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   typename internal::enable_if<internal::is_same<typename internal::evaluator_traits<Rhs>::Shape,DenseShape>::value>::type
   run(DstXprType &dst, const CwiseBinaryOp<internal::scalar_sum_op<Scalar,Scalar>, const Lhs, const Rhs> &src,
       const internal::assign_op<typename DstXprType::Scalar,Scalar>& /*func*/)
   {
-    #ifdef EIGEN_SPARSE_ASSIGNMENT_FROM_SPARSE_ADD_DENSE_PLUGIN
-    EIGEN_SPARSE_ASSIGNMENT_FROM_SPARSE_ADD_DENSE_PLUGIN
+    #ifdef HYDRA_EIGEN_SPARSE_ASSIGNMENT_FROM_SPARSE_ADD_DENSE_PLUGIN
+    HYDRA_EIGEN_SPARSE_ASSIGNMENT_FROM_SPARSE_ADD_DENSE_PLUGIN
     #endif
 
     // Apply the dense matrix first, then the sparse one.
@@ -187,13 +187,13 @@ struct assignment_from_dense_op_sparse
 
   // Specialization for dense1 = sparse - dense2; -> dense1 = -dense2; dense1 += sparse;
   template<typename Lhs, typename Rhs, typename Scalar>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   typename internal::enable_if<internal::is_same<typename internal::evaluator_traits<Rhs>::Shape,DenseShape>::value>::type
   run(DstXprType &dst, const CwiseBinaryOp<internal::scalar_difference_op<Scalar,Scalar>, const Lhs, const Rhs> &src,
       const internal::assign_op<typename DstXprType::Scalar,Scalar>& /*func*/)
   {
-    #ifdef EIGEN_SPARSE_ASSIGNMENT_FROM_SPARSE_SUB_DENSE_PLUGIN
-    EIGEN_SPARSE_ASSIGNMENT_FROM_SPARSE_SUB_DENSE_PLUGIN
+    #ifdef HYDRA_EIGEN_SPARSE_ASSIGNMENT_FROM_SPARSE_SUB_DENSE_PLUGIN
+    HYDRA_EIGEN_SPARSE_ASSIGNMENT_FROM_SPARSE_SUB_DENSE_PLUGIN
     #endif
 
     // Apply the dense matrix first, then the sparse one.
@@ -202,7 +202,7 @@ struct assignment_from_dense_op_sparse
   }
 };
 
-#define EIGEN_CATCH_ASSIGN_DENSE_OP_SPARSE(ASSIGN_OP,BINOP,ASSIGN_OP2) \
+#define HYDRA_EIGEN_CATCH_ASSIGN_DENSE_OP_SPARSE(ASSIGN_OP,BINOP,ASSIGN_OP2) \
   template< typename DstXprType, typename Lhs, typename Rhs, typename Scalar> \
   struct Assignment<DstXprType, CwiseBinaryOp<internal::BINOP<Scalar,Scalar>, const Lhs, const Rhs>, internal::ASSIGN_OP<typename DstXprType::Scalar,Scalar>, \
                     Sparse2Dense, \
@@ -211,13 +211,13 @@ struct assignment_from_dense_op_sparse
     : assignment_from_dense_op_sparse<DstXprType, internal::ASSIGN_OP<typename DstXprType::Scalar,typename Lhs::Scalar>, internal::ASSIGN_OP2<typename DstXprType::Scalar,typename Rhs::Scalar> > \
   {}
 
-EIGEN_CATCH_ASSIGN_DENSE_OP_SPARSE(assign_op,    scalar_sum_op,add_assign_op);
-EIGEN_CATCH_ASSIGN_DENSE_OP_SPARSE(add_assign_op,scalar_sum_op,add_assign_op);
-EIGEN_CATCH_ASSIGN_DENSE_OP_SPARSE(sub_assign_op,scalar_sum_op,sub_assign_op);
+HYDRA_EIGEN_CATCH_ASSIGN_DENSE_OP_SPARSE(assign_op,    scalar_sum_op,add_assign_op);
+HYDRA_EIGEN_CATCH_ASSIGN_DENSE_OP_SPARSE(add_assign_op,scalar_sum_op,add_assign_op);
+HYDRA_EIGEN_CATCH_ASSIGN_DENSE_OP_SPARSE(sub_assign_op,scalar_sum_op,sub_assign_op);
 
-EIGEN_CATCH_ASSIGN_DENSE_OP_SPARSE(assign_op,    scalar_difference_op,sub_assign_op);
-EIGEN_CATCH_ASSIGN_DENSE_OP_SPARSE(add_assign_op,scalar_difference_op,sub_assign_op);
-EIGEN_CATCH_ASSIGN_DENSE_OP_SPARSE(sub_assign_op,scalar_difference_op,add_assign_op);
+HYDRA_EIGEN_CATCH_ASSIGN_DENSE_OP_SPARSE(assign_op,    scalar_difference_op,sub_assign_op);
+HYDRA_EIGEN_CATCH_ASSIGN_DENSE_OP_SPARSE(add_assign_op,scalar_difference_op,sub_assign_op);
+HYDRA_EIGEN_CATCH_ASSIGN_DENSE_OP_SPARSE(sub_assign_op,scalar_difference_op,add_assign_op);
 
 
 // Specialization for "dst = dec.solve(rhs)"
@@ -265,6 +265,6 @@ struct Assignment<DstXprType, SrcXprType, Functor, Diagonal2Sparse>
 };
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SPARSEASSIGN_H
+#endif // HYDRA_EIGEN_SPARSEASSIGN_H

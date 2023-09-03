@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_MATHFUNCTIONSIMPL_H
-#define EIGEN_MATHFUNCTIONSIMPL_H
+#ifndef HYDRA_EIGEN_MATHFUNCTIONSIMPL_H
+#define HYDRA_EIGEN_MATHFUNCTIONSIMPL_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -29,7 +29,7 @@ template<typename T>
 T generic_fast_tanh_float(const T& a_x)
 {
   // Clamp the inputs to the range [-c, c]
-#ifdef EIGEN_VECTORIZE_FMA
+#ifdef HYDRA_EIGEN_VECTORIZE_FMA
   const T plus_clamp = pset1<T>(7.99881172180175781f);
   const T minus_clamp = pset1<T>(-7.99881172180175781f);
 #else
@@ -76,7 +76,7 @@ T generic_fast_tanh_float(const T& a_x)
 }
 
 template<typename RealScalar>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 RealScalar positive_real_hypot(const RealScalar& x, const RealScalar& y)
 {
   // IEEE IEC 6059 special cases.
@@ -85,7 +85,7 @@ RealScalar positive_real_hypot(const RealScalar& x, const RealScalar& y)
   if ((numext::isnan)(x) || (numext::isnan)(y))
     return NumTraits<RealScalar>::quiet_NaN();
     
-  EIGEN_USING_STD(sqrt);
+  HYDRA_EIGEN_USING_STD(sqrt);
   RealScalar p, qp;
   p = numext::maxi(x,y);
   if(p==RealScalar(0)) return RealScalar(0);
@@ -97,10 +97,10 @@ template<typename Scalar>
 struct hypot_impl
 {
   typedef typename NumTraits<Scalar>::Real RealScalar;
-  static EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_DEVICE_FUNC
   inline RealScalar run(const Scalar& x, const Scalar& y)
   {
-    EIGEN_USING_STD(abs);
+    HYDRA_EIGEN_USING_STD(abs);
     return positive_real_hypot<RealScalar>(abs(x), abs(y));
   }
 };
@@ -108,7 +108,7 @@ struct hypot_impl
 // Generic complex sqrt implementation that correctly handles corner cases
 // according to https://en.cppreference.com/w/cpp/numeric/complex/sqrt
 template<typename T>
-EIGEN_DEVICE_FUNC std::complex<T> complex_sqrt(const std::complex<T>& z) {
+HYDRA_EIGEN_DEVICE_FUNC std::complex<T> complex_sqrt(const std::complex<T>& z) {
   // Computes the principal sqrt of the input.
   //
   // For a complex square root of the number x + i*y. We want to find real
@@ -145,7 +145,7 @@ EIGEN_DEVICE_FUNC std::complex<T> complex_sqrt(const std::complex<T>& z) {
 
 // Generic complex rsqrt implementation.
 template<typename T>
-EIGEN_DEVICE_FUNC std::complex<T> complex_rsqrt(const std::complex<T>& z) {
+HYDRA_EIGEN_DEVICE_FUNC std::complex<T> complex_rsqrt(const std::complex<T>& z) {
   // Computes the principal reciprocal sqrt of the input.
   //
   // For a complex reciprocal square root of the number z = x + i*y. We want to
@@ -185,16 +185,16 @@ EIGEN_DEVICE_FUNC std::complex<T> complex_rsqrt(const std::complex<T>& z) {
 }
 
 template<typename T>
-EIGEN_DEVICE_FUNC std::complex<T> complex_log(const std::complex<T>& z) {
+HYDRA_EIGEN_DEVICE_FUNC std::complex<T> complex_log(const std::complex<T>& z) {
   // Computes complex log.
   T a = numext::abs(z);
-  EIGEN_USING_STD(atan2);
+  HYDRA_EIGEN_USING_STD(atan2);
   T b = atan2(z.imag(), z.real());
   return std::complex<T>(numext::log(a), b);
 }
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_MATHFUNCTIONSIMPL_H
+#endif // HYDRA_EIGEN_MATHFUNCTIONSIMPL_H

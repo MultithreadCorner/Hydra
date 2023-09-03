@@ -9,12 +9,12 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_COMPLEX_SCHUR_H
-#define EIGEN_COMPLEX_SCHUR_H
+#ifndef HYDRA_EIGEN_COMPLEX_SCHUR_H
+#define HYDRA_EIGEN_COMPLEX_SCHUR_H
 
 #include "./HessenbergDecomposition.h"
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 template<typename MatrixType, bool IsComplex> struct complex_schur_reduce_to_hessenberg;
@@ -63,7 +63,7 @@ template<typename _MatrixType> class ComplexSchur
     /** \brief Scalar type for matrices of type \p _MatrixType. */
     typedef typename MatrixType::Scalar Scalar;
     typedef typename NumTraits<Scalar>::Real RealScalar;
-    typedef Eigen::Index Index; ///< \deprecated since Eigen 3.3
+    typedef hydra_Eigen::Index Index; ///< \deprecated since Eigen 3.3
 
     /** \brief Complex scalar type for \p _MatrixType. 
       *
@@ -457,6 +457,6 @@ void ComplexSchur<MatrixType>::reduceToTriangularForm(bool computeU)
   m_matUisUptodate = computeU;
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_COMPLEX_SCHUR_H
+#endif // HYDRA_EIGEN_COMPLEX_SCHUR_H

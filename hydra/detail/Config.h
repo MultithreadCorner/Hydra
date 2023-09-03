@@ -151,7 +151,17 @@
 
 #define HYDRA_PREVENT_MACRO_SUBSTITUTION
 
-namespace hydra{ namespace arguments {} }
+namespace hydra_Eigen{ }
+namespace hydra_boost{ }
+
+namespace hydra{
+
+   namespace arguments {}
+
+   namespace Eigen=hydra_Eigen;
+
+   namespace  boost = hydra_boost;
+}
 
 
 #endif /* CUDA_H_ */

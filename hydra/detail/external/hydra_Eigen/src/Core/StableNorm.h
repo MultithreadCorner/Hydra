@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_STABLENORM_H
-#define EIGEN_STABLENORM_H
+#ifndef HYDRA_EIGEN_STABLENORM_H
+#define HYDRA_EIGEN_STABLENORM_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -63,8 +63,8 @@ void stable_norm_impl_inner_step(const VectorType &vec, RealScalar& ssq, RealSca
   enum {
     CanAlign = (   (int(VectorTypeCopyClean::Flags)&DirectAccessBit)
                 || (int(internal::evaluator<VectorTypeCopyClean>::Alignment)>0) // FIXME Alignment)>0 might not be enough
-               ) && (blockSize*sizeof(Scalar)*2<EIGEN_STACK_ALLOCATION_LIMIT)
-                 && (EIGEN_MAX_STATIC_ALIGN_BYTES>0) // if we cannot allocate on the stack, then let's not bother about this optimization
+               ) && (blockSize*sizeof(Scalar)*2<HYDRA_EIGEN_STACK_ALLOCATION_LIMIT)
+                 && (HYDRA_EIGEN_MAX_STATIC_ALIGN_BYTES>0) // if we cannot allocate on the stack, then let's not bother about this optimization
   };
   typedef typename internal::conditional<CanAlign, Ref<const Matrix<Scalar,Dynamic,1,0,blockSize,1>, internal::evaluator<VectorTypeCopyClean>::Alignment>,
                                                    typename VectorTypeCopyClean::ConstSegmentReturnType>::type SegmentWrapper;
@@ -246,6 +246,6 @@ MatrixBase<Derived>::hypotNorm() const
     return this->cwiseAbs().redux(internal::scalar_hypot_op<RealScalar>());
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_STABLENORM_H
+#endif // HYDRA_EIGEN_STABLENORM_H

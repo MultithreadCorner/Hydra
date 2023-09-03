@@ -9,10 +9,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_QR_H
-#define EIGEN_QR_H
+#ifndef HYDRA_EIGEN_QR_H
+#define HYDRA_EIGEN_QR_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 template<typename _MatrixType> struct traits<HouseholderQR<_MatrixType> >
@@ -62,7 +62,7 @@ template<typename _MatrixType> class HouseholderQR
     typedef SolverBase<HouseholderQR> Base;
     friend class SolverBase<HouseholderQR>;
 
-    EIGEN_GENERIC_PUBLIC_INTERFACE(HouseholderQR)
+    HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(HouseholderQR)
     enum {
       MaxRowsAtCompileTime = MatrixType::MaxRowsAtCompileTime,
       MaxColsAtCompileTime = MatrixType::MaxColsAtCompileTime
@@ -118,7 +118,7 @@ template<typename _MatrixType> class HouseholderQR
     /** \brief Constructs a QR factorization from a given matrix
       *
       * This overloaded constructor is provided for \link InplaceDecomposition inplace decomposition \endlink when
-      * \c MatrixType is a Eigen::Ref.
+      * \c MatrixType is a hydra_Eigen::Ref.
       *
       * \sa HouseholderQR(const EigenBase&)
       */
@@ -132,7 +132,7 @@ template<typename _MatrixType> class HouseholderQR
       computeInPlace();
     }
 
-    #ifdef EIGEN_PARSED_BY_DOXYGEN
+    #ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** This method finds a solution x to the equation Ax=b, where A is the matrix of which
       * *this is the QR decomposition, if any exists.
       *
@@ -220,7 +220,7 @@ template<typename _MatrixType> class HouseholderQR
       */
     const HCoeffsType& hCoeffs() const { return m_hCoeffs; }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<typename RhsType, typename DstType>
     void _solve_impl(const RhsType &rhs, DstType &dst) const;
 
@@ -232,7 +232,7 @@ template<typename _MatrixType> class HouseholderQR
 
     static void check_template_parameters()
     {
-      EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+      HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
     }
 
     void computeInPlace();
@@ -355,7 +355,7 @@ struct householder_qr_inplace_blocked
 
 } // end namespace internal
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template<typename _MatrixType>
 template<typename RhsType, typename DstType>
 void HouseholderQR<_MatrixType>::_solve_impl(const RhsType &rhs, DstType &dst) const
@@ -429,6 +429,6 @@ MatrixBase<Derived>::householderQr() const
   return HouseholderQR<PlainObject>(eval());
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_QR_H
+#endif // HYDRA_EIGEN_QR_H

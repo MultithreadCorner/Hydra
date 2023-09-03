@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_REAL_QZ_H
-#define EIGEN_REAL_QZ_H
+#ifndef HYDRA_EIGEN_REAL_QZ_H
+#define HYDRA_EIGEN_REAL_QZ_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
   /** \eigenvalues_module \ingroup Eigenvalues_Module
    *
@@ -67,7 +67,7 @@ namespace Eigen {
       };
       typedef typename MatrixType::Scalar Scalar;
       typedef std::complex<typename NumTraits<Scalar>::Real> ComplexScalar;
-      typedef Eigen::Index Index; ///< \deprecated since Eigen 3.3
+      typedef hydra_Eigen::Index Index; ///< \deprecated since Eigen 3.3
 
       typedef Matrix<ComplexScalar, ColsAtCompileTime, 1, Options & ~RowMajor, MaxColsAtCompileTime, 1> EigenvalueType;
       typedef Matrix<Scalar, ColsAtCompileTime, 1, Options & ~RowMajor, MaxColsAtCompileTime, 1> ColumnVectorType;
@@ -652,6 +652,6 @@ namespace Eigen {
       return *this;
     } // end compute
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif //EIGEN_REAL_QZ
+#endif //HYDRA_EIGEN_REAL_QZ

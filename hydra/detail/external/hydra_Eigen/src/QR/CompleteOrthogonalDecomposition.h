@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_COMPLETEORTHOGONALDECOMPOSITION_H
-#define EIGEN_COMPLETEORTHOGONALDECOMPOSITION_H
+#ifndef HYDRA_EIGEN_COMPLETEORTHOGONALDECOMPOSITION_H
+#define HYDRA_EIGEN_COMPLETEORTHOGONALDECOMPOSITION_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 template <typename _MatrixType>
@@ -57,7 +57,7 @@ template <typename _MatrixType> class CompleteOrthogonalDecomposition
   template<typename Derived>
   friend struct internal::solve_assertion;
 
-  EIGEN_GENERIC_PUBLIC_INTERFACE(CompleteOrthogonalDecomposition)
+  HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(CompleteOrthogonalDecomposition)
   enum {
     MaxRowsAtCompileTime = MatrixType::MaxRowsAtCompileTime,
     MaxColsAtCompileTime = MatrixType::MaxColsAtCompileTime
@@ -125,7 +125,7 @@ template <typename _MatrixType> class CompleteOrthogonalDecomposition
 
   /** \brief Constructs a complete orthogonal decomposition from a given matrix
     *
-    * This overloaded constructor is provided for \link InplaceDecomposition inplace decomposition \endlink when \c MatrixType is a Eigen::Ref.
+    * This overloaded constructor is provided for \link InplaceDecomposition inplace decomposition \endlink when \c MatrixType is a hydra_Eigen::Ref.
     *
     * \sa CompleteOrthogonalDecomposition(const EigenBase&)
     */
@@ -138,7 +138,7 @@ template <typename _MatrixType> class CompleteOrthogonalDecomposition
     computeInPlace();
   } 
 
-  #ifdef EIGEN_PARSED_BY_DOXYGEN
+  #ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
   /** This method computes the minimum-norm solution X to a least squares
    * problem \f[\mathrm{minimize} \|A X - B\|, \f] where \b A is the matrix of
    * which \c *this is the complete orthogonal decomposition.
@@ -325,8 +325,8 @@ template <typename _MatrixType> class CompleteOrthogonalDecomposition
   /** Allows to come back to the default behavior, letting Eigen use its default
    * formula for determining the threshold.
    *
-   * You should pass the special object Eigen::Default as parameter here.
-   * \code qr.setThreshold(Eigen::Default); \endcode
+   * You should pass the special object hydra_Eigen::Default as parameter here.
+   * \code qr.setThreshold(hydra_Eigen::Default); \endcode
    *
    * See the documentation of setThreshold(const RealScalar&).
    */
@@ -368,7 +368,7 @@ template <typename _MatrixType> class CompleteOrthogonalDecomposition
     return Success;
   }
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
   template <typename RhsType, typename DstType>
   void _solve_impl(const RhsType& rhs, DstType& dst) const;
 
@@ -378,12 +378,12 @@ template <typename _MatrixType> class CompleteOrthogonalDecomposition
 
  protected:
   static void check_template_parameters() {
-    EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+    HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
   }
 
   template<bool Transpose_, typename Rhs>
   void _check_solve_assertion(const Rhs& b) const {
-      EIGEN_ONLY_USED_FOR_DEBUG(b);
+      HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(b);
       eigen_assert(m_cpqr.m_isInitialized && "CompleteOrthogonalDecomposition is not initialized.");
       eigen_assert((Transpose_?derived().cols():derived().rows())==b.rows() && "CompleteOrthogonalDecomposition::solve(): invalid number of rows of the right hand side matrix b");
   }
@@ -528,7 +528,7 @@ void CompleteOrthogonalDecomposition<MatrixType>::applyZAdjointOnTheLeftInPlace(
   }
 }
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template <typename _MatrixType>
 template <typename RhsType, typename DstType>
 void CompleteOrthogonalDecomposition<_MatrixType>::_solve_impl(
@@ -630,6 +630,6 @@ MatrixBase<Derived>::completeOrthogonalDecomposition() const {
   return CompleteOrthogonalDecomposition<PlainObject>(eval());
 }
 
-}  // end namespace Eigen
+}  // end namespace hydra_Eigen
 
-#endif  // EIGEN_COMPLETEORTHOGONALDECOMPOSITION_H
+#endif  // HYDRA_EIGEN_COMPLETEORTHOGONALDECOMPOSITION_H

@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SCALING_H
-#define EIGEN_SCALING_H
+#ifndef HYDRA_EIGEN_SCALING_H
+#define HYDRA_EIGEN_SCALING_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 /** \geometry_module \ingroup Geometry_Module
   *
@@ -88,7 +88,7 @@ public:
   /** Concatenates a uniform scaling and a linear transformation matrix */
   // TODO returns an expression
   template<typename Derived>
-  inline typename Eigen::internal::plain_matrix_type<Derived>::type operator* (const MatrixBase<Derived>& other) const
+  inline typename hydra_Eigen::internal::plain_matrix_type<Derived>::type operator* (const MatrixBase<Derived>& other) const
   { return other * m_factor; }
 
   template<typename Derived,int Dim>
@@ -131,7 +131,7 @@ public:
 // NOTE this operator is defined in MatrixBase and not as a friend function
 // of UniformScaling to fix an internal crash of Intel's ICC
 template<typename Derived,typename Scalar>
-EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(Derived,Scalar,product)
+HYDRA_EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(Derived,Scalar,product)
 operator*(const MatrixBase<Derived>& matrix, const UniformScaling<Scalar>& s)
 { return matrix.derived() * s.factor(); }
 
@@ -183,6 +183,6 @@ UniformScaling<Scalar>::operator* (const Translation<Scalar,Dim>& t) const
   return res;
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SCALING_H
+#endif // HYDRA_EIGEN_SCALING_H

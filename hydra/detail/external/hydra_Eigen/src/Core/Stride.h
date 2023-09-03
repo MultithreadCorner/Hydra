@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_STRIDE_H
-#define EIGEN_STRIDE_H
+#ifndef HYDRA_EIGEN_STRIDE_H
+#define HYDRA_EIGEN_STRIDE_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 /** \class Stride
   * \ingroup Core_Module
@@ -48,14 +48,14 @@ template<int _OuterStrideAtCompileTime, int _InnerStrideAtCompileTime>
 class Stride
 {
   public:
-    typedef Eigen::Index Index; ///< \deprecated since Eigen 3.3
+    typedef hydra_Eigen::Index Index; ///< \deprecated since Eigen 3.3
     enum {
       InnerStrideAtCompileTime = _InnerStrideAtCompileTime,
       OuterStrideAtCompileTime = _OuterStrideAtCompileTime
     };
 
     /** Default constructor, for use when strides are fixed at compile time */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     Stride()
       : m_outer(OuterStrideAtCompileTime), m_inner(InnerStrideAtCompileTime)
     {
@@ -65,23 +65,23 @@ class Stride
     }
 
     /** Constructor allowing to pass the strides at runtime */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     Stride(Index outerStride, Index innerStride)
       : m_outer(outerStride), m_inner(innerStride)
     {
     }
 
     /** Copy constructor */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     Stride(const Stride& other)
       : m_outer(other.outer()), m_inner(other.inner())
     {}
 
     /** \returns the outer stride */
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
     inline Index outer() const { return m_outer.value(); }
     /** \returns the inner stride */
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
     inline Index inner() const { return m_inner.value(); }
 
   protected:
@@ -96,8 +96,8 @@ class InnerStride : public Stride<0, Value>
 {
     typedef Stride<0, Value> Base;
   public:
-    EIGEN_DEVICE_FUNC InnerStride() : Base() {}
-    EIGEN_DEVICE_FUNC InnerStride(Index v) : Base(0, v) {} // FIXME making this explicit could break valid code
+    HYDRA_EIGEN_DEVICE_FUNC InnerStride() : Base() {}
+    HYDRA_EIGEN_DEVICE_FUNC InnerStride(Index v) : Base(0, v) {} // FIXME making this explicit could break valid code
 };
 
 /** \brief Convenience specialization of Stride to specify only an outer stride
@@ -107,10 +107,10 @@ class OuterStride : public Stride<Value, 0>
 {
     typedef Stride<Value, 0> Base;
   public:
-    EIGEN_DEVICE_FUNC OuterStride() : Base() {}
-    EIGEN_DEVICE_FUNC OuterStride(Index v) : Base(v,0) {} // FIXME making this explicit could break valid code
+    HYDRA_EIGEN_DEVICE_FUNC OuterStride() : Base() {}
+    HYDRA_EIGEN_DEVICE_FUNC OuterStride(Index v) : Base(v,0) {} // FIXME making this explicit could break valid code
 };
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_STRIDE_H
+#endif // HYDRA_EIGEN_STRIDE_H

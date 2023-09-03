@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_EIGENBASE_H
-#define EIGEN_EIGENBASE_H
+#ifndef HYDRA_EIGEN_EIGENBASE_H
+#define HYDRA_EIGEN_EIGENBASE_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 /** \class EigenBase
   * \ingroup Core_Module
@@ -31,50 +31,50 @@ template<typename Derived> struct EigenBase
 //   typedef typename internal::plain_matrix_type<Derived>::type PlainObject;
 
   /** \brief The interface type of indices
-    * \details To change this, \c \#define the preprocessor symbol \c EIGEN_DEFAULT_DENSE_INDEX_TYPE.
+    * \details To change this, \c \#define the preprocessor symbol \c HYDRA_EIGEN_DEFAULT_DENSE_INDEX_TYPE.
     * \sa StorageIndex, \ref TopicPreprocessorDirectives.
-    * DEPRECATED: Since Eigen 3.3, its usage is deprecated. Use Eigen::Index instead.
+    * DEPRECATED: Since Eigen 3.3, its usage is deprecated. Use hydra_Eigen::Index instead.
     * Deprecation is not marked with a doxygen comment because there are too many existing usages to add the deprecation attribute.
     */
-  typedef Eigen::Index Index;
+  typedef hydra_Eigen::Index Index;
 
   // FIXME is it needed?
   typedef typename internal::traits<Derived>::StorageKind StorageKind;
 
   /** \returns a reference to the derived object */
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   Derived& derived() { return *static_cast<Derived*>(this); }
   /** \returns a const reference to the derived object */
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   const Derived& derived() const { return *static_cast<const Derived*>(this); }
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline Derived& const_cast_derived() const
   { return *static_cast<Derived*>(const_cast<EigenBase*>(this)); }
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline const Derived& const_derived() const
   { return *static_cast<const Derived*>(this); }
 
   /** \returns the number of rows. \sa cols(), RowsAtCompileTime */
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
-  inline Index rows() const EIGEN_NOEXCEPT { return derived().rows(); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
+  inline Index rows() const HYDRA_EIGEN_NOEXCEPT { return derived().rows(); }
   /** \returns the number of columns. \sa rows(), ColsAtCompileTime*/
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
-  inline Index cols() const EIGEN_NOEXCEPT { return derived().cols(); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
+  inline Index cols() const HYDRA_EIGEN_NOEXCEPT { return derived().cols(); }
   /** \returns the number of coefficients, which is rows()*cols().
     * \sa rows(), cols(), SizeAtCompileTime. */
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
-  inline Index size() const EIGEN_NOEXCEPT { return rows() * cols(); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
+  inline Index size() const HYDRA_EIGEN_NOEXCEPT { return rows() * cols(); }
 
   /** \internal Don't use it, but do the equivalent: \code dst = *this; \endcode */
   template<typename Dest>
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline void evalTo(Dest& dst) const
   { derived().evalTo(dst); }
 
   /** \internal Don't use it, but do the equivalent: \code dst += *this; \endcode */
   template<typename Dest>
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline void addTo(Dest& dst) const
   {
     // This is the default implementation,
@@ -86,7 +86,7 @@ template<typename Derived> struct EigenBase
 
   /** \internal Don't use it, but do the equivalent: \code dst -= *this; \endcode */
   template<typename Dest>
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline void subTo(Dest& dst) const
   {
     // This is the default implementation,
@@ -98,7 +98,7 @@ template<typename Derived> struct EigenBase
 
   /** \internal Don't use it, but do the equivalent: \code dst.applyOnTheRight(*this); \endcode */
   template<typename Dest>
-  EIGEN_DEVICE_FUNC inline void applyThisOnTheRight(Dest& dst) const
+  HYDRA_EIGEN_DEVICE_FUNC inline void applyThisOnTheRight(Dest& dst) const
   {
     // This is the default implementation,
     // derived class can reimplement it in a more optimized way.
@@ -107,7 +107,7 @@ template<typename Derived> struct EigenBase
 
   /** \internal Don't use it, but do the equivalent: \code dst.applyOnTheLeft(*this); \endcode */
   template<typename Dest>
-  EIGEN_DEVICE_FUNC inline void applyThisOnTheLeft(Dest& dst) const
+  HYDRA_EIGEN_DEVICE_FUNC inline void applyThisOnTheLeft(Dest& dst) const
   {
     // This is the default implementation,
     // derived class can reimplement it in a more optimized way.
@@ -130,7 +130,7 @@ template<typename Derived> struct EigenBase
   */
 template<typename Derived>
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 Derived& DenseBase<Derived>::operator=(const EigenBase<OtherDerived> &other)
 {
   call_assignment(derived(), other.derived());
@@ -139,7 +139,7 @@ Derived& DenseBase<Derived>::operator=(const EigenBase<OtherDerived> &other)
 
 template<typename Derived>
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 Derived& DenseBase<Derived>::operator+=(const EigenBase<OtherDerived> &other)
 {
   call_assignment(derived(), other.derived(), internal::add_assign_op<Scalar,typename OtherDerived::Scalar>());
@@ -148,13 +148,13 @@ Derived& DenseBase<Derived>::operator+=(const EigenBase<OtherDerived> &other)
 
 template<typename Derived>
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 Derived& DenseBase<Derived>::operator-=(const EigenBase<OtherDerived> &other)
 {
   call_assignment(derived(), other.derived(), internal::sub_assign_op<Scalar,typename OtherDerived::Scalar>());
   return derived();
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_EIGENBASE_H
+#endif // HYDRA_EIGEN_EIGENBASE_H

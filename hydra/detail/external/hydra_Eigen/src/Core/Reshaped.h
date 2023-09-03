@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_RESHAPED_H
-#define EIGEN_RESHAPED_H
+#ifndef HYDRA_EIGEN_RESHAPED_H
+#define HYDRA_EIGEN_RESHAPED_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 /** \class Reshaped
   * \ingroup Core_Module
@@ -100,22 +100,22 @@ template<typename XprType, int Rows, int Cols, int Order> class Reshaped
   public:
     //typedef typename Impl::Base Base;
     typedef Impl Base;
-    EIGEN_GENERIC_PUBLIC_INTERFACE(Reshaped)
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Reshaped)
+    HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(Reshaped)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Reshaped)
 
     /** Fixed-size constructor
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Reshaped(XprType& xpr)
       : Impl(xpr)
     {
-      EIGEN_STATIC_ASSERT(RowsAtCompileTime!=Dynamic && ColsAtCompileTime!=Dynamic,THIS_METHOD_IS_ONLY_FOR_FIXED_SIZE)
+      HYDRA_EIGEN_STATIC_ASSERT(RowsAtCompileTime!=Dynamic && ColsAtCompileTime!=Dynamic,THIS_METHOD_IS_ONLY_FOR_FIXED_SIZE)
       eigen_assert(Rows * Cols == xpr.rows() * xpr.cols());
     }
 
     /** Dynamic-size constructor
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Reshaped(XprType& xpr,
           Index reshapeRows, Index reshapeCols)
       : Impl(xpr, reshapeRows, reshapeCols)
@@ -135,9 +135,9 @@ class ReshapedImpl<XprType, Rows, Cols, Order, Dense>
     typedef internal::ReshapedImpl_dense<XprType, Rows, Cols, Order,internal::traits<Reshaped<XprType,Rows,Cols,Order> >::HasDirectAccess> Impl;
   public:
     typedef Impl Base;
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(ReshapedImpl)
-    EIGEN_DEVICE_FUNC inline ReshapedImpl(XprType& xpr) : Impl(xpr) {}
-    EIGEN_DEVICE_FUNC inline ReshapedImpl(XprType& xpr, Index reshapeRows, Index reshapeCols)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(ReshapedImpl)
+    HYDRA_EIGEN_DEVICE_FUNC inline ReshapedImpl(XprType& xpr) : Impl(xpr) {}
+    HYDRA_EIGEN_DEVICE_FUNC inline ReshapedImpl(XprType& xpr, Index reshapeRows, Index reshapeCols)
       : Impl(xpr, reshapeRows, reshapeCols) {}
 };
 
@@ -152,8 +152,8 @@ class ReshapedImpl_dense<XprType,Rows,Cols,Order,false>
   public:
 
     typedef typename internal::dense_xpr_base<ReshapedType>::type Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(ReshapedType)
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(ReshapedImpl_dense)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(ReshapedType)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(ReshapedImpl_dense)
 
     typedef typename internal::ref_selector<XprType>::non_const_type MatrixTypeNested;
     typedef typename internal::remove_all<XprType>::type NestedExpression;
@@ -162,35 +162,35 @@ class ReshapedImpl_dense<XprType,Rows,Cols,Order,false>
 
     /** Fixed-size constructor
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline ReshapedImpl_dense(XprType& xpr)
       : m_xpr(xpr), m_rows(Rows), m_cols(Cols)
     {}
 
     /** Dynamic-size constructor
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline ReshapedImpl_dense(XprType& xpr, Index nRows, Index nCols)
       : m_xpr(xpr), m_rows(nRows), m_cols(nCols)
     {}
 
-    EIGEN_DEVICE_FUNC Index rows() const { return m_rows; }
-    EIGEN_DEVICE_FUNC Index cols() const { return m_cols; }
+    HYDRA_EIGEN_DEVICE_FUNC Index rows() const { return m_rows; }
+    HYDRA_EIGEN_DEVICE_FUNC Index cols() const { return m_cols; }
 
-    #ifdef EIGEN_PARSED_BY_DOXYGEN
+    #ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** \sa MapBase::data() */
-    EIGEN_DEVICE_FUNC inline const Scalar* data() const;
-    EIGEN_DEVICE_FUNC inline Index innerStride() const;
-    EIGEN_DEVICE_FUNC inline Index outerStride() const;
+    HYDRA_EIGEN_DEVICE_FUNC inline const Scalar* data() const;
+    HYDRA_EIGEN_DEVICE_FUNC inline Index innerStride() const;
+    HYDRA_EIGEN_DEVICE_FUNC inline Index outerStride() const;
     #endif
 
     /** \returns the nested expression */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const typename internal::remove_all<XprType>::type&
     nestedExpression() const { return m_xpr; }
 
     /** \returns the nested expression */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     typename internal::remove_reference<XprType>::type&
     nestedExpression() { return m_xpr; }
 
@@ -212,42 +212,42 @@ class ReshapedImpl_dense<XprType, Rows, Cols, Order, true>
   public:
 
     typedef MapBase<ReshapedType> Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(ReshapedType)
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(ReshapedImpl_dense)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(ReshapedType)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(ReshapedImpl_dense)
 
     /** Fixed-size constructor
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline ReshapedImpl_dense(XprType& xpr)
       : Base(xpr.data()), m_xpr(xpr)
     {}
 
     /** Dynamic-size constructor
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline ReshapedImpl_dense(XprType& xpr, Index nRows, Index nCols)
       : Base(xpr.data(), nRows, nCols),
         m_xpr(xpr)
     {}
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const typename internal::remove_all<XprTypeNested>::type& nestedExpression() const
     {
       return m_xpr;
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     XprType& nestedExpression() { return m_xpr; }
 
     /** \sa MapBase::innerStride() */
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
     inline Index innerStride() const
     {
       return m_xpr.innerStride();
     }
 
     /** \sa MapBase::outerStride() */
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
     inline Index outerStride() const
     {
       return ((Flags&RowMajorBit)==RowMajorBit) ? this->cols() : this->rows();
@@ -294,9 +294,9 @@ struct evaluator<Reshaped<ArgType, Rows, Cols, Order> >
     Alignment = evaluator<ArgType>::Alignment
   };
   typedef reshaped_evaluator<ArgType, Rows, Cols, Order, HasDirectAccess> reshaped_evaluator_type;
-  EIGEN_DEVICE_FUNC explicit evaluator(const XprType& xpr) : reshaped_evaluator_type(xpr)
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const XprType& xpr) : reshaped_evaluator_type(xpr)
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 };
 
@@ -314,9 +314,9 @@ struct reshaped_evaluator<ArgType, Rows, Cols, Order, /* HasDirectAccess */ fals
     Alignment = 0
   };
 
-  EIGEN_DEVICE_FUNC explicit reshaped_evaluator(const XprType& xpr) : m_argImpl(xpr.nestedExpression()), m_xpr(xpr)
+  HYDRA_EIGEN_DEVICE_FUNC explicit reshaped_evaluator(const XprType& xpr) : m_argImpl(xpr.nestedExpression()), m_xpr(xpr)
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 
   typedef typename XprType::Scalar Scalar;
@@ -340,39 +340,39 @@ struct reshaped_evaluator<ArgType, Rows, Cols, Order, /* HasDirectAccess */ fals
     }
   }
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline Scalar& coeffRef(Index rowId, Index colId)
   {
-    EIGEN_STATIC_ASSERT_LVALUE(XprType)
+    HYDRA_EIGEN_STATIC_ASSERT_LVALUE(XprType)
     const RowCol row_col = index_remap(rowId, colId);
     return m_argImpl.coeffRef(row_col.first, row_col.second);
   }
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline const Scalar& coeffRef(Index rowId, Index colId) const
   {
     const RowCol row_col = index_remap(rowId, colId);
     return m_argImpl.coeffRef(row_col.first, row_col.second);
   }
 
-  EIGEN_DEVICE_FUNC
-  EIGEN_STRONG_INLINE const CoeffReturnType coeff(Index rowId, Index colId) const
+  HYDRA_EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_STRONG_INLINE const CoeffReturnType coeff(Index rowId, Index colId) const
   {
     const RowCol row_col = index_remap(rowId, colId);
     return m_argImpl.coeff(row_col.first, row_col.second);
   }
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline Scalar& coeffRef(Index index)
   {
-    EIGEN_STATIC_ASSERT_LVALUE(XprType)
+    HYDRA_EIGEN_STATIC_ASSERT_LVALUE(XprType)
     const RowCol row_col = index_remap(Rows == 1 ? 0 : index,
                                        Rows == 1 ? index : 0);
     return m_argImpl.coeffRef(row_col.first, row_col.second);
 
   }
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline const Scalar& coeffRef(Index index) const
   {
     const RowCol row_col = index_remap(Rows == 1 ? 0 : index,
@@ -380,7 +380,7 @@ struct reshaped_evaluator<ArgType, Rows, Cols, Order, /* HasDirectAccess */ fals
     return m_argImpl.coeffRef(row_col.first, row_col.second);
   }
 
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline const CoeffReturnType coeff(Index index) const
   {
     const RowCol row_col = index_remap(Rows == 1 ? 0 : index,
@@ -388,7 +388,7 @@ struct reshaped_evaluator<ArgType, Rows, Cols, Order, /* HasDirectAccess */ fals
     return m_argImpl.coeff(row_col.first, row_col.second);
   }
 #if 0
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   template<int LoadMode>
   inline PacketScalar packet(Index rowId, Index colId) const
   {
@@ -398,7 +398,7 @@ struct reshaped_evaluator<ArgType, Rows, Cols, Order, /* HasDirectAccess */ fals
   }
 
   template<int LoadMode>
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline void writePacket(Index rowId, Index colId, const PacketScalar& val)
   {
     const RowCol row_col = index_remap(rowId, colId);
@@ -407,7 +407,7 @@ struct reshaped_evaluator<ArgType, Rows, Cols, Order, /* HasDirectAccess */ fals
   }
 
   template<int LoadMode>
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline PacketScalar packet(Index index) const
   {
     const RowCol row_col = index_remap(RowsAtCompileTime == 1 ? 0 : index,
@@ -416,7 +416,7 @@ struct reshaped_evaluator<ArgType, Rows, Cols, Order, /* HasDirectAccess */ fals
   }
 
   template<int LoadMode>
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   inline void writePacket(Index index, const PacketScalar& val)
   {
     const RowCol row_col = index_remap(RowsAtCompileTime == 1 ? 0 : index,
@@ -439,16 +439,16 @@ struct reshaped_evaluator<ArgType, Rows, Cols, Order, /* HasDirectAccess */ true
   typedef Reshaped<ArgType, Rows, Cols, Order> XprType;
   typedef typename XprType::Scalar Scalar;
 
-  EIGEN_DEVICE_FUNC explicit reshaped_evaluator(const XprType& xpr)
+  HYDRA_EIGEN_DEVICE_FUNC explicit reshaped_evaluator(const XprType& xpr)
     : mapbase_evaluator<XprType, typename XprType::PlainObject>(xpr)
   {
     // TODO: for the 3.4 release, this should be turned to an internal assertion, but let's keep it as is for the beta lifetime
-    eigen_assert(((internal::UIntPtr(xpr.data()) % EIGEN_PLAIN_ENUM_MAX(1,evaluator<XprType>::Alignment)) == 0) && "data is not aligned");
+    eigen_assert(((internal::UIntPtr(xpr.data()) % HYDRA_EIGEN_PLAIN_ENUM_MAX(1,evaluator<XprType>::Alignment)) == 0) && "data is not aligned");
   }
 };
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_RESHAPED_H
+#endif // HYDRA_EIGEN_RESHAPED_H

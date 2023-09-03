@@ -7,13 +7,13 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_BLASUTIL_H
-#define EIGEN_BLASUTIL_H
+#ifndef HYDRA_EIGEN_BLASUTIL_H
+#define HYDRA_EIGEN_BLASUTIL_H
 
 // This file contains many lightweight helper classes used to
 // implement and control fast level 2 and level 3 BLAS-like routines.
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -40,30 +40,30 @@ template<typename Index,
 struct general_matrix_vector_product;
 
 template<typename From,typename To> struct get_factor {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE To run(const From& x) { return To(x); }
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE To run(const From& x) { return To(x); }
 };
 
 template<typename Scalar> struct get_factor<Scalar,typename NumTraits<Scalar>::Real> {
-  EIGEN_DEVICE_FUNC
-  static EIGEN_STRONG_INLINE typename NumTraits<Scalar>::Real run(const Scalar& x) { return numext::real(x); }
+  HYDRA_EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_STRONG_INLINE typename NumTraits<Scalar>::Real run(const Scalar& x) { return numext::real(x); }
 };
 
 
 template<typename Scalar, typename Index>
 class BlasVectorMapper {
   public:
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE BlasVectorMapper(Scalar *data) : m_data(data) {}
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE BlasVectorMapper(Scalar *data) : m_data(data) {}
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Scalar operator()(Index i) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE Scalar operator()(Index i) const {
     return m_data[i];
   }
   template <typename Packet, int AlignmentType>
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Packet load(Index i) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE Packet load(Index i) const {
     return ploadt<Packet, AlignmentType>(m_data + i);
   }
 
   template <typename Packet>
-  EIGEN_DEVICE_FUNC bool aligned(Index i) const {
+  HYDRA_EIGEN_DEVICE_FUNC bool aligned(Index i) const {
     return (UIntPtr(m_data+i)%sizeof(Packet))==0;
   }
 
@@ -78,28 +78,28 @@ template<typename Scalar, typename Index, int AlignmentType>
 class BlasLinearMapper<Scalar,Index,AlignmentType>
 {
 public:
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE BlasLinearMapper(Scalar *data, Index incr=1)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE BlasLinearMapper(Scalar *data, Index incr=1)
     : m_data(data)
   {
-    EIGEN_ONLY_USED_FOR_DEBUG(incr);
+    HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(incr);
     eigen_assert(incr==1);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void prefetch(int i) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void prefetch(int i) const {
     internal::prefetch(&operator()(i));
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Scalar& operator()(Index i) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE Scalar& operator()(Index i) const {
     return m_data[i];
   }
 
   template<typename PacketType>
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE PacketType loadPacket(Index i) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE PacketType loadPacket(Index i) const {
     return ploadt<PacketType, AlignmentType>(m_data + i);
   }
 
   template<typename PacketType>
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void storePacket(Index i, const PacketType &p) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void storePacket(Index i, const PacketType &p) const {
     pstoret<Scalar, PacketType, AlignmentType>(m_data + i, p);
   }
 
@@ -119,7 +119,7 @@ template<typename Index, typename Scalar, typename Packet, int n, int idx, int S
 struct PacketBlockManagement
 {
   PacketBlockManagement<Index, Scalar, Packet, n, idx - 1, StorageOrder> pbm;
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(Scalar *to, const Index stride, Index i, Index j, const PacketBlock<Packet, n> &block) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void store(Scalar *to, const Index stride, Index i, Index j, const PacketBlock<Packet, n> &block) const {
     pbm.store(to, stride, i, j, block);
     pstoreu<Scalar>(to + i + (j + idx)*stride, block.packet[idx]);
   }
@@ -130,7 +130,7 @@ template<typename Index, typename Scalar, typename Packet, int n, int idx>
 struct PacketBlockManagement<Index, Scalar, Packet, n, idx, RowMajor>
 {
   PacketBlockManagement<Index, Scalar, Packet, n, idx - 1, RowMajor> pbm;
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(Scalar *to, const Index stride, Index i, Index j, const PacketBlock<Packet, n> &block) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void store(Scalar *to, const Index stride, Index i, Index j, const PacketBlock<Packet, n> &block) const {
     pbm.store(to, stride, i, j, block);
     pstoreu<Scalar>(to + j + (i + idx)*stride, block.packet[idx]);
   }
@@ -139,24 +139,24 @@ struct PacketBlockManagement<Index, Scalar, Packet, n, idx, RowMajor>
 template<typename Index, typename Scalar, typename Packet, int n, int StorageOrder>
 struct PacketBlockManagement<Index, Scalar, Packet, n, -1, StorageOrder>
 {
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(Scalar *to, const Index stride, Index i, Index j, const PacketBlock<Packet, n> &block) const {
-    EIGEN_UNUSED_VARIABLE(to);
-    EIGEN_UNUSED_VARIABLE(stride);
-    EIGEN_UNUSED_VARIABLE(i);
-    EIGEN_UNUSED_VARIABLE(j);
-    EIGEN_UNUSED_VARIABLE(block);
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void store(Scalar *to, const Index stride, Index i, Index j, const PacketBlock<Packet, n> &block) const {
+    HYDRA_EIGEN_UNUSED_VARIABLE(to);
+    HYDRA_EIGEN_UNUSED_VARIABLE(stride);
+    HYDRA_EIGEN_UNUSED_VARIABLE(i);
+    HYDRA_EIGEN_UNUSED_VARIABLE(j);
+    HYDRA_EIGEN_UNUSED_VARIABLE(block);
   }
 };
 
 template<typename Index, typename Scalar, typename Packet, int n>
 struct PacketBlockManagement<Index, Scalar, Packet, n, -1, RowMajor>
 {
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(Scalar *to, const Index stride, Index i, Index j, const PacketBlock<Packet, n> &block) const {
-    EIGEN_UNUSED_VARIABLE(to);
-    EIGEN_UNUSED_VARIABLE(stride);
-    EIGEN_UNUSED_VARIABLE(i);
-    EIGEN_UNUSED_VARIABLE(j);
-    EIGEN_UNUSED_VARIABLE(block);
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void store(Scalar *to, const Index stride, Index i, Index j, const PacketBlock<Packet, n> &block) const {
+    HYDRA_EIGEN_UNUSED_VARIABLE(to);
+    HYDRA_EIGEN_UNUSED_VARIABLE(stride);
+    HYDRA_EIGEN_UNUSED_VARIABLE(i);
+    HYDRA_EIGEN_UNUSED_VARIABLE(j);
+    HYDRA_EIGEN_UNUSED_VARIABLE(block);
   }
 };
 
@@ -167,56 +167,56 @@ public:
   typedef BlasLinearMapper<Scalar, Index, AlignmentType> LinearMapper;
   typedef BlasVectorMapper<Scalar, Index> VectorMapper;
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE blas_data_mapper(Scalar* data, Index stride, Index incr=1)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE blas_data_mapper(Scalar* data, Index stride, Index incr=1)
    : m_data(data), m_stride(stride)
   {
-    EIGEN_ONLY_USED_FOR_DEBUG(incr);
+    HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(incr);
     eigen_assert(incr==1);
   }
 
-  EIGEN_DEVICE_FUNC  EIGEN_ALWAYS_INLINE blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType>
+  HYDRA_EIGEN_DEVICE_FUNC  HYDRA_EIGEN_ALWAYS_INLINE blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType>
   getSubMapper(Index i, Index j) const {
     return blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType>(&operator()(i, j), m_stride);
   }
 
-  EIGEN_DEVICE_FUNC  EIGEN_ALWAYS_INLINE LinearMapper getLinearMapper(Index i, Index j) const {
+  HYDRA_EIGEN_DEVICE_FUNC  HYDRA_EIGEN_ALWAYS_INLINE LinearMapper getLinearMapper(Index i, Index j) const {
     return LinearMapper(&operator()(i, j));
   }
 
-  EIGEN_DEVICE_FUNC  EIGEN_ALWAYS_INLINE VectorMapper getVectorMapper(Index i, Index j) const {
+  HYDRA_EIGEN_DEVICE_FUNC  HYDRA_EIGEN_ALWAYS_INLINE VectorMapper getVectorMapper(Index i, Index j) const {
     return VectorMapper(&operator()(i, j));
   }
 
 
-  EIGEN_DEVICE_FUNC
-  EIGEN_ALWAYS_INLINE Scalar& operator()(Index i, Index j) const {
+  HYDRA_EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_ALWAYS_INLINE Scalar& operator()(Index i, Index j) const {
     return m_data[StorageOrder==RowMajor ? j + i*m_stride : i + j*m_stride];
   }
 
   template<typename PacketType>
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE PacketType loadPacket(Index i, Index j) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE PacketType loadPacket(Index i, Index j) const {
     return ploadt<PacketType, AlignmentType>(&operator()(i, j));
   }
 
   template <typename PacketT, int AlignmentT>
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE PacketT load(Index i, Index j) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE PacketT load(Index i, Index j) const {
     return ploadt<PacketT, AlignmentT>(&operator()(i, j));
   }
 
   template<typename SubPacket>
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void scatterPacket(Index i, Index j, const SubPacket &p) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void scatterPacket(Index i, Index j, const SubPacket &p) const {
     pscatter<Scalar, SubPacket>(&operator()(i, j), p, m_stride);
   }
 
   template<typename SubPacket>
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE SubPacket gatherPacket(Index i, Index j) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE SubPacket gatherPacket(Index i, Index j) const {
     return pgather<Scalar, SubPacket>(&operator()(i, j), m_stride);
   }
 
-  EIGEN_DEVICE_FUNC const Index stride() const { return m_stride; }
-  EIGEN_DEVICE_FUNC const Scalar* data() const { return m_data; }
+  HYDRA_EIGEN_DEVICE_FUNC const Index stride() const { return m_stride; }
+  HYDRA_EIGEN_DEVICE_FUNC const Scalar* data() const { return m_data; }
 
-  EIGEN_DEVICE_FUNC Index firstAligned(Index size) const {
+  HYDRA_EIGEN_DEVICE_FUNC Index firstAligned(Index size) const {
     if (UIntPtr(m_data)%sizeof(Scalar)) {
       return -1;
     }
@@ -224,12 +224,12 @@ public:
   }
 
   template<typename SubPacket, int n>
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void storePacketBlock(Index i, Index j, const PacketBlock<SubPacket, n> &block) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void storePacketBlock(Index i, Index j, const PacketBlock<SubPacket, n> &block) const {
     PacketBlockManagement<Index, Scalar, SubPacket, n, n-1, StorageOrder> pbm;
     pbm.store(m_data, m_stride, i, j, block);
   }
 protected:
-  Scalar* EIGEN_RESTRICT m_data;
+  Scalar* HYDRA_EIGEN_RESTRICT m_data;
   const Index m_stride;
 };
 
@@ -240,23 +240,23 @@ template<typename Scalar, typename Index, int AlignmentType, int Incr>
 class BlasLinearMapper
 {
 public:
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE BlasLinearMapper(Scalar *data,Index incr) : m_data(data), m_incr(incr) {}
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE BlasLinearMapper(Scalar *data,Index incr) : m_data(data), m_incr(incr) {}
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void prefetch(int i) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void prefetch(int i) const {
     internal::prefetch(&operator()(i));
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Scalar& operator()(Index i) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE Scalar& operator()(Index i) const {
     return m_data[i*m_incr.value()];
   }
 
   template<typename PacketType>
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE PacketType loadPacket(Index i) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE PacketType loadPacket(Index i) const {
     return pgather<Scalar,PacketType>(m_data + i*m_incr.value(), m_incr.value());
   }
 
   template<typename PacketType>
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void storePacket(Index i, const PacketType &p) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void storePacket(Index i, const PacketType &p) const {
     pscatter<Scalar, PacketType>(m_data + i*m_incr.value(), p, m_incr.value());
   }
 
@@ -271,39 +271,39 @@ class blas_data_mapper
 public:
   typedef BlasLinearMapper<Scalar, Index, AlignmentType,Incr> LinearMapper;
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE blas_data_mapper(Scalar* data, Index stride, Index incr) : m_data(data), m_stride(stride), m_incr(incr) {}
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE blas_data_mapper(Scalar* data, Index stride, Index incr) : m_data(data), m_stride(stride), m_incr(incr) {}
 
-  EIGEN_DEVICE_FUNC  EIGEN_ALWAYS_INLINE blas_data_mapper
+  HYDRA_EIGEN_DEVICE_FUNC  HYDRA_EIGEN_ALWAYS_INLINE blas_data_mapper
   getSubMapper(Index i, Index j) const {
     return blas_data_mapper(&operator()(i, j), m_stride, m_incr.value());
   }
 
-  EIGEN_DEVICE_FUNC  EIGEN_ALWAYS_INLINE LinearMapper getLinearMapper(Index i, Index j) const {
+  HYDRA_EIGEN_DEVICE_FUNC  HYDRA_EIGEN_ALWAYS_INLINE LinearMapper getLinearMapper(Index i, Index j) const {
     return LinearMapper(&operator()(i, j), m_incr.value());
   }
 
-  EIGEN_DEVICE_FUNC
-  EIGEN_ALWAYS_INLINE Scalar& operator()(Index i, Index j) const {
+  HYDRA_EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_ALWAYS_INLINE Scalar& operator()(Index i, Index j) const {
     return m_data[StorageOrder==RowMajor ? j*m_incr.value() + i*m_stride : i*m_incr.value() + j*m_stride];
   }
 
   template<typename PacketType>
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE PacketType loadPacket(Index i, Index j) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE PacketType loadPacket(Index i, Index j) const {
     return pgather<Scalar,PacketType>(&operator()(i, j),m_incr.value());
   }
 
   template <typename PacketT, int AlignmentT>
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE PacketT load(Index i, Index j) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE PacketT load(Index i, Index j) const {
     return pgather<Scalar,PacketT>(&operator()(i, j),m_incr.value());
   }
 
   template<typename SubPacket>
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void scatterPacket(Index i, Index j, const SubPacket &p) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void scatterPacket(Index i, Index j, const SubPacket &p) const {
     pscatter<Scalar, SubPacket>(&operator()(i, j), p, m_stride);
   }
 
   template<typename SubPacket>
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE SubPacket gatherPacket(Index i, Index j) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE SubPacket gatherPacket(Index i, Index j) const {
     return pgather<Scalar, SubPacket>(&operator()(i, j), m_stride);
   }
 
@@ -312,7 +312,7 @@ public:
   struct storePacketBlock_helper
   {
     storePacketBlock_helper<SubPacket, ScalarT, n, idx-1> spbh;
-    EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(const blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, Incr>* sup, Index i, Index j, const PacketBlock<SubPacket, n>& block) const {
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void store(const blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, Incr>* sup, Index i, Index j, const PacketBlock<SubPacket, n>& block) const {
       spbh.store(sup, i,j,block);
       for(int l = 0; l < unpacket_traits<SubPacket>::size; l++)
       {
@@ -326,7 +326,7 @@ public:
   struct storePacketBlock_helper<SubPacket, std::complex<float>, n, idx>
   {
     storePacketBlock_helper<SubPacket, std::complex<float>, n, idx-1> spbh;
-    EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(const blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, Incr>* sup, Index i, Index j, const PacketBlock<SubPacket, n>& block) const {
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void store(const blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, Incr>* sup, Index i, Index j, const PacketBlock<SubPacket, n>& block) const {
       spbh.store(sup,i,j,block);
       for(int l = 0; l < unpacket_traits<SubPacket>::size; l++)
       {
@@ -341,7 +341,7 @@ public:
   struct storePacketBlock_helper<SubPacket, std::complex<double>, n, idx>
   {
     storePacketBlock_helper<SubPacket, std::complex<double>, n, idx-1> spbh;
-    EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(const blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, Incr>* sup, Index i, Index j, const PacketBlock<SubPacket, n>& block) const {
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void store(const blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, Incr>* sup, Index i, Index j, const PacketBlock<SubPacket, n>& block) const {
       spbh.store(sup,i,j,block);
       for(int l = 0; l < unpacket_traits<SubPacket>::size; l++)
       {
@@ -355,31 +355,31 @@ public:
   template<typename SubPacket, typename ScalarT, int n>
   struct storePacketBlock_helper<SubPacket, ScalarT, n, -1>
   {
-    EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(const blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, Incr>*, Index, Index, const PacketBlock<SubPacket, n>& ) const {
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void store(const blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, Incr>*, Index, Index, const PacketBlock<SubPacket, n>& ) const {
     }
   };
 
   template<typename SubPacket, int n>
   struct storePacketBlock_helper<SubPacket, std::complex<float>, n, -1>
   {
-    EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(const blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, Incr>*, Index, Index, const PacketBlock<SubPacket, n>& ) const {
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void store(const blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, Incr>*, Index, Index, const PacketBlock<SubPacket, n>& ) const {
     }
   };
 
   template<typename SubPacket, int n>
   struct storePacketBlock_helper<SubPacket, std::complex<double>, n, -1>
   {
-    EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(const blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, Incr>*, Index, Index, const PacketBlock<SubPacket, n>& ) const {
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void store(const blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, Incr>*, Index, Index, const PacketBlock<SubPacket, n>& ) const {
     }
   };
   // This function stores a PacketBlock on m_data, this approach is really quite slow compare to Incr=1 and should be avoided when possible.
   template<typename SubPacket, int n>
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void storePacketBlock(Index i, Index j, const PacketBlock<SubPacket, n>&block) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE void storePacketBlock(Index i, Index j, const PacketBlock<SubPacket, n>&block) const {
     storePacketBlock_helper<SubPacket, Scalar, n, n-1> spb;
     spb.store(this, i,j,block);
   }
 protected:
-  Scalar* EIGEN_RESTRICT m_data;
+  Scalar* HYDRA_EIGEN_RESTRICT m_data;
   const Index m_stride;
   const internal::variable_if_dynamic<Index,Incr> m_incr;
 };
@@ -388,9 +388,9 @@ protected:
 template<typename Scalar, typename Index, int StorageOrder>
 class const_blas_data_mapper : public blas_data_mapper<const Scalar, Index, StorageOrder> {
   public:
-  EIGEN_ALWAYS_INLINE const_blas_data_mapper(const Scalar *data, Index stride) : blas_data_mapper<const Scalar, Index, StorageOrder>(data, stride) {}
+  HYDRA_EIGEN_ALWAYS_INLINE const_blas_data_mapper(const Scalar *data, Index stride) : blas_data_mapper<const Scalar, Index, StorageOrder>(data, stride) {}
 
-  EIGEN_ALWAYS_INLINE const_blas_data_mapper<Scalar, Index, StorageOrder> getSubMapper(Index i, Index j) const {
+  HYDRA_EIGEN_ALWAYS_INLINE const_blas_data_mapper<Scalar, Index, StorageOrder> getSubMapper(Index i, Index j) const {
     return const_blas_data_mapper<Scalar, Index, StorageOrder>(&(this->operator()(i, j)), this->m_stride);
   }
 };
@@ -418,8 +418,8 @@ template<typename XprType> struct blas_traits
     ExtractType,
     typename _ExtractType::PlainObject
     >::type DirectLinearAccessType;
-  static inline EIGEN_DEVICE_FUNC ExtractType extract(const XprType& x) { return x; }
-  static inline EIGEN_DEVICE_FUNC const Scalar extractScalarFactor(const XprType&) { return Scalar(1); }
+  static inline HYDRA_EIGEN_DEVICE_FUNC ExtractType extract(const XprType& x) { return x; }
+  static inline HYDRA_EIGEN_DEVICE_FUNC const Scalar extractScalarFactor(const XprType&) { return Scalar(1); }
 };
 
 // pop conjugate
@@ -450,8 +450,8 @@ struct blas_traits<CwiseBinaryOp<scalar_product_op<Scalar>, const CwiseNullaryOp
   typedef blas_traits<NestedXpr> Base;
   typedef CwiseBinaryOp<scalar_product_op<Scalar>, const CwiseNullaryOp<scalar_constant_op<Scalar>,Plain>, NestedXpr> XprType;
   typedef typename Base::ExtractType ExtractType;
-  static inline EIGEN_DEVICE_FUNC ExtractType extract(const XprType& x) { return Base::extract(x.rhs()); }
-  static inline EIGEN_DEVICE_FUNC Scalar extractScalarFactor(const XprType& x)
+  static inline HYDRA_EIGEN_DEVICE_FUNC ExtractType extract(const XprType& x) { return Base::extract(x.rhs()); }
+  static inline HYDRA_EIGEN_DEVICE_FUNC Scalar extractScalarFactor(const XprType& x)
   { return x.lhs().functor().m_other * Base::extractScalarFactor(x.rhs()); }
 };
 template<typename Scalar, typename NestedXpr, typename Plain>
@@ -518,7 +518,7 @@ struct blas_traits<const T>
 
 template<typename T, bool HasUsableDirectAccess=blas_traits<T>::HasUsableDirectAccess>
 struct extract_data_selector {
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE static const typename T::Scalar* run(const T& m)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE static const typename T::Scalar* run(const T& m)
   {
     return blas_traits<T>::extract(m).data();
   }
@@ -530,7 +530,7 @@ struct extract_data_selector<T,false> {
 };
 
 template<typename T>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE const typename T::Scalar* extract_data(const T& m)
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE const typename T::Scalar* extract_data(const T& m)
 {
   return extract_data_selector<T>::run(m);
 }
@@ -542,11 +542,11 @@ EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE const typename T::Scalar* extract_data(con
 template<typename ResScalar, typename Lhs, typename Rhs>
 struct combine_scalar_factors_impl
 {
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE static ResScalar run(const Lhs& lhs, const Rhs& rhs)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE static ResScalar run(const Lhs& lhs, const Rhs& rhs)
   {
     return blas_traits<Lhs>::extractScalarFactor(lhs) * blas_traits<Rhs>::extractScalarFactor(rhs);
   }
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE static ResScalar run(const ResScalar& alpha, const Lhs& lhs, const Rhs& rhs)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE static ResScalar run(const ResScalar& alpha, const Lhs& lhs, const Rhs& rhs)
   {
     return alpha * blas_traits<Lhs>::extractScalarFactor(lhs) * blas_traits<Rhs>::extractScalarFactor(rhs);
   }
@@ -554,23 +554,23 @@ struct combine_scalar_factors_impl
 template<typename Lhs, typename Rhs>
 struct combine_scalar_factors_impl<bool, Lhs, Rhs>
 {
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE static bool run(const Lhs& lhs, const Rhs& rhs)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE static bool run(const Lhs& lhs, const Rhs& rhs)
   {
     return blas_traits<Lhs>::extractScalarFactor(lhs) && blas_traits<Rhs>::extractScalarFactor(rhs);
   }
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE static bool run(const bool& alpha, const Lhs& lhs, const Rhs& rhs)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE static bool run(const bool& alpha, const Lhs& lhs, const Rhs& rhs)
   {
     return alpha && blas_traits<Lhs>::extractScalarFactor(lhs) && blas_traits<Rhs>::extractScalarFactor(rhs);
   }
 };
 
 template<typename ResScalar, typename Lhs, typename Rhs>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE ResScalar combine_scalar_factors(const ResScalar& alpha, const Lhs& lhs, const Rhs& rhs)
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE ResScalar combine_scalar_factors(const ResScalar& alpha, const Lhs& lhs, const Rhs& rhs)
 {
   return combine_scalar_factors_impl<ResScalar,Lhs,Rhs>::run(alpha, lhs, rhs);
 }
 template<typename ResScalar, typename Lhs, typename Rhs>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE ResScalar combine_scalar_factors(const Lhs& lhs, const Rhs& rhs)
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE ResScalar combine_scalar_factors(const Lhs& lhs, const Rhs& rhs)
 {
   return combine_scalar_factors_impl<ResScalar,Lhs,Rhs>::run(lhs, rhs);
 }
@@ -578,6 +578,6 @@ EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE ResScalar combine_scalar_factors(const Lhs
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_BLASUTIL_H
+#endif // HYDRA_EIGEN_BLASUTIL_H

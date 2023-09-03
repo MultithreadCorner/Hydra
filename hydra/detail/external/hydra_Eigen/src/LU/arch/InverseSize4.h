@@ -32,10 +32,10 @@
 // See LEGAL.TXT for all the legal information.
 //
 // TODO: Unify implementations of different data types (i.e. float and double).
-#ifndef EIGEN_INVERSE_SIZE_4_H
-#define EIGEN_INVERSE_SIZE_4_H
+#ifndef HYDRA_EIGEN_INVERSE_SIZE_4_H
+#define HYDRA_EIGEN_INVERSE_SIZE_4_H
 
-namespace Eigen
+namespace hydra_Eigen
 {
 namespace internal
 {
@@ -161,7 +161,7 @@ struct compute_inverse_size4<Architecture::Target, float, MatrixType, ResultType
   }
 };
 
-#if !(defined EIGEN_VECTORIZE_NEON && !(EIGEN_ARCH_ARM64 && !EIGEN_APPLE_DOUBLE_NEON_BUG))
+#if !(defined HYDRA_EIGEN_VECTORIZE_NEON && !(HYDRA_EIGEN_ARCH_ARM64 && !HYDRA_EIGEN_APPLE_DOUBLE_NEON_BUG))
 // same algorithm as above, except that each operand is split into
 // halves for two registers to hold.
 template <typename MatrixType, typename ResultType>
@@ -347,5 +347,5 @@ struct compute_inverse_size4<Architecture::Target, double, MatrixType, ResultTyp
 };
 #endif
 } // namespace internal
-} // namespace Eigen
+} // namespace hydra_Eigen
 #endif

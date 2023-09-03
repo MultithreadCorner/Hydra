@@ -7,12 +7,12 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSE_PERMUTATION_H
-#define EIGEN_SPARSE_PERMUTATION_H
+#ifndef HYDRA_EIGEN_SPARSE_PERMUTATION_H
+#define HYDRA_EIGEN_SPARSE_PERMUTATION_H
 
 // This file implements sparse * permutation products
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -173,6 +173,6 @@ operator*(const InverseImpl<PermutationType,PermutationStorage>& tperm, const Sp
   return Product<Inverse<PermutationType>, SparseDerived, AliasFreeProduct>(tperm.derived(), matrix.derived());
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SPARSE_SELFADJOINTVIEW_H
+#endif // HYDRA_EIGEN_SPARSE_SELFADJOINTVIEW_H

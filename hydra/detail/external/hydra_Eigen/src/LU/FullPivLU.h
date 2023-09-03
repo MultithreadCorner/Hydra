@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_LU_H
-#define EIGEN_LU_H
+#ifndef HYDRA_EIGEN_LU_H
+#define HYDRA_EIGEN_LU_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 template<typename _MatrixType> struct traits<FullPivLU<_MatrixType> >
@@ -65,7 +65,7 @@ template<typename _MatrixType> class FullPivLU
     typedef SolverBase<FullPivLU> Base;
     friend class SolverBase<FullPivLU>;
 
-    EIGEN_GENERIC_PUBLIC_INTERFACE(FullPivLU)
+    HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(FullPivLU)
     enum {
       MaxRowsAtCompileTime = MatrixType::MaxRowsAtCompileTime,
       MaxColsAtCompileTime = MatrixType::MaxColsAtCompileTime
@@ -102,7 +102,7 @@ template<typename _MatrixType> class FullPivLU
 
     /** \brief Constructs a LU factorization from a given matrix
       *
-      * This overloaded constructor is provided for \link InplaceDecomposition inplace decomposition \endlink when \c MatrixType is a Eigen::Ref.
+      * This overloaded constructor is provided for \link InplaceDecomposition inplace decomposition \endlink when \c MatrixType is a hydra_Eigen::Ref.
       *
       * \sa FullPivLU(const EigenBase&)
       */
@@ -157,7 +157,7 @@ template<typename _MatrixType> class FullPivLU
       *
       * \sa permutationQ()
       */
-    EIGEN_DEVICE_FUNC inline const PermutationPType& permutationP() const
+    HYDRA_EIGEN_DEVICE_FUNC inline const PermutationPType& permutationP() const
     {
       eigen_assert(m_isInitialized && "LU is not initialized.");
       return m_p;
@@ -219,7 +219,7 @@ template<typename _MatrixType> class FullPivLU
       return internal::image_retval<FullPivLU>(*this, originalMatrix);
     }
 
-    #ifdef EIGEN_PARSED_BY_DOXYGEN
+    #ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** \return a solution x to the equation Ax=b, where A is the matrix of which
       * *this is the LU decomposition.
       *
@@ -297,8 +297,8 @@ template<typename _MatrixType> class FullPivLU
     /** Allows to come back to the default behavior, letting Eigen use its default formula for
       * determining the threshold.
       *
-      * You should pass the special object Eigen::Default as parameter here.
-      * \code lu.setThreshold(Eigen::Default); \endcode
+      * You should pass the special object hydra_Eigen::Default as parameter here.
+      * \code lu.setThreshold(hydra_Eigen::Default); \endcode
       *
       * See the documentation of setThreshold(const RealScalar&).
       */
@@ -404,12 +404,12 @@ template<typename _MatrixType> class FullPivLU
 
     MatrixType reconstructedMatrix() const;
 
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
-    inline Index rows() const EIGEN_NOEXCEPT { return m_lu.rows(); }
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
-    inline Index cols() const EIGEN_NOEXCEPT { return m_lu.cols(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
+    inline Index rows() const HYDRA_EIGEN_NOEXCEPT { return m_lu.rows(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
+    inline Index cols() const HYDRA_EIGEN_NOEXCEPT { return m_lu.cols(); }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<typename RhsType, typename DstType>
     void _solve_impl(const RhsType &rhs, DstType &dst) const;
 
@@ -421,7 +421,7 @@ template<typename _MatrixType> class FullPivLU
 
     static void check_template_parameters()
     {
-      EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+      HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
     }
 
     void computeInPlace();
@@ -617,9 +617,9 @@ template<typename _MatrixType>
 struct kernel_retval<FullPivLU<_MatrixType> >
   : kernel_retval_base<FullPivLU<_MatrixType> >
 {
-  EIGEN_MAKE_KERNEL_HELPERS(FullPivLU<_MatrixType>)
+  HYDRA_EIGEN_MAKE_KERNEL_HELPERS(FullPivLU<_MatrixType>)
 
-  enum { MaxSmallDimAtCompileTime = EIGEN_SIZE_MIN_PREFER_FIXED(
+  enum { MaxSmallDimAtCompileTime = HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(
             MatrixType::MaxColsAtCompileTime,
             MatrixType::MaxRowsAtCompileTime)
   };
@@ -703,9 +703,9 @@ template<typename _MatrixType>
 struct image_retval<FullPivLU<_MatrixType> >
   : image_retval_base<FullPivLU<_MatrixType> >
 {
-  EIGEN_MAKE_IMAGE_HELPERS(FullPivLU<_MatrixType>)
+  HYDRA_EIGEN_MAKE_IMAGE_HELPERS(FullPivLU<_MatrixType>)
 
-  enum { MaxSmallDimAtCompileTime = EIGEN_SIZE_MIN_PREFER_FIXED(
+  enum { MaxSmallDimAtCompileTime = HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(
             MatrixType::MaxColsAtCompileTime,
             MatrixType::MaxRowsAtCompileTime)
   };
@@ -739,7 +739,7 @@ struct image_retval<FullPivLU<_MatrixType> >
 
 } // end namespace internal
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template<typename _MatrixType>
 template<typename RhsType, typename DstType>
 void FullPivLU<_MatrixType>::_solve_impl(const RhsType &rhs, DstType &dst) const
@@ -872,6 +872,6 @@ MatrixBase<Derived>::fullPivLu() const
   return FullPivLU<PlainObject>(eval());
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_LU_H
+#endif // HYDRA_EIGEN_LU_H

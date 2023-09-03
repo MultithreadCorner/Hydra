@@ -7,12 +7,12 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SYMBOLIC_INDEX_H
-#define EIGEN_SYMBOLIC_INDEX_H
+#ifndef HYDRA_EIGEN_SYMBOLIC_INDEX_H
+#define HYDRA_EIGEN_SYMBOLIC_INDEX_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
-/** \namespace Eigen::symbolic
+/** \namespace hydra_hydra_Eigen::symbolic
   * \ingroup Core_Module
   *
   * This namespace defines a set of classes and functions to build and evaluate symbolic expressions of scalar type Index.
@@ -35,7 +35,7 @@ namespace Eigen {
   * std::cout << expr98.eval(x=6) << "\n";
   * \endcode
   *
-  * It is currently only used internally to define and manipulate the Eigen::last and Eigen::lastp1 symbols in Eigen::seq and Eigen::seqN.
+  * It is currently only used internally to define and manipulate the hydra_Eigen::last and hydra_Eigen::lastp1 symbols in hydra_Eigen::seq and hydra_Eigen::seqN.
   *
   */
 namespace symbolic {
@@ -65,7 +65,7 @@ class ValueExpr<internal::FixedInt<N> > {
 public:
   ValueExpr() {}
   template<typename T>
-  EIGEN_CONSTEXPR Index eval_impl(const T&) const { return N; }
+  HYDRA_EIGEN_CONSTEXPR Index eval_impl(const T&) const { return N; }
 };
 
 
@@ -88,7 +88,7 @@ public:
   template<typename T>
   Index eval(const T& values) const { return derived().eval_impl(values); }
 
-#if EIGEN_HAS_CXX14
+#if HYDRA_EIGEN_HAS_CXX14
   template<typename... Types>
   Index eval(Types&&... values) const { return derived().eval_impl(std::make_tuple(values...)); }
 #endif
@@ -139,7 +139,7 @@ public:
   friend QuotientExpr<ValueExpr<internal::FixedInt<N> >,Derived> operator/(internal::FixedInt<N>, const BaseExpr& b)
   { return QuotientExpr<ValueExpr<internal::FixedInt<N> > ,Derived>(ValueExpr<internal::FixedInt<N> >(),b.derived()); }
 
-#if (!EIGEN_HAS_CXX14)
+#if (!HYDRA_EIGEN_HAS_CXX14)
   template<int N>
   AddExpr<Derived,ValueExpr<internal::FixedInt<N> > > operator+(internal::FixedInt<N> (*)()) const
   { return AddExpr<Derived,ValueExpr<internal::FixedInt<N> > >(derived(), ValueExpr<internal::FixedInt<N> >()); }
@@ -228,7 +228,7 @@ public:
 
   Index eval_impl(const SymbolValue<Tag> &values) const { return values.value(); }
 
-#if EIGEN_HAS_CXX14
+#if HYDRA_EIGEN_HAS_CXX14
   // C++14 versions suitable for multiple symbols
   template<typename... Types>
   Index eval_impl(const std::tuple<Types...>& values) const { return std::get<SymbolValue<Tag> >(values).value(); }
@@ -288,6 +288,6 @@ protected:
 
 } // end namespace symbolic
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SYMBOLIC_INDEX_H
+#endif // HYDRA_EIGEN_SYMBOLIC_INDEX_H

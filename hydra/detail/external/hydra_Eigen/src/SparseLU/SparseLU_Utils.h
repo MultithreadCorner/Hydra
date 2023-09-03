@@ -8,10 +8,10 @@
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
-#ifndef EIGEN_SPARSELU_UTILS_H
-#define EIGEN_SPARSELU_UTILS_H
+#ifndef HYDRA_EIGEN_SPARSELU_UTILS_H
+#define HYDRA_EIGEN_SPARSELU_UTILS_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 namespace internal {
 
 /**
@@ -76,5 +76,5 @@ void SparseLUImpl<Scalar,StorageIndex>::fixupL(const Index n, const IndexVector&
 
 } // end namespace internal
 
-} // end namespace Eigen
-#endif // EIGEN_SPARSELU_UTILS_H
+} // end namespace hydra_Eigen
+#endif // HYDRA_EIGEN_SPARSELU_UTILS_H

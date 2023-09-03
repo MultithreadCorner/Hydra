@@ -4,11 +4,11 @@
   * \sa MatrixBase::cwiseProduct
   */
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC
-EIGEN_STRONG_INLINE const EIGEN_CWISE_BINARY_RETURN_TYPE(Derived,OtherDerived,product)
-operator*(const EIGEN_CURRENT_STORAGE_BASE_CLASS<OtherDerived> &other) const
+HYDRA_EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_STRONG_INLINE const HYDRA_EIGEN_CWISE_BINARY_RETURN_TYPE(Derived,OtherDerived,product)
+operator*(const HYDRA_EIGEN_CURRENT_STORAGE_BASE_CLASS<OtherDerived> &other) const
 {
-  return EIGEN_CWISE_BINARY_RETURN_TYPE(Derived,OtherDerived,product)(derived(), other.derived());
+  return HYDRA_EIGEN_CWISE_BINARY_RETURN_TYPE(Derived,OtherDerived,product)(derived(), other.derived());
 }
 
 /** \returns an expression of the coefficient wise quotient of \c *this and \a other
@@ -16,9 +16,9 @@ operator*(const EIGEN_CURRENT_STORAGE_BASE_CLASS<OtherDerived> &other) const
   * \sa MatrixBase::cwiseQuotient
   */
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC
-EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_quotient_op<Scalar,typename OtherDerived::Scalar>, const Derived, const OtherDerived>
-operator/(const EIGEN_CURRENT_STORAGE_BASE_CLASS<OtherDerived> &other) const
+HYDRA_EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_quotient_op<Scalar,typename OtherDerived::Scalar>, const Derived, const OtherDerived>
+operator/(const HYDRA_EIGEN_CURRENT_STORAGE_BASE_CLASS<OtherDerived> &other) const
 {
   return CwiseBinaryOp<internal::scalar_quotient_op<Scalar,typename OtherDerived::Scalar>, const Derived, const OtherDerived>(derived(), other.derived());
 }
@@ -30,16 +30,16 @@ operator/(const EIGEN_CURRENT_STORAGE_BASE_CLASS<OtherDerived> &other) const
   *
   * \sa max()
   */
-EIGEN_MAKE_CWISE_BINARY_OP(min,min)
+HYDRA_EIGEN_MAKE_CWISE_BINARY_OP(min,min)
 
 /** \returns an expression of the coefficient-wise min of \c *this and scalar \a other
   *
   * \sa max()
   */
-EIGEN_DEVICE_FUNC
-EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_min_op<Scalar,Scalar>, const Derived,
+HYDRA_EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_min_op<Scalar,Scalar>, const Derived,
                                         const CwiseNullaryOp<internal::scalar_constant_op<Scalar>, PlainObject> >
-#ifdef EIGEN_PARSED_BY_DOXYGEN
+#ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 min
 #else
 (min)
@@ -56,16 +56,16 @@ min
   *
   * \sa min()
   */
-EIGEN_MAKE_CWISE_BINARY_OP(max,max)
+HYDRA_EIGEN_MAKE_CWISE_BINARY_OP(max,max)
 
 /** \returns an expression of the coefficient-wise max of \c *this and scalar \a other
   *
   * \sa min()
   */
-EIGEN_DEVICE_FUNC
-EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_max_op<Scalar,Scalar>, const Derived,
+HYDRA_EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_max_op<Scalar,Scalar>, const Derived,
                                         const CwiseNullaryOp<internal::scalar_constant_op<Scalar>, PlainObject> >
-#ifdef EIGEN_PARSED_BY_DOXYGEN
+#ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 max
 #else
 (max)
@@ -82,16 +82,16 @@ max
   *
   * \sa absolute_difference()
   */
-EIGEN_MAKE_CWISE_BINARY_OP(absolute_difference,absolute_difference)
+HYDRA_EIGEN_MAKE_CWISE_BINARY_OP(absolute_difference,absolute_difference)
 
 /** \returns an expression of the coefficient-wise absolute_difference of \c *this and scalar \a other
   *
   * \sa absolute_difference()
   */
-EIGEN_DEVICE_FUNC
-EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_absolute_difference_op<Scalar,Scalar>, const Derived,
+HYDRA_EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_absolute_difference_op<Scalar,Scalar>, const Derived,
                                         const CwiseNullaryOp<internal::scalar_constant_op<Scalar>, PlainObject> >
-#ifdef EIGEN_PARSED_BY_DOXYGEN
+#ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 absolute_difference
 #else
 (absolute_difference)
@@ -108,10 +108,10 @@ absolute_difference
   * Example: \include Cwise_array_power_array.cpp
   * Output: \verbinclude Cwise_array_power_array.out
   */
-EIGEN_MAKE_CWISE_BINARY_OP(pow,pow)
+HYDRA_EIGEN_MAKE_CWISE_BINARY_OP(pow,pow)
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
-EIGEN_MAKE_SCALAR_BINARY_OP_ONTHERIGHT(pow,pow)
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_MAKE_SCALAR_BINARY_OP_ONTHERIGHT(pow,pow)
 #else
 /** \returns an expression of the coefficients of \c *this rasied to the constant power \a exponent
   *
@@ -131,32 +131,32 @@ const CwiseBinaryOp<internal::scalar_pow_op<Scalar,T>,Derived,Constant<T> > pow(
 
 
 // TODO code generating macros could be moved to Macros.h and could include generation of documentation
-#define EIGEN_MAKE_CWISE_COMP_OP(OP, COMPARATOR) \
+#define HYDRA_EIGEN_MAKE_CWISE_COMP_OP(OP, COMPARATOR) \
 template<typename OtherDerived> \
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_cmp_op<Scalar, typename OtherDerived::Scalar, internal::cmp_ ## COMPARATOR>, const Derived, const OtherDerived> \
-OP(const EIGEN_CURRENT_STORAGE_BASE_CLASS<OtherDerived> &other) const \
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_cmp_op<Scalar, typename OtherDerived::Scalar, internal::cmp_ ## COMPARATOR>, const Derived, const OtherDerived> \
+OP(const HYDRA_EIGEN_CURRENT_STORAGE_BASE_CLASS<OtherDerived> &other) const \
 { \
   return CwiseBinaryOp<internal::scalar_cmp_op<Scalar, typename OtherDerived::Scalar, internal::cmp_ ## COMPARATOR>, const Derived, const OtherDerived>(derived(), other.derived()); \
 }\
 typedef CwiseBinaryOp<internal::scalar_cmp_op<Scalar,Scalar, internal::cmp_ ## COMPARATOR>, const Derived, const CwiseNullaryOp<internal::scalar_constant_op<Scalar>, PlainObject> > Cmp ## COMPARATOR ## ReturnType; \
 typedef CwiseBinaryOp<internal::scalar_cmp_op<Scalar,Scalar, internal::cmp_ ## COMPARATOR>, const CwiseNullaryOp<internal::scalar_constant_op<Scalar>, PlainObject>, const Derived > RCmp ## COMPARATOR ## ReturnType; \
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Cmp ## COMPARATOR ## ReturnType \
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Cmp ## COMPARATOR ## ReturnType \
 OP(const Scalar& s) const { \
   return this->OP(Derived::PlainObject::Constant(rows(), cols(), s)); \
 } \
-EIGEN_DEVICE_FUNC friend EIGEN_STRONG_INLINE const RCmp ## COMPARATOR ## ReturnType \
-OP(const Scalar& s, const EIGEN_CURRENT_STORAGE_BASE_CLASS<Derived>& d) { \
+HYDRA_EIGEN_DEVICE_FUNC friend HYDRA_EIGEN_STRONG_INLINE const RCmp ## COMPARATOR ## ReturnType \
+OP(const Scalar& s, const HYDRA_EIGEN_CURRENT_STORAGE_BASE_CLASS<Derived>& d) { \
   return Derived::PlainObject::Constant(d.rows(), d.cols(), s).OP(d); \
 }
 
-#define EIGEN_MAKE_CWISE_COMP_R_OP(OP, R_OP, RCOMPARATOR) \
+#define HYDRA_EIGEN_MAKE_CWISE_COMP_R_OP(OP, R_OP, RCOMPARATOR) \
 template<typename OtherDerived> \
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_cmp_op<typename OtherDerived::Scalar, Scalar, internal::cmp_##RCOMPARATOR>, const OtherDerived, const Derived> \
-OP(const EIGEN_CURRENT_STORAGE_BASE_CLASS<OtherDerived> &other) const \
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_cmp_op<typename OtherDerived::Scalar, Scalar, internal::cmp_##RCOMPARATOR>, const OtherDerived, const Derived> \
+OP(const HYDRA_EIGEN_CURRENT_STORAGE_BASE_CLASS<OtherDerived> &other) const \
 { \
   return CwiseBinaryOp<internal::scalar_cmp_op<typename OtherDerived::Scalar, Scalar, internal::cmp_##RCOMPARATOR>, const OtherDerived, const Derived>(other.derived(), derived()); \
 } \
-EIGEN_DEVICE_FUNC \
+HYDRA_EIGEN_DEVICE_FUNC \
 inline const RCmp ## RCOMPARATOR ## ReturnType \
 OP(const Scalar& s) const { \
   return Derived::PlainObject::Constant(rows(), cols(), s).R_OP(*this); \
@@ -175,7 +175,7 @@ OP(const Scalar& s, const Derived& d) { \
   *
   * \sa all(), any(), operator>(), operator<=()
   */
-EIGEN_MAKE_CWISE_COMP_OP(operator<, LT)
+HYDRA_EIGEN_MAKE_CWISE_COMP_OP(operator<, LT)
 
 /** \returns an expression of the coefficient-wise \<= operator of *this and \a other
   *
@@ -184,7 +184,7 @@ EIGEN_MAKE_CWISE_COMP_OP(operator<, LT)
   *
   * \sa all(), any(), operator>=(), operator<()
   */
-EIGEN_MAKE_CWISE_COMP_OP(operator<=, LE)
+HYDRA_EIGEN_MAKE_CWISE_COMP_OP(operator<=, LE)
 
 /** \returns an expression of the coefficient-wise \> operator of *this and \a other
   *
@@ -193,7 +193,7 @@ EIGEN_MAKE_CWISE_COMP_OP(operator<=, LE)
   *
   * \sa all(), any(), operator>=(), operator<()
   */
-EIGEN_MAKE_CWISE_COMP_R_OP(operator>, operator<, LT)
+HYDRA_EIGEN_MAKE_CWISE_COMP_R_OP(operator>, operator<, LT)
 
 /** \returns an expression of the coefficient-wise \>= operator of *this and \a other
   *
@@ -202,7 +202,7 @@ EIGEN_MAKE_CWISE_COMP_R_OP(operator>, operator<, LT)
   *
   * \sa all(), any(), operator>(), operator<=()
   */
-EIGEN_MAKE_CWISE_COMP_R_OP(operator>=, operator<=, LE)
+HYDRA_EIGEN_MAKE_CWISE_COMP_R_OP(operator>=, operator<=, LE)
 
 /** \returns an expression of the coefficient-wise == operator of *this and \a other
   *
@@ -216,7 +216,7 @@ EIGEN_MAKE_CWISE_COMP_R_OP(operator>=, operator<=, LE)
   *
   * \sa all(), any(), isApprox(), isMuchSmallerThan()
   */
-EIGEN_MAKE_CWISE_COMP_OP(operator==, EQ)
+HYDRA_EIGEN_MAKE_CWISE_COMP_OP(operator==, EQ)
 
 /** \returns an expression of the coefficient-wise != operator of *this and \a other
   *
@@ -230,15 +230,15 @@ EIGEN_MAKE_CWISE_COMP_OP(operator==, EQ)
   *
   * \sa all(), any(), isApprox(), isMuchSmallerThan()
   */
-EIGEN_MAKE_CWISE_COMP_OP(operator!=, NEQ)
+HYDRA_EIGEN_MAKE_CWISE_COMP_OP(operator!=, NEQ)
 
 
-#undef EIGEN_MAKE_CWISE_COMP_OP
-#undef EIGEN_MAKE_CWISE_COMP_R_OP
+#undef HYDRA_EIGEN_MAKE_CWISE_COMP_OP
+#undef HYDRA_EIGEN_MAKE_CWISE_COMP_R_OP
 
 // scalar addition
-#ifndef EIGEN_PARSED_BY_DOXYGEN
-EIGEN_MAKE_SCALAR_BINARY_OP(operator+,sum)
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_MAKE_SCALAR_BINARY_OP(operator+,sum)
 #else
 /** \returns an expression of \c *this with each coeff incremented by the constant \a scalar
   *
@@ -259,8 +259,8 @@ template<typename T> friend
 const CwiseBinaryOp<internal::scalar_sum_op<T,Scalar>,Constant<T>,Derived> operator+(const T& scalar, const StorageBaseType& expr);
 #endif
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
-EIGEN_MAKE_SCALAR_BINARY_OP(operator-,difference)
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_MAKE_SCALAR_BINARY_OP(operator-,difference)
 #else
 /** \returns an expression of \c *this with each coeff decremented by the constant \a scalar
   *
@@ -282,8 +282,8 @@ const CwiseBinaryOp<internal::scalar_difference_op<T,Scalar>,Constant<T>,Derived
 #endif
 
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
-  EIGEN_MAKE_SCALAR_BINARY_OP_ONTHELEFT(operator/,quotient)
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
+  HYDRA_EIGEN_MAKE_SCALAR_BINARY_OP_ONTHELEFT(operator/,quotient)
 #else
   /**
     * \brief Component-wise division of the scalar \a s by array elements of \a a.
@@ -305,11 +305,11 @@ const CwiseBinaryOp<internal::scalar_difference_op<T,Scalar>,Constant<T>,Derived
  * \sa operator&&(), select()
  */
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const CwiseBinaryOp<internal::scalar_boolean_xor_op, const Derived, const OtherDerived>
-operator^(const EIGEN_CURRENT_STORAGE_BASE_CLASS<OtherDerived> &other) const
+operator^(const HYDRA_EIGEN_CURRENT_STORAGE_BASE_CLASS<OtherDerived> &other) const
 {
-  EIGEN_STATIC_ASSERT((internal::is_same<bool,Scalar>::value && internal::is_same<bool,typename OtherDerived::Scalar>::value),
+  HYDRA_EIGEN_STATIC_ASSERT((internal::is_same<bool,Scalar>::value && internal::is_same<bool,typename OtherDerived::Scalar>::value),
                       THIS_METHOD_IS_ONLY_FOR_EXPRESSIONS_OF_BOOL);
   return CwiseBinaryOp<internal::scalar_boolean_xor_op, const Derived, const OtherDerived>(derived(),other.derived());
 }
@@ -324,11 +324,11 @@ operator^(const EIGEN_CURRENT_STORAGE_BASE_CLASS<OtherDerived> &other) const
   *
   * \warning Be careful with the order of the parameters: x.polygamma(n) is equivalent to polygamma(n,x)
   *
-  * \sa Eigen::polygamma()
+  * \sa hydra_Eigen::polygamma()
   */
 template<typename DerivedN>
 inline const CwiseBinaryOp<internal::scalar_polygamma_op<Scalar>, const DerivedN, const Derived>
-polygamma(const EIGEN_CURRENT_STORAGE_BASE_CLASS<DerivedN> &n) const
+polygamma(const HYDRA_EIGEN_CURRENT_STORAGE_BASE_CLASS<DerivedN> &n) const
 {
   return CwiseBinaryOp<internal::scalar_polygamma_op<Scalar>, const DerivedN, const Derived>(n.derived(), this->derived());
 }
@@ -348,11 +348,11 @@ polygamma(const EIGEN_CURRENT_STORAGE_BASE_CLASS<DerivedN> &n) const
   *
   * This method is an alias for zeta(*this,q);
   *
-  * \sa Eigen::zeta()
+  * \sa hydra_Eigen::zeta()
   */
 template<typename DerivedQ>
 inline const CwiseBinaryOp<internal::scalar_zeta_op<Scalar>, const Derived, const DerivedQ>
-zeta(const EIGEN_CURRENT_STORAGE_BASE_CLASS<DerivedQ> &q) const
+zeta(const HYDRA_EIGEN_CURRENT_STORAGE_BASE_CLASS<DerivedQ> &q) const
 {
   return CwiseBinaryOp<internal::scalar_zeta_op<Scalar>, const Derived, const DerivedQ>(this->derived(), q.derived());
 }

@@ -18,9 +18,9 @@
  *
  *****************************************************************/
 
-#ifndef EIGEN_MATH_FUNCTIONS_SYCL_H
-#define EIGEN_MATH_FUNCTIONS_SYCL_H
-namespace Eigen {
+#ifndef HYDRA_EIGEN_MATH_FUNCTIONS_SYCL_H
+#define HYDRA_EIGEN_MATH_FUNCTIONS_SYCL_H
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -30,7 +30,7 @@ namespace internal {
 #if defined(SYCL_DEVICE_ONLY)
 #define SYCL_PLOG(packet_type)                                         \
   template <>                                                          \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type plog<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type plog<packet_type>( \
       const packet_type& a) {                                          \
     return cl::sycl::log(a);                                           \
   }
@@ -41,7 +41,7 @@ SYCL_PLOG(cl::sycl::cl_double2)
 
 #define SYCL_PLOG1P(packet_type)                                         \
   template <>                                                            \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type plog1p<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type plog1p<packet_type>( \
       const packet_type& a) {                                            \
     return cl::sycl::log1p(a);                                           \
   }
@@ -52,7 +52,7 @@ SYCL_PLOG1P(cl::sycl::cl_double2)
 
 #define SYCL_PLOG10(packet_type)                                         \
   template <>                                                            \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type plog10<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type plog10<packet_type>( \
       const packet_type& a) {                                            \
     return cl::sycl::log10(a);                                           \
   }
@@ -63,7 +63,7 @@ SYCL_PLOG10(cl::sycl::cl_double2)
 
 #define SYCL_PEXP(packet_type)                                         \
   template <>                                                          \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type pexp<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type pexp<packet_type>( \
       const packet_type& a) {                                          \
     return cl::sycl::exp(a);                                           \
   }
@@ -75,7 +75,7 @@ SYCL_PEXP(cl::sycl::cl_double2)
 
 #define SYCL_PEXPM1(packet_type)                                         \
   template <>                                                            \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type pexpm1<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type pexpm1<packet_type>( \
       const packet_type& a) {                                            \
     return cl::sycl::expm1(a);                                           \
   }
@@ -86,7 +86,7 @@ SYCL_PEXPM1(cl::sycl::cl_double2)
 
 #define SYCL_PSQRT(packet_type)                                         \
   template <>                                                           \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type psqrt<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type psqrt<packet_type>( \
       const packet_type& a) {                                           \
     return cl::sycl::sqrt(a);                                           \
   }
@@ -97,7 +97,7 @@ SYCL_PSQRT(cl::sycl::cl_double2)
 
 #define SYCL_PRSQRT(packet_type)                                         \
   template <>                                                            \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type prsqrt<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type prsqrt<packet_type>( \
       const packet_type& a) {                                            \
     return cl::sycl::rsqrt(a);                                           \
   }
@@ -109,7 +109,7 @@ SYCL_PRSQRT(cl::sycl::cl_double2)
 /** \internal \returns the hyperbolic sine of \a a (coeff-wise) */
 #define SYCL_PSIN(packet_type)                                         \
   template <>                                                          \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type psin<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type psin<packet_type>( \
       const packet_type& a) {                                          \
     return cl::sycl::sin(a);                                           \
   }
@@ -121,7 +121,7 @@ SYCL_PSIN(cl::sycl::cl_double2)
 /** \internal \returns the hyperbolic cosine of \a a (coeff-wise) */
 #define SYCL_PCOS(packet_type)                                         \
   template <>                                                          \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type pcos<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type pcos<packet_type>( \
       const packet_type& a) {                                          \
     return cl::sycl::cos(a);                                           \
   }
@@ -133,7 +133,7 @@ SYCL_PCOS(cl::sycl::cl_double2)
 /** \internal \returns the hyperbolic tan of \a a (coeff-wise) */
 #define SYCL_PTAN(packet_type)                                         \
   template <>                                                          \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type ptan<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type ptan<packet_type>( \
       const packet_type& a) {                                          \
     return cl::sycl::tan(a);                                           \
   }
@@ -145,7 +145,7 @@ SYCL_PTAN(cl::sycl::cl_double2)
 /** \internal \returns the hyperbolic sine of \a a (coeff-wise) */
 #define SYCL_PASIN(packet_type)                                         \
   template <>                                                           \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type pasin<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type pasin<packet_type>( \
       const packet_type& a) {                                           \
     return cl::sycl::asin(a);                                           \
   }
@@ -157,7 +157,7 @@ SYCL_PASIN(cl::sycl::cl_double2)
 /** \internal \returns the hyperbolic cosine of \a a (coeff-wise) */
 #define SYCL_PACOS(packet_type)                                         \
   template <>                                                           \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type pacos<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type pacos<packet_type>( \
       const packet_type& a) {                                           \
     return cl::sycl::acos(a);                                           \
   }
@@ -169,7 +169,7 @@ SYCL_PACOS(cl::sycl::cl_double2)
 /** \internal \returns the hyperbolic tan of \a a (coeff-wise) */
 #define SYCL_PATAN(packet_type)                                         \
   template <>                                                           \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type patan<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type patan<packet_type>( \
       const packet_type& a) {                                           \
     return cl::sycl::atan(a);                                           \
   }
@@ -181,7 +181,7 @@ SYCL_PATAN(cl::sycl::cl_double2)
 /** \internal \returns the hyperbolic sine of \a a (coeff-wise) */
 #define SYCL_PSINH(packet_type)                                         \
   template <>                                                           \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type psinh<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type psinh<packet_type>( \
       const packet_type& a) {                                           \
     return cl::sycl::sinh(a);                                           \
   }
@@ -193,7 +193,7 @@ SYCL_PSINH(cl::sycl::cl_double2)
 /** \internal \returns the hyperbolic cosine of \a a (coeff-wise) */
 #define SYCL_PCOSH(packet_type)                                         \
   template <>                                                           \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type pcosh<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type pcosh<packet_type>( \
       const packet_type& a) {                                           \
     return cl::sycl::cosh(a);                                           \
   }
@@ -205,7 +205,7 @@ SYCL_PCOSH(cl::sycl::cl_double2)
 /** \internal \returns the hyperbolic tan of \a a (coeff-wise) */
 #define SYCL_PTANH(packet_type)                                         \
   template <>                                                           \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type ptanh<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type ptanh<packet_type>( \
       const packet_type& a) {                                           \
     return cl::sycl::tanh(a);                                           \
   }
@@ -216,7 +216,7 @@ SYCL_PTANH(cl::sycl::cl_double2)
 
 #define SYCL_PCEIL(packet_type)                                         \
   template <>                                                           \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type pceil<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type pceil<packet_type>( \
       const packet_type& a) {                                           \
     return cl::sycl::ceil(a);                                           \
   }
@@ -227,7 +227,7 @@ SYCL_PCEIL(cl::sycl::cl_double2)
 
 #define SYCL_PROUND(packet_type)                                         \
   template <>                                                            \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type pround<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type pround<packet_type>( \
       const packet_type& a) {                                            \
     return cl::sycl::round(a);                                           \
   }
@@ -238,7 +238,7 @@ SYCL_PROUND(cl::sycl::cl_double2)
 
 #define SYCL_PRINT(packet_type)                                         \
   template <>                                                           \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type print<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type print<packet_type>( \
       const packet_type& a) {                                           \
     return cl::sycl::rint(a);                                           \
   }
@@ -249,7 +249,7 @@ SYCL_PRINT(cl::sycl::cl_double2)
 
 #define SYCL_FLOOR(packet_type)                                          \
   template <>                                                            \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type pfloor<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type pfloor<packet_type>( \
       const packet_type& a) {                                            \
     return cl::sycl::floor(a);                                           \
   }
@@ -260,7 +260,7 @@ SYCL_FLOOR(cl::sycl::cl_double2)
 
 #define SYCL_PMIN(packet_type, expr)                                   \
   template <>                                                          \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type pmin<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type pmin<packet_type>( \
       const packet_type& a, const packet_type& b) {                    \
     return expr;                                                       \
   }
@@ -271,7 +271,7 @@ SYCL_PMIN(cl::sycl::cl_double2, cl::sycl::fmin(a, b))
 
 #define SYCL_PMAX(packet_type, expr)                                   \
   template <>                                                          \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type pmax<packet_type>( \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type pmax<packet_type>( \
       const packet_type& a, const packet_type& b) {                    \
     return expr;                                                       \
   }
@@ -282,7 +282,7 @@ SYCL_PMAX(cl::sycl::cl_double2, cl::sycl::fmax(a, b))
 
 #define SYCL_PLDEXP(packet_type)                                             \
   template <>                                                                \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE packet_type pldexp(                  \
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE packet_type pldexp(                  \
       const packet_type& a, const packet_type& exponent) {                   \
     return cl::sycl::ldexp(                                                  \
         a, exponent.template convert<cl::sycl::cl_int,                       \
@@ -296,6 +296,6 @@ SYCL_PLDEXP(cl::sycl::cl_double2)
 #endif
 }  // end namespace internal
 
-}  // end namespace Eigen
+}  // end namespace hydra_Eigen
 
-#endif  // EIGEN_MATH_FUNCTIONS_SYCL_H
+#endif  // HYDRA_EIGEN_MATH_FUNCTIONS_SYCL_H

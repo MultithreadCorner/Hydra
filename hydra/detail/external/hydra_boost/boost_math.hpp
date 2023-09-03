@@ -37,9 +37,4 @@
 #include <hydra/detail/external/hydra_boost/math/complex.hpp>
 #include <hydra/detail/external/hydra_boost/math/special_functions.hpp>
 
-namespace hydra {
-
-namespace  boost = hydra_boost;
-
-}  // namespace hydra
 

@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_MATRIXBASEEIGENVALUES_H
-#define EIGEN_MATRIXBASEEIGENVALUES_H
+#ifndef HYDRA_EIGEN_MATRIXBASEEIGENVALUES_H
+#define HYDRA_EIGEN_MATRIXBASEEIGENVALUES_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -84,7 +84,7 @@ MatrixBase<Derived>::eigenvalues() const
   * \sa SelfAdjointEigenSolver::eigenvalues(), MatrixBase::eigenvalues()
   */
 template<typename MatrixType, unsigned int UpLo> 
-EIGEN_DEVICE_FUNC inline typename SelfAdjointView<MatrixType, UpLo>::EigenvaluesReturnType
+HYDRA_EIGEN_DEVICE_FUNC inline typename SelfAdjointView<MatrixType, UpLo>::EigenvaluesReturnType
 SelfAdjointView<MatrixType, UpLo>::eigenvalues() const
 {
   PlainObject thisAsMatrix(*this);
@@ -147,12 +147,12 @@ MatrixBase<Derived>::operatorNorm() const
   * \sa eigenvalues(), MatrixBase::operatorNorm()
   */
 template<typename MatrixType, unsigned int UpLo>
-EIGEN_DEVICE_FUNC inline typename SelfAdjointView<MatrixType, UpLo>::RealScalar
+HYDRA_EIGEN_DEVICE_FUNC inline typename SelfAdjointView<MatrixType, UpLo>::RealScalar
 SelfAdjointView<MatrixType, UpLo>::operatorNorm() const
 {
   return eigenvalues().cwiseAbs().maxCoeff();
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
 #endif

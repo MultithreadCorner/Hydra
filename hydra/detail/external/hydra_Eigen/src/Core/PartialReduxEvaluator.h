@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_PARTIALREDUX_H
-#define EIGEN_PARTIALREDUX_H
+#ifndef HYDRA_EIGEN_PARTIALREDUX_H
+#define HYDRA_EIGEN_PARTIALREDUX_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -46,19 +46,19 @@ struct packetwise_redux_traits
     OuterSize = int(Evaluator::IsRowMajor) ? Evaluator::RowsAtCompileTime : Evaluator::ColsAtCompileTime,
     Cost = OuterSize == Dynamic ? HugeCost
          : OuterSize * Evaluator::CoeffReadCost + (OuterSize-1) * functor_traits<Func>::Cost,
-    Unrolling = Cost <= EIGEN_UNROLLING_LIMIT ? CompleteUnrolling : NoUnrolling
+    Unrolling = Cost <= HYDRA_EIGEN_UNROLLING_LIMIT ? CompleteUnrolling : NoUnrolling
   };
 
 };
 
 /* Value to be returned when size==0 , by default let's return 0 */
 template<typename PacketType,typename Func>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 PacketType packetwise_redux_empty_value(const Func& ) { return pset1<PacketType>(0); }
 
 /* For products the default is 1 */
 template<typename PacketType,typename Scalar>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 PacketType packetwise_redux_empty_value(const scalar_product_op<Scalar,Scalar>& ) { return pset1<PacketType>(1); }
 
 /* Perform the actual reduction */
@@ -75,7 +75,7 @@ struct packetwise_redux_impl<Func, Evaluator, CompleteUnrolling>
   typedef typename Evaluator::Scalar Scalar;
 
   template<typename PacketType>
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE
   PacketType run(const Evaluator &eval, const Func& func, Index /*size*/)
   {
     return redux_vec_unroller<Func, Evaluator, 0, packetwise_redux_traits<Func, Evaluator>::OuterSize>::template run<PacketType>(eval,func);
@@ -90,8 +90,8 @@ template<typename Func, typename Evaluator, int Start>
 struct redux_vec_unroller<Func, Evaluator, Start, 0>
 {
   template<typename PacketType>
-  EIGEN_DEVICE_FUNC
-  static EIGEN_STRONG_INLINE PacketType run(const Evaluator &, const Func& f)
+  HYDRA_EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_STRONG_INLINE PacketType run(const Evaluator &, const Func& f)
   {
     return packetwise_redux_empty_value<PacketType>(f);
   }
@@ -105,7 +105,7 @@ struct packetwise_redux_impl<Func, Evaluator, NoUnrolling>
   typedef typename redux_traits<Func, Evaluator>::PacketType PacketScalar;
 
   template<typename PacketType>
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static PacketType run(const Evaluator &eval, const Func& func, Index size)
   {
     if(size==0)
@@ -162,36 +162,36 @@ struct evaluator<PartialReduxExpr<ArgType, MemberOp, Direction> >
     Alignment = 0 // FIXME this will need to be improved once PartialReduxExpr is vectorized
   };
 
-  EIGEN_DEVICE_FUNC explicit evaluator(const XprType xpr)
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const XprType xpr)
     : m_arg(xpr.nestedExpression()), m_functor(xpr.functor())
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(TraversalSize==Dynamic ? HugeCost : (TraversalSize==0 ? 1 : int(CostOpType::value)));
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(TraversalSize==Dynamic ? HugeCost : (TraversalSize==0 ? 1 : int(CostOpType::value)));
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 
   typedef typename XprType::CoeffReturnType CoeffReturnType;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   const Scalar coeff(Index i, Index j) const
   {
     return coeff(Direction==Vertical ? j : i);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   const Scalar coeff(Index index) const
   {
     return m_functor(m_arg.template subVector<DirectionType(Direction)>(index));
   }
 
   template<int LoadMode,typename PacketType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   PacketType packet(Index i, Index j) const
   {
     return packet<LoadMode,PacketType>(Direction==Vertical ? j : i);
   }
   
   template<int LoadMode,typename PacketType>
-  EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC
   PacketType packet(Index idx) const
   {
     enum { PacketSize = internal::unpacket_traits<PacketType>::size };
@@ -227,6 +227,6 @@ protected:
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_PARTIALREDUX_H
+#endif // HYDRA_EIGEN_PARTIALREDUX_H

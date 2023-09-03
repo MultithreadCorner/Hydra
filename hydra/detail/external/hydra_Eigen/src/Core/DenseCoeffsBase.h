@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_DENSECOEFFSBASE_H
-#define EIGEN_DENSECOEFFSBASE_H
+#ifndef HYDRA_EIGEN_DENSECOEFFSBASE_H
+#define HYDRA_EIGEN_DENSECOEFFSBASE_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 template<typename T> struct add_const_on_value_type_if_arithmetic
@@ -61,8 +61,8 @@ class DenseCoeffsBase<Derived,ReadOnlyAccessors> : public EigenBase<Derived>
     using Base::size;
     using Base::derived;
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Index rowIndexByOuterInner(Index outer, Index inner) const
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Index rowIndexByOuterInner(Index outer, Index inner) const
     {
       return int(Derived::RowsAtCompileTime) == 1 ? 0
           : int(Derived::ColsAtCompileTime) == 1 ? inner
@@ -70,8 +70,8 @@ class DenseCoeffsBase<Derived,ReadOnlyAccessors> : public EigenBase<Derived>
           : inner;
     }
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Index colIndexByOuterInner(Index outer, Index inner) const
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Index colIndexByOuterInner(Index outer, Index inner) const
     {
       return int(Derived::ColsAtCompileTime) == 1 ? 0
           : int(Derived::RowsAtCompileTime) == 1 ? inner
@@ -88,21 +88,21 @@ class DenseCoeffsBase<Derived,ReadOnlyAccessors> : public EigenBase<Derived>
       * repeated coefficient access. Only use this when it is guaranteed that the
       * parameters \a row and \a col are in range.
       *
-      * If EIGEN_INTERNAL_DEBUGGING is defined, an assertion will be made, making this
+      * If HYDRA_EIGEN_INTERNAL_DEBUGGING is defined, an assertion will be made, making this
       * function equivalent to \link operator()(Index,Index) const \endlink.
       *
       * \sa operator()(Index,Index) const, coeffRef(Index,Index), coeff(Index) const
       */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE CoeffReturnType coeff(Index row, Index col) const
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE CoeffReturnType coeff(Index row, Index col) const
     {
       eigen_internal_assert(row >= 0 && row < rows()
                          && col >= 0 && col < cols());
       return internal::evaluator<Derived>(derived()).coeff(row,col);
     }
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE CoeffReturnType coeffByOuterInner(Index outer, Index inner) const
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE CoeffReturnType coeffByOuterInner(Index outer, Index inner) const
     {
       return coeff(rowIndexByOuterInner(outer, inner),
                    colIndexByOuterInner(outer, inner));
@@ -112,8 +112,8 @@ class DenseCoeffsBase<Derived,ReadOnlyAccessors> : public EigenBase<Derived>
       *
       * \sa operator()(Index,Index), operator[](Index)
       */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE CoeffReturnType operator()(Index row, Index col) const
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE CoeffReturnType operator()(Index row, Index col) const
     {
       eigen_assert(row >= 0 && row < rows()
           && col >= 0 && col < cols());
@@ -129,17 +129,17 @@ class DenseCoeffsBase<Derived,ReadOnlyAccessors> : public EigenBase<Derived>
       * repeated coefficient access. Only use this when it is guaranteed that the
       * parameter \a index is in range.
       *
-      * If EIGEN_INTERNAL_DEBUGGING is defined, an assertion will be made, making this
+      * If HYDRA_EIGEN_INTERNAL_DEBUGGING is defined, an assertion will be made, making this
       * function equivalent to \link operator[](Index) const \endlink.
       *
       * \sa operator[](Index) const, coeffRef(Index), coeff(Index,Index) const
       */
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE CoeffReturnType
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE CoeffReturnType
     coeff(Index index) const
     {
-      EIGEN_STATIC_ASSERT(internal::evaluator<Derived>::Flags & LinearAccessBit,
+      HYDRA_EIGEN_STATIC_ASSERT(internal::evaluator<Derived>::Flags & LinearAccessBit,
                           THIS_COEFFICIENT_ACCESSOR_TAKING_ONE_ACCESS_IS_ONLY_FOR_EXPRESSIONS_ALLOWING_LINEAR_ACCESS)
       eigen_internal_assert(index >= 0 && index < size());
       return internal::evaluator<Derived>(derived()).coeff(index);
@@ -154,11 +154,11 @@ class DenseCoeffsBase<Derived,ReadOnlyAccessors> : public EigenBase<Derived>
       * z() const, w() const
       */
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE CoeffReturnType
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE CoeffReturnType
     operator[](Index index) const
     {
-      EIGEN_STATIC_ASSERT(Derived::IsVectorAtCompileTime,
+      HYDRA_EIGEN_STATIC_ASSERT(Derived::IsVectorAtCompileTime,
                           THE_BRACKET_OPERATOR_IS_ONLY_FOR_VECTORS__USE_THE_PARENTHESIS_OPERATOR_INSTEAD)
       eigen_assert(index >= 0 && index < size());
       return coeff(index);
@@ -174,8 +174,8 @@ class DenseCoeffsBase<Derived,ReadOnlyAccessors> : public EigenBase<Derived>
       * z() const, w() const
       */
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE CoeffReturnType
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE CoeffReturnType
     operator()(Index index) const
     {
       eigen_assert(index >= 0 && index < size());
@@ -184,37 +184,37 @@ class DenseCoeffsBase<Derived,ReadOnlyAccessors> : public EigenBase<Derived>
 
     /** equivalent to operator[](0).  */
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE CoeffReturnType
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE CoeffReturnType
     x() const { return (*this)[0]; }
 
     /** equivalent to operator[](1).  */
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE CoeffReturnType
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE CoeffReturnType
     y() const
     {
-      EIGEN_STATIC_ASSERT(Derived::SizeAtCompileTime==-1 || Derived::SizeAtCompileTime>=2, OUT_OF_RANGE_ACCESS);
+      HYDRA_EIGEN_STATIC_ASSERT(Derived::SizeAtCompileTime==-1 || Derived::SizeAtCompileTime>=2, OUT_OF_RANGE_ACCESS);
       return (*this)[1];
     }
 
     /** equivalent to operator[](2).  */
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE CoeffReturnType
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE CoeffReturnType
     z() const
     {
-      EIGEN_STATIC_ASSERT(Derived::SizeAtCompileTime==-1 || Derived::SizeAtCompileTime>=3, OUT_OF_RANGE_ACCESS);
+      HYDRA_EIGEN_STATIC_ASSERT(Derived::SizeAtCompileTime==-1 || Derived::SizeAtCompileTime>=3, OUT_OF_RANGE_ACCESS);
       return (*this)[2];
     }
 
     /** equivalent to operator[](3).  */
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE CoeffReturnType
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE CoeffReturnType
     w() const
     {
-      EIGEN_STATIC_ASSERT(Derived::SizeAtCompileTime==-1 || Derived::SizeAtCompileTime>=4, OUT_OF_RANGE_ACCESS);
+      HYDRA_EIGEN_STATIC_ASSERT(Derived::SizeAtCompileTime==-1 || Derived::SizeAtCompileTime>=4, OUT_OF_RANGE_ACCESS);
       return (*this)[3];
     }
 
@@ -229,7 +229,7 @@ class DenseCoeffsBase<Derived,ReadOnlyAccessors> : public EigenBase<Derived>
       */
 
     template<int LoadMode>
-    EIGEN_STRONG_INLINE PacketReturnType packet(Index row, Index col) const
+    HYDRA_EIGEN_STRONG_INLINE PacketReturnType packet(Index row, Index col) const
     {
       typedef typename internal::packet_traits<Scalar>::type DefaultPacketType;
       eigen_internal_assert(row >= 0 && row < rows() && col >= 0 && col < cols());
@@ -239,7 +239,7 @@ class DenseCoeffsBase<Derived,ReadOnlyAccessors> : public EigenBase<Derived>
 
     /** \internal */
     template<int LoadMode>
-    EIGEN_STRONG_INLINE PacketReturnType packetByOuterInner(Index outer, Index inner) const
+    HYDRA_EIGEN_STRONG_INLINE PacketReturnType packetByOuterInner(Index outer, Index inner) const
     {
       return packet<LoadMode>(rowIndexByOuterInner(outer, inner),
                               colIndexByOuterInner(outer, inner));
@@ -256,9 +256,9 @@ class DenseCoeffsBase<Derived,ReadOnlyAccessors> : public EigenBase<Derived>
       */
 
     template<int LoadMode>
-    EIGEN_STRONG_INLINE PacketReturnType packet(Index index) const
+    HYDRA_EIGEN_STRONG_INLINE PacketReturnType packet(Index index) const
     {
-      EIGEN_STATIC_ASSERT(internal::evaluator<Derived>::Flags & LinearAccessBit,
+      HYDRA_EIGEN_STATIC_ASSERT(internal::evaluator<Derived>::Flags & LinearAccessBit,
                           THIS_COEFFICIENT_ACCESSOR_TAKING_ONE_ACCESS_IS_ONLY_FOR_EXPRESSIONS_ALLOWING_LINEAR_ACCESS)
       typedef typename internal::packet_traits<Scalar>::type DefaultPacketType;
       eigen_internal_assert(index >= 0 && index < size());
@@ -333,21 +333,21 @@ class DenseCoeffsBase<Derived, WriteAccessors> : public DenseCoeffsBase<Derived,
       * repeated coefficient access. Only use this when it is guaranteed that the
       * parameters \a row and \a col are in range.
       *
-      * If EIGEN_INTERNAL_DEBUGGING is defined, an assertion will be made, making this
+      * If HYDRA_EIGEN_INTERNAL_DEBUGGING is defined, an assertion will be made, making this
       * function equivalent to \link operator()(Index,Index) \endlink.
       *
       * \sa operator()(Index,Index), coeff(Index, Index) const, coeffRef(Index)
       */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Scalar& coeffRef(Index row, Index col)
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Scalar& coeffRef(Index row, Index col)
     {
       eigen_internal_assert(row >= 0 && row < rows()
                          && col >= 0 && col < cols());
       return internal::evaluator<Derived>(derived()).coeffRef(row,col);
     }
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Scalar&
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Scalar&
     coeffRefByOuterInner(Index outer, Index inner)
     {
       return coeffRef(rowIndexByOuterInner(outer, inner),
@@ -359,8 +359,8 @@ class DenseCoeffsBase<Derived, WriteAccessors> : public DenseCoeffsBase<Derived,
       * \sa operator[](Index)
       */
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Scalar&
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Scalar&
     operator()(Index row, Index col)
     {
       eigen_assert(row >= 0 && row < rows()
@@ -378,17 +378,17 @@ class DenseCoeffsBase<Derived, WriteAccessors> : public DenseCoeffsBase<Derived,
       * repeated coefficient access. Only use this when it is guaranteed that the
       * parameters \a row and \a col are in range.
       *
-      * If EIGEN_INTERNAL_DEBUGGING is defined, an assertion will be made, making this
+      * If HYDRA_EIGEN_INTERNAL_DEBUGGING is defined, an assertion will be made, making this
       * function equivalent to \link operator[](Index) \endlink.
       *
       * \sa operator[](Index), coeff(Index) const, coeffRef(Index,Index)
       */
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Scalar&
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Scalar&
     coeffRef(Index index)
     {
-      EIGEN_STATIC_ASSERT(internal::evaluator<Derived>::Flags & LinearAccessBit,
+      HYDRA_EIGEN_STATIC_ASSERT(internal::evaluator<Derived>::Flags & LinearAccessBit,
                           THIS_COEFFICIENT_ACCESSOR_TAKING_ONE_ACCESS_IS_ONLY_FOR_EXPRESSIONS_ALLOWING_LINEAR_ACCESS)
       eigen_internal_assert(index >= 0 && index < size());
       return internal::evaluator<Derived>(derived()).coeffRef(index);
@@ -401,11 +401,11 @@ class DenseCoeffsBase<Derived, WriteAccessors> : public DenseCoeffsBase<Derived,
       * \sa operator[](Index) const, operator()(Index,Index), x(), y(), z(), w()
       */
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Scalar&
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Scalar&
     operator[](Index index)
     {
-      EIGEN_STATIC_ASSERT(Derived::IsVectorAtCompileTime,
+      HYDRA_EIGEN_STATIC_ASSERT(Derived::IsVectorAtCompileTime,
                           THE_BRACKET_OPERATOR_IS_ONLY_FOR_VECTORS__USE_THE_PARENTHESIS_OPERATOR_INSTEAD)
       eigen_assert(index >= 0 && index < size());
       return coeffRef(index);
@@ -420,8 +420,8 @@ class DenseCoeffsBase<Derived, WriteAccessors> : public DenseCoeffsBase<Derived,
       * \sa operator[](Index) const, operator()(Index,Index), x(), y(), z(), w()
       */
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Scalar&
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Scalar&
     operator()(Index index)
     {
       eigen_assert(index >= 0 && index < size());
@@ -430,37 +430,37 @@ class DenseCoeffsBase<Derived, WriteAccessors> : public DenseCoeffsBase<Derived,
 
     /** equivalent to operator[](0).  */
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Scalar&
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Scalar&
     x() { return (*this)[0]; }
 
     /** equivalent to operator[](1).  */
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Scalar&
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Scalar&
     y()
     {
-      EIGEN_STATIC_ASSERT(Derived::SizeAtCompileTime==-1 || Derived::SizeAtCompileTime>=2, OUT_OF_RANGE_ACCESS);
+      HYDRA_EIGEN_STATIC_ASSERT(Derived::SizeAtCompileTime==-1 || Derived::SizeAtCompileTime>=2, OUT_OF_RANGE_ACCESS);
       return (*this)[1];
     }
 
     /** equivalent to operator[](2).  */
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Scalar&
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Scalar&
     z()
     {
-      EIGEN_STATIC_ASSERT(Derived::SizeAtCompileTime==-1 || Derived::SizeAtCompileTime>=3, OUT_OF_RANGE_ACCESS);
+      HYDRA_EIGEN_STATIC_ASSERT(Derived::SizeAtCompileTime==-1 || Derived::SizeAtCompileTime>=3, OUT_OF_RANGE_ACCESS);
       return (*this)[2];
     }
 
     /** equivalent to operator[](3).  */
 
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Scalar&
+    HYDRA_EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_STRONG_INLINE Scalar&
     w()
     {
-      EIGEN_STATIC_ASSERT(Derived::SizeAtCompileTime==-1 || Derived::SizeAtCompileTime>=4, OUT_OF_RANGE_ACCESS);
+      HYDRA_EIGEN_STATIC_ASSERT(Derived::SizeAtCompileTime==-1 || Derived::SizeAtCompileTime>=4, OUT_OF_RANGE_ACCESS);
       return (*this)[3];
     }
 };
@@ -495,7 +495,7 @@ class DenseCoeffsBase<Derived, DirectAccessors> : public DenseCoeffsBase<Derived
       *
       * \sa outerStride(), rowStride(), colStride()
       */
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
     inline Index innerStride() const
     {
       return derived().innerStride();
@@ -506,14 +506,14 @@ class DenseCoeffsBase<Derived, DirectAccessors> : public DenseCoeffsBase<Derived
       *
       * \sa innerStride(), rowStride(), colStride()
       */
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
     inline Index outerStride() const
     {
       return derived().outerStride();
     }
 
     // FIXME shall we remove it ?
-    EIGEN_CONSTEXPR inline Index stride() const
+    HYDRA_EIGEN_CONSTEXPR inline Index stride() const
     {
       return Derived::IsVectorAtCompileTime ? innerStride() : outerStride();
     }
@@ -522,7 +522,7 @@ class DenseCoeffsBase<Derived, DirectAccessors> : public DenseCoeffsBase<Derived
       *
       * \sa innerStride(), outerStride(), colStride()
       */
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
     inline Index rowStride() const
     {
       return Derived::IsRowMajor ? outerStride() : innerStride();
@@ -532,7 +532,7 @@ class DenseCoeffsBase<Derived, DirectAccessors> : public DenseCoeffsBase<Derived
       *
       * \sa innerStride(), outerStride(), rowStride()
       */
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
     inline Index colStride() const
     {
       return Derived::IsRowMajor ? innerStride() : outerStride();
@@ -570,8 +570,8 @@ class DenseCoeffsBase<Derived, DirectWriteAccessors>
       *
       * \sa outerStride(), rowStride(), colStride()
       */
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
-    inline Index innerStride() const EIGEN_NOEXCEPT
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
+    inline Index innerStride() const HYDRA_EIGEN_NOEXCEPT
     {
       return derived().innerStride();
     }
@@ -581,14 +581,14 @@ class DenseCoeffsBase<Derived, DirectWriteAccessors>
       *
       * \sa innerStride(), rowStride(), colStride()
       */
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
-    inline Index outerStride() const EIGEN_NOEXCEPT
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
+    inline Index outerStride() const HYDRA_EIGEN_NOEXCEPT
     {
       return derived().outerStride();
     }
 
     // FIXME shall we remove it ?
-    EIGEN_CONSTEXPR inline Index stride() const EIGEN_NOEXCEPT
+    HYDRA_EIGEN_CONSTEXPR inline Index stride() const HYDRA_EIGEN_NOEXCEPT
     {
       return Derived::IsVectorAtCompileTime ? innerStride() : outerStride();
     }
@@ -597,8 +597,8 @@ class DenseCoeffsBase<Derived, DirectWriteAccessors>
       *
       * \sa innerStride(), outerStride(), colStride()
       */
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
-    inline Index rowStride() const EIGEN_NOEXCEPT
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
+    inline Index rowStride() const HYDRA_EIGEN_NOEXCEPT
     {
       return Derived::IsRowMajor ? outerStride() : innerStride();
     }
@@ -607,8 +607,8 @@ class DenseCoeffsBase<Derived, DirectWriteAccessors>
       *
       * \sa innerStride(), outerStride(), rowStride()
       */
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
-    inline Index colStride() const EIGEN_NOEXCEPT
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
+    inline Index colStride() const HYDRA_EIGEN_NOEXCEPT
     {
       return Derived::IsRowMajor ? innerStride() : outerStride();
     }
@@ -619,7 +619,7 @@ namespace internal {
 template<int Alignment, typename Derived, bool JustReturnZero>
 struct first_aligned_impl
 {
-  static EIGEN_CONSTEXPR inline Index run(const Derived&) EIGEN_NOEXCEPT
+  static HYDRA_EIGEN_CONSTEXPR inline Index run(const Derived&) HYDRA_EIGEN_NOEXCEPT
   { return 0; }
 };
 
@@ -680,6 +680,6 @@ struct outer_stride_at_compile_time<Derived, false>
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_DENSECOEFFSBASE_H
+#endif // HYDRA_EIGEN_DENSECOEFFSBASE_H

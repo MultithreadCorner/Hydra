@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SELFADJOINTRANK2UPTADE_H
-#define EIGEN_SELFADJOINTRANK2UPTADE_H
+#ifndef HYDRA_EIGEN_SELFADJOINTRANK2UPTADE_H
+#define HYDRA_EIGEN_SELFADJOINTRANK2UPTADE_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -24,7 +24,7 @@ struct selfadjoint_rank2_update_selector;
 template<typename Scalar, typename Index, typename UType, typename VType>
 struct selfadjoint_rank2_update_selector<Scalar,Index,UType,VType,Lower>
 {
-  static EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_DEVICE_FUNC
   void run(Scalar* mat, Index stride, const UType& u, const VType& v, const Scalar& alpha)
   {
     const Index size = u.size();
@@ -58,7 +58,7 @@ template<bool Cond, typename T> struct conj_expr_if
 
 template<typename MatrixType, unsigned int UpLo>
 template<typename DerivedU, typename DerivedV>
-EIGEN_DEVICE_FUNC SelfAdjointView<MatrixType,UpLo>& SelfAdjointView<MatrixType,UpLo>
+HYDRA_EIGEN_DEVICE_FUNC SelfAdjointView<MatrixType,UpLo>& SelfAdjointView<MatrixType,UpLo>
 ::rankUpdate(const MatrixBase<DerivedU>& u, const MatrixBase<DerivedV>& v, const Scalar& alpha)
 {
   typedef internal::blas_traits<DerivedU> UBlasTraits;
@@ -89,6 +89,6 @@ EIGEN_DEVICE_FUNC SelfAdjointView<MatrixType,UpLo>& SelfAdjointView<MatrixType,U
   return *this;
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SELFADJOINTRANK2UPTADE_H
+#endif // HYDRA_EIGEN_SELFADJOINTRANK2UPTADE_H

@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_COMPRESSED_STORAGE_H
-#define EIGEN_COMPRESSED_STORAGE_H
+#ifndef HYDRA_EIGEN_COMPRESSED_STORAGE_H
+#define HYDRA_EIGEN_COMPRESSED_STORAGE_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -243,8 +243,8 @@ class CompressedStorage
 
     inline void reallocate(Index size)
     {
-      #ifdef EIGEN_SPARSE_COMPRESSED_STORAGE_REALLOCATE_PLUGIN
-        EIGEN_SPARSE_COMPRESSED_STORAGE_REALLOCATE_PLUGIN
+      #ifdef HYDRA_EIGEN_SPARSE_COMPRESSED_STORAGE_REALLOCATE_PLUGIN
+        HYDRA_EIGEN_SPARSE_COMPRESSED_STORAGE_REALLOCATE_PLUGIN
       #endif
       eigen_internal_assert(size!=m_allocatedSize);
       internal::scoped_array<Scalar> newValues(size);
@@ -269,6 +269,6 @@ class CompressedStorage
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_COMPRESSED_STORAGE_H
+#endif // HYDRA_EIGEN_COMPRESSED_STORAGE_H

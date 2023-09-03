@@ -30,14 +30,14 @@
  ********************************************************************************
 */
 
-#ifndef EIGEN_COMPLEX_SCHUR_LAPACKE_H
-#define EIGEN_COMPLEX_SCHUR_LAPACKE_H
+#ifndef HYDRA_EIGEN_COMPLEX_SCHUR_LAPACKE_H
+#define HYDRA_EIGEN_COMPLEX_SCHUR_LAPACKE_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 /** \internal Specialization for the data types supported by LAPACKe */
 
-#define EIGEN_LAPACKE_SCHUR_COMPLEX(EIGTYPE, LAPACKE_TYPE, LAPACKE_PREFIX, LAPACKE_PREFIX_U, EIGCOLROW, LAPACKE_COLROW) \
+#define HYDRA_EIGEN_LAPACKE_SCHUR_COMPLEX(EIGTYPE, LAPACKE_TYPE, LAPACKE_PREFIX, LAPACKE_PREFIX_U, EIGCOLROW, LAPACKE_COLROW) \
 template<> template<typename InputType> inline \
 ComplexSchur<Matrix<EIGTYPE, Dynamic, Dynamic, EIGCOLROW> >& \
 ComplexSchur<Matrix<EIGTYPE, Dynamic, Dynamic, EIGCOLROW> >::compute(const EigenBase<InputType>& matrix, bool computeU) \
@@ -81,11 +81,11 @@ ComplexSchur<Matrix<EIGTYPE, Dynamic, Dynamic, EIGCOLROW> >::compute(const Eigen
 \
 }
 
-EIGEN_LAPACKE_SCHUR_COMPLEX(dcomplex, lapack_complex_double, z, Z, ColMajor, LAPACK_COL_MAJOR)
-EIGEN_LAPACKE_SCHUR_COMPLEX(scomplex, lapack_complex_float,  c, C, ColMajor, LAPACK_COL_MAJOR)
-EIGEN_LAPACKE_SCHUR_COMPLEX(dcomplex, lapack_complex_double, z, Z, RowMajor, LAPACK_ROW_MAJOR)
-EIGEN_LAPACKE_SCHUR_COMPLEX(scomplex, lapack_complex_float,  c, C, RowMajor, LAPACK_ROW_MAJOR)
+HYDRA_EIGEN_LAPACKE_SCHUR_COMPLEX(dcomplex, lapack_complex_double, z, Z, ColMajor, LAPACK_COL_MAJOR)
+HYDRA_EIGEN_LAPACKE_SCHUR_COMPLEX(scomplex, lapack_complex_float,  c, C, ColMajor, LAPACK_COL_MAJOR)
+HYDRA_EIGEN_LAPACKE_SCHUR_COMPLEX(dcomplex, lapack_complex_double, z, Z, RowMajor, LAPACK_ROW_MAJOR)
+HYDRA_EIGEN_LAPACKE_SCHUR_COMPLEX(scomplex, lapack_complex_float,  c, C, RowMajor, LAPACK_ROW_MAJOR)
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_COMPLEX_SCHUR_LAPACKE_H
+#endif // HYDRA_EIGEN_COMPLEX_SCHUR_LAPACKE_H

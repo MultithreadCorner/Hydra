@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_ORDERING_H
-#define EIGEN_ORDERING_H
+#ifndef HYDRA_EIGEN_ORDERING_H
+#define HYDRA_EIGEN_ORDERING_H
 
-namespace Eigen {
+namespace hydra_Eigen {
   
 #include "Eigen_Colamd.h"
 
@@ -140,7 +140,7 @@ class COLAMDOrdering
       for(StorageIndex i=0; i < nnz; i++)  A(i) = mat.innerIndexPtr()[i];
       // Call Colamd routine to compute the ordering 
       StorageIndex info = internal::Colamd::compute_ordering(m, n, Alen, A.data(), p.data(), knobs, stats); 
-      EIGEN_UNUSED_VARIABLE(info);
+      HYDRA_EIGEN_UNUSED_VARIABLE(info);
       eigen_assert( info && "COLAMD failed " );
       
       perm.resize(n);
@@ -148,6 +148,6 @@ class COLAMDOrdering
     }
 };
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
 #endif

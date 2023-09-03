@@ -24,12 +24,12 @@ typedef CwiseUnaryOp<internal::scalar_inverse_op<Scalar>, const Derived> CwiseIn
 /// Example: \include MatrixBase_cwiseAbs.cpp
 /// Output: \verbinclude MatrixBase_cwiseAbs.out
 ///
-EIGEN_DOC_UNARY_ADDONS(cwiseAbs,absolute value)
+HYDRA_EIGEN_DOC_UNARY_ADDONS(cwiseAbs,absolute value)
 ///
 /// \sa cwiseAbs2()
 ///
-EIGEN_DEVICE_FUNC
-EIGEN_STRONG_INLINE const CwiseAbsReturnType
+HYDRA_EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_STRONG_INLINE const CwiseAbsReturnType
 cwiseAbs() const { return CwiseAbsReturnType(derived()); }
 
 /// \returns an expression of the coefficient-wise squared absolute value of \c *this
@@ -37,12 +37,12 @@ cwiseAbs() const { return CwiseAbsReturnType(derived()); }
 /// Example: \include MatrixBase_cwiseAbs2.cpp
 /// Output: \verbinclude MatrixBase_cwiseAbs2.out
 ///
-EIGEN_DOC_UNARY_ADDONS(cwiseAbs2,squared absolute value)
+HYDRA_EIGEN_DOC_UNARY_ADDONS(cwiseAbs2,squared absolute value)
 ///
 /// \sa cwiseAbs()
 ///
-EIGEN_DEVICE_FUNC
-EIGEN_STRONG_INLINE const CwiseAbs2ReturnType
+HYDRA_EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_STRONG_INLINE const CwiseAbs2ReturnType
 cwiseAbs2() const { return CwiseAbs2ReturnType(derived()); }
 
 /// \returns an expression of the coefficient-wise square root of *this.
@@ -50,11 +50,11 @@ cwiseAbs2() const { return CwiseAbs2ReturnType(derived()); }
 /// Example: \include MatrixBase_cwiseSqrt.cpp
 /// Output: \verbinclude MatrixBase_cwiseSqrt.out
 ///
-EIGEN_DOC_UNARY_ADDONS(cwiseSqrt,square-root)
+HYDRA_EIGEN_DOC_UNARY_ADDONS(cwiseSqrt,square-root)
 ///
 /// \sa cwisePow(), cwiseSquare()
 ///
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const CwiseSqrtReturnType
 cwiseSqrt() const { return CwiseSqrtReturnType(derived()); }
 
@@ -63,9 +63,9 @@ cwiseSqrt() const { return CwiseSqrtReturnType(derived()); }
 /// Example: \include MatrixBase_cwiseSign.cpp
 /// Output: \verbinclude MatrixBase_cwiseSign.out
 ///
-EIGEN_DOC_UNARY_ADDONS(cwiseSign,sign function)
+HYDRA_EIGEN_DOC_UNARY_ADDONS(cwiseSign,sign function)
 ///
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const CwiseSignReturnType
 cwiseSign() const { return CwiseSignReturnType(derived()); }
 
@@ -75,11 +75,11 @@ cwiseSign() const { return CwiseSignReturnType(derived()); }
 /// Example: \include MatrixBase_cwiseInverse.cpp
 /// Output: \verbinclude MatrixBase_cwiseInverse.out
 ///
-EIGEN_DOC_UNARY_ADDONS(cwiseInverse,inverse)
+HYDRA_EIGEN_DOC_UNARY_ADDONS(cwiseInverse,inverse)
 ///
 /// \sa cwiseProduct()
 ///
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const CwiseInverseReturnType
 cwiseInverse() const { return CwiseInverseReturnType(derived()); }
 
@@ -88,8 +88,8 @@ cwiseInverse() const { return CwiseInverseReturnType(derived()); }
 /// Example: \include MatrixBase_cwiseArg.cpp
 /// Output: \verbinclude MatrixBase_cwiseArg.out
 ///
-EIGEN_DOC_UNARY_ADDONS(cwiseArg,arg)
+HYDRA_EIGEN_DOC_UNARY_ADDONS(cwiseArg,arg)
 
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const CwiseArgReturnType
 cwiseArg() const { return CwiseArgReturnType(derived()); }

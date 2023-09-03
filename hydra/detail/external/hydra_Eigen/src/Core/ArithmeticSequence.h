@@ -7,14 +7,14 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_ARITHMETIC_SEQUENCE_H
-#define EIGEN_ARITHMETIC_SEQUENCE_H
+#ifndef HYDRA_EIGEN_ARITHMETIC_SEQUENCE_H
+#define HYDRA_EIGEN_ARITHMETIC_SEQUENCE_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
-#if (!EIGEN_HAS_CXX11) || !((!EIGEN_COMP_GNUC) || EIGEN_COMP_GNUC>=48)
+#if (!HYDRA_EIGEN_HAS_CXX11) || !((!HYDRA_EIGEN_COMP_GNUC) || HYDRA_EIGEN_COMP_GNUC>=48)
 template<typename T> struct aseq_negate {};
 
 template<> struct aseq_negate<Index> {
@@ -94,7 +94,7 @@ seqN(FirstType first, SizeType size, IncrType incr);
   * its \em first value \f$ a_0 \f$, its \em size (aka length) \em n, and the \em increment (aka stride)
   * that is equal to \f$ a_{i+1}-a_{i}\f$ for any \em i.
   *
-  * It is internally used as the return type of the Eigen::seq and Eigen::seqN functions, and as the input arguments
+  * It is internally used as the return type of the hydra_Eigen::seq and hydra_Eigen::seqN functions, and as the input arguments
   * of DenseBase::operator()(const RowIndices&, const ColIndices&), and most of the time this is the
   * only way it is used.
   *
@@ -104,7 +104,7 @@ seqN(FirstType first, SizeType size, IncrType incr);
   *                  or a compile time integral constant. Internally, it can also be a symbolic expression
   * \tparam IncrType type of the increment, can be a runtime Index, or a compile time integral constant (default is compile-time 1)
   *
-  * \sa Eigen::seq, Eigen::seqN, DenseBase::operator()(const RowIndices&, const ColIndices&), class IndexedView
+  * \sa hydra_Eigen::seq, hydra_Eigen::seqN, DenseBase::operator()(const RowIndices&, const ColIndices&), class IndexedView
   */
 template<typename FirstType,typename SizeType,typename IncrType>
 class ArithmeticSequence
@@ -138,8 +138,8 @@ protected:
 
 public:
 
-#if EIGEN_HAS_CXX11 && ((!EIGEN_COMP_GNUC) || EIGEN_COMP_GNUC>=48)
-  auto reverse() const -> decltype(Eigen::seqN(m_first+(m_size+fix<-1>())*m_incr,m_size,-m_incr)) {
+#if HYDRA_EIGEN_HAS_CXX11 && ((!HYDRA_EIGEN_COMP_GNUC) || HYDRA_EIGEN_COMP_GNUC>=48)
+  auto reverse() const -> decltype(hydra_Eigen::seqN(m_first+(m_size+fix<-1>())*m_incr,m_size,-m_incr)) {
     return seqN(m_first+(m_size+fix<-1>())*m_incr,m_size,-m_incr);
   }
 #else
@@ -172,7 +172,7 @@ seqN(FirstType first, SizeType size)  {
   return ArithmeticSequence<typename internal::cleanup_index_type<FirstType>::type,typename internal::cleanup_index_type<SizeType>::type>(first,size);
 }
 
-#ifdef EIGEN_PARSED_BY_DOXYGEN
+#ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
 /** \returns an ArithmeticSequence starting at \a f, up (or down) to \a l, and with positive (or negative) increment \a incr
   *
@@ -198,9 +198,9 @@ auto seq(FirstType f, LastType l, IncrType incr);
 template<typename FirstType,typename LastType>
 auto seq(FirstType f, LastType l);
 
-#else // EIGEN_PARSED_BY_DOXYGEN
+#else // HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
-#if EIGEN_HAS_CXX11
+#if HYDRA_EIGEN_HAS_CXX11
 template<typename FirstType,typename LastType>
 auto seq(FirstType f, LastType l) -> decltype(seqN(typename internal::cleanup_index_type<FirstType>::type(f),
                                                    (  typename internal::cleanup_index_type<LastType>::type(l)
@@ -226,7 +226,7 @@ auto seq(FirstType f, LastType l, IncrType incr)
               CleanedIncrType(incr));
 }
 
-#else // EIGEN_HAS_CXX11
+#else // HYDRA_EIGEN_HAS_CXX11
 
 template<typename FirstType,typename LastType>
 typename internal::enable_if<!(symbolic::is_symbolic<FirstType>::value || symbolic::is_symbolic<LastType>::value),
@@ -315,12 +315,12 @@ seq(const symbolic::BaseExpr<FirstTypeDerived> &f, const symbolic::BaseExpr<Last
   typedef typename internal::cleanup_seq_incr<IncrType>::type CleanedIncrType;
   return seqN(f.derived(),(l.derived()-f.derived()+CleanedIncrType(incr))/CleanedIncrType(incr), incr);
 }
-#endif // EIGEN_HAS_CXX11
+#endif // HYDRA_EIGEN_HAS_CXX11
 
-#endif // EIGEN_PARSED_BY_DOXYGEN
+#endif // HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
 
-#if EIGEN_HAS_CXX11 || defined(EIGEN_PARSED_BY_DOXYGEN)
+#if HYDRA_EIGEN_HAS_CXX11 || defined(HYDRA_EIGEN_PARSED_BY_DOXYGEN)
 /** \cpp11
   * \returns a symbolic ArithmeticSequence representing the last \a size elements with increment \a incr.
   *
@@ -329,9 +329,9 @@ seq(const symbolic::BaseExpr<FirstTypeDerived> &f, const symbolic::BaseExpr<Last
   * \sa lastN(SizeType), seqN(FirstType,SizeType), seq(FirstType,LastType,IncrType) */
 template<typename SizeType,typename IncrType>
 auto lastN(SizeType size, IncrType incr)
--> decltype(seqN(Eigen::last-(size-fix<1>())*incr, size, incr))
+-> decltype(seqN(hydra_Eigen::last-(size-fix<1>())*incr, size, incr))
 {
-  return seqN(Eigen::last-(size-fix<1>())*incr, size, incr);
+  return seqN(hydra_Eigen::last-(size-fix<1>())*incr, size, incr);
 }
 
 /** \cpp11
@@ -342,9 +342,9 @@ auto lastN(SizeType size, IncrType incr)
   * \sa lastN(SizeType,IncrType, seqN(FirstType,SizeType), seq(FirstType,LastType) */
 template<typename SizeType>
 auto lastN(SizeType size)
--> decltype(seqN(Eigen::last+fix<1>()-size, size))
+-> decltype(seqN(hydra_Eigen::last+fix<1>()-size, size))
 {
-  return seqN(Eigen::last+fix<1>()-size, size);
+  return seqN(hydra_Eigen::last+fix<1>()-size, size);
 }
 #endif
 
@@ -375,39 +375,39 @@ struct get_compile_time_incr<ArithmeticSequence<FirstType,SizeType,IncrType> > {
 
 } // end namespace internal
 
-/** \namespace Eigen::indexing
+/** \namespace hydra_hydra_Eigen::indexing
   * \ingroup Core_Module
   * 
   * The sole purpose of this namespace is to be able to import all functions
   * and symbols that are expected to be used within operator() for indexing
   * and slicing. If you already imported the whole Eigen namespace:
-  * \code using namespace Eigen; \endcode
+  * \code using namespace hydra_Eigen; \endcode
   * then you are already all set. Otherwise, if you don't want/cannot import
   * the whole Eigen namespace, the following line:
-  * \code using namespace Eigen::indexing; \endcode
+  * \code using namespace hydra_hydra_Eigen::indexing; \endcode
   * is equivalent to:
   * \code
-  using Eigen::all;
-  using Eigen::seq;
-  using Eigen::seqN;
-  using Eigen::lastN; // c++11 only
-  using Eigen::last;
-  using Eigen::lastp1;
-  using Eigen::fix;
+  using hydra_Eigen::all;
+  using hydra_Eigen::seq;
+  using hydra_Eigen::seqN;
+  using hydra_Eigen::lastN; // c++11 only
+  using hydra_Eigen::last;
+  using hydra_Eigen::lastp1;
+  using hydra_Eigen::fix;
   \endcode
   */
 namespace indexing {
-  using Eigen::all;
-  using Eigen::seq;
-  using Eigen::seqN;
-  #if EIGEN_HAS_CXX11
-  using Eigen::lastN;
+  using hydra_Eigen::all;
+  using hydra_Eigen::seq;
+  using hydra_Eigen::seqN;
+  #if HYDRA_EIGEN_HAS_CXX11
+  using hydra_Eigen::lastN;
   #endif
-  using Eigen::last;
-  using Eigen::lastp1;
-  using Eigen::fix;
+  using hydra_Eigen::last;
+  using hydra_Eigen::lastp1;
+  using hydra_Eigen::fix;
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_ARITHMETIC_SEQUENCE_H
+#endif // HYDRA_EIGEN_ARITHMETIC_SEQUENCE_H

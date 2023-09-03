@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_HOUSEHOLDER_H
-#define EIGEN_HOUSEHOLDER_H
+#ifndef HYDRA_EIGEN_HOUSEHOLDER_H
+#define HYDRA_EIGEN_HOUSEHOLDER_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 template<int n> struct decrement_size
@@ -39,7 +39,7 @@ template<int n> struct decrement_size
   *     MatrixBase::applyHouseholderOnTheRight()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 void MatrixBase<Derived>::makeHouseholderInPlace(Scalar& tau, RealScalar& beta)
 {
   VectorBlock<Derived, internal::decrement_size<Base::SizeAtCompileTime>::ret> essentialPart(derived(), 1, size()-1);
@@ -63,7 +63,7 @@ void MatrixBase<Derived>::makeHouseholderInPlace(Scalar& tau, RealScalar& beta)
   */
 template<typename Derived>
 template<typename EssentialPart>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 void MatrixBase<Derived>::makeHouseholder(
   EssentialPart& essential,
   Scalar& tau,
@@ -72,7 +72,7 @@ void MatrixBase<Derived>::makeHouseholder(
   using std::sqrt;
   using numext::conj;
   
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(EssentialPart)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(EssentialPart)
   VectorBlock<const Derived, EssentialPart::SizeAtCompileTime> tail(derived(), 1, size()-1);
   
   RealScalar tailSqNorm = size()==1 ? RealScalar(0) : tail.squaredNorm();
@@ -112,7 +112,7 @@ void MatrixBase<Derived>::makeHouseholder(
   */
 template<typename Derived>
 template<typename EssentialPart>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 void MatrixBase<Derived>::applyHouseholderOnTheLeft(
   const EssentialPart& essential,
   const Scalar& tau,
@@ -150,7 +150,7 @@ void MatrixBase<Derived>::applyHouseholderOnTheLeft(
   */
 template<typename Derived>
 template<typename EssentialPart>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 void MatrixBase<Derived>::applyHouseholderOnTheRight(
   const EssentialPart& essential,
   const Scalar& tau,
@@ -171,6 +171,6 @@ void MatrixBase<Derived>::applyHouseholderOnTheRight(
   }
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_HOUSEHOLDER_H
+#endif // HYDRA_EIGEN_HOUSEHOLDER_H

@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_STDLIST_H
-#define EIGEN_STDLIST_H
+#ifndef HYDRA_EIGEN_STDLIST_H
+#define HYDRA_EIGEN_STDLIST_H
 
 #include "details.h"
 
@@ -17,14 +17,14 @@
  * std::list such that for data types with alignment issues the correct allocator
  * is used automatically.
  */
-#define EIGEN_DEFINE_STL_LIST_SPECIALIZATION(...) \
+#define HYDRA_EIGEN_DEFINE_STL_LIST_SPECIALIZATION(...) \
 namespace std \
 { \
   template<> \
   class list<__VA_ARGS__, std::allocator<__VA_ARGS__> >           \
-    : public list<__VA_ARGS__, EIGEN_ALIGNED_ALLOCATOR<__VA_ARGS__> > \
+    : public list<__VA_ARGS__, HYDRA_EIGEN_ALIGNED_ALLOCATOR<__VA_ARGS__> > \
   { \
-    typedef list<__VA_ARGS__, EIGEN_ALIGNED_ALLOCATOR<__VA_ARGS__> > list_base; \
+    typedef list<__VA_ARGS__, HYDRA_EIGEN_ALIGNED_ALLOCATOR<__VA_ARGS__> > list_base; \
   public: \
     typedef __VA_ARGS__ value_type; \
     typedef list_base::allocator_type allocator_type; \
@@ -44,12 +44,12 @@ namespace std \
 }
 
 // check whether we really need the std::list specialization
-#if !EIGEN_HAS_CXX11_CONTAINERS && !(defined(_GLIBCXX_LIST) && (!EIGEN_GNUC_AT_LEAST(4,1))) /* Note that before gcc-4.1 we already have: std::list::resize(size_type,const T&). */
+#if !HYDRA_EIGEN_HAS_CXX11_CONTAINERS && !(defined(_GLIBCXX_LIST) && (!HYDRA_EIGEN_GNUC_AT_LEAST(4,1))) /* Note that before gcc-4.1 we already have: std::list::resize(size_type,const T&). */
 
 namespace std
 {
 
-#define EIGEN_STD_LIST_SPECIALIZATION_BODY \
+#define HYDRA_EIGEN_STD_LIST_SPECIALIZATION_BODY \
   public:  \
     typedef T value_type; \
     typedef typename list_base::allocator_type allocator_type; \
@@ -69,13 +69,13 @@ namespace std
   }
 
   template<typename T>
-  class list<T,EIGEN_ALIGNED_ALLOCATOR<T> >
-    : public list<EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T),
-                  Eigen::aligned_allocator_indirection<EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T)> >
+  class list<T,HYDRA_EIGEN_ALIGNED_ALLOCATOR<T> >
+    : public list<HYDRA_EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T),
+                  hydra_Eigen::aligned_allocator_indirection<HYDRA_EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T)> >
   {
-    typedef list<EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T),
-                 Eigen::aligned_allocator_indirection<EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T)> > list_base;
-    EIGEN_STD_LIST_SPECIALIZATION_BODY
+    typedef list<HYDRA_EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T),
+                 hydra_Eigen::aligned_allocator_indirection<HYDRA_EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T)> > list_base;
+    HYDRA_EIGEN_STD_LIST_SPECIALIZATION_BODY
 
     void resize(size_type new_size)
     { resize(new_size, T()); }
@@ -103,4 +103,4 @@ namespace std
 
 #endif // check whether specialization is actually required
 
-#endif // EIGEN_STDLIST_H
+#endif // HYDRA_EIGEN_STDLIST_H

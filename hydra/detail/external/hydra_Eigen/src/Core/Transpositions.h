@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_TRANSPOSITIONS_H
-#define EIGEN_TRANSPOSITIONS_H
+#ifndef HYDRA_EIGEN_TRANSPOSITIONS_H
+#define HYDRA_EIGEN_TRANSPOSITIONS_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 template<typename Derived>
 class TranspositionsBase
@@ -21,11 +21,11 @@ class TranspositionsBase
 
     typedef typename Traits::IndicesType IndicesType;
     typedef typename IndicesType::Scalar StorageIndex;
-    typedef Eigen::Index Index; ///< \deprecated since Eigen 3.3
+    typedef hydra_Eigen::Index Index; ///< \deprecated since Eigen 3.3
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     Derived& derived() { return *static_cast<Derived*>(this); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const Derived& derived() const { return *static_cast<const Derived*>(this); }
 
     /** Copies the \a other transpositions into \c *this */
@@ -37,17 +37,17 @@ class TranspositionsBase
     }
 
     /** \returns the number of transpositions */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     Index size() const { return indices().size(); }
     /** \returns the number of rows of the equivalent permutation matrix */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     Index rows() const { return indices().size(); }
     /** \returns the number of columns of the equivalent permutation matrix */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     Index cols() const { return indices().size(); }
 
     /** Direct access to the underlying index vector */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const StorageIndex& coeff(Index i) const { return indices().coeff(i); }
     /** Direct access to the underlying index vector */
     inline StorageIndex& coeffRef(Index i) { return indices().coeffRef(i); }
@@ -61,10 +61,10 @@ class TranspositionsBase
     inline StorageIndex& operator[](Index i) { return indices()(i); }
 
     /** const version of indices(). */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const IndicesType& indices() const { return derived().indices(); }
     /** \returns a reference to the stored array representing the transpositions. */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     IndicesType& indices() { return derived().indices(); }
 
     /** Resizes to given size. */
@@ -186,10 +186,10 @@ class Transpositions : public TranspositionsBase<Transpositions<SizeAtCompileTim
     {}
 
     /** const version of indices(). */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const IndicesType& indices() const { return m_indices; }
     /** \returns a reference to the stored array representing the transpositions. */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     IndicesType& indices() { return m_indices; }
 
   protected:
@@ -235,7 +235,7 @@ class Map<Transpositions<SizeAtCompileTime,MaxSizeAtCompileTime,_StorageIndex>,P
       return Base::operator=(other);
     }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** This is a special case of the templated operator=. Its purpose is to
       * prevent a default operator= from hiding the templated operator=.
       */
@@ -247,11 +247,11 @@ class Map<Transpositions<SizeAtCompileTime,MaxSizeAtCompileTime,_StorageIndex>,P
     #endif
 
     /** const version of indices(). */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const IndicesType& indices() const { return m_indices; }
 
     /** \returns a reference to the stored array representing the transpositions. */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     IndicesType& indices() { return m_indices; }
 
   protected:
@@ -291,11 +291,11 @@ class TranspositionsWrapper
     }
 
     /** const version of indices(). */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const IndicesType& indices() const { return m_indices; }
 
     /** \returns a reference to the stored array representing the transpositions. */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     IndicesType& indices() { return m_indices; }
 
   protected:
@@ -308,7 +308,7 @@ class TranspositionsWrapper
 /** \returns the \a matrix with the \a transpositions applied to the columns.
   */
 template<typename MatrixDerived, typename TranspositionsDerived>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 const Product<MatrixDerived, TranspositionsDerived, AliasFreeProduct>
 operator*(const MatrixBase<MatrixDerived> &matrix,
           const TranspositionsBase<TranspositionsDerived>& transpositions)
@@ -320,7 +320,7 @@ operator*(const MatrixBase<MatrixDerived> &matrix,
 /** \returns the \a matrix with the \a transpositions applied to the rows.
   */
 template<typename TranspositionsDerived, typename MatrixDerived>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 const Product<TranspositionsDerived, MatrixDerived, AliasFreeProduct>
 operator*(const TranspositionsBase<TranspositionsDerived> &transpositions,
           const MatrixBase<MatrixDerived>& matrix)
@@ -349,12 +349,12 @@ class Transpose<TranspositionsBase<TranspositionsDerived> >
 
     explicit Transpose(const TranspositionType& t) : m_transpositions(t) {}
 
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
-    Index size() const EIGEN_NOEXCEPT { return m_transpositions.size(); }
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
-    Index rows() const EIGEN_NOEXCEPT { return m_transpositions.size(); }
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
-    Index cols() const EIGEN_NOEXCEPT { return m_transpositions.size(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
+    Index size() const HYDRA_EIGEN_NOEXCEPT { return m_transpositions.size(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
+    Index rows() const HYDRA_EIGEN_NOEXCEPT { return m_transpositions.size(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
+    Index cols() const HYDRA_EIGEN_NOEXCEPT { return m_transpositions.size(); }
 
     /** \returns the \a matrix with the inverse transpositions applied to the columns.
       */
@@ -374,13 +374,13 @@ class Transpose<TranspositionsBase<TranspositionsDerived> >
       return Product<Transpose, OtherDerived, AliasFreeProduct>(*this, matrix.derived());
     }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const TranspositionType& nestedExpression() const { return m_transpositions; }
 
   protected:
     const TranspositionType& m_transpositions;
 };
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_TRANSPOSITIONS_H
+#endif // HYDRA_EIGEN_TRANSPOSITIONS_H

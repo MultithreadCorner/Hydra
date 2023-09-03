@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_ASSIGNMENT_FUNCTORS_H
-#define EIGEN_ASSIGNMENT_FUNCTORS_H
+#ifndef HYDRA_EIGEN_ASSIGNMENT_FUNCTORS_H
+#define HYDRA_EIGEN_ASSIGNMENT_FUNCTORS_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
   
@@ -20,11 +20,11 @@ namespace internal {
   */
 template<typename DstScalar,typename SrcScalar> struct assign_op {
 
-  EIGEN_EMPTY_STRUCT_CTOR(assign_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeff(DstScalar& a, const SrcScalar& b) const { a = b; }
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(assign_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void assignCoeff(DstScalar& a, const SrcScalar& b) const { a = b; }
   
   template<int Alignment, typename Packet>
-  EIGEN_STRONG_INLINE void assignPacket(DstScalar* a, const Packet& b) const
+  HYDRA_EIGEN_STRONG_INLINE void assignPacket(DstScalar* a, const Packet& b) const
   { internal::pstoret<DstScalar,Packet,Alignment>(a,b); }
 };
 
@@ -45,11 +45,11 @@ struct functor_traits<assign_op<DstScalar,SrcScalar> > {
   */
 template<typename DstScalar,typename SrcScalar> struct add_assign_op {
 
-  EIGEN_EMPTY_STRUCT_CTOR(add_assign_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeff(DstScalar& a, const SrcScalar& b) const { a += b; }
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(add_assign_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void assignCoeff(DstScalar& a, const SrcScalar& b) const { a += b; }
   
   template<int Alignment, typename Packet>
-  EIGEN_STRONG_INLINE void assignPacket(DstScalar* a, const Packet& b) const
+  HYDRA_EIGEN_STRONG_INLINE void assignPacket(DstScalar* a, const Packet& b) const
   { internal::pstoret<DstScalar,Packet,Alignment>(a,internal::padd(internal::ploadt<Packet,Alignment>(a),b)); }
 };
 template<typename DstScalar,typename SrcScalar>
@@ -66,11 +66,11 @@ struct functor_traits<add_assign_op<DstScalar,SrcScalar> > {
   */
 template<typename DstScalar,typename SrcScalar> struct sub_assign_op {
 
-  EIGEN_EMPTY_STRUCT_CTOR(sub_assign_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeff(DstScalar& a, const SrcScalar& b) const { a -= b; }
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(sub_assign_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void assignCoeff(DstScalar& a, const SrcScalar& b) const { a -= b; }
   
   template<int Alignment, typename Packet>
-  EIGEN_STRONG_INLINE void assignPacket(DstScalar* a, const Packet& b) const
+  HYDRA_EIGEN_STRONG_INLINE void assignPacket(DstScalar* a, const Packet& b) const
   { internal::pstoret<DstScalar,Packet,Alignment>(a,internal::psub(internal::ploadt<Packet,Alignment>(a),b)); }
 };
 template<typename DstScalar,typename SrcScalar>
@@ -88,11 +88,11 @@ struct functor_traits<sub_assign_op<DstScalar,SrcScalar> > {
 template<typename DstScalar, typename SrcScalar=DstScalar>
 struct mul_assign_op {
 
-  EIGEN_EMPTY_STRUCT_CTOR(mul_assign_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeff(DstScalar& a, const SrcScalar& b) const { a *= b; }
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(mul_assign_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void assignCoeff(DstScalar& a, const SrcScalar& b) const { a *= b; }
   
   template<int Alignment, typename Packet>
-  EIGEN_STRONG_INLINE void assignPacket(DstScalar* a, const Packet& b) const
+  HYDRA_EIGEN_STRONG_INLINE void assignPacket(DstScalar* a, const Packet& b) const
   { internal::pstoret<DstScalar,Packet,Alignment>(a,internal::pmul(internal::ploadt<Packet,Alignment>(a),b)); }
 };
 template<typename DstScalar, typename SrcScalar>
@@ -109,11 +109,11 @@ struct functor_traits<mul_assign_op<DstScalar,SrcScalar> > {
   */
 template<typename DstScalar, typename SrcScalar=DstScalar> struct div_assign_op {
 
-  EIGEN_EMPTY_STRUCT_CTOR(div_assign_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeff(DstScalar& a, const SrcScalar& b) const { a /= b; }
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(div_assign_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void assignCoeff(DstScalar& a, const SrcScalar& b) const { a /= b; }
   
   template<int Alignment, typename Packet>
-  EIGEN_STRONG_INLINE void assignPacket(DstScalar* a, const Packet& b) const
+  HYDRA_EIGEN_STRONG_INLINE void assignPacket(DstScalar* a, const Packet& b) const
   { internal::pstoret<DstScalar,Packet,Alignment>(a,internal::pdiv(internal::ploadt<Packet,Alignment>(a),b)); }
 };
 template<typename DstScalar, typename SrcScalar>
@@ -141,10 +141,10 @@ struct functor_traits<div_assign_op<DstScalar,SrcScalar> > {
   */
 template<typename Scalar> struct swap_assign_op {
 
-  EIGEN_EMPTY_STRUCT_CTOR(swap_assign_op)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeff(Scalar& a, const Scalar& b) const
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(swap_assign_op)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void assignCoeff(Scalar& a, const Scalar& b) const
   {
-#ifdef EIGEN_GPUCC
+#ifdef HYDRA_EIGEN_GPUCC
     // FIXME is there some kind of cuda::swap?
     Scalar t=b; const_cast<Scalar&>(b)=a; a=t;
 #else
@@ -158,7 +158,7 @@ struct functor_traits<swap_assign_op<Scalar> > {
   enum {
     Cost = 3 * NumTraits<Scalar>::ReadCost,
     PacketAccess = 
-    #if defined(EIGEN_VECTORIZE_AVX) && EIGEN_COMP_CLANG && (EIGEN_COMP_CLANG<800 || defined(__apple_build_version__))
+    #if defined(HYDRA_EIGEN_VECTORIZE_AVX) && HYDRA_EIGEN_COMP_CLANG && (HYDRA_EIGEN_COMP_CLANG<800 || defined(__apple_build_version__))
     // This is a partial workaround for a bug in clang generating bad code
     // when mixing 256/512 bits loads and 128 bits moves.
     // See http://eigen.tuxfamily.org/bz/show_bug.cgi?id=1684
@@ -172,6 +172,6 @@ struct functor_traits<swap_assign_op<Scalar> > {
 
 } // namespace internal
 
-} // namespace Eigen
+} // namespace hydra_Eigen
 
-#endif // EIGEN_ASSIGNMENT_FUNCTORS_H
+#endif // HYDRA_EIGEN_ASSIGNMENT_FUNCTORS_H

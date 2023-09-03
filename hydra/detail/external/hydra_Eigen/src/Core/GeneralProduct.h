@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_GENERAL_PRODUCT_H
-#define EIGEN_GENERAL_PRODUCT_H
+#ifndef HYDRA_EIGEN_GENERAL_PRODUCT_H
+#define HYDRA_EIGEN_GENERAL_PRODUCT_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 enum {
   Large = 2,
@@ -23,9 +23,9 @@ enum {
 // See generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,GemmProduct>
 // in products/GeneralMatrixMatrix.h for more details.
 // TODO This threshold should also be used in the compile-time selector below.
-#ifndef EIGEN_GEMM_TO_COEFFBASED_THRESHOLD
+#ifndef HYDRA_EIGEN_GEMM_TO_COEFFBASED_THRESHOLD
 // This default value has been obtained on a Haswell architecture.
-#define EIGEN_GEMM_TO_COEFFBASED_THRESHOLD 20
+#define HYDRA_EIGEN_GEMM_TO_COEFFBASED_THRESHOLD 20
 #endif
 
 namespace internal {
@@ -35,10 +35,10 @@ template<int Rows, int Cols, int Depth> struct product_type_selector;
 template<int Size, int MaxSize> struct product_size_category
 {
   enum {
-    #ifndef EIGEN_GPU_COMPILE_PHASE
+    #ifndef HYDRA_EIGEN_GPU_COMPILE_PHASE
     is_large = MaxSize == Dynamic ||
-               Size >= EIGEN_CACHEFRIENDLY_PRODUCT_THRESHOLD ||
-               (Size==Dynamic && MaxSize>=EIGEN_CACHEFRIENDLY_PRODUCT_THRESHOLD),
+               Size >= HYDRA_EIGEN_CACHEFRIENDLY_PRODUCT_THRESHOLD ||
+               (Size==Dynamic && MaxSize>=HYDRA_EIGEN_CACHEFRIENDLY_PRODUCT_THRESHOLD),
     #else
     is_large = 0,
     #endif
@@ -57,9 +57,9 @@ template<typename Lhs, typename Rhs> struct product_type
     Rows    = traits<_Lhs>::RowsAtCompileTime,
     MaxCols = traits<_Rhs>::MaxColsAtCompileTime,
     Cols    = traits<_Rhs>::ColsAtCompileTime,
-    MaxDepth = EIGEN_SIZE_MIN_PREFER_FIXED(traits<_Lhs>::MaxColsAtCompileTime,
+    MaxDepth = HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(traits<_Lhs>::MaxColsAtCompileTime,
                                            traits<_Rhs>::MaxRowsAtCompileTime),
-    Depth = EIGEN_SIZE_MIN_PREFER_FIXED(traits<_Lhs>::ColsAtCompileTime,
+    Depth = HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(traits<_Lhs>::ColsAtCompileTime,
                                         traits<_Rhs>::RowsAtCompileTime)
   };
 
@@ -78,16 +78,16 @@ public:
     value = selector::ret,
     ret = selector::ret
   };
-#ifdef EIGEN_DEBUG_PRODUCT
+#ifdef HYDRA_EIGEN_DEBUG_PRODUCT
   static void debug()
   {
-      EIGEN_DEBUG_VAR(Rows);
-      EIGEN_DEBUG_VAR(Cols);
-      EIGEN_DEBUG_VAR(Depth);
-      EIGEN_DEBUG_VAR(rows_select);
-      EIGEN_DEBUG_VAR(cols_select);
-      EIGEN_DEBUG_VAR(depth_select);
-      EIGEN_DEBUG_VAR(value);
+      HYDRA_EIGEN_DEBUG_VAR(Rows);
+      HYDRA_EIGEN_DEBUG_VAR(Cols);
+      HYDRA_EIGEN_DEBUG_VAR(Depth);
+      HYDRA_EIGEN_DEBUG_VAR(rows_select);
+      HYDRA_EIGEN_DEBUG_VAR(cols_select);
+      HYDRA_EIGEN_DEBUG_VAR(depth_select);
+      HYDRA_EIGEN_DEBUG_VAR(value);
   }
 #endif
 };
@@ -163,13 +163,13 @@ template<typename Scalar,int Size,int MaxSize,bool Cond> struct gemv_static_vect
 template<typename Scalar,int Size,int MaxSize>
 struct gemv_static_vector_if<Scalar,Size,MaxSize,false>
 {
-  EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC Scalar* data() { eigen_internal_assert(false && "should never be called"); return 0; }
+  HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC Scalar* data() { eigen_internal_assert(false && "should never be called"); return 0; }
 };
 
 template<typename Scalar,int Size>
 struct gemv_static_vector_if<Scalar,Size,Dynamic,true>
 {
-  EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC Scalar* data() { return 0; }
+  HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_DEVICE_FUNC Scalar* data() { return 0; }
 };
 
 template<typename Scalar,int Size,int MaxSize>
@@ -179,16 +179,16 @@ struct gemv_static_vector_if<Scalar,Size,MaxSize,true>
     ForceAlignment  = internal::packet_traits<Scalar>::Vectorizable,
     PacketSize      = internal::packet_traits<Scalar>::size
   };
-  #if EIGEN_MAX_STATIC_ALIGN_BYTES!=0
-  internal::plain_array<Scalar,EIGEN_SIZE_MIN_PREFER_FIXED(Size,MaxSize),0,EIGEN_PLAIN_ENUM_MIN(AlignedMax,PacketSize)> m_data;
-  EIGEN_STRONG_INLINE Scalar* data() { return m_data.array; }
+  #if HYDRA_EIGEN_MAX_STATIC_ALIGN_BYTES!=0
+  internal::plain_array<Scalar,HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(Size,MaxSize),0,HYDRA_EIGEN_PLAIN_ENUM_MIN(AlignedMax,PacketSize)> m_data;
+  HYDRA_EIGEN_STRONG_INLINE Scalar* data() { return m_data.array; }
   #else
   // Some architectures cannot align on the stack,
   // => let's manually enforce alignment by allocating more data and return the address of the first aligned element.
-  internal::plain_array<Scalar,EIGEN_SIZE_MIN_PREFER_FIXED(Size,MaxSize)+(ForceAlignment?EIGEN_MAX_ALIGN_BYTES:0),0> m_data;
-  EIGEN_STRONG_INLINE Scalar* data() {
+  internal::plain_array<Scalar,HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(Size,MaxSize)+(ForceAlignment?HYDRA_EIGEN_MAX_ALIGN_BYTES:0),0> m_data;
+  HYDRA_EIGEN_STRONG_INLINE Scalar* data() {
     return ForceAlignment
-            ? reinterpret_cast<Scalar*>((internal::UIntPtr(m_data.array) & ~(std::size_t(EIGEN_MAX_ALIGN_BYTES-1))) + EIGEN_MAX_ALIGN_BYTES)
+            ? reinterpret_cast<Scalar*>((internal::UIntPtr(m_data.array) & ~(std::size_t(HYDRA_EIGEN_MAX_ALIGN_BYTES-1))) + HYDRA_EIGEN_MAX_ALIGN_BYTES)
             : m_data.array;
   }
   #endif
@@ -223,7 +223,7 @@ template<> struct gemv_dense_selector<OnTheRight,ColMajor,true>
     typedef internal::blas_traits<Rhs> RhsBlasTraits;
     typedef typename RhsBlasTraits::DirectLinearAccessType ActualRhsType;
   
-    typedef Map<Matrix<ResScalar,Dynamic,1>, EIGEN_PLAIN_ENUM_MIN(AlignedMax,internal::packet_traits<ResScalar>::size)> MappedDest;
+    typedef Map<Matrix<ResScalar,Dynamic,1>, HYDRA_EIGEN_PLAIN_ENUM_MIN(AlignedMax,internal::packet_traits<ResScalar>::size)> MappedDest;
 
     ActualLhsType actualLhs = LhsBlasTraits::extract(lhs);
     ActualRhsType actualRhs = RhsBlasTraits::extract(rhs);
@@ -269,9 +269,9 @@ template<> struct gemv_dense_selector<OnTheRight,ColMajor,true>
 
       if(!evalToDest)
       {
-        #ifdef EIGEN_DENSE_STORAGE_CTOR_PLUGIN
+        #ifdef HYDRA_EIGEN_DENSE_STORAGE_CTOR_PLUGIN
         Index size = dest.size();
-        EIGEN_DENSE_STORAGE_CTOR_PLUGIN
+        HYDRA_EIGEN_DENSE_STORAGE_CTOR_PLUGIN
         #endif
         if(!alphaIsCompatible)
         {
@@ -334,9 +334,9 @@ template<> struct gemv_dense_selector<OnTheRight,RowMajor,true>
 
     if(!DirectlyUseRhs)
     {
-      #ifdef EIGEN_DENSE_STORAGE_CTOR_PLUGIN
+      #ifdef HYDRA_EIGEN_DENSE_STORAGE_CTOR_PLUGIN
       Index size = actualRhs.size();
-      EIGEN_DENSE_STORAGE_CTOR_PLUGIN
+      HYDRA_EIGEN_DENSE_STORAGE_CTOR_PLUGIN
       #endif
       Map<typename ActualRhsTypeCleaned::PlainObject>(actualRhsPtr, actualRhs.size()) = actualRhs;
     }
@@ -358,7 +358,7 @@ template<> struct gemv_dense_selector<OnTheRight,ColMajor,false>
   template<typename Lhs, typename Rhs, typename Dest>
   static void run(const Lhs &lhs, const Rhs &rhs, Dest& dest, const typename Dest::Scalar& alpha)
   {
-    EIGEN_STATIC_ASSERT((!nested_eval<Lhs,1>::Evaluate),EIGEN_INTERNAL_COMPILATION_ERROR_OR_YOU_MADE_A_PROGRAMMING_MISTAKE);
+    HYDRA_EIGEN_STATIC_ASSERT((!nested_eval<Lhs,1>::Evaluate),HYDRA_EIGEN_INTERNAL_COMPILATION_ERROR_OR_YOU_MADE_A_PROGRAMMING_MISTAKE);
     // TODO if rhs is large enough it might be beneficial to make sure that dest is sequentially stored in memory, otherwise use a temp
     typename nested_eval<Rhs,1>::type actual_rhs(rhs);
     const Index size = rhs.rows();
@@ -372,7 +372,7 @@ template<> struct gemv_dense_selector<OnTheRight,RowMajor,false>
   template<typename Lhs, typename Rhs, typename Dest>
   static void run(const Lhs &lhs, const Rhs &rhs, Dest& dest, const typename Dest::Scalar& alpha)
   {
-    EIGEN_STATIC_ASSERT((!nested_eval<Lhs,1>::Evaluate),EIGEN_INTERNAL_COMPILATION_ERROR_OR_YOU_MADE_A_PROGRAMMING_MISTAKE);
+    HYDRA_EIGEN_STATIC_ASSERT((!nested_eval<Lhs,1>::Evaluate),HYDRA_EIGEN_INTERNAL_COMPILATION_ERROR_OR_YOU_MADE_A_PROGRAMMING_MISTAKE);
     typename nested_eval<Rhs,Lhs::RowsAtCompileTime>::type actual_rhs(rhs);
     const Index rows = dest.rows();
     for(Index i=0; i<rows; ++i)
@@ -394,30 +394,30 @@ template<> struct gemv_dense_selector<OnTheRight,RowMajor,false>
   */
 template<typename Derived>
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 const Product<Derived, OtherDerived>
 MatrixBase<Derived>::operator*(const MatrixBase<OtherDerived> &other) const
 {
   // A note regarding the function declaration: In MSVC, this function will sometimes
   // not be inlined since DenseStorage is an unwindable object for dynamic
   // matrices and product types are holding a member to store the result.
-  // Thus it does not help tagging this function with EIGEN_STRONG_INLINE.
+  // Thus it does not help tagging this function with HYDRA_EIGEN_STRONG_INLINE.
   enum {
     ProductIsValid =  Derived::ColsAtCompileTime==Dynamic
                    || OtherDerived::RowsAtCompileTime==Dynamic
                    || int(Derived::ColsAtCompileTime)==int(OtherDerived::RowsAtCompileTime),
     AreVectors = Derived::IsVectorAtCompileTime && OtherDerived::IsVectorAtCompileTime,
-    SameSizes = EIGEN_PREDICATE_SAME_MATRIX_SIZE(Derived,OtherDerived)
+    SameSizes = HYDRA_EIGEN_PREDICATE_SAME_MATRIX_SIZE(Derived,OtherDerived)
   };
   // note to the lost user:
   //    * for a dot product use: v1.dot(v2)
   //    * for a coeff-wise product use: v1.cwiseProduct(v2)
-  EIGEN_STATIC_ASSERT(ProductIsValid || !(AreVectors && SameSizes),
+  HYDRA_EIGEN_STATIC_ASSERT(ProductIsValid || !(AreVectors && SameSizes),
     INVALID_VECTOR_VECTOR_PRODUCT__IF_YOU_WANTED_A_DOT_OR_COEFF_WISE_PRODUCT_YOU_MUST_USE_THE_EXPLICIT_FUNCTIONS)
-  EIGEN_STATIC_ASSERT(ProductIsValid || !(SameSizes && !AreVectors),
+  HYDRA_EIGEN_STATIC_ASSERT(ProductIsValid || !(SameSizes && !AreVectors),
     INVALID_MATRIX_PRODUCT__IF_YOU_WANTED_A_COEFF_WISE_PRODUCT_YOU_MUST_USE_THE_EXPLICIT_FUNCTION)
-  EIGEN_STATIC_ASSERT(ProductIsValid || SameSizes, INVALID_MATRIX_PRODUCT)
-#ifdef EIGEN_DEBUG_PRODUCT
+  HYDRA_EIGEN_STATIC_ASSERT(ProductIsValid || SameSizes, INVALID_MATRIX_PRODUCT)
+#ifdef HYDRA_EIGEN_DEBUG_PRODUCT
   internal::product_type<Derived,OtherDerived>::debug();
 #endif
 
@@ -437,7 +437,7 @@ MatrixBase<Derived>::operator*(const MatrixBase<OtherDerived> &other) const
   */
 template<typename Derived>
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 const Product<Derived,OtherDerived,LazyProduct>
 MatrixBase<Derived>::lazyProduct(const MatrixBase<OtherDerived> &other) const
 {
@@ -446,20 +446,20 @@ MatrixBase<Derived>::lazyProduct(const MatrixBase<OtherDerived> &other) const
                    || OtherDerived::RowsAtCompileTime==Dynamic
                    || int(Derived::ColsAtCompileTime)==int(OtherDerived::RowsAtCompileTime),
     AreVectors = Derived::IsVectorAtCompileTime && OtherDerived::IsVectorAtCompileTime,
-    SameSizes = EIGEN_PREDICATE_SAME_MATRIX_SIZE(Derived,OtherDerived)
+    SameSizes = HYDRA_EIGEN_PREDICATE_SAME_MATRIX_SIZE(Derived,OtherDerived)
   };
   // note to the lost user:
   //    * for a dot product use: v1.dot(v2)
   //    * for a coeff-wise product use: v1.cwiseProduct(v2)
-  EIGEN_STATIC_ASSERT(ProductIsValid || !(AreVectors && SameSizes),
+  HYDRA_EIGEN_STATIC_ASSERT(ProductIsValid || !(AreVectors && SameSizes),
     INVALID_VECTOR_VECTOR_PRODUCT__IF_YOU_WANTED_A_DOT_OR_COEFF_WISE_PRODUCT_YOU_MUST_USE_THE_EXPLICIT_FUNCTIONS)
-  EIGEN_STATIC_ASSERT(ProductIsValid || !(SameSizes && !AreVectors),
+  HYDRA_EIGEN_STATIC_ASSERT(ProductIsValid || !(SameSizes && !AreVectors),
     INVALID_MATRIX_PRODUCT__IF_YOU_WANTED_A_COEFF_WISE_PRODUCT_YOU_MUST_USE_THE_EXPLICIT_FUNCTION)
-  EIGEN_STATIC_ASSERT(ProductIsValid || SameSizes, INVALID_MATRIX_PRODUCT)
+  HYDRA_EIGEN_STATIC_ASSERT(ProductIsValid || SameSizes, INVALID_MATRIX_PRODUCT)
 
   return Product<Derived,OtherDerived,LazyProduct>(derived(), other.derived());
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_PRODUCT_H
+#endif // HYDRA_EIGEN_PRODUCT_H

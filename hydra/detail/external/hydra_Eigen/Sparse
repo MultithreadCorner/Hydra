@@ -5,8 +5,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSE_MODULE_H
-#define EIGEN_SPARSE_MODULE_H
+#ifndef HYDRA_EIGEN_SPARSE_MODULE_H
+#define HYDRA_EIGEN_SPARSE_MODULE_H
 
 /** \defgroup Sparse_Module Sparse meta-module
   *
@@ -30,5 +30,5 @@
 #include "SparseQR"
 #include "IterativeLinearSolvers"
 
-#endif // EIGEN_SPARSE_MODULE_H
+#endif // HYDRA_EIGEN_SPARSE_MODULE_H
 

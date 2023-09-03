@@ -8,12 +8,12 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_DIAGONALMATRIX_H
-#define EIGEN_DIAGONALMATRIX_H
+#ifndef HYDRA_EIGEN_DIAGONALMATRIX_H
+#define HYDRA_EIGEN_DIAGONALMATRIX_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template<typename Derived>
 class DiagonalBase : public EigenBase<Derived>
 {
@@ -37,26 +37,26 @@ class DiagonalBase : public EigenBase<Derived>
     typedef DenseMatrixType DenseType;
     typedef DiagonalMatrix<Scalar,DiagonalVectorType::SizeAtCompileTime,DiagonalVectorType::MaxSizeAtCompileTime> PlainObject;
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const Derived& derived() const { return *static_cast<const Derived*>(this); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Derived& derived() { return *static_cast<Derived*>(this); }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     DenseMatrixType toDenseMatrix() const { return derived(); }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const DiagonalVectorType& diagonal() const { return derived().diagonal(); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline DiagonalVectorType& diagonal() { return derived().diagonal(); }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index rows() const { return diagonal().size(); }
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Index cols() const { return diagonal().size(); }
 
     template<typename MatrixDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const Product<Derived,MatrixDerived,LazyProduct>
     operator*(const MatrixBase<MatrixDerived> &matrix) const
     {
@@ -64,32 +64,32 @@ class DiagonalBase : public EigenBase<Derived>
     }
 
     typedef DiagonalWrapper<const CwiseUnaryOp<internal::scalar_inverse_op<Scalar>, const DiagonalVectorType> > InverseReturnType;
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const InverseReturnType
     inverse() const
     {
       return InverseReturnType(diagonal().cwiseInverse());
     }
     
-    EIGEN_DEVICE_FUNC
-    inline const DiagonalWrapper<const EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(DiagonalVectorType,Scalar,product) >
+    HYDRA_EIGEN_DEVICE_FUNC
+    inline const DiagonalWrapper<const HYDRA_EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(DiagonalVectorType,Scalar,product) >
     operator*(const Scalar& scalar) const
     {
-      return DiagonalWrapper<const EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(DiagonalVectorType,Scalar,product) >(diagonal() * scalar);
+      return DiagonalWrapper<const HYDRA_EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(DiagonalVectorType,Scalar,product) >(diagonal() * scalar);
     }
-    EIGEN_DEVICE_FUNC
-    friend inline const DiagonalWrapper<const EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(Scalar,DiagonalVectorType,product) >
+    HYDRA_EIGEN_DEVICE_FUNC
+    friend inline const DiagonalWrapper<const HYDRA_EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(Scalar,DiagonalVectorType,product) >
     operator*(const Scalar& scalar, const DiagonalBase& other)
     {
-      return DiagonalWrapper<const EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(Scalar,DiagonalVectorType,product) >(scalar * other.diagonal());
+      return DiagonalWrapper<const HYDRA_EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(Scalar,DiagonalVectorType,product) >(scalar * other.diagonal());
     }
 
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    #ifdef EIGEN_PARSED_BY_DOXYGEN
+    HYDRA_EIGEN_DEVICE_FUNC
+    #ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     inline unspecified_expression_type
     #else
-    inline const DiagonalWrapper<const EIGEN_CWISE_BINARY_RETURN_TYPE(DiagonalVectorType,typename OtherDerived::DiagonalVectorType,sum) >
+    inline const DiagonalWrapper<const HYDRA_EIGEN_CWISE_BINARY_RETURN_TYPE(DiagonalVectorType,typename OtherDerived::DiagonalVectorType,sum) >
     #endif
     operator+(const DiagonalBase<OtherDerived>& other) const
     {
@@ -97,11 +97,11 @@ class DiagonalBase : public EigenBase<Derived>
     }
 
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    #ifdef EIGEN_PARSED_BY_DOXYGEN
+    HYDRA_EIGEN_DEVICE_FUNC
+    #ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     inline unspecified_expression_type
     #else
-    inline const DiagonalWrapper<const EIGEN_CWISE_BINARY_RETURN_TYPE(DiagonalVectorType,typename OtherDerived::DiagonalVectorType,difference) >
+    inline const DiagonalWrapper<const HYDRA_EIGEN_CWISE_BINARY_RETURN_TYPE(DiagonalVectorType,typename OtherDerived::DiagonalVectorType,difference) >
     #endif
     operator-(const DiagonalBase<OtherDerived>& other) const
     {
@@ -141,7 +141,7 @@ class DiagonalMatrix
   : public DiagonalBase<DiagonalMatrix<_Scalar,SizeAtCompileTime,MaxSizeAtCompileTime> >
 {
   public:
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     typedef typename internal::traits<DiagonalMatrix>::DiagonalVectorType DiagonalVectorType;
     typedef const DiagonalMatrix& Nested;
     typedef _Scalar Scalar;
@@ -156,29 +156,29 @@ class DiagonalMatrix
   public:
 
     /** const version of diagonal(). */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline const DiagonalVectorType& diagonal() const { return m_diagonal; }
     /** \returns a reference to the stored vector of diagonal coefficients. */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline DiagonalVectorType& diagonal() { return m_diagonal; }
 
     /** Default constructor without initialization */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline DiagonalMatrix() {}
 
     /** Constructs a diagonal matrix with given dimension  */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     explicit inline DiagonalMatrix(Index dim) : m_diagonal(dim) {}
 
     /** 2D constructor. */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline DiagonalMatrix(const Scalar& x, const Scalar& y) : m_diagonal(x,y) {}
 
     /** 3D constructor. */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline DiagonalMatrix(const Scalar& x, const Scalar& y, const Scalar& z) : m_diagonal(x,y,z) {}
 
-    #if EIGEN_HAS_CXX11
+    #if HYDRA_EIGEN_HAS_CXX11
     /** \brief Construct a diagonal matrix with fixed size from an arbitrary number of coefficients. \cpp11
       * 
       * There exists C++98 anologue constructors for fixed-size diagonal matrices having 2 or 3 coefficients.
@@ -190,48 +190,48 @@ class DiagonalMatrix
       * \sa DiagonalMatrix(const Scalar&, const Scalar&, const Scalar&)
       */
     template <typename... ArgTypes>
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     DiagonalMatrix(const Scalar& a0, const Scalar& a1, const Scalar& a2, const ArgTypes&... args)
       : m_diagonal(a0, a1, a2, args...) {}
 
     /** \brief Constructs a DiagonalMatrix and initializes it by elements given by an initializer list of initializer
       * lists \cpp11
       */
-    EIGEN_DEVICE_FUNC
-    explicit EIGEN_STRONG_INLINE DiagonalMatrix(const std::initializer_list<std::initializer_list<Scalar>>& list)
+    HYDRA_EIGEN_DEVICE_FUNC
+    explicit HYDRA_EIGEN_STRONG_INLINE DiagonalMatrix(const std::initializer_list<std::initializer_list<Scalar>>& list)
       : m_diagonal(list) {}
-    #endif  // EIGEN_HAS_CXX11
+    #endif  // HYDRA_EIGEN_HAS_CXX11
 
     /** Copy constructor. */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline DiagonalMatrix(const DiagonalBase<OtherDerived>& other) : m_diagonal(other.diagonal()) {}
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** copy constructor. prevent a default copy constructor from hiding the other templated constructor */
     inline DiagonalMatrix(const DiagonalMatrix& other) : m_diagonal(other.diagonal()) {}
     #endif
 
     /** generic constructor from expression of the diagonal coefficients */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     explicit inline DiagonalMatrix(const MatrixBase<OtherDerived>& other) : m_diagonal(other)
     {}
 
     /** Copy operator. */
     template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     DiagonalMatrix& operator=(const DiagonalBase<OtherDerived>& other)
     {
       m_diagonal = other.diagonal();
       return *this;
     }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** This is a special case of the templated operator=. Its purpose is to
       * prevent a default operator= from hiding the templated operator=.
       */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     DiagonalMatrix& operator=(const DiagonalMatrix& other)
     {
       m_diagonal = other.diagonal();
@@ -240,19 +240,19 @@ class DiagonalMatrix
     #endif
 
     /** Resizes to given size. */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline void resize(Index size) { m_diagonal.resize(size); }
     /** Sets all coefficients to zero. */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline void setZero() { m_diagonal.setZero(); }
     /** Resizes and sets all coefficients to zero. */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline void setZero(Index size) { m_diagonal.setZero(size); }
     /** Sets this matrix to be the identity matrix of the current size. */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline void setIdentity() { m_diagonal.setOnes(); }
     /** Sets this matrix to be the identity matrix of the given size. */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline void setIdentity(Index size) { m_diagonal.setOnes(size); }
 };
 
@@ -294,17 +294,17 @@ class DiagonalWrapper
   : public DiagonalBase<DiagonalWrapper<_DiagonalVectorType> >, internal::no_assignment_operator
 {
   public:
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     typedef _DiagonalVectorType DiagonalVectorType;
     typedef DiagonalWrapper Nested;
     #endif
 
     /** Constructor from expression of diagonal coefficients to wrap. */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     explicit inline DiagonalWrapper(DiagonalVectorType& a_diagonal) : m_diagonal(a_diagonal) {}
 
     /** \returns a const reference to the wrapped expression of diagonal coefficients. */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const DiagonalVectorType& diagonal() const { return m_diagonal; }
 
   protected:
@@ -321,7 +321,7 @@ class DiagonalWrapper
   * \sa class DiagonalWrapper, class DiagonalMatrix, diagonal(), isDiagonal()
   **/
 template<typename Derived>
-EIGEN_DEVICE_FUNC inline const DiagonalWrapper<const Derived>
+HYDRA_EIGEN_DEVICE_FUNC inline const DiagonalWrapper<const Derived>
 MatrixBase<Derived>::asDiagonal() const
 {
   return DiagonalWrapper<const Derived>(derived());
@@ -386,6 +386,6 @@ struct Assignment<DstXprType, SrcXprType, Functor, Diagonal2Dense>
 
 } // namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_DIAGONALMATRIX_H
+#endif // HYDRA_EIGEN_DIAGONALMATRIX_H

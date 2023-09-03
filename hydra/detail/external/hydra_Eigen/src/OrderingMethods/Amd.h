@@ -18,10 +18,10 @@ to permit distribution of this code and derivative works as part of Eigen under
 the Mozilla Public License v. 2.0, as stated at the top of this file.
 */
 
-#ifndef EIGEN_SPARSE_AMD_H
-#define EIGEN_SPARSE_AMD_H
+#ifndef HYDRA_EIGEN_SPARSE_AMD_H
+#define HYDRA_EIGEN_SPARSE_AMD_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
   
@@ -430,6 +430,6 @@ void minimum_degree_ordering(SparseMatrix<Scalar,ColMajor,StorageIndex>& C, Perm
 
 } // namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SPARSE_AMD_H
+#endif // HYDRA_EIGEN_SPARSE_AMD_H

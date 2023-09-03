@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSEMATRIX_H
-#define EIGEN_SPARSEMATRIX_H
+#ifndef HYDRA_EIGEN_SPARSEMATRIX_H
+#define HYDRA_EIGEN_SPARSEMATRIX_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 /** \ingroup SparseCore_Module
   *
@@ -35,11 +35,11 @@ namespace Eigen {
   * \tparam _StorageIndex the type of the indices. It has to be a \b signed type (e.g., short, int, std::ptrdiff_t). Default is \c int.
   *
   * \warning In %Eigen 3.2, the undocumented type \c SparseMatrix::Index was improperly defined as the storage index type (e.g., int),
-  *          whereas it is now (starting from %Eigen 3.3) deprecated and always defined as Eigen::Index.
+  *          whereas it is now (starting from %Eigen 3.3) deprecated and always defined as hydra_Eigen::Index.
   *          Codes making use of \c SparseMatrix::Index, might thus likely have to be changed to use \c SparseMatrix::StorageIndex instead.
   *
   * This class can be extended with the help of the plugin mechanism described on the page
-  * \ref TopicCustomizing_Plugins by defining the preprocessor symbol \c EIGEN_SPARSEMATRIX_PLUGIN.
+  * \ref TopicCustomizing_Plugins by defining the preprocessor symbol \c HYDRA_EIGEN_SPARSEMATRIX_PLUGIN.
   */
 
 namespace internal {
@@ -104,7 +104,7 @@ class SparseMatrix
   public:
     using Base::isCompressed;
     using Base::nonZeros;
-    EIGEN_SPARSE_PUBLIC_INTERFACE(SparseMatrix)
+    HYDRA_EIGEN_SPARSE_PUBLIC_INTERFACE(SparseMatrix)
     using Base::operator+=;
     using Base::operator-=;
 
@@ -267,7 +267,7 @@ class SparseMatrix
       m_data.reserve(reserveSize);
     }
     
-    #ifdef EIGEN_PARSED_BY_DOXYGEN
+    #ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** Preallocates \a reserveSize[\c j] non zeros for each column (resp. row) \c j.
       *
       * This function turns the matrix in non-compressed mode.
@@ -278,22 +278,22 @@ class SparseMatrix
         const value_type& operator[](i) const;
         \endcode
       * for \c i in the [0,this->outerSize()[ range.
-      * Typical choices include std::vector<int>, Eigen::VectorXi, Eigen::VectorXi::Constant, etc.
+      * Typical choices include std::vector<int>, hydra_Eigen::VectorXi, hydra_Eigen::VectorXi::Constant, etc.
       */
     template<class SizesType>
     inline void reserve(const SizesType& reserveSizes);
     #else
     template<class SizesType>
     inline void reserve(const SizesType& reserveSizes, const typename SizesType::value_type& enableif =
-    #if (!EIGEN_COMP_MSVC) || (EIGEN_COMP_MSVC>=1500) // MSVC 2005 fails to compile with this typename
+    #if (!HYDRA_EIGEN_COMP_MSVC) || (HYDRA_EIGEN_COMP_MSVC>=1500) // MSVC 2005 fails to compile with this typename
         typename
     #endif
         SizesType::value_type())
     {
-      EIGEN_UNUSED_VARIABLE(enableif);
+      HYDRA_EIGEN_UNUSED_VARIABLE(enableif);
       reserveInnerVectors(reserveSizes);
     }
-    #endif // EIGEN_PARSED_BY_DOXYGEN
+    #endif // HYDRA_EIGEN_PARSED_BY_DOXYGEN
   protected:
     template<class SizesType>
     inline void reserveInnerVectors(const SizesType& reserveSizes)
@@ -681,7 +681,7 @@ class SparseMatrix
     inline SparseMatrix(const SparseMatrixBase<OtherDerived>& other)
       : m_outerSize(0), m_innerSize(0), m_outerIndex(0), m_innerNonZeros(0)
     {
-      EIGEN_STATIC_ASSERT((internal::is_same<Scalar, typename OtherDerived::Scalar>::value),
+      HYDRA_EIGEN_STATIC_ASSERT((internal::is_same<Scalar, typename OtherDerived::Scalar>::value),
         YOU_MIXED_DIFFERENT_NUMERIC_TYPES__YOU_NEED_TO_USE_THE_CAST_METHOD_OF_MATRIXBASE_TO_CAST_NUMERIC_TYPES_EXPLICITLY)
       check_template_parameters();
       const bool needToTranspose = (Flags & RowMajorBit) != (internal::evaluator<OtherDerived>::Flags & RowMajorBit);
@@ -689,8 +689,8 @@ class SparseMatrix
         *this = other.derived();
       else
       {
-        #ifdef EIGEN_SPARSE_CREATE_TEMPORARY_PLUGIN
-          EIGEN_SPARSE_CREATE_TEMPORARY_PLUGIN
+        #ifdef HYDRA_EIGEN_SPARSE_CREATE_TEMPORARY_PLUGIN
+          HYDRA_EIGEN_SPARSE_CREATE_TEMPORARY_PLUGIN
         #endif
         internal::call_assignment_no_alias(*this, other.derived());
       }
@@ -736,7 +736,7 @@ class SparseMatrix
       * This is a fast operation that simply swaps the underlying pointers and parameters. */
     inline void swap(SparseMatrix& other)
     {
-      //EIGEN_DBG_SPARSE(std::cout << "SparseMatrix:: swap\n");
+      //HYDRA_EIGEN_DBG_SPARSE(std::cout << "SparseMatrix:: swap\n");
       std::swap(m_outerIndex, other.m_outerIndex);
       std::swap(m_innerSize, other.m_innerSize);
       std::swap(m_outerSize, other.m_outerSize);
@@ -750,9 +750,9 @@ class SparseMatrix
     {
       eigen_assert(rows() == cols() && "ONLY FOR SQUARED MATRICES");
       this->m_data.resize(rows());
-      Eigen::Map<IndexVector>(this->m_data.indexPtr(), rows()).setLinSpaced(0, StorageIndex(rows()-1));
-      Eigen::Map<ScalarVector>(this->m_data.valuePtr(), rows()).setOnes();
-      Eigen::Map<IndexVector>(this->m_outerIndex, rows()+1).setLinSpaced(0, StorageIndex(rows()));
+      hydra_Eigen::Map<IndexVector>(this->m_data.indexPtr(), rows()).setLinSpaced(0, StorageIndex(rows()-1));
+      hydra_Eigen::Map<ScalarVector>(this->m_data.valuePtr(), rows()).setOnes();
+      hydra_Eigen::Map<IndexVector>(this->m_outerIndex, rows()+1).setLinSpaced(0, StorageIndex(rows()));
       std::free(m_innerNonZeros);
       m_innerNonZeros = 0;
     }
@@ -764,8 +764,8 @@ class SparseMatrix
       }
       else if(this!=&other)
       {
-        #ifdef EIGEN_SPARSE_CREATE_TEMPORARY_PLUGIN
-          EIGEN_SPARSE_CREATE_TEMPORARY_PLUGIN
+        #ifdef HYDRA_EIGEN_SPARSE_CREATE_TEMPORARY_PLUGIN
+          HYDRA_EIGEN_SPARSE_CREATE_TEMPORARY_PLUGIN
         #endif
         initAssignment(other);
         if(other.isCompressed())
@@ -781,21 +781,21 @@ class SparseMatrix
       return *this;
     }
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<typename OtherDerived>
     inline SparseMatrix& operator=(const EigenBase<OtherDerived>& other)
     { return Base::operator=(other.derived()); }
 
     template<typename Lhs, typename Rhs>
     inline SparseMatrix& operator=(const Product<Lhs,Rhs,AliasFreeProduct>& other);
-#endif // EIGEN_PARSED_BY_DOXYGEN
+#endif // HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
     template<typename OtherDerived>
-    EIGEN_DONT_INLINE SparseMatrix& operator=(const SparseMatrixBase<OtherDerived>& other);
+    HYDRA_EIGEN_DONT_INLINE SparseMatrix& operator=(const SparseMatrixBase<OtherDerived>& other);
 
     friend std::ostream & operator << (std::ostream & s, const SparseMatrix& m)
     {
-      EIGEN_DBG_SPARSE(
+      HYDRA_EIGEN_DBG_SPARSE(
         s << "Nonzero entries:\n";
         if(m.isCompressed())
         {
@@ -848,8 +848,8 @@ class SparseMatrix
     /** Overloaded for performance */
     Scalar sum() const;
     
-#   ifdef EIGEN_SPARSEMATRIX_PLUGIN
-#     include EIGEN_SPARSEMATRIX_PLUGIN
+#   ifdef HYDRA_EIGEN_SPARSEMATRIX_PLUGIN
+#     include HYDRA_EIGEN_SPARSEMATRIX_PLUGIN
 #   endif
 
 protected:
@@ -867,7 +867,7 @@ protected:
 
     /** \internal
       * \sa insert(Index,Index) */
-    EIGEN_DONT_INLINE Scalar& insertCompressed(Index row, Index col);
+    HYDRA_EIGEN_DONT_INLINE Scalar& insertCompressed(Index row, Index col);
 
     /** \internal
       * A vector object that is equal to 0 everywhere but v at the position i */
@@ -886,12 +886,12 @@ protected:
 
     /** \internal
       * \sa insert(Index,Index) */
-    EIGEN_DONT_INLINE Scalar& insertUncompressed(Index row, Index col);
+    HYDRA_EIGEN_DONT_INLINE Scalar& insertUncompressed(Index row, Index col);
 
 public:
     /** \internal
       * \sa insert(Index,Index) */
-    EIGEN_STRONG_INLINE Scalar& insertBackUncompressed(Index row, Index col)
+    HYDRA_EIGEN_STRONG_INLINE Scalar& insertBackUncompressed(Index row, Index col)
     {
       const Index outer = IsRowMajor ? row : col;
       const Index inner = IsRowMajor ? col : row;
@@ -940,9 +940,9 @@ protected:
         typedef Array<StorageIndex,Dynamic,1> ArrayXI;  
         this->makeCompressed();
         this->resizeNonZeros(n);
-        Eigen::Map<ArrayXI>(this->innerIndexPtr(), n).setLinSpaced(0,StorageIndex(n)-1);
-        Eigen::Map<ArrayXI>(this->outerIndexPtr(), n+1).setLinSpaced(0,StorageIndex(n));
-        Eigen::Map<Array<Scalar,Dynamic,1> > values = this->coeffs();
+        hydra_Eigen::Map<ArrayXI>(this->innerIndexPtr(), n).setLinSpaced(0,StorageIndex(n)-1);
+        hydra_Eigen::Map<ArrayXI>(this->outerIndexPtr(), n+1).setLinSpaced(0,StorageIndex(n));
+        hydra_Eigen::Map<Array<Scalar,Dynamic,1> > values = this->coeffs();
         values.setZero();
         internal::call_assignment_no_alias(values, diagXpr, assignFunc);
       }
@@ -1014,8 +1014,8 @@ protected:
 private:
   static void check_template_parameters()
   {
-    EIGEN_STATIC_ASSERT(NumTraits<StorageIndex>::IsSigned,THE_INDEX_TYPE_MUST_BE_A_SIGNED_TYPE);
-    EIGEN_STATIC_ASSERT((Options&(ColMajor|RowMajor))==Options,INVALID_MATRIX_TEMPLATE_PARAMETERS);
+    HYDRA_EIGEN_STATIC_ASSERT(NumTraits<StorageIndex>::IsSigned,THE_INDEX_TYPE_MUST_BE_A_SIGNED_TYPE);
+    HYDRA_EIGEN_STATIC_ASSERT((Options&(ColMajor|RowMajor))==Options,INVALID_MATRIX_TEMPLATE_PARAMETERS);
   }
 
   struct default_prunning_func {
@@ -1082,7 +1082,7 @@ void set_from_triplets(const InputIterator& begin, const InputIterator& end, Spa
   * Scalar row() const;   // the row index i
   * Scalar col() const;   // the column index j
   * \endcode
-  * See for instance the Eigen::Triplet template class.
+  * See for instance the hydra_Eigen::Triplet template class.
   *
   * Here is a typical usage example:
   * \code
@@ -1169,20 +1169,20 @@ void SparseMatrix<Scalar,_Options,_StorageIndex>::collapseDuplicates(DupFunctor 
 
 template<typename Scalar, int _Options, typename _StorageIndex>
 template<typename OtherDerived>
-EIGEN_DONT_INLINE SparseMatrix<Scalar,_Options,_StorageIndex>& SparseMatrix<Scalar,_Options,_StorageIndex>::operator=(const SparseMatrixBase<OtherDerived>& other)
+HYDRA_EIGEN_DONT_INLINE SparseMatrix<Scalar,_Options,_StorageIndex>& SparseMatrix<Scalar,_Options,_StorageIndex>::operator=(const SparseMatrixBase<OtherDerived>& other)
 {
-  EIGEN_STATIC_ASSERT((internal::is_same<Scalar, typename OtherDerived::Scalar>::value),
+  HYDRA_EIGEN_STATIC_ASSERT((internal::is_same<Scalar, typename OtherDerived::Scalar>::value),
         YOU_MIXED_DIFFERENT_NUMERIC_TYPES__YOU_NEED_TO_USE_THE_CAST_METHOD_OF_MATRIXBASE_TO_CAST_NUMERIC_TYPES_EXPLICITLY)
 
-  #ifdef EIGEN_SPARSE_CREATE_TEMPORARY_PLUGIN
-    EIGEN_SPARSE_CREATE_TEMPORARY_PLUGIN
+  #ifdef HYDRA_EIGEN_SPARSE_CREATE_TEMPORARY_PLUGIN
+    HYDRA_EIGEN_SPARSE_CREATE_TEMPORARY_PLUGIN
   #endif
       
   const bool needToTranspose = (Flags & RowMajorBit) != (internal::evaluator<OtherDerived>::Flags & RowMajorBit);
   if (needToTranspose)
   {
-    #ifdef EIGEN_SPARSE_TRANSPOSED_COPY_PLUGIN
-      EIGEN_SPARSE_TRANSPOSED_COPY_PLUGIN
+    #ifdef HYDRA_EIGEN_SPARSE_TRANSPOSED_COPY_PLUGIN
+      HYDRA_EIGEN_SPARSE_TRANSPOSED_COPY_PLUGIN
     #endif
     // two passes algorithm:
     //  1 - compute the number of coeffs per dest inner vector
@@ -1195,7 +1195,7 @@ EIGEN_DONT_INLINE SparseMatrix<Scalar,_Options,_StorageIndex>& SparseMatrix<Scal
     OtherCopyEval otherCopyEval(otherCopy);
 
     SparseMatrix dest(other.rows(),other.cols());
-    Eigen::Map<IndexVector> (dest.m_outerIndex,dest.outerSize()).setZero();
+    hydra_Eigen::Map<IndexVector> (dest.m_outerIndex,dest.outerSize()).setZero();
 
     // pass 1
     // FIXME the above copy could be merged with that pass
@@ -1361,7 +1361,7 @@ typename SparseMatrix<_Scalar,_Options,_StorageIndex>::Scalar& SparseMatrix<_Sca
 }
     
 template<typename _Scalar, int _Options, typename _StorageIndex>
-EIGEN_DONT_INLINE typename SparseMatrix<_Scalar,_Options,_StorageIndex>::Scalar& SparseMatrix<_Scalar,_Options,_StorageIndex>::insertUncompressed(Index row, Index col)
+HYDRA_EIGEN_DONT_INLINE typename SparseMatrix<_Scalar,_Options,_StorageIndex>::Scalar& SparseMatrix<_Scalar,_Options,_StorageIndex>::insertUncompressed(Index row, Index col)
 {
   eigen_assert(!isCompressed());
 
@@ -1393,7 +1393,7 @@ EIGEN_DONT_INLINE typename SparseMatrix<_Scalar,_Options,_StorageIndex>::Scalar&
 }
 
 template<typename _Scalar, int _Options, typename _StorageIndex>
-EIGEN_DONT_INLINE typename SparseMatrix<_Scalar,_Options,_StorageIndex>::Scalar& SparseMatrix<_Scalar,_Options,_StorageIndex>::insertCompressed(Index row, Index col)
+HYDRA_EIGEN_DONT_INLINE typename SparseMatrix<_Scalar,_Options,_StorageIndex>::Scalar& SparseMatrix<_Scalar,_Options,_StorageIndex>::insertCompressed(Index row, Index col)
 {
   eigen_assert(isCompressed());
 
@@ -1513,6 +1513,6 @@ struct evaluator<SparseMatrix<_Scalar,_Options,_StorageIndex> >
 
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SPARSEMATRIX_H
+#endif // HYDRA_EIGEN_SPARSEMATRIX_H

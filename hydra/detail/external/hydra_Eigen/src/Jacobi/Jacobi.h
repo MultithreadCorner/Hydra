@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_JACOBI_H
-#define EIGEN_JACOBI_H
+#ifndef HYDRA_EIGEN_JACOBI_H
+#define HYDRA_EIGEN_JACOBI_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 /** \ingroup Jacobi_Module
   * \jacobi_module
@@ -37,20 +37,20 @@ template<typename Scalar> class JacobiRotation
     typedef typename NumTraits<Scalar>::Real RealScalar;
 
     /** Default constructor without any initialization. */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     JacobiRotation() {}
 
     /** Construct a planar rotation from a cosine-sine pair (\a c, \c s). */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     JacobiRotation(const Scalar& c, const Scalar& s) : m_c(c), m_s(s) {}
 
-    EIGEN_DEVICE_FUNC Scalar& c() { return m_c; }
-    EIGEN_DEVICE_FUNC Scalar c() const { return m_c; }
-    EIGEN_DEVICE_FUNC Scalar& s() { return m_s; }
-    EIGEN_DEVICE_FUNC Scalar s() const { return m_s; }
+    HYDRA_EIGEN_DEVICE_FUNC Scalar& c() { return m_c; }
+    HYDRA_EIGEN_DEVICE_FUNC Scalar c() const { return m_c; }
+    HYDRA_EIGEN_DEVICE_FUNC Scalar& s() { return m_s; }
+    HYDRA_EIGEN_DEVICE_FUNC Scalar s() const { return m_s; }
 
     /** Concatenates two planar rotation */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     JacobiRotation operator*(const JacobiRotation& other)
     {
       using numext::conj;
@@ -59,26 +59,26 @@ template<typename Scalar> class JacobiRotation
     }
 
     /** Returns the transposed transformation */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     JacobiRotation transpose() const { using numext::conj; return JacobiRotation(m_c, -conj(m_s)); }
 
     /** Returns the adjoint transformation */
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     JacobiRotation adjoint() const { using numext::conj; return JacobiRotation(conj(m_c), -m_s); }
 
     template<typename Derived>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     bool makeJacobi(const MatrixBase<Derived>&, Index p, Index q);
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     bool makeJacobi(const RealScalar& x, const Scalar& y, const RealScalar& z);
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void makeGivens(const Scalar& p, const Scalar& q, Scalar* r=0);
 
   protected:
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void makeGivens(const Scalar& p, const Scalar& q, Scalar* r, internal::true_type);
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void makeGivens(const Scalar& p, const Scalar& q, Scalar* r, internal::false_type);
 
     Scalar m_c, m_s;
@@ -90,7 +90,7 @@ template<typename Scalar> class JacobiRotation
   * \sa MatrixBase::makeJacobi(const MatrixBase<Derived>&, Index, Index), MatrixBase::applyOnTheLeft(), MatrixBase::applyOnTheRight()
   */
 template<typename Scalar>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 bool JacobiRotation<Scalar>::makeJacobi(const RealScalar& x, const Scalar& y, const RealScalar& z)
 {
   using std::sqrt;
@@ -135,7 +135,7 @@ bool JacobiRotation<Scalar>::makeJacobi(const RealScalar& x, const Scalar& y, co
   */
 template<typename Scalar>
 template<typename Derived>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline bool JacobiRotation<Scalar>::makeJacobi(const MatrixBase<Derived>& m, Index p, Index q)
 {
   return makeJacobi(numext::real(m.coeff(p,p)), m.coeff(p,q), numext::real(m.coeff(q,q)));
@@ -158,7 +158,7 @@ inline bool JacobiRotation<Scalar>::makeJacobi(const MatrixBase<Derived>& m, Ind
   * \sa MatrixBase::applyOnTheLeft(), MatrixBase::applyOnTheRight()
   */
 template<typename Scalar>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 void JacobiRotation<Scalar>::makeGivens(const Scalar& p, const Scalar& q, Scalar* r)
 {
   makeGivens(p, q, r, typename internal::conditional<NumTraits<Scalar>::IsComplex, internal::true_type, internal::false_type>::type());
@@ -167,7 +167,7 @@ void JacobiRotation<Scalar>::makeGivens(const Scalar& p, const Scalar& q, Scalar
 
 // specialization for complexes
 template<typename Scalar>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 void JacobiRotation<Scalar>::makeGivens(const Scalar& p, const Scalar& q, Scalar* r, internal::true_type)
 {
   using std::sqrt;
@@ -227,7 +227,7 @@ void JacobiRotation<Scalar>::makeGivens(const Scalar& p, const Scalar& q, Scalar
 
 // specialization for reals
 template<typename Scalar>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 void JacobiRotation<Scalar>::makeGivens(const Scalar& p, const Scalar& q, Scalar* r, internal::false_type)
 {
   using std::sqrt;
@@ -279,7 +279,7 @@ namespace internal {
   * \sa MatrixBase::applyOnTheLeft(), MatrixBase::applyOnTheRight()
   */
 template<typename VectorX, typename VectorY, typename OtherScalar>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 void apply_rotation_in_the_plane(DenseBase<VectorX>& xpr_x, DenseBase<VectorY>& xpr_y, const JacobiRotation<OtherScalar>& j);
 }
 
@@ -291,7 +291,7 @@ void apply_rotation_in_the_plane(DenseBase<VectorX>& xpr_x, DenseBase<VectorY>& 
   */
 template<typename Derived>
 template<typename OtherScalar>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline void MatrixBase<Derived>::applyOnTheLeft(Index p, Index q, const JacobiRotation<OtherScalar>& j)
 {
   RowXpr x(this->row(p));
@@ -307,7 +307,7 @@ inline void MatrixBase<Derived>::applyOnTheLeft(Index p, Index q, const JacobiRo
   */
 template<typename Derived>
 template<typename OtherScalar>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline void MatrixBase<Derived>::applyOnTheRight(Index p, Index q, const JacobiRotation<OtherScalar>& j)
 {
   ColXpr x(this->col(p));
@@ -321,7 +321,7 @@ template<typename Scalar, typename OtherScalar,
          int SizeAtCompileTime, int MinAlignment, bool Vectorizable>
 struct apply_rotation_in_the_plane_selector
 {
-  static EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_DEVICE_FUNC
   inline void run(Scalar *x, Index incrx, Scalar *y, Index incry, Index size, OtherScalar c, OtherScalar s)
   {
     for(Index i=0; i<size; ++i)
@@ -371,8 +371,8 @@ struct apply_rotation_in_the_plane_selector<Scalar,OtherScalar,SizeAtCompileTime
         y[i] = -s * xi + numext::conj(c) * yi;
       }
 
-      Scalar* EIGEN_RESTRICT px = x + alignedStart;
-      Scalar* EIGEN_RESTRICT py = y + alignedStart;
+      Scalar* HYDRA_EIGEN_RESTRICT px = x + alignedStart;
+      Scalar* HYDRA_EIGEN_RESTRICT py = y + alignedStart;
 
       if(internal::first_default_aligned(x, size)==alignedStart)
       {
@@ -427,8 +427,8 @@ struct apply_rotation_in_the_plane_selector<Scalar,OtherScalar,SizeAtCompileTime
       const OtherPacket ps = pset1<OtherPacket>(s);
       conj_helper<OtherPacket,Packet,NumTraits<OtherPacket>::IsComplex,false> pcj;
       conj_helper<OtherPacket,Packet,false,false> pm;
-      Scalar* EIGEN_RESTRICT px = x;
-      Scalar* EIGEN_RESTRICT py = y;
+      Scalar* HYDRA_EIGEN_RESTRICT px = x;
+      Scalar* HYDRA_EIGEN_RESTRICT py = y;
       for(Index i=0; i<size; i+=PacketSize)
       {
         Packet xi = pload<Packet>(px);
@@ -449,8 +449,8 @@ struct apply_rotation_in_the_plane_selector<Scalar,OtherScalar,SizeAtCompileTime
 };
 
 template<typename VectorX, typename VectorY, typename OtherScalar>
-EIGEN_DEVICE_FUNC
-void /*EIGEN_DONT_INLINE*/ apply_rotation_in_the_plane(DenseBase<VectorX>& xpr_x, DenseBase<VectorY>& xpr_y, const JacobiRotation<OtherScalar>& j)
+HYDRA_EIGEN_DEVICE_FUNC
+void /*HYDRA_EIGEN_DONT_INLINE*/ apply_rotation_in_the_plane(DenseBase<VectorX>& xpr_x, DenseBase<VectorY>& xpr_y, const JacobiRotation<OtherScalar>& j)
 {
   typedef typename VectorX::Scalar Scalar;
   const bool Vectorizable =    (int(VectorX::Flags) & int(VectorY::Flags) & PacketAccessBit)
@@ -461,8 +461,8 @@ void /*EIGEN_DONT_INLINE*/ apply_rotation_in_the_plane(DenseBase<VectorX>& xpr_x
   Index incrx = xpr_x.derived().innerStride();
   Index incry = xpr_y.derived().innerStride();
 
-  Scalar* EIGEN_RESTRICT x = &xpr_x.derived().coeffRef(0);
-  Scalar* EIGEN_RESTRICT y = &xpr_y.derived().coeffRef(0);
+  Scalar* HYDRA_EIGEN_RESTRICT x = &xpr_x.derived().coeffRef(0);
+  Scalar* HYDRA_EIGEN_RESTRICT y = &xpr_y.derived().coeffRef(0);
 
   OtherScalar c = j.c();
   OtherScalar s = j.s();
@@ -472,12 +472,12 @@ void /*EIGEN_DONT_INLINE*/ apply_rotation_in_the_plane(DenseBase<VectorX>& xpr_x
   apply_rotation_in_the_plane_selector<
     Scalar,OtherScalar,
     VectorX::SizeAtCompileTime,
-    EIGEN_PLAIN_ENUM_MIN(evaluator<VectorX>::Alignment, evaluator<VectorY>::Alignment),
+    HYDRA_EIGEN_PLAIN_ENUM_MIN(evaluator<VectorX>::Alignment, evaluator<VectorY>::Alignment),
     Vectorizable>::run(x,incrx,y,incry,size,c,s);
 }
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_JACOBI_H
+#endif // HYDRA_EIGEN_JACOBI_H

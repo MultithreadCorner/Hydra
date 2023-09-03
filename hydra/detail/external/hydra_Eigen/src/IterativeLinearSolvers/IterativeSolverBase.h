@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_ITERATIVE_SOLVER_BASE_H
-#define EIGEN_ITERATIVE_SOLVER_BASE_H
+#ifndef HYDRA_EIGEN_ITERATIVE_SOLVER_BASE_H
+#define HYDRA_EIGEN_ITERATIVE_SOLVER_BASE_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -247,10 +247,10 @@ public:
   }
 
   /** \internal */
-  EIGEN_CONSTEXPR Index rows() const EIGEN_NOEXCEPT { return matrix().rows(); }
+  HYDRA_EIGEN_CONSTEXPR Index rows() const HYDRA_EIGEN_NOEXCEPT { return matrix().rows(); }
 
   /** \internal */
-  EIGEN_CONSTEXPR Index cols() const EIGEN_NOEXCEPT { return matrix().cols(); }
+  HYDRA_EIGEN_CONSTEXPR Index cols() const HYDRA_EIGEN_NOEXCEPT { return matrix().cols(); }
 
   /** \returns the tolerance threshold used by the stopping criteria.
     * \sa setTolerance()
@@ -339,8 +339,8 @@ public:
     Index size = b.rows();
     DestDerived& dest(aDest.derived());
     typedef typename DestDerived::Scalar DestScalar;
-    Eigen::Matrix<DestScalar,Dynamic,1> tb(size);
-    Eigen::Matrix<DestScalar,Dynamic,1> tx(cols());
+    hydra_Eigen::Matrix<DestScalar,Dynamic,1> tb(size);
+    hydra_Eigen::Matrix<DestScalar,Dynamic,1> tx(cols());
     // We do not directly fill dest because sparse expressions have to be free of aliasing issue.
     // For non square least-square problems, b and dest might not have the same size whereas they might alias each-other.
     typename DestDerived::PlainObject tmp(cols(),rhsCols);
@@ -439,6 +439,6 @@ protected:
   mutable bool m_analysisIsOk, m_factorizationIsOk;
 };
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_ITERATIVE_SOLVER_BASE_H
+#endif // HYDRA_EIGEN_ITERATIVE_SOLVER_BASE_H

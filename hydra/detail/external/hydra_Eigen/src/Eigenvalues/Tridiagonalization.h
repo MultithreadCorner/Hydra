@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_TRIDIAGONALIZATION_H
-#define EIGEN_TRIDIAGONALIZATION_H
+#ifndef HYDRA_EIGEN_TRIDIAGONALIZATION_H
+#define HYDRA_EIGEN_TRIDIAGONALIZATION_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -25,7 +25,7 @@ struct traits<TridiagonalizationMatrixTReturnType<MatrixType> >
 };
 
 template<typename MatrixType, typename CoeffVectorType>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 void tridiagonalization_inplace(MatrixType& matA, CoeffVectorType& hCoeffs);
 }
 
@@ -70,7 +70,7 @@ template<typename _MatrixType> class Tridiagonalization
 
     typedef typename MatrixType::Scalar Scalar;
     typedef typename NumTraits<Scalar>::Real RealScalar;
-    typedef Eigen::Index Index; ///< \deprecated since Eigen 3.3
+    typedef hydra_Eigen::Index Index; ///< \deprecated since Eigen 3.3
 
     enum {
       Size = MatrixType::RowsAtCompileTime,
@@ -345,7 +345,7 @@ namespace internal {
   * \sa Tridiagonalization::packedMatrix()
   */
 template<typename MatrixType, typename CoeffVectorType>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 void tridiagonalization_inplace(MatrixType& matA, CoeffVectorType& hCoeffs)
 {
   using numext::conj;
@@ -426,7 +426,7 @@ struct tridiagonalization_inplace_selector;
   * \sa class Tridiagonalization
   */
 template<typename MatrixType, typename DiagonalType, typename SubDiagonalType, typename CoeffVectorType>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 void tridiagonalization_inplace(MatrixType& mat, DiagonalType& diag, SubDiagonalType& subdiag,
                                 CoeffVectorType& hcoeffs, bool extractQ)
 {
@@ -443,7 +443,7 @@ struct tridiagonalization_inplace_selector
   typedef typename Tridiagonalization<MatrixType>::CoeffVectorType CoeffVectorType;
   typedef typename Tridiagonalization<MatrixType>::HouseholderSequenceType HouseholderSequenceType;
   template<typename DiagonalType, typename SubDiagonalType>
-  static EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_DEVICE_FUNC
       void run(MatrixType& mat, DiagonalType& diag, SubDiagonalType& subdiag, CoeffVectorType& hCoeffs, bool extractQ)
   {
     tridiagonalization_inplace(mat, hCoeffs);
@@ -512,7 +512,7 @@ struct tridiagonalization_inplace_selector<MatrixType,1,IsComplex>
   typedef typename MatrixType::Scalar Scalar;
 
   template<typename DiagonalType, typename SubDiagonalType, typename CoeffVectorType>
-  static EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_DEVICE_FUNC
   void run(MatrixType& mat, DiagonalType& diag, SubDiagonalType&, CoeffVectorType&, bool extractQ)
   {
     diag(0,0) = numext::real(mat(0,0));
@@ -547,8 +547,8 @@ template<typename MatrixType> struct TridiagonalizationMatrixTReturnType
       result.template diagonal<-1>() = m_matrix.template diagonal<-1>();
     }
 
-    EIGEN_CONSTEXPR Index rows() const EIGEN_NOEXCEPT { return m_matrix.rows(); }
-    EIGEN_CONSTEXPR Index cols() const EIGEN_NOEXCEPT { return m_matrix.cols(); }
+    HYDRA_EIGEN_CONSTEXPR Index rows() const HYDRA_EIGEN_NOEXCEPT { return m_matrix.rows(); }
+    HYDRA_EIGEN_CONSTEXPR Index cols() const HYDRA_EIGEN_NOEXCEPT { return m_matrix.cols(); }
 
   protected:
     typename MatrixType::Nested m_matrix;
@@ -556,6 +556,6 @@ template<typename MatrixType> struct TridiagonalizationMatrixTReturnType
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_TRIDIAGONALIZATION_H
+#endif // HYDRA_EIGEN_TRIDIAGONALIZATION_H

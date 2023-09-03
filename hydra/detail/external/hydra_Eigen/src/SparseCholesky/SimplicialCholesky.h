@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SIMPLICIAL_CHOLESKY_H
-#define EIGEN_SIMPLICIAL_CHOLESKY_H
+#ifndef HYDRA_EIGEN_SIMPLICIAL_CHOLESKY_H
+#define HYDRA_EIGEN_SIMPLICIAL_CHOLESKY_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 enum SimplicialCholeskyMode {
   SimplicialCholeskyLLT,
@@ -144,7 +144,7 @@ class SimplicialCholeskyBase : public SparseSolverBase<Derived>
       return derived();
     }
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** \internal */
     template<typename Stream>
     void dumpMemory(Stream& s)
@@ -193,7 +193,7 @@ class SimplicialCholeskyBase : public SparseSolverBase<Derived>
       internal::solve_sparse_through_dense_panels(derived(), b, dest);
     }
 
-#endif // EIGEN_PARSED_BY_DOXYGEN
+#endif // HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
   protected:
     
@@ -285,8 +285,8 @@ template<typename _MatrixType, int _UpLo, typename _Ordering> struct traits<Simp
   typedef typename MatrixType::Scalar                         Scalar;
   typedef typename MatrixType::StorageIndex                   StorageIndex;
   typedef SparseMatrix<Scalar, ColMajor, StorageIndex>        CholMatrixType;
-  typedef TriangularView<const CholMatrixType, Eigen::Lower>  MatrixL;
-  typedef TriangularView<const typename CholMatrixType::AdjointReturnType, Eigen::Upper>   MatrixU;
+  typedef TriangularView<const CholMatrixType, hydra_Eigen::Lower>  MatrixL;
+  typedef TriangularView<const typename CholMatrixType::AdjointReturnType, hydra_Eigen::Upper>   MatrixU;
   static inline MatrixL getL(const CholMatrixType& m) { return MatrixL(m); }
   static inline MatrixU getU(const CholMatrixType& m) { return MatrixU(m.adjoint()); }
 };
@@ -299,8 +299,8 @@ template<typename _MatrixType,int _UpLo, typename _Ordering> struct traits<Simpl
   typedef typename MatrixType::Scalar                             Scalar;
   typedef typename MatrixType::StorageIndex                       StorageIndex;
   typedef SparseMatrix<Scalar, ColMajor, StorageIndex>            CholMatrixType;
-  typedef TriangularView<const CholMatrixType, Eigen::UnitLower>  MatrixL;
-  typedef TriangularView<const typename CholMatrixType::AdjointReturnType, Eigen::UnitUpper> MatrixU;
+  typedef TriangularView<const CholMatrixType, hydra_Eigen::UnitLower>  MatrixL;
+  typedef TriangularView<const typename CholMatrixType::AdjointReturnType, hydra_Eigen::UnitUpper> MatrixU;
   static inline MatrixL getL(const CholMatrixType& m) { return MatrixL(m); }
   static inline MatrixU getU(const CholMatrixType& m) { return MatrixU(m.adjoint()); }
 };
@@ -692,6 +692,6 @@ void SimplicialCholeskyBase<Derived>::ordering(const MatrixType& a, ConstCholMat
   }  
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SIMPLICIAL_CHOLESKY_H
+#endif // HYDRA_EIGEN_SIMPLICIAL_CHOLESKY_H

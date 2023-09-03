@@ -18,10 +18,10 @@
  *
  *****************************************************************/
 
-#ifndef EIGEN_TYPE_CASTING_SYCL_H
-#define EIGEN_TYPE_CASTING_SYCL_H
+#ifndef HYDRA_EIGEN_TYPE_CASTING_SYCL_H
+#define HYDRA_EIGEN_TYPE_CASTING_SYCL_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 #ifdef SYCL_DEVICE_ONLY
@@ -31,7 +31,7 @@ struct type_casting_traits<float, int> {
 };
 
 template <>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE cl::sycl::cl_int4
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE cl::sycl::cl_int4
 pcast<cl::sycl::cl_float4, cl::sycl::cl_int4>(const cl::sycl::cl_float4& a) {
   return a
       .template convert<cl::sycl::cl_int, cl::sycl::rounding_mode::automatic>();
@@ -43,7 +43,7 @@ struct type_casting_traits<int, float> {
 };
 
 template <>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE cl::sycl::cl_float4
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE cl::sycl::cl_float4
 pcast<cl::sycl::cl_int4, cl::sycl::cl_float4>(const cl::sycl::cl_int4& a) {
   return a.template convert<cl::sycl::cl_float,
                             cl::sycl::rounding_mode::automatic>();
@@ -55,7 +55,7 @@ struct type_casting_traits<double, float> {
 };
 
 template <>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE cl::sycl::cl_float4
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE cl::sycl::cl_float4
 pcast<cl::sycl::cl_double2, cl::sycl::cl_float4>(
     const cl::sycl::cl_double2& a, const cl::sycl::cl_double2& b) {
   auto a1 = a.template convert<cl::sycl::cl_float,
@@ -71,7 +71,7 @@ struct type_casting_traits<float, double> {
 };
 
 template <>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE cl::sycl::cl_double2
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE cl::sycl::cl_double2
 pcast<cl::sycl::cl_float4, cl::sycl::cl_double2>(const cl::sycl::cl_float4& a) {
   // Simply discard the second half of the input
   return cl::sycl::cl_double2(a.x(), a.y());
@@ -80,6 +80,6 @@ pcast<cl::sycl::cl_float4, cl::sycl::cl_double2>(const cl::sycl::cl_float4& a) {
 #endif
 }  // end namespace internal
 
-}  // end namespace Eigen
+}  // end namespace hydra_Eigen
 
-#endif  // EIGEN_TYPE_CASTING_SYCL_H
+#endif  // HYDRA_EIGEN_TYPE_CASTING_SYCL_H

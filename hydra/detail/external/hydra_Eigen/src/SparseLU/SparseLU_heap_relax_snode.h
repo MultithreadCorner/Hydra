@@ -28,7 +28,7 @@
 #ifndef SPARSELU_HEAP_RELAX_SNODE_H
 #define SPARSELU_HEAP_RELAX_SNODE_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 namespace internal {
 
 /** 
@@ -122,5 +122,5 @@ void SparseLUImpl<Scalar,StorageIndex>::heap_relax_snode (const Index n, IndexVe
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 #endif // SPARSELU_HEAP_RELAX_SNODE_H

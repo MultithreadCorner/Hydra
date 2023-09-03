@@ -9,10 +9,10 @@
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
-#ifndef EIGEN_SPARSE_LU_H
-#define EIGEN_SPARSE_LU_H
+#ifndef HYDRA_EIGEN_SPARSE_LU_H
+#define HYDRA_EIGEN_SPARSE_LU_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 template <typename _MatrixType, typename _OrderingType = COLAMDOrdering<typename _MatrixType::StorageIndex> > class SparseLU;
 template <typename MappedSparseMatrixType> struct SparseLUMatrixLReturnType;
@@ -47,7 +47,7 @@ public:
   {
     Dest& X(X_base.derived());
     eigen_assert(m_sparseLU->info() == Success && "The matrix should be factorized first");
-    EIGEN_STATIC_ASSERT((Dest::Flags&RowMajorBit)==0,
+    HYDRA_EIGEN_STATIC_ASSERT((Dest::Flags&RowMajorBit)==0,
                         THIS_METHOD_IS_ONLY_FOR_COLUMN_MAJOR_MATRICES);
 
 
@@ -277,7 +277,7 @@ class SparseLU : public SparseSolverBase<SparseLU<_MatrixType,_OrderingType> >, 
       m_diagpivotthresh = thresh; 
     }
 
-#ifdef EIGEN_PARSED_BY_DOXYGEN
+#ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** \returns the solution X of \f$ A X = B \f$ using the current decomposition of A.
       *
       * \warning the destination matrix X in X = this->solve(B) must be colmun-major.
@@ -286,7 +286,7 @@ class SparseLU : public SparseSolverBase<SparseLU<_MatrixType,_OrderingType> >, 
       */
     template<typename Rhs>
     inline const Solve<SparseLU, Rhs> solve(const MatrixBase<Rhs>& B) const;
-#endif // EIGEN_PARSED_BY_DOXYGEN
+#endif // HYDRA_EIGEN_PARSED_BY_DOXYGEN
     
     /** \brief Reports whether previous computation was successful.
       *
@@ -315,7 +315,7 @@ class SparseLU : public SparseSolverBase<SparseLU<_MatrixType,_OrderingType> >, 
     {
       Dest& X(X_base.derived());
       eigen_assert(m_factorizationIsOk && "The matrix should be factorized first");
-      EIGEN_STATIC_ASSERT((Dest::Flags&RowMajorBit)==0,
+      HYDRA_EIGEN_STATIC_ASSERT((Dest::Flags&RowMajorBit)==0,
                         THIS_METHOD_IS_ONLY_FOR_COLUMN_MAJOR_MATRICES);
       
       // Permute the right hand side to form X = Pr*B
@@ -918,6 +918,6 @@ struct SparseLUMatrixUReturnType : internal::no_assignment_operator
   const MatrixUType& m_mapU;
 };
 
-} // End namespace Eigen 
+} // End namespace hydra_Eigen 
 
 #endif

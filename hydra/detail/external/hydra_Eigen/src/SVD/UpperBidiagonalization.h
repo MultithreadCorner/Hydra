@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_BIDIAGONALIZATION_H
-#define EIGEN_BIDIAGONALIZATION_H
+#ifndef HYDRA_EIGEN_BIDIAGONALIZATION_H
+#define HYDRA_EIGEN_BIDIAGONALIZATION_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 // UpperBidiagonalization will probably be replaced by a Bidiagonalization class, don't want to make it stable API.
@@ -29,7 +29,7 @@ template<typename _MatrixType> class UpperBidiagonalization
     };
     typedef typename MatrixType::Scalar Scalar;
     typedef typename MatrixType::RealScalar RealScalar;
-    typedef Eigen::Index Index; ///< \deprecated since Eigen 3.3
+    typedef hydra_Eigen::Index Index; ///< \deprecated since Eigen 3.3
     typedef Matrix<Scalar, 1, ColsAtCompileTime> RowVectorType;
     typedef Matrix<Scalar, RowsAtCompileTime, 1> ColVectorType;
     typedef BandMatrix<RealScalar, ColsAtCompileTime, ColsAtCompileTime, 1, 0, RowMajor> BidiagonalType;
@@ -360,7 +360,7 @@ UpperBidiagonalization<_MatrixType>& UpperBidiagonalization<_MatrixType>::comput
 {
   Index rows = matrix.rows();
   Index cols = matrix.cols();
-  EIGEN_ONLY_USED_FOR_DEBUG(cols);
+  HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(cols);
 
   eigen_assert(rows >= cols && "UpperBidiagonalization is only for Arices satisfying rows>=cols.");
 
@@ -382,8 +382,8 @@ UpperBidiagonalization<_MatrixType>& UpperBidiagonalization<_MatrixType>::comput
 {
   Index rows = matrix.rows();
   Index cols = matrix.cols();
-  EIGEN_ONLY_USED_FOR_DEBUG(rows);
-  EIGEN_ONLY_USED_FOR_DEBUG(cols);
+  HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(rows);
+  HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(cols);
 
   eigen_assert(rows >= cols && "UpperBidiagonalization is only for Arices satisfying rows>=cols.");
 
@@ -409,6 +409,6 @@ MatrixBase<Derived>::bidiagonalization() const
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_BIDIAGONALIZATION_H
+#endif // HYDRA_EIGEN_BIDIAGONALIZATION_H

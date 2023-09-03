@@ -8,10 +8,10 @@
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
-#ifndef EIGEN_INDEXED_VIEW_HELPER_H
-#define EIGEN_INDEXED_VIEW_HELPER_H
+#ifndef HYDRA_EIGEN_INDEXED_VIEW_HELPER_H
+#define HYDRA_EIGEN_INDEXED_VIEW_HELPER_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 struct symbolic_last_tag {};
@@ -20,27 +20,27 @@ struct symbolic_last_tag {};
 /** \var last
   * \ingroup Core_Module
   *
-  * Can be used as a parameter to Eigen::seq and Eigen::seqN functions to symbolically reference the last element/row/columns
+  * Can be used as a parameter to hydra_Eigen::seq and hydra_Eigen::seqN functions to symbolically reference the last element/row/columns
   * of the underlying vector or matrix once passed to DenseBase::operator()(const RowIndices&, const ColIndices&).
   *
   * This symbolic placeholder supports standard arithmetic operations.
   *
   * A typical usage example would be:
   * \code
-  * using namespace Eigen;
-  * using Eigen::last;
+  * using namespace hydra_Eigen;
+  * using hydra_Eigen::last;
   * VectorXd v(n);
   * v(seq(2,last-2)).setOnes();
   * \endcode
   *
   * \sa end
   */
-static const symbolic::SymbolExpr<internal::symbolic_last_tag> last; // PLEASE use Eigen::last   instead of Eigen::placeholders::last
+static const symbolic::SymbolExpr<internal::symbolic_last_tag> last; // PLEASE use hydra_Eigen::last   instead of hydra_Eigen::placeholders::last
 
 /** \var lastp1
   * \ingroup Core_Module
   *
-  * Can be used as a parameter to Eigen::seq and Eigen::seqN functions to symbolically
+  * Can be used as a parameter to hydra_Eigen::seq and hydra_Eigen::seqN functions to symbolically
   * reference the last+1 element/row/columns of the underlying vector or matrix once
   * passed to DenseBase::operator()(const RowIndices&, const ColIndices&).
   *
@@ -49,12 +49,12 @@ static const symbolic::SymbolExpr<internal::symbolic_last_tag> last; // PLEASE u
   *
   * \sa last
   */
-#ifdef EIGEN_PARSED_BY_DOXYGEN
+#ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 static const auto lastp1 = last+fix<1>;
 #else
 // Using a FixedExpr<1> expression is important here to make sure the compiler
 // can fully optimize the computation starting indices with zero overhead.
-static const symbolic::AddExpr<symbolic::SymbolExpr<internal::symbolic_last_tag>,symbolic::ValueExpr<Eigen::internal::FixedInt<1> > > lastp1(last+fix<1>());
+static const symbolic::AddExpr<symbolic::SymbolExpr<internal::symbolic_last_tag>,symbolic::ValueExpr<hydra_Eigen::internal::FixedInt<1> > > lastp1(last+fix<1>());
 #endif
 
 namespace internal {
@@ -78,7 +78,7 @@ template<typename T, typename EnableIf = void> struct get_compile_time_incr {
 
 // Analogue of std::get<0>(x), but tailored for our needs.
 template<typename T>
-EIGEN_CONSTEXPR Index first(const T& x) EIGEN_NOEXCEPT { return x.first(); }
+HYDRA_EIGEN_CONSTEXPR Index first(const T& x) HYDRA_EIGEN_NOEXCEPT { return x.first(); }
 
 // IndexedViewCompatibleType/makeIndexedViewCompatible turn an arbitrary object of type T into something usable by MatrixSlice
 // The generic implementation is a no-op
@@ -100,8 +100,8 @@ struct SingleRange {
   };
   SingleRange(Index val) : m_value(val) {}
   Index operator[](Index) const { return m_value; }
-  static EIGEN_CONSTEXPR Index size() EIGEN_NOEXCEPT { return 1; }
-  Index first() const EIGEN_NOEXCEPT { return m_value; }
+  static HYDRA_EIGEN_CONSTEXPR Index size() HYDRA_EIGEN_NOEXCEPT { return 1; }
+  Index first() const HYDRA_EIGEN_NOEXCEPT { return m_value; }
   Index m_value;
 };
 
@@ -114,7 +114,7 @@ template<typename T, int XprSize>
 struct IndexedViewCompatibleType<T,XprSize,typename internal::enable_if<internal::is_integral<T>::value>::type> {
   // Here we could simply use Array, but maybe it's less work for the compiler to use
   // a simpler wrapper as SingleRange
-  //typedef Eigen::Array<Index,1,1> type;
+  //typedef hydra_Eigen::Array<Index,1,1> type;
   typedef SingleRange type;
 };
 
@@ -141,9 +141,9 @@ template<int XprSize>
 struct AllRange {
   enum { SizeAtCompileTime = XprSize };
   AllRange(Index size = XprSize) : m_size(size) {}
-  EIGEN_CONSTEXPR Index operator[](Index i) const EIGEN_NOEXCEPT { return i; }
-  EIGEN_CONSTEXPR Index size() const EIGEN_NOEXCEPT { return m_size.value(); }
-  EIGEN_CONSTEXPR Index first() const EIGEN_NOEXCEPT { return 0; }
+  HYDRA_EIGEN_CONSTEXPR Index operator[](Index i) const HYDRA_EIGEN_NOEXCEPT { return i; }
+  HYDRA_EIGEN_CONSTEXPR Index size() const HYDRA_EIGEN_NOEXCEPT { return m_size.value(); }
+  HYDRA_EIGEN_CONSTEXPR Index first() const HYDRA_EIGEN_NOEXCEPT { return 0; }
   variable_if_dynamic<Index,XprSize> m_size;
 };
 
@@ -168,19 +168,19 @@ template<int Size> struct get_compile_time_incr<AllRange<Size> > {
   * \ingroup Core_Module
   * Can be used as a parameter to DenseBase::operator()(const RowIndices&, const ColIndices&) to index all rows or columns
   */
-static const Eigen::internal::all_t all; // PLEASE use Eigen::all instead of Eigen::placeholders::all
+static const hydra_Eigen::internal::all_t all; // PLEASE use hydra_Eigen::all instead of hydra_Eigen::placeholders::all
 
 
 namespace placeholders {
   typedef symbolic::SymbolExpr<internal::symbolic_last_tag> last_t;
-  typedef symbolic::AddExpr<symbolic::SymbolExpr<internal::symbolic_last_tag>,symbolic::ValueExpr<Eigen::internal::FixedInt<1> > > end_t;
-  typedef Eigen::internal::all_t all_t;
+  typedef symbolic::AddExpr<symbolic::SymbolExpr<internal::symbolic_last_tag>,symbolic::ValueExpr<hydra_Eigen::internal::FixedInt<1> > > end_t;
+  typedef hydra_Eigen::internal::all_t all_t;
 
-  EIGEN_DEPRECATED static const all_t  all  = Eigen::all;    // PLEASE use Eigen::all    instead of Eigen::placeholders::all
-  EIGEN_DEPRECATED static const last_t last = Eigen::last;   // PLEASE use Eigen::last   instead of Eigen::placeholders::last
-  EIGEN_DEPRECATED static const end_t  end  = Eigen::lastp1; // PLEASE use Eigen::lastp1 instead of Eigen::placeholders::end
+  HYDRA_EIGEN_DEPRECATED static const all_t  all  = hydra_Eigen::all;    // PLEASE use hydra_Eigen::all    instead of hydra_Eigen::placeholders::all
+  HYDRA_EIGEN_DEPRECATED static const last_t last = hydra_Eigen::last;   // PLEASE use hydra_Eigen::last   instead of hydra_Eigen::placeholders::last
+  HYDRA_EIGEN_DEPRECATED static const end_t  end  = hydra_Eigen::lastp1; // PLEASE use hydra_Eigen::lastp1 instead of hydra_Eigen::placeholders::end
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_INDEXED_VIEW_HELPER_H
+#endif // HYDRA_EIGEN_INDEXED_VIEW_HELPER_H

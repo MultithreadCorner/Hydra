@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSEPRODUCT_H
-#define EIGEN_SPARSEPRODUCT_H
+#ifndef HYDRA_EIGEN_SPARSEPRODUCT_H
+#define HYDRA_EIGEN_SPARSEPRODUCT_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 /** \returns an expression of the product of two sparse matrices.
   * By default a conservative product preserving the symbolic non zeros is performed.
@@ -176,6 +176,6 @@ SparseMatrix<Scalar,_Options,_StorageIndex>& SparseMatrix<Scalar,_Options,_Stora
   return *this;
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SPARSEPRODUCT_H
+#endif // HYDRA_EIGEN_SPARSEPRODUCT_H

@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_REDUX_H
-#define EIGEN_REDUX_H
+#ifndef HYDRA_EIGEN_REDUX_H
+#define HYDRA_EIGEN_REDUX_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -59,7 +59,7 @@ public:
   enum {
     Cost = Evaluator::SizeAtCompileTime == Dynamic ? HugeCost
          : int(Evaluator::SizeAtCompileTime) * int(Evaluator::CoeffReadCost) + (Evaluator::SizeAtCompileTime-1) * functor_traits<Func>::Cost,
-    UnrollingLimit = EIGEN_UNROLLING_LIMIT * (int(Traversal) == int(DefaultTraversal) ? 1 : int(PacketSize))
+    UnrollingLimit = HYDRA_EIGEN_UNROLLING_LIMIT * (int(Traversal) == int(DefaultTraversal) ? 1 : int(PacketSize))
   };
 
 public:
@@ -67,22 +67,22 @@ public:
     Unrolling = Cost <= UnrollingLimit ? CompleteUnrolling : NoUnrolling
   };
   
-#ifdef EIGEN_DEBUG_ASSIGN
+#ifdef HYDRA_EIGEN_DEBUG_ASSIGN
   static void debug()
   {
     std::cerr << "Xpr: " << typeid(typename Evaluator::XprType).name() << std::endl;
     std::cerr.setf(std::ios::hex, std::ios::basefield);
-    EIGEN_DEBUG_VAR(Evaluator::Flags)
+    HYDRA_EIGEN_DEBUG_VAR(Evaluator::Flags)
     std::cerr.unsetf(std::ios::hex);
-    EIGEN_DEBUG_VAR(InnerMaxSize)
-    EIGEN_DEBUG_VAR(OuterMaxSize)
-    EIGEN_DEBUG_VAR(SliceVectorizedWork)
-    EIGEN_DEBUG_VAR(PacketSize)
-    EIGEN_DEBUG_VAR(MightVectorize)
-    EIGEN_DEBUG_VAR(MayLinearVectorize)
-    EIGEN_DEBUG_VAR(MaySliceVectorize)
+    HYDRA_EIGEN_DEBUG_VAR(InnerMaxSize)
+    HYDRA_EIGEN_DEBUG_VAR(OuterMaxSize)
+    HYDRA_EIGEN_DEBUG_VAR(SliceVectorizedWork)
+    HYDRA_EIGEN_DEBUG_VAR(PacketSize)
+    HYDRA_EIGEN_DEBUG_VAR(MightVectorize)
+    HYDRA_EIGEN_DEBUG_VAR(MayLinearVectorize)
+    HYDRA_EIGEN_DEBUG_VAR(MaySliceVectorize)
     std::cerr << "Traversal" << " = " << Traversal << " (" << demangle_traversal(Traversal) << ")" << std::endl;
-    EIGEN_DEBUG_VAR(UnrollingLimit)
+    HYDRA_EIGEN_DEBUG_VAR(UnrollingLimit)
     std::cerr << "Unrolling" << " = " << Unrolling << " (" << demangle_unrolling(Unrolling) << ")" << std::endl;
     std::cerr << std::endl;
   }
@@ -104,8 +104,8 @@ struct redux_novec_unroller
 
   typedef typename Evaluator::Scalar Scalar;
 
-  EIGEN_DEVICE_FUNC
-  static EIGEN_STRONG_INLINE Scalar run(const Evaluator &eval, const Func& func)
+  HYDRA_EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_STRONG_INLINE Scalar run(const Evaluator &eval, const Func& func)
   {
     return func(redux_novec_unroller<Func, Evaluator, Start, HalfLength>::run(eval,func),
                 redux_novec_unroller<Func, Evaluator, Start+HalfLength, Length-HalfLength>::run(eval,func));
@@ -122,8 +122,8 @@ struct redux_novec_unroller<Func, Evaluator, Start, 1>
 
   typedef typename Evaluator::Scalar Scalar;
 
-  EIGEN_DEVICE_FUNC
-  static EIGEN_STRONG_INLINE Scalar run(const Evaluator &eval, const Func&)
+  HYDRA_EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_STRONG_INLINE Scalar run(const Evaluator &eval, const Func&)
   {
     return eval.coeffByOuterInner(outer, inner);
   }
@@ -136,8 +136,8 @@ template<typename Func, typename Evaluator, int Start>
 struct redux_novec_unroller<Func, Evaluator, Start, 0>
 {
   typedef typename Evaluator::Scalar Scalar;
-  EIGEN_DEVICE_FUNC 
-  static EIGEN_STRONG_INLINE Scalar run(const Evaluator&, const Func&) { return Scalar(); }
+  HYDRA_EIGEN_DEVICE_FUNC 
+  static HYDRA_EIGEN_STRONG_INLINE Scalar run(const Evaluator&, const Func&) { return Scalar(); }
 };
 
 /*** vectorization ***/
@@ -146,8 +146,8 @@ template<typename Func, typename Evaluator, int Start, int Length>
 struct redux_vec_unroller
 {
   template<typename PacketType>
-  EIGEN_DEVICE_FUNC
-  static EIGEN_STRONG_INLINE PacketType run(const Evaluator &eval, const Func& func)
+  HYDRA_EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_STRONG_INLINE PacketType run(const Evaluator &eval, const Func& func)
   {
     enum {
       PacketSize = unpacket_traits<PacketType>::size,
@@ -164,8 +164,8 @@ template<typename Func, typename Evaluator, int Start>
 struct redux_vec_unroller<Func, Evaluator, Start, 1>
 {
   template<typename PacketType>
-  EIGEN_DEVICE_FUNC
-  static EIGEN_STRONG_INLINE PacketType run(const Evaluator &eval, const Func&)
+  HYDRA_EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_STRONG_INLINE PacketType run(const Evaluator &eval, const Func&)
   {
     enum {
       PacketSize = unpacket_traits<PacketType>::size,
@@ -194,7 +194,7 @@ struct redux_impl<Func, Evaluator, DefaultTraversal, NoUnrolling>
   typedef typename Evaluator::Scalar Scalar;
 
   template<typename XprType>
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE
   Scalar run(const Evaluator &eval, const Func& func, const XprType& xpr)
   {
     eigen_assert(xpr.rows()>0 && xpr.cols()>0 && "you are using an empty matrix");
@@ -216,7 +216,7 @@ struct redux_impl<Func,Evaluator, DefaultTraversal, CompleteUnrolling>
   typedef redux_novec_unroller<Func,Evaluator, 0, Evaluator::SizeAtCompileTime> Base;
   typedef typename Evaluator::Scalar Scalar;
   template<typename XprType>
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE
   Scalar run(const Evaluator &eval, const Func& func, const XprType& /*xpr*/)
   {
     return Base::run(eval,func);
@@ -238,7 +238,7 @@ struct redux_impl<Func, Evaluator, LinearVectorizedTraversal, NoUnrolling>
     const int packetAlignment = unpacket_traits<PacketScalar>::alignment;
     enum {
       alignment0 = (bool(Evaluator::Flags & DirectAccessBit) && bool(packet_traits<Scalar>::AlignedOnScalar)) ? int(packetAlignment) : int(Unaligned),
-      alignment = EIGEN_PLAIN_ENUM_MAX(alignment0, Evaluator::Alignment)
+      alignment = HYDRA_EIGEN_PLAIN_ENUM_MAX(alignment0, Evaluator::Alignment)
     };
     const Index alignedStart = internal::first_default_aligned(xpr);
     const Index alignedSize2 = ((size-alignedStart)/(2*packetSize))*(2*packetSize);
@@ -290,7 +290,7 @@ struct redux_impl<Func, Evaluator, SliceVectorizedTraversal, Unrolling>
   typedef typename redux_traits<Func, Evaluator>::PacketType PacketType;
 
   template<typename XprType>
-  EIGEN_DEVICE_FUNC static Scalar run(const Evaluator &eval, const Func& func, const XprType& xpr)
+  HYDRA_EIGEN_DEVICE_FUNC static Scalar run(const Evaluator &eval, const Func& func, const XprType& xpr)
   {
     eigen_assert(xpr.rows()>0 && xpr.cols()>0 && "you are using an empty matrix");
     const Index innerSize = xpr.innerSize();
@@ -335,10 +335,10 @@ struct redux_impl<Func, Evaluator, LinearVectorizedTraversal, CompleteUnrolling>
   };
 
   template<typename XprType>
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE
   Scalar run(const Evaluator &eval, const Func& func, const XprType &xpr)
   {
-    EIGEN_ONLY_USED_FOR_DEBUG(xpr)
+    HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(xpr)
     eigen_assert(xpr.rows()>0 && xpr.cols()>0 && "you are using an empty matrix");
     if (VectorizedSize > 0) {
       Scalar res = func.predux(redux_vec_unroller<Func, Evaluator, 0, Size / PacketSize>::template run<PacketType>(eval,func));
@@ -359,7 +359,7 @@ class redux_evaluator : public internal::evaluator<_XprType>
   typedef internal::evaluator<_XprType> Base;
 public:
   typedef _XprType XprType;
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   explicit redux_evaluator(const XprType &xpr) : Base(xpr) {}
   
   typedef typename XprType::Scalar Scalar;
@@ -376,12 +376,12 @@ public:
     InnerSizeAtCompileTime = XprType::InnerSizeAtCompileTime
   };
   
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeffByOuterInner(Index outer, Index inner) const
   { return Base::coeff(IsRowMajor ? outer : inner, IsRowMajor ? inner : outer); }
   
   template<int LoadMode, typename PacketType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   PacketType packetByOuterInner(Index outer, Index inner) const
   { return Base::template packet<LoadMode,PacketType>(IsRowMajor ? outer : inner, IsRowMajor ? inner : outer); }
   
@@ -405,7 +405,7 @@ public:
   */
 template<typename Derived>
 template<typename Func>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE typename internal::traits<Derived>::Scalar
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE typename internal::traits<Derived>::Scalar
 DenseBase<Derived>::redux(const Func& func) const
 {
   eigen_assert(this->rows()>0 && this->cols()>0 && "you are using an empty matrix");
@@ -427,10 +427,10 @@ DenseBase<Derived>::redux(const Func& func) const
   */
 template<typename Derived>
 template<int NaNPropagation>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE typename internal::traits<Derived>::Scalar
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE typename internal::traits<Derived>::Scalar
 DenseBase<Derived>::minCoeff() const
 {
-  return derived().redux(Eigen::internal::scalar_min_op<Scalar,Scalar, NaNPropagation>());
+  return derived().redux(hydra_Eigen::internal::scalar_min_op<Scalar,Scalar, NaNPropagation>());
 }
 
 /** \returns the maximum of all coefficients of \c *this. 
@@ -442,10 +442,10 @@ DenseBase<Derived>::minCoeff() const
   */
 template<typename Derived>
 template<int NaNPropagation>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE typename internal::traits<Derived>::Scalar
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE typename internal::traits<Derived>::Scalar
 DenseBase<Derived>::maxCoeff() const
 {
-  return derived().redux(Eigen::internal::scalar_max_op<Scalar,Scalar, NaNPropagation>());
+  return derived().redux(hydra_Eigen::internal::scalar_max_op<Scalar,Scalar, NaNPropagation>());
 }
 
 /** \returns the sum of all coefficients of \c *this
@@ -455,12 +455,12 @@ DenseBase<Derived>::maxCoeff() const
   * \sa trace(), prod(), mean()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE typename internal::traits<Derived>::Scalar
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE typename internal::traits<Derived>::Scalar
 DenseBase<Derived>::sum() const
 {
   if(SizeAtCompileTime==0 || (SizeAtCompileTime==Dynamic && size()==0))
     return Scalar(0);
-  return derived().redux(Eigen::internal::scalar_sum_op<Scalar,Scalar>());
+  return derived().redux(hydra_Eigen::internal::scalar_sum_op<Scalar,Scalar>());
 }
 
 /** \returns the mean of all coefficients of *this
@@ -468,14 +468,14 @@ DenseBase<Derived>::sum() const
 * \sa trace(), prod(), sum()
 */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE typename internal::traits<Derived>::Scalar
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE typename internal::traits<Derived>::Scalar
 DenseBase<Derived>::mean() const
 {
 #ifdef __INTEL_COMPILER
   #pragma warning push
   #pragma warning ( disable : 2259 )
 #endif
-  return Scalar(derived().redux(Eigen::internal::scalar_sum_op<Scalar,Scalar>())) / Scalar(this->size());
+  return Scalar(derived().redux(hydra_Eigen::internal::scalar_sum_op<Scalar,Scalar>())) / Scalar(this->size());
 #ifdef __INTEL_COMPILER
   #pragma warning pop
 #endif
@@ -489,12 +489,12 @@ DenseBase<Derived>::mean() const
   * \sa sum(), mean(), trace()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE typename internal::traits<Derived>::Scalar
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE typename internal::traits<Derived>::Scalar
 DenseBase<Derived>::prod() const
 {
   if(SizeAtCompileTime==0 || (SizeAtCompileTime==Dynamic && size()==0))
     return Scalar(1);
-  return derived().redux(Eigen::internal::scalar_product_op<Scalar>());
+  return derived().redux(hydra_Eigen::internal::scalar_product_op<Scalar>());
 }
 
 /** \returns the trace of \c *this, i.e. the sum of the coefficients on the main diagonal.
@@ -504,12 +504,12 @@ DenseBase<Derived>::prod() const
   * \sa diagonal(), sum()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE typename internal::traits<Derived>::Scalar
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE typename internal::traits<Derived>::Scalar
 MatrixBase<Derived>::trace() const
 {
   return derived().diagonal().sum();
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_REDUX_H
+#endif // HYDRA_EIGEN_REDUX_H

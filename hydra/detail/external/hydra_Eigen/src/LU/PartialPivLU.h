@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_PARTIALLU_H
-#define EIGEN_PARTIALLU_H
+#ifndef HYDRA_EIGEN_PARTIALLU_H
+#define HYDRA_EIGEN_PARTIALLU_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 template<typename _MatrixType> struct traits<PartialPivLU<_MatrixType> >
@@ -82,7 +82,7 @@ template<typename _MatrixType> class PartialPivLU
     typedef SolverBase<PartialPivLU> Base;
     friend class SolverBase<PartialPivLU>;
 
-    EIGEN_GENERIC_PUBLIC_INTERFACE(PartialPivLU)
+    HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(PartialPivLU)
     enum {
       MaxRowsAtCompileTime = MatrixType::MaxRowsAtCompileTime,
       MaxColsAtCompileTime = MatrixType::MaxColsAtCompileTime
@@ -154,7 +154,7 @@ template<typename _MatrixType> class PartialPivLU
       return m_p;
     }
 
-    #ifdef EIGEN_PARSED_BY_DOXYGEN
+    #ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** This method returns the solution x to the equation Ax=b, where A is the matrix of which
       * *this is the LU decomposition.
       *
@@ -216,12 +216,12 @@ template<typename _MatrixType> class PartialPivLU
 
     MatrixType reconstructedMatrix() const;
 
-    EIGEN_CONSTEXPR inline Index rows() const EIGEN_NOEXCEPT { return m_lu.rows(); }
-    EIGEN_CONSTEXPR inline Index cols() const EIGEN_NOEXCEPT { return m_lu.cols(); }
+    HYDRA_EIGEN_CONSTEXPR inline Index rows() const HYDRA_EIGEN_NOEXCEPT { return m_lu.rows(); }
+    HYDRA_EIGEN_CONSTEXPR inline Index cols() const HYDRA_EIGEN_NOEXCEPT { return m_lu.cols(); }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<typename RhsType, typename DstType>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void _solve_impl(const RhsType &rhs, DstType &dst) const {
      /* The decomposition PA = LU can be rewritten as A = P^{-1} L U.
       * So we proceed as follows:
@@ -241,7 +241,7 @@ template<typename _MatrixType> class PartialPivLU
     }
 
     template<bool Conjugate, typename RhsType, typename DstType>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     void _solve_impl_transposed(const RhsType &rhs, DstType &dst) const {
      /* The decomposition PA = LU can be rewritten as A^T = U^T L^T P.
       * So we proceed as follows:
@@ -267,7 +267,7 @@ template<typename _MatrixType> class PartialPivLU
 
     static void check_template_parameters()
     {
-      EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+      HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
     }
 
     void compute();
@@ -515,7 +515,7 @@ void partial_lu_inplace(MatrixType& lu, TranspositionType& row_transpositions, t
   partial_lu_impl
     < typename MatrixType::Scalar, MatrixType::Flags&RowMajorBit?RowMajor:ColMajor,
       typename TranspositionType::StorageIndex,
-      EIGEN_SIZE_MIN_PREFER_FIXED(MatrixType::RowsAtCompileTime,MatrixType::ColsAtCompileTime)>
+      HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(MatrixType::RowsAtCompileTime,MatrixType::ColsAtCompileTime)>
     ::blocked_lu(lu.rows(), lu.cols(), &lu.coeffRef(0,0), lu.outerStride(), &row_transpositions.coeffRef(0), nb_transpositions);
 }
 
@@ -619,6 +619,6 @@ MatrixBase<Derived>::lu() const
   return PartialPivLU<PlainObject>(eval());
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_PARTIALLU_H
+#endif // HYDRA_EIGEN_PARTIALLU_H

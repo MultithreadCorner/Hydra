@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_PRODUCT_H
-#define EIGEN_PRODUCT_H
+#ifndef HYDRA_EIGEN_PRODUCT_H
+#define HYDRA_EIGEN_PRODUCT_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 template<typename Lhs, typename Rhs, int Option, typename StorageKind> class ProductImpl;
 
@@ -40,7 +40,7 @@ struct traits<Product<Lhs, Rhs, Option> >
     MaxColsAtCompileTime = RhsTraits::MaxColsAtCompileTime,
 
     // FIXME: only needed by GeneralMatrixMatrixTriangular
-    InnerSize = EIGEN_SIZE_MIN_PREFER_FIXED(LhsTraits::ColsAtCompileTime, RhsTraits::RowsAtCompileTime),
+    InnerSize = HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(LhsTraits::ColsAtCompileTime, RhsTraits::RowsAtCompileTime),
 
     // The storage order is somewhat arbitrary here. The correct one will be determined through the evaluator.
     Flags = (MaxRowsAtCompileTime==1 && MaxColsAtCompileTime!=1) ? RowMajorBit
@@ -83,14 +83,14 @@ class Product : public ProductImpl<_Lhs,_Rhs,Option,
         typename internal::product_promote_storage_type<typename internal::traits<Lhs>::StorageKind,
                                                         typename internal::traits<Rhs>::StorageKind,
                                                         internal::product_type<Lhs,Rhs>::ret>::ret>::Base Base;
-    EIGEN_GENERIC_PUBLIC_INTERFACE(Product)
+    HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(Product)
 
     typedef typename internal::ref_selector<Lhs>::type LhsNested;
     typedef typename internal::ref_selector<Rhs>::type RhsNested;
     typedef typename internal::remove_all<LhsNested>::type LhsNestedCleaned;
     typedef typename internal::remove_all<RhsNested>::type RhsNestedCleaned;
 
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     Product(const Lhs& lhs, const Rhs& rhs) : m_lhs(lhs), m_rhs(rhs)
     {
       eigen_assert(lhs.cols() == rhs.rows()
@@ -98,14 +98,14 @@ class Product : public ProductImpl<_Lhs,_Rhs,Option,
         && "if you wanted a coeff-wise or a dot product use the respective explicit functions");
     }
 
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE EIGEN_CONSTEXPR
-    Index rows() const EIGEN_NOEXCEPT { return m_lhs.rows(); }
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE EIGEN_CONSTEXPR
-    Index cols() const EIGEN_NOEXCEPT { return m_rhs.cols(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_CONSTEXPR
+    Index rows() const HYDRA_EIGEN_NOEXCEPT { return m_lhs.rows(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_CONSTEXPR
+    Index cols() const HYDRA_EIGEN_NOEXCEPT { return m_rhs.cols(); }
 
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     const LhsNestedCleaned& lhs() const { return m_lhs; }
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     const RhsNestedCleaned& rhs() const { return m_rhs; }
 
   protected:
@@ -132,7 +132,7 @@ public:
   using Base::derived;
   typedef typename Base::Scalar Scalar;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE operator const Scalar() const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE operator const Scalar() const
   {
     return internal::evaluator<ProductXpr>(derived()).coeff(0,0);
   }
@@ -157,7 +157,7 @@ class ProductImpl<Lhs,Rhs,Option,Dense>
   public:
 
     typedef typename internal::dense_product_base<Lhs, Rhs, Option> Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(Derived)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(Derived)
   protected:
     enum {
       IsOneByOne = (RowsAtCompileTime == 1 || RowsAtCompileTime == Dynamic) &&
@@ -167,17 +167,17 @@ class ProductImpl<Lhs,Rhs,Option,Dense>
 
   public:
 
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar coeff(Index row, Index col) const
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Scalar coeff(Index row, Index col) const
     {
-      EIGEN_STATIC_ASSERT(EnableCoeff, THIS_METHOD_IS_ONLY_FOR_INNER_OR_LAZY_PRODUCTS);
+      HYDRA_EIGEN_STATIC_ASSERT(EnableCoeff, THIS_METHOD_IS_ONLY_FOR_INNER_OR_LAZY_PRODUCTS);
       eigen_assert( (Option==LazyProduct) || (this->rows() == 1 && this->cols() == 1) );
 
       return internal::evaluator<Derived>(derived()).coeff(row,col);
     }
 
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar coeff(Index i) const
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Scalar coeff(Index i) const
     {
-      EIGEN_STATIC_ASSERT(EnableCoeff, THIS_METHOD_IS_ONLY_FOR_INNER_OR_LAZY_PRODUCTS);
+      HYDRA_EIGEN_STATIC_ASSERT(EnableCoeff, THIS_METHOD_IS_ONLY_FOR_INNER_OR_LAZY_PRODUCTS);
       eigen_assert( (Option==LazyProduct) || (this->rows() == 1 && this->cols() == 1) );
 
       return internal::evaluator<Derived>(derived()).coeff(i);
@@ -186,6 +186,6 @@ class ProductImpl<Lhs,Rhs,Option,Dense>
 
 };
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_PRODUCT_H
+#endif // HYDRA_EIGEN_PRODUCT_H

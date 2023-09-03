@@ -29,10 +29,10 @@
  ********************************************************************************
 */
 
-#ifndef EIGEN_PARDISOSUPPORT_H
-#define EIGEN_PARDISOSUPPORT_H
+#ifndef HYDRA_EIGEN_PARDISOSUPPORT_H
+#define HYDRA_EIGEN_PARDISOSUPPORT_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 template<typename _MatrixType> class PardisoLU;
 template<typename _MatrixType, int Options=Upper> class PardisoLLT;
@@ -540,6 +540,6 @@ class PardisoLDLT : public PardisoImpl< PardisoLDLT<MatrixType,Options> >
     }
 };
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_PARDISOSUPPORT_H
+#endif // HYDRA_EIGEN_PARDISOSUPPORT_H

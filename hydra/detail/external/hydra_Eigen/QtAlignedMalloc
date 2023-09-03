@@ -5,30 +5,30 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_QTMALLOC_MODULE_H
-#define EIGEN_QTMALLOC_MODULE_H
+#ifndef HYDRA_EIGEN_QTMALLOC_MODULE_H
+#define HYDRA_EIGEN_QTMALLOC_MODULE_H
 
 #include "Core"
 
-#if (!EIGEN_MALLOC_ALREADY_ALIGNED)
+#if (!HYDRA_EIGEN_MALLOC_ALREADY_ALIGNED)
 
 #include "src/Core/util/DisableStupidWarnings.h"
 
 void *qMalloc(std::size_t size)
 {
-  return Eigen::internal::aligned_malloc(size);
+  return hydra_Eigen::internal::aligned_malloc(size);
 }
 
 void qFree(void *ptr)
 {
-  Eigen::internal::aligned_free(ptr);
+  hydra_Eigen::internal::aligned_free(ptr);
 }
 
 void *qRealloc(void *ptr, std::size_t size)
 {
-  void* newPtr = Eigen::internal::aligned_malloc(size);
+  void* newPtr = hydra_Eigen::internal::aligned_malloc(size);
   std::memcpy(newPtr, ptr, size);
-  Eigen::internal::aligned_free(ptr);
+  hydra_Eigen::internal::aligned_free(ptr);
   return newPtr;
 }
 
@@ -36,4 +36,4 @@ void *qRealloc(void *ptr, std::size_t size)
 
 #endif
 
-#endif // EIGEN_QTMALLOC_MODULE_H
+#endif // HYDRA_EIGEN_QTMALLOC_MODULE_H

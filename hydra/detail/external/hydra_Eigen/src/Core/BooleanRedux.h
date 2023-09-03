@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_ALLANDANY_H
-#define EIGEN_ALLANDANY_H
+#ifndef HYDRA_EIGEN_ALLANDANY_H
+#define HYDRA_EIGEN_ALLANDANY_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -22,7 +22,7 @@ struct all_unroller
     row = (UnrollCount-1) % Rows
   };
 
-  EIGEN_DEVICE_FUNC static inline bool run(const Derived &mat)
+  HYDRA_EIGEN_DEVICE_FUNC static inline bool run(const Derived &mat)
   {
     return all_unroller<Derived, UnrollCount-1, Rows>::run(mat) && mat.coeff(row, col);
   }
@@ -31,13 +31,13 @@ struct all_unroller
 template<typename Derived, int Rows>
 struct all_unroller<Derived, 0, Rows>
 {
-  EIGEN_DEVICE_FUNC static inline bool run(const Derived &/*mat*/) { return true; }
+  HYDRA_EIGEN_DEVICE_FUNC static inline bool run(const Derived &/*mat*/) { return true; }
 };
 
 template<typename Derived, int Rows>
 struct all_unroller<Derived, Dynamic, Rows>
 {
-  EIGEN_DEVICE_FUNC static inline bool run(const Derived &) { return false; }
+  HYDRA_EIGEN_DEVICE_FUNC static inline bool run(const Derived &) { return false; }
 };
 
 template<typename Derived, int UnrollCount, int Rows>
@@ -48,7 +48,7 @@ struct any_unroller
     row = (UnrollCount-1) % Rows
   };
   
-  EIGEN_DEVICE_FUNC static inline bool run(const Derived &mat)
+  HYDRA_EIGEN_DEVICE_FUNC static inline bool run(const Derived &mat)
   {
     return any_unroller<Derived, UnrollCount-1, Rows>::run(mat) || mat.coeff(row, col);
   }
@@ -57,13 +57,13 @@ struct any_unroller
 template<typename Derived, int Rows>
 struct any_unroller<Derived, 0, Rows>
 {
-  EIGEN_DEVICE_FUNC static inline bool run(const Derived & /*mat*/) { return false; }
+  HYDRA_EIGEN_DEVICE_FUNC static inline bool run(const Derived & /*mat*/) { return false; }
 };
 
 template<typename Derived, int Rows>
 struct any_unroller<Derived, Dynamic, Rows>
 {
-  EIGEN_DEVICE_FUNC static inline bool run(const Derived &) { return false; }
+  HYDRA_EIGEN_DEVICE_FUNC static inline bool run(const Derived &) { return false; }
 };
 
 } // end namespace internal
@@ -76,12 +76,12 @@ struct any_unroller<Derived, Dynamic, Rows>
   * \sa any(), Cwise::operator<()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC inline bool DenseBase<Derived>::all() const
+HYDRA_EIGEN_DEVICE_FUNC inline bool DenseBase<Derived>::all() const
 {
   typedef internal::evaluator<Derived> Evaluator;
   enum {
     unroll = SizeAtCompileTime != Dynamic
-          && SizeAtCompileTime * (int(Evaluator::CoeffReadCost) + int(NumTraits<Scalar>::AddCost)) <= EIGEN_UNROLLING_LIMIT
+          && SizeAtCompileTime * (int(Evaluator::CoeffReadCost) + int(NumTraits<Scalar>::AddCost)) <= HYDRA_EIGEN_UNROLLING_LIMIT
   };
   Evaluator evaluator(derived());
   if(unroll)
@@ -100,12 +100,12 @@ EIGEN_DEVICE_FUNC inline bool DenseBase<Derived>::all() const
   * \sa all()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC inline bool DenseBase<Derived>::any() const
+HYDRA_EIGEN_DEVICE_FUNC inline bool DenseBase<Derived>::any() const
 {
   typedef internal::evaluator<Derived> Evaluator;
   enum {
     unroll = SizeAtCompileTime != Dynamic
-          && SizeAtCompileTime * (int(Evaluator::CoeffReadCost) + int(NumTraits<Scalar>::AddCost)) <= EIGEN_UNROLLING_LIMIT
+          && SizeAtCompileTime * (int(Evaluator::CoeffReadCost) + int(NumTraits<Scalar>::AddCost)) <= HYDRA_EIGEN_UNROLLING_LIMIT
   };
   Evaluator evaluator(derived());
   if(unroll)
@@ -124,7 +124,7 @@ EIGEN_DEVICE_FUNC inline bool DenseBase<Derived>::any() const
   * \sa all(), any()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC inline Eigen::Index DenseBase<Derived>::count() const
+HYDRA_EIGEN_DEVICE_FUNC inline hydra_Eigen::Index DenseBase<Derived>::count() const
 {
   return derived().template cast<bool>().template cast<Index>().sum();
 }
@@ -136,7 +136,7 @@ EIGEN_DEVICE_FUNC inline Eigen::Index DenseBase<Derived>::count() const
 template<typename Derived>
 inline bool DenseBase<Derived>::hasNaN() const
 {
-#if EIGEN_COMP_MSVC || (defined __FAST_MATH__)
+#if HYDRA_EIGEN_COMP_MSVC || (defined __FAST_MATH__)
   return derived().array().isNaN().any();
 #else
   return !((derived().array()==derived().array()).all());
@@ -150,13 +150,13 @@ inline bool DenseBase<Derived>::hasNaN() const
 template<typename Derived>
 inline bool DenseBase<Derived>::allFinite() const
 {
-#if EIGEN_COMP_MSVC || (defined __FAST_MATH__)
+#if HYDRA_EIGEN_COMP_MSVC || (defined __FAST_MATH__)
   return derived().array().isFinite().all();
 #else
   return !((derived()-derived()).hasNaN());
 #endif
 }
     
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_ALLANDANY_H
+#endif // HYDRA_EIGEN_ALLANDANY_H

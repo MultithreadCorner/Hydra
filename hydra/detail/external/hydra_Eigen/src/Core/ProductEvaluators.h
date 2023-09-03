@@ -10,10 +10,10 @@
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
-#ifndef EIGEN_PRODUCTEVALUATORS_H
-#define EIGEN_PRODUCTEVALUATORS_H
+#ifndef HYDRA_EIGEN_PRODUCTEVALUATORS_H
+#define HYDRA_EIGEN_PRODUCTEVALUATORS_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -32,7 +32,7 @@ struct evaluator<Product<Lhs, Rhs, Options> >
   typedef Product<Lhs, Rhs, Options> XprType;
   typedef product_evaluator<XprType> Base;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit evaluator(const XprType& xpr) : Base(xpr) {}
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE explicit evaluator(const XprType& xpr) : Base(xpr) {}
 };
 
 // Catch "scalar * ( A * B )" and transform it to "(A*scalar) * B"
@@ -48,14 +48,14 @@ template<typename Lhs, typename Rhs, typename Scalar1, typename Scalar2, typenam
 struct evaluator<CwiseBinaryOp<internal::scalar_product_op<Scalar1,Scalar2>,
                                const CwiseNullaryOp<internal::scalar_constant_op<Scalar1>, Plain1>,
                                const Product<Lhs, Rhs, DefaultProduct> > >
- : public evaluator<Product<EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(Scalar1,Lhs,product), Rhs, DefaultProduct> >
+ : public evaluator<Product<HYDRA_EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(Scalar1,Lhs,product), Rhs, DefaultProduct> >
 {
   typedef CwiseBinaryOp<internal::scalar_product_op<Scalar1,Scalar2>,
                                const CwiseNullaryOp<internal::scalar_constant_op<Scalar1>, Plain1>,
                                const Product<Lhs, Rhs, DefaultProduct> > XprType;
-  typedef evaluator<Product<EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(Scalar1,Lhs,product), Rhs, DefaultProduct> > Base;
+  typedef evaluator<Product<HYDRA_EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(Scalar1,Lhs,product), Rhs, DefaultProduct> > Base;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit evaluator(const XprType& xpr)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE explicit evaluator(const XprType& xpr)
     : Base(xpr.lhs().functor().m_other * xpr.rhs().lhs() * xpr.rhs().rhs())
   {}
 };
@@ -68,7 +68,7 @@ struct evaluator<Diagonal<const Product<Lhs, Rhs, DefaultProduct>, DiagIndex> >
   typedef Diagonal<const Product<Lhs, Rhs, DefaultProduct>, DiagIndex> XprType;
   typedef evaluator<Diagonal<const Product<Lhs, Rhs, LazyProduct>, DiagIndex> > Base;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit evaluator(const XprType& xpr)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE explicit evaluator(const XprType& xpr)
     : Base(Diagonal<const Product<Lhs, Rhs, LazyProduct>, DiagIndex>(
         Product<Lhs, Rhs, LazyProduct>(xpr.nestedExpression().lhs(), xpr.nestedExpression().rhs()),
         xpr.index() ))
@@ -103,7 +103,7 @@ struct product_evaluator<Product<Lhs, Rhs, Options>, ProductTag, LhsShape, RhsSh
     Flags = Base::Flags | EvalBeforeNestingBit
   };
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   explicit product_evaluator(const XprType& xpr)
     : m_result(xpr.rows(), xpr.cols())
   {
@@ -137,7 +137,7 @@ struct Assignment<DstXprType, Product<Lhs,Rhs,Options>, internal::assign_op<Scal
   typename enable_if<(Options==DefaultProduct || Options==AliasFreeProduct)>::type>
 {
   typedef Product<Lhs,Rhs,Options> SrcXprType;
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   void run(DstXprType &dst, const SrcXprType &src, const internal::assign_op<Scalar,Scalar> &)
   {
     Index dstRows = src.rows();
@@ -155,7 +155,7 @@ struct Assignment<DstXprType, Product<Lhs,Rhs,Options>, internal::add_assign_op<
   typename enable_if<(Options==DefaultProduct || Options==AliasFreeProduct)>::type>
 {
   typedef Product<Lhs,Rhs,Options> SrcXprType;
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   void run(DstXprType &dst, const SrcXprType &src, const internal::add_assign_op<Scalar,Scalar> &)
   {
     eigen_assert(dst.rows() == src.rows() && dst.cols() == src.cols());
@@ -170,7 +170,7 @@ struct Assignment<DstXprType, Product<Lhs,Rhs,Options>, internal::sub_assign_op<
   typename enable_if<(Options==DefaultProduct || Options==AliasFreeProduct)>::type>
 {
   typedef Product<Lhs,Rhs,Options> SrcXprType;
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   void run(DstXprType &dst, const SrcXprType &src, const internal::sub_assign_op<Scalar,Scalar> &)
   {
     eigen_assert(dst.rows() == src.rows() && dst.cols() == src.cols());
@@ -190,7 +190,7 @@ struct Assignment<DstXprType, CwiseBinaryOp<internal::scalar_product_op<ScalarBi
   typedef CwiseBinaryOp<internal::scalar_product_op<ScalarBis,Scalar>,
                         const CwiseNullaryOp<internal::scalar_constant_op<ScalarBis>,Plain>,
                         const Product<Lhs,Rhs,DefaultProduct> > SrcXprType;
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   void run(DstXprType &dst, const SrcXprType &src, const AssignFunc& func)
   {
     call_assignment_no_alias(dst, (src.lhs().functor().m_other * src.rhs().lhs())*src.rhs().rhs(), func);
@@ -217,7 +217,7 @@ template<typename DstXprType, typename OtherXpr, typename ProductType, typename 
 struct assignment_from_xpr_op_product
 {
   template<typename SrcXprType, typename InitialFunc>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   void run(DstXprType &dst, const SrcXprType &src, const InitialFunc& /*func*/)
   {
     call_assignment_no_alias(dst, src.lhs(), Func1());
@@ -225,20 +225,20 @@ struct assignment_from_xpr_op_product
   }
 };
 
-#define EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(ASSIGN_OP,BINOP,ASSIGN_OP2) \
+#define HYDRA_EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(ASSIGN_OP,BINOP,ASSIGN_OP2) \
   template< typename DstXprType, typename OtherXpr, typename Lhs, typename Rhs, typename DstScalar, typename SrcScalar, typename OtherScalar,typename ProdScalar> \
   struct Assignment<DstXprType, CwiseBinaryOp<internal::BINOP<OtherScalar,ProdScalar>, const OtherXpr, \
                                             const Product<Lhs,Rhs,DefaultProduct> >, internal::ASSIGN_OP<DstScalar,SrcScalar>, Dense2Dense> \
     : assignment_from_xpr_op_product<DstXprType, OtherXpr, Product<Lhs,Rhs,DefaultProduct>, internal::ASSIGN_OP<DstScalar,OtherScalar>, internal::ASSIGN_OP2<DstScalar,ProdScalar> > \
   {}
 
-EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(assign_op,    scalar_sum_op,add_assign_op);
-EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(add_assign_op,scalar_sum_op,add_assign_op);
-EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(sub_assign_op,scalar_sum_op,sub_assign_op);
+HYDRA_EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(assign_op,    scalar_sum_op,add_assign_op);
+HYDRA_EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(add_assign_op,scalar_sum_op,add_assign_op);
+HYDRA_EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(sub_assign_op,scalar_sum_op,sub_assign_op);
 
-EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(assign_op,    scalar_difference_op,sub_assign_op);
-EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(add_assign_op,scalar_difference_op,sub_assign_op);
-EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(sub_assign_op,scalar_difference_op,add_assign_op);
+HYDRA_EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(assign_op,    scalar_difference_op,sub_assign_op);
+HYDRA_EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(add_assign_op,scalar_difference_op,sub_assign_op);
+HYDRA_EIGEN_CATCH_ASSIGN_XPR_OP_PRODUCT(sub_assign_op,scalar_difference_op,add_assign_op);
 
 //----------------------------------------
 
@@ -246,19 +246,19 @@ template<typename Lhs, typename Rhs>
 struct generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,InnerProduct>
 {
   template<typename Dst>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void evalTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void evalTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
   {
     dst.coeffRef(0,0) = (lhs.transpose().cwiseProduct(rhs)).sum();
   }
 
   template<typename Dst>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void addTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void addTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
   {
     dst.coeffRef(0,0) += (lhs.transpose().cwiseProduct(rhs)).sum();
   }
 
   template<typename Dst>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void subTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void subTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
   { dst.coeffRef(0,0) -= (lhs.transpose().cwiseProduct(rhs)).sum(); }
 };
 
@@ -269,7 +269,7 @@ struct generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,InnerProduct>
 
 // Column major result
 template<typename Dst, typename Lhs, typename Rhs, typename Func>
-void EIGEN_DEVICE_FUNC outer_product_selector_run(Dst& dst, const Lhs &lhs, const Rhs &rhs, const Func& func, const false_type&)
+void HYDRA_EIGEN_DEVICE_FUNC outer_product_selector_run(Dst& dst, const Lhs &lhs, const Rhs &rhs, const Func& func, const false_type&)
 {
   evaluator<Rhs> rhsEval(rhs);
   ei_declare_local_nested_eval(Lhs,lhs,Rhs::SizeAtCompileTime,actual_lhs);
@@ -282,7 +282,7 @@ void EIGEN_DEVICE_FUNC outer_product_selector_run(Dst& dst, const Lhs &lhs, cons
 
 // Row major result
 template<typename Dst, typename Lhs, typename Rhs, typename Func>
-void EIGEN_DEVICE_FUNC outer_product_selector_run(Dst& dst, const Lhs &lhs, const Rhs &rhs, const Func& func, const true_type&)
+void HYDRA_EIGEN_DEVICE_FUNC outer_product_selector_run(Dst& dst, const Lhs &lhs, const Rhs &rhs, const Func& func, const true_type&)
 {
   evaluator<Lhs> lhsEval(lhs);
   ei_declare_local_nested_eval(Rhs,rhs,Lhs::SizeAtCompileTime,actual_rhs);
@@ -300,37 +300,37 @@ struct generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,OuterProduct>
   typedef typename Product<Lhs,Rhs>::Scalar Scalar;
 
   // TODO it would be nice to be able to exploit our *_assign_op functors for that purpose
-  struct set  { template<typename Dst, typename Src> EIGEN_DEVICE_FUNC void operator()(const Dst& dst, const Src& src) const { dst.const_cast_derived()  = src; } };
-  struct add  { template<typename Dst, typename Src> EIGEN_DEVICE_FUNC void operator()(const Dst& dst, const Src& src) const { dst.const_cast_derived() += src; } };
-  struct sub  { template<typename Dst, typename Src> EIGEN_DEVICE_FUNC void operator()(const Dst& dst, const Src& src) const { dst.const_cast_derived() -= src; } };
+  struct set  { template<typename Dst, typename Src> HYDRA_EIGEN_DEVICE_FUNC void operator()(const Dst& dst, const Src& src) const { dst.const_cast_derived()  = src; } };
+  struct add  { template<typename Dst, typename Src> HYDRA_EIGEN_DEVICE_FUNC void operator()(const Dst& dst, const Src& src) const { dst.const_cast_derived() += src; } };
+  struct sub  { template<typename Dst, typename Src> HYDRA_EIGEN_DEVICE_FUNC void operator()(const Dst& dst, const Src& src) const { dst.const_cast_derived() -= src; } };
   struct adds {
     Scalar m_scale;
     explicit adds(const Scalar& s) : m_scale(s) {}
-    template<typename Dst, typename Src> void EIGEN_DEVICE_FUNC operator()(const Dst& dst, const Src& src) const {
+    template<typename Dst, typename Src> void HYDRA_EIGEN_DEVICE_FUNC operator()(const Dst& dst, const Src& src) const {
       dst.const_cast_derived() += m_scale * src;
     }
   };
 
   template<typename Dst>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void evalTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void evalTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
   {
     internal::outer_product_selector_run(dst, lhs, rhs, set(), is_row_major<Dst>());
   }
 
   template<typename Dst>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void addTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void addTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
   {
     internal::outer_product_selector_run(dst, lhs, rhs, add(), is_row_major<Dst>());
   }
 
   template<typename Dst>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void subTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void subTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
   {
     internal::outer_product_selector_run(dst, lhs, rhs, sub(), is_row_major<Dst>());
   }
 
   template<typename Dst>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void scaleAndAddTo(Dst& dst, const Lhs& lhs, const Rhs& rhs, const Scalar& alpha)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void scaleAndAddTo(Dst& dst, const Lhs& lhs, const Rhs& rhs, const Scalar& alpha)
   {
     internal::outer_product_selector_run(dst, lhs, rhs, adds(alpha), is_row_major<Dst>());
   }
@@ -345,19 +345,19 @@ struct generic_product_impl_base
   typedef typename Product<Lhs,Rhs>::Scalar Scalar;
 
   template<typename Dst>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void evalTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void evalTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
   { dst.setZero(); scaleAndAddTo(dst, lhs, rhs, Scalar(1)); }
 
   template<typename Dst>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void addTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void addTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
   { scaleAndAddTo(dst,lhs, rhs, Scalar(1)); }
 
   template<typename Dst>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void subTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void subTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
   { scaleAndAddTo(dst, lhs, rhs, Scalar(-1)); }
 
   template<typename Dst>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void scaleAndAddTo(Dst& dst, const Lhs& lhs, const Rhs& rhs, const Scalar& alpha)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void scaleAndAddTo(Dst& dst, const Lhs& lhs, const Rhs& rhs, const Scalar& alpha)
   { Derived::scaleAndAddTo(dst,lhs,rhs,alpha); }
 
 };
@@ -373,7 +373,7 @@ struct generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,GemvProduct>
   typedef typename internal::remove_all<typename internal::conditional<int(Side)==OnTheRight,LhsNested,RhsNested>::type>::type MatrixType;
 
   template<typename Dest>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void scaleAndAddTo(Dest& dst, const Lhs& lhs, const Rhs& rhs, const Scalar& alpha)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void scaleAndAddTo(Dest& dst, const Lhs& lhs, const Rhs& rhs, const Scalar& alpha)
   {
     // Fallback to inner product if both the lhs and rhs is a runtime vector.
     if (lhs.rows() == 1 && rhs.cols() == 1) {
@@ -395,7 +395,7 @@ struct generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,CoeffBasedProductMode>
   typedef typename Product<Lhs,Rhs>::Scalar Scalar;
 
   template<typename Dst>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void evalTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void evalTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
   {
     // Same as: dst.noalias() = lhs.lazyProduct(rhs);
     // but easier on the compiler side
@@ -403,14 +403,14 @@ struct generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,CoeffBasedProductMode>
   }
 
   template<typename Dst>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void addTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void addTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
   {
     // dst.noalias() += lhs.lazyProduct(rhs);
     call_assignment_no_alias(dst, lhs.lazyProduct(rhs), internal::add_assign_op<typename Dst::Scalar,Scalar>());
   }
 
   template<typename Dst>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void subTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void subTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
   {
     // dst.noalias() -= lhs.lazyProduct(rhs);
     call_assignment_no_alias(dst, lhs.lazyProduct(rhs), internal::sub_assign_op<typename Dst::Scalar,Scalar>());
@@ -431,7 +431,7 @@ struct generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,CoeffBasedProductMode>
   // and the behavior depends also a lot on the compiler... This is why this re-writting strategy is currently
   // enabled only when falling back from the main GEMM.
   template<typename Dst, typename Func>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   void eval_dynamic(Dst& dst, const Lhs& lhs, const Rhs& rhs, const Func &func)
   {
     enum {
@@ -454,16 +454,16 @@ struct generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,CoeffBasedProductMode>
 protected:
 
   template<typename Dst, typename LhsT, typename RhsT, typename Func, typename Scalar>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   void eval_dynamic_impl(Dst& dst, const LhsT& lhs, const RhsT& rhs, const Func &func, const Scalar&  s /* == 1 */, false_type)
   {
-    EIGEN_UNUSED_VARIABLE(s);
+    HYDRA_EIGEN_UNUSED_VARIABLE(s);
     eigen_internal_assert(s==Scalar(1));
     call_restricted_packet_assignment_no_alias(dst, lhs.lazyProduct(rhs), func);
   }
 
   template<typename Dst, typename LhsT, typename RhsT, typename Func, typename Scalar>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   void eval_dynamic_impl(Dst& dst, const LhsT& lhs, const RhsT& rhs, const Func &func, const Scalar& s, true_type)
   {
     call_restricted_packet_assignment_no_alias(dst, s * lhs.lazyProduct(rhs), func);
@@ -495,7 +495,7 @@ struct product_evaluator<Product<Lhs, Rhs, LazyProduct>, ProductTag, DenseShape,
   typedef typename XprType::Scalar Scalar;
   typedef typename XprType::CoeffReturnType CoeffReturnType;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   explicit product_evaluator(const XprType& xpr)
     : m_lhs(xpr.lhs()),
       m_rhs(xpr.rhs()),
@@ -504,9 +504,9 @@ struct product_evaluator<Product<Lhs, Rhs, LazyProduct>, ProductTag, DenseShape,
                             //       or perhaps declare them on the fly on the packet method... We have experiment to check what's best.
       m_innerDim(xpr.lhs().cols())
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(NumTraits<Scalar>::MulCost);
-    EIGEN_INTERNAL_CHECK_COST_VALUE(NumTraits<Scalar>::AddCost);
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(NumTraits<Scalar>::MulCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(NumTraits<Scalar>::AddCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
 #if 0
     std::cerr << "LhsOuterStrideBytes=  " << LhsOuterStrideBytes << "\n";
     std::cerr << "RhsOuterStrideBytes=  " << RhsOuterStrideBytes << "\n";
@@ -535,7 +535,7 @@ struct product_evaluator<Product<Lhs, Rhs, LazyProduct>, ProductTag, DenseShape,
   enum {
     RowsAtCompileTime = LhsNestedCleaned::RowsAtCompileTime,
     ColsAtCompileTime = RhsNestedCleaned::ColsAtCompileTime,
-    InnerSize = EIGEN_SIZE_MIN_PREFER_FIXED(LhsNestedCleaned::ColsAtCompileTime, RhsNestedCleaned::RowsAtCompileTime),
+    InnerSize = HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(LhsNestedCleaned::ColsAtCompileTime, RhsNestedCleaned::RowsAtCompileTime),
     MaxRowsAtCompileTime = LhsNestedCleaned::MaxRowsAtCompileTime,
     MaxColsAtCompileTime = RhsNestedCleaned::MaxColsAtCompileTime
   };
@@ -552,7 +552,7 @@ struct product_evaluator<Product<Lhs, Rhs, LazyProduct>, ProductTag, DenseShape,
                     : InnerSize * (NumTraits<Scalar>::MulCost + int(LhsCoeffReadCost) + int(RhsCoeffReadCost))
                     + (InnerSize - 1) * NumTraits<Scalar>::AddCost,
 
-    Unroll = CoeffReadCost <= EIGEN_UNROLLING_LIMIT,
+    Unroll = CoeffReadCost <= HYDRA_EIGEN_UNROLLING_LIMIT,
 
     LhsFlags = LhsEtorType::Flags,
     RhsFlags = RhsEtorType::Flags,
@@ -564,8 +564,8 @@ struct product_evaluator<Product<Lhs, Rhs, LazyProduct>, ProductTag, DenseShape,
     RhsVecPacketSize = unpacket_traits<RhsVecPacketType>::size,
 
     // Here, we don't care about alignment larger than the usable packet size.
-    LhsAlignment = EIGEN_PLAIN_ENUM_MIN(LhsEtorType::Alignment,LhsVecPacketSize*int(sizeof(typename LhsNestedCleaned::Scalar))),
-    RhsAlignment = EIGEN_PLAIN_ENUM_MIN(RhsEtorType::Alignment,RhsVecPacketSize*int(sizeof(typename RhsNestedCleaned::Scalar))),
+    LhsAlignment = HYDRA_EIGEN_PLAIN_ENUM_MIN(LhsEtorType::Alignment,LhsVecPacketSize*int(sizeof(typename LhsNestedCleaned::Scalar))),
+    RhsAlignment = HYDRA_EIGEN_PLAIN_ENUM_MIN(RhsEtorType::Alignment,RhsVecPacketSize*int(sizeof(typename RhsNestedCleaned::Scalar))),
 
     SameType = is_same<typename LhsNestedCleaned::Scalar,typename RhsNestedCleaned::Scalar>::value,
 
@@ -585,8 +585,8 @@ struct product_evaluator<Product<Lhs, Rhs, LazyProduct>, ProductTag, DenseShape,
     LhsOuterStrideBytes = int(LhsNestedCleaned::OuterStrideAtCompileTime) * int(sizeof(typename LhsNestedCleaned::Scalar)),
     RhsOuterStrideBytes = int(RhsNestedCleaned::OuterStrideAtCompileTime) * int(sizeof(typename RhsNestedCleaned::Scalar)),
 
-    Alignment = bool(CanVectorizeLhs) ? (LhsOuterStrideBytes<=0 || (int(LhsOuterStrideBytes) % EIGEN_PLAIN_ENUM_MAX(1,LhsAlignment))!=0 ? 0 : LhsAlignment)
-              : bool(CanVectorizeRhs) ? (RhsOuterStrideBytes<=0 || (int(RhsOuterStrideBytes) % EIGEN_PLAIN_ENUM_MAX(1,RhsAlignment))!=0 ? 0 : RhsAlignment)
+    Alignment = bool(CanVectorizeLhs) ? (LhsOuterStrideBytes<=0 || (int(LhsOuterStrideBytes) % HYDRA_EIGEN_PLAIN_ENUM_MAX(1,LhsAlignment))!=0 ? 0 : LhsAlignment)
+              : bool(CanVectorizeRhs) ? (RhsOuterStrideBytes<=0 || (int(RhsOuterStrideBytes) % HYDRA_EIGEN_PLAIN_ENUM_MAX(1,RhsAlignment))!=0 ? 0 : RhsAlignment)
               : 0,
 
     /* CanVectorizeInner deserves special explanation. It does not affect the product flags. It is not used outside
@@ -601,7 +601,7 @@ struct product_evaluator<Product<Lhs, Rhs, LazyProduct>, ProductTag, DenseShape,
                         && (int(InnerSize) % packet_traits<Scalar>::size == 0)
   };
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const CoeffReturnType coeff(Index row, Index col) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const CoeffReturnType coeff(Index row, Index col) const
   {
     return (m_lhs.row(row).transpose().cwiseProduct( m_rhs.col(col) )).sum();
   }
@@ -610,7 +610,7 @@ struct product_evaluator<Product<Lhs, Rhs, LazyProduct>, ProductTag, DenseShape,
    * which is why we don't set the LinearAccessBit.
    * TODO: this seems possible when the result is a vector
    */
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   const CoeffReturnType coeff(Index index) const
   {
     const Index row = (RowsAtCompileTime == 1 || MaxRowsAtCompileTime==1) ? 0 : index;
@@ -619,7 +619,7 @@ struct product_evaluator<Product<Lhs, Rhs, LazyProduct>, ProductTag, DenseShape,
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   const PacketType packet(Index row, Index col) const
   {
     PacketType res;
@@ -631,7 +631,7 @@ struct product_evaluator<Product<Lhs, Rhs, LazyProduct>, ProductTag, DenseShape,
   }
 
   template<int LoadMode, typename PacketType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   const PacketType packet(Index index) const
   {
     const Index row = (RowsAtCompileTime == 1 || MaxRowsAtCompileTime==1) ? 0 : index;
@@ -660,7 +660,7 @@ struct product_evaluator<Product<Lhs, Rhs, DefaultProduct>, LazyCoeffBasedProduc
   enum {
     Flags = Base::Flags | EvalBeforeNestingBit
   };
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   explicit product_evaluator(const XprType& xpr)
     : Base(BaseProduct(xpr.lhs(),xpr.rhs()))
   {}
@@ -673,7 +673,7 @@ struct product_evaluator<Product<Lhs, Rhs, DefaultProduct>, LazyCoeffBasedProduc
 template<int UnrollingIndex, typename Lhs, typename Rhs, typename Packet, int LoadMode>
 struct etor_product_packet_impl<RowMajor, UnrollingIndex, Lhs, Rhs, Packet, LoadMode>
 {
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index innerDim, Packet &res)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index innerDim, Packet &res)
   {
     etor_product_packet_impl<RowMajor, UnrollingIndex-1, Lhs, Rhs, Packet, LoadMode>::run(row, col, lhs, rhs, innerDim, res);
     res =  pmadd(pset1<Packet>(lhs.coeff(row, Index(UnrollingIndex-1))), rhs.template packet<LoadMode,Packet>(Index(UnrollingIndex-1), col), res);
@@ -683,7 +683,7 @@ struct etor_product_packet_impl<RowMajor, UnrollingIndex, Lhs, Rhs, Packet, Load
 template<int UnrollingIndex, typename Lhs, typename Rhs, typename Packet, int LoadMode>
 struct etor_product_packet_impl<ColMajor, UnrollingIndex, Lhs, Rhs, Packet, LoadMode>
 {
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index innerDim, Packet &res)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index innerDim, Packet &res)
   {
     etor_product_packet_impl<ColMajor, UnrollingIndex-1, Lhs, Rhs, Packet, LoadMode>::run(row, col, lhs, rhs, innerDim, res);
     res =  pmadd(lhs.template packet<LoadMode,Packet>(row, Index(UnrollingIndex-1)), pset1<Packet>(rhs.coeff(Index(UnrollingIndex-1), col)), res);
@@ -693,7 +693,7 @@ struct etor_product_packet_impl<ColMajor, UnrollingIndex, Lhs, Rhs, Packet, Load
 template<typename Lhs, typename Rhs, typename Packet, int LoadMode>
 struct etor_product_packet_impl<RowMajor, 1, Lhs, Rhs, Packet, LoadMode>
 {
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index /*innerDim*/, Packet &res)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index /*innerDim*/, Packet &res)
   {
     res = pmul(pset1<Packet>(lhs.coeff(row, Index(0))),rhs.template packet<LoadMode,Packet>(Index(0), col));
   }
@@ -702,7 +702,7 @@ struct etor_product_packet_impl<RowMajor, 1, Lhs, Rhs, Packet, LoadMode>
 template<typename Lhs, typename Rhs, typename Packet, int LoadMode>
 struct etor_product_packet_impl<ColMajor, 1, Lhs, Rhs, Packet, LoadMode>
 {
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index /*innerDim*/, Packet &res)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index /*innerDim*/, Packet &res)
   {
     res = pmul(lhs.template packet<LoadMode,Packet>(row, Index(0)), pset1<Packet>(rhs.coeff(Index(0), col)));
   }
@@ -711,7 +711,7 @@ struct etor_product_packet_impl<ColMajor, 1, Lhs, Rhs, Packet, LoadMode>
 template<typename Lhs, typename Rhs, typename Packet, int LoadMode>
 struct etor_product_packet_impl<RowMajor, 0, Lhs, Rhs, Packet, LoadMode>
 {
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Index /*row*/, Index /*col*/, const Lhs& /*lhs*/, const Rhs& /*rhs*/, Index /*innerDim*/, Packet &res)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void run(Index /*row*/, Index /*col*/, const Lhs& /*lhs*/, const Rhs& /*rhs*/, Index /*innerDim*/, Packet &res)
   {
     res = pset1<Packet>(typename unpacket_traits<Packet>::type(0));
   }
@@ -720,7 +720,7 @@ struct etor_product_packet_impl<RowMajor, 0, Lhs, Rhs, Packet, LoadMode>
 template<typename Lhs, typename Rhs, typename Packet, int LoadMode>
 struct etor_product_packet_impl<ColMajor, 0, Lhs, Rhs, Packet, LoadMode>
 {
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Index /*row*/, Index /*col*/, const Lhs& /*lhs*/, const Rhs& /*rhs*/, Index /*innerDim*/, Packet &res)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void run(Index /*row*/, Index /*col*/, const Lhs& /*lhs*/, const Rhs& /*rhs*/, Index /*innerDim*/, Packet &res)
   {
     res = pset1<Packet>(typename unpacket_traits<Packet>::type(0));
   }
@@ -729,7 +729,7 @@ struct etor_product_packet_impl<ColMajor, 0, Lhs, Rhs, Packet, LoadMode>
 template<typename Lhs, typename Rhs, typename Packet, int LoadMode>
 struct etor_product_packet_impl<RowMajor, Dynamic, Lhs, Rhs, Packet, LoadMode>
 {
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index innerDim, Packet& res)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index innerDim, Packet& res)
   {
     res = pset1<Packet>(typename unpacket_traits<Packet>::type(0));
     for(Index i = 0; i < innerDim; ++i)
@@ -740,7 +740,7 @@ struct etor_product_packet_impl<RowMajor, Dynamic, Lhs, Rhs, Packet, LoadMode>
 template<typename Lhs, typename Rhs, typename Packet, int LoadMode>
 struct etor_product_packet_impl<ColMajor, Dynamic, Lhs, Rhs, Packet, LoadMode>
 {
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index innerDim, Packet& res)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void run(Index row, Index col, const Lhs& lhs, const Rhs& rhs, Index innerDim, Packet& res)
   {
     res = pset1<Packet>(typename unpacket_traits<Packet>::type(0));
     for(Index i = 0; i < innerDim; ++i)
@@ -799,7 +799,7 @@ struct generic_product_impl<Lhs,Rhs,SelfAdjointShape,DenseShape,ProductTag>
   typedef typename Product<Lhs,Rhs>::Scalar Scalar;
 
   template<typename Dest>
-  static EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_DEVICE_FUNC
   void scaleAndAddTo(Dest& dst, const Lhs& lhs, const Rhs& rhs, const Scalar& alpha)
   {
     selfadjoint_product_impl<typename Lhs::MatrixType,Lhs::Mode,false,Rhs,0,Rhs::IsVectorAtCompileTime>::run(dst, lhs.nestedExpression(), rhs, alpha);
@@ -859,14 +859,14 @@ public:
                       ||  (DiagonalType::SizeAtCompileTime==Dynamic && MatrixType::ColsAtCompileTime==1 && ProductOrder==OnTheRight)
   };
 
-  EIGEN_DEVICE_FUNC diagonal_product_evaluator_base(const MatrixType &mat, const DiagonalType &diag)
+  HYDRA_EIGEN_DEVICE_FUNC diagonal_product_evaluator_base(const MatrixType &mat, const DiagonalType &diag)
     : m_diagImpl(diag), m_matImpl(mat)
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(NumTraits<Scalar>::MulCost);
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(NumTraits<Scalar>::MulCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar coeff(Index idx) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Scalar coeff(Index idx) const
   {
     if(AsScalarProduct)
       return m_diagImpl.coeff(0) * m_matImpl.coeff(idx);
@@ -876,18 +876,18 @@ public:
 
 protected:
   template<int LoadMode,typename PacketType>
-  EIGEN_STRONG_INLINE PacketType packet_impl(Index row, Index col, Index id, internal::true_type) const
+  HYDRA_EIGEN_STRONG_INLINE PacketType packet_impl(Index row, Index col, Index id, internal::true_type) const
   {
     return internal::pmul(m_matImpl.template packet<LoadMode,PacketType>(row, col),
                           internal::pset1<PacketType>(m_diagImpl.coeff(id)));
   }
 
   template<int LoadMode,typename PacketType>
-  EIGEN_STRONG_INLINE PacketType packet_impl(Index row, Index col, Index id, internal::false_type) const
+  HYDRA_EIGEN_STRONG_INLINE PacketType packet_impl(Index row, Index col, Index id, internal::false_type) const
   {
     enum {
       InnerSize = (MatrixType::Flags & RowMajorBit) ? MatrixType::ColsAtCompileTime : MatrixType::RowsAtCompileTime,
-      DiagonalPacketLoadMode = EIGEN_PLAIN_ENUM_MIN(LoadMode,((InnerSize%16) == 0) ? int(Aligned16) : int(evaluator<DiagonalType>::Alignment)) // FIXME hardcoded 16!!
+      DiagonalPacketLoadMode = HYDRA_EIGEN_PLAIN_ENUM_MIN(LoadMode,((InnerSize%16) == 0) ? int(Aligned16) : int(evaluator<DiagonalType>::Alignment)) // FIXME hardcoded 16!!
     };
     return internal::pmul(m_matImpl.template packet<LoadMode,PacketType>(row, col),
                           m_diagImpl.template packet<DiagonalPacketLoadMode,PacketType>(id));
@@ -915,19 +915,19 @@ struct product_evaluator<Product<Lhs, Rhs, ProductKind>, ProductTag, DiagonalSha
 
   enum { StorageOrder = Base::_StorageOrder };
 
-  EIGEN_DEVICE_FUNC explicit product_evaluator(const XprType& xpr)
+  HYDRA_EIGEN_DEVICE_FUNC explicit product_evaluator(const XprType& xpr)
     : Base(xpr.rhs(), xpr.lhs().diagonal())
   {
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar coeff(Index row, Index col) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Scalar coeff(Index row, Index col) const
   {
     return m_diagImpl.coeff(row) * m_matImpl.coeff(row, col);
   }
 
-#ifndef EIGEN_GPUCC
+#ifndef HYDRA_EIGEN_GPUCC
   template<int LoadMode,typename PacketType>
-  EIGEN_STRONG_INLINE PacketType packet(Index row, Index col) const
+  HYDRA_EIGEN_STRONG_INLINE PacketType packet(Index row, Index col) const
   {
     // FIXME: NVCC used to complain about the template keyword, but we have to check whether this is still the case.
     // See also similar calls below.
@@ -936,7 +936,7 @@ struct product_evaluator<Product<Lhs, Rhs, ProductKind>, ProductTag, DiagonalSha
   }
 
   template<int LoadMode,typename PacketType>
-  EIGEN_STRONG_INLINE PacketType packet(Index idx) const
+  HYDRA_EIGEN_STRONG_INLINE PacketType packet(Index idx) const
   {
     return packet<LoadMode,PacketType>(int(StorageOrder)==ColMajor?idx:0,int(StorageOrder)==ColMajor?0:idx);
   }
@@ -959,26 +959,26 @@ struct product_evaluator<Product<Lhs, Rhs, ProductKind>, ProductTag, DenseShape,
 
   enum { StorageOrder = Base::_StorageOrder };
 
-  EIGEN_DEVICE_FUNC explicit product_evaluator(const XprType& xpr)
+  HYDRA_EIGEN_DEVICE_FUNC explicit product_evaluator(const XprType& xpr)
     : Base(xpr.lhs(), xpr.rhs().diagonal())
   {
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar coeff(Index row, Index col) const
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const Scalar coeff(Index row, Index col) const
   {
     return m_matImpl.coeff(row, col) * m_diagImpl.coeff(col);
   }
 
-#ifndef EIGEN_GPUCC
+#ifndef HYDRA_EIGEN_GPUCC
   template<int LoadMode,typename PacketType>
-  EIGEN_STRONG_INLINE PacketType packet(Index row, Index col) const
+  HYDRA_EIGEN_STRONG_INLINE PacketType packet(Index row, Index col) const
   {
     return this->template packet_impl<LoadMode,PacketType>(row,col, col,
                                  typename internal::conditional<int(StorageOrder)==ColMajor, internal::true_type, internal::false_type>::type());
   }
 
   template<int LoadMode,typename PacketType>
-  EIGEN_STRONG_INLINE PacketType packet(Index idx) const
+  HYDRA_EIGEN_STRONG_INLINE PacketType packet(Index idx) const
   {
     return packet<LoadMode,PacketType>(int(StorageOrder)==ColMajor?idx:0,int(StorageOrder)==ColMajor?0:idx);
   }
@@ -1004,7 +1004,7 @@ struct permutation_matrix_product<ExpressionType, Side, Transposed, DenseShape>
     typedef typename remove_all<MatrixType>::type MatrixTypeCleaned;
 
     template<typename Dest, typename PermutationType>
-    static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Dest& dst, const PermutationType& perm, const ExpressionType& xpr)
+    static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void run(Dest& dst, const PermutationType& perm, const ExpressionType& xpr)
     {
       MatrixType mat(xpr);
       const Index n = Side==OnTheLeft ? mat.rows() : mat.cols();
@@ -1058,7 +1058,7 @@ template<typename Lhs, typename Rhs, int ProductTag, typename MatrixShape>
 struct generic_product_impl<Lhs, Rhs, PermutationShape, MatrixShape, ProductTag>
 {
   template<typename Dest>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void evalTo(Dest& dst, const Lhs& lhs, const Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void evalTo(Dest& dst, const Lhs& lhs, const Rhs& rhs)
   {
     permutation_matrix_product<Rhs, OnTheLeft, false, MatrixShape>::run(dst, lhs, rhs);
   }
@@ -1068,7 +1068,7 @@ template<typename Lhs, typename Rhs, int ProductTag, typename MatrixShape>
 struct generic_product_impl<Lhs, Rhs, MatrixShape, PermutationShape, ProductTag>
 {
   template<typename Dest>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void evalTo(Dest& dst, const Lhs& lhs, const Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void evalTo(Dest& dst, const Lhs& lhs, const Rhs& rhs)
   {
     permutation_matrix_product<Lhs, OnTheRight, false, MatrixShape>::run(dst, rhs, lhs);
   }
@@ -1078,7 +1078,7 @@ template<typename Lhs, typename Rhs, int ProductTag, typename MatrixShape>
 struct generic_product_impl<Inverse<Lhs>, Rhs, PermutationShape, MatrixShape, ProductTag>
 {
   template<typename Dest>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void evalTo(Dest& dst, const Inverse<Lhs>& lhs, const Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void evalTo(Dest& dst, const Inverse<Lhs>& lhs, const Rhs& rhs)
   {
     permutation_matrix_product<Rhs, OnTheLeft, true, MatrixShape>::run(dst, lhs.nestedExpression(), rhs);
   }
@@ -1088,7 +1088,7 @@ template<typename Lhs, typename Rhs, int ProductTag, typename MatrixShape>
 struct generic_product_impl<Lhs, Inverse<Rhs>, MatrixShape, PermutationShape, ProductTag>
 {
   template<typename Dest>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void evalTo(Dest& dst, const Lhs& lhs, const Inverse<Rhs>& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void evalTo(Dest& dst, const Lhs& lhs, const Inverse<Rhs>& rhs)
   {
     permutation_matrix_product<Lhs, OnTheRight, true, MatrixShape>::run(dst, rhs.nestedExpression(), lhs);
   }
@@ -1112,7 +1112,7 @@ struct transposition_matrix_product
   typedef typename remove_all<MatrixType>::type MatrixTypeCleaned;
 
   template<typename Dest, typename TranspositionType>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Dest& dst, const TranspositionType& tr, const ExpressionType& xpr)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void run(Dest& dst, const TranspositionType& tr, const ExpressionType& xpr)
   {
     MatrixType mat(xpr);
     typedef typename TranspositionType::StorageIndex StorageIndex;
@@ -1135,7 +1135,7 @@ template<typename Lhs, typename Rhs, int ProductTag, typename MatrixShape>
 struct generic_product_impl<Lhs, Rhs, TranspositionsShape, MatrixShape, ProductTag>
 {
   template<typename Dest>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void evalTo(Dest& dst, const Lhs& lhs, const Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void evalTo(Dest& dst, const Lhs& lhs, const Rhs& rhs)
   {
     transposition_matrix_product<Rhs, OnTheLeft, false, MatrixShape>::run(dst, lhs, rhs);
   }
@@ -1145,7 +1145,7 @@ template<typename Lhs, typename Rhs, int ProductTag, typename MatrixShape>
 struct generic_product_impl<Lhs, Rhs, MatrixShape, TranspositionsShape, ProductTag>
 {
   template<typename Dest>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void evalTo(Dest& dst, const Lhs& lhs, const Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void evalTo(Dest& dst, const Lhs& lhs, const Rhs& rhs)
   {
     transposition_matrix_product<Lhs, OnTheRight, false, MatrixShape>::run(dst, rhs, lhs);
   }
@@ -1156,7 +1156,7 @@ template<typename Lhs, typename Rhs, int ProductTag, typename MatrixShape>
 struct generic_product_impl<Transpose<Lhs>, Rhs, TranspositionsShape, MatrixShape, ProductTag>
 {
   template<typename Dest>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void evalTo(Dest& dst, const Transpose<Lhs>& lhs, const Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void evalTo(Dest& dst, const Transpose<Lhs>& lhs, const Rhs& rhs)
   {
     transposition_matrix_product<Rhs, OnTheLeft, true, MatrixShape>::run(dst, lhs.nestedExpression(), rhs);
   }
@@ -1166,7 +1166,7 @@ template<typename Lhs, typename Rhs, int ProductTag, typename MatrixShape>
 struct generic_product_impl<Lhs, Transpose<Rhs>, MatrixShape, TranspositionsShape, ProductTag>
 {
   template<typename Dest>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void evalTo(Dest& dst, const Lhs& lhs, const Transpose<Rhs>& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void evalTo(Dest& dst, const Lhs& lhs, const Transpose<Rhs>& rhs)
   {
     transposition_matrix_product<Lhs, OnTheRight, true, MatrixShape>::run(dst, rhs.nestedExpression(), lhs);
   }
@@ -1174,6 +1174,6 @@ struct generic_product_impl<Lhs, Transpose<Rhs>, MatrixShape, TranspositionsShap
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_PRODUCT_EVALUATORS_H
+#endif // HYDRA_EIGEN_PRODUCT_EVALUATORS_H

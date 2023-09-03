@@ -30,23 +30,23 @@
  ********************************************************************************
 */
 
-#ifndef EIGEN_PARTIALLU_LAPACK_H
-#define EIGEN_PARTIALLU_LAPACK_H
+#ifndef HYDRA_EIGEN_PARTIALLU_LAPACK_H
+#define HYDRA_EIGEN_PARTIALLU_LAPACK_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
 /** \internal Specialization for the data types supported by LAPACKe */
 
-#define EIGEN_LAPACKE_LU_PARTPIV(EIGTYPE, LAPACKE_TYPE, LAPACKE_PREFIX) \
+#define HYDRA_EIGEN_LAPACKE_LU_PARTPIV(EIGTYPE, LAPACKE_TYPE, LAPACKE_PREFIX) \
 template<int StorageOrder> \
 struct partial_lu_impl<EIGTYPE, StorageOrder, lapack_int> \
 { \
   /* \internal performs the LU decomposition in-place of the matrix represented */ \
   static lapack_int blocked_lu(Index rows, Index cols, EIGTYPE* lu_data, Index luStride, lapack_int* row_transpositions, lapack_int& nb_transpositions, lapack_int maxBlockSize=256) \
   { \
-    EIGEN_UNUSED_VARIABLE(maxBlockSize);\
+    HYDRA_EIGEN_UNUSED_VARIABLE(maxBlockSize);\
     lapack_int matrix_order, first_zero_pivot; \
     lapack_int m, n, lda, *ipiv, info; \
     EIGTYPE* a; \
@@ -71,13 +71,13 @@ struct partial_lu_impl<EIGTYPE, StorageOrder, lapack_int> \
   } \
 };
 
-EIGEN_LAPACKE_LU_PARTPIV(double, double, d)
-EIGEN_LAPACKE_LU_PARTPIV(float, float, s)
-EIGEN_LAPACKE_LU_PARTPIV(dcomplex, lapack_complex_double, z)
-EIGEN_LAPACKE_LU_PARTPIV(scomplex, lapack_complex_float,  c)
+HYDRA_EIGEN_LAPACKE_LU_PARTPIV(double, double, d)
+HYDRA_EIGEN_LAPACKE_LU_PARTPIV(float, float, s)
+HYDRA_EIGEN_LAPACKE_LU_PARTPIV(dcomplex, lapack_complex_double, z)
+HYDRA_EIGEN_LAPACKE_LU_PARTPIV(scomplex, lapack_complex_float,  c)
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_PARTIALLU_LAPACK_H
+#endif // HYDRA_EIGEN_PARTIALLU_LAPACK_H

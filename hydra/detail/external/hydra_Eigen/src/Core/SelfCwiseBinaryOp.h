@@ -7,41 +7,41 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SELFCWISEBINARYOP_H
-#define EIGEN_SELFCWISEBINARYOP_H
+#ifndef HYDRA_EIGEN_SELFCWISEBINARYOP_H
+#define HYDRA_EIGEN_SELFCWISEBINARYOP_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 // TODO generalize the scalar type of 'other'
 
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::operator*=(const Scalar& other)
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::operator*=(const Scalar& other)
 {
   internal::call_assignment(this->derived(), PlainObject::Constant(rows(),cols(),other), internal::mul_assign_op<Scalar,Scalar>());
   return derived();
 }
 
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& ArrayBase<Derived>::operator+=(const Scalar& other)
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived& ArrayBase<Derived>::operator+=(const Scalar& other)
 {
   internal::call_assignment(this->derived(), PlainObject::Constant(rows(),cols(),other), internal::add_assign_op<Scalar,Scalar>());
   return derived();
 }
 
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& ArrayBase<Derived>::operator-=(const Scalar& other)
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived& ArrayBase<Derived>::operator-=(const Scalar& other)
 {
   internal::call_assignment(this->derived(), PlainObject::Constant(rows(),cols(),other), internal::sub_assign_op<Scalar,Scalar>());
   return derived();
 }
 
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::operator/=(const Scalar& other)
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Derived& DenseBase<Derived>::operator/=(const Scalar& other)
 {
   internal::call_assignment(this->derived(), PlainObject::Constant(rows(),cols(),other), internal::div_assign_op<Scalar,Scalar>());
   return derived();
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SELFCWISEBINARYOP_H
+#endif // HYDRA_EIGEN_SELFCWISEBINARYOP_H

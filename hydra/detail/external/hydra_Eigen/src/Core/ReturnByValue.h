@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_RETURNBYVALUE_H
-#define EIGEN_RETURNBYVALUE_H
+#ifndef HYDRA_EIGEN_RETURNBYVALUE_H
+#define HYDRA_EIGEN_RETURNBYVALUE_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -54,18 +54,18 @@ template<typename Derived> class ReturnByValue
     typedef typename internal::traits<Derived>::ReturnType ReturnType;
 
     typedef typename internal::dense_xpr_base<ReturnByValue>::type Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(ReturnByValue)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(ReturnByValue)
 
     template<typename Dest>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline void evalTo(Dest& dst) const
     { static_cast<const Derived*>(this)->evalTo(dst); }
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
-    inline Index rows() const EIGEN_NOEXCEPT { return static_cast<const Derived*>(this)->rows(); }
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
-    inline Index cols() const EIGEN_NOEXCEPT { return static_cast<const Derived*>(this)->cols(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
+    inline Index rows() const HYDRA_EIGEN_NOEXCEPT { return static_cast<const Derived*>(this)->rows(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
+    inline Index cols() const HYDRA_EIGEN_NOEXCEPT { return static_cast<const Derived*>(this)->cols(); }
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 #define Unusable YOU_ARE_TRYING_TO_ACCESS_A_SINGLE_COEFFICIENT_IN_A_SPECIAL_EXPRESSION_WHERE_THAT_IS_NOT_ALLOWED_BECAUSE_THAT_WOULD_BE_INEFFICIENT
     class Unusable{
       Unusable(const Unusable&) {}
@@ -81,7 +81,7 @@ template<typename Derived> class ReturnByValue
 
 template<typename Derived>
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC Derived& DenseBase<Derived>::operator=(const ReturnByValue<OtherDerived>& other)
+HYDRA_EIGEN_DEVICE_FUNC Derived& DenseBase<Derived>::operator=(const ReturnByValue<OtherDerived>& other)
 {
   other.evalTo(derived());
   return derived();
@@ -101,7 +101,7 @@ struct evaluator<ReturnByValue<Derived> >
   typedef typename internal::traits<Derived>::ReturnType PlainObject;
   typedef evaluator<PlainObject> Base;
 
-  EIGEN_DEVICE_FUNC explicit evaluator(const XprType& xpr)
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const XprType& xpr)
     : m_result(xpr.rows(), xpr.cols())
   {
     ::new (static_cast<Base*>(this)) Base(m_result);
@@ -114,6 +114,6 @@ protected:
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_RETURNBYVALUE_H
+#endif // HYDRA_EIGEN_RETURNBYVALUE_H

@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_STLITERATORS_H
-#define EIGEN_STLITERATORS_H
+#ifndef HYDRA_EIGEN_STLITERATORS_H
+#define HYDRA_EIGEN_STLITERATORS_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -33,10 +33,10 @@ public:
   typedef Index difference_type;
   typedef std::random_access_iterator_tag iterator_category;
 
-  indexed_based_stl_iterator_base() EIGEN_NO_THROW : mp_xpr(0), m_index(0) {}
-  indexed_based_stl_iterator_base(XprType& xpr, Index index) EIGEN_NO_THROW : mp_xpr(&xpr), m_index(index) {}
+  indexed_based_stl_iterator_base() HYDRA_EIGEN_NO_THROW : mp_xpr(0), m_index(0) {}
+  indexed_based_stl_iterator_base(XprType& xpr, Index index) HYDRA_EIGEN_NO_THROW : mp_xpr(&xpr), m_index(index) {}
 
-  indexed_based_stl_iterator_base(const non_const_iterator& other) EIGEN_NO_THROW
+  indexed_based_stl_iterator_base(const non_const_iterator& other) HYDRA_EIGEN_NO_THROW
     : mp_xpr(other.mp_xpr), m_index(other.m_index)
   {}
 
@@ -193,17 +193,17 @@ public:
   typedef typename internal::conditional<bool(is_lvalue), value_type&, const value_type&>::type reference;
 
 
-  pointer_based_stl_iterator() EIGEN_NO_THROW : m_ptr(0) {}
-  pointer_based_stl_iterator(XprType& xpr, Index index) EIGEN_NO_THROW : m_incr(xpr.innerStride())
+  pointer_based_stl_iterator() HYDRA_EIGEN_NO_THROW : m_ptr(0) {}
+  pointer_based_stl_iterator(XprType& xpr, Index index) HYDRA_EIGEN_NO_THROW : m_incr(xpr.innerStride())
   {
     m_ptr = xpr.data() + index * m_incr.value();
   }
 
-  pointer_based_stl_iterator(const non_const_iterator& other) EIGEN_NO_THROW
+  pointer_based_stl_iterator(const non_const_iterator& other) HYDRA_EIGEN_NO_THROW
     : m_ptr(other.m_ptr), m_incr(other.m_incr)
   {}
 
-  pointer_based_stl_iterator& operator=(const non_const_iterator& other) EIGEN_NO_THROW
+  pointer_based_stl_iterator& operator=(const non_const_iterator& other) HYDRA_EIGEN_NO_THROW
   {
     m_ptr = other.m_ptr;
     m_incr.setValue(other.m_incr);
@@ -407,7 +407,7 @@ public:
 template<typename Derived>
 inline typename DenseBase<Derived>::iterator DenseBase<Derived>::begin()
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
   return iterator(derived(), 0);
 }
 
@@ -425,7 +425,7 @@ inline typename DenseBase<Derived>::const_iterator DenseBase<Derived>::begin() c
 template<typename Derived>
 inline typename DenseBase<Derived>::const_iterator DenseBase<Derived>::cbegin() const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
   return const_iterator(derived(), 0);
 }
 
@@ -436,7 +436,7 @@ inline typename DenseBase<Derived>::const_iterator DenseBase<Derived>::cbegin() 
 template<typename Derived>
 inline typename DenseBase<Derived>::iterator DenseBase<Derived>::end()
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
   return iterator(derived(), size());
 }
 
@@ -454,10 +454,10 @@ inline typename DenseBase<Derived>::const_iterator DenseBase<Derived>::end() con
 template<typename Derived>
 inline typename DenseBase<Derived>::const_iterator DenseBase<Derived>::cend() const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived);
   return const_iterator(derived(), size());
 }
 
-} // namespace Eigen
+} // namespace hydra_Eigen
 
-#endif // EIGEN_STLITERATORS_H
+#endif // HYDRA_EIGEN_STLITERATORS_H

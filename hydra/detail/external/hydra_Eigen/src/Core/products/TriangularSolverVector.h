@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_TRIANGULAR_SOLVER_VECTOR_H
-#define EIGEN_TRIANGULAR_SOLVER_VECTOR_H
+#ifndef HYDRA_EIGEN_TRIANGULAR_SOLVER_VECTOR_H
+#define HYDRA_EIGEN_TRIANGULAR_SOLVER_VECTOR_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -46,7 +46,7 @@ struct triangular_solve_vector<LhsScalar, RhsScalar, Index, OnTheLeft, Mode, Con
                           const CwiseUnaryOp<typename internal::scalar_conjugate_op<LhsScalar>,LhsMap>,
                           const LhsMap&>
                         ::type cjLhs(lhs);
-    static const Index PanelWidth = EIGEN_TUNE_TRIANGULAR_PANEL_WIDTH;
+    static const Index PanelWidth = HYDRA_EIGEN_TUNE_TRIANGULAR_PANEL_WIDTH;
     for(Index pi=IsLower ? 0 : size;
         IsLower ? pi<size : pi>0;
         IsLower ? pi+=PanelWidth : pi-=PanelWidth)
@@ -101,7 +101,7 @@ struct triangular_solve_vector<LhsScalar, RhsScalar, Index, OnTheLeft, Mode, Con
                                    const CwiseUnaryOp<typename internal::scalar_conjugate_op<LhsScalar>,LhsMap>,
                                    const LhsMap&
                                   >::type cjLhs(lhs);
-    static const Index PanelWidth = EIGEN_TUNE_TRIANGULAR_PANEL_WIDTH;
+    static const Index PanelWidth = HYDRA_EIGEN_TUNE_TRIANGULAR_PANEL_WIDTH;
 
     for(Index pi=IsLower ? 0 : size;
         IsLower ? pi<size : pi>0;
@@ -143,6 +143,6 @@ struct triangular_solve_vector<LhsScalar, RhsScalar, Index, OnTheLeft, Mode, Con
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_TRIANGULAR_SOLVER_VECTOR_H
+#endif // HYDRA_EIGEN_TRIANGULAR_SOLVER_VECTOR_H

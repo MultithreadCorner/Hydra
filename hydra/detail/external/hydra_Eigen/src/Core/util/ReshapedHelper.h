@@ -8,10 +8,10 @@
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
-#ifndef EIGEN_RESHAPED_HELPER_H
-#define EIGEN_RESHAPED_HELPER_H
+#ifndef HYDRA_EIGEN_RESHAPED_HELPER_H
+#define HYDRA_EIGEN_RESHAPED_HELPER_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 enum AutoSize_t   { AutoSize };
 const int AutoOrder = 2;
@@ -46,6 +46,6 @@ struct get_compiletime_reshape_order {
 
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_RESHAPED_HELPER_H
+#endif // HYDRA_EIGEN_RESHAPED_HELPER_H

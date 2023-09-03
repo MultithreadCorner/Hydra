@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSE_FUZZY_H
-#define EIGEN_SPARSE_FUZZY_H
+#ifndef HYDRA_EIGEN_SPARSE_FUZZY_H
+#define HYDRA_EIGEN_SPARSE_FUZZY_H
 
-namespace Eigen {
+namespace hydra_Eigen {
   
 template<typename Derived>
 template<typename OtherDerived>
@@ -24,6 +24,6 @@ bool SparseMatrixBase<Derived>::isApprox(const SparseMatrixBase<OtherDerived>& o
   return (actualA - actualB).squaredNorm() <= prec * prec * numext::mini(actualA.squaredNorm(), actualB.squaredNorm());
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SPARSE_FUZZY_H
+#endif // HYDRA_EIGEN_SPARSE_FUZZY_H

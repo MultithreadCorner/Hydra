@@ -9,39 +9,39 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_MATH_FUNCTIONS_ALTIVEC_H
-#define EIGEN_MATH_FUNCTIONS_ALTIVEC_H
+#ifndef HYDRA_EIGEN_MATH_FUNCTIONS_ALTIVEC_H
+#define HYDRA_EIGEN_MATH_FUNCTIONS_ALTIVEC_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet4f plog<Packet4f>(const Packet4f& _x)
 {
   return plog_float(_x);
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet4f pexp<Packet4f>(const Packet4f& _x)
 {
   return pexp_float(_x);
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet4f psin<Packet4f>(const Packet4f& _x)
 {
   return psin_float(_x);
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet4f pcos<Packet4f>(const Packet4f& _x)
 {
   return pcos_float(_x);
 }
 
-#ifndef EIGEN_COMP_CLANG
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+#ifndef HYDRA_EIGEN_COMP_CLANG
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet4f prsqrt<Packet4f>(const Packet4f& x)
 {
   return  vec_rsqrt(x);
@@ -49,27 +49,27 @@ Packet4f prsqrt<Packet4f>(const Packet4f& x)
 #endif
 
 #ifdef __VSX__
-#ifndef EIGEN_COMP_CLANG
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+#ifndef HYDRA_EIGEN_COMP_CLANG
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet2d prsqrt<Packet2d>(const Packet2d& x)
 {
   return  vec_rsqrt(x);
 }
 #endif
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet4f psqrt<Packet4f>(const Packet4f& x)
 {
   return  vec_sqrt(x);
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet2d psqrt<Packet2d>(const Packet2d& x)
 {
   return  vec_sqrt(x);
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet2d pexp<Packet2d>(const Packet2d& _x)
 {
   return pexp_double(_x);
@@ -78,13 +78,13 @@ Packet2d pexp<Packet2d>(const Packet2d& _x)
 
 // Hyperbolic Tangent function.
 template <>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED Packet4f
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED Packet4f
 ptanh<Packet4f>(const Packet4f& x) {
   return internal::generic_fast_tanh_float(x);
 }
 
 }  // end namespace internal
 
-}  // end namespace Eigen
+}  // end namespace hydra_Eigen
 
-#endif  // EIGEN_MATH_FUNCTIONS_ALTIVEC_H
+#endif  // HYDRA_EIGEN_MATH_FUNCTIONS_ALTIVEC_H

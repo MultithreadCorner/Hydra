@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_INVERSE_IMPL_H
-#define EIGEN_INVERSE_IMPL_H
+#ifndef HYDRA_EIGEN_INVERSE_IMPL_H
+#define HYDRA_EIGEN_INVERSE_IMPL_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -22,7 +22,7 @@ namespace internal {
 template<typename MatrixType, typename ResultType, int Size = MatrixType::RowsAtCompileTime>
 struct compute_inverse
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline void run(const MatrixType& matrix, ResultType& result)
   {
     result = matrix.partialPivLu().inverse();
@@ -39,7 +39,7 @@ struct compute_inverse_and_det_with_check { /* nothing! general case not support
 template<typename MatrixType, typename ResultType>
 struct compute_inverse<MatrixType, ResultType, 1>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline void run(const MatrixType& matrix, ResultType& result)
   {
     typedef typename MatrixType::Scalar Scalar;
@@ -51,7 +51,7 @@ struct compute_inverse<MatrixType, ResultType, 1>
 template<typename MatrixType, typename ResultType>
 struct compute_inverse_and_det_with_check<MatrixType, ResultType, 1>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline void run(
     const MatrixType& matrix,
     const typename MatrixType::RealScalar& absDeterminantThreshold,
@@ -72,7 +72,7 @@ struct compute_inverse_and_det_with_check<MatrixType, ResultType, 1>
 ****************************/
 
 template<typename MatrixType, typename ResultType>
-EIGEN_DEVICE_FUNC 
+HYDRA_EIGEN_DEVICE_FUNC 
 inline void compute_inverse_size2_helper(
     const MatrixType& matrix, const typename ResultType::Scalar& invdet,
     ResultType& result)
@@ -87,7 +87,7 @@ inline void compute_inverse_size2_helper(
 template<typename MatrixType, typename ResultType>
 struct compute_inverse<MatrixType, ResultType, 2>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline void run(const MatrixType& matrix, ResultType& result)
   {
     typedef typename ResultType::Scalar Scalar;
@@ -99,7 +99,7 @@ struct compute_inverse<MatrixType, ResultType, 2>
 template<typename MatrixType, typename ResultType>
 struct compute_inverse_and_det_with_check<MatrixType, ResultType, 2>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline void run(
     const MatrixType& matrix,
     const typename MatrixType::RealScalar& absDeterminantThreshold,
@@ -123,7 +123,7 @@ struct compute_inverse_and_det_with_check<MatrixType, ResultType, 2>
 ****************************/
 
 template<typename MatrixType, int i, int j>
-EIGEN_DEVICE_FUNC 
+HYDRA_EIGEN_DEVICE_FUNC 
 inline typename MatrixType::Scalar cofactor_3x3(const MatrixType& m)
 {
   enum {
@@ -137,7 +137,7 @@ inline typename MatrixType::Scalar cofactor_3x3(const MatrixType& m)
 }
 
 template<typename MatrixType, typename ResultType>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline void compute_inverse_size3_helper(
     const MatrixType& matrix,
     const typename ResultType::Scalar& invdet,
@@ -161,7 +161,7 @@ inline void compute_inverse_size3_helper(
 template<typename MatrixType, typename ResultType>
 struct compute_inverse<MatrixType, ResultType, 3>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline void run(const MatrixType& matrix, ResultType& result)
   {
     typedef typename ResultType::Scalar Scalar;
@@ -178,7 +178,7 @@ struct compute_inverse<MatrixType, ResultType, 3>
 template<typename MatrixType, typename ResultType>
 struct compute_inverse_and_det_with_check<MatrixType, ResultType, 3>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline void run(
     const MatrixType& matrix,
     const typename MatrixType::RealScalar& absDeterminantThreshold,
@@ -193,7 +193,7 @@ struct compute_inverse_and_det_with_check<MatrixType, ResultType, 3>
     cofactors_col0.coeffRef(1) =  cofactor_3x3<MatrixType,1,0>(matrix);
     cofactors_col0.coeffRef(2) =  cofactor_3x3<MatrixType,2,0>(matrix);
     determinant = (cofactors_col0.cwiseProduct(matrix.col(0))).sum();
-    invertible = Eigen::numext::abs(determinant) > absDeterminantThreshold;
+    invertible = hydra_Eigen::numext::abs(determinant) > absDeterminantThreshold;
     if(!invertible) return;
     const Scalar invdet = Scalar(1) / determinant;
     compute_inverse_size3_helper(matrix, invdet, cofactors_col0, inverse);
@@ -205,7 +205,7 @@ struct compute_inverse_and_det_with_check<MatrixType, ResultType, 3>
 ****************************/
 
 template<typename Derived>
-EIGEN_DEVICE_FUNC 
+HYDRA_EIGEN_DEVICE_FUNC 
 inline const typename Derived::Scalar general_det3_helper
 (const MatrixBase<Derived>& matrix, int i1, int i2, int i3, int j1, int j2, int j3)
 {
@@ -214,7 +214,7 @@ inline const typename Derived::Scalar general_det3_helper
 }
 
 template<typename MatrixType, int i, int j>
-EIGEN_DEVICE_FUNC 
+HYDRA_EIGEN_DEVICE_FUNC 
 inline typename MatrixType::Scalar cofactor_4x4(const MatrixType& matrix)
 {
   enum {
@@ -233,7 +233,7 @@ inline typename MatrixType::Scalar cofactor_4x4(const MatrixType& matrix)
 template<int Arch, typename Scalar, typename MatrixType, typename ResultType>
 struct compute_inverse_size4
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static void run(const MatrixType& matrix, ResultType& result)
   {
     result.coeffRef(0,0) =  cofactor_4x4<MatrixType,0,0>(matrix);
@@ -266,7 +266,7 @@ struct compute_inverse<MatrixType, ResultType, 4>
 template<typename MatrixType, typename ResultType>
 struct compute_inverse_and_det_with_check<MatrixType, ResultType, 4>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline void run(
     const MatrixType& matrix,
     const typename MatrixType::RealScalar& absDeterminantThreshold,
@@ -301,7 +301,7 @@ template<typename DstXprType, typename XprType>
 struct Assignment<DstXprType, Inverse<XprType>, internal::assign_op<typename DstXprType::Scalar,typename XprType::Scalar>, Dense2Dense>
 {
   typedef Inverse<XprType> SrcXprType;
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static void run(DstXprType &dst, const SrcXprType &src, const internal::assign_op<typename DstXprType::Scalar,typename XprType::Scalar> &)
   {
     Index dstRows = src.rows();
@@ -309,8 +309,8 @@ struct Assignment<DstXprType, Inverse<XprType>, internal::assign_op<typename Dst
     if((dst.rows()!=dstRows) || (dst.cols()!=dstCols))
       dst.resize(dstRows, dstCols);
     
-    const int Size = EIGEN_PLAIN_ENUM_MIN(XprType::ColsAtCompileTime,DstXprType::ColsAtCompileTime);
-    EIGEN_ONLY_USED_FOR_DEBUG(Size);
+    const int Size = HYDRA_EIGEN_PLAIN_ENUM_MIN(XprType::ColsAtCompileTime,DstXprType::ColsAtCompileTime);
+    HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(Size);
     eigen_assert(( (Size<=1) || (Size>4) || (extract_data(src.nestedExpression())!=extract_data(dst)))
               && "Aliasing problem detected in inverse(), you need to do inverse().eval() here.");
 
@@ -344,10 +344,10 @@ struct Assignment<DstXprType, Inverse<XprType>, internal::assign_op<typename Dst
   * \sa computeInverseAndDetWithCheck()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const Inverse<Derived> MatrixBase<Derived>::inverse() const
 {
-  EIGEN_STATIC_ASSERT(!NumTraits<Scalar>::IsInteger,THIS_FUNCTION_IS_NOT_FOR_INTEGER_NUMERIC_TYPES)
+  HYDRA_EIGEN_STATIC_ASSERT(!NumTraits<Scalar>::IsInteger,THIS_FUNCTION_IS_NOT_FOR_INTEGER_NUMERIC_TYPES)
   eigen_assert(rows() == cols());
   return Inverse<Derived>(derived());
 }
@@ -427,6 +427,6 @@ inline void MatrixBase<Derived>::computeInverseWithCheck(
   computeInverseAndDetWithCheck(inverse,determinant,invertible,absDeterminantThreshold);
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_INVERSE_IMPL_H
+#endif // HYDRA_EIGEN_INVERSE_IMPL_H

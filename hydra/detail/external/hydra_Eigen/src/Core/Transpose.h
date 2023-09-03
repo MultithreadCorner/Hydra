@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_TRANSPOSE_H
-#define EIGEN_TRANSPOSE_H
+#ifndef HYDRA_EIGEN_TRANSPOSE_H
+#define HYDRA_EIGEN_TRANSPOSE_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 template<typename MatrixType>
@@ -57,31 +57,31 @@ template<typename MatrixType> class Transpose
     typedef typename internal::ref_selector<MatrixType>::non_const_type MatrixTypeNested;
 
     typedef typename TransposeImpl<MatrixType,typename internal::traits<MatrixType>::StorageKind>::Base Base;
-    EIGEN_GENERIC_PUBLIC_INTERFACE(Transpose)
+    HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(Transpose)
     typedef typename internal::remove_all<MatrixType>::type NestedExpression;
 
-    EIGEN_DEVICE_FUNC
-    explicit EIGEN_STRONG_INLINE Transpose(MatrixType& matrix) : m_matrix(matrix) {}
+    HYDRA_EIGEN_DEVICE_FUNC
+    explicit HYDRA_EIGEN_STRONG_INLINE Transpose(MatrixType& matrix) : m_matrix(matrix) {}
 
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Transpose)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Transpose)
 
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE EIGEN_CONSTEXPR
-    Index rows() const EIGEN_NOEXCEPT { return m_matrix.cols(); }
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE EIGEN_CONSTEXPR
-    Index cols() const EIGEN_NOEXCEPT { return m_matrix.rows(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_CONSTEXPR
+    Index rows() const HYDRA_EIGEN_NOEXCEPT { return m_matrix.cols(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_CONSTEXPR
+    Index cols() const HYDRA_EIGEN_NOEXCEPT { return m_matrix.rows(); }
 
     /** \returns the nested expression */
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     const typename internal::remove_all<MatrixTypeNested>::type&
     nestedExpression() const { return m_matrix; }
 
     /** \returns the nested expression */
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     typename internal::remove_reference<MatrixTypeNested>::type&
     nestedExpression() { return m_matrix; }
 
     /** \internal */
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     void resize(Index nrows, Index ncols) {
       m_matrix.resize(ncols,nrows);
     }
@@ -122,12 +122,12 @@ template<typename MatrixType> class TransposeImpl<MatrixType,Dense>
 
     typedef typename internal::TransposeImpl_base<MatrixType>::type Base;
     using Base::coeffRef;
-    EIGEN_DENSE_PUBLIC_INTERFACE(Transpose<MatrixType>)
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(TransposeImpl)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(Transpose<MatrixType>)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(TransposeImpl)
 
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     Index innerStride() const { return derived().nestedExpression().innerStride(); }
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     Index outerStride() const { return derived().nestedExpression().outerStride(); }
 
     typedef typename internal::conditional<
@@ -136,25 +136,25 @@ template<typename MatrixType> class TransposeImpl<MatrixType,Dense>
                        const Scalar
                      >::type ScalarWithConstIfNotLvalue;
 
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     ScalarWithConstIfNotLvalue* data() { return derived().nestedExpression().data(); }
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     const Scalar* data() const { return derived().nestedExpression().data(); }
 
     // FIXME: shall we keep the const version of coeffRef?
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     const Scalar& coeffRef(Index rowId, Index colId) const
     {
       return derived().nestedExpression().coeffRef(colId, rowId);
     }
 
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     const Scalar& coeffRef(Index index) const
     {
       return derived().nestedExpression().coeffRef(index);
     }
   protected:
-    EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(TransposeImpl)
+    HYDRA_EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(TransposeImpl)
 };
 
 /** \returns an expression of the transpose of *this.
@@ -177,7 +177,7 @@ template<typename MatrixType> class TransposeImpl<MatrixType,Dense>
   *
   * \sa transposeInPlace(), adjoint() */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 Transpose<Derived>
 DenseBase<Derived>::transpose()
 {
@@ -190,7 +190,7 @@ DenseBase<Derived>::transpose()
   *
   * \sa transposeInPlace(), adjoint() */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 typename DenseBase<Derived>::ConstTransposeReturnType
 DenseBase<Derived>::transpose() const
 {
@@ -217,7 +217,7 @@ DenseBase<Derived>::transpose() const
   *
   * \sa adjointInPlace(), transpose(), conjugate(), class Transpose, class internal::scalar_conjugate_op */
 template<typename Derived>
-EIGEN_DEVICE_FUNC inline const typename MatrixBase<Derived>::AdjointReturnType
+HYDRA_EIGEN_DEVICE_FUNC inline const typename MatrixBase<Derived>::AdjointReturnType
 MatrixBase<Derived>::adjoint() const
 {
   return AdjointReturnType(this->transpose());
@@ -341,7 +341,7 @@ struct inplace_transpose_selector<MatrixType,false,MatchPacketSize> { // non squ
   *
   * \sa transpose(), adjoint(), adjointInPlace() */
 template<typename Derived>
-EIGEN_DEVICE_FUNC inline void DenseBase<Derived>::transposeInPlace()
+HYDRA_EIGEN_DEVICE_FUNC inline void DenseBase<Derived>::transposeInPlace()
 {
   eigen_assert((rows() == cols() || (RowsAtCompileTime == Dynamic && ColsAtCompileTime == Dynamic))
                && "transposeInPlace() called on a non-square non-resizable matrix");
@@ -372,12 +372,12 @@ EIGEN_DEVICE_FUNC inline void DenseBase<Derived>::transposeInPlace()
   *
   * \sa transpose(), adjoint(), transposeInPlace() */
 template<typename Derived>
-EIGEN_DEVICE_FUNC inline void MatrixBase<Derived>::adjointInPlace()
+HYDRA_EIGEN_DEVICE_FUNC inline void MatrixBase<Derived>::adjointInPlace()
 {
   derived() = adjoint().eval();
 }
 
-#ifndef EIGEN_NO_DEBUG
+#ifndef HYDRA_EIGEN_NO_DEBUG
 
 // The following is to detect aliasing problems in most common cases.
 
@@ -457,8 +457,8 @@ void check_for_aliasing(const Dst &dst, const Src &src)
 
 } // end namespace internal
 
-#endif // EIGEN_NO_DEBUG
+#endif // HYDRA_EIGEN_NO_DEBUG
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_TRANSPOSE_H
+#endif // HYDRA_EIGEN_TRANSPOSE_H

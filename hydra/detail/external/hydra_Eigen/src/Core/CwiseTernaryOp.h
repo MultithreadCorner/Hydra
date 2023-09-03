@@ -9,10 +9,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_CWISE_TERNARY_OP_H
-#define EIGEN_CWISE_TERNARY_OP_H
+#ifndef HYDRA_EIGEN_CWISE_TERNARY_OP_H
+#define HYDRA_EIGEN_CWISE_TERNARY_OP_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 template <typename TernaryOp, typename Arg1, typename Arg2, typename Arg3>
@@ -94,7 +94,7 @@ class CwiseTernaryOp : public CwiseTernaryOpImpl<
   typedef typename CwiseTernaryOpImpl<
       TernaryOp, Arg1Type, Arg2Type, Arg3Type,
       typename internal::traits<Arg1Type>::StorageKind>::Base Base;
-  EIGEN_GENERIC_PUBLIC_INTERFACE(CwiseTernaryOp)
+  HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(CwiseTernaryOp)
 
   typedef typename internal::ref_selector<Arg1Type>::type Arg1Nested;
   typedef typename internal::ref_selector<Arg2Type>::type Arg2Nested;
@@ -103,21 +103,21 @@ class CwiseTernaryOp : public CwiseTernaryOpImpl<
   typedef typename internal::remove_reference<Arg2Nested>::type _Arg2Nested;
   typedef typename internal::remove_reference<Arg3Nested>::type _Arg3Nested;
 
-  EIGEN_DEVICE_FUNC
-  EIGEN_STRONG_INLINE CwiseTernaryOp(const Arg1& a1, const Arg2& a2,
+  HYDRA_EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_STRONG_INLINE CwiseTernaryOp(const Arg1& a1, const Arg2& a2,
                                      const Arg3& a3,
                                      const TernaryOp& func = TernaryOp())
       : m_arg1(a1), m_arg2(a2), m_arg3(a3), m_functor(func) {
     // require the sizes to match
-    EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Arg1, Arg2)
-    EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Arg1, Arg3)
+    HYDRA_EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Arg1, Arg2)
+    HYDRA_EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Arg1, Arg3)
 
     // The index types should match
-    EIGEN_STATIC_ASSERT((internal::is_same<
+    HYDRA_EIGEN_STATIC_ASSERT((internal::is_same<
                          typename internal::traits<Arg1Type>::StorageKind,
                          typename internal::traits<Arg2Type>::StorageKind>::value),
                         STORAGE_KIND_MUST_MATCH)
-    EIGEN_STATIC_ASSERT((internal::is_same<
+    HYDRA_EIGEN_STATIC_ASSERT((internal::is_same<
                          typename internal::traits<Arg1Type>::StorageKind,
                          typename internal::traits<Arg3Type>::StorageKind>::value),
                         STORAGE_KIND_MUST_MATCH)
@@ -126,8 +126,8 @@ class CwiseTernaryOp : public CwiseTernaryOpImpl<
                  a1.rows() == a3.rows() && a1.cols() == a3.cols());
   }
 
-  EIGEN_DEVICE_FUNC
-  EIGEN_STRONG_INLINE Index rows() const {
+  HYDRA_EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_STRONG_INLINE Index rows() const {
     // return the fixed size type if available to enable compile time
     // optimizations
     if (internal::traits<typename internal::remove_all<Arg1Nested>::type>::
@@ -143,8 +143,8 @@ class CwiseTernaryOp : public CwiseTernaryOpImpl<
     else
       return m_arg1.rows();
   }
-  EIGEN_DEVICE_FUNC
-  EIGEN_STRONG_INLINE Index cols() const {
+  HYDRA_EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_STRONG_INLINE Index cols() const {
     // return the fixed size type if available to enable compile time
     // optimizations
     if (internal::traits<typename internal::remove_all<Arg1Nested>::type>::
@@ -162,16 +162,16 @@ class CwiseTernaryOp : public CwiseTernaryOpImpl<
   }
 
   /** \returns the first argument nested expression */
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   const _Arg1Nested& arg1() const { return m_arg1; }
   /** \returns the first argument nested expression */
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   const _Arg2Nested& arg2() const { return m_arg2; }
   /** \returns the third argument nested expression */
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   const _Arg3Nested& arg3() const { return m_arg3; }
   /** \returns the functor representing the ternary operation */
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   const TernaryOp& functor() const { return m_functor; }
 
  protected:
@@ -192,6 +192,6 @@ class CwiseTernaryOpImpl
       CwiseTernaryOp<TernaryOp, Arg1, Arg2, Arg3> >::type Base;
 };
 
-}  // end namespace Eigen
+}  // end namespace hydra_Eigen
 
-#endif  // EIGEN_CWISE_TERNARY_OP_H
+#endif  // HYDRA_EIGEN_CWISE_TERNARY_OP_H

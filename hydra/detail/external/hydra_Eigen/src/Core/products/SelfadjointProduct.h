@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SELFADJOINT_PRODUCT_H
-#define EIGEN_SELFADJOINT_PRODUCT_H
+#ifndef HYDRA_EIGEN_SELFADJOINT_PRODUCT_H
+#define HYDRA_EIGEN_SELFADJOINT_PRODUCT_H
 
 /**********************************************************************
 * This file implements a self adjoint product: C += A A^T updating only
@@ -16,7 +16,7 @@
 * It corresponds to the level 3 SYRK and level 2 SYR Blas routines.
 **********************************************************************/
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 
 template<typename Scalar, typename Index, int UpLo, bool ConjLhs, bool ConjRhs>
@@ -120,7 +120,7 @@ struct selfadjoint_product_selector<MatrixType,OtherType,UpLo,false>
 
 template<typename MatrixType, unsigned int UpLo>
 template<typename DerivedU>
-EIGEN_DEVICE_FUNC SelfAdjointView<MatrixType,UpLo>& SelfAdjointView<MatrixType,UpLo>
+HYDRA_EIGEN_DEVICE_FUNC SelfAdjointView<MatrixType,UpLo>& SelfAdjointView<MatrixType,UpLo>
 ::rankUpdate(const MatrixBase<DerivedU>& u, const Scalar& alpha)
 {
   selfadjoint_product_selector<MatrixType,DerivedU,UpLo>::run(_expression().const_cast_derived(), u.derived(), alpha);
@@ -128,6 +128,6 @@ EIGEN_DEVICE_FUNC SelfAdjointView<MatrixType,UpLo>& SelfAdjointView<MatrixType,U
   return *this;
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SELFADJOINT_PRODUCT_H
+#endif // HYDRA_EIGEN_SELFADJOINT_PRODUCT_H

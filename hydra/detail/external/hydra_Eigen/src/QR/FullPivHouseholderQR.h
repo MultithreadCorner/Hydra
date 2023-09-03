@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_FULLPIVOTINGHOUSEHOLDERQR_H
-#define EIGEN_FULLPIVOTINGHOUSEHOLDERQR_H
+#ifndef HYDRA_EIGEN_FULLPIVOTINGHOUSEHOLDERQR_H
+#define HYDRA_EIGEN_FULLPIVOTINGHOUSEHOLDERQR_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -66,7 +66,7 @@ template<typename _MatrixType> class FullPivHouseholderQR
     typedef SolverBase<FullPivHouseholderQR> Base;
     friend class SolverBase<FullPivHouseholderQR>;
 
-    EIGEN_GENERIC_PUBLIC_INTERFACE(FullPivHouseholderQR)
+    HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(FullPivHouseholderQR)
     enum {
       MaxRowsAtCompileTime = MatrixType::MaxRowsAtCompileTime,
       MaxColsAtCompileTime = MatrixType::MaxColsAtCompileTime
@@ -74,8 +74,8 @@ template<typename _MatrixType> class FullPivHouseholderQR
     typedef internal::FullPivHouseholderQRMatrixQReturnType<MatrixType> MatrixQReturnType;
     typedef typename internal::plain_diag_type<MatrixType>::type HCoeffsType;
     typedef Matrix<StorageIndex, 1,
-                   EIGEN_SIZE_MIN_PREFER_DYNAMIC(ColsAtCompileTime,RowsAtCompileTime), RowMajor, 1,
-                   EIGEN_SIZE_MIN_PREFER_FIXED(MaxColsAtCompileTime,MaxRowsAtCompileTime)> IntDiagSizeVectorType;
+                   HYDRA_EIGEN_SIZE_MIN_PREFER_DYNAMIC(ColsAtCompileTime,RowsAtCompileTime), RowMajor, 1,
+                   HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(MaxColsAtCompileTime,MaxRowsAtCompileTime)> IntDiagSizeVectorType;
     typedef PermutationMatrix<ColsAtCompileTime, MaxColsAtCompileTime> PermutationType;
     typedef typename internal::plain_row_type<MatrixType>::type RowVectorType;
     typedef typename internal::plain_col_type<MatrixType>::type ColVectorType;
@@ -140,7 +140,7 @@ template<typename _MatrixType> class FullPivHouseholderQR
 
     /** \brief Constructs a QR factorization from a given matrix
       *
-      * This overloaded constructor is provided for \link InplaceDecomposition inplace decomposition \endlink when \c MatrixType is a Eigen::Ref.
+      * This overloaded constructor is provided for \link InplaceDecomposition inplace decomposition \endlink when \c MatrixType is a hydra_Eigen::Ref.
       *
       * \sa FullPivHouseholderQR(const EigenBase&)
       */
@@ -158,7 +158,7 @@ template<typename _MatrixType> class FullPivHouseholderQR
       computeInPlace();
     }
 
-    #ifdef EIGEN_PARSED_BY_DOXYGEN
+    #ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** This method finds a solution x to the equation Ax=b, where A is the matrix of which
       * \c *this is the QR decomposition.
       *
@@ -351,8 +351,8 @@ template<typename _MatrixType> class FullPivHouseholderQR
     /** Allows to come back to the default behavior, letting Eigen use its default formula for
       * determining the threshold.
       *
-      * You should pass the special object Eigen::Default as parameter here.
-      * \code qr.setThreshold(Eigen::Default); \endcode
+      * You should pass the special object hydra_Eigen::Default as parameter here.
+      * \code qr.setThreshold(hydra_Eigen::Default); \endcode
       *
       * See the documentation of setThreshold(const RealScalar&).
       */
@@ -393,7 +393,7 @@ template<typename _MatrixType> class FullPivHouseholderQR
       */
     RealScalar maxPivot() const { return m_maxpivot; }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<typename RhsType, typename DstType>
     void _solve_impl(const RhsType &rhs, DstType &dst) const;
 
@@ -405,7 +405,7 @@ template<typename _MatrixType> class FullPivHouseholderQR
 
     static void check_template_parameters()
     {
-      EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+      HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
     }
 
     void computeInPlace();
@@ -538,7 +538,7 @@ void FullPivHouseholderQR<MatrixType>::computeInPlace()
   m_isInitialized = true;
 }
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template<typename _MatrixType>
 template<typename RhsType, typename DstType>
 void FullPivHouseholderQR<_MatrixType>::_solve_impl(const RhsType &rhs, DstType &dst) const
@@ -708,6 +708,6 @@ MatrixBase<Derived>::fullPivHouseholderQr() const
   return FullPivHouseholderQR<PlainObject>(eval());
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_FULLPIVOTINGHOUSEHOLDERQR_H
+#endif // HYDRA_EIGEN_FULLPIVOTINGHOUSEHOLDERQR_H

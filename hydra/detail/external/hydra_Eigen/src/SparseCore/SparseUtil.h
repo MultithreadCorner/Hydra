@@ -7,41 +7,41 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSEUTIL_H
-#define EIGEN_SPARSEUTIL_H
+#ifndef HYDRA_EIGEN_SPARSEUTIL_H
+#define HYDRA_EIGEN_SPARSEUTIL_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 #ifdef NDEBUG
-#define EIGEN_DBG_SPARSE(X)
+#define HYDRA_EIGEN_DBG_SPARSE(X)
 #else
-#define EIGEN_DBG_SPARSE(X) X
+#define HYDRA_EIGEN_DBG_SPARSE(X) X
 #endif
 
-#define EIGEN_SPARSE_INHERIT_ASSIGNMENT_OPERATOR(Derived, Op) \
+#define HYDRA_EIGEN_SPARSE_INHERIT_ASSIGNMENT_OPERATOR(Derived, Op) \
 template<typename OtherDerived> \
-EIGEN_STRONG_INLINE Derived& operator Op(const Eigen::SparseMatrixBase<OtherDerived>& other) \
+HYDRA_EIGEN_STRONG_INLINE Derived& operator Op(const hydra_Eigen::SparseMatrixBase<OtherDerived>& other) \
 { \
   return Base::operator Op(other.derived()); \
 } \
-EIGEN_STRONG_INLINE Derived& operator Op(const Derived& other) \
+HYDRA_EIGEN_STRONG_INLINE Derived& operator Op(const Derived& other) \
 { \
   return Base::operator Op(other); \
 }
 
-#define EIGEN_SPARSE_INHERIT_SCALAR_ASSIGNMENT_OPERATOR(Derived, Op) \
+#define HYDRA_EIGEN_SPARSE_INHERIT_SCALAR_ASSIGNMENT_OPERATOR(Derived, Op) \
 template<typename Other> \
-EIGEN_STRONG_INLINE Derived& operator Op(const Other& scalar) \
+HYDRA_EIGEN_STRONG_INLINE Derived& operator Op(const Other& scalar) \
 { \
   return Base::operator Op(scalar); \
 }
 
-#define EIGEN_SPARSE_INHERIT_ASSIGNMENT_OPERATORS(Derived) \
-EIGEN_SPARSE_INHERIT_ASSIGNMENT_OPERATOR(Derived, =)
+#define HYDRA_EIGEN_SPARSE_INHERIT_ASSIGNMENT_OPERATORS(Derived) \
+HYDRA_EIGEN_SPARSE_INHERIT_ASSIGNMENT_OPERATOR(Derived, =)
 
 
-#define EIGEN_SPARSE_PUBLIC_INTERFACE(Derived) \
-  EIGEN_GENERIC_PUBLIC_INTERFACE(Derived)
+#define HYDRA_EIGEN_SPARSE_PUBLIC_INTERFACE(Derived) \
+  HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(Derived)
 
   
 const int CoherentAccessPattern     = 0x1;
@@ -65,10 +65,10 @@ template<typename Lhs, typename Rhs, bool Transpose> class SparseDenseOuterProdu
 
 template<typename Lhs, typename Rhs> struct SparseSparseProductReturnType;
 template<typename Lhs, typename Rhs,
-         int InnerSize = EIGEN_SIZE_MIN_PREFER_FIXED(internal::traits<Lhs>::ColsAtCompileTime,internal::traits<Rhs>::RowsAtCompileTime)> struct DenseSparseProductReturnType;
+         int InnerSize = HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(internal::traits<Lhs>::ColsAtCompileTime,internal::traits<Rhs>::RowsAtCompileTime)> struct DenseSparseProductReturnType;
          
 template<typename Lhs, typename Rhs,
-         int InnerSize = EIGEN_SIZE_MIN_PREFER_FIXED(internal::traits<Lhs>::ColsAtCompileTime,internal::traits<Rhs>::RowsAtCompileTime)> struct SparseDenseProductReturnType;
+         int InnerSize = HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(internal::traits<Lhs>::ColsAtCompileTime,internal::traits<Rhs>::RowsAtCompileTime)> struct SparseDenseProductReturnType;
 template<typename MatrixType,int UpLo> class SparseSymmetricPermutationProduct;
 
 namespace internal {
@@ -181,6 +181,6 @@ protected:
   Scalar m_value;
 };
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SPARSEUTIL_H
+#endif // HYDRA_EIGEN_SPARSEUTIL_H

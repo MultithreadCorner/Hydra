@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_CONJUGATE_GRADIENT_H
-#define EIGEN_CONJUGATE_GRADIENT_H
+#ifndef HYDRA_EIGEN_CONJUGATE_GRADIENT_H
+#define HYDRA_EIGEN_CONJUGATE_GRADIENT_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -24,7 +24,7 @@ namespace internal {
   * \param tol_error On input the tolerance error, on output an estimation of the relative error.
   */
 template<typename MatrixType, typename Rhs, typename Dest, typename Preconditioner>
-EIGEN_DONT_INLINE
+HYDRA_EIGEN_DONT_INLINE
 void conjugate_gradient(const MatrixType& mat, const Rhs& rhs, Dest& x,
                         const Preconditioner& precond, Index& iters,
                         typename Dest::RealScalar& tol_error)
@@ -206,7 +206,7 @@ public:
                       &&  (!NumTraits<Scalar>::IsComplex)
     };
     typedef typename internal::conditional<TransposeInput,Transpose<const ActualMatrixType>, ActualMatrixType const&>::type RowMajorWrapper;
-    EIGEN_STATIC_ASSERT(EIGEN_IMPLIES(MatrixWrapper::MatrixFree,UpLo==(Lower|Upper)),MATRIX_FREE_CONJUGATE_GRADIENT_IS_COMPATIBLE_WITH_UPPER_UNION_LOWER_MODE_ONLY);
+    HYDRA_EIGEN_STATIC_ASSERT(HYDRA_EIGEN_IMPLIES(MatrixWrapper::MatrixFree,UpLo==(Lower|Upper)),MATRIX_FREE_CONJUGATE_GRADIENT_IS_COMPATIBLE_WITH_UPPER_UNION_LOWER_MODE_ONLY);
     typedef typename internal::conditional<UpLo==(Lower|Upper),
                                            RowMajorWrapper,
                                            typename MatrixWrapper::template ConstSelfAdjointViewReturnType<UpLo>::Type
@@ -224,6 +224,6 @@ protected:
 
 };
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_CONJUGATE_GRADIENT_H
+#endif // HYDRA_EIGEN_CONJUGATE_GRADIENT_H

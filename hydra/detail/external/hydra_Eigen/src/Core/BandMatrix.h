@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_BANDMATRIX_H
-#define EIGEN_BANDMATRIX_H
+#ifndef HYDRA_EIGEN_BANDMATRIX_H
+#define HYDRA_EIGEN_BANDMATRIX_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -41,7 +41,7 @@ class BandMatrixBase : public EigenBase<Derived>
       DataRowsAtCompileTime = ((Supers!=Dynamic) && (Subs!=Dynamic))
                             ? 1 + Supers + Subs
                             : Dynamic,
-      SizeAtCompileTime = EIGEN_SIZE_MIN_PREFER_DYNAMIC(RowsAtCompileTime,ColsAtCompileTime)
+      SizeAtCompileTime = HYDRA_EIGEN_SIZE_MIN_PREFER_DYNAMIC(RowsAtCompileTime,ColsAtCompileTime)
     };
 
   public:
@@ -67,7 +67,7 @@ class BandMatrixBase : public EigenBase<Derived>
       * \warning the internal storage must be column major. */
     inline Block<CoefficientsType,Dynamic,1> col(Index i)
     {
-      EIGEN_STATIC_ASSERT((int(Options) & int(RowMajor)) == 0, THIS_METHOD_IS_ONLY_FOR_COLUMN_MAJOR_MATRICES);
+      HYDRA_EIGEN_STATIC_ASSERT((int(Options) & int(RowMajor)) == 0, THIS_METHOD_IS_ONLY_FOR_COLUMN_MAJOR_MATRICES);
       Index start = 0;
       Index len = coeffs().rows();
       if (i<=supers())
@@ -96,8 +96,8 @@ class BandMatrixBase : public EigenBase<Derived>
         DiagonalSize = (RowsAtCompileTime==Dynamic || ColsAtCompileTime==Dynamic)
                      ? Dynamic
                      : (ActualIndex<0
-                     ? EIGEN_SIZE_MIN_PREFER_DYNAMIC(ColsAtCompileTime, RowsAtCompileTime + ActualIndex)
-                     : EIGEN_SIZE_MIN_PREFER_DYNAMIC(RowsAtCompileTime, ColsAtCompileTime - ActualIndex))
+                     ? HYDRA_EIGEN_SIZE_MIN_PREFER_DYNAMIC(ColsAtCompileTime, RowsAtCompileTime + ActualIndex)
+                     : HYDRA_EIGEN_SIZE_MIN_PREFER_DYNAMIC(RowsAtCompileTime, ColsAtCompileTime - ActualIndex))
       };
       typedef Block<CoefficientsType,1, DiagonalSize> BuildType;
       typedef typename internal::conditional<Conjugate,
@@ -179,7 +179,7 @@ struct traits<BandMatrix<_Scalar,_Rows,_Cols,_Supers,_Subs,_Options> >
 {
   typedef _Scalar Scalar;
   typedef Dense StorageKind;
-  typedef Eigen::Index StorageIndex;
+  typedef hydra_Eigen::Index StorageIndex;
   enum {
     CoeffReadCost = NumTraits<Scalar>::ReadCost,
     RowsAtCompileTime = _Rows,
@@ -211,16 +211,16 @@ class BandMatrix : public BandMatrixBase<BandMatrix<_Scalar,Rows,Cols,Supers,Sub
     }
 
     /** \returns the number of columns */
-    inline EIGEN_CONSTEXPR Index rows() const { return m_rows.value(); }
+    inline HYDRA_EIGEN_CONSTEXPR Index rows() const { return m_rows.value(); }
 
     /** \returns the number of rows */
-    inline EIGEN_CONSTEXPR Index cols() const { return m_coeffs.cols(); }
+    inline HYDRA_EIGEN_CONSTEXPR Index cols() const { return m_coeffs.cols(); }
 
     /** \returns the number of super diagonals */
-    inline EIGEN_CONSTEXPR Index supers() const { return m_supers.value(); }
+    inline HYDRA_EIGEN_CONSTEXPR Index supers() const { return m_supers.value(); }
 
     /** \returns the number of sub diagonals */
-    inline EIGEN_CONSTEXPR Index subs() const { return m_subs.value(); }
+    inline HYDRA_EIGEN_CONSTEXPR Index subs() const { return m_subs.value(); }
 
     inline const CoefficientsType& coeffs() const { return m_coeffs; }
     inline CoefficientsType& coeffs() { return m_coeffs; }
@@ -270,21 +270,21 @@ class BandMatrixWrapper : public BandMatrixBase<BandMatrixWrapper<_CoefficientsT
       : m_coeffs(coeffs),
         m_rows(rows), m_supers(supers), m_subs(subs)
     {
-      EIGEN_UNUSED_VARIABLE(cols);
+      HYDRA_EIGEN_UNUSED_VARIABLE(cols);
       //internal::assert(coeffs.cols()==cols() && (supers()+subs()+1)==coeffs.rows());
     }
 
     /** \returns the number of columns */
-    inline EIGEN_CONSTEXPR Index rows() const { return m_rows.value(); }
+    inline HYDRA_EIGEN_CONSTEXPR Index rows() const { return m_rows.value(); }
 
     /** \returns the number of rows */
-    inline EIGEN_CONSTEXPR Index cols() const { return m_coeffs.cols(); }
+    inline HYDRA_EIGEN_CONSTEXPR Index cols() const { return m_coeffs.cols(); }
 
     /** \returns the number of super diagonals */
-    inline EIGEN_CONSTEXPR Index supers() const { return m_supers.value(); }
+    inline HYDRA_EIGEN_CONSTEXPR Index supers() const { return m_supers.value(); }
 
     /** \returns the number of sub diagonals */
-    inline EIGEN_CONSTEXPR Index subs() const { return m_subs.value(); }
+    inline HYDRA_EIGEN_CONSTEXPR Index subs() const { return m_subs.value(); }
 
     inline const CoefficientsType& coeffs() const { return m_coeffs; }
 
@@ -348,6 +348,6 @@ template<> struct AssignmentKind<DenseShape,BandShape> { typedef EigenBase2Eigen
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_BANDMATRIX_H
+#endif // HYDRA_EIGEN_BANDMATRIX_H

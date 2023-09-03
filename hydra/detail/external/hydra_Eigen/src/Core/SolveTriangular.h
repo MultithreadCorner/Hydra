@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SOLVETRIANGULAR_H
-#define EIGEN_SOLVETRIANGULAR_H
+#ifndef HYDRA_EIGEN_SOLVETRIANGULAR_H
+#define HYDRA_EIGEN_SOLVETRIANGULAR_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -54,7 +54,7 @@ struct triangular_solver_selector<Lhs,Rhs,Side,Mode,NoUnrolling,1>
   typedef blas_traits<Lhs> LhsProductTraits;
   typedef typename LhsProductTraits::ExtractType ActualLhsType;
   typedef Map<Matrix<RhsScalar,Dynamic,1>, Aligned> MappedRhs;
-  static EIGEN_DEVICE_FUNC void run(const Lhs& lhs, Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC void run(const Lhs& lhs, Rhs& rhs)
   {
     ActualLhsType actualLhs = LhsProductTraits::extract(lhs);
 
@@ -85,7 +85,7 @@ struct triangular_solver_selector<Lhs,Rhs,Side,Mode,NoUnrolling,Dynamic>
   typedef blas_traits<Lhs> LhsProductTraits;
   typedef typename LhsProductTraits::DirectLinearAccessType ActualLhsType;
 
-  static EIGEN_DEVICE_FUNC void run(const Lhs& lhs, Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC void run(const Lhs& lhs, Rhs& rhs)
   {
     typename internal::add_const_on_value_type<ActualLhsType>::type actualLhs = LhsProductTraits::extract(lhs);
 
@@ -118,7 +118,7 @@ struct triangular_solver_unroller<Lhs,Rhs,Mode,LoopIndex,Size,false> {
     DiagIndex  = IsLower ? LoopIndex : Size - LoopIndex - 1,
     StartIndex = IsLower ? 0         : DiagIndex+1
   };
-  static EIGEN_DEVICE_FUNC void run(const Lhs& lhs, Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC void run(const Lhs& lhs, Rhs& rhs)
   {
     if (LoopIndex>0)
       rhs.coeffRef(DiagIndex) -= lhs.row(DiagIndex).template segment<LoopIndex>(StartIndex).transpose()
@@ -133,18 +133,18 @@ struct triangular_solver_unroller<Lhs,Rhs,Mode,LoopIndex,Size,false> {
 
 template<typename Lhs, typename Rhs, int Mode, int LoopIndex, int Size>
 struct triangular_solver_unroller<Lhs,Rhs,Mode,LoopIndex,Size,true> {
-  static EIGEN_DEVICE_FUNC void run(const Lhs&, Rhs&) {}
+  static HYDRA_EIGEN_DEVICE_FUNC void run(const Lhs&, Rhs&) {}
 };
 
 template<typename Lhs, typename Rhs, int Mode>
 struct triangular_solver_selector<Lhs,Rhs,OnTheLeft,Mode,CompleteUnrolling,1> {
-  static EIGEN_DEVICE_FUNC void run(const Lhs& lhs, Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC void run(const Lhs& lhs, Rhs& rhs)
   { triangular_solver_unroller<Lhs,Rhs,Mode,0,Rhs::SizeAtCompileTime>::run(lhs,rhs); }
 };
 
 template<typename Lhs, typename Rhs, int Mode>
 struct triangular_solver_selector<Lhs,Rhs,OnTheRight,Mode,CompleteUnrolling,1> {
-  static EIGEN_DEVICE_FUNC void run(const Lhs& lhs, Rhs& rhs)
+  static HYDRA_EIGEN_DEVICE_FUNC void run(const Lhs& lhs, Rhs& rhs)
   {
     Transpose<const Lhs> trLhs(lhs);
     Transpose<Rhs> trRhs(rhs);
@@ -161,10 +161,10 @@ struct triangular_solver_selector<Lhs,Rhs,OnTheRight,Mode,CompleteUnrolling,1> {
 * TriangularView methods
 ***************************************************************************/
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template<typename MatrixType, unsigned int Mode>
 template<int Side, typename OtherDerived>
-EIGEN_DEVICE_FUNC void TriangularViewImpl<MatrixType,Mode,Dense>::solveInPlace(const MatrixBase<OtherDerived>& _other) const
+HYDRA_EIGEN_DEVICE_FUNC void TriangularViewImpl<MatrixType,Mode,Dense>::solveInPlace(const MatrixBase<OtherDerived>& _other) const
 {
   OtherDerived& other = _other.const_cast_derived();
   eigen_assert( derived().cols() == derived().rows() && ((Side==OnTheLeft && derived().cols() == other.rows()) || (Side==OnTheRight && derived().cols() == other.cols())) );
@@ -213,8 +213,8 @@ template<int Side, typename TriangularType, typename Rhs> struct triangular_solv
     : m_triangularMatrix(tri), m_rhs(rhs)
   {}
 
-  inline EIGEN_CONSTEXPR Index rows() const EIGEN_NOEXCEPT { return m_rhs.rows(); }
-  inline EIGEN_CONSTEXPR Index cols() const EIGEN_NOEXCEPT { return m_rhs.cols(); }
+  inline HYDRA_EIGEN_CONSTEXPR Index rows() const HYDRA_EIGEN_NOEXCEPT { return m_rhs.rows(); }
+  inline HYDRA_EIGEN_CONSTEXPR Index cols() const HYDRA_EIGEN_NOEXCEPT { return m_rhs.cols(); }
 
   template<typename Dest> inline void evalTo(Dest& dst) const
   {
@@ -230,6 +230,6 @@ template<int Side, typename TriangularType, typename Rhs> struct triangular_solv
 
 } // namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SOLVETRIANGULAR_H
+#endif // HYDRA_EIGEN_SOLVETRIANGULAR_H

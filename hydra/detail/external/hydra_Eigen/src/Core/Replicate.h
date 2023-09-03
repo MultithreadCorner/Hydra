@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_REPLICATE_H
-#define EIGEN_REPLICATE_H
+#ifndef HYDRA_EIGEN_REPLICATE_H
+#define HYDRA_EIGEN_REPLICATE_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 template<typename MatrixType,int RowFactor,int ColFactor>
@@ -66,34 +66,34 @@ template<typename MatrixType,int RowFactor,int ColFactor> class Replicate
   public:
 
     typedef typename internal::dense_xpr_base<Replicate>::type Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(Replicate)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(Replicate)
     typedef typename internal::remove_all<MatrixType>::type NestedExpression;
 
     template<typename OriginalMatrixType>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline explicit Replicate(const OriginalMatrixType& matrix)
       : m_matrix(matrix), m_rowFactor(RowFactor), m_colFactor(ColFactor)
     {
-      EIGEN_STATIC_ASSERT((internal::is_same<typename internal::remove_const<MatrixType>::type,OriginalMatrixType>::value),
+      HYDRA_EIGEN_STATIC_ASSERT((internal::is_same<typename internal::remove_const<MatrixType>::type,OriginalMatrixType>::value),
                           THE_MATRIX_OR_EXPRESSION_THAT_YOU_PASSED_DOES_NOT_HAVE_THE_EXPECTED_TYPE)
       eigen_assert(RowFactor!=Dynamic && ColFactor!=Dynamic);
     }
 
     template<typename OriginalMatrixType>
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     inline Replicate(const OriginalMatrixType& matrix, Index rowFactor, Index colFactor)
       : m_matrix(matrix), m_rowFactor(rowFactor), m_colFactor(colFactor)
     {
-      EIGEN_STATIC_ASSERT((internal::is_same<typename internal::remove_const<MatrixType>::type,OriginalMatrixType>::value),
+      HYDRA_EIGEN_STATIC_ASSERT((internal::is_same<typename internal::remove_const<MatrixType>::type,OriginalMatrixType>::value),
                           THE_MATRIX_OR_EXPRESSION_THAT_YOU_PASSED_DOES_NOT_HAVE_THE_EXPECTED_TYPE)
     }
 
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
     inline Index rows() const { return m_matrix.rows() * m_rowFactor.value(); }
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
     inline Index cols() const { return m_matrix.cols() * m_colFactor.value(); }
 
-    EIGEN_DEVICE_FUNC
+    HYDRA_EIGEN_DEVICE_FUNC
     const _MatrixTypeNested& nestedExpression() const
     {
       return m_matrix;
@@ -115,7 +115,7 @@ template<typename MatrixType,int RowFactor,int ColFactor> class Replicate
   */
 template<typename Derived>
 template<int RowFactor, int ColFactor>
-EIGEN_DEVICE_FUNC const Replicate<Derived,RowFactor,ColFactor>
+HYDRA_EIGEN_DEVICE_FUNC const Replicate<Derived,RowFactor,ColFactor>
 DenseBase<Derived>::replicate() const
 {
   return Replicate<Derived,RowFactor,ColFactor>(derived());
@@ -130,13 +130,13 @@ DenseBase<Derived>::replicate() const
   * \sa VectorwiseOp::replicate(), DenseBase::replicate(), class Replicate
   */
 template<typename ExpressionType, int Direction>
-EIGEN_DEVICE_FUNC const typename VectorwiseOp<ExpressionType,Direction>::ReplicateReturnType
+HYDRA_EIGEN_DEVICE_FUNC const typename VectorwiseOp<ExpressionType,Direction>::ReplicateReturnType
 VectorwiseOp<ExpressionType,Direction>::replicate(Index factor) const
 {
   return typename VectorwiseOp<ExpressionType,Direction>::ReplicateReturnType
           (_expression(),Direction==Vertical?factor:1,Direction==Horizontal?factor:1);
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_REPLICATE_H
+#endif // HYDRA_EIGEN_REPLICATE_H

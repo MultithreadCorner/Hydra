@@ -7,26 +7,26 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_TYPE_CASTING_AVX512_H
-#define EIGEN_TYPE_CASTING_AVX512_H
+#ifndef HYDRA_EIGEN_TYPE_CASTING_AVX512_H
+#define HYDRA_EIGEN_TYPE_CASTING_AVX512_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
-template<> EIGEN_STRONG_INLINE Packet16i pcast<Packet16f, Packet16i>(const Packet16f& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16i pcast<Packet16f, Packet16i>(const Packet16f& a) {
   return _mm512_cvttps_epi32(a);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16f pcast<Packet16i, Packet16f>(const Packet16i& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16f pcast<Packet16i, Packet16f>(const Packet16i& a) {
   return _mm512_cvtepi32_ps(a);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16i preinterpret<Packet16i, Packet16f>(const Packet16f& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16i preinterpret<Packet16i, Packet16f>(const Packet16f& a) {
   return _mm512_castps_si512(a);
 }
 
-template<> EIGEN_STRONG_INLINE Packet16f preinterpret<Packet16f, Packet16i>(const Packet16i& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16f preinterpret<Packet16f, Packet16i>(const Packet16i& a) {
   return _mm512_castsi512_ps(a);
 }
 
@@ -39,7 +39,7 @@ struct type_casting_traits<half, float> {
   };
 };
 
-template<> EIGEN_STRONG_INLINE Packet16f pcast<Packet16h, Packet16f>(const Packet16h& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16f pcast<Packet16h, Packet16f>(const Packet16h& a) {
   return half2float(a);
 }
 
@@ -52,7 +52,7 @@ struct type_casting_traits<float, half> {
   };
 };
 
-template<> EIGEN_STRONG_INLINE Packet16h pcast<Packet16f, Packet16h>(const Packet16f& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16h pcast<Packet16f, Packet16h>(const Packet16f& a) {
   return float2half(a);
 }
 
@@ -65,7 +65,7 @@ struct type_casting_traits<bfloat16, float> {
   };
 };
 
-template<> EIGEN_STRONG_INLINE Packet16f pcast<Packet16bf, Packet16f>(const Packet16bf& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16f pcast<Packet16bf, Packet16f>(const Packet16bf& a) {
   return Bf16ToF32(a);
 }
 
@@ -78,12 +78,12 @@ struct type_casting_traits<float, bfloat16> {
   };
 };
 
-template<> EIGEN_STRONG_INLINE Packet16bf pcast<Packet16f, Packet16bf>(const Packet16f& a) {
+template<> HYDRA_EIGEN_STRONG_INLINE Packet16bf pcast<Packet16f, Packet16bf>(const Packet16f& a) {
   return F32ToBf16(a);
 }
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_TYPE_CASTING_AVX512_H
+#endif // HYDRA_EIGEN_TYPE_CASTING_AVX512_H

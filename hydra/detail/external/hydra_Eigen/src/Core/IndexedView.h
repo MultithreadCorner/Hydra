@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_INDEXED_VIEW_H
-#define EIGEN_INDEXED_VIEW_H
+#ifndef HYDRA_EIGEN_INDEXED_VIEW_H
+#define HYDRA_EIGEN_INDEXED_VIEW_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -92,12 +92,12 @@ class IndexedViewImpl;
   *  - std::valarray<int>
   *  - std::array<int>
   *  - Plain C arrays: int[N]
-  *  - Eigen::ArrayXi
+  *  - hydra_Eigen::ArrayXi
   *  - decltype(ArrayXi::LinSpaced(...))
   *  - Any view/expressions of the previous types
-  *  - Eigen::ArithmeticSequence
-  *  - Eigen::internal::AllRange      (helper for Eigen::all)
-  *  - Eigen::internal::SingleRange  (helper for single index)
+  *  - hydra_Eigen::ArithmeticSequence
+  *  - hydra_Eigen::internal::AllRange      (helper for hydra_Eigen::all)
+  *  - hydra_Eigen::internal::SingleRange  (helper for single index)
   *  - etc.
   *
   * In typical usages of %Eigen, this class should never be used directly. It is the return type of
@@ -110,8 +110,8 @@ class IndexedView : public IndexedViewImpl<XprType, RowIndices, ColIndices, type
 {
 public:
   typedef typename IndexedViewImpl<XprType, RowIndices, ColIndices, typename internal::traits<XprType>::StorageKind>::Base Base;
-  EIGEN_GENERIC_PUBLIC_INTERFACE(IndexedView)
-  EIGEN_INHERIT_ASSIGNMENT_OPERATORS(IndexedView)
+  HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(IndexedView)
+  HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(IndexedView)
 
   typedef typename internal::ref_selector<XprType>::non_const_type MatrixTypeNested;
   typedef typename internal::remove_all<XprType>::type NestedExpression;
@@ -178,36 +178,36 @@ struct unary_evaluator<IndexedView<ArgType, RowIndices, ColIndices>, IndexBased>
     Alignment = 0
   };
 
-  EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& xpr) : m_argImpl(xpr.nestedExpression()), m_xpr(xpr)
+  HYDRA_EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& xpr) : m_argImpl(xpr.nestedExpression()), m_xpr(xpr)
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 
   typedef typename XprType::Scalar Scalar;
   typedef typename XprType::CoeffReturnType CoeffReturnType;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   CoeffReturnType coeff(Index row, Index col) const
   {
     return m_argImpl.coeff(m_xpr.rowIndices()[row], m_xpr.colIndices()[col]);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   Scalar& coeffRef(Index row, Index col)
   {
     return m_argImpl.coeffRef(m_xpr.rowIndices()[row], m_xpr.colIndices()[col]);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   Scalar& coeffRef(Index index)
   {
-    EIGEN_STATIC_ASSERT_LVALUE(XprType)
+    HYDRA_EIGEN_STATIC_ASSERT_LVALUE(XprType)
     Index row = XprType::RowsAtCompileTime == 1 ? 0 : index;
     Index col = XprType::RowsAtCompileTime == 1 ? index : 0;
     return m_argImpl.coeffRef( m_xpr.rowIndices()[row], m_xpr.colIndices()[col]);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   const Scalar& coeffRef(Index index) const
   {
     Index row = XprType::RowsAtCompileTime == 1 ? 0 : index;
@@ -215,7 +215,7 @@ struct unary_evaluator<IndexedView<ArgType, RowIndices, ColIndices>, IndexBased>
     return m_argImpl.coeffRef( m_xpr.rowIndices()[row], m_xpr.colIndices()[col]);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   const CoeffReturnType coeff(Index index) const
   {
     Index row = XprType::RowsAtCompileTime == 1 ? 0 : index;
@@ -232,6 +232,6 @@ protected:
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_INDEXED_VIEW_H
+#endif // HYDRA_EIGEN_INDEXED_VIEW_H

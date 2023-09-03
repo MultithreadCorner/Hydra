@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_DOT_H
-#define EIGEN_DOT_H
+#ifndef HYDRA_EIGEN_DOT_H
+#define HYDRA_EIGEN_DOT_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -30,8 +30,8 @@ struct dot_nocheck
 {
   typedef scalar_conj_product_op<typename traits<T>::Scalar,typename traits<U>::Scalar> conj_prod;
   typedef typename conj_prod::result_type ResScalar;
-  EIGEN_DEVICE_FUNC
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_STRONG_INLINE
   static ResScalar run(const MatrixBase<T>& a, const MatrixBase<U>& b)
   {
     return a.template binaryExpr<conj_prod>(b).sum();
@@ -43,8 +43,8 @@ struct dot_nocheck<T, U, true>
 {
   typedef scalar_conj_product_op<typename traits<T>::Scalar,typename traits<U>::Scalar> conj_prod;
   typedef typename conj_prod::result_type ResScalar;
-  EIGEN_DEVICE_FUNC
-  EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_STRONG_INLINE
   static ResScalar run(const MatrixBase<T>& a, const MatrixBase<U>& b)
   {
     return a.transpose().template binaryExpr<conj_prod>(b).sum();
@@ -66,17 +66,17 @@ struct dot_nocheck<T, U, true>
   */
 template<typename Derived>
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC
-EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_STRONG_INLINE
 typename ScalarBinaryOpTraits<typename internal::traits<Derived>::Scalar,typename internal::traits<OtherDerived>::Scalar>::ReturnType
 MatrixBase<Derived>::dot(const MatrixBase<OtherDerived>& other) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
-  EIGEN_STATIC_ASSERT_VECTOR_ONLY(OtherDerived)
-  EIGEN_STATIC_ASSERT_SAME_VECTOR_SIZE(Derived,OtherDerived)
-#if !(defined(EIGEN_NO_STATIC_ASSERT) && defined(EIGEN_NO_DEBUG))
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
+  HYDRA_EIGEN_STATIC_ASSERT_VECTOR_ONLY(OtherDerived)
+  HYDRA_EIGEN_STATIC_ASSERT_SAME_VECTOR_SIZE(Derived,OtherDerived)
+#if !(defined(HYDRA_EIGEN_NO_STATIC_ASSERT) && defined(HYDRA_EIGEN_NO_DEBUG))
   typedef internal::scalar_conj_product_op<Scalar,typename OtherDerived::Scalar> func;
-  EIGEN_CHECK_BINARY_COMPATIBILIY(func,Scalar,typename OtherDerived::Scalar);
+  HYDRA_EIGEN_CHECK_BINARY_COMPATIBILIY(func,Scalar,typename OtherDerived::Scalar);
 #endif
   
   eigen_assert(size() == other.size());
@@ -93,7 +93,7 @@ MatrixBase<Derived>::dot(const MatrixBase<OtherDerived>& other) const
   * \sa dot(), norm(), lpNorm()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE typename NumTraits<typename internal::traits<Derived>::Scalar>::Real MatrixBase<Derived>::squaredNorm() const
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE typename NumTraits<typename internal::traits<Derived>::Scalar>::Real MatrixBase<Derived>::squaredNorm() const
 {
   return numext::real((*this).cwiseAbs2().sum());
 }
@@ -105,7 +105,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE typename NumTraits<typename internal::trai
   * \sa lpNorm(), dot(), squaredNorm()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE typename NumTraits<typename internal::traits<Derived>::Scalar>::Real MatrixBase<Derived>::norm() const
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE typename NumTraits<typename internal::traits<Derived>::Scalar>::Real MatrixBase<Derived>::norm() const
 {
   return numext::sqrt(squaredNorm());
 }
@@ -120,7 +120,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE typename NumTraits<typename internal::trai
   * \sa norm(), normalize()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::PlainObject
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::PlainObject
 MatrixBase<Derived>::normalized() const
 {
   typedef typename internal::nested_eval<Derived,2>::type _Nested;
@@ -142,7 +142,7 @@ MatrixBase<Derived>::normalized() const
   * \sa norm(), normalized()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void MatrixBase<Derived>::normalize()
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void MatrixBase<Derived>::normalize()
 {
   RealScalar z = squaredNorm();
   // NOTE: after extensive benchmarking, this conditional does not impact performance, at least on recent x86 CPU
@@ -163,7 +163,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void MatrixBase<Derived>::normalize()
   * \sa stableNorm(), stableNormalize(), normalized()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::PlainObject
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE const typename MatrixBase<Derived>::PlainObject
 MatrixBase<Derived>::stableNormalized() const
 {
   typedef typename internal::nested_eval<Derived,3>::type _Nested;
@@ -188,7 +188,7 @@ MatrixBase<Derived>::stableNormalized() const
   * \sa stableNorm(), stableNormalized(), normalize()
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void MatrixBase<Derived>::stableNormalize()
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void MatrixBase<Derived>::stableNormalize()
 {
   RealScalar w = cwiseAbs().maxCoeff();
   RealScalar z = (derived()/w).squaredNorm();
@@ -204,10 +204,10 @@ template<typename Derived, int p>
 struct lpNorm_selector
 {
   typedef typename NumTraits<typename traits<Derived>::Scalar>::Real RealScalar;
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline RealScalar run(const MatrixBase<Derived>& m)
   {
-    EIGEN_USING_STD(pow)
+    HYDRA_EIGEN_USING_STD(pow)
     return pow(m.cwiseAbs().array().pow(p).sum(), RealScalar(1)/p);
   }
 };
@@ -215,7 +215,7 @@ struct lpNorm_selector
 template<typename Derived>
 struct lpNorm_selector<Derived, 1>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline typename NumTraits<typename traits<Derived>::Scalar>::Real run(const MatrixBase<Derived>& m)
   {
     return m.cwiseAbs().sum();
@@ -225,7 +225,7 @@ struct lpNorm_selector<Derived, 1>
 template<typename Derived>
 struct lpNorm_selector<Derived, 2>
 {
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline typename NumTraits<typename traits<Derived>::Scalar>::Real run(const MatrixBase<Derived>& m)
   {
     return m.norm();
@@ -236,7 +236,7 @@ template<typename Derived>
 struct lpNorm_selector<Derived, Infinity>
 {
   typedef typename NumTraits<typename traits<Derived>::Scalar>::Real RealScalar;
-  EIGEN_DEVICE_FUNC
+  HYDRA_EIGEN_DEVICE_FUNC
   static inline RealScalar run(const MatrixBase<Derived>& m)
   {
     if(Derived::SizeAtCompileTime==0 || (Derived::SizeAtCompileTime==Dynamic && m.size()==0))
@@ -248,7 +248,7 @@ struct lpNorm_selector<Derived, Infinity>
 } // end namespace internal
 
 /** \returns the \b coefficient-wise \f$ \ell^p \f$ norm of \c *this, that is, returns the p-th root of the sum of the p-th powers of the absolute values
-  *          of the coefficients of \c *this. If \a p is the special value \a Eigen::Infinity, this function returns the \f$ \ell^\infty \f$
+  *          of the coefficients of \c *this. If \a p is the special value \a hydra_Eigen::Infinity, this function returns the \f$ \ell^\infty \f$
   *          norm, that is the maximum of the absolute values of the coefficients of \c *this.
   *
   * In all cases, if \c *this is empty, then the value 0 is returned.
@@ -259,10 +259,10 @@ struct lpNorm_selector<Derived, Infinity>
   */
 template<typename Derived>
 template<int p>
-#ifndef EIGEN_PARSED_BY_DOXYGEN
-EIGEN_DEVICE_FUNC inline typename NumTraits<typename internal::traits<Derived>::Scalar>::Real
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
+HYDRA_EIGEN_DEVICE_FUNC inline typename NumTraits<typename internal::traits<Derived>::Scalar>::Real
 #else
-EIGEN_DEVICE_FUNC MatrixBase<Derived>::RealScalar
+HYDRA_EIGEN_DEVICE_FUNC MatrixBase<Derived>::RealScalar
 #endif
 MatrixBase<Derived>::lpNorm() const
 {
@@ -313,6 +313,6 @@ bool MatrixBase<Derived>::isUnitary(const RealScalar& prec) const
   return true;
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_DOT_H
+#endif // HYDRA_EIGEN_DOT_H

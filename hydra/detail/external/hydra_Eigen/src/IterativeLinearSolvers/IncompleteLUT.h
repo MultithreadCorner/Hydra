@@ -8,11 +8,11 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_INCOMPLETE_LUT_H
-#define EIGEN_INCOMPLETE_LUT_H
+#ifndef HYDRA_EIGEN_INCOMPLETE_LUT_H
+#define HYDRA_EIGEN_INCOMPLETE_LUT_H
 
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -130,9 +130,9 @@ class IncompleteLUT : public SparseSolverBase<IncompleteLUT<_Scalar, _StorageInd
       compute(mat);
     }
 
-    EIGEN_CONSTEXPR Index rows() const EIGEN_NOEXCEPT { return m_lu.rows(); }
+    HYDRA_EIGEN_CONSTEXPR Index rows() const HYDRA_EIGEN_NOEXCEPT { return m_lu.rows(); }
 
-    EIGEN_CONSTEXPR Index cols() const EIGEN_NOEXCEPT { return m_lu.cols(); }
+    HYDRA_EIGEN_CONSTEXPR Index cols() const HYDRA_EIGEN_NOEXCEPT { return m_lu.cols(); }
 
     /** \brief Reports whether previous computation was successful.
       *
@@ -448,6 +448,6 @@ void IncompleteLUT<Scalar,StorageIndex>::factorize(const _MatrixType& amat)
   m_info = Success;
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_INCOMPLETE_LUT_H
+#endif // HYDRA_EIGEN_INCOMPLETE_LUT_H

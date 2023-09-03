@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSE_SELFADJOINTVIEW_H
-#define EIGEN_SPARSE_SELFADJOINTVIEW_H
+#ifndef HYDRA_EIGEN_SPARSE_SELFADJOINTVIEW_H
+#define HYDRA_EIGEN_SPARSE_SELFADJOINTVIEW_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
   
 /** \ingroup SparseCore_Module
   * \class SparseSelfAdjointView
@@ -143,7 +143,7 @@ template<typename MatrixType, unsigned int _Mode> class SparseSelfAdjointView
     }
 
     // Since we override the copy-assignment operator, we need to explicitly re-declare the copy-constructor
-    EIGEN_DEFAULT_COPY_CONSTRUCTOR(SparseSelfAdjointView)
+    HYDRA_EIGEN_DEFAULT_COPY_CONSTRUCTOR(SparseSelfAdjointView)
 
     template<typename SrcMatrixType,unsigned int SrcMode>
     SparseSelfAdjointView& operator=(const SparseSelfAdjointView<SrcMatrixType,SrcMode>& src)
@@ -154,8 +154,8 @@ template<typename MatrixType, unsigned int _Mode> class SparseSelfAdjointView
     
     void resize(Index rows, Index cols)
     {
-      EIGEN_ONLY_USED_FOR_DEBUG(rows);
-      EIGEN_ONLY_USED_FOR_DEBUG(cols);
+      HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(rows);
+      HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(cols);
       eigen_assert(rows == this->rows() && cols == this->cols()
                 && "SparseSelfadjointView::resize() does not actually allow to resize.");
     }
@@ -282,7 +282,7 @@ namespace internal {
 template<int Mode, typename SparseLhsType, typename DenseRhsType, typename DenseResType, typename AlphaType>
 inline void sparse_selfadjoint_time_dense_product(const SparseLhsType& lhs, const DenseRhsType& rhs, DenseResType& res, const AlphaType& alpha)
 {
-  EIGEN_ONLY_USED_FOR_DEBUG(alpha);
+  HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(alpha);
   
   typedef typename internal::nested_eval<SparseLhsType,DenseRhsType::MaxColsAtCompileTime>::type SparseLhsTypeNested;
   typedef typename internal::remove_all<SparseLhsTypeNested>::type SparseLhsTypeNestedCleaned;
@@ -654,6 +654,6 @@ struct Assignment<DstXprType, SparseSymmetricPermutationProduct<MatrixType,Mode>
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SPARSE_SELFADJOINTVIEW_H
+#endif // HYDRA_EIGEN_SPARSE_SELFADJOINTVIEW_H

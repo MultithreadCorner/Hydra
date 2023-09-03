@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_TYPE_CASTING_SVE_H
-#define EIGEN_TYPE_CASTING_SVE_H
+#ifndef HYDRA_EIGEN_TYPE_CASTING_SVE_H
+#define HYDRA_EIGEN_TYPE_CASTING_SVE_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 namespace internal {
 
 template <>
@@ -24,26 +24,26 @@ struct type_casting_traits<numext::int32_t, float> {
 };
 
 template <>
-EIGEN_STRONG_INLINE PacketXf pcast<PacketXi, PacketXf>(const PacketXi& a) {
+HYDRA_EIGEN_STRONG_INLINE PacketXf pcast<PacketXi, PacketXf>(const PacketXi& a) {
   return svcvt_f32_s32_z(svptrue_b32(), a);
 }
 
 template <>
-EIGEN_STRONG_INLINE PacketXi pcast<PacketXf, PacketXi>(const PacketXf& a) {
+HYDRA_EIGEN_STRONG_INLINE PacketXi pcast<PacketXf, PacketXi>(const PacketXf& a) {
   return svcvt_s32_f32_z(svptrue_b32(), a);
 }
 
 template <>
-EIGEN_STRONG_INLINE PacketXf preinterpret<PacketXf, PacketXi>(const PacketXi& a) {
+HYDRA_EIGEN_STRONG_INLINE PacketXf preinterpret<PacketXf, PacketXi>(const PacketXi& a) {
   return svreinterpret_f32_s32(a);
 }
 
 template <>
-EIGEN_STRONG_INLINE PacketXi preinterpret<PacketXi, PacketXf>(const PacketXf& a) {
+HYDRA_EIGEN_STRONG_INLINE PacketXi preinterpret<PacketXi, PacketXf>(const PacketXf& a) {
   return svreinterpret_s32_f32(a);
 }
 
 }  // namespace internal
-}  // namespace Eigen
+}  // namespace hydra_Eigen
 
-#endif // EIGEN_TYPE_CASTING_SVE_H
+#endif // HYDRA_EIGEN_TYPE_CASTING_SVE_H

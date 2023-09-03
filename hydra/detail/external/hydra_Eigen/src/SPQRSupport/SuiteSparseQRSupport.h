@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SUITESPARSEQRSUPPORT_H
-#define EIGEN_SUITESPARSEQRSUPPORT_H
+#ifndef HYDRA_EIGEN_SUITESPARSEQRSUPPORT_H
+#define HYDRA_EIGEN_SUITESPARSEQRSUPPORT_H
 
-namespace Eigen {
+namespace hydra_Eigen {
   
   template<typename MatrixType> class SPQR; 
   template<typename SPQRType> struct SPQRMatrixQReturnType; 
@@ -331,5 +331,5 @@ struct SPQRMatrixQTransposeReturnType{
   const SPQRType& m_spqr;
 };
 
-}// End namespace Eigen
+}// End namespace hydra_Eigen
 #endif

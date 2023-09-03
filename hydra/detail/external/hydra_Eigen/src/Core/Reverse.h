@@ -9,10 +9,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_REVERSE_H
-#define EIGEN_REVERSE_H
+#ifndef HYDRA_EIGEN_REVERSE_H
+#define HYDRA_EIGEN_REVERSE_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -66,7 +66,7 @@ template<typename MatrixType, int Direction> class Reverse
   public:
 
     typedef typename internal::dense_xpr_base<Reverse>::type Base;
-    EIGEN_DENSE_PUBLIC_INTERFACE(Reverse)
+    HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(Reverse)
     typedef typename internal::remove_all<MatrixType>::type NestedExpression;
     using Base::IsRowMajor;
 
@@ -85,21 +85,21 @@ template<typename MatrixType, int Direction> class Reverse
     typedef internal::reverse_packet_cond<PacketScalar,ReversePacket> reverse_packet;
   public:
 
-    EIGEN_DEVICE_FUNC explicit inline Reverse(const MatrixType& matrix) : m_matrix(matrix) { }
+    HYDRA_EIGEN_DEVICE_FUNC explicit inline Reverse(const MatrixType& matrix) : m_matrix(matrix) { }
 
-    EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Reverse)
+    HYDRA_EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Reverse)
 
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
-    inline Index rows() const EIGEN_NOEXCEPT { return m_matrix.rows(); }
-    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
-    inline Index cols() const EIGEN_NOEXCEPT { return m_matrix.cols(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
+    inline Index rows() const HYDRA_EIGEN_NOEXCEPT { return m_matrix.rows(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR
+    inline Index cols() const HYDRA_EIGEN_NOEXCEPT { return m_matrix.cols(); }
 
-    EIGEN_DEVICE_FUNC inline Index innerStride() const
+    HYDRA_EIGEN_DEVICE_FUNC inline Index innerStride() const
     {
       return -m_matrix.innerStride();
     }
 
-    EIGEN_DEVICE_FUNC const typename internal::remove_all<typename MatrixType::Nested>::type&
+    HYDRA_EIGEN_DEVICE_FUNC const typename internal::remove_all<typename MatrixType::Nested>::type&
     nestedExpression() const
     {
       return m_matrix;
@@ -116,7 +116,7 @@ template<typename MatrixType, int Direction> class Reverse
   *
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC inline typename DenseBase<Derived>::ReverseReturnType
+HYDRA_EIGEN_DEVICE_FUNC inline typename DenseBase<Derived>::ReverseReturnType
 DenseBase<Derived>::reverse()
 {
   return ReverseReturnType(derived());
@@ -138,7 +138,7 @@ DenseBase<Derived>::reverse()
   *
   * \sa VectorwiseOp::reverseInPlace(), reverse() */
 template<typename Derived>
-EIGEN_DEVICE_FUNC inline void DenseBase<Derived>::reverseInPlace()
+HYDRA_EIGEN_DEVICE_FUNC inline void DenseBase<Derived>::reverseInPlace()
 {
   if(cols()>rows())
   {
@@ -207,11 +207,11 @@ struct vectorwise_reverse_inplace_impl<Horizontal>
   *
   * \sa DenseBase::reverseInPlace(), reverse() */
 template<typename ExpressionType, int Direction>
-EIGEN_DEVICE_FUNC void VectorwiseOp<ExpressionType,Direction>::reverseInPlace()
+HYDRA_EIGEN_DEVICE_FUNC void VectorwiseOp<ExpressionType,Direction>::reverseInPlace()
 {
   internal::vectorwise_reverse_inplace_impl<Direction>::run(m_matrix);
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_REVERSE_H
+#endif // HYDRA_EIGEN_REVERSE_H

@@ -66,9 +66,9 @@
  *  Storage: new row subscripts; that is subscripts of PA.
  */
 
-#ifndef EIGEN_LU_STRUCTS
-#define EIGEN_LU_STRUCTS
-namespace Eigen {
+#ifndef HYDRA_EIGEN_LU_STRUCTS
+#define HYDRA_EIGEN_LU_STRUCTS
+namespace hydra_Eigen {
 namespace internal {
   
 typedef enum {LUSUP, UCOL, LSUB, USUB, LLVL, ULVL} MemType; 
@@ -106,5 +106,5 @@ struct perfvalues {
 
 } // end namespace internal
 
-} // end namespace Eigen
-#endif // EIGEN_LU_STRUCTS
+} // end namespace hydra_Eigen
+#endif // HYDRA_EIGEN_LU_STRUCTS

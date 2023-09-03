@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSETRIANGULARSOLVER_H
-#define EIGEN_SPARSETRIANGULARSOLVER_H
+#ifndef HYDRA_EIGEN_SPARSETRIANGULARSOLVER_H
+#define HYDRA_EIGEN_SPARSETRIANGULARSOLVER_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -171,7 +171,7 @@ struct sparse_solve_triangular_selector<Lhs,Rhs,Mode,Upper,ColMajor>
 
 } // end namespace internal
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
 template<typename ExpressionType,unsigned int Mode>
 template<typename OtherDerived>
@@ -289,7 +289,7 @@ struct sparse_solve_triangular_sparse_selector<Lhs,Rhs,Mode,UpLo,ColMajor>
 
 } // end namespace internal
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template<typename ExpressionType,unsigned int Mode>
 template<typename OtherDerived>
 void TriangularViewImpl<ExpressionType,Mode,Sparse>::solveInPlace(SparseMatrixBase<OtherDerived>& other) const
@@ -310,6 +310,6 @@ void TriangularViewImpl<ExpressionType,Mode,Sparse>::solveInPlace(SparseMatrixBa
 }
 #endif
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SPARSETRIANGULARSOLVER_H
+#endif // HYDRA_EIGEN_SPARSETRIANGULARSOLVER_H

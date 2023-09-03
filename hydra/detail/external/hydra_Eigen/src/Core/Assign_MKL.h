@@ -31,10 +31,10 @@
  ********************************************************************************
 */
 
-#ifndef EIGEN_ASSIGN_VML_H
-#define EIGEN_ASSIGN_VML_H
+#ifndef HYDRA_EIGEN_ASSIGN_VML_H
+#define HYDRA_EIGEN_ASSIGN_VML_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -57,7 +57,7 @@ class vml_assign_traits
       MightEnableVml = StorageOrdersAgree && DstHasDirectAccess && SrcHasDirectAccess && Src::InnerStrideAtCompileTime==1 && Dst::InnerStrideAtCompileTime==1,
       MightLinearize = MightEnableVml && (int(Dst::Flags) & int(Src::Flags) & LinearAccessBit),
       VmlSize = MightLinearize ? MaxSizeAtCompileTime : InnerMaxSize,
-      LargeEnough = VmlSize==Dynamic || VmlSize>=EIGEN_MKL_VML_THRESHOLD
+      LargeEnough = VmlSize==Dynamic || VmlSize>=HYDRA_EIGEN_MKL_VML_THRESHOLD
     };
   public:
     enum {
@@ -66,20 +66,20 @@ class vml_assign_traits
     };
 };
 
-#define EIGEN_PP_EXPAND(ARG) ARG
-#if !defined (EIGEN_FAST_MATH) || (EIGEN_FAST_MATH != 1)
-#define EIGEN_VMLMODE_EXPAND_xLA , VML_HA
+#define HYDRA_EIGEN_PP_EXPAND(ARG) ARG
+#if !defined (HYDRA_EIGEN_FAST_MATH) || (HYDRA_EIGEN_FAST_MATH != 1)
+#define HYDRA_EIGEN_VMLMODE_EXPAND_xLA , VML_HA
 #else
-#define EIGEN_VMLMODE_EXPAND_xLA , VML_LA
+#define HYDRA_EIGEN_VMLMODE_EXPAND_xLA , VML_LA
 #endif
 
-#define EIGEN_VMLMODE_EXPAND_x_
+#define HYDRA_EIGEN_VMLMODE_EXPAND_x_
 
-#define EIGEN_VMLMODE_PREFIX_xLA vm
-#define EIGEN_VMLMODE_PREFIX_x_  v
-#define EIGEN_VMLMODE_PREFIX(VMLMODE) EIGEN_CAT(EIGEN_VMLMODE_PREFIX_x,VMLMODE)
+#define HYDRA_EIGEN_VMLMODE_PREFIX_xLA vm
+#define HYDRA_EIGEN_VMLMODE_PREFIX_x_  v
+#define HYDRA_EIGEN_VMLMODE_PREFIX(VMLMODE) HYDRA_EIGEN_CAT(HYDRA_EIGEN_VMLMODE_PREFIX_x,VMLMODE)
 
-#define EIGEN_MKL_VML_DECLARE_UNARY_CALL(EIGENOP, VMLOP, EIGENTYPE, VMLTYPE, VMLMODE)                                           \
+#define HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALL(EIGENOP, VMLOP, EIGENTYPE, VMLTYPE, VMLMODE)                                           \
   template< typename DstXprType, typename SrcXprNested>                                                                         \
   struct Assignment<DstXprType, CwiseUnaryOp<scalar_##EIGENOP##_op<EIGENTYPE>, SrcXprNested>, assign_op<EIGENTYPE,EIGENTYPE>,   \
                    Dense2Dense, typename enable_if<vml_assign_traits<DstXprType,SrcXprNested>::EnableVml>::type> {              \
@@ -89,7 +89,7 @@ class vml_assign_traits
       eigen_assert(dst.rows() == src.rows() && dst.cols() == src.cols());                                                       \
       if(vml_assign_traits<DstXprType,SrcXprNested>::Traversal==LinearTraversal) {                                              \
         VMLOP(dst.size(), (const VMLTYPE*)src.nestedExpression().data(),                                                        \
-              (VMLTYPE*)dst.data() EIGEN_PP_EXPAND(EIGEN_VMLMODE_EXPAND_x##VMLMODE) );                                           \
+              (VMLTYPE*)dst.data() HYDRA_EIGEN_PP_EXPAND(HYDRA_EIGEN_VMLMODE_EXPAND_x##VMLMODE) );                                           \
       } else {                                                                                                                  \
         const Index outerSize = dst.outerSize();                                                                                \
         for(Index outer = 0; outer < outerSize; ++outer) {                                                                      \
@@ -97,48 +97,48 @@ class vml_assign_traits
                                                       &(src.nestedExpression().coeffRef(0, outer));                             \
           EIGENTYPE *dst_ptr = dst.IsRowMajor ? &(dst.coeffRef(outer,0)) : &(dst.coeffRef(0, outer));                           \
           VMLOP( dst.innerSize(), (const VMLTYPE*)src_ptr,                                                                      \
-                (VMLTYPE*)dst_ptr EIGEN_PP_EXPAND(EIGEN_VMLMODE_EXPAND_x##VMLMODE));                                             \
+                (VMLTYPE*)dst_ptr HYDRA_EIGEN_PP_EXPAND(HYDRA_EIGEN_VMLMODE_EXPAND_x##VMLMODE));                                             \
         }                                                                                                                       \
       }                                                                                                                         \
     }                                                                                                                           \
   };                                                                                                                            \
 
 
-#define EIGEN_MKL_VML_DECLARE_UNARY_CALLS_REAL(EIGENOP, VMLOP, VMLMODE)                                                         \
-  EIGEN_MKL_VML_DECLARE_UNARY_CALL(EIGENOP, EIGEN_CAT(EIGEN_VMLMODE_PREFIX(VMLMODE),s##VMLOP), float, float, VMLMODE)           \
-  EIGEN_MKL_VML_DECLARE_UNARY_CALL(EIGENOP, EIGEN_CAT(EIGEN_VMLMODE_PREFIX(VMLMODE),d##VMLOP), double, double, VMLMODE)
+#define HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS_REAL(EIGENOP, VMLOP, VMLMODE)                                                         \
+  HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALL(EIGENOP, HYDRA_EIGEN_CAT(HYDRA_EIGEN_VMLMODE_PREFIX(VMLMODE),s##VMLOP), float, float, VMLMODE)           \
+  HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALL(EIGENOP, HYDRA_EIGEN_CAT(HYDRA_EIGEN_VMLMODE_PREFIX(VMLMODE),d##VMLOP), double, double, VMLMODE)
 
-#define EIGEN_MKL_VML_DECLARE_UNARY_CALLS_CPLX(EIGENOP, VMLOP, VMLMODE)                                                         \
-  EIGEN_MKL_VML_DECLARE_UNARY_CALL(EIGENOP, EIGEN_CAT(EIGEN_VMLMODE_PREFIX(VMLMODE),c##VMLOP), scomplex, MKL_Complex8, VMLMODE) \
-  EIGEN_MKL_VML_DECLARE_UNARY_CALL(EIGENOP, EIGEN_CAT(EIGEN_VMLMODE_PREFIX(VMLMODE),z##VMLOP), dcomplex, MKL_Complex16, VMLMODE)
+#define HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS_CPLX(EIGENOP, VMLOP, VMLMODE)                                                         \
+  HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALL(EIGENOP, HYDRA_EIGEN_CAT(HYDRA_EIGEN_VMLMODE_PREFIX(VMLMODE),c##VMLOP), scomplex, MKL_Complex8, VMLMODE) \
+  HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALL(EIGENOP, HYDRA_EIGEN_CAT(HYDRA_EIGEN_VMLMODE_PREFIX(VMLMODE),z##VMLOP), dcomplex, MKL_Complex16, VMLMODE)
   
-#define EIGEN_MKL_VML_DECLARE_UNARY_CALLS(EIGENOP, VMLOP, VMLMODE)                                                              \
-  EIGEN_MKL_VML_DECLARE_UNARY_CALLS_REAL(EIGENOP, VMLOP, VMLMODE)                                                               \
-  EIGEN_MKL_VML_DECLARE_UNARY_CALLS_CPLX(EIGENOP, VMLOP, VMLMODE)
+#define HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS(EIGENOP, VMLOP, VMLMODE)                                                              \
+  HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS_REAL(EIGENOP, VMLOP, VMLMODE)                                                               \
+  HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS_CPLX(EIGENOP, VMLOP, VMLMODE)
 
   
-EIGEN_MKL_VML_DECLARE_UNARY_CALLS(sin,   Sin,   LA)
-EIGEN_MKL_VML_DECLARE_UNARY_CALLS(asin,  Asin,  LA)
-EIGEN_MKL_VML_DECLARE_UNARY_CALLS(sinh,  Sinh,  LA)
-EIGEN_MKL_VML_DECLARE_UNARY_CALLS(cos,   Cos,   LA)
-EIGEN_MKL_VML_DECLARE_UNARY_CALLS(acos,  Acos,  LA)
-EIGEN_MKL_VML_DECLARE_UNARY_CALLS(cosh,  Cosh,  LA)
-EIGEN_MKL_VML_DECLARE_UNARY_CALLS(tan,   Tan,   LA)
-EIGEN_MKL_VML_DECLARE_UNARY_CALLS(atan,  Atan,  LA)
-EIGEN_MKL_VML_DECLARE_UNARY_CALLS(tanh,  Tanh,  LA)
-// EIGEN_MKL_VML_DECLARE_UNARY_CALLS(abs,   Abs,    _)
-EIGEN_MKL_VML_DECLARE_UNARY_CALLS(exp,   Exp,   LA)
-EIGEN_MKL_VML_DECLARE_UNARY_CALLS(log,   Ln,    LA)
-EIGEN_MKL_VML_DECLARE_UNARY_CALLS(log10, Log10, LA)
-EIGEN_MKL_VML_DECLARE_UNARY_CALLS(sqrt,  Sqrt,  _)
+HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS(sin,   Sin,   LA)
+HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS(asin,  Asin,  LA)
+HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS(sinh,  Sinh,  LA)
+HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS(cos,   Cos,   LA)
+HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS(acos,  Acos,  LA)
+HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS(cosh,  Cosh,  LA)
+HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS(tan,   Tan,   LA)
+HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS(atan,  Atan,  LA)
+HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS(tanh,  Tanh,  LA)
+// HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS(abs,   Abs,    _)
+HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS(exp,   Exp,   LA)
+HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS(log,   Ln,    LA)
+HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS(log10, Log10, LA)
+HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS(sqrt,  Sqrt,  _)
 
-EIGEN_MKL_VML_DECLARE_UNARY_CALLS_REAL(square, Sqr,   _)
-EIGEN_MKL_VML_DECLARE_UNARY_CALLS_CPLX(arg, Arg,      _)
-EIGEN_MKL_VML_DECLARE_UNARY_CALLS_REAL(round, Round,  _)
-EIGEN_MKL_VML_DECLARE_UNARY_CALLS_REAL(floor, Floor,  _)
-EIGEN_MKL_VML_DECLARE_UNARY_CALLS_REAL(ceil,  Ceil,   _)
+HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS_REAL(square, Sqr,   _)
+HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS_CPLX(arg, Arg,      _)
+HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS_REAL(round, Round,  _)
+HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS_REAL(floor, Floor,  _)
+HYDRA_EIGEN_MKL_VML_DECLARE_UNARY_CALLS_REAL(ceil,  Ceil,   _)
 
-#define EIGEN_MKL_VML_DECLARE_POW_CALL(EIGENOP, VMLOP, EIGENTYPE, VMLTYPE, VMLMODE)                                           \
+#define HYDRA_EIGEN_MKL_VML_DECLARE_POW_CALL(EIGENOP, VMLOP, EIGENTYPE, VMLTYPE, VMLMODE)                                           \
   template< typename DstXprType, typename SrcXprNested, typename Plain>                                                       \
   struct Assignment<DstXprType, CwiseBinaryOp<scalar_##EIGENOP##_op<EIGENTYPE,EIGENTYPE>, SrcXprNested,                       \
                     const CwiseNullaryOp<internal::scalar_constant_op<EIGENTYPE>,Plain> >, assign_op<EIGENTYPE,EIGENTYPE>,    \
@@ -152,7 +152,7 @@ EIGEN_MKL_VML_DECLARE_UNARY_CALLS_REAL(ceil,  Ceil,   _)
       if(vml_assign_traits<DstXprType,SrcXprNested>::Traversal==LinearTraversal)                                              \
       {                                                                                                                       \
         VMLOP( dst.size(), (const VMLTYPE*)src.lhs().data(), exponent,                                                        \
-              (VMLTYPE*)dst.data() EIGEN_PP_EXPAND(EIGEN_VMLMODE_EXPAND_x##VMLMODE) );                                         \
+              (VMLTYPE*)dst.data() HYDRA_EIGEN_PP_EXPAND(HYDRA_EIGEN_VMLMODE_EXPAND_x##VMLMODE) );                                         \
       } else {                                                                                                                \
         const Index outerSize = dst.outerSize();                                                                              \
         for(Index outer = 0; outer < outerSize; ++outer) {                                                                    \
@@ -160,19 +160,19 @@ EIGEN_MKL_VML_DECLARE_UNARY_CALLS_REAL(ceil,  Ceil,   _)
                                                       &(src.lhs().coeffRef(0, outer));                                        \
           EIGENTYPE *dst_ptr = dst.IsRowMajor ? &(dst.coeffRef(outer,0)) : &(dst.coeffRef(0, outer));                         \
           VMLOP( dst.innerSize(), (const VMLTYPE*)src_ptr, exponent,                                                          \
-                 (VMLTYPE*)dst_ptr EIGEN_PP_EXPAND(EIGEN_VMLMODE_EXPAND_x##VMLMODE));                                          \
+                 (VMLTYPE*)dst_ptr HYDRA_EIGEN_PP_EXPAND(HYDRA_EIGEN_VMLMODE_EXPAND_x##VMLMODE));                                          \
         }                                                                                                                     \
       }                                                                                                                       \
     }                                                                                                                         \
   };
   
-EIGEN_MKL_VML_DECLARE_POW_CALL(pow, vmsPowx, float,    float,         LA)
-EIGEN_MKL_VML_DECLARE_POW_CALL(pow, vmdPowx, double,   double,        LA)
-EIGEN_MKL_VML_DECLARE_POW_CALL(pow, vmcPowx, scomplex, MKL_Complex8,  LA)
-EIGEN_MKL_VML_DECLARE_POW_CALL(pow, vmzPowx, dcomplex, MKL_Complex16, LA)
+HYDRA_EIGEN_MKL_VML_DECLARE_POW_CALL(pow, vmsPowx, float,    float,         LA)
+HYDRA_EIGEN_MKL_VML_DECLARE_POW_CALL(pow, vmdPowx, double,   double,        LA)
+HYDRA_EIGEN_MKL_VML_DECLARE_POW_CALL(pow, vmcPowx, scomplex, MKL_Complex8,  LA)
+HYDRA_EIGEN_MKL_VML_DECLARE_POW_CALL(pow, vmzPowx, dcomplex, MKL_Complex16, LA)
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_ASSIGN_VML_H
+#endif // HYDRA_EIGEN_ASSIGN_VML_H

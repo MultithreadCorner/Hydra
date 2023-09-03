@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_GENERAL_MATRIX_MATRIX_TRIANGULAR_H
-#define EIGEN_GENERAL_MATRIX_MATRIX_TRIANGULAR_H
+#ifndef HYDRA_EIGEN_GENERAL_MATRIX_MATRIX_TRIANGULAR_H
+#define HYDRA_EIGEN_GENERAL_MATRIX_MATRIX_TRIANGULAR_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 template<typename Scalar, typename Index, int StorageOrder, int UpLo, bool ConjLhs, bool ConjRhs>
 struct selfadjoint_rank1_update;
@@ -42,7 +42,7 @@ template <typename Index, typename LhsScalar, int LhsStorageOrder, bool Conjugat
 struct general_matrix_matrix_triangular_product<Index,LhsScalar,LhsStorageOrder,ConjugateLhs,RhsScalar,RhsStorageOrder,ConjugateRhs,RowMajor,ResInnerStride,UpLo,Version>
 {
   typedef typename ScalarBinaryOpTraits<LhsScalar, RhsScalar>::ReturnType ResScalar;
-  static EIGEN_STRONG_INLINE void run(Index size, Index depth,const LhsScalar* lhs, Index lhsStride,
+  static HYDRA_EIGEN_STRONG_INLINE void run(Index size, Index depth,const LhsScalar* lhs, Index lhsStride,
                                       const RhsScalar* rhs, Index rhsStride, ResScalar* res, Index resIncr, Index resStride,
                                       const ResScalar& alpha, level3_blocking<RhsScalar,LhsScalar>& blocking)
   {
@@ -60,7 +60,7 @@ template <typename Index, typename LhsScalar, int LhsStorageOrder, bool Conjugat
 struct general_matrix_matrix_triangular_product<Index,LhsScalar,LhsStorageOrder,ConjugateLhs,RhsScalar,RhsStorageOrder,ConjugateRhs,ColMajor,ResInnerStride,UpLo,Version>
 {
   typedef typename ScalarBinaryOpTraits<LhsScalar, RhsScalar>::ReturnType ResScalar;
-  static EIGEN_STRONG_INLINE void run(Index size, Index depth,const LhsScalar* _lhs, Index lhsStride,
+  static HYDRA_EIGEN_STRONG_INLINE void run(Index size, Index depth,const LhsScalar* _lhs, Index lhsStride,
                                       const RhsScalar* _rhs, Index rhsStride,
                                       ResScalar* _res, Index resIncr, Index resStride,
                                       const ResScalar& alpha, level3_blocking<LhsScalar,RhsScalar>& blocking)
@@ -142,7 +142,7 @@ struct tribb_kernel
   typedef typename Traits::ResScalar ResScalar;
 
   enum {
-    BlockSize  = meta_least_common_multiple<EIGEN_PLAIN_ENUM_MAX(mr,nr),EIGEN_PLAIN_ENUM_MIN(mr,nr)>::ret
+    BlockSize  = meta_least_common_multiple<HYDRA_EIGEN_PLAIN_ENUM_MAX(mr,nr),HYDRA_EIGEN_PLAIN_ENUM_MIN(mr,nr)>::ret
   };
   void operator()(ResScalar* _res, Index resIncr, Index resStride, const LhsScalar* blockA, const RhsScalar* blockB, Index size, Index depth, const ResScalar& alpha)
   {
@@ -302,9 +302,9 @@ struct general_product_to_triangular_selector<MatrixType,ProductType,UpLo,false>
 
 template<typename MatrixType, unsigned int UpLo>
 template<typename ProductType>
-EIGEN_DEVICE_FUNC TriangularView<MatrixType,UpLo>& TriangularViewImpl<MatrixType,UpLo,Dense>::_assignProduct(const ProductType& prod, const Scalar& alpha, bool beta)
+HYDRA_EIGEN_DEVICE_FUNC TriangularView<MatrixType,UpLo>& TriangularViewImpl<MatrixType,UpLo,Dense>::_assignProduct(const ProductType& prod, const Scalar& alpha, bool beta)
 {
-  EIGEN_STATIC_ASSERT((UpLo&UnitDiag)==0, WRITING_TO_TRIANGULAR_PART_WITH_UNIT_DIAGONAL_IS_NOT_SUPPORTED);
+  HYDRA_EIGEN_STATIC_ASSERT((UpLo&UnitDiag)==0, WRITING_TO_TRIANGULAR_PART_WITH_UNIT_DIAGONAL_IS_NOT_SUPPORTED);
   eigen_assert(derived().nestedExpression().rows() == prod.rows() && derived().cols() == prod.cols());
 
   general_product_to_triangular_selector<MatrixType, ProductType, UpLo, internal::traits<ProductType>::InnerSize==1>::run(derived().nestedExpression().const_cast_derived(), prod, alpha, beta);
@@ -312,6 +312,6 @@ EIGEN_DEVICE_FUNC TriangularView<MatrixType,UpLo>& TriangularViewImpl<MatrixType
   return derived();
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_GENERAL_MATRIX_MATRIX_TRIANGULAR_H
+#endif // HYDRA_EIGEN_GENERAL_MATRIX_MATRIX_TRIANGULAR_H

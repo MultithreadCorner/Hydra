@@ -124,7 +124,7 @@ public:
 		//fCovMatrix << 0.0, 0.0, 0.0, 0.0;
 
 
-		Eigen::Matrix<double, npdfs, npdfs>  init = Eigen::Matrix<double, npdfs, npdfs>::Zero();
+		hydra::Eigen::Matrix<double, npdfs, npdfs>  init = Eigen::Matrix<double, npdfs, npdfs>::Zero();
 		//init << 0.0, 0.0, 0.0, 0.0;
 
 
@@ -136,7 +136,7 @@ public:
 				 init, detail::CovMatrixBinary<Eigen::Matrix<double, npdfs, npdfs>>() );
 
 
-		Eigen::Matrix<double, npdfs, npdfs> inverseCovMatrix = fCovMatrix.inverse();
+		hydra::Eigen::Matrix<double, npdfs, npdfs> inverseCovMatrix = fCovMatrix.inverse();
 
 		fBegin = iterator( first, SPlot<Iterator, PDF1, PDF2, PDFs...>::transformer(fCoefficients, fFunctors, inverseCovMatrix ));
 		fEnd   = iterator( last , SPlot<Iterator, PDF1, PDF2, PDFs...>::transformer(fCoefficients, fFunctors, inverseCovMatrix ));
@@ -214,7 +214,7 @@ public:
 	 * Get the covariance matrix of between the yields of PDFs.
 	 * @return Eigen::Matrix<double, npdfs, npdfs>
 	 */
-	Eigen::Matrix<double, npdfs, npdfs>
+	hydra::Eigen::Matrix<double, npdfs, npdfs>
 	GetCovMatrix() const {
 
 		return fCovMatrix;
@@ -317,7 +317,7 @@ private:
 	pdfs_tuple_type     fPDFs;
 	functors_tuple_type fFunctors;
 
-	Eigen::Matrix<double, npdfs, npdfs> fCovMatrix;
+	hydra::Eigen::Matrix<double, npdfs, npdfs> fCovMatrix;
 	iterator fBegin;
 	iterator fEnd;
 

@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_STL_FUNCTORS_H
-#define EIGEN_STL_FUNCTORS_H
+#ifndef HYDRA_EIGEN_STL_FUNCTORS_H
+#define HYDRA_EIGEN_STL_FUNCTORS_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 // Portable replacements for certain functors.
 namespace numext {
@@ -18,7 +18,7 @@ namespace numext {
 template<typename T = void>
 struct equal_to {
   typedef bool result_type;
-  EIGEN_DEVICE_FUNC bool operator()(const T& lhs, const T& rhs) const {
+  HYDRA_EIGEN_DEVICE_FUNC bool operator()(const T& lhs, const T& rhs) const {
     return lhs == rhs;
   }
 };
@@ -26,7 +26,7 @@ struct equal_to {
 template<typename T = void>
 struct not_equal_to {
   typedef bool result_type;
-  EIGEN_DEVICE_FUNC bool operator()(const T& lhs, const T& rhs) const {
+  HYDRA_EIGEN_DEVICE_FUNC bool operator()(const T& lhs, const T& rhs) const {
     return lhs != rhs;
   }
 };
@@ -102,7 +102,7 @@ template<typename T>
 struct functor_traits<numext::not_equal_to<T> >
   : functor_traits<std::not_equal_to<T> > {};
 
-#if (EIGEN_COMP_CXXVER < 11)
+#if (HYDRA_EIGEN_COMP_CXXVER < 11)
 // std::binder* are deprecated since c++11 and will be removed in c++17
 template<typename T>
 struct functor_traits<std::binder2nd<T> >
@@ -113,7 +113,7 @@ struct functor_traits<std::binder1st<T> >
 { enum { Cost = functor_traits<T>::Cost, PacketAccess = false }; };
 #endif
 
-#if (EIGEN_COMP_CXXVER < 17)
+#if (HYDRA_EIGEN_COMP_CXXVER < 17)
 // std::unary_negate is deprecated since c++17 and will be removed in c++20
 template<typename T>
 struct functor_traits<std::unary_negate<T> >
@@ -125,7 +125,7 @@ struct functor_traits<std::binary_negate<T> >
 { enum { Cost = 1 + functor_traits<T>::Cost, PacketAccess = false }; };
 #endif
 
-#ifdef EIGEN_STDEXT_SUPPORT
+#ifdef HYDRA_EIGEN_STDEXT_SUPPORT
 
 template<typename T0,typename T1>
 struct functor_traits<std::project1st<T0,T1> >
@@ -151,16 +151,16 @@ template<typename T0,typename T1,typename T2>
 struct functor_traits<std::binary_compose<T0,T1,T2> >
 { enum { Cost = functor_traits<T0>::Cost + functor_traits<T1>::Cost + functor_traits<T2>::Cost, PacketAccess = false }; };
 
-#endif // EIGEN_STDEXT_SUPPORT
+#endif // HYDRA_EIGEN_STDEXT_SUPPORT
 
 // allow to add new functors and specializations of functor_traits from outside Eigen.
 // this macro is really needed because functor_traits must be specialized after it is declared but before it is used...
-#ifdef EIGEN_FUNCTORS_PLUGIN
-#include EIGEN_FUNCTORS_PLUGIN
+#ifdef HYDRA_EIGEN_FUNCTORS_PLUGIN
+#include HYDRA_EIGEN_FUNCTORS_PLUGIN
 #endif
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_STL_FUNCTORS_H
+#endif // HYDRA_EIGEN_STL_FUNCTORS_H

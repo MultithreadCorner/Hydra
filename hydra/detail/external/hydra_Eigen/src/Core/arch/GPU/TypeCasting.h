@@ -7,19 +7,19 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_TYPE_CASTING_GPU_H
-#define EIGEN_TYPE_CASTING_GPU_H
+#ifndef HYDRA_EIGEN_TYPE_CASTING_GPU_H
+#define HYDRA_EIGEN_TYPE_CASTING_GPU_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
-#if (defined(EIGEN_HAS_CUDA_FP16) && defined(EIGEN_CUDA_ARCH) && EIGEN_CUDA_ARCH >= 300) || \
-  (defined(EIGEN_HAS_HIP_FP16) && defined(EIGEN_HIP_DEVICE_COMPILE))
+#if (defined(HYDRA_EIGEN_HAS_CUDA_FP16) && defined(HYDRA_EIGEN_CUDA_ARCH) && HYDRA_EIGEN_CUDA_ARCH >= 300) || \
+  (defined(HYDRA_EIGEN_HAS_HIP_FP16) && defined(HYDRA_EIGEN_HIP_DEVICE_COMPILE))
 
 
 template <>
-struct type_casting_traits<Eigen::half, float> {
+struct type_casting_traits<hydra_Eigen::half, float> {
   enum {
     VectorizedCast = 1,
     SrcCoeffRatio = 1,
@@ -27,14 +27,14 @@ struct type_casting_traits<Eigen::half, float> {
   };
 };
 
-template<> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE float4 pcast<half2, float4>(const half2& a, const half2& b) {
+template<> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE float4 pcast<half2, float4>(const half2& a, const half2& b) {
   float2 r1 = __half22float2(a);
   float2 r2 = __half22float2(b);
   return make_float4(r1.x, r1.y, r2.x, r2.y);
 }
 
 
-template<> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet4h2 pcast<float4, Packet4h2>(const float4& a, const float4& b) {
+template<> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE Packet4h2 pcast<float4, Packet4h2>(const float4& a, const float4& b) {
   Packet4h2 r;
   half2* r_alias=reinterpret_cast<half2*>(&r);
   r_alias[0]=__floats2half2_rn(a.x,a.y);
@@ -45,7 +45,7 @@ template<> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet4h2 pcast<float4, Packet4
 }
 
 template <>
-struct type_casting_traits<float, Eigen::half> {
+struct type_casting_traits<float, hydra_Eigen::half> {
   enum {
     VectorizedCast = 1,
     SrcCoeffRatio = 2,
@@ -53,7 +53,7 @@ struct type_casting_traits<float, Eigen::half> {
   };
 };
 
-template<> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE float4 pcast<Packet4h2, float4>(const Packet4h2& a) {
+template<> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE float4 pcast<Packet4h2, float4>(const Packet4h2& a) {
   // Simply discard the second half of the input
   float4 r;
   const half2* a_alias=reinterpret_cast<const half2*>(&a);
@@ -66,7 +66,7 @@ template<> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE float4 pcast<Packet4h2, float4>
   return r;
 }
 
-template<> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE half2 pcast<float4, half2>(const float4& a) {
+template<> HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE half2 pcast<float4, half2>(const float4& a) {
   // Simply discard the second half of the input
   return __floats2half2_rn(a.x, a.y);
 }
@@ -75,6 +75,6 @@ template<> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE half2 pcast<float4, half2>(cons
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_TYPE_CASTING_GPU_H
+#endif // HYDRA_EIGEN_TYPE_CASTING_GPU_H

@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_MATRIX_PRODUCT_MMA_ALTIVEC_H
-#define EIGEN_MATRIX_PRODUCT_MMA_ALTIVEC_H
+#ifndef HYDRA_EIGEN_MATRIX_PRODUCT_MMA_ALTIVEC_H
+#define HYDRA_EIGEN_MATRIX_PRODUCT_MMA_ALTIVEC_H
 
 #pragma GCC target("cpu=power10")
 
@@ -19,18 +19,18 @@
 #endif
 #endif
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
 template<typename Scalar, typename Packet>
-EIGEN_ALWAYS_INLINE void bsetzeroMMA(__vector_quad* acc)
+HYDRA_EIGEN_ALWAYS_INLINE void bsetzeroMMA(__vector_quad* acc)
 {
   __builtin_mma_xxsetaccz(acc);
 }
 
 template<typename DataMapper, typename Index, typename Packet, const Index accCols>
-EIGEN_ALWAYS_INLINE void storeAccumulator(Index i, Index j, const DataMapper& data, const Packet& alpha, __vector_quad* acc)
+HYDRA_EIGEN_ALWAYS_INLINE void storeAccumulator(Index i, Index j, const DataMapper& data, const Packet& alpha, __vector_quad* acc)
 {
   PacketBlock<Packet, 4> result;
   __builtin_mma_disassemble_acc(&result.packet, acc);
@@ -44,7 +44,7 @@ EIGEN_ALWAYS_INLINE void storeAccumulator(Index i, Index j, const DataMapper& da
 }
 
 template<typename DataMapper, typename Index, typename Packet, typename Packetc, const Index accColsC, int N>
-EIGEN_ALWAYS_INLINE void storeComplexAccumulator(Index i, Index j, const DataMapper& data, const Packet& alphaReal, const Packet& alphaImag, __vector_quad* accReal, __vector_quad* accImag)
+HYDRA_EIGEN_ALWAYS_INLINE void storeComplexAccumulator(Index i, Index j, const DataMapper& data, const Packet& alphaReal, const Packet& alphaImag, __vector_quad* accReal, __vector_quad* accImag)
 {
   PacketBlock<Packet, 4> resultReal, resultImag;
   __builtin_mma_disassemble_acc(&resultReal.packet, accReal);
@@ -65,7 +65,7 @@ EIGEN_ALWAYS_INLINE void storeComplexAccumulator(Index i, Index j, const DataMap
 
 // Defaults to float32, since Eigen still supports C++03 we can't use default template arguments
 template<typename LhsPacket, typename RhsPacket, bool NegativeAccumulate>
-EIGEN_ALWAYS_INLINE void pgerMMA(__vector_quad* acc, const RhsPacket& a, const LhsPacket& b)
+HYDRA_EIGEN_ALWAYS_INLINE void pgerMMA(__vector_quad* acc, const RhsPacket& a, const LhsPacket& b)
 {
   if(NegativeAccumulate)
   {
@@ -76,7 +76,7 @@ EIGEN_ALWAYS_INLINE void pgerMMA(__vector_quad* acc, const RhsPacket& a, const L
 }
 
 template<typename LhsPacket, typename RhsPacket, bool NegativeAccumulate>
-EIGEN_ALWAYS_INLINE void pgerMMA(__vector_quad* acc, const PacketBlock<Packet2d,2>& a, const Packet2d& b)
+HYDRA_EIGEN_ALWAYS_INLINE void pgerMMA(__vector_quad* acc, const PacketBlock<Packet2d,2>& a, const Packet2d& b)
 {
   __vector_pair* a0 = (__vector_pair *)(&a.packet[0]);
   if(NegativeAccumulate)
@@ -88,7 +88,7 @@ EIGEN_ALWAYS_INLINE void pgerMMA(__vector_quad* acc, const PacketBlock<Packet2d,
 }
 
 template<typename LhsPacket, typename RhsPacket, bool NegativeAccumulate>
-EIGEN_ALWAYS_INLINE void pgerMMA(__vector_quad* acc, const __vector_pair& a, const Packet2d& b)
+HYDRA_EIGEN_ALWAYS_INLINE void pgerMMA(__vector_quad* acc, const __vector_pair& a, const Packet2d& b)
 {
   if(NegativeAccumulate)
   {
@@ -99,13 +99,13 @@ EIGEN_ALWAYS_INLINE void pgerMMA(__vector_quad* acc, const __vector_pair& a, con
 }
 
 template<typename LhsPacket, typename RhsPacket, bool NegativeAccumulate>
-EIGEN_ALWAYS_INLINE void pgerMMA(__vector_quad*, const __vector_pair&, const Packet4f&)
+HYDRA_EIGEN_ALWAYS_INLINE void pgerMMA(__vector_quad*, const __vector_pair&, const Packet4f&)
 {
   // Just for compilation
 }
 
 template<typename Scalar, typename Packet, typename RhsPacket, bool ConjugateLhs, bool ConjugateRhs, bool LhsIsReal, bool RhsIsReal>
-EIGEN_ALWAYS_INLINE void pgercMMA(__vector_quad* accReal, __vector_quad* accImag, const Packet& lhsV, const Packet& lhsVi, const RhsPacket& rhsV, const RhsPacket& rhsVi)
+HYDRA_EIGEN_ALWAYS_INLINE void pgercMMA(__vector_quad* accReal, __vector_quad* accImag, const Packet& lhsV, const Packet& lhsVi, const RhsPacket& rhsV, const RhsPacket& rhsVi)
 {
   pgerMMA<Packet, RhsPacket, false>(accReal,  rhsV,  lhsV);
   if(LhsIsReal) {
@@ -115,7 +115,7 @@ EIGEN_ALWAYS_INLINE void pgercMMA(__vector_quad* accReal, __vector_quad* accImag
       pgerMMA<Packet, RhsPacket, ConjugateLhs == ConjugateRhs>(accReal, rhsVi, lhsVi);
       pgerMMA<Packet, RhsPacket, ConjugateRhs>(accImag, rhsVi,  lhsV);
     } else {
-      EIGEN_UNUSED_VARIABLE(rhsVi);
+      HYDRA_EIGEN_UNUSED_VARIABLE(rhsVi);
     }
     pgerMMA<Packet, RhsPacket, ConjugateLhs>(accImag,  rhsV, lhsVi);
   }
@@ -123,22 +123,22 @@ EIGEN_ALWAYS_INLINE void pgercMMA(__vector_quad* accReal, __vector_quad* accImag
 
 // This is necessary because ploadRhs for double returns a pair of vectors when MMA is enabled.
 template<typename Scalar, typename Packet>
-EIGEN_ALWAYS_INLINE void ploadRhsMMA(const Scalar* rhs, Packet& rhsV)
+HYDRA_EIGEN_ALWAYS_INLINE void ploadRhsMMA(const Scalar* rhs, Packet& rhsV)
 {
   rhsV = ploadRhs<Scalar, Packet>((const Scalar*)(rhs));
 } 
 
 template<>
-EIGEN_ALWAYS_INLINE void ploadRhsMMA<double, PacketBlock<Packet2d, 2> >(const double* rhs, PacketBlock<Packet2d, 2>& rhsV)
+HYDRA_EIGEN_ALWAYS_INLINE void ploadRhsMMA<double, PacketBlock<Packet2d, 2> >(const double* rhs, PacketBlock<Packet2d, 2>& rhsV)
 {
   rhsV.packet[0] = ploadRhs<double, Packet2d>((const double *)((Packet2d *)rhs      ));
   rhsV.packet[1] = ploadRhs<double, Packet2d>((const double *)(((Packet2d *)rhs) + 1));
 }
 
 template<>
-EIGEN_ALWAYS_INLINE void ploadRhsMMA<double, __vector_pair>(const double* rhs, __vector_pair& rhsV)
+HYDRA_EIGEN_ALWAYS_INLINE void ploadRhsMMA<double, __vector_pair>(const double* rhs, __vector_pair& rhsV)
 {
-#if EIGEN_COMP_LLVM
+#if HYDRA_EIGEN_COMP_LLVM
   __builtin_vsx_assemble_pair(&rhsV,
     (__vector unsigned char)(ploadRhs<double, Packet2d>((const double *)(((Packet2d *)rhs) + 1))),
     (__vector unsigned char)(ploadRhs<double, Packet2d>((const double *)((Packet2d *)rhs      ))));
@@ -148,7 +148,7 @@ EIGEN_ALWAYS_INLINE void ploadRhsMMA<double, __vector_pair>(const double* rhs, _
 }
 
 template<>
-EIGEN_ALWAYS_INLINE void ploadRhsMMA(const float*, __vector_pair&)
+HYDRA_EIGEN_ALWAYS_INLINE void ploadRhsMMA(const float*, __vector_pair&)
 {
   // Just for compilation
 }
@@ -164,7 +164,7 @@ EIGEN_ALWAYS_INLINE void ploadRhsMMA(const float*, __vector_pair&)
     lhsV##iter = ploadLhs<Scalar, Packet>(lhs_ptr##iter); \
     lhs_ptr##iter += accCols; \
   } else { \
-    EIGEN_UNUSED_VARIABLE(lhsV##iter); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(lhsV##iter); \
   }
 
 #define MICRO_MMA_WORK_ONE(iter, type, peel) \
@@ -180,7 +180,7 @@ EIGEN_ALWAYS_INLINE void ploadRhsMMA(const float*, __vector_pair&)
     func(0,type,peel) func(1,type,peel) func(2,type,peel) func(3,type,peel) \
     func(4,type,peel) func(5,type,peel) func(6,type,peel) func(7,type,peel) \
   } else { \
-    EIGEN_UNUSED_VARIABLE(rhsV##peel); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(rhsV##peel); \
   }
 
 #define MICRO_MMA_UNROLL_TYPE_PEEL(func, func2, type) \
@@ -215,7 +215,7 @@ EIGEN_ALWAYS_INLINE void ploadRhsMMA(const float*, __vector_pair&)
   if (unroll_factor > iter) { \
     bsetzeroMMA<Scalar, Packet>(&accZero##iter); \
   } else { \
-    EIGEN_UNUSED_VARIABLE(accZero##iter); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(accZero##iter); \
   }
 
 #define MICRO_MMA_DST_PTR MICRO_MMA_UNROLL(MICRO_MMA_DST_PTR_ONE)
@@ -224,14 +224,14 @@ EIGEN_ALWAYS_INLINE void ploadRhsMMA(const float*, __vector_pair&)
   if (unroll_factor > iter) { \
     lhs_ptr##iter = lhs_base + ( (row/accCols) + iter )*strideA*accCols + accCols*offsetA; \
   } else { \
-    EIGEN_UNUSED_VARIABLE(lhs_ptr##iter); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(lhs_ptr##iter); \
   }
 
 #define MICRO_MMA_SRC_PTR MICRO_MMA_UNROLL(MICRO_MMA_SRC_PTR_ONE)
 
 #define MICRO_MMA_PREFETCH_ONE(iter) \
   if (unroll_factor > iter) { \
-    EIGEN_POWER_PREFETCH(lhs_ptr##iter); \
+    HYDRA_EIGEN_POWER_PREFETCH(lhs_ptr##iter); \
   }
 
 #define MICRO_MMA_PREFETCH MICRO_MMA_UNROLL(MICRO_MMA_PREFETCH_ONE)
@@ -244,7 +244,7 @@ EIGEN_ALWAYS_INLINE void ploadRhsMMA(const float*, __vector_pair&)
 #define MICRO_MMA_STORE MICRO_MMA_UNROLL(MICRO_MMA_STORE_ONE)
 
 template<int unroll_factor, typename Scalar, typename Packet, typename RhsPacket, typename DataMapper, typename Index, const Index accRows, const Index accCols>
-EIGEN_STRONG_INLINE void gemm_unrolled_MMA_iteration(
+HYDRA_EIGEN_STRONG_INLINE void gemm_unrolled_MMA_iteration(
   const DataMapper& res,
   const Scalar* lhs_base,
   const Scalar* rhs_base,
@@ -265,7 +265,7 @@ EIGEN_STRONG_INLINE void gemm_unrolled_MMA_iteration(
   Index k = 0;
   for(; k + PEEL_MMA <= depth; k+= PEEL_MMA)
   {
-    EIGEN_POWER_PREFETCH(rhs_ptr);
+    HYDRA_EIGEN_POWER_PREFETCH(rhs_ptr);
     MICRO_MMA_PREFETCH
     MICRO_MMA_ONE_PEEL
   }
@@ -386,11 +386,11 @@ void gemmMMA(const DataMapper& res, const Scalar* blockA, const Scalar* blockB, 
       lhsVi##iter = ploadLhs<Scalar, Packet>(lhs_ptr_imag##iter); \
       lhs_ptr_imag##iter += accCols; \
     } else { \
-      EIGEN_UNUSED_VARIABLE(lhsVi##iter); \
+      HYDRA_EIGEN_UNUSED_VARIABLE(lhsVi##iter); \
     } \
   } else { \
-    EIGEN_UNUSED_VARIABLE(lhsV##iter); \
-    EIGEN_UNUSED_VARIABLE(lhsVi##iter); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(lhsV##iter); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(lhsVi##iter); \
   }
 
 #define MICRO_COMPLEX_MMA_WORK_ONE(iter, type, peel) \
@@ -406,13 +406,13 @@ void gemmMMA(const DataMapper& res, const Scalar* blockA, const Scalar* blockB, 
     if(!RhsIsReal) { \
       ploadRhsMMA<Scalar, type>(rhs_ptr_imag + (accRows * peel), rhsVi##peel); \
     } else { \
-      EIGEN_UNUSED_VARIABLE(rhsVi##peel); \
+      HYDRA_EIGEN_UNUSED_VARIABLE(rhsVi##peel); \
     } \
     MICRO_COMPLEX_MMA_UNROLL(func2); \
     func(0,type,peel) func(1,type,peel) func(2,type,peel) func(3,type,peel) func(4,type,peel) \
   } else { \
-    EIGEN_UNUSED_VARIABLE(rhsV##peel); \
-    EIGEN_UNUSED_VARIABLE(rhsVi##peel); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(rhsV##peel); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(rhsVi##peel); \
   }
 
 #define MICRO_COMPLEX_MMA_UNROLL_TYPE_PEEL(func, func2, type) \
@@ -451,8 +451,8 @@ void gemmMMA(const DataMapper& res, const Scalar* blockA, const Scalar* blockB, 
     bsetzeroMMA<Scalar, Packet>(&accReal##iter); \
     bsetzeroMMA<Scalar, Packet>(&accImag##iter); \
   } else { \
-    EIGEN_UNUSED_VARIABLE(accReal##iter); \
-    EIGEN_UNUSED_VARIABLE(accImag##iter); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(accReal##iter); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(accImag##iter); \
   }
 
 #define MICRO_COMPLEX_MMA_DST_PTR MICRO_COMPLEX_MMA_UNROLL(MICRO_COMPLEX_MMA_DST_PTR_ONE)
@@ -463,20 +463,20 @@ void gemmMMA(const DataMapper& res, const Scalar* blockA, const Scalar* blockB, 
     if(!LhsIsReal) { \
       lhs_ptr_imag##iter = lhs_ptr_real##iter + accCols*strideA; \
     } else { \
-      EIGEN_UNUSED_VARIABLE(lhs_ptr_imag##iter); \
+      HYDRA_EIGEN_UNUSED_VARIABLE(lhs_ptr_imag##iter); \
     } \
   } else { \
-    EIGEN_UNUSED_VARIABLE(lhs_ptr_real##iter); \
-    EIGEN_UNUSED_VARIABLE(lhs_ptr_imag##iter); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(lhs_ptr_real##iter); \
+    HYDRA_EIGEN_UNUSED_VARIABLE(lhs_ptr_imag##iter); \
   }
 
 #define MICRO_COMPLEX_MMA_SRC_PTR MICRO_COMPLEX_MMA_UNROLL(MICRO_COMPLEX_MMA_SRC_PTR_ONE)
 
 #define MICRO_COMPLEX_MMA_PREFETCH_ONE(iter) \
   if (unroll_factor > iter) { \
-    EIGEN_POWER_PREFETCH(lhs_ptr_real##iter); \
+    HYDRA_EIGEN_POWER_PREFETCH(lhs_ptr_real##iter); \
     if(!LhsIsReal) { \
-      EIGEN_POWER_PREFETCH(lhs_ptr_imag##iter); \
+      HYDRA_EIGEN_POWER_PREFETCH(lhs_ptr_imag##iter); \
     } \
   }
 
@@ -490,7 +490,7 @@ void gemmMMA(const DataMapper& res, const Scalar* blockA, const Scalar* blockB, 
 #define MICRO_COMPLEX_MMA_STORE MICRO_COMPLEX_MMA_UNROLL(MICRO_COMPLEX_MMA_STORE_ONE)
 
 template<int unroll_factor, typename Scalar, typename Packet, typename Packetc, typename RhsPacket, typename DataMapper, typename Index, const Index accRows, const Index accCols, bool ConjugateLhs, bool ConjugateRhs, bool LhsIsReal, bool RhsIsReal>
-EIGEN_STRONG_INLINE void gemm_complex_unrolled_MMA_iteration(
+HYDRA_EIGEN_STRONG_INLINE void gemm_complex_unrolled_MMA_iteration(
   const DataMapper& res,
   const Scalar* lhs_base,
   const Scalar* rhs_base,
@@ -508,7 +508,7 @@ EIGEN_STRONG_INLINE void gemm_complex_unrolled_MMA_iteration(
   if(!RhsIsReal) {
     rhs_ptr_imag = rhs_base + accRows*strideB;
   } else {
-    EIGEN_UNUSED_VARIABLE(rhs_ptr_imag);
+    HYDRA_EIGEN_UNUSED_VARIABLE(rhs_ptr_imag);
   }
   const Scalar* lhs_ptr_real0 = NULL, * lhs_ptr_imag0 = NULL, * lhs_ptr_real1 = NULL, * lhs_ptr_imag1 = NULL;
   const Scalar* lhs_ptr_real2 = NULL, * lhs_ptr_imag2 = NULL, * lhs_ptr_real3 = NULL, * lhs_ptr_imag3 = NULL;
@@ -521,9 +521,9 @@ EIGEN_STRONG_INLINE void gemm_complex_unrolled_MMA_iteration(
   Index k = 0;
   for(; k + PEEL_COMPLEX_MMA <= depth; k+= PEEL_COMPLEX_MMA)
   {
-    EIGEN_POWER_PREFETCH(rhs_ptr_real);
+    HYDRA_EIGEN_POWER_PREFETCH(rhs_ptr_real);
     if(!RhsIsReal) {
-      EIGEN_POWER_PREFETCH(rhs_ptr_imag);
+      HYDRA_EIGEN_POWER_PREFETCH(rhs_ptr_imag);
     }
     MICRO_COMPLEX_MMA_PREFETCH
     MICRO_COMPLEX_MMA_ONE_PEEL
@@ -623,7 +623,7 @@ void gemm_complexMMA(const DataMapper& res, const LhsScalar* blockAc, const RhsS
 #pragma GCC reset_options
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_MATRIX_PRODUCT_MMA_ALTIVEC_H
+#endif // HYDRA_EIGEN_MATRIX_PRODUCT_MMA_ALTIVEC_H
 

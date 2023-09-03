@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_HESSENBERGDECOMPOSITION_H
-#define EIGEN_HESSENBERGDECOMPOSITION_H
+#ifndef HYDRA_EIGEN_HESSENBERGDECOMPOSITION_H
+#define HYDRA_EIGEN_HESSENBERGDECOMPOSITION_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
   
@@ -71,7 +71,7 @@ template<typename _MatrixType> class HessenbergDecomposition
 
     /** \brief Scalar type for matrices of type #MatrixType. */
     typedef typename MatrixType::Scalar Scalar;
-    typedef Eigen::Index Index; ///< \deprecated since Eigen 3.3
+    typedef hydra_Eigen::Index Index; ///< \deprecated since Eigen 3.3
 
     /** \brief Type for vector of Householder coefficients.
       *
@@ -369,6 +369,6 @@ template<typename MatrixType> struct HessenbergDecompositionMatrixHReturnType
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_HESSENBERGDECOMPOSITION_H
+#endif // HYDRA_EIGEN_HESSENBERGDECOMPOSITION_H

@@ -30,10 +30,10 @@
  ********************************************************************************
 */
 
-#ifndef EIGEN_SELFADJOINT_MATRIX_VECTOR_BLAS_H
-#define EIGEN_SELFADJOINT_MATRIX_VECTOR_BLAS_H
+#ifndef HYDRA_EIGEN_SELFADJOINT_MATRIX_VECTOR_BLAS_H
+#define HYDRA_EIGEN_SELFADJOINT_MATRIX_VECTOR_BLAS_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -47,7 +47,7 @@ template<typename Scalar, typename Index, int StorageOrder, int UpLo, bool Conju
 struct selfadjoint_matrix_vector_product_symv :
   selfadjoint_matrix_vector_product<Scalar,Index,StorageOrder,UpLo,ConjugateLhs,ConjugateRhs,BuiltIn> {};
 
-#define EIGEN_BLAS_SYMV_SPECIALIZE(Scalar) \
+#define HYDRA_EIGEN_BLAS_SYMV_SPECIALIZE(Scalar) \
 template<typename Index, int StorageOrder, int UpLo, bool ConjugateLhs, bool ConjugateRhs> \
 struct selfadjoint_matrix_vector_product<Scalar,Index,StorageOrder,UpLo,ConjugateLhs,ConjugateRhs,Specialized> { \
 static void run( \
@@ -66,12 +66,12 @@ static void run( \
   } \
 }; \
 
-EIGEN_BLAS_SYMV_SPECIALIZE(double)
-EIGEN_BLAS_SYMV_SPECIALIZE(float)
-EIGEN_BLAS_SYMV_SPECIALIZE(dcomplex)
-EIGEN_BLAS_SYMV_SPECIALIZE(scomplex)
+HYDRA_EIGEN_BLAS_SYMV_SPECIALIZE(double)
+HYDRA_EIGEN_BLAS_SYMV_SPECIALIZE(float)
+HYDRA_EIGEN_BLAS_SYMV_SPECIALIZE(dcomplex)
+HYDRA_EIGEN_BLAS_SYMV_SPECIALIZE(scomplex)
 
-#define EIGEN_BLAS_SYMV_SPECIALIZATION(EIGTYPE,BLASTYPE,BLASFUNC) \
+#define HYDRA_EIGEN_BLAS_SYMV_SPECIALIZATION(EIGTYPE,BLASTYPE,BLASFUNC) \
 template<typename Index, int StorageOrder, int UpLo, bool ConjugateLhs, bool ConjugateRhs> \
 struct selfadjoint_matrix_vector_product_symv<EIGTYPE,Index,StorageOrder,UpLo,ConjugateLhs,ConjugateRhs> \
 { \
@@ -99,20 +99,20 @@ const EIGTYPE* _rhs, EIGTYPE* res, EIGTYPE alpha) \
 }\
 };
 
-#ifdef EIGEN_USE_MKL
-EIGEN_BLAS_SYMV_SPECIALIZATION(double,   double, dsymv)
-EIGEN_BLAS_SYMV_SPECIALIZATION(float,    float,  ssymv)
-EIGEN_BLAS_SYMV_SPECIALIZATION(dcomplex, MKL_Complex16, zhemv)
-EIGEN_BLAS_SYMV_SPECIALIZATION(scomplex, MKL_Complex8,  chemv)
+#ifdef HYDRA_EIGEN_USE_MKL
+HYDRA_EIGEN_BLAS_SYMV_SPECIALIZATION(double,   double, dsymv)
+HYDRA_EIGEN_BLAS_SYMV_SPECIALIZATION(float,    float,  ssymv)
+HYDRA_EIGEN_BLAS_SYMV_SPECIALIZATION(dcomplex, MKL_Complex16, zhemv)
+HYDRA_EIGEN_BLAS_SYMV_SPECIALIZATION(scomplex, MKL_Complex8,  chemv)
 #else
-EIGEN_BLAS_SYMV_SPECIALIZATION(double,   double, dsymv_)
-EIGEN_BLAS_SYMV_SPECIALIZATION(float,    float,  ssymv_)
-EIGEN_BLAS_SYMV_SPECIALIZATION(dcomplex, double, zhemv_)
-EIGEN_BLAS_SYMV_SPECIALIZATION(scomplex, float,  chemv_)
+HYDRA_EIGEN_BLAS_SYMV_SPECIALIZATION(double,   double, dsymv_)
+HYDRA_EIGEN_BLAS_SYMV_SPECIALIZATION(float,    float,  ssymv_)
+HYDRA_EIGEN_BLAS_SYMV_SPECIALIZATION(dcomplex, double, zhemv_)
+HYDRA_EIGEN_BLAS_SYMV_SPECIALIZATION(scomplex, float,  chemv_)
 #endif
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SELFADJOINT_MATRIX_VECTOR_BLAS_H
+#endif // HYDRA_EIGEN_SELFADJOINT_MATRIX_VECTOR_BLAS_H

@@ -7,8 +7,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_UMFPACKSUPPORT_H
-#define EIGEN_UMFPACKSUPPORT_H
+#ifndef HYDRA_EIGEN_UMFPACKSUPPORT_H
+#define HYDRA_EIGEN_UMFPACKSUPPORT_H
 
 // for compatibility with super old version of umfpack,
 // not sure this is really needed, but this is harmless.
@@ -20,7 +20,7 @@
 #endif
 #endif
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 /* TODO extract L, extract U, compute det, etc... */
 
@@ -637,6 +637,6 @@ bool UmfPackLU<MatrixType>::_solve_impl(const MatrixBase<BDerived> &b, MatrixBas
   return true;
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_UMFPACKSUPPORT_H
+#endif // HYDRA_EIGEN_UMFPACKSUPPORT_H

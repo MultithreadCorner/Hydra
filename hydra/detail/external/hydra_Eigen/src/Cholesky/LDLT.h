@@ -10,10 +10,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_LDLT_H
-#define EIGEN_LDLT_H
+#ifndef HYDRA_EIGEN_LDLT_H
+#define HYDRA_EIGEN_LDLT_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
   template<typename _MatrixType, int _UpLo> struct traits<LDLT<_MatrixType, _UpLo> >
@@ -64,7 +64,7 @@ template<typename _MatrixType, int _UpLo> class LDLT
     typedef SolverBase<LDLT> Base;
     friend class SolverBase<LDLT>;
 
-    EIGEN_GENERIC_PUBLIC_INTERFACE(LDLT)
+    HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(LDLT)
     enum {
       MaxRowsAtCompileTime = MatrixType::MaxRowsAtCompileTime,
       MaxColsAtCompileTime = MatrixType::MaxColsAtCompileTime,
@@ -122,7 +122,7 @@ template<typename _MatrixType, int _UpLo> class LDLT
 
     /** \brief Constructs a LDLT factorization from a given matrix
       *
-      * This overloaded constructor is provided for \link InplaceDecomposition inplace decomposition \endlink when \c MatrixType is a Eigen::Ref.
+      * This overloaded constructor is provided for \link InplaceDecomposition inplace decomposition \endlink when \c MatrixType is a hydra_Eigen::Ref.
       *
       * \sa LDLT(const EigenBase&)
       */
@@ -188,7 +188,7 @@ template<typename _MatrixType, int _UpLo> class LDLT
       return m_sign == internal::NegativeSemiDef || m_sign == internal::ZeroSign;
     }
 
-    #ifdef EIGEN_PARSED_BY_DOXYGEN
+    #ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** \returns a solution x of \f$ A x = b \f$ using the current decomposition of A.
       *
       * This function also supports in-place solves using the syntax <tt>x = decompositionObject.solve(x)</tt> .
@@ -246,8 +246,8 @@ template<typename _MatrixType, int _UpLo> class LDLT
       */
     const LDLT& adjoint() const { return *this; };
 
-    EIGEN_DEVICE_FUNC inline EIGEN_CONSTEXPR Index rows() const EIGEN_NOEXCEPT { return m_matrix.rows(); }
-    EIGEN_DEVICE_FUNC inline EIGEN_CONSTEXPR Index cols() const EIGEN_NOEXCEPT { return m_matrix.cols(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline HYDRA_EIGEN_CONSTEXPR Index rows() const HYDRA_EIGEN_NOEXCEPT { return m_matrix.rows(); }
+    HYDRA_EIGEN_DEVICE_FUNC inline HYDRA_EIGEN_CONSTEXPR Index cols() const HYDRA_EIGEN_NOEXCEPT { return m_matrix.cols(); }
 
     /** \brief Reports whether previous computation was successful.
       *
@@ -260,7 +260,7 @@ template<typename _MatrixType, int _UpLo> class LDLT
       return m_info;
     }
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     template<typename RhsType, typename DstType>
     void _solve_impl(const RhsType &rhs, DstType &dst) const;
 
@@ -272,7 +272,7 @@ template<typename _MatrixType, int _UpLo> class LDLT
 
     static void check_template_parameters()
     {
-      EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+      HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
     }
 
     /** \internal
@@ -460,14 +460,14 @@ template<> struct ldlt_inplace<Lower>
 template<> struct ldlt_inplace<Upper>
 {
   template<typename MatrixType, typename TranspositionType, typename Workspace>
-  static EIGEN_STRONG_INLINE bool unblocked(MatrixType& mat, TranspositionType& transpositions, Workspace& temp, SignMatrix& sign)
+  static HYDRA_EIGEN_STRONG_INLINE bool unblocked(MatrixType& mat, TranspositionType& transpositions, Workspace& temp, SignMatrix& sign)
   {
     Transpose<MatrixType> matt(mat);
     return ldlt_inplace<Lower>::unblocked(matt, transpositions, temp, sign);
   }
 
   template<typename MatrixType, typename TranspositionType, typename Workspace, typename WType>
-  static EIGEN_STRONG_INLINE bool update(MatrixType& mat, TranspositionType& transpositions, Workspace& tmp, WType& w, const typename MatrixType::RealScalar& sigma=1)
+  static HYDRA_EIGEN_STRONG_INLINE bool update(MatrixType& mat, TranspositionType& transpositions, Workspace& tmp, WType& w, const typename MatrixType::RealScalar& sigma=1)
   {
     Transpose<MatrixType> matt(mat);
     return ldlt_inplace<Lower>::update(matt, transpositions, tmp, w.conjugate(), sigma);
@@ -561,7 +561,7 @@ LDLT<MatrixType,_UpLo>& LDLT<MatrixType,_UpLo>::rankUpdate(const MatrixBase<Deri
   return *this;
 }
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template<typename _MatrixType, int _UpLo>
 template<typename RhsType, typename DstType>
 void LDLT<_MatrixType,_UpLo>::_solve_impl(const RhsType &rhs, DstType &dst) const
@@ -683,6 +683,6 @@ MatrixBase<Derived>::ldlt() const
   return LDLT<PlainObject>(derived());
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_LDLT_H
+#endif // HYDRA_EIGEN_LDLT_H

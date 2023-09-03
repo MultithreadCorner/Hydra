@@ -7,15 +7,15 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_RANDOM_H
-#define EIGEN_RANDOM_H
+#ifndef HYDRA_EIGEN_RANDOM_H
+#define HYDRA_EIGEN_RANDOM_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
 template<typename Scalar> struct scalar_random_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_random_op)
+  HYDRA_EIGEN_EMPTY_STRUCT_CTOR(scalar_random_op)
   inline const Scalar operator() () const { return random<Scalar>(); }
 };
 
@@ -128,7 +128,7 @@ DenseBase<Derived>::Random()
   * \sa class CwiseNullaryOp, setRandom(Index), setRandom(Index,Index)
   */
 template<typename Derived>
-EIGEN_DEVICE_FUNC inline Derived& DenseBase<Derived>::setRandom()
+HYDRA_EIGEN_DEVICE_FUNC inline Derived& DenseBase<Derived>::setRandom()
 {
   return *this = Random(rows(), cols());
 }
@@ -147,7 +147,7 @@ EIGEN_DEVICE_FUNC inline Derived& DenseBase<Derived>::setRandom()
   * \sa DenseBase::setRandom(), setRandom(Index,Index), class CwiseNullaryOp, DenseBase::Random()
   */
 template<typename Derived>
-EIGEN_STRONG_INLINE Derived&
+HYDRA_EIGEN_STRONG_INLINE Derived&
 PlainObjectBase<Derived>::setRandom(Index newSize)
 {
   resize(newSize);
@@ -170,7 +170,7 @@ PlainObjectBase<Derived>::setRandom(Index newSize)
   * \sa DenseBase::setRandom(), setRandom(Index), class CwiseNullaryOp, DenseBase::Random()
   */
 template<typename Derived>
-EIGEN_STRONG_INLINE Derived&
+HYDRA_EIGEN_STRONG_INLINE Derived&
 PlainObjectBase<Derived>::setRandom(Index rows, Index cols)
 {
   resize(rows, cols);
@@ -189,7 +189,7 @@ PlainObjectBase<Derived>::setRandom(Index rows, Index cols)
   * \sa DenseBase::setRandom(), setRandom(Index), setRandom(Index, NoChange_t), class CwiseNullaryOp, DenseBase::Random()
   */
 template<typename Derived>
-EIGEN_STRONG_INLINE Derived&
+HYDRA_EIGEN_STRONG_INLINE Derived&
 PlainObjectBase<Derived>::setRandom(NoChange_t, Index cols)
 {
   return setRandom(rows(), cols);
@@ -207,12 +207,12 @@ PlainObjectBase<Derived>::setRandom(NoChange_t, Index cols)
   * \sa DenseBase::setRandom(), setRandom(Index), setRandom(NoChange_t, Index), class CwiseNullaryOp, DenseBase::Random()
   */
 template<typename Derived>
-EIGEN_STRONG_INLINE Derived&
+HYDRA_EIGEN_STRONG_INLINE Derived&
 PlainObjectBase<Derived>::setRandom(Index rows, NoChange_t)
 {
   return setRandom(rows, cols());
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_RANDOM_H
+#endif // HYDRA_EIGEN_RANDOM_H

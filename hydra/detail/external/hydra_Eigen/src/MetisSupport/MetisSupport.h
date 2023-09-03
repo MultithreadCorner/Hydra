@@ -9,7 +9,7 @@
 #ifndef METIS_SUPPORT_H
 #define METIS_SUPPORT_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 /**
  * Get the fill-reducing ordering from the METIS package
  * 

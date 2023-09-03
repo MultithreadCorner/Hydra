@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSE_CWISE_BINARY_OP_H
-#define EIGEN_SPARSE_CWISE_BINARY_OP_H
+#ifndef HYDRA_EIGEN_SPARSE_CWISE_BINARY_OP_H
+#define HYDRA_EIGEN_SPARSE_CWISE_BINARY_OP_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 // Here we have to handle 3 cases:
 //  1 - sparse op dense
@@ -39,10 +39,10 @@ class CwiseBinaryOpImpl<BinaryOp, Lhs, Rhs, Sparse>
   public:
     typedef CwiseBinaryOp<BinaryOp, Lhs, Rhs> Derived;
     typedef SparseMatrixBase<Derived> Base;
-    EIGEN_SPARSE_PUBLIC_INTERFACE(Derived)
+    HYDRA_EIGEN_SPARSE_PUBLIC_INTERFACE(Derived)
     CwiseBinaryOpImpl()
     {
-      EIGEN_STATIC_ASSERT((
+      HYDRA_EIGEN_STATIC_ASSERT((
                 (!internal::is_same<typename internal::traits<Lhs>::StorageKind,
                                     typename internal::traits<Rhs>::StorageKind>::value)
             ||  ((internal::evaluator<Lhs>::Flags&RowMajorBit) == (internal::evaluator<Rhs>::Flags&RowMajorBit))),
@@ -72,13 +72,13 @@ public:
   {
   public:
     
-    EIGEN_STRONG_INLINE InnerIterator(const binary_evaluator& aEval, Index outer)
+    HYDRA_EIGEN_STRONG_INLINE InnerIterator(const binary_evaluator& aEval, Index outer)
       : m_lhsIter(aEval.m_lhsImpl,outer), m_rhsIter(aEval.m_rhsImpl,outer), m_functor(aEval.m_functor)
     {
       this->operator++();
     }
 
-    EIGEN_STRONG_INLINE InnerIterator& operator++()
+    HYDRA_EIGEN_STRONG_INLINE InnerIterator& operator++()
     {
       if (m_lhsIter && m_rhsIter && (m_lhsIter.index() == m_rhsIter.index()))
       {
@@ -107,14 +107,14 @@ public:
       return *this;
     }
 
-    EIGEN_STRONG_INLINE Scalar value() const { return m_value; }
+    HYDRA_EIGEN_STRONG_INLINE Scalar value() const { return m_value; }
 
-    EIGEN_STRONG_INLINE StorageIndex index() const { return m_id; }
-    EIGEN_STRONG_INLINE Index outer() const { return m_lhsIter.outer(); }
-    EIGEN_STRONG_INLINE Index row() const { return Lhs::IsRowMajor ? m_lhsIter.row() : index(); }
-    EIGEN_STRONG_INLINE Index col() const { return Lhs::IsRowMajor ? index() : m_lhsIter.col(); }
+    HYDRA_EIGEN_STRONG_INLINE StorageIndex index() const { return m_id; }
+    HYDRA_EIGEN_STRONG_INLINE Index outer() const { return m_lhsIter.outer(); }
+    HYDRA_EIGEN_STRONG_INLINE Index row() const { return Lhs::IsRowMajor ? m_lhsIter.row() : index(); }
+    HYDRA_EIGEN_STRONG_INLINE Index col() const { return Lhs::IsRowMajor ? index() : m_lhsIter.col(); }
 
-    EIGEN_STRONG_INLINE operator bool() const { return m_id>=0; }
+    HYDRA_EIGEN_STRONG_INLINE operator bool() const { return m_id>=0; }
 
   protected:
     LhsIterator m_lhsIter;
@@ -135,8 +135,8 @@ public:
       m_lhsImpl(xpr.lhs()), 
       m_rhsImpl(xpr.rhs())  
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<BinaryOp>::Cost);
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<BinaryOp>::Cost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
   
   inline Index nonZerosEstimate() const {
@@ -166,13 +166,13 @@ public:
     enum { IsRowMajor = (int(Rhs::Flags)&RowMajorBit)==RowMajorBit };
   public:
 
-    EIGEN_STRONG_INLINE InnerIterator(const binary_evaluator& aEval, Index outer)
+    HYDRA_EIGEN_STRONG_INLINE InnerIterator(const binary_evaluator& aEval, Index outer)
       : m_lhsEval(aEval.m_lhsImpl), m_rhsIter(aEval.m_rhsImpl,outer), m_functor(aEval.m_functor), m_value(0), m_id(-1), m_innerSize(aEval.m_expr.rhs().innerSize())
     {
       this->operator++();
     }
 
-    EIGEN_STRONG_INLINE InnerIterator& operator++()
+    HYDRA_EIGEN_STRONG_INLINE InnerIterator& operator++()
     {
       ++m_id;
       if(m_id<m_innerSize)
@@ -191,14 +191,14 @@ public:
       return *this;
     }
 
-    EIGEN_STRONG_INLINE Scalar value() const { eigen_internal_assert(m_id<m_innerSize); return m_value; }
+    HYDRA_EIGEN_STRONG_INLINE Scalar value() const { eigen_internal_assert(m_id<m_innerSize); return m_value; }
 
-    EIGEN_STRONG_INLINE StorageIndex index() const { return m_id; }
-    EIGEN_STRONG_INLINE Index outer() const { return m_rhsIter.outer(); }
-    EIGEN_STRONG_INLINE Index row() const { return IsRowMajor ? m_rhsIter.outer() : m_id; }
-    EIGEN_STRONG_INLINE Index col() const { return IsRowMajor ? m_id : m_rhsIter.outer(); }
+    HYDRA_EIGEN_STRONG_INLINE StorageIndex index() const { return m_id; }
+    HYDRA_EIGEN_STRONG_INLINE Index outer() const { return m_rhsIter.outer(); }
+    HYDRA_EIGEN_STRONG_INLINE Index row() const { return IsRowMajor ? m_rhsIter.outer() : m_id; }
+    HYDRA_EIGEN_STRONG_INLINE Index col() const { return IsRowMajor ? m_id : m_rhsIter.outer(); }
 
-    EIGEN_STRONG_INLINE operator bool() const { return m_id<m_innerSize; }
+    HYDRA_EIGEN_STRONG_INLINE operator bool() const { return m_id<m_innerSize; }
 
   protected:
     const evaluator<Lhs> &m_lhsEval;
@@ -221,8 +221,8 @@ public:
       m_rhsImpl(xpr.rhs()),
       m_expr(xpr)
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<BinaryOp>::Cost);
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<BinaryOp>::Cost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 
   inline Index nonZerosEstimate() const {
@@ -253,13 +253,13 @@ public:
     enum { IsRowMajor = (int(Lhs::Flags)&RowMajorBit)==RowMajorBit };
   public:
 
-    EIGEN_STRONG_INLINE InnerIterator(const binary_evaluator& aEval, Index outer)
+    HYDRA_EIGEN_STRONG_INLINE InnerIterator(const binary_evaluator& aEval, Index outer)
       : m_lhsIter(aEval.m_lhsImpl,outer), m_rhsEval(aEval.m_rhsImpl), m_functor(aEval.m_functor), m_value(0), m_id(-1), m_innerSize(aEval.m_expr.lhs().innerSize())
     {
       this->operator++();
     }
 
-    EIGEN_STRONG_INLINE InnerIterator& operator++()
+    HYDRA_EIGEN_STRONG_INLINE InnerIterator& operator++()
     {
       ++m_id;
       if(m_id<m_innerSize)
@@ -278,14 +278,14 @@ public:
       return *this;
     }
 
-    EIGEN_STRONG_INLINE Scalar value() const { eigen_internal_assert(m_id<m_innerSize); return m_value; }
+    HYDRA_EIGEN_STRONG_INLINE Scalar value() const { eigen_internal_assert(m_id<m_innerSize); return m_value; }
 
-    EIGEN_STRONG_INLINE StorageIndex index() const { return m_id; }
-    EIGEN_STRONG_INLINE Index outer() const { return m_lhsIter.outer(); }
-    EIGEN_STRONG_INLINE Index row() const { return IsRowMajor ? m_lhsIter.outer() : m_id; }
-    EIGEN_STRONG_INLINE Index col() const { return IsRowMajor ? m_id : m_lhsIter.outer(); }
+    HYDRA_EIGEN_STRONG_INLINE StorageIndex index() const { return m_id; }
+    HYDRA_EIGEN_STRONG_INLINE Index outer() const { return m_lhsIter.outer(); }
+    HYDRA_EIGEN_STRONG_INLINE Index row() const { return IsRowMajor ? m_lhsIter.outer() : m_id; }
+    HYDRA_EIGEN_STRONG_INLINE Index col() const { return IsRowMajor ? m_id : m_lhsIter.outer(); }
 
-    EIGEN_STRONG_INLINE operator bool() const { return m_id<m_innerSize; }
+    HYDRA_EIGEN_STRONG_INLINE operator bool() const { return m_id<m_innerSize; }
 
   protected:
     LhsIterator m_lhsIter;
@@ -308,8 +308,8 @@ public:
       m_rhsImpl(xpr.rhs()),
       m_expr(xpr)
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<BinaryOp>::Cost);
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<BinaryOp>::Cost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 
   inline Index nonZerosEstimate() const {
@@ -414,7 +414,7 @@ public:
   {
   public:
     
-    EIGEN_STRONG_INLINE InnerIterator(const sparse_conjunction_evaluator& aEval, Index outer)
+    HYDRA_EIGEN_STRONG_INLINE InnerIterator(const sparse_conjunction_evaluator& aEval, Index outer)
       : m_lhsIter(aEval.m_lhsImpl,outer), m_rhsIter(aEval.m_rhsImpl,outer), m_functor(aEval.m_functor)
     {
       while (m_lhsIter && m_rhsIter && (m_lhsIter.index() != m_rhsIter.index()))
@@ -426,7 +426,7 @@ public:
       }
     }
 
-    EIGEN_STRONG_INLINE InnerIterator& operator++()
+    HYDRA_EIGEN_STRONG_INLINE InnerIterator& operator++()
     {
       ++m_lhsIter;
       ++m_rhsIter;
@@ -440,14 +440,14 @@ public:
       return *this;
     }
     
-    EIGEN_STRONG_INLINE Scalar value() const { return m_functor(m_lhsIter.value(), m_rhsIter.value()); }
+    HYDRA_EIGEN_STRONG_INLINE Scalar value() const { return m_functor(m_lhsIter.value(), m_rhsIter.value()); }
 
-    EIGEN_STRONG_INLINE StorageIndex index() const { return m_lhsIter.index(); }
-    EIGEN_STRONG_INLINE Index outer() const { return m_lhsIter.outer(); }
-    EIGEN_STRONG_INLINE Index row() const { return m_lhsIter.row(); }
-    EIGEN_STRONG_INLINE Index col() const { return m_lhsIter.col(); }
+    HYDRA_EIGEN_STRONG_INLINE StorageIndex index() const { return m_lhsIter.index(); }
+    HYDRA_EIGEN_STRONG_INLINE Index outer() const { return m_lhsIter.outer(); }
+    HYDRA_EIGEN_STRONG_INLINE Index row() const { return m_lhsIter.row(); }
+    HYDRA_EIGEN_STRONG_INLINE Index col() const { return m_lhsIter.col(); }
 
-    EIGEN_STRONG_INLINE operator bool() const { return (m_lhsIter && m_rhsIter); }
+    HYDRA_EIGEN_STRONG_INLINE operator bool() const { return (m_lhsIter && m_rhsIter); }
 
   protected:
     LhsIterator m_lhsIter;
@@ -466,8 +466,8 @@ public:
       m_lhsImpl(xpr.lhs()), 
       m_rhsImpl(xpr.rhs())  
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<BinaryOp>::Cost);
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<BinaryOp>::Cost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
   
   inline Index nonZerosEstimate() const {
@@ -501,25 +501,25 @@ public:
 
   public:
     
-    EIGEN_STRONG_INLINE InnerIterator(const sparse_conjunction_evaluator& aEval, Index outer)
+    HYDRA_EIGEN_STRONG_INLINE InnerIterator(const sparse_conjunction_evaluator& aEval, Index outer)
       : m_lhsEval(aEval.m_lhsImpl), m_rhsIter(aEval.m_rhsImpl,outer), m_functor(aEval.m_functor), m_outer(outer)
     {}
 
-    EIGEN_STRONG_INLINE InnerIterator& operator++()
+    HYDRA_EIGEN_STRONG_INLINE InnerIterator& operator++()
     {
       ++m_rhsIter;
       return *this;
     }
 
-    EIGEN_STRONG_INLINE Scalar value() const
+    HYDRA_EIGEN_STRONG_INLINE Scalar value() const
     { return m_functor(m_lhsEval.coeff(IsRowMajor?m_outer:m_rhsIter.index(),IsRowMajor?m_rhsIter.index():m_outer), m_rhsIter.value()); }
 
-    EIGEN_STRONG_INLINE StorageIndex index() const { return m_rhsIter.index(); }
-    EIGEN_STRONG_INLINE Index outer() const { return m_rhsIter.outer(); }
-    EIGEN_STRONG_INLINE Index row() const { return m_rhsIter.row(); }
-    EIGEN_STRONG_INLINE Index col() const { return m_rhsIter.col(); }
+    HYDRA_EIGEN_STRONG_INLINE StorageIndex index() const { return m_rhsIter.index(); }
+    HYDRA_EIGEN_STRONG_INLINE Index outer() const { return m_rhsIter.outer(); }
+    HYDRA_EIGEN_STRONG_INLINE Index row() const { return m_rhsIter.row(); }
+    HYDRA_EIGEN_STRONG_INLINE Index col() const { return m_rhsIter.col(); }
 
-    EIGEN_STRONG_INLINE operator bool() const { return m_rhsIter; }
+    HYDRA_EIGEN_STRONG_INLINE operator bool() const { return m_rhsIter; }
     
   protected:
     const LhsEvaluator &m_lhsEval;
@@ -539,8 +539,8 @@ public:
       m_lhsImpl(xpr.lhs()), 
       m_rhsImpl(xpr.rhs())  
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<BinaryOp>::Cost);
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<BinaryOp>::Cost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
   
   inline Index nonZerosEstimate() const {
@@ -574,26 +574,26 @@ public:
 
   public:
     
-    EIGEN_STRONG_INLINE InnerIterator(const sparse_conjunction_evaluator& aEval, Index outer)
+    HYDRA_EIGEN_STRONG_INLINE InnerIterator(const sparse_conjunction_evaluator& aEval, Index outer)
       : m_lhsIter(aEval.m_lhsImpl,outer), m_rhsEval(aEval.m_rhsImpl), m_functor(aEval.m_functor), m_outer(outer)
     {}
 
-    EIGEN_STRONG_INLINE InnerIterator& operator++()
+    HYDRA_EIGEN_STRONG_INLINE InnerIterator& operator++()
     {
       ++m_lhsIter;
       return *this;
     }
 
-    EIGEN_STRONG_INLINE Scalar value() const
+    HYDRA_EIGEN_STRONG_INLINE Scalar value() const
     { return m_functor(m_lhsIter.value(),
                        m_rhsEval.coeff(IsRowMajor?m_outer:m_lhsIter.index(),IsRowMajor?m_lhsIter.index():m_outer)); }
 
-    EIGEN_STRONG_INLINE StorageIndex index() const { return m_lhsIter.index(); }
-    EIGEN_STRONG_INLINE Index outer() const { return m_lhsIter.outer(); }
-    EIGEN_STRONG_INLINE Index row() const { return m_lhsIter.row(); }
-    EIGEN_STRONG_INLINE Index col() const { return m_lhsIter.col(); }
+    HYDRA_EIGEN_STRONG_INLINE StorageIndex index() const { return m_lhsIter.index(); }
+    HYDRA_EIGEN_STRONG_INLINE Index outer() const { return m_lhsIter.outer(); }
+    HYDRA_EIGEN_STRONG_INLINE Index row() const { return m_lhsIter.row(); }
+    HYDRA_EIGEN_STRONG_INLINE Index col() const { return m_lhsIter.col(); }
 
-    EIGEN_STRONG_INLINE operator bool() const { return m_lhsIter; }
+    HYDRA_EIGEN_STRONG_INLINE operator bool() const { return m_lhsIter; }
     
   protected:
     LhsIterator m_lhsIter;
@@ -613,8 +613,8 @@ public:
       m_lhsImpl(xpr.lhs()), 
       m_rhsImpl(xpr.rhs())  
   {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<BinaryOp>::Cost);
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<BinaryOp>::Cost);
+    HYDRA_EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
   
   inline Index nonZerosEstimate() const {
@@ -651,7 +651,7 @@ Derived& SparseMatrixBase<Derived>::operator-=(const EigenBase<OtherDerived> &ot
 
 template<typename Derived>
 template<typename OtherDerived>
-EIGEN_STRONG_INLINE Derived &
+HYDRA_EIGEN_STRONG_INLINE Derived &
 SparseMatrixBase<Derived>::operator-=(const SparseMatrixBase<OtherDerived> &other)
 {
   return derived() = derived() - other.derived();
@@ -659,7 +659,7 @@ SparseMatrixBase<Derived>::operator-=(const SparseMatrixBase<OtherDerived> &othe
 
 template<typename Derived>
 template<typename OtherDerived>
-EIGEN_STRONG_INLINE Derived &
+HYDRA_EIGEN_STRONG_INLINE Derived &
 SparseMatrixBase<Derived>::operator+=(const SparseMatrixBase<OtherDerived>& other)
 {
   return derived() = derived() + other.derived();
@@ -683,40 +683,40 @@ Derived& SparseMatrixBase<Derived>::operator-=(const DiagonalBase<OtherDerived>&
     
 template<typename Derived>
 template<typename OtherDerived>
-EIGEN_STRONG_INLINE const typename SparseMatrixBase<Derived>::template CwiseProductDenseReturnType<OtherDerived>::Type
+HYDRA_EIGEN_STRONG_INLINE const typename SparseMatrixBase<Derived>::template CwiseProductDenseReturnType<OtherDerived>::Type
 SparseMatrixBase<Derived>::cwiseProduct(const MatrixBase<OtherDerived> &other) const
 {
   return typename CwiseProductDenseReturnType<OtherDerived>::Type(derived(), other.derived());
 }
 
 template<typename DenseDerived, typename SparseDerived>
-EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_sum_op<typename DenseDerived::Scalar,typename SparseDerived::Scalar>, const DenseDerived, const SparseDerived>
+HYDRA_EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_sum_op<typename DenseDerived::Scalar,typename SparseDerived::Scalar>, const DenseDerived, const SparseDerived>
 operator+(const MatrixBase<DenseDerived> &a, const SparseMatrixBase<SparseDerived> &b)
 {
   return CwiseBinaryOp<internal::scalar_sum_op<typename DenseDerived::Scalar,typename SparseDerived::Scalar>, const DenseDerived, const SparseDerived>(a.derived(), b.derived());
 }
 
 template<typename SparseDerived, typename DenseDerived>
-EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_sum_op<typename SparseDerived::Scalar,typename DenseDerived::Scalar>, const SparseDerived, const DenseDerived>
+HYDRA_EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_sum_op<typename SparseDerived::Scalar,typename DenseDerived::Scalar>, const SparseDerived, const DenseDerived>
 operator+(const SparseMatrixBase<SparseDerived> &a, const MatrixBase<DenseDerived> &b)
 {
   return CwiseBinaryOp<internal::scalar_sum_op<typename SparseDerived::Scalar,typename DenseDerived::Scalar>, const SparseDerived, const DenseDerived>(a.derived(), b.derived());
 }
 
 template<typename DenseDerived, typename SparseDerived>
-EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_difference_op<typename DenseDerived::Scalar,typename SparseDerived::Scalar>, const DenseDerived, const SparseDerived>
+HYDRA_EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_difference_op<typename DenseDerived::Scalar,typename SparseDerived::Scalar>, const DenseDerived, const SparseDerived>
 operator-(const MatrixBase<DenseDerived> &a, const SparseMatrixBase<SparseDerived> &b)
 {
   return CwiseBinaryOp<internal::scalar_difference_op<typename DenseDerived::Scalar,typename SparseDerived::Scalar>, const DenseDerived, const SparseDerived>(a.derived(), b.derived());
 }
 
 template<typename SparseDerived, typename DenseDerived>
-EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_difference_op<typename SparseDerived::Scalar,typename DenseDerived::Scalar>, const SparseDerived, const DenseDerived>
+HYDRA_EIGEN_STRONG_INLINE const CwiseBinaryOp<internal::scalar_difference_op<typename SparseDerived::Scalar,typename DenseDerived::Scalar>, const SparseDerived, const DenseDerived>
 operator-(const SparseMatrixBase<SparseDerived> &a, const MatrixBase<DenseDerived> &b)
 {
   return CwiseBinaryOp<internal::scalar_difference_op<typename SparseDerived::Scalar,typename DenseDerived::Scalar>, const SparseDerived, const DenseDerived>(a.derived(), b.derived());
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SPARSE_CWISE_BINARY_OP_H
+#endif // HYDRA_EIGEN_SPARSE_CWISE_BINARY_OP_H

@@ -12,78 +12,78 @@
  * Julien Pommier's sse math library: http://gruntthepeon.free.fr/ssemath/
  */
 
-#ifndef EIGEN_MATH_FUNCTIONS_SSE_H
-#define EIGEN_MATH_FUNCTIONS_SSE_H
+#ifndef HYDRA_EIGEN_MATH_FUNCTIONS_SSE_H
+#define HYDRA_EIGEN_MATH_FUNCTIONS_SSE_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet4f plog<Packet4f>(const Packet4f& _x) {
   return plog_float(_x);
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet2d plog<Packet2d>(const Packet2d& _x) {
   return plog_double(_x);
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet4f plog2<Packet4f>(const Packet4f& _x) {
   return plog2_float(_x);
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet2d plog2<Packet2d>(const Packet2d& _x) {
   return plog2_double(_x);
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet4f plog1p<Packet4f>(const Packet4f& _x) {
   return generic_plog1p(_x);
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet4f pexpm1<Packet4f>(const Packet4f& _x) {
   return generic_expm1(_x);
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet4f pexp<Packet4f>(const Packet4f& _x)
 {
   return pexp_float(_x);
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet2d pexp<Packet2d>(const Packet2d& x)
 {
   return pexp_double(x);
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet4f psin<Packet4f>(const Packet4f& _x)
 {
   return psin_float(_x);
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet4f pcos<Packet4f>(const Packet4f& _x)
 {
   return pcos_float(_x);
 }
 
-#if EIGEN_FAST_MATH
+#if HYDRA_EIGEN_FAST_MATH
 
 // Functions for sqrt.
-// The EIGEN_FAST_MATH version uses the _mm_rsqrt_ps approximation and one step
+// The HYDRA_EIGEN_FAST_MATH version uses the _mm_rsqrt_ps approximation and one step
 // of Newton's method, at a cost of 1-2 bits of precision as opposed to the
 // exact solution. It does not handle +inf, or denormalized numbers correctly.
 // The main advantage of this approach is not just speed, but also the fact that
 // it can be inlined and pipelined with other computations, further reducing its
 // effective latency. This is similar to Quake3's fast inverse square root.
 // For detail see here: http://www.beyond3d.com/content/articles/8/
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet4f psqrt<Packet4f>(const Packet4f& _x)
 {
   Packet4f minus_half_x = pmul(_x, pset1<Packet4f>(-0.5f));
@@ -101,25 +101,25 @@ Packet4f psqrt<Packet4f>(const Packet4f& _x)
 
 #else
 
-template<>EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<>HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet4f psqrt<Packet4f>(const Packet4f& x) { return _mm_sqrt_ps(x); }
 
 #endif
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet2d psqrt<Packet2d>(const Packet2d& x) { return _mm_sqrt_pd(x); }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet16b psqrt<Packet16b>(const Packet16b& x) { return x; }
 
-#if EIGEN_FAST_MATH
+#if HYDRA_EIGEN_FAST_MATH
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet4f prsqrt<Packet4f>(const Packet4f& _x) {
-  _EIGEN_DECLARE_CONST_Packet4f(one_point_five, 1.5f);
-  _EIGEN_DECLARE_CONST_Packet4f(minus_half, -0.5f);
-  _EIGEN_DECLARE_CONST_Packet4f_FROM_INT(inf, 0x7f800000u);
-  _EIGEN_DECLARE_CONST_Packet4f_FROM_INT(flt_min, 0x00800000u);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet4f(one_point_five, 1.5f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet4f(minus_half, -0.5f);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet4f_FROM_INT(inf, 0x7f800000u);
+  _HYDRA_EIGEN_DECLARE_CONST_Packet4f_FROM_INT(flt_min, 0x00800000u);
 
   Packet4f neg_half = pmul(_x, p4f_minus_half);
 
@@ -148,7 +148,7 @@ Packet4f prsqrt<Packet4f>(const Packet4f& _x) {
 
 #else
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet4f prsqrt<Packet4f>(const Packet4f& x) {
   // Unfortunately we can't use the much faster mm_rsqrt_ps since it only provides an approximation.
   return _mm_div_ps(pset1<Packet4f>(1.0f), _mm_sqrt_ps(x));
@@ -156,14 +156,14 @@ Packet4f prsqrt<Packet4f>(const Packet4f& x) {
 
 #endif
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED
+template<> HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED
 Packet2d prsqrt<Packet2d>(const Packet2d& x) {
   return _mm_div_pd(pset1<Packet2d>(1.0), _mm_sqrt_pd(x));
 }
 
 // Hyperbolic Tangent function.
 template <>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED Packet4f
+HYDRA_EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS HYDRA_EIGEN_UNUSED Packet4f
 ptanh<Packet4f>(const Packet4f& x) {
   return internal::generic_fast_tanh_float(x);
 }
@@ -173,17 +173,17 @@ ptanh<Packet4f>(const Packet4f& x) {
 namespace numext {
 
 template<>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE
 float sqrt(const float &x)
 {
   return internal::pfirst(internal::Packet4f(_mm_sqrt_ss(_mm_set_ss(x))));
 }
 
 template<>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_ALWAYS_INLINE
 double sqrt(const double &x)
 {
-#if EIGEN_COMP_GNUC_STRICT
+#if HYDRA_EIGEN_COMP_GNUC_STRICT
   // This works around a GCC bug generating poor code for _mm_sqrt_pd
   // See https://gitlab.com/libeigen/eigen/commit/8dca9f97e38970
   return internal::pfirst(internal::Packet2d(__builtin_ia32_sqrtsd(_mm_set_sd(x))));
@@ -194,6 +194,6 @@ double sqrt(const double &x)
 
 } // end namespace numex
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_MATH_FUNCTIONS_SSE_H
+#endif // HYDRA_EIGEN_MATH_FUNCTIONS_SSE_H

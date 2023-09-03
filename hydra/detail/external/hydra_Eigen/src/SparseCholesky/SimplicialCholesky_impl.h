@@ -17,10 +17,10 @@ to permit distribution of this code and derivative works as part of Eigen under
 the Mozilla Public License v. 2.0, as stated at the top of this file.
  */
 
-#ifndef EIGEN_SIMPLICIAL_CHOLESKY_IMPL_H
-#define EIGEN_SIMPLICIAL_CHOLESKY_IMPL_H
+#ifndef HYDRA_EIGEN_SIMPLICIAL_CHOLESKY_IMPL_H
+#define HYDRA_EIGEN_SIMPLICIAL_CHOLESKY_IMPL_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 template<typename Derived>
 void SimplicialCholeskyBase<Derived>::analyzePattern_preordered(const CholMatrixType& ap, bool doLDLT)
@@ -169,6 +169,6 @@ void SimplicialCholeskyBase<Derived>::factorize_preordered(const CholMatrixType&
   m_factorizationIsOk = true;
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SIMPLICIAL_CHOLESKY_IMPL_H
+#endif // HYDRA_EIGEN_SIMPLICIAL_CHOLESKY_IMPL_H

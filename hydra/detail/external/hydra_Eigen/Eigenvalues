@@ -5,8 +5,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_EIGENVALUES_MODULE_H
-#define EIGEN_EIGENVALUES_MODULE_H
+#ifndef HYDRA_EIGEN_EIGENVALUES_MODULE_H
+#define HYDRA_EIGEN_EIGENVALUES_MODULE_H
 
 #include "Core"
 
@@ -44,8 +44,8 @@
 #include "src/Eigenvalues/RealQZ.h"
 #include "src/Eigenvalues/GeneralizedEigenSolver.h"
 #include "src/Eigenvalues/MatrixBaseEigenvalues.h"
-#ifdef EIGEN_USE_LAPACKE
-#ifdef EIGEN_USE_MKL
+#ifdef HYDRA_EIGEN_USE_LAPACKE
+#ifdef HYDRA_EIGEN_USE_MKL
 #include "mkl_lapacke.h"
 #else
 #include "src/misc/lapacke.h"
@@ -57,4 +57,4 @@
 
 #include "src/Core/util/ReenableStupidWarnings.h"
 
-#endif // EIGEN_EIGENVALUES_MODULE_H
+#endif // HYDRA_EIGEN_EIGENVALUES_MODULE_H

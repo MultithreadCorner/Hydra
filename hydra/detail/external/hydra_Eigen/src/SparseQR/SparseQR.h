@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SPARSE_QR_H
-#define EIGEN_SPARSE_QR_H
+#ifndef HYDRA_EIGEN_SPARSE_QR_H
+#define HYDRA_EIGEN_SPARSE_QR_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 template<typename MatrixType, typename OrderingType> class SparseQR;
 template<typename SparseQRType> struct SparseQRMatrixQReturnType;
@@ -753,6 +753,6 @@ struct Assignment<DstXprType, SparseQRMatrixQReturnType<SparseQRType>, internal:
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
 #endif

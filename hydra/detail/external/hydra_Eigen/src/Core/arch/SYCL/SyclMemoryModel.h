@@ -20,12 +20,12 @@
  *
  **************************************************************************/
 
-#if defined(EIGEN_USE_SYCL) && \
-    !defined(EIGEN_CXX11_TENSOR_TENSOR_SYCL_STORAGE_MEMORY_H)
-#define EIGEN_CXX11_TENSOR_TENSOR_SYCL_STORAGE_MEMORY_H
+#if defined(HYDRA_EIGEN_USE_SYCL) && \
+    !defined(HYDRA_EIGEN_CXX11_TENSOR_TENSOR_SYCL_STORAGE_MEMORY_H)
+#define HYDRA_EIGEN_CXX11_TENSOR_TENSOR_SYCL_STORAGE_MEMORY_H
 
 #include <CL/sycl.hpp>
-#ifdef EIGEN_EXCEPTIONS
+#ifdef HYDRA_EIGEN_EXCEPTIONS
 #include <stdexcept>
 #endif
 #include <cstddef>
@@ -33,7 +33,7 @@
 #include <set>
 #include <unordered_map>
 
-namespace Eigen {
+namespace hydra_Eigen {
 namespace TensorSycl {
 namespace internal {
 
@@ -202,12 +202,12 @@ class PointerMapper {
   typename pointerMap_t::iterator get_node(const virtual_pointer_t ptr) {
     if (this->count() == 0) {
       m_pointerMap.clear();
-      EIGEN_THROW_X(std::out_of_range("There are no pointers allocated\n"));
+      HYDRA_EIGEN_THROW_X(std::out_of_range("There are no pointers allocated\n"));
 
     }
     if (is_nullptr(ptr)) {
       m_pointerMap.clear();
-      EIGEN_THROW_X(std::out_of_range("Cannot access null pointer\n"));
+      HYDRA_EIGEN_THROW_X(std::out_of_range("Cannot access null pointer\n"));
     }
     // The previous element to the lower bound is the node that
     // holds this memory address
@@ -219,7 +219,7 @@ class PointerMapper {
     } else if (node->first != ptr) {
       if (node == std::begin(m_pointerMap)) {
         m_pointerMap.clear();
-        EIGEN_THROW_X(
+        HYDRA_EIGEN_THROW_X(
             std::out_of_range("The pointer is not registered in the map\n"));
 
       }
@@ -308,7 +308,7 @@ class PointerMapper {
   PointerMapper(base_ptr_t baseAddress = 4096)
       : m_pointerMap{}, m_freeList{}, m_baseAddress{baseAddress} {
     if (m_baseAddress == 0) {
-      EIGEN_THROW_X(std::invalid_argument("Base address cannot be zero\n"));
+      HYDRA_EIGEN_THROW_X(std::invalid_argument("Base address cannot be zero\n"));
     }
   };
 
@@ -555,7 +555,7 @@ struct RangeAccess {
       accessor;
 
   typedef RangeAccess<AcMd, T> self_t;
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE RangeAccess(accessor access,
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE RangeAccess(accessor access,
                                                     size_t offset,
                                                     std::intptr_t virtual_ptr)
       : access_(access), offset_(offset), virtual_ptr_(virtual_ptr) {}
@@ -567,110 +567,110 @@ struct RangeAccess {
   // This should be only used for null constructor on the host side
   RangeAccess(std::nullptr_t) : RangeAccess() {}
   // This template parameter must be removed and scalar_t should be replaced
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE ptr_t get_pointer() const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE ptr_t get_pointer() const {
     return (access_.get_pointer().get() + offset_);
   }
   template <typename Index>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE self_t &operator+=(Index offset) {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE self_t &operator+=(Index offset) {
     offset_ += (offset);
     return *this;
   }
   template <typename Index>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE self_t operator+(Index offset) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE self_t operator+(Index offset) const {
     return self_t(access_, offset_ + offset, virtual_ptr_);
   }
   template <typename Index>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE self_t operator-(Index offset) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE self_t operator-(Index offset) const {
     return self_t(access_, offset_ - offset, virtual_ptr_);
   }
   template <typename Index>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE self_t &operator-=(Index offset) {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE self_t &operator-=(Index offset) {
     offset_ -= offset;
     return *this;
   }
 
   // THIS IS FOR NULL COMPARISON ONLY
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE friend bool operator==(
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE friend bool operator==(
       const RangeAccess &lhs, std::nullptr_t) {
     return ((lhs.virtual_ptr_ == -1));
   }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE friend bool operator!=(
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE friend bool operator!=(
       const RangeAccess &lhs, std::nullptr_t i) {
     return !(lhs == i);
   }
 
   // THIS IS FOR NULL COMPARISON ONLY
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE friend bool operator==(
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE friend bool operator==(
       std::nullptr_t, const RangeAccess &rhs) {
     return ((rhs.virtual_ptr_ == -1));
   }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE friend bool operator!=(
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE friend bool operator!=(
       std::nullptr_t i, const RangeAccess &rhs) {
     return !(i == rhs);
   }
   // Prefix operator (Increment and return value)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE self_t &operator++() {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE self_t &operator++() {
     offset_++;
     return (*this);
   }
 
   // Postfix operator (Return value and increment)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE self_t operator++(int i) {
-    EIGEN_UNUSED_VARIABLE(i);
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE self_t operator++(int i) {
+    HYDRA_EIGEN_UNUSED_VARIABLE(i);
     self_t temp_iterator(*this);
     offset_++;
     return temp_iterator;
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::ptrdiff_t get_size() const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE std::ptrdiff_t get_size() const {
     return (access_.get_count() - offset_);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::ptrdiff_t get_offset() const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE std::ptrdiff_t get_offset() const {
     return offset_;
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void set_offset(std::ptrdiff_t offset) {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void set_offset(std::ptrdiff_t offset) {
     offset_ = offset;
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE ref_t operator*() const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE ref_t operator*() const {
     return *get_pointer();
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE ref_t operator*() {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE ref_t operator*() {
     return *get_pointer();
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE ptr_t operator->() = delete;
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE ptr_t operator->() = delete;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE ref_t operator[](int x) {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE ref_t operator[](int x) {
     return *(get_pointer() + x);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE ref_t operator[](int x) const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE ref_t operator[](int x) const {
     return *(get_pointer() + x);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE scalar_t *get_virtual_pointer() const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE scalar_t *get_virtual_pointer() const {
     return reinterpret_cast<scalar_t *>(virtual_ptr_ +
                                         (offset_ * sizeof(scalar_t)));
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit operator bool() const {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE explicit operator bool() const {
     return (virtual_ptr_ != -1);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE operator RangeAccess<AcMd, const T>() {
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE operator RangeAccess<AcMd, const T>() {
     return RangeAccess<AcMd, const T>(access_, offset_, virtual_ptr_);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   operator RangeAccess<AcMd, const T>() const {
     return RangeAccess<AcMd, const T>(access_, offset_, virtual_ptr_);
   }
   // binding placeholder accessors to a command group handler for SYCL
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void bind(
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void bind(
       cl::sycl::handler &cgh) const {
     cgh.require(access_);
   }
@@ -689,6 +689,6 @@ struct RangeAccess<AcMd, const T> : RangeAccess<AcMd, T> {
 
 }  // namespace internal
 }  // namespace TensorSycl
-}  // namespace Eigen
+}  // namespace hydra_Eigen
 
-#endif  // EIGEN_CXX11_TENSOR_TENSOR_SYCL_STORAGE_MEMORY_H
+#endif  // HYDRA_EIGEN_CXX11_TENSOR_TENSOR_SYCL_STORAGE_MEMORY_H

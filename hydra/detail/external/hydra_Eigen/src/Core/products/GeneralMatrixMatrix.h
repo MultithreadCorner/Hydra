@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_GENERAL_MATRIX_MATRIX_H
-#define EIGEN_GENERAL_MATRIX_MATRIX_H
+#ifndef HYDRA_EIGEN_GENERAL_MATRIX_MATRIX_H
+#define HYDRA_EIGEN_GENERAL_MATRIX_MATRIX_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 
@@ -27,7 +27,7 @@ struct general_matrix_matrix_product<Index,LhsScalar,LhsStorageOrder,ConjugateLh
   typedef gebp_traits<RhsScalar,LhsScalar> Traits;
 
   typedef typename ScalarBinaryOpTraits<LhsScalar, RhsScalar>::ReturnType ResScalar;
-  static EIGEN_STRONG_INLINE void run(
+  static HYDRA_EIGEN_STRONG_INLINE void run(
     Index rows, Index cols, Index depth,
     const LhsScalar* lhs, Index lhsStride,
     const RhsScalar* rhs, Index rhsStride,
@@ -81,7 +81,7 @@ static void run(Index rows, Index cols, Index depth,
   gemm_pack_rhs<RhsScalar, Index, RhsMapper, Traits::nr, RhsStorageOrder> pack_rhs;
   gebp_kernel<LhsScalar, RhsScalar, Index, ResMapper, Traits::mr, Traits::nr, ConjugateLhs, ConjugateRhs> gebp;
 
-#ifdef EIGEN_HAS_OPENMP
+#ifdef HYDRA_EIGEN_HAS_OPENMP
   if(info)
   {
     // this is the parallel version!
@@ -148,16 +148,16 @@ static void run(Index rows, Index cols, Index depth,
       // Release all the sub blocks A'_i of A' for the current thread,
       // i.e., we simply decrement the number of users by 1
       for(Index i=0; i<threads; ++i)
-#if !EIGEN_HAS_CXX11_ATOMIC
+#if !HYDRA_EIGEN_HAS_CXX11_ATOMIC
         #pragma omp atomic
 #endif
         info[i].users -= 1;
     }
   }
   else
-#endif // EIGEN_HAS_OPENMP
+#endif // HYDRA_EIGEN_HAS_OPENMP
   {
-    EIGEN_UNUSED_VARIABLE(info);
+    HYDRA_EIGEN_UNUSED_VARIABLE(info);
 
     // this is the sequential version!
     std::size_t sizeA = kc*mc;
@@ -294,12 +294,12 @@ class gemm_blocking_space<StorageOrder,_LhsScalar,_RhsScalar,MaxRows, MaxCols, M
       SizeB = ActualCols * MaxDepth
     };
 
-#if EIGEN_MAX_STATIC_ALIGN_BYTES >= EIGEN_DEFAULT_ALIGN_BYTES
-    EIGEN_ALIGN_MAX LhsScalar m_staticA[SizeA];
-    EIGEN_ALIGN_MAX RhsScalar m_staticB[SizeB];
+#if HYDRA_EIGEN_MAX_STATIC_ALIGN_BYTES >= HYDRA_EIGEN_DEFAULT_ALIGN_BYTES
+    HYDRA_EIGEN_ALIGN_MAX LhsScalar m_staticA[SizeA];
+    HYDRA_EIGEN_ALIGN_MAX RhsScalar m_staticB[SizeB];
 #else
-    EIGEN_ALIGN_MAX char m_staticA[SizeA * sizeof(LhsScalar) + EIGEN_DEFAULT_ALIGN_BYTES-1];
-    EIGEN_ALIGN_MAX char m_staticB[SizeB * sizeof(RhsScalar) + EIGEN_DEFAULT_ALIGN_BYTES-1];
+    HYDRA_EIGEN_ALIGN_MAX char m_staticA[SizeA * sizeof(LhsScalar) + HYDRA_EIGEN_DEFAULT_ALIGN_BYTES-1];
+    HYDRA_EIGEN_ALIGN_MAX char m_staticB[SizeB * sizeof(RhsScalar) + HYDRA_EIGEN_DEFAULT_ALIGN_BYTES-1];
 #endif
 
   public:
@@ -309,12 +309,12 @@ class gemm_blocking_space<StorageOrder,_LhsScalar,_RhsScalar,MaxRows, MaxCols, M
       this->m_mc = ActualRows;
       this->m_nc = ActualCols;
       this->m_kc = MaxDepth;
-#if EIGEN_MAX_STATIC_ALIGN_BYTES >= EIGEN_DEFAULT_ALIGN_BYTES
+#if HYDRA_EIGEN_MAX_STATIC_ALIGN_BYTES >= HYDRA_EIGEN_DEFAULT_ALIGN_BYTES
       this->m_blockA = m_staticA;
       this->m_blockB = m_staticB;
 #else
-      this->m_blockA = reinterpret_cast<LhsScalar*>((internal::UIntPtr(m_staticA) + (EIGEN_DEFAULT_ALIGN_BYTES-1)) & ~std::size_t(EIGEN_DEFAULT_ALIGN_BYTES-1));
-      this->m_blockB = reinterpret_cast<RhsScalar*>((internal::UIntPtr(m_staticB) + (EIGEN_DEFAULT_ALIGN_BYTES-1)) & ~std::size_t(EIGEN_DEFAULT_ALIGN_BYTES-1));
+      this->m_blockA = reinterpret_cast<LhsScalar*>((internal::UIntPtr(m_staticA) + (HYDRA_EIGEN_DEFAULT_ALIGN_BYTES-1)) & ~std::size_t(HYDRA_EIGEN_DEFAULT_ALIGN_BYTES-1));
+      this->m_blockB = reinterpret_cast<RhsScalar*>((internal::UIntPtr(m_staticB) + (HYDRA_EIGEN_DEFAULT_ALIGN_BYTES-1)) & ~std::size_t(HYDRA_EIGEN_DEFAULT_ALIGN_BYTES-1));
 #endif
     }
 
@@ -423,7 +423,7 @@ struct generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,GemmProduct>
   typedef typename internal::remove_all<ActualRhsType>::type ActualRhsTypeCleaned;
 
   enum {
-    MaxDepthAtCompileTime = EIGEN_SIZE_MIN_PREFER_FIXED(Lhs::MaxColsAtCompileTime,Rhs::MaxRowsAtCompileTime)
+    MaxDepthAtCompileTime = HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(Lhs::MaxColsAtCompileTime,Rhs::MaxRowsAtCompileTime)
   };
 
   typedef generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,CoeffBasedProductMode> lazyproduct;
@@ -433,11 +433,11 @@ struct generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,GemmProduct>
   {
     // See http://eigen.tuxfamily.org/bz/show_bug.cgi?id=404 for a discussion and helper program
     // to determine the following heuristic.
-    // EIGEN_GEMM_TO_COEFFBASED_THRESHOLD is typically defined to 20 in GeneralProduct.h,
+    // HYDRA_EIGEN_GEMM_TO_COEFFBASED_THRESHOLD is typically defined to 20 in GeneralProduct.h,
     // unless it has been specialized by the user or for a given architecture.
     // Note that the condition rhs.rows()>0 was required because lazy product is (was?) not happy with empty inputs.
     // I'm not sure it is still required.
-    if((rhs.rows()+dst.rows()+dst.cols())<EIGEN_GEMM_TO_COEFFBASED_THRESHOLD && rhs.rows()>0)
+    if((rhs.rows()+dst.rows()+dst.cols())<HYDRA_EIGEN_GEMM_TO_COEFFBASED_THRESHOLD && rhs.rows()>0)
       lazyproduct::eval_dynamic(dst, lhs, rhs, internal::assign_op<typename Dst::Scalar,Scalar>());
     else
     {
@@ -449,7 +449,7 @@ struct generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,GemmProduct>
   template<typename Dst>
   static void addTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
   {
-    if((rhs.rows()+dst.rows()+dst.cols())<EIGEN_GEMM_TO_COEFFBASED_THRESHOLD && rhs.rows()>0)
+    if((rhs.rows()+dst.rows()+dst.cols())<HYDRA_EIGEN_GEMM_TO_COEFFBASED_THRESHOLD && rhs.rows()>0)
       lazyproduct::eval_dynamic(dst, lhs, rhs, internal::add_assign_op<typename Dst::Scalar,Scalar>());
     else
       scaleAndAddTo(dst,lhs, rhs, Scalar(1));
@@ -458,7 +458,7 @@ struct generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,GemmProduct>
   template<typename Dst>
   static void subTo(Dst& dst, const Lhs& lhs, const Rhs& rhs)
   {
-    if((rhs.rows()+dst.rows()+dst.cols())<EIGEN_GEMM_TO_COEFFBASED_THRESHOLD && rhs.rows()>0)
+    if((rhs.rows()+dst.rows()+dst.cols())<HYDRA_EIGEN_GEMM_TO_COEFFBASED_THRESHOLD && rhs.rows()>0)
       lazyproduct::eval_dynamic(dst, lhs, rhs, internal::sub_assign_op<typename Dst::Scalar,Scalar>());
     else
       scaleAndAddTo(dst, lhs, rhs, Scalar(-1));
@@ -512,6 +512,6 @@ struct generic_product_impl<Lhs,Rhs,DenseShape,DenseShape,GemmProduct>
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_GENERAL_MATRIX_MATRIX_H
+#endif // HYDRA_EIGEN_GENERAL_MATRIX_MATRIX_H

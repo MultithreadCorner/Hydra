@@ -1,5 +1,5 @@
 
-#ifdef EIGEN_PARSED_BY_DOXYGEN
+#ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 
 /// \returns an expression of \c *this with reshaped sizes.
 ///
@@ -13,8 +13,8 @@
 /// Dynamic size example: \include MatrixBase_reshaped_int_int.cpp
 /// Output: \verbinclude MatrixBase_reshaped_int_int.out
 ///
-/// The number of rows \a nRows and columns \a nCols can also be specified at compile-time by passing Eigen::fix<N>,
-/// or Eigen::fix<N>(n) as arguments. In the later case, \c n plays the role of a runtime fallback value in case \c N equals Eigen::Dynamic.
+/// The number of rows \a nRows and columns \a nCols can also be specified at compile-time by passing hydra_Eigen::fix<N>,
+/// or hydra_Eigen::fix<N>(n) as arguments. In the later case, \c n plays the role of a runtime fallback value in case \c N equals hydra_Eigen::Dynamic.
 /// Here is an example with a fixed number of rows and columns:
 /// \include MatrixBase_reshaped_fixed.cpp
 /// Output: \verbinclude MatrixBase_reshaped_fixed.out
@@ -23,18 +23,18 @@
 /// \include MatrixBase_reshaped_auto.cpp
 /// Output: \verbinclude MatrixBase_reshaped_auto.out
 /// AutoSize does preserve compile-time sizes when possible, i.e., when the sizes of the input are known at compile time \b and
-/// that the other size is passed at compile-time using Eigen::fix<N> as above.
+/// that the other size is passed at compile-time using hydra_Eigen::fix<N> as above.
 ///
 /// \sa class Reshaped, fix, fix<N>(int)
 ///
 template<int Order = ColMajor, typename NRowsType, typename NColsType>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline Reshaped<Derived,...>
 reshaped(NRowsType nRows, NColsType nCols);
 
 /// This is the const version of reshaped(NRowsType,NColsType).
 template<int Order = ColMajor, typename NRowsType, typename NColsType>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const Reshaped<const Derived,...>
 reshaped(NRowsType nRows, NColsType nCols) const;
 
@@ -59,13 +59,13 @@ reshaped(NRowsType nRows, NColsType nCols) const;
 /// \sa reshaped(NRowsType,NColsType), class Reshaped
 ///
 template<int Order = ColMajor>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline Reshaped<Derived,...>
 reshaped();
 
 /// This is the const version of reshaped().
 template<int Order = ColMajor>
-EIGEN_DEVICE_FUNC
+HYDRA_EIGEN_DEVICE_FUNC
 inline const Reshaped<const Derived,...>
 reshaped() const;
 
@@ -73,26 +73,26 @@ reshaped() const;
 
 // This file is automatically included twice to generate const and non-const versions
 
-#ifndef EIGEN_RESHAPED_METHOD_2ND_PASS
-#define EIGEN_RESHAPED_METHOD_CONST const
+#ifndef HYDRA_EIGEN_RESHAPED_METHOD_2ND_PASS
+#define HYDRA_EIGEN_RESHAPED_METHOD_CONST const
 #else
-#define EIGEN_RESHAPED_METHOD_CONST
+#define HYDRA_EIGEN_RESHAPED_METHOD_CONST
 #endif
 
-#ifndef EIGEN_RESHAPED_METHOD_2ND_PASS
+#ifndef HYDRA_EIGEN_RESHAPED_METHOD_2ND_PASS
 
 // This part is included once
 
 #endif
 
 template<typename NRowsType, typename NColsType>
-EIGEN_DEVICE_FUNC
-inline Reshaped<EIGEN_RESHAPED_METHOD_CONST Derived,
+HYDRA_EIGEN_DEVICE_FUNC
+inline Reshaped<HYDRA_EIGEN_RESHAPED_METHOD_CONST Derived,
                 internal::get_compiletime_reshape_size<NRowsType,NColsType,SizeAtCompileTime>::value,
                 internal::get_compiletime_reshape_size<NColsType,NRowsType,SizeAtCompileTime>::value>
-reshaped(NRowsType nRows, NColsType nCols) EIGEN_RESHAPED_METHOD_CONST
+reshaped(NRowsType nRows, NColsType nCols) HYDRA_EIGEN_RESHAPED_METHOD_CONST
 {
-  return Reshaped<EIGEN_RESHAPED_METHOD_CONST Derived,
+  return Reshaped<HYDRA_EIGEN_RESHAPED_METHOD_CONST Derived,
                   internal::get_compiletime_reshape_size<NRowsType,NColsType,SizeAtCompileTime>::value,
                   internal::get_compiletime_reshape_size<NColsType,NRowsType,SizeAtCompileTime>::value>
                 (derived(),
@@ -101,14 +101,14 @@ reshaped(NRowsType nRows, NColsType nCols) EIGEN_RESHAPED_METHOD_CONST
 }
 
 template<int Order, typename NRowsType, typename NColsType>
-EIGEN_DEVICE_FUNC
-inline Reshaped<EIGEN_RESHAPED_METHOD_CONST Derived,
+HYDRA_EIGEN_DEVICE_FUNC
+inline Reshaped<HYDRA_EIGEN_RESHAPED_METHOD_CONST Derived,
                 internal::get_compiletime_reshape_size<NRowsType,NColsType,SizeAtCompileTime>::value,
                 internal::get_compiletime_reshape_size<NColsType,NRowsType,SizeAtCompileTime>::value,
                 internal::get_compiletime_reshape_order<Flags,Order>::value>
-reshaped(NRowsType nRows, NColsType nCols) EIGEN_RESHAPED_METHOD_CONST
+reshaped(NRowsType nRows, NColsType nCols) HYDRA_EIGEN_RESHAPED_METHOD_CONST
 {
-  return Reshaped<EIGEN_RESHAPED_METHOD_CONST Derived,
+  return Reshaped<HYDRA_EIGEN_RESHAPED_METHOD_CONST Derived,
                   internal::get_compiletime_reshape_size<NRowsType,NColsType,SizeAtCompileTime>::value,
                   internal::get_compiletime_reshape_size<NColsType,NRowsType,SizeAtCompileTime>::value,
                   internal::get_compiletime_reshape_order<Flags,Order>::value>
@@ -119,31 +119,31 @@ reshaped(NRowsType nRows, NColsType nCols) EIGEN_RESHAPED_METHOD_CONST
 
 // Views as linear vectors
 
-EIGEN_DEVICE_FUNC
-inline Reshaped<EIGEN_RESHAPED_METHOD_CONST Derived,SizeAtCompileTime,1>
-reshaped() EIGEN_RESHAPED_METHOD_CONST
+HYDRA_EIGEN_DEVICE_FUNC
+inline Reshaped<HYDRA_EIGEN_RESHAPED_METHOD_CONST Derived,SizeAtCompileTime,1>
+reshaped() HYDRA_EIGEN_RESHAPED_METHOD_CONST
 {
-  return Reshaped<EIGEN_RESHAPED_METHOD_CONST Derived,SizeAtCompileTime,1>(derived(),size(),1);
+  return Reshaped<HYDRA_EIGEN_RESHAPED_METHOD_CONST Derived,SizeAtCompileTime,1>(derived(),size(),1);
 }
 
 template<int Order>
-EIGEN_DEVICE_FUNC
-inline Reshaped<EIGEN_RESHAPED_METHOD_CONST Derived, SizeAtCompileTime, 1,
+HYDRA_EIGEN_DEVICE_FUNC
+inline Reshaped<HYDRA_EIGEN_RESHAPED_METHOD_CONST Derived, SizeAtCompileTime, 1,
                 internal::get_compiletime_reshape_order<Flags,Order>::value>
-reshaped() EIGEN_RESHAPED_METHOD_CONST
+reshaped() HYDRA_EIGEN_RESHAPED_METHOD_CONST
 {
-  EIGEN_STATIC_ASSERT(Order==RowMajor || Order==ColMajor || Order==AutoOrder, INVALID_TEMPLATE_PARAMETER);
-  return Reshaped<EIGEN_RESHAPED_METHOD_CONST Derived, SizeAtCompileTime, 1,
+  HYDRA_EIGEN_STATIC_ASSERT(Order==RowMajor || Order==ColMajor || Order==AutoOrder, INVALID_TEMPLATE_PARAMETER);
+  return Reshaped<HYDRA_EIGEN_RESHAPED_METHOD_CONST Derived, SizeAtCompileTime, 1,
                   internal::get_compiletime_reshape_order<Flags,Order>::value>
                 (derived(), size(), 1);
 }
 
-#undef EIGEN_RESHAPED_METHOD_CONST
+#undef HYDRA_EIGEN_RESHAPED_METHOD_CONST
 
-#ifndef EIGEN_RESHAPED_METHOD_2ND_PASS
-#define EIGEN_RESHAPED_METHOD_2ND_PASS
+#ifndef HYDRA_EIGEN_RESHAPED_METHOD_2ND_PASS
+#define HYDRA_EIGEN_RESHAPED_METHOD_2ND_PASS
 #include "ReshapedMethods.h"
-#undef EIGEN_RESHAPED_METHOD_2ND_PASS
+#undef HYDRA_EIGEN_RESHAPED_METHOD_2ND_PASS
 #endif
 
-#endif // EIGEN_PARSED_BY_DOXYGEN
+#endif // HYDRA_EIGEN_PARSED_BY_DOXYGEN

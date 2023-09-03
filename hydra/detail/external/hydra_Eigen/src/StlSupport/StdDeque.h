@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_STDDEQUE_H
-#define EIGEN_STDDEQUE_H
+#ifndef HYDRA_EIGEN_STDDEQUE_H
+#define HYDRA_EIGEN_STDDEQUE_H
 
 #include "details.h"
 
@@ -18,14 +18,14 @@
  * std::deque such that for data types with alignment issues the correct allocator
  * is used automatically.
  */
-#define EIGEN_DEFINE_STL_DEQUE_SPECIALIZATION(...) \
+#define HYDRA_EIGEN_DEFINE_STL_DEQUE_SPECIALIZATION(...) \
 namespace std \
 { \
   template<> \
   class deque<__VA_ARGS__, std::allocator<__VA_ARGS__> >           \
-    : public deque<__VA_ARGS__, EIGEN_ALIGNED_ALLOCATOR<__VA_ARGS__> > \
+    : public deque<__VA_ARGS__, HYDRA_EIGEN_ALIGNED_ALLOCATOR<__VA_ARGS__> > \
   { \
-    typedef deque<__VA_ARGS__, EIGEN_ALIGNED_ALLOCATOR<__VA_ARGS__> > deque_base; \
+    typedef deque<__VA_ARGS__, HYDRA_EIGEN_ALIGNED_ALLOCATOR<__VA_ARGS__> > deque_base; \
   public: \
     typedef __VA_ARGS__ value_type; \
     typedef deque_base::allocator_type allocator_type; \
@@ -45,11 +45,11 @@ namespace std \
 }
 
 // check whether we really need the std::deque specialization
-#if !EIGEN_HAS_CXX11_CONTAINERS && !(defined(_GLIBCXX_DEQUE) && (!EIGEN_GNUC_AT_LEAST(4,1))) /* Note that before gcc-4.1 we already have: std::deque::resize(size_type,const T&). */
+#if !HYDRA_EIGEN_HAS_CXX11_CONTAINERS && !(defined(_GLIBCXX_DEQUE) && (!HYDRA_EIGEN_GNUC_AT_LEAST(4,1))) /* Note that before gcc-4.1 we already have: std::deque::resize(size_type,const T&). */
 
 namespace std {
 
-#define EIGEN_STD_DEQUE_SPECIALIZATION_BODY \
+#define HYDRA_EIGEN_STD_DEQUE_SPECIALIZATION_BODY \
   public:  \
     typedef T value_type; \
     typedef typename deque_base::allocator_type allocator_type; \
@@ -69,13 +69,13 @@ namespace std {
     }
 
   template<typename T>
-  class deque<T,EIGEN_ALIGNED_ALLOCATOR<T> >
-    : public deque<EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T),
-                   Eigen::aligned_allocator_indirection<EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T)> >
+  class deque<T,HYDRA_EIGEN_ALIGNED_ALLOCATOR<T> >
+    : public deque<HYDRA_EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T),
+                   hydra_Eigen::aligned_allocator_indirection<HYDRA_EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T)> >
 {
-  typedef deque<EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T),
-                Eigen::aligned_allocator_indirection<EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T)> > deque_base;
-  EIGEN_STD_DEQUE_SPECIALIZATION_BODY
+  typedef deque<HYDRA_EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T),
+                hydra_Eigen::aligned_allocator_indirection<HYDRA_EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T)> > deque_base;
+  HYDRA_EIGEN_STD_DEQUE_SPECIALIZATION_BODY
 
   void resize(size_type new_size)
   { resize(new_size, T()); }
@@ -113,4 +113,4 @@ namespace std {
 
 #endif // check whether specialization is actually required
 
-#endif // EIGEN_STDDEQUE_H
+#endif // HYDRA_EIGEN_STDDEQUE_H

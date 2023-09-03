@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_STDVECTOR_H
-#define EIGEN_STDVECTOR_H
+#ifndef HYDRA_EIGEN_STDVECTOR_H
+#define HYDRA_EIGEN_STDVECTOR_H
 
 #include "details.h"
 
@@ -18,14 +18,14 @@
  * std::vector such that for data types with alignment issues the correct allocator
  * is used automatically.
  */
-#define EIGEN_DEFINE_STL_VECTOR_SPECIALIZATION(...) \
+#define HYDRA_EIGEN_DEFINE_STL_VECTOR_SPECIALIZATION(...) \
 namespace std \
 { \
   template<> \
   class vector<__VA_ARGS__, std::allocator<__VA_ARGS__> >  \
-    : public vector<__VA_ARGS__, EIGEN_ALIGNED_ALLOCATOR<__VA_ARGS__> > \
+    : public vector<__VA_ARGS__, HYDRA_EIGEN_ALIGNED_ALLOCATOR<__VA_ARGS__> > \
   { \
-    typedef vector<__VA_ARGS__, EIGEN_ALIGNED_ALLOCATOR<__VA_ARGS__> > vector_base; \
+    typedef vector<__VA_ARGS__, HYDRA_EIGEN_ALIGNED_ALLOCATOR<__VA_ARGS__> > vector_base; \
   public: \
     typedef __VA_ARGS__ value_type; \
     typedef vector_base::allocator_type allocator_type; \
@@ -45,11 +45,11 @@ namespace std \
 }
 
 // Don't specialize if containers are implemented according to C++11
-#if !EIGEN_HAS_CXX11_CONTAINERS
+#if !HYDRA_EIGEN_HAS_CXX11_CONTAINERS
 
 namespace std {
 
-#define EIGEN_STD_VECTOR_SPECIALIZATION_BODY \
+#define HYDRA_EIGEN_STD_VECTOR_SPECIALIZATION_BODY \
   public:  \
     typedef T value_type; \
     typedef typename vector_base::allocator_type allocator_type; \
@@ -69,13 +69,13 @@ namespace std {
     }
 
   template<typename T>
-  class vector<T,EIGEN_ALIGNED_ALLOCATOR<T> >
-    : public vector<EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T),
-                    Eigen::aligned_allocator_indirection<EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T)> >
+  class vector<T,HYDRA_EIGEN_ALIGNED_ALLOCATOR<T> >
+    : public vector<HYDRA_EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T),
+                    hydra_Eigen::aligned_allocator_indirection<HYDRA_EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T)> >
 {
-  typedef vector<EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T),
-                 Eigen::aligned_allocator_indirection<EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T)> > vector_base;
-  EIGEN_STD_VECTOR_SPECIALIZATION_BODY
+  typedef vector<HYDRA_EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T),
+                 hydra_Eigen::aligned_allocator_indirection<HYDRA_EIGEN_WORKAROUND_MSVC_STL_SUPPORT(T)> > vector_base;
+  HYDRA_EIGEN_STD_VECTOR_SPECIALIZATION_BODY
 
   void resize(size_type new_size)
   { resize(new_size, T()); }
@@ -96,14 +96,14 @@ namespace std {
   { return vector_base::insert(position,x); }
   void insert(const_iterator position, size_type new_size, const value_type& x)
   { vector_base::insert(position, new_size, x); }
-#elif defined(_GLIBCXX_VECTOR) && (!(EIGEN_GNUC_AT_LEAST(4,1)))
+#elif defined(_GLIBCXX_VECTOR) && (!(HYDRA_EIGEN_GNUC_AT_LEAST(4,1)))
   /* Note that before gcc-4.1 we already have: std::vector::resize(size_type,const T&).
-   * However, this specialization is still needed to make the above EIGEN_DEFINE_STL_VECTOR_SPECIALIZATION trick to work. */
+   * However, this specialization is still needed to make the above HYDRA_EIGEN_DEFINE_STL_VECTOR_SPECIALIZATION trick to work. */
   void resize(size_type new_size, const value_type& x)
   {
     vector_base::resize(new_size,x);
   }
-#elif defined(_GLIBCXX_VECTOR) && EIGEN_GNUC_AT_LEAST(4,2)
+#elif defined(_GLIBCXX_VECTOR) && HYDRA_EIGEN_GNUC_AT_LEAST(4,2)
   // workaround GCC std::vector implementation
   void resize(size_type new_size, const value_type& x)
   {
@@ -125,7 +125,7 @@ namespace std {
 #endif
   };
 }
-#endif // !EIGEN_HAS_CXX11_CONTAINERS
+#endif // !HYDRA_EIGEN_HAS_CXX11_CONTAINERS
 
 
-#endif // EIGEN_STDVECTOR_H
+#endif // HYDRA_EIGEN_STDVECTOR_H

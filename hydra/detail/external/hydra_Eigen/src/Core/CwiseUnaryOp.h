@@ -8,10 +8,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_CWISE_UNARY_OP_H
-#define EIGEN_CWISE_UNARY_OP_H
+#ifndef HYDRA_EIGEN_CWISE_UNARY_OP_H
+#define HYDRA_EIGEN_CWISE_UNARY_OP_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 namespace internal {
 template<typename UnaryOp, typename XprType>
@@ -57,30 +57,30 @@ class CwiseUnaryOp : public CwiseUnaryOpImpl<UnaryOp, XprType, typename internal
   public:
 
     typedef typename CwiseUnaryOpImpl<UnaryOp, XprType,typename internal::traits<XprType>::StorageKind>::Base Base;
-    EIGEN_GENERIC_PUBLIC_INTERFACE(CwiseUnaryOp)
+    HYDRA_EIGEN_GENERIC_PUBLIC_INTERFACE(CwiseUnaryOp)
     typedef typename internal::ref_selector<XprType>::type XprTypeNested;
     typedef typename internal::remove_all<XprType>::type NestedExpression;
 
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     explicit CwiseUnaryOp(const XprType& xpr, const UnaryOp& func = UnaryOp())
       : m_xpr(xpr), m_functor(func) {}
 
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE EIGEN_CONSTEXPR
-    Index rows() const EIGEN_NOEXCEPT { return m_xpr.rows(); }
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE EIGEN_CONSTEXPR
-    Index cols() const EIGEN_NOEXCEPT { return m_xpr.cols(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_CONSTEXPR
+    Index rows() const HYDRA_EIGEN_NOEXCEPT { return m_xpr.rows(); }
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE HYDRA_EIGEN_CONSTEXPR
+    Index cols() const HYDRA_EIGEN_NOEXCEPT { return m_xpr.cols(); }
 
     /** \returns the functor representing the unary operation */
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     const UnaryOp& functor() const { return m_functor; }
 
     /** \returns the nested expression */
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     const typename internal::remove_all<XprTypeNested>::type&
     nestedExpression() const { return m_xpr; }
 
     /** \returns the nested expression */
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+    HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
     typename internal::remove_all<XprTypeNested>::type&
     nestedExpression() { return m_xpr; }
 
@@ -98,6 +98,6 @@ public:
   typedef typename internal::generic_xpr_base<CwiseUnaryOp<UnaryOp, XprType> >::type Base;
 };
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_CWISE_UNARY_OP_H
+#endif // HYDRA_EIGEN_CWISE_UNARY_OP_H

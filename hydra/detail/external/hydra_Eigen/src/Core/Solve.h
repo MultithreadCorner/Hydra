@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SOLVE_H
-#define EIGEN_SOLVE_H
+#ifndef HYDRA_EIGEN_SOLVE_H
+#define HYDRA_EIGEN_SOLVE_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 template<typename Decomposition, typename RhsType, typename StorageKind> class SolveImpl;
 
@@ -69,11 +69,11 @@ public:
     : m_dec(dec), m_rhs(rhs)
   {}
 
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR Index rows() const EIGEN_NOEXCEPT { return m_dec.cols(); }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR Index cols() const EIGEN_NOEXCEPT { return m_rhs.cols(); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR Index rows() const HYDRA_EIGEN_NOEXCEPT { return m_dec.cols(); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR Index cols() const HYDRA_EIGEN_NOEXCEPT { return m_rhs.cols(); }
 
-  EIGEN_DEVICE_FUNC const Decomposition& dec() const { return m_dec; }
-  EIGEN_DEVICE_FUNC const RhsType&       rhs() const { return m_rhs; }
+  HYDRA_EIGEN_DEVICE_FUNC const Decomposition& dec() const { return m_dec; }
+  HYDRA_EIGEN_DEVICE_FUNC const RhsType&       rhs() const { return m_rhs; }
 
 protected:
   const Decomposition &m_dec;
@@ -91,7 +91,7 @@ class SolveImpl<Decomposition,RhsType,Dense>
 public:
 
   typedef MatrixBase<Solve<Decomposition,RhsType> > Base;
-  EIGEN_DENSE_PUBLIC_INTERFACE(Derived)
+  HYDRA_EIGEN_DENSE_PUBLIC_INTERFACE(Derived)
 
 private:
 
@@ -120,7 +120,7 @@ struct evaluator<Solve<Decomposition,RhsType> >
 
   enum { Flags = Base::Flags | EvalBeforeNestingBit };
 
-  EIGEN_DEVICE_FUNC explicit evaluator(const SolveType& solve)
+  HYDRA_EIGEN_DEVICE_FUNC explicit evaluator(const SolveType& solve)
     : m_result(solve.rows(), solve.cols())
   {
     ::new (static_cast<Base*>(this)) Base(m_result);
@@ -183,6 +183,6 @@ struct Assignment<DstXprType, Solve<CwiseUnaryOp<internal::scalar_conjugate_op<t
 
 } // end namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SOLVE_H
+#endif // HYDRA_EIGEN_SOLVE_H

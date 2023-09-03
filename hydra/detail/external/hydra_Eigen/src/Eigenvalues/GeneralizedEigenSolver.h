@@ -9,12 +9,12 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_GENERALIZEDEIGENSOLVER_H
-#define EIGEN_GENERALIZEDEIGENSOLVER_H
+#ifndef HYDRA_EIGEN_GENERALIZEDEIGENSOLVER_H
+#define HYDRA_EIGEN_GENERALIZEDEIGENSOLVER_H
 
 #include "./RealQZ.h"
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 /** \eigenvalues_module \ingroup Eigenvalues_Module
   *
@@ -73,7 +73,7 @@ template<typename _MatrixType> class GeneralizedEigenSolver
     /** \brief Scalar type for matrices of type #MatrixType. */
     typedef typename MatrixType::Scalar Scalar;
     typedef typename NumTraits<Scalar>::Real RealScalar;
-    typedef Eigen::Index Index; ///< \deprecated since Eigen 3.3
+    typedef hydra_Eigen::Index Index; ///< \deprecated since Eigen 3.3
 
     /** \brief Complex scalar type for #MatrixType. 
       *
@@ -270,8 +270,8 @@ template<typename _MatrixType> class GeneralizedEigenSolver
     
     static void check_template_parameters()
     {
-      EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
-      EIGEN_STATIC_ASSERT(!NumTraits<Scalar>::IsComplex, NUMERIC_TYPE_MUST_BE_REAL);
+      HYDRA_EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
+      HYDRA_EIGEN_STATIC_ASSERT(!NumTraits<Scalar>::IsComplex, NUMERIC_TYPE_MUST_BE_REAL);
     }
     
     EigenvectorsType m_eivec;
@@ -413,6 +413,6 @@ GeneralizedEigenSolver<MatrixType>::compute(const MatrixType& A, const MatrixTyp
   return *this;
 }
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_GENERALIZEDEIGENSOLVER_H
+#endif // HYDRA_EIGEN_GENERALIZEDEIGENSOLVER_H

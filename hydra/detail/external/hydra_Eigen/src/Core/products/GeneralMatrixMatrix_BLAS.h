@@ -30,10 +30,10 @@
  ********************************************************************************
 */
 
-#ifndef EIGEN_GENERAL_MATRIX_MATRIX_BLAS_H
-#define EIGEN_GENERAL_MATRIX_MATRIX_BLAS_H
+#ifndef HYDRA_EIGEN_GENERAL_MATRIX_MATRIX_BLAS_H
+#define HYDRA_EIGEN_GENERAL_MATRIX_MATRIX_BLAS_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -65,7 +65,7 @@ static void run(Index rows, Index cols, Index depth, \
 { \
   using std::conj; \
 \
-  EIGEN_ONLY_USED_FOR_DEBUG(resIncr); \
+  HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(resIncr); \
   eigen_assert(resIncr == 1); \
   char transa, transb; \
   BlasIndex m, n, k, lda, ldb, ldc; \
@@ -105,7 +105,7 @@ static void run(Index rows, Index cols, Index depth, \
   BLASFUNC(&transa, &transb, &m, &n, &k, (const BLASTYPE*)&numext::real_ref(alpha), (const BLASTYPE*)a, &lda, (const BLASTYPE*)b, &ldb, (const BLASTYPE*)&numext::real_ref(beta), (BLASTYPE*)res, &ldc); \
 }};
 
-#ifdef EIGEN_USE_MKL
+#ifdef HYDRA_EIGEN_USE_MKL
 GEMM_SPECIALIZATION(double,   d,  double, dgemm)
 GEMM_SPECIALIZATION(float,    f,  float,  sgemm)
 GEMM_SPECIALIZATION(dcomplex, cd, MKL_Complex16, zgemm)
@@ -119,6 +119,6 @@ GEMM_SPECIALIZATION(scomplex, cf, float,  cgemm_)
 
 } // end namespase internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_GENERAL_MATRIX_MATRIX_BLAS_H
+#endif // HYDRA_EIGEN_GENERAL_MATRIX_MATRIX_BLAS_H

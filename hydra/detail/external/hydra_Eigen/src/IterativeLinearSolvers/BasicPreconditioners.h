@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_BASIC_PRECONDITIONERS_H
-#define EIGEN_BASIC_PRECONDITIONERS_H
+#ifndef HYDRA_EIGEN_BASIC_PRECONDITIONERS_H
+#define HYDRA_EIGEN_BASIC_PRECONDITIONERS_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 /** \ingroup IterativeLinearSolvers_Module
   * \brief A preconditioner based on the digonal entries
@@ -52,8 +52,8 @@ class DiagonalPreconditioner
       compute(mat);
     }
 
-    EIGEN_CONSTEXPR Index rows() const EIGEN_NOEXCEPT { return m_invdiag.size(); }
-    EIGEN_CONSTEXPR Index cols() const EIGEN_NOEXCEPT { return m_invdiag.size(); }
+    HYDRA_EIGEN_CONSTEXPR Index rows() const HYDRA_EIGEN_NOEXCEPT { return m_invdiag.size(); }
+    HYDRA_EIGEN_CONSTEXPR Index cols() const HYDRA_EIGEN_NOEXCEPT { return m_invdiag.size(); }
 
     template<typename MatType>
     DiagonalPreconditioner& analyzePattern(const MatType& )
@@ -221,6 +221,6 @@ class IdentityPreconditioner
     ComputationInfo info() { return Success; }
 };
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_BASIC_PRECONDITIONERS_H
+#endif // HYDRA_EIGEN_BASIC_PRECONDITIONERS_H

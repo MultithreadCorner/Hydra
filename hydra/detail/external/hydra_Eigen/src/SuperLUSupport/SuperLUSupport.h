@@ -7,10 +7,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_SUPERLUSUPPORT_H
-#define EIGEN_SUPERLUSUPPORT_H
+#ifndef HYDRA_EIGEN_SUPERLUSUPPORT_H
+#define HYDRA_EIGEN_SUPERLUSUPPORT_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 #if defined(SUPERLU_MAJOR_VERSION) && (SUPERLU_MAJOR_VERSION >= 5)
 #define DECL_GSSVX(PREFIX,FLOATTYPE,KEYTYPE)		\
@@ -67,10 +67,10 @@ DECL_GSSVX(d,double,double)
 DECL_GSSVX(z,double,std::complex<double>)
 
 #ifdef MILU_ALPHA
-#define EIGEN_SUPERLU_HAS_ILU
+#define HYDRA_EIGEN_SUPERLU_HAS_ILU
 #endif
 
-#ifdef EIGEN_SUPERLU_HAS_ILU
+#ifdef HYDRA_EIGEN_SUPERLU_HAS_ILU
 
 // similarly for the incomplete factorization using gsisx
 #define DECL_GSISX(PREFIX,FLOATTYPE,KEYTYPE)                                                    \
@@ -815,11 +815,11 @@ typename SuperLU<MatrixType>::Scalar SuperLU<MatrixType>::determinant() const
     return det;
 }
 
-#ifdef EIGEN_PARSED_BY_DOXYGEN
-#define EIGEN_SUPERLU_HAS_ILU
+#ifdef HYDRA_EIGEN_PARSED_BY_DOXYGEN
+#define HYDRA_EIGEN_SUPERLU_HAS_ILU
 #endif
 
-#ifdef EIGEN_SUPERLU_HAS_ILU
+#ifdef HYDRA_EIGEN_SUPERLU_HAS_ILU
 
 /** \ingroup SuperLUSupport_Module
   * \class SuperILU
@@ -880,11 +880,11 @@ class SuperILU : public SuperLUBase<_MatrixType,SuperILU<_MatrixType> >
       */
     void factorize(const MatrixType& matrix);
     
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
+    #ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
     /** \internal */
     template<typename Rhs,typename Dest>
     void _solve_impl(const MatrixBase<Rhs> &b, MatrixBase<Dest> &dest) const;
-    #endif // EIGEN_PARSED_BY_DOXYGEN
+    #endif // HYDRA_EIGEN_PARSED_BY_DOXYGEN
     
   protected:
     
@@ -966,7 +966,7 @@ void SuperILU<MatrixType>::factorize(const MatrixType& a)
   m_factorizationIsOk = true;
 }
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+#ifndef HYDRA_EIGEN_PARSED_BY_DOXYGEN
 template<typename MatrixType>
 template<typename Rhs,typename Dest>
 void SuperILU<MatrixType>::_solve_impl(const MatrixBase<Rhs> &b, MatrixBase<Dest>& x) const
@@ -1020,6 +1020,6 @@ void SuperILU<MatrixType>::_solve_impl(const MatrixBase<Rhs> &b, MatrixBase<Dest
 
 #endif
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_SUPERLUSUPPORT_H
+#endif // HYDRA_EIGEN_SUPERLUSUPPORT_H

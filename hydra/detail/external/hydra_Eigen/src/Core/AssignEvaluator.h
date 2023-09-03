@@ -9,10 +9,10 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_ASSIGN_EVALUATOR_H
-#define EIGEN_ASSIGN_EVALUATOR_H
+#ifndef HYDRA_EIGEN_ASSIGN_EVALUATOR_H
+#define HYDRA_EIGEN_ASSIGN_EVALUATOR_H
 
-namespace Eigen {
+namespace hydra_Eigen {
 
 // This implementation is based on Assign.h
 
@@ -40,7 +40,7 @@ public:
     DstAlignment = DstEvaluator::Alignment,
     SrcAlignment = SrcEvaluator::Alignment,
     DstHasDirectAccess = (DstFlags & DirectAccessBit) == DirectAccessBit,
-    JointAlignment = EIGEN_PLAIN_ENUM_MIN(DstAlignment,SrcAlignment)
+    JointAlignment = HYDRA_EIGEN_PLAIN_ENUM_MIN(DstAlignment,SrcAlignment)
   };
 
 private:
@@ -51,8 +51,8 @@ private:
     InnerMaxSize = int(Dst::IsVectorAtCompileTime) ? int(Dst::MaxSizeAtCompileTime)
               : int(DstFlags)&RowMajorBit ? int(Dst::MaxColsAtCompileTime)
               : int(Dst::MaxRowsAtCompileTime),
-    RestrictedInnerSize = EIGEN_SIZE_MIN_PREFER_FIXED(InnerSize,MaxPacketSize),
-    RestrictedLinearSize = EIGEN_SIZE_MIN_PREFER_FIXED(Dst::SizeAtCompileTime,MaxPacketSize),
+    RestrictedInnerSize = HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(InnerSize,MaxPacketSize),
+    RestrictedLinearSize = HYDRA_EIGEN_SIZE_MIN_PREFER_FIXED(Dst::SizeAtCompileTime,MaxPacketSize),
     OuterStride = int(outer_stride_at_compile_time<Dst>::ret),
     MaxSizeAtCompileTime = Dst::SizeAtCompileTime
   };
@@ -83,18 +83,18 @@ private:
     MayInnerVectorize  = MightVectorize
                        && int(InnerSize)!=Dynamic && int(InnerSize)%int(InnerPacketSize)==0
                        && int(OuterStride)!=Dynamic && int(OuterStride)%int(InnerPacketSize)==0
-                       && (EIGEN_UNALIGNED_VECTORIZE  || int(JointAlignment)>=int(InnerRequiredAlignment)),
+                       && (HYDRA_EIGEN_UNALIGNED_VECTORIZE  || int(JointAlignment)>=int(InnerRequiredAlignment)),
     MayLinearize = bool(StorageOrdersAgree) && (int(DstFlags) & int(SrcFlags) & LinearAccessBit),
     MayLinearVectorize = bool(MightVectorize) && bool(MayLinearize) && bool(DstHasDirectAccess)
-                       && (EIGEN_UNALIGNED_VECTORIZE || (int(DstAlignment)>=int(LinearRequiredAlignment)) || MaxSizeAtCompileTime == Dynamic),
+                       && (HYDRA_EIGEN_UNALIGNED_VECTORIZE || (int(DstAlignment)>=int(LinearRequiredAlignment)) || MaxSizeAtCompileTime == Dynamic),
       /* If the destination isn't aligned, we have to do runtime checks and we don't unroll,
          so it's only good for large enough sizes. */
     MaySliceVectorize  = bool(MightVectorize) && bool(DstHasDirectAccess)
-                       && (int(InnerMaxSize)==Dynamic || int(InnerMaxSize)>=(EIGEN_UNALIGNED_VECTORIZE?InnerPacketSize:(3*InnerPacketSize)))
+                       && (int(InnerMaxSize)==Dynamic || int(InnerMaxSize)>=(HYDRA_EIGEN_UNALIGNED_VECTORIZE?InnerPacketSize:(3*InnerPacketSize)))
       /* slice vectorization can be slow, so we only want it if the slices are big, which is
          indicated by InnerMaxSize rather than InnerSize, think of the case of a dynamic block
          in a fixed-size matrix
-         However, with EIGEN_UNALIGNED_VECTORIZE and unrolling, slice vectorization is still worth it */
+         However, with HYDRA_EIGEN_UNALIGNED_VECTORIZE and unrolling, slice vectorization is still worth it */
   };
 
 public:
@@ -118,7 +118,7 @@ private:
     ActualPacketSize    = int(Traversal)==LinearVectorizedTraversal ? LinearPacketSize
                         : Vectorized ? InnerPacketSize
                         : 1,
-    UnrollingLimit      = EIGEN_UNROLLING_LIMIT * ActualPacketSize,
+    UnrollingLimit      = HYDRA_EIGEN_UNROLLING_LIMIT * ActualPacketSize,
     MayUnrollCompletely = int(Dst::SizeAtCompileTime) != Dynamic
                        && int(Dst::SizeAtCompileTime) * (int(DstEvaluator::CoeffReadCost)+int(SrcEvaluator::CoeffReadCost)) <= int(UnrollingLimit),
     MayUnrollInner      = int(InnerSize) != Dynamic
@@ -134,13 +134,13 @@ public:
                                              : int(NoUnrolling)
                   )
               : int(Traversal) == int(LinearVectorizedTraversal)
-                ? ( bool(MayUnrollCompletely) && ( EIGEN_UNALIGNED_VECTORIZE || (int(DstAlignment)>=int(LinearRequiredAlignment)))
+                ? ( bool(MayUnrollCompletely) && ( HYDRA_EIGEN_UNALIGNED_VECTORIZE || (int(DstAlignment)>=int(LinearRequiredAlignment)))
                           ? int(CompleteUnrolling)
                           : int(NoUnrolling) )
               : int(Traversal) == int(LinearTraversal)
                 ? ( bool(MayUnrollCompletely) ? int(CompleteUnrolling)
                                               : int(NoUnrolling) )
-#if EIGEN_UNALIGNED_VECTORIZE
+#if HYDRA_EIGEN_UNALIGNED_VECTORIZE
               : int(Traversal) == int(SliceVectorizedTraversal)
                 ? ( bool(MayUnrollInner) ? int(InnerUnrolling)
                                          : int(NoUnrolling) )
@@ -148,7 +148,7 @@ public:
               : int(NoUnrolling)
   };
 
-#ifdef EIGEN_DEBUG_ASSIGN
+#ifdef HYDRA_EIGEN_DEBUG_ASSIGN
   static void debug()
   {
     std::cerr << "DstXpr: " << typeid(typename DstEvaluator::XprType).name() << std::endl;
@@ -157,29 +157,29 @@ public:
     std::cerr << "DstFlags" << " = " << DstFlags << " (" << demangle_flags(DstFlags) << " )" << std::endl;
     std::cerr << "SrcFlags" << " = " << SrcFlags << " (" << demangle_flags(SrcFlags) << " )" << std::endl;
     std::cerr.unsetf(std::ios::hex);
-    EIGEN_DEBUG_VAR(DstAlignment)
-    EIGEN_DEBUG_VAR(SrcAlignment)
-    EIGEN_DEBUG_VAR(LinearRequiredAlignment)
-    EIGEN_DEBUG_VAR(InnerRequiredAlignment)
-    EIGEN_DEBUG_VAR(JointAlignment)
-    EIGEN_DEBUG_VAR(InnerSize)
-    EIGEN_DEBUG_VAR(InnerMaxSize)
-    EIGEN_DEBUG_VAR(LinearPacketSize)
-    EIGEN_DEBUG_VAR(InnerPacketSize)
-    EIGEN_DEBUG_VAR(ActualPacketSize)
-    EIGEN_DEBUG_VAR(StorageOrdersAgree)
-    EIGEN_DEBUG_VAR(MightVectorize)
-    EIGEN_DEBUG_VAR(MayLinearize)
-    EIGEN_DEBUG_VAR(MayInnerVectorize)
-    EIGEN_DEBUG_VAR(MayLinearVectorize)
-    EIGEN_DEBUG_VAR(MaySliceVectorize)
+    HYDRA_EIGEN_DEBUG_VAR(DstAlignment)
+    HYDRA_EIGEN_DEBUG_VAR(SrcAlignment)
+    HYDRA_EIGEN_DEBUG_VAR(LinearRequiredAlignment)
+    HYDRA_EIGEN_DEBUG_VAR(InnerRequiredAlignment)
+    HYDRA_EIGEN_DEBUG_VAR(JointAlignment)
+    HYDRA_EIGEN_DEBUG_VAR(InnerSize)
+    HYDRA_EIGEN_DEBUG_VAR(InnerMaxSize)
+    HYDRA_EIGEN_DEBUG_VAR(LinearPacketSize)
+    HYDRA_EIGEN_DEBUG_VAR(InnerPacketSize)
+    HYDRA_EIGEN_DEBUG_VAR(ActualPacketSize)
+    HYDRA_EIGEN_DEBUG_VAR(StorageOrdersAgree)
+    HYDRA_EIGEN_DEBUG_VAR(MightVectorize)
+    HYDRA_EIGEN_DEBUG_VAR(MayLinearize)
+    HYDRA_EIGEN_DEBUG_VAR(MayInnerVectorize)
+    HYDRA_EIGEN_DEBUG_VAR(MayLinearVectorize)
+    HYDRA_EIGEN_DEBUG_VAR(MaySliceVectorize)
     std::cerr << "Traversal" << " = " << Traversal << " (" << demangle_traversal(Traversal) << ")" << std::endl;
-    EIGEN_DEBUG_VAR(SrcEvaluator::CoeffReadCost)
-    EIGEN_DEBUG_VAR(DstEvaluator::CoeffReadCost)
-    EIGEN_DEBUG_VAR(Dst::SizeAtCompileTime)
-    EIGEN_DEBUG_VAR(UnrollingLimit)
-    EIGEN_DEBUG_VAR(MayUnrollCompletely)
-    EIGEN_DEBUG_VAR(MayUnrollInner)
+    HYDRA_EIGEN_DEBUG_VAR(SrcEvaluator::CoeffReadCost)
+    HYDRA_EIGEN_DEBUG_VAR(DstEvaluator::CoeffReadCost)
+    HYDRA_EIGEN_DEBUG_VAR(Dst::SizeAtCompileTime)
+    HYDRA_EIGEN_DEBUG_VAR(UnrollingLimit)
+    HYDRA_EIGEN_DEBUG_VAR(MayUnrollCompletely)
+    HYDRA_EIGEN_DEBUG_VAR(MayUnrollInner)
     std::cerr << "Unrolling" << " = " << Unrolling << " (" << demangle_unrolling(Unrolling) << ")" << std::endl;
     std::cerr << std::endl;
   }
@@ -206,7 +206,7 @@ struct copy_using_evaluator_DefaultTraversal_CompleteUnrolling
     inner = Index % DstXprType::InnerSizeAtCompileTime
   };
 
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &kernel)
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel &kernel)
   {
     kernel.assignCoeffByOuterInner(outer, inner);
     copy_using_evaluator_DefaultTraversal_CompleteUnrolling<Kernel, Index+1, Stop>::run(kernel);
@@ -216,13 +216,13 @@ struct copy_using_evaluator_DefaultTraversal_CompleteUnrolling
 template<typename Kernel, int Stop>
 struct copy_using_evaluator_DefaultTraversal_CompleteUnrolling<Kernel, Stop, Stop>
 {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel&) { }
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel&) { }
 };
 
 template<typename Kernel, int Index_, int Stop>
 struct copy_using_evaluator_DefaultTraversal_InnerUnrolling
 {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &kernel, Index outer)
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel &kernel, Index outer)
   {
     kernel.assignCoeffByOuterInner(outer, Index_);
     copy_using_evaluator_DefaultTraversal_InnerUnrolling<Kernel, Index_+1, Stop>::run(kernel, outer);
@@ -232,7 +232,7 @@ struct copy_using_evaluator_DefaultTraversal_InnerUnrolling
 template<typename Kernel, int Stop>
 struct copy_using_evaluator_DefaultTraversal_InnerUnrolling<Kernel, Stop, Stop>
 {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel&, Index) { }
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel&, Index) { }
 };
 
 /***********************
@@ -242,7 +242,7 @@ struct copy_using_evaluator_DefaultTraversal_InnerUnrolling<Kernel, Stop, Stop>
 template<typename Kernel, int Index, int Stop>
 struct copy_using_evaluator_LinearTraversal_CompleteUnrolling
 {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel& kernel)
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel& kernel)
   {
     kernel.assignCoeff(Index);
     copy_using_evaluator_LinearTraversal_CompleteUnrolling<Kernel, Index+1, Stop>::run(kernel);
@@ -252,7 +252,7 @@ struct copy_using_evaluator_LinearTraversal_CompleteUnrolling
 template<typename Kernel, int Stop>
 struct copy_using_evaluator_LinearTraversal_CompleteUnrolling<Kernel, Stop, Stop>
 {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel&) { }
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel&) { }
 };
 
 /**************************
@@ -274,7 +274,7 @@ struct copy_using_evaluator_innervec_CompleteUnrolling
     DstAlignment = Kernel::AssignmentTraits::DstAlignment
   };
 
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &kernel)
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel &kernel)
   {
     kernel.template assignPacketByOuterInner<DstAlignment, SrcAlignment, PacketType>(outer, inner);
     enum { NextIndex = Index + unpacket_traits<PacketType>::size };
@@ -285,14 +285,14 @@ struct copy_using_evaluator_innervec_CompleteUnrolling
 template<typename Kernel, int Stop>
 struct copy_using_evaluator_innervec_CompleteUnrolling<Kernel, Stop, Stop>
 {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel&) { }
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel&) { }
 };
 
 template<typename Kernel, int Index_, int Stop, int SrcAlignment, int DstAlignment>
 struct copy_using_evaluator_innervec_InnerUnrolling
 {
   typedef typename Kernel::PacketType PacketType;
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &kernel, Index outer)
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel &kernel, Index outer)
   {
     kernel.template assignPacketByOuterInner<DstAlignment, SrcAlignment, PacketType>(outer, Index_);
     enum { NextIndex = Index_ + unpacket_traits<PacketType>::size };
@@ -303,7 +303,7 @@ struct copy_using_evaluator_innervec_InnerUnrolling
 template<typename Kernel, int Stop, int SrcAlignment, int DstAlignment>
 struct copy_using_evaluator_innervec_InnerUnrolling<Kernel, Stop, Stop, SrcAlignment, DstAlignment>
 {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &, Index) { }
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel &, Index) { }
 };
 
 /***************************************************************************
@@ -325,11 +325,11 @@ struct dense_assignment_loop;
 template<typename Kernel, int Unrolling>
 struct dense_assignment_loop<Kernel, AllAtOnceTraversal, Unrolling>
 {
-  EIGEN_DEVICE_FUNC static void EIGEN_STRONG_INLINE run(Kernel& /*kernel*/)
+  HYDRA_EIGEN_DEVICE_FUNC static void HYDRA_EIGEN_STRONG_INLINE run(Kernel& /*kernel*/)
   {
     typedef typename Kernel::DstEvaluatorType::XprType DstXprType;
-    EIGEN_STATIC_ASSERT(int(DstXprType::SizeAtCompileTime) == 0,
-      EIGEN_INTERNAL_ERROR_PLEASE_FILE_A_BUG_REPORT)
+    HYDRA_EIGEN_STATIC_ASSERT(int(DstXprType::SizeAtCompileTime) == 0,
+      HYDRA_EIGEN_INTERNAL_ERROR_PLEASE_FILE_A_BUG_REPORT)
   }
 };
 
@@ -340,7 +340,7 @@ struct dense_assignment_loop<Kernel, AllAtOnceTraversal, Unrolling>
 template<typename Kernel>
 struct dense_assignment_loop<Kernel, DefaultTraversal, NoUnrolling>
 {
-  EIGEN_DEVICE_FUNC static void EIGEN_STRONG_INLINE run(Kernel &kernel)
+  HYDRA_EIGEN_DEVICE_FUNC static void HYDRA_EIGEN_STRONG_INLINE run(Kernel &kernel)
   {
     for(Index outer = 0; outer < kernel.outerSize(); ++outer) {
       for(Index inner = 0; inner < kernel.innerSize(); ++inner) {
@@ -353,7 +353,7 @@ struct dense_assignment_loop<Kernel, DefaultTraversal, NoUnrolling>
 template<typename Kernel>
 struct dense_assignment_loop<Kernel, DefaultTraversal, CompleteUnrolling>
 {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &kernel)
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel &kernel)
   {
     typedef typename Kernel::DstEvaluatorType::XprType DstXprType;
     copy_using_evaluator_DefaultTraversal_CompleteUnrolling<Kernel, 0, DstXprType::SizeAtCompileTime>::run(kernel);
@@ -363,7 +363,7 @@ struct dense_assignment_loop<Kernel, DefaultTraversal, CompleteUnrolling>
 template<typename Kernel>
 struct dense_assignment_loop<Kernel, DefaultTraversal, InnerUnrolling>
 {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &kernel)
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel &kernel)
   {
     typedef typename Kernel::DstEvaluatorType::XprType DstXprType;
 
@@ -386,7 +386,7 @@ struct unaligned_dense_assignment_loop
 {
   // if IsAligned = true, then do nothing
   template <typename Kernel>
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel&, Index, Index) {}
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel&, Index, Index) {}
 };
 
 template <>
@@ -395,14 +395,14 @@ struct unaligned_dense_assignment_loop<false>
   // MSVC must not inline this functions. If it does, it fails to optimize the
   // packet access path.
   // FIXME check which version exhibits this issue
-#if EIGEN_COMP_MSVC
+#if HYDRA_EIGEN_COMP_MSVC
   template <typename Kernel>
-  static EIGEN_DONT_INLINE void run(Kernel &kernel,
+  static HYDRA_EIGEN_DONT_INLINE void run(Kernel &kernel,
                                     Index start,
                                     Index end)
 #else
   template <typename Kernel>
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &kernel,
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel &kernel,
                                       Index start,
                                       Index end)
 #endif
@@ -415,7 +415,7 @@ struct unaligned_dense_assignment_loop<false>
 template<typename Kernel>
 struct dense_assignment_loop<Kernel, LinearVectorizedTraversal, NoUnrolling>
 {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &kernel)
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel &kernel)
   {
     const Index size = kernel.size();
     typedef typename Kernel::Scalar Scalar;
@@ -443,7 +443,7 @@ struct dense_assignment_loop<Kernel, LinearVectorizedTraversal, NoUnrolling>
 template<typename Kernel>
 struct dense_assignment_loop<Kernel, LinearVectorizedTraversal, CompleteUnrolling>
 {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &kernel)
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel &kernel)
   {
     typedef typename Kernel::DstEvaluatorType::XprType DstXprType;
     typedef typename Kernel::PacketType PacketType;
@@ -469,7 +469,7 @@ struct dense_assignment_loop<Kernel, InnerVectorizedTraversal, NoUnrolling>
     SrcAlignment = Kernel::AssignmentTraits::SrcAlignment,
     DstAlignment = Kernel::AssignmentTraits::DstAlignment
   };
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &kernel)
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel &kernel)
   {
     const Index innerSize = kernel.innerSize();
     const Index outerSize = kernel.outerSize();
@@ -483,7 +483,7 @@ struct dense_assignment_loop<Kernel, InnerVectorizedTraversal, NoUnrolling>
 template<typename Kernel>
 struct dense_assignment_loop<Kernel, InnerVectorizedTraversal, CompleteUnrolling>
 {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &kernel)
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel &kernel)
   {
     typedef typename Kernel::DstEvaluatorType::XprType DstXprType;
     copy_using_evaluator_innervec_CompleteUnrolling<Kernel, 0, DstXprType::SizeAtCompileTime>::run(kernel);
@@ -493,7 +493,7 @@ struct dense_assignment_loop<Kernel, InnerVectorizedTraversal, CompleteUnrolling
 template<typename Kernel>
 struct dense_assignment_loop<Kernel, InnerVectorizedTraversal, InnerUnrolling>
 {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &kernel)
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel &kernel)
   {
     typedef typename Kernel::DstEvaluatorType::XprType DstXprType;
     typedef typename Kernel::AssignmentTraits Traits;
@@ -511,7 +511,7 @@ struct dense_assignment_loop<Kernel, InnerVectorizedTraversal, InnerUnrolling>
 template<typename Kernel>
 struct dense_assignment_loop<Kernel, LinearTraversal, NoUnrolling>
 {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &kernel)
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel &kernel)
   {
     const Index size = kernel.size();
     for(Index i = 0; i < size; ++i)
@@ -522,7 +522,7 @@ struct dense_assignment_loop<Kernel, LinearTraversal, NoUnrolling>
 template<typename Kernel>
 struct dense_assignment_loop<Kernel, LinearTraversal, CompleteUnrolling>
 {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &kernel)
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel &kernel)
   {
     typedef typename Kernel::DstEvaluatorType::XprType DstXprType;
     copy_using_evaluator_LinearTraversal_CompleteUnrolling<Kernel, 0, DstXprType::SizeAtCompileTime>::run(kernel);
@@ -536,7 +536,7 @@ struct dense_assignment_loop<Kernel, LinearTraversal, CompleteUnrolling>
 template<typename Kernel>
 struct dense_assignment_loop<Kernel, SliceVectorizedTraversal, NoUnrolling>
 {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &kernel)
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel &kernel)
   {
     typedef typename Kernel::Scalar Scalar;
     typedef typename Kernel::PacketType PacketType;
@@ -580,11 +580,11 @@ struct dense_assignment_loop<Kernel, SliceVectorizedTraversal, NoUnrolling>
   }
 };
 
-#if EIGEN_UNALIGNED_VECTORIZE
+#if HYDRA_EIGEN_UNALIGNED_VECTORIZE
 template<typename Kernel>
 struct dense_assignment_loop<Kernel, SliceVectorizedTraversal, InnerUnrolling>
 {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE void run(Kernel &kernel)
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE void run(Kernel &kernel)
   {
     typedef typename Kernel::DstEvaluatorType::XprType DstXprType;
     typedef typename Kernel::PacketType PacketType;
@@ -629,39 +629,39 @@ public:
   typedef typename AssignmentTraits::PacketType PacketType;
 
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
   generic_dense_assignment_kernel(DstEvaluatorType &dst, const SrcEvaluatorType &src, const Functor &func, DstXprType& dstExpr)
     : m_dst(dst), m_src(src), m_functor(func), m_dstExpr(dstExpr)
   {
-    #ifdef EIGEN_DEBUG_ASSIGN
+    #ifdef HYDRA_EIGEN_DEBUG_ASSIGN
     AssignmentTraits::debug();
     #endif
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR Index size() const EIGEN_NOEXCEPT { return m_dstExpr.size(); }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR Index innerSize() const EIGEN_NOEXCEPT { return m_dstExpr.innerSize(); }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR Index outerSize() const EIGEN_NOEXCEPT { return m_dstExpr.outerSize(); }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR Index rows() const EIGEN_NOEXCEPT { return m_dstExpr.rows(); }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR Index cols() const EIGEN_NOEXCEPT { return m_dstExpr.cols(); }
-  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR Index outerStride() const EIGEN_NOEXCEPT { return m_dstExpr.outerStride(); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR Index size() const HYDRA_EIGEN_NOEXCEPT { return m_dstExpr.size(); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR Index innerSize() const HYDRA_EIGEN_NOEXCEPT { return m_dstExpr.innerSize(); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR Index outerSize() const HYDRA_EIGEN_NOEXCEPT { return m_dstExpr.outerSize(); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR Index rows() const HYDRA_EIGEN_NOEXCEPT { return m_dstExpr.rows(); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR Index cols() const HYDRA_EIGEN_NOEXCEPT { return m_dstExpr.cols(); }
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_CONSTEXPR Index outerStride() const HYDRA_EIGEN_NOEXCEPT { return m_dstExpr.outerStride(); }
 
-  EIGEN_DEVICE_FUNC DstEvaluatorType& dstEvaluator() EIGEN_NOEXCEPT { return m_dst; }
-  EIGEN_DEVICE_FUNC const SrcEvaluatorType& srcEvaluator() const EIGEN_NOEXCEPT { return m_src; }
+  HYDRA_EIGEN_DEVICE_FUNC DstEvaluatorType& dstEvaluator() HYDRA_EIGEN_NOEXCEPT { return m_dst; }
+  HYDRA_EIGEN_DEVICE_FUNC const SrcEvaluatorType& srcEvaluator() const HYDRA_EIGEN_NOEXCEPT { return m_src; }
 
   /// Assign src(row,col) to dst(row,col) through the assignment functor.
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeff(Index row, Index col)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void assignCoeff(Index row, Index col)
   {
     m_functor.assignCoeff(m_dst.coeffRef(row,col), m_src.coeff(row,col));
   }
 
   /// \sa assignCoeff(Index,Index)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeff(Index index)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void assignCoeff(Index index)
   {
     m_functor.assignCoeff(m_dst.coeffRef(index), m_src.coeff(index));
   }
 
   /// \sa assignCoeff(Index,Index)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeffByOuterInner(Index outer, Index inner)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void assignCoeffByOuterInner(Index outer, Index inner)
   {
     Index row = rowIndexByOuterInner(outer, inner);
     Index col = colIndexByOuterInner(outer, inner);
@@ -670,26 +670,26 @@ public:
 
 
   template<int StoreMode, int LoadMode, typename PacketType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignPacket(Index row, Index col)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void assignPacket(Index row, Index col)
   {
     m_functor.template assignPacket<StoreMode>(&m_dst.coeffRef(row,col), m_src.template packet<LoadMode,PacketType>(row,col));
   }
 
   template<int StoreMode, int LoadMode, typename PacketType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignPacket(Index index)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void assignPacket(Index index)
   {
     m_functor.template assignPacket<StoreMode>(&m_dst.coeffRef(index), m_src.template packet<LoadMode,PacketType>(index));
   }
 
   template<int StoreMode, int LoadMode, typename PacketType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignPacketByOuterInner(Index outer, Index inner)
+  HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void assignPacketByOuterInner(Index outer, Index inner)
   {
     Index row = rowIndexByOuterInner(outer, inner);
     Index col = colIndexByOuterInner(outer, inner);
     assignPacket<StoreMode,LoadMode,PacketType>(row, col);
   }
 
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE Index rowIndexByOuterInner(Index outer, Index inner)
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE Index rowIndexByOuterInner(Index outer, Index inner)
   {
     typedef typename DstEvaluatorType::ExpressionTraits Traits;
     return int(Traits::RowsAtCompileTime) == 1 ? 0
@@ -698,7 +698,7 @@ public:
       : inner;
   }
 
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE Index colIndexByOuterInner(Index outer, Index inner)
+  HYDRA_EIGEN_DEVICE_FUNC static HYDRA_EIGEN_STRONG_INLINE Index colIndexByOuterInner(Index outer, Index inner)
   {
     typedef typename DstEvaluatorType::ExpressionTraits Traits;
     return int(Traits::ColsAtCompileTime) == 1 ? 0
@@ -707,7 +707,7 @@ public:
       : outer;
   }
 
-  EIGEN_DEVICE_FUNC const Scalar* dstDataPtr() const
+  HYDRA_EIGEN_DEVICE_FUNC const Scalar* dstDataPtr() const
   {
     return m_dstExpr.data();
   }
@@ -735,7 +735,7 @@ protected:
     typedef copy_using_evaluator_traits<DstEvaluatorTypeT, SrcEvaluatorTypeT, Functor, 4> AssignmentTraits;
     typedef typename AssignmentTraits::PacketType PacketType;
 
-    EIGEN_DEVICE_FUNC restricted_packet_dense_assignment_kernel(DstEvaluatorTypeT &dst, const SrcEvaluatorTypeT &src, const Functor &func, DstXprType& dstExpr)
+    HYDRA_EIGEN_DEVICE_FUNC restricted_packet_dense_assignment_kernel(DstEvaluatorTypeT &dst, const SrcEvaluatorTypeT &src, const Functor &func, DstXprType& dstExpr)
     : Base(dst, src, func, dstExpr)
   {
   }
@@ -746,16 +746,16 @@ protected:
 ***************************************************************************/
 
 template<typename DstXprType,typename SrcXprType, typename Functor>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 void resize_if_allowed(DstXprType &dst, const SrcXprType& src, const Functor &/*func*/)
 {
-  EIGEN_ONLY_USED_FOR_DEBUG(dst);
-  EIGEN_ONLY_USED_FOR_DEBUG(src);
+  HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(dst);
+  HYDRA_EIGEN_ONLY_USED_FOR_DEBUG(src);
   eigen_assert(dst.rows() == src.rows() && dst.cols() == src.cols());
 }
 
 template<typename DstXprType,typename SrcXprType, typename T1, typename T2>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 void resize_if_allowed(DstXprType &dst, const SrcXprType& src, const internal::assign_op<T1,T2> &/*func*/)
 {
   Index dstRows = src.rows();
@@ -766,7 +766,7 @@ void resize_if_allowed(DstXprType &dst, const SrcXprType& src, const internal::a
 }
 
 template<typename DstXprType, typename SrcXprType, typename Functor>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void call_dense_assignment_loop(DstXprType& dst, const SrcXprType& src, const Functor &func)
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void call_dense_assignment_loop(DstXprType& dst, const SrcXprType& src, const Functor &func)
 {
   typedef evaluator<DstXprType> DstEvaluatorType;
   typedef evaluator<SrcXprType> SrcEvaluatorType;
@@ -786,9 +786,9 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void call_dense_assignment_loop(DstXprType
 }
 
 // Specialization for filling the destination with a constant value.
-#ifndef EIGEN_GPU_COMPILE_PHASE
+#ifndef HYDRA_EIGEN_GPU_COMPILE_PHASE
 template<typename DstXprType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void call_dense_assignment_loop(DstXprType& dst, const Eigen::CwiseNullaryOp<Eigen::internal::scalar_constant_op<typename DstXprType::Scalar>, DstXprType>& src, const internal::assign_op<typename DstXprType::Scalar,typename DstXprType::Scalar>& func)
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void call_dense_assignment_loop(DstXprType& dst, const hydra_Eigen::CwiseNullaryOp<hydra_Eigen::internal::scalar_constant_op<typename DstXprType::Scalar>, DstXprType>& src, const internal::assign_op<typename DstXprType::Scalar,typename DstXprType::Scalar>& func)
 {
   resize_if_allowed(dst, src, func);
   std::fill_n(dst.data(), dst.size(), src.functor()());
@@ -796,7 +796,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void call_dense_assignment_loop(DstXprType
 #endif
 
 template<typename DstXprType, typename SrcXprType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void call_dense_assignment_loop(DstXprType& dst, const SrcXprType& src)
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE void call_dense_assignment_loop(DstXprType& dst, const SrcXprType& src)
 {
   call_dense_assignment_loop(dst, src, internal::assign_op<typename DstXprType::Scalar,typename SrcXprType::Scalar>());
 }
@@ -830,13 +830,13 @@ struct Assignment;
 // does not has to bother about these annoying details.
 
 template<typename Dst, typename Src>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 void call_assignment(Dst& dst, const Src& src)
 {
   call_assignment(dst, src, internal::assign_op<typename Dst::Scalar,typename Src::Scalar>());
 }
 template<typename Dst, typename Src>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 void call_assignment(const Dst& dst, const Src& src)
 {
   call_assignment(dst, src, internal::assign_op<typename Dst::Scalar,typename Src::Scalar>());
@@ -844,7 +844,7 @@ void call_assignment(const Dst& dst, const Src& src)
 
 // Deal with "assume-aliasing"
 template<typename Dst, typename Src, typename Func>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 void call_assignment(Dst& dst, const Src& src, const Func& func, typename enable_if< evaluator_assume_aliasing<Src>::value, void*>::type = 0)
 {
   typename plain_matrix_type<Src>::type tmp(src);
@@ -852,7 +852,7 @@ void call_assignment(Dst& dst, const Src& src, const Func& func, typename enable
 }
 
 template<typename Dst, typename Src, typename Func>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 void call_assignment(Dst& dst, const Src& src, const Func& func, typename enable_if<!evaluator_assume_aliasing<Src>::value, void*>::type = 0)
 {
   call_assignment_no_alias(dst, src, func);
@@ -861,7 +861,7 @@ void call_assignment(Dst& dst, const Src& src, const Func& func, typename enable
 // by-pass "assume-aliasing"
 // When there is no aliasing, we require that 'dst' has been properly resized
 template<typename Dst, template <typename> class StorageBase, typename Src, typename Func>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 void call_assignment(NoAlias<Dst,StorageBase>& dst, const Src& src, const Func& func)
 {
   call_assignment_no_alias(dst.expression(), src, func);
@@ -869,7 +869,7 @@ void call_assignment(NoAlias<Dst,StorageBase>& dst, const Src& src, const Func& 
 
 
 template<typename Dst, typename Src, typename Func>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 void call_assignment_no_alias(Dst& dst, const Src& src, const Func& func)
 {
   enum {
@@ -883,23 +883,23 @@ void call_assignment_no_alias(Dst& dst, const Src& src, const Func& func)
   ActualDstType actualDst(dst);
 
   // TODO check whether this is the right place to perform these checks:
-  EIGEN_STATIC_ASSERT_LVALUE(Dst)
-  EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(ActualDstTypeCleaned,Src)
-  EIGEN_CHECK_BINARY_COMPATIBILIY(Func,typename ActualDstTypeCleaned::Scalar,typename Src::Scalar);
+  HYDRA_EIGEN_STATIC_ASSERT_LVALUE(Dst)
+  HYDRA_EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(ActualDstTypeCleaned,Src)
+  HYDRA_EIGEN_CHECK_BINARY_COMPATIBILIY(Func,typename ActualDstTypeCleaned::Scalar,typename Src::Scalar);
 
   Assignment<ActualDstTypeCleaned,Src,Func>::run(actualDst, src, func);
 }
 
 template<typename Dst, typename Src, typename Func>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 void call_restricted_packet_assignment_no_alias(Dst& dst, const Src& src, const Func& func)
 {
     typedef evaluator<Dst> DstEvaluatorType;
     typedef evaluator<Src> SrcEvaluatorType;
     typedef restricted_packet_dense_assignment_kernel<DstEvaluatorType,SrcEvaluatorType,Func> Kernel;
 
-    EIGEN_STATIC_ASSERT_LVALUE(Dst)
-    EIGEN_CHECK_BINARY_COMPATIBILIY(Func,typename Dst::Scalar,typename Src::Scalar);
+    HYDRA_EIGEN_STATIC_ASSERT_LVALUE(Dst)
+    HYDRA_EIGEN_CHECK_BINARY_COMPATIBILIY(Func,typename Dst::Scalar,typename Src::Scalar);
 
     SrcEvaluatorType srcEvaluator(src);
     resize_if_allowed(dst, src, func);
@@ -911,25 +911,25 @@ void call_restricted_packet_assignment_no_alias(Dst& dst, const Src& src, const 
 }
 
 template<typename Dst, typename Src>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 void call_assignment_no_alias(Dst& dst, const Src& src)
 {
   call_assignment_no_alias(dst, src, internal::assign_op<typename Dst::Scalar,typename Src::Scalar>());
 }
 
 template<typename Dst, typename Src, typename Func>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 void call_assignment_no_alias_no_transpose(Dst& dst, const Src& src, const Func& func)
 {
   // TODO check whether this is the right place to perform these checks:
-  EIGEN_STATIC_ASSERT_LVALUE(Dst)
-  EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Dst,Src)
-  EIGEN_CHECK_BINARY_COMPATIBILIY(Func,typename Dst::Scalar,typename Src::Scalar);
+  HYDRA_EIGEN_STATIC_ASSERT_LVALUE(Dst)
+  HYDRA_EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Dst,Src)
+  HYDRA_EIGEN_CHECK_BINARY_COMPATIBILIY(Func,typename Dst::Scalar,typename Src::Scalar);
 
   Assignment<Dst,Src,Func>::run(dst, src, func);
 }
 template<typename Dst, typename Src>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+HYDRA_EIGEN_DEVICE_FUNC HYDRA_EIGEN_STRONG_INLINE
 void call_assignment_no_alias_no_transpose(Dst& dst, const Src& src)
 {
   call_assignment_no_alias_no_transpose(dst, src, internal::assign_op<typename Dst::Scalar,typename Src::Scalar>());
@@ -944,10 +944,10 @@ template<typename Dst, typename Src> void check_for_aliasing(const Dst &dst, con
 template< typename DstXprType, typename SrcXprType, typename Functor, typename Weak>
 struct Assignment<DstXprType, SrcXprType, Functor, Dense2Dense, Weak>
 {
-  EIGEN_DEVICE_FUNC
-  static EIGEN_STRONG_INLINE void run(DstXprType &dst, const SrcXprType &src, const Functor &func)
+  HYDRA_EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_STRONG_INLINE void run(DstXprType &dst, const SrcXprType &src, const Functor &func)
   {
-#ifndef EIGEN_NO_DEBUG
+#ifndef HYDRA_EIGEN_NO_DEBUG
     internal::check_for_aliasing(dst, src);
 #endif
 
@@ -962,8 +962,8 @@ struct Assignment<DstXprType, SrcXprType, Functor, Dense2Dense, Weak>
 template< typename DstXprType, typename SrcXprType, typename Functor, typename Weak>
 struct Assignment<DstXprType, SrcXprType, Functor, EigenBase2EigenBase, Weak>
 {
-  EIGEN_DEVICE_FUNC
-  static EIGEN_STRONG_INLINE void run(DstXprType &dst, const SrcXprType &src, const internal::assign_op<typename DstXprType::Scalar,typename SrcXprType::Scalar> &/*func*/)
+  HYDRA_EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_STRONG_INLINE void run(DstXprType &dst, const SrcXprType &src, const internal::assign_op<typename DstXprType::Scalar,typename SrcXprType::Scalar> &/*func*/)
   {
     Index dstRows = src.rows();
     Index dstCols = src.cols();
@@ -977,8 +977,8 @@ struct Assignment<DstXprType, SrcXprType, Functor, EigenBase2EigenBase, Weak>
   // NOTE The following two functions are templated to avoid their instantiation if not needed
   //      This is needed because some expressions supports evalTo only and/or have 'void' as scalar type.
   template<typename SrcScalarType>
-  EIGEN_DEVICE_FUNC
-  static EIGEN_STRONG_INLINE void run(DstXprType &dst, const SrcXprType &src, const internal::add_assign_op<typename DstXprType::Scalar,SrcScalarType> &/*func*/)
+  HYDRA_EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_STRONG_INLINE void run(DstXprType &dst, const SrcXprType &src, const internal::add_assign_op<typename DstXprType::Scalar,SrcScalarType> &/*func*/)
   {
     Index dstRows = src.rows();
     Index dstCols = src.cols();
@@ -990,8 +990,8 @@ struct Assignment<DstXprType, SrcXprType, Functor, EigenBase2EigenBase, Weak>
   }
 
   template<typename SrcScalarType>
-  EIGEN_DEVICE_FUNC
-  static EIGEN_STRONG_INLINE void run(DstXprType &dst, const SrcXprType &src, const internal::sub_assign_op<typename DstXprType::Scalar,SrcScalarType> &/*func*/)
+  HYDRA_EIGEN_DEVICE_FUNC
+  static HYDRA_EIGEN_STRONG_INLINE void run(DstXprType &dst, const SrcXprType &src, const internal::sub_assign_op<typename DstXprType::Scalar,SrcScalarType> &/*func*/)
   {
     Index dstRows = src.rows();
     Index dstCols = src.cols();
@@ -1005,6 +1005,6 @@ struct Assignment<DstXprType, SrcXprType, Functor, EigenBase2EigenBase, Weak>
 
 } // namespace internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_ASSIGN_EVALUATOR_H
+#endif // HYDRA_EIGEN_ASSIGN_EVALUATOR_H

@@ -30,10 +30,10 @@
  ********************************************************************************
 */
 
-#ifndef EIGEN_GENERAL_MATRIX_VECTOR_BLAS_H
-#define EIGEN_GENERAL_MATRIX_VECTOR_BLAS_H
+#ifndef HYDRA_EIGEN_GENERAL_MATRIX_VECTOR_BLAS_H
+#define HYDRA_EIGEN_GENERAL_MATRIX_VECTOR_BLAS_H
 
-namespace Eigen { 
+namespace hydra_Eigen { 
 
 namespace internal {
 
@@ -49,7 +49,7 @@ namespace internal {
 template<typename Index, typename LhsScalar, int StorageOrder, bool ConjugateLhs, typename RhsScalar, bool ConjugateRhs>
 struct general_matrix_vector_product_gemv;
 
-#define EIGEN_BLAS_GEMV_SPECIALIZE(Scalar) \
+#define HYDRA_EIGEN_BLAS_GEMV_SPECIALIZE(Scalar) \
 template<typename Index, bool ConjugateLhs, bool ConjugateRhs> \
 struct general_matrix_vector_product<Index,Scalar,const_blas_data_mapper<Scalar,Index,ColMajor>,ColMajor,ConjugateLhs,Scalar,const_blas_data_mapper<Scalar,Index,RowMajor>,ConjugateRhs,Specialized> { \
 static void run( \
@@ -80,12 +80,12 @@ static void run( \
 } \
 }; \
 
-EIGEN_BLAS_GEMV_SPECIALIZE(double)
-EIGEN_BLAS_GEMV_SPECIALIZE(float)
-EIGEN_BLAS_GEMV_SPECIALIZE(dcomplex)
-EIGEN_BLAS_GEMV_SPECIALIZE(scomplex)
+HYDRA_EIGEN_BLAS_GEMV_SPECIALIZE(double)
+HYDRA_EIGEN_BLAS_GEMV_SPECIALIZE(float)
+HYDRA_EIGEN_BLAS_GEMV_SPECIALIZE(dcomplex)
+HYDRA_EIGEN_BLAS_GEMV_SPECIALIZE(scomplex)
 
-#define EIGEN_BLAS_GEMV_SPECIALIZATION(EIGTYPE,BLASTYPE,BLASFUNC) \
+#define HYDRA_EIGEN_BLAS_GEMV_SPECIALIZATION(EIGTYPE,BLASTYPE,BLASFUNC) \
 template<typename Index, int LhsStorageOrder, bool ConjugateLhs, bool ConjugateRhs> \
 struct general_matrix_vector_product_gemv<Index,EIGTYPE,LhsStorageOrder,ConjugateLhs,EIGTYPE,ConjugateRhs> \
 { \
@@ -117,20 +117,20 @@ static void run( \
 }\
 };
 
-#ifdef EIGEN_USE_MKL
-EIGEN_BLAS_GEMV_SPECIALIZATION(double,   double, dgemv)
-EIGEN_BLAS_GEMV_SPECIALIZATION(float,    float,  sgemv)
-EIGEN_BLAS_GEMV_SPECIALIZATION(dcomplex, MKL_Complex16, zgemv)
-EIGEN_BLAS_GEMV_SPECIALIZATION(scomplex, MKL_Complex8 , cgemv)
+#ifdef HYDRA_EIGEN_USE_MKL
+HYDRA_EIGEN_BLAS_GEMV_SPECIALIZATION(double,   double, dgemv)
+HYDRA_EIGEN_BLAS_GEMV_SPECIALIZATION(float,    float,  sgemv)
+HYDRA_EIGEN_BLAS_GEMV_SPECIALIZATION(dcomplex, MKL_Complex16, zgemv)
+HYDRA_EIGEN_BLAS_GEMV_SPECIALIZATION(scomplex, MKL_Complex8 , cgemv)
 #else
-EIGEN_BLAS_GEMV_SPECIALIZATION(double,   double, dgemv_)
-EIGEN_BLAS_GEMV_SPECIALIZATION(float,    float,  sgemv_)
-EIGEN_BLAS_GEMV_SPECIALIZATION(dcomplex, double, zgemv_)
-EIGEN_BLAS_GEMV_SPECIALIZATION(scomplex, float,  cgemv_)
+HYDRA_EIGEN_BLAS_GEMV_SPECIALIZATION(double,   double, dgemv_)
+HYDRA_EIGEN_BLAS_GEMV_SPECIALIZATION(float,    float,  sgemv_)
+HYDRA_EIGEN_BLAS_GEMV_SPECIALIZATION(dcomplex, double, zgemv_)
+HYDRA_EIGEN_BLAS_GEMV_SPECIALIZATION(scomplex, float,  cgemv_)
 #endif
 
 } // end namespase internal
 
-} // end namespace Eigen
+} // end namespace hydra_Eigen
 
-#endif // EIGEN_GENERAL_MATRIX_VECTOR_BLAS_H
+#endif // HYDRA_EIGEN_GENERAL_MATRIX_VECTOR_BLAS_H

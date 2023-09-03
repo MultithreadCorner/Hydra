@@ -44,8 +44,8 @@
 //       http://www.suitesparse.com
 
 
-#ifndef EIGEN_COLAMD_H
-#define EIGEN_COLAMD_H
+#ifndef HYDRA_EIGEN_COLAMD_H
+#define HYDRA_EIGEN_COLAMD_H
 
 namespace internal {
 
