@@ -50,11 +50,11 @@
 namespace hydra {
 
 template<typename Iterator1, typename Iterator2,
-    typename Type=typename hydra_thrust::iterator_traits<Iterator2>::value_type>
+    typename Type=typename hydra::thrust::iterator_traits<Iterator2>::value_type>
 __hydra_host__ __hydra_device__
 inline typename  std::enable_if<
-                    std::is_floating_point<typename hydra_thrust::iterator_traits<Iterator1>::value_type >::value &&
-                    std::is_floating_point<typename hydra_thrust::iterator_traits<Iterator2>::value_type >::value,
+                    std::is_floating_point<typename hydra::thrust::iterator_traits<Iterator1>::value_type >::value &&
+                    std::is_floating_point<typename hydra::thrust::iterator_traits<Iterator2>::value_type >::value,
                     Type >::type
 spiline(Iterator1 first, Iterator1 last,  Iterator2 measurements, Type value);
 

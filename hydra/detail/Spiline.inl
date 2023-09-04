@@ -60,13 +60,13 @@ namespace hydra {
 		Iterator lower_bound(Iterator first, Iterator last, const T& value)
 		{
 		    Iterator it=first;
-		    typename hydra_thrust::iterator_traits<Iterator>::difference_type count, step;
-		    count = hydra_thrust::distance(first, last);
+		    typename hydra::thrust::iterator_traits<Iterator>::difference_type count, step;
+		    count = hydra::thrust::distance(first, last);
 
 		    while (count > 0) {
 		        it = first;
 		        step = count / 2;
-		        hydra_thrust::advance(it, step);
+		        hydra::thrust::advance(it, step);
 		        if (*it < value) {
 		            first = ++it;
 		            count -= step + 1;
@@ -86,17 +86,17 @@ namespace hydra {
 
 template<typename Iterator1, typename Iterator2,typename Type>
 __hydra_host__ __hydra_device__
-inline typename std::enable_if< std::is_floating_point<typename hydra_thrust::iterator_traits<Iterator1>::value_type >::value &&
-                       std::is_floating_point<typename hydra_thrust::iterator_traits<Iterator2>::value_type >::value , Type>::type
+inline typename std::enable_if< std::is_floating_point<typename hydra::thrust::iterator_traits<Iterator1>::value_type >::value &&
+                       std::is_floating_point<typename hydra::thrust::iterator_traits<Iterator2>::value_type >::value , Type>::type
 spiline(Iterator1 first, Iterator1 last,  Iterator2 measurements, Type value) {
 
-		using hydra_thrust::min;
+		using hydra::thrust::min;
 
 		auto iter = detail::spiline::lower_bound(first, last, value);
-		size_t dist_i = hydra_thrust::distance(first, iter);
+		size_t dist_i = hydra::thrust::distance(first, iter);
 		size_t i = dist_i > 0 ? dist_i - 1: 0;
 
-		size_t N = hydra_thrust::distance(first, last);
+		size_t N = hydra::thrust::distance(first, last);
 
 		//--------------------
 

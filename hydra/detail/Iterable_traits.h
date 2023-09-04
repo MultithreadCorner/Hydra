@@ -42,7 +42,7 @@ struct is_iterable : std::false_type { };
 
 // Specialization for U = int
 template <typename T>
-struct is_iterable<T, hydra_thrust::void_t <
+struct is_iterable<T, hydra::thrust::void_t <
                decltype(   std::declval<T>().begin() ),
                decltype(   std::declval<T>().end()   ),
                decltype( ++std::declval<decltype(hydra::begin(std::declval<T>()))&>()),
@@ -62,7 +62,7 @@ struct is_reverse_iterable : std::false_type { };
 
 // Specialization for U = int
 template <typename T>
-		struct is_reverse_iterable<T,hydra_thrust::void_t <
+		struct is_reverse_iterable<T,hydra::thrust::void_t <
         decltype(   std::declval<T>().rbegin() ),
         decltype(   std::declval<T>().rend()   ),
         decltype( ++std::declval<decltype(hydra::rbegin(std::declval<T>()))&>()),

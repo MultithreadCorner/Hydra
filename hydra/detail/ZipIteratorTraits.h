@@ -44,24 +44,24 @@ template<typename T >
 struct is_zip_iterator: std::false_type {};
 
 template<class ...T>
-struct is_zip_iterator< hydra_thrust::zip_iterator<T...> >: std::true_type {};
+struct is_zip_iterator< hydra::thrust::zip_iterator<T...> >: std::true_type {};
 
 template<typename ...T>
 struct merged_zip_iterator;
 
 template<typename ...T>
-struct merged_zip_iterator<hydra_thrust::zip_iterator<T...>>
+struct merged_zip_iterator<hydra::thrust::zip_iterator<T...>>
 {
-    typedef hydra_thrust::zip_iterator<T...> type;
+    typedef hydra::thrust::zip_iterator<T...> type;
 };
 
 template<typename ...T, typename ...U>
-struct merged_zip_iterator<hydra_thrust::zip_iterator<T...>, hydra_thrust::zip_iterator<U...>> :
-    merged_zip_iterator<hydra_thrust::zip_iterator<T..., U...> > {};
+struct merged_zip_iterator<hydra::thrust::zip_iterator<T...>, hydra::thrust::zip_iterator<U...>> :
+    merged_zip_iterator<hydra::thrust::zip_iterator<T..., U...> > {};
 
 template<typename ...Z, typename ...T, typename ...U>
-struct merged_zip_iterator< hydra_thrust::zip_iterator<T...>, hydra_thrust::zip_iterator<U...>, Z...>:
-    merged_zip_iterator< hydra_thrust::zip_iterator<T..., U...>, Z... > {};
+struct merged_zip_iterator< hydra::thrust::zip_iterator<T...>, hydra::thrust::zip_iterator<U...>, Z...>:
+    merged_zip_iterator< hydra::thrust::zip_iterator<T..., U...>, Z... > {};
 
 
 

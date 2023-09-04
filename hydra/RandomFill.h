@@ -68,7 +68,7 @@ namespace hydra{
 template< typename Engine = hydra::default_random_engine,  hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
 typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::is_convertible<
 decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-typename hydra_thrust::iterator_traits<Iterator>::value_type
+typename hydra::thrust::iterator_traits<Iterator>::value_type
 >::value, void>::type
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
             Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
@@ -88,7 +88,7 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
 template< typename Engine =hydra::default_random_engine, typename Iterator, typename FUNCTOR >
 typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::is_convertible<
 decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-typename hydra_thrust::iterator_traits<Iterator>::value_type
+typename hydra::thrust::iterator_traits<Iterator>::value_type
 >::value, void>::type
 fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
 

@@ -144,7 +144,7 @@ struct index_in_tuple;
 
 
 template<typename Type, typename Head, typename ...Tail>
-struct index_in_tuple<Type, hydra_thrust::tuple<Head, Tail...> >
+struct index_in_tuple<Type, hydra::thrust::tuple<Head, Tail...> >
 : find_unique_type<Type, Head, Tail...>{};
 
 }  // namespace detail

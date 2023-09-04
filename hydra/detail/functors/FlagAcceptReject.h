@@ -86,8 +86,8 @@ struct FlagAcceptReject
 	__hydra_host__ __hydra_device__ GBool_t operator ()(size_t idx, GReal_t weight)
 	{
 
-		hydra_thrust::default_random_engine randEng(hash(fSeed, idx));
-		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, fWmax);
+		hydra::thrust::default_random_engine randEng(hash(fSeed, idx));
+		hydra::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, fWmax);
 
 
 		GBool_t flag = (uniDist(randEng) < weight) ? 1 : 0;

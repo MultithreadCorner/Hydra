@@ -51,12 +51,12 @@ class  ParametersCompositeFunctor
 
 public:
 
-	typedef typename hydra_thrust::tuple<F0, F1, Fs...> functors_type;
+	typedef typename hydra::thrust::tuple<F0, F1, Fs...> functors_type;
 
 	ParametersCompositeFunctor()=delete;
 
 	ParametersCompositeFunctor(F0 const& f0, F1 const& f1,  Fs const& ...fs):
-		fFtorTuple(hydra_thrust::make_tuple(f0, f1, fs...))
+		fFtorTuple(hydra::thrust::make_tuple(f0, f1, fs...))
 	{ }
 
 	__hydra_host__ __hydra_device__
@@ -219,10 +219,10 @@ public:
 	const functors_type& GetFunctors() const {return fFtorTuple;}
 
 	template<unsigned int I>
-	inline typename hydra_thrust::tuple_element<I,functors_type>::type&
+	inline typename hydra::thrust::tuple_element<I,functors_type>::type&
 	GetFunctor(hydra::placeholders::placeholder<I> const& ){
 
-		return hydra_thrust::get<I>(fFtorTuple);
+		return hydra::thrust::get<I>(fFtorTuple);
 	}
 
 	virtual void Update(){};

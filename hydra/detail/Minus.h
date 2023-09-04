@@ -58,9 +58,9 @@ namespace hydra {
 template<typename F1, typename F2 >
 class  Minus: public BaseCompositeFunctor<
 Minus<F1, F2>,
-hydra_thrust::tuple<F1, F2>,
+hydra::thrust::tuple<F1, F2>,
  typename detail::merged_tuple<
- 	 hydra_thrust::tuple< typename std::common_type<typename F1::return_type, typename F2::return_type>::type >,
+ 	 hydra::thrust::tuple< typename std::common_type<typename F1::return_type, typename F2::return_type>::type >,
  	 typename detail::stripped_tuple<
  	 	 typename detail::merged_tuple<
  	 	 	 typename F1::argument_type,
@@ -73,9 +73,9 @@ hydra_thrust::tuple<F1, F2>,
 
 	typedef  BaseCompositeFunctor<
 			Minus<F1, F2>,
-			hydra_thrust::tuple<F1, F2>,
+			hydra::thrust::tuple<F1, F2>,
 			 typename detail::merged_tuple<
-			 	 hydra_thrust::tuple< typename std::common_type<typename F1::return_type, typename F2::return_type>::type  >,
+			 	 hydra::thrust::tuple< typename std::common_type<typename F1::return_type, typename F2::return_type>::type  >,
 			 	 typename detail::stripped_tuple<
 			 	 	 typename detail::merged_tuple<
 			 	 	 	 typename F1::argument_type,

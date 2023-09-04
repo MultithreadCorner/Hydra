@@ -125,9 +125,9 @@ public:
 
 	template<size_t N>
 	__hydra_host__ __hydra_device__
-	GenzMalikBoxResult( hydra_thrust::device_reference<const hydra::detail::GenzMalikBox<N>> other):
-	fIntegral(hydra_thrust::raw_reference_cast(other).GetIntegral()),
-	fError(hydra_thrust::raw_reference_cast(other).GetError())
+	GenzMalikBoxResult( hydra::thrust::device_reference<const hydra::detail::GenzMalikBox<N>> other):
+	fIntegral(hydra::thrust::raw_reference_cast(other).GetIntegral()),
+	fError(hydra::thrust::raw_reference_cast(other).GetError())
 	{}
 
 

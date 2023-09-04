@@ -64,7 +64,7 @@ struct RndCDF{
 	{
 		GRND randEng(fSeed);
 		randEng.discard(index);
-		hydra_thrust::uniform_real_distribution<GReal_t> dist(0.0, 1.0);
+		hydra::thrust::uniform_real_distribution<GReal_t> dist(0.0, 1.0);
 		GReal_t x = dist(randEng);
 		return fFunctor(x);
 	}
@@ -77,7 +77,7 @@ template<typename T, typename GRND>
 struct RndGauss{
 
 	/**
-	 * \warning: the implementation of hydra_thrust::random::normal_distribution
+	 * \warning: the implementation of hydra::thrust::random::normal_distribution
 	 * is different between nvcc and gcc. Do not expect the same
 	 * numbers event by event.
 	 * Possible: implement myself ? (que inferno! :0)
@@ -112,7 +112,7 @@ struct RndGauss{
 	{
 		GRND randEng(fSeed);
 		randEng.discard(index);
-		hydra_thrust::random::normal_distribution<T> dist(fMean, fSigma);
+		hydra::thrust::random::normal_distribution<T> dist(fMean, fSigma);
 		T x = dist(randEng);
 		//printf("Gauss %f\n",x);
 		return x;
@@ -125,8 +125,8 @@ struct RndGauss{
 
 template<typename T,typename GRND>
 struct RndUniform{
-	typedef typename std::conditional<std::is_integral<T>::value, hydra_thrust::uniform_int_distribution<T>,
-			hydra_thrust::uniform_real_distribution<T>>::type distribution_t;
+	typedef typename std::conditional<std::is_integral<T>::value, hydra::thrust::uniform_int_distribution<T>,
+			hydra::thrust::uniform_real_distribution<T>>::type distribution_t;
 
 	RndUniform(size_t seed, T min, T max):
 		fSeed(seed),
@@ -189,7 +189,7 @@ struct RndExp{
 	{
 		GRND randEng(fSeed);
 		randEng.discard(index);
-		hydra_thrust::uniform_real_distribution<T>  dist(0.0, 1.0);
+		hydra::thrust::uniform_real_distribution<T>  dist(0.0, 1.0);
 		return  -fTau*log(dist(randEng));
 	}
 
@@ -219,7 +219,7 @@ struct RndBreitWigner{
 		GRND randEng(fSeed);
 		randEng.discard(index);
 
-		hydra_thrust::uniform_real_distribution<T>  dist(0.0, 1.0);
+		hydra::thrust::uniform_real_distribution<T>  dist(0.0, 1.0);
 		T rval  = dist(randEng);
 		T x = fMean + 0.5*fGamma*tan(PI*(rval-0.5));
 		return  x;
@@ -255,7 +255,7 @@ struct RndFlag{
 	{
 		GRND randEng(fSeed);
 		randEng.discard(fJump+index);
-		hydra_thrust::uniform_real_distribution<T>  dist(0.0, fValMax);
+		hydra::thrust::uniform_real_distribution<T>  dist(0.0, fValMax);
 		T urnd=dist(randEng);
 		bool dec = (urnd <= fVals[index] );
 
@@ -310,7 +310,7 @@ struct RndTrial{
 
 		for (size_t j = 0; j < N; j++)
 		{
-			hydra_thrust::uniform_real_distribution<T>  dist(fMin[j], fMax[j]);
+			hydra::thrust::uniform_real_distribution<T>  dist(fMin[j], fMax[j]);
 			x[j] = dist(randEng);
 		}
 
@@ -354,7 +354,7 @@ struct RndTrial<T,GRND, FUNCTOR, 1>{
 
 		GRND randEng(fSeed);
 		randEng.discard(index+fJump);
-    	hydra_thrust::uniform_real_distribution<T>  dist(fMin, fMax);
+    	hydra::thrust::uniform_real_distribution<T>  dist(fMin, fMax);
 		t = dist(randEng);
 		return  fFunctor(t);
 	}

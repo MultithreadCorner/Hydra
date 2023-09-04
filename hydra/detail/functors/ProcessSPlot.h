@@ -95,17 +95,17 @@ struct CovMatrixUnary
 
 	template<typename T, int N, int I>
 	__hydra_host__ __hydra_device__
-	inline typename hydra_thrust::detail::enable_if<(I == N*N),void >::type
+	inline typename hydra::thrust::detail::enable_if<(I == N*N),void >::type
 	set_matrix(double denominator, T&&, hydra::Eigen::Matrix<double, N, N>&){ }
 
 	template<typename T, int N, int I=0>
 	__hydra_host__ __hydra_device__
-	inline typename hydra_thrust::detail::enable_if<(I < N*N),void >::type
+	inline typename hydra::thrust::detail::enable_if<(I < N*N),void >::type
 	set_matrix(double denominator, T&& ftuple, hydra::Eigen::Matrix<double, N, N>& fcovmatrix  )
 	{
 		fcovmatrix(index<N, I>::I, index<N, I>::J ) = \
-				hydra_thrust::get<index<N, I>::I>(std::forward<T>(ftuple))*\
-				hydra_thrust::get<index<N, I>::J>(std::forward<T>(ftuple))\
+				hydra::thrust::get<index<N, I>::I>(std::forward<T>(ftuple))*\
+				hydra::thrust::get<index<N, I>::J>(std::forward<T>(ftuple))\
 				/denominator;
 
 		set_matrix<T, N, I+1>(denominator, ftuple, fcovmatrix);
@@ -151,7 +151,7 @@ struct GetSWeight
 {
 	__hydra_host__ __hydra_device__
 	double operator()( T const& sweights )	{
-        double res =hydra_thrust::get<I>(sweights);
+        double res =hydra::thrust::get<I>(sweights);
 		return res;
 	}
 };

@@ -39,7 +39,7 @@ namespace detail {
 
 
 template<size_t N, typename T>
-struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T>::type ,size_t>
+struct GetGlobalBin: public hydra::thrust::unary_function<typename tuple_type<N,T>::type ,size_t>
 {
 	typedef typename tuple_type<N,T>::type ArgType;
 
@@ -85,12 +85,12 @@ struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T
 
 	template<size_t I>
 	__hydra_host__ __hydra_device__
-	typename hydra_thrust::detail::enable_if< I== N, void>::type
+	typename hydra::thrust::detail::enable_if< I== N, void>::type
 	get_global_bin(const size_t (&)[N], size_t& )const{ }
 
 	template<size_t I=0>
 	__hydra_host__ __hydra_device__
-	typename hydra_thrust::detail::enable_if< (I< N), void>::type
+	typename hydra::thrust::detail::enable_if< (I< N), void>::type
 	get_global_bin(const size_t (&indexes)[N], size_t& index) const
 	{
 	    size_t prod =1;
@@ -151,7 +151,7 @@ struct GetGlobalBin: public hydra_thrust::unary_function<typename tuple_type<N,T
 //---------------
 
 template<typename T>
-struct GetGlobalBin<1,T>: public hydra_thrust::unary_function<T,size_t>
+struct GetGlobalBin<1,T>: public hydra::thrust::unary_function<T,size_t>
 {
 
 	GetGlobalBin( size_t grid, T lowerlimits, T upperlimits):

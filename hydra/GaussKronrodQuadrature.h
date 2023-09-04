@@ -97,7 +97,7 @@ public Integral< GaussKronrodQuadrature<NRULE, NBIN, hydra::detail::BackendPolic
 {
 public:
 
-	typedef hydra_thrust::tuple<double, double, double, double, double> row_t;
+	typedef hydra::thrust::tuple<double, double, double, double, double> row_t;
 
 
 	typedef multivector<row_t, hydra::host::sys_t> table_h;
@@ -241,7 +241,7 @@ private:
     			GReal_t abscissa_X_M = 0;
     			GReal_t abscissa_Weight = 0;
 
-    			hydra_thrust::tie(abscissa_X_P, abscissa_X_M, abscissa_Weight) = fRule.GetAbscissa(call , lower_lim, upper_lim);
+    			hydra::thrust::tie(abscissa_X_P, abscissa_X_M, abscissa_Weight) = fRule.GetAbscissa(call , lower_lim, upper_lim);
 
     			GReal_t rule_GaussKronrod_Weight   = fRule.KronrodWeight[call];
     			GReal_t rule_Gauss_Weight          = fRule.GaussWeight[call];
@@ -253,7 +253,7 @@ private:
     	}
 
     	///for(auto row: temp_table) std::cout << row << std::endl;
-    	hydra_thrust::copy( temp_table.begin(), temp_table.end(), fCallTable.begin() );
+    	hydra::thrust::copy( temp_table.begin(), temp_table.end(), fCallTable.begin() );
 
     }
 

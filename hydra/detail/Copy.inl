@@ -47,7 +47,7 @@ typename std::enable_if<hydra::detail::is_iterable<Iterable_Source>::value
 Range<decltype(std::declval<Iterable_Target&>().begin())>>::type
 copy(Iterable_Source&& source, Iterable_Target&& destination)
 {
-	hydra_thrust::copy(std::forward<Iterable_Source>(source).begin(),
+	hydra::thrust::copy(std::forward<Iterable_Source>(source).begin(),
 			std::forward<Iterable_Source>(source).end(),
 			std::forward<Iterable_Target>(destination).begin());
 
@@ -59,14 +59,14 @@ copy(Iterable_Source&& source, Iterable_Target&& destination)
 template<typename InputIterator, typename OutputIterator>
 OutputIterator copy(InputIterator first, InputIterator last, OutputIterator result)
 {
-	return hydra_thrust::copy(first, last, result);
+	return hydra::thrust::copy(first, last, result);
 }
 
 template<detail::Backend Backend, typename InputIterator, typename OutputIterator>
 OutputIterator copy(hydra::detail::BackendPolicy<Backend> const& policy, InputIterator first,
 		InputIterator last, OutputIterator result)
 {
-	return hydra_thrust::copy( policy, first, last, result);
+	return hydra::thrust::copy( policy, first, last, result);
 }
 
 

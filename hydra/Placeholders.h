@@ -50,12 +50,12 @@ typedef integral_constant<unsigned int, I> type;
 */
 template<typename T>
 struct is_placeholder:
-		public hydra_thrust::detail::integral_constant<int, -1>{};
+		public hydra::thrust::detail::integral_constant<int, -1>{};
 
 
 template<unsigned int I>
 struct is_placeholder< placeholder<I> >:
-		public hydra_thrust::detail::integral_constant<unsigned int, I>{};
+		public hydra::thrust::detail::integral_constant<unsigned int, I>{};
 
 
 }  // namespace placeholders

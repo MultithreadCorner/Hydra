@@ -81,7 +81,7 @@ namespace hydra {
  * Note that Momentum, Energy units are @f$GeV/C@f$ , @f$GeV/C^2@f$ .
  *
  *\tparam N is the number of particles in final state.
- *\tparam GRND underlying random number generator. See the options in hydra_thrust::random namespace.
+ *\tparam GRND underlying random number generator. See the options in hydra::thrust::random namespace.
  */
 template <size_t N, typename GRND=hydra::default_random_engine>
 class PhaseSpace {

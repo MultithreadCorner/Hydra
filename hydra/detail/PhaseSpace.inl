@@ -262,9 +262,9 @@ PhaseSpace<N,GRND>::AverageOn(hydra::detail::BackendPolicy<BACKEND>const& policy
 
 	detail::AverageMother<N,GRND,FUNCTOR>reducer( mother, fMasses, fMaxWeight, fECM, fSeed,functor);
 
-	hydra_thrust::counting_iterator<GLong_t> first(0);
+	hydra::thrust::counting_iterator<GLong_t> first(0);
 
-	hydra_thrust::counting_iterator<GLong_t> last = first + n;
+	hydra::thrust::counting_iterator<GLong_t> last = first + n;
 
 	result = 	detail::launch_reducer(policy,	first, last, reducer );
 

@@ -77,13 +77,13 @@ class SPlot: public detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	//hydra::pdf, AddPdfBase::type will not be defined and compilation
 	//will fail
 	typedef typename detail::AddPdfBase<PDF1,PDF2,PDFs...>::type base_type;
-    typedef typename hydra_thrust::iterator_system<Iterator>::type system_type;
+    typedef typename hydra::thrust::iterator_system<Iterator>::type system_type;
 
 public:
 
-	typedef hydra_thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;
+	typedef hydra::thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;
 
-	typedef hydra_thrust::tuple<
+	typedef hydra::thrust::tuple<
 			    typename PDF1::functor_type,
 				typename PDF2::functor_type,
 				typename PDFs::functor_type...> functors_tuple_type;
@@ -94,14 +94,14 @@ public:
 			                 typename PDFs::functor_type...> ;
 
 	template<int W>
-	using iterator= hydra_thrust::transform_iterator<transformer<W>, Iterator >;
+	using iterator= hydra::thrust::transform_iterator<transformer<W>, Iterator >;
 
 	template<int W>
-	using  value_type=typename hydra_thrust::iterator_traits<iterator<W>>::value_type;
+	using  value_type=typename hydra::thrust::iterator_traits<iterator<W>>::value_type;
 
 	//template<int I>
-	//using siterator = hydra_thrust::transform_iterator<transformer<I>, Iterator   >;
-			//hydra_thrust::transform_iterator< detail::GetSWeight<value_type, I>, iterator >;
+	//using siterator = hydra::thrust::transform_iterator<transformer<I>, Iterator   >;
+			//hydra::thrust::transform_iterator< detail::GetSWeight<value_type, I>, iterator >;
 
 	constexpr static size_t npdfs = sizeof...(PDFs)+2;
 
@@ -133,7 +133,7 @@ public:
 		//init << 0.0, 0.0, 0.0, 0.0;
 
 
-		fCovMatrix = hydra_thrust::transform_reduce(system_type(), first, last,
+		fCovMatrix = hydra::thrust::transform_reduce(system_type(), first, last,
 				detail::CovMatrixUnary<
 				 typename PDF1::functor_type,
 				 typename PDF2::functor_type,

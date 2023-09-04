@@ -47,7 +47,7 @@ template<typename T,detail::Backend BACKEND>
 class ScopedBuffer<T, detail::BackendPolicy<BACKEND> >
 {
 	typedef decltype(std::declval<detail::BackendPolicy<BACKEND>>().backend) system_type;
-	typedef hydra_thrust::pointer<T, typename std::remove_const<system_type>::type >  pointer_type;
+	typedef hydra::thrust::pointer<T, typename std::remove_const<system_type>::type >  pointer_type;
 
 public:
 
@@ -57,7 +57,7 @@ public:
 		fSize(n)
 	{
 		auto policy = detail::BackendPolicy<BACKEND>{};
-		auto buffer = hydra_thrust::get_temporary_buffer<T>(policy, size);
+		auto buffer = hydra::thrust::get_temporary_buffer<T>(policy, size);
 		fPointer    = buffer.first;
 
 	}
@@ -90,7 +90,7 @@ public:
 
 	~ScopedBuffer(){
 
-		using hydra_thrust::return_temporary_buffer;
+		using hydra::thrust::return_temporary_buffer;
 
 		return_temporary_buffer(system_type(), fPointer);
 	}

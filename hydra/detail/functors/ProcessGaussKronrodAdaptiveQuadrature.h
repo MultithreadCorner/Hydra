@@ -38,7 +38,7 @@ namespace hydra {
 template <typename FUNCTOR>
 struct ProcessGaussKronrodAdaptiveQuadrature
 {
-	typedef hydra_thrust::tuple<GUInt_t, double, double> result_row_t;
+	typedef hydra::thrust::tuple<GUInt_t, double, double> result_row_t;
 
 	ProcessGaussKronrodAdaptiveQuadrature()=delete;
 
@@ -65,12 +65,12 @@ struct ProcessGaussKronrodAdaptiveQuadrature
 	__hydra_host__ __hydra_device__ inline
 	result_row_t operator()(T row)
 	{
-		GUInt_t bin                      = hydra_thrust::get<0>(row);
-		GReal_t abscissa_X_P             = hydra_thrust::get<1>(row);
-		GReal_t abscissa_X_M             = hydra_thrust::get<2>(row);
-		GReal_t abscissa_Weight          = hydra_thrust::get<3>(row);
-		GReal_t rule_GaussKronrod_Weight = hydra_thrust::get<4>(row);
-		GReal_t rule_Gauss_Weight        = hydra_thrust::get<5>(row);
+		GUInt_t bin                      = hydra::thrust::get<0>(row);
+		GReal_t abscissa_X_P             = hydra::thrust::get<1>(row);
+		GReal_t abscissa_X_M             = hydra::thrust::get<2>(row);
+		GReal_t abscissa_Weight          = hydra::thrust::get<3>(row);
+		GReal_t rule_GaussKronrod_Weight = hydra::thrust::get<4>(row);
+		GReal_t rule_Gauss_Weight        = hydra::thrust::get<5>(row);
 
 	//	GaussKronrodCall result;
 

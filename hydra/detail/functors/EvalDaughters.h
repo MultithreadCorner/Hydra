@@ -69,7 +69,7 @@ struct ResultPHSP
 
 
 struct EvalOnDaughtersBinary
-		:public hydra_thrust::binary_function< ResultPHSP const&, ResultPHSP const&, ResultPHSP >
+		:public hydra::thrust::binary_function< ResultPHSP const&, ResultPHSP const&, ResultPHSP >
 {
 
 
@@ -220,7 +220,7 @@ struct EvalOnDaughters
 
 		GRND randEng( fSeed );//hash(evt,fSeed) );
 		randEng.discard(evt+3*N);
-		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+		hydra::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		GReal_t rno[N];
 		rno[0] = 0.0;
@@ -337,7 +337,7 @@ struct EvalOnDaughters
 		typedef typename hydra::detail::tuple_type<N,
 				Vector4R>::type Tuple_t;
 
-		constexpr size_t SIZE = hydra_thrust::tuple_size<Tuple_t>::value;
+		constexpr size_t SIZE = hydra::thrust::tuple_size<Tuple_t>::value;
 
 		Vector4R Particles[SIZE];
 

@@ -51,8 +51,8 @@
 #include <type_traits>
 
 #if HYDRA_DEVICE_SYSTEM == CUDA
-#define TYPE typename std::conditional< std::is_convertible<detail::BackendPolicy<BACKEND>,hydra_thrust::system::cuda::tag >::value, std::integral_constant<int, 1>,std::integral_constant<int, 0>>::type
-#define TAG typename std::conditional< std::is_convertible<typename hydra_thrust::iterator_system< decltype(std::declval<Iterable>().begin())>::type, hydra_thrust::system::cuda::tag>::value , std::integral_constant<int, 1>, std::integral_constant<int, 0> >::type
+#define TYPE typename std::conditional< std::is_convertible<detail::BackendPolicy<BACKEND>,hydra::thrust::system::cuda::tag >::value, std::integral_constant<int, 1>,std::integral_constant<int, 0>>::type
+#define TAG typename std::conditional< std::is_convertible<typename hydra::thrust::iterator_system< decltype(std::declval<Iterable>().begin())>::type, hydra::thrust::system::cuda::tag>::value , std::integral_constant<int, 1>, std::integral_constant<int, 0> >::type
 #else
 #define TYPE std::integral_constant<int, 0>
 #define TAG std::integral_constant<int, 0>
@@ -61,7 +61,7 @@
 namespace hydra {
 
 template<detail::Backend BACKEND, detail::FFTCalculator FFTBackend,  typename Functor, typename Kernel, typename Iterable,
-     typename T = typename detail::stripped_type<typename hydra_thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type>::type,
+     typename T = typename detail::stripped_type<typename hydra::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type>::type,
      typename USING_CUDA_BACKEND = TYPE,
      typename USING_CUFFT = typename std::conditional< FFTBackend==detail::CuFFT, std::integral_constant<int, 1>,std::integral_constant<int, 0>>::type,
      typename GPU_DATA = TAG>
@@ -88,9 +88,9 @@ convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend
 
 	T delta = (max - min)/(nsamples);
 
-	auto complex_buffer  = hydra_thrust::get_temporary_buffer<complex_type>(policy, nsamples+1);
-	auto kernel_samples  = hydra_thrust::get_temporary_buffer<T>(policy, 2*nsamples);
-	auto functor_samples = hydra_thrust::get_temporary_buffer<T>(policy, 2*nsamples);
+	auto complex_buffer  = hydra::thrust::get_temporary_buffer<complex_type>(policy, nsamples+1);
+	auto kernel_samples  = hydra::thrust::get_temporary_buffer<T>(policy, 2*nsamples);
+	auto functor_samples = hydra::thrust::get_temporary_buffer<T>(policy, 2*nsamples);
 
 	//
 
@@ -99,20 +99,20 @@ convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend
 	// sample kernel
 	auto kernel_sampler = hydra::detail::convolution::KernelSampler<Kernel>(kernel, nsamples, delta);
 
-	hydra_thrust::transform(policy, counting_samples.begin(), counting_samples.end(),
+	hydra::thrust::transform(policy, counting_samples.begin(), counting_samples.end(),
 			kernel_samples.first , kernel_sampler);
 
 
-	//auto norm_factor = hydra_thrust::reduce(policy, kernel_samples.first, kernel_samples.first + kernel_samples.second );
+	//auto norm_factor = hydra::thrust::reduce(policy, kernel_samples.first, kernel_samples.first + kernel_samples.second );
 
 
 	// sample function
 	auto functor_sampler = hydra::detail::convolution::FunctorSampler<Functor>(functor, nsamples,  min, delta);
 
-	hydra_thrust::transform( policy, counting_samples.begin(), counting_samples.end(),
+	hydra::thrust::transform( policy, counting_samples.begin(), counting_samples.end(),
 			functor_samples.first, functor_sampler);
 
-	//norm_factor *= hydra_thrust::reduce(policy, functor_samples.first, functor_samples.first + functor_samples.second );
+	//norm_factor *= hydra::thrust::reduce(policy, functor_samples.first, functor_samples.first + functor_samples.second );
 
 	//transform kernel
 	auto fft_kernel = _RealToComplexFFT( kernel_samples.second );
@@ -138,7 +138,7 @@ convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend
 	auto ffts = hydra::zip(fft_functor_range,  fft_kernel_range );
 
 
-	hydra_thrust::transform( policy, ffts.begin(),  ffts.end(),
+	hydra::thrust::transform( policy, ffts.begin(),  ffts.end(),
 			complex_buffer.first, detail::convolution::MultiplyFFT<T>());
 
 	//transform product back to real
@@ -157,16 +157,16 @@ convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend
 
 	auto normalize_fft =  detail::convolution::NormalizeFFT<T>(n);
 
-    	auto first = hydra_thrust::make_transform_iterator( fft_product_output.first,normalize_fft);
-    	auto last  = hydra_thrust::make_transform_iterator(fft_product_output.first + nsamples+1,normalize_fft);
+    	auto first = hydra::thrust::make_transform_iterator( fft_product_output.first,normalize_fft);
+    	auto last  = hydra::thrust::make_transform_iterator(fft_product_output.first + nsamples+1,normalize_fft);
 
 	auto fft_product_range = make_range(first, last);
 
 	hydra::copy(fft_product_range,  std::forward<Iterable>(output));
 
-	hydra_thrust::return_temporary_buffer( policy,  complex_buffer.first ,  complex_buffer.second );
-	hydra_thrust::return_temporary_buffer( policy,  kernel_samples.first  ,  kernel_samples.second );
-	hydra_thrust::return_temporary_buffer( policy, functor_samples.first  , functor_samples.second );
+	hydra::thrust::return_temporary_buffer( policy,  complex_buffer.first ,  complex_buffer.second );
+	hydra::thrust::return_temporary_buffer( policy,  kernel_samples.first  ,  kernel_samples.second );
+	hydra::thrust::return_temporary_buffer( policy, functor_samples.first  , functor_samples.second );
 }
 
 

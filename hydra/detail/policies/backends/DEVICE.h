@@ -42,20 +42,20 @@ namespace detail {
 
 namespace device {
 
-typedef hydra_thrust::detail::device_t	            device_t;
+typedef hydra::thrust::detail::device_t	            device_t;
 static const device_t   _device_;
 
 }  // namespace device
 
 template<>
-struct BackendPolicy<Backend::Device>: hydra_thrust::device_execution_policy<device::device_t>
+struct BackendPolicy<Backend::Device>: hydra::thrust::device_execution_policy<device::device_t>
 {
-	typedef hydra_thrust::device_execution_policy<device::device_t> execution_policy_type;
+	typedef hydra::thrust::device_execution_policy<device::device_t> execution_policy_type;
 
 	const device::device_t backend= device::_device_;
 
 	template<typename T>
-	using   container = hydra_thrust::device_vector<T>;
+	using   container = hydra::thrust::device_vector<T>;
 
 };
 

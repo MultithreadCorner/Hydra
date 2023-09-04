@@ -139,7 +139,7 @@ struct AverageMothers
 		GRND randEng( fSeed );
 		randEng.discard(evt+3*N);
 
-		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+		hydra::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 
 		GReal_t rno[N];
@@ -253,12 +253,12 @@ struct AverageMothers
 		typedef typename hydra::detail::tuple_type<N+1,
 						Vector4R>::type Tuple_t;
 
-		constexpr size_t SIZE = hydra_thrust::tuple_size<Tuple_t>::value;
+		constexpr size_t SIZE = hydra::thrust::tuple_size<Tuple_t>::value;
 
 		Vector4R Particles[SIZE];
 
-		Particles[0]= hydra_thrust::get<1>(particles);
-		size_t evt  = hydra_thrust::get<0>(particles);
+		Particles[0]= hydra::thrust::get<1>(particles);
+		size_t evt  = hydra::thrust::get<0>(particles);
 		GReal_t weight = process(evt, Particles);
 
 		Tuple_t particles1{};

@@ -380,13 +380,13 @@ public:
     	return make_range(begin(), end());
     }
 
-    inline Range<hydra_thrust::transform_iterator<detail::GetBinCenter<T,N>,
-	hydra_thrust::counting_iterator<size_t>  > >
+    inline Range<hydra::thrust::transform_iterator<detail::GetBinCenter<T,N>,
+	hydra::thrust::counting_iterator<size_t>  > >
     GetBinsCenters() {
 
-    	hydra_thrust::transform_iterator<detail::GetBinCenter<T,N>,
-    			hydra_thrust::counting_iterator<size_t> > first(
-    					hydra_thrust::counting_iterator<size_t>(0),
+    	hydra::thrust::transform_iterator<detail::GetBinCenter<T,N>,
+    			hydra::thrust::counting_iterator<size_t> > first(
+    					hydra::thrust::counting_iterator<size_t>(0),
     					detail::GetBinCenter<T,N>( fGrid, fLowerLimits, fUpperLimits) );
 
 
@@ -426,7 +426,7 @@ public:
 
     inline size_t size() const	{
 
-		return  hydra_thrust::distance(fContents.begin(), fContents.end() );
+		return  hydra::thrust::distance(fContents.begin(), fContents.end() );
 	}
 
 	template<typename Iterator>
@@ -467,11 +467,11 @@ private:
 	//k = i_1*(dim_2*...*dim_n) + i_2*(dim_3*...*dim_n) + ... + i_{n-1}*dim_n + i_n
 
 	template<typename Int,size_t I>
-	typename hydra_thrust::detail::enable_if< (I== N) && std::is_integral<Int>::value, void>::type
+	typename hydra::thrust::detail::enable_if< (I== N) && std::is_integral<Int>::value, void>::type
 	get_global_bin(const Int (&)[N], size_t&){ }
 
 	template<typename Int,size_t I=0>
-	typename hydra_thrust::detail::enable_if< (I< N) && std::is_integral<Int>::value, void>::type
+	typename hydra::thrust::detail::enable_if< (I< N) && std::is_integral<Int>::value, void>::type
 	get_global_bin(const Int (&indexes)[N], size_t& index)
 	{
 		size_t prod =1;
@@ -483,11 +483,11 @@ private:
 	}
 
 	template<typename Int,size_t I>
-	typename hydra_thrust::detail::enable_if< (I== N) && std::is_integral<Int>::value, void>::type
+	typename hydra::thrust::detail::enable_if< (I== N) && std::is_integral<Int>::value, void>::type
 	get_global_bin( std::array<Int,N> const& , size_t&){ }
 
 	template<typename Int,size_t I=0>
-	typename hydra_thrust::detail::enable_if< (I< N) && std::is_integral<Int>::value, void>::type
+	typename hydra::thrust::detail::enable_if< (I< N) && std::is_integral<Int>::value, void>::type
 	get_global_bin( std::array<Int,N> const& indexes, size_t& index)
 	{
 		size_t prod =1;
@@ -731,13 +731,13 @@ public:
 					std::numeric_limits<double>::max();
 	}
 
-	inline Range<hydra_thrust::transform_iterator<detail::GetBinCenter<T,1>,
-	hydra_thrust::counting_iterator<size_t>  > >
+	inline Range<hydra::thrust::transform_iterator<detail::GetBinCenter<T,1>,
+	hydra::thrust::counting_iterator<size_t>  > >
 	GetBinsCenters() const {
 
 
-		hydra_thrust::transform_iterator<detail::GetBinCenter<T,1>,
-		hydra_thrust::counting_iterator<size_t> > first(hydra_thrust::counting_iterator<size_t>(0),
+		hydra::thrust::transform_iterator<detail::GetBinCenter<T,1>,
+		hydra::thrust::counting_iterator<size_t> > first(hydra::thrust::counting_iterator<size_t>(0),
 				detail::GetBinCenter<T,1>( fGrid, fLowerLimits, fUpperLimits) );
 
 
@@ -786,7 +786,7 @@ public:
     }
 
 	size_t size() const	{
-	 return  hydra_thrust::distance(fContents.begin(), fContents.end() );
+	 return  hydra::thrust::distance(fContents.begin(), fContents.end() );
 	}
 
 	template<typename Iterator>

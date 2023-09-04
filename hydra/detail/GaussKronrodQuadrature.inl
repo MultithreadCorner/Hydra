@@ -49,7 +49,7 @@ GaussKronrodQuadrature<NRULE, NBIN, hydra::detail::BackendPolicy<BACKEND>>::Inte
 	init.fGaussCall =0;
 	init.fGaussKronrodCall =0;
 
-	GaussKronrodCall result = hydra_thrust::transform_reduce(hydra::detail::BackendPolicy<BACKEND>{},
+	GaussKronrodCall result = hydra::thrust::transform_reduce(hydra::detail::BackendPolicy<BACKEND>{},
 			fCallTable.begin(), fCallTable.end(),
 			GaussKronrodUnary<FUNCTOR>(functor),   init, GaussKronrodBinary() );
 

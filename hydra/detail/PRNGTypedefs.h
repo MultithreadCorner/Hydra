@@ -52,7 +52,7 @@ namespace hydra {
 
 //typedef  hydra::random::squares3 default_random_engine;
 
-//typedef hydra_thrust::random::default_random_engine default_random_engine;
+//typedef hydra::thrust::random::default_random_engine default_random_engine;
 //typedef hydra::random::philox default_random_engine;
 //typedef hydra::random::threefry default_random_engine;
 //typedef hydra::random::ars default_random_engine;
@@ -65,7 +65,7 @@ typedef hydra::random::squares3 default_random_engine;
  *  \note The 10000th consecutive invocation of a default-constructed object of type \p minstd_rand0
  *        shall produce the value \c 1043618065 .
  */
-typedef hydra_thrust::random::minstd_rand0 minstd_rand0;
+typedef hydra::thrust::random::minstd_rand0 minstd_rand0;
 
 /*! \typedef minstd_rand
  *  \brief A random number engine with predefined parameters which implements a version of
@@ -73,7 +73,7 @@ typedef hydra_thrust::random::minstd_rand0 minstd_rand0;
  *  \note The 10000th consecutive invocation of a default-constructed object of type \p minstd_rand
  *        shall produce the value \c 399268537 .
  */
-typedef hydra_thrust::random::minstd_rand minstd_rand;
+typedef hydra::thrust::random::minstd_rand minstd_rand;
 
 
 /*! \typedef ranlux24
@@ -82,7 +82,7 @@ typedef hydra_thrust::random::minstd_rand minstd_rand;
  *  \note The 10000th consecutive invocation of a default-constructed object of type \p ranlux24
  *        shall produce the value \c 9901578 .
  */
-typedef hydra_thrust::random::ranlux24	ranlux24;
+typedef hydra::thrust::random::ranlux24	ranlux24;
 
 /*! \typedef ranlux48
  *  \brief A random number engine with predefined parameters which implements the
@@ -90,7 +90,7 @@ typedef hydra_thrust::random::ranlux24	ranlux24;
  *  \note The 10000th consecutive invocation of a default-constructed object of type \p ranlux48
  *        shall produce the value \c 88229545517833 .
  */
-typedef hydra_thrust::random::ranlux48	ranlux48;
+typedef hydra::thrust::random::ranlux48	ranlux48;
 
 /*! \typedef taus88
  *  \brief A random number engine with predefined parameters which implements
@@ -99,7 +99,7 @@ typedef hydra_thrust::random::ranlux48	ranlux48;
  *  \note The 10000th consecutive invocation of a default-constructed object of type \p taus88
  *        shall produce the value \c 3535848941 .
  */
-typedef hydra_thrust::random::taus88 	taus88;
+typedef hydra::thrust::random::taus88 	taus88;
 
 
 /*! \typedef philox

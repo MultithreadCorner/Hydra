@@ -51,7 +51,7 @@ struct FunctionArgument
      {}
 
     __hydra_host__ __hydra_device__
-    explicit FunctionArgument(hydra_thrust::device_reference<value_type> x) :
+    explicit FunctionArgument(hydra::thrust::device_reference<value_type> x) :
      value(x)
      {}
 
@@ -62,7 +62,7 @@ struct FunctionArgument
      {}
 
     __hydra_host__ __hydra_device__
-    explicit  FunctionArgument(hydra_thrust::device_reference<name_type>const& other)
+    explicit  FunctionArgument(hydra::thrust::device_reference<name_type>const& other)
      {
     	name_type a=other;
         value = a.Value();
@@ -91,7 +91,7 @@ struct FunctionArgument
     __hydra_host__ __hydra_device__
     typename  std::enable_if< std::is_convertible<T, value_type>::value && (!detail::is_function_argument<T>::value),
        FunctionArgument<name_type, value_type>&>::type
-    operator=(hydra_thrust::device_reference<T> const& other)
+    operator=(hydra::thrust::device_reference<T> const& other)
     {
     	value = other;
     	return *this;
@@ -253,12 +253,12 @@ struct NAME : detail::FunctionArgument<NAME, TYPE>                     \
      {}                                                                \
                                                                        \
   __hydra_host__ __hydra_device__	                                   \
-  NAME( hydra_thrust::device_reference<TYPE> x):                       \
+  NAME( hydra::thrust::device_reference<TYPE> x):                       \
          super_type(x)                                                 \
          {}                                                            \
                                                                        \
  __hydra_host__ __hydra_device__	                                   \
- explicit  NAME( hydra_thrust::device_reference<TYPE>& x):             \
+ explicit  NAME( hydra::thrust::device_reference<TYPE>& x):             \
         super_type(x)                                                  \
        {}                                                              \
                                                                        \
@@ -268,12 +268,12 @@ struct NAME : detail::FunctionArgument<NAME, TYPE>                     \
     {}                                                                 \
                                                                        \
     __hydra_host__ __hydra_device__                                    \
-    explicit NAME( hydra_thrust::device_reference<TYPE> const& other): \
+    explicit NAME( hydra::thrust::device_reference<TYPE> const& other): \
          super_type(other)                                             \
          {}                                                            \
                                                                        \
   __hydra_host__ __hydra_device__                                      \
-  explicit NAME( hydra_thrust::device_reference<NAME> const& other):   \
+  explicit NAME( hydra::thrust::device_reference<NAME> const& other):   \
        super_type(other)                                               \
        {}                                                              \
                                                                        \
@@ -478,7 +478,7 @@ operator/( Arg1 const& a1, Arg2 const& a2) {
 
 template<typename Arg>
 inline typename std::enable_if<detail::is_function_argument<Arg>::value, std::ostream&>::type
-operator<<(std::ostream& s, const hydra_thrust::device_reference<Arg>& a){
+operator<<(std::ostream& s, const hydra::thrust::device_reference<Arg>& a){
 	s <<  typename Arg::name_type(a).Value();
 	return s;
 }

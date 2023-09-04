@@ -50,11 +50,11 @@ GaussKronrodAdaptiveQuadrature<NRULE,NBIN,hydra::detail::BackendPolicy<BACKEND>>
 
 			auto row = fCallTableHost[index];
 
-			size_t  bin        = hydra_thrust::get<0>(row);
-			GReal_t bin_delta  = hydra_thrust::get<1>(row)-hydra_thrust::get<2>(row);
-			GReal_t bin_result = hydra_thrust::get<2>(row);
-			hydra_thrust::get<4>(fNodesTable[bin])   +=  bin_result;
-			hydra_thrust::get<5>(fNodesTable[bin])   +=  bin_delta;
+			size_t  bin        = hydra::thrust::get<0>(row);
+			GReal_t bin_delta  = hydra::thrust::get<1>(row)-hydra::thrust::get<2>(row);
+			GReal_t bin_result = hydra::thrust::get<2>(row);
+			hydra::thrust::get<4>(fNodesTable[bin])   +=  bin_result;
+			hydra::thrust::get<5>(fNodesTable[bin])   +=  bin_delta;
 		}
 
 	GReal_t result=0;
@@ -65,15 +65,15 @@ GaussKronrodAdaptiveQuadrature<NRULE,NBIN,hydra::detail::BackendPolicy<BACKEND>>
 	for(size_t node=0; node<fNodesTable.size(); node++ )
 	{
 		//std::cout <<std::setprecision(10)<< fNodesTable[node]<< std::endl;
-		if(hydra_thrust::get<0>(fNodesTable[node])==1 )
+		if(hydra::thrust::get<0>(fNodesTable[node])==1 )
 		{
-			hydra_thrust::get<5>(fNodesTable[node])= GetError(hydra_thrust::get<5>(fNodesTable[node]) );
-			hydra_thrust::get<0>(fNodesTable[node])=0;
+			hydra::thrust::get<5>(fNodesTable[node])= GetError(hydra::thrust::get<5>(fNodesTable[node]) );
+			hydra::thrust::get<0>(fNodesTable[node])=0;
 			//std::cout << "====>"<< std::setprecision(10)<< fNodesTable[node]<< std::endl;
 		}
 
-		result     += hydra_thrust::get<4>(fNodesTable[node]);
-		error2    += hydra_thrust::get<5>(fNodesTable[node])*hydra_thrust::get<5>(fNodesTable[node]);
+		result     += hydra::thrust::get<4>(fNodesTable[node]);
+		error2    += hydra::thrust::get<5>(fNodesTable[node])*hydra::thrust::get<5>(fNodesTable[node]);
 
 	}
 
@@ -105,16 +105,16 @@ GaussKronrodAdaptiveQuadrature<NRULE,NBIN, hydra::detail::BackendPolicy<BACKEND>
 		fCallTableDevice.resize( fParametersTable.size());
 
 		//call function in parallel
-		hydra_thrust::transform(system_t(),fParametersTable.begin(), fParametersTable.end(),
+		hydra::thrust::transform(system_t(),fParametersTable.begin(), fParametersTable.end(),
 				fCallTableDevice.begin(),
 				ProcessGaussKronrodAdaptiveQuadrature<FUNCTOR>(functor) );
 
 		//copy to evaluation result back to the host
-		hydra_thrust::copy(fCallTableDevice.begin(),  fCallTableDevice.end(),
+		hydra::thrust::copy(fCallTableDevice.begin(),  fCallTableDevice.end(),
 				fCallTableHost.begin());
 
 		/**
-		 * \todo Re-implement Accumulate() using hydra_thrust::sort + thust::reduce_by_key, maybe not faster but
+		 * \todo Re-implement Accumulate() using hydra::thrust::sort + thust::reduce_by_key, maybe not faster but
 		 * more scalable.
 		 */
 		result = Accumulate();
@@ -140,15 +140,15 @@ template<size_t NRULE, size_t NBIN, hydra::detail::Backend BACKEND>
 void GaussKronrodAdaptiveQuadrature<NRULE,NBIN,hydra::detail::BackendPolicy<BACKEND>>::UpdateNodes()
 {
 
-	hydra_thrust::sort(hydra_thrust::host,
+	hydra::thrust::sort(hydra::thrust::host,
 				fNodesTable.begin(),
 			    fNodesTable.end(),
-				hydra::detail::CompareTuples<5,	hydra_thrust::greater >());
+				hydra::detail::CompareTuples<5,	hydra::thrust::greater >());
 
 	auto node = fNodesTable[0];
 
-	GReal_t lower_limits = hydra_thrust::get<2>(node);
-	GReal_t upper_limits = hydra_thrust::get<3>(node);
+	GReal_t lower_limits = hydra::thrust::get<2>(node);
+	GReal_t upper_limits = hydra::thrust::get<3>(node);
 	GReal_t delta = upper_limits-lower_limits;
 
 	GReal_t delta2 = delta/2.0;
@@ -159,15 +159,15 @@ void GaussKronrodAdaptiveQuadrature<NRULE,NBIN,hydra::detail::BackendPolicy<BACK
 	fNodesTable.push_back( new_node2);
 
 
-	hydra_thrust::sort(hydra_thrust::host,
+	hydra::thrust::sort(hydra::thrust::host,
 			fNodesTable.begin(),
 		    fNodesTable.end(),
-			hydra::detail::CompareTuples<2,	hydra_thrust::less >());
+			hydra::detail::CompareTuples<2,	hydra::thrust::less >());
 
 
 	for(size_t  i = 0; i<fNodesTable.size(); i++)
 	{
-		hydra_thrust::get<1>(fNodesTable[i])=i;
+		hydra::thrust::get<1>(fNodesTable[i])=i;
 	}
 
 	//for(auto row: fNodesTable) std::cout << row << std::endl;

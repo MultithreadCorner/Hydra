@@ -62,8 +62,8 @@ protected:
 	typedef typename PlannerType::plan_type plan_type;
 	typedef std::unique_ptr<InputType,  detail::cufft::_Deleter> input_ptr_type;
 	typedef std::unique_ptr<OutputType, detail::cufft::_Deleter> output_ptr_type;
-	typedef hydra_thrust::pointer<InputType, hydra_thrust::cuda::tag> input_tagged_ptr_type;
-	typedef hydra_thrust::pointer<OutputType, hydra_thrust::cuda::tag> output_tagged_ptr_type;
+	typedef hydra::thrust::pointer<InputType, hydra::thrust::cuda::tag> input_tagged_ptr_type;
+	typedef hydra::thrust::pointer<OutputType, hydra::thrust::cuda::tag> output_tagged_ptr_type;
 
 public:
 
@@ -125,7 +125,7 @@ public:
 	LoadInputData( Iterable&& container)
 	{
 
-		using hydra_thrust::raw_pointer_cast;
+		using hydra::thrust::raw_pointer_cast;
 
 		LoadInput(std::forward<Iterable>(container).size(),
 				reinterpret_cast<InputType*>(

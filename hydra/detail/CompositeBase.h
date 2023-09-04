@@ -54,7 +54,7 @@ class  CompositeBase
 public:
 
     typedef typename hydra::detail::merged_tuple<typename F1::argument_type>::type argument_type;
-	typedef typename hydra_thrust::tuple<F0, F1, Fs...> functors_type;
+	typedef typename hydra::thrust::tuple<F0, F1, Fs...> functors_type;
 
 	//tag
 	typedef void hydra_composed_functor_type;
@@ -62,7 +62,7 @@ public:
 	CompositeBase()=delete;
 
 	CompositeBase(F0 const& f0, F1 const& f1,  Fs const& ...fs):
-		fFtorTuple(hydra_thrust::make_tuple(f0, f1, fs...)),
+		fFtorTuple(hydra::thrust::make_tuple(f0, f1, fs...)),
 		fNorm(1.0)
 	{ }
 
@@ -234,9 +234,9 @@ public:
 	}
 
 	template<unsigned int I>
-	inline typename hydra_thrust::tuple_element<I,functors_type>::type&
+	inline typename hydra::thrust::tuple_element<I,functors_type>::type&
 	GetFunctor(hydra::placeholders::placeholder<I> const& )
-	{return hydra_thrust::get<I>(fFtorTuple);}
+	{return hydra::thrust::get<I>(fFtorTuple);}
 
 
 

@@ -88,12 +88,12 @@ auto rend( const C& c ) -> decltype(c.rend()){
 
 template< class T, size_t N >
 T* rbegin( T (&array)[N] ){
-	return hydra_thrust::reverse_iterator<T*>(&array[0]);
+	return hydra::thrust::reverse_iterator<T*>(&array[0]);
 }
 
 template< class T, size_t N >
 T* rend( T (&array)[N] ){
-	return hydra_thrust::reverse_iterator<T*>(&array[N]);
+	return hydra::thrust::reverse_iterator<T*>(&array[N]);
 }
 
 }  // namespace hydra

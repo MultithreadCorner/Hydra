@@ -59,7 +59,7 @@ template <size_t N, typename GRND>
 struct GenerateDecay
 {
 	typedef typename hydra::detail::tuple_cat_type<
-			 hydra_thrust::tuple<double>,
+			 hydra::thrust::tuple<double>,
 			 typename hydra::detail::tuple_type<N,Vector4R>::type
 			>::type		result_type;
 
@@ -224,7 +224,7 @@ struct GenerateDecay
 
 		GRND randEng( fSeed );//hash(evt,fSeed) );
 		randEng.discard(evt+3*N);
-		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+		hydra::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		GReal_t rno[N];
 		rno[0] = 0.0;
@@ -341,7 +341,7 @@ struct GenerateDecay
 		typedef typename hydra::detail::tuple_type<N,
 				Vector4R>::type Tuple_t;
 
-		constexpr size_t SIZE = hydra_thrust::tuple_size<Tuple_t>::value;
+		constexpr size_t SIZE = hydra::thrust::tuple_size<Tuple_t>::value;
 
 		Vector4R Particles[SIZE];
 
@@ -351,7 +351,7 @@ struct GenerateDecay
 
 		hydra::detail::assignArrayToTuple(particles, Particles   );
 
-		return hydra_thrust::tuple_cat(hydra_thrust::make_tuple(weight),  particles);
+		return hydra::thrust::tuple_cat(hydra::thrust::make_tuple(weight),  particles);
 
 	}
 

@@ -42,7 +42,7 @@ template<typename T, size_t N >
 struct GetBinCenter;
 
 template<typename T, size_t N>
-struct GetBinCenter: public hydra_thrust::unary_function<size_t, typename tuple_type<N,T>::type>
+struct GetBinCenter: public hydra::thrust::unary_function<size_t, typename tuple_type<N,T>::type>
 {
 	GetBinCenter()=delete;
 	GetBinCenter( size_t (&grid)[N], T (&lowerlimits)[N], T (&upperlimits)[N])
@@ -154,7 +154,7 @@ struct GetBinCenter: public hydra_thrust::unary_function<size_t, typename tuple_
 //---------------
 
 template<typename T>
-struct GetBinCenter<T,1>: public hydra_thrust::unary_function<T,T>
+struct GetBinCenter<T,1>: public hydra::thrust::unary_function<T,T>
 {
 	GetBinCenter()=delete;
 

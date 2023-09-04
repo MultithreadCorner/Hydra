@@ -45,7 +45,7 @@ namespace detail {
 template <class Iterator>
 __hydra_host__ __hydra_device__
 void iter_swap(Iterator first, Iterator second)
-{	hydra_thrust::swap(*hydra_thrust::raw_pointer_cast(first), *hydra_thrust::raw_pointer_cast(second)); }
+{	hydra::thrust::swap(*hydra::thrust::raw_pointer_cast(first), *hydra::thrust::raw_pointer_cast(second)); }
 
 template <class Iterator>
 __hydra_host__ __hydra_device__
@@ -81,7 +81,7 @@ typename std::enable_if<std::is_integral<Integer>::value, void>::type
 __hydra_host__ __hydra_device__
 nth_permutation(Iterator begin, Iterator end, Integer n, Comparator comp)
 {
-	hydra_thrust::sort(begin, end, comp);
+	hydra::thrust::sort(begin, end, comp);
 
 	const Integer k(end - begin);
 
@@ -122,11 +122,11 @@ bool next_permutation(BidirIt first, BidirIt last)
 			while (!(*i < *--i2))
 				;
 			hydra::iter_swap(i, i2);
-			hydra_thrust::reverse(i1, last);
+			hydra::thrust::reverse(i1, last);
 			return true;
 		}
 		if (i == first) {
-			hydra_thrust::reverse(first, last);
+			hydra::thrust::reverse(first, last);
 			return false;
 		}
 	}

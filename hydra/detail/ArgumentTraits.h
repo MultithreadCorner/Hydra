@@ -53,31 +53,31 @@ template<typename RefT, typename ...T>
 struct is_valid_type_pack;
 
 template<typename ...RefT, typename ...T>
-struct is_valid_type_pack<hydra_thrust::tuple<RefT...>, T... >:
+struct is_valid_type_pack<hydra::thrust::tuple<RefT...>, T... >:
 std::is_convertible< std::tuple<typename detail::remove_device_reference<T>::type...>, std::tuple<RefT...> > {};
 
 template<typename ArgType>
 struct is_tuple_type: std::false_type {};
 
 template<typename... ArgTypes>
-struct is_tuple_type<hydra_thrust::detail::tuple_of_iterator_references<ArgTypes...>>:
+struct is_tuple_type<hydra::thrust::detail::tuple_of_iterator_references<ArgTypes...>>:
     std::true_type {};
 
 template<typename... ArgTypes>
-struct is_tuple_type<hydra_thrust::tuple<ArgTypes...>>:
+struct is_tuple_type<hydra::thrust::tuple<ArgTypes...>>:
     std::true_type {};
 
 namespace fa_impl {
 
-template<typename T, typename U= hydra_thrust::void_t<>>
+template<typename T, typename U= hydra::thrust::void_t<>>
 struct _is_function_argument: std::false_type{};
 
 template<typename T>
-struct _is_function_argument<T,hydra_thrust::void_t< typename T::function_argument_type>>:
+struct _is_function_argument<T,hydra::thrust::void_t< typename T::function_argument_type>>:
 std::true_type{};
 
 template<typename T>
-struct _is_function_argument<hydra_thrust::device_reference<T>,hydra_thrust::void_t< typename T::function_argument_type>>:
+struct _is_function_argument<hydra::thrust::device_reference<T>,hydra::thrust::void_t< typename T::function_argument_type>>:
 std::true_type{};
 
 
@@ -98,7 +98,7 @@ std::is_base_of<detail::FunctionArgument<Arg, typename Arg::value_type>, Arg>{} 
 
 
 template<typename Arg>
-struct is_function_argument<hydra_thrust::device_reference<Arg>, true>:
+struct is_function_argument<hydra::thrust::device_reference<Arg>, true>:
 std::is_base_of<detail::FunctionArgument<Arg, typename Arg::value_type>, Arg>{} ;
 
 template<typename Arg, bool T=is_function_argument<Arg>::value>
@@ -129,17 +129,17 @@ struct is_tuple_of_function_arguments: std::false_type {};
 
 
 template<typename... ArgTypes>
-struct is_tuple_of_function_arguments<hydra_thrust::detail::tuple_of_iterator_references<ArgTypes&...> >:
+struct is_tuple_of_function_arguments<hydra::thrust::detail::tuple_of_iterator_references<ArgTypes&...> >:
 is_function_argument_pack<typename std::decay<ArgTypes>::type...>{} ;
 
 template<typename... ArgTypes>
 struct is_tuple_of_function_arguments<
-hydra_thrust::detail::tuple_of_iterator_references<hydra_thrust::device_reference<ArgTypes>...> >:
+hydra::thrust::detail::tuple_of_iterator_references<hydra::thrust::device_reference<ArgTypes>...> >:
 is_function_argument_pack<typename std::decay<ArgTypes>::type...>{} ;
 
 
 template<typename... ArgTypes>
-struct is_tuple_of_function_arguments<hydra_thrust::tuple<ArgTypes...>>:
+struct is_tuple_of_function_arguments<hydra::thrust::tuple<ArgTypes...>>:
 is_function_argument_pack<typename std::decay<ArgTypes>::type...> {};
 
 }  // namespace detail

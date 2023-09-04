@@ -51,18 +51,18 @@
 namespace std {
 
 		template<class T, class U>
-		struct common_type<hydra_thrust::complex<T>, hydra_thrust::complex<U> > {
-			typedef hydra_thrust::complex<typename common_type<T, U>::type > type;
+		struct common_type<hydra::thrust::complex<T>, hydra::thrust::complex<U> > {
+			typedef hydra::thrust::complex<typename common_type<T, U>::type > type;
 		};
 
 		template<class T, class U>
-		struct common_type<T, hydra_thrust::complex<U> > {
-			typedef hydra_thrust::complex<typename common_type<T, U>::type> type;
+		struct common_type<T, hydra::thrust::complex<U> > {
+			typedef hydra::thrust::complex<typename common_type<T, U>::type> type;
 		};
 
 		template<class T, class U>
-		struct common_type<hydra_thrust::complex<U>, T > {
-			typedef hydra_thrust::complex<typename common_type<T, U>::type > type;
+		struct common_type<hydra::thrust::complex<U>, T > {
+			typedef hydra::thrust::complex<typename common_type<T, U>::type > type;
 		};
 }
 
@@ -77,7 +77,7 @@ namespace hydra {
 
 	template <typename T>
 	struct is_iterator<T,
-	hydra_thrust::void_t<
+	hydra::thrust::void_t<
 	           typename  std::enable_if<std::is_default_constructible<T>::value, void>::type, //default constructible,
 	           typename  std::enable_if<std::is_copy_constructible<T>::value, void>::type,    //copy constructible,
 	           typename  std::enable_if<std::is_destructible<T>::value, void>::type,          //destructible,
@@ -98,7 +98,7 @@ namespace hydra {
 	};
 
 	template<typename T>
-	struct is_device_reference<hydra_thrust::device_reference<T>>: std::true_type
+	struct is_device_reference<hydra::thrust::device_reference<T>>: std::true_type
 	{
 	//	typedef T type;
 	};
@@ -110,7 +110,7 @@ namespace hydra {
     };
 
     template<typename T>
-    struct remove_device_reference<hydra_thrust::device_reference<T>>
+    struct remove_device_reference<hydra::thrust::device_reference<T>>
     {
     	typedef T type;
     };
@@ -175,10 +175,10 @@ namespace hydra {
 	};
 
 	template<typename T>
-	struct TypeTraits<hydra_thrust::complex<T>>
+	struct TypeTraits<hydra::thrust::complex<T>>
 	{
 
-		typedef hydra_thrust::complex<T> type;
+		typedef hydra::thrust::complex<T> type;
 		__hydra_host__  __hydra_device__ inline static type zero(){ return type(0.0,0.0) ;}
 		__hydra_host__  __hydra_device__ inline static type one(){ return type(1.0, 0.0) ;}
 		__hydra_host__  __hydra_device__ inline static type invalid(){ return  std::numeric_limits<T>::quiet_NaN()  ;}
@@ -203,7 +203,7 @@ namespace hydra {
 				enum { argument_count = sizeof...(Args) };
 
 				typedef ReturnType return_type;
-				typedef hydra_thrust::tuple<Args...> args_type;
+				typedef hydra::thrust::tuple<Args...> args_type;
 
 				template <size_t i>
 				struct arg
@@ -219,7 +219,7 @@ namespace hydra {
 				enum { argument_count = sizeof...(Args) };
 
 				typedef ReturnType return_type;
-				typedef hydra_thrust::tuple<Args&...> args_type;
+				typedef hydra::thrust::tuple<Args&...> args_type;
 
 				template <size_t i>
 				struct arg

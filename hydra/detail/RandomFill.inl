@@ -50,21 +50,21 @@ namespace hydra{
     template< typename Engine,  hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
     typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::is_convertible<
     decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-    typename hydra_thrust::iterator_traits<Iterator>::value_type
+    typename hydra::thrust::iterator_traits<Iterator>::value_type
     >::value, void>::type
     fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
                 Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed, size_t rng_jump)
     {
-        using hydra_thrust::system::detail::generic::select_system;
-        typedef typename hydra_thrust::iterator_system<Iterator>::type system_t;
+        using hydra::thrust::system::detail::generic::select_system;
+        typedef typename hydra::thrust::iterator_system<Iterator>::type system_t;
         typedef typename hydra::detail::BackendPolicy<BACKEND>::execution_policy_type policy_t;
         system_t system;
         policy_t _policy;
 
-        typedef  typename hydra_thrust::detail::remove_reference<
+        typedef  typename hydra::thrust::detail::remove_reference<
                     decltype(select_system( system, _policy ))>::type common_system_type;
  
-        hydra_thrust::tabulate( common_system_type(), begin, end, detail::Sampler<FUNCTOR,Engine>(functor, seed, rng_jump) );
+        hydra::thrust::tabulate( common_system_type(), begin, end, detail::Sampler<FUNCTOR,Engine>(functor, seed, rng_jump) );
 
     }
 
@@ -77,15 +77,15 @@ namespace hydra{
     template< typename Engine, typename Iterator, typename FUNCTOR >
     typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::is_convertible<
     decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-    typename hydra_thrust::iterator_traits<Iterator>::value_type
+    typename hydra::thrust::iterator_traits<Iterator>::value_type
     >::value, void>::type
     fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed, size_t rng_jump)
     {
-        using hydra_thrust::system::detail::generic::select_system;
-        typedef typename hydra_thrust::iterator_system<Iterator>::type system_t;
+        using hydra::thrust::system::detail::generic::select_system;
+        typedef typename hydra::thrust::iterator_system<Iterator>::type system_t;
         system_t system;
 
-        hydra_thrust::tabulate(select_system(system), begin, end, detail::Sampler<FUNCTOR,Engine>(functor, seed, rng_jump) );
+        hydra::thrust::tabulate(select_system(system), begin, end, detail::Sampler<FUNCTOR,Engine>(functor, seed, rng_jump) );
     }
 
     /**

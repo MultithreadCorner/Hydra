@@ -33,21 +33,21 @@ namespace hydra {
 
 template<size_t ...N, hydra::detail::Backend BACKEND>
 Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>::Chain(size_t nevents):
-fStorage(hydra_thrust::make_tuple(Events<N,hydra::detail::BackendPolicy<BACKEND> >(nevents)...) ),
+fStorage(hydra::thrust::make_tuple(Events<N,hydra::detail::BackendPolicy<BACKEND> >(nevents)...) ),
 fSize(nevents)
 {
 
 	fWeights.resize(fSize);
 	fFlags.resize(fSize);
 
-	fBegin = hydra_thrust::make_zip_iterator(hydra_thrust::tuple_cat(hydra_thrust::make_tuple(fWeights.begin()),
+	fBegin = hydra::thrust::make_zip_iterator(hydra::thrust::tuple_cat(hydra::thrust::make_tuple(fWeights.begin()),
 			detail::begin_call_args(fStorage)) );
-	fEnd = hydra_thrust::make_zip_iterator( hydra_thrust::tuple_cat(hydra_thrust::make_tuple(fWeights.end()),
+	fEnd = hydra::thrust::make_zip_iterator( hydra::thrust::tuple_cat(hydra::thrust::make_tuple(fWeights.end()),
 			detail::end_call_args(fStorage)) );
 
-	fConstBegin = hydra_thrust::make_zip_iterator(hydra_thrust::tuple_cat(hydra_thrust::make_tuple(fWeights.cbegin()),
+	fConstBegin = hydra::thrust::make_zip_iterator(hydra::thrust::tuple_cat(hydra::thrust::make_tuple(fWeights.cbegin()),
 			detail::cbegin_call_args(fStorage) ));
-	fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust::tuple_cat(hydra_thrust::make_tuple(fWeights.cend()),
+	fConstEnd = hydra::thrust::make_zip_iterator(hydra::thrust::tuple_cat(hydra::thrust::make_tuple(fWeights.cend()),
 			detail::cend_call_args(fStorage) ) );
 
 }
@@ -61,14 +61,14 @@ fSize (other.GetNEvents())
 	fWeights = vector_real(fSize , 1.0);
 	fFlags = vector_bool( fSize, 1.0 );
 
-	fBegin = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.begin()),
+	fBegin = hydra::thrust::make_zip_iterator(hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(fWeights.begin()),
 			detail::begin_call_args(fStorage)) );
-	fEnd = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.end()),
+	fEnd = hydra::thrust::make_zip_iterator( hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(fWeights.end()),
 			detail::end_call_args(fStorage)) );
 
-	fConstBegin = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.cbegin()),
+	fConstBegin = hydra::thrust::make_zip_iterator( hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(fWeights.cbegin()),
 			detail::cbegin_call_args(fStorage) ));
-	fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.cend()),
+	fConstEnd = hydra::thrust::make_zip_iterator(hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(fWeights.cend()),
 			detail::cend_call_args(fStorage) ) );
 
 }
@@ -83,14 +83,14 @@ fSize (other.GetNEvents())
 	fWeights = vector_real(fSize , 1.0);
 	fFlags = vector_bool( fSize, 1.0 );
 
-	fBegin = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.begin()),
+	fBegin = hydra::thrust::make_zip_iterator(hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(fWeights.begin()),
 			detail::begin_call_args(fStorage)) );
-	fEnd = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.end()),
+	fEnd = hydra::thrust::make_zip_iterator( hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(fWeights.end()),
 			detail::end_call_args(fStorage)) );
 
-	fConstBegin = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.cbegin()),
+	fConstBegin = hydra::thrust::make_zip_iterator( hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(fWeights.cbegin()),
 			detail::cbegin_call_args(fStorage) ));
-	fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.cend()),
+	fConstEnd = hydra::thrust::make_zip_iterator(hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(fWeights.cend()),
 			detail::cend_call_args(fStorage) ) );
 
 }
@@ -105,14 +105,14 @@ other.resize(0);
 fWeights = vector_real(fSize , 1.0);
 fFlags = vector_bool( fSize, 1.0 );
 
-fBegin = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.begin()),
+fBegin = hydra::thrust::make_zip_iterator(hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(fWeights.begin()),
 		detail::begin_call_args(fStorage)) );
-fEnd = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.end()),
+fEnd = hydra::thrust::make_zip_iterator( hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(fWeights.end()),
 		detail::end_call_args(fStorage)) );
 
-fConstBegin = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.cbegin()),
+fConstBegin = hydra::thrust::make_zip_iterator( hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(fWeights.cbegin()),
 		detail::cbegin_call_args(fStorage) ));
-fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.cend()),
+fConstEnd = hydra::thrust::make_zip_iterator(hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(fWeights.cend()),
 		detail::cend_call_args(fStorage) ) );
 }
 
@@ -127,14 +127,14 @@ Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>::operator=(Chain<Eve
 	this->fWeights = vector_real(this->fSize , 1.0);
 	this->fFlags = vector_bool( this->fSize, 1.0 );
 
-	this->fBegin = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.begin()),
+	this->fBegin = hydra::thrust::make_zip_iterator(hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(this->fWeights.begin()),
 			detail::begin_call_args(this->fStorage)) );
-	this->fEnd = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.end()),
+	this->fEnd = hydra::thrust::make_zip_iterator( hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(this->fWeights.end()),
 			detail::end_call_args(this->fStorage)) );
 
-	this->fConstBegin = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.cbegin()),
+	this->fConstBegin = hydra::thrust::make_zip_iterator( hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(this->fWeights.cbegin()),
 			detail::cbegin_call_args(this->fStorage) ));
-	this->fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.cend()),
+	this->fConstEnd = hydra::thrust::make_zip_iterator(hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(this->fWeights.cend()),
 			detail::cend_call_args(this->fStorage) ) );
 
 	return *this;
@@ -153,14 +153,14 @@ Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>::operator=(Chain<Eve
 		this->fWeights = vector_real(this->fSize , 1.0);
 		this->fFlags = vector_bool( this->fSize, 1.0 );
 
-		this->fBegin = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.begin()),
+		this->fBegin = hydra::thrust::make_zip_iterator(hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(this->fWeights.begin()),
 				detail::begin_call_args(this->fStorage)) );
-		this->fEnd = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.end()),
+		this->fEnd = hydra::thrust::make_zip_iterator( hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(this->fWeights.end()),
 				detail::end_call_args(this->fStorage)) );
 
-		this->fConstBegin = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.cbegin()),
+		this->fConstBegin = hydra::thrust::make_zip_iterator( hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(this->fWeights.cbegin()),
 				detail::cbegin_call_args(this->fStorage) ));
-		this->fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.cend()),
+		this->fConstEnd = hydra::thrust::make_zip_iterator(hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(this->fWeights.cend()),
 				detail::cend_call_args(this->fStorage) ) );
 
 		return *this;
@@ -179,14 +179,14 @@ Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>::operator=(Chain<Eve
 		this->fWeights = vector_real(this->fSize , 1.0);
 		this->fFlags = vector_bool( this->fSize, 1.0 );
 
-		this->fBegin = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.begin()),
+		this->fBegin = hydra::thrust::make_zip_iterator(hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(this->fWeights.begin()),
 				detail::begin_call_args(this->fStorage)) );
-		this->fEnd = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.end()),
+		this->fEnd = hydra::thrust::make_zip_iterator( hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(this->fWeights.end()),
 				detail::end_call_args(this->fStorage)) );
 
-		this->fConstBegin = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.cbegin()),
+		this->fConstBegin = hydra::thrust::make_zip_iterator( hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(fWeights.cbegin()),
 				detail::cbegin_call_args(this->fStorage) ));
-		this->fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(this->fWeights.cend()),
+		this->fConstEnd = hydra::thrust::make_zip_iterator(hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(this->fWeights.cend()),
 				detail::cend_call_args(this->fStorage) ) );
 
 		return *this;
@@ -195,20 +195,20 @@ Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>::operator=(Chain<Eve
 template<size_t ...N, hydra::detail::Backend BACKEND>
 Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>::Chain(Events<N,hydra::detail::BackendPolicy<BACKEND> > const& ...events):
 		fSize ( CheckSizes({events.GetNEvents()...}) ),
-		fStorage( hydra_thrust::make_tuple( events... ))
+		fStorage( hydra::thrust::make_tuple( events... ))
 	{
 
 		fWeights = vector_real(fSize , 1.0);
 		fFlags = vector_bool( fSize, 1.0 );
 
-		fBegin = hydra_thrust::make_zip_iterator(hydra_thrust::tuple_cat(hydra_thrust::make_tuple(fWeights.begin()),
+		fBegin = hydra::thrust::make_zip_iterator(hydra::thrust::tuple_cat(hydra::thrust::make_tuple(fWeights.begin()),
 				detail::begin_call_args(fStorage)) );
-		fEnd = hydra_thrust::make_zip_iterator( hydra_thrust::tuple_cat(hydra_thrust::make_tuple(fWeights.end()),
+		fEnd = hydra::thrust::make_zip_iterator( hydra::thrust::tuple_cat(hydra::thrust::make_tuple(fWeights.end()),
 				detail::end_call_args(fStorage)) );
 
-		fConstBegin = hydra_thrust::make_zip_iterator( hydra_thrust::tuple_cat(hydra_thrust::make_tuple(fWeights.cbegin()),
+		fConstBegin = hydra::thrust::make_zip_iterator( hydra::thrust::tuple_cat(hydra::thrust::make_tuple(fWeights.cbegin()),
 				detail::cbegin_call_args(fStorage) ));
-		fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust::tuple_cat(hydra_thrust::make_tuple(fWeights.cend()),
+		fConstEnd = hydra::thrust::make_zip_iterator(hydra::thrust::tuple_cat(hydra::thrust::make_tuple(fWeights.cend()),
 				detail::cend_call_args(fStorage) ) );
 
 	}
@@ -221,14 +221,14 @@ void Chain< Events<N,hydra::detail::BackendPolicy<BACKEND> >...>::resize(size_t 
 	fFlags.resize(n);
 	detail::resize_call_args(fStorage, n);
 
-	fBegin = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.begin()),
+	fBegin = hydra::thrust::make_zip_iterator(hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(fWeights.begin()),
 			detail::begin_call_args(fStorage)) );
-	fEnd = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.end()),
+	fEnd = hydra::thrust::make_zip_iterator( hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(fWeights.end()),
 			detail::end_call_args(fStorage)) );
 
-	fConstBegin = hydra_thrust::make_zip_iterator( hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.cbegin()),
+	fConstBegin = hydra::thrust::make_zip_iterator( hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(fWeights.cbegin()),
 			detail::cbegin_call_args(fStorage) ));
-	fConstEnd = hydra_thrust::make_zip_iterator(hydra_thrust:: tuple_cat(hydra_thrust::make_tuple(fWeights.cend()),
+	fConstEnd = hydra::thrust::make_zip_iterator(hydra::thrust:: tuple_cat(hydra::thrust::make_tuple(fWeights.cend()),
 			detail::cend_call_args(fStorage) ) );
 
 }

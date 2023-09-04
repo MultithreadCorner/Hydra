@@ -57,8 +57,8 @@ namespace detail{
 template<typename FUNCTOR, typename PointType, typename IteratorData, typename IteratorCache>
 struct LogLikelihood
 {
-	typedef typename hydra_thrust::iterator_traits<IteratorData>::value_type data_value_type;
-	typedef typename hydra_thrust::iterator_traits<IteratorCache>::value_type cache_value_type;
+	typedef typename hydra::thrust::iterator_traits<IteratorData>::value_type data_value_type;
+	typedef typename hydra::thrust::iterator_traits<IteratorCache>::value_type cache_value_type;
 
 	typedef PointType point_type;
 

@@ -66,22 +66,22 @@ private:
 
 }  // namespace detail
 
-Range<hydra_thrust::counting_iterator<long int>>
+Range<hydra::thrust::counting_iterator<long int>>
 range(long int first, long int last ){
 
-	return make_range( hydra_thrust::counting_iterator<long int>(first),
-			hydra_thrust::counting_iterator<long int>(last) );
+	return make_range( hydra::thrust::counting_iterator<long int>(first),
+			hydra::thrust::counting_iterator<long int>(last) );
 }
 
 template<typename T>
 inline typename std::enable_if< std::is_floating_point<T>::value,
-   Range<hydra_thrust::counting_iterator<unsigned>, detail::range::Shift<T>> >::type
+   Range<hydra::thrust::counting_iterator<unsigned>, detail::range::Shift<T>> >::type
 range(T min, T max, unsigned nbins ){
 
 	T delta = (max-min)/nbins;
 
-	return make_range( hydra_thrust::counting_iterator<unsigned>(0),
-			hydra_thrust::counting_iterator<unsigned>(nbins),
+	return make_range( hydra::thrust::counting_iterator<unsigned>(0),
+			hydra::thrust::counting_iterator<unsigned>(nbins),
 			detail::range::Shift<T>(min, delta) );
 }
 

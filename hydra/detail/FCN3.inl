@@ -46,20 +46,20 @@ namespace hydra {
  * \tparam Estimators estimator base classes
  */
 template<typename ...ESTIMATORS>
-class FCN< hydra_thrust::tuple<FCN<ESTIMATORS>...>, false >:public ROOT::Minuit2::FCNBase
+class FCN< hydra::thrust::tuple<FCN<ESTIMATORS>...>, false >:public ROOT::Minuit2::FCNBase
 {
 
-	typedef hydra_thrust::tuple< FCN<ESTIMATORS>...> estimator_type;
+	typedef hydra::thrust::tuple< FCN<ESTIMATORS>...> estimator_type;
 
 public:
 
-	enum { nfcns = hydra_thrust::tuple_size<hydra_thrust::tuple<FCN<ESTIMATORS>...>>::value};
+	enum { nfcns = hydra::thrust::tuple_size<hydra::thrust::tuple<FCN<ESTIMATORS>...>>::value};
 
 	FCN() = delete;
 
 	FCN( FCN<ESTIMATORS>const&... fcns):
 		fErrorDef(0.5),
-		fFCNS( hydra_thrust::make_tuple( fcns...))
+		fFCNS( hydra::thrust::make_tuple( fcns...))
 	{
 		std::initializer_list<double> error_defs{fcns.GetErrorDef()...};
 
@@ -79,8 +79,8 @@ public:
 
     virtual ~FCN()=default;
 
-	FCN<hydra_thrust::tuple<FCN<ESTIMATORS>...>, false >&
-	operator=(FCN<hydra_thrust::tuple<FCN<ESTIMATORS>...>, false > const& other)
+	FCN<hydra::thrust::tuple<FCN<ESTIMATORS>...>, false >&
+	operator=(FCN<hydra::thrust::tuple<FCN<ESTIMATORS>...>, false > const& other)
 	{
 		if(this==&other) return *this;
 
@@ -135,7 +135,7 @@ private:
 	typename std::enable_if< (I<nfcns), void>::type
 	load_fcn_parameters_helper( std::vector<Parameter*>& pars){
 
-		auto vars = hydra_thrust::get<I>(fFCNS).GetParameters().GetVariables();
+		auto vars = hydra::thrust::get<I>(fFCNS).GetParameters().GetVariables();
 
 		for (auto param : vars)
 			pars.push_back(param);
@@ -163,7 +163,7 @@ private:
 		tasks.push_back(std::async(
 				std::launch::async,
 				[this](std::vector<double> const& p) {
-		        	return hydra_thrust::get<I>(fFCNS)(p);
+		        	return hydra::thrust::get<I>(fFCNS)(p);
 		        },
 				parameters ) );
 
@@ -189,10 +189,10 @@ private:
 
 };
 template<typename ...ESTIMATORS>
-FCN< hydra_thrust::tuple< FCN<ESTIMATORS>...>, false >
+FCN< hydra::thrust::tuple< FCN<ESTIMATORS>...>, false >
 make_simultaneous_fcn( FCN<ESTIMATORS>const& ... fcns)
 {
- return	FCN< hydra_thrust::tuple< FCN<ESTIMATORS>...> , false>(fcns...);
+ return	FCN< hydra::thrust::tuple< FCN<ESTIMATORS>...> , false>(fcns...);
 }
 
 }  // namespace hydra

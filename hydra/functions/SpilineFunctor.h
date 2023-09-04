@@ -78,7 +78,7 @@ public:
 
 	SpilineFunctor( Iterator1 first, Iterator1 last, Iterator2 output ):
 		BaseFunctor<SpilineFunctor<Iterator1, Iterator2, ArgType>, Signature, 0>(),
-		fSize(hydra_thrust::distance(first, last)),
+		fSize(hydra::thrust::distance(first, last)),
 		fX(first),
 		fY(output)
 		{}

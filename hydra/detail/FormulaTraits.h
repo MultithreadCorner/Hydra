@@ -45,12 +45,12 @@ struct is_rng_formula: std::false_type{};
 template<typename Formula>
 struct is_rng_formula<hydra::RngFormula<Formula>>: std::true_type{};
 
-template<typename Functor, typename T= hydra_thrust::void_t<> >
+template<typename Functor, typename T= hydra::thrust::void_t<> >
 struct has_rng_formula: std::false_type{};
 
 template<typename Functor>
 struct has_rng_formula<Functor,
-          hydra_thrust::void_t< typename hydra::RngFormula<Functor>::value_type > >: std::true_type{};
+          hydra::thrust::void_t< typename hydra::RngFormula<Functor>::value_type > >: std::true_type{};
 
 
 

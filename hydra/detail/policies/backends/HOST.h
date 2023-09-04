@@ -44,26 +44,26 @@ namespace detail {
 
 namespace host {
 
-typedef hydra_thrust::detail::host_t	            host_t;
+typedef hydra::thrust::detail::host_t	            host_t;
 static const host_t   _host_;
 
 }  // namespace host
 
 
 template<>
-struct BackendPolicy<Backend::Host>: hydra_thrust::host_execution_policy<host::host_t>
+struct BackendPolicy<Backend::Host>: hydra::thrust::host_execution_policy<host::host_t>
 {
-	typedef hydra_thrust::host_execution_policy<host::host_t> execution_policy_type;
+	typedef hydra::thrust::host_execution_policy<host::host_t> execution_policy_type;
 
 	const host::host_t backend= host::_host_;
 
 #if HYDRA_THRUST_DEVICE_SYSTEM==HYDRA_THRUST_DEVICE_SYSTEM_CUDA
 	template<typename T>
-	using   container = hydra_thrust::host_vector<T ,
-			hydra_thrust::mr::stateless_resource_allocator<T, hydra_thrust::system::cuda::universal_host_pinned_memory_resource>>;
+	using   container = hydra::thrust::host_vector<T ,
+			hydra::thrust::mr::stateless_resource_allocator<T, hydra::thrust::system::cuda::universal_host_pinned_memory_resource>>;
 #else
 	template<typename T>
-	using   container = hydra_thrust::host_vector<T>;
+	using   container = hydra::thrust::host_vector<T>;
 #endif
 };
 

@@ -40,20 +40,20 @@ namespace detail {
 
 namespace omp {
 
-typedef hydra_thrust::system::omp::detail::par_t   omp_t;
+typedef hydra::thrust::system::omp::detail::par_t   omp_t;
 static const omp_t    _omp_;
 
 }  // namespace omp
 
 template<>
-struct BackendPolicy<Backend::Omp>: hydra_thrust::execution_policy<omp::omp_t>
+struct BackendPolicy<Backend::Omp>: hydra::thrust::execution_policy<omp::omp_t>
 {
-	typedef  hydra_thrust::execution_policy<omp::omp_t> execution_policy_type;
+	typedef  hydra::thrust::execution_policy<omp::omp_t> execution_policy_type;
 
 	const omp::omp_t backend= omp::_omp_;
 
 	template<typename T>
-	using   container = hydra_thrust::omp::vector<T> ;
+	using   container = hydra::thrust::omp::vector<T> ;
 
 };
 

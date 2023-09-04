@@ -40,21 +40,21 @@ namespace detail {
 
 namespace tbb {
 
-typedef hydra_thrust::system::tbb::detail::par_t   tbb_t;
+typedef hydra::thrust::system::tbb::detail::par_t   tbb_t;
 static const tbb_t    _tbb_;
 
 
 }  // namespace tbb
 
 template<>
-struct BackendPolicy<Backend::Tbb>: hydra_thrust::execution_policy<tbb::tbb_t>
+struct BackendPolicy<Backend::Tbb>: hydra::thrust::execution_policy<tbb::tbb_t>
 {
-	typedef  hydra_thrust::execution_policy<tbb::tbb_t> execution_policy_type;
+	typedef  hydra::thrust::execution_policy<tbb::tbb_t> execution_policy_type;
 
 	const tbb::tbb_t backend= tbb::_tbb_;
 
 	template<typename T>
-	using   container = hydra_thrust::tbb::vector<T> ;
+	using   container = hydra::thrust::tbb::vector<T> ;
 
 };
 

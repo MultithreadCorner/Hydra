@@ -221,7 +221,7 @@ public:
 
 	/**
 	 * @brief Get a vector with the width of the integration region in each direction.
-	 * @return hydra_thrust::[backend]::vector<double>.
+	 * @return hydra::thrust::[backend]::vector<double>.
 	 */
 	inline const vector_t& GetDeltaX() const {
 		return fDeltaX;

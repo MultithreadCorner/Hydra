@@ -37,12 +37,12 @@ namespace hydra {
 
 namespace detail {
 
-template<class Estimator, typename T= hydra_thrust::void_t<>  >
+template<class Estimator, typename T= hydra::thrust::void_t<>  >
 struct is_hydra_estimator: std::false_type {};
 
 template<class T>
 struct is_hydra_estimator<T,
-        hydra_thrust::void_t<typename T::likelihood_estimator_type> >: std::true_type {};
+        hydra::thrust::void_t<typename T::likelihood_estimator_type> >: std::true_type {};
 
 }  // namespace detail
 

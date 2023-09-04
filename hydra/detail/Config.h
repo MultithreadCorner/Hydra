@@ -158,7 +158,9 @@ namespace hydra{
 
    namespace arguments {}
 
-   namespace Eigen=hydra_Eigen;
+   namespace thrust = hydra_thrust;
+
+   namespace Eigen = hydra_Eigen;
 
    namespace  boost = hydra_boost;
 }
