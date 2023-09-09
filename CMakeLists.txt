@@ -53,7 +53,7 @@ else(CMAKE_CUDA_COMPILER)
   message(STATUS "CUDA compiler not found. Disabling CUDA support")
 endif(CMAKE_CUDA_COMPILER)
 
-   
+
 if(CMAKE_CUDA_COMPILER)
 
 set(CMAKE_CUDA_STANDARD 17)
@@ -113,21 +113,6 @@ set(Minuit2_FOUND ON)
 else(Minuit2_FOUND OFF)
 endif()
 endif(ROOT_FOUND)
-
-#-----------------------
-# get GSL for convolution examples
-#find_package(GSL)
-#if(GSL_FOUND)
-#include_directories(${GSL_INCLUDE_DIRS})
-#endif(GSL_FOUND)
-
-#-----------------------
-# get Eigen for sPlot examples
-#find_package( Eigen3 3.3.7 REQUIRED )
-#include_directories( EIGEN3_INCLUDE_DIR )
-#if(EIGEN3_FOUND)
-#include_directories(${EIGEN3_INCLUDE_DIR})
-#endif(EIGEN3_FOUND)
 
 #-----------------------
 # get FFTW for convolution examples
@@ -227,8 +212,8 @@ add_custom_target(examples_tbb)
 add_custom_target(examples_omp)
 add_custom_target(examples_cuda)
 
-
 include(${Hydra_CMAKE_DIR}/AddHydraExample.cmake)
+
 add_subdirectory(examples/phase_space)
 add_subdirectory(examples/numerical_integration)
 add_subdirectory(examples/random)
@@ -245,10 +230,23 @@ endif(Minuit2_FOUND)
 #+++++++++++++++++++++++++++
 #        TESTING           +
 #+++++++++++++++++++++++++++
-enable_testing()
+include(FetchContent)
 
-add_custom_target(tests)
+FetchContent_Declare(
+  Catch2
+  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+  GIT_TAG        v3.4.0
+)
+FetchContent_MakeAvailable(Catch2)
+
+include(CTest)
+
+add_custom_target(practrand_streamers)
+
+if(BUILD_TESTING)
 add_subdirectory(testing)
+endif()
+
 
 #+++++++++++++++++++++++++++
 #       DOXYGEN            +

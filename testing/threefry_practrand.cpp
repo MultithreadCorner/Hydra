@@ -36,6 +36,9 @@
 #define TCLAP_SETBASE_ZERO 1
 #include <tclap/CmdLine.h>
 
+//using
+//./testing/hydra_squares4_practrand_streamer | practrand-RNG_test stdin64
+
 //set a global seed
 static const uint64_t default_seed= 0x548c9decbce65295  ;
 
