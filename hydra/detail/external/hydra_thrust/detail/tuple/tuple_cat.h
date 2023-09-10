@@ -252,7 +252,7 @@ struct tuple_maker
 //     because make_tuple() doesn't do that
 template<class... Tuples>
 __TUPLE_ANNOTATION
-tuple_cat_result<Tuples...> tuple_cat(Tuples&&... tuples)
+inline tuple_cat_result<Tuples...> tuple_cat(Tuples&&... tuples)
 {
   return tuple_cat_apply(tuple_maker<tuple_cat_result<Tuples...>>{}, std::forward<Tuples>(tuples)...);
 }

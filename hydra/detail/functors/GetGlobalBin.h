@@ -207,7 +207,7 @@ struct GetGlobalBin<1,T>: public hydra::thrust::unary_function<T,size_t>
 		return is_underflow ? fNGlobalBins  : (is_overflow ? fNGlobalBins+1 : get_bin(X) );
 
 	}
-
+/*
 	__hydra_host__ __hydra_device__
     size_t	operator()(T const& value){
 
@@ -224,7 +224,7 @@ struct GetGlobalBin<1,T>: public hydra::thrust::unary_function<T,size_t>
 		return is_underflow ? fNGlobalBins  : (is_overflow ? fNGlobalBins+1 : get_bin(X) );
 
 	}
-
+*/
 
 	T fLowerLimits;
 	T fDelta;
