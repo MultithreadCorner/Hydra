@@ -260,7 +260,7 @@ public:
 	 * \brief Binary function call operator overload
 	 * taking one tuple and a non-tuple, that
 	 * containing put together would contain
-	 * the lambda arguments in any other.
+	 * the lambda arguments in any order.
 	 */
 	template<typename T1, typename T2>
 	__hydra_host__ __hydra_device__

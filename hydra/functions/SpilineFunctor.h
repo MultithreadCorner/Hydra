@@ -36,6 +36,8 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/Spiline.h>
+#include <hydra/DenseHistogram.h>
+#include <hydra/SparseHistogram.h>
 #include <hydra/Placeholders.h>
 #include <hydra/detail/utility/CheckValue.h>
 #include <hydra/detail/external/hydra_thrust/copy.h>
@@ -173,6 +175,39 @@ typedef  decltype(std::declval<Iterable2>().begin()) Iterator2;
 			std::forward<Iterable2>(y).begin());
 }
 
+
+template<typename T, hydra::detail::Backend BACKEND,
+         typename DH = DenseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional >  >
+inline SpilineFunctor< decltype(std::declval<DH>().GetBinsCenters().begin()),
+                       decltype(std::declval<DH>().GetBinsContents().begin())>
+make_spiline( DH const& histogram )
+{
+
+typedef  decltype(std::declval<DH>().GetBinsCenters().begin()) Iterator1;
+typedef  decltype(std::declval<DH>().GetBinsContents().begin()) Iterator2;
+
+	return SpilineFunctor<Iterator1, Iterator2, T>(
+			histogram.GetBinsCenters().begin(),
+			histogram.GetBinsCenters().end(),
+			histogram.GetBinsContents().begin());
+}
+
+
+template<typename T, hydra::detail::Backend BACKEND,
+         typename SH = SparseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional >  >
+inline SpilineFunctor< decltype(std::declval<SH>().GetBinsCenters().begin()),
+                       decltype(std::declval<SH>().GetBinsContents().begin())>
+make_spiline( SH const& histogram )
+{
+
+typedef  decltype(std::declval<SH>().GetBinsCenters().begin()) Iterator1;
+typedef  decltype(std::declval<SH>().GetBinsContents().begin()) Iterator2;
+
+	return SpilineFunctor<Iterator1, Iterator2, T>(
+			histogram.GetBinsCenters().begin(),
+			histogram.GetBinsCenters().end(),
+			histogram.GetBinsContents().begin());
+}
 
 
 }  // namespace hydra
