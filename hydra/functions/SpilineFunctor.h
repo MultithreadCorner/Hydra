@@ -56,7 +56,7 @@ namespace hydra {
  *
  * A simple method for a one—dimensional
 interpolation on a given set of data points (xi, yi). In each interval
-(xi,x,-+1) the interpolation function is assumed to be a third-
+(xi,x,x_{i+1}) the interpolation function is assumed to be a third-
 order polynomial passing through the data points. The slope at
 each grid point is determined in such a way as to guarantee
 a monotonic behavior of the interpolating function. The result
