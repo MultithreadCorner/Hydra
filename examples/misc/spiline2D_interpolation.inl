@@ -20,14 +20,14 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * spiline_interpolation.inl
+ * spiline2D_interpolation.inl
  *
- *  Created on: 23/12/2018
+ *  Created on: 17/09/2023
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef SPILINE_INTERPOLATION_INL_
-#define SPILINE_INTERPOLATION_INL_
+#ifndef SPILINE2D_INTERPOLATION_INL_
+#define SPILINE2D_INTERPOLATION_INL_
 
 
 #include <iostream>
@@ -44,7 +44,7 @@
 #include <hydra/Lambda.h>
 #include <hydra/functions/Gaussian.h>
 #include <hydra/functions/UniformShape.h>
-#include <hydra/functions/SpilineFunctor.h>
+#include <hydra/functions/Spiline2DFunctor.h>
 #include <hydra/Range.h>
 #include <hydra/Algorithm.h>
 /*-------------------------------------
@@ -92,16 +92,45 @@ int main(int argv, char** argc)
 	//gaussian function evaluating on argument zero
 	hydra::Gaussian<double> gaussian(mean, sigma);
 
-	auto abscissae = hydra::device::vector<double>(20);
-	hydra::copy( hydra::range(-10, 10), abscissae );
 
-	auto ordinate  = abscissae | gaussian;
 
-	auto spiline = hydra::make_spiline<double>(abscissae, ordinate );
+	auto xaxis =  hydra::range(-10.0, 10.0, 20);
 
-    hydra::for_each( hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 15753, 100) , [ spiline, gaussian]__hydra_dual__(double arg){
-    	printf("arg %f spiline %f gaussian %f\n", arg, spiline(arg), gaussian(arg));
-    } );
+	auto yaxis =  hydra::range(-10.0, 10.0, 20);
+
+	auto gaussian_2D = hydra::wrap_lambda(
+			[gaussian, xaxis, yaxis] __hydra_dual__ ( size_t index){
+
+		unsigned j = index/20;
+		unsigned i = index%20;
+        auto x = xaxis[i];
+        auto y = yaxis[j];
+
+		return gaussian( x ) * gaussian(y);
+	});
+
+	auto index = hydra::range(0, 400);
+
+	auto ordinate  = index | gaussian_2D;
+
+	auto spiline2D = hydra::make_spiline2D<double, double>(xaxis, yaxis, ordinate );
+
+	auto random_x = hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 157531, 10) ;
+	auto random_y = hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 456258, 10) ;
+
+
+    for(auto idx:index ){
+
+    	unsigned j = idx/20;
+    			unsigned i = idx%20;
+    	        auto x = xaxis[i];
+    	        auto y = yaxis[j];
+    		printf("x %f y %f spiline2D %f gaussian2D %f\n", x,y,
+    				spiline2D(x,y), gaussian(x)*gaussian(y));
+
+    }
+
+
 
 
 

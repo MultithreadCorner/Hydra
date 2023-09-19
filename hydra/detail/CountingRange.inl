@@ -42,6 +42,10 @@ namespace range {
 template<typename T>
 struct Shift
 {
+	typedef void hydra_functor_type;
+	typedef T return_type ;
+	typedef T argument_type;
+
 	Shift(T min,  T delta):
 		fMin(min),
 		fDelta(delta)
@@ -53,7 +57,7 @@ struct Shift
 	fDelta(other.fDelta)
 	{}
 
-	inline T operator()(unsigned bin){
+	inline  return_type operator()(unsigned bin){
 		return fMin + bin*fDelta;
 	}
 

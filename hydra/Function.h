@@ -172,8 +172,8 @@ public:
 	operator()(T...x)  const
 	{
 		//typename hydra::tuple<T...>::dummy a;
-		HYDRA_STATIC_ASSERT(int(sizeof...(T))==-1,
-				"This Hydra lambda can not be called with these arguments.\n"
+		HYDRA_STATIC_ASSERT( (!detail::is_valid_type_pack< argument_type, T...>::value), //int(sizeof...(T))==-1,
+				"This Hydra functor can not be called with these arguments.\n"
 				"Possible functions arguments are:\n\n"
 				"1) List of arguments matching or convertible to the functor signature.\n"
 				"2) One tuple containing the arguments in the functor's signature.\n"

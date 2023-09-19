@@ -20,14 +20,14 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * SpilineFunctor.h
+ * Spiline2DFunctor.h
  *
- *  Created on: 22/12/2018
+ *  Created on: 18 de set. de 2023
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef SPILINEFUNCTOR_H_
-#define SPILINEFUNCTOR_H_
+#ifndef SPILINE2DFUNCTOR_H_
+#define SPILINE2DFUNCTOR_H_
 
 
 
@@ -51,89 +51,81 @@
 
 namespace hydra {
 
-/**
- * \class SpilineFunctor
- *
- * A simple method for a one—dimensional
-interpolation on a given set of data points (xi, yi). In each interval
-(xi,x,x_{i+1}) the interpolation function is assumed to be a third-
-order polynomial passing through the data points. The slope at
-each grid point is determined in such a way as to guarantee
-a monotonic behavior of the interpolating function. The result
-is a smooth curve with continuous ﬁrst-order derivatives that
-passes through any given set of data points without spurious
-oscillations. Local extrema can occur only at grid points where
-they are given by the data, but not in between two adjacent
-grid points. The method gives exact results if the data points
-correspond to a second-order polynomial.
-
-Reference: M. Steffen, Astron. Astrophys. 239, 443—450 (1990).
-*/
-template<typename Iterator1, typename Iterator2,typename ArgType, typename Signature=double(ArgType)>
-class SpilineFunctor: public BaseFunctor<SpilineFunctor<Iterator1, Iterator2, ArgType>, Signature, 0>
+template<typename IteratorX, typename IteratorY, typename IteratorZ, typename ArgType1, typename ArgType2, typename Signature=double(ArgType1, ArgType1)>
+class Spiline2DFunctor:
+		public BaseFunctor< Spiline2DFunctor<IteratorX, IteratorY, IteratorZ, ArgType1, ArgType2>, Signature, 0>
 {
 
 
 public:
 
-	SpilineFunctor() = delete;
+	Spiline2DFunctor() = delete;
 
-	SpilineFunctor( Iterator1 first, Iterator1 last, Iterator2 output ):
-		BaseFunctor<SpilineFunctor<Iterator1, Iterator2, ArgType>, Signature, 0>(),
-		fSize(hydra::thrust::distance(first, last)),
-		fX(first),
-		fY(output)
+	Spiline2DFunctor( IteratorX xfirst, IteratorX xlast, IteratorY yfirst, IteratorZ zfirst ):
+		BaseFunctor< Spiline2DFunctor<IteratorX, IteratorY, IteratorZ, ArgType1, ArgType2>, Signature, 0 >(),
+		fSize(hydra::thrust::distance(xfirst, xlast)),
+		fX(xfirst),
+		fY(yfirst),
+		fZ(zfirst)
 		{}
 
 	__hydra_host__ __hydra_device__
-	SpilineFunctor(SpilineFunctor<Iterator1, Iterator2, ArgType> const& other ):
-	BaseFunctor<SpilineFunctor<Iterator1, Iterator2, ArgType>, Signature, 0>(other),
+	Spiline2DFunctor(Spiline2DFunctor< IteratorX, IteratorY, IteratorZ, ArgType1, ArgType2 > const& other ):
+	BaseFunctor<Spiline2DFunctor<IteratorX, IteratorY, IteratorZ, ArgType1, ArgType2>, Signature, 0>(other),
 	fSize(other.GetSize()),
 	fX(other.GetX()),
-	fY(other.GetY())
+	fY(other.GetY()),
+	fZ(other.GetZ())
 	{ }
 
 	__hydra_host__ __hydra_device__ inline
-	SpilineFunctor<Iterator1, Iterator2, ArgType>&
-	operator=(SpilineFunctor<Iterator1, Iterator2, ArgType> const& other )
+	Spiline2DFunctor< IteratorX, IteratorY, IteratorZ, ArgType1, ArgType2 >&
+	operator=(Spiline2DFunctor< IteratorX, IteratorY, IteratorZ, ArgType1, ArgType2 > const& other )
 	{
 		if(this == &other) return *this;
 
-		BaseFunctor<SpilineFunctor<Iterator1, Iterator2,  ArgType>, Signature, 0>::operator=(other);
+		BaseFunctor<Spiline2DFunctor< IteratorX, IteratorY, IteratorZ, ArgType1, ArgType2  >, Signature, 0>::operator=(other);
 
 		fSize=other.GetSize();
 		fX=other.GetX();
 		fY=other.GetY();
+		fZ=other.Getz();
 
 		return *this;
 	}
 
 	__hydra_host__ __hydra_device__
-	size_t GetSize() const
+    inline size_t GetSize() const
 	{
 		return fSize;
 	}
 
 	__hydra_host__ __hydra_device__
-	Iterator1 GetX() const
+	inline IteratorX GetX() const
 	{
 		return fX;
 	}
 
 	__hydra_host__ __hydra_device__
-	Iterator2 GetY() const
+	inline IteratorY GetY() const
 	{
 		return fY;
 	}
 
+	__hydra_host__ __hydra_device__
+	inline IteratorZ GetZ() const
+	{
+		return fZ;
+	}
+
 
 	__hydra_host__ __hydra_device__
-	inline double Evaluate(ArgType X)  const {
+	inline double Evaluate(ArgType1 X, ArgType2 Y)  const {
 
 
-		Iterator1 fXN = fX + fSize;
+		IteratorX fXN = fX + fSize;
 
-		double r = spiline(fX,  fXN, fY,  X);
+		double r = spiline2D(fX,  fXN, fY, fZ,  X, Y);
 
 		return  CHECK_VALUE( r, " r=%f ", r) ;
 	}
@@ -144,38 +136,43 @@ private:
 
 
 	size_t fSize;
-	Iterator1 fX;
-	Iterator2 fY;
+	IteratorX fX;
+	IteratorY fY;
+	IteratorZ fZ;
+
 };
 
 
-template<typename ArgType, typename Iterator1, typename Iterator2>
-inline SpilineFunctor<Iterator1, Iterator2, ArgType>
-make_spiline(Iterator1 firstX, Iterator1 lastX, Iterator2 firstY )
+template<typename ArgTypeX, typename ArgTypeY, typename IteratorX, typename IteratorY,  typename IteratorZ>
+inline Spiline2DFunctor<  IteratorX, IteratorY, IteratorZ, ArgTypeX, ArgTypeY >
+make_spiline2D(IteratorX firstX, IteratorX lastX, IteratorY firstY,  IteratorZ firstZ )
 {
 
-	return SpilineFunctor<Iterator1, Iterator2, ArgType>( firstX, lastX, firstY);
+	return Spiline2DFunctor<  IteratorX, IteratorY, IteratorZ, ArgTypeX, ArgTypeY  >( firstX, lastX, firstY, firstZ );
 }
 
-template<typename ArgType, typename Iterable1, typename Iterable2 >
+template<typename ArgTypeX, typename ArgTypeY, typename IterableX, typename IterableY, typename IterableZ >
 inline typename std::enable_if<
-          hydra::detail::is_iterable<Iterable1>::value &&
-          hydra::detail::is_iterable<Iterable2>::value,
-          SpilineFunctor< decltype(std::declval<Iterable1>().begin()),
-                          decltype(std::declval<Iterable2>().begin()), ArgType> >::type
-make_spiline(Iterable1&& x, Iterable2&& y)
+          hydra::detail::is_iterable<IterableX>::value &&
+		  hydra::detail::is_iterable<IterableY>::value &&
+		  hydra::detail::is_iterable<IterableZ>::value,
+          Spiline2DFunctor< decltype(std::declval<IterableX>().begin()) ,decltype(std::declval<IterableY>().begin()),
+                          decltype(std::declval<IterableZ>().begin()), ArgTypeX, ArgTypeY> >::type
+make_spiline2D(IterableX&& x, IterableY&& y, IterableZ&& z)
 {
 
-typedef  decltype(std::declval<Iterable1>().begin()) Iterator1;
-typedef  decltype(std::declval<Iterable2>().begin()) Iterator2;
+typedef  decltype(std::declval<IterableX>().begin()) IteratorX;
+typedef  decltype(std::declval<IterableY>().begin()) IteratorY;
+typedef  decltype(std::declval<IterableZ>().begin()) IteratorZ;
 
-	return SpilineFunctor<Iterator1, Iterator2, ArgType>(
-			std::forward<Iterable1>(x).begin(),
-			std::forward<Iterable1>(x).end(),
-			std::forward<Iterable2>(y).begin());
+	return Spiline2DFunctor<IteratorX, IteratorY, IteratorZ, ArgTypeX, ArgTypeY>(
+			std::forward<IterableX>(x).begin(),
+			std::forward<IterableX>(x).end(),
+			std::forward<IterableY>(y).begin(),
+			std::forward<IterableZ>(z).begin());
 }
 
-
+/*
 template<typename T, hydra::detail::Backend BACKEND>
 inline SpilineFunctor<
 decltype( std::declval<	DenseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional > >().GetBinsCenters().begin()),
@@ -207,10 +204,9 @@ typedef  decltype(std::declval< SparseHistogram<T, 1,  hydra::detail::BackendPol
 			histogram.GetBinsCenters().end(),
 			histogram.GetBinsContents().begin());
 }
-
+*/
 
 }  // namespace hydra
 
 
-
-#endif /* SPILINEFUNCTOR_H_ */
+#endif /* SSPILINE2DFUNCTOR_H_ */

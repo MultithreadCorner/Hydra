@@ -73,5 +73,6 @@ spiline(Iterable1&& abiscissae,  Iterable2&& measurements, Type value);
 } // namespace hydra
 
 #include <hydra/detail/Spiline.inl>
+#include <hydra/detail/Spiline2D.inl>
 
 #endif /* SPILINE_H_ */

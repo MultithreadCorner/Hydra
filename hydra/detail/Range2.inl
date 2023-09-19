@@ -124,6 +124,12 @@ public:
 	 return *(begin() +i);
 	}
 
+	inline const reference operator[](size_t i) const
+	{
+
+	 return *(begin() +i);
+	}
+
 
 private:
 	Iterator fBegin;
