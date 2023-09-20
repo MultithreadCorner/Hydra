@@ -96,13 +96,15 @@ int main(int argv, char** argc)
     //set the x dimension of the grid
 	auto xaxis =  hydra::range(-10.0, 10.0, 50);
 	auto x_grid_size = xaxis.size();
+	auto xiter = xaxis.begin();
 
 	//set the y dimension of the grid
 	auto yaxis =  hydra::range(-10.0, 10.0, 40);
 	auto y_grid_size = yaxis.size();
+        auto yiter = yaxis.begin()
 
 	auto gaussian_2D = hydra::wrap_lambda(
-			[gaussian, xiter=xaxis.begin(),x_grid_size, yiter=yaxis.begin(), y_grid_size ] __hydra_dual__ ( size_t index){
+			[gaussian, xiter,x_grid_size, yiter, y_grid_size ] __hydra_dual__ ( size_t index){
 
 		unsigned j = index/x_grid_size ;
 		unsigned i = index%x_grid_size ;
