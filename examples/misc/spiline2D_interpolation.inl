@@ -101,7 +101,7 @@ int main(int argv, char** argc)
 	//set the y dimension of the grid
 	auto yaxis =  hydra::range(-10.0, 10.0, 40);
 	auto y_grid_size = yaxis.size();
-        auto yiter = yaxis.begin()
+        auto yiter = yaxis.begin();
 
 	auto gaussian_2D = hydra::wrap_lambda(
 			[gaussian, xiter,x_grid_size, yiter, y_grid_size ] __hydra_dual__ ( size_t index){
