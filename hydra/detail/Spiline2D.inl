@@ -60,20 +60,25 @@ inline typename std::enable_if<
 	std::is_floating_point<typename hydra::thrust::iterator_traits<IteratorY>::value_type >::value &&
 	std::is_floating_point<typename hydra::thrust::iterator_traits<IteratorM>::value_type >::value
 , Type>::type
-spiline2D(IteratorX firstx, IteratorX lastx, IteratorY firsty, IteratorM measurements, Type x, Type y)
+spiline2D(IteratorX firstx, IteratorX lastx, IteratorY firsty, IteratorY lasty, IteratorM measurements, Type x, Type y)
 {
 	//get the neighbors on x and y-direction first
 	using hydra::thrust::min;
 
-	size_t N = hydra::thrust::distance(firstx, lastx);
+	size_t NX = hydra::thrust::distance(firstx, lastx);
 
 	auto iterx = detail::spiline::lower_bound(firstx, lastx, x);
 	size_t dist_x = hydra::thrust::distance(firstx, iterx);
 	size_t ix = dist_x > 0 ? dist_x - 1: 0;
 
-	const double X[4] = { firstx[ix-1], firstx[ix], firstx[ix+1], firstx[ix+2] };
+	const double X[4] = { firstx[ ix-1], firstx[ix], firstx[(ix+1)], firstx[ix+2] };
 
-	auto itery = detail::spiline::lower_bound(firsty, firsty + N, y);
+
+	//----------------------
+
+	size_t NY = hydra::thrust::distance(firsty, lasty);
+
+	auto itery = detail::spiline::lower_bound(firsty, firsty + NY, y);
 	size_t dist_y = hydra::thrust::distance(firsty, itery);
 	size_t iy = dist_y > 0 ? dist_y - 1: 0;
 
@@ -81,24 +86,27 @@ spiline2D(IteratorX firstx, IteratorX lastx, IteratorY firsty, IteratorM measure
 
 	double M[4][4] = {  };
 
-	unsigned m=0;
+
 	//get the relevant measurements
-	for( auto j= iy-1; j < iy+3; ++j ){
-		for( auto i=ix-1 ; i < ix+3; ++i){
+	for( unsigned j= iy>0?iy-1:0; j < iy+3; ++j ){
 
-			unsigned l = j*4 + i;
+		for( unsigned i=ix>0? ix-1:0 ; i < ix+3; ++i){
 
-			M[ j-iy + 1 ][ i - ix +1  ] = measurements[l];
+			unsigned l = j*NX + i;
+
+			M[ j-iy + 1 ][ i - ix +1  ] = measurements[l < NX*NY ? l : l-1];
+
 		}
 	}
 
-	double partial_spiline[4];
+	double partial_spiline[4]= {  };;
 
 	for(unsigned j=0; j<4; ++j){
-		partial_spiline[j] = detail::spiline::cubic_spiline(ix, N, X, M[j], x );
+		partial_spiline[j] = detail::spiline::cubic_spiline(ix, NX, X, M[j], x );
+
 	}
 
-	return detail::spiline::cubic_spiline(iy,N, Y, partial_spiline, y );
+	return detail::spiline::cubic_spiline(iy,NY, Y, partial_spiline, y );
 
 
 

@@ -61,9 +61,10 @@ public:
 
 	Spiline2DFunctor() = delete;
 
-	Spiline2DFunctor( IteratorX xfirst, IteratorX xlast, IteratorY yfirst, IteratorZ zfirst ):
+	Spiline2DFunctor( IteratorX xfirst, IteratorX xlast, IteratorY yfirst, IteratorY ylast, IteratorZ zfirst ):
 		BaseFunctor< Spiline2DFunctor<IteratorX, IteratorY, IteratorZ, ArgType1, ArgType2>, Signature, 0 >(),
-		fSize(hydra::thrust::distance(xfirst, xlast)),
+		fSizeX(hydra::thrust::distance(xfirst, xlast)),
+		fSizeY(hydra::thrust::distance(yfirst, ylast)),
 		fX(xfirst),
 		fY(yfirst),
 		fZ(zfirst)
@@ -72,7 +73,8 @@ public:
 	__hydra_host__ __hydra_device__
 	Spiline2DFunctor(Spiline2DFunctor< IteratorX, IteratorY, IteratorZ, ArgType1, ArgType2 > const& other ):
 	BaseFunctor<Spiline2DFunctor<IteratorX, IteratorY, IteratorZ, ArgType1, ArgType2>, Signature, 0>(other),
-	fSize(other.GetSize()),
+	fSizeX(other.GetSizeX()),
+	fSizeY(other.GetSizeY()),
 	fX(other.GetX()),
 	fY(other.GetY()),
 	fZ(other.GetZ())
@@ -86,7 +88,8 @@ public:
 
 		BaseFunctor<Spiline2DFunctor< IteratorX, IteratorY, IteratorZ, ArgType1, ArgType2  >, Signature, 0>::operator=(other);
 
-		fSize=other.GetSize();
+		fSizeX=other.GetSizeX();
+		fSizeY=other.GetSizeY();
 		fX=other.GetX();
 		fY=other.GetY();
 		fZ=other.Getz();
@@ -95,10 +98,16 @@ public:
 	}
 
 	__hydra_host__ __hydra_device__
-    inline size_t GetSize() const
+    inline size_t GetSizeX() const
 	{
-		return fSize;
+		return fSizeX;
 	}
+
+	__hydra_host__ __hydra_device__
+	inline size_t GetSizeY() const
+		{
+			return fSizeY;
+		}
 
 	__hydra_host__ __hydra_device__
 	inline IteratorX GetX() const
@@ -123,9 +132,10 @@ public:
 	inline double Evaluate(ArgType1 X, ArgType2 Y)  const {
 
 
-		IteratorX fXN = fX + fSize;
+		IteratorX fXN = fX + fSizeX;
+		IteratorY fYN = fY + fSizeY;
 
-		double r = spiline2D(fX,  fXN, fY, fZ,  X, Y);
+		double r = spiline2D(fX,  fXN, fY, fYN, fZ,  X, Y);
 
 		return  CHECK_VALUE( r, " r=%f ", r) ;
 	}
@@ -135,7 +145,8 @@ public:
 private:
 
 
-	size_t fSize;
+	size_t fSizeX;
+	size_t fSizeY;
 	IteratorX fX;
 	IteratorY fY;
 	IteratorZ fZ;
@@ -145,10 +156,10 @@ private:
 
 template<typename ArgTypeX, typename ArgTypeY, typename IteratorX, typename IteratorY,  typename IteratorZ>
 inline Spiline2DFunctor<  IteratorX, IteratorY, IteratorZ, ArgTypeX, ArgTypeY >
-make_spiline2D(IteratorX firstX, IteratorX lastX, IteratorY firstY,  IteratorZ firstZ )
+make_spiline2D(IteratorX firstX, IteratorX lastX, IteratorY firstY, IteratorY lastY, IteratorZ firstZ )
 {
 
-	return Spiline2DFunctor<  IteratorX, IteratorY, IteratorZ, ArgTypeX, ArgTypeY  >( firstX, lastX, firstY, firstZ );
+	return Spiline2DFunctor<  IteratorX, IteratorY, IteratorZ, ArgTypeX, ArgTypeY  >( firstX, lastX, firstY, lastY, firstZ );
 }
 
 template<typename ArgTypeX, typename ArgTypeY, typename IterableX, typename IterableY, typename IterableZ >
@@ -169,6 +180,7 @@ typedef  decltype(std::declval<IterableZ>().begin()) IteratorZ;
 			std::forward<IterableX>(x).begin(),
 			std::forward<IterableX>(x).end(),
 			std::forward<IterableY>(y).begin(),
+			std::forward<IterableY>(y).end(),
 			std::forward<IterableZ>(z).begin());
 }
 

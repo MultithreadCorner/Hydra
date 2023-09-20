@@ -95,7 +95,7 @@ public:
 
     inline void resize(size_t size){}
 
-	inline 	size_t size() { return hydra::distance(fBegin, fEnd);}
+	inline 	size_t size() const { return hydra::distance(fBegin, fEnd);}
 
 	inline Functor const& GetFunctor() const { return fFunctor;}
 

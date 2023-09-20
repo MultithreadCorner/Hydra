@@ -93,44 +93,44 @@ int main(int argv, char** argc)
 	hydra::Gaussian<double> gaussian(mean, sigma);
 
 
+    //set the x dimension of the grid
+	auto xaxis =  hydra::range(-10.0, 10.0, 50);
+	auto x_grid_size = xaxis.size();
 
-	auto xaxis =  hydra::range(-10.0, 10.0, 20);
-
-	auto yaxis =  hydra::range(-10.0, 10.0, 20);
+	//set the y dimension of the grid
+	auto yaxis =  hydra::range(-10.0, 10.0, 40);
+	auto y_grid_size = yaxis.size();
 
 	auto gaussian_2D = hydra::wrap_lambda(
-			[gaussian, xaxis, yaxis] __hydra_dual__ ( size_t index){
+			[gaussian, xiter=xaxis.begin(),x_grid_size, yiter=yaxis.begin(), y_grid_size ] __hydra_dual__ ( size_t index){
 
-		unsigned j = index/20;
-		unsigned i = index%20;
-        auto x = xaxis[i];
-        auto y = yaxis[j];
+		unsigned j = index/x_grid_size ;
+		unsigned i = index%x_grid_size ;
+        auto x = xiter[i];
+        auto y = yiter[j];
+        auto r = gaussian( x )*gaussian( y );
 
-		return gaussian( x ) * gaussian(y);
+		return r;
 	});
 
-	auto index = hydra::range(0, 400);
+	auto index = hydra::range(0, x_grid_size*y_grid_size);
 
 	auto ordinate  = index | gaussian_2D;
 
 	auto spiline2D = hydra::make_spiline2D<double, double>(xaxis, yaxis, ordinate );
 
+	//get random values for x and y
 	auto random_x = hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 157531, 10) ;
 	auto random_y = hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 456258, 10) ;
 
 
-    for(auto idx:index ){
+	for( auto x:random_x ){
+		for( auto y:random_y ){
 
-    	unsigned j = idx/20;
-    			unsigned i = idx%20;
-    	        auto x = xaxis[i];
-    	        auto y = yaxis[j];
-    		printf("x %f y %f spiline2D %f gaussian2D %f\n", x,y,
-    				spiline2D(x,y), gaussian(x)*gaussian(y));
-
-    }
-
-
+			printf(" x %f y %f spiline2D %f gaussian2D %f\n", x,y,
+					spiline2D(x,y), gaussian(x)*gaussian( y ));
+		}
+	}
 
 
 
