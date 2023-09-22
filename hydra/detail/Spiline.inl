@@ -78,7 +78,7 @@ inline Iterator lower_bound(Iterator first, Iterator last, const T& value)
 }
 
 template<typename T>
-inline typename std::enable_if< std::is_floating_point<T>::value, T>::type
+inline typename std::enable_if< std::is_floating_point<T>::value || std::is_convertible<T, double>::value, T>::type
 cubic_spiline(size_t i, size_t N,  T const (&X)[4] ,   T const (&Y)[4], T value ){
 
 	using hydra::thrust::min;
@@ -146,8 +146,8 @@ spiline(Iterator1 first, Iterator1 last,  Iterator2 measurements, Type value) {
 
 		size_t N = hydra::thrust::distance(first, last);
 
-		Type X[4] = {first[ (i>0)?i-1:i ], first[i], first[i+1], first[i+2]};
-		Type Y[4] = {measurements[ (i>0)?i-1:i ], measurements[i],  measurements[i+1], measurements[i+2]};
+		double X[4] = {first[ (i>0)?i-1:i ], first[i], first[i+1], first[i+2]};
+		double Y[4] = {measurements[ (i>0)?i-1:i ], measurements[i],  measurements[i+1], measurements[i+2]};
 
 		//--------------------
 /*
@@ -194,7 +194,7 @@ spiline(Iterator1 first, Iterator1 last,  Iterator2 measurements, Type value) {
 
 		return X*( X*(a_i*X + b_i) + c_i) + y_i;
 		*/
-		return detail::spiline::cubic_spiline(i, N, X, Y, value);
+		return detail::spiline::cubic_spiline(i, N, X, Y, double(value));
 	}
 
 template<typename Iterable1, typename Iterable2,typename Type>
