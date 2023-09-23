@@ -35,7 +35,7 @@
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
-#include <hydra/Spiline.h>
+#include <hydra/Spline.h>
 #include <hydra/DenseHistogram.h>
 #include <hydra/SparseHistogram.h>
 #include <hydra/Placeholders.h>
@@ -70,36 +70,36 @@ correspond to a second-order polynomial.
 Reference: M. Steffen, Astron. Astrophys. 239, 443—450 (1990).
 */
 template<typename Iterator1, typename Iterator2,typename ArgType, typename Signature=double(ArgType)>
-class SpilineFunctor: public BaseFunctor<SpilineFunctor<Iterator1, Iterator2, ArgType>, Signature, 0>
+class SplineFunctor: public BaseFunctor<SplineFunctor<Iterator1, Iterator2, ArgType>, Signature, 0>
 {
 
 
 public:
 
-	SpilineFunctor() = delete;
+	SplineFunctor() = delete;
 
-	SpilineFunctor( Iterator1 first, Iterator1 last, Iterator2 output ):
-		BaseFunctor<SpilineFunctor<Iterator1, Iterator2, ArgType>, Signature, 0>(),
+	SplineFunctor( Iterator1 first, Iterator1 last, Iterator2 output ):
+		BaseFunctor<SplineFunctor<Iterator1, Iterator2, ArgType>, Signature, 0>(),
 		fSize(hydra::thrust::distance(first, last)),
 		fX(first),
 		fY(output)
 		{}
 
 	__hydra_host__ __hydra_device__
-	SpilineFunctor(SpilineFunctor<Iterator1, Iterator2, ArgType> const& other ):
-	BaseFunctor<SpilineFunctor<Iterator1, Iterator2, ArgType>, Signature, 0>(other),
+	SplineFunctor(SplineFunctor<Iterator1, Iterator2, ArgType> const& other ):
+	BaseFunctor<SplineFunctor<Iterator1, Iterator2, ArgType>, Signature, 0>(other),
 	fSize(other.GetSize()),
 	fX(other.GetX()),
 	fY(other.GetY())
 	{ }
 
 	__hydra_host__ __hydra_device__ inline
-	SpilineFunctor<Iterator1, Iterator2, ArgType>&
-	operator=(SpilineFunctor<Iterator1, Iterator2, ArgType> const& other )
+	SplineFunctor<Iterator1, Iterator2, ArgType>&
+	operator=(SplineFunctor<Iterator1, Iterator2, ArgType> const& other )
 	{
 		if(this == &other) return *this;
 
-		BaseFunctor<SpilineFunctor<Iterator1, Iterator2,  ArgType>, Signature, 0>::operator=(other);
+		BaseFunctor<SplineFunctor<Iterator1, Iterator2,  ArgType>, Signature, 0>::operator=(other);
 
 		fSize=other.GetSize();
 		fX=other.GetX();
@@ -133,7 +133,7 @@ public:
 
 		Iterator1 fXN = fX + fSize;
 
-		double r = spiline(fX,  fXN, fY,  X);
+		double r = spline(fX,  fXN, fY,  X);
 
 		return  CHECK_VALUE( r, " r=%f ", r) ;
 	}
@@ -150,26 +150,26 @@ private:
 
 
 template<typename ArgType, typename Iterator1, typename Iterator2>
-inline SpilineFunctor<Iterator1, Iterator2, ArgType>
-make_spiline(Iterator1 firstX, Iterator1 lastX, Iterator2 firstY )
+inline SplineFunctor<Iterator1, Iterator2, ArgType>
+make_spline(Iterator1 firstX, Iterator1 lastX, Iterator2 firstY )
 {
 
-	return SpilineFunctor<Iterator1, Iterator2, ArgType>( firstX, lastX, firstY);
+	return SplineFunctor<Iterator1, Iterator2, ArgType>( firstX, lastX, firstY);
 }
 
 template<typename ArgType, typename Iterable1, typename Iterable2 >
 inline typename std::enable_if<
           hydra::detail::is_iterable<Iterable1>::value &&
           hydra::detail::is_iterable<Iterable2>::value,
-          SpilineFunctor< decltype(std::declval<Iterable1>().begin()),
+          SplineFunctor< decltype(std::declval<Iterable1>().begin()),
                           decltype(std::declval<Iterable2>().begin()), ArgType> >::type
-make_spiline(Iterable1&& x, Iterable2&& y)
+make_spline(Iterable1&& x, Iterable2&& y)
 {
 
 typedef  decltype(std::declval<Iterable1>().begin()) Iterator1;
 typedef  decltype(std::declval<Iterable2>().begin()) Iterator2;
 
-	return SpilineFunctor<Iterator1, Iterator2, ArgType>(
+	return SplineFunctor<Iterator1, Iterator2, ArgType>(
 			std::forward<Iterable1>(x).begin(),
 			std::forward<Iterable1>(x).end(),
 			std::forward<Iterable2>(y).begin());
@@ -177,16 +177,16 @@ typedef  decltype(std::declval<Iterable2>().begin()) Iterator2;
 
 
 template<typename T, hydra::detail::Backend BACKEND>
-inline SpilineFunctor<
+inline SplineFunctor<
 decltype( std::declval<	DenseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional > >().GetBinsCenters().begin()),
 decltype(std::declval< DenseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional > >().GetBinsContents().begin()), T>
-make_spiline( DenseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional >  const& histogram )
+make_spline( DenseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional >  const& histogram )
 {
 
 typedef  decltype(std::declval<DenseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional > >().GetBinsCenters().begin()) Iterator1;
 typedef  decltype(std::declval<DenseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional > >().GetBinsContents().begin()) Iterator2;
 
-	return SpilineFunctor<Iterator1, Iterator2, T>(
+	return SplineFunctor<Iterator1, Iterator2, T>(
 			histogram.GetBinsCenters().begin(),
 			histogram.GetBinsCenters().end(),
 			histogram.GetBinsContents().begin());
@@ -194,15 +194,15 @@ typedef  decltype(std::declval<DenseHistogram<T, 1,  hydra::detail::BackendPolic
 
 
 template<typename T, hydra::detail::Backend BACKEND >
-inline SpilineFunctor< decltype(std::declval<SparseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional > >().GetBinsCenters().begin()),
+inline SplineFunctor< decltype(std::declval<SparseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional > >().GetBinsCenters().begin()),
                        decltype(std::declval<SparseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional > >().GetBinsContents().begin()), T>
-make_spiline( SparseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional > const& histogram )
+make_spline( SparseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional > const& histogram )
 {
 
 typedef  decltype(std::declval< SparseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional >>().GetBinsCenters().begin()) Iterator1;
 typedef  decltype(std::declval< SparseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional >>().GetBinsContents().begin()) Iterator2;
 
-	return SpilineFunctor<Iterator1, Iterator2, T>(
+	return SplineFunctor<Iterator1, Iterator2, T>(
 			histogram.GetBinsCenters().begin(),
 			histogram.GetBinsCenters().end(),
 			histogram.GetBinsContents().begin());

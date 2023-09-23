@@ -317,8 +317,8 @@ This is the last release from series 2.x.x.
 
 1. Interfaces to FFTW and CuFFT for performing 1D real-real complex-real and real-complex FFT on CPU and GPU 
 2. FFT based convolution on CPU and GPU for arbitrary pair of functors: `hydra::convolute` and `hydra::ConvolutionFunctor`
-3. Cubic spiline reimplementation for deal with abitrary large datasets: `hydra::spiline` and `hydra::SpilineFunctor`
-4. new examples showing how to deploy convolution in fits, spilines and FFT.
+3. Cubic spline reimplementation for deal with abitrary large datasets: `hydra::spline` and `hydra::SpilineFunctor`
+4. new examples showing how to deploy convolution in fits, splines and FFT.
 5. Many bug fixes across the tree...
 
 

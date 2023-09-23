@@ -20,10 +20,10 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * spiline_interpolation.cu
+ * spline_interpolation.cu
  *
  *  Created on: 23/12/2018
  *      Author: Antonio Augusto Alves Junior
  */
 
-#include<examples/misc/spiline_interpolation.inl>
+#include<examples/misc/spline_interpolation.inl>

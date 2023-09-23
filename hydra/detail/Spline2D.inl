@@ -42,7 +42,7 @@
 namespace hydra {
 
 /**
- * @fn  spiline2D(IteratorX, IteratorX, IteratorX, IteratorM, Type, Type)
+ * @fn  spline2D(IteratorX, IteratorX, IteratorX, IteratorM, Type, Type)
  * @brief
  *
  * @param firstx
@@ -53,21 +53,22 @@ namespace hydra {
  * @param y
  * @return
  */
-template<typename IteratorX, typename IteratorY, typename IteratorM, typename Type>
+template<typename IteratorX, typename IteratorY, typename IteratorM, typename TypeX, typename TypeY >
 __hydra_host__ __hydra_device__
 inline typename std::enable_if<
-	std::is_floating_point<typename hydra::thrust::iterator_traits<IteratorX>::value_type >::value &&
-	std::is_floating_point<typename hydra::thrust::iterator_traits<IteratorY>::value_type >::value &&
-	std::is_floating_point<typename hydra::thrust::iterator_traits<IteratorM>::value_type >::value
-, Type>::type
-spiline2D(IteratorX firstx, IteratorX lastx, IteratorY firsty, IteratorY lasty, IteratorM measurements, Type x, Type y)
+	std::is_convertible<typename hydra::thrust::iterator_traits<IteratorX>::value_type, double >::value &&
+	std::is_convertible<typename hydra::thrust::iterator_traits<IteratorY>::value_type, double >::value &&
+	std::is_convertible<typename hydra::thrust::iterator_traits<IteratorM>::value_type, double >::value &&
+	std::is_convertible<TypeX, double >::value &&
+	std::is_convertible<TypeY, double >::value, double>::type
+spline2D(IteratorX firstx, IteratorX lastx, IteratorY firsty, IteratorY lasty, IteratorM measurements, TypeX x, TypeY y)
 {
 	//get the neighbors on x and y-direction first
 	using hydra::thrust::min;
 
 	size_t NX = hydra::thrust::distance(firstx, lastx);
 
-	auto iterx = detail::spiline::lower_bound(firstx, lastx, x);
+	auto iterx = detail::spline::lower_bound(firstx, lastx, x);
 	size_t dist_x = hydra::thrust::distance(firstx, iterx);
 	size_t ix = dist_x > 0 ? dist_x - 1: 0;
 
@@ -78,7 +79,7 @@ spiline2D(IteratorX firstx, IteratorX lastx, IteratorY firsty, IteratorY lasty, 
 
 	size_t NY = hydra::thrust::distance(firsty, lasty);
 
-	auto itery = detail::spiline::lower_bound(firsty, firsty + NY, y);
+	auto itery = detail::spline::lower_bound(firsty, firsty + NY, y);
 	size_t dist_y = hydra::thrust::distance(firsty, itery);
 	size_t iy = dist_y > 0 ? dist_y - 1: 0;
 
@@ -99,17 +100,38 @@ spiline2D(IteratorX firstx, IteratorX lastx, IteratorY firsty, IteratorY lasty, 
 		}
 	}
 
-	double partial_spiline[4]= {  };;
+	double partial_spline[4]= {  };;
 
 	for(unsigned j=0; j<4; ++j){
-		partial_spiline[j] = detail::spiline::cubic_spiline(ix, NX, X, M[j], x );
+		partial_spline[j] = detail::spline::cubic_spline<double>(ix, NX, X, M[j], x );
 
 	}
 
-	return detail::spiline::cubic_spiline(iy,NY, Y, partial_spiline, y );
+	return detail::spline::cubic_spline<double>(iy,NY, Y, partial_spline, y );
+
+}
+
+template<typename IterableX, typename IterableY,typename IterableM, typename TypeX,typename TypeY >
+__hydra_host__ __hydra_device__
+inline typename std::enable_if<
+					   hydra::detail::is_iterable<IterableX>::value &&
+                       hydra::detail::is_iterable<IterableY>::value &&
+                       hydra::detail::is_iterable<IterableM>::value &&
+                       std::is_convertible<typename IterableX::value_type, double >::value &&
+                       std::is_convertible<typename IterableY::value_type, double >::value &&
+					   std::is_convertible<typename IterableM::value_type, double >::value &&
+					   std::is_convertible<TypeX, double >::value &&
+					   std::is_convertible<TypeY, double >::value ,
+                       double >::type
+spline2D(IterableX&& abscissa_x,  IterableY&& abscissa_y, IterableM measurements, TypeX x, TypeX y){
 
 
-
+	return spline2D(
+			std::forward<IterableX>(abscissa_x).begin(),
+			std::forward<IterableX>(abscissa_x).end(),
+			std::forward<IterableY>(abscissa_y).begin(),
+			std::forward<IterableY>(abscissa_y).end(),
+			std::forward<IterableM>(measurements).begin() , x,y);
 }
 
 } // namespace hydra

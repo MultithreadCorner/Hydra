@@ -52,7 +52,7 @@ Currently Hydra implementation includes:
 * Multidimensional sparse and dense histogramming of large samples. 
 * Object-based interface to FFTW and CuFFT for performing Fast Fourier Transform in CPU and GPU.
 * Fitting models containing FFT based one-dimensional convolution components with arbitrary signal and kernel shapes.
-* Booststrap and real cubic spiline for datasets on CPU and GPU.
+* Booststrap and real cubic spline (1D, 2D and 3D)for datasets on CPU and GPU.
 * Sobol low discrepance sequences up to 3667 dimensions.
 * Seven fast and reliable counter based pseudo-random number generators.  
 

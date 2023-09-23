@@ -20,10 +20,10 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * spiline2D_interpolation.cpp
+ * spline2D_interpolation.cpp
  *
  *  Created on: 18/09/2023
  *      Author: Antonio Augusto Alves Junior
  */
 
-#include<examples/misc/spiline2D_interpolation.inl>
+#include<examples/misc/spline2D_interpolation.inl>

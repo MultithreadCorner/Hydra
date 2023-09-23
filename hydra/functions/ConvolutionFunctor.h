@@ -36,7 +36,7 @@
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 #include <hydra/Range.h>
-#include <hydra/Spiline.h>
+#include <hydra/Spline.h>
 #include <hydra/Convolution.h>
 #include <hydra/detail/external/hydra_thrust/transform_reduce.h>
 #include <hydra/detail/FFTPolicy.h>
@@ -304,14 +304,14 @@ typedef typename detail::convolution::_traits<hydra::thrust::tuple<Functor, Kern
 
 
 #ifdef __CUDA_ARCH__
-		if( fInterpolate ) return spiline( fXMin, fXMax, fDeviceData, X);
+		if( fInterpolate ) return spline( fXMin, fXMax, fDeviceData, X);
 		else{
 
 			unsigned i = fNSamples*(X-fMin)/(fMax-fMin);
 			return fDeviceData[i];
 		}
 #else
-		if( fInterpolate ) return spiline( fXMin, fXMax, fHostData, X);
+		if( fInterpolate ) return spline( fXMin, fXMax, fHostData, X);
 			else{
 
 				unsigned i = fNSamples*(X-fMin)/(fMax-fMin);

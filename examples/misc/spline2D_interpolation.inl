@@ -20,14 +20,14 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * spiline_interpolation.inl
+ * spline2D_interpolation.inl
  *
- *  Created on: 23/12/2018
+ *  Created on: 17/09/2023
  *      Author: Antonio Augusto Alves Junior
  */
 
-#ifndef SPILINE_INTERPOLATION_INL_
-#define SPILINE_INTERPOLATION_INL_
+#ifndef SPILINE2D_INTERPOLATION_INL_
+#define SPILINE2D_INTERPOLATION_INL_
 
 
 #include <iostream>
@@ -44,7 +44,7 @@
 #include <hydra/Lambda.h>
 #include <hydra/functions/Gaussian.h>
 #include <hydra/functions/UniformShape.h>
-#include <hydra/functions/SpilineFunctor.h>
+#include <hydra/functions/Spline2DFunctor.h>
 #include <hydra/Range.h>
 #include <hydra/Algorithm.h>
 /*-------------------------------------
@@ -92,16 +92,47 @@ int main(int argv, char** argc)
 	//gaussian function evaluating on argument zero
 	hydra::Gaussian<double> gaussian(mean, sigma);
 
-	auto abscissae = hydra::device::vector<double>(20);
-	hydra::copy( hydra::range(-10, 10), abscissae );
 
-	auto ordinate  = abscissae | gaussian;
+    //set the x dimension of the grid
+	auto xaxis =  hydra::range(-10.0, 10.0, 50);
+	auto x_grid_size = xaxis.size();
+	auto xiter = xaxis.begin();
 
-	auto spiline = hydra::make_spiline<double>(abscissae, ordinate );
+	//set the y dimension of the grid
+	auto yaxis =  hydra::range(-10.0, 10.0, 40);
+	auto y_grid_size = yaxis.size();
+        auto yiter = yaxis.begin();
 
-    hydra::for_each( hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 15753, 100) , [ spiline, gaussian]__hydra_dual__(double arg){
-    	printf("arg %f spiline %f gaussian %f\n", arg, spiline(arg), gaussian(arg));
-    } );
+	auto gaussian_2D = hydra::wrap_lambda(
+			[gaussian, xiter,x_grid_size, yiter, y_grid_size ] __hydra_dual__ ( size_t index){
+
+		unsigned j = index/x_grid_size ;
+		unsigned i = index%x_grid_size ;
+        auto x = xiter[i];
+        auto y = yiter[j];
+        auto r = gaussian( x )*gaussian( y );
+
+		return r;
+	});
+
+	auto index = hydra::range(0, x_grid_size*y_grid_size);
+
+	auto ordinate  = index | gaussian_2D;
+
+	auto spline2D = hydra::make_spline2D<double, double>(xaxis, yaxis, ordinate );
+
+	//get random values for x and y
+	auto random_x = hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 157531, 10) ;
+	auto random_y = hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 456258, 10) ;
+
+
+	for( auto x:random_x ){
+		for( auto y:random_y ){
+
+			printf(" x %f y %f spline2D %f gaussian2D %f\n", x,y,
+					spline2D(x,y), gaussian(x)*gaussian( y ));
+		}
+	}
 
 
 
