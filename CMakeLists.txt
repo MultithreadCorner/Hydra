@@ -17,9 +17,9 @@ SET(CMAKE_VERBOSE_MAKEFILE  ON)
 
 #check if compilers are C++17 compliant
 include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("--std=c++17" COMPILER_SUPPORTS_CXX17)
+CHECK_CXX_COMPILER_FLAG("--std=c++20" COMPILER_SUPPORTS_CXX17)
 if(NOT COMPILER_SUPPORTS_CXX17)
- message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++17 support. Please use a different C++ compiler.")
+ message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++20 support. Please use a different C++ compiler.")
 endif()
 
 #compiler flags
@@ -31,7 +31,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
  MESSAGE(STATUS "Setting GCC flags")
- set(CMAKE_CXX_FLAGS " --std=c++17 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
+ set(CMAKE_CXX_FLAGS " --std=c++20 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
 
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
 
@@ -56,7 +56,7 @@ endif(CMAKE_CUDA_COMPILER)
 
 if(CMAKE_CUDA_COMPILER)
 
-set(CMAKE_CUDA_STANDARD 17)
+set(CMAKE_CUDA_STANDARD 20)
 set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
 
@@ -65,7 +65,7 @@ find_package(CUDAToolkit)
 if(CUDAToolkit_FOUND)
 
 set( CUDA_FOUND TRUE)
-list(APPEND HYDRA_CUDA_FLAGS "--std=c++17")
+list(APPEND HYDRA_CUDA_FLAGS "--std=c++20")
 list(APPEND HYDRA_CUDA_FLAGS "--gpu-architecture=native")
 list(APPEND HYDRA_CUDA_FLAGS "-extended-lambda")
 list(APPEND HYDRA_CUDA_FLAGS "-split-compile 0")

@@ -139,9 +139,11 @@ inline typename std::enable_if<
                        double >::type
 spline(IterableX&& abcissa_x,  IterableY&& abcissa_y, IterableM measurements, TypeX x, TypeX y);
 
+
+
 } // namespace hydra
 
 #include <hydra/detail/Spline.inl>
 #include <hydra/detail/Spline2D.inl>
-
+#include <hydra/detail/Spline3D.inl>
 #endif /* SPILINE_H_ */

@@ -77,7 +77,7 @@ inline Iterator lower_bound(Iterator first, Iterator last, const T& value)
 	return first;
 }
 
-template<typename T>
+template<typename T=double>
 inline typename std::enable_if< std::is_convertible<T, double>::value, T>::type
 __hydra_host__ __hydra_device__
 cubic_spline(size_t i, size_t N,  T const (&X)[4] ,   T const (&Y)[4], T value ){
