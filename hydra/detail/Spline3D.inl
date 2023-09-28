@@ -55,7 +55,7 @@ inline typename std::enable_if<
 spline3D(IteratorX firstx, IteratorX lastx,
 		 IteratorY firsty, IteratorY lasty,
 		 IteratorY firstz, IteratorY lastz,
-		 IteratorM measurements, TypeX x, TypeY y)
+		 IteratorM measurements, TypeX x, TypeY y, TypeZ z)
 {
 	//get the neighbors on x and y-direction first
 	using hydra::thrust::min;
@@ -111,7 +111,7 @@ spline3D(IteratorX firstx, IteratorX lastx,
 	double partial_spline[4]= {  };;
 
 	for(unsigned l=0; l<4; ++l){
-		double* slice = reinterpret_cast<double(&)[16]>(&M[l]);
+		double* slice = reinterpret_cast<double(&)[16]>(M[l]);
 
 		partial_spline[l] = spline<double>( X, X +4, Y, Y+4,  slice, x, y );
 
