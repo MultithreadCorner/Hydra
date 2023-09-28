@@ -54,7 +54,7 @@ inline typename std::enable_if<
 	std::is_convertible<TypeZ, double >::value, double>::type
 spline3D(IteratorX firstx, IteratorX lastx,
 		 IteratorY firsty, IteratorY lasty,
-		 IteratorY firstz, IteratorY lastz,
+		 IteratorZ firstz, IteratorZ lastz,
 		 IteratorM measurements, TypeX x, TypeY y, TypeZ z)
 {
 	//get the neighbors on x and y-direction first
@@ -102,7 +102,8 @@ spline3D(IteratorX firstx, IteratorX lastx,
 
 				unsigned m = (l*NY + j)*NX + i;
 
-				M[ l-iz + 1 ][ j-iy + 1 ][ i - ix +1  ] = measurements[m < NZ*NX*NY ? m : -1];
+				M[ l-iz + 1 ][ j-iy + 1 ][ i - ix +1  ] = measurements[m ];
+				std::cout << "(i, j, l ) = (" << i <<"," << j <<", " << l << ") ; " << M[ l-iz + 1 ][ j-iy + 1 ][ i - ix +1  ] << std::endl;
 
 			}
 		}
@@ -113,7 +114,8 @@ spline3D(IteratorX firstx, IteratorX lastx,
 	for(unsigned l=0; l<4; ++l){
 		double* slice = reinterpret_cast<double(&)[16]>(M[l]);
 
-		partial_spline[l] = spline<double>( X, X +4, Y, Y+4,  slice, x, y );
+		partial_spline[l] = spline2D( X, X +4, Y, Y+4,  slice, x, y );
+std::cout << "l " << l << " " << partial_spline[l] << std::endl;
 
 	}
 
@@ -144,8 +146,8 @@ spline3D(IterableX&& abscissa_x,  IterableY&& abscissa_y, IterableZ&& abscissa_z
 			std::forward<IterableX>(abscissa_x).end(),
 			std::forward<IterableY>(abscissa_y).begin(),
 			std::forward<IterableY>(abscissa_y).end(),
-			std::forward<IterableY>(abscissa_z).begin(),
-			std::forward<IterableY>(abscissa_z).end(),
+			std::forward<IterableZ>(abscissa_z).begin(),
+			std::forward<IterableZ>(abscissa_z).end(),
 			std::forward<IterableM>(measurements).begin() , x,y,z);
 }
 

@@ -109,16 +109,16 @@ int main(int argv, char** argc)
 
 
 
-		auto gaussian_2D = hydra::wrap_lambda(
+		auto gaussian_3D = hydra::wrap_lambda(
 				[gaussian, xiter,x_grid_size, yiter, y_grid_size, ziter, z_grid_size ] __hydra_dual__ ( size_t index){
 
-			unsigned l = index/x_grid_size*y_grid_size ;
-			unsigned s = index - (l * x_grid_size*y_grid_size);
-			unsigned j = s/x_grid_size ;
-			unsigned i = s%x_grid_size ;
+			unsigned l = index%z_grid_size ;
+			unsigned j = (index/z_grid_size)%y_grid_size ;
+			unsigned i = index/(x_grid_size*z_grid_size) ;
 	        auto x = xiter[i];
 	        auto y = yiter[j];
 	        auto z = ziter[l];
+std::cout << " i,j,l -> " << i <<", " <<j <<", " <<l << std::endl;
 	        auto r = gaussian( x )*gaussian( y )*gaussian( z );
 
 			return r;
@@ -126,7 +126,7 @@ int main(int argv, char** argc)
 
 		auto index = hydra::range(0, x_grid_size*y_grid_size*z_grid_size);
 
-		auto ordinate  = index | gaussian_2D;
+		auto ordinate  = index | gaussian_3D;
 
 		auto spline3D = hydra::make_spline3D<double, double, double>(xaxis, yaxis, zaxis, ordinate );
 

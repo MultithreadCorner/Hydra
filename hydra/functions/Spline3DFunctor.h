@@ -170,17 +170,17 @@ private:
 	IteratorX fX;
 	IteratorY fY;
 	IteratorZ fZ;
-	IteratorZ fM;
+	IteratorM fM;
 
 };
 
 
 template<typename ArgTypeX, typename ArgTypeY, typename ArgTypeZ, typename IteratorX, typename IteratorY, typename IteratorZ, typename IteratorM>
 inline Spline3DFunctor<  IteratorX, IteratorY, IteratorZ, IteratorM, ArgTypeX, ArgTypeY, ArgTypeZ  >
-make_spline3D(IteratorX firstX, IteratorX lastX, IteratorY firstY, IteratorY lastY, IteratorZ firstZ, IteratorZ lastZ,  IteratorM measurements )
+make_spline3D(IteratorX firstX, IteratorX lastX, IteratorY firstY, IteratorY lastY, IteratorZ firstZ, IteratorZ lastZ,  IteratorM measurements_first )
 {
 
-	return Spline3DFunctor<  IteratorX, IteratorY, IteratorZ, IteratorM, ArgTypeX, ArgTypeY, ArgTypeZ >( firstX, lastX, firstY, lastY, firstZ, lastZ, firstM  );
+	return Spline3DFunctor<  IteratorX, IteratorY, IteratorZ, IteratorM, ArgTypeX, ArgTypeY, ArgTypeZ >( firstX, lastX, firstY, lastY, firstZ, lastZ,  measurements_first );
 }
 
 template<typename ArgTypeX, typename ArgTypeY,typename ArgTypeZ, typename IterableX, typename IterableY, typename IterableZ, typename IterableM >
@@ -191,7 +191,7 @@ inline typename std::enable_if<
 		  hydra::detail::is_iterable<IterableM>::value,
           Spline3DFunctor< decltype(std::declval<IterableX>().begin()) ,decltype(std::declval<IterableY>().begin()),
                           decltype(std::declval<IterableZ>().begin()), decltype(std::declval<IterableM>().begin()), ArgTypeX, ArgTypeY, ArgTypeZ> >::type
-make_spline3D(IterableX&& x, IterableY&& y, IterableZ&& z, IterableM&& m )
+make_spline3D(IterableX&& x, IterableY&& y, IterableZ&& z, IterableM&& measurements)
 {
 
 typedef  decltype(std::declval<IterableX>().begin()) IteratorX;
@@ -206,7 +206,7 @@ typedef  decltype(std::declval<IterableM>().begin()) IteratorM;
 			std::forward<IterableY>(y).end(),
 			std::forward<IterableZ>(z).begin(),
 			std::forward<IterableZ>(z).end(),
-			std::forward<IterableM>(m).begin()
+			std::forward<IterableM>(measurements).begin()
 	);
 }
 
