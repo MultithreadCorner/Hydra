@@ -103,7 +103,7 @@ spline3D(IteratorX firstx, IteratorX lastx,
 				unsigned m = (l*NY + j)*NX + i;
 
 				M[ l-iz + 1 ][ j-iy + 1 ][ i - ix +1  ] = measurements[m ];
-				std::cout << "(i, j, l ) = (" << i <<"," << j <<", " << l << ") ; " << M[ l-iz + 1 ][ j-iy + 1 ][ i - ix +1  ] << std::endl;
+				//std::cout << "(i, j, l ) = (" << i <<"," << j <<", " << l << ") ; " << M[ l-iz + 1 ][ j-iy + 1 ][ i - ix +1  ] << std::endl;
 
 			}
 		}
@@ -115,7 +115,7 @@ spline3D(IteratorX firstx, IteratorX lastx,
 		double* slice = reinterpret_cast<double(&)[16]>(M[l]);
 
 		partial_spline[l] = spline2D( X, X +4, Y, Y+4,  slice, x, y );
-std::cout << "l " << l << " " << partial_spline[l] << std::endl;
+        //std::cout << "l " << l << " " << partial_spline[l] << std::endl;
 
 	}
 

@@ -112,13 +112,13 @@ int main(int argv, char** argc)
 		auto gaussian_3D = hydra::wrap_lambda(
 				[gaussian, xiter,x_grid_size, yiter, y_grid_size, ziter, z_grid_size ] __hydra_dual__ ( size_t index){
 
-			unsigned l = index%z_grid_size ;
-			unsigned j = (index/z_grid_size)%y_grid_size ;
-			unsigned i = index/(x_grid_size*z_grid_size) ;
+			unsigned i = index%x_grid_size ;
+			unsigned j = (index/x_grid_size)%y_grid_size ;
+			unsigned k = index/(x_grid_size*y_grid_size) ;
 	        auto x = xiter[i];
 	        auto y = yiter[j];
-	        auto z = ziter[l];
-std::cout << " i,j,l -> " << i <<", " <<j <<", " <<l << std::endl;
+	        auto z = ziter[k];
+            //std::cout << " i,j,k -> " << i <<", " <<j <<", " <<k << std::endl;
 	        auto r = gaussian( x )*gaussian( y )*gaussian( z );
 
 			return r;
