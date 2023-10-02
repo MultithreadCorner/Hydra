@@ -210,39 +210,57 @@ typedef  decltype(std::declval<IterableM>().begin()) IteratorM;
 	);
 }
 
-/*
+
 template<typename T, hydra::detail::Backend BACKEND>
-inline SpilineFunctor<
-decltype( std::declval<	DenseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional > >().GetBinsCenters().begin()),
-decltype(std::declval< DenseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional > >().GetBinsContents().begin()), T>
-make_spline( DenseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional >  const& histogram )
+inline typename std::enable_if< std::is_convertible<T, double>::value,
+Spline3DFunctor<
+decltype(std::declval<DenseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_0).begin()),
+decltype(std::declval<DenseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_1).begin()),
+decltype(std::declval<DenseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_2).begin()),
+decltype(std::declval<DenseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional > >().GetBinsContents().begin()), double, double, double>>::type
+make_spline( DenseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional >  const& histogram )
 {
 
-typedef  decltype(std::declval<DenseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional > >().GetBinsCenters().begin()) Iterator1;
-typedef  decltype(std::declval<DenseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional > >().GetBinsContents().begin()) Iterator2;
+typedef  DenseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional > histogram_type;
 
-	return SpilineFunctor<Iterator1, Iterator2, T>(
-			histogram.GetBinsCenters().begin(),
-			histogram.GetBinsCenters().end(),
+typedef  decltype(std::declval<histogram_type>().GetBinsCenters().begin(placeholders::_0)) IteratorX;
+typedef  decltype(std::declval<histogram_type>().GetBinsCenters().begin(placeholders::_1)) IteratorY;
+typedef  decltype(std::declval<histogram_type>().GetBinsCenters().begin(placeholders::_2)) IteratorZ;
+typedef  decltype(std::declval<histogram_type>().GetBinsContents().begin()) IteratorM;
+
+	return Spline3DFunctor<IteratorX, IteratorY, IteratorZ, IteratorM, double, double, double>(
+			histogram.GetBinsCenters(placeholders::_0).begin(),histogram.GetBinsCenters(placeholders::_0).end(),
+			histogram.GetBinsCenters(placeholders::_1).begin(),histogram.GetBinsCenters(placeholders::_1).end(),
+			histogram.GetBinsCenters(placeholders::_2).begin(),histogram.GetBinsCenters(placeholders::_2).end(),
 			histogram.GetBinsContents().begin());
 }
 
 
-template<typename T, hydra::detail::Backend BACKEND >
-inline SpilineFunctor< decltype(std::declval<SparseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional > >().GetBinsCenters().begin()),
-                       decltype(std::declval<SparseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional > >().GetBinsContents().begin()), T>
-make_spline( SparseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional > const& histogram )
+
+template<typename T, hydra::detail::Backend BACKEND>
+inline typename std::enable_if< std::is_convertible<T, double>::value,
+Spline3DFunctor<
+decltype(std::declval<SparseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_0).begin()),
+decltype(std::declval<SparseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_1).begin()),
+decltype(std::declval<SparseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_2).begin()),
+decltype(std::declval<SparseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional > >().GetBinsContents().begin()), double, double, double>>::type
+make_spline( SparseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional >  const& histogram )
 {
 
-typedef  decltype(std::declval< SparseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional >>().GetBinsCenters().begin()) Iterator1;
-typedef  decltype(std::declval< SparseHistogram<T, 1,  hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional >>().GetBinsContents().begin()) Iterator2;
+typedef  SparseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional > histogram_type;
 
-	return SpilineFunctor<Iterator1, Iterator2, T>(
-			histogram.GetBinsCenters().begin(),
-			histogram.GetBinsCenters().end(),
-			histogram.GetBinsContents().begin());
+typedef  decltype(std::declval<histogram_type>().GetBinsCenters().begin(placeholders::_0)) IteratorX;
+typedef  decltype(std::declval<histogram_type>().GetBinsCenters().begin(placeholders::_1)) IteratorY;
+typedef  decltype(std::declval<histogram_type>().GetBinsCenters().begin(placeholders::_2)) IteratorZ;
+typedef  decltype(std::declval<histogram_type>().GetBinsContents().begin()) IteratorM;
+
+	return Spline3DFunctor<IteratorX, IteratorY, IteratorZ, IteratorM, double, double, double>(
+			histogram.GetBinsCenters(placeholders::_0).begin(),histogram.GetBinsCenters(placeholders::_0).end(),
+			histogram.GetBinsCenters(placeholders::_1).begin(),histogram.GetBinsCenters(placeholders::_1).end(),
+			histogram.GetBinsCenters(placeholders::_2).begin(),histogram.GetBinsCenters(placeholders::_2).end(),
+						histogram.GetBinsContents().begin());
 }
-*/
+
 
 }  // namespace hydra
 

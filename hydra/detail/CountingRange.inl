@@ -57,6 +57,19 @@ struct Shift
 	fDelta(other.fDelta)
 	{}
 
+	__hydra_host__ __hydra_device__
+	inline Shift<T>& operator=( Shift<T> const& other)
+	{
+
+		if(this == &other) return *this;
+
+		fMin = other.fMin;
+		fDelta = other.fDelta;
+		return *this ;
+	}
+
+
+
 	inline  return_type operator()(unsigned bin){
 		return fMin + bin*fDelta;
 	}

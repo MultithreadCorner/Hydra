@@ -105,13 +105,15 @@ struct GetBinCenter: public hydra::thrust::unary_function<size_t, typename tuple
 
 	//end of recursion
 	template<size_t I>
-	__hydra_host__ __hydra_device__ inline typename std::enable_if< (I==N), void  >::type
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if< (I==N), void  >::type
 	get_indexes(size_t,  size_t (&)[N])
 	{}
 
 	//begin of the recursion
 	template<size_t I=0>
-	__hydra_host__ __hydra_device__ inline typename std::enable_if< (I<N), void  >::type
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if< (I<N), void  >::type
 	get_indexes(size_t index,  size_t (&indexes)[N] )
 	{
 		size_t factor    =  1;
@@ -206,6 +208,111 @@ struct GetBinCenter<T,1>: public hydra::thrust::unary_function<T,T>
 
 
 };
+
+
+template<typename T, size_t N, unsigned int I>
+struct GetAxisBinCenter: public hydra::thrust::unary_function<size_t, T>
+{
+	GetAxisBinCenter()=delete;
+	GetAxisBinCenter( size_t (&grid)[N], T (&lowerlimits)[N], T (&upperlimits)[N])
+	{
+		fNGlobalBins=1;
+		for( size_t i=0; i<N; i++){
+			fNGlobalBins *=grid[i];
+			fGrid[i]=grid[i];
+			fLowerLimits[i]=lowerlimits[i];
+			fDelta[i]= upperlimits[i] - lowerlimits[i];
+			fIncrement[i]=(upperlimits[i] - lowerlimits[i])/grid[i];
+		}
+	}
+
+	__hydra_host__ __hydra_device__
+	GetAxisBinCenter( GetAxisBinCenter<T, N, I> const& other ):
+	fNGlobalBins(other.fNGlobalBins)
+	{
+		for( size_t i=0; i<N; i++){
+			fGrid[i] = other.fGrid[i];
+			fDelta[i] = other.fDelta[i];
+			fLowerLimits[i] = other.fLowerLimits[i];
+			fIncrement[i]=other.fIncrement[i];
+		}
+		fNGlobalBins =other.fNGlobalBins;
+	}
+
+	__hydra_host__ __hydra_device__
+	GetAxisBinCenter<T, N, I>&
+	operator=( GetAxisBinCenter<T,N, I> const& other )
+	{
+		if(this==&other) return *this;
+		for( size_t i=0; i<N; i++){
+			fGrid[i]= other.fGrid[i];
+			fDelta[i] = other.fDelta[i];
+			fLowerLimits[i] = other.fLowerLimits[i];
+			fIncrement[i]=other.fIncrement[i];
+
+		}
+		fNGlobalBins =other.fNGlobalBins;
+		return *this;
+	}
+
+	//----------------------------------------
+	// multiply static array elements
+	//----------------------------------------
+	template< size_t J>
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if< (J==N), void  >::type
+	multiply( size_t (&)[N] , size_t&  )
+	{ }
+
+	template<size_t J=0>
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if< (J<N), void  >::type
+	multiply( size_t (&obj)[N], size_t& result )
+	{
+		result = J==0? 1.0: result;
+		result *= obj[J];
+		multiply<J+1>( obj, result );
+	}
+
+	//end of recursion
+	template<size_t J>
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if< (J==N), void  >::type
+	get_indexes(size_t,  size_t (&)[N])
+	{}
+
+	//begin of the recursion
+	template<size_t J=0>
+	__hydra_host__ __hydra_device__
+	inline typename std::enable_if< (J<N), void  >::type
+	get_indexes(size_t index,  size_t (&indexes)[N] )
+	{
+		size_t factor    =  1;
+		multiply<I+1>(fGrid, factor );
+		indexes[J]  =  index/factor;
+		size_t next_index =  index%factor;
+		get_indexes< J+1>(next_index, indexes );
+	}
+
+
+	__hydra_host__ __hydra_device__
+	inline typename tuple_type<N,T>::type operator()(size_t global_bin){
+
+		size_t  indexes[N];
+		get_indexes(global_bin,indexes);
+
+		return fLowerLimits[I] + (0.5 + indexes[I])*fIncrement[I];
+
+	}
+
+	T fLowerLimits[N];
+	T fDelta[N];
+	T fIncrement[N];
+	size_t   fGrid[N];
+	size_t   fNGlobalBins;
+
+};
+
 
 }//namespace detail
 
