@@ -21,14 +21,14 @@
 
 
 /*
- * Spiline3D.inl
+ * Spiline4D.inl
  *
  *  Created on: 16 de set. de 2023
  *      Author:  Antonio Augusto Alves Junior
  */
 
-#ifndef SPILINE3D_INL_
-#define SPILINE3D_INL_
+#ifndef SPILINE4D_INL_
+#define SPILINE4D_INL_
 
 
 
@@ -42,20 +42,24 @@
 namespace hydra {
 
 
-template<typename IteratorX, typename IteratorY, typename IteratorZ, typename IteratorM, typename TypeX, typename TypeY, typename TypeZ >
+template<typename IteratorX, typename IteratorY, typename IteratorW, typename IteratorZ, typename IteratorM,
+          typename TypeX, typename TypeY, typename TypeW, typename TypeZ >
 __hydra_host__ __hydra_device__
 inline typename std::enable_if<
 	std::is_convertible<typename hydra::thrust::iterator_traits<IteratorX>::value_type, double >::value &&
 	std::is_convertible<typename hydra::thrust::iterator_traits<IteratorY>::value_type, double >::value &&
+	std::is_convertible<typename hydra::thrust::iterator_traits<IteratorW>::value_type, double >::value &&
 	std::is_convertible<typename hydra::thrust::iterator_traits<IteratorZ>::value_type, double >::value &&
 	std::is_convertible<typename hydra::thrust::iterator_traits<IteratorM>::value_type, double >::value &&
 	std::is_convertible<TypeX, double >::value &&
 	std::is_convertible<TypeY, double >::value &&
+	std::is_convertible<TypeW, double >::value &&
 	std::is_convertible<TypeZ, double >::value, double>::type
-spline3D(IteratorX firstx, IteratorX lastx,
+spline4D(IteratorX firstx, IteratorX lastx,
 		 IteratorY firsty, IteratorY lasty,
+		 IteratorW firstw, IteratorW lastw,
 		 IteratorZ firstz, IteratorZ lastz,
-		 IteratorM measurements, TypeX x, TypeY y, TypeZ z)
+		 IteratorM measurements, TypeX x, TypeY y, TypeW w, TypeZ z)
 {
 	//get the neighbors on x and y-direction first
 	using hydra::thrust::min;
@@ -79,6 +83,15 @@ spline3D(IteratorX firstx, IteratorX lastx,
 
 	const double Y[4] = { firsty[iy-1], firsty[iy], firsty[iy+1], firsty[iy+2] };
 
+	//----------------------
+
+	size_t NW = hydra::thrust::distance(firstw, lastw);
+
+	auto iterw = detail::spline::lower_bound(firstw, firstw + NW, y);
+	size_t dist_w = hydra::thrust::distance(firstw, iterw);
+	size_t iw = dist_w > 0 ? dist_w - 1: 0;
+
+	const double W[4] = { firstw[iw-1], firstw[iw], firstw[iw+1], firstw[iw+2] };
 
 	//----------------------
 
@@ -90,36 +103,41 @@ spline3D(IteratorX firstx, IteratorX lastx,
 
 	const double Z[4] = { firstz[iz-1], firstz[iz], firstz[iz+1], firstz[iz+2] };
 
-	double M[4][4][4] = {  };
+	//----------------------
+
+	double M[4][4][4][4] = {  };
 
 
 	//get the relevant measurements
-	for( unsigned l= iz>0?iz-1:0; l < iz+3; ++l ){
+	for( unsigned k= iz>0?iz-1:0; l < iz+3; ++l ){ //Z
 
-		for( unsigned j= iy>0?iy-1:0; j < iy+3; ++j ){
+		for( unsigned l= iw>0?iw-1:0; l < iw+3; ++l ){ //W
 
-			for( unsigned i=ix>0? ix-1:0 ; i < ix+3; ++i){
+			for( unsigned j= iy>0?iy-1:0; j < iy+3; ++j ){ //Y
 
-				unsigned m = (l*NY + j)*NX + i;
+				for( unsigned i=ix>0? ix-1:0 ; i < ix+3; ++i){ //X
 
-				M[ l-iz + 1 ][ j-iy + 1 ][ i - ix +1  ] = measurements[m ];
-				//std::cout << "(i, j, l ) = (" << i <<"," << j <<", " << l << ") ; " << M[ l-iz + 1 ][ j-iy + 1 ][ i - ix +1  ] << std::endl;
+					unsigned m = ( ( k*NZ  + l)*NY + j )*NX + i;// k*NZ*NY*Nx + l*NY*NX + j*NX + i => ( ( k*NZ  + l)*NY + j )*NX + i
 
+					M[k-iz + 1][ l-iw + 1 ][ j-iy + 1 ][ i - ix +1  ] = measurements[m ];
+					//std::cout << "(i, j, l ) = (" << i <<"," << j <<", " << l << ") ; " << M[ l-iz + 1 ][ j-iy + 1 ][ i - ix +1  ] << std::endl;
+
+				}
 			}
 		}
 	}
 
 	double partial_spline[4]= {  };;
 
-	for(unsigned l=0; l<4; ++l){
-		double* slice = reinterpret_cast<double(&)[16]>(M[l]);
+	for(unsigned k=0; k<4; ++k){
+		double* slice = reinterpret_cast<double(&)[64]>(M[k]);
 
-		partial_spline[l] = spline2D( X, X +4, Y, Y+4,  slice, x, y );
+		partial_spline[k] = spline3D( X, X +4, Y, Y+4, W, W+4, slice, x, y, w );
         //std::cout << "l " << l << " " << partial_spline[l] << std::endl;
 
 	}
 
-	return detail::spline::cubic_spline<double>(iz,NZ, Z, partial_spline, z );
+	return detail::spline::cubic_spline<double>(iz, NZ, Z, partial_spline, z );
 
 }
 
@@ -128,29 +146,30 @@ __hydra_host__ __hydra_device__
 inline typename std::enable_if<
 					   hydra::detail::is_iterable<IterableX>::value &&
                        hydra::detail::is_iterable<IterableY>::value &&
+					   hydra::detail::is_iterable<IterableW>::value &&
 					   hydra::detail::is_iterable<IterableZ>::value &&
                        hydra::detail::is_iterable<IterableM>::value &&
                        std::is_convertible<typename IterableX::value_type, double >::value &&
                        std::is_convertible<typename IterableY::value_type, double >::value &&
+					   std::is_convertible<typename IterableW::value_type, double >::value &&
 					   std::is_convertible<typename IterableZ::value_type, double >::value &&
 					   std::is_convertible<typename IterableM::value_type, double >::value &&
 					   std::is_convertible<TypeX, double >::value &&
 					   std::is_convertible<TypeY, double >::value &&
+					   std::is_convertible<TypeW, double >::value &&
 					   std::is_convertible<TypeZ, double >::value ,
                        double >::type
-spline3D(IterableX&& abscissa_x,  IterableY&& abscissa_y, IterableZ&& abscissa_z, IterableM measurements, TypeX x, TypeX y, TypeZ z ){
+spline3D(IterableX&& abscissa_x,  IterableY&& abscissa_y, IterableZ&& abscissa_w, IterableZ&& abscissa_z, IterableM measurements, TypeX x, TypeX y, TypeW w, TypeZ z ){
 
 
-	return spline3D(
-			std::forward<IterableX>(abscissa_x).begin(),
-			std::forward<IterableX>(abscissa_x).end(),
-			std::forward<IterableY>(abscissa_y).begin(),
-			std::forward<IterableY>(abscissa_y).end(),
-			std::forward<IterableZ>(abscissa_z).begin(),
-			std::forward<IterableZ>(abscissa_z).end(),
-			std::forward<IterableM>(measurements).begin() , x,y,z);
+	return spline4D(
+			std::forward<IterableX>(abscissa_x).begin(), std::forward<IterableX>(abscissa_x).end(),
+			std::forward<IterableY>(abscissa_y).begin(), std::forward<IterableY>(abscissa_y).end(),
+			std::forward<IterableW>(abscissa_w).begin(), std::forward<IterableW>(abscissa_w).end(),
+			std::forward<IterableZ>(abscissa_z).begin(), std::forward<IterableZ>(abscissa_z).end(),
+			std::forward<IterableM>(measurements).begin() , x,y,w,z);
 }
 
 } // namespace hydra
 
-#endif /* SPILINE3D_INL_ */
+#endif /* SPILINE4D_INL_ */

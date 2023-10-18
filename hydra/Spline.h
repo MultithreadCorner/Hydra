@@ -176,4 +176,5 @@ spline3D(IterableX&& abscissa_x,  IterableY&& abscissa_y, IterableZ&& abscissa_z
 #include <hydra/detail/Spline.inl>
 #include <hydra/detail/Spline2D.inl>
 #include <hydra/detail/Spline3D.inl>
+#include <hydra/detail/Spline4D.inl>
 #endif /* SPILINE_H_ */

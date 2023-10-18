@@ -511,9 +511,42 @@ DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional >::Fi
     return *this;
 }
 
+
+
 /*
  * multidimensional specializations
  */
+template<typename T, typename Iterator, size_t N , hydra::detail::Backend BACKEND>
+inline typename std::enable_if< N==2, T >::type
+DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Interpolate( std::array<size_t,N> const&  point){
+
+	return spline2D(this->GetBinsCenters(placeholders::_0).begin(), this->GetBinsCenters(placeholders::_0).end(),
+			 this->GetBinsCenters(placeholders::_1).begin(), this->GetBinsCenters(placeholders::_1).end(),
+			 this->GetBinsContents().begin(), point[0],  point[1]);
+}
+
+template<typename T, typename Iterator, size_t N , hydra::detail::Backend BACKEND>
+inline typename std::enable_if< N==3, T >::type
+DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Interpolate( std::array<size_t,N> const&  point){
+
+	return spline3D(this->GetBinsCenters(placeholders::_0).begin(), this->GetBinsCenters(placeholders::_0).end(),
+				 this->GetBinsCenters(placeholders::_1).begin(), this->GetBinsCenters(placeholders::_1).end(),
+				 this->GetBinsCenters(placeholders::_2).begin(), this->GetBinsCenters(placeholders::_2).end(),
+				 this->GetBinsContents().begin(), point[0],  point[1],  point[2]);
+}
+
+
+template<typename T, typename Iterator, size_t N , hydra::detail::Backend BACKEND>
+inline typename std::enable_if< N==4, T >::type
+DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Interpolate( std::array<size_t,N> const&  point){
+
+	return spline4D(
+			     this->GetBinsCenters(placeholders::_0).begin(), this->GetBinsCenters(placeholders::_0).end(),
+				 this->GetBinsCenters(placeholders::_1).begin(), this->GetBinsCenters(placeholders::_1).end(),
+				 this->GetBinsCenters(placeholders::_2).begin(), this->GetBinsCenters(placeholders::_2).end(),
+				 this->GetBinsCenters(placeholders::_3).begin(), this->GetBinsCenters(placeholders::_3).end(),
+				 this->GetBinsContents().begin(), point[0],  point[1],  point[2],  point[3]);
+}
 
 //iterator based
 template<typename T, typename Iterator, size_t N , hydra::detail::Backend BACKEND>

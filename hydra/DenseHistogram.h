@@ -408,6 +408,16 @@ public:
       	return make_range( first , first+fNBins);
       }
 
+
+    inline typename std::enable_if< N==2, T >::type
+	Interpolate( std::array<size_t,N> const&  point);
+
+    inline typename std::enable_if< N==3, T >::type
+  	Interpolate( std::array<size_t,N> const&  point);
+
+    inline typename std::enable_if< N==4, T >::type
+    Interpolate( std::array<size_t,N> const&  point);
+
 	//stl range interface
 
     inline pointer data(){
