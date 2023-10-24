@@ -516,18 +516,21 @@ DenseHistogram<T,1, detail::BackendPolicy<BACKEND>, detail::unidimensional >::Fi
 /*
  * multidimensional specializations
  */
-template<typename T, typename Iterator, size_t N , hydra::detail::Backend BACKEND>
-inline typename std::enable_if< N==2, T >::type
-DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Interpolate( std::array<size_t,N> const&  point){
+
+template<typename T,  size_t N , hydra::detail::Backend BACKEND>
+template<size_t M>
+inline typename std::enable_if< M==2, T >::type
+DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Interpolate( std::array<size_t,2> const&  point){
 
 	return spline2D(this->GetBinsCenters(placeholders::_0).begin(), this->GetBinsCenters(placeholders::_0).end(),
 			 this->GetBinsCenters(placeholders::_1).begin(), this->GetBinsCenters(placeholders::_1).end(),
 			 this->GetBinsContents().begin(), point[0],  point[1]);
 }
 
-template<typename T, typename Iterator, size_t N , hydra::detail::Backend BACKEND>
-inline typename std::enable_if< N==3, T >::type
-DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Interpolate( std::array<size_t,N> const&  point){
+template<typename T,  size_t N , hydra::detail::Backend BACKEND>
+template<size_t M>
+inline typename std::enable_if< M==3, T >::type
+DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Interpolate( std::array<size_t,3> const&  point){
 
 	return spline3D(this->GetBinsCenters(placeholders::_0).begin(), this->GetBinsCenters(placeholders::_0).end(),
 				 this->GetBinsCenters(placeholders::_1).begin(), this->GetBinsCenters(placeholders::_1).end(),
@@ -536,9 +539,10 @@ DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 }
 
 
-template<typename T, typename Iterator, size_t N , hydra::detail::Backend BACKEND>
-inline typename std::enable_if< N==4, T >::type
-DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Interpolate( std::array<size_t,N> const&  point){
+template<typename T, size_t N , hydra::detail::Backend BACKEND>
+template<size_t M>
+inline typename std::enable_if< M==4, T >::type
+DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Interpolate( std::array<size_t,4> const&  point){
 
 	return spline4D(
 			     this->GetBinsCenters(placeholders::_0).begin(), this->GetBinsCenters(placeholders::_0).end(),

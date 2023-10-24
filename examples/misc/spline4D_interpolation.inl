@@ -44,7 +44,7 @@
 #include <hydra/Lambda.h>
 #include <hydra/functions/Gaussian.h>
 #include <hydra/functions/UniformShape.h>
-#include <hydra/functions/Spline3DFunctor.h>
+#include <hydra/functions/Spline4DFunctor.h>
 #include <hydra/Range.h>
 #include <hydra/Algorithm.h>
 /*-------------------------------------
@@ -93,61 +93,69 @@ int main(int argv, char** argc)
 	hydra::Gaussian<double> gaussian(mean, sigma);
 
 	//set the x dimension of the grid
-	auto xaxis =  hydra::range(-10.0, 10.0, 45);
+	auto xaxis =  hydra::range(-10.0, 10.0, 10);
 	auto x_grid_size = xaxis.size();
 	auto xiter = xaxis.begin();
 
 	//set the y dimension of the grid
-	auto yaxis =  hydra::range(-10.0, 10.0, 40);
+	auto yaxis =  hydra::range(-10.0, 10.0, 10);
 	auto y_grid_size = yaxis.size();
 	auto yiter = yaxis.begin();
 
 	//set the w dimension of the grid
-	auto waxis =  hydra::range(-10.0, 10.0, 35);
+	auto waxis =  hydra::range(-10.0, 10.0, 10);
 	auto w_grid_size = waxis.size();
 	auto witer = waxis.begin();
 
 	//set the z dimension of the grid
-	auto zaxis =  hydra::range(-10.0, 10.0, 30);
+	auto zaxis =  hydra::range(-10.0, 10.0, 10);
 	auto z_grid_size = zaxis.size();
 	auto ziter = zaxis.begin();
 
 
 
-		auto gaussian_3D = hydra::wrap_lambda(
-				[gaussian, xiter,x_grid_size, yiter, y_grid_size, ziter, z_grid_size ] __hydra_dual__ ( size_t index){
+		auto gaussian_4D = hydra::wrap_lambda(
+				[gaussian, xiter,x_grid_size, yiter, y_grid_size, witer, w_grid_size , ziter, z_grid_size ] __hydra_dual__ ( size_t index){
 
-			unsigned i = index%x_grid_size ;
-			unsigned j = (index/x_grid_size)%y_grid_size ;
-			unsigned k = index/(x_grid_size*y_grid_size) ;
-	        auto x = xiter[i];
-	        auto y = yiter[j];
-	        auto z = ziter[k];
-            //std::cout << " i,j,k -> " << i <<", " <<j <<", " <<k << std::endl;
-	        auto r = gaussian( x )*gaussian( y )*gaussian( z );
+			unsigned ix = index%x_grid_size ;
+			unsigned iy = (index/x_grid_size)%y_grid_size ;
+			unsigned iw = (index/(x_grid_size*y_grid_size)) %w_grid_size ;
+			unsigned iz = index/(x_grid_size*y_grid_size*w_grid_size) ;
+
+
+	        auto x = xiter[ix];
+	        auto y = yiter[iy];
+	        auto w = witer[iw];
+	        auto z = ziter[iz];
+
+            //std::cout << " i,j,l, k -> " << ix <<", " <<iy <<", " << iw <<" ," << iz << std::endl;
+	        auto r =gaussian( x )*gaussian( y )*gaussian( w )*gaussian( z );
 
 			return r;
 		});
 
-		auto index = hydra::range(0, x_grid_size*y_grid_size*z_grid_size);
+		auto index = hydra::range(0, x_grid_size*y_grid_size*w_grid_size*z_grid_size);
 
-		auto ordinate  = index | gaussian_3D;
+		auto ordinate  = index | gaussian_4D;
 
-		auto spline3D = hydra::make_spline3D<double, double, double>(xaxis, yaxis, zaxis, ordinate );
+		auto spline4D = hydra::make_spline4D<double, double, double, double>(xaxis, yaxis, waxis, zaxis, ordinate );
 
 		//get random values for x and y
-		auto random_x = hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 157531, 10) ;
-		auto random_y = hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 456258, 10) ;
-		auto random_z = hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 789512, 10) ;
+		auto random_x = hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 157531, 50) ;
+		auto random_y = hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 456258, 50) ;
+		auto random_w = hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 753159, 50) ;
+		auto random_z = hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 789512, 50) ;
 
 
-		for( auto x:random_x ){
-			for( auto y:random_y ){
-				for( auto z:random_z ){
-				printf(" x %f y %f z %f spline3D %f gaussian3D %f\n", x,y,z,
-						spline3D(x,y,z), gaussian(x)*gaussian( y )*gaussian( z ));
+		for( auto x:xaxis){//random_x ){
+			for( auto y:yaxis){//random_y ){
+				for( auto w:waxis){//random_w ){
+					for( auto z:zaxis){//random_z ){
+						printf(" x %f y %f w %f z %f spline4D %f gaussian4D %f\n", x,y, w, z,
+								spline4D(x,y, w, z), gaussian(x)*gaussian( y )*gaussian( w )*gaussian( z ));
+					}
+				}
 			}
-		}
 		}
 
 

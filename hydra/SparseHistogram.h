@@ -368,11 +368,17 @@ public:
 		return make_range( first , first + fNBins);
 	}
 
-	inline typename std::enable_if< N==2, T >::type
-			Interpolate( std::array<size_t,N> const&  point);
+	template<size_t M=N>
+	inline typename std::enable_if< M==2, T >::type
+	Interpolate( std::array<size_t,2> const&  point);
 
-	inline typename std::enable_if< N==3, T >::type
-			Interpolate( std::array<size_t,N> const&  point);
+	template<size_t M=N>
+	inline typename std::enable_if< M==3, T >::type
+	Interpolate( std::array<size_t,3> const&  point);
+
+	template<size_t M=N>
+	inline typename std::enable_if< M==4, T >::type
+	Interpolate( std::array<size_t,4> const&  point);
 
 
 	//stl interface

@@ -109,18 +109,18 @@ spline4D(IteratorX firstx, IteratorX lastx,
 
 
 	//get the relevant measurements
-	for( unsigned k= iz>0?iz-1:0; l < iz+3; ++l ){ //Z
+	for( unsigned k= iz>0?iz-1:0; k < (iz +3 ); ++k ){ //Z
 
-		for( unsigned l= iw>0?iw-1:0; l < iw+3; ++l ){ //W
+		for( unsigned l= iw>0?iw-1:0; l < (iw+3); ++l ){ //W
 
-			for( unsigned j= iy>0?iy-1:0; j < iy+3; ++j ){ //Y
+			for( unsigned j= iy>0?iy-1:0; j < (iy+3); ++j ){ //Y
 
-				for( unsigned i=ix>0? ix-1:0 ; i < ix+3; ++i){ //X
+				for( unsigned i=ix>0? ix-1:0 ; i < (ix+3); ++i){ //X
 
-					unsigned m = ( ( k*NZ  + l)*NY + j )*NX + i;// k*NZ*NY*Nx + l*NY*NX + j*NX + i => ( ( k*NZ  + l)*NY + j )*NX + i
+					unsigned m = ( ( k*NW  + l)*NY + j )*NX + i;// k*NZ*NY*Nx + l*NY*NX + j*NX + i => ( ( k*NZ  + l)*NY + j )*NX + i
 
 					M[k-iz + 1][ l-iw + 1 ][ j-iy + 1 ][ i - ix +1  ] = measurements[m ];
-					//std::cout << "(i, j, l ) = (" << i <<"," << j <<", " << l << ") ; " << M[ l-iz + 1 ][ j-iy + 1 ][ i - ix +1  ] << std::endl;
+					//std::cout << "(i, j, l ) = (" << i <<"," << j <<", " << l << ") : " << M[k-iz + 1][ l-iw + 1 ][ j-iy + 1 ][ i - ix +1  ] << std::endl;
 
 				}
 			}
@@ -141,7 +141,7 @@ spline4D(IteratorX firstx, IteratorX lastx,
 
 }
 
-template<typename IterableX, typename IterableY,typename IterableZ,typename IterableM, typename TypeX,typename TypeY, typename TypeZ >
+template<typename IterableX, typename IterableY,typename IterableW,typename IterableZ,typename IterableM, typename TypeX,typename TypeY, typename TypeW, typename TypeZ >
 __hydra_host__ __hydra_device__
 inline typename std::enable_if<
 					   hydra::detail::is_iterable<IterableX>::value &&
@@ -159,7 +159,7 @@ inline typename std::enable_if<
 					   std::is_convertible<TypeW, double >::value &&
 					   std::is_convertible<TypeZ, double >::value ,
                        double >::type
-spline3D(IterableX&& abscissa_x,  IterableY&& abscissa_y, IterableZ&& abscissa_w, IterableZ&& abscissa_z, IterableM measurements, TypeX x, TypeX y, TypeW w, TypeZ z ){
+spline3D(IterableX&& abscissa_x,  IterableY&& abscissa_y, IterableW&& abscissa_w, IterableZ&& abscissa_z, IterableM measurements, TypeX x, TypeX y, TypeW w, TypeZ z ){
 
 
 	return spline4D(

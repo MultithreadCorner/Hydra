@@ -206,7 +206,7 @@ template<typename ArgTypeX, typename ArgTypeY, typename ArgTypeW, typename ArgTy
          typename IteratorX, typename IteratorY, typename IteratorW, typename IteratorZ,
 		 typename IteratorM>
 inline Spline4DFunctor<  IteratorX, IteratorY, IteratorW, IteratorZ, IteratorM, ArgTypeX, ArgTypeY, ArgTypeW, ArgTypeZ  >
-make_spline3D(IteratorX firstX, IteratorX lastX,
+make_spline4D(IteratorX firstX, IteratorX lastX,
 		      IteratorY firstY, IteratorY lastY,
 			  IteratorW firstW, IteratorW lastW,
 			  IteratorZ firstZ, IteratorZ lastZ,
@@ -237,7 +237,7 @@ inline typename std::enable_if<
            decltype(std::declval<IterableZ>().begin()),
 		   decltype(std::declval<IterableM>().begin()),
 		   ArgTypeX, ArgTypeY, ArgTypeW, ArgTypeZ> >::type
-make_spline3D(IterableX&& x, IterableY&& y, IterableW&& w, IterableZ&& z, IterableM&& measurements)
+make_spline4D(IterableX&& x, IterableY&& y, IterableW&& w, IterableZ&& z, IterableM&& measurements)
 {
 
 typedef  decltype(std::declval<IterableX>().begin()) IteratorX;
