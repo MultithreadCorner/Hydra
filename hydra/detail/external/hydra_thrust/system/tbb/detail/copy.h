@@ -19,8 +19,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/tbb/detail/execution_policy.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace tbb
@@ -51,7 +50,7 @@ OutputIterator copy_n(execution_policy<DerivedPolicy> &exec,
 } // end namespace detail
 } // end namespace tbb
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/system/tbb/detail/copy.inl>
 

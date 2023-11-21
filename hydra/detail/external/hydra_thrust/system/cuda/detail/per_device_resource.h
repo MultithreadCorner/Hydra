@@ -43,7 +43,7 @@
 #include <mutex>
 #include <unordered_map>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace cuda_cub
 {
@@ -64,7 +64,7 @@ MR * get_per_device_resource(execution_policy<DerivedPolicy>&)
 
 }
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #endif
 

@@ -2,7 +2,7 @@
  *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
+ *  you may not use this file except in ctbbliance with the License.
  *  You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -27,8 +27,7 @@
 #include <hydra/detail/external/hydra_thrust/mr/allocator.h>
 #include <ostream>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace tbb
@@ -67,83 +66,38 @@ inline pointer<T> malloc(std::size_t n);
  */
 inline void free(pointer<void> ptr);
 
-// XXX upon c++11
-// template<typename T>
-// using allocator = hydra_thrust::mr::stateless_resource_allocator<T, memory_resource>;
-
-/*! \p tbb::allocator is the default allocator used by the \p tbb system's containers such as
- *  <tt>tbb::vector</tt> if no user-specified allocator is provided. \p tbb::allocator allocates
- *  (deallocates) storage with \p tbb::malloc (\p tbb::free).
+/*! \p tbb::allocator is the default allocator used by the \p tbb system's
+ *  containers such as <tt>tbb::vector</tt> if no user-specified allocator is
+ *  provided. \p tbb::allocator allocates (deallocates) storage with \p
+ *  tbb::malloc (\p tbb::free).
  */
 template<typename T>
-  struct allocator
-    : hydra_thrust::mr::stateless_resource_allocator<
-        T,
-        memory_resource
-    >
-{
-private:
-    typedef hydra_thrust::mr::stateless_resource_allocator<
-        T,
-        memory_resource
-    > base;
+using allocator = hydra_thrust::mr::stateless_resource_allocator<
+  T, hydra_thrust::system::tbb::memory_resource
+>;
 
-public:
-  /*! The \p rebind metafunction provides the type of an \p allocator
-   *  instantiated with another type.
-   *
-   *  \tparam U The other type to use for instantiation.
-   */
-  template<typename U>
-    struct rebind
-  {
-    /*! The typedef \p other gives the type of the rebound \p allocator.
-     */
-    typedef allocator<U> other;
-  };
-
-  /*! No-argument constructor has no effect.
-   */
-  __host__ __device__
-  inline allocator() {}
-
-  /*! Copy constructor has no effect.
-   */
-  __host__ __device__
-  inline allocator(const allocator & other) : base(other) {}
-
-  /*! Constructor from other \p allocator has no effect.
-   */
-  template<typename U>
-  __host__ __device__
-  inline allocator(const allocator<U> & other) : base(other) {}
-
-  /*! Destructor has no effect.
-   */
-  __host__ __device__
-  inline ~allocator() {}
-}; // end allocator
-
-} // end tbb
-
-/*! \}
+/*! \p tbb::universal_allocator allocates memory that can be used by the \p tbb
+ *  system and host systems.
  */
+template<typename T>
+using universal_allocator = hydra_thrust::mr::stateless_resource_allocator<
+  T, hydra_thrust::system::tbb::universal_memory_resource
+>;
 
-} // end system
+}} // namespace system::tbb
 
 /*! \namespace hydra_thrust::tbb
  *  \brief \p hydra_thrust::tbb is a top-level alias for hydra_thrust::system::tbb.
  */
 namespace tbb
 {
-
 using hydra_thrust::system::tbb::malloc;
 using hydra_thrust::system::tbb::free;
 using hydra_thrust::system::tbb::allocator;
+using hydra_thrust::system::tbb::universal_allocator;
+} // namsespace tbb
 
-} // end tbb
-
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/system/tbb/detail/memory.inl>
 

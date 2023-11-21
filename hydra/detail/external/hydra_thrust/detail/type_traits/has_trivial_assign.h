@@ -25,30 +25,23 @@
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 
-namespace hydra_thrust
-{
+#include <hydra/detail/external/hydra_libcudacxx/cuda/std/type_traits>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace detail
 {
 
-template<typename T> struct has_trivial_assign
+template<typename T> 
+struct has_trivial_assign
   : public integral_constant<
-      bool,
-      (is_pod<T>::value && !is_const<T>::value)
-#if HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC
-      || __has_trivial_assign(T)
-#elif HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC
-// only use the intrinsic for >= 4.3
-#if (__GNUC__ >= 4) && (__GNUC_MINOR__ >= 3)
-      || __has_trivial_assign(T)
-#endif // GCC VERSION
-#elif HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG
-      || __has_trivial_assign(T)
-#endif // HYDRA_THRUST_HOST_COMPILER
+      bool, 
+      (is_pod<T>::value && !is_const<T>::value) 
+      || ::cuda::std::is_trivially_copy_assignable<T>::value
     >
 {};
 
 } // end detail
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

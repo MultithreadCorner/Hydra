@@ -51,7 +51,7 @@ class PhaseSpaceIntegrator;
  * \ingroup phsp numerical integration for Pdfs evaluated over a N-particle phase-space.
  * \tparam BACKEND to perform the calculation.
  * \tparam N is the number of particles in final state.
- * \tparam GRND underlying random number generator. See the options in hydra_thrust::random namespace.
+ * \tparam GRND underlying random number generator. See the options in hydra::thrust::random namespace.
  */
 template <size_t N, hydra::detail::Backend BACKEND,  typename GRND>
 class PhaseSpaceIntegrator<N,  hydra::detail::BackendPolicy<BACKEND>, GRND>:

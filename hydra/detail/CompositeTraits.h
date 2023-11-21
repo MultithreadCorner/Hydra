@@ -38,12 +38,12 @@ namespace hydra {
 namespace detail {
 
 
-template<class Integrator, typename T= hydra_thrust::void_t<> >
+template<class Integrator, typename T= hydra::thrust::void_t<> >
 struct is_hydra_composite_functor: std::false_type {};
 
 template<class T>
 struct is_hydra_composite_functor<T,
-             hydra_thrust::void_t< typename T::hydra_composed_functor_type> > : std::true_type {};
+             hydra::thrust::void_t< typename T::hydra_composed_functor_type> > : std::true_type {};
 
 }  // namespace detail
 

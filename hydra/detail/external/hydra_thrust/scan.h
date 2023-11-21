@@ -24,9 +24,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/execution_policy.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /*! \addtogroup algorithms
  */
@@ -46,11 +44,15 @@ namespace hydra_thrust
  *  This version of \p inclusive_scan assumes plus as the associative operator.  
  *  When the input and output sequences are the same, the scan is performed 
  *  in-place.
- 
+ *
  *  \p inclusive_scan is similar to \c std::partial_sum in the STL.  The primary
  *  difference between the two functions is that \c std::partial_sum guarantees
  *  a serial summation order, while \p inclusive_scan requires associativity of 
  *  the binary operation to parallelize the prefix sum.
+ *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
  *
  *  The algorithm's execution is parallelized as determined by \p exec.
  *    
@@ -61,10 +63,10 @@ namespace hydra_thrust
  *  \return The end of the output sequence.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                        and \c InputIterator's \c value_type is convertible to
  *                        \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>,
  *                         and if \c x and \c y are objects of \c OutputIterator's
  *                         \c value_type, then <tt>x + y</tt> is defined. If \c T is
  *                         \c OutputIterator's \c value_type, then <tt>T(0)</tt> is
@@ -87,7 +89,7 @@ namespace hydra_thrust
  *  // data is now {1, 1, 3, 5, 6, 9}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/partial_sum.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/partial_sum
  *
  */
 template<typename DerivedPolicy,
@@ -108,21 +110,25 @@ __host__ __device__
  *  This version of \p inclusive_scan assumes plus as the associative operator.  
  *  When the input and output sequences are the same, the scan is performed 
  *  in-place.
- 
+ *
  *  \p inclusive_scan is similar to \c std::partial_sum in the STL.  The primary
  *  difference between the two functions is that \c std::partial_sum guarantees
  *  a serial summation order, while \p inclusive_scan requires associativity of 
  *  the binary operation to parallelize the prefix sum.
- *    
+ *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  \param first The beginning of the input sequence.
  *  \param last The end of the input sequence.
  *  \param result The beginning of the output sequence.
  *  \return The end of the output sequence.
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                        and \c InputIterator's \c value_type is convertible to
  *                        \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>,
  *                         and if \c x and \c y are objects of \c OutputIterator's
  *                         \c value_type, then <tt>x + y</tt> is defined. If \c T is
  *                         \c OutputIterator's \c value_type, then <tt>T(0)</tt> is
@@ -142,7 +148,7 @@ __host__ __device__
  *  // data is now {1, 1, 3, 5, 6, 9}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/partial_sum.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/partial_sum
  *
  */
 template<typename InputIterator,
@@ -156,11 +162,15 @@ template<typename InputIterator,
  *  term 'inclusive' means that each result includes the corresponding
  *  input operand in the partial sum.  When the input and output sequences 
  *  are the same, the scan is performed in-place.
- *    
+ *
  *  \p inclusive_scan is similar to \c std::partial_sum in the STL.  The primary
  *  difference between the two functions is that \c std::partial_sum guarantees
  *  a serial summation order, while \p inclusive_scan requires associativity of 
  *  the binary operation to parallelize the prefix sum.
+ *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
  *
  *  The algorithm's execution is parallelized as determined by \p exec.
  *
@@ -172,14 +182,14 @@ template<typename InputIterator,
  *  \return The end of the output sequence.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                        and \c InputIterator's \c value_type is convertible to
  *                        \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>
  *                         and \c OutputIterator's \c value_type is convertible to
  *                         both \c AssociativeOperator's \c first_argument_type and
  *                         \c second_argument_type.
- *  \tparam AssociativeOperator is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>
+ *  \tparam AssociativeOperator is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/binary_function">Binary Function</a>
  *                              and \c AssociativeOperator's \c result_type is
  *                              convertible to \c OutputIterator's \c value_type.
  *
@@ -198,7 +208,7 @@ template<typename InputIterator,
  *  // data is now {-5, 0, 2, 2, 2, 4, 4, 4, 4, 8}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/partial_sum.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/partial_sum
  */
 template<typename DerivedPolicy,
          typename InputIterator,
@@ -222,20 +232,24 @@ __host__ __device__
  *  a serial summation order, while \p inclusive_scan requires associativity of 
  *  the binary operation to parallelize the prefix sum.
  *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  \param first The beginning of the input sequence.
  *  \param last The end of the input sequence.
  *  \param result The beginning of the output sequence.
  *  \param binary_op The associatve operator used to 'sum' values.
  *  \return The end of the output sequence.
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                        and \c InputIterator's \c value_type is convertible to
  *                        \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>
  *                         and \c OutputIterator's \c value_type is convertible to
  *                         both \c AssociativeOperator's \c first_argument_type and
  *                         \c second_argument_type.
- *  \tparam AssociativeOperator is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>
+ *  \tparam AssociativeOperator is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/binary_function">Binary Function</a>
  *                              and \c AssociativeOperator's \c result_type is
  *                              convertible to \c OutputIterator's \c value_type.
  *
@@ -253,7 +267,7 @@ __host__ __device__
  *  // data is now {-5, 0, 2, 2, 2, 4, 4, 4, 4, 8}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/partial_sum.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/partial_sum
  */
 template<typename InputIterator,
          typename OutputIterator,
@@ -273,6 +287,10 @@ template<typename InputIterator,
  *  associative operator and \c 0 as the initial value.  When the input and 
  *  output sequences are the same, the scan is performed in-place.
  *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  The algorithm's execution is parallelized as determined by \p exec.
  *    
  *  \param exec The execution policy to use for parallelization.
@@ -282,10 +300,10 @@ template<typename InputIterator,
  *  \return The end of the output sequence.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                        and \c InputIterator's \c value_type is convertible to
  *                        \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>,
  *                         and if \c x and \c y are objects of \c OutputIterator's
  *                         \c value_type, then <tt>x + y</tt> is defined. If \c T is
  *                         \c OutputIterator's \c value_type, then <tt>T(0)</tt> is
@@ -308,7 +326,7 @@ template<typename InputIterator,
  *  // data is now {0, 1, 1, 3, 5, 6}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/partial_sum.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/partial_sum
  */
 template<typename DerivedPolicy,
          typename InputIterator,
@@ -328,16 +346,20 @@ __host__ __device__
  *  and so on. This version of \p exclusive_scan assumes plus as the 
  *  associative operator and \c 0 as the initial value.  When the input and 
  *  output sequences are the same, the scan is performed in-place.
- *    
+ *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  \param first The beginning of the input sequence.
  *  \param last The end of the input sequence.
  *  \param result The beginning of the output sequence.
  *  \return The end of the output sequence.
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                        and \c InputIterator's \c value_type is convertible to
  *                        \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>,
  *                         and if \c x and \c y are objects of \c OutputIterator's
  *                         \c value_type, then <tt>x + y</tt> is defined. If \c T is
  *                         \c OutputIterator's \c value_type, then <tt>T(0)</tt> is
@@ -357,7 +379,7 @@ __host__ __device__
  *  // data is now {0, 1, 1, 3, 5, 6}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/partial_sum.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/partial_sum
  */
 template<typename InputIterator,
          typename OutputIterator>
@@ -375,6 +397,10 @@ template<typename InputIterator,
  *  operator but requires an initial value \p init.  When the input and 
  *  output sequences are the same, the scan is performed in-place.
  *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  The algorithm's execution is parallelized as determined by \p exec.
  *
  *  \param exec The execution policy to use for parallelization.
@@ -385,10 +411,10 @@ template<typename InputIterator,
  *  \return The end of the output sequence.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                        and \c InputIterator's \c value_type is convertible to
  *                        \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>,
  *                         and if \c x and \c y are objects of \c OutputIterator's
  *                         \c value_type, then <tt>x + y</tt> is defined.
  *  \tparam T is convertible to \c OutputIterator's \c value_type.
@@ -409,7 +435,7 @@ template<typename InputIterator,
  *  // data is now {4, 5, 5, 7, 9, 10}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/partial_sum.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/partial_sum
  */
 template<typename DerivedPolicy,
          typename InputIterator,
@@ -432,16 +458,20 @@ __host__ __device__
  *  operator but requires an initial value \p init.  When the input and 
  *  output sequences are the same, the scan is performed in-place.
  *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  \param first The beginning of the input sequence.
  *  \param last The end of the input sequence.
  *  \param result The beginning of the output sequence.
  *  \param init The initial value.
  *  \return The end of the output sequence.
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                        and \c InputIterator's \c value_type is convertible to
  *                        \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>,
  *                         and if \c x and \c y are objects of \c OutputIterator's
  *                         \c value_type, then <tt>x + y</tt> is defined.
  *  \tparam T is convertible to \c OutputIterator's \c value_type.
@@ -460,7 +490,7 @@ __host__ __device__
  *  // data is now {4, 5, 5, 7, 9, 10}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/partial_sum.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/partial_sum
  */
 template<typename InputIterator,
          typename OutputIterator,
@@ -480,6 +510,10 @@ template<typename InputIterator,
  *  operator and an initial value \p init.  When the input and output
  *  sequences are the same, the scan is performed in-place.
  *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  The algorithm's execution is parallelized as determined by \p exec.
  *    
  *  \param exec The execution policy to use for parallelization.
@@ -491,15 +525,15 @@ template<typename InputIterator,
  *  \return The end of the output sequence.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                        and \c InputIterator's \c value_type is convertible to
  *                        \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>
  *                         and \c OutputIterator's \c value_type is convertible to
  *                         both \c AssociativeOperator's \c first_argument_type and
  *                         \c second_argument_type.
  *  \tparam T is convertible to \c OutputIterator's \c value_type.
- *  \tparam AssociativeOperator is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>
+ *  \tparam AssociativeOperator is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/binary_function">Binary Function</a>
  *                              and \c AssociativeOperator's \c result_type is
  *                              convertible to \c OutputIterator's \c value_type.
  *
@@ -523,7 +557,7 @@ template<typename InputIterator,
  *  // data is now {1, 1, 1, 2, 2, 2, 4, 4, 4, 4 }
  *  \endcode
  *  
- *  \see http://www.sgi.com/tech/stl/partial_sum.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/partial_sum
  */
 template<typename DerivedPolicy,
          typename InputIterator,
@@ -547,7 +581,11 @@ __host__ __device__
  *  and so on. This version of the function requires both an associative 
  *  operator and an initial value \p init.  When the input and output
  *  sequences are the same, the scan is performed in-place.
- *    
+ *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  \param first The beginning of the input sequence.
  *  \param last The end of the input sequence.
  *  \param result The beginning of the output sequence.
@@ -555,15 +593,15 @@ __host__ __device__
  *  \param binary_op The associatve operator used to 'sum' values.
  *  \return The end of the output sequence.
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                        and \c InputIterator's \c value_type is convertible to
  *                        \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>
  *                         and \c OutputIterator's \c value_type is convertible to
  *                         both \c AssociativeOperator's \c first_argument_type and
  *                         \c second_argument_type.
  *  \tparam T is convertible to \c OutputIterator's \c value_type.
- *  \tparam AssociativeOperator is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>
+ *  \tparam AssociativeOperator is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/binary_function">Binary Function</a>
  *                              and \c AssociativeOperator's \c result_type is
  *                              convertible to \c OutputIterator's \c value_type.
  *
@@ -584,7 +622,7 @@ __host__ __device__
  *  // data is now {1, 1, 1, 2, 2, 2, 4, 4, 4, 4 }
  *  \endcode
  *  
- *  \see http://www.sgi.com/tech/stl/partial_sum.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/partial_sum
  */
 template<typename InputIterator,
          typename OutputIterator,
@@ -620,6 +658,10 @@ template<typename InputIterator,
  *  operator used to perform the prefix sum. When the input and output sequences
  *  are the same, the scan is performed in-place.
  *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  The algorithm's execution is parallelized as determined by \p exec.
  *
  *  \param exec The execution policy to use for parallelization.
@@ -630,10 +672,10 @@ template<typename InputIterator,
  *  \return The end of the output sequence.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                         and \c InputIterator2's \c value_type is convertible to \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>,
  *                         and if \c x and \c y are objects of \c OutputIterator's \c value_type, then 
  *                         <tt>binary_op(x,y)</tt> is defined.
  *
@@ -689,16 +731,20 @@ __host__ __device__
  *  operator used to perform the prefix sum. When the input and output sequences
  *  are the same, the scan is performed in-place.
  *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  \param first1 The beginning of the key sequence.
  *  \param last1 The end of the key sequence.
  *  \param first2 The beginning of the input value sequence.
  *  \param result The beginning of the output value sequence.
  *  \return The end of the output sequence.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                         and \c InputIterator2's \c value_type is convertible to \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>,
  *                         and if \c x and \c y are objects of \c OutputIterator's \c value_type, then 
  *                         <tt>binary_op(x,y)</tt> is defined.
  *
@@ -748,6 +794,10 @@ template<typename InputIterator1,
  *  operator used to perform the prefix sum. When the input and output sequences
  *  are the same, the scan is performed in-place.
  *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  The algorithm's execution is parallelized as determined by \p exec. 
  *
  *  \param exec The execution policy to use for parallelization.
@@ -759,13 +809,13 @@ template<typename InputIterator1,
  *  \return The end of the output sequence.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                         and \c InputIterator2's \c value_type is convertible to \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>,
  *                         and if \c x and \c y are objects of \c OutputIterator's \c value_type, then 
  *                         <tt>binary_op(x,y)</tt> is defined.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
  *
  *  \pre \p first1 may equal \p result but the range <tt>[first1, last1)</tt> and the range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
  *  \pre \p first2 may equal \p result but the range <tt>[first2, first2 + (last1 - first1)</tt> and range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
@@ -824,6 +874,10 @@ __host__ __device__
  *  operator used to perform the prefix sum. When the input and output sequences
  *  are the same, the scan is performed in-place.
  *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  \param first1 The beginning of the key sequence.
  *  \param last1 The end of the key sequence.
  *  \param first2 The beginning of the input value sequence.
@@ -831,13 +885,13 @@ __host__ __device__
  *  \param binary_pred  The binary predicate used to determine equality of keys.
  *  \return The end of the output sequence.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                         and \c InputIterator2's \c value_type is convertible to \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>,
  *                         and if \c x and \c y are objects of \c OutputIterator's \c value_type, then 
  *                         <tt>binary_op(x,y)</tt> is defined.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
  *
  *  \pre \p first1 may equal \p result but the range <tt>[first1, last1)</tt> and the range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
  *  \pre \p first2 may equal \p result but the range <tt>[first2, first2 + (last1 - first1)</tt> and range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
@@ -890,6 +944,10 @@ template<typename InputIterator1,
  *  \c binary_op to perform the prefix sum. When the input and output sequences
  *  are the same, the scan is performed in-place.
  *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  The algorithm's execution is parallelized as determined by \p exec.
  *
  *  \param exec The execution policy to use for parallelization.
@@ -902,14 +960,14 @@ template<typename InputIterator1,
  *  \return The end of the output sequence.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                         and \c InputIterator2's \c value_type is convertible to \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>,
  *                         and if \c x and \c y are objects of \c OutputIterator's \c value_type, then 
  *                         <tt>binary_op(x,y)</tt> is defined.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
- *  \tparam AssociativeOperator is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
+ *  \tparam AssociativeOperator is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/binary_function">Binary Function</a>
  *                              and \c AssociativeOperator's \c result_type is
  *                              convertible to \c OutputIterator's \c value_type.
  *
@@ -969,6 +1027,10 @@ __host__ __device__
  *  belong to the same segment if <tt>binary_pred(*i, *(i+1))</tt> is true, and belong to 
  *  different segments otherwise.
  *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  This version of \p inclusive_scan_by_key uses the associative operator 
  *  \c binary_op to perform the prefix sum. When the input and output sequences
  *  are the same, the scan is performed in-place.
@@ -981,14 +1043,14 @@ __host__ __device__
  *  \param binary_op The associatve operator used to 'sum' values.
  *  \return The end of the output sequence.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                         and \c InputIterator2's \c value_type is convertible to \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>,
  *                         and if \c x and \c y are objects of \c OutputIterator's \c value_type, then 
  *                         <tt>binary_op(x,y)</tt> is defined.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
- *  \tparam AssociativeOperator is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
+ *  \tparam AssociativeOperator is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/binary_function">Binary Function</a>
  *                              and \c AssociativeOperator's \c result_type is
  *                              convertible to \c OutputIterator's \c value_type.
  *
@@ -1043,6 +1105,10 @@ template<typename InputIterator1,
  *  <tt>i</tt> and <tt>i+1</tt> in the range <tt>[first1, last1</tt>
  *  belong to the same segment if <tt>*i == *(i+1)</tt>, and belong to 
  *  different segments otherwise.
+ *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
  *
  *  Refer to the most general form of \p exclusive_scan_by_key for additional details.
  *
@@ -1103,6 +1169,10 @@ __host__ __device__
  *  belong to the same segment if <tt>*i == *(i+1)</tt>, and belong to 
  *  different segments otherwise.
  *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  Refer to the most general form of \p exclusive_scan_by_key for additional details.
  *
  *  \param first1 The beginning of the key sequence.
@@ -1147,6 +1217,10 @@ template<typename InputIterator1,
  *
  *  This version of \p exclusive_scan_by_key uses the value \c init to
  *  initialize the exclusive scan operation.
+ *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
  *
  *  The algorithm's execution is parallelized as determined by \p exec.
  *
@@ -1208,6 +1282,10 @@ __host__ __device__
  *  This version of \p exclusive_scan_by_key uses the value \c init to
  *  initialize the exclusive scan operation.
  *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  \param first1 The beginning of the key sequence.
  *  \param last1 The end of the key sequence.
  *  \param first2 The beginning of the input value sequence.
@@ -1263,6 +1341,10 @@ template<typename InputIterator1,
  *  to compare adjacent keys.  Specifically, consecutive iterators <tt>i</tt> and
  *  <tt>i+1</tt> in the range <tt>[first1, last1)</tt> belong to the same segment if
  *  <tt>binary_pred(*i, *(i+1))</tt> is true, and belong to different segments otherwise.
+ *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
  *
  *  The algorithm's execution is parallelized as determined by \p exec.
  *
@@ -1334,6 +1416,10 @@ __host__ __device__
  *  <tt>i+1</tt> in the range <tt>[first1, last1)</tt> belong to the same segment if
  *  <tt>binary_pred(*i, *(i+1))</tt> is true, and belong to different segments otherwise.
  *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  \param first1 The beginning of the key sequence.
  *  \param last1 The end of the key sequence.
  *  \param first2 The beginning of the input value sequence.
@@ -1399,6 +1485,10 @@ template<typename InputIterator1,
  *  \c binary_op to perform the prefix sum. When the input and output sequences
  *  are the same, the scan is performed in-place.
  *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  The algorithm's execution is parallelized as determined by \p exec.
  *
  *  \param exec The execution policy to use for parallelization.
@@ -1412,15 +1502,15 @@ template<typename InputIterator1,
  *  \return The end of the output sequence.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                         and \c InputIterator2's \c value_type is convertible to \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>,
  *                         and if \c x and \c y are objects of \c OutputIterator's \c value_type, then 
  *                         <tt>binary_op(x,y)</tt> is defined.
  *  \tparam T is convertible to \c OutputIterator's \c value_type.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
- *  \tparam AssociativeOperator is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
+ *  \tparam AssociativeOperator is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/binary_function">Binary Function</a>
  *                         and \c AssociativeOperator's \c result_type is convertible to \c OutputIterator's \c value_type.
  *
  *  \pre \p first1 may equal \p result but the range <tt>[first1, last1)</tt> and the range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
@@ -1489,6 +1579,10 @@ __host__ __device__
  *  \c binary_op to perform the prefix sum. When the input and output sequences
  *  are the same, the scan is performed in-place.
  *
+ *  Results are not deterministic for pseudo-associative operators (e.g.,
+ *  addition of floating-point types). Results for pseudo-associative
+ *  operators may vary from run to run.
+ *
  *  \param first1 The beginning of the key sequence.
  *  \param last1 The end of the key sequence.
  *  \param first2 The beginning of the input value sequence.
@@ -1498,15 +1592,15 @@ __host__ __device__
  *  \param binary_op The associatve operator used to 'sum' values.
  *  \return The end of the output sequence.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                         and \c InputIterator2's \c value_type is convertible to \c OutputIterator's \c value_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>,
  *                         and if \c x and \c y are objects of \c OutputIterator's \c value_type, then 
  *                         <tt>binary_op(x,y)</tt> is defined.
  *  \tparam T is convertible to \c OutputIterator's \c value_type.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
- *  \tparam AssociativeOperator is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
+ *  \tparam AssociativeOperator is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/binary_function">Binary Function</a>
  *                         and \c AssociativeOperator's \c result_type is convertible to \c OutputIterator's \c value_type.
  *
  *  \pre \p first1 may equal \p result but the range <tt>[first1, last1)</tt> and the range <tt>[result, result + (last1 - first1))</tt> shall not overlap otherwise.
@@ -1557,8 +1651,6 @@ template<typename InputIterator1,
 /*! \} // end prefix sums
  */
 
-	
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/scan.inl>
-

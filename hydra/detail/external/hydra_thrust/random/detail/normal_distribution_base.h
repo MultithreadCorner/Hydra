@@ -29,14 +29,13 @@
 #include <limits>
 #include <cmath>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace random
 {
 namespace detail
 {
 
-// this version samples the normal distribution directly 
+// this version samples the normal distribution directly
 // and uses the non-standard math function erfcinv
 template<typename RealType>
   class normal_distribution_nvcc
@@ -46,15 +45,15 @@ template<typename RealType>
     __host__ __device__
     RealType sample(UniformRandomNumberGenerator &urng, const RealType mean, const RealType stddev)
     {
-      typedef typename UniformRandomNumberGenerator::result_type uint_type;
-      const uint_type urng_range = UniformRandomNumberGenerator::max - UniformRandomNumberGenerator::min;
+      using uint_type = typename UniformRandomNumberGenerator::result_type;
+      constexpr uint_type urng_range = UniformRandomNumberGenerator::max - UniformRandomNumberGenerator::min;
 
       // Constants for conversion
-      const RealType S1 = static_cast<RealType>(1) / urng_range;
-      const RealType S2 = S1 / 2;
+      constexpr RealType S1 = static_cast<RealType>(1. / static_cast<double>(urng_range));
+      constexpr RealType S2 = S1 / 2;
 
       RealType S3 = static_cast<RealType>(-1.4142135623730950488016887242097); // -sqrt(2)
-      
+
       // Get the integer value
       uint_type u = urng() - UniformRandomNumberGenerator::min;
 
@@ -77,7 +76,7 @@ template<typename RealType>
     void reset() {}
 };
 
-// this version samples the normal distribution using 
+// this version samples the normal distribution using
 // Marsaglia's "polar method"
 template<typename RealType>
   class normal_distribution_portable
@@ -136,7 +135,7 @@ template<typename RealType>
 template<typename RealType>
   struct normal_distribution_base
 {
-#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC && !defined(_NVHPC_CUDA)
   typedef normal_distribution_nvcc<RealType> type;
 #else
   typedef normal_distribution_portable<RealType> type;
@@ -145,5 +144,5 @@ template<typename RealType>
 
 } // end detail
 } // end random
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

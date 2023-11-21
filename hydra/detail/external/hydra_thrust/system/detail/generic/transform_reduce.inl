@@ -14,13 +14,14 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/transform_reduce.h>
 #include <hydra/detail/external/hydra_thrust/reduce.h>
 #include <hydra/detail/external/hydra_thrust/iterator/transform_iterator.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -30,8 +31,8 @@ namespace generic
 
 
 template<typename DerivedPolicy,
-         typename InputIterator, 
-         typename UnaryFunction, 
+         typename InputIterator,
+         typename UnaryFunction,
          typename OutputType,
          typename BinaryFunction>
 __host__ __device__
@@ -52,5 +53,5 @@ __host__ __device__
 } // end generic
 } // end detail
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

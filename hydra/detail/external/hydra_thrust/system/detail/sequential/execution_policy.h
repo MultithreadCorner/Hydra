@@ -19,8 +19,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/execution_policy.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -50,7 +49,7 @@ template<>
 // tag's definition comes before the generic definition of execution_policy
 struct tag : execution_policy<tag>
 {
-  __host__ __device__ tag() {}
+  __host__ __device__ constexpr tag() {}
 };
 
 // allow conversion to tag when it is not a successor
@@ -66,15 +65,11 @@ template<typename Derived>
 };
 
 
-#ifdef __CUDA_ARCH__
-static const __device__ tag seq;
-#else
-static const tag seq;
-#endif
+HYDRA_THRUST_INLINE_CONSTANT tag seq;
 
 
 } // end sequential
 } // end detail
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

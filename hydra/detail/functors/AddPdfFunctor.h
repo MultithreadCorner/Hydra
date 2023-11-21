@@ -45,16 +45,16 @@ namespace detail {
 //evaluate a tuple of functors and return a tuple of results
 template< typename Tup, size_t ... index>
 inline auto get_functor_tuple_helper(Tup& pdfs, index_sequence<index...>)
--> decltype(hydra_thrust::make_tuple(hydra_thrust::get<index>(pdfs).GetFunctor()...))
+-> decltype(hydra::thrust::make_tuple(hydra::thrust::get<index>(pdfs).GetFunctor()...))
 {
-	return hydra_thrust::make_tuple(hydra_thrust::get<index>(pdfs).GetFunctor() ...);
+	return hydra::thrust::make_tuple(hydra::thrust::get<index>(pdfs).GetFunctor() ...);
 }
 
 template< typename Tup>
 inline auto get_functor_tuple(Tup& pdfs)
--> decltype(get_functor_tuple_helper(pdfs, make_index_sequence< hydra_thrust::tuple_size<Tup>::value> { }))
+-> decltype(get_functor_tuple_helper(pdfs, make_index_sequence< hydra::thrust::tuple_size<Tup>::value> { }))
 {
-	constexpr size_t Size = hydra_thrust::tuple_size<Tup>::value;
+	constexpr size_t Size = hydra::thrust::tuple_size<Tup>::value;
 	return get_functor_tuple_helper(pdfs, make_index_sequence<Size> { });
 }
 
@@ -64,7 +64,7 @@ struct AddPdfFunctor
 	typedef void hydra_composed_functor_type;
 
 
-	typedef hydra_thrust::tuple<
+	typedef hydra::thrust::tuple<
 			typename PDF1::functor_type,
 			typename PDF2::functor_type,
 			typename PDFs::functor_type...> functors_tuple_type;
@@ -73,7 +73,7 @@ struct AddPdfFunctor
 
 	AddPdfFunctor()=delete;
 
-	AddPdfFunctor(hydra_thrust::tuple<typename PDF1::functor_type,
+	AddPdfFunctor(hydra::thrust::tuple<typename PDF1::functor_type,
 			typename PDF2::functor_type, typename PDFs::functor_type...> const& functors,
 			const Parameter (&coeficients)[sizeof...(PDFs)+2], GReal_t coef_sum):
 				fFunctors( functors ),

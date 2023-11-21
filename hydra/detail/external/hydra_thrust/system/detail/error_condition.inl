@@ -17,11 +17,12 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/system/detail/error_condition.inl>
 #include <hydra/detail/external/hydra_thrust/functional.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace system
 {
@@ -129,5 +130,5 @@ bool operator<(const error_condition &lhs,
 
 } // end system
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

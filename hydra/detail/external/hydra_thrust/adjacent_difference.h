@@ -24,9 +24,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/execution_policy.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /*! \addtogroup transformations Transformations
  *  \{
@@ -51,11 +49,11 @@ namespace hydra_thrust
  *  \return The iterator <tt>result + (last - first)</tt>
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \c x and \c y are objects of \p InputIterator's \c value_type, then \c x - \c is defined,
  *          and \p InputIterator's \c value_type is convertible to a type in \p OutputIterator's set of \c value_types,
  *          and the return type of <tt>x - y</tt> is convertible to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \remark Note that \p result is permitted to be the same iterator as \p first. This is
  *          useful for computing differences "in place".
@@ -77,7 +75,7 @@ namespace hydra_thrust
  *  // d_result is now [1, 1, -1, 1, -1, 1, -1, 1]
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/adjacent_difference.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/adjacent_difference
  *  \see inclusive_scan
  */
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
@@ -105,10 +103,10 @@ OutputIterator adjacent_difference(const hydra_thrust::detail::execution_policy_
  *  \return The iterator <tt>result + (last - first)</tt>
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p BinaryFunction's \c first_argument_type and \c second_argument_type,
  *          and \p InputIterator's \c value_type is convertible to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *  \tparam BinaryFunction's \c result_type is convertible to a type in \p OutputIterator's set of \c value_types.
  *
  *  \remark Note that \p result is permitted to be the same iterator as \p first. This is
@@ -132,7 +130,7 @@ OutputIterator adjacent_difference(const hydra_thrust::detail::execution_policy_
  *  // d_result is now [1, 3, 3, 3, 3, 3, 3, 3]
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/adjacent_difference.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/adjacent_difference
  *  \see inclusive_scan
  */
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename BinaryFunction>
@@ -156,11 +154,11 @@ OutputIterator adjacent_difference(const hydra_thrust::detail::execution_policy_
  *  \param result The beginning of the output range.
  *  \return The iterator <tt>result + (last - first)</tt>
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \c x and \c y are objects of \p InputIterator's \c value_type, then \c x - \c is defined,
  *          and \p InputIterator's \c value_type is convertible to a type in \p OutputIterator's set of \c value_types,
  *          and the return type of <tt>x - y</tt> is convertible to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \remark Note that \p result is permitted to be the same iterator as \p first. This is
  *          useful for computing differences "in place".
@@ -181,7 +179,7 @@ OutputIterator adjacent_difference(const hydra_thrust::detail::execution_policy_
  *  // d_result is now [1, 1, -1, 1, -1, 1, -1, 1]
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/adjacent_difference.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/adjacent_difference
  *  \see inclusive_scan
  */
 template <typename InputIterator, typename OutputIterator>
@@ -203,10 +201,10 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
  *  \param binary_op The binary function used to compute differences.
  *  \return The iterator <tt>result + (last - first)</tt>
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p BinaryFunction's \c first_argument_type and \c second_argument_type,
  *          and \p InputIterator's \c value_type is convertible to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *  \tparam BinaryFunction's \c result_type is convertible to a type in \p OutputIterator's set of \c value_types.
  *
  *  \remark Note that \p result is permitted to be the same iterator as \p first. This is
@@ -229,7 +227,7 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
  *  // d_result is now [1, 3, 3, 3, 3, 3, 3, 3]
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/adjacent_difference.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/adjacent_difference
  *  \see inclusive_scan
  */
 template <typename InputIterator, typename OutputIterator, typename BinaryFunction>
@@ -240,7 +238,7 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
 /*! \}
  */
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/adjacent_difference.inl>
 

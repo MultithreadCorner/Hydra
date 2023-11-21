@@ -14,18 +14,16 @@
  *  limitations under the License.
  */
 
+#pragma once
 
-/*! \file iterator_traits.inl
- *  \brief Inline file for iterator_traits.h.
- */
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_categories.h>
 #include <hydra/detail/external/hydra_thrust/iterator/detail/iterator_category_to_traversal.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/type_traits/void_t.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 template<typename Iterator>
   struct iterator_value
@@ -33,6 +31,8 @@ template<typename Iterator>
   typedef typename hydra_thrust::iterator_traits<Iterator>::value_type type;
 }; // end iterator_value
 
+template <typename Iterator>
+using iterator_value_t = typename iterator_value<Iterator>::type;
 
 template<typename Iterator>
   struct iterator_pointer
@@ -40,6 +40,8 @@ template<typename Iterator>
   typedef typename hydra_thrust::iterator_traits<Iterator>::pointer type;
 }; // end iterator_pointer
 
+template <typename Iterator>
+using iterator_pointer_t = typename iterator_pointer<Iterator>::type;
 
 template<typename Iterator>
   struct iterator_reference
@@ -47,12 +49,17 @@ template<typename Iterator>
   typedef typename iterator_traits<Iterator>::reference type;
 }; // end iterator_reference
 
+template <typename Iterator>
+using iterator_reference_t = typename iterator_reference<Iterator>::type;
 
 template<typename Iterator>
   struct iterator_difference
 {
   typedef typename hydra_thrust::iterator_traits<Iterator>::difference_type type;
 }; // end iterator_difference
+
+template <typename Iterator>
+using iterator_difference_t = typename iterator_difference<Iterator>::type;
 
 namespace detail
 {
@@ -70,7 +77,7 @@ struct iterator_system_impl<
   : detail::iterator_category_to_system<
       typename iterator_traits<Iterator>::iterator_category
     >
-{}; 
+{};
 
 } // namespace detail
 
@@ -90,6 +97,8 @@ template<>
   typedef hydra_thrust::iterator_system<const int*>::type type;
 }; // end iterator_system<void*>
 
+template <typename Iterator>
+using iterator_system_t = typename iterator_system<Iterator>::type;
 
 template <typename Iterator>
   struct iterator_traversal
@@ -123,5 +132,5 @@ template<typename T>
 
 
 } // end namespace detail
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

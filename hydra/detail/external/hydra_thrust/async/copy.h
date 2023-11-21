@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2018 NVIDIA Corporation
+ *  Copyright 2008-2021 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,17 +14,16 @@
  *  limitations under the License.
  */
 
-/*! \file async/copy.h
- *  \brief Functions for asynchronously copying a range.
+/*! \file
+ *  \brief Algorithms for asynchronously copying a range.
  */
 
 #pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
-#include <hydra/detail/external/hydra_thrust/detail/cpp11_required.h>
-#include <hydra/detail/external/hydra_thrust/detail/modern_gcc_required.h>
+#include <hydra/detail/external/hydra_thrust/detail/cpp14_required.h>
 
-#if HYDRA_THRUST_CPP_DIALECT >= 2011 && !defined(HYDRA_THRUST_LEGACY_GCC)
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 
 #include <hydra/detail/external/hydra_thrust/detail/static_assert.h>
 #include <hydra/detail/external/hydra_thrust/detail/select_system.h>
@@ -33,10 +32,13 @@
 
 #include <hydra/detail/external/hydra_thrust/event.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace async
 {
+
+/*! \cond
+ */
 
 namespace unimplemented
 {
@@ -58,7 +60,7 @@ async_copy(
   , "this algorithm is not implemented for the specified system"
   );
   return {};
-} 
+}
 
 } // namespace unimplemented
 
@@ -78,10 +80,10 @@ struct copy_fn final
     hydra_thrust::detail::execution_policy_base<FromPolicy> const& from_exec
   , hydra_thrust::detail::execution_policy_base<ToPolicy> const&   to_exec
   , ForwardIt&& first, Sentinel&& last
-  , OutputIt&& output 
+  , OutputIt&& output
   )
   // ADL dispatch.
-  HYDRA_THRUST_DECLTYPE_RETURNS(
+  HYDRA_THRUST_RETURNS(
     async_copy(
       hydra_thrust::detail::derived_cast(hydra_thrust::detail::strip_const(from_exec))
     , hydra_thrust::detail::derived_cast(hydra_thrust::detail::strip_const(to_exec))
@@ -98,13 +100,16 @@ struct copy_fn final
   static auto call(
     hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
-  , OutputIt&& output 
-  ) 
-  // ADL dispatch.
-  HYDRA_THRUST_DECLTYPE_RETURNS(
-    async_copy(
+  , OutputIt&& output
+  )
+  HYDRA_THRUST_RETURNS(
+    copy_fn::call(
       hydra_thrust::detail::derived_cast(hydra_thrust::detail::strip_const(exec))
-    , hydra_thrust::detail::derived_cast(hydra_thrust::detail::strip_const(exec))
+      // Synthesize a suitable new execution policy, because we don't want to
+      // try and extract twice from the one we were passed.
+    , typename remove_cvref_t<
+        decltype(hydra_thrust::detail::derived_cast(hydra_thrust::detail::strip_const(exec)))
+      >::tag_type{}
     , HYDRA_THRUST_FWD(first), HYDRA_THRUST_FWD(last)
     , HYDRA_THRUST_FWD(output)
     )
@@ -112,8 +117,8 @@ struct copy_fn final
 
   template <typename ForwardIt, typename Sentinel, typename OutputIt>
   __host__
-  static auto call(ForwardIt&& first, Sentinel&& last, OutputIt&& output) 
-  HYDRA_THRUST_DECLTYPE_RETURNS(
+  static auto call(ForwardIt&& first, Sentinel&& last, OutputIt&& output)
+  HYDRA_THRUST_RETURNS(
     copy_fn::call(
       hydra_thrust::detail::select_system(
         typename hydra_thrust::iterator_system<remove_cvref_t<ForwardIt>>::type{}
@@ -129,7 +134,7 @@ struct copy_fn final
   template <typename... Args>
   HYDRA_THRUST_NODISCARD __host__
   auto operator()(Args&&... args) const
-  HYDRA_THRUST_DECLTYPE_RETURNS(
+  HYDRA_THRUST_RETURNS(
     call(HYDRA_THRUST_FWD(args)...)
   )
 };
@@ -138,9 +143,12 @@ struct copy_fn final
 
 HYDRA_THRUST_INLINE_CONSTANT copy_detail::copy_fn copy{};
 
+/*! \endcond
+ */
+
 } // namespace async
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #endif
 

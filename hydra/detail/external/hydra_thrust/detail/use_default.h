@@ -18,10 +18,9 @@
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 struct use_default {};
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

@@ -53,7 +53,7 @@
 #include <cassert>
 #include <utility>
 
-#include <gsl/gsl_sf_hyperg.h>
+//#include <gsl/gsl_sf_hyperg.h>
 
 namespace hydra {
 
@@ -280,14 +280,152 @@ private:
 
 		if ( detail::SafeLessThan(::fabs(x), 1.0, std::numeric_limits<double>::epsilon()) ){
 
-			return gsl_sf_hyperg_2F1(a,b,c,x);}
+			return hypergeometric_2f1(a,b,c,x); //gsl_sf_hyperg_2F1(a,b,c,x);
+			}
 
 		else {
 
-			return    gsl_sf_hyperg_2F1(c-a,b,c,1.0-1.0/(1.0-x))/::pow(1.0-x,b);
+			return   hypergeometric_2f1(c-a,b,c,1.0-1.0/(1.0-x))/::pow(1.0-x,b);//gsl_sf_hyperg_2F1(c-a,b,c,1.0-1.0/(1.0-x))/::pow(1.0-x,b);
 
 		}
 	}
+
+	template<typename T>
+	T hypergeometric_2f1(const T& AP, const T& BP, const T& CP, const T& ZM) const
+	 {
+	    // Implement a rational approximation of hypergeometric_2f1.
+	    // This C++11 code uses a computational scheme similar to
+	    // one shown in Y.L. Luke, "Algorithms for the Comuptation
+	    // of Mathematical Functions", Academic Press, New York, 1977.
+	    // The original Fortran77 source can be found in the subroutine
+	    // R2F1() on pages 167-168. Slight corrections are made here
+	    // in order to repair one or two type-setting errors in the
+	    // original publication.
+
+	    // Luke's original Fortran77 and algorithmic work are fascinating
+	    // since they are generic and scalable --- decades ahead of their time.
+	    // Here, in fact, the calculation is scaled down to 15 decimal digits.
+
+	    // Retain some stylistic elements and comments from Luke's
+	    // original Fortran77 coding style.
+
+	    const T Z(-ZM); // NOLINT(readability-identifier-naming)
+
+	    const T my_zero(static_cast<unsigned>(UINT8_C(0)));
+	    const T my_one (static_cast<unsigned>(UINT8_C(1)));
+
+	    // C
+	    // C INITIALIZATION :
+	    // C
+
+	          T SABZ((AP + BP) * Z);             // NOLINT(readability-identifier-naming)
+	    const T AB   (AP * BP);                  // NOLINT(readability-identifier-naming)
+	    const T ABZ  (AB * Z);                   // NOLINT(readability-identifier-naming)
+	    const T ABZ1((Z + ABZ) + SABZ);          // NOLINT(readability-identifier-naming)
+	    const T ABZ2((ABZ1 + SABZ) + (3U * Z));  // NOLINT(readability-identifier-naming)
+
+	    auto A = std::array<T, static_cast<std::size_t>(UINT8_C(4))> { }; // NOLINT(readability-identifier-naming)
+	    auto B = std::array<T, static_cast<std::size_t>(UINT8_C(4))> { }; // NOLINT(readability-identifier-naming)
+
+	    B[0U] = my_one;
+	    A[0U] = my_one;
+
+	    const T CP1(CP + my_one); // NOLINT(readability-identifier-naming)
+
+	    B[1U] = my_one + (ABZ1 / (CP * 2U));
+	    A[1U] = B[1U]  - (ABZ  / CP);
+
+	    const T CT1(2U * CP1); // NOLINT(readability-identifier-naming)
+
+	    B[2U] = my_one + ((ABZ2 / CT1) * (my_one + ABZ1 / ((-T(6U)) + (CT1 * 3U)))); // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	    A[2U] = B[2U]  - ((ABZ  / CP)  * (my_one + ((ABZ2 - ABZ1) / CT1)));          // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+
+	    SABZ /= 4U;
+
+	    const T Z2(Z / 2U); // NOLINT(readability-identifier-naming)
+
+	    auto D = std::array<T, static_cast<std::size_t>(UINT8_C(9))> { }; // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers,readability-identifier-naming)
+
+	    D[0U] = (((T(UINT8_C(7)) / 2U) - AB) * Z2) - SABZ;     // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	    D[1U] = ABZ1 / 4U;                                     // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	    D[2U] = D[1U] - (SABZ * 2U);                           // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	    D[3U] = CP1 + my_one;                                  // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	    D[4U] = CP1 * D[3U];                                   // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	    D[5U] = CP  * D[4U];                                   // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	    D[6U] = T(3U) / 2U;                                    // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	    D[7U] = T(3U) / 4U;                                    // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	    D[8U] = D[7U] * Z;                                     // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+
+	    auto G = std::array<T, static_cast<std::size_t>(UINT8_C(3))> { }; // NOLINT(readability-identifier-naming)
+
+	    // C
+	    // C FOR I=3,...,N , THE VALUES A(I) AND B(I) ARE CALCULATED
+	    // C USING THE RECURRENCE RELATIONS BELOW.
+	    // C
+
+	    for(auto   XI = static_cast<std::uint_fast16_t>(UINT16_C(3)); // NOLINT(readability-identifier-naming)
+	               XI < static_cast<std::uint_fast16_t>(UINT16_C(10000));
+	             ++XI)
+	    {
+	      G[2U]  = (D[2U] * D[1U]) / (D[7U] * D[5U]);             // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	      D[1U] += (D[8U] + SABZ);                                // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	      D[2U] += (D[8U] - SABZ);                                // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	      G[2U] *= (D[1U] / D[6U]);                               // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	      G[0U]  =  my_one + ((D[1U] + D[0U]) / (D[6U] * D[3U])); // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	      G[1U]  =  D[1U] / (D[4U] * D[6U]);                      // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	      D[7U] += (D[6U] * 2U);                                  // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	      ++D[6U];                                                // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	      G[1U] *= ((CP1 - XI) - ((D[2U] + D[0U]) / D[6U]));      // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+
+	      // C -----------------------------------------------------------------
+	      // C THE RECURRENCE RELATIONS FOR A(I) and B(I) ARE AS FOLLOWS
+	      // C -----------------------------------------------------------------
+
+	      A[3U] = std::inner_product(G.crbegin(), G.crend(), A.cbegin(), my_zero);
+	      B[3U] = std::inner_product(G.crbegin(), G.crend(), B.cbegin(), my_zero);
+
+	      // Check if the iteration difference (delta) is within
+	      // tolerance and break from the recursion if it is.
+	      // Here we analyze the difference between this iteration
+	      // result and the previous iteration result using:
+	      //
+	      //         |     |(A2/B2)]| |
+	      // delta = | 1 - |--------| |
+	      //         |     |(A3/B3) | |
+	      //
+	      //         |     |(A2*B3)| |
+	      //       = | 1 - |-------| |,
+	      //         |     |(A3*B2)| |
+	      //
+	      // where the absolute value of the ratio in the second term
+	      // is used and the absolute value of delta is used.
+
+	      using std::fabs;
+
+	      const T ratio = fabs((A[2U] * B[3U]) / (A[3U] * B[2U]));
+	      const T delta = fabs(my_one - ratio);
+
+	      if((XI > static_cast<std::uint_fast16_t>(UINT8_C(7))) && (delta < std::numeric_limits<T>::epsilon()))
+	      {
+	        break;
+	      }
+
+	      // Shift the arrays for the next recursion.
+	      std::copy(A.cbegin() + 1U, A.cend(), A.begin());
+	      std::copy(B.cbegin() + 1U, B.cend(), B.begin());
+
+	      D[8U] +=  Z2;          // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	      D[0U] += (D[8U] * 2U); // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	      D[5U] += (D[4U] * 3U); // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+	      D[4U] += (D[3U] * 2U); // NOLINT(readability-magic-numbers,cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-avoid-magic-numbers)
+
+	      ++D[3U];
+	    }
+
+	    // Return the rational approximation. This is given
+	    // by the ratio of the final recursions of A and B.
+	    return A.back() / B.back();
+	  }
 
 	double d_hypergeometric(double d1, double delta,double l) const {
 

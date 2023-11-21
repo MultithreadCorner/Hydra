@@ -1,9 +1,9 @@
 ### CMakeList for Hydra examples and documentation
 
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.24)
 
 # project name
-project(Hydra_examples_and_documentation)
+project(Hydra_examples_and_documentation LANGUAGES CXX)
 
 # warn user if system is not UNIX
 if(NOT UNIX)
@@ -15,29 +15,76 @@ SET(Hydra_CMAKE_DIR "${PROJECT_SOURCE_DIR}/cmake")
 SET(CMAKE_MODULE_PATH "${Hydra_CMAKE_DIR}" ${CMAKE_MODULE_PATH})
 SET(CMAKE_VERBOSE_MAKEFILE  ON)
 
-#check if compiler is C++14 compliant
+#check if compilers are C++17 compliant
 include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("--std=c++14" COMPILER_SUPPORTS_CXX14)
-if(NOT COMPILER_SUPPORTS_CXX14)
- message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++14 support. Please use a different C++ compiler.")
+CHECK_CXX_COMPILER_FLAG("--std=c++20" COMPILER_SUPPORTS_CXX17)
+if(NOT COMPILER_SUPPORTS_CXX17)
+ message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++20 support. Please use a different C++ compiler.")
 endif()
 
 #compiler flags
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
 
  MESSAGE(STATUS "Setting Clang flags")
- set(CMAKE_CXX_FLAGS " --std=c++14 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
+ set(CMAKE_CXX_FLAGS " --std=c++17 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
 
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
  MESSAGE(STATUS "Setting GCC flags")
- set(CMAKE_CXX_FLAGS " --std=c++14 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
+ set(CMAKE_CXX_FLAGS " --std=c++20 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
 
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
 
  MESSAGE(STATUS "Setting ICC flags")
- set(CMAKE_CXX_FLAGS " --std=c++14 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
+ set(CMAKE_CXX_FLAGS " --std=c++17 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
 endif()
+
+#-----------------------
+# Handling CUDA
+
+include(CheckLanguage)
+
+check_language(CUDA)
+
+if(CMAKE_CUDA_COMPILER)
+  enable_language(CUDA)
+  message(STATUS "CUDA compiler found. Enabling CUDA support")
+else(CMAKE_CUDA_COMPILER)
+  message(STATUS "CUDA compiler not found. Disabling CUDA support")
+endif(CMAKE_CUDA_COMPILER)
+
+
+if(CMAKE_CUDA_COMPILER)
+
+set(CMAKE_CUDA_STANDARD 20)
+set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+
+
+find_package(CUDAToolkit)
+
+if(CUDAToolkit_FOUND)
+
+set( CUDA_FOUND TRUE)
+list(APPEND HYDRA_CUDA_FLAGS "--std=c++20")
+list(APPEND HYDRA_CUDA_FLAGS "--gpu-architecture=native")
+list(APPEND HYDRA_CUDA_FLAGS "-extended-lambda")
+list(APPEND HYDRA_CUDA_FLAGS "-split-compile 0")
+list(APPEND HYDRA_CUDA_FLAGS "-O4")
+#list(APPEND HYDRA_CUDA_FLAGS "--debug")
+#list(APPEND HYDRA_CUDA_FLAGS "--device-debug")
+#list(APPEND HYDRA_CUDA_FLAGS "-lineinfo")
+list(APPEND HYDRA_CUDA_FLAGS "-m64")
+list(APPEND HYDRA_CUDA_FLAGS "--threads=0")
+list(APPEND HYDRA_CUDA_FLAGS "--verbose")
+list(APPEND HYDRA_CUDA_FLAGS "--expt-relaxed-constexpr")
+#list(APPEND HYDRA_CUDA_FLAGS "")
+list(JOIN   HYDRA_CUDA_FLAGS " " HYDRA_CUDA_FLAGS)
+set( CMAKE_CUDA_FLAGS "${HYDRA_CUDA_FLAGS}" CACHE STRING "CUDA compile flags" FORCE)
+get_target_property(HYDRA_CUDA_RT CUDA::cudart ALIASED_TARGET)
+get_target_property(HYDRA_CUDA_FFT CUDA::cufft ALIASED_TARGET)
+
+endif(CUDAToolkit_FOUND)
+endif(CMAKE_CUDA_COMPILER)
 
 #-----------------------
 # get Hydra
@@ -58,26 +105,14 @@ if(ROOT_FOUND)
 include_directories(${ROOT_INCLUDE_DIRS})
 link_directories(${ROOT_LIBRARIES})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_ROOT_AVAILABLE_")
+if(CUDA_FOUND)
+set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -D_ROOT_AVAILABLE_")
+endif(CUDA_FOUND)
 if(${ROOT_Minuit2_LIBRARY} MATCHES "libMinuit2.so")
 set(Minuit2_FOUND ON)
 else(Minuit2_FOUND OFF)
 endif()
 endif(ROOT_FOUND)
-
-#-----------------------
-# get GSL for convolution examples
-find_package(GSL)
-if(GSL_FOUND)
-include_directories(${GSL_INCLUDE_DIRS})
-endif(GSL_FOUND)
-
-#-----------------------
-# get Eigen for sPlot examples
-find_package( Eigen3 3.3.7 REQUIRED )
-include_directories( EIGEN3_INCLUDE_DIR )
-if(EIGEN3_FOUND)
-include_directories(${EIGEN3_INCLUDE_DIR})
-endif(EIGEN3_FOUND)
 
 #-----------------------
 # get FFTW for convolution examples
@@ -86,33 +121,6 @@ if(FFTW_FOUND)
 include_directories(${FFTW_INCLUDE_DIRS})
 endif(FFTW_FOUND)
 
-#-----------------------
-#get CUDA
-find_package(CUDA 9.2)
-if(CUDA_FOUND)
-link_directories( ${CUDA_TOOLKIT_ROOT_DIR}/lib64/)
-
-#set cuda flags
-SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}  -ftemplate-backtrace-limit=0; --cudart;   static;  -O4 ; --expt-relaxed-constexpr; -fmad=true; --expt-extended-lambda;--relocatable-device-code=false;
--Xptxas -dlcm=ca;-Xptxas --opt-level=4 )
-
-SET(CUDA_PROPAGATE_HOST_FLAGS ON)
-SET(CUDA_SEPARABLE_COMPILATION OFF)
-SET(CUDA_VERBOSE_BUILD OFF)
-
-
-if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.4)
- #   LIST(APPEND CUDA_NVCC_FLAGS " -Xcompiler -D__CORRECT_ISO_CPP11_MATH_H_PROTO ")
-endif()
-# Detect CUDA architecture and get best NVCC flags
-
-INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindCudaArch.cmake)
-
-SELECT_NVCC_ARCH_FLAGS(NVCC_FLAGS_EXTRA)
-
-LIST(APPEND CUDA_NVCC_FLAGS ${NVCC_FLAGS_EXTRA})
-
-endif(CUDA_FOUND)
 
 #-----------------------
 #get TBB
@@ -175,10 +183,10 @@ MESSAGE(STATUS "ROOT library path: ${ROOT_LIBRARY_DIR}" )
 MESSAGE(STATUS "ROOT libraries: ${ROOT_LIBRARIES}")
 MESSAGE(STATUS "ROOT::Minuit2: ${ROOT_Minuit2_LIBRARY}")
 MESSAGE(STATUS "Build CUDA/NVCC-based targets: ${BUILD_CUDA_TARGETS}")
-MESSAGE(STATUS "CUDA include: ${CUDA_INCLUDE_DIRS}" )
-MESSAGE(STATUS "CUDA RT libraries: ${CUDA_LIBRARIES}"  )
-MESSAGE(STATUS "CUDA CUFFT libraries: ${CUDA_CUFFT_LIBRARIES}")
-MESSAGE(STATUS "NVCC flags: ${CUDA_NVCC_FLAGS}" )
+MESSAGE(STATUS "CUDAToolkit include: ${CUDAToolkit_INCLUDE_DIRS}" )
+MESSAGE(STATUS "CUDA RT libraries: ${HYDRA_CUDA_RT}"  )
+MESSAGE(STATUS "CUDA CUFFT libraries: CUDA::cufft: ${HYDRA_CUDA_FFT}" )
+MESSAGE(STATUS "NVCC flags: ${CMAKE_CUDA_FLAGS}" )
 MESSAGE(STATUS "Build TBB targets: ${BUILD_TBB_TARGETS}")
 MESSAGE(STATUS "TBB include: ${TBB_INCLUDE_DIRS}" )
 MESSAGE(STATUS "TBB libraries: ${TBB_LIBRARIES}" )
@@ -199,6 +207,11 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/plots)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 add_custom_target(examples)
+add_custom_target(examples_cpp)
+add_custom_target(examples_tbb)
+add_custom_target(examples_omp)
+add_custom_target(examples_cuda)
+
 include(${Hydra_CMAKE_DIR}/AddHydraExample.cmake)
 
 add_subdirectory(examples/phase_space)
@@ -217,10 +230,23 @@ endif(Minuit2_FOUND)
 #+++++++++++++++++++++++++++
 #        TESTING           +
 #+++++++++++++++++++++++++++
-enable_testing()
+include(FetchContent)
 
-add_custom_target(tests)
+FetchContent_Declare(
+  Catch2
+  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+  GIT_TAG        v3.4.0
+)
+FetchContent_MakeAvailable(Catch2)
+
+include(CTest)
+
+add_custom_target(practrand_streamers)
+
+if(BUILD_TESTING)
 add_subdirectory(testing)
+endif()
+
 
 #+++++++++++++++++++++++++++
 #       DOXYGEN            +

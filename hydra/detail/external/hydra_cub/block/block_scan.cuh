@@ -35,16 +35,11 @@
 
 #include "specializations/block_scan_raking.cuh"
 #include "specializations/block_scan_warp_scans.cuh"
-#include "../util_arch.cuh"
+#include "../config.cuh"
 #include "../util_type.cuh"
 #include "../util_ptx.cuh"
-#include "../util_namespace.cuh"
 
-/// Optional outer namespace(s)
-CUB_NS_PREFIX
-
-/// CUB namespace
-namespace cub {
+CUB_NAMESPACE_BEGIN
 
 
 /******************************************************************************
@@ -122,7 +117,7 @@ enum BlockScanAlgorithm
  * \tparam ALGORITHM        <b>[optional]</b> cub::BlockScanAlgorithm enumerator specifying the underlying algorithm to use (default: cub::BLOCK_SCAN_RAKING)
  * \tparam BLOCK_DIM_Y      <b>[optional]</b> The thread block length in threads along the Y dimension (default: 1)
  * \tparam BLOCK_DIM_Z      <b>[optional]</b> The thread block length in threads along the Z dimension (default: 1)
- * \tparam PTX_ARCH         <b>[optional]</b> \ptxversion
+ * \tparam LEGACY_PTX_ARCH  <b>[optional]</b> Unused.
  *
  * \par Overview
  * - Given a list of input elements and a binary reduction operator, a [<em>prefix scan</em>](http://en.wikipedia.org/wiki/Prefix_sum)
@@ -158,11 +153,11 @@ enum BlockScanAlgorithm
  * where each thread owns 4 consecutive items.
  * \par
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
- *     // Specialize BlockScan for a 1D block of 128 threads on type int
+ *     // Specialize BlockScan for a 1D block of 128 threads of type int
  *     typedef cub::BlockScan<int, 128> BlockScan;
  *
  *     // Allocate shared memory for BlockScan
@@ -182,6 +177,13 @@ enum BlockScanAlgorithm
  * The corresponding output \p thread_data in those threads will be
  * <tt>{[0,1,2,3], [4,5,6,7], ..., [508,509,510,511]}</tt>.
  *
+ * \par Re-using dynamically allocating shared memory
+ * The following example under the examples/block folder illustrates usage of
+ * dynamically shared memory with BlockReduce and how to re-purpose
+ * the same memory region:
+ * <a href="../../examples/block/example_block_reduce_dyn_smem.cu">example_block_reduce_dyn_smem.cu</a>
+ *
+ * This example can be easily adapted to the storage required by BlockScan.
  */
 template <
     typename            T,
@@ -189,7 +191,7 @@ template <
     BlockScanAlgorithm  ALGORITHM       = BLOCK_SCAN_RAKING,
     int                 BLOCK_DIM_Y     = 1,
     int                 BLOCK_DIM_Z     = 1,
-    int                 PTX_ARCH        = CUB_PTX_ARCH>
+    int                 LEGACY_PTX_ARCH = 0>
 class BlockScan
 {
 private:
@@ -212,17 +214,17 @@ private:
      * architectural warp size.
      */
     static const BlockScanAlgorithm SAFE_ALGORITHM =
-        ((ALGORITHM == BLOCK_SCAN_WARP_SCANS) && (BLOCK_THREADS % CUB_WARP_THREADS(PTX_ARCH) != 0)) ?
+        ((ALGORITHM == BLOCK_SCAN_WARP_SCANS) && (BLOCK_THREADS % CUB_WARP_THREADS(0) != 0)) ?
             BLOCK_SCAN_RAKING :
             ALGORITHM;
 
-    typedef BlockScanWarpScans<T, BLOCK_DIM_X, BLOCK_DIM_Y, BLOCK_DIM_Z, PTX_ARCH> WarpScans;
-    typedef BlockScanRaking<T, BLOCK_DIM_X, BLOCK_DIM_Y, BLOCK_DIM_Z, (SAFE_ALGORITHM == BLOCK_SCAN_RAKING_MEMOIZE), PTX_ARCH> Raking;
+    typedef BlockScanWarpScans<T, BLOCK_DIM_X, BLOCK_DIM_Y, BLOCK_DIM_Z> WarpScans;
+    typedef BlockScanRaking<T, BLOCK_DIM_X, BLOCK_DIM_Y, BLOCK_DIM_Z, (SAFE_ALGORITHM == BLOCK_SCAN_RAKING_MEMOIZE)> Raking;
 
     /// Define the delegate type for the desired algorithm
-    typedef typename If<(SAFE_ALGORITHM == BLOCK_SCAN_WARP_SCANS),
-        WarpScans,
-        Raking>::Type InternalBlockScan;
+    using InternalBlockScan =
+      cub::detail::conditional_t<
+        SAFE_ALGORITHM == BLOCK_SCAN_WARP_SCANS, WarpScans, Raking>;
 
     /// Shared memory storage layout type for BlockScan
     typedef typename InternalBlockScan::TempStorage _TempStorage;
@@ -307,11 +309,11 @@ public:
      * are partitioned across 128 threads.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
-     *     // Specialize BlockScan for a 1D block of 128 threads on type int
+     *     // Specialize BlockScan for a 1D block of 128 threads of type int
      *     typedef cub::BlockScan<int, 128> BlockScan;
      *
      *     // Allocate shared memory for BlockScan
@@ -334,7 +336,8 @@ public:
         T               input,                          ///< [in] Calling thread's input item
         T               &output)                        ///< [out] Calling thread's output item (may be aliased to \p input)
     {
-        T initial_value = 0;
+        T initial_value{};
+
         ExclusiveScan(input, output, initial_value, cub::Sum());
     }
 
@@ -352,11 +355,11 @@ public:
      * are partitioned across 128 threads.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
-     *     // Specialize BlockScan for a 1D block of 128 threads on type int
+     *     // Specialize BlockScan for a 1D block of 128 threads of type int
      *     typedef cub::BlockScan<int, 128> BlockScan;
      *
      *     // Allocate shared memory for BlockScan
@@ -382,7 +385,8 @@ public:
         T               &output,                        ///< [out] Calling thread's output item (may be aliased to \p input)
         T               &block_aggregate)               ///< [out] block-wide aggregate reduction of input items
     {
-        T initial_value = 0;
+        T initial_value{};
+
         ExclusiveScan(input, output, initial_value, cub::Sum(), block_aggregate);
     }
 
@@ -406,7 +410,7 @@ public:
      * of 128 integer items that are partitioned across 128 threads.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * // A stateful callback functor that maintains a running prefix to be applied
      * // during consecutive scan operations.
@@ -493,11 +497,11 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
-     *     // Specialize BlockScan for a 1D block of 128 threads on type int
+     *     // Specialize BlockScan for a 1D block of 128 threads of type int
      *     typedef cub::BlockScan<int, 128> BlockScan;
      *
      *     // Allocate shared memory for BlockScan
@@ -522,7 +526,8 @@ public:
         T                 (&input)[ITEMS_PER_THREAD],   ///< [in] Calling thread's input items
         T                 (&output)[ITEMS_PER_THREAD])  ///< [out] Calling thread's output items (may be aliased to \p input)
     {
-        T initial_value = 0;
+        T initial_value{};
+
         ExclusiveScan(input, output, initial_value, cub::Sum());
     }
 
@@ -542,11 +547,11 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
-     *     // Specialize BlockScan for a 1D block of 128 threads on type int
+     *     // Specialize BlockScan for a 1D block of 128 threads of type int
      *     typedef cub::BlockScan<int, 128> BlockScan;
      *
      *     // Allocate shared memory for BlockScan
@@ -575,7 +580,8 @@ public:
         T                 &block_aggregate)                 ///< [out] block-wide aggregate reduction of input items
     {
         // Reduce consecutive thread items in registers
-        T initial_value = 0;
+        T initial_value{};
+
         ExclusiveScan(input, output, initial_value, cub::Sum(), block_aggregate);
     }
 
@@ -601,7 +607,7 @@ public:
      * across 128 threads where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * // A stateful callback functor that maintains a running prefix to be applied
      * // during consecutive scan operations.
@@ -700,11 +706,11 @@ public:
      * are partitioned across 128 threads.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
-     *     // Specialize BlockScan for a 1D block of 128 threads on type int
+     *     // Specialize BlockScan for a 1D block of 128 threads of type int
      *     typedef cub::BlockScan<int, 128> BlockScan;
      *
      *     // Allocate shared memory for BlockScan
@@ -748,11 +754,11 @@ public:
      * are partitioned across 128 threads.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
-     *     // Specialize BlockScan for a 1D block of 128 threads on type int
+     *     // Specialize BlockScan for a 1D block of 128 threads of type int
      *     typedef cub::BlockScan<int, 128> BlockScan;
      *
      *     // Allocate shared memory for BlockScan
@@ -805,7 +811,7 @@ public:
      * of 128 integer items that are partitioned across 128 threads.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * // A stateful callback functor that maintains a running prefix to be applied
      * // during consecutive scan operations.
@@ -896,11 +902,11 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
-     *     // Specialize BlockScan for a 1D block of 128 threads on type int
+     *     // Specialize BlockScan for a 1D block of 128 threads of type int
      *     typedef cub::BlockScan<int, 128> BlockScan;
      *
      *     // Allocate shared memory for BlockScan
@@ -958,11 +964,11 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
-     *     // Specialize BlockScan for a 1D block of 128 threads on type int
+     *     // Specialize BlockScan for a 1D block of 128 threads of type int
      *     typedef cub::BlockScan<int, 128> BlockScan;
      *
      *     // Allocate shared memory for BlockScan
@@ -1026,7 +1032,7 @@ public:
      * of 128 integer items that are partitioned across 128 threads.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * // A stateful callback functor that maintains a running prefix to be applied
      * // during consecutive scan operations.
@@ -1253,11 +1259,11 @@ public:
      * are partitioned across 128 threads.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
-     *     // Specialize BlockScan for a 1D block of 128 threads on type int
+     *     // Specialize BlockScan for a 1D block of 128 threads of type int
      *     typedef cub::BlockScan<int, 128> BlockScan;
      *
      *     // Allocate shared memory for BlockScan
@@ -1296,11 +1302,11 @@ public:
      * are partitioned across 128 threads.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
-     *     // Specialize BlockScan for a 1D block of 128 threads on type int
+     *     // Specialize BlockScan for a 1D block of 128 threads of type int
      *     typedef cub::BlockScan<int, 128> BlockScan;
      *
      *     // Allocate shared memory for BlockScan
@@ -1349,7 +1355,7 @@ public:
      * of 128 integer items that are partitioned across 128 threads.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * // A stateful callback functor that maintains a running prefix to be applied
      * // during consecutive scan operations.
@@ -1435,11 +1441,11 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
-     *     // Specialize BlockScan for a 1D block of 128 threads on type int
+     *     // Specialize BlockScan for a 1D block of 128 threads of type int
      *     typedef cub::BlockScan<int, 128> BlockScan;
      *
      *     // Allocate shared memory for BlockScan
@@ -1497,11 +1503,11 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
-     *     // Specialize BlockScan for a 1D block of 128 threads on type int
+     *     // Specialize BlockScan for a 1D block of 128 threads of type int
      *     typedef cub::BlockScan<int, 128> BlockScan;
      *
      *     // Allocate shared memory for BlockScan
@@ -1571,7 +1577,7 @@ public:
      * across 128 threads where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * // A stateful callback functor that maintains a running prefix to be applied
      * // during consecutive scan operations.
@@ -1683,11 +1689,11 @@ public:
      * are partitioned across 128 threads.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
-     *     // Specialize BlockScan for a 1D block of 128 threads on type int
+     *     // Specialize BlockScan for a 1D block of 128 threads of type int
      *     typedef cub::BlockScan<int, 128> BlockScan;
      *
      *     // Allocate shared memory for BlockScan
@@ -1730,11 +1736,11 @@ public:
      * are partitioned across 128 threads.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
-     *     // Specialize BlockScan for a 1D block of 128 threads on type int
+     *     // Specialize BlockScan for a 1D block of 128 threads of type int
      *     typedef cub::BlockScan<int, 128> BlockScan;
      *
      *     // Allocate shared memory for BlockScan
@@ -1786,7 +1792,7 @@ public:
      * of 128 integer items that are partitioned across 128 threads.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * // A stateful callback functor that maintains a running prefix to be applied
      * // during consecutive scan operations.
@@ -1877,11 +1883,11 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
-     *     // Specialize BlockScan for a 1D block of 128 threads on type int
+     *     // Specialize BlockScan for a 1D block of 128 threads of type int
      *     typedef cub::BlockScan<int, 128> BlockScan;
      *
      *     // Allocate shared memory for BlockScan
@@ -1943,11 +1949,11 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
-     *     // Specialize BlockScan for a 1D block of 128 threads on type int
+     *     // Specialize BlockScan for a 1D block of 128 threads of type int
      *     typedef cub::BlockScan<int, 128> BlockScan;
      *
      *     // Allocate shared memory for BlockScan
@@ -2019,7 +2025,7 @@ public:
      * of 128 integer items that are partitioned across 128 threads.
      * \par
      * \code
-     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/block/block_scan.cuh>
+     * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/block/block_scan.cuh>
      *
      * // A stateful callback functor that maintains a running prefix to be applied
      * // during consecutive scan operations.
@@ -2121,6 +2127,5 @@ public:
  * \example example_block_scan.cu
  */
 
-}               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+CUB_NAMESPACE_END
 

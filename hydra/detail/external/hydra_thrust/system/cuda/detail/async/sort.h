@@ -30,10 +30,9 @@
 #pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
-#include <hydra/detail/external/hydra_thrust/detail/cpp11_required.h>
-#include <hydra/detail/external/hydra_thrust/detail/modern_gcc_required.h>
+#include <hydra/detail/external/hydra_thrust/detail/cpp14_required.h>
 
-#if HYDRA_THRUST_CPP_DIALECT >= 2011 && !defined(HYDRA_THRUST_LEGACY_GCC)
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 
 #if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 
@@ -54,7 +53,7 @@
 
 #include <type_traits>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace system { namespace cuda { namespace detail
 {
@@ -64,7 +63,6 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Size, typename StrictWeakOrdering
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_stable_sort_n(
   execution_policy<DerivedPolicy>& policy,
   ForwardIt                        first,
@@ -172,7 +170,6 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Size, typename StrictWeakOrdering
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_stable_sort_n(
   execution_policy<DerivedPolicy>& policy,
   ForwardIt                        first,
@@ -214,7 +211,6 @@ auto async_stable_sort_n(
     , n
     , comp
     , nullptr // Null stream, just for sizing.
-    , HYDRA_THRUST_DEBUG_SYNC_FLAG
     )
   , "after merge sort sizing"
   );
@@ -279,7 +275,6 @@ auto async_stable_sort_n(
     , n
     , comp
     , e.stream().native_handle()
-    , HYDRA_THRUST_DEBUG_SYNC_FLAG
     )
   , "after merge sort sizing"
   );
@@ -288,7 +283,6 @@ auto async_stable_sort_n(
 }
 
 template <typename T, typename Size, typename StrictWeakOrdering>
-HYDRA_THRUST_RUNTIME_FUNCTION
 typename std::enable_if<
   is_operator_less_function_object<StrictWeakOrdering>::value
 , cudaError_t
@@ -310,12 +304,10 @@ invoke_radix_sort(
   , 0
   , sizeof(T) * 8
   , stream
-  , HYDRA_THRUST_DEBUG_SYNC_FLAG
   );
 }
 
 template <typename T, typename Size, typename StrictWeakOrdering>
-HYDRA_THRUST_RUNTIME_FUNCTION
 typename std::enable_if<
   is_operator_greater_function_object<StrictWeakOrdering>::value
 , cudaError_t
@@ -337,7 +329,6 @@ invoke_radix_sort(
   , 0
   , sizeof(T) * 8
   , stream
-  , HYDRA_THRUST_DEBUG_SYNC_FLAG
   );
 }
 
@@ -348,7 +339,6 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Size, typename StrictWeakOrdering
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_stable_sort_n(
   execution_policy<DerivedPolicy>& policy
 , ForwardIt                        first
@@ -503,13 +493,14 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Sentinel, typename StrictWeakOrdering
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_stable_sort(
   execution_policy<DerivedPolicy>& policy,
   ForwardIt                        first,
   Sentinel                         last,
   StrictWeakOrdering               comp
 )
+// A GCC 5 bug requires an explicit trailing return type here, so stick with
+// HYDRA_THRUST_DECLTYPE_RETURNS for now.
 HYDRA_THRUST_DECLTYPE_RETURNS(
   hydra_thrust::system::cuda::detail::async_stable_sort_n(
     policy, first, distance(first, last), comp
@@ -518,7 +509,7 @@ HYDRA_THRUST_DECLTYPE_RETURNS(
 
 } // cuda_cub
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #endif // HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 

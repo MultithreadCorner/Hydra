@@ -19,8 +19,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/omp/detail/execution_policy.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace omp
@@ -51,7 +50,7 @@ OutputIterator copy_n(execution_policy<DerivedPolicy> &exec,
 } // end namespace detail
 } // end namespace omp
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/system/omp/detail/copy.inl>
 

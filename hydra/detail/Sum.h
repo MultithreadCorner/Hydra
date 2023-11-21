@@ -59,9 +59,9 @@ namespace hydra {
 template<typename F1, typename F2, typename ...Fs>
 class Sum:   public BaseCompositeFunctor<
 Sum<F1, F2,Fs...>,
-hydra_thrust::tuple<F1, F2, Fs...>,
+hydra::thrust::tuple<F1, F2, Fs...>,
  typename detail::merged_tuple<
- 	 hydra_thrust::tuple< typename std::common_type<
+ 	 hydra::thrust::tuple< typename std::common_type<
  	 	 	 	 	 	 	 	 	 	 typename F1::return_type,
  	 	 	 	 	 	 	 	 	 	 typename F2::return_type,
  	 	 	 	 	 	 	 	 	 	 typename Fs::return_type...
@@ -79,9 +79,9 @@ hydra_thrust::tuple<F1, F2, Fs...>,
 
 	typedef BaseCompositeFunctor<
 	Sum<F1, F2,Fs...>,
-	hydra_thrust::tuple<F1, F2, Fs...>,
+	hydra::thrust::tuple<F1, F2, Fs...>,
 	 typename detail::merged_tuple<
-	 	 hydra_thrust::tuple< typename std::common_type<
+	 	 hydra::thrust::tuple< typename std::common_type<
 	 	 	 	 	 	 	 	 	 	 	 typename F1::return_type,
 	 	 	 	 	 	 	 	 	 	 	 typename F2::return_type,
 	 	 	 	 	 	 	 	 	 	 	 typename Fs::return_type...

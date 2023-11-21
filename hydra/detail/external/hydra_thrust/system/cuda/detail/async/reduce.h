@@ -32,10 +32,9 @@
 #pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
-#include <hydra/detail/external/hydra_thrust/detail/cpp11_required.h>
-#include <hydra/detail/external/hydra_thrust/detail/modern_gcc_required.h>
+#include <hydra/detail/external/hydra_thrust/detail/cpp14_required.h>
 
-#if HYDRA_THRUST_CPP_DIALECT >= 2011 && !defined(HYDRA_THRUST_LEGACY_GCC)
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 
 #if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 
@@ -50,7 +49,7 @@
 
 #include <type_traits>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace system { namespace cuda { namespace detail
 {
@@ -59,22 +58,20 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Size, typename T, typename BinaryOp
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
-auto async_reduce_n(
+unique_eager_future<remove_cvref_t<T>> async_reduce_n(
   execution_policy<DerivedPolicy>& policy
 , ForwardIt                        first
 , Size                             n
 , T                                init
 , BinaryOp                         op
-) -> unique_eager_future<remove_cvref_t<T>>
-{
+) {
   using U = remove_cvref_t<T>;
 
   auto const device_alloc = get_async_device_allocator(policy);
 
   using pointer
     = typename hydra_thrust::detail::allocator_traits<decltype(device_alloc)>::
-      rebind_traits<U>::pointer;
+      template rebind_traits<U>::pointer;
 
   unique_eager_future_promise_pair<U, pointer> fp;
 
@@ -91,7 +88,6 @@ auto async_reduce_n(
     , op
     , init
     , nullptr // Null stream, just for sizing.
-    , HYDRA_THRUST_DEBUG_SYNC_FLAG
     )
   , "after reduction sizing"
   );
@@ -173,7 +169,6 @@ auto async_reduce_n(
     , op
     , init
     , fp.future.stream().native_handle()
-    , HYDRA_THRUST_DEBUG_SYNC_FLAG
     )
   , "after reduction launch"
   );
@@ -191,7 +186,6 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Sentinel, typename T, typename BinaryOp
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_reduce(
   execution_policy<DerivedPolicy>& policy
 , ForwardIt                        first
@@ -199,7 +193,7 @@ auto async_reduce(
 , T                                init
 , BinaryOp                         op
 )
-HYDRA_THRUST_DECLTYPE_RETURNS(
+HYDRA_THRUST_RETURNS(
   hydra_thrust::system::cuda::detail::async_reduce_n(
     policy, first, distance(first, last), init, op
   )
@@ -217,16 +211,14 @@ template <
 , typename ForwardIt, typename Size, typename OutputIt
 , typename T, typename BinaryOp
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
-auto async_reduce_into_n(
+unique_eager_event async_reduce_into_n(
   execution_policy<DerivedPolicy>& policy
 , ForwardIt                        first
 , Size                             n
 , OutputIt                         output
 , T                                init
 , BinaryOp                         op
-) -> unique_eager_event
-{
+) {
   using U = remove_cvref_t<T>;
 
   auto const device_alloc = get_async_device_allocator(policy);
@@ -246,7 +238,6 @@ auto async_reduce_into_n(
     , op
     , init
     , nullptr // Null stream, just for sizing.
-    , HYDRA_THRUST_DEBUG_SYNC_FLAG
     )
   , "after reduction sizing"
   );
@@ -310,7 +301,6 @@ auto async_reduce_into_n(
     , op
     , init
     , e.stream().native_handle()
-    , HYDRA_THRUST_DEBUG_SYNC_FLAG
     )
   , "after reduction launch"
   );
@@ -329,7 +319,6 @@ template <
 , typename ForwardIt, typename Sentinel, typename OutputIt
 , typename T, typename BinaryOp
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_reduce_into(
   execution_policy<DerivedPolicy>& policy
 , ForwardIt                        first
@@ -338,7 +327,7 @@ auto async_reduce_into(
 , T                                init
 , BinaryOp                         op
 )
-HYDRA_THRUST_DECLTYPE_RETURNS(
+HYDRA_THRUST_RETURNS(
   hydra_thrust::system::cuda::detail::async_reduce_into_n(
     policy, first, distance(first, last), output, init, op
   )
@@ -346,7 +335,7 @@ HYDRA_THRUST_DECLTYPE_RETURNS(
 
 } // cuda_cub
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #endif // HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 

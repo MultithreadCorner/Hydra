@@ -15,8 +15,9 @@
  */
 
 
-/*! \file device_allocator.h
- *  \brief An allocator which creates new elements in device memory
+/*! \file
+ *  \brief An allocator which creates new elements in memory accessible by
+ *  devices.
  */
 
 #pragma once
@@ -24,16 +25,15 @@
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/device_ptr.h>
 #include <hydra/detail/external/hydra_thrust/mr/allocator.h>
-#include <hydra/detail/external/hydra_thrust/memory/detail/device_system_resource.h>
+#include <hydra/detail/external/hydra_thrust/mr/device_memory_resource.h>
 
 #include <limits>
 #include <stdexcept>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
-/** \addtogroup memory_resources Memory Resources
- *  \ingroup memory_management_classes
+/** \addtogroup allocators Allocators
+ *  \ingroup memory_management
  *  \{
  */
 
@@ -42,7 +42,7 @@ namespace hydra_thrust
  *      a \p device_ptr.
  */
 template<typename Upstream>
-class device_ptr_memory_resource HYDRA_THRUST_FINAL
+class device_ptr_memory_resource final
     : public hydra_thrust::mr::memory_resource<
         device_ptr<void>
     >
@@ -68,13 +68,13 @@ public:
     }
 
     HYDRA_THRUST_NODISCARD __host__
-    virtual pointer do_allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) HYDRA_THRUST_OVERRIDE
+    virtual pointer do_allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) override
     {
         return pointer(m_upstream->do_allocate(bytes, alignment).get());
     }
 
     __host__
-    virtual void do_deallocate(pointer p, std::size_t bytes, std::size_t alignment) HYDRA_THRUST_OVERRIDE
+    virtual void do_deallocate(pointer p, std::size_t bytes, std::size_t alignment) override
     {
         m_upstream->do_deallocate(upstream_ptr(p.get()), bytes, alignment);
     }
@@ -83,13 +83,10 @@ private:
     Upstream * m_upstream;
 };
 
-/*! \}
- */
-
-/*! \addtogroup memory_management Memory Management
- *  \addtogroup memory_management_classes Memory Management Classes
- *  \ingroup memory_management
- *  \{
+/*! \brief An allocator which creates new elements in memory accessible by
+ *         devices.
+ *
+ *  \see https://en.cppreference.com/w/cpp/named_req/Allocator
  */
 template<typename T>
 class device_allocator
@@ -118,25 +115,26 @@ public:
     };
 
     /*! Default constructor has no effect. */
-    __host__
+    __host__ __device__
     device_allocator() {}
 
     /*! Copy constructor has no effect. */
-    __host__
+    __host__ __device__
     device_allocator(const device_allocator& other) : base(other) {}
 
     /*! Constructor from other \p device_allocator has no effect. */
     template<typename U>
-    __host__
+    __host__ __device__
     device_allocator(const device_allocator<U>& other) : base(other) {}
 
+    device_allocator & operator=(const device_allocator &) = default;
+
     /*! Destructor has no effect. */
-    __host__
+    __host__ __device__
     ~device_allocator() {}
 };
 
-/*! \}
+/*! \} // allocators
  */
 
-} // end hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

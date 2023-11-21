@@ -14,10 +14,7 @@
  *  limitations under the License.
  */
 
-
-/*! \file logical.inl
- *  \brief Inline file for logical.h.
- */
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
@@ -25,9 +22,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/logical.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/logical.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 __hydra_thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
@@ -97,6 +92,4 @@ bool none_of(InputIterator first, InputIterator last, Predicate pred)
   return hydra_thrust::none_of(select_system(system), first, last, pred);
 }
 
-
-} // end namespace hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

@@ -24,8 +24,9 @@
 #include <cstring>
 #include <hydra/detail/external/hydra_thrust/system/detail/sequential/general_copy.h>
 
-namespace hydra_thrust
-{
+#include <hydra/detail/external/hydra_libcudacxx/nv/target>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -40,17 +41,21 @@ __host__ __device__
                     std::ptrdiff_t n,
                     T *result)
 {
-#ifndef __CUDA_ARCH__
-  std::memmove(result, first, n * sizeof(T));
-  return result + n;
-#else
-  return hydra_thrust::system::detail::sequential::general_copy_n(first, n, result);
-#endif
+  T* return_value = NULL;
+
+  NV_IF_TARGET(NV_IS_HOST, (
+    std::memmove(result, first, n * sizeof(T));
+    return_value = result + n;
+  ), ( // NV_IS_DEVICE:
+    return_value = hydra_thrust::system::detail::sequential::general_copy_n(first, n, result);
+  ));
+
+  return return_value;
 } // end trivial_copy_n()
 
 
 } // end namespace sequential
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

@@ -22,8 +22,7 @@
 #include <hydra/detail/external/hydra_thrust/find.h>
 #include <hydra/detail/external/hydra_thrust/logical.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -59,5 +58,5 @@ bool none_of(hydra_thrust::execution_policy<ExecutionPolicy> &exec, InputIterato
 } // end generic
 } // end detail
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

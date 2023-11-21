@@ -20,8 +20,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/pointer_traits.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 
@@ -95,7 +94,7 @@ __host__ __device__
 bool operator!=(const tagged_allocator<T1,Pointer1,Tag> &, const tagged_allocator<T2,Pointer2,Tag> &);
 
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/allocator/tagged_allocator.inl>
 

@@ -215,7 +215,7 @@ public:
 	return_type>::type
 	operator()( T1 x, T2 y )  const
 	{
-		auto z = hydra_thrust::tuple_cat(x, y);
+		auto z = hydra::thrust::tuple_cat(x, y);
 
 		return  call(z);
 	}
@@ -236,7 +236,7 @@ public:
 	return_type>::type
 	operator()( T1 x, T2 y )  const
 	{
-		auto z = hydra_thrust::tuple_cat(hydra_thrust::make_tuple(x), y);
+		auto z = hydra::thrust::tuple_cat(hydra::thrust::make_tuple(x), y);
 		return  call(z);
 	}
 
@@ -256,7 +256,7 @@ public:
 	return_type>::type
 	operator()(  T2 y, T1 x )  const
 	{
-		auto z = hydra_thrust::tuple_cat(hydra_thrust::make_tuple(x), y);
+		auto z = hydra::thrust::tuple_cat(hydra::thrust::make_tuple(x), y);
 		return  call(z);
 	}
 
@@ -267,7 +267,7 @@ private:
 	inline  return_type call_helper(T x, detail::index_sequence<I...> ) const
 	{
 		return fLambda( detail::get_tuple_element<
-				typename hydra_thrust::tuple_element<I,argument_rvalue_type>::type >(x)...);
+				typename hydra::thrust::tuple_element<I,argument_rvalue_type>::type >(x)...);
 	}
 
 	template<typename T>
@@ -281,8 +281,8 @@ private:
 	__hydra_host__ __hydra_device__
 	inline  return_type raw_call_helper(T x, detail::index_sequence<I...> ) const
 	{
-		return fLambda(static_cast<typename hydra_thrust::tuple_element<I,argument_rvalue_type>::type>(
-				hydra_thrust::get<I>(x))...);
+		return fLambda(static_cast<typename hydra::thrust::tuple_element<I,argument_rvalue_type>::type>(
+				hydra::thrust::get<I>(x))...);
 	}
 
 	template<typename T>
@@ -451,7 +451,7 @@ public:
 	return_type>::type
 	operator()( T1 x, T2 y )  const
 	{
-		auto z = hydra_thrust::tuple_cat(x, y);
+		auto z = hydra::thrust::tuple_cat(x, y);
 		return  call(z);
 	}
 
@@ -465,7 +465,7 @@ public:
 	return_type>::type
 	operator()( T1 x, T2 y )  const
 	{
-		auto z = hydra_thrust::tuple_cat(hydra_thrust::make_tuple(x), y);
+		auto z = hydra::thrust::tuple_cat(hydra::thrust::make_tuple(x), y);
 		return  call(z);
 	}
 
@@ -479,7 +479,7 @@ public:
 	return_type>::type
 	operator()(  T2 y, T1 x )  const
 	{
-		auto z = hydra_thrust::tuple_cat(hydra_thrust::make_tuple(x), y);
+		auto z = hydra::thrust::tuple_cat(hydra::thrust::make_tuple(x), y);
 		return  call(z);
 	}
 
@@ -492,7 +492,7 @@ private:
 
 		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),
 			detail::get_tuple_element<
-			typename hydra_thrust::tuple_element<I,argument_rvalue_type>::type >(x)...);
+			typename hydra::thrust::tuple_element<I,argument_rvalue_type>::type >(x)...);
 	}
 
 	template<typename T>
@@ -507,8 +507,8 @@ private:
 	inline  return_type raw_call_helper(T x, detail::index_sequence<I...> ) const
 	{
 		return fLambda(this->GetNumberOfParameters(), this->GetParameters(),
-				static_cast<typename hydra_thrust::tuple_element<I,argument_rvalue_type>::type>(
-				hydra_thrust::get<I>(x))...);
+				static_cast<typename hydra::thrust::tuple_element<I,argument_rvalue_type>::type>(
+				hydra::thrust::get<I>(x))...);
 	}
 
 	template<typename T>

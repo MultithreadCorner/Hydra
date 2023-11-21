@@ -14,11 +14,9 @@
  *  limitations under the License.
  */
 
+#pragma once
 
-/*! \file generate.inl
- *  \author Jared Hoberock
- *  \brief Inline file for generate.h.
- */
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #include <hydra/detail/external/hydra_thrust/generate.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
@@ -26,9 +24,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/generate.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/generate.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 __hydra_thrust_exec_check_disable__
 template<typename DerivedPolicy,
@@ -93,6 +89,4 @@ template<typename OutputIterator,
   return hydra_thrust::generate_n(select_system(system), first, n, gen);
 } // end generate_n()
 
-
-} // end hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

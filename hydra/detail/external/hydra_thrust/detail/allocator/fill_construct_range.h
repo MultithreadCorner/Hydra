@@ -18,8 +18,7 @@
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 
@@ -30,7 +29,7 @@ inline void fill_construct_range(Allocator &a, Pointer p, Size n, const T &value
 
 
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/allocator/fill_construct_range.inl>
 

@@ -58,7 +58,7 @@ public:
 	fFCNCache(std::unordered_map<size_t, GReal_t>()),
 	fFCNMaxValue(std::numeric_limits<GReal_t>::min())
 	{
-		fDataSize = hydra_thrust::distance(fBegin, fEnd);
+		fDataSize = hydra::thrust::distance(fBegin, fEnd);
 		LoadFCNParameters();
 	}
 

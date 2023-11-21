@@ -20,8 +20,7 @@
 #include <hydra/detail/external/hydra_thrust/system/tbb/detail/remove.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/remove.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace tbb
@@ -90,5 +89,5 @@ template<typename DerivedPolicy,
 } // end namespace detail
 } // end namespace tbb
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

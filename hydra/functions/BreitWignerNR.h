@@ -88,7 +88,7 @@ public:
 		double m2 = (m - mean)*(m - mean);
 		double w2 = width*width;
 
-		return CHECK_VALUE(1.0/(m2 + 0.25*w2), "par[0]=%f, par[1]=%f", _par[0], _par[1]) ;
+		return  CHECK_VALUE(1.0/(m2 + 0.25*w2), "par[0]=%f, par[1]=%f", _par[0], _par[1]) ;
 	}
 
 

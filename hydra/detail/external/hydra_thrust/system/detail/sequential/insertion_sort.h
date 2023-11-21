@@ -22,8 +22,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/function.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/sequential/copy_backward.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -149,5 +148,5 @@ void insertion_sort_by_key(RandomAccessIterator1 first1,
 } // end namespace sequential
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

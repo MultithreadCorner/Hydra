@@ -23,12 +23,10 @@
 
 namespace hydra_thrust
 {
-
-
-#ifdef HYDRA_THRUST_VARIADIC_TUPLE
-
 namespace detail
 {
+
+#ifdef HYDRA_THRUST_VARIADIC_TUPLE
 
 template<
   typename... Types
@@ -56,9 +54,9 @@ template<
       return *this;
     }
 
-    /*
      // allow assignment from tuples
     // XXX might be worthwhile to guard this with an enable_if is_assignable
+    /*
     __hydra_thrust_exec_check_disable__
     template<typename U1, typename U2>
     inline __host__ __device__
@@ -67,7 +65,7 @@ template<
       super_t::operator=(other);
       return *this;
     }
-*/
+    */
 
     // allow assignment from pairs
     // XXX might be worthwhile to guard this with an enable_if is_assignable
@@ -118,18 +116,8 @@ template<
       : super_t(ts...)
     {}
 #endif
-
-
 };
 
-template< typename ...T, typename ...U>
-inline __host__ __device__
-typename std::enable_if<(sizeof ...(T)) == (sizeof ...(U)),void>::type
-swap(tuple_of_iterator_references<T...> x,
-          tuple_of_iterator_references<U...> y)
-{
-  x.swap(y);
-}
 
 } // end detail
 
@@ -156,11 +144,16 @@ struct tuple_element<i, detail::tuple_of_iterator_references<Type1,Types...>>
   using type = typename tuple_element<i - 1, detail::tuple_of_iterator_references<Types...>>::type;
 };
 
+template< typename ...T, typename ...U>
+inline __host__ __device__
+void swap(detail::tuple_of_iterator_references<T...> x,
+		detail::tuple_of_iterator_references<U...> y)
+{
+  x.swap(y);
+}
 
 #else
 
-namespace detail
-{
 
 template<
   typename T0, typename T1, typename T2,
@@ -391,9 +384,7 @@ void swap(tuple_of_iterator_references<T0,T1,T2,T3,T4,T5,T6,T7,T8,T9> x,
 {
   x.swap(y);
 }
-
 } // end detail
-
 #endif
 
 } // end hydra_hydra_thrust

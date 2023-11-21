@@ -37,8 +37,7 @@
 #include <hydra/detail/external/hydra_thrust/iterator/detail/iterator_facade_category.h>
 #include <hydra/detail/external/hydra_thrust/iterator/detail/distance_from_result.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /*! \addtogroup iterators
  *  \{
@@ -539,5 +538,5 @@ Derived operator+ (typename Derived::difference_type n,
 /*! \} // end iterators
  */
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

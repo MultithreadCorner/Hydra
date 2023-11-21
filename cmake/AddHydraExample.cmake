@@ -7,17 +7,15 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
 
                   message(STATUS "Adding target ${target_name} to CUDA backend. Executable file name: ${target_name}_cuda")
 
-                  cuda_add_executable("${target_name}_cuda"
-                   #EXCLUDE_FROM_ALL
-                   "${target_name}.cu"
-                    OPTIONS -Xcompiler -DHYDRA_DEVICE_SYSTEM=CUDA -DHYDRA_HOST_SYSTEM=CPP)
+                  add_executable("${target_name}_cuda"  "${CMAKE_CURRENT_SOURCE_DIR}/${target_name}.cu")
+                  set_target_properties("${target_name}_cuda" PROPERTIES COMPILE_FLAGS "-Xcompiler -DHYDRA_DEVICE_SYSTEM=CUDA -DHYDRA_HOST_SYSTEM=CPP")
 
-                  target_link_libraries("${target_name}_cuda" ${ROOT_LIBRARIES} ${TBB_LIBRARIES}  ${GSL_LIBRARIES}  ${CUDA_CUFFT_LIBRARIES} -lm)
+                  target_link_libraries("${target_name}_cuda" ${ROOT_LIBRARIES} CUDA::cufft   CUDA::cudart -lm)
 
-                  add_dependencies(examples      "${target_name}_cuda")
-                  
+                  add_dependencies(examples_cuda     "${target_name}_cuda")
+
         endif( ${${build_cuda}} )
-        
+
         #+++++++++++++++++++++++++
         # TBB TARGETS            |
         #+++++++++++++++++++++++++
@@ -30,9 +28,9 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
                  set_target_properties( "${target_name}_tbb"
                   PROPERTIES COMPILE_FLAGS "-DHYDRA_HOST_SYSTEM=CPP -DHYDRA_DEVICE_SYSTEM=TBB")
 
-                 target_link_libraries( "${target_name}_tbb" ${ROOT_LIBRARIES} ${TBB_LIBRARIES}  ${GSL_LIBRARIES} ${FFTW_LIBRARIES} -lm)
+                 target_link_libraries( "${target_name}_tbb" ${ROOT_LIBRARIES} ${TBB_LIBRARIES} ${FFTW_LIBRARIES} -lm)
 
-                 add_dependencies(examples "${target_name}_tbb")
+                 add_dependencies(examples_tbb "${target_name}_tbb")
 
          endif( ${${build_tbb}} )
 
@@ -49,9 +47,9 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
                  set_target_properties( "${target_name}_cpp"
                   PROPERTIES COMPILE_FLAGS "-DHYDRA_HOST_SYSTEM=CPP -DHYDRA_DEVICE_SYSTEM=CPP")
 
-                 target_link_libraries( "${target_name}_cpp" ${ROOT_LIBRARIES} ${TBB_LIBRARIES} ${GSL_LIBRARIES} ${FFTW_LIBRARIES} -lm)
+                 target_link_libraries( "${target_name}_cpp" ${ROOT_LIBRARIES} ${FFTW_LIBRARIES} -lm)
 
-                 add_dependencies(examples "${target_name}_cpp")
+                 add_dependencies(examples_cpp "${target_name}_cpp")
 
          endif( ${${build_cpp}} )
         #+++++++++++++++++++++++++
@@ -66,9 +64,9 @@ function(ADD_HYDRA_EXAMPLE target_name build_cuda build_tbb build_omp build_cpp 
                  set_target_properties( "${target_name}_omp"
                   PROPERTIES COMPILE_FLAGS "-DHYDRA_HOST_SYSTEM=CPP -DHYDRA_DEVICE_SYSTEM=OMP ${OpenMP_CXX_FLAGS}")
 
-                 target_link_libraries( "${target_name}_omp" ${ROOT_LIBRARIES} ${OpenMP_CXX_LIBRARIES} ${GSL_LIBRARIES} ${FFTW_LIBRARIES} -lm)
+                 target_link_libraries( "${target_name}_omp" ${ROOT_LIBRARIES} ${OpenMP_CXX_LIBRARIES} ${FFTW_LIBRARIES} -lm)
 
-                 add_dependencies(examples "${target_name}_omp")
+                 add_dependencies(examples_omp "${target_name}_omp")
 
          endif(${${build_omp}})
 

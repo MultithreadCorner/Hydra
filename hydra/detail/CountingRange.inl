@@ -42,6 +42,10 @@ namespace range {
 template<typename T>
 struct Shift
 {
+	typedef void hydra_functor_type;
+	typedef T return_type ;
+	typedef T argument_type;
+
 	Shift(T min,  T delta):
 		fMin(min),
 		fDelta(delta)
@@ -53,7 +57,20 @@ struct Shift
 	fDelta(other.fDelta)
 	{}
 
-	inline T operator()(unsigned bin){
+	__hydra_host__ __hydra_device__
+	inline Shift<T>& operator=( Shift<T> const& other)
+	{
+
+		if(this == &other) return *this;
+
+		fMin = other.fMin;
+		fDelta = other.fDelta;
+		return *this ;
+	}
+
+
+
+	inline  return_type operator()(unsigned bin){
 		return fMin + bin*fDelta;
 	}
 
@@ -66,22 +83,22 @@ private:
 
 }  // namespace detail
 
-Range<hydra_thrust::counting_iterator<long int>>
+Range<hydra::thrust::counting_iterator<long int>>
 range(long int first, long int last ){
 
-	return make_range( hydra_thrust::counting_iterator<long int>(first),
-			hydra_thrust::counting_iterator<long int>(last) );
+	return make_range( hydra::thrust::counting_iterator<long int>(first),
+			hydra::thrust::counting_iterator<long int>(last) );
 }
 
 template<typename T>
 inline typename std::enable_if< std::is_floating_point<T>::value,
-   Range<hydra_thrust::counting_iterator<unsigned>, detail::range::Shift<T>> >::type
+   Range<hydra::thrust::counting_iterator<unsigned>, detail::range::Shift<T>> >::type
 range(T min, T max, unsigned nbins ){
 
 	T delta = (max-min)/nbins;
 
-	return make_range( hydra_thrust::counting_iterator<unsigned>(0),
-			hydra_thrust::counting_iterator<unsigned>(nbins),
+	return make_range( hydra::thrust::counting_iterator<unsigned>(0),
+			hydra::thrust::counting_iterator<unsigned>(nbins),
 			detail::range::Shift<T>(min, delta) );
 }
 

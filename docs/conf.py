@@ -54,7 +54,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Hydra'
-copyright = u'2016-2020, Antonio Augusto Alves Junior'
+copyright = u'2016-2023, Antonio Augusto Alves Junior'
 author = u'Antonio Augusto Alves Junior'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -171,6 +171,7 @@ latex_documents = [
      u'Antonio Augusto Alves Junior', 'manual'),
 ]
 
+bibtex_bibfiles = ['references.bib']
 
 # -- Options for manual page output ---------------------------------------
 

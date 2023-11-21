@@ -80,12 +80,12 @@ class SparseHistogram<T, N,  detail::BackendPolicy<BACKEND>, detail::multidimens
 	typedef typename storage_keys_t::pointer keys_pointer;
 	typedef typename storage_keys_t::value_type keys_value_type;
 
-	typedef hydra_thrust::zip_iterator<
-			hydra_thrust::tuple<keys_iterator, data_iterator>> iterator;
-	typedef hydra_thrust::zip_iterator<
-			hydra_thrust::tuple<keys_const_iterator, data_const_iterator> > const_iterator;
-	typedef typename hydra_thrust::iterator_traits<iterator>::reference reference;
-	typedef typename hydra_thrust::iterator_traits<iterator>::value_type value_type;
+	typedef hydra::thrust::zip_iterator<
+			hydra::thrust::tuple<keys_iterator, data_iterator>> iterator;
+	typedef hydra::thrust::zip_iterator<
+			hydra::thrust::tuple<keys_const_iterator, data_const_iterator> > const_iterator;
+	typedef typename hydra::thrust::iterator_traits<iterator>::reference reference;
+	typedef typename hydra::thrust::iterator_traits<iterator>::value_type value_type;
 	typedef std::pair<size_t*, double*> pointer_pair;
 
 public:
@@ -93,7 +93,7 @@ public:
 	SparseHistogram()=delete;
 
 	explicit SparseHistogram( std::array<size_t , N> const& grid,
-			std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits):
+			std::array<double, N> const& lowerlimits,   std::array<double, N> const& upperlimits):
 				fNBins(1)
 	{
 		for( size_t i=0; i<N; i++){
@@ -120,7 +120,7 @@ public:
 
 	template<typename Int, typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
 	SparseHistogram( std::array<Int , N> const& grid,
-			std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits):
+			std::array<double, N> const& lowerlimits,   std::array<double, N> const& upperlimits):
 				fNBins(1)
 	{
 		for( size_t i=0; i<N; i++){
@@ -312,8 +312,8 @@ public:
 
 		get_global_bin( bins,  bin);
 
-		size_t index = hydra_thrust::distance(fBins.begin(),
-				hydra_thrust::find(fSystem , fBins.begin(),fBins.end(), bin));
+		size_t index = hydra::thrust::distance(fBins.begin(),
+				hydra::thrust::find(fSystem , fBins.begin(),fBins.end(), bin));
 
 		return (index < fBins.size() ) ? fContents.begin()[index] : 0.0;
 	}
@@ -327,8 +327,8 @@ public:
 
 			get_global_bin( bins,  bin);
 
-			size_t index = hydra_thrust::distance(fBins.begin(),
-					hydra_thrust::find(fSystem , fBins.begin(),fBins.end(), bin));
+			size_t index = hydra::thrust::distance(fBins.begin(),
+					hydra::thrust::find(fSystem , fBins.begin(),fBins.end(), bin));
 
 			return (index < fBins.size() ) ? fContents.begin()[index] : 0.0;
 		}
@@ -349,14 +349,36 @@ public:
 		return make_range( fContents.begin(), fContents.begin() + fNBins);
 	}
 
-	inline Range< hydra_thrust::transform_iterator<detail::GetBinCenter<T,N>, keys_iterator> >
+	inline Range< hydra::thrust::transform_iterator<detail::GetBinCenter<T,N>, keys_iterator> >
 	GetBinsCenters() {
 
-		hydra_thrust::transform_iterator<detail::GetBinCenter<T,N>, keys_iterator> first( fBins.begin(),
+		hydra::thrust::transform_iterator<detail::GetBinCenter<T,N>, keys_iterator> first( fBins.begin(),
 				detail::GetBinCenter<T,N>( fGrid, fLowerLimits, fUpperLimits) );
 
 		return make_range( first , first + fNBins);
 	}
+
+	template<unsigned int I>
+	inline Range< hydra::thrust::transform_iterator<detail::GetAxisBinCenter<double,N,I>, keys_iterator> >
+	GetBinsCenters( placeholders::placeholder<I> ) {
+
+		hydra::thrust::transform_iterator<detail::GetAxisBinCenter<double,N,I>, keys_iterator>
+		first( fBins.begin(), detail::GetAxisBinCenter<double,N,I>( fGrid, fLowerLimits, fUpperLimits) );
+
+		return make_range( first , first + fNBins);
+	}
+
+	template<size_t M=N>
+	inline typename std::enable_if< M==2, T >::type
+	Interpolate( std::array<size_t,2> const&  point);
+
+	template<size_t M=N>
+	inline typename std::enable_if< M==3, T >::type
+	Interpolate( std::array<size_t,3> const&  point);
+
+	template<size_t M=N>
+	inline typename std::enable_if< M==4, T >::type
+	Interpolate( std::array<size_t,4> const&  point);
 
 
 	//stl interface
@@ -366,23 +388,23 @@ public:
 	}
 
 	iterator begin(){
-		return hydra_thrust::make_zip_iterator(
-						hydra_thrust::make_tuple(fBins.begin() ,  fContents.begin()) );
+		return hydra::thrust::make_zip_iterator(
+						hydra::thrust::make_tuple(fBins.begin() ,  fContents.begin()) );
 	}
 
 	iterator end(){
-		return hydra_thrust::make_zip_iterator(
-				hydra_thrust::make_tuple(fBins.end() ,  fContents.end() ));
+		return hydra::thrust::make_zip_iterator(
+				hydra::thrust::make_tuple(fBins.end() ,  fContents.end() ));
 	}
 
 	const_iterator begin() const {
-		return hydra_thrust::make_zip_iterator(
-				hydra_thrust::make_tuple(fBins.cbegin() ,  fContents.cbegin() ) );
+		return hydra::thrust::make_zip_iterator(
+				hydra::thrust::make_tuple(fBins.cbegin() ,  fContents.cbegin() ) );
 	}
 
 	const_iterator end() const {
-		return hydra_thrust::make_zip_iterator(
-				hydra_thrust::make_tuple(fBins.end() ,  fContents.end() ));
+		return hydra::thrust::make_zip_iterator(
+				hydra::thrust::make_tuple(fBins.end() ,  fContents.end() ));
 	}
 
 	reference operator[](size_t i) {
@@ -395,7 +417,7 @@ public:
 
 	size_t size() const	{
 
-		return  hydra_thrust::distance(begin(), end() );
+		return  hydra::thrust::distance(begin(), end() );
 	}
 
 	template<typename Iterator>
@@ -440,11 +462,11 @@ private:
 	//k = i_1*(dim_2*...*dim_n) + i_2*(dim_3*...*dim_n) + ... + i_{n-1}*dim_n + i_n
 
 	template<typename Int,size_t I>
-	typename hydra_thrust::detail::enable_if< (I== N) && std::is_integral<Int>::value, void>::type
+	typename hydra::thrust::detail::enable_if< (I== N) && std::is_integral<Int>::value, void>::type
 	get_global_bin(const Int (&)[N], size_t& ){ }
 
 	template<typename Int,size_t I=0>
-	typename hydra_thrust::detail::enable_if< (I< N) && std::is_integral<Int>::value, void>::type
+	typename hydra::thrust::detail::enable_if< (I< N) && std::is_integral<Int>::value, void>::type
 	get_global_bin(const Int (&indexes)[N], size_t& index)
 	{
 		size_t prod =1;
@@ -456,11 +478,11 @@ private:
 	}
 
 	template<typename Int,size_t I>
-	typename hydra_thrust::detail::enable_if< (I== N) && std::is_integral<Int>::value, void>::type
+	typename hydra::thrust::detail::enable_if< (I== N) && std::is_integral<Int>::value, void>::type
 	get_global_bin( std::array<Int,N> const& , size_t& ){ }
 
 	template<typename Int,size_t I=0>
-	typename hydra_thrust::detail::enable_if< (I< N) && std::is_integral<Int>::value, void>::type
+	typename hydra::thrust::detail::enable_if< (I< N) && std::is_integral<Int>::value, void>::type
 	get_global_bin( std::array<Int,N> const& indexes, size_t& index)
 	{
 		size_t prod =1;
@@ -559,8 +581,8 @@ private:
 	}
 
 
-	T fUpperLimits[N];
-	T fLowerLimits[N];
+	double fUpperLimits[N];
+	double fLowerLimits[N];
 	size_t   fGrid[N];
 	size_t   fNBins;
 	storage_data_t fContents;
@@ -594,12 +616,12 @@ class SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,  detail::unidimension
 	typedef typename storage_keys_t::value_type keys_value_type;
 
 
-	typedef hydra_thrust::zip_iterator<
-			hydra_thrust::tuple<keys_iterator, data_iterator>> iterator;
-	typedef hydra_thrust::zip_iterator<
-			hydra_thrust::tuple<keys_const_iterator, data_const_iterator> > const_iterator;
-	typedef typename hydra_thrust::iterator_traits<iterator>::reference reference;
-	typedef typename hydra_thrust::iterator_traits<iterator>::value_type value_type;
+	typedef hydra::thrust::zip_iterator<
+			hydra::thrust::tuple<keys_iterator, data_iterator>> iterator;
+	typedef hydra::thrust::zip_iterator<
+			hydra::thrust::tuple<keys_const_iterator, data_const_iterator> > const_iterator;
+	typedef typename hydra::thrust::iterator_traits<iterator>::reference reference;
+	typedef typename hydra::thrust::iterator_traits<iterator>::value_type value_type;
 	typedef std::pair<size_t*, double*> pointer_pair;
 
 public:
@@ -607,7 +629,7 @@ public:
 	SparseHistogram()=delete;
 
 
-	SparseHistogram( size_t grid, T lowerlimits, T upperlimits):
+	SparseHistogram( size_t grid, double lowerlimits, double upperlimits):
 		fGrid(grid),
 		fLowerLimits(lowerlimits),
 		fUpperLimits(upperlimits),
@@ -701,10 +723,10 @@ public:
 				fContents.begin()[bin] : 0.0;
 	}
 
-	inline Range<hydra_thrust::transform_iterator<detail::GetBinCenter<T,1>, keys_iterator> >
+	inline Range<hydra::thrust::transform_iterator<detail::GetBinCenter<T,1>, keys_iterator> >
 	GetBinsCenters() {
 
-		hydra_thrust::transform_iterator<detail::GetBinCenter<T,1>, keys_iterator >
+		hydra::thrust::transform_iterator<detail::GetBinCenter<T,1>, keys_iterator >
 		first( fBins.begin(), detail::GetBinCenter<T,1>( fGrid, fLowerLimits, fUpperLimits) );
 
 		return make_range( first , first+fNBins);
@@ -722,23 +744,23 @@ public:
 	}
 
 	iterator begin(){
-		return hydra_thrust::make_zip_iterator(
-						hydra_thrust::make_tuple(fBins.begin() ,  fContents.begin()) );
+		return hydra::thrust::make_zip_iterator(
+						hydra::thrust::make_tuple(fBins.begin() ,  fContents.begin()) );
 	}
 
 	iterator end(){
-		return hydra_thrust::make_zip_iterator(
-				hydra_thrust::make_tuple(fBins.end() ,  fContents.end() ));
+		return hydra::thrust::make_zip_iterator(
+				hydra::thrust::make_tuple(fBins.end() ,  fContents.end() ));
 	}
 
 	const_iterator begin() const {
-		return hydra_thrust::make_zip_iterator(
-				hydra_thrust::make_tuple(fBins.cbegin() ,  fContents.cbegin() ) );
+		return hydra::thrust::make_zip_iterator(
+				hydra::thrust::make_tuple(fBins.cbegin() ,  fContents.cbegin() ) );
 	}
 
 	const_iterator end() const {
-		return hydra_thrust::make_zip_iterator(
-				hydra_thrust::make_tuple(fBins.end() ,  fContents.end() ));
+		return hydra::thrust::make_zip_iterator(
+				hydra::thrust::make_tuple(fBins.end() ,  fContents.end() ));
 	}
 
 	reference operator[](size_t i) {
@@ -751,7 +773,7 @@ public:
 
 	size_t size() const	{
 
-		return  hydra_thrust::distance(begin(), end() );
+		return  hydra::thrust::distance(begin(), end() );
 	}
 
 	template<typename Iterator>
@@ -795,8 +817,8 @@ private:
 
 
 
-	T fUpperLimits;
-	T fLowerLimits;
+	double fUpperLimits;
+	double fLowerLimits;
 	size_t   fGrid;
 	size_t   fNBins;
 	storage_data_t fContents;
@@ -816,10 +838,10 @@ private:
  * @param end Iterator pointing to the end of the data range.
  * @return
  */
-template<typename Iterator, typename T, size_t N , hydra::detail::Backend BACKEND>
+template< typename T, typename Iterator,size_t N , hydra::detail::Backend BACKEND>
 SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
-		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
+		std::array<double, N> const& lowerlimits,   std::array<double, N> const& upperlimits,
 		Iterator first, Iterator end);
 /**
  * \ingroup histogram
@@ -834,10 +856,10 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t
  * @param wfirst Iterator pointing to the begin of the weights range.
  * @return
  */
-template<typename Iterator1,typename Iterator2, typename T, size_t N , hydra::detail::Backend BACKEND>
+template< typename T, typename Iterator1,typename Iterator2,size_t N , hydra::detail::Backend BACKEND>
 SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 make_sparse_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> grid,
-		std::array<T, N> const& lowerlimits,   std::array<T, N> const& upperlimits,
+		std::array<double, N> const& lowerlimits,   std::array<double, N> const& upperlimits,
 		Iterator1 first, Iterator1 end, Iterator2 wfirst);
 
 /**
@@ -855,7 +877,7 @@ template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterab
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
 SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
 make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N>const& grid,
-		std::array<T, N>const&lowerlimits,   std::array<T, N>const& upperlimits,	Iterable&& data);
+		std::array<double, N>const&lowerlimits,   std::array<double, N>const& upperlimits,	Iterable&& data);
 
 
 /**
@@ -875,7 +897,7 @@ inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value&&
 hydra::detail::is_iterable<Iterable2>::value,
 SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
 make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N>const& grid,
-		std::array<T, N>const&lowerlimits,   std::array<T, N>const& upperlimits,
+		std::array<double, N>const&lowerlimits,   std::array<double, N>const& upperlimits,
 		Iterable1&& data, Iterable2&& weights);
 
 
@@ -892,9 +914,9 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t
  * @param end Iterator pointing to the end of the data range.
  * @return
  */
-template<typename Iterator, typename T, hydra::detail::Backend BACKEND>
+template<typename T, typename Iterator, hydra::detail::Backend BACKEND>
 SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
-make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins, T lowerlimit, T upperlimit,
+make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins, double lowerlimit, double upperlimit,
 		Iterator first, Iterator end);
 
 /**
@@ -910,9 +932,9 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins, T l
  * @param wfirst Iterator pointing to the begin of the weights range.
  * @return
  */
-template<typename Iterator1, typename Iterator2, typename T, hydra::detail::Backend BACKEND>
+template< typename T,typename Iterator1, typename Iterator2, hydra::detail::Backend BACKEND>
 SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
-make_sparse_histogram( detail::BackendPolicy<BACKEND>, size_t nbins, T lowerlimit,  T upperlimit,
+make_sparse_histogram( detail::BackendPolicy<BACKEND>, size_t nbins, double lowerlimit,  double upperlimit,
 		Iterator1 first, Iterator1 end, Iterator2 wfirst);
 
 /**
@@ -930,7 +952,7 @@ template< typename T, hydra::detail::Backend BACKEND, typename Iterable>
 inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
 SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
 make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins,
-		T lowerlimit,  T upperlimit,	Iterable&& data);
+		double lowerlimit, double upperlimit,	Iterable&& data);
 
 /**
  * \ingroup histogram
@@ -949,7 +971,7 @@ inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value&&
 hydra::detail::is_iterable<Iterable2>::value,
 SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
 make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins,
-		T lowerlimit, T upperlimit,	Iterable1&& data, Iterable2&& weights);
+		double lowerlimit, double upperlimit,	Iterable1&& data, Iterable2&& weights);
 
 }  // namespace hydra
 

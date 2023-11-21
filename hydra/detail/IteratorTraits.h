@@ -40,15 +40,15 @@ namespace detail {
 template<typename Iterator>
 struct IteratorTraits
 {
-	static const bool is_host_iterator = hydra_thrust::detail::is_host_iterator_category<
-	typename hydra_thrust::iterator_traits<Iterator>::iterator_category>::value;
+	static const bool is_host_iterator = hydra::thrust::detail::is_host_iterator_category<
+	typename hydra::thrust::iterator_traits<Iterator>::iterator_category>::value;
 
-	typedef typename hydra_thrust::iterator_system<Iterator>::type system_t;
+	typedef typename hydra::thrust::iterator_system<Iterator>::type system_t;
 
 
 	static system_t& GetTag()
 	{
-		using hydra_thrust::system::detail::generic::select_system;
+		using hydra::thrust::system::detail::generic::select_system;
 		system_t sys;
 
 		return  select_system(sys);

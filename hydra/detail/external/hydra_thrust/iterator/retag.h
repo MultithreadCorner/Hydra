@@ -23,8 +23,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/iterator/detail/retag.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 
 /*! \ingroup iterator_tags
@@ -66,5 +65,5 @@ unspecified_iterator_type retag(Iterator iter);
  */
 
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

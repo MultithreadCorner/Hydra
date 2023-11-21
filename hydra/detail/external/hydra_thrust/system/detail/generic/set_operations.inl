@@ -25,8 +25,7 @@
 #include <hydra/detail/external/hydra_thrust/iterator/constant_iterator.h>
 #include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -473,5 +472,5 @@ OutputIterator set_union(hydra_thrust::execution_policy<DerivedPolicy> &,
 } // end namespace generic
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

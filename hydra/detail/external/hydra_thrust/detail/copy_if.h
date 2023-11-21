@@ -19,9 +19,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/execution_policy.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 template<typename DerivedPolicy,
          typename InputIterator,
@@ -68,8 +66,6 @@ template<typename InputIterator1,
                          OutputIterator result,
                          Predicate pred);
 
-
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/copy_if.inl>
-

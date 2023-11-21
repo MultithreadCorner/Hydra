@@ -26,25 +26,29 @@
  ******************************************************************************/
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
-#include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
 
+#include <hydra/detail/external/hydra_thrust/detail/alignment.h>
 #include <hydra/detail/external/hydra_thrust/detail/cstdint.h>
 #include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
-#include <hydra/detail/external/hydra_cub/device/device_select.cuh>
+#include <hydra/detail/external/hydra_thrust/detail/minmax.h>
+#include <hydra/detail/external/hydra_thrust/detail/mpl/math.h>
+#include <hydra/detail/external/hydra_thrust/distance.h>
+#include <hydra/detail/external/hydra_thrust/functional.h>
+#include <hydra/detail/external/hydra_thrust/pair.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/cdp_dispatch.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/core/agent_launcher.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/get_value.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/par_to_seq.h>
-#include <hydra/detail/external/hydra_thrust/functional.h>
-#include <hydra/detail/external/hydra_thrust/pair.h>
-#include <hydra/detail/external/hydra_thrust/detail/mpl/math.h>
-#include <hydra/detail/external/hydra_thrust/detail/minmax.h>
-#include <hydra/detail/external/hydra_thrust/distance.h>
-#include <hydra/detail/external/hydra_thrust/detail/alignment.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
 
-HYDRA_THRUST_BEGIN_NS
+#include <hydra/detail/external/hydra_cub/device/device_select.cuh>
+#include <hydra/detail/external/hydra_cub/util_math.cuh>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 template <typename DerivedPolicy,
           typename ForwardIterator1,
@@ -81,15 +85,13 @@ namespace __unique_by_key {
             int                     _ITEMS_PER_THREAD = 1,
             cub::BlockLoadAlgorithm _LOAD_ALGORITHM   = cub::BLOCK_LOAD_DIRECT,
             cub::CacheLoadModifier  _LOAD_MODIFIER    = cub::LOAD_LDG,
-            cub::BlockScanAlgorithm _SCAN_ALGORITHM   = cub::BLOCK_SCAN_WARP_SCANS,
-            int                     _MIN_BLOCKS       = 1>
+            cub::BlockScanAlgorithm _SCAN_ALGORITHM   = cub::BLOCK_SCAN_WARP_SCANS>
   struct PtxPolicy
   {
     enum
     {
       BLOCK_THREADS    = _BLOCK_THREADS,
       ITEMS_PER_THREAD = _ITEMS_PER_THREAD,
-      MIN_BLOCKS       = _MIN_BLOCKS,
       ITEMS_PER_TILE   = _BLOCK_THREADS * _ITEMS_PER_THREAD,
     };
     static const cub::BlockLoadAlgorithm LOAD_ALGORITHM = _LOAD_ALGORITHM;
@@ -109,11 +111,11 @@ namespace __unique_by_key {
     {
       value = mpl::min<
           int,
-          NOMINAL_4B_ITEMS_PER_THREAD,
+          static_cast<int>(NOMINAL_4B_ITEMS_PER_THREAD),
           mpl::max<int,
                    1,
-                   (NOMINAL_4B_ITEMS_PER_THREAD * 4 /
-                    sizeof(T))>::value>::value
+                   static_cast<int>(NOMINAL_4B_ITEMS_PER_THREAD * 4 /
+                   sizeof(T))>::value>::value
     };
   };
 
@@ -230,12 +232,12 @@ namespace __unique_by_key {
 
       union TempStorage
       {
-        struct
+        struct ScanStorage
         {
           typename BlockScan::TempStorage              scan;
           typename TilePrefixCallback::TempStorage     prefix;
           typename BlockDiscontinuityKeys::TempStorage discontinuity;
-        };
+        } scan_storage;
 
         typename BlockLoadKeys::TempStorage   load_keys;
         typename BlockLoadValues::TempStorage load_values;
@@ -393,13 +395,13 @@ namespace __unique_by_key {
 
         if (IS_FIRST_TILE)
         {
-          BlockDiscontinuityKeys(temp_storage.discontinuity)
+          BlockDiscontinuityKeys(temp_storage.scan_storage.discontinuity)
               .FlagHeads(selection_flags, keys, predicate);
         }
         else
         {
           key_type tile_predecessor = keys_in[tile_base - 1];
-          BlockDiscontinuityKeys(temp_storage.discontinuity)
+          BlockDiscontinuityKeys(temp_storage.scan_storage.discontinuity)
               .FlagHeads(selection_flags, keys, predicate, tile_predecessor);
         }
 #pragma unroll
@@ -418,7 +420,7 @@ namespace __unique_by_key {
         Size num_selections_prefix = 0;
         if (IS_FIRST_TILE)
         {
-          BlockScan(temp_storage.scan)
+          BlockScan(temp_storage.scan_storage.scan)
               .ExclusiveSum(selection_flags,
                             selection_idx,
                             num_tile_selections);
@@ -441,10 +443,10 @@ namespace __unique_by_key {
         else
         {
           TilePrefixCallback prefix_cb(tile_state,
-                                       temp_storage.prefix,
+                                       temp_storage.scan_storage.prefix,
                                        cub::Sum(),
                                        tile_idx);
-          BlockScan(temp_storage.scan)
+          BlockScan(temp_storage.scan_storage.scan)
               .ExclusiveSum(selection_flags,
                             selection_idx,
                             prefix_cb);
@@ -632,8 +634,7 @@ namespace __unique_by_key {
             BinaryPred       binary_pred,
             NumSelectedOutIt num_selected_out,
             Size             num_items,
-            cudaStream_t     stream,
-            bool             debug_sync)
+            cudaStream_t     stream)
   {
     using core::AgentLauncher;
     using core::AgentPlan;
@@ -661,7 +662,7 @@ namespace __unique_by_key {
 
 
     int tile_size = unique_plan.items_per_tile;
-    size_t num_tiles = (num_items + tile_size - 1) / tile_size;
+    size_t num_tiles = cub::DivideAndRoundUp(num_items, tile_size);
 
     size_t vshmem_size = core::vshmem_size(unique_plan.shared_memory_size,
                                            num_tiles);
@@ -689,7 +690,7 @@ namespace __unique_by_key {
     CUDA_CUB_RET_IF_FAIL(status);
 
     num_tiles = max<size_t>(1,num_tiles);
-    init_agent ia(init_plan, num_tiles, stream, "unique_by_key::init_agent", debug_sync);
+    init_agent ia(init_plan, num_tiles, stream, "unique_by_key::init_agent");
     ia.launch(tile_status, num_tiles, num_selected_out);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
 
@@ -697,7 +698,7 @@ namespace __unique_by_key {
 
     char *vshmem_ptr = vshmem_size > 0 ? (char *)allocations[1] : NULL;
 
-    unique_agent ua(unique_plan, num_items, stream, vshmem_ptr, "unique_by_key::unique_agent", debug_sync);
+    unique_agent ua(unique_plan, num_items, stream, vshmem_ptr, "unique_by_key::unique_agent");
     ua.launch(keys_in,
               values_in,
               keys_out,
@@ -735,7 +736,6 @@ namespace __unique_by_key {
 
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = __unique_by_key::doit_step(NULL,
@@ -747,8 +747,7 @@ namespace __unique_by_key {
                                         binary_pred,
                                         reinterpret_cast<size_type*>(NULL),
                                         num_items,
-                                        stream,
-                                        debug_sync);
+                                        stream);
     cuda_cub::throw_on_error(status, "unique_by_key: failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
@@ -784,8 +783,7 @@ namespace __unique_by_key {
                                         binary_pred,
                                         d_num_selected_out,
                                         num_items,
-                                        stream,
-                                        debug_sync);
+                                        stream);
     cuda_cub::throw_on_error(status, "unique_by_key: failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);
@@ -823,29 +821,22 @@ unique_by_key_copy(execution_policy<Derived> &policy,
                    ValOutputIt                values_result,
                    BinaryPred                 binary_pred)
 {
-  pair<KeyOutputIt, ValOutputIt> ret = hydra_thrust::make_pair(keys_result, values_result);
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    ret = __unique_by_key::unique_by_key(policy,
-                                keys_first,
-                                keys_last,
-                                values_first,
-                                keys_result,
-                                values_result,
-                                binary_pred);
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::unique_by_key_copy(cvt_to_seq(derived_cast(policy)),
-                                     keys_first,
-                                     keys_last,
-                                     values_first,
-                                     keys_result,
-                                     values_result,
-                                     binary_pred);
-#endif
-  }
+  auto ret = hydra_thrust::make_pair(keys_result, values_result);
+  HYDRA_THRUST_CDP_DISPATCH(
+    (ret = __unique_by_key::unique_by_key(policy,
+                                          keys_first,
+                                          keys_last,
+                                          values_first,
+                                          keys_result,
+                                          values_result,
+                                          binary_pred);),
+    (ret = hydra_thrust::unique_by_key_copy(cvt_to_seq(derived_cast(policy)),
+                                      keys_first,
+                                      keys_last,
+                                      values_first,
+                                      keys_result,
+                                      values_result,
+                                      binary_pred);));
   return ret;
 }
 
@@ -883,27 +874,20 @@ unique_by_key(execution_policy<Derived> &policy,
               ValInputIt                 values_first,
               BinaryPred                 binary_pred)
 {
-  pair<KeyInputIt, ValInputIt> ret = hydra_thrust::make_pair(keys_first, values_first);
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    ret = cuda_cub::unique_by_key_copy(policy,
-                                       keys_first,
-                                       keys_last,
-                                       values_first,
-                                       keys_first,
-                                       values_first,
-                                       binary_pred);
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::unique_by_key(cvt_to_seq(derived_cast(policy)),
-                                keys_first,
-                                keys_last,
-                                values_first,
-                                binary_pred);
-#endif
-  }
+  auto ret = hydra_thrust::make_pair(keys_first, values_first);
+  HYDRA_THRUST_CDP_DISPATCH(
+    (ret = cuda_cub::unique_by_key_copy(policy,
+                                         keys_first,
+                                         keys_last,
+                                         values_first,
+                                         keys_first,
+                                         values_first,
+                                         binary_pred);),
+    (ret = hydra_thrust::unique_by_key(cvt_to_seq(derived_cast(policy)),
+                                  keys_first,
+                                  keys_last,
+                                  values_first,
+                                  binary_pred);));
   return ret;
 }
 
@@ -927,7 +911,7 @@ unique_by_key(execution_policy<Derived> &policy,
 
 
 }    // namespace cuda_cub
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/memory.h>
 #include <hydra/detail/external/hydra_thrust/unique.h>

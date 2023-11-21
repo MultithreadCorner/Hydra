@@ -29,8 +29,7 @@
 #include <iostream>
 #include <cstddef> // for size_t
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace random
 {
@@ -265,7 +264,7 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 // import names into hydra_thrust::
 using random::xor_combine_engine;
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/random/detail/xor_combine_engine.inl>
 

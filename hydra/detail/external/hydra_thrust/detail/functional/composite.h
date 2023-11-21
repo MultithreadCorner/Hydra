@@ -25,11 +25,12 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/detail/functional/actor.h>
 #include <hydra/detail/external/hydra_thrust/tuple.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 namespace functional
@@ -159,5 +160,5 @@ __host__ __device__
 
 } // end functional
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

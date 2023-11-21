@@ -26,6 +26,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/config/compiler.h>
 #include <hydra/detail/external/hydra_thrust/detail/config/cpp_dialect.h>
 #include <hydra/detail/external/hydra_thrust/detail/config/cpp_compatibility.h>
+#include <hydra/detail/external/hydra_thrust/detail/config/deprecated.h>
 // host_system.h & device_system.h must be #included as early as possible
 // because other config headers depend on it
 #include <hydra/detail/external/hydra_thrust/detail/config/host_system.h>
@@ -35,4 +36,5 @@
 #include <hydra/detail/external/hydra_thrust/detail/config/forceinline.h>
 #include <hydra/detail/external/hydra_thrust/detail/config/exec_check_disable.h>
 #include <hydra/detail/external/hydra_thrust/detail/config/global_workarounds.h>
+#include <hydra/detail/external/hydra_thrust/detail/config/namespace.h>
 

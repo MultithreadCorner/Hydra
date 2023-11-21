@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/sequential/copy.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
@@ -23,8 +25,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/pointer_traits.h>
 #include <hydra/detail/external/hydra_thrust/type_traits/is_trivially_relocatable.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -141,5 +142,5 @@ __host__ __device__
 } // end namespace sequential
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

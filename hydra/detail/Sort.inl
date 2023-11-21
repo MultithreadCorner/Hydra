@@ -43,7 +43,7 @@ typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable&>().begin())>>::type
 sort(Iterable& iterable){
 
-	hydra_thrust::sort(iterable.begin(), iterable.end() );
+	hydra::thrust::sort(iterable.begin(), iterable.end() );
 
 	return make_range(iterable.begin(), iterable.end());
 }
@@ -54,7 +54,7 @@ typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable&>().begin())>>::type
 sort(Iterable& iterable, Functor const& comparator){
 
-	hydra_thrust::sort(iterable.begin(), iterable.end(), comparator);
+	hydra::thrust::sort(iterable.begin(), iterable.end(), comparator);
 
 	return make_range(iterable.begin(), iterable.end());
 }
@@ -67,16 +67,16 @@ typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable&>().begin())>>::type
 sort_by_key(Iterable& iterable, Iterable_Key& keys){
 
-	using hydra_thrust::system::detail::generic::select_system;
-	typedef  typename hydra_thrust::iterator_system<Iterator>::type system1_t;
-	typedef  typename hydra_thrust::iterator_system<Iterator_Key>::type system2_t;
+	using hydra::thrust::system::detail::generic::select_system;
+	typedef  typename hydra::thrust::iterator_system<Iterator>::type system1_t;
+	typedef  typename hydra::thrust::iterator_system<Iterator_Key>::type system2_t;
 	system1_t system1;
 	system2_t system2;
 
-	typedef  typename hydra_thrust::detail::remove_reference<
+	typedef  typename hydra::thrust::detail::remove_reference<
 			decltype(select_system(system1, system2 ))>::type common_system_t;
 
-	hydra_thrust::sort_by_key(iterable.begin(), iterable.end(), keys.begin());
+	hydra::thrust::sort_by_key(iterable.begin(), iterable.end(), keys.begin());
 
 	return make_range(iterable.begin(), iterable.end());
 }
@@ -88,23 +88,23 @@ typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
 Range<decltype(std::declval<Iterable&>().begin())>>::type
 sort_by_key(Iterable& iterable, Range<Iterator_Key,Functor> keys){
 
-	using hydra_thrust::system::detail::generic::select_system;
-	typedef  typename hydra_thrust::iterator_system<Iterator>::type system1_t;
-	typedef  typename hydra_thrust::iterator_system<Iterator_Key>::type system2_t;
+	using hydra::thrust::system::detail::generic::select_system;
+	typedef  typename hydra::thrust::iterator_system<Iterator>::type system1_t;
+	typedef  typename hydra::thrust::iterator_system<Iterator_Key>::type system2_t;
 	system1_t system1;
 	system2_t system2;
 
-	typedef  typename hydra_thrust::detail::remove_reference<
+	typedef  typename hydra::thrust::detail::remove_reference<
 			decltype(select_system(system1, system2 ))>::type common_system_t;
 
-	auto key_buffer = hydra_thrust::get_temporary_buffer<Value_Key>(common_system_t(), iterable.size());
+	auto key_buffer = hydra::thrust::get_temporary_buffer<Value_Key>(common_system_t(), iterable.size());
 
-	hydra_thrust::copy(common_system_t(), keys.begin(), keys.end(), key_buffer.first);
+	hydra::thrust::copy(common_system_t(), keys.begin(), keys.end(), key_buffer.first);
 
-	hydra_thrust::stable_sort_by_key(key_buffer.first, key_buffer.first +key_buffer.second, iterable.begin() );
+	hydra::thrust::stable_sort_by_key(key_buffer.first, key_buffer.first +key_buffer.second, iterable.begin() );
 
 
-	hydra_thrust::return_temporary_buffer(common_system_t(), key_buffer.first);
+	hydra::thrust::return_temporary_buffer(common_system_t(), key_buffer.first, key_buffer.second);
 
 	return make_range(iterable.begin(), iterable.end());
 }

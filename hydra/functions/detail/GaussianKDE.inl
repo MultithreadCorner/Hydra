@@ -55,11 +55,11 @@ inline CubicSpiline<NBins> GaussianKDE<NBins, ArgType>::BuildKDE(double min, dou
 
 		double init = 0;
 
-		double sum  = hydra_thrust::transform_reduce(begin, end,
+		double sum  = hydra::thrust::transform_reduce(begin, end,
 				GaussianKDE<NBins, ArgType>::Kernel(h,x), 0.0,
-				hydra_thrust::plus<double>() );
+				hydra::thrust::plus<double>() );
 
-		return  sum/(h*hydra_thrust::distance(begin, end) ) ;
+		return  sum/(h*hydra::thrust::distance(begin, end) ) ;
 	};
 
 	double bin_width = (max-min)/(NBins);
@@ -69,13 +69,13 @@ inline CubicSpiline<NBins> GaussianKDE<NBins, ArgType>::BuildKDE(double min, dou
 		return min + index*bin_width;
 	};
 
-	typedef hydra_thrust::counting_iterator<size_t> citerator;
+	typedef hydra::thrust::counting_iterator<size_t> citerator;
 	citerator counter(0);
 
-	typedef hydra_thrust::transform_iterator<decltype(_X),   citerator> xiterator;
+	typedef hydra::thrust::transform_iterator<decltype(_X),   citerator> xiterator;
 	xiterator Xiterator(counter,  _X);
 
-	hydra_thrust::transform_iterator<decltype(_KDE), xiterator> diterator(Xiterator,  _KDE);
+	hydra::thrust::transform_iterator<decltype(_KDE), xiterator> diterator(Xiterator,  _KDE);
 
 	return CubicSpiline<NBins>(Xiterator, diterator);
 

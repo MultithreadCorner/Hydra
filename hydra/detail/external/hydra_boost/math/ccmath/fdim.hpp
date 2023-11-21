@@ -1,0 +1,91 @@
+//  (C) Copyright Matt Borland 2022.
+//  Use, modification and distribution are subject to the
+//  Boost Software License, Version 1.0. (See accompanying file
+//  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+
+#ifndef HYDRA_BOOST_MATH_CCMATH_FDIM_HPP
+#define HYDRA_BOOST_MATH_CCMATH_FDIM_HPP
+
+#include <cmath>
+#include <limits>
+#include <type_traits>
+#include <hydra/detail/external/hydra_boost/math/tools/is_constant_evaluated.hpp>
+#include <hydra/detail/external/hydra_boost/math/tools/promotion.hpp>
+#include <hydra/detail/external/hydra_boost/math/ccmath/isnan.hpp>
+
+namespace hydra_boost::math::ccmath {
+
+namespace detail {
+
+template <typename T>
+constexpr T fdim_impl(const T x, const T y) noexcept
+{
+    if (x <= y)
+    {
+        return 0;
+    }
+    else if ((y < 0) && (x > (std::numeric_limits<T>::max)() + y))
+    {
+        return std::numeric_limits<T>::infinity();
+    }
+    else
+    {
+        return x - y;
+    }
+}
+
+} // Namespace detail
+
+template <typename Real, std::enable_if_t<!std::is_integral_v<Real>, bool> = true>
+constexpr Real fdim(Real x, Real y) noexcept
+{
+    if (HYDRA_BOOST_MATH_IS_CONSTANT_EVALUATED(x))
+    {
+        if (hydra_boost::math::ccmath::isnan(x))
+        {
+            return x;
+        }
+        else if (hydra_boost::math::ccmath::isnan(y))
+        {
+            return y;
+        }
+
+        return hydra_boost::math::ccmath::detail::fdim_impl(x, y);
+    }
+    else
+    {
+        using std::fdim;
+        return fdim(x, y);
+    }
+}
+
+template <typename T1, typename T2>
+constexpr auto fdim(T1 x, T2 y) noexcept
+{
+    if (HYDRA_BOOST_MATH_IS_CONSTANT_EVALUATED(x))
+    {
+        using promoted_type = hydra_boost::math::tools::promote_args_2_t<T1, T2>;
+        return hydra_boost::math::ccmath::fdim(promoted_type(x), promoted_type(y));
+    }
+    else
+    {
+        using std::fdim;
+        return fdim(x, y);
+    }
+}
+
+constexpr float fdimf(float x, float y) noexcept
+{
+    return hydra_boost::math::ccmath::fdim(x, y);
+}
+
+#ifndef HYDRA_BOOST_MATH_NO_LONG_DOUBLE_MATH_FUNCTIONS
+constexpr long double fdiml(long double x, long double y) noexcept
+{
+    return hydra_boost::math::ccmath::fdim(x, y);
+}
+#endif
+
+} // Namespace hydra_boost::math::ccmath
+
+#endif // HYDRA_BOOST_MATH_CCMATH_FDIM_HPP

@@ -26,8 +26,7 @@
 #include <hydra/detail/external/hydra_thrust/iterator/detail/constant_iterator_base.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_facade.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /*! \addtogroup iterators
  *  \{
@@ -217,11 +216,11 @@ template<typename Value,
  *
  *  \see constant_iterator
  */
-template<typename V, typename I>
+template<typename ValueT, typename IndexT>
 inline __host__ __device__
-constant_iterator<V,I> make_constant_iterator(V x, I i = int())
+constant_iterator<ValueT, IndexT> make_constant_iterator(ValueT x, IndexT i = int())
 {
-  return constant_iterator<V,I>(x, i);
+  return constant_iterator<ValueT, IndexT>(x, i);
 } // end make_constant_iterator()
 
 
@@ -247,5 +246,5 @@ constant_iterator<V> make_constant_iterator(V x)
 /*! \} // end iterators
  */
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

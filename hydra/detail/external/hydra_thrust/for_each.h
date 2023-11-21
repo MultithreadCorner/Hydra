@@ -24,9 +24,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/execution_policy.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /*! \addtogroup modifying
  *  \ingroup transformations
@@ -50,13 +48,13 @@ namespace hydra_thrust
  *  \return last
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/named_req/InputIterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p UnaryFunction's \c argument_type.
- *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction">Unary Function</a>,
+ *  \tparam UnaryFunction is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/unary_function">Unary Function</a>,
  *          and \p UnaryFunction does not apply any non-constant operation through its argument.
  *
  *  The following code snippet demonstrates how to use \p for_each to print the elements
- *  of a \p std::device_vector using the \p hydra_thrust::device parallelization policy:
+ *  of a \p hydra_thrust::device_vector using the \p hydra_thrust::device parallelization policy:
  *
  *  \code
  *  #include <hydra/detail/external/hydra_thrust/for_each.h>
@@ -86,7 +84,7 @@ namespace hydra_thrust
  *  \endcode
  *
  *  \see for_each_n
- *  \see http://www.sgi.com/tech/stl/for_each.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/for_each
  */
 template<typename DerivedPolicy,
          typename InputIterator,
@@ -113,10 +111,10 @@ InputIterator for_each(const hydra_thrust::detail::execution_policy_base<Derived
  *  \return <tt>first + n</tt>
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/named_req/InputIterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p UnaryFunction's \c argument_type.
  *  \tparam Size is an integral type.
- *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction">Unary Function</a>,
+ *  \tparam UnaryFunction is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/unary_function">Unary Function</a>,
  *          and \p UnaryFunction does not apply any non-constant operation through its argument.
  *
  *  The following code snippet demonstrates how to use \p for_each_n to print the elements
@@ -149,7 +147,7 @@ InputIterator for_each(const hydra_thrust::detail::execution_policy_base<Derived
  *  \endcode
  *
  *  \see for_each
- *  \see http://www.sgi.com/tech/stl/for_each.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/for_each
  */
 template<typename DerivedPolicy,
          typename InputIterator,
@@ -173,9 +171,9 @@ InputIterator for_each_n(const hydra_thrust::detail::execution_policy_base<Deriv
  *  \param f The function object to apply to the range <tt>[first, last)</tt>.
  *  \return last
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/named_req/InputIterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p UnaryFunction's \c argument_type.
- *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction">Unary Function</a>,
+ *  \tparam UnaryFunction is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/unary_function">Unary Function</a>,
  *          and \p UnaryFunction does not apply any non-constant operation through its argument.
  *
  *  The following code snippet demonstrates how to use \p for_each to print the elements
@@ -207,7 +205,7 @@ InputIterator for_each_n(const hydra_thrust::detail::execution_policy_base<Deriv
  *  \endcode
  *
  *  \see for_each_n
- *  \see http://www.sgi.com/tech/stl/for_each.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/for_each
  */
 template<typename InputIterator,
          typename UnaryFunction>
@@ -227,10 +225,10 @@ InputIterator for_each(InputIterator first,
  *  \param f The function object to apply to the range <tt>[first, first + n)</tt>.
  *  \return <tt>first + n</tt>
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/named_req/InputIterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p UnaryFunction's \c argument_type.
  *  \tparam Size is an integral type.
- *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction">Unary Function</a>,
+ *  \tparam UnaryFunction is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/unary_function">Unary Function</a>,
  *          and \p UnaryFunction does not apply any non-constant operation through its argument.
  *
  *  The following code snippet demonstrates how to use \p for_each_n to print the elements
@@ -262,7 +260,7 @@ InputIterator for_each(InputIterator first,
  *  \endcode
  *
  *  \see for_each
- *  \see http://www.sgi.com/tech/stl/for_each.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/for_each
  */
 template<typename InputIterator,
          typename Size,
@@ -274,7 +272,7 @@ InputIterator for_each_n(InputIterator first,
 /*! \} // end modifying
  */
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/for_each.inl>
 

@@ -1,6 +1,5 @@
 /*
- *
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2021 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,6 +14,10 @@
  *  limitations under the License.
  */
 
+#pragma once
+
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/random/normal_distribution.h>
 #include <hydra/detail/external/hydra_thrust/random/uniform_real_distribution.h>
 #include <hydra/detail/external/hydra_thrust/detail/cstdint.h>
@@ -27,8 +30,7 @@
 #include <limits>
 #endif
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace random
 {
@@ -251,5 +253,5 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 
 } // end random
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

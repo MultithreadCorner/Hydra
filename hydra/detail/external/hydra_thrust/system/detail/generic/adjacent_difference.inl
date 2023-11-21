@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/adjacent_difference.h>
 #include <hydra/detail/external/hydra_thrust/adjacent_difference.h>
@@ -22,8 +24,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
 #include <hydra/detail/external/hydra_thrust/transform.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -57,17 +58,17 @@ OutputIterator adjacent_difference(hydra_thrust::execution_policy<DerivedPolicy>
   if(first == last)
   {
     // empty range, nothing to do
-    return result; 
+    return result;
   }
-  else 
+  else
   {
     // an in-place operation is requested, copy the input and call the entry point
     // XXX a special-purpose kernel would be faster here since
     // only block boundaries need to be copied
     hydra_thrust::detail::temporary_array<InputType, DerivedPolicy> input_copy(exec, first, last);
-    
+
     *result = *first;
-    hydra_thrust::transform(exec, input_copy.begin() + 1, input_copy.end(), input_copy.begin(), result + 1, binary_op); 
+    hydra_thrust::transform(exec, input_copy.begin() + 1, input_copy.end(), input_copy.begin(), result + 1, binary_op);
   }
 
   return result + (last - first);
@@ -77,5 +78,5 @@ OutputIterator adjacent_difference(hydra_thrust::execution_policy<DerivedPolicy>
 } // end namespace generic
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

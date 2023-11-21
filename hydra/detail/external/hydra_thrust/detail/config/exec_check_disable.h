@@ -22,9 +22,17 @@
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 
-#if defined(__CUDACC__) && !(defined(__CUDA__) && defined(__clang__))
+// #pragma nv_exec_check_disable is only recognized by NVCC.  Having a macro
+// expand to a #pragma (rather than _Pragma) only works with NVCC's compilation
+// model, not with other compilers.
+#if defined(__CUDACC__) && !defined(_NVHPC_CUDA) && \
+    !(defined(__CUDA__) && defined(__clang__))
 
-#define __hydra_thrust_exec_check_disable__ #pragma nv_exec_check_disable
+#if HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC
+#define __hydra_thrust_exec_check_disable__ __pragma("nv_exec_check_disable")
+#else // MSVC
+#define __hydra_thrust_exec_check_disable__ _Pragma("nv_exec_check_disable")
+#endif // MSVC
 
 #else
 

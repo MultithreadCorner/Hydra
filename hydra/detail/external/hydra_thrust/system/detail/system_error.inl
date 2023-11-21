@@ -17,10 +17,11 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/system/system_error.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace system
 {
@@ -75,14 +76,14 @@ system_error
 
 
 const error_code &system_error
-  ::code(void) const throw()
+  ::code(void) const noexcept
 {
   return m_error_code;
 } // end system_error::code()
 
 
 const char *system_error
-  ::what(void) const throw()
+  ::what(void) const noexcept
 {
   if(m_what.empty())
   {
@@ -107,5 +108,5 @@ const char *system_error
 
 } // end system
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

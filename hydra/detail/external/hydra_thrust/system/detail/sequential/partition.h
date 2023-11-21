@@ -27,8 +27,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/function.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/sequential/execution_policy.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 
@@ -95,7 +94,8 @@ __host__ __device__
   {
     if(wrapped_pred(*next))
     {
-      iter_swap(first, next);
+      // Fully qualify name to disambiguate overloads found via ADL.
+      HYDRA_THRUST_NS_QUALIFIER::system::detail::sequential::iter_swap(first, next);
       ++first;
     }
   }
@@ -143,7 +143,8 @@ __host__ __device__
   {
     if(wrapped_pred(*stencil_first))
     {
-      iter_swap(first, next);
+      // Fully qualify name to disambiguate overloads found via ADL.
+      HYDRA_THRUST_NS_QUALIFIER::system::detail::sequential::iter_swap(first, next);
       ++first;
     }
 
@@ -335,5 +336,5 @@ __host__ __device__
 } // end namespace sequential
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

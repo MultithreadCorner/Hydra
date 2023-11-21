@@ -14,9 +14,8 @@
  *  limitations under the License.
  */
 
-
-/*! \file device_malloc_allocator.h
- *  \brief An allocator which allocates storage with \p device_malloc
+/*! \file 
+ *  \brief An allocator which allocates storage with \p device_malloc.
  */
 
 #pragma once
@@ -29,15 +28,13 @@
 #include <limits>
 #include <stdexcept>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 // forward declarations to WAR circular #includes
 template<typename> class device_ptr;
 template<typename T> device_ptr<T> device_malloc(const std::size_t n);
 
-/*! \addtogroup memory_management Memory Management
- *  \addtogroup memory_management_classes Memory Management Classes
+/*! \addtogroup allocators Allocators 
  *  \ingroup memory_management
  *  \{
  */
@@ -51,7 +48,7 @@ template<typename T> device_ptr<T> device_malloc(const std::size_t n);
  *  \see device_malloc
  *  \see device_ptr
  *  \see device_allocator
- *  \see http://www.sgi.com/tech/stl/Allocators.html
+ *  \see https://en.cppreference.com/w/cpp/memory/allocator
  */
 template<typename T>
   class device_malloc_allocator
@@ -108,12 +105,16 @@ template<typename T>
     __host__ __device__
     inline device_malloc_allocator(device_malloc_allocator<U> const&) {}
 
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+    device_malloc_allocator & operator=(const device_malloc_allocator &) = default;
+#endif
+
     /*! Returns the address of an allocated object.
      *  \return <tt>&r</tt>.
      */
     __host__ __device__
     inline pointer address(reference r) { return &r; }
-    
+
     /*! Returns the address an allocated object.
      *  \return <tt>&r</tt>.
      */
@@ -173,9 +174,7 @@ template<typename T>
     inline bool operator!=(device_malloc_allocator const &a) const {return !operator==(a); }
 }; // end device_malloc_allocator
 
-/*! \}
+/*! \} // allocators
  */
 
-} // end hydra_thrust
-
-
+HYDRA_THRUST_NAMESPACE_END

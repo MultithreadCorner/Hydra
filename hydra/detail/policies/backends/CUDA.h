@@ -40,20 +40,20 @@ namespace detail {
 
 namespace cuda {
 
-typedef hydra_thrust::system::cuda::detail::par_t   cuda_t;
+typedef hydra::thrust::system::cuda::detail::par_t   cuda_t;
 static const cuda_t    _cuda_;
 
 }  // namespace cuda
 
 template<>
-struct BackendPolicy<Backend::Cuda>: hydra_thrust::execution_policy<cuda::cuda_t>
+struct BackendPolicy<Backend::Cuda>: hydra::thrust::execution_policy<cuda::cuda_t>
 {
-	typedef hydra_thrust::execution_policy<cuda::cuda_t> execution_policy_type;
+	typedef hydra::thrust::execution_policy<cuda::cuda_t> execution_policy_type;
 
 	const cuda::cuda_t backend= cuda::_cuda_;
 
 	template<typename T>
-	using   container = hydra_thrust::cuda::vector<T> ;
+	using   container = hydra::thrust::cuda::vector<T> ;
 
 };
 

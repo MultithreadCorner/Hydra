@@ -38,8 +38,8 @@
 
 #include "../thread/thread_load.cuh"
 #include "../thread/thread_store.cuh"
+#include "../config.cuh"
 #include "../util_device.cuh"
-#include "../util_namespace.cuh"
 
 #if (HYDRA_THRUST_VERSION >= 100700)
     // This iterator is compatible with Thrust API 1.7 and newer
@@ -48,11 +48,7 @@
 #endif // HYDRA_THRUST_VERSION
 
 
-/// Optional outer namespace(s)
-CUB_NS_PREFIX
-
-/// CUB namespace
-namespace cub {
+CUB_NAMESPACE_BEGIN
 
 /**
  * \addtogroup UtilIterator
@@ -74,7 +70,7 @@ namespace cub {
  * dereference a sequence of incrementing integers.
  * \par
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/iterator/counting_input_iterator.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/iterator/counting_input_iterator.cuh>
  *
  * cub::CountingInputIterator<int> itr(5);
  *
@@ -104,9 +100,9 @@ public:
 
 #if (HYDRA_THRUST_VERSION >= 100700)
     // Use Thrust's iterator categories so we can use these iterators in Thrust 1.7 (or newer) methods
-    typedef typename hydra_thrust::detail::iterator_facade_category<
-        hydra_thrust::any_system_tag,
-        hydra_thrust::random_access_traversal_tag,
+    typedef typename HYDRA_THRUST_NS_QUALIFIER::detail::iterator_facade_category<
+        HYDRA_THRUST_NS_QUALIFIER::any_system_tag,
+        HYDRA_THRUST_NS_QUALIFIER::random_access_traversal_tag,
         value_type,
         reference
       >::type iterator_category;                                        ///< The iterator category
@@ -224,5 +220,4 @@ public:
 
 /** @} */       // end group UtilIterator
 
-}               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+CUB_NAMESPACE_END

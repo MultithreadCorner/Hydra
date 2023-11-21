@@ -33,16 +33,12 @@
 
 #pragma once
 
-#include "../../warp/warp_reduce.cuh"
-#include "../../util_ptx.cuh"
-#include "../../util_arch.cuh"
-#include "../../util_namespace.cuh"
+#include <hydra/detail/external/hydra_cub/config.cuh>
+#include <hydra/detail/external/hydra_cub/detail/uninitialized_copy.cuh>
+#include <hydra/detail/external/hydra_cub/util_ptx.cuh>
+#include <hydra/detail/external/hydra_cub/warp/warp_reduce.cuh>
 
-/// Optional outer namespace(s)
-CUB_NS_PREFIX
-
-/// CUB namespace
-namespace cub {
+CUB_NAMESPACE_BEGIN
 
 
 /**
@@ -53,7 +49,7 @@ template <
     int         BLOCK_DIM_X,    ///< The thread block length in threads along the X dimension
     int         BLOCK_DIM_Y,    ///< The thread block length in threads along the Y dimension
     int         BLOCK_DIM_Z,    ///< The thread block length in threads along the Z dimension
-    int         PTX_ARCH>       ///< The PTX compute capability for which to to specialize this collective
+    int         LEGACY_PTX_ARCH = 0> ///< The PTX compute capability for which to to specialize this collective
 struct BlockReduceWarpReductions
 {
     /// Constants
@@ -63,7 +59,7 @@ struct BlockReduceWarpReductions
         BLOCK_THREADS = BLOCK_DIM_X * BLOCK_DIM_Y * BLOCK_DIM_Z,
 
         /// Number of warp threads
-        WARP_THREADS = CUB_WARP_THREADS(PTX_ARCH),
+        WARP_THREADS = CUB_WARP_THREADS(0),
 
         /// Number of active warps
         WARPS = (BLOCK_THREADS + WARP_THREADS - 1) / WARP_THREADS,
@@ -77,7 +73,7 @@ struct BlockReduceWarpReductions
 
 
     ///  WarpReduce utility type
-    typedef typename WarpReduce<T, LOGICAL_WARP_SIZE, PTX_ARCH>::InternalWarpReduce WarpReduce;
+    typedef typename WarpReduce<T, LOGICAL_WARP_SIZE>::InternalWarpReduce WarpReduce;
 
 
     /// Shared memory storage layout type
@@ -148,7 +144,8 @@ struct BlockReduceWarpReductions
         // Share lane aggregates
         if (lane_id == 0)
         {
-            temp_storage.warp_aggregates[warp_id] = warp_aggregate;
+          detail::uninitialized_copy(temp_storage.warp_aggregates + warp_id,
+                                     warp_aggregate);
         }
 
         CTA_SYNC();
@@ -213,6 +210,5 @@ struct BlockReduceWarpReductions
 };
 
 
-}               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+CUB_NAMESPACE_END
 

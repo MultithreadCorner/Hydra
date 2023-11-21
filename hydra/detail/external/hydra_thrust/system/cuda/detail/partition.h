@@ -26,31 +26,37 @@
  ******************************************************************************/
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
-#include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
 
 #include <hydra/detail/external/hydra_thrust/detail/cstdint.h>
 #include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/reverse.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/find.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/uninitialized_copy.h>
-#include <hydra/detail/external/hydra_cub/device/device_partition.cuh>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/core/agent_launcher.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/par_to_seq.h>
-#include <hydra/detail/external/hydra_thrust/partition.h>
-#include <hydra/detail/external/hydra_thrust/pair.h>
 #include <hydra/detail/external/hydra_thrust/distance.h>
+#include <hydra/detail/external/hydra_thrust/pair.h>
+#include <hydra/detail/external/hydra_thrust/partition.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/cdp_dispatch.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/core/agent_launcher.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/find.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/reverse.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/uninitialized_copy.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/par_to_seq.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
 
-HYDRA_THRUST_BEGIN_NS
+#include <hydra/detail/external/hydra_cub/agent/single_pass_scan_operators.cuh> // cub::ScanTileState
+#include <hydra/detail/external/hydra_cub/block/block_scan.cuh>
+#include <hydra/detail/external/hydra_cub/device/device_partition.cuh>
+#include <hydra/detail/external/hydra_cub/util_device.cuh>
+#include <hydra/detail/external/hydra_cub/util_math.cuh>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
 namespace __partition {
 
   template <int                     _BLOCK_THREADS,
             int                     _ITEMS_PER_THREAD = 1,
-            int                     _MIN_BLOCKS       = 1,
             cub::BlockLoadAlgorithm _LOAD_ALGORITHM   = cub::BLOCK_LOAD_DIRECT,
             cub::CacheLoadModifier  _LOAD_MODIFIER    = cub::LOAD_LDG,
             cub::BlockScanAlgorithm _SCAN_ALGORITHM   = cub::BLOCK_SCAN_WARP_SCANS>
@@ -60,8 +66,7 @@ namespace __partition {
     {
       BLOCK_THREADS      = _BLOCK_THREADS,
       ITEMS_PER_THREAD   = _ITEMS_PER_THREAD,
-      MIN_BLOCKS         = _MIN_BLOCKS,
-      ITEMS_PER_TILE     = _BLOCK_THREADS * _ITEMS_PER_THREAD,
+      ITEMS_PER_TILE     = _BLOCK_THREADS * _ITEMS_PER_THREAD
     };
     static const cub::BlockLoadAlgorithm LOAD_ALGORITHM = _LOAD_ALGORITHM;
     static const cub::CacheLoadModifier  LOAD_MODIFIER  = _LOAD_MODIFIER;
@@ -84,7 +89,6 @@ namespace __partition {
 
     typedef PtxPolicy<128,
                       ITEMS_PER_THREAD,
-                      1,
                       cub::BLOCK_LOAD_WARP_TRANSPOSE,
                       cub::LOAD_LDG,
                       cub::BLOCK_SCAN_WARP_SCANS>
@@ -104,7 +108,6 @@ namespace __partition {
 
     typedef PtxPolicy<128,
                       ITEMS_PER_THREAD,
-                      1,
                       cub::BLOCK_LOAD_WARP_TRANSPOSE,
                       cub::LOAD_DEFAULT,
                       cub::BLOCK_SCAN_WARP_SCANS>
@@ -167,11 +170,11 @@ namespace __partition {
 
       union TempStorage
       {
-        struct
+        struct ScanStorage
         {
           typename BlockScan::TempStorage          scan;
           typename TilePrefixCallback::TempStorage prefix;
-        };
+        } scan_storage;
 
         typename BlockLoadItems::TempStorage   load_items;
         typename BlockLoadStencil::TempStorage load_stencil;
@@ -418,7 +421,7 @@ namespace __partition {
         Size num_rejected_prefix   = 0;
         if (IS_FIRST_TILE)
         {
-          BlockScan(temp_storage.scan)
+          BlockScan(temp_storage.scan_storage.scan)
               .ExclusiveSum(selection_flags,
                             selection_idx,
                             num_tile_selections);
@@ -441,10 +444,10 @@ namespace __partition {
         else
         {
           TilePrefixCallback prefix_cb(tile_state,
-                                       temp_storage.prefix,
+                                       temp_storage.scan_storage.prefix,
                                        cub::Sum(),
                                        tile_idx);
-          BlockScan(temp_storage.scan)
+          BlockScan(temp_storage.scan_storage.scan)
               .ExclusiveSum(selection_flags,
                             selection_idx,
                             prefix_cb);
@@ -619,8 +622,7 @@ namespace __partition {
             Predicate        predicate,
             NumSelectedOutIt num_selected_out,
             Size             num_items,
-            cudaStream_t     stream,
-            bool             debug_sync)
+            cudaStream_t     stream)
   {
     using core::AgentLauncher;
     using core::AgentPlan;
@@ -648,7 +650,7 @@ namespace __partition {
     typename get_plan<partition_agent>::type partition_plan = partition_agent::get_plan(stream);
 
     int tile_size = partition_plan.items_per_tile;
-    size_t num_tiles = (num_items + tile_size - 1) / tile_size;
+    size_t num_tiles = cub::DivideAndRoundUp(num_items, tile_size);
 
     size_t vshmem_storage = core::vshmem_size(partition_plan.shared_memory_size,
                                               num_tiles);
@@ -664,9 +666,9 @@ namespace __partition {
 
     void* allocations[2] = {NULL, NULL};
     status = cub::AliasTemporaries(d_temp_storage,
-                                   temp_storage_bytes,
-                                   allocations,
-                                   allocation_sizes);
+                                                temp_storage_bytes,
+                                                allocations,
+                                                allocation_sizes);
     CUDA_CUB_RET_IF_FAIL(status);
 
     if (d_temp_storage == NULL)
@@ -678,11 +680,11 @@ namespace __partition {
     status = tile_status.Init(static_cast<int>(num_tiles), allocations[0], allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
 
-    init_agent ia(init_plan, num_tiles, stream, "partition::init_agent", debug_sync);
+    init_agent ia(init_plan, num_tiles, stream, "partition::init_agent");
 
     char *vshmem_ptr = vshmem_storage > 0 ? (char *)allocations[1] : NULL;
 
-    partition_agent pa(partition_plan, num_items, stream, vshmem_ptr, "partition::partition_agent", debug_sync);
+    partition_agent pa(partition_plan, num_items, stream, vshmem_ptr, "partition::partition_agent");
 
     ia.launch(tile_status, num_tiles, num_selected_out);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
@@ -722,7 +724,6 @@ namespace __partition {
     size_type    num_items          = static_cast<size_type>(hydra_thrust::distance(first, last));
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = doit_step(NULL,
@@ -734,8 +735,7 @@ namespace __partition {
                        predicate,
                        reinterpret_cast<size_type*>(NULL),
                        num_items,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "partition failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
@@ -772,8 +772,7 @@ namespace __partition {
                        predicate,
                        d_num_selected_out,
                        num_items,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "partition failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);
@@ -847,29 +846,22 @@ partition_copy(execution_policy<Derived> &policy,
                RejectedOutIt              rejected_result,
                Predicate                  predicate)
 {
-  pair<SelectedOutIt, RejectedOutIt> ret = hydra_thrust::make_pair(selected_result, rejected_result);
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    ret = __partition::partition(policy,
-                            first,
-                            last,
-                            stencil,
-                            selected_result,
-                            rejected_result,
-                            predicate);
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::partition_copy(cvt_to_seq(derived_cast(policy)),
-                                 first,
-                                 last,
-                                 stencil,
-                                 selected_result,
-                                 rejected_result,
-                                 predicate);
-#endif
-  }
+  auto ret = hydra_thrust::make_pair(selected_result, rejected_result);
+  HYDRA_THRUST_CDP_DISPATCH(
+    (ret = __partition::partition(policy,
+                                  first,
+                                  last,
+                                  stencil,
+                                  selected_result,
+                                  rejected_result,
+                                  predicate);),
+    (ret = hydra_thrust::partition_copy(cvt_to_seq(derived_cast(policy)),
+                                  first,
+                                  last,
+                                  stencil,
+                                  selected_result,
+                                  rejected_result,
+                                  predicate);));
   return ret;
 }
 
@@ -887,28 +879,21 @@ partition_copy(execution_policy<Derived> &policy,
                RejectedOutIt              rejected_result,
                Predicate                  predicate)
 {
-  pair<SelectedOutIt, RejectedOutIt> ret = hydra_thrust::make_pair(selected_result, rejected_result);
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    ret = __partition::partition(policy,
-                                 first,
-                                 last,
-                                 __partition::no_stencil_tag(),
-                                 selected_result,
-                                 rejected_result,
-                                 predicate);
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::partition_copy(cvt_to_seq(derived_cast(policy)),
-                                 first,
-                                 last,
-                                 selected_result,
-                                 rejected_result,
-                                 predicate);
-#endif
-  }
+  auto ret = hydra_thrust::make_pair(selected_result, rejected_result);
+  HYDRA_THRUST_CDP_DISPATCH(
+    (ret = __partition::partition(policy,
+                                  first,
+                                  last,
+                                  __partition::no_stencil_tag(),
+                                  selected_result,
+                                  rejected_result,
+                                  predicate);),
+    (ret = hydra_thrust::partition_copy(cvt_to_seq(derived_cast(policy)),
+                                  first,
+                                  last,
+                                  selected_result,
+                                  rejected_result,
+                                  predicate);));
   return ret;
 }
 
@@ -926,28 +911,21 @@ stable_partition_copy(execution_policy<Derived> &policy,
                       RejectedOutIt              rejected_result,
                       Predicate                  predicate)
 {
-  pair<SelectedOutIt, RejectedOutIt> ret = hydra_thrust::make_pair(selected_result, rejected_result);
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    ret = __partition::partition(policy,
-                                 first,
-                                 last,
-                                 __partition::no_stencil_tag(),
-                                 selected_result,
-                                 rejected_result,
-                                 predicate);
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::stable_partition_copy(cvt_to_seq(derived_cast(policy)),
-                                        first,
-                                        last,
-                                        selected_result,
-                                        rejected_result,
-                                        predicate);
-#endif
-  }
+  auto ret = hydra_thrust::make_pair(selected_result, rejected_result);
+  HYDRA_THRUST_CDP_DISPATCH(
+    (ret = __partition::partition(policy,
+                                  first,
+                                  last,
+                                  __partition::no_stencil_tag(),
+                                  selected_result,
+                                  rejected_result,
+                                  predicate);),
+    (ret = hydra_thrust::stable_partition_copy(cvt_to_seq(derived_cast(policy)),
+                                         first,
+                                         last,
+                                         selected_result,
+                                         rejected_result,
+                                         predicate);));
   return ret;
 }
 
@@ -967,29 +945,22 @@ stable_partition_copy(execution_policy<Derived> &policy,
                       RejectedOutIt              rejected_result,
                       Predicate                  predicate)
 {
-  pair<SelectedOutIt, RejectedOutIt> ret = hydra_thrust::make_pair(selected_result, rejected_result);
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    ret = __partition::partition(policy,
-                                 first,
-                                 last,
-                                 stencil,
-                                 selected_result,
-                                 rejected_result,
-                                 predicate);
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::stable_partition_copy(cvt_to_seq(derived_cast(policy)),
-                                        first,
-                                        last,
-                                        stencil,
-                                        selected_result,
-                                        rejected_result,
-                                        predicate);
-#endif
-  }
+  auto ret = hydra_thrust::make_pair(selected_result, rejected_result);
+  HYDRA_THRUST_CDP_DISPATCH(
+    (ret = __partition::partition(policy,
+                                  first,
+                                  last,
+                                  stencil,
+                                  selected_result,
+                                  rejected_result,
+                                  predicate);),
+    (ret = hydra_thrust::stable_partition_copy(cvt_to_seq(derived_cast(policy)),
+                                         first,
+                                         last,
+                                         stencil,
+                                         selected_result,
+                                         rejected_result,
+                                         predicate);));
   return ret;
 }
 
@@ -1007,22 +978,15 @@ partition(execution_policy<Derived> &policy,
           StencilIt                  stencil,
           Predicate                  predicate)
 {
-  Iterator ret = first;
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    ret = __partition::partition_inplace(policy, first, last, stencil, predicate);
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::partition(cvt_to_seq(derived_cast(policy)),
-                            first,
-                            last,
-                            stencil,
-                            predicate);
-#endif
-  }
-  return ret;
+  HYDRA_THRUST_CDP_DISPATCH(
+    (last =
+       __partition::partition_inplace(policy, first, last, stencil, predicate);),
+    (last = hydra_thrust::partition(cvt_to_seq(derived_cast(policy)),
+                              first,
+                              last,
+                              stencil,
+                              predicate);));
+  return last;
 }
 
 __hydra_thrust_exec_check_disable__
@@ -1035,25 +999,17 @@ partition(execution_policy<Derived> &policy,
           Iterator                   last,
           Predicate                  predicate)
 {
-  Iterator ret = first;
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    ret = __partition::partition_inplace(policy,
-                                         first,
-                                         last,
-                                         __partition::no_stencil_tag(),
-                                         predicate);
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::partition(cvt_to_seq(derived_cast(policy)),
-                            first,
-                            last,
-                            predicate);
-#endif
-  }
-  return ret;
+  HYDRA_THRUST_CDP_DISPATCH(
+    (last = __partition::partition_inplace(policy,
+                                           first,
+                                           last,
+                                           __partition::no_stencil_tag(),
+                                           predicate);),
+    (last = hydra_thrust::partition(cvt_to_seq(derived_cast(policy)),
+                              first,
+                              last,
+                              predicate);));
+  return last;
 }
 
 __hydra_thrust_exec_check_disable__
@@ -1068,30 +1024,20 @@ stable_partition(execution_policy<Derived> &policy,
                  StencilIt                  stencil,
                  Predicate                  predicate)
 {
-  Iterator result = first;
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    result = __partition::partition_inplace(policy,
+  auto ret = last;
+  HYDRA_THRUST_CDP_DISPATCH(
+    (ret =
+       __partition::partition_inplace(policy, first, last, stencil, predicate);
+
+     /* partition returns rejected values in reverse order
+       so reverse the rejected elements to make it stable */
+     cuda_cub::reverse(policy, ret, last);),
+    (ret = hydra_thrust::stable_partition(cvt_to_seq(derived_cast(policy)),
                                     first,
                                     last,
                                     stencil,
-                                    predicate);
-
-    // partition returns rejected values in reverese order
-    // so reverse the rejected elements to make it stable
-    cuda_cub::reverse(policy, result, last);
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    result = hydra_thrust::stable_partition(cvt_to_seq(derived_cast(policy)),
-                                      first,
-                                      last,
-                                      stencil,
-                                      predicate);
-#endif
-  }
-  return result;
+                                    predicate);));
+  return ret;
 }
 
 __hydra_thrust_exec_check_disable__
@@ -1104,29 +1050,22 @@ stable_partition(execution_policy<Derived> &policy,
                  Iterator                   last,
                  Predicate                  predicate)
 {
-  Iterator result = first;
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    result = __partition::partition_inplace(policy,
-                                       first,
-                                       last,
-                                       __partition::no_stencil_tag(),
-                                       predicate);
+  auto ret = last;
+  HYDRA_THRUST_CDP_DISPATCH(
+    (ret = __partition::partition_inplace(policy,
+                                          first,
+                                          last,
+                                          __partition::no_stencil_tag(),
+                                          predicate);
 
-    // partition returns rejected values in reverese order
-    // so reverse the rejected elements to make it stable
-    cuda_cub::reverse(policy, result, last);
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    result = hydra_thrust::stable_partition(cvt_to_seq(derived_cast(policy)),
-                                      first,
-                                      last,
-                                      predicate);
-#endif
-  }
-  return result;
+     /* partition returns rejected values in reverse order
+      so reverse the rejected elements to make it stable */
+     cuda_cub::reverse(policy, ret, last);),
+    (ret = hydra_thrust::stable_partition(cvt_to_seq(derived_cast(policy)),
+                                    first,
+                                    last,
+                                    predicate);));
+  return ret;
 }
 
 template <class Derived,
@@ -1145,5 +1084,5 @@ is_partitioned(execution_policy<Derived> &policy,
 
 
 }    // namespace cuda_cub
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 #endif

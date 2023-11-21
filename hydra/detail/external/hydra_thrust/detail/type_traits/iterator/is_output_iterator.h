@@ -22,8 +22,7 @@
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/hydra_thrust/iterator/detail/any_assign.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace detail
 {
@@ -62,5 +61,5 @@ template<typename T>
 
 } // end detail
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

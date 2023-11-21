@@ -80,8 +80,8 @@ public:
 	BaseFunctor<CubicSpiline<N, ArgIndex>, GReal_t , 0>()
 	{
 		//populates fH and fX
-		hydra_thrust::copy( ybegin, ybegin+N,  fD );
-		hydra_thrust::copy( xbegin, xbegin+N,  fX);
+		hydra::thrust::copy( ybegin, ybegin+N,  fD );
+		hydra::thrust::copy( xbegin, xbegin+N,  fX);
 
 	}
 
@@ -139,7 +139,7 @@ public:
 
 		GReal_t X  = x[ArgIndex];
 
-		GReal_t r = X<=fX[0]?fD[0]: X>=fX[N-1] ? fD[N-1] :spiline( X);
+		GReal_t r = X<=fX[0]?fD[0]: X>=fX[N-1] ? fD[N-1] :spline( X);
 
 		return  CHECK_VALUE( r, "r=%f",r) ;
 	}
@@ -150,7 +150,7 @@ public:
 
 		GReal_t X  = hydra::get<ArgIndex>(x); //mass
 
-		GReal_t r = X<=fX[0]?fD[0]: X>=fX[N-1] ? fD[N-1] :spiline(X);
+		GReal_t r = X<=fX[0]?fD[0]: X>=fX[N-1] ? fD[N-1] :spline(X);
 
 		return  CHECK_VALUE( r, "r=%f",r) ;
 	}
@@ -158,12 +158,12 @@ public:
 private:
 
 	__hydra_host__ __hydra_device__
-	inline double spiline( const double x) const
+	inline double spline( const double x) const
 	{
-		using hydra_thrust::min;
+		using hydra::thrust::min;
 
-		const size_t i = hydra_thrust::distance(fX,
-							hydra_thrust::lower_bound(hydra_thrust::seq, fX, fX +N, x));
+		const size_t i = hydra::thrust::distance(fX,
+							hydra::thrust::lower_bound(hydra::thrust::seq, fX, fX +N, x));
 		//--------------------
 
 		const double y_i = fD[i], y_ip = fD[i+1],y_ipp = fD[i+2], y_im = fD[i-1] ;

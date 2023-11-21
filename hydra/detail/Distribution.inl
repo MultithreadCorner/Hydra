@@ -117,8 +117,8 @@ struct  RngBase
 
 	//most of the known distributions can be sampled using normal and uniform rngs.
 
-	typedef hydra_thrust::uniform_real_distribution<double> uniform_rng_type;
-	typedef hydra_thrust::normal_distribution<double>        normal_rng_type;
+	typedef hydra::thrust::uniform_real_distribution<double> uniform_rng_type;
+	typedef hydra::thrust::normal_distribution<double>        normal_rng_type;
 
 	/**
 	 * \brief Returns pseudo-random numbers uniformly distributed in the

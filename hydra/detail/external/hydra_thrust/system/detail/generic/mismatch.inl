@@ -14,14 +14,15 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/mismatch.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/internal_functional.h>
 #include <hydra/detail/external/hydra_thrust/find.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -38,10 +39,9 @@ __host__ __device__
              InputIterator1 last1,
              InputIterator2 first2)
 {
-  typedef typename hydra_thrust::iterator_value<InputIterator1>::type InputType1;
-  
-  // XXX use a placeholder expression here
-  return hydra_thrust::mismatch(exec, first1, last1, first2, hydra_thrust::detail::equal_to<InputType1>());
+  using namespace hydra_thrust::placeholders;
+
+  return hydra_thrust::mismatch(exec, first1, last1, first2, _1 == _2);
 } // end mismatch()
 
 
@@ -57,12 +57,12 @@ __host__ __device__
   // Contributed by Erich Elsen
   typedef hydra_thrust::tuple<InputIterator1,InputIterator2> IteratorTuple;
   typedef hydra_thrust::zip_iterator<IteratorTuple>          ZipIterator;
-  
+
   ZipIterator zipped_first = hydra_thrust::make_zip_iterator(hydra_thrust::make_tuple(first1,first2));
   ZipIterator zipped_last  = hydra_thrust::make_zip_iterator(hydra_thrust::make_tuple(last1, first2));
-  
+
   ZipIterator result = hydra_thrust::find_if_not(exec, zipped_first, zipped_last, hydra_thrust::detail::tuple_binary_predicate<BinaryPredicate>(pred));
-  
+
   return hydra_thrust::make_pair(hydra_thrust::get<0>(result.get_iterator_tuple()),
                            hydra_thrust::get<1>(result.get_iterator_tuple()));
 } // end mismatch()
@@ -71,5 +71,5 @@ __host__ __device__
 } // end generic
 } // end detail
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

@@ -27,11 +27,10 @@
 #include <cstddef>
 #include <hydra/detail/external/hydra_thrust/device_ptr.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /*!
- *  \addtogroup allocation_functions Allocation Functions
+ *  \addtogroup memory_management Memory Management
  *  \{
  */
 
@@ -79,10 +78,9 @@ template <typename T>
 template <typename T>
   device_ptr<T> device_new(const size_t n = 1);
 
-/*! \}
+/*! \} // memory_management
  */
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/device_new.inl>
-

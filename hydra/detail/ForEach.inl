@@ -43,7 +43,7 @@ template<typename Iterable, typename Functor>
 	Range<decltype(std::declval<Iterable&>().begin())>>::type
 for_each(Iterable&& iterable, Functor const& functor)
 {
-	hydra_thrust::for_each( std::forward<Iterable>(iterable).begin(),
+	hydra::thrust::for_each( std::forward<Iterable>(iterable).begin(),
 			std::forward<Iterable>(iterable).end(), functor);
 
 	return make_range( std::forward<Iterable>(iterable).begin(),

@@ -20,46 +20,40 @@
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/function_traits.h>
 
-#if __cplusplus >= 201103L || defined(__cpp_lib_result_of_sfinae)
-// necessary for std::result_of
 #include <type_traits>
-#endif
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 
-// In the C++11 mode, by default, result_of_adaptable function inheritfrom std::result_of
-#if __cplusplus >= 201103L || defined(__cpp_lib_result_of_sfinae)
+// Sets `type` to the result of the specified Signature invocation. If the
+// callable defines a `result_type` alias member, that type is used instead.
+// Use invoke_result / result_of when FuncType::result_type is not defined.
 template <typename Signature, typename Enable = void>
-struct result_of_adaptable_function : std::result_of<Signature> {};
-#else  /* cxx11 */
-template<typename Signature, typename Enable = void> 
-struct result_of_adaptable_function;
-#endif  /* cxx11 */
-
-// specialization for unary invocations of things which have result_type
-template<typename Functor, typename Arg1>
-  struct result_of_adaptable_function<
-    Functor(Arg1),
-    typename hydra_thrust::detail::enable_if<hydra_thrust::detail::has_result_type<Functor>::value>::type
-  >
+struct result_of_adaptable_function
 {
-  typedef typename Functor::result_type type;
-}; // end result_of
+private:
+  template <typename Sig> struct impl;
 
-// specialization for binary invocations of things which have result_type
-template<typename Functor, typename Arg1, typename Arg2>
-  struct result_of_adaptable_function<
-    Functor(Arg1,Arg2),
-    typename hydra_thrust::detail::enable_if<hydra_thrust::detail::has_result_type<Functor>::value>::type
-  >
-{
-  typedef typename Functor::result_type type;
+  template <typename F, typename... Args>
+  struct impl<F(Args...)>
+  {
+    using type = invoke_result_t<F, Args...>;
+  };
+
+public:
+  using type = typename impl<Signature>::type;
 };
 
+// specialization for invocations which define result_type
+template <typename Functor, typename... ArgTypes>
+struct result_of_adaptable_function<
+  Functor(ArgTypes...),
+  typename hydra_thrust::detail::enable_if<
+    hydra_thrust::detail::has_result_type<Functor>::value>::type>
+{
+  using type = typename Functor::result_type;
+};
 
-} // end detail
-} // end hydra_thrust
-
+} // namespace detail
+HYDRA_THRUST_NAMESPACE_END

@@ -17,10 +17,12 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/complex.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 
-namespace hydra_thrust {
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 template <typename T0, typename T1>
 __host__ __device__
@@ -51,5 +53,5 @@ pow(const T0& x, const complex<T1>& y)
   return exp(log(T(x)) * complex<T>(y));
 }
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

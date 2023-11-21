@@ -28,7 +28,6 @@
 
 #pragma once
 
-#include <catch/catch.hpp>
 #include <memory>
 #include <limits>
 #include <utility>
@@ -37,6 +36,9 @@
 #include <hydra/Tuple.h>
 #include <hydra/device/System.h>
 #include <hydra/host/System.h>
+
+using Catch::Approx;
+
 
 TEST_CASE( "multivector","hydra::multivector" ) {
 

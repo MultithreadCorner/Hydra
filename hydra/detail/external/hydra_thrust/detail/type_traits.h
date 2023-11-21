@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2018 NVIDIA Corporation
+ *  Copyright 2008-2022 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,12 +24,11 @@
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 
-#if HYDRA_THRUST_CPP_DIALECT >= 2011
-#  include <type_traits>
-#endif
+#include <hydra/detail/external/hydra_libcudacxx/cuda/std/type_traits>
 
-namespace hydra_thrust
-{
+#include <type_traits>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 // forward declaration of device_reference
 template<typename T> class device_reference;
@@ -48,22 +47,17 @@ namespace detail
      // We don't want to switch to std::integral_constant, because we want access
      // to the C++14 operator(), but we'd like standard traits to interoperate
      // with our version when tag dispatching.
-     #if HYDRA_THRUST_CPP_DIALECT >= 2011
-     constexpr integral_constant() = default;
+     integral_constant() = default;
 
-     constexpr integral_constant(integral_constant const&) = default;
+     integral_constant(integral_constant const&) = default;
 
-     #if HYDRA_THRUST_CPP_DIALECT >= 2014
-     constexpr // In C++11, constexpr makes member functions const.
-     #endif
      integral_constant& operator=(integral_constant const&) = default;
 
      constexpr __host__ __device__
-     integral_constant(std::integral_constant<T, v>) {}
-     #endif
+     integral_constant(std::integral_constant<T, v>) noexcept {}
 
-     HYDRA_THRUST_CONSTEXPR __host__ __device__ operator value_type() const HYDRA_THRUST_NOEXCEPT { return value; }
-     HYDRA_THRUST_CONSTEXPR __host__ __device__ value_type operator()() const HYDRA_THRUST_NOEXCEPT { return value; }
+     constexpr __host__ __device__ operator value_type() const noexcept { return value; }
+     constexpr __host__ __device__ value_type operator()() const noexcept { return value; }
    };
  
  /// typedef for true_type
@@ -134,7 +128,7 @@ template<typename T> struct is_pod
        || __is_pod(T)
 #elif HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC
 // only use the intrinsic for >= 4.3
-#if (__GNUC__ >= 4) && (__GNUC_MINOR__ >= 3)
+#if (__GNUC__ * 100 + __GNUC_MINOR__ >= 403)
        || __is_pod(T)
 #endif // GCC VERSION
 #endif // HYDRA_THRUST_HOST_COMPILER
@@ -142,36 +136,14 @@ template<typename T> struct is_pod
  {};
 
 
-template<typename T> struct has_trivial_constructor
-  : public integral_constant<
-      bool,
-      is_pod<T>::value
-#if HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC || \
-    HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG
-      || __has_trivial_constructor(T)
-#elif HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC
-// only use the intrinsic for >= 4.3
-#if (__GNUC__ >= 4) && (__GNUC_MINOR__ >= 3)
-      || __has_trivial_constructor(T)
-#endif // GCC VERSION
-#endif // HYDRA_THRUST_HOST_COMPILER
-      >
+template <typename T> 
+struct has_trivial_constructor
+  : public integral_constant<bool, is_pod<T>::value || ::cuda::std::is_trivially_constructible<T>::value> 
 {};
 
-template<typename T> struct has_trivial_copy_constructor
-  : public integral_constant<
-      bool,
-      is_pod<T>::value
-#if HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC || \
-    HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG
-      || __has_trivial_copy(T)
-#elif HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC
-// only use the intrinsic for >= 4.3
-#if (__GNUC__ >= 4) && (__GNUC_MINOR__ >= 3)
-      || __has_trivial_copy(T)
-#endif // GCC VERSION
-#endif // HYDRA_THRUST_HOST_COMPILER
-    >
+template<typename T> 
+struct has_trivial_copy_constructor
+  : public integral_constant<bool, is_pod<T>::value || ::cuda::std::is_trivially_copyable<T>::value>
 {};
 
 template<typename T> struct has_trivial_destructor : public is_pod<T> {};
@@ -394,22 +366,44 @@ template<typename T1, typename T2>
 
 
 // mpl stuff
+template<typename... Conditions>
+  struct or_;
 
-template <typename Condition1,               typename Condition2,              typename Condition3 = false_type,
-          typename Condition4  = false_type, typename Condition5 = false_type, typename Condition6 = false_type,
-          typename Condition7  = false_type, typename Condition8 = false_type, typename Condition9 = false_type,
-          typename Condition10 = false_type>
-  struct or_
+template <>
+  struct or_<>
     : public integral_constant<
         bool,
-        Condition1::value || Condition2::value || Condition3::value || Condition4::value || Condition5::value || Condition6::value || Condition7::value || Condition8::value || Condition9::value || Condition10::value
+        false_type::value  // identity for or_
       >
 {
 }; // end or_
 
-template <typename Condition1, typename Condition2, typename Condition3 = true_type>
-  struct and_
-    : public integral_constant<bool, Condition1::value && Condition2::value && Condition3::value>
+template <typename Condition, typename... Conditions>
+  struct or_<Condition, Conditions...>
+    : public integral_constant<
+        bool,
+        Condition::value || or_<Conditions...>::value
+      >
+{
+}; // end or_
+
+template <typename... Conditions>
+  struct and_;
+
+template<>
+  struct and_<>
+    : public integral_constant<
+        bool,
+        true_type::value // identity for and_
+      >
+{
+}; // end and_
+
+template <typename Condition, typename... Conditions>
+  struct and_<Condition, Conditions...>
+    : public integral_constant<
+        bool,
+        Condition::value && and_<Conditions...>::value>
 {
 }; // end and_
 
@@ -550,15 +544,7 @@ template<typename T>
 
 struct largest_available_float
 {
-#if defined(__CUDA_ARCH__)
-#  if (__CUDA_ARCH__ < 130)
-  typedef float type;
-#  else
   typedef double type;
-#  endif
-#else
-  typedef double type;
-#endif
 };
 
 // T1 wins if they are both the same size
@@ -632,7 +618,7 @@ template<typename T1, typename T2>
 
   template<typename T> static typename add_reference<T>::type declval();
   
-  template<unsigned int> struct helper { typedef void * type; };
+  template<size_t> struct helper { typedef void * type; };
 
   template<typename U1, typename U2> static yes_type test(typename helper<sizeof(declval<U1>() = declval<U2>())>::type);
 
@@ -705,13 +691,27 @@ template<typename T>
   {
   };
 
+template <typename Invokable, typename... Args>
+using invoke_result_t =
+#if HYDRA_THRUST_CPP_DIALECT < 2017
+  typename ::cuda::std::result_of<Invokable(Args...)>::type;
+#else // 2017+
+  ::cuda::std::invoke_result_t<Invokable, Args...>;
+#endif
+
+template <class F, class... Us> 
+struct invoke_result
+{
+  using type = invoke_result_t<F, Us...>;
+};
+
 } // end detail
 
 using detail::integral_constant;
 using detail::true_type;
 using detail::false_type;
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/has_trivial_assign.h>
 

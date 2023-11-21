@@ -25,8 +25,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/function.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/sequential/execution_policy.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -67,5 +66,5 @@ InputIterator find_if(execution_policy<DerivedPolicy> &,
 } // end namespace sequential
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

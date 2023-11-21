@@ -22,12 +22,13 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_adaptor.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/type_traits/is_contiguous_iterator.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 
@@ -74,5 +75,5 @@ struct proclaim_contiguous_iterator<
   hydra_thrust::detail::normal_iterator<T>
 > : true_type {};
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

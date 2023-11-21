@@ -76,14 +76,14 @@ public:
 	__hydra_host__  __hydra_device__
 	bool operator()(T x) {
 
-		size_t index  = hydra_thrust::get<0>(x);
-		double weight = fFunctor( hydra_thrust::get<1>(x) );
+		size_t index  = hydra::thrust::get<0>(x);
+		double weight = fFunctor( hydra::thrust::get<1>(x) );
 
 		hydra::default_random_engine randEng(fSeed);
 
 		randEng.discard(index);
 
-		hydra_thrust::uniform_real_distribution<double> uniDist(0.0,1.0);
+		hydra::thrust::uniform_real_distribution<double> uniDist(0.0,1.0);
 
 		return (  weight/fMaxWeight > uniDist(randEng)) ;
 	}
@@ -375,7 +375,7 @@ public:
 	    }
 
 
-	        return w*fFunctor(hydra_thrust::make_tuple(p...));
+	        return w*fFunctor(hydra::thrust::make_tuple(p...));
 	}
 
 	__hydra_host__ __hydra_device__
@@ -428,28 +428,28 @@ Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::Unwei
 	size_t ntrials = fDecays.size();
 
 	//create iterators
-	hydra_thrust::counting_iterator < size_t > first(0);
-	hydra_thrust::counting_iterator < size_t > last(ntrials);
+	hydra::thrust::counting_iterator < size_t > first(0);
+	hydra::thrust::counting_iterator < size_t > last(ntrials);
 
-	auto sequence = hydra_thrust::get_temporary_buffer<size_t>(system_type(), ntrials);
-	hydra_thrust::copy(first, last, sequence.first);
+	auto sequence = hydra::thrust::get_temporary_buffer<size_t>(system_type(), ntrials);
+	hydra::thrust::copy(first, last, sequence.first);
 
 	//re-sort the container to build up un-weighted sample
-	auto start = hydra_thrust::make_zip_iterator(
-			hydra_thrust::make_tuple(sequence.first, fDecays.begin()));
+	auto start = hydra::thrust::make_zip_iterator(
+			hydra::thrust::make_tuple(sequence.first, fDecays.begin()));
 
-	auto stop = hydra_thrust::make_zip_iterator(
-			hydra_thrust::make_tuple(sequence.first + sequence.second, fDecays.end()));
+	auto stop = hydra::thrust::make_zip_iterator(
+			hydra::thrust::make_tuple(sequence.first + sequence.second, fDecays.end()));
 
-	auto middle = hydra_thrust::stable_partition(start, stop,
+	auto middle = hydra::thrust::stable_partition(start, stop,
 			tagger_type(this->GetEventWeightFunctor(), fMaxWeight, seed));
 
-	auto end_of_range = hydra_thrust::distance(start, middle);
+	auto end_of_range = hydra::thrust::distance(start, middle);
 
-	hydra_thrust::return_temporary_buffer(system_type(), sequence.first  );
+	hydra::thrust::return_temporary_buffer(system_type(), sequence.first , sequence.second);
 
 	//done!
-	//return (size_t) hydra_thrust::distance(begin(), middle);
+	//return (size_t) hydra::thrust::distance(begin(), middle);
 	return hydra::make_range(fDecays.begin(), fDecays.begin() + end_of_range );
 
 }
@@ -470,39 +470,39 @@ Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>::Unwei
 	 * So...
 	 */
 typedef PhaseSpaceReweight<Functor, Particles...> reweight_functor;
-typedef hydra_thrust::transform_iterator<reweight_functor,iterator> reweight_iterator;
+typedef hydra::thrust::transform_iterator<reweight_functor,iterator> reweight_iterator;
 typedef detail::FlagDaugthers< reweight_functor> tagger_type;
 
 	//number of events to trial
 	size_t ntrials = fDecays.size();
 
 	//create iterators
-	hydra_thrust::counting_iterator < size_t > first(0);
-	hydra_thrust::counting_iterator < size_t > last(ntrials);
+	hydra::thrust::counting_iterator < size_t > first(0);
+	hydra::thrust::counting_iterator < size_t > last(ntrials);
 
-	auto sequence  = hydra_thrust::get_temporary_buffer<size_t>(system_type(), ntrials);
-	hydra_thrust::copy(first, last, sequence.first);
+	auto sequence  = hydra::thrust::get_temporary_buffer<size_t>(system_type(), ntrials);
+	hydra::thrust::copy(first, last, sequence.first);
 
 	//--------------------
 
-	double max_value = max_weight>0.0 ? max_weight: *(hydra_thrust::max_element(
+	double max_value = max_weight>0.0 ? max_weight: *(hydra::thrust::max_element(
 			reweight_iterator(fDecays.begin(),this->GetEventWeightFunctor(functor) ),
 			reweight_iterator(fDecays.end()  ,this->GetEventWeightFunctor(functor) )));
 
 
 	//re-sort the container to build up un-weighted sample
-	auto start  = hydra_thrust::make_zip_iterator(
-			hydra_thrust::make_tuple(sequence.first,fDecays.begin()));
+	auto start  = hydra::thrust::make_zip_iterator(
+			hydra::thrust::make_tuple(sequence.first,fDecays.begin()));
 
-	auto stop   = hydra_thrust::make_zip_iterator(
-			hydra_thrust::make_tuple(sequence.first + sequence.second,fDecays.end() ));
+	auto stop   = hydra::thrust::make_zip_iterator(
+			hydra::thrust::make_tuple(sequence.first + sequence.second,fDecays.end() ));
 
-	auto middle = hydra_thrust::stable_partition(start, stop,
+	auto middle = hydra::thrust::stable_partition(start, stop,
 			tagger_type(this->GetEventWeightFunctor(functor), max_value, seed));
 
-	auto end_of_range = hydra_thrust::distance(start, middle);
+	auto end_of_range = hydra::thrust::distance(start, middle);
 
-	hydra_thrust::return_temporary_buffer(system_type(), sequence.first  );
+	hydra::thrust::return_temporary_buffer(system_type(), sequence.first , sequence.second );
 
 	//done!
 

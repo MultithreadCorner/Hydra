@@ -14,10 +14,9 @@
  *  limitations under the License.
  */
 
+#pragma once
 
-/*! \file transform.inl
- *  \brief Inline file for transform.h.
- */
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #include <hydra/detail/external/hydra_thrust/transform.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
@@ -25,8 +24,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/transform.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/transform.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 
 __hydra_thrust_exec_check_disable__
@@ -245,5 +243,5 @@ template<typename InputIterator1,
 } // end transform_if()
 
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

@@ -14,7 +14,8 @@ The best Minuit description can be found on it's own user's manual :cite:`minuit
 	-- Minuit User's Guide, Fred James and Matthias Winkler, June 16, 2004 -  CERN, Geneva.
 
 Hydra implements an interface to Minuit2 that parallelizes the FCN calculation.
-This dramatically accelerates the calculations over large data-sets. Hydra normalizes the pdfs on-the-fly using analytical or numerical integration algorithms provided by the framework and handles data using iterators. 
+This dramatically accelerates the calculations over large or multidimensional datasets. Hydra normalizes the pdfs on-the-fly using analytical
+ or numerical integration algorithms provided by the framework and handles data using iterators. Hydra supports weigted and unweigted datasets. 
 
 Hydra also provides an implementation of SPlot :cite:`splot`, a very popular technique for statistical unfolding of data distributions.
 
@@ -22,55 +23,38 @@ Hydra also provides an implementation of SPlot :cite:`splot`, a very popular tec
 Defining PDFs
 -------------
 
-In Hydra, PDFs are represented by the ``hydra::Pdf<Functor, Integrator>`` class template and is defined binding a positive defined functor and a integrator. 
-PDFs can be conveniently built using the template function 
-``hydra::make_pdf( pdf, integrator)``. 
-The snippet below shows how wrap a parametric lambda representing a Gaussian and bind it to a Gauss-Kronrod integrator, to build a pdf object:
+In Hydra, PDFs are represented by the ``hydra::Pdf<Functor, Integrator>`` class template and are defined binding a positive defined functor
+ and a integrator. PDFs can be conveniently built using the template function
+  
+``hydra::make_pdf( pdf_object, integrator_object)``. 
+
+Most of the functors provided in Hydra have an analytical integrator defined. To invoke it, one should use the class template  
+``hydra::AnalyticalIntegral<Functor>``, otherwise an appropriated numerical integration algorithm needs be specified. 
+
+The snippet below shows how bind a Gaussian to its analytical integrator and build a pdf object:
 
 .. code-block:: cpp
 	:name: pdf-gauss
 		
-	#include <hydra/device/System.h>
-	#include <hydra/Lambda.h>
 	#include <hydra/Pdf.h>
 	#include <hydra/Parameter.h>
-	#include <hydra/GaussKronrodQuadrature.h>
-
+	#include <hydra/functions/Gaussian.h>
+    
 	...
 
-	std::string Mean("Mean"); 	// mean of gaussian
-	std::string Sigma("Sigma"); // sigma of gaussian
+	//-----------------
+    // some definitions
+    double min   = -6.0;
+    double max   =  6.0;
 
-	hydra::Parameter  mean_p  = hydra::Parameter::Create()
-		.Name(Mean)
-		.Value(0.5)
-		.Error(0.0001)
-		.Limits(-1.0, 1.0);
-
-	hydra::Parameter  sigma_p = hydra::Parameter::Create()
-		.Name(Sigma)
-		.Value(0.5)
-		.Error(0.0001)
-		.Limits(0.01, 1.5);
-
-	//wrap a parametric lambda 
-	auto gaussian = hydra::wrap_lambda( [=] __host__ __device__ (unsigned int npar,
-		const hydra::Parameter* params,  unsigned int narg, double* x ){
-
-		double m2 = (x[0] -  params[0])*(x[0] - params[0] );
-		double s2 = params[1]*params[1];
-		
-		return exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
-	}, mean_p, sigma_p);
-
-
-	double min   = -5.0;  double max   =  5.0;
-
-	//numerical integral to normalize the pdf
-	hydra::GaussKronrodQuadrature<61,100, hydra::device::sys_t> GKQ61(min,  max);
-
-	//build the PDF
-	auto PDF = hydra::make_pdf(gaussian, GKQ61 );
+    //Parameters
+    auto mean  = hydra::Parameter::Create("mean" ).Value(0.0).Error(0.0001).Limits(-1.0, 1.0);
+    auto sigma = hydra::Parameter::Create("sigma").Value(1.0).Error(0.0001).Limits(0.01, 1.5);
+    
+    //Gaussian distribution 
+    auto gauss = hydra::Gaussian<double>(mean, sigma);
+    //Model
+    auto model = hydra::make_pdf(gauss, hydra::AnalyticalIntegral< hydra::Gaussian<xvar> >(min, max) );
 
 	...
 
@@ -85,46 +69,61 @@ Given N normalized pdfs :math:`F_i` , theses classes define objects representing
 
 The coefficients :math:`c_i` can represent fractions or yields. If the number of coefficients is equal to
 the number of PDFs, the coefficients are interpreted as yields and ``hydra::PDFSumExtendable<Pdf1, Pdf2,...>`` is used. If the number of coefficients is :math:`(N-1)`,
-the class template ``hydra::PDFSumNonExtendabl<Pdf1, Pdf2,...>`` is used and the coefficients are interpreted as fractions defined in the interval [0,1]. The coefficient of the last term is calculated as :math:`c_N=1 -\sum_i^{(N-1)} c_i` .
+the class template ``hydra::PDFSumNonExtendabl<Pdf1, Pdf2,...>`` is used and the coefficients are interpreted as fractions defined in the interval [0,1].
+The coefficient of the last term is calculated as :math:`c_N=1 -\sum_i^{(N-1)} c_i` .
 
 ``hydra::PDFSumExtendable<Pdf1, Pdf2,...>`` and  ``hydra::PDFSumNonExtendabl<Pdf1, Pdf2,...>`` objects can be conveniently created using the function template 
-``hydra::add_pdfs(...)``. 
-The code snippet below continues the :ref:`example <pdf-gauss>` and defines a new PDF representing an exponential distribution and add it to the previous Gaussian PDF 
-to build a extended model, which can be used to predict the yields:
+``hydra::add_pdfs(...)``.
+ 
+The code snippet below shows how to implement a model with two components, a Gaussian and a Argus distribution,  
+to build a extended model, which can be used to predict the corresponding yields:
 
 .. code-block:: cpp
-	:name: pdf-exponential
-
+	:name: pdf-gauss-plus-argus
+	
+    #include <hydra/Parameter.h>
+    #include <hydra/Pdf.h>
+    #include <hydra/AddPdf.h> 
+    #include <hydra/functions/Gaussian.h> 
+    #include <hydra/functions/ArgusShape.h>
 	...
 
-	//tau of the exponential
-	std::string  Tau("Tau");
-	hydra::Parameter  tau_p  = hydra::Parameter::Create()
-		.Name(Tau)
-		.Value(1.0)
-		.Error(0.0001)
-		.Limits(-2.0, 2.0);
+	//-----------------
+    // some definitions
+    double min   =  5.20;
+    double max   =  5.30;
 
-	//wrap a parametric lambda
-	auto exponential = hydra::wrap_lambda( [=] __host__ __device__ (unsigned int npar,
-	 	const hydra::Parameter* params,unsigned int narg, double* x ){
-		
-		double tau = params[0];
-		return exp( -(x[0]-min)*tau);
 
-	}, tau_p );
+    //===========================
+    //fit model gaussian + argus
 
-	// build the PDF
-	auto PDF = hydra::make_pdf( exponential, GKQ61 );
+    //Gaussian
+    hydra::Parameter  mean  = hydra::Parameter::Create().Name("Mean").Value( 5.28).Error(0.0001).Limits(5.25,5.29);
+    hydra::Parameter  sigma = hydra::Parameter::Create().Name("Sigma").Value(0.0026).Error(0.0001).Limits(0.0024,0.0028);
 
-	//yields
-	std::string NG("N_Gauss");
-	std::string NE("N_Exp");
-	hydra::Parameter NG_p(NG , 1e4, 100.0, 1000 , 2e4) ;
-	hydra::Parameter NE_p(NE , 1e4, 100.0, 1000 , 2e4) ;
+    //gaussian function evaluating on the first argument
+    auto Signal_PDF = hydra::make_pdf( hydra::Gaussian<_X>(mean, sigma),
+            hydra::AnalyticalIntegral<hydra::Gaussian<_X>>(min, max));
 
-	//add the pdfs
-	auto model = hydra::add_pdfs({NG_p, NE_p}, gaussian, exponential );
+    //-------------------------------------------
+    //Argus
+    //parameters
+    auto  m0     = hydra::Parameter::Create().Name("M0").Value(5.291).Error(0.0001).Limits(5.28, 5.3);
+    auto  slope  = hydra::Parameter::Create().Name("Slope").Value(-20.0).Error(0.0001).Limits(-30.0, -10.0);
+    auto  power  = hydra::Parameter::Create().Name("Power").Value(0.5).Fixed();
+
+    //gaussian function evaluating on the first argument
+    auto Background_PDF = hydra::make_pdf( hydra::ArgusShape<_X>(m0, slope, power),
+            hydra::AnalyticalIntegral<hydra::ArgusShape<_X>>(min, max));
+
+    //------------------
+    //yields
+    hydra::Parameter N_Signal("N_Signal"        ,500, 100, 100 , nentries) ;
+    hydra::Parameter N_Background("N_Background",2000, 100, 100 , nentries) ;
+
+    //make model
+    auto model = hydra::add_pdfs( {N_Signal, N_Background}, Signal_PDF, Background_PDF);
+    model.SetExtended(1);
 
 	...
 
@@ -149,7 +148,9 @@ be performed for coeficients using the method ``Coefficient( unsigned int )`` :
 
 
 
-The Hydra classes representing PDFs are not dumb arithmetic beasts. These classes are lazy and implements a series of optimizations in order to forward to the thread collection only code that need effectively be evaluated. In particular, functor normalization is cached in a such way that only new parameters settings will trigger the calculation of integrals. 
+The Hydra classes representing PDFs are not dumb arithmetic beasts. 
+These classes are lazy and implements a series of optimizations in order to forward to the thread collection only code that need effectively be evaluated.
+In particular, functor normalization is cached in a such way that only new parameters settings will trigger the recalculation of integrals. 
 
 
 Defining FCNs and invoking the ``ROOT::Minuit2`` interfaces
@@ -159,12 +160,20 @@ In general, a FCN is defined binding a PDF to the data the PDF is supposed to de
 Hydra implements classes and interfaces to allow the definition of FCNs suitable to perform maximum likelihood fits on unbinned and binned datasets.
 The different use cases for Likelihood FCNs are covered by the specialization of the class template ``hydra::LogLikelihoodFCN<PDF, Iterator, Extensions...>``.
 
-Objects representing  likelihood FCNs can be conveniently instantiated using the function template ``hydra::make_likelihood_fcn(data_begin, data_end , PDF)`` and ``hydra::make_likelihood_fcn(data_begin, data_end , weights_begin, PDF)``, where ``data_begin``, ``data_end`` and ``weights_begin`` are iterators pointing to the dataset and the weights or bin-contents. 
+Objects representing  likelihood FCNs can be conveniently instantiated using the function template 
+``hydra::make_likelihood_fcn(data_begin, data_end , PDF)``
+ and ``hydra::make_likelihood_fcn(data_begin, data_end , weights_begin, PDF)``, 
+ where ``data_begin``, ``data_end`` and ``weights_begin`` are iterators pointing to the dataset and the weights. 
 
 .. code-block:: cpp
 	
 	#include <hydra/LogLikelihoodFCN.h>
-
+    //Minuit2
+    #include "Minuit2/FunctionMinimum.h"
+    #include "Minuit2/MnUserParameterState.h"
+    #include "Minuit2/MnPrint.h"
+    #include "Minuit2/MnMigrad.h"
+    #include "Minuit2/MnMinimize.h"
 	...
 
 	// get the fcn...
@@ -178,9 +187,18 @@ sPlots
 
 The sPlot technique is used to unfold the contributions of different sources to the data sample in a given variable. The sPlot tool applies in the context of a Likelihood fit which needs to be performed on the data sample to determine the yields corresponding to the various sources. 
 
-Hydra handles sPlots using the class ``hydra::SPlot<PDF1, PDF2,PDFs...>`` where ``PDF1``, ``PDF2`` and ``PDFs...`` are the probability density functions describing the populations contributing to the dataset as modeled in a given variable referred as discriminating variable. The other variables of interest, present in the dataset are referred as control variables and are statistically unfolded using the so called *sweights*. For each entry in the dataset, ``hydra::SPlot<PDF1, PDF2,PDFs...>`` calculates a set of weights, where each one corresponds to a data source described by the corresponding PDF. It is responsibility of the user to allocate memory to store the *sweights*.
-
-The weights are calculated invoking the method ``hydra::SPlot::Generate``, which returns the covariant matrix among the yields in the data sample.  
+Hydra handles sPlots using the class template ``hydra::SPlot<Iterator, PDF1, PDF2,PDFs...>`` where ``Iterator`` is an iterator point to data
+ ``PDF1``, ``PDF2`` and ``PDFs...``
+ are the probability density functions describing the populations contributing to the dataset as modeled in a given
+  variable referred as discriminating variable. 
+ The other variables of interest, present in the dataset are referred as control variables and are 
+statistically unfolded using the so called *sweights*. For each entry in the dataset, ``hydra::SPlot<Iterator, PDF1, PDF2,PDFs...>``
+calculates a set of weights, each one corresponds to a data source described by the corresponding PDF.
+It is not necessary to allocate memory to store the *sweights*. It is calculated on the fly when the user 
+iterates over the ``hydra::Splot`` object. One can create the ``hydra::Splot`` object using the convenience 
+functions  ``hydra::make_splot(PDF, data_range )``or ``hydra::make_splot(PDF, data_begin, data_end )``, where PDF is a 
+``PDFSumExtendable<PDF1, PDF2, PDFs...>`` object.
+It is responsability of the user to make sure that the passed ``PDF`` object properly optimized to describe the data.
 
 .. code-block:: cpp
 
@@ -188,12 +206,27 @@ The weights are calculated invoking the method ``hydra::SPlot::Generate``, which
 
 	...
 
-	//splot 2 components (gaussian + exponential )
-	//hold weights
-	hydra::multiarray<2, double, hydra::device::sys_t> sweigts(dataset.size());
+    //splot
+    //create splot
+    auto sweigts = hydra::make_splot(fcn.GetPDF(), range );
 
-	//create splot
-	auto splot  = hydra::make_splot( fcn.GetPDF() );
+    auto covar_matrix = sweigts.GetCovMatrix();
 
-	auto covarm = splot.Generate( dataset.begin(), dataset.end(), sweigts.begin());
+
+    std::cout << "Covariance matrix "
+              << std::endl
+              << covar_matrix
+              << std::endl
+              << std::endl;
+
+    std::cout << std::endl
+              << "sWeights:"
+              << std::endl;
+
+    for(size_t i = 0; i<10; i++)
+        std::cout << "[" << i << "] :"
+                  << sweigts[i]
+                  << std::endl
+                  << std::endl;
+
 

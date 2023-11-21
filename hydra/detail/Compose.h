@@ -50,9 +50,9 @@ namespace hydra {
 template<typename F0, typename F1, typename... Fs >
 class Compose: public BaseCompositeFunctor<
 						Compose<F0, F1,Fs...>,
-						hydra_thrust::tuple<F0, F1, Fs...>,
+						hydra::thrust::tuple<F0, F1, Fs...>,
 						 typename detail::merged_tuple<
-						 	 hydra_thrust::tuple<typename F0::return_type>,
+						 	 hydra::thrust::tuple<typename F0::return_type>,
 						 	 typename detail::stripped_tuple<
 						 	 	 typename detail::merged_tuple<
 						 	 	 	 typename F1::argument_type,
@@ -65,9 +65,9 @@ class Compose: public BaseCompositeFunctor<
 
 	typedef BaseCompositeFunctor<
 				Compose<F0, F1,Fs...>,
-				hydra_thrust::tuple<F0, F1, Fs...>,
+				hydra::thrust::tuple<F0, F1, Fs...>,
 				 typename detail::merged_tuple<
-					 hydra_thrust::tuple<typename F0::return_type>,
+					 hydra::thrust::tuple<typename F0::return_type>,
 					 typename detail::stripped_tuple<
 						 typename detail::merged_tuple<
 							 typename F1::argument_type,
@@ -111,7 +111,7 @@ public:
 
 	  		typedef decltype(g) G_tuple ;
 
-	  		return f(detail::invoke<G_tuple, hydra_thrust::tuple<T...>>( hydra_thrust::tie(x...), g ));
+	  		return f(detail::invoke<G_tuple, hydra::thrust::tuple<T...>>( hydra::thrust::tie(x...), g ));
 	  	}
 
 

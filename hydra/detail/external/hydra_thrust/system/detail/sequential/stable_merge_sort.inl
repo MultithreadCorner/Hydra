@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2021 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,6 +14,9 @@
  *  limitations under the License.
  */
 
+#pragma once
+
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
@@ -21,8 +24,9 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/sequential/insertion_sort.h>
 #include <hydra/detail/external/hydra_thrust/detail/minmax.h>
 
-namespace hydra_thrust
-{
+#include <hydra/detail/external/hydra_libcudacxx/nv/target>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -97,7 +101,7 @@ void insertion_sort_each(RandomAccessIterator first,
   {
     for(; first < last; first += partition_size)
     {
-      RandomAccessIterator partition_last = hydra_thrust::min(last, first + partition_size);
+      RandomAccessIterator partition_last = (hydra_thrust::min)(last, first + partition_size);
 
       hydra_thrust::system::detail::sequential::insertion_sort(first, partition_last, comp);
     } // end for
@@ -120,7 +124,7 @@ void insertion_sort_each_by_key(RandomAccessIterator1 keys_first,
   {
     for(; keys_first < keys_last; keys_first += partition_size, values_first += partition_size)
     {
-      RandomAccessIterator1 keys_partition_last = hydra_thrust::min(keys_last, keys_first + partition_size);
+      RandomAccessIterator1 keys_partition_last = (hydra_thrust::min)(keys_last, keys_first + partition_size);
 
       hydra_thrust::system::detail::sequential::insertion_sort_by_key(keys_first, keys_partition_last, values_first, comp);
     } // end for
@@ -143,8 +147,8 @@ void merge_adjacent_partitions(sequential::execution_policy<DerivedPolicy> &exec
 {
   for(; first < last; first += 2 * partition_size, result += 2 * partition_size)
   {
-    RandomAccessIterator1 interval_middle = hydra_thrust::min(last, first + partition_size);
-    RandomAccessIterator1 interval_last   = hydra_thrust::min(last, interval_middle + partition_size);
+    RandomAccessIterator1 interval_middle = (hydra_thrust::min)(last, first + partition_size);
+    RandomAccessIterator1 interval_last   = (hydra_thrust::min)(last, interval_middle + partition_size);
 
     hydra_thrust::merge(exec,
                   first, interval_middle,
@@ -178,8 +182,8 @@ void merge_adjacent_partitions_by_key(sequential::execution_policy<DerivedPolicy
       keys_first < keys_last;
       keys_first += stride, values_first += stride, keys_result += stride, values_result += stride)
   {
-    RandomAccessIterator1 keys_interval_middle = hydra_thrust::min(keys_last, keys_first + partition_size);
-    RandomAccessIterator1 keys_interval_last   = hydra_thrust::min(keys_last, keys_interval_middle + partition_size);
+    RandomAccessIterator1 keys_interval_middle = (hydra_thrust::min)(keys_last, keys_first + partition_size);
+    RandomAccessIterator1 keys_interval_last   = (hydra_thrust::min)(keys_last, keys_interval_middle + partition_size);
 
     RandomAccessIterator2 values_first2 = values_first + (keys_interval_middle - keys_first);
 
@@ -353,12 +357,12 @@ void stable_merge_sort(sequential::execution_policy<DerivedPolicy> &exec,
                        RandomAccessIterator last,
                        StrictWeakOrdering comp)
 {
-  // avoid recursion in CUDA threads
-#ifdef __CUDA_ARCH__
-  stable_merge_sort_detail::iterative_stable_merge_sort(exec, first, last, comp);
-#else
-  stable_merge_sort_detail::recursive_stable_merge_sort(exec, first, last, comp);
-#endif
+  NV_IF_TARGET(NV_IS_DEVICE, (
+    // avoid recursion in CUDA threads
+    stable_merge_sort_detail::iterative_stable_merge_sort(exec, first, last, comp);
+  ), (
+    stable_merge_sort_detail::recursive_stable_merge_sort(exec, first, last, comp);
+  ));
 }
 
 
@@ -373,17 +377,17 @@ void stable_merge_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
                               RandomAccessIterator2 first2,
                               StrictWeakOrdering comp)
 {
-  // avoid recursion in CUDA threads
-#ifdef __CUDA_ARCH__
-  stable_merge_sort_detail::iterative_stable_merge_sort_by_key(exec, first1, last1, first2, comp);
-#else
-  stable_merge_sort_detail::recursive_stable_merge_sort_by_key(exec, first1, last1, first2, comp);
-#endif
+  NV_IF_TARGET(NV_IS_DEVICE, (
+    // avoid recursion in CUDA threads
+    stable_merge_sort_detail::iterative_stable_merge_sort_by_key(exec, first1, last1, first2, comp);
+  ), (
+    stable_merge_sort_detail::recursive_stable_merge_sort_by_key(exec, first1, last1, first2, comp);
+  ));
 }
 
 
 } // end namespace sequential
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

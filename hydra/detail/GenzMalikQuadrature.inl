@@ -252,7 +252,7 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 	detail::ProcessGenzMalikBox<N, FUNCTOR, rule_iterator> process_box(functor,
 			fGenzMalikRule.begin(), fGenzMalikRule.end() ) ;
 
-	hydra_thrust::for_each(hydra::detail::BackendPolicy<BACKEND>{}, TempBoxList_d.begin(),
+	hydra::thrust::for_each(hydra::detail::BackendPolicy<BACKEND>{}, TempBoxList_d.begin(),
 			TempBoxList_d.end(), process_box);
 
 
@@ -295,7 +295,7 @@ void GenzMalikQuadrature<N,
 	//sort by error in increasing order
 	//auto start = std::chrono::high_resolution_clock::now();
 
-	hydra_thrust::sort(BoxList.begin(), BoxList.end(), detail::CompareGenzMalikBoxes<N>());
+	hydra::thrust::sort(BoxList.begin(), BoxList.end(), detail::CompareGenzMalikBoxes<N>());
 
 	//auto stop = std::chrono::high_resolution_clock::now();
 	//std::chrono::duration<double, std::milli> elapsed = stop - start;
@@ -305,7 +305,7 @@ void GenzMalikQuadrature<N,
 	SplitBoxes(BoxList, n );
 
 	//launch calculation
-	hydra_thrust::for_each(BoxList.end()-2*n, BoxList.end(), process_box);
+	hydra::thrust::for_each(BoxList.end()-2*n, BoxList.end(), process_box);
 
 }
 
@@ -341,7 +341,7 @@ template<typename Vector>
 std::pair<GReal_t, GReal_t>
 hydra::GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND> >::CalculateIntegral( Vector const& BoxList){
 
-	detail::GenzMalikBoxResult<double> result = hydra_thrust::reduce(BoxList.begin(), BoxList.end(),
+	detail::GenzMalikBoxResult<double> result = hydra::thrust::reduce(BoxList.begin(), BoxList.end(),
 			detail::GenzMalikBoxResult<double>(0.0,0.0) ,detail::AddResultGenzMalikBoxes() );
 
 	return result.GetPair();

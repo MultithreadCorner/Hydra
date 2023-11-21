@@ -14,12 +14,9 @@
  *  limitations under the License.
  */
 
-
-/*! \file reduce_by_key.inl
- *  \brief Inline file for reduce_by_key.h.
- */
-
 #pragma once
+
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/hydra_thrust/iterator/detail/minimum_system.h>
@@ -35,8 +32,7 @@
 #include <hydra/detail/external/hydra_thrust/scan.h>
 #include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -51,12 +47,12 @@ template <typename ValueType, typename TailFlagType, typename AssociativeOperato
 struct reduce_by_key_functor
 {
   AssociativeOperator binary_op;
-  
+
   typedef typename hydra_thrust::tuple<ValueType, TailFlagType> result_type;
-  
+
   __host__ __device__
   reduce_by_key_functor(AssociativeOperator _binary_op) : binary_op(_binary_op) {}
-  
+
   __host__ __device__
   result_type operator()(result_type a, result_type b)
   {
@@ -79,7 +75,7 @@ template<typename ExecutionPolicy,
 __host__ __device__
   hydra_thrust::pair<OutputIterator1,OutputIterator2>
     reduce_by_key(hydra_thrust::execution_policy<ExecutionPolicy> &exec,
-                  InputIterator1 keys_first, 
+                  InputIterator1 keys_first,
                   InputIterator1 keys_last,
                   InputIterator2 values_first,
                   OutputIterator1 keys_output,
@@ -91,27 +87,8 @@ __host__ __device__
 
     typedef unsigned int FlagType;  // TODO use difference_type
 
-    // the pseudocode for deducing the type of the temporary used below:
-    // 
-    // if BinaryFunction is AdaptableBinaryFunction
-    //   TemporaryType = AdaptableBinaryFunction::result_type
-    // else if OutputIterator2 is a "pure" output iterator
-    //   TemporaryType = InputIterator2::value_type
-    // else
-    //   TemporaryType = OutputIterator2::value_type
-    //
-    // XXX upon c++0x, TemporaryType needs to be:
-    // result_of_adaptable_function<BinaryFunction>::type
-
-    typedef typename hydra_thrust::detail::eval_if<
-      hydra_thrust::detail::has_result_type<BinaryFunction>::value,
-      hydra_thrust::detail::result_type<BinaryFunction>,
-      hydra_thrust::detail::eval_if<
-        hydra_thrust::detail::is_output_iterator<OutputIterator2>::value,
-        hydra_thrust::iterator_value<InputIterator2>,
-        hydra_thrust::iterator_value<OutputIterator2>
-      >
-    >::type ValueType;
+    // Use the input iterator's value type per https://wg21.link/P0571
+    using ValueType = typename hydra_thrust::iterator_value<InputIterator2>::type;
 
     if (keys_first == keys_last)
         return hydra_thrust::make_pair(keys_output, values_output);
@@ -120,7 +97,7 @@ __host__ __device__
     difference_type n = keys_last - keys_first;
 
     InputIterator2 values_last = values_first + n;
-    
+
     // compute head flags
     hydra_thrust::detail::temporary_array<FlagType,ExecutionPolicy> head_flags(exec, n);
     hydra_thrust::transform(exec, keys_first, keys_last - 1, keys_first + 1, head_flags.begin() + 1, hydra_thrust::detail::not2(binary_pred));
@@ -134,7 +111,7 @@ __host__ __device__
     // scan the values by flag
     hydra_thrust::detail::temporary_array<ValueType,ExecutionPolicy> scanned_values(exec, n);
     hydra_thrust::detail::temporary_array<FlagType,ExecutionPolicy>  scanned_tail_flags(exec, n);
-    
+
     hydra_thrust::inclusive_scan
         (exec,
          hydra_thrust::make_zip_iterator(hydra_thrust::make_tuple(values_first,           head_flags.begin())),
@@ -146,12 +123,12 @@ __host__ __device__
 
     // number of unique keys
     FlagType N = scanned_tail_flags[n - 1] + 1;
-    
-    // scatter the keys and accumulated values    
+
+    // scatter the keys and accumulated values
     hydra_thrust::scatter_if(exec, keys_first,            keys_last,             scanned_tail_flags.begin(), head_flags.begin(), keys_output);
     hydra_thrust::scatter_if(exec, scanned_values.begin(), scanned_values.end(), scanned_tail_flags.begin(), tail_flags.begin(), values_output);
 
-    return hydra_thrust::make_pair(keys_output + N, values_output + N); 
+    return hydra_thrust::make_pair(keys_output + N, values_output + N);
 } // end reduce_by_key()
 
 
@@ -163,7 +140,7 @@ template<typename ExecutionPolicy,
 __host__ __device__
   hydra_thrust::pair<OutputIterator1,OutputIterator2>
     reduce_by_key(hydra_thrust::execution_policy<ExecutionPolicy> &exec,
-                  InputIterator1 keys_first, 
+                  InputIterator1 keys_first,
                   InputIterator1 keys_last,
                   InputIterator2 values_first,
                   OutputIterator1 keys_output,
@@ -185,7 +162,7 @@ template<typename ExecutionPolicy,
 __host__ __device__
   hydra_thrust::pair<OutputIterator1,OutputIterator2>
     reduce_by_key(hydra_thrust::execution_policy<ExecutionPolicy> &exec,
-                  InputIterator1 keys_first, 
+                  InputIterator1 keys_first,
                   InputIterator1 keys_last,
                   InputIterator2 values_first,
                   OutputIterator1 keys_output,
@@ -200,7 +177,7 @@ __host__ __device__
 
   // use plus<T> as default BinaryFunction
   return hydra_thrust::reduce_by_key(exec,
-                               keys_first, keys_last, 
+                               keys_first, keys_last,
                                values_first,
                                keys_output,
                                values_output,
@@ -212,5 +189,5 @@ __host__ __device__
 } // end namespace generic
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

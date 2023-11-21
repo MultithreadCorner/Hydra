@@ -20,14 +20,14 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/cpp11_required.h>
 
 #if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 #include <hydra/detail/external/hydra_thrust/mr/pool.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace mr
 {
 
@@ -43,7 +43,7 @@ namespace mr
  *  \param upstream the argument to the constructor, if invoked
  */
 template<typename Upstream, typename Bookkeeper>
-__host__ __device__
+__host__
 hydra_thrust::mr::unsynchronized_pool_resource<Upstream> & tls_pool(Upstream * upstream = NULL)
 {
     static thread_local auto adaptor = [&]{
@@ -58,7 +58,7 @@ hydra_thrust::mr::unsynchronized_pool_resource<Upstream> & tls_pool(Upstream * u
  */
 
 } // end mr
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #endif // HYDRA_THRUST_CPP_DIALECT >= 2011
 

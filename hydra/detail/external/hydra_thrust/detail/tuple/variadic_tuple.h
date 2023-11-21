@@ -43,9 +43,9 @@ struct std__is_constructible : std::is_constructible<T, Args...> { };
 // by default, it attempts to be constexpr
 #ifndef __TUPLE_ANNOTATION
 #  if __cplusplus <= 201103L
-#    define __TUPLE_ANNOTATION __host__ __device__
+#    define __TUPLE_ANNOTATION __device__ __host__
 #  else
-#    define __TUPLE_ANNOTATION  __host__ __device__ constexpr
+#    define __TUPLE_ANNOTATION __device__ __host__
 #  endif
 #  define __TUPLE_ANNOTATION_NEEDS_UNDEF
 #endif
@@ -99,6 +99,22 @@ struct tuple_size<__TUPLE_NAMESPACE::tuple<Types...>>
   : std::integral_constant<size_t, sizeof...(Types)>
 {};
 
+template<size_t i, class... UTypes>
+__TUPLE_ANNOTATION
+typename hydra_thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &
+get(__TUPLE_NAMESPACE::tuple<UTypes...>& t);
+
+
+template<size_t i, class... UTypes>
+__TUPLE_ANNOTATION
+const typename hydra_thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &
+get(const __TUPLE_NAMESPACE::tuple<UTypes...>& t);
+
+
+template<size_t i, class... UTypes>
+__TUPLE_ANNOTATION
+typename hydra_thrust::tuple_element<i, __TUPLE_NAMESPACE::tuple<UTypes...>>::type &&
+get(__TUPLE_NAMESPACE::tuple<UTypes...>&& t);
 
 //} // end std
 
@@ -178,13 +194,13 @@ class __tuple_leaf_base
 #if defined(__CUDACC__)
 #pragma nv_exec_check_disable
 #endif
- //   __TUPLE_ANNOTATION
+    __TUPLE_ANNOTATION
     ~__tuple_leaf_base() = default;
 
 #if defined(__CUDACC__)
 #pragma nv_exec_check_disable
 #endif
-//    __TUPLE_ANNOTATION
+    __TUPLE_ANNOTATION
     __tuple_leaf_base() = default;
 
 #if defined(__CUDACC__)
@@ -214,8 +230,8 @@ template<class T>
 class __tuple_leaf_base<T,true> : public T
 {
   public:
-    //__TUPLE_ANNOTATION
-    __tuple_leaf_base()= default;
+    __TUPLE_ANNOTATION
+    __tuple_leaf_base() = default;
 
     template<class U>
     __TUPLE_ANNOTATION
@@ -224,13 +240,13 @@ class __tuple_leaf_base<T,true> : public T
     __TUPLE_ANNOTATION
     const T& const_get() const
     {
-      return *static_cast<T*>(this);
+      return *this;
     }
   
     __TUPLE_ANNOTATION
     T& mutable_get()
     {
-      return *static_cast<T*>(this);
+      return *this;
     }
 };
 
@@ -241,7 +257,7 @@ class __tuple_leaf : public __tuple_leaf_base<T>
     using super_t = __tuple_leaf_base<T>;
 
   public:
-//    __TUPLE_ANNOTATION
+    __TUPLE_ANNOTATION
     __tuple_leaf() = default;
 
     template<class U,
@@ -341,7 +357,7 @@ class __tuple_base<__tuple_index_sequence<I...>, Types...>
   public:
     using leaf_types = __type_list<__tuple_leaf<I,Types>...>;
 
- //   __TUPLE_ANNOTATION
+    __TUPLE_ANNOTATION
     __tuple_base() = default;
 
     __TUPLE_ANNOTATION
@@ -835,7 +851,7 @@ struct __find_exactly_one_impl<I,T,U,Types...> : __find_exactly_one_impl<I+1, T,
 template<size_t I, class T, class... Types>
 struct __find_exactly_one_impl<I,T,T,Types...> : std::integral_constant<size_t, I>
 {
-  static_assert(int(__find_exactly_one_impl<I,T,Types...>::value) == -1, "type can only occur once in type list");
+  static_assert(__find_exactly_one_impl<I,T,Types...>::value == -1, "type can only occur once in type list");
 };
 
 
@@ -846,7 +862,7 @@ struct __find_exactly_one_impl<I,T> : std::integral_constant<int, -1> {};
 template<class T, class... Types>
 struct __find_exactly_one : __find_exactly_one_impl<0,T,Types...>
 {
-  static_assert(int(__find_exactly_one::value) != -1, "type not found in type list");
+  static_assert(__find_exactly_one::value != -1, "type not found in type list");
 };
 
 

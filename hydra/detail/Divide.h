@@ -55,9 +55,9 @@ namespace hydra {
 template<typename F1, typename F2 >
 class Divide : public BaseCompositeFunctor<
 Divide<F1, F2>,
-hydra_thrust::tuple<F1, F2>,
+hydra::thrust::tuple<F1, F2>,
  typename detail::merged_tuple<
- 	 hydra_thrust::tuple< decltype( std::declval<typename F1::return_type>()/std::declval<typename F2::return_type>() )>,
+ 	 hydra::thrust::tuple< decltype( std::declval<typename F1::return_type>()/std::declval<typename F2::return_type>() )>,
  	 typename detail::stripped_tuple<
  	 	 typename detail::merged_tuple<
  	 	 	 typename F1::argument_type,
@@ -70,9 +70,9 @@ hydra_thrust::tuple<F1, F2>,
 
 	typedef  BaseCompositeFunctor<
 			Divide<F1, F2>,
-			hydra_thrust::tuple<F1, F2>,
+			hydra::thrust::tuple<F1, F2>,
 			 typename detail::merged_tuple<
-			 	 hydra_thrust::tuple< decltype( std::declval<typename F1::return_type>()/std::declval<typename F2::return_type>() )>,
+			 	 hydra::thrust::tuple< decltype( std::declval<typename F1::return_type>()/std::declval<typename F2::return_type>() )>,
 			 	 typename detail::stripped_tuple<
 			 	 	 typename detail::merged_tuple<
 			 	 	 	 typename F1::argument_type,
@@ -108,7 +108,7 @@ public:
 	__hydra_host__ __hydra_device__ inline
 	typename super_type::return_type Evaluate(T... x ) const
 	{
-		return hydra_thrust::get<0>(this->GetFunctors())( hydra::tie(x...) )/hydra_thrust::get<1>(this->GetFunctors())( hydra::tie(x...) );
+		return hydra::thrust::get<0>(this->GetFunctors())( hydra::tie(x...) )/hydra::thrust::get<1>(this->GetFunctors())( hydra::tie(x...) );
 	}
 
 

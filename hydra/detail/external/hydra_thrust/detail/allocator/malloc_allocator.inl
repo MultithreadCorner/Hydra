@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/allocator/malloc_allocator.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/select_system.h>
@@ -21,8 +23,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/raw_pointer_cast.h>
 #include <hydra/detail/external/hydra_thrust/detail/malloc_and_free.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 
@@ -60,5 +61,5 @@ template<typename T, typename System, typename Pointer>
 
 
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

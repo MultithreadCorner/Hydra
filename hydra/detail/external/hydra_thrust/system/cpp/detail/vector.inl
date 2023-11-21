@@ -20,8 +20,7 @@
 #include <hydra/detail/external/hydra_thrust/system/cpp/vector.h>
 #include <utility>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace cpp
@@ -51,7 +50,7 @@ template<typename T, typename Allocator>
       : super_t(x)
 {}
 
-#if __cplusplus >= 201103L
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   template<typename T, typename Allocator>
     vector<T,Allocator>
       ::vector(vector &&x)
@@ -89,7 +88,7 @@ template<typename T, typename Allocator>
   return *this;
 }
 
-#if __cplusplus >= 201103L
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   template<typename T, typename Allocator>
     vector<T,Allocator> &
       vector<T,Allocator>
@@ -99,6 +98,27 @@ template<typename T, typename Allocator>
     return *this;
   }
 #endif
+  
+  template<typename T, typename Allocator>
+    vector<T,Allocator>
+      ::vector(std::initializer_list<T> il)
+        : super_t(il)
+  {}
+  
+  template<typename T, typename Allocator>
+    vector<T,Allocator>
+      ::vector(std::initializer_list<T> il, const Allocator& alloc)
+        : super_t(il, alloc)
+  {}
+
+  template<typename T, typename Allocator>
+    vector<T,Allocator> &
+      vector<T,Allocator>
+        ::operator=(std::initializer_list<T> il)
+  {
+    super_t::operator=(il);
+    return *this;
+  }
 
 template<typename T, typename Allocator>
   template<typename OtherT, typename OtherAllocator>
@@ -122,5 +142,5 @@ template<typename T, typename Allocator>
       
 } // end cpp
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

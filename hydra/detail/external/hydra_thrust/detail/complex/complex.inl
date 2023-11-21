@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2021 NVIDIA Corporation
  *  Copyright 2013 Filipe RNC Maia
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,12 +15,14 @@
  *  limitations under the License.
  */
 
-#include <hydra/detail/external/hydra_thrust/complex.h>
+#pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
+#include <hydra/detail/external/hydra_thrust/complex.h>
 #include <hydra/detail/external/hydra_thrust/type_traits/is_trivially_relocatable.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /* --- Constructors --- */
 
@@ -330,7 +332,7 @@ bool operator!=(const complex<T0>& x, const T1& y)
 template <typename T>
 struct proclaim_trivially_relocatable<complex<T> > : hydra_thrust::true_type {};
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/complex/arithmetic.h>
 #include <hydra/detail/external/hydra_thrust/detail/complex/cproj.h>

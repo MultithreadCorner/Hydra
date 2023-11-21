@@ -2,7 +2,7 @@
  *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in ccudaliance with the License.
+ *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -27,8 +27,9 @@
 #include <hydra/detail/external/hydra_thrust/mr/allocator.h>
 #include <ostream>
 
-HYDRA_THRUST_BEGIN_NS
-namespace cuda_cub {
+HYDRA_THRUST_NAMESPACE_BEGIN
+namespace cuda_cub
+{
 
 /*! Allocates an area of memory available to Thrust's <tt>cuda</tt> system.
  *  \param n Number of bytes to allocate.
@@ -63,80 +64,46 @@ inline __host__ __device__ pointer<T> malloc(std::size_t n);
  */
 inline __host__ __device__ void free(pointer<void> ptr);
 
-// XXX upon c++11
-// template<typename T>
-// using allocator = hydra_thrust::mr::stateless_resource_allocator<T, memory_resource>;
-
-/*! \p cuda::allocator is the default allocator used by the \p cuda system's containers such as
- *  <tt>cuda::vector</tt> if no user-specified allocator is provided. \p cuda::allocator allocates
- *  (deallocates) storage with \p cuda::malloc (\p cuda::free).
+/*! \p cuda::allocator is the default allocator used by the \p cuda system's
+ *  containers such as <tt>cuda::vector</tt> if no user-specified allocator is
+ *  provided. \p cuda::allocator allocates (deallocates) storage with \p
+ *  cuda::malloc (\p cuda::free).
  */
-template <typename T>
-struct allocator
-    : hydra_thrust::mr::stateless_resource_allocator<
-        T,
-        system::cuda::memory_resource
-    >
+template<typename T>
+using allocator = hydra_thrust::mr::stateless_resource_allocator<
+  T, hydra_thrust::system::cuda::memory_resource
+>;
+
+/*! \p cuda::universal_allocator allocates memory that can be used by the \p cuda
+ *  system and host systems.
+ */
+template<typename T>
+using universal_allocator = hydra_thrust::mr::stateless_resource_allocator<
+  T, hydra_thrust::system::cuda::universal_memory_resource
+>;
+
+} // namespace cuda_cub
+
+namespace system { namespace cuda
 {
-private:
-    typedef hydra_thrust::mr::stateless_resource_allocator<
-        T,
-        system::cuda::memory_resource
-    > base;
-
-public:
-  /*! The \p rebind metafunction provides the type of an \p allocator
-   *  instantiated with another type.
-   *
-   *  \tparam U The other type to use for instantiation.
-   */
-  template <typename U>
-  struct rebind
-  {
-    /*! The typedef \p other gives the type of the rebound \p allocator.
-     */
-    typedef allocator<U> other;
-  };
-
-  /*! No-argument constructor has no effect.
-   */
-  __host__ __device__
-  inline allocator() {}
-
-  /*! Copy constructor has no effect.
-   */
-  __host__ __device__
- inline allocator(const allocator & other) : base(other) {}
-
-  /*! Constructor from other \p allocator has no effect.
-   */
-  template <typename U>
-  __host__ __device__
-  inline allocator(const allocator<U> & other) : base(other) {}
-
-  /*! Destructor has no effect.
-   */
-  __host__ __device__
-  inline ~allocator() {}
-};    // struct allocator
-
-}    // namespace cuda_cub
-
-namespace system {
-namespace cuda {
 using hydra_thrust::cuda_cub::malloc;
 using hydra_thrust::cuda_cub::free;
 using hydra_thrust::cuda_cub::allocator;
+using hydra_thrust::cuda_cub::universal_allocator;
+}} // namespace system::cuda
+
+/*! \namespace hydra_thrust::cuda
+ *  \brief \p hydra_thrust::cuda is a top-level alias for \p hydra_thrust::system::cuda.
+ */
+namespace cuda
+{
+using hydra_thrust::cuda_cub::malloc;
+using hydra_thrust::cuda_cub::free;
+using hydra_thrust::cuda_cub::allocator;
+using hydra_thrust::cuda_cub::universal_allocator;
 } // namespace cuda
-} // namespace system
 
-namespace cuda {
-using hydra_thrust::cuda_cub::malloc;
-using hydra_thrust::cuda_cub::free;
-using hydra_thrust::cuda_cub::allocator;
-}    // end cuda
-
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/memory.inl>
 

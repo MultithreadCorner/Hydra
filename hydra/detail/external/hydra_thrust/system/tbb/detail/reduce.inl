@@ -26,8 +26,7 @@
 #include <tbb/blocked_range.h>
 #include <tbb/parallel_reduce.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace tbb
@@ -100,7 +99,7 @@ template<typename DerivedPolicy,
          typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(execution_policy<DerivedPolicy> &exec,
+  OutputType reduce(execution_policy<DerivedPolicy> &,
                     InputIterator begin,
                     InputIterator end,
                     OutputType init,
@@ -127,5 +126,5 @@ template<typename DerivedPolicy,
 } // end namespace detail
 } // end namespace tbb
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

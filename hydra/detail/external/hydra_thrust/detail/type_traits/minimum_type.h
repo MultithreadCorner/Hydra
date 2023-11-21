@@ -16,10 +16,11 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace detail
 { 
@@ -56,8 +57,8 @@ struct primitive_minimum_type
   : minimum_type_detail::minimum_type_impl<
       T1,
       T2,
-      ::hydra_thrust::detail::is_convertible<T1,T2>::value,
-      ::hydra_thrust::detail::is_convertible<T2,T1>::value
+      HYDRA_THRUST_NS_QUALIFIER::detail::is_convertible<T1,T2>::value,
+      HYDRA_THRUST_NS_QUALIFIER::detail::is_convertible<T2,T1>::value
     >
 {
 }; // end primitive_minimum_type
@@ -158,5 +159,5 @@ template<typename T1,  typename T2,  typename T3,  typename T4,
 
 } // end detail
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

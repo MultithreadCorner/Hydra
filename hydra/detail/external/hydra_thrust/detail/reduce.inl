@@ -14,10 +14,9 @@
  *  limitations under the License.
  */
 
+#pragma once
 
-/*! \file reduce.inl
- *  \brief Inline file for reduce.h.
- */
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #include <hydra/detail/external/hydra_thrust/reduce.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
@@ -27,8 +26,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/reduce.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/reduce_by_key.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 
 __hydra_thrust_exec_check_disable__
@@ -81,7 +79,7 @@ template<typename DerivedPolicy,
 __host__ __device__
   hydra_thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &exec,
-                InputIterator1 keys_first, 
+                InputIterator1 keys_first,
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
                 OutputIterator1 keys_output,
@@ -102,7 +100,7 @@ template<typename DerivedPolicy,
 __host__ __device__
   hydra_thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &exec,
-                InputIterator1 keys_first, 
+                InputIterator1 keys_first,
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
                 OutputIterator1 keys_output,
@@ -125,7 +123,7 @@ template<typename DerivedPolicy,
 __host__ __device__
   hydra_thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &exec,
-                InputIterator1 keys_first, 
+                InputIterator1 keys_first,
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
                 OutputIterator1 keys_output,
@@ -192,7 +190,7 @@ template<typename InputIterator1,
          typename OutputIterator1,
          typename OutputIterator2>
   hydra_thrust::pair<OutputIterator1,OutputIterator2>
-  reduce_by_key(InputIterator1 keys_first, 
+  reduce_by_key(InputIterator1 keys_first,
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
                 OutputIterator1 keys_output,
@@ -220,7 +218,7 @@ template<typename InputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
   hydra_thrust::pair<OutputIterator1,OutputIterator2>
-  reduce_by_key(InputIterator1 keys_first, 
+  reduce_by_key(InputIterator1 keys_first,
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
                 OutputIterator1 keys_output,
@@ -250,7 +248,7 @@ template<typename InputIterator1,
          typename BinaryPredicate,
          typename BinaryFunction>
   hydra_thrust::pair<OutputIterator1,OutputIterator2>
-  reduce_by_key(InputIterator1 keys_first, 
+  reduce_by_key(InputIterator1 keys_first,
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
                 OutputIterator1 keys_output,
@@ -274,5 +272,5 @@ template<typename InputIterator1,
 }
 
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

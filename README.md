@@ -32,7 +32,7 @@ Table of Contents
 What is it?
 -----------
 
-Hydra is a C++14 compliant and header only framework designed to perform common data analysis tasks on massively parallel platforms. Hydra provides a collection of containers and algorithms commonly used in HEP data analysis, which can deploy  transparently OpenMP, CUDA and TBB enabled devices, allowing the user to re-use the same code across a large range of available multi-core CPU and accelerators. The framework design is focused on performance and precision.
+Hydra is a C++17/20 compliant and header only framework designed to perform common data analysis tasks on massively parallel platforms. Hydra provides a collection of containers and algorithms commonly used in HEP data analysis, which can deploy  transparently OpenMP, CUDA and TBB enabled devices, allowing the user to re-use the same code across a large range of available multi-core CPU and accelerators. The framework design is focused on performance and precision.
 
 The core algorithms follow as close as possible the implementations widely used in frameworks like ROOT and libraries
 like GSL.
@@ -40,19 +40,19 @@ like GSL.
 Main features
 -------------
 
-Currently Hydra supports:
+Currently Hydra implementation includes:
 
 * Generation of phase-space Monte Carlo samples with any number of particles in the final states. Sequential decays, calculation of integrals of models over the corresponding phase-space and production of weighted and unweighted samples, which can be flat or distributed following a model provided by the user.  
 * Sampling of multidimensional pdfs.
 * Multidimensional maximum likelihood fits using binned and unbinned data sets.
-* Multi-layered simultaneous fit of different models, over different datasets, deploying different parallelization strategies for each model.
+* Multi-layered simultaneous fit of different models, over different datasets, deploying different parallelization strategies for each submodel.
 * Calculation of S-Plots, a popular technique for statistical unfolding of populations contributing to a sample.   
 * Evaluation of multidimensional functions over heterogeneous data sets.
 * Numerical integration of multidimensional functions using self-adaptive Monte Carlo and quadrature methods.
 * Multidimensional sparse and dense histogramming of large samples. 
 * Object-based interface to FFTW and CuFFT for performing Fast Fourier Transform in CPU and GPU.
-* FFT based one-dimensional convolution for arbitrary signal and kernel shapes.
-* Booststrap and real cubic spiline for datasets on CPU and GPU.
+* Fitting models containing FFT based one-dimensional convolution components with arbitrary signal and kernel shapes.
+* Booststrap and real cubic spline (1D, 2D, 3D and 4D)for datasets on CPU and GPU.
 * Sobol low discrepance sequences up to 3667 dimensions.
 * Seven fast and reliable counter based pseudo-random number generators.  
 
@@ -70,14 +70,11 @@ Hydra and Thrust
 ----------------
 
 Hydra is implemented on top of the [Thrust library](https://thrust.github.io/) and relies strongly on Thrust's containers, algorithms and backend management systems.
-The official version of Thrust supports tuples with maximum ten elements. In order to overcome this limitation, Hydra uses an
-[unofficial version, forked from the original, by Andrew Currigan and collaborators](https://github.com/andrewcorrigan/thrust-multi-permutation-iterator). 
-This version implements variadic tuples and related classes, as well as provides some additional functionality, which are missing in the official Thrust.   
-In order to keep Hydra uptodated with the latest bug-fixes and architetural improvements in Thrust, at each Hydra release, the official [Thrust library](https://thrust.github.io/) is patched with the Currigan's variadic tuple implementation. 
-
-So, version of Thrust distributed with Hydra is maintained by [MultithreadCorner](https://github.com/MultithreadCorner). It is basically a fork of Currigan's repository, which was merged with the latest official release available in GitHub (Thrust 1.9.7).
-
-***Hydra does not depend or conflict with the official Thrust library distributed with the CUDA-SDK.*** 
+However, since the official version of Thrust supports tuples with maximum ten elements, in order to overcome this limitation, Hydra uses an
+[maintain an unofficial version, initially forked from the original by Andrew Currigan and collaborators](https://github.com/andrewcorrigan/thrust-multi-permutation-iterator). 
+This version implements variadic tuples and related classes, as well as provides some additional functionality, which are missing in the official Thrust and is necessary for Hydra, but too specific to "pull request".   
+In order to keep Hydra uptodated with the latest bug-fixes and architetural improvements in Thrust, at each Hydra release, the official [Thrust library](https://thrust.github.io/) is patched with the Currigan's variadic tuple implementation.
+This Thrust version is accessible in ``hydra::thrust`` namespace and does not conflicts in anyway with the users system Cuda Tookit installation or its deployment in applications also using Hydra. Same logics applies to Eigen and Boost.Math, which are also distributed with Hydra and are accessible in ``hydra::Eigen`` and ``hydra::boost::math`` namespaces.   
 
 
 Supported Parallel Backends
@@ -101,7 +98,7 @@ nvcc  -I/path/to/Hydra -Xcompiler -fopenmp -DHYDRA_HOST_SYSTEM=OMP -DHYDRA_DEVIC
 The available "host" and "device" backends can be freely combined. 
 Two important features related to Hydra's design and the backend configuration:
 
-* If CUDA backend is not used, [NVCC and the CUDA runtime](https://developer.nvidia.com/cuda-toolkit) are not necessary. The programs can be compiled with GCC, Clang or other host compiler compatible with C++14 support directly.
+* If CUDA backend is not used or available, [NVCC and the CUDA runtime](https://developer.nvidia.com/cuda-toolkit) are not necessary. The programs can be compiled with GCC, Clang or other host compiler compatible with C++17 support directly.
 * Programs written using only Hydra, Thrust, STL and standard c++ constructs, it means programs without any raw CUDA code or calls to the CUDA runtime API, can be compiled with NVCC, to run on CUDA backends, or a suitable host compiler to run on OpenMP , TBB and CPP backends. **Just change the source file extension from .cu to .cpp, or something else the host compiler understands.**        
 
 
@@ -154,7 +151,7 @@ The examples are built using [CMAKE](https://cmake.org/) with the following inst
 3. create a build directory: `mkdir build` 
 4. go to build directory: `cd build`
 5. `cmake ..`
-6. `make`
+6. `make` or `make <target>` (possible targets are: examples_cpp, examples_tbb, examples_omp, examples_cuda, tests) 
 
 
 The compiled examples will be placed in the build/examples folder. The sub-directories are named according to the functionalities they illustrate.
@@ -176,14 +173,21 @@ Each compiled example executable will have an postfix (ex.:_cpp, _cuda, _omp, _t
 All examples use CPP as host backend. 
 
 
-Recent publications and presentations at conferences and workshops
-------------------------------------------------------------------
+Recent publications citing Hydra and presentations at conferences and workshops
+-------------------------------------------------------------------------------
 
 1. [A. A. Alves Junior, *Hydra: a C++11 framework for data analysis in massively parallel platforms*, Proceedings of the 18th International Workshop on Advanced Computing and Analysis Techniques in Physics Research, 21-25 August 2017 Seattle,USA](https://inspirehep.net/record/1636201/files/arXiv:1711.05683.pdf),
 2. [A. A. Alves Junior, *Hydra: Accelerating Data Analysis in Massively Parallel Platforms* - ACAT 2017, University of Washington, 21-25 August 2017, Seattle](https://indico.cern.ch/event/567550/contributions/2638690/)
 3. [A. A. Alves Junior, *Hydra: A Framework for Data Analysis in Massively Parallel Platforms* - NVIDIA’s GPU Technology Conference, May 8-11, 2017 - Silicon Valley, USA](http://on-demand.gputechconf.com/gtc/2017/presentation/S7340-antonio-augusto-alves-hydra-a-framework-for-data-analysis-in-massively-parallel-platforms.pdf)
 4. [A. A. Alves Junior, *Hydra* - HSF-HEP analysis ecosystem workshop, 22-24 May 2017 Amsterdam, Netherlands](https://indico.cern.ch/event/613842/)
 5. [A. A. Alves Junior, *MCBooster and Hydra: two libraries for high performance computing and data analysis in massively parallel platforms* -Perspectives of GPU computing in Science September 2016, Rome, Italy](http://www.roma1.infn.it/conference/GPU2016/pdf/talks/AlvesJr.pdf)
+6. [D. Brundu, A. Contu, G. M. Cossu and A. Loi, *Modeling of Solid State Detectors Using Advanced Multi-Threading: The TCoDe and TFBoost Simulation Packages* - Front. Phys., 21 March 2022 Sec. Radiation Detectors and Imaging Volume 10 - 2022 | https://doi.org/10.3389/fphy.2022.804752*](https://www.frontiersin.org/articles/10.3389/fphy.2022.804752/full)
+7. [A. Loi, A. Contu and A. Lai, *Timing optimisation and analysis in the design of 3D silicon sensors: the TCoDe simulator* - JINST 16 P02011, https://doi.org/10.1088/1748-0221/16/02/P02011](https://iopscience.iop.org/article/10.1088/1748-0221/16/02/P02011)
+8. [A. Loi, A. Contu, R. Mendicino, G. T. Forcolin, A. Lai, G. F. Betta, M. Boscardin, S. Vecchi, *Timing optimization for 3D silicon sensors* - Nuclear Instruments and Methods in Physics Research Section A: Accelerators, Spectrometers, Detectors and Associated Equipment, Volume 958, 2020, 162491,https://doi.org/10.1016/j.nima.2019.162491](https://www.sciencedirect.com/science/article/abs/pii/S0168900219310381)
+9. [R. Aaij et al. (LHCb Collaboration) *Angular Analysis of D0→π+π−μ+μ− and D0→K+K−μ+μ− Decays and Search for CP Violation* - Phys. Rev. Lett. 128, 221801](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.128.221801)
+10. [D. Brundu1, A. Cardini, A. Contu, G.M. Cossu, G.-F. Dalla Betta, M. Garau, A. Lai, A. Lampis, A. Loi and M.M. Obertino,*Accurate modelling of 3D-trench silicon sensor with enhanced timing performance and comparison with test beam measurements*
+JINST 16 P09028, https://doi.org/10.1088/1748-0221/16/09/P09028](https://iopscience.iop.org/article/10.1088/1748-0221/16/09/P09028/meta)
+
 
 How to cite Hydra
 -----------------

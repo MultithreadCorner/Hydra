@@ -35,11 +35,11 @@
 namespace hydra {
 
 template<typename Value_Type>
-Range<hydra_thrust::constant_iterator<Value_Type>>
+Range<hydra::thrust::constant_iterator<Value_Type>>
 constant_range(const Value_Type&  value){
 
-	return make_range( hydra_thrust::constant_iterator<Value_Type>(value),
-			hydra_thrust::constant_iterator<Value_Type>(value) );
+	return make_range( hydra::thrust::constant_iterator<Value_Type>(value),
+			hydra::thrust::constant_iterator<Value_Type>(value) );
 }
 
 }  // namespace hydra

@@ -14,10 +14,7 @@
  *  limitations under the License.
  */
 
-
-/*! \file binary_search.inl
- *  \brief Inline file for binary_search.h.
- */
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/binary_search.h>
@@ -26,11 +23,9 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/binary_search.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/binary_search.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
-
-__hydra_thrust_exec_check_disable__ 
+__hydra_thrust_exec_check_disable__
 template <typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
 __host__ __device__
 ForwardIterator lower_bound(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -43,7 +38,7 @@ ForwardIterator lower_bound(const hydra_thrust::detail::execution_policy_base<De
 }
 
 
-__hydra_thrust_exec_check_disable__ 
+__hydra_thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __host__ __device__
 ForwardIterator lower_bound(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -57,7 +52,7 @@ ForwardIterator lower_bound(const hydra_thrust::detail::execution_policy_base<De
 }
 
 
-__hydra_thrust_exec_check_disable__ 
+__hydra_thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
 __host__ __device__
 ForwardIterator upper_bound(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -70,7 +65,7 @@ ForwardIterator upper_bound(const hydra_thrust::detail::execution_policy_base<De
 }
 
 
-__hydra_thrust_exec_check_disable__ 
+__hydra_thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __host__ __device__
 ForwardIterator upper_bound(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -84,11 +79,11 @@ ForwardIterator upper_bound(const hydra_thrust::detail::execution_policy_base<De
 }
 
 
-__hydra_thrust_exec_check_disable__ 
+__hydra_thrust_exec_check_disable__
 template <typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
 __host__ __device__
 bool binary_search(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &exec,
-                   ForwardIterator first, 
+                   ForwardIterator first,
                    ForwardIterator last,
                    const LessThanComparable& value)
 {
@@ -97,13 +92,13 @@ bool binary_search(const hydra_thrust::detail::execution_policy_base<DerivedPoli
 }
 
 
-__hydra_thrust_exec_check_disable__ 
+__hydra_thrust_exec_check_disable__
 template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __host__ __device__
 bool binary_search(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    ForwardIterator first,
                    ForwardIterator last,
-                   const T& value, 
+                   const T& value,
                    StrictWeakOrdering comp)
 {
     using hydra_thrust::system::detail::generic::binary_search;
@@ -111,7 +106,7 @@ bool binary_search(const hydra_thrust::detail::execution_policy_base<DerivedPoli
 }
 
 
-__hydra_thrust_exec_check_disable__ 
+__hydra_thrust_exec_check_disable__
 template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __host__ __device__
 hydra_thrust::pair<ForwardIterator, ForwardIterator>
@@ -126,7 +121,7 @@ equal_range(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &ex
 }
 
 
-__hydra_thrust_exec_check_disable__ 
+__hydra_thrust_exec_check_disable__
 template <typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
 __host__ __device__
 hydra_thrust::pair<ForwardIterator, ForwardIterator>
@@ -140,13 +135,13 @@ equal_range(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &ex
 }
 
 
-__hydra_thrust_exec_check_disable__ 
+__hydra_thrust_exec_check_disable__
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
 __host__ __device__
 OutputIterator lower_bound(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &exec,
-                           ForwardIterator first, 
+                           ForwardIterator first,
                            ForwardIterator last,
-                           InputIterator values_first, 
+                           InputIterator values_first,
                            InputIterator values_last,
                            OutputIterator output)
 {
@@ -155,13 +150,13 @@ OutputIterator lower_bound(const hydra_thrust::detail::execution_policy_base<Der
 }
 
 
-__hydra_thrust_exec_check_disable__ 
+__hydra_thrust_exec_check_disable__
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
 __host__ __device__
 OutputIterator lower_bound(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &exec,
-                           ForwardIterator first, 
+                           ForwardIterator first,
                            ForwardIterator last,
-                           InputIterator values_first, 
+                           InputIterator values_first,
                            InputIterator values_last,
                            OutputIterator output,
                            StrictWeakOrdering comp)
@@ -171,13 +166,13 @@ OutputIterator lower_bound(const hydra_thrust::detail::execution_policy_base<Der
 }
 
 
-__hydra_thrust_exec_check_disable__ 
+__hydra_thrust_exec_check_disable__
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
 __host__ __device__
 OutputIterator upper_bound(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &exec,
-                           ForwardIterator first, 
+                           ForwardIterator first,
                            ForwardIterator last,
-                           InputIterator values_first, 
+                           InputIterator values_first,
                            InputIterator values_last,
                            OutputIterator output)
 {
@@ -186,13 +181,13 @@ OutputIterator upper_bound(const hydra_thrust::detail::execution_policy_base<Der
 }
 
 
-__hydra_thrust_exec_check_disable__ 
+__hydra_thrust_exec_check_disable__
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
 __host__ __device__
 OutputIterator upper_bound(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &exec,
-                           ForwardIterator first, 
+                           ForwardIterator first,
                            ForwardIterator last,
-                           InputIterator values_first, 
+                           InputIterator values_first,
                            InputIterator values_last,
                            OutputIterator output,
                            StrictWeakOrdering comp)
@@ -202,13 +197,13 @@ OutputIterator upper_bound(const hydra_thrust::detail::execution_policy_base<Der
 }
 
 
-__hydra_thrust_exec_check_disable__ 
+__hydra_thrust_exec_check_disable__
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
 __host__ __device__
 OutputIterator binary_search(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &exec,
-                             ForwardIterator first, 
+                             ForwardIterator first,
                              ForwardIterator last,
-                             InputIterator values_first, 
+                             InputIterator values_first,
                              InputIterator values_last,
                              OutputIterator output)
 {
@@ -217,13 +212,13 @@ OutputIterator binary_search(const hydra_thrust::detail::execution_policy_base<D
 }
 
 
-__hydra_thrust_exec_check_disable__ 
+__hydra_thrust_exec_check_disable__
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
 __host__ __device__
 OutputIterator binary_search(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &exec,
-                             ForwardIterator first, 
+                             ForwardIterator first,
                              ForwardIterator last,
-                             InputIterator values_first, 
+                             InputIterator values_first,
                              InputIterator values_last,
                              OutputIterator output,
                              StrictWeakOrdering comp)
@@ -238,13 +233,13 @@ OutputIterator binary_search(const hydra_thrust::detail::execution_policy_base<D
 //////////////////////
 
 template <typename ForwardIterator, typename LessThanComparable>
-ForwardIterator lower_bound(ForwardIterator first, 
+ForwardIterator lower_bound(ForwardIterator first,
                             ForwardIterator last,
                             const LessThanComparable& value)
 {
     using hydra_thrust::system::detail::generic::select_system;
 
-    typedef typename hydra_thrust::iterator_system<ForwardIterator>::type System; 
+    typedef typename hydra_thrust::iterator_system<ForwardIterator>::type System;
 
     System system;
 
@@ -254,12 +249,12 @@ ForwardIterator lower_bound(ForwardIterator first,
 template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
 ForwardIterator lower_bound(ForwardIterator first,
                             ForwardIterator last,
-                            const T& value, 
+                            const T& value,
                             StrictWeakOrdering comp)
 {
     using hydra_thrust::system::detail::generic::select_system;
 
-    typedef typename hydra_thrust::iterator_system<ForwardIterator>::type System; 
+    typedef typename hydra_thrust::iterator_system<ForwardIterator>::type System;
 
     System system;
 
@@ -267,7 +262,7 @@ ForwardIterator lower_bound(ForwardIterator first,
 }
 
 template <typename ForwardIterator, typename LessThanComparable>
-ForwardIterator upper_bound(ForwardIterator first, 
+ForwardIterator upper_bound(ForwardIterator first,
                             ForwardIterator last,
                             const LessThanComparable& value)
 {
@@ -283,7 +278,7 @@ ForwardIterator upper_bound(ForwardIterator first,
 template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
 ForwardIterator upper_bound(ForwardIterator first,
                             ForwardIterator last,
-                            const T& value, 
+                            const T& value,
                             StrictWeakOrdering comp)
 {
     using hydra_thrust::system::detail::generic::select_system;
@@ -296,7 +291,7 @@ ForwardIterator upper_bound(ForwardIterator first,
 }
 
 template <typename ForwardIterator, typename LessThanComparable>
-bool binary_search(ForwardIterator first, 
+bool binary_search(ForwardIterator first,
                    ForwardIterator last,
                    const LessThanComparable& value)
 {
@@ -312,7 +307,7 @@ bool binary_search(ForwardIterator first,
 template <typename ForwardIterator, typename T, typename StrictWeakOrdering>
 bool binary_search(ForwardIterator first,
                    ForwardIterator last,
-                   const T& value, 
+                   const T& value,
                    StrictWeakOrdering comp)
 {
     using hydra_thrust::system::detail::generic::select_system;
@@ -360,9 +355,9 @@ equal_range(ForwardIterator first,
 //////////////////////
 
 template <typename ForwardIterator, typename InputIterator, typename OutputIterator>
-OutputIterator lower_bound(ForwardIterator first, 
+OutputIterator lower_bound(ForwardIterator first,
                            ForwardIterator last,
-                           InputIterator values_first, 
+                           InputIterator values_first,
                            InputIterator values_last,
                            OutputIterator output)
 {
@@ -380,9 +375,9 @@ OutputIterator lower_bound(ForwardIterator first,
 }
 
 template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
-OutputIterator lower_bound(ForwardIterator first, 
+OutputIterator lower_bound(ForwardIterator first,
                            ForwardIterator last,
-                           InputIterator values_first, 
+                           InputIterator values_first,
                            InputIterator values_last,
                            OutputIterator output,
                            StrictWeakOrdering comp)
@@ -399,11 +394,11 @@ OutputIterator lower_bound(ForwardIterator first,
 
     return hydra_thrust::lower_bound(select_system(system1,system2,system3), first, last, values_first, values_last, output, comp);
 }
-    
+
 template <typename ForwardIterator, typename InputIterator, typename OutputIterator>
-OutputIterator upper_bound(ForwardIterator first, 
+OutputIterator upper_bound(ForwardIterator first,
                            ForwardIterator last,
-                           InputIterator values_first, 
+                           InputIterator values_first,
                            InputIterator values_last,
                            OutputIterator output)
 {
@@ -421,9 +416,9 @@ OutputIterator upper_bound(ForwardIterator first,
 }
 
 template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
-OutputIterator upper_bound(ForwardIterator first, 
+OutputIterator upper_bound(ForwardIterator first,
                            ForwardIterator last,
-                           InputIterator values_first, 
+                           InputIterator values_first,
                            InputIterator values_last,
                            OutputIterator output,
                            StrictWeakOrdering comp)
@@ -442,9 +437,9 @@ OutputIterator upper_bound(ForwardIterator first,
 }
 
 template <typename ForwardIterator, typename InputIterator, typename OutputIterator>
-OutputIterator binary_search(ForwardIterator first, 
+OutputIterator binary_search(ForwardIterator first,
                              ForwardIterator last,
-                             InputIterator values_first, 
+                             InputIterator values_first,
                              InputIterator values_last,
                              OutputIterator output)
 {
@@ -462,9 +457,9 @@ OutputIterator binary_search(ForwardIterator first,
 }
 
 template <typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
-OutputIterator binary_search(ForwardIterator first, 
+OutputIterator binary_search(ForwardIterator first,
                              ForwardIterator last,
-                             InputIterator values_first, 
+                             InputIterator values_first,
                              InputIterator values_last,
                              OutputIterator output,
                              StrictWeakOrdering comp)
@@ -482,5 +477,4 @@ OutputIterator binary_search(ForwardIterator first,
     return hydra_thrust::binary_search(select_system(system1,system2,system3), first, last, values_first, values_last, output, comp);
 }
 
-} // end namespace hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

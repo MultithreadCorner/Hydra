@@ -18,8 +18,7 @@
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 
@@ -28,7 +27,7 @@ __host__ __device__
   inline void destroy_range(Allocator &a, Pointer p, Size n);
 
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/allocator/destroy_range.inl>
 

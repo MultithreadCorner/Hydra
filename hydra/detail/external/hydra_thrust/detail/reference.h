@@ -14,161 +14,505 @@
  *  limitations under the License.
  */
 
+/*! \file 
+ *  \brief A pointer to a variable which resides in memory associated with a
+ *  system.
+ */
+
 #pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
-#include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
-#include <hydra/detail/external/hydra_thrust/detail/use_default.h>
 #include <hydra/detail/external/hydra_thrust/detail/reference_forward_declaration.h>
+#include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
+#include <hydra/detail/external/hydra_thrust/system/detail/generic/select_system.h>
+#include <hydra/detail/external/hydra_thrust/system/detail/generic/memory.h>
+#include <hydra/detail/external/hydra_thrust/system/detail/adl/get_value.h>
+#include <hydra/detail/external/hydra_thrust/system/detail/adl/assign_value.h>
+#include <hydra/detail/external/hydra_thrust/system/detail/adl/iter_swap.h>
+#include <hydra/detail/external/hydra_thrust/type_traits/remove_cvref.h>
+#include <type_traits>
 #include <ostream>
 
+HYDRA_THRUST_NAMESPACE_BEGIN
 
-namespace hydra_thrust
-{
 namespace detail
 {
-
-template<typename> struct is_wrapped_reference;
-
+template <typename>
+struct is_wrapped_reference;
 }
 
-// the base type for all of hydra_thrust's system-annotated references.
-// for reasonable reference-like semantics, derived types must reimplement the following:
-// 1. constructor from pointer
-// 2. copy constructor
-// 3. templated copy constructor from other reference
-// 4. templated assignment from other reference
-// 5. assignment from value_type
-template<typename Element, typename Pointer, typename Derived>
-  class reference
+/*! \p reference acts as a reference-like wrapper for an object residing in
+ *  memory that a \p pointer refers to.
+ */
+template <typename Element, typename Pointer, typename Derived>
+class reference
 {
-  private:
-    typedef typename hydra_thrust::detail::eval_if<
-      hydra_thrust::detail::is_same<Derived,use_default>::value,
-      hydra_thrust::detail::identity_<reference>,
-      hydra_thrust::detail::identity_<Derived>
-    >::type derived_type;
+private:
+  using derived_type = typename std::conditional<
+    std::is_same<Derived, use_default>::value, reference, Derived
+  >::type;
 
-    // hint for is_wrapped_reference lets it know that this type (or a derived type)
-    // is a wrapped reference
-    struct wrapped_reference_hint {};
-    template<typename> friend struct hydra_thrust::detail::is_wrapped_reference;
+public:
+  using pointer    = Pointer;
+  using value_type = typename hydra_thrust::remove_cvref<Element>::type;
 
-  public:
-    typedef Pointer                                              pointer;
-    typedef typename hydra_thrust::detail::remove_const<Element>::type value_type;
+  reference(reference const&) = default;
 
-    __host__ __device__
-    explicit reference(const pointer &ptr);
+  reference(reference&&) = default;
 
-    template<typename OtherElement, typename OtherPointer, typename OtherDerived>
-    __host__ __device__
-    reference(const reference<OtherElement,OtherPointer,OtherDerived> &other,
-              typename hydra_thrust::detail::enable_if_convertible<
-                typename reference<OtherElement,OtherPointer,OtherDerived>::pointer,
-                pointer
-              >::type * = 0);
+  /*! Construct a \p reference from another \p reference whose pointer type is
+   *  convertible to \p pointer. After this \p reference is constructed, it
+   *  shall refer to the same object as \p other.
+   *
+   *  \tparam OtherElement The element type of the other \p reference.
+   *  \tparam OtherPointer The pointer type of the other \p reference.
+   *  \tparam OtherDerived The derived type of the other \p reference.
+   *  \param  other        A \p reference to copy from.
+   */
+  template <typename OtherElement, typename OtherPointer, typename OtherDerived>
+  __host__ __device__
+  reference(
+    reference<OtherElement, OtherPointer, OtherDerived> const& other
+  /*! \cond
+   */
+  , typename std::enable_if<
+      std::is_convertible<
+        typename reference<OtherElement, OtherPointer, OtherDerived>::pointer
+      , pointer
+      >::value
+    >::type* = nullptr
+  /*! \endcond
+   */
+  )
+    : ptr(other.ptr)
+  {}
 
-    __host__ __device__
-    derived_type &operator=(const reference &other);
+  /*! Construct a \p reference that refers to an object pointed to by the given
+   *  \p pointer. After this \p reference is constructed, it shall refer to the
+   *  object pointed to by \p ptr.
+   *
+   *  \param ptr A \p pointer to construct from.
+   */
+  __host__ __device__
+  explicit reference(pointer const& p) : ptr(p) {}
 
-    // XXX this may need an enable_if
-    template<typename OtherElement, typename OtherPointer, typename OtherDerived>
-    __host__ __device__
-    derived_type &operator=(const reference<OtherElement,OtherPointer,OtherDerived> &other);
+  /*! Assign the object referred to \p other to the object referred to by
+   *  this \p reference.
+   *
+   *  \param other The other \p reference to assign from.
+   *
+   *  \return <tt>*this</tt>.
+   */
+  __host__ __device__
+  derived_type& operator=(reference const& other)
+  {
+    assign_from(&other);
+    return derived();
+  }
 
-    __host__ __device__
-    derived_type &operator=(const value_type &x);
+  /*! Assign the object referred to by this \p reference with the object
+   *  referred to by another \p reference whose pointer type is convertible to
+   *  \p pointer.
+   *
+   *  \tparam OtherElement The element type of the other \p reference.
+   *  \tparam OtherPointer The pointer type of the other \p reference.
+   *  \tparam OtherDerived The derived type of the other \p reference.
+   *  \param  other        The other \p reference to assign from.
+   *
+   *  \return <tt>*this</tt>.
+   */
+  template <typename OtherElement, typename OtherPointer, typename OtherDerived>
+  __host__ __device__
+  /*! \cond
+   */
+  typename std::enable_if<
+    std::is_convertible<
+      typename reference<OtherElement, OtherPointer, OtherDerived>::pointer
+    , pointer
+    >::value,
+  /*! \endcond
+   */
+    derived_type&
+  /*! \cond
+   */
+  >::type
+  /*! \endcond
+   */
+  operator=(reference<OtherElement, OtherPointer, OtherDerived> const& other)
+  {
+    assign_from(&other);
+    return derived();
+  }
 
-    __host__ __device__
-    pointer operator&() const;
+  /*! Assign \p rhs to the object referred to by this \p tagged_reference.
+   *
+   *  \param rhs The \p value_type to assign from.
+   *
+   *  \return <tt>*this</tt>.
+   */
+  __host__ __device__
+  derived_type& operator=(value_type const& rhs)
+  {
+    assign_from(&rhs);
+    return derived();
+  }
 
-    __host__ __device__
-    operator value_type () const;
+  /*! Exchanges the value of the object referred to by this \p tagged_reference
+   *  with the object referred to by \p other.
+   *
+   *  \param other The \p tagged_reference to swap with.
+   */
+  __host__ __device__
+  void swap(derived_type& other)
+  {
+    // Avoid default-constructing a system; instead, just use a null pointer
+    // for dispatch. This assumes that `get_value` will not access any system
+    // state.
+    typename hydra_thrust::iterator_system<pointer>::type* system = nullptr;
+    swap(system, other);
+  }
 
-    __host__ __device__
-    void swap(derived_type &other);
+  __host__ __device__ pointer operator&() const { return ptr; }
 
-    derived_type &operator++();
+  // This is inherently hazardous, as it discards the strong type information
+  // about what system the object is on.
+  __host__ __device__ operator value_type() const
+  {
+    // Avoid default-constructing a system; instead, just use a null pointer
+    // for dispatch. This assumes that `get_value` will not access any system
+    // state.
+    typename hydra_thrust::iterator_system<pointer>::type* system = nullptr;
+    return convert_to_value_type(system);
+  }
 
-    value_type operator++(int);
+  __host__ __device__
+  derived_type& operator++()
+  {
+    // Sadly, this has to make a copy. The only mechanism we have for
+    // modifying the value, which may be in memory inaccessible to this
+    // system, is to get a copy of it, modify the copy, and then update it.
+    value_type tmp = *this;
+    ++tmp;
+    *this = tmp;
+    return derived();
+  }
 
-    // XXX parameterize the type of rhs
-    derived_type &operator+=(const value_type &rhs);
+  __host__ __device__
+  value_type operator++(int)
+  {
+    value_type tmp = *this;
+    value_type result = tmp++;
+    *this = std::move(tmp);
+    return result;
+  }
 
-    derived_type &operator--();
+  derived_type& operator--()
+  {
+    // Sadly, this has to make a copy. The only mechanism we have for
+    // modifying the value, which may be in memory inaccessible to this
+    // system, is to get a copy of it, modify the copy, and then update it.
+    value_type tmp = *this;
+    --tmp;
+    *this = std::move(tmp);
+    return derived();
+  }
 
-    value_type operator--(int);
+  value_type operator--(int)
+  {
+    value_type tmp = *this;
+    value_type result = tmp--;
+    *this = std::move(tmp);
+    return derived();
+  }
 
-    // XXX parameterize the type of rhs
-    derived_type &operator-=(const value_type &rhs);
+  __host__ __device__
+  derived_type& operator+=(value_type const& rhs)
+  {
+    value_type tmp = *this;
+    tmp += rhs;
+    *this = tmp;
+    return derived();
+  }
 
-    // XXX parameterize the type of rhs
-    derived_type &operator*=(const value_type &rhs);
+  derived_type& operator-=(value_type const& rhs)
+  {
+    value_type tmp = *this;
+    tmp -= rhs;
+    *this = tmp;
+    return derived();
+  }
 
-    // XXX parameterize the type of rhs
-    derived_type &operator/=(const value_type &rhs);
+  derived_type& operator*=(value_type const& rhs)
+  {
+    value_type tmp = *this;
+    tmp *= rhs;
+    *this = tmp;
+    return derived();
+  }
 
-    // XXX parameterize the type of rhs
-    derived_type &operator%=(const value_type &rhs);
+  derived_type& operator/=(value_type const& rhs)
+  {
+    value_type tmp = *this;
+    tmp /= rhs;
+    *this = tmp;
+    return derived();
+  }
 
-    // XXX parameterize the type of rhs
-    derived_type &operator<<=(const value_type &rhs);
+  derived_type& operator%=(value_type const& rhs)
+  {
+    value_type tmp = *this;
+    tmp %= rhs;
+    *this = tmp;
+    return derived();
+  }
 
-    // XXX parameterize the type of rhs
-    derived_type &operator>>=(const value_type &rhs);
+  derived_type& operator<<=(value_type const& rhs)
+  {
+    value_type tmp = *this;
+    tmp <<= rhs;
+    *this = tmp;
+    return derived();
+  }
 
-    // XXX parameterize the type of rhs
-    derived_type &operator&=(const value_type &rhs);
+  derived_type& operator>>=(value_type const& rhs)
+  {
+    value_type tmp = *this;
+    tmp >>= rhs;
+    *this = tmp;
+    return derived();
+  }
 
-    // XXX parameterize the type of rhs
-    derived_type &operator|=(const value_type &rhs);
+  derived_type& operator&=(value_type const& rhs)
+  {
+    value_type tmp = *this;
+    tmp &= rhs;
+    *this = tmp;
+    return derived();
+  }
 
-    // XXX parameterize the type of rhs
-    derived_type &operator^=(const value_type &rhs);
+  derived_type& operator|=(value_type const& rhs)
+  {
+    value_type tmp = *this;
+    tmp |= rhs;
+    *this = tmp;
+    return derived();
+  }
 
-  private:
-    const pointer m_ptr;
+  derived_type& operator^=(value_type const& rhs)
+  {
+    value_type tmp = *this;
+    tmp ^= rhs;
+    *this = tmp;
+    return derived();
+  }
 
-    // allow access to m_ptr for other references
-    template <typename OtherElement, typename OtherPointer, typename OtherDerived> friend class reference;
+private:
+  pointer const ptr;
 
-    template<typename System>
-    __host__ __device__
-    inline value_type strip_const_get_value(const System &system) const;
+  // `hydra_thrust::detail::is_wrapped_reference` is a trait that indicates whether
+  // a type is a fancy reference. It detects such types by loooking for a
+  // nested `wrapped_reference_hint` type.
+  struct wrapped_reference_hint {};
+  template <typename>
+  friend struct hydra_thrust::detail::is_wrapped_reference;
 
-    template<typename OtherPointer>
-    __host__ __device__
-    inline void assign_from(OtherPointer src);
+  template <typename OtherElement, typename OtherPointer, typename OtherDerived>
+  friend class reference;
 
-    // XXX this helper exists only to avoid warnings about null references from the other assign_from
-    template<typename System1, typename System2, typename OtherPointer>
-    inline __host__ __device__
-    void assign_from(System1 *system1, System2 *system2, OtherPointer src);
+  __host__ __device__
+  derived_type& derived() { return static_cast<derived_type&>(*this); }
 
-    template<typename System, typename OtherPointer>
-    __host__ __device__
-    inline void strip_const_assign_value(const System &system, OtherPointer src);
+  template<typename System>
+  __host__ __device__
+  value_type convert_to_value_type(System* system) const
+  {
+    using hydra_thrust::system::detail::generic::select_system;
+    return strip_const_get_value(select_system(*system));
+  }
 
-    // XXX this helper exists only to avoid warnings about null references from the other swap
-    template<typename System>
-    inline __host__ __device__
-    void swap(System *system, derived_type &other);
+  template <typename System>
+  __host__ __device__
+  value_type strip_const_get_value(System const& system) const
+  {
+    System &non_const_system = const_cast<System&>(system);
 
-    // XXX this helper exists only to avoid warnings about null references from operator value_type ()
-    template<typename System>
-    inline __host__ __device__
-    value_type convert_to_value_type(System *system) const;
-}; // end reference
+    using hydra_thrust::system::detail::generic::get_value;
+    return get_value(hydra_thrust::detail::derived_cast(non_const_system), ptr);
+  }
 
-// Output stream operator
-template<typename Element, typename Pointer, typename Derived,
-         typename charT, typename traits>
-std::basic_ostream<charT, traits> &
-operator<<(std::basic_ostream<charT, traits> &os,
-           const reference<Element, Pointer, Derived> &y);
+  template <typename System0, typename System1, typename OtherPointer>
+  __host__ __device__
+  void assign_from(System0* system0, System1* system1, OtherPointer src)
+  {
+    using hydra_thrust::system::detail::generic::select_system;
+    strip_const_assign_value(select_system(*system0, *system1), src);
+  }
 
-} // end hydra_thrust
+  template <typename OtherPointer>
+  __host__ __device__
+  void assign_from(OtherPointer src)
+  {
+    // Avoid default-constructing systems; instead, just use a null pointer
+    // for dispatch. This assumes that `get_value` will not access any system
+    // state.
+    typename hydra_thrust::iterator_system<pointer>::type*      system0 = nullptr;
+    typename hydra_thrust::iterator_system<OtherPointer>::type* system1 = nullptr;
+    assign_from(system0, system1, src);
+  }
 
-#include <hydra/detail/external/hydra_thrust/detail/reference.inl>
+  template <typename System, typename OtherPointer>
+  __host__ __device__
+  void strip_const_assign_value(System const& system, OtherPointer src)
+  {
+    System& non_const_system = const_cast<System&>(system);
+
+    using hydra_thrust::system::detail::generic::assign_value;
+    assign_value(hydra_thrust::detail::derived_cast(non_const_system), ptr, src);
+  }
+
+  template <typename System>
+  __host__ __device__
+  void swap(System* system, derived_type& other)
+  {
+    using hydra_thrust::system::detail::generic::select_system;
+    using hydra_thrust::system::detail::generic::iter_swap;
+
+    iter_swap(select_system(*system, *system), ptr, other.ptr);
+  }
+};
+
+template <typename Pointer, typename Derived>
+class reference<void, Pointer, Derived> {};
+
+template <typename Pointer, typename Derived>
+class reference<void const, Pointer, Derived> {};
+
+template <
+  typename Element, typename Pointer, typename Derived
+, typename CharT, typename Traits
+>
+std::basic_ostream<CharT, Traits>& operator<<(
+  std::basic_ostream<CharT, Traits>&os
+, reference<Element, Pointer, Derived> const& r
+) {
+  using value_type = typename reference<Element, Pointer, Derived>::value_type;
+  return os << static_cast<value_type>(r);
+}
+
+template <typename Element, typename Tag>
+class tagged_reference;
+
+/*! \p tagged_reference acts as a reference-like wrapper for an object residing
+ *  in memory associated with system \p Tag that a \p pointer refers to.
+ */
+template <typename Element, typename Tag>
+class tagged_reference
+  : public hydra_thrust::reference<
+      Element
+    , hydra_thrust::pointer<Element, Tag, tagged_reference<Element, Tag>>
+    , tagged_reference<Element, Tag>
+    >
+{
+private:
+  using base_type = hydra_thrust::reference<
+    Element
+  , hydra_thrust::pointer<Element, Tag, tagged_reference<Element, Tag>>
+  , tagged_reference<Element, Tag>
+  >;
+
+public:
+  using value_type = typename base_type::value_type;
+  using pointer    = typename base_type::pointer;
+
+  tagged_reference(tagged_reference const&) = default;
+
+  tagged_reference(tagged_reference&&) = default;
+
+  /*! Construct a \p tagged_reference from another \p tagged_reference whose
+   *  pointer type is convertible to \p pointer. After this \p tagged_reference
+   *  is constructed, it shall refer to the same object as \p other.
+   *
+   *  \tparam OtherElement The element type of the other \p tagged_reference.
+   *  \tparam OtherTag     The tag type of the other \p tagged_reference.
+   *  \param  other        A \p tagged_reference to copy from.
+   */
+  template <typename OtherElement, typename OtherTag>
+  __host__ __device__
+  tagged_reference(tagged_reference<OtherElement, OtherTag> const& other)
+    : base_type(other)
+  {}
+
+  /*! Construct a \p tagged_reference that refers to an object pointed to by
+   *  the given \p pointer. After this \p tagged_reference is constructed, it
+   *  shall refer to the object pointed to by \p ptr.
+   *
+   *  \param ptr A \p pointer to construct from.
+   */
+  __host__ __device__ explicit tagged_reference(pointer const& p)
+    : base_type(p)
+  {}
+
+  /*! Assign the object referred to \p other to the object referred to by
+   *  this \p tagged_reference.
+   *
+   *  \param other The other \p tagged_reference to assign from.
+   *
+   *  \return <tt>*this</tt>.
+   */
+  __host__ __device__
+  tagged_reference& operator=(tagged_reference const& other)
+  {
+    return base_type::operator=(other);
+  }
+
+  /*! Assign the object referred to by this \p tagged_reference with the object
+   *  referred to by another \p tagged_reference whose pointer type is
+   *  convertible to \p pointer.
+   *
+   *  \tparam OtherElement The element type of the other \p tagged_reference.
+   *  \tparam OtherTag     The tag type of the other \p tagged_reference.
+   *  \param  other        The other \p tagged_reference to assign from.
+   *
+   *  \return <tt>*this</tt>.
+   */
+  template <typename OtherElement, typename OtherTag>
+  __host__ __device__
+  tagged_reference&
+  operator=(tagged_reference<OtherElement, OtherTag> const& other)
+  {
+    return base_type::operator=(other);
+  }
+
+  /*! Assign \p rhs to the object referred to by this \p tagged_reference.
+   *
+   *  \param rhs The \p value_type to assign from.
+   *
+   *  \return <tt>*this</tt>.
+   */
+  __host__ __device__
+  tagged_reference& operator=(value_type const& rhs)
+  {
+    return base_type::operator=(rhs);
+  }
+};
+
+template <typename Tag>
+class tagged_reference<void, Tag> {};
+
+template <typename Tag>
+class tagged_reference<void const, Tag> {};
+
+/*! Exchanges the values of two objects referred to by \p tagged_reference.
+ *
+ *  \param x The first \p tagged_reference of interest.
+ *  \param y The second \p tagged_reference of interest.
+ */
+template <typename Element, typename Tag>
+__host__ __device__
+void swap(tagged_reference<Element, Tag>& x, tagged_reference<Element, Tag>& y)
+{
+  x.swap(y);
+}
+
+HYDRA_THRUST_NAMESPACE_END
 

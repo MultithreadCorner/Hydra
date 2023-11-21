@@ -14,9 +14,9 @@
  *  limitations under the License.
  */
 
-
-/*! \file device_reference.h
- *  \brief A reference to a variable which resides in the "device" system's memory space
+/*! \file 
+ *  \brief A reference to an object which resides in memory associated with the
+ *  device system.
  */
 
 #pragma once
@@ -26,11 +26,9 @@
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/reference.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
-/*! \addtogroup memory_management_classes Memory Management Classes
- *  \ingroup memory_management
+/*! \addtogroup memory_management Memory Management
  *  \{
  */
 
@@ -38,7 +36,7 @@ namespace hydra_thrust
  *  \p device_reference is not intended to be used directly; rather, this type
  *  is the result of deferencing a \p device_ptr. Similarly, taking the address of
  *  a \p device_reference yields a \p device_ptr.
- *  
+ *
  *  \p device_reference may often be used from host code in place of operations defined on
  *  its associated \c value_type. For example, when \p device_reference refers to an
  *  arithmetic type, arithmetic operations on it are legal:
@@ -158,7 +156,7 @@ namespace hydra_thrust
  *    return 0;
  *  }
  *  \endcode
- *  
+ *
  *  Another common case where a \p device_reference cannot directly be used in place of
  *  its referent object occurs when passing them as parameters to functions like \c printf
  *  which have varargs parameters. Because varargs parameters must be Plain Old Data, a
@@ -209,7 +207,7 @@ template<typename T>
     /*! This copy constructor accepts a const reference to another
      *  \p device_reference. After this \p device_reference is constructed,
      *  it shall refer to the same object as \p other.
-     *  
+     *
      *  \param other A \p device_reference to copy from.
      *
      *  The following code snippet demonstrates the semantics of this
@@ -233,7 +231,7 @@ template<typename T>
      *  assert(ref == 13);
      *  \endcode
      *
-     *  \note This constructor is templated primarily to allow initialization of 
+     *  \note This constructor is templated primarily to allow initialization of
      *  <tt>device_reference<const T></tt> from <tt>device_reference<T></tt>.
      */
     template<typename OtherT>
@@ -289,16 +287,22 @@ template<typename T>
      */
     template<typename OtherT>
     __host__ __device__
-    device_reference &operator=(const device_reference<OtherT> &other);
+    device_reference &operator=(const device_reference<OtherT> &other)
+    {
+      return super_t::operator=(other);
+    }
 
     /*! Assignment operator assigns the value of the given value to the
      *  value referenced by this \p device_reference.
-     *  
+     *
      *  \param x The value to assign from.
      *  \return <tt>*this</tt>
      */
     __host__ __device__
-    device_reference &operator=(const value_type &x);
+    device_reference &operator=(const value_type &x)
+    {
+      return super_t::operator=(x);
+    }
 
 // declare these members for the purpose of Doxygenating them
 // they actually exist in a derived-from class
@@ -332,7 +336,7 @@ template<typename T>
      *  \p device_reference.
      *
      *  \return <tt>*this</tt>
-     *  
+     *
      *  The following code snippet demonstrates the semantics of
      *  \p device_reference's prefix increment operator.
      *
@@ -467,7 +471,7 @@ template<typename T>
      *  \p device_reference.
      *
      *  \return <tt>*this</tt>
-     *  
+     *
      *  The following code snippet demonstrates the semantics of
      *  \p device_reference's prefix decrement operator.
      *
@@ -958,11 +962,14 @@ template<typename T>
  */
 template<typename T>
 __host__ __device__
-void swap(device_reference<T> x, device_reference<T> y);
+void swap(device_reference<T>& x, device_reference<T>& y)
+{
+  x.swap(y);
+}
 
 // declare these methods for the purpose of Doxygenating them
 // they actually are defined for a derived-from class
-#if 0
+#if HYDRA_THRUST_DOXYGEN
 /*! Writes to an output stream the value of a \p device_reference.
  *
  *  \param os The output stream.
@@ -974,10 +981,7 @@ std::basic_ostream<charT, traits> &
 operator<<(std::basic_ostream<charT, traits> &os, const device_reference<T> &y);
 #endif
 
-/*! \}
+/*! \} // memory_management
  */
 
-} // end hydra_thrust
-
-#include <hydra/detail/external/hydra_thrust/detail/device_reference.inl>
-
+HYDRA_THRUST_NAMESPACE_END

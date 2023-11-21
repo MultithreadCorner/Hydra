@@ -39,9 +39,9 @@ namespace hydra {
 template<typename Iterator>
 inline __hydra_host__ __hydra_device__
 auto distance(Iterator first, Iterator last)
-->decltype( hydra_thrust::distance<Iterator>(first,last))
+->decltype( hydra::thrust::distance<Iterator>(first,last))
 {
-	return hydra_thrust::distance(first, last);
+	return hydra::thrust::distance(first, last);
 }
 
 }  // namespace hydra

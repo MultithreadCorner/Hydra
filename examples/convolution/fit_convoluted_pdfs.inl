@@ -122,7 +122,7 @@ int main(int argv, char** argc)
     // some definitions
     double min   =  1.0;
     double max   =  11.0;
-    unsigned nbins = 250;
+    unsigned nbins = 100;
 
 	//===========================
     //fit model
@@ -192,9 +192,6 @@ int main(int argv, char** argc)
 		//-------------------------------------------------------
 		// Generate data
 
-		// signal
-		static_assert( hydra::detail::random::is_callable<decltype(model.GetFunctor())>::value, "<<<");
-		static_assert( hydra::detail::random::is_iterable<decltype(data)>::value, "<<<");
 
 		auto range = hydra::sample(data, min, max, model.GetFunctor());
 
@@ -217,7 +214,7 @@ int main(int argv, char** argc)
 		//-------------------------------------------------------
 
 		//fit
-		ROOT::Minuit2::MnPrint::SetLevel(-1);
+		ROOT::Minuit2::MnPrint::SetGlobalLevel(3);
 		hydra::Print::SetLevel(hydra::WARNING);
 		//minimization strategy
 		MnStrategy strategy(2);
@@ -243,10 +240,10 @@ int main(int argv, char** argc)
 		std::cout << "-----------------------------------------"<<std::endl;
 
 #ifdef _ROOT_AVAILABLE_
-		hist_data.Sumw2();
+
 		for(size_t i=0;  i<nbins; i++)
 			hist_data.SetBinContent(i+1, Hist_Data.GetBinContent(i));
-
+hist_data.Sumw2();
 		//draw fitted function
 		for (size_t i=0 ; i<=nbins ; i++) {
 			//
@@ -284,23 +281,28 @@ int main(int argv, char** argc)
 	TCanvas canvas("canvas_d" ,"Distributions - Device", 1000, 500);
 	canvas.Divide(2,1);
 	canvas.cd(1);
+	hist_data.Draw("E0");
 	hist_data.SetMinimum(0);
-	hist_data.Draw("E1");
 	hist_data.SetLineWidth(2);
+	hist_data.SetLineColor(1);
+	hist_data.SetStats(0);
 
 	//total
 	hist_total.Draw("histsameC");
 	hist_total.SetLineColor(4);
 	hist_total.SetLineWidth(2);
-
+	hist_total.SetStats(0);
 	//total
 	hist_signal.Draw("histsameC");
 	hist_signal.SetLineColor(8);
 	hist_signal.SetLineWidth(2);
+	hist_signal.SetStats(0);
 	//total
 	hist_background.Draw("histsameC");
 	hist_background.SetLineColor(2);
 	hist_background.SetLineWidth(2);
+	hist_background.SetLineStyle(2);
+	hist_background.SetStats(0);
 
 	canvas.cd(2);
 
@@ -309,6 +311,7 @@ int main(int argv, char** argc)
 	auto h=hist_raw_signal.DrawNormalized("histC");
 	h->SetLineColor(6);
 	h->SetLineWidth(2);
+	h->SetStats(0);
 
 	myapp->Run();
 

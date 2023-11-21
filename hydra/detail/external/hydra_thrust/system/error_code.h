@@ -27,8 +27,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/errno.h>
 #include <iostream>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace system
 {
@@ -515,7 +514,7 @@ namespace errc = system::errc;
 using system::generic_category;
 using system::system_category;
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/system/detail/error_category.inl>
 #include <hydra/detail/external/hydra_thrust/system/detail/error_code.inl>

@@ -26,6 +26,7 @@
  ******************************************************************************/
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/hydra_thrust/distance.h>
@@ -34,7 +35,7 @@
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/parallel_for.h>
 #include <hydra/detail/external/hydra_thrust/distance.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
 namespace __tabulate {
@@ -75,13 +76,8 @@ tabulate(execution_policy<Derived>& policy,
   cuda_cub::parallel_for(policy,
                          functor_t(first, tabulate_op),
                          count);
-
-  cuda_cub::throw_on_error(
-    cuda_cub::synchronize(policy)
-  , "tabulate: failed to synchronize"
-  );
 }
 
 }    // namespace cuda_cub
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 #endif

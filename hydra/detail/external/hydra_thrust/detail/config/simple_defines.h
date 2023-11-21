@@ -24,5 +24,7 @@
 #define HYDRA_THRUST_FALSE   0
 #define HYDRA_THRUST_TRUE    1
 
+#define HYDRA_THRUST_UNUSED_VAR(expr) do { (void)(expr); } while (0)
+
 #define HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION
 

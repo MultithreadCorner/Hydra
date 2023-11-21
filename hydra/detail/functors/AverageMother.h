@@ -159,7 +159,7 @@ struct AverageMother
 		GRND randEng(fSeed);
 		randEng.discard(evt+3*N);
 
-		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+		hydra::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		GReal_t rno[N];
 		rno[0] = 0.0;

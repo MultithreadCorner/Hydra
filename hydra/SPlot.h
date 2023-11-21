@@ -44,7 +44,13 @@
 #include <hydra/detail/external/hydra_thrust/transform_reduce.h>
 #include <hydra/detail/functors/ProcessSPlot.h>
 
-#include <Eigen/Dense>
+//Ugly workaround: disabling alignment of EIGEN, which gives trouble
+//when compiling and running on OMP targets
+#if (HYDRA__HOST_SYSTEM==OMP || HYDRA_DEVICE_SYSTEM==OMP )
+#define  EIGEN_MAX_STATIC_ALIGN_BYTES 0
+#endif
+
+#include <hydra/detail/external/hydra_Eigen/Dense>
 
 #include <initializer_list>
 #include <utility>
@@ -60,7 +66,6 @@ namespace hydra {
  *  The sPlots are applicable in the context extended Likelihood fits, which are performed
  *  on the data sample to determine the yields of the various sources.
  *
- *  This class requires Eigen (http://eigen.tuxfamily.org/index.php?title=Main_Page).
  *
  *  Reference:  Nucl.Instrum.Meth.A555:356-369,2005
  */
@@ -72,26 +77,31 @@ class SPlot: public detail::AddPdfBase<PDF1,PDF2,PDFs...>
 	//hydra::pdf, AddPdfBase::type will not be defined and compilation
 	//will fail
 	typedef typename detail::AddPdfBase<PDF1,PDF2,PDFs...>::type base_type;
-    typedef typename hydra_thrust::iterator_system<Iterator>::type system_type;
+    typedef typename hydra::thrust::iterator_system<Iterator>::type system_type;
 
 public:
 
-	typedef hydra_thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;
+	typedef hydra::thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;
 
-	typedef hydra_thrust::tuple<
+	typedef hydra::thrust::tuple<
 			    typename PDF1::functor_type,
 				typename PDF2::functor_type,
 				typename PDFs::functor_type...> functors_tuple_type;
 
-	typedef detail::SWeights<typename PDF1::functor_type,
+	template<int W>
+	using transformer = detail::SWeights<W, typename PDF1::functor_type,
 			                 typename PDF2::functor_type,
-			                 typename PDFs::functor_type...> transformer;
+			                 typename PDFs::functor_type...> ;
 
-	typedef hydra_thrust::transform_iterator<transformer, Iterator > iterator;
-	typedef typename  hydra_thrust::iterator_traits<iterator>::value_type value_type;
+	template<int W>
+	using iterator= hydra::thrust::transform_iterator<transformer<W>, Iterator >;
 
-	template<int I>
-	using siterator = hydra_thrust::transform_iterator< detail::GetSWeight<I>, iterator >;
+	template<int W>
+	using  value_type=typename hydra::thrust::iterator_traits<iterator<W>>::value_type;
+
+	//template<int I>
+	//using siterator = hydra::thrust::transform_iterator<transformer<I>, Iterator   >;
+			//hydra::thrust::transform_iterator< detail::GetSWeight<value_type, I>, iterator >;
 
 	constexpr static size_t npdfs = sizeof...(PDFs)+2;
 
@@ -107,9 +117,10 @@ public:
 	SPlot( PDFSumExtendable<PDF1, PDF2, PDFs...> const& pdf, Iterator first, Iterator last):
 		fPDFs( pdf.GetPDFs() ),
 		fFunctors( pdf.GetFunctors()),
-		fCovMatrix( Eigen::Matrix<double, npdfs, npdfs>{} ),
-	    fBegin( iterator( first, transformer(  pdf.GetFunctors(), Eigen::Matrix<double, npdfs, npdfs>{} ))),
-		fEnd (iterator( last , transformer(  pdf.GetFunctors(), Eigen::Matrix<double, npdfs, npdfs>{} )))
+		fCovMatrix( Eigen::Matrix<double, npdfs, npdfs>::Zero() ),
+		fInverseCovMatrix( Eigen::Matrix<double, npdfs, npdfs>::Zero() ),
+		fBegin( first),
+		fEnd (last )
 
 	{
 		for(size_t i=0;i<npdfs; i++)
@@ -118,20 +129,22 @@ public:
 		//fCovMatrix << 0.0, 0.0, 0.0, 0.0;
 
 
-		Eigen::Matrix<double, npdfs, npdfs>  init = Eigen::Matrix<double, npdfs, npdfs>::Zero();
+		hydra::Eigen::Matrix<double, npdfs, npdfs>  init = Eigen::Matrix<double, npdfs, npdfs>::Zero();
 		//init << 0.0, 0.0, 0.0, 0.0;
 
-		fCovMatrix = hydra_thrust::transform_reduce(system_type(), first, last,
+
+		fCovMatrix = hydra::thrust::transform_reduce(system_type(), first, last,
 				detail::CovMatrixUnary<
 				 typename PDF1::functor_type,
 				 typename PDF2::functor_type,
 				 typename PDFs::functor_type...>(fCoefficients, fFunctors ),
-				 init, detail::CovMatrixBinary() );
+				 init, detail::CovMatrixBinary<Eigen::Matrix<double, npdfs, npdfs>>() );
 
-		Eigen::Matrix<double, npdfs, npdfs> inverseCovMatrix = fCovMatrix.inverse();
+		fInverseCovMatrix = fCovMatrix.inverse();
+		//hydra::Eigen::Matrix<double, npdfs, npdfs> inverseCovMatrix = fCovMatrix.inverse();
 
-		fBegin = iterator( first, transformer(fCoefficients, fFunctors, inverseCovMatrix ));
-		fEnd   = iterator( last , transformer(fCoefficients, fFunctors, inverseCovMatrix ));
+		//fBegin = iterator( first, transformer<-1>(fCoefficients, fFunctors, fInverseCovMatrix ));
+		//fEnd   = iterator( last , transformer<-1>(fCoefficients, fFunctors, fInverseCovMatrix ));
 
 
 	}
@@ -144,9 +157,10 @@ public:
 	SPlot(SPlot<Iterator, PDF1, PDF2, PDFs...> const& other ):
 		fPDFs(other.GetPDFs() ),
 		fFunctors(other.GetFunctors()),
-    	fBegin(other.begin()),
-	    fEnd(other.end()),
-	    fCovMatrix(other.GetCovMatrix() )
+		fCovMatrix(other.GetCovMatrix() ),
+		fInverseCovMatrix(other.GetInverseCovMatrix() ),
+    	fBegin(other.data_begin()),
+	    fEnd(other.data_end())
 	{
 		for( size_t i=0; i< npdfs; i++ ){
 			fCoefficients[i]=other.GetCoefficient(i);
@@ -165,9 +179,10 @@ public:
 
 		fPDFs=other.GetPDFs();
 		fFunctors=other.GetFunctors();
-		fBegin=other.begin();
-		fEnd=other.end();
+		fBegin=other.data_begin();
+		fEnd=other.data_end();
 		fCovMatrix=other.GetCovMatrix();
+		fInverseCovMatrix = other.GetInverseCovMatrix() ;
 
 		for( size_t i=0; i< npdfs; i++ ){
 			fCoefficients[i]=other.GetCoefficient(i);
@@ -206,10 +221,16 @@ public:
 	 * Get the covariance matrix of between the yields of PDFs.
 	 * @return Eigen::Matrix<double, npdfs, npdfs>
 	 */
-	Eigen::Matrix<double, npdfs, npdfs>
+	hydra::Eigen::Matrix<double, npdfs, npdfs>
 	GetCovMatrix() const {
 
 		return fCovMatrix;
+	}
+
+	hydra::Eigen::Matrix<double, npdfs, npdfs>
+	GetInverseCovMatrix() const {
+
+		return fInverseCovMatrix;
 	}
 
 	/**
@@ -218,9 +239,9 @@ public:
 	 * @return iterator
 	 */
 	template<unsigned int I>
-	siterator<I> begin(placeholders::placeholder<I>) {
+	iterator<I> begin(placeholders::placeholder<I>) {
 
-		return siterator<I>(fBegin, detail::GetSWeight<I>());
+		return iterator<I>(fBegin, transformer<I>(fCoefficients, fFunctors, fInverseCovMatrix ));
 	}
 
 	/**
@@ -229,17 +250,36 @@ public:
 	 * @return iterator
 	 */
 	template<unsigned int I>
-	siterator<I> end(placeholders::placeholder<I>) {
+	iterator<I> end(placeholders::placeholder<I>) {
 
-		return siterator<I>(fEnd, detail::GetSWeight<I>());
+		return iterator<I>(fEnd,  transformer<I>(fCoefficients, fFunctors, fInverseCovMatrix ));
 	}
 
+	/**
+	 * Get an iterator pointing to beginning of the range of the s-weights corresponding to the PDF i.
+	 * @param hydra placeholder (_0, _1, ..., _N)
+	 * @return iterator
+	 */
 
+	iterator<-1> begin() {
+
+		return iterator<-1>(fBegin, transformer<-1>(fCoefficients, fFunctors, fInverseCovMatrix ));
+	}
+
+	/**
+	 * Get an iterator pointing to end of the range of the s-weights corresponding to the PDF i.
+	 * @param hydra placeholder (_0, _1, ..., _N)
+	 * @return iterator
+	 */
+	iterator<-1> end() {
+
+		return iterator<-1>(fEnd,  transformer<-1>(fCoefficients, fFunctors, fInverseCovMatrix ));
+	}
 	/**
 	 * Get an iterator pointing to end of the range of the s-weights.
 	 * @return iterator
 	 */
-	iterator begin() {
+	Iterator data_begin() {
 		return fBegin;
 	}
 
@@ -247,15 +287,15 @@ public:
 	 * Get an iterator pointing to end of the range of the s-weights.
 	 * @return iterator
 	 */
-	iterator end() {
+	Iterator data_end() {
 		return fEnd;
 	}
 
-	iterator begin() const {
+	Iterator data_begin() const {
 		return fBegin;
 	}
 
-	iterator end() const {
+	Iterator data_end() const {
 		return fEnd;
 	}
 
@@ -265,7 +305,7 @@ public:
 	 * @return Range<siterator<I>>
 	 */
 	template<unsigned int I>
-	hydra::Range<siterator<I>>
+	hydra::Range<iterator<I>>
 	operator()(placeholders::placeholder<I>  p){
 
 		return hydra::make_range( begin(p), end(p));
@@ -275,8 +315,8 @@ public:
 	 * Get a range with the s-weights.
 	 * @return hydra::Range<iterator>
 	 */
-	template<unsigned int I>
-	hydra::Range<iterator>
+
+	hydra::Range<iterator<-1>>
 	operator()(){
 
 		return hydra::make_range( begin(), end());
@@ -288,7 +328,7 @@ public:
 	 * @return hydra::Range<iterator>
 	 */
 	template<unsigned int I>
-	hydra::Range<iterator>
+	hydra::Range<iterator<I>>
 	operator[]( placeholders::placeholder<I>  p){
 
 		return hydra::make_range( begin(p), end(p));
@@ -299,8 +339,8 @@ public:
 	 * @param index i
 	 * @return value_type
 	 */
-	value_type operator[](size_t i){
-		return fBegin[i];
+	value_type<-1> operator[](size_t i){
+		return begin()[i];
 	}
 
 private:
@@ -309,9 +349,10 @@ private:
 	pdfs_tuple_type     fPDFs;
 	functors_tuple_type fFunctors;
 
-	Eigen::Matrix<double, npdfs, npdfs> fCovMatrix;
-	iterator fBegin;
-	iterator fEnd;
+	hydra::Eigen::Matrix<double, npdfs, npdfs> fCovMatrix;
+	hydra::Eigen::Matrix<double, npdfs, npdfs> fInverseCovMatrix;
+	Iterator fBegin;
+	Iterator fEnd;
 
 };
 

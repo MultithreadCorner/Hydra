@@ -23,8 +23,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/memory.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/malloc_and_free.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 __hydra_thrust_exec_check_disable__
 template<typename DerivedPolicy>
@@ -81,5 +80,4 @@ void free(const hydra_thrust::detail::execution_policy_base<DerivedPolicy> &exec
 // XXX consider another form of free which does not take a system argument and
 // instead infers the system from the pointer
 
-} // end namespace hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

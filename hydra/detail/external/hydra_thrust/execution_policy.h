@@ -39,9 +39,7 @@
 
 //! \endcond
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /*! \cond
  */
@@ -284,10 +282,9 @@ template<typename DerivedPolicy>
  *    }
  *  };
  *  ...
- *  int vec(3);
- *  vec[0] = 0; vec[1] = 1; vec[2] = 2;
+ *  int vec[] = { 0, 1, 2 };
  *
- *  hydra_thrust::for_each(hydra_thrust::host, vec.begin(), vec.end(), printf_functor());
+ *  hydra_thrust::for_each(hydra_thrust::host, vec, vec + 3, printf_functor());
  *
  *  // 0 1 2 is printed to standard output in some unspecified order
  *  \endcode
@@ -344,11 +341,7 @@ static const detail::host_t host;
  *  \see host_execution_policy
  *  \see hydra_thrust::device
  */
-#ifdef __CUDA_ARCH__
-static const __device__ detail::device_t device;
-#else
-static const detail::device_t device;
-#endif
+HYDRA_THRUST_INLINE_CONSTANT detail::device_t device;
 
 
 // define seq for the purpose of Doxygenating it
@@ -396,5 +389,4 @@ static const detail::seq_t seq;
  */
 
 
-} // end hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

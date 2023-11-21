@@ -30,10 +30,9 @@
 #pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
-#include <hydra/detail/external/hydra_thrust/detail/cpp11_required.h>
-#include <hydra/detail/external/hydra_thrust/detail/modern_gcc_required.h>
+#include <hydra/detail/external/hydra_thrust/detail/cpp14_required.h>
 
-#if HYDRA_THRUST_CPP_DIALECT >= 2011 && !defined(HYDRA_THRUST_LEGACY_GCC)
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 
 #if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 
@@ -54,7 +53,7 @@
 
 #include <type_traits>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace system { namespace cuda { namespace detail
 {
@@ -66,7 +65,6 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
   FromPolicy& from_exec
 , ToPolicy&   to_exec
@@ -149,7 +147,6 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
   hydra_thrust::cuda::execution_policy<FromPolicy>& from_exec
 , hydra_thrust::cuda::execution_policy<ToPolicy>&   to_exec
@@ -193,7 +190,6 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
   FromPolicy& from_exec
 , ToPolicy&   to_exec
@@ -228,6 +224,10 @@ auto async_copy_n(
 template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt
+  // MSVC2015 WAR: doesn't like decltype(...)::value in superclass definition
+, typename IsH2DCopy = decltype(is_host_to_device_copy(
+    std::declval<FromPolicy const&>()
+  , std::declval<ToPolicy const&>()))
 >
 struct is_buffered_trivially_relocatable_host_to_device_copy
   : hydra_thrust::integral_constant<
@@ -238,12 +238,7 @@ struct is_buffered_trivially_relocatable_host_to_device_copy
             typename iterator_traits<ForwardIt>::value_type
           , typename iterator_traits<OutputIt>::value_type
           >::value
-      && decltype(
-           is_host_to_device_copy(
-             std::declval<FromPolicy const&>()
-           , std::declval<ToPolicy const&>()
-           )
-         )::value
+      && IsH2DCopy::value
     >
 {};
 
@@ -254,7 +249,6 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
   FromPolicy&                               from_exec
 , hydra_thrust::cuda::execution_policy<ToPolicy>& to_exec
@@ -333,6 +327,10 @@ auto async_copy_n(
 template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt
+  // MSVC2015 WAR: doesn't like decltype(...)::value in superclass definition
+, typename IsD2HCopy = decltype(is_device_to_host_copy(
+    std::declval<FromPolicy const&>()
+  , std::declval<ToPolicy const&>()))
 >
 struct is_buffered_trivially_relocatable_device_to_host_copy
   : hydra_thrust::integral_constant<
@@ -343,12 +341,7 @@ struct is_buffered_trivially_relocatable_device_to_host_copy
             typename iterator_traits<ForwardIt>::value_type
           , typename iterator_traits<OutputIt>::value_type
           >::value
-      && decltype(
-           is_device_to_host_copy(
-             std::declval<FromPolicy const&>()
-           , std::declval<ToPolicy const&>()
-           )
-         )::value
+      && IsD2HCopy::value
     >
 {};
 
@@ -359,7 +352,6 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
   hydra_thrust::cuda::execution_policy<FromPolicy>& from_exec
 , ToPolicy&                                   to_exec
@@ -441,7 +433,6 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
   FromPolicy& from_exec
 , ToPolicy&   to_exec
@@ -487,7 +478,6 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename Sentinel, typename OutputIt
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_copy(
   hydra_thrust::cuda::execution_policy<FromPolicy>&         from_exec
 , hydra_thrust::cpp::execution_policy<ToPolicy>&            to_exec
@@ -495,7 +485,7 @@ auto async_copy(
 , Sentinel                                            last
 , OutputIt                                            output
 )
-HYDRA_THRUST_DECLTYPE_RETURNS(
+HYDRA_THRUST_RETURNS(
   hydra_thrust::system::cuda::detail::async_copy_n(
     from_exec, to_exec, first, distance(first, last), output
   )
@@ -506,7 +496,6 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename Sentinel, typename OutputIt
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_copy(
   hydra_thrust::cpp::execution_policy<FromPolicy>& from_exec
 , hydra_thrust::cuda::execution_policy<ToPolicy>&  to_exec
@@ -514,7 +503,7 @@ auto async_copy(
 , Sentinel                                   last
 , OutputIt                                   output
 )
-HYDRA_THRUST_DECLTYPE_RETURNS(
+HYDRA_THRUST_RETURNS(
   hydra_thrust::system::cuda::detail::async_copy_n(
     from_exec, to_exec, first, distance(first, last), output
   )
@@ -525,7 +514,6 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename Sentinel, typename OutputIt
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_copy(
   hydra_thrust::cuda::execution_policy<FromPolicy>& from_exec
 , hydra_thrust::cuda::execution_policy<ToPolicy>&   to_exec
@@ -533,7 +521,7 @@ auto async_copy(
 , Sentinel                                    last
 , OutputIt                                    output
 )
-HYDRA_THRUST_DECLTYPE_RETURNS(
+HYDRA_THRUST_RETURNS(
   hydra_thrust::system::cuda::detail::async_copy_n(
     from_exec, to_exec, first, distance(first, last), output
   )
@@ -541,7 +529,7 @@ HYDRA_THRUST_DECLTYPE_RETURNS(
 
 } // cuda_cub
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #endif // HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 

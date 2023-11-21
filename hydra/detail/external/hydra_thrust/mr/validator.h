@@ -16,18 +16,19 @@
 
 #pragma once
 
-#include "detail/config.h"
-#include "memory_resource.h"
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
-namespace hydra_thrust
-{
+#include <hydra/detail/external/hydra_thrust/detail/config/memory_resource.h>
+#include <hydra/detail/external/hydra_thrust/mr/memory_resource.h>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace mr
 {
 
 template<typename MR>
 struct validator
 {
-#if __cplusplus >= 201103L
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
   static_assert(
     std::is_base_of<memory_resource<typename MR::pointer>, MR>::value,
     "a type used as a memory resource must derive from memory_resource"
@@ -46,5 +47,5 @@ struct validator2<T, T> : private validator<T>
 };
 
 } // end mr
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

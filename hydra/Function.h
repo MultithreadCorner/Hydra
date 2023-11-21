@@ -172,8 +172,8 @@ public:
 	operator()(T...x)  const
 	{
 		//typename hydra::tuple<T...>::dummy a;
-		HYDRA_STATIC_ASSERT(int(sizeof...(T))==-1,
-				"This Hydra lambda can not be called with these arguments.\n"
+		HYDRA_STATIC_ASSERT( (!detail::is_valid_type_pack< argument_type, T...>::value), //int(sizeof...(T))==-1,
+				"This Hydra functor can not be called with these arguments.\n"
 				"Possible functions arguments are:\n\n"
 				"1) List of arguments matching or convertible to the functor signature.\n"
 				"2) One tuple containing the arguments in the functor's signature.\n"
@@ -212,7 +212,7 @@ public:
 	inline typename std::enable_if<
 	( detail::is_tuple_type< typename std::decay<T>::type >::value )                 &&
 	(!detail::is_tuple_of_function_arguments< typename std::decay<T>::type >::value) &&
-	( hydra_thrust::detail::is_convertible< typename std::decay<T>::type,  argument_type >::value ),
+	( hydra::thrust::detail::is_convertible< typename std::decay<T>::type,  argument_type >::value ),
 	return_type >::type
 	operator()( T x )  const
 	{
@@ -251,7 +251,7 @@ public:
 	return_type>::type
 	operator()( T1 x, T2 y )  const
 	{
-		auto z = hydra_thrust::tuple_cat(x, y);
+		auto z = hydra::thrust::tuple_cat(x, y);
 
 		return  call(z);
 	}
@@ -260,7 +260,7 @@ public:
 	 * \brief Binary function call operator overload
 	 * taking one tuple and a non-tuple, that
 	 * containing put together would contain
-	 * the lambda arguments in any other.
+	 * the lambda arguments in any order.
 	 */
 	template<typename T1, typename T2>
 	__hydra_host__ __hydra_device__
@@ -272,7 +272,7 @@ public:
 	return_type>::type
 	operator()( T1 x, T2 y )  const
 	{
-		auto z = hydra_thrust::tuple_cat(hydra_thrust::make_tuple(x), y);
+		auto z = hydra::thrust::tuple_cat(hydra::thrust::make_tuple(x), y);
 		return  call(z);
 	}
 
@@ -292,7 +292,7 @@ public:
 	return_type>::type
 	operator()(  T2 y, T1 x )  const
 	{
-		auto z = hydra_thrust::tuple_cat(hydra_thrust::make_tuple(x), y);
+		auto z = hydra::thrust::tuple_cat(hydra::thrust::make_tuple(x), y);
 		return  call(z);
 	}
 
@@ -305,7 +305,7 @@ private:
 
 		return static_cast<const Functor*>(this)->Evaluate(
 				detail::get_tuple_element<
-				typename hydra_thrust::tuple_element<I, argument_type>::type >(x)...);
+				typename hydra::thrust::tuple_element<I, argument_type>::type >(x)...);
 	}
 
 	template<typename T>
@@ -322,8 +322,8 @@ private:
 	inline  return_type raw_call_helper(T x, detail::index_sequence<I...> ) const
 	{
 		return static_cast<const Functor*>(this)->Evaluate(
-				static_cast<typename hydra_thrust::tuple_element<I, argument_type>::type>(
-				hydra_thrust::get<I>(x))...);
+				static_cast<typename hydra::thrust::tuple_element<I, argument_type>::type>(
+				hydra::thrust::get<I>(x))...);
 	}
 
 	template<typename T>

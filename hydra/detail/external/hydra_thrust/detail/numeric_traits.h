@@ -16,13 +16,13 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <limits>
 
 //#include <stdint.h> // for intmax_t (not provided on MSVS 2005)
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace detail
 {
@@ -126,5 +126,4 @@ numeric_distance(Number x, Number y)
 
 } // end detail
 
-} // end hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

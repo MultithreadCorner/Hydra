@@ -26,23 +26,27 @@
  ******************************************************************************/
 #pragma once
 
-#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
+#if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
+
+#include <hydra/detail/external/hydra_thrust/detail/alignment.h>
 #include <hydra/detail/external/hydra_thrust/detail/cstdint.h>
+#include <hydra/detail/external/hydra_thrust/detail/mpl/math.h>
 #include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/execution_policy.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/core/agent_launcher.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/par_to_seq.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/get_value.h>
+#include <hydra/detail/external/hydra_thrust/distance.h>
 #include <hydra/detail/external/hydra_thrust/extrema.h>
 #include <hydra/detail/external/hydra_thrust/pair.h>
 #include <hydra/detail/external/hydra_thrust/set_operations.h>
-#include <hydra/detail/external/hydra_thrust/detail/mpl/math.h>
-#include <hydra/detail/external/hydra_thrust/distance.h>
-#include <hydra/detail/external/hydra_thrust/detail/alignment.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/cdp_dispatch.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/core/agent_launcher.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/execution_policy.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/get_value.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/par_to_seq.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
 
-HYDRA_THRUST_BEGIN_NS
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace cuda_cub {
 
@@ -50,35 +54,36 @@ namespace __set_operations {
 
   template <bool UpperBound,
             class IntT,
+            class Size,
             class It,
             class T,
             class Comp>
   HYDRA_THRUST_DEVICE_FUNCTION void
   binary_search_iteration(It   data,
-                          int &begin,
-                          int &end,
+                          Size &begin,
+                          Size &end,
                           T    key,
                           int  shift,
                           Comp comp)
   {
 
     IntT scale = (1 << shift) - 1;
-    int  mid   = (int)((begin + scale * end) >> shift);
+    Size mid   = (begin + scale * end) >> shift;
 
     T    key2 = data[mid];
     bool pred = UpperBound ? !comp(key, key2) : comp(key2, key);
     if (pred)
-      begin = (int)mid + 1;
+      begin = mid + 1;
     else
       end = mid;
   }
 
-  template <bool UpperBound, class T, class It, class Comp>
-  HYDRA_THRUST_DEVICE_FUNCTION int
-  binary_search(It data, int count, T key, Comp comp)
+  template <bool UpperBound, class Size, class T, class It, class Comp>
+  HYDRA_THRUST_DEVICE_FUNCTION Size
+  binary_search(It data, Size count, T key, Comp comp)
   {
-    int begin = 0;
-    int end   = count;
+    Size begin = 0;
+    Size end   = count;
     while (begin < end)
       binary_search_iteration<UpperBound, int>(data,
                                                begin,
@@ -89,12 +94,12 @@ namespace __set_operations {
     return begin;
   }
 
-  template <bool UpperBound, class IntT, class T, class It, class Comp>
-  HYDRA_THRUST_DEVICE_FUNCTION int
-  biased_binary_search(It data, int count, T key, IntT levels, Comp comp)
+  template <bool UpperBound, class IntT, class Size, class T, class It, class Comp>
+  HYDRA_THRUST_DEVICE_FUNCTION Size
+  biased_binary_search(It data, Size count, T key, IntT levels, Comp comp)
   {
-    int begin = 0;
-    int end   = count;
+    Size begin = 0;
+    Size end   = count;
 
     if (levels >= 4 && begin < end)
       binary_search_iteration<UpperBound, IntT>(data, begin, end, key, 9, comp);
@@ -110,18 +115,18 @@ namespace __set_operations {
     return begin;
   }
 
-  template <bool UpperBound, class It1, class It2, class Comp>
-  HYDRA_THRUST_DEVICE_FUNCTION int
-  merge_path(It1 a, int aCount, It2 b, int bCount, int diag, Comp comp)
+  template <bool UpperBound, class Size, class It1, class It2, class Comp>
+  HYDRA_THRUST_DEVICE_FUNCTION Size
+  merge_path(It1 a, Size aCount, It2 b, Size bCount, Size diag, Comp comp)
   {
     typedef typename hydra_thrust::iterator_traits<It1>::value_type T;
 
-    int begin = hydra_thrust::max(0, diag - bCount);
-    int end   = hydra_thrust::min(diag, aCount);
+    Size begin = hydra_thrust::max<Size>(0, diag - bCount);
+    Size end   = hydra_thrust::min<Size>(diag, aCount);
 
     while (begin < end)
     {
-      int  mid  = (begin + end) >> 1;
+      Size  mid  = (begin + end) >> 1;
       T    aKey = a[mid];
       T    bKey = b[diag - 1 - mid];
       bool pred = UpperBound ? comp(aKey, bKey) : !comp(bKey, aKey);
@@ -132,9 +137,9 @@ namespace __set_operations {
     }
     return begin;
   }
-  
+
   template <class It1, class It2, class Size, class Size2, class CompareOp>
-  pair<Size, Size> HYDRA_THRUST_DEVICE_FUNCTION
+  HYDRA_THRUST_DEVICE_FUNCTION pair<Size, Size>
   balanced_path(It1       keys1,
                 It2       keys2,
                 Size      num_keys1,
@@ -202,15 +207,13 @@ namespace __set_operations {
             int                      _ITEMS_PER_THREAD = 1,
             cub::BlockLoadAlgorithm  _LOAD_ALGORITHM   = cub::BLOCK_LOAD_DIRECT,
             cub::CacheLoadModifier   _LOAD_MODIFIER    = cub::LOAD_LDG,
-            cub::BlockScanAlgorithm  _SCAN_ALGORITHM   = cub::BLOCK_SCAN_WARP_SCANS,
-            int                      _MIN_BLOCKS       = 1>
+            cub::BlockScanAlgorithm  _SCAN_ALGORITHM   = cub::BLOCK_SCAN_WARP_SCANS>
   struct PtxPolicy
   {
     enum
     {
       BLOCK_THREADS    = _BLOCK_THREADS,
       ITEMS_PER_THREAD = _ITEMS_PER_THREAD,
-      MIN_BLOCKS       = _MIN_BLOCKS,
       ITEMS_PER_TILE   = _BLOCK_THREADS * _ITEMS_PER_THREAD - 1
     };
 
@@ -221,9 +224,9 @@ namespace __set_operations {
 
   template<class Arch, class T, class U>
   struct Tuning;
-  
+
   namespace mpl = hydra_thrust::detail::mpl::math;
-  
+
   template<class T, class U>
   struct Tuning<sm30,T,U>
   {
@@ -238,9 +241,9 @@ namespace __set_operations {
           mpl::max<
               int,
               1,
-              ((NOMINAL_4B_ITEMS_PER_THREAD * 4) +
+              static_cast<int>(((NOMINAL_4B_ITEMS_PER_THREAD * 4) +
                COMBINED_INPUT_BYTES - 1) /
-                  COMBINED_INPUT_BYTES>::value>::value,
+                  COMBINED_INPUT_BYTES)>::value>::value,
     };
 
     typedef PtxPolicy<128,
@@ -265,9 +268,9 @@ namespace __set_operations {
           mpl::max<
               int,
               1,
-              ((NOMINAL_4B_ITEMS_PER_THREAD * 4) +
+              static_cast<int>(((NOMINAL_4B_ITEMS_PER_THREAD * 4) +
                COMBINED_INPUT_BYTES - 1) /
-                  COMBINED_INPUT_BYTES>::value>::value,
+                  COMBINED_INPUT_BYTES)>::value>::value,
     };
 
     typedef PtxPolicy<256,
@@ -292,9 +295,9 @@ namespace __set_operations {
           mpl::max<
               int,
               1,
-              ((NOMINAL_4B_ITEMS_PER_THREAD * 4) +
+              static_cast<int>(((NOMINAL_4B_ITEMS_PER_THREAD * 4) +
                COMBINED_INPUT_BYTES - 1) /
-                  COMBINED_INPUT_BYTES>::value>::value,
+                  COMBINED_INPUT_BYTES)>::value>::value,
     };
 
     typedef PtxPolicy<512,
@@ -324,9 +327,9 @@ namespace __set_operations {
 
     typedef key1_type  key_type;
     typedef value1_type value_type;
-    
+
     typedef cub::ScanTileState<Size> ScanTileState;
-    
+
     template <class Arch>
     struct PtxPlan : Tuning<Arch, key_type, value_type>::type
     {
@@ -360,18 +363,18 @@ namespace __set_operations {
       //
       union TempStorage
       {
-        struct
+        struct ScanStorage
         {
           typename BlockScan::TempStorage          scan;
           typename TilePrefixCallback::TempStorage prefix;
-        };
+        } scan_storage;
 
-        struct
+        struct LoadStorage
         {
-          core::uninitialized_array<int, PtxPlan::BLOCK_THREADS>
-              offset;
+          core::uninitialized_array<int, PtxPlan::BLOCK_THREADS> offset;
           union
           {
+            // FIXME These don't appear to be used anywhere?
             typename BlockLoadKeys1::TempStorage   load_keys1;
             typename BlockLoadKeys2::TempStorage   load_keys2;
             typename BlockLoadValues1::TempStorage load_values1;
@@ -389,8 +392,8 @@ namespace __set_operations {
                 value_type,
                 PtxPlan::ITEMS_PER_TILE + PtxPlan::BLOCK_THREADS>
                 values_shared;
-          };
-        };
+          }; // anon union
+        } load_storage; // struct LoadStorage
       };    // union TempStorage
     };      // struct PtxPlan
 
@@ -436,7 +439,7 @@ namespace __set_operations {
       CompareOp      compare_op;
       SetOp          set_op;
       pair<Size, Size> *partitions;
-      Size *output_count;
+      std::size_t *output_count;
 
       //---------------------------------------------------------------------
       // Utility functions
@@ -498,7 +501,7 @@ namespace __set_operations {
           output[idx] = input[ITEM];
         }
       }
-      
+
       template <class OutputIt, class T, class SharedIt>
       void HYDRA_THRUST_DEVICE_FUNCTION
       scatter(OutputIt output,
@@ -510,7 +513,7 @@ namespace __set_operations {
               int      tile_output_count)
       {
         using core::sync_threadblock;
-        
+
 
 
         int local_scatter_idx = thread_output_prefix - tile_output_prefix;
@@ -578,9 +581,9 @@ namespace __set_operations {
         //
         int num_keys1 = static_cast<int>(keys1_end - keys1_beg);
         int num_keys2 = static_cast<int>(keys2_end - keys2_beg);
-        
-       
-       // load keys into shared memory for further processing 
+
+
+       // load keys into shared memory for further processing
         key_type keys_loc[ITEMS_PER_THREAD];
 
         gmem_to_reg<!IS_LAST_TILE>(keys_loc,
@@ -588,8 +591,8 @@ namespace __set_operations {
                                    keys2_in + keys2_beg,
                                    num_keys1,
                                    num_keys2);
-        
-        reg_to_shared(&storage.keys_shared[0], keys_loc);
+
+        reg_to_shared(&storage.load_storage.keys_shared[0], keys_loc);
 
         sync_threadblock();
 
@@ -597,14 +600,14 @@ namespace __set_operations {
                                 num_keys1 + num_keys2);
 
         pair<int, int> partition_loc =
-            balanced_path(&storage.keys_shared[0],
-                          &storage.keys_shared[num_keys1],
+            balanced_path(&storage.load_storage.keys_shared[0],
+                          &storage.load_storage.keys_shared[num_keys1],
                           num_keys1,
                           num_keys2,
                           diag_loc,
                           4,
                           compare_op);
-        
+
         int keys1_beg_loc = partition_loc.first;
         int keys2_beg_loc = partition_loc.second;
 
@@ -615,25 +618,25 @@ namespace __set_operations {
                         : (partition_loc.first << 16) | partition_loc.second;
 
         int dst = threadIdx.x == 0 ? BLOCK_THREADS - 1 : threadIdx.x - 1;
-        storage.offset[dst] = value;
+        storage.load_storage.offset[dst] = value;
 
         core::sync_threadblock();
 
         pair<int,int> partition1_loc = hydra_thrust::make_pair(
-          storage.offset[threadIdx.x] >> 16,
-          storage.offset[threadIdx.x] & 0xFFFF);
+          storage.load_storage.offset[threadIdx.x] >> 16,
+          storage.load_storage.offset[threadIdx.x] & 0xFFFF);
 
         int keys1_end_loc = partition1_loc.first;
         int keys2_end_loc = partition1_loc.second;
 
         int num_keys1_loc = keys1_end_loc - keys1_beg_loc;
         int num_keys2_loc = keys2_end_loc - keys2_beg_loc;
-        
+
         // perform serial set operation
         //
         int indices[ITEMS_PER_THREAD];
 
-        int active_mask = serial_set_op(&storage.keys_shared[0],
+        int active_mask = serial_set_op(&storage.load_storage.keys_shared[0],
                                         keys1_beg_loc,
                                         keys2_beg_loc + num_keys1,
                                         num_keys1_loc,
@@ -657,7 +660,7 @@ namespace __set_operations {
 
         if (tile_idx == 0)    // first tile
         {
-          BlockScan(storage.scan)
+          BlockScan(storage.scan_storage.scan)
               .ExclusiveSum(thread_output_count,
                             thread_output_prefix,
                             tile_output_count);
@@ -673,11 +676,11 @@ namespace __set_operations {
         else
         {
           TilePrefixCallback prefix_cb(tile_state,
-                                       storage.prefix,
+                                       storage.scan_storage.prefix,
                                        cub::Sum(),
                                        tile_idx);
 
-          BlockScan(storage.scan)
+          BlockScan(storage.scan_storage.scan)
               .ExclusiveSum(thread_output_count,
                             thread_output_prefix,
                             prefix_cb);
@@ -691,7 +694,7 @@ namespace __set_operations {
         //
         scatter(keys_out,
                 keys_loc,
-                &storage.keys_shared[0],
+                &storage.load_storage.keys_shared[0],
                 active_mask,
                 thread_output_prefix,
                 tile_output_prefix,
@@ -708,7 +711,7 @@ namespace __set_operations {
 
           sync_threadblock();
 
-          reg_to_shared(&storage.values_shared[0], values_loc);
+          reg_to_shared(&storage.load_storage.values_shared[0], values_loc);
 
           sync_threadblock();
 
@@ -719,7 +722,7 @@ namespace __set_operations {
           {
             if (active_mask & (1 << ITEM))
             {
-              values_loc[ITEM] = storage.values_shared[indices[ITEM]];
+              values_loc[ITEM] = storage.load_storage.values_shared[indices[ITEM]];
             }
           }
 
@@ -727,7 +730,7 @@ namespace __set_operations {
 
           scatter(values_out,
                   values_loc,
-                  &storage.values_shared[0],
+                  &storage.load_storage.values_shared[0],
                   active_mask,
                   thread_output_prefix,
                   tile_output_prefix,
@@ -758,7 +761,7 @@ namespace __set_operations {
            CompareOp      compare_op_,
            SetOp          set_op_,
            pair<Size, Size> *partitions_,
-           Size *output_count_)
+           std::size_t * output_count_)
           : storage(storage_),
             tile_state(tile_state_),
             keys1_in(core::make_load_iterator(ptx_plan(), keys1_)),
@@ -772,7 +775,7 @@ namespace __set_operations {
             compare_op(compare_op_),
             set_op(set_op_),
             partitions(partitions_),
-            output_count(output_count_) 
+            output_count(output_count_)
       {
         int  tile_idx      = blockIdx.x;
         int  num_tiles     = gridDim.x;
@@ -781,7 +784,7 @@ namespace __set_operations {
         {
           consume_tile<false>(tile_idx);
         }
-        else 
+        else
         {
           consume_tile<true>(tile_idx);
         }
@@ -803,7 +806,7 @@ namespace __set_operations {
                        CompareOp      compare_op,
                        SetOp          set_op,
                        pair<Size, Size> *partitions,
-                       Size *        output_count,
+                       std::size_t *  output_count,
                        ScanTileState tile_state,
                        char *        shmem)
     {
@@ -825,7 +828,7 @@ namespace __set_operations {
            output_count);
     }
   };    // struct SetOpAgent
-  
+
   template <class KeysIt1,
             class KeysIt2,
             class Size,
@@ -867,7 +870,7 @@ namespace __set_operations {
       }
     }
   };    // struct PartitionAgent
-  
+
   template <class ScanTileState,
             class Size>
   struct InitAgent
@@ -939,7 +942,7 @@ namespace __set_operations {
       return active_mask;
     }
   };    // struct serial_set_intersection
-  
+
   // serial_set_symmetric_difference
   // ---------------------
   // emit A if A < B and emit B if B < A.
@@ -984,8 +987,8 @@ namespace __set_operations {
         // The outputs must come from A by definition of set difference.
         output[i]  = pA ? aKey : bKey;
         indices[i] = pA ? aBegin : bBegin;
-        
-        if (aBegin + bBegin < end && pA != pB) 
+
+        if (aBegin + bBegin < end && pA != pB)
           active_mask |= 1 << i;
 
         if (!pB) {aKey = keys[++aBegin]; }
@@ -1039,7 +1042,7 @@ namespace __set_operations {
         // The outputs must come from A by definition of set difference.
         output[i]  = aKey;
         indices[i] = aBegin;
-        
+
         if (aBegin + bBegin < end && pA)
           active_mask |= 1 << i;
 
@@ -1049,7 +1052,7 @@ namespace __set_operations {
       return active_mask;
     }
   };    // struct set_difference
-  
+
   // serial_set_union
   // ----------------
   // emit A if A <= B else emit B
@@ -1093,7 +1096,7 @@ namespace __set_operations {
         // Output A in case of a tie, so check if b < a.
         output[i]  = pB ? bKey : aKey;
         indices[i] = pB ? bBegin : aBegin;
-        
+
         if (aBegin + bBegin < end)
           active_mask |= 1 << i;
 
@@ -1126,18 +1129,17 @@ namespace __set_operations {
             Size           num_keys2,
             KeysOutputIt   keys_output,
             ValuesOutputIt values_output,
-            Size *         output_count,
+            std::size_t *  output_count,
             CompareOp      compare_op,
             SetOp          set_op,
-            cudaStream_t   stream,
-            bool           debug_sync)
+            cudaStream_t   stream)
   {
     Size keys_total = num_keys1 + num_keys2;
     if (keys_total == 0)
       return cudaErrorNotSupported;
 
     cudaError_t status = cudaSuccess;
-    
+
     using core::AgentPlan;
     using core::AgentLauncher;
 
@@ -1156,7 +1158,7 @@ namespace __set_operations {
 
     typedef AgentLauncher<PartitionAgent<KeysIt1, KeysIt2, Size, CompareOp> >
         partition_agent;
-    
+
     typedef typename set_op_agent::ScanTileState ScanTileState;
     typedef AgentLauncher<InitAgent<ScanTileState, Size> > init_agent;
 
@@ -1169,7 +1171,8 @@ namespace __set_operations {
     Size num_tiles = (keys_total + tile_size - 1) / tile_size;
 
     size_t tile_agent_storage;
-    status = ScanTileState::AllocationSize(static_cast<int>(num_tiles), tile_agent_storage);
+    status = ScanTileState::AllocationSize(static_cast<int>(num_tiles),
+                                           tile_agent_storage);
     CUDA_CUB_RET_IF_FAIL(status);
 
     size_t vshmem_storage = core::vshmem_size(set_op_plan.shared_memory_size,
@@ -1193,17 +1196,19 @@ namespace __set_operations {
     }
 
     ScanTileState tile_state;
-    status = tile_state.Init(static_cast<int>(num_tiles), allocations[0], allocation_sizes[0]);
+    status = tile_state.Init(static_cast<int>(num_tiles),
+                             allocations[0],
+                             allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
 
     pair<Size, Size> *partitions = (pair<Size, Size> *)allocations[1];
     char *vshmem_ptr = vshmem_storage > 0 ? (char *)allocations[2] : NULL;
 
-    init_agent ia(init_plan, num_tiles, stream, "set_op::init_agent", debug_sync);
+    init_agent ia(init_plan, num_tiles, stream, "set_op::init_agent");
     ia.launch(tile_state, num_tiles);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
 
-    partition_agent pa(partition_plan, num_tiles+1, stream, "set_op::partition agent", debug_sync);
+    partition_agent pa(partition_plan, num_tiles+1, stream, "set_op::partition agent");
     pa.launch(keys1,
               keys2,
               num_keys1,
@@ -1214,7 +1219,7 @@ namespace __set_operations {
               tile_size);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
 
-    set_op_agent sa(set_op_plan, keys_total, stream, vshmem_ptr, "set_op::set_op_agent", debug_sync);
+    set_op_agent sa(set_op_plan, keys_total, stream, vshmem_ptr, "set_op::set_op_agent");
     sa.launch(keys1,
               keys2,
               values1,
@@ -1264,30 +1269,29 @@ namespace __set_operations {
 
     if (num_keys1 + num_keys2 == 0)
       return hydra_thrust::make_pair(keys_output, values_output);
-     
+
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
-    status = doit_step<HAS_VALUES>(NULL,
+    HYDRA_THRUST_DOUBLE_INDEX_TYPE_DISPATCH(status, doit_step<HAS_VALUES>,
+        num_keys1, num_keys2, (NULL,
                                    temp_storage_bytes,
                                    keys1_first,
                                    keys2_first,
                                    values1_first,
                                    values2_first,
-                                   num_keys1,
-                                   num_keys2,
+                                   num_keys1_fixed,
+                                   num_keys2_fixed,
                                    keys_output,
                                    values_output,
-                                   reinterpret_cast<size_type*>(NULL),
+                                   reinterpret_cast<std::size_t*>(NULL),
                                    compare_op,
                                    set_op,
-                                   stream,
-                                   debug_sync);
+                                   stream));
     cuda_cub::throw_on_error(status, "set_operations failed on 1st step");
 
-    size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
+    size_t allocation_sizes[2] = {sizeof(std::size_t), temp_storage_bytes};
     void * allocations[2]      = {NULL, NULL};
 
     size_t storage_size = 0;
@@ -1309,30 +1313,30 @@ namespace __set_operations {
                                  allocation_sizes);
     cuda_cub::throw_on_error(status, "set_operations failed on 2nd alias_storage");
 
-    size_type* d_output_count
-      = hydra_thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
+    std::size_t* d_output_count
+      = hydra_thrust::detail::aligned_reinterpret_cast<std::size_t*>(allocations[0]);
 
-    status = doit_step<HAS_VALUES>(allocations[1],
+    HYDRA_THRUST_DOUBLE_INDEX_TYPE_DISPATCH(status, doit_step<HAS_VALUES>,
+        num_keys1, num_keys2, (allocations[1],
                                    temp_storage_bytes,
                                    keys1_first,
                                    keys2_first,
                                    values1_first,
                                    values2_first,
-                                   num_keys1,
-                                   num_keys2,
+                                   num_keys1_fixed,
+                                   num_keys2_fixed,
                                    keys_output,
                                    values_output,
                                    d_output_count,
                                    compare_op,
                                    set_op,
-                                   stream,
-                                   debug_sync);
+                                   stream));
     cuda_cub::throw_on_error(status, "set_operations failed on 2nd step");
-    
+
     status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "set_operations failed to synchronize");
 
-    size_type output_count = cuda_cub::get_value(policy, d_output_count);
+    std::size_t output_count = cuda_cub::get_value(policy, d_output_count);
 
     return hydra_thrust::make_pair(keys_output + output_count, values_output + output_count);
   }
@@ -1357,38 +1361,30 @@ set_difference(execution_policy<Derived> &policy,
                OutputIt                   result,
                CompareOp                  compare)
 {
-  OutputIt ret = result;
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    typename hydra_thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
-    //
-    ret = __set_operations::set_operations<hydra_thrust::detail::false_type>(
-              policy,
-              items1_first,
-              items1_last,
-              items2_first,
-              items2_last,
-              null_,
-              null_,
-              result,
-              null_,
-              compare,
-              __set_operations::serial_set_difference())
-              .first;
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::set_difference(cvt_to_seq(derived_cast(policy)),
-                                 items1_first,
-                                 items1_last,
-                                 items2_first,
-                                 items2_last,
-                                 result,
-                                 compare);
-#endif
-  }
-  return ret;
+  HYDRA_THRUST_CDP_DISPATCH(
+    (using items1_t  = hydra_thrust::iterator_value_t<ItemsIt1>;
+     items1_t *null_ = nullptr;
+     auto tmp = __set_operations::set_operations<hydra_thrust::detail::false_type>(
+       policy,
+       items1_first,
+       items1_last,
+       items2_first,
+       items2_last,
+       null_,
+       null_,
+       result,
+       null_,
+       compare,
+       __set_operations::serial_set_difference());
+     result = tmp.first;),
+    (result = hydra_thrust::set_difference(cvt_to_seq(derived_cast(policy)),
+                                     items1_first,
+                                     items1_last,
+                                     items2_first,
+                                     items2_last,
+                                     result,
+                                     compare);));
+  return result;
 }
 
 template <class Derived,
@@ -1431,38 +1427,30 @@ set_intersection(execution_policy<Derived> &policy,
                  OutputIt                   result,
                  CompareOp                  compare)
 {
-  OutputIt ret = result;
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    typename hydra_thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
-    //
-    ret = __set_operations::set_operations<hydra_thrust::detail::false_type>(
-              policy,
-              items1_first,
-              items1_last,
-              items2_first,
-              items2_last,
-              null_,
-              null_,
-              result,
-              null_,
-              compare,
-              __set_operations::serial_set_intersection())
-              .first;
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::set_intersection(cvt_to_seq(derived_cast(policy)),
-                                   items1_first,
-                                   items1_last,
-                                   items2_first,
-                                   items2_last,
-                                   result,
-                                   compare);
-#endif
-  }
-  return ret;
+  HYDRA_THRUST_CDP_DISPATCH(
+    (using items1_t  = hydra_thrust::iterator_value_t<ItemsIt1>;
+     items1_t *null_ = NULL;
+     auto tmp = __set_operations::set_operations<hydra_thrust::detail::false_type>(
+       policy,
+       items1_first,
+       items1_last,
+       items2_first,
+       items2_last,
+       null_,
+       null_,
+       result,
+       null_,
+       compare,
+       __set_operations::serial_set_intersection());
+     result = tmp.first;),
+    (result = hydra_thrust::set_intersection(cvt_to_seq(derived_cast(policy)),
+                                       items1_first,
+                                       items1_last,
+                                       items2_first,
+                                       items2_last,
+                                       result,
+                                       compare);));
+  return result;
 }
 
 template <class Derived,
@@ -1505,40 +1493,31 @@ set_symmetric_difference(execution_policy<Derived> &policy,
                          OutputIt                   result,
                          CompareOp                  compare)
 {
-  OutputIt ret = result;
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    typename hydra_thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
-    //
-    ret = __set_operations::set_operations<hydra_thrust::detail::false_type>(
-              policy,
-              items1_first,
-              items1_last,
-              items2_first,
-              items2_last,
-              null_,
-              null_,
-              result,
-              null_,
-              compare,
-              __set_operations::serial_set_symmetric_difference())
-              .first;
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::set_symmetric_difference(cvt_to_seq(derived_cast(policy)),
-                                           items1_first,
-                                           items1_last,
-                                           items2_first,
-                                           items2_last,
-                                           result,
-                                           compare);
-#endif
-  }
-  return ret;
+  HYDRA_THRUST_CDP_DISPATCH(
+    (using items1_t  = hydra_thrust::iterator_value_t<ItemsIt1>;
+     items1_t *null_ = nullptr;
+     auto tmp = __set_operations::set_operations<hydra_thrust::detail::false_type>(
+       policy,
+       items1_first,
+       items1_last,
+       items2_first,
+       items2_last,
+       null_,
+       null_,
+       result,
+       null_,
+       compare,
+       __set_operations::serial_set_symmetric_difference());
+     result = tmp.first;),
+    (result = hydra_thrust::set_symmetric_difference(cvt_to_seq(derived_cast(policy)),
+                                               items1_first,
+                                               items1_last,
+                                               items2_first,
+                                               items2_last,
+                                               result,
+                                               compare);));
+  return result;
 }
-
 
 template <class Derived,
           class ItemsIt1,
@@ -1579,40 +1558,31 @@ set_union(execution_policy<Derived> &policy,
           OutputIt                   result,
           CompareOp                  compare)
 {
-  OutputIt ret = result;
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    typename hydra_thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
-    //
-    ret = __set_operations::set_operations<hydra_thrust::detail::false_type>(
-              policy,
-              items1_first,
-              items1_last,
-              items2_first,
-              items2_last,
-              null_,
-              null_,
-              result,
-              null_,
-              compare,
-              __set_operations::serial_set_union())
-              .first;
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::set_union(cvt_to_seq(derived_cast(policy)),
-                            items1_first,
-                            items1_last,
-                            items2_first,
-                            items2_last,
-                            result,
-                            compare);
-#endif
-  }
-  return ret;
+  HYDRA_THRUST_CDP_DISPATCH(
+    (using items1_t  = hydra_thrust::iterator_value_t<ItemsIt1>;
+     items1_t *null_ = nullptr;
+     auto tmp = __set_operations::set_operations<hydra_thrust::detail::false_type>(
+       policy,
+       items1_first,
+       items1_last,
+       items2_first,
+       items2_last,
+       null_,
+       null_,
+       result,
+       null_,
+       compare,
+       __set_operations::serial_set_union());
+     result = tmp.first;),
+    (result = hydra_thrust::set_union(cvt_to_seq(derived_cast(policy)),
+                                items1_first,
+                                items1_last,
+                                items2_first,
+                                items2_last,
+                                result,
+                                compare);));
+  return result;
 }
-
 
 template <class Derived,
           class ItemsIt1,
@@ -1666,37 +1636,30 @@ set_difference_by_key(execution_policy<Derived> &policy,
                       ItemsOutputIt              items_result,
                       CompareOp                  compare_op)
 {
-  pair<KeysOutputIt, ItemsOutputIt> ret = hydra_thrust::make_pair(keys_result, items_result);
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    ret = __set_operations::set_operations<hydra_thrust::detail::true_type>(
-        policy,
-        keys1_first,
-        keys1_last,
-        keys2_first,
-        keys2_last,
-        items1_first,
-        items2_first,
-        keys_result,
-        items_result,
-        compare_op,
-        __set_operations::serial_set_difference());
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::set_difference_by_key(cvt_to_seq(derived_cast(policy)),
-                                        keys1_first,
-                                        keys1_last,
-                                        keys2_first,
-                                        keys2_last,
-                                        items1_first,
-                                        items2_first,
-                                        keys_result,
-                                        items_result,
-                                        compare_op);
-#endif
-  }
+  auto ret = hydra_thrust::make_pair(keys_result, items_result);
+  HYDRA_THRUST_CDP_DISPATCH(
+    (ret = __set_operations::set_operations<hydra_thrust::detail::true_type>(
+       policy,
+       keys1_first,
+       keys1_last,
+       keys2_first,
+       keys2_last,
+       items1_first,
+       items2_first,
+       keys_result,
+       items_result,
+       compare_op,
+       __set_operations::serial_set_difference());),
+    (ret = hydra_thrust::set_difference_by_key(cvt_to_seq(derived_cast(policy)),
+                                         keys1_first,
+                                         keys1_last,
+                                         keys2_first,
+                                         keys2_last,
+                                         items1_first,
+                                         items2_first,
+                                         keys_result,
+                                         items_result,
+                                         compare_op);));
   return ret;
 }
 
@@ -1753,36 +1716,29 @@ set_intersection_by_key(execution_policy<Derived> &policy,
                         ItemsOutputIt              items_result,
                         CompareOp                  compare_op)
 {
-  pair<KeysOutputIt, ItemsOutputIt> ret = hydra_thrust::make_pair(keys_result, items_result);
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    ret = __set_operations::set_operations<hydra_thrust::detail::true_type>(
-        policy,
-        keys1_first,
-        keys1_last,
-        keys2_first,
-        keys2_last,
-        items1_first,
-        items1_first,
-        keys_result,
-        items_result,
-        compare_op,
-        __set_operations::serial_set_intersection());
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::set_intersection_by_key(cvt_to_seq(derived_cast(policy)),
-                                          keys1_first,
-                                          keys1_last,
-                                          keys2_first,
-                                          keys2_last,
-                                          items1_first,
-                                          keys_result,
-                                          items_result,
-                                          compare_op);
-#endif
-  }
+  auto ret = hydra_thrust::make_pair(keys_result, items_result);
+  HYDRA_THRUST_CDP_DISPATCH(
+    (ret = __set_operations::set_operations<hydra_thrust::detail::true_type>(
+       policy,
+       keys1_first,
+       keys1_last,
+       keys2_first,
+       keys2_last,
+       items1_first,
+       items1_first,
+       keys_result,
+       items_result,
+       compare_op,
+       __set_operations::serial_set_intersection());),
+    (ret = hydra_thrust::set_intersection_by_key(cvt_to_seq(derived_cast(policy)),
+                                           keys1_first,
+                                           keys1_last,
+                                           keys2_first,
+                                           keys2_last,
+                                           items1_first,
+                                           keys_result,
+                                           items_result,
+                                           compare_op);));
   return ret;
 }
 
@@ -1838,37 +1794,31 @@ set_symmetric_difference_by_key(execution_policy<Derived> &policy,
                                 ItemsOutputIt              items_result,
                                 CompareOp                  compare_op)
 {
-  pair<KeysOutputIt, ItemsOutputIt> ret = hydra_thrust::make_pair(keys_result, items_result);
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    ret = __set_operations::set_operations<hydra_thrust::detail::true_type>(
-        policy,
-        keys1_first,
-        keys1_last,
-        keys2_first,
-        keys2_last,
-        items1_first,
-        items2_first,
-        keys_result,
-        items_result,
-        compare_op,
-        __set_operations::serial_set_symmetric_difference());
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::set_symmetric_difference_by_key(cvt_to_seq(derived_cast(policy)),
-                                                  keys1_first,
-                                                  keys1_last,
-                                                  keys2_first,
-                                                  keys2_last,
-                                                  items1_first,
-                                                  items2_first,
-                                                  keys_result,
-                                                  items_result,
-                                                  compare_op);
-#endif
-  }
+  auto ret = hydra_thrust::make_pair(keys_result, items_result);
+  HYDRA_THRUST_CDP_DISPATCH(
+    (ret = __set_operations::set_operations<hydra_thrust::detail::true_type>(
+       policy,
+       keys1_first,
+       keys1_last,
+       keys2_first,
+       keys2_last,
+       items1_first,
+       items2_first,
+       keys_result,
+       items_result,
+       compare_op,
+       __set_operations::serial_set_symmetric_difference());),
+    (ret =
+       hydra_thrust::set_symmetric_difference_by_key(cvt_to_seq(derived_cast(policy)),
+                                               keys1_first,
+                                               keys1_last,
+                                               keys2_first,
+                                               keys2_last,
+                                               items1_first,
+                                               items2_first,
+                                               keys_result,
+                                               items_result,
+                                               compare_op);));
   return ret;
 }
 
@@ -1926,37 +1876,30 @@ set_union_by_key(execution_policy<Derived> &policy,
                  ItemsOutputIt              items_result,
                  CompareOp                  compare_op)
 {
-  pair<KeysOutputIt, ItemsOutputIt> ret = hydra_thrust::make_pair(keys_result, items_result);
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    ret = __set_operations::set_operations<hydra_thrust::detail::true_type>(
-        policy,
-        keys1_first,
-        keys1_last,
-        keys2_first,
-        keys2_last,
-        items1_first,
-        items2_first,
-        keys_result,
-        items_result,
-        compare_op,
-        __set_operations::serial_set_union());
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::set_union_by_key(cvt_to_seq(derived_cast(policy)),
-                                   keys1_first,
-                                   keys1_last,
-                                   keys2_first,
-                                   keys2_last,
-                                   items1_first,
-                                   items2_first,
-                                   keys_result,
-                                   items_result,
-                                   compare_op);
-#endif
-  }
+  auto ret = hydra_thrust::make_pair(keys_result, items_result);
+  HYDRA_THRUST_CDP_DISPATCH(
+    (ret = __set_operations::set_operations<hydra_thrust::detail::true_type>(
+       policy,
+       keys1_first,
+       keys1_last,
+       keys2_first,
+       keys2_last,
+       items1_first,
+       items2_first,
+       keys_result,
+       items_result,
+       compare_op,
+       __set_operations::serial_set_union());),
+    (ret = hydra_thrust::set_union_by_key(cvt_to_seq(derived_cast(policy)),
+                                    keys1_first,
+                                    keys1_last,
+                                    keys2_first,
+                                    keys2_last,
+                                    items1_first,
+                                    items2_first,
+                                    keys_result,
+                                    items_result,
+                                    compare_op);));
   return ret;
 }
 
@@ -1992,5 +1935,5 @@ set_union_by_key(execution_policy<Derived> &policy,
 }
 
 }    // namespace cuda_cub
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 #endif

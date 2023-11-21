@@ -38,7 +38,7 @@ hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
 filter(Iterable&& container, Functor&& filter)
 {
 
-	auto new_end = hydra_thrust::partition(std::forward<Iterable>(container).begin(),
+	auto new_end = hydra::thrust::partition(std::forward<Iterable>(container).begin(),
 	                       std::forward<Iterable>(container).end(), filter);
 
      return hydra::make_range(std::forward<Iterable>(container).begin(), new_end);
@@ -52,7 +52,7 @@ std::pair<hydra::Range<decltype(std::declval<Iterable>().begin())>,
 segregate(Iterable&& container, Functor&& filter)
 {
 
-	auto new_end = hydra_thrust::partition(std::forward<Iterable>(container).begin(),
+	auto new_end = hydra::thrust::partition(std::forward<Iterable>(container).begin(),
 	                       std::forward<Iterable>(container).end(), filter);
 
      return std::make_pair(

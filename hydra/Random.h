@@ -106,7 +106,7 @@ struct is_matching_iterable: std::conditional<
      hydra::detail::has_rng_formula<Functor>::value &&
      std::is_convertible<
     decltype(std::declval<RngFormula<Functor>>().Generate( std::declval<Engine&>(), std::declval<Functor const&>())),
-    typename hydra_thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type>::value,
+    typename hydra::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type>::value,
     std::true_type,  std::false_type
 >::type{};
 }  // namespace random
@@ -134,7 +134,7 @@ template<typename RNG=default_random_engine, typename DerivedPolicy, typename It
 typename std::enable_if<
 detail::random::is_iterator<IteratorData>::value && detail::random::is_iterator<IteratorWeight>::value,
 Range<IteratorData> >::type
-unweight( hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& policy,
+unweight( hydra::thrust::detail::execution_policy_base<DerivedPolicy>  const& policy,
 		IteratorData data_begin, IteratorData data_end, IteratorWeight weights_begin,
 		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0);
 
@@ -248,7 +248,7 @@ typename std::enable_if<
 	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 	Range<Iterator>
 >::type
-unweight( hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& policy,
+unweight( hydra::thrust::detail::execution_policy_base<DerivedPolicy> const& policy,
 	    	Iterator begin, Iterator end, Functor const& functor,
 			double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0 );
 
@@ -375,7 +375,7 @@ template<typename RNG=default_random_engine, typename DerivedPolicy, typename Fu
 typename std::enable_if<
 detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 Range<Iterator> >::type
-sample(hydra_thrust::detail::execution_policy_base<DerivedPolicy> const& policy,
+sample(hydra::thrust::detail::execution_policy_base<DerivedPolicy> const& policy,
 		Iterator begin, Iterator end, double min, double max,
 		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
 
@@ -493,7 +493,7 @@ template<typename RNG=default_random_engine, typename DerivedPolicy, typename Fu
 typename std::enable_if<
 detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
 Range<Iterator> >::type
-sample(hydra_thrust::detail::execution_policy_base<DerivedPolicy>  const& policy,
+sample(hydra::thrust::detail::execution_policy_base<DerivedPolicy>  const& policy,
 		Iterator begin, Iterator end ,
 		std::array<double,N>const& min,	std::array<double,N>const& max,
 		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
@@ -553,7 +553,7 @@ sample( Iterable&& output ,
 template< typename Engine = hydra::default_random_engine,  hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
 typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::is_convertible<
 decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-typename hydra_thrust::iterator_traits<Iterator>::value_type
+typename hydra::thrust::iterator_traits<Iterator>::value_type
 >::value, void>::type
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
             Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
@@ -572,7 +572,7 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
 template< typename Engine =hydra::default_random_engine, typename Iterator, typename FUNCTOR >
 typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::is_convertible<
 decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-typename hydra_thrust::iterator_traits<Iterator>::value_type
+typename hydra::thrust::iterator_traits<Iterator>::value_type
 >::value, void>::type
 fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 

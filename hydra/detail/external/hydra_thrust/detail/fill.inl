@@ -14,10 +14,9 @@
  *  limitations under the License.
  */
 
+#pragma once
 
-/*! \file fill.inl
- *  \brief Inline file for fill.h.
- */
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #include <hydra/detail/external/hydra_thrust/fill.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
@@ -25,9 +24,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/fill.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/fill.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 __hydra_thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
@@ -86,6 +83,4 @@ __host__ __device__
   return hydra_thrust::fill_n(select_system(system), first, n, value);
 } // end fill()
 
-
-} // end namespace hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

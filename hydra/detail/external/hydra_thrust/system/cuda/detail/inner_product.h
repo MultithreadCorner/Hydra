@@ -26,6 +26,7 @@
  ******************************************************************************/
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <iterator>
@@ -33,7 +34,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/minmax.h>
 #include <hydra/detail/external/hydra_thrust/distance.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace cuda_cub {
 
@@ -89,5 +90,5 @@ inner_product(execution_policy<Derived> &policy,
 
 }    // namespace cuda_cub
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 #endif

@@ -26,8 +26,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/iterator/is_output_iterator.h>
 #include <hydra/detail/external/hydra_thrust/functional.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -45,21 +44,8 @@ __host__ __device__
                                 InputIterator last,
                                 OutputIterator result)
 {
-  // the pseudocode for deducing the type of the temporary used below:
-  // 
-  // if OutputIterator is a "pure" output iterator
-  //   TemporaryType = InputIterator::value_type
-  // else
-  //   TemporaryType = OutputIterator::value_type
-
-  typedef typename hydra_thrust::detail::eval_if<
-      hydra_thrust::detail::is_output_iterator<OutputIterator>::value,
-      hydra_thrust::iterator_value<InputIterator>,
-      hydra_thrust::iterator_value<OutputIterator>
-  >::type ValueType;
-
   // assume plus as the associative operator
-  return hydra_thrust::inclusive_scan(exec, first, last, result, hydra_thrust::plus<ValueType>());
+  return hydra_thrust::inclusive_scan(exec, first, last, result, hydra_thrust::plus<>());
 } // end inclusive_scan()
 
 
@@ -72,21 +58,9 @@ __host__ __device__
                                 InputIterator last,
                                 OutputIterator result)
 {
-  // the pseudocode for deducing the type of the temporary used below:
-  // 
-  // if OutputIterator is a "pure" output iterator
-  //   TemporaryType = InputIterator::value_type
-  // else
-  //   TemporaryType = OutputIterator::value_type
-
-  typedef typename hydra_thrust::detail::eval_if<
-      hydra_thrust::detail::is_output_iterator<OutputIterator>::value,
-      hydra_thrust::iterator_value<InputIterator>,
-      hydra_thrust::iterator_value<OutputIterator>
-  >::type ValueType;
-
-  // assume 0 as the initialization value
-  return hydra_thrust::exclusive_scan(exec, first, last, result, ValueType(0));
+  // Use the input iterator's value type per https://wg21.link/P0571
+  using ValueType = typename hydra_thrust::iterator_value<InputIterator>::type;
+  return hydra_thrust::exclusive_scan(exec, first, last, result, ValueType{});
 } // end exclusive_scan()
 
 
@@ -102,7 +76,7 @@ __host__ __device__
                                 T init)
 {
   // assume plus as the associative operator
-  return hydra_thrust::exclusive_scan(exec, first, last, result, init, hydra_thrust::plus<T>());
+  return hydra_thrust::exclusive_scan(exec, first, last, result, init, hydra_thrust::plus<>());
 } // end exclusive_scan()
 
 
@@ -149,5 +123,5 @@ __host__ __device__
 } // end namespace generic
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

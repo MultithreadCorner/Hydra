@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/transform.h>
 #include <hydra/detail/external/hydra_thrust/for_each.h>
@@ -23,8 +25,7 @@
 #include <hydra/detail/external/hydra_thrust/iterator/zip_iterator.h>
 #include <hydra/detail/external/hydra_thrust/detail/internal_functional.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -186,5 +187,5 @@ __host__ __device__
 } // end generic
 } // end detail
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

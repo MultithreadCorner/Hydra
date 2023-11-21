@@ -14,14 +14,15 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
+#include <hydra/detail/external/hydra_thrust/functional.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/replace.h>
 #include <hydra/detail/external/hydra_thrust/transform.h>
 #include <hydra/detail/external/hydra_thrust/replace.h>
-#include <hydra/detail/external/hydra_thrust/detail/internal_functional.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -55,7 +56,7 @@ template<typename Predicate, typename NewType, typename OutputType>
   {
     return pred(y) ? new_value : x;
   } // end operator()()
-  
+
   Predicate pred;
   NewType new_value;
 }; // end new_value_if
@@ -124,8 +125,9 @@ __host__ __device__
                               const T &old_value,
                               const T &new_value)
 {
-  hydra_thrust::detail::equal_to_value<T> pred(old_value);
-  return hydra_thrust::replace_copy_if(exec, first, last, result, pred, new_value);
+  using hydra_thrust::placeholders::_1;
+
+  return hydra_thrust::replace_copy_if(exec, first, last, result, _1 == old_value, new_value);
 } // end replace_copy()
 
 
@@ -164,13 +166,14 @@ __host__ __device__
                const T &old_value,
                const T &new_value)
 {
-  hydra_thrust::detail::equal_to_value<T> pred(old_value);
-  return hydra_thrust::replace_if(exec, first, last, pred, new_value);
+  using hydra_thrust::placeholders::_1;
+
+  return hydra_thrust::replace_if(exec, first, last, _1 == old_value, new_value);
 } // end replace()
 
 
 } // end namespace generic
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

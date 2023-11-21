@@ -183,16 +183,22 @@ if(NOT TBB_FOUND)
   # Set version strings
   ##################################
 
-  if(TBB_INCLUDE_DIRS)
-    file(READ "${TBB_INCLUDE_DIRS}/tbb/tbb_stddef.h" _tbb_version_file)
-    string(REGEX REPLACE ".*#define TBB_VERSION_MAJOR ([0-9]+).*" "\\1"
-        TBB_VERSION_MAJOR "${_tbb_version_file}")
-    string(REGEX REPLACE ".*#define TBB_VERSION_MINOR ([0-9]+).*" "\\1"
-        TBB_VERSION_MINOR "${_tbb_version_file}")
-    string(REGEX REPLACE ".*#define TBB_INTERFACE_VERSION ([0-9]+).*" "\\1"
-        TBB_INTERFACE_VERSION "${_tbb_version_file}")
-    set(TBB_VERSION "${TBB_VERSION_MAJOR}.${TBB_VERSION_MINOR}")
-  endif()
+ if(TBB_INCLUDE_DIRS)
+     if(EXISTS "${TBB_INCLUDE_DIRS}/tbb/tbb_stddef.h")
+       file(READ "${TBB_INCLUDE_DIRS}/tbb/tbb_stddef.h" _tbb_version_file)
+     elseif(EXISTS "${TBB_INCLUDE_DIRS}/oneapi/tbb/version.h")
+       file(READ "${TBB_INCLUDE_DIRS}/oneapi/tbb/version.h" _tbb_version_file)
+     else()
+       message(FATAL_ERROR "The TBB_INCLUDE_DIRS ${TBB_INCLUDE_DIRS} is not correct.")
+     endif()
+     string(REGEX REPLACE ".*#define TBB_VERSION_MAJOR ([0-9]+).*" "\\1"
+         TBB_VERSION_MAJOR "${_tbb_version_file}")
+     string(REGEX REPLACE ".*#define TBB_VERSION_MINOR ([0-9]+).*" "\\1"
+         TBB_VERSION_MINOR "${_tbb_version_file}")
+     string(REGEX REPLACE ".*#define TBB_INTERFACE_VERSION ([0-9]+).*" "\\1"
+         TBB_INTERFACE_VERSION "${_tbb_version_file}")
+     set(TBB_VERSION "${TBB_VERSION_MAJOR}.${TBB_VERSION_MINOR}")
+   endif()
 
   ##################################
   # Find TBB components

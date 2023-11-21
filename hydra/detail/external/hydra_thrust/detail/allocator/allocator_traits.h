@@ -26,8 +26,9 @@
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/has_member_function.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 
-namespace hydra_thrust
-{
+#include <hydra/detail/external/hydra_thrust/detail/memory_wrapper.h>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 
@@ -70,6 +71,25 @@ template<typename Alloc, typename U>
 
   typedef hydra_thrust::detail::integral_constant<bool, value> type;
 };
+
+// The following fields of std::allocator have been deprecated (since C++17).
+// There's no way to detect it other than explicit specialization.
+#if HYDRA_THRUST_CPP_DIALECT >= 2017
+#define HYDRA_THRUST_SPECIALIZE_DEPRECATED(trait_name)                               \
+template <typename T>                                                          \
+struct trait_name<std::allocator<T>> : false_type {};
+
+HYDRA_THRUST_SPECIALIZE_DEPRECATED(has_is_always_equal)
+HYDRA_THRUST_SPECIALIZE_DEPRECATED(has_pointer)
+HYDRA_THRUST_SPECIALIZE_DEPRECATED(has_const_pointer)
+HYDRA_THRUST_SPECIALIZE_DEPRECATED(has_reference)
+HYDRA_THRUST_SPECIALIZE_DEPRECATED(has_const_reference)
+
+#undef HYDRA_THRUST_SPECIALIZE_DEPRECATED
+
+template<typename T, typename U>
+struct has_rebind<std::allocator<T>, U> : false_type {};
+#endif
 
 template<typename T>
   struct nested_pointer
@@ -164,7 +184,7 @@ template<class Alloc, class U, bool = has_rebind<Alloc, U>::value>
     typedef typename Alloc::template rebind<U>::other type;
 };
 
-#if __cplusplus >= 201103L
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 template<template<typename, typename...> class Alloc,
          typename T, typename... Args, typename U>
   struct rebind_alloc<Alloc<T, Args...>, U, true>
@@ -347,6 +367,10 @@ template<typename Alloc>
   };
 #endif
 
+  // Deprecated std::allocator typedefs that we need:
+  typedef typename hydra_thrust::detail::pointer_traits<pointer>::reference reference;
+  typedef typename hydra_thrust::detail::pointer_traits<const_pointer>::reference const_reference;
+
   inline __host__ __device__
   static pointer allocate(allocator_type &a, size_type n);
 
@@ -412,7 +436,7 @@ template<typename Alloc>
 
 
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/allocator/allocator_traits.inl>
 

@@ -14,19 +14,16 @@
  *  limitations under the License.
  */
 
-
-/*! \file distance.inl
- *  \brief Inline file for distance.h
- */
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/advance.h>
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/distance.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
-
+__hydra_thrust_exec_check_disable__
 template<typename InputIterator>
 inline __host__ __device__
   typename hydra_thrust::iterator_traits<InputIterator>::difference_type
@@ -35,6 +32,4 @@ inline __host__ __device__
   return hydra_thrust::system::detail::generic::distance(first, last);
 } // end distance()
 
-
-} // end namespace hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

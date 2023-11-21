@@ -14,10 +14,7 @@
  *  limitations under the License.
  */
 
-
-/*! \file sequence.inl
- *  \brief Inline file for sequence.h.
- */
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/sequence.h>
@@ -26,8 +23,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/sequence.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/sequence.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 
 __hydra_thrust_exec_check_disable__
@@ -114,5 +110,5 @@ template<typename ForwardIterator, typename T>
 } // end sequence()
 
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

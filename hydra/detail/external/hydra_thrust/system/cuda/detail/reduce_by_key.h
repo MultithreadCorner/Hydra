@@ -26,28 +26,32 @@
  ******************************************************************************/
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
-#include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
-#include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 
+#include <hydra/detail/external/hydra_thrust/detail/alignment.h>
 #include <hydra/detail/external/hydra_thrust/detail/cstdint.h>
-#include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
+#include <hydra/detail/external/hydra_thrust/detail/minmax.h>
+#include <hydra/detail/external/hydra_thrust/detail/mpl/math.h>
 #include <hydra/detail/external/hydra_thrust/detail/raw_reference_cast.h>
+#include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/iterator/is_output_iterator.h>
-#include <hydra/detail/external/hydra_cub/device/device_reduce.cuh>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/par_to_seq.h>
+#include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
+#include <hydra/detail/external/hydra_thrust/distance.h>
+#include <hydra/detail/external/hydra_thrust/functional.h>
+#include <hydra/detail/external/hydra_thrust/pair.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/cdp_dispatch.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/core/agent_launcher.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/get_value.h>
-#include <hydra/detail/external/hydra_thrust/pair.h>
-#include <hydra/detail/external/hydra_thrust/functional.h>
-#include <hydra/detail/external/hydra_thrust/detail/mpl/math.h>
-#include <hydra/detail/external/hydra_thrust/detail/minmax.h>
-#include <hydra/detail/external/hydra_thrust/distance.h>
-#include <hydra/detail/external/hydra_thrust/detail/alignment.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/par_to_seq.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
 
-HYDRA_THRUST_BEGIN_NS
+#include <hydra/detail/external/hydra_cub/device/device_reduce.cuh>
+#include <hydra/detail/external/hydra_cub/util_math.cuh>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 template <typename DerivedPolicy,
           typename InputIterator1,
@@ -78,16 +82,14 @@ namespace __reduce_by_key {
             int                     _ITEMS_PER_THREAD = 1,
             cub::BlockLoadAlgorithm _LOAD_ALGORITHM   = cub::BLOCK_LOAD_DIRECT,
             cub::CacheLoadModifier  _LOAD_MODIFIER    = cub::LOAD_DEFAULT,
-            cub::BlockScanAlgorithm _SCAN_ALGORITHM   = cub::BLOCK_SCAN_WARP_SCANS,
-            int                     _MIN_BLOCKS       = 1>
+            cub::BlockScanAlgorithm _SCAN_ALGORITHM   = cub::BLOCK_SCAN_WARP_SCANS>
   struct PtxPolicy
   {
     enum
     {
       BLOCK_THREADS    = _BLOCK_THREADS,
       ITEMS_PER_THREAD = _ITEMS_PER_THREAD,
-      ITEMS_PER_TILE   = BLOCK_THREADS * ITEMS_PER_THREAD,
-      MIN_BLOCKS       = _MIN_BLOCKS
+      ITEMS_PER_TILE   = BLOCK_THREADS * ITEMS_PER_THREAD
     };
 
     static const cub::BlockLoadAlgorithm LOAD_ALGORITHM = _LOAD_ALGORITHM;
@@ -114,9 +116,9 @@ namespace __reduce_by_key {
           mpl::max<
               int,
               1,
-              ((NOMINAL_4B_ITEMS_PER_THREAD * 8) +
+              static_cast<int>(((NOMINAL_4B_ITEMS_PER_THREAD * 8) +
                COMBINED_INPUT_BYTES - 1) /
-                  COMBINED_INPUT_BYTES>::value>::value,
+                  COMBINED_INPUT_BYTES)>::value>::value,
     };
 
     typedef PtxPolicy<128,
@@ -132,10 +134,13 @@ namespace __reduce_by_key {
   {
     enum
     {
+      MAX_INPUT_BYTES      = mpl::max<size_t, sizeof(Key), sizeof(Value)>::value,
+      COMBINED_INPUT_BYTES = sizeof(Key) + sizeof(Value),
+
       NOMINAL_4B_ITEMS_PER_THREAD = 6,
 
       ITEMS_PER_THREAD =
-          (Tuning::MAX_INPUT_BYTES <= 8)
+          (MAX_INPUT_BYTES <= 8)
               ? 6
               : mpl::min<
                     int,
@@ -144,8 +149,8 @@ namespace __reduce_by_key {
                         int,
                         1,
                         ((NOMINAL_4B_ITEMS_PER_THREAD * 8) +
-                         Tuning::COMBINED_INPUT_BYTES - 1) /
-                            Tuning::COMBINED_INPUT_BYTES>::value>::value,
+                         COMBINED_INPUT_BYTES - 1) /
+                            COMBINED_INPUT_BYTES>::value>::value,
     };
 
     typedef PtxPolicy<128,
@@ -161,10 +166,13 @@ namespace __reduce_by_key {
   {
     enum
     {
+      MAX_INPUT_BYTES      = mpl::max<size_t, sizeof(Key), sizeof(Value)>::value,
+      COMBINED_INPUT_BYTES = sizeof(Key) + sizeof(Value),
+
       NOMINAL_4B_ITEMS_PER_THREAD = 9,
 
       ITEMS_PER_THREAD =
-          (Tuning::MAX_INPUT_BYTES <= 8)
+          (MAX_INPUT_BYTES <= 8)
               ? 9
               : mpl::min<
                     int,
@@ -173,8 +181,8 @@ namespace __reduce_by_key {
                         int,
                         1,
                         ((NOMINAL_4B_ITEMS_PER_THREAD * 8) +
-                         Tuning::COMBINED_INPUT_BYTES - 1) /
-                            Tuning::COMBINED_INPUT_BYTES>::value>::value,
+                         COMBINED_INPUT_BYTES - 1) /
+                            COMBINED_INPUT_BYTES>::value>::value,
     };
 
     typedef PtxPolicy<256,
@@ -238,12 +246,12 @@ namespace __reduce_by_key {
 
       union TempStorage
       {
-        struct
+        struct ScanStorage
         {
           typename BlockScan::TempStorage              scan;
           typename TilePrefixCallback::TempStorage     prefix;
           typename BlockDiscontinuityKeys::TempStorage discontinuity;
-        };
+        } scan_storage;
 
         typename BlockLoadKeys::TempStorage   load_keys;
         typename BlockLoadValues::TempStorage load_values;
@@ -307,7 +315,7 @@ namespace __reduce_by_key {
         size_value_pair_t identity;
         identity.value = 0;
         identity.key   = 0;
-        BlockScan(storage.scan)
+        BlockScan(storage.scan_storage.scan)
             .ExclusiveScan(scan_items, scan_items, identity, scan_op, tile_aggregate);
       }
 
@@ -319,7 +327,7 @@ namespace __reduce_by_key {
                 size_value_pair_t &tile_aggregate,
                 hydra_thrust::detail::false_type /* has_identity */)
       {
-        BlockScan(storage.scan)
+        BlockScan(storage.scan_storage.scan)
             .ExclusiveScan(scan_items, scan_items, scan_op, tile_aggregate);
       }
 
@@ -331,7 +339,7 @@ namespace __reduce_by_key {
                 TilePrefixCallback &prefix_op,
                 hydra_thrust::detail::true_type /*  has_identity */)
       {
-        BlockScan(storage.scan)
+        BlockScan(storage.scan_storage.scan)
             .ExclusiveScan(scan_items,
                            scan_items,
                            scan_op,
@@ -347,7 +355,7 @@ namespace __reduce_by_key {
                 TilePrefixCallback &prefix_op,
                 hydra_thrust::detail::false_type /* has_identity */)
       {
-        BlockScan(storage.scan)
+        BlockScan(storage.scan_storage.scan)
             .ExclusiveScan(scan_items,
                            scan_items,
                            scan_op,
@@ -444,8 +452,9 @@ namespace __reduce_by_key {
         {
           if (segment_flags[ITEM])
           {
-            storage.raw_exchange[segment_indices[ITEM] -
-                                 num_tile_segments_prefix] = scatter_items[ITEM];
+            int idx = static_cast<int>(segment_indices[ITEM] -
+                                       num_tile_segments_prefix);
+            storage.raw_exchange[idx] = scatter_items[ITEM];
           }
         }
 
@@ -580,7 +589,7 @@ namespace __reduce_by_key {
 
         // Set head segment_flags.
         // First tile sets the first flag for the first item
-        BlockDiscontinuityKeys(storage.discontinuity)
+        BlockDiscontinuityKeys(storage.scan_storage.discontinuity)
             .FlagHeads(segment_flags, keys, pred_keys, inequality_op);
 
         // Unset the flag for the first item in the first tile
@@ -694,7 +703,7 @@ namespace __reduce_by_key {
         sync_threadblock();
 
         // Set head segment_flags
-        BlockDiscontinuityKeys(storage.discontinuity)
+        BlockDiscontinuityKeys(storage.scan_storage.discontinuity)
             .FlagHeads(segment_flags,
                        keys,
                        pred_keys,
@@ -709,7 +718,7 @@ namespace __reduce_by_key {
 
         // Exclusive scan of values and segment_flags
         size_value_pair_t  tile_aggregate;
-        TilePrefixCallback prefix_op(tile_state, storage.prefix, scan_op, tile_idx);
+        TilePrefixCallback prefix_op(tile_state, storage.scan_storage.prefix, scan_op, tile_idx);
         scan_tile(scan_items,
                   tile_aggregate,
                   prefix_op,
@@ -785,7 +794,7 @@ namespace __reduce_by_key {
         // so just assign one tile per block
         //
         int  tile_idx          = blockIdx.x;
-        Size tile_offset       = tile_idx * ITEMS_PER_TILE;
+        Size tile_offset       = static_cast<Size>(tile_idx) * ITEMS_PER_TILE;
         Size num_remaining     = num_items - tile_offset;
 
         if (num_remaining > ITEMS_PER_TILE)
@@ -877,8 +886,7 @@ namespace __reduce_by_key {
             EqualityOp      equality_op,
             ReductionOp     reduction_op,
             Size            num_items,
-            cudaStream_t    stream,
-            bool            debug_sync)
+            cudaStream_t    stream)
   {
     using core::AgentPlan;
     using core::AgentLauncher;
@@ -910,7 +918,7 @@ namespace __reduce_by_key {
 
     // Number of input tiles
     int  tile_size = reduce_by_key_plan.items_per_tile;
-    Size num_tiles = (num_items + tile_size - 1) / tile_size;
+    Size num_tiles = cub::DivideAndRoundUp(num_items, tile_size);
 
     size_t vshmem_size = core::vshmem_size(reduce_by_key_plan.shared_memory_size,
                                            num_tiles);
@@ -935,7 +943,7 @@ namespace __reduce_by_key {
     status = tile_state.Init(static_cast<int>(num_tiles), allocations[0], allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
 
-    init_agent ia(init_plan, num_tiles, stream, "reduce_by_key::init_agent", debug_sync);
+    init_agent ia(init_plan, num_tiles, stream, "reduce_by_key::init_agent");
     ia.launch(tile_state, num_tiles, num_runs_output_it);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
 
@@ -945,8 +953,7 @@ namespace __reduce_by_key {
                              num_items,
                              stream,
                              vshmem_ptr,
-                             "reduce_by_keys::reduce_by_key_agent",
-                             debug_sync);
+                             "reduce_by_keys::reduce_by_key_agent");
     rbka.launch(keys_input_it,
                 values_input_it,
                 keys_output_it,
@@ -961,7 +968,8 @@ namespace __reduce_by_key {
     return status;
   }
 
-  template <typename Derived,
+  template <typename Size,
+            typename Derived,
             typename KeysInputIt,
             typename ValuesInputIt,
             typename KeysOutputIt,
@@ -970,24 +978,22 @@ namespace __reduce_by_key {
             typename ReductionOp>
   HYDRA_THRUST_RUNTIME_FUNCTION
   pair<KeysOutputIt, ValuesOutputIt>
-  reduce_by_key(execution_policy<Derived>& policy,
-                KeysInputIt                keys_first,
-                KeysInputIt                keys_last,
-                ValuesInputIt              values_first,
-                KeysOutputIt               keys_output,
-                ValuesOutputIt             values_output,
-                EqualityOp                 equality_op,
-                ReductionOp                reduction_op)
+  reduce_by_key_dispatch(execution_policy<Derived>& policy,
+                         KeysInputIt                keys_first,
+                         Size                       num_items,
+                         ValuesInputIt              values_first,
+                         KeysOutputIt               keys_output,
+                         ValuesOutputIt             values_output,
+                         EqualityOp                 equality_op,
+                         ReductionOp                reduction_op)
   {
-    typedef int size_type;
-
-    size_type    num_items          = static_cast<size_type>(hydra_thrust::distance(keys_first, keys_last));
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     if (num_items == 0)
+    {
       return hydra_thrust::make_pair(keys_output, values_output);
+    }
 
     cudaError_t status;
     status = doit_step(NULL,
@@ -996,15 +1002,14 @@ namespace __reduce_by_key {
                        values_first,
                        keys_output,
                        values_output,
-                       reinterpret_cast<size_type*>(NULL),
+                       reinterpret_cast<Size*>(NULL),
                        equality_op,
                        reduction_op,
                        num_items,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "reduce_by_key failed on 1st step");
 
-    size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
+    size_t allocation_sizes[2] = {sizeof(Size), temp_storage_bytes};
     void * allocations[2]      = {NULL, NULL};
 
     size_t storage_size = 0;
@@ -1025,8 +1030,8 @@ namespace __reduce_by_key {
                                  allocation_sizes);
     cuda_cub::throw_on_error(status, "reduce failed on 2nd alias_storage");
 
-    size_type* d_num_runs_out
-      = hydra_thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
+    Size* d_num_runs_out
+      = hydra_thrust::detail::aligned_reinterpret_cast<Size*>(allocations[0]);
 
     status = doit_step(allocations[1],
                        temp_storage_bytes,
@@ -1038,8 +1043,7 @@ namespace __reduce_by_key {
                        equality_op,
                        reduction_op,
                        num_items,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "reduce_by_key failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);
@@ -1051,6 +1055,50 @@ namespace __reduce_by_key {
       keys_output + num_runs_out,
       values_output + num_runs_out
     );
+  }
+
+  template <typename Derived,
+            typename KeysInputIt,
+            typename ValuesInputIt,
+            typename KeysOutputIt,
+            typename ValuesOutputIt,
+            typename EqualityOp,
+            typename ReductionOp>
+  HYDRA_THRUST_RUNTIME_FUNCTION
+  pair<KeysOutputIt, ValuesOutputIt>
+  reduce_by_key(execution_policy<Derived>& policy,
+                KeysInputIt                keys_first,
+                KeysInputIt                keys_last,
+                ValuesInputIt              values_first,
+                KeysOutputIt               keys_output,
+                ValuesOutputIt             values_output,
+                EqualityOp                 equality_op,
+                ReductionOp                reduction_op)
+  {
+    using size_type = typename iterator_traits<KeysInputIt>::difference_type;
+
+    size_type num_items = hydra_thrust::distance(keys_first, keys_last);
+
+    pair<KeysOutputIt, ValuesOutputIt> result = hydra_thrust::make_pair(keys_output, values_output);
+
+    if (num_items == 0)
+    {
+      return result;
+    }
+
+    HYDRA_THRUST_INDEX_TYPE_DISPATCH(result,
+                               reduce_by_key_dispatch,
+                               num_items,
+                               (policy,
+                                keys_first,
+                                num_items_fixed,
+                                values_first,
+                                keys_output,
+                                values_output,
+                                equality_op,
+                                reduction_op));
+
+    return result;
   }
 
 }    // namespace __reduce_by_key
@@ -1077,34 +1125,26 @@ reduce_by_key(execution_policy<Derived> &policy,
               BinaryPred                 binary_pred,
               BinaryOp                   binary_op)
 {
-  pair<KeyOutputIt, ValOutputIt> ret = hydra_thrust::make_pair(keys_output, values_output);
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    ret = __reduce_by_key::reduce_by_key(policy,
-                                         keys_first,
-                                         keys_last,
-                                         values_first,
-                                         keys_output,
-                                         values_output,
-                                         binary_pred,
-                                         binary_op);
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::reduce_by_key(cvt_to_seq(derived_cast(policy)),
-                                keys_first,
-                                keys_last,
-                                values_first,
-                                keys_output,
-                                values_output,
-                                binary_pred,
-                                binary_op);
-#endif
-  }
+  auto ret = hydra_thrust::make_pair(keys_output, values_output);
+  HYDRA_THRUST_CDP_DISPATCH((ret = __reduce_by_key::reduce_by_key(policy,
+                                                            keys_first,
+                                                            keys_last,
+                                                            values_first,
+                                                            keys_output,
+                                                            values_output,
+                                                            binary_pred,
+                                                            binary_op);),
+                      (ret =
+                         hydra_thrust::reduce_by_key(cvt_to_seq(derived_cast(policy)),
+                                               keys_first,
+                                               keys_last,
+                                               values_first,
+                                               keys_output,
+                                               values_output,
+                                               binary_pred,
+                                               binary_op);));
   return ret;
 }
-
 
 template <class Derived,
           class KeyInputIt,
@@ -1161,7 +1201,7 @@ reduce_by_key(execution_policy<Derived> &policy,
 
 } // namespace cuda_
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/memory.h>
 #include <hydra/detail/external/hydra_thrust/reduce.h>

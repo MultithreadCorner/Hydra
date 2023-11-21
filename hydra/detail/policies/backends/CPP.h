@@ -40,20 +40,20 @@ namespace detail {
 
 namespace cpp {
 
-typedef hydra_thrust::system::cpp::detail::par_t   cpp_t;
+typedef hydra::thrust::system::cpp::detail::par_t   cpp_t;
 static const cpp_t    _cpp_;
 
 }  // namespace cpp
 
 template<>
-struct BackendPolicy<Backend::Cpp>: hydra_thrust::execution_policy<cpp::cpp_t>
+struct BackendPolicy<Backend::Cpp>: hydra::thrust::execution_policy<cpp::cpp_t>
 {
-	typedef hydra_thrust::execution_policy<cpp::cpp_t> execution_policy_type;
+	typedef hydra::thrust::execution_policy<cpp::cpp_t> execution_policy_type;
 
 	const cpp::cpp_t backend= cpp::_cpp_;
 
 	template<typename T>
-	using   container = hydra_thrust::cpp::vector<T> ;
+	using   container = hydra::thrust::cpp::vector<T> ;
 
 
 };

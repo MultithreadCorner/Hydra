@@ -16,9 +16,9 @@
 #include <hydra/detail/external/hydra_thrust/detail/allocator/allocator_traits.h>
 
 #include <utility>
-#include <memory>
+#include <hydra/detail/external/hydra_thrust/detail/memory_wrapper.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 // wg21.link/p0316r0
 
@@ -437,7 +437,7 @@ uninitialized_allocate_unique_n(
 
 ///////////////////////////////////////////////////////////////////////////////
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #endif // HYDRA_THRUST_CPP_DIALECT >= 2011
 

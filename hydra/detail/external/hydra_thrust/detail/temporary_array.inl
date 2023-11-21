@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2021 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,14 +14,16 @@
  *  limitations under the License.
  */
 
+#pragma once
+
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
 #include <hydra/detail/external/hydra_thrust/distance.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/select_system.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 
-
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace detail
 {
@@ -162,5 +164,5 @@ __host__ __device__
 
 } // end detail
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

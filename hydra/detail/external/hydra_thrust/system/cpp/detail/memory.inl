@@ -14,13 +14,14 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/cpp/memory.h>
 #include <hydra/detail/external/hydra_thrust/system/cpp/detail/malloc_and_free.h>
 #include <limits>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace cpp
@@ -47,5 +48,5 @@ void free(pointer<void> ptr)
 
 } // end cpp
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

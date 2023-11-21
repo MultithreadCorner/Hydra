@@ -14,10 +14,7 @@
  *  limitations under the License.
  */
 
-
-/*! \file sort.inl
- *  \brief Inline file for sort.h.
- */
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/sort.h>
@@ -26,8 +23,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/sort.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/sort.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 
 __hydra_thrust_exec_check_disable__
@@ -244,7 +240,7 @@ template<typename RandomAccessIterator>
   System system;
 
   return hydra_thrust::stable_sort(select_system(system), first, last);
-} // end stable_sort() 
+} // end stable_sort()
 
 
 template<typename RandomAccessIterator,
@@ -349,7 +345,7 @@ template<typename ForwardIterator>
                  ForwardIterator last)
 {
   using hydra_thrust::system::detail::generic::select_system;
-  
+
   typedef typename hydra_thrust::iterator_system<ForwardIterator>::type System;
 
   System system;
@@ -365,7 +361,7 @@ template<typename ForwardIterator,
                  Compare comp)
 {
   using hydra_thrust::system::detail::generic::select_system;
-  
+
   typedef typename hydra_thrust::iterator_system<ForwardIterator>::type System;
 
   System system;
@@ -379,7 +375,7 @@ template<typename ForwardIterator>
                                   ForwardIterator last)
 {
   using hydra_thrust::system::detail::generic::select_system;
-  
+
   typedef typename hydra_thrust::iterator_system<ForwardIterator>::type System;
 
   System system;
@@ -395,7 +391,7 @@ template<typename ForwardIterator,
                                   Compare comp)
 {
   using hydra_thrust::system::detail::generic::select_system;
-  
+
   typedef typename hydra_thrust::iterator_system<ForwardIterator>::type System;
 
   System system;
@@ -404,5 +400,5 @@ template<typename ForwardIterator,
 } // end is_sorted_until()
 
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

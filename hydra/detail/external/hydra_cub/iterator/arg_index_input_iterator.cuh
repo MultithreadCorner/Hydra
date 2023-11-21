@@ -36,10 +36,10 @@
 #include <iterator>
 #include <iostream>
 
+#include "../config.cuh"
 #include "../thread/thread_load.cuh"
 #include "../thread/thread_store.cuh"
 #include "../util_device.cuh"
-#include "../util_namespace.cuh"
 
 #include <hydra/detail/external/hydra_thrust/version.h>
 
@@ -49,11 +49,7 @@
     #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #endif // HYDRA_THRUST_VERSION
 
-/// Optional outer namespace(s)
-CUB_NS_PREFIX
-
-/// CUB namespace
-namespace cub {
+CUB_NAMESPACE_BEGIN
 
 /**
  * \addtogroup UtilIterator
@@ -79,7 +75,7 @@ namespace cub {
  * dereference an array of doubles
  * \par
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/iterator/arg_index_input_iterator.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/iterator/arg_index_input_iterator.cuh>
  *
  * // Declare, allocate, and initialize a device array
  * double *d_in;         // e.g., [8.0, 6.0, 7.0, 5.0, 3.0, 0.0, 9.0]
@@ -109,7 +105,7 @@ namespace cub {
 template <
     typename    InputIteratorT,
     typename    OffsetT             = ptrdiff_t,
-    typename    OutputValueT        = typename std::iterator_traits<InputIteratorT>::value_type>
+    typename    OutputValueT        = cub::detail::value_t<InputIteratorT>>
 class ArgIndexInputIterator
 {
 public:
@@ -123,9 +119,9 @@ public:
 
 #if (HYDRA_THRUST_VERSION >= 100700)
     // Use Thrust's iterator categories so we can use these iterators in Thrust 1.7 (or newer) methods
-    typedef typename hydra_thrust::detail::iterator_facade_category<
-        hydra_thrust::any_system_tag,
-        hydra_thrust::random_access_traversal_tag,
+    typedef typename HYDRA_THRUST_NS_QUALIFIER::detail::iterator_facade_category<
+        HYDRA_THRUST_NS_QUALIFIER::any_system_tag,
+        HYDRA_THRUST_NS_QUALIFIER::random_access_traversal_tag,
         value_type,
         reference
       >::type iterator_category;                                        ///< The iterator category
@@ -255,5 +251,4 @@ public:
 
 /** @} */       // end group UtilIterator
 
-}               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+CUB_NAMESPACE_END

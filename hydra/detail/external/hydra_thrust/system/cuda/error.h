@@ -26,8 +26,7 @@
 #include <hydra/detail/external/hydra_thrust/system/error_code.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/guarded_driver_types.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace system
 {
@@ -56,7 +55,6 @@ enum errc_t
   memory_allocation                  = cudaErrorMemoryAllocation,
   initialization_error               = cudaErrorInitializationError,
   launch_failure                     = cudaErrorLaunchFailure,
-  prior_launch_failure               = cudaErrorPriorLaunchFailure,
   launch_timeout                     = cudaErrorLaunchTimeout,
   launch_out_of_resources            = cudaErrorLaunchOutOfResources,
   invalid_device_function            = cudaErrorInvalidDeviceFunction,
@@ -67,23 +65,14 @@ enum errc_t
   invalid_symbol                     = cudaErrorInvalidSymbol,
   map_buffer_object_failed           = cudaErrorMapBufferObjectFailed,
   unmap_buffer_object_failed         = cudaErrorUnmapBufferObjectFailed,
-  invalid_host_pointer               = cudaErrorInvalidHostPointer,
-  invalid_device_pointer             = cudaErrorInvalidDevicePointer,
   invalid_texture                    = cudaErrorInvalidTexture,
   invalid_texture_binding            = cudaErrorInvalidTextureBinding,
   invalid_channel_descriptor         = cudaErrorInvalidChannelDescriptor,
   invalid_memcpy_direction           = cudaErrorInvalidMemcpyDirection,
-  address_of_constant_error          = cudaErrorAddressOfConstant,
-  texture_fetch_failed               = cudaErrorTextureFetchFailed,
-  texture_not_bound                  = cudaErrorTextureNotBound,
-  synchronization_error              = cudaErrorSynchronizationError,
   invalid_filter_setting             = cudaErrorInvalidFilterSetting,
   invalid_norm_setting               = cudaErrorInvalidNormSetting,
-  mixed_device_execution             = cudaErrorMixedDeviceExecution,
   cuda_runtime_unloading             = cudaErrorCudartUnloading,
   unknown                            = cudaErrorUnknown,
-  not_yet_implemented                = cudaErrorNotYetImplemented,
-  memory_value_too_large             = cudaErrorMemoryValueTooLarge,
   invalid_resource_handle            = cudaErrorInvalidResourceHandle,
   not_ready                          = cudaErrorNotReady,
   insufficient_driver                = cudaErrorInsufficientDriver,
@@ -177,7 +166,7 @@ namespace errc = system::cuda::errc;
 
 using system::cuda_category;
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/error.inl>
 

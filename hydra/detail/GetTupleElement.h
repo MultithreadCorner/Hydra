@@ -45,9 +45,9 @@ namespace detail {
 //for tuples
 template<typename T, typename... Types>
 __hydra_host__ __hydra_device__
-T& get_tuple_element(hydra_thrust::tuple<Types...>& t)
+T& get_tuple_element(hydra::thrust::tuple<Types...>& t)
 {
-  return hydra_thrust::get<
+  return hydra::thrust::get<
 		  find_unique_type<typename remove_device_reference<typename std::decay<T>::type>::type,
 		  typename remove_device_reference<typename std::decay<Types>::type>::type...>::value>(t);
 }
@@ -55,9 +55,9 @@ T& get_tuple_element(hydra_thrust::tuple<Types...>& t)
 
 template<class T, class... Types>
 __hydra_host__ __hydra_device__
-const T& get_tuple_element(const hydra_thrust::tuple<Types...>& t)
+const T& get_tuple_element(const hydra::thrust::tuple<Types...>& t)
 {
-  return hydra_thrust::get<
+  return hydra::thrust::get<
 		  find_unique_type<typename remove_device_reference<typename std::decay<T>::type>::type,
 		  typename remove_device_reference<typename std::decay<Types>::type>::type...>::value>(t);
 }
@@ -65,9 +65,9 @@ const T& get_tuple_element(const hydra_thrust::tuple<Types...>& t)
 
 template<class T, class... Types>
 __hydra_host__ __hydra_device__
-T&& get_tuple_element(hydra_thrust::tuple<Types...>&& t)
+T&& get_tuple_element(hydra::thrust::tuple<Types...>&& t)
 {
-  return hydra_thrust::get<
+  return hydra::thrust::get<
 		  find_unique_type<typename remove_device_reference<typename std::decay<T>::type>::type,
 		  typename remove_device_reference<typename std::decay<Types>::type>::type...>::value>(std::move(t));
 }
@@ -75,10 +75,10 @@ T&& get_tuple_element(hydra_thrust::tuple<Types...>&& t)
 //for tuples of device_references
 template<typename T, typename... Types>
 __hydra_host__ __hydra_device__
-hydra_thrust::device_reference<T>
-get_tuple_element(hydra_thrust::tuple<hydra_thrust::device_reference<Types>...>& t)
+hydra::thrust::device_reference<T>
+get_tuple_element(hydra::thrust::tuple<hydra::thrust::device_reference<Types>...>& t)
 {
-  return hydra_thrust::get<
+  return hydra::thrust::get<
 		  find_unique_type<typename remove_device_reference<typename std::decay<T>::type>::type,
 		  typename remove_device_reference<typename std::decay<Types>::type>::type...>::value>(t);
 }
@@ -86,10 +86,10 @@ get_tuple_element(hydra_thrust::tuple<hydra_thrust::device_reference<Types>...>&
 
 template<class T, class... Types>
 __hydra_host__ __hydra_device__
-const hydra_thrust::device_reference<T>
-get_tuple_element(const hydra_thrust::tuple<hydra_thrust::device_reference<Types>...>& t)
+const hydra::thrust::device_reference<T>
+get_tuple_element(const hydra::thrust::tuple<hydra::thrust::device_reference<Types>...>& t)
 {
-  return hydra_thrust::get<
+  return hydra::thrust::get<
 		  find_unique_type<typename remove_device_reference<typename std::decay<T>::type>::type,
 		  typename remove_device_reference<typename std::decay<Types>::type>::type...>::value>(t);
 }
@@ -97,23 +97,23 @@ get_tuple_element(const hydra_thrust::tuple<hydra_thrust::device_reference<Types
 
 template<class T, class... Types>
 __hydra_host__ __hydra_device__
-hydra_thrust::device_reference<T>&&
-get_tuple_element(hydra_thrust::tuple<hydra_thrust::device_reference<Types>...>&& t)
+hydra::thrust::device_reference<T>&&
+get_tuple_element(hydra::thrust::tuple<hydra::thrust::device_reference<Types>...>&& t)
 {
-  return hydra_thrust::get<
+  return hydra::thrust::get<
 		  find_unique_type<typename remove_device_reference<typename std::decay<T>::type>::type,
 		  typename remove_device_reference<typename std::decay<Types>::type>::type...>::value>(std::move(t));
 }
 
 
-//hydra_thrust::detail::for tuple_of_iterator_references
+//hydra::thrust::detail::for tuple_of_iterator_references
 template<typename T, typename... Types>
 __hydra_host__ __hydra_device__
-hydra_thrust::device_reference<T>
-get_tuple_element(hydra_thrust::detail::tuple_of_iterator_references<
-		hydra_thrust::device_reference<Types>...>& t)
+hydra::thrust::device_reference<T>
+get_tuple_element(hydra::thrust::detail::tuple_of_iterator_references<
+		hydra::thrust::device_reference<Types>...>& t)
 {
-  return hydra_thrust::get<
+  return hydra::thrust::get<
 		  find_unique_type<typename remove_device_reference<typename std::decay<T>::type>::type,
 		  typename remove_device_reference<typename std::decay<Types>::type>::type...>::value>(t);
 }
@@ -121,11 +121,11 @@ get_tuple_element(hydra_thrust::detail::tuple_of_iterator_references<
 
 template<class T, class... Types>
 __hydra_host__ __hydra_device__
-const hydra_thrust::device_reference<T>
-get_tuple_element(const hydra_thrust::detail::tuple_of_iterator_references<
-		hydra_thrust::device_reference<Types>...>& t)
+const hydra::thrust::device_reference<T>
+get_tuple_element(const hydra::thrust::detail::tuple_of_iterator_references<
+		hydra::thrust::device_reference<Types>...>& t)
 {
-  return hydra_thrust::get<
+  return hydra::thrust::get<
 		  find_unique_type<typename remove_device_reference<typename std::decay<T>::type>::type,
 		  typename remove_device_reference<typename std::decay<Types>::type>::type...>::value>(t);
 }
@@ -133,11 +133,11 @@ get_tuple_element(const hydra_thrust::detail::tuple_of_iterator_references<
 
 template<class T, class... Types>
 __hydra_host__ __hydra_device__
-hydra_thrust::device_reference<T>
-get_tuple_element(hydra_thrust::detail::tuple_of_iterator_references<
-		hydra_thrust::device_reference<Types>...>&& t)
+hydra::thrust::device_reference<T>
+get_tuple_element(hydra::thrust::detail::tuple_of_iterator_references<
+		hydra::thrust::device_reference<Types>...>&& t)
 {
-  return hydra_thrust::get<
+  return hydra::thrust::get<
 		  find_unique_type<typename remove_device_reference<typename std::decay<T>::type>::type,
 		  typename remove_device_reference<typename std::decay<Types>::type>::type...>::value>(std::move(t));
 }

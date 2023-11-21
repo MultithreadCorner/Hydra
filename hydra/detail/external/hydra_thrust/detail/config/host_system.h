@@ -25,25 +25,8 @@
 #define HYDRA_THRUST_HOST_SYSTEM HYDRA_THRUST_HOST_SYSTEM_CPP
 #endif // HYDRA_THRUST_HOST_SYSTEM
 
-// XXX make the use of HYDRA_THRUST_HOST_BACKEND an error in Thrust 1.7
-// XXX eliminate the following in Thrust 1.7
-
-#define HYDRA_THRUST_HOST_BACKEND_CPP HYDRA_THRUST_HOST_SYSTEM_CPP
-#define HYDRA_THRUST_HOST_BACKEND_OMP HYDRA_THRUST_HOST_SYSTEM_OMP
-#define HYDRA_THRUST_HOST_BACKEND_TBB HYDRA_THRUST_HOST_SYSTEM_TBB
-
 #ifdef HYDRA_THRUST_HOST_BACKEND
-#  if HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC
-#    pragma message("------------------------------------------------------------------------------")
-#    pragma message("| WARNING: HYDRA_THRUST_HOST_BACKEND is deprecated; use HYDRA_THRUST_HOST_SYSTEM instead |")
-#    pragma message("------------------------------------------------------------------------------")
-#  else
-#    warning ------------------------------------------------------------------------------
-#    warning | WARNING: HYDRA_THRUST_HOST_BACKEND is deprecated; use HYDRA_THRUST_HOST_SYSTEM instead |
-#    warning ------------------------------------------------------------------------------
-#  endif // HYDRA_THRUST_HOST_COMPILER
-#  undef HYDRA_THRUST_HOST_SYSTEM
-#  define HYDRA_THRUST_HOST_SYSTEM HYDRA_THRUST_HOST_BACKEND
+#  error HYDRA_THRUST_HOST_BACKEND is no longer supported; use HYDRA_THRUST_HOST_SYSTEM instead.
 #endif // HYDRA_THRUST_HOST_BACKEND
 
 #if HYDRA_THRUST_HOST_SYSTEM == HYDRA_THRUST_HOST_SYSTEM_CPP

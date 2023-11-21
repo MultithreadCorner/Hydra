@@ -139,7 +139,7 @@ int main(int argv, char** argc)
 
 	//Exponential
     //parameters
-    auto  tau  = hydra::Parameter::Create().Name("Tau").Value(-0.1).Error(0.0001).Limits(-1.0, 0.0);
+    auto  tau  = hydra::Parameter::Create().Name("Tau").Value(-0.5).Error(0.0001).Limits(-1.0, 0.0);
 
     //Background PDF
     auto Background_PDF = hydra::make_pdf(hydra::Exponential<_X>(tau) , hydra::AnalyticalIntegral<hydra::Exponential<_X>>(min, max));
@@ -158,6 +158,7 @@ int main(int argv, char** argc)
 #ifdef _ROOT_AVAILABLE_
 
 	TH1D 	hist_data("data"			, model_name, 100, min, max);
+
 	TH1D 	hist_fit("fit"  			, model_name, 100, min, max);
 	TH1D 	hist_core("core"			, model_name, 100, min, max);
 	TH1D 	hist_tail("tail"			, model_name, 100, min, max);
@@ -185,7 +186,7 @@ int main(int argv, char** argc)
 
 		//-------------------------------------------------------
 		//fit
-		ROOT::Minuit2::MnPrint::SetLevel(3);
+		ROOT::Minuit2::MnPrint::SetGlobalLevel(3);
 		hydra::Print::SetLevel(hydra::WARNING);
 		//minimization strategy
 		MnStrategy strategy(2);
@@ -220,8 +221,9 @@ int main(int argv, char** argc)
 #ifdef _ROOT_AVAILABLE_
 
 		//data
-		for(size_t i=0;  i<100; i++)
-			hist_data.SetBinContent(i+1, Hist_Data.GetBinContent(i));
+		for(size_t i=0;  i<2000; i++)
+		hist_data.SetBinContent(i+1, Hist_Data.GetBinContent(i));
+
 
 		//fit
 		for (size_t i=0 ; i<=100 ; i++) {
@@ -230,16 +232,7 @@ int main(int argv, char** argc)
 		}
 		hist_fit.Scale(hist_data.Integral()/hist_fit.Integral() );
 
-		/*
-		//signal component
-		auto   signal          = fcn.GetPDF().PDF(_0);
 
-		for (size_t i=0 ; i<=100 ; i++) {
-			double x = hist_signal.GetBinCenter(i);
-			hist_signal.SetBinContent(i, signal(x) );
-		}
-		hist_signal.Scale(hist_data.Integral()*signal_fraction/hist_signal.Integral());
-		 */
 
 		double signal_fraction = fcn.GetPDF().Coefficient(0)/fcn.GetPDF().GetCoefSum();
 

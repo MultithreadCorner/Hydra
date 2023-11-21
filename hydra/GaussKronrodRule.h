@@ -138,7 +138,7 @@ struct GaussKronrodRule
 	}
 
 	__hydra_host__  __hydra_device__
-	inline hydra_thrust::tuple<GReal_t, GReal_t, GReal_t>
+	inline hydra::thrust::tuple<GReal_t, GReal_t, GReal_t>
 	GetAbscissa(size_t index, GReal_t xlower, GReal_t xupper  )
 		{
 
@@ -147,7 +147,7 @@ struct GaussKronrodRule
 		GReal_t x_p =  a*X[index] + b;
 		GReal_t x_m = -a*X[index] + b;
 
-		return hydra_thrust::make_tuple(x_p, x_m, index==0?a/2.0:a);
+		return hydra::thrust::make_tuple(x_p, x_m, index==0?a/2.0:a);
 
 		}
 

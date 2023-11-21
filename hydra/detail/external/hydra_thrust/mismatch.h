@@ -25,9 +25,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/execution_policy.h>
 #include <hydra/detail/external/hydra_thrust/pair.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /*! \addtogroup algorithms
  */
@@ -57,9 +55,9 @@ namespace hydra_thrust
  *  \return The first position where the sequences differ.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *          and \p InputIterator1's \c value_type is equality comparable to \p InputIterator2's \c value_type.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
  *
  *  \code
  *  #include <hydra/detail/external/hydra_thrust/mismatch.h>
@@ -109,9 +107,9 @@ hydra_thrust::pair<InputIterator1, InputIterator2> mismatch(const hydra_thrust::
  *  \param first2 The beginning of the second sequence.
  *  \return The first position where the sequences differ.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *          and \p InputIterator1's \c value_type is equality comparable to \p InputIterator2's \c value_type.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
  *
  *  \code
  *  #include <hydra/detail/external/hydra_thrust/mismatch.h>
@@ -163,9 +161,9 @@ hydra_thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first
  *  \return The first position where the sequences differ.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Input Iterator</a>.
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Input Iterator</a>.
  *
  *  \code
  *  #include <hydra/detail/external/hydra_thrust/mismatch.h>
@@ -217,9 +215,9 @@ hydra_thrust::pair<InputIterator1, InputIterator2> mismatch(const hydra_thrust::
  *  \param pred   The binary predicate to compare elements.
  *  \return The first position where the sequences differ.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Input Iterator</a>.
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Input Iterator</a>.
  *
  *  \code
  *  #include <hydra/detail/external/hydra_thrust/mismatch.h>
@@ -254,7 +252,6 @@ hydra_thrust::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first
 /*! \} // end searching
  */
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/mismatch.inl>
-

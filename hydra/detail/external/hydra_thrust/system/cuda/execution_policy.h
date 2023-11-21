@@ -26,59 +26,6 @@
  ******************************************************************************/
 #pragma once
 
-// histogram
-// sort (radix-sort, merge-sort)
-
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/execution_policy.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/par.h>
-
-// pass
-// ----------------
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/adjacent_difference.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/copy.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/copy_if.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/count.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/equal.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/extrema.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/fill.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/find.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/for_each.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/gather.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/generate.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/inner_product.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/mismatch.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/partition.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/reduce_by_key.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/remove.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/replace.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/reverse.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/scatter.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/swap_ranges.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/tabulate.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/transform.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/transform_reduce.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/transform_scan.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/uninitialized_copy.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/uninitialized_fill.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/unique.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/unique_by_key.h>
-
-// fail
-// ----------------
-// fails with mixed types
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/reduce.h>
-
-// mixed types are not compiling, commented in testing/scan.cu
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/scan.h>
-
-// stubs passed
-// ----------------
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/binary_search.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/merge.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/scan_by_key.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/set_operations.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/sort.h>
-
-// work in progress
-

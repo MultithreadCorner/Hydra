@@ -49,11 +49,13 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/complex.h>
 #include <hydra/detail/external/hydra_thrust/detail/complex/math_private.h>
 #include <cmath>
 
-namespace hydra_thrust{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail{
 namespace complex{		      	
 
@@ -144,4 +146,4 @@ inline complex<float> sqrt(const complex<float>& z){
   return detail::complex::csqrtf(z);
 }
 
-} // namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END

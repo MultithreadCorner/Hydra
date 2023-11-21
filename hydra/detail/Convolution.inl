@@ -291,7 +291,7 @@ struct NormalizeFFT: public  std::unary_function<T,T>
 	}
 
 	__hydra_host__ __hydra_device__
-	inline T operator()(T& value){
+	inline T operator()(T value){
 
 		return value*fNorm;
 	}

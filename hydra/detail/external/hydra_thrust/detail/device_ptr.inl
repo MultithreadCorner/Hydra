@@ -14,18 +14,15 @@
  *  limitations under the License.
  */
 
-
-/*! \file device_ptr.inl
- *  \brief Inline file for device_ptr.h.
- */
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/device_ptr.h>
 #include <hydra/detail/external/hydra_thrust/device_reference.h>
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 template<typename T>
   __host__ __device__
@@ -63,5 +60,5 @@ template<typename T>
 
 
 } // end namespace detail
-} // end namespace hydra_thrust
 
+HYDRA_THRUST_NAMESPACE_END

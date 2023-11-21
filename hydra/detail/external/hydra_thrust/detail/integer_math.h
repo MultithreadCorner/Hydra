@@ -17,14 +17,13 @@
 #pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
+#include <hydra/detail/external/hydra_thrust/detail/type_deduction.h>
+
+#include <hydra/detail/external/hydra_libcudacxx/nv/target>
+
 #include <limits>
 
-#if HYDRA_THRUST_CPP_DIALECT >= 2011
-  #include <hydra/detail/external/hydra_thrust/detail/type_deduction.h>
-#endif
-
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 
@@ -32,22 +31,25 @@ template <typename Integer>
 __host__ __device__ __hydra_thrust_forceinline__
 Integer clz(Integer x)
 {
-#if __CUDA_ARCH__
-  return ::__clz(x);
-#else
-  int num_bits = 8 * sizeof(Integer);
-  int num_bits_minus_one = num_bits - 1;
+  Integer result;
 
-  for (int i = num_bits_minus_one; i >= 0; --i)
-  {
-    if ((Integer(1) << i) & x)
+  NV_IF_TARGET(NV_IS_DEVICE, (
+    result = ::__clz(x);
+  ), (
+    int num_bits = 8 * sizeof(Integer);
+    int num_bits_minus_one = num_bits - 1;
+    result = num_bits;
+    for (int i = num_bits_minus_one; i >= 0; --i)
     {
-      return num_bits_minus_one - i;
+      if ((Integer(1) << i) & x)
+      {
+        result = num_bits_minus_one - i;
+        break;
+      }
     }
-  }
+  ));
 
-  return num_bits;
-#endif
+  return result;
 }
 
 template <typename Integer>
@@ -146,5 +148,5 @@ Integer0 round_z(Integer0 const x, Integer1 const y)
 #endif
 
 } // end detail
-} // end hydra_thrust
 
+HYDRA_THRUST_NAMESPACE_END

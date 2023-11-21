@@ -14,10 +14,7 @@
  *  limitations under the License.
  */
 
-
-/*! \file device_free.inl
- *  \brief Inline file for device_free.h.
- */
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/device_free.h>
@@ -25,8 +22,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/select_system.h>
 #include <hydra/detail/external/hydra_thrust/detail/malloc_and_free.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 void device_free(hydra_thrust::device_ptr<void> ptr)
 {
@@ -40,5 +36,4 @@ void device_free(hydra_thrust::device_ptr<void> ptr)
   hydra_thrust::free(s, ptr);
 } // end device_free()
 
-} // end hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

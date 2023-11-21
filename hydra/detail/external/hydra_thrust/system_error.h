@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2021 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,19 +22,18 @@
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /*! \addtogroup system
  *  \{
  */
 
 /*! \namespace hydra_thrust::system
- *  \brief \p hydra_thrust::system is the namespace which contains functionality for manipulating
- *         memory specific to one of Thrust's backend systems. It also contains functionality
- *         for reporting error conditions originating from the operating system or other
- *         low-level application program interfaces such as the CUDA runtime.
- *         They are provided in a separate namespace for import convenience but are
+ *  \brief \p hydra_thrust::system is the namespace which contains specific Thrust
+ *         backend systems. It also contains functionality for reporting error
+ *         conditions originating from the operating system or other low-level
+ *         application program interfaces such as the CUDA runtime. They are
+ *         provided in a separate namespace for import convenience but are
  *         also aliased in the top-level \p hydra_thrust namespace for easy access.
  */
 namespace system
@@ -44,8 +43,7 @@ namespace system
 /*! \} // end system
  */
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/system/error_code.h>
 #include <hydra/detail/external/hydra_thrust/system/system_error.h>
-

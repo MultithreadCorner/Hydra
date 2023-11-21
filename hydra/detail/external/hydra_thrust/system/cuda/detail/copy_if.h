@@ -26,22 +26,26 @@
  ******************************************************************************/
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
-#include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
 
+#include <hydra/detail/external/hydra_thrust/detail/alignment.h>
 #include <hydra/detail/external/hydra_thrust/detail/cstdint.h>
+#include <hydra/detail/external/hydra_thrust/detail/function.h>
 #include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
-#include <hydra/detail/external/hydra_cub/device/device_select.cuh>
+#include <hydra/detail/external/hydra_thrust/distance.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/cdp_dispatch.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/core/agent_launcher.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/core/util.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/par_to_seq.h>
-#include <hydra/detail/external/hydra_thrust/detail/function.h>
-#include <hydra/detail/external/hydra_thrust/distance.h>
-#include <hydra/detail/external/hydra_thrust/detail/alignment.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
 
-HYDRA_THRUST_BEGIN_NS
+#include <hydra/detail/external/hydra_cub/device/device_select.cuh>
+#include <hydra/detail/external/hydra_cub/util_math.cuh>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 // XXX declare generic copy_if interface
 // to avoid circulular dependency from hydra_thrust/copy.h
 template <typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename Predicate>
@@ -69,7 +73,6 @@ namespace __copy_if {
 
   template <int                     _BLOCK_THREADS,
             int                     _ITEMS_PER_THREAD = 1,
-            int                     _MIN_BLOCKS       = 1,
             cub::BlockLoadAlgorithm _LOAD_ALGORITHM   = cub::BLOCK_LOAD_DIRECT,
             cub::CacheLoadModifier  _LOAD_MODIFIER    = cub::LOAD_LDG,
             cub::BlockScanAlgorithm _SCAN_ALGORITHM   = cub::BLOCK_SCAN_WARP_SCANS>
@@ -79,7 +82,6 @@ namespace __copy_if {
     {
       BLOCK_THREADS      = _BLOCK_THREADS,
       ITEMS_PER_THREAD   = _ITEMS_PER_THREAD,
-      MIN_BLOCKS         = _MIN_BLOCKS,
       ITEMS_PER_TILE     = _BLOCK_THREADS * _ITEMS_PER_THREAD,
     };
     static const cub::BlockLoadAlgorithm LOAD_ALGORITHM = _LOAD_ALGORITHM;
@@ -103,7 +105,6 @@ namespace __copy_if {
 
     typedef PtxPolicy<128,
                       ITEMS_PER_THREAD,
-                      1,
                       cub::BLOCK_LOAD_WARP_TRANSPOSE,
                       cub::LOAD_LDG,
                       cub::BLOCK_SCAN_WARP_SCANS>
@@ -124,7 +125,6 @@ namespace __copy_if {
 
     typedef PtxPolicy<128,
                       ITEMS_PER_THREAD,
-                      1,
                       cub::BLOCK_LOAD_WARP_TRANSPOSE,
                       cub::LOAD_LDG,
                       cub::BLOCK_SCAN_WARP_SCANS>
@@ -144,7 +144,6 @@ namespace __copy_if {
 
     typedef PtxPolicy<128,
                       ITEMS_PER_THREAD,
-                      1,
                       cub::BLOCK_LOAD_WARP_TRANSPOSE,
                       cub::LOAD_DEFAULT,
                       cub::BLOCK_SCAN_WARP_SCANS>
@@ -194,11 +193,11 @@ namespace __copy_if {
 
       union TempStorage
       {
-        struct
+        struct ScanStorage
         {
           typename BlockScan::TempStorage          scan;
           typename TilePrefixCallback::TempStorage prefix;
-        };
+        } scan_storage;
 
         typename BlockLoadItems::TempStorage   load_items;
         typename BlockLoadStencil::TempStorage load_stencil;
@@ -259,7 +258,7 @@ namespace __copy_if {
                                      num_selections_prefix;
           if (selection_flags[ITEM])
           {
-            storage.raw_exchange[local_scatter_offset] = items[ITEM];
+            new (&storage.raw_exchange[local_scatter_offset]) item_type(items[ITEM]);
           }
         }
 
@@ -423,7 +422,7 @@ namespace __copy_if {
         Size num_selections_prefix = 0;
         if (IS_FIRST_TILE)
         {
-          BlockScan(storage.scan)
+          BlockScan(storage.scan_storage.scan)
               .ExclusiveSum(selection_flags,
                             selection_idx,
                             num_tile_selections);
@@ -446,10 +445,10 @@ namespace __copy_if {
         else
         {
           TilePrefixCallback prefix_cb(tile_state,
-                                       storage.prefix,
+                                       storage.scan_storage.prefix,
                                        cub::Sum(),
                                        tile_idx);
-          BlockScan(storage.scan)
+          BlockScan(storage.scan_storage.scan)
               .ExclusiveSum(selection_flags,
                             selection_idx,
                             prefix_cb);
@@ -600,17 +599,16 @@ namespace __copy_if {
             class Predicate,
             class Size,
             class NumSelectedOutIt>
-  static cudaError_t HYDRA_THRUST_RUNTIME_FUNCTION
-  doit_step(void *           d_temp_storage,
-            size_t &         temp_storage_bytes,
-            ItemsIt          items,
-            StencilIt        stencil,
-            OutputIt         output_it,
-            Predicate        predicate,
-            NumSelectedOutIt num_selected_out,
-            Size             num_items,
-            cudaStream_t     stream,
-            bool             debug_sync)
+  HYDRA_THRUST_RUNTIME_FUNCTION
+  static cudaError_t doit_step(void *           d_temp_storage,
+                               size_t &         temp_storage_bytes,
+                               ItemsIt          items,
+                               StencilIt        stencil,
+                               OutputIt         output_it,
+                               Predicate        predicate,
+                               NumSelectedOutIt num_selected_out,
+                               Size             num_items,
+                               cudaStream_t     stream)
   {
     if (num_items == 0)
       return cudaSuccess;
@@ -640,7 +638,7 @@ namespace __copy_if {
     typename get_plan<copy_if_agent>::type copy_if_plan = copy_if_agent::get_plan(stream);
 
     int tile_size = copy_if_plan.items_per_tile;
-    size_t num_tiles = (num_items + tile_size - 1) / tile_size;
+    size_t num_tiles = cub::DivideAndRoundUp(num_items, tile_size);
 
     size_t vshmem_size = core::vshmem_size(copy_if_plan.shared_memory_size,
                                            num_tiles);
@@ -671,11 +669,11 @@ namespace __copy_if {
     status = tile_status.Init(static_cast<int>(num_tiles), allocations[0], allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
 
-    init_agent ia(init_plan, num_tiles, stream, "copy_if::init_agent", debug_sync);
+    init_agent ia(init_plan, num_tiles, stream, "copy_if::init_agent");
 
     char *vshmem_ptr = vshmem_size > 0 ? (char*)allocations[1] : NULL;
 
-    copy_if_agent pa(copy_if_plan, num_items, stream, vshmem_ptr, "copy_if::partition_agent", debug_sync);
+    copy_if_agent pa(copy_if_plan, num_items, stream, vshmem_ptr, "copy_if::partition_agent");
 
     ia.launch(tile_status, num_tiles, num_selected_out);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
@@ -710,7 +708,6 @@ namespace __copy_if {
     size_type    num_items          = static_cast<size_type>(hydra_thrust::distance(first, last));
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     if (num_items == 0)
       return output;
@@ -724,8 +721,7 @@ namespace __copy_if {
                        predicate,
                        reinterpret_cast<size_type*>(NULL),
                        num_items,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "copy_if failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
@@ -761,8 +757,7 @@ namespace __copy_if {
                        predicate,
                        d_num_selected_out,
                        num_items,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "copy_if failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);
@@ -791,28 +786,18 @@ copy_if(execution_policy<Derived> &policy,
         OutputIterator             result,
         Predicate                  pred)
 {
-  OutputIterator ret = result;
-
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    ret = __copy_if::copy_if(policy,
-                             first,
-                             last,
-                             __copy_if::no_stencil_tag(),
-                             result,
-                             pred);
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::copy_if(cvt_to_seq(derived_cast(policy)),
-                          first,
-                          last,
-                          result,
-                          pred);
-#endif
-  }
-  return ret;
+  HYDRA_THRUST_CDP_DISPATCH((return __copy_if::copy_if(policy,
+                                                   first,
+                                                   last,
+                                                   __copy_if::no_stencil_tag(),
+                                                   result,
+                                                   pred);),
+                      (return
+                         hydra_thrust::copy_if(cvt_to_seq(derived_cast(policy)),
+                                         first,
+                                         last,
+                                         result,
+                                         pred);));
 } // func copy_if
 
 __hydra_thrust_exec_check_disable__
@@ -829,33 +814,18 @@ copy_if(execution_policy<Derived> &policy,
         OutputIterator             result,
         Predicate                  pred)
 {
-  OutputIterator ret = result;
-
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    ret = __copy_if::copy_if(policy,
-                             first,
-                             last,
-                             stencil,
-                             result,
-                             pred);
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    ret = hydra_thrust::copy_if(cvt_to_seq(derived_cast(policy)),
-                          first,
-                          last,
-                          stencil,
-                          result,
-                          pred);
-#endif
-  }
-  return ret;
+  HYDRA_THRUST_CDP_DISPATCH(
+    (return __copy_if::copy_if(policy, first, last, stencil, result, pred);),
+    (return hydra_thrust::copy_if(cvt_to_seq(derived_cast(policy)),
+                              first,
+                              last,
+                              stencil,
+                              result,
+                              pred);));
 }    // func copy_if
 
 }    // namespace cuda_cub
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/copy.h>
 #endif

@@ -14,33 +14,34 @@
  *  limitations under the License.
  */
 
-/*! \file new.h
+/*! \file
  *  \brief Global operator new-based memory resource.
  */
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/mr/memory_resource.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace mr
 {
 
 /** \addtogroup memory_resources Memory Resources
- *  \ingroup memory_management_classes
+ *  \ingroup memory_management
  *  \{
  */
 
 /*! A memory resource that uses global operators new and delete to allocate and deallocate memory. Uses alignment-enabled
  *      overloads when available, otherwise uses regular overloads and implements alignment requirements by itself.
  */
-class new_delete_resource HYDRA_THRUST_FINAL : public memory_resource<>
+class new_delete_resource final : public memory_resource<>
 {
 public:
-    void * do_allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) HYDRA_THRUST_OVERRIDE
+    void * do_allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) override
     {
-#if __cplusplus >= 201703L
+#if defined(__cpp_aligned_new)
         return ::operator new(bytes, std::align_val_t(alignment));
 #else
         // allocate memory for bytes, plus potential alignment correction,
@@ -59,10 +60,15 @@ public:
 #endif
     }
 
-    void do_deallocate(void * p, std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) HYDRA_THRUST_OVERRIDE
+    void do_deallocate(void * p, std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) override
     {
-#if __cplusplus >= 201703L
+#if defined(__cpp_aligned_new)
+# if defined(__cpp_sized_deallocation)
         ::operator delete(p, bytes, std::align_val_t(alignment));
+# else
+        (void)bytes;
+        ::operator delete(p, std::align_val_t(alignment));
+# endif
 #else
         (void)alignment;
         char * ptr = static_cast<char *>(p);
@@ -75,9 +81,9 @@ public:
     }
 };
 
-/*! \}
+/*! \} // memory_resources
  */
 
 } // end mr
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

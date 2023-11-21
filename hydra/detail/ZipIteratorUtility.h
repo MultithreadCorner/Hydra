@@ -209,8 +209,8 @@ typename std::enable_if< all_true<is_zip_iterator<T>::value...>::value,
                  typename detail::merged_zip_iterator<T...>::type >::type
 zip_iterator_cat( T const&... zip_iterators)
 {
-	return hydra_thrust::make_zip_iterator(
-			 hydra_thrust::tuple_cat( zip_iterators.get_iterator_tuple()...) );
+	return hydra::thrust::make_zip_iterator(
+			 hydra::thrust::tuple_cat( zip_iterators.get_iterator_tuple()...) );
 }
 
 namespace meld_iterators_ns {
@@ -228,9 +228,9 @@ template<typename T>
 auto convert_to_tuple(T&& iterator)
 -> typename std::enable_if< detail::is_iterator<T>::value &&
                           (!detail::is_zip_iterator<T>::value),
-hydra_thrust::tuple<T> >::type
+hydra::thrust::tuple<T> >::type
 {
-	return hydra_thrust::make_tuple(std::forward<T>(iterator));
+	return hydra::thrust::make_tuple(std::forward<T>(iterator));
 }
 
 
@@ -238,11 +238,11 @@ hydra_thrust::tuple<T> >::type
 
 template<typename ...Iterators>
 auto meld_iterators(Iterators&&... iterators)
--> decltype( hydra_thrust::make_zip_iterator(
-		hydra_thrust::tuple_cat( meld_iterators_ns::convert_to_tuple(std::forward<Iterators>(iterators))... )  ))
+-> decltype( hydra::thrust::make_zip_iterator(
+		hydra::thrust::tuple_cat( meld_iterators_ns::convert_to_tuple(std::forward<Iterators>(iterators))... )  ))
 {
-  return hydra_thrust::make_zip_iterator(
-		  hydra_thrust::tuple_cat( meld_iterators_ns::convert_to_tuple(std::forward<Iterators>(iterators))... ));
+  return hydra::thrust::make_zip_iterator(
+		  hydra::thrust::tuple_cat( meld_iterators_ns::convert_to_tuple(std::forward<Iterators>(iterators))... ));
 }
 
 }  // namespace detail

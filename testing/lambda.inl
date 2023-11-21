@@ -29,8 +29,6 @@
 #ifndef LAMBDA_TEST_INL_
 #define LAMBDA_TEST_INL_
 
-#include <catch/catch.hpp>
-
 
 #include <hydra/multivector.h>
 #include <hydra/Tuple.h>
@@ -54,6 +52,8 @@ declarg(Z_arg, double)
  * and nvcc.
  *
  */
+using Catch::Approx;
+
 TEST_CASE( "lambda host","hydra::Lambda<Type,0>" )
 {
 

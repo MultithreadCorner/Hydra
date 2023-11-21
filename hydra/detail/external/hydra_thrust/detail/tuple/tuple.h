@@ -17,7 +17,7 @@
 #pragma once
 
 #include <cstddef> // size_t
-#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/swap.h>
 

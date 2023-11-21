@@ -35,9 +35,7 @@
 #include <hydra/detail/external/hydra_thrust/random/uniform_real_distribution.h>
 #include <hydra/detail/external/hydra_thrust/random/normal_distribution.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /*! \addtogroup random Random Number Generation
  *  \{
@@ -116,5 +114,4 @@ using random::ranlux48;
 using random::taus88;
 using random::default_random_engine;
 
-} // end hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

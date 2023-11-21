@@ -36,7 +36,7 @@
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 #include <hydra/Range.h>
-#include <hydra/Spiline.h>
+#include <hydra/Spline.h>
 #include <hydra/Convolution.h>
 #include <hydra/detail/external/hydra_thrust/transform_reduce.h>
 #include <hydra/detail/FFTPolicy.h>
@@ -54,7 +54,7 @@ namespace detail {
 	    struct _traits;
 
 	    template<typename Functor, typename Kernel,typename ArgType >
-	  	struct _traits< hydra_thrust::tuple<Functor, Kernel>, ArgType>
+	  	struct _traits< hydra::thrust::tuple<Functor, Kernel>, ArgType>
 	  	{
 	      typedef typename std::common_type<
 	    		  	  typename Functor::return_type,
@@ -71,8 +71,7 @@ namespace detail {
 		template<typename T>
 		struct _delta
 		{
-			_delta()=default;
-
+			_delta() = default;
 
 			_delta(T min,  T delta):
 				fMin(min),
@@ -84,6 +83,17 @@ namespace detail {
 			fMin(other.fMin),
 			fDelta(other.fDelta)
 			{}
+
+			__hydra_host__ __hydra_device__
+		 _delta<T> & operator=(  _delta<T> const& other)
+		{        if(this == &other) return *this;
+
+						fMin = other.fMin ;
+						fDelta = other.fDelta;
+						return *this;
+		}
+
+
 
 			__hydra_host__ __hydra_device__
 			inline T operator()(unsigned bin){
@@ -117,12 +127,12 @@ class ConvolutionFunctor< Functor, Kernel, detail::BackendPolicy<BACKEND>,
                  	 detail::FFTPolicy< typename std::common_type<
                  	 	 typename Functor::return_type,
                  	 	 typename Kernel::return_type>::type, FFT>,
-                 	 ArgType>, hydra_thrust::tuple<Functor, Kernel>,
-                 	 typename  detail::convolution::_traits<hydra_thrust::tuple<Functor, Kernel>, ArgType>::signature
+                 	 ArgType>, hydra::thrust::tuple<Functor, Kernel>,
+                 	 typename  detail::convolution::_traits<hydra::thrust::tuple<Functor, Kernel>, ArgType>::signature
                 >
 {
 	//typedef
-	typedef typename detail::convolution::_traits<hydra_thrust::tuple<Functor, Kernel>, ArgType>::value_type   value_type;
+	typedef typename detail::convolution::_traits<hydra::thrust::tuple<Functor, Kernel>, ArgType>::value_type   value_type;
 
 
 	typedef ConvolutionFunctor< Functor, Kernel, detail::BackendPolicy<BACKEND>,
@@ -136,8 +146,8 @@ class ConvolutionFunctor< Functor, Kernel, detail::BackendPolicy<BACKEND>,
             	 detail::FFTPolicy< typename std::common_type<
             	 	 typename Functor::return_type,
             	 	 typename Kernel::return_type>::type, FFT>,
-            	 ArgType>, hydra_thrust::tuple<Functor, Kernel>,
-            	 typename  detail::convolution::_traits<hydra_thrust::tuple<Functor, Kernel>, ArgType>::signature
+            	 ArgType>, hydra::thrust::tuple<Functor, Kernel>,
+            	 typename  detail::convolution::_traits<hydra::thrust::tuple<Functor, Kernel>, ArgType>::signature
            > super_type;
 
 
@@ -155,18 +165,18 @@ class ConvolutionFunctor< Functor, Kernel, detail::BackendPolicy<BACKEND>,
 	typedef typename std::remove_const<decltype( std::declval< host_system_type>().backend)>::type  raw_host_system_type;
 
 	//pointers
-	typedef hydra_thrust::pointer<value_type, raw_host_system_type>      host_pointer_type;
-	typedef hydra_thrust::pointer<value_type, raw_device_system_type>  device_pointer_type;
-	typedef hydra_thrust::pointer<value_type, raw_fft_system_type>        fft_pointer_type;
+	typedef hydra::thrust::pointer<value_type, raw_host_system_type>      host_pointer_type;
+	typedef hydra::thrust::pointer<value_type, raw_device_system_type>  device_pointer_type;
+	typedef hydra::thrust::pointer<value_type, raw_fft_system_type>        fft_pointer_type;
 
 	//iterator
-	typedef hydra_thrust::transform_iterator< detail::convolution::_delta<value_type>,
-	          hydra_thrust::counting_iterator<unsigned> > abiscissae_type;
+	typedef hydra::thrust::transform_iterator< detail::convolution::_delta<value_type>,
+	          hydra::thrust::counting_iterator<unsigned> > abiscissae_type;
 
 
 public:
 
-typedef typename detail::convolution::_traits<hydra_thrust::tuple<Functor, Kernel>, ArgType>::return_type return_t;
+typedef typename detail::convolution::_traits<hydra::thrust::tuple<Functor, Kernel>, ArgType>::return_type return_t;
 
 	ConvolutionFunctor() = delete;
 
@@ -183,9 +193,9 @@ typedef typename detail::convolution::_traits<hydra_thrust::tuple<Functor, Kerne
 	{
 		//std::cout << ">>ConvolutionFunctor()"<<std::endl;
 
-		using hydra_thrust::get_temporary_buffer;
+		using hydra::thrust::get_temporary_buffer;
 
-		fXMin = abiscissae_type(hydra_thrust::counting_iterator<unsigned>(0),
+		fXMin = abiscissae_type(hydra::thrust::counting_iterator<unsigned>(0),
 				        detail::convolution::_delta<value_type>(kmin, (kmax-kmin)/fNSamples) );
 		fXMax = fXMin + fNSamples;
 
@@ -266,8 +276,8 @@ typedef typename detail::convolution::_traits<hydra_thrust::tuple<Functor, Kerne
 		auto data = make_range(fFFTData, fFFTData + fNSamples );
 
 		hydra::convolute(fft_system_type(), fft_type(),
-				hydra_thrust::get<0>(this->GetFunctors()),
-				hydra_thrust::get<1>(this->GetFunctors()),
+				hydra::thrust::get<0>(this->GetFunctors()),
+				hydra::thrust::get<1>(this->GetFunctors()),
 				fMin, fMax, data, false);
 
 		sync_data<FFT>();
@@ -294,14 +304,14 @@ typedef typename detail::convolution::_traits<hydra_thrust::tuple<Functor, Kerne
 
 
 #ifdef __CUDA_ARCH__
-		if( fInterpolate ) return spiline( fXMin, fXMax, fDeviceData, X);
+		if( fInterpolate ) return spline( fXMin, fXMax, fDeviceData, X);
 		else{
 
 			unsigned i = fNSamples*(X-fMin)/(fMax-fMin);
 			return fDeviceData[i];
 		}
 #else
-		if( fInterpolate ) return spiline( fXMin, fXMax, fHostData, X);
+		if( fInterpolate ) return spline( fXMin, fXMax, fHostData, X);
 			else{
 
 				unsigned i = fNSamples*(X-fMin)/(fMax-fMin);
@@ -312,11 +322,11 @@ typedef typename detail::convolution::_traits<hydra_thrust::tuple<Functor, Kerne
 	}
 
 void Dispose(){
-		using hydra_thrust::return_temporary_buffer;
+		using hydra::thrust::return_temporary_buffer;
 
-		return_temporary_buffer(  device_system_type(), fDeviceData );
-		return_temporary_buffer(  host_system_type(),   fHostData );
-		return_temporary_buffer(  fft_system_type()  , fFFTData );
+		return_temporary_buffer(  device_system_type(), fDeviceData, fNSamples );
+		return_temporary_buffer(  host_system_type(),   fHostData, fNSamples );
+		return_temporary_buffer(  fft_system_type()  , fFFTData, fNSamples );
 
 	}
 
@@ -349,16 +359,16 @@ private:
 	inline typename std::enable_if<FFTC ==detail::CuFFT>::type
 	sync_data()
 	{
-		hydra_thrust::copy_n( fFFTData, fNSamples, fDeviceData );
-		hydra_thrust::copy_n( fFFTData, fNSamples, fHostData );
+		hydra::thrust::copy_n( fFFTData, fNSamples, fDeviceData );
+		hydra::thrust::copy_n( fFFTData, fNSamples, fHostData );
 	}
 
 	template<detail::FFTCalculator FFTC=FFT>
 	inline typename std::enable_if<FFTC !=detail::CuFFT>::type
 	sync_data()
 	{
-		hydra_thrust::copy_n(device_system_type(), fFFTData, fNSamples, fDeviceData );
-		hydra_thrust::copy_n(device_system_type(), fFFTData, fNSamples, fHostData );
+		hydra::thrust::copy_n(device_system_type(), fFFTData, fNSamples, fDeviceData );
+		hydra::thrust::copy_n(device_system_type(), fFFTData, fNSamples, fHostData );
 	}
 
 	size_t          fNSamples;

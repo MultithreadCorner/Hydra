@@ -45,7 +45,7 @@ namespace hydra{
 
 namespace detail {
 
-template<typename FUNCTOR, size_t NDimensions, typename Precision, typename GRND=hydra_thrust::random::default_random_engine>
+template<typename FUNCTOR, size_t NDimensions, typename Precision, typename GRND=hydra::thrust::random::default_random_engine>
 struct ProcessCallsVegas
 {
 	ProcessCallsVegas( size_t NBins,
@@ -226,7 +226,7 @@ private:
 #endif
 
    GRND fRandonEngine;
-   hydra_thrust::uniform_real_distribution<GReal_t> fUniformDistribution;
+   hydra::thrust::uniform_real_distribution<GReal_t> fUniformDistribution;
 
 	size_t  fNBins;
 	size_t  fNBoxes;

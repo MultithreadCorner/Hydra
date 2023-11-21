@@ -20,8 +20,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/functional/actor.h>
 #include <hydra/detail/external/hydra_thrust/detail/functional/argument.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 namespace functional
@@ -35,5 +34,5 @@ template<unsigned int i>
 
 } // end functional
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

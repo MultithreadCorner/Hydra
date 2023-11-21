@@ -16,11 +16,12 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/iterator/counting_iterator.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_adaptor.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 // forward declaration of constant_iterator
 template<typename,typename,typename> class constant_iterator;
@@ -66,5 +67,5 @@ template<typename Value,
 
 } // end detail
   
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

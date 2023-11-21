@@ -14,6 +14,7 @@
  *  limitations under the License.
  */
 
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/swap.h>
 #include <hydra/detail/external/hydra_thrust/detail/swap.h>

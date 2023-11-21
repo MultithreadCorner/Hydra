@@ -14,14 +14,17 @@
  *  limitations under the License.
  */
 
-/*! \file pool.h
- *  \brief A caching and pooling memory resource adaptor which uses a single upstream resource for memory allocation,
- *      and embeds bookkeeping information in allocated blocks.
+/*! \file 
+ *  \brief A caching and pooling memory resource adaptor which uses a single
+ *  upstream resource for memory allocation, and embeds bookkeeping information
+ *  in allocated blocks.
  */
 
 #pragma once
 
-#include <algorithm>
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
+#include <hydra/detail/external/hydra_thrust/detail/algorithm_wrapper.h>
 
 #include <hydra/detail/external/hydra_thrust/host_vector.h>
 
@@ -31,13 +34,12 @@
 
 #include <cassert>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace mr
 {
 
 /** \addtogroup memory_resources Memory Resources
- *  \ingroup memory_management_classes
+ *  \ingroup memory_management
  *  \{
  */
 
@@ -63,7 +65,7 @@ namespace mr
  *  \tparam Upstream the type of memory resources that will be used for allocating memory blocks
  */
 template<typename Upstream>
-class unsynchronized_pool_resource HYDRA_THRUST_FINAL
+class unsynchronized_pool_resource final
     : public memory_resource<typename Upstream::pointer>,
         private validator<Upstream>
 {
@@ -250,7 +252,7 @@ public:
         m_cached_oversized = oversized_block_descriptor_ptr();
     }
 
-    HYDRA_THRUST_NODISCARD virtual void_ptr do_allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) HYDRA_THRUST_OVERRIDE
+    HYDRA_THRUST_NODISCARD virtual void_ptr do_allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) override
     {
         bytes = (std::max)(bytes, m_options.smallest_block_size);
         assert(detail::is_power_of_2(alignment));
@@ -392,10 +394,10 @@ public:
                 )
             );
 
-            chunk_descriptor desc;
-            desc.size = chunk_size;
-            desc.next = m_allocated;
-            *chunk = desc;
+            chunk_descriptor chunk_desc;
+            chunk_desc.size = chunk_size;
+            chunk_desc.next = m_allocated;
+            *chunk = chunk_desc;
             m_allocated = chunk;
 
             for (std::size_t i = 0; i < n; ++i)
@@ -406,9 +408,9 @@ public:
                     )
                 );
 
-                block_descriptor desc;
-                desc.next = bucket.free_list;
-                *block = desc;
+                block_descriptor block_desc;
+                block_desc.next = bucket.free_list;
+                *block = block_desc;
                 bucket.free_list = block;
             }
         }
@@ -423,7 +425,7 @@ public:
         );
     }
 
-    virtual void do_deallocate(void_ptr p, std::size_t n, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) HYDRA_THRUST_OVERRIDE
+    virtual void do_deallocate(void_ptr p, std::size_t n, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) override
     {
         n = (std::max)(n, m_options.smallest_block_size);
         assert(detail::is_power_of_2(alignment));
@@ -497,9 +499,9 @@ public:
     }
 };
 
-/*! \}
+/*! \} // memory_resources
  */
 
 } // end mr
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

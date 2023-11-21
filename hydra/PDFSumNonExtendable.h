@@ -72,9 +72,9 @@ public:
 
 	constexpr static size_t npdfs = sizeof...(PDFs)+2; //!< number of pdfs
 
-	typedef hydra_thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;//!< type of the tuple of pdfs
+	typedef hydra::thrust::tuple<PDF1, PDF2, PDFs...> pdfs_tuple_type;//!< type of the tuple of pdfs
 
-	typedef hydra_thrust::tuple<typename PDF1::functor_type,
+	typedef hydra::thrust::tuple<typename PDF1::functor_type,
 			typename  PDF2::functor_type,
 			typename  PDFs::functor_type...> functors_tuple_type;//!< type of the tuple of pdf::functors
 
@@ -96,8 +96,8 @@ public:
 	 */
 	PDFSumNonExtendable( PDF1 const& pdf1, PDF2 const& pdf2, PDFs const& ...pdfs,
 			std::array<Parameter, npdfs-1>const& coef ):
-			fPDFs(hydra_thrust::make_tuple(pdf1,pdf2,pdfs...) ),
-			fFunctors(hydra_thrust::make_tuple(pdf1.GetFunctor(),pdf2.GetFunctor(),pdfs.GetFunctor() ...) ),
+			fPDFs(hydra::thrust::make_tuple(pdf1,pdf2,pdfs...) ),
+			fFunctors(hydra::thrust::make_tuple(pdf1.GetFunctor(),pdf2.GetFunctor(),pdfs.GetFunctor() ...) ),
 			fCoefSum(1.0),
 			fCoefPartialSum(0.0)
 	{
@@ -228,10 +228,10 @@ public:
 	}
 
 	template<unsigned int I>
-		typename hydra_thrust::tuple_element<I,pdfs_tuple_type>::type&
+		typename hydra::thrust::tuple_element<I,pdfs_tuple_type>::type&
 		PDF( hydra::placeholders::placeholder<I>  ){
 
-			return hydra_thrust::get<I>(fPDFs);
+			return hydra::thrust::get<I>(fPDFs);
 		}
 
 	inline const functors_tuple_type& GetFunctors() const

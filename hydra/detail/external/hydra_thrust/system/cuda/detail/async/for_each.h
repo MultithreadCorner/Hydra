@@ -31,10 +31,9 @@
 #pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
-#include <hydra/detail/external/hydra_thrust/detail/cpp11_required.h>
-#include <hydra/detail/external/hydra_thrust/detail/modern_gcc_required.h>
+#include <hydra/detail/external/hydra_thrust/detail/cpp14_required.h>
 
-#if HYDRA_THRUST_CPP_DIALECT >= 2011 && !defined(HYDRA_THRUST_LEGACY_GCC)
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 
 #if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 
@@ -48,7 +47,7 @@
 
 #include <type_traits>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace system { namespace cuda { namespace detail
 {
@@ -76,14 +75,12 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Size, typename UnaryFunction
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
-auto async_for_each_n(
+unique_eager_event async_for_each_n(
   execution_policy<DerivedPolicy>& policy,
   ForwardIt                        first,
   Size                             n,
   UnaryFunction                    func
-) -> unique_eager_event
-{
+) {
   unique_eager_event e;
 
   // Set up stream with dependencies.
@@ -138,14 +135,13 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Sentinel, typename UnaryFunction
 >
-HYDRA_THRUST_RUNTIME_FUNCTION
 auto async_for_each(
   execution_policy<DerivedPolicy>& policy,
   ForwardIt                        first,
   Sentinel                         last,
   UnaryFunction&&                  func
 )
-HYDRA_THRUST_DECLTYPE_RETURNS(
+HYDRA_THRUST_RETURNS(
   hydra_thrust::system::cuda::detail::async_for_each_n(
     policy, first, distance(first, last), HYDRA_THRUST_FWD(func)
   )
@@ -153,7 +149,7 @@ HYDRA_THRUST_DECLTYPE_RETURNS(
 
 } // cuda_cub
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #endif // HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 

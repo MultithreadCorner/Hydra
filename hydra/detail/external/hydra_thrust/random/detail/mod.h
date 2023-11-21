@@ -16,8 +16,9 @@
 
 #pragma once
 
-namespace hydra_thrust
-{
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace random
 {
@@ -34,7 +35,7 @@ template<typename T, T a, T c, T m, bool = (m == 0)>
   __host__ __device__
   T operator()(T x) const
   {
-    if(a == 1)
+    HYDRA_THRUST_IF_CONSTEXPR(a == 1)
     {
       x %= m;
     }
@@ -52,7 +53,7 @@ template<typename T, T a, T c, T m, bool = (m == 0)>
       }
     }
 
-    if(c != 0)
+    HYDRA_THRUST_IF_CONSTEXPR(c != 0)
     {
       const T d = m - x;
       if(d > c)
@@ -93,5 +94,5 @@ __host__ __device__
 
 } // end random
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

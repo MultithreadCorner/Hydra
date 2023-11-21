@@ -38,15 +38,15 @@ namespace hydra {
 
 template<typename Iterable>
 typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
-   Range< hydra_thrust::permutation_iterator<decltype(std::declval<Iterable&>().begin()),
-		 hydra_thrust::transform_iterator< detail::RndUniform<size_t, hydra_thrust::random::default_random_engine>
- ,hydra_thrust::counting_iterator<size_t>,size_t > > >>::type
+   Range< hydra::thrust::permutation_iterator<decltype(std::declval<Iterable&>().begin()),
+		 hydra::thrust::transform_iterator< detail::RndUniform<size_t, hydra::thrust::random::default_random_engine>
+ ,hydra::thrust::counting_iterator<size_t>,size_t > > >>::type
 boost_strapped_range(Iterable&& iterable, size_t seed){
 
-	using hydra_thrust::make_permutation_iterator;
+	using hydra::thrust::make_permutation_iterator;
 
-	typedef hydra_thrust::counting_iterator<size_t> index_t;
-	typedef detail::RndUniform<size_t, hydra_thrust::random::default_random_engine> uniform_t;
+	typedef hydra::thrust::counting_iterator<size_t> index_t;
+	typedef detail::RndUniform<size_t, hydra::thrust::random::default_random_engine> uniform_t;
 
 	size_t min = 0;
 	size_t max = std::forward<Iterable>(iterable).size() -1;
@@ -55,8 +55,8 @@ boost_strapped_range(Iterable&& iterable, size_t seed){
 	index_t last(max);
 
 	auto permutations = make_range(
-			hydra_thrust::transform_iterator<uniform_t, index_t, size_t>(first, uniform_t(seed, 0, min )),
-			hydra_thrust::transform_iterator<uniform_t, index_t, size_t>( last, uniform_t(seed, 0, max )));
+			hydra::thrust::transform_iterator<uniform_t, index_t, size_t>(first, uniform_t(seed, min, max )),
+			hydra::thrust::transform_iterator<uniform_t, index_t, size_t>( last, uniform_t(seed, min, max )));
 
 
 	//auto permutations = random_range(size_t(0), std::forward<Iterable>(iterable).size()-1, seed );

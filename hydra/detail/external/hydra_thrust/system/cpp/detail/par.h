@@ -20,8 +20,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/allocator_aware_execution_policy.h>
 #include <hydra/detail/external/hydra_thrust/system/cpp/detail/execution_policy.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace cpp
@@ -35,14 +34,14 @@ struct par_t : hydra_thrust::system::cpp::detail::execution_policy<par_t>,
     hydra_thrust::system::cpp::detail::execution_policy>
 {
   __host__ __device__
-  par_t() : hydra_thrust::system::cpp::detail::execution_policy<par_t>() {}
+  constexpr par_t() : hydra_thrust::system::cpp::detail::execution_policy<par_t>() {}
 };
 
 
 } // end detail
 
 
-static const detail::par_t par;
+HYDRA_THRUST_INLINE_CONSTANT detail::par_t par;
 
 
 } // end cpp
@@ -58,5 +57,5 @@ using hydra_thrust::system::cpp::par;
 
 
 } // end cpp
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

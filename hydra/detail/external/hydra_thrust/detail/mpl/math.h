@@ -22,8 +22,9 @@
 
 #pragma once
 
-namespace hydra_thrust
-{
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace detail
 {
@@ -170,5 +171,5 @@ template<typename result_type, result_type x>
 
 } // end namespace detail
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

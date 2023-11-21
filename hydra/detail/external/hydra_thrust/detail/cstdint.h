@@ -16,12 +16,16 @@
 
 #pragma once
 
-#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC) || (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG)
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
+#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC) || \
+    (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_CLANG) || \
+    (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_INTEL)
 #include <stdint.h>
 #endif
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
+
 namespace detail
 {
 
@@ -75,5 +79,5 @@ typedef divine_intptr_t<>::type   intptr_t;
 typedef divine_uintptr_t<>::type  uintptr_t;
 
 } // end detail
-} // end hydra_thrust
 
+HYDRA_THRUST_NAMESPACE_END

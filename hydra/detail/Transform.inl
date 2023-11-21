@@ -46,7 +46,7 @@ typename std::enable_if<hydra::detail::is_iterable<Iterable_Output>::value,
 Range<decltype(std::declval<Iterable_Output&>().begin())>>::type
 transform(Iterable_Input&& iterable_input, Iterable_Output&& iterable_output,  Functor const& unary_functor){
 
-	hydra_thrust::transform(std::forward<Iterable_Input>(iterable_input).begin(),
+	hydra::thrust::transform(std::forward<Iterable_Input>(iterable_input).begin(),
 			std::forward<Iterable_Input>(iterable_input).end(),
 			std::forward<Iterable_Output>(iterable_output).begin(),
 			unary_functor);

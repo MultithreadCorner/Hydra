@@ -14,10 +14,9 @@
  *  limitations under the License.
  */
 
+#pragma once
 
-/*! \file uninitialized_copy.inl
- *  \brief Inline file for uninitialized_copy.h.
- */
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #include <hydra/detail/external/hydra_thrust/uninitialized_copy.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
@@ -25,8 +24,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/uninitialized_copy.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/uninitialized_copy.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 
 __hydra_thrust_exec_check_disable__
@@ -92,6 +90,6 @@ template<typename InputIterator,
 } // end uninitialized_copy_n()
 
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 

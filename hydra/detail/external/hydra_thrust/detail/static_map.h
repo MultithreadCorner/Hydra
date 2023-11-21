@@ -20,8 +20,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 namespace static_map_detail
@@ -166,5 +165,5 @@ unsigned int lookup(unsigned int key)
 
 
 } // end namespace detail
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

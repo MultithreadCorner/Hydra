@@ -20,8 +20,7 @@
 #include <hydra/detail/external/hydra_thrust/system/omp/detail/copy_if.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/copy_if.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace omp
@@ -50,5 +49,5 @@ template<typename DerivedPolicy,
 } // end detail
 } // end omp
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

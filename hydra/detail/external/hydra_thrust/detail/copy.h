@@ -19,8 +19,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/execution_policy.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 template<typename System,
          typename InputIterator,
@@ -85,7 +84,7 @@ __host__ __device__
 
 
 } // end detail
-} // end hydra_thrust
+
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/copy.inl>
-

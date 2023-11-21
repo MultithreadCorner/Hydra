@@ -14,8 +14,10 @@
  *  limitations under the License.
  */
 
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
+#include <hydra/detail/external/hydra_thrust/detail/cstdint.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/scan_by_key.h>
 #include <hydra/detail/external/hydra_thrust/functional.h>
 #include <hydra/detail/external/hydra_thrust/transform.h>
@@ -26,8 +28,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/internal_functional.h>
 #include <hydra/detail/external/hydra_thrust/scan.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -42,12 +43,12 @@ template <typename OutputType, typename HeadFlagType, typename AssociativeOperat
 struct segmented_scan_functor
 {
   AssociativeOperator binary_op;
-  
+
   typedef typename hydra_thrust::tuple<OutputType, HeadFlagType> result_type;
-  
+
   __host__ __device__
   segmented_scan_functor(AssociativeOperator _binary_op) : binary_op(_binary_op) {}
-  
+
   __host__ __device__
   result_type operator()(result_type a, result_type b)
   {
@@ -71,8 +72,7 @@ __host__ __device__
                                        InputIterator2 first2,
                                        OutputIterator result)
 {
-  typedef typename hydra_thrust::iterator_traits<InputIterator1>::value_type InputType1;
-  return hydra_thrust::inclusive_scan_by_key(exec, first1, last1, first2, result, hydra_thrust::equal_to<InputType1>());
+  return hydra_thrust::inclusive_scan_by_key(exec, first1, last1, first2, result, hydra_thrust::equal_to<>());
 }
 
 
@@ -89,8 +89,7 @@ __host__ __device__
                                        OutputIterator result,
                                        BinaryPredicate binary_pred)
 {
-  typedef typename hydra_thrust::iterator_traits<OutputIterator>::value_type OutputType;
-  return hydra_thrust::inclusive_scan_by_key(exec, first1, last1, first2, result, binary_pred, hydra_thrust::plus<OutputType>());
+  return hydra_thrust::inclusive_scan_by_key(exec, first1, last1, first2, result, binary_pred, hydra_thrust::plus<>());
 }
 
 
@@ -109,8 +108,8 @@ __host__ __device__
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op)
 {
-  typedef typename hydra_thrust::iterator_traits<OutputIterator>::value_type OutputType;
-  typedef unsigned int HeadFlagType;
+  using OutputType = typename hydra_thrust::iterator_traits<InputIterator2>::value_type;
+  using HeadFlagType = hydra_thrust::detail::uint8_t;
 
   const size_t n = last1 - first1;
 
@@ -120,7 +119,7 @@ __host__ __device__
     hydra_thrust::detail::temporary_array<HeadFlagType,DerivedPolicy> flags(exec, n);
     flags[0] = 1; hydra_thrust::transform(exec, first1, last1 - 1, first1 + 1, flags.begin() + 1, hydra_thrust::detail::not2(binary_pred));
 
-    // scan key-flag tuples, 
+    // scan key-flag tuples,
     // For additional details refer to Section 2 of the following paper
     //    S. Sengupta, M. Harris, and M. Garland. "Efficient parallel scan algorithms for GPUs"
     //    NVIDIA Technical Report NVR-2008-003, December 2008
@@ -147,8 +146,8 @@ __host__ __device__
                                        InputIterator2 first2,
                                        OutputIterator result)
 {
-  typedef typename hydra_thrust::iterator_traits<OutputIterator>::value_type OutputType;
-  return hydra_thrust::exclusive_scan_by_key(exec, first1, last1, first2, result, OutputType(0));
+  typedef typename hydra_thrust::iterator_traits<InputIterator2>::value_type InitType;
+  return hydra_thrust::exclusive_scan_by_key(exec, first1, last1, first2, result, InitType{});
 }
 
 
@@ -165,8 +164,7 @@ __host__ __device__
                                        OutputIterator result,
                                        T init)
 {
-  typedef typename hydra_thrust::iterator_traits<InputIterator1>::value_type InputType1;
-  return hydra_thrust::exclusive_scan_by_key(exec, first1, last1, first2, result, init, hydra_thrust::equal_to<InputType1>());
+  return hydra_thrust::exclusive_scan_by_key(exec, first1, last1, first2, result, init, hydra_thrust::equal_to<>());
 }
 
 
@@ -185,8 +183,7 @@ __host__ __device__
                                        T init,
                                        BinaryPredicate binary_pred)
 {
-  typedef typename hydra_thrust::iterator_traits<OutputIterator>::value_type OutputType;
-  return hydra_thrust::exclusive_scan_by_key(exec, first1, last1, first2, result, init, binary_pred, hydra_thrust::plus<OutputType>());
+  return hydra_thrust::exclusive_scan_by_key(exec, first1, last1, first2, result, init, binary_pred, hydra_thrust::plus<>());
 }
 
 
@@ -207,8 +204,8 @@ __host__ __device__
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op)
 {
-  typedef typename hydra_thrust::iterator_traits<OutputIterator>::value_type OutputType;
-  typedef unsigned int HeadFlagType;
+  using OutputType = T;
+  using HeadFlagType = hydra_thrust::detail::uint8_t;
 
   const size_t n = last1 - first1;
 
@@ -225,7 +222,7 @@ __host__ __device__
     hydra_thrust::replace_copy_if(exec, first2, last2 - 1, flags.begin() + 1, temp.begin() + 1, hydra_thrust::negate<HeadFlagType>(), init);
     temp[0] = init;
 
-    // scan key-flag tuples, 
+    // scan key-flag tuples,
     // For additional details refer to Section 2 of the following paper
     //    S. Sengupta, M. Harris, and M. Garland. "Efficient parallel scan algorithms for GPUs"
     //    NVIDIA Technical Report NVR-2008-003, December 2008
@@ -244,5 +241,5 @@ __host__ __device__
 } // end namespace generic
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

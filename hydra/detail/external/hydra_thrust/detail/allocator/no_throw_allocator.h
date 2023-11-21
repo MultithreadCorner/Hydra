@@ -18,8 +18,9 @@
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 
-namespace hydra_thrust
-{
+#include <hydra/detail/external/hydra_libcudacxx/nv/target>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 
@@ -44,18 +45,18 @@ template<typename BaseAllocator>
     __host__ __device__
     void deallocate(typename super_t::pointer p, typename super_t::size_type n)
     {
-#ifndef __CUDA_ARCH__
-      try
-      {
+      NV_IF_TARGET(NV_IS_HOST, (
+        try
+        {
+          super_t::deallocate(p, n);
+        } // end try
+        catch(...)
+        {
+          // catch anything
+        } // end catch
+      ), (
         super_t::deallocate(p, n);
-      } // end try
-      catch(...)
-      {
-        // catch anything
-      } // end catch
-#else
-      super_t::deallocate(p, n);
-#endif
+      ));
     } // end deallocate()
 
     inline __host__ __device__
@@ -66,6 +67,6 @@ template<typename BaseAllocator>
 }; // end no_throw_allocator
 
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 

@@ -1,7 +1,7 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
  * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of the NVIDIA CORPORATION nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -33,14 +33,16 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_cub/config.cuh>
+#include <hydra/detail/external/hydra_cub/thread/thread_load.cuh>
+#include <hydra/detail/external/hydra_cub/thread/thread_store.cuh>
+#include <hydra/detail/external/hydra_cub/util_debug.cuh>
+#include <hydra/detail/external/hydra_cub/util_device.cuh>
+
+#include <hydra/detail/external/hydra_libcudacxx/nv/target>
+
 #include <iterator>
 #include <iostream>
-
-#include "../thread/thread_load.cuh"
-#include "../thread/thread_store.cuh"
-#include "../util_device.cuh"
-#include "../util_debug.cuh"
-#include "../util_namespace.cuh"
 
 #if (HYDRA_THRUST_VERSION >= 100700)
     // This iterator is compatible with Thrust API 1.7 and newer
@@ -49,11 +51,7 @@
 #endif // HYDRA_THRUST_VERSION
 
 
-/// Optional outer namespace(s)
-CUB_NS_PREFIX
-
-/// CUB namespace
-namespace cub {
+CUB_NAMESPACE_BEGIN
 
 /**
  * \addtogroup UtilIterator
@@ -66,22 +64,22 @@ namespace cub {
  * \brief A random-access input wrapper for dereferencing array values through texture cache.  Uses newer Kepler-style texture objects.
  *
  * \par Overview
- * - TexObjInputIteratorTwraps a native device pointer of type <tt>ValueType*</tt>. References
+ * - TexObjInputIterator wraps a native device pointer of type <tt>ValueType*</tt>. References
  *   to elements are to be loaded through texture cache.
  * - Can be used to load any data type from memory through texture cache.
  * - Can be manipulated and exchanged within and between host and device
  *   functions, can only be constructed within host functions, and can only be
  *   dereferenced within device functions.
- * - With regard to nested/dynamic parallelism, TexObjInputIteratorTiterators may only be
+ * - With regard to nested/dynamic parallelism, TexObjInputIterator iterators may only be
  *   created by the host thread, but can be used by any descendant kernel.
  * - Compatible with Thrust API v1.7 or newer.
  *
  * \par Snippet
- * The code snippet below illustrates the use of \p TexRefInputIteratorTto
+ * The code snippet below illustrates the use of \p TexObjInputIterator to
  * dereference a device array of doubles through texture cache.
  * \par
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/iterator/tex_obj_input_iterator.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/iterator/tex_obj_input_iterator.cuh>
  *
  * // Declare, allocate, and initialize a device array
  * int num_items;   // e.g., 7
@@ -121,9 +119,9 @@ public:
 
 #if (HYDRA_THRUST_VERSION >= 100700)
     // Use Thrust's iterator categories so we can use these iterators in Thrust 1.7 (or newer) methods
-    typedef typename hydra_thrust::detail::iterator_facade_category<
-        hydra_thrust::device_system_tag,
-        hydra_thrust::random_access_traversal_tag,
+    typedef typename HYDRA_THRUST_NS_QUALIFIER::detail::iterator_facade_category<
+        HYDRA_THRUST_NS_QUALIFIER::device_system_tag,
+        HYDRA_THRUST_NS_QUALIFIER::random_access_traversal_tag,
         value_type,
         reference
       >::type iterator_category;                                        ///< The iterator category
@@ -161,11 +159,11 @@ public:
     template <typename QualifiedT>
     cudaError_t BindTexture(
         QualifiedT      *ptr,               ///< Native pointer to wrap that is aligned to cudaDeviceProp::textureAlignment
-        size_t          bytes = size_t(-1),         ///< Number of bytes in the range
+        size_t          bytes,              ///< Number of bytes in the range
         size_t          tex_offset = 0)     ///< OffsetT (in items) from \p ptr denoting the position of the iterator
     {
-        this->ptr = const_cast<typename RemoveQualifiers<QualifiedT>::Type *>(ptr);
-        this->tex_offset = tex_offset;
+        this->ptr = const_cast<typename std::remove_cv<QualifiedT>::type *>(ptr);
+        this->tex_offset = static_cast<difference_type>(tex_offset);
 
         cudaChannelFormatDesc   channel_desc = cudaCreateChannelDesc<TextureWord>();
         cudaResourceDesc        res_desc;
@@ -177,13 +175,13 @@ public:
         res_desc.res.linear.desc        = channel_desc;
         res_desc.res.linear.sizeInBytes = bytes;
         tex_desc.readMode               = cudaReadModeElementType;
-        return cudaCreateTextureObject(&tex_obj, &res_desc, &tex_desc, NULL);
+        return CubDebug(cudaCreateTextureObject(&tex_obj, &res_desc, &tex_desc, NULL));
     }
 
     /// Unbind this iterator from its texture reference
     cudaError_t UnbindTexture()
     {
-        return cudaDestroyTextureObject(tex_obj);
+        return CubDebug(cudaDestroyTextureObject(tex_obj));
     }
 
     /// Postfix increment
@@ -204,24 +202,9 @@ public:
     /// Indirection
     __host__ __device__ __forceinline__ reference operator*() const
     {
-#if (CUB_PTX_ARCH == 0)
-        // Simply dereference the pointer on the host
-        return ptr[tex_offset];
-#else
-        // Move array of uninitialized words, then alias and assign to return value
-        TextureWord words[TEXTURE_MULTIPLE];
-
-        #pragma unroll
-        for (int i = 0; i < TEXTURE_MULTIPLE; ++i)
-        {
-            words[i] = tex1Dfetch<TextureWord>(
-                tex_obj,
-                (tex_offset * TEXTURE_MULTIPLE) + i);
-        }
-
-        // Load from words
-        return *reinterpret_cast<T*>(words);
-#endif
+        NV_IF_TARGET(NV_IS_HOST,
+                     (return ptr[tex_offset];),
+                     (return this->device_deref();));
     }
 
     /// Addition
@@ -297,14 +280,36 @@ public:
     /// ostream operator
     friend std::ostream& operator<<(std::ostream& os, const self_type& itr)
     {
+        os << "cub::TexObjInputIterator( ptr=" << itr.ptr
+           << ", offset=" << itr.tex_offset
+           << ", tex_obj=" << itr.tex_obj << " )";
         return os;
     }
 
+private:
+    // This is hoisted out of operator* because #pragma can't be used inside of
+    // NV_IF_TARGET
+    __device__ __forceinline__ reference device_deref() const
+    {
+        // Move array of uninitialized words, then alias and assign to return
+        // value
+        TextureWord words[TEXTURE_MULTIPLE];
+
+        const auto tex_idx_base = tex_offset * TEXTURE_MULTIPLE;
+
+        #pragma unroll
+        for (int i = 0; i < TEXTURE_MULTIPLE; ++i)
+        {
+          words[i] = tex1Dfetch<TextureWord>(tex_obj, tex_idx_base + i);
+        }
+
+        // Load from words
+        return *reinterpret_cast<T *>(words);
+    }
 };
 
 
 
 /** @} */       // end group UtilIterator
 
-}               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+CUB_NAMESPACE_END

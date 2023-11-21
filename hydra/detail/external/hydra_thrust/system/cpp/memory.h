@@ -15,7 +15,7 @@
  */
 
 /*! \file hydra_thrust/system/cpp/memory.h
- *  \brief Managing memory associated with Thrust's standard C++ system.
+ *  \brief Managing memory associated with Thrust's Standard C++ system.
  */
 
 #pragma once
@@ -27,12 +27,10 @@
 #include <hydra/detail/external/hydra_thrust/mr/allocator.h>
 #include <ostream>
 
-namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_BEGIN
+namespace system { namespace cpp
 {
-namespace system
-{
-namespace cpp
-{
+
 /*! Allocates an area of memory available to Thrust's <tt>cpp</tt> system.
  *  \param n Number of bytes to allocate.
  *  \return A <tt>cpp::pointer<void></tt> pointing to the beginning of the newly
@@ -66,83 +64,37 @@ inline pointer<T> malloc(std::size_t n);
  */
 inline void free(pointer<void> ptr);
 
-// XXX upon c++11
-// template<typename T>
-// using allocator = hydra_thrust::mr::stateless_resource_allocator<T, memory_resource>;
-
-/*! \p cpp::allocator is the default allocator used by the \p cpp system's containers such as
- *  <tt>cpp::vector</tt> if no user-specified allocator is provided. \p cpp::allocator allocates
- *  (deallocates) storage with \p cpp::malloc (\p cpp::free).
+/*! \p cpp::allocator is the default allocator used by the \p cpp system's
+ *  containers such as <tt>cpp::vector</tt> if no user-specified allocator is
+ *  provided. \p cpp::allocator allocates (deallocates) storage with \p
+ *  cpp::malloc (\p cpp::free).
  */
 template<typename T>
-  struct allocator
-    : hydra_thrust::mr::stateless_resource_allocator<
-        T,
-        memory_resource
-    >
-{
-private:
-    typedef hydra_thrust::mr::stateless_resource_allocator<
-        T,
-        memory_resource
-    > base;
+using allocator = hydra_thrust::mr::stateless_resource_allocator<
+  T, hydra_thrust::system::cpp::memory_resource
+>;
 
-public:
-  /*! The \p rebind metafunction provides the type of an \p allocator
-   *  instantiated with another type.
-   *
-   *  \tparam U The other type to use for instantiation.
-   */
-  template<typename U>
-    struct rebind
-  {
-    /*! The typedef \p other gives the type of the rebound \p allocator.
-     */
-    typedef allocator<U> other;
-  };
-
-  /*! No-argument constructor has no effect.
-   */
-  __host__ __device__
-  inline allocator() {}
-
-  /*! Copy constructor has no effect.
-   */
-  __host__ __device__
-  inline allocator(const allocator & other) : base(other) {}
-
-  /*! Constructor from other \p allocator has no effect.
-   */
-  template<typename U>
-  __host__ __device__
-  inline allocator(const allocator<U> & other) : base(other) {}
-
-  /*! Destructor has no effect.
-   */
-  __host__ __device__
-  inline ~allocator() {}
-}; // end allocator
-
-} // end cpp
-
-/*! \}
+/*! \p cpp::universal_allocator allocates memory that can be used by the \p cpp
+ *  system and host systems.
  */
+template<typename T>
+using universal_allocator = hydra_thrust::mr::stateless_resource_allocator<
+  T, hydra_thrust::system::cpp::universal_memory_resource
+>;
 
-} // end system
+}} // namespace system::cpp
 
 /*! \namespace hydra_thrust::cpp
  *  \brief \p hydra_thrust::cpp is a top-level alias for hydra_thrust::system::cpp.
  */
 namespace cpp
 {
-
 using hydra_thrust::system::cpp::malloc;
 using hydra_thrust::system::cpp::free;
 using hydra_thrust::system::cpp::allocator;
+} // namespace cpp
 
-} // end cpp
-
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/system/cpp/detail/memory.inl>
 

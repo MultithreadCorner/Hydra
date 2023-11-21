@@ -44,8 +44,7 @@
 #  define HYDRA_THRUST_STD_COMPLEX_DEVICE
 #endif
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 /*
  *  Calls to the standard math library from inside the hydra_thrust namespace
@@ -63,13 +62,16 @@ namespace hydra_thrust
  *  \{
  */
 
+/*! \cond
+ */
+
 namespace detail
 {
-  
+
 template <typename T, std::size_t Align>
 struct complex_storage;
 
-#if __cplusplus >= 201103L                                                    \
+#if HYDRA_THRUST_CPP_DIALECT >= 2011                                                    \
   && (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC)                       \
   && (HYDRA_THRUST_GCC_VERSION >= 40800)
   // C++11 implementation, excluding GCC 4.7, which doesn't have `alignas`.
@@ -82,9 +84,9 @@ struct complex_storage;
     || (   (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC)                 \
         && (HYDRA_THRUST_GCC_VERSION < 40600))
   // C++03 implementation for MSVC and GCC <= 4.5.
-  // 
+  //
   // We have to implement `aligned_type` with specializations for MSVC
-  // and GCC 4.2 and older because they require literals as arguments to 
+  // and GCC 4.2 and older because they require literals as arguments to
   // their alignment attribute.
 
   #if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC)
@@ -115,7 +117,7 @@ struct complex_storage;
   {
     T x; T y;
   };
-  
+
   HYDRA_THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(1);
   HYDRA_THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(2);
   HYDRA_THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(4);
@@ -137,14 +139,17 @@ struct complex_storage;
 
 } // end namespace detail
 
-  /*! \p complex is the Thrust equivalent to <tt>std::complex</tt>. It is
-   *  functionally identical to it, but can also be used in device code which
-   *  <tt>std::complex</tt> currently cannot.
-   *
-   *  \tparam T The type used to hold the real and imaginary parts. Should be
-   *  <tt>float</tt> or <tt>double</tt>. Others types are not supported.
-   *
-   */
+/*! \endcond
+ */
+
+/*! \p complex is the Thrust equivalent to <tt>std::complex</tt>. It is
+ *  functionally identical to it, but can also be used in device code which
+ *  <tt>std::complex</tt> currently cannot.
+ *
+ *  \tparam T The type used to hold the real and imaginary parts. Should be
+ *  <tt>float</tt> or <tt>double</tt>. Others types are not supported.
+ *
+ */
 template <typename T>
 struct complex
 {
@@ -1026,7 +1031,7 @@ template <typename T0, typename T1>
 __host__ __device__
 bool operator!=(const complex<T0>& x, const T1& y);
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/detail/complex/complex.inl>
 

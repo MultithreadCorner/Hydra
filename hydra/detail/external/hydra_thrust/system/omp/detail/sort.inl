@@ -14,6 +14,7 @@
  *  limitations under the License.
  */
 
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 
@@ -30,8 +31,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/seq.h>
 #include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace omp
@@ -114,13 +114,14 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
   , "OpenMP compiler support is not enabled"
   );
 
+  // Avoid issues on compilers that don't provide `omp_get_num_threads()`.
 #if (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
   typedef typename hydra_thrust::iterator_difference<RandomAccessIterator>::type IndexType;
-  
+
   if(first == last)
     return;
 
-  #pragma omp parallel
+  HYDRA_THRUST_PRAGMA_OMP(parallel)
   {
     hydra_thrust::system::detail::internal::uniform_decomposition<IndexType> decomp(last - first, 1, omp_get_num_threads());
 
@@ -136,7 +137,7 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
                           comp);
     }
 
-    #pragma omp barrier
+    HYDRA_THRUST_PRAGMA_OMP(barrier)
 
     // XXX For some reason, MSVC 2015 yields an error unless we include this meaningless semicolon here
     ;
@@ -167,7 +168,7 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
       nseg = (nseg + 1) / 2;
       h *= 2;
 
-      #pragma omp barrier
+      HYDRA_THRUST_PRAGMA_OMP(barrier)
     }
   }
 #endif // HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
@@ -196,13 +197,14 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
   , "OpenMP compiler support is not enabled"
   );
 
+  // Avoid issues on compilers that don't provide `omp_get_num_threads()`.
 #if (HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == HYDRA_THRUST_TRUE)
   typedef typename hydra_thrust::iterator_difference<RandomAccessIterator1>::type IndexType;
-  
+
   if(keys_first == keys_last)
     return;
 
-  #pragma omp parallel
+  HYDRA_THRUST_PRAGMA_OMP(parallel)
   {
     hydra_thrust::system::detail::internal::uniform_decomposition<IndexType> decomp(keys_last - keys_first, 1, omp_get_num_threads());
 
@@ -219,7 +221,7 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
                                  comp);
     }
 
-    #pragma omp barrier
+    HYDRA_THRUST_PRAGMA_OMP(barrier)
 
     // XXX For some reason, MSVC 2015 yields an error unless we include this meaningless semicolon here
     ;
@@ -251,7 +253,7 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
       nseg = (nseg + 1) / 2;
       h *= 2;
 
-      #pragma omp barrier
+      HYDRA_THRUST_PRAGMA_OMP(barrier)
     }
   }
 #endif // HYDRA_THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
@@ -261,5 +263,5 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
 } // end namespace detail
 } // end namespace omp
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

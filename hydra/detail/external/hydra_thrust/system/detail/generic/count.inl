@@ -14,13 +14,14 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/count.h>
 #include <hydra/detail/external/hydra_thrust/transform_reduce.h>
 #include <hydra/detail/external/hydra_thrust/detail/internal_functional.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -32,7 +33,7 @@ namespace generic
 template <typename InputType, typename Predicate, typename CountType>
 struct count_if_transform
 {
-  __host__ __device__ 
+  __host__ __device__
   count_if_transform(Predicate _pred) : pred(_pred){}
 
   __hydra_thrust_exec_check_disable__
@@ -54,8 +55,9 @@ __host__ __device__
 typename hydra_thrust::iterator_traits<InputIterator>::difference_type
 count(hydra_thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, const EqualityComparable& value)
 {
-  // XXX use placeholder expression here
-  return hydra_thrust::count_if(exec, first, last, hydra_thrust::detail::equal_to_value<EqualityComparable>(value));
+  using hydra_thrust::placeholders::_1;
+
+  return hydra_thrust::count_if(exec, first, last, _1 == value);
 } // end count()
 
 
@@ -66,7 +68,7 @@ count_if(hydra_thrust::execution_policy<DerivedPolicy> &exec, InputIterator firs
 {
   typedef typename hydra_thrust::iterator_traits<InputIterator>::value_type InputType;
   typedef typename hydra_thrust::iterator_traits<InputIterator>::difference_type CountType;
-  
+
   hydra_thrust::system::detail::generic::count_if_transform<InputType, Predicate, CountType> unary_op(pred);
   hydra_thrust::plus<CountType> binary_op;
   return hydra_thrust::transform_reduce(exec, first, last, unary_op, CountType(0), binary_op);
@@ -76,5 +78,5 @@ count_if(hydra_thrust::execution_policy<DerivedPolicy> &exec, InputIterator firs
 } // end generic
 } // end detail
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

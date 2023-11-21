@@ -14,10 +14,7 @@
  *  limitations under the License.
  */
 
-
-/*! \file partition.inl
- *  \brief Inline file for partition.h.
- */
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/partition.h>
@@ -26,9 +23,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/partition.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/partition.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 __hydra_thrust_exec_check_disable__
 template<typename DerivedPolicy,
@@ -413,6 +408,4 @@ template<typename InputIterator, typename Predicate>
   return hydra_thrust::is_partitioned(select_system(system), first, last, pred);
 } // end is_partitioned()
 
-
-} // end hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

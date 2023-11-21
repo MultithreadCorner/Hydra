@@ -68,7 +68,7 @@ template<typename ...Particles,   hydra::detail::Backend Backend>
 class Decays<hydra::tuple<Particles...>, hydra::detail::BackendPolicy<Backend>>
 {
 	typedef hydra::detail::BackendPolicy<Backend>  system_type;
-	typedef hydra_thrust::tuple<Particles...>       tuple_type;
+	typedef hydra::thrust::tuple<Particles...>       tuple_type;
 	typedef multivector<tuple_type, system_type>    storage_type;
 
 	enum { nparticles = sizeof...(Particles) };
@@ -226,9 +226,9 @@ public :
 
 		fMaxWeight = 1.0 / wtmax;
 
-		size_t n = hydra_thrust::distance(first, last);
+		size_t n = hydra::thrust::distance(first, last);
 		fDecays.resize(n);
-		hydra_thrust::copy(first, last, fDecays.begin());
+		hydra::thrust::copy(first, last, fDecays.begin());
 	}
 
 
@@ -614,7 +614,7 @@ double GetMotherMass() const
 
 		fDecays.resize( other.size() );
 
-		hydra_thrust::copy(other.begin(),  other.end(), this->begin() );
+		hydra::thrust::copy(other.begin(),  other.end(), this->begin() );
 
 		return *this;
 	}

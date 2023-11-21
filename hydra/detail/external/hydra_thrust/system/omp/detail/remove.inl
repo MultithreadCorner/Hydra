@@ -20,8 +20,7 @@
 #include <hydra/detail/external/hydra_thrust/system/omp/detail/remove.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/remove.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace omp
@@ -90,5 +89,5 @@ template<typename DerivedPolicy,
 } // end namespace detail
 } // end namespace omp
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

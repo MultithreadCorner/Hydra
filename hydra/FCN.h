@@ -59,7 +59,7 @@ namespace hydra {
 namespace detail {
 
 template<typename ArgType>
-struct FCNWeightsReducerUnary: public hydra_thrust::unary_function<ArgType, double>
+struct FCNWeightsReducerUnary//: public hydra::thrust::unary_function<ArgType, double>
 {
 
 
@@ -91,14 +91,14 @@ template< template<typename ...> class Estimator, typename PDF, typename Iterato
 class FCN<Estimator<PDF,Iterator>, true >;
 
 template<typename ...ESTIMATORS>
-class FCN< hydra_thrust::tuple<FCN<ESTIMATORS>...>, false   >;
+class FCN< hydra::thrust::tuple<FCN<ESTIMATORS>...>, false   >;
 
 /**
  * \ingroup fit
  * \brief Convenience function to build up simultaneous fcn simultaneous
  */
 template<typename ...ESTIMATORS>
-FCN< hydra_thrust::tuple<FCN<ESTIMATORS>...>, false >
+FCN< hydra::thrust::tuple<FCN<ESTIMATORS>...>, false >
 make_simultaneous_fcn( FCN<ESTIMATORS>const& ... fcns);
 
 } //namespace hydra

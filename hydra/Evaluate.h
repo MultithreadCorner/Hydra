@@ -76,10 +76,10 @@ auto eval(hydra::detail::BackendPolicy<BACKEND>, Functor const& functor, Iterato
  * @return a multivectors with the results
  */
 template<hydra::detail::Backend BACKEND, typename Iterator, typename ...Functors>
-auto eval(hydra::detail::BackendPolicy<BACKEND> ,hydra_thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end)
--> multivector<hydra_thrust::tuple<typename Functors::return_type ...> , hydra::detail::BackendPolicy<BACKEND>>;
+auto eval(hydra::detail::BackendPolicy<BACKEND> ,hydra::thrust::tuple<Functors...> const& functors, Iterator begin, Iterator end)
+-> multivector<hydra::thrust::tuple<typename Functors::return_type ...> , hydra::detail::BackendPolicy<BACKEND>>;
 //-> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template
-//container<hydra_thrust::tuple<typename Functors::return_type ...> >>;
+//container<hydra::thrust::tuple<typename Functors::return_type ...> >>;
 
 
 /**
@@ -109,11 +109,11 @@ auto eval(hydra::detail::BackendPolicy<BACKEND>, Functor const& functor, Iterato
  * @return a multivectors with the results
  */
 template<hydra::detail::Backend BACKEND, typename Iterator,  typename ...Iterators, typename ...Functors>
-auto eval(hydra::detail::BackendPolicy<BACKEND>, hydra_thrust::tuple<Functors...> const& functors,
+auto eval(hydra::detail::BackendPolicy<BACKEND>, hydra::thrust::tuple<Functors...> const& functors,
 		Iterator begin, Iterator end, Iterators... begins)
--> multivector<hydra_thrust::tuple<typename Functors::return_type ...> , hydra::detail::BackendPolicy<BACKEND> >;
+-> multivector<hydra::thrust::tuple<typename Functors::return_type ...> , hydra::detail::BackendPolicy<BACKEND> >;
 
-//-> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template container<hydra_thrust::tuple<typename Functors::return_type ...> >>;
+//-> multivector< typename hydra::detail::BackendPolicy<BACKEND>::template container<hydra::thrust::tuple<typename Functors::return_type ...> >>;
 
 
 }/* namespace hydra */

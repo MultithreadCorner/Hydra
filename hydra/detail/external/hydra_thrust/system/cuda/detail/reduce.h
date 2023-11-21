@@ -26,25 +26,31 @@
  ******************************************************************************/
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
-#include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
 
-#include <hydra/detail/external/hydra_thrust/detail/cstdint.h>
-#include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
-#include <hydra/detail/external/hydra_thrust/detail/raw_reference_cast.h>
-#include <hydra/detail/external/hydra_thrust/detail/type_traits/iterator/is_output_iterator.h>
-#include <hydra/detail/external/hydra_cub/device/device_reduce.cuh>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/par_to_seq.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/get_value.h>
-#include <hydra/detail/external/hydra_thrust/functional.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/core/agent_launcher.h>
-#include <hydra/detail/external/hydra_thrust/detail/minmax.h>
-#include <hydra/detail/external/hydra_thrust/distance.h>
 #include <hydra/detail/external/hydra_thrust/detail/alignment.h>
+#include <hydra/detail/external/hydra_thrust/detail/cstdint.h>
+#include <hydra/detail/external/hydra_thrust/detail/minmax.h>
+#include <hydra/detail/external/hydra_thrust/detail/raw_reference_cast.h>
+#include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
+#include <hydra/detail/external/hydra_thrust/detail/type_traits/iterator/is_output_iterator.h>
+#include <hydra/detail/external/hydra_thrust/distance.h>
+#include <hydra/detail/external/hydra_thrust/functional.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/cdp_dispatch.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/core/agent_launcher.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/dispatch.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/get_value.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/make_unsigned_special.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/par_to_seq.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
 
-HYDRA_THRUST_BEGIN_NS
+#include <hydra/detail/external/hydra_cub/device/device_reduce.cuh>
+#include <hydra/detail/external/hydra_cub/util_math.cuh>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 // forward declare generic reduce
 // to circumvent circular dependency
@@ -63,9 +69,6 @@ namespace cuda_cub {
 
 namespace __reduce {
 
-  // XXX should GridSizeType also be able accomodate 64 bit integers
-  typedef int GridSizeType;
-
   template<bool>
   struct is_true : hydra_thrust::detail::false_type {};
   template<>
@@ -76,8 +79,7 @@ namespace __reduce {
             int                       _VECTOR_LOAD_LENGTH = 1,
             cub::BlockReduceAlgorithm _BLOCK_ALGORITHM    = cub::BLOCK_REDUCE_RAKING,
             cub::CacheLoadModifier    _LOAD_MODIFIER      = cub::LOAD_DEFAULT,
-            cub::GridMappingStrategy  _GRID_MAPPING       = cub::GRID_MAPPING_DYNAMIC,
-            int                       _MIN_BLOCKS         = 1>
+            cub::GridMappingStrategy  _GRID_MAPPING       = cub::GRID_MAPPING_DYNAMIC>
   struct PtxPolicy
   {
     enum
@@ -85,7 +87,6 @@ namespace __reduce {
       BLOCK_THREADS      = _BLOCK_THREADS,
       ITEMS_PER_THREAD   = _ITEMS_PER_THREAD,
       VECTOR_LOAD_LENGTH = _VECTOR_LOAD_LENGTH,
-      MIN_BLOCKS         = _MIN_BLOCKS,
       ITEMS_PER_TILE     = _BLOCK_THREADS * _ITEMS_PER_THREAD
     };
 
@@ -150,6 +151,8 @@ namespace __reduce {
             class ReductionOp>
   struct ReduceAgent
   {
+    typedef typename detail::make_unsigned_special<Size>::type UnsignedSize;
+
     template<class Arch>
     struct PtxPlan : Tuning<Arch,T>::type
     {
@@ -193,6 +196,9 @@ namespace __reduce {
     struct Plan : core::AgentPlan
     {
       cub::GridMappingStrategy grid_mapping;
+
+      HYDRA_THRUST_RUNTIME_FUNCTION
+      Plan() {}
 
       template <class P>
       HYDRA_THRUST_RUNTIME_FUNCTION
@@ -458,8 +464,8 @@ namespace __reduce {
       //
       HYDRA_THRUST_DEVICE_FUNCTION T
       consume_tiles(Size /*num_items*/,
-                    cub::GridEvenShare<GridSizeType> &even_share,
-                    cub::GridQueue<GridSizeType> & /*queue*/,
+                    cub::GridEvenShare<Size> &even_share,
+                    cub::GridQueue<UnsignedSize> & /*queue*/,
                     hydra_thrust::detail::integral_constant<cub::GridMappingStrategy, cub::GRID_MAPPING_RAKE> /*is_rake*/)
       {
         typedef is_true<ATTEMPT_VECTORIZATION>          attempt_vec;
@@ -489,7 +495,7 @@ namespace __reduce {
       template <class CAN_VECTORIZE>
       HYDRA_THRUST_DEVICE_FUNCTION T
       consume_tiles_impl(Size                         num_items,
-                         cub::GridQueue<GridSizeType> queue,
+                         cub::GridQueue<UnsignedSize> queue,
                          CAN_VECTORIZE                can_vectorize)
       {
         using core::sync_threadblock;
@@ -576,8 +582,8 @@ namespace __reduce {
       HYDRA_THRUST_DEVICE_FUNCTION T
       consume_tiles(
           Size                              num_items,
-          cub::GridEvenShare<GridSizeType> &/*even_share*/,
-          cub::GridQueue<GridSizeType> &    queue,
+          cub::GridEvenShare<Size> &/*even_share*/,
+          cub::GridQueue<UnsignedSize> &    queue,
           hydra_thrust::detail::integral_constant<cub::GridMappingStrategy, cub::GRID_MAPPING_DYNAMIC>)
       {
         typedef is_true<ATTEMPT_VECTORIZATION>         attempt_vec;
@@ -644,8 +650,8 @@ namespace __reduce {
     HYDRA_THRUST_AGENT_ENTRY(InputIt                          input_it,
                        OutputIt                         output_it,
                        Size                             num_items,
-                       cub::GridEvenShare<GridSizeType> even_share,
-                       cub::GridQueue<GridSizeType>     queue,
+                       cub::GridEvenShare<Size> even_share,
+                       cub::GridQueue<UnsignedSize>     queue,
                        ReductionOp                      reduction_op,
                        char *                           shmem)
     {
@@ -665,6 +671,8 @@ namespace __reduce {
   template<class Size>
   struct DrainAgent
   {
+    typedef typename detail::make_unsigned_special<Size>::type UnsignedSize;
+
     template <class Arch>
     struct PtxPlan : PtxPolicy<1> {};
     typedef core::specialize_plan<PtxPlan> ptx_plan;
@@ -673,7 +681,7 @@ namespace __reduce {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    HYDRA_THRUST_AGENT_ENTRY(cub::GridQueue<GridSizeType> grid_queue,
+    HYDRA_THRUST_AGENT_ENTRY(cub::GridQueue<UnsignedSize> grid_queue,
                        Size                         num_items,
                        char * /*shmem*/)
     {
@@ -695,13 +703,14 @@ namespace __reduce {
             T            init,
             ReductionOp  reduction_op,
             OutputIt     output_it,
-            cudaStream_t stream,
-            bool         debug_sync)
+            cudaStream_t stream)
   {
     using core::AgentPlan;
     using core::AgentLauncher;
     using core::get_agent_plan;
     using core::cuda_optional;
+
+    typedef typename detail::make_unsigned_special<Size>::type UnsignedSize;
 
     if (num_items == 0)
       return cudaErrorNotSupported;
@@ -727,7 +736,7 @@ namespace __reduce {
       }
       char *vshmem_ptr = vshmem_size > 0 ? (char*)d_temp_storage : NULL;
 
-      reduce_agent ra(reduce_plan, num_items, stream, vshmem_ptr, "reduce_agent: single_tile only", debug_sync);
+      reduce_agent ra(reduce_plan, num_items, stream, vshmem_ptr, "reduce_agent: single_tile only");
       ra.launch(input_it, output_it, num_items, reduction_op, init);
       CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
     }
@@ -743,8 +752,8 @@ namespace __reduce {
               template get_max_blocks_per_sm<InputIt,
                                              OutputIt,
                                              Size,
-                                             cub::GridEvenShare<GridSizeType>,
-                                             cub::GridQueue<GridSizeType>,
+                                             cub::GridEvenShare<Size>,
+                                             cub::GridQueue<UnsignedSize>,
                                              ReductionOp>(reduce_plan);
       CUDA_CUB_RET_IF_FAIL(max_blocks_per_sm.status());
 
@@ -755,7 +764,7 @@ namespace __reduce {
       int sm_oversubscription = 5;
       int max_blocks          = reduce_device_occupancy * sm_oversubscription;
 
-      cub::GridEvenShare<GridSizeType> even_share;
+      cub::GridEvenShare<Size> even_share;
       even_share.DispatchInit(static_cast<int>(num_items), max_blocks,
                               reduce_plan.items_per_tile);
 
@@ -770,7 +779,7 @@ namespace __reduce {
       size_t allocation_sizes[3] =
           {
               max_blocks * sizeof(T),                            // bytes needed for privatized block reductions
-              cub::GridQueue<GridSizeType>::AllocationSize(),    // bytes needed for grid queue descriptor0
+              cub::GridQueue<UnsignedSize>::AllocationSize(),    // bytes needed for grid queue descriptor0
               vshmem_size                                        // size of virtualized shared memory storage
           };
       status = cub::AliasTemporaries(d_temp_storage,
@@ -784,7 +793,7 @@ namespace __reduce {
       }
 
       T *d_block_reductions = (T*) allocations[0];
-      cub::GridQueue<GridSizeType> queue(allocations[1]);
+      cub::GridQueue<UnsignedSize> queue(allocations[1]);
       char *vshmem_ptr = vshmem_size > 0 ? (char *)allocations[2] : NULL;
 
 
@@ -798,17 +807,16 @@ namespace __reduce {
       else if (reduce_plan.grid_mapping == cub::GRID_MAPPING_DYNAMIC)
       {
         // Work is distributed dynamically
-        size_t num_tiles = (num_items + reduce_plan.items_per_tile - 1) /
-          reduce_plan.items_per_tile;
+        size_t num_tiles = cub::DivideAndRoundUp(num_items, reduce_plan.items_per_tile);
 
         // if not enough to fill the device with threadblocks
         // then fill the device with threadblocks
-        reduce_grid_size = static_cast<int>(min(num_tiles, static_cast<size_t>(reduce_device_occupancy)));
+        reduce_grid_size = static_cast<int>((min)(num_tiles, static_cast<size_t>(reduce_device_occupancy)));
 
         typedef AgentLauncher<DrainAgent<Size> > drain_agent;
         AgentPlan drain_plan = drain_agent::get_plan();
         drain_plan.grid_size = 1;
-        drain_agent da(drain_plan, stream, "__reduce::drain_agent", debug_sync);
+        drain_agent da(drain_plan, stream, "__reduce::drain_agent");
         da.launch(queue, num_items);
         CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
       }
@@ -818,7 +826,7 @@ namespace __reduce {
       }
 
       reduce_plan.grid_size = reduce_grid_size;
-      reduce_agent ra(reduce_plan, stream, vshmem_ptr, "reduce_agent: regular size reduce", debug_sync);
+      reduce_agent ra(reduce_plan, stream, vshmem_ptr, "reduce_agent: regular size reduce");
       ra.launch(input_it,
                 d_block_reductions,
                 num_items,
@@ -833,7 +841,7 @@ namespace __reduce {
         reduce_agent_single;
 
       reduce_plan.grid_size = 1;
-      reduce_agent_single ra1(reduce_plan, stream, vshmem_ptr, "reduce_agent: single tile reduce", debug_sync);
+      reduce_agent_single ra1(reduce_plan, stream, vshmem_ptr, "reduce_agent: single tile reduce");
 
       ra1.launch(d_block_reductions, output_it, reduce_grid_size, reduction_op, init);
       CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
@@ -860,7 +868,6 @@ namespace __reduce {
 
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = HYDRA_THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = doit_step(NULL,
@@ -870,8 +877,7 @@ namespace __reduce {
                        init,
                        binary_op,
                        reinterpret_cast<T*>(NULL),
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "reduce failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(T*), temp_storage_bytes};
@@ -904,8 +910,7 @@ namespace __reduce {
                        init,
                        binary_op,
                        d_result,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "reduce failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);
@@ -932,21 +937,18 @@ T reduce_n_impl(execution_policy<Derived>& policy,
                 BinaryOp                   binary_op)
 {
   cudaStream_t stream = cuda_cub::stream(policy);
+  cudaError_t status;
 
   // Determine temporary device storage requirements.
 
   size_t tmp_size = 0;
-  cuda_cub::throw_on_error(
-    cub::DeviceReduce::Reduce(NULL,
-                              tmp_size,
-                              first,
-                              reinterpret_cast<T*>(NULL),
-                              num_items,
-                              binary_op,
-                              init,
-                              stream,
-                              HYDRA_THRUST_DEBUG_SYNC_FLAG),
-    "after reduction step 1");
+
+  HYDRA_THRUST_INDEX_TYPE_DISPATCH(status,
+    cub::DeviceReduce::Reduce,
+    num_items,
+    (NULL, tmp_size, first, reinterpret_cast<T*>(NULL),
+        num_items_fixed, binary_op, init, stream));
+  cuda_cub::throw_on_error(status, "after reduction step 1");
 
   // Allocate temporary storage.
 
@@ -965,22 +967,17 @@ T reduce_n_impl(execution_policy<Derived>& policy,
   // make this guarantee.
   T* ret_ptr = hydra_thrust::detail::aligned_reinterpret_cast<T*>(tmp.data().get());
   void* tmp_ptr = static_cast<void*>((tmp.data() + sizeof(T)).get());
-  cuda_cub::throw_on_error(
-    cub::DeviceReduce::Reduce(tmp_ptr,
-                              tmp_size,
-                              first,
-                              ret_ptr,
-                              num_items,
-                              binary_op,
-                              init,
-                              stream,
-                              HYDRA_THRUST_DEBUG_SYNC_FLAG),
-    "after reduction step 2");
+  HYDRA_THRUST_INDEX_TYPE_DISPATCH(status,
+    cub::DeviceReduce::Reduce,
+    num_items,
+    (tmp_ptr, tmp_size, first, ret_ptr,
+        num_items_fixed, binary_op, init, stream));
+  cuda_cub::throw_on_error(status, "after reduction step 2");
 
   // Synchronize the stream and get the value.
 
-  cuda_cub::throw_on_error(cuda_cub::synchronize(policy),
-    "reduce failed to synchronize");
+  status = cuda_cub::synchronize(policy);
+  cuda_cub::throw_on_error(status, "reduce failed to synchronize");
 
   // `tmp.begin()` yields a `normal_iterator`, which dereferences to a
   // `reference`, which has an `operator&` that returns a `pointer`, which
@@ -1013,14 +1010,18 @@ T reduce_n(execution_policy<Derived>& policy,
            T                          init,
            BinaryOp                   binary_op)
 {
-  if (__HYDRA_THRUST_HAS_CUDART__)
-    return hydra_thrust::cuda_cub::detail::reduce_n_impl(
-      policy, first, num_items, init, binary_op);
-
-  #if !__HYDRA_THRUST_HAS_CUDART__
-    return hydra_thrust::reduce(
-      cvt_to_seq(derived_cast(policy)), first, first + num_items, init, binary_op);
-  #endif
+  HYDRA_THRUST_CDP_DISPATCH((init =
+                         hydra_thrust::cuda_cub::detail::reduce_n_impl(policy,
+                                                                 first,
+                                                                 num_items,
+                                                                 init,
+                                                                 binary_op);),
+                      (init = hydra_thrust::reduce(cvt_to_seq(derived_cast(policy)),
+                                             first,
+                                             first + num_items,
+                                             init,
+                                             binary_op);));
+  return init;
 }
 
 template <class Derived, class InputIt, class T, class BinaryOp>
@@ -1064,7 +1065,7 @@ reduce(execution_policy<Derived> &policy,
 
 } // namespace cuda_cub
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/memory.h>
 #include <hydra/detail/external/hydra_thrust/reduce.h>

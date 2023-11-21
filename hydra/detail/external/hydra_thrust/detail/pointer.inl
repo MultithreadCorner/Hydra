@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2018 NVIDIA Corporation
+ *  Copyright 2008-2021 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,36 +14,29 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/detail/pointer.h>
+#include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 
-
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 template<typename Element, typename Tag, typename Reference, typename Derived>
   __host__ __device__
   pointer<Element,Tag,Reference,Derived>
     ::pointer()
-      : super_t(static_cast<Element*>(
-          #if HYDRA_THRUST_CPP_DIALECT >= 2011
-          nullptr
-          #else
-          0
-          #endif
-        ))
+      : super_t(static_cast<Element*>(nullptr))
 {} // end pointer::pointer
 
 
-#if HYDRA_THRUST_CPP_DIALECT >= 2011
 template<typename Element, typename Tag, typename Reference, typename Derived>
   __host__ __device__
   pointer<Element,Tag,Reference,Derived>
-    ::pointer(decltype(nullptr))
+    ::pointer(std::nullptr_t)
       : super_t(static_cast<Element*>(nullptr))
 {} // end pointer::pointer
-#endif
 
 
 template<typename Element, typename Tag, typename Reference, typename Derived>
@@ -81,7 +74,6 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 {} // end pointer::pointer
 
 
-#if HYDRA_THRUST_CPP_DIALECT >= 2011
 template<typename Element, typename Tag, typename Reference, typename Derived>
   __host__ __device__
   typename pointer<Element,Tag,Reference,Derived>::derived_type &
@@ -91,7 +83,6 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
   super_t::base_reference() = nullptr;
   return static_cast<derived_type&>(*this);
 } // end pointer::operator=
-#endif
 
 
 template<typename Element, typename Tag, typename Reference, typename Derived>
@@ -109,14 +100,43 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
   return static_cast<derived_type&>(*this);
 } // end pointer::operator=
 
+namespace detail
+{
+
+// Implementation for dereference() when Reference is Element&,
+// e.g. cuda's managed_memory_pointer
+template <typename Reference, typename Derived>
+__host__ __device__
+Reference pointer_dereference_impl(const Derived& ptr,
+                                   hydra_thrust::detail::true_type /* is_cpp_ref */)
+{
+  return *ptr.get();
+}
+
+// Implementation for pointers with proxy references:
+template <typename Reference, typename Derived>
+__host__ __device__
+Reference pointer_dereference_impl(const Derived& ptr,
+                                   hydra_thrust::detail::false_type /* is_cpp_ref */)
+{
+  return Reference(ptr);
+}
+
+} // namespace detail
 
 template<typename Element, typename Tag, typename Reference, typename Derived>
   __host__ __device__
   typename pointer<Element,Tag,Reference,Derived>::super_t::reference
-    pointer<Element,Tag,Reference,Derived>
-      ::dereference() const
+  pointer<Element,Tag,Reference,Derived>
+    ::dereference() const
 {
-  return typename super_t::reference(static_cast<const derived_type&>(*this));
+  // Need to handle cpp refs and fancy refs differently:
+  typedef typename super_t::reference RefT;
+  typedef typename hydra_thrust::detail::is_reference<RefT>::type IsCppRef;
+
+  const derived_type& derivedPtr = static_cast<const derived_type&>(*this);
+
+  return detail::pointer_dereference_impl<RefT>(derivedPtr, IsCppRef());
 } // end pointer::dereference
 
 
@@ -129,7 +149,15 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 } // end pointer::get
 
 
-#if HYDRA_THRUST_CPP_DIALECT >= 2011
+template<typename Element, typename Tag, typename Reference, typename Derived>
+  __host__ __device__
+  Element *pointer<Element,Tag,Reference,Derived>
+    ::operator->() const
+{
+  return super_t::base();
+} // end pointer::operator->
+
+
 template<typename Element, typename Tag, typename Reference, typename Derived>
   __host__ __device__
   pointer<Element,Tag,Reference,Derived>
@@ -137,7 +165,6 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 {
   return bool(get());
 } // end pointer::operator bool
-#endif
 
 
 template<typename Element, typename Tag, typename Reference, typename Derived,
@@ -149,95 +176,34 @@ operator<<(std::basic_ostream<charT, traits> &os,
   return os << p.get();
 }
 
-#if HYDRA_THRUST_CPP_DIALECT >= 2011
 // NOTE: These are needed so that Thrust smart pointers work with
 // `std::unique_ptr`.
 template <typename Element, typename Tag, typename Reference, typename Derived>
 __host__ __device__
-bool operator==(decltype(nullptr), pointer<Element, Tag, Reference, Derived> p)
+bool operator==(std::nullptr_t, pointer<Element, Tag, Reference, Derived> p)
 {
   return nullptr == p.get();
 }
 
 template <typename Element, typename Tag, typename Reference, typename Derived>
 __host__ __device__
-bool operator==(pointer<Element, Tag, Reference, Derived> p, decltype(nullptr))
+bool operator==(pointer<Element, Tag, Reference, Derived> p, std::nullptr_t)
 {
   return nullptr == p.get();
 }
 
 template <typename Element, typename Tag, typename Reference, typename Derived>
 __host__ __device__
-bool operator!=(decltype(nullptr), pointer<Element, Tag, Reference, Derived> p)
+bool operator!=(std::nullptr_t, pointer<Element, Tag, Reference, Derived> p)
 {
   return !(nullptr == p);
 }
 
 template <typename Element, typename Tag, typename Reference, typename Derived>
 __host__ __device__
-bool operator!=(pointer<Element, Tag, Reference, Derived> p, decltype(nullptr))
+bool operator!=(pointer<Element, Tag, Reference, Derived> p, std::nullptr_t)
 {
   return !(nullptr == p);
 }
-#endif
 
-namespace detail
-{
-
-#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
-// XXX WAR MSVC 2005 problem with correctly implementing
-//     pointer_raw_pointer for pointer by specializing it here
-template<typename Element, typename Tag, typename Reference, typename Derived>
-  struct pointer_raw_pointer< hydra_thrust::pointer<Element,Tag,Reference,Derived> >
-{
-  typedef typename pointer<Element,Tag,Reference,Derived>::raw_pointer type;
-}; // end pointer_raw_pointer
-#endif
-
-
-#if (HYDRA_THRUST_HOST_COMPILER == HYDRA_THRUST_HOST_COMPILER_GCC) && (HYDRA_THRUST_GCC_VERSION < 40200)
-// XXX WAR g++-4.1 problem with correctly implementing
-//     pointer_element for pointer by specializing it here
-template<typename Element, typename Tag>
-  struct pointer_element< hydra_thrust::pointer<Element,Tag> >
-{
-  typedef Element type;
-}; // end pointer_element
-
-template<typename Element, typename Tag, typename Reference>
-  struct pointer_element< hydra_thrust::pointer<Element,Tag,Reference> >
-    : pointer_element< hydra_thrust::pointer<Element,Tag> >
-{}; // end pointer_element
-
-template<typename Element, typename Tag, typename Reference, typename Derived>
-  struct pointer_element< hydra_thrust::pointer<Element,Tag,Reference,Derived> >
-    : pointer_element< hydra_thrust::pointer<Element,Tag,Reference> >
-{}; // end pointer_element
-
-
-
-// XXX WAR g++-4.1 problem with correctly implementing
-//     rebind_pointer for pointer by specializing it here
-template<typename Element, typename Tag, typename NewElement>
-  struct rebind_pointer<hydra_thrust::pointer<Element,Tag>, NewElement>
-{
-  // XXX note we don't attempt to rebind the pointer's Reference type (or Derived)
-  typedef hydra_thrust::pointer<NewElement,Tag> type;
-};
-
-template<typename Element, typename Tag, typename Reference, typename NewElement>
-  struct rebind_pointer<hydra_thrust::pointer<Element,Tag,Reference>, NewElement>
-    : rebind_pointer<hydra_thrust::pointer<Element,Tag>, NewElement>
-{};
-
-template<typename Element, typename Tag, typename Reference, typename Derived, typename NewElement>
-  struct rebind_pointer<hydra_thrust::pointer<Element,Tag,Reference,Derived>, NewElement>
-    : rebind_pointer<hydra_thrust::pointer<Element,Tag,Reference>, NewElement>
-{};
-#endif
-
-} // end namespace detail
-
-
-} // end hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

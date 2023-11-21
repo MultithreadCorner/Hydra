@@ -32,27 +32,29 @@
 #include <hydra/detail/external/hydra_thrust/device_allocator.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_deduction.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 ///////////////////////////////////////////////////////////////////////////////
 
 template <typename T, typename... Args>
 __host__
 auto device_make_unique(Args&&... args)
-  -> decltype(
+  HYDRA_THRUST_TRAILING_RETURN(decltype(
     uninitialized_allocate_unique<T>(device_allocator<T>{})
-  )
+  ))
 {
-  // FIXME: This is crude - we construct an unnecessary T on the host for 
+#if !defined(HYDRA_THRUST_DOXYGEN) // This causes Doxygen to choke for some reason.
+  // FIXME: This is crude - we construct an unnecessary T on the host for
   // `device_new`. We need a proper dispatched `construct` algorithm to
   // do this properly.
   auto p = uninitialized_allocate_unique<T>(device_allocator<T>{});
   device_new<T>(p.get(), T(HYDRA_THRUST_FWD(args)...));
   return p;
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #endif // HYDRA_THRUST_CPP_DIALECT >= 2011

@@ -437,13 +437,13 @@ public:
 
 	inline void CopyStateToDevice()
 	{
-		hydra_thrust::copy(fXi.begin(), fXi.end(), fBackendXi.begin());
-		//hydra_thrust::copy( fDistribution.begin(), fDistribution.end(), fBackendDistribution.begin());
+		hydra::thrust::copy(fXi.begin(), fXi.end(), fBackendXi.begin());
+		//hydra::thrust::copy( fDistribution.begin(), fDistribution.end(), fBackendDistribution.begin());
 
 	}
 
 	inline void CopyStateToHost()
-	{/*	hydra_thrust::copy(
+	{/*	hydra::thrust::copy(
 			fBackendDistribution.begin(),
 			fBackendDistribution.end(),
 			fDistribution.begin());*/
@@ -452,12 +452,12 @@ public:
 
 	inline void SendGridToBackend()
 	{
-		hydra_thrust::copy(fDeltaX.begin(),
+		hydra::thrust::copy(fDeltaX.begin(),
 				fDeltaX.end(),
 				fBackendDeltaX.begin());
 
 		//checar
-		hydra_thrust::copy(fXLow.begin(),
+		hydra::thrust::copy(fXLow.begin(),
 				fXLow.end(),
 				fBackendXLow.begin());
 	}

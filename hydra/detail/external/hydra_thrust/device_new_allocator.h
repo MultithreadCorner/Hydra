@@ -14,9 +14,8 @@
  *  limitations under the License.
  */
 
-
-/*! \file device_new_allocator.h
- *  \brief An allocator which allocates storage with \p device_new
+/*! \file 
+ *  \brief An allocator which allocates storage with \p device_new.
  */
 
 #pragma once
@@ -26,13 +25,15 @@
 #include <hydra/detail/external/hydra_thrust/device_reference.h>
 #include <hydra/detail/external/hydra_thrust/device_new.h>
 #include <hydra/detail/external/hydra_thrust/device_delete.h>
-#include <limits>
+
+#include <hydra/detail/external/hydra_libcudacxx/cuda/std/cstdint>
+#include <hydra/detail/external/hydra_libcudacxx/cuda/std/limits>
+
 #include <stdexcept>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
-/*! \addtogroup memory_management_classes Memory Management Classes
+/*! \addtogroup allocators Allocators
  *  \ingroup memory_management
  *  \{
  */
@@ -42,7 +43,7 @@ namespace hydra_thrust
  *
  *  \see device_new
  *  \see device_ptr
- *  \see http://www.sgi.com/tech/stl/Allocators.html
+ *  \see https://en.cppreference.com/w/cpp/memory/allocator
  */
 template<typename T>
   class device_new_allocator
@@ -63,8 +64,8 @@ template<typename T>
     /*! \c const reference to allocated element, \c device_reference<const T>. */
     typedef device_reference<const T>         const_reference;
 
-    /*! Type of allocation size, \c std::size_t. */
-    typedef std::size_t                       size_type;
+    /*! Type of allocation size, \c ::cuda::std::size_t. */
+    typedef ::cuda::std::size_t                 size_type;
 
     /*! Type of allocation difference, \c pointer::difference_type. */
     typedef typename pointer::difference_type difference_type;
@@ -139,6 +140,7 @@ template<typename T>
     inline void deallocate(pointer p, size_type cnt)
     {
       // use "::operator delete" rather than keyword delete
+      (void)cnt;
       device_delete(p);
     } // end deallocate()
 
@@ -148,7 +150,7 @@ template<typename T>
     __host__ __device__
     inline size_type max_size() const
     {
-      return std::numeric_limits<size_type>::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION () / sizeof(T);
+      return ::cuda::std::numeric_limits<size_type>::max HYDRA_THRUST_PREVENT_MACRO_SUBSTITUTION () / sizeof(T);
     } // end max_size()
 
     /*! Compares against another \p device_malloc_allocator for equality.
@@ -164,8 +166,7 @@ template<typename T>
     inline bool operator!=(device_new_allocator const &a) {return !operator==(a); }
 }; // end device_new_allocator
 
-/*! \}
+/*! \} // allocators
  */
 
-} // end hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

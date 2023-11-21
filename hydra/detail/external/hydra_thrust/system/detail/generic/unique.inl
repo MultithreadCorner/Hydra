@@ -14,11 +14,6 @@
  *  limitations under the License.
  */
 
-
-/*! \file unique.inl
- *  \brief Inline file for unique.h.
- */
-
 #pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
@@ -29,12 +24,12 @@
 #include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
 #include <hydra/detail/external/hydra_thrust/detail/internal_functional.h>
 #include <hydra/detail/external/hydra_thrust/detail/copy_if.h>
+#include <hydra/detail/external/hydra_thrust/detail/count.h>
 #include <hydra/detail/external/hydra_thrust/distance.h>
 #include <hydra/detail/external/hydra_thrust/functional.h>
 #include <hydra/detail/external/hydra_thrust/detail/range/head_flags.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -66,9 +61,9 @@ __host__ __device__
                          BinaryPredicate binary_pred)
 {
   typedef typename hydra_thrust::iterator_traits<ForwardIterator>::value_type InputType;
-  
+
   hydra_thrust::detail::temporary_array<InputType,DerivedPolicy> input(exec, first, last);
-  
+
   return hydra_thrust::unique_copy(exec, input.begin(), input.end(), first, binary_pred);
 } // end unique()
 
@@ -99,15 +94,46 @@ __host__ __device__
                              BinaryPredicate binary_pred)
 {
   hydra_thrust::detail::head_flags<InputIterator, BinaryPredicate> stencil(first, last, binary_pred);
+
+  using namespace hydra_thrust::placeholders;
+
+  return hydra_thrust::copy_if(exec, first, last, stencil.begin(), output, _1);
+} // end unique_copy()
+
+
+template<typename DerivedPolicy,
+         typename ForwardIterator,
+         typename BinaryPredicate>
+__host__ __device__
+  typename hydra_thrust::iterator_traits<ForwardIterator>::difference_type
+    unique_count(hydra_thrust::execution_policy<DerivedPolicy> &exec,
+                 ForwardIterator first,
+                 ForwardIterator last,
+                 BinaryPredicate binary_pred)
+{
+  hydra_thrust::detail::head_flags<ForwardIterator, BinaryPredicate> stencil(first, last, binary_pred);
   
   using namespace hydra_thrust::placeholders;
   
-  return hydra_thrust::copy_if(exec, first, last, stencil.begin(), output, _1);
+  return hydra_thrust::count_if(exec, stencil.begin(), stencil.end(), _1);
+} // end unique_copy()
+
+
+template<typename DerivedPolicy,
+         typename ForwardIterator>
+__host__ __device__
+  typename hydra_thrust::iterator_traits<ForwardIterator>::difference_type
+    unique_count(hydra_thrust::execution_policy<DerivedPolicy> &exec,
+                 ForwardIterator first,
+                 ForwardIterator last)
+{
+  typedef typename hydra_thrust::iterator_value<ForwardIterator>::type value_type;
+  return hydra_thrust::unique_count(exec, first, last, hydra_thrust::equal_to<value_type>());
 } // end unique_copy()
 
 
 } // end namespace generic
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

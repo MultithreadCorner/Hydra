@@ -23,14 +23,15 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/execution_policy.h>
 #include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
 #include <hydra/detail/external/hydra_thrust/type_traits/is_contiguous_iterator.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace detail
 {
@@ -91,5 +92,5 @@ struct trivial_sequence
 
 } // end namespace detail
 
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

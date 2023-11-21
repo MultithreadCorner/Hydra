@@ -1,7 +1,7 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
  * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of the NVIDIA CORPORATION nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -33,12 +33,16 @@
 
 #pragma once
 
+// Static configuration
+#include "config.cuh"
 
 // Block
-#include "block/block_histogram.cuh"
+#include "block/block_adjacent_difference.cuh"
 #include "block/block_discontinuity.cuh"
 #include "block/block_exchange.cuh"
+#include "block/block_histogram.cuh"
 #include "block/block_load.cuh"
+#include "block/block_merge_sort.cuh"
 #include "block/block_radix_rank.cuh"
 #include "block/block_radix_sort.cuh"
 #include "block/block_reduce.cuh"
@@ -47,7 +51,11 @@
 //#include "block/block_shift.cuh"
 
 // Device
+#include "device/device_adjacent_difference.cuh"
+#include "device/device_copy.cuh"
 #include "device/device_histogram.cuh"
+#include "device/device_memcpy.cuh"
+#include "device/device_merge_sort.cuh"
 #include "device/device_partition.cuh"
 #include "device/device_radix_sort.cuh"
 #include "device/device_reduce.cuh"
@@ -55,6 +63,7 @@
 #include "device/device_scan.cuh"
 #include "device/device_segmented_radix_sort.cuh"
 #include "device/device_segmented_reduce.cuh"
+#include "device/device_segmented_sort.cuh"
 #include "device/device_select.cuh"
 #include "device/device_spmv.cuh"
 
@@ -72,8 +81,12 @@
 #include "thread/thread_store.cuh"
 
 // Warp
+#include "warp/warp_exchange.cuh"
+#include "warp/warp_load.cuh"
+#include "warp/warp_merge_sort.cuh"
 #include "warp/warp_reduce.cuh"
 #include "warp/warp_scan.cuh"
+#include "warp/warp_store.cuh"
 
 // Iterator
 #include "iterator/arg_index_input_iterator.cuh"
@@ -81,15 +94,16 @@
 #include "iterator/cache_modified_output_iterator.cuh"
 #include "iterator/constant_input_iterator.cuh"
 #include "iterator/counting_input_iterator.cuh"
+#include "iterator/discard_output_iterator.cuh"
 #include "iterator/tex_obj_input_iterator.cuh"
 #include "iterator/tex_ref_input_iterator.cuh"
 #include "iterator/transform_input_iterator.cuh"
 
 // Util
+#include "util_allocator.cuh"
 #include "util_arch.cuh"
 #include "util_debug.cuh"
 #include "util_device.cuh"
 #include "util_macro.cuh"
 #include "util_ptx.cuh"
 #include "util_type.cuh"
-

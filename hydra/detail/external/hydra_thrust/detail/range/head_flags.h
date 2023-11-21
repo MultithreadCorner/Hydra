@@ -24,8 +24,7 @@
 #include <hydra/detail/external/hydra_thrust/functional.h>
 
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 
@@ -226,5 +225,5 @@ head_flags<RandomAccessIterator>
 
 
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

@@ -25,8 +25,8 @@
 
 #include <hydra/detail/external/hydra_thrust/detail/execute_with_dependencies.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
+
 namespace detail
 {
 
@@ -99,7 +99,8 @@ struct dependencies_aware_execution_policy
 };
 
 } // end detail
-} // end hydra_thrust
+
+HYDRA_THRUST_NAMESPACE_END
 
 #endif // HYDRA_THRUST_CPP_DIALECT >= 2011
 

@@ -14,10 +14,7 @@
  *  limitations under the License.
  */
 
-
-/*! \file remove.inl
- *  \brief Inline file for remove.h
- */
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/remove.h>
@@ -27,8 +24,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
 #include <hydra/detail/external/hydra_thrust/remove.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -108,7 +104,7 @@ __host__ __device__
 
   // remove into temp
   return hydra_thrust::remove_copy_if(exec, temp.begin(), temp.end(), stencil, first, pred);
-} // end remove_if() 
+} // end remove_if()
 
 
 template<typename DerivedPolicy,
@@ -146,5 +142,5 @@ __host__ __device__
 } // end namespace generic
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

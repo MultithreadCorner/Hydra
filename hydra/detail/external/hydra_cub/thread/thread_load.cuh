@@ -35,15 +35,11 @@
 
 #include <iterator>
 
+#include "../config.cuh"
 #include "../util_ptx.cuh"
 #include "../util_type.cuh"
-#include "../util_namespace.cuh"
 
-/// Optional outer namespace(s)
-CUB_NS_PREFIX
-
-/// CUB namespace
-namespace cub {
+CUB_NAMESPACE_BEGIN
 
 /**
  * \addtogroup UtilIo
@@ -79,7 +75,7 @@ enum CacheLoadModifier
  *
  * \par Example
  * \code
- * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra_cub/thread/thread_load.cuh>
+ * #include <hydra/detail/external/hydra_cub/cub.cuh>   // or equivalently <hydra/detail/external/hydra_cub/thread/thread_load.cuh>
  *
  * // 32-bit load using cache-global modifier:
  * int *d_in;
@@ -102,11 +98,10 @@ enum CacheLoadModifier
  * \tparam MODIFIER             <b>[inferred]</b> CacheLoadModifier enumeration
  * \tparam InputIteratorT       <b>[inferred]</b> Input iterator type \iterator
  */
-template <
-    CacheLoadModifier MODIFIER,
-    typename InputIteratorT>
-__device__ __forceinline__ typename std::iterator_traits<InputIteratorT>::value_type ThreadLoad(InputIteratorT itr);
-
+template <CacheLoadModifier MODIFIER,
+          typename InputIteratorT>
+__device__ __forceinline__ cub::detail::value_t<InputIteratorT>
+ThreadLoad(InputIteratorT itr);
 
 //@}  end member group
 
@@ -273,24 +268,11 @@ struct IterateThreadLoad<MAX, MAX>
 /**
  * Define powers-of-two ThreadLoad specializations for the various Cache load modifiers
  */
-#if CUB_PTX_ARCH >= 200
-    _CUB_LOAD_ALL(LOAD_CA, ca)
-    _CUB_LOAD_ALL(LOAD_CG, cg)
-    _CUB_LOAD_ALL(LOAD_CS, cs)
-    _CUB_LOAD_ALL(LOAD_CV, cv)
-#else
-    _CUB_LOAD_ALL(LOAD_CA, global)
-    // Use volatile to ensure coherent reads when this PTX is JIT'd to run on newer architectures with L1
-    _CUB_LOAD_ALL(LOAD_CG, volatile.global)
-    _CUB_LOAD_ALL(LOAD_CS, global)
-    _CUB_LOAD_ALL(LOAD_CV, volatile.global)
-#endif
-
-#if CUB_PTX_ARCH >= 350
-    _CUB_LOAD_ALL(LOAD_LDG, global.nc)
-#else
-    _CUB_LOAD_ALL(LOAD_LDG, global)
-#endif
+_CUB_LOAD_ALL(LOAD_CA, ca)
+_CUB_LOAD_ALL(LOAD_CG, cg)
+_CUB_LOAD_ALL(LOAD_CS, cs)
+_CUB_LOAD_ALL(LOAD_CV, cv)
+_CUB_LOAD_ALL(LOAD_LDG, global.nc)
 
 
 // Macro cleanup
@@ -307,10 +289,10 @@ struct IterateThreadLoad<MAX, MAX>
  * ThreadLoad definition for LOAD_DEFAULT modifier on iterator types
  */
 template <typename InputIteratorT>
-__device__ __forceinline__ typename std::iterator_traits<InputIteratorT>::value_type ThreadLoad(
-    InputIteratorT          itr,
-    Int2Type<LOAD_DEFAULT>  /*modifier*/,
-    Int2Type<false>         /*is_pointer*/)
+__device__ __forceinline__ cub::detail::value_t<InputIteratorT>
+ThreadLoad(InputIteratorT          itr,
+           Int2Type<LOAD_DEFAULT>  /*modifier*/,
+           Int2Type<false>         /*is_pointer*/)
 {
     return *itr;
 }
@@ -406,13 +388,14 @@ __device__ __forceinline__ T ThreadLoad(
 template <
     CacheLoadModifier MODIFIER,
     typename InputIteratorT>
-__device__ __forceinline__ typename std::iterator_traits<InputIteratorT>::value_type ThreadLoad(InputIteratorT itr)
+__device__ __forceinline__ cub::detail::value_t<InputIteratorT>
+ThreadLoad(InputIteratorT itr)
 {
     // Apply tags for partial-specialization
     return ThreadLoad(
         itr,
         Int2Type<MODIFIER>(),
-        Int2Type<IsPointer<InputIteratorT>::VALUE>());
+        Int2Type<std::is_pointer<InputIteratorT>::value>());
 }
 
 
@@ -423,5 +406,4 @@ __device__ __forceinline__ typename std::iterator_traits<InputIteratorT>::value_
 /** @} */       // end group UtilIo
 
 
-}               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+CUB_NAMESPACE_END

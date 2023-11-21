@@ -14,27 +14,27 @@
  *  limitations under the License.
  */
 
-/*! \file allocator.h
- *  \brief Allocator types usable with NPA-based memory resources.
+/*! \file 
+ *  \brief Allocator types usable with \ref Memory Resources.
  */
 
 #pragma once
 
 #include <limits>
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+#include <hydra/detail/external/hydra_thrust/detail/config/exec_check_disable.h>
+#include <hydra/detail/external/hydra_thrust/detail/config/memory_resource.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/pointer_traits.h>
 
-#include <hydra/detail/external/hydra_thrust/mr/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/mr/validator.h>
 #include <hydra/detail/external/hydra_thrust/mr/polymorphic_adaptor.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace mr
 {
 
-/*! \addtogroup memory_management Memory Management
- *  \addtogroup memory_management_classes Memory Management Classes
+/*! \addtogroup allocators Allocators
  *  \ingroup memory_management
  *  \{
  */
@@ -59,7 +59,7 @@ public:
     typedef T value_type;
     /*! The pointer type allocated by this allocator. Equivaled to the pointer type of \p MR rebound to \p T. */
     typedef typename hydra_thrust::detail::pointer_traits<void_pointer>::template rebind<T>::other pointer;
-    /*! The pointer to const type. Equivalent to a pointer type of \p MR reboud to <tt>const T</tt>. */
+    /*! The pointer to const type. Equivalent to a pointer type of \p MR rebound to <tt>const T</tt>. */
     typedef typename hydra_thrust::detail::pointer_traits<void_pointer>::template rebind<const T>::other const_pointer;
     /*! The reference to the type allocated by this allocator. Supports smart references. */
     typedef typename hydra_thrust::detail::pointer_traits<pointer>::reference reference;
@@ -91,12 +91,13 @@ public:
 
     /*! Calculates the maximum number of elements allocated by this allocator.
      *
-     *  \returns the maximum value of \p std::size_t, divided by the size of \p T.
+     *  \return the maximum value of \p std::size_t, divided by the size of \p T.
      */
+    __hydra_thrust_exec_check_disable__
     __host__ __device__
     size_type max_size() const
     {
-        return std::numeric_limits<size_type>::max() / sizeof(T);
+        return (std::numeric_limits<size_type>::max)() / sizeof(T);
     }
 
     /*! Constructor.
@@ -118,7 +119,7 @@ public:
     /*! Allocates objects of type \p T.
      *
      *  \param n number of elements to allocate
-     *  \returns a pointer to the newly allocated storage.
+     *  \return a pointer to the newly allocated storage.
      */
     HYDRA_THRUST_NODISCARD
     __host__
@@ -140,7 +141,7 @@ public:
 
     /*! Extracts the memory resource used by this allocator.
      *
-     *  \returns the memory resource used by this allocator.
+     *  \return the memory resource used by this allocator.
      */
     __host__ __device__
     MR * resource() const
@@ -155,7 +156,7 @@ private:
 /*! Compares the allocators for equality by comparing the underlying memory resources. */
 template<typename T, typename MR>
 __host__ __device__
-bool operator==(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) HYDRA_THRUST_NOEXCEPT
+bool operator==(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) noexcept
 {
     return *lhs.resource() == *rhs.resource();
 }
@@ -163,17 +164,17 @@ bool operator==(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) HYDR
 /*! Compares the allocators for inequality by comparing the underlying memory resources. */
 template<typename T, typename MR>
 __host__ __device__
-bool operator!=(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) HYDRA_THRUST_NOEXCEPT
+bool operator!=(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) noexcept
 {
     return !(lhs == rhs);
 }
 
-#if __cplusplus >= 201103L
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
 
 template<typename T, typename Pointer>
 using polymorphic_allocator = allocator<T, polymorphic_adaptor_resource<Pointer> >;
 
-#else
+#else // C++11
 
 template<typename T, typename Pointer>
 class polymorphic_allocator : public allocator<T, polymorphic_adaptor_resource<Pointer> >
@@ -188,7 +189,7 @@ public:
     }
 };
 
-#endif
+#endif // C++11
 
 /*! A helper allocator class that uses global instances of a given upstream memory resource. Requires the memory resource
  *      to be default constructible.
@@ -218,7 +219,8 @@ public:
     /*! Default constructor. Uses \p get_global_resource to get the global instance of \p Upstream and initializes the
      *      \p allocator base subobject with that resource.
      */
-    __host__
+    __hydra_thrust_exec_check_disable__
+    __host__ __device__
     stateless_resource_allocator() : base(get_global_resource<Upstream>())
     {
     }
@@ -234,11 +236,18 @@ public:
     stateless_resource_allocator(const stateless_resource_allocator<U, Upstream> & other)
         : base(other) {}
 
+#if HYDRA_THRUST_CPP_DIALECT >= 2011
+    stateless_resource_allocator & operator=(const stateless_resource_allocator &) = default;
+#endif
+
     /*! Destructor. */
     __host__ __device__
     ~stateless_resource_allocator() {}
 };
 
+/*! \} // allocators
+ */
+
 } // end mr
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

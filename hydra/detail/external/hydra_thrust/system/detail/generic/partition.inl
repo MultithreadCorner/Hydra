@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/partition.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
@@ -29,8 +31,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/internal_functional.h>
 #include <hydra/detail/external/hydra_thrust/detail/temporary_array.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -244,5 +245,5 @@ __host__ __device__
 } // end namespace generic
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

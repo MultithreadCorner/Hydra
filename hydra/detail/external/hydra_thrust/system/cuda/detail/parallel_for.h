@@ -26,25 +26,25 @@
  ******************************************************************************/
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
-#include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
 
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/result_of_adaptable_function.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/detail/par_to_seq.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/cdp_dispatch.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/core/agent_launcher.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/par_to_seq.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace cuda_cub {
 
 namespace __parallel_for {
 
   template <int _BLOCK_THREADS,
-            int _ITEMS_PER_THREAD = 1,
-            int _MIN_BLOCKS       = 1>
+            int _ITEMS_PER_THREAD = 1>
   struct PtxPolicy
   {
     enum
@@ -52,7 +52,6 @@ namespace __parallel_for {
       BLOCK_THREADS    = _BLOCK_THREADS,
       ITEMS_PER_THREAD = _ITEMS_PER_THREAD,
       ITEMS_PER_TILE   = BLOCK_THREADS * ITEMS_PER_THREAD,
-      MIN_BLOCKS       = _MIN_BLOCKS
     };
   };    // struct PtxPolicy
 
@@ -133,12 +132,10 @@ namespace __parallel_for {
     using core::AgentLauncher;
     using core::AgentPlan;
 
-    bool debug_sync = HYDRA_THRUST_DEBUG_SYNC_FLAG;
-
     typedef AgentLauncher<ParallelForAgent<F, Size> > parallel_for_agent;
     AgentPlan parallel_for_plan = parallel_for_agent::get_plan(stream);
 
-    parallel_for_agent pfa(parallel_for_plan, num_items, stream, "transform::agent", debug_sync);
+    parallel_for_agent pfa(parallel_for_plan, num_items, stream, "transform::agent");
     pfa.launch(f, num_items);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
 
@@ -146,7 +143,7 @@ namespace __parallel_for {
   }
 }    // __parallel_for
 
-__hydra_thrust_exec_check_disable__ 
+__hydra_thrust_exec_check_disable__
 template <class Derived,
           class F,
           class Size>
@@ -156,24 +153,27 @@ parallel_for(execution_policy<Derived> &policy,
              Size                       count)
 {
   if (count == 0)
+  {
     return;
+  }
 
-  if (__HYDRA_THRUST_HAS_CUDART__)
-  {
-    cudaStream_t stream = cuda_cub::stream(policy);
-    cudaError_t  status = __parallel_for::parallel_for(count, f, stream);
-    cuda_cub::throw_on_error(status, "parallel_for failed");
-  }
-  else
-  {
-#if !__HYDRA_THRUST_HAS_CUDART__
-    for (Size idx = 0; idx != count; ++idx)
-      f(idx);
-#endif
-  }
+  // clang-format off
+  HYDRA_THRUST_CDP_DISPATCH(
+    (cudaStream_t stream = cuda_cub::stream(policy);
+     cudaError_t  status = __parallel_for::parallel_for(count, f, stream);
+     cuda_cub::throw_on_error(status, "parallel_for failed");
+     status = cuda_cub::synchronize_optional(policy);
+     cuda_cub::throw_on_error(status, "parallel_for: failed to synchronize");),
+    // CDP sequential impl:
+    (for (Size idx = 0; idx != count; ++idx)
+     {
+       f(idx);
+     }
+  ));
+  // clang-format on
 }
 
 }    // namespace cuda_cub
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 #endif

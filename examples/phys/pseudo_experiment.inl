@@ -385,7 +385,6 @@ int main(int argv, char** argc)
 			}
 		}
 	}
-
 	//device
 	//------------------------
 #ifdef _ROOT_AVAILABLE_
@@ -399,7 +398,7 @@ int main(int argv, char** argc)
 	TH1D hist_N_Exponential("N_Exponential", "N_Exponential", 100, 1.0, 0.0);
 	TH1D hist_mean("mean", "mean", 100, 1.0, 0.0);
 	TH1D hist_sigma("sigma", "sigma", 100, 1.0, 0.0 );
-	TH1D hist_tau("tau", "tau", 100, 1.0, 0.0 );
+	TH1D hist_tau("tau", "tau", 100, -0.25, -0.15 );
 	TH1D hist_mass("mass", "mass", 100, 1.0, 0.0 );
 	TH1D hist_mass_error("mass_error", "mass error", 100, 1.0, 0.0 );
 	TH1D hist_width("width", "width", 100, 1.0, 0.0 );
@@ -425,7 +424,6 @@ int main(int argv, char** argc)
  * 4- repeat the loop
  */
 	hydra::multiarray<double, 13, hydra::host::sys_t> variable_log{};
-
 	{
 
 		for(size_t study=0; study<nstudies; study++)
@@ -435,11 +433,16 @@ int main(int argv, char** argc)
 			//====================================================================
 
 			//boost_strapped data (bs-data)
-			auto bs_range = hydra::boost_strapped_range( dataset, std::ranlux24(study)() );
+			auto bs_range = hydra::boost_strapped_range( dataset, hydra::default_random_engine(study)() );
+
+			//for( auto i=0; i<100; ++i)
+				//std::cout << i << " " << bs_range[i] << std::endl;
 
 			//bring the bs-data to the device
 			hydra::multiarray<double,2, hydra::device::sys_t> dataset_device( bs_range.begin(),
 					bs_range.begin() + dataset.size());
+
+
 
 			//create fcn for sfit
 			auto splot_fcn = hydra::make_loglikehood_fcn(splot_model,
@@ -447,11 +450,11 @@ int main(int argv, char** argc)
 
 			//print level
 			if(verbose){
-				ROOT::Minuit2::MnPrint::SetLevel(3);
+				ROOT::Minuit2::MnPrint::SetGlobalLevel(3);
 				hydra::Print::SetLevel(hydra::WARNING);
 			}
 			else{
-				ROOT::Minuit2::MnPrint::SetLevel(-1);
+				ROOT::Minuit2::MnPrint::SetGlobalLevel(-1);
 				hydra::Print::SetLevel(hydra::ERROR);
 			}
 			//minimization strategy
@@ -484,8 +487,6 @@ int main(int argv, char** argc)
 
 			//--------------------------------------------
 			//perform splot for two components
-			//allocate memory to hold weights
-			hydra::multiarray<double, 2, hydra::device::sys_t> sweigts_device( dataset_device.size() );
 
 			//create splot
 			auto sweigts  = hydra::make_splot( splot_fcn.GetPDF(),  hydra::columns(dataset_device, _0) );
@@ -504,18 +505,26 @@ int main(int argv, char** argc)
 					<< std::endl;
 
 			for(size_t i = 0; i< 10; i++)
-				std::cout << i << ") :"
+				std::cout << i << ") : "
 				<< sweigts[i]
 				<< std::endl;
 			}
+
+			//allocate memory to hold the sweights
+			//usually this should not be necessary. But nvcc on cuda 12, refuses to
+			//allocate stack size otherwise
+			//hydra::multiarray<double, 2, hydra::device::sys_t> sweigts_device( sweigts );
+
 
 			//====================================================================
 			// MAIN FIT AND OBSERVABLE ESTIMATION
 			//====================================================================
 
+
 			//fitting only the BreitWigner to the background subtracted sample
 			auto fcn = hydra::make_loglikehood_fcn(BreitWigner_PDF,//observable_model,
 					hydra::columns(dataset_device, _1), sweigts(_0) );
+
 
 			// create Migrad minimizer
 			MnMigrad migrad(fcn, fcn.GetParameters().GetMnState(), strategy);
@@ -565,7 +574,7 @@ int main(int argv, char** argc)
 
 			elapsed = end - start;
 
-			if(verbose){
+			if(1){
 
 				// output
 				std::cout << std::endl <<"Full fit minimum: "

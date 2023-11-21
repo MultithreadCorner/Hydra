@@ -396,7 +396,7 @@ int main(int argv, char** argc)
 		auto fcn = hydra::make_loglikehood_fcn( model, breit_wigner_sample);
 
 		//print level
-		ROOT::Minuit2::MnPrint::SetLevel(3);
+		ROOT::Minuit2::MnPrint::SetGlobalLevel(3);
 		hydra::Print::SetLevel(hydra::WARNING);
 
 		//minimization strategy

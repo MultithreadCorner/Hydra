@@ -49,8 +49,8 @@ class FCN<Estimator<PDF,Iterator,Iterators...>, true>: public ROOT::Minuit2::FCN
 
 public:
 
-	typedef hydra_thrust::zip_iterator<hydra_thrust::tuple<Iterators...>> witerator;
-	typedef hydra_thrust::zip_iterator<hydra_thrust::tuple<Iterator,Iterators...>> iterator;
+	typedef hydra::thrust::zip_iterator<hydra::thrust::tuple<Iterators...>> witerator;
+	typedef hydra::thrust::zip_iterator<hydra::thrust::tuple<Iterator,Iterators...>> iterator;
 
     FCN() = delete;
 
@@ -59,18 +59,18 @@ public:
 		fErrorDef(0.5),
 		fBegin(begin),
 		fEnd(end),
-		fWBegin(hydra_thrust::make_zip_iterator( hydra_thrust::make_tuple(begins...))),
-		fWEnd(hydra_thrust::make_zip_iterator(hydra_thrust::make_tuple((begins + hydra_thrust::distance(begin, end))...))),
+		fWBegin(hydra::thrust::make_zip_iterator( hydra::thrust::make_tuple(begins...))),
+		fWEnd(hydra::thrust::make_zip_iterator(hydra::thrust::make_tuple((begins + hydra::thrust::distance(begin, end))...))),
 		fFCNCache(std::unordered_map<size_t, GReal_t>()),
 		fFCNMaxValue(std::numeric_limits<GReal_t>::min())
 	{
-		auto weights_begin = hydra_thrust::make_zip_iterator( hydra_thrust::make_tuple( begins...));
-		auto weights_end   = hydra_thrust::make_zip_iterator( hydra_thrust::make_tuple( (begins + hydra_thrust::distance(begin, end))...));
+		auto weights_begin = hydra::thrust::make_zip_iterator( hydra::thrust::make_tuple( begins...));
+		auto weights_end   = hydra::thrust::make_zip_iterator( hydra::thrust::make_tuple( (begins + hydra::thrust::distance(begin, end))...));
 
-		typedef typename  hydra_thrust::iterator_traits<decltype(weights_begin)>::value_type arg_type;
+		typedef typename  hydra::thrust::iterator_traits<decltype(weights_begin)>::value_type arg_type;
 
-		fDataSize = hydra_thrust::transform_reduce(weights_begin, weights_end,
-				detail::FCNWeightsReducerUnary<arg_type>() , 0.0, hydra_thrust::plus<double>());
+		fDataSize = hydra::thrust::transform_reduce(weights_begin, weights_end,
+				detail::FCNWeightsReducerUnary<arg_type>() , 0.0, hydra::thrust::plus<double>());
 
 		LoadFCNParameters();
 	}

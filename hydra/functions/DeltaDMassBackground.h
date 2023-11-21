@@ -52,7 +52,7 @@
 #include <cassert>
 #include <utility>
 
-#include <gsl/gsl_sf_gamma.h>
+#include <hydra/detail/external/hydra_boost/boost_math.hpp>
 
 namespace hydra {
 
@@ -192,7 +192,7 @@ private:
 
 		inline double inc_gamma( const double a, const double x) const {
 
-			return gsl_sf_gamma_inc(a, x);
+			return hydra::boost::math::tgamma_lower(a, x); ;//gsl_sf_gamma_inc(a, x);
 		}
 
 

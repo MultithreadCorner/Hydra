@@ -14,14 +14,15 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/inner_product.h>
 #include <hydra/detail/external/hydra_thrust/functional.h>
 #include <hydra/detail/external/hydra_thrust/detail/internal_functional.h>
 #include <hydra/detail/external/hydra_thrust/transform_reduce.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -50,7 +51,7 @@ OutputType inner_product(hydra_thrust::execution_policy<DerivedPolicy> &exec,
                          InputIterator1 first1,
                          InputIterator1 last1,
                          InputIterator2 first2,
-                         OutputType init, 
+                         OutputType init,
                          BinaryFunction1 binary_op1,
                          BinaryFunction2 binary_op2)
 {
@@ -68,5 +69,5 @@ OutputType inner_product(hydra_thrust::execution_policy<DerivedPolicy> &exec,
 } // end generic
 } // end detail
 } // end system
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

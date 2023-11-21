@@ -23,8 +23,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 
@@ -130,5 +129,5 @@ join_iterator<RandomAccessIterator1,RandomAccessIterator2,Size> make_join_iterat
 
 
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

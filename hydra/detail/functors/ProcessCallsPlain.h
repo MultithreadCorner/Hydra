@@ -49,7 +49,7 @@ namespace detail {
 
 // ProcessCallsPlainUnary is a functor that takes in a value x and
 // returns a PlainState whose mean value is initialized to f(x).
-template <typename FUNCTOR, size_t N, typename GRND=hydra_thrust::random::default_random_engine>
+template <typename FUNCTOR, size_t N, typename GRND=hydra::thrust::random::default_random_engine>
 struct ProcessCallsPlainUnary
 {
 
@@ -85,7 +85,7 @@ struct ProcessCallsPlainUnary
 
 		GRND randEng(fSeed);
 		randEng.discard(index);
-		hydra_thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
+		hydra::thrust::uniform_real_distribution<GReal_t> uniDist(0.0, 1.0);
 
 		GReal_t x[N];
 
@@ -119,7 +119,7 @@ struct ProcessCallsPlainUnary
 // approximation to the summary_stats for
 // all values that have been agregated so far
 struct ProcessCallsPlainBinary
-    : public hydra_thrust::binary_function<PlainState const&,
+    : public hydra::thrust::binary_function<PlainState const&,
                                      PlainState const&,
                                      PlainState >
 {
@@ -136,8 +136,8 @@ struct ProcessCallsPlainBinary
 
         //Basic number of samples (n), min, and max
         result.fN   = n;
-        result.fMin = hydra_thrust::min(x.fMin, y.fMin);
-        result.fMax = hydra_thrust::max(x.fMax, y.fMax);
+        result.fMin = hydra::thrust::min(x.fMin, y.fMin);
+        result.fMax = hydra::thrust::max(x.fMax, y.fMax);
 
         result.fMean = (x.fMean* x.fN +  y.fMean* y.fN) / n;
 

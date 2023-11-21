@@ -67,7 +67,7 @@ namespace detail {
 	inline void launch_evaluator(Iterator begin, Iterator end,
 			detail::EvalMother<N, GRND,FUNCTOR, FUNCTORS...> const& evaluator) {
 
-		hydra_thrust::tabulate(begin, end, evaluator);
+		hydra::thrust::tabulate(begin, end, evaluator);
 
 	}
 
@@ -77,13 +77,13 @@ namespace detail {
 	inline void launch_evaluator( IteratorMother mbegin, IteratorMother mend, Iterator begin,
 			 detail::EvalMothers<N, GRND,FUNCTOR, FUNCTORS...> const& evaluator) {
 
-		size_t nevents = hydra_thrust::distance(mbegin, mend);
-		hydra_thrust::counting_iterator<size_t> first(0);
-		hydra_thrust::counting_iterator<size_t> last = first + nevents;
+		size_t nevents = hydra::thrust::distance(mbegin, mend);
+		hydra::thrust::counting_iterator<size_t> first(0);
+		hydra::thrust::counting_iterator<size_t> last = first + nevents;
 
-		hydra_thrust::transform(
-				hydra_thrust::make_zip_iterator(first, mbegin),
-				hydra_thrust::make_zip_iterator(last, mend),
+		hydra::thrust::transform(
+				hydra::thrust::make_zip_iterator(first, mbegin),
+				hydra::thrust::make_zip_iterator(last, mend),
 				begin, evaluator );
 
 	}
@@ -99,7 +99,7 @@ namespace detail {
 
 		StatsPHSP init = StatsPHSP();
 
-		StatsPHSP result = hydra_thrust::transform_reduce(policy , begin, end,
+		StatsPHSP result = hydra::thrust::transform_reduce(policy , begin, end,
 				evaluator, init,detail::AddStatsPHSP() );
 
 		return result;
@@ -110,19 +110,19 @@ namespace detail {
 	inline StatsPHSP launch_reducer(Iterator begin, Iterator end,
 			detail::AverageMothers<N, GRND,FUNCTOR> const& evaluator)
 	{
-		using hydra_thrust::system::detail::generic::select_system;
-		typedef typename hydra_thrust::iterator_system<Iterator>::type System;
+		using hydra::thrust::system::detail::generic::select_system;
+		typedef typename hydra::thrust::iterator_system<Iterator>::type System;
 		System system;
 
-		size_t nevents = hydra_thrust::distance(begin, end);
-		hydra_thrust::counting_iterator<size_t> first(0);
-		hydra_thrust::counting_iterator<size_t> last = first + nevents;
+		size_t nevents = hydra::thrust::distance(begin, end);
+		hydra::thrust::counting_iterator<size_t> first(0);
+		hydra::thrust::counting_iterator<size_t> last = first + nevents;
 
 		StatsPHSP init = StatsPHSP();
 
-		StatsPHSP result = hydra_thrust::transform_reduce(select_system(system),
-				hydra_thrust::make_zip_iterator(first, begin),
-				hydra_thrust::make_zip_iterator(last, end),
+		StatsPHSP result = hydra::thrust::transform_reduce(select_system(system),
+				hydra::thrust::make_zip_iterator(first, begin),
+				hydra::thrust::make_zip_iterator(last, end),
 				evaluator, init,detail::AddStatsPHSP() );
 
 		return result;
@@ -134,7 +134,7 @@ namespace detail {
     inline void launch_decayer(Iterator begin, Iterator end, DecayMother<N, GRND> const& decayer)
 	{
 
-		hydra_thrust::tabulate(begin, end, decayer);
+		hydra::thrust::tabulate(begin, end, decayer);
 		return;
 	}
 
@@ -143,7 +143,7 @@ namespace detail {
 			Iterator begin, Iterator end, DecayMother<N, GRND> const& decayer)
 	{
 
-		hydra_thrust::tabulate(exec_policy , begin, end, decayer);
+		hydra::thrust::tabulate(exec_policy , begin, end, decayer);
 		return;
 
 	}
@@ -155,12 +155,12 @@ namespace detail {
 			, IteratorDaughter begin_daugters, DecayMothers<N, GRND> const& decayer)
 	{
 
-		size_t nevents    = hydra_thrust::distance(begin_mothers, end_mothers);
+		size_t nevents    = hydra::thrust::distance(begin_mothers, end_mothers);
 
-		hydra_thrust::counting_iterator<size_t> first(0);
-		hydra_thrust::counting_iterator<size_t> last = first + nevents;
+		hydra::thrust::counting_iterator<size_t> first(0);
+		hydra::thrust::counting_iterator<size_t> last = first + nevents;
 
-		hydra_thrust::transform(first, last, begin_mothers,	begin_daugters, decayer);
+		hydra::thrust::transform(first, last, begin_mothers,	begin_daugters, decayer);
 
 		return;
 	}
@@ -171,12 +171,12 @@ namespace detail {
 			  IteratorMother begin_mothers, IteratorMother end_mothers,
 			  IteratorDaughter begin_daugters, DecayMothers<N, GRND> const& decayer)
 	{
-		size_t nevents    = hydra_thrust::distance(begin_mothers, end_mothers);
+		size_t nevents    = hydra::thrust::distance(begin_mothers, end_mothers);
 
-		hydra_thrust::counting_iterator<size_t> first(0);
-		hydra_thrust::counting_iterator<size_t> last = first + nevents;
+		hydra::thrust::counting_iterator<size_t> first(0);
+		hydra::thrust::counting_iterator<size_t> last = first + nevents;
 
-		hydra_thrust::transform(exec_policy, first, last, begin_mothers, begin_daugters, decayer);
+		hydra::thrust::transform(exec_policy, first, last, begin_mothers, begin_daugters, decayer);
 
 		return;
 	}

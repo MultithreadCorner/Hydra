@@ -44,7 +44,7 @@
 
 #include <hydra/Convolution.h>
 #include <hydra/functions/Gaussian.h>
-#include <hydra/functions/Ipatia.h>
+#include <hydra/functions/TrapezoidalShape.h>
 #include <hydra/device/System.h>
 #include <hydra/functions/ConvolutionFunctor.h>
 #include <hydra/GaussKronrodQuadrature.h>
@@ -85,7 +85,7 @@ int main(int argv, char** argc)
 
 		TCLAP::CmdLine cmd("Command line arguments for ", '=');
 
-		TCLAP::ValueArg<size_t> EArg("n", "number-of-events","Number of events", true, 10e6, "size_t");
+		TCLAP::ValueArg<size_t> EArg("n", "number-of-samples","Number of samples", true, 10e6, "size_t");
 		cmd.add(EArg);
 
 		// Parse the argv array.
@@ -103,17 +103,17 @@ int main(int argv, char** argc)
 	//-----------------
 	// some definitions
 
-	double min=493.677-30.0;
-	double max=493.677+30.0;
+	double min=-10.0;
+	double max= 10.0;
 
 	auto nsamples = nentries;
 	//===========================
 	// kernels
 	//---------------------------
 
-	// gaussian
-	auto mean   = hydra::Parameter::Create( "mean").Value(0.0).Error(0.0001);
-	auto sigma  = hydra::Parameter::Create("sigma").Value(1.0).Error(0.0001);
+	//Gaussian
+	auto mean   = hydra::Parameter::Create( "mean").Value(1.0).Error(0.0001);//bias
+	auto sigma  = hydra::Parameter::Create("sigma").Value(0.5).Error(0.0001);//resolution
 
 	hydra::Gaussian<double> kernel(mean,  sigma);
 
@@ -122,25 +122,17 @@ int main(int argv, char** argc)
 	//---------------------------
 
 
-	//Ipatia
-	//core
-	auto mu    = hydra::Parameter::Create("mu").Value(493.677).Error(0.0001);
-	auto gamma = hydra::Parameter::Create("sigma").Value(17.5).Error(0.0001);
-	//left tail
-	auto L1    = hydra::Parameter::Create("L1").Value(0.199).Error(0.0001); // decay speed
-	auto N1    = hydra::Parameter::Create("N1").Value(14.0).Error(0.0001); // tail deepness
-	//right tail
-	auto L2    = hydra::Parameter::Create("L2").Value(1.62).Error(0.0001);// decay speed
-	auto N2    = hydra::Parameter::Create("N2").Value(10.5).Error(0.0001);// tail deepness
-	//peakness
-	auto alfa  = hydra::Parameter::Create("alfa").Value(-1.01).Error(0.0001);
-	auto beta  = hydra::Parameter::Create("beta").Value(-0.3).Error(0.0001);
+	//Trapezoid
+	auto A = hydra::Parameter::Create("A").Value(-5.0).Error(0.0001);
+	auto B = hydra::Parameter::Create("B").Value(-2.0).Error(0.0001);
+	auto C = hydra::Parameter::Create("C").Value( 2.0).Error(0.0001);
+	auto D = hydra::Parameter::Create("D").Value( 5.0).Error(0.0001);
 
 
 	//ipatia function evaluating on the first argument
-	auto signal = hydra::Ipatia<double>(mu, gamma,L1,N1,L2,N2,alfa,beta);
+	auto signal = hydra::TrapezoidalShape<double>(A, B, C, D);
 
-	//hydra::Gaussian<>  signal(mu, gamma);
+
 	//===========================
 	// samples
 	//---------------------------
@@ -199,17 +191,17 @@ int main(int argv, char** argc)
 #ifdef _ROOT_AVAILABLE_
 
 	//fill histograms
-	TH1D *hist_convol   = new TH1D("convol","convolution", conv_result.size(), min, max);
-	TH1D *hist_convol_functor   = new TH1D("convol_functor","convolution", conv_result.size(), min, max);
-	TH1D *hist_signal   = new TH1D("signal", "signal", conv_result.size(), min, max);
-	TH1D *hist_kernel   = new TH1D("kernel", "kernel", conv_result.size(), -0.5*(max-min),0.5*(max-min) );
+	TH1D *hist_convol   = new TH1D("convol","Convolution result", conv_result.size(), min, max);
+	TH1D *hist_convol_functor   = new TH1D("convol_functor","Convolution functor", conv_result.size(), min, max);
+	TH1D *hist_signal   = new TH1D("signal", "Signal", conv_result.size(), min, max);
+	TH1D *hist_kernel   = new TH1D("kernel", "Gaussian resolution model: bias 1.0 and width 0.5)", conv_result.size(), -0.5*(max-min),0.5*(max-min) );
 
 	for(int i=1;  i<hist_convol->GetNbinsX()+1; i++){
 
 		hist_convol_functor->SetBinContent(i, convoluton(hist_convol_functor->GetBinCenter(i)) );
 		hist_convol->SetBinContent(i, conv_result[i-1] );
 		hist_signal->SetBinContent(i, signal(hist_signal->GetBinCenter(i) ) );
-		hist_kernel->SetBinContent(i, kernel( hist_kernel->GetBinCenter(i)));
+		hist_kernel->SetBinContent(i, kernel(hist_kernel->GetBinCenter(i) ) );
 	}
 #endif //_ROOT_AVAILABLE_
 
@@ -225,20 +217,22 @@ int main(int argv, char** argc)
 	//----------------------------
 	//draw histograms
 	TCanvas* canvas = new TCanvas("canvas" ,"canvas", 1500, 1000);
-	canvas->Divide(3,2);
+	canvas->Divide(2,2);
 
 	auto c1 = canvas->cd(1);
 
 	hist_convol->SetStats(0);
 	hist_convol->SetLineColor(4);
 	hist_convol->SetLineWidth(2);
+	c1->SetGrid();
 	hist_convol->Draw("histl");
-	c1->SaveAs("hist_convol.pdf");
+
 
 	auto c2 = canvas->cd(2);
 	hist_convol_functor->SetStats(0);
-	hist_convol_functor->SetLineColor(4);
+	hist_convol_functor->SetLineColor(8);
 	hist_convol_functor->SetLineWidth(2);
+	c2->SetGrid();
 	hist_convol_functor->Draw("histl");
 
 
@@ -246,27 +240,16 @@ int main(int argv, char** argc)
 	hist_signal->SetStats(0);
 	hist_signal->SetLineColor(2);
 	hist_signal->SetLineWidth(2);
-	hist_signal->SetLineStyle(2);
+	c3->SetGrid();
 	hist_signal->Draw("histl");
-    c3->SaveAs("hist_signal.pdf");
 
     auto c4 =  canvas->cd(4);
 	hist_kernel->SetStats(0);
 	hist_kernel->SetLineColor(6);
 	hist_kernel->SetLineWidth(2);
+	c4->SetGrid();
 	hist_kernel->Draw("hist");
-	c4->SaveAs("hist_kernel.pdf");
 
-	auto c5 =  canvas->cd(5);
-
-	hist_signal->Draw("histl");
-
-    hist_convol->Draw("histsame");
-    hist_convol->SetFillColor(4);
-    hist_convol->SetFillStyle(3003);
-    hist_convol->SetLineWidth(1);
-
-    c5->SaveAs("hist_convol2.pdf");
 
 	myapp->Run();
 

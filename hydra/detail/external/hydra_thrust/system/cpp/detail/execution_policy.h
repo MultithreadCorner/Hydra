@@ -19,8 +19,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/sequential/execution_policy.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 // put the canonical tag in the same ns as the backend's entry points
@@ -77,5 +76,5 @@ using hydra_thrust::system::cpp::execution_policy;
 using hydra_thrust::system::cpp::tag;
 
 } // end cpp
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

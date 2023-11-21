@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/omp/detail/default_decomposition.h>
 
@@ -22,8 +24,7 @@
 #include <omp.h>
 #endif // omp support
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace omp
@@ -56,5 +57,5 @@ hydra_thrust::system::detail::internal::uniform_decomposition<IndexType> default
 } // end namespace detail
 } // end namespace omp
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

@@ -44,11 +44,11 @@ class Range<Iterator>{
 
 public:
 	//stl-like typedefs
-	//typedef typename hydra_thrust::iterator_traits<Iterator>::difference_type    difference_type;
-	//typedef typename hydra_thrust::iterator_traits<Iterator>::value_type         value_type;
-	//typedef typename hydra_thrust::iterator_traits<Iterator>::pointer            pointer;
-	typedef typename hydra_thrust::iterator_traits<Iterator>::reference          reference;
-	//typedef typename hydra_thrust::iterator_traits<Iterator>::iterator_category  iterator_category;
+	//typedef typename hydra::thrust::iterator_traits<Iterator>::difference_type    difference_type;
+	//typedef typename hydra::thrust::iterator_traits<Iterator>::value_type         value_type;
+	//typedef typename hydra::thrust::iterator_traits<Iterator>::pointer            pointer;
+	typedef typename hydra::thrust::iterator_traits<Iterator>::reference          reference;
+	//typedef typename hydra::thrust::iterator_traits<Iterator>::iterator_category  iterator_category;
 	typedef Iterator iterator;
 
 	Range()=delete;
@@ -105,7 +105,7 @@ public:
 
 	inline void resize(size_t size){	}
 
-	inline size_t size() { return hydra_thrust::distance(fBegin, fEnd);}
+	inline size_t size() { return hydra::thrust::distance(fBegin, fEnd);}
 
 	inline Iterator GetBegin() const {
 		return fBegin;
@@ -147,10 +147,10 @@ make_range(Iterator begin, Iterator end ){
 }
 
 template<typename Iterator>
-Range<hydra_thrust::reverse_iterator<Iterator>>
+Range<hydra::thrust::reverse_iterator<Iterator>>
 make_reverse_range(Iterator begin, Iterator end ){
 
-	typedef hydra_thrust::reverse_iterator<Iterator> reverse_iterator_type;
+	typedef hydra::thrust::reverse_iterator<Iterator> reverse_iterator_type;
 	return Range<reverse_iterator_type>(  reverse_iterator_type(end), reverse_iterator_type(begin));
 }
 

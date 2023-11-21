@@ -27,8 +27,8 @@
 #include <tuple>
 #include <type_traits>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
+
 namespace detail
 {
 
@@ -189,8 +189,8 @@ public:
         return std::move(dependencies);
     }
 
-    typename std::remove_reference<Allocator>::type&
     __host__
+    typename std::add_lvalue_reference<Allocator>::type
     get_allocator()
     {
         return alloc;
@@ -261,7 +261,7 @@ extract_dependencies(System &&)
 }
 
 } // end detail
-} // end hydra_thrust
+
+HYDRA_THRUST_NAMESPACE_END
 
 #endif // HYDRA_THRUST_CPP_DIALECT >= 2011
-

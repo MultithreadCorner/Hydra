@@ -14,10 +14,7 @@
  *  limitations under the License.
  */
 
-
-/*! \file find.inl
- *  \brief Inline file for find.h
- */
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
@@ -25,9 +22,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/find.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/find.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 __hydra_thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename T>
@@ -74,11 +69,11 @@ InputIterator find(InputIterator first,
                    const T& value)
 {
   using hydra_thrust::system::detail::generic::select_system;
-  
+
   typedef typename hydra_thrust::iterator_system<InputIterator>::type System;
-  
+
   System system;
-  
+
   return hydra_thrust::find(select_system(system), first, last, value);
 }
 
@@ -88,11 +83,11 @@ InputIterator find_if(InputIterator first,
                       Predicate pred)
 {
   using hydra_thrust::system::detail::generic::select_system;
-  
+
   typedef typename hydra_thrust::iterator_system<InputIterator>::type System;
-  
+
   System system;
-  
+
   return hydra_thrust::find_if(select_system(system), first, last, pred);
 }
 
@@ -102,14 +97,12 @@ InputIterator find_if_not(InputIterator first,
                           Predicate pred)
 {
   using hydra_thrust::system::detail::generic::select_system;
-  
+
   typedef typename hydra_thrust::iterator_system<InputIterator>::type System;
-  
+
   System system;
-  
+
   return hydra_thrust::find_if_not(select_system(system), first, last, pred);
 }
 
-
-} // end namespace hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

@@ -17,99 +17,120 @@
 #pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
+#include <hydra/detail/external/hydra_thrust/detail/functional/argument.h>
+#include <hydra/detail/external/hydra_thrust/detail/type_deduction.h>
 #include <hydra/detail/external/hydra_thrust/tuple.h>
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
+#include <hydra/detail/external/hydra_thrust/type_traits/void_t.h>
 
-namespace hydra_thrust
-{
+#include <type_traits>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 namespace functional
 {
 
-// this thing (which models Eval) is an adaptor for the unary
-// functors inside functional.h
-template<template<typename> class UnaryOperator>
-  struct unary_operator
+// Adapts a transparent unary functor from functional.h (e.g. hydra_thrust::negate<>)
+// into the Eval interface.
+template <typename UnaryFunctor>
+struct transparent_unary_operator
 {
-  template<typename Env>
-    struct argument
-      : hydra_thrust::detail::eval_if<
-          (hydra_thrust::tuple_size<Env>::value == 0),
-          hydra_thrust::detail::identity_<hydra_thrust::null_type>,
-          hydra_thrust::tuple_element<0,Env>
-        >
+  template <typename>
+  using operator_type = UnaryFunctor;
+
+  template <typename Env>
+  using argument =
+  typename hydra_thrust::detail::eval_if<
+    hydra_thrust::tuple_size<Env>::value != 1,
+    hydra_thrust::detail::identity_<hydra_thrust::null_type>,
+    hydra_thrust::detail::functional::argument_helper<0, Env>
+  >::type;
+
+  template <typename Env>
+  struct result_type_impl
   {
+    using type = decltype(
+      std::declval<UnaryFunctor>()(std::declval<argument<Env>>()));
   };
 
-  template<typename Env>
-    struct operator_type
+  template <typename Env>
+  using result_type =
+  typename hydra_thrust::detail::eval_if<
+    std::is_same<hydra_thrust::null_type, argument<Env>>::value,
+    hydra_thrust::detail::identity_<hydra_thrust::null_type>,
+    result_type_impl<Env>
+  >::type;
+
+  template <typename Env>
+  struct result
   {
-    typedef UnaryOperator<
-      typename hydra_thrust::detail::remove_reference<
-        typename argument<Env>::type
-      >::type
-    > type;
+    using op_type = UnaryFunctor;
+    using type = result_type<Env>;
   };
 
-  template<typename Env>
-    struct result
-  {
-    typedef typename operator_type<Env>::type op_type;
-    typedef typename op_type::result_type type;
-  };
-
-  template<typename Env>
+  template <typename Env>
   __host__ __device__
-  typename result<Env>::type eval(const Env &e) const
-  {
-    typename operator_type<Env>::type op;
-    return op(hydra_thrust::get<0>(e));
-  } // end eval()
-}; // end unary_operator
+  result_type<Env> eval(Env&& e) const
+  HYDRA_THRUST_RETURNS(UnaryFunctor{}(hydra_thrust::get<0>(HYDRA_THRUST_FWD(e))))
+};
 
-// this thing (which models Eval) is an adaptor for the binary
-// functors inside functional.h
-template<template<typename> class BinaryOperator>
-  struct binary_operator
+
+// Adapts a transparent binary functor from functional.h (e.g. hydra_thrust::less<>)
+// into the Eval interface.
+template <typename BinaryFunctor>
+struct transparent_binary_operator
 {
-  template<typename Env>
-    struct first_argument
-      : hydra_thrust::detail::eval_if<
-          (hydra_thrust::tuple_size<Env>::value == 0),
-          hydra_thrust::detail::identity_<hydra_thrust::null_type>,
-          hydra_thrust::tuple_element<0,Env>
-        >
+  template <typename>
+  using operator_type = BinaryFunctor;
+
+  template <typename Env>
+  using first_argument =
+    typename hydra_thrust::detail::eval_if<
+      hydra_thrust::tuple_size<Env>::value != 2,
+      hydra_thrust::detail::identity_<hydra_thrust::null_type>,
+      hydra_thrust::detail::functional::argument_helper<0, Env>
+    >::type;
+
+  template <typename Env>
+  using second_argument =
+    typename hydra_thrust::detail::eval_if<
+      hydra_thrust::tuple_size<Env>::value != 2,
+      hydra_thrust::detail::identity_<hydra_thrust::null_type>,
+      hydra_thrust::detail::functional::argument_helper<1, Env>
+    >::type;
+
+  template <typename Env>
+  struct result_type_impl
   {
+    using type = decltype(
+      std::declval<BinaryFunctor>()(std::declval<first_argument<Env>>(),
+                                    std::declval<second_argument<Env>>()));
   };
 
-  template<typename Env>
-    struct operator_type
+  template <typename Env>
+  using result_type =
+    typename hydra_thrust::detail::eval_if<
+      (std::is_same<hydra_thrust::null_type, first_argument<Env>>::value ||
+       std::is_same<hydra_thrust::null_type, second_argument<Env>>::value),
+      hydra_thrust::detail::identity_<hydra_thrust::null_type>,
+      result_type_impl<Env>
+    >::type;
+
+  template <typename Env>
+  struct result
   {
-    typedef BinaryOperator<
-      typename hydra_thrust::detail::remove_reference<
-        typename first_argument<Env>::type
-      >::type
-    > type;
+    using op_type = BinaryFunctor;
+    using type = result_type<Env>;
   };
 
-  template<typename Env>
-    struct result
-  {
-    typedef typename operator_type<Env>::type op_type;
-    typedef typename op_type::result_type type;
-  };
-
-  template<typename Env>
+  template <typename Env>
   __host__ __device__
-  typename result<Env>::type eval(const Env &e) const
-  {
-    typename operator_type<Env>::type op;
-    return op(hydra_thrust::get<0>(e), hydra_thrust::get<1>(e));
-  } // end eval()
-}; // end binary_operator
+  result_type<Env> eval(Env&& e) const
+  HYDRA_THRUST_RETURNS(BinaryFunctor{}(hydra_thrust::get<0>(e), hydra_thrust::get<1>(e)))
+};
 
 } // end functional
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

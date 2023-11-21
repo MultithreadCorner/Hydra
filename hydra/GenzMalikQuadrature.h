@@ -71,8 +71,8 @@ public Integral<typename std::enable_if< (N>1),GenzMalikQuadrature<N, hydra::det
 	typedef typename system_type::template container<detail::GenzMalikBox<N>> device_box_list_type;
 
 	typedef std::vector<detail::GenzMalikBox<N>> box_list_type;
-	typedef hydra_thrust::pair<
-			hydra_thrust::pointer<detail::GenzMalikBox<N>, system_type>,
+	typedef hydra::thrust::pair<
+			hydra::thrust::pointer<detail::GenzMalikBox<N>, system_type>,
 			  std::ptrdiff_t> buffer_type;
 
 

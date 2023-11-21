@@ -16,10 +16,11 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/detail/type_traits/minimum_type.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace detail
 { 
@@ -47,6 +48,6 @@ template<typename T1,
 
 } // end detail
 
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 

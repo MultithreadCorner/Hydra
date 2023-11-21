@@ -14,6 +14,7 @@
  *  limitations under the License.
  */
 
+#pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/detail/copy.h>
@@ -21,9 +22,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/copy.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/copy.h>
 
-namespace hydra_thrust
-{
-
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 __hydra_thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
@@ -127,6 +126,4 @@ template<typename InputIterator,
   return hydra_thrust::detail::two_system_copy_n(system1, system2, first, n, result);
 } // end copy_n()
 
-
-} // end namespace hydra_thrust
-
+HYDRA_THRUST_NAMESPACE_END

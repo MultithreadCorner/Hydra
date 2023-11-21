@@ -16,13 +16,14 @@
 
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
+
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/hydra_thrust/detail/use_default.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_facade.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 
 // forward declaration of iterator_adaptor for iterator_adaptor_base below
@@ -107,5 +108,5 @@ template<typename Derived,
 
 
 } // end detail
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

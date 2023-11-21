@@ -33,13 +33,14 @@
 
 #pragma once
 
-#include "../util_namespace.cuh"
+#include <iterator>
+#include <hydra/detail/external/hydra_cub/util_namespace.cuh>
+#include <hydra/detail/external/hydra_cub/util_type.cuh>
+#include <hydra/detail/external/hydra_cub/config.cuh>
 
-/// Optional outer namespace(s)
-CUB_NS_PREFIX
+#include <hydra/detail/external/hydra_libcudacxx/nv/target>
 
-/// CUB namespace
-namespace cub {
+CUB_NAMESPACE_BEGIN
 
 
 /**
@@ -59,7 +60,7 @@ __host__ __device__ __forceinline__ void MergePathSearch(
     CoordinateT&    path_coordinate)
 {
     /// The value type of the input iterator
-    typedef typename std::iterator_traits<AIteratorT>::value_type T;
+    using T = cub::detail::value_t<AIteratorT>;
 
     OffsetT split_min = CUB_MAX(diagonal - b_len, 0);
     OffsetT split_max = CUB_MIN(diagonal, a_len);
@@ -147,8 +148,38 @@ __device__ __forceinline__ OffsetT UpperBound(
 }
 
 
+#if defined(__CUDA_FP16_TYPES_EXIST__)
+template <
+    typename InputIteratorT,
+    typename OffsetT>
+__device__ __forceinline__ OffsetT UpperBound(
+    InputIteratorT      input,              ///< [in] Input sequence
+    OffsetT             num_items,          ///< [in] Input sequence length
+    __half              val)                ///< [in] Search key
+{
+    OffsetT retval = 0;
+    while (num_items > 0)
+    {
+        OffsetT half = num_items >> 1;
 
+        bool lt;
+        NV_IF_TARGET(NV_PROVIDES_SM_53,
+                     (lt = val < input[retval + half];),
+                     (lt = __half2float(val) < __half2float(input[retval + half]);));
 
+        if (lt)
+        {
+            num_items = half;
+        }
+        else
+        {
+            retval = retval + (half + 1);
+            num_items = num_items - (half + 1);
+        }
+    }
 
-}               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+    return retval;
+}
+#endif
+
+CUB_NAMESPACE_END

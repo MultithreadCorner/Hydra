@@ -26,6 +26,7 @@
  ******************************************************************************/
 #pragma once
 
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #if HYDRA_THRUST_DEVICE_COMPILER == HYDRA_THRUST_DEVICE_COMPILER_NVCC
 #include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
@@ -33,7 +34,7 @@
 #include <hydra/detail/external/hydra_thrust/pair.h>
 #include <hydra/detail/external/hydra_thrust/distance.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
 template <class Derived,
@@ -56,11 +57,11 @@ mismatch(execution_policy<Derived>& policy,
          InputIt1                   last1,
          InputIt2                   first2);
 } // namespace cuda_
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/find.h>
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
 template <class Derived,
@@ -87,8 +88,8 @@ mismatch(execution_policy<Derived>& policy,
                                           transform_first + hydra_thrust::distance(first1, last1),
                                           identity());
 
-  return make_pair(first1 + hydra_thrust::distance(transform_first,result),
-                   first2 + hydra_thrust::distance(transform_first,result));
+  return hydra_thrust::make_pair(first1 + hydra_thrust::distance(transform_first,result),
+                           first2 + hydra_thrust::distance(transform_first,result));
 }
 
 template <class Derived,
@@ -111,5 +112,5 @@ mismatch(execution_policy<Derived>& policy,
 
 
 } // namespace cuda_cub
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 #endif

@@ -19,8 +19,7 @@
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/tag.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace system
 {
 namespace detail
@@ -69,10 +68,30 @@ OutputIterator unique_copy(hydra_thrust::execution_policy<DerivedPolicy> &exec,
                            BinaryPredicate binary_pred);
 
 
+template<typename DerivedPolicy,
+         typename ForwardIterator>
+__host__ __device__
+typename hydra_thrust::iterator_traits<ForwardIterator>::difference_type
+    unique_count(hydra_thrust::execution_policy<DerivedPolicy> &exec,
+                 ForwardIterator first,
+                 ForwardIterator last);
+
+
+template<typename DerivedPolicy,
+         typename ForwardIterator,
+         typename BinaryPredicate>
+__host__ __device__
+typename hydra_thrust::iterator_traits<ForwardIterator>::difference_type
+    unique_count(hydra_thrust::execution_policy<DerivedPolicy> &exec,
+                 ForwardIterator first,
+                 ForwardIterator last,
+                 BinaryPredicate binary_pred);
+
+
 } // end namespace generic
 } // end namespace detail
 } // end namespace system
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/unique.inl>
 

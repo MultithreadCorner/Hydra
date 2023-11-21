@@ -34,24 +34,27 @@
 
 #pragma once
 
-#include <stdio.h>
+#include <hydra/detail/external/hydra_cub/agent/agent_segment_fixup.cuh>
+#include <hydra/detail/external/hydra_cub/agent/agent_spmv_orig.cuh>
+#include <hydra/detail/external/hydra_cub/agent/single_pass_scan_operators.cuh>
+#include <hydra/detail/external/hydra_cub/config.cuh>
+#include <hydra/detail/external/hydra_cub/detail/cpp_compatibility.cuh>
+#include <hydra/detail/external/hydra_cub/grid/grid_queue.cuh>
+#include <hydra/detail/external/hydra_cub/thread/thread_search.cuh>
+#include <hydra/detail/external/hydra_cub/util_debug.cuh>
+#include <hydra/detail/external/hydra_cub/util_deprecated.cuh>
+#include <hydra/detail/external/hydra_cub/util_device.cuh>
+#include <hydra/detail/external/hydra_cub/util_math.cuh>
+#include <hydra/detail/external/hydra_cub/util_type.cuh>
+
+#include <hydra/detail/external/hydra_thrust/system/cuda/detail/core/triple_chevron_launch.h>
+
+#include <cstdio>
 #include <iterator>
 
-#include "../../agent/single_pass_scan_operators.cuh"
-#include "../../agent/agent_segment_fixup.cuh"
-#include "../../agent/agent_spmv_orig.cuh"
-#include "../../util_type.cuh"
-#include "../../util_debug.cuh"
-#include "../../util_device.cuh"
-#include "../../thread/thread_search.cuh"
-#include "../../grid/grid_queue.cuh"
-#include "../../util_namespace.cuh"
+#include <hydra/detail/external/hydra_libcudacxx/nv/target>
 
-/// Optional outer namespace(s)
-CUB_NS_PREFIX
-
-/// CUB namespace
-namespace cub {
+CUB_NAMESPACE_BEGIN
 
 
 /******************************************************************************
@@ -185,6 +188,25 @@ __global__ void DeviceSpmvKernel(
 
 }
 
+template <typename ValueT,  ///< Matrix and vector value type
+          typename OffsetT, ///< Signed integer type for sequence offsets
+          bool HAS_BETA>    ///< Whether the input parameter Beta is 0
+__global__ void DeviceSpmvEmptyMatrixKernel(SpmvParams<ValueT, OffsetT> spmv_params)
+{
+    const int row = static_cast<int>(threadIdx.x + blockIdx.x * blockDim.x);
+
+    if (row < spmv_params.num_rows)
+    {
+        ValueT result = 0.0;
+
+        CUB_IF_CONSTEXPR(HAS_BETA) 
+        {
+            result += spmv_params.beta * spmv_params.d_vector_y[row]; 
+        }
+
+        spmv_params.d_vector_y[row] = result;
+    }
+}
 
 /**
  * Multi-block reduce-by-key sweep kernel entry point
@@ -242,7 +264,8 @@ struct DispatchSpmv
 
     enum
     {
-        INIT_KERNEL_THREADS = 128
+        INIT_KERNEL_THREADS = 128,
+        EMPTY_MATRIX_KERNEL_THREADS = 128
     };
 
     // SpmvParams bundle type
@@ -261,83 +284,6 @@ struct DispatchSpmv
     //---------------------------------------------------------------------
     // Tuning policies
     //---------------------------------------------------------------------
-
-    /// SM11
-    struct Policy110
-    {
-        typedef AgentSpmvPolicy<
-                128,
-                1,
-                LOAD_DEFAULT,
-                LOAD_DEFAULT,
-                LOAD_DEFAULT,
-                LOAD_DEFAULT,
-                LOAD_DEFAULT,
-                false,
-                BLOCK_SCAN_WARP_SCANS>
-            SpmvPolicyT;
-
-        typedef AgentSegmentFixupPolicy<
-                128,
-                4,
-                BLOCK_LOAD_VECTORIZE,
-                LOAD_DEFAULT,
-                BLOCK_SCAN_WARP_SCANS>
-            SegmentFixupPolicyT;
-    };
-
-    /// SM20
-    struct Policy200 
-    {
-        typedef AgentSpmvPolicy<
-                96,
-                18,
-                LOAD_DEFAULT,
-                LOAD_DEFAULT,
-                LOAD_DEFAULT,
-                LOAD_DEFAULT,
-                LOAD_DEFAULT,
-                false,
-                BLOCK_SCAN_RAKING>
-            SpmvPolicyT;
-
-        typedef AgentSegmentFixupPolicy<
-                128,
-                4,
-                BLOCK_LOAD_VECTORIZE,
-                LOAD_DEFAULT,
-                BLOCK_SCAN_WARP_SCANS>
-            SegmentFixupPolicyT;
-
-    };
-
-
-
-    /// SM30
-    struct Policy300 
-    {
-        typedef AgentSpmvPolicy<
-                96,
-                6,
-                LOAD_DEFAULT,
-                LOAD_DEFAULT,
-                LOAD_DEFAULT,
-                LOAD_DEFAULT,
-                LOAD_DEFAULT,
-                false,
-                BLOCK_SCAN_WARP_SCANS>
-            SpmvPolicyT;
-
-        typedef AgentSegmentFixupPolicy<
-                128,
-                4,
-                BLOCK_LOAD_VECTORIZE,
-                LOAD_DEFAULT,
-                BLOCK_SCAN_WARP_SCANS>
-            SegmentFixupPolicyT;
-
-    };
-
 
     /// SM35
     struct Policy350
@@ -376,7 +322,7 @@ struct DispatchSpmv
                 LOAD_LDG,
                 LOAD_LDG,
                 LOAD_LDG,
-                false, 
+                false,
                 BLOCK_SCAN_WARP_SCANS>
             SpmvPolicyT;
 
@@ -455,17 +401,8 @@ struct DispatchSpmv
 #elif (CUB_PTX_ARCH >= 370)
     typedef Policy370 PtxPolicy;
 
-#elif (CUB_PTX_ARCH >= 350)
-    typedef Policy350 PtxPolicy;
-
-#elif (CUB_PTX_ARCH >= 300)
-    typedef Policy300 PtxPolicy;
-
-#elif (CUB_PTX_ARCH >= 200)
-    typedef Policy200 PtxPolicy;
-
 #else
-    typedef Policy110 PtxPolicy;
+    typedef Policy350 PtxPolicy;
 
 #endif
 
@@ -488,53 +425,33 @@ struct DispatchSpmv
         KernelConfig    &spmv_config,
         KernelConfig    &segment_fixup_config)
     {
-    #if (CUB_PTX_ARCH > 0)
-
-        // We're on the device, so initialize the kernel dispatch configurations with the current PTX policy
-        spmv_config.template Init<PtxSpmvPolicyT>();
-        segment_fixup_config.template Init<PtxSegmentFixupPolicy>();
-
-    #else
-
-        // We're on the host, so lookup and initialize the kernel dispatch configurations with the policies that match the device's PTX version
-        if (ptx_version >= 600)
-        {
-            spmv_config.template            Init<typename Policy600::SpmvPolicyT>();
-            segment_fixup_config.template   Init<typename Policy600::SegmentFixupPolicyT>();
-        }
-        else if (ptx_version >= 500)
-        {
-            spmv_config.template            Init<typename Policy500::SpmvPolicyT>();
-            segment_fixup_config.template   Init<typename Policy500::SegmentFixupPolicyT>();
-        }
-        else if (ptx_version >= 370)
-        {
-            spmv_config.template            Init<typename Policy370::SpmvPolicyT>();
-            segment_fixup_config.template   Init<typename Policy370::SegmentFixupPolicyT>();
-        }
-        else if (ptx_version >= 350)
-        {
-            spmv_config.template            Init<typename Policy350::SpmvPolicyT>();
-            segment_fixup_config.template   Init<typename Policy350::SegmentFixupPolicyT>();
-        }
-        else if (ptx_version >= 300)
-        {
-            spmv_config.template            Init<typename Policy300::SpmvPolicyT>();
-            segment_fixup_config.template   Init<typename Policy300::SegmentFixupPolicyT>();
-
-        }
-        else if (ptx_version >= 200)
-        {
-            spmv_config.template            Init<typename Policy200::SpmvPolicyT>();
-            segment_fixup_config.template   Init<typename Policy200::SegmentFixupPolicyT>();
-        }
-        else
-        {
-            spmv_config.template            Init<typename Policy110::SpmvPolicyT>();
-            segment_fixup_config.template   Init<typename Policy110::SegmentFixupPolicyT>();
-        }
-
-    #endif
+      NV_IF_TARGET(
+        NV_IS_DEVICE,
+        ( // We're on the device, so initialize the kernel dispatch
+          // configurations with the current PTX policy
+          spmv_config.template Init<PtxSpmvPolicyT>();
+          segment_fixup_config.template Init<PtxSegmentFixupPolicy>();),
+        (
+          // We're on the host, so lookup and initialize the kernel dispatch
+          // configurations with the policies that match the device's PTX
+          // version
+          if (ptx_version >= 600) {
+            spmv_config.template Init<typename Policy600::SpmvPolicyT>();
+            segment_fixup_config
+              .template Init<typename Policy600::SegmentFixupPolicyT>();
+          } else if (ptx_version >= 500) {
+            spmv_config.template Init<typename Policy500::SpmvPolicyT>();
+            segment_fixup_config
+              .template Init<typename Policy500::SegmentFixupPolicyT>();
+          } else if (ptx_version >= 370) {
+            spmv_config.template Init<typename Policy370::SpmvPolicyT>();
+            segment_fixup_config
+              .template Init<typename Policy370::SegmentFixupPolicyT>();
+          } else {
+            spmv_config.template Init<typename Policy350::SpmvPolicyT>();
+            segment_fixup_config
+              .template Init<typename Policy350::SegmentFixupPolicyT>();
+          }));
     }
 
 
@@ -573,30 +490,80 @@ struct DispatchSpmv
         typename                Spmv1ColKernelT,                    ///< Function type of cub::DeviceSpmv1ColKernel
         typename                SpmvSearchKernelT,                  ///< Function type of cub::AgentSpmvSearchKernel
         typename                SpmvKernelT,                        ///< Function type of cub::AgentSpmvKernel
-        typename                SegmentFixupKernelT>                 ///< Function type of cub::DeviceSegmentFixupKernelT
+        typename                SegmentFixupKernelT,                ///< Function type of cub::DeviceSegmentFixupKernelT
+        typename                SpmvEmptyMatrixKernelT>             ///< Function type of cub::DeviceSpmvEmptyMatrixKernel
     CUB_RUNTIME_FUNCTION __forceinline__
     static cudaError_t Dispatch(
-        void*                   d_temp_storage,                     ///< [in] %Device-accessible allocation of temporary storage.  When NULL, the required allocation size is written to \p temp_storage_bytes and no work is done.
+        void*                   d_temp_storage,                     ///< [in] Device-accessible allocation of temporary storage.  When NULL, the required allocation size is written to \p temp_storage_bytes and no work is done.
         size_t&                 temp_storage_bytes,                 ///< [in,out] Reference to size in bytes of \p d_temp_storage allocation
         SpmvParamsT&            spmv_params,                        ///< SpMV input parameter bundle
         cudaStream_t            stream,                             ///< [in] CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
-        bool                    debug_synchronous,                  ///< [in] Whether or not to synchronize the stream after every kernel launch to check for errors.  Also causes launch configurations to be printed to the console.  Default is \p false.
         Spmv1ColKernelT         spmv_1col_kernel,                   ///< [in] Kernel function pointer to parameterization of DeviceSpmv1ColKernel
         SpmvSearchKernelT       spmv_search_kernel,                 ///< [in] Kernel function pointer to parameterization of AgentSpmvSearchKernel
         SpmvKernelT             spmv_kernel,                        ///< [in] Kernel function pointer to parameterization of AgentSpmvKernel
         SegmentFixupKernelT     segment_fixup_kernel,               ///< [in] Kernel function pointer to parameterization of cub::DeviceSegmentFixupKernel
+        SpmvEmptyMatrixKernelT  spmv_empty_matrix_kernel,           ///< [in] Kernel function pointer to parameterization of cub::DeviceSpmvEmptyMatrixKernel
         KernelConfig            spmv_config,                        ///< [in] Dispatch parameters that match the policy that \p spmv_kernel was compiled for
         KernelConfig            segment_fixup_config)               ///< [in] Dispatch parameters that match the policy that \p segment_fixup_kernel was compiled for
     {
-#ifndef CUB_RUNTIME_ENABLED
-
-        // Kernel launch not supported from this device
-        return CubDebug(cudaErrorNotSupported );
-
-#else
         cudaError error = cudaSuccess;
         do
         {
+            if (spmv_params.num_rows < 0 || spmv_params.num_cols < 0)
+            {
+              return cudaErrorInvalidValue;
+            }
+
+            if (spmv_params.num_rows == 0 || spmv_params.num_cols == 0)
+            { // Empty problem, no-op.
+                if (d_temp_storage == NULL)
+                {
+                    temp_storage_bytes = 1;
+                }
+
+                break;
+            }
+
+            if (spmv_params.num_nonzeros == 0)
+            {
+                if (d_temp_storage == NULL)
+                {
+                    // Return if the caller is simply requesting the size of the storage allocation
+                    temp_storage_bytes = 1;
+                    break;
+                }
+
+                const int threads_in_block = EMPTY_MATRIX_KERNEL_THREADS;
+                const int blocks_in_grid = cub::DivideAndRoundUp(spmv_params.num_rows,
+                                                                 threads_in_block);
+
+                #ifdef CUB_DETAIL_DEBUG_ENABLE_LOG
+                _CubLog("Invoking spmv_empty_matrix_kernel<<<%d, %d, 0, %lld>>>()\n",
+                        blocks_in_grid,
+                        threads_in_block,
+                        (long long)stream);
+                #endif
+                error = HYDRA_THRUST_NS_QUALIFIER::cuda_cub::launcher::triple_chevron(blocks_in_grid,
+                                                                                threads_in_block,
+                                                                                0,
+                                                                                stream)
+                          .doit(spmv_empty_matrix_kernel, spmv_params);
+
+                if (CubDebug(error))
+                {
+                    break;
+                }
+
+                // Sync the stream if specified to flush runtime errors
+                error = detail::DebugSyncStream(stream);
+                if (CubDebug(error))
+                {
+                    break;
+                }
+
+                break;
+            }
+
             if (spmv_params.num_cols == 1)
             {
                 if (d_temp_storage == NULL)
@@ -607,21 +574,33 @@ struct DispatchSpmv
                 }
 
                 // Get search/init grid dims
-                int degen_col_kernel_block_size     = INIT_KERNEL_THREADS;
-                int degen_col_kernel_grid_size      = (spmv_params.num_rows + degen_col_kernel_block_size - 1) / degen_col_kernel_block_size;
+                int degen_col_kernel_block_size = INIT_KERNEL_THREADS;
+                int degen_col_kernel_grid_size = cub::DivideAndRoundUp(spmv_params.num_rows, degen_col_kernel_block_size);
 
-                if (debug_synchronous) _CubLog("Invoking spmv_1col_kernel<<<%d, %d, 0, %lld>>>()\n",
-                    degen_col_kernel_grid_size, degen_col_kernel_block_size, (long long) stream);
+                #ifdef CUB_DETAIL_DEBUG_ENABLE_LOG
+                _CubLog("Invoking spmv_1col_kernel<<<%d, %d, 0, %lld>>>()\n",
+                  degen_col_kernel_grid_size, degen_col_kernel_block_size, (long long) stream);
+                #endif
 
                 // Invoke spmv_search_kernel
-                spmv_1col_kernel<<<degen_col_kernel_grid_size, degen_col_kernel_block_size, 0, stream>>>(
+                HYDRA_THRUST_NS_QUALIFIER::cuda_cub::launcher::triple_chevron(
+                    degen_col_kernel_grid_size, degen_col_kernel_block_size, 0,
+                    stream
+                ).doit(spmv_1col_kernel,
                     spmv_params);
 
                 // Check for failure to launch
-                if (CubDebug(error = cudaPeekAtLastError())) break;
+                if (CubDebug(error = cudaPeekAtLastError()))
+                {
+                    break;
+                }
 
                 // Sync the stream if specified to flush runtime errors
-                if (debug_synchronous && (CubDebug(error = SyncStream(stream)))) break;
+                error = detail::DebugSyncStream(stream);
+                if (CubDebug(error))
+                {
+                  break;
+                }
 
                 break;
             }
@@ -636,7 +615,7 @@ struct DispatchSpmv
 
             // Get max x-dimension of grid
             int max_dim_x;
-            if (CubDebug(error = cudaDeviceGetAttribute(&max_dim_x, cudaDevAttrMaxGridDimX, device_ordinal))) break;;
+            if (CubDebug(error = cudaDeviceGetAttribute(&max_dim_x, cudaDevAttrMaxGridDimX, device_ordinal))) break;
 
             // Total number of spmv work items
             int num_merge_items = spmv_params.num_rows + spmv_params.num_nonzeros;
@@ -646,8 +625,8 @@ struct DispatchSpmv
             int segment_fixup_tile_size     = segment_fixup_config.block_threads * segment_fixup_config.items_per_thread;
 
             // Number of tiles for kernels
-            unsigned int num_merge_tiles            = (num_merge_items + merge_tile_size - 1) / merge_tile_size;
-            unsigned int num_segment_fixup_tiles    = (num_merge_tiles + segment_fixup_tile_size - 1) / segment_fixup_tile_size;
+            int num_merge_tiles            = cub::DivideAndRoundUp(num_merge_items, merge_tile_size);
+            int num_segment_fixup_tiles    = cub::DivideAndRoundUp(num_merge_tiles, segment_fixup_tile_size);
 
             // Get SM occupancy for kernels
             int spmv_sm_occupancy;
@@ -665,12 +644,12 @@ struct DispatchSpmv
             // Get grid dimensions
             dim3 spmv_grid_size(
                 CUB_MIN(num_merge_tiles, max_dim_x),
-                (num_merge_tiles + max_dim_x - 1) / max_dim_x,
+                cub::DivideAndRoundUp(num_merge_tiles, max_dim_x),
                 1);
 
             dim3 segment_fixup_grid_size(
                 CUB_MIN(num_segment_fixup_tiles, max_dim_x),
-                (num_segment_fixup_tiles + max_dim_x - 1) / max_dim_x,
+                cub::DivideAndRoundUp(num_segment_fixup_tiles, max_dim_x),
                 1);
 
             // Get the temporary storage allocation requirements
@@ -680,7 +659,7 @@ struct DispatchSpmv
             allocation_sizes[2] = (num_merge_tiles + 1) * sizeof(CoordinateT);   // bytes needed for tile starting coordinates
 
             // Alias the temporary allocations from the single storage blob (or compute the necessary size of the blob)
-            void* allocations[3];
+            void* allocations[3] = {};
             if (CubDebug(error = AliasTemporaries(d_temp_storage, temp_storage_bytes, allocations, allocation_sizes))) break;
             if (d_temp_storage == NULL)
             {
@@ -698,12 +677,7 @@ struct DispatchSpmv
 
             // Get search/init grid dims
             int search_block_size   = INIT_KERNEL_THREADS;
-            int search_grid_size    = (num_merge_tiles + 1 + search_block_size - 1) / search_block_size;
-
-#if (CUB_PTX_ARCH == 0)
-            // Init textures
-            if (CubDebug(error = spmv_params.t_vector_x.BindTexture(spmv_params.d_vector_x))) break;
-#endif
+            int search_grid_size    = cub::DivideAndRoundUp(num_merge_tiles + 1, search_block_size);
 
             if (search_grid_size < sm_count)
 //            if (num_merge_tiles < spmv_sm_occupancy * sm_count)
@@ -716,11 +690,15 @@ struct DispatchSpmv
                 // Use separate search kernel if we have enough spmv tiles to saturate the device
 
                 // Log spmv_search_kernel configuration
-                if (debug_synchronous) _CubLog("Invoking spmv_search_kernel<<<%d, %d, 0, %lld>>>()\n",
+                #ifdef CUB_DETAIL_DEBUG_ENABLE_LOG
+                _CubLog("Invoking spmv_search_kernel<<<%d, %d, 0, %lld>>>()\n",
                     search_grid_size, search_block_size, (long long) stream);
+                #endif
 
                 // Invoke spmv_search_kernel
-                spmv_search_kernel<<<search_grid_size, search_block_size, 0, stream>>>(
+                HYDRA_THRUST_NS_QUALIFIER::cuda_cub::launcher::triple_chevron(
+                    search_grid_size, search_block_size, 0, stream
+                ).doit(spmv_search_kernel,
                     num_merge_tiles,
                     d_tile_coordinates,
                     spmv_params);
@@ -729,15 +707,23 @@ struct DispatchSpmv
                 if (CubDebug(error = cudaPeekAtLastError())) break;
 
                 // Sync the stream if specified to flush runtime errors
-                if (debug_synchronous && (CubDebug(error = SyncStream(stream)))) break;
+                error = detail::DebugSyncStream(stream);
+                if (CubDebug(error))
+                {
+                  break;
+                }
             }
 
             // Log spmv_kernel configuration
-            if (debug_synchronous) _CubLog("Invoking spmv_kernel<<<{%d,%d,%d}, %d, 0, %lld>>>(), %d items per thread, %d SM occupancy\n",
+            #ifdef CUB_DETAIL_DEBUG_ENABLE_LOG
+            _CubLog("Invoking spmv_kernel<<<{%d,%d,%d}, %d, 0, %lld>>>(), %d items per thread, %d SM occupancy\n",
                 spmv_grid_size.x, spmv_grid_size.y, spmv_grid_size.z, spmv_config.block_threads, (long long) stream, spmv_config.items_per_thread, spmv_sm_occupancy);
+            #endif
 
             // Invoke spmv_kernel
-            spmv_kernel<<<spmv_grid_size, spmv_config.block_threads, 0, stream>>>(
+            HYDRA_THRUST_NS_QUALIFIER::cuda_cub::launcher::triple_chevron(
+                spmv_grid_size, spmv_config.block_threads, 0, stream
+            ).doit(spmv_kernel,
                 spmv_params,
                 d_tile_coordinates,
                 d_tile_carry_pairs,
@@ -749,17 +735,26 @@ struct DispatchSpmv
             if (CubDebug(error = cudaPeekAtLastError())) break;
 
             // Sync the stream if specified to flush runtime errors
-            if (debug_synchronous && (CubDebug(error = SyncStream(stream)))) break;
+            error = detail::DebugSyncStream(stream);
+            if (CubDebug(error))
+            {
+              break;
+            }
 
             // Run reduce-by-key fixup if necessary
             if (num_merge_tiles > 1)
             {
                 // Log segment_fixup_kernel configuration
-                if (debug_synchronous) _CubLog("Invoking segment_fixup_kernel<<<{%d,%d,%d}, %d, 0, %lld>>>(), %d items per thread, %d SM occupancy\n",
+                #ifdef CUB_DETAIL_DEBUG_ENABLE_LOG
+                _CubLog("Invoking segment_fixup_kernel<<<{%d,%d,%d}, %d, 0, %lld>>>(), %d items per thread, %d SM occupancy\n",
                     segment_fixup_grid_size.x, segment_fixup_grid_size.y, segment_fixup_grid_size.z, segment_fixup_config.block_threads, (long long) stream, segment_fixup_config.items_per_thread, segment_fixup_sm_occupancy);
+                #endif
 
                 // Invoke segment_fixup_kernel
-                segment_fixup_kernel<<<segment_fixup_grid_size, segment_fixup_config.block_threads, 0, stream>>>(
+                HYDRA_THRUST_NS_QUALIFIER::cuda_cub::launcher::triple_chevron(
+                    segment_fixup_grid_size, segment_fixup_config.block_threads,
+                    0, stream
+                ).doit(segment_fixup_kernel,
                     d_tile_carry_pairs,
                     spmv_params.d_vector_y,
                     num_merge_tiles,
@@ -770,54 +765,88 @@ struct DispatchSpmv
                 if (CubDebug(error = cudaPeekAtLastError())) break;
 
                 // Sync the stream if specified to flush runtime errors
-                if (debug_synchronous && (CubDebug(error = SyncStream(stream)))) break;
+                error = detail::DebugSyncStream(stream);
+                if (CubDebug(error))
+                {
+                  break;
+                }
             }
-
-#if (CUB_PTX_ARCH == 0)
-            // Free textures
-            if (CubDebug(error = spmv_params.t_vector_x.UnbindTexture())) break;
-#endif
         }
         while (0);
 
         return error;
-
-#endif // CUB_RUNTIME_ENABLED
     }
 
+    template <typename Spmv1ColKernelT,
+              typename SpmvSearchKernelT,
+              typename SpmvKernelT,
+              typename SegmentFixupKernelT,
+              typename SpmvEmptyMatrixKernelT>
+    CUB_DETAIL_RUNTIME_DEBUG_SYNC_IS_NOT_SUPPORTED
+    CUB_RUNTIME_FUNCTION __forceinline__ static cudaError_t
+    Dispatch(void *d_temp_storage,
+             size_t &temp_storage_bytes,
+             SpmvParamsT &spmv_params,
+             cudaStream_t stream,
+             bool debug_synchronous,
+             Spmv1ColKernelT spmv_1col_kernel,
+             SpmvSearchKernelT spmv_search_kernel,
+             SpmvKernelT spmv_kernel,
+             SegmentFixupKernelT segment_fixup_kernel,
+             SpmvEmptyMatrixKernelT spmv_empty_matrix_kernel,
+             KernelConfig spmv_config,
+             KernelConfig segment_fixup_config)
+    {
+      CUB_DETAIL_RUNTIME_DEBUG_SYNC_USAGE_LOG
+
+      return Dispatch<Spmv1ColKernelT,
+                      SpmvSearchKernelT,
+                      SpmvKernelT,
+                      SegmentFixupKernelT,
+                      SpmvEmptyMatrixKernelT>(d_temp_storage,
+                                              temp_storage_bytes,
+                                              spmv_params,
+                                              stream,
+                                              spmv_1col_kernel,
+                                              spmv_search_kernel,
+                                              spmv_kernel,
+                                              segment_fixup_kernel,
+                                              spmv_empty_matrix_kernel,
+                                              spmv_config,
+                                              segment_fixup_config);
+    }
 
     /**
      * Internal dispatch routine for computing a device-wide reduction
      */
     CUB_RUNTIME_FUNCTION __forceinline__
     static cudaError_t Dispatch(
-        void*                   d_temp_storage,                     ///< [in] %Device-accessible allocation of temporary storage.  When NULL, the required allocation size is written to \p temp_storage_bytes and no work is done.
+        void*                   d_temp_storage,                     ///< [in] Device-accessible allocation of temporary storage.  When NULL, the required allocation size is written to \p temp_storage_bytes and no work is done.
         size_t&                 temp_storage_bytes,                 ///< [in,out] Reference to size in bytes of \p d_temp_storage allocation
         SpmvParamsT&            spmv_params,                        ///< SpMV input parameter bundle
-        cudaStream_t            stream                  = 0,        ///< [in] <b>[optional]</b> CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
-        bool                    debug_synchronous       = false)    ///< [in] <b>[optional]</b> Whether or not to synchronize the stream after every kernel launch to check for errors.  May cause significant slowdown.  Default is \p false.
+        cudaStream_t            stream = 0)                         ///< [in] <b>[optional]</b> CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
     {
         cudaError error = cudaSuccess;
         do
         {
             // Get PTX version
-            int ptx_version;
-    #if (CUB_PTX_ARCH == 0)
+            int ptx_version = 0;
             if (CubDebug(error = PtxVersion(ptx_version))) break;
-    #else
-            ptx_version = CUB_PTX_ARCH;
-    #endif
 
             // Get kernel kernel dispatch configurations
             KernelConfig spmv_config, segment_fixup_config;
             InitConfigs(ptx_version, spmv_config, segment_fixup_config);
 
+            constexpr bool has_alpha = false;
+            constexpr bool has_beta = false;
+
             if (CubDebug(error = Dispatch(
-                d_temp_storage, temp_storage_bytes, spmv_params, stream, debug_synchronous,
+                d_temp_storage, temp_storage_bytes, spmv_params, stream, 
                 DeviceSpmv1ColKernel<PtxSpmvPolicyT, ValueT, OffsetT>,
                 DeviceSpmvSearchKernel<PtxSpmvPolicyT, OffsetT, CoordinateT, SpmvParamsT>,
-                DeviceSpmvKernel<PtxSpmvPolicyT, ScanTileStateT, ValueT, OffsetT, CoordinateT, false, false>,
+                DeviceSpmvKernel<PtxSpmvPolicyT, ScanTileStateT, ValueT, OffsetT, CoordinateT, has_alpha, has_beta>,
                 DeviceSegmentFixupKernel<PtxSegmentFixupPolicy, KeyValuePairT*, ValueT*, OffsetT, ScanTileStateT>,
+                DeviceSpmvEmptyMatrixKernel<ValueT, OffsetT, has_beta>,
                 spmv_config, segment_fixup_config))) break;
 
         }
@@ -825,10 +854,22 @@ struct DispatchSpmv
 
         return error;
     }
+
+    CUB_DETAIL_RUNTIME_DEBUG_SYNC_IS_NOT_SUPPORTED
+    CUB_RUNTIME_FUNCTION __forceinline__ static cudaError_t
+    Dispatch(void *d_temp_storage,
+             size_t &temp_storage_bytes,
+             SpmvParamsT &spmv_params,
+             cudaStream_t stream,
+             bool debug_synchronous)
+    {
+      CUB_DETAIL_RUNTIME_DEBUG_SYNC_USAGE_LOG
+
+      return Dispatch(d_temp_storage, temp_storage_bytes, spmv_params, stream);
+    }
 };
 
 
-}               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+CUB_NAMESPACE_END
 
 

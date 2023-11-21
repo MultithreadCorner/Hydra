@@ -16,33 +16,34 @@
 
 #pragma once
 
-#include "memory_resource.h"
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
-namespace hydra_thrust
-{
+#include <hydra/detail/external/hydra_thrust/mr/memory_resource.h>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 namespace mr
 {
 
 template<typename Pointer = void *>
-class polymorphic_adaptor_resource HYDRA_THRUST_FINAL : public memory_resource<Pointer>
+class polymorphic_adaptor_resource final : public memory_resource<Pointer>
 {
 public:
     polymorphic_adaptor_resource(memory_resource<Pointer> * t) : upstream_resource(t)
     {
     }
 
-    virtual Pointer do_allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) HYDRA_THRUST_OVERRIDE
+    virtual Pointer do_allocate(std::size_t bytes, std::size_t alignment = HYDRA_THRUST_MR_DEFAULT_ALIGNMENT) override
     {
         return upstream_resource->allocate(bytes, alignment);
     }
 
-    virtual void do_deallocate(Pointer p, std::size_t bytes, std::size_t alignment) HYDRA_THRUST_OVERRIDE
+    virtual void do_deallocate(Pointer p, std::size_t bytes, std::size_t alignment) override
     {
         return upstream_resource->deallocate(p, bytes, alignment);
     }
 
     __host__ __device__
-    virtual bool do_is_equal(const memory_resource<Pointer> & other) const HYDRA_THRUST_NOEXCEPT HYDRA_THRUST_OVERRIDE
+    virtual bool do_is_equal(const memory_resource<Pointer> & other) const noexcept override
     {
         return upstream_resource->is_equal(other);
     }
@@ -52,5 +53,5 @@ private:
 };
 
 } // end mr
-} // end hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

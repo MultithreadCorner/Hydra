@@ -14,10 +14,9 @@
  *  limitations under the License.
  */
 
+#pragma once
 
-/*! \file scatter.inl
- *  \brief Inline file for scatter.h.
- */
+#include <hydra/detail/external/hydra_thrust/detail/config.h>
 
 #include <hydra/detail/external/hydra_thrust/scatter.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
@@ -25,8 +24,7 @@
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/scatter.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/adl/scatter.h>
 
-namespace hydra_thrust
-{
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 
 __hydra_thrust_exec_check_disable__
@@ -96,9 +94,9 @@ template<typename InputIterator1,
 {
   using hydra_thrust::system::detail::generic::select_system;
 
-  typedef typename hydra_thrust::iterator_system<InputIterator1>::type       System1; 
-  typedef typename hydra_thrust::iterator_system<InputIterator2>::type       System2; 
-  typedef typename hydra_thrust::iterator_system<RandomAccessIterator>::type System3; 
+  typedef typename hydra_thrust::iterator_system<InputIterator1>::type       System1;
+  typedef typename hydra_thrust::iterator_system<InputIterator2>::type       System2;
+  typedef typename hydra_thrust::iterator_system<RandomAccessIterator>::type System3;
 
   System1 system1;
   System2 system2;
@@ -120,10 +118,10 @@ template<typename InputIterator1,
 {
   using hydra_thrust::system::detail::generic::select_system;
 
-  typedef typename hydra_thrust::iterator_system<InputIterator1>::type       System1; 
-  typedef typename hydra_thrust::iterator_system<InputIterator2>::type       System2; 
-  typedef typename hydra_thrust::iterator_system<InputIterator3>::type       System3; 
-  typedef typename hydra_thrust::iterator_system<RandomAccessIterator>::type System4; 
+  typedef typename hydra_thrust::iterator_system<InputIterator1>::type       System1;
+  typedef typename hydra_thrust::iterator_system<InputIterator2>::type       System2;
+  typedef typename hydra_thrust::iterator_system<InputIterator3>::type       System3;
+  typedef typename hydra_thrust::iterator_system<RandomAccessIterator>::type System4;
 
   System1 system1;
   System2 system2;
@@ -148,10 +146,10 @@ template<typename InputIterator1,
 {
   using hydra_thrust::system::detail::generic::select_system;
 
-  typedef typename hydra_thrust::iterator_system<InputIterator1>::type       System1; 
-  typedef typename hydra_thrust::iterator_system<InputIterator2>::type       System2; 
-  typedef typename hydra_thrust::iterator_system<InputIterator3>::type       System3; 
-  typedef typename hydra_thrust::iterator_system<RandomAccessIterator>::type System4; 
+  typedef typename hydra_thrust::iterator_system<InputIterator1>::type       System1;
+  typedef typename hydra_thrust::iterator_system<InputIterator2>::type       System2;
+  typedef typename hydra_thrust::iterator_system<InputIterator3>::type       System3;
+  typedef typename hydra_thrust::iterator_system<RandomAccessIterator>::type System4;
 
   System1 system1;
   System2 system2;
@@ -161,6 +159,5 @@ template<typename InputIterator1,
   return hydra_thrust::scatter_if(select_system(system1,system2,system3,system4), first, last, map, stencil, output, pred);
 } // end scatter_if()
 
-
-} // end namespace hydra_thrust
+HYDRA_THRUST_NAMESPACE_END
 

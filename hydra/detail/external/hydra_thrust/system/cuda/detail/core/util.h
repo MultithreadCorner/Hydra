@@ -26,31 +26,46 @@
  ******************************************************************************/
 #pragma once
 
-#include <cuda_occupancy.h>
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
-#include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
-#include <hydra/detail/external/hydra_thrust/type_traits/is_contiguous_iterator.h>
 #include <hydra/detail/external/hydra_thrust/detail/raw_pointer_cast.h>
+#include <hydra/detail/external/hydra_thrust/system/cuda/config.h>
 #include <hydra/detail/external/hydra_thrust/system/cuda/detail/util.h>
-#include <hydra/detail/external/hydra_cub/block/block_load.cuh>
-#include <hydra/detail/external/hydra_cub/block/block_store.cuh>
-#include <hydra/detail/external/hydra_cub/block/block_scan.cuh>
+#include <hydra/detail/external/hydra_thrust/system/system_error.h>
+#include <hydra/detail/external/hydra_thrust/type_traits/is_contiguous_iterator.h>
 
-HYDRA_THRUST_BEGIN_NS
+#include <hydra/detail/external/hydra_cub/block/block_load.cuh>
+#include <hydra/detail/external/hydra_cub/block/block_scan.cuh>
+#include <hydra/detail/external/hydra_cub/block/block_store.cuh>
+
+#include <hydra/detail/external/hydra_libcudacxx/nv/target>
+
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 namespace cuda_cub {
 namespace core {
 
-#if (__CUDA_ARCH__ >= 600)
-#  define HYDRA_THRUST_TUNING_ARCH sm60
-#elif (__CUDA_ARCH__ >= 520)
-#  define HYDRA_THRUST_TUNING_ARCH sm52
-#elif (__CUDA_ARCH__ >= 350)
-#  define HYDRA_THRUST_TUNING_ARCH sm35
-#elif (__CUDA_ARCH__ >= 300)
-#  define HYDRA_THRUST_TUNING_ARCH sm30
-#elif !defined (__CUDA_ARCH__)
-#  define HYDRA_THRUST_TUNING_ARCH sm30
+#ifdef _NVHPC_CUDA
+#  if (__NVCOMPILER_CUDA_ARCH__ >= 600)
+#    define HYDRA_THRUST_TUNING_ARCH sm60
+#  elif (__NVCOMPILER_CUDA_ARCH__ >= 520)
+#    define HYDRA_THRUST_TUNING_ARCH sm52
+#  elif (__NVCOMPILER_CUDA_ARCH__ >= 350)
+#    define HYDRA_THRUST_TUNING_ARCH sm35
+#  else
+#    define HYDRA_THRUST_TUNING_ARCH sm30
+#  endif
+#else
+#  if (__CUDA_ARCH__ >= 600)
+#    define HYDRA_THRUST_TUNING_ARCH sm60
+#  elif (__CUDA_ARCH__ >= 520)
+#    define HYDRA_THRUST_TUNING_ARCH sm52
+#  elif (__CUDA_ARCH__ >= 350)
+#    define HYDRA_THRUST_TUNING_ARCH sm35
+#  elif (__CUDA_ARCH__ >= 300)
+#    define HYDRA_THRUST_TUNING_ARCH sm30
+#  elif !defined (__CUDA_ARCH__)
+#    define HYDRA_THRUST_TUNING_ARCH sm30
+#  endif
 #endif
 
   // Typelist - a container of types, supports up to 10 types
@@ -338,17 +353,18 @@ namespace core {
     };
 
     template <class Agent>
-    typename get_plan<Agent>::type HYDRA_THRUST_RUNTIME_FUNCTION
-    get_agent_plan(int ptx_version)
+    HYDRA_THRUST_RUNTIME_FUNCTION
+    typename get_plan<Agent>::type get_agent_plan(int ptx_version)
     {
-#if (CUB_PTX_ARCH > 0) && defined(__HYDRA_THRUST_HAS_CUDART__)
-      typedef typename get_plan<Agent>::type Plan;
-      HYDRA_THRUST_UNUSED_VAR(ptx_version);
-      // We're on device, use default policy
-      return Plan(typename Agent::ptx_plan());
-#else
-      return get_agent_plan_impl<Agent, sm_list>::get(ptx_version);
-#endif
+      NV_IF_TARGET(
+        NV_IS_DEVICE,
+        (
+          HYDRA_THRUST_UNUSED_VAR(ptx_version);
+          using plan_type = typename get_plan<Agent>::type;
+          using ptx_plan  = typename Agent::ptx_plan;
+          return plan_type{ptx_plan{}};
+        ), // NV_IS_HOST:
+        ( return get_agent_plan_impl<Agent, sm_list>::get(ptx_version); ));
     }
 
 // XXX keep this dead-code for now as a gentle reminder
@@ -433,7 +449,7 @@ namespace core {
   /////////////////////////
 
   HYDRA_THRUST_RUNTIME_FUNCTION
-  int get_sm_count()
+  inline int get_sm_count()
   {
     int dev_id;
     cuda_cub::throw_on_error(cudaGetDevice(&dev_id),
@@ -451,8 +467,8 @@ namespace core {
     return i32value;
   }
 
-  size_t HYDRA_THRUST_RUNTIME_FUNCTION
-  get_max_shared_memory_per_block()
+  HYDRA_THRUST_RUNTIME_FUNCTION
+  inline size_t get_max_shared_memory_per_block()
   {
     int dev_id;
     cuda_cub::throw_on_error(cudaGetDevice(&dev_id),
@@ -471,8 +487,8 @@ namespace core {
     return static_cast<size_t>(i32value);
   }
 
-  size_t HYDRA_THRUST_RUNTIME_FUNCTION
-  virtual_shmem_size(size_t shmem_per_block)
+  HYDRA_THRUST_RUNTIME_FUNCTION
+  inline size_t virtual_shmem_size(size_t shmem_per_block)
   {
     size_t max_shmem_per_block = core::get_max_shared_memory_per_block();
     if (shmem_per_block > max_shmem_per_block)
@@ -481,8 +497,8 @@ namespace core {
       return 0;
   }
 
-  size_t HYDRA_THRUST_RUNTIME_FUNCTION
-  vshmem_size(size_t shmem_per_block, size_t num_blocks)
+  HYDRA_THRUST_RUNTIME_FUNCTION
+  inline size_t vshmem_size(size_t shmem_per_block, size_t num_blocks)
   {
     size_t max_shmem_per_block = core::get_max_shared_memory_per_block();
     if (shmem_per_block > max_shmem_per_block)
@@ -506,7 +522,7 @@ namespace core {
         cub::CacheModifiedInputIterator<PtxPlan::LOAD_MODIFIER,
                                         value_type,
                                         size_type>,
-        It>::type type;
+                                        It>::type type;
   };    // struct Iterator
 
   template <class PtxPlan, class It>
@@ -545,16 +561,13 @@ namespace core {
             class T    = typename iterator_traits<It>::value_type>
   struct BlockLoad
   {
-    typedef cub::BlockLoad<T,
-                           PtxPlan::BLOCK_THREADS,
-                           PtxPlan::ITEMS_PER_THREAD,
-                           PtxPlan::LOAD_ALGORITHM,
-                           1,
-                           1,
-                           get_arch<PtxPlan>::type::ver>
-
-
-        type;
+    using type = cub::BlockLoad<T,
+                                PtxPlan::BLOCK_THREADS,
+                                PtxPlan::ITEMS_PER_THREAD,
+                                PtxPlan::LOAD_ALGORITHM,
+                                1,
+                                1,
+                                get_arch<PtxPlan>::type::ver>;
   };
 
   // BlockStore
@@ -565,28 +578,27 @@ namespace core {
             class T = typename iterator_traits<It>::value_type>
   struct BlockStore
   {
-    typedef cub::BlockStore<T,
-                            PtxPlan::BLOCK_THREADS,
-                            PtxPlan::ITEMS_PER_THREAD,
-                            PtxPlan::STORE_ALGORITHM,
-                            1,
-                            1,
-                            get_arch<PtxPlan>::type::ver>
-        type;
+    using type = cub::BlockStore<T,
+                                 PtxPlan::BLOCK_THREADS,
+                                 PtxPlan::ITEMS_PER_THREAD,
+                                 PtxPlan::STORE_ALGORITHM,
+                                 1,
+                                 1,
+                                 get_arch<PtxPlan>::type::ver>;
   };
-  // cuda_otional
+
+  // cuda_optional
   // --------------
   // used for function that return cudaError_t along with the result
   //
   template <class T>
   class cuda_optional
   {
-    cudaError_t status_;
-    T           value_;
+    cudaError_t status_{cudaSuccess};
+    T           value_{};
 
   public:
-    __host__ __device__
-    cuda_optional() : status_(cudaSuccess) {}
+    cuda_optional() = default;
 
     __host__ __device__
     cuda_optional(T v, cudaError_t status = cudaSuccess) : status_(status), value_(v) {}
@@ -603,16 +615,62 @@ namespace core {
     __host__ __device__ operator T const &() const { return value_; }
   };
 
-  cuda_optional<int> HYDRA_THRUST_RUNTIME_FUNCTION
-  get_ptx_version()
+  HYDRA_THRUST_RUNTIME_FUNCTION
+  inline int get_ptx_version()
   {
     int ptx_version = 0;
-    cudaError_t status = cub::PtxVersion(ptx_version);
-    return cuda_optional<int>(ptx_version, status);
+    if (cub::PtxVersion(ptx_version) != cudaSuccess) 
+    {
+      // Failure might mean that there's no device found
+      const int current_device = cub::CurrentDevice();
+      if (current_device < 0)
+      {
+        cuda_cub::throw_on_error(cudaErrorNoDevice, "No GPU is available\n");
+      }
+
+      // Any subsequent failure means the provided device binary does not match 
+      // the generated function code
+      int major = 0, minor = 0;
+      cudaError_t attr_status;
+
+      attr_status = cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, current_device);
+      cuda_cub::throw_on_error(attr_status,
+                              "get_ptx_version :"
+                              "failed to get major CUDA device compute capability version.");
+
+      attr_status = cudaDeviceGetAttribute(&minor, cudaDevAttrComputeCapabilityMinor, current_device);
+      cuda_cub::throw_on_error(attr_status,
+                              "get_ptx_version :"
+                              "failed to get minor CUDA device compute capability version.");
+        
+      // Index from which SM code has to start in the message below
+      int code_offset = 37;
+      char str[] = "This program was not compiled for SM     \n";
+
+      auto print_1_helper = [&](int v) {
+        str[code_offset] = static_cast<char>(v) + '0';
+        code_offset++;
+      };
+
+      // Assume two digits will be enough
+      auto print_2_helper = [&](int v) {
+        if (v / 10 != 0) {
+          print_1_helper(v / 10);
+        }
+        print_1_helper(v % 10);
+      };
+
+      print_2_helper(major);
+      print_2_helper(minor);
+
+      cuda_cub::throw_on_error(cudaErrorInvalidDevice, str);
+    }
+
+    return ptx_version;
   }
 
-  cudaError_t HYDRA_THRUST_RUNTIME_FUNCTION
-  sync_stream(cudaStream_t stream)
+  HYDRA_THRUST_RUNTIME_FUNCTION
+  inline cudaError_t sync_stream(cudaStream_t stream)
   {
     return cub::SyncStream(stream);
   }
@@ -623,7 +681,10 @@ namespace core {
   }
 
 #define CUDA_CUB_RET_IF_FAIL(e) \
-  if (cub::Debug((e), __FILE__, __LINE__)) return e;
+  {                             \
+    auto const error = (e);     \
+    if (cub::Debug(error, __FILE__, __LINE__)) return error; \
+  }
 
   // uninitialized
   // -------
@@ -738,4 +799,4 @@ using core::sm35;
 using core::sm30;
 } // namespace cuda_
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END

@@ -21,10 +21,9 @@
 #pragma once
 
 #include <hydra/detail/external/hydra_thrust/detail/config.h>
-#include <hydra/detail/external/hydra_thrust/detail/cpp11_required.h>
-#include <hydra/detail/external/hydra_thrust/detail/modern_gcc_required.h>
+#include <hydra/detail/external/hydra_thrust/detail/cpp14_required.h>
 
-#if HYDRA_THRUST_CPP_DIALECT >= 2011 && !defined(HYDRA_THRUST_LEGACY_GCC)
+#if HYDRA_THRUST_CPP_DIALECT >= 2014
 
 #include <hydra/detail/external/hydra_thrust/execution_policy.h>
 #include <hydra/detail/external/hydra_thrust/detail/static_assert.h>
@@ -55,7 +54,7 @@
   #include __HYDRA_THRUST_DEVICE_SYSTEM_FUTURE_HEADER
 #undef __HYDRA_THRUST_DEVICE_SYSTEM_FUTURE_HEADER
 
-HYDRA_THRUST_BEGIN_NS
+HYDRA_THRUST_NAMESPACE_BEGIN
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -172,7 +171,6 @@ using hydra_thrust::system::__HYDRA_THRUST_DEVICE_SYSTEM_NAMESPACE::when_all;
 
 ///////////////////////////////////////////////////////////////////////////////
 
-HYDRA_THRUST_END_NS
+HYDRA_THRUST_NAMESPACE_END
 
 #endif
-
