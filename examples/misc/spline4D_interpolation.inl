@@ -86,29 +86,29 @@ int main(int argv, char** argc)
 
 	//parameters
 	hydra::Parameter  mean  = hydra::Parameter::Create().Name("Mean").Value(0.0).Error(0.0001).Limits(-1.0, 1.0);
-	hydra::Parameter  sigma = hydra::Parameter::Create().Name("Sigma").Value(3.0).Error(0.0001).Limits(0.01, 1.5);
+	hydra::Parameter  sigma = hydra::Parameter::Create().Name("Sigma").Value(1.0).Error(0.0001).Limits(0.01, 1.5);
 
 
 	//gaussian function evaluating on argument zero
 	hydra::Gaussian<double> gaussian(mean, sigma);
 
 	//set the x dimension of the grid
-	auto xaxis =  hydra::range(-10.0, 10.0, 10);
+	auto xaxis =  hydra::range(-3.0, 3.0, 200);
 	auto x_grid_size = xaxis.size();
 	auto xiter = xaxis.begin();
 
 	//set the y dimension of the grid
-	auto yaxis =  hydra::range(-10.0, 10.0, 10);
+	auto yaxis =  hydra::range(-3.0, 3.0, 200);
 	auto y_grid_size = yaxis.size();
 	auto yiter = yaxis.begin();
 
 	//set the w dimension of the grid
-	auto waxis =  hydra::range(-10.0, 10.0, 10);
+	auto waxis =  hydra::range(-3.0, 3.0, 200);
 	auto w_grid_size = waxis.size();
 	auto witer = waxis.begin();
 
 	//set the z dimension of the grid
-	auto zaxis =  hydra::range(-10.0, 10.0, 10);
+	auto zaxis =  hydra::range(-3.0, 3.0, 200);
 	auto z_grid_size = zaxis.size();
 	auto ziter = zaxis.begin();
 
@@ -128,7 +128,6 @@ int main(int argv, char** argc)
 	        auto w = witer[iw];
 	        auto z = ziter[iz];
 
-            //std::cout << " i,j,l, k -> " << ix <<", " <<iy <<", " << iw <<" ," << iz << std::endl;
 	        auto r =gaussian( x )*gaussian( y )*gaussian( w )*gaussian( z );
 
 			return r;
@@ -141,16 +140,17 @@ int main(int argv, char** argc)
 		auto spline4D = hydra::make_spline4D<double, double, double, double>(xaxis, yaxis, waxis, zaxis, ordinate );
 
 		//get random values for x and y
-		auto random_x = hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 157531, 50) ;
-		auto random_y = hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 456258, 50) ;
-		auto random_w = hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 753159, 50) ;
-		auto random_z = hydra::random_range( hydra::UniformShape<double>(-10.0, 10.0), 789512, 50) ;
+		auto random_x = hydra::random_range( hydra::UniformShape<double>(-1.0, 1.0), 157531, 10) ;
+		auto random_y = hydra::random_range( hydra::UniformShape<double>(-1.0, 1.0), 456258, 10) ;
+		auto random_w = hydra::random_range( hydra::UniformShape<double>(-1.0, 1.0), 753159, 10) ;
+		auto random_z = hydra::random_range( hydra::UniformShape<double>(-1.0, 1.0), 789512, 10) ;
 
 
-		for( auto x:xaxis){//random_x ){
-			for( auto y:yaxis){//random_y ){
-				for( auto w:waxis){//random_w ){
-					for( auto z:zaxis){//random_z ){
+
+		for( auto x:random_x ){
+			for( auto y:random_y ){
+				for( auto w:random_w ){
+					for( auto z:random_z ){
 						printf(" x %f y %f w %f z %f spline4D %f gaussian4D %f\n", x,y, w, z,
 								spline4D(x,y, w, z), gaussian(x)*gaussian( y )*gaussian( w )*gaussian( z ));
 					}

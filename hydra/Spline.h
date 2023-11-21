@@ -171,6 +171,45 @@ inline typename std::enable_if<
                        double >::type
 spline3D(IterableX&& abscissa_x,  IterableY&& abscissa_y, IterableZ&& abscissa_z, IterableM measurements, TypeX x, TypeX y, TypeZ z );
 
+template<typename IteratorX, typename IteratorY, typename IteratorW, typename IteratorZ, typename IteratorM,
+          typename TypeX, typename TypeY, typename TypeW, typename TypeZ >
+__hydra_host__ __hydra_device__
+inline typename std::enable_if<
+	std::is_convertible<typename hydra::thrust::iterator_traits<IteratorX>::value_type, double >::value &&
+	std::is_convertible<typename hydra::thrust::iterator_traits<IteratorY>::value_type, double >::value &&
+	std::is_convertible<typename hydra::thrust::iterator_traits<IteratorW>::value_type, double >::value &&
+	std::is_convertible<typename hydra::thrust::iterator_traits<IteratorZ>::value_type, double >::value &&
+	std::is_convertible<typename hydra::thrust::iterator_traits<IteratorM>::value_type, double >::value &&
+	std::is_convertible<TypeX, double >::value &&
+	std::is_convertible<TypeY, double >::value &&
+	std::is_convertible<TypeW, double >::value &&
+	std::is_convertible<TypeZ, double >::value, double>::type
+spline4D(IteratorX firstx, IteratorX lastx,
+		 IteratorY firsty, IteratorY lasty,
+		 IteratorW firstw, IteratorW lastw,
+		 IteratorZ firstz, IteratorZ lastz,
+		 IteratorM measurements, TypeX x, TypeY y, TypeW w, TypeZ z);
+
+template<typename IterableX, typename IterableY,typename IterableW,typename IterableZ,typename IterableM, typename TypeX,typename TypeY, typename TypeW, typename TypeZ >
+__hydra_host__ __hydra_device__
+inline typename std::enable_if<
+					   hydra::detail::is_iterable<IterableX>::value &&
+                       hydra::detail::is_iterable<IterableY>::value &&
+					   hydra::detail::is_iterable<IterableW>::value &&
+					   hydra::detail::is_iterable<IterableZ>::value &&
+                       hydra::detail::is_iterable<IterableM>::value &&
+                       std::is_convertible<typename IterableX::value_type, double >::value &&
+                       std::is_convertible<typename IterableY::value_type, double >::value &&
+					   std::is_convertible<typename IterableW::value_type, double >::value &&
+					   std::is_convertible<typename IterableZ::value_type, double >::value &&
+					   std::is_convertible<typename IterableM::value_type, double >::value &&
+					   std::is_convertible<TypeX, double >::value &&
+					   std::is_convertible<TypeY, double >::value &&
+					   std::is_convertible<TypeW, double >::value &&
+					   std::is_convertible<TypeZ, double >::value ,
+                       double >::type
+spline3D(IterableX&& abscissa_x,  IterableY&& abscissa_y, IterableW&& abscissa_w, IterableZ&& abscissa_z, IterableM measurements, TypeX x, TypeX y, TypeW w, TypeZ z );
+
 } // namespace hydra
 
 #include <hydra/detail/Spline.inl>

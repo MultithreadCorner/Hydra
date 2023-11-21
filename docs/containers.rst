@@ -144,8 +144,6 @@ stdout will look like:
 	...
 	((9, 18), (9.0, 18.0))
 
-Same effect can be 
-
 
 ``hydra::multiarray``
   .................

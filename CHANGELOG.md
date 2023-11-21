@@ -1,5 +1,53 @@
 ## CHANGE LOG
 
+### Hydra 4.0.1
+
+Hydra is now compatible with CUDA 12.2 or higher and compliant with C++17 and C++20.    
+
+In this release:
+
+1) Dependencies updates: 
+
+* Thrust v2.2.0  
+* CUB v2.2.0
+* Eigen 3.4.0
+* Boost.Math 1.83.0 (NEW)
+
+2) Dependencies functions and classes are now available under corresponding subnamespaces. For example: 
+`hydra::thrust`, `hydra::boost::math`  and `hydra::Eigen`;
+3) New spline algorithms for interpolation up to four dimensions:
+
+Free functions:
+
+    ```cpp
+    
+        hydra::spline
+        hydra::spline2D
+        hydra::spline4D
+        hydra::spline3D 
+    ```
+Including overloads for range-based contained and histograms with corresponding dimension. Header: `hydra/Spline.h`
+
+
+4) New method `Interpolate(...)` for dense and sparse histograms up to four dimensions.
+
+5) New functors: 
+
+    ```cpp
+    
+        hydra::SplineFunctor
+        hydra::Spline2DFunctor
+        hydra::Spline4DFunctor
+        hydra::Spline3DFunctor
+    ```
+Defined in the headers: `hydra/functions/SplineFunctor.h` , `hydra/functions/Spline2DFunctor.h`  `hydra/functions/Spline3DFunctor.h`  `hydra/functions/Spline4DFunctor.h`.
+
+6) New examples covering new functionality. 
+
+Bug fixes: 
+
+Many bug fixes across the tree. 
+
 ### Hydra 3.2.2
 
 This release:
