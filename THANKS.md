@@ -16,5 +16,10 @@
 
 * Davide Brundu for a number of contributions, from new functionality to bug reports and corrections.
 * Andrea Contu always for the moral support, extensive testing and bug report whn using hydra in his own projetcs. 
-* Angelo di Canto, for the support, testing and skype based bug report.
+* Angelo di Canto, for the support, testing and skype based bug report. :)
+
+## Hydra 4.0.1
+
+* Andrea Contu for extensive testing and bug reports while using hydra in his own projetcs.
+* Guanda ( @ataketa ) for contributing with code, testing and bug reports while using hydra in his own projetcs.
 
