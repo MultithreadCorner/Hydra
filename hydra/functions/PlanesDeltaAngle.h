@@ -53,7 +53,8 @@ namespace hydra {
  *  This functor calculates the delta angle between decay plane of the particle with four-vector d2 and d3 (same plane)
  *  and h1 (other plane)
  */
-class PlanesDeltaAngle:public BaseFunctor<PlanesDeltaAngle, double, 0>
+
+class PlanesDeltaAngle:public BaseFunctor<PlanesDeltaAngle, double(Vector4R, Vector4R, Vector4R), 0>
 {
 
 public:
@@ -63,18 +64,18 @@ public:
 
 	__hydra_host__  __hydra_device__
 	PlanesDeltaAngle( PlanesDeltaAngle const& other):
-		BaseFunctor<PlanesDeltaAngle,double, 0>(other)
+		BaseFunctor<PlanesDeltaAngle,double(Vector4R, Vector4R, Vector4R), 0>(other)
 	{}
 
 	__hydra_host__  __hydra_device__ inline
 	PlanesDeltaAngle&		operator=( PlanesDeltaAngle const& other){
 			if(this==&other) return  *this;
-			BaseFunctor<PlanesDeltaAngle,double, 0>::operator=(other);
+			BaseFunctor<PlanesDeltaAngle,double(Vector4R, Vector4R, Vector4R), 0>::operator=(other);
 			return  *this;
 		}
 
 	__hydra_host__ __hydra_device__ inline
-	double Evaluate(unsigned int , hydra::Vector4R* p)  const {
+	double Evaluate( hydra::Vector4R d2, hydra::Vector4R d3, hydra::Vector4R h1)  const {
 
 		hydra::Vector4R d2 = p[0];
 		hydra::Vector4R d3 = p[1];
@@ -84,23 +85,6 @@ public:
 
 	}
 
-	template<typename T>
-	__hydra_host__ __hydra_device__ inline
-	double Evaluate(T p)  const {
-
-		hydra::Vector4R d2 = get<0>(p);
-		hydra::Vector4R d3 = get<1>(p);
-		hydra::Vector4R h1 = get<2>(p);
-
-		return chi_angle( d2, d3, h1);
-	}
-
-	__hydra_host__ __hydra_device__ inline
-	double operator()(Vector4R const& d2, Vector4R const& d3, Vector4R const& h1,  Vector4R const& h2) const {
-
-		return chi_angle( d2, d3, h1);
-
-	}
 
 private:
 
