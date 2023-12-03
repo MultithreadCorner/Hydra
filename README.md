@@ -10,7 +10,7 @@
 Table of Contents
 =================
 
-  * [What is it?](#what-is-it)
+  * [What is it ?](#what-is-it)
   * [Main features](#main-features)
   * [Hydra and Thrust](#hydra-and-thrust)
   * [Supported Parallel Backends](#supported-parallel-backends)
