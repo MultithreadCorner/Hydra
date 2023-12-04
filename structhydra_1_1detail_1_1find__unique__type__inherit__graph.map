@@ -1,6 +1,6 @@
 <map id="hydra::detail::find_unique_type&lt; T, Types &gt;" name="hydra::detail::find_unique_type&lt; T, Types &gt;">
-<area shape="rect" id="node4" href="$structhydra_1_1detail_1_1find__unique__type.html" title="{hydra::detail::find\l_unique_type\&lt; Type,\l Head, Tail... \&gt;\n||}" alt="" coords="37,485,179,592"/>
-<area shape="rect" id="node2" href="$namespacehydra_1_1detail.html" title="{hydra::detail::find\l_unique_type_impl\&lt; 0,\l T, Types... \&gt;\n||}" alt="" coords="31,175,185,281"/>
-<area shape="rect" id="node3" href="$namespacehydra_1_1detail.html#structhydra_1_1detail_1_1find__unique__type__impl" title="{hydra::detail::find\l_unique_type_impl\&lt; I,\l T, Types \&gt;\n||}" alt="" coords="33,5,183,112"/>
-<area shape="rect" id="node5" href="$structhydra_1_1detail_1_1index__in__tuple_3_01Type_00_01hydra__thrust_1_1tuple_3_01Head_00_01Tail_8_8_8_01_4_01_4.html" title="{hydra::detail::index\l_in_tuple\&lt; Type, hydra\l_thrust::tuple\&lt; Head, Tail... \&gt; \&gt;\n||}" alt="" coords="5,641,211,748"/>
+<area shape="rect" id="node4" href="$structhydra_1_1detail_1_1find__unique__type.html" title="{hydra::detail::find\l_unique_type\&lt; Type,\l Head, Tail... \&gt;\n||}" alt="" coords="20,485,163,592"/>
+<area shape="rect" id="node2" href="$namespacehydra_1_1detail.html" title="{hydra::detail::find\l_unique_type_impl\&lt; 0,\l T, Types... \&gt;\n||}" alt="" coords="15,175,168,281"/>
+<area shape="rect" id="node3" href="$namespacehydra_1_1detail.html#structhydra_1_1detail_1_1find__unique__type__impl" title="{hydra::detail::find\l_unique_type_impl\&lt; I,\l T, Types \&gt;\n||}" alt="" coords="16,5,167,112"/>
+<area shape="rect" id="node5" href="$structhydra_1_1detail_1_1index__in__tuple_3_01Type_00_01hydra_1_1thrust_1_1tuple_3_01Head_00_01Tail_8_8_8_01_4_01_4.html" title="{hydra::detail::index\l_in_tuple\&lt; Type, hydra\l::thrust::tuple\&lt; Head,\l Tail... \&gt; \&gt;\n||}" alt="" coords="14,641,169,763"/>
 </map>

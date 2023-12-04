@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -109,7 +109,7 @@ $(document).ready(function(){initNavTree('ConvolutionFunctor_8h.html','');});
 <code>#include &lt;<a class="el" href="">hydra/Parameter.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Tuple.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Range.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/Spiline.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Spline.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Convolution.h</a>&gt;</code><br />
 <code>#include &lt;hydra/detail/external/hydra_thrust/transform_reduce.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/FFTPolicy.h</a>&gt;</code><br />
@@ -140,8 +140,8 @@ Data Structures</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:structhydra_1_1detail_1_1convolution_1_1__traits"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail_1_1convolution.html#structhydra_1_1detail_1_1convolution_1_1__traits">hydra::detail::convolution::_traits&lt; T, ArgType &gt;</a></td></tr>
 <tr class="separator:structhydra_1_1detail_1_1convolution_1_1__traits"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:structhydra_1_1detail_1_1convolution_1_1__traits_3_01hydra__thrust_1_1tuple_3_01Functor_00_01Kernel_01_4_00_01ArgType_01_4"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail_1_1convolution.html#structhydra_1_1detail_1_1convolution_1_1__traits_3_01hydra__thrust_1_1tuple_3_01Functor_00_01Kernel_01_4_00_01ArgType_01_4">hydra::detail::convolution::_traits&lt; hydra_thrust::tuple&lt; Functor, Kernel &gt;, ArgType &gt;</a></td></tr>
-<tr class="separator:structhydra_1_1detail_1_1convolution_1_1__traits_3_01hydra__thrust_1_1tuple_3_01Functor_00_01Kernel_01_4_00_01ArgType_01_4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structhydra_1_1detail_1_1convolution_1_1__traits_3_01hydra_1_1thrust_1_1tuple_3_01Functor_00_01Kernel_01_4_00_01ArgType_01_4"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail_1_1convolution.html#structhydra_1_1detail_1_1convolution_1_1__traits_3_01hydra_1_1thrust_1_1tuple_3_01Functor_00_01Kernel_01_4_00_01ArgType_01_4">hydra::detail::convolution::_traits&lt; hydra::thrust::tuple&lt; Functor, Kernel &gt;, ArgType &gt;</a></td></tr>
+<tr class="separator:structhydra_1_1detail_1_1convolution_1_1__traits_3_01hydra_1_1thrust_1_1tuple_3_01Functor_00_01Kernel_01_4_00_01ArgType_01_4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -206,42 +206,42 @@ Collaboration diagram for hydra::detail::convolution::_traits&lt; T, ArgType &gt
 
 </div>
 </div>
-<a name="structhydra_1_1detail_1_1convolution_1_1__traits_3_01hydra__thrust_1_1tuple_3_01Functor_00_01Kernel_01_4_00_01ArgType_01_4" id="structhydra_1_1detail_1_1convolution_1_1__traits_3_01hydra__thrust_1_1tuple_3_01Functor_00_01Kernel_01_4_00_01ArgType_01_4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structhydra_1_1detail_1_1convolution_1_1__traits_3_01hydra__thrust_1_1tuple_3_01Functor_00_01Kernel_01_4_00_01ArgType_01_4">&#9670;&nbsp;</a></span>hydra::detail::convolution::_traits&lt; hydra_thrust::tuple&lt; Functor, Kernel &gt;, ArgType &gt;</h2>
+<a name="structhydra_1_1detail_1_1convolution_1_1__traits_3_01hydra_1_1thrust_1_1tuple_3_01Functor_00_01Kernel_01_4_00_01ArgType_01_4" id="structhydra_1_1detail_1_1convolution_1_1__traits_3_01hydra_1_1thrust_1_1tuple_3_01Functor_00_01Kernel_01_4_00_01ArgType_01_4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structhydra_1_1detail_1_1convolution_1_1__traits_3_01hydra_1_1thrust_1_1tuple_3_01Functor_00_01Kernel_01_4_00_01ArgType_01_4">&#9670;&nbsp;</a></span>hydra::detail::convolution::_traits&lt; hydra::thrust::tuple&lt; Functor, Kernel &gt;, ArgType &gt;</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct hydra::detail::convolution::_traits&lt; hydra_thrust::tuple&lt; Functor, Kernel &gt;, ArgType &gt;</td>
+          <td class="memname">struct hydra::detail::convolution::_traits&lt; hydra::thrust::tuple&lt; Functor, Kernel &gt;, ArgType &gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <div class="textblock"><h3>template&lt;typename Functor, typename Kernel, typename ArgType&gt;<br />
-struct hydra::detail::convolution::_traits&lt; hydra_thrust::tuple&lt; Functor, Kernel &gt;, ArgType &gt;</h3>
+struct hydra::detail::convolution::_traits&lt; hydra::thrust::tuple&lt; Functor, Kernel &gt;, ArgType &gt;</h3>
 
 </div><div class="dynheader">
-Collaboration diagram for hydra::detail::convolution::_traits&lt; hydra_thrust::tuple&lt; Functor, Kernel &gt;, ArgType &gt;:</div>
+Collaboration diagram for hydra::detail::convolution::_traits&lt; hydra::thrust::tuple&lt; Functor, Kernel &gt;, ArgType &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1convolution_1_1__traits_3_01hydra__thrust_1_1tuple_3_01Functor_00_01Ker75986140e742e3cbf0acda324934b1f1.svg" width="178" height="132"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1convolution_1_1__traits_3_01hydra_1_1thrust_1_1tuple_3_01Functor_00_01Ke79f4911420c176cc8b853ba656fdfa4.svg" width="178" height="132"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <table class="fieldtable">
 <tr><th colspan="3">Data Fields</th></tr>
 <tr><td class="fieldtype">
-<a id="a158df1fa1d10356ebb92e756b45b5d48"></a>typedef common_type&lt; typename <a class="el" href="namespacehydra_1_1detail_1_1convolution.html#a158df1fa1d10356ebb92e756b45b5d48">return_type</a>, typename <a class="el" href="namespacehydra_1_1detail_1_1convolution.html#a158df1fa1d10356ebb92e756b45b5d48">return_type</a> &gt;::type</td>
+<a id="a5f6bdef645d4209e2a577e1c7a8c980d"></a>typedef common_type&lt; typename <a class="el" href="namespacehydra_1_1detail_1_1convolution.html#a5f6bdef645d4209e2a577e1c7a8c980d">return_type</a>, typename <a class="el" href="namespacehydra_1_1detail_1_1convolution.html#a5f6bdef645d4209e2a577e1c7a8c980d">return_type</a> &gt;::type</td>
 <td class="fieldname">
 return_type</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
-<a id="a7b64169931baf51605e7685c01c4756f"></a>typedef <a class="el" href="namespacehydra_1_1detail_1_1convolution.html#a158df1fa1d10356ebb92e756b45b5d48">return_type</a>(ArgType)</td>
+<a id="a62c6c60ac80b63e8c1d7a44dca61ecd0"></a>typedef <a class="el" href="namespacehydra_1_1detail_1_1convolution.html#a5f6bdef645d4209e2a577e1c7a8c980d">return_type</a>(ArgType)</td>
 <td class="fieldname">
 signature</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
-<a id="a6b35b36ee80d3c7b08ce4b25468862fe"></a>typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1stripped__type">stripped_type</a>&lt; ArgType &gt;::type</td>
+<a id="a96862f5d3d59658fdd8b503e7d975177"></a>typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1stripped__type">stripped_type</a>&lt; ArgType &gt;::type</td>
 <td class="fieldname">
 value_type</td>
 <td class="fielddoc">
@@ -256,7 +256,7 @@ value_type</td>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_e43a426260a0a50393d21bf054cb693c.html">functions</a></li><li class="navelem"><a class="el" href="ConvolutionFunctor_8h.html">ConvolutionFunctor.h</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:46 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

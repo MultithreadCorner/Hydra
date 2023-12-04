@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -96,7 +96,8 @@ $(document).ready(function(){initNavTree('ProcessSPlot_8h.html','');});
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
 <div class="title">ProcessSPlot.h File Reference</div>  </div>
 </div><!--header-->
@@ -110,7 +111,7 @@ $(document).ready(function(){initNavTree('ProcessSPlot_8h.html','');});
 <code>#include &lt;<a class="el" href="">hydra/detail/utility/Generic.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/FunctorTraits.h</a>&gt;</code><br />
 <code>#include &lt;hydra/detail/external/hydra_thrust/functional.h&gt;</code><br />
-<code>#include &lt;Eigen/Dense&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_Eigen/Dense&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for ProcessSPlot.h:</div>
 <div class="dyncontent">
@@ -128,15 +129,15 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixBinary.html">hydra::detail::CovMatrixBinary</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixBinary.html">hydra::detail::CovMatrixBinary&lt; CovariantMatrixType &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html">hydra::detail::CovMatrixUnary&lt; F1, F2, Fs &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary_1_1index.html">hydra::detail::CovMatrixUnary&lt; F1, F2, Fs &gt;::index&lt; N, INDEX &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1GetSWeight.html">hydra::detail::GetSWeight&lt; I &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1GetSWeight.html">hydra::detail::GetSWeight&lt; T, I &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1SWeights.html">hydra::detail::SWeights&lt; F1, F2, Fs &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1SWeights.html">hydra::detail::SWeights&lt; W, F1, F2, Fs &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -146,14 +147,34 @@ Namespaces</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacehydra_1_1detail"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html">hydra::detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ac4d3d83c15e1e102a1bfdf87d28559ca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ProcessSPlot_8h.html#ac4d3d83c15e1e102a1bfdf87d28559ca">HYDRA_EIGEN_MAX_STATIC_ALIGN_BYTES</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:ac4d3d83c15e1e102a1bfdf87d28559ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ac4d3d83c15e1e102a1bfdf87d28559ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4d3d83c15e1e102a1bfdf87d28559ca">&#9670;&nbsp;</a></span>HYDRA_EIGEN_MAX_STATIC_ALIGN_BYTES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HYDRA_EIGEN_MAX_STATIC_ALIGN_BYTES&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="dir_35ca0ad8653ac3849130d5ccd34a6c7d.html">functors</a></li><li class="navelem"><a class="el" href="ProcessSPlot_8h.html">ProcessSPlot.h</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:47 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

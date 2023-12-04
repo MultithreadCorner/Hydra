@@ -1,3 +1,14 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$namespacehydra_1_1detail.html#structhydra_1_1detail_1_1CanConvert_1_1To" title="hydra::detail::CanConvert\l\&lt; A \&gt;::To\&lt; B \&gt;" alt="" coords="5,5,176,47"/>
+<area shape="rect" id="node2" href="$structhydra_1_1detail_1_1are__base__of.html" title="hydra::detail::are\l_base_of\&lt; Base, T, Ts \&gt;" alt="" coords="117,5,281,47"/>
+<area shape="rect" id="node3" href="$structhydra_1_1detail_1_1are__iterables.html" title="hydra::detail::are\l_iterables\&lt; Iterables \&gt;" alt="" coords="123,71,275,112"/>
+<area shape="rect" id="node4" href="$structhydra_1_1detail_1_1are__iterators.html" title="hydra::detail::are\l_iterators\&lt; Iterators \&gt;" alt="" coords="125,136,273,177"/>
+<area shape="rect" id="node5" href="$structhydra_1_1detail_1_1conditions__and_3_01Cond_00_01Conds_8_8_8_01_4.html" title="hydra::detail::conditions\l_and\&lt; Cond, Conds... \&gt;" alt="" coords="118,201,281,243"/>
+<area shape="rect" id="node6" href="$structhydra_1_1detail_1_1is__homogeneous__base.html" title="hydra::detail::is_homogeneous\l_base\&lt; A, Tp, I \&gt;" alt="" coords="100,267,299,308"/>
+<area shape="rect" id="node7" href="$structhydra_1_1detail_1_1is__intuple_3_01T_00_01hydra_1_1tuple_3_01Head_00_01Tail_8_8_8_01_4_01_4.html" title="hydra::detail::is_intuple\l\&lt; T, hydra::tuple\&lt; Head,\l Tail... \&gt; \&gt;" alt="" coords="118,333,281,389"/>
+<area shape="rect" id="node8" href="$structhydra_1_1detail_1_1random_1_1is__callable.html" title="hydra::detail::random\l::is_callable\&lt; T \&gt;" alt="" coords="127,413,271,455"/>
+<area shape="rect" id="node9" href="$structhydra_1_1detail_1_1random_1_1is__iterable.html" title="hydra::detail::random\l::is_iterable\&lt; T \&gt;" alt="" coords="127,479,271,520"/>
+<area shape="rect" id="node10" href="$structhydra_1_1detail_1_1random_1_1is__iterator.html" title="hydra::detail::random\l::is_iterator\&lt; T \&gt;" alt="" coords="127,544,271,585"/>
+<area shape="rect" id="node11" href="$structhydra_1_1detail_1_1random_1_1is__matching__iterable.html" title="hydra::detail::random\l::is_matching_iterable\l\&lt; Engine, Functor, Iterable \&gt;" alt="" coords="105,610,293,666"/>
+<area shape="rect" id="node12" href="$structhydra_1_1detail_1_1is__homogeneous__base.html" title="hydra::detail::is_homogeneous\l_base\&lt; A, Tuple, hydra::thrust\l::tuple_size\&lt; Tuple \&gt;::value \&gt;" alt="" coords="100,690,299,746"/>
+<area shape="rect" id="node13" href="$structhydra_1_1detail_1_1is__homogeneous.html" title="hydra::detail::is_homogeneous\l\&lt; A, Tuple \&gt;" alt="" coords="347,697,545,739"/>
 </map>

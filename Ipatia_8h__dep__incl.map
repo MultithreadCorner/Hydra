@@ -1,11 +1,8 @@
 <map id="Ipatia.h" name="Ipatia.h">
-<area shape="rect" id="node2" href="$convolute__functions_8inl.html" title="convolute_functions.inl" alt="" coords="193,80,348,107"/>
-<area shape="rect" id="node5" href="$Ipatia__plus__argus_8inl.html" title="Ipatia_plus_argus.inl" alt="" coords="460,80,601,107"/>
-<area shape="rect" id="node8" href="$particle__mass_8inl.html" title="particle_mass.inl" alt="" coords="715,80,835,107"/>
-<area shape="rect" id="node3" href="$convolute__functions_8cpp.html" title="convolute_functions.cpp" alt="" coords="5,155,168,181"/>
-<area shape="rect" id="node4" href="$convolute__functions_8cu.html" title="convolute_functions.cu" alt="" coords="193,155,349,181"/>
-<area shape="rect" id="node6" href="$ipatia__plus__argus_8cpp.html" title="ipatia_plus_argus.cpp" alt="" coords="373,155,521,181"/>
-<area shape="rect" id="node7" href="$ipatia__plus__argus_8cu.html" title="ipatia_plus_argus.cu" alt="" coords="545,155,687,181"/>
-<area shape="rect" id="node9" href="$particle__mass_8cpp.html" title="particle_mass.cpp" alt="" coords="711,155,839,181"/>
-<area shape="rect" id="node10" href="$particle__mass_8cu.html" title="particle_mass.cu" alt="" coords="863,155,985,181"/>
+<area shape="rect" id="node2" href="$Ipatia__plus__argus_8inl.html" title="Ipatia_plus_argus.inl" alt="" coords="178,80,319,107"/>
+<area shape="rect" id="node5" href="$particle__mass_8inl.html" title="particle_mass.inl" alt="" coords="347,80,467,107"/>
+<area shape="rect" id="node3" href="$ipatia__plus__argus_8cpp.html" title="ipatia_plus_argus.cpp" alt="" coords="5,155,153,181"/>
+<area shape="rect" id="node4" href="$ipatia__plus__argus_8cu.html" title="ipatia_plus_argus.cu" alt="" coords="178,155,319,181"/>
+<area shape="rect" id="node6" href="$particle__mass_8cpp.html" title="particle_mass.cpp" alt="" coords="343,155,471,181"/>
+<area shape="rect" id="node7" href="$particle__mass_8cu.html" title="particle_mass.cu" alt="" coords="496,155,617,181"/>
 </map>

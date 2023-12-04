@@ -1,4 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$namespacehydra_1_1detail.html" title="hydra::detail::_merge\l_and_renumber\&lt; make_index\l_sequence\&lt; N/2 \&gt;::type,\l make_index_sequence\&lt; N \l&#45; N/2 \&gt;::type \&gt;" alt="" coords="5,5,199,91"/>
-<area shape="rect" id="node2" href="$structhydra_1_1detail_1_1make__index__sequence.html" title="hydra::detail::make\l_index_sequence\&lt; N \&gt;" alt="" coords="247,27,404,69"/>
+<area shape="rect" id="node1" href="$classhydra_1_1BaseCuFFT.html" title="hydra::BaseCuFFT\&lt; InputType,\l OutputType, PlanType \&gt;" alt="" coords="5,93,212,134"/>
+<area shape="rect" id="node2" href="$classhydra_1_1ComplexToComplexCuFFT.html" title="hydra::ComplexToComplexCu\lFFT\&lt; T, InputType, OutputType,\l PlanType \&gt;" alt="" coords="260,5,468,61"/>
+<area shape="rect" id="node3" href="$classhydra_1_1ComplexToRealCuFFT.html" title="hydra::ComplexToRealCuFFT\l\&lt; T, InputType, OutputType,\l PlanType \&gt;" alt="" coords="266,85,462,141"/>
+<area shape="rect" id="node4" href="$classhydra_1_1RealToComplexCuFFT.html" title="hydra::RealToComplexCuFFT\l\&lt; T, InputType, OutputType,\l PlanType \&gt;" alt="" coords="266,165,462,221"/>
 </map>

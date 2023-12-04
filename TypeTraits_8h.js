@@ -24,22 +24,25 @@ var TypeTraits_8h =
       [ "type", "namespacehydra_1_1detail.html#a6a09c2f0ef798cfca4abdfb2ab115c25", null ]
     ] ],
     [ "is_device_reference", "structhydra_1_1detail_1_1is__device__reference.html", null ],
-    [ "is_device_reference< hydra_thrust::device_reference< T > >", "structhydra_1_1detail_1_1is__device__reference_3_01hydra__thrust_1_1device__reference_3_01T_01_4_01_4.html", null ],
+    [ "is_device_reference< hydra::thrust::device_reference< T > >", "structhydra_1_1detail_1_1is__device__reference_3_01hydra_1_1thrust_1_1device__reference_3_01T_01_4_01_4.html", null ],
     [ "is_iterator", "structhydra_1_1detail_1_1is__iterator.html", null ],
-    [ "is_iterator< T, hydra_thrust::void_t< typename std::enable_if< std::is_default_constructible< T >::value, void >::type, typename std::enable_if< std::is_copy_constructible< T >::value, void >::type, typename std::enable_if< std::is_destructible< T >::value, void >::type, decltype(std::declval< T & >()[0]), decltype(std::declval< T & >() -std::declval< T & >()), decltype(++std::declval< T & >()), decltype(*std::declval< T & >()), decltype(std::declval< T & >()==std::declval< T & >()), decltype(std::declval< T & >() !=std::declval< T & >())> >", "structhydra_1_1detail_1_1is__iterator_3_01T_00_01hydra__thrust_1_1void__t_3_01typename_01std_1_1f4f8f83b484a6990de5649c5e71c7fc4.html", null ],
+    [ "is_iterator< T, hydra::thrust::void_t< typename std::enable_if< std::is_default_constructible< T >::value, void >::type, typename std::enable_if< std::is_copy_constructible< T >::value, void >::type, typename std::enable_if< std::is_destructible< T >::value, void >::type, decltype(std::declval< T & >()[0]), decltype(std::declval< T & >() -std::declval< T & >()), decltype(++std::declval< T & >()), decltype(*std::declval< T & >()), decltype(std::declval< T & >()==std::declval< T & >()), decltype(std::declval< T & >() !=std::declval< T & >())> >", "structhydra_1_1detail_1_1is__iterator_3_01T_00_01hydra_1_1thrust_1_1void__t_3_01typename_01std_1960e516d34ba640b63ee17922e53dd7c.html", null ],
     [ "is_specialization", "structhydra_1_1detail_1_1is__specialization.html", null ],
     [ "is_specialization< REF< Args... >, REF >", "structhydra_1_1detail_1_1is__specialization_3_01REF_3_01Args_8_8_8_01_4_00_01REF_01_4.html", null ],
     [ "remove_device_reference", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1remove__device__reference", [
       [ "type", "namespacehydra_1_1detail.html#a3369bac6ca9a2ac5bfac3d6641551ecb", null ]
     ] ],
-    [ "remove_device_reference< hydra_thrust::device_reference< T > >", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1remove__device__reference_3_01hydra__thrust_1_1device__reference_3_01T_01_4_01_4", [
-      [ "type", "namespacehydra_1_1detail.html#ace604cd82481d3586736efe022ca568b", null ]
+    [ "remove_device_reference< hydra::thrust::device_reference< T > >", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1remove__device__reference_3_01hydra_1_1thrust_1_1device__reference_3_01T_01_4_01_4", [
+      [ "type", "namespacehydra_1_1detail.html#af623fdb8de60ab15609af42e08b317f5", null ]
+    ] ],
+    [ "remove_device_reference< T & >", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1remove__device__reference_3_01T_01_6_01_4", [
+      [ "type", "namespacehydra_1_1detail.html#a7fd24291b19127ab66c7b8f9512e00ce", null ]
     ] ],
     [ "TypeTraits", "structhydra_1_1detail_1_1TypeTraits.html", "structhydra_1_1detail_1_1TypeTraits" ],
-    [ "TypeTraits< hydra_thrust::complex< T > >", "structhydra_1_1detail_1_1TypeTraits_3_01hydra__thrust_1_1complex_3_01T_01_4_01_4.html", "structhydra_1_1detail_1_1TypeTraits_3_01hydra__thrust_1_1complex_3_01T_01_4_01_4" ],
-    [ "common_type< hydra_thrust::complex< T >, hydra_thrust::complex< U > >", "structstd_1_1common__type_3_01hydra__thrust_1_1complex_3_01T_01_4_00_01hydra__thrust_1_1complex_3_01U_01_4_01_4.html", "structstd_1_1common__type_3_01hydra__thrust_1_1complex_3_01T_01_4_00_01hydra__thrust_1_1complex_3_01U_01_4_01_4" ],
-    [ "common_type< hydra_thrust::complex< U >, T >", "structstd_1_1common__type_3_01hydra__thrust_1_1complex_3_01U_01_4_00_01T_01_4.html", "structstd_1_1common__type_3_01hydra__thrust_1_1complex_3_01U_01_4_00_01T_01_4" ],
-    [ "common_type< T, hydra_thrust::complex< U > >", "structstd_1_1common__type_3_01T_00_01hydra__thrust_1_1complex_3_01U_01_4_01_4.html", "structstd_1_1common__type_3_01T_00_01hydra__thrust_1_1complex_3_01U_01_4_01_4" ],
+    [ "TypeTraits< hydra::thrust::complex< T > >", "structhydra_1_1detail_1_1TypeTraits_3_01hydra_1_1thrust_1_1complex_3_01T_01_4_01_4.html", "structhydra_1_1detail_1_1TypeTraits_3_01hydra_1_1thrust_1_1complex_3_01T_01_4_01_4" ],
+    [ "common_type< hydra::thrust::complex< T >, hydra::thrust::complex< U > >", "structstd_1_1common__type_3_01hydra_1_1thrust_1_1complex_3_01T_01_4_00_01hydra_1_1thrust_1_1complex_3_01U_01_4_01_4.html", "structstd_1_1common__type_3_01hydra_1_1thrust_1_1complex_3_01T_01_4_00_01hydra_1_1thrust_1_1complex_3_01U_01_4_01_4" ],
+    [ "common_type< hydra::thrust::complex< U >, T >", "structstd_1_1common__type_3_01hydra_1_1thrust_1_1complex_3_01U_01_4_00_01T_01_4.html", "structstd_1_1common__type_3_01hydra_1_1thrust_1_1complex_3_01U_01_4_00_01T_01_4" ],
+    [ "common_type< T, hydra::thrust::complex< U > >", "structstd_1_1common__type_3_01T_00_01hydra_1_1thrust_1_1complex_3_01U_01_4_01_4.html", "structstd_1_1common__type_3_01T_00_01hydra_1_1thrust_1_1complex_3_01U_01_4_01_4" ],
     [ "common_type_t", "TypeTraits_8h.html#aee93c31c37a22c22c49c73483cfd0f91", null ],
-    [ "kInvalidNumber", "TypeTraits_8h.html#a21eef8c0671371274978fac6d9b44180aea9c72bdee6f384d88af4eab49530ea8", null ]
+    [ "kInvalidNumber", "TypeTraits_8h.html#a759ad336f50b88396a0bef211afe698eaea9c72bdee6f384d88af4eab49530ea8", null ]
 ];

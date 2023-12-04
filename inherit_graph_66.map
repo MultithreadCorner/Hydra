@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structhydra_1_1detail_1_1AverageMother.html" title="hydra::detail::AverageMother\l\&lt; N, GRND, FUNCTOR \&gt;" alt="" coords="5,5,195,47"/>
+<area shape="rect" id="node2" href="$classhydra_1_1detail_1_1AddPdfBase.html" title="hydra::detail::AddPdfBase\l\&lt; PDF1, PDF2, PDFs... \&gt;" alt="" coords="128,71,304,112"/>
+<area shape="rect" id="node6" href="$classhydra_1_1detail_1_1AddPdfBase.html" title="hydra::detail::AddPdfBase\l\&lt; PDF1, PDF2, PDFs \&gt;" alt="" coords="129,136,303,177"/>
+<area shape="rect" id="node3" href="$group__fit.html#classhydra_1_1PDFSumExtendable" title="Class representing a pdf object built summing up other pdfs. " alt="" coords="364,5,545,47"/>
+<area shape="rect" id="node4" href="$group__fit.html#classhydra_1_1PDFSumNonExtendable" title="Class representing a pdf object built summing a pdf adding other pdfs. " alt="" coords="352,71,557,112"/>
+<area shape="rect" id="node5" href="$group__fit.html#classhydra_1_1SPlot" title="Implementation of {s}_{Plot} technique for statistical unfolding of sample containing events from dif..." alt="" coords="377,136,533,177"/>
 </map>

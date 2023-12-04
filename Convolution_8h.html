@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -96,6 +96,7 @@ $(document).ready(function(){initNavTree('Convolution_8h.html','');});
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Convolution.h File Reference</div>  </div>
@@ -113,6 +114,7 @@ $(document).ready(function(){initNavTree('Convolution_8h.html','');});
 <code>#include &lt;<a class="el" href="">hydra/detail/Convolution.inl</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/ArgumentTraits.h</a>&gt;</code><br />
 <code>#include &lt;hydra/detail/external/hydra_thrust/transform.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/reduce.h&gt;</code><br />
 <code>#include &lt;hydra/detail/external/hydra_thrust/iterator/transform_iterator.h&gt;</code><br />
 <code>#include &lt;hydra/detail/external/hydra_thrust/memory.h&gt;</code><br />
 <code>#include &lt;hydra/detail/external/hydra_thrust/system/cuda/detail/execution_policy.h&gt;</code><br />
@@ -139,19 +141,55 @@ Namespaces</h2></td></tr>
 <tr class="memdesc:namespacehydra"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic policies definition. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:afc3d101f633a076cc1ca84b85b6224b2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Convolution_8h.html#afc3d101f633a076cc1ca84b85b6224b2">TAG</a>&#160;&#160;&#160;typename std::conditional&lt; std::is_convertible&lt;typename hydra::thrust::iterator_system&lt; decltype(std::declval&lt;Iterable&gt;().begin())&gt;::type, hydra::thrust::system::cuda::tag&gt;::value , std::integral_constant&lt;<a class="el" href="namespace_3globalScope_4.html#classint">int</a>, 1&gt;, std::integral_constant&lt;<a class="el" href="namespace_3globalScope_4.html#classint">int</a>, 0&gt; &gt;::type</td></tr>
+<tr class="separator:afc3d101f633a076cc1ca84b85b6224b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a392548f2df67370cb15d2a5d75cd7b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Convolution_8h.html#a5a392548f2df67370cb15d2a5d75cd7b">TYPE</a>&#160;&#160;&#160;typename std::conditional&lt; std::is_convertible&lt;detail::BackendPolicy&lt;BACKEND&gt;,hydra::thrust::system::cuda::tag &gt;::value, std::integral_constant&lt;<a class="el" href="namespace_3globalScope_4.html#classint">int</a>, 1&gt;,std::integral_constant&lt;<a class="el" href="namespace_3globalScope_4.html#classint">int</a>, 0&gt;&gt;::type</td></tr>
+<tr class="separator:a5a392548f2df67370cb15d2a5d75cd7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ade5b435c4a37bbda1d67cd8fe18b526f"><td class="memTemplParams" colspan="2">template&lt;detail::Backend BACKEND, detail::FFTCalculator FFTBackend, typename Functor , typename Kernel , typename Iterable , typename T  = typename detail::stripped_type&lt;typename hydra_thrust::iterator_traits&lt;decltype(std::declval&lt;Iterable&gt;().begin())&gt;::value_type&gt;::type, typename USING_CUDA_BACKEND  = typename std::conditional&lt; std::is_convertible&lt;detail::BackendPolicy&lt;BACKEND&gt;,hydra_thrust::system::cuda::tag &gt;::value, std::integral_constant&lt;int, 1&gt;,std::integral_constant&lt;int, 0&gt;&gt;::type, typename USING_CUFFT  = typename std::conditional&lt; FFTBackend==detail::CuFFT, std::integral_constant&lt;int, 1&gt;,std::integral_constant&lt;int, 0&gt;&gt;::type, typename GPU_DATA  = typename std::conditional&lt; std::is_convertible&lt;typename hydra_thrust::iterator_system&lt; decltype(std::declval&lt;Iterable&gt;().begin())&gt;::type,                        hydra_thrust::system::cuda::tag&gt;::value         , std::integral_constant&lt;int, 1&gt;, std::integral_constant&lt;int, 0&gt; &gt;::type&gt; </td></tr>
+<tr class="memitem:ade5b435c4a37bbda1d67cd8fe18b526f"><td class="memTemplParams" colspan="2">template&lt;detail::Backend BACKEND, detail::FFTCalculator FFTBackend, typename Functor , typename Kernel , typename Iterable , typename T  = typename detail::stripped_type&lt;typename hydra::thrust::iterator_traits&lt;decltype(std::declval&lt;Iterable&gt;().begin())&gt;::value_type&gt;::type, typename USING_CUDA_BACKEND  = typename std::conditional&lt; std::is_convertible&lt;detail::BackendPolicy&lt;BACKEND&gt;,hydra::thrust::system::cuda::tag &gt;::value, std::integral_constant&lt;int, 1&gt;,std::integral_constant&lt;int, 0&gt;&gt;::type, typename USING_CUFFT  = typename std::conditional&lt; FFTBackend==detail::CuFFT, std::integral_constant&lt;int, 1&gt;,std::integral_constant&lt;int, 0&gt;&gt;::type, typename GPU_DATA  = typename std::conditional&lt; std::is_convertible&lt;typename hydra::thrust::iterator_system&lt; decltype(std::declval&lt;Iterable&gt;().begin())&gt;::type, hydra::thrust::system::cuda::tag&gt;::value , std::integral_constant&lt;int, 1&gt;, std::integral_constant&lt;int, 0&gt; &gt;::type&gt; </td></tr>
 <tr class="memitem:ade5b435c4a37bbda1d67cd8fe18b526f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_floating_point&lt; T &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value,void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ade5b435c4a37bbda1d67cd8fe18b526f">hydra::convolute</a> (detail::BackendPolicy&lt; BACKEND &gt; policy, detail::FFTPolicy&lt; T, FFTBackend &gt; fft_policy, Functor const &amp;functor, Kernel const &amp;kernel, T <a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, T <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>, Iterable &amp;&amp;output, bool power_up=true)</td></tr>
 <tr class="separator:ade5b435c4a37bbda1d67cd8fe18b526f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="afc3d101f633a076cc1ca84b85b6224b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc3d101f633a076cc1ca84b85b6224b2">&#9670;&nbsp;</a></span>TAG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TAG&#160;&#160;&#160;typename std::conditional&lt; std::is_convertible&lt;typename hydra::thrust::iterator_system&lt; decltype(std::declval&lt;Iterable&gt;().begin())&gt;::type, hydra::thrust::system::cuda::tag&gt;::value , std::integral_constant&lt;<a class="el" href="namespace_3globalScope_4.html#classint">int</a>, 1&gt;, std::integral_constant&lt;<a class="el" href="namespace_3globalScope_4.html#classint">int</a>, 0&gt; &gt;::type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5a392548f2df67370cb15d2a5d75cd7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a392548f2df67370cb15d2a5d75cd7b">&#9670;&nbsp;</a></span>TYPE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TYPE&#160;&#160;&#160;typename std::conditional&lt; std::is_convertible&lt;detail::BackendPolicy&lt;BACKEND&gt;,hydra::thrust::system::cuda::tag &gt;::value, std::integral_constant&lt;<a class="el" href="namespace_3globalScope_4.html#classint">int</a>, 1&gt;,std::integral_constant&lt;<a class="el" href="namespace_3globalScope_4.html#classint">int</a>, 0&gt;&gt;::type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="Convolution_8h.html">Convolution.h</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:46 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

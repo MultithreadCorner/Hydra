@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -111,13 +111,13 @@ Collaboration diagram for hydra::detail::functor_traits&lt; ReturnType(ClassType
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a891b653f48a7c3f662978c494a84e907"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#a891b653f48a7c3f662978c494a84e907ac2f9d79313705643423fdf41c6a11784">arity</a> = sizeof...(Args)
+<tr class="memitem:ae17358c759ff5be19886ec63caaba0cf"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#ae17358c759ff5be19886ec63caaba0cfac2f9d79313705643423fdf41c6a11784">arity</a> = sizeof...(Args)
  }</td></tr>
-<tr class="separator:a891b653f48a7c3f662978c494a84e907"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fb035201a7347d340f5a73f498de1c9"><td class="memItemLeft" align="right" valign="top">typedef hydra_thrust::tuple&lt; typename std::decay&lt; Args &gt;::type... &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#a4fb035201a7347d340f5a73f498de1c9">argument_rvalue_type</a></td></tr>
-<tr class="separator:a4fb035201a7347d340f5a73f498de1c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7e6bde9890e0e8eacc43416a965f56a"><td class="memItemLeft" align="right" valign="top">typedef hydra_thrust::tuple&lt; Args... &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#ae7e6bde9890e0e8eacc43416a965f56a">argument_type</a></td></tr>
-<tr class="separator:ae7e6bde9890e0e8eacc43416a965f56a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ae17358c759ff5be19886ec63caaba0cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96db0a44bbf6b8836d9b8ad62a132896"><td class="memItemLeft" align="right" valign="top">typedef hydra::thrust::tuple&lt; typename std::decay&lt; Args &gt;::type... &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#a96db0a44bbf6b8836d9b8ad62a132896">argument_rvalue_type</a></td></tr>
+<tr class="separator:a96db0a44bbf6b8836d9b8ad62a132896"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a3f29d572cd05bff24f3288d719ddd2"><td class="memItemLeft" align="right" valign="top">typedef hydra::thrust::tuple&lt; Args... &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#a9a3f29d572cd05bff24f3288d719ddd2">argument_type</a></td></tr>
+<tr class="separator:a9a3f29d572cd05bff24f3288d719ddd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f94fbdac9fb89ee27641db631d7ebfc"><td class="memItemLeft" align="right" valign="top">typedef ReturnType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#a9f94fbdac9fb89ee27641db631d7ebfc">return_type</a></td></tr>
 <tr class="separator:a9f94fbdac9fb89ee27641db631d7ebfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -126,8 +126,8 @@ Public Types</h2></td></tr>
 struct hydra::detail::functor_traits&lt; ReturnType(ClassType::*)(Args...) const &gt;</h3>
 
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a4fb035201a7347d340f5a73f498de1c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4fb035201a7347d340f5a73f498de1c9">&#9670;&nbsp;</a></span>argument_rvalue_type</h2>
+<a id="a96db0a44bbf6b8836d9b8ad62a132896"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96db0a44bbf6b8836d9b8ad62a132896">&#9670;&nbsp;</a></span>argument_rvalue_type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -135,15 +135,15 @@ struct hydra::detail::functor_traits&lt; ReturnType(ClassType::*)(Args...) const
 template&lt;typename ClassType , typename ReturnType , typename... Args&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef hydra_thrust::tuple&lt; typename std::decay&lt;Args&gt;::type...&gt; <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1functor__traits">hydra::detail::functor_traits</a>&lt; ReturnType(ClassType::*)(Args...) const &gt;::<a class="el" href="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#a4fb035201a7347d340f5a73f498de1c9">argument_rvalue_type</a></td>
+          <td class="memname">typedef hydra::thrust::tuple&lt; typename std::decay&lt;Args&gt;::type...&gt; <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1functor__traits">hydra::detail::functor_traits</a>&lt; ReturnType(ClassType::*)(Args...) const &gt;::<a class="el" href="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#a96db0a44bbf6b8836d9b8ad62a132896">argument_rvalue_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="ae7e6bde9890e0e8eacc43416a965f56a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7e6bde9890e0e8eacc43416a965f56a">&#9670;&nbsp;</a></span>argument_type</h2>
+<a id="a9a3f29d572cd05bff24f3288d719ddd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a3f29d572cd05bff24f3288d719ddd2">&#9670;&nbsp;</a></span>argument_type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -151,7 +151,7 @@ template&lt;typename ClassType , typename ReturnType , typename... Args&gt; </di
 template&lt;typename ClassType , typename ReturnType , typename... Args&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef hydra_thrust::tuple&lt;Args...&gt; <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1functor__traits">hydra::detail::functor_traits</a>&lt; ReturnType(ClassType::*)(Args...) const &gt;::<a class="el" href="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#ae7e6bde9890e0e8eacc43416a965f56a">argument_type</a></td>
+          <td class="memname">typedef hydra::thrust::tuple&lt;Args...&gt; <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1functor__traits">hydra::detail::functor_traits</a>&lt; ReturnType(ClassType::*)(Args...) const &gt;::<a class="el" href="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html#a9a3f29d572cd05bff24f3288d719ddd2">argument_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -175,8 +175,8 @@ template&lt;typename ClassType , typename ReturnType , typename... Args&gt; </di
 </div>
 </div>
 <h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="a891b653f48a7c3f662978c494a84e907"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a891b653f48a7c3f662978c494a84e907">&#9670;&nbsp;</a></span>anonymous enum</h2>
+<a id="ae17358c759ff5be19886ec63caaba0cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae17358c759ff5be19886ec63caaba0cf">&#9670;&nbsp;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -189,7 +189,7 @@ template&lt;typename ClassType , typename ReturnType , typename... Args&gt; </di
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a891b653f48a7c3f662978c494a84e907ac2f9d79313705643423fdf41c6a11784"></a>arity&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae17358c759ff5be19886ec63caaba0cfac2f9d79313705643423fdf41c6a11784"></a>arity&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -203,7 +203,7 @@ template&lt;typename ClassType , typename ReturnType , typename... Args&gt; </di
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacehydra.html">hydra</a></li><li class="navelem"><a class="el" href="namespacehydra_1_1detail.html">detail</a></li><li class="navelem"><a class="el" href="structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html">functor_traits&lt; ReturnType(ClassType::*)(Args...) const &gt;</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

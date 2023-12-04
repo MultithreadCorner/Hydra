@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -118,8 +118,8 @@ Collaboration diagram for hydra::detail::ParametersCompositeFunctor&lt; F0, F1, 
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:aceaaff38e5f2c579b78c44d6644329f3"><td class="memItemLeft" align="right" valign="top">typedef hydra_thrust::tuple&lt; F0, F1, Fs... &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#aceaaff38e5f2c579b78c44d6644329f3">functors_type</a></td></tr>
-<tr class="separator:aceaaff38e5f2c579b78c44d6644329f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04766f9ab18fd113ca6996c86a6e83db"><td class="memItemLeft" align="right" valign="top">typedef hydra::thrust::tuple&lt; F0, F1, Fs... &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#a04766f9ab18fd113ca6996c86a6e83db">functors_type</a></td></tr>
+<tr class="separator:a04766f9ab18fd113ca6996c86a6e83db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -133,10 +133,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3e37134a1668a01d2eb0df15f06076e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac80386f446a0e4ca8ef3fa3bc2d7e63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#aac80386f446a0e4ca8ef3fa3bc2d7e63">AddUserParameters</a> (std::vector&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> *&gt; &amp;user_parameters)</td></tr>
 <tr class="separator:aac80386f446a0e4ca8ef3fa3bc2d7e63"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2bfc7f2b90ab061cebaea1909546330f"><td class="memTemplParams" colspan="2">template&lt;unsigned int I&gt; </td></tr>
-<tr class="memitem:a2bfc7f2b90ab061cebaea1909546330f"><td class="memTemplItemLeft" align="right" valign="top">hydra_thrust::tuple_element&lt; I, <a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#aceaaff38e5f2c579b78c44d6644329f3">functors_type</a> &gt;::type &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#a2bfc7f2b90ab061cebaea1909546330f">GetFunctor</a> (<a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">hydra::placeholders::placeholder</a>&lt; I &gt; const &amp;)</td></tr>
-<tr class="separator:a2bfc7f2b90ab061cebaea1909546330f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c73007c6188160ea5075cefa6e8fbfa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> const <a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#aceaaff38e5f2c579b78c44d6644329f3">functors_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#a8c73007c6188160ea5075cefa6e8fbfa">GetFunctors</a> () const</td></tr>
+<tr class="memitem:a736d02cf943cc9b345767e87612bb1de"><td class="memTemplParams" colspan="2">template&lt;unsigned int I&gt; </td></tr>
+<tr class="memitem:a736d02cf943cc9b345767e87612bb1de"><td class="memTemplItemLeft" align="right" valign="top">hydra::thrust::tuple_element&lt; I, <a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#a04766f9ab18fd113ca6996c86a6e83db">functors_type</a> &gt;::type &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#a736d02cf943cc9b345767e87612bb1de">GetFunctor</a> (<a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">hydra::placeholders::placeholder</a>&lt; I &gt; const &amp;)</td></tr>
+<tr class="separator:a736d02cf943cc9b345767e87612bb1de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c73007c6188160ea5075cefa6e8fbfa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> const <a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#a04766f9ab18fd113ca6996c86a6e83db">functors_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#a8c73007c6188160ea5075cefa6e8fbfa">GetFunctors</a> () const</td></tr>
 <tr class="separator:a8c73007c6188160ea5075cefa6e8fbfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a419978537eeaa76e2037486f30bb1a89"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#a419978537eeaa76e2037486f30bb1a89">GetNumberOfParameters</a> () const</td></tr>
 <tr class="separator:a419978537eeaa76e2037486f30bb1a89"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -176,8 +176,8 @@ Public Member Functions</h2></td></tr>
 class hydra::detail::ParametersCompositeFunctor&lt; F0, F1, Fs &gt;</h3>
 
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="aceaaff38e5f2c579b78c44d6644329f3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aceaaff38e5f2c579b78c44d6644329f3">&#9670;&nbsp;</a></span>functors_type</h2>
+<a id="a04766f9ab18fd113ca6996c86a6e83db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04766f9ab18fd113ca6996c86a6e83db">&#9670;&nbsp;</a></span>functors_type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -185,7 +185,7 @@ class hydra::detail::ParametersCompositeFunctor&lt; F0, F1, Fs &gt;</h3>
 template&lt;typename F0, typename F1, typename... Fs&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef hydra_thrust::tuple&lt;F0, F1, Fs...&gt; <a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html">hydra::detail::ParametersCompositeFunctor</a>&lt; F0, F1, Fs &gt;::<a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#aceaaff38e5f2c579b78c44d6644329f3">functors_type</a></td>
+          <td class="memname">typedef hydra::thrust::tuple&lt;F0, F1, Fs...&gt; <a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html">hydra::detail::ParametersCompositeFunctor</a>&lt; F0, F1, Fs &gt;::<a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#a04766f9ab18fd113ca6996c86a6e83db">functors_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -348,8 +348,8 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 
 </div>
 </div>
-<a id="a2bfc7f2b90ab061cebaea1909546330f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2bfc7f2b90ab061cebaea1909546330f">&#9670;&nbsp;</a></span>GetFunctor()</h2>
+<a id="a736d02cf943cc9b345767e87612bb1de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a736d02cf943cc9b345767e87612bb1de">&#9670;&nbsp;</a></span>GetFunctor()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -362,7 +362,7 @@ template&lt;unsigned int I&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">hydra_thrust::tuple_element&lt;I,<a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#aceaaff38e5f2c579b78c44d6644329f3">functors_type</a>&gt;::type&amp; <a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html">hydra::detail::ParametersCompositeFunctor</a>&lt; F0, F1, Fs &gt;::GetFunctor </td>
+          <td class="memname">hydra::thrust::tuple_element&lt;I,<a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#a04766f9ab18fd113ca6996c86a6e83db">functors_type</a>&gt;::type&amp; <a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html">hydra::detail::ParametersCompositeFunctor</a>&lt; F0, F1, Fs &gt;::GetFunctor </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">hydra::placeholders::placeholder</a>&lt; I &gt; const &amp;&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -390,7 +390,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> const <a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#aceaaff38e5f2c579b78c44d6644329f3">functors_type</a>&amp; <a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html">hydra::detail::ParametersCompositeFunctor</a>&lt; F0, F1, Fs &gt;::GetFunctors </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> const <a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html#a04766f9ab18fd113ca6996c86a6e83db">functors_type</a>&amp; <a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html">hydra::detail::ParametersCompositeFunctor</a>&lt; F0, F1, Fs &gt;::GetFunctors </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -850,7 +850,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacehydra.html">hydra</a></li><li class="navelem"><a class="el" href="namespacehydra_1_1detail.html">detail</a></li><li class="navelem"><a class="el" href="classhydra_1_1detail_1_1ParametersCompositeFunctor.html">ParametersCompositeFunctor</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:03 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

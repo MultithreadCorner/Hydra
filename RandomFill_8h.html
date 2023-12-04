@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -94,40 +94,11 @@ $(document).ready(function(){initNavTree('RandomFill_8h.html','');});
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">RandomFill.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;<a class="el" href="">hydra/host/System.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/device/System.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/detail/Config.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/detail/BackendPolicy.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/Types.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/detail/FormulaTraits.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/detail/RngFormula.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/detail/TypeTraits.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/detail/Iterable_traits.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/detail/IteratorTraits.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/Distribution.h</a>&gt;</code><br />
-<code>#include &lt;hydra/detail/external/hydra_thrust/random.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/hydra_thrust/distance.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/hydra_thrust/tabulate.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/hydra_thrust/iterator/iterator_traits.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/hydra_thrust/system/detail/generic/select_system.h&gt;</code><br />
-<code>#include &lt;array&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/detail/RandomFill.inl</a>&gt;</code><br />
-</div><div class="textblock"><div class="dynheader">
-Include dependency graph for RandomFill.h:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="RandomFill_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</div>
-</div><div class="textblock"><div class="dynheader">
+<div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="RandomFill_8h__dep__incl.svg" width="100%" height="462"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
@@ -135,38 +106,13 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 </div>
 <p><a href="">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:namespacehydra"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra.html">hydra</a></td></tr>
-<tr class="memdesc:namespacehydra"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic policies definition. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:gab04906caf93945fb2c86780c1cea2286"><td class="memTemplParams" colspan="2">template&lt;typename Engine , hydra::detail::Backend BACKEND, typename Iterator , typename FUNCTOR &gt; </td></tr>
-<tr class="memitem:gab04906caf93945fb2c86780c1cea2286"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; !<a class="el" href="structhydra_1_1detail_1_1has__rng__formula.html">hydra::detail::has_rng_formula</a>&lt; FUNCTOR &gt;::value, void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#gab04906caf93945fb2c86780c1cea2286">hydra::fill_random</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;policy, Iterator begin, Iterator <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">end</a>, FUNCTOR const &amp;functor, size_t seed)</td></tr>
-<tr class="memdesc:gab04906caf93945fb2c86780c1cea2286"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fall back function if <a class="el" href="classhydra_1_1RngFormula.html">RngFormula</a> is not implemented for the requested functor.  <a href="group__random.html#gab04906caf93945fb2c86780c1cea2286">More...</a><br /></td></tr>
-<tr class="separator:gab04906caf93945fb2c86780c1cea2286"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6c8bad583601746518bdf2e8cd07394d"><td class="memTemplParams" colspan="2">template&lt;typename Engine , typename Iterator , typename FUNCTOR &gt; </td></tr>
-<tr class="memitem:ga6c8bad583601746518bdf2e8cd07394d"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; !<a class="el" href="structhydra_1_1detail_1_1has__rng__formula.html">hydra::detail::has_rng_formula</a>&lt; FUNCTOR &gt;::value, void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#ga6c8bad583601746518bdf2e8cd07394d">hydra::fill_random</a> (Iterator begin, Iterator <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">end</a>, FUNCTOR const &amp;functor, size_t seed)</td></tr>
-<tr class="memdesc:ga6c8bad583601746518bdf2e8cd07394d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fall back function if <a class="el" href="classhydra_1_1RngFormula.html">RngFormula</a> is not implemented for the requested functor.  <a href="group__random.html#ga6c8bad583601746518bdf2e8cd07394d">More...</a><br /></td></tr>
-<tr class="separator:ga6c8bad583601746518bdf2e8cd07394d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:gab8c80dcd76b312f12b98bc04918e4b20"><td class="memTemplParams" colspan="2">template&lt;typename Engine  = hydra_thrust::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator , typename FUNCTOR &gt; </td></tr>
-<tr class="memitem:gab8c80dcd76b312f12b98bc04918e4b20"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1has__rng__formula.html">hydra::detail::has_rng_formula</a>&lt; FUNCTOR &gt;::value &amp;&amp;std::is_convertible&lt; decltype(std::declval&lt; RngFormula&lt; FUNCTOR &gt; &gt;).<a class="el" href="phsp__unweighting_8inl.html#aae0754269ece74173f4afd72643b7e3e">Generate</a>(std::declval&lt; Engine &amp; &gt;), std::declval&lt; FUNCTOR const  &amp; &gt;))), typename hydra_thrust::iterator_traits&lt; Iterator &gt;::value_type &gt;::value, void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__random.html#gab8c80dcd76b312f12b98bc04918e4b20">hydra::fill_random</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; const &amp;policy, Iterator begin, Iterator <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">end</a>, FUNCTOR const &amp;functor, size_t seed=0x254a0afcf7da74a2)</td></tr>
-<tr class="memdesc:gab8c80dcd76b312f12b98bc04918e4b20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill a range with numbers distributed according a user defined distribution using a RNG analytical formula.  <a href="group__random.html#gab8c80dcd76b312f12b98bc04918e4b20">More...</a><br /></td></tr>
-<tr class="separator:gab8c80dcd76b312f12b98bc04918e4b20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="RandomFill_8h.html">RandomFill.h</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:47 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

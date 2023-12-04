@@ -1,5 +1,8 @@
 <map id="TupleUtility.h" name="TupleUtility.h">
-<area shape="rect" id="node2" href="$Config_8h.html" title="hydra/detail/Config.h" alt="" coords="86,199,229,225"/>
-<area shape="rect" id="node5" href="$Tuple_8h.html" title="hydra/Tuple.h" alt="" coords="544,95,645,121"/>
-<area shape="rect" id="node8" href="$Generic_8h.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="419,191,543,233"/>
+<area shape="rect" id="node2" href="$Config_8h.html" title="hydra/detail/Config.h" alt="" coords="86,273,229,300"/>
+<area shape="rect" id="node5" href="$Tuple_8h.html" title="hydra/Tuple.h" alt="" coords="541,169,643,196"/>
+<area shape="rect" id="node14" href="$TupleTraits_8h.html" title="hydra/detail/TupleTraits.h" alt="" coords="574,80,743,107"/>
+<area shape="rect" id="node8" href="$Generic_8h.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="494,266,618,307"/>
+<area shape="rect" id="node15" href="$FindUniqueType_8h.html" title="hydra/detail/FindUniqueType.h" alt="" coords="819,169,1018,196"/>
+<area shape="rect" id="node16" href="$StaticAssert_8h.html" title="hydra/detail/utility\l/StaticAssert.h" alt="" coords="859,266,983,307"/>
 </map>

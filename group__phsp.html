@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -155,7 +155,7 @@ Functions</h2></td></tr>
 <div class="textblock"><h3>template&lt;typename Particles, typename Backend&gt;<br />
 class hydra::Decays&lt; Particles, Backend &gt;</h3>
 
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8C-example.html#_a41">dalitz_plot.C</a>, <a class="el" href="dalitz_plot_8inl-example.html#_a46">dalitz_plot.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#_a21">phsp_basic.inl</a>, <a class="el" href="phsp_chain_8inl-example.html#_a18">phsp_chain.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#_a26">phsp_reweighting.inl</a>, <a class="el" href="phsp_unweighting_8inl-example.html#_a21">phsp_unweighting.inl</a>, and <a class="el" href="phsp_unweighting_functor_8inl-example.html#_a26">phsp_unweighting_functor.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8C-example.html#_a44">dalitz_plot.C</a>, <a class="el" href="dalitz_plot_8inl-example.html#_a47">dalitz_plot.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#_a21">phsp_basic.inl</a>, <a class="el" href="phsp_chain_8inl-example.html#_a18">phsp_chain.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#_a26">phsp_reweighting.inl</a>, <a class="el" href="phsp_unweighting_8inl-example.html#_a21">phsp_unweighting.inl</a>, and <a class="el" href="phsp_unweighting_functor_8inl-example.html#_a26">phsp_unweighting_functor.inl</a>.</dd>
 </dl></div><div class="dynheader">
 Collaboration diagram for hydra::Decays&lt; Particles, Backend &gt;:</div>
 <div class="dyncontent">
@@ -318,10 +318,10 @@ Collaboration diagram for hydra::Decays&lt; hydra::tuple&lt; Particles... &gt;, 
 <tr class="memitem:a34bcd13cbed27739059cbfed678a991c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__phsp.html#a34bcd13cbed27739059cbfed678a991c">insert</a> (<a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a> position, InputIterator first, InputIterator last)</td></tr>
 <tr class="separator:a34bcd13cbed27739059cbfed678a991c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2035f0b00e6b4e2b424dbc2fcf97a8c0"><td class="memTemplParams" colspan="2">template&lt;typename Iterable &gt; </td></tr>
-<tr class="memitem:a2035f0b00e6b4e2b424dbc2fcf97a8c0"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">detail::is_iterable</a>&lt; Iterable &gt;::value, void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__phsp.html#a2035f0b00e6b4e2b424dbc2fcf97a8c0">insert</a> (<a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a> position, Iterable <a class="el" href="namespacehydra.html#a5bcce8141d53ae8f8dafe05ff48eba90">range</a>)</td></tr>
+<tr class="memitem:a2035f0b00e6b4e2b424dbc2fcf97a8c0"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">detail::is_iterable</a>&lt; Iterable &gt;::value, void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__phsp.html#a2035f0b00e6b4e2b424dbc2fcf97a8c0">insert</a> (<a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a> position, Iterable <a class="el" href="namespacehydra.html#a57a8dad11538cee5058cf0f6755f26a3">range</a>)</td></tr>
 <tr class="separator:a2035f0b00e6b4e2b424dbc2fcf97a8c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a899129ccdb24697d15fc6b8f3120dae2"><td class="memTemplParams" colspan="2">template&lt;typename ... Iterables&gt; </td></tr>
-<tr class="memitem:a899129ccdb24697d15fc6b8f3120dae2"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__phsp.html#a899129ccdb24697d15fc6b8f3120dae2">Meld</a> (Iterables &amp;&amp;... iterable) -&gt; typename std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1all__true.html">detail::all_true</a>&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">detail::is_iterable</a>&lt; Iterables &gt;::value... &gt;::value, decltype(std::declval&lt; <a class="el" href="namespacehydra.html#namespacehydra">storage_type</a> &gt;().<a class="el" href="namespacehydra.html#a4c4bda231cb9e6f06a12f2740f976009">meld</a>(std::forward&lt; Iterables &gt;(iterable) ...)) &gt;::type</td></tr>
+<tr class="memitem:a899129ccdb24697d15fc6b8f3120dae2"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__phsp.html#a899129ccdb24697d15fc6b8f3120dae2">Meld</a> (Iterables &amp;&amp;... iterable) -&gt; typename std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1all__true.html">detail::all_true</a>&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">detail::is_iterable</a>&lt; Iterables &gt;::value... &gt;::value, decltype(std::declval&lt; <a class="el" href="namespacehydra.html#namespacehydra">storage_type</a> &gt;().<a class="el" href="namespacehydra.html#a390592daf1ffc898bb26a468c09c17f8">meld</a>(std::forward&lt; Iterables &gt;(iterable) ...)) &gt;::type</td></tr>
 <tr class="separator:a899129ccdb24697d15fc6b8f3120dae2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6ed668b8bf5352d9cabfba82844995d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#namespacehydra">storage_type</a> &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__phsp.html#af6ed668b8bf5352d9cabfba82844995d">MoveStorage</a> ()</td></tr>
 <tr class="separator:af6ed668b8bf5352d9cabfba82844995d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -387,7 +387,7 @@ Collaboration diagram for hydra::Decays&lt; hydra::tuple&lt; Particles... &gt;, 
 template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef storage_type::const_iterator <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#a520eb2267b5947dad8a04dc818ba29d4">const_iterator</a></td>
+          <td class="memname">typedef storage_type::const_iterator <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#a520eb2267b5947dad8a04dc818ba29d4">const_iterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -403,7 +403,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
 template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef storage_type::const_reference <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#ac5e3d14a29e621ea79ed2fd7164ea2aa">const_reference</a></td>
+          <td class="memname">typedef storage_type::const_reference <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#ac5e3d14a29e621ea79ed2fd7164ea2aa">const_reference</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -419,7 +419,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
 template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef storage_type::const_reverse_iterator <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#a9af32c908ff6f3ad95544d283c13b31a">const_reverse_iterator</a></td>
+          <td class="memname">typedef storage_type::const_reverse_iterator <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#a9af32c908ff6f3ad95544d283c13b31a">const_reverse_iterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -435,7 +435,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
 template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef storage_type::iterator <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a></td>
+          <td class="memname">typedef storage_type::iterator <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -451,7 +451,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
 template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef storage_type::reference <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#ab181988e20ac7c973b5aedae4b967e6f">reference</a></td>
+          <td class="memname">typedef storage_type::reference <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#ab181988e20ac7c973b5aedae4b967e6f">reference</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -467,7 +467,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
 template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef storage_type::reverse_iterator <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#ac4ea40c051072e4d4d7ee527ebc62d3d">reverse_iterator</a></td>
+          <td class="memname">typedef storage_type::reverse_iterator <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#ac4ea40c051072e4d4d7ee527ebc62d3d">reverse_iterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -483,7 +483,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
 template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef storage_type::value_type <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#ac2675890752825c0e51d7f61816dc335">value_type</a></td>
+          <td class="memname">typedef storage_type::value_type <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#ac2675890752825c0e51d7f61816dc335">value_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -503,7 +503,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a> </td>
+          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -532,7 +532,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a> </td>
+          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>motherMass</em>, </td>
@@ -576,7 +576,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a> </td>
+          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>motherMass</em>, </td>
@@ -620,7 +620,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a> </td>
+          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a>&lt; tuple_type, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">system_type</a> &gt; const &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
@@ -656,7 +656,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a> </td>
+          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a>&lt; tuple_type, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">system_type</a> &gt; &amp;&amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
@@ -694,7 +694,7 @@ template&lt;hydra::detail::Backend BACKEND2&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a> </td>
+          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a>&lt; tuple_type, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND2 &gt;&gt; const &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
@@ -732,7 +732,7 @@ template&lt;typename Iterator &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a> </td>
+          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>motherMass</em>, </td>
@@ -791,7 +791,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::AddEntry </td>
+          <td class="memname">void <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::AddEntry </td>
           <td>(</td>
           <td class="paramtype">tuple_type const &amp;&#160;</td>
           <td class="paramname"><em>p</em></td><td>)</td>
@@ -827,7 +827,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#ab181988e20ac7c973b5aedae4b967e6f">reference</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::back </td>
+          <td class="memname"><a class="el" href="group__phsp.html#ab181988e20ac7c973b5aedae4b967e6f">reference</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::back </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -854,7 +854,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#ac5e3d14a29e621ea79ed2fd7164ea2aa">const_reference</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::back </td>
+          <td class="memname"><a class="el" href="group__phsp.html#ac5e3d14a29e621ea79ed2fd7164ea2aa">const_reference</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::back </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -883,7 +883,7 @@ template&lt;typename Functor &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::begin </td>
+          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::begin </td>
           <td>(</td>
           <td class="paramtype">Functor const &amp;&#160;</td>
           <td class="paramname"><em>caster</em></td><td>)</td>
@@ -912,7 +912,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::begin </td>
+          <td class="memname"><a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -941,7 +941,7 @@ template&lt;unsigned int I1, unsigned int ... IN&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::begin </td>
+          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::begin </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">placeholders::placeholder</a>&lt; I1 &gt;&#160;</td>
           <td class="paramname"><em>c1</em>, </td>
@@ -980,7 +980,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#a520eb2267b5947dad8a04dc818ba29d4">const_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::begin </td>
+          <td class="memname"><a class="el" href="group__phsp.html#a520eb2267b5947dad8a04dc818ba29d4">const_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1007,7 +1007,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::capacity </td>
+          <td class="memname">size_t <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::capacity </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1034,7 +1034,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#a520eb2267b5947dad8a04dc818ba29d4">const_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::cbegin </td>
+          <td class="memname"><a class="el" href="group__phsp.html#a520eb2267b5947dad8a04dc818ba29d4">const_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::cbegin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1063,7 +1063,7 @@ template&lt;unsigned int I1, unsigned int ... IN&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::cbegin </td>
+          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::cbegin </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">placeholders::placeholder</a>&lt; I1 &gt;&#160;</td>
           <td class="paramname"><em>c1</em>, </td>
@@ -1102,7 +1102,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#a520eb2267b5947dad8a04dc818ba29d4">const_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::cend </td>
+          <td class="memname"><a class="el" href="group__phsp.html#a520eb2267b5947dad8a04dc818ba29d4">const_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::cend </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1131,7 +1131,7 @@ template&lt;unsigned int I1, unsigned int ... IN&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::cend </td>
+          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::cend </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">placeholders::placeholder</a>&lt; I1 &gt;&#160;</td>
           <td class="paramname"><em>c1</em>, </td>
@@ -1170,7 +1170,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::clear </td>
+          <td class="memname">void <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::clear </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1197,7 +1197,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#a9af32c908ff6f3ad95544d283c13b31a">const_reverse_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::crbegin </td>
+          <td class="memname"><a class="el" href="group__phsp.html#a9af32c908ff6f3ad95544d283c13b31a">const_reverse_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::crbegin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1226,7 +1226,7 @@ template&lt;unsigned int I1, unsigned int ... IN&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::crbegin </td>
+          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::crbegin </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">placeholders::placeholder</a>&lt; I1 &gt;&#160;</td>
           <td class="paramname"><em>c1</em>, </td>
@@ -1265,7 +1265,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#a9af32c908ff6f3ad95544d283c13b31a">const_reverse_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::crend </td>
+          <td class="memname"><a class="el" href="group__phsp.html#a9af32c908ff6f3ad95544d283c13b31a">const_reverse_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::crend </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1294,7 +1294,7 @@ template&lt;unsigned int I1, unsigned int ... IN&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::crend </td>
+          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::crend </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">placeholders::placeholder</a>&lt; I1 &gt;&#160;</td>
           <td class="paramname"><em>c1</em>, </td>
@@ -1333,7 +1333,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::empty </td>
+          <td class="memname">bool <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::empty </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1362,7 +1362,7 @@ template&lt;typename Functor &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::end </td>
+          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::end </td>
           <td>(</td>
           <td class="paramtype">Functor const &amp;&#160;</td>
           <td class="paramname"><em>caster</em></td><td>)</td>
@@ -1391,7 +1391,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::end </td>
+          <td class="memname"><a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1420,7 +1420,7 @@ template&lt;unsigned int I1, unsigned int ... IN&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::end </td>
+          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::end </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">placeholders::placeholder</a>&lt; I1 &gt;&#160;</td>
           <td class="paramname"><em>c1</em>, </td>
@@ -1459,7 +1459,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#a520eb2267b5947dad8a04dc818ba29d4">const_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::end </td>
+          <td class="memname"><a class="el" href="group__phsp.html#a520eb2267b5947dad8a04dc818ba29d4">const_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1486,7 +1486,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::erase </td>
+          <td class="memname"><a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::erase </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a>&#160;</td>
           <td class="paramname"><em>pos</em></td><td>)</td>
@@ -1514,7 +1514,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::erase </td>
+          <td class="memname"><a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::erase </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a>&#160;</td>
           <td class="paramname"><em>first</em>, </td>
@@ -1552,7 +1552,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#ab181988e20ac7c973b5aedae4b967e6f">reference</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::front </td>
+          <td class="memname"><a class="el" href="group__phsp.html#ab181988e20ac7c973b5aedae4b967e6f">reference</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::front </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1579,7 +1579,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#ac5e3d14a29e621ea79ed2fd7164ea2aa">const_reference</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::front </td>
+          <td class="memname"><a class="el" href="group__phsp.html#ac5e3d14a29e621ea79ed2fd7164ea2aa">const_reference</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::front </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1608,7 +1608,7 @@ template&lt;unsigned int I&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::GetDaugtherRange </td>
+          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::GetDaugtherRange </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">placeholders::placeholder</a>&lt; I &gt;&#160;</td>
           <td class="paramname"><em>c</em></td><td>)</td>
@@ -1637,7 +1637,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#ab181988e20ac7c973b5aedae4b967e6f">reference</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::GetEntry </td>
+          <td class="memname"><a class="el" href="group__phsp.html#ab181988e20ac7c973b5aedae4b967e6f">reference</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::GetEntry </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>i</em></td><td>)</td>
@@ -1665,7 +1665,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhydra_1_1PhaseSpaceWeight.html">PhaseSpaceWeight</a>&lt;Particles...&gt; <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::GetEventWeightFunctor </td>
+          <td class="memname"><a class="el" href="classhydra_1_1PhaseSpaceWeight.html">PhaseSpaceWeight</a>&lt;Particles...&gt; <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::GetEventWeightFunctor </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1694,7 +1694,7 @@ template&lt;typename Functor &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__hydra__functor.html">detail::is_hydra_functor</a>&lt;Functor&gt;::value || <a class="el" href="structhydra_1_1detail_1_1is__hydra__lambda.html">detail::is_hydra_lambda</a>&lt;Functor&gt;::value || <a class="el" href="structhydra_1_1detail_1_1is__hydra__composite__functor.html">detail::is_hydra_composite_functor</a>&lt;Functor&gt;::value, <a class="el" href="classhydra_1_1PhaseSpaceReweight.html">PhaseSpaceReweight</a>&lt;Functor, Particles...&gt; &gt;::type <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::GetEventWeightFunctor </td>
+          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__hydra__functor.html">detail::is_hydra_functor</a>&lt;Functor&gt;::value || <a class="el" href="structhydra_1_1detail_1_1is__hydra__lambda.html">detail::is_hydra_lambda</a>&lt;Functor&gt;::value || <a class="el" href="structhydra_1_1detail_1_1is__hydra__composite__functor.html">detail::is_hydra_composite_functor</a>&lt;Functor&gt;::value, <a class="el" href="classhydra_1_1PhaseSpaceReweight.html">PhaseSpaceReweight</a>&lt;Functor, Particles...&gt; &gt;::type <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::GetEventWeightFunctor </td>
           <td>(</td>
           <td class="paramtype">Functor const &amp;&#160;</td>
           <td class="paramname"><em>functor</em></td><td>)</td>
@@ -1722,7 +1722,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::array&lt;<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>,nparticles&gt; <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::GetMasses </td>
+          <td class="memname">const std::array&lt;<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>,nparticles&gt; <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::GetMasses </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1749,7 +1749,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::GetMaxWeight </td>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::GetMaxWeight </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1776,7 +1776,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::GetMotherMass </td>
+          <td class="memname"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::GetMotherMass </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1803,7 +1803,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="namespacehydra.html#namespacehydra">storage_type</a>&amp; <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::GetStorage </td>
+          <td class="memname">const <a class="el" href="namespacehydra.html#namespacehydra">storage_type</a>&amp; <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::GetStorage </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1830,7 +1830,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::insert </td>
+          <td class="memname"><a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::insert </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a>&#160;</td>
           <td class="paramname"><em>position</em>, </td>
@@ -1868,7 +1868,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::insert </td>
+          <td class="memname">void <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::insert </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a>&#160;</td>
           <td class="paramname"><em>position</em>, </td>
@@ -1914,7 +1914,7 @@ template&lt;typename InputIterator &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::insert </td>
+          <td class="memname">void <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::insert </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a>&#160;</td>
           <td class="paramname"><em>position</em>, </td>
@@ -1960,7 +1960,7 @@ template&lt;typename Iterable &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::enable_if&lt;<a class="el" href="structhydra_1_1detail_1_1is__iterable.html">detail::is_iterable</a>&lt;Iterable&gt;::value, void&gt;::type <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::insert </td>
+          <td class="memname">std::enable_if&lt;<a class="el" href="structhydra_1_1detail_1_1is__iterable.html">detail::is_iterable</a>&lt;Iterable&gt;::value, void&gt;::type <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::insert </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a>&#160;</td>
           <td class="paramname"><em>position</em>, </td>
@@ -2000,12 +2000,12 @@ template&lt;typename ... Iterables&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::Meld </td>
+          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::Meld </td>
           <td>(</td>
           <td class="paramtype">Iterables &amp;&amp;...&#160;</td>
           <td class="paramname"><em>iterable</em></td><td>)</td>
           <td> -&gt; typename std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1all__true.html">detail::all_true</a>&lt;<a class="el" href="structhydra_1_1detail_1_1is__iterable.html">detail::is_iterable</a>&lt;Iterables&gt;::value...&gt;::value,
-	   decltype(std::declval&lt;<a class="el" href="namespacehydra.html#namespacehydra">storage_type</a>&gt;().<a class="el" href="namespacehydra.html#a4c4bda231cb9e6f06a12f2740f976009">meld</a>( std::forward&lt;Iterables&gt;(iterable) ...)) &gt;::type
+	   decltype(std::declval&lt;<a class="el" href="namespacehydra.html#namespacehydra">storage_type</a>&gt;().<a class="el" href="namespacehydra.html#a390592daf1ffc898bb26a468c09c17f8">meld</a>( std::forward&lt;Iterables&gt;(iterable) ...)) &gt;::type
 	</td>
         </tr>
       </table>
@@ -2030,7 +2030,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#namespacehydra">storage_type</a>&amp;&amp; <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::MoveStorage </td>
+          <td class="memname"><a class="el" href="namespacehydra.html#namespacehydra">storage_type</a>&amp;&amp; <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::MoveStorage </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -2057,7 +2057,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a>&lt;tuple_type, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">system_type</a>&gt;&amp; <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::operator= </td>
+          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a>&lt;tuple_type, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">system_type</a>&gt;&amp; <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::operator= </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a>&lt; tuple_type, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">system_type</a> &gt; const &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
@@ -2093,7 +2093,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a>&lt;tuple_type, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">system_type</a>&gt;&amp; <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::operator= </td>
+          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a>&lt;tuple_type, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">system_type</a>&gt;&amp; <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::operator= </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a>&lt; tuple_type, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">system_type</a> &gt; &amp;&amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
@@ -2132,7 +2132,7 @@ template&lt;hydra::detail::Backend BACKEND2&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a>&lt;tuple_type, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">system_type</a>&gt;&amp; <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::operator= </td>
+          <td class="memname"><a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a>&lt;tuple_type, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">system_type</a>&gt;&amp; <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::operator= </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a>&lt; tuple_type, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND2 &gt; &gt; const &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
@@ -2169,7 +2169,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#ab181988e20ac7c973b5aedae4b967e6f">reference</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::operator[] </td>
+          <td class="memname"><a class="el" href="group__phsp.html#ab181988e20ac7c973b5aedae4b967e6f">reference</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::operator[] </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>n</em></td><td>)</td>
@@ -2197,7 +2197,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#ac5e3d14a29e621ea79ed2fd7164ea2aa">const_reference</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::operator[] </td>
+          <td class="memname"><a class="el" href="group__phsp.html#ac5e3d14a29e621ea79ed2fd7164ea2aa">const_reference</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::operator[] </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>n</em></td><td>)</td>
@@ -2225,7 +2225,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::pop_back </td>
+          <td class="memname">void <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::pop_back </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -2252,7 +2252,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::push_back </td>
+          <td class="memname">void <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::push_back </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="group__phsp.html#ac2675890752825c0e51d7f61816dc335">value_type</a> &amp;&#160;</td>
           <td class="paramname"><em>particles</em></td><td>)</td>
@@ -2282,7 +2282,7 @@ template&lt;typename Functor &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::rbegin </td>
+          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::rbegin </td>
           <td>(</td>
           <td class="paramtype">Functor const &amp;&#160;</td>
           <td class="paramname"><em>caster</em></td><td>)</td>
@@ -2311,7 +2311,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#ac4ea40c051072e4d4d7ee527ebc62d3d">reverse_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::rbegin </td>
+          <td class="memname"><a class="el" href="group__phsp.html#ac4ea40c051072e4d4d7ee527ebc62d3d">reverse_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::rbegin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -2340,7 +2340,7 @@ template&lt;unsigned int I1, unsigned int ... IN&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::rbegin </td>
+          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::rbegin </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">placeholders::placeholder</a>&lt; I1 &gt;&#160;</td>
           <td class="paramname"><em>c1</em>, </td>
@@ -2379,7 +2379,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#a9af32c908ff6f3ad95544d283c13b31a">const_reverse_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::rbegin </td>
+          <td class="memname"><a class="el" href="group__phsp.html#a9af32c908ff6f3ad95544d283c13b31a">const_reverse_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::rbegin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -2408,7 +2408,7 @@ template&lt;typename Functor &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::rend </td>
+          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::rend </td>
           <td>(</td>
           <td class="paramtype">Functor const &amp;&#160;</td>
           <td class="paramname"><em>caster</em></td><td>)</td>
@@ -2437,7 +2437,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#ac4ea40c051072e4d4d7ee527ebc62d3d">reverse_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::rend </td>
+          <td class="memname"><a class="el" href="group__phsp.html#ac4ea40c051072e4d4d7ee527ebc62d3d">reverse_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::rend </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -2466,7 +2466,7 @@ template&lt;unsigned int I1, unsigned int ... IN&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::rend </td>
+          <td class="memname">auto <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::rend </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">placeholders::placeholder</a>&lt; I1 &gt;&#160;</td>
           <td class="paramname"><em>c1</em>, </td>
@@ -2505,7 +2505,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__phsp.html#a9af32c908ff6f3ad95544d283c13b31a">const_reverse_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::rend </td>
+          <td class="memname"><a class="el" href="group__phsp.html#a9af32c908ff6f3ad95544d283c13b31a">const_reverse_iterator</a> <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::rend </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -2532,7 +2532,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::reserve </td>
+          <td class="memname">void <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::reserve </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>size</em></td><td>)</td>
@@ -2560,7 +2560,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::resize </td>
+          <td class="memname">void <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::resize </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>size</em></td><td>)</td>
@@ -2588,7 +2588,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::shrink_to_fit </td>
+          <td class="memname">void <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::shrink_to_fit </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -2615,7 +2615,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::size </td>
+          <td class="memname">size_t <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::size </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -2639,7 +2639,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
 template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; typename <a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a> &gt; <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::Unweight </td>
+          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; typename <a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a> &gt; <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::Unweight </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>seed</em> = <code>0x180ec6d33cfd0aba</code></td><td>)</td>
@@ -2661,7 +2661,7 @@ template&lt;typename ... Particles, hydra::detail::Backend Backend&gt; </div>
 template&lt;typename Functor &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__hydra__functor.html">detail::is_hydra_functor</a>&lt; Functor &gt;::value||<a class="el" href="structhydra_1_1detail_1_1is__hydra__lambda.html">detail::is_hydra_lambda</a>&lt; Functor &gt;::value||<a class="el" href="structhydra_1_1detail_1_1is__hydra__composite__functor.html">detail::is_hydra_composite_functor</a>&lt; Functor &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; typename <a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a> &gt; &gt;::type <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::Unweight </td>
+          <td class="memname">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__hydra__functor.html">detail::is_hydra_functor</a>&lt; Functor &gt;::value||<a class="el" href="structhydra_1_1detail_1_1is__hydra__lambda.html">detail::is_hydra_lambda</a>&lt; Functor &gt;::value||<a class="el" href="structhydra_1_1detail_1_1is__hydra__composite__functor.html">detail::is_hydra_composite_functor</a>&lt; Functor &gt;::value, <a class="el" href="namespacehydra.html#classhydra_1_1Range">hydra::Range</a>&lt; typename <a class="el" href="group__phsp.html#classhydra_1_1Decays">Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::<a class="el" href="group__phsp.html#a96c71775491f5ccfde2d0b80fe043194">iterator</a> &gt; &gt;::type <a class="el" href="group__phsp.html#classhydra_1_1Decays">hydra::Decays</a>&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; Particles... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend &gt; &gt;::Unweight </td>
           <td>(</td>
           <td class="paramtype">Functor const &amp;&#160;</td>
           <td class="paramname"><em>functor</em>, </td>
@@ -2711,11 +2711,11 @@ class hydra::PhaseSpace&lt; N, GRND &gt;</h3>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">N</td><td>is the number of particles in final state. </td></tr>
-    <tr><td class="paramname">GRND</td><td>underlying random number generator. See the options in hydra_thrust::random namespace. </td></tr>
+    <tr><td class="paramname">GRND</td><td>underlying random number generator. See the options in hydra::thrust::random namespace. </td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8C-example.html#_a36">dalitz_plot.C</a>, <a class="el" href="dalitz_plot_8inl-example.html#_a40">dalitz_plot.inl</a>, <a class="el" href="phsp_averaging_functor_8inl-example.html#_a17">phsp_averaging_functor.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#_a15">phsp_basic.inl</a>, <a class="el" href="phsp_chain_8inl-example.html#_a17">phsp_chain.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#_a15">phsp_reweighting.inl</a>, <a class="el" href="phsp_unweighting_8inl-example.html#_a15">phsp_unweighting.inl</a>, and <a class="el" href="phsp_unweighting_functor_8inl-example.html#_a15">phsp_unweighting_functor.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8C-example.html#_a38">dalitz_plot.C</a>, <a class="el" href="dalitz_plot_8inl-example.html#_a41">dalitz_plot.inl</a>, <a class="el" href="phsp_averaging_functor_8inl-example.html#_a17">phsp_averaging_functor.inl</a>, <a class="el" href="phsp_basic_8inl-example.html#_a15">phsp_basic.inl</a>, <a class="el" href="phsp_chain_8inl-example.html#_a17">phsp_chain.inl</a>, <a class="el" href="phsp_reweighting_8inl-example.html#_a15">phsp_reweighting.inl</a>, <a class="el" href="phsp_unweighting_8inl-example.html#_a15">phsp_unweighting.inl</a>, and <a class="el" href="phsp_unweighting_functor_8inl-example.html#_a15">phsp_unweighting_functor.inl</a>.</dd>
 </dl></div><div class="dynheader">
 Collaboration diagram for hydra::PhaseSpace&lt; N, GRND &gt;:</div>
 <div class="dyncontent">
@@ -4024,10 +4024,10 @@ template&lt;size_t N, typename GRND &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="textblock"><h3>template&lt;size_t N, typename Backend, typename GRND = hydra_thrust::random::default_random_engine&gt;<br />
+<div class="textblock"><h3>template&lt;size_t N, typename Backend, typename GRND = hydra::default_random_engine&gt;<br />
 class hydra::PhaseSpaceIntegrator&lt; N, Backend, GRND &gt;</h3>
 
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8C-example.html#_a49">dalitz_plot.C</a>, and <a class="el" href="dalitz_plot_8inl-example.html#_a54">dalitz_plot.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8C-example.html#_a52">dalitz_plot.C</a>, and <a class="el" href="dalitz_plot_8inl-example.html#_a55">dalitz_plot.inl</a>.</dd>
 </dl></div><div class="dynheader">
 Collaboration diagram for hydra::PhaseSpaceIntegrator&lt; N, Backend, GRND &gt;:</div>
 <div class="dyncontent">
@@ -4055,7 +4055,7 @@ class hydra::PhaseSpaceIntegrator&lt; N, hydra::detail::BackendPolicy&lt; BACKEN
   <table class="tparams">
     <tr><td class="paramname">BACKEND</td><td>to perform the calculation. </td></tr>
     <tr><td class="paramname">N</td><td>is the number of particles in final state. </td></tr>
-    <tr><td class="paramname">GRND</td><td>underlying random number generator. See the options in hydra_thrust::random namespace. </td></tr>
+    <tr><td class="paramname">GRND</td><td>underlying random number generator. See the options in hydra::thrust::random namespace. </td></tr>
   </table>
   </dd>
 </dl>
@@ -4632,7 +4632,7 @@ template&lt;size_t N, hydra::detail::Backend BACKEND, typename GRND &gt; </div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:47 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

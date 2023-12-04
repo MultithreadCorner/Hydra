@@ -12,7 +12,7 @@ var gaussian__plus__argus_8inl =
     [ "argc", "gaussian__plus__argus_8inl.html#a27fb769f88c3c17ca3490b75f7758431", null ],
     [ "B0_mass", "gaussian__plus__argus_8inl.html#a875c7164f110548cf0d1eae966596bf9", null ],
     [ "Background_PDF", "gaussian__plus__argus_8inl.html#ae87cf30f58a40cae21dd7d985b83570c", null ],
-    [ "elapsed_d", "gaussian__plus__argus_8inl.html#a39fb887cfc406dd99c04a305c6080db0", null ],
+    [ "elapsed_d", "gaussian__plus__argus_8inl.html#a898f9e63b235295775f79a0a98f7d92b", null ],
     [ "Jpsi_mass", "gaussian__plus__argus_8inl.html#aa9dc52148d3b1abe903b23b2130e888b", null ],
     [ "K_mass", "gaussian__plus__argus_8inl.html#a6781212d85143bb4c7598e22efe58e18", null ],
     [ "m0", "gaussian__plus__argus_8inl.html#a39ca56064d9d973f843d1fee9e5da470", null ],

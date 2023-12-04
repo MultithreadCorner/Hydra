@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structhydra_1_1detail_1_1range_1_1Shift.html" title="hydra::detail::range\l::Shift\&lt; T \&gt;" alt="" coords="5,5,139,47"/>
+<area shape="rect" id="node1" href="$classhydra_1_1detail_1_1quasi__random__base.html" title="hydra::detail::quasi\l_random_base\&lt; gray_code\l\&lt; LatticeT \&gt;, LatticeT,\l LatticeT::value_type \&gt;" alt="" coords="5,5,184,76"/>
+<area shape="rect" id="node2" href="$classhydra_1_1detail_1_1gray__code.html" title="hydra::detail::gray\l_code\&lt; LatticeT \&gt;" alt="" coords="232,20,360,61"/>
 </map>

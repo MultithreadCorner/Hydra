@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -108,8 +108,7 @@ $(document).ready(function(){initNavTree('generate__4body__decay__chain_8C.html'
 <code>#include &lt;array&gt;</code><br />
 <code>#include &lt;chrono&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/PhaseSpace.h</a>&gt;</code><br />
-<code>#include &lt;hydra/Chains.h&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/Evaluate.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Decays.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Function.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/FunctorArithmetic.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Lambda.h</a>&gt;</code><br />
@@ -119,8 +118,9 @@ $(document).ready(function(){initNavTree('generate__4body__decay__chain_8C.html'
 <code>#include &lt;<a class="el" href="">hydra/Vector4R.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/host/System.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/device/System.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/DenseHistogram.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Placeholders.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/functions/PlanesDeltaAngle.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/multivector.h</a>&gt;</code><br />
 <code>#include &lt;TROOT.h&gt;</code><br />
 <code>#include &lt;TH1D.h&gt;</code><br />
 <code>#include &lt;TF1.h&gt;</code><br />
@@ -149,8 +149,8 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:af1a4deede90d5eedbce321dbe81b0bb8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="generate__4body__decay__chain_8C.html#af1a4deede90d5eedbce321dbe81b0bb8">generate_decay_chain</a> (size_t <a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>=100000)</td></tr>
-<tr class="separator:af1a4deede90d5eedbce321dbe81b0bb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc6dfc21ce8bb3e1184de2c1237043a2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="generate__4body__decay__chain_8C.html#afc6dfc21ce8bb3e1184de2c1237043a2">declarg</a> (Jpsi, hydra::Vector4R)</td></tr>
+<tr class="separator:afc6dfc21ce8bb3e1184de2c1237043a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a6a448b251f0dc280b7dc192c072b3ed9"></a>
@@ -182,18 +182,28 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="af1a4deede90d5eedbce321dbe81b0bb8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1a4deede90d5eedbce321dbe81b0bb8">&#9670;&nbsp;</a></span>generate_decay_chain()</h2>
+<a id="afc6dfc21ce8bb3e1184de2c1237043a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc6dfc21ce8bb3e1184de2c1237043a2">&#9670;&nbsp;</a></span>declarg()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void generate_decay_chain </td>
+          <td class="memname">declarg </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>nentries</em> = <code>100000</code></td><td>)</td>
+          <td class="paramtype">Jpsi&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">hydra::Vector4R&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -206,7 +216,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_b3c69fde212a60de3f50954f66fa65c1.html">examples</a></li><li class="navelem"><a class="el" href="dir_8382fbd7b2d8f6265e55b9108cec1023.html">root_macros</a></li><li class="navelem"><a class="el" href="generate__4body__decay__chain_8C.html">generate_4body_decay_chain.C</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:46 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

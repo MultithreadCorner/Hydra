@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -107,12 +107,15 @@ $(document).ready(function(){initNavTree('Multiply_8h.html','');});
 <code>#include &lt;<a class="el" href="">hydra/Types.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/TypeTraits.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/utility/Utility_Tuple.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/detail/base_functor.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/Constant.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/Argument.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Parameter.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/detail/CompositeBase.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/CompositeTraits.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/FunctorTraits.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Tuple.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/BaseCompositeFunctor.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/TupleUtility.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/TupleTraits.h</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Multiply.h:</div>
 <div class="dyncontent">
@@ -141,24 +144,24 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a7ecc65021a3e485b3ae047da8bcd1025"><td class="memTemplParams" colspan="2">template&lt;typename F1 , typename F2 , typename ... Fs&gt; </td></tr>
-<tr class="memitem:a7ecc65021a3e485b3ae047da8bcd1025"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; F1 &gt;::value||detail::is_hydra_lambda&lt; F1 &gt;::value) &amp;&amp;(detail::is_hydra_functor&lt; F2 &gt;::value||detail::is_hydra_lambda&lt; F2 &gt;::value) &amp;&amp;detail::all_true&lt;(detail::is_hydra_functor&lt; Fs &gt;::value||detail::is_hydra_lambda&lt; Fs &gt;::value)... &gt;::value, Multiply&lt; F1, F2, Fs... &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a7ecc65021a3e485b3ae047da8bcd1025">hydra::multiply</a> (F1 const &amp;f1, F2 const &amp;f2, Fs const &amp;... functors)</td></tr>
-<tr class="separator:a7ecc65021a3e485b3ae047da8bcd1025"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98f5a5475025bc860510c29908fbe528"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 &gt; </td></tr>
-<tr class="memitem:a98f5a5475025bc860510c29908fbe528"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T1 &gt;::value||detail::is_hydra_lambda&lt; T1 &gt;::value) &amp;&amp;(detail::is_hydra_functor&lt; T2 &gt;::value||detail::is_hydra_lambda&lt; T2 &gt;::value), Multiply&lt; T1, T2 &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a98f5a5475025bc860510c29908fbe528">hydra::operator*</a> (T1 const &amp;F1, T2 const &amp;F2)</td></tr>
-<tr class="separator:a98f5a5475025bc860510c29908fbe528"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab15a6bf3575e9fcd2bf0abdf1bdc36e1"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
-<tr class="memitem:ab15a6bf3575e9fcd2bf0abdf1bdc36e1"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T &gt;::value||detail::is_hydra_lambda&lt; T &gt;::value) &amp;&amp;(std::is_arithmetic&lt; U &gt;::value), Multiply&lt; Constant&lt; U &gt;, T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ab15a6bf3575e9fcd2bf0abdf1bdc36e1">hydra::operator*</a> (U const cte, T const &amp;F)</td></tr>
-<tr class="separator:ab15a6bf3575e9fcd2bf0abdf1bdc36e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a958bc75ab95451e60e074488e75440ce"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
-<tr class="memitem:a958bc75ab95451e60e074488e75440ce"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T &gt;::value||detail::is_hydra_lambda&lt; T &gt;::value) &amp;&amp;(std::is_arithmetic&lt; U &gt;::value), Multiply&lt; Constant&lt; U &gt;, T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a958bc75ab95451e60e074488e75440ce">hydra::operator*</a> (T const &amp;F, U cte)</td></tr>
-<tr class="separator:a958bc75ab95451e60e074488e75440ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70e470e57d62af68149525bd201989e5"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
-<tr class="memitem:a70e470e57d62af68149525bd201989e5"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T &gt;::value||detail::is_hydra_lambda&lt; T &gt;::value) &amp;&amp;(std::is_arithmetic&lt; U &gt;::value), Multiply&lt; Constant&lt; <a class="el" href="namespacehydra.html#a9be56668c1da1edd25b29c366adf5df9">hydra::complex</a>&lt; U &gt; &gt;, T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a70e470e57d62af68149525bd201989e5">hydra::operator*</a> (<a class="el" href="namespacehydra.html#a9be56668c1da1edd25b29c366adf5df9">hydra::complex</a>&lt; U &gt; const &amp;cte, T const &amp;F)</td></tr>
-<tr class="separator:a70e470e57d62af68149525bd201989e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b4568e3cdf69d3cbec10c124850ee2c"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
-<tr class="memitem:a1b4568e3cdf69d3cbec10c124850ee2c"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T &gt;::value||detail::is_hydra_lambda&lt; T &gt;::value) &amp;&amp;(std::is_arithmetic&lt; U &gt;::value), Multiply&lt; Constant&lt; U &gt;, T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a1b4568e3cdf69d3cbec10c124850ee2c">hydra::operator*</a> (T const &amp;F, <a class="el" href="namespacehydra.html#a9be56668c1da1edd25b29c366adf5df9">hydra::complex</a>&lt; U &gt; const &amp;cte)</td></tr>
-<tr class="separator:a1b4568e3cdf69d3cbec10c124850ee2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0b00e7787e93fe0624bb0422409b482"><td class="memTemplParams" colspan="2">template&lt;typename F1 , typename F2 , typename ... Fs&gt; </td></tr>
+<tr class="memitem:ad0b00e7787e93fe0624bb0422409b482"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; F1 &gt;::value||detail::is_hydra_lambda&lt; F1 &gt;::value) &amp;&amp;(detail::is_hydra_functor&lt; F2 &gt;::value||detail::is_hydra_lambda&lt; F2 &gt;::value) &amp;&amp;detail::all_true&lt;(detail::is_hydra_functor&lt; Fs &gt;::value||detail::is_hydra_lambda&lt; Fs &gt;::value)... &gt;::value, Multiply&lt; F1, F2, Fs... &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ad0b00e7787e93fe0624bb0422409b482">hydra::multiply</a> (F1 const &amp;f1, F2 const &amp;f2, Fs const &amp;... functors)</td></tr>
+<tr class="separator:ad0b00e7787e93fe0624bb0422409b482"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7578f3dee6f04171d8ebb4316b59cbd0"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 &gt; </td></tr>
+<tr class="memitem:a7578f3dee6f04171d8ebb4316b59cbd0"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T1 &gt;::value||detail::is_hydra_lambda&lt; T1 &gt;::value) &amp;&amp;(detail::is_hydra_functor&lt; T2 &gt;::value||detail::is_hydra_lambda&lt; T2 &gt;::value), Multiply&lt; T1, T2 &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a7578f3dee6f04171d8ebb4316b59cbd0">hydra::operator*</a> (T1 const &amp;F1, T2 const &amp;F2)</td></tr>
+<tr class="separator:a7578f3dee6f04171d8ebb4316b59cbd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6888146476615c2854543f7a087ba39e"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:a6888146476615c2854543f7a087ba39e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T &gt;::value||detail::is_hydra_lambda&lt; T &gt;::value) &amp;&amp;(std::is_arithmetic&lt; U &gt;::value), Multiply&lt; Constant&lt; U &gt;, T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a6888146476615c2854543f7a087ba39e">hydra::operator*</a> (U const cte, T const &amp;F)</td></tr>
+<tr class="separator:a6888146476615c2854543f7a087ba39e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2721dd323f0709db66d4883bc4b1d72"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:aa2721dd323f0709db66d4883bc4b1d72"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T &gt;::value||detail::is_hydra_lambda&lt; T &gt;::value) &amp;&amp;(std::is_arithmetic&lt; U &gt;::value), Multiply&lt; Constant&lt; U &gt;, T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#aa2721dd323f0709db66d4883bc4b1d72">hydra::operator*</a> (T const &amp;F, U cte)</td></tr>
+<tr class="separator:aa2721dd323f0709db66d4883bc4b1d72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a269f7c2fafb8f0c9bd28b5104c6c3ea1"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:a269f7c2fafb8f0c9bd28b5104c6c3ea1"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T &gt;::value||detail::is_hydra_lambda&lt; T &gt;::value) &amp;&amp;(std::is_arithmetic&lt; U &gt;::value), Multiply&lt; Constant&lt; <a class="el" href="namespacehydra.html#a9d2c06cb9672fe86dbeaa65e8f35a2bf">hydra::complex</a>&lt; U &gt; &gt;, T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a269f7c2fafb8f0c9bd28b5104c6c3ea1">hydra::operator*</a> (<a class="el" href="namespacehydra.html#a9d2c06cb9672fe86dbeaa65e8f35a2bf">hydra::complex</a>&lt; U &gt; const &amp;cte, T const &amp;F)</td></tr>
+<tr class="separator:a269f7c2fafb8f0c9bd28b5104c6c3ea1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f5602c01e2c9d618b5461201c93e2db"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:a4f5602c01e2c9d618b5461201c93e2db"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T &gt;::value||detail::is_hydra_lambda&lt; T &gt;::value) &amp;&amp;(std::is_arithmetic&lt; U &gt;::value), Multiply&lt; Constant&lt; U &gt;, T &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a4f5602c01e2c9d618b5461201c93e2db">hydra::operator*</a> (T const &amp;F, <a class="el" href="namespacehydra.html#a9d2c06cb9672fe86dbeaa65e8f35a2bf">hydra::complex</a>&lt; U &gt; const &amp;cte)</td></tr>
+<tr class="separator:a4f5602c01e2c9d618b5461201c93e2db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -166,7 +169,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="Multiply_8h.html">Multiply.h</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:47 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

@@ -1,7 +1,6 @@
 <map id="Convolution.h" name="Convolution.h">
 <area shape="rect" id="node2" href="$ConvolutionFunctor_8h.html" title="ConvolutionFunctor.h" alt="" coords="309,80,454,107"/>
 <area shape="rect" id="node3" href="$convolute__functions_8inl.html" title="convolute_functions.inl" alt="" coords="193,155,348,181"/>
-<area shape="rect" id="node9" href="$OldConvolutionFunctor_8h.html" title="OldConvolutionFunctor.h" alt="" coords="479,80,644,107"/>
 <area shape="rect" id="node6" href="$fit__convoluted__pdfs_8inl.html" title="fit_convoluted_pdfs.inl" alt="" coords="377,155,529,181"/>
 <area shape="rect" id="node4" href="$convolute__functions_8cpp.html" title="convolute_functions.cpp" alt="" coords="5,229,168,256"/>
 <area shape="rect" id="node5" href="$convolute__functions_8cu.html" title="convolute_functions.cu" alt="" coords="193,229,349,256"/>

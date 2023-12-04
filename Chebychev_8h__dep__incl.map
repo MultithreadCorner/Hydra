@@ -1,14 +1,11 @@
 <map id="Chebychev.h" name="Chebychev.h">
-<area shape="rect" id="node2" href="$quick__test_8inl.html" title="quick_test.inl" alt="" coords="137,80,236,107"/>
-<area shape="rect" id="node5" href="$breit__wigner__plus__chebychev_8inl.html" title="breit_wigner_plus_chebychev.inl" alt="" coords="503,80,711,107"/>
-<area shape="rect" id="node8" href="$basic__distributions_8inl.html" title="basic_distributions.inl" alt="" coords="740,80,887,107"/>
-<area shape="rect" id="node11" href="$fill__basic__distributions_8inl.html" title="fill_basic_distributions.inl" alt="" coords="1091,80,1258,107"/>
-<area shape="rect" id="node3" href="$quick__test_8cpp.html" title="quick_test.cpp" alt="" coords="5,155,112,181"/>
-<area shape="rect" id="node4" href="$quick__test_8cu.html" title="quick_test.cu" alt="" coords="137,155,237,181"/>
-<area shape="rect" id="node6" href="$breit__wigner__plus__chebychev_8cpp.html" title="breit_wigner_plus_chebychev.cpp" alt="" coords="261,155,477,181"/>
-<area shape="rect" id="node7" href="$breit__wigner__plus__chebychev_8cu.html" title="breit_wigner_plus_chebychev.cu" alt="" coords="502,155,711,181"/>
-<area shape="rect" id="node9" href="$basic__distributions_8cpp.html" title="basic_distributions.cpp" alt="" coords="736,155,891,181"/>
-<area shape="rect" id="node10" href="$basic__distributions_8cu.html" title="basic_distributions.cu" alt="" coords="915,155,1063,181"/>
-<area shape="rect" id="node12" href="$fill__basic__distributions_8cpp.html" title="fill_basic_distributions.cpp" alt="" coords="1087,155,1262,181"/>
-<area shape="rect" id="node13" href="$fill__basic__distributions_8cu.html" title="fill_basic_distributions.cu" alt="" coords="1287,155,1455,181"/>
+<area shape="rect" id="node2" href="$breit__wigner__plus__chebychev_8inl.html" title="breit_wigner_plus_chebychev.inl" alt="" coords="247,80,455,107"/>
+<area shape="rect" id="node5" href="$basic__distributions_8inl.html" title="basic_distributions.inl" alt="" coords="572,80,719,107"/>
+<area shape="rect" id="node8" href="$fill__basic__distributions_8inl.html" title="fill_basic_distributions.inl" alt="" coords="835,80,1002,107"/>
+<area shape="rect" id="node3" href="$breit__wigner__plus__chebychev_8cpp.html" title="breit_wigner_plus_chebychev.cpp" alt="" coords="5,155,221,181"/>
+<area shape="rect" id="node4" href="$breit__wigner__plus__chebychev_8cu.html" title="breit_wigner_plus_chebychev.cu" alt="" coords="246,155,455,181"/>
+<area shape="rect" id="node6" href="$basic__distributions_8cpp.html" title="basic_distributions.cpp" alt="" coords="480,155,635,181"/>
+<area shape="rect" id="node7" href="$basic__distributions_8cu.html" title="basic_distributions.cu" alt="" coords="659,155,807,181"/>
+<area shape="rect" id="node9" href="$fill__basic__distributions_8cpp.html" title="fill_basic_distributions.cpp" alt="" coords="831,155,1006,181"/>
+<area shape="rect" id="node10" href="$fill__basic__distributions_8cu.html" title="fill_basic_distributions.cu" alt="" coords="1031,155,1199,181"/>
 </map>

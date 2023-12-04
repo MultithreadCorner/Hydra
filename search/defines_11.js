@@ -7,7 +7,13 @@ var searchData=
   ['sort_5finl_5f',['SORT_INL_',['../Sort_8inl.html#acf7917483920e6daf2461cecec7e2346',1,'Sort.inl']]],
   ['sparse_5fhistograming_5finl_5f',['SPARSE_HISTOGRAMING_INL_',['../sparse__histogram_8inl.html#a784cf4ae2f55eee67288711a5a440c6a',1,'sparse_histogram.inl']]],
   ['sparsehistogram_5finl_5f',['SPARSEHISTOGRAM_INL_',['../SparseHistogram_8inl.html#a3b894ab76a64d40f1be88938b92aeda9',1,'SparseHistogram.inl']]],
-  ['spiline_5finl_5f',['SPILINE_INL_',['../Spiline_8inl.html#a07384af6cc1465c4f9896cffb21a3396',1,'Spiline.inl']]],
-  ['spiline_5finterpolation_5finl_5f',['SPILINE_INTERPOLATION_INL_',['../spiline__interpolation_8inl.html#acde5f4c276647a4e0944f75e45cc9ac4',1,'spiline_interpolation.inl']]],
+  ['spiline2d_5finl_5f',['SPILINE2D_INL_',['../Spline2D_8inl.html#ae5df966ae84fde1da1252eab292095d8',1,'Spline2D.inl']]],
+  ['spiline2d_5finterpolation_5finl_5f',['SPILINE2D_INTERPOLATION_INL_',['../spline2D__interpolation_8inl.html#a8a97fd1433ca6ea080b5c844e2af0d3a',1,'spline2D_interpolation.inl']]],
+  ['spiline3d_5finl_5f',['SPILINE3D_INL_',['../Spline3D_8inl.html#ab74554685cae174ecce9121212be477e',1,'Spline3D.inl']]],
+  ['spiline3d_5finterpolation_5finl_5f',['SPILINE3D_INTERPOLATION_INL_',['../spline3D__interpolation_8inl.html#a1b2d96cd74d611c87b2a71b993ff7c8b',1,'spline3D_interpolation.inl']]],
+  ['spiline4d_5finl_5f',['SPILINE4D_INL_',['../Spline4D_8inl.html#a609b88c8a1f96b8c77b5052224a788ea',1,'Spline4D.inl']]],
+  ['spiline4d_5finterpolation_5finl_5f',['SPILINE4D_INTERPOLATION_INL_',['../spline4D__interpolation_8inl.html#aabc4754eaeca1597541733b8d39ef230',1,'spline4D_interpolation.inl']]],
+  ['spiline_5finl_5f',['SPILINE_INL_',['../Spline_8inl.html#a07384af6cc1465c4f9896cffb21a3396',1,'Spline.inl']]],
+  ['spiline_5finterpolation_5finl_5f',['SPILINE_INTERPOLATION_INL_',['../spline__interpolation_8inl.html#acde5f4c276647a4e0944f75e45cc9ac4',1,'spline_interpolation.inl']]],
   ['splot_5finl_5f',['SPLOT_INL_',['../splot_8inl.html#aae21aee92343842e5456d820cae4a4eb',1,'splot.inl']]]
 ];

@@ -1,12 +1,13 @@
 var classhydra_1_1detail_1_1CompositeBase =
 [
-    [ "functors_type", "classhydra_1_1detail_1_1CompositeBase.html#a30c78fc91f3a9cd6d6e0a3c1b3c4ffb1", null ],
+    [ "argument_type", "classhydra_1_1detail_1_1CompositeBase.html#a8ad0e3681e29096ef67e0d49d7de2ce7", null ],
+    [ "functors_type", "classhydra_1_1detail_1_1CompositeBase.html#a6be524d575990dd6dadc55365147a68b", null ],
     [ "hydra_composed_functor_type", "classhydra_1_1detail_1_1CompositeBase.html#a22ec3232fa0d6f4f7824472d7cdb3ae9", null ],
     [ "CompositeBase", "classhydra_1_1detail_1_1CompositeBase.html#a23b7ea755763c4484a966983fca823b0", null ],
     [ "CompositeBase", "classhydra_1_1detail_1_1CompositeBase.html#a428aa3b90750f46d9fd977a37f23bad4", null ],
     [ "CompositeBase", "classhydra_1_1detail_1_1CompositeBase.html#aafad75763007a1959dda168a91c262b5", null ],
     [ "AddUserParameters", "classhydra_1_1detail_1_1CompositeBase.html#a499bba7e97f34da95837092f9cf16c8c", null ],
-    [ "GetFunctor", "classhydra_1_1detail_1_1CompositeBase.html#a7650578be05bdf5978928861bedd8c46", null ],
+    [ "GetFunctor", "classhydra_1_1detail_1_1CompositeBase.html#a57b1442c998a9f2f5c607385afe381c3", null ],
     [ "GetFunctors", "classhydra_1_1detail_1_1CompositeBase.html#a9c12a2a673dc81becfb4967c2ef3f951", null ],
     [ "GetNorm", "classhydra_1_1detail_1_1CompositeBase.html#af69f646f547f27efbb7c42be1f5a2cf3", null ],
     [ "GetNumberOfParameters", "classhydra_1_1detail_1_1CompositeBase.html#ab77cc4e5a5a3403ab4ea6a69509876f5", null ],

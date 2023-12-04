@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -195,7 +195,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a1c03069360f1f90a556eb537e0ff8a72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classint">int</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dalitz__plot_8inl.html#a1c03069360f1f90a556eb537e0ff8a72">main</a> (<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv, char **<a class="el" href="basic__distributions_8inl.html#a27fb769f88c3c17ca3490b75f7758431">argc</a>)</td></tr>
 <tr class="separator:a1c03069360f1f90a556eb537e0ff8a72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a630cce9ea90101383d390eb695bd2f86"><td class="memTemplParams" colspan="2">template&lt;typename ... Amplitudes&gt; </td></tr>
-<tr class="memitem:a630cce9ea90101383d390eb695bd2f86"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="dalitz__plot_8inl.html#a630cce9ea90101383d390eb695bd2f86">make_model</a> (Amplitudes const &amp;... amplitudes) -&gt; decltype(<a class="el" href="namespacehydra.html#ae10c8ab337cbc0b309aa95eb345ddc5d">hydra::compose</a>(std::declval&lt; <a class="el" href="classNorm.html">Norm</a>&lt; typename Amplitudes::return_type... &gt;&gt;(), amplitudes...))</td></tr>
+<tr class="memitem:a630cce9ea90101383d390eb695bd2f86"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="dalitz__plot_8inl.html#a630cce9ea90101383d390eb695bd2f86">make_model</a> (Amplitudes const &amp;... amplitudes) -&gt; decltype(<a class="el" href="namespacehydra.html#a86c018d960aacf7e0b79a20946aff059">hydra::compose</a>(std::declval&lt; <a class="el" href="classNorm.html">Norm</a>&lt; typename Amplitudes::return_type... &gt;&gt;(), amplitudes...))</td></tr>
 <tr class="separator:a630cce9ea90101383d390eb695bd2f86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Data Structure Documentation</h2>
@@ -213,7 +213,7 @@ Functions</h2></td></tr>
 <div class="textblock"><h3>template&lt;hydra::Wave L, bool Flag = (L%2)&gt;<br />
 struct parity&lt; L, Flag &gt;</h3>
 
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8inl-example.html#_a1">dalitz_plot.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8C-example.html#_a1">dalitz_plot.C</a>, and <a class="el" href="dalitz_plot_8inl-example.html#_a1">dalitz_plot.inl</a>.</dd>
 </dl></div><div class="dynheader">
 Collaboration diagram for parity&lt; L, Flag &gt;:</div>
 <div class="dyncontent">
@@ -335,7 +335,7 @@ template&lt;typename Amplitude , typename Model &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8inl-example.html#a25">dalitz_plot.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8inl-example.html#a26">dalitz_plot.inl</a>.</dd>
 </dl>
 </div>
 </div>
@@ -390,7 +390,7 @@ template&lt;typename Backend , typename Model , typename Container &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8inl-example.html#a26">dalitz_plot.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8inl-example.html#a27">dalitz_plot.inl</a>.</dd>
 </dl>
 </div>
 </div>
@@ -433,7 +433,7 @@ template&lt;typename Amplitude &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8inl-example.html#a22">dalitz_plot.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8inl-example.html#a23">dalitz_plot.inl</a>.</dd>
 </dl>
 </div>
 </div>
@@ -462,7 +462,7 @@ template&lt;typename Amplitude &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8inl-example.html#a28">dalitz_plot.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8inl-example.html#a29">dalitz_plot.inl</a>.</dd>
 </dl>
 </div>
 </div>
@@ -479,12 +479,12 @@ template&lt;typename ... Amplitudes&gt; </div>
           <td>(</td>
           <td class="paramtype">Amplitudes const &amp;...&#160;</td>
           <td class="paramname"><em>amplitudes</em></td><td>)</td>
-          <td> -&gt; decltype(<a class="el" href="namespacehydra.html#ae10c8ab337cbc0b309aa95eb345ddc5d">hydra::compose</a>( std::declval&lt;<a class="el" href="classNorm.html">Norm</a>&lt;typename Amplitudes::return_type...&gt;&gt;(), amplitudes... ))
+          <td> -&gt; decltype(<a class="el" href="namespacehydra.html#a86c018d960aacf7e0b79a20946aff059">hydra::compose</a>( std::declval&lt;<a class="el" href="classNorm.html">Norm</a>&lt;typename Amplitudes::return_type...&gt;&gt;(), amplitudes... ))
 </td>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8inl-example.html#a19">dalitz_plot.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8inl-example.html#a20">dalitz_plot.inl</a>.</dd>
 </dl>
 </div>
 </div>
@@ -494,7 +494,7 @@ template&lt;typename ... Amplitudes&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_b3c69fde212a60de3f50954f66fa65c1.html">examples</a></li><li class="navelem"><a class="el" href="dir_6e157aa34d06ae01b63aa7ec9c965b66.html">phys</a></li><li class="navelem"><a class="el" href="dalitz__plot_8inl.html">dalitz_plot.inl</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:46 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

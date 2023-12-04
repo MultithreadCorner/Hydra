@@ -14,7 +14,7 @@ var breit__wigner__plus__polynomial_8inl =
     [ "c0", "breit__wigner__plus__polynomial_8inl.html#aecf235c3c4985ff9dfccf0a9caecdc06", null ],
     [ "c1", "breit__wigner__plus__polynomial_8inl.html#a8175ec4e5461dcd38d40ead25fef205c", null ],
     [ "c2", "breit__wigner__plus__polynomial_8inl.html#a024a3031e2ed14c5d1405f6e99df1158", null ],
-    [ "elapsed_d", "breit__wigner__plus__polynomial_8inl.html#abfba4c24621d89d3066e1d26c7e47951", null ],
+    [ "elapsed_d", "breit__wigner__plus__polynomial_8inl.html#a4f4dbbf1fe29605d9e3372519cbeec87", null ],
     [ "max", "breit__wigner__plus__polynomial_8inl.html#a0b0ede69e8156eb97acc579b88e883de", null ],
     [ "mean", "breit__wigner__plus__polynomial_8inl.html#acf41e89c36c8a1a455eeee9307628e33", null ],
     [ "min", "breit__wigner__plus__polynomial_8inl.html#aad36546e8175d2922bee165fe028fedc", null ],

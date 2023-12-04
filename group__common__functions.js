@@ -55,7 +55,9 @@ var group__common__functions =
       [ "ChiSquare", "group__common__functions.html#a6573e0986c7a7508dec9af5db7d9cfd0", null ],
       [ "ChiSquare", "group__common__functions.html#ab045322b308fce52c31b714beeef8274", null ],
       [ "Evaluate", "group__common__functions.html#affc5a3f55f0d7ef6a07301a2fc5fd815", null ],
-      [ "operator=", "group__common__functions.html#a369d0af31004974f372f8698241110e2", null ]
+      [ "GetDenominator", "group__common__functions.html#abf4a11475189d5ac65cf1ff656d5c209", null ],
+      [ "operator=", "group__common__functions.html#a369d0af31004974f372f8698241110e2", null ],
+      [ "Update", "group__common__functions.html#a4274cac1169261d62b171643eddd01fd", null ]
     ] ],
     [ "DeltaDMassBackground", "group__common__functions.html#classhydra_1_1DeltaDMassBackground", [
       [ "DeltaDMassBackground", "group__common__functions.html#a04c6f3eaa4f2b203a602202ecd9f28a9", null ],
@@ -160,9 +162,7 @@ var group__common__functions =
     [ "PlanesDeltaAngle", "group__common__functions.html#classhydra_1_1PlanesDeltaAngle", [
       [ "PlanesDeltaAngle", "group__common__functions.html#a1d3c0e42a4f826ceddeeb3a8790c103a", null ],
       [ "PlanesDeltaAngle", "group__common__functions.html#aafed403ff95b5676c86a4c982afda543", null ],
-      [ "Evaluate", "group__common__functions.html#af606357e016ac77e268d4e611380f7b5", null ],
-      [ "Evaluate", "group__common__functions.html#a1b97a7cf4e1c7eddb69c792a35c9fbfc", null ],
-      [ "operator()", "group__common__functions.html#a7f2bc705745c6c1d244e382c15544fe2", null ],
+      [ "Evaluate", "group__common__functions.html#a2a9e3560a76708a1d04c2e07d471bab5", null ],
       [ "operator=", "group__common__functions.html#a2d08c9ff41c3d88b24fa4a61e47dc890", null ]
     ] ],
     [ "Polynomial", "group__common__functions.html#classhydra_1_1Polynomial", [

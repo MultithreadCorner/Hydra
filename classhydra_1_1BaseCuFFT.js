@@ -1,9 +1,9 @@
 var classhydra_1_1BaseCuFFT =
 [
     [ "input_ptr_type", "classhydra_1_1BaseCuFFT.html#a34f8137a39b41c72d1dfa7ec4ad9d770", null ],
-    [ "input_tagged_ptr_type", "classhydra_1_1BaseCuFFT.html#a3b0e653b0446fedf79a4b3a2f190388d", null ],
+    [ "input_tagged_ptr_type", "classhydra_1_1BaseCuFFT.html#a31e1ff4a8b27088c950d8349db834143", null ],
     [ "output_ptr_type", "classhydra_1_1BaseCuFFT.html#af40bf86e1179e3585e647ff02e3a24e3", null ],
-    [ "output_tagged_ptr_type", "classhydra_1_1BaseCuFFT.html#a9cbdfc3fb5bc2a72bfb1e1a0957b8ff9", null ],
+    [ "output_tagged_ptr_type", "classhydra_1_1BaseCuFFT.html#acb8cae878d3ea13b0089dbc2cebdf0d1", null ],
     [ "plan_type", "classhydra_1_1BaseCuFFT.html#a0c722f7564c645a147e608f67e49c6b8", null ],
     [ "BaseCuFFT", "classhydra_1_1BaseCuFFT.html#a2bc590d1eb77fc5d155c9815e257f0b3", null ],
     [ "BaseCuFFT", "classhydra_1_1BaseCuFFT.html#af71ff0684cd99596f424ae227de66599", null ],

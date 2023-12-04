@@ -1,11 +1,10 @@
 var searchData=
 [
   ['zemachfunction',['ZemachFunction',['../group__common__functions.html#classhydra_1_1ZemachFunction',1,'hydra::ZemachFunction&lt; L, ArgType, Signature &gt;'],['../group__common__functions.html#abfd6a06e315ded0ea91963dddabc49b8',1,'hydra::ZemachFunction::ZemachFunction()']]],
-  ['zemachfunction_3c_20l_20_3e',['ZemachFunction&lt; L &gt;',['../group__common__functions.html',1,'hydra']]],
   ['zemachfunction_3c_20l_2c_20double_20_3e',['ZemachFunction&lt; L, double &gt;',['../group__common__functions.html',1,'hydra']]],
   ['zemachfunctions_2eh',['ZemachFunctions.h',['../ZemachFunctions_8h.html',1,'']]],
-  ['zero',['zero',['../structhydra_1_1detail_1_1TypeTraits.html#a48b760ca532b57b2e09145dcd4406362',1,'hydra::detail::TypeTraits::zero()'],['../structhydra_1_1detail_1_1TypeTraits_3_01hydra__thrust_1_1complex_3_01T_01_4_01_4.html#ab01ba1948be5163fbaaf02f878d4f21f',1,'hydra::detail::TypeTraits&lt; hydra_thrust::complex&lt; T &gt; &gt;::zero()']]],
-  ['zip',['zip',['../namespacehydra.html#ae1c8be57a887f2bb9d01ba075a5de0f2',1,'hydra']]],
+  ['zero',['zero',['../structhydra_1_1detail_1_1TypeTraits.html#a48b760ca532b57b2e09145dcd4406362',1,'hydra::detail::TypeTraits::zero()'],['../structhydra_1_1detail_1_1TypeTraits_3_01hydra_1_1thrust_1_1complex_3_01T_01_4_01_4.html#af6ec3afe520a469dbe6e097e0c07e35e',1,'hydra::detail::TypeTraits&lt; hydra::thrust::complex&lt; T &gt; &gt;::zero()']]],
+  ['zip',['zip',['../namespacehydra.html#a25948c700f3cfb8ebc1752cfe765fc31',1,'hydra']]],
   ['zip_2eh',['Zip.h',['../Zip_8h.html',1,'']]],
   ['zip_2einl',['Zip.inl',['../Zip_8inl.html',1,'']]],
   ['zip_5finl_5f',['ZIP_INL_',['../Zip_8inl.html#a15679f246fde7e39315b35c1db72cfd5',1,'Zip.inl']]],

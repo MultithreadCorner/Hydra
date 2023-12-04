@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$group__histogram.html#classhydra_1_1DenseHistogram_3_01T_00_011_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_47e77d3fa69b0393593bb979d3c5f9775" title="Class representing one&#45;dimensional dense histogram. " alt="" coords="5,5,200,76"/>
+<area shape="rect" id="node1" href="$namespacehydra.html" title="hydra::BaseCompositeFunctor\l\&lt; Multiply\&lt; F1, F2, Fs...\l \&gt;, hydra::thrust::tuple\&lt;\l F1, F2, Fs... \&gt;, detail::merged\l_tuple\&lt; hydra::thrust::tuple\&lt; std\l::common_type\&lt; F1::return_type, F2\l::return_type, Fs::return_type... \&gt;\l::type \&gt;, detail::stripped_tuple\&lt; detail\l::merged_tuple\&lt; F1::argument_type, F2::\largument_type, Fs::argument_type ... \&gt;::\ltype \&gt;::type \&gt;::type \&gt;" alt="" coords="5,5,267,179"/>
+<area shape="rect" id="node2" href="$classhydra_1_1Multiply.html" title="hydra::Multiply\&lt; F1,\l F2, Fs \&gt;" alt="" coords="315,71,453,113"/>
 </map>

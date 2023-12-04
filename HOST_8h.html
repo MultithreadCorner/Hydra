@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -107,11 +107,12 @@ $(document).ready(function(){initNavTree('HOST_8h.html','');});
 <code>#include &lt;<a class="el" href="">hydra/detail/BackendPolicy.h</a>&gt;</code><br />
 <code>#include &lt;hydra/detail/external/hydra_thrust/execution_policy.h&gt;</code><br />
 <code>#include &lt;hydra/detail/external/hydra_thrust/host_vector.h&gt;</code><br />
-<code>#include &lt;hydra/detail/external/hydra_thrust/system/cuda/experimental/pinned_allocator.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/system/cuda/memory_resource.h&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_thrust/system/cuda/memory.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for HOST.h:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="HOST_8h__incl.svg" width="100%" height="495"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="HOST_8h__incl.svg" width="100%" height="484"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -142,8 +143,8 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a3634fc7233620f29f577b16f8de977b3"><td class="memItemLeft" align="right" valign="top">typedef hydra_thrust::detail::host_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail_1_1host.html#a3634fc7233620f29f577b16f8de977b3">hydra::detail::host::host_t</a></td></tr>
-<tr class="separator:a3634fc7233620f29f577b16f8de977b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a729d54726c149c712cf079b97db3a872"><td class="memItemLeft" align="right" valign="top">typedef hydra::thrust::detail::host_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail_1_1host.html#a729d54726c149c712cf079b97db3a872">hydra::detail::host::host_t</a></td></tr>
+<tr class="separator:a729d54726c149c712cf079b97db3a872"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e8b9d47f3f6699e2a9971dc9d95c0ab"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; <a class="el" href="namespacehydra_1_1detail.html#a1461b18b118ced9f91233acbe90fd897a394a4eccb0e1634ec1294f902f5439e2">hydra::detail::Backend::Host</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1host.html#a5e8b9d47f3f6699e2a9971dc9d95c0ab">hydra::host::sys_t</a></td></tr>
 <tr class="separator:a5e8b9d47f3f6699e2a9971dc9d95c0ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5141f6d33baac9c48d00e219f9928c6a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
@@ -163,7 +164,7 @@ Variables</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="dir_0159963d6f903ad9528fa1a7a3a6a118.html">policies</a></li><li class="navelem"><a class="el" href="dir_7def6ed35b93d1d31991589929154947.html">backends</a></li><li class="navelem"><a class="el" href="HOST_8h.html">HOST.h</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:46 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

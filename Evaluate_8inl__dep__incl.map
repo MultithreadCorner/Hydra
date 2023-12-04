@@ -1,7 +1,3 @@
 <map id="Evaluate.inl" name="Evaluate.inl">
-<area shape="rect" id="node2" href="$Evaluate_8h.html" title="Evaluate.h" alt="" coords="244,80,328,107"/>
-<area shape="rect" id="node3" href="$apply__filter__issue_8C.html" title="apply_filter_issue.C" alt="" coords="5,162,143,189"/>
-<area shape="rect" id="node4" href="$filter__test_8C.html" title="filter_test.C" alt="" coords="167,162,258,189"/>
-<area shape="rect" id="node5" href="$generate__4body__decay__chain_8C.html" title="generate_4body_decay\l_chain.C" alt="" coords="283,155,439,196"/>
-<area shape="rect" id="node6" href="$generate__decay__chain_8C.html" title="generate_decay_chain.C" alt="" coords="463,162,629,189"/>
+<area shape="rect" id="node2" href="$Evaluate_8h.html" title="Evaluate.h" alt="" coords="9,80,93,107"/>
 </map>

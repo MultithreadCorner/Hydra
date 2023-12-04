@@ -1,12 +1,24 @@
 <map id="RandomRange.inl" name="RandomRange.inl">
-<area shape="rect" id="node2" href="$Config_8h.html" title="hydra/detail/Config.h" alt="" coords="688,481,831,508"/>
-<area shape="rect" id="node5" href="$RandomUtils_8h.html" title="hydra/detail/functors\l/RandomUtils.h" alt="" coords="885,87,1025,129"/>
-<area shape="rect" id="node10" href="$Utility__Tuple_8h.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="347,184,471,225"/>
-<area shape="rect" id="node11" href="$Types_8h.html" title="Common and useful typedefs. " alt="" coords="261,392,365,419"/>
-<area shape="rect" id="node12" href="$Generic_8h.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="35,288,159,329"/>
-<area shape="rect" id="node15" href="$TagTraits_8h.html" title="hydra/detail/TagTraits.h" alt="" coords="235,295,393,322"/>
-<area shape="rect" id="node16" href="$FunctorTraits_8h.html" title="hydra/detail/FunctorTraits.h" alt="" coords="389,392,570,419"/>
-<area shape="rect" id="node21" href="$Parameter_8h.html" title="hydra/Parameter.h" alt="" coords="874,295,1002,322"/>
-<area shape="rect" id="node17" href="$StaticAssert_8h.html" title="hydra/detail/utility\l/StaticAssert.h" alt="" coords="296,474,420,515"/>
-<area shape="rect" id="node22" href="$TypeTraits_8h.html" title="hydra/detail/TypeTraits.h" alt="" coords="1317,392,1482,419"/>
+<area shape="rect" id="node2" href="$Config_8h.html" title="hydra/detail/Config.h" alt="" coords="2562,496,2705,523"/>
+<area shape="rect" id="node5" href="$RandomUtils_8h.html" title="hydra/detail/functors\l/RandomUtils.h" alt="" coords="1497,87,1637,129"/>
+<area shape="rect" id="node38" href="$DistributionSampler_8h.html" title="hydra/detail/functors\l/DistributionSampler.h" alt="" coords="2509,87,2659,129"/>
+<area shape="rect" id="node44" href="$PRNGTypedefs_8h.html" title="hydra/detail/PRNGTypedefs.h" alt="" coords="3075,191,3271,218"/>
+<area shape="rect" id="node10" href="$Utility__Tuple_8h.html" title="hydra/detail/utility\l/Utility_Tuple.h" alt="" coords="1505,184,1629,225"/>
+<area shape="rect" id="node11" href="$Types_8h.html" title="Common and useful typedefs. " alt="" coords="1167,399,1271,426"/>
+<area shape="rect" id="node12" href="$Generic_8h.html" title="hydra/detail/utility\l/Generic.h" alt="" coords="1379,288,1503,329"/>
+<area shape="rect" id="node15" href="$TagTraits_8h.html" title="hydra/detail/TagTraits.h" alt="" coords="1145,295,1303,322"/>
+<area shape="rect" id="node16" href="$FunctorTraits_8h.html" title="hydra/detail/FunctorTraits.h" alt="" coords="1808,295,1989,322"/>
+<area shape="rect" id="node21" href="$Parameter_8h.html" title="hydra/Parameter.h" alt="" coords="941,295,1069,322"/>
+<area shape="rect" id="node17" href="$StaticAssert_8h.html" title="hydra/detail/utility\l/StaticAssert.h" alt="" coords="2119,392,2243,433"/>
+<area shape="rect" id="node22" href="$TypeTraits_8h.html" title="hydra/detail/TypeTraits.h" alt="" coords="721,399,887,426"/>
+<area shape="rect" id="node39" href="$FormulaTraits_8h.html" title="hydra/detail/FormulaTraits.h" alt="" coords="2240,295,2424,322"/>
+<area shape="rect" id="node40" href="$RngFormula_8h.html" title="hydra/detail/RngFormula.h" alt="" coords="2370,399,2545,426"/>
+<area shape="rect" id="node41" href="$Distribution_8h.html" title="hydra/Distribution.h" alt="" coords="2515,191,2650,218"/>
+<area shape="rect" id="node42" href="$Distribution_8inl.html" title="hydra/detail/Distribution.inl" alt="" coords="2620,295,2796,322"/>
+<area shape="rect" id="node45" href="$EngineR123_8h.html" title="hydra/detail/random\l/EngineR123.h" alt="" coords="3652,288,3788,329"/>
+<area shape="rect" id="node55" href="$squares3_8h.html" title="hydra/detail/random\l/squares3.h" alt="" coords="3176,392,3312,433"/>
+<area shape="rect" id="node56" href="$squares4_8h.html" title="hydra/detail/random\l/squares4.h" alt="" coords="3336,392,3472,433"/>
+<area shape="rect" id="node46" href="$RandomTraits_8h.html" title="hydra/detail/RandomTraits.h" alt="" coords="3757,399,3944,426"/>
+<area shape="rect" id="node53" href="$splitmix_8h.html" title="hydra/detail/random\l/splitmix.h" alt="" coords="3496,392,3632,433"/>
+<area shape="rect" id="node54" href="$squares__key_8h.html" title="hydra/detail/random\l/detail/squares_key.h" alt="" coords="3324,489,3468,530"/>
 </map>

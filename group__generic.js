@@ -55,7 +55,7 @@ var group__generic =
       [ "Value", "group__fit.html#ab9d71d53dc79d1839971ec8cdced636a", null ]
     ] ],
     [ "eval", "group__generic.html#gadea4fcd2b0a13095c4408fbee01c2c72", null ],
-    [ "eval", "group__generic.html#gad3ea8aefb6b4ea0d33078e76114d4446", null ],
+    [ "eval", "group__generic.html#ga0a17d8f289e951a4e6db944ffe7810df", null ],
     [ "eval", "group__generic.html#ga8564abe3d04aa014ba0a6a40e6c5d599", null ],
-    [ "eval", "group__generic.html#ga6edb3602e25dac1a2653e2ce33450232", null ]
+    [ "eval", "group__generic.html#ga652c2803a7acd9d917a76900150e99dc", null ]
 ];

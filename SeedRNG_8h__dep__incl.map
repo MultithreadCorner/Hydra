@@ -1,6 +1,7 @@
 <map id="SeedRNG.h" name="SeedRNG.h">
 <area shape="rect" id="node2" href="$dalitz__plot_8inl.html" title="dalitz_plot.inl" alt="" coords="136,80,235,107"/>
 <area shape="rect" id="node5" href="$pseudo__experiment_8inl.html" title="pseudo_experiment.inl" alt="" coords="263,80,415,107"/>
+<area shape="rect" id="node8" href="$dalitz__plot_8C.html" title="dalitz_plot.C" alt="" coords="439,80,534,107"/>
 <area shape="rect" id="node3" href="$dalitz__plot_8cpp.html" title="dalitz_plot.cpp" alt="" coords="5,155,112,181"/>
 <area shape="rect" id="node4" href="$dalitz__plot_8cu.html" title="dalitz_plot.cu" alt="" coords="136,155,235,181"/>
 <area shape="rect" id="node6" href="$pseudo__experiment_8cpp.html" title="pseudo_experiment.cpp" alt="" coords="259,155,419,181"/>

@@ -12,6 +12,5 @@ var globals_func =
     [ "n", "globals_func_n.html", null ],
     [ "p", "globals_func_p.html", null ],
     [ "s", "globals_func_s.html", null ],
-    [ "t", "globals_func_t.html", null ],
     [ "w", "globals_func_w.html", null ]
 ];

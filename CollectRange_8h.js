@@ -1,4 +1,4 @@
 var CollectRange_8h =
 [
-    [ "collect", "CollectRange_8h.html#ac35031f37b7ebb095def140f0a7b9aef", null ]
+    [ "collect", "CollectRange_8h.html#a58e3aa55839abeda676e6a8ede0902a7", null ]
 ];

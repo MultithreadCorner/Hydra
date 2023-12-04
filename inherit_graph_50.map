@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$group__phsp.html#classhydra_1_1Decays" title="hydra::Decays\&lt; Particles,\l Backend \&gt;" alt="" coords="5,5,180,47"/>
+<area shape="rect" id="node1" href="$namespacehydra.html" title="hydra::BaseCompositeFunctor\l\&lt; Minus\&lt; F1, F2 \&gt;, hydra\l::thrust::tuple\&lt; F1, F2 \&gt;\l, detail::merged_tuple\&lt; hydra\l::thrust::tuple\&lt; std::common\l_type\&lt; F1::return_type, F2::return\l_type \&gt;::type \&gt;, detail::stripped\l_tuple\&lt; detail::merged_tuple\&lt; F1::\largument_type, F2::argument_type \&gt;\l::type \&gt;::type \&gt;::type \&gt;" alt="" coords="5,5,243,164"/>
+<area shape="rect" id="node2" href="$classhydra_1_1Minus.html" title="hydra::Minus\&lt; F1, F2 \&gt;" alt="" coords="291,71,449,98"/>
 </map>

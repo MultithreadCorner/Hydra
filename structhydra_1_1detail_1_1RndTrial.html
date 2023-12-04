@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -106,14 +106,14 @@ $(document).ready(function(){initNavTree('structhydra_1_1detail_1_1RndTrial.html
 <div class="dynheader">
 Collaboration diagram for hydra::detail::RndTrial&lt; T, GRND, FUNCTOR, N &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1RndTrial__coll__graph.svg" width="250" height="287"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1RndTrial__coll__graph.svg" width="252" height="287"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6ef7fdbd0d8cc3f0f43ba3dbed3cb4a1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1RndTrial.html#a6ef7fdbd0d8cc3f0f43ba3dbed3cb4a1">RndTrial</a> (size_t seed, FUNCTOR const &amp;functor, std::array&lt; T, N &gt;const &amp;<a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, std::array&lt; T, N &gt;const &amp;<a class="el" href="namespacehydra_1_1detail.html#a8df2eb3ba9481fec054318974964ec3d">max</a>)</td></tr>
-<tr class="separator:a6ef7fdbd0d8cc3f0f43ba3dbed3cb4a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a622e78685cb5c543a411f3094b8fc8d1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1RndTrial.html#a622e78685cb5c543a411f3094b8fc8d1">RndTrial</a> (size_t seed, const size_t jump, FUNCTOR const &amp;functor, std::array&lt; T, N &gt;const &amp;<a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, std::array&lt; T, N &gt;const &amp;<a class="el" href="namespacehydra_1_1detail.html#ad720a19d349e53d36757cfe71338ca64">max</a>)</td></tr>
+<tr class="separator:a622e78685cb5c543a411f3094b8fc8d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac24d854d8a50d8ca49721973318702ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1RndTrial.html#ac24d854d8a50d8ca49721973318702ab">RndTrial</a> (<a class="el" href="structhydra_1_1detail_1_1RndTrial.html">RndTrial</a>&lt; T, GRND, FUNCTOR, N &gt; const &amp;other)</td></tr>
 <tr class="separator:ac24d854d8a50d8ca49721973318702ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae085cb2eb08571eb7bdf8c373665962a"><td class="memTemplParams" colspan="2">template&lt;typename Tuple &gt; </td></tr>
@@ -124,6 +124,8 @@ Public Member Functions</h2></td></tr>
 Data Fields</h2></td></tr>
 <tr class="memitem:ac3cbfe46a801e9f36354e15cd041e1d9"><td class="memItemLeft" align="right" valign="top">FUNCTOR&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1RndTrial.html#ac3cbfe46a801e9f36354e15cd041e1d9">fFunctor</a></td></tr>
 <tr class="separator:ac3cbfe46a801e9f36354e15cd041e1d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aada5563a876b8a89af97a1037ffdae61"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1RndTrial.html#aada5563a876b8a89af97a1037ffdae61">fJump</a></td></tr>
+<tr class="separator:aada5563a876b8a89af97a1037ffdae61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa9233d63038fd1ebbae06251ee9b2ee"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1RndTrial.html#afa9233d63038fd1ebbae06251ee9b2ee">fMax</a> [N]</td></tr>
 <tr class="separator:afa9233d63038fd1ebbae06251ee9b2ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a136c85a882b982a9675d5dfac109b8cd"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1RndTrial.html#a136c85a882b982a9675d5dfac109b8cd">fMin</a> [N]</td></tr>
@@ -136,8 +138,8 @@ Data Fields</h2></td></tr>
 struct hydra::detail::RndTrial&lt; T, GRND, FUNCTOR, N &gt;</h3>
 
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a6ef7fdbd0d8cc3f0f43ba3dbed3cb4a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ef7fdbd0d8cc3f0f43ba3dbed3cb4a1">&#9670;&nbsp;</a></span>RndTrial() <span class="overload">[1/2]</span></h2>
+<a id="a622e78685cb5c543a411f3094b8fc8d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a622e78685cb5c543a411f3094b8fc8d1">&#9670;&nbsp;</a></span>RndTrial() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -152,6 +154,12 @@ template&lt;typename T , typename GRND , typename FUNCTOR , size_t N&gt; </div>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>seed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramname"><em>jump</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -272,6 +280,22 @@ template&lt;typename T , typename GRND , typename FUNCTOR , size_t N&gt; </div>
 
 </div>
 </div>
+<a id="aada5563a876b8a89af97a1037ffdae61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aada5563a876b8a89af97a1037ffdae61">&#9670;&nbsp;</a></span>fJump</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename GRND , typename FUNCTOR , size_t N&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="structhydra_1_1detail_1_1RndTrial.html">hydra::detail::RndTrial</a>&lt; T, GRND, FUNCTOR, N &gt;::fJump</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="afa9233d63038fd1ebbae06251ee9b2ee"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afa9233d63038fd1ebbae06251ee9b2ee">&#9670;&nbsp;</a></span>fMax</h2>
 
@@ -329,7 +353,7 @@ template&lt;typename T , typename GRND , typename FUNCTOR , size_t N&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacehydra.html">hydra</a></li><li class="navelem"><a class="el" href="namespacehydra_1_1detail.html">detail</a></li><li class="navelem"><a class="el" href="structhydra_1_1detail_1_1RndTrial.html">RndTrial</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:03 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

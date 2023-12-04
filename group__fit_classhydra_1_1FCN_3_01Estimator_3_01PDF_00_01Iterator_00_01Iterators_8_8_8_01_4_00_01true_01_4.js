@@ -1,7 +1,7 @@
 var group__fit_classhydra_1_1FCN_3_01Estimator_3_01PDF_00_01Iterator_00_01Iterators_8_8_8_01_4_00_01true_01_4 =
 [
-    [ "iterator", "group__fit.html#acad29bb97e4e1b74fda9080ad382148a", null ],
-    [ "witerator", "group__fit.html#a45596cf01a13399a473832417735c52a", null ],
+    [ "iterator", "group__fit.html#adf475d39538bd06df7f21ed54a62d731", null ],
+    [ "witerator", "group__fit.html#a90c6479f87a345d7adff91ff9ef00ca7", null ],
     [ "FCN", "group__fit.html#ac7701336bd8ae7be64094ff14e485962", null ],
     [ "FCN", "group__fit.html#a118d2e1fb84d25c4cf2e1c88701769ee", null ],
     [ "FCN", "group__fit.html#a6684100959384d44e3912f4f2dc55c4d", null ],

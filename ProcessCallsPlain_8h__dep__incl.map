@@ -1,8 +1,9 @@
 <map id="ProcessCallsPlain.h" name="ProcessCallsPlain.h">
-<area shape="rect" id="node2" href="$Plain_8h.html" title="Plain.h" alt="" coords="463,80,526,107"/>
+<area shape="rect" id="node2" href="$Plain_8h.html" title="Plain.h" alt="" coords="593,80,655,107"/>
 <area shape="rect" id="node3" href="$multidimensional__fit_8inl.html" title="multidimensional_fit.inl" alt="" coords="192,155,347,181"/>
-<area shape="rect" id="node6" href="$genz__malik_8inl.html" title="genz_malik.inl" alt="" coords="442,155,547,181"/>
-<area shape="rect" id="node9" href="$plain__mc_8inl.html" title="plain_mc.inl" alt="" coords="644,155,735,181"/>
+<area shape="rect" id="node6" href="$genz__malik_8inl.html" title="genz_malik.inl" alt="" coords="510,155,615,181"/>
+<area shape="rect" id="node9" href="$plain__mc_8inl.html" title="plain_mc.inl" alt="" coords="641,155,732,181"/>
+<area shape="rect" id="node12" href="$fit__3d__gaussian_8C.html" title="fit_3d_gaussian.C" alt="" coords="757,155,883,181"/>
 <area shape="rect" id="node4" href="$multidimensional__fit_8cpp.html" title="multidimensional_fit.cpp" alt="" coords="5,229,168,256"/>
 <area shape="rect" id="node5" href="$multidimensional__fit_8cu.html" title="multidimensional_fit.cu" alt="" coords="192,229,347,256"/>
 <area shape="rect" id="node7" href="$genz__malik_8cpp.html" title="genz_malik.cpp" alt="" coords="371,229,485,256"/>

@@ -10,7 +10,7 @@ var extended__logLL__fit_8inl =
     [ "parse", "extended__logLL__fit_8inl.html#a1c06c263c31271c073a8f0735b1e4a16", null ],
     [ "SetExtended", "extended__logLL__fit_8inl.html#ab33c4f5d33ac3a305332487f429789c6", null ],
     [ "argc", "extended__logLL__fit_8inl.html#a27fb769f88c3c17ca3490b75f7758431", null ],
-    [ "elapsed_d", "extended__logLL__fit_8inl.html#ae40c32b6aa9ee9c43d9e7b8559079c8c", null ],
+    [ "elapsed_d", "extended__logLL__fit_8inl.html#a8fb25c009befe1959cf4199541d95374", null ],
     [ "Exp_PDF", "extended__logLL__fit_8inl.html#abe4dcbceefaf0510914eea5126d4deef", null ],
     [ "Gauss1_PDF", "extended__logLL__fit_8inl.html#ae01584da56b936fc41d511e6895d30c0", null ],
     [ "Gauss2_PDF", "extended__logLL__fit_8inl.html#ae63841d2f2663489866089fdf2183e8b", null ],

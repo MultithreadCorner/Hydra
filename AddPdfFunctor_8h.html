@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -140,12 +140,12 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a8cb37313145410697a80a4a7786a1712"><td class="memTemplParams" colspan="2">template&lt;typename Tup &gt; </td></tr>
-<tr class="memitem:a8cb37313145410697a80a4a7786a1712"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a8cb37313145410697a80a4a7786a1712">hydra::detail::get_functor_tuple</a> (Tup &amp;pdfs) -&gt; decltype(get_functor_tuple_helper(pdfs, make_index_sequence&lt; hydra_thrust::tuple_size&lt; Tup &gt;::value &gt;</td></tr>
-<tr class="separator:a8cb37313145410697a80a4a7786a1712"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a500db4ea93e7304d994ed97337f1c479"><td class="memTemplParams" colspan="2">template&lt;typename Tup , size_t ... index&gt; </td></tr>
-<tr class="memitem:a500db4ea93e7304d994ed97337f1c479"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a500db4ea93e7304d994ed97337f1c479">hydra::detail::get_functor_tuple_helper</a> (Tup &amp;pdfs, index_sequence&lt; index... &gt;) -&gt; decltype(hydra_thrust::make_tuple(hydra_thrust::get&lt; index &gt;(pdfs).GetFunctor()...))</td></tr>
-<tr class="separator:a500db4ea93e7304d994ed97337f1c479"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f5a0cb9111ec6aee52c31a221dfd6d3"><td class="memTemplParams" colspan="2">template&lt;typename Tup &gt; </td></tr>
+<tr class="memitem:a4f5a0cb9111ec6aee52c31a221dfd6d3"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a4f5a0cb9111ec6aee52c31a221dfd6d3">hydra::detail::get_functor_tuple</a> (Tup &amp;pdfs) -&gt; decltype(get_functor_tuple_helper(pdfs, make_index_sequence&lt; <a class="el" href="namespacehydra.html#a58298133d4826dc6f35253762a7d6788">hydra::thrust::tuple_size</a>&lt; Tup &gt;::value &gt;</td></tr>
+<tr class="separator:a4f5a0cb9111ec6aee52c31a221dfd6d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7ba7bea072d6c3b6de86086bb49436d"><td class="memTemplParams" colspan="2">template&lt;typename Tup , size_t ... index&gt; </td></tr>
+<tr class="memitem:aa7ba7bea072d6c3b6de86086bb49436d"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#aa7ba7bea072d6c3b6de86086bb49436d">hydra::detail::get_functor_tuple_helper</a> (Tup &amp;pdfs, index_sequence&lt; index... &gt;) -&gt; decltype(<a class="el" href="namespacehydra.html#ae9e1c8df3eaea2b9e4646c5dcdeaf322">hydra::thrust::make_tuple</a>(<a class="el" href="namespacehydra.html#a2658beb74af1f617373f6f640e2949e4">hydra::thrust::get</a>&lt; index &gt;(pdfs).GetFunctor()...))</td></tr>
+<tr class="separator:aa7ba7bea072d6c3b6de86086bb49436d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c688d5b722922805a5837cac93a6411"><td class="memItemLeft" align="right" valign="top"><a class="el" href="basic__distributions_8inl.html#a9717e7bbecb906637e86cef6da3d83c2">return</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a7c688d5b722922805a5837cac93a6411">hydra::detail::get_functor_tuple_helper</a> (pdfs, make_index_sequence&lt; Size &gt; { })</td></tr>
 <tr class="separator:a7c688d5b722922805a5837cac93a6411"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -155,7 +155,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="dir_35ca0ad8653ac3849130d5ccd34a6c7d.html">functors</a></li><li class="navelem"><a class="el" href="AddPdfFunctor_8h.html">AddPdfFunctor.h</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:46 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

@@ -1,7 +1,7 @@
 var group__histogram_classhydra_1_1SparseHistogram_3_01T_00_011_00_01detail_1_1BackendPolicy_3_01BACKEND_01_4_00_01detail_1_1unidimensional_01_4 =
 [
     [ "SparseHistogram", "group__histogram.html#acbf5d03ccc2905a7ec0734f9e2cee9a1", null ],
-    [ "SparseHistogram", "group__histogram.html#ab0b81bb3e0dd479bd055a83ce874ee34", null ],
+    [ "SparseHistogram", "group__histogram.html#aae3ea53192de6cab966869f59ec73510", null ],
     [ "SparseHistogram", "group__histogram.html#ae8cc4addb63390acaafc5fcac71b6c04", null ],
     [ "SparseHistogram", "group__histogram.html#a4b7d4c58a8624c5f5ef28820769c9c4c", null ],
     [ "begin", "group__histogram.html#afec5e3593d8dd844c3de14cfecad815a", null ],
@@ -17,7 +17,7 @@ var group__histogram_classhydra_1_1SparseHistogram_3_01T_00_011_00_01detail_1_1B
     [ "Fill", "group__histogram.html#ae6b0808a922614b72f0ec984cbedbd29", null ],
     [ "GetBinContent", "group__histogram.html#acf17c611705820631b352c720612849f", null ],
     [ "GetBins", "group__histogram.html#a49d3fe3b4c892c2197f08d12446fc4e6", null ],
-    [ "GetBinsCenters", "group__histogram.html#a971204bce0affb7bbb4319b0dc5bb4bd", null ],
+    [ "GetBinsCenters", "group__histogram.html#a3a6bf14c3fa8a9acff6540b56a0f5d24", null ],
     [ "GetBinsContents", "group__histogram.html#ad95db5299a925247b48c4e0577d80348", null ],
     [ "GetContents", "group__histogram.html#a802073aef5c40d187b1dd8f3682f3a60", null ],
     [ "GetGrid", "group__histogram.html#ad630aa61c323dff58b8ae7b5082ba7d2", null ],

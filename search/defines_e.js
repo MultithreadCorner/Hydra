@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['particle_5fdispersion_5fc_5f',['PARTICLE_DISPERSION_C_',['../particle__dispersion_8C.html#a0ce3812e293634a9e9169ef1247283b8',1,'particle_dispersion.C']]],
   ['particle_5fmass_5finl_5f',['PARTICLE_MASS_INL_',['../particle__mass_8inl.html#a52ea0bd985b98e395b87ab23f7e44cd5',1,'particle_mass.inl']]],
   ['phasespaceintegrator_5finl_5f',['PHASESPACEINTEGRATOR_INL_',['../PhaseSpaceIntegrator_8inl.html#a8f7a229de4b6010da2b91c9f83d45738',1,'PhaseSpaceIntegrator.inl']]],
   ['phasespacerange_5finl_5f',['PHASESPACERANGE_INL_',['../PhaseSpaceRange_8inl.html#a8a15bcae3f4fff3ff974188f00964d1b',1,'PhaseSpaceRange.inl']]],

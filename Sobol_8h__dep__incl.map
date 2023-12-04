@@ -1,6 +1,5 @@
 <map id="Sobol.h" name="Sobol.h">
-<area shape="rect" id="node2" href="$Decays__old_8inl.html" title="Decays_old.inl" alt="" coords="5,80,113,107"/>
-<area shape="rect" id="node3" href="$sobol__quasirandom_8inl.html" title="sobol_quasirandom.inl" alt="" coords="137,80,288,107"/>
-<area shape="rect" id="node4" href="$sobol__quasirandom_8cpp.html" title="sobol_quasirandom.cpp" alt="" coords="43,155,201,181"/>
-<area shape="rect" id="node5" href="$sobol__quasirandom_8cu.html" title="sobol_quasirandom.cu" alt="" coords="226,155,378,181"/>
+<area shape="rect" id="node2" href="$sobol__quasirandom_8inl.html" title="sobol_quasirandom.inl" alt="" coords="99,80,249,107"/>
+<area shape="rect" id="node3" href="$sobol__quasirandom_8cpp.html" title="sobol_quasirandom.cpp" alt="" coords="5,155,164,181"/>
+<area shape="rect" id="node4" href="$sobol__quasirandom_8cu.html" title="sobol_quasirandom.cu" alt="" coords="189,155,341,181"/>
 </map>

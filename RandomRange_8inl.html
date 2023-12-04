@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -106,6 +106,8 @@ $(document).ready(function(){initNavTree('RandomRange_8inl.html','');});
 <code>#include &lt;<a class="el" href="">hydra/detail/functors/RandomUtils.h</a>&gt;</code><br />
 <code>#include &lt;hydra/detail/external/hydra_thrust/iterator/constant_iterator.h&gt;</code><br />
 <code>#include &lt;hydra/detail/external/hydra_thrust/iterator/transform_iterator.h&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/functors/DistributionSampler.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/PRNGTypedefs.h</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for RandomRange.inl:</div>
 <div class="dyncontent">
@@ -134,15 +136,9 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a5eaf1e3a145e0b3333e752ec877c4a96"><td class="memTemplParams" colspan="2">template&lt;typename Value_Type &gt; </td></tr>
-<tr class="memitem:a5eaf1e3a145e0b3333e752ec877c4a96"><td class="memTemplItemLeft" align="right" valign="top">Range&lt; hydra_thrust::transform_iterator&lt; detail::RndExp&lt; Value_Type, hydra_thrust::random::default_random_engine &gt;,hydra_thrust::counting_iterator&lt; size_t &gt;, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a5eaf1e3a145e0b3333e752ec877c4a96">hydra::random_exp_range</a> (const Value_Type &amp;<a class="el" href="basic__distributions_8inl.html#af09d0683face1f506ef2f42ab173b495">tau</a>, size_t seed, size_t length=0)</td></tr>
-<tr class="separator:a5eaf1e3a145e0b3333e752ec877c4a96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20f37e84460e63d91583c2a08a6fe937"><td class="memTemplParams" colspan="2">template&lt;typename Value_Type &gt; </td></tr>
-<tr class="memitem:a20f37e84460e63d91583c2a08a6fe937"><td class="memTemplItemLeft" align="right" valign="top">Range&lt; hydra_thrust::transform_iterator&lt; detail::RndGauss&lt; Value_Type, hydra_thrust::random::default_random_engine &gt;,hydra_thrust::counting_iterator&lt; size_t &gt;, Value_Type &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a20f37e84460e63d91583c2a08a6fe937">hydra::random_gauss_range</a> (Value_Type <a class="el" href="basic__distributions_8inl.html#af5f88b70b94c2ada29011f672e3e88a4">mean</a>, Value_Type <a class="el" href="basic__distributions_8inl.html#a3e2a4a021e927d770355f2971942d62a">width</a>, size_t seed, size_t length=0)</td></tr>
-<tr class="separator:a20f37e84460e63d91583c2a08a6fe937"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17d0eafddb7421defa88d26db3605077"><td class="memTemplParams" colspan="2">template&lt;typename Value_Type &gt; </td></tr>
-<tr class="memitem:a17d0eafddb7421defa88d26db3605077"><td class="memTemplItemLeft" align="right" valign="top">Range&lt; hydra_thrust::transform_iterator&lt; detail::RndUniform&lt; Value_Type, hydra_thrust::random::default_random_engine &gt;,hydra_thrust::counting_iterator&lt; size_t &gt;, Value_Type &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a17d0eafddb7421defa88d26db3605077">hydra::random_uniform_range</a> (const Value_Type &amp;<a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, const Value_Type &amp;<a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>, size_t seed, size_t length=0)</td></tr>
-<tr class="separator:a17d0eafddb7421defa88d26db3605077"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae624fce02dd351435098431f13679919"><td class="memTemplParams" colspan="2">template&lt;typename Engine  = hydra::default_random_engine, typename Functor &gt; </td></tr>
+<tr class="memitem:ae624fce02dd351435098431f13679919"><td class="memTemplItemLeft" align="right" valign="top">Range&lt; hydra::thrust::transform_iterator&lt; detail::Sampler&lt; Functor, Engine &gt;, hydra::thrust::counting_iterator&lt; size_t &gt;, typename detail::Sampler&lt; Functor, Engine &gt;::value_type &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ae624fce02dd351435098431f13679919">hydra::random_range</a> (Functor const &amp;functor, size_t seed=0x8ec74d321e6b5a27, size_t length=0, size_t rng_jump=0)</td></tr>
+<tr class="separator:ae624fce02dd351435098431f13679919"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ad8a8cac36a6c2440b29c925d31ce3ce2"></a>
@@ -165,7 +161,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="RandomRange_8inl.html">RandomRange.inl</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:47 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

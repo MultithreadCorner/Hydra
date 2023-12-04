@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -126,66 +126,66 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga7e1a3000b4a0d0b0660b52314134c8fa"><td class="memTemplParams" colspan="2">template&lt;typename Iterator , typename T , size_t N, hydra::detail::Backend BACKEND&gt; </td></tr>
-<tr class="memitem:ga7e1a3000b4a0d0b0660b52314134c8fa"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga7e1a3000b4a0d0b0660b52314134c8fa">hydra::make_dense_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, std::array&lt; size_t, N &gt;const &amp;grid, std::array&lt; T, N &gt; const &amp;lowerlimits, std::array&lt; T, N &gt; const &amp;upperlimits, Iterator first, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>)</td></tr>
-<tr class="memdesc:ga7e1a3000b4a0d0b0660b52314134c8fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional dense histogram.  <a href="group__histogram.html#ga7e1a3000b4a0d0b0660b52314134c8fa">More...</a><br /></td></tr>
-<tr class="separator:ga7e1a3000b4a0d0b0660b52314134c8fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga53a84ebf42e3d3aead5a9d0801284a9e"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, hydra::detail::Backend BACKEND, typename Iterable &gt; </td></tr>
-<tr class="memitem:ga53a84ebf42e3d3aead5a9d0801284a9e"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga53a84ebf42e3d3aead5a9d0801284a9e">hydra::make_dense_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, std::array&lt; size_t, N &gt; const &amp;grid, std::array&lt; T, N &gt; const &amp;lowerlimits, std::array&lt; T, N &gt; const &amp;upperlimits, Iterable &amp;&amp;<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>)</td></tr>
-<tr class="memdesc:ga53a84ebf42e3d3aead5a9d0801284a9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional dense histogram.  <a href="group__histogram.html#ga53a84ebf42e3d3aead5a9d0801284a9e">More...</a><br /></td></tr>
-<tr class="separator:ga53a84ebf42e3d3aead5a9d0801284a9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga425cd2dd0c24aaf04eade2e7b6205fe8"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, hydra::detail::Backend BACKEND, typename Iterable1 , typename Iterable2 &gt; </td></tr>
-<tr class="memitem:ga425cd2dd0c24aaf04eade2e7b6205fe8"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable1 &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable2 &gt;::value, <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga425cd2dd0c24aaf04eade2e7b6205fe8">hydra::make_dense_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, std::array&lt; size_t, N &gt; const &amp;grid, std::array&lt; T, N &gt; const &amp;lowerlimits, std::array&lt; T, N &gt; const &amp;upperlimits, Iterable1 &amp;&amp;<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>, Iterable2 &amp;&amp;weight)</td></tr>
-<tr class="memdesc:ga425cd2dd0c24aaf04eade2e7b6205fe8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional dense histogram.  <a href="group__histogram.html#ga425cd2dd0c24aaf04eade2e7b6205fe8">More...</a><br /></td></tr>
-<tr class="separator:ga425cd2dd0c24aaf04eade2e7b6205fe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga74d16ad8a015b01bd88bbdea526f5f51"><td class="memTemplParams" colspan="2">template&lt;typename Iterator , typename T , hydra::detail::Backend BACKEND&gt; </td></tr>
-<tr class="memitem:ga74d16ad8a015b01bd88bbdea526f5f51"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga74d16ad8a015b01bd88bbdea526f5f51">hydra::make_dense_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, size_t nbins, T lowerlimit, T upperlimit, Iterator first, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>)</td></tr>
-<tr class="memdesc:ga74d16ad8a015b01bd88bbdea526f5f51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a 1-dimensional dense histogram.  <a href="group__histogram.html#ga74d16ad8a015b01bd88bbdea526f5f51">More...</a><br /></td></tr>
-<tr class="separator:ga74d16ad8a015b01bd88bbdea526f5f51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf5fb0ff39a4c2cce59ab9b88f7289b88"><td class="memTemplParams" colspan="2">template&lt;typename Iterator1 , typename Iterator2 , typename T , hydra::detail::Backend BACKEND&gt; </td></tr>
-<tr class="memitem:gaf5fb0ff39a4c2cce59ab9b88f7289b88"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#gaf5fb0ff39a4c2cce59ab9b88f7289b88">hydra::make_dense_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, size_t nbins, T lowerlimit, T upperlimit, Iterator1 first, Iterator1 <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>, Iterator2 wfirst)</td></tr>
-<tr class="memdesc:gaf5fb0ff39a4c2cce59ab9b88f7289b88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a 1-dimensional dense histogram.  <a href="group__histogram.html#gaf5fb0ff39a4c2cce59ab9b88f7289b88">More...</a><br /></td></tr>
-<tr class="separator:gaf5fb0ff39a4c2cce59ab9b88f7289b88"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1050ca55613cd5c79c8f424c329466ad"><td class="memTemplParams" colspan="2">template&lt;typename T , hydra::detail::Backend BACKEND, typename Iterable &gt; </td></tr>
-<tr class="memitem:ga1050ca55613cd5c79c8f424c329466ad"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga1050ca55613cd5c79c8f424c329466ad">hydra::make_dense_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, size_t nbins, T lowerlimits, T upperlimits, Iterable &amp;&amp;<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>)</td></tr>
-<tr class="memdesc:ga1050ca55613cd5c79c8f424c329466ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional dense histogram.  <a href="group__histogram.html#ga1050ca55613cd5c79c8f424c329466ad">More...</a><br /></td></tr>
-<tr class="separator:ga1050ca55613cd5c79c8f424c329466ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga867aff975628a4f23c6d5d22bc5baa80"><td class="memTemplParams" colspan="2">template&lt;typename T , hydra::detail::Backend BACKEND, typename Iterable1 , typename Iterable2 &gt; </td></tr>
-<tr class="memitem:ga867aff975628a4f23c6d5d22bc5baa80"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable1 &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable2 &gt;::value, <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga867aff975628a4f23c6d5d22bc5baa80">hydra::make_dense_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, size_t nbins, T lowerlimits, T upperlimits, Iterable1 &amp;&amp;<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>, Iterable2 &amp;&amp;weight)</td></tr>
-<tr class="memdesc:ga867aff975628a4f23c6d5d22bc5baa80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional dense histogram.  <a href="group__histogram.html#ga867aff975628a4f23c6d5d22bc5baa80">More...</a><br /></td></tr>
-<tr class="separator:ga867aff975628a4f23c6d5d22bc5baa80"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2cea405a4f933f25af1f2afe7e67c381"><td class="memTemplParams" colspan="2">template&lt;typename Iterator , typename T , size_t N, hydra::detail::Backend BACKEND&gt; </td></tr>
-<tr class="memitem:ga2cea405a4f933f25af1f2afe7e67c381"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga2cea405a4f933f25af1f2afe7e67c381">hydra::make_sparse_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, std::array&lt; size_t, N &gt; grid, std::array&lt; T, N &gt; const  &amp;lowerlimits, std::array&lt; T, N &gt; const  &amp;upperlimits, Iterator first, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>)</td></tr>
-<tr class="memdesc:ga2cea405a4f933f25af1f2afe7e67c381"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional sparse histogram.  <a href="group__histogram.html#ga2cea405a4f933f25af1f2afe7e67c381">More...</a><br /></td></tr>
-<tr class="separator:ga2cea405a4f933f25af1f2afe7e67c381"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gace1d4a9273d0e841aa7aa81da8706684"><td class="memTemplParams" colspan="2">template&lt;typename Iterator1 , typename Iterator2 , typename T , size_t N, hydra::detail::Backend BACKEND&gt; </td></tr>
-<tr class="memitem:gace1d4a9273d0e841aa7aa81da8706684"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#gace1d4a9273d0e841aa7aa81da8706684">hydra::make_sparse_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, std::array&lt; size_t, N &gt; grid, std::array&lt; T, N &gt; const  &amp;lowerlimits, std::array&lt; T, N &gt; const  &amp;upperlimits, Iterator1 first, Iterator1 <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>, Iterator2 wfirst)</td></tr>
-<tr class="memdesc:gace1d4a9273d0e841aa7aa81da8706684"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional sparse histogram.  <a href="group__histogram.html#gace1d4a9273d0e841aa7aa81da8706684">More...</a><br /></td></tr>
-<tr class="separator:gace1d4a9273d0e841aa7aa81da8706684"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga72325d25e7c0db406f56f0ed37d9cb16"><td class="memTemplParams" colspan="2">template&lt;typename Iterator1 , typename Iterator2 , typename T , hydra::detail::Backend BACKEND&gt; </td></tr>
-<tr class="memitem:ga72325d25e7c0db406f56f0ed37d9cb16"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga72325d25e7c0db406f56f0ed37d9cb16">hydra::make_sparse_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, size_t nbins, T lowerlimit, T upperlimit, Iterator1 first, Iterator1 <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>, Iterator2 wfirst)</td></tr>
-<tr class="memdesc:ga72325d25e7c0db406f56f0ed37d9cb16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a 1-dimensional sparse histogram.  <a href="group__histogram.html#ga72325d25e7c0db406f56f0ed37d9cb16">More...</a><br /></td></tr>
-<tr class="separator:ga72325d25e7c0db406f56f0ed37d9cb16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf772e19944f8c86035f04729984ea5b3"><td class="memTemplParams" colspan="2">template&lt;typename T , hydra::detail::Backend BACKEND, typename Iterable &gt; </td></tr>
-<tr class="memitem:gaf772e19944f8c86035f04729984ea5b3"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#gaf772e19944f8c86035f04729984ea5b3">hydra::make_sparse_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, size_t nbins, T lowerlimit, T upperlimit, Iterable &amp;&amp;<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>)</td></tr>
-<tr class="memdesc:gaf772e19944f8c86035f04729984ea5b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a 1-dimensional sparse histogram.  <a href="group__histogram.html#gaf772e19944f8c86035f04729984ea5b3">More...</a><br /></td></tr>
-<tr class="separator:gaf772e19944f8c86035f04729984ea5b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga53da08c8853c06a09296703de19fcfcd"><td class="memTemplParams" colspan="2">template&lt;typename T , hydra::detail::Backend BACKEND, typename Iterable1 , typename Iterable2 &gt; </td></tr>
-<tr class="memitem:ga53da08c8853c06a09296703de19fcfcd"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable1 &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable2 &gt;::value, <a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga53da08c8853c06a09296703de19fcfcd">hydra::make_sparse_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, size_t nbins, T lowerlimit, T upperlimit, Iterable1 &amp;&amp;<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>, Iterable2 &amp;&amp;weights)</td></tr>
-<tr class="memdesc:ga53da08c8853c06a09296703de19fcfcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a 1-dimensional sparse histogram.  <a href="group__histogram.html#ga53da08c8853c06a09296703de19fcfcd">More...</a><br /></td></tr>
-<tr class="separator:ga53da08c8853c06a09296703de19fcfcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga44b5da88b7e3276c71f2873d8f52c8e8"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, hydra::detail::Backend BACKEND, typename Iterable &gt; </td></tr>
-<tr class="memitem:ga44b5da88b7e3276c71f2873d8f52c8e8"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga44b5da88b7e3276c71f2873d8f52c8e8">hydra::make_sparse_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, std::array&lt; size_t, N &gt;const &amp;grid, std::array&lt; T, N &gt;const &amp;lowerlimits, std::array&lt; T, N &gt;const &amp;upperlimits, Iterable &amp;&amp;<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>)</td></tr>
-<tr class="memdesc:ga44b5da88b7e3276c71f2873d8f52c8e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional sparse histogram.  <a href="group__histogram.html#ga44b5da88b7e3276c71f2873d8f52c8e8">More...</a><br /></td></tr>
-<tr class="separator:ga44b5da88b7e3276c71f2873d8f52c8e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac4d47defbb724b2a445de5bc66df2eff"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, hydra::detail::Backend BACKEND, typename Iterable1 , typename Iterable2 &gt; </td></tr>
-<tr class="memitem:gac4d47defbb724b2a445de5bc66df2eff"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable1 &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable2 &gt;::value, <a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#gac4d47defbb724b2a445de5bc66df2eff">hydra::make_sparse_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, std::array&lt; size_t, N &gt;const &amp;grid, std::array&lt; T, N &gt;const &amp;lowerlimits, std::array&lt; T, N &gt;const &amp;upperlimits, Iterable1 &amp;&amp;<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>, Iterable2 &amp;&amp;weights)</td></tr>
-<tr class="memdesc:gac4d47defbb724b2a445de5bc66df2eff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional sparse histogram.  <a href="group__histogram.html#gac4d47defbb724b2a445de5bc66df2eff">More...</a><br /></td></tr>
-<tr class="separator:gac4d47defbb724b2a445de5bc66df2eff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab6e3d78381f90c669fa336097d09d5c0"><td class="memTemplParams" colspan="2">template&lt;typename Iterator , typename T , hydra::detail::Backend BACKEND&gt; </td></tr>
-<tr class="memitem:gab6e3d78381f90c669fa336097d09d5c0"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#gab6e3d78381f90c669fa336097d09d5c0">hydra::make_sparse_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, size_t nbins, T lowerlimit, T upperlimit, Iterator first, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>)</td></tr>
-<tr class="memdesc:gab6e3d78381f90c669fa336097d09d5c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a 1-dimensional sparse histogram.  <a href="group__histogram.html#gab6e3d78381f90c669fa336097d09d5c0">More...</a><br /></td></tr>
-<tr class="separator:gab6e3d78381f90c669fa336097d09d5c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab7620416b81e1aeb9f0f721bedcc1fc0"><td class="memTemplParams" colspan="2">template&lt;typename T , typename Iterator , size_t N, hydra::detail::Backend BACKEND&gt; </td></tr>
+<tr class="memitem:gab7620416b81e1aeb9f0f721bedcc1fc0"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#gab7620416b81e1aeb9f0f721bedcc1fc0">hydra::make_dense_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, std::array&lt; size_t, N &gt;const &amp;grid, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;lowerlimits, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;upperlimits, Iterator first, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>)</td></tr>
+<tr class="memdesc:gab7620416b81e1aeb9f0f721bedcc1fc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional dense histogram.  <a href="group__histogram.html#gab7620416b81e1aeb9f0f721bedcc1fc0">More...</a><br /></td></tr>
+<tr class="separator:gab7620416b81e1aeb9f0f721bedcc1fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2473e6bf693982480a25a362fdd63cc9"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, hydra::detail::Backend BACKEND, typename Iterable &gt; </td></tr>
+<tr class="memitem:ga2473e6bf693982480a25a362fdd63cc9"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga2473e6bf693982480a25a362fdd63cc9">hydra::make_dense_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, std::array&lt; size_t, N &gt; const &amp;grid, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;lowerlimits, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;upperlimits, Iterable &amp;&amp;<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>)</td></tr>
+<tr class="memdesc:ga2473e6bf693982480a25a362fdd63cc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional dense histogram.  <a href="group__histogram.html#ga2473e6bf693982480a25a362fdd63cc9">More...</a><br /></td></tr>
+<tr class="separator:ga2473e6bf693982480a25a362fdd63cc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa3ee77b40d763eee2d828b62ee09537c"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, hydra::detail::Backend BACKEND, typename Iterable1 , typename Iterable2 &gt; </td></tr>
+<tr class="memitem:gaa3ee77b40d763eee2d828b62ee09537c"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable1 &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable2 &gt;::value, <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#gaa3ee77b40d763eee2d828b62ee09537c">hydra::make_dense_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, std::array&lt; size_t, N &gt; const &amp;grid, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;lowerlimits, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;upperlimits, Iterable1 &amp;&amp;<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>, Iterable2 &amp;&amp;weight)</td></tr>
+<tr class="memdesc:gaa3ee77b40d763eee2d828b62ee09537c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional dense histogram.  <a href="group__histogram.html#gaa3ee77b40d763eee2d828b62ee09537c">More...</a><br /></td></tr>
+<tr class="separator:gaa3ee77b40d763eee2d828b62ee09537c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa7c8d3794db72bd6ed086fe753450064"><td class="memTemplParams" colspan="2">template&lt;typename T , typename Iterator , hydra::detail::Backend BACKEND&gt; </td></tr>
+<tr class="memitem:gaa7c8d3794db72bd6ed086fe753450064"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#gaa7c8d3794db72bd6ed086fe753450064">hydra::make_dense_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, size_t nbins, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> lowerlimit, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> upperlimit, Iterator first, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>)</td></tr>
+<tr class="memdesc:gaa7c8d3794db72bd6ed086fe753450064"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a 1-dimensional dense histogram.  <a href="group__histogram.html#gaa7c8d3794db72bd6ed086fe753450064">More...</a><br /></td></tr>
+<tr class="separator:gaa7c8d3794db72bd6ed086fe753450064"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa749f1d4034e7b8bb43dccf4738f152e"><td class="memTemplParams" colspan="2">template&lt;typename T , typename Iterator1 , typename Iterator2 , hydra::detail::Backend BACKEND&gt; </td></tr>
+<tr class="memitem:gaa749f1d4034e7b8bb43dccf4738f152e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#gaa749f1d4034e7b8bb43dccf4738f152e">hydra::make_dense_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, size_t nbins, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> lowerlimit, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> upperlimit, Iterator1 first, Iterator1 <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>, Iterator2 wfirst)</td></tr>
+<tr class="memdesc:gaa749f1d4034e7b8bb43dccf4738f152e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a 1-dimensional dense histogram.  <a href="group__histogram.html#gaa749f1d4034e7b8bb43dccf4738f152e">More...</a><br /></td></tr>
+<tr class="separator:gaa749f1d4034e7b8bb43dccf4738f152e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac56cd763e01bdb74bc09de1f29624b8f"><td class="memTemplParams" colspan="2">template&lt;typename T , hydra::detail::Backend BACKEND, typename Iterable &gt; </td></tr>
+<tr class="memitem:gac56cd763e01bdb74bc09de1f29624b8f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#gac56cd763e01bdb74bc09de1f29624b8f">hydra::make_dense_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, size_t nbins, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> lowerlimits, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> upperlimits, Iterable &amp;&amp;<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>)</td></tr>
+<tr class="memdesc:gac56cd763e01bdb74bc09de1f29624b8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional dense histogram.  <a href="group__histogram.html#gac56cd763e01bdb74bc09de1f29624b8f">More...</a><br /></td></tr>
+<tr class="separator:gac56cd763e01bdb74bc09de1f29624b8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7c4020d4319e6061c1845212bdd0b8d9"><td class="memTemplParams" colspan="2">template&lt;typename T , hydra::detail::Backend BACKEND, typename Iterable1 , typename Iterable2 &gt; </td></tr>
+<tr class="memitem:ga7c4020d4319e6061c1845212bdd0b8d9"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable1 &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable2 &gt;::value, <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga7c4020d4319e6061c1845212bdd0b8d9">hydra::make_dense_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, size_t nbins, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> lowerlimits, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> upperlimits, Iterable1 &amp;&amp;<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>, Iterable2 &amp;&amp;weight)</td></tr>
+<tr class="memdesc:ga7c4020d4319e6061c1845212bdd0b8d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional dense histogram.  <a href="group__histogram.html#ga7c4020d4319e6061c1845212bdd0b8d9">More...</a><br /></td></tr>
+<tr class="separator:ga7c4020d4319e6061c1845212bdd0b8d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga419ee6032f86ed4acfe3c0c1644d548e"><td class="memTemplParams" colspan="2">template&lt;typename T , typename Iterator , size_t N, hydra::detail::Backend BACKEND&gt; </td></tr>
+<tr class="memitem:ga419ee6032f86ed4acfe3c0c1644d548e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga419ee6032f86ed4acfe3c0c1644d548e">hydra::make_sparse_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, std::array&lt; size_t, N &gt; grid, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const  &amp;lowerlimits, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const  &amp;upperlimits, Iterator first, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>)</td></tr>
+<tr class="memdesc:ga419ee6032f86ed4acfe3c0c1644d548e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional sparse histogram.  <a href="group__histogram.html#ga419ee6032f86ed4acfe3c0c1644d548e">More...</a><br /></td></tr>
+<tr class="separator:ga419ee6032f86ed4acfe3c0c1644d548e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf67b0ac7cd251adcc5a4b04921bb07ee"><td class="memTemplParams" colspan="2">template&lt;typename T , typename Iterator1 , typename Iterator2 , size_t N, hydra::detail::Backend BACKEND&gt; </td></tr>
+<tr class="memitem:gaf67b0ac7cd251adcc5a4b04921bb07ee"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#gaf67b0ac7cd251adcc5a4b04921bb07ee">hydra::make_sparse_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, std::array&lt; size_t, N &gt; grid, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const  &amp;lowerlimits, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const  &amp;upperlimits, Iterator1 first, Iterator1 <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>, Iterator2 wfirst)</td></tr>
+<tr class="memdesc:gaf67b0ac7cd251adcc5a4b04921bb07ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional sparse histogram.  <a href="group__histogram.html#gaf67b0ac7cd251adcc5a4b04921bb07ee">More...</a><br /></td></tr>
+<tr class="separator:gaf67b0ac7cd251adcc5a4b04921bb07ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4c396d8629e1982552d740a5524c63de"><td class="memTemplParams" colspan="2">template&lt;typename T , typename Iterator1 , typename Iterator2 , hydra::detail::Backend BACKEND&gt; </td></tr>
+<tr class="memitem:ga4c396d8629e1982552d740a5524c63de"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga4c396d8629e1982552d740a5524c63de">hydra::make_sparse_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, size_t nbins, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> lowerlimit, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> upperlimit, Iterator1 first, Iterator1 <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>, Iterator2 wfirst)</td></tr>
+<tr class="memdesc:ga4c396d8629e1982552d740a5524c63de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a 1-dimensional sparse histogram.  <a href="group__histogram.html#ga4c396d8629e1982552d740a5524c63de">More...</a><br /></td></tr>
+<tr class="separator:ga4c396d8629e1982552d740a5524c63de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga78a0f873d98142f0c26c5ad261d05cba"><td class="memTemplParams" colspan="2">template&lt;typename T , hydra::detail::Backend BACKEND, typename Iterable &gt; </td></tr>
+<tr class="memitem:ga78a0f873d98142f0c26c5ad261d05cba"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga78a0f873d98142f0c26c5ad261d05cba">hydra::make_sparse_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, size_t nbins, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> lowerlimit, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> upperlimit, Iterable &amp;&amp;<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>)</td></tr>
+<tr class="memdesc:ga78a0f873d98142f0c26c5ad261d05cba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a 1-dimensional sparse histogram.  <a href="group__histogram.html#ga78a0f873d98142f0c26c5ad261d05cba">More...</a><br /></td></tr>
+<tr class="separator:ga78a0f873d98142f0c26c5ad261d05cba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf6fdfe0a2e5a4a27cf6b16923f0411e0"><td class="memTemplParams" colspan="2">template&lt;typename T , hydra::detail::Backend BACKEND, typename Iterable1 , typename Iterable2 &gt; </td></tr>
+<tr class="memitem:gaf6fdfe0a2e5a4a27cf6b16923f0411e0"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable1 &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable2 &gt;::value, <a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#gaf6fdfe0a2e5a4a27cf6b16923f0411e0">hydra::make_sparse_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, size_t nbins, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> lowerlimit, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> upperlimit, Iterable1 &amp;&amp;<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>, Iterable2 &amp;&amp;weights)</td></tr>
+<tr class="memdesc:gaf6fdfe0a2e5a4a27cf6b16923f0411e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a 1-dimensional sparse histogram.  <a href="group__histogram.html#gaf6fdfe0a2e5a4a27cf6b16923f0411e0">More...</a><br /></td></tr>
+<tr class="separator:gaf6fdfe0a2e5a4a27cf6b16923f0411e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa016aeeffc6f380d7b2b285bd05047fd"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, hydra::detail::Backend BACKEND, typename Iterable &gt; </td></tr>
+<tr class="memitem:gaa016aeeffc6f380d7b2b285bd05047fd"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable &gt;::value, <a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#gaa016aeeffc6f380d7b2b285bd05047fd">hydra::make_sparse_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, std::array&lt; size_t, N &gt;const &amp;grid, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;lowerlimits, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;upperlimits, Iterable &amp;&amp;<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>)</td></tr>
+<tr class="memdesc:gaa016aeeffc6f380d7b2b285bd05047fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional sparse histogram.  <a href="group__histogram.html#gaa016aeeffc6f380d7b2b285bd05047fd">More...</a><br /></td></tr>
+<tr class="separator:gaa016aeeffc6f380d7b2b285bd05047fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7e1c4d518f6b5ea220d59f730ada13ef"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t N, hydra::detail::Backend BACKEND, typename Iterable1 , typename Iterable2 &gt; </td></tr>
+<tr class="memitem:ga7e1c4d518f6b5ea220d59f730ada13ef"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable1 &gt;::value &amp;&amp;<a class="el" href="structhydra_1_1detail_1_1is__iterable.html">hydra::detail::is_iterable</a>&lt; Iterable2 &gt;::value, <a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga7e1c4d518f6b5ea220d59f730ada13ef">hydra::make_sparse_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, std::array&lt; size_t, N &gt;const &amp;grid, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;lowerlimits, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;upperlimits, Iterable1 &amp;&amp;<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>, Iterable2 &amp;&amp;weights)</td></tr>
+<tr class="memdesc:ga7e1c4d518f6b5ea220d59f730ada13ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a N-dimensional sparse histogram.  <a href="group__histogram.html#ga7e1c4d518f6b5ea220d59f730ada13ef">More...</a><br /></td></tr>
+<tr class="separator:ga7e1c4d518f6b5ea220d59f730ada13ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga23b63e6a525a040fcf4d1ec9f3335b92"><td class="memTemplParams" colspan="2">template&lt;typename T , typename Iterator , hydra::detail::Backend BACKEND&gt; </td></tr>
+<tr class="memitem:ga23b63e6a525a040fcf4d1ec9f3335b92"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ga23b63e6a525a040fcf4d1ec9f3335b92">hydra::make_sparse_histogram</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt; backend, size_t nbins, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> lowerlimit, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> upperlimit, Iterator first, Iterator <a class="el" href="namespacehydra.html#a4274268d147e9a988f379326b73682b0">end</a>)</td></tr>
+<tr class="memdesc:ga23b63e6a525a040fcf4d1ec9f3335b92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to make a 1-dimensional sparse histogram.  <a href="group__histogram.html#ga23b63e6a525a040fcf4d1ec9f3335b92">More...</a><br /></td></tr>
+<tr class="separator:ga23b63e6a525a040fcf4d1ec9f3335b92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Histogram. </p>
@@ -204,7 +204,7 @@ Functions</h2></td></tr>
 <div class="textblock"><h3>template&lt;typename T, size_t N, typename BACKEND, typename = typename detail::dimensionality&lt;N&gt;::type, typename = typename std::enable_if&lt;std::is_arithmetic&lt;T&gt;::value, void&gt;::type&gt;<br />
 class hydra::DenseHistogram&lt; T, N, BACKEND, typename, typename &gt;</h3>
 
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="basic_fit_8inl-example.html#_a26">basic_fit.inl</a>, <a class="el" href="basic_fit_range_semantics_8inl-example.html#_a35">basic_fit_range_semantics.inl</a>, <a class="el" href="binned_extended_logLL_fit_8inl-example.html#_a32">binned_extended_logLL_fit.inl</a>, <a class="el" href="breit_wigner_plus_polynomial_8inl-example.html#_a39">breit_wigner_plus_polynomial.inl</a>, <a class="el" href="crystal_ball_plus_exponential_8inl-example.html#_a40">crystal_ball_plus_exponential.inl</a>, <a class="el" href="dense_histogram_8inl-example.html#_a17">dense_histogram.inl</a>, <a class="el" href="double_gaussian_plus_exponential_8inl-example.html#_a41">double_gaussian_plus_exponential.inl</a>, <a class="el" href="extended_logLL_fit_8inl-example.html#_a43">extended_logLL_fit.inl</a>, <a class="el" href="fit_convoluted_pdfs_8inl-example.html#_a40">fit_convoluted_pdfs.inl</a>, <a class="el" href="fit_gaussian_8C-example.html#_a30">fit_gaussian.C</a>, <a class="el" href="fit_johnson_8C-example.html#_a31">fit_johnson.C</a>, <a class="el" href="fractional_logLL_fit_8inl-example.html#_a41">fractional_logLL_fit.inl</a>, <a class="el" href="gaussian_plus_argus_8inl-example.html#_a42">gaussian_plus_argus.inl</a>, <a class="el" href="multidimensional_fit_8inl-example.html#_a54">multidimensional_fit.inl</a>, <a class="el" href="range_semantics_8inl-example.html#_a26">range_semantics.inl</a>, and <a class="el" href="splot_8inl-example.html#_a43">splot.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="basic_fit_8inl-example.html#_a26">basic_fit.inl</a>, <a class="el" href="basic_fit_range_semantics_8inl-example.html#_a35">basic_fit_range_semantics.inl</a>, <a class="el" href="binned_extended_logLL_fit_8inl-example.html#_a32">binned_extended_logLL_fit.inl</a>, <a class="el" href="breit_wigner_plus_polynomial_8inl-example.html#_a40">breit_wigner_plus_polynomial.inl</a>, <a class="el" href="crystal_ball_plus_exponential_8inl-example.html#_a40">crystal_ball_plus_exponential.inl</a>, <a class="el" href="dense_histogram_8inl-example.html#_a17">dense_histogram.inl</a>, <a class="el" href="double_gaussian_plus_exponential_8inl-example.html#_a41">double_gaussian_plus_exponential.inl</a>, <a class="el" href="extended_logLL_fit_8inl-example.html#_a43">extended_logLL_fit.inl</a>, <a class="el" href="fit_convoluted_pdfs_8inl-example.html#_a38">fit_convoluted_pdfs.inl</a>, <a class="el" href="fit_gaussian_8C-example.html#_a23">fit_gaussian.C</a>, <a class="el" href="fit_johnson_8C-example.html#_a25">fit_johnson.C</a>, <a class="el" href="fractional_logLL_fit_8inl-example.html#_a41">fractional_logLL_fit.inl</a>, <a class="el" href="gaussian_plus_argus_8inl-example.html#_a42">gaussian_plus_argus.inl</a>, <a class="el" href="multidimensional_fit_8inl-example.html#_a54">multidimensional_fit.inl</a>, <a class="el" href="range_semantics_8inl-example.html#_a27">range_semantics.inl</a>, and <a class="el" href="splot_8inl-example.html#_a43">splot.inl</a>.</dd>
 </dl></div><div class="dynheader">
 Collaboration diagram for hydra::DenseHistogram&lt; T, N, BACKEND, typename, typename &gt;:</div>
 <div class="dyncontent">
@@ -239,8 +239,8 @@ Collaboration diagram for hydra::DenseHistogram&lt; T, 1, hydra::detail::Backend
 <tr><td colspan="2"><h3>Public Member Functions</h3></td></tr>
 <tr class="memitem:a8a41f268b429de027dcbe2dd60662e78"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a8a41f268b429de027dcbe2dd60662e78">DenseHistogram</a> ()=delete</td></tr>
 <tr class="separator:a8a41f268b429de027dcbe2dd60662e78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a805c3fb87d39aeaf1b852c16b65922e2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a805c3fb87d39aeaf1b852c16b65922e2">DenseHistogram</a> (size_t grid, T lowerlimits, T upperlimits)</td></tr>
-<tr class="separator:a805c3fb87d39aeaf1b852c16b65922e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d4004d36326e0634c87593e5dacc20e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a7d4004d36326e0634c87593e5dacc20e">DenseHistogram</a> (size_t grid, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> lowerlimits, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> upperlimits)</td></tr>
+<tr class="separator:a7d4004d36326e0634c87593e5dacc20e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa2a61d34a33f77913e00f41c97e7018"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#aaa2a61d34a33f77913e00f41c97e7018">DenseHistogram</a> (<a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt; const &amp;other)</td></tr>
 <tr class="separator:aaa2a61d34a33f77913e00f41c97e7018"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16bc02ca0e86b16f1554a8020b24b59a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a16bc02ca0e86b16f1554a8020b24b59a">DenseHistogram</a> (<a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt; &amp;&amp;other)</td></tr>
@@ -278,8 +278,8 @@ Collaboration diagram for hydra::DenseHistogram&lt; T, 1, hydra::detail::Backend
 <tr class="separator:a1b72cab6e6a0b911d49704d23746c2bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a532415f5d8522de87048f918b0812399"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a532415f5d8522de87048f918b0812399">GetBinContent</a> (size_t i)</td></tr>
 <tr class="separator:a532415f5d8522de87048f918b0812399"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a559f54a23535b6e8d6766b0602a696f7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; hydra_thrust::transform_iterator&lt; <a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html">detail::GetBinCenter</a>&lt; T, 1 &gt;, hydra_thrust::counting_iterator&lt; size_t &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a559f54a23535b6e8d6766b0602a696f7">GetBinsCenters</a> () const</td></tr>
-<tr class="separator:a559f54a23535b6e8d6766b0602a696f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45cb0f03ecd6ab7bf813eb7a44b7dd4c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; hydra::thrust::transform_iterator&lt; <a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html">detail::GetBinCenter</a>&lt; T, 1 &gt;, hydra::thrust::counting_iterator&lt; size_t &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a45cb0f03ecd6ab7bf813eb7a44b7dd4c">GetBinsCenters</a> () const</td></tr>
+<tr class="separator:a45cb0f03ecd6ab7bf813eb7a44b7dd4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2e3bf451ce00a7c34a78cc1dd33f35e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; const_iterator &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#ad2e3bf451ce00a7c34a78cc1dd33f35e">GetBinsContents</a> () const</td></tr>
 <tr class="separator:ad2e3bf451ce00a7c34a78cc1dd33f35e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a671642395982689513f91e43e67d40c9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; iterator &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a671642395982689513f91e43e67d40c9">GetBinsContents</a> ()</td></tr>
@@ -338,8 +338,8 @@ template&lt;typename T , hydra::detail::Backend BACKEND&gt; </div>
 
 </div>
 </div>
-<a id="a805c3fb87d39aeaf1b852c16b65922e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a805c3fb87d39aeaf1b852c16b65922e2">&#9670;&nbsp;</a></span>DenseHistogram() <span class="overload">[2/5]</span></h2>
+<a id="a7d4004d36326e0634c87593e5dacc20e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d4004d36326e0634c87593e5dacc20e">&#9670;&nbsp;</a></span>DenseHistogram() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -358,13 +358,13 @@ template&lt;typename T , hydra::detail::Backend BACKEND&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>lowerlimits</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>upperlimits</em>&#160;</td>
         </tr>
         <tr>
@@ -870,8 +870,8 @@ template&lt;typename T , hydra::detail::Backend BACKEND&gt; </div>
 
 </div>
 </div>
-<a id="a559f54a23535b6e8d6766b0602a696f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a559f54a23535b6e8d6766b0602a696f7">&#9670;&nbsp;</a></span>GetBinsCenters()</h2>
+<a id="a45cb0f03ecd6ab7bf813eb7a44b7dd4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45cb0f03ecd6ab7bf813eb7a44b7dd4c">&#9670;&nbsp;</a></span>GetBinsCenters()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -882,7 +882,7 @@ template&lt;typename T , hydra::detail::Backend BACKEND&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt;hydra_thrust::transform_iterator&lt;<a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html">detail::GetBinCenter</a>&lt;T,1&gt;, hydra_thrust::counting_iterator&lt;size_t&gt; &gt; &gt; <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">hydra::DenseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt;::GetBinsCenters </td>
+          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt;hydra::thrust::transform_iterator&lt;<a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html">detail::GetBinCenter</a>&lt;T,1&gt;, hydra::thrust::counting_iterator&lt;size_t&gt; &gt; &gt; <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">hydra::DenseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt;::GetBinsCenters </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1319,16 +1319,16 @@ Collaboration diagram for hydra::DenseHistogram&lt; T, N, detail::BackendPolicy&
 <tr><td colspan="2"><h3>Public Member Functions</h3></td></tr>
 <tr class="memitem:a9ba5534a5107755bfb65927516cdf8b1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a9ba5534a5107755bfb65927516cdf8b1">DenseHistogram</a> ()=delete</td></tr>
 <tr class="separator:a9ba5534a5107755bfb65927516cdf8b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04b59974c9b28c0476ae0c489c661b87"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a04b59974c9b28c0476ae0c489c661b87">DenseHistogram</a> (std::array&lt; size_t, N &gt; grid, std::array&lt; T, N &gt; const &amp;lowerlimits, std::array&lt; T, N &gt; const &amp;upperlimits)</td></tr>
-<tr class="separator:a04b59974c9b28c0476ae0c489c661b87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e07c5cbfefa9e26aee56d6181921d7d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a3e07c5cbfefa9e26aee56d6181921d7d">DenseHistogram</a> (size_t(&amp;grid)[N], T(&amp;lowerlimits)[N], T(&amp;upperlimits)[N])</td></tr>
-<tr class="separator:a3e07c5cbfefa9e26aee56d6181921d7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3448f9877a31ee5cee2ba8736f1206a"><td class="memTemplParams" colspan="2">template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integral&lt;Int&gt;::value, void&gt;::type&gt; </td></tr>
-<tr class="memitem:aa3448f9877a31ee5cee2ba8736f1206a"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#aa3448f9877a31ee5cee2ba8736f1206a">DenseHistogram</a> (std::array&lt; Int, N &gt; grid, std::array&lt; T, N &gt; const &amp;lowerlimits, std::array&lt; T, N &gt; const &amp;upperlimits)</td></tr>
-<tr class="separator:aa3448f9877a31ee5cee2ba8736f1206a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59296b9dff347fcd28cded5be100aa6b"><td class="memTemplParams" colspan="2">template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integral&lt;Int&gt;::value, void&gt;::type&gt; </td></tr>
-<tr class="memitem:a59296b9dff347fcd28cded5be100aa6b"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#a59296b9dff347fcd28cded5be100aa6b">DenseHistogram</a> (Int(&amp;grid)[N], T(&amp;lowerlimits)[N], T(&amp;upperlimits)[N])</td></tr>
-<tr class="separator:a59296b9dff347fcd28cded5be100aa6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab14493f5687de3a18e56676f76258e73"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#ab14493f5687de3a18e56676f76258e73">DenseHistogram</a> (std::array&lt; size_t, N &gt; grid, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;lowerlimits, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;upperlimits)</td></tr>
+<tr class="separator:ab14493f5687de3a18e56676f76258e73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e3ef201040163b67f9ae37d3f3c13f5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a9e3ef201040163b67f9ae37d3f3c13f5">DenseHistogram</a> (size_t(&amp;grid)[N], <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>(&amp;lowerlimits)[N], <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>(&amp;upperlimits)[N])</td></tr>
+<tr class="separator:a9e3ef201040163b67f9ae37d3f3c13f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97c6a0256381e78ff39249c1a9ca80f1"><td class="memTemplParams" colspan="2">template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integral&lt;Int&gt;::value, void&gt;::type&gt; </td></tr>
+<tr class="memitem:a97c6a0256381e78ff39249c1a9ca80f1"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#a97c6a0256381e78ff39249c1a9ca80f1">DenseHistogram</a> (std::array&lt; Int, N &gt; grid, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;lowerlimits, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;upperlimits)</td></tr>
+<tr class="separator:a97c6a0256381e78ff39249c1a9ca80f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85c97f74c24245615c079d60ed27c3e3"><td class="memTemplParams" colspan="2">template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integral&lt;Int&gt;::value, void&gt;::type&gt; </td></tr>
+<tr class="memitem:a85c97f74c24245615c079d60ed27c3e3"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#a85c97f74c24245615c079d60ed27c3e3">DenseHistogram</a> (Int(&amp;grid)[N], <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>(&amp;lowerlimits)[N], <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>(&amp;upperlimits)[N])</td></tr>
+<tr class="separator:a85c97f74c24245615c079d60ed27c3e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d9438b2bd7a04de5f46d0b5ba8bf41d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a1d9438b2bd7a04de5f46d0b5ba8bf41d">DenseHistogram</a> (<a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; const &amp;other)</td></tr>
 <tr class="separator:a1d9438b2bd7a04de5f46d0b5ba8bf41d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52cb710e2e6671fd9d8c924b177c8bce"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a52cb710e2e6671fd9d8c924b177c8bce">DenseHistogram</a> (<a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; &amp;&amp;other)</td></tr>
@@ -1392,8 +1392,11 @@ Collaboration diagram for hydra::DenseHistogram&lt; T, N, detail::BackendPolicy&
 <tr class="separator:a79bfbe56b1c2052ba03356ac2b9fd4e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adee5cd8bf4013f1f8bb7eec500245d92"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#adee5cd8bf4013f1f8bb7eec500245d92">GetBinContent</a> (size_t bin)</td></tr>
 <tr class="separator:adee5cd8bf4013f1f8bb7eec500245d92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b199e9b4eb644c62de5565524150911"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; hydra_thrust::transform_iterator&lt; <a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html">detail::GetBinCenter</a>&lt; T, N &gt;, hydra_thrust::counting_iterator&lt; size_t &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a4b199e9b4eb644c62de5565524150911">GetBinsCenters</a> ()</td></tr>
-<tr class="separator:a4b199e9b4eb644c62de5565524150911"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc6bec9f4c04ffb1b299bc144543c31c"><td class="memTemplParams" colspan="2">template&lt;unsigned int I&gt; </td></tr>
+<tr class="memitem:abc6bec9f4c04ffb1b299bc144543c31c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; hydra::thrust::transform_iterator&lt; <a class="el" href="structhydra_1_1detail_1_1GetAxisBinCenter.html">detail::GetAxisBinCenter</a>&lt; T, N, I &gt;, hydra::thrust::counting_iterator&lt; size_t &gt; &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#abc6bec9f4c04ffb1b299bc144543c31c">GetBinsCenters</a> (<a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">placeholders::placeholder</a>&lt; I &gt;)</td></tr>
+<tr class="separator:abc6bec9f4c04ffb1b299bc144543c31c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50a033fe4dfe5f434ed5d5579674f534"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; hydra::thrust::transform_iterator&lt; <a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html">detail::GetBinCenter</a>&lt; T, N &gt;, hydra::thrust::counting_iterator&lt; size_t &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a50a033fe4dfe5f434ed5d5579674f534">GetBinsCenters</a> ()</td></tr>
+<tr class="separator:a50a033fe4dfe5f434ed5d5579674f534"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15caf3bd9a1d9994d605cae3a49d3109"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; const_iterator &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a15caf3bd9a1d9994d605cae3a49d3109">GetBinsContents</a> () const</td></tr>
 <tr class="separator:a15caf3bd9a1d9994d605cae3a49d3109"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa76ee551b5da216e5d8a8284f9b6a378"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; iterator &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#aa76ee551b5da216e5d8a8284f9b6a378">GetBinsContents</a> ()</td></tr>
@@ -1418,6 +1421,15 @@ Collaboration diagram for hydra::DenseHistogram&lt; T, N, detail::BackendPolicy&
 <tr class="separator:aee6a96bf9e23db6f6b7ab0ecdfe86bfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b8a5ce2c5a1c7b02a63110ee8358d6d"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a7b8a5ce2c5a1c7b02a63110ee8358d6d">GetUpperLimits</a> (size_t i) const</td></tr>
 <tr class="separator:a7b8a5ce2c5a1c7b02a63110ee8358d6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b7d16b79c04bcf0329b60b4b654c9b4"><td class="memTemplParams" colspan="2">template&lt;size_t M = N&gt; </td></tr>
+<tr class="memitem:a3b7d16b79c04bcf0329b60b4b654c9b4"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; M==2, T &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#a3b7d16b79c04bcf0329b60b4b654c9b4">Interpolate</a> (std::array&lt; size_t, 2 &gt; const &amp;point)</td></tr>
+<tr class="separator:a3b7d16b79c04bcf0329b60b4b654c9b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7149cae4b4c417964f9a94421b1fb55b"><td class="memTemplParams" colspan="2">template&lt;size_t M = N&gt; </td></tr>
+<tr class="memitem:a7149cae4b4c417964f9a94421b1fb55b"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; M==3, T &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#a7149cae4b4c417964f9a94421b1fb55b">Interpolate</a> (std::array&lt; size_t, 3 &gt; const &amp;point)</td></tr>
+<tr class="separator:a7149cae4b4c417964f9a94421b1fb55b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2c307856cc914320b1144328b91c306"><td class="memTemplParams" colspan="2">template&lt;size_t M = N&gt; </td></tr>
+<tr class="memitem:ac2c307856cc914320b1144328b91c306"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; M==4, T &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#ac2c307856cc914320b1144328b91c306">Interpolate</a> (std::array&lt; size_t, 4 &gt; const &amp;point)</td></tr>
+<tr class="separator:ac2c307856cc914320b1144328b91c306"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0e92e56975b87c6160c3f2fd8641274"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#ad0e92e56975b87c6160c3f2fd8641274">operator=</a> (<a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; const &amp;other)</td></tr>
 <tr class="separator:ad0e92e56975b87c6160c3f2fd8641274"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae34e0b09c2269d5a35b0cf23d63720d1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#ae34e0b09c2269d5a35b0cf23d63720d1">operator=</a> (<a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; &amp;&amp;other)</td></tr>
@@ -1462,8 +1474,8 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
 
 </div>
 </div>
-<a id="a04b59974c9b28c0476ae0c489c661b87"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04b59974c9b28c0476ae0c489c661b87">&#9670;&nbsp;</a></span>DenseHistogram() <span class="overload">[2/8]</span></h2>
+<a id="ab14493f5687de3a18e56676f76258e73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab14493f5687de3a18e56676f76258e73">&#9670;&nbsp;</a></span>DenseHistogram() <span class="overload">[2/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1482,13 +1494,13 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>lowerlimits</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>upperlimits</em>&#160;</td>
         </tr>
         <tr>
@@ -1506,8 +1518,8 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
 
 </div>
 </div>
-<a id="a3e07c5cbfefa9e26aee56d6181921d7d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3e07c5cbfefa9e26aee56d6181921d7d">&#9670;&nbsp;</a></span>DenseHistogram() <span class="overload">[3/8]</span></h2>
+<a id="a9e3ef201040163b67f9ae37d3f3c13f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e3ef201040163b67f9ae37d3f3c13f5">&#9670;&nbsp;</a></span>DenseHistogram() <span class="overload">[3/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1526,13 +1538,13 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T(&amp;)&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>(&amp;)&#160;</td>
           <td class="paramname"><em>lowerlimits</em>[N], </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T(&amp;)&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>(&amp;)&#160;</td>
           <td class="paramname"><em>upperlimits</em>[N]&#160;</td>
         </tr>
         <tr>
@@ -1550,8 +1562,8 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
 
 </div>
 </div>
-<a id="aa3448f9877a31ee5cee2ba8736f1206a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3448f9877a31ee5cee2ba8736f1206a">&#9670;&nbsp;</a></span>DenseHistogram() <span class="overload">[4/8]</span></h2>
+<a id="a97c6a0256381e78ff39249c1a9ca80f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97c6a0256381e78ff39249c1a9ca80f1">&#9670;&nbsp;</a></span>DenseHistogram() <span class="overload">[4/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1572,13 +1584,13 @@ template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integr
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>lowerlimits</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>upperlimits</em>&#160;</td>
         </tr>
         <tr>
@@ -1596,8 +1608,8 @@ template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integr
 
 </div>
 </div>
-<a id="a59296b9dff347fcd28cded5be100aa6b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59296b9dff347fcd28cded5be100aa6b">&#9670;&nbsp;</a></span>DenseHistogram() <span class="overload">[5/8]</span></h2>
+<a id="a85c97f74c24245615c079d60ed27c3e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85c97f74c24245615c079d60ed27c3e3">&#9670;&nbsp;</a></span>DenseHistogram() <span class="overload">[5/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1618,13 +1630,13 @@ template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integr
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T(&amp;)&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>(&amp;)&#160;</td>
           <td class="paramname"><em>lowerlimits</em>[N], </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T(&amp;)&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>(&amp;)&#160;</td>
           <td class="paramname"><em>upperlimits</em>[N]&#160;</td>
         </tr>
         <tr>
@@ -2460,8 +2472,38 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
 
 </div>
 </div>
-<a id="a4b199e9b4eb644c62de5565524150911"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4b199e9b4eb644c62de5565524150911">&#9670;&nbsp;</a></span>GetBinsCenters()</h2>
+<a id="abc6bec9f4c04ffb1b299bc144543c31c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc6bec9f4c04ffb1b299bc144543c31c">&#9670;&nbsp;</a></span>GetBinsCenters() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
+<div class="memtemplate">
+template&lt;unsigned int I&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt;hydra::thrust::transform_iterator&lt;<a class="el" href="structhydra_1_1detail_1_1GetAxisBinCenter.html">detail::GetAxisBinCenter</a>&lt;T,N,I&gt;, hydra::thrust::counting_iterator&lt;size_t&gt; &gt; &gt; <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">hydra::DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;::GetBinsCenters </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">placeholders::placeholder</a>&lt; I &gt;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a50a033fe4dfe5f434ed5d5579674f534"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50a033fe4dfe5f434ed5d5579674f534">&#9670;&nbsp;</a></span>GetBinsCenters() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2472,7 +2514,7 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt;hydra_thrust::transform_iterator&lt;<a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html">detail::GetBinCenter</a>&lt;T,N&gt;, hydra_thrust::counting_iterator&lt;size_t&gt; &gt; &gt; <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">hydra::DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;::GetBinsCenters </td>
+          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt;hydra::thrust::transform_iterator&lt;<a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html">detail::GetBinCenter</a>&lt;T,N&gt;, hydra::thrust::counting_iterator&lt;size_t&gt; &gt; &gt; <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">hydra::DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;::GetBinsCenters </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -2835,6 +2877,96 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
 
 </div>
 </div>
+<a id="a3b7d16b79c04bcf0329b60b4b654c9b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b7d16b79c04bcf0329b60b4b654c9b4">&#9670;&nbsp;</a></span>Interpolate() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
+<div class="memtemplate">
+template&lt;size_t M&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; M==2, T &gt;::type <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">hydra::DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;::Interpolate </td>
+          <td>(</td>
+          <td class="paramtype">std::array&lt; size_t, 2 &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>point</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7149cae4b4c417964f9a94421b1fb55b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7149cae4b4c417964f9a94421b1fb55b">&#9670;&nbsp;</a></span>Interpolate() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
+<div class="memtemplate">
+template&lt;size_t M&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; M==3, T &gt;::type <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">hydra::DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;::Interpolate </td>
+          <td>(</td>
+          <td class="paramtype">std::array&lt; size_t, 3 &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>point</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac2c307856cc914320b1144328b91c306"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2c307856cc914320b1144328b91c306">&#9670;&nbsp;</a></span>Interpolate() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
+<div class="memtemplate">
+template&lt;size_t M&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; M==4, T &gt;::type <a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">hydra::DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;::Interpolate </td>
+          <td>(</td>
+          <td class="paramtype">std::array&lt; size_t, 4 &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>point</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ad0e92e56975b87c6160c3f2fd8641274"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad0e92e56975b87c6160c3f2fd8641274">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/3]</span></h2>
 
@@ -3049,7 +3181,7 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
 <div class="textblock"><h3>template&lt;typename T, size_t N, typename BACKEND, typename = typename detail::dimensionality&lt;N&gt;::type, typename = typename std::enable_if&lt;std::is_arithmetic&lt;T&gt;::value, void&gt;::type&gt;<br />
 class hydra::SparseHistogram&lt; T, N, BACKEND, typename, typename &gt;</h3>
 
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8C-example.html#_a47">dalitz_plot.C</a>, and <a class="el" href="dalitz_plot_8inl-example.html#_a52">dalitz_plot.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8C-example.html#_a50">dalitz_plot.C</a>, and <a class="el" href="dalitz_plot_8inl-example.html#_a53">dalitz_plot.inl</a>.</dd>
 </dl></div><div class="dynheader">
 Collaboration diagram for hydra::SparseHistogram&lt; T, N, BACKEND, typename, typename &gt;:</div>
 <div class="dyncontent">
@@ -3084,8 +3216,8 @@ Collaboration diagram for hydra::SparseHistogram&lt; T, 1, detail::BackendPolicy
 <tr><td colspan="2"><h3>Public Member Functions</h3></td></tr>
 <tr class="memitem:acbf5d03ccc2905a7ec0734f9e2cee9a1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#acbf5d03ccc2905a7ec0734f9e2cee9a1">SparseHistogram</a> ()=delete</td></tr>
 <tr class="separator:acbf5d03ccc2905a7ec0734f9e2cee9a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0b81bb3e0dd479bd055a83ce874ee34"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#ab0b81bb3e0dd479bd055a83ce874ee34">SparseHistogram</a> (size_t grid, T lowerlimits, T upperlimits)</td></tr>
-<tr class="separator:ab0b81bb3e0dd479bd055a83ce874ee34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae3ea53192de6cab966869f59ec73510"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#aae3ea53192de6cab966869f59ec73510">SparseHistogram</a> (size_t grid, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> lowerlimits, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> upperlimits)</td></tr>
+<tr class="separator:aae3ea53192de6cab966869f59ec73510"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8cc4addb63390acaafc5fcac71b6c04"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#ae8cc4addb63390acaafc5fcac71b6c04">SparseHistogram</a> (<a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt; const &amp;other)</td></tr>
 <tr class="separator:ae8cc4addb63390acaafc5fcac71b6c04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b7d4c58a8624c5f5ef28820769c9c4c"><td class="memTemplParams" colspan="2">template&lt;hydra::detail::Backend BACKEND2&gt; </td></tr>
@@ -3123,8 +3255,8 @@ Collaboration diagram for hydra::SparseHistogram&lt; T, 1, detail::BackendPolicy
 <tr class="separator:acf17c611705820631b352c720612849f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49d3fe3b4c892c2197f08d12446fc4e6"><td class="memItemLeft" align="right" valign="top">const storage_keys_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a49d3fe3b4c892c2197f08d12446fc4e6">GetBins</a> () const</td></tr>
 <tr class="separator:a49d3fe3b4c892c2197f08d12446fc4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a971204bce0affb7bbb4319b0dc5bb4bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; hydra_thrust::transform_iterator&lt; <a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html">detail::GetBinCenter</a>&lt; T, 1 &gt;, keys_iterator &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a971204bce0affb7bbb4319b0dc5bb4bd">GetBinsCenters</a> ()</td></tr>
-<tr class="separator:a971204bce0affb7bbb4319b0dc5bb4bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a6bf14c3fa8a9acff6540b56a0f5d24"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; hydra::thrust::transform_iterator&lt; <a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html">detail::GetBinCenter</a>&lt; T, 1 &gt;, keys_iterator &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a3a6bf14c3fa8a9acff6540b56a0f5d24">GetBinsCenters</a> ()</td></tr>
+<tr class="separator:a3a6bf14c3fa8a9acff6540b56a0f5d24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad95db5299a925247b48c4e0577d80348"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; iterator &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#ad95db5299a925247b48c4e0577d80348">GetBinsContents</a> ()</td></tr>
 <tr class="separator:ad95db5299a925247b48c4e0577d80348"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a802073aef5c40d187b1dd8f3682f3a60"><td class="memItemLeft" align="right" valign="top">const storage_data_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a802073aef5c40d187b1dd8f3682f3a60">GetContents</a> () const</td></tr>
@@ -3181,8 +3313,8 @@ template&lt;typename T , hydra::detail::Backend BACKEND&gt; </div>
 
 </div>
 </div>
-<a id="ab0b81bb3e0dd479bd055a83ce874ee34"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0b81bb3e0dd479bd055a83ce874ee34">&#9670;&nbsp;</a></span>SparseHistogram() <span class="overload">[2/4]</span></h2>
+<a id="aae3ea53192de6cab966869f59ec73510"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae3ea53192de6cab966869f59ec73510">&#9670;&nbsp;</a></span>SparseHistogram() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3201,13 +3333,13 @@ template&lt;typename T , hydra::detail::Backend BACKEND&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>lowerlimits</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>upperlimits</em>&#160;</td>
         </tr>
         <tr>
@@ -3696,8 +3828,8 @@ template&lt;typename T , hydra::detail::Backend BACKEND&gt; </div>
 
 </div>
 </div>
-<a id="a971204bce0affb7bbb4319b0dc5bb4bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a971204bce0affb7bbb4319b0dc5bb4bd">&#9670;&nbsp;</a></span>GetBinsCenters()</h2>
+<a id="a3a6bf14c3fa8a9acff6540b56a0f5d24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a6bf14c3fa8a9acff6540b56a0f5d24">&#9670;&nbsp;</a></span>GetBinsCenters()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3708,7 +3840,7 @@ template&lt;typename T , hydra::detail::Backend BACKEND&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt;hydra_thrust::transform_iterator&lt;<a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html">detail::GetBinCenter</a>&lt;T,1&gt;, keys_iterator&gt; &gt; <a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">hydra::SparseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt;::GetBinsCenters </td>
+          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt;hydra::thrust::transform_iterator&lt;<a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html">detail::GetBinCenter</a>&lt;T,1&gt;, keys_iterator&gt; &gt; <a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">hydra::SparseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt;::GetBinsCenters </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -4110,13 +4242,13 @@ Collaboration diagram for hydra::SparseHistogram&lt; T, N, detail::BackendPolicy
 <tr><td colspan="2"><h3>Public Member Functions</h3></td></tr>
 <tr class="memitem:ae818c46e70ca6db0b4d71c01f008efb2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#ae818c46e70ca6db0b4d71c01f008efb2">SparseHistogram</a> ()=delete</td></tr>
 <tr class="separator:ae818c46e70ca6db0b4d71c01f008efb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6696616d6e5a0e1d8790febcf81d85d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#ab6696616d6e5a0e1d8790febcf81d85d">SparseHistogram</a> (std::array&lt; size_t, N &gt; const &amp;grid, std::array&lt; T, N &gt; const &amp;lowerlimits, std::array&lt; T, N &gt; const &amp;upperlimits)</td></tr>
-<tr class="separator:ab6696616d6e5a0e1d8790febcf81d85d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28859139b5b04f62cb8db31895dd615d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a28859139b5b04f62cb8db31895dd615d">SparseHistogram</a> (std::array&lt; size_t, N &gt; const &amp;grid, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;lowerlimits, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;upperlimits)</td></tr>
+<tr class="separator:a28859139b5b04f62cb8db31895dd615d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66a616c2167b6e80ed47d34d6e964888"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a66a616c2167b6e80ed47d34d6e964888">SparseHistogram</a> (size_t(&amp;grid)[N], T(&amp;lowerlimits)[N], T(&amp;upperlimits)[N])</td></tr>
 <tr class="separator:a66a616c2167b6e80ed47d34d6e964888"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaee72719f613f0117de36f83ebed5ad8"><td class="memTemplParams" colspan="2">template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integral&lt;Int&gt;::value, void&gt;::type&gt; </td></tr>
-<tr class="memitem:aaee72719f613f0117de36f83ebed5ad8"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#aaee72719f613f0117de36f83ebed5ad8">SparseHistogram</a> (std::array&lt; Int, N &gt; const &amp;grid, std::array&lt; T, N &gt; const &amp;lowerlimits, std::array&lt; T, N &gt; const &amp;upperlimits)</td></tr>
-<tr class="separator:aaee72719f613f0117de36f83ebed5ad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedd84fb047f101bd12e5401761c4bbc3"><td class="memTemplParams" colspan="2">template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integral&lt;Int&gt;::value, void&gt;::type&gt; </td></tr>
+<tr class="memitem:aedd84fb047f101bd12e5401761c4bbc3"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#aedd84fb047f101bd12e5401761c4bbc3">SparseHistogram</a> (std::array&lt; Int, N &gt; const &amp;grid, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;lowerlimits, std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;upperlimits)</td></tr>
+<tr class="separator:aedd84fb047f101bd12e5401761c4bbc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab9bc766e7d1e75bff6542e7b9055a83"><td class="memTemplParams" colspan="2">template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integral&lt;Int&gt;::value, void&gt;::type&gt; </td></tr>
 <tr class="memitem:aab9bc766e7d1e75bff6542e7b9055a83"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#aab9bc766e7d1e75bff6542e7b9055a83">SparseHistogram</a> (Int(&amp;grid)[N], T(&amp;lowerlimits)[N], T(&amp;upperlimits)[N])</td></tr>
 <tr class="separator:aab9bc766e7d1e75bff6542e7b9055a83"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -4173,8 +4305,11 @@ Collaboration diagram for hydra::SparseHistogram&lt; T, N, detail::BackendPolicy
 <tr class="separator:ad436a004867490a6e849bc7d62d185af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56c1fb9ca968b381351ffbf9b53f732c"><td class="memItemLeft" align="right" valign="top">const storage_keys_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a56c1fb9ca968b381351ffbf9b53f732c">GetBins</a> () const</td></tr>
 <tr class="separator:a56c1fb9ca968b381351ffbf9b53f732c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac564c6ed3b8a26712e815e51f30c0989"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; hydra_thrust::transform_iterator&lt; <a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html">detail::GetBinCenter</a>&lt; T, N &gt;, keys_iterator &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#ac564c6ed3b8a26712e815e51f30c0989">GetBinsCenters</a> ()</td></tr>
-<tr class="separator:ac564c6ed3b8a26712e815e51f30c0989"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a431b75ecf0a14aa5ea82f7d1faaa3a56"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; hydra::thrust::transform_iterator&lt; <a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html">detail::GetBinCenter</a>&lt; T, N &gt;, keys_iterator &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a431b75ecf0a14aa5ea82f7d1faaa3a56">GetBinsCenters</a> ()</td></tr>
+<tr class="separator:a431b75ecf0a14aa5ea82f7d1faaa3a56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb3062ced40ac6b7a433480b3707e149"><td class="memTemplParams" colspan="2">template&lt;unsigned int I&gt; </td></tr>
+<tr class="memitem:abb3062ced40ac6b7a433480b3707e149"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; hydra::thrust::transform_iterator&lt; <a class="el" href="structhydra_1_1detail_1_1GetAxisBinCenter.html">detail::GetAxisBinCenter</a>&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N, I &gt;, keys_iterator &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#abb3062ced40ac6b7a433480b3707e149">GetBinsCenters</a> (<a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">placeholders::placeholder</a>&lt; I &gt;)</td></tr>
+<tr class="separator:abb3062ced40ac6b7a433480b3707e149"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a205a5e0c11fc927565ac13cc69c9db46"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; data_iterator &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a205a5e0c11fc927565ac13cc69c9db46">GetBinsContents</a> () const</td></tr>
 <tr class="separator:a205a5e0c11fc927565ac13cc69c9db46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa455aab0b02a5bf7951049210ba6deca"><td class="memItemLeft" align="right" valign="top">const storage_data_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#aa455aab0b02a5bf7951049210ba6deca">GetContents</a> () const</td></tr>
@@ -4193,6 +4328,15 @@ Collaboration diagram for hydra::SparseHistogram&lt; T, N, detail::BackendPolicy
 <tr class="separator:af002a0ccb531a71e72c3f21c3e320745"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44cc1d2398b3801038d0668bb93dcbd1"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a44cc1d2398b3801038d0668bb93dcbd1">GetUpperLimits</a> (size_t i) const</td></tr>
 <tr class="separator:a44cc1d2398b3801038d0668bb93dcbd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a417f39e575ce2207c9d3c7fa2e737493"><td class="memTemplParams" colspan="2">template&lt;size_t M = N&gt; </td></tr>
+<tr class="memitem:a417f39e575ce2207c9d3c7fa2e737493"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; M==2, T &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#a417f39e575ce2207c9d3c7fa2e737493">Interpolate</a> (std::array&lt; size_t, 2 &gt; const &amp;point)</td></tr>
+<tr class="separator:a417f39e575ce2207c9d3c7fa2e737493"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73efd0dff5acddd50727f6edb8001659"><td class="memTemplParams" colspan="2">template&lt;size_t M = N&gt; </td></tr>
+<tr class="memitem:a73efd0dff5acddd50727f6edb8001659"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; M==3, T &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#a73efd0dff5acddd50727f6edb8001659">Interpolate</a> (std::array&lt; size_t, 3 &gt; const &amp;point)</td></tr>
+<tr class="separator:a73efd0dff5acddd50727f6edb8001659"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abda35d4dd0cf5868f34b8c0871a81ba6"><td class="memTemplParams" colspan="2">template&lt;size_t M = N&gt; </td></tr>
+<tr class="memitem:abda35d4dd0cf5868f34b8c0871a81ba6"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; M==4, T &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__histogram.html#abda35d4dd0cf5868f34b8c0871a81ba6">Interpolate</a> (std::array&lt; size_t, 4 &gt; const &amp;point)</td></tr>
+<tr class="separator:abda35d4dd0cf5868f34b8c0871a81ba6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a274011a7f06381feb1aa9209407026a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__histogram.html#a274011a7f06381feb1aa9209407026a9">operator=</a> (<a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; const &amp;other)</td></tr>
 <tr class="separator:a274011a7f06381feb1aa9209407026a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a779490fd65762a18c70496466f58c2c7"><td class="memTemplParams" colspan="2">template&lt;hydra::detail::Backend BACKEND2&gt; </td></tr>
@@ -4237,8 +4381,8 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
 
 </div>
 </div>
-<a id="ab6696616d6e5a0e1d8790febcf81d85d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab6696616d6e5a0e1d8790febcf81d85d">&#9670;&nbsp;</a></span>SparseHistogram() <span class="overload">[2/7]</span></h2>
+<a id="a28859139b5b04f62cb8db31895dd615d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28859139b5b04f62cb8db31895dd615d">&#9670;&nbsp;</a></span>SparseHistogram() <span class="overload">[2/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4257,13 +4401,13 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>lowerlimits</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>upperlimits</em>&#160;</td>
         </tr>
         <tr>
@@ -4325,8 +4469,8 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
 
 </div>
 </div>
-<a id="aaee72719f613f0117de36f83ebed5ad8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaee72719f613f0117de36f83ebed5ad8">&#9670;&nbsp;</a></span>SparseHistogram() <span class="overload">[4/7]</span></h2>
+<a id="aedd84fb047f101bd12e5401761c4bbc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aedd84fb047f101bd12e5401761c4bbc3">&#9670;&nbsp;</a></span>SparseHistogram() <span class="overload">[4/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4347,13 +4491,13 @@ template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integr
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>lowerlimits</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>upperlimits</em>&#160;</td>
         </tr>
         <tr>
@@ -5080,8 +5224,8 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
 
 </div>
 </div>
-<a id="ac564c6ed3b8a26712e815e51f30c0989"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac564c6ed3b8a26712e815e51f30c0989">&#9670;&nbsp;</a></span>GetBinsCenters()</h2>
+<a id="a431b75ecf0a14aa5ea82f7d1faaa3a56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a431b75ecf0a14aa5ea82f7d1faaa3a56">&#9670;&nbsp;</a></span>GetBinsCenters() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5092,8 +5236,38 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; hydra_thrust::transform_iterator&lt;<a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html">detail::GetBinCenter</a>&lt;T,N&gt;, keys_iterator&gt; &gt; <a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">hydra::SparseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;::GetBinsCenters </td>
+          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; hydra::thrust::transform_iterator&lt;<a class="el" href="structhydra_1_1detail_1_1GetBinCenter.html">detail::GetBinCenter</a>&lt;T,N&gt;, keys_iterator&gt; &gt; <a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">hydra::SparseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;::GetBinsCenters </td>
           <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abb3062ced40ac6b7a433480b3707e149"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb3062ced40ac6b7a433480b3707e149">&#9670;&nbsp;</a></span>GetBinsCenters() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
+<div class="memtemplate">
+template&lt;unsigned int I&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacehydra.html#classhydra_1_1Range">Range</a>&lt; hydra::thrust::transform_iterator&lt;<a class="el" href="structhydra_1_1detail_1_1GetAxisBinCenter.html">detail::GetAxisBinCenter</a>&lt;<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>,N,I&gt;, keys_iterator&gt; &gt; <a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">hydra::SparseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;::GetBinsCenters </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">placeholders::placeholder</a>&lt; I &gt;&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -5352,6 +5526,96 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
 
 </div>
 </div>
+<a id="a417f39e575ce2207c9d3c7fa2e737493"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a417f39e575ce2207c9d3c7fa2e737493">&#9670;&nbsp;</a></span>Interpolate() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
+<div class="memtemplate">
+template&lt;size_t M&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; M==2, T &gt;::type <a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">hydra::SparseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;::Interpolate </td>
+          <td>(</td>
+          <td class="paramtype">std::array&lt; size_t, 2 &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>point</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a73efd0dff5acddd50727f6edb8001659"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73efd0dff5acddd50727f6edb8001659">&#9670;&nbsp;</a></span>Interpolate() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
+<div class="memtemplate">
+template&lt;size_t M&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; M==3, T &gt;::type <a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">hydra::SparseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;::Interpolate </td>
+          <td>(</td>
+          <td class="paramtype">std::array&lt; size_t, 3 &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>point</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abda35d4dd0cf5868f34b8c0871a81ba6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abda35d4dd0cf5868f34b8c0871a81ba6">&#9670;&nbsp;</a></span>Interpolate() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
+<div class="memtemplate">
+template&lt;size_t M&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt; M==4, T &gt;::type <a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">hydra::SparseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt;::Interpolate </td>
+          <td>(</td>
+          <td class="paramtype">std::array&lt; size_t, 4 &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>point</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a274011a7f06381feb1aa9209407026a9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a274011a7f06381feb1aa9209407026a9">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/2]</span></h2>
 
@@ -5553,13 +5817,13 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ga7e1a3000b4a0d0b0660b52314134c8fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga7e1a3000b4a0d0b0660b52314134c8fa">&#9670;&nbsp;</a></span>make_dense_histogram() <span class="overload">[1/7]</span></h2>
+<a id="gab7620416b81e1aeb9f0f721bedcc1fc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab7620416b81e1aeb9f0f721bedcc1fc0">&#9670;&nbsp;</a></span>make_dense_histogram() <span class="overload">[1/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Iterator , typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
+template&lt;typename T , typename Iterator , size_t N, hydra::detail::Backend BACKEND&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; hydra::make_dense_histogram </td>
@@ -5576,13 +5840,13 @@ template&lt;typename Iterator , typename T , size_t N, hydra::detail::Backend BA
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>lowerlimits</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>upperlimits</em>, </td>
         </tr>
         <tr>
@@ -5623,8 +5887,8 @@ template&lt;typename Iterator , typename T , size_t N, hydra::detail::Backend BA
 
 </div>
 </div>
-<a id="ga53a84ebf42e3d3aead5a9d0801284a9e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga53a84ebf42e3d3aead5a9d0801284a9e">&#9670;&nbsp;</a></span>make_dense_histogram() <span class="overload">[2/7]</span></h2>
+<a id="ga2473e6bf693982480a25a362fdd63cc9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2473e6bf693982480a25a362fdd63cc9">&#9670;&nbsp;</a></span>make_dense_histogram() <span class="overload">[2/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5649,13 +5913,13 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND, typename Iter
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>lowerlimits</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>upperlimits</em>, </td>
         </tr>
         <tr>
@@ -5694,8 +5958,8 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND, typename Iter
 
 </div>
 </div>
-<a id="ga425cd2dd0c24aaf04eade2e7b6205fe8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga425cd2dd0c24aaf04eade2e7b6205fe8">&#9670;&nbsp;</a></span>make_dense_histogram() <span class="overload">[3/7]</span></h2>
+<a id="gaa3ee77b40d763eee2d828b62ee09537c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa3ee77b40d763eee2d828b62ee09537c">&#9670;&nbsp;</a></span>make_dense_histogram() <span class="overload">[3/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5720,13 +5984,13 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND, typename Iter
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>lowerlimits</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>upperlimits</em>, </td>
         </tr>
         <tr>
@@ -5772,13 +6036,13 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND, typename Iter
 
 </div>
 </div>
-<a id="ga74d16ad8a015b01bd88bbdea526f5f51"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga74d16ad8a015b01bd88bbdea526f5f51">&#9670;&nbsp;</a></span>make_dense_histogram() <span class="overload">[4/7]</span></h2>
+<a id="gaa7c8d3794db72bd6ed086fe753450064"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa7c8d3794db72bd6ed086fe753450064">&#9670;&nbsp;</a></span>make_dense_histogram() <span class="overload">[4/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Iterator , typename T , hydra::detail::Backend BACKEND&gt; </div>
+template&lt;typename T , typename Iterator , hydra::detail::Backend BACKEND&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt; hydra::make_dense_histogram </td>
@@ -5795,13 +6059,13 @@ template&lt;typename Iterator , typename T , hydra::detail::Backend BACKEND&gt; 
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>lowerlimit</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>upperlimit</em>, </td>
         </tr>
         <tr>
@@ -5842,13 +6106,13 @@ template&lt;typename Iterator , typename T , hydra::detail::Backend BACKEND&gt; 
 
 </div>
 </div>
-<a id="gaf5fb0ff39a4c2cce59ab9b88f7289b88"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaf5fb0ff39a4c2cce59ab9b88f7289b88">&#9670;&nbsp;</a></span>make_dense_histogram() <span class="overload">[5/7]</span></h2>
+<a id="gaa749f1d4034e7b8bb43dccf4738f152e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa749f1d4034e7b8bb43dccf4738f152e">&#9670;&nbsp;</a></span>make_dense_histogram() <span class="overload">[5/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Iterator1 , typename Iterator2 , typename T , hydra::detail::Backend BACKEND&gt; </div>
+template&lt;typename T , typename Iterator1 , typename Iterator2 , hydra::detail::Backend BACKEND&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="group__histogram.html#classhydra_1_1DenseHistogram">DenseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt; hydra::make_dense_histogram </td>
@@ -5865,13 +6129,13 @@ template&lt;typename Iterator1 , typename Iterator2 , typename T , hydra::detail
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>lowerlimit</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>upperlimit</em>, </td>
         </tr>
         <tr>
@@ -5919,8 +6183,8 @@ template&lt;typename Iterator1 , typename Iterator2 , typename T , hydra::detail
 
 </div>
 </div>
-<a id="ga1050ca55613cd5c79c8f424c329466ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga1050ca55613cd5c79c8f424c329466ad">&#9670;&nbsp;</a></span>make_dense_histogram() <span class="overload">[6/7]</span></h2>
+<a id="gac56cd763e01bdb74bc09de1f29624b8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac56cd763e01bdb74bc09de1f29624b8f">&#9670;&nbsp;</a></span>make_dense_histogram() <span class="overload">[6/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5945,13 +6209,13 @@ template&lt;typename T , hydra::detail::Backend BACKEND, typename Iterable &gt; 
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>lowerlimits</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>upperlimits</em>, </td>
         </tr>
         <tr>
@@ -5990,8 +6254,8 @@ template&lt;typename T , hydra::detail::Backend BACKEND, typename Iterable &gt; 
 
 </div>
 </div>
-<a id="ga867aff975628a4f23c6d5d22bc5baa80"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga867aff975628a4f23c6d5d22bc5baa80">&#9670;&nbsp;</a></span>make_dense_histogram() <span class="overload">[7/7]</span></h2>
+<a id="ga7c4020d4319e6061c1845212bdd0b8d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7c4020d4319e6061c1845212bdd0b8d9">&#9670;&nbsp;</a></span>make_dense_histogram() <span class="overload">[7/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -6016,13 +6280,13 @@ template&lt;typename T , hydra::detail::Backend BACKEND, typename Iterable1 , ty
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>lowerlimits</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>upperlimits</em>, </td>
         </tr>
         <tr>
@@ -6068,13 +6332,13 @@ template&lt;typename T , hydra::detail::Backend BACKEND, typename Iterable1 , ty
 
 </div>
 </div>
-<a id="ga2cea405a4f933f25af1f2afe7e67c381"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga2cea405a4f933f25af1f2afe7e67c381">&#9670;&nbsp;</a></span>make_sparse_histogram() <span class="overload">[1/8]</span></h2>
+<a id="ga419ee6032f86ed4acfe3c0c1644d548e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga419ee6032f86ed4acfe3c0c1644d548e">&#9670;&nbsp;</a></span>make_sparse_histogram() <span class="overload">[1/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Iterator , typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
+template&lt;typename T , typename Iterator , size_t N, hydra::detail::Backend BACKEND&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; hydra::make_sparse_histogram </td>
@@ -6091,13 +6355,13 @@ template&lt;typename Iterator , typename T , size_t N, hydra::detail::Backend BA
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>lowerlimits</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>upperlimits</em>, </td>
         </tr>
         <tr>
@@ -6138,13 +6402,13 @@ template&lt;typename Iterator , typename T , size_t N, hydra::detail::Backend BA
 
 </div>
 </div>
-<a id="gace1d4a9273d0e841aa7aa81da8706684"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gace1d4a9273d0e841aa7aa81da8706684">&#9670;&nbsp;</a></span>make_sparse_histogram() <span class="overload">[2/8]</span></h2>
+<a id="gaf67b0ac7cd251adcc5a4b04921bb07ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf67b0ac7cd251adcc5a4b04921bb07ee">&#9670;&nbsp;</a></span>make_sparse_histogram() <span class="overload">[2/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Iterator1 , typename Iterator2 , typename T , size_t N, hydra::detail::Backend BACKEND&gt; </div>
+template&lt;typename T , typename Iterator1 , typename Iterator2 , size_t N, hydra::detail::Backend BACKEND&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, N, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a> &gt; hydra::make_sparse_histogram </td>
@@ -6161,13 +6425,13 @@ template&lt;typename Iterator1 , typename Iterator2 , typename T , size_t N, hyd
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>lowerlimits</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt; const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt; const &amp;&#160;</td>
           <td class="paramname"><em>upperlimits</em>, </td>
         </tr>
         <tr>
@@ -6215,13 +6479,13 @@ template&lt;typename Iterator1 , typename Iterator2 , typename T , size_t N, hyd
 
 </div>
 </div>
-<a id="ga72325d25e7c0db406f56f0ed37d9cb16"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga72325d25e7c0db406f56f0ed37d9cb16">&#9670;&nbsp;</a></span>make_sparse_histogram() <span class="overload">[3/8]</span></h2>
+<a id="ga4c396d8629e1982552d740a5524c63de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4c396d8629e1982552d740a5524c63de">&#9670;&nbsp;</a></span>make_sparse_histogram() <span class="overload">[3/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Iterator1 , typename Iterator2 , typename T , hydra::detail::Backend BACKEND&gt; </div>
+template&lt;typename T , typename Iterator1 , typename Iterator2 , hydra::detail::Backend BACKEND&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional">detail::unidimensional</a> &gt; hydra::make_sparse_histogram </td>
@@ -6238,13 +6502,13 @@ template&lt;typename Iterator1 , typename Iterator2 , typename T , hydra::detail
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>lowerlimit</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>upperlimit</em>, </td>
         </tr>
         <tr>
@@ -6292,8 +6556,8 @@ template&lt;typename Iterator1 , typename Iterator2 , typename T , hydra::detail
 
 </div>
 </div>
-<a id="gaf772e19944f8c86035f04729984ea5b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaf772e19944f8c86035f04729984ea5b3">&#9670;&nbsp;</a></span>make_sparse_histogram() <span class="overload">[4/8]</span></h2>
+<a id="ga78a0f873d98142f0c26c5ad261d05cba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga78a0f873d98142f0c26c5ad261d05cba">&#9670;&nbsp;</a></span>make_sparse_histogram() <span class="overload">[4/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -6318,13 +6582,13 @@ template&lt;typename T , hydra::detail::Backend BACKEND, typename Iterable &gt; 
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>lowerlimit</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>upperlimit</em>, </td>
         </tr>
         <tr>
@@ -6363,8 +6627,8 @@ template&lt;typename T , hydra::detail::Backend BACKEND, typename Iterable &gt; 
 
 </div>
 </div>
-<a id="ga53da08c8853c06a09296703de19fcfcd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga53da08c8853c06a09296703de19fcfcd">&#9670;&nbsp;</a></span>make_sparse_histogram() <span class="overload">[5/8]</span></h2>
+<a id="gaf6fdfe0a2e5a4a27cf6b16923f0411e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf6fdfe0a2e5a4a27cf6b16923f0411e0">&#9670;&nbsp;</a></span>make_sparse_histogram() <span class="overload">[5/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -6389,13 +6653,13 @@ template&lt;typename T , hydra::detail::Backend BACKEND, typename Iterable1 , ty
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>lowerlimit</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>upperlimit</em>, </td>
         </tr>
         <tr>
@@ -6441,8 +6705,8 @@ template&lt;typename T , hydra::detail::Backend BACKEND, typename Iterable1 , ty
 
 </div>
 </div>
-<a id="ga44b5da88b7e3276c71f2873d8f52c8e8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga44b5da88b7e3276c71f2873d8f52c8e8">&#9670;&nbsp;</a></span>make_sparse_histogram() <span class="overload">[6/8]</span></h2>
+<a id="gaa016aeeffc6f380d7b2b285bd05047fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa016aeeffc6f380d7b2b285bd05047fd">&#9670;&nbsp;</a></span>make_sparse_histogram() <span class="overload">[6/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -6467,13 +6731,13 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND, typename Iter
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt;const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;&#160;</td>
           <td class="paramname"><em>lowerlimits</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt;const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;&#160;</td>
           <td class="paramname"><em>upperlimits</em>, </td>
         </tr>
         <tr>
@@ -6512,8 +6776,8 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND, typename Iter
 
 </div>
 </div>
-<a id="gac4d47defbb724b2a445de5bc66df2eff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac4d47defbb724b2a445de5bc66df2eff">&#9670;&nbsp;</a></span>make_sparse_histogram() <span class="overload">[7/8]</span></h2>
+<a id="ga7e1c4d518f6b5ea220d59f730ada13ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7e1c4d518f6b5ea220d59f730ada13ef">&#9670;&nbsp;</a></span>make_sparse_histogram() <span class="overload">[7/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -6538,13 +6802,13 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND, typename Iter
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt;const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;&#160;</td>
           <td class="paramname"><em>lowerlimits</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; T, N &gt;const &amp;&#160;</td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N &gt;const &amp;&#160;</td>
           <td class="paramname"><em>upperlimits</em>, </td>
         </tr>
         <tr>
@@ -6590,13 +6854,13 @@ template&lt;typename T , size_t N, hydra::detail::Backend BACKEND, typename Iter
 
 </div>
 </div>
-<a id="gab6e3d78381f90c669fa336097d09d5c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab6e3d78381f90c669fa336097d09d5c0">&#9670;&nbsp;</a></span>make_sparse_histogram() <span class="overload">[8/8]</span></h2>
+<a id="ga23b63e6a525a040fcf4d1ec9f3335b92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga23b63e6a525a040fcf4d1ec9f3335b92">&#9670;&nbsp;</a></span>make_sparse_histogram() <span class="overload">[8/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Iterator , typename T , hydra::detail::Backend BACKEND&gt; </div>
+template&lt;typename T , typename Iterator , hydra::detail::Backend BACKEND&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="group__histogram.html#classhydra_1_1SparseHistogram">SparseHistogram</a>&lt; T, 1, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">detail::BackendPolicy</a>&lt;BACKEND&gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1multidimensional">detail::multidimensional</a>&gt; hydra::make_sparse_histogram </td>
@@ -6613,13 +6877,13 @@ template&lt;typename Iterator , typename T , hydra::detail::Backend BACKEND&gt; 
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>lowerlimit</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>upperlimit</em>, </td>
         </tr>
         <tr>
@@ -6665,7 +6929,7 @@ template&lt;typename Iterator , typename T , hydra::detail::Backend BACKEND&gt; 
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:47 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

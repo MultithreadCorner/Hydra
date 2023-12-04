@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$namespacehydra_1_1detail_1_1impl.html#structhydra_1_1detail_1_1impl_1_1exact__signed__base__helper_3_01sizeof_07signed_01char_08_01_5CHAR__BIT_01_4" title="hydra::detail::impl\l::exact_signed_base\l_helper\&lt; sizeof(signed\l char) *CHAR_BIT \&gt;" alt="" coords="5,5,159,76"/>
+<area shape="rect" id="node1" href="$structhydra_1_1detail_1_1impl_1_1exact__signed__base__helper.html" title="hydra::detail::impl\l::exact_signed_base\l_helper\&lt; Bits \&gt;" alt="" coords="5,5,148,61"/>
+<area shape="rect" id="node2" href="$structhydra_1_1detail_1_1int__t.html" title="hydra::detail::int\l_t\&lt; Bits \&gt;" alt="" coords="196,13,311,54"/>
 </map>

@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$namespacehydra_1_1detail.html#structhydra_1_1detail_1_1unidimensional" title="hydra::detail::unidimensional" alt="" coords="5,5,192,32"/>
+<area shape="rect" id="node1" href="$namespacehydra_1_1detail_1_1stuple__impl.html" title="hydra::detail::stuple\l_impl::stripped_tuple\l_impl\&lt; std::conditional\l\&lt;(detail::is_intuple\&lt; Head,\l Tuple \&gt;::value), Tuple, detail\l::merged_tuple\&lt; Tuple, hydra::\ltuple\&lt; Head \&gt; \&gt;::type \&gt;::type,\l hydra::tuple\&lt; Tail... \&gt; \&gt;" alt="" coords="5,5,205,135"/>
+<area shape="rect" id="node2" href="$structhydra_1_1detail_1_1stuple__impl_1_1stripped__tuple__impl_3_01Tuple_00_01hydra_1_1tuple_3_01Head_00_01Tail_8_8_8_01_4_01_4.html" title="hydra::detail::stuple\l_impl::stripped_tuple\l_impl\&lt; Tuple, hydra::tuple\l\&lt; Head, Tail... \&gt; \&gt;" alt="" coords="253,35,427,105"/>
 </map>

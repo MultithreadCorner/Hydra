@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -110,7 +110,7 @@ $(document).ready(function(){initNavTree('functions_t.html','');});
 : <a class="el" href="group__common__functions.html#af316362671ac611530238433cff541f8">hydra::ThreeBodyMassThresholdBackground&lt; ArgType, Signature &gt;</a>
 </li>
 <li>transformer
-: <a class="el" href="group__fit.html#a44a57ecf3acbcc59f51435b831c06cbb">hydra::SPlot&lt; Iterator, PDF1, PDF2, PDFs &gt;</a>
+: <a class="el" href="group__fit.html#ad29a98088fcdf86ba4a43f797407fa3d">hydra::SPlot&lt; Iterator, PDF1, PDF2, PDFs &gt;</a>
 </li>
 <li>TrapezoidalShape()
 : <a class="el" href="group__common__functions.html#ada4c006c5cbfa1b4514b48a212b3483d">hydra::TrapezoidalShape&lt; ArgType, Signature &gt;</a>
@@ -119,7 +119,7 @@ $(document).ready(function(){initNavTree('functions_t.html','');});
 : <a class="el" href="group__common__functions.html#ad938b66994551a3796d83e6b66bbba62">hydra::TriangularShape&lt; ArgType, Signature &gt;</a>
 </li>
 <li>tuple_t
-: <a class="el" href="structhydra_1_1detail_1_1SWeights.html#a95b9c3feed7b5bceecea14faa2250a2b">hydra::detail::SWeights&lt; F1, F2, Fs &gt;</a>
+: <a class="el" href="structhydra_1_1detail_1_1SWeights.html#a7f32d18b81dada8f148ca35c8f683a3f">hydra::detail::SWeights&lt; W, F1, F2, Fs &gt;</a>
 </li>
 <li>tuple_type
 : <a class="el" href="classhydra_1_1multiarray_3_01T_00_01N_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html#a2cedc64a0fa5dd52101f2d735db0c5d5">hydra::multiarray&lt; T, N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;</a>
@@ -137,32 +137,33 @@ $(document).ready(function(){initNavTree('functions_t.html','');});
 , <a class="el" href="structhydra_1_1detail_1_1index__sequence.html#a6f2ab185f1f88a0d0ff5407c12710cfc">hydra::detail::index_sequence&lt; Ints &gt;</a>
 , <a class="el" href="namespacehydra_1_1detail.html#acde5af648678420102bf2fb887859be8">hydra::detail::int_fast_t&lt; LeastInt &gt;</a>
 , <a class="el" href="namespacehydra_1_1detail.html#a15786b8d6c6a219b01b74cf9fdb3f92d">hydra::detail::merged_tuple&lt; hydra::tuple&lt; T... &gt; &gt;</a>
-, <a class="el" href="namespacehydra_1_1detail.html#aa1e335e0be35b2b38c8482ec0e45ef55">hydra::detail::merged_zip_iterator&lt; hydra_thrust::zip_iterator&lt; T... &gt; &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail.html#a89ce6c41d8902d3e3b7232d4ec8724bd">hydra::detail::merged_zip_iterator&lt; hydra::thrust::zip_iterator&lt; T... &gt; &gt;</a>
 , <a class="el" href="namespacehydra_1_1detail.html#add29ddc4b8fac81ed38f877959086d79">hydra::detail::minus_result&lt; F1, F2, Fs &gt;</a>
 , <a class="el" href="namespacehydra_1_1detail.html#a9f322e4e5accd44a6a804994aca86b7b">hydra::detail::multiply_result&lt; F1, F2, Fs &gt;</a>
-, <a class="el" href="namespacehydra_1_1detail.html#a8c899abc24c3172b67847bc3adba0bd6">hydra::detail::references_tuple_type&lt; N, T &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail.html#a5b7b28f3038efea5e16af361c761c1b4">hydra::detail::references_tuple_type&lt; N, T &gt;</a>
 , <a class="el" href="namespacehydra_1_1detail.html#a3369bac6ca9a2ac5bfac3d6641551ecb">hydra::detail::remove_device_reference&lt; T &gt;</a>
-, <a class="el" href="namespacehydra_1_1detail.html#ace604cd82481d3586736efe022ca568b">hydra::detail::remove_device_reference&lt; hydra_thrust::device_reference&lt; T &gt; &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail.html#af623fdb8de60ab15609af42e08b317f5">hydra::detail::remove_device_reference&lt; hydra::thrust::device_reference&lt; T &gt; &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail.html#a7fd24291b19127ab66c7b8f9512e00ce">hydra::detail::remove_device_reference&lt; T &amp; &gt;</a>
 , <a class="el" href="namespacehydra_1_1detail.html#a3c8492545a2a08149cff4a2b065d2b6f">hydra::detail::repeat&lt; T, N, TT &gt;</a>
 , <a class="el" href="namespacehydra_1_1detail.html#a7e12a8d9a98e19982fedf2fc1b7f207a">hydra::detail::repeat&lt; T, 0, TT &gt;</a>
-, <a class="el" href="namespacehydra_1_1detail.html#a7ce0e2bd52dd5e094739ed19e38a0730">hydra::detail::selected_indices_tuple&lt; Selector, hydra::tuple&lt; Head, Tail... &gt;, I &gt;</a>
-, <a class="el" href="namespacehydra_1_1detail.html#a828b820911b6a54af2c11d25c60340f4">hydra::detail::selected_indices_tuple&lt; Selector, hydra::tuple&lt; Type &gt;, I &gt;</a>
 , <a class="el" href="namespacehydra_1_1detail.html#a3634476cb5c5bbc96e3b9f4325781f4c">hydra::detail::selected_tuple&lt; Selector, hydra::tuple&lt; Head, Tail... &gt; &gt;</a>
 , <a class="el" href="namespacehydra_1_1detail.html#a67fca6b4069494d78deca8280a754cf8">hydra::detail::selected_tuple&lt; Selector, hydra::tuple&lt; Type &gt; &gt;</a>
 , <a class="el" href="namespacehydra_1_1detail.html#ac3018bd6f66064373ef1765d808e847c">hydra::detail::signature_type&lt; R, A &gt;</a>
 , <a class="el" href="namespacehydra_1_1detail.html#a5f6aacb86130478ef997463d0aeb58c3">hydra::detail::signature_type_impl&lt; T &gt;</a>
 , <a class="el" href="namespacehydra_1_1detail.html#a978c54faaef382347c9dd413a45ebd83">hydra::detail::stripped_type&lt; Arg, false &gt;</a>
 , <a class="el" href="namespacehydra_1_1detail.html#ac3d1aeb85f09983419859baacc8d801d">hydra::detail::stripped_type&lt; Arg, true &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail_1_1stuple__impl.html#a4774c7d22d3023aafc19a6c9ed5f379f">hydra::detail::stuple_impl::stripped_tuple_impl&lt; hydra::tuple&lt; T... &gt;, hydra::tuple&lt; &gt; &gt;</a>
 , <a class="el" href="namespacehydra_1_1detail.html#a574a0cf3739a23e067ea7e3b1acc7592">hydra::detail::sum_result&lt; F1, F2, Fs &gt;</a>
 , <a class="el" href="namespacehydra_1_1detail.html#a559de10d2ff5e2db2754adf86b3840ec">hydra::detail::tag_type&lt; T, R &gt;</a>
-, <a class="el" href="namespacehydra_1_1detail.html#a729b1dea3e61359b87ebf9395e4e06b9">hydra::detail::tuple_cat_type&lt; hydra_thrust::detail::tuple_of_iterator_references&lt; T1... &gt;, hydra_thrust::detail::tuple_of_iterator_references&lt; T2... &gt; &gt;</a>
-, <a class="el" href="namespacehydra_1_1detail.html#adf0c360dd1cf05db7e5aa1568276c182">hydra::detail::tuple_cat_type&lt; hydra_thrust::tuple&lt; T1... &gt;, hydra_thrust::tuple&lt; T2... &gt; &gt;</a>
-, <a class="el" href="namespacehydra_1_1detail.html#a22e38393ea5d639e178949f9e3093076">hydra::detail::tuple_type&lt; N, T &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail.html#ac1cc582909828aa2dd9c37fd0c94597c">hydra::detail::trimmed_lambda_signature&lt; hydra::thrust::tuple&lt; Head, Neck, Tail... &gt; &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail.html#a781c6cbc7da3f23f4d93ffd8186a428f">hydra::detail::tuple_cat_type&lt; hydra::thrust::detail::tuple_of_iterator_references&lt; T1... &gt;, hydra::thrust::detail::tuple_of_iterator_references&lt; T2... &gt; &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail.html#aa4ac0ad3146b152db625579432b36de0">hydra::detail::tuple_cat_type&lt; hydra::thrust::tuple&lt; T1... &gt;, hydra::thrust::tuple&lt; T2... &gt; &gt;</a>
+, <a class="el" href="namespacehydra_1_1detail.html#a9ba5c4622ec78b2832b30043bb95fed5">hydra::detail::tuple_type&lt; N, T &gt;</a>
 , <a class="el" href="structhydra_1_1detail_1_1TypeTraits.html#a182abb18faff84812bb97d843397cb95">hydra::detail::TypeTraits&lt; T &gt;</a>
-, <a class="el" href="structhydra_1_1detail_1_1TypeTraits_3_01hydra__thrust_1_1complex_3_01T_01_4_01_4.html#aaa52e04f0cead31e1d8e7b121621efd5">hydra::detail::TypeTraits&lt; hydra_thrust::complex&lt; T &gt; &gt;</a>
-, <a class="el" href="structstd_1_1common__type_3_01hydra__thrust_1_1complex_3_01T_01_4_00_01hydra__thrust_1_1complex_3_01U_01_4_01_4.html#aafcb288b5868369926860c8ca47f966c">std::common_type&lt; hydra_thrust::complex&lt; T &gt;, hydra_thrust::complex&lt; U &gt; &gt;</a>
-, <a class="el" href="structstd_1_1common__type_3_01hydra__thrust_1_1complex_3_01U_01_4_00_01T_01_4.html#a3bf52a09b7b49609d40a2034cd595e3e">std::common_type&lt; hydra_thrust::complex&lt; U &gt;, T &gt;</a>
-, <a class="el" href="structstd_1_1common__type_3_01T_00_01hydra__thrust_1_1complex_3_01U_01_4_01_4.html#afbd3455f6c7362f3418386e1ce1989bd">std::common_type&lt; T, hydra_thrust::complex&lt; U &gt; &gt;</a>
+, <a class="el" href="structhydra_1_1detail_1_1TypeTraits_3_01hydra_1_1thrust_1_1complex_3_01T_01_4_01_4.html#a558d793a1ac7821b50c8adad7978b540">hydra::detail::TypeTraits&lt; hydra::thrust::complex&lt; T &gt; &gt;</a>
+, <a class="el" href="structstd_1_1common__type_3_01hydra_1_1thrust_1_1complex_3_01T_01_4_00_01hydra_1_1thrust_1_1complex_3_01U_01_4_01_4.html#abd5235ce1a2b1a80ecb7169a1cb8fdd6">std::common_type&lt; hydra::thrust::complex&lt; T &gt;, hydra::thrust::complex&lt; U &gt; &gt;</a>
+, <a class="el" href="structstd_1_1common__type_3_01hydra_1_1thrust_1_1complex_3_01U_01_4_00_01T_01_4.html#a9f244a6f2269bca7f71f2a5deea58d94">std::common_type&lt; hydra::thrust::complex&lt; U &gt;, T &gt;</a>
+, <a class="el" href="structstd_1_1common__type_3_01T_00_01hydra_1_1thrust_1_1complex_3_01U_01_4_01_4.html#a43617ce0246cec65973a46e8147e0157">std::common_type&lt; T, hydra::thrust::complex&lt; U &gt; &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -170,7 +171,7 @@ $(document).ready(function(){initNavTree('functions_t.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:03 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

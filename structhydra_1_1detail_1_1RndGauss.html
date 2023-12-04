@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -174,7 +174,7 @@ template&lt;typename T , typename GRND &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section warning"><dt>Warning</dt><dd>: the implementation of hydra_thrust::random::normal_distribution is different between nvcc and gcc. Do not expect the same numbers event by event. Possible: implement myself ? (que inferno! :0) Refs: hydra/detail/external/hydra_thrust/random/detail/normal_distribution_base.h <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> RealType&gt;</div><div class="line"><span class="keyword">struct </span>normal_distribution_base</div><div class="line">{</div><div class="line"><span class="preprocessor"> #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC</span></div><div class="line"> <span class="keyword">typedef</span> normal_distribution_nvcc&lt;RealType&gt; type;</div><div class="line"><span class="preprocessor"> #else</span></div><div class="line"> <span class="keyword">typedef</span> normal_distribution_portable&lt;RealType&gt; type;</div><div class="line"><span class="preprocessor"> #endif</span></div><div class="line"><span class="preprocessor">};</span></div></div><!-- fragment --> </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>: the implementation of hydra::thrust::random::normal_distribution is different between nvcc and gcc. Do not expect the same numbers event by event. Possible: implement myself ? (que inferno! :0) Refs: hydra/detail/external/hydra_thrust/random/detail/normal_distribution_base.h <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> RealType&gt;</div><div class="line"><span class="keyword">struct </span>normal_distribution_base</div><div class="line">{</div><div class="line"><span class="preprocessor"> #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC</span></div><div class="line"> <span class="keyword">typedef</span> normal_distribution_nvcc&lt;RealType&gt; type;</div><div class="line"><span class="preprocessor"> #else</span></div><div class="line"> <span class="keyword">typedef</span> normal_distribution_portable&lt;RealType&gt; type;</div><div class="line"><span class="preprocessor"> #endif</span></div><div class="line"><span class="preprocessor">};</span></div></div><!-- fragment --> </dd></dl>
 
 </div>
 </div>
@@ -293,7 +293,7 @@ template&lt;typename T , typename GRND &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacehydra.html">hydra</a></li><li class="navelem"><a class="el" href="namespacehydra_1_1detail.html">detail</a></li><li class="navelem"><a class="el" href="structhydra_1_1detail_1_1RndGauss.html">RndGauss</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:03 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

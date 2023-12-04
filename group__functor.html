@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -158,7 +158,7 @@ class hydra::BaseFunctor&lt; Functor, Signature, NPARAM &gt;</h3>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8C-example.html#_a1">dalitz_plot.C</a>, and <a class="el" href="dalitz_plot_8inl-example.html#_a3">dalitz_plot.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="dalitz_plot_8C-example.html#_a3">dalitz_plot.C</a>, and <a class="el" href="dalitz_plot_8inl-example.html#_a3">dalitz_plot.inl</a>.</dd>
 </dl></div><div class="dynheader">
 Inheritance diagram for hydra::BaseFunctor&lt; Functor, Signature, NPARAM &gt;:</div>
 <div class="dyncontent">
@@ -173,9 +173,9 @@ Collaboration diagram for hydra::BaseFunctor&lt; Functor, Signature, NPARAM &gt;
 </div>
 <table class="memberdecls">
 <tr><td colspan="2"><h3>Public Types</h3></td></tr>
-<tr class="memitem:a6a34bb711a43691a1fc28c3d207338ce"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="group__functor.html#a6a34bb711a43691a1fc28c3d207338ceaa2b35e786c4e15b7f62b506cff3eb3ea">arity</a> =detail::signature_traits&lt;Signature&gt;::arity
+<tr class="memitem:abf4af2f8c9e3517bbb54594a55bd8c39"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="group__functor.html#abf4af2f8c9e3517bbb54594a55bd8c39aa2b35e786c4e15b7f62b506cff3eb3ea">arity</a> =detail::signature_traits&lt;Signature&gt;::arity
  }</td></tr>
-<tr class="separator:a6a34bb711a43691a1fc28c3d207338ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:abf4af2f8c9e3517bbb54594a55bd8c39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67f7b7f688daec813e47baeb914f43f5"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1signature__traits">detail::signature_traits</a>&lt; Signature &gt;::<a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">argument_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">argument_type</a></td></tr>
 <tr class="separator:a67f7b7f688daec813e47baeb914f43f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fc5343391019b258e92dce56a5a7cd6"><td class="memItemLeft" align="right" valign="top">typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a7fc5343391019b258e92dce56a5a7cd6">hydra_functor_type</a></td></tr>
@@ -206,10 +206,10 @@ Collaboration diagram for hydra::BaseFunctor&lt; Functor, Signature, NPARAM &gt;
 <tr class="memitem:a1817c5d41b04aaf05cbd64b9767c046b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt; <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1is__valid__type__pack">detail::is_valid_type_pack</a>&lt; <a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">argument_type</a>, T... &gt;::value, <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#a1817c5d41b04aaf05cbd64b9767c046b">operator()</a> (T...x) const</td></tr>
 <tr class="memdesc:a1817c5d41b04aaf05cbd64b9767c046b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function call operator overload taking a pack of parameters convertible to the lambda signature.  <a href="#a1817c5d41b04aaf05cbd64b9767c046b">More...</a><br /></td></tr>
 <tr class="separator:a1817c5d41b04aaf05cbd64b9767c046b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88ddc1aea0b84f1a98504d3f6a2462bd"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a88ddc1aea0b84f1a98504d3f6a2462bd"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt; T &gt;::type &gt;::value) &amp;&amp;(!<a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt; T &gt;::type &gt;::value) &amp;&amp;(hydra_thrust::detail::is_convertible&lt; typename std::decay&lt; T &gt;::type, <a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">argument_type</a> &gt;::value), <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#a88ddc1aea0b84f1a98504d3f6a2462bd">operator()</a> (T x) const</td></tr>
-<tr class="memdesc:a88ddc1aea0b84f1a98504d3f6a2462bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unary function call operator overload taking a tuple containing the lambda arguments in any other.  <a href="#a88ddc1aea0b84f1a98504d3f6a2462bd">More...</a><br /></td></tr>
-<tr class="separator:a88ddc1aea0b84f1a98504d3f6a2462bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4bea06ad823ad7d281641ab40fcb184"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ad4bea06ad823ad7d281641ab40fcb184"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt; T &gt;::type &gt;::value) &amp;&amp;(!<a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt; T &gt;::type &gt;::value) &amp;&amp;(hydra::thrust::detail::is_convertible&lt; typename std::decay&lt; T &gt;::type, <a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">argument_type</a> &gt;::value), <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#ad4bea06ad823ad7d281641ab40fcb184">operator()</a> (T x) const</td></tr>
+<tr class="memdesc:ad4bea06ad823ad7d281641ab40fcb184"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unary function call operator overload taking a tuple containing the lambda arguments in any other.  <a href="#ad4bea06ad823ad7d281641ab40fcb184">More...</a><br /></td></tr>
+<tr class="separator:ad4bea06ad823ad7d281641ab40fcb184"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae652efce8b4549bf546a09f1b130b426"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ae652efce8b4549bf546a09f1b130b426"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt; T &gt;::type &gt;::value) &amp;&amp;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt; T &gt;::type &gt;::value), <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#ae652efce8b4549bf546a09f1b130b426">operator()</a> (T x) const</td></tr>
 <tr class="memdesc:ae652efce8b4549bf546a09f1b130b426"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unary function call operator overload taking a tuple containing the lambda arguments in any other.  <a href="#ae652efce8b4549bf546a09f1b130b426">More...</a><br /></td></tr>
@@ -220,7 +220,7 @@ Collaboration diagram for hydra::BaseFunctor&lt; Functor, Signature, NPARAM &gt;
 <tr class="separator:af8a4d9d377bdd9c5176cfd4afcfcaf1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa308ee9c94be12afd21d128f7f2f36e3"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 &gt; </td></tr>
 <tr class="memitem:aa308ee9c94be12afd21d128f7f2f36e3"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt;(!<a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt; T1 &gt;::type &gt;::value) &amp;&amp;(<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1is__function__argument">detail::is_function_argument</a>&lt; typename std::decay&lt; T1 &gt;::type &gt;::value) &amp;&amp;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt; T2 &gt;::type &gt;::value) &amp;&amp;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt; T2 &gt;::type &gt;::value), <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#aa308ee9c94be12afd21d128f7f2f36e3">operator()</a> (T1 x, T2 y) const</td></tr>
-<tr class="memdesc:aa308ee9c94be12afd21d128f7f2f36e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary function call operator overload taking one tuple and a non-tuple, that containing put together would contain the lambda arguments in any other.  <a href="#aa308ee9c94be12afd21d128f7f2f36e3">More...</a><br /></td></tr>
+<tr class="memdesc:aa308ee9c94be12afd21d128f7f2f36e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary function call operator overload taking one tuple and a non-tuple, that containing put together would contain the lambda arguments in any order.  <a href="#aa308ee9c94be12afd21d128f7f2f36e3">More...</a><br /></td></tr>
 <tr class="separator:aa308ee9c94be12afd21d128f7f2f36e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af31293793c219b01a1d8b23ab558474b"><td class="memTemplParams" colspan="2">template&lt;typename T1 , typename T2 &gt; </td></tr>
 <tr class="memitem:af31293793c219b01a1d8b23ab558474b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt;(!<a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt; T1 &gt;::type &gt;::value) &amp;&amp;(<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1is__function__argument">detail::is_function_argument</a>&lt; typename std::decay&lt; T1 &gt;::type &gt;::value) &amp;&amp;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt; T2 &gt;::type &gt;::value) &amp;&amp;(<a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt; T2 &gt;::type &gt;::value), <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a> &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__functor.html#af31293793c219b01a1d8b23ab558474b">operator()</a> (T2 y, T1 x) const</td></tr>
@@ -279,6 +279,9 @@ Collaboration diagram for hydra::BaseFunctor&lt; Functor, Signature, NPARAM &gt;
 <tr class="memitem:a12fa435d67cfda236b2d93ab992462af inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a12fa435d67cfda236b2d93ab992462af">SetParameters</a> (const std::vector&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> &gt; &amp;parameters)</td></tr>
 <tr class="memdesc:a12fa435d67cfda236b2d93ab992462af inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set parameters.  <a href="classhydra_1_1detail_1_1Parameters.html#a12fa435d67cfda236b2d93ab992462af">More...</a><br /></td></tr>
 <tr class="separator:a12fa435d67cfda236b2d93ab992462af inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99e629f80d0aaa6c8f82b0ed28b4739d inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1Parameters.html#a99e629f80d0aaa6c8f82b0ed28b4739d">Update</a> (void)</td></tr>
+<tr class="memdesc:a99e629f80d0aaa6c8f82b0ed28b4739d inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method offers an opportunity to redo calculations and update values that depends only on the functor parameters.  <a href="classhydra_1_1detail_1_1Parameters.html#a99e629f80d0aaa6c8f82b0ed28b4739d">More...</a><br /></td></tr>
+<tr class="separator:a99e629f80d0aaa6c8f82b0ed28b4739d inherit pub_methods_classhydra_1_1detail_1_1Parameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><h3>Protected Attributes</h3></td></tr>
 <tr class="memitem:a9f5e356b1fbc0fc434cb48eb5662db6c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__functor.html#a9f5e356b1fbc0fc434cb48eb5662db6c">_par</a></td></tr>
 <tr class="separator:a9f5e356b1fbc0fc434cb48eb5662db6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -339,8 +342,8 @@ template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
 </div>
 </div>
 <h4 class="groupheader">Member Enumeration Documentation</h4>
-<a id="a6a34bb711a43691a1fc28c3d207338ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a34bb711a43691a1fc28c3d207338ce">&#9670;&nbsp;</a></span>anonymous enum</h2>
+<a id="abf4af2f8c9e3517bbb54594a55bd8c39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf4af2f8c9e3517bbb54594a55bd8c39">&#9670;&nbsp;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -353,7 +356,7 @@ template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a6a34bb711a43691a1fc28c3d207338ceaa2b35e786c4e15b7f62b506cff3eb3ea"></a>arity&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="abf4af2f8c9e3517bbb54594a55bd8c39aa2b35e786c4e15b7f62b506cff3eb3ea"></a>arity&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -607,8 +610,8 @@ template&lt;typename ... T&gt; </div>
 
 </div>
 </div>
-<a id="a88ddc1aea0b84f1a98504d3f6a2462bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88ddc1aea0b84f1a98504d3f6a2462bd">&#9670;&nbsp;</a></span>operator()() <span class="overload">[3/7]</span></h2>
+<a id="ad4bea06ad823ad7d281641ab40fcb184"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4bea06ad823ad7d281641ab40fcb184">&#9670;&nbsp;</a></span>operator()() <span class="overload">[3/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -621,7 +624,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt; ( <a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt;T&gt;::type &gt;::value ) &amp;&amp; (!<a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt;T&gt;::type &gt;::value) &amp;&amp; ( hydra_thrust::detail::is_convertible&lt; typename std::decay&lt;T&gt;::type, <a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">argument_type</a> &gt;::value ), <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a> &gt;::type <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::operator() </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt; ( <a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">detail::is_tuple_type</a>&lt; typename std::decay&lt;T&gt;::type &gt;::value ) &amp;&amp; (!<a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">detail::is_tuple_of_function_arguments</a>&lt; typename std::decay&lt;T&gt;::type &gt;::value) &amp;&amp; ( hydra::thrust::detail::is_convertible&lt; typename std::decay&lt;T&gt;::type, <a class="el" href="group__functor.html#a67f7b7f688daec813e47baeb914f43f5">argument_type</a> &gt;::value ), <a class="el" href="group__functor.html#aa8aec84edf4cd7554001258a28bd4821">return_type</a> &gt;::type <a class="el" href="group__functor.html#classhydra_1_1BaseFunctor">hydra::BaseFunctor</a>&lt; Functor, Signature, NPARAM &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>x</em></td><td>)</td>
@@ -751,7 +754,7 @@ template&lt;typename T1 , typename T2 &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Binary function call operator overload taking one tuple and a non-tuple, that containing put together would contain the lambda arguments in any other. </p>
+<p>Binary function call operator overload taking one tuple and a non-tuple, that containing put together would contain the lambda arguments in any order. </p>
 
 </div>
 </div>
@@ -917,7 +920,7 @@ template&lt;typename Functor, typename Signature, size_t NPARAM&gt; </div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:47 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -118,15 +118,15 @@ Collaboration diagram for hydra::detail::BackendPolicy&lt; Backend::Device &gt;:
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a74227d36112cd51442169d2d07c57a85"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a74227d36112cd51442169d2d07c57a85"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1BackendPolicy_3_01Backend_1_1Device_01_4.html#a74227d36112cd51442169d2d07c57a85">container</a> = hydra_thrust::device_vector&lt; T &gt;</td></tr>
-<tr class="separator:a74227d36112cd51442169d2d07c57a85"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a640f7afa670d9f66d54ed2e611b6a549"><td class="memItemLeft" align="right" valign="top">typedef hydra_thrust::device_execution_policy&lt; <a class="el" href="namespacehydra_1_1detail_1_1device.html#a7690bde8f24c62f05b685b47c495b6c0">device::device_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1BackendPolicy_3_01Backend_1_1Device_01_4.html#a640f7afa670d9f66d54ed2e611b6a549">execution_policy_type</a></td></tr>
-<tr class="separator:a640f7afa670d9f66d54ed2e611b6a549"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac33a3c27a3b900f2bc205922bcf20ca4"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ac33a3c27a3b900f2bc205922bcf20ca4"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1BackendPolicy_3_01Backend_1_1Device_01_4.html#ac33a3c27a3b900f2bc205922bcf20ca4">container</a> = hydra::thrust::device_vector&lt; T &gt;</td></tr>
+<tr class="separator:ac33a3c27a3b900f2bc205922bcf20ca4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e96b82eb81279b360ff74d566c3845f"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classhydra_1_1thrust_1_1device__execution__policy.html">hydra::thrust::device_execution_policy</a>&lt; <a class="el" href="namespacehydra_1_1detail_1_1device.html#a416f6177bb7af81f19c33a0a6ce9073c">device::device_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1BackendPolicy_3_01Backend_1_1Device_01_4.html#a5e96b82eb81279b360ff74d566c3845f">execution_policy_type</a></td></tr>
+<tr class="separator:a5e96b82eb81279b360ff74d566c3845f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:aa29fc559224a665eccb7344c916787a0"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespacehydra_1_1detail_1_1device.html#a7690bde8f24c62f05b685b47c495b6c0">device::device_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1BackendPolicy_3_01Backend_1_1Device_01_4.html#aa29fc559224a665eccb7344c916787a0">backend</a> = <a class="el" href="namespacehydra_1_1detail_1_1device.html#afc75f2ae0a8cec9549e33a9085fdbace">device::_device_</a></td></tr>
+<tr class="memitem:aa29fc559224a665eccb7344c916787a0"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespacehydra_1_1detail_1_1device.html#a416f6177bb7af81f19c33a0a6ce9073c">device::device_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1BackendPolicy_3_01Backend_1_1Device_01_4.html#aa29fc559224a665eccb7344c916787a0">backend</a> = <a class="el" href="namespacehydra_1_1detail_1_1device.html#afc75f2ae0a8cec9549e33a9085fdbace">device::_device_</a></td></tr>
 <tr class="separator:aa29fc559224a665eccb7344c916787a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -134,8 +134,8 @@ Data Fields</h2></td></tr>
 struct hydra::detail::BackendPolicy&lt; Backend::Device &gt;</h3>
 
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a74227d36112cd51442169d2d07c57a85"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a74227d36112cd51442169d2d07c57a85">&#9670;&nbsp;</a></span>container</h2>
+<a id="ac33a3c27a3b900f2bc205922bcf20ca4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac33a3c27a3b900f2bc205922bcf20ca4">&#9670;&nbsp;</a></span>container</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -143,21 +143,21 @@ struct hydra::detail::BackendPolicy&lt; Backend::Device &gt;</h3>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend::Device &gt;::<a class="el" href="structhydra_1_1detail_1_1BackendPolicy_3_01Backend_1_1Device_01_4.html#a74227d36112cd51442169d2d07c57a85">container</a> =  hydra_thrust::device_vector&lt;T&gt;</td>
+          <td class="memname">using <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend::Device &gt;::<a class="el" href="structhydra_1_1detail_1_1BackendPolicy_3_01Backend_1_1Device_01_4.html#ac33a3c27a3b900f2bc205922bcf20ca4">container</a> =  hydra::thrust::device_vector&lt;T&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a640f7afa670d9f66d54ed2e611b6a549"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a640f7afa670d9f66d54ed2e611b6a549">&#9670;&nbsp;</a></span>execution_policy_type</h2>
+<a id="a5e96b82eb81279b360ff74d566c3845f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e96b82eb81279b360ff74d566c3845f">&#9670;&nbsp;</a></span>execution_policy_type</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef hydra_thrust::device_execution_policy&lt;<a class="el" href="namespacehydra_1_1detail_1_1device.html#a7690bde8f24c62f05b685b47c495b6c0">device::device_t</a>&gt; <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend::Device &gt;::<a class="el" href="structhydra_1_1detail_1_1BackendPolicy_3_01Backend_1_1Device_01_4.html#a640f7afa670d9f66d54ed2e611b6a549">execution_policy_type</a></td>
+          <td class="memname">typedef <a class="el" href="classhydra_1_1thrust_1_1device__execution__policy.html">hydra::thrust::device_execution_policy</a>&lt;<a class="el" href="namespacehydra_1_1detail_1_1device.html#a416f6177bb7af81f19c33a0a6ce9073c">device::device_t</a>&gt; <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend::Device &gt;::<a class="el" href="structhydra_1_1detail_1_1BackendPolicy_3_01Backend_1_1Device_01_4.html#a5e96b82eb81279b360ff74d566c3845f">execution_policy_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -172,7 +172,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="namespacehydra_1_1detail_1_1device.html#a7690bde8f24c62f05b685b47c495b6c0">device::device_t</a> <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend::Device &gt;::backend = <a class="el" href="namespacehydra_1_1detail_1_1device.html#afc75f2ae0a8cec9549e33a9085fdbace">device::_device_</a></td>
+          <td class="memname">const <a class="el" href="namespacehydra_1_1detail_1_1device.html#a416f6177bb7af81f19c33a0a6ce9073c">device::device_t</a> <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; Backend::Device &gt;::backend = <a class="el" href="namespacehydra_1_1detail_1_1device.html#afc75f2ae0a8cec9549e33a9085fdbace">device::_device_</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -188,7 +188,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacehydra.html">hydra</a></li><li class="navelem"><a class="el" href="namespacehydra_1_1detail.html">detail</a></li><li class="navelem"><a class="el" href="structhydra_1_1detail_1_1BackendPolicy_3_01Backend_1_1Device_01_4.html">BackendPolicy&lt; Backend::Device &gt;</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

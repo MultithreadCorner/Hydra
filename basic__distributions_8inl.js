@@ -22,7 +22,7 @@ var basic__distributions_8inl =
     [ "gauss", "basic__distributions_8inl.html#aed44b4dfa74f0ab603df1dc4e0e19b1b", null ],
     [ "johnson_su", "basic__distributions_8inl.html#ad1f384a8b20d41179684c097351549af", null ],
     [ "lambda", "basic__distributions_8inl.html#a226b5ae55983130a9a1e82e0ecdd8c1b", null ],
-    [ "lognormal", "basic__distributions_8inl.html#aaa53fd103d8686a1b8eb7a9dcc1567ba", null ],
+    [ "lognormal", "basic__distributions_8inl.html#a3e321e1837fe086e7ddc42286aaafb38", null ],
     [ "mass", "basic__distributions_8inl.html#abb39a36b520aa64394409998d008eea0", null ],
     [ "mean", "basic__distributions_8inl.html#af5f88b70b94c2ada29011f672e3e88a4", null ],
     [ "ndof", "basic__distributions_8inl.html#a0bd088c0826d42a99826e8cd0330b3a2", null ],

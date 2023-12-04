@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -97,6 +97,7 @@ $(document).ready(function(){initNavTree('SPlot_8h.html','');});
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">SPlot.h File Reference</div>  </div>
@@ -116,7 +117,7 @@ $(document).ready(function(){initNavTree('SPlot_8h.html','');});
 <code>#include &lt;hydra/detail/external/hydra_thrust/tuple.h&gt;</code><br />
 <code>#include &lt;hydra/detail/external/hydra_thrust/transform_reduce.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/functors/ProcessSPlot.h</a>&gt;</code><br />
-<code>#include &lt;Eigen/Dense&gt;</code><br />
+<code>#include &lt;hydra/detail/external/hydra_Eigen/Dense&gt;</code><br />
 <code>#include &lt;initializer_list&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -146,6 +147,11 @@ Namespaces</h2></td></tr>
 <tr class="memdesc:namespacehydra"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic policies definition. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a5d8e4d9a4f962348bb641fb821508fd1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SPlot_8h.html#a5d8e4d9a4f962348bb641fb821508fd1">EIGEN_MAX_STATIC_ALIGN_BYTES</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a5d8e4d9a4f962348bb641fb821508fd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a7f74fb09a286265393fbce752c0c32cb"><td class="memTemplParams" colspan="2">template&lt;typename Iterator , typename PDF1 , typename PDF2 , typename ... PDFs&gt; </td></tr>
@@ -157,13 +163,28 @@ Functions</h2></td></tr>
 <tr class="memdesc:ac5ead3609a0334574dba725caebf656b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience function for instantiating <a class="el" href="group__fit.html#classhydra_1_1SPlot" title="Implementation of {s}_{Plot} technique for statistical unfolding of sample containing events from dif...">SPlot</a> objects using type deduction.  <a href="namespacehydra.html#ac5ead3609a0334574dba725caebf656b">More...</a><br /></td></tr>
 <tr class="separator:ac5ead3609a0334574dba725caebf656b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a5d8e4d9a4f962348bb641fb821508fd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d8e4d9a4f962348bb641fb821508fd1">&#9670;&nbsp;</a></span>EIGEN_MAX_STATIC_ALIGN_BYTES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EIGEN_MAX_STATIC_ALIGN_BYTES&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="SPlot_8h.html">SPlot.h</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:47 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

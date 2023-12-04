@@ -5,6 +5,7 @@ var searchData=
   ['randomfill_2eh',['RandomFill.h',['../RandomFill_8h.html',1,'']]],
   ['randomfill_2einl',['RandomFill.inl',['../RandomFill_8inl.html',1,'']]],
   ['randomrange_2einl',['RandomRange.inl',['../RandomRange_8inl.html',1,'']]],
+  ['randomtraits_2eh',['RandomTraits.h',['../RandomTraits_8h.html',1,'']]],
   ['randomutils_2eh',['RandomUtils.h',['../RandomUtils_8h.html',1,'']]],
   ['range_2eh',['Range.h',['../Range_8h.html',1,'']]],
   ['range1_2einl',['Range1.inl',['../Range1_8inl.html',1,'']]],
@@ -16,7 +17,6 @@ var searchData=
   ['realtocomplexcufft_2eh',['RealToComplexCuFFT.h',['../RealToComplexCuFFT_8h.html',1,'']]],
   ['realtocomplexfftw_2eh',['RealToComplexFFTW.h',['../RealToComplexFFTW_8h.html',1,'']]],
   ['reduce_2einl',['Reduce.inl',['../Reduce_8inl.html',1,'']]],
-  ['referencecounter_2eh',['ReferenceCounter.h',['../ReferenceCounter_8h.html',1,'']]],
   ['rint_2eh',['rint.h',['../rint_8h.html',1,'']]],
   ['rngformula_2eh',['RngFormula.h',['../RngFormula_8h.html',1,'']]]
 ];

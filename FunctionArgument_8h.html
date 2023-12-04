@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -108,7 +108,7 @@ $(document).ready(function(){initNavTree('FunctionArgument_8h.html','');});
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for FunctionArgument.h:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="FunctionArgument_8h__incl.svg" width="100%" height="551"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="FunctionArgument_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -137,7 +137,7 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a9bf5c0a8c15b7a9c422eab118e4eef19"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FunctionArgument_8h.html#a9bf5c0a8c15b7a9c422eab118e4eef19">declarg</a>(NAME,  TYPE)</td></tr>
+<tr class="memitem:a9bf5c0a8c15b7a9c422eab118e4eef19"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="FunctionArgument_8h.html#a9bf5c0a8c15b7a9c422eab118e4eef19">declarg</a>(NAME,  <a class="el" href="Convolution_8h.html#a5a392548f2df67370cb15d2a5d75cd7b">TYPE</a>)</td></tr>
 <tr class="separator:a9bf5c0a8c15b7a9c422eab118e4eef19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -178,9 +178,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ad26711acfa7ad9c58ecbea6c342f06ce"><td class="memTemplParams" colspan="2">template&lt;typename Arg1 , typename Arg2 &gt; </td></tr>
 <tr class="memitem:ad26711acfa7ad9c58ecbea6c342f06ce"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> std::enable_if&lt; detail::is_function_argument_pack&lt; Arg1, Arg2 &gt;::value, decltype(std::declval&lt; typename Arg1::value_type &gt;)/std::declval&lt; typename Arg2::value_type &gt;))&gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1arguments.html#ad26711acfa7ad9c58ecbea6c342f06ce">hydra::arguments::operator/</a> (Arg1 const &amp;a1, Arg2 const &amp;a2)</td></tr>
 <tr class="separator:ad26711acfa7ad9c58ecbea6c342f06ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01f36643bd05e2c74ee8d643c4bab4ba"><td class="memTemplParams" colspan="2">template&lt;typename Arg &gt; </td></tr>
-<tr class="memitem:a01f36643bd05e2c74ee8d643c4bab4ba"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; detail::is_function_argument&lt; Arg &gt;::value, std::ostream &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1arguments.html#a01f36643bd05e2c74ee8d643c4bab4ba">hydra::arguments::operator&lt;&lt;</a> (std::ostream &amp;s, const hydra_thrust::device_reference&lt; Arg &gt; &amp;a)</td></tr>
-<tr class="separator:a01f36643bd05e2c74ee8d643c4bab4ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3db356561ec078896c7a7e7fc0a05db1"><td class="memTemplParams" colspan="2">template&lt;typename Arg &gt; </td></tr>
+<tr class="memitem:a3db356561ec078896c7a7e7fc0a05db1"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; detail::is_function_argument&lt; Arg &gt;::value, std::ostream &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1arguments.html#a3db356561ec078896c7a7e7fc0a05db1">hydra::arguments::operator&lt;&lt;</a> (std::ostream &amp;s, const hydra::thrust::device_reference&lt; Arg &gt; &amp;a)</td></tr>
+<tr class="separator:a3db356561ec078896c7a7e7fc0a05db1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd30aea7117f7bf48c7ff7436ea14014"><td class="memTemplParams" colspan="2">template&lt;typename Arg &gt; </td></tr>
 <tr class="memitem:abd30aea7117f7bf48c7ff7436ea14014"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; detail::is_function_argument&lt; Arg &gt;::value, std::ostream &amp; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1arguments.html#abd30aea7117f7bf48c7ff7436ea14014">hydra::arguments::operator&lt;&lt;</a> (std::ostream &amp;s, const Arg &amp;a)</td></tr>
 <tr class="separator:abd30aea7117f7bf48c7ff7436ea14014"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -202,7 +202,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname">TYPE&#160;</td>
+          <td class="paramname"><a class="el" href="Convolution_8h.html#a5a392548f2df67370cb15d2a5d75cd7b">TYPE</a>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -221,7 +221,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="FunctionArgument_8h.html">FunctionArgument.h</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:46 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

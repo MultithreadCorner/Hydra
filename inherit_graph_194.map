@@ -1,4 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classhydra_1_1detail_1_1ParametersCompositeFunctor.html" title="hydra::detail::Parameters\lCompositeFunctor\&lt; F1, F2,\l Fs... \&gt;" alt="" coords="5,13,188,69"/>
-<area shape="rect" id="node2" href="$classhydra_1_1BaseCompositeFunctor_3_01Composite_00_01hydra__thrust_1_1tuple_3_01F1_00_01F2_00_0863f00b43bfdf79cb6cf50e96bab02ba.html" title="hydra::BaseCompositeFunctor\l\&lt; Composite, hydra_thrust\l::tuple\&lt; F1, F2, Fs... \&gt;,\l Signature \&gt;" alt="" coords="236,5,435,76"/>
+<area shape="rect" id="node1" href="$classhydra_1_1detail_1_1ParametersCompositeFunctor.html" title="hydra::detail::Parameters\lCompositeFunctor\&lt; F0, F1, Fs \&gt;" alt="" coords="5,5,220,47"/>
 </map>

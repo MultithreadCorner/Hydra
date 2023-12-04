@@ -9,7 +9,7 @@ var basic__fit__range__semantics_8inl =
     [ "Hist_Data", "basic__fit__range__semantics_8inl.html#a07c849018f71b92fffba87b3c41b1856", null ],
     [ "parse", "basic__fit__range__semantics_8inl.html#a1c06c263c31271c073a8f0735b1e4a16", null ],
     [ "argc", "basic__fit__range__semantics_8inl.html#a27fb769f88c3c17ca3490b75f7758431", null ],
-    [ "elapsed_d", "basic__fit__range__semantics_8inl.html#a9b79cb929e3cb8a2a82574231c466012", null ],
+    [ "elapsed_d", "basic__fit__range__semantics_8inl.html#a1ba8521a327bf005305635e89ab116dd", null ],
     [ "gaussian", "basic__fit__range__semantics_8inl.html#a93b9927daa5dcc9961fe8d583f340872", null ],
     [ "max", "basic__fit__range__semantics_8inl.html#a0b0ede69e8156eb97acc579b88e883de", null ],
     [ "mean", "basic__fit__range__semantics_8inl.html#abb40a2ee28b839fb572e161c68141faf", null ],

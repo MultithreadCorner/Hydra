@@ -6,8 +6,8 @@ var Print_8h =
     [ "HYDRA_LOG", "Print_8h.html#a1036315778d5f77a9bc3f8febf449568", null ],
     [ "HYDRA_MSG", "Print_8h.html#a3ac4ae8d1f7d698b15cf4ba2dc950c02", null ],
     [ "HYDRA_SPACED_MSG", "Print_8h.html#ab7f373065b4d8ffecf649d95bbd4837a", null ],
-    [ "INFO", "Print_8h.html#ad87c68ca6adb981f4c31ae73ef97de3ba4517ec382985cb7a39393c0da09e58d5", null ],
-    [ "WARNING", "Print_8h.html#ad87c68ca6adb981f4c31ae73ef97de3ba1bf857a06d5b8463494a6fcac6f4ea26", null ],
-    [ "ERROR", "Print_8h.html#ad87c68ca6adb981f4c31ae73ef97de3badbc96f88184ea3a51f68df95e2b44851", null ],
+    [ "INFO", "Print_8h.html#a1107488f838687e73b39ddd8245f40d0a4517ec382985cb7a39393c0da09e58d5", null ],
+    [ "WARNING", "Print_8h.html#a1107488f838687e73b39ddd8245f40d0a1bf857a06d5b8463494a6fcac6f4ea26", null ],
+    [ "ERROR", "Print_8h.html#a1107488f838687e73b39ddd8245f40d0adbc96f88184ea3a51f68df95e2b44851", null ],
     [ "PrintLevel", "Print_8h.html#a5afb8f1b6ea1ba2b8fc79444e5d20f20", null ]
 ];

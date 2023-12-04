@@ -1,0 +1,8 @@
+<map id="binary_function" name="binary_function">
+<area shape="rect" id="node2" href="$structhydra_1_1detail_1_1AddStatsPHSP.html" title="{hydra::detail::AddStatsPHSP\l\&lt; StatsPHSP const &amp;, StatsPHSP\l const &amp;, StatsPHSP \&gt;\n||+ operator()()\l}" alt="" coords="5,160,232,267"/>
+<area shape="rect" id="node3" href="$structhydra_1_1detail_1_1EvalOnDaughtersBinary.html" title="{hydra::detail::EvalOnDaughters\lBinary\&lt; ResultPHSP const\l &amp;, ResultPHSP const &amp;, ResultPHSP \&gt;\n||+ operator()()\l}" alt="" coords="257,160,519,267"/>
+<area shape="rect" id="node4" href="$structhydra_1_1detail_1_1ProcessBoxesVegas.html" title="{hydra::detail::ProcessBoxes\lVegas\&lt; ResultVegas const\l &amp;, ResultVegas const &amp;,\l ResultVegas \&gt;\n||+ operator()()\l}" alt="" coords="544,153,731,274"/>
+<area shape="rect" id="node5" href="$structhydra_1_1detail_1_1ProcessCallsPlainBinary.html" title="{hydra::detail::ProcessCalls\lPlainBinary\&lt; PlainState\l const &amp;, PlainState const\l &amp;, PlainState \&gt;\n||+ operator()()\l}" alt="" coords="755,153,933,274"/>
+<area shape="rect" id="node6" href="$structhydra_1_1detail_1_1ProcessGenzMalikBinaryCall.html" title="{hydra::detail::ProcessGenz\lMalikBinaryCall\&lt; hydra\l::detail::tuple_type\&lt; N\l+2, GReal_t \&gt;::type, hydra\l::detail::tuple_type\&lt; N+2,\l GReal_t \&gt;::type, hydra::detail\l::tuple_type\&lt; N+2, GReal_t \&gt;::type \&gt;\n||+ operator()()\l}" alt="" coords="957,131,1197,296"/>
+<area shape="rect" id="node7" href="$structhydra_1_1GaussKronrodBinary.html" title="{hydra::GaussKronrodBinary\l\&lt; GaussKronrodCall const\l &amp;, GaussKronrodCall const\l &amp;, GaussKronrodCall \&gt;\n||+ operator()()\l}" alt="" coords="1222,153,1407,274"/>
+</map>

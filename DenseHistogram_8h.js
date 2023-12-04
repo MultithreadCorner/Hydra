@@ -1,10 +1,10 @@
 var DenseHistogram_8h =
 [
-    [ "make_dense_histogram", "DenseHistogram_8h.html#ga7e1a3000b4a0d0b0660b52314134c8fa", null ],
-    [ "make_dense_histogram", "DenseHistogram_8h.html#ga53a84ebf42e3d3aead5a9d0801284a9e", null ],
-    [ "make_dense_histogram", "DenseHistogram_8h.html#ga425cd2dd0c24aaf04eade2e7b6205fe8", null ],
-    [ "make_dense_histogram", "DenseHistogram_8h.html#ga74d16ad8a015b01bd88bbdea526f5f51", null ],
-    [ "make_dense_histogram", "DenseHistogram_8h.html#gaf5fb0ff39a4c2cce59ab9b88f7289b88", null ],
-    [ "make_dense_histogram", "DenseHistogram_8h.html#ga1050ca55613cd5c79c8f424c329466ad", null ],
-    [ "make_dense_histogram", "DenseHistogram_8h.html#ga867aff975628a4f23c6d5d22bc5baa80", null ]
+    [ "make_dense_histogram", "DenseHistogram_8h.html#gab7620416b81e1aeb9f0f721bedcc1fc0", null ],
+    [ "make_dense_histogram", "DenseHistogram_8h.html#ga2473e6bf693982480a25a362fdd63cc9", null ],
+    [ "make_dense_histogram", "DenseHistogram_8h.html#gaa3ee77b40d763eee2d828b62ee09537c", null ],
+    [ "make_dense_histogram", "DenseHistogram_8h.html#gaa7c8d3794db72bd6ed086fe753450064", null ],
+    [ "make_dense_histogram", "DenseHistogram_8h.html#gaa749f1d4034e7b8bb43dccf4738f152e", null ],
+    [ "make_dense_histogram", "DenseHistogram_8h.html#gac56cd763e01bdb74bc09de1f29624b8f", null ],
+    [ "make_dense_histogram", "DenseHistogram_8h.html#ga7c4020d4319e6061c1845212bdd0b8d9", null ]
 ];

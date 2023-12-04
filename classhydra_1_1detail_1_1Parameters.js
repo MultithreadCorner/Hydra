@@ -21,5 +21,6 @@ var classhydra_1_1detail_1_1Parameters =
     [ "SetParameter", "classhydra_1_1detail_1_1Parameters.html#a713b56a061950fc18741da1c90577dd4", null ],
     [ "SetParameter", "classhydra_1_1detail_1_1Parameters.html#a90dfd95a11de3a8b718bb06de15cc8bc", null ],
     [ "SetParameters", "classhydra_1_1detail_1_1Parameters.html#a12fa435d67cfda236b2d93ab992462af", null ],
+    [ "Update", "classhydra_1_1detail_1_1Parameters.html#a99e629f80d0aaa6c8f82b0ed28b4739d", null ],
     [ "parameter_count", "classhydra_1_1detail_1_1Parameters.html#aaae5c9de6c61f3797eeabb3b26c2a07e", null ]
 ];

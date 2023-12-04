@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -137,9 +137,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a6256486a1fd69c4d2df51f9fff3ef3d5"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a6256486a1fd69c4d2df51f9fff3ef3d5"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail_1_1meld__iterators__ns.html#a6256486a1fd69c4d2df51f9fff3ef3d5">hydra::detail::meld_iterators_ns::convert_to_tuple</a> (T &amp;&amp;iterator) -&gt; typename std::enable_if&lt; detail::is_iterator&lt; T &gt;::value &amp;&amp;detail::is_zip_iterator&lt; T &gt;::value, decltype(std::declval&lt; T &gt;().get_iterator_tuple()) &gt;::type</td></tr>
 <tr class="separator:a6256486a1fd69c4d2df51f9fff3ef3d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac36de892880609f667e4d5cc9718a5e1"><td class="memTemplParams" colspan="2">template&lt;typename ... Iterators&gt; </td></tr>
-<tr class="memitem:ac36de892880609f667e4d5cc9718a5e1"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#ac36de892880609f667e4d5cc9718a5e1">hydra::detail::meld_iterators</a> (Iterators &amp;&amp;... iterators) -&gt; decltype(hydra_thrust::make_zip_iterator(hydra_thrust::tuple_cat(meld_iterators_ns::convert_to_tuple(std::forward&lt; Iterators &gt;(iterators))...)))</td></tr>
-<tr class="separator:ac36de892880609f667e4d5cc9718a5e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d9f6a5b4844a887d53284f38f00f89a"><td class="memTemplParams" colspan="2">template&lt;typename ... Iterators&gt; </td></tr>
+<tr class="memitem:a3d9f6a5b4844a887d53284f38f00f89a"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a3d9f6a5b4844a887d53284f38f00f89a">hydra::detail::meld_iterators</a> (Iterators &amp;&amp;... iterators) -&gt; decltype(hydra::thrust::make_zip_iterator(hydra::thrust::tuple_cat(meld_iterators_ns::convert_to_tuple(std::forward&lt; Iterators &gt;(iterators))...)))</td></tr>
+<tr class="separator:a3d9f6a5b4844a887d53284f38f00f89a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d803c1c594f979fb4a8f4beae580766"><td class="memTemplParams" colspan="2">template&lt;typename ... T&gt; </td></tr>
 <tr class="memitem:a6d803c1c594f979fb4a8f4beae580766"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; all_true&lt; is_zip_iterator&lt; T &gt;::value... &gt;::value, typename detail::merged_zip_iterator&lt; T... &gt;::type &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#a6d803c1c594f979fb4a8f4beae580766">hydra::detail::zip_iterator_cat</a> (T const &amp;... zip_iterators)</td></tr>
 <tr class="separator:a6d803c1c594f979fb4a8f4beae580766"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,7 +150,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="ZipIteratorUtility_8h.html">ZipIteratorUtility.h</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:47 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

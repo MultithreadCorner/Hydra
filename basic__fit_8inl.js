@@ -9,7 +9,7 @@ var basic__fit_8inl =
     [ "Hist_Data", "basic__fit_8inl.html#a1de6d4c6af02ff26aa10bc7ee7a507ab", null ],
     [ "parse", "basic__fit_8inl.html#a1c06c263c31271c073a8f0735b1e4a16", null ],
     [ "argc", "basic__fit_8inl.html#a27fb769f88c3c17ca3490b75f7758431", null ],
-    [ "elapsed", "basic__fit_8inl.html#a60810dff65182a1f2ff03ac051475384", null ],
+    [ "elapsed", "basic__fit_8inl.html#ac885494604ab75ca186fa2082a4261b8", null ],
     [ "max", "basic__fit_8inl.html#a0b0ede69e8156eb97acc579b88e883de", null ],
     [ "min", "basic__fit_8inl.html#aad36546e8175d2922bee165fe028fedc", null ],
     [ "nentries", "basic__fit_8inl.html#af8b0f365ee5d5b76a62688733e5016a1", null ],

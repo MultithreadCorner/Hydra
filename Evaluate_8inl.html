@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -105,7 +105,7 @@ $(document).ready(function(){initNavTree('Evaluate_8inl.html','');});
 <div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="Evaluate_8inl__dep__incl.svg" width="635" height="202"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="Evaluate_8inl__dep__incl.svg" width="102" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div>
@@ -128,18 +128,18 @@ Functions</h2></td></tr>
 <tr class="memitem:gadea4fcd2b0a13095c4408fbee01c2c72"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__generic.html#gadea4fcd2b0a13095c4408fbee01c2c72">hydra::eval</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;, Functor const  &amp;functor, Iterator begin, Iterator <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">end</a>) -&gt; typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;::template container&lt; typename Functor::return_type &gt;</td></tr>
 <tr class="memdesc:gadea4fcd2b0a13095c4408fbee01c2c72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate a hydra functor on a range using the parallel policy.  <a href="group__generic.html#gadea4fcd2b0a13095c4408fbee01c2c72">More...</a><br /></td></tr>
 <tr class="separator:gadea4fcd2b0a13095c4408fbee01c2c72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad3ea8aefb6b4ea0d33078e76114d4446"><td class="memTemplParams" colspan="2">template&lt;hydra::detail::Backend BACKEND, typename Iterator , typename ... Functors&gt; </td></tr>
-<tr class="memitem:gad3ea8aefb6b4ea0d33078e76114d4446"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__generic.html#gad3ea8aefb6b4ea0d33078e76114d4446">hydra::eval</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;,hydra_thrust::tuple&lt; Functors... &gt; const  &amp;functors, Iterator begin, Iterator <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">end</a>) -&gt; multivector&lt; hydra_thrust::tuple&lt; typename Functors::return_type ... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;&gt;</td></tr>
-<tr class="memdesc:gad3ea8aefb6b4ea0d33078e76114d4446"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate a tuple of hydra functors on a range using the parallel policy.  <a href="group__generic.html#gad3ea8aefb6b4ea0d33078e76114d4446">More...</a><br /></td></tr>
-<tr class="separator:gad3ea8aefb6b4ea0d33078e76114d4446"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0a17d8f289e951a4e6db944ffe7810df"><td class="memTemplParams" colspan="2">template&lt;hydra::detail::Backend BACKEND, typename Iterator , typename ... Functors&gt; </td></tr>
+<tr class="memitem:ga0a17d8f289e951a4e6db944ffe7810df"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__generic.html#ga0a17d8f289e951a4e6db944ffe7810df">hydra::eval</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;,<a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::thrust::tuple</a>&lt; Functors... &gt; const  &amp;functors, Iterator begin, Iterator <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">end</a>) -&gt; multivector&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::thrust::tuple</a>&lt; typename Functors::return_type ... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;&gt;</td></tr>
+<tr class="memdesc:ga0a17d8f289e951a4e6db944ffe7810df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate a tuple of hydra functors on a range using the parallel policy.  <a href="group__generic.html#ga0a17d8f289e951a4e6db944ffe7810df">More...</a><br /></td></tr>
+<tr class="separator:ga0a17d8f289e951a4e6db944ffe7810df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8564abe3d04aa014ba0a6a40e6c5d599"><td class="memTemplParams" colspan="2">template&lt;hydra::detail::Backend BACKEND, typename Functor , typename Iterator , typename ... Iterators&gt; </td></tr>
 <tr class="memitem:ga8564abe3d04aa014ba0a6a40e6c5d599"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__generic.html#ga8564abe3d04aa014ba0a6a40e6c5d599">hydra::eval</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;, Functor const  &amp;functor, Iterator begin, Iterator <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">end</a>, Iterators... begins) -&gt; typename <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;::template container&lt; typename Functor::return_type &gt;</td></tr>
 <tr class="memdesc:ga8564abe3d04aa014ba0a6a40e6c5d599"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate a functor over a list of ranges.  <a href="group__generic.html#ga8564abe3d04aa014ba0a6a40e6c5d599">More...</a><br /></td></tr>
 <tr class="separator:ga8564abe3d04aa014ba0a6a40e6c5d599"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6edb3602e25dac1a2653e2ce33450232"><td class="memTemplParams" colspan="2">template&lt;hydra::detail::Backend BACKEND, typename Iterator , typename ... Iterators, typename ... Functors&gt; </td></tr>
-<tr class="memitem:ga6edb3602e25dac1a2653e2ce33450232"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__generic.html#ga6edb3602e25dac1a2653e2ce33450232">hydra::eval</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;, hydra_thrust::tuple&lt; Functors... &gt; const  &amp;functors, Iterator begin, Iterator <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">end</a>, Iterators... begins) -&gt; multivector&lt; hydra_thrust::tuple&lt; typename Functors::return_type ... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; &gt;</td></tr>
-<tr class="memdesc:ga6edb3602e25dac1a2653e2ce33450232"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate a tuple of functors over a list of ranges.  <a href="group__generic.html#ga6edb3602e25dac1a2653e2ce33450232">More...</a><br /></td></tr>
-<tr class="separator:ga6edb3602e25dac1a2653e2ce33450232"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga652c2803a7acd9d917a76900150e99dc"><td class="memTemplParams" colspan="2">template&lt;hydra::detail::Backend BACKEND, typename Iterator , typename ... Iterators, typename ... Functors&gt; </td></tr>
+<tr class="memitem:ga652c2803a7acd9d917a76900150e99dc"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__generic.html#ga652c2803a7acd9d917a76900150e99dc">hydra::eval</a> (<a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt;, <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::thrust::tuple</a>&lt; Functors... &gt; const  &amp;functors, Iterator begin, Iterator <a class="el" href="phsp__unweighting_8inl.html#a6be7d98960df33edf9f3998a9e8b2407">end</a>, Iterators... begins) -&gt; multivector&lt; <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::thrust::tuple</a>&lt; typename Functors::return_type ... &gt;, <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1BackendPolicy">hydra::detail::BackendPolicy</a>&lt; BACKEND &gt; &gt;</td></tr>
+<tr class="memdesc:ga652c2803a7acd9d917a76900150e99dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate a tuple of functors over a list of ranges.  <a href="group__generic.html#ga652c2803a7acd9d917a76900150e99dc">More...</a><br /></td></tr>
+<tr class="separator:ga652c2803a7acd9d917a76900150e99dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a7229593d3b1ad139340bfacd8d4a19cf"></a>
@@ -162,7 +162,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="Evaluate_8inl.html">Evaluate.inl</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:46 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

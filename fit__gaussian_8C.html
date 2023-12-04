@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -107,15 +107,14 @@ $(document).ready(function(){initNavTree('fit__gaussian_8C.html','');});
 <code>#include &lt;chrono&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/device/System.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Function.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/Lambda.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/Random.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/LogLikelihoodFCN.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Parameter.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/UserParameters.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Pdf.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/Filter.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/functions/Gaussian.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/DenseHistogram.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/multivector.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Zip.h</a>&gt;</code><br />
 <code>#include &quot;Minuit2/FunctionMinimum.h&quot;</code><br />
 <code>#include &quot;Minuit2/MnUserParameterState.h&quot;</code><br />
 <code>#include &quot;Minuit2/MnPrint.h&quot;</code><br />
@@ -143,9 +142,9 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ad023290de8f655605cb29562ac7f51c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fit__gaussian_8C.html#ad023290de8f655605cb29562ac7f51c0">fit_gaussian</a> (size_t <a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>=1000000)</td></tr>
-<tr class="memdesc:ad023290de8f655605cb29562ac7f51c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This macro generates data and fit a Gaussian distribution in parallel.  <a href="#ad023290de8f655605cb29562ac7f51c0">More...</a><br /></td></tr>
-<tr class="separator:ad023290de8f655605cb29562ac7f51c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31b61307f23aa265ebde72daaac28356"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fit__gaussian_8C.html#a31b61307f23aa265ebde72daaac28356">declarg</a> (xvar, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>)</td></tr>
+<tr class="memdesc:a31b61307f23aa265ebde72daaac28356"><td class="mdescLeft">&#160;</td><td class="mdescRight">This macro generates data and fit a Gaussian distribution in parallel.  <a href="#a31b61307f23aa265ebde72daaac28356">More...</a><br /></td></tr>
+<tr class="separator:a31b61307f23aa265ebde72daaac28356"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a6a448b251f0dc280b7dc192c072b3ed9"></a>
@@ -177,24 +176,34 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ad023290de8f655605cb29562ac7f51c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad023290de8f655605cb29562ac7f51c0">&#9670;&nbsp;</a></span>fit_gaussian()</h2>
+<a id="a31b61307f23aa265ebde72daaac28356"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31b61307f23aa265ebde72daaac28356">&#9670;&nbsp;</a></span>declarg()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void fit_gaussian </td>
+          <td class="memname">declarg </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>nentries</em> = <code>1000000</code></td><td>)</td>
+          <td class="paramtype">xvar&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>This macro generates data and fit a Gaussian distribution in parallel. </p>
-<dl class="section note"><dt>Note</dt><dd>Call this macro in ROOT compile mode: <div class="fragment"><div class="line">root [0] .L <a class="code" href="fit__gaussian_8C.html#ad023290de8f655605cb29562ac7f51c0">fit_gaussian</a>.C+</div><div class="line">root [1] <a class="code" href="fit__gaussian_8C.html#ad023290de8f655605cb29562ac7f51c0">fit_gaussian</a>(50000000)</div></div><!-- fragment --></dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Call this macro in ROOT compile mode: <div class="fragment"><div class="line">root [0] .L fit_gaussian.C+</div><div class="line">root [1] fit_gaussian(50000000)</div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">nentries</td><td>Number of points to generate. </td></tr>
@@ -211,7 +220,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_b3c69fde212a60de3f50954f66fa65c1.html">examples</a></li><li class="navelem"><a class="el" href="dir_8382fbd7b2d8f6265e55b9108cec1023.html">root_macros</a></li><li class="navelem"><a class="el" href="fit__gaussian_8C.html">fit_gaussian.C</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:46 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

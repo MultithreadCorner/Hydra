@@ -1,7 +1,6 @@
 <map id="GrayCode.h" name="GrayCode.h">
-<area shape="rect" id="node2" href="$Sobol_8h.html" title="Sobol.h" alt="" coords="102,80,169,107"/>
-<area shape="rect" id="node3" href="$Decays__old_8inl.html" title="Decays_old.inl" alt="" coords="5,155,113,181"/>
-<area shape="rect" id="node4" href="$sobol__quasirandom_8inl.html" title="sobol_quasirandom.inl" alt="" coords="137,155,288,181"/>
-<area shape="rect" id="node5" href="$sobol__quasirandom_8cpp.html" title="sobol_quasirandom.cpp" alt="" coords="43,229,201,256"/>
-<area shape="rect" id="node6" href="$sobol__quasirandom_8cu.html" title="sobol_quasirandom.cu" alt="" coords="226,229,378,256"/>
+<area shape="rect" id="node2" href="$Sobol_8h.html" title="Sobol.h" alt="" coords="141,80,207,107"/>
+<area shape="rect" id="node3" href="$sobol__quasirandom_8inl.html" title="sobol_quasirandom.inl" alt="" coords="99,155,249,181"/>
+<area shape="rect" id="node4" href="$sobol__quasirandom_8cpp.html" title="sobol_quasirandom.cpp" alt="" coords="5,229,164,256"/>
+<area shape="rect" id="node5" href="$sobol__quasirandom_8cu.html" title="sobol_quasirandom.cu" alt="" coords="189,229,341,256"/>
 </map>

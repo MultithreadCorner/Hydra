@@ -1,8 +1,7 @@
 <map id="ProcessGenzMalikQuadrature.h" name="ProcessGenzMalikQuadrature.h">
-<area shape="rect" id="node2" href="$GenzMalikQuadrature_8inl.html" title="GenzMalikQuadrature.inl" alt="" coords="55,80,221,107"/>
-<area shape="rect" id="node3" href="$GenzMalikQuadrature_8h.html" title="GenzMalikQuadrature.h" alt="" coords="119,155,277,181"/>
-<area shape="rect" id="node4" href="$genz__malik_8inl.html" title="genz_malik.inl" alt="" coords="76,229,181,256"/>
-<area shape="rect" id="node7" href="$fit__3d__gaussian_8C.html" title="fit_3d_gaussian.C" alt="" coords="205,229,332,256"/>
-<area shape="rect" id="node5" href="$genz__malik_8cpp.html" title="genz_malik.cpp" alt="" coords="5,304,119,331"/>
-<area shape="rect" id="node6" href="$genz__malik_8cu.html" title="genz_malik.cu" alt="" coords="143,304,250,331"/>
+<area shape="rect" id="node2" href="$GenzMalikQuadrature_8inl.html" title="GenzMalikQuadrature.inl" alt="" coords="5,80,171,107"/>
+<area shape="rect" id="node3" href="$GenzMalikQuadrature_8h.html" title="GenzMalikQuadrature.h" alt="" coords="69,155,227,181"/>
+<area shape="rect" id="node4" href="$genz__malik_8inl.html" title="genz_malik.inl" alt="" coords="95,229,201,256"/>
+<area shape="rect" id="node5" href="$genz__malik_8cpp.html" title="genz_malik.cpp" alt="" coords="25,304,138,331"/>
+<area shape="rect" id="node6" href="$genz__malik_8cu.html" title="genz_malik.cu" alt="" coords="163,304,269,331"/>
 </map>

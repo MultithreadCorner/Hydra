@@ -9,7 +9,7 @@ var fractional__logLL__fit_8inl =
     [ "Hist_Data", "fractional__logLL__fit_8inl.html#a4980f434d674d298a607140e917e3bdd", null ],
     [ "parse", "fractional__logLL__fit_8inl.html#a1c06c263c31271c073a8f0735b1e4a16", null ],
     [ "argc", "fractional__logLL__fit_8inl.html#a27fb769f88c3c17ca3490b75f7758431", null ],
-    [ "elapsed_d", "fractional__logLL__fit_8inl.html#a6e938d75b93bacbffe14adc2c7e47eda", null ],
+    [ "elapsed_d", "fractional__logLL__fit_8inl.html#a13274f666852a4e6e550ec12b9fddb70", null ],
     [ "Exp_PDF", "fractional__logLL__fit_8inl.html#abe4dcbceefaf0510914eea5126d4deef", null ],
     [ "F_Gauss_1_p", "fractional__logLL__fit_8inl.html#a68464d264d4bdc181a6e715c9af92c9c", null ],
     [ "F_Gauss_2_p", "fractional__logLL__fit_8inl.html#a5543ad6a77b00584a6e58f208d019419", null ],

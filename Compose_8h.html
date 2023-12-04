@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -108,9 +108,13 @@ $(document).ready(function(){initNavTree('Compose_8h.html','');});
 <code>#include &lt;<a class="el" href="">hydra/detail/utility/Utility_Tuple.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/base_functor.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/Constant.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/detail/CompositeBase.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/FunctorTraits.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/CompositeTraits.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Parameter.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Tuple.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/BaseCompositeFunctor.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/TupleUtility.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/TupleTraits.h</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Compose.h:</div>
 <div class="dyncontent">
@@ -139,9 +143,9 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae10c8ab337cbc0b309aa95eb345ddc5d"><td class="memTemplParams" colspan="2">template&lt;typename T0 , typename T1 , typename ... Ts&gt; </td></tr>
-<tr class="memitem:ae10c8ab337cbc0b309aa95eb345ddc5d"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T0 &gt;::value||detail::is_hydra_lambda&lt; T0 &gt;::value) &amp;&amp;(detail::is_hydra_functor&lt; T1 &gt;::value||detail::is_hydra_lambda&lt; T1 &gt;::value) &amp;&amp;detail::all_true&lt;(detail::is_hydra_functor&lt; Ts &gt;::value||detail::is_hydra_lambda&lt; Ts &gt;::value)... &gt;::value, Compose&lt; T0, T1, Ts... &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#ae10c8ab337cbc0b309aa95eb345ddc5d">hydra::compose</a> (T0 const &amp;F0, T1 const &amp;F1, Ts const &amp;...Fs)</td></tr>
-<tr class="separator:ae10c8ab337cbc0b309aa95eb345ddc5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86c018d960aacf7e0b79a20946aff059"><td class="memTemplParams" colspan="2">template&lt;typename T0 , typename T1 , typename ... Ts&gt; </td></tr>
+<tr class="memitem:a86c018d960aacf7e0b79a20946aff059"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;(detail::is_hydra_functor&lt; T0 &gt;::value||detail::is_hydra_lambda&lt; T0 &gt;::value) &amp;&amp;(detail::is_hydra_functor&lt; T1 &gt;::value||detail::is_hydra_lambda&lt; T1 &gt;::value) &amp;&amp;detail::all_true&lt;(detail::is_hydra_functor&lt; Ts &gt;::value||detail::is_hydra_lambda&lt; Ts &gt;::value)... &gt;::value, Compose&lt; T0, T1, Ts... &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehydra.html#a86c018d960aacf7e0b79a20946aff059">hydra::compose</a> (T0 const &amp;F0, T1 const &amp;F1, Ts const &amp;...Fs)</td></tr>
+<tr class="separator:a86c018d960aacf7e0b79a20946aff059"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -149,7 +153,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="Compose_8h.html">Compose.h</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:46 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

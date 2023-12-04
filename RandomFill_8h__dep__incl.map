@@ -6,8 +6,8 @@
 <area shape="rect" id="node14" href="$extended__logLL__fit_8inl.html" title="extended_logLL_fit.inl" alt="" coords="1257,87,1405,114"/>
 <area shape="rect" id="node17" href="$fractional__logLL__fit_8inl.html" title="fractional_logLL_fit.inl" alt="" coords="1524,87,1672,114"/>
 <area shape="rect" id="node20" href="$multidimensional__fit_8inl.html" title="multidimensional_fit.inl" alt="" coords="1878,87,2033,114"/>
-<area shape="rect" id="node23" href="$splot_8inl.html" title="splot.inl" alt="" coords="2243,87,2310,114"/>
-<area shape="rect" id="node26" href="$fill__basic__distributions_8inl.html" title="fill_basic_distributions.inl" alt="" coords="2435,87,2601,114"/>
+<area shape="rect" id="node23" href="$splot_8inl.html" title="splot.inl" alt="" coords="2150,87,2217,114"/>
+<area shape="rect" id="node26" href="$fit__3d__gaussian_8C.html" title="fit_3d_gaussian.C" alt="" coords="2241,87,2368,114"/>
 <area shape="rect" id="node3" href="$cufft_8cpp.html" title="cufft.cpp" alt="" coords="5,177,79,203"/>
 <area shape="rect" id="node4" href="$cufft_8cu.html" title="cufft.cu" alt="" coords="103,177,170,203"/>
 <area shape="rect" id="node6" href="$fft_8cpp.html" title="fft.cpp" alt="" coords="194,177,253,203"/>
@@ -24,6 +24,4 @@
 <area shape="rect" id="node22" href="$multidimensional__fit_8cu.html" title="multidimensional_fit.cu" alt="" coords="2061,177,2215,203"/>
 <area shape="rect" id="node24" href="$splot_8cpp.html" title="splot.cpp" alt="" coords="2239,177,2314,203"/>
 <area shape="rect" id="node25" href="$splot_8cu.html" title="splot.cu" alt="" coords="2339,177,2407,203"/>
-<area shape="rect" id="node27" href="$fill__basic__distributions_8cpp.html" title="fill_basic_distributions.cpp" alt="" coords="2431,177,2605,203"/>
-<area shape="rect" id="node28" href="$fill__basic__distributions_8cu.html" title="fill_basic_distributions.cu" alt="" coords="2630,177,2798,203"/>
 </map>

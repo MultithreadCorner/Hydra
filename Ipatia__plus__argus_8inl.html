@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -155,7 +155,7 @@ Functions</h2></td></tr>
 <tr class="separator:a58e43a6eee990d884b2008760c6505c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a847ebf0b5067895a9c74f81825c76a00"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Ipatia__plus__argus_8inl.html#a847ebf0b5067895a9c74f81825c76a00">catch</a> (TCLAP::ArgException &amp;e)</td></tr>
 <tr class="separator:a847ebf0b5067895a9c74f81825c76a00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7dc0cdce190fb7c7f4b9ca73cf09ee6b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Ipatia__plus__argus_8inl.html#a7dc0cdce190fb7c7f4b9ca73cf09ee6b">declarg</a> (_X, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>) <a class="el" href="namespace_3globalScope_4.html#classint">int</a> <a class="el" href="sobol__quasirandom_8inl.html#a1c03069360f1f90a556eb537e0ff8a72">main</a>(<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv</td></tr>
+<tr class="memitem:a7dc0cdce190fb7c7f4b9ca73cf09ee6b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Ipatia__plus__argus_8inl.html#a7dc0cdce190fb7c7f4b9ca73cf09ee6b">declarg</a> (_X, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>) <a class="el" href="namespace_3globalScope_4.html#classint">int</a> <a class="el" href="unweight__sample_8inl.html#a1c03069360f1f90a556eb537e0ff8a72">main</a>(<a class="el" href="namespace_3globalScope_4.html#classint">int</a> argv</td></tr>
 <tr class="separator:a7dc0cdce190fb7c7f4b9ca73cf09ee6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32ea8a498b202f85a8d77adaac39ca1b"><td class="memItemLeft" align="right" valign="top">TCLAP::ValueArg&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Ipatia__plus__argus_8inl.html#a32ea8a498b202f85a8d77adaac39ca1b">EArg</a> (&quot;n&quot;, &quot;number-of-events&quot;,&quot;Number of events&quot;, true, 10e6, &quot;size_t&quot;)</td></tr>
 <tr class="separator:a32ea8a498b202f85a8d77adaac39ca1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -178,8 +178,8 @@ Variables</h2></td></tr>
 <tr class="separator:ae87cf30f58a40cae21dd7d985b83570c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7033d85826bd54896b58da524b818474"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Ipatia__plus__argus_8inl.html#a7033d85826bd54896b58da524b818474">beta</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;beta&quot;).Value(1.0).Error(0.0001).Limits(0.5, 1.5)</td></tr>
 <tr class="separator:a7033d85826bd54896b58da524b818474"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaed1ed82bb43a8dec0f63bb831d03f94"><td class="memItemLeft" align="right" valign="top">std::cout&lt;&lt; std::endl&lt;&lt; &quot;Generated <a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a> (10 first elements):&quot;&lt;&lt; std::endl;for(size_t i=0;i&lt; 10;i++) std::cout&lt;&lt; &quot;[&quot;&lt;&lt; i&lt;&lt; &quot;] :&quot;&lt;&lt; <a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a>[i]&lt;&lt; std::endl;std::cout&lt;&lt; std::endl&lt;&lt; &quot;Total dataset size :&quot;&lt;&lt; range.size()&lt;&lt; std::endl;auto <a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a>=<a class="el" href="group__fit.html#ga7cb37dfdb2198202b4cb3f0b79f94080">hydra::make_loglikehood_fcn</a>(<a class="el" href="particle__mass_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a>, <a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a>);ROOT::Minuit2::MnPrint::SetLevel(3);MnStrategy <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>(2);MnMigrad <a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a>(<a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a>, fcn.GetParameters().GetMnState(), <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>);std::cout&lt;&lt; fcn.GetParameters().GetMnState()&lt;&lt; std::endl;auto start_d=std::chrono::high_resolution_clock::now();FunctionMinimum minimum_d=FunctionMinimum(<a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a>(500000, 50));auto end_d=std::chrono::high_resolution_clock::now();std::chrono::duration&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, std::milli &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Ipatia__plus__argus_8inl.html#aaed1ed82bb43a8dec0f63bb831d03f94">elapsed_d</a> = end_d - start_d</td></tr>
-<tr class="separator:aaed1ed82bb43a8dec0f63bb831d03f94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b5152559fe50b2e4a12ed8bdd3bab92"><td class="memItemLeft" align="right" valign="top">std::cout&lt;&lt; std::endl&lt;&lt; &quot;Generated <a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a> (10 first elements):&quot;&lt;&lt; std::endl;for(size_t i=0;i&lt; 10;i++) std::cout&lt;&lt; &quot;[&quot;&lt;&lt; i&lt;&lt; &quot;] :&quot;&lt;&lt; <a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a>[i]&lt;&lt; std::endl;std::cout&lt;&lt; std::endl&lt;&lt; &quot;Total dataset size :&quot;&lt;&lt; range.size()&lt;&lt; std::endl;auto <a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a>=<a class="el" href="group__fit.html#ga7cb37dfdb2198202b4cb3f0b79f94080">hydra::make_loglikehood_fcn</a>(<a class="el" href="particle__mass_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a>, <a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a>);ROOT::Minuit2::MnPrint::SetGlobalLevel(3);MnStrategy <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>(2);MnMigrad <a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a>(<a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a>, fcn.GetParameters().GetMnState(), <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>);std::cout&lt;&lt; fcn.GetParameters().GetMnState()&lt;&lt; std::endl;auto start_d=std::chrono::high_resolution_clock::now();FunctionMinimum minimum_d=FunctionMinimum(<a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a>(500000, 50));auto end_d=std::chrono::high_resolution_clock::now();std::chrono::duration&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, std::milli &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Ipatia__plus__argus_8inl.html#a0b5152559fe50b2e4a12ed8bdd3bab92">elapsed_d</a> = end_d - start_d</td></tr>
+<tr class="separator:a0b5152559fe50b2e4a12ed8bdd3bab92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8296c67db1defe92a2c472eb11bcaa5"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Ipatia__plus__argus_8inl.html#ac8296c67db1defe92a2c472eb11bcaa5">L1</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;L1&quot;).Value(0.5).Error(0.0001).Limits(0.1, 1.0)</td></tr>
 <tr class="separator:ac8296c67db1defe92a2c472eb11bcaa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbaf3310296b190020fcf181accb99f1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Ipatia__plus__argus_8inl.html#acbaf3310296b190020fcf181accb99f1">L2</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;L2&quot;).Value(1.2).Error(0.0001).Limits(0.5, 1.5)</td></tr>
@@ -206,7 +206,7 @@ Variables</h2></td></tr>
 <tr class="separator:af8b0f365ee5d5b76a62688733e5016a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4379093f415e7717ee1351cc9136f3c"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Ipatia__plus__argus_8inl.html#ae4379093f415e7717ee1351cc9136f3c">power</a> = <a class="el" href="group__fit.html#ab71317b03a67ac0de6daec09c16df4c6">hydra::Parameter::Create</a>(&quot;Power&quot;).Value(0.5).Fixed()</td></tr>
 <tr class="separator:ae4379093f415e7717ee1351cc9136f3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41c36559284ec68ca0e13c56558b5f09"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Ipatia__plus__argus_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a> = <a class="el" href="namespacehydra.html#aed01ab7e551c3ca33d6b8df7b27c4a31">hydra::sample</a>(<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>, <a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>, model.GetFunctor())</td></tr>
+<tr class="memitem:a41c36559284ec68ca0e13c56558b5f09"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Ipatia__plus__argus_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a> = <a class="el" href="namespacehydra.html#a5b5278e8bbc808a52856865a2a39dba7">hydra::sample</a>(<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>, <a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>, model.GetFunctor())</td></tr>
 <tr class="separator:a41c36559284ec68ca0e13c56558b5f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9717e7bbecb906637e86cef6da3d83c2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Ipatia__plus__argus_8inl.html#a9717e7bbecb906637e86cef6da3d83c2">return</a></td></tr>
 <tr class="separator:a9717e7bbecb906637e86cef6da3d83c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -461,8 +461,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="convolute_functions_8inl-example.html#a18">convolute_functions.inl</a>.</dd>
-</dl>
+
 </div>
 </div>
 <a id="a27fb769f88c3c17ca3490b75f7758431"></a>
@@ -513,18 +512,17 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="convolute_functions_8inl-example.html#a19">convolute_functions.inl</a>.</dd>
-</dl>
+
 </div>
 </div>
-<a id="aaed1ed82bb43a8dec0f63bb831d03f94"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaed1ed82bb43a8dec0f63bb831d03f94">&#9670;&nbsp;</a></span>elapsed_d</h2>
+<a id="a0b5152559fe50b2e4a12ed8bdd3bab92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b5152559fe50b2e4a12ed8bdd3bab92">&#9670;&nbsp;</a></span>elapsed_d</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::cout&lt;&lt; std::endl&lt;&lt; &quot;Generated <a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a> (10 first elements):&quot;&lt;&lt; std::endl; for(size_t i=0; i&lt; 10; i++) std::cout &lt;&lt; &quot;[&quot; &lt;&lt; i &lt;&lt; &quot;] :&quot; &lt;&lt; <a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a>[i] &lt;&lt; std::endl; std::cout&lt;&lt; std::endl&lt;&lt; &quot;Total dataset size :&quot;&lt;&lt; range.size() &lt;&lt; std::endl; auto <a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a> = <a class="el" href="group__fit.html#ga7cb37dfdb2198202b4cb3f0b79f94080">hydra::make_loglikehood_fcn</a>( <a class="el" href="particle__mass_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a>, <a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a> ); ROOT::Minuit2::MnPrint::SetLevel(3); MnStrategy <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>(2); MnMigrad <a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a>(<a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a>, fcn.GetParameters().GetMnState() , <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>); std::cout&lt;&lt;fcn.GetParameters().GetMnState()&lt;&lt;std::endl; auto start_d = std::chrono::high_resolution_clock::now(); FunctionMinimum minimum_d = FunctionMinimum(<a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a>(500000, 50)); auto end_d = std::chrono::high_resolution_clock::now(); std::chrono::duration&lt;<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, std::milli&gt; elapsed_d = end_d - start_d</td>
+          <td class="memname">std::cout&lt;&lt; std::endl&lt;&lt; &quot;Generated <a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a> (10 first elements):&quot;&lt;&lt; std::endl; for(size_t i=0; i&lt; 10; i++) std::cout &lt;&lt; &quot;[&quot; &lt;&lt; i &lt;&lt; &quot;] :&quot; &lt;&lt; <a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a>[i] &lt;&lt; std::endl; std::cout&lt;&lt; std::endl&lt;&lt; &quot;Total dataset size :&quot;&lt;&lt; range.size() &lt;&lt; std::endl; auto <a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a> = <a class="el" href="group__fit.html#ga7cb37dfdb2198202b4cb3f0b79f94080">hydra::make_loglikehood_fcn</a>( <a class="el" href="particle__mass_8inl.html#a4494b924b71b8932dedd0783a4e7061f">model</a>, <a class="el" href="particle__mass_8inl.html#a41c36559284ec68ca0e13c56558b5f09">range</a> ); ROOT::Minuit2::MnPrint::SetGlobalLevel(3); MnStrategy <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>(2); MnMigrad <a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a>(<a class="el" href="binned__extended__logLL__fit_8inl.html#aad15208f9f01c27dc8a4ccbbe0970fee">fcn</a>, fcn.GetParameters().GetMnState() , <a class="el" href="binned__extended__logLL__fit_8inl.html#a606056a11d38679114392e4b9e9a52c0">strategy</a>); std::cout&lt;&lt;fcn.GetParameters().GetMnState()&lt;&lt;std::endl; auto start_d = std::chrono::high_resolution_clock::now(); FunctionMinimum minimum_d = FunctionMinimum(<a class="el" href="binned__extended__logLL__fit_8inl.html#aa0364f6c04ec4b6c9bb4a8182db8f973">migrad_d</a>(500000, 50)); auto end_d = std::chrono::high_resolution_clock::now(); std::chrono::duration&lt;<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, std::milli&gt; elapsed_d = end_d - start_d</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -542,8 +540,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="convolute_functions_8inl-example.html#a14">convolute_functions.inl</a>.</dd>
-</dl>
+
 </div>
 </div>
 <a id="acbaf3310296b190020fcf181accb99f1"></a>
@@ -557,8 +554,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="convolute_functions_8inl-example.html#a16">convolute_functions.inl</a>.</dd>
-</dl>
+
 </div>
 </div>
 <a id="a39ca56064d9d973f843d1fee9e5da470"></a>
@@ -628,8 +624,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="convolute_functions_8inl-example.html#a12">convolute_functions.inl</a>.</dd>
-</dl>
+
 </div>
 </div>
 <a id="a8106f09b6a7c8282d6f237364a30e5e4"></a>
@@ -643,8 +638,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="convolute_functions_8inl-example.html#a15">convolute_functions.inl</a>.</dd>
-</dl>
+
 </div>
 </div>
 <a id="a5ec56f622b3760c006a55312a610fd3f"></a>
@@ -658,8 +652,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="convolute_functions_8inl-example.html#a17">convolute_functions.inl</a>.</dd>
-</dl>
+
 </div>
 </div>
 <a id="a1e7b3dc6ec234b82390324c1d98f2874"></a>
@@ -725,7 +718,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">auto range = <a class="el" href="namespacehydra.html#aed01ab7e551c3ca33d6b8df7b27c4a31">hydra::sample</a>(<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>, <a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>, model.GetFunctor())</td>
+          <td class="memname">auto range = <a class="el" href="namespacehydra.html#a5b5278e8bbc808a52856865a2a39dba7">hydra::sample</a>(<a class="el" href="basic__distributions_8inl.html#a248ea98483ce90baaf65a7682438d72d">data</a>, <a class="el" href="particle__mass_8inl.html#aad36546e8175d2922bee165fe028fedc">min</a>, <a class="el" href="particle__mass_8inl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>, model.GetFunctor())</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -821,7 +814,7 @@ Variables</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_b3c69fde212a60de3f50954f66fa65c1.html">examples</a></li><li class="navelem"><a class="el" href="dir_6e157aa34d06ae01b63aa7ec9c965b66.html">phys</a></li><li class="navelem"><a class="el" href="Ipatia__plus__argus_8inl.html">Ipatia_plus_argus.inl</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:46 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

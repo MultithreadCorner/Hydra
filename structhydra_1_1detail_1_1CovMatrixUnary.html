@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -120,7 +120,9 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:af5a4c6ecaa1b976320171cfd025943a9"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt; F1, F2, Fs... &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#af5a4c6ecaa1b976320171cfd025943a9">functors_tuple_type</a></td></tr>
+<tr class="memitem:a9b9e242b9f95433d1717bc1d11708d18"><td class="memItemLeft" align="right" valign="top">typedef hydra::Eigen::Matrix&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a126b3cbaeb8c685bcf47cce7883b7583">nfunctors</a>, <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a126b3cbaeb8c685bcf47cce7883b7583">nfunctors</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a9b9e242b9f95433d1717bc1d11708d18">covariant_matrix_type</a></td></tr>
+<tr class="separator:a9b9e242b9f95433d1717bc1d11708d18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5a4c6ecaa1b976320171cfd025943a9"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt; F1, F2, Fs... &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#af5a4c6ecaa1b976320171cfd025943a9">functors_tuple_type</a></td></tr>
 <tr class="separator:af5a4c6ecaa1b976320171cfd025943a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd72bf0575d2d9250596f9ff9bd38814"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1tuple__type">detail::tuple_type</a>&lt; <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a126b3cbaeb8c685bcf47cce7883b7583">nfunctors</a> *<a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a126b3cbaeb8c685bcf47cce7883b7583">nfunctors</a>, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#abd72bf0575d2d9250596f9ff9bd38814">matrix_tuple</a></td></tr>
 <tr class="separator:abd72bf0575d2d9250596f9ff9bd38814"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,22 +133,22 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a278e6817d84914b8368e8c012ad4884f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec2d162abf0553b7af3c7738184496e3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#aec2d162abf0553b7af3c7738184496e3">CovMatrixUnary</a> (<a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html">CovMatrixUnary</a>&lt; F1, F2, Fs... &gt; const &amp;other)</td></tr>
 <tr class="separator:aec2d162abf0553b7af3c7738184496e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a573edfab8d8f180e14a207087f1f6a5e"><td class="memTemplParams" colspan="2">template&lt;typename Type &gt; </td></tr>
-<tr class="memitem:a573edfab8d8f180e14a207087f1f6a5e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> Eigen::Matrix&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a126b3cbaeb8c685bcf47cce7883b7583">nfunctors</a>, <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a126b3cbaeb8c685bcf47cce7883b7583">nfunctors</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a573edfab8d8f180e14a207087f1f6a5e">operator()</a> (Type x)</td></tr>
-<tr class="separator:a573edfab8d8f180e14a207087f1f6a5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cc4b208d9d7fea65191ebd66bd09dcb"><td class="memTemplParams" colspan="2">template&lt;typename Type &gt; </td></tr>
+<tr class="memitem:a9cc4b208d9d7fea65191ebd66bd09dcb"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a9b9e242b9f95433d1717bc1d11708d18">covariant_matrix_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a9cc4b208d9d7fea65191ebd66bd09dcb">operator()</a> (Type x)</td></tr>
+<tr class="separator:a9cc4b208d9d7fea65191ebd66bd09dcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae96b293bb3a6e1e8eb2ddfc3fea59d08"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html">CovMatrixUnary</a>&lt; F1, F2, Fs... &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#ae96b293bb3a6e1e8eb2ddfc3fea59d08">operator=</a> (<a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html">CovMatrixUnary</a>&lt; F1, F2, Fs... &gt; const &amp;other)</td></tr>
 <tr class="separator:ae96b293bb3a6e1e8eb2ddfc3fea59d08"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e038be8cd68df16191c4c6e0f7fc4fb"><td class="memTemplParams" colspan="2">template&lt;typename T , int N, int I&gt; </td></tr>
-<tr class="memitem:a1e038be8cd68df16191c4c6e0f7fc4fb"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> hydra_thrust::detail::enable_if&lt;(I==N *N), void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a1e038be8cd68df16191c4c6e0f7fc4fb">set_matrix</a> (<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> denominator, T &amp;&amp;, Eigen::Matrix&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N, N &gt; &amp;)</td></tr>
-<tr class="separator:a1e038be8cd68df16191c4c6e0f7fc4fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab50d555a280b7b3a43553172c9afe6a5"><td class="memTemplParams" colspan="2">template&lt;typename T , int N, int I = 0&gt; </td></tr>
-<tr class="memitem:ab50d555a280b7b3a43553172c9afe6a5"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> hydra_thrust::detail::enable_if&lt;(I&lt; N *N), void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#ab50d555a280b7b3a43553172c9afe6a5">set_matrix</a> (<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> denominator, T &amp;&amp;ftuple, Eigen::Matrix&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N, N &gt; &amp;fcovmatrix)</td></tr>
-<tr class="separator:ab50d555a280b7b3a43553172c9afe6a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac356ed6444204abfbb087f466994c74c"><td class="memTemplParams" colspan="2">template&lt;typename T , int N, int I&gt; </td></tr>
+<tr class="memitem:ac356ed6444204abfbb087f466994c74c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> hydra::thrust::detail::enable_if&lt;(I==N *N), void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#ac356ed6444204abfbb087f466994c74c">set_matrix</a> (<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> denominator, T &amp;&amp;, hydra::Eigen::Matrix&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N, N &gt; &amp;)</td></tr>
+<tr class="separator:ac356ed6444204abfbb087f466994c74c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfbf6107bdeab8484fe0280310c7124c"><td class="memTemplParams" colspan="2">template&lt;typename T , int N, int I = 0&gt; </td></tr>
+<tr class="memitem:abfbf6107bdeab8484fe0280310c7124c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> hydra::thrust::detail::enable_if&lt;(I&lt; N *N), void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#abfbf6107bdeab8484fe0280310c7124c">set_matrix</a> (<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a> denominator, T &amp;&amp;ftuple, hydra::Eigen::Matrix&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N, N &gt; &amp;fcovmatrix)</td></tr>
+<tr class="separator:abfbf6107bdeab8484fe0280310c7124c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:abed02915839e45b1b898fb7253bad15c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#abed02915839e45b1b898fb7253bad15c">fCoeficients</a> [<a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a126b3cbaeb8c685bcf47cce7883b7583">nfunctors</a>]</td></tr>
-<tr class="separator:abed02915839e45b1b898fb7253bad15c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8ff47d0c089d12695a89f4dd0448404"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#aa8ff47d0c089d12695a89f4dd0448404">fCoefficients</a> [<a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a126b3cbaeb8c685bcf47cce7883b7583">nfunctors</a>]</td></tr>
+<tr class="separator:aa8ff47d0c089d12695a89f4dd0448404"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf74057555eaa79e2860135f64c15acf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#af5a4c6ecaa1b976320171cfd025943a9">functors_tuple_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#acf74057555eaa79e2860135f64c15acf">fFunctors</a></td></tr>
 <tr class="separator:acf74057555eaa79e2860135f64c15acf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -160,6 +162,22 @@ Static Public Attributes</h2></td></tr>
 struct hydra::detail::CovMatrixUnary&lt; F1, F2, Fs &gt;</h3>
 
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a9b9e242b9f95433d1717bc1d11708d18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b9e242b9f95433d1717bc1d11708d18">&#9670;&nbsp;</a></span>covariant_matrix_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F1 , typename F2 , typename ... Fs&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef hydra::Eigen::Matrix&lt;<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a126b3cbaeb8c685bcf47cce7883b7583">nfunctors</a>, <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a126b3cbaeb8c685bcf47cce7883b7583">nfunctors</a>&gt; <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html">hydra::detail::CovMatrixUnary</a>&lt; F1, F2, Fs &gt;::<a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a9b9e242b9f95433d1717bc1d11708d18">covariant_matrix_type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="af5a4c6ecaa1b976320171cfd025943a9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af5a4c6ecaa1b976320171cfd025943a9">&#9670;&nbsp;</a></span>functors_tuple_type</h2>
 
@@ -169,7 +187,7 @@ struct hydra::detail::CovMatrixUnary&lt; F1, F2, Fs &gt;</h3>
 template&lt;typename F1 , typename F2 , typename ... Fs&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="namespacehydra.html#a717fc4e6b10453164099beade13d0226">hydra::tuple</a>&lt;F1, F2, Fs...&gt; <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html">hydra::detail::CovMatrixUnary</a>&lt; F1, F2, Fs &gt;::<a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#af5a4c6ecaa1b976320171cfd025943a9">functors_tuple_type</a></td>
+          <td class="memname">typedef <a class="el" href="namespacehydra.html#ac3486502b2db72187626125cea971683">hydra::tuple</a>&lt;F1, F2, Fs...&gt; <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html">hydra::detail::CovMatrixUnary</a>&lt; F1, F2, Fs &gt;::<a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#af5a4c6ecaa1b976320171cfd025943a9">functors_tuple_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -260,8 +278,8 @@ template&lt;typename F1 , typename F2 , typename ... Fs&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a573edfab8d8f180e14a207087f1f6a5e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a573edfab8d8f180e14a207087f1f6a5e">&#9670;&nbsp;</a></span>operator()()</h2>
+<a id="a9cc4b208d9d7fea65191ebd66bd09dcb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cc4b208d9d7fea65191ebd66bd09dcb">&#9670;&nbsp;</a></span>operator()()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -274,7 +292,7 @@ template&lt;typename Type &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> Eigen::Matrix&lt;<a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a126b3cbaeb8c685bcf47cce7883b7583">nfunctors</a>, <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a126b3cbaeb8c685bcf47cce7883b7583">nfunctors</a>&gt; <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html">hydra::detail::CovMatrixUnary</a>&lt; F1, F2, Fs &gt;::operator() </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a9b9e242b9f95433d1717bc1d11708d18">covariant_matrix_type</a> <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html">hydra::detail::CovMatrixUnary</a>&lt; F1, F2, Fs &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">Type&#160;</td>
           <td class="paramname"><em>x</em></td><td>)</td>
@@ -318,8 +336,8 @@ template&lt;typename F1 , typename F2 , typename ... Fs&gt; </div>
 
 </div>
 </div>
-<a id="a1e038be8cd68df16191c4c6e0f7fc4fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e038be8cd68df16191c4c6e0f7fc4fb">&#9670;&nbsp;</a></span>set_matrix() <span class="overload">[1/2]</span></h2>
+<a id="ac356ed6444204abfbb087f466994c74c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac356ed6444204abfbb087f466994c74c">&#9670;&nbsp;</a></span>set_matrix() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -332,7 +350,7 @@ template&lt;typename T , int N, int I&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> hydra_thrust::detail::enable_if&lt;(I == N*N),void &gt;::type <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html">hydra::detail::CovMatrixUnary</a>&lt; F1, F2, Fs &gt;::set_matrix </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> hydra::thrust::detail::enable_if&lt;(I == N*N),void &gt;::type <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html">hydra::detail::CovMatrixUnary</a>&lt; F1, F2, Fs &gt;::set_matrix </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>denominator</em>, </td>
@@ -346,7 +364,7 @@ template&lt;typename T , int N, int I&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Eigen::Matrix&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N, N &gt; &amp;&#160;</td>
+          <td class="paramtype">hydra::Eigen::Matrix&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N, N &gt; &amp;&#160;</td>
           <td class="paramname">&#160;</td>
         </tr>
         <tr>
@@ -364,8 +382,8 @@ template&lt;typename T , int N, int I&gt; </div>
 
 </div>
 </div>
-<a id="ab50d555a280b7b3a43553172c9afe6a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab50d555a280b7b3a43553172c9afe6a5">&#9670;&nbsp;</a></span>set_matrix() <span class="overload">[2/2]</span></h2>
+<a id="abfbf6107bdeab8484fe0280310c7124c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfbf6107bdeab8484fe0280310c7124c">&#9670;&nbsp;</a></span>set_matrix() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -378,7 +396,7 @@ template&lt;typename T , int N, int I = 0&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> hydra_thrust::detail::enable_if&lt;(I &lt; N*N),void &gt;::type <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html">hydra::detail::CovMatrixUnary</a>&lt; F1, F2, Fs &gt;::set_matrix </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> hydra::thrust::detail::enable_if&lt;(I &lt; N*N),void &gt;::type <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html">hydra::detail::CovMatrixUnary</a>&lt; F1, F2, Fs &gt;::set_matrix </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
           <td class="paramname"><em>denominator</em>, </td>
@@ -392,7 +410,7 @@ template&lt;typename T , int N, int I = 0&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Eigen::Matrix&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N, N &gt; &amp;&#160;</td>
+          <td class="paramtype">hydra::Eigen::Matrix&lt; <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>, N, N &gt; &amp;&#160;</td>
           <td class="paramname"><em>fcovmatrix</em>&#160;</td>
         </tr>
         <tr>
@@ -411,8 +429,8 @@ template&lt;typename T , int N, int I = 0&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Field Documentation</h2>
-<a id="abed02915839e45b1b898fb7253bad15c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abed02915839e45b1b898fb7253bad15c">&#9670;&nbsp;</a></span>fCoeficients</h2>
+<a id="aa8ff47d0c089d12695a89f4dd0448404"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8ff47d0c089d12695a89f4dd0448404">&#9670;&nbsp;</a></span>fCoefficients</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -420,7 +438,7 @@ template&lt;typename T , int N, int I = 0&gt; </div>
 template&lt;typename F1 , typename F2 , typename ... Fs&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html">hydra::detail::CovMatrixUnary</a>&lt; F1, F2, Fs &gt;::fCoeficients[<a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a126b3cbaeb8c685bcf47cce7883b7583">nfunctors</a>]</td>
+          <td class="memname"><a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a> <a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html">hydra::detail::CovMatrixUnary</a>&lt; F1, F2, Fs &gt;::fCoefficients[<a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html#a126b3cbaeb8c685bcf47cce7883b7583">nfunctors</a>]</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -476,7 +494,7 @@ template&lt;typename F1 , typename F2 , typename ... Fs&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacehydra.html">hydra</a></li><li class="navelem"><a class="el" href="namespacehydra_1_1detail.html">detail</a></li><li class="navelem"><a class="el" href="structhydra_1_1detail_1_1CovMatrixUnary.html">CovMatrixUnary</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

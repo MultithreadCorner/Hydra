@@ -33,6 +33,7 @@ var searchData=
   ['genzmalikrule_3c_20dim_2c_20hydra_3a_3adetail_3a_3abackendpolicy_3c_20backend_20_3e_20_3e',['GenzMalikRule&lt; DIM, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;',['../group__numerical__integration.html#classhydra_1_1GenzMalikRule_3_01DIM_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4',1,'hydra']]],
   ['genzmalikrule_3c_20n_2c_20hydra_3a_3adetail_3a_3abackendpolicy_3c_20backend_20_3e_20_3e',['GenzMalikRule&lt; N, hydra::detail::BackendPolicy&lt; BACKEND &gt; &gt;',['../namespacehydra.html#namespacehydra',1,'hydra']]],
   ['genzmalikrulebase',['GenzMalikRuleBase',['../classhydra_1_1GenzMalikRuleBase.html',1,'hydra']]],
+  ['getaxisbincenter',['GetAxisBinCenter',['../structhydra_1_1detail_1_1GetAxisBinCenter.html',1,'hydra::detail']]],
   ['getbincenter',['GetBinCenter',['../structhydra_1_1detail_1_1GetBinCenter.html',1,'hydra::detail']]],
   ['getbincenter_3c_20t_2c_201_20_3e',['GetBinCenter&lt; T, 1 &gt;',['../structhydra_1_1detail_1_1GetBinCenter_3_01T_00_011_01_4.html',1,'hydra::detail']]],
   ['getglobalbin',['GetGlobalBin',['../structhydra_1_1detail_1_1GetGlobalBin.html',1,'hydra::detail']]],

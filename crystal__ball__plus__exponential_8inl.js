@@ -12,7 +12,7 @@ var crystal__ball__plus__exponential_8inl =
     [ "alpha", "crystal__ball__plus__exponential_8inl.html#a143fa1ae6e83f554763008ef6fc4829b", null ],
     [ "argc", "crystal__ball__plus__exponential_8inl.html#a27fb769f88c3c17ca3490b75f7758431", null ],
     [ "Background_PDF", "crystal__ball__plus__exponential_8inl.html#ae87cf30f58a40cae21dd7d985b83570c", null ],
-    [ "elapsed_d", "crystal__ball__plus__exponential_8inl.html#a8382ae2b90c3888089645b9a1e48ffae", null ],
+    [ "elapsed_d", "crystal__ball__plus__exponential_8inl.html#a0b57e9e30774bc74c67a92b9137d2e21", null ],
     [ "max", "crystal__ball__plus__exponential_8inl.html#a0b0ede69e8156eb97acc579b88e883de", null ],
     [ "mean", "crystal__ball__plus__exponential_8inl.html#af5f88b70b94c2ada29011f672e3e88a4", null ],
     [ "min", "crystal__ball__plus__exponential_8inl.html#aad36546e8175d2922bee165fe028fedc", null ],

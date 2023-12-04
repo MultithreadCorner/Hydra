@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -104,6 +104,7 @@ $(document).ready(function(){initNavTree('ArgumentTraits_8h.html','');});
 <div class="textblock"><code>#include &lt;<a class="el" href="">hydra/detail/Config.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/utility/StaticAssert.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/utility/Generic.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/detail/TypeTraits.h</a>&gt;</code><br />
 <code>#include &lt;hydra/detail/external/hydra_thrust/tuple.h&gt;</code><br />
 <code>#include &lt;hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h&gt;</code><br />
 <code>#include &lt;hydra/detail/external/hydra_thrust/detail/type_traits.h&gt;</code><br />
@@ -113,7 +114,7 @@ $(document).ready(function(){initNavTree('ArgumentTraits_8h.html','');});
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for ArgumentTraits.h:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="ArgumentTraits_8h__incl.svg" width="100%" height="495"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="ArgumentTraits_8h__incl.svg" width="100%" height="573"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -129,9 +130,9 @@ This graph shows which files directly or indirectly include this file:</div>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1fa__impl_1_1__is__function__argument.html">hydra::detail::fa_impl::_is_function_argument&lt; T, U &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1fa__impl_1_1__is__function__argument_3_01hydra__thrust_1_1device__refer9fa1e9372cf57a9fd1f72d2b95066e89.html">hydra::detail::fa_impl::_is_function_argument&lt; hydra_thrust::device_reference&lt; T &gt;, hydra_thrust::void_t&lt; typename T::function_argument_type &gt; &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1fa__impl_1_1__is__function__argument_3_01hydra_1_1thrust_1_1device__ref080aad9f2744c04f6963b6982d6d70a6.html">hydra::detail::fa_impl::_is_function_argument&lt; hydra::thrust::device_reference&lt; T &gt;, hydra::thrust::void_t&lt; typename T::function_argument_type &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1fa__impl_1_1__is__function__argument_3_01T_00_01hydra__thrust_1_1void__9740ebec65afca5db7844ad820e3712d.html">hydra::detail::fa_impl::_is_function_argument&lt; T, hydra_thrust::void_t&lt; typename T::function_argument_type &gt; &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1fa__impl_1_1__is__function__argument_3_01T_00_01hydra_1_1thrust_1_1void2f63be288ab49cd081464917b6663a75.html">hydra::detail::fa_impl::_is_function_argument&lt; T, hydra::thrust::void_t&lt; typename T::function_argument_type &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1FunctionArgument.html">hydra::detail::FunctionArgument&lt; Derived, Type &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,29 +142,27 @@ Data Structures</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__function__argument_3_01Arg_00_01true_01_4.html">hydra::detail::is_function_argument&lt; Arg, true &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__function__argument_3_01hydra__thrust_1_1device__reference_3_01Arg_01_4_00_01true_01_4.html">hydra::detail::is_function_argument&lt; hydra_thrust::device_reference&lt; Arg &gt;, true &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__function__argument_3_01hydra_1_1thrust_1_1device__reference_3_01Arg_01_4_00_01true_01_4.html">hydra::detail::is_function_argument&lt; hydra::thrust::device_reference&lt; Arg &gt;, true &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__function__argument__pack.html">hydra::detail::is_function_argument_pack&lt; ArgTypes &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments.html">hydra::detail::is_tuple_of_function_arguments&lt; ArgType &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments_3_01hydra__thrust_1_1detail_1_1tuple91678faffaaaeae4ffb8187c2b42b734.html">hydra::detail::is_tuple_of_function_arguments&lt; hydra_thrust::detail::tuple_of_iterator_references&lt; ArgTypes &amp;... &gt; &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments_3_01hydra_1_1thrust_1_1detail_1_1tupb8d5df9f37f5c6735a3d0165e8041ed9.html">hydra::detail::is_tuple_of_function_arguments&lt; hydra::thrust::detail::tuple_of_iterator_references&lt; ArgTypes &amp;... &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments_3_01hydra__thrust_1_1detail_1_1tuple91dbb50ce69fee5b9cbe82c5a46c3272.html">hydra::detail::is_tuple_of_function_arguments&lt; hydra_thrust::detail::tuple_of_iterator_references&lt; hydra_thrust::device_reference&lt; ArgTypes &gt;... &gt; &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments_3_01hydra_1_1thrust_1_1detail_1_1tup9c3ba752e8de42a534da063330119dc7.html">hydra::detail::is_tuple_of_function_arguments&lt; hydra::thrust::detail::tuple_of_iterator_references&lt; hydra::thrust::device_reference&lt; ArgTypes &gt;... &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments_3_01hydra__thrust_1_1tuple_3_01ArgTypes_8_8_8_01_4_01_4.html">hydra::detail::is_tuple_of_function_arguments&lt; hydra_thrust::tuple&lt; ArgTypes... &gt; &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__tuple__of__function__arguments_3_01hydra_1_1thrust_1_1tuple_3_01ArgTypes_8_8_8_01_4_01_4.html">hydra::detail::is_tuple_of_function_arguments&lt; hydra::thrust::tuple&lt; ArgTypes... &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__tuple__type.html">hydra::detail::is_tuple_type&lt; ArgType &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__tuple__type_3_01hydra__thrust_1_1detail_1_1tuple__of__iterator__ref918b4c0478eb726f13586ea6416d2daf.html">hydra::detail::is_tuple_type&lt; hydra_thrust::detail::tuple_of_iterator_references&lt; ArgTypes... &gt; &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__tuple__type_3_01hydra_1_1thrust_1_1detail_1_1tuple__of__iterator__r7a2f4cfa59d78b39be4f2d7139f8e494.html">hydra::detail::is_tuple_type&lt; hydra::thrust::detail::tuple_of_iterator_references&lt; ArgTypes... &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__tuple__type_3_01hydra__thrust_1_1tuple_3_01ArgTypes_8_8_8_01_4_01_4.html">hydra::detail::is_tuple_type&lt; hydra_thrust::tuple&lt; ArgTypes... &gt; &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__tuple__type_3_01hydra_1_1thrust_1_1tuple_3_01ArgTypes_8_8_8_01_4_01_4.html">hydra::detail::is_tuple_type&lt; hydra::thrust::tuple&lt; ArgTypes... &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:structhydra_1_1detail_1_1is__valid__type__pack"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1is__valid__type__pack">hydra::detail::is_valid_type_pack&lt; RefT, T &gt;</a></td></tr>
 <tr class="separator:structhydra_1_1detail_1_1is__valid__type__pack"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__valid__type__pack_3_01hydra__thrust_1_1tuple_3_01RefT_8_8_8_01_4_0070324e2e3d0bd6246752982b430a02d8.html">hydra::detail::is_valid_type_pack&lt; hydra_thrust::tuple&lt; RefT... &gt;, hydra_thrust::device_reference&lt; T &gt;... &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__valid__type__pack_3_01hydra__thrust_1_1tuple_3_01RefT_8_8_8_01_4_00_01T_8_8_8_01_4.html">hydra::detail::is_valid_type_pack&lt; hydra_thrust::tuple&lt; RefT... &gt;, T... &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__valid__type__pack_3_01hydra_1_1thrust_1_1tuple_3_01RefT_8_8_8_01_4_00_01T_8_8_8_01_4.html">hydra::detail::is_valid_type_pack&lt; hydra::thrust::tuple&lt; RefT... &gt;, T... &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:structhydra_1_1detail_1_1stripped__type"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1stripped__type">hydra::detail::stripped_type&lt; Arg, T &gt;</a></td></tr>
 <tr class="separator:structhydra_1_1detail_1_1stripped__type"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -322,7 +321,7 @@ type</td>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="ArgumentTraits_8h.html">ArgumentTraits.h</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:46 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classhydra_1_1thrust_1_1unary__function.html" title="unary_function" alt="" coords="5,177,112,203"/>
+<area shape="rect" id="node2" href="$structhydra_1_1detail_1_1Caster.html" title="hydra::detail::Caster\l\&lt; TypeIn, TypeOut \&gt;" alt="" coords="179,5,321,47"/>
+<area shape="rect" id="node3" href="$structhydra_1_1detail_1_1GetAxisBinCenter.html" title="hydra::detail::GetAxisBin\lCenter\&lt; T, N, I \&gt;" alt="" coords="167,71,333,112"/>
+<area shape="rect" id="node4" href="$structhydra_1_1detail_1_1GetBinCenter.html" title="hydra::detail::GetBinCenter\l\&lt; T, N \&gt;" alt="" coords="160,136,340,177"/>
+<area shape="rect" id="node5" href="$structhydra_1_1detail_1_1GetBinCenter_3_01T_00_011_01_4.html" title="hydra::detail::GetBinCenter\l\&lt; T, 1 \&gt;" alt="" coords="160,201,340,243"/>
+<area shape="rect" id="node6" href="$structhydra_1_1detail_1_1GetGlobalBin.html" title="hydra::detail::GetGlobal\lBin\&lt; N, T \&gt;" alt="" coords="171,267,329,308"/>
+<area shape="rect" id="node7" href="$structhydra_1_1detail_1_1GetGlobalBin_3_011_00_01T_01_4.html" title="hydra::detail::GetGlobal\lBin\&lt; 1, T \&gt;" alt="" coords="171,332,329,373"/>
+</map>

@@ -13,7 +13,7 @@ var Ipatia__plus__argus_8inl =
     [ "argc", "Ipatia__plus__argus_8inl.html#a27fb769f88c3c17ca3490b75f7758431", null ],
     [ "Background_PDF", "Ipatia__plus__argus_8inl.html#ae87cf30f58a40cae21dd7d985b83570c", null ],
     [ "beta", "Ipatia__plus__argus_8inl.html#a7033d85826bd54896b58da524b818474", null ],
-    [ "elapsed_d", "Ipatia__plus__argus_8inl.html#aaed1ed82bb43a8dec0f63bb831d03f94", null ],
+    [ "elapsed_d", "Ipatia__plus__argus_8inl.html#a0b5152559fe50b2e4a12ed8bdd3bab92", null ],
     [ "L1", "Ipatia__plus__argus_8inl.html#ac8296c67db1defe92a2c472eb11bcaa5", null ],
     [ "L2", "Ipatia__plus__argus_8inl.html#acbaf3310296b190020fcf181accb99f1", null ],
     [ "m0", "Ipatia__plus__argus_8inl.html#a39ca56064d9d973f843d1fee9e5da470", null ],

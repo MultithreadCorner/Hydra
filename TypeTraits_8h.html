@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -156,11 +156,11 @@ Data Structures</h2></td></tr>
 <tr class="separator:structhydra_1_1detail_1_1if__then__else__tt_3_01true_00_01T1_00_01T2_01_4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__device__reference.html">hydra::detail::is_device_reference&lt; T &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__device__reference_3_01hydra__thrust_1_1device__reference_3_01T_01_4_01_4.html">hydra::detail::is_device_reference&lt; hydra_thrust::device_reference&lt; T &gt; &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__device__reference_3_01hydra_1_1thrust_1_1device__reference_3_01T_01_4_01_4.html">hydra::detail::is_device_reference&lt; hydra::thrust::device_reference&lt; T &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__iterator.html">hydra::detail::is_iterator&lt; T, typename &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__iterator_3_01T_00_01hydra__thrust_1_1void__t_3_01typename_01std_1_1f4f8f83b484a6990de5649c5e71c7fc4.html">hydra::detail::is_iterator&lt; T, hydra_thrust::void_t&lt; typename std::enable_if&lt; std::is_default_constructible&lt; T &gt;::value, void &gt;::type, typename std::enable_if&lt; std::is_copy_constructible&lt; T &gt;::value, void &gt;::type, typename std::enable_if&lt; std::is_destructible&lt; T &gt;::value, void &gt;::type, decltype(std::declval&lt; T &amp; &gt;()[0]), decltype(std::declval&lt; T &amp; &gt;() -std::declval&lt; T &amp; &gt;()), decltype(++std::declval&lt; T &amp; &gt;()), decltype(*std::declval&lt; T &amp; &gt;()), decltype(std::declval&lt; T &amp; &gt;()==std::declval&lt; T &amp; &gt;()), decltype(std::declval&lt; T &amp; &gt;() !=std::declval&lt; T &amp; &gt;())&gt; &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__iterator_3_01T_00_01hydra_1_1thrust_1_1void__t_3_01typename_01std_1960e516d34ba640b63ee17922e53dd7c.html">hydra::detail::is_iterator&lt; T, hydra::thrust::void_t&lt; typename std::enable_if&lt; std::is_default_constructible&lt; T &gt;::value, void &gt;::type, typename std::enable_if&lt; std::is_copy_constructible&lt; T &gt;::value, void &gt;::type, typename std::enable_if&lt; std::is_destructible&lt; T &gt;::value, void &gt;::type, decltype(std::declval&lt; T &amp; &gt;()[0]), decltype(std::declval&lt; T &amp; &gt;() -std::declval&lt; T &amp; &gt;()), decltype(++std::declval&lt; T &amp; &gt;()), decltype(*std::declval&lt; T &amp; &gt;()), decltype(std::declval&lt; T &amp; &gt;()==std::declval&lt; T &amp; &gt;()), decltype(std::declval&lt; T &amp; &gt;() !=std::declval&lt; T &amp; &gt;())&gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1is__specialization.html">hydra::detail::is_specialization&lt; T, REF &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -168,17 +168,19 @@ Data Structures</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:structhydra_1_1detail_1_1remove__device__reference"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1remove__device__reference">hydra::detail::remove_device_reference&lt; T &gt;</a></td></tr>
 <tr class="separator:structhydra_1_1detail_1_1remove__device__reference"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:structhydra_1_1detail_1_1remove__device__reference_3_01hydra__thrust_1_1device__reference_3_01T_01_4_01_4"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1remove__device__reference_3_01hydra__thrust_1_1device__reference_3_01T_01_4_01_4">hydra::detail::remove_device_reference&lt; hydra_thrust::device_reference&lt; T &gt; &gt;</a></td></tr>
-<tr class="separator:structhydra_1_1detail_1_1remove__device__reference_3_01hydra__thrust_1_1device__reference_3_01T_01_4_01_4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structhydra_1_1detail_1_1remove__device__reference_3_01hydra_1_1thrust_1_1device__reference_3_01T_01_4_01_4"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1remove__device__reference_3_01hydra_1_1thrust_1_1device__reference_3_01T_01_4_01_4">hydra::detail::remove_device_reference&lt; hydra::thrust::device_reference&lt; T &gt; &gt;</a></td></tr>
+<tr class="separator:structhydra_1_1detail_1_1remove__device__reference_3_01hydra_1_1thrust_1_1device__reference_3_01T_01_4_01_4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structhydra_1_1detail_1_1remove__device__reference_3_01T_01_6_01_4"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1remove__device__reference_3_01T_01_6_01_4">hydra::detail::remove_device_reference&lt; T &amp; &gt;</a></td></tr>
+<tr class="separator:structhydra_1_1detail_1_1remove__device__reference_3_01T_01_6_01_4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1TypeTraits.html">hydra::detail::TypeTraits&lt; T &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1TypeTraits_3_01hydra__thrust_1_1complex_3_01T_01_4_01_4.html">hydra::detail::TypeTraits&lt; hydra_thrust::complex&lt; T &gt; &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhydra_1_1detail_1_1TypeTraits_3_01hydra_1_1thrust_1_1complex_3_01T_01_4_01_4.html">hydra::detail::TypeTraits&lt; hydra::thrust::complex&lt; T &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1common__type_3_01hydra__thrust_1_1complex_3_01T_01_4_00_01hydra__thrust_1_1complex_3_01U_01_4_01_4.html">std::common_type&lt; hydra_thrust::complex&lt; T &gt;, hydra_thrust::complex&lt; U &gt; &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1common__type_3_01hydra_1_1thrust_1_1complex_3_01T_01_4_00_01hydra_1_1thrust_1_1complex_3_01U_01_4_01_4.html">std::common_type&lt; hydra::thrust::complex&lt; T &gt;, hydra::thrust::complex&lt; U &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1common__type_3_01hydra__thrust_1_1complex_3_01U_01_4_00_01T_01_4.html">std::common_type&lt; hydra_thrust::complex&lt; U &gt;, T &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1common__type_3_01hydra_1_1thrust_1_1complex_3_01U_01_4_00_01T_01_4.html">std::common_type&lt; hydra::thrust::complex&lt; U &gt;, T &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1common__type_3_01T_00_01hydra__thrust_1_1complex_3_01U_01_4_01_4.html">std::common_type&lt; T, hydra_thrust::complex&lt; U &gt; &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1common__type_3_01T_00_01hydra_1_1thrust_1_1complex_3_01U_01_4_01_4.html">std::common_type&lt; T, hydra::thrust::complex&lt; U &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -197,9 +199,9 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a21eef8c0671371274978fac6d9b44180"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="namespacehydra_1_1detail.html#a21eef8c0671371274978fac6d9b44180aea9c72bdee6f384d88af4eab49530ea8">hydra::detail::kInvalidNumber</a> = -111
+<tr class="memitem:a759ad336f50b88396a0bef211afe698e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="namespacehydra_1_1detail.html#a759ad336f50b88396a0bef211afe698eaea9c72bdee6f384d88af4eab49530ea8">hydra::detail::kInvalidNumber</a> = -111
  }</td></tr>
-<tr class="separator:a21eef8c0671371274978fac6d9b44180"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a759ad336f50b88396a0bef211afe698e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Data Structure Documentation</h2>
 <a name="structhydra_1_1detail_1_1function__traits" id="structhydra_1_1detail_1_1function__traits"></a>
@@ -497,30 +499,62 @@ type</td>
 
 </div>
 </div>
-<a name="structhydra_1_1detail_1_1remove__device__reference_3_01hydra__thrust_1_1device__reference_3_01T_01_4_01_4" id="structhydra_1_1detail_1_1remove__device__reference_3_01hydra__thrust_1_1device__reference_3_01T_01_4_01_4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structhydra_1_1detail_1_1remove__device__reference_3_01hydra__thrust_1_1device__reference_3_01T_01_4_01_4">&#9670;&nbsp;</a></span>hydra::detail::remove_device_reference&lt; hydra_thrust::device_reference&lt; T &gt; &gt;</h2>
+<a name="structhydra_1_1detail_1_1remove__device__reference_3_01hydra_1_1thrust_1_1device__reference_3_01T_01_4_01_4" id="structhydra_1_1detail_1_1remove__device__reference_3_01hydra_1_1thrust_1_1device__reference_3_01T_01_4_01_4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structhydra_1_1detail_1_1remove__device__reference_3_01hydra_1_1thrust_1_1device__reference_3_01T_01_4_01_4">&#9670;&nbsp;</a></span>hydra::detail::remove_device_reference&lt; hydra::thrust::device_reference&lt; T &gt; &gt;</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct hydra::detail::remove_device_reference&lt; hydra_thrust::device_reference&lt; T &gt; &gt;</td>
+          <td class="memname">struct hydra::detail::remove_device_reference&lt; hydra::thrust::device_reference&lt; T &gt; &gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <div class="textblock"><h3>template&lt;typename T&gt;<br />
-struct hydra::detail::remove_device_reference&lt; hydra_thrust::device_reference&lt; T &gt; &gt;</h3>
+struct hydra::detail::remove_device_reference&lt; hydra::thrust::device_reference&lt; T &gt; &gt;</h3>
 
 </div><div class="dynheader">
-Collaboration diagram for hydra::detail::remove_device_reference&lt; hydra_thrust::device_reference&lt; T &gt; &gt;:</div>
+Collaboration diagram for hydra::detail::remove_device_reference&lt; hydra::thrust::device_reference&lt; T &gt; &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1remove__device__reference_3_01hydra__thrust_1_1device__reference_3_01T_01_4_01_4__coll__graph.svg" width="224" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1remove__device__reference_3_01hydra_1_1thrust_1_1device__reference_3_01T_01_4_01_4__coll__graph.svg" width="226" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <table class="fieldtable">
 <tr><th colspan="3">Data Fields</th></tr>
 <tr><td class="fieldtype">
-<a id="ace604cd82481d3586736efe022ca568b"></a>typedef T</td>
+<a id="af623fdb8de60ab15609af42e08b317f5"></a>typedef T</td>
+<td class="fieldname">
+type</td>
+<td class="fielddoc">
+</td></tr>
+</table>
+
+</div>
+</div>
+<a name="structhydra_1_1detail_1_1remove__device__reference_3_01T_01_6_01_4" id="structhydra_1_1detail_1_1remove__device__reference_3_01T_01_6_01_4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structhydra_1_1detail_1_1remove__device__reference_3_01T_01_6_01_4">&#9670;&nbsp;</a></span>hydra::detail::remove_device_reference&lt; T &amp; &gt;</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct hydra::detail::remove_device_reference&lt; T &amp; &gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><h3>template&lt;typename T&gt;<br />
+struct hydra::detail::remove_device_reference&lt; T &amp; &gt;</h3>
+
+</div><div class="dynheader">
+Collaboration diagram for hydra::detail::remove_device_reference&lt; T &amp; &gt;:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="structhydra_1_1detail_1_1remove__device__reference_3_01T_01_6_01_4__coll__graph.svg" width="184" height="103"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+<table class="fieldtable">
+<tr><th colspan="3">Data Fields</th></tr>
+<tr><td class="fieldtype">
+<a id="a7fd24291b19127ab66c7b8f9512e00ce"></a>typedef T</td>
 <td class="fieldname">
 type</td>
 <td class="fielddoc">
@@ -535,7 +569,7 @@ type</td>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="dir_3834ae61da54c887219d23c23fa56bea.html">detail</a></li><li class="navelem"><a class="el" href="TypeTraits_8h.html">TypeTraits.h</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:47 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

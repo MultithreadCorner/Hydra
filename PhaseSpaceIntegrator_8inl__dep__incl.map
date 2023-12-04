@@ -1,10 +1,8 @@
 <map id="PhaseSpaceIntegrator.inl" name="PhaseSpaceIntegrator.inl">
-<area shape="rect" id="node2" href="$PhaseSpaceIntegrator_8h.html" title="PhaseSpaceIntegrator.h" alt="" coords="515,80,677,107"/>
+<area shape="rect" id="node2" href="$PhaseSpaceIntegrator_8h.html" title="PhaseSpaceIntegrator.h" alt="" coords="373,80,534,107"/>
 <area shape="rect" id="node3" href="$phsp__unweighting__functor__and__fit_8inl.html" title="phsp_unweighting_functor\l_and_fit.inl" alt="" coords="203,155,376,196"/>
 <area shape="rect" id="node6" href="$dalitz__plot_8inl.html" title="dalitz_plot.inl" alt="" coords="404,162,503,189"/>
-<area shape="rect" id="node9" href="$apply__filter__issue_8C.html" title="apply_filter_issue.C" alt="" coords="527,162,665,189"/>
-<area shape="rect" id="node10" href="$dalitz__plot_8C.html" title="dalitz_plot.C" alt="" coords="689,162,783,189"/>
-<area shape="rect" id="node11" href="$filter__test_8C.html" title="filter_test.C" alt="" coords="808,162,899,189"/>
+<area shape="rect" id="node9" href="$dalitz__plot_8C.html" title="dalitz_plot.C" alt="" coords="527,162,622,189"/>
 <area shape="rect" id="node4" href="$phsp__unweighting__functor__and__fit_8cpp.html" title="phsp_unweighting_functor\l_and_fit.cpp" alt="" coords="5,244,179,285"/>
 <area shape="rect" id="node5" href="$phsp__unweighting__functor__and__fit_8cu.html" title="phsp_unweighting_functor\l_and_fit.cu" alt="" coords="203,244,376,285"/>
 <area shape="rect" id="node7" href="$dalitz__plot_8cpp.html" title="dalitz_plot.cpp" alt="" coords="400,251,507,278"/>

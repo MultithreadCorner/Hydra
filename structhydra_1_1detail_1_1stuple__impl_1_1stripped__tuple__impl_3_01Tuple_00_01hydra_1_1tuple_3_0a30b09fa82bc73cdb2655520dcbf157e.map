@@ -1,0 +1,4 @@
+<map id="hydra::detail::stuple_impl::stripped_tuple_impl&lt; Tuple, hydra::tuple&lt; Head, Tail... &gt; &gt;" name="hydra::detail::stuple_impl::stripped_tuple_impl&lt; Tuple, hydra::tuple&lt; Head, Tail... &gt; &gt;">
+<area shape="rect" id="node2" href="$namespacehydra_1_1detail_1_1stuple__impl.html" title="{hydra::detail::stuple\l_impl::stripped_tuple\l_impl\&lt; std::conditional\l\&lt;(detail::is_intuple\&lt; Head,\l Tuple \&gt;::value), Tuple, detail\l::merged_tuple\&lt; Tuple, hydra::\ltuple\&lt; Head \&gt; \&gt;::type \&gt;::type,\l hydra::tuple\&lt; Tail... \&gt; \&gt;\n||}" alt="" coords="5,263,205,443"/>
+<area shape="rect" id="node3" href="$namespacehydra_1_1detail_1_1stuple__impl.html#structhydra_1_1detail_1_1stuple__impl_1_1stripped__tuple__impl" title="{hydra::detail::stuple\l_impl::stripped_tuple\l_impl\&lt; T, U \&gt;\n||}" alt="" coords="34,5,177,112"/>
+</map>

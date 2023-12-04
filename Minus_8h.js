@@ -1,10 +1,10 @@
 var Minus_8h =
 [
     [ "Minus", "classhydra_1_1Minus.html", "classhydra_1_1Minus" ],
-    [ "minus", "Minus_8h.html#a2a141f2382a6bd83a2c71c886c5b687d", null ],
-    [ "operator-", "Minus_8h.html#a84fc9a23e35641ee933be028786d852b", null ],
-    [ "operator-", "Minus_8h.html#a18c2c67f2fe010ee6acf64c05ed2b94a", null ],
-    [ "operator-", "Minus_8h.html#a738a108d0225cb4655d273940b647d00", null ],
-    [ "operator-", "Minus_8h.html#abe35592654935c44c6d5b47196bd054a", null ],
-    [ "operator-", "Minus_8h.html#a0f90d5023b833839c5f9c184ae7275dd", null ]
+    [ "minus", "Minus_8h.html#a80fad279987242786b27065cd239f604", null ],
+    [ "operator-", "Minus_8h.html#af69233e29f096db5c17391b64a4ad0c2", null ],
+    [ "operator-", "Minus_8h.html#a71916daad41dcd1b16ba317699b32da9", null ],
+    [ "operator-", "Minus_8h.html#a130d9256bfd5704541edabcf0908f204", null ],
+    [ "operator-", "Minus_8h.html#ad8ff276fd53d98090384b19ce18863f1", null ],
+    [ "operator-", "Minus_8h.html#a330909b1bc1e1189c88bd560a7217a0d", null ]
 ];

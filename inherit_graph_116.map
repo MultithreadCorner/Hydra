@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$namespacehydra_1_1detail.html#structhydra_1_1detail_1_1find__unique__type__impl" title="hydra::detail::find\l_unique_type_impl\&lt; I,\l T, Types \&gt;" alt="" coords="5,5,156,61"/>
+<area shape="rect" id="node1" href="$namespacehydra_1_1detail.html" title="hydra::detail::find\l_unique_type_impl\&lt; 0,\l Type, Types... \&gt;" alt="" coords="5,13,159,69"/>
+<area shape="rect" id="node2" href="$structhydra_1_1detail_1_1find__unique__type.html" title="hydra::detail::find\l_unique_type\&lt; Type,\l Head, Tail... \&gt;" alt="" coords="207,13,349,69"/>
+<area shape="rect" id="node3" href="$structhydra_1_1detail_1_1index__in__tuple_3_01Type_00_01hydra_1_1thrust_1_1tuple_3_01Head_00_01Tail_8_8_8_01_4_01_4.html" title="hydra::detail::index\l_in_tuple\&lt; Type, hydra\l::thrust::tuple\&lt; Head,\l Tail... \&gt; \&gt;" alt="" coords="397,5,552,76"/>
 </map>

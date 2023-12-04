@@ -1,5 +1,5 @@
 var chebychev_8h =
 [
-    [ "chebychev_1st_kind", "chebychev_8h.html#ae19bb84d35c2b4edaea63abe6c1298ef", null ],
-    [ "chebychev_2nd_kind", "chebychev_8h.html#a610d6c3636b0ee33dcebe0f10bb9d7d1", null ]
+    [ "chebychev_1st_kind", "chebychev_8h.html#aa60325f68cb5ff194182e0fb67ce11d6", null ],
+    [ "chebychev_2nd_kind", "chebychev_8h.html#a89c5073655dc6f793f63d7364e490fde", null ]
 ];

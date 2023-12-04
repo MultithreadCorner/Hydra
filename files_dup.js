@@ -11,31 +11,28 @@ var files_dup =
     [ "AddPdfFunctor.h", "AddPdfFunctor_8h.html", "AddPdfFunctor_8h" ],
     [ "Algorithm.h", "Algorithm_8h.html", null ],
     [ "AnalyticalIntegral.inl", "AnalyticalIntegral_8inl.html", "AnalyticalIntegral_8inl" ],
-    [ "apply_filter_issue.C", "apply__filter__issue_8C.html", "apply__filter__issue_8C" ],
-    [ "apply_filter_issue_C.d", "apply__filter__issue__C_8d.html", null ],
     [ "Argument.h", "Argument_8h.html", [
       [ "Argument", "structhydra_1_1Argument.html", "structhydra_1_1Argument" ]
     ] ],
     [ "ArgumentTraits.h", "ArgumentTraits_8h.html", [
       [ "_is_function_argument", "structhydra_1_1detail_1_1fa__impl_1_1__is__function__argument.html", null ],
-      [ "_is_function_argument< hydra_thrust::device_reference< T >, hydra_thrust::void_t< typename T::function_argument_type > >", "structhydra_1_1detail_1_1fa__impl_1_1__is__function__argument_3_01hydra__thrust_1_1device__refer9fa1e9372cf57a9fd1f72d2b95066e89.html", null ],
-      [ "_is_function_argument< T, hydra_thrust::void_t< typename T::function_argument_type > >", "structhydra_1_1detail_1_1fa__impl_1_1__is__function__argument_3_01T_00_01hydra__thrust_1_1void__9740ebec65afca5db7844ad820e3712d.html", null ],
+      [ "_is_function_argument< hydra::thrust::device_reference< T >, hydra::thrust::void_t< typename T::function_argument_type > >", "structhydra_1_1detail_1_1fa__impl_1_1__is__function__argument_3_01hydra_1_1thrust_1_1device__ref080aad9f2744c04f6963b6982d6d70a6.html", null ],
+      [ "_is_function_argument< T, hydra::thrust::void_t< typename T::function_argument_type > >", "structhydra_1_1detail_1_1fa__impl_1_1__is__function__argument_3_01T_00_01hydra_1_1thrust_1_1void2f63be288ab49cd081464917b6663a75.html", null ],
       [ "FunctionArgument", "structhydra_1_1detail_1_1FunctionArgument.html", "structhydra_1_1detail_1_1FunctionArgument" ],
       [ "is_function_argument", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1is__function__argument", null ],
       [ "is_function_argument< Arg, false >", "structhydra_1_1detail_1_1is__function__argument_3_01Arg_00_01false_01_4.html", null ],
       [ "is_function_argument< Arg, true >", "structhydra_1_1detail_1_1is__function__argument_3_01Arg_00_01true_01_4.html", null ],
-      [ "is_function_argument< hydra_thrust::device_reference< Arg >, true >", "structhydra_1_1detail_1_1is__function__argument_3_01hydra__thrust_1_1device__reference_3_01Arg_01_4_00_01true_01_4.html", null ],
+      [ "is_function_argument< hydra::thrust::device_reference< Arg >, true >", "structhydra_1_1detail_1_1is__function__argument_3_01hydra_1_1thrust_1_1device__reference_3_01Arg_01_4_00_01true_01_4.html", null ],
       [ "is_function_argument_pack", "structhydra_1_1detail_1_1is__function__argument__pack.html", null ],
       [ "is_tuple_of_function_arguments", "structhydra_1_1detail_1_1is__tuple__of__function__arguments.html", null ],
-      [ "is_tuple_of_function_arguments< hydra_thrust::detail::tuple_of_iterator_references< ArgTypes &... > >", "structhydra_1_1detail_1_1is__tuple__of__function__arguments_3_01hydra__thrust_1_1detail_1_1tuple91678faffaaaeae4ffb8187c2b42b734.html", null ],
-      [ "is_tuple_of_function_arguments< hydra_thrust::detail::tuple_of_iterator_references< hydra_thrust::device_reference< ArgTypes >... > >", "structhydra_1_1detail_1_1is__tuple__of__function__arguments_3_01hydra__thrust_1_1detail_1_1tuple91dbb50ce69fee5b9cbe82c5a46c3272.html", null ],
-      [ "is_tuple_of_function_arguments< hydra_thrust::tuple< ArgTypes... > >", "structhydra_1_1detail_1_1is__tuple__of__function__arguments_3_01hydra__thrust_1_1tuple_3_01ArgTypes_8_8_8_01_4_01_4.html", null ],
+      [ "is_tuple_of_function_arguments< hydra::thrust::detail::tuple_of_iterator_references< ArgTypes &... > >", "structhydra_1_1detail_1_1is__tuple__of__function__arguments_3_01hydra_1_1thrust_1_1detail_1_1tupb8d5df9f37f5c6735a3d0165e8041ed9.html", null ],
+      [ "is_tuple_of_function_arguments< hydra::thrust::detail::tuple_of_iterator_references< hydra::thrust::device_reference< ArgTypes >... > >", "structhydra_1_1detail_1_1is__tuple__of__function__arguments_3_01hydra_1_1thrust_1_1detail_1_1tup9c3ba752e8de42a534da063330119dc7.html", null ],
+      [ "is_tuple_of_function_arguments< hydra::thrust::tuple< ArgTypes... > >", "structhydra_1_1detail_1_1is__tuple__of__function__arguments_3_01hydra_1_1thrust_1_1tuple_3_01ArgTypes_8_8_8_01_4_01_4.html", null ],
       [ "is_tuple_type", "structhydra_1_1detail_1_1is__tuple__type.html", null ],
-      [ "is_tuple_type< hydra_thrust::detail::tuple_of_iterator_references< ArgTypes... > >", "structhydra_1_1detail_1_1is__tuple__type_3_01hydra__thrust_1_1detail_1_1tuple__of__iterator__ref918b4c0478eb726f13586ea6416d2daf.html", null ],
-      [ "is_tuple_type< hydra_thrust::tuple< ArgTypes... > >", "structhydra_1_1detail_1_1is__tuple__type_3_01hydra__thrust_1_1tuple_3_01ArgTypes_8_8_8_01_4_01_4.html", null ],
+      [ "is_tuple_type< hydra::thrust::detail::tuple_of_iterator_references< ArgTypes... > >", "structhydra_1_1detail_1_1is__tuple__type_3_01hydra_1_1thrust_1_1detail_1_1tuple__of__iterator__r7a2f4cfa59d78b39be4f2d7139f8e494.html", null ],
+      [ "is_tuple_type< hydra::thrust::tuple< ArgTypes... > >", "structhydra_1_1detail_1_1is__tuple__type_3_01hydra_1_1thrust_1_1tuple_3_01ArgTypes_8_8_8_01_4_01_4.html", null ],
       [ "is_valid_type_pack", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1is__valid__type__pack", null ],
-      [ "is_valid_type_pack< hydra_thrust::tuple< RefT... >, hydra_thrust::device_reference< T >... >", "structhydra_1_1detail_1_1is__valid__type__pack_3_01hydra__thrust_1_1tuple_3_01RefT_8_8_8_01_4_0070324e2e3d0bd6246752982b430a02d8.html", null ],
-      [ "is_valid_type_pack< hydra_thrust::tuple< RefT... >, T... >", "structhydra_1_1detail_1_1is__valid__type__pack_3_01hydra__thrust_1_1tuple_3_01RefT_8_8_8_01_4_00_01T_8_8_8_01_4.html", null ],
+      [ "is_valid_type_pack< hydra::thrust::tuple< RefT... >, T... >", "structhydra_1_1detail_1_1is__valid__type__pack_3_01hydra_1_1thrust_1_1tuple_3_01RefT_8_8_8_01_4_00_01T_8_8_8_01_4.html", null ],
       [ "stripped_type", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1stripped__type", null ],
       [ "stripped_type< Arg, false >", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1stripped__type_3_01Arg_00_01false_01_4", [
         [ "type", "namespacehydra_1_1detail.html#a978c54faaef382347c9dd413a45ebd83", null ]
@@ -73,7 +70,7 @@ var files_dup =
     ] ],
     [ "BaseCompositeFunctor.h", "BaseCompositeFunctor_8h.html", [
       [ "BaseCompositeFunctor", "namespacehydra.html#classhydra_1_1BaseCompositeFunctor", null ],
-      [ "BaseCompositeFunctor< Composite, hydra_thrust::tuple< F1, F2, Fs... >, Signature >", "classhydra_1_1BaseCompositeFunctor_3_01Composite_00_01hydra__thrust_1_1tuple_3_01F1_00_01F2_00_0863f00b43bfdf79cb6cf50e96bab02ba.html", "classhydra_1_1BaseCompositeFunctor_3_01Composite_00_01hydra__thrust_1_1tuple_3_01F1_00_01F2_00_0863f00b43bfdf79cb6cf50e96bab02ba" ]
+      [ "BaseCompositeFunctor< Composite, hydra::thrust::tuple< F1, F2, Fs... >, Signature >", "classhydra_1_1BaseCompositeFunctor_3_01Composite_00_01hydra_1_1thrust_1_1tuple_3_01F1_00_01F2_00fb82ec25e61e3369688e5c89e18d74c0.html", "classhydra_1_1BaseCompositeFunctor_3_01Composite_00_01hydra_1_1thrust_1_1tuple_3_01F1_00_01F2_00fb82ec25e61e3369688e5c89e18d74c0" ]
     ] ],
     [ "BaseCuFFT.h", "BaseCuFFT_8h.html", [
       [ "BaseCuFFT", "classhydra_1_1BaseCuFFT.html", "classhydra_1_1BaseCuFFT" ]
@@ -90,6 +87,7 @@ var files_dup =
     [ "basic_fit_range_semantics.cpp", "basic__fit__range__semantics_8cpp.html", "basic__fit__range__semantics_8cpp" ],
     [ "basic_fit_range_semantics.cu", "basic__fit__range__semantics_8cu.html", "basic__fit__range__semantics_8cu" ],
     [ "basic_fit_range_semantics.inl", "basic__fit__range__semantics_8inl.html", "basic__fit__range__semantics_8inl" ],
+    [ "bessel.h", "bessel_8h.html", "bessel_8h" ],
     [ "BifurcatedGaussian.h", "BifurcatedGaussian_8h.html", [
       [ "IntegrationFormula< BifurcatedGaussian< ArgType >, 1 >", "classhydra_1_1IntegrationFormula_3_01BifurcatedGaussian_3_01ArgType_01_4_00_011_01_4.html", "classhydra_1_1IntegrationFormula_3_01BifurcatedGaussian_3_01ArgType_01_4_00_011_01_4" ],
       [ "RngFormula< BifurcatedGaussian< ArgType > >", "structhydra_1_1RngFormula_3_01BifurcatedGaussian_3_01ArgType_01_4_01_4.html", "structhydra_1_1RngFormula_3_01BifurcatedGaussian_3_01ArgType_01_4_01_4" ]
@@ -148,7 +146,7 @@ var files_dup =
     ] ],
     [ "CompositeTraits.h", "CompositeTraits_8h.html", [
       [ "is_hydra_composite_functor", "structhydra_1_1detail_1_1is__hydra__composite__functor.html", null ],
-      [ "is_hydra_composite_functor< T, hydra_thrust::void_t< typename T::hydra_composed_functor_type > >", "structhydra_1_1detail_1_1is__hydra__composite__functor_3_01T_00_01hydra__thrust_1_1void__t_3_01tccab60179542fea9c2cbbbbbcc3f8b21.html", null ]
+      [ "is_hydra_composite_functor< T, hydra::thrust::void_t< typename T::hydra_composed_functor_type > >", "structhydra_1_1detail_1_1is__hydra__composite__functor_3_01T_00_01hydra_1_1thrust_1_1void__t_3_07a7c504705ac984b9df04007922a16e8.html", null ]
     ] ],
     [ "Config.h", "Config_8h.html", "Config_8h" ],
     [ "Constant.h", "Constant_8h.html", [
@@ -198,7 +196,6 @@ var files_dup =
       [ "PhaseSpaceWeight", "classhydra_1_1PhaseSpaceWeight.html", "classhydra_1_1PhaseSpaceWeight" ]
     ] ],
     [ "Decays.inl", "Decays_8inl.html", "Decays_8inl" ],
-    [ "Decays_old.inl", "Decays__old_8inl.html", "Decays__old_8inl" ],
     [ "DeltaDMassBackground.h", "DeltaDMassBackground_8h.html", [
       [ "IntegrationFormula< DeltaDMassBackground< ArgType >, 1 >", "classhydra_1_1IntegrationFormula_3_01DeltaDMassBackground_3_01ArgType_01_4_00_011_01_4.html", "classhydra_1_1IntegrationFormula_3_01DeltaDMassBackground_3_01ArgType_01_4_00_011_01_4" ]
     ] ],
@@ -218,6 +215,9 @@ var files_dup =
       [ "Distribution", "namespacehydra.html#classhydra_1_1Distribution", null ]
     ] ],
     [ "Distribution.inl", "Distribution_8inl.html", "Distribution_8inl" ],
+    [ "DistributionSampler.h", "DistributionSampler_8h.html", [
+      [ "Sampler", "structhydra_1_1detail_1_1Sampler.html", "structhydra_1_1detail_1_1Sampler" ]
+    ] ],
     [ "Divide.h", "Divide_8h.html", "Divide_8h" ],
     [ "double_gaussian_plus_exponential.cpp", "double__gaussian__plus__exponential_8cpp.html", "double__gaussian__plus__exponential_8cpp" ],
     [ "double_gaussian_plus_exponential.cu", "double__gaussian__plus__exponential_8cu.html", "double__gaussian__plus__exponential_8cu" ],
@@ -225,9 +225,10 @@ var files_dup =
     [ "DoubleExponential.h", "DoubleExponential_8h.html", [
       [ "IntegrationFormula< DoubleExponential< ArgType >, 2 >", "classhydra_1_1IntegrationFormula_3_01DoubleExponential_3_01ArgType_01_4_00_012_01_4.html", "classhydra_1_1IntegrationFormula_3_01DoubleExponential_3_01ArgType_01_4_00_012_01_4" ]
     ] ],
+    [ "EngineR123.h", "EngineR123_8h.html", "EngineR123_8h" ],
     [ "EstimatorTraits.h", "EstimatorTraits_8h.html", [
       [ "is_hydra_estimator", "structhydra_1_1detail_1_1is__hydra__estimator.html", null ],
-      [ "is_hydra_estimator< T, hydra_thrust::void_t< typename T::likelihood_estimator_type > >", "structhydra_1_1detail_1_1is__hydra__estimator_3_01T_00_01hydra__thrust_1_1void__t_3_01typename_059bbb4e55e19bf7af0b6163360b46c0a.html", null ]
+      [ "is_hydra_estimator< T, hydra::thrust::void_t< typename T::likelihood_estimator_type > >", "structhydra_1_1detail_1_1is__hydra__estimator_3_01T_00_01hydra_1_1thrust_1_1void__t_3_01typenamecb4483ffe765542d4f4939dcfe6ec466.html", null ]
     ] ],
     [ "EvalDaughters.h", "EvalDaughters_8h.html", [
       [ "EvalOnDaughters", "structhydra_1_1detail_1_1EvalOnDaughters.html", "structhydra_1_1detail_1_1EvalOnDaughters" ],
@@ -269,7 +270,6 @@ var files_dup =
     [ "fill_basic_distributions.inl", "fill__basic__distributions_8inl.html", "fill__basic__distributions_8inl" ],
     [ "Filter.h", "Filter_8h.html", "Filter_8h" ],
     [ "Filter.inl", "Filter_8inl.html", "Filter_8inl" ],
-    [ "filter_test.C", "filter__test_8C.html", "filter__test_8C" ],
     [ "FindUniqueType.h", "FindUniqueType_8h.html", [
       [ "find_unique_type", "structhydra_1_1detail_1_1find__unique__type.html", null ],
       [ "find_unique_type_impl", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1find__unique__type__impl", null ],
@@ -289,7 +289,7 @@ var files_dup =
     [ "ForEach.inl", "ForEach_8inl.html", "ForEach_8inl" ],
     [ "FormulaTraits.h", "FormulaTraits_8h.html", [
       [ "has_rng_formula", "structhydra_1_1detail_1_1has__rng__formula.html", null ],
-      [ "has_rng_formula< Functor, hydra_thrust::void_t< typename hydra::RngFormula< Functor >::value_type > >", "structhydra_1_1detail_1_1has__rng__formula_3_01Functor_00_01hydra__thrust_1_1void__t_3_01typenam606e1598181acac98a9289f7499aff1a.html", null ],
+      [ "has_rng_formula< Functor, hydra::thrust::void_t< typename hydra::RngFormula< Functor >::value_type > >", "structhydra_1_1detail_1_1has__rng__formula_3_01Functor_00_01hydra_1_1thrust_1_1void__t_3_01typen11e96fbe001229ffe2bf7fca4b5ff043.html", null ],
       [ "is_rng_formula", "structhydra_1_1detail_1_1is__rng__formula.html", null ],
       [ "is_rng_formula< hydra::RngFormula< Formula > >", "structhydra_1_1detail_1_1is__rng__formula_3_01hydra_1_1RngFormula_3_01Formula_01_4_01_4.html", null ]
     ] ],
@@ -304,17 +304,22 @@ var files_dup =
       [ "functor_traits< ReturnType(ClassType::*)(Args...) >", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01_4", null ],
       [ "functor_traits< ReturnType(ClassType::*)(Args...) const >", "structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4.html", "structhydra_1_1detail_1_1functor__traits_3_01ReturnType_07ClassType_1_1_5_08_07Args_8_8_8_08_01const_01_4" ],
       [ "is_hydra_functor", "structhydra_1_1detail_1_1is__hydra__functor.html", null ],
-      [ "is_hydra_functor< Functor, hydra_thrust::void_t< typename Functor::hydra_functor_type, typename Functor::argument_type, typename Functor::return_type > >", "structhydra_1_1detail_1_1is__hydra__functor_3_01Functor_00_01hydra__thrust_1_1void__t_3_01typenafbfefa5d76b2127163526825f05d98e1.html", null ],
+      [ "is_hydra_functor< Functor, hydra::thrust::void_t< typename Functor::hydra_functor_type, typename Functor::argument_type, typename Functor::return_type > >", "structhydra_1_1detail_1_1is__hydra__functor_3_01Functor_00_01hydra_1_1thrust_1_1void__t_3_01type914d0af41236f52c4aee2eb4ddd78cce.html", null ],
       [ "is_hydra_lambda", "structhydra_1_1detail_1_1is__hydra__lambda.html", null ],
-      [ "is_hydra_lambda< Functor, hydra_thrust::void_t< typename Functor::hydra_lambda_type, typename Functor::argument_type, typename Functor::return_type > >", "structhydra_1_1detail_1_1is__hydra__lambda_3_01Functor_00_01hydra__thrust_1_1void__t_3_01typenam8750428a194d261b5eb6c32cc8b2c44f.html", null ],
+      [ "is_hydra_lambda< Functor, hydra::thrust::void_t< typename Functor::hydra_lambda_type, typename Functor::argument_type, typename Functor::return_type > >", "structhydra_1_1detail_1_1is__hydra__lambda_3_01Functor_00_01hydra_1_1thrust_1_1void__t_3_01typenc04c26fff383d848b1216ac910da722a.html", null ],
       [ "lambda_traits", "structhydra_1_1detail_1_1lambda__traits.html", null ],
       [ "signature_traits", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1signature__traits", null ],
+      [ "signature_traits< hydra::thrust::tuple< R, Args... > >", "structhydra_1_1detail_1_1signature__traits_3_01hydra_1_1thrust_1_1tuple_3_01R_00_01Args_8_8_8_01_4_01_4.html", "structhydra_1_1detail_1_1signature__traits_3_01hydra_1_1thrust_1_1tuple_3_01R_00_01Args_8_8_8_01_4_01_4" ],
       [ "signature_traits< R(Args...)>", "structhydra_1_1detail_1_1signature__traits_3_01R_07Args_8_8_8_08_4.html", "structhydra_1_1detail_1_1signature__traits_3_01R_07Args_8_8_8_08_4" ],
       [ "signature_type", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1signature__type", [
         [ "type", "namespacehydra_1_1detail.html#ac3018bd6f66064373ef1765d808e847c", null ]
       ] ],
       [ "signature_type_impl", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1signature__type__impl", [
         [ "type", "namespacehydra_1_1detail.html#a5f6aacb86130478ef997463d0aeb58c3", null ]
+      ] ],
+      [ "trimmed_lambda_signature", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1trimmed__lambda__signature", null ],
+      [ "trimmed_lambda_signature< hydra::thrust::tuple< Head, Neck, Tail... > >", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1trimmed__lambda__signature_3_01hydra_1_1thrust_1_1tuple_3_01Head_00_01Neck_00_01Tail_8_8_8_01_4_01_4", [
+        [ "type", "namespacehydra_1_1detail.html#ac1cc582909828aa2dd9c37fd0c94597c", null ]
       ] ]
     ] ],
     [ "Gather.inl", "Gather_8inl.html", "Gather_8inl" ],
@@ -332,6 +337,7 @@ var files_dup =
       [ "Kernel", "structhydra_1_1GaussianKDE_1_1Kernel.html", "structhydra_1_1GaussianKDE_1_1Kernel" ]
     ] ],
     [ "GaussianKDE.inl", "GaussianKDE_8inl.html", "GaussianKDE_8inl" ],
+    [ "GaussianResolutionModel.h", "GaussianResolutionModel_8h.html", null ],
     [ "GaussKronrodAdaptiveQuadrature.h", "GaussKronrodAdaptiveQuadrature_8h.html", [
       [ "GaussKronrodAdaptiveQuadrature", "namespacehydra.html#classhydra_1_1GaussKronrodAdaptiveQuadrature", null ],
       [ "GaussKronrodAdaptiveQuadrature< NRULE, NBIN, hydra::detail::BackendPolicy< BACKEND > >", "classhydra_1_1GaussKronrodAdaptiveQuadrature_3_01NRULE_00_01NBIN_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html", "classhydra_1_1GaussKronrodAdaptiveQuadrature_3_01NRULE_00_01NBIN_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4" ]
@@ -348,7 +354,6 @@ var files_dup =
     ] ],
     [ "GeneralizedGamma.h", "GeneralizedGamma_8h.html", null ],
     [ "generate_4body_decay_chain.C", "generate__4body__decay__chain_8C.html", "generate__4body__decay__chain_8C" ],
-    [ "generate_decay_chain.C", "generate__decay__chain_8C.html", "generate__decay__chain_8C" ],
     [ "GenerateDecay.h", "GenerateDecay_8h.html", [
       [ "GenerateDecay", "structhydra_1_1detail_1_1GenerateDecay.html", "structhydra_1_1detail_1_1GenerateDecay" ]
     ] ],
@@ -370,6 +375,7 @@ var files_dup =
       [ "GenzMalikRuleBase", "classhydra_1_1GenzMalikRuleBase.html", null ]
     ] ],
     [ "GetBinCenter.h", "GetBinCenter_8h.html", [
+      [ "GetAxisBinCenter", "structhydra_1_1detail_1_1GetAxisBinCenter.html", "structhydra_1_1detail_1_1GetAxisBinCenter" ],
       [ "GetBinCenter", "structhydra_1_1detail_1_1GetBinCenter.html", "structhydra_1_1detail_1_1GetBinCenter" ],
       [ "GetBinCenter", "structhydra_1_1detail_1_1GetBinCenter.html", "structhydra_1_1detail_1_1GetBinCenter" ],
       [ "GetBinCenter< T, 1 >", "structhydra_1_1detail_1_1GetBinCenter_3_01T_00_011_01_4.html", "structhydra_1_1detail_1_1GetBinCenter_3_01T_00_011_01_4" ]
@@ -452,7 +458,7 @@ var files_dup =
     [ "Integrator.inl", "Integrator_8inl.html", "Integrator_8inl" ],
     [ "IntegratorTraits.h", "IntegratorTraits_8h.html", [
       [ "is_hydra_integrator", "structhydra_1_1detail_1_1is__hydra__integrator.html", null ],
-      [ "is_hydra_integrator< T, hydra_thrust::void_t< typename T::hydra_integrator_type > >", "structhydra_1_1detail_1_1is__hydra__integrator_3_01T_00_01hydra__thrust_1_1void__t_3_01typename_d2c71af43dd28e3c447ac2b25385ae94.html", null ]
+      [ "is_hydra_integrator< T, hydra::thrust::void_t< typename T::hydra_integrator_type > >", "structhydra_1_1detail_1_1is__hydra__integrator_3_01T_00_01hydra_1_1thrust_1_1void__t_3_01typenamf69de912045d73badd9e2375be6090e3.html", null ]
     ] ],
     [ "inverse_erf.h", "inverse__erf_8h.html", "inverse__erf_8h" ],
     [ "Ipatia.h", "Ipatia_8h.html", [
@@ -467,9 +473,9 @@ var files_dup =
     ] ],
     [ "Iterable_traits.h", "Iterable__traits_8h.html", [
       [ "is_iterable", "structhydra_1_1detail_1_1is__iterable.html", null ],
-      [ "is_iterable< T, hydra_thrust::void_t< decltype(std::declval< T >().begin()), decltype(std::declval< T >().end()), decltype(++std::declval< decltype(hydra::begin(std::declval< T >()))& >()), decltype(*hydra::begin(std::declval< T >())) > >", "structhydra_1_1detail_1_1is__iterable_3_01T_00_01hydra__thrust_1_1void__t_3_01decltype_07std_1_1dad664b788647f8b21c40fec4ff3be60.html", null ],
+      [ "is_iterable< T, hydra::thrust::void_t< decltype(std::declval< T >().begin()), decltype(std::declval< T >().end()), decltype(++std::declval< decltype(hydra::begin(std::declval< T >()))& >()), decltype(*hydra::begin(std::declval< T >())) > >", "structhydra_1_1detail_1_1is__iterable_3_01T_00_01hydra_1_1thrust_1_1void__t_3_01decltype_07std_18bff5f1d503b579eb5fa9fc9531097f9.html", null ],
       [ "is_reverse_iterable", "structhydra_1_1detail_1_1is__reverse__iterable.html", null ],
-      [ "is_reverse_iterable< T, hydra_thrust::void_t< decltype(std::declval< T >().rbegin()), decltype(std::declval< T >().rend()), decltype(++std::declval< decltype(hydra::rbegin(std::declval< T >()))& >()), decltype(*hydra::rbegin(std::declval< T >())) > >", "structhydra_1_1detail_1_1is__reverse__iterable_3_01T_00_01hydra__thrust_1_1void__t_3_01decltype_b769c76123d67ea846790a713f37cb2b.html", null ]
+      [ "is_reverse_iterable< T, hydra::thrust::void_t< decltype(std::declval< T >().rbegin()), decltype(std::declval< T >().rend()), decltype(++std::declval< decltype(hydra::rbegin(std::declval< T >()))& >()), decltype(*hydra::rbegin(std::declval< T >())) > >", "structhydra_1_1detail_1_1is__reverse__iterable_3_01T_00_01hydra_1_1thrust_1_1void__t_3_01decltyp8612da4bba4251de50f6b68aefa5ac09.html", null ]
     ] ],
     [ "Iterator.h", "Iterator_8h.html", "Iterator_8h" ],
     [ "Iterator.inl", "Iterator_8inl.html", "Iterator_8inl" ],
@@ -519,7 +525,6 @@ var files_dup =
     [ "multivector_container.cu", "multivector__container_8cu.html", null ],
     [ "multivector_container.inl", "multivector__container_8inl.html", "multivector__container_8inl" ],
     [ "NumericalIntegral.inl", "NumericalIntegral_8inl.html", "NumericalIntegral_8inl" ],
-    [ "OldConvolutionFunctor.h", "OldConvolutionFunctor_8h.html", "OldConvolutionFunctor_8h" ],
     [ "OMP.h", "OMP_8h.html", "OMP_8h" ],
     [ "Parameter.h", "Parameter_8h.html", "Parameter_8h" ],
     [ "Parameters.h", "Parameters_8h.html", [
@@ -529,7 +534,6 @@ var files_dup =
     [ "ParametersCompositeFunctor.h", "ParametersCompositeFunctor_8h.html", [
       [ "ParametersCompositeFunctor", "classhydra_1_1detail_1_1ParametersCompositeFunctor.html", "classhydra_1_1detail_1_1ParametersCompositeFunctor" ]
     ] ],
-    [ "particle_dispersion.C", "particle__dispersion_8C.html", "particle__dispersion_8C" ],
     [ "particle_mass.cpp", "particle__mass_8cpp.html", null ],
     [ "particle_mass.cu", "particle__mass_8cu.html", null ],
     [ "particle_mass.inl", "particle__mass_8inl.html", "particle__mass_8inl" ],
@@ -538,7 +542,7 @@ var files_dup =
     [ "PDFSumNonExtendable.h", "PDFSumNonExtendable_8h.html", "PDFSumNonExtendable_8h" ],
     [ "PdfTraits.h", "PdfTraits_8h.html", [
       [ "is_hydra_pdf", "structhydra_1_1detail_1_1is__hydra__pdf.html", null ],
-      [ "is_hydra_pdf< T, hydra_thrust::void_t< typename T::hydra_pdf_type > >", "structhydra_1_1detail_1_1is__hydra__pdf_3_01T_00_01hydra__thrust_1_1void__t_3_01typename_01T_1_1hydra__pdf__type_01_4_01_4.html", null ]
+      [ "is_hydra_pdf< T, hydra::thrust::void_t< typename T::hydra_pdf_type > >", "structhydra_1_1detail_1_1is__hydra__pdf_3_01T_00_01hydra_1_1thrust_1_1void__t_3_01typename_01T_1_1hydra__pdf__type_01_4_01_4.html", null ]
     ] ],
     [ "Permutation.h", "Permutation_8h.html", "Permutation_8h" ],
     [ "Permute.h", "Permute_8h.html", "Permute_8h" ],
@@ -593,6 +597,7 @@ var files_dup =
       [ "ProcessCallsVegas", "structhydra_1_1detail_1_1ProcessCallsVegas.html", "structhydra_1_1detail_1_1ProcessCallsVegas" ]
     ] ],
     [ "Print.h", "Print_8h.html", "Print_8h" ],
+    [ "PRNGTypedefs.h", "PRNGTypedefs_8h.html", "PRNGTypedefs_8h" ],
     [ "ProcessCallsPlain.h", "ProcessCallsPlain_8h.html", [
       [ "ProcessCallsPlainBinary", "structhydra_1_1detail_1_1ProcessCallsPlainBinary.html", "structhydra_1_1detail_1_1ProcessCallsPlainBinary" ],
       [ "ProcessCallsPlainUnary", "structhydra_1_1detail_1_1ProcessCallsPlainUnary.html", "structhydra_1_1detail_1_1ProcessCallsPlainUnary" ]
@@ -620,13 +625,7 @@ var files_dup =
       [ "ProcessGenzMalikBox", "structhydra_1_1detail_1_1ProcessGenzMalikBox.html", "structhydra_1_1detail_1_1ProcessGenzMalikBox" ],
       [ "ProcessGenzMalikUnaryCall", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall.html", "structhydra_1_1detail_1_1ProcessGenzMalikUnaryCall" ]
     ] ],
-    [ "ProcessSPlot.h", "ProcessSPlot_8h.html", [
-      [ "CovMatrixBinary", "structhydra_1_1detail_1_1CovMatrixBinary.html", "structhydra_1_1detail_1_1CovMatrixBinary" ],
-      [ "CovMatrixUnary", "structhydra_1_1detail_1_1CovMatrixUnary.html", "structhydra_1_1detail_1_1CovMatrixUnary" ],
-      [ "index", "structhydra_1_1detail_1_1CovMatrixUnary_1_1index.html", "structhydra_1_1detail_1_1CovMatrixUnary_1_1index" ],
-      [ "GetSWeight", "structhydra_1_1detail_1_1GetSWeight.html", "structhydra_1_1detail_1_1GetSWeight" ],
-      [ "SWeights", "structhydra_1_1detail_1_1SWeights.html", "structhydra_1_1detail_1_1SWeights" ]
-    ] ],
+    [ "ProcessSPlot.h", "ProcessSPlot_8h.html", "ProcessSPlot_8h" ],
     [ "pseudo_experiment.cpp", "pseudo__experiment_8cpp.html", null ],
     [ "pseudo_experiment.cu", "pseudo__experiment_8cu.html", null ],
     [ "pseudo_experiment.inl", "pseudo__experiment_8inl.html", "pseudo__experiment_8inl" ],
@@ -638,9 +637,16 @@ var files_dup =
     [ "quick_test.inl", "quick__test_8inl.html", "quick__test_8inl" ],
     [ "Random.h", "Random_8h.html", "Random_8h" ],
     [ "Random.inl", "Random_8inl.html", "Random_8inl" ],
-    [ "RandomFill.h", "RandomFill_8h.html", "RandomFill_8h" ],
+    [ "RandomFill.h", "RandomFill_8h.html", null ],
     [ "RandomFill.inl", "RandomFill_8inl.html", "RandomFill_8inl" ],
     [ "RandomRange.inl", "RandomRange_8inl.html", "RandomRange_8inl" ],
+    [ "RandomTraits.h", "RandomTraits_8h.html", [
+      [ "random_traits", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1random__traits", null ],
+      [ "random_traits< hydra_r123::Philox2x64 >", "structhydra_1_1detail_1_1random__traits_3_01hydra__r123_1_1Philox2x64_01_4.html", "structhydra_1_1detail_1_1random__traits_3_01hydra__r123_1_1Philox2x64_01_4" ],
+      [ "random_traits< hydra_r123::Philox4x64 >", "structhydra_1_1detail_1_1random__traits_3_01hydra__r123_1_1Philox4x64_01_4.html", "structhydra_1_1detail_1_1random__traits_3_01hydra__r123_1_1Philox4x64_01_4" ],
+      [ "random_traits< hydra_r123::Threefry2x64 >", "structhydra_1_1detail_1_1random__traits_3_01hydra__r123_1_1Threefry2x64_01_4.html", "structhydra_1_1detail_1_1random__traits_3_01hydra__r123_1_1Threefry2x64_01_4" ],
+      [ "random_traits< hydra_r123::Threefry4x64 >", "structhydra_1_1detail_1_1random__traits_3_01hydra__r123_1_1Threefry4x64_01_4.html", "structhydra_1_1detail_1_1random__traits_3_01hydra__r123_1_1Threefry4x64_01_4" ]
+    ] ],
     [ "RandomUtils.h", "RandomUtils_8h.html", [
       [ "RndBreitWigner", "structhydra_1_1detail_1_1RndBreitWigner.html", "structhydra_1_1detail_1_1RndBreitWigner" ],
       [ "RndCDF", "structhydra_1_1detail_1_1RndCDF.html", "structhydra_1_1detail_1_1RndCDF" ],
@@ -666,9 +672,6 @@ var files_dup =
       [ "RealToComplexFFTW", "classhydra_1_1RealToComplexFFTW.html", "classhydra_1_1RealToComplexFFTW" ]
     ] ],
     [ "Reduce.inl", "Reduce_8inl.html", "Reduce_8inl" ],
-    [ "ReferenceCounter.h", "ReferenceCounter_8h.html", [
-      [ "ReferenceCounter", "classhydra_1_1detail_1_1shared__pointer_1_1ReferenceCounter.html", "classhydra_1_1detail_1_1shared__pointer_1_1ReferenceCounter" ]
-    ] ],
     [ "rint.h", "rint_8h.html", "rint_8h" ],
     [ "RngFormula.h", "RngFormula_8h.html", [
       [ "RngFormula", "classhydra_1_1RngFormula.html", null ]
@@ -683,7 +686,7 @@ var files_dup =
       [ "ScopedBuffer< T, detail::BackendPolicy< BACKEND > >", "classhydra_1_1ScopedBuffer_3_01T_00_01detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4.html", "classhydra_1_1ScopedBuffer_3_01T_00_01detail_1_1BackendPolicy_3_01BACKEND_01_4_01_4" ]
     ] ],
     [ "SeedRNG.h", "SeedRNG_8h.html", [
-      [ "SeedRNG", "structhydra_1_1SeedRNG.html", "structhydra_1_1SeedRNG" ]
+      [ "SeedRNG", "classhydra_1_1SeedRNG.html", "classhydra_1_1SeedRNG" ]
     ] ],
     [ "simultaneous_fit.cpp", "simultaneous__fit_8cpp.html", null ],
     [ "simultaneous_fit.cu", "simultaneous__fit_8cu.html", null ],
@@ -699,16 +702,39 @@ var files_dup =
     [ "sparse_histogram.inl", "sparse__histogram_8inl.html", "sparse__histogram_8inl" ],
     [ "SparseHistogram.h", "SparseHistogram_8h.html", "SparseHistogram_8h" ],
     [ "SparseHistogram.inl", "SparseHistogram_8inl.html", "SparseHistogram_8inl" ],
-    [ "Spiline.h", "Spiline_8h.html", "Spiline_8h" ],
-    [ "Spiline.inl", "Spiline_8inl.html", "Spiline_8inl" ],
-    [ "spiline_interpolation.cpp", "spiline__interpolation_8cpp.html", null ],
-    [ "spiline_interpolation.cu", "spiline__interpolation_8cu.html", null ],
-    [ "spiline_interpolation.inl", "spiline__interpolation_8inl.html", "spiline__interpolation_8inl" ],
-    [ "SpilineFunctor.h", "SpilineFunctor_8h.html", "SpilineFunctor_8h" ],
+    [ "Spline.h", "Spline_8h.html", "Spline_8h" ],
+    [ "Spline.inl", "Spline_8inl.html", "Spline_8inl" ],
+    [ "Spline2D.inl", "Spline2D_8inl.html", "Spline2D_8inl" ],
+    [ "spline2D_interpolation.cpp", "spline2D__interpolation_8cpp.html", null ],
+    [ "spline2D_interpolation.cu", "spline2D__interpolation_8cu.html", null ],
+    [ "spline2D_interpolation.inl", "spline2D__interpolation_8inl.html", "spline2D__interpolation_8inl" ],
+    [ "Spline2DFunctor.h", "Spline2DFunctor_8h.html", "Spline2DFunctor_8h" ],
+    [ "Spline3D.inl", "Spline3D_8inl.html", "Spline3D_8inl" ],
+    [ "spline3D_interpolation.cpp", "spline3D__interpolation_8cpp.html", null ],
+    [ "spline3D_interpolation.cu", "spline3D__interpolation_8cu.html", null ],
+    [ "spline3D_interpolation.inl", "spline3D__interpolation_8inl.html", "spline3D__interpolation_8inl" ],
+    [ "Spline3DFunctor.h", "Spline3DFunctor_8h.html", "Spline3DFunctor_8h" ],
+    [ "Spline4D.inl", "Spline4D_8inl.html", "Spline4D_8inl" ],
+    [ "spline4D_interpolation.cpp", "spline4D__interpolation_8cpp.html", null ],
+    [ "spline4D_interpolation.cu", "spline4D__interpolation_8cu.html", null ],
+    [ "spline4D_interpolation.inl", "spline4D__interpolation_8inl.html", "spline4D__interpolation_8inl" ],
+    [ "Spline4DFunctor.h", "Spline4DFunctor_8h.html", "Spline4DFunctor_8h" ],
+    [ "spline_interpolation.cpp", "spline__interpolation_8cpp.html", null ],
+    [ "spline_interpolation.cu", "spline__interpolation_8cu.html", null ],
+    [ "spline_interpolation.inl", "spline__interpolation_8inl.html", "spline__interpolation_8inl" ],
+    [ "SplineFunctor.h", "SplineFunctor_8h.html", "SplineFunctor_8h" ],
+    [ "splitmix.h", "splitmix_8h.html", "splitmix_8h" ],
     [ "splot.cpp", "splot_8cpp.html", null ],
     [ "splot.cu", "splot_8cu.html", null ],
     [ "SPlot.h", "SPlot_8h.html", "SPlot_8h" ],
     [ "splot.inl", "splot_8inl.html", "splot_8inl" ],
+    [ "squares3.h", "squares3_8h.html", [
+      [ "squares3", "classhydra_1_1random_1_1squares3.html", "classhydra_1_1random_1_1squares3" ]
+    ] ],
+    [ "squares4.h", "squares4_8h.html", [
+      [ "squares4", "classhydra_1_1random_1_1squares4.html", "classhydra_1_1random_1_1squares4" ]
+    ] ],
+    [ "squares_key.h", "squares__key_8h.html", "squares__key_8h" ],
     [ "StaticAssert.h", "StaticAssert_8h.html", "StaticAssert_8h" ],
     [ "StatsPHSP.h", "StatsPHSP_8h.html", [
       [ "AddStatsPHSP", "structhydra_1_1detail_1_1AddStatsPHSP.html", "structhydra_1_1detail_1_1AddStatsPHSP" ],
@@ -732,7 +758,6 @@ var files_dup =
       ] ]
     ] ],
     [ "TBB.h", "TBB_8h.html", "TBB_8h" ],
-    [ "three_body_phsp.C", "three__body__phsp_8C.html", "three__body__phsp_8C" ],
     [ "ThreeBodyMassThresholdBackground.h", "ThreeBodyMassThresholdBackground_8h.html", null ],
     [ "timedependent_phsp_basic.cpp", "timedependent__phsp__basic_8cpp.html", null ],
     [ "timedependent_phsp_basic.cu", "timedependent__phsp__basic_8cu.html", null ],
@@ -749,7 +774,10 @@ var files_dup =
     [ "Tuple.h", "Tuple_8h.html", "Tuple_8h" ],
     [ "TupleTraits.h", "TupleTraits_8h.html", [
       [ "index_in_tuple", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1index__in__tuple", null ],
-      [ "index_in_tuple< Type, hydra_thrust::tuple< Head, Tail... > >", "structhydra_1_1detail_1_1index__in__tuple_3_01Type_00_01hydra__thrust_1_1tuple_3_01Head_00_01Tail_8_8_8_01_4_01_4.html", null ],
+      [ "index_in_tuple< Type, hydra::thrust::tuple< Head, Tail... > >", "structhydra_1_1detail_1_1index__in__tuple_3_01Type_00_01hydra_1_1thrust_1_1tuple_3_01Head_00_01Tail_8_8_8_01_4_01_4.html", null ],
+      [ "is_intuple", "structhydra_1_1detail_1_1is__intuple.html", null ],
+      [ "is_intuple< T, hydra::tuple< Head, Tail... > >", "structhydra_1_1detail_1_1is__intuple_3_01T_00_01hydra_1_1tuple_3_01Head_00_01Tail_8_8_8_01_4_01_4.html", null ],
+      [ "is_intuple< T, hydra::tuple<> >", "structhydra_1_1detail_1_1is__intuple_3_01T_00_01hydra_1_1tuple_3_4_01_4.html", null ],
       [ "is_tuple", "structhydra_1_1detail_1_1is__tuple.html", null ],
       [ "is_tuple< hydra::tuple< T... > >", "structhydra_1_1detail_1_1is__tuple_3_01hydra_1_1tuple_3_01T_8_8_8_01_4_01_4.html", null ],
       [ "merged_tuple", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1merged__tuple", null ],
@@ -758,20 +786,20 @@ var files_dup =
       ] ],
       [ "merged_tuple< hydra::tuple< T... >, hydra::tuple< U... > >", "structhydra_1_1detail_1_1merged__tuple_3_01hydra_1_1tuple_3_01T_8_8_8_01_4_00_01hydra_1_1tuple_3_01U_8_8_8_01_4_01_4.html", null ],
       [ "merged_tuple< hydra::tuple< T... >, hydra::tuple< U... >, Z... >", "structhydra_1_1detail_1_1merged__tuple_3_01hydra_1_1tuple_3_01T_8_8_8_01_4_00_01hydra_1_1tuple_3a2087d7aa1d7d8255c2c776843f52d86.html", null ],
-      [ "selected_indices_tuple", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1selected__indices__tuple", null ],
-      [ "selected_indices_tuple< Selector, hydra::tuple< Head, Tail... >, I >", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1selected__indices__tuple_3_01Selector_00_01hydra_1_1tuple_3_01Head_00_01Tail_8_8_8_01_4_00_01I_01_4", [
-        [ "type", "namespacehydra_1_1detail.html#a7ce0e2bd52dd5e094739ed19e38a0730", null ]
-      ] ],
-      [ "selected_indices_tuple< Selector, hydra::tuple< Type >, I >", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1selected__indices__tuple_3_01Selector_00_01hydra_1_1tuple_3_01Type_01_4_00_01I_01_4", [
-        [ "type", "namespacehydra_1_1detail.html#a828b820911b6a54af2c11d25c60340f4", null ]
-      ] ],
       [ "selected_tuple", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1selected__tuple", null ],
       [ "selected_tuple< Selector, hydra::tuple< Head, Tail... > >", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1selected__tuple_3_01Selector_00_01hydra_1_1tuple_3_01Head_00_01Tail_8_8_8_01_4_01_4", [
         [ "type", "namespacehydra_1_1detail.html#a3634476cb5c5bbc96e3b9f4325781f4c", null ]
       ] ],
       [ "selected_tuple< Selector, hydra::tuple< Type > >", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1selected__tuple_3_01Selector_00_01hydra_1_1tuple_3_01Type_01_4_01_4", [
         [ "type", "namespacehydra_1_1detail.html#a67fca6b4069494d78deca8280a754cf8", null ]
-      ] ]
+      ] ],
+      [ "stripped_tuple", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1stripped__tuple", null ],
+      [ "stripped_tuple< hydra::tuple< T... > >", "structhydra_1_1detail_1_1stripped__tuple_3_01hydra_1_1tuple_3_01T_8_8_8_01_4_01_4.html", null ],
+      [ "stripped_tuple_impl", "namespacehydra_1_1detail_1_1stuple__impl.html#structhydra_1_1detail_1_1stuple__impl_1_1stripped__tuple__impl", null ],
+      [ "stripped_tuple_impl< hydra::tuple< T... >, hydra::tuple< > >", "namespacehydra_1_1detail_1_1stuple__impl.html#structhydra_1_1detail_1_1stuple__impl_1_1stripped__tuple__impl_3_01hydra_1_1tuple_3_01T_8_8_8_019f9e323bcc2e51fe5fd35ed1cd219c49", [
+        [ "type", "namespacehydra_1_1detail_1_1stuple__impl.html#a4774c7d22d3023aafc19a6c9ed5f379f", null ]
+      ] ],
+      [ "stripped_tuple_impl< Tuple, hydra::tuple< Head, Tail... > >", "structhydra_1_1detail_1_1stuple__impl_1_1stripped__tuple__impl_3_01Tuple_00_01hydra_1_1tuple_3_01Head_00_01Tail_8_8_8_01_4_01_4.html", null ]
     ] ],
     [ "TupleUtility.h", "TupleUtility_8h.html", "TupleUtility_8h" ],
     [ "Types.h", "Types_8h.html", "Types_8h" ],
@@ -780,6 +808,9 @@ var files_dup =
       [ "IntegrationFormula< UniformShape< ArgType >, 1 >", "classhydra_1_1IntegrationFormula_3_01UniformShape_3_01ArgType_01_4_00_011_01_4.html", "classhydra_1_1IntegrationFormula_3_01UniformShape_3_01ArgType_01_4_00_011_01_4" ],
       [ "RngFormula< UniformShape< ArgType > >", "structhydra_1_1RngFormula_3_01UniformShape_3_01ArgType_01_4_01_4.html", "structhydra_1_1RngFormula_3_01UniformShape_3_01ArgType_01_4_01_4" ]
     ] ],
+    [ "unweight_sample.cpp", "unweight__sample_8cpp.html", null ],
+    [ "unweight_sample.cu", "unweight__sample_8cu.html", null ],
+    [ "unweight_sample.inl", "unweight__sample_8inl.html", "unweight__sample_8inl" ],
     [ "UserParameters.h", "UserParameters_8h.html", "UserParameters_8h" ],
     [ "Utility_Tuple.h", "Utility__Tuple_8h.html", "Utility__Tuple_8h" ],
     [ "Utils.h", "Utils_8h.html", "Utils_8h" ],
@@ -806,13 +837,13 @@ var files_dup =
     [ "Zip.inl", "Zip_8inl.html", "Zip_8inl" ],
     [ "ZipIteratorTraits.h", "ZipIteratorTraits_8h.html", [
       [ "is_zip_iterator", "structhydra_1_1detail_1_1is__zip__iterator.html", null ],
-      [ "is_zip_iterator< hydra_thrust::zip_iterator< T... > >", "structhydra_1_1detail_1_1is__zip__iterator_3_01hydra__thrust_1_1zip__iterator_3_01T_8_8_8_01_4_01_4.html", null ],
+      [ "is_zip_iterator< hydra::thrust::zip_iterator< T... > >", "structhydra_1_1detail_1_1is__zip__iterator_3_01hydra_1_1thrust_1_1zip__iterator_3_01T_8_8_8_01_4_01_4.html", null ],
       [ "merged_zip_iterator", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1merged__zip__iterator", null ],
-      [ "merged_zip_iterator< hydra_thrust::zip_iterator< T... > >", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1merged__zip__iterator_3_01hydra__thrust_1_1zip__iterator_3_01T_8_8_8_01_4_01_4", [
-        [ "type", "namespacehydra_1_1detail.html#aa1e335e0be35b2b38c8482ec0e45ef55", null ]
+      [ "merged_zip_iterator< hydra::thrust::zip_iterator< T... > >", "namespacehydra_1_1detail.html#structhydra_1_1detail_1_1merged__zip__iterator_3_01hydra_1_1thrust_1_1zip__iterator_3_01T_8_8_8_01_4_01_4", [
+        [ "type", "namespacehydra_1_1detail.html#a89ce6c41d8902d3e3b7232d4ec8724bd", null ]
       ] ],
-      [ "merged_zip_iterator< hydra_thrust::zip_iterator< T... >, hydra_thrust::zip_iterator< U... > >", "structhydra_1_1detail_1_1merged__zip__iterator_3_01hydra__thrust_1_1zip__iterator_3_01T_8_8_8_016973f0f6130f6e1af26c5686a622f7bf.html", null ],
-      [ "merged_zip_iterator< hydra_thrust::zip_iterator< T... >, hydra_thrust::zip_iterator< U... >, Z... >", "structhydra_1_1detail_1_1merged__zip__iterator_3_01hydra__thrust_1_1zip__iterator_3_01T_8_8_8_01b17a1799aa4eacc3fd1750ecaa85140d.html", null ]
+      [ "merged_zip_iterator< hydra::thrust::zip_iterator< T... >, hydra::thrust::zip_iterator< U... > >", "structhydra_1_1detail_1_1merged__zip__iterator_3_01hydra_1_1thrust_1_1zip__iterator_3_01T_8_8_8_af9cd510b733c41ec440a164543802c4.html", null ],
+      [ "merged_zip_iterator< hydra::thrust::zip_iterator< T... >, hydra::thrust::zip_iterator< U... >, Z... >", "structhydra_1_1detail_1_1merged__zip__iterator_3_01hydra_1_1thrust_1_1zip__iterator_3_01T_8_8_8_4a33d48df6e8a588b91d1374d96582ca.html", null ]
     ] ],
     [ "ZipIteratorUtility.h", "ZipIteratorUtility_8h.html", "ZipIteratorUtility_8h" ],
     [ "zipping_iterables.cpp", "zipping__iterables_8cpp.html", "zipping__iterables_8cpp" ],

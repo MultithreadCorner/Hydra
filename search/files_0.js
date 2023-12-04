@@ -8,8 +8,6 @@ var searchData=
   ['addpdffunctor_2eh',['AddPdfFunctor.h',['../AddPdfFunctor_8h.html',1,'']]],
   ['algorithm_2eh',['Algorithm.h',['../Algorithm_8h.html',1,'']]],
   ['analyticalintegral_2einl',['AnalyticalIntegral.inl',['../AnalyticalIntegral_8inl.html',1,'']]],
-  ['apply_5ffilter_5fissue_2ec',['apply_filter_issue.C',['../apply__filter__issue_8C.html',1,'']]],
-  ['apply_5ffilter_5fissue_5fc_2ed',['apply_filter_issue_C.d',['../apply__filter__issue__C_8d.html',1,'']]],
   ['argument_2eh',['Argument.h',['../Argument_8h.html',1,'']]],
   ['argumenttraits_2eh',['ArgumentTraits.h',['../ArgumentTraits_8h.html',1,'']]],
   ['argusshape_2eh',['ArgusShape.h',['../ArgusShape_8h.html',1,'']]],

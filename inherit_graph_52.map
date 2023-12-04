@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$group__histogram.html#classhydra_1_1DenseHistogram" title="hydra::DenseHistogram\l\&lt; T, N, BACKEND, typename,\l typename \&gt;" alt="" coords="5,5,207,61"/>
+<area shape="rect" id="node1" href="$namespacehydra.html" title="hydra::BaseCompositeFunctor\l\&lt; Sum\&lt; F1, F2, Fs... \&gt;,\l hydra::thrust::tuple\&lt; F1,\l F2, Fs... \&gt;, detail::merged\l_tuple\&lt; hydra::thrust::tuple\l\&lt; std::common_type\&lt; F1::return\l_type, F2::return_type, Fs::return\l_type... \&gt;::type \&gt;, detail::stripped\l_tuple\&lt; detail::merged_tuple\&lt; F1::argument\l_type, F2::argument_type, Fs::argument_type\l ... \&gt;::type \&gt;::type \&gt;::type \&gt;" alt="" coords="5,5,293,179"/>
+<area shape="rect" id="node2" href="$classhydra_1_1Sum.html" title="hydra::Sum\&lt; F1, F2,\l Fs \&gt;" alt="" coords="341,71,484,113"/>
 </map>

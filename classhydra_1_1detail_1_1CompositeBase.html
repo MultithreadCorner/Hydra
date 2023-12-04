@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -105,12 +105,6 @@ $(document).ready(function(){initNavTree('classhydra_1_1detail_1_1CompositeBase.
 
 <p><code>#include &lt;<a class="el" href="">CompositeBase.h</a>&gt;</code></p>
 <div class="dynheader">
-Inheritance diagram for hydra::detail::CompositeBase&lt; F0, F1, Fs &gt;:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classhydra_1_1detail_1_1CompositeBase__inherit__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-</div>
-<div class="dynheader">
 Collaboration diagram for hydra::detail::CompositeBase&lt; F0, F1, Fs &gt;:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classhydra_1_1detail_1_1CompositeBase__coll__graph.svg" width="202" height="390"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
@@ -119,8 +113,10 @@ Collaboration diagram for hydra::detail::CompositeBase&lt; F0, F1, Fs &gt;:</div
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a30c78fc91f3a9cd6d6e0a3c1b3c4ffb1"><td class="memItemLeft" align="right" valign="top">typedef hydra_thrust::tuple&lt; F0, F1, Fs... &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a30c78fc91f3a9cd6d6e0a3c1b3c4ffb1">functors_type</a></td></tr>
-<tr class="separator:a30c78fc91f3a9cd6d6e0a3c1b3c4ffb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ad0e3681e29096ef67e0d49d7de2ce7"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1merged__tuple">hydra::detail::merged_tuple</a>&lt; typename F1::argument_type &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a8ad0e3681e29096ef67e0d49d7de2ce7">argument_type</a></td></tr>
+<tr class="separator:a8ad0e3681e29096ef67e0d49d7de2ce7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6be524d575990dd6dadc55365147a68b"><td class="memItemLeft" align="right" valign="top">typedef hydra::thrust::tuple&lt; F0, F1, Fs... &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a6be524d575990dd6dadc55365147a68b">functors_type</a></td></tr>
+<tr class="separator:a6be524d575990dd6dadc55365147a68b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22ec3232fa0d6f4f7824472d7cdb3ae9"><td class="memItemLeft" align="right" valign="top">typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a22ec3232fa0d6f4f7824472d7cdb3ae9">hydra_composed_functor_type</a></td></tr>
 <tr class="separator:a22ec3232fa0d6f4f7824472d7cdb3ae9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -134,10 +130,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aafad75763007a1959dda168a91c262b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a499bba7e97f34da95837092f9cf16c8c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a499bba7e97f34da95837092f9cf16c8c">AddUserParameters</a> (std::vector&lt; <a class="el" href="group__fit.html#structhydra_1_1Parameter">hydra::Parameter</a> *&gt; &amp;user_parameters)</td></tr>
 <tr class="separator:a499bba7e97f34da95837092f9cf16c8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7650578be05bdf5978928861bedd8c46"><td class="memTemplParams" colspan="2">template&lt;unsigned int I&gt; </td></tr>
-<tr class="memitem:a7650578be05bdf5978928861bedd8c46"><td class="memTemplItemLeft" align="right" valign="top">hydra_thrust::tuple_element&lt; I, <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a30c78fc91f3a9cd6d6e0a3c1b3c4ffb1">functors_type</a> &gt;::type &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a7650578be05bdf5978928861bedd8c46">GetFunctor</a> (<a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">hydra::placeholders::placeholder</a>&lt; I &gt; const &amp;)</td></tr>
-<tr class="separator:a7650578be05bdf5978928861bedd8c46"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c12a2a673dc81becfb4967c2ef3f951"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> const <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a30c78fc91f3a9cd6d6e0a3c1b3c4ffb1">functors_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a9c12a2a673dc81becfb4967c2ef3f951">GetFunctors</a> () const</td></tr>
+<tr class="memitem:a57b1442c998a9f2f5c607385afe381c3"><td class="memTemplParams" colspan="2">template&lt;unsigned int I&gt; </td></tr>
+<tr class="memitem:a57b1442c998a9f2f5c607385afe381c3"><td class="memTemplItemLeft" align="right" valign="top">hydra::thrust::tuple_element&lt; I, <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a6be524d575990dd6dadc55365147a68b">functors_type</a> &gt;::type &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a57b1442c998a9f2f5c607385afe381c3">GetFunctor</a> (<a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">hydra::placeholders::placeholder</a>&lt; I &gt; const &amp;)</td></tr>
+<tr class="separator:a57b1442c998a9f2f5c607385afe381c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c12a2a673dc81becfb4967c2ef3f951"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> const <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a6be524d575990dd6dadc55365147a68b">functors_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a9c12a2a673dc81becfb4967c2ef3f951">GetFunctors</a> () const</td></tr>
 <tr class="separator:a9c12a2a673dc81becfb4967c2ef3f951"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af69f646f547f27efbb7c42be1f5a2cf3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> <a class="el" href="namespacehydra.html#a971e94bcb8c43741d11f9d8eb98f5fab">GReal_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#af69f646f547f27efbb7c42be1f5a2cf3">GetNorm</a> () const</td></tr>
 <tr class="separator:af69f646f547f27efbb7c42be1f5a2cf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -176,7 +172,7 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:abc5ebb435c88e3fc48ab5d2b3f2fa32e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a30c78fc91f3a9cd6d6e0a3c1b3c4ffb1">functors_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#abc5ebb435c88e3fc48ab5d2b3f2fa32e">fFtorTuple</a></td></tr>
+<tr class="memitem:abc5ebb435c88e3fc48ab5d2b3f2fa32e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a6be524d575990dd6dadc55365147a68b">functors_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#abc5ebb435c88e3fc48ab5d2b3f2fa32e">fFtorTuple</a></td></tr>
 <tr class="separator:abc5ebb435c88e3fc48ab5d2b3f2fa32e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -184,16 +180,32 @@ Protected Attributes</h2></td></tr>
 class hydra::detail::CompositeBase&lt; F0, F1, Fs &gt;</h3>
 
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a30c78fc91f3a9cd6d6e0a3c1b3c4ffb1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30c78fc91f3a9cd6d6e0a3c1b3c4ffb1">&#9670;&nbsp;</a></span>functors_type</h2>
+<a id="a8ad0e3681e29096ef67e0d49d7de2ce7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ad0e3681e29096ef67e0d49d7de2ce7">&#9670;&nbsp;</a></span>argument_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef hydra_thrust::tuple&lt;F0, F1, Fs...&gt; <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html">hydra::detail::CompositeBase</a>&lt; F0, F1, Fs &gt;::<a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a30c78fc91f3a9cd6d6e0a3c1b3c4ffb1">functors_type</a></td>
+          <td class="memname">typedef <a class="el" href="namespacehydra_1_1detail.html#structhydra_1_1detail_1_1merged__tuple">hydra::detail::merged_tuple</a>&lt;typename F1::argument_type&gt;::type <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html">hydra::detail::CompositeBase</a>&lt; F0, F1, Fs &gt;::<a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a8ad0e3681e29096ef67e0d49d7de2ce7">argument_type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6be524d575990dd6dadc55365147a68b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6be524d575990dd6dadc55365147a68b">&#9670;&nbsp;</a></span>functors_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef hydra::thrust::tuple&lt;F0, F1, Fs...&gt; <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html">hydra::detail::CompositeBase</a>&lt; F0, F1, Fs &gt;::<a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a6be524d575990dd6dadc55365147a68b">functors_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -206,7 +218,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">typedef void <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html">hydra::detail::CompositeBase</a>&lt; F0, F1, Fs &gt;::<a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a22ec3232fa0d6f4f7824472d7cdb3ae9">hydra_composed_functor_type</a></td>
@@ -223,7 +235,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -250,7 +262,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -294,7 +306,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -323,7 +335,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -345,13 +357,13 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 
 </div>
 </div>
-<a id="a7650578be05bdf5978928861bedd8c46"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7650578be05bdf5978928861bedd8c46">&#9670;&nbsp;</a></span>GetFunctor()</h2>
+<a id="a57b1442c998a9f2f5c607385afe381c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57b1442c998a9f2f5c607385afe381c3">&#9670;&nbsp;</a></span>GetFunctor()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <div class="memtemplate">
 template&lt;unsigned int I&gt; </div>
 <table class="mlabels">
@@ -359,7 +371,7 @@ template&lt;unsigned int I&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">hydra_thrust::tuple_element&lt;I,<a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a30c78fc91f3a9cd6d6e0a3c1b3c4ffb1">functors_type</a>&gt;::type&amp; <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html">hydra::detail::CompositeBase</a>&lt; F0, F1, Fs &gt;::GetFunctor </td>
+          <td class="memname">hydra::thrust::tuple_element&lt;I,<a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a6be524d575990dd6dadc55365147a68b">functors_type</a>&gt;::type&amp; <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html">hydra::detail::CompositeBase</a>&lt; F0, F1, Fs &gt;::GetFunctor </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structhydra_1_1placeholders_1_1placeholder.html">hydra::placeholders::placeholder</a>&lt; I &gt; const &amp;&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -381,13 +393,13 @@ template&lt;unsigned int I&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> const <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a30c78fc91f3a9cd6d6e0a3c1b3c4ffb1">functors_type</a>&amp; <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html">hydra::detail::CompositeBase</a>&lt; F0, F1, Fs &gt;::GetFunctors </td>
+          <td class="memname"><a class="el" href="Config_8h.html#abfd8a70679d1a0c531e1d38cc798a228">__hydra_host__</a> <a class="el" href="Config_8h.html#a438c5ef47bf121b2c5efb75836bcc865">__hydra_device__</a> const <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a6be524d575990dd6dadc55365147a68b">functors_type</a>&amp; <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html">hydra::detail::CompositeBase</a>&lt; F0, F1, Fs &gt;::GetFunctors </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -408,7 +420,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -435,7 +447,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -462,7 +474,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <div class="memtemplate">
 template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integral&lt;Int&gt;::value, void&gt;::type&gt; </div>
 <table class="mlabels">
@@ -492,7 +504,7 @@ template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integr
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -520,7 +532,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -547,7 +559,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -575,7 +587,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <div class="memtemplate">
 template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integral&lt;Int&gt;::value, void&gt;::type&gt; </div>
 <table class="mlabels">
@@ -605,7 +617,7 @@ template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integr
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -633,7 +645,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -660,7 +672,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -688,7 +700,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <div class="memtemplate">
 template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integral&lt;Int&gt;::value, void&gt;::type&gt; </div>
 <table class="mlabels">
@@ -728,7 +740,7 @@ template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integr
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <div class="memtemplate">
 template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integral&lt;Int&gt;::value, void&gt;::type&gt; </div>
 <table class="mlabels">
@@ -768,7 +780,7 @@ template&lt;typename Int , typename  = typename std::enable_if&lt;std::is_integr
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -806,7 +818,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -844,7 +856,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -873,13 +885,13 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename F0, typename F1, typename... Fs&gt; </div>
+template&lt;typename F0 , typename F1 , typename... Fs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a30c78fc91f3a9cd6d6e0a3c1b3c4ffb1">functors_type</a> <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html">hydra::detail::CompositeBase</a>&lt; F0, F1, Fs &gt;::fFtorTuple</td>
+          <td class="memname"><a class="el" href="classhydra_1_1detail_1_1CompositeBase.html#a6be524d575990dd6dadc55365147a68b">functors_type</a> <a class="el" href="classhydra_1_1detail_1_1CompositeBase.html">hydra::detail::CompositeBase</a>&lt; F0, F1, Fs &gt;::fFtorTuple</td>
         </tr>
       </table>
   </td>
@@ -900,7 +912,7 @@ template&lt;typename F0, typename F1, typename... Fs&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacehydra.html">hydra</a></li><li class="navelem"><a class="el" href="namespacehydra_1_1detail.html">detail</a></li><li class="navelem"><a class="el" href="classhydra_1_1detail_1_1CompositeBase.html">CompositeBase</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:02 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:48 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

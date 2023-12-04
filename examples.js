@@ -39,5 +39,6 @@ var examples =
     [ "sample_distribution.inl", "sample_distribution_8inl-example.html", null ],
     [ "simultaneous_fit.inl", "simultaneous_fit_8inl-example.html", null ],
     [ "splot.inl", "splot_8inl-example.html", null ],
+    [ "unweight_distribution.inl", "unweight_distribution_8inl-example.html", null ],
     [ "vegas.inl", "vegas_8inl-example.html", null ]
 ];

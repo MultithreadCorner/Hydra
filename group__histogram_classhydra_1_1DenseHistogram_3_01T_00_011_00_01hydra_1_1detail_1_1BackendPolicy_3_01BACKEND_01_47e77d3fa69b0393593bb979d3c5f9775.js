@@ -1,7 +1,7 @@
 var group__histogram_classhydra_1_1DenseHistogram_3_01T_00_011_00_01hydra_1_1detail_1_1BackendPolicy_3_01BACKEND_01_47e77d3fa69b0393593bb979d3c5f9775 =
 [
     [ "DenseHistogram", "group__histogram.html#a8a41f268b429de027dcbe2dd60662e78", null ],
-    [ "DenseHistogram", "group__histogram.html#a805c3fb87d39aeaf1b852c16b65922e2", null ],
+    [ "DenseHistogram", "group__histogram.html#a7d4004d36326e0634c87593e5dacc20e", null ],
     [ "DenseHistogram", "group__histogram.html#aaa2a61d34a33f77913e00f41c97e7018", null ],
     [ "DenseHistogram", "group__histogram.html#a16bc02ca0e86b16f1554a8020b24b59a", null ],
     [ "DenseHistogram", "group__histogram.html#a002807449ae303c9b1984caa145ddad0", null ],
@@ -17,7 +17,7 @@ var group__histogram_classhydra_1_1DenseHistogram_3_01T_00_011_00_01hydra_1_1det
     [ "Fill", "group__histogram.html#ad569e6f9abd9a1adb622e221c99304db", null ],
     [ "Fill", "group__histogram.html#a1b72cab6e6a0b911d49704d23746c2bb", null ],
     [ "GetBinContent", "group__histogram.html#a532415f5d8522de87048f918b0812399", null ],
-    [ "GetBinsCenters", "group__histogram.html#a559f54a23535b6e8d6766b0602a696f7", null ],
+    [ "GetBinsCenters", "group__histogram.html#a45cb0f03ecd6ab7bf813eb7a44b7dd4c", null ],
     [ "GetBinsContents", "group__histogram.html#ad2e3bf451ce00a7c34a78cc1dd33f35e", null ],
     [ "GetBinsContents", "group__histogram.html#a671642395982689513f91e43e67d40c9", null ],
     [ "GetContents", "group__histogram.html#ab195444a4badaa751ba987db62d3900a", null ],

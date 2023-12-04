@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -111,7 +111,8 @@ $(document).ready(function(){initNavTree('Plain_8h.html','');});
 <code>#include &lt;<a class="el" href="">hydra/detail/functors/ProcessCallsPlain.h</a>&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
-<code>#include &lt;hydra/detail/external/hydra_thrust/random.h&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Integrator.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Random.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/detail/Plain.inl</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Plain.h:</div>
@@ -154,10 +155,10 @@ Namespaces</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="textblock"><h3>template&lt;size_t N, typename BACKEND, typename GRND = hydra_thrust::random::default_random_engine&gt;<br />
+<div class="textblock"><h3>template&lt;size_t N, typename BACKEND, typename GRND = hydra::default_random_engine&gt;<br />
 struct hydra::Plain&lt; N, BACKEND, GRND &gt;</h3>
 
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="multidimensional_fit_8inl-example.html#_a34">multidimensional_fit.inl</a>, and <a class="el" href="plain_mc_8inl-example.html#_a12">plain_mc.inl</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="multidimensional_fit_8inl-example.html#_a34">multidimensional_fit.inl</a>, and <a class="el" href="plain_mc_8inl-example.html#_a13">plain_mc.inl</a>.</dd>
 </dl></div><div class="dynheader">
 Collaboration diagram for hydra::Plain&lt; N, BACKEND, GRND &gt;:</div>
 <div class="dyncontent">
@@ -173,7 +174,7 @@ Collaboration diagram for hydra::Plain&lt; N, BACKEND, GRND &gt;:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_108162cc96056bf8ace3602d16680a1c.html">hydra</a></li><li class="navelem"><a class="el" href="Plain_8h.html">Plain.h</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:47 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>

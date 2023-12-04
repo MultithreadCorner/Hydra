@@ -1,11 +1,8 @@
 <map id="BifurcatedGaussian.h" name="BifurcatedGaussian.h">
-<area shape="rect" id="node2" href="$quick__test_8inl.html" title="quick_test.inl" alt="" coords="137,80,236,107"/>
-<area shape="rect" id="node5" href="$basic__distributions_8inl.html" title="basic_distributions.inl" alt="" coords="353,80,500,107"/>
-<area shape="rect" id="node8" href="$fill__basic__distributions_8inl.html" title="fill_basic_distributions.inl" alt="" coords="617,80,783,107"/>
-<area shape="rect" id="node3" href="$quick__test_8cpp.html" title="quick_test.cpp" alt="" coords="5,155,112,181"/>
-<area shape="rect" id="node4" href="$quick__test_8cu.html" title="quick_test.cu" alt="" coords="137,155,237,181"/>
-<area shape="rect" id="node6" href="$basic__distributions_8cpp.html" title="basic_distributions.cpp" alt="" coords="261,155,416,181"/>
-<area shape="rect" id="node7" href="$basic__distributions_8cu.html" title="basic_distributions.cu" alt="" coords="441,155,589,181"/>
-<area shape="rect" id="node9" href="$fill__basic__distributions_8cpp.html" title="fill_basic_distributions.cpp" alt="" coords="613,155,787,181"/>
-<area shape="rect" id="node10" href="$fill__basic__distributions_8cu.html" title="fill_basic_distributions.cu" alt="" coords="812,155,980,181"/>
+<area shape="rect" id="node2" href="$basic__distributions_8inl.html" title="basic_distributions.inl" alt="" coords="185,80,332,107"/>
+<area shape="rect" id="node5" href="$fill__basic__distributions_8inl.html" title="fill_basic_distributions.inl" alt="" coords="361,80,527,107"/>
+<area shape="rect" id="node3" href="$basic__distributions_8cpp.html" title="basic_distributions.cpp" alt="" coords="5,155,160,181"/>
+<area shape="rect" id="node4" href="$basic__distributions_8cu.html" title="basic_distributions.cu" alt="" coords="185,155,333,181"/>
+<area shape="rect" id="node6" href="$fill__basic__distributions_8cpp.html" title="fill_basic_distributions.cpp" alt="" coords="357,155,531,181"/>
+<area shape="rect" id="node7" href="$fill__basic__distributions_8cu.html" title="fill_basic_distributions.cu" alt="" coords="556,155,724,181"/>
 </map>

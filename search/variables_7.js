@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['gamma',['gamma',['../quick__test_8inl.html#acdd95f533acd83442ce3dec24fa4e49b',1,'gamma():&#160;quick_test.inl'],['../basic__distributions_8inl.html#acdd95f533acd83442ce3dec24fa4e49b',1,'gamma():&#160;basic_distributions.inl']]],
-  ['gauss',['gauss',['../quick__test_8inl.html#aed44b4dfa74f0ab603df1dc4e0e19b1b',1,'gauss():&#160;quick_test.inl'],['../basic__distributions_8inl.html#aed44b4dfa74f0ab603df1dc4e0e19b1b',1,'gauss():&#160;basic_distributions.inl']]],
+  ['gamma',['gamma',['../basic__distributions_8inl.html#acdd95f533acd83442ce3dec24fa4e49b',1,'basic_distributions.inl']]],
+  ['gauss',['gauss',['../basic__distributions_8inl.html#aed44b4dfa74f0ab603df1dc4e0e19b1b',1,'basic_distributions.inl']]],
   ['gauss1_5fpdf',['Gauss1_PDF',['../binned__extended__logLL__fit_8inl.html#ae01584da56b936fc41d511e6895d30c0',1,'Gauss1_PDF():&#160;binned_extended_logLL_fit.inl'],['../extended__logLL__fit_8inl.html#ae01584da56b936fc41d511e6895d30c0',1,'Gauss1_PDF():&#160;extended_logLL_fit.inl'],['../fractional__logLL__fit_8inl.html#ae01584da56b936fc41d511e6895d30c0',1,'Gauss1_PDF():&#160;fractional_logLL_fit.inl']]],
   ['gauss2_5fpdf',['Gauss2_PDF',['../binned__extended__logLL__fit_8inl.html#ae63841d2f2663489866089fdf2183e8b',1,'Gauss2_PDF():&#160;binned_extended_logLL_fit.inl'],['../extended__logLL__fit_8inl.html#ae63841d2f2663489866089fdf2183e8b',1,'Gauss2_PDF():&#160;extended_logLL_fit.inl'],['../fractional__logLL__fit_8inl.html#ae63841d2f2663489866089fdf2183e8b',1,'Gauss2_PDF():&#160;fractional_logLL_fit.inl']]],
   ['gaussian',['gaussian',['../basic__fit__range__semantics_8inl.html#a93b9927daa5dcc9961fe8d583f340872',1,'gaussian():&#160;basic_fit_range_semantics.inl'],['../multidimensional__fit_8inl.html#a8eb2a7e664c8be3a40f13cc9065c8ec6',1,'gaussian():&#160;multidimensional_fit.inl']]],

@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo_Hydra2.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hydra
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">4.0.1</span>
    </div>
    <div id="projectbrief">A header-only templated C++ framework to perform data analysis on massively parallel platforms.</div>
   </td>
@@ -116,14 +116,17 @@ $(document).ready(function(){initNavTree('fit__3d__gaussian_8C.html','');});
 <code>#include &lt;<a class="el" href="">hydra/Tuple.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Distance.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/multiarray.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/multivector.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/LogLikelihoodFCN.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Parameter.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/UserParameters.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Pdf.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/AddPdf.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/Filter.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="">hydra/GenzMalikQuadrature.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/Plain.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="">hydra/DenseHistogram.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/functions/Gaussian.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="">hydra/RandomFill.h</a>&gt;</code><br />
 <code>#include &quot;Minuit2/FunctionMinimum.h&quot;</code><br />
 <code>#include &quot;Minuit2/MnUserParameterState.h&quot;</code><br />
 <code>#include &quot;Minuit2/MnPrint.h&quot;</code><br />
@@ -159,9 +162,9 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ab0d6fd1e48d34086bb121b573d1bf96d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fit__3d__gaussian_8C.html#ab0d6fd1e48d34086bb121b573d1bf96d">fit_3d_gaussian</a> (size_t <a class="el" href="basic__distributions_8inl.html#af8b0f365ee5d5b76a62688733e5016a1">nentries</a>=1000000)</td></tr>
-<tr class="memdesc:ab0d6fd1e48d34086bb121b573d1bf96d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This macro generates data and fit a 3D-Gaussian distribution in parallel.  <a href="#ab0d6fd1e48d34086bb121b573d1bf96d">More...</a><br /></td></tr>
-<tr class="separator:ab0d6fd1e48d34086bb121b573d1bf96d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99a1fa74a4d9ffb90c0b08911f1bdc69"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fit__3d__gaussian_8C.html#a99a1fa74a4d9ffb90c0b08911f1bdc69">declarg</a> (_X, <a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>)</td></tr>
+<tr class="memdesc:a99a1fa74a4d9ffb90c0b08911f1bdc69"><td class="mdescLeft">&#160;</td><td class="mdescRight">This macro generates data and fit a 3D-Gaussian distribution in parallel.  <a href="#a99a1fa74a4d9ffb90c0b08911f1bdc69">More...</a><br /></td></tr>
+<tr class="separator:a99a1fa74a4d9ffb90c0b08911f1bdc69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a6a448b251f0dc280b7dc192c072b3ed9"></a>
@@ -193,24 +196,34 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ab0d6fd1e48d34086bb121b573d1bf96d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0d6fd1e48d34086bb121b573d1bf96d">&#9670;&nbsp;</a></span>fit_3d_gaussian()</h2>
+<a id="a99a1fa74a4d9ffb90c0b08911f1bdc69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99a1fa74a4d9ffb90c0b08911f1bdc69">&#9670;&nbsp;</a></span>declarg()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void fit_3d_gaussian </td>
+          <td class="memname">declarg </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>nentries</em> = <code>1000000</code></td><td>)</td>
+          <td class="paramtype">_X&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="namespace_3globalScope_4.html#classdouble">double</a>&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>This macro generates data and fit a 3D-Gaussian distribution in parallel. </p>
-<dl class="section note"><dt>Note</dt><dd>Call this macro in ROOT compile mode: <div class="fragment"><div class="line">root [0] .L <a class="code" href="fit__3d__gaussian_8C.html#ab0d6fd1e48d34086bb121b573d1bf96d">fit_3d_gaussian</a>.C+</div><div class="line">root [1] <a class="code" href="fit__3d__gaussian_8C.html#ab0d6fd1e48d34086bb121b573d1bf96d">fit_3d_gaussian</a>(5000000)</div></div><!-- fragment --></dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Call this macro in ROOT compile mode: <div class="fragment"><div class="line">root [0] .L fit_3d_gaussian.C+</div><div class="line">root [1] fit_3d_gaussian(5000000)</div></div><!-- fragment --></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">nentries</td><td>Number of points to generate. </td></tr>
@@ -226,7 +239,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_92a1ff494355b06c14c0e1fe7b982d29.html">Hydra</a></li><li class="navelem"><a class="el" href="dir_b3c69fde212a60de3f50954f66fa65c1.html">examples</a></li><li class="navelem"><a class="el" href="dir_8382fbd7b2d8f6265e55b9108cec1023.html">root_macros</a></li><li class="navelem"><a class="el" href="fit__3d__gaussian_8C.html">fit_3d_gaussian.C</a></li>
-    <li class="footer">Generated on Sun Jun 28 2020 00:00:01 for Hydra by
+    <li class="footer">Generated on Sun Dec 3 2023 21:29:46 for Hydra by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
   </ul>
