@@ -36,7 +36,7 @@ extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.todo',
     'sphinx.ext.mathjax',
     'sphinxcontrib.bibtex',
-    'sphinxcontrib.fulltoc',
+    #'sphinxcontrib.fulltoc',
     'sphinx_rtd_theme']
     
 
