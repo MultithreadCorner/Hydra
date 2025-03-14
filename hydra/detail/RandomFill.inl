@@ -37,7 +37,6 @@
 #define RANDOMFILL_INL_
 
 
-
 namespace hydra{
 
     /**
@@ -47,12 +46,10 @@ namespace hydra{
      * @param end ending of the range storing the generated values
      * @param functor distribution to be sampled
      */
-    template< typename Engine,  hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
-    typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::is_convertible<
-    decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-    typename hydra::thrust::iterator_traits<Iterator>::value_type
-    >::value, void>::type
-    fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+    template <typename Engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR>
+    requires hydra::detail::HasRngFormula<FUNCTOR> &&
+             hydra::detail::IsRngFormulaConvertible<FUNCTOR, Engine, Iterator>
+    void fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
                 Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed, size_t rng_jump)
     {
         using hydra::thrust::system::detail::generic::select_system;
@@ -63,7 +60,7 @@ namespace hydra{
 
         typedef  typename hydra::thrust::detail::remove_reference<
                     decltype(select_system( system, _policy ))>::type common_system_type;
- 
+
         hydra::thrust::tabulate( common_system_type(), begin, end, detail::Sampler<FUNCTOR,Engine>(functor, seed, rng_jump) );
 
     }
@@ -75,11 +72,9 @@ namespace hydra{
      * @param functor distribution to be sampled
      */
     template< typename Engine, typename Iterator, typename FUNCTOR >
-    typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::is_convertible<
-    decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-    typename hydra::thrust::iterator_traits<Iterator>::value_type
-    >::value, void>::type
-    fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed, size_t rng_jump)
+    requires hydra::detail::HasRngFormula<FUNCTOR> &&
+             hydra::detail::IsRngFormulaConvertible<FUNCTOR, Engine, Iterator>
+    void fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed, size_t rng_jump)
     {
         using hydra::thrust::system::detail::generic::select_system;
         typedef typename hydra::thrust::iterator_system<Iterator>::type system_t;
@@ -123,8 +118,8 @@ namespace hydra{
      * @brief Fall back function if RngFormula is not implemented for the requested functor
      */
     template< typename Engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
-    typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
-    fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+    requires (!hydra::detail::HasRngFormula<FUNCTOR>)
+    void fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
                 Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed, size_t rng_jump)
     {
 
@@ -134,13 +129,13 @@ namespace hydra{
                 " which will deploy different strategy \n.")
 
     }
-    
+
     /**
      * @brief Fall back function if RngFormula is not implemented for the requested functor
      */
     template< typename Engine, typename Iterator, typename FUNCTOR >
-    typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
-    fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed, size_t rng_jump)
+    requires (!hydra::detail::HasRngFormula<FUNCTOR>)
+    void fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed, size_t rng_jump)
     {
 
         HYDRA_STATIC_ASSERT( int(std::is_class<Engine>::value) ==-1 ,
@@ -149,16 +144,14 @@ namespace hydra{
                 " which will deploy different strategy ")
 
     }
-    
+
     /**
      * @brief Fall back function if RngFormula::Generate() return value is not convertible to functor return value
      */
     template< typename Engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
-    typename std::enable_if< !std::is_convertible<
-    decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-    typename std::iterator_traits<Iterator>::value_type
-    >::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
-    fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+    requires hydra::detail::HasRngFormula<FUNCTOR> &&
+             hydra::detail::NotConvertibleToIteratorValue<FUNCTOR, Engine, Iterator>
+    void fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
                 Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed, size_t rng_jump)
     {
         HYDRA_STATIC_ASSERT( int(std::is_class<Engine>::value) ==-1 ,
@@ -169,16 +162,14 @@ namespace hydra{
      * @brief Fall back function if RngFormula::Generate() return value is not convertible to functor return value
      */
     template< typename Engine, typename Iterator, typename FUNCTOR >
-    typename std::enable_if< !std::is_convertible<
-    decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-    typename std::iterator_traits<Iterator>::value_type
-    >::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
-    fill_random(Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed, size_t rng_jump)
+    requires hydra::detail::HasRngFormula<FUNCTOR> &&
+             hydra::detail::NotConvertibleToIteratorValue<FUNCTOR, Engine, Iterator>
+    void fill_random(Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed, size_t rng_jump)
     {
         HYDRA_STATIC_ASSERT( int(std::is_class<Engine>::value) ==-1 ,
                 " Generated objects can't be stored in this container. " )
     }
-    
+
     /**
      * @brief Fall back function if the argument is not an Iterable or if it is not convertible to the Functor return value
      */
