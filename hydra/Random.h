@@ -43,6 +43,7 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/ArgumentTraits.h>
 #include <hydra/detail/PRNGTypedefs.h>
+#include <hydra/detail/RandomConcepts.h>
 
 #include <hydra/Range.h>
 
@@ -551,11 +552,9 @@ sample( Iterable&& output ,
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine,  hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
-typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::is_convertible<
-decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-typename hydra::thrust::iterator_traits<Iterator>::value_type
->::value, void>::type
-fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+requires hydra::detail::HasRngFormula<FUNCTOR> &&
+         hydra::detail::IsRngFormulaConvertible<FUNCTOR, Engine, Iterator>
+void fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
             Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
 /**
@@ -570,11 +569,9 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine =hydra::default_random_engine, typename Iterator, typename FUNCTOR >
-typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::is_convertible<
-decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-typename hydra::thrust::iterator_traits<Iterator>::value_type
->::value, void>::type
-fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
+requires hydra::detail::HasRngFormula<FUNCTOR> &&
+         hydra::detail::IsRngFormulaConvertible<FUNCTOR, Engine, Iterator>
+void fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -620,8 +617,8 @@ fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
-typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
-fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+requires (!hydra::detail::HasRngFormula<FUNCTOR>)
+void fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
             Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
 /**
@@ -636,8 +633,8 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, typename Iterator, typename FUNCTOR >
-typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
-fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
+requires (!hydra::detail::HasRngFormula<FUNCTOR>)
+void fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -652,11 +649,9 @@ fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
-typename std::enable_if< !std::is_convertible<
-decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-typename std::iterator_traits<Iterator>::value_type
->::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
-fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+requires hydra::detail::HasRngFormula<FUNCTOR> &&
+             hydra::detail::NotConvertibleToIteratorValue<FUNCTOR, Engine, Iterator>
+void fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
             Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
 /**
@@ -671,11 +666,9 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, typename Iterator, typename FUNCTOR >
-typename std::enable_if< !std::is_convertible<
-decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-typename std::iterator_traits<Iterator>::value_type
->::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
-fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
+requires hydra::detail::HasRngFormula<FUNCTOR> &&
+             hydra::detail::NotConvertibleToIteratorValue<FUNCTOR, Engine, Iterator>
+void fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
 /**
  * \ingroup random
