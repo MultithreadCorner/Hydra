@@ -29,6 +29,7 @@
 #ifndef DENSEHISTOGRAM_H_
 #define DENSEHISTOGRAM_H_
 
+#include <cstddef>
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/cpp/System.h>
@@ -50,7 +51,7 @@ namespace hydra {
 /**
  * \ingroup histogram
  */
-template< typename T, size_t N, typename BACKEND, typename = typename detail::dimensionality<N>::type,
+template< typename T, std::size_t N, typename BACKEND, typename = typename detail::dimensionality<N>::type,
 	typename = typename std::enable_if<std::is_arithmetic<T>::value, void>::type>
 class DenseHistogram;
 

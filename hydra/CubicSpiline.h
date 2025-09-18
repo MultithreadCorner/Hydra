@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2023 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -29,7 +29,10 @@
 #ifndef CUBICSPILINE_H_
 #define CUBICSPILINE_H_
 
-
+#include <cstddef>
+#include <math.h>
+#include <algorithm>
+#include <cstdint>
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
@@ -40,8 +43,7 @@
 #include <hydra/detail/external/hydra_thrust/execution_policy.h>
 #include <hydra/detail/external/hydra_thrust/binary_search.h>
 #include <hydra/detail/external/hydra_thrust/extrema.h>
-#include <math.h>
-#include <algorithm>
+
 
 namespace hydra {
 

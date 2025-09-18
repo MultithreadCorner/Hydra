@@ -10,6 +10,8 @@ if(NOT UNIX)
   message(FATAL_ERROR "This is an unsupported system.")
 endif()
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 #cmake path dir
 SET(Hydra_CMAKE_DIR "${PROJECT_SOURCE_DIR}/cmake")
 SET(CMAKE_MODULE_PATH "${Hydra_CMAKE_DIR}" ${CMAKE_MODULE_PATH})
@@ -17,8 +19,8 @@ SET(CMAKE_VERBOSE_MAKEFILE  ON)
 
 #check if compilers are C++17 compliant
 include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("--std=c++20" COMPILER_SUPPORTS_CXX17)
-if(NOT COMPILER_SUPPORTS_CXX17)
+CHECK_CXX_COMPILER_FLAG("--std=c++20" COMPILER_SUPPORTS_CXX20)
+if(NOT COMPILER_SUPPORTS_CXX20)
  message(FATAL "The compiler ${CMAKE_CXX_COMPILER} has no C++20 support. Please use a different C++ compiler.")
 endif()
 
@@ -26,7 +28,7 @@ endif()
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
 
  MESSAGE(STATUS "Setting Clang flags")
- set(CMAKE_CXX_FLAGS " --std=c++17 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
+ set(CMAKE_CXX_FLAGS " --std=c++20 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
 
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 
@@ -36,7 +38,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
 
  MESSAGE(STATUS "Setting ICC flags")
- set(CMAKE_CXX_FLAGS " --std=c++17 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
+ set(CMAKE_CXX_FLAGS " --std=c++20 -W -march=native -fPIC -O4 -ldl" CACHE STRING "compile flags" FORCE)
 endif()
 
 #-----------------------
@@ -80,7 +82,7 @@ list(APPEND HYDRA_CUDA_FLAGS "--expt-relaxed-constexpr")
 #list(APPEND HYDRA_CUDA_FLAGS "")
 list(JOIN   HYDRA_CUDA_FLAGS " " HYDRA_CUDA_FLAGS)
 set( CMAKE_CUDA_FLAGS "${HYDRA_CUDA_FLAGS}" CACHE STRING "CUDA compile flags" FORCE)
-get_target_property(HYDRA_CUDA_RT CUDA::cudart ALIASED_TARGET)
+get_target_property(HYDRA_CUDA_RT CUDA::cudart Shared)
 get_target_property(HYDRA_CUDA_FFT CUDA::cufft ALIASED_TARGET)
 
 endif(CUDAToolkit_FOUND)
@@ -89,7 +91,8 @@ endif(CMAKE_CUDA_COMPILER)
 #-----------------------
 # get Hydra
 find_package(Hydra REQUIRED)
-include_directories(${Hydra_INCLUDE_DIR})
+include_directories(${HYDRA_INCLUDE_DIR})
+ MESSAGE(STATUS "Setting GCC flags")
 
 #-----------------------
 # get TCLAP

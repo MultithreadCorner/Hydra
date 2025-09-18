@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2023 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -37,17 +37,18 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/utility/Exception.h>
 #include <hydra/detail/Hash.h>
-#include <assert.h>
+#include <cassert>
+#include <cstddef>
 
 namespace hydra {
 
 namespace detail {
 
-template<size_t N>
+template<std::size_t N>
 class Parameters{
 
 public:
-	static const size_t parameter_count =N;
+	static const std::size_t parameter_count =N;
 
 	Parameters () = default;
 
@@ -111,7 +112,7 @@ public:
 			HYDRA_MSG <<"  >> Parameter " << i <<") "<< fParameters[i] << HYDRA_ENDL;
 
 		HYDRA_MSG <<"Parameters end." << HYDRA_ENDL;
-		HYDRA_MSG <<HYDRA_ENDL;
+		HYDRA_MSG << HYDRA_ENDL;
 		return;
 	}
 
