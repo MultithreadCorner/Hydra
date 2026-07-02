@@ -37,7 +37,7 @@ extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.mathjax',
     'sphinxcontrib.bibtex',
     #'sphinxcontrib.fulltoc',
-    "sphinx_rtd_theme"]
+    'sphinx_rtd_theme']
     
 
 # Add any paths that contain templates here, relative to this directory.
@@ -109,8 +109,8 @@ html_theme_options = {
     'collapse_navigation': True,
     'sticky_navigation': True,
     'navigation_depth': 4,
-    'includehidden': True,
-     'titles_only': False
+    'includehidden': True
+    # 'titles_only': False
 }
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the

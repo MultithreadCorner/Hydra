@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2023 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -34,23 +34,24 @@
 #ifndef INTEGRATOR_H_
 #define INTEGRATOR_H_
 
+#include <cstddef>
+#include <utility>
 #include <hydra/detail/Config.h>
 #include <hydra/Types.h>
-#include <utility>
 #include <hydra/detail/IntegratorTraits.h>
 
 namespace hydra {
 
-template<typename Functor, size_t N=1>
+template<typename Functor, std::size_t N=1>
 class IntegrationFormula;
 
-template<typename Functor, size_t N=1>
+template<typename Functor, std::size_t N=1>
 class AnalyticalIntegral;
 
-template<typename Functor, size_t N=1>
+template<typename Functor, std::size_t N=1>
 class NumericalIntegral;
 
-template<typename Algorithm, size_t N=1>
+template<typename Algorithm, std::size_t N=1>
 struct Integral;
 
 

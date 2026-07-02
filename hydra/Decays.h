@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2023 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -567,7 +567,7 @@ public :
 	{
 		if(this==&other) return *this;
 
-		fDecays  = other.GetStoragee();
+		fDecays  = other.GetStorage();
 
 		return *this;
 	}
