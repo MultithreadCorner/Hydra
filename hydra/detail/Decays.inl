@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -329,8 +329,11 @@ public:
 		fMaxWeight = 1.0 / wtmax;
 	}
 
+	
+	template<typename T=Functor, typename
+	 std::enable_if<std::is_copy_constructible<T>::value >::type >
 	__hydra_host__ __hydra_device__
-	PhaseSpaceReweight(PhaseSpaceReweight<Functor, ParticleTypes...> const& other ):
+	PhaseSpaceReweight(PhaseSpaceReweight<T, ParticleTypes...> const& other ):
 	base_type(other),
 	fFunctor(other.GetFunctor()),
 	fMaxWeight(other.GetMaxWeight())
@@ -338,7 +341,8 @@ public:
 		for(size_t i=0;i<base_type::arity;i++)
 				fMasses[i]= other.GetMasses()[i];
 	}
-
+  
+	
     template<typename T=Functor>
 	__hydra_host__ __hydra_device__
 	typename std::enable_if<std::is_copy_assignable<T>::value,

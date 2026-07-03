@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -77,19 +77,18 @@ public:
 		fNorm(1.0)
 		{}
 
-
+	template<typename T= LambdaType, typename std::enable_if< std::is_copy_constructible<T>::value >::type >
 	__hydra_host__ __hydra_device__
-	Lambda(Lambda<LambdaType, 0> const& other):
+	Lambda(Lambda<T, 0> const& other):
 	detail::Parameters<0>(other),
 	fLambda(other.GetLambda()),
 	fNorm(other.GetNorm())
 	{ }
-
+	
 
    template<typename T= LambdaType>
 	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< std::is_copy_assignable<T>::value,
-	Lambda<T, 0> &>::type
+	inline typename std::enable_if< std::is_copy_assignable<T>::value, Lambda<T, 0> >::type &
 	operator=(Lambda<T, 0> const & other )
 	{
 		if(this == &other) return *this;
@@ -329,8 +328,9 @@ public:
 		{ }
 
 
+	template<typename T=LambdaType, typename std::enable_if< std::is_copy_constructible<T>::value >::type>
 	__hydra_host__ __hydra_device__
-	Lambda(Lambda<LambdaType, NPARAM> const& other):
+	Lambda(Lambda<T, NPARAM> const& other):
 	detail::Parameters<NPARAM>( other),
 	fLambda(other.GetLambda()),
 	fNorm(other.GetNorm())

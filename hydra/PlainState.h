@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -53,7 +53,7 @@ struct PlainState
     GReal_t fM2;
 
     __hydra_host__ __hydra_device__
-PlainState():
+	PlainState():
 	fN(0),
 	fMean(0),
 	fM2(0),
@@ -62,15 +62,10 @@ PlainState():
     {}
 
     __hydra_host__ __hydra_device__
-   PlainState( PlainState const& other):
-   	fN(other.fN),
-   	fMean(other.fMean ),
-   	fM2(other.fM2 ),
-   	fMin(other.fMin  ),
-    fMax(other.fMax  )
-       {}
-
-
+   PlainState( PlainState const& other) = default;
+  
+	 __hydra_host__ __hydra_device__
+	PlainState& operator=( PlainState const& other) = default;
 
     __hydra_host__ __hydra_device__ inline
     GReal_t variance()   { return fM2 / (fN - 1); }
