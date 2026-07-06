@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -251,8 +251,8 @@ private:
 
 	void LoadInput(int size, const InputType* data )
 	{
-		std::cout << "size "<< size<<std::endl;
-		std::cout << "fNInput "<< fNInput<<std::endl;
+		//std::cout << "size "<< size<<std::endl;
+		//std::cout << "fNInput "<< fNInput<<std::endl;
 
 		assert(size <= fNInput);
 		memcpy(&fInput.get()[0], data, sizeof(InputType)*size);

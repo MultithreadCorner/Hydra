@@ -185,8 +185,8 @@ Recent publications citing Hydra and presentations at conferences and workshops
 7. [A. Loi, A. Contu and A. Lai, *Timing optimisation and analysis in the design of 3D silicon sensors: the TCoDe simulator* - JINST 16 P02011, https://doi.org/10.1088/1748-0221/16/02/P02011](https://iopscience.iop.org/article/10.1088/1748-0221/16/02/P02011)
 8. [A. Loi, A. Contu, R. Mendicino, G. T. Forcolin, A. Lai, G. F. Betta, M. Boscardin, S. Vecchi, *Timing optimization for 3D silicon sensors* - Nuclear Instruments and Methods in Physics Research Section A: Accelerators, Spectrometers, Detectors and Associated Equipment, Volume 958, 2020, 162491,https://doi.org/10.1016/j.nima.2019.162491](https://www.sciencedirect.com/science/article/abs/pii/S0168900219310381)
 9. [R. Aaij et al. (LHCb Collaboration) *Angular Analysis of D0→π+π−μ+μ− and D0→K+K−μ+μ− Decays and Search for CP Violation* - Phys. Rev. Lett. 128, 221801](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.128.221801)
-10. [D. Brundu1, A. Cardini, A. Contu, G.M. Cossu, G.-F. Dalla Betta, M. Garau, A. Lai, A. Lampis, A. Loi and M.M. Obertino,*Accurate modelling of 3D-trench silicon sensor with enhanced timing performance and comparison with test beam measurements*
-JINST 16 P09028, https://doi.org/10.1088/1748-0221/16/09/P09028](https://iopscience.iop.org/article/10.1088/1748-0221/16/09/P09028/meta)
+10. [D. Brundu1, A. Cardini, A. Contu, G.M. Cossu, G.-F. Dalla Betta, M. Garau, A. Lai, A. Lampis, A. Loi and M.M. Obertino,*Accurate modelling of 3D-trench silicon sensor with enhanced timing performance and comparison with test beam measurements* JINST 16 P09028, https://doi.org/10.1088/1748-0221/16/09/P09028](https://iopscience.iop.org/article/10.1088/1748-0221/16/09/P09028/meta)
+11. [Brundu, D., Cadoni, M., Oi, M., Olla, P., & Sanna, A. P. (2022). Atmospheric Newtonian noise modeling for third-generation gravitational wave detectors. Physical Review. D/Physical Review. D., 106(6). https://doi.org/10.1103/physrevd.106.064040](https://journals.aps.org/prd/abstract/10.1103/PhysRevD.106.064040)
 
 
 How to cite Hydra
