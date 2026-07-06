@@ -44,6 +44,7 @@
 #include <hydra/detail/external/hydra_thrust/iterator/detail/tuple_of_iterator_references.h>
 
 #include <type_traits>
+#include <concepts>
 #include <array>
 
 namespace hydra {
@@ -55,12 +56,15 @@ namespace hydra {
 	// tuple utilities below more concisely.
 	// -----------------------------------------------------------------------
 
-	// compile-time recursion guards (base case / recursive step)
-	template<size_t I, size_t Bound>
-	concept LoopEnd = (I == Bound);
+	// NOTE: the compile-time recursion guards LoopEnd/LoopGoing and their
+	// integral-index variants IndexEnd/IndexStep are defined in the lower-level
+	// hydra/detail/utility/Generic.h (included above), so that headers included
+	// before Utility_Tuple.h can use them too.
 
-	template<size_t I, size_t Bound>
-	concept LoopGoing = (I < Bound);
+	// convertible to a real value (the common `std::is_convertible_v<T, double>`
+	// constraint used by the scalar-argument overloads).
+	template<typename T>
+	concept RealConvertible = std::is_convertible_v<T, double>;
 
 	// every type in Ts... is convertible to Target
 	template<typename Target, typename... Ts>

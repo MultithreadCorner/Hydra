@@ -84,12 +84,12 @@ struct GetGlobalBin: public hydra::thrust::unary_function<typename tuple_type<N,
 	//k = i_1*(dim_2*...*dim_n) + i_2*(dim_3*...*dim_n) + ... + i_{n-1}*dim_n + i_n
 
 	template<size_t I>
-	requires (I== N)
+	requires LoopEnd<I, N>
 	__hydra_host__ __hydra_device__ void
 	get_global_bin(const size_t (&)[N], size_t& )const{ }
 
 	template<size_t I=0>
-	requires ((I< N))
+	requires LoopGoing<I, N>
 	__hydra_host__ __hydra_device__ void
 	get_global_bin(const size_t (&indexes)[N], size_t& index) const
 	{

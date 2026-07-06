@@ -69,12 +69,12 @@ namespace hydra {
 		namespace tuple {
 
 			template< typename T, unsigned int N, unsigned int I>
-			requires ((I == N))
+			requires LoopEnd<I, N>
 			inline void
 			hash_tuple_helper(std::size_t&, T const&){ }
 
 			template< typename T, unsigned int N, unsigned int I=0>
-			requires ((I < N))
+			requires LoopGoing<I, N>
 			inline void
 			hash_tuple_helper(std::size_t& seed, T const& _tuple){
 

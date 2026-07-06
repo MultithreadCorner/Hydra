@@ -41,9 +41,12 @@ namespace detail {
  * operator overloads below.
  */
 
-// T is a Hydra function argument
+// T (after decay) is a Hydra function argument. The decay makes the concept
+// robust against reference/cv-qualified arguments; it is the single canonical
+// spelling (the former detail::FunctionArgumentArg in TupleConcepts.h was a
+// duplicate of this and has been removed).
 template<typename T>
-concept FunctionArg = is_function_argument<T>::value;
+concept FunctionArg = is_function_argument<std::decay_t<T>>::value;
 
 // Arg1 and Arg2 together form a function-argument pack
 template<typename Arg1, typename Arg2>

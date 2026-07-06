@@ -68,8 +68,7 @@ namespace hydra{
  * @param functor distribution to be sampled
  */
 template< typename Engine = hydra::default_random_engine,  hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
-requires hydra::detail::HasRngFormula<FUNCTOR> &&
-         hydra::detail::IsRngFormulaConvertible<FUNCTOR, Engine, Iterator>
+requires detail::RngFormulaFor<FUNCTOR, Engine, Iterator>
 void
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
             Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
@@ -87,8 +86,7 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param functor distribution to be sampled
  */
 template< typename Engine =hydra::default_random_engine, typename Iterator, typename FUNCTOR >
-requires hydra::detail::HasRngFormula<FUNCTOR> &&
-         hydra::detail::IsRngFormulaConvertible<FUNCTOR, Engine, Iterator>
+requires detail::RngFormulaFor<FUNCTOR, Engine, Iterator>
 void
 fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
 
@@ -140,7 +138,7 @@ fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf
  * @param functor distribution to be sampled
  */
 template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
-requires (!hydra::detail::HasRngFormula<FUNCTOR>)
+requires (!detail::HasRngFormula<FUNCTOR>)
 void
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
             Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
@@ -157,7 +155,7 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param functor distribution to be sampled
  */
 template< typename Engine = hydra::default_random_engine, typename Iterator, typename FUNCTOR >
-requires (!hydra::detail::HasRngFormula<FUNCTOR>)
+requires (!detail::HasRngFormula<FUNCTOR>)
 void
 fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
 
@@ -174,8 +172,7 @@ fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x
  * @param functor distribution to be sampled
  */
 template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
-requires hydra::detail::HasRngFormula<FUNCTOR> &&
-         hydra::detail::NotConvertibleToIteratorValue<FUNCTOR, Engine, Iterator>
+requires detail::RngFormulaResultMismatch<FUNCTOR, Engine, Iterator>
 void
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
             Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed=0x254a0afcf7da74a2);
@@ -192,8 +189,7 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param functor distribution to be sampled
  */
 template< typename Engine = hydra::default_random_engine, typename Iterator, typename FUNCTOR >
-requires hydra::detail::HasRngFormula<FUNCTOR> &&
-         hydra::detail::NotConvertibleToIteratorValue<FUNCTOR, Engine, Iterator>
+requires detail::RngFormulaResultMismatch<FUNCTOR, Engine, Iterator>
 void
 fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2);
 

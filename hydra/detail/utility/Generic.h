@@ -40,6 +40,28 @@ namespace hydra {
 
 	namespace detail {
 
+	// -----------------------------------------------------------------------
+	// Helper concepts expressing the compile-time recursion / validity guards
+	// shared by the tuple and utility helpers. Defined here (the lowest-level
+	// utility header) so both Generic.h and Utility_Tuple.h can use them.
+	// -----------------------------------------------------------------------
+
+	// compile-time recursion guards (base case / recursive step)
+	template<size_t I, size_t Bound>
+	concept LoopEnd = (I == Bound);
+
+	template<size_t I, size_t Bound>
+	concept LoopGoing = (I < Bound);
+
+	// same recursion guards, but for overloads whose loop index is carried by an
+	// integral template parameter that also has to be constrained (folds the
+	// recurring `std::integral<Int> && (I ? Bound)` idiom into one name).
+	template<typename Int, size_t I, size_t Bound>
+	concept IndexEnd = std::integral<Int> && (I == Bound);
+
+	template<typename Int, size_t I, size_t Bound>
+	concept IndexStep = std::integral<Int> && (I < Bound);
+
 	//-------------------------------------
 	// is this type an instance of other template?
 	template < template <typename...> class Template, typename T >
@@ -189,13 +211,13 @@ template<class ...A> struct CanConvert{
 	// multiply  std::array elements
 	//----------------------------------------
 	template<typename T, size_t N, size_t I>
-	requires ((I==N))
+	requires LoopEnd<I, N>
 	void
 	multiply( std::array<T, N> const& , T&  )
 	{ }
 
 	template<typename T, size_t N, size_t I=0>
-	requires ((I<N))
+	requires LoopGoing<I, N>
 	void
 	multiply( std::array<T, N> const&  obj, T& result )
 	{
@@ -208,13 +230,13 @@ template<class ...A> struct CanConvert{
 	// multiply static array elements
 	//----------------------------------------
 	template<typename T, size_t N, size_t I>
-	requires ((I==N))
+	requires LoopEnd<I, N>
 	void
 	multiply(const T (&)[N] , T& )
 	{ }
 
 	template<typename T, size_t N, size_t I=0>
-	requires ((I<N))
+	requires LoopGoing<I, N>
 	void
 	multiply(const  T (&obj)[N], T& result )
 	{
@@ -230,14 +252,14 @@ template<class ...A> struct CanConvert{
 	//-------------------------
 	//end of recursion
 	template<typename T, size_t DIM, size_t I>
-	requires ((I==DIM) && (std::integral<T>))
+	requires (LoopEnd<I, DIM> && std::integral<T>)
 	void
 	get_indexes(size_t , std::array<T, DIM> const& , std::array<T,DIM>& )
 	{}
 
 	//begin of the recursion
 	template<typename T, size_t DIM, size_t I=0>
-	requires ((I<DIM) && (std::integral<T>))
+	requires (LoopGoing<I, DIM> && std::integral<T>)
 	void
 	get_indexes(size_t index, std::array<T, DIM> const& depths, std::array<T,DIM>& indexes)
 	{
@@ -258,14 +280,14 @@ template<class ...A> struct CanConvert{
 	//-------------------------
 	//end of recursion
 	template<typename T, size_t DIM, size_t I>
-	requires ((I==DIM) && (std::integral<T>))
+	requires (LoopEnd<I, DIM> && std::integral<T>)
 	void
 	get_indexes(size_t , const T ( &)[DIM], T (&)[DIM])
 	{}
 
 	//begin of the recursion
 	template<typename T, size_t DIM, size_t I=0>
-	requires ((I<DIM) && (std::integral<T>))
+	requires (LoopGoing<I, DIM> && std::integral<T>)
 	void
 	get_indexes(size_t index,const  T ( &depths)[DIM], T (&indexes)[DIM] )
 	{

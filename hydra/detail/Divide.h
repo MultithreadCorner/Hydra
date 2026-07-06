@@ -125,7 +125,7 @@ operator/(T1 const& F1, T2 const& F2)
 }
 
 template <typename T, typename U>
-requires (detail::HydraCallable<T> && (std::is_arithmetic_v<U>))
+requires (detail::CallableScaledBy<T, U>)
 inline Divide< Constant<U>, T>
 operator/(U const cte, T const& F)
 {
@@ -133,7 +133,7 @@ operator/(U const cte, T const& F)
 }
 
 template <typename T, typename U>
-requires (detail::HydraCallable<T> && (std::is_arithmetic_v<U>))
+requires (detail::CallableScaledBy<T, U>)
 inline Divide< Constant<U>, T>
 operator/( T const& F, U cte)
 {
@@ -141,7 +141,7 @@ operator/( T const& F, U cte)
 }
 
 template <typename T, typename U>
-requires (detail::HydraCallable<T> && (std::is_arithmetic_v<U>))
+requires (detail::CallableScaledBy<T, U>)
 inline Divide< Constant<hydra::complex<U>>, T>
 operator/(hydra::complex<U> const& cte, T const& F)
 {
@@ -149,7 +149,7 @@ operator/(hydra::complex<U> const& cte, T const& F)
 }
 
 template <typename T, typename U>
-requires (detail::HydraCallable<T> && (std::is_arithmetic_v<U>))
+requires (detail::CallableScaledBy<T, U>)
 inline Divide< Constant<hydra::complex<U>>, T>
 operator/( T const& F, hydra::complex<U> const& cte)
 {

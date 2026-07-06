@@ -128,12 +128,12 @@ public:
 private:
 
 	template<size_t I>
-	requires ((I==nfcns))
+	requires (I==nfcns)
 	void
 	load_fcn_parameters_helper(std::vector<Parameter*>&){}
 
 	template<size_t I=0>
-	requires ((I<nfcns))
+	requires (I<nfcns)
 	void
 	load_fcn_parameters_helper( std::vector<Parameter*>& pars){
 
@@ -155,12 +155,12 @@ private:
 	}
 
 	template<size_t I>
-	requires ((I==nfcns))
+	requires (I==nfcns)
 	void
 	add_tasks( std::vector<double> const& parameters, std::vector<std::future<double>>&  ) const {}
 
 	template<size_t I=0>
-	requires ((I<nfcns))
+	requires (I<nfcns)
 	void
 	add_tasks(std::vector<double> const& parameters, std::vector<std::future<double>>& tasks ) const
 	{

@@ -331,7 +331,7 @@ PhaseSpace<N,GRND>::Evaluate(Vector4R const& mother, Iterable&& result,
 
 template <size_t N, typename GRND>
 template<typename ...FUNCTOR, typename IterableMother, typename Iterable>
-requires (detail::Iterable<Iterable> && detail::Iterable<IterableMother>)
+requires (detail::Iterables<Iterable, IterableMother>)
 inline hydra::Range<decltype(std::declval<Iterable>().begin())>
 PhaseSpace<N,GRND>::Evaluate( IterableMother&& mothers, Iterable&& result, FUNCTOR const& ...functors) {
 
@@ -395,7 +395,7 @@ PhaseSpace<N,GRND>::Generate(Vector4R const& mother, Iterable&& events){
 
 template <size_t N, typename GRND>
 template<typename IterableMothers, typename Iterable>
-requires (detail::Iterable<Iterable> && detail::Iterable<IterableMothers>)
+requires (detail::Iterables<Iterable, IterableMothers>)
 inline hydra::Range<decltype(std::declval<Iterable>().begin())>
 PhaseSpace<N,GRND>::Generate( IterableMothers&& mothers, Iterable&& daughters){
 	/**

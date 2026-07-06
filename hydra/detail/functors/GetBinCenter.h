@@ -90,13 +90,13 @@ struct GetBinCenter: public hydra::thrust::unary_function<size_t, typename tuple
 	// multiply static array elements
 	//----------------------------------------
 	template< size_t I>
-	requires ((I==N))
+	requires LoopEnd<I, N>
 	__hydra_host__ __hydra_device__ inline void
 	multiply( size_t (&)[N] , size_t&  )
 	{ }
 
 	template<size_t I=0>
-	requires ((I<N))
+	requires LoopGoing<I, N>
 	__hydra_host__ __hydra_device__ inline void
 	multiply( size_t (&obj)[N], size_t& result )
 	{
@@ -107,14 +107,14 @@ struct GetBinCenter: public hydra::thrust::unary_function<size_t, typename tuple
 
 	//end of recursion
 	template<size_t I>
-	requires ((I==N))
+	requires LoopEnd<I, N>
 	__hydra_host__ __hydra_device__ inline void
 	get_indexes(size_t,  size_t (&)[N])
 	{}
 
 	//begin of the recursion
 	template<size_t I=0>
-	requires ((I<N))
+	requires LoopGoing<I, N>
 	__hydra_host__ __hydra_device__ inline void
 	get_indexes(size_t index,  size_t (&indexes)[N] )
 	{
@@ -261,13 +261,13 @@ struct GetAxisBinCenter: public hydra::thrust::unary_function<size_t, T>
 	// multiply static array elements
 	//----------------------------------------
 	template< size_t J>
-	requires ((J==N))
+	requires LoopEnd<J, N>
 	__hydra_host__ __hydra_device__ inline void
 	multiply( size_t (&)[N] , size_t&  )
 	{ }
 
 	template<size_t J=0>
-	requires ((J<N))
+	requires LoopGoing<J, N>
 	__hydra_host__ __hydra_device__ inline void
 	multiply( size_t (&obj)[N], size_t& result )
 	{
@@ -278,14 +278,14 @@ struct GetAxisBinCenter: public hydra::thrust::unary_function<size_t, T>
 
 	//end of recursion
 	template<size_t J>
-	requires ((J==N))
+	requires LoopEnd<J, N>
 	__hydra_host__ __hydra_device__ inline void
 	get_indexes(size_t,  size_t (&)[N])
 	{}
 
 	//begin of the recursion
 	template<size_t J=0>
-	requires ((J<N))
+	requires LoopGoing<J, N>
 	__hydra_host__ __hydra_device__ inline void
 	get_indexes(size_t index,  size_t (&indexes)[N] )
 	{

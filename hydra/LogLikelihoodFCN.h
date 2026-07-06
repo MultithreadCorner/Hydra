@@ -108,7 +108,7 @@ make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterator first, I
  */
 
 template<typename... Pdfs,  typename Iterator, typename ...Iterators >
-requires (hydra::detail::Iterator<Iterator> && detail::Iterators<Iterators...>)
+requires (detail::Iterator<Iterator> && detail::Iterators<Iterators...>)
 inline LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator,Iterators...  >
 make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...>const& pdf, Iterator first, Iterator last, Iterators... weights);
 
@@ -125,7 +125,13 @@ make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...>const& pdf, Iterator first, Ite
  * @return
  */
 template< typename Functor, typename Integrator, typename Iterable, typename ...Iterables >
-requires ((!detail::Iterator<Iterable>) && ((sizeof...(Iterables)==0) || !detail::Iterators<Iterables...>) && (!hydra::detail::is_hydra_dense_histogram< typename std::remove_reference<Iterable>::type>::value) && (!hydra::detail::is_hydra_sparse_histogram<typename std::remove_reference<Iterable>::type>::value) && hydra::detail::Iterable<Iterable> && detail::Iterables<Iterables...>)
+requires (
+    (!detail::Iterator<Iterable>) &&
+    ((sizeof...(Iterables)==0) || !detail::Iterators<Iterables...>) &&
+    (!hydra::detail::is_hydra_dense_histogram< typename std::remove_reference<Iterable>::type>::value) &&
+    (!hydra::detail::is_hydra_sparse_histogram<typename std::remove_reference<Iterable>::type>::value) &&
+    (hydra::detail::Iterable<Iterable> && detail::Iterables<Iterables...>)
+)
 inline LogLikelihoodFCN< Pdf<Functor,Integrator>, decltype(std::declval<Iterable>().begin()),
                   decltype(std::declval<Iterables >().begin())... >
 make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterable&& points, Iterables&&... weights );
@@ -141,7 +147,13 @@ make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterable&& points, Iter
  * @return
  */
 template<typename ...Pdfs, typename Iterable, typename... Iterables>
-requires ((!detail::Iterator<Iterable>) && ((sizeof...(Iterables)==0) || !detail::Iterators<Iterables...>) && (!hydra::detail::is_hydra_dense_histogram< typename std::remove_reference<Iterable>::type>::value) && (!hydra::detail::is_hydra_sparse_histogram<typename std::remove_reference<Iterable>::type>::value) && hydra::detail::Iterable<Iterable> && detail::Iterables<Iterables...>)
+requires (
+    (!detail::Iterator<Iterable>) &&
+    ((sizeof...(Iterables)==0) || !detail::Iterators<Iterables...>) &&
+    (!hydra::detail::is_hydra_dense_histogram< typename std::remove_reference<Iterable>::type>::value) &&
+    (!hydra::detail::is_hydra_sparse_histogram<typename std::remove_reference<Iterable>::type>::value) &&
+    (hydra::detail::Iterable<Iterable> && detail::Iterables<Iterables...>)
+)
 inline LogLikelihoodFCN<  PDFSumExtendable<Pdfs...>, decltype(std::declval<Iterable>().begin()),
                      decltype(std::declval<Iterables>().begin())...>
 make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterable&& points, Iterables&& ...weights );
@@ -157,7 +169,13 @@ make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterable&& points
  * @return
  */
 template<typename ...Pdfs, typename Iterable, typename ...Iterables>
-requires ((!detail::Iterator<Iterable>) && ((sizeof...(Iterables)==0) || !detail::Iterators<Iterables...>) && (!hydra::detail::is_hydra_dense_histogram< typename std::remove_reference<Iterable>::type>::value) && (!hydra::detail::is_hydra_sparse_histogram<typename std::remove_reference<Iterable>::type>::value) && hydra::detail::Iterable<Iterable> && detail::Iterables<Iterables...>)
+requires (
+    (!detail::Iterator<Iterable>) &&
+    ((sizeof...(Iterables)==0) || !detail::Iterators<Iterables...>) &&
+    (!hydra::detail::is_hydra_dense_histogram< typename std::remove_reference<Iterable>::type>::value) &&
+    (!hydra::detail::is_hydra_sparse_histogram<typename std::remove_reference<Iterable>::type>::value) &&
+    (hydra::detail::Iterable<Iterable> && detail::Iterables<Iterables...>)
+)
 inline LogLikelihoodFCN<  PDFSumNonExtendable<Pdfs...>, decltype(std::declval< Iterable>().begin()),
                      decltype(std::declval< Iterables>().begin())... >
 make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...> const& functor, Iterable&& points, Iterables&&... weights );
@@ -176,7 +194,7 @@ make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...> const& functor, Iterable&& poi
  * @return hydra::LogLikelihoodFCN instance hydra::Pdf<Functor,Integrator>  for .
  */
 template< typename Functor, typename Integrator, typename Histogram>
-requires (detail::is_hydra_dense_histogram<Histogram>::value || detail::is_hydra_sparse_histogram<Histogram>::value)
+requires (detail::HydraHistogram<Histogram>)
 inline LogLikelihoodFCN< Pdf<Functor,Integrator>,
 				  decltype(std::declval<const Histogram>().GetBinsCenters().begin()),
                   decltype( std::declval<const Histogram>().GetBinsContents().begin())>
@@ -191,7 +209,7 @@ make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Histogram const& points
  * @return hydra::LogLikelihoodFCN instance for hydra::PDFSumExtendable<Pdfs...>.
  */
 template<typename ...Pdfs, typename Histogram>
-requires (detail::is_hydra_dense_histogram<Histogram>::value || detail::is_hydra_sparse_histogram<Histogram>::value)
+requires (detail::HydraHistogram<Histogram>)
 inline LogLikelihoodFCN< PDFSumExtendable<Pdfs...>,
                      decltype(std::declval<const Histogram&>().GetBinsCenters().begin()),
                      decltype(std::declval<const Histogram&>().GetBinsContents().begin()) >
@@ -206,7 +224,7 @@ make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& pdf, Histogram const&  dat
  * @return hydra::LogLikelihoodFCN instance for hydra::PDFSumNonExtendable<Pdfs...>
  */
 template<typename ...Pdfs, typename Histogram>
-requires (detail::is_hydra_dense_histogram<Histogram>::value || detail::is_hydra_sparse_histogram<Histogram>::value)
+requires (detail::HydraHistogram<Histogram>)
 inline LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>,
                      decltype(std::declval<const Histogram&>().GetBinsCenters().begin()),
                      decltype(std::declval<const Histogram&>().GetBinsContents().begin()) >

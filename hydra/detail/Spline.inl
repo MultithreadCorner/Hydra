@@ -49,6 +49,7 @@
 #include <type_traits>
 #include <concepts>
 #include <hydra/detail/IteratorConcepts.h>
+#include <hydra/detail/utility/Utility_Tuple.h>
 
 namespace hydra {
 
@@ -80,7 +81,7 @@ inline Iterator lower_bound(Iterator first, Iterator last, const T& value)
 }
 
 template<typename T=double>
-requires (std::is_convertible_v<T, double>)
+requires (detail::RealConvertible<T>)
 inline T
 __hydra_host__ __hydra_device__
 cubic_spline(size_t i, size_t N,  T const (&X)[4] ,   T const (&Y)[4], T value ){

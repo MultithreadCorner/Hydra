@@ -41,19 +41,47 @@ namespace hydra {
 
 namespace detail {
 
+/**
+ * @brief Satisfied when @c T has an RngFormula.
+ */
 template <typename T>
 concept HasRngFormula = has_rng_formula<T>::value;
 
+/**
+ * @brief Satisfied when @c FUNCTOR has an RngFormula whose result,
+ * obitaned via @c Engine, is convertible to @c Iterator's value type.
+ */
 template <typename FUNCTOR, typename Engine, typename Iterator>
 concept IsRngFormulaConvertible = requires (Engine& engine, const FUNCTOR& functor) {
     { RngFormula<FUNCTOR>().Generate(engine, functor) } -> std::convertible_to<typename hydra::thrust::iterator_traits<Iterator>::value_type>;
 };
 
+/**
+ * @brief Satisfied when @c FUNCTOR has an RngFormula whose result,
+ * obitaned via @c Engine, is NOT convertible to @c Iterator's value type.
+ */
 template <typename FUNCTOR, typename Engine, typename Iterator>
 concept NotConvertibleToIteratorValue =
     !std::convertible_to<
         decltype(RngFormula<FUNCTOR>().Generate(std::declval<Engine&>(), std::declval<const FUNCTOR&>())),
         typename std::iterator_traits<Iterator>::value_type>;
+
+/**
+ * @brief Satisfied when @c FUNCTOR has an RngFormula whose result is convertible
+ * to @c Iterator's value type, i.e. the functor can be sampled straight into the
+ * iterator.
+ */
+template <typename FUNCTOR, typename Engine, typename Iterator>
+concept RngFormulaFor =
+    HasRngFormula<FUNCTOR> && IsRngFormulaConvertible<FUNCTOR, Engine, Iterator>;
+
+/**
+ * @brief Satisfied when @c FUNCTOR has an RngFormula but its result is not
+ * convertible to @c Iterator's value type.
+ */
+template <typename FUNCTOR, typename Engine, typename Iterator>
+concept RngFormulaResultMismatch =
+    HasRngFormula<FUNCTOR> && NotConvertibleToIteratorValue<FUNCTOR, Engine, Iterator>;
 
 namespace random {
 
@@ -84,6 +112,20 @@ concept Callable = is_callable<T>::value;
  */
 template <typename Engine, typename Functor, typename Iterable>
 concept MatchingIterable = is_matching_iterable<Engine, Functor, Iterable>::value;
+
+/**
+ * @brief Satisfied when @c F is a random-generation callable and @c It an output
+ * iterator, i.e. the pair accepted by the sample-into-iterator overloads.
+ */
+template <typename F, typename It>
+concept SampleInto = Callable<F> && Iterator<It>;
+
+/**
+ * @brief Satisfied when @c F is a random-generation callable and @c It an output
+ * iterable, i.e. the pair accepted by the sample-into-range overloads.
+ */
+template <typename F, typename It>
+concept SampleIntoRange = Callable<F> && Iterable<It>;
 
 }  // namespace random
 

@@ -49,6 +49,7 @@
 #include <algorithm>
 #include <memory>
 #include <hydra/detail/IteratorConcepts.h>
+#include <hydra/detail/utility/Utility_Tuple.h>
 
 namespace hydra {
 
@@ -259,7 +260,7 @@ typedef  decltype(std::declval<IterableM>().begin()) IteratorM;
 
 
 template<typename T, hydra::detail::Backend BACKEND>
-requires (std::is_convertible_v<T, double>)
+requires (detail::RealConvertible<T>)
 inline Spline4DFunctor<
 decltype(std::declval<DenseHistogram<T, 4,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_0).begin()),
 decltype(std::declval<DenseHistogram<T, 4,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_1).begin()),
@@ -288,7 +289,7 @@ typedef  decltype(std::declval<histogram_type>().GetBinsContents().begin()) Iter
 
 
 template<typename T, hydra::detail::Backend BACKEND>
-requires (std::is_convertible_v<T, double>)
+requires (detail::RealConvertible<T>)
 inline Spline4DFunctor<
 decltype(std::declval<SparseHistogram<T, 4,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_0).begin()),
 decltype(std::declval<SparseHistogram<T, 4,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_1).begin()),

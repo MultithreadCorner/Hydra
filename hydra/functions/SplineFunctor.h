@@ -159,7 +159,7 @@ make_spline(Iterator1 firstX, Iterator1 lastX, Iterator2 firstY )
 }
 
 template<typename ArgType, typename Iterable1, typename Iterable2 >
-requires (hydra::detail::Iterable<Iterable1> && hydra::detail::Iterable<Iterable2>)
+requires (detail::Iterables<Iterable1, Iterable2>)
 inline SplineFunctor< decltype(std::declval<Iterable1>().begin()),
                           decltype(std::declval<Iterable2>().begin()), ArgType>
 make_spline(Iterable1&& x, Iterable2&& y)

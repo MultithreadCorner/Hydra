@@ -437,7 +437,7 @@ public:
 
 
 	template<typename Iterable>
-	requires (hydra::detail::Iterable<Iterable>)
+	requires (detail::Iterable<Iterable>)
 	inline SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 	Fill(Iterable&& container){
 		return this->Fill( std::forward<Iterable>(container).begin(),
@@ -445,7 +445,7 @@ public:
 	}
 
 	template<typename Iterable1, typename Iterable2>
-	requires (hydra::detail::Iterable<Iterable1> && hydra::detail::Iterable<Iterable2>)
+	requires (detail::Iterables<Iterable1, Iterable2>)
 	inline SparseHistogram<T, N, detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 	Fill(Iterable1&& container, Iterable2&& wbegin){
 		return this->Fill( std::forward<Iterable1>(container).begin(),
@@ -468,12 +468,12 @@ private:
 	//k = i_1*(dim_2*...*dim_n) + i_2*(dim_3*...*dim_n) + ... + i_{n-1}*dim_n + i_n
 
 	template<typename Int,size_t I>
-	requires ((I== N) && std::integral<Int>)
+	requires detail::IndexEnd<Int, I, N>
 	void
 	get_global_bin(const Int (&)[N], size_t& ){ }
 
 	template<typename Int,size_t I=0>
-	requires ((I< N) && std::integral<Int>)
+	requires detail::IndexStep<Int, I, N>
 	void
 	get_global_bin(const Int (&indexes)[N], size_t& index)
 	{
@@ -486,12 +486,12 @@ private:
 	}
 
 	template<typename Int,size_t I>
-	requires ((I== N) && std::integral<Int>)
+	requires detail::IndexEnd<Int, I, N>
 	void
 	get_global_bin( std::array<Int,N> const& , size_t& ){ }
 
 	template<typename Int,size_t I=0>
-	requires ((I< N) && std::integral<Int>)
+	requires detail::IndexStep<Int, I, N>
 	void
 	get_global_bin( std::array<Int,N> const& indexes, size_t& index)
 	{
@@ -513,13 +513,13 @@ private:
 	// multiply  std::array elements
 	//----------------------------------------
 	template<size_t I>
-	requires ((I==N))
+	requires detail::LoopEnd<I, N>
 	void
 	multiply( std::array<size_t, N> const& , size_t&  )
 	{ }
 
 	template<size_t I=0>
-	requires ((I<N))
+	requires detail::LoopGoing<I, N>
 	void
 	multiply( std::array<size_t, N> const&  obj, size_t& result )
 	{
@@ -532,13 +532,13 @@ private:
 	// multiply static array elements
 	//----------------------------------------
 	template< size_t I>
-	requires ((I==N))
+	requires detail::LoopEnd<I, N>
 	void
 	multiply( size_t (&)[N] , size_t&  )
 	{ }
 
 	template<size_t I=0>
-	requires ((I<N))
+	requires detail::LoopGoing<I, N>
 	void
 	multiply( size_t (&obj)[N], size_t& result )
 	{
@@ -553,14 +553,14 @@ private:
 	//-------------------------
 	//end of recursion
 	template<typename Int, size_t I>
-	requires (std::integral<Int> && (I==N))
+	requires detail::IndexEnd<Int, I, N>
 	void
 	get_indexes(size_t,  std::array<Int,N>& )
 	{}
 
 	//begin of the recursion
 	template<typename Int, size_t I=0>
-	requires (std::integral<Int> && (I<N))
+	requires detail::IndexStep<Int, I, N>
 	void
 	get_indexes(size_t index, std::array<Int,N>& indexes)
 	{
@@ -576,14 +576,14 @@ private:
 	//-------------------------
 	//end of recursion
 	template<typename Int, size_t I>
-	requires (std::integral<Int> && (I==N))
+	requires detail::IndexEnd<Int, I, N>
 	void
 	get_indexes(size_t , Int (&)[N])
 	{}
 
 	//begin of the recursion
 	template<typename Int, size_t I=0>
-	requires (std::integral<Int> && (I<N))
+	requires detail::IndexStep<Int, I, N>
 	void
 	get_indexes(size_t index, Int (&indexes)[N] )
 	{
@@ -800,7 +800,7 @@ public:
 
 
 	template<typename Iterable>
-	requires (hydra::detail::Iterable<Iterable>)
+	requires (detail::Iterable<Iterable>)
 	inline SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional >&
 	Fill(Iterable&& container){
 		return this->Fill( std::forward<Iterable>(container).begin(),
@@ -808,7 +808,7 @@ public:
 	}
 
 	template<typename Iterable1, typename Iterable2>
-	requires (hydra::detail::Iterable<Iterable1> && hydra::detail::Iterable<Iterable2>)
+	requires (detail::Iterables<Iterable1, Iterable2>)
 	inline SparseHistogram<T,1, detail::BackendPolicy<BACKEND>,detail::unidimensional >&
 	Fill(Iterable1&& container, Iterable2&& wbegin){
 		return this->Fill( std::forward<Iterable1>(container).begin(),
@@ -887,7 +887,7 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> gri
  * @return
  */
 template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable>
-requires (hydra::detail::Iterable<Iterable>)
+requires (detail::Iterable<Iterable>)
 inline SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N>const& grid,
 		std::array<double, N>const&lowerlimits,   std::array<double, N>const& upperlimits,	Iterable&& data);
@@ -906,7 +906,7 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t
  * @return
  */
 template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable1,typename Iterable2 >
-requires (hydra::detail::Iterable<Iterable1>&& hydra::detail::Iterable<Iterable2>)
+requires (detail::Iterables<Iterable1, Iterable2>)
 inline SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N>const& grid,
 		std::array<double, N>const&lowerlimits,   std::array<double, N>const& upperlimits,
@@ -961,7 +961,7 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND>, size_t nbins, double lowe
  * @return
  */
 template< typename T, hydra::detail::Backend BACKEND, typename Iterable>
-requires (hydra::detail::Iterable<Iterable>)
+requires (detail::Iterable<Iterable>)
 inline SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
 make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins,
 		double lowerlimit, double upperlimit,	Iterable&& data);
@@ -979,7 +979,7 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins,
  * @return
  */
 template< typename T, hydra::detail::Backend BACKEND, typename Iterable1,typename Iterable2 >
-requires (hydra::detail::Iterable<Iterable1>&& hydra::detail::Iterable<Iterable2>)
+requires (detail::Iterables<Iterable1, Iterable2>)
 inline SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
 make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins,
 		double lowerlimit, double upperlimit,	Iterable1&& data, Iterable2&& weights);

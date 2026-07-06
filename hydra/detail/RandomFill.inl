@@ -47,8 +47,7 @@ namespace hydra{
      * @param functor distribution to be sampled
      */
     template <typename Engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR>
-    requires hydra::detail::HasRngFormula<FUNCTOR> &&
-             hydra::detail::IsRngFormulaConvertible<FUNCTOR, Engine, Iterator>
+    requires (detail::RngFormulaFor<FUNCTOR, Engine, Iterator>)
     void fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
                 Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed, size_t rng_jump)
     {
@@ -72,8 +71,7 @@ namespace hydra{
      * @param functor distribution to be sampled
      */
     template< typename Engine, typename Iterator, typename FUNCTOR >
-    requires hydra::detail::HasRngFormula<FUNCTOR> &&
-             hydra::detail::IsRngFormulaConvertible<FUNCTOR, Engine, Iterator>
+    requires (detail::RngFormulaFor<FUNCTOR, Engine, Iterator>)
     void fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed, size_t rng_jump)
     {
         using hydra::thrust::system::detail::generic::select_system;
@@ -119,7 +117,7 @@ namespace hydra{
      * @brief Fall back function if RngFormula is not implemented for the requested functor
      */
     template< typename Engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
-    requires (!hydra::detail::HasRngFormula<FUNCTOR>)
+    requires (!detail::HasRngFormula<FUNCTOR>)
     void fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
                 Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed, size_t rng_jump)
     {
@@ -135,7 +133,7 @@ namespace hydra{
      * @brief Fall back function if RngFormula is not implemented for the requested functor
      */
     template< typename Engine, typename Iterator, typename FUNCTOR >
-    requires (!hydra::detail::HasRngFormula<FUNCTOR>)
+    requires (!detail::HasRngFormula<FUNCTOR>)
     void fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed, size_t rng_jump)
     {
 
@@ -150,8 +148,7 @@ namespace hydra{
      * @brief Fall back function if RngFormula::Generate() return value is not convertible to functor return value
      */
     template< typename Engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
-    requires hydra::detail::HasRngFormula<FUNCTOR> &&
-             hydra::detail::NotConvertibleToIteratorValue<FUNCTOR, Engine, Iterator>
+    requires (detail::RngFormulaResultMismatch<FUNCTOR, Engine, Iterator>)
     void fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
                 Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed, size_t rng_jump)
     {
@@ -163,8 +160,7 @@ namespace hydra{
      * @brief Fall back function if RngFormula::Generate() return value is not convertible to functor return value
      */
     template< typename Engine, typename Iterator, typename FUNCTOR >
-    requires hydra::detail::HasRngFormula<FUNCTOR> &&
-             hydra::detail::NotConvertibleToIteratorValue<FUNCTOR, Engine, Iterator>
+    requires (detail::RngFormulaResultMismatch<FUNCTOR, Engine, Iterator>)
     void fill_random(Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed, size_t rng_jump)
     {
         HYDRA_STATIC_ASSERT( int(std::is_class<Engine>::value) ==-1 ,

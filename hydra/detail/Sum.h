@@ -149,7 +149,7 @@ operator+(T1 const& F1, T2 const& F2)
  * operator+ for a value and a functor.
  */
 template <typename T, typename U>
-requires (detail::HydraCallable<T> && std::is_arithmetic_v<U>)
+requires (detail::CallableScaledBy<T, U>)
 inline Sum< Constant<U>, T>
 operator+(U const cte, T const& F)
 {
@@ -160,7 +160,7 @@ operator+(U const cte, T const& F)
  * operator+ for a value and a functor.
  */
 template <typename T, typename U>
-requires (detail::HydraCallable<T> && std::is_arithmetic_v<U>)
+requires (detail::CallableScaledBy<T, U>)
 inline Sum< Constant<U>, T>
 operator+( T const& F, U cte)
 {
@@ -171,7 +171,7 @@ operator+( T const& F, U cte)
  * operator+ for a complex value and a functor.
  */
 template <typename T, typename U>
-requires (detail::HydraCallable<T> && std::is_arithmetic_v<U>)
+requires (detail::CallableScaledBy<T, U>)
 inline Sum< Constant<hydra::complex<U>>, T>
 operator+(hydra::complex<U> const& cte, T const& F)
 {
@@ -182,7 +182,7 @@ operator+(hydra::complex<U> const& cte, T const& F)
  * operator+ for a complex value and a functor.
  */
 template <typename T, typename U>
-requires (detail::HydraCallable<T> && std::is_arithmetic_v<U>)
+requires (detail::CallableScaledBy<T, U>)
 inline Sum< Constant<U>, T>
 operator+( T const& F, hydra::complex<U> const& cte)
 {

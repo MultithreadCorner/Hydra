@@ -53,15 +53,6 @@ template <typename T>
 concept TupleOfFunctionArguments = is_tuple_of_function_arguments<std::decay_t<T>>::value;
 
 /**
- * @brief Satisfied when @c T (after decay) is a Hydra function argument, i.e. a
- * type derived from hydra::detail::FunctionArgument (see
- * hydra::detail::is_function_argument). Named with the @c Arg suffix to avoid
- * clashing with the @c FunctionArgument class template.
- */
-template <typename T>
-concept FunctionArgumentArg = is_function_argument<std::decay_t<T>>::value;
-
-/**
  * @brief Satisfied when the pack @c T... is a valid set of call arguments for a
  * functor whose signature tuple is @c Signature
  * (see hydra::detail::is_valid_type_pack).

@@ -67,13 +67,13 @@ namespace detail {
 
 
 	template<typename T, unsigned int N, unsigned int I>
-	requires (I==N)
+	requires detail::LoopEnd<I, N>
 	__hydra_host__ __hydra_device__ inline void
 	pow_helper(T const, T&){}
 
 
 	template<typename T, unsigned int N, unsigned int I>
-	requires ((I< N))
+	requires detail::LoopGoing<I, N>
 	inline __hydra_host__ __hydra_device__ void
 	pow_helper(T const x, T& r){
 		r *= x ;

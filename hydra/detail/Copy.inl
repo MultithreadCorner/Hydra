@@ -43,7 +43,7 @@ namespace hydra {
 
 
 template<typename Iterable_Source, typename Iterable_Target>
-requires (hydra::detail::Iterable<Iterable_Source> && hydra::detail::Iterable<Iterable_Target>)
+requires (detail::Iterables<Iterable_Source, Iterable_Target>)
 Range<decltype(std::declval<Iterable_Target&>().begin())>
 copy(Iterable_Source&& source, Iterable_Target&& destination)
 {

@@ -362,14 +362,14 @@ public:
 	private:
 
 		template<size_t N=0>
-		requires ((N==0))
+		requires (N==0)
 		inline GULong64_t twoN()
 		{
 			return 1;
 		}
 
 		template<size_t N=0>
-		requires ((N>0))
+		requires (N>0)
 		inline GULong64_t twoN()
 		{
 			return 2*twoN<N-1>();

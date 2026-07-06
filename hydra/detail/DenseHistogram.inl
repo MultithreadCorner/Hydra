@@ -584,7 +584,7 @@ make_dense_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> cons
 
 //iterable based
 template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable>
-requires (hydra::detail::Iterable<Iterable>)
+requires (detail::Iterable<Iterable>)
 inline DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> const& grid,
 		std::array<double, N> const& lowerlimits,   std::array<double, N> const& upperlimits,	Iterable&& data){
@@ -595,7 +595,7 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t,
 }
 
 template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable1,typename Iterable2 >
-requires (hydra::detail::Iterable<Iterable1>&& hydra::detail::Iterable<Iterable2>)
+requires (detail::Iterables<Iterable1, Iterable2>)
 inline DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N>const&  grid,
 		std::array<double, N>const& lowerlimits,   std::array<double, N>const&  upperlimits,
@@ -639,7 +639,7 @@ make_dense_histogram( detail::BackendPolicy<BACKEND>, size_t grid, double lowerl
 
 //iterable based
 template< typename T, hydra::detail::Backend BACKEND, typename Iterable>
-requires (hydra::detail::Iterable<Iterable>)
+requires (detail::Iterable<Iterable>)
 inline DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
 make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid,
 		double lowerlimits, double upperlimits,	Iterable&& data){
@@ -650,7 +650,7 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid,
 }
 
 template< typename T, hydra::detail::Backend BACKEND, typename Iterable1,typename Iterable2 >
-requires (hydra::detail::Iterable<Iterable1>&& hydra::detail::Iterable<Iterable2>)
+requires (detail::Iterables<Iterable1, Iterable2>)
 inline DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
 make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid,
 		double lowerlimits, double upperlimits, Iterable1&& data, Iterable2&& weights){

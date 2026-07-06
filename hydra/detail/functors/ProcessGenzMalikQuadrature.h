@@ -178,12 +178,12 @@ private:
 	\f$ \int_a^b f(x)\,dx \approx \frac{b-a}{2} \sum_{i=1}^n w_i f\left(\frac{b-a}{2}x_i + \frac{a+b}{2}\right) \f$.
 	*/
 	template<typename Abscissa, typename TransAbscissa , size_t I>
-	requires ((I== hydra::thrust::tuple_size<TransAbscissa>::value))
+	requires LoopEnd<I, hydra::thrust::tuple_size<TransAbscissa>::value>
 	__hydra_host__ __hydra_device__ inline void
 	get_transformed_abscissa_helper( Abscissa const& ,  TransAbscissa& ){}
 
 	template<typename Abscissa, typename TransAbscissa , size_t I=0>
-	requires ((I < hydra::thrust::tuple_size<TransAbscissa>::value))
+	requires LoopGoing<I, hydra::thrust::tuple_size<TransAbscissa>::value>
 	__hydra_host__ __hydra_device__ inline void
 	get_transformed_abscissa_helper(  Abscissa const& abscissa, TransAbscissa& transformed_abscissa  ){
 
@@ -210,12 +210,12 @@ private:
 
 //-----------------------
 	template<typename T, int I>
-	requires ((I==N))
+	requires LoopEnd<I, N>
 	__hydra_host__ __hydra_device__ void
 	get_dim_helper( T const&, int& ,  int& ){ }
 
 	template<typename T, int I=0>
-	requires ((I< N))
+	requires LoopGoing<I, N>
 	__hydra_host__ __hydra_device__ void
 	get_dim_helper( T const& X, int& result,  int& found_zeros ){
 

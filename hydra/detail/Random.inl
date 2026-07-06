@@ -143,10 +143,7 @@ unweight( IterableData&&  data, IterableWeight&&  weights,
 
 
 template< typename RNG, typename Functor, typename Iterator, typename DerivedPolicy>
-requires (
-	detail::random::Callable<Functor> &&
-	detail::random::Iterator<Iterator>
-)
+requires (detail::random::SampleInto<Functor, Iterator>)
 Range<Iterator>
 unweight(hydra::thrust::detail::execution_policy_base<DerivedPolicy>  const& policy, Iterator begin, Iterator end, Functor const& functor,
 		double max_pdf, size_t rng_seed, size_t rng_jump)
@@ -184,10 +181,7 @@ unweight(hydra::thrust::detail::execution_policy_base<DerivedPolicy>  const& pol
 
 
 template< typename RNG, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND>
-requires (
-	detail::random::Callable<Functor> &&
-	detail::random::Iterator<Iterator>
-)
+requires (detail::random::SampleInto<Functor, Iterator>)
 Range<Iterator>
 unweight( detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor,
 		double max_pdf, size_t rng_seed, size_t rng_jump)
@@ -198,10 +192,7 @@ unweight( detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator
 }
 
 template<typename RNG, typename Functor, typename Iterator>
-requires (
-	detail::random::Callable<Functor> &&
-	detail::random::Iterator<Iterator>
-)
+requires (detail::random::SampleInto<Functor, Iterator>)
 Range<Iterator>
 unweight( Iterator begin, Iterator end, Functor const& functor, double max_pdf, size_t rng_seed, size_t rng_jump)
 {
@@ -211,10 +202,7 @@ unweight( Iterator begin, Iterator end, Functor const& functor, double max_pdf, 
 
 
 template<typename RNG, typename Functor, typename Iterable, hydra::detail::Backend  BACKEND>
-requires (
-	detail::random::Callable<Functor> &&
-	detail::random::Iterable<Iterable>
-)
+requires (detail::random::SampleIntoRange<Functor, Iterable>)
 Range< decltype(std::declval<Iterable>().begin())>
 unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterable&& iterable, Functor const& functor,
 		double max_pdf, size_t rng_seed, size_t rng_jump)
@@ -225,10 +213,7 @@ unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterable&& iterab
 }
 
 template<typename RNG, typename Functor, typename Iterable>
-requires (
-	detail::random::Callable<Functor> &&
-	detail::random::Iterable<Iterable>
-)
+requires (detail::random::SampleIntoRange<Functor, Iterable>)
 Range< decltype(std::declval<Iterable>().begin())>
 unweight( Iterable&& iterable, Functor const& functor, double max_pdf, size_t rng_seed, size_t rng_jump)
 {
@@ -241,10 +226,7 @@ unweight( Iterable&& iterable, Functor const& functor, double max_pdf, size_t rn
 //
 //---------------------------------------------------------------
 template<typename RNG, typename DerivedPolicy, typename Functor, typename Iterator>
-requires (
-	detail::random::Callable<Functor> &&
-	detail::random::Iterator<Iterator>
-)
+requires (detail::random::SampleInto<Functor, Iterator>)
 Range<Iterator>
 sample(hydra::thrust::detail::execution_policy_base<DerivedPolicy> const& policy, Iterator begin, Iterator end, double min, double max,
 				Functor const& functor, size_t seed, size_t rng_jump)
@@ -287,10 +269,7 @@ sample(hydra::thrust::detail::execution_policy_base<DerivedPolicy> const& policy
 }
 
 template<typename RNG, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND>
-requires (
-	detail::random::Callable<Functor> &&
-	detail::random::Iterator<Iterator>
-)
+requires (detail::random::SampleInto<Functor, Iterator>)
 Range<Iterator>
 sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
 		Iterator begin, Iterator end, double min, double max,
@@ -301,10 +280,7 @@ sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
 }
 
 template<typename RNG, typename Functor, typename Iterator>
-requires (
-	detail::random::Callable<Functor> &&
-	detail::random::Iterator<Iterator>
-)
+requires (detail::random::SampleInto<Functor, Iterator>)
 Range<Iterator>
 sample(Iterator begin, Iterator end , double min, double max,
 		Functor const& functor, size_t seed, size_t rng_jump)
@@ -316,10 +292,7 @@ sample(Iterator begin, Iterator end , double min, double max,
 }
 
 template<typename RNG, typename Functor, typename Iterable>
-requires (
-	detail::random::Callable<Functor> &&
-	detail::random::Iterable<Iterable>
-)
+requires (detail::random::SampleIntoRange<Functor, Iterable>)
 Range< decltype(std::declval<Iterable>().begin())>
 sample(Iterable&& output, double min, double max, Functor const& functor, size_t seed, size_t rng_jump)
 {
@@ -329,10 +302,7 @@ sample(Iterable&& output, double min, double max, Functor const& functor, size_t
 
 
 template<typename RNG, typename DerivedPolicy, typename Functor, typename Iterator, size_t N >
-requires (
-	detail::random::Callable<Functor> &&
-	detail::random::Iterator<Iterator>
-)
+requires (detail::random::SampleInto<Functor, Iterator>)
 Range<Iterator>
 sample( hydra::thrust::detail::execution_policy_base<DerivedPolicy>  const& policy,
 		Iterator begin, Iterator end ,
@@ -374,10 +344,7 @@ sample( hydra::thrust::detail::execution_policy_base<DerivedPolicy>  const& poli
 }
 
 template<typename RNG, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND, size_t N >
-requires (
-	detail::random::Callable<Functor> &&
-	detail::random::Iterator<Iterator>
-)
+requires (detail::random::SampleInto<Functor, Iterator>)
 Range<Iterator>
 sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
 		Iterator begin, Iterator end ,
@@ -389,10 +356,7 @@ sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
 }
 
 template<typename RNG, typename Functor, typename Iterator, size_t N >
-requires (
-	detail::random::Callable<Functor> &&
-	detail::random::Iterator<Iterator>
-)
+requires (detail::random::SampleInto<Functor, Iterator>)
 Range<Iterator>
 sample(Iterator begin, Iterator end , std::array<double,N>const& min, std::array<double,N>const& max,
 		Functor const& functor, size_t seed, size_t rng_jump)
@@ -427,10 +391,7 @@ sample(Iterator begin, Iterator end ,
 }
 
 template<typename RNG, typename Functor, typename Iterable, size_t N >
-requires (
-	detail::random::Callable<Functor> &&
-	detail::random::Iterable<Iterable>
-)
+requires (detail::random::SampleIntoRange<Functor, Iterable>)
 Range< decltype(std::declval<Iterable>().begin())>
 sample(Iterable&& output , std::array<double,N>const& min, std::array<double,N>const& max,
 		Functor const& functor, size_t seed, size_t rng_jump)

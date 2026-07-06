@@ -228,7 +228,11 @@ public:
 
 	}
 	template< typename Iterable>
-	requires ((hydra::detail::Iterable<Iterable>) && !(detail::is_iterator<Iterable>::value) && (std::is_convertible<decltype(*std::declval<Iterable>().begin()), value_type>::value))
+	requires (
+		(detail::Iterable<Iterable>) &&
+		(!detail::Iterator<Iterable>) &&
+		(std::is_convertible<decltype(*std::declval<Iterable>().begin()), value_type>::value)
+	)
 	multivector(Iterable&& other )
 	{
 		__resize( hydra::thrust::distance(
@@ -433,7 +437,10 @@ public:
      *                        and \p InputIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>.
      */
 	template< typename InputIterator>
-	requires (detail::is_zip_iterator<InputIterator>::value && std::is_convertible<typename hydra::thrust::iterator_traits<InputIterator>::value_type, value_type>::value)
+	requires (
+		detail::is_zip_iterator<InputIterator>::value &&
+		std::is_convertible<typename hydra::thrust::iterator_traits<InputIterator>::value_type, value_type>::value
+	)
 	inline void
 	insert(iterator pos, InputIterator first, InputIterator last)
 	{
@@ -910,12 +917,12 @@ private:
 	//__________________________________________
 	// pop_back
 	template<size_t I>
-	requires ((I == N))
+	requires detail::LoopEnd<I, N>
 	inline void
 	__pop_back(){}
 
 	template<size_t I=0>
-	requires ((I < N))
+	requires detail::LoopGoing<I, N>
 	inline void
 	__pop_back()
 	{
@@ -927,12 +934,12 @@ private:
 	//__________________________________________
 	// resize
 	template<size_t I>
-	requires ((I == N))
+	requires detail::LoopEnd<I, N>
 	inline void
 	__resize(size_type){}
 
 	template<size_t I=0>
-	requires ((I < N))
+	requires detail::LoopGoing<I, N>
 	inline void
 	__resize(size_type n)
 	{
@@ -943,12 +950,12 @@ private:
 	//__________________________________________
 	// push_back
 	template<size_t I>
-	requires ((I == N))
+	requires detail::LoopEnd<I, N>
 	inline void
 	__push_back( value_type const& ){}
 
 	template<size_t I=0>
-	requires ((I < N))
+	requires detail::LoopGoing<I, N>
 	inline void
 	__push_back( value_type const& value )
 	{
@@ -959,12 +966,12 @@ private:
 	//__________________________________________
 	// clear
 	template<size_t I>
-	requires ((I == N))
+	requires detail::LoopEnd<I, N>
 	inline void
 	__clear(){}
 
 	template<size_t I=0>
-	requires ((I < N))
+	requires detail::LoopGoing<I, N>
 	inline void
 	__clear( )
 	{
@@ -975,12 +982,12 @@ private:
 	//__________________________________________
 	// shrink_to_fit
 	template<size_t I>
-	requires ((I == N))
+	requires detail::LoopEnd<I, N>
 	inline void
 	__shrink_to_fit(){}
 
 	template<size_t I=0>
-	requires ((I < N))
+	requires detail::LoopGoing<I, N>
 	inline void
 	__shrink_to_fit( )
 	{
@@ -991,12 +998,12 @@ private:
 	//__________________________________________
 	// shrink_to_fit
 	template<size_t I>
-	requires ((I == N))
+	requires detail::LoopEnd<I, N>
 	inline void
 	__reserve(size_type ){}
 
 	template<size_t I=0>
-	requires ((I < N))
+	requires detail::LoopGoing<I, N>
 	inline void
 	__reserve(size_type size )
 	{
@@ -1007,12 +1014,12 @@ private:
 	//__________________________________________
 	// erase
 	template<size_t I>
-	requires ((I == N))
+	requires detail::LoopEnd<I, N>
 	inline void
 	__erase_helper( size_type ){ }
 
 	template<size_t I=0>
-	requires ((I < N))
+	requires detail::LoopGoing<I, N>
 	inline void
 	__erase_helper(size_type position )
 	{
@@ -1032,12 +1039,12 @@ private:
 	// erase
 
 	template<size_t I>
-	requires ((I == N))
+	requires detail::LoopEnd<I, N>
 	inline void
 	__erase_helper( size_type ,  size_type ){}
 
 	template<size_t I=0>
-	requires ((I < N))
+	requires detail::LoopGoing<I, N>
 	inline void
 	__erase_helper( size_type first_position,  size_type last_position)
 	{
@@ -1058,12 +1065,12 @@ private:
 	//__________________________________________
 	// insert
 	template<size_t I>
-	requires ((I == N))
+	requires detail::LoopEnd<I, N>
 	inline void
 	__insert_helper( size_type ,  const value_type&){}
 
 	template<size_t I=0>
-	requires ((I < N))
+	requires detail::LoopGoing<I, N>
 	inline void
 	__insert_helper( size_type position,  const value_type &x)
 	{
@@ -1084,12 +1091,12 @@ private:
 	//__________________________________________
 	// insert
 	template<size_t I>
-	requires ((I == N))
+	requires detail::LoopEnd<I, N>
 	inline void
 	__insert_helper( size_type, size_type, const value_type & ){}
 
 	template<size_t I=0>
-	requires ((I < N))
+	requires detail::LoopGoing<I, N>
 	inline void
 	__insert_helper( size_type position, size_type n, const value_type &x)
 	{
@@ -1108,12 +1115,12 @@ private:
 	//__________________________________________
 	// insert
 	template<size_t I,typename InputIterator >
-	requires ((I == N))
+	requires detail::LoopEnd<I, N>
 	inline void
 	__insert(size_type , InputIterator , InputIterator  ){}
 
 	template<size_t I=0,typename InputIterator >
-	requires ((I < N))
+	requires detail::LoopGoing<I, N>
 	inline void
 	__insert(size_type position, InputIterator first, InputIterator last  )
 	{

@@ -71,7 +71,7 @@ public:
 
 
 	template<size_t M = sizeof...(IteratorW)>
-	requires ((M==0))
+	requires (M==0)
 	inline double
 	Eval( const std::vector<double>& parameters ) const{
 
@@ -112,7 +112,7 @@ public:
 	}
 
 	template<size_t M = sizeof...(IteratorW)>
-	requires ((M>0))
+	requires (M>0)
 	inline double
 	Eval( const std::vector<double>& parameters ) const{
 
@@ -168,8 +168,7 @@ template<typename ...Pdfs, typename Iterable, typename ...Iterables>
 requires (
 	(!detail::Iterator<Iterable>) &&
 	((sizeof...(Iterables)==0) || !detail::Iterators<Iterables...>) &&
-	(!detail::is_hydra_dense_histogram<typename std::remove_reference<Iterable>::type>::value) &&
-	(!detail::is_hydra_sparse_histogram<typename std::remove_reference<Iterable>::type>::value) &&
+	(!detail::HydraHistogram<typename std::remove_reference<Iterable>::type>) &&
 	(detail::Iterable<Iterable>) &&
 	(detail::Iterables<Iterables...>)
 )
@@ -185,10 +184,7 @@ make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...> const& functor, Iterable&& poi
 }
 
 template<typename ...Pdfs, typename Histogram>
-requires (
-	detail::is_hydra_dense_histogram<Histogram>::value ||
-	detail::is_hydra_sparse_histogram<Histogram>::value
-)
+requires (detail::HydraHistogram<Histogram>)
 inline LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>,
                      decltype(std::declval<const Histogram&>().GetBinsCenters().begin()),
                      decltype(std::declval<const Histogram&>().GetBinsContents().begin()) >

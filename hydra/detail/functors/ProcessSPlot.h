@@ -94,12 +94,12 @@ struct CovMatrixUnary
 
 
 	template<typename T, int N, int I>
-	requires ((I == N*N))
+	requires LoopEnd<I, N*N>
 	__hydra_host__ __hydra_device__ inline void
 	set_matrix(double denominator, T&&, hydra::Eigen::Matrix<double, N, N>&){ }
 
 	template<typename T, int N, int I=0>
-	requires ((I < N*N))
+	requires LoopGoing<I, N*N>
 	__hydra_host__ __hydra_device__ inline void
 	set_matrix(double denominator, T&& ftuple, hydra::Eigen::Matrix<double, N, N>& fcovmatrix  )
 	{

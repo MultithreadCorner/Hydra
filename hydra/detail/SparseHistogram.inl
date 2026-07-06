@@ -574,7 +574,7 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> gri
 
 //iterable based
 template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable>
-requires (hydra::detail::Iterable<Iterable>)
+requires (detail::Iterable<Iterable>)
 inline SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
 		std::array<double, N>lowerlimits,   std::array<double, N> upperlimits,	Iterable&& data){
@@ -585,7 +585,7 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t
 }
 
 template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable1,typename Iterable2 >
-requires (hydra::detail::Iterable<Iterable1>&& hydra::detail::Iterable<Iterable2>)
+requires (detail::Iterables<Iterable1, Iterable2>)
 inline SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
 		std::array<double, N>lowerlimits,   std::array<double, N> upperlimits,
@@ -629,7 +629,7 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND>, size_t grid, double lower
 
 //iterable based
 template< typename T, hydra::detail::Backend BACKEND, typename Iterable>
-requires (hydra::detail::Iterable<Iterable>)
+requires (detail::Iterable<Iterable>)
 inline SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
 make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid,
 		double lowerlimits,  double upperlimits,	Iterable&& data){
@@ -640,7 +640,7 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid,
 }
 
 template< typename T, hydra::detail::Backend BACKEND, typename Iterable1,typename Iterable2 >
-requires (hydra::detail::Iterable<Iterable1>&& hydra::detail::Iterable<Iterable2>)
+requires (detail::Iterables<Iterable1, Iterable2>)
 inline SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
 make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid,
 		double lowerlimits, double upperlimits,

@@ -59,7 +59,7 @@ scatter(Iterable_Source&& source, Iterable_Map&& map, Iterable_Target&& target){
 
 /*
 template<typename Iterable_Source, typename Iterable_Target, typename Iterator_Map>
-requires (hydra::detail::Iterable<Iterable_Source> && hydra::detail::Iterable<Iterable_Target>)
+requires (detail::Iterables<Iterable_Source, Iterable_Target>)
 Range<decltype(std::declval<Iterable_Target&>().begin())>
 scatter(Iterable_Source& source, Range<Iterator_Map>&& map, Iterable_Target& target){
 
@@ -70,7 +70,7 @@ scatter(Iterable_Source& source, Range<Iterator_Map>&& map, Iterable_Target& tar
 
 
 template<typename Iterator_Source, typename Iterable_Target, typename Iterator_Map>
-requires (hydra::detail::Iterable<Iterable_Target>)
+requires (detail::Iterable<Iterable_Target>)
 Range<decltype(std::declval<Iterable_Target&>().begin())>
 scatter(Range<Iterator_Source>&& source, Range<Iterator_Map>&& map, Iterable_Target& target){
 

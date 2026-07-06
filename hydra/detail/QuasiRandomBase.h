@@ -226,12 +226,12 @@ protected:
 private:
 
 	 template<typename T, unsigned I>
-	 requires ((I== LatticeT::lattice_dimension))
+	 requires (I== LatticeT::lattice_dimension)
 	 __hydra_host__ __hydra_device__ inline void
 	 generate_helper(T& ){ }
 
 	 template<typename T, unsigned I=0>
-	 requires ((I< LatticeT::lattice_dimension))
+	 requires (I< LatticeT::lattice_dimension)
 	 __hydra_host__ __hydra_device__ inline void
 	 generate_helper(T& data){
 		 hydra::get<I>(data)=this->operator()();

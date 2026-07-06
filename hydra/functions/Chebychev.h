@@ -133,12 +133,12 @@ public:
 private:
 
 	template<unsigned int I>
-	requires ((I==Order+1))
+	requires detail::LoopEnd<I, Order+1>
 	__hydra_host__ __hydra_device__ inline void
 	polynomial_helper( const double(&)[Order+1],  const double, double&)  const {}
 
 	template<unsigned int I=0>
-	requires ((I<Order+1))
+	requires detail::LoopGoing<I, Order+1>
 	__hydra_host__ __hydra_device__ inline void
 	polynomial_helper( const double(&coef)[Order+1],  const double x, double& r)  const {
 
@@ -194,12 +194,12 @@ protected:
 private:
 
 	template<unsigned int N, unsigned int I>
-	requires ((I==N))
+	requires detail::LoopEnd<I, N>
 	__hydra_host__ __hydra_device__ inline void
 	polynomial_integral_helper( const double, const double(&)[N], double&) const {}
 
 	template<unsigned int N, unsigned int I=2>
-	requires ((I<N))
+	requires detail::LoopGoing<I, N>
 	__hydra_host__ __hydra_device__ inline void
 	polynomial_integral_helper( const double x, const double(&coef)[N], double& r) const {
 

@@ -35,7 +35,7 @@ namespace hydra {
 
 
 template<typename Iterable_Index, typename Iterable_Values>
-requires (hydra::detail::Iterable<Iterable_Index> && hydra::detail::Iterable<Iterable_Values>)
+requires (detail::Iterables<Iterable_Index, Iterable_Values>)
 auto collect( Iterable_Index& indexing_scheme, Iterable_Values& collected_values)
 -> Range<hydra::thrust::permutation_iterator<
 		decltype(std::declval<Iterable_Values&>().begin()),

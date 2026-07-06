@@ -65,6 +65,15 @@ concept HydraLambda = is_hydra_lambda<T>::value;
 template <typename T>
 concept HydraCallable = HydraFunctor<T> || HydraLambda<T>;
 
+/**
+ * @brief Satisfied when @c T is a Hydra callable and @c U is an arithmetic type,
+ * i.e. the callable can be scaled/combined with the scalar @c U. Folds the
+ * recurring @c HydraCallable<T> && std::is_arithmetic_v<U> constraint used by the
+ * functor-arithmetic operator overloads into a single name.
+ */
+template <typename T, typename U>
+concept CallableScaledBy = HydraCallable<T> && std::is_arithmetic_v<U>;
+
 }  // namespace detail
 
 }  // namespace hydra

@@ -38,6 +38,7 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/TupleConcepts.h>
+#include <hydra/detail/FunctionArgument.h>
 #include <hydra/detail/ParametersCompositeFunctor.h>
 //#include <hydra/UserParameters.h>
 
@@ -212,7 +213,7 @@ public:
 	template<typename T1, typename T2>
 	requires (
 		(!detail::TupleType<T1> ) &&
-		( detail::FunctionArgumentArg<T1> ) &&
+		( detail::FunctionArg<T1> ) &&
 		( detail::TupleType<T2> ) &&
 		( detail::TupleOfFunctionArguments<T2> )
 	)
@@ -232,7 +233,7 @@ public:
 	template<typename T1, typename T2>
 	requires (
 		(!detail::TupleType<T1> ) &&
-		( detail::FunctionArgumentArg<T1> ) &&
+		( detail::FunctionArg<T1> ) &&
 		( detail::TupleType<T2> ) &&
 		( detail::TupleOfFunctionArguments<T2> )
 	)

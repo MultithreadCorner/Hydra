@@ -166,7 +166,7 @@ public:
 
 
 	template<typename ...T>
-	requires ((!detail::ValidTypePack<argument_type, T...>))
+	requires (!detail::ValidTypePack<argument_type, T...>)
 	__hydra_host__ __hydra_device__ inline return_type
 	operator()(T...x)  const
 	{
@@ -262,7 +262,7 @@ public:
 	template<typename T1, typename T2>
 	requires (
 		(!detail::TupleType<T1> ) &&
-		( detail::FunctionArgumentArg<T1> ) &&
+		( detail::FunctionArg<T1> ) &&
 		( detail::TupleType<T2> ) &&
 		( detail::TupleOfFunctionArguments<T2> )
 	)
@@ -282,7 +282,7 @@ public:
 	template<typename T1, typename T2>
 	requires (
 		(!detail::TupleType<T1> ) &&
-		( detail::FunctionArgumentArg<T1> ) &&
+		( detail::FunctionArg<T1> ) &&
 		( detail::TupleType<T2> ) &&
 		( detail::TupleOfFunctionArguments<T2> )
 	)

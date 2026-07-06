@@ -37,19 +37,21 @@
 #include <string>
 #include <cassert>
 #include <memory>
+#include <concepts>
+#include <hydra/detail/utility/Generic.h>
 
 
 namespace hydra {
 
 /** array streamer helper **/
 template<  size_t N, typename T, size_t I>
-requires ((I==N))
+requires detail::LoopEnd<I, N>
 inline void
 stream_array_helper(std::ostream& , std::array<T,N> const& )
 { }
 
 template< size_t N, typename T, size_t I=0>
-requires ((I < N))
+requires detail::LoopGoing<I, N>
 inline void
 stream_array_helper(std::ostream& os, std::array<T,N> const&  obj)
 {
@@ -72,13 +74,13 @@ inline std::ostream& operator<<(std::ostream& os, std::array<T, N> const&  obj)
 
 /** tuple streamer helper **/
 template<size_t I, typename ...T>
-requires ((I==sizeof ...(T)))
+requires detail::LoopEnd<I, sizeof ...(T)>
 inline void
 stream_tuple_helper(std::ostream& , std::tuple<T...> const&  )
 { }
 
 template<size_t I=0, typename ...T>
-requires ((I < sizeof ...(T)))
+requires detail::LoopGoing<I, sizeof ...(T)>
 inline void
  stream_tuple_helper(std::ostream& os, std::tuple<T...> const&  obj)
 {

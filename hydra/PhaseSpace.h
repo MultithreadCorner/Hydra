@@ -197,7 +197,7 @@ public:
 	 * @return A Range object pointing to the @param result container
 	 */
 	template<typename ...FUNCTOR, typename Iterable>
-	requires (hydra::detail::Iterable<Iterable>)
+	requires (detail::Iterable<Iterable>)
 	inline hydra::Range<decltype(std::declval<Iterable>().begin())>
 	Evaluate(Vector4R const& mother, Iterable&& iterable, FUNCTOR const& ...functors);
 
@@ -209,7 +209,7 @@ public:
 	 * @return A Range object pointing to the @param result container
 	 */
 	template<typename ...FUNCTOR, typename IterableMother, typename Iterable>
-	requires (hydra::detail::Iterable<Iterable> && hydra::detail::Iterable<IterableMother>)
+	requires (detail::Iterables<Iterable, IterableMother>)
 	inline hydra::Range<decltype(std::declval<Iterable>().begin())>
 	Evaluate(IterableMother&& mothers, Iterable&& result, FUNCTOR const& ...functors);
 
@@ -259,7 +259,7 @@ public:
 	 * @param end Iterator pointing to the end output range.
 	 */
 	template<typename Iterable>
-	requires (hydra::detail::Iterable<Iterable>)
+	requires (detail::Iterable<Iterable>)
 	inline hydra::Range<decltype(std::declval<Iterable>().begin())>
 	Generate(Vector4R const& mother, Iterable&& events);
 
@@ -270,7 +270,7 @@ public:
 	 * @param daughters_begin Iterator pointing to the begin of range of daughter particles.
 	 */
 	template<typename IterableMothers, typename Iterable>
-	requires (hydra::detail::Iterable<Iterable> && hydra::detail::Iterable<IterableMothers>)
+	requires (detail::Iterables<Iterable, IterableMothers>)
 	inline hydra::Range<decltype(std::declval<Iterable>().begin())>
 	Generate( IterableMothers&& mothers, Iterable&& daughters);
 
