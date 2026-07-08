@@ -32,7 +32,7 @@ Table of Contents
 What is it?
 -----------
 
-Hydra is a C++17/20 compliant and header only framework designed to perform common data analysis tasks on massively parallel platforms. Hydra provides a collection of containers and algorithms commonly used in HEP data analysis, which can deploy  transparently OpenMP, CUDA and TBB enabled devices, allowing the user to re-use the same code across a large range of available multi-core CPU and accelerators. The framework design is focused on performance and precision.
+Hydra is a C++20 compliant and header only framework designed to perform common data analysis tasks on massively parallel platforms. Hydra provides a collection of containers and algorithms commonly used in HEP data analysis, which can deploy  transparently OpenMP, CUDA and TBB enabled devices, allowing the user to re-use the same code across a large range of available multi-core CPU and accelerators. The framework design is focused on performance and precision.
 
 The core algorithms follow as close as possible the implementations widely used in frameworks like ROOT and libraries
 like GSL.
