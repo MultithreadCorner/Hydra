@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10253377.svg)](https://doi.org/10.5281/zenodo.10253377)
+[![DOI](zenodo.org/badge/DOI/10.5281/zenodo.10253377.svg)](https://doi.org/10.5281/zenodo.10253377)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Documentation Status](https://readthedocs.org/projects/hydra-documentation/badge/?version=latest&branch=master&kill_cache=1)](http://hydra-documentation.readthedocs.io/en/latest/?badge=latest)
 [![latest version](https://badge.fury.io/gh/MultithreadCorner%2FHydra.svg?branch=master&kill_cache=1)](https://github.com/MultithreadCorner/Hydra/releases/latest)
