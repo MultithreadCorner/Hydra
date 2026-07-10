@@ -187,6 +187,7 @@ Recent publications citing Hydra and presentations at conferences and workshops
 9. [R. Aaij et al. (LHCb Collaboration) *Angular Analysis of D0→π+π−μ+μ− and D0→K+K−μ+μ− Decays and Search for CP Violation* - Phys. Rev. Lett. 128, 221801](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.128.221801)
 10. [D. Brundu1, A. Cardini, A. Contu, G.M. Cossu, G.-F. Dalla Betta, M. Garau, A. Lai, A. Lampis, A. Loi and M.M. Obertino,*Accurate modelling of 3D-trench silicon sensor with enhanced timing performance and comparison with test beam measurements* JINST 16 P09028, https://doi.org/10.1088/1748-0221/16/09/P09028](https://iopscience.iop.org/article/10.1088/1748-0221/16/09/P09028/meta)
 11. [Brundu, D., Cadoni, M., Oi, M., Olla, P., & Sanna, A. P. (2022). Atmospheric Newtonian noise modeling for third-generation gravitational wave detectors. Physical Review. D/Physical Review. D., 106(6). https://doi.org/10.1103/physrevd.106.064040](https://journals.aps.org/prd/abstract/10.1103/PhysRevD.106.064040)
+12. [Ricci, A. M., Alves Junior, A. A., Brundu, D., Contu, A., Dordei, F., and Muzzetto, P., “Medusa, a multithread 4-body decay fitting and simulation software”, in <i>26th International Conference on Computing in High Energy and Nuclear Physics (CHEP 2023)</i>, 2024, vol. 295, Art. no. 06015. doi:10.1051/epjconf/202429506015.](https://doi.org/10.1051/epjconf/202429506015)
 
 
 How to cite Hydra
