@@ -119,7 +119,8 @@ It is also possible to browse the documentation by class, file or name using the
 
 2.[files](http://multithreadcorner.github.io/Hydra/files.html)
 
-3.[names](http://multithreadcorner.github.io/Hydra/namespacemembers.html)
+3.[names](http://multithreadcorner.github.io/Hydra/namespacemembers.html) 
+
 
 
 ### User's guide
