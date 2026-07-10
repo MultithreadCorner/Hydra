@@ -173,7 +173,7 @@ Each compiled example executable will have an postfix (ex.:_cpp, _cuda, _omp, _t
 All examples use CPP as host backend. 
 
 
-Recent publications citing Hydra and presentations at conferences and workshops
+Recent publications, presentations at conferences and workshops citing Hydra 
 -------------------------------------------------------------------------------
 
 1. [A. A. Alves Junior, *Hydra: a C++11 framework for data analysis in massively parallel platforms*, Proceedings of the 18th International Workshop on Advanced Computing and Analysis Techniques in Physics Research, 21-25 August 2017 Seattle,USA](https://inspirehep.net/record/1636201/files/arXiv:1711.05683.pdf),
