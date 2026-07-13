@@ -36,7 +36,7 @@ finally the numeric helpers `Accumulable` and `RealConvertible` are defined in `
 clauses using the new concepts, or the already present type traits. The cleanup was done
 across the whole codebase.
 
-3) The iterator traits used by the random-generation facilities were moved out from the genercal header, `Random.h`,
+3) The iterator traits used by the random-generation facilities were moved out from the general header, `Random.h`,
 into a dedicated detail header, `hydra/detail/RandomIteratorTraits.h`. This decouples the detailed traits from
 the general interface, so the concepts and overloads that rely on them can include the traits
 alone resulting in a cleaner dependency tree.
