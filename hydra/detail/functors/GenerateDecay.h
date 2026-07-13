@@ -173,6 +173,30 @@ struct GenerateDecay
 	fBeta1(other.fBeta1 ),
 	fBeta2(other.fBeta2 )
 	{ for(size_t i=0; i<N; i++) fMasses[i]=other.fMasses[i]; }
+	
+
+	__hydra_host__ __hydra_device__
+	GenerateDecay<N, GRND>& 
+	operator=( GenerateDecay<N, GRND> const& other )
+	{
+		if( this == &other)
+			return *this;
+		
+		fSeed = other.fSeed ;
+		fTeCmTm = other.fTeCmTm ;
+		fWtMax = other.fWtMax ;
+		fBeta0 = other.fBeta0 ;
+		fBeta1 = other.fBeta1 ;
+		fBeta2 = other.fBeta2 ;
+		
+		for(size_t i=0; i<N; i++)
+			 fMasses[i]=other.fMasses[i]; 
+		
+		return *this;
+
+}
+	
+	
 
 
 

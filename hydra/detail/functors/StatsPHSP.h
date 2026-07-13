@@ -37,7 +37,7 @@ namespace detail {
 
 struct StatsPHSP
 {
-
+	__hydra_host__ __hydra_device__
 	StatsPHSP():
 		fMean(0),
 		fM2(0),

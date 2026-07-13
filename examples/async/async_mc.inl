@@ -164,8 +164,7 @@ int main(int argv, char** argc)
 
 	//---------
 	//generator
-	hydra::Random<>
-	Generator( std::chrono::system_clock::now().time_since_epoch().count() );
+	hydra::Random<>	Generator( std::chrono::system_clock::now().time_since_epoch().count() );
 
 
 	//------------------------
