@@ -1,7 +1,7 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1206261.svg)](https://doi.org/10.5281/zenodo.1206261)
+[![Static Badge](https://img.shields.io/badge/%20DOI-10.5281%2Fzenodo.1206261-brown?label=DOI)](https://doi.org/10.5281/zenodo.1206261)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Documentation Status](https://readthedocs.org/projects/hydra-documentation/badge/?version=latest&branch=master&kill_cache=1)](http://hydra-documentation.readthedocs.io/en/latest/?badge=latest)
-[![latest version](https://badge.fury.io/gh/MultithreadCorner%2FHydra.svg?branch=master&kill_cache=1)](https://github.com/MultithreadCorner/Hydra/releases/latest)
+[![Latest version](https://badge.fury.io/gh/MultithreadCorner%2FHydra.svg?branch=master&kill_cache=1)](https://github.com/MultithreadCorner/Hydra/releases/latest)
 
 -----------------------------
 
@@ -32,7 +32,7 @@ Table of Contents
 What is it?
 -----------
 
-Hydra is a C++17/20 compliant and header only framework designed to perform common data analysis tasks on massively parallel platforms. Hydra provides a collection of containers and algorithms commonly used in HEP data analysis, which can deploy  transparently OpenMP, CUDA and TBB enabled devices, allowing the user to re-use the same code across a large range of available multi-core CPU and accelerators. The framework design is focused on performance and precision.
+Hydra is a C++20 compliant and header only framework designed to perform common data analysis tasks on massively parallel platforms. Hydra provides a collection of containers and algorithms commonly used in HEP data analysis, which can deploy  transparently OpenMP, CUDA and TBB enabled devices, allowing the user to re-use the same code across a large range of available multi-core CPU and accelerators. The framework design is focused on performance and precision.
 
 The core algorithms follow as close as possible the implementations widely used in frameworks like ROOT and libraries
 like GSL.
@@ -173,7 +173,7 @@ Each compiled example executable will have an postfix (ex.:_cpp, _cuda, _omp, _t
 All examples use CPP as host backend. 
 
 
-Recent publications citing Hydra and presentations at conferences and workshops
+Recent publications, presentations at conferences and workshops citing Hydra 
 -------------------------------------------------------------------------------
 
 1. [A. A. Alves Junior, *Hydra: a C++11 framework for data analysis in massively parallel platforms*, Proceedings of the 18th International Workshop on Advanced Computing and Analysis Techniques in Physics Research, 21-25 August 2017 Seattle,USA](https://inspirehep.net/record/1636201/files/arXiv:1711.05683.pdf),
@@ -187,6 +187,7 @@ Recent publications citing Hydra and presentations at conferences and workshops
 9. [R. Aaij et al. (LHCb Collaboration) *Angular Analysis of D0→π+π−μ+μ− and D0→K+K−μ+μ− Decays and Search for CP Violation* - Phys. Rev. Lett. 128, 221801](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.128.221801)
 10. [D. Brundu1, A. Cardini, A. Contu, G.M. Cossu, G.-F. Dalla Betta, M. Garau, A. Lai, A. Lampis, A. Loi and M.M. Obertino,*Accurate modelling of 3D-trench silicon sensor with enhanced timing performance and comparison with test beam measurements* JINST 16 P09028, https://doi.org/10.1088/1748-0221/16/09/P09028](https://iopscience.iop.org/article/10.1088/1748-0221/16/09/P09028/meta)
 11. [Brundu, D., Cadoni, M., Oi, M., Olla, P., & Sanna, A. P. (2022). Atmospheric Newtonian noise modeling for third-generation gravitational wave detectors. Physical Review. D/Physical Review. D., 106(6). https://doi.org/10.1103/physrevd.106.064040](https://journals.aps.org/prd/abstract/10.1103/PhysRevD.106.064040)
+12. [Ricci, A. M., Alves Junior, A. A., Brundu, D., Contu, A., Dordei, F., and Muzzetto, P., “Medusa, a multithread 4-body decay fitting and simulation software”, in <i>26th International Conference on Computing in High Energy and Nuclear Physics (CHEP 2023)</i>, 2024, vol. 295, Art. no. 06015. doi:10.1051/epjconf/202429506015.](https://doi.org/10.1051/epjconf/202429506015)
 
 
 How to cite Hydra
