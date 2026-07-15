@@ -325,7 +325,7 @@ public:
 		{ }
 
 
-	template<typename T=LambdaType, typename std::enable_if< std::is_copy_constructible<T>::value >::type>
+	template< typename T=LambdaType, typename std::enable_if< std::is_copy_constructible<T>::value >::type >
 	__hydra_host__ __hydra_device__
 	Lambda(Lambda<T, NPARAM> const& other):
 	detail::Parameters<NPARAM>( other),

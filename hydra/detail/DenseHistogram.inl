@@ -29,6 +29,8 @@
 //#ifndef DENSEHISTOGRAM_INL_
 //#define DENSEHISTOGRAM_INL_
 
+
+
 #include <hydra/detail/external/hydra_thrust/memory.h>
 #include <hydra/detail/external/hydra_thrust/reduce.h>
 #include <hydra/detail/external/hydra_thrust/gather.h>

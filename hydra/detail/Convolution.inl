@@ -267,8 +267,11 @@ struct MultiplyFFT
 };
 
 template<typename T>
-struct NormalizeFFT: public  std::unary_function<T,T>
+struct NormalizeFFT
 {
+	typedef T argument_type;
+    typedef T result_type;
+	
 	NormalizeFFT()=delete;
 
 	NormalizeFFT(T norm):
