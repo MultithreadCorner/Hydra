@@ -80,17 +80,24 @@ struct is_callable: std::conditional<
          std::true_type,
          std::false_type >::type {};
 
+template< typename Engine, typename Functor, typename Iterable,
+          bool Enable = hydra::detail::has_rng_formula<Functor>::value &&
+                        hydra::detail::is_iterable<Iterable>::value &&
+                       !hydra::detail::is_iterator<Iterable>::value >
+struct rng_formula_matches_iterable: std::false_type {};
+
+template< typename Engine, typename Functor, typename Iterable>
+struct rng_formula_matches_iterable<Engine, Functor, Iterable, true>:
+    std::is_convertible<
+        decltype(std::declval<RngFormula<Functor>>().Generate( std::declval<Engine&>(), std::declval<Functor const&>())),
+        typename hydra::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type>{};
+
 template< typename Engine, typename Functor, typename Iterable>
 struct is_matching_iterable: std::conditional<
-     hydra::detail::is_iterable<Iterable>::value &&
-    !hydra::detail::is_iterator<Iterable>::value &&
     (hydra::detail::is_hydra_composite_functor<Functor>::value ||
      hydra::detail::is_hydra_functor<Functor>::value ||
      hydra::detail::is_hydra_lambda<Functor>::value  ) &&
-     hydra::detail::has_rng_formula<Functor>::value &&
-     std::is_convertible<
-    decltype(std::declval<RngFormula<Functor>>().Generate( std::declval<Engine&>(), std::declval<Functor const&>())),
-    typename hydra::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type>::value,
+     rng_formula_matches_iterable<Engine, Functor, Iterable>::value,
     std::true_type,  std::false_type
 >::type{};
 
