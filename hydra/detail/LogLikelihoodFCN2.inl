@@ -181,7 +181,7 @@ make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterable&& points
 }
 
 template<typename ...Pdfs, typename Histogram>
-requires (detail::HydraHistogram<<Histogram>)
+requires (detail::HydraHistogram<Histogram>)
 inline LogLikelihoodFCN< PDFSumExtendable<Pdfs...>,
                      decltype(std::declval<const Histogram&>().GetBinsCenters().begin()),
                      decltype(std::declval<const Histogram&>().GetBinsContents().begin()) >
