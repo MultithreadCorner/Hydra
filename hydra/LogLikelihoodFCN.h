@@ -128,9 +128,9 @@ template< typename Functor, typename Integrator, typename Iterable, typename ...
 requires (
     (!detail::Iterator<Iterable>) &&
     ((sizeof...(Iterables)==0) || !detail::Iterators<Iterables...>) &&
-    (!hydra::detail::is_hydra_dense_histogram< typename std::remove_reference<Iterable>::type>::value) &&
-    (!hydra::detail::is_hydra_sparse_histogram<typename std::remove_reference<Iterable>::type>::value) &&
-    (hydra::detail::Iterable<Iterable> && detail::Iterables<Iterables...>)
+    (!detail::HydraHistogram<typename std::remove_reference<Iterable>::type>) &&
+    (detail::Iterable<Iterable>) &&
+    (detail::Iterables<Iterables...>)
 )
 inline LogLikelihoodFCN< Pdf<Functor,Integrator>, decltype(std::declval<Iterable>().begin()),
                   decltype(std::declval<Iterables >().begin())... >
@@ -150,9 +150,9 @@ template<typename ...Pdfs, typename Iterable, typename... Iterables>
 requires (
     (!detail::Iterator<Iterable>) &&
     ((sizeof...(Iterables)==0) || !detail::Iterators<Iterables...>) &&
-    (!hydra::detail::is_hydra_dense_histogram< typename std::remove_reference<Iterable>::type>::value) &&
-    (!hydra::detail::is_hydra_sparse_histogram<typename std::remove_reference<Iterable>::type>::value) &&
-    (hydra::detail::Iterable<Iterable> && detail::Iterables<Iterables...>)
+    (!detail::HydraHistogram<typename std::remove_reference<Iterable>::type>) &&
+    (detail::Iterable<Iterable>) &&
+    (detail::Iterables<Iterables...>)
 )
 inline LogLikelihoodFCN<  PDFSumExtendable<Pdfs...>, decltype(std::declval<Iterable>().begin()),
                      decltype(std::declval<Iterables>().begin())...>
@@ -172,9 +172,9 @@ template<typename ...Pdfs, typename Iterable, typename ...Iterables>
 requires (
     (!detail::Iterator<Iterable>) &&
     ((sizeof...(Iterables)==0) || !detail::Iterators<Iterables...>) &&
-    (!hydra::detail::is_hydra_dense_histogram< typename std::remove_reference<Iterable>::type>::value) &&
-    (!hydra::detail::is_hydra_sparse_histogram<typename std::remove_reference<Iterable>::type>::value) &&
-    (hydra::detail::Iterable<Iterable> && detail::Iterables<Iterables...>)
+    (!detail::HydraHistogram<typename std::remove_reference<Iterable>::type>) &&
+    (detail::Iterable<Iterable>) &&
+    (detail::Iterables<Iterables...>)
 )
 inline LogLikelihoodFCN<  PDFSumNonExtendable<Pdfs...>, decltype(std::declval< Iterable>().begin()),
                      decltype(std::declval< Iterables>().begin())... >
