@@ -37,14 +37,17 @@
 #include <utility>
 #include <hydra/detail/external/hydra_thrust/gather.h>
 #include <hydra/Range.h>
+#include <hydra/detail/IteratorConcepts.h>
 
 namespace hydra {
 
 template<typename Iterable_Source, typename Iterable_Target, typename Iterable_Map>
-typename std::enable_if<hydra::detail::is_iterable<Iterable_Source>::value
-					 && hydra::detail::is_iterable<Iterable_Target>::value
-					 && hydra::detail::is_iterable<Iterable_Map>::value,
-Range<decltype(std::declval<Iterable_Target&>().begin())>>::type
+requires (
+	hydra::detail::Iterable<Iterable_Source> &&
+	hydra::detail::Iterable<Iterable_Target> &&
+	hydra::detail::Iterable<Iterable_Map>
+)
+Range<decltype(std::declval<Iterable_Target&>().begin())>
 gather(Iterable_Source&& source, Iterable_Map&& map, Iterable_Target&& target){
 
 	hydra::thrust::gather(
@@ -59,9 +62,8 @@ gather(Iterable_Source&& source, Iterable_Map&& map, Iterable_Target&& target){
 
 /*
 template<typename Iterable_Source, typename Iterable_Target, typename Iterator_Map>
-typename std::enable_if<hydra::detail::is_iterable<Iterable_Source>::value
-					 && hydra::detail::is_iterable<Iterable_Target>::value,
-Range<decltype(std::declval<Iterable_Target&>().begin())>>::type
+requires (detail::Iterables<Iterable_Source, Iterable_Target>)
+Range<decltype(std::declval<Iterable_Target&>().begin())>
 gather(Iterable_Source& source, Range<Iterator_Map>&& map, Iterable_Target& target){
 
 	hydra::thrust::gather( source.begin(), source.end(),
@@ -71,8 +73,8 @@ gather(Iterable_Source& source, Range<Iterator_Map>&& map, Iterable_Target& targ
 
 
 template<typename Iterator_Source, typename Iterable_Target, typename Iterator_Map>
-typename std::enable_if<hydra::detail::is_iterable<Iterable_Target>::value,
-Range<decltype(std::declval<Iterable_Target&>().begin())>>::type
+requires (hydra::detail::Iterable<Iterable_Target>)
+Range<decltype(std::declval<Iterable_Target&>().begin())>
 gather(Range<Iterator_Source>&& source, Range<Iterator_Map>&& map, Iterable_Target& target){
 
 	hydra::thrust::gather( source.begin(), source.end(),

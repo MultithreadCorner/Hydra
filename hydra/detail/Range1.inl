@@ -36,6 +36,7 @@
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 
 #include <utility>
+#include <hydra/detail/IteratorConcepts.h>
 
 namespace hydra {
 
@@ -155,8 +156,8 @@ make_reverse_range(Iterator begin, Iterator end ){
 }
 
 template<typename Iterable>
-typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
-Range<decltype(std::declval<Iterable>().begin())>>::type
+requires (detail::Iterable<Iterable>)
+Range<decltype(std::declval<Iterable>().begin())>
 make_range(Iterable const& container){
 
 	typedef decltype(hydra::begin(container)) iterator_type;
@@ -164,8 +165,8 @@ make_range(Iterable const& container){
 }
 
 template<typename Iterable>
-typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
-Range<decltype(std::declval<Iterable>().begin())>>::type
+requires (detail::Iterable<Iterable>)
+Range<decltype(std::declval<Iterable>().begin())>
 make_range(Iterable&& container){
 
 	typedef decltype(hydra::begin(std::forward<Iterable>(container))) iterator_type;
@@ -174,8 +175,8 @@ make_range(Iterable&& container){
 }
 
 template<typename Iterable>
-typename std::enable_if<hydra::detail::is_reverse_iterable<Iterable>::value,
-Range<decltype(std::declval<Iterable>().rbegin())>>::type
+requires (detail::ReverseIterable<Iterable>)
+Range<decltype(std::declval<Iterable>().rbegin())>
 make_reverse_range(Iterable const& container){
 
 	typedef decltype(hydra::rbegin(container)) iterator_type;
@@ -183,8 +184,8 @@ make_reverse_range(Iterable const& container){
 }
 
 template<typename Iterable>
-typename std::enable_if<hydra::detail::is_reverse_iterable<Iterable>::value,
-Range<decltype(std::declval<Iterable>().rbegin())>>::type
+requires (detail::ReverseIterable<Iterable>)
+Range<decltype(std::declval<Iterable>().rbegin())>
 make_reverse_range(Iterable&& container){
 
 	typedef decltype(hydra::rbegin(std::forward<Iterable>(container))) iterator_type;

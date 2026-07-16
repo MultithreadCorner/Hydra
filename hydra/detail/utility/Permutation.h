@@ -37,6 +37,7 @@
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/hydra_thrust/swap.h>
 #include <hydra/detail/external/hydra_thrust/reverse.h>
+#include <concepts>
 
 namespace hydra {
 
@@ -77,7 +78,8 @@ Iterator rotate(Iterator first, Iterator n_first, Iterator last)
 }
 
 template<typename Iterator, typename Integer, typename Comparator>
-typename std::enable_if<std::is_integral<Integer>::value, void>::type
+requires (std::integral<Integer>)
+void
 __hydra_host__ __hydra_device__
 nth_permutation(Iterator begin, Iterator end, Integer n, Comparator comp)
 {

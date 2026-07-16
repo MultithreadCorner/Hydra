@@ -20,7 +20,7 @@
  *---------------------------------------------------------------------------*/
 
 /*
- * LogLikelihoodFCN2.h
+ * LogLikelihoodFCN.h
  *
  *  Created on: 13/08/2017
  *      Author: Antonio Augusto Alves Junior
@@ -36,21 +36,9 @@
 #include <hydra/PDFSumNonExtendable.h>
 #include <hydra/detail/HistogramTraits.h>
 #include <hydra/detail/Iterable_traits.h>
+#include <hydra/detail/IteratorConcepts.h>
 
 namespace hydra {
-
-namespace detail {
-
-template<typename ...Iterators>
-struct are_iterators: std::conditional<sizeof...(Iterators)==0, std::true_type,
-		     detail::all_true<detail::is_iterator<Iterators>::value...> >::type{};
-
-template<typename ...Iterables>
-struct are_iterables: std::conditional<sizeof...(Iterables)==0, std::true_type,
-		     detail::all_true<detail::is_iterable<Iterables>::value...> >::type{};
-
-
-}  // namespace detail
 
 template<typename PDF, typename Iterator, typename... Extensions>
 class LogLikelihoodFCN;
@@ -89,8 +77,8 @@ class LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, IteratorD, IteratorW...>;
  * @return
  */
 template< typename Functor, typename Integrator,  typename Iterator, typename ...Iterators>
-inline typename std::enable_if< detail::is_iterator<Iterator>::value && detail::are_iterators<Iterators...>::value,
-LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator , Iterators... > >::type
+requires (detail::Iterator<Iterator> && detail::Iterators<Iterators...>)
+inline LogLikelihoodFCN< Pdf<Functor,Integrator>, Iterator , Iterators... >
 make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterator first, Iterator last,  Iterators... weights );
 
 
@@ -104,8 +92,8 @@ make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterator first, Iterato
  * @return
  */
 template<typename... Pdfs,  typename Iterator, typename ...Iterators >
-inline typename std::enable_if< detail::is_iterator<Iterator>::value && detail::are_iterators<Iterators...>::value,
-LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, Iterator, Iterators...> >::type
+requires (detail::Iterator<Iterator> && detail::Iterators<Iterators...>)
+inline LogLikelihoodFCN< PDFSumExtendable<Pdfs...>, Iterator, Iterators...>
 make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterator first, Iterator last, Iterators... weights );
 
 
@@ -120,8 +108,8 @@ make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterator first, I
  */
 
 template<typename... Pdfs,  typename Iterator, typename ...Iterators >
-inline typename std::enable_if< hydra::detail::is_iterator<Iterator>::value && detail::are_iterators<Iterators...>::value,
-LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator,Iterators...  >>::type
+requires (detail::Iterator<Iterator> && detail::Iterators<Iterators...>)
+inline LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>, Iterator,Iterators...  >
 make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...>const& pdf, Iterator first, Iterator last, Iterators... weights);
 
 
@@ -137,14 +125,15 @@ make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...>const& pdf, Iterator first, Ite
  * @return
  */
 template< typename Functor, typename Integrator, typename Iterable, typename ...Iterables >
-inline typename std::enable_if< (!detail::is_iterator<Iterable>::value) &&
-								((sizeof...(Iterables)==0) || !detail::are_iterators<Iterables...>::value) &&
-								(!hydra::detail::is_hydra_dense_histogram< typename std::remove_reference<Iterable>::type>::value) &&
-								(!hydra::detail::is_hydra_sparse_histogram<typename std::remove_reference<Iterable>::type>::value) &&
-								detail::is_iterable<Iterable>::value &&
-								detail::are_iterables<Iterables...>::value,
-LogLikelihoodFCN< Pdf<Functor,Integrator>, decltype(std::declval<Iterable>().begin()),
-                  decltype(std::declval<Iterables >().begin())... >>::type
+requires (
+    (!detail::Iterator<Iterable>) &&
+    ((sizeof...(Iterables)==0) || !detail::Iterators<Iterables...>) &&
+    (!detail::HydraHistogram<typename std::remove_reference<Iterable>::type>) &&
+    (detail::Iterable<Iterable>) &&
+    (detail::Iterables<Iterables...>)
+)
+inline LogLikelihoodFCN< Pdf<Functor,Integrator>, decltype(std::declval<Iterable>().begin()),
+                  decltype(std::declval<Iterables >().begin())... >
 make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterable&& points, Iterables&&... weights );
 
 
@@ -158,13 +147,15 @@ make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Iterable&& points, Iter
  * @return
  */
 template<typename ...Pdfs, typename Iterable, typename... Iterables>
-inline typename std::enable_if<   (!detail::is_iterator<Iterable>::value) &&
-                                  ((sizeof...(Iterables)==0) || !detail::are_iterators<Iterables...>::value) &&
-                                  (!hydra::detail::is_hydra_dense_histogram< typename std::remove_reference<Iterable>::type>::value) &&
-		                          (!hydra::detail::is_hydra_sparse_histogram<typename std::remove_reference<Iterable>::type>::value) &&
-								  detail::is_iterable<Iterable>::value && detail::are_iterables<Iterables...>::value,
-LogLikelihoodFCN<  PDFSumExtendable<Pdfs...>, decltype(std::declval<Iterable>().begin()),
-                     decltype(std::declval<Iterables>().begin())...> >::type
+requires (
+    (!detail::Iterator<Iterable>) &&
+    ((sizeof...(Iterables)==0) || !detail::Iterators<Iterables...>) &&
+    (!detail::HydraHistogram<typename std::remove_reference<Iterable>::type>) &&
+    (detail::Iterable<Iterable>) &&
+    (detail::Iterables<Iterables...>)
+)
+inline LogLikelihoodFCN<  PDFSumExtendable<Pdfs...>, decltype(std::declval<Iterable>().begin()),
+                     decltype(std::declval<Iterables>().begin())...>
 make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterable&& points, Iterables&& ...weights );
 
 
@@ -178,14 +169,15 @@ make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& functor, Iterable&& points
  * @return
  */
 template<typename ...Pdfs, typename Iterable, typename ...Iterables>
-inline typename std::enable_if< (!detail::is_iterator<Iterable>::value) &&
-								((sizeof...(Iterables)==0) || !detail::are_iterators<Iterables...>::value) &&
-								(!hydra::detail::is_hydra_dense_histogram< typename std::remove_reference<Iterable>::type>::value) &&
-								(!hydra::detail::is_hydra_sparse_histogram<typename std::remove_reference<Iterable>::type>::value) &&
-								hydra::detail::is_iterable<Iterable>::value &&
-								detail::are_iterables<Iterables...>::value,
-LogLikelihoodFCN<  PDFSumNonExtendable<Pdfs...>, decltype(std::declval< Iterable>().begin()),
-                     decltype(std::declval< Iterables>().begin())... > >::type
+requires (
+    (!detail::Iterator<Iterable>) &&
+    ((sizeof...(Iterables)==0) || !detail::Iterators<Iterables...>) &&
+    (!detail::HydraHistogram<typename std::remove_reference<Iterable>::type>) &&
+    (detail::Iterable<Iterable>) &&
+    (detail::Iterables<Iterables...>)
+)
+inline LogLikelihoodFCN<  PDFSumNonExtendable<Pdfs...>, decltype(std::declval< Iterable>().begin()),
+                     decltype(std::declval< Iterables>().begin())... >
 make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...> const& functor, Iterable&& points, Iterables&&... weights );
 
 
@@ -202,11 +194,10 @@ make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...> const& functor, Iterable&& poi
  * @return hydra::LogLikelihoodFCN instance hydra::Pdf<Functor,Integrator>  for .
  */
 template< typename Functor, typename Integrator, typename Histogram>
-inline typename std::enable_if<detail::is_hydra_dense_histogram<Histogram>::value ||
-                               detail::is_hydra_sparse_histogram<Histogram>::value,
-LogLikelihoodFCN< Pdf<Functor,Integrator>,
+requires (detail::HydraHistogram<Histogram>)
+inline LogLikelihoodFCN< Pdf<Functor,Integrator>,
 				  decltype(std::declval<const Histogram>().GetBinsCenters().begin()),
-                  decltype( std::declval<const Histogram>().GetBinsContents().begin())>>::type
+                  decltype( std::declval<const Histogram>().GetBinsContents().begin())>
 make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Histogram const& points );
 
 
@@ -218,11 +209,10 @@ make_loglikehood_fcn(Pdf<Functor,Integrator> const& pdf, Histogram const& points
  * @return hydra::LogLikelihoodFCN instance for hydra::PDFSumExtendable<Pdfs...>.
  */
 template<typename ...Pdfs, typename Histogram>
-inline typename std::enable_if<detail::is_hydra_dense_histogram<Histogram>::value ||
-                               detail::is_hydra_sparse_histogram<Histogram>::value,
- LogLikelihoodFCN< PDFSumExtendable<Pdfs...>,
+requires (detail::HydraHistogram<Histogram>)
+inline LogLikelihoodFCN< PDFSumExtendable<Pdfs...>,
                      decltype(std::declval<const Histogram&>().GetBinsCenters().begin()),
-                     decltype(std::declval<const Histogram&>().GetBinsContents().begin()) >>::type
+                     decltype(std::declval<const Histogram&>().GetBinsContents().begin()) >
 make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& pdf, Histogram const&  data);
 
 
@@ -234,11 +224,10 @@ make_loglikehood_fcn(PDFSumExtendable<Pdfs...> const& pdf, Histogram const&  dat
  * @return hydra::LogLikelihoodFCN instance for hydra::PDFSumNonExtendable<Pdfs...>
  */
 template<typename ...Pdfs, typename Histogram>
-inline typename std::enable_if<detail::is_hydra_dense_histogram<Histogram>::value ||
-                               detail::is_hydra_sparse_histogram<Histogram>::value,
- LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>,
+requires (detail::HydraHistogram<Histogram>)
+inline LogLikelihoodFCN< PDFSumNonExtendable<Pdfs...>,
                      decltype(std::declval<const Histogram&>().GetBinsCenters().begin()),
-                     decltype(std::declval<const Histogram&>().GetBinsContents().begin()) >>::type
+                     decltype(std::declval<const Histogram&>().GetBinsContents().begin()) >
 make_loglikehood_fcn(PDFSumNonExtendable<Pdfs...> const& pdf, Histogram const&  data);
 
 

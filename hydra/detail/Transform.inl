@@ -36,14 +36,15 @@
 #include <hydra/detail/external/hydra_thrust/transform.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/Range.h>
+#include <hydra/detail/IteratorConcepts.h>
 
 
 namespace hydra {
 
 template<typename Iterable_Input, typename Iterable_Output, typename Functor,
 typename Iterator=decltype(std::declval<Iterable_Output>().begin())>
-typename std::enable_if<hydra::detail::is_iterable<Iterable_Output>::value,
-Range<decltype(std::declval<Iterable_Output&>().begin())>>::type
+requires (hydra::detail::Iterable<Iterable_Output>)
+Range<decltype(std::declval<Iterable_Output&>().begin())>
 transform(Iterable_Input&& iterable_input, Iterable_Output&& iterable_output,  Functor const& unary_functor){
 
 	hydra::thrust::transform(std::forward<Iterable_Input>(iterable_input).begin(),

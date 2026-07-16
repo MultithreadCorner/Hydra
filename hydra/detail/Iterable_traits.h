@@ -30,6 +30,7 @@
 #define ITERABLE_TRAITS_H_
 
 #include <hydra/Iterator.h>
+#include <hydra/detail/utility/Generic.h>
 #include <utility>
 
 namespace hydra {
@@ -75,6 +76,11 @@ decltype (
         ++std::declval<decltype(hydra::rbegin(std::declval<T&>()))&>(),
         void(*hydra::rbegin(std::declval<T&>())),0)> : std::true_type { };
 */
+
+template<typename ...Iterables>
+struct are_iterables: std::conditional<sizeof...(Iterables)==0, std::true_type,
+		     detail::all_true<detail::is_iterable<Iterables>::value...> >::type{};
+
 }  // namespace detail
 
 }  // namespace hydra

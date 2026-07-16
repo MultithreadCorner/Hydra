@@ -54,6 +54,7 @@
 
 #include <initializer_list>
 #include <utility>
+#include <hydra/detail/IteratorConcepts.h>
 
 namespace hydra {
 
@@ -364,9 +365,9 @@ private:
  * @param last iterator pointing to end of the data  range.
  * @return
  */
-template <typename Iterator, typename PDF1,  typename PDF2, typename ...PDFs>
-typename std::enable_if< detail::is_iterator<Iterator>::value,
-                 SPlot<Iterator, PDF1, PDF2, PDFs...> >::type
+template<typename Iterator, typename PDF1,  typename PDF2, typename ...PDFs>
+requires (detail::Iterator<Iterator>)
+SPlot<Iterator, PDF1, PDF2, PDFs...>
 make_splot(PDFSumExtendable<PDF1, PDF2, PDFs...> const& pdf, Iterator first, Iterator last) {
 
  return 	SPlot<Iterator, PDF1, PDF2, PDFs...>(pdf, first,last);
@@ -379,9 +380,9 @@ make_splot(PDFSumExtendable<PDF1, PDF2, PDFs...> const& pdf, Iterator first, Ite
  * @param data iterable representing the data-range
  * @return
  */
-template <typename Iterable, typename PDF1,  typename PDF2, typename ...PDFs>
-typename std::enable_if< detail::is_iterable<Iterable>::value,
-                  SPlot< decltype(std::declval<Iterable>().begin()), PDF1, PDF2, PDFs...> >::type
+template<typename Iterable, typename PDF1,  typename PDF2, typename ...PDFs>
+requires (detail::Iterable<Iterable>)
+SPlot< decltype(std::declval<Iterable>().begin()), PDF1, PDF2, PDFs...>
 make_splot(PDFSumExtendable<PDF1, PDF2, PDFs...> const& pdf, Iterable&& data){
 
  return 	SPlot< decltype(std::declval<Iterable>().begin()) ,

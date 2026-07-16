@@ -125,9 +125,8 @@ public:
 
 	//!Fills a range with quasi-random values.
 	template<typename ...T>
-	 __hydra_host__ __hydra_device__
-	inline typename std::enable_if<
-	sizeof...(T)==LatticeT::lattice_dimension, void>::type
+	requires (sizeof...(T)==LatticeT::lattice_dimension)
+	__hydra_host__ __hydra_device__ inline void
 	generate(hydra::tuple<T...>& data){
 		generate_helper(data);
 	}
@@ -227,13 +226,13 @@ protected:
 private:
 
 	 template<typename T, unsigned I>
-	 __hydra_host__ __hydra_device__
-	 inline typename std::enable_if< (I== LatticeT::lattice_dimension), void>::type
+	 requires (I== LatticeT::lattice_dimension)
+	 __hydra_host__ __hydra_device__ inline void
 	 generate_helper(T& ){ }
 
 	 template<typename T, unsigned I=0>
-	 __hydra_host__ __hydra_device__
-	 inline typename std::enable_if< (I< LatticeT::lattice_dimension), void>::type
+	 requires (I< LatticeT::lattice_dimension)
+	 __hydra_host__ __hydra_device__ inline void
 	 generate_helper(T& data){
 		 hydra::get<I>(data)=this->operator()();
 		 generate_helper<T,I+1>(data);

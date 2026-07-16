@@ -33,6 +33,7 @@
 #include <hydra/detail/utility/Integer.h>
 #include <type_traits>
 #include<utility>
+#include <concepts>
 
 namespace hydra {
 
@@ -49,12 +50,12 @@ namespace detail {
  * 64 bit implementation
  */
 template<typename Integer>
-__hydra_host__ __hydra_device__
-inline typename std::enable_if<
-		std::is_integral<Integer>::value  &&
-    	!(std::is_signed<Integer>::value) &&
-    	(std::numeric_limits<Integer>::digits==64)
-    , unsigned>::type
+requires (
+	std::integral<Integer> &&
+	!(std::is_signed<Integer>::value) &&
+	(std::numeric_limits<Integer>::digits==64)
+)
+__hydra_host__ __hydra_device__ inline unsigned
 msb( Integer x){
 
 	if(!x) return 64;
@@ -100,12 +101,12 @@ msb( Integer x){
  * 32 bit implementation
  */
 template<typename Integer>
-__hydra_host__ __hydra_device__
-inline typename std::enable_if<
-		std::is_integral<Integer>::value  &&
-    	!(std::is_signed<Integer>::value) &&
-    	(std::numeric_limits<Integer>::digits<=32)
-    , unsigned>::type
+requires (
+	std::integral<Integer> &&
+	!(std::is_signed<Integer>::value) &&
+	(std::numeric_limits<Integer>::digits<=32)
+)
+__hydra_host__ __hydra_device__ inline unsigned
 msb( Integer x){
 
 	if(!x) return 32;
@@ -146,12 +147,8 @@ msb( Integer x){
  */
 /*
 template<typename Integer>
-__hydra_host__ __hydra_device__
-inline typename std::enable_if<
-		std::is_integral<Integer>::value  &&
-    	!(std::is_signed<Integer>::value) &&
-    	(std::numeric_limits<Integer>::digits==16)
-    , unsigned>::type
+requires (std::integral<Integer> && !(std::is_signed<Integer>::value) && (std::numeric_limits<Integer>::digits==16))
+__hydra_host__ __hydra_device__ inline unsigned
 msb( Integer const& x){
 
 	if(!x) return 16;

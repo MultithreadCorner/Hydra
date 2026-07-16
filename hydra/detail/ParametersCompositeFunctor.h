@@ -40,6 +40,7 @@
 #include <hydra/detail/Constant.h>
 #include <hydra/Parameter.h>
 #include <hydra/Placeholders.h>
+#include <concepts>
 
 namespace hydra {
 
@@ -119,8 +120,8 @@ public:
 
 	}
 
-	template<typename Int,
-	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	template<typename Int>
+	requires (std::integral<Int>)
 	inline const hydra::Parameter& GetParameter(Int i) const {
 
 		std::vector<hydra::Parameter*> _parameters;
@@ -143,8 +144,8 @@ public:
 		return *(_parameters[i]) ;
 	}
 
-	template<typename Int,
-	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	template<typename Int>
+	requires (std::integral<Int>)
 	inline hydra::Parameter& Parameter(Int i) {
 
 		std::vector<hydra::Parameter*> _parameters;
@@ -167,8 +168,8 @@ public:
 	}
 
 
-	template<typename Int,
-	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	template<typename Int>
+	requires (std::integral<Int>)
 	inline void SetParameter(Int i, hydra::Parameter const& value) {
 
 		std::vector<hydra::Parameter*> _parameters;
@@ -177,8 +178,8 @@ public:
 		*(_parameters[i])=value;
 	}
 
-	template<typename Int,
-	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	template<typename Int>
+	requires (std::integral<Int>)
 	inline void SetParameter(Int i, double value) {
 		std::vector<hydra::Parameter*> _parameters;
 		detail::add_parameters_in_tuple(_parameters, fFtorTuple );

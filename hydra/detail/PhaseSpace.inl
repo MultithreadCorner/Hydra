@@ -35,6 +35,7 @@
 #define _PHASESPACE_INL_
 
 #include <hydra/detail/utility/Exception.h>
+#include <hydra/detail/IteratorConcepts.h>
 
 namespace hydra {
 
@@ -313,8 +314,8 @@ void PhaseSpace<N,GRND>::Evaluate( IteratorMother mbegin,
 
 template <size_t N, typename GRND>
 template<typename ...FUNCTOR, typename Iterable>
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
-hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+requires (detail::Iterable<Iterable>)
+inline hydra::Range<decltype(std::declval<Iterable>().begin())>
 PhaseSpace<N,GRND>::Evaluate(Vector4R const& mother, Iterable&& result,
 		FUNCTOR const& ...functors) {
 
@@ -330,9 +331,8 @@ PhaseSpace<N,GRND>::Evaluate(Vector4R const& mother, Iterable&& result,
 
 template <size_t N, typename GRND>
 template<typename ...FUNCTOR, typename IterableMother, typename Iterable>
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value &&
-	hydra::detail::is_iterable<IterableMother>::value,
-				 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+requires (detail::Iterables<Iterable, IterableMother>)
+inline hydra::Range<decltype(std::declval<Iterable>().begin())>
 PhaseSpace<N,GRND>::Evaluate( IterableMother&& mothers, Iterable&& result, FUNCTOR const& ...functors) {
 
 
@@ -376,8 +376,8 @@ void PhaseSpace<N,GRND>::Generate( Iterator1 begin, Iterator1 end, Iterator2 dau
 
 template <size_t N, typename GRND>
 template<typename Iterable>
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
-				 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+requires (detail::Iterable<Iterable>)
+inline hydra::Range<decltype(std::declval<Iterable>().begin())>
 PhaseSpace<N,GRND>::Generate(Vector4R const& mother, Iterable&& events){
 	/**
 	 * Run the generator and calculate the maximum weight. It takes as input the fourvector of the mother particle
@@ -395,9 +395,8 @@ PhaseSpace<N,GRND>::Generate(Vector4R const& mother, Iterable&& events){
 
 template <size_t N, typename GRND>
 template<typename IterableMothers, typename Iterable>
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value &&
-		hydra::detail::is_iterable<IterableMothers>::value,
-					 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+requires (detail::Iterables<Iterable, IterableMothers>)
+inline hydra::Range<decltype(std::declval<Iterable>().begin())>
 PhaseSpace<N,GRND>::Generate( IterableMothers&& mothers, Iterable&& daughters){
 	/**
 	 * Run the generator and calculate the maximum weight. It takes as input the device vector with the four-vectors of the mother particle

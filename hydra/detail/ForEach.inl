@@ -35,12 +35,13 @@
 #include <hydra/Types.h>
 #include <hydra/detail/external/hydra_thrust/for_each.h>
 #include <utility>
+#include <hydra/detail/IteratorConcepts.h>
 
 namespace hydra {
 
 template<typename Iterable, typename Functor>
-	typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
-	Range<decltype(std::declval<Iterable&>().begin())>>::type
+requires (hydra::detail::Iterable<Iterable>)
+Range<decltype(std::declval<Iterable&>().begin())>
 for_each(Iterable&& iterable, Functor const& functor)
 {
 	hydra::thrust::for_each( std::forward<Iterable>(iterable).begin(),

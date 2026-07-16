@@ -39,6 +39,7 @@
 #include <hydra/detail/Hash.h>
 #include <cassert>
 #include <cstddef>
+#include <concepts>
 
 namespace hydra {
 
@@ -174,8 +175,8 @@ public:
 		return &fParameters[0];
 	}
 
-	template<typename Int,
-			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	template<typename Int>
+	requires (std::integral<Int>)
 	__hydra_host__ __hydra_device__ inline
 	const hydra::Parameter& GetParameter(Int i) const {
 		return fParameters[i];
@@ -192,8 +193,8 @@ public:
 		return fParameters[i] ;
 	}
 
-	template<typename Int,
-		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	template<typename Int>
+	requires (std::integral<Int>)
 	__hydra_host__ __hydra_device__ inline
 	hydra::Parameter& Parameter(Int i) {
 		return fParameters[i];
@@ -210,8 +211,8 @@ public:
 		return fParameters[i] ;
 	}
 
-	template<typename Int,
-	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	template<typename Int>
+	requires (std::integral<Int>)
 	__hydra_host__ __hydra_device__ inline
 	void SetParameter(Int i, hydra::Parameter const& value) {
 		fParameters[i]=value;
@@ -223,8 +224,8 @@ public:
 #endif
 	}
 
-	template<typename Int,
-		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	template<typename Int>
+	requires (std::integral<Int>)
 	__hydra_host__ __hydra_device__ inline
 	void SetParameter(Int i, double value) {
 		fParameters[i]=value;
@@ -263,8 +264,8 @@ public:
 		Update();
 	}
 
-	template<typename Int,
-		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	template<typename Int>
+	requires (std::integral<Int>)
 	__hydra_host__ __hydra_device__  inline
 	GReal_t operator[](Int i) const {
 		return (GReal_t ) fParameters[i];

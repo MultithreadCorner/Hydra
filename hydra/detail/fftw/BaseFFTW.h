@@ -49,6 +49,7 @@
 
 //Hydra wrappers
 #include<hydra/detail/fftw/WrappersFFTW.h>
+#include <hydra/detail/IteratorConcepts.h>
 
 namespace hydra {
 
@@ -120,8 +121,8 @@ public:
 
 	template<typename Iterable,
 	typename Type =	typename decltype(*std::declval<Iterable&>().begin())::value_type>
-	inline typename std::enable_if<std::is_convertible<InputType, Type>::value
-	                        && detail::is_iterable<Iterable>::value, void>::type
+	requires (std::is_convertible_v<InputType, Type> && hydra::detail::Iterable<Iterable>)
+	inline void
 	LoadInputData( Iterable&& container)
 	{
 

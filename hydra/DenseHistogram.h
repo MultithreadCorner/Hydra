@@ -44,6 +44,8 @@
 #include <type_traits>
 #include <utility>
 #include <array>
+#include <hydra/detail/IteratorConcepts.h>
+#include <concepts>
 
 
 namespace hydra {
@@ -51,8 +53,8 @@ namespace hydra {
 /**
  * \ingroup histogram
  */
-template< typename T, std::size_t N, typename BACKEND, typename = typename detail::dimensionality<N>::type,
-	typename = typename std::enable_if<std::is_arithmetic<T>::value, void>::type>
+template< typename T, size_t N, typename BACKEND, typename = typename detail::dimensionality<N>::type>
+requires (std::is_arithmetic<T>::value)
 class DenseHistogram;
 
 /**
@@ -107,7 +109,8 @@ public:
 		fContents.resize(fNBins  +2);
 	}
 
-	template<typename Int, typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	template<typename Int>
+	requires (std::integral<Int>)
 	DenseHistogram( std::array<Int, N> grid, std::array<double, N> const& lowerlimits,   std::array<double, N> const& upperlimits):
 					fNBins(1)
 		{
@@ -121,7 +124,8 @@ public:
 			fContents.resize(fNBins +2 );
 		}
 
-	template<typename Int, typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	template<typename Int>
+	requires (std::integral<Int>)
 	DenseHistogram( Int (&grid)[N],	double (&lowerlimits)[N], double (&upperlimits)[N] ):
 				fNBins(1)
 		{
@@ -268,8 +272,8 @@ public:
 		return bin;
 	}
 
-	 template<typename Int,
-	 		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	 template<typename Int>
+	 requires (std::integral<Int>)
 	 inline 	size_t GetBin( Int  (&bins)[N]){
 
 		size_t bin=0;
@@ -279,8 +283,8 @@ public:
 		return bin;
 	}
 
-	 template<typename Int,
-	 		typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	 template<typename Int>
+	 requires (std::integral<Int>)
 	 inline size_t GetBin( std::array<Int,N> const&  bins){
 
 		size_t bin=0;
@@ -300,15 +304,15 @@ public:
 		get_indexes(globalbin, bins);
 	}
 
-	 template<typename Int,
-	 			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	 template<typename Int>
+	 requires (std::integral<Int>)
 	 inline void GetIndexes(size_t globalbin,  Int  (&bins)[N]){
 
 		get_indexes(globalbin, bins);
 	}
 
-	 template<typename Int,
-	 			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	 template<typename Int>
+	 requires (std::integral<Int>)
 	 inline void GetIndexes(size_t globalbin, std::array<Int,N>&  bins){
 
 		get_indexes(globalbin, bins);
@@ -338,8 +342,8 @@ public:
 				std::numeric_limits<double>::max();
 	}
 
-	 template<typename Int,
-	 			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	 template<typename Int>
+	 requires (std::integral<Int>)
 	 inline double GetBinContent( Int (&bins)[N]){
 
 		size_t bin=0;
@@ -351,8 +355,8 @@ public:
 				std::numeric_limits<double>::max();
 	}
 
-	 template<typename Int,
-	 			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	 template<typename Int>
+	 requires (std::integral<Int>)
 	 inline double GetBinContent( std::array<Int, N> const& bins){
 
 		size_t bin=0;
@@ -412,15 +416,18 @@ public:
 
 
     template<size_t M=N>
-    inline typename std::enable_if< M==2, T >::type
+    requires (M==2)
+    inline T
 	Interpolate( std::array<size_t,2> const&  point);
 
     template<size_t M=N>
-    inline typename std::enable_if< M==3, T >::type
+    requires (M==3)
+    inline T
   	Interpolate( std::array<size_t,3> const&  point);
 
     template<size_t M=N>
-    inline typename std::enable_if< M==4, T >::type
+    requires (M==4)
+    inline T
     Interpolate( std::array<size_t,4> const&  point);
 
 	//stl range interface
@@ -467,16 +474,15 @@ public:
 	 Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
 	template<typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
-	 DenseHistogram<T,N, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>&>::type
+	requires (hydra::detail::Iterable<Iterable>)
+	inline DenseHistogram<T,N, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 	Fill(Iterable& container){
 		return this->Fill( container.begin(), container.end());
 	}
 
 	template<typename Iterable1, typename Iterable2>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value
-	&&  hydra::detail::is_iterable<Iterable2>::value,
-	 DenseHistogram<T,N, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>& >::type
+	requires (detail::Iterables<Iterable1, Iterable2>)
+	inline DenseHistogram<T,N, hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional>&
 	Fill(Iterable1& container, Iterable2& wbegin){
 		return this->Fill( container.begin(), container.end(), wbegin.begin());
 	}
@@ -496,11 +502,13 @@ private:
 	//k = i_1*(dim_2*...*dim_n) + i_2*(dim_3*...*dim_n) + ... + i_{n-1}*dim_n + i_n
 
 	template<typename Int,size_t I>
-	typename hydra::thrust::detail::enable_if< (I== N) && std::is_integral<Int>::value, void>::type
+	requires detail::IndexEnd<Int, I, N>
+	void
 	get_global_bin(const Int (&)[N], size_t&){ }
 
 	template<typename Int,size_t I=0>
-	typename hydra::thrust::detail::enable_if< (I< N) && std::is_integral<Int>::value, void>::type
+	requires detail::IndexStep<Int, I, N>
+	void
 	get_global_bin(const Int (&indexes)[N], size_t& index)
 	{
 		size_t prod =1;
@@ -512,11 +520,13 @@ private:
 	}
 
 	template<typename Int,size_t I>
-	typename hydra::thrust::detail::enable_if< (I== N) && std::is_integral<Int>::value, void>::type
+	requires detail::IndexEnd<Int, I, N>
+	void
 	get_global_bin( std::array<Int,N> const& , size_t&){ }
 
 	template<typename Int,size_t I=0>
-	typename hydra::thrust::detail::enable_if< (I< N) && std::is_integral<Int>::value, void>::type
+	requires detail::IndexStep<Int, I, N>
+	void
 	get_global_bin( std::array<Int,N> const& indexes, size_t& index)
 	{
 		size_t prod =1;
@@ -538,12 +548,14 @@ private:
 	// multiply  std::array elements
 	//----------------------------------------
 	template<size_t I>
-	typename std::enable_if< (I==N), void  >::type
+	requires detail::LoopEnd<I, N>
+	void
 	multiply( std::array<size_t, N> const&, size_t& )
 	{ }
 
 	template<size_t I=0>
-	typename std::enable_if< (I<N), void  >::type
+	requires detail::LoopGoing<I, N>
+	void
 	multiply( std::array<size_t, N> const&  obj, size_t& result )
 	{
 		result = I==0? 1.0: result;
@@ -555,12 +567,14 @@ private:
 	// multiply static array elements
 	//----------------------------------------
 	template< size_t I>
-	typename std::enable_if< (I==N), void  >::type
+	requires detail::LoopEnd<I, N>
+	void
 	multiply( size_t (&)[N] , size_t& )
 	{ }
 
 	template<size_t I=0>
-	typename std::enable_if< (I<N), void  >::type
+	requires detail::LoopGoing<I, N>
+	void
 	multiply( size_t (&obj)[N], size_t& result )
 	{
 		result = I==0? 1.0: result;
@@ -573,16 +587,16 @@ private:
 	// std::array version
 	//-------------------------
 	//end of recursion
-	template<typename Int, size_t I,
-	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-	typename std::enable_if< (I==N), void  >::type
+	template<typename Int, size_t I>
+	requires detail::IndexEnd<Int, I, N>
+	void
 	get_indexes(size_t ,  std::array<Int,N>& )
 	{}
 
 	//begin of the recursion
-	template<typename Int, size_t I=0,
-			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-	typename std::enable_if< (I<N), void  >::type
+	template<typename Int, size_t I=0>
+	requires detail::IndexStep<Int, I, N>
+	void
 	get_indexes(size_t index, std::array<Int,N>& indexes)
 	{
 		size_t factor    =  1;
@@ -596,16 +610,16 @@ private:
 	// static array version
 	//-------------------------
 	//end of recursion
-	template<typename Int, size_t I,
-	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-	typename std::enable_if< (I==N), void  >::type
+	template<typename Int, size_t I>
+	requires detail::IndexEnd<Int, I, N>
+	void
 	get_indexes(size_t, Int (&)[N])
 	{}
 
 	//begin of the recursion
-	template<typename Int, size_t I=0,
-			typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
-	typename std::enable_if< (I<N), void  >::type
+	template<typename Int, size_t I=0>
+	requires detail::IndexStep<Int, I, N>
+	void
 	get_indexes(size_t index, Int (&indexes)[N] )
 	{
 		size_t factor    =  1;
@@ -827,16 +841,15 @@ public:
 	Fill(Iterator1 begin, Iterator1 end, Iterator2 wbegin);
 
 	template<typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
-	DenseHistogram<T,1, hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional>& >::type
+	requires (hydra::detail::Iterable<Iterable>)
+	inline DenseHistogram<T,1, hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional>&
 	Fill(Iterable&& container){
 		return this->Fill( std::forward<Iterable>(container).begin(), std::forward<Iterable>(container).end());
 	}
 
 	template<typename Iterable1, typename Iterable2>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value
-	&&  hydra::detail::is_iterable<Iterable2>::value,
-	DenseHistogram<T,1, hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional>& >::type
+	requires (detail::Iterables<Iterable1, Iterable2>)
+	inline DenseHistogram<T,1, hydra::detail::BackendPolicy<BACKEND>, detail::unidimensional>&
 	Fill(Iterable1&& container, Iterable2&& wbegin){
 		return this->Fill( container.begin(), container.end(), wbegin.begin());
 	}
@@ -893,8 +906,8 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t,
  * @return
  */
 template<typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable >
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
-DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
+requires (hydra::detail::Iterable<Iterable>)
+inline DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> const& grid,
 		std::array<double, N> const& lowerlimits,   std::array<double, N> const& upperlimits,	Iterable&& data);
 
@@ -911,9 +924,8 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t,
  * @return
  */
 template<typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable1, typename Iterable2 >
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value &&
-                    hydra::detail::is_iterable<Iterable2>::value,
-DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
+requires (detail::Iterables<Iterable1, Iterable2>)
+inline DenseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 make_dense_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> const&  grid,
 		std::array<double, N> const& lowerlimits,   std::array<double, N> const& upperlimits,
 		Iterable1&& data, Iterable2&& weight);
@@ -967,8 +979,8 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins,
  * @return
  */
 template<typename T, hydra::detail::Backend BACKEND, typename Iterable>
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
-DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
+requires (hydra::detail::Iterable<Iterable>)
+inline DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
 make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins,
 		double lowerlimits,  double upperlimits,	Iterable&& data);
 
@@ -985,9 +997,8 @@ make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins,
  * @return
  */
 template<typename T, hydra::detail::Backend BACKEND, typename Iterable1,  typename Iterable2>
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value&&
-                                hydra::detail::is_iterable<Iterable2>::value,
-DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
+requires (detail::Iterables<Iterable1, Iterable2>)
+inline DenseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
 make_dense_histogram( detail::BackendPolicy<BACKEND> backend, size_t nbins,
 		double lowerlimits,  double upperlimits,	Iterable1&& data,	Iterable2&& weight);
 

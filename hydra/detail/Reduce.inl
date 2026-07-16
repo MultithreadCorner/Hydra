@@ -35,12 +35,13 @@
 #include <hydra/detail/external/hydra_thrust/reduce.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/Range.h>
+#include <hydra/detail/IteratorConcepts.h>
 
 namespace hydra {
 
 template<typename Iterable>
-typename std::enable_if<hydra::detail::is_iterable<Iterable>::value,
-typename hydra::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type >::type
+requires (detail::Iterable<Iterable>)
+typename hydra::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type
 reduce(Iterable&& iterable){
 
 	return hydra::thrust::reduce(std::forward<Iterable>(iterable).begin(),
@@ -50,7 +51,8 @@ reduce(Iterable&& iterable){
 template<typename Iterable, typename Functor,
  	 	 typename T = typename hydra::thrust::iterator_traits<
 		     decltype(std::declval<Iterable>().begin())>::value_type >
-typename std::enable_if<hydra::detail::is_iterable<Iterable>::value, T >::type
+requires (detail::Iterable<Iterable>)
+T
 reduce(Iterable&& iterable, T const& init, Functor const& binary_functor){
 
 

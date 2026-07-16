@@ -63,8 +63,9 @@ class  GenzMalikQuadrature;
  * J. Berntsen, T. O. Espelid, and A. Genz, "An adaptive algorithm for the approximate calculation of multiple integrals," ACM Trans. Math. Soft. 17 (4), 437–451 (1991)
  */
 template<  size_t N, hydra::detail::Backend  BACKEND>
+requires (N>1)
 class  GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND> >:
-public Integral<typename std::enable_if< (N>1),GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>>::type  >
+public Integral<GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>> >
 {
 	typedef  hydra::detail::BackendPolicy<BACKEND> system_type;
 

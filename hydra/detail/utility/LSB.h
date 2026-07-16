@@ -33,6 +33,7 @@
 #include <hydra/detail/utility/Integer.h>
 #include<type_traits>
 #include<utility>
+#include <concepts>
 
 namespace hydra {
 
@@ -49,12 +50,8 @@ namespace detail {
  * 64 bit implementation
  */
 template<typename Integer>
-__hydra_host__ __hydra_device__
-inline typename std::enable_if<
-		std::is_integral<Integer>::value  &&
-    	!(std::is_signed<Integer>::value) &&
-    	(sizeof(Integer)==8)
-    , unsigned>::type
+requires (std::integral<Integer> && !(std::is_signed<Integer>::value) && (sizeof(Integer)==8))
+__hydra_host__ __hydra_device__ inline unsigned
 lsb( Integer x){
 
 	if(!x) return 64;
@@ -109,12 +106,8 @@ lsb( Integer x){
  * 32 bit implementation
  */
 template<typename Integer>
-__hydra_host__ __hydra_device__
-inline typename std::enable_if<
-		std::is_integral<Integer>::value  &&
-    	!(std::is_signed<Integer>::value) &&
-    	(sizeof(Integer)==4)
-    , unsigned>::type
+requires (std::integral<Integer> && !(std::is_signed<Integer>::value) && (sizeof(Integer)==4))
+__hydra_host__ __hydra_device__ inline unsigned
 lsb( Integer x){
 
 	if(!x) return 32;

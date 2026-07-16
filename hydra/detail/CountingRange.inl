@@ -32,6 +32,7 @@
 #include <hydra/detail/Config.h>
 #include <hydra/detail/external/hydra_thrust/iterator/counting_iterator.h>
 #include <type_traits>
+#include <concepts>
 
 namespace hydra {
 
@@ -91,8 +92,8 @@ range(long int first, long int last ){
 }
 
 template<typename T>
-inline typename std::enable_if< std::is_floating_point<T>::value,
-   Range<hydra::thrust::counting_iterator<unsigned>, detail::range::Shift<T>> >::type
+requires (std::floating_point<T>)
+inline Range<hydra::thrust::counting_iterator<unsigned>, detail::range::Shift<T>>
 range(T min, T max, unsigned nbins ){
 
 	T delta = (max-min)/nbins;

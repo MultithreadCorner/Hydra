@@ -35,6 +35,8 @@
 #include <hydra/detail/external/hydra_thrust/iterator/transform_iterator.h>
 #include <hydra/detail/FunctorTraits.h>
 #include <utility>
+#include <hydra/detail/IteratorConcepts.h>
+#include <hydra/detail/FunctorConcepts.h>
 
 namespace hydra {
 
@@ -138,15 +140,15 @@ private:
 };
 
 template<typename Iterator, typename Functor>
-typename hydra::thrust::detail::enable_if< detail::is_hydra_functor<Functor>::value , Range<Iterator, Functor> >::type
+requires (detail::HydraFunctor<Functor>)
+Range<Iterator, Functor>
 make_range(Iterator begin, Iterator end, Functor const& functor ){
 	return Range<Iterator, Functor>( begin, end, functor);
 }
 
 template<typename Iterator, typename Functor>
-typename hydra::thrust::detail::enable_if<
-    detail::is_hydra_functor<Functor>::value ,
-    Range<hydra::thrust::reverse_iterator<Iterator>, Functor> >::type
+requires (detail::HydraFunctor<Functor>)
+Range<hydra::thrust::reverse_iterator<Iterator>, Functor>
 make_reverse_range(Iterator begin, Iterator end,Functor const& functor ){
 
 	typedef hydra::thrust::reverse_iterator<Iterator> reverse_iterator_type;
@@ -159,10 +161,8 @@ make_reverse_range(Iterator begin, Iterator end,Functor const& functor ){
 
 
 template<typename Iterable, typename Functor>
-typename hydra::thrust::detail::enable_if<
-	detail::is_iterable<Iterable>::value &&
-	detail::is_hydra_functor<Functor>::value,
- Range<decltype(std::declval<Iterable>().begin()), Functor> >::type
+requires (detail::Iterable<Iterable> && detail::HydraFunctor<Functor>)
+Range<decltype(std::declval<Iterable>().begin()), Functor>
 make_range(Iterable const& iterable,Functor const& functor ){
 
 	typedef decltype(hydra::begin(iterable)) iterator_type;
@@ -171,10 +171,8 @@ make_range(Iterable const& iterable,Functor const& functor ){
 }
 
 template<typename Iterable, typename Functor>
-typename hydra::thrust::detail::enable_if<
-	detail::is_iterable<Iterable>::value &&
-	detail::is_hydra_functor<Functor>::value,
- Range<decltype(std::declval<Iterable>().begin()), Functor> >::type
+requires (detail::Iterable<Iterable> && detail::HydraFunctor<Functor>)
+Range<decltype(std::declval<Iterable>().begin()), Functor>
 make_range(Iterable&& iterable,Functor const& functor ){
 
 	typedef decltype(hydra::begin(std::forward<Iterable>(iterable))) iterator_type;
@@ -185,10 +183,8 @@ make_range(Iterable&& iterable,Functor const& functor ){
 
 
 template<typename Iterable, typename Functor>
-typename hydra::thrust::detail::enable_if<
-    detail::is_reverse_iterable<Iterable>::value &&
-    detail::is_hydra_functor<Functor>::value ,
-    Range<decltype(std::declval<Iterable>().rbegin()), Functor> >::type
+requires (detail::ReverseIterable<Iterable> && detail::HydraFunctor<Functor>)
+Range<decltype(std::declval<Iterable>().rbegin()), Functor>
 make_reverse_range(Iterable const& iterable,Functor const& functor ){
 
 	typedef decltype(hydra::rbegin(iterable)) iterator_reverse_type;
@@ -198,10 +194,8 @@ make_reverse_range(Iterable const& iterable,Functor const& functor ){
 
 
 template<typename Iterable, typename Functor>
-typename hydra::thrust::detail::enable_if<
-    detail::is_reverse_iterable<Iterable>::value &&
-    detail::is_hydra_functor<Functor>::value ,
-    Range<decltype(std::declval<Iterable>().rbegin()), Functor> >::type
+requires (detail::ReverseIterable<Iterable> && detail::HydraFunctor<Functor>)
+Range<decltype(std::declval<Iterable>().rbegin()), Functor>
 make_reverse_range(Iterable&& iterable,Functor const& functor ){
 
 	typedef decltype(hydra::rbegin( std::forward<Iterable>(iterable) )) iterator_reverse_type;
@@ -211,11 +205,8 @@ make_reverse_range(Iterable&& iterable,Functor const& functor ){
 
 
 template<typename Iterable, typename Functor>
-typename hydra::thrust::detail::enable_if<
-    detail::is_iterable<Iterable>::value &&
-    ( detail::is_hydra_functor<Functor>::value ||
-      detail::is_hydra_lambda<Functor>::value ) ,
-    Range<decltype(std::declval< const Iterable>().begin()), Functor> >::type
+requires (detail::Iterable<Iterable> && detail::HydraCallable<Functor>)
+Range<decltype(std::declval< const Iterable>().begin()), Functor>
 operator|(Iterable const& iterable, Functor const& functor){
 
 	typedef decltype(hydra::begin(iterable)) iterator_type;
@@ -225,11 +216,8 @@ operator|(Iterable const& iterable, Functor const& functor){
 
 
 template<typename Iterable, typename Functor>
-typename hydra::thrust::detail::enable_if<
-    detail::is_iterable<Iterable>::value &&
-    (detail::is_hydra_functor<Functor>::value ||
-     detail::is_hydra_lambda<Functor>::value ),
-    Range<decltype(std::declval<Iterable>().begin()), Functor> >::type
+requires (detail::Iterable<Iterable> && detail::HydraCallable<Functor>)
+Range<decltype(std::declval<Iterable>().begin()), Functor>
 operator|(Iterable&& iterable, Functor const& functor){
 
 	typedef decltype(hydra::begin( std::forward<Iterable>(iterable) )) iterator_type;
@@ -239,11 +227,10 @@ operator|(Iterable&& iterable, Functor const& functor){
 }
 
 template<typename Iterable>
-typename hydra::thrust::detail::enable_if<
-    detail::is_iterable<Iterable>::value ,
-    Range<
+requires (detail::Iterable<Iterable>)
+Range<
      hydra::thrust::reverse_iterator<
-     	 decltype(std::declval<Iterable>().begin()) >>>::type
+     	 decltype(std::declval<Iterable>().begin()) >>
 reverse(Iterable&& iterable) {
 
 	typedef decltype(hydra::begin(iterable)) iterator_type;

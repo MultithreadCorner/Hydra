@@ -40,6 +40,7 @@
 #include <hydra/Parameter.h>
 #include <hydra/Placeholders.h>
 #include <hydra/detail/TupleTraits.h>
+#include <concepts>
 
 namespace hydra {
 
@@ -73,12 +74,13 @@ public:
 	{}
 
 	__hydra_host__ __hydra_device__
-	inline typename std::enable_if<
-	std::is_copy_constructible<F0>::value &&
-	std::is_copy_constructible<F1>::value &&
-	detail::all_true<std::is_copy_constructible<Fs>::value...>::value,
-		 CompositeBase<F0,F1,Fs...>&>::type
+	inline CompositeBase<F0,F1,Fs...>&
     operator=(CompositeBase<F0,F1,Fs...> const& other)
+	requires (
+		(std::is_copy_constructible_v<F0>) &&
+	    (std::is_copy_constructible_v<F1>) &&
+	    (detail::all_true<std::is_copy_constructible_v<Fs>...>::value)
+	)
 	{
 		if(this==&other)return *this;
 
@@ -131,8 +133,8 @@ public:
 
 	}
 
-	template<typename Int,
-	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	template<typename Int>
+	requires (std::integral<Int>)
 	inline const hydra::Parameter& GetParameter(Int i) const {
 
 		std::vector<hydra::Parameter*> _parameters;
@@ -155,8 +157,8 @@ public:
 		return *(_parameters[i]) ;
 	}
 
-	template<typename Int,
-	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	template<typename Int>
+	requires (std::integral<Int>)
 	inline hydra::Parameter& Parameter(Int i) {
 
 		std::vector<hydra::Parameter*> _parameters;
@@ -179,8 +181,8 @@ public:
 	}
 
 
-	template<typename Int,
-	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	template<typename Int>
+	requires (std::integral<Int>)
 	inline void SetParameter(Int i, hydra::Parameter const& value) {
 
 		std::vector<hydra::Parameter*> _parameters;
@@ -189,8 +191,8 @@ public:
 		*(_parameters[i])=value;
 	}
 
-	template<typename Int,
-	typename = typename std::enable_if<std::is_integral<Int>::value, void>::type>
+	template<typename Int>
+	requires (std::integral<Int>)
 	inline void SetParameter(Int i, double value) {
 		std::vector<hydra::Parameter*> _parameters;
 		detail::add_parameters_in_tuple(_parameters, fFtorTuple );

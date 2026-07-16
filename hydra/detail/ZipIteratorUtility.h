@@ -155,14 +155,16 @@ template<typename ...T>
 struct flat_tuple: merged_tuple< typename do_tuple<T>::type... > {};
 
 template<typename T>
-typename std::enable_if<is_tuple<T>::value, T>::type
+requires (is_tuple<T>::value)
+T
 tupler( T const& data )
 {
     return data;
 }
 
 template<typename T>
-typename std::enable_if< !is_tuple<T>::value , std::tuple<T> >::type
+requires (!is_tuple<T>::value)
+std::tuple<T>
 tupler( T const& data )
 {
     return std::make_tuple( data );
@@ -205,8 +207,8 @@ namespace detail {
 
 
 template<typename ...T>
-typename std::enable_if< all_true<is_zip_iterator<T>::value...>::value,
-                 typename detail::merged_zip_iterator<T...>::type >::type
+requires (all_true<is_zip_iterator<T>::value...>::value)
+typename detail::merged_zip_iterator<T...>::type
 zip_iterator_cat( T const&... zip_iterators)
 {
 	return hydra::thrust::make_zip_iterator(
@@ -216,19 +218,17 @@ zip_iterator_cat( T const&... zip_iterators)
 namespace meld_iterators_ns {
 
 template<typename T>
+requires (detail::is_iterator<T>::value && detail::is_zip_iterator<T>::value)
 auto convert_to_tuple(T&& iterator)
--> typename std::enable_if< detail::is_iterator<T>::value &&
-                            detail::is_zip_iterator<T>::value,
-    decltype( std::declval<T>().get_iterator_tuple() ) >::type
+-> decltype( std::declval<T>().get_iterator_tuple() )
 {
 	return std::forward<T>(iterator).get_iterator_tuple();
 }
 
 template<typename T>
+requires (detail::is_iterator<T>::value && (!detail::is_zip_iterator<T>::value))
 auto convert_to_tuple(T&& iterator)
--> typename std::enable_if< detail::is_iterator<T>::value &&
-                          (!detail::is_zip_iterator<T>::value),
-hydra::thrust::tuple<T> >::type
+-> hydra::thrust::tuple<T>
 {
 	return hydra::thrust::make_tuple(std::forward<T>(iterator));
 }

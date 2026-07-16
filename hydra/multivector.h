@@ -50,6 +50,8 @@
 #include <hydra/detail/external/hydra_thrust/detail/type_traits.h>
 #include <hydra/detail/external/hydra_thrust/iterator/transform_iterator.h>
 #include <array>
+#include <hydra/detail/IteratorConcepts.h>
+#include <concepts>
 
 
 namespace hydra {
@@ -174,7 +176,8 @@ public:
 	 * Constructor initializing the multivector with \p n copies of \p value .
 	 * @param pair hydra::pair<size_t, hydra::tuple<T...> >  object to copy from.
 	 */
-	template<typename Int, typename = typename hydra::thrust::detail::enable_if<std::is_integral<Int>::value>::type >
+	template<typename Int>
+	requires (std::integral<Int>)
 	multivector(hydra::pair<Int, hydra::thrust::tuple<T...> > const& pair)
 	{
 		__resize(pair.first);
@@ -224,12 +227,12 @@ public:
 		hydra::thrust::copy(first, last, begin());
 
 	}
-	template< typename Iterable,
-	          typename = typename std::enable_if<
-	           (detail::is_iterable<Iterable>::value) &&
-	          !(detail::is_iterator<Iterable>::value) &&
-	           (std::is_convertible<decltype(*std::declval<Iterable>().begin()), value_type>::value)
-	          >::type >
+	template< typename Iterable>
+	requires (
+		(detail::Iterable<Iterable>) &&
+		(!detail::Iterator<Iterable>) &&
+		(std::is_convertible<decltype(*std::declval<Iterable>().begin()), value_type>::value)
+	)
 	multivector(Iterable&& other )
 	{
 		__resize( hydra::thrust::distance(
@@ -434,10 +437,11 @@ public:
      *                        and \p InputIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>.
      */
 	template< typename InputIterator>
-	inline 	typename hydra::thrust::detail::enable_if<
-	detail::is_zip_iterator<InputIterator>::value &&
-	std::is_convertible<typename hydra::thrust::iterator_traits<InputIterator>::value_type,
-	value_type>::value, void>::type
+	requires (
+		detail::is_zip_iterator<InputIterator>::value &&
+		std::is_convertible<typename hydra::thrust::iterator_traits<InputIterator>::value_type, value_type>::value
+	)
+	inline void
 	insert(iterator pos, InputIterator first, InputIterator last)
 	{
 		size_type position = hydra::thrust::distance(begin(), pos);
@@ -827,9 +831,9 @@ public:
 
 
 	template<typename ...Iterables>
+	requires (hydra::detail::Iterable<Iterables> && ...)
 	auto meld( Iterables&& ...iterables)
-	-> typename std::enable_if<detail::all_true<detail::is_iterable<Iterables>::value...>::value,
-	hydra::Range<decltype(detail::meld_iterators(begin(), std::forward<Iterables>(iterables).begin()... ))>>::type
+	-> hydra::Range<decltype(detail::meld_iterators(begin(), std::forward<Iterables>(iterables).begin()... ))>
 	{
 			auto first = detail::meld_iterators(begin(), std::forward<Iterables>(iterables).begin()... );
 			auto last  = detail::meld_iterators(end(), std::forward<Iterables>(iterables).end()... );
@@ -913,11 +917,13 @@ private:
 	//__________________________________________
 	// pop_back
 	template<size_t I>
-	 inline typename hydra::thrust::detail::enable_if<(I == N), void >::type
+	requires detail::LoopEnd<I, N>
+	inline void
 	__pop_back(){}
 
 	template<size_t I=0>
-	 inline typename hydra::thrust::detail::enable_if<(I < N), void >::type
+	requires detail::LoopGoing<I, N>
+	inline void
 	__pop_back()
 	{
 		 hydra::thrust::get<I>(fData).pop_back();
@@ -928,11 +934,13 @@ private:
 	//__________________________________________
 	// resize
 	template<size_t I>
-	 inline typename hydra::thrust::detail::enable_if<(I == N), void >::type
+	requires detail::LoopEnd<I, N>
+	inline void
 	__resize(size_type){}
 
 	template<size_t I=0>
-	 inline typename hydra::thrust::detail::enable_if<(I < N), void >::type
+	requires detail::LoopGoing<I, N>
+	inline void
 	__resize(size_type n)
 	{
 		hydra::thrust::get<I>(fData).resize(n);
@@ -942,11 +950,13 @@ private:
 	//__________________________________________
 	// push_back
 	template<size_t I>
-	 inline typename hydra::thrust::detail::enable_if<(I == N), void >::type
+	requires detail::LoopEnd<I, N>
+	inline void
 	__push_back( value_type const& ){}
 
 	template<size_t I=0>
-	 inline typename hydra::thrust::detail::enable_if<(I < N), void >::type
+	requires detail::LoopGoing<I, N>
+	inline void
 	__push_back( value_type const& value )
 	{
 		hydra::thrust::get<I>(fData).push_back( hydra::thrust::get<I>(value) );
@@ -956,11 +966,13 @@ private:
 	//__________________________________________
 	// clear
 	template<size_t I>
-	 inline typename hydra::thrust::detail::enable_if<(I == N), void >::type
+	requires detail::LoopEnd<I, N>
+	inline void
 	__clear(){}
 
 	template<size_t I=0>
-	 inline typename hydra::thrust::detail::enable_if<(I < N), void >::type
+	requires detail::LoopGoing<I, N>
+	inline void
 	__clear( )
 	{
 		hydra::thrust::get<I>(fData).clear();
@@ -970,11 +982,13 @@ private:
 	//__________________________________________
 	// shrink_to_fit
 	template<size_t I>
-	 inline typename hydra::thrust::detail::enable_if<(I == N), void >::type
+	requires detail::LoopEnd<I, N>
+	inline void
 	__shrink_to_fit(){}
 
 	template<size_t I=0>
-	 inline typename hydra::thrust::detail::enable_if<(I < N), void >::type
+	requires detail::LoopGoing<I, N>
+	inline void
 	__shrink_to_fit( )
 	{
 		hydra::thrust::get<I>(fData).shrink_to_fit();
@@ -984,11 +998,13 @@ private:
 	//__________________________________________
 	// shrink_to_fit
 	template<size_t I>
-	 inline typename hydra::thrust::detail::enable_if<(I == N), void >::type
+	requires detail::LoopEnd<I, N>
+	inline void
 	__reserve(size_type ){}
 
 	template<size_t I=0>
-	 inline typename hydra::thrust::detail::enable_if<(I < N), void >::type
+	requires detail::LoopGoing<I, N>
+	inline void
 	__reserve(size_type size )
 	{
 		hydra::thrust::get<I>(fData).reserve(size);
@@ -998,11 +1014,13 @@ private:
 	//__________________________________________
 	// erase
 	template<size_t I>
-	 inline typename hydra::thrust::detail::enable_if<(I == N), void>::type
+	requires detail::LoopEnd<I, N>
+	inline void
 	__erase_helper( size_type ){ }
 
 	template<size_t I=0>
-	 inline typename hydra::thrust::detail::enable_if<(I < N), void>::type
+	requires detail::LoopGoing<I, N>
+	inline void
 	__erase_helper(size_type position )
 	{
 		hydra::thrust::get<I>(fData).erase(
@@ -1021,11 +1039,13 @@ private:
 	// erase
 
 	template<size_t I>
-	 inline typename hydra::thrust::detail::enable_if<(I == N), void>::type
+	requires detail::LoopEnd<I, N>
+	inline void
 	__erase_helper( size_type ,  size_type ){}
 
 	template<size_t I=0>
-	 inline typename hydra::thrust::detail::enable_if<(I < N), void>::type
+	requires detail::LoopGoing<I, N>
+	inline void
 	__erase_helper( size_type first_position,  size_type last_position)
 	{
 		hydra::thrust::get<I>(fData).erase(
@@ -1045,11 +1065,13 @@ private:
 	//__________________________________________
 	// insert
 	template<size_t I>
-	 inline typename hydra::thrust::detail::enable_if<(I == N), void >::type
+	requires detail::LoopEnd<I, N>
+	inline void
 	__insert_helper( size_type ,  const value_type&){}
 
 	template<size_t I=0>
-	 inline typename hydra::thrust::detail::enable_if<(I < N), void >::type
+	requires detail::LoopGoing<I, N>
+	inline void
 	__insert_helper( size_type position,  const value_type &x)
 	{
 		hydra::thrust::get<I>(fData).insert(
@@ -1069,11 +1091,13 @@ private:
 	//__________________________________________
 	// insert
 	template<size_t I>
-	 inline typename hydra::thrust::detail::enable_if<(I == N), void >::type
+	requires detail::LoopEnd<I, N>
+	inline void
 	__insert_helper( size_type, size_type, const value_type & ){}
 
 	template<size_t I=0>
-	 inline typename hydra::thrust::detail::enable_if<(I < N), void >::type
+	requires detail::LoopGoing<I, N>
+	inline void
 	__insert_helper( size_type position, size_type n, const value_type &x)
 	{
 		hydra::thrust::get<I>(fData).insert(
@@ -1091,11 +1115,13 @@ private:
 	//__________________________________________
 	// insert
 	template<size_t I,typename InputIterator >
-	 inline typename hydra::thrust::detail::enable_if<(I == N), void >::type
+	requires detail::LoopEnd<I, N>
+	inline void
 	__insert(size_type , InputIterator , InputIterator  ){}
 
 	template<size_t I=0,typename InputIterator >
-	 inline typename hydra::thrust::detail::enable_if<(I < N), void >::type
+	requires detail::LoopGoing<I, N>
+	inline void
 	__insert(size_type position, InputIterator first, InputIterator last  )
 	{
 		hydra::thrust::get<I>(fData).insert(hydra::thrust::get<I>(fData).begin() + position,

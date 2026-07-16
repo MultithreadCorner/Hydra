@@ -49,6 +49,7 @@
 namespace hydra {
 
 template<size_t N,hydra::detail::Backend  BACKEND>
+requires (N>1)
 void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(
 		std::array<GReal_t,N> const& LowerLimit,
 		std::array<GReal_t,N> const& UpperLimit,
@@ -89,6 +90,7 @@ void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(
 
 
 template<size_t N,hydra::detail::Backend  BACKEND>
+requires (N>1)
 void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(
 		std::array<GReal_t,N> const& LowerLimit,
 		std::array<GReal_t,N> const& UpperLimit, size_t nboxes){
@@ -129,6 +131,7 @@ void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(
 
 
 template<size_t N,hydra::detail::Backend  BACKEND>
+requires (N>1)
 void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(
 		const GReal_t (&LowerLimit)[N],
 		const GReal_t (&UpperLimit)[N], const size_t (&grid)[N]){
@@ -165,6 +168,7 @@ void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(
 
 
 template<size_t N,hydra::detail::Backend  BACKEND>
+requires (N>1)
 void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(const GReal_t (&LowerLimit)[N],
 		const GReal_t (&UpperLimit)[N],	size_t nboxes)
 		{
@@ -204,12 +208,14 @@ void GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::SetGeometry(
 
 
 template<size_t N, hydra::detail::Backend  BACKEND>
+requires (N>1)
 GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::GenzMalikQuadrature( GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>> const& other):
 fBoxList(other.GetBoxList() ),
 fGenzMalikRule(other.GetGenzMalikRule() )
 {}
 
 template<size_t N, hydra::detail::Backend  BACKEND>
+requires (N>1)
 template<hydra::detail::Backend  BACKEND2>
 GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND>>::GenzMalikQuadrature( GenzMalikQuadrature<N, hydra::detail::BackendPolicy<BACKEND2>> const& other):
 fBoxList(other.GetBoxList() ),
@@ -218,6 +224,7 @@ fGenzMalikRule(other.GetGenzMalikRule() )
 
 
 template<size_t N, hydra::detail::Backend  BACKEND>
+requires (N>1)
 GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>&
 GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>::operator=( GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>> const& other)
 {
@@ -230,6 +237,7 @@ GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>::operator=( GenzMal
 }
 
 template<size_t N, hydra::detail::Backend  BACKEND>
+requires (N>1)
 template<hydra::detail::Backend  BACKEND2>
 GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>&
 GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>::operator=( GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND2>> const& other)
@@ -243,6 +251,7 @@ GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>::operator=( GenzMal
 }
 
 template<size_t N, hydra::detail::Backend  BACKEND>
+requires (N>1)
 template<typename FUNCTOR>
 std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND>>::Integrate(FUNCTOR const& functor)
 {
@@ -284,6 +293,7 @@ std::pair<GReal_t, GReal_t> GenzMalikQuadrature<N,hydra::detail::BackendPolicy<B
 }
 
 template<size_t N, hydra::detail::Backend  BACKEND>
+requires (N>1)
 template<typename FUNCTOR, typename Vector>
 void GenzMalikQuadrature<N,
        hydra::detail::BackendPolicy<BACKEND>>::AdaptiveIntegration(FUNCTOR const& functor, Vector& BoxList) {
@@ -310,6 +320,7 @@ void GenzMalikQuadrature<N,
 }
 
 template<size_t N, hydra::detail::Backend  BACKEND>
+requires (N>1)
 template<typename Vector>
 void hydra::GenzMalikQuadrature<N,
          hydra::detail::BackendPolicy<BACKEND> >::SplitBoxes( Vector& boxes, size_t n ){
@@ -337,6 +348,7 @@ void hydra::GenzMalikQuadrature<N,
 
 
 template<size_t N, hydra::detail::Backend  BACKEND>
+requires (N>1)
 template<typename Vector>
 std::pair<GReal_t, GReal_t>
 hydra::GenzMalikQuadrature<N,hydra::detail::BackendPolicy<BACKEND> >::CalculateIntegral( Vector const& BoxList){

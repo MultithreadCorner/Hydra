@@ -55,13 +55,13 @@ namespace tuple_utility {
 }  // namespace tuple_utility
 
 	template<typename T>
-	__hydra_host__ __hydra_device__
-	typename std::enable_if< detail::is_tuple<T>::value, T>::type
+	requires (detail::is_tuple<T>::value)
+	__hydra_host__ __hydra_device__ T
 	tupler( T const& data ) { return data;}
 
 	template<typename T>
-	__hydra_host__ __hydra_device__
-	typename std::enable_if<!detail::is_tuple<T>::value, hydra::tuple<T> >::type
+	requires (!detail::is_tuple<T>::value)
+	__hydra_host__ __hydra_device__ hydra::tuple<T>
 	tupler( T const& data )	{ return hydra::make_tuple( data ); }
 
 }  // namespace detail

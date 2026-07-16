@@ -30,28 +30,30 @@
 #ifndef SPILINE3D_INL_
 #define SPILINE3D_INL_
 
-
+#include <concepts>
 
 #include <hydra/detail/Config.h>
 #include <hydra/detail/BackendPolicy.h>
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/detail/utility/CheckValue.h>
+#include <hydra/detail/IteratorConcepts.h>
 
 
 namespace hydra {
 
 
 template<typename IteratorX, typename IteratorY, typename IteratorZ, typename IteratorM, typename TypeX, typename TypeY, typename TypeZ >
-__hydra_host__ __hydra_device__
-inline typename std::enable_if<
-	std::is_convertible<typename hydra::thrust::iterator_traits<IteratorX>::value_type, double >::value &&
-	std::is_convertible<typename hydra::thrust::iterator_traits<IteratorY>::value_type, double >::value &&
-	std::is_convertible<typename hydra::thrust::iterator_traits<IteratorZ>::value_type, double >::value &&
-	std::is_convertible<typename hydra::thrust::iterator_traits<IteratorM>::value_type, double >::value &&
-	std::is_convertible<TypeX, double >::value &&
-	std::is_convertible<TypeY, double >::value &&
-	std::is_convertible<TypeZ, double >::value, double>::type
+requires (
+	std::is_convertible_v<typename hydra::thrust::iterator_traits<IteratorX>::value_type, double > &&
+	std::is_convertible_v<typename hydra::thrust::iterator_traits<IteratorY>::value_type, double > &&
+	std::is_convertible_v<typename hydra::thrust::iterator_traits<IteratorZ>::value_type, double > &&
+	std::is_convertible_v<typename hydra::thrust::iterator_traits<IteratorM>::value_type, double > &&
+	std::is_convertible_v<TypeX, double > &&
+	std::is_convertible_v<TypeY, double > &&
+	std::is_convertible_v<TypeZ, double >
+)
+__hydra_host__ __hydra_device__ inline double
 spline3D(IteratorX firstx, IteratorX lastx,
 		 IteratorY firsty, IteratorY lasty,
 		 IteratorZ firstz, IteratorZ lastz,
@@ -124,20 +126,20 @@ spline3D(IteratorX firstx, IteratorX lastx,
 }
 
 template<typename IterableX, typename IterableY,typename IterableZ,typename IterableM, typename TypeX,typename TypeY, typename TypeZ >
-__hydra_host__ __hydra_device__
-inline typename std::enable_if<
-					   hydra::detail::is_iterable<IterableX>::value &&
-                       hydra::detail::is_iterable<IterableY>::value &&
-					   hydra::detail::is_iterable<IterableZ>::value &&
-                       hydra::detail::is_iterable<IterableM>::value &&
-                       std::is_convertible<typename IterableX::value_type, double >::value &&
-                       std::is_convertible<typename IterableY::value_type, double >::value &&
-					   std::is_convertible<typename IterableZ::value_type, double >::value &&
-					   std::is_convertible<typename IterableM::value_type, double >::value &&
-					   std::is_convertible<TypeX, double >::value &&
-					   std::is_convertible<TypeY, double >::value &&
-					   std::is_convertible<TypeZ, double >::value ,
-                       double >::type
+requires (
+	detail::Iterable<IterableX> &&
+	detail::Iterable<IterableY> &&
+	detail::Iterable<IterableZ> &&
+	detail::Iterable<IterableM> &&
+	std::is_convertible_v<typename IterableX::value_type, double > &&
+	std::is_convertible_v<typename IterableY::value_type, double > &&
+	std::is_convertible_v<typename IterableZ::value_type, double > &&
+	std::is_convertible_v<typename IterableM::value_type, double > &&
+	std::is_convertible_v<TypeX, double > &&
+	std::is_convertible_v<TypeY, double > &&
+	std::is_convertible_v<TypeZ, double >
+)
+__hydra_host__ __hydra_device__ inline double
 spline3D(IterableX&& abscissa_x,  IterableY&& abscissa_y, IterableZ&& abscissa_z, IterableM measurements, TypeX x, TypeX y, TypeZ z ){
 
 

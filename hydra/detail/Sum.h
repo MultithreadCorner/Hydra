@@ -41,6 +41,7 @@
 #include <hydra/Types.h>
 #include <hydra/Function.h>
 #include <hydra/detail/FunctorTraits.h>
+#include <hydra/detail/FunctorConcepts.h>
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/base_functor.h>
 #include <hydra/detail/Constant.h>
@@ -137,10 +138,8 @@ public:
  * operator+ for two functors.
  */
 template<typename T1, typename T2>
-inline typename std::enable_if<
-(detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value ) &&
-(detail::is_hydra_functor<T2>::value || detail::is_hydra_lambda<T2>::value ),
-Sum<T1, T2> >::type
+requires (detail::HydraCallable<T1> && detail::HydraCallable<T2>)
+inline Sum<T1, T2>
 operator+(T1 const& F1, T2 const& F2)
 {
 	return  Sum<T1,T2>(F1, F2);
@@ -150,10 +149,8 @@ operator+(T1 const& F1, T2 const& F2)
  * operator+ for a value and a functor.
  */
 template <typename T, typename U>
-inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value ) &&
-(std::is_arithmetic<U>::value),
-Sum< Constant<U>, T> >::type
+requires (detail::CallableScaledBy<T, U>)
+inline Sum< Constant<U>, T>
 operator+(U const cte, T const& F)
 {
 	return  Constant<U>(cte)+F;
@@ -163,10 +160,8 @@ operator+(U const cte, T const& F)
  * operator+ for a value and a functor.
  */
 template <typename T, typename U>
-inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value  ) &&
-(std::is_arithmetic<U>::value),
-Sum< Constant<U>, T> >::type
+requires (detail::CallableScaledBy<T, U>)
+inline Sum< Constant<U>, T>
 operator+( T const& F, U cte)
 {
 	return  Constant<U>(cte)+F;
@@ -176,10 +171,8 @@ operator+( T const& F, U cte)
  * operator+ for a complex value and a functor.
  */
 template <typename T, typename U>
-inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value ) &&
-(std::is_arithmetic<U>::value),
-Sum< Constant<hydra::complex<U>>, T> >::type
+requires (detail::CallableScaledBy<T, U>)
+inline Sum< Constant<hydra::complex<U>>, T>
 operator+(hydra::complex<U> const& cte, T const& F)
 {
 	return  Constant<hydra::complex<U> >(cte)+F;
@@ -189,10 +182,8 @@ operator+(hydra::complex<U> const& cte, T const& F)
  * operator+ for a complex value and a functor.
  */
 template <typename T, typename U>
-inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value ) &&
-(std::is_arithmetic<U>::value),
-Sum< Constant<U>, T> >::type
+requires (detail::CallableScaledBy<T, U>)
+inline Sum< Constant<U>, T>
 operator+( T const& F, hydra::complex<U> const& cte)
 {
 	return  Constant<hydra::complex<U> >(cte)+F;
@@ -201,12 +192,9 @@ operator+( T const& F, hydra::complex<U> const& cte)
 
 // Convenience function
 template <typename F1, typename F2, typename ...Fs>
-inline typename std::enable_if<
-(detail::is_hydra_functor<F1>::value || detail::is_hydra_lambda<F1>::value ) &&
-(detail::is_hydra_functor<F2>::value || detail::is_hydra_lambda<F2>::value ) &&
-detail::all_true<
-(detail::is_hydra_functor<Fs>::value || detail::is_hydra_lambda<Fs>::value )...>::value,
-Sum<F1, F2,Fs...>>::type
+requires (detail::HydraCallable<F1> && detail::HydraCallable<F2> &&
+          (detail::HydraCallable<Fs> && ...))
+inline Sum<F1, F2,Fs...>
 sum(F1 const& f1, F2 const& f2, Fs const&... functors )
 {
 	return  Sum<F1, F2,Fs... >(f1,f2, functors ... );

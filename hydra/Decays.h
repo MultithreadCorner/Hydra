@@ -39,6 +39,8 @@
 #include <hydra/PhaseSpace.h>
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/CompositeTraits.h>
+#include <hydra/detail/IteratorConcepts.h>
+#include <hydra/detail/FunctorConcepts.h>
 
 
 namespace hydra {
@@ -239,11 +241,11 @@ public :
 	 }
 
 	 template<typename Functor>
-	 typename std::enable_if<
-	 	 detail::is_hydra_functor<Functor>::value ||
-	 	 detail::is_hydra_lambda<Functor>::value  ||
-	 	 detail::is_hydra_composite_functor<Functor>::value,
-	 	 PhaseSpaceReweight<Functor, Particles...> >::type
+	 requires (
+		detail::HydraCallable<Functor> ||
+		detail::HydraCompositeFunctor<Functor>
+	)
+	 PhaseSpaceReweight<Functor, Particles...>
 	 GetEventWeightFunctor(Functor const& functor) const
 	 {
 		 return  PhaseSpaceReweight<Functor, Particles...>(functor ,fMotherMass, fMasses );
@@ -253,11 +255,11 @@ public :
 	 Unweight(size_t seed=0x180ec6d33cfd0aba);
 
 	 template<typename Functor>
-	 typename std::enable_if<
- 	 detail::is_hydra_functor<Functor>::value ||
- 	 detail::is_hydra_lambda<Functor>::value  ||
- 	 detail::is_hydra_composite_functor<Functor>::value ,
-	 hydra::Range<iterator>>::type
+	 requires (
+		detail::HydraCallable<Functor> ||
+		detail::HydraCompositeFunctor<Functor>
+	)
+	 hydra::Range<iterator>
 	 Unweight( Functor  const& functor, double weight=-1.0, size_t seed=0x39abdc4529b1661c);
 
 	/**
@@ -284,9 +286,9 @@ public :
 	}
 
 	template<typename ...Iterables>
+	requires (hydra::detail::Iterable<Iterables> && ...)
 	auto Meld( Iterables&&... iterable)
-	-> typename std::enable_if< detail::all_true<detail::is_iterable<Iterables>::value...>::value,
-	   decltype(std::declval<storage_type>().meld( std::forward<Iterables>(iterable) ...)) >::type
+	-> decltype(std::declval<storage_type>().meld( std::forward<Iterables>(iterable) ...))
 	{
 		return fDecays.meld(std::forward<Iterables>(iterable)... );
 
@@ -367,7 +369,8 @@ public :
 	}
 
 	template<typename Iterable>
-	typename std::enable_if<detail::is_iterable<Iterable>::value, void>::type
+	requires (hydra::detail::Iterable<Iterable>)
+	void
 	insert(iterator position, Iterable range)
 	{
 		fDecays.insert( position, range);

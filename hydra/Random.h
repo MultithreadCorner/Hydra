@@ -43,6 +43,7 @@
 #include <hydra/detail/utility/Utility_Tuple.h>
 #include <hydra/detail/ArgumentTraits.h>
 #include <hydra/detail/PRNGTypedefs.h>
+#include <hydra/detail/RandomConcepts.h>
 
 #include <hydra/Range.h>
 
@@ -62,57 +63,6 @@
 
 namespace hydra{
 
-namespace detail {
-
-namespace random {
-
-template<typename T>
-struct is_iterator: std::conditional<
-        !hydra::detail::is_hydra_composite_functor<T>::value &&
-		!hydra::detail::is_hydra_functor<T>::value &&
-		!hydra::detail::is_hydra_lambda<T>::value &&
-		!hydra::detail::is_iterable<T>::value &&
-		 hydra::detail::is_iterator<T>::value,
-         std::true_type,
-         std::false_type >::type {};
-
-template<typename T>
-struct is_iterable: std::conditional<
-        !hydra::detail::is_hydra_composite_functor<T>::value &&
-		!hydra::detail::is_hydra_functor<T>::value &&
-		!hydra::detail::is_hydra_lambda<T>::value  &&
-		 hydra::detail::is_iterable<T>::value &&
-		!hydra::detail::is_iterator<T>::value,
-         std::true_type,
-         std::false_type >::type {};
-
-template<typename T>
-struct is_callable: std::conditional<
-        (hydra::detail::is_hydra_composite_functor<T>::value ||
-         hydra::detail::is_hydra_functor<T>::value ||
-         hydra::detail::is_hydra_lambda<T>::value ) &&
-        !hydra::detail::is_iterable<T>::value &&
-        !hydra::detail::is_iterator<T>::value,
-         std::true_type,
-         std::false_type >::type {};
-
-template< typename Engine, typename Functor, typename Iterable>
-struct is_matching_iterable: std::conditional<
-     hydra::detail::is_iterable<Iterable>::value &&
-    !hydra::detail::is_iterator<Iterable>::value &&
-    (hydra::detail::is_hydra_composite_functor<Functor>::value ||
-     hydra::detail::is_hydra_functor<Functor>::value ||
-     hydra::detail::is_hydra_lambda<Functor>::value  ) &&
-     hydra::detail::has_rng_formula<Functor>::value &&
-     std::is_convertible<
-    decltype(std::declval<RngFormula<Functor>>().Generate( std::declval<Engine&>(), std::declval<Functor const&>())),
-    typename hydra::thrust::iterator_traits<decltype(std::declval<Iterable>().begin())>::value_type>::value,
-    std::true_type,  std::false_type
->::type{};
-}  // namespace random
-
-}  // namespace detail
-
 
 /**
  * \ingroup random
@@ -131,9 +81,8 @@ struct is_matching_iterable: std::conditional<
  * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename DerivedPolicy, typename IteratorData, typename IteratorWeight>
-typename std::enable_if<
-detail::random::is_iterator<IteratorData>::value && detail::random::is_iterator<IteratorWeight>::value,
-Range<IteratorData> >::type
+requires (detail::random::Iterator<IteratorData> && detail::random::Iterator<IteratorWeight>)
+Range<IteratorData>
 unweight( hydra::thrust::detail::execution_policy_base<DerivedPolicy>  const& policy,
 		IteratorData data_begin, IteratorData data_end, IteratorWeight weights_begin,
 		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0);
@@ -155,9 +104,8 @@ unweight( hydra::thrust::detail::execution_policy_base<DerivedPolicy>  const& po
  * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename IteratorData, typename IteratorWeight, hydra::detail::Backend  BACKEND>
-typename std::enable_if<
-detail::random::is_iterator<IteratorData>::value && detail::random::is_iterator<IteratorWeight>::value,
-Range<IteratorData> >::type
+requires (detail::random::Iterator<IteratorData> && detail::random::Iterator<IteratorWeight>)
+Range<IteratorData>
 unweight( detail::BackendPolicy<BACKEND> const& policy, IteratorData data_begin, IteratorData data_end, IteratorWeight weights_begin,
 		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0);
 
@@ -177,10 +125,8 @@ unweight( detail::BackendPolicy<BACKEND> const& policy, IteratorData data_begin,
  * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename IteratorData, typename IteratorWeight>
-typename std::enable_if<
-	detail::random::is_iterator<IteratorData>::value && detail::random::is_iterator<IteratorWeight>::value,
-	Range<IteratorData>
->::type
+requires (detail::random::Iterator<IteratorData> && detail::random::Iterator<IteratorWeight>)
+Range<IteratorData>
 unweight(IteratorData data_begin, IteratorData data_end , IteratorData weights_begin,
 		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0);
 
@@ -200,9 +146,8 @@ unweight(IteratorData data_begin, IteratorData data_end , IteratorData weights_b
  * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename IterableData, typename IterableWeight, hydra::detail::Backend BACKEND>
-typename std::enable_if<
-detail::random::is_iterable<IterableData>::value && detail::random::is_iterable<IterableWeight>::value,
-Range< decltype(std::declval<IterableData>().begin())> >::type
+requires (detail::random::Iterable<IterableData> && detail::random::Iterable<IterableWeight>)
+Range< decltype(std::declval<IterableData>().begin())>
 unweight( hydra::detail::BackendPolicy<BACKEND> const& policy,  IterableData&& data, IterableWeight&& weights,
 		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0);
 
@@ -221,10 +166,8 @@ unweight( hydra::detail::BackendPolicy<BACKEND> const& policy,  IterableData&& d
  * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename IterableData, typename IterableWeight>
-typename std::enable_if<
-	detail::random::is_iterable<IterableData>::value && detail::random::is_iterable<IterableWeight>::value,
-	Range< decltype(std::declval<IterableData>().begin())>
->::type
+requires (detail::random::Iterable<IterableData> && detail::random::Iterable<IterableWeight>)
+Range< decltype(std::declval<IterableData>().begin())>
 unweight( IterableData data, IterableWeight weights,
 		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0 );
 
@@ -244,10 +187,8 @@ unweight( IterableData data, IterableWeight weights,
  * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterator, typename DerivedPolicy>
-typename std::enable_if<
-	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
-	Range<Iterator>
->::type
+requires (detail::random::SampleInto<Functor, Iterator>)
+Range<Iterator>
 unweight( hydra::thrust::detail::execution_policy_base<DerivedPolicy> const& policy,
 	    	Iterator begin, Iterator end, Functor const& functor,
 			double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0 );
@@ -268,10 +209,8 @@ unweight( hydra::thrust::detail::execution_policy_base<DerivedPolicy> const& pol
  * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND>
-typename std::enable_if<
-	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
-	Range<Iterator>
->::type
+requires (detail::random::SampleInto<Functor, Iterator>)
+Range<Iterator>
 unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, Iterator end, Functor const& functor,
 		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0 );
 
@@ -289,10 +228,8 @@ unweight( hydra::detail::BackendPolicy<BACKEND> const& policy, Iterator begin, I
  * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterator>
-typename std::enable_if<
-	detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
-	Range<Iterator>
->::type
+requires (detail::random::SampleInto<Functor, Iterator>)
+Range<Iterator>
 unweight( Iterator begin, Iterator end, Functor const& functor,
 		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0 );
 
@@ -309,10 +246,8 @@ unweight( Iterator begin, Iterator end, Functor const& functor,
  * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterable, hydra::detail::Backend  BACKEND>
-typename std::enable_if<
-	detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
-	Range< decltype(std::declval<Iterable>().begin())>
->::type
+requires (detail::random::SampleIntoRange<Functor, Iterable>)
+Range< decltype(std::declval<Iterable>().begin())>
 unweight( hydra::detail::BackendPolicy<BACKEND> const& policy,
 		Iterable&& iterable, Functor const& functor,
 		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0  );
@@ -330,9 +265,8 @@ unweight( hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @return hydra::Range object pointing unweighted sample.
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterable>
-typename std::enable_if<
-detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
-Range< decltype(std::declval<Iterable>().begin())>>::type
+requires (detail::random::SampleIntoRange<Functor, Iterable>)
+Range< decltype(std::declval<Iterable>().begin())>
 unweight( Iterable&& iterable, Functor const& functor,
 		double max_pdf=-1.0, size_t rng_seed=0x8ec74d321e6b5a27, size_t rng_jump=0 );
 
@@ -351,9 +285,8 @@ unweight( Iterable&& iterable, Functor const& functor,
  * @return range with the generated values
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND>
-typename std::enable_if<
-detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
-Range<Iterator> >::type
+requires (detail::random::SampleInto<Functor, Iterator>)
+Range<Iterator>
 sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
 		Iterator begin, Iterator end, double min, double max,
 		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
@@ -372,9 +305,8 @@ sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @return range with the generated values
  */
 template<typename RNG=default_random_engine, typename DerivedPolicy, typename Functor, typename Iterator>
-typename std::enable_if<
-detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
-Range<Iterator> >::type
+requires (detail::random::SampleInto<Functor, Iterator>)
+Range<Iterator>
 sample(hydra::thrust::detail::execution_policy_base<DerivedPolicy> const& policy,
 		Iterator begin, Iterator end, double min, double max,
 		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
@@ -392,9 +324,8 @@ sample(hydra::thrust::detail::execution_policy_base<DerivedPolicy> const& policy
  * @return range with the generated values
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterator>
-typename std::enable_if<
-detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
-Range<Iterator> >::type
+requires (detail::random::SampleInto<Functor, Iterator>)
+Range<Iterator>
 sample(Iterator begin, Iterator end , double min, double max,
 		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
 
@@ -410,9 +341,8 @@ sample(Iterator begin, Iterator end , double min, double max,
  * @return range with the generated values
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterable>
-typename std::enable_if<
-detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
-Range< decltype(std::declval<Iterable>().begin())>>::type
+requires (detail::random::SampleIntoRange<Functor, Iterable>)
+Range< decltype(std::declval<Iterable>().begin())>
 sample(Iterable&& output, double min, double max,
 		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
 
@@ -429,9 +359,8 @@ sample(Iterable&& output, double min, double max,
  * @return range with the generated values
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterator, size_t N >
-typename std::enable_if<
-detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
-Range<Iterator> >::type
+requires (detail::random::SampleInto<Functor, Iterator>)
+Range<Iterator>
 sample(Iterator begin, Iterator end , std::array<double,N>const& min, std::array<double,N>const& max,
 		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
 
@@ -448,11 +377,12 @@ sample(Iterator begin, Iterator end , std::array<double,N>const& min, std::array
  * @return range with the generated values
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterator>
-typename std::enable_if<
-detail::random::is_callable<Functor>::value  &&
-detail::random::is_iterator<Iterator>::value &&
-detail::is_tuple_type< decltype(*std::declval<Iterator>())>::value,
-Range<Iterator> >::type
+requires (
+	detail::random::Callable<Functor> &&
+	detail::random::Iterator<Iterator> &&
+	detail::is_tuple_type< decltype(*std::declval<Iterator>())>::value
+)
+Range<Iterator>
 sample(Iterator begin, Iterator end ,
 		typename Functor::argument_type const& min, typename Functor::argument_type const& max,
 		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
@@ -470,9 +400,8 @@ sample(Iterator begin, Iterator end ,
  * @param functor distribution to be sampled
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterator, hydra::detail::Backend  BACKEND, size_t N >
-typename std::enable_if<
-detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
-Range<Iterator> >::type
+requires (detail::random::SampleInto<Functor, Iterator>)
+Range<Iterator>
 sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
 		Iterator begin, Iterator end ,
 		std::array<double,N>const& min,	std::array<double,N>const& max,
@@ -490,9 +419,8 @@ sample(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param functor distribution to be sampled
  */
 template<typename RNG=default_random_engine, typename DerivedPolicy, typename Functor, typename Iterator, size_t N >
-typename std::enable_if<
-detail::random::is_callable<Functor>::value && detail::random::is_iterator<Iterator>::value,
-Range<Iterator> >::type
+requires (detail::random::SampleInto<Functor, Iterator>)
+Range<Iterator>
 sample(hydra::thrust::detail::execution_policy_base<DerivedPolicy>  const& policy,
 		Iterator begin, Iterator end ,
 		std::array<double,N>const& min,	std::array<double,N>const& max,
@@ -510,9 +438,8 @@ sample(hydra::thrust::detail::execution_policy_base<DerivedPolicy>  const& polic
  * @return output range with the generated values
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterable, size_t N >
-typename std::enable_if<
-detail::random::is_callable<Functor>::value && detail::random::is_iterable<Iterable>::value ,
-Range< decltype(std::declval<Iterable>().begin())>>::type
+requires (detail::random::SampleIntoRange<Functor, Iterable>)
+Range< decltype(std::declval<Iterable>().begin())>
 sample( Iterable&& output ,
 		std::array<double,N>const& min, std::array<double,N>const& max,
 		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
@@ -529,11 +456,12 @@ sample( Iterable&& output ,
  * @return output range with the generated values
  */
 template<typename RNG=default_random_engine, typename Functor, typename Iterable>
-typename std::enable_if<
-detail::random::is_callable<Functor>::value  &&
-detail::random::is_iterable<Iterable>::value &&
-detail::is_tuple_type< decltype(*std::declval<Iterable>().begin())>::value ,
-Range< decltype(std::declval<Iterable>().begin())>>::type
+requires (
+	detail::random::Callable<Functor> &&
+	detail::random::Iterable<Iterable> &&
+	detail::is_tuple_type< decltype(*std::declval<Iterable>().begin())>::value
+)
+Range< decltype(std::declval<Iterable>().begin())>
 sample( Iterable&& output ,
 		typename Functor::argument_type const& min,typename Functor::argument_type  const& max,
 		Functor const& functor, size_t seed=0xb56c4feeef1b, size_t rng_jump=0 );
@@ -551,11 +479,8 @@ sample( Iterable&& output ,
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine,  hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
-typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::is_convertible<
-decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-typename hydra::thrust::iterator_traits<Iterator>::value_type
->::value, void>::type
-fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+requires detail::RngFormulaFor<FUNCTOR, Engine, Iterator>
+void fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
             Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
 /**
@@ -570,11 +495,8 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine =hydra::default_random_engine, typename Iterator, typename FUNCTOR >
-typename std::enable_if< hydra::detail::has_rng_formula<FUNCTOR>::value && std::is_convertible<
-decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-typename hydra::thrust::iterator_traits<Iterator>::value_type
->::value, void>::type
-fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
+requires detail::RngFormulaFor<FUNCTOR, Engine, Iterator>
+void fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -588,7 +510,8 @@ fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterable, typename FUNCTOR >
-typename std::enable_if< detail::random::is_matching_iterable<Engine, FUNCTOR, Iterable>::value, void>::type
+requires (detail::random::MatchingIterable<Engine, FUNCTOR, Iterable>)
+void
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
             Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
@@ -603,8 +526,8 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, typename Iterable, typename FUNCTOR >
-typename std::enable_if< detail::random::is_matching_iterable<Engine, FUNCTOR, Iterable>::value,
-void>::type
+requires (detail::random::MatchingIterable<Engine, FUNCTOR, Iterable>)
+void
 fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
 /**
@@ -620,8 +543,8 @@ fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
-typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
-fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+requires (!detail::HasRngFormula<FUNCTOR>)
+void fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
             Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
 /**
@@ -636,8 +559,8 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, typename Iterator, typename FUNCTOR >
-typename std::enable_if< !hydra::detail::has_rng_formula<FUNCTOR>::value , void>::type
-fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
+requires (!detail::HasRngFormula<FUNCTOR>)
+void fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -652,11 +575,8 @@ fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterator, typename FUNCTOR >
-typename std::enable_if< !std::is_convertible<
-decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-typename std::iterator_traits<Iterator>::value_type
->::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
-fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
+requires detail::RngFormulaResultMismatch<FUNCTOR, Engine, Iterator>
+void fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
             Iterator begin, Iterator end, FUNCTOR const& funct, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
 /**
@@ -671,11 +591,8 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, typename Iterator, typename FUNCTOR >
-typename std::enable_if< !std::is_convertible<
-decltype(std::declval<RngFormula<FUNCTOR>>().Generate( std::declval<Engine&>(),  std::declval<FUNCTOR const&>())),
-typename std::iterator_traits<Iterator>::value_type
->::value && hydra::detail::has_rng_formula<FUNCTOR>::value, void>::type
-fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
+requires detail::RngFormulaResultMismatch<FUNCTOR, Engine, Iterator>
+void fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
 /**
  * \ingroup random
@@ -689,7 +606,8 @@ fill_random(Iterator begin, Iterator end, FUNCTOR const& functor, size_t seed=0x
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, hydra::detail::Backend BACKEND, typename Iterable, typename FUNCTOR >
-typename std::enable_if< !(detail::random::is_matching_iterable<Engine, FUNCTOR, Iterable>::value), void>::type
+requires (!(detail::random::MatchingIterable<Engine, FUNCTOR, Iterable>))
+void
 fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
             Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
 
@@ -704,9 +622,9 @@ fill_random(hydra::detail::BackendPolicy<BACKEND> const& policy,
  * @param rng_jump sequence offset for the underlying pseudo-random number generator
  */
 template< typename Engine = hydra::default_random_engine, typename Iterable, typename FUNCTOR >
-typename std::enable_if<!(detail::random::is_matching_iterable<Engine, FUNCTOR, Iterable>::value),void>::type
+requires (!(detail::random::MatchingIterable<Engine, FUNCTOR, Iterable>))
+void
 fill_random(Iterable&& iterable, FUNCTOR const& functor, size_t seed=0x254a0afcf7da74a2, size_t rng_jump=0 );
-
 
 
 }

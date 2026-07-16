@@ -37,6 +37,7 @@
 #include <hydra/detail/Constant.h>
 //#include <hydra/detail/CompositeBase.h>
 #include <hydra/detail/FunctorTraits.h>
+#include <hydra/detail/FunctorConcepts.h>
 #include <hydra/detail/CompositeTraits.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
@@ -120,12 +121,8 @@ public:
 
 // Conveniency function
 template < typename T0, typename T1, typename ...Ts >
-inline typename std::enable_if<
-(detail::is_hydra_functor<T0>::value || detail::is_hydra_lambda<T0>::value ) &&
-(detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value ) &&
-detail::all_true<
-(detail::is_hydra_functor<Ts>::value || detail::is_hydra_lambda<Ts>::value )...>::value,
-Compose<T0,T1,Ts...>>::type
+requires (detail::HydraCallable<T0> && detail::HydraCallable<T1> && (detail::HydraCallable<Ts> && ...))
+inline Compose<T0,T1,Ts...>
 compose(T0 const& F0, T1 const& F1, Ts const&...Fs){
 
 	return  Compose<T0,T1,Ts...>(F0, F1, Fs...);

@@ -133,13 +133,13 @@ public:
 private:
 
 	template<unsigned int I>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if<(I==Order+1), void >::type
+	requires detail::LoopEnd<I, Order+1>
+	__hydra_host__ __hydra_device__ inline void
 	polynomial_helper( const double(&)[Order+1],  const double, double&)  const {}
 
 	template<unsigned int I=0>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if<(I<Order+1), void >::type
+	requires detail::LoopGoing<I, Order+1>
+	__hydra_host__ __hydra_device__ inline void
 	polynomial_helper( const double(&coef)[Order+1],  const double x, double& r)  const {
 
 		r += coef[I]*chebychev_1st_kind(I, x);
@@ -194,13 +194,13 @@ protected:
 private:
 
 	template<unsigned int N, unsigned int I>
-	__hydra_host__ __hydra_device__ inline
-	typename std::enable_if<(I==N), void >::type
+	requires detail::LoopEnd<I, N>
+	__hydra_host__ __hydra_device__ inline void
 	polynomial_integral_helper( const double, const double(&)[N], double&) const {}
 
 	template<unsigned int N, unsigned int I=2>
-	__hydra_host__ __hydra_device__ inline
-	typename std::enable_if<(I<N), void >::type
+	requires detail::LoopGoing<I, N>
+	__hydra_host__ __hydra_device__ inline void
 	polynomial_integral_helper( const double x, const double(&coef)[N], double& r) const {
 
 		r += 0.5*coef[I]*(chebychev_1st_kind(I+1,x)/(I+1) - chebychev_1st_kind(I-1,x)/(I-1) );

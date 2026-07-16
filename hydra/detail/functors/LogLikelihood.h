@@ -91,9 +91,9 @@ struct LogLikelihood
 	~LogLikelihood(){}
 
     template<typename U = cache_value_type >
+	requires (!std::is_same<U, null_type>::value)
 	__hydra_host__ __hydra_device__ inline
-	GReal_t operator()(size_t index, const typename std::enable_if< !std::is_same<U,
-	       	null_type>::value, void >::type* dummy=0 ){
+	GReal_t operator()(size_t index){
 
     	          auto      C = (cache_value_type) fCacheBegin[index];
     	          auto      X = ((point_type) fDataBegin[index]).GetCoordinates() ;
@@ -104,9 +104,9 @@ struct LogLikelihood
 	}
 
     template<typename U = cache_value_type >
+   	requires (std::is_same<U, null_type>::value)
    	__hydra_host__ __hydra_device__ inline
-   	GReal_t operator()(size_t index, const typename std::enable_if< std::is_same<U,
-   	       	null_type>::value, void >::type* dummy=0 ){
+   	GReal_t operator()(size_t index){
 
 
         auto X = ((point_type) fDataBegin[index]).GetCoordinates() ;

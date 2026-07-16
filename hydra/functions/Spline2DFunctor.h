@@ -48,6 +48,8 @@
 #include <math.h>
 #include <algorithm>
 #include <memory>
+#include <hydra/detail/IteratorConcepts.h>
+#include <hydra/detail/utility/Utility_Tuple.h>
 
 namespace hydra {
 
@@ -163,12 +165,13 @@ make_spline2D(IteratorX firstX, IteratorX lastX, IteratorY firstY, IteratorY las
 }
 
 template<typename ArgTypeX, typename ArgTypeY, typename IterableX, typename IterableY, typename IterableZ >
-inline typename std::enable_if<
-          hydra::detail::is_iterable<IterableX>::value &&
-		  hydra::detail::is_iterable<IterableY>::value &&
-		  hydra::detail::is_iterable<IterableZ>::value,
-          Spline2DFunctor< decltype(std::declval<IterableX>().begin()) ,decltype(std::declval<IterableY>().begin()),
-                          decltype(std::declval<IterableZ>().begin()), ArgTypeX, ArgTypeY> >::type
+requires (
+	hydra::detail::Iterable<IterableX> &&
+	hydra::detail::Iterable<IterableY> &&
+	hydra::detail::Iterable<IterableZ>
+)
+inline Spline2DFunctor< decltype(std::declval<IterableX>().begin()) ,decltype(std::declval<IterableY>().begin()),
+                          decltype(std::declval<IterableZ>().begin()), ArgTypeX, ArgTypeY>
 make_spline2D(IterableX&& x, IterableY&& y, IterableZ&& z)
 {
 
@@ -186,11 +189,11 @@ typedef  decltype(std::declval<IterableZ>().begin()) IteratorZ;
 
 
 template<typename T, hydra::detail::Backend BACKEND>
-inline typename std::enable_if< std::is_convertible<T, double>::value,
-Spline2DFunctor<
+requires (detail::RealConvertible<T>)
+inline Spline2DFunctor<
 decltype(std::declval<DenseHistogram<T, 2,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_0).begin()),
 decltype(std::declval<DenseHistogram<T, 2,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_1).begin()),
-decltype(std::declval<DenseHistogram<T, 2,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional > >().GetBinsContents().begin()), double, double>>::type
+decltype(std::declval<DenseHistogram<T, 2,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional > >().GetBinsContents().begin()), double, double>
 make_spline( DenseHistogram<T, 2,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional >  const& histogram )
 {
 
@@ -209,11 +212,11 @@ typedef  decltype(std::declval<histogram_type>().GetBinsContents().begin()) Iter
 
 
 template<typename T, hydra::detail::Backend BACKEND>
-inline typename std::enable_if< std::is_convertible<T, double>::value,
-Spline2DFunctor<
+requires (detail::RealConvertible<T>)
+inline Spline2DFunctor<
 decltype(std::declval<SparseHistogram<T, 2,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_0).begin()),
 decltype(std::declval<SparseHistogram<T, 2,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_1).begin()),
-decltype(std::declval<SparseHistogram<T, 2,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional > >().GetBinsContents().begin()), double, double>>::type
+decltype(std::declval<SparseHistogram<T, 2,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional > >().GetBinsContents().begin()), double, double>
 make_spline( SparseHistogram<T, 2,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional >  const& histogram )
 {
 

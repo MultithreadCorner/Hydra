@@ -35,14 +35,17 @@
 #include <utility>
 #include <hydra/detail/external/hydra_thrust/scatter.h>
 #include <hydra/Range.h>
+#include <hydra/detail/IteratorConcepts.h>
 
 namespace hydra {
 
 template<typename Iterable_Source, typename Iterable_Target, typename Iterable_Map>
-typename std::enable_if<hydra::detail::is_iterable<Iterable_Source>::value
-					 && hydra::detail::is_iterable<Iterable_Target>::value
-					 && hydra::detail::is_iterable<Iterable_Map>::value,
-Range<decltype(std::declval<Iterable_Target&>().begin())>>::type
+requires (
+	detail::Iterable<Iterable_Source> &&
+	detail::Iterable<Iterable_Target> &&
+	detail::Iterable<Iterable_Map>
+)
+Range<decltype(std::declval<Iterable_Target&>().begin())>
 scatter(Iterable_Source&& source, Iterable_Map&& map, Iterable_Target&& target){
 
 	hydra::thrust::scatter(std::forward<Iterable_Source>(source).begin(),
@@ -56,9 +59,8 @@ scatter(Iterable_Source&& source, Iterable_Map&& map, Iterable_Target&& target){
 
 /*
 template<typename Iterable_Source, typename Iterable_Target, typename Iterator_Map>
-typename std::enable_if<hydra::detail::is_iterable<Iterable_Source>::value
-					 && hydra::detail::is_iterable<Iterable_Target>::value,
-Range<decltype(std::declval<Iterable_Target&>().begin())>>::type
+requires (detail::Iterables<Iterable_Source, Iterable_Target>)
+Range<decltype(std::declval<Iterable_Target&>().begin())>
 scatter(Iterable_Source& source, Range<Iterator_Map>&& map, Iterable_Target& target){
 
 	hydra::thrust::scatter( source.begin(), source.end(),
@@ -68,8 +70,8 @@ scatter(Iterable_Source& source, Range<Iterator_Map>&& map, Iterable_Target& tar
 
 
 template<typename Iterator_Source, typename Iterable_Target, typename Iterator_Map>
-typename std::enable_if<hydra::detail::is_iterable<Iterable_Target>::value,
-Range<decltype(std::declval<Iterable_Target&>().begin())>>::type
+requires (detail::Iterable<Iterable_Target>)
+Range<decltype(std::declval<Iterable_Target&>().begin())>
 scatter(Range<Iterator_Source>&& source, Range<Iterator_Map>&& map, Iterable_Target& target){
 
 	hydra::thrust::scatter( source.begin(), source.end(),

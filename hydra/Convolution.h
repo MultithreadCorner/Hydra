@@ -49,6 +49,8 @@
 #endif
 #include <utility>
 #include <type_traits>
+#include <hydra/detail/IteratorConcepts.h>
+#include <concepts>
 
 #if HYDRA_DEVICE_SYSTEM == CUDA
 #define TYPE typename std::conditional< std::is_convertible<detail::BackendPolicy<BACKEND>,hydra::thrust::system::cuda::tag >::value, std::integral_constant<int, 1>,std::integral_constant<int, 0>>::type
@@ -65,10 +67,8 @@ template<detail::Backend BACKEND, detail::FFTCalculator FFTBackend,  typename Fu
      typename USING_CUDA_BACKEND = TYPE,
      typename USING_CUFFT = typename std::conditional< FFTBackend==detail::CuFFT, std::integral_constant<int, 1>,std::integral_constant<int, 0>>::type,
      typename GPU_DATA = TAG>
-inline typename std::enable_if<std::is_floating_point<T>::value  && hydra::detail::is_iterable<Iterable>::value
-                   // && (USING_CUDA_BACKEND::value == USING_CUFFT::value)
-                   //  && (USING_CUDA_BACKEND::value == GPU_DATA::value),
-,void>::type
+requires (std::floating_point<T> && hydra::detail::Iterable<Iterable>)
+inline void
 convolute(detail::BackendPolicy<BACKEND> policy, detail::FFTPolicy<T, FFTBackend> fft_policy,
 		  Functor const& functor, Kernel const& kernel,
 		  T min,  T max, Iterable&& output, bool power_up=true ){

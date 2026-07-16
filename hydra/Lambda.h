@@ -33,6 +33,7 @@
 #include <hydra/detail/utility/StaticAssert.h>
 #include <hydra/detail/FunctorTraits.h>
 #include <hydra/detail/ArgumentTraits.h>
+#include <hydra/detail/TupleConcepts.h>
 #include <hydra/detail/Parameters.h>
 #include <hydra/detail/FunctionArgument.h>
 #include <hydra/detail/GetTupleElement.h>
@@ -86,9 +87,9 @@ public:
 	{ }
 	
 
-   template<typename T= LambdaType>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< std::is_copy_assignable<T>::value, Lambda<T, 0> >::type &
+	template<typename T= LambdaType>
+	requires (std::is_copy_assignable<T>::value)
+	__hydra_host__ __hydra_device__ inline Lambda<T, 0> &
 	operator=(Lambda<T, 0> const & other )
 	{
 		if(this == &other) return *this;
@@ -129,10 +130,8 @@ public:
 
 
 	template<typename ...T>
-	__hydra_host__  __hydra_device__
-	inline typename std::enable_if<
-	(!detail::is_valid_type_pack<argument_rvalue_type, T...>::value),
-	return_type>::type
+	requires (!detail::ValidTypePack<argument_rvalue_type, T...>)
+	__hydra_host__ __hydra_device__ inline return_type
 	operator()(T...x)  const
 	{
 		HYDRA_STATIC_ASSERT(int(sizeof...(T))==-1,
@@ -156,10 +155,8 @@ public:
 	 * the lambda signature
 	 */
 	template<typename ...T>
-	__hydra_host__  __hydra_device__
-	inline typename std::enable_if<
-	detail::is_valid_type_pack<argument_rvalue_type, T...>::value,
-	 return_type>::type
+	requires (detail::ValidTypePack<argument_rvalue_type, T...>)
+	__hydra_host__ __hydra_device__ inline return_type
 	operator()(T...x)  const
 	{
 		return fLambda(x...);
@@ -171,12 +168,12 @@ public:
 	 * the lambda arguments in any other.
 	 */
 	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if<
-	( detail::is_tuple_type< typename std::decay<T>::type >::value )                 &&
-	(!detail::is_tuple_of_function_arguments< typename std::decay<T>::type >::value) &&
-	( std::is_convertible< typename std::decay<T>::type, argument_rvalue_type >::value ),
-	return_type >::type
+	requires (
+		( detail::TupleType<T> ) &&
+		(!detail::TupleOfFunctionArguments<T>) &&
+		( std::is_convertible< typename std::decay<T>::type, argument_rvalue_type >::value )
+	)
+	__hydra_host__ __hydra_device__ inline return_type
 	operator()( T x )  const
 	{
 		return  raw_call(x);
@@ -188,11 +185,11 @@ public:
 	 * the lambda arguments in any other.
 	 */
 	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if<
-	( detail::is_tuple_type<typename std::decay<T>::type>::value ) &&
-	( detail::is_tuple_of_function_arguments< typename std::decay<T>::type >::value),
-	return_type>::type
+	requires (
+		( detail::TupleType<T> ) &&
+		( detail::TupleOfFunctionArguments<T>)
+	)
+	__hydra_host__ __hydra_device__ inline return_type
 	operator()( T x )  const
 	{
 		return  call(x);
@@ -205,13 +202,13 @@ public:
 	 * the lambda arguments in any other.
 	 */
 	template<typename T1, typename T2>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if<
-	( detail::is_tuple_type<typename std::decay<T1>::type>::value ) &&
-	( detail::is_tuple_of_function_arguments< typename std::decay<T1>::type >::value ) &&
-	( detail::is_tuple_type<typename std::decay<T2>::type>::value ) &&
-	( detail::is_tuple_of_function_arguments< typename std::decay<T2>::type >::value ) ,
-	return_type>::type
+	requires (
+		( detail::TupleType<T1> ) &&
+		( detail::TupleOfFunctionArguments<T1> ) &&
+		( detail::TupleType<T2> ) &&
+		( detail::TupleOfFunctionArguments<T2> )
+)
+	__hydra_host__ __hydra_device__ inline return_type
 	operator()( T1 x, T2 y )  const
 	{
 		auto z = hydra::thrust::tuple_cat(x, y);
@@ -226,13 +223,13 @@ public:
 	 * the lambda arguments in any other.
 	 */
 	template<typename T1, typename T2>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if<
-	(!detail::is_tuple_type< typename std::decay<T1>::type>::value ) &&
-	( detail::is_function_argument< typename std::decay<T1>::type >::value ) &&
-	( detail::is_tuple_type< typename std::decay<T2>::type>::value ) &&
-	( detail::is_tuple_of_function_arguments< typename std::decay<T2>::type >::value ),
-	return_type>::type
+	requires (
+		(!detail::TupleType<T1> ) &&
+		( detail::FunctionArg<T1> ) &&
+		( detail::TupleType<T2> ) &&
+		( detail::TupleOfFunctionArguments<T2> )
+	)
+	__hydra_host__ __hydra_device__ inline return_type
 	operator()( T1 x, T2 y )  const
 	{
 		auto z = hydra::thrust::tuple_cat(hydra::thrust::make_tuple(x), y);
@@ -246,13 +243,13 @@ public:
 	 * the lambda arguments in any other.
 	 */
 	template<typename T1, typename T2>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if<
-	(!detail::is_tuple_type< typename std::decay<T1>::type>::value ) &&
-	( detail::is_function_argument< typename std::decay<T1>::type >::value ) &&
-	( detail::is_tuple_type< typename std::decay<T2>::type>::value ) &&
-	( detail::is_tuple_of_function_arguments< typename std::decay<T2>::type >::value ),
-	return_type>::type
+	requires (
+		(!detail::TupleType<T1> ) &&
+		( detail::FunctionArg<T1> ) &&
+		( detail::TupleType<T2> ) &&
+		( detail::TupleOfFunctionArguments<T2> )
+	)
+	__hydra_host__ __hydra_device__ inline return_type
 	operator()(  T2 y, T1 x )  const
 	{
 		auto z = hydra::thrust::tuple_cat(hydra::thrust::make_tuple(x), y);
@@ -340,8 +337,8 @@ public:
 	 * when, if ever, c++20 get cuda support...
 	 */
 	template<typename T=LambdaType>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if<std::is_copy_assignable<T>::value, Lambda<T, NPARAM>&>::type
+	requires (std::is_copy_assignable<T>::value)
+	__hydra_host__ __hydra_device__ inline Lambda<T, NPARAM>&
 	operator=(Lambda<T, NPARAM> const & other )
 	{
 		if(this != &other)
@@ -389,10 +386,8 @@ public:
 	}
 
 	template<typename ...T>
-	__hydra_host__  __hydra_device__
-	inline typename std::enable_if<
-	(!detail::is_valid_type_pack<argument_type, T...>::value),
-	return_type>::type
+	requires (!detail::ValidTypePack<argument_type, T...>)
+	__hydra_host__ __hydra_device__ inline return_type
 	operator()(T...x)  const
 	{
 		HYDRA_STATIC_ASSERT(int(sizeof...(T))==-1,
@@ -410,45 +405,43 @@ public:
 	}
 
 	template<typename ...T>
-	__hydra_host__  __hydra_device__
-	inline typename  std::enable_if<
-	(detail::is_valid_type_pack<argument_type, T...>::value),
-	return_type>::type
+	requires (detail::ValidTypePack<argument_type, T...>)
+	__hydra_host__ __hydra_device__ inline return_type
 	operator()(T...x)  const
 	{
 		return fLambda(this->GetNumberOfParameters(), this->GetParameters(), x...);
 	}
 
 	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if<
-	( detail::is_tuple_type< typename std::decay<T>::type >::value )                 &&
-	(!detail::is_tuple_of_function_arguments< typename std::decay<T>::type >::value) &&
-	( std::is_convertible<typename std::decay<T>::type,	argument_rvalue_type>::value ),
-	return_type >::type
+	requires (
+		( detail::TupleType<T> ) &&
+		(!detail::TupleOfFunctionArguments<T>) &&
+		( std::is_convertible<typename std::decay<T>::type, argument_rvalue_type>::value )
+	)
+	__hydra_host__ __hydra_device__ inline return_type
 	operator()( T x )  const
 	{
 		return  raw_call(x);
 	}
 
 	template<typename T>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if<
-	( detail::is_tuple_type<typename std::decay<T>::type>::value ) &&
-	( detail::is_tuple_of_function_arguments< typename std::decay<T>::type >::value),
-	return_type>::type
+	requires (
+		( detail::TupleType<T> ) &&
+		( detail::TupleOfFunctionArguments<T>)
+	)
+	__hydra_host__ __hydra_device__ inline return_type
 	operator()( T x )  const {
 		return  call(x);
 	}
 
 	template<typename T1, typename T2>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if<
-	( detail::is_tuple_type<typename std::decay<T1>::type>::value ) &&
-	( detail::is_tuple_of_function_arguments< typename std::decay<T1>::type >::value ) &&
-	( detail::is_tuple_type<typename std::decay<T2>::type>::value ) &&
-	( detail::is_tuple_of_function_arguments< typename std::decay<T2>::type >::value ) ,
-	return_type>::type
+	requires (
+		( detail::TupleType<T1> ) &&
+		( detail::TupleOfFunctionArguments<T1> ) &&
+		( detail::TupleType<T2> ) &&
+		( detail::TupleOfFunctionArguments<T2> )
+	)
+	__hydra_host__ __hydra_device__ inline return_type
 	operator()( T1 x, T2 y )  const
 	{
 		auto z = hydra::thrust::tuple_cat(x, y);
@@ -456,13 +449,13 @@ public:
 	}
 
 	template<typename T1, typename T2>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if<
-	(!detail::is_tuple_type< typename std::decay<T1>::type>::value ) &&
-	( detail::is_function_argument< typename std::decay<T1>::type >::value ) &&
-	( detail::is_tuple_type< typename std::decay<T2>::type>::value ) &&
-	( detail::is_tuple_of_function_arguments< typename std::decay<T2>::type >::value ),
-	return_type>::type
+	requires (
+		(!detail::TupleType<T1> ) &&
+		( detail::FunctionArg<T1> ) &&
+		( detail::TupleType<T2> ) &&
+		( detail::TupleOfFunctionArguments<T2> )
+	)
+	__hydra_host__ __hydra_device__ inline return_type
 	operator()( T1 x, T2 y )  const
 	{
 		auto z = hydra::thrust::tuple_cat(hydra::thrust::make_tuple(x), y);
@@ -470,13 +463,13 @@ public:
 	}
 
 	template<typename T1, typename T2>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if<
-	(!detail::is_tuple_type< typename std::decay<T1>::type>::value ) &&
-	( detail::is_function_argument< typename std::decay<T1>::type >::value ) &&
-	( detail::is_tuple_type< typename std::decay<T2>::type>::value ) &&
-	( detail::is_tuple_of_function_arguments< typename std::decay<T2>::type >::value ),
-	return_type>::type
+	requires (
+		(!detail::TupleType<T1> ) &&
+		( detail::FunctionArg<T1> ) &&
+		( detail::TupleType<T2> ) &&
+		( detail::TupleOfFunctionArguments<T2> )
+	)
+	__hydra_host__ __hydra_device__ inline return_type
 	operator()(  T2 y, T1 x )  const
 	{
 		auto z = hydra::thrust::tuple_cat(hydra::thrust::make_tuple(x), y);
@@ -531,9 +524,8 @@ hydra::Lambda<LambdaType, 0> wrap_lambda(LambdaType const& lambda)
 }
 
 template<typename LambdaType, typename ...T>
-typename std::enable_if<
-detail::all_true<std::is_same<T, hydra::Parameter>::value...>::value,
-hydra::Lambda<LambdaType, sizeof...(T)>>::type
+requires (detail::all_true<std::is_same<T, hydra::Parameter>::value...>::value)
+hydra::Lambda<LambdaType, sizeof...(T)>
 wrap_lambda(LambdaType const& lambda, T const&...parameters)
 {
 	return hydra::Lambda<LambdaType, sizeof...(T)>(lambda, {parameters...});

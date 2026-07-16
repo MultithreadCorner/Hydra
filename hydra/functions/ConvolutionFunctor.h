@@ -42,6 +42,7 @@
 #include <hydra/detail/FFTPolicy.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <type_traits>
+#include <concepts>
 
 
 namespace hydra {
@@ -356,7 +357,8 @@ private:
 
 
 	template<detail::FFTCalculator FFTC=FFT>
-	inline typename std::enable_if<FFTC ==detail::CuFFT>::type
+	requires (FFTC ==detail::CuFFT)
+	inline void
 	sync_data()
 	{
 		hydra::thrust::copy_n( fFFTData, fNSamples, fDeviceData );
@@ -364,7 +366,8 @@ private:
 	}
 
 	template<detail::FFTCalculator FFTC=FFT>
-	inline typename std::enable_if<FFTC !=detail::CuFFT>::type
+	requires (FFTC !=detail::CuFFT)
+	inline void
 	sync_data()
 	{
 		hydra::thrust::copy_n(device_system_type(), fFFTData, fNSamples, fDeviceData );
@@ -386,8 +389,9 @@ private:
 
 template<typename ArgType,  typename Functor, typename Kernel, detail::Backend BACKEND, detail::FFTCalculator FFT,
                typename T=typename detail::stripped_type<typename std::common_type<typename Functor::return_type, typename Kernel::return_type>::type>::type>
-inline typename std::enable_if< std::is_floating_point<T>::value, ConvolutionFunctor<Functor, Kernel,
-                 detail::BackendPolicy<BACKEND>, detail::FFTPolicy<T, FFT>, ArgType>>::type
+requires (std::floating_point<T>)
+inline ConvolutionFunctor<Functor, Kernel,
+                 detail::BackendPolicy<BACKEND>, detail::FFTPolicy<T, FFT>, ArgType>
 make_convolution( detail::BackendPolicy<BACKEND> const&, detail::FFTPolicy<T, FFT> const&, Functor const& functor, Kernel const& kernel,
 		T kmin, T kmax, unsigned nsamples=1024,	bool interpolate=true, bool power_up=true)
 {
