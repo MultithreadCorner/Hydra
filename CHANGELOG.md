@@ -23,7 +23,7 @@ In particular, in this release the following changes are present:
 
         hydra/detail/RandomConcepts.h     // HasRngFormula, RngFormulaFor, RngFormulaResultMismatch,
                                           // random::{Callable, Iterator, Iterable, SampleInto,
-                                          //   SampleIntoRange, MatchingIterable}
+                                          // SampleIntoRange, MatchingIterable}
     ```
 
 Further concepts were added next to their related traits: `FunctionArg` and `FunctionArgPack`
@@ -41,10 +41,13 @@ into a dedicated detail header, `hydra/detail/RandomIteratorTraits.h`. This deco
 the general interface, so the concepts and overloads that rely on them can include the traits
 alone resulting in a cleaner dependency tree.
 
+
 Bug fixes:
 
 * Fixed and re-enabled the Genz-Malik integration example.
 * Constraint fixes in the `hydra::LogLikelihoodFCN` overloads, appointed at the same time of SFINAE cleanup.
+* Fixed missing image of badge pointing to Zenodo entry.
+* `async.inl` example rewritten. 
 
 ### Hydra 4.0.1
 
