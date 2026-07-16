@@ -70,8 +70,8 @@ Hydra and Thrust
 ----------------
 
 Hydra is implemented on top of the [Thrust library](https://thrust.github.io/) and relies strongly on Thrust's containers, algorithms and backend management systems.
-However, since the official version of Thrust supports tuples with maximum ten elements, in order to overcome this limitation, Hydra uses an
-[maintain an unofficial version, initially forked from the original by Andrew Currigan and collaborators](https://github.com/andrewcorrigan/thrust-multi-permutation-iterator). 
+However, since the official version of Thrust supports tuples with maximum ten elements, in order to overcome this limitation, Hydra uses
+[an unofficial version, initially forked from the original by Andrew Currigan and collaborators](https://github.com/andrewcorrigan/thrust-multi-permutation-iterator). 
 This version implements variadic tuples and related classes, as well as provides some additional functionality, which are missing in the official Thrust and is necessary for Hydra, but too specific to "pull request".   
 In order to keep Hydra uptodated with the latest bug-fixes and architetural improvements in Thrust, at each Hydra release, the official [Thrust library](https://thrust.github.io/) is patched with the Currigan's variadic tuple implementation.
 This Thrust version is accessible in ``hydra::thrust`` namespace and does not conflicts in anyway with the users system Cuda Tookit installation or its deployment in applications also using Hydra. Same logics applies to Eigen and Boost.Math, which are also distributed with Hydra and are accessible in ``hydra::Eigen`` and ``hydra::boost::math`` namespaces.   
