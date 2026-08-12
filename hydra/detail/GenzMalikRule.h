@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -69,8 +69,9 @@ class GenzMalikRule;
  *
  */
 template<size_t DIM, hydra::detail::Backend   BACKEND>
+requires (DIM>1)
 class GenzMalikRule<DIM, hydra::detail::BackendPolicy<BACKEND>>:
-GenzMalikRuleBase<typename std::enable_if< (DIM>1), void >::type >
+GenzMalikRuleBase<void>
 {
 	typedef  hydra::detail::BackendPolicy<BACKEND> system_type;
 

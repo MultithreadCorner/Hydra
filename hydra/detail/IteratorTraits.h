@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -30,6 +30,8 @@
 #define ITERATORTRAITS_H_
 
 #include <utility>
+#include <hydra/detail/TypeTraits.h>
+#include <hydra/detail/utility/Generic.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/hydra_thrust/system/detail/generic/select_system.h>
 
@@ -55,6 +57,11 @@ struct IteratorTraits
 	}
 
 };
+
+
+template<typename ...Iterators>
+struct are_iterators: std::conditional<sizeof...(Iterators)==0, std::true_type,
+		     detail::all_true<detail::is_iterator<Iterators>::value...> >::type{};
 
 
 }  // namespace detail

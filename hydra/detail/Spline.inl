@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -47,6 +47,9 @@
 #include <math.h>
 #include <algorithm>
 #include <type_traits>
+#include <concepts>
+#include <hydra/detail/IteratorConcepts.h>
+#include <hydra/detail/utility/Utility_Tuple.h>
 
 namespace hydra {
 
@@ -78,7 +81,8 @@ inline Iterator lower_bound(Iterator first, Iterator last, const T& value)
 }
 
 template<typename T=double>
-inline typename std::enable_if< std::is_convertible<T, double>::value, T>::type
+requires (detail::RealConvertible<T>)
+inline T
 __hydra_host__ __hydra_device__
 cubic_spline(size_t i, size_t N,  T const (&X)[4] ,   T const (&Y)[4], T value ){
 
@@ -134,11 +138,12 @@ cubic_spline(size_t i, size_t N,  T const (&X)[4] ,   T const (&Y)[4], T value )
 
 
 template<typename Iterator1, typename Iterator2,typename Type>
-__hydra_host__ __hydra_device__
-inline typename std::enable_if<
-                      std::is_convertible<typename hydra::thrust::iterator_traits<Iterator1>::value_type, double >::value &&
-                      std::is_convertible<typename hydra::thrust::iterator_traits<Iterator2>::value_type, double >::value &&
-					  std::is_convertible<Type, double >::value, Type>::type
+requires (
+	std::is_convertible_v<typename hydra::thrust::iterator_traits<Iterator1>::value_type, double > &&
+	std::is_convertible_v<typename hydra::thrust::iterator_traits<Iterator2>::value_type, double > &&
+	std::is_convertible_v<Type, double >
+)
+__hydra_host__ __hydra_device__ inline Type
 spline(Iterator1 first, Iterator1 last,  Iterator2 measurements, Type value) {
 
 		using hydra::thrust::min;
@@ -156,14 +161,14 @@ spline(Iterator1 first, Iterator1 last,  Iterator2 measurements, Type value) {
 	}
 
 template<typename Iterable1, typename Iterable2,typename Type>
-__hydra_host__ __hydra_device__
-inline typename std::enable_if<
-                       hydra::detail::is_iterable<Iterable1>::value &&
-                       hydra::detail::is_iterable<Iterable2>::value &&
-                       std::is_convertible<typename Iterable1::value_type , double >::value &&
-                       std::is_convertible<typename Iterable2::value_type , double >::value &&
-					   std::is_convertible<Type, double >::value ,
-                       Type >::type
+requires (
+	detail::Iterable<Iterable1> &&
+	detail::Iterable<Iterable2> &&
+	std::is_convertible_v<typename Iterable1::value_type , double > &&
+	std::is_convertible_v<typename Iterable2::value_type , double > &&
+	std::is_convertible_v<Type, double >
+)
+__hydra_host__ __hydra_device__ inline Type
 spline(Iterable1&& abscissae,  Iterable2&& ordinate, Type value){
 
 	return spline( std::forward<Iterable1>(abscissae).begin(),

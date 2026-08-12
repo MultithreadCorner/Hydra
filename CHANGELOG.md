@@ -1,5 +1,54 @@
 ## CHANGE LOG
 
+### Hydra 4.1.0
+
+This release modernizes Hydra compile-time machinery by migrating the internal template
+metaprogramming from SFINAE (`std::enable_if`) to C++20 **concepts** and `requires` clauses.
+Type constraints are now expressed explicitly and self-documenting, yielding shorter and clearer compiler
+errors. The change is internal: user-facing interfaces are unaffected and the same source
+keeps compiling across the CPP, OMP, TBB and CUDA backends.
+
+In particular, in this release the following changes are present:
+
+1) New concept headers, collecting the reusable constraints used throughout the framework:
+
+    ```cpp
+        hydra/detail/FunctorConcepts.h    // HydraFunctor, HydraCompositeFunctor, HydraLambda,
+                                          // HydraCallable, CallableScaledBy
+
+        hydra/detail/TupleConcepts.h      // TupleType, TupleOfFunctionArguments, ValidTypePack
+
+        hydra/detail/IteratorConcepts.h   // Iterable, Iterables, Iterator, Iterators,
+                                          // ReverseIterable
+
+        hydra/detail/RandomConcepts.h     // HasRngFormula, RngFormulaFor, RngFormulaResultMismatch,
+                                          // random::{Callable, Iterator, Iterable, SampleInto,
+                                          // SampleIntoRange, MatchingIterable}
+    ```
+
+Further concepts were added next to their related traits: `FunctionArg` and `FunctionArgPack`
+defined in `hydra/detail/FunctionArgument.h`; `HydraHistogram` defined in `hydra/detail/HistogramTraits.h`;
+the compile-time recursion guards `LoopGoing`, `LoopEnd`, `IndexStep`, `IndexEnd` have been introduced
+to keep compile-time recursion more readable and are defined in `hydra/detail/utility/Generic.h`;
+finally the numeric helpers `Accumulable` and `RealConvertible` are defined in `hydra/detail/utility/Utility_Tuple.h`.
+
+2) SFINAE cleanup: the `std::enable_if`-based overload constraints were replaced by `requires`
+clauses using the new concepts, or the already present type traits. The cleanup was done
+across the whole codebase.
+
+3) The iterator traits used by the random-generation facilities were moved out from the general header, `Random.h`,
+into a dedicated detail header, `hydra/detail/RandomIteratorTraits.h`. This decouples the detailed traits from
+the general interface, so the concepts and overloads that rely on them can include the traits
+alone resulting in a cleaner dependency tree.
+
+
+Bug fixes:
+
+* Fixed and re-enabled the Genz-Malik integration example.
+* Constraint fixes in the `hydra::LogLikelihoodFCN` overloads, appointed at the same time of SFINAE cleanup.
+* Fixed missing image of badge pointing to Zenodo entry.
+* `async.inl` example rewritten. 
+
 ### Hydra 4.0.1
 
 Hydra is now compatible with CUDA 12.2 or higher and compliant with C++17 and C++20.    

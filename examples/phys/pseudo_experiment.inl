@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2018 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -244,7 +244,7 @@ int main(int argv, char** argc)
 		hydra::SeedRNG seeder;
 		auto seed = seeder();
 
-		//fill Gaussian component in a separated thread
+		//fill Gaussian each component in a separated thread
 		auto gaussian_handler = std::async(std::launch::async,
 				[seed,data_min, data_max, mean, sigma, nentries, &dataset]( ){
 
@@ -345,7 +345,7 @@ int main(int argv, char** argc)
 		auto noise_handler = std::async(std::launch::async,
 				[seed, obs_min, obs_max, ndof, nentries, &dataset]( ){
 
-			std::ranlux24 gen( seed ); //Standard mersenne_twister_engine seeded with rd()
+			std::ranlux24 gen( seed ); //Standard ranlux24 engine seeded with rd()
 
 			std::chi_squared_distribution<> dist(ndof);
 
@@ -375,7 +375,9 @@ int main(int argv, char** argc)
 		noise_handler.wait();
 
 		//shake the cocktail well
-		std::random_shuffle(dataset.begin(), dataset.end());
+		// 
+		
+		std::shuffle(dataset.begin(), dataset.end(), std::ranlux24(seed) );
 
 		if(verbose){
 

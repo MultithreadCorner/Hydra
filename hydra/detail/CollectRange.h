@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -29,19 +29,18 @@
 #ifndef COLLECTRANGE_H_
 #define COLLECTRANGE_H_
 
-
+#include <hydra/detail/IteratorConcepts.h>
 
 namespace hydra {
 
 
 template<typename Iterable_Index, typename Iterable_Values>
+requires (detail::Iterables<Iterable_Index, Iterable_Values>)
 auto collect( Iterable_Index& indexing_scheme, Iterable_Values& collected_values)
--> typename std::enable_if<hydra::detail::is_iterable<Iterable_Index>::value
-					    && hydra::detail::is_iterable<Iterable_Values>::value,
-Range<hydra::thrust::permutation_iterator<
+-> Range<hydra::thrust::permutation_iterator<
 		decltype(std::declval<Iterable_Values&>().begin()),
 		decltype(std::declval<Iterable_Index&>().begin())>
->::type
+>
 {
 	typedef hydra::thrust::permutation_iterator<Iterable_Values,Iterable_Index> collect_iterator;
 	return make_range(collect_iterator(begin(collected_values), begin(indexing_scheme) ),

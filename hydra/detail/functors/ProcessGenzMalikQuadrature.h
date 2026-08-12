@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2020 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -178,13 +178,13 @@ private:
 	\f$ \int_a^b f(x)\,dx \approx \frac{b-a}{2} \sum_{i=1}^n w_i f\left(\frac{b-a}{2}x_i + \frac{a+b}{2}\right) \f$.
 	*/
 	template<typename Abscissa, typename TransAbscissa , size_t I>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< (I== hydra::thrust::tuple_size<TransAbscissa>::value), void  >::type
+	requires LoopEnd<I, hydra::thrust::tuple_size<TransAbscissa>::value>
+	__hydra_host__ __hydra_device__ inline void
 	get_transformed_abscissa_helper( Abscissa const& ,  TransAbscissa& ){}
 
 	template<typename Abscissa, typename TransAbscissa , size_t I=0>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< (I < hydra::thrust::tuple_size<TransAbscissa>::value), void  >::type
+	requires LoopGoing<I, hydra::thrust::tuple_size<TransAbscissa>::value>
+	__hydra_host__ __hydra_device__ inline void
 	get_transformed_abscissa_helper(  Abscissa const& abscissa, TransAbscissa& transformed_abscissa  ){
 
 		hydra::thrust::get<I>(transformed_abscissa)  =
@@ -210,13 +210,13 @@ private:
 
 //-----------------------
 	template<typename T, int I>
-	__hydra_host__ __hydra_device__
-	typename std::enable_if< (I==N),void >::type
+	requires LoopEnd<I, N>
+	__hydra_host__ __hydra_device__ void
 	get_dim_helper( T const&, int& ,  int& ){ }
 
 	template<typename T, int I=0>
-	__hydra_host__ __hydra_device__
-	typename std::enable_if< (I< N),void >::type
+	requires LoopGoing<I, N>
+	__hydra_host__ __hydra_device__ void
 	get_dim_helper( T const& X, int& result,  int& found_zeros ){
 
 		result +=  hydra::thrust::get<I+3>(X)>0.0 || hydra::thrust::get<I+3>(X) < 0.0 ?I:0.0;

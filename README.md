@@ -1,7 +1,7 @@
-[![DOI](zenodo.org/badge/DOI/10.5281/zenodo.10253377.svg)](https://doi.org/10.5281/zenodo.10253377)
+[![Static Badge](https://img.shields.io/badge/%20DOI-10.5281%2Fzenodo.1206261-brown?label=DOI)](https://doi.org/10.5281/zenodo.1206261)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Documentation Status](https://readthedocs.org/projects/hydra-documentation/badge/?version=latest&branch=master&kill_cache=1)](http://hydra-documentation.readthedocs.io/en/latest/?badge=latest)
-[![latest version](https://badge.fury.io/gh/MultithreadCorner%2FHydra.svg?branch=master&kill_cache=1)](https://github.com/MultithreadCorner/Hydra/releases/latest)
+[![Latest version](https://badge.fury.io/gh/MultithreadCorner%2FHydra.svg?branch=master&kill_cache=1)](https://github.com/MultithreadCorner/Hydra/releases/latest)
 
 -----------------------------
 
@@ -32,7 +32,7 @@ Table of Contents
 What is it?
 -----------
 
-Hydra is a C++17/20 compliant and header only framework designed to perform common data analysis tasks on massively parallel platforms. Hydra provides a collection of containers and algorithms commonly used in HEP data analysis, which can deploy  transparently OpenMP, CUDA and TBB enabled devices, allowing the user to re-use the same code across a large range of available multi-core CPU and accelerators. The framework design is focused on performance and precision.
+Hydra is a C++20 compliant and header only framework designed to perform common data analysis tasks on massively parallel platforms. Hydra provides a collection of containers and algorithms commonly used in HEP data analysis, which can deploy  transparently OpenMP, CUDA and TBB enabled devices, allowing the user to re-use the same code across a large range of available multi-core CPU and accelerators. The framework design is focused on performance and precision.
 
 The core algorithms follow as close as possible the implementations widely used in frameworks like ROOT and libraries
 like GSL.
@@ -70,8 +70,8 @@ Hydra and Thrust
 ----------------
 
 Hydra is implemented on top of the [Thrust library](https://thrust.github.io/) and relies strongly on Thrust's containers, algorithms and backend management systems.
-However, since the official version of Thrust supports tuples with maximum ten elements, in order to overcome this limitation, Hydra uses an
-[maintain an unofficial version, initially forked from the original by Andrew Currigan and collaborators](https://github.com/andrewcorrigan/thrust-multi-permutation-iterator). 
+However, since the official version of Thrust supports tuples with maximum ten elements, in order to overcome this limitation, Hydra uses
+[an unofficial version, initially forked from the original by Andrew Currigan and collaborators](https://github.com/andrewcorrigan/thrust-multi-permutation-iterator). 
 This version implements variadic tuples and related classes, as well as provides some additional functionality, which are missing in the official Thrust and is necessary for Hydra, but too specific to "pull request".   
 In order to keep Hydra uptodated with the latest bug-fixes and architetural improvements in Thrust, at each Hydra release, the official [Thrust library](https://thrust.github.io/) is patched with the Currigan's variadic tuple implementation.
 This Thrust version is accessible in ``hydra::thrust`` namespace and does not conflicts in anyway with the users system Cuda Tookit installation or its deployment in applications also using Hydra. Same logics applies to Eigen and Boost.Math, which are also distributed with Hydra and are accessible in ``hydra::Eigen`` and ``hydra::boost::math`` namespaces.   
@@ -141,7 +141,7 @@ A suite of examples demonstrating the basic features of the framework is include
 All the examples are organized in .inl files, which implements the `main()` function. These files are included by .cpp and .cu
 files, which are compiled according with the availability of backends. TBB and CUDA backends requires the installation of the corresponding libraries and runtimes.
 These code samples uses, but does not requires [ROOT](https://root.cern.ch/) for graphics, and [TCLAP](http://tclap.sourceforge.net/) library for process command line arguments. 
-Some functionality in Hydra requires Eigen, GSL, CuFFT and FFTW.
+Some functionality in Hydra requires GSL, CuFFT and FFTW.
 
 Examples
 --------
@@ -159,22 +159,29 @@ The compiled examples will be placed in the build/examples folder. The sub-direc
 
 The examples are listed below:
 
-1. __async__ : async_mc
-2. __fit__ : basic_fit, multidimensional_fit, extended_logLL_fit, fractional_logLL_fit, phsp_unweighting_functor_and_fit, splot
-3. __histograming__ : dense_histogram, sparse_histogram
-4. __misc__ : multiarray_container, multivector_container, variant_types
-5. __numerical_integration__ : adaptive_gauss_kronrod, gauss_kronrod, plain_mc, vegas
-6. __phase_space__ : phsp_averaging_functor, phsp_evaluating_functor, phsp_reweighting, phsp_basic, phsp_unweighting, phsp_chain, phsp_unweighting_functor
-7. __phys__ : breit_wigner_plus_chebychev,  breit_wigner_plus_polynomial, crystal_ball_plus_exponential, dalitz_plot, double_gaussian_plus_exponential, gaussian_plus_argus,
+1. __fit__ : basic_fit, multidimensional_fit, extended_logLL_fit, fractional_logLL_fit, phsp_unweighting_functor_and_fit, splot
+2. __histograming__ : dense_histogram, sparse_histogram
+3. __misc__ : multiarray_container, multivector_container, variant_types
+4. __numerical_integration__ : adaptive_gauss_kronrod, gauss_kronrod, plain_mc, vegas
+5. __phase_space__ : phsp_averaging_functor, phsp_evaluating_functor, phsp_reweighting, phsp_basic, phsp_unweighting, phsp_chain, phsp_unweighting_functor
+6. __phys__ : breit_wigner_plus_chebychev,  breit_wigner_plus_polynomial, crystal_ball_plus_exponential, dalitz_plot, double_gaussian_plus_exponential, gaussian_plus_argus,
 ipatia_plus_argus, particle_mass, pseudo_experiment
-8. __random__ :  basic_distributions, sample_distribution
+7. __random__ :  basic_distributions, sample_distribution
 9. __root_macros__ :  macros to run examples in ROOT
 
-Each compiled example executable will have an postfix (ex.:_cpp, _cuda, _omp, _tbb) to indicate the deployed device backend.  
-All examples use CPP as host backend. 
+Each compiled example executable will have an postfix (ex.:_cpp, _cuda, _omp, _tbb) to indicate the deployed device backend. All examples use CPP as host backend.
+
+For all versions, each example and test is always compiled and executed on `tbb`, `omp` and `cpp` backends. For this release
+examples and tests for `cuda` backend have been compiled and executed on the following platforms :
+
+  
+| **OS** | **Host Compiler Version** | **CUDA Version**  |**GPU**|
+|--------|---------------------------|-------------------|-------|
+| Alma Linux 10 | GCC 14.3.1 / Clang 21.1.8 | CUDA 12.9.3 | GeForce GTX 1050 Ti |
 
 
-Recent publications citing Hydra and presentations at conferences and workshops
+
+Recent publications, presentations at conferences and workshops citing Hydra 
 -------------------------------------------------------------------------------
 
 1. [A. A. Alves Junior, *Hydra: a C++11 framework for data analysis in massively parallel platforms*, Proceedings of the 18th International Workshop on Advanced Computing and Analysis Techniques in Physics Research, 21-25 August 2017 Seattle,USA](https://inspirehep.net/record/1636201/files/arXiv:1711.05683.pdf),
@@ -186,8 +193,9 @@ Recent publications citing Hydra and presentations at conferences and workshops
 7. [A. Loi, A. Contu and A. Lai, *Timing optimisation and analysis in the design of 3D silicon sensors: the TCoDe simulator* - JINST 16 P02011, https://doi.org/10.1088/1748-0221/16/02/P02011](https://iopscience.iop.org/article/10.1088/1748-0221/16/02/P02011)
 8. [A. Loi, A. Contu, R. Mendicino, G. T. Forcolin, A. Lai, G. F. Betta, M. Boscardin, S. Vecchi, *Timing optimization for 3D silicon sensors* - Nuclear Instruments and Methods in Physics Research Section A: Accelerators, Spectrometers, Detectors and Associated Equipment, Volume 958, 2020, 162491,https://doi.org/10.1016/j.nima.2019.162491](https://www.sciencedirect.com/science/article/abs/pii/S0168900219310381)
 9. [R. Aaij et al. (LHCb Collaboration) *Angular Analysis of D0→π+π−μ+μ− and D0→K+K−μ+μ− Decays and Search for CP Violation* - Phys. Rev. Lett. 128, 221801](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.128.221801)
-10. [D. Brundu1, A. Cardini, A. Contu, G.M. Cossu, G.-F. Dalla Betta, M. Garau, A. Lai, A. Lampis, A. Loi and M.M. Obertino,*Accurate modelling of 3D-trench silicon sensor with enhanced timing performance and comparison with test beam measurements*
-JINST 16 P09028, https://doi.org/10.1088/1748-0221/16/09/P09028](https://iopscience.iop.org/article/10.1088/1748-0221/16/09/P09028/meta)
+10. [D. Brundu1, A. Cardini, A. Contu, G.M. Cossu, G.-F. Dalla Betta, M. Garau, A. Lai, A. Lampis, A. Loi and M.M. Obertino,*Accurate modelling of 3D-trench silicon sensor with enhanced timing performance and comparison with test beam measurements* JINST 16 P09028, https://doi.org/10.1088/1748-0221/16/09/P09028](https://iopscience.iop.org/article/10.1088/1748-0221/16/09/P09028/meta)
+11. [Brundu, D., Cadoni, M., Oi, M., Olla, P., & Sanna, A. P. (2022). Atmospheric Newtonian noise modeling for third-generation gravitational wave detectors. Physical Review. D/Physical Review. D., 106(6). https://doi.org/10.1103/physrevd.106.064040](https://journals.aps.org/prd/abstract/10.1103/PhysRevD.106.064040)
+12. [Ricci, A. M., Alves Junior, A. A., Brundu, D., Contu, A., Dordei, F., and Muzzetto, P., “Medusa, a multithread 4-body decay fitting and simulation software”, in <i>26th International Conference on Computing in High Energy and Nuclear Physics (CHEP 2023)</i>, 2024, vol. 295, Art. no. 06015. doi:10.1051/epjconf/202429506015.](https://doi.org/10.1051/epjconf/202429506015)
 
 
 How to cite Hydra

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -71,6 +71,15 @@ struct is_hydra_sparse_histogram: std::false_type {};
 
 template<class T, typename D, size_t N, detail::Backend BACKEND>
 struct is_hydra_sparse_histogram< hydra::SparseHistogram<T,N,detail::BackendPolicy<BACKEND>,D> >: std::true_type {};
+
+/**
+ * @brief Satisfied when @c T is a Hydra histogram, dense or sparse. Folds the
+ * recurring @c is_hydra_dense_histogram<T>::value || is_hydra_sparse_histogram<T>::value
+ * constraint into a single name.
+ */
+template<typename T>
+concept HydraHistogram =
+    is_hydra_dense_histogram<T>::value || is_hydra_sparse_histogram<T>::value;
 
 
 }  // namespace detail

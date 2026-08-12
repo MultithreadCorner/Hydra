@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -49,6 +49,7 @@
 
 //Hydra wrappers
 #include<hydra/detail/fftw/WrappersFFTW.h>
+#include <hydra/detail/IteratorConcepts.h>
 
 namespace hydra {
 
@@ -120,8 +121,8 @@ public:
 
 	template<typename Iterable,
 	typename Type =	typename decltype(*std::declval<Iterable&>().begin())::value_type>
-	inline typename std::enable_if<std::is_convertible<InputType, Type>::value
-	                        && detail::is_iterable<Iterable>::value, void>::type
+	requires (std::is_convertible_v<InputType, Type> && hydra::detail::Iterable<Iterable>)
+	inline void
 	LoadInputData( Iterable&& container)
 	{
 
@@ -250,8 +251,8 @@ private:
 
 	void LoadInput(int size, const InputType* data )
 	{
-		std::cout << "size "<< size<<std::endl;
-		std::cout << "fNInput "<< fNInput<<std::endl;
+		//std::cout << "size "<< size<<std::endl;
+		//std::cout << "fNInput "<< fNInput<<std::endl;
 
 		assert(size <= fNInput);
 		memcpy(&fInput.get()[0], data, sizeof(InputType)*size);

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -90,12 +90,14 @@ struct GetBinCenter: public hydra::thrust::unary_function<size_t, typename tuple
 	// multiply static array elements
 	//----------------------------------------
 	template< size_t I>
-	__hydra_host__ __hydra_device__ inline typename std::enable_if< (I==N), void  >::type
+	requires LoopEnd<I, N>
+	__hydra_host__ __hydra_device__ inline void
 	multiply( size_t (&)[N] , size_t&  )
 	{ }
 
 	template<size_t I=0>
-	__hydra_host__ __hydra_device__ inline typename std::enable_if< (I<N), void  >::type
+	requires LoopGoing<I, N>
+	__hydra_host__ __hydra_device__ inline void
 	multiply( size_t (&obj)[N], size_t& result )
 	{
 		result = I==0? 1.0: result;
@@ -105,15 +107,15 @@ struct GetBinCenter: public hydra::thrust::unary_function<size_t, typename tuple
 
 	//end of recursion
 	template<size_t I>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< (I==N), void  >::type
+	requires LoopEnd<I, N>
+	__hydra_host__ __hydra_device__ inline void
 	get_indexes(size_t,  size_t (&)[N])
 	{}
 
 	//begin of the recursion
 	template<size_t I=0>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< (I<N), void  >::type
+	requires LoopGoing<I, N>
+	__hydra_host__ __hydra_device__ inline void
 	get_indexes(size_t index,  size_t (&indexes)[N] )
 	{
 		size_t factor    =  1;
@@ -259,14 +261,14 @@ struct GetAxisBinCenter: public hydra::thrust::unary_function<size_t, T>
 	// multiply static array elements
 	//----------------------------------------
 	template< size_t J>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< (J==N), void  >::type
+	requires LoopEnd<J, N>
+	__hydra_host__ __hydra_device__ inline void
 	multiply( size_t (&)[N] , size_t&  )
 	{ }
 
 	template<size_t J=0>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< (J<N), void  >::type
+	requires LoopGoing<J, N>
+	__hydra_host__ __hydra_device__ inline void
 	multiply( size_t (&obj)[N], size_t& result )
 	{
 		result = J==0? 1.0: result;
@@ -276,15 +278,15 @@ struct GetAxisBinCenter: public hydra::thrust::unary_function<size_t, T>
 
 	//end of recursion
 	template<size_t J>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< (J==N), void  >::type
+	requires LoopEnd<J, N>
+	__hydra_host__ __hydra_device__ inline void
 	get_indexes(size_t,  size_t (&)[N])
 	{}
 
 	//begin of the recursion
 	template<size_t J=0>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< (J<N), void  >::type
+	requires LoopGoing<J, N>
+	__hydra_host__ __hydra_device__ inline void
 	get_indexes(size_t index,  size_t (&indexes)[N] )
 	{
 		size_t factor    =  1;

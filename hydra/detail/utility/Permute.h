@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -34,6 +34,7 @@
 #include <hydra/detail/external/hydra_thrust/memory.h>
 #include <hydra/detail/external/hydra_thrust/iterator/iterator_traits.h>
 #include <hydra/detail/external/hydra_thrust/swap.h>
+#include <concepts>
 
 namespace hydra {
 
@@ -77,7 +78,8 @@ using hydra::detail::iter_swap;
 }
 
 template<typename Iterator, typename Integer, typename Comparator>
-typename std::enable_if<std::is_integral<Integer>::value, void>::type
+requires (std::integral<Integer>)
+void
 __hydra_host__ __hydra_device__
 nth_permutation(Iterator begin, Iterator end, Integer n, Comparator comp)
 {

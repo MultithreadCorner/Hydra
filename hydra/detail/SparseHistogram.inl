@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -42,6 +42,7 @@
 #include <hydra/detail/external/hydra_thrust/memory.h>
 
 #include<utility>
+#include <hydra/detail/IteratorConcepts.h>
 
 namespace hydra {
 
@@ -508,7 +509,8 @@ SparseHistogram<T, 1,  detail::BackendPolicy<BACKEND>,detail::unidimensional >::
 
 template<typename T,  size_t N , hydra::detail::Backend BACKEND>
 template<size_t M>
-inline typename std::enable_if< M==2, T >::type
+requires (M==2)
+inline T
 SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Interpolate( std::array<size_t,2> const&  point){
 
 	return spline2D(this->GetBinsCenters(placeholders::_0).begin(), this->GetBinsCenters(placeholders::_0).end(),
@@ -518,7 +520,8 @@ SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional
 
 template<typename T,  size_t N , hydra::detail::Backend BACKEND>
 template<size_t M>
-inline typename std::enable_if< M==3, T >::type
+requires (M==3)
+inline T
 SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Interpolate( std::array<size_t,3> const&  point){
 
 	return spline3D(this->GetBinsCenters(placeholders::_0).begin(), this->GetBinsCenters(placeholders::_0).end(),
@@ -530,7 +533,8 @@ SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional
 
 template<typename T,  size_t N , hydra::detail::Backend BACKEND>
 template<size_t M>
-inline typename std::enable_if< M==4, T >::type
+requires (M==4)
+inline T
 SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>::Interpolate( std::array<size_t,4> const&  point){
 
 	return spline4D(
@@ -570,8 +574,8 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND>, std::array<size_t, N> gri
 
 //iterable based
 template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable>
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
-SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
+requires (detail::Iterable<Iterable>)
+inline SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
 		std::array<double, N>lowerlimits,   std::array<double, N> upperlimits,	Iterable&& data){
 
@@ -581,9 +585,8 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t
 }
 
 template< typename T, size_t N , hydra::detail::Backend BACKEND, typename Iterable1,typename Iterable2 >
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value&&
-hydra::detail::is_iterable<Iterable2>::value,
-SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>>::type
+requires (detail::Iterables<Iterable1, Iterable2>)
+inline SparseHistogram< T, N,  detail::BackendPolicy<BACKEND>, detail::multidimensional>
 make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, std::array<size_t, N> grid,
 		std::array<double, N>lowerlimits,   std::array<double, N> upperlimits,
 		Iterable1&& data,
@@ -626,8 +629,8 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND>, size_t grid, double lower
 
 //iterable based
 template< typename T, hydra::detail::Backend BACKEND, typename Iterable>
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
-SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
+requires (detail::Iterable<Iterable>)
+inline SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
 make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid,
 		double lowerlimits,  double upperlimits,	Iterable&& data){
 
@@ -637,9 +640,8 @@ make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid,
 }
 
 template< typename T, hydra::detail::Backend BACKEND, typename Iterable1,typename Iterable2 >
-inline typename std::enable_if< hydra::detail::is_iterable<Iterable1>::value&&
-hydra::detail::is_iterable<Iterable2>::value,
-SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>>::type
+requires (detail::Iterables<Iterable1, Iterable2>)
+inline SparseHistogram< T, 1,  detail::BackendPolicy<BACKEND>, detail::unidimensional>
 make_sparse_histogram( detail::BackendPolicy<BACKEND> backend, size_t grid,
 		double lowerlimits, double upperlimits,
 		Iterable1&& data,

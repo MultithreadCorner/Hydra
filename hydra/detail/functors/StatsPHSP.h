@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -37,20 +37,15 @@ namespace detail {
 
 struct StatsPHSP
 {
+	StatsPHSP() = default;
 
-	__hydra_host__ __hydra_device__
-	StatsPHSP():
-		fMean(0),
-		fM2(0),
-		fW(0)
-		{}
-
-	__hydra_host__ __hydra_device__
-	StatsPHSP(StatsPHSP const& other):
+	StatsPHSP(StatsPHSP const& other) = default;
+	/*
 	fMean(other.fMean),
 	fM2(other.fM2),
 	fW(other.fW)
-	{}
+	{}*/
+	StatsPHSP& operator=(StatsPHSP const& other) = default;
 
 	GReal_t fMean;
     GReal_t fM2;

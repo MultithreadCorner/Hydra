@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -94,13 +94,13 @@ struct CovMatrixUnary
 
 
 	template<typename T, int N, int I>
-	__hydra_host__ __hydra_device__
-	inline typename hydra::thrust::detail::enable_if<(I == N*N),void >::type
+	requires LoopEnd<I, N*N>
+	__hydra_host__ __hydra_device__ inline void
 	set_matrix(double denominator, T&&, hydra::Eigen::Matrix<double, N, N>&){ }
 
 	template<typename T, int N, int I=0>
-	__hydra_host__ __hydra_device__
-	inline typename hydra::thrust::detail::enable_if<(I < N*N),void >::type
+	requires LoopGoing<I, N*N>
+	__hydra_host__ __hydra_device__ inline void
 	set_matrix(double denominator, T&& ftuple, hydra::Eigen::Matrix<double, N, N>& fcovmatrix  )
 	{
 		fcovmatrix(index<N, I>::I, index<N, I>::J ) = \
@@ -211,8 +211,8 @@ struct SWeights
 
 
 	template<typename Type, int V=W >
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< (V < 0), tuple_t >::type
+	requires ((V < 0))
+	__hydra_host__ __hydra_device__ inline tuple_t
 	//inline tuple_t
 	operator()(Type x)
 	{
@@ -231,8 +231,8 @@ struct SWeights
 	}
 
 	template<typename Type, int V=W>
-	__hydra_host__ __hydra_device__
-	inline typename std::enable_if< (V >= 0), double >::type
+	requires ((V >= 0))
+	__hydra_host__ __hydra_device__ inline double
 	//inline tuple_t
 	operator()(Type x)
 	{

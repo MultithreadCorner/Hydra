@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -67,6 +67,7 @@
 #include <vector>
 #include <utility>
 #include <initializer_list>
+#include <hydra/detail/IteratorConcepts.h>
 
 namespace hydra {
 
@@ -196,8 +197,8 @@ public:
 	 * @return A Range object pointing to the @param result container
 	 */
 	template<typename ...FUNCTOR, typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
-			 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+	requires (detail::Iterable<Iterable>)
+	inline hydra::Range<decltype(std::declval<Iterable>().begin())>
 	Evaluate(Vector4R const& mother, Iterable&& iterable, FUNCTOR const& ...functors);
 
 	/**
@@ -208,9 +209,8 @@ public:
 	 * @return A Range object pointing to the @param result container
 	 */
 	template<typename ...FUNCTOR, typename IterableMother, typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value &&
-	hydra::detail::is_iterable<IterableMother>::value,
-				 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+	requires (detail::Iterables<Iterable, IterableMother>)
+	inline hydra::Range<decltype(std::declval<Iterable>().begin())>
 	Evaluate(IterableMother&& mothers, Iterable&& result, FUNCTOR const& ...functors);
 
 	//--------------------------------------------------------------------
@@ -259,8 +259,8 @@ public:
 	 * @param end Iterator pointing to the end output range.
 	 */
 	template<typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value,
-				 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+	requires (detail::Iterable<Iterable>)
+	inline hydra::Range<decltype(std::declval<Iterable>().begin())>
 	Generate(Vector4R const& mother, Iterable&& events);
 
 	/**
@@ -270,9 +270,8 @@ public:
 	 * @param daughters_begin Iterator pointing to the begin of range of daughter particles.
 	 */
 	template<typename IterableMothers, typename Iterable>
-	inline typename std::enable_if< hydra::detail::is_iterable<Iterable>::value &&
-		hydra::detail::is_iterable<IterableMothers>::value,
-					 hydra::Range<decltype(std::declval<Iterable>().begin())>>::type
+	requires (detail::Iterables<Iterable, IterableMothers>)
+	inline hydra::Range<decltype(std::declval<Iterable>().begin())>
 	Generate( IterableMothers&& mothers, Iterable&& daughters);
 
 	//--------------------------------------------------------------------------

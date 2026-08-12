@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -36,15 +36,15 @@
 #include <hydra/detail/external/hydra_thrust/copy.h>
 #include <hydra/Range.h>
 #include <utility>
+#include <hydra/detail/IteratorConcepts.h>
 
 namespace hydra {
 
 
 
 template<typename Iterable_Source, typename Iterable_Target>
-typename std::enable_if<hydra::detail::is_iterable<Iterable_Source>::value
-&& hydra::detail::is_iterable<Iterable_Target>::value,
-Range<decltype(std::declval<Iterable_Target&>().begin())>>::type
+requires (detail::Iterables<Iterable_Source, Iterable_Target>)
+Range<decltype(std::declval<Iterable_Target&>().begin())>
 copy(Iterable_Source&& source, Iterable_Target&& destination)
 {
 	hydra::thrust::copy(std::forward<Iterable_Source>(source).begin(),

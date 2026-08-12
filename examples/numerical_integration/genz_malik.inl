@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2020 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -60,7 +60,38 @@
 #include <hydra/Lambda.h>
 #include <hydra/host/System.h>
 #include <hydra/device/System.h>
+#include <hydra/detail/utility/Utility_Tuple.h>
 
+
+/*
+ * Dimension-generic Gaussian integrand.
+ * The Genz-Malik algorithm evaluates the integrand on a hydra tuple holding the N
+ * coordinates of each abscissa. tupleToArray copies them into a std::array so
+ * the separable Gaussian can be written as a plain loop over the dimensions.
+ */
+template<size_t N>
+struct GaussianND
+{
+	double mean;
+	double sigma;
+
+	template<typename Tuple>
+	__hydra_host__ __hydra_device__
+	double operator()(Tuple coordinates) const
+	{
+		std::array<double, N> x;
+		hydra::detail::tupleToArray(coordinates, x);
+
+		double s2 = sigma*sigma;
+		double g  = 1.0;
+		for(size_t i=0; i<N; i++)
+		{
+			double m2 = (x[i] - mean)*(x[i] - mean);
+			g *= exp( -m2/(2.0*s2) )/sqrt(2.0*s2*PI);
+		}
+		return g;
+	}
+};
 
 
 int main(int argv, char** argc)
@@ -86,7 +117,7 @@ int main(int argv, char** argc)
 		std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl;
 	}
 
-	//number of dimensions (user can change it)
+	//number of dimensions (user can change it; the GaussianND integrand is generic)
 	constexpr size_t N = 2;
 
 	//integration region limits
@@ -104,24 +135,8 @@ int main(int argv, char** argc)
 		max[i]   =  6.0;
 	}
 
-	// create functor using C++11 lambda
-	auto GAUSSIAN = [=] __hydra_dual__ (unsigned int n, double* x ){
-
-		double g = 1.0;
-		double f = 0.0;
-
-		for(size_t i=0; i<N; i++){
-			double m2 = (x[i] - mean )*(x[i] - mean );
-			double s2 = sigma*sigma;
-			f = exp(-m2/(2.0 * s2 ))/( sqrt(2.0*s2*PI));
-			g *= f;
-		}
-
-		return g;
-	};
-
-	//wrap the lambda
-    auto gaussian = hydra::wrap_lambda(GAUSSIAN);
+	//dimension-generic Gaussian integrand (works for any N, see GaussianND above)
+    auto gaussian = GaussianND<N>{mean, sigma};
 
     //device
     {

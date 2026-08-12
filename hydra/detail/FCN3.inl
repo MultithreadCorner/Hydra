@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -128,11 +128,13 @@ public:
 private:
 
 	template<size_t I>
-	typename std::enable_if<(I==nfcns), void>::type
+	requires (I==nfcns)
+	void
 	load_fcn_parameters_helper(std::vector<Parameter*>&){}
 
 	template<size_t I=0>
-	typename std::enable_if< (I<nfcns), void>::type
+	requires (I<nfcns)
+	void
 	load_fcn_parameters_helper( std::vector<Parameter*>& pars){
 
 		auto vars = hydra::thrust::get<I>(fFCNS).GetParameters().GetVariables();
@@ -153,11 +155,13 @@ private:
 	}
 
 	template<size_t I>
-	typename std::enable_if< (I==nfcns), void>::type
+	requires (I==nfcns)
+	void
 	add_tasks( std::vector<double> const& parameters, std::vector<std::future<double>>&  ) const {}
 
 	template<size_t I=0>
-	typename std::enable_if< (I<nfcns), void>::type
+	requires (I<nfcns)
+	void
 	add_tasks(std::vector<double> const& parameters, std::vector<std::future<double>>& tasks ) const
 	{
 		tasks.push_back(std::async(

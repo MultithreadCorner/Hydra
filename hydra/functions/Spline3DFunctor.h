@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -48,6 +48,8 @@
 #include <math.h>
 #include <algorithm>
 #include <memory>
+#include <hydra/detail/IteratorConcepts.h>
+#include <hydra/detail/utility/Utility_Tuple.h>
 
 namespace hydra {
 
@@ -184,13 +186,14 @@ make_spline3D(IteratorX firstX, IteratorX lastX, IteratorY firstY, IteratorY las
 }
 
 template<typename ArgTypeX, typename ArgTypeY,typename ArgTypeZ, typename IterableX, typename IterableY, typename IterableZ, typename IterableM >
-inline typename std::enable_if<
-          hydra::detail::is_iterable<IterableX>::value &&
-		  hydra::detail::is_iterable<IterableY>::value &&
-		  hydra::detail::is_iterable<IterableZ>::value &&
-		  hydra::detail::is_iterable<IterableM>::value,
-          Spline3DFunctor< decltype(std::declval<IterableX>().begin()) ,decltype(std::declval<IterableY>().begin()),
-                          decltype(std::declval<IterableZ>().begin()), decltype(std::declval<IterableM>().begin()), ArgTypeX, ArgTypeY, ArgTypeZ> >::type
+requires (
+	hydra::detail::Iterable<IterableX> &&
+	hydra::detail::Iterable<IterableY> &&
+	hydra::detail::Iterable<IterableZ> &&
+	hydra::detail::Iterable<IterableM>
+)
+inline Spline3DFunctor< decltype(std::declval<IterableX>().begin()) ,decltype(std::declval<IterableY>().begin()),
+                          decltype(std::declval<IterableZ>().begin()), decltype(std::declval<IterableM>().begin()), ArgTypeX, ArgTypeY, ArgTypeZ>
 make_spline3D(IterableX&& x, IterableY&& y, IterableZ&& z, IterableM&& measurements)
 {
 
@@ -212,12 +215,12 @@ typedef  decltype(std::declval<IterableM>().begin()) IteratorM;
 
 
 template<typename T, hydra::detail::Backend BACKEND>
-inline typename std::enable_if< std::is_convertible<T, double>::value,
-Spline3DFunctor<
+requires (detail::RealConvertible<T>)
+inline Spline3DFunctor<
 decltype(std::declval<DenseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_0).begin()),
 decltype(std::declval<DenseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_1).begin()),
 decltype(std::declval<DenseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_2).begin()),
-decltype(std::declval<DenseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional > >().GetBinsContents().begin()), double, double, double>>::type
+decltype(std::declval<DenseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional > >().GetBinsContents().begin()), double, double, double>
 make_spline( DenseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional >  const& histogram )
 {
 
@@ -238,12 +241,12 @@ typedef  decltype(std::declval<histogram_type>().GetBinsContents().begin()) Iter
 
 
 template<typename T, hydra::detail::Backend BACKEND>
-inline typename std::enable_if< std::is_convertible<T, double>::value,
-Spline3DFunctor<
+requires (detail::RealConvertible<T>)
+inline Spline3DFunctor<
 decltype(std::declval<SparseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_0).begin()),
 decltype(std::declval<SparseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_1).begin()),
 decltype(std::declval<SparseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional> >().GetBinsCenters(placeholders::_2).begin()),
-decltype(std::declval<SparseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional > >().GetBinsContents().begin()), double, double, double>>::type
+decltype(std::declval<SparseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional > >().GetBinsContents().begin()), double, double, double>
 make_spline( SparseHistogram<T, 3,  hydra::detail::BackendPolicy<BACKEND>, detail::multidimensional >  const& histogram )
 {
 

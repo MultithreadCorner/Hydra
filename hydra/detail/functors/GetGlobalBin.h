@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2020 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -84,13 +84,13 @@ struct GetGlobalBin: public hydra::thrust::unary_function<typename tuple_type<N,
 	//k = i_1*(dim_2*...*dim_n) + i_2*(dim_3*...*dim_n) + ... + i_{n-1}*dim_n + i_n
 
 	template<size_t I>
-	__hydra_host__ __hydra_device__
-	typename hydra::thrust::detail::enable_if< I== N, void>::type
+	requires LoopEnd<I, N>
+	__hydra_host__ __hydra_device__ void
 	get_global_bin(const size_t (&)[N], size_t& )const{ }
 
 	template<size_t I=0>
-	__hydra_host__ __hydra_device__
-	typename hydra::thrust::detail::enable_if< (I< N), void>::type
+	requires LoopGoing<I, N>
+	__hydra_host__ __hydra_device__ void
 	get_global_bin(const size_t (&indexes)[N], size_t& index) const
 	{
 	    size_t prod =1;
@@ -190,8 +190,8 @@ struct GetGlobalBin<1,T>: public hydra::thrust::unary_function<T,size_t>
 	}
 
 	template<typename ConvertibleType>
-	__hydra_host__ __hydra_device__
-	typename std::enable_if< std::is_convertible_v<ConvertibleType, T>, size_t>::type
+	requires (std::is_convertible_v<ConvertibleType, T>)
+	__hydra_host__ __hydra_device__ size_t
     operator()(ConvertibleType const& value) const {
 
 		T X = value;

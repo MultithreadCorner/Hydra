@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -69,11 +69,13 @@ namespace hydra {
 		namespace tuple {
 
 			template< typename T, unsigned int N, unsigned int I>
-			inline typename std::enable_if< (I == N), void  >::type
+			requires LoopEnd<I, N>
+			inline void
 			hash_tuple_helper(std::size_t&, T const&){ }
 
 			template< typename T, unsigned int N, unsigned int I=0>
-			inline typename std::enable_if< (I < N), void  >::type
+			requires LoopGoing<I, N>
+			inline void
 			hash_tuple_helper(std::size_t& seed, T const& _tuple){
 
 				hydra::detail::hash_combine(seed, hydra::get<I>(_tuple));

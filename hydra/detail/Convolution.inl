@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -267,8 +267,11 @@ struct MultiplyFFT
 };
 
 template<typename T>
-struct NormalizeFFT: public  std::unary_function<T,T>
+struct NormalizeFFT
 {
+	typedef T argument_type;
+    typedef T result_type;
+	
 	NormalizeFFT()=delete;
 
 	NormalizeFFT(T norm):

@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  *
- *   Copyright (C) 2016 - 2025 Antonio Augusto Alves Junior
+ *   Copyright (C) 2016 - 2026 Antonio Augusto Alves Junior
  *
  *   This file is part of Hydra Data Analysis Framework.
  *
@@ -49,6 +49,7 @@
 #include <hydra/Parameter.h>
 #include <hydra/detail/CompositeTraits.h>
 #include <hydra/detail/FunctorTraits.h>
+#include <hydra/detail/FunctorConcepts.h>
 #include <hydra/Parameter.h>
 #include <hydra/Tuple.h>
 #include <hydra/detail/BaseCompositeFunctor.h>
@@ -134,50 +135,40 @@ hydra::thrust::tuple<F1, F2, Fs...>,
 
 // multiplication: * operator two functors
 template<typename T1, typename T2>
-inline typename std::enable_if<
-(detail::is_hydra_functor<T1>::value || detail::is_hydra_lambda<T1>::value ) &&
-(detail::is_hydra_functor<T2>::value || detail::is_hydra_lambda<T2>::value ),
-Multiply<T1, T2> >::type
+requires (detail::HydraCallable<T1> && detail::HydraCallable<T2>)
+inline Multiply<T1, T2>
 operator*(T1 const& F1, T2 const& F2)
 {
 	return  Multiply<T1,T2>(F1, F2);
 }
 
 template <typename T, typename U>
-inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value ) &&
-(std::is_arithmetic<U>::value),
-Multiply< Constant<U>, T> >::type
+requires (detail::CallableScaledBy<T, U>)
+inline Multiply< Constant<U>, T>
 operator*(U const cte, T const& F)
 {
 	return  Constant<U>(cte)*F;
 }
 
 template <typename T, typename U>
-inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value ) &&
-(std::is_arithmetic<U>::value),
-Multiply< Constant<U>, T> >::type
+requires (detail::CallableScaledBy<T, U>)
+inline Multiply< Constant<U>, T>
 operator*( T const& F, U cte)
 {
 	return  Constant<U>(cte)*F;
 }
 
 template <typename T, typename U>
-inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value ) &&
-(std::is_arithmetic<U>::value),
-Multiply< Constant<hydra::complex<U>>, T> >::type
+requires (detail::CallableScaledBy<T, U>)
+inline Multiply< Constant<hydra::complex<U>>, T>
 operator*(hydra::complex<U> const& cte, T const& F)
 {
 	return  Constant<hydra::complex<U> >(cte)*F;
 }
 
 template <typename T, typename U>
-inline typename std::enable_if<
-(detail::is_hydra_functor<T>::value || detail::is_hydra_lambda<T>::value ) &&
-(std::is_arithmetic<U>::value),
-Multiply< Constant<U>, T> >::type
+requires (detail::CallableScaledBy<T, U>)
+inline Multiply< Constant<U>, T>
 operator*( T const& F, hydra::complex<U> const& cte)
 {
 	return  Constant<hydra::complex<U> >(cte)*F;
@@ -186,12 +177,8 @@ operator*( T const& F, hydra::complex<U> const& cte)
 // Convenience function
 // Convenience function
 template <typename F1, typename F2, typename ...Fs>
-inline typename std::enable_if<
-(detail::is_hydra_functor<F1>::value || detail::is_hydra_lambda<F1>::value ) &&
-(detail::is_hydra_functor<F2>::value || detail::is_hydra_lambda<F2>::value ) &&
-detail::all_true<
-(detail::is_hydra_functor<Fs>::value || detail::is_hydra_lambda<Fs>::value )...>::value,
-Multiply<F1, F2,Fs...>>::type
+requires (detail::HydraCallable<F1> && detail::HydraCallable<F2> && (detail::HydraCallable<Fs> && ...))
+inline Multiply<F1, F2,Fs...>
 multiply(F1 const& f1, F2 const& f2, Fs const&... functors )
 {
 	return  Multiply<F1, F2,Fs... >(f1,f2, functors ... );
