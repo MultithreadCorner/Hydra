@@ -37,21 +37,14 @@ namespace detail {
 
 struct StatsPHSP
 {
-	__hydra_host__ __hydra_device__
-	StatsPHSP():
-		fMean(0),
-		fM2(0),
-		fW(0)
-		{}
+	StatsPHSP() = default;
 
-	__hydra_host__ __hydra_device__
 	StatsPHSP(StatsPHSP const& other) = default;
 	/*
 	fMean(other.fMean),
 	fM2(other.fM2),
 	fW(other.fW)
 	{}*/
-	__hydra_host__ __hydra_device__
 	StatsPHSP& operator=(StatsPHSP const& other) = default;
 
 	GReal_t fMean;

@@ -140,7 +140,7 @@ A suite of examples demonstrating the basic features of the framework is include
 All the examples are organized in .inl files, which implements the `main()` function. These files are included by .cpp and .cu
 files, which are compiled according with the availability of backends. TBB and CUDA backends requires the installation of the corresponding libraries and runtimes.
 These code samples uses, but does not requires [ROOT](https://root.cern.ch/) for graphics, and [TCLAP](http://tclap.sourceforge.net/) library for process command line arguments. 
-Some functionality in Hydra requires Eigen, GSL, CuFFT and FFTW.
+Some functionality in Hydra requires GSL, CuFFT and FFTW.
 
 Examples
 --------
@@ -158,19 +158,27 @@ The compiled examples will be placed in the build/examples folder. The sub-direc
 
 The examples are listed below:
 
-1. __async__ : async_mc
-2. __fit__ : basic_fit, multidimensional_fit, extended_logLL_fit, fractional_logLL_fit, phsp_unweighting_functor_and_fit, splot
-3. __histograming__ : dense_histogram, sparse_histogram
-4. __misc__ : multiarray_container, multivector_container, variant_types
-5. __numerical_integration__ : adaptive_gauss_kronrod, gauss_kronrod, plain_mc, vegas
-6. __phase_space__ : phsp_averaging_functor, phsp_evaluating_functor, phsp_reweighting, phsp_basic, phsp_unweighting, phsp_chain, phsp_unweighting_functor
-7. __phys__ : breit_wigner_plus_chebychev,  breit_wigner_plus_polynomial, crystal_ball_plus_exponential, dalitz_plot, double_gaussian_plus_exponential, gaussian_plus_argus,
+1. __fit__ : basic_fit, multidimensional_fit, extended_logLL_fit, fractional_logLL_fit, phsp_unweighting_functor_and_fit, splot
+2. __histograming__ : dense_histogram, sparse_histogram
+3. __misc__ : multiarray_container, multivector_container, variant_types
+4. __numerical_integration__ : adaptive_gauss_kronrod, gauss_kronrod, plain_mc, vegas
+5. __phase_space__ : phsp_averaging_functor, phsp_evaluating_functor, phsp_reweighting, phsp_basic, phsp_unweighting, phsp_chain, phsp_unweighting_functor
+6. __phys__ : breit_wigner_plus_chebychev,  breit_wigner_plus_polynomial, crystal_ball_plus_exponential, dalitz_plot, double_gaussian_plus_exponential, gaussian_plus_argus,
 ipatia_plus_argus, particle_mass, pseudo_experiment
-8. __random__ :  basic_distributions, sample_distribution
+7. __random__ :  basic_distributions, sample_distribution
 9. __root_macros__ :  macros to run examples in ROOT
 
 Each compiled example executable will have an postfix (ex.:_cpp, _cuda, _omp, _tbb) to indicate the deployed device backend.  
-All examples use CPP as host backend. 
+All examples use CPP as host backend.
+
+For each The examples and tests are always compiled and executed on `tbb`, `omp` and `cpp` backends. For this release
+examples and tests for `cuda` backend have been compiled and executed on the following platforms :
+
+  
+| **OS** | **Host Compiler Version** | **CUDA Version**  |**GPU**|
+|--------|---------------------------|-------------------|-------|
+| Alma Linux 10 | GCC 14.3.1 / Clang 21.1.8 | CUDA 12.9.3 | GeForce GTX 1050 Ti |
+
 
 
 Recent publications, presentations at conferences and workshops citing Hydra 

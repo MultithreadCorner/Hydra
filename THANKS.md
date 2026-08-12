@@ -25,6 +25,5 @@
 
 ## Hydra 4.1.0
 
-* Davide Brundu (@dbrundu) for updating the code and write a whole set of new headers, in order to implement `C++20 concepts` and `requires` clauses
-  which significantly modernized Hydra and made it explicitally C++20 compliant. For more details look at [#pull 120](https://github.com/MultithreadCorner/Hydra/pull/120) .
+* Davide Brundu (@dbrundu) for updating the code and write a whole set of new headers, in order to implement `C++20 concepts` and `requires` clauses, which significantly modernized Hydra and made it explicitally C++20 compliant. For more details look at [#pull 120](https://github.com/MultithreadCorner/Hydra/pull/120) .
 

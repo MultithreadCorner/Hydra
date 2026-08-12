@@ -61,11 +61,10 @@ struct PlainState
     fMax(std::numeric_limits<GReal_t>::max() )
     {}
 
-    __hydra_host__ __hydra_device__
+   
    PlainState( PlainState const& other) = default;
   
-	 __hydra_host__ __hydra_device__
-	PlainState& operator=( PlainState const& other) = default;
+   PlainState& operator=( PlainState const& other) = default;
 
     __hydra_host__ __hydra_device__ inline
     GReal_t variance()   { return fM2 / (fN - 1); }
