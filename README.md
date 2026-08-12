@@ -168,10 +168,9 @@ ipatia_plus_argus, particle_mass, pseudo_experiment
 7. __random__ :  basic_distributions, sample_distribution
 9. __root_macros__ :  macros to run examples in ROOT
 
-Each compiled example executable will have an postfix (ex.:_cpp, _cuda, _omp, _tbb) to indicate the deployed device backend.  
-All examples use CPP as host backend.
+Each compiled example executable will have an postfix (ex.:_cpp, _cuda, _omp, _tbb) to indicate the deployed device backend. All examples use CPP as host backend.
 
-For each The examples and tests are always compiled and executed on `tbb`, `omp` and `cpp` backends. For this release
+For all versions, each example and test is always compiled and executed on `tbb`, `omp` and `cpp` backends. For this release
 examples and tests for `cuda` backend have been compiled and executed on the following platforms :
 
   
