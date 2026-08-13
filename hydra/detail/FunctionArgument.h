@@ -339,7 +339,7 @@ operator+( Arg1 const& a1, Arg2 const& a2) {
 
 template<typename Arg1, typename Arg2>
 requires (detail::FunctionArg<Arg1> && !detail::FunctionArg<Arg2>)
-__hydra_host__ __hydra_device__ decltype(std::declval<typename  Arg1::value_type>()+  std::declval<Arg2>() )
+__hydra_host__ __hydra_device__ decltype(std::declval<Arg2>()+  std::declval<typename  Arg1::value_type>() )
 operator+(Arg2 const& a2, Arg1 const& a1 ) {
 
 	typedef decltype(std::declval<typename  Arg1::value_type>()+
@@ -376,13 +376,13 @@ operator-( Arg1 const& a1, Arg2 const& a2) {
 
 template<typename Arg1, typename Arg2>
 requires (detail::FunctionArg<Arg1> && !detail::FunctionArg<Arg2>)
-__hydra_host__ __hydra_device__ decltype(std::declval<typename  Arg1::value_type>()-  std::declval<Arg2>() )
+__hydra_host__ __hydra_device__ decltype(std::declval<Arg2>()-  std::declval<typename  Arg1::value_type>() )
 operator-(Arg2 const& a2, Arg1 const& a1 ) {
 
 	typedef decltype(std::declval<typename  Arg1::value_type>()-
 			 std::declval<Arg2>() ) return_type;
 
-	return a1.Value() - a2;
+	return a2 - a1.Value();
 }
 
 template<typename Arg1, typename Arg2>
@@ -405,7 +405,7 @@ requires (detail::FunctionArg<Arg1> && !detail::FunctionArg<Arg2>)
 __hydra_host__ __hydra_device__ decltype(std::declval<typename  Arg1::value_type>()* std::declval<Arg2>() )
 operator*( Arg1 const& a1, Arg2 const& a2) {
 
-	typedef decltype(std::declval<typename  Arg1::value_type>()-
+	typedef decltype(std::declval<typename  Arg1::value_type>()*
 			 std::declval<Arg2>() ) return_type;
 
 	return a1.Value() * a2;
@@ -413,10 +413,10 @@ operator*( Arg1 const& a1, Arg2 const& a2) {
 
 template<typename Arg1, typename Arg2>
 requires (detail::FunctionArg<Arg1> && !detail::FunctionArg<Arg2>)
-__hydra_host__ __hydra_device__ decltype(std::declval<typename  Arg1::value_type>()*  std::declval<Arg2>() )
+__hydra_host__ __hydra_device__ decltype(std::declval<Arg2>()*  std::declval<typename  Arg1::value_type>() )
 operator*(Arg2 const& a2, Arg1 const& a1 ) {
 
-	typedef decltype(std::declval<typename  Arg1::value_type>()-
+	typedef decltype(std::declval<typename  Arg1::value_type>()*
 			 std::declval<Arg2>() ) return_type;
 
 	return a1.Value() * a2;
@@ -441,7 +441,7 @@ requires (detail::FunctionArg<Arg1> && !detail::FunctionArg<Arg2>)
 __hydra_host__ __hydra_device__ decltype(std::declval<typename  Arg1::value_type>() / std::declval<Arg2>() )
 operator/( Arg1 const& a1, Arg2 const& a2) {
 
-	typedef decltype(std::declval<typename  Arg1::value_type>()-
+	typedef decltype(std::declval<typename  Arg1::value_type>()/
 			 std::declval<Arg2>() ) return_type;
 
 	return a1.Value() / a2;
@@ -449,13 +449,13 @@ operator/( Arg1 const& a1, Arg2 const& a2) {
 
 template<typename Arg1, typename Arg2>
 requires (detail::FunctionArg<Arg1> && !detail::FunctionArg<Arg2>)
-__hydra_host__ __hydra_device__ decltype(std::declval<typename  Arg1::value_type>() / std::declval<Arg2>() )
+__hydra_host__ __hydra_device__ decltype(std::declval<Arg2>() / std::declval<typename  Arg1::value_type>() )
 operator/(Arg2 const& a2, Arg1 const& a1 ) {
 
-	typedef decltype(std::declval<typename  Arg1::value_type>()-
+	typedef decltype(std::declval<typename  Arg1::value_type>()/
 			 std::declval<Arg2>() ) return_type;
 
-	return a1.Value() / a2;
+	return a2 / a1.Value();
 }
 
 template<typename Arg1, typename Arg2>
